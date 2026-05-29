@@ -1,0 +1,45 @@
+# FITS and spectral data files
+*.fits
+*.fit
+*.fts
+*.fits.gz
+
+# Pipeline outputs
+results/plots/
+results/tables/
+data/raw/
+data/processed/
+
+# Model atmosphere grids (large binary files)
+data/model_atmospheres/*.mod
+data/model_atmospheres/*.dat
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
