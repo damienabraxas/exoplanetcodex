@@ -4,18 +4,27 @@ tests/test_acquire.py
 Tests for pipeline/01_acquire.py.
 """
 
+import importlib.util
+import sys
+from pathlib import Path
+
 import pytest
 import numpy as np
-from pathlib import Path
-from unittest.mock import patch, MagicMock
 
-# Import functions under test
-from pipeline.acquire_01 import (
-    correct_radial_velocity,
-    estimate_snr,
-    make_synthetic_demo_spectrum,
-    spectrum_summary,
+# pipeline/01_acquire.py can't be imported via normal dotted path because
+# Python identifiers can't start with a digit. Load it explicitly.
+_spec = importlib.util.spec_from_file_location(
+    "acquire_01",
+    Path(__file__).parent.parent / "pipeline" / "01_acquire.py",
 )
+_mod = importlib.util.module_from_spec(_spec)
+sys.modules["acquire_01"] = _mod
+_spec.loader.exec_module(_mod)
+
+correct_radial_velocity   = _mod.correct_radial_velocity
+estimate_snr              = _mod.estimate_snr
+make_synthetic_demo_spectrum = _mod.make_synthetic_demo_spectrum
+spectrum_summary          = _mod.spectrum_summary
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
