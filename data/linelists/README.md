@@ -61,6 +61,26 @@ anchors. Highest-accuracy wavelength/log gf values available.
 Pipeline module for loading `linelist_master.csv` into the analysis workflow.
 See `tests/test_linelist_loader.py` for usage examples.
 
+## Rebuilding the line list
+
+`linelist_master.csv` is produced by `scripts/build_linelist.py`. Run it from
+the repo root whenever the VALD3 extract or element targets change:
+
+```bash
+python scripts/build_linelist.py \
+    --star 55cnc \
+    --vald data/linelists/vald_55cnc_raw.txt \
+    --qa
+```
+
+Inputs consumed:
+- `data/linelists/vald_55cnc_raw.txt` — raw VALD3 long-format extract
+- `data/linelists/nist_crosscheck.csv` — NIST grades for Tier 1+2 lines
+- `data/config/elements_master.json` — 24 target elements with priorities
+
+The 5 NIST-only science lines (O I, Ni I, C I, P I ×2) are injected automatically
+regardless of `--min-depth`. Full process documented in `docs/linelist_pipeline.md`.
+
 ## Special handling notes
 
 | Line | Issue | Action |
