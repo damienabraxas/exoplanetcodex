@@ -1,0 +1,23 @@
+# VALD3 extract — 55 Cancri A stellar parameters
+# SOURCE: This file is a stub. Populate with a real VALD3 extract.
+#
+# To generate the real version:
+#   1. Register (free) at https://vald.astro.uu.se
+#   2. Submit "Extract Stellar" request with:
+#        Teff      = 5196 K
+#        log g     = 4.41
+#        [Fe/H]    = +0.32
+#        vturb     = 1.0 km/s
+#        Wav range = 3780 -- 6910 Angstrom
+#        Threshold = 0.01 (log depth)
+#   3. Download result, save as this file
+#   4. Run scripts/convert_vald_to_master.py to merge into linelist_master.csv
+#
+# VALD3 citation: Ryabchikova et al. (2015), Phys. Scr. 90, 054005
+#                 DOI: 10.1088/0031-8949/90/5/054005
+#
+# Until this file is populated, the pipeline uses linelist_master.csv (seed data).
+#
+# VALD3 output format (columns after conversion):
+element,ion,wavelength_air_A,excitation_potential_eV,log_gf,vald_depth,rad_damp,stark_damp,waals_damp,lande_mean,notes
+# <paste VALD3 output here after registration>

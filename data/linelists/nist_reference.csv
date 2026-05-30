@@ -1,0 +1,29 @@
+# NIST Atomic Spectra Database — A and A+ grade reference lines
+# Source: NIST ASD v5.11 (physics.nist.gov/asd)
+# These are the highest-accuracy wavelength/log gf values available
+# Use for: cross-validation of VALD3 extract, Type B uncertainty anchor
+# Retrieved: 2026-05-29
+element,ion,wavelength_air_A,excitation_potential_eV,log_gf,nist_grade,aki_s-1,notes
+Fe,I,5250.209,0.121,-4.938,A,6.17e+02,Blackwell+1995; canonical solar benchmark
+Fe,I,5506.779,0.990,-2.797,A,3.61e+04,
+Fe,I,5956.694,0.859,-4.605,A,1.92e+03,
+Fe,I,6574.228,0.990,-5.023,A,5.92e+02,
+Fe,I,6648.079,1.011,-5.918,A,5.91e+01,
+Mg,I,4571.096,0.000,-5.623,A,2.54e+02,Ground state intercombination line
+Mg,I,5167.322,2.709,-1.031,A,1.14e+07,Mg b triplet b1
+Mg,I,5172.684,2.712,-0.450,A,3.37e+07,Mg b triplet b2
+Mg,I,5183.604,2.717,0.180,A,7.10e+07,Mg b triplet b3; strongest
+Mg,I,5528.405,4.346,-0.498,A,1.79e+07,Best weak Mg I line for EW
+Mg,I,5711.088,4.346,-1.724,A,2.17e+06,
+Ca,I,5857.451,2.933,0.240,A,1.49e+07,
+Ca,I,6102.723,1.879,-0.793,A,4.98e+06,
+Ca,I,6122.217,1.886,-0.316,A,1.23e+07,
+Ca,I,6162.173,1.899,-0.090,A,1.98e+07,
+Ca,I,6439.075,2.526,0.390,A,3.71e+07,Strongest Ca I line in range
+O,I,7771.944,9.146,0.369,A+,3.69e+07,IR triplet; outside HARPS; NLTE critical
+O,I,7774.166,9.146,0.223,A+,3.59e+07,IR triplet; outside HARPS
+O,I,7775.388,9.146,0.002,A+,3.48e+07,IR triplet; outside HARPS
+Na,I,5682.633,2.102,-0.700,A,7.58e+06,
+Na,I,5688.205,2.104,-0.452,A,1.12e+07,
+Na,I,6154.226,2.102,-1.547,A,1.39e+06,Weaker doublet member; preferred
+Na,I,6160.747,2.104,-1.246,A,2.07e+06,
