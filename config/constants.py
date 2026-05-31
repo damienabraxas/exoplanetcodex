@@ -95,6 +95,18 @@ STAR_55CNC = {
     'rv_kms'       : 27.58,     # Systemic radial velocity — for Doppler correction
 }
 
+# ── Canonical 27-element target list (RYA-109) ───────────────────────────────
+# 26 unique symbols; Fe covers both Fe I (Teff) and Fe II (log g) — distinguished
+# by the 'ion' column in all linelists.  Priorities defined in elements_master.json.
+TARGET_ELEMENTS = [
+    # Priority 1 — science critical
+    'Fe', 'C', 'O', 'Mg', 'Si', 'Ca', 'Ti', 'Ni', 'Na', 'P', 'S',
+    # Priority 2 — tracers
+    'N', 'Co', 'Cr', 'Al', 'K', 'Ba', 'Y', 'V', 'Cu',
+    # Priority 3 — supplementary
+    'Mn', 'Sc', 'Li', 'Eu', 'Zr', 'Sr',
+]
+
 # ── Solar calibration parameters ─────────────────────────────────────────────
 # Reflected sunlight from Ceres observed with HARPS as solar reference spectrum
 # Citation: Dumusque et al. 2021, arXiv:2009.01945, ESO program 1102.D-0954(A)
@@ -139,9 +151,17 @@ PIPELINE = {
     'min_nist_grade'    : 'B',    # Minimum acceptable grade for science
 
     # EW measurement (lines_fit.py)
-    'cont_edge_frac'    : 0.25,   # Fraction of fit window used for continuum anchors
-    'min_fit_depth'     : 0.008,  # Skip features shallower than this before fitting
-    'blue_edge_warn_A'  : 3900.0, # Flag lines below this wavelength as low-SNR
+    'cont_edge_frac'        : 0.25,         # Fraction of fit window used for continuum anchors
+    'cont_anchor_percentile': 80,            # Keep pixels above this percentile in anchor strips
+    'min_fit_depth'         : 0.008,        # Skip features shallower than this before fitting
+    'blue_edge_warn_A'      : 3900.0,       # Flag lines below this wavelength as low-SNR
+
+    # Depth-adaptive continuum window (strong lines have broad Voigt wings).
+    # Only lines with depth ≥ 0.50 get wider windows; moderate lines unchanged.
+    # Window = base × scale_factor where tier is determined by depth breaks.
+    # Tiers: [0, break0) → scale[0], [break0, break1) → scale[1], ...
+    'cont_window_depth_breaks'  : (0.50, 0.70),         # depth thresholds
+    'cont_window_scale_factors' : (1.0, 1.75, 2.5),     # multipliers per tier
 }
 
 # ── File paths ────────────────────────────────────────────────────────────────
