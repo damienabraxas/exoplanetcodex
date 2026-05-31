@@ -83,12 +83,23 @@ def _is_special(elem: str, ion: str, line_wav: float) -> bool:
     return any(e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL
                for e, i, w in SPECIAL_MEASURES)
 
-def _get_fit_window(elem: str, ion: str, line_wav: float) -> float:
-    """Return the fit half-window (Å) for this line."""
+def _get_fit_window(elem: str, ion: str, line_wav: float,
+                    depth: float = 0.0) -> float:
+    """
+    Return the fit half-window (Å) for this line.
+    Explicit LINE_WINDOWS overrides take precedence; otherwise the window
+    scales with line depth so that continuum anchors clear the Voigt wings.
+    """
     for (e, i, w), win in LINE_WINDOWS.items():
         if e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL:
             return win
-    return PIPELINE['fit_window_A']
+    base   = PIPELINE['fit_window_A']
+    breaks = PIPELINE['cont_window_depth_breaks']
+    scales = PIPELINE['cont_window_scale_factors']
+    for i, brk in enumerate(breaks):
+        if depth < brk:
+            return base * scales[i]
+    return base * scales[-1]
 
 # Elements requiring NLTE note in output
 NLTE_ELEMENTS = {'O', 'Na', 'C', 'Li'}
@@ -136,14 +147,20 @@ def _two_voigt_abs(x, x01, d1, s1, g1, x02, d2, s2, g2):
 def _local_renorm(wav: np.ndarray, flux: np.ndarray,
                   line_wav: float, window: float = None) -> tuple:
     """
-    Fit a linear continuum through the outer cont_edge_frac of the window on
-    each side. Returns (renormalised_flux, continuum_array).
-    Falls back to identity if there are too few edge points.
+    Estimate a linear continuum from the outer cont_edge_frac of the window on
+    each side. Uses a percentile filter to exclude absorption-line pixels from
+    the polyfit, so nearby lines in the anchor strips do not depress the
+    continuum estimate. Returns (renorm_flux, continuum).
+
     window: half-width in Å; defaults to PIPELINE['fit_window_A'].
+    cont_anchor_percentile (e.g. 80): pixels above this percentile in each
+      anchor strip are used for the polyfit — they represent the continuum
+      peaks between absorption lines rather than the line cores.
     """
     if window is None:
         window = PIPELINE['fit_window_A']
     edge_A = window * PIPELINE['cont_edge_frac']
+    pct    = PIPELINE['cont_anchor_percentile']
 
     left  = (wav >= line_wav - window) & (wav <= line_wav - window + edge_A)
     right = (wav >= line_wav + window - edge_A) & (wav <= line_wav + window)
@@ -151,8 +168,20 @@ def _local_renorm(wav: np.ndarray, flux: np.ndarray,
     if left.sum() < 3 or right.sum() < 3:
         return flux, np.ones_like(flux)
 
-    x_anc = np.concatenate([wav[left], wav[right]])
-    y_anc = np.concatenate([flux[left], flux[right]])
+    # Filter each anchor strip to the top (100-pct)% of flux values — these
+    # are the continuum-level pixels, not the absorption-line dips.
+    tl = np.percentile(flux[left],  pct)
+    tr = np.percentile(flux[right], pct)
+    ml = flux[left]  >= tl
+    mr = flux[right] >= tr
+
+    x_anc = np.concatenate([wav[left][ml],  wav[right][mr]])
+    y_anc = np.concatenate([flux[left][ml], flux[right][mr]])
+
+    # Fall back to all anchor pixels if the filter left too few points
+    if len(x_anc) < 4:
+        x_anc = np.concatenate([wav[left], wav[right]])
+        y_anc = np.concatenate([flux[left], flux[right]])
 
     try:
         coeffs = np.polyfit(x_anc, y_anc, 1)
@@ -454,8 +483,11 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         if elem == 'Ni' and ion == 'I' and abs(line_wav - 6300.336) < 0.15:
             continue
 
-        # ── Per-line fit window ───────────────────────────────────────────────
-        window = _get_fit_window(elem, ion, line_wav)
+        # ── Depth peek → adaptive fit window ─────────────────────────────────
+        peek = np.abs(solar_wav - line_wav) < 0.15
+        depth_est = float(np.clip(1.0 - np.nanmin(solar_flux[peek]), 0.0, 1.0)) \
+                    if peek.sum() > 0 else 0.0
+        window = _get_fit_window(elem, ion, line_wav, depth_est)
         edge_A = window * edge_frac
 
         # ── Extract and re-normalise window ───────────────────────────────────

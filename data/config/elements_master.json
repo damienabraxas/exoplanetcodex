@@ -1,127 +1,139 @@
 {
-  "version": "2026-05-30",
-  "description": "Target elements for Exoplanet Codex abundance analysis. Priority 1 = science critical (host star characterization); Priority 2 = alpha/volatile (biosignature precursors); Priority 3 = iron-peak/s-process/r-process (nucleosynthesis context).",
+  "version": "2026-05-31",
+  "description": "Target elements for Exoplanet Codex abundance analysis — 27 targets (26 unique symbols; Fe covers both Fe I and Fe II, distinguished by the ion column in all linelists). Priority 1 = science-critical (stellar characterisation + CHNOPS + alpha); Priority 2 = iron-peak/s-process/r-process tracers + bio-significant; Priority 3 = supplementary/age indicators.",
   "solar_reference": "Asplund et al. 2021 (A&A 653, A141)",
+  "n_targets": 27,
+  "note_fe": "Fe I constrains Teff (excitation equilibrium); Fe II constrains log g (ionisation equilibrium). Both are symbol='Fe' in the linelist; the ion column ('I' or 'II') distinguishes them.",
   "elements": [
     {
-      "symbol": "Li", "atomic_number": 3, "priority": 1, "category": "light",
-      "solar_A": 1.05,
-      "science_notes": "Stellar age/activity tracer; depleted by mixing on Gyr timescales; NLTE corrections ~0.1-0.3 dex required; LTE abundance is lower bound"
+      "symbol": "Fe", "atomic_number": 26, "priority": 1, "category": "iron-peak",
+      "solar_A": 7.46,
+      "science_notes": "Fe I: Teff from excitation equilibrium (~50 clean lines). Fe II: log g from ionisation equilibrium (~10 lines). Primary metallicity anchor. Many NIST A-grade lines."
     },
     {
       "symbol": "C", "atomic_number": 6, "priority": 1, "category": "volatile",
       "solar_A": 8.46,
-      "science_notes": "C/O ratio primary biosignature context; C I 5380 high-excitation line; NLTE corrections from Amarsi et al. 2020"
-    },
-    {
-      "symbol": "N", "atomic_number": 7, "priority": 2, "category": "volatile",
-      "solar_A": 7.83,
-      "science_notes": "Outside HARPS range for main N I lines; N I 7468.31 near-IR only — skip for this dataset"
+      "science_notes": "C/O ratio primary biosignature context. C I 5380 high-excitation line (7.685 eV). NLTE corrections from Amarsi et al. 2020."
     },
     {
       "symbol": "O", "atomic_number": 8, "priority": 1, "category": "volatile",
       "solar_A": 8.69,
-      "science_notes": "Most abundant metal; [O I] 6300.304 forbidden line is primary indicator; Ni I 6300.336 blend must be modeled jointly; NLTE corrections significant"
+      "science_notes": "[O I] 6300.304 forbidden line is primary indicator. Ni I 6300.336 blend must be subtracted (Allende Prieto+2001). NLTE corrections significant. THE critical line for C/O ratio."
     },
     {
-      "symbol": "Na", "atomic_number": 11, "priority": 2, "category": "odd-Z",
-      "solar_A": 6.24,
-      "science_notes": "Na I D lines strong but saturated; weaker 5682/5688 doublet for EW; NLTE corrections ~0.1 dex"
-    },
-    {
-      "symbol": "Mg", "atomic_number": 12, "priority": 2, "category": "alpha",
+      "symbol": "Mg", "atomic_number": 12, "priority": 1, "category": "alpha",
       "solar_A": 7.55,
-      "science_notes": "Mg/Fe ratio traces SFR history; Mg b triplet 5167-5183 strong reference lines; NLTE corrections small for dwarfs"
+      "science_notes": "Mg/Si mantle mineralogy indicator. Mg b triplet 5167-5183 Å strong reference lines. Mg/Fe traces SFR history. NLTE corrections small for dwarfs."
     },
     {
-      "symbol": "Al", "atomic_number": 13, "priority": 3, "category": "odd-Z",
-      "solar_A": 6.43,
-      "science_notes": "Traces odd-Z nucleosynthesis; strong NLTE effects in metal-poor stars; less critical at [Fe/H]=+0.32"
-    },
-    {
-      "symbol": "Si", "atomic_number": 14, "priority": 2, "category": "alpha",
+      "symbol": "Si", "atomic_number": 14, "priority": 1, "category": "alpha",
       "solar_A": 7.51,
-      "science_notes": "Major rock-forming element; Si/Fe and Mg/Si key for interior modeling; Si I 5793 primary line"
+      "science_notes": "Rocky planet builder; major rock-forming element. Si/Fe and Mg/Si key for planetary interior modelling. Si I 5793 primary EW line."
+    },
+    {
+      "symbol": "Ca", "atomic_number": 20, "priority": 1, "category": "alpha",
+      "solar_A": 6.30,
+      "science_notes": "Alpha tracer; Ca II H&K chromospheric activity. Ca I 6122/6162/6439 for photospheric abundance. Strong NIST A-grade data."
+    },
+    {
+      "symbol": "Ti", "atomic_number": 22, "priority": 1, "category": "alpha",
+      "solar_A": 4.97,
+      "science_notes": "Alpha-like GCE tracer; refractory. Ti I/II many lines across HARPS range. Ti I 5866 primary reference. Ti I and Ti II useful for independent log g check."
+    },
+    {
+      "symbol": "Ni", "atomic_number": 28, "priority": 1, "category": "iron-peak",
+      "solar_A": 6.20,
+      "science_notes": "Fe/Ni core composition proxy. Ni I 6300.336 is critical O I blend partner — must model jointly. Priority 1 due to O I blend correction requirement."
+    },
+    {
+      "symbol": "Na", "atomic_number": 11, "priority": 1, "category": "bio-significant",
+      "solar_A": 6.24,
+      "science_notes": "Bio-essential; biosignature context. Na I D lines strong but saturated. Weaker 5682/5688 doublet used for EW. NLTE corrections ~0.1 dex."
     },
     {
       "symbol": "P", "atomic_number": 15, "priority": 1, "category": "volatile",
       "solar_A": 5.41,
-      "science_notes": "Essential biomolecule element; P/Fe traces CHNOPS budget; P I 6034/6043 weak (< 1% depth) — require S/N > 300; NIST grade C only"
+      "science_notes": "CHNOPS limiting nutrient for life. P I 6034/6043 weak (< 1% depth) — requires S/N > 300. NIST grade C. Only 2 usable lines in HARPS range."
     },
     {
-      "symbol": "S", "atomic_number": 16, "priority": 2, "category": "volatile",
+      "symbol": "S", "atomic_number": 16, "priority": 1, "category": "volatile",
       "solar_A": 7.12,
-      "science_notes": "Volatile alpha element; not depleted onto grains; S I 6052 high-excitation line"
+      "science_notes": "CHNOPS volatile tracer; not depleted onto grains. S I 6052 high-excitation line (7.87 eV). S/Fe traces volatile retention in planetary formation."
     },
     {
-      "symbol": "K", "atomic_number": 19, "priority": 3, "category": "odd-Z",
-      "solar_A": 5.07,
-      "science_notes": "K I 7699 strong resonance line but near-IR; 7664 blended with O2; limited lines in HARPS range"
+      "symbol": "N", "atomic_number": 7, "priority": 2, "category": "volatile",
+      "solar_A": 7.83,
+      "science_notes": "CHNOPS; outside HARPS range for main N I lines. N I 7468.31 near-IR only — skip for this dataset. Priority 2: report as non-detection or upper limit."
     },
     {
-      "symbol": "Ca", "atomic_number": 20, "priority": 2, "category": "alpha",
-      "solar_A": 6.30,
-      "science_notes": "Ca II H&K chromospheric activity indicators; Ca I 6122/6162/6439 for photospheric abundance; strong NIST A-grade data"
+      "symbol": "Co", "atomic_number": 27, "priority": 2, "category": "iron-peak",
+      "solar_A": 4.94,
+      "science_notes": "Iron-peak; Co/Fe traces neutron excess and SNe yields. Hyperfine structure in several lines. Measurable in 55 Cnc at [Fe/H]=+0.32."
     },
     {
-      "symbol": "Sc", "atomic_number": 21, "priority": 3, "category": "iron-peak",
-      "solar_A": 3.14,
-      "science_notes": "Sc/Fe traces iron-peak nucleosynthesis; hyperfine structure in Sc I/II lines"
-    },
-    {
-      "symbol": "Ti", "atomic_number": 22, "priority": 3, "category": "alpha",
-      "solar_A": 4.97,
-      "science_notes": "Alpha-like behavior; Ti I/II many lines across HARPS range; Ti I 5866 primary reference"
-    },
-    {
-      "symbol": "V", "atomic_number": 23, "priority": 3, "category": "iron-peak",
-      "solar_A": 3.90,
-      "science_notes": "Iron-peak element; hyperfine structure important for strong lines"
-    },
-    {
-      "symbol": "Cr", "atomic_number": 24, "priority": 3, "category": "iron-peak",
+      "symbol": "Cr", "atomic_number": 24, "priority": 2, "category": "iron-peak",
       "solar_A": 5.62,
-      "science_notes": "Iron-peak; Cr/Fe ratio traces stellar metallicity pattern"
+      "science_notes": "Type Ia vs. Type II SNe tracer. Cr/Fe ratio constrains SNe contribution history. Many Cr I lines in blue HARPS range."
+    },
+    {
+      "symbol": "Al", "atomic_number": 13, "priority": 2, "category": "rocky-planet",
+      "solar_A": 6.43,
+      "science_notes": "Refractory; traces crust/mantle composition. Only 2 usable lines (Al I 6696.023, 6698.673 Å) — weak and blended in metal-rich stars. Report as best-effort; upper limit acceptable."
+    },
+    {
+      "symbol": "K", "atomic_number": 19, "priority": 2, "category": "bio-significant",
+      "solar_A": 5.07,
+      "science_notes": "Bio-essential electrolyte. K I 7699 strong resonance line but near-IR; 7664 blended with telluric O2. Limited lines in HARPS range — best effort."
+    },
+    {
+      "symbol": "Ba", "atomic_number": 56, "priority": 2, "category": "s-process",
+      "solar_A": 2.27,
+      "science_notes": "Primary s-process indicator; AGB enrichment history. Ba II 5853/6141/6496 Å. Isotope mixture affects line profile. Hyperfine structure required."
+    },
+    {
+      "symbol": "Y", "atomic_number": 39, "priority": 2, "category": "s-process",
+      "solar_A": 2.21,
+      "science_notes": "Light s-process (first peak); chemical clock for stellar age. Y/Ba ratio traces AGB nucleosynthesis efficiency and stellar age."
+    },
+    {
+      "symbol": "V", "atomic_number": 23, "priority": 2, "category": "iron-peak",
+      "solar_A": 3.90,
+      "science_notes": "Bio cofactor (V in some enzyme systems); iron-peak nucleosynthesis tracer. Hyperfine structure important. V I lines in red HARPS range."
+    },
+    {
+      "symbol": "Cu", "atomic_number": 29, "priority": 2, "category": "iron-peak",
+      "solar_A": 4.18,
+      "science_notes": "Odd-Z iron-peak tracer; bio-essential trace metal. Cu I 5105.54, 5218.20 Å — only 2 clean lines in HARPS range. Hyperfine structure present."
     },
     {
       "symbol": "Mn", "atomic_number": 25, "priority": 3, "category": "iron-peak",
       "solar_A": 5.42,
-      "science_notes": "Odd-Z iron-peak; Mn/Fe sensitive to Type Ia SN contribution; hyperfine structure critical"
+      "science_notes": "Odd-Z; Mn/Fe metallicity-dependent. Mn I lines in blue-green region. Hyperfine structure critical for accurate EW. SNe Ia tracer at low metallicity."
     },
     {
-      "symbol": "Fe", "atomic_number": 26, "priority": 1, "category": "iron-peak",
-      "solar_A": 7.46,
-      "science_notes": "Primary metallicity indicator; Fe I excitation equilibrium for Teff; Fe I/II ionization equilibrium for log g; many NIST A-grade lines"
+      "symbol": "Sc", "atomic_number": 21, "priority": 3, "category": "iron-peak",
+      "solar_A": 3.14,
+      "science_notes": "Light iron-peak; odd-even nucleosynthesis effect. Sc I/II several lines across HARPS range. Hyperfine structure in Sc I lines."
     },
     {
-      "symbol": "Co", "atomic_number": 27, "priority": 3, "category": "iron-peak",
-      "solar_A": 4.94,
-      "science_notes": "Iron-peak; hyperfine structure; Co/Fe traces neutron excess"
-    },
-    {
-      "symbol": "Ni", "atomic_number": 28, "priority": 2, "category": "iron-peak",
-      "solar_A": 6.20,
-      "science_notes": "Ni/Fe rock-forming ratio; Ni I 6300.336 is critical O I blend partner — must model jointly; priority elevated for blend modeling"
-    },
-    {
-      "symbol": "Ba", "atomic_number": 56, "priority": 3, "category": "s-process",
-      "solar_A": 2.27,
-      "science_notes": "Primary s-process indicator; Ba II 5853/6141/6496; isotope mixture affects line profile; hyperfine structure"
-    },
-    {
-      "symbol": "Y", "atomic_number": 39, "priority": 3, "category": "s-process",
-      "solar_A": 2.21,
-      "science_notes": "Light s-process (first peak); Y/Ba ratio traces AGB nucleosynthesis efficiency"
-    },
-    {
-      "symbol": "Zr", "atomic_number": 40, "priority": 3, "category": "s-process",
-      "solar_A": 2.59,
-      "science_notes": "Light s-process; Zr I lines in blue region of HARPS range"
+      "symbol": "Li", "atomic_number": 3, "priority": 3, "category": "age-indicator",
+      "solar_A": 1.05,
+      "science_notes": "Stellar age/activity tracer; depleted by mixing on Gyr timescales. Li I 6707 CN blend contamination; EW is upper limit. NLTE corrections 0.1-0.3 dex required."
     },
     {
       "symbol": "Eu", "atomic_number": 63, "priority": 3, "category": "r-process",
       "solar_A": 0.52,
-      "science_notes": "Primary r-process indicator; Eu II 6645 main line; [Eu/Fe] traces neutron star merger enrichment history"
+      "science_notes": "Primary r-process indicator; neutron star merger enrichment. Eu II 6645.127 Å main line. [Eu/Fe] traces r-process history. Very weak in solar spectrum (~2-4 mA)."
+    },
+    {
+      "symbol": "Zr", "atomic_number": 40, "priority": 3, "category": "s-process",
+      "solar_A": 2.59,
+      "science_notes": "Completes the Sr/Y/Ba/Zr s-process picture (first + second peaks). Zr I lines in blue HARPS range. Useful for AGB yield constraints."
+    },
+    {
+      "symbol": "Sr", "atomic_number": 38, "priority": 3, "category": "s-process",
+      "solar_A": 2.87,
+      "science_notes": "Light s-process anchor (first peak). Sr II 4077/4215 strong resonance lines but in blue/noisy HARPS region. Best effort — may have large continuum uncertainty."
     }
   ]
 }
