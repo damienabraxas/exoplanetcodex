@@ -1,7 +1,7 @@
 """
 pipeline/spectra_normalize.py
 ==============================
-Solar continuum normalization for the HARPS Ceres calibration spectra.
+Solar continuum normalization for the Dumusque HARPS direct solar feed.
 
 Loads all S1D FITS exposures, applies BERV correction, co-adds with
 sigma-clipping, then fits an iterative sigma-clipping spline continuum
@@ -163,7 +163,7 @@ def _plot_diagnostic(wavelength: np.ndarray, flux_raw: np.ndarray,
     """3-panel diagnostic: raw+continuum, full normalized, Mg b zoom."""
     fig = plt.figure(figsize=(14, 10))
     fig.suptitle(
-        f"Solar continuum normalization — HARPS Ceres calibration\n"
+        f"Solar continuum normalization — Dumusque HARPS direct solar feed\n"
         f"Teff = {STAR_SOLAR['teff_K']:.0f} K   "
         f"log g = {STAR_SOLAR['logg']}   "
         f"ξ = {STAR_SOLAR['vturb_kms']} km/s   "
