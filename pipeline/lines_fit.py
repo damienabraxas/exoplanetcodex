@@ -8,11 +8,17 @@ For each line: extract local window → re-normalise continuum → fit Voigt
 
 Special handling
 ----------------
-O I  6300.304 : two-component Voigt fit with Ni I 6300.336 blend; both reported
+O I  6300.304 : Si I 6299.6 contaminates ±2 Å window → narrow ±0.15 Å window;
+                Ni I 6300.336 contribution predicted via COG from clean Ni I lines
+                and subtracted (Allende Prieto et al. 2001 method).
 Ba II 5853.668 : 23 HFS components unresolved at HARPS R; fit single profile = total EW
-Eu II 6645.064 : 30 HFS components; same approach
-Li I  6707.756 : HFS + NLTE flag; EW is LTE lower bound
+Eu II 6645.127 : 30 HFS components span 6645.07–6645.16 Å; fit centred on HFS
+                centroid at 6645.127, ±0.30 Å narrow window to capture full spread
+Li I  6707.840 : doublet midpoint (components at 6707.76 + 6707.91); ±0.25 Å narrow
+                window avoids contamination at 6707.46; flagged CN_blend_possible
 Na, O, C, Li   : NLTE flag appended to notes
+
+Fixes: RYA-102 (Eu II centroid), RYA-103 (Li contamination), RYA-104 (O I COG Ni sub)
 
 Scope
 -----
@@ -47,11 +53,10 @@ from config.constants import PIPELINE, PATHS, STAR_SOLAR
 
 # Lines force-measured regardless of blend_flag: (element, ion, nominal_wav_A)
 SPECIAL_MEASURES = [
-    ('O',  'I',  6300.304),   # [O I] forbidden — primary oxygen indicator
-    ('Ni', 'I',  6300.336),   # O I blend partner — measured jointly
+    # O I handled separately after main loop (COG Ni subtraction) — NOT in worklist
     ('Ba', 'II', 5853.668),   # HFS feature; total EW of all components
-    ('Eu', 'II', 6645.064),   # HFS feature; total EW of all components
-    ('Li', 'I',  6707.756),   # HFS + NLTE; EW is LTE lower bound
+    ('Eu', 'II', 6645.127),   # HFS centroid (was 6645.064 = lowest component, wrong)
+    ('Li', 'I',  6707.840),   # doublet midpoint (was 6707.756 = first component only)
     ('Na', 'I',  5682.633),
     ('Na', 'I',  5688.205),
     ('P',  'I',  6034.040),
@@ -64,11 +69,26 @@ SPECIAL_MEASURES = [
     ('Fe', 'II', 6247.557),
 ]
 
-_SPECIAL_WAV_TOL = 0.15  # Å tolerance for matching to SPECIAL_MEASURES
+# Per-line fit window overrides (Å half-width) for crowded / HFS lines.
+# Default = PIPELINE['fit_window_A'] (2.0 Å).
+LINE_WINDOWS = {
+    ('O',  'I',  6300.304): 0.15,  # Si I 6299.6 contaminates full window
+    ('Eu', 'II', 6645.127): 0.30,  # HFS spans 6645.07–6645.16; need wider than core
+    ('Li', 'I',  6707.840): 0.25,  # avoid 6707.46 contamination feature
+}
+
+_SPECIAL_WAV_TOL = 0.20  # Å tolerance for matching to SPECIAL_MEASURES
 
 def _is_special(elem: str, ion: str, line_wav: float) -> bool:
     return any(e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL
                for e, i, w in SPECIAL_MEASURES)
+
+def _get_fit_window(elem: str, ion: str, line_wav: float) -> float:
+    """Return the fit half-window (Å) for this line."""
+    for (e, i, w), win in LINE_WINDOWS.items():
+        if e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL:
+            return win
+    return PIPELINE['fit_window_A']
 
 # Elements requiring NLTE note in output
 NLTE_ELEMENTS = {'O', 'Na', 'C', 'Li'}
@@ -114,13 +134,15 @@ def _two_voigt_abs(x, x01, d1, s1, g1, x02, d2, s2, g2):
 # ── Local continuum re-normalisation ─────────────────────────────────────────
 
 def _local_renorm(wav: np.ndarray, flux: np.ndarray,
-                  line_wav: float) -> tuple:
+                  line_wav: float, window: float = None) -> tuple:
     """
     Fit a linear continuum through the outer cont_edge_frac of the window on
     each side. Returns (renormalised_flux, continuum_array).
     Falls back to identity if there are too few edge points.
+    window: half-width in Å; defaults to PIPELINE['fit_window_A'].
     """
-    window = PIPELINE['fit_window_A']
+    if window is None:
+        window = PIPELINE['fit_window_A']
     edge_A = window * PIPELINE['cont_edge_frac']
 
     left  = (wav >= line_wav - window) & (wav <= line_wav - window + edge_A)
@@ -153,8 +175,12 @@ def _fit_profile(wav: np.ndarray, flux: np.ndarray,
     Attempt Voigt fit; fall back to Gaussian if Voigt fails or chi²_red > 0.05.
     Returns (popt, pcov, profile_type, chi2_red).
     popt indices: [x0, depth, sigma, (gamma for Voigt)].
+    Depth is estimated from the ±0.1 Å core, not the window global min, so that
+    strong nearby contaminants do not corrupt the initial guess.
     """
-    depth0 = float(np.clip(1.0 - np.nanmin(flux), 0.005, 0.995))
+    core = np.abs(wav - line_wav) < 0.10
+    flux_for_depth = flux[core] if core.sum() > 0 else flux
+    depth0 = float(np.clip(1.0 - np.nanmin(flux_for_depth), 0.005, 0.995))
 
     # ── Voigt ─────────────────────────────────────────────────────────────────
     try:
@@ -209,6 +235,112 @@ def _fit_two_component(wav: np.ndarray, flux: np.ndarray) -> tuple:
         return popt, pcov, chi2
     except Exception:
         return None, None, np.nan
+
+
+# ── Ni I 6300.336 COG prediction (for O I subtraction) ───────────────────────
+
+def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
+    """
+    Predict EW of Ni I 6300.336 using a simple linear curve-of-growth fit to
+    the clean Ni I measurements already in ew_df.
+
+    In the linear COG regime: log(EW) ≈ log_gf - EP × θ + const
+    where θ = 5040 / Teff.  We fit `const` from the clean Ni I lines and
+    extrapolate to Ni I 6300.336 (log_gf = −2.841, EP = 4.266 eV).
+
+    Returns predicted EW in mÅ, or np.nan if insufficient data.
+    Reference: Allende Prieto et al. 2001, ApJ 556, L63.
+    """
+    theta = 5040.0 / STAR_SOLAR['teff_K']
+
+    ni_ews = ew_df[
+        (ew_df['element'] == 'Ni') &
+        (ew_df['ion'] == 'I') &
+        (ew_df['blend_flag'] == False) &
+        (ew_df['ew_mA'] >= PIPELINE['ew_min_mA']) &
+        (ew_df['ew_mA'] <= PIPELINE['ew_max_mA'])
+    ].copy()
+
+    if len(ni_ews) < 3:
+        return np.nan
+
+    # Join with linelist for loggf and EP
+    ni_lines = lines_df[
+        (lines_df['element'] == 'Ni') & (lines_df['ion'] == 'I')
+    ][['wavelength_air_A', 'log_gf', 'excitation_potential_eV']].copy()
+
+    merged = ni_ews.merge(
+        ni_lines, on='wavelength_air_A', how='inner'
+    ).dropna(subset=['log_gf', 'excitation_potential_eV', 'ew_mA'])
+
+    if len(merged) < 3:
+        return np.nan
+
+    X = merged['log_gf'] - merged['excitation_potential_eV'] * theta
+    Y = np.log10(merged['ew_mA'].clip(lower=0.1))
+    const = float(np.median(Y - X))
+
+    ni6300_log_ew = (-2.841) - 4.266 * theta + const
+    return float(10 ** ni6300_log_ew)
+
+
+def _measure_oi6300(solar_wav: np.ndarray, solar_flux: np.ndarray,
+                    results: list, lines_df: pd.DataFrame) -> None:
+    """
+    Measure [O I] 6300.304 and Ni I 6300.336 after the main loop completes.
+
+    Uses a narrow ±0.15 Å window (avoids Si I 6299.599) and the COG-predicted
+    Ni I 6300.336 contribution subtracted before reporting the O I EW.
+    Appends two rows to `results` in-place.
+    """
+    win = LINE_WINDOWS[('O', 'I', 6300.304)]  # 0.15 Å
+
+    mask = (solar_wav >= 6300.304 - win) & (solar_wav <= 6300.304 + win)
+    if mask.sum() < 5:
+        return
+
+    wav_w  = solar_wav[mask]
+    flux_w = solar_flux[mask]
+    flux_r, _ = _local_renorm(wav_w, flux_w, 6300.304, window=win)
+
+    # Total blend EW (single profile)
+    popt, pcov, profile_t, chi2 = _fit_profile(wav_w, flux_r, 6300.304)
+    if popt is None:
+        ew_total = np.nan
+    else:
+        ew_total = _integrate_profile(wav_w, popt, profile_t)
+
+    # Predict and subtract Ni I 6300.336 contribution
+    ew_df_so_far = pd.DataFrame(results)
+    ni_pred = _predict_ni6300_ew(ew_df_so_far, lines_df) if len(ew_df_so_far) > 0 else np.nan
+
+    if np.isnan(ni_pred):
+        ni_pred = 1.0   # Allende Prieto+2001 solar estimate as fallback
+        ni_source = 'Ni_EW_fallback_1.0mA'
+    else:
+        ni_source = f'Ni_EW_COG_pred_{ni_pred:.2f}mA'
+
+    ew_oi = (ew_total - ni_pred) if not np.isnan(ew_total) else np.nan
+
+    results.append(dict(
+        element='O', ion='I', wavelength_air_A=6300.304,
+        ew_mA=round(float(ew_oi), 2) if not np.isnan(ew_oi) else np.nan,
+        ew_err_mA=np.nan,
+        profile_type=profile_t if popt is not None else 'failed',
+        chi2=round(chi2, 4) if not np.isnan(chi2) else np.nan,
+        blend_flag=True,
+        notes=(f'Ni_blend_subtracted; {ni_source}; forbidden_line; NLTE_flag; '
+               f'Allende_Prieto+2001'),
+    ))
+    results.append(dict(
+        element='Ni', ion='I', wavelength_air_A=6300.336,
+        ew_mA=round(float(ni_pred), 2),
+        ew_err_mA=np.nan,
+        profile_type='cog_predicted',
+        chi2=np.nan,
+        blend_flag=True,
+        notes='O_Ni_blend; COG_prediction_from_clean_NiI_lines',
+    ))
 
 
 # ── EW calculation ────────────────────────────────────────────────────────────
@@ -295,17 +427,15 @@ def _build_worklist(lines_df: pd.DataFrame) -> pd.DataFrame:
 # ── Main measurement loop ─────────────────────────────────────────────────────
 
 def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
-                 worklist: pd.DataFrame) -> pd.DataFrame:
+                 worklist: pd.DataFrame,
+                 lines_df: pd.DataFrame) -> pd.DataFrame:
     """Fit every line in worklist; return results DataFrame."""
-    window     = PIPELINE['fit_window_A']
-    ew_min     = PIPELINE['ew_min_mA']
-    ew_max     = PIPELINE['ew_max_mA']
-    blue_warn  = PIPELINE['blue_edge_warn_A']
-    edge_frac  = PIPELINE['cont_edge_frac']
-    edge_A     = window * edge_frac
+    ew_min    = PIPELINE['ew_min_mA']
+    ew_max    = PIPELINE['ew_max_mA']
+    blue_warn = PIPELINE['blue_edge_warn_A']
+    edge_frac = PIPELINE['cont_edge_frac']
 
     results = []
-    ni_done = False   # track whether Ni I 6300.336 was already measured
 
     n = len(worklist)
     print(f"  Fitting {n} lines …")
@@ -317,64 +447,16 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         ion      = str(row['ion'])
         line_wav = float(row['wavelength_air_A'])
         blend    = bool(row.get('blend_flag', False))
-        priority = int(row.get('priority', 0))
 
-        # ── O I 6300.304 → two-component fit ─────────────────────────────────
-        is_oi = (elem == 'O' and ion == 'I' and abs(line_wav - 6300.304) < 0.1)
-        if is_oi:
-            mask = ((solar_wav >= line_wav - window) &
-                    (solar_wav <= line_wav + window))
-            if mask.sum() < 10:
-                continue
-            wav_w = solar_wav[mask]
-            flux_renorm, _ = _local_renorm(solar_wav[mask],
-                                           solar_flux[mask], 6300.304)
-            p2, cov2, chi2_2 = _fit_two_component(wav_w, flux_renorm)
-
-            if p2 is not None:
-                x_f = np.linspace(wav_w[0], wav_w[-1], 5000)
-                # O I component EW (params 0–3)
-                vp1 = voigt_profile(0.0, p2[2], p2[3]) or 1.0
-                y_oi = 1.0 - p2[1] * voigt_profile(x_f - p2[0], p2[2], p2[3]) / vp1
-                ew_oi = float(np.trapz(np.clip(1.0 - y_oi, 0, None), x_f)) * 1000
-                # Ni I component EW (params 4–7)
-                vp2 = voigt_profile(0.0, p2[6], p2[7]) or 1.0
-                y_ni = 1.0 - p2[5] * voigt_profile(x_f - p2[4], p2[6], p2[7]) / vp2
-                ew_ni = float(np.trapz(np.clip(1.0 - y_ni, 0, None), x_f)) * 1000
-                profile_t = 'voigt_2comp'
-            else:
-                # Fallback: single profile for total blend
-                flux_renorm_s, _ = _local_renorm(solar_wav[mask],
-                                                 solar_flux[mask], 6300.304)
-                popt, pcov, profile_t, chi2_2 = _fit_profile(
-                    solar_wav[mask], flux_renorm_s, 6300.304)
-                ew_oi = _integrate_profile(solar_wav[mask], popt, profile_t) if popt is not None else np.nan
-                ew_ni = np.nan
-                p2 = popt
-
-            results.append(dict(
-                element='O', ion='I', wavelength_air_A=6300.304,
-                ew_mA=round(ew_oi, 2) if not np.isnan(ew_oi) else np.nan,
-                ew_err_mA=np.nan,
-                profile_type=profile_t, chi2=round(chi2_2, 4) if not np.isnan(chi2_2) else np.nan,
-                blend_flag=True,
-                notes='O_Ni_blend; two_component_fit; NLTE_flag',
-            ))
-            results.append(dict(
-                element='Ni', ion='I', wavelength_air_A=6300.336,
-                ew_mA=round(ew_ni, 2) if not np.isnan(ew_ni) else np.nan,
-                ew_err_mA=np.nan,
-                profile_type=profile_t, chi2=round(chi2_2, 4) if not np.isnan(chi2_2) else np.nan,
-                blend_flag=True,
-                notes='O_Ni_blend; blend_partner_of_O_I_6300.304',
-            ))
-            ni_done = True
+        # O I and Ni I 6300 are handled after the main loop via COG subtraction
+        if elem == 'O' and ion == 'I' and abs(line_wav - 6300.304) < 0.15:
+            continue
+        if elem == 'Ni' and ion == 'I' and abs(line_wav - 6300.336) < 0.15:
             continue
 
-        # ── Ni I 6300.336 already measured above ─────────────────────────────
-        if (elem == 'Ni' and ion == 'I' and abs(line_wav - 6300.336) < 0.1
-                and ni_done):
-            continue
+        # ── Per-line fit window ───────────────────────────────────────────────
+        window = _get_fit_window(elem, ion, line_wav)
+        edge_A = window * edge_frac
 
         # ── Extract and re-normalise window ───────────────────────────────────
         mask = ((solar_wav >= line_wav - window) &
@@ -384,7 +466,7 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
 
         wav_w  = solar_wav[mask]
         flux_w = solar_flux[mask]
-        flux_r, _ = _local_renorm(wav_w, flux_w, line_wav)
+        flux_r, _ = _local_renorm(wav_w, flux_w, line_wav, window=window)
 
         # Edge pixels for noise estimate
         edge_mask = (wav_w <= line_wav - window + edge_A) | (wav_w >= line_wav + window - edge_A)
@@ -419,6 +501,8 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
                 notes.append('LTE_lower_bound')
         if elem in HFS_ELEMENTS:
             notes.append('hfs_total_ew')
+        if elem == 'Li' and ion == 'I':
+            notes.append('CN_blend_possible; upper_limit')
         if line_wav < blue_warn:
             notes.append('low_snr_blue_edge')
 
@@ -434,6 +518,11 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         ))
 
     print(f"    {n}/{n} — done.         ")
+
+    # ── O I 6300 + Ni I COG subtraction (after main loop) ────────────────────
+    print(f"  Measuring [O I] 6300 via COG Ni subtraction …")
+    _measure_oi6300(solar_wav, solar_flux, results, lines_df)
+
     return pd.DataFrame(results)
 
 
@@ -557,7 +646,7 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
 
     # ── Measure EWs ───────────────────────────────────────────────────────────
     print(f"\n[3/5] Measuring EWs")
-    results = _measure_all(solar_wav, solar_flux, worklist)
+    results = _measure_all(solar_wav, solar_flux, worklist, lines)
     print(f"  {len(results)} lines measured")
 
     # ── QA summary ────────────────────────────────────────────────────────────
