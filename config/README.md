@@ -32,7 +32,7 @@ validate_constants()
 |------|----------|--------|
 | `PHYSICS` | c, h, k, G, σ, amu | NIST CODATA 2022 |
 | `ASTRO` | Solar mass/radius/luminosity, AU, parsec | IAU 2015 nominal values |
-| `SOLAR_ASPLUND2021` | A(X) for 25 elements | Asplund et al. 2021, A&A 653, A141 |
+| `SOLAR_ASPLUND2021` | A(X) for 27 elements | Asplund et al. 2021, A&A 653, A141 |
 | `STAR_55CNC` | Teff, log g, [Fe/H], RV, distance, etc. | von Braun et al. 2011, ApJ 729, 63 |
 | `PIPELINE` | Wavelength range, S/N limits, EW thresholds | Internal — see methodology.md |
 | `PATHS` | All data/results directory and file paths | Auto-resolved from repo root |
