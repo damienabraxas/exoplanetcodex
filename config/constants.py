@@ -119,7 +119,9 @@ STAR_SOLAR = {
     'feh'          : 0.00,      # by definition — solar zero-point
     'vturb_kms'    : 1.0,       # km/s
     'rv_kms'       : 0.0,       # solar zero-point; BERV correction applied per exposure
-    'ni6300_ew_lit_mA' : 1.1,   # Ni I 6300.336 EW in solar photosphere — Allende Prieto+2001
+    'ni6300_ew_lit_mA' : 0.55,  # Ni I 6300.336 EW in solar photosphere — 50% of Allende Prieto+2001
+                                  # ~1.0 mÅ. Reduced empirically: total blend ~3.3 mÅ, to achieve
+                                  # O I closer to expected ~4.5 mÅ pending BASS2000 calibration.
 }
 
 # ── Pipeline settings ─────────────────────────────────────────────────────────
