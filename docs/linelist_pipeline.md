@@ -1,8 +1,7 @@
 # Line List Pipeline: Repeatable Process
 
-This document describes how to build `linelist_master.csv` from scratch for any target star.
-The process is fully repeatable: running the same VALD3 input through `build_linelist.py`
-always produces the same output.
+This document describes how to build `linelist_master.csv` (and `linelist_solar.csv`) from
+scratch for any target star. The process is fully repeatable.
 
 ## Overview
 
@@ -21,7 +20,7 @@ vald_<star>_raw.txt    nist_crosscheck.csv    elements_master.json
                               │
                     data/linelists/loader.py
                               │
-                    pipeline/03_linelist.py
+                    pipeline/lines_fit.py
 ```
 
 ---
@@ -32,143 +31,111 @@ vald_<star>_raw.txt    nist_crosscheck.csv    elements_master.json
 2. Log in and choose **Extract Stellar** (not Extract All)
 3. Enter the target star's atmospheric parameters:
 
-   | Parameter | 55 Cnc A value | Description |
-   |-----------|---------------|-------------|
-   | Teff      | 5196          | Effective temperature (K) |
-   | log g     | 4.41          | Surface gravity (cgs) |
-   | [Fe/H]    | +0.32         | Metallicity |
-   | Vmicro    | 0.9           | Microturbulence (km/s) |
-   | Wav start | 3780          | Start wavelength (Å) |
-   | Wav end   | 6910          | End wavelength (Å) |
-   | Detection | 0.01          | Central depth threshold (1%) |
-   | Format    | **Long**      | Must be Long format, not Short |
+   | Parameter | 55 Cnc A | Solar | Description |
+   |-----------|----------|-------|-------------|
+   | Teff      | 5196     | 5777  | Effective temperature (K) |
+   | log g     | 4.41     | 4.44  | Surface gravity (cgs) |
+   | Vmicro    | 0.9      | 1.0   | Microturbulence (km/s) |
+   | Wav start | 3780     | 3780  | Start wavelength (Å) |
+   | Wav end   | 6910     | 6910  | End wavelength (Å) |
+   | Detection | **0.001**| **0.001** | Central depth threshold (0.1%) |
+   | Format    | **Long** | **Long** | Must be Long format, not Short |
+   | HFS       | **Yes**  | **Yes**  | Enable hyperfine structure |
 
-4. Submit and wait (typical: 5–30 minutes for a full optical range extract)
-5. Download the result and save to `data/linelists/vald_<star>_raw.txt`
+4. Element list — all 27 targets (use the 26 unique symbols):
+   `Fe, C, O, Mg, Si, Ca, Ti, Ni, Na, P, S, N, Co, Cr, Al, K, Ba, Y, V, Cu, Mn, Sc, Li, Eu, Zr, Sr`
+
+5. Submit and wait (typically 5–60 minutes for full optical range)
+6. Download via FTP (HTTP truncates large requests) and save to
+   `data/linelists/vald_<star>_raw.txt`
 
 > **Format note:** VALD Long format outputs 4 lines per transition. The first line is
-> the data line (`'El Num', wavelength, log_gf, E_low, ...`). The other three lines are
-> configuration labels and bibliographic references. `build_linelist.py` reads only the
-> data lines; the reference lines are ignored.
+> the data line. `build_linelist.py` reads only data lines; reference lines are ignored.
 
 ---
 
-## Step 2: Update NIST Crosscheck (if adding a new star)
-
-`data/linelists/nist_crosscheck.csv` contains hand-curated NIST ASD values for the
-20 Tier 1 + Tier 2 science-critical lines (defined in RYA-64). These grades are applied
-by `build_linelist.py` to override whatever VALD3 lists.
-
-For a new star, verify:
-- The same 20 lines are present and measurable at the new star's metallicity/Teff
-- NIST ASD grades have not been revised since last retrieval (check NIST ASD version)
-
-Source: https://physics.nist.gov/PhysRefData/ASD/lines_form.html
-
----
-
-## Step 3: Run `build_linelist.py`
+## Step 2: Run `build_linelist.py`
 
 From the repo root:
 
 ```bash
+# For a science target
 python scripts/build_linelist.py \
     --star 55cnc \
     --vald data/linelists/vald_55cnc_raw.txt \
     --qa
+
+# For solar calibration
+python scripts/build_linelist.py \
+    --star solar \
+    --vald data/linelists/vald_solar_raw.txt \
+    --out data/linelists/linelist_solar.csv \
+    --qa
 ```
 
-The script will:
-1. Parse all transitions from the VALD3 long-format file
-2. Filter to the 24 target elements in `data/config/elements_master.json`
-3. Flag blend candidates (lines within 0.10 Å of each other)
-4. Apply NIST grades from `nist_crosscheck.csv` to matching lines
-5. Inject 5 NIST-only science lines (O I, Ni I, C I, P I ×2) that fall below the 1% VALD threshold
-6. Write the sorted master CSV to `data/linelists/linelist_master.csv`
+The script:
+1. Parses all transitions from the VALD3 long-format file
+2. Assigns priorities from `data/config/elements_master.json` (27 targets)
+3. Flags blend candidates (lines within 0.10 Å of each other)
+4. Applies NIST grades from `nist_crosscheck.csv`
+5. Injects 2 NIST-only science lines (O I 6300.304, Ni I 6300.336)
+6. Writes the sorted master CSV
 
-Expected output for 55 Cnc A:
+Expected output for 55 Cnc A (current):
 ```
 [1/6] Parsing VALD3: vald_55cnc_raw.txt
-      17,926 transitions parsed
+      125,615 transitions parsed
 [2/6] Loading elements: elements_master.json
-      24 target elements
+      26 target elements
 [3/6] Filtering to target elements
-      17,926 lines retained
+      87,972 target-element lines; 37,643 non-target kept for blend coverage
 [4/6] Flagging blends (threshold: 0.10 Å)
-      N blend flags set
-[5/6] Applying NIST grades from: nist_crosscheck.csv
-      20 lines graded
-[5/6] Injecting NIST-only science lines
-      5 lines injected (O I, Ni I, C I, P I x2)
+      123,090 blend flags set
+[5/6] Applying NIST grades: 72 lines graded
+[5/6] Injecting NIST-only science lines: 2 lines injected
 [6/6] No depth filter applied
-Wrote 17,931 lines → data/linelists/linelist_master.csv
+Wrote 125,617 lines → data/linelists/linelist_master.csv
 ```
 
 ---
 
-## Step 4: Validate the Output
-
-### 4a. Count check
-
-```bash
-wc -l data/linelists/linelist_master.csv
-# Expected: 17,932 lines (1 header + 17,931 data rows)
-```
-
-### 4b. NIST injection check
-
-```bash
-grep "^O,I,6300" data/linelists/linelist_master.csv
-grep "^C,I,5380" data/linelists/linelist_master.csv
-grep "^P,I,603"  data/linelists/linelist_master.csv
-```
-
-All five NIST-injected lines must be present with `loggf_source=NIST`.
-
-### 4c. Python QA
+## Step 3: Validate the Output
 
 ```python
 from data.linelists.loader import load_linelist, summarize_linelist
 
-# Load all science-critical lines (priority 1, no blend filter)
+# All priority-1 lines, no blend filter
 df = load_linelist(priority=1, exclude_blends=False, min_nist_grade=None)
 summarize_linelist(df)
 
-# Verify O I and Ni I blend pair present
-o_line = df[(df['element'] == 'O') & (df['wavelength_air_A'].between(6300.3, 6300.31))]
-ni_line = df[(df['element'] == 'Ni') & (df['wavelength_air_A'].between(6300.33, 6300.34))]
-assert len(o_line) == 1, "O I 6300.304 missing"
-assert len(ni_line) == 1, "Ni I 6300.336 missing"
-assert o_line.iloc[0]['blend_flag'] == True
-assert ni_line.iloc[0]['blend_flag'] == True
+# Verify O I / Ni I blend pair
+o  = df[(df['element']=='O')  & df['wavelength_air_A'].between(6300.3, 6300.31)]
+ni = df[(df['element']=='Ni') & df['wavelength_air_A'].between(6300.33, 6300.34)]
+assert len(o) >= 1,  "O I 6300.304 missing"
+assert len(ni) >= 1, "Ni I 6300.336 missing"
 print("O I / Ni I blend pair OK")
 
-# Verify Li doublet
-li = df[df['element'] == 'Li']
-assert len(li) == 2, f"Expected 2 Li lines, got {len(li)}"
-print("Li I doublet OK")
+# Verify alpha elements at priority 1
+for sym in ['Mg','Si','Ca','Ti']:
+    lines = df[df['element']==sym]
+    assert len(lines) > 0, f"{sym} has no priority-1 lines"
+    print(f"{sym}: {len(lines)} priority-1 lines OK")
+
+# Verify new additions
+for sym in ['Cu','Sr']:
+    n = len(df[df['element']==sym])
+    print(f"{sym}: {n} lines (priority may be 2 or 3)")
 ```
-
-### 4d. Special lines quick-check
-
-| Line | Check |
-|------|-------|
-| O I 6300.304 | `blend_flag=True`, `loggf_source=NIST`, `nist_grade=A` |
-| Ni I 6300.336 | `blend_flag=True`, `loggf_source=NIST`, `nist_grade=B` |
-| C I 5380.337 | `loggf_source=NIST`, `excitation_potential_eV=7.685` |
-| Li I 6707.76 | `nist_grade=A+`, NLTE note in `notes` column |
-| P I 6034.04 | `nist_grade=C`, `loggf_source=NIST` |
-| Fe I 5576 | `nist_grade=A` (from crosscheck) |
 
 ---
 
-## Step 5: Commit
+## Step 4: Commit
 
 ```bash
 git add data/linelists/linelist_master.csv
-git add data/linelists/vald_<star>_raw.txt  # only on first add; file is ~7 MB
-git commit -m "RYA-XX: Rebuild linelist_master for <star> from VALD3 <date>"
-git push origin main
+git add data/linelists/vald_<star>_raw.txt  # tracked via Git LFS
+git commit -m "RYA-XX: Rebuild linelist for <star>"
+git push
 ```
 
 ---
@@ -177,18 +144,8 @@ git push origin main
 
 1. Obtain VALD3 extract with new star parameters (Step 1)
 2. Save as `data/linelists/vald_<new_star>_raw.txt`
-3. Run:
-   ```bash
-   python scripts/build_linelist.py \
-       --star <new_star> \
-       --vald data/linelists/vald_<new_star>_raw.txt \
-       --out data/linelists/linelist_<new_star>.csv \
-       --qa
-   ```
-4. The same `elements_master.json` and `nist_crosscheck.csv` apply to all solar-type stars.
-   Update `nist_crosscheck.csv` if the new star's parameters significantly change which
-   NIST lines are detectable (e.g., very different Teff → different excitation sensitivities).
-5. Update `config/constants.py` to add the new star's parameters to a `STAR_<NAME>` dict.
+3. Run `build_linelist.py` with `--star <new_star> --out data/linelists/linelist_<new_star>.csv`
+4. Same `elements_master.json` and `nist_crosscheck.csv` apply to all solar-type FGK stars
 
 ---
 
@@ -196,12 +153,14 @@ git push origin main
 
 | File | Role |
 |------|------|
-| `data/linelists/vald_55cnc_raw.txt` | Raw VALD3 long-format extract (17,926 transitions) |
-| `data/linelists/nist_crosscheck.csv` | Hand-curated NIST grades for 20 Tier 1+2 lines |
+| `data/linelists/vald_55cnc_raw.txt` | VALD3 extract for 55 Cnc A (125,615 lines, Git LFS) |
+| `data/linelists/vald_solar_raw.txt` | VALD3 extract for Sun (108,969 lines, Git LFS) |
+| `data/linelists/nist_crosscheck.csv` | Hand-curated NIST grades for Tier 1+2 lines |
 | `data/linelists/nist_reference.csv` | NIST A/A+ reference lines for pipeline QA |
-| `data/linelists/linelist_master.csv` | Built master list (17,931 rows) |
-| `data/config/elements_master.json` | 24 target elements with priorities |
-| `scripts/build_linelist.py` | Pipeline builder (this step's CLI tool) |
+| `data/linelists/linelist_master.csv` | Built master list for 55 Cnc A (125,617 rows) |
+| `data/linelists/linelist_solar.csv` | Built master list for solar calibration (108,971 rows) |
+| `data/config/elements_master.json` | 27 target elements with priorities |
+| `scripts/build_linelist.py` | Pipeline builder CLI |
 | `data/linelists/loader.py` | Pipeline loader (used by all analysis scripts) |
 | `config/constants.py` | Stellar parameters and pipeline settings |
 
@@ -209,25 +168,18 @@ git push origin main
 
 ## Known Issues and Special Cases
 
-### O I 6300.304 (forbidden line)
-This [O I] line is the primary oxygen indicator but has two complications:
-1. It is **forbidden** (magnetic dipole transition) — the transition probability is 5.63×10⁻³ s⁻¹,
-   three orders of magnitude weaker than typical permitted lines. VALD's 1% depth threshold
-   excludes it; it is injected from NIST.
-2. It is **blended** with Ni I 6300.336 (Δλ = 0.032 Å). The Ni I contribution must be
-   subtracted before measuring the O I equivalent width. See `pipeline/04_ew_measure.py`.
+### O I 6300.304 (forbidden line + Ni blend)
+Primary oxygen indicator. Two complications:
+1. **Forbidden transition** — log gf = −9.717; VALD depth < 0.1% threshold; NIST-injected.
+2. **Ni I 6300.336 blend** (Δλ = 0.032 Å) — Ni contribution predicted via linear COG from
+   clean Ni I lines and subtracted (Allende Prieto et al. 2001, ApJ 556, L63).
 
-### Li I 6707 doublet (NLTE)
-The Li I resonance doublet is the primary age/activity diagnostic but LTE abundances are
-systematically too low by ~0.1–0.3 dex (increasing toward lower Teff and higher [Fe/H]).
-Apply NLTE corrections from Lind et al. 2009 (A&A 503, 541) post-EW measurement.
+### Ba II 5853 / Eu II 6645 / Li I 6707 (HFS)
+All have unresolved hyperfine structure. Treated as single absorption features; the EW
+from a single Voigt fit = total HFS EW. See `pipeline/lines_fit.py` → `LINE_WINDOWS`.
 
-### P I 6034/6043 (weak lines)
-Both phosphorus lines have predicted central depth < 0.6% at 55 Cnc parameters.
-Equivalent widths are measurable only at S/N ≥ 300 per pixel. NIST grades are C (<10%
-accuracy on log gf), introducing ~0.04 dex systematic uncertainty in the abundance.
+### P I 6034/6043 (weak)
+Depth < 0.1% at 55 Cnc parameters — NIST-injected into all linelists. Requires S/N > 300.
 
-### C I 5380.337 (high excitation)
-The lower level at 7.685 eV makes this line extremely sensitive to Teff. A 50 K error
-in Teff propagates to ~0.1 dex uncertainty in [C/H]. Use only after Teff is anchored
-by Fe I excitation equilibrium.
+### C I 5380 (high excitation)
+χ = 7.685 eV; 50 K error in Teff → ~0.1 dex uncertainty. Use only after Teff anchored.

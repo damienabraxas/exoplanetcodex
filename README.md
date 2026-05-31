@@ -8,7 +8,7 @@
 
 - What is the detailed elemental chemistry of 55 Cancri A (host to a super-Earth at 0.015 AU)?
 - How do host-star abundances inform rocky planet composition and habitability?
-- Can we measure [Fe/H], [Mg/Fe], [Si/Fe], [Ca/Fe], [O/Fe] to ±0.05 dex precision?
+- Can we measure [Fe/H], [Mg/Fe], [Si/Fe], [Ca/Fe], [O/Fe] and 22 other elements to ±0.05 dex precision?
 
 ## Quick Start
 
