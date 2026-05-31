@@ -73,9 +73,11 @@ SPECIAL_MEASURES = [
 # Default = PIPELINE['fit_window_A'] (2.0 Å).
 LINE_WINDOWS = {
     ('O',  'I',  6300.304): 0.15,  # Si I 6299.6 contaminates full window
-    ('Eu', 'II', 6645.127): 0.15,  # HFS spans 6645.07–6645.16; narrow window avoids
-                                   # undetected weak absorption at 6644.85–6645.05
+    ('Eu', 'II', 6645.127): 0.50,  # ±0.50 Å puts anchors at 6644.50–6644.63 (flux ~0.992,
+                                   # genuinely clean); ±0.15 had anchors in contaminated region
     ('Li', 'I',  6707.840): 0.25,  # avoid 6707.46 contamination feature
+    ('Mg', 'I',  5711.088): 0.30,  # tighten: avoids over-broad Voigt fit on isolated deep line
+    ('Ca', 'I',  6122.217): 0.35,  # tighten: right anchor stays just left of Co I HFS at 6122.56
 }
 
 _SPECIAL_WAV_TOL = 0.20  # Å tolerance for matching to SPECIAL_MEASURES
