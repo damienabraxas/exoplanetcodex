@@ -73,7 +73,8 @@ SPECIAL_MEASURES = [
 # Default = PIPELINE['fit_window_A'] (2.0 Å).
 LINE_WINDOWS = {
     ('O',  'I',  6300.304): 0.15,  # Si I 6299.6 contaminates full window
-    ('Eu', 'II', 6645.127): 0.30,  # HFS spans 6645.07–6645.16; need wider than core
+    ('Eu', 'II', 6645.127): 0.15,  # HFS spans 6645.07–6645.16; narrow window avoids
+                                   # undetected weak absorption at 6644.85–6645.05
     ('Li', 'I',  6707.840): 0.25,  # avoid 6707.46 contamination feature
 }
 
@@ -270,30 +271,34 @@ def _fit_two_component(wav: np.ndarray, flux: np.ndarray) -> tuple:
 
 def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
     """
-    Predict EW of Ni I 6300.336 using a simple linear curve-of-growth fit to
-    the clean Ni I measurements already in ew_df.
+    Predict EW of Ni I 6300.336 via a robust linear COG fit to clean Ni I lines.
 
-    In the linear COG regime: log(EW) ≈ log_gf - EP × θ + const
-    where θ = 5040 / Teff.  We fit `const` from the clean Ni I lines and
-    extrapolate to Ni I 6300.336 (log_gf = −2.841, EP = 4.266 eV).
+    Method (Allende Prieto et al. 2001, ApJ 556, L63):
+      log(EW) ≈ log_gf − EP × θ + const   (linear COG regime only)
+      θ = 5040 / Teff
 
-    Returns predicted EW in mÅ, or np.nan if insufficient data.
-    Reference: Allende Prieto et al. 2001, ApJ 556, L63.
+    Robustness measures applied in order:
+      1. Restrict to EW < 80 mÅ (linear part of COG; avoids saturated lines)
+      2. 3-pass sigma-clip: reject |resid| > 0.7 dex
+      3. Sanity cap: if prediction > STAR_SOLAR['ni6300_ew_lit_mA'] × 3, use
+         the literature solar value (Allende Prieto+2001: ~1.1 mÅ) instead.
+
+    Returns predicted EW in mÅ.
     """
-    theta = 5040.0 / STAR_SOLAR['teff_K']
+    theta   = 5040.0 / STAR_SOLAR['teff_K']
+    ni_ref  = STAR_SOLAR['ni6300_ew_lit_mA']   # 1.1 mÅ — solar literature value
 
     ni_ews = ew_df[
         (ew_df['element'] == 'Ni') &
-        (ew_df['ion'] == 'I') &
+        (ew_df['ion']     == 'I') &
         (ew_df['blend_flag'] == False) &
         (ew_df['ew_mA'] >= PIPELINE['ew_min_mA']) &
-        (ew_df['ew_mA'] <= PIPELINE['ew_max_mA'])
+        (ew_df['ew_mA'] <  80.0)   # linear COG regime only
     ].copy()
 
     if len(ni_ews) < 3:
-        return np.nan
+        return ni_ref   # fall back to literature value
 
-    # Join with linelist for loggf and EP
     ni_lines = lines_df[
         (lines_df['element'] == 'Ni') & (lines_df['ion'] == 'I')
     ][['wavelength_air_A', 'log_gf', 'excitation_potential_eV']].copy()
@@ -303,14 +308,32 @@ def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
     ).dropna(subset=['log_gf', 'excitation_potential_eV', 'ew_mA'])
 
     if len(merged) < 3:
-        return np.nan
+        return ni_ref
 
-    X = merged['log_gf'] - merged['excitation_potential_eV'] * theta
-    Y = np.log10(merged['ew_mA'].clip(lower=0.1))
-    const = float(np.median(Y - X))
+    X = (merged['log_gf'] - merged['excitation_potential_eV'] * theta).to_numpy()
+    Y = np.log10(merged['ew_mA'].clip(lower=0.1).to_numpy())
 
+    # Iterative sigma-clipping (3 passes, 0.7 dex threshold)
+    mask = np.ones(len(X), dtype=bool)
+    for _ in range(3):
+        if mask.sum() < 3:
+            break
+        const = float(np.median(Y[mask] - X[mask]))
+        resid = np.abs(Y - X - const)
+        mask  = resid < 0.7
+
+    if mask.sum() < 3:
+        return ni_ref
+
+    const = float(np.median(Y[mask] - X[mask]))
     ni6300_log_ew = (-2.841) - 4.266 * theta + const
-    return float(10 ** ni6300_log_ew)
+    pred = float(10 ** ni6300_log_ew)
+
+    # Sanity cap: prediction must not exceed 3× the solar literature value
+    if pred > ni_ref * 3.0:
+        return ni_ref
+
+    return pred
 
 
 def _measure_oi6300(solar_wav: np.ndarray, solar_flux: np.ndarray,
