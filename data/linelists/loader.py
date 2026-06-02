@@ -92,12 +92,14 @@ if priority is not None:
 # LINE PHYSICS ENRICHMENT LAYER (STEP 1)
 # ─────────────────────────────────────────────
 
-# Saturation flag (EW-informed heuristic placeholder)
+# Saturation penalty (continuous, not binary)
 if 'central_depth' in df.columns:
-    df['saturation_flag'] = df['central_depth'] > 0.8
-else:
-    df['saturation_flag'] = False
+    depth = df['central_depth'].clip(0, 1)
 
+    # soft exponential penalty past ~0.6
+    df['saturation_penalty'] = np.exp(-5 * (depth - 0.6).clip(lower=0))
+else:
+    df['saturation_penalty'] = 1.0
 # Reduced EW placeholder (will be filled later after EW step)
 df['reduced_ew'] = np.nan
 
