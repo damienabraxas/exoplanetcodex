@@ -62,6 +62,27 @@ def load_linelist(
 
     df = pd.read_csv(linelist_path, comment='#')
 
+
+# ── Canonical line reliability model ─────────────────────────────
+
+base_blend = df['blend_flag'].astype(float)
+
+depth_penalty = 0.0
+if 'central_depth' in df.columns:
+    depth_penalty = np.clip(df['central_depth'], 0, 1)
+
+# NEW: unified blend score (0 clean → 1 unreliable)
+df['blend_score'] = np.clip(
+    base_blend * 0.7 + depth_penalty * 0.3,
+    0.0,
+    1.0
+)
+
+# Optional interpretability split (useful later)
+df['crowding_score'] = depth_penalty
+df['catalog_blend']  = base_blend
+
+
     # ── LINE FEATURE ENRICHMENT (catalog-level) ─────────────────────────
 
 # Simple physics-informed blend score
