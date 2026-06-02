@@ -110,7 +110,11 @@ grade_weight = df['nist_grade'].map({
     'D': 0.2
 }).fillna(0.1)
 
-blend_penalty = (~df['blend_flag']).astype(float)
+blend_penalty = df['blend_flag'].map({False: 1.0, True: 0.3})
+
+#blend_penalty = exp(-blend_score)
+#blend_score =
+   # Σ (neighbor_line_strength × overlap_function(Δλ))
 
 priority_weight = df['priority'].map({
     1: 1.0,
