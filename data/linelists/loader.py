@@ -62,6 +62,19 @@ def load_linelist(
 
     df = pd.read_csv(linelist_path, comment='#')
 
+    # ── LINE FEATURE ENRICHMENT (catalog-level) ─────────────────────────
+
+# Simple physics-informed blend score
+# 0 = clean, 1 = heavily blended / unreliable
+df['blend_score'] = np.where(df['blend_flag'], 1.0, 0.0)
+
+# Optional refinement using central depth (proxy for crowding)
+if 'central_depth' in df.columns:
+    df['blend_score'] += np.clip(df['central_depth'], 0, 1) * 0.3
+
+df['blend_score'] = np.clip(df['blend_score'], 0.0, 1.0)
+
+#end new add by Ryan
     # Wavelength range
     wmin = wav_min if wav_min is not None else PIPELINE['wav_min_A']
     wmax = wav_max if wav_max is not None else PIPELINE['wav_max_A']
