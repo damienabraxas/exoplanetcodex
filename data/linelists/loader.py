@@ -84,9 +84,43 @@ def load_linelist(
     if exclude_blends:
         df = df[df['blend_flag'] == False]
 
-    # Priority filter
-    if priority is not None:
-        df = df[df['priority'] <= priority]
+   # Priority filter
+if priority is not None:
+    df = df[df['priority'] <= priority]
+
+# ─────────────────────────────────────────────
+# LINE PHYSICS ENRICHMENT LAYER (STEP 1)
+# ─────────────────────────────────────────────
+
+# Saturation flag (EW-informed heuristic placeholder)
+if 'central_depth' in df.columns:
+    df['saturation_flag'] = df['central_depth'] > 0.8
+else:
+    df['saturation_flag'] = False
+
+# Reduced EW placeholder (will be filled later after EW step)
+df['reduced_ew'] = np.nan
+
+# Physics-based quality weight
+grade_weight = df['nist_grade'].map({
+    'A+': 1.0,
+    'A': 0.9,
+    'B': 0.75,
+    'C': 0.5,
+    'D': 0.2
+}).fillna(0.1)
+
+blend_penalty = (~df['blend_flag']).astype(float)
+
+priority_weight = df['priority'].map({
+    1: 1.0,
+    2: 0.7,
+    3: 0.4
+}).fillna(0.5)
+
+df['line_quality_weight'] = grade_weight * blend_penalty * priority_weight
+
+return df.reset_index(drop=True)
 
     return df.reset_index(drop=True)
 
