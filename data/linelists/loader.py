@@ -124,7 +124,7 @@ priority_weight = df['priority'].map({
     3: 0.4
 }).fillna(0.5)
 
-df['line_quality_weight'] = grade_weight * blend_penalty * priority_weight
+df['line_quality_weight'] = (grade_weight * blend_penalty * priority_weight * df[df['saturation_penalty'])
 
 return df.reset_index(drop=True)
 
