@@ -204,6 +204,14 @@ PATHS = {
     'solar_ew_diagnostic': ROOT / 'results' / 'plots' / 'solar_ew_diagnostic.png',
 }
 
+# ── iSpec / Turbospectrum installation ───────────────────────────────────────
+# Path to cloned iSpec repo (machine-specific; override via ISPEC_DIR env var).
+import os as _os
+ISPEC_DIR = Path(_os.environ.get('ISPEC_DIR',
+    str(ROOT.parent / 'ispec')
+))
+RADIATIVE_TRANSFER_CODE = 'turbospectrum'   # 'turbospectrum' | 'spectrum' | 'moog'
+
 # Auto-create all output directories on import
 for _key in ('data_root', 'raw_spectra', 'processed_spectra', 'linelists',
              'model_atmospheres', 'results', 'plots', 'tables'):
