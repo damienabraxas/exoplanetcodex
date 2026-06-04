@@ -23,6 +23,17 @@ Usage
     run()
 
 Linear issue: RYA-160
+
+Calibration notes (first solar run, 2026-06-04)
+------------------------------------------------
+- COG constant C = 9.6764 verified against Fe I 6065.482 anchor
+  (EW=35 mÅ, log_gf=-1.530, EP=2.608 eV → A(Fe I)=7.46, Allende Prieto+2001)
+- EP slope: +0.0907 dex/eV  (target |slope| < 0.02) — Teff signal; partially
+  inflated by log_gf merge mismatches (blocked on RYA-64)
+- Reduced-EW slope: +0.5971  (target flat) — ξ signal; check vturb_kms in
+  STAR_SOLAR (currently 1.0 km/s — likely needs upward revision)
+- Absolute A(Fe I) scale (mean=9.919) not meaningful until RYA-64 populates
+  linelist with correct log_gf assignments per measured wavelength
 """
 
 import warnings
