@@ -161,10 +161,10 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
     lookup: dict[str, list] = {}
     for _, row in ew_df.iterrows():
         note  = _ours_to_ispec_note(str(row['element']), str(row['ion']))
-        wav   = float(row['wavelength_air_A'])
-        ew_A  = float(row['ew_mA']) / 1000.0
-        err_A = float(row['ew_err_mA']) / 1000.0 if 'ew_err_mA' in row.index else 0.0
-        lookup.setdefault(note, []).append((wav, ew_A, err_A))
+        wav    = float(row['wavelength_air_A'])
+        ew_mA  = float(row['ew_mA'])
+        err_mA = float(row['ew_err_mA']) if 'ew_err_mA' in row.index else 0.0
+        lookup.setdefault(note, []).append((wav, ew_mA, err_mA))
 
     # Match regions → our EWs (match on wave_A which is in Å)
     matched_idx, ew_vals, err_vals = [], [], []
@@ -189,9 +189,12 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
         )
 
     linemasks = regions[matched_idx].copy()
-    for j, (ew_A, err_A) in enumerate(zip(ew_vals, err_vals)):
-        linemasks[j]['ew']     = ew_A
-        linemasks[j]['ew_err'] = err_A
+    # Store EW in mÅ — iSpec's __spectrum_write_abundance_lines writes
+    # linemasks['ew'] directly to the SPECTRUM input file which expects mÅ.
+    # (iSpec's own fit_lines also stores ew in mÅ, not Å.)
+    for j, (ew_mA, err_mA) in enumerate(zip(ew_vals, err_vals)):
+        linemasks[j]['ew']     = ew_mA   # mÅ
+        linemasks[j]['ew_err'] = err_mA  # mÅ
 
     # Discard zero/negative EWs (failed matches)
     linemasks = linemasks[linemasks['ew'] > 0]
@@ -231,6 +234,28 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
 
     linemasks = _build_ispec_line_regions(ew_clean)
 
+    # ── Theoretical EW sanity filter ──────────────────────────────────────────
+    # Calibrated COG: log10(EW_mA) = loggf + 2*log10(λ_Å) − EP*θ − 2.2164
+    # Constant −2.2164 = A(Fe)☉ − C_solar = 7.46 − 9.6764, verified exact
+    # against Fe I 6065 anchor (theo=35.2 mÅ, published=35 mÅ, ratio=0.003 dex).
+    # Reject lines where |log10(EW_obs/EW_theo)| > 1.5 dex — these are
+    # blends/misidentifications (e.g. Fe I 5247 with loggf=−4.95 gives
+    # EW_theo≈1.6 mÅ but we measure 91.6 mÅ → 1.76 dex → smoking-gun blend).
+    theta_filter = 5040.0 / float(stellar_params['teff_K'])
+    log_ew_theo  = (linemasks['loggf']
+                    + 2.0 * np.log10(np.maximum(linemasks['wave_A'], 1.0))
+                    - linemasks['lower_state_eV'] * theta_filter
+                    - 2.2164)
+    ew_mA_obs    = linemasks['ew']   # already in mÅ
+    log_ew_obs   = np.log10(np.maximum(ew_mA_obs, 1e-6))
+    ew_ratio     = log_ew_obs - log_ew_theo
+    good         = np.abs(ew_ratio) < 1.5
+    n_before = len(linemasks)
+    linemasks = linemasks[good]
+    n_after  = len(linemasks)
+    print(f"  EW sanity filter: {n_before} → {n_after} lines "
+          f"({n_before - n_after} rejected as blends/misidentifications)")
+
     teff  = float(stellar_params['teff_K'])
     logg  = float(stellar_params['logg'])
     feh   = float(stellar_params['feh'])
@@ -250,8 +275,10 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
         code=ew_code,
         tmp_dir='/tmp/ispec_codex',
     )
-
-    return linemasks, spec_abund, x_over_h, x_over_fe
+    # normal_abund = A(X) in the standard log(N/N_H)+12 scale (hydrogen=12).
+    # spec_abund   = SPECTRUM's internal log(N/N_H) scale (hydrogen≈0).
+    # All downstream A(X) / [X/H] / [X/Fe] use normal_abund, not spec_abund.
+    return linemasks, normal_abund, x_over_h, x_over_fe
 
 
 # ── Fe diagnostics ────────────────────────────────────────────────────────────
@@ -270,13 +297,15 @@ def _compute_ep_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
 def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
                        x_over_h: np.ndarray) -> float:
     """Fe I abundance vs reduced EW slope → vturb diagnostic."""
-    ew    = linemasks['ew'][fe1_mask]
+    ew_mA = linemasks['ew'][fe1_mask]   # mÅ
     wav   = linemasks['wave_A'][fe1_mask]
     abund = x_over_h[fe1_mask]
-    valid = np.isfinite(abund) & (ew > 0) & (wav > 0)
+    valid = np.isfinite(abund) & (ew_mA > 0) & (wav > 0)
     if valid.sum() < 5:
         return np.nan
-    rew = np.log10(ew[valid] / wav[valid])
+    # Reduced EW = log10(EW_Å / λ_Å) = log10(EW_mÅ / λ_Å) - 3
+    # The -3 offset cancels in the slope, so we use log10(EW_mÅ / λ_Å) directly.
+    rew = np.log10(ew_mA[valid] / wav[valid])
     return float(np.polyfit(rew, abund[valid], 1)[0])
 
 
