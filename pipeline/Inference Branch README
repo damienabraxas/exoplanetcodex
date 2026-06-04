@@ -1,0 +1,240 @@
+📡 Exoplanet Codex — Inference Upgrade Branch
+Overview
+
+This branch extends the original Exoplanet Codex pipeline from a classical equivalent-width (EW) + MOOG abundance workflow into a forward-modeling + Bayesian inference framework.
+
+The goal is to move from:
+
+deterministic abundance estimates
+to
+full posterior distributions of stellar parameters and chemical abundances
+
+while keeping the original EW pipeline fully intact and reproducible.
+
+🧪 Scientific Motivation
+
+Classical stellar abundance pipelines typically follow:
+
+Equivalent width measurement
+1D LTE model atmospheres (ATLAS9)
+Radiative transfer inversion (MOOG)
+Sequential stellar parameter fitting
+
+While robust, this approach has limitations:
+
+Uncertain error propagation (covariances ignored)
+Stellar parameters treated as fixed during abundance derivation
+EW compression loses spectral information
+LTE assumptions not explicitly modeled in uncertainty
+Hard to incorporate multi-wavelength datasets (HARPS + HST UV/IR)
+🧱 Original Architecture (Baseline Branch)
+Classical EW + MOOG Pipeline
+Spectra (HARPS / HST)
+        ↓
+Continuum normalization
+        ↓
+Line identification
+        ↓
+Equivalent width measurement
+        ↓
+ATLAS9 model atmospheres
+        ↓
+MOOG LTE inversion
+        ↓
+Elemental abundances [X/H]
+        ↓
+Abundance ratios [X/Fe], C/O, Mg/Si
+Core modules (existing system)
+pipeline/spectra_acquire.py
+pipeline/spectra_normalize.py
+pipeline/lines_fit.py
+pipeline/lines_load.py
+pipeline/abundances_derive.py (stub)
+pipeline/uncertainty_stack.py (classical error propagation)
+Strengths
+Fast
+Interpretable
+Established astrophysical methodology
+Compatible with literature comparisons (Asplund et al.)
+Limitations
+No joint parameter inference
+EW compression loses spectral structure
+Uncertainty underestimation (covariances ignored)
+LTE + 1D assumptions not explicitly modeled
+🚀 New Architecture (This Branch)
+Forward Model + Bayesian Inference Layer
+Observed Spectrum
+        ↓
+EW extraction (existing pipeline reused)
+        ↓
+Forward model (MOOG as generator)
+        ↓
+Likelihood function
+        ↓
+P(θ | data) via MCMC / nested sampling
+        ↓
+Posterior distributions:
+    - Teff
+    - log g
+    - vturb
+    - A(Fe), A(C), A(O), ...
+        ↓
+Derived ratios:
+    - C/O distribution
+    - Mg/Si distribution
+    - [X/Fe] correlations
+🧠 Key Conceptual Change
+MOOG is no longer a solver
+
+In the classical pipeline:
+
+MOOG = abundance inverter
+
+In this branch:
+
+MOOG = forward model engine
+
+It is used inside a probabilistic loop:
+
+θ → MOOG → synthetic EWs → comparison → likelihood
+📁 New Directory Structure
+exoplanetcodex/
+│
+├── pipeline/                 # EXISTING (unchanged initially)
+│
+├── inference/                # NEW (core upgrade)
+│   ├── forward_model.py      # MOOG wrapper (θ → EW model)
+│   ├── likelihood.py         # statistical model P(data | θ)
+│   ├── priors.py             # astrophysical constraints
+│   ├── sampler.py            # MCMC / nested sampling
+│   └── model_interface.py    # connects pipeline → inference
+│
+├── run_pipeline.py           # original entry point
+├── run_inference.py          # NEW entry point (Bayesian mode)
+🔬 Core Components
+1. Forward Model (inference/forward_model.py)
+
+Wraps MOOG as a deterministic function:
+
+def predict_ews(params, line_list):
+    """
+    Forward model:
+    stellar parameters → synthetic equivalent widths
+    """
+    # 1. generate MOOG input file
+    # 2. run MOOG
+    # 3. parse synthetic EWs
+    return ew_model
+2. Likelihood (inference/likelihood.py)
+
+Defines statistical agreement between model and data:
+
+import numpy as np
+
+def log_likelihood(ew_obs, ew_model, ew_err):
+    return -0.5 * np.sum(((ew_obs - ew_model) / ew_err) ** 2)
+
+This replaces implicit convergence loops (excitation/ionization balance).
+
+3. Priors (inference/priors.py)
+
+Astrophysical constraints on parameters:
+
+PRIOR_Teff = (4500, 6500)
+PRIOR_logg = (3.5, 5.0)
+PRIOR_vturb = (0.5, 2.5)
+
+Future extension:
+
+Gaussian priors from literature
+Gaia-informed log g priors
+4. Sampler (inference/sampler.py)
+
+Initial implementation:
+
+emcee (affine-invariant MCMC)
+
+Future upgrades:
+
+dynesty (nested sampling)
+multimodal posterior exploration
+5. Model Interface (inference/model_interface.py)
+
+Bridges existing pipeline outputs:
+
+def get_observed_ews(star_id):
+    """
+    Load EW products from pipeline/lines_fit.py
+    """
+    return ew_table
+🔄 Data Flow Comparison
+Classical Pipeline
+EW → MOOG → abundance → ratio → interpretation
+Inference Pipeline
+EW → likelihood model → sampling → posterior θ → derived abundances
+📊 Key Improvements
+1. Full uncertainty propagation
+parameter covariance included
+not just EW scatter
+2. Joint inference of stellar parameters
+Teff, log g, vturb inferred simultaneously with abundances
+3. Correlated abundance structure
+C/O covariance properly modeled
+Fe anchors constrain full solution
+4. Modular physics upgrades
+MOOG replaceable
+NLTE corrections pluggable
+3D corrections future-compatible
+🌌 Scientific Targets
+
+This framework is designed for:
+
+HARPS high-resolution spectroscopy
+HST UV + IR complementary spectra
+Solar differential abundance analysis
+Exoplanet host star chemistry
+
+Key derived quantities:
+
+[Fe/H]
+[C/H], [O/H], [Mg/H], [Si/H], [Ca/H]
+C/O ratio (posterior distribution)
+Mg/Si ratio (planet composition proxy)
+🧭 Recommended Development Path
+Phase 1 — Foundation (current branch)
+Wrap MOOG as forward model
+Build likelihood function
+Test on solar Fe lines only
+Phase 2 — Stellar parameters
+Joint inference of Teff, log g, vturb
+Validate against solar reference
+Phase 3 — Full abundances
+Expand to C, O, Mg, Si, Ca
+Introduce abundance vector inference
+Phase 4 — Advanced physics
+NLTE correction layer
+MARCS / STAGGER atmosphere substitution
+multi-spectrum fusion (HARPS + HST)
+⚠️ Design Philosophy
+Do not discard EW pipeline — it remains the observation layer
+Do not replace MOOG initially — wrap it
+Do not assume LTE failures dominate error budget yet
+Prioritize inference structure over new atmospheric grids
+🧪 Expected Outcome
+
+This branch is designed to produce:
+
+More realistic abundance uncertainties
+Proper covariance between stellar parameters and chemistry
+Robust C/O and Mg/Si distributions
+A scalable foundation for NLTE and 3D modeling
+📌 Citation Notes
+
+This work builds on:
+
+HARPS spectroscopy (ESO Archive)
+VALD3 line database
+NIST Atomic Spectra Database
+Asplund et al. (2021) solar abundances
+Kurucz ATLAS9 model atmospheres
+Sneden (1973) MOOG radiative transfer code

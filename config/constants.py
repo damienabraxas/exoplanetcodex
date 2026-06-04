@@ -119,9 +119,19 @@ STAR_SOLAR = {
     'feh'          : 0.00,      # by definition — solar zero-point
     'vturb_kms'    : 1.0,       # km/s
     'rv_kms'       : 0.0,       # solar zero-point; BERV correction applied per exposure
-    'ni6300_ew_lit_mA' : 0.55,  # Ni I 6300.336 EW in solar photosphere — 50% of Allende Prieto+2001
-                                  # ~1.0 mÅ. Reduced empirically: total blend ~3.3 mÅ, to achieve
-                                  # O I closer to expected ~4.5 mÅ pending BASS2000 calibration.
+    'ni6300_ew_lit_mA' : 1.0,   # Ni I 6300.336 EW in solar photosphere (Allende Prieto+2001, ApJ 556 L63)
+                                  # VALD3 log_gf=-2.841 predicts ~3.8 mÅ via COG — 0.575 dex too strong.
+                                  # COG sanity cap fires; this literature value is used as the fallback.
+                                  # log_gf needs cross-check vs Johansson et al. 2003 (separate ticket).
+}
+
+# ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
+# Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
+# Source: VALD3 log_gf; Allende Prieto et al. 2001 (ApJ 556, L63) for EW.
+NI6300_COG = {
+    'log_gf'               : -2.841,
+    'excitation_potential_eV': 4.266,
+    'ew_lit_solar_mA'      : 1.1,   # Allende Prieto+2001
 }
 
 # ── Pipeline settings ─────────────────────────────────────────────────────────
@@ -194,10 +204,27 @@ PATHS = {
     'solar_ew_diagnostic': ROOT / 'results' / 'plots' / 'solar_ew_diagnostic.png',
 }
 
+# ── iSpec / Turbospectrum installation ───────────────────────────────────────
+# Path to cloned iSpec repo (machine-specific; override via ISPEC_DIR env var).
+import os as _os
+ISPEC_DIR = Path(_os.environ.get('ISPEC_DIR',
+    str(ROOT.parent / 'ispec')
+))
+RADIATIVE_TRANSFER_CODE = 'turbospectrum'   # 'turbospectrum' | 'spectrum' | 'moog'
+
 # Auto-create all output directories on import
 for _key in ('data_root', 'raw_spectra', 'processed_spectra', 'linelists',
              'model_atmospheres', 'results', 'plots', 'tables'):
     PATHS[_key].mkdir(parents=True, exist_ok=True)
+
+# ── Post-LTE corrections (apply in abundances_derive.py) ─────────────────────
+# All values are additive corrections to log N(X)/N(H) derived from 1D LTE.
+CORRECTIONS_3D = {
+    # O I forbidden lines: 1D → 3D hydrodynamic correction (Caffau et al. 2008, A&A 483, 591)
+    # Both lines share the same -0.07 dex offset from granulation effects.
+    'O_6300_3d_dex': -0.07,
+    'O_6363_3d_dex': -0.07,
+}
 
 # ── Model atmosphere parameters ───────────────────────────────────────────────
 MODEL = {
