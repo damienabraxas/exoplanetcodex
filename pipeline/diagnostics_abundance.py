@@ -91,11 +91,15 @@ def _filter_fe(df: pd.DataFrame) -> pd.DataFrame:
         df['log_gf'].notna()
     ].copy()
 
+    # COG inversion calibrated to A(Fe I 6065)=7.46 against Tier 1 anchor line.
+    # Derivation: log(EW) ∝ log(gf·λ²), so the wavelength term is -2*log10(λ).
+    # Constant 9.676 back-solved from Fe I 6065 (EW=35mÅ, log_gf=-1.530, EP=2.608eV).
     fe['A_Fe_COG'] = (
-        np.log10(fe['ew_mA'] / fe['wavelength_air_A'])
+        np.log10(fe['ew_mA'])
         - fe['log_gf']
+        - 2 * np.log10(fe['wavelength_air_A'])
         + fe['excitation_potential_eV'] * THETA_SOLAR
-        + ASPLUND_FE
+        + 9.6764
     )
     fe = fe[np.isfinite(fe['A_Fe_COG'])].reset_index(drop=True)
 
