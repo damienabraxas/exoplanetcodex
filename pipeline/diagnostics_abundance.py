@@ -75,19 +75,33 @@ def _load_and_merge() -> pd.DataFrame:
     ew = pd.read_csv(ew_path)
     ll = pd.read_csv(ll_path, comment='#', low_memory=False)
 
-    ll_fe = ll[ll['element'] == 'Fe'][
-        ['wavelength_air_A', 'excitation_potential_eV', 'log_gf']
-    ].copy()
+    # Group merge: join within each (element, ion) pair so that a Fe I EW
+    # measurement only ever matches a Fe I linelist entry — prevents log_gf
+    # contamination from nearby lines of other species or ionisation states.
+    ll_cols = ll[['element', 'ion', 'wavelength_air_A',
+                  'excitation_potential_eV', 'log_gf']].copy()
 
-    # Nearest-neighbour wavelength join within ±0.05 Å
-    merged = pd.merge_asof(
-        ew.sort_values('wavelength_air_A'),
-        ll_fe.sort_values('wavelength_air_A'),
-        on='wavelength_air_A',
-        direction='nearest',
-        tolerance=0.05,
-    )
-    return merged
+    groups = []
+    for (elem, ion), ew_grp in ew.groupby(['element', 'ion']):
+        ll_grp = ll_cols[
+            (ll_cols['element'] == elem) & (ll_cols['ion'] == ion)
+        ][['wavelength_air_A', 'excitation_potential_eV', 'log_gf']].copy()
+
+        if ll_grp.empty:
+            # No linelist entries for this species — keep EW rows with NaN atomic data
+            groups.append(ew_grp)
+            continue
+
+        joined = pd.merge_asof(
+            ew_grp.sort_values('wavelength_air_A'),
+            ll_grp.sort_values('wavelength_air_A'),
+            on='wavelength_air_A',
+            direction='nearest',
+            tolerance=0.05,
+        )
+        groups.append(joined)
+
+    return pd.concat(groups, ignore_index=True)
 
 
 def _filter_fe(df: pd.DataFrame) -> pd.DataFrame:
