@@ -6,9 +6,15 @@ Run from the folder containing your FITS files.
 """
 
 import os
+import sys
 import csv
 import glob
+import argparse
 from astropy.io import fits
+
+parser = argparse.ArgumentParser(description='Survey HARPS FITS headers')
+parser.add_argument('--path', default='.', help='Directory to search for FITS files')
+args = parser.parse_args()
 
 def get_snr(header):
     """Try several common SNR keyword variants."""
@@ -29,23 +35,25 @@ def get_snr(header):
             pass
     return 'N/A'
 
-def classify(object_name):
+def classify(object_name, prog_id=''):
     if not object_name or object_name == 'N/A':
-        return 'Unknown'
-    obj = object_name.lower()
-    if 'ceres' in obj:
-        return 'Ceres'
-    if 'vesta' in obj:
-        return 'Vesta'
-    if 'sol' in obj or 'sun' in obj:
-        return 'Sol/Sun'
+        obj = ''
+    else:
+        obj = object_name.lower()
+    if 'ceres' in obj: return 'Ceres'
+    if 'vesta' in obj: return 'Vesta'
+    if 'sol' in obj or 'sun' in obj: return 'Sol/Sun'
+    if '1102.D-0954' in prog_id: return 'Direct Solar (Dumusque)'
     return 'Unknown'
 
-fits_files = sorted(glob.glob('*.fits') + glob.glob('*.fits.gz'))
+fits_files = sorted(
+    glob.glob(os.path.join(args.path, '**/*.fits'), recursive=True) +
+    glob.glob(os.path.join(args.path, '**/*.fits.gz'), recursive=True)
+)
 
 if not fits_files:
     print("No FITS files found in current directory.")
-    exit(1)
+    sys.exit(1)
 
 print(f"Found {len(fits_files)} FITS files. Inspecting headers...\n")
 
@@ -63,7 +71,7 @@ for fname in fits_files:
             targ     = str(h.get('HIERARCH ESO OBS TARG NAME', 'N/A'))
             exptime  = str(h.get('EXPTIME', 'N/A'))
             snr      = get_snr(h)
-            cls      = classify(obj)
+            cls      = classify(obj, prog_id=prog_id)
             counts[cls] += 1
             results.append({
                 'filename': fname,
