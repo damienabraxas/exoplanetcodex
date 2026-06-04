@@ -62,6 +62,25 @@ def load_linelist(
 
     df = pd.read_csv(linelist_path, comment='#')
 
+    # ── Canonical line reliability model ─────────────────────────────
+
+    base_blend = df['blend_flag'].astype(float)
+
+    depth_penalty = 0.0
+    if 'central_depth' in df.columns:
+        depth_penalty = np.clip(df['central_depth'], 0, 1)
+
+    # NEW: unified blend score (0 clean → 1 unreliable)
+    df['blend_score'] = np.clip(
+        base_blend * 0.7 + depth_penalty * 0.3,
+        0.0,
+        1.0
+    )
+
+    # Optional interpretability split (useful later)
+    df['crowding_score'] = depth_penalty
+    df['catalog_blend']  = base_blend
+
     # Wavelength range
     wmin = wav_min if wav_min is not None else PIPELINE['wav_min_A']
     wmax = wav_max if wav_max is not None else PIPELINE['wav_max_A']
@@ -87,6 +106,41 @@ def load_linelist(
     # Priority filter
     if priority is not None:
         df = df[df['priority'] <= priority]
+
+    # ─────────────────────────────────────────────
+    # LINE PHYSICS ENRICHMENT LAYER (STEP 1)
+    # ─────────────────────────────────────────────
+
+    # Saturation penalty (continuous, not binary)
+    if 'central_depth' in df.columns:
+        depth = df['central_depth'].clip(0, 1)
+
+        # soft exponential penalty past ~0.6
+        df['saturation_penalty'] = np.exp(-5 * (depth - 0.6).clip(lower=0))
+    else:
+        df['saturation_penalty'] = 1.0
+    # Reduced EW placeholder (will be filled later after EW step)
+    df['reduced_ew'] = np.nan
+
+    # Physics-based quality weight
+    grade_weight = df['nist_grade'].map({
+        'A+': 1.0,
+        'A': 0.9,
+        'B': 0.75,
+        'C': 0.5,
+        'D': 0.2
+    }).fillna(0.1)
+
+    #blend_penalty = df['blend_flag'].map({False: 1.0, True: 0.3})
+    blend_penalty = np.exp(-df['blend_score'])
+
+    priority_weight = df['priority'].map({
+        1: 1.0,
+        2: 0.7,
+        3: 0.4
+    }).fillna(0.5)
+
+    df['line_quality_weight'] = (grade_weight * blend_penalty * priority_weight * df['saturation_penalty'])
 
     return df.reset_index(drop=True)
 
