@@ -46,7 +46,7 @@ import matplotlib.gridspec as gridspec
 from scipy.optimize import curve_fit
 from scipy.special import voigt_profile
 
-from config.constants import PIPELINE, PATHS, STAR_SOLAR
+from config.constants import PIPELINE, PATHS, STAR_SOLAR, NI6300_COG
 
 
 # ── Special-case line registry ────────────────────────────────────────────────
@@ -54,6 +54,7 @@ from config.constants import PIPELINE, PATHS, STAR_SOLAR
 # Lines force-measured regardless of blend_flag: (element, ion, nominal_wav_A)
 SPECIAL_MEASURES = [
     # O I handled separately after main loop (COG Ni subtraction) — NOT in worklist
+    ('O',  'I',  6363.776),   # forbidden line; CN blend present (flag only, don't subtract)
     ('Ba', 'II', 5853.668),   # HFS feature; total EW of all components
     ('Eu', 'II', 6645.127),   # HFS centroid (was 6645.064 = lowest component, wrong)
     ('Li', 'I',  6707.840),   # doublet midpoint (was 6707.756 = first component only)
@@ -72,12 +73,30 @@ SPECIAL_MEASURES = [
 # Per-line fit window overrides (Å half-width) for crowded / HFS lines.
 # Default = PIPELINE['fit_window_A'] (2.0 Å).
 LINE_WINDOWS = {
-    ('O',  'I',  6300.304): 0.15,  # Si I 6299.6 contaminates full window
-    ('Eu', 'II', 6645.127): 0.50,  # ±0.50 Å puts anchors at 6644.50–6644.63 (flux ~0.992,
-                                   # genuinely clean); ±0.15 had anchors in contaminated region
+    ('O',  'I',  6300.304): 0.30,  # anchors at ±[0.225–0.30] Å (7–8 px, flux 0.98–0.99);
+                                   # Si I 6299.599 at −0.705 Å and Sc II HFS at +0.38 Å
+                                   # both safely outside; right edge clears Sc II by 0.08 Å
+    ('O',  'I',  6363.776): 0.25,  # deep photospheric lines at −0.89 Å and +0.60 Å;
+                                   # ±0.25 Å anchors [6363.526–6363.651] and [6363.901–6364.026]
+                                   # land in CN gaps (p80 filter handles remaining CN features)
+    ('Eu', 'II', 6645.127): 0.35,  # anchors at ±[0.26–0.35] Å — left in clean continuum,
+                                   # right avoids known contamination beyond 6645.48
     ('Li', 'I',  6707.840): 0.25,  # avoid 6707.46 contamination feature
-    ('Mg', 'I',  5711.088): 0.30,  # tighten: avoids over-broad Voigt fit on isolated deep line
-    ('Ca', 'I',  6122.217): 0.35,  # tighten: right anchor stays just left of Co I HFS at 6122.56
+    ('Mg', 'I',  5711.088): 0.20,  # tightened: anchors at ±[0.15–0.20] Å, isolated clean line
+    ('Ca', 'I',  6122.217): 2.78,  # wide continuum window: anchors at ±[2.08–2.78] Å have
+                                   # p80~0.989 (genuinely clean); right cutoff ≈ 6125 Å
+}
+
+# Per-line profile-fit window — can be narrower than LINE_WINDOWS to avoid including
+# broad wings or blends in the Voigt fit while still using wide anchors for the continuum.
+# Keyed identically to LINE_WINDOWS; missing = use the same window as LINE_WINDOWS.
+LINE_FIT_WINDOWS = {
+    ('O',  'I',  6300.304): 0.15,  # fit ±0.15 Å only; continuum from wide ±0.30 Å anchors
+                                   # (narrow fit avoids Si I 6299.6; wide continuum gives 7–8 px)
+    ('O',  'I',  6363.776): 0.08,  # CN features at 6363.750 and 6363.830 flank the O I core;
+                                   # ±0.08 Å fit captures core only; continuum from ±0.25 Å
+    ('Ca', 'I',  6122.217): 0.10,  # ±0.1 Å fit only; Ca I 6102/6162 contaminate wider windows
+                                   # (was 0.35 Å → measured 243 mÅ vs expected 140 mÅ)
 }
 
 _SPECIAL_WAV_TOL = 0.20  # Å tolerance for matching to SPECIAL_MEASURES
@@ -103,6 +122,18 @@ def _get_fit_window(elem: str, ion: str, line_wav: float,
         if depth < brk:
             return base * scales[i]
     return base * scales[-1]
+
+def _get_profile_fit_window(elem: str, ion: str, line_wav: float,
+                            cont_window: float) -> float:
+    """
+    Return the profile-fit half-window (Å) for this line.
+    Always ≤ cont_window so the fit never exceeds the continuum extraction region.
+    """
+    for (e, i, w), fw in LINE_FIT_WINDOWS.items():
+        if e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL:
+            return min(fw, cont_window)
+    return cont_window
+
 
 # Elements requiring NLTE note in output
 NLTE_ELEMENTS = {'O', 'Na', 'C', 'Li'}
@@ -328,7 +359,7 @@ def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
         return ni_ref
 
     const = float(np.median(Y[mask] - X[mask]))
-    ni6300_log_ew = (-2.841) - 4.266 * theta + const
+    ni6300_log_ew = NI6300_COG['log_gf'] - NI6300_COG['excitation_potential_eV'] * theta + const
     pred = float(10 ** ni6300_log_ew)
 
     # Sanity cap: prediction must not exceed 3× the solar literature value
@@ -339,61 +370,74 @@ def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
 
 
 def _measure_oi6300(solar_wav: np.ndarray, solar_flux: np.ndarray,
-                    results: list, lines_df: pd.DataFrame) -> None:
+                    results: list, lines_df: pd.DataFrame,
+                    ni_ew_mA: float) -> None:
     """
-    Measure [O I] 6300.304 and Ni I 6300.336 after the main loop completes.
+    Measure O I 6300.304 after subtracting a COG-predicted Ni I 6300.336 model.
 
-    Uses a narrow ±0.15 Å window (avoids Si I 6299.599) and the COG-predicted
-    Ni I 6300.336 contribution subtracted before reporting the O I EW.
-    Appends two rows to `results` in-place.
+    Method (Allende Prieto et al. 2001, ApJ 556, L63):
+      1. Caller supplies ni_ew_mA from _predict_ni6300_ew() (COG of clean Ni I lines)
+      2. Build a Gaussian Ni I model at HARPS resolution (σ ≈ 0.023 Å) with that EW
+      3. Subtract the Ni model → cleaned O I spectrum
+      4. Fit O I alone with _fit_profile on the cleaned spectrum
+      5. Flag: Ni_blend_subtracted | forbidden_line | NLTE_flag
+
+    Uses narrow ±0.15 Å window to exclude Si I 6299.599.
+    Appends one row to `results` in-place.
     """
-    win = LINE_WINDOWS[('O', 'I', 6300.304)]  # 0.15 Å
+    WAV_O  = 6300.304
+    WAV_NI = 6300.336
+    SIGMA  = 0.023   # HARPS σ at 6300 Å (R~115,000 → FWHM~0.055 Å → σ=0.023 Å)
 
-    mask = (solar_wav >= 6300.304 - win) & (solar_wav <= 6300.304 + win)
-    if mask.sum() < 5:
+    cont_win = LINE_WINDOWS[('O', 'I', WAV_O)]       # 0.50 Å — wide continuum (12–13 px anchors)
+    fit_win  = LINE_FIT_WINDOWS[('O', 'I', WAV_O)]   # 0.15 Å — narrow fit (avoids Si I 6299.6)
+
+    cont_mask = (solar_wav >= WAV_O - cont_win) & (solar_wav <= WAV_O + cont_win)
+    if cont_mask.sum() < 10:
         return
 
-    wav_w  = solar_wav[mask]
-    flux_w = solar_flux[mask]
-    flux_r, _ = _local_renorm(wav_w, flux_w, 6300.304, window=win)
+    wav_c  = solar_wav[cont_mask]
+    edge_A = cont_win * PIPELINE['cont_edge_frac']
 
-    # Total blend EW (single profile)
-    popt, pcov, profile_t, chi2 = _fit_profile(wav_w, flux_r, 6300.304)
-    if popt is None:
-        ew_total = np.nan
-    else:
-        ew_total = _integrate_profile(wav_w, popt, profile_t)
+    # Anchor pixel diagnostic
+    left_n  = int(((solar_wav >= WAV_O - cont_win) &
+                   (solar_wav <= WAV_O - cont_win + edge_A)).sum())
+    right_n = int(((solar_wav >= WAV_O + cont_win - edge_A) &
+                   (solar_wav <= WAV_O + cont_win)).sum())
+    print(f"    [O I 6300 continuum] left_anchor={left_n}px  right_anchor={right_n}px  "
+          f"(cont_win=±{cont_win}Å  fit_win=±{fit_win}Å)")
 
-    # Predict and subtract Ni I 6300.336 contribution
-    ew_df_so_far = pd.DataFrame(results)
-    ni_pred = _predict_ni6300_ew(ew_df_so_far, lines_df) if len(ew_df_so_far) > 0 else np.nan
+    flux_r, _ = _local_renorm(solar_wav[cont_mask], solar_flux[cont_mask],
+                              WAV_O, window=cont_win)
 
-    if np.isnan(ni_pred):
-        ni_pred = 1.0   # Allende Prieto+2001 solar estimate as fallback
-        ni_source = 'Ni_EW_fallback_1.0mA'
-    else:
-        ni_source = f'Ni_EW_COG_pred_{ni_pred:.2f}mA'
+    # Build Ni I Gaussian model and remove it (Allende Prieto et al. 2001)
+    ni_depth  = ni_ew_mA / (SIGMA * np.sqrt(2 * np.pi) * 1000.0)
+    ni_model  = ni_depth * np.exp(-0.5 * ((wav_c - WAV_NI) / SIGMA) ** 2)
+    flux_clean = flux_r + ni_model   # restore continuum under Ni feature
 
-    ew_oi = (ew_total - ni_pred) if not np.isnan(ew_total) else np.nan
+    # Narrow to fit window for profile fitting
+    fm = np.abs(wav_c - WAV_O) <= fit_win
+    wav_fit   = wav_c[fm] if fm.sum() >= 5 else wav_c
+    flux_fit  = flux_clean[fm] if fm.sum() >= 5 else flux_clean
+
+    # Fit O I alone on Ni-subtracted, fit-window-sliced spectrum
+    popt, pcov, profile_t, chi2 = _fit_profile(wav_fit, flux_fit, WAV_O)
+    ew_mA = _integrate_profile(wav_fit, popt, profile_t) if popt is not None else np.nan
+
+    # Uncertainty from continuum-window edge pixels
+    edge_mask = (wav_c <= WAV_O - cont_win + edge_A) | (wav_c >= WAV_O + cont_win - edge_A)
+    ew_err    = (_ew_error(flux_r[edge_mask], ew_mA, popt, pcov, profile_type=profile_t)
+                 if popt is not None else np.nan)
 
     results.append(dict(
-        element='O', ion='I', wavelength_air_A=6300.304,
-        ew_mA=round(float(ew_oi), 2) if not np.isnan(ew_oi) else np.nan,
-        ew_err_mA=np.nan,
+        element='O', ion='I', wavelength_air_A=WAV_O,
+        ew_mA=round(float(ew_mA), 2) if not np.isnan(ew_mA) else np.nan,
+        ew_err_mA=round(float(ew_err), 2) if not np.isnan(ew_err) else np.nan,
         profile_type=profile_t if popt is not None else 'failed',
         chi2=round(chi2, 4) if not np.isnan(chi2) else np.nan,
         blend_flag=True,
-        notes=(f'Ni_blend_subtracted; {ni_source}; forbidden_line; NLTE_flag; '
-               f'Allende_Prieto+2001'),
-    ))
-    results.append(dict(
-        element='Ni', ion='I', wavelength_air_A=6300.336,
-        ew_mA=round(float(ni_pred), 2),
-        ew_err_mA=np.nan,
-        profile_type='cog_predicted',
-        chi2=np.nan,
-        blend_flag=True,
-        notes='O_Ni_blend; COG_prediction_from_clean_NiI_lines',
+        notes=(f'Ni_blend_subtracted; ni_ew_pred={ni_ew_mA:.3f}_mA; '
+               'forbidden_line; NLTE_flag; method=Allende_Prieto+2001'),
     ))
 
 
@@ -412,7 +456,7 @@ def _integrate_profile(wav: np.ndarray, popt, profile_type: str) -> float:
 
 
 def _ew_error(flux_edges: np.ndarray, ew_mA: float,
-              popt, pcov) -> float:
+              popt, pcov, profile_type: str = 'gaussian') -> float:
     """
     EW uncertainty = fitting error ⊕ continuum placement error.
     Continuum error: σ_cont × FWHM_fit (line width smeared across continuum scatter).
@@ -421,7 +465,14 @@ def _ew_error(flux_edges: np.ndarray, ew_mA: float,
     if popt is None or pcov is None or not np.all(np.isfinite(pcov)):
         return np.nan
     sigma_cont = float(np.std(flux_edges)) if len(flux_edges) > 2 else 0.01
-    fwhm_A     = float(popt[2]) * 2.355        # popt[2] = sigma in all models
+    if profile_type == 'voigt' and len(popt) == 4:
+        sigma = float(popt[2])
+        gamma = float(popt[3])
+        fg = 2.355 * sigma
+        fl = 2.0 * gamma
+        fwhm_A = 0.5346 * fl + np.sqrt(0.2166 * fl**2 + fg**2)
+    else:
+        fwhm_A = float(popt[2]) * 2.355
     cont_err   = sigma_cont * fwhm_A * 1000.0  # → mÅ
 
     depth_std  = float(np.sqrt(max(pcov[1, 1], 0.0)))
@@ -525,17 +576,26 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         flux_w = solar_flux[mask]
         flux_r, _ = _local_renorm(wav_w, flux_w, line_wav, window=window)
 
-        # Edge pixels for noise estimate
+        # Edge pixels for noise estimate (always from the full continuum window)
         edge_mask = (wav_w <= line_wav - window + edge_A) | (wav_w >= line_wav + window - edge_A)
         flux_edges = flux_r[edge_mask]
 
+        # Apply narrower profile-fit window if specified (e.g. Ca I 6122 ±0.1 Å)
+        fit_win = _get_profile_fit_window(elem, ion, line_wav, window)
+        if fit_win < window:
+            fm = np.abs(wav_w - line_wav) <= fit_win
+            wav_fit  = wav_w[fm] if fm.sum() >= 5 else wav_w
+            flux_fit = flux_r[fm] if fm.sum() >= 5 else flux_r
+        else:
+            wav_fit, flux_fit = wav_w, flux_r
+
         # ── Fit ───────────────────────────────────────────────────────────────
-        popt, pcov, profile_t, chi2 = _fit_profile(wav_w, flux_r, line_wav)
+        popt, pcov, profile_t, chi2 = _fit_profile(wav_fit, flux_fit, line_wav)
         if popt is None:
             continue
 
-        ew_mA  = _integrate_profile(wav_w, popt, profile_t)
-        ew_err = _ew_error(flux_edges, ew_mA, popt, pcov)
+        ew_mA  = _integrate_profile(wav_fit, popt, profile_t)
+        ew_err = _ew_error(flux_edges, ew_mA, popt, pcov, profile_type=profile_t)
 
         is_sp = _is_special(elem, ion, line_wav)
 
@@ -560,6 +620,8 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
             notes.append('hfs_total_ew')
         if elem == 'Li' and ion == 'I':
             notes.append('CN_blend_possible; upper_limit')
+        if elem == 'O' and ion == 'I' and abs(line_wav - 6363.776) < 0.20:
+            notes.extend(['CN_blend_possible', 'forbidden_line', 'upper_limit'])
         if line_wav < blue_warn:
             notes.append('low_snr_blue_edge')
 
@@ -578,7 +640,10 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
 
     # ── O I 6300 + Ni I COG subtraction (after main loop) ────────────────────
     print(f"  Measuring [O I] 6300 via COG Ni subtraction …")
-    _measure_oi6300(solar_wav, solar_flux, results, lines_df)
+    ew_df_temp  = pd.DataFrame(results)
+    ni_ew_pred  = _predict_ni6300_ew(ew_df_temp, lines_df)
+    print(f"    Ni I 6300.336 predicted EW = {ni_ew_pred:.3f} mÅ  (COG, Allende Prieto+2001)")
+    _measure_oi6300(solar_wav, solar_flux, results, lines_df, ni_ew_pred)
 
     return pd.DataFrame(results)
 
@@ -632,7 +697,7 @@ def _plot_tier1_fe(solar_wav: np.ndarray, solar_flux: np.ndarray,
 
         # Re-fit for plotting curve
         x_fine = np.linspace(wav_w[0], wav_w[-1], 2000)
-        if elem == '[O':
+        if abs(line_wav - 6300.304) < 0.1:
             p2, _, _ = _fit_two_component(wav_w, flux_r)
             if p2 is not None:
                 ax.plot(x_fine, _two_voigt_abs(x_fine, *p2),
@@ -654,6 +719,190 @@ def _plot_tier1_fe(solar_wav: np.ndarray, solar_flux: np.ndarray,
         ax.tick_params(labelsize=7)
         ax.legend(fontsize=6, loc='lower center')
 
+    plt.savefig(out_path, dpi=150, bbox_inches='tight')
+    plt.close()
+    print(f"  Saved → {out_path.name}")
+
+
+# ── O I 6300 diagnostic plot ──────────────────────────────────────────────────
+
+def _plot_oi6300_diagnostic(solar_wav: np.ndarray, solar_flux: np.ndarray,
+                            results: pd.DataFrame, out_path) -> None:
+    """
+    Three-panel diagnostic for [O I] 6300.304 showing the Ni subtraction.
+    Left:   raw spectrum + Ni I model (shaded).
+    Centre: Ni-subtracted spectrum + O I fit.
+    Right:  fit residuals.
+    """
+    import re
+
+    WAV_O  = 6300.304
+    WAV_NI = 6300.336
+    SIGMA  = 0.023
+    win    = LINE_WINDOWS[('O', 'I', WAV_O)]  # 0.15 Å
+
+    mask   = (solar_wav >= WAV_O - win) & (solar_wav <= WAV_O + win)
+    wav_w  = solar_wav[mask]
+    flux_r, _ = _local_renorm(solar_wav[mask], solar_flux[mask], WAV_O, window=win)
+
+    hit = results[
+        (results['element'] == 'O') &
+        (results['ion']     == 'I') &
+        (results['wavelength_air_A'].between(WAV_O - 0.1, WAV_O + 0.1))
+    ]
+    if len(hit) == 0:
+        return
+
+    row       = hit.iloc[0]
+    ew_O      = row['ew_mA']
+    notes_str = str(row.get('notes', ''))
+    m         = re.search(r'ni_ew_pred=([\d.]+)_mA', notes_str)
+    ni_ew     = float(m.group(1)) if m else STAR_SOLAR['ni6300_ew_lit_mA']
+
+    ni_depth  = ni_ew / (SIGMA * np.sqrt(2 * np.pi) * 1000.0)
+    ni_model  = ni_depth * np.exp(-0.5 * ((wav_w - WAV_NI) / SIGMA) ** 2)
+    flux_clean = flux_r + ni_model
+
+    popt, _, pt, chi2 = _fit_profile(wav_w, flux_clean, WAV_O)
+    x_fine = np.linspace(wav_w[0], wav_w[-1], 1000)
+
+    fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+    fig.suptitle(
+        f"[O I] 6300.304 — Ni I 6300.336 subtraction diagnostic\n"
+        f"O I EW = {ew_O:.2f} mÅ  (target ~4.5 mÅ)  |  "
+        f"Ni I predicted = {ni_ew:.3f} mÅ  (Allende Prieto et al. 2001)",
+        fontsize=10,
+    )
+
+    # Left: raw blend + Ni model
+    axes[0].plot(wav_w, flux_r, 'o', color='#4a90d9', ms=3, alpha=0.8, label='Observed')
+    axes[0].fill_between(wav_w, 1.0 - ni_model, 1.0, alpha=0.30,
+                         color='orange', label=f'Ni model ({ni_ew:.3f} mÅ)')
+    axes[0].axvline(WAV_O,  color='purple', lw=0.9, ls='--', alpha=0.7, label='O I 6300.304')
+    axes[0].axvline(WAV_NI, color='orange', lw=0.9, ls='--', alpha=0.7, label='Ni I 6300.336')
+    axes[0].axhline(1.0, color='gray', lw=0.4, ls=':')
+    axes[0].set_title('Raw + Ni model', fontsize=9)
+    axes[0].legend(fontsize=7)
+    axes[0].set_xlabel('Wavelength (Å)', fontsize=9)
+    axes[0].set_ylabel('Renorm. flux', fontsize=9)
+    axes[0].tick_params(labelsize=8)
+
+    # Centre: Ni-subtracted + O I fit
+    axes[1].plot(wav_w, flux_clean, 'o', color='#4a90d9', ms=3, alpha=0.8,
+                 label='Ni-subtracted')
+    if popt is not None:
+        fn = _voigt_abs if pt == 'voigt' else _gauss_abs
+        axes[1].plot(x_fine, fn(x_fine, *popt), '-', color='tomato', lw=1.5,
+                     label=f'O I fit ({ew_O:.2f} mÅ)')
+    axes[1].axvline(WAV_O, color='purple', lw=0.9, ls='--', alpha=0.7)
+    axes[1].axhline(1.0, color='gray', lw=0.4, ls=':')
+    axes[1].set_title(f'Ni-subtracted + O I fit\nEW = {ew_O:.2f} mÅ', fontsize=9)
+    axes[1].legend(fontsize=7)
+    axes[1].set_xlabel('Wavelength (Å)', fontsize=9)
+    axes[1].set_ylabel('Renorm. flux', fontsize=9)
+    axes[1].tick_params(labelsize=8)
+
+    # Right: residuals
+    if popt is not None:
+        fn = _voigt_abs if pt == 'voigt' else _gauss_abs
+        resid = flux_clean - fn(wav_w, *popt)
+        axes[2].plot(wav_w, resid, 'o', color='steelblue', ms=3, alpha=0.8)
+        axes[2].axhline(0.0, color='gray', lw=0.8, ls='--')
+        axes[2].set_title(f'Residuals\nchi²_red = {chi2:.5f}', fontsize=9)
+    else:
+        axes[2].text(0.5, 0.5, 'Fit failed', ha='center', va='center',
+                     transform=axes[2].transAxes)
+        axes[2].set_title('Residuals', fontsize=9)
+    axes[2].set_xlabel('Wavelength (Å)', fontsize=9)
+    axes[2].set_ylabel('Residuals', fontsize=9)
+    axes[2].tick_params(labelsize=8)
+
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=150, bbox_inches='tight')
+    plt.close()
+    print(f"  Saved → {out_path.name}")
+
+
+# ── Ca I 6122 diagnostic plot ─────────────────────────────────────────────────
+
+def _plot_ca6122_diagnostic(solar_wav: np.ndarray, solar_flux: np.ndarray,
+                            results: pd.DataFrame, out_path) -> None:
+    """
+    Two-panel diagnostic for Ca I 6122.217 showing why ±0.1 Å fit window is needed.
+    Left: full ±2.78 Å continuum region with anchor strips highlighted.
+    Right: ±0.40 Å zoom showing the fitted profile vs ±0.1 Å fit boundary.
+    """
+    line_wav  = 6122.217
+    cont_win  = LINE_WINDOWS[('Ca', 'I', line_wav)]   # 2.78 Å
+    fit_win   = LINE_FIT_WINDOWS[('Ca', 'I', line_wav)]  # 0.10 Å
+    edge_A    = cont_win * PIPELINE['cont_edge_frac']
+
+    cont_mask = ((solar_wav >= line_wav - cont_win) &
+                 (solar_wav <= line_wav + cont_win))
+    wav_c   = solar_wav[cont_mask]
+    flux_c  = solar_flux[cont_mask]
+    flux_r, _ = _local_renorm(wav_c, flux_c, line_wav, window=cont_win)
+
+    # Profile fit on narrow window
+    fm = np.abs(wav_c - line_wav) <= fit_win
+    wav_fit  = wav_c[fm] if fm.sum() >= 5 else wav_c
+    flux_fit = flux_r[fm] if fm.sum() >= 5 else flux_r
+    popt, _, pt, chi2 = _fit_profile(wav_fit, flux_fit, line_wav)
+
+    hit = results[
+        (results['element'] == 'Ca') &
+        (results['ion']     == 'I') &
+        (results['wavelength_air_A'].between(line_wav - 0.2, line_wav + 0.2))
+    ]
+    ew_str = f"EW = {hit.iloc[0]['ew_mA']:.1f} mÅ" if len(hit) > 0 else 'not measured'
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+    fig.suptitle(
+        f"Ca I 6122.217 Å — continuum window ±{cont_win} Å, fit window ±{fit_win} Å\n"
+        f"{ew_str}  |  profile={pt}  chi²={chi2:.4f}" if popt is not None
+        else f"Ca I 6122.217 Å — continuum window ±{cont_win} Å, fit window ±{fit_win} Å",
+        fontsize=10,
+    )
+
+    # Left: full continuum region
+    left_anc  = wav_c <= line_wav - cont_win + edge_A
+    right_anc = wav_c >= line_wav + cont_win - edge_A
+    ax1.plot(wav_c, flux_r, 'o', color='#4a90d9', ms=1.5, alpha=0.6, label='Observed')
+    ax1.plot(wav_c[left_anc],  flux_r[left_anc],  's', color='green',  ms=3, alpha=0.8,
+             label='Continuum anchors')
+    ax1.plot(wav_c[right_anc], flux_r[right_anc], 's', color='green',  ms=3, alpha=0.8)
+    ax1.axvline(line_wav, color='gray', lw=0.8, ls='--', alpha=0.6, label='Ca I 6122')
+    ax1.axvspan(line_wav - fit_win, line_wav + fit_win, alpha=0.12,
+                color='tomato', label=f'Fit window ±{fit_win} Å')
+    ax1.axhline(1.0, color='gray', lw=0.5, ls=':', alpha=0.5)
+    ax1.set_xlabel('Wavelength (Å)', fontsize=9)
+    ax1.set_ylabel('Renorm. flux', fontsize=9)
+    ax1.set_title('Full continuum region', fontsize=9)
+    ax1.legend(fontsize=7, loc='lower right')
+    ax1.tick_params(labelsize=8)
+
+    # Right: zoom on fit window
+    zoom = 0.40
+    zoom_mask = np.abs(wav_c - line_wav) <= zoom
+    ax2.plot(wav_c[zoom_mask], flux_r[zoom_mask], 'o', color='#4a90d9',
+             ms=2.5, alpha=0.8, label='Observed')
+    if popt is not None:
+        x_fine = np.linspace(line_wav - fit_win, line_wav + fit_win, 1000)
+        fn = _voigt_abs if pt == 'voigt' else _gauss_abs
+        ax2.plot(x_fine, fn(x_fine, *popt), '-', color='tomato', lw=1.5,
+                 label=f"{'Voigt' if pt=='voigt' else 'Gauss'} fit")
+    ax2.axvline(line_wav, color='gray', lw=0.8, ls='--', alpha=0.6)
+    ax2.axvspan(line_wav - fit_win, line_wav + fit_win, alpha=0.12,
+                color='tomato', label=f'Fit ±{fit_win} Å')
+    ax2.axhline(1.0, color='gray', lw=0.5, ls=':', alpha=0.5)
+    ax2.set_xlim(line_wav - zoom, line_wav + zoom)
+    ax2.set_xlabel('Wavelength (Å)', fontsize=9)
+    ax2.set_ylabel('Renorm. flux', fontsize=9)
+    ax2.set_title(f'Fit zoom  |  {ew_str}', fontsize=9)
+    ax2.legend(fontsize=7, loc='lower right')
+    ax2.tick_params(labelsize=8)
+
+    plt.tight_layout()
     plt.savefig(out_path, dpi=150, bbox_inches='tight')
     plt.close()
     print(f"  Saved → {out_path.name}")
@@ -731,9 +980,15 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
     print(f"\n  Saved → {out_csv.name}  ({len(results)} rows)")
 
     # ── Diagnostic plot ───────────────────────────────────────────────────────
-    print(f"\n[5/5] Generating diagnostic plot")
+    print(f"\n[5/5] Generating diagnostic plots")
     out_plot.parent.mkdir(parents=True, exist_ok=True)
     _plot_tier1_fe(solar_wav, solar_flux, results, out_plot)
+
+    out_oi_plot = out_plot.parent / 'solar_oi6300_diagnostic.png'
+    _plot_oi6300_diagnostic(solar_wav, solar_flux, results, out_oi_plot)
+
+    out_ca_plot = out_plot.parent / 'solar_ca6122_diagnostic.png'
+    _plot_ca6122_diagnostic(solar_wav, solar_flux, results, out_ca_plot)
 
     print(f"\n✓  lines_fit complete.")
     return results
