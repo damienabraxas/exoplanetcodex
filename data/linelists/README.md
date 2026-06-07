@@ -13,6 +13,14 @@ Raw VALD3 long-format output for 55 Cancri A stellar parameters.
 - Lines extracted: 125,615 (includes HFS components for Ba, Eu, Li, Mn)
 - Retrieved: 2026-05-30
 
+### `vald_55cnc_nir_raw.txt`
+Raw VALD3 long-format output for 55 Cancri A stellar parameters, NIR extension.
+- Source: VALD3 Extract Stellar (vald.astro.uu.se) — request RyanSchmitt.019389
+- Teff: 5196 K · log g: 4.41 · Vmicro: 0.9 km/s (same as `vald_55cnc_raw.txt`)
+- Wavelength range: 5000–30000 Å
+- Lines extracted: 21,312 — not truncated (019387 covering 1150–30000 Å hit the 100K cap)
+- Retrieved: 2026-06-07
+
 ### `vald_solar_raw.txt`
 Raw VALD3 long-format output for solar parameters (Teff 5777 K, log g 4.44, Vmicro 1.0 km/s).
 Used for solar calibration EW measurements. Same threshold and format as vald_55cnc_raw.txt.
@@ -23,6 +31,14 @@ Processed master line list for 55 Cnc A. 125,617 rows.
 Built from `vald_55cnc_raw.txt` by `scripts/build_linelist.py`. Priority is assigned from
 `data/config/elements_master.json` (27 target elements). Two NIST-only science lines (O I,
 Ni I) are injected unconditionally for the O I/Ni I 6300 Å blend analysis.
+
+### `linelist_full.csv`
+Extended line list for 55 Cnc A covering optical + NIR. 140,483 rows.
+
+Built from `vald_55cnc_raw.txt` (3780–6910 Å) merged with `vald_55cnc_nir_raw.txt`
+(6910–30000 Å) via `scripts/build_linelist.py --vald2`. Same schema as `linelist_master.csv`.
+Covers 3780.038–29994.710 Å; 97,899 target-element lines (27 elements, 74 species total).
+UV extension (1150–3780 Å) pending a separate VALD request.
 
 ### `linelist_solar.csv`
 Same schema as `linelist_master.csv`, built from `vald_solar_raw.txt` at solar parameters.
@@ -66,22 +82,39 @@ See `tests/test_linelist_loader.py` for usage examples.
 
 ## Rebuilding the line lists
 
-`linelist_master.csv` and `linelist_solar.csv` are produced by `scripts/build_linelist.py`.
-Run from the repo root whenever the VALD3 extract or element targets change:
+`linelist_master.csv`, `linelist_solar.csv`, and `linelist_full.csv` are produced by
+`scripts/build_linelist.py`. Run from the repo root whenever the VALD3 extract or element
+targets change:
 
 ```bash
-# 55 Cnc A
-python scripts/build_linelist.py \
+# 55 Cnc A optical only (HARPS range)
+python3 scripts/build_linelist.py \
     --star 55cnc \
     --vald data/linelists/vald_55cnc_raw.txt \
     --qa
 
 # Solar calibration
-python scripts/build_linelist.py \
+python3 scripts/build_linelist.py \
     --star solar \
     --vald data/linelists/vald_solar_raw.txt \
     --out data/linelists/linelist_solar.csv \
     --qa
+
+# 55 Cnc A full range (optical + NIR, 3780–30000 Å)
+python3 scripts/build_linelist.py \
+    --vald  data/linelists/vald_55cnc_raw.txt \
+    --vald2 data/linelists/vald_55cnc_nir_raw.txt \
+    --vald2-min-wave 6910.0 \
+    --out   data/linelists/linelist_full.csv \
+    --qa
+
+# When UV extract arrives (1150–3780 Å), extend to full range:
+# python3 scripts/build_linelist.py \
+#     --vald  data/linelists/vald_55cnc_uv_raw.txt \
+#     --vald2 data/linelists/vald_55cnc_nir_raw.txt \
+#     --vald2-min-wave 3780.0 \
+#     --out   data/linelists/linelist_full.csv \
+#     --qa
 ```
 
 Inputs consumed:

@@ -2,22 +2,25 @@
 """
 scripts/build_linelist.py
 =========================
-Build linelist_master.csv from a VALD3 long-format extract.
+Build linelist_master.csv from one or two VALD3 long-format extracts.
 
 Usage
 -----
+    # Optical only (default)
     python scripts/build_linelist.py \\
         --star 55cnc \\
         --vald data/linelists/vald_55cnc_raw.txt
 
-    # With explicit overrides
+    # Optical + NIR merged (3780–30000 Å)
     python scripts/build_linelist.py \\
-        --star 55cnc \\
-        --vald data/linelists/vald_55cnc_raw.txt \\
-        --nist data/linelists/nist_crosscheck.csv \\
-        --elements data/config/elements_master.json \\
-        --out data/linelists/linelist_master.csv \\
-        --min-depth 0.0
+        --vald  data/linelists/vald_55cnc_raw.txt \\
+        --vald2 data/linelists/vald_55cnc_nir_raw.txt \\
+        --vald2-min-wave 6910.0 \\
+        --out   data/linelists/linelist_full.csv \\
+        --qa
+
+    --vald2-min-wave: only lines at or above this wavelength are taken from
+    the secondary file, preventing overlap with the primary extract.
 
 Output schema matches data/linelists/README.md column spec.
 NIST-only science lines (depth < 1% threshold) are injected regardless of
@@ -280,20 +283,25 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument('--star',      default='55cnc',
+    parser.add_argument('--star',           default='55cnc',
                         help='Star identifier (default: 55cnc)')
-    parser.add_argument('--vald',      default='data/linelists/vald_55cnc_raw.txt',
-                        help='VALD3 long-format input file')
-    parser.add_argument('--nist',      default='data/linelists/nist_crosscheck.csv',
+    parser.add_argument('--vald',           default='data/linelists/vald_55cnc_raw.txt',
+                        help='Primary VALD3 long-format input file')
+    parser.add_argument('--vald2',          default=None,
+                        help='Optional secondary VALD3 file (e.g. NIR extract)')
+    parser.add_argument('--vald2-min-wave', type=float, default=6910.0,
+                        help='Only take lines >= this wavelength (Å) from --vald2 '
+                             'to avoid overlap with primary extract (default: 6910.0)')
+    parser.add_argument('--nist',           default='data/linelists/nist_crosscheck.csv',
                         help='NIST crosscheck CSV for grade assignment')
-    parser.add_argument('--elements',  default='data/config/elements_master.json',
+    parser.add_argument('--elements',       default='data/config/elements_master.json',
                         help='Elements master JSON (target element list + priorities)')
-    parser.add_argument('--out',       default='data/linelists/linelist_master.csv',
+    parser.add_argument('--out',            default='data/linelists/linelist_master.csv',
                         help='Output master CSV')
-    parser.add_argument('--min-depth', type=float, default=0.0,
+    parser.add_argument('--min-depth',      type=float, default=0.0,
                         help='Drop VALD lines with central_depth below this threshold '
                              '(NIST-injected lines are always kept; default: 0.0 = keep all)')
-    parser.add_argument('--qa',        action='store_true',
+    parser.add_argument('--qa',             action='store_true',
                         help='Print QA summary after build')
     args = parser.parse_args()
 
@@ -302,37 +310,50 @@ def main():
     elements_path = ROOT / args.elements
     out_path      = ROOT / args.out
 
-    # ── Parse ────────────────────────────────────────────────────────────────
-    print(f"[1/6] Parsing VALD3: {vald_path.name}")
+    # ── Parse primary VALD ───────────────────────────────────────────────────
+    print(f"[1/7] Parsing primary VALD3: {vald_path.name}")
     raw = parse_vald(vald_path)
     print(f"      {len(raw):,} transitions parsed")
 
+    # ── Parse secondary VALD (NIR extension) ────────────────────────────────
+    if args.vald2:
+        vald2_path = ROOT / args.vald2
+        print(f"[2/7] Parsing secondary VALD3: {vald2_path.name}  "
+              f"(min wave {args.vald2_min_wave:.0f} Å)")
+        raw2 = parse_vald(vald2_path)
+        raw2_filtered = [r for r in raw2 if r['wavelength_air_A'] >= args.vald2_min_wave]
+        print(f"      {len(raw2):,} parsed → {len(raw2_filtered):,} kept (>= {args.vald2_min_wave:.0f} Å)")
+        raw.extend(raw2_filtered)
+        print(f"      combined: {len(raw):,} transitions")
+    else:
+        print(f"[2/7] No secondary VALD file")
+
     # ── Load element targets ─────────────────────────────────────────────────
-    print(f"[2/6] Loading elements: {elements_path.name}")
+    print(f"[3/7] Loading elements: {elements_path.name}")
     elements = load_elements(elements_path)
     print(f"      {len(elements)} target elements")
 
     # ── Filter to target elements ────────────────────────────────────────────
-    print(f"[3/6] Filtering to target elements")
+    print(f"[4/7] Filtering to target elements")
     lines = filter_and_assign(raw, elements)
     n_target = sum(1 for r in lines if r['priority'] > 0)
     n_nontarget = len(lines) - n_target
     print(f"      {n_target:,} target-element lines (priority assigned); {n_nontarget} non-target kept for blend coverage")
 
     # ── Flag blends ──────────────────────────────────────────────────────────
-    print(f"[4/6] Flagging blends (threshold: 0.10 Å)")
+    print(f"[5/7] Flagging blends (threshold: 0.10 Å)")
     lines = flag_blends(lines)
     n_blends = sum(1 for r in lines if r['blend_flag'])
     print(f"      {n_blends:,} blend flags set")
 
     # ── Apply NIST grades ────────────────────────────────────────────────────
-    print(f"[5/6] Applying NIST grades from: {nist_path.name}")
+    print(f"[6/7] Applying NIST grades from: {nist_path.name}")
     lines = crosscheck_nist(lines, nist_path)
     n_graded = sum(1 for r in lines if r['nist_grade'])
     print(f"      {n_graded} lines graded")
 
     # ── Inject NIST-only science lines ───────────────────────────────────────
-    print(f"[5/6] Injecting NIST-only science lines")
+    print(f"[6/7] Injecting NIST-only science lines")
     lines, n_injected = inject_nist_lines(lines)
     print(f"      {n_injected} lines injected (O I, Ni I, C I, P I x2)")
 
@@ -341,10 +362,10 @@ def main():
         n_before = len(lines)
         lines = [r for r in lines
                  if r['central_depth'] >= args.min_depth or r['loggf_source'] == 'NIST']
-        print(f"[6/6] Depth filter (>= {args.min_depth}): "
+        print(f"[7/7] Depth filter (>= {args.min_depth}): "
               f"{n_before - len(lines):,} lines removed, {len(lines):,} kept")
     else:
-        print(f"[6/6] No depth filter applied")
+        print(f"[7/7] No depth filter applied")
 
     # ── Write ────────────────────────────────────────────────────────────────
     write_master(lines, out_path)
