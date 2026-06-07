@@ -438,6 +438,50 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     return params, results_df
 
 
+# ── Solar EW loader (hybrid Fe I GES + Fe II lines_fit) ──────────────────────
+
+def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
+    """
+    Load solar EWs for abundance derivation using a hybrid approach:
+      - Fe I:  GES pre-stored EWs (solar_ew_ges_reference.csv) — avoids NLTE EW bias
+      - Fe II: lines_fit.py measured EWs (solar_ew.csv) — Fe II not NLTE-affected
+      - Other: lines_fit.py measured EWs (solar_ew.csv)
+
+    If ew_override is provided, use that file directly (bypasses hybrid logic).
+    If solar_ew_ges_reference.csv is missing, falls back to solar_ew.csv for all elements.
+    """
+    if ew_override:
+        ew_df = pd.read_csv(ew_override)
+        ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
+        print(f"  EW override: {ew_override} ({len(ew_df)} lines)")
+        return ew_df
+
+    solar_ew = pd.read_csv(str(PATHS['solar_ew']))
+    solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
+    print(f"  solar_ew.csv: {len(solar_ew)} lines total")
+
+    ges_ref_path = Path(str(PATHS['solar_ew'])).parent / 'solar_ew_ges_reference.csv'
+    try:
+        ges_fe1 = pd.read_csv(str(ges_ref_path))
+        ges_fe1 = ges_fe1[
+            (ges_fe1['element'] == 'Fe') & (ges_fe1['ion'] == 'I') &
+            (ges_fe1['ew_mA'] > 0)
+        ].copy()
+        print(f"  GES Fe I reference: {len(ges_fe1)} lines")
+
+        non_fe1 = solar_ew[~((solar_ew['element'] == 'Fe') & (solar_ew['ion'] == 'I'))]
+        fe2_count = int(((non_fe1['element'] == 'Fe') & (non_fe1['ion'] == 'II')).sum())
+        hybrid = pd.concat([ges_fe1, non_fe1], ignore_index=True)
+        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (lines_fit) "
+              f"+ {len(non_fe1) - fe2_count} other elements")
+        return hybrid
+
+    except FileNotFoundError:
+        print(f"  WARNING: GES Fe I reference not found at {ges_ref_path} — "
+              f"falling back to solar_ew.csv for all elements")
+        return solar_ew
+
+
 # ── Legacy COG (DO NOT USE for science) ──────────────────────────────────────
 
 def _derive_abundances_cog_legacy(*args, **kwargs):
@@ -491,23 +535,20 @@ def run(star_id: str = 'solar',
           f"vturb={params['vturb_kms']} km/s")
 
     # ── Load EW table ─────────────────────────────────────────────
-    if ew_override:
-        ew_path = ew_override
-        print(f"  EW override: using {ew_override}")
-    elif 'solar' in star_id.lower():
-        ew_path = PATHS['solar_ew']
+    if 'solar' in star_id.lower():
+        print(f"[2/4] Loading solar EWs (hybrid: GES Fe I + lines_fit Fe II)...")
+        ew_df = _load_solar_ews(ew_override=ew_override)
+        print(f"  Total: {len(ew_df)} EW measurements")
     else:
         ew_path = PATHS.get(f'{star_id}_ew',
                              Path(str(PATHS['solar_ew'])).parent / f'{star_id}_ew.csv')
-
-    if not Path(str(ew_path)).exists():
-        raise FileNotFoundError(
-            f"EW table not found: {ew_path}\nRun pipeline/lines_fit.py first."
-        )
-
-    ew_df = pd.read_csv(ew_path)
-    ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
-    print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
+        if not Path(str(ew_path)).exists():
+            raise FileNotFoundError(
+                f"EW table not found: {ew_path}\nRun pipeline/lines_fit.py first."
+            )
+        ew_df = pd.read_csv(str(ew_path))
+        ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
+        print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
@@ -522,7 +563,7 @@ def run(star_id: str = 'solar',
 
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
-    out_path = Path(str(ew_path)).parent / f'{star_id}_abundances.csv'
+    out_path = Path(str(PATHS['solar_ew'])).parent / f'{star_id}_abundances.csv'
     results.to_csv(out_path, index=False)
     print(f"  Saved → {out_path.name}  ({len(results)} elements, "
           f"{results['n_lines'].sum()} total lines)")
