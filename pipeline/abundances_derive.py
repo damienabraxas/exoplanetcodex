@@ -580,6 +580,24 @@ def run(star_id: str = 'solar',
           f"logg={converged_params['logg']:.2f}  "
           f"vturb={converged_params['vturb_kms']:.2f} km/s")
 
+    # ── NLTE corrections (RYA-165) ────────────────────────────────
+    try:
+        from pipeline.nlte_corrections import apply_fe_nlte_corrections
+        stellar_params_for_nlte = {
+            'teff_K'   : converged_params.get('teff_K',    5777),
+            'logg'     : converged_params.get('logg',      4.44),
+            'feh'      : converged_params.get('feh',        0.0),
+            'vturb_kms': converged_params.get('vturb_kms',  1.0),
+        }
+        results = apply_fe_nlte_corrections(
+            results, stellar_params_for_nlte, line_df=ew_df
+        )
+        print(f"  NLTE corrections applied to Fe I/II (Amarsi+2022)")
+    except FileNotFoundError as e:
+        print(f"  WARNING: NLTE grid not found — running 1D LTE only: {e}")
+    except Exception as e:
+        print(f"  WARNING: NLTE correction failed — running 1D LTE only: {e}")
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
     out_path = Path(str(PATHS['solar_ew'])).parent / f'{star_id}_abundances.csv'
@@ -590,10 +608,31 @@ def run(star_id: str = 'solar',
     # ── Solar calibration gate ────────────────────────────────────
     fe = results[results['element'] == 'Fe']
     if len(fe) > 0:
-        a_fe = float(fe['A_X'].mean())
-        delta = a_fe - 7.46
-        gate = '✓ PASS' if abs(delta) <= 0.05 else '✗ FAIL'
-        print(f"\n  A(Fe)☉ = {a_fe:.3f}  (target 7.46 ± 0.05)  {gate}")
+        for _, fe_row in fe.iterrows():
+            ion_lbl = fe_row['ion']
+            a_1d    = float(fe_row['A_X'])
+            n_lines = int(fe_row.get('n_lines', 0))
+            scatter = float(fe_row.get('A_X_std', np.nan))
+            nlte_ok = 'A_X_nlte' in fe_row and not np.isnan(float(fe_row['A_X_nlte']))
+            a_nlte  = float(fe_row['A_X_nlte']) if nlte_ok else a_1d
+            d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
+            n_nlte  = int(fe_row.get('n_nlte_lines', 0))
+            flag    = str(fe_row.get('nlte_flag', '1D_LTE'))
+            tgt_lo, tgt_hi = 7.41, 7.51
+            ab_pass = tgt_lo <= a_nlte <= tgt_hi
+            sc_pass = np.isfinite(scatter) and scatter < 0.12
+            nl_min  = 20 if ion_lbl == 'I' else 3
+            print(f"\n  Fe {ion_lbl}  1D LTE  = {a_1d:.3f}")
+            if np.isfinite(d_nlte):
+                print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
+            print(f"  A(Fe {ion_lbl}) NLTE    = {a_nlte:.3f}  -> {'PASS' if ab_pass else 'FAIL'} (gate {tgt_lo}-{tgt_hi})")
+            if np.isfinite(scatter):
+                print(f"  A(Fe {ion_lbl}) scatter = {scatter:.3f}        -> {'PASS' if sc_pass else 'FAIL'} (gate <0.12 dex)")
+            print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
+            print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
+        vmic_val = converged_params.get('vturb_kms', np.nan)
+        vmic_pass = 0.80 <= vmic_val <= 1.20 if np.isfinite(vmic_val) else False
+        print(f"  vmic             = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
 
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
