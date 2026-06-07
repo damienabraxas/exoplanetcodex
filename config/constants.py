@@ -65,7 +65,9 @@ SOLAR_ASPLUND2021 = {
     'Fe' :  7.46,   # NOTE: was 7.50 in Lodders 2003 used in 2010 thesis
     'Co' :  4.94,
     'Ni' :  6.20,
+    'Cu' :  4.18,   # Asplund et al. 2021, Table 2 — added RYA-201
     'Ba' :  2.27,
+    'Sr' :  2.83,   # Asplund et al. 2021, Table 2 — added RYA-201
     'Y'  :  2.21,
     'Zr' :  2.59,
     'Eu' :  0.52,
@@ -241,7 +243,7 @@ MODEL = {
 _REQUIRED_KEYS = {
     'PHYSICS'          : ['c_kms', 'c_ms', 'h_eV', 'k_eV', 'k_cgs', 'sigma_sb', 'G_cgs', 'amu_g'],
     'ASTRO'            : ['Msun_g', 'Rsun_cm', 'Lsun_erg', 'Teff_sun', 'logg_sun', 'pc_cm', 'AU_cm'],
-    'SOLAR_ASPLUND2021': ['H', 'C', 'N', 'O', 'Na', 'Mg', 'Al', 'Si', 'Ca', 'Fe', 'Ni'],
+    'SOLAR_ASPLUND2021': ['H', 'C', 'N', 'O', 'Na', 'Mg', 'Al', 'Si', 'Ca', 'Fe', 'Ni', 'Cu', 'Sr'],
     'STAR_55CNC'       : ['teff_K', 'logg', 'feh', 'vturb_kms', 'rv_kms', 'hd', 'hip'],
     'STAR_SOLAR'       : ['teff_K', 'logg', 'feh', 'vturb_kms', 'rv_kms', 'program_id', 'citation'],
     'PIPELINE'         : ['wav_min_A', 'wav_max_A', 'snr_min_science', 'ew_min_mA', 'ew_max_mA',
