@@ -454,7 +454,8 @@ def _derive_abundances_cog_legacy(*args, **kwargs):
 
 def run(star_id: str = 'solar',
         model_grid: str = 'ATLAS9.Castelli',
-        stellar_params_override: dict = None) -> pd.DataFrame:
+        stellar_params_override: dict = None,
+        ew_override: str = None) -> pd.DataFrame:
     """
     Derive abundances for a star and save results.
 
@@ -464,6 +465,9 @@ def run(star_id: str = 'solar',
     model_grid               : 'ATLAS9.Castelli' (FGK) or 'MARCS.GES' (M dwarfs)
     stellar_params_override  : override dict for uncertainty sensitivity runs (RYA-158)
                                keys: teff_K, logg, feh, vturb_kms
+    ew_override              : path to an EW CSV to use instead of the default
+                               solar_ew.csv (e.g. solar_ew_ges_reference.csv for
+                               GES pre-stored calibration EWs — RYA-196)
 
     Returns
     -------
@@ -487,7 +491,10 @@ def run(star_id: str = 'solar',
           f"vturb={params['vturb_kms']} km/s")
 
     # ── Load EW table ─────────────────────────────────────────────
-    if 'solar' in star_id.lower():
+    if ew_override:
+        ew_path = ew_override
+        print(f"  EW override: using {ew_override}")
+    elif 'solar' in star_id.lower():
         ew_path = PATHS['solar_ew']
     else:
         ew_path = PATHS.get(f'{star_id}_ew',
@@ -531,7 +538,7 @@ def run(star_id: str = 'solar',
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
     print(f"{'='*62}\n")
-    return results
+    return converged_params, results
 
 
 if __name__ == '__main__':
