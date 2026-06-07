@@ -235,17 +235,22 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     linemasks = _build_ispec_line_regions(ew_clean)
 
     # ── Theoretical EW sanity filter ──────────────────────────────────────────
-    # Calibrated COG: log10(EW_mA) = loggf + 2*log10(λ_Å) − EP*θ − 2.2164
-    # Constant −2.2164 = A(Fe)☉ − C_solar = 7.46 − 9.6764, verified exact
-    # against Fe I 6065 anchor (theo=35.2 mÅ, published=35 mÅ, ratio=0.003 dex).
-    # Reject lines where |log10(EW_obs/EW_theo)| > 1.5 dex — these are
-    # blends/misidentifications (e.g. Fe I 5247 with loggf=−4.95 gives
-    # EW_theo≈1.6 mÅ but we measure 91.6 mÅ → 1.76 dex → smoking-gun blend).
-    theta_filter = 5040.0 / float(stellar_params['teff_K'])
-    log_ew_theo  = (linemasks['loggf']
-                    + 2.0 * np.log10(np.maximum(linemasks['wave_A'], 1.0))
-                    - linemasks['lower_state_eV'] * theta_filter
-                    - 2.2164)
+    # Use GES synthesis-predicted theoretical_ew when available — this accounts
+    # for saturation and damping on the COG shoulder, unlike the linear COG
+    # approximation which underestimates EW by 3–10× for Fe I lines in the
+    # 50–200 mÅ range typically used for abundance work.
+    # Fall back to linear COG only when theoretical_ew is absent/zero.
+    # Reject lines where |log10(EW_obs / EW_theo)| > 1.5 dex — real blends
+    # (e.g. Fe I 5247 loggf=−4.95: EW_theo≈1.6 mÅ, obs=91.6 mÅ → 1.76 dex).
+    theta_filter      = 5040.0 / float(stellar_params['teff_K'])
+    theo_synth        = linemasks['theoretical_ew']  # from GES synthesis (mÅ)
+    has_theo          = np.asarray(theo_synth, dtype=float) > 0
+    log_ew_theo_cog   = (linemasks['loggf']
+                         + 2.0 * np.log10(np.maximum(linemasks['wave_A'], 1.0))
+                         - linemasks['lower_state_eV'] * theta_filter
+                         - 2.2164)
+    log_ew_theo_synth = np.log10(np.maximum(np.asarray(theo_synth, dtype=float), 1e-6))
+    log_ew_theo       = np.where(has_theo, log_ew_theo_synth, log_ew_theo_cog)
     ew_mA_obs    = linemasks['ew']   # already in mÅ
     log_ew_obs   = np.log10(np.maximum(ew_mA_obs, 1e-6))
     ew_ratio     = log_ew_obs - log_ew_theo
