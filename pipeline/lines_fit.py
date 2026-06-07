@@ -127,12 +127,16 @@ def _get_profile_fit_window(elem: str, ion: str, line_wav: float,
                             cont_window: float) -> float:
     """
     Return the profile-fit half-window (Å) for this line.
+
     Always ≤ cont_window so the fit never exceeds the continuum extraction region.
+    Lines not in LINE_FIT_WINDOWS use profile_fit_window_A (default 0.15 Å) to
+    avoid capturing neighboring lines in the crowded solar spectrum.  The
+    continuum anchors still use the full cont_window (± 2.0 Å).
     """
     for (e, i, w), fw in LINE_FIT_WINDOWS.items():
         if e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL:
             return min(fw, cont_window)
-    return cont_window
+    return min(PIPELINE['profile_fit_window_A'], cont_window)
 
 
 # Elements requiring NLTE note in output
@@ -178,6 +182,12 @@ def _two_voigt_abs(x, x01, d1, s1, g1, x02, d2, s2, g2):
 
 # ── Local continuum re-normalisation ─────────────────────────────────────────
 
+_RENORM_MIN_ANCHOR_FLUX = 0.97  # Skip renorm if both anchor peaks are below this.
+                                # In crowded regions no true continuum pixels exist,
+                                # so the linear fit underestimates the continuum
+                                # and artificially depresses fitted line depths.
+
+
 def _local_renorm(wav: np.ndarray, flux: np.ndarray,
                   line_wav: float, window: float = None) -> tuple:
     """
@@ -190,6 +200,10 @@ def _local_renorm(wav: np.ndarray, flux: np.ndarray,
     cont_anchor_percentile (e.g. 80): pixels above this percentile in each
       anchor strip are used for the polyfit — they represent the continuum
       peaks between absorption lines rather than the line cores.
+
+    If neither anchor strip reaches _RENORM_MIN_ANCHOR_FLUX (i.e., the
+    spectrum is too crowded for a reliable local continuum estimate), the
+    spectrum is returned unchanged — trusting the global normalization.
     """
     if window is None:
         window = PIPELINE['fit_window_A']
@@ -200,6 +214,13 @@ def _local_renorm(wav: np.ndarray, flux: np.ndarray,
     right = (wav >= line_wav + window - edge_A) & (wav <= line_wav + window)
 
     if left.sum() < 3 or right.sum() < 3:
+        return flux, np.ones_like(flux)
+
+    # If either anchor strip is heavily blanketed (no clear continuum pixels),
+    # a reliable linear tilt correction is not possible.  Return unchanged —
+    # the asymmetric anchor causes a worse systematic than no correction at all.
+    if (np.max(flux[left]) < _RENORM_MIN_ANCHOR_FLUX or
+            np.max(flux[right]) < _RENORM_MIN_ANCHOR_FLUX):
         return flux, np.ones_like(flux)
 
     # Filter each anchor strip to the top (100-pct)% of flux values — these
@@ -444,7 +465,13 @@ def _measure_oi6300(solar_wav: np.ndarray, solar_flux: np.ndarray,
 # ── EW calculation ────────────────────────────────────────────────────────────
 
 def _integrate_profile(wav: np.ndarray, popt, profile_type: str) -> float:
-    """Numerically integrate (1 – model) over the window → EW in mÅ."""
+    """Numerically integrate (1 – model) over the window → EW in mÅ.
+
+    EW integration uses the fitted parametric model (Voigt or Gaussian),
+    not the raw flux.  Session 3 (RYA-175) tried direct trapz on global flux
+    (−0.009 dex bias vs iSpec) but shifted the absolute EW zero-point,
+    moving the Fe I equilibrium to A(Fe)=7.51.  Reverted in RYA-194.
+    """
     x = np.linspace(wav[0], wav[-1], 5000)
     if profile_type == 'voigt':
         y = _voigt_abs(x, *popt)
@@ -452,7 +479,7 @@ def _integrate_profile(wav: np.ndarray, popt, profile_type: str) -> float:
         y = _gauss_abs(x, *popt)
     else:
         return np.nan
-    return float(np.trapz(np.clip(1.0 - y, 0.0, None), x)) * 1000.0  # → mÅ
+    return float(np.trapezoid(np.clip(1.0 - y, 0.0, None), x)) * 1000.0  # → mÅ
 
 
 def _ew_error(flux_edges: np.ndarray, ew_mA: float,
