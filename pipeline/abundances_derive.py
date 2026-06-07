@@ -46,7 +46,7 @@ import pandas as pd
 from pathlib import Path
 
 from config.constants import (
-    PATHS, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC,
+    PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
 )
 
@@ -225,12 +225,22 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     """
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
 
-    # Pre-filter: unblended lines with reliable EW range before injection.
-    # Large or blended EWs produce spurious slopes in the GES synth regions.
+    # Pre-filter: remove blended lines and out-of-range EWs.
+    # Ceiling uses PIPELINE['ew_max_mA'] (300 mÅ) — NOT the vmic COG cut.
+    # The vmic COG cut (150 mÅ) applies only inside the bisection sample
+    # in _converge_vmic_fe1_only(), not here. (RYA-199)
+    ew_min = float(PIPELINE['ew_min_mA'])   # 5 mÅ
+    ew_max = float(PIPELINE['ew_max_mA'])   # 300 mÅ
     ew_clean = ew_df.copy()
     if 'blend_flag' in ew_clean.columns:
         ew_clean = ew_clean[ew_clean['blend_flag'] == False]
-    ew_clean = ew_clean[(ew_clean['ew_mA'] >= 5) & (ew_clean['ew_mA'] <= 150)]
+    ew_clean = ew_clean[(ew_clean['ew_mA'] >= ew_min) & (ew_clean['ew_mA'] <= ew_max)]
+
+    n_total  = len(ew_df)
+    n_blends = int((ew_df.get('blend_flag', pd.Series(False, index=ew_df.index)) == True).sum())
+    n_ew_cut = n_total - n_blends - len(ew_clean)
+    print(f"  EW pre-filter: {n_total} total → {n_blends} blends removed, "
+          f"{n_ew_cut} outside [{ew_min:.0f},{ew_max:.0f}] mÅ → {len(ew_clean)} clean")
 
     linemasks = _build_ispec_line_regions(ew_clean)
 
