@@ -400,14 +400,14 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     else:
         print(f"  ⚠ Did not converge within {max_iter} iterations")
 
-    # Build results DataFrame using SOLAR_ASPLUND2021 for [X/H] and [X/Fe]
-    # (iSpec's x_over_h is on its Asplund.2009 scale; we rederive on Asplund.2021)
+    # Build results DataFrame using SOLAR_ASPLUND2021 for [X/H] and [X/Fe].
+    # Two-pass approach to keep both [X/H] and [Fe/H] on the same Asplund 2021
+    # scale — eliminates the prior mixing of Asplund 2009 stellar A(Fe) with
+    # the Asplund 2021 solar reference (RYA-200).
     notes = np.array([str(n) for n in last_linemasks['note']])
-    a_fe_star_09 = float(np.nanmedian(
-        last_spec_abund[notes == 'Fe 1'][np.isfinite(last_spec_abund[notes == 'Fe 1'])]
-    )) if (notes == 'Fe 1').any() else 7.46
 
-    rows = []
+    # Pass 1: compute A(X) and [X/H] for all elements on Asplund 2021 scale
+    rows_pass1 = []
     for note in np.unique(notes):
         mask  = notes == note
         valid = np.isfinite(last_spec_abund[mask])
@@ -417,22 +417,31 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         elem  = parts[0]
         ion   = 'I' if parts[1] == '1' else 'II'
 
-        a_x   = float(np.nanmedian(last_spec_abund[mask][valid]))
-        # [X/H] = A(X)_star – A(X)_solar (Asplund 2021)
+        a_x       = float(np.nanmedian(last_spec_abund[mask][valid]))
         a_x_solar = SOLAR_ASPLUND2021.get(elem, np.nan)
-        xh  = round(a_x - a_x_solar, 3) if np.isfinite(a_x_solar) else np.nan
-        xfe = round(xh  - (a_fe_star_09 - SOLAR_ASPLUND2021.get('Fe', 7.46)), 3) \
-              if np.isfinite(xh) else np.nan
+        xh        = round(a_x - a_x_solar, 3) if np.isfinite(a_x_solar) else np.nan
 
-        rows.append({
+        rows_pass1.append({
             'element': elem, 'ion': ion,
             'A_X'    : round(a_x, 3),
             'A_X_std': round(float(np.nanstd(last_spec_abund[mask][valid])), 3)
                        if valid.sum() > 1 else np.nan,
             'n_lines': int(valid.sum()),
             'XH'     : xh,
-            'XFe'    : xfe,
         })
+
+    # Pass 2: derive [X/Fe] = [X/H]_X - [Fe/H] using Fe I [X/H] from Pass 1.
+    # Both terms are on Asplund 2021 — no scale mixing. Fe I [X/Fe] = 0.000 by construction.
+    fe1_rows = [r for r in rows_pass1 if r['element'] == 'Fe' and r['ion'] == 'I']
+    fe2_rows = [r for r in rows_pass1 if r['element'] == 'Fe' and r['ion'] == 'II']
+    feh_ref  = fe1_rows[0]['XH'] if fe1_rows and np.isfinite(fe1_rows[0]['XH']) \
+               else (fe2_rows[0]['XH'] if fe2_rows and np.isfinite(fe2_rows[0]['XH']) else np.nan)
+
+    rows = []
+    for r in rows_pass1:
+        xfe = round(r['XH'] - feh_ref, 3) if (np.isfinite(r.get('XH', np.nan))
+                                               and np.isfinite(feh_ref)) else np.nan
+        rows.append({**r, 'XFe': xfe})
 
     results_df = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
     return params, results_df
