@@ -159,10 +159,33 @@ def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
+def _apply_aberr_to_line(ion: str, elo: float, eup: float, lggf: float,
+                          a_1dlte_line: float,
+                          teff: float, logg: float, vmic: float) -> float:
+    """
+    Compute converged aberr for a single line using its own 1D LTE abundance
+    as the A(Fe;3N) starting point.  Returns np.nan if out of grid.
+    """
+    afe3n = float(np.clip(a_1dlte_line, _GRID['afe'][0], _GRID['afe'][1]))
+    ab = np.nan
+    for _ in range(3):
+        ab_new = _compute_aberr(ion, elo, eup, lggf, teff, logg, afe3n, vmic)
+        if not np.isfinite(ab_new):
+            break
+        ab = ab_new
+        afe3n_new = float(np.clip(a_1dlte_line + ab, _GRID['afe'][0], _GRID['afe'][1]))
+        if abs(afe3n_new - afe3n) < 0.001:
+            afe3n = afe3n_new
+            break
+        afe3n = afe3n_new
+    return ab
+
+
 def apply_fe_nlte_corrections(
     abundances_df: pd.DataFrame,
     stellar_params: dict,
     line_df: pd.DataFrame = None,
+    per_line_df: pd.DataFrame = None,
     wave_tol: float = 0.15,
 ) -> pd.DataFrame:
     """
@@ -173,17 +196,21 @@ def apply_fe_nlte_corrections(
     abundances_df  : per-element results from abundances_derive.run()
                      must have columns: element, ion, A_X, n_lines
     stellar_params : dict with keys teff_K, logg, feh, vturb_kms
-    line_df        : EW DataFrame (element, ion, wavelength_air_A)
-                     used to look up per-line atomic data; if None,
-                     applies mean correction over all grid Fe lines
-    wave_tol       : wavelength match tolerance in Å (default 0.15)
+    per_line_df    : per-line 1D LTE DataFrame from _iterative_parameter_convergence
+                     (RYA-207). Columns: element, ion, wavelength_air_A, ew_mA,
+                     excitation_potential_eV, eup_eV, log_gf, a_1dlte.
+                     When provided, aberr[i] is applied to each line's individual
+                     a_1dlte[i] and mean/std are recomputed from corrected values.
+    line_df        : EW DataFrame used only when per_line_df is None (legacy path).
+    wave_tol       : wavelength match tolerance in Å for legacy line_df path.
 
     Returns
     -------
     DataFrame with additional columns:
-        delta_nlte_mean : mean aberr across matched lines (dex)
+        delta_nlte_mean : mean aberr across corrected lines (dex)
         n_nlte_lines    : number of lines with valid correction
-        A_X_nlte        : A_X − delta_nlte_mean  (3D NLTE abundance)
+        A_X_nlte        : mean of per-line (a_1dlte[i] + aberr[i])
+        A_X_std_nlte    : std of per-line NLTE abundances (scatter gate input)
         nlte_flag       : '3D_NLTE_Amarsi2022' | 'NLTE_unavailable' | '1D_LTE'
         nlte_ref        : citation string
     """
@@ -197,6 +224,7 @@ def apply_fe_nlte_corrections(
     result['delta_nlte_mean'] = np.nan
     result['n_nlte_lines']    = 0
     result['A_X_nlte']        = np.nan
+    result['A_X_std_nlte']    = np.nan
     result['nlte_flag']       = '1D_LTE'
     result['nlte_ref']        = ''
 
@@ -207,74 +235,109 @@ def apply_fe_nlte_corrections(
 
         ion     = str(row['ion'])
         a_1dlte = float(row['A_X'])
-        afe3n_guess = a_1dlte  # initial guess for iterative convergence
 
-        aberrs = []
+        # ── Per-line path (RYA-207) ───────────────────────────────────────────
+        if per_line_df is not None and not per_line_df.empty:
+            fe_lines = per_line_df[
+                (per_line_df['element'] == 'Fe') & (per_line_df['ion'] == ion)
+            ].copy().reset_index(drop=True)
 
-        # Initial A(Fe;3N) guess: clamp 1D LTE value to grid ceiling [4.5, 7.5]
-        afe3n_start = float(np.clip(a_1dlte, _GRID['afe'][0], _GRID['afe'][1]))
+            if fe_lines.empty:
+                result.at[idx, 'A_X_nlte']  = a_1dlte
+                result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+                continue
 
-        if line_df is not None and not regions.empty:
-            # Per-line corrections using our measured EW wavelengths
-            fe_ew = line_df[
-                (line_df['element'] == 'Fe') & (line_df['ion'] == ion)
-            ]
-            ion_regions = regions[regions['ion'] == ion]
+            fe_lines['aberr']  = np.nan
+            fe_lines['a_nlte'] = fe_lines['a_1dlte']  # default: retain 1D LTE
 
-            for _, lrow in fe_ew.iterrows():
-                wave = float(lrow['wavelength_air_A'])
-                diffs = (ion_regions['wave_A'] - wave).abs()
-                if diffs.empty or diffs.min() > wave_tol:
-                    continue
-                best = ion_regions.loc[diffs.idxmin()]
-                elo   = float(best['elo_eV'])
-                eup   = float(best['eup_eV'])
-                lggf  = float(best['loggf'])
-
-                # Iterate A(Fe;3N) to convergence (2-3 passes)
-                # Convention: A(Fe;NLTE) = A(Fe;1D) + aberr (aberr is A_3D − A_1D)
-                a3n = afe3n_start
-                ab  = np.nan
-                for _ in range(3):
-                    ab_new = _compute_aberr(ion, elo, eup, lggf, teff, logg, a3n, vmic)
-                    if not np.isfinite(ab_new):
-                        break
-                    ab = ab_new
-                    a3n_new = float(np.clip(a_1dlte + ab, _GRID['afe'][0], _GRID['afe'][1]))
-                    if abs(a3n_new - a3n) < 0.001:
-                        a3n = a3n_new
-                        break
-                    a3n = a3n_new
-
-                if np.isfinite(ab):
-                    aberrs.append(ab)
-
-        elif not regions.empty:
-            # Fallback: mean over all grid Fe lines for this ion
-            a3n = afe3n_start
-            ion_regions = regions[regions['ion'] == ion]
-            for _, r in ion_regions.iterrows():
-                ab = _compute_aberr(
-                    ion, float(r['elo_eV']), float(r['eup_eV']), float(r['loggf']),
-                    teff, logg, a3n, vmic
+            for i, lrow in fe_lines.iterrows():
+                ab = _apply_aberr_to_line(
+                    ion,
+                    float(lrow['excitation_potential_eV']),
+                    float(lrow['eup_eV']),
+                    float(lrow['log_gf']),
+                    float(lrow['a_1dlte']),
+                    teff, logg, vmic,
                 )
                 if np.isfinite(ab):
-                    aberrs.append(ab)
+                    fe_lines.at[i, 'aberr']  = ab
+                    fe_lines.at[i, 'a_nlte'] = float(lrow['a_1dlte']) + ab
 
-        if aberrs:
-            mean_delta = float(np.mean(aberrs))
-            n_lines    = len(aberrs)
-            a_nlte = a_1dlte + mean_delta
-            print(f"  Fe {ion}: {n_lines} lines, mean Δ(NLTE) = {mean_delta:+.4f} dex  "
-                  f"A(Fe;1D)={a_1dlte:.3f} → A(Fe;NLTE)={a_nlte:.3f}")
+            n_corrected = int(fe_lines['aberr'].notna().sum())
+            if n_corrected == 0:
+                print(f"  Fe {ion}: no lines in NLTE grid — 1D LTE retained")
+                result.at[idx, 'A_X_nlte']  = a_1dlte
+                result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+                continue
+
+            a_nlte_mean = float(fe_lines['a_nlte'].mean())
+            a_nlte_std  = float(fe_lines['a_nlte'].std()) if len(fe_lines) > 1 else np.nan
+            mean_delta  = float(fe_lines['aberr'].mean(skipna=True))
+
+            # Print first 10 lines as diagnostic table
+            print(f"  Fe {ion} per-line NLTE ({n_corrected}/{len(fe_lines)} corrected):")
+            print(f"    {'wave_A':>9}  {'a_1dlte':>8}  {'aberr':>8}  {'a_nlte':>8}")
+            for _, r in fe_lines.head(10).iterrows():
+                ab_str = f"{r['aberr']:+.4f}" if np.isfinite(r['aberr']) else "  n/a  "
+                print(f"    {r['wavelength_air_A']:9.3f}  {r['a_1dlte']:8.4f}  "
+                      f"{ab_str:>8}  {r['a_nlte']:8.4f}")
+            print(f"  Fe {ion}: mean Δ(NLTE) = {mean_delta:+.4f} dex  "
+                  f"A(Fe;1D)={a_1dlte:.3f} → A(Fe;NLTE)={a_nlte_mean:.3f}  "
+                  f"scatter 1D→NLTE: {row.get('A_X_std', float('nan')):.3f}→{a_nlte_std:.3f}")
+
             result.at[idx, 'delta_nlte_mean'] = round(mean_delta, 4)
-            result.at[idx, 'n_nlte_lines']    = n_lines
-            result.at[idx, 'A_X_nlte']        = round(a_nlte, 3)
+            result.at[idx, 'n_nlte_lines']    = n_corrected
+            result.at[idx, 'A_X_nlte']        = round(a_nlte_mean, 3)
+            result.at[idx, 'A_X_std_nlte']    = round(a_nlte_std, 3) if np.isfinite(a_nlte_std) else np.nan
             result.at[idx, 'nlte_flag']        = '3D_NLTE_Amarsi2022'
             result.at[idx, 'nlte_ref']         = 'Amarsi+2022_A&A_668_A68'
+
+        # ── Legacy mean-field path (no per_line_df) ───────────────────────────
         else:
-            print(f"  Fe {ion}: no lines matched in NLTE grid — 1D LTE retained")
-            result.at[idx, 'A_X_nlte']  = a_1dlte
-            result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+            aberrs      = []
+            afe3n_start = float(np.clip(a_1dlte, _GRID['afe'][0], _GRID['afe'][1]))
+
+            if line_df is not None and not regions.empty:
+                fe_ew = line_df[
+                    (line_df['element'] == 'Fe') & (line_df['ion'] == ion)
+                ]
+                ion_regions = regions[regions['ion'] == ion]
+                for _, lrow in fe_ew.iterrows():
+                    wave = float(lrow['wavelength_air_A'])
+                    diffs = (ion_regions['wave_A'] - wave).abs()
+                    if diffs.empty or diffs.min() > wave_tol:
+                        continue
+                    best = ion_regions.loc[diffs.idxmin()]
+                    ab = _apply_aberr_to_line(
+                        ion, float(best['elo_eV']), float(best['eup_eV']),
+                        float(best['loggf']), a_1dlte, teff, logg, vmic,
+                    )
+                    if np.isfinite(ab):
+                        aberrs.append(ab)
+
+            elif not regions.empty:
+                ion_regions = regions[regions['ion'] == ion]
+                for _, r in ion_regions.iterrows():
+                    ab = _compute_aberr(
+                        ion, float(r['elo_eV']), float(r['eup_eV']),
+                        float(r['loggf']), teff, logg, afe3n_start, vmic,
+                    )
+                    if np.isfinite(ab):
+                        aberrs.append(ab)
+
+            if aberrs:
+                mean_delta = float(np.mean(aberrs))
+                a_nlte     = a_1dlte + mean_delta
+                print(f"  Fe {ion}: {len(aberrs)} lines, mean Δ(NLTE) = {mean_delta:+.4f} dex  "
+                      f"A(Fe;1D)={a_1dlte:.3f} → A(Fe;NLTE)={a_nlte:.3f}")
+                result.at[idx, 'delta_nlte_mean'] = round(mean_delta, 4)
+                result.at[idx, 'n_nlte_lines']    = len(aberrs)
+                result.at[idx, 'A_X_nlte']        = round(a_nlte, 3)
+                result.at[idx, 'nlte_flag']        = '3D_NLTE_Amarsi2022'
+                result.at[idx, 'nlte_ref']         = 'Amarsi+2022_A&A_668_A68'
+            else:
+                print(f"  Fe {ion}: no lines matched in NLTE grid — 1D LTE retained")
+                result.at[idx, 'A_X_nlte']  = a_1dlte
+                result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
 
     return result
