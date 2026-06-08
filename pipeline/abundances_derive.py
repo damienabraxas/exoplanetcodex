@@ -594,6 +594,40 @@ def run(star_id: str = 'solar',
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
+    # ── Enforce authoritative blend_flag from linelist (RYA-208) ──────────────
+    # GES reference EWs may carry blend_flag=False for lines the linelist marks
+    # as blended. Cross-reference here before any line reaches iSpec, covering
+    # both the solar calibration path and science target path.
+    try:
+        _ll = pd.read_csv(
+            str(PATHS['linelist_solar']),
+            usecols=['element', 'ion', 'wavelength_air_A', 'blend_flag'],
+            low_memory=False,
+        )
+        _ll_blends = _ll[_ll['blend_flag'] == True][
+            ['element', 'ion', 'wavelength_air_A']
+        ]
+        if 'blend_flag' not in ew_df.columns:
+            ew_df['blend_flag'] = False
+        _newly = 0
+        for (_elem, _ion), _grp in _ll_blends.groupby(['element', 'ion']):
+            _ei = (ew_df['element'] == _elem) & (ew_df['ion'] == _ion)
+            if not _ei.any():
+                continue
+            _bl_w = _grp['wavelength_air_A'].values
+            _ew_w = ew_df.loc[_ei, 'wavelength_air_A'].values
+            _hit  = np.any(np.abs(_ew_w[:, None] - _bl_w[None, :]) < 0.15, axis=1)
+            _idx  = ew_df.index[_ei][_hit]
+            _new  = ew_df.loc[_idx, 'blend_flag'] == False
+            _new_idx = _idx[_new.values]
+            if len(_new_idx):
+                ew_df.loc[_new_idx, 'blend_flag'] = True
+                _newly += len(_new_idx)
+        if _newly:
+            print(f"  Linelist blend override: {_newly} line(s) corrected to blend_flag=True")
+    except Exception as _e:
+        print(f"  WARNING: linelist blend check failed — {_e}")
+
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
           f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
