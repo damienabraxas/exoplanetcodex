@@ -373,8 +373,19 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         # applied post-convergence. Convergence uses all non-vetted lines;
         # median-based statistics make it robust to the outlier tail.
 
+        # COG cut for vmic slope sample: exclude saturated lines (EW > 150 mÅ).
+        # Lines in the damping regime have REW insensitive to vmic but high
+        # sensitivity to damping parameters — they corrupt the slope and prevent
+        # convergence. Standard practice: Mucciarelli 2011, Sousa et al. 2011.
+        # Full fe1_mask (all Fe I) is still used for A(Fe I) and ionisation balance.
+        _vmic_ew_max = float(PIPELINE['vmic_ew_ceiling_mA'])
+        fe1_slope_mask = fe1_mask & (linemasks['ew'] <= _vmic_ew_max)
+        if iteration == 1:
+            print(f"  vmic slope sample: {int(fe1_slope_mask.sum())}/{int(fe1_mask.sum())} "
+                  f"Fe I lines (EW ≤ {_vmic_ew_max:.0f} mÅ COG cut)")
+
         ep_sl  = _compute_ep_slope(fe1_mask, linemasks, x_over_h)
-        rew_sl = _compute_rew_slope(fe1_mask, linemasks, x_over_h)
+        rew_sl = _compute_rew_slope(fe1_slope_mask, linemasks, x_over_h)
 
         fe1_xh = float(np.nanmedian(x_over_h[fe1_mask & np.isfinite(x_over_h)]))
         fe2_xh = (float(np.nanmedian(x_over_h[fe2_mask & np.isfinite(x_over_h)]))
