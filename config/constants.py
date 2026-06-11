@@ -163,6 +163,9 @@ PIPELINE = {
     'vmic_ew_ceiling_mA': 150.0,  # COG cut for vmic slope sample — lines above this
                                    # are in the damping regime; their REW is insensitive
                                    # to vmic but sensitive to damping params (RYA-226)
+    'vmic_abund_clip_sigma': 2.0,  # σ threshold for per-iteration abundance clip on vmic
+                                   # slope sample. Restores behaviour removed by RYA-220
+                                   # commit c8a23d2. Sousa et al. 2011, Jofré et al. 2014.
     'snr_line_min'      : 5.0,    # Minimum line S/N for reliable EW
 
     # NIST grade policy
