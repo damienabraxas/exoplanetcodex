@@ -160,6 +160,9 @@ PIPELINE = {
     # Line quality thresholds
     'ew_min_mA'         : 5.0,    # Minimum detectable EW (mÅ)
     'ew_max_mA'         : 300.0,  # Maximum EW before saturation concerns
+    'vmic_ew_ceiling_mA': 150.0,  # COG cut for vmic slope sample — lines above this
+                                   # are in the damping regime; their REW is insensitive
+                                   # to vmic but sensitive to damping params (RYA-226)
     'snr_line_min'      : 5.0,    # Minimum line S/N for reliable EW
 
     # NIST grade policy
