@@ -64,13 +64,19 @@ def load_linelist(
 
     # ── Canonical line reliability model ─────────────────────────────
 
-    base_blend = df['blend_flag'].astype(float)
+    # RYA-209: vald_proximity_flag (float 0-1) replaces old proximity-based blend_flag.
+    # blend_flag is now the vetted exclusion flag (mostly False); vald_proximity_flag
+    # is the continuous contamination estimate used in blend_score.
+    if 'vald_proximity_flag' in df.columns:
+        base_blend = df['vald_proximity_flag'].astype(float)
+    else:
+        base_blend = df['blend_flag'].astype(float)
 
     depth_penalty = 0.0
     if 'central_depth' in df.columns:
         depth_penalty = np.clip(df['central_depth'], 0, 1)
 
-    # NEW: unified blend score (0 clean → 1 unreliable)
+    # Unified blend score (0 clean → 1 unreliable)
     df['blend_score'] = np.clip(
         base_blend * 0.7 + depth_penalty * 0.3,
         0.0,
