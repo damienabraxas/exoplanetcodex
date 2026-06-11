@@ -48,6 +48,7 @@ from pathlib import Path
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
+    LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
 )
 
 # ── iSpec bootstrap ───────────────────────────────────────────────────────────
@@ -347,9 +348,6 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     params = stellar_params_init.copy()
     last_linemasks = last_spec_abund = last_xh = last_xfe = None
 
-    MAX_SIGMA_CLIP_ITERATIONS = 3
-    sigma_clip_threshold = 2.0  # σ — catches >0.5 dex outliers in typical solar Fe I distribution
-
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
             params['teff_K'], params['logg'], params['feh'],
@@ -371,48 +369,9 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
             print(f"  Iter {iteration:02d}: only {n_fe1} Fe I lines — stopping early")
             break
 
-        # 2σ abundance sigma clip — INTERIM gate (RYA-208).
-        # Replaces hard proximity-based blend exclusion with outlier detection on merit.
-        # Will be superseded by abundance_outlier_score in RYA-220 quality scoring system.
-        # Document sigma clip as interim in any run report output.
-        fe1_abundances_sc = spec_abund[fe1_mask]
-        fe1_wavs_sc = linemasks['wave_A'][fe1_mask]
-        sc_keep = np.ones(len(fe1_abundances_sc), dtype=bool)
-        median_val = np.median(fe1_abundances_sc)
-
-        for sc_iter in range(MAX_SIGMA_CLIP_ITERATIONS):
-            median_val = np.median(fe1_abundances_sc[sc_keep])
-            std_val = np.std(fe1_abundances_sc[sc_keep])
-            new_keep = np.abs(fe1_abundances_sc - median_val) <= sigma_clip_threshold * std_val
-            n_clipped_sc = sc_keep.sum() - (sc_keep & new_keep).sum()
-            if n_clipped_sc == 0:
-                break
-            print(f"  Sigma clip iter {sc_iter+1}: clipped {n_clipped_sc} line(s) "
-                  f"(threshold {sigma_clip_threshold}σ = {sigma_clip_threshold * std_val:.3f} dex) "
-                  f"[INTERIM gate — RYA-220 will replace]")
-            sc_keep = sc_keep & new_keep
-
-        for ci in range(len(sc_keep)):
-            if not sc_keep[ci]:
-                wl = float(fe1_wavs_sc[ci])
-                a_val = float(fe1_abundances_sc[ci])
-                print(f"  Sigma clipped: Fe I {wl:.3f} Å  A(Fe I)={a_val:.4f} "
-                      f"(delta={abs(a_val - median_val):.3f} dex) [INTERIM]")
-
-        if not sc_keep.all():
-            fe1_indices = np.where(fe1_mask)[0]
-            keep_global = np.ones(len(linemasks), dtype=bool)
-            keep_global[fe1_indices[~sc_keep]] = False
-            linemasks  = linemasks[keep_global]
-            spec_abund = spec_abund[keep_global]
-            x_over_h   = x_over_h[keep_global]
-            x_over_fe  = x_over_fe[keep_global]
-            notes    = np.array([str(n) for n in linemasks['note']])
-            fe1_mask = notes == 'Fe 1'
-            fe2_mask = notes == 'Fe 2'
-            last_linemasks, last_spec_abund, last_xh, last_xfe = (
-                linemasks, spec_abund, x_over_h, x_over_fe
-            )
+        # Sigma clip removed — RYA-220 replaces it with abundance_outlier_score
+        # applied post-convergence. Convergence uses all non-vetted lines;
+        # median-based statistics make it robust to the outlier tail.
 
         ep_sl  = _compute_ep_slope(fe1_mask, linemasks, x_over_h)
         rew_sl = _compute_rew_slope(fe1_mask, linemasks, x_over_h)
@@ -526,6 +485,178 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     per_line_df = pd.DataFrame(per_line_rows) if per_line_rows else pd.DataFrame()
 
     return params, results_df, per_line_df
+
+
+# ── Line quality scoring (RYA-220) ───────────────────────────────────────────
+
+def _compute_line_scores(per_line_df: pd.DataFrame,
+                         ew_df: pd.DataFrame,
+                         results_df: pd.DataFrame = None) -> pd.DataFrame:
+    """
+    Compute per-line quality scores and assign letter grades — RYA-220.
+
+    Adds columns to per_line_df:
+        vald_proximity_flag, ew_snr_score, fit_chi2_score, saturation_score,
+        abundance_outlier_score, nlte_correction_score, line_score, line_grade
+    """
+    W = LINE_SCORE_WEIGHTS
+    P = LINE_SCORE_PARAMS
+    T = LINE_GRADE_THRESHOLDS
+    WAV_TOL = 0.05  # Å — tight match for vetted data
+
+    df = per_line_df.copy().reset_index(drop=True)
+    n  = len(df)
+    if n == 0:
+        return df
+
+    # Precompute lookup tables grouped by (element, ion) for speed
+    ew_by_ei = {k: v.reset_index(drop=True)
+                for k, v in ew_df.groupby(['element', 'ion'])}
+
+    try:
+        ll = pd.read_csv(str(PATHS['linelist_solar']),
+                         usecols=['element', 'ion', 'wavelength_air_A', 'vald_proximity_flag'],
+                         low_memory=False)
+        ll_by_ei = {k: v.reset_index(drop=True) for k, v in ll.groupby(['element', 'ion'])}
+    except Exception as _e:
+        print(f"  WARNING: vald_proximity_flag load failed — {_e}")
+        ll_by_ei = {}
+
+    vpf_arr  = np.full(n, 0.5)
+    snr_arr  = np.full(n, 0.5)
+    chi2_arr = np.full(n, 0.5)
+
+    for i, row in df.iterrows():
+        ei  = (row['element'], row['ion'])
+        wl  = float(row['wavelength_air_A'])
+        ew  = float(row['ew_mA'])
+
+        # vald_proximity_flag
+        if ei in ll_by_ei:
+            grp = ll_by_ei[ei]
+            delta = np.abs(grp['wavelength_air_A'].values - wl)
+            j = int(delta.argmin())
+            if delta[j] < WAV_TOL:
+                vpf_arr[i] = float(grp.iloc[j]['vald_proximity_flag'])
+
+        # ew_snr_score + fit_chi2_score
+        if ei in ew_by_ei:
+            grp = ew_by_ei[ei]
+            delta = np.abs(grp['wavelength_air_A'].values - wl)
+            j = int(delta.argmin())
+            if delta[j] < WAV_TOL:
+                erow = grp.iloc[j]
+                err = float(erow.get('ew_err_mA', np.nan))
+                if np.isfinite(err) and err > 0:
+                    snr_arr[i] = float(min(ew / err / P['snr_saturation'], 1.0))
+                c = float(erow['chi2']) if 'chi2' in erow and not pd.isna(erow['chi2']) else np.nan
+                if np.isfinite(c):
+                    if c <= P['chi2_clean_max']:
+                        chi2_arr[i] = 1.0
+                    else:
+                        chi2_arr[i] = float(max(
+                            0.0, 1.0 - (c - P['chi2_clean_max']) /
+                            (P['chi2_floor'] - P['chi2_clean_max'])
+                        ))
+
+    df['vald_proximity_flag'] = np.round(vpf_arr, 4)
+    df['ew_snr_score']        = np.round(snr_arr,  4)
+    df['fit_chi2_score']      = np.round(chi2_arr, 4)
+
+    # saturation_score
+    lo, hi = P['saturation_ew_low_mA'], P['saturation_ew_high_mA']
+    df['saturation_score'] = np.round(
+        np.clip((df['ew_mA'].values.astype(float) - lo) / (hi - lo), 0.0, 1.0), 4)
+
+    # abundance_outlier_score — uses 1D LTE abundances; robust across all lines
+    a_vals   = df['a_1dlte'].values.astype(float)
+    finite   = np.isfinite(a_vals)
+    if finite.sum() >= 2:
+        med, std = np.median(a_vals[finite]), np.std(a_vals[finite])
+        outlier  = (np.clip(np.abs(a_vals - med) / max(P['outlier_sigma_scale'] * std, 1e-9),
+                            0.0, 1.0) if std > 1e-9 else np.zeros(n))
+        outlier[~finite] = 1.0
+    else:
+        outlier = np.full(n, 0.5)
+    df['abundance_outlier_score'] = np.round(outlier, 4)
+
+    # nlte_correction_score
+    nlte_map = {'3D_NLTE_Amarsi2022': 1.0, '1D_NLTE_mean': 0.5, '1D_LTE': 0.0}
+    nlte_s   = np.zeros(n)
+    if results_df is not None:
+        for i, row in df.iterrows():
+            m = results_df[(results_df['element'] == row['element']) &
+                           (results_df['ion']     == row['ion'])]
+            if not m.empty:
+                nlte_s[i] = nlte_map.get(str(m.iloc[0].get('nlte_flag', '1D_LTE')), 0.0)
+    df['nlte_correction_score'] = np.round(nlte_s, 4)
+
+    # Aggregate line_score
+    df['line_score'] = np.round(
+        (1.0 - df['vald_proximity_flag'])         * W['proximity'] +
+        df['ew_snr_score']                         * W['snr'] +
+        df['fit_chi2_score']                       * W['chi2'] +
+        (1.0 - df['saturation_score'])             * W['saturation'] +
+        (1.0 - df['abundance_outlier_score'])      * W['outlier'] +
+        df['nlte_correction_score']                * W['nlte'],
+        4
+    )
+
+    # line_grade
+    def _grade(s):
+        if s >= T['A']: return 'A'
+        if s >= T['B']: return 'B'
+        if s >= T['C']: return 'C'
+        return 'D'
+    df['line_grade'] = df['line_score'].apply(_grade)
+
+    return df
+
+
+def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compute element_score, element_grade, n_lines_A/B/C/D and A+B weighted abundance.
+    Updates results_df in place and returns it.
+    """
+    T = LINE_GRADE_THRESHOLDS
+    results = results_df.copy()
+
+    for _, row in results.iterrows():
+        elem, ion = row['element'], row['ion']
+        lines = scored_df[(scored_df['element'] == elem) & (scored_df['ion'] == ion)]
+        if lines.empty:
+            continue
+
+        idx = results.index[(results['element'] == elem) & (results['ion'] == ion)][0]
+        gc = lines['line_grade'].value_counts()
+        results.at[idx, 'n_lines_A'] = int(gc.get('A', 0))
+        results.at[idx, 'n_lines_B'] = int(gc.get('B', 0))
+        results.at[idx, 'n_lines_C'] = int(gc.get('C', 0))
+        results.at[idx, 'n_lines_D'] = int(gc.get('D', 0))
+
+        ab_lines = lines[lines['line_grade'].isin(['A', 'B'])]
+        if not ab_lines.empty and ab_lines['line_score'].sum() > 0:
+            el_score = float(np.average(ab_lines['line_score'],
+                                        weights=ab_lines['line_score']))
+            results.at[idx, 'element_score'] = round(el_score, 4)
+
+            def _grade(s):
+                if s >= T['A']: return 'A'
+                if s >= T['B']: return 'B'
+                if s >= T['C']: return 'C'
+                return 'D'
+            results.at[idx, 'element_grade'] = _grade(el_score)
+
+            # A+B weighted mean 1D LTE abundance — NLTE delta applied below
+            a_ab = float(np.average(ab_lines['a_1dlte'], weights=ab_lines['line_score']))
+            delta_nlte = float(row.get('delta_nlte_mean', np.nan))
+            a_ab_nlte  = round(a_ab + delta_nlte, 4) if np.isfinite(delta_nlte) else round(a_ab, 4)
+            a_ab_std = round(float(np.std(ab_lines['a_1dlte'].values.astype(float))), 4)
+            results.at[idx, 'A_X_nlte_AB']  = a_ab_nlte
+            results.at[idx, 'A_X_std_AB']   = a_ab_std
+            results.at[idx, 'n_lines_AB']   = len(ab_lines)
+
+    return results
 
 
 # ── Solar EW loader (hybrid Fe I GES + Fe II lines_fit) ──────────────────────
@@ -702,12 +833,26 @@ def run(star_id: str = 'solar',
     except Exception as e:
         print(f"  WARNING: NLTE correction failed — running 1D LTE only: {e}")
 
+    # ── Line quality scoring (RYA-220) ────────────────────────────
+    print(f"\n  Line quality scoring (RYA-220)...")
+    print(f"  Weights: {LINE_SCORE_WEIGHTS}")
+    scored_df = pd.DataFrame()
+    if not per_line_df.empty:
+        scored_df = _compute_line_scores(per_line_df, ew_df, results_df=results)
+        results   = _element_grade_summary(scored_df, results)
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
-    out_path = Path(str(PATHS['solar_ew'])).parent / f'{star_id}_abundances.csv'
+    out_dir  = Path(str(PATHS['solar_ew'])).parent
+    out_path = out_dir / f'{star_id}_abundances.csv'
     results.to_csv(out_path, index=False)
     print(f"  Saved → {out_path.name}  ({len(results)} elements, "
           f"{results['n_lines'].sum()} total lines)")
+
+    if not scored_df.empty:
+        per_line_out = out_dir / f'{star_id}_per_line.csv'
+        scored_df.to_csv(per_line_out, index=False)
+        print(f"  Saved → {per_line_out.name}  ({len(scored_df)} lines with quality scores)")
 
     # ── Solar calibration gate ────────────────────────────────────
     fe = results[results['element'] == 'Fe']
@@ -737,6 +882,23 @@ def run(star_id: str = 'solar',
                 print(f"  A(Fe {ion_lbl}) {sc_label} = {scatter:.3f}  -> {'PASS' if sc_pass else 'FAIL'} (gate <0.15 dex)")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
+            # Grade summary
+            n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
+            n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
+            el_grade = str(fe_row.get('element_grade', '?'))
+            a_ab = float(fe_row.get('A_X_nlte_AB', np.nan))
+            n_ab = int(fe_row.get('n_lines_AB', 0))
+            print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}"
+                  f"  element_grade={el_grade}")
+            scatter_ab = float(fe_row.get('A_X_std_AB', np.nan))
+            if np.isfinite(a_ab):
+                ab_gate      = tgt_lo <= a_ab <= tgt_hi
+                sc_ab_pass   = np.isfinite(scatter_ab) and scatter_ab < 0.15
+                print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab:.4f}  ({n_ab} lines)"
+                      f"  -> {'PASS' if ab_gate else 'FAIL'} (gate {tgt_lo}-{tgt_hi})")
+                if np.isfinite(scatter_ab):
+                    print(f"  A(Fe {ion_lbl}) scatter A+B = {scatter_ab:.3f}"
+                          f"  -> {'PASS' if sc_ab_pass else 'FAIL'} (gate <0.15 dex)")
         vmic_val = converged_params.get('vturb_kms', np.nan)
         vmic_pass = 0.80 <= vmic_val <= 1.20 if np.isfinite(vmic_val) else False
         print(f"  vmic             = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")

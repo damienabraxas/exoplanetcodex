@@ -46,7 +46,30 @@ import matplotlib.gridspec as gridspec
 from scipy.optimize import curve_fit
 from scipy.special import voigt_profile
 
-from config.constants import PIPELINE, PATHS, STAR_SOLAR, NI6300_COG
+from config.constants import PIPELINE, PATHS, STAR_SOLAR, NI6300_COG, LINE_SCORE_PARAMS
+
+
+def _ew_scores(ew_mA: float, ew_err: float, chi2: float) -> tuple:
+    """Compute ew_snr_score, fit_chi2_score, saturation_score for one line."""
+    P = LINE_SCORE_PARAMS
+    # SNR score
+    if np.isfinite(ew_err) and ew_err > 0:
+        snr_score = float(min(ew_mA / ew_err / P['snr_saturation'], 1.0))
+    else:
+        snr_score = 0.5
+    # Chi2 score
+    if np.isfinite(chi2):
+        if chi2 <= P['chi2_clean_max']:
+            chi2_score = 1.0
+        else:
+            chi2_score = float(max(0.0, 1.0 - (chi2 - P['chi2_clean_max']) /
+                                   (P['chi2_floor'] - P['chi2_clean_max'])))
+    else:
+        chi2_score = 0.5
+    # Saturation score
+    lo, hi = P['saturation_ew_low_mA'], P['saturation_ew_high_mA']
+    sat_score = float(np.clip((ew_mA - lo) / (hi - lo), 0.0, 1.0))
+    return round(snr_score, 4), round(chi2_score, 4), round(sat_score, 4)
 
 
 # ── Special-case line registry ────────────────────────────────────────────────
@@ -429,12 +452,19 @@ def _measure_oi6300(solar_wav: np.ndarray, solar_flux: np.ndarray,
     ew_err    = (_ew_error(flux_r[edge_mask], ew_mA, popt, pcov, profile_type=profile_t)
                  if popt is not None else np.nan)
 
+    _ew_v = float(ew_mA) if not np.isnan(ew_mA) else 0.0
+    _err_v = float(ew_err) if not np.isnan(ew_err) else np.nan
+    _chi_v = float(chi2) if not np.isnan(chi2) else np.nan
+    _snr_s, _chi2_s, _sat_s = _ew_scores(_ew_v, _err_v, _chi_v)
     results.append(dict(
         element='O', ion='I', wavelength_air_A=WAV_O,
         ew_mA=round(float(ew_mA), 2) if not np.isnan(ew_mA) else np.nan,
         ew_err_mA=round(float(ew_err), 2) if not np.isnan(ew_err) else np.nan,
         profile_type=profile_t if popt is not None else 'failed',
         chi2=round(chi2, 4) if not np.isnan(chi2) else np.nan,
+        ew_snr_score=_snr_s,
+        fit_chi2_score=_chi2_s,
+        saturation_score=_sat_s,
         blend_flag=True,
         notes=(f'Ni_blend_subtracted; ni_ew_pred={ni_ew_mA:.3f}_mA; '
                'forbidden_line; NLTE_flag; method=Allende_Prieto+2001'),
@@ -625,6 +655,7 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         if line_wav < blue_warn:
             notes.append('low_snr_blue_edge')
 
+        _snr_s, _chi2_s, _sat_s = _ew_scores(ew_mA, ew_err, chi2)
         results.append(dict(
             element=elem, ion=ion,
             wavelength_air_A=round(line_wav, 5),
@@ -632,6 +663,9 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
             ew_err_mA=round(ew_err, 2) if not np.isnan(ew_err) else np.nan,
             profile_type=profile_t,
             chi2=round(chi2, 4) if not np.isnan(chi2) else np.nan,
+            ew_snr_score=_snr_s,
+            fit_chi2_score=_chi2_s,
+            saturation_score=_sat_s,
             blend_flag=blend,
             notes='; '.join(notes),
         ))
