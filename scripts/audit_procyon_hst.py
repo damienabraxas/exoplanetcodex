@@ -62,7 +62,9 @@ SCIENCE_GRATINGS = [
 ]
 
 # Products to keep (1D extracted spectra only)
-KEEP_SUFFIXES = ['_x1d.fits', '_sx1.fits']
+# _cspec.fits = HASP (HST Advanced Spectral Products) co-added spectra —
+# highest S/N combined product; primary science target for pipeline ingestion.
+KEEP_SUFFIXES = ['_x1d.fits', '_sx1.fits', '_cspec.fits']
 
 # Products to skip (2D, calibration, imaging)
 SKIP_SUFFIXES = [
@@ -72,7 +74,12 @@ SKIP_SUFFIXES = [
 ]
 
 # Expected target name variants in FITS headers
-TARGET_NAMES = ['PROCYON', 'HD61421', 'HD 61421', 'ALPHA CMI', 'ALPHACMI']
+# HRS (Goddard High Resolution Spectrograph, pre-1997) files present in archive.
+# Not included in KEEP_SUFFIXES — different data format, requires separate loader.
+# 24 files detected. Future scope: HRS_AUDIT issue if UV coverage needed pre-1997.
+
+TARGET_NAMES = ['PROCYON', 'HD61421', 'HD 61421', 'HD061421', 'ALPHA CMI', 'ALPHACMI',
+                'ALFCMI', 'ALF CMI']  # * alf CMi = HASP Bayer designation for Procyon
 
 # =============================================================================
 # AUDIT FUNCTIONS
@@ -112,6 +119,21 @@ def get_header_value(h0, h1, key, default='UNKNOWN'):
     return str(val).strip()
 
 
+def opt_elem_from_filename(filename):
+    """
+    Fallback grating extraction for HASP _cspec.fits products.
+
+    HASP single-grating filenames embed the grating in lowercase:
+      hst_12278_stis_hd61421_e140h_obkk_cspec.fits → E140H
+    Multi-grating combined products (e140h-e230h) return 'UNKNOWN'
+    to avoid miscategorisation — they span multiple settings.
+    Returns 'UNKNOWN' if zero or multiple gratings found.
+    """
+    name_lower = filename.lower()
+    matches = [g for g in SCIENCE_GRATINGS if g.lower() in name_lower]
+    return matches[0] if len(matches) == 1 else 'UNKNOWN'
+
+
 def audit_file(filepath):
     """
     Audit a single FITS file. Returns a dict with all relevant metadata.
@@ -146,6 +168,9 @@ def audit_file(filepath):
 
     record['instrume']  = get_header_value(h0, h1, 'INSTRUME')
     record['opt_elem']  = get_header_value(h0, h1, 'OPT_ELEM')
+    # HASP _cspec.fits products store grating in filename, not OPT_ELEM header
+    if record['opt_elem'] == 'UNKNOWN' and filepath.name.endswith('_cspec.fits'):
+        record['opt_elem'] = opt_elem_from_filename(filepath.name)
     record['cenwave']   = get_header_value(h0, h1, 'CENWAVE')
     record['object']    = get_header_value(h0, h1, 'TARGNAME',
                           h0.get('OBJECT', 'UNKNOWN'))
@@ -188,7 +213,8 @@ def audit_file(filepath):
     # Flag issues
     if not record['target_confirmed']:
         record['flags'].append(f"TARGET_MISMATCH: {record['object']}")
-    if record['exptime'] <= 0:
+    # HASP _cspec.fits co-added products don't populate EXPTIME — suppress flag
+    if record['exptime'] <= 0 and not filepath.name.endswith('_cspec.fits'):
         record['flags'].append('ZERO_EXPTIME')
     if record['instrume'] not in ('STIS', 'COS', 'FOS', 'GHRS'):
         record['flags'].append(f"NON_SPECTROSCOPIC: {record['instrume']}")
