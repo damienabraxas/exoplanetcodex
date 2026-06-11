@@ -640,32 +640,37 @@ def run(star_id: str = 'solar',
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
-    # VALD proximity cross-reference removed — RYA-208.
-    # blend_flag in linelist_solar.csv reflects VALD proximity criteria (~88% of Fe I),
-    # not spectroscopic vetting. Hard exclusion via proximity is scientifically incorrect.
-    # Architecture fix: RYA-209 (vald_proximity_flag column) + RYA-220 (quality scoring).
-    # Two confirmed bad lines (Fe I 4918.994 Å, Fe I 4970.496 Å) are handled below via
-    # explicit vetted exclusion — not proximity filtering.
-
-    # Vetted spectroscopic exclusions — RYA-208.
-    # These lines are confirmed blends non-separable at HARPS R~115,000.
-    # This is the correct use of blend_flag: explicit, documented, per-line vetting.
-    # INTERIM: until RYA-209 adds blend_flag column to linelist_solar.csv,
-    # these are hardcoded by wavelength. Remove hardcoding after RYA-209 lands.
-    VETTED_EXCLUSIONS_FE1 = [4918.994, 4970.496]  # Å — RYA-208 confirmed blends
-    EXCLUSION_TOLERANCE = 0.05  # Å
-
-    for wl in VETTED_EXCLUSIONS_FE1:
-        mask = (
-            (ew_df['element'] == 'Fe') &
-            (ew_df['ion'] == 'I') &
-            (abs(ew_df['wavelength_air_A'] - wl) < EXCLUSION_TOLERANCE)
+    # Vetted blend cross-reference from linelist — RYA-209.
+    # linelist_solar.csv blend_flag=True rows are the authoritative vetted exclusion list.
+    # Hard exclusion applies only to confirmed non-separable blends, not VALD proximity.
+    # vald_proximity_flag (continuous 0-1) feeds into the RYA-220 quality scorer instead.
+    try:
+        _ll = pd.read_csv(
+            str(PATHS['linelist_solar']),
+            usecols=['element', 'ion', 'wavelength_air_A', 'blend_flag'],
+            low_memory=False,
         )
-        if mask.sum() > 0:
-            ew_df = ew_df[~mask].copy()
-            print(f"  Vetted exclusion: Fe I {wl:.3f} Å removed (confirmed blend, RYA-208)")
-        else:
-            print(f"  Vetted exclusion: Fe I {wl:.3f} Å NOT FOUND in EW data — check wavelength match")
+        _ll_vetted = _ll[_ll['blend_flag'] == True][['element', 'ion', 'wavelength_air_A']]
+        if 'blend_flag' not in ew_df.columns:
+            ew_df['blend_flag'] = False
+        _newly = 0
+        for (_elem, _ion), _grp in _ll_vetted.groupby(['element', 'ion']):
+            _ei = (ew_df['element'] == _elem) & (ew_df['ion'] == _ion)
+            if not _ei.any():
+                continue
+            _bl_w = _grp['wavelength_air_A'].values
+            _ew_w = ew_df.loc[_ei, 'wavelength_air_A'].values
+            _hit  = np.any(np.abs(_ew_w[:, None] - _bl_w[None, :]) < 0.05, axis=1)
+            _idx  = ew_df.index[_ei][_hit]
+            _new  = ew_df.loc[_idx, 'blend_flag'] == False
+            _new_idx = _idx[_new.values]
+            if len(_new_idx):
+                ew_df.loc[_new_idx, 'blend_flag'] = True
+                _newly += len(_new_idx)
+        print(f"  Vetted blend cross-reference: {len(_ll_vetted)} linelist entry(s), "
+              f"{_newly} line(s) marked blend_flag=True in EW data")
+    except Exception as _e:
+        print(f"  WARNING: vetted blend cross-reference failed — {_e}")
 
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
