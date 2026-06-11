@@ -378,11 +378,34 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         # sensitivity to damping parameters — they corrupt the slope and prevent
         # convergence. Standard practice: Mucciarelli 2011, Sousa et al. 2011.
         # Full fe1_mask (all Fe I) is still used for A(Fe I) and ionisation balance.
-        _vmic_ew_max = float(PIPELINE['vmic_ew_ceiling_mA'])
+        _vmic_ew_max   = float(PIPELINE['vmic_ew_ceiling_mA'])
         fe1_slope_mask = fe1_mask & (linemasks['ew'] <= _vmic_ew_max)
-        if iteration == 1:
-            print(f"  vmic slope sample: {int(fe1_slope_mask.sum())}/{int(fe1_mask.sum())} "
-                  f"Fe I lines (EW ≤ {_vmic_ew_max:.0f} mÅ COG cut)")
+        n_fe1_post_cog = int(fe1_slope_mask.sum())
+
+        # Abundance clip on slope sample: exclude lines whose current A(Fe I)
+        # deviates > 2σ from the slope-sample mean.
+        # Restores behaviour removed by RYA-220 commit c8a23d2.
+        # Applied ONLY to the vmic slope sample — does not affect final A(Fe) derivation.
+        # Standard practice: Sousa et al. 2011, Jofré et al. 2014.
+        _vmic_sigma   = float(PIPELINE['vmic_abund_clip_sigma'])
+        _slope_abunds = spec_abund[fe1_slope_mask]
+        _sa_valid     = np.isfinite(_slope_abunds)
+        if _sa_valid.sum() >= 3:
+            _slope_mean = float(np.mean(_slope_abunds[_sa_valid]))
+            _slope_std  = float(np.std(_slope_abunds[_sa_valid]))
+            if _slope_std > 0:
+                _clip_ok = np.ones(len(spec_abund), dtype=bool)
+                _clip_ok[fe1_slope_mask] = (
+                    np.abs(_slope_abunds - _slope_mean) <= _vmic_sigma * _slope_std
+                )
+                fe1_slope_mask = fe1_slope_mask & _clip_ok
+            else:
+                print(f"  WARNING Iter {iteration:02d}: slope_std=0 — abundance clip skipped")
+        else:
+            print(f"  WARNING Iter {iteration:02d}: <3 valid slope-sample lines — abundance clip skipped")
+
+        print(f"  vmic slope sample: {int(fe1_slope_mask.sum())}/{n_fe1_post_cog}/{int(fe1_mask.sum())} "
+              f"Fe I lines (COG cut ≤150 mÅ → abundance clip 2σ)")
 
         ep_sl  = _compute_ep_slope(fe1_mask, linemasks, x_over_h)
         rew_sl = _compute_rew_slope(fe1_slope_mask, linemasks, x_over_h)
@@ -883,7 +906,10 @@ def run(star_id: str = 'solar',
             tgt_lo, tgt_hi = 7.41, 7.51
             ab_pass = tgt_lo <= a_nlte <= tgt_hi
             sc_pass = np.isfinite(scatter) and scatter < 0.15
-            nl_min  = 20 if ion_lbl == 'I' else 3
+            # GES regions file has only 3 Fe II lines in the optical — coverage gap,
+            # not a filter issue. Gate lowered to ≥ 3. See RYA-227 for scope of fix.
+            FE2_MIN_LINES = 3
+            nl_min        = 20 if ion_lbl == 'I' else FE2_MIN_LINES
             print(f"\n  Fe {ion_lbl}  1D LTE  = {a_1d:.3f}  (scatter 1D = {scatter_1d:.3f} dex)")
             if np.isfinite(d_nlte):
                 print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
