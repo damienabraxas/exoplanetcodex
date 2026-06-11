@@ -219,6 +219,48 @@ for _key in ('data_root', 'raw_spectra', 'processed_spectra', 'linelists',
              'model_atmospheres', 'results', 'plots', 'tables'):
     PATHS[_key].mkdir(parents=True, exist_ok=True)
 
+# ── Line quality scoring (RYA-220) ───────────────────────────────────────────
+# Weights for the per-line quality score aggregation formula.
+# Sum = 1.0. Scientific rationale for each weight:
+#   proximity (0.20): VALD density is a known source of systematic EW bias; significant
+#                     but correctable via synthesis — moderate weight.
+#   snr (0.25):       EW precision scales directly with line SNR; primary measurement
+#                     quality driver — highest weight.
+#   chi2 (0.20):      Profile fit quality captures blending, continuum errors, and
+#                     non-Gaussian wings; high diagnostic value.
+#   saturation (0.15):saturated lines have non-linear COG; EW→abundance mapping degrades
+#                     above ~150 mÅ — meaningful but secondary to SNR.
+#   outlier (0.10):   Abundance outliers signal unresolved systematics; lower weight
+#                     because the sigma is itself uncertain with small n.
+#   nlte (0.10):      NLTE correction coverage is an analysis quality indicator, not a
+#                     measurement quality indicator — lowest weight.
+LINE_SCORE_WEIGHTS = {
+    'proximity':  0.20,
+    'snr':        0.25,
+    'chi2':       0.20,
+    'saturation': 0.15,
+    'outlier':    0.10,
+    'nlte':       0.10,
+}
+
+# Grade boundaries for line_score (0.0–1.0).
+LINE_GRADE_THRESHOLDS = {
+    'A': 0.80,   # Clean, NLTE corrected. Enters weighted abundance mean.
+    'B': 0.60,   # Minor issues. Enters weighted mean with footnote.
+    'C': 0.35,   # Significant issues. Measured and reported with caveats.
+    'D': 0.00,   # Unusable. Archived only.
+}
+
+# Sub-score normalisation parameters. No hardcoded values elsewhere in scoring code.
+LINE_SCORE_PARAMS = {
+    'snr_saturation':         30.0,  # EW/ew_err at which ew_snr_score = 1.0
+    'chi2_clean_max':          1.5,  # reduced χ² below which fit_chi2_score = 1.0
+    'chi2_floor':             10.0,  # reduced χ² above which fit_chi2_score = 0.0
+    'saturation_ew_low_mA':  100.0,  # EW below which saturation_score = 0.0
+    'saturation_ew_high_mA': 200.0,  # EW above which saturation_score = 1.0
+    'outlier_sigma_scale':     2.0,  # |A_i − median| / (scale × σ) → outlier score
+}
+
 # ── Post-LTE corrections (apply in abundances_derive.py) ─────────────────────
 # All values are additive corrections to log N(X)/N(H) derived from 1D LTE.
 CORRECTIONS_3D = {
