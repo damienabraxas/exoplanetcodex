@@ -270,9 +270,21 @@ def apply_fe_nlte_corrections(
                 result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
                 continue
 
-            a_nlte_mean = float(fe_lines['a_nlte'].mean())
+            # Median — consistent with 1D LTE computation in _iterative_parameter_convergence.
+            # Mean is sensitive to outlier lines (e.g. 4918.994 Å, 4970.496 Å which sit
+            # >0.7 dex above solar even after NLTE correction — likely blend contamination).
+            a_nlte_mean = float(np.median(fe_lines['a_nlte']))
             a_nlte_std  = float(fe_lines['a_nlte'].std()) if len(fe_lines) > 1 else np.nan
             mean_delta  = float(fe_lines['aberr'].mean(skipna=True))
+
+            outliers = fe_lines[np.abs(fe_lines['a_nlte'] - a_nlte_mean) > 0.3]
+            if len(outliers) > 0:
+                print(f"  WARNING: {len(outliers)} Fe {ion} NLTE outlier lines "
+                      f"(|a_nlte - median| > 0.3 dex):")
+                for _, r in outliers.iterrows():
+                    print(f"    {r['wavelength_air_A']:.3f} Å  a_1dlte={r['a_1dlte']:.3f}  "
+                          f"aberr={r['aberr']:.3f}  a_nlte={r['a_nlte']:.3f}")
+                print(f"  These lines are excluded from the median but retained in scatter.")
 
             # Print first 10 lines as diagnostic table
             print(f"  Fe {ion} per-line NLTE ({n_corrected}/{len(fe_lines)} corrected):")
