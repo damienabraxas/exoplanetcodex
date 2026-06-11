@@ -518,6 +518,22 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         })
     per_line_df = pd.DataFrame(per_line_rows) if per_line_rows else pd.DataFrame()
 
+    # Apply COG ceiling to final abundance pool — same physical basis as vmic slope cut.
+    # Lines in the damping regime (EW > vmic_ew_ceiling_mA) have abundances driven by
+    # damping parameters, not line strength. Excluding them from the final pool is
+    # consistent with Mucciarelli 2011 and GES methodology.
+    # Reference: PIPELINE['vmic_ew_ceiling_mA'] = 150.0 (set in RYA-226)
+    if not per_line_df.empty and 'ew_mA' in per_line_df.columns:
+        _ew_ceiling   = float(PIPELINE['vmic_ew_ceiling_mA'])
+        _fe1_pool     = per_line_df['ion'] == 'I'
+        _n_fe1_before = int(_fe1_pool.sum())
+        per_line_df   = per_line_df[~_fe1_pool | (per_line_df['ew_mA'] <= _ew_ceiling)].copy()
+        _n_fe1_after  = int((per_line_df['ion'] == 'I').sum())
+        if _n_fe1_before > _n_fe1_after:
+            print(f"  Final pool COG cut: {_n_fe1_before} → {_n_fe1_after} Fe I lines "
+                  f"({_n_fe1_before - _n_fe1_after} saturated lines removed, "
+                  f"EW > {_ew_ceiling:.0f} mÅ)")
+
     return params, results_df, per_line_df
 
 
