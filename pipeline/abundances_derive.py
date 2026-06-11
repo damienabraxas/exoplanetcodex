@@ -347,6 +347,9 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     params = stellar_params_init.copy()
     last_linemasks = last_spec_abund = last_xh = last_xfe = None
 
+    MAX_SIGMA_CLIP_ITERATIONS = 3
+    sigma_clip_threshold = 2.0  # σ — catches >0.5 dex outliers in typical solar Fe I distribution
+
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
             params['teff_K'], params['logg'], params['feh'],
@@ -367,6 +370,49 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         if n_fe1 < 5:
             print(f"  Iter {iteration:02d}: only {n_fe1} Fe I lines — stopping early")
             break
+
+        # 2σ abundance sigma clip — INTERIM gate (RYA-208).
+        # Replaces hard proximity-based blend exclusion with outlier detection on merit.
+        # Will be superseded by abundance_outlier_score in RYA-220 quality scoring system.
+        # Document sigma clip as interim in any run report output.
+        fe1_abundances_sc = spec_abund[fe1_mask]
+        fe1_wavs_sc = linemasks['wave_A'][fe1_mask]
+        sc_keep = np.ones(len(fe1_abundances_sc), dtype=bool)
+        median_val = np.median(fe1_abundances_sc)
+
+        for sc_iter in range(MAX_SIGMA_CLIP_ITERATIONS):
+            median_val = np.median(fe1_abundances_sc[sc_keep])
+            std_val = np.std(fe1_abundances_sc[sc_keep])
+            new_keep = np.abs(fe1_abundances_sc - median_val) <= sigma_clip_threshold * std_val
+            n_clipped_sc = sc_keep.sum() - (sc_keep & new_keep).sum()
+            if n_clipped_sc == 0:
+                break
+            print(f"  Sigma clip iter {sc_iter+1}: clipped {n_clipped_sc} line(s) "
+                  f"(threshold {sigma_clip_threshold}σ = {sigma_clip_threshold * std_val:.3f} dex) "
+                  f"[INTERIM gate — RYA-220 will replace]")
+            sc_keep = sc_keep & new_keep
+
+        for ci in range(len(sc_keep)):
+            if not sc_keep[ci]:
+                wl = float(fe1_wavs_sc[ci])
+                a_val = float(fe1_abundances_sc[ci])
+                print(f"  Sigma clipped: Fe I {wl:.3f} Å  A(Fe I)={a_val:.4f} "
+                      f"(delta={abs(a_val - median_val):.3f} dex) [INTERIM]")
+
+        if not sc_keep.all():
+            fe1_indices = np.where(fe1_mask)[0]
+            keep_global = np.ones(len(linemasks), dtype=bool)
+            keep_global[fe1_indices[~sc_keep]] = False
+            linemasks  = linemasks[keep_global]
+            spec_abund = spec_abund[keep_global]
+            x_over_h   = x_over_h[keep_global]
+            x_over_fe  = x_over_fe[keep_global]
+            notes    = np.array([str(n) for n in linemasks['note']])
+            fe1_mask = notes == 'Fe 1'
+            fe2_mask = notes == 'Fe 2'
+            last_linemasks, last_spec_abund, last_xh, last_xfe = (
+                linemasks, spec_abund, x_over_h, x_over_fe
+            )
 
         ep_sl  = _compute_ep_slope(fe1_mask, linemasks, x_over_h)
         rew_sl = _compute_rew_slope(fe1_mask, linemasks, x_over_h)
@@ -594,39 +640,32 @@ def run(star_id: str = 'solar',
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
-    # ── Enforce authoritative blend_flag from linelist (RYA-208) ──────────────
-    # GES reference EWs may carry blend_flag=False for lines the linelist marks
-    # as blended. Cross-reference here before any line reaches iSpec, covering
-    # both the solar calibration path and science target path.
-    try:
-        _ll = pd.read_csv(
-            str(PATHS['linelist_solar']),
-            usecols=['element', 'ion', 'wavelength_air_A', 'blend_flag'],
-            low_memory=False,
+    # VALD proximity cross-reference removed — RYA-208.
+    # blend_flag in linelist_solar.csv reflects VALD proximity criteria (~88% of Fe I),
+    # not spectroscopic vetting. Hard exclusion via proximity is scientifically incorrect.
+    # Architecture fix: RYA-209 (vald_proximity_flag column) + RYA-220 (quality scoring).
+    # Two confirmed bad lines (Fe I 4918.994 Å, Fe I 4970.496 Å) are handled below via
+    # explicit vetted exclusion — not proximity filtering.
+
+    # Vetted spectroscopic exclusions — RYA-208.
+    # These lines are confirmed blends non-separable at HARPS R~115,000.
+    # This is the correct use of blend_flag: explicit, documented, per-line vetting.
+    # INTERIM: until RYA-209 adds blend_flag column to linelist_solar.csv,
+    # these are hardcoded by wavelength. Remove hardcoding after RYA-209 lands.
+    VETTED_EXCLUSIONS_FE1 = [4918.994, 4970.496]  # Å — RYA-208 confirmed blends
+    EXCLUSION_TOLERANCE = 0.05  # Å
+
+    for wl in VETTED_EXCLUSIONS_FE1:
+        mask = (
+            (ew_df['element'] == 'Fe') &
+            (ew_df['ion'] == 'I') &
+            (abs(ew_df['wavelength_air_A'] - wl) < EXCLUSION_TOLERANCE)
         )
-        _ll_blends = _ll[_ll['blend_flag'] == True][
-            ['element', 'ion', 'wavelength_air_A']
-        ]
-        if 'blend_flag' not in ew_df.columns:
-            ew_df['blend_flag'] = False
-        _newly = 0
-        for (_elem, _ion), _grp in _ll_blends.groupby(['element', 'ion']):
-            _ei = (ew_df['element'] == _elem) & (ew_df['ion'] == _ion)
-            if not _ei.any():
-                continue
-            _bl_w = _grp['wavelength_air_A'].values
-            _ew_w = ew_df.loc[_ei, 'wavelength_air_A'].values
-            _hit  = np.any(np.abs(_ew_w[:, None] - _bl_w[None, :]) < 0.15, axis=1)
-            _idx  = ew_df.index[_ei][_hit]
-            _new  = ew_df.loc[_idx, 'blend_flag'] == False
-            _new_idx = _idx[_new.values]
-            if len(_new_idx):
-                ew_df.loc[_new_idx, 'blend_flag'] = True
-                _newly += len(_new_idx)
-        if _newly:
-            print(f"  Linelist blend override: {_newly} line(s) corrected to blend_flag=True")
-    except Exception as _e:
-        print(f"  WARNING: linelist blend check failed — {_e}")
+        if mask.sum() > 0:
+            ew_df = ew_df[~mask].copy()
+            print(f"  Vetted exclusion: Fe I {wl:.3f} Å removed (confirmed blend, RYA-208)")
+        else:
+            print(f"  Vetted exclusion: Fe I {wl:.3f} Å NOT FOUND in EW data — check wavelength match")
 
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
