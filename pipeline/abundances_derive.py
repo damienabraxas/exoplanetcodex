@@ -347,6 +347,9 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     params = stellar_params_init.copy()
     last_linemasks = last_spec_abund = last_xh = last_xfe = None
 
+    MAX_SIGMA_CLIP_ITERATIONS = 3
+    sigma_clip_threshold = 2.0  # σ — catches >0.5 dex outliers in typical solar Fe I distribution
+
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
             params['teff_K'], params['logg'], params['feh'],
@@ -367,6 +370,49 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         if n_fe1 < 5:
             print(f"  Iter {iteration:02d}: only {n_fe1} Fe I lines — stopping early")
             break
+
+        # 2σ abundance sigma clip — INTERIM gate (RYA-208).
+        # Replaces hard proximity-based blend exclusion with outlier detection on merit.
+        # Will be superseded by abundance_outlier_score in RYA-220 quality scoring system.
+        # Document sigma clip as interim in any run report output.
+        fe1_abundances_sc = spec_abund[fe1_mask]
+        fe1_wavs_sc = linemasks['wave_A'][fe1_mask]
+        sc_keep = np.ones(len(fe1_abundances_sc), dtype=bool)
+        median_val = np.median(fe1_abundances_sc)
+
+        for sc_iter in range(MAX_SIGMA_CLIP_ITERATIONS):
+            median_val = np.median(fe1_abundances_sc[sc_keep])
+            std_val = np.std(fe1_abundances_sc[sc_keep])
+            new_keep = np.abs(fe1_abundances_sc - median_val) <= sigma_clip_threshold * std_val
+            n_clipped_sc = sc_keep.sum() - (sc_keep & new_keep).sum()
+            if n_clipped_sc == 0:
+                break
+            print(f"  Sigma clip iter {sc_iter+1}: clipped {n_clipped_sc} line(s) "
+                  f"(threshold {sigma_clip_threshold}σ = {sigma_clip_threshold * std_val:.3f} dex) "
+                  f"[INTERIM gate — RYA-220 will replace]")
+            sc_keep = sc_keep & new_keep
+
+        for ci in range(len(sc_keep)):
+            if not sc_keep[ci]:
+                wl = float(fe1_wavs_sc[ci])
+                a_val = float(fe1_abundances_sc[ci])
+                print(f"  Sigma clipped: Fe I {wl:.3f} Å  A(Fe I)={a_val:.4f} "
+                      f"(delta={abs(a_val - median_val):.3f} dex) [INTERIM]")
+
+        if not sc_keep.all():
+            fe1_indices = np.where(fe1_mask)[0]
+            keep_global = np.ones(len(linemasks), dtype=bool)
+            keep_global[fe1_indices[~sc_keep]] = False
+            linemasks  = linemasks[keep_global]
+            spec_abund = spec_abund[keep_global]
+            x_over_h   = x_over_h[keep_global]
+            x_over_fe  = x_over_fe[keep_global]
+            notes    = np.array([str(n) for n in linemasks['note']])
+            fe1_mask = notes == 'Fe 1'
+            fe2_mask = notes == 'Fe 2'
+            last_linemasks, last_spec_abund, last_xh, last_xfe = (
+                linemasks, spec_abund, x_over_h, x_over_fe
+            )
 
         ep_sl  = _compute_ep_slope(fe1_mask, linemasks, x_over_h)
         rew_sl = _compute_rew_slope(fe1_mask, linemasks, x_over_h)
@@ -454,7 +500,32 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         rows.append({**r, 'XFe': xfe})
 
     results_df = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
-    return params, results_df
+
+    # Build per-line DataFrame for NLTE per-line corrections (RYA-207).
+    # Contains one row per Fe I/II line that survived all filters and contributed
+    # to the final abundance — atomic data + individual 1D LTE A(Fe) per line.
+    per_line_rows = []
+    for i in range(len(last_linemasks)):
+        note = str(last_linemasks['note'][i])
+        if note not in ('Fe 1', 'Fe 2'):
+            continue
+        a_val = float(last_spec_abund[i])
+        if not np.isfinite(a_val):
+            continue
+        ion_lbl = 'I' if note.split()[1] == '1' else 'II'
+        per_line_rows.append({
+            'element'                : 'Fe',
+            'ion'                    : ion_lbl,
+            'wavelength_air_A'       : float(last_linemasks['wave_A'][i]),
+            'ew_mA'                  : float(last_linemasks['ew'][i]),
+            'excitation_potential_eV': float(last_linemasks['lower_state_eV'][i]),
+            'eup_eV'                 : float(last_linemasks['upper_state_eV'][i]),
+            'log_gf'                 : float(last_linemasks['loggf'][i]),
+            'a_1dlte'                : round(a_val, 4),
+        })
+    per_line_df = pd.DataFrame(per_line_rows) if per_line_rows else pd.DataFrame()
+
+    return params, results_df, per_line_df
 
 
 # ── Solar EW loader (hybrid Fe I GES + Fe II lines_fit) ──────────────────────
@@ -569,16 +640,67 @@ def run(star_id: str = 'solar',
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
+    # Vetted blend cross-reference from linelist — RYA-209.
+    # linelist_solar.csv blend_flag=True rows are the authoritative vetted exclusion list.
+    # Hard exclusion applies only to confirmed non-separable blends, not VALD proximity.
+    # vald_proximity_flag (continuous 0-1) feeds into the RYA-220 quality scorer instead.
+    try:
+        _ll = pd.read_csv(
+            str(PATHS['linelist_solar']),
+            usecols=['element', 'ion', 'wavelength_air_A', 'blend_flag'],
+            low_memory=False,
+        )
+        _ll_vetted = _ll[_ll['blend_flag'] == True][['element', 'ion', 'wavelength_air_A']]
+        if 'blend_flag' not in ew_df.columns:
+            ew_df['blend_flag'] = False
+        _newly = 0
+        for (_elem, _ion), _grp in _ll_vetted.groupby(['element', 'ion']):
+            _ei = (ew_df['element'] == _elem) & (ew_df['ion'] == _ion)
+            if not _ei.any():
+                continue
+            _bl_w = _grp['wavelength_air_A'].values
+            _ew_w = ew_df.loc[_ei, 'wavelength_air_A'].values
+            _hit  = np.any(np.abs(_ew_w[:, None] - _bl_w[None, :]) < 0.05, axis=1)
+            _idx  = ew_df.index[_ei][_hit]
+            _new  = ew_df.loc[_idx, 'blend_flag'] == False
+            _new_idx = _idx[_new.values]
+            if len(_new_idx):
+                ew_df.loc[_new_idx, 'blend_flag'] = True
+                _newly += len(_new_idx)
+        print(f"  Vetted blend cross-reference: {len(_ll_vetted)} linelist entry(s), "
+              f"{_newly} line(s) marked blend_flag=True in EW data")
+    except Exception as _e:
+        print(f"  WARNING: vetted blend cross-reference failed — {_e}")
+
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
           f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
-    converged_params, results = _iterative_parameter_convergence(
+    converged_params, results, per_line_df = _iterative_parameter_convergence(
         ew_df, params, model_grid=model_grid
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
           f"logg={converged_params['logg']:.2f}  "
           f"vturb={converged_params['vturb_kms']:.2f} km/s")
+
+    # ── NLTE corrections (RYA-165) ────────────────────────────────
+    try:
+        from pipeline.nlte_corrections import apply_fe_nlte_corrections
+        stellar_params_for_nlte = {
+            'teff_K'   : converged_params.get('teff_K',    5777),
+            'logg'     : converged_params.get('logg',      4.44),
+            'feh'      : converged_params.get('feh',        0.0),
+            'vturb_kms': converged_params.get('vturb_kms',  1.0),
+        }
+        results = apply_fe_nlte_corrections(
+            results, stellar_params_for_nlte,
+            line_df=ew_df, per_line_df=per_line_df,
+        )
+        print(f"  NLTE corrections applied to Fe I/II (Amarsi+2022)")
+    except FileNotFoundError as e:
+        print(f"  WARNING: NLTE grid not found — running 1D LTE only: {e}")
+    except Exception as e:
+        print(f"  WARNING: NLTE correction failed — running 1D LTE only: {e}")
 
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
@@ -590,10 +712,34 @@ def run(star_id: str = 'solar',
     # ── Solar calibration gate ────────────────────────────────────
     fe = results[results['element'] == 'Fe']
     if len(fe) > 0:
-        a_fe = float(fe['A_X'].mean())
-        delta = a_fe - 7.46
-        gate = '✓ PASS' if abs(delta) <= 0.05 else '✗ FAIL'
-        print(f"\n  A(Fe)☉ = {a_fe:.3f}  (target 7.46 ± 0.05)  {gate}")
+        for _, fe_row in fe.iterrows():
+            ion_lbl = fe_row['ion']
+            a_1d    = float(fe_row['A_X'])
+            n_lines = int(fe_row.get('n_lines', 0))
+            scatter_1d   = float(fe_row.get('A_X_std', np.nan))
+            scatter_nlte = float(fe_row.get('A_X_std_nlte', np.nan))
+            scatter      = scatter_nlte if np.isfinite(scatter_nlte) else scatter_1d
+            nlte_ok = 'A_X_nlte' in fe_row and not np.isnan(float(fe_row['A_X_nlte']))
+            a_nlte  = float(fe_row['A_X_nlte']) if nlte_ok else a_1d
+            d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
+            n_nlte  = int(fe_row.get('n_nlte_lines', 0))
+            flag    = str(fe_row.get('nlte_flag', '1D_LTE'))
+            tgt_lo, tgt_hi = 7.41, 7.51
+            ab_pass = tgt_lo <= a_nlte <= tgt_hi
+            sc_pass = np.isfinite(scatter) and scatter < 0.15
+            nl_min  = 20 if ion_lbl == 'I' else 3
+            print(f"\n  Fe {ion_lbl}  1D LTE  = {a_1d:.3f}  (scatter 1D = {scatter_1d:.3f} dex)")
+            if np.isfinite(d_nlte):
+                print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
+            print(f"  A(Fe {ion_lbl}) NLTE    = {a_nlte:.3f}  -> {'PASS' if ab_pass else 'FAIL'} (gate {tgt_lo}-{tgt_hi})")
+            if np.isfinite(scatter):
+                sc_label = 'NLTE scatter' if np.isfinite(scatter_nlte) else '1D scatter'
+                print(f"  A(Fe {ion_lbl}) {sc_label} = {scatter:.3f}  -> {'PASS' if sc_pass else 'FAIL'} (gate <0.15 dex)")
+            print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
+            print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
+        vmic_val = converged_params.get('vturb_kms', np.nan)
+        vmic_pass = 0.80 <= vmic_val <= 1.20 if np.isfinite(vmic_val) else False
+        print(f"  vmic             = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
 
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
