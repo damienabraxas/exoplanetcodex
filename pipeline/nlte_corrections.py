@@ -118,6 +118,12 @@ def _load_nlte_regions() -> pd.DataFrame:
 # Teff: 5000–6500 K   logg: 4.0–4.5   vmic: 0–3 km/s   A(Fe;3N): 4.5–7.5
 _GRID = dict(teff=(5000., 6500.), logg=(4.0, 4.5), vmic=(0., 3.), afe=(4.5, 7.5))
 
+# iSpec's determine_abundances returns abundance offsets relative to the solar
+# reference ([Fe/H] units), not absolute A(Fe).  The Amarsi grid afe axis is
+# in absolute A(Fe) (4.5–7.5 range).  Add this offset before passing to the
+# grid so that [Fe/H]=0 maps to A(Fe)=7.46, not to the grid floor of 4.5.
+_A_FE_SOLAR = 7.46  # Asplund+2021 A(Fe), matches SOLAR_ASPLUND2021['Fe']
+
 
 def _in_grid(teff: float, logg: float, afe3n: float, vmic: float) -> bool:
     return (
@@ -251,12 +257,13 @@ def apply_fe_nlte_corrections(
             fe_lines['a_nlte'] = fe_lines['a_1dlte']  # default: retain 1D LTE
 
             for i, lrow in fe_lines.iterrows():
+                a_fe_abs = float(lrow['a_1dlte']) + _A_FE_SOLAR
                 ab = _apply_aberr_to_line(
                     ion,
                     float(lrow['excitation_potential_eV']),
                     float(lrow['eup_eV']),
                     float(lrow['log_gf']),
-                    float(lrow['a_1dlte']),
+                    a_fe_abs,
                     teff, logg, vmic,
                 )
                 if np.isfinite(ab):
@@ -307,7 +314,8 @@ def apply_fe_nlte_corrections(
         # ── Legacy mean-field path (no per_line_df) ───────────────────────────
         else:
             aberrs      = []
-            afe3n_start = float(np.clip(a_1dlte, _GRID['afe'][0], _GRID['afe'][1]))
+            a_fe_abs_mean = a_1dlte + _A_FE_SOLAR
+            afe3n_start = float(np.clip(a_fe_abs_mean, _GRID['afe'][0], _GRID['afe'][1]))
 
             if line_df is not None and not regions.empty:
                 fe_ew = line_df[
@@ -322,7 +330,7 @@ def apply_fe_nlte_corrections(
                     best = ion_regions.loc[diffs.idxmin()]
                     ab = _apply_aberr_to_line(
                         ion, float(best['elo_eV']), float(best['eup_eV']),
-                        float(best['loggf']), a_1dlte, teff, logg, vmic,
+                        float(best['loggf']), a_fe_abs_mean, teff, logg, vmic,
                     )
                     if np.isfinite(ab):
                         aberrs.append(ab)
