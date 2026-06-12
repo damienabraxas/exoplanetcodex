@@ -77,10 +77,15 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
         # so gate comparison against GATES thresholds (absolute) is unit-consistent.
         a_nlte_rel = float(r.get('A_X_nlte', r['A_X']))
         a_nlte_abs = a_nlte_rel + _A_FE_SOLAR
+        # Prefer NLTE scatter; fall back to 1D scatter when NLTE is unavailable
+        # (A_X_std_nlte key exists but is NaN when NLTE corrections were skipped).
+        sc_nlte = float(r.get('A_X_std_nlte', np.nan))
+        sc_1d   = float(r.get('A_X_std',      np.nan))
+        scatter = sc_nlte if np.isfinite(sc_nlte) else sc_1d
         return {
             'a_nlte'   : a_nlte_abs,
             'a_1dlte'  : float(r['A_X']),
-            'scatter'  : float(r.get('A_X_std_nlte', r.get('A_X_std', np.nan))),
+            'scatter'  : scatter,
             'n_lines'  : int(r['n_lines']),
             'delta_nlte': float(r.get('delta_nlte_mean', np.nan)),
         }
