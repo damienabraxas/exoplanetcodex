@@ -79,7 +79,7 @@ _LINE_REGIONS_ALL = str(
 )
 _LINE_REGIONS_FE = str(
     ISPEC_DIR / 'input' / 'regions' / '42000_VALD' /
-    'turbospectrum_synth_good_for_params_all_extended.txt'
+    'turbospectrum_synth_good_for_params_codex_extended.txt'
 )
 
 # Module-level pack cache — loading the 2 GB grid once per process
