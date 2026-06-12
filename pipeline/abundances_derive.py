@@ -46,9 +46,10 @@ import pandas as pd
 from pathlib import Path
 
 from config.constants import (
-    PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC,
+    PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
+    FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
 )
 
 # ── iSpec bootstrap ───────────────────────────────────────────────────────────
@@ -341,7 +342,8 @@ def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
 def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       stellar_params_init: dict,
                                       model_grid: str = 'ATLAS9.Castelli',
-                                      max_iter: int = 10) -> tuple:
+                                      max_iter: int = 10,
+                                      vmic_fixed: bool = False) -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -449,7 +451,7 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         # walking off the atmosphere grid on large spurious slopes.
         if np.isfinite(ep_sl):
             params['teff_K']    += np.sign(ep_sl)  * min(abs(ep_sl)  / 0.05, 1.0) * 25
-        if np.isfinite(rew_sl):
+        if np.isfinite(rew_sl) and not vmic_fixed:
             params['vturb_kms'] += np.sign(rew_sl) * min(abs(rew_sl) / 0.10, 1.0) * 0.05
         if np.isfinite(ion_bal):
             params['logg']      += np.sign(ion_bal) * min(abs(ion_bal) / 0.05, 1.0) * 0.05
@@ -781,19 +783,21 @@ def _derive_abundances_cog_legacy(*args, **kwargs):
 def run(star_id: str = 'solar',
         model_grid: str = 'ATLAS9.Castelli',
         stellar_params_override: dict = None,
-        ew_override: str = None) -> pd.DataFrame:
+        ew_override: str = None,
+        vmic_fixed: bool = False) -> pd.DataFrame:
     """
     Derive abundances for a star and save results.
 
     Parameters
     ----------
-    star_id                  : 'solar' or '55cnc'
+    star_id                  : 'solar', 'procyon', or '55cnc'
     model_grid               : 'ATLAS9.Castelli' (FGK) or 'MARCS.GES' (M dwarfs)
     stellar_params_override  : override dict for uncertainty sensitivity runs (RYA-158)
                                keys: teff_K, logg, feh, vturb_kms
     ew_override              : path to an EW CSV to use instead of the default
                                solar_ew.csv (e.g. solar_ew_ges_reference.csv for
                                GES pre-stored calibration EWs — RYA-196)
+    vmic_fixed               : if True, hold vturb_kms fixed during convergence (RYA-238)
 
     Returns
     -------
@@ -809,6 +813,8 @@ def run(star_id: str = 'solar',
         params = stellar_params_override.copy()
     elif 'solar' in star_id.lower():
         params = STAR_SOLAR.copy()
+    elif 'procyon' in star_id.lower():
+        params = STAR_PROCYON.copy()
     else:
         params = STAR_55CNC.copy()
 
@@ -868,7 +874,7 @@ def run(star_id: str = 'solar',
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
           f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df = _iterative_parameter_convergence(
-        ew_df, params, model_grid=model_grid
+        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
@@ -926,13 +932,18 @@ def run(star_id: str = 'solar',
             scatter_nlte = float(fe_row.get('A_X_std_nlte', np.nan))
             scatter      = scatter_nlte if np.isfinite(scatter_nlte) else scatter_1d
             nlte_ok = 'A_X_nlte' in fe_row and not np.isnan(float(fe_row['A_X_nlte']))
-            a_nlte  = float(fe_row['A_X_nlte']) if nlte_ok else a_1d
+            # A_X_nlte is relative [Fe/H] from iSpec; convert to absolute A(Fe) for
+            # gate comparison and display (RYA-261 unit-consistency fix).
+            _a_fe_solar = SOLAR_ASPLUND2021['Fe']
+            a_nlte_rel  = float(fe_row['A_X_nlte']) if nlte_ok else a_1d
+            a_nlte      = a_nlte_rel + _a_fe_solar   # absolute A(Fe)
+            tgt_lo      = _a_fe_solar + FE_GATE_LOWER  # = 7.41
+            tgt_hi      = _a_fe_solar + FE_GATE_UPPER  # = 7.51
             d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
             n_nlte  = int(fe_row.get('n_nlte_lines', 0))
             flag    = str(fe_row.get('nlte_flag', '1D_LTE'))
-            tgt_lo, tgt_hi = 7.41, 7.51
             ab_pass = tgt_lo <= a_nlte <= tgt_hi
-            sc_pass = np.isfinite(scatter) and scatter < 0.15
+            sc_pass = np.isfinite(scatter) and scatter < FE_SCATTER_GATE
             # GES regions file has only 3 Fe II lines in the optical — coverage gap,
             # not a filter issue. Gate lowered to ≥ 3. See RYA-227 for scope of fix.
             FE2_MIN_LINES = 3
@@ -940,29 +951,30 @@ def run(star_id: str = 'solar',
             print(f"\n  Fe {ion_lbl}  1D LTE  = {a_1d:.3f}  (scatter 1D = {scatter_1d:.3f} dex)")
             if np.isfinite(d_nlte):
                 print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
-            print(f"  A(Fe {ion_lbl}) NLTE    = {a_nlte:.3f}  -> {'PASS' if ab_pass else 'FAIL'} (gate {tgt_lo}-{tgt_hi})")
+            print(f"  A(Fe {ion_lbl}) NLTE    = {a_nlte:.3f}  -> {'PASS' if ab_pass else 'FAIL'} (gate {tgt_lo:.2f}-{tgt_hi:.2f})")
             if np.isfinite(scatter):
                 sc_label = 'NLTE scatter' if np.isfinite(scatter_nlte) else '1D scatter'
-                print(f"  A(Fe {ion_lbl}) {sc_label} = {scatter:.3f}  -> {'PASS' if sc_pass else 'FAIL'} (gate <0.15 dex)")
+                print(f"  A(Fe {ion_lbl}) {sc_label} = {scatter:.3f}  -> {'PASS' if sc_pass else 'FAIL'} (gate <{FE_SCATTER_GATE} dex)")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
             # Grade summary
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
             n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
             el_grade = str(fe_row.get('element_grade', '?'))
-            a_ab = float(fe_row.get('A_X_nlte_AB', np.nan))
+            a_ab_rel = float(fe_row.get('A_X_nlte_AB', np.nan))
+            a_ab     = a_ab_rel + _a_fe_solar if np.isfinite(a_ab_rel) else np.nan
             n_ab = int(fe_row.get('n_lines_AB', 0))
             print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}"
                   f"  element_grade={el_grade}")
             scatter_ab = float(fe_row.get('A_X_std_AB', np.nan))
             if np.isfinite(a_ab):
                 ab_gate      = tgt_lo <= a_ab <= tgt_hi
-                sc_ab_pass   = np.isfinite(scatter_ab) and scatter_ab < 0.15
+                sc_ab_pass   = np.isfinite(scatter_ab) and scatter_ab < FE_SCATTER_GATE
                 print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab:.4f}  ({n_ab} lines)"
-                      f"  -> {'PASS' if ab_gate else 'FAIL'} (gate {tgt_lo}-{tgt_hi})")
+                      f"  -> {'PASS' if ab_gate else 'FAIL'} (gate {tgt_lo:.2f}-{tgt_hi:.2f})")
                 if np.isfinite(scatter_ab):
                     print(f"  A(Fe {ion_lbl}) scatter A+B = {scatter_ab:.3f}"
-                          f"  -> {'PASS' if sc_ab_pass else 'FAIL'} (gate <0.15 dex)")
+                          f"  -> {'PASS' if sc_ab_pass else 'FAIL'} (gate <{FE_SCATTER_GATE} dex)")
         vmic_val = converged_params.get('vturb_kms', np.nan)
         vmic_pass = 0.80 <= vmic_val <= 1.20 if np.isfinite(vmic_val) else False
         print(f"  vmic             = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")

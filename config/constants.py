@@ -127,6 +127,29 @@ STAR_SOLAR = {
                                   # log_gf needs cross-check vs Johansson et al. 2003 (separate ticket).
 }
 
+# ── Procyon (α CMi A) stellar parameters ─────────────────────────────────────
+# Source: Allende Prieto et al. 2002, A&A 386, 1039 (spectroscopic analysis)
+STAR_PROCYON = {
+    'name'      : 'Procyon',
+    'hd'        : 'HD 61421',
+    'hip'       : 'HIP 37279',
+    'teff_K'    : 6530.0,   # ± 50 K
+    'logg'      : 3.96,     # ± 0.02
+    'feh'       : -0.04,    # ± 0.03
+    'vturb_kms' : 1.66,     # km/s
+    'rv_kms'    : -3.0,
+}
+
+# ── Fe abundance gate thresholds (RYA-261) ───────────────────────────────────
+# Relative [Fe/H] units — matches iSpec output convention (0.0 at solar).
+# Absolute equivalent: A(Fe) = [Fe/H] + SOLAR_ASPLUND2021['Fe'] (= [Fe/H] + 7.46)
+# FE_GATE_LOWER = -0.05  →  A(Fe) = 7.41
+# FE_GATE_UPPER = +0.05  →  A(Fe) = 7.51
+FE_GATE_LOWER      = -0.05   # [Fe/H] solar Fe lower bound
+FE_GATE_UPPER      = +0.05   # [Fe/H] solar Fe upper bound
+FE_SCATTER_GATE    =  0.10   # dex — maximum acceptable σ(Fe I)
+FE_IONISATION_GATE =  0.05   # dex — maximum |ΔFe(I−II)|
+
 # ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
 # Source: VALD3 log_gf; Allende Prieto et al. 2001 (ApJ 556, L63) for EW.
