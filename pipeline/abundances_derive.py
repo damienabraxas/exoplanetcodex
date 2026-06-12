@@ -266,11 +266,22 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     log_ew_obs   = np.log10(np.maximum(ew_mA_obs, 1e-6))
     ew_ratio     = log_ew_obs - log_ew_theo
     good         = np.abs(ew_ratio) < 1.5
+    # Fe II lines without a GES theoretical_ew (=0) bypass the COG sanity check.
+    # The linear COG formula is calibrated for Fe I and gives absurd predictions
+    # for Fe II lines with extreme loggf values, falsely rejecting valid lines.
+    # Fe II lines appended by RYA-243/247 were quality-gated by EW and ew_err;
+    # the pre-filter [5, 300] mÅ already guards against the grossest blends.
+    fe2_no_theo = np.array(
+        [str(r['note']).strip() == 'Fe 2' for r in linemasks]
+    ) & ~has_theo
+    good         = good | fe2_no_theo
     n_before = len(linemasks)
     linemasks = linemasks[good]
     n_after  = len(linemasks)
+    n_fe2_bypass = int(fe2_no_theo.sum())
+    note_str = f", {n_fe2_bypass} Fe II bypassed (no theoretical_ew)" if n_fe2_bypass else ""
     print(f"  EW sanity filter: {n_before} → {n_after} lines "
-          f"({n_before - n_after} rejected as blends/misidentifications)")
+          f"({n_before - n_after} rejected as blends/misidentifications{note_str})")
 
     teff  = float(stellar_params['teff_K'])
     logg  = float(stellar_params['logg'])
