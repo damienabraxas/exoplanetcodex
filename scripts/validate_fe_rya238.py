@@ -73,10 +73,13 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
         if row.empty:
             return {}
         r = row.iloc[0]
-        # A_X_nlte is relative [Fe/H] from iSpec; convert to absolute A(Fe)
-        # so gate comparison against GATES thresholds (absolute) is unit-consistent.
-        a_nlte_rel = float(r.get('A_X_nlte', r['A_X']))
-        a_nlte_abs = a_nlte_rel + _A_FE_SOLAR
+        # A_X_nlte is relative [Fe/H] when NLTE corrections were applied; add solar
+        # offset to reach absolute A(Fe). When NLTE is unavailable, nlte_corrections.py
+        # stores A_X (already absolute) as fallback — use it directly (RYA-267).
+        _nlte_flag = str(r.get('nlte_flag', '1D_LTE'))
+        _nlte_applied = _nlte_flag not in ('NLTE_unavailable', '1D_LTE')
+        a_nlte_abs = float(r.get('A_X_nlte', r['A_X'])) + _A_FE_SOLAR if _nlte_applied \
+                     else float(r['A_X'])
         # Prefer NLTE scatter; fall back to 1D scatter when NLTE is unavailable
         # (A_X_std_nlte key exists but is NaN when NLTE corrections were skipped).
         sc_nlte = float(r.get('A_X_std_nlte', np.nan))

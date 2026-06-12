@@ -931,12 +931,14 @@ def run(star_id: str = 'solar',
             scatter_1d   = float(fe_row.get('A_X_std', np.nan))
             scatter_nlte = float(fe_row.get('A_X_std_nlte', np.nan))
             scatter      = scatter_nlte if np.isfinite(scatter_nlte) else scatter_1d
-            nlte_ok = 'A_X_nlte' in fe_row and not np.isnan(float(fe_row['A_X_nlte']))
-            # A_X_nlte is relative [Fe/H] from iSpec; convert to absolute A(Fe) for
-            # gate comparison and display (RYA-261 unit-consistency fix).
+            # nlte_flag distinguishes the applied-NLTE case from unavailable fallback.
+            # When NLTE is unavailable, nlte_corrections.py stores the raw A_X value
+            # (already absolute) in A_X_nlte — adding _a_fe_solar would double-count
+            # the solar offset. Only convert when NLTE was actually applied (RYA-267).
+            _flag       = str(fe_row.get('nlte_flag', '1D_LTE'))
+            nlte_ok     = _flag not in ('NLTE_unavailable', '1D_LTE')
             _a_fe_solar = SOLAR_ASPLUND2021['Fe']
-            a_nlte_rel  = float(fe_row['A_X_nlte']) if nlte_ok else a_1d
-            a_nlte      = a_nlte_rel + _a_fe_solar   # absolute A(Fe)
+            a_nlte      = float(fe_row['A_X_nlte']) + _a_fe_solar if nlte_ok else a_1d
             tgt_lo      = _a_fe_solar + FE_GATE_LOWER  # = 7.41
             tgt_hi      = _a_fe_solar + FE_GATE_UPPER  # = 7.51
             d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
@@ -962,7 +964,10 @@ def run(star_id: str = 'solar',
             n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
             el_grade = str(fe_row.get('element_grade', '?'))
             a_ab_rel = float(fe_row.get('A_X_nlte_AB', np.nan))
-            a_ab     = a_ab_rel + _a_fe_solar if np.isfinite(a_ab_rel) else np.nan
+            # A_X_nlte_AB is relative when NLTE applied, absolute when unavailable — same
+            # convention as A_X_nlte. Only add solar offset when NLTE was applied (RYA-267).
+            a_ab     = (a_ab_rel + _a_fe_solar) if (np.isfinite(a_ab_rel) and nlte_ok) else \
+                       (a_ab_rel if np.isfinite(a_ab_rel) else np.nan)
             n_ab = int(fe_row.get('n_lines_AB', 0))
             print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}"
                   f"  element_grade={el_grade}")
