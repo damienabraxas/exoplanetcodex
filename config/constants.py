@@ -127,6 +127,20 @@ STAR_SOLAR = {
                                   # log_gf needs cross-check vs Johansson et al. 2003 (separate ticket).
 }
 
+# ── Procyon (α CMi A) stellar parameters ─────────────────────────────────────
+# Source: Allende Prieto et al. 2002, A&A 386, 1039 (spectroscopic analysis)
+# vturb fixed at literature value for ionisation-balance validation (RYA-238).
+STAR_PROCYON = {
+    'name'      : 'Procyon',
+    'hd'        : 'HD 61421',
+    'hip'       : 'HIP 37279',
+    'teff_K'    : 6530.0,   # ± 50 K
+    'logg'      : 3.96,     # ± 0.02
+    'feh'       : -0.04,    # ± 0.03
+    'vturb_kms' : 1.66,     # km/s fixed — Allende Prieto+2002
+    'rv_kms'    : -3.0,     # systemic RV
+}
+
 # ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
 # Source: VALD3 log_gf; Allende Prieto et al. 2001 (ApJ 556, L63) for EW.

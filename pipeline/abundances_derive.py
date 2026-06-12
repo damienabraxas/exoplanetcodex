@@ -46,7 +46,7 @@ import pandas as pd
 from pathlib import Path
 
 from config.constants import (
-    PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC,
+    PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
 )
@@ -330,7 +330,8 @@ def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
 def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       stellar_params_init: dict,
                                       model_grid: str = 'ATLAS9.Castelli',
-                                      max_iter: int = 10) -> tuple:
+                                      max_iter: int = 10,
+                                      vmic_fixed: bool = False) -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -438,7 +439,7 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         # walking off the atmosphere grid on large spurious slopes.
         if np.isfinite(ep_sl):
             params['teff_K']    += np.sign(ep_sl)  * min(abs(ep_sl)  / 0.05, 1.0) * 25
-        if np.isfinite(rew_sl):
+        if np.isfinite(rew_sl) and not vmic_fixed:
             params['vturb_kms'] += np.sign(rew_sl) * min(abs(rew_sl) / 0.10, 1.0) * 0.05
         if np.isfinite(ion_bal):
             params['logg']      += np.sign(ion_bal) * min(abs(ion_bal) / 0.05, 1.0) * 0.05
@@ -770,19 +771,21 @@ def _derive_abundances_cog_legacy(*args, **kwargs):
 def run(star_id: str = 'solar',
         model_grid: str = 'ATLAS9.Castelli',
         stellar_params_override: dict = None,
-        ew_override: str = None) -> pd.DataFrame:
+        ew_override: str = None,
+        vmic_fixed: bool = False) -> pd.DataFrame:
     """
     Derive abundances for a star and save results.
 
     Parameters
     ----------
-    star_id                  : 'solar' or '55cnc'
+    star_id                  : 'solar', 'procyon', or '55cnc'
     model_grid               : 'ATLAS9.Castelli' (FGK) or 'MARCS.GES' (M dwarfs)
     stellar_params_override  : override dict for uncertainty sensitivity runs (RYA-158)
                                keys: teff_K, logg, feh, vturb_kms
     ew_override              : path to an EW CSV to use instead of the default
                                solar_ew.csv (e.g. solar_ew_ges_reference.csv for
                                GES pre-stored calibration EWs — RYA-196)
+    vmic_fixed               : if True, hold vturb_kms fixed during convergence (RYA-238)
 
     Returns
     -------
@@ -798,6 +801,8 @@ def run(star_id: str = 'solar',
         params = stellar_params_override.copy()
     elif 'solar' in star_id.lower():
         params = STAR_SOLAR.copy()
+    elif 'procyon' in star_id.lower():
+        params = STAR_PROCYON.copy()
     else:
         params = STAR_55CNC.copy()
 
@@ -857,7 +862,7 @@ def run(star_id: str = 'solar',
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
           f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df = _iterative_parameter_convergence(
-        ew_df, params, model_grid=model_grid
+        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "

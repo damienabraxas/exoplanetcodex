@@ -214,9 +214,15 @@ def apply_fe_nlte_corrections(
         nlte_flag       : '3D_NLTE_Amarsi2022' | 'NLTE_unavailable' | '1D_LTE'
         nlte_ref        : citation string
     """
-    teff = float(stellar_params.get('teff_K', 5777))
-    logg = float(stellar_params.get('logg',   4.44))
-    vmic = float(stellar_params.get('vturb_kms', 1.0))
+    teff = float(np.clip(stellar_params.get('teff_K', 5777), *_GRID['teff']))
+    logg = float(np.clip(stellar_params.get('logg',   4.44), *_GRID['logg']))
+    vmic = float(np.clip(stellar_params.get('vturb_kms', 1.0), *_GRID['vmic']))
+    orig_teff = float(stellar_params.get('teff_K', 5777))
+    orig_logg = float(stellar_params.get('logg',   4.44))
+    if abs(orig_teff - teff) > 1 or abs(orig_logg - logg) > 0.001:
+        print(f"  NLTE grid clamp: Teff {orig_teff:.0f}→{teff:.0f} K, "
+              f"logg {orig_logg:.3f}→{logg:.3f} (grid [{_GRID['teff'][0]:.0f}-{_GRID['teff'][1]:.0f}], "
+              f"[{_GRID['logg'][0]:.1f}-{_GRID['logg'][1]:.1f}])")
 
     regions = _load_nlte_regions()
 
@@ -303,6 +309,19 @@ def apply_fe_nlte_corrections(
             result.at[idx, 'A_X_std_nlte']    = round(a_nlte_std, 3) if np.isfinite(a_nlte_std) else np.nan
             result.at[idx, 'nlte_flag']        = '3D_NLTE_Amarsi2022'
             result.at[idx, 'nlte_ref']         = 'Amarsi+2022_A&A_668_A68'
+
+            # Propagate per-line aberr and a_nlte back to the caller's per_line_df (RYA-238).
+            # fe_lines was built from a .copy() so we merge on wavelength to update in place.
+            wav_col = 'wavelength_air_A'
+            fe_mask = (per_line_df['element'] == 'Fe') & (per_line_df['ion'] == ion)
+            if 'aberr' not in per_line_df.columns:
+                per_line_df['aberr']  = np.nan
+            if 'a_nlte' not in per_line_df.columns:
+                per_line_df['a_nlte'] = np.nan
+            for _, lr in fe_lines.iterrows():
+                hit = fe_mask & (np.abs(per_line_df[wav_col] - lr[wav_col]) < 0.01)
+                per_line_df.loc[hit, 'aberr']  = lr['aberr']
+                per_line_df.loc[hit, 'a_nlte'] = lr['a_nlte']
 
         # ── Legacy mean-field path (no per_line_df) ───────────────────────────
         else:
