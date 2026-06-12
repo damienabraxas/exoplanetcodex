@@ -32,6 +32,10 @@ import sys
 from pathlib import Path
 from collections import defaultdict
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from data.linelists.vald_parse import is_vald_data_line
+
 # Update these paths to match actual unpacked filenames
 VALD_FILES = {
     'optical_3780_6910': Path('data/linelists/vald_procyon_raw/vald_procyon_optical.vald'),
@@ -86,26 +90,18 @@ def inspect_vald_file(label, filepath):
                 n_comment += 1
                 continue
 
-            # Identify VALD Long Format data lines by structure:
-            # Data:   'Fe 1',  3780.26, ...  → quote_parts[2] starts with ','
-            # Config: '  LS   ...'           → quote_parts[2] == ''
-            # Ref:    '_  Kurucz...', 'E 0.02 ...' → quote_parts[2] == ''
-            if not line.startswith("'"):
-                n_comment += 1
-                continue
-
-            quote_parts = line.split("'")
-            if len(quote_parts) < 3 or not quote_parts[2].startswith(','):
+            # Structural data-line test shared with all stars (RYA-269 refactor)
+            hit = is_vald_data_line(line)
+            if hit is None:
                 n_comment += 1
                 continue
 
             n_data += 1
             try:
-                species_raw = quote_parts[1].strip()   # e.g. 'Fe 1'
+                species_raw, after_species = hit       # e.g. 'Fe 1', ', 3780.2550, ...'
                 species_counts[species_raw] += 1
 
                 # Wavelength is first numeric field after the closing quote+comma
-                after_species = quote_parts[2]         # ',  3780.2550, -2.876, ...'
                 wl = float(after_species.split(',')[1].strip())
                 wavelengths.append(wl)
 
