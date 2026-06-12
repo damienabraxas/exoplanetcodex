@@ -361,3 +361,19 @@ def apply_fe_nlte_corrections(
                 result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
 
     return result
+
+
+# ── Ca / Ti / Cr NLTE — integration notes (RYA-256) ─────────────────────────
+# Grids: data/nlte_grids/{Ca_Mashonkina2017,Ti_Bergemann2011_MPIA,Cr_Bergemann2010_MPIA}.csv
+# Columns: element, wave_A, teff_K, logg, feh, delta_nlte
+#
+# UNIT CONVENTION: feh axis is [Fe/H] RELATIVE (range −0.5 to +0.3).
+# iSpec returns [X/H] relative (0.0 at solar) for all elements.
+# Caller should pass stellar_params['feh'] directly — NO solar offset needed.
+# This is unlike the Fe Amarsi grid (afe axis = absolute A(Fe) 4.5–7.5),
+# which required _A_FE_SOLAR = 7.46 added before lookup (see above, RYA-247).
+#
+# Expected solar deltas (Teff=5777, logg=4.4, feh=0.0):
+#   Ca: +0.013 dex (median, 8 lines)   — range −0.106 to +0.053
+#   Ti: +0.108 dex (median, 19 lines)  — range +0.101 to +0.133
+#   Cr: +0.073 dex (median, 46 lines)  — range +0.009 to +0.132
