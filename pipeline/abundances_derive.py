@@ -47,10 +47,27 @@ from pathlib import Path
 
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
+    STAR_LINELISTS,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
 )
+
+
+def _star_linelist(star_id: str):
+    """
+    Resolve the per-star linelist path from STAR_LINELISTS (RYA-270).
+    Substring match on star_id, same convention as stellar-param routing.
+    Falls back to the solar list WITH AN EXPLICIT WARNING — a star silently
+    analysed against the solar pool is exactly the failure mode RYA-270 fixed.
+    """
+    for key, path in STAR_LINELISTS.items():
+        if key in star_id.lower():
+            return path, key
+    print(f"  WARNING: no linelist mapping for star '{star_id}' — "
+          f"falling back to linelist_solar (add an entry to "
+          f"config.constants.STAR_LINELISTS)")
+    return PATHS['linelist_solar'], 'solar (fallback)'
 
 # ── iSpec bootstrap ───────────────────────────────────────────────────────────
 sys.path.insert(0, str(ISPEC_DIR))
@@ -554,7 +571,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
 
 def _compute_line_scores(per_line_df: pd.DataFrame,
                          ew_df: pd.DataFrame,
-                         results_df: pd.DataFrame = None) -> pd.DataFrame:
+                         results_df: pd.DataFrame = None,
+                         linelist_path=None) -> pd.DataFrame:
     """
     Compute per-line quality scores and assign letter grades — RYA-220.
 
@@ -577,7 +595,9 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
                 for k, v in ew_df.groupby(['element', 'ion'])}
 
     try:
-        ll = pd.read_csv(str(PATHS['linelist_solar']),
+        # Per-star linelist (RYA-270); default preserves the solar behaviour.
+        _ll_path = linelist_path if linelist_path is not None else PATHS['linelist_solar']
+        ll = pd.read_csv(str(_ll_path),
                          usecols=['element', 'ion', 'wavelength_air_A', 'vald_proximity_flag'],
                          low_memory=False)
         ll_by_ei = {k: v.reset_index(drop=True) for k, v in ll.groupby(['element', 'ion'])}
@@ -838,16 +858,29 @@ def run(star_id: str = 'solar',
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
+    # Per-star linelist routing (RYA-270) — explicit and logged, so a star
+    # silently analysed against the solar pool can never go unnoticed again.
+    _star_ll_path, _star_ll_key = _star_linelist(star_id)
+    try:
+        _ll_full = pd.read_csv(str(_star_ll_path), comment='#', low_memory=False)
+        _fe_pool = _ll_full[(_ll_full['element'] == 'Fe')]
+        if 'priority' in _ll_full.columns:
+            _fe_pool = _fe_pool[_fe_pool['priority'] > 0]
+        _n_fe1 = int((_fe_pool['ion'] == 'I').sum())
+        _n_fe2 = int((_fe_pool['ion'] == 'II').sum())
+        print(f"  Linelist loaded for {star_id}: "
+              f"{Path(str(_star_ll_path)).relative_to(Path(str(PATHS['data_root'])).parent)} "
+              f"({_n_fe1} Fe I, {_n_fe2} Fe II)")
+    except Exception as _e:
+        raise FileNotFoundError(
+            f"Star linelist not loadable: {_star_ll_path} — {_e}")
+
     # Vetted blend cross-reference from linelist — RYA-209.
-    # linelist_solar.csv blend_flag=True rows are the authoritative vetted exclusion list.
+    # The star linelist's blend_flag=True rows are the authoritative vetted exclusion list.
     # Hard exclusion applies only to confirmed non-separable blends, not VALD proximity.
     # vald_proximity_flag (continuous 0-1) feeds into the RYA-220 quality scorer instead.
     try:
-        _ll = pd.read_csv(
-            str(PATHS['linelist_solar']),
-            usecols=['element', 'ion', 'wavelength_air_A', 'blend_flag'],
-            low_memory=False,
-        )
+        _ll = _ll_full[['element', 'ion', 'wavelength_air_A', 'blend_flag']]
         _ll_vetted = _ll[_ll['blend_flag'] == True][['element', 'ion', 'wavelength_air_A']]
         if 'blend_flag' not in ew_df.columns:
             ew_df['blend_flag'] = False
@@ -869,6 +902,32 @@ def run(star_id: str = 'solar',
               f"{_newly} line(s) marked blend_flag=True in EW data")
     except Exception as _e:
         print(f"  WARNING: vetted blend cross-reference failed — {_e}")
+
+    # Fe pool-membership filter (RYA-270): for stars with a bespoke linelist,
+    # the linelist's priority>0 Fe rows DEFINE the admissible Fe pool — EW
+    # measurements of Fe lines outside it (e.g. solar-pool lines contaminated
+    # at F-star temperatures) are excluded from convergence and abundance
+    # derivation. The solar path is exempt: its EW pool was built FROM
+    # linelist_solar by lines_fit, so membership holds by construction and
+    # solar behaviour stays bit-for-bit unchanged. Non-Fe rows pass through
+    # (Fe selection is the scope of RYA-270; gates are Fe-only).
+    if Path(str(_star_ll_path)) != Path(str(PATHS['linelist_solar'])):
+        _fe_ew = (ew_df['element'] == 'Fe')
+        _pool_w = {ion: _fe_pool.loc[_fe_pool['ion'] == ion,
+                                     'wavelength_air_A'].values
+                   for ion in ('I', 'II')}
+        _member = np.ones(len(ew_df), dtype=bool)
+        for _i in ew_df.index[_fe_ew]:
+            _ion = ew_df.at[_i, 'ion']
+            _w   = float(ew_df.at[_i, 'wavelength_air_A'])
+            _pw  = _pool_w.get(_ion, np.array([]))
+            _member[ew_df.index.get_loc(_i)] = (
+                len(_pw) > 0 and np.abs(_pw - _w).min() < 0.05)
+        _n_dropped = int((~_member).sum())
+        ew_df = ew_df[_member].copy()
+        print(f"  Fe pool-membership filter ({_star_ll_key} linelist): "
+              f"{_n_dropped} Fe EW line(s) outside the F-star pool excluded, "
+              f"{int((ew_df['element'] == 'Fe').sum())} Fe line(s) retained")
 
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
@@ -905,7 +964,8 @@ def run(star_id: str = 'solar',
     print(f"  Weights: {LINE_SCORE_WEIGHTS}")
     scored_df = pd.DataFrame()
     if not per_line_df.empty:
-        scored_df = _compute_line_scores(per_line_df, ew_df, results_df=results)
+        scored_df = _compute_line_scores(per_line_df, ew_df, results_df=results,
+                                         linelist_path=_star_ll_path)
         results   = _element_grade_summary(scored_df, results)
 
     # ── Save ──────────────────────────────────────────────────────

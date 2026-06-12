@@ -222,6 +222,7 @@ PATHS = {
     # Key data files
     'linelist_master'   : ROOT / 'data' / 'linelists' / 'linelist_master.csv',
     'linelist_solar'    : ROOT / 'data' / 'linelists' / 'linelist_solar.csv',
+    'linelist_procyon'  : ROOT / 'data' / 'linelists' / 'linelist_procyon.csv',
     'solar_reference'   : ROOT / 'data' / 'linelists' / 'solar_asplund2021.csv',
     'atlas9_grid'       : ROOT / 'data' / 'model_atmospheres' / 'atlas9',
 
@@ -233,6 +234,17 @@ PATHS = {
     'solar_diagnostic'  : ROOT / 'results' / 'plots' / 'solar_continuum_diagnostic.png',
     'solar_ew'          : ROOT / 'data' / 'processed' / 'solar_ew.csv',
     'solar_ew_diagnostic': ROOT / 'results' / 'plots' / 'solar_ew_diagnostic.png',
+}
+
+# ── Star → linelist mapping (RYA-270) ────────────────────────────────────────
+# Explicit per-star linelist routing. Stars not listed here fall back to the
+# solar list — the fallback is LOGGED at runtime by abundances_derive so a
+# star silently running on the solar pool can never go unnoticed again.
+# Keys are matched by substring against star_id (same convention as the
+# stellar-parameter routing in abundances_derive.run()).
+STAR_LINELISTS = {
+    'solar'   : PATHS['linelist_solar'],
+    'procyon' : PATHS['linelist_procyon'],
 }
 
 # ── iSpec / Turbospectrum installation ───────────────────────────────────────
