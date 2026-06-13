@@ -462,6 +462,9 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
     t0 = time.time()
     print(f"\n  [synth] Starting synthesis-EW bisection — RYA-285 ({star_id})")
 
+    _synth_tmp = '/tmp/ispec_codex_synth'
+    Path(_synth_tmp).mkdir(exist_ok=True, parents=True)
+
     linelist, isotopes, chem_elements = _load_synth_resources()
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
 
@@ -528,6 +531,7 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
             linelist, isotopes, solar_abund,
             element, a_code,
             a_lo=a_lo, a_hi=a_hi,
+            tmp_dir=_synth_tmp,
         )
 
         if converged:
@@ -1348,6 +1352,10 @@ def run(star_id: str = 'solar',
 
 if __name__ == '__main__':
     import sys as _sys
+    from pathlib import Path as _Path
+    _repo = str(_Path(__file__).resolve().parent.parent)
+    if _repo not in _sys.path:
+        _sys.path.insert(0, _repo)
     star   = _sys.argv[1] if len(_sys.argv) > 1 else 'solar'
     grid   = _sys.argv[2] if len(_sys.argv) > 2 else 'ATLAS9.Castelli'
     engine = _sys.argv[3] if len(_sys.argv) > 3 else 'spectrum'
