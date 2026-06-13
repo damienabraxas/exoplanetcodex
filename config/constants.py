@@ -237,8 +237,10 @@ PATHS = {
     'solar_diagnostic'  : ROOT / 'results' / 'plots' / 'solar_continuum_diagnostic.png',
     'solar_ew'          : ROOT / 'data' / 'processed' / 'solar_ew.csv',
     'solar_ew_diagnostic': ROOT / 'results' / 'plots' / 'solar_ew_diagnostic.png',
-    'procyon_normalized': ROOT / 'data' / 'processed' / 'procyon_normalized.csv',
-    'procyon_diagnostic': ROOT / 'results' / 'plots' / 'procyon_continuum_diagnostic.png',
+    'procyon_normalized' : ROOT / 'data' / 'processed' / 'procyon_normalized.csv',
+    'procyon_diagnostic' : ROOT / 'results' / 'plots' / 'procyon_continuum_diagnostic.png',
+    'procyon_ew'         : ROOT / 'data' / 'processed' / 'procyon_ew.csv',
+    'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
 }
 
 # ── Star → linelist mapping (RYA-270) ────────────────────────────────────────
@@ -250,6 +252,24 @@ PATHS = {
 STAR_LINELISTS = {
     'solar'   : PATHS['linelist_solar'],
     'procyon' : PATHS['linelist_procyon'],
+}
+
+# ── Per-star EW fitting parameters (RYA-273) ─────────────────────────────────
+# Solar values mirror PIPELINE defaults. Procyon fit_window_A is wider:
+#   Teff 6530 K (vs 5777 K solar) → ~6% broader thermal line widths; lower
+#   logg 3.96 (vs 4.44) deepens Voigt pressure wings. 2.5 Å keeps continuum
+#   anchors clear of those wings while remaining selective in the crowded
+#   F-star optical spectrum. voigt_threshold_mA unchanged — profile regime
+#   decision depends on EW, which scales with abundance, not with Teff.
+EW_FIT_PARAMS = {
+    'solar': {
+        'fit_window_A'      : 2.0,
+        'voigt_threshold_mA': 150,
+    },
+    'procyon': {
+        'fit_window_A'      : 2.5,
+        'voigt_threshold_mA': 150,
+    },
 }
 
 # ── Per-star continuum normalization parameters (RYA-274) ─────────────────────
