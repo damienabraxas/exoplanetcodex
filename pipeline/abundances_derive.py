@@ -421,7 +421,19 @@ def _bisect_synth_abundance(waveobs_nm: np.ndarray,
         print(f"      FAILED bracket eval: {exc}")
         return np.nan, False, 0
 
-    if ew_hi <= ew_lo or ew_obs_mA <= ew_lo or ew_obs_mA >= ew_hi:
+    # Differential bisection: the synthesis window integrates ALL species in the
+    # window, not just the target element.  EW_obs is the Gaussian-fitted EW of
+    # only the target line.  Use ew_floor = ew_lo (blend floor at minimum
+    # target-element abundance) to align scales: find A_X where
+    # ew_synthesis(A_X) = ew_floor + ew_obs.
+    ew_floor  = ew_lo
+    ew_target = ew_floor + ew_obs_mA
+
+    if ew_hi <= ew_target:
+        return np.nan, False, 0
+    # Guard: if blend response (ew_hi - ew_lo) is smaller than 10% of EW_obs,
+    # the target line is too weak to measure in this window.
+    if (ew_hi - ew_lo) < ew_obs_mA * 0.10:
         return np.nan, False, 0
 
     a_mid = a_lo
@@ -432,10 +444,10 @@ def _bisect_synth_abundance(waveobs_nm: np.ndarray,
         except Exception as exc:
             print(f"      FAILED iter {n_iter}: {exc}")
             return np.nan, False, n_iter
-        if (abs(ew_mid - ew_obs_mA) / max(ew_obs_mA, 1.0) < tol
+        if (abs(ew_mid - ew_target) / max(ew_target, 1.0) < tol
                 or (a_hi - a_lo) < tol):
             return a_mid, True, n_iter
-        if ew_mid < ew_obs_mA:
+        if ew_mid < ew_target:
             a_lo = a_mid
         else:
             a_hi = a_mid
