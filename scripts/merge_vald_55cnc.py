@@ -66,6 +66,11 @@ MOLECULAR_RYA197 = ['CH', 'CN', 'C2', 'NH', 'OH', 'CO']
 MOLECULAR_NOTE = ('MOLECULAR — VALD non-authoritative, '
                   'pending RYA-197 ExoMol/Brooke replacement')
 
+# Molecular hydrides — not RYA-197 CNO carriers; excluded from atomic EW only.
+MOLECULAR_HYDRIDES = ['SiH', 'MgH']
+HYDRIDE_NOTE = ('MOLECULAR HYDRIDE — excluded from atomic EW; '
+                'NOT RYA-197 CNO scope')
+
 # Vacuum/air boundary: VALD delivers vacuum wavelengths below 2000 Å despite
 # the WL_air(A) column label. NO conversion at merge stage — conversion to
 # match STIS vacuum frames happens at the spectrum-matching boundary (RYA-269).
@@ -230,16 +235,26 @@ def main():
     print(f"       Molecular lines flagged for RYA-197: {int(mol_mask.sum())} "
           f"({counts_str})")
 
-    # Other molecular species delivered by VALD but outside the RYA-197 six —
-    # reported (not silently dropped, not RYA-197-flagged; Ryan to decide).
+    # Molecular hydrides (SiH, MgH) — excluded from atomic EW, distinct from
+    # the RYA-197 six (not CNO carriers, not ExoMol/Brooke scope). Reuses the
+    # notes column, the same mechanism as the RYA-197 exclusion above.
+    hydride_mask = merged['element'].isin(MOLECULAR_HYDRIDES)
+    merged.loc[hydride_mask, 'notes'] = HYDRIDE_NOTE
+    hyd_counts = merged.loc[hydride_mask, 'element'].value_counts()
+    hyd_str = ', '.join(f"{m}: {hyd_counts.get(m, 0)}" for m in MOLECULAR_HYDRIDES)
+    print(f"       Molecular hydrides flagged (excl. atomic EW, NOT RYA-197): "
+          f"{int(hydride_mask.sum())} ({hyd_str})")
+
+    # Residual: any non-atomic, non-RYA-197, non-hydride species — report only.
     _ATOMS = set("""H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V
         Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag
         Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu
         Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Th U""".split())
-    other_mol = merged.loc[~merged['element'].isin(_ATOMS) & ~mol_mask, 'element']
+    other_mol = merged.loc[
+        ~merged['element'].isin(_ATOMS) & ~mol_mask & ~hydride_mask, 'element']
     if len(other_mol):
         oc = other_mol.value_counts()
-        print(f"       Other molecular species (NOT RYA-197-flagged): "
+        print(f"       Other unclassified molecular species: "
               + ', '.join(f"{k}: {v}" for k, v in oc.items()))
     print(f"       Parse failures: {fail_total}")
 
