@@ -603,16 +603,23 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
     ew_by_ei = {k: v.reset_index(drop=True)
                 for k, v in ew_df.groupby(['element', 'ion'])}
 
-    try:
-        # Per-star linelist (RYA-270); default preserves the solar behaviour.
-        _ll_path = linelist_path if linelist_path is not None else PATHS['linelist_solar']
-        ll = pd.read_csv(str(_ll_path),
-                         usecols=['element', 'ion', 'wavelength_air_A', 'vald_proximity_flag'],
-                         low_memory=False)
-        ll_by_ei = {k: v.reset_index(drop=True) for k, v in ll.groupby(['element', 'ion'])}
-    except Exception as _e:
-        print(f"  WARNING: vald_proximity_flag load failed — {_e}")
-        ll_by_ei = {}
+    # RYA-280: load linelist for proximity flag lookup.
+    # comment='#' is required — per-star linelists (e.g. linelist_procyon.csv) carry
+    # metadata comment blocks before the header row. Without it, pandas reads the
+    # first comment line as the header, all four usecols fail to match, and the
+    # old bare-except block defaulted vpf_arr to 0.5 silently — scoring was inert.
+    _ll_path = linelist_path if linelist_path is not None else PATHS['linelist_solar']
+    _ll_required = ['element', 'ion', 'wavelength_air_A', 'vald_proximity_flag']
+    _ll_raw = pd.read_csv(str(_ll_path), comment='#', low_memory=False)
+    _missing = [c for c in _ll_required if c not in _ll_raw.columns]
+    if _missing:
+        raise KeyError(
+            f"vald_proximity_flag load failed: columns {_missing} not found in "
+            f"{_ll_path}. Expected columns: {_ll_required}. "
+            f"Actual columns: {list(_ll_raw.columns[:10])}..."
+        )
+    ll = _ll_raw[_ll_required]
+    ll_by_ei = {k: v.reset_index(drop=True) for k, v in ll.groupby(['element', 'ion'])}
 
     vpf_arr  = np.full(n, 0.5)
     snr_arr  = np.full(n, 0.5)
