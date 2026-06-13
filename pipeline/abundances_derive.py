@@ -1127,7 +1127,8 @@ def run(star_id: str = 'solar',
         stellar_params_override: dict = None,
         ew_override: str = None,
         vmic_fixed: bool = False,
-        engine: str = 'spectrum') -> tuple:
+        engine: str = 'spectrum',
+        skip_convergence: bool = False) -> tuple:
     """
     Derive abundances for a star and save results.
 
@@ -1258,6 +1259,27 @@ def run(star_id: str = 'solar',
         print(f"  Fe pool-membership filter ({_star_ll_key} linelist): "
               f"{_n_dropped} Fe EW line(s) outside the F-star pool excluded, "
               f"{int((ew_df['element'] == 'Fe').sum())} Fe line(s) retained")
+
+    # ── Pinned-params synthesis (RYA-285 Step 2) ──────────────────
+    # skip_convergence: derive at EXACTLY the supplied params (no Teff/logg/ξ
+    # iteration), then run synthesis. Used to compare engines at a fixed
+    # benchmark anchor where convergence would otherwise walk the params and
+    # confound the engine diff with a stellar-parameter difference.
+    if skip_convergence:
+        if engine != 'synthesis':
+            raise ValueError("skip_convergence is only supported with engine='synthesis'")
+        print(f"\n[3/4] PINNED params (skip_convergence) — no iteration:")
+        print(f"  Teff={params['teff_K']:.0f} K  logg={params['logg']:.2f}  "
+              f"[Fe/H]={params['feh']}  vturb={params['vturb_kms']:.2f} km/s")
+        _atm = _load_atmosphere(params['teff_K'], params['logg'], params['feh'],
+                                params['vturb_kms'], model_grid=model_grid)
+        last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid)
+        out_dir = Path(str(PATHS['solar_ew'])).parent
+        print(f"\n[4/4] Synthesis-EW mode (Turbospectrum bisection) — pinned params...")
+        results_synth, _ = _run_synthesis_mode(
+            last_linemasks, params, _atm, star_id, out_dir)
+        print(f"\n{'='*62}\n  abundances_derive complete (pinned synthesis).\n{'='*62}\n")
+        return params, results_synth
 
     # ── Iterative convergence ─────────────────────────────────────
     print(f"\n[3/4] Iterating to stellar parameter equilibrium "
