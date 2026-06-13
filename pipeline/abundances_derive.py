@@ -564,6 +564,7 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
             'wavelength_air_A': wave_A, 'ew_mA': ew_obs,
             'a_synth': round(float(a_x), 4) if np.isfinite(a_x) else np.nan,
             'converged': converged, 'n_iter': n_iter,
+            'saturated': bool(ew_obs > ew_ceil),
         })
 
     wall = time.time() - t0
@@ -572,20 +573,41 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
 
     per_line_synth_df = pd.DataFrame(per_line_rows)
 
-    # Aggregate per-element medians from converged lines only
-    ok_df = per_line_synth_df[per_line_synth_df['converged'] == True].copy()
+    # Aggregate per-element medians from converged, non-saturated lines.
+    # The narrow GES synthesis window (≈0.2-0.3 Å) captures the line core but
+    # NOT the damping wings, so saturated lines (EW > vmic_ew_ceiling_mA) over-
+    # estimate A(X) by 2-4 dex in this method. They are converged but unphysical
+    # — exclude from the element aggregate (the per-line CSV keeps them flagged).
+    #
+    # A_X is reported DIFFERENTIAL vs the iSpec Asplund-2009 reference, matching
+    # the live MOOG/SPECTRUM path (whose A_X column is also differential, ≈0 for
+    # the Sun). This keeps both engines on the same scale so rya_engine_diff can
+    # join on A_X. A_X_abs carries the absolute A(X) for science use.
+    ok_df = per_line_synth_df[
+        (per_line_synth_df['converged'] == True) &
+        (per_line_synth_df['saturated'] == False)
+    ].copy()
+    n_sat_excl = int(((per_line_synth_df['converged'] == True) &
+                      (per_line_synth_df['saturated'] == True)).sum())
+    if n_sat_excl:
+        print(f"  [synth] Aggregate excludes {n_sat_excl} converged-but-saturated "
+              f"line(s) (EW > {ew_ceil:.0f} mÅ — narrow-window method invalid there)")
+
     rows = []
     if not ok_df.empty:
         for (elem, ion), grp in ok_df.groupby(['element', 'ion']):
             a_vals = grp['a_synth'].dropna().values.astype(float)
             if len(a_vals) == 0:
                 continue
-            a_med   = float(np.nanmedian(a_vals))
-            a_std   = float(np.nanstd(a_vals)) if len(a_vals) > 1 else np.nan
-            a_sol21 = SOLAR_ASPLUND2021.get(elem, np.nan)
+            a_med    = float(np.nanmedian(a_vals))
+            a_std    = float(np.nanstd(a_vals)) if len(a_vals) > 1 else np.nan
+            a_ref_09 = solar_A_ispec.get(elem, np.nan)   # iSpec Asplund-2009 absolute
+            a_diff   = a_med - a_ref_09 if np.isfinite(a_ref_09) else np.nan
+            a_sol21  = SOLAR_ASPLUND2021.get(elem, np.nan)
             xh = round(a_med - a_sol21, 3) if np.isfinite(a_sol21) else np.nan
             rows.append({'element': elem, 'ion': ion,
-                         'A_X': round(a_med, 3),
+                         'A_X'    : round(a_diff, 3) if np.isfinite(a_diff) else np.nan,
+                         'A_X_abs': round(a_med, 3),
                          'A_X_std': round(a_std, 3) if np.isfinite(a_std) else np.nan,
                          'n_lines': len(a_vals), 'XH': xh})
 
