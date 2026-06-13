@@ -407,7 +407,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         # Lines in the damping regime have REW insensitive to vmic but high
         # sensitivity to damping parameters — they corrupt the slope and prevent
         # convergence. Standard practice: Mucciarelli 2011, Sousa et al. 2011.
-        # Full fe1_mask (all Fe I) is still used for A(Fe I) and ionisation balance.
+        # NOTE (RYA-279): the same ceiling is applied to the final gate-statistic
+        # pool (post-convergence). The two cuts share PIPELINE['vmic_ew_ceiling_mA'].
         _vmic_ew_max   = float(PIPELINE['vmic_ew_ceiling_mA'])
         fe1_slope_mask = fe1_mask & (linemasks['ew'] <= _vmic_ew_max)
         n_fe1_post_cog = int(fe1_slope_mask.sum())
@@ -485,10 +486,32 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     # the Asplund 2021 solar reference (RYA-200).
     notes = np.array([str(n) for n in last_linemasks['note']])
 
-    # Pass 1: compute A(X) and [X/H] for all elements on Asplund 2021 scale
+    # RYA-279: single ceiling-correct Fe I pool — gate statistics AND per-line CSV
+    # both draw from the same set of lines. Previously A_X_std was computed over
+    # the full Fe I pool (all EW) while per_line_df had the ceiling applied
+    # post-hoc, creating a divergence: the gate σ reflected lines the CSV excluded.
+    # Fix: apply ceiling once here; use this mask everywhere downstream.
+    # Fe II: no ceiling (Fe II lines are fewer, weaker, and not in the damping regime
+    # at the EW values seen in practice). Ceiling is Fe I specific.
+    _ew_ceiling      = float(PIPELINE['vmic_ew_ceiling_mA'])
+    _lm_ew           = np.array([float(last_linemasks['ew'][i])
+                                  for i in range(len(last_linemasks))])
+    _fe1_ceiling_mask = (notes == 'Fe 1') & (_lm_ew <= _ew_ceiling)
+    _n_fe1_all        = int((notes == 'Fe 1').sum())
+    _n_fe1_ceiling    = int(_fe1_ceiling_mask.sum())
+    if _n_fe1_all > _n_fe1_ceiling:
+        print(f"  Gate pool COG cut (RYA-279): {_n_fe1_all} → {_n_fe1_ceiling} Fe I lines "
+              f"({_n_fe1_all - _n_fe1_ceiling} EW > {_ew_ceiling:.0f} mÅ removed; "
+              f"gate σ and per-line CSV now share the same pool)")
+
+    # Pass 1: compute A(X) and [X/H] for all elements on Asplund 2021 scale.
+    # Fe I uses the ceiling-correct pool; all other species use the full pool.
     rows_pass1 = []
     for note in np.unique(notes):
-        mask  = notes == note
+        if note == 'Fe 1':
+            mask = _fe1_ceiling_mask
+        else:
+            mask = notes == note
         valid = np.isfinite(last_spec_abund[mask])
         if valid.sum() == 0:
             continue
@@ -525,13 +548,15 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     results_df = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
 
     # Build per-line DataFrame for NLTE per-line corrections (RYA-207).
-    # Contains one row per Fe I/II line that survived all filters and contributed
-    # to the final abundance — atomic data + individual 1D LTE A(Fe) per line.
+    # Fe I: ceiling-correct pool only (same pool as gate statistics, per RYA-279).
+    # Fe II: all lines with finite abundances.
     per_line_rows = []
     for i in range(len(last_linemasks)):
         note = str(last_linemasks['note'][i])
         if note not in ('Fe 1', 'Fe 2'):
             continue
+        if note == 'Fe 1' and _lm_ew[i] > _ew_ceiling:
+            continue  # excluded from gate pool — also excluded from CSV (RYA-279)
         a_val = float(last_spec_abund[i])
         if not np.isfinite(a_val):
             continue
@@ -547,22 +572,6 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
             'a_1dlte'                : round(a_val, 4),
         })
     per_line_df = pd.DataFrame(per_line_rows) if per_line_rows else pd.DataFrame()
-
-    # Apply COG ceiling to final abundance pool — same physical basis as vmic slope cut.
-    # Lines in the damping regime (EW > vmic_ew_ceiling_mA) have abundances driven by
-    # damping parameters, not line strength. Excluding them from the final pool is
-    # consistent with Mucciarelli 2011 and GES methodology.
-    # Reference: PIPELINE['vmic_ew_ceiling_mA'] = 150.0 (set in RYA-226)
-    if not per_line_df.empty and 'ew_mA' in per_line_df.columns:
-        _ew_ceiling   = float(PIPELINE['vmic_ew_ceiling_mA'])
-        _fe1_pool     = per_line_df['ion'] == 'I'
-        _n_fe1_before = int(_fe1_pool.sum())
-        per_line_df   = per_line_df[~_fe1_pool | (per_line_df['ew_mA'] <= _ew_ceiling)].copy()
-        _n_fe1_after  = int((per_line_df['ion'] == 'I').sum())
-        if _n_fe1_before > _n_fe1_after:
-            print(f"  Final pool COG cut: {_n_fe1_before} → {_n_fe1_after} Fe I lines "
-                  f"({_n_fe1_before - _n_fe1_after} saturated lines removed, "
-                  f"EW > {_ew_ceiling:.0f} mÅ)")
 
     return params, results_df, per_line_df
 
