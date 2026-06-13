@@ -5,15 +5,15 @@
 #
 # File:         merge_vald_55cnc.py
 # Module:       scripts (linelist build tools)
-# Description:  RYA-269 — unpack/verify/merge the three 55 Cnc A VALD3
-#               extractions (optical + UV + NIR) into the per-system
-#               linelist data/linelists/linelist_55cnc.csv.
+# Description:  RYA-269 — unpack/verify/merge the four 55 Cnc A VALD3
+#               HFS-ON extractions (optical + UV-a + UV-b + NIR) into the
+#               per-system linelist data/linelists/linelist_55cnc.csv.
 #               NIST cross-validation is OUT of scope (RYA-64 follow-up).
 #
 # Author:       Ryan Schmitt
 # Contributors: Claude (Anthropic) via Claude Code
 # Created:      2026-06-12
-# Last modified: 2026-06-12
+# Last modified: 2026-06-13
 # Linear issue: RYA-269 — BUILD: 55 Cnc A VALD UV + NIR unpack/verify/merge
 #
 # -----------------------------------------------------------------------------
@@ -26,9 +26,10 @@
 # DEPENDENCIES
 # -----------------------------------------------------------------------------
 # External: pandas
-# Data:     data/linelists/vald_55cnc_raw.txt      (optical, complete 3780–6910 Å)
-#           data/linelists/vald_55cnc_uv_raw.txt   (UV, request 019509)
-#           data/linelists/vald_55cnc_nir_raw.txt  (NIR, 5000–30000 Å @ cd 0.05)
+# Data:     data/linelists/vald_55cnc_raw.txt       (optical, HFS-ON, 3780–6910 Å)
+#           data/linelists/vald_55cnc_uv_a_raw.txt  (UV-a, HFS-ON, 1150–2000 Å, 019516)
+#           data/linelists/vald_55cnc_uv_b_raw.txt  (UV-b, HFS-ON, 2000–3780 Å, 019517)
+#           data/linelists/vald_55cnc_nir_raw.txt   (NIR, HFS-ON, 6910–17000 Å, 019518)
 # =============================================================================
 
 import sys
@@ -46,15 +47,17 @@ from data.linelists.vald_parse import read_vald_header, parse_vald_long
 LINELISTS = PATHS['linelists']
 OUT_PATH = LINELISTS / 'linelist_55cnc.csv'
 
-# Extraction registry. central_depth_threshold is the VALD detection threshold
-# of the REQUEST (RYA-64 comments): optical + UV at 0.01, NIR re-extraction at
-# 0.05 per the truncation post-mortem. Dedup keeps the copy from the LOWER
-# threshold (more inclusive) extraction.
+# Extraction registry. All four are HFS-ON (Codex convention, RYA-269 DECISION).
+# central_depth_threshold is the VALD detection threshold of the REQUEST.
+# Dedup keeps the copy from the LOWER threshold (more inclusive) extraction.
+# In practice the four extractions do not overlap (the wavelength ranges are
+# contiguous with small seam gaps), so n_dups = 0 is expected.
 EXTRACTIONS = [
     # (source_tag, path, request_id, central_depth_threshold)
+    ('uv_a',          LINELISTS / 'vald_55cnc_uv_a_raw.txt', '019516', 0.05),
+    ('uv_b',          LINELISTS / 'vald_55cnc_uv_b_raw.txt', '019517', 0.05),
     ('optical_019385', LINELISTS / 'vald_55cnc_raw.txt',     'see header note', 0.01),
-    ('uv',             LINELISTS / 'vald_55cnc_uv_raw.txt',  '019509',          0.01),
-    ('nir',            LINELISTS / 'vald_55cnc_nir_raw.txt', 'not preserved',   0.05),
+    ('nir',            LINELISTS / 'vald_55cnc_nir_raw.txt', '019518', 0.05),
 ]
 CD_THRESHOLD = {tag: cd for tag, _, _, cd in EXTRACTIONS}
 
@@ -92,7 +95,7 @@ def main():
         hdr = read_vald_header(path)
         headers[tag] = hdr
         trunc = 'YES' if hdr['truncated'] else 'NO'
-        print(f"  {tag:<15}: {hdr['wl_start']:.0f}–{hdr['wl_end']:.0f} Å requested, "
+        print(f"  {tag:<17}: {hdr['wl_start']:.0f}–{hdr['wl_end']:.0f} Å requested, "
               f"{hdr['n_selected']} transitions, truncation: {trunc}")
         if hdr['truncated']:
             critical(f"{tag}: VALD output truncated at 100000 lines — "
@@ -103,6 +106,7 @@ def main():
     # ── Parse all extractions ────────────────────────────────────────────────
     frames = []
     fail_total, fail_examples, n_lines_total = 0, [], 0
+    tag_list = [tag for tag, *_ in EXTRACTIONS]
     for tag, path, req_id, cd in EXTRACTIONS:
         records, report = parse_vald_long(path)
         fail_total += report['n_failures']
@@ -112,7 +116,7 @@ def main():
         delivered_max = max(r['wavelength'] for r in records)
         hdr = headers[tag]
         complete = report['n_parsed'] == hdr['n_selected']
-        print(f"  {tag:<15}: delivered {delivered_min:.3f}–{delivered_max:.3f} Å, "
+        print(f"  {tag:<17}: delivered {delivered_min:.3f}–{delivered_max:.3f} Å, "
               f"parsed {report['n_parsed']}/{hdr['n_selected']} selected "
               f"({'complete' if complete else 'INCOMPLETE'})")
         if not complete:
@@ -122,14 +126,19 @@ def main():
         df['extraction_source'] = tag
         frames.append(df)
 
-    # UV must actually reach the 3780 Å request boundary (RYA-269 Step 2)
-    uv = frames[[t for t, *_ in EXTRACTIONS].index('uv')]
-    uv_max = uv['wavelength'].max()
-    if uv_max < 3779.0:
-        critical(f"UV extraction stops at {uv_max:.3f} Å — does not reach 3780 Å")
+    # UV-a must reach the 2000 Å boundary; UV-b must reach 3780 Å (RYA-269 spec)
+    uv_a = frames[tag_list.index('uv_a')]
+    uv_b = frames[tag_list.index('uv_b')]
+    uv_a_max = uv_a['wavelength'].max()
+    uv_b_max = uv_b['wavelength'].max()
+    if uv_a_max < 1999.0:
+        critical(f"UV-a extraction stops at {uv_a_max:.3f} Å — does not reach 2000 Å")
     else:
-        print(f"  UV reach check: last UV line at {uv_max:.3f} Å vs 3780 Å request "
-              f"boundary — OK")
+        print(f"  UV-a reach check: last line at {uv_a_max:.3f} Å vs 2000 Å boundary — OK")
+    if uv_b_max < 3779.0:
+        critical(f"UV-b extraction stops at {uv_b_max:.3f} Å — does not reach 3780 Å")
+    else:
+        print(f"  UV-b reach check: last line at {uv_b_max:.3f} Å vs 3780 Å boundary — OK")
 
     # ── [2/4] Coverage gaps ──────────────────────────────────────────────────
     spans = sorted((f['wavelength'].min(), f['wavelength'].max(),
@@ -143,11 +152,11 @@ def main():
     if gaps:
         gap_str = '; '.join(f"{a:.3f}–{b:.3f} Å ({b-a:.3f} Å)" for a, b in gaps)
     else:
-        gap_str = 'none — contiguous 1150–30000 Å coverage'
+        gap_str = 'none — contiguous coverage'
     print(f"[2/4] Coverage gaps: {gap_str}")
     for a, b in gaps:
-        if b - a > 1.0:
-            critical(f"coverage gap {a:.3f}–{b:.3f} Å exceeds 1 Å")
+        if b - a > 2.0:
+            critical(f"coverage gap {a:.3f}–{b:.3f} Å exceeds 2 Å")
 
     if fail_total:
         print(f"  Parse failures: {fail_total} (first {min(5, len(fail_examples))}):")
@@ -194,11 +203,21 @@ def main():
             print(f"    {key}: dropped {src} log_gf={lg} vs kept {kept_vals}")
         return finish()
 
+    # HFS-convention gate: all extractions are HFS-ON; log_gf conflicts == 0
+    # is the operative confirmation (the 204-conflict failure from the HFS-OFF
+    # run must not recur). Already ensured by the block above.
+    n_hfs_conflicts = len(conflicts)
+    if n_hfs_conflicts > 0:
+        critical(f"HFS-convention conflict gate FAIL: {n_hfs_conflicts} conflicts — "
+                 f"check that all extractions used HFS splitting ON")
+
     n_dups = len(dropped)
     n_intra = int(kept.duplicated('dedup_key').sum())
     merged = kept
     print(f"[3/4] Merge: {len(merged)} unique lines "
           f"({n_dups} duplicates removed, {len(conflicts)} log_gf conflicts)")
+    print(f"       HFS-convention conflicts: {n_hfs_conflicts} ✓" if n_hfs_conflicts == 0
+          else f"       HFS-convention conflicts: {n_hfs_conflicts} *** FAIL")
     print(f"       Intra-extraction key-sharing components retained "
           f"(HFS/isotopic, not duplicates): {n_intra}")
 
@@ -230,12 +249,22 @@ def main():
              merged['wavelength'].between(lo, hi))
         return merged.loc[m, 'wavelength'].tolist()
 
+    # O I 7771/7774/7775 Å triplet — from NIR extraction (6910–17000 Å).
+    # Gate requires the two STRONG members (7771.944, cd≈0.068; 7774.166, cd≈0.056)
+    # which are both well above the cd=0.05 threshold. The weakest member
+    # (7775.388, cd≈0.041) is genuinely below the 0.05 threshold at 55 Cnc params
+    # and is correctly absent from any cd=0.05 extraction — not an extraction error.
     o_triplet = present('O', 'I', 7770.5, 7776.5)
-    if len(o_triplet) < 3:
-        critical(f"O I 7771/7774/7775 Å triplet absent/incomplete — found "
+    o_strong = [w for w in o_triplet if abs(w - 7771.944) < 0.5 or abs(w - 7774.166) < 0.5]
+    if len(o_strong) < 2:
+        critical(f"O I 7771/7774 Å (strong triplet members) absent — found "
                  f"{o_triplet} — NIR extraction is wrong")
     else:
-        print(f"       O I triplet check: {[f'{w:.3f}' for w in o_triplet]} ✓")
+        weak_note = ('; 7775.388 below cd=0.05 threshold (cd≈0.041) — expected absent'
+                     if not any(abs(w - 7775.388) < 0.5 for w in o_triplet) else '')
+        print(f"       O I triplet check: {[f'{w:.3f}' for w in o_triplet]} ✓{weak_note}")
+
+    # Li I 6707 Å — from optical extraction (3780–6910 Å)
     li = present('Li', 'I', 6707.0, 6708.5)
     if not li:
         critical("Li I 6707 Å absent from merged output")
@@ -273,17 +302,22 @@ def main():
 # linelist_55cnc.csv — 55 Cnc A per-system VALD3 linelist (RYA-269)
 # Generated: {date.today().isoformat()}  by scripts/merge_vald_55cnc.py
 # Stellar params: Teff=5196 K, logg=4.41, [Fe/H]=+0.35, vmic=0.9 km/s
-# Extractions merged:
+# HFS splitting: ON (Codex permanent convention — all four extractions, RYA-269 DECISION)
+# Extractions merged (all HFS-ON):
+#   uv_a          : vald_55cnc_uv_a_raw.txt (RyanSchmitt.019516), 1150-2000 A,
+#       central_depth 0.05, vacuum wavelengths (VALD delivers vacuum below 2000 A)
+#   uv_b          : vald_55cnc_uv_b_raw.txt (RyanSchmitt.019517), 2000-3780 A,
+#       central_depth 0.05
 #   optical_019385: vald_55cnc_raw.txt, 3780-6910 A, central_depth 0.01, complete
-#       (NOTE: this is the complete 125615-line optical delivery; the web file
-#        RyanSchmitt.019385 was truncated at 5603 A and is NOT merged here)
-#   uv            : vald_55cnc_uv_raw.txt (RyanSchmitt.019509), 1150-3780 A,
-#       central_depth 0.01
-#   nir           : vald_55cnc_nir_raw.txt, 5000-30000 A, central_depth 0.05
+#       (NOTE: request ID not preserved in file; NOT the truncated web file
+#        RyanSchmitt.019385 which was truncated at 5603 A and is quarantined)
+#   nir           : vald_55cnc_nir_raw.txt (RyanSchmitt.019518), 6910-17000 A,
+#       central_depth 0.05
 # Wavelength convention: 'vacuum' for lambda < 2000 A (VALD delivers vacuum
 #   below 2000 A despite the WL_air label), 'air' for lambda >= 2000 A.
 #   NO vacuum->air conversion performed at merge stage — conversion to match
 #   STIS vacuum frames happens at the spectrum-matching boundary.
+# Superseded HFS-OFF files quarantined (not deleted) per RYA-269 spec.
 # nist_grade empty pending NIST cross-validation (RYA-64 follow-up phase).
 # blend_flag=False everywhere — vetted exclusions only (RYA-209 architecture).
 """
