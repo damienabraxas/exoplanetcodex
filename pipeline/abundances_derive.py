@@ -530,7 +530,13 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
         a_solar = solar_A_ispec[element]
         a_lo    = max(a_solar - 3.0, 1.0)
         a_hi    = a_solar + 5.0
-        waveobs_nm = np.arange(wave_nm - 0.05, wave_nm + 0.051, 0.001)
+        # Use the GES line-region window (wave_base / wave_top in nm) —
+        # these are designed to capture the line without excessive blending.
+        # Step 0.0002 nm (0.002 Å) gives ≥10 pts per thermal FWHM (~0.034 Å).
+        wbase  = float(last_linemasks['wave_base'][i])
+        wtop   = float(last_linemasks['wave_top'][i])
+        wstep  = 0.0002  # nm (0.002 Å)
+        waveobs_nm = np.arange(wbase, wtop + wstep * 0.5, wstep)
 
         elapsed = time.time() - t0
         print(f"  [synth] {i+1}/{n_total}: {note} {wave_A:.3f} Å  "
