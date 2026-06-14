@@ -128,15 +128,23 @@ STAR_SOLAR = {
 }
 
 # ── Procyon (α CMi A) stellar parameters ─────────────────────────────────────
-# Source: Allende Prieto et al. 2002, A&A 386, 1039 (spectroscopic analysis)
+# RYA-309 §3.4 / RYA-298: STAR_PARAMS['procyon'] is the AUTHORITATIVE single
+# source for Teff/logg/[Fe/H]. This legacy-key dict is the adapter the older
+# consumers (lines_fit plot titles, abundances_derive convergence seed) still
+# read; its Teff/logg/feh are RECONCILED to STAR_PARAMS (Heiter+2015 GBS
+# 6554/4.00, Jofré+2014 [Fe/H]) — NOT the former Allende Prieto 2002 6530/3.96.
+# The pinned run already pulls Teff/logg from STAR_PARAMS (abundances_derive
+# pin step), so these only seed the SOLVED params (feh, ξ) and display.
+# vturb_kms is the ξ-solve seed (Allende Prieto 2002 / RYA-284), not a pin.
+# Structural removal of this dict is RYA-298.
 STAR_PROCYON = {
     'name'      : 'Procyon',
     'hd'        : 'HD 61421',
     'hip'       : 'HIP 37279',
-    'teff_K'    : 6530.0,   # ± 50 K
-    'logg'      : 3.96,     # ± 0.02
-    'feh'       : -0.04,    # ± 0.03
-    'vturb_kms' : 1.66,     # km/s
+    'teff_K'    : 6554.0,   # Heiter+2015 (mirror of STAR_PARAMS['procyon']['teff'])
+    'logg'      : 4.00,     # Heiter+2015 (mirror of STAR_PARAMS['procyon']['logg'])
+    'feh'       : 0.03,     # Jofré+2014 (mirror of STAR_PARAMS['procyon']['feh_ref'])
+    'vturb_kms' : 1.66,     # km/s — ξ-solve seed (Allende Prieto 2002), not pinned
     'rv_kms'    : -3.0,
 }
 
@@ -342,12 +350,24 @@ STAR_PARAMS = {
         'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
     },
     'procyon': {
+        # RYA-309 §3.4: Teff/logg are the Heiter+2015 GBS values (6554/4.00),
+        # confirmed by Ryan. The RYA-309 brief's "6530/3.96 (Heiter 2015)" was a
+        # mislabel — those are Allende Prieto 2002 (spectroscopic) values.
         'teff': 6554.0, 'e_teff': 84.0, 'logg': 4.00, 'e_logg': 0.02,
         'feh_ref': 0.03, 'e_feh': 0.04,
-        # RYA-288: vmac/vsini INTENTIONALLY ABSENT — source from the converged
-        # record (RYA-284) before Procyon synth-v2; do NOT fill with solar. The
-        # broadening resolver fails loud until these are set (F5 IV-V ≠ solar).
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        # Broadening (RYA-309 §3.3): vsini is FIXED at the Bruntt+2010 value;
+        # vmac is FIT in synthesis-v2's radial-tangential (RT) model with vsini
+        # held fixed (expect ~5-6 km/s). Bruntt's own vmac (4.6) is GAUSSIAN
+        # macroturbulence and must NOT be reused as an RT vmac — the conventions
+        # differ (cf. solar: RT vmac 3.8 vs Bruntt Gaussian 2.4). vmac_init seeds
+        # the RT fit. The resolver returns a fit directive (not a fixed value) so
+        # no provisional vmac is ever silently used (RYA-288 no-silent-broadening).
+        'vsini': 2.8,                  # km/s — FIXED. Bruntt et al. 2010, MNRAS 405, 1907
+        'vmac': 'fit',                 # RT macroturbulence — fit in synth-v2, not pinned
+        'vmac_init': 5.5,              # km/s — RT fit initial guess (expect 5-6)
+        'vmac_fit_bounds': (3.0, 8.0), # km/s — RT vmac search bounds
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H]); '
+                  'broadening: Bruntt+2010 vsini, RT vmac fit (RYA-309 §3.3)',
         'logg_basis': 'astrometric binary mass (Procyon B WD) + interferometric radius',
         'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
     },

@@ -411,22 +411,33 @@ def _load_synth_resources() -> tuple:
 
 
 def _resolve_broadening(star_id: str) -> tuple:
-    """(R, vmac, vsini) for `star_id`, sourced from STAR_PARAMS via get_star_params.
+    """(R, vmac, vsini, fit_vmac) for `star_id`, sourced from STAR_PARAMS via
+    get_star_params.
 
     FAIL LOUD — never default to solar (RYA-288 / RYA-287 review). An unknown star
     raises in get_star_params; a known star missing vmac/vsini raises here with a
     clear message. The data lives only in STAR_PARAMS (no parallel broadening dict).
+
+    vmac may be a number (FIXED input, e.g. solar 3.8) or the string 'fit'
+    (RYA-309 §3.3: fit vmac in synth-v2's RT model with vsini held fixed). When
+    'fit', the returned vmac is the RT initial guess ('vmac_init') and fit_vmac
+    is True — the caller must fit vmac, never silently use the guess as a fixed
+    value (no-silent-broadening, RYA-288).
     """
     rec = get_star_params(star_id)   # raises KeyError if the star has no record
     if 'vmac' not in rec or 'vsini' not in rec:
         raise KeyError(
             f"No broadening (vmac/vsini) in STAR_PARAMS for star '{star_id}'. "
-            f"Add them from the converged-params record (e.g. RYA-284 for Procyon) "
-            f"before running synthesis-v2. Refusing to default to solar broadening "
-            f"— flux-space χ² is shape-sensitive, so wrong broadening biases A(X) "
-            f"itself (RYA-288 / RYA-287 review)."
+            f"Add them (vsini + vmac, or vmac='fit') before running synthesis-v2. "
+            f"Refusing to default to solar broadening — flux-space χ² is "
+            f"shape-sensitive, so wrong broadening biases A(X) itself "
+            f"(RYA-288 / RYA-287 review)."
         )
-    return float(HARPS_R), float(rec['vmac']), float(rec['vsini'])
+    vmac_spec = rec['vmac']
+    if isinstance(vmac_spec, str) and vmac_spec.strip().lower() == 'fit':
+        return (float(HARPS_R), float(rec.get('vmac_init', 5.0)),
+                float(rec['vsini']), True)
+    return float(HARPS_R), float(vmac_spec), float(rec['vsini']), False
 
 
 def _build_fixed_ab(element: str, atom_code: int, trial_A: float) -> np.recarray:
@@ -907,7 +918,18 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
 
     # Broadening (fixed inputs — only abundance is free). RYA-288: sourced per-star
     # from STAR_PARAMS via get_star_params(); fail loud if absent (no solar default).
-    R_inst, vmac, vsini = _resolve_broadening(star_id)
+    R_inst, vmac, vsini, fit_vmac = _resolve_broadening(star_id)
+    if fit_vmac:
+        # RYA-309 §3.3: vmac is to be FIT in the RT model (vsini fixed). The RT
+        # vmac fit is implemented in the RYA-309 synthesis-run step, not the
+        # parameter prereq — fail loud rather than silently use the init guess as
+        # a fixed vmac (no-silent-broadening, RYA-288).
+        raise NotImplementedError(
+            f"[{star_id}] vmac='fit' (RYA-309 §3.3): vsini fixed = {vsini} km/s, "
+            f"RT init = {vmac} km/s (expect ~5-6). The RT vmac fit is implemented "
+            f"in the RYA-309 synthesis run, not the param prereq. Refusing to use "
+            f"the init as a fixed vmac."
+        )
     print(f"[{star_id}] broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s",
           file=sys.stderr)
     print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
