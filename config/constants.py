@@ -237,6 +237,9 @@ PATHS = {
     'solar_reference'   : ROOT / 'data' / 'linelists' / 'solar_asplund2021.csv',
     'atlas9_grid'       : ROOT / 'data' / 'model_atmospheres' / 'atlas9',
 
+    # Method-selection policy (RYA-315 / RYA-306): per (star × species) EW-vs-synthesis matrix
+    'method_policy'     : ROOT / 'data' / 'method_policy.yaml',
+
     # Solar calibration spectra (external data — relative to repo parent)
     'solar_spectra'     : ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Solar Calibration' / 'archive',
 
