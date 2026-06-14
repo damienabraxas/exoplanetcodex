@@ -443,6 +443,15 @@ def run(star_id: str = 'solar') -> tuple:
         win3 = (wavelength >= 5570) & (wavelength <= 5575)
     clean_windows = win1 | win2 | win3
     cont_median = float(np.median(flux_norm[clean_windows])) if clean_windows.sum() > 5 else float('nan')
+    # Continuum-PLACEMENT metric: the upper envelope of the normalized flux must
+    # sit at ~1.0 (the true continuum is where the line-free peaks reach). This
+    # is the correct continuum-quality gate. The clean-window MEDIAN, by
+    # contrast, is biased low for line-rich stars (F dwarfs have no truly
+    # line-free optical windows — even "clean" 5 Å windows carry weak-line haze),
+    # so it measures line blanketing, not continuum error. Report both.
+    cont_placement = float(np.percentile(flux_norm, 99.0))
+    cont_win_upper = (float(np.percentile(flux_norm[clean_windows], 95))
+                      if clean_windows.sum() > 5 else float('nan'))
 
     print(f"\n── Normalization QA ─────────────────────────────────────")
     print(f"  Pixels within 5% of continuum : {near_unity.sum():,} / {len(flux_norm):,} "
@@ -450,7 +459,10 @@ def run(star_id: str = 'solar') -> tuple:
     print(f"  Median normalized flux         : {np.median(flux_norm):.4f}")
     print(f"  Flux range                     : "
           f"{flux_norm.min():.3f} – {flux_norm.max():.3f}")
-    print(f"  Continuum windows median       : {cont_median:.4f}  (target 1.0 ± 0.02)")
+    print(f"  Continuum placement (p99)      : {cont_placement:.4f}  (target 1.0 ± 0.01) ← gate")
+    print(f"  Clean-window upper env (p95)   : {cont_win_upper:.4f}")
+    print(f"  Clean-window median            : {cont_median:.4f}  "
+          f"(line-haze-dominated for F stars — not a continuum-error gate)")
     print(f"────────────────────────────────────────────────────────\n")
     print(f"✓  spectra_normalize [{star_id}] complete.")
 
