@@ -46,7 +46,9 @@ import matplotlib.gridspec as gridspec
 from scipy.optimize import curve_fit
 from scipy.special import voigt_profile
 
-from config.constants import PIPELINE, PATHS, STAR_SOLAR, NI6300_COG, LINE_SCORE_PARAMS
+from config.constants import (PIPELINE, PATHS, STAR_SOLAR, STAR_PROCYON,
+                               STAR_LINELISTS, EW_FIT_PARAMS,
+                               NI6300_COG, LINE_SCORE_PARAMS)
 
 
 def _ew_scores(ew_mA: float, ew_err: float, chi2: float) -> tuple:
@@ -129,16 +131,17 @@ def _is_special(elem: str, ion: str, line_wav: float) -> bool:
                for e, i, w in SPECIAL_MEASURES)
 
 def _get_fit_window(elem: str, ion: str, line_wav: float,
-                    depth: float = 0.0) -> float:
+                    depth: float = 0.0, base_window: float = None) -> float:
     """
     Return the fit half-window (Å) for this line.
     Explicit LINE_WINDOWS overrides take precedence; otherwise the window
     scales with line depth so that continuum anchors clear the Voigt wings.
+    base_window overrides PIPELINE['fit_window_A'] for per-star tuning.
     """
     for (e, i, w), win in LINE_WINDOWS.items():
         if e == elem and i == ion and abs(w - line_wav) < _SPECIAL_WAV_TOL:
             return win
-    base   = PIPELINE['fit_window_A']
+    base   = base_window if base_window is not None else PIPELINE['fit_window_A']
     breaks = PIPELINE['cont_window_depth_breaks']
     scales = PIPELINE['cont_window_scale_factors']
     for i, brk in enumerate(breaks):
@@ -563,8 +566,13 @@ def _build_worklist(lines_df: pd.DataFrame) -> pd.DataFrame:
 
 def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
                  worklist: pd.DataFrame,
-                 lines_df: pd.DataFrame) -> pd.DataFrame:
-    """Fit every line in worklist; return results DataFrame."""
+                 lines_df: pd.DataFrame,
+                 run_oi_cog: bool = True,
+                 fit_window_A: float = None) -> pd.DataFrame:
+    """Fit every line in worklist; return results DataFrame.
+    run_oi_cog: perform [O I] 6300 COG Ni-subtraction (solar only).
+    fit_window_A: per-star fit half-window override (None → PIPELINE default).
+    """
     ew_min    = PIPELINE['ew_min_mA']
     ew_max    = PIPELINE['ew_max_mA']
     blue_warn = PIPELINE['blue_edge_warn_A']
@@ -593,7 +601,8 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         peek = np.abs(solar_wav - line_wav) < 0.15
         depth_est = float(np.clip(1.0 - np.nanmin(solar_flux[peek]), 0.0, 1.0)) \
                     if peek.sum() > 0 else 0.0
-        window = _get_fit_window(elem, ion, line_wav, depth_est)
+        window = _get_fit_window(elem, ion, line_wav, depth_est,
+                                 base_window=fit_window_A)
         edge_A = window * edge_frac
 
         # ── Extract and re-normalise window ───────────────────────────────────
@@ -672,12 +681,15 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
 
     print(f"    {n}/{n} — done.         ")
 
-    # ── O I 6300 + Ni I COG subtraction (after main loop) ────────────────────
-    print(f"  Measuring [O I] 6300 via COG Ni subtraction …")
-    ew_df_temp  = pd.DataFrame(results)
-    ni_ew_pred  = _predict_ni6300_ew(ew_df_temp, lines_df)
-    print(f"    Ni I 6300.336 predicted EW = {ni_ew_pred:.3f} mÅ  (COG, Allende Prieto+2001)")
-    _measure_oi6300(solar_wav, solar_flux, results, lines_df, ni_ew_pred)
+    # ── O I 6300 + Ni I COG subtraction (after main loop, solar only) ──────────
+    if run_oi_cog:
+        print(f"  Measuring [O I] 6300 via COG Ni subtraction …")
+        ew_df_temp  = pd.DataFrame(results)
+        ni_ew_pred  = _predict_ni6300_ew(ew_df_temp, lines_df)
+        print(f"    Ni I 6300.336 predicted EW = {ni_ew_pred:.3f} mÅ  (COG, Allende Prieto+2001)")
+        _measure_oi6300(solar_wav, solar_flux, results, lines_df, ni_ew_pred)
+    else:
+        print(f"  Skipping [O I] 6300 COG subtraction (solar-only procedure)")
 
     return pd.DataFrame(results)
 
@@ -685,18 +697,24 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
 # ── Diagnostic plot ───────────────────────────────────────────────────────────
 
 def _plot_tier1_fe(solar_wav: np.ndarray, solar_flux: np.ndarray,
-                   results: pd.DataFrame, out_path) -> None:
+                   results: pd.DataFrame, out_path,
+                   star_key: str = 'solar') -> None:
     """2 × 3 grid of Tier 1 Fe anchor line fits + [O I] 6300 blend panel."""
-    window = PIPELINE['fit_window_A']
+    ew_params = EW_FIT_PARAMS.get(star_key, EW_FIT_PARAMS['solar'])
+    window = ew_params['fit_window_A']
 
     fig = plt.figure(figsize=(15, 9))
-    fig.suptitle(
-        f"Tier 1 line profile fits — Solar HARPS  |  "
-        f"Teff={STAR_SOLAR['teff_K']:.0f} K  log g={STAR_SOLAR['logg']}  "
-        f"ξ={STAR_SOLAR['vturb_kms']} km/s\n"
-        f"{STAR_SOLAR['citation']}  |  ESO {STAR_SOLAR['program_id']}",
-        fontsize=10,
-    )
+    if star_key == 'solar':
+        title = (f"Tier 1 line profile fits — Solar HARPS  |  "
+                 f"Teff={STAR_SOLAR['teff_K']:.0f} K  log g={STAR_SOLAR['logg']}  "
+                 f"ξ={STAR_SOLAR['vturb_kms']} km/s\n"
+                 f"{STAR_SOLAR['citation']}  |  ESO {STAR_SOLAR['program_id']}")
+    else:
+        sp = STAR_PROCYON
+        title = (f"Tier 1 line profile fits — {sp['name']} HARPS  |  "
+                 f"Teff={sp['teff_K']:.0f} K  log g={sp['logg']}  "
+                 f"ξ={sp['vturb_kms']} km/s  |  {sp['hd']}")
+    fig.suptitle(title, fontsize=10)
     gs = gridspec.GridSpec(2, 3, figure=fig, hspace=0.50, wspace=0.32)
 
     for pi, (elem, ion, line_wav, label) in enumerate(TIER1_FE):
@@ -951,15 +969,21 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
     """
     print(f"\n{'='*60}\n  lines_fit — {star_id}\n{'='*60}")
 
-    if 'solar' not in star_id.lower():
-        raise NotImplementedError(
-            f"lines_fit not yet implemented for '{star_id}'."
-        )
+    # ── Route star ────────────────────────────────────────────────────────────
+    star_key = 'solar'
+    for key in STAR_LINELISTS:
+        if key in star_id.lower():
+            star_key = key
+            break
+    is_solar = (star_key == 'solar')
+    ew_params = EW_FIT_PARAMS.get(star_key, EW_FIT_PARAMS['solar'])
+    print(f"  Star key: {star_key}  |  fit_window_A={ew_params['fit_window_A']} Å  "
+          f"|  voigt_threshold={ew_params['voigt_threshold_mA']} mÅ")
 
     # ── Load inputs ───────────────────────────────────────────────────────────
     print(f"\n[1/5] Loading inputs")
-    norm_path  = PATHS['solar_normalized']
-    lines_path = PATHS['linelist_solar']
+    norm_path  = PATHS[f'{star_key}_normalized']
+    lines_path = STAR_LINELISTS[star_key]
 
     if not norm_path.exists():
         raise FileNotFoundError(
@@ -967,26 +991,30 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
             "Run spectra_normalize.py first."
         )
 
-    norm = pd.read_csv(norm_path)
-    solar_wav  = norm['wavelength_air_A'].to_numpy()
-    solar_flux = norm['flux_normalized'].to_numpy()
-    print(f"  Spectrum: {len(solar_wav):,} pixels, "
-          f"{solar_wav[0]:.1f}–{solar_wav[-1]:.1f} Å")
+    norm       = pd.read_csv(norm_path, comment='#')
+    spec_wav   = norm['wavelength_air_A'].to_numpy()
+    spec_flux  = norm['flux_normalized'].to_numpy()
+    print(f"  Spectrum: {len(spec_wav):,} pixels, "
+          f"{spec_wav[0]:.1f}–{spec_wav[-1]:.1f} Å")
 
-    lines = pd.read_csv(lines_path, low_memory=False)
+    lines = pd.read_csv(lines_path, low_memory=False, comment='#')
     lines = lines[lines['priority'] > 0].copy()
     print(f"  Line list: {len(lines):,} priority>0 lines")
 
     # ── Build worklist ────────────────────────────────────────────────────────
     print(f"\n[2/5] Building worklist")
     worklist = _build_worklist(lines)
-    print(f"  {len(worklist)} features to measure "
-          f"({(worklist['blend_flag'].astype(str).str.lower()=='true').sum()} "
-          f"special/blended force-included)")
+    n_special = (worklist['blend_flag'].astype(str).str.lower() == 'true').sum()
+    print(f"  {len(worklist)} features to measure ({n_special} special/blended force-included)")
+    fe1 = (worklist['element'] == 'Fe') & (worklist['ion'] == 'I')
+    fe2 = (worklist['element'] == 'Fe') & (worklist['ion'] == 'II')
+    print(f"  Fe I: {fe1.sum()}  Fe II: {fe2.sum()}")
 
     # ── Measure EWs ───────────────────────────────────────────────────────────
     print(f"\n[3/5] Measuring EWs")
-    results = _measure_all(solar_wav, solar_flux, worklist, lines)
+    results = _measure_all(spec_wav, spec_flux, worklist, lines,
+                           run_oi_cog=is_solar,
+                           fit_window_A=ew_params['fit_window_A'])
     print(f"  {len(results)} lines measured")
 
     # ── QA summary ────────────────────────────────────────────────────────────
@@ -1002,8 +1030,8 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
               f"{ew.min():.1f}–{ew.max():.1f} mÅ")
 
     # ── Save CSV ──────────────────────────────────────────────────────────────
-    out_csv  = PATHS['solar_ew']
-    out_plot = PATHS['solar_ew_diagnostic']
+    out_csv  = PATHS[f'{star_key}_ew']
+    out_plot = PATHS[f'{star_key}_ew_diagnostic']
 
     out_csv.parent.mkdir(parents=True, exist_ok=True)
     col_order = ['element', 'ion', 'wavelength_air_A', 'ew_mA', 'ew_err_mA',
@@ -1016,13 +1044,14 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
     # ── Diagnostic plot ───────────────────────────────────────────────────────
     print(f"\n[5/5] Generating diagnostic plots")
     out_plot.parent.mkdir(parents=True, exist_ok=True)
-    _plot_tier1_fe(solar_wav, solar_flux, results, out_plot)
+    _plot_tier1_fe(spec_wav, spec_flux, results, out_plot, star_key=star_key)
 
-    out_oi_plot = out_plot.parent / 'solar_oi6300_diagnostic.png'
-    _plot_oi6300_diagnostic(solar_wav, solar_flux, results, out_oi_plot)
+    if is_solar:
+        out_oi_plot = out_plot.parent / 'solar_oi6300_diagnostic.png'
+        _plot_oi6300_diagnostic(spec_wav, spec_flux, results, out_oi_plot)
 
-    out_ca_plot = out_plot.parent / 'solar_ca6122_diagnostic.png'
-    _plot_ca6122_diagnostic(solar_wav, solar_flux, results, out_ca_plot)
+        out_ca_plot = out_plot.parent / 'solar_ca6122_diagnostic.png'
+        _plot_ca6122_diagnostic(spec_wav, spec_flux, results, out_ca_plot)
 
     print(f"\n✓  lines_fit complete.")
     return results
@@ -1031,4 +1060,7 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
-    run(star_id='solar')
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--star', default='solar')
+    run(star_id=ap.parse_args().star)
