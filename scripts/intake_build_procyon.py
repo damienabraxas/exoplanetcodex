@@ -53,16 +53,22 @@ from collections import defaultdict
 from datetime import date
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 from data.linelists.vald_parse import read_vald_header, parse_vald_long  # noqa: E402
+from pipeline.build_linelist import compute_vald_proximity_flag           # noqa: E402
 
 LINELISTS = REPO_ROOT / 'data' / 'linelists'
 VALD_PROCYON = Path.home() / 'Documents' / 'Exoplanet Codex' / 'VALD' / 'Procyon'
 
 VACUUM_BELOW_A = 2000.0
+# RYA-270 Fe working-pool curation: priority=1 for Fe I/II whose central_depth
+# falls in the working window (re-applied to the HFS-ON list so it is a drop-in
+# for the old linelist consumed by lines_fit / abundances_derive).
+CD_MIN, CD_MAX = 0.05, 0.80
 
 # Procyon HFS-ON delivery (FTP, 2026-06-12), three disjoint bands 1150-11000 Å.
 BANDS = ['uv', 'optical', 'nir']
@@ -187,6 +193,17 @@ def build(all_records, registry):
     merged = merged.drop_duplicates(
         subset=['element', 'ion', 'wavelength', 'log_gf'], keep='first')
     seam = before - len(merged)
+
+    # RYA-270 curation re-applied to the HFS-ON list (drop-in for the old file):
+    #   vald_proximity_flag — neighbour-density contamination on the FULL pool.
+    #   priority=1          — Fe I/II working pool (central_depth ∈ [CD_MIN,CD_MAX]).
+    prox = compute_vald_proximity_flag(pd.DataFrame({
+        'wavelength_air_A': merged['wavelength'].to_numpy(),
+        'central_depth': merged['central_depth'].to_numpy()}))
+    is_fe = (merged['element'] == 'Fe') & merged['ion'].isin(['I', 'II'])
+    in_win = merged['central_depth'].between(CD_MIN, CD_MAX)
+    priority = np.where(is_fe & in_win, 1, 0)
+
     out = pd.DataFrame({
         'element': merged['element'],
         'ion': merged['ion'],
@@ -199,8 +216,9 @@ def build(all_records, registry):
         'damping_stark': merged['damping_stark'],
         'damping_vdW': merged['damping_vdW'],
         'central_depth': merged['central_depth'],
+        'vald_proximity_flag': np.asarray(prox),
         'blend_flag': False,
-        'priority': 0,
+        'priority': priority,
         'notes': '',
         'extraction_source': merged['_src'],
         'wavelength_convention': merged['wavelength'].map(
