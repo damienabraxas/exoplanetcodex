@@ -49,7 +49,7 @@ from scipy.interpolate import interp1d
 
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
-    STAR_LINELISTS,
+    STAR_LINELISTS, STAR_PARAMS, get_star_params,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
@@ -1059,7 +1059,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
                                       vmic_fixed: bool = False,
-                                      skip_convergence: bool = False) -> tuple:
+                                      skip_convergence: bool = False,
+                                      solve_params=None) -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -1076,6 +1077,16 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     """
     params = stellar_params_init.copy()
     last_linemasks = last_spec_abund = last_xh = last_xfe = None
+
+    # RYA-292 pin/solve policy: only params in `solve` are optimized; pinned params
+    # are held fixed at their fundamental (GBS) values. Default = solve all three
+    # spectroscopic params (backward-compatible with pre-292 behaviour). 'xi' also
+    # honours the legacy vmic_fixed flag. A pinned param's equilibrium criterion is
+    # treated as satisfied so convergence is judged only on the solved params.
+    solve = set(solve_params) if solve_params is not None else {'teff', 'logg', 'xi'}
+    solve_teff = 'teff' in solve
+    solve_logg = 'logg' in solve
+    solve_xi   = ('xi' in solve) and not vmic_fixed
 
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
@@ -1155,10 +1166,13 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                    f"vturb={params['vturb_kms']:.2f}km/s | "
                    f"EP={ep_sl:+.4f}  REW={rew_sl:+.4f}  FeI-FeII=N/A (no Fe II)")
 
+        # RYA-292: judge convergence only on the SOLVED params. A pinned param's
+        # equilibrium slope is informational (it reflects line/data systematics,
+        # not a free param), so it must not block convergence of the solved ones.
         converged = (
-            (np.isnan(ep_sl)  or abs(ep_sl)  < 0.02) and
-            (np.isnan(rew_sl) or abs(rew_sl) < 0.02) and
-            (np.isnan(ion_bal) or abs(ion_bal) < 0.05)
+            (not solve_teff or np.isnan(ep_sl)  or abs(ep_sl)  < 0.02) and
+            (not solve_xi   or np.isnan(rew_sl) or abs(rew_sl) < 0.02) and
+            (not solve_logg or np.isnan(ion_bal) or abs(ion_bal) < 0.05)
         )
         if converged:
             print(f"  ✓ Converged at iteration {iteration}")
@@ -1177,12 +1191,14 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
             break
 
         # Gradient-descent parameter adjustment — conservative steps to avoid
-        # walking off the atmosphere grid on large spurious slopes.
-        if np.isfinite(ep_sl):
+        # walking off the atmosphere grid on large spurious slopes. RYA-292: only
+        # SOLVED params are stepped; pinned Teff/logg/ξ are held at their
+        # fundamental values (no walk — the RYA-290 directive, now data-driven).
+        if solve_teff and np.isfinite(ep_sl):
             params['teff_K']    += np.sign(ep_sl)  * min(abs(ep_sl)  / 0.05, 1.0) * 25
-        if np.isfinite(rew_sl) and not vmic_fixed:
+        if solve_xi and np.isfinite(rew_sl):
             params['vturb_kms'] += np.sign(rew_sl) * min(abs(rew_sl) / 0.10, 1.0) * 0.05
-        if np.isfinite(ion_bal):
+        if solve_logg and np.isfinite(ion_bal):
             params['logg']      += np.sign(ion_bal) * min(abs(ion_bal) / 0.05, 1.0) * 0.05
 
         params['teff_K']    = float(np.clip(params['teff_K'],    3500, 7500))
@@ -1574,6 +1590,24 @@ def run(star_id: str = 'solar',
     else:
         params = STAR_55CNC.copy()
 
+    # ── Pin/solve policy (RYA-292) ────────────────────────────────
+    # Resolve the per-star fundamental-param record (fail LOUD if absent), pin the
+    # fundamental Teff/logg to their GBS values, and pass the solve set to the
+    # convergence so pinned params are held fixed. Benchmark calibrators pin
+    # Teff+logg (RYA-290 directive as data); program stars without a fundamental
+    # logg keep the full spectroscopic solve. Override runs bypass the pin.
+    star_policy = get_star_params(star_id)
+    solve_params = list(star_policy.get('solve', ['teff', 'logg', 'feh', 'xi']))
+    if not stellar_params_override:
+        if 'teff' in star_policy.get('pin', []):
+            params['teff_K'] = float(star_policy['teff'])
+        if 'logg' in star_policy.get('pin', []):
+            params['logg'] = float(star_policy['logg'])
+    pin_lbl = ','.join(star_policy.get('pin', [])) or '(none)'
+    solve_lbl = ','.join(solve_params) or '(none)'
+    print(f"  Param policy (RYA-292): PIN [{pin_lbl}]  SOLVE [{solve_lbl}]  "
+          f"— {star_policy.get('source', '?')}")
+
     print(f"[1/4] Stellar params:  Teff={params['teff_K']} K  "
           f"logg={params['logg']}  [Fe/H]={params['feh']}  "
           f"vturb={params['vturb_kms']} km/s")
@@ -1701,7 +1735,7 @@ def run(star_id: str = 'solar',
               f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
         ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed,
-        skip_convergence=skip_convergence,
+        skip_convergence=skip_convergence, solve_params=solve_params,
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
