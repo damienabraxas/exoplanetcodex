@@ -346,13 +346,34 @@ STAR_PARAMS = {
         'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
         'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
     },
-    # Program star WITHOUT an adopted fundamental logg → full spectroscopic solve.
-    # (55 Cnc A has a CHARA radius + mass and could be pinned later; for now it
-    #  exercises the unknown-logg path so the benchmark pin cannot leak into it.)
-    '55cnc': {
-        'teff': 5196.0, 'e_teff': 24.0, 'logg': 4.41, 'e_logg': 0.02,
-        'feh_ref': 0.32, 'e_feh': 0.02,
-        'source': 'CHARA interferometry (von Braun+2011); logg NOT pinned',
+    # 55 Cnc A (Copernicus) — flagship science-target primary, host of 55 Cnc e
+    # (Janssen). RYA-293: graduates from the solve example to a PINNED target now
+    # that von Braun et al. 2011 (ApJ 740, 49) supplies a fundamental logg.
+    # Provenance caveat (recorded honestly): the radius is directly interferometric
+    # but the mass is isochrone-based (model-dependent) — so this logg pin is
+    # slightly softer than the dynamical-mass benchmarks (α Cen) or the IAU-nominal
+    # Sun, but still far tighter (±0.01) than any spectroscopic solve, so pinning is
+    # correct. Pinning the interferometric Teff (5196 K) may surface an excitation-
+    # balance tension with our spectroscopic Teff when spectra run — that visibility
+    # is intended (same pattern as the solar logg pin surfacing the Fe imbalance);
+    # do NOT silently unpin Teff to hide it. feh_ref is a spectroscopic sanity
+    # target (Valenti & Fischer 2005), NOT a pinned input — [Fe/H] stays solved.
+    '55cnc_a': {
+        'teff': 5196.0, 'e_teff': 24.0, 'logg': 4.45, 'e_logg': 0.01,
+        'feh_ref': 0.31, 'e_feh': 0.04,
+        'source': 'von Braun et al. 2011, ApJ 740, 49',
+        'logg_basis': 'CHARA interferometric R=0.943 Rsun (theta_LD 0.711 mas + '
+                      'van Leeuwen 2007 parallax) + Yonsei-Yale isochrone M=0.905 '
+                      'Msun (model-dependent mass)',
+        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+    },
+    # Synthetic test fixture (RYA-293) — a star WITHOUT a fundamental logg, kept so
+    # the spectroscopic-solve path (pin does not leak) stays covered after 55 Cnc A
+    # became pinned. Not a real target; never run on spectra. Dummy params.
+    'synthetic_no_logg': {
+        'teff': 5800.0, 'e_teff': 100.0, 'logg': 4.40, 'e_logg': 0.20,
+        'feh_ref': 0.00, 'e_feh': 0.10,
+        'source': 'synthetic test fixture — no fundamental logg available',
         'logg_basis': 'no fundamental logg adopted — solved via Fe ionization balance',
         'pin': [], 'solve': ['teff', 'logg', 'feh', 'xi'],
     },
