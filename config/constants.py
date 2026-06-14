@@ -191,6 +191,17 @@ PIPELINE = {
                                    # commit c8a23d2. Sousa et al. 2011, Jofré et al. 2014.
     'snr_line_min'      : 5.0,    # Minimum line S/N for reliable EW
 
+    # Fe II EW triage (RYA-305) — kills the has_theo==False fail-open. A Fe II line
+    # is judged against its PROPER theoretical EW (SPECTRUM at expected A(Fe)=solar+
+    # [Fe/H]), not the Fe I-calibrated linear COG.
+    'fe2_ew_sanity_dex'    : 0.5,  # |log10(obs_EW / theo_EW)| below this = clean (keep EW).
+                                    # Above = blend-contaminated → excluded from the EW pool
+                                    # (synthesis recovers it if the line is real).
+    'fe2_synth_ew_floor_mA': 5.0,  # measurability floor on the theoretical Fe II-only EW:
+                                    # a non-clean line with theo >= floor is a real line
+                                    # blended in EW → RECOVER via synthesis; theo < floor
+                                    # (e.g. 5376.5 Å, ~0 mÅ real Fe II under blend) → DROP.
+
     # NIST grade policy
     'min_nist_grade'    : 'B',    # Minimum acceptable grade for science
 
