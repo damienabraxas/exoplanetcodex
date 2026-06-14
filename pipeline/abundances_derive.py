@@ -50,7 +50,7 @@ from scipy.interpolate import interp1d
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
     STAR_LINELISTS,
-    ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
+    ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
 )
@@ -234,6 +234,27 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
 
 # ── Abundance derivation ──────────────────────────────────────────────────────
 
+def _ew_engine_available(code: str) -> bool:
+    """
+    True iff iSpec can actually run the requested EW→abundance engine.
+
+    No silent fallback (RYA-289 / RYA-167 Bug 1): the caller RAISES on False
+    rather than quietly downgrading to SPECTRUM. The whole point of RYA-289 is
+    that the EW baseline must be the engine that was asked for, not whatever the
+    synthesis RT code happens to leave enabled.
+    """
+    code = (code or '').lower()
+    checks = {
+        'moog'     : ispec.is_moog_support_enabled,
+        'moog-scat': ispec.is_moog_scat_support_enabled,
+        'spectrum' : ispec.is_spectrum_support_enabled,
+        # 'width' is iSpec-internal (no external binary); availability == SPECTRUM build.
+        'width'    : ispec.is_spectrum_support_enabled,
+    }
+    check = checks.get(code)
+    return bool(check()) if check is not None else False
+
+
 def _ew_to_abundance(ew_df: pd.DataFrame,
                      stellar_params: dict,
                      atmosphere: np.ndarray,
@@ -319,11 +340,24 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     vturb = float(stellar_params['vturb_kms'])
 
     # determine_abundances only accepts: 'spectrum', 'moog', 'moog-scat', 'width'.
-    # Turbospectrum is used above for atmosphere interpolation (ATLAS9.Castelli/
-    # MARCS.GES formatted for Turbospectrum). The EW→abundance step uses
-    # 'spectrum' here. Full Turbospectrum synthesis (model_spectrum_from_ew)
-    # is the RYA-165 upgrade path.
-    ew_code = 'spectrum' if code == 'turbospectrum' else code
+    # EW baseline engine is chosen INDEPENDENTLY of the synthesis RT code
+    # (`code`, used above only for Turbospectrum atmosphere interpolation).
+    # RYA-289 fix: the old `ew_code = 'spectrum' if code=='turbospectrum' else code`
+    # silently forced SPECTRUM whenever synthesis was on — so RYA-285/287 compared
+    # synthesis-vs-SPECTRUM, never synthesis-vs-MOOG. Now the baseline is explicit
+    # (EW_BASELINE_CODE) and we REFUSE to run if it is unavailable rather than
+    # downgrading silently (RYA-167 Bug 1: no silent engine fallback).
+    ew_code = EW_BASELINE_CODE
+    if not _ew_engine_available(ew_code):
+        raise RuntimeError(
+            f"EW baseline engine '{ew_code}' is not available to iSpec. Refusing to "
+            f"downgrade to SPECTRUM silently — that downgrade is exactly the bug RYA-289 "
+            f"fixes (RYA-285 ran SPECTRUM, never MOOG). Install/compile MOOGSILENT under "
+            f"$ISPEC_DIR/synthesizer/moog/ or set EW_BASELINE_CODE explicitly in "
+            f"config/constants.py."
+        )
+    print(f"  EW baseline engine: {ew_code}  (RYA-289 — decoupled from "
+          f"RADIATIVE_TRANSFER_CODE='{code}')")
     spec_abund, normal_abund, x_over_h, x_over_fe = ispec.determine_abundances(
         atmosphere, teff, logg, feh, 0.0,
         linemasks, solar_abund,
@@ -684,6 +718,12 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
         if (np.isfinite(xh) and np.isfinite(feh_ref)) else np.nan
     )
 
+    # RYA-289 scale label: the cross-engine comparison column is A_X_abs (absolute
+    # LTE A(X)); A_X stays the legacy Asplund-2009-differential column. Synthesis
+    # is pure 1D LTE — no NLTE layer applied here.
+    results_synth['scale']        = 'absolute'   # describes A_X_abs
+    results_synth['nlte_applied'] = False
+
     out_ab  = Path(str(out_dir)) / f'{star_id}_abundances_synth.csv'
     out_pl  = Path(str(out_dir)) / f'{star_id}_per_line_synth.csv'
     results_synth.to_csv(out_ab, index=False)
@@ -968,6 +1008,11 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
     results_v2['XFe'] = results_v2['XH'].apply(
         lambda xh: round(xh - feh_ref, 3)
         if (np.isfinite(xh) and np.isfinite(feh_ref)) else np.nan)
+
+    # RYA-289 scale label: comparison column is A_X_abs (absolute LTE A(X)).
+    # A_X stays the legacy Asplund-2009-differential column. v2 flux fit is 1D LTE.
+    results_v2['scale']        = 'absolute'   # describes A_X_abs
+    results_v2['nlte_applied'] = False
 
     out_ab = Path(str(out_dir)) / f'{star_id}_abundances_synth_v2.csv'
     out_pl = Path(str(out_dir)) / f'{star_id}_per_line_synth_v2.csv'
@@ -1672,6 +1717,27 @@ def run(star_id: str = 'solar',
                                          linelist_path=_star_ll_path)
         results   = _element_grade_summary(scored_df, results)
 
+    # ── RYA-289: explicit absolute scale labels (no implicit ≡0 differential) ──
+    # MOOG returns absolute A(X) uniformly, so A_X here is 1D-LTE absolute A(X)
+    # for every star (this is what dissolves the solar A_X≡0 degeneracy that the
+    # SPECTRUM path produced). The NLTE layer (Fe only) is stored as a DISTINCT,
+    # explicitly-absolute column (A_X_nlte_absolute) instead of being reconstructed
+    # implicitly via +A(Fe)_sun at gate time. The scale-aware diff harness joins
+    # on the labelled absolute A_X.
+    results['scale']        = 'absolute'   # describes A_X (1D LTE absolute)
+    results['nlte_applied'] = False        # A_X is pre-NLTE; NLTE in A_X_nlte_absolute
+    if 'A_X_nlte' in results.columns:
+        def _nlte_to_absolute(row):
+            flag = str(row.get('nlte_flag', '1D_LTE'))
+            if flag in ('1D_LTE', 'NLTE_unavailable'):
+                return np.nan   # NLTE not actually applied → no absolute NLTE value
+            ref = SOLAR_ASPLUND2021.get(str(row['element']), np.nan)
+            val = row.get('A_X_nlte', np.nan)
+            if pd.notna(val) and np.isfinite(ref):
+                return round(float(val) + float(ref), 3)
+            return np.nan
+        results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
     out_dir  = Path(str(PATHS['solar_ew'])).parent
@@ -1681,6 +1747,7 @@ def run(star_id: str = 'solar',
           f"{results['n_lines'].sum()} total lines)")
 
     if not scored_df.empty:
+        scored_df['scale'] = 'absolute'   # RYA-289: per-line A_X is 1D-LTE absolute
         per_line_out = out_dir / f'{star_id}_per_line.csv'
         scored_df.to_csv(per_line_out, index=False)
         print(f"  Saved → {per_line_out.name}  ({len(scored_df)} lines with quality scores)")

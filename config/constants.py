@@ -303,6 +303,16 @@ ISPEC_DIR = Path(_os.environ.get('ISPEC_DIR',
 ))
 RADIATIVE_TRANSFER_CODE = 'turbospectrum'   # 'turbospectrum' | 'spectrum' | 'moog'
 
+# ── EW→abundance baseline engine (RYA-289) ───────────────────────────────────
+# The community-standard EW→abundance engine for the synthesis-vs-EW comparison
+# (RYA-285). This MUST be chosen INDEPENDENTLY of RADIATIVE_TRANSFER_CODE:
+# setting the RT code to 'turbospectrum' for the synthesis path must never
+# silently downgrade this baseline to SPECTRUM. That silent downgrade is exactly
+# the bug RYA-289 fixes — RYA-285/287 ran SPECTRUM, never MOOG. MOOG returns
+# absolute A(X) uniformly for every star (no NLTE-layer reconstruction), which
+# also dissolves the solar A_X≡0 / differential-vs-absolute scale split.
+EW_BASELINE_CODE = 'moog'   # 'moog' | 'moog-scat' | 'spectrum' | 'width'
+
 # Auto-create all output directories on import
 for _key in ('data_root', 'raw_spectra', 'processed_spectra', 'linelists',
              'model_atmospheres', 'results', 'plots', 'tables'):
