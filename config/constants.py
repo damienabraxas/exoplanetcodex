@@ -355,19 +355,22 @@ STAR_PARAMS = {
         # mislabel — those are Allende Prieto 2002 (spectroscopic) values.
         'teff': 6554.0, 'e_teff': 84.0, 'logg': 4.00, 'e_logg': 0.02,
         'feh_ref': 0.03, 'e_feh': 0.04,
-        # Broadening (RYA-309 §3.3): vsini is FIXED at the Bruntt+2010 value;
-        # vmac is FIT in synthesis-v2's radial-tangential (RT) model with vsini
-        # held fixed (expect ~5-6 km/s). Bruntt's own vmac (4.6) is GAUSSIAN
-        # macroturbulence and must NOT be reused as an RT vmac — the conventions
-        # differ (cf. solar: RT vmac 3.8 vs Bruntt Gaussian 2.4). vmac_init seeds
-        # the RT fit. The resolver returns a fit directive (not a fixed value) so
-        # no provisional vmac is ever silently used (RYA-288 no-silent-broadening).
-        'vsini': 2.8,                  # km/s — FIXED. Bruntt et al. 2010, MNRAS 405, 1907
-        'vmac': 'fit',                 # RT macroturbulence — fit in synth-v2, not pinned
-        'vmac_init': 5.5,              # km/s — RT fit initial guess (expect 5-6)
-        'vmac_fit_bounds': (3.0, 8.0), # km/s — RT vmac search bounds
+        # Broadening (RYA-309 §3.3): vsini FIXED at the Bruntt+2010 value; vmac is
+        # an ADOPTED literature RT macroturbulence (Gray RT scale — same footing as
+        # the solar 3.8 RT value). Bruntt's own vmac (4.6) is GAUSSIAN and must NOT
+        # be reused as an RT vmac (cf. solar RT 3.8 vs Bruntt Gaussian 2.4).
+        # WHY ADOPTED, not fit: at Procyon's SNR (~2272) the per-line χ²ᵣ is
+        # dominated by 1D-LTE model error (~0.4%), not noise, so full-profile χ²
+        # monotonically biases vmac high (rails to the search bound, not ~5-6) —
+        # full-profile χ² is the wrong vmac estimator here. The proper FT/width-
+        # based estimator is deferred to RYA-316 (non-blocking). A(Fe) sensitivity
+        # to vmac 5.0↔6.0 is reported with the run (RYA-309 rigor rider) and is
+        # small (vmac couples weakly to A(Fe)).
+        'vsini': 2.8,   # km/s — FIXED. Bruntt et al. 2010, MNRAS 405, 1907
+        'vmac': 6.0,    # km/s — ADOPTED RT (Gray scale), Procyon F5 IV-V ~5.5-6.5
         'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H]); '
-                  'broadening: Bruntt+2010 vsini, RT vmac fit (RYA-309 §3.3)',
+                  'broadening: Bruntt+2010 vsini=2.8 + adopted RT vmac=6.0 '
+                  '(Gray scale; FT estimator deferred to RYA-316)',
         'logg_basis': 'astrometric binary mass (Procyon B WD) + interferometric radius',
         'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
     },
