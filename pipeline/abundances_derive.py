@@ -771,13 +771,51 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
 # SYNTHESIZED (never floored) → genuine blend-awareness (FLAG 1); the wing-wide
 # window includes the damping wings instead of clipping them (FLAG 2).
 
+# Strong, fairly isolated Fe I lines (air, rest Å) for a robust RV centroid.
+# Used to bring the observed spectrum to REST before flux-space synthesis fitting
+# (RYA-309): the synthesis is rest-frame, so an uncorrected stellar RV misaligns
+# the line cores, inflating χ² and biasing the broadening/abundance fit. Solar is
+# already ~rest (BERV applied per-exposure) so this is a near-no-op there; Procyon
+# carries an uncorrected ≈ -2.3 km/s shift.
+_RV_FE1_REF = np.array([
+    5497.516, 5501.465, 5569.618, 5615.644, 5624.542, 5934.655, 6024.058,
+    6065.482, 6137.692, 6191.558, 6230.723, 6252.555, 6411.649, 6430.846,
+])
+_C_KMS = 299792.458
+
+
+def _measure_rv_kms(wave_nm: np.ndarray, flux: np.ndarray) -> float:
+    """Median velocity shift (km/s) of the observed spectrum vs rest, from
+    parabolic centroids of strong Fe I reference lines. Positive = redshifted."""
+    wl = wave_nm * 10.0
+    vs = []
+    for r0 in _RV_FE1_REF:
+        m = (wl > r0 - 0.25) & (wl < r0 + 0.25)
+        if m.sum() < 5:
+            continue
+        w, f = wl[m], flux[m]
+        i = int(np.argmin(f))
+        if f[i] > 0.85 or i < 1 or i > len(f) - 2:   # need a real, resolved core
+            continue
+        x, y = w[i - 1:i + 2], f[i - 1:i + 2]
+        denom = (x[0] - x[1]) * (x[0] - x[2]) * (x[1] - x[2])
+        if denom == 0:
+            continue
+        A = (x[2] * (y[1] - y[0]) + x[1] * (y[0] - y[2]) + x[0] * (y[2] - y[1])) / denom
+        B = (x[2]**2 * (y[0] - y[1]) + x[1]**2 * (y[2] - y[0]) + x[0]**2 * (y[1] - y[2])) / denom
+        lam = -B / (2 * A) if A != 0 else w[i]
+        vs.append(_C_KMS * (lam - r0) / r0)
+    return float(np.median(vs)) if vs else 0.0
+
+
 def _load_observed_spectrum(star_id: str) -> tuple:
     """
     Load the observed normalized spectrum for flux-space fitting (RYA-287).
 
-    Returns (obs_wave_nm, obs_flux) — continuum-normalized (≈1.0 at continuum).
-    The normalized CSV has no per-pixel error column, so χ² weighting uses a
-    locally-estimated continuum-scatter σ per window (see _fit_synth_flux).
+    Returns (obs_wave_nm, obs_flux) — continuum-normalized (≈1.0 at continuum),
+    shifted to REST frame via a measured Fe I RV (RYA-309). The normalized CSV
+    has no per-pixel error column, so χ² weighting uses a locally-estimated
+    continuum-scatter σ per window (see _fit_synth_flux).
     """
     key = None
     for k in ('solar', 'procyon', '55cnc'):
@@ -794,6 +832,17 @@ def _load_observed_spectrum(star_id: str) -> tuple:
     df = pd.read_csv(str(norm_path), comment='#')
     wave_nm = df['wavelength_air_A'].to_numpy(dtype=float) / 10.0
     flux    = df['flux_normalized'].to_numpy(dtype=float)
+
+    # Bring to REST: the synthesis is rest-frame, so an uncorrected stellar RV
+    # misaligns line cores and biases the flux-space fit (RYA-309). Measure from
+    # Fe I centroids and shift; no-op (<0.5 km/s) for already-rest spectra (solar).
+    rv = _measure_rv_kms(wave_nm, flux)
+    if abs(rv) > 0.5:
+        wave_nm = wave_nm / (1.0 + rv / _C_KMS)
+        print(f"  [synth-v2] RV-corrected observed spectrum to rest: {rv:+.2f} km/s "
+              f"(Fe I centroids)")
+    else:
+        print(f"  [synth-v2] RV {rv:+.2f} km/s — within 0.5 km/s, no shift applied")
     print(f"  [synth-v2] Observed spectrum: {len(wave_nm):,} px, "
           f"{wave_nm[0]*10:.1f}–{wave_nm[-1]*10:.1f} Å (continuum=1.0)")
     return wave_nm, flux
