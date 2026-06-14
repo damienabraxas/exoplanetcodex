@@ -49,7 +49,7 @@ from scipy.interpolate import interp1d
 
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
-    STAR_LINELISTS, STAR_PARAMS, get_star_params,
+    STAR_LINELISTS, STAR_PARAMS, get_star_params, HARPS_R,
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
@@ -395,19 +395,38 @@ def _load_synth_resources() -> tuple:
     )
 
 
-# ── Flux-space fitting broadening (RYA-287) ──────────────────────────────────
+# ── Flux-space fitting broadening (RYA-287; per-star sourcing RYA-288) ────────
 # v1 EW matching set macro=vsini=0, R=500000 because EW is broadening-invariant.
 # v2 fits the synthetic FLUX directly to observed normalized flux, and flux is
 # shape-sensitive — the synthesis MUST be broadened to the observed line profile
 # or χ² is dominated by a width mismatch. Broadening = instrumental (HARPS) ⊕
 # macroturbulence ⊕ rotation. These are FIXED inputs (not free params — the only
 # free parameter is the target abundance, per the RYA-287 spec).
-_HARPS_RESOLUTION = 115000.0            # HARPS resolving power (solar & Procyon both HARPS)
-_STAR_BROADENING = {                    # macroturbulence / vsini in km/s (Gray 2005 scale)
-    'solar':   {'vmac': 3.8, 'vsini': 1.8},   # Sun: vmac≈3.8, vsini≈1.8 km/s
-    'procyon': {'vmac': 6.0, 'vsini': 3.2},   # Procyon F5IV-V (parked until RYA-284)
-}
-_DEFAULT_BROADENING = {'vmac': 3.0, 'vsini': 2.0}
+#
+# RYA-288: broadening is sourced PER-STAR from STAR_PARAMS (vmac/vsini) via the
+# single get_star_params() resolver — no parallel dict, no _DEFAULT fallback.
+# Because flux-space χ² is shape-sensitive, wrong broadening biases the fitted
+# A(X) itself, so a star with no vmac/vsini must FAIL LOUD rather than inherit the
+# Sun's profile (the bug this fixes). Instrumental R = HARPS_R (instrument constant).
+
+
+def _resolve_broadening(star_id: str) -> tuple:
+    """(R, vmac, vsini) for `star_id`, sourced from STAR_PARAMS via get_star_params.
+
+    FAIL LOUD — never default to solar (RYA-288 / RYA-287 review). An unknown star
+    raises in get_star_params; a known star missing vmac/vsini raises here with a
+    clear message. The data lives only in STAR_PARAMS (no parallel broadening dict).
+    """
+    rec = get_star_params(star_id)   # raises KeyError if the star has no record
+    if 'vmac' not in rec or 'vsini' not in rec:
+        raise KeyError(
+            f"No broadening (vmac/vsini) in STAR_PARAMS for star '{star_id}'. "
+            f"Add them from the converged-params record (e.g. RYA-284 for Procyon) "
+            f"before running synthesis-v2. Refusing to default to solar broadening "
+            f"— flux-space χ² is shape-sensitive, so wrong broadening biases A(X) "
+            f"itself (RYA-288 / RYA-287 review)."
+        )
+    return float(HARPS_R), float(rec['vmac']), float(rec['vsini'])
 
 
 def _build_fixed_ab(element: str, atom_code: int, trial_A: float) -> np.recarray:
@@ -886,11 +905,11 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
     vturb  = float(converged_params['vturb_kms'])
     ew_ceil = float(PIPELINE['vmic_ew_ceiling_mA'])  # ceiling from constants (RYA-277 coord)
 
-    # Broadening (fixed inputs — only abundance is free)
-    bkey = 'solar' if 'solar' in star_id.lower() else (
-           'procyon' if 'procyon' in star_id.lower() else None)
-    brd = _STAR_BROADENING.get(bkey, _DEFAULT_BROADENING)
-    R_inst, vmac, vsini = _HARPS_RESOLUTION, brd['vmac'], brd['vsini']
+    # Broadening (fixed inputs — only abundance is free). RYA-288: sourced per-star
+    # from STAR_PARAMS via get_star_params(); fail loud if absent (no solar default).
+    R_inst, vmac, vsini = _resolve_broadening(star_id)
+    print(f"[{star_id}] broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s",
+          file=sys.stderr)
     print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
           f"(fixed); EW ceiling={ew_ceil:.0f} mÅ")
 

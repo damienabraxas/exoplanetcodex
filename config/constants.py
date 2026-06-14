@@ -317,10 +317,26 @@ CONTINUUM_PARAMS = {
 # feh is SOLVED for every star here, so feh_ref is a reference value only (not a pin).
 # Program stars WITHOUT a fundamental logg keep the full spectroscopic solve
 # (pin=[]) so the benchmark pin never leaks into the unknown-logg path (RYA-290).
+#
+# Broadening (RYA-288): synthesis-v2 flux fitting is shape-sensitive (unlike EW),
+# so each star's astrophysical broadening — vmac (radial-tangential macroturbulence)
+# and vsini (projected rotation), km/s — is sourced HERE alongside the converged
+# params and resolved through get_star_params(). Wrong broadening biases the fitted
+# A(X) itself, not just its error bar, so there is NO default: a star whose synth-v2
+# run needs broadening but has no vmac/vsini entry must FAIL LOUD (resolver raises),
+# never silently inherit the Sun's profile. Solar vmac/vsini are lifted verbatim from
+# the RYA-287 hardcoded set so the solar synth-v2 run is a no-op. Other stars get
+# vmac/vsini only when sourced from their converged record (e.g. Procyon from RYA-284)
+# — until then the entry is intentionally absent and the guard fires.
+# Instrumental resolution is an INSTRUMENT constant, not per-star:
+HARPS_R = 115000   # HARPS resolving power; instrumental convolution for synthesis
+
 STAR_PARAMS = {
     'solar': {
         'teff': 5772.0, 'e_teff': 1.0,  'logg': 4.438, 'e_logg': 0.000,
         'feh_ref': 0.00, 'e_feh': 0.03,
+        'vmac': 3.8, 'vsini': 1.8,   # km/s — RYA-288: verbatim from the RYA-287
+                                      # synth-v2 hardcoded set (solar run = no-op)
         'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
         'logg_basis': 'IAU nominal solar mass + radius (logg fixed to ~0.001 dex)',
         'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
@@ -328,6 +344,9 @@ STAR_PARAMS = {
     'procyon': {
         'teff': 6554.0, 'e_teff': 84.0, 'logg': 4.00, 'e_logg': 0.02,
         'feh_ref': 0.03, 'e_feh': 0.04,
+        # RYA-288: vmac/vsini INTENTIONALLY ABSENT — source from the converged
+        # record (RYA-284) before Procyon synth-v2; do NOT fill with solar. The
+        # broadening resolver fails loud until these are set (F5 IV-V ≠ solar).
         'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
         'logg_basis': 'astrometric binary mass (Procyon B WD) + interferometric radius',
         'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
