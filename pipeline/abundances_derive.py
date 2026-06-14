@@ -470,6 +470,7 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
     Returns (results_synth_df, per_line_synth_df).
     """
     import time
+    from pipeline.progress import ProgressReporter
 
     t0 = time.time()
     print(f"\n  [synth] Starting synthesis-EW bisection — RYA-285 ({star_id})")
@@ -503,6 +504,11 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
     n_ok = n_fail = n_skip = 0
     n_total = len(last_linemasks)
 
+    # RYA-286: stderr-only progress + ETA so the (hours-long) synthesis run can
+    # be left unattended over SSH. Does not touch per_line_rows / the CSV.
+    prog = ProgressReporter(total=n_total,
+                            label=f"{star_id} synthesis abundances")
+
     for i in range(n_total):
         note      = str(last_linemasks['note'][i])
         parts     = note.split()
@@ -514,6 +520,7 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
 
         if note == 'Fe 1' and ew_obs > ew_ceil:
             n_skip += 1
+            prog.update(item_label=f"{element} {ion_lbl} {wave_A:.2f} (skip)")
             continue
 
         if element not in atom_codes:
@@ -524,6 +531,7 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
                 'wavelength_air_A': wave_A, 'ew_mA': ew_obs,
                 'a_synth': np.nan, 'converged': False, 'n_iter': 0,
             })
+            prog.update(item_label=f"{element} {ion_lbl} {wave_A:.2f} (skip)")
             continue
 
         a_code  = atom_codes[element]
@@ -566,6 +574,10 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
             'converged': converged, 'n_iter': n_iter,
             'saturated': bool(ew_obs > ew_ceil),
         })
+
+        prog.update(item_label=f"{element} {ion_lbl} {wave_A:.2f}")
+
+    prog.finish()
 
     wall = time.time() - t0
     print(f"\n  [synth] {star_id}: {n_ok} converged, {n_fail} failed, {n_skip} skipped "
