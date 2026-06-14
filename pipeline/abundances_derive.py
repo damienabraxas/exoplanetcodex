@@ -1058,7 +1058,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       stellar_params_init: dict,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
-                                      vmic_fixed: bool = False) -> tuple:
+                                      vmic_fixed: bool = False,
+                                      skip_convergence: bool = False) -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -1161,6 +1162,18 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         )
         if converged:
             print(f"  ✓ Converged at iteration {iteration}")
+            break
+
+        # RYA-291: pinned-params mode. Run exactly one pass at the supplied params
+        # (abundances above are at those params), log the equilibrium slopes for
+        # the record, then break WITHOUT updating Teff/logg/ξ. The results table
+        # below is built from this pinned pass, so the EW baseline lands at exactly
+        # the params the synthesis-v2 tables used — a pure engine diff, no walk.
+        if skip_convergence:
+            print(f"  ⏸ skip_convergence (RYA-291) — pinned at "
+                  f"Teff={params['teff_K']:.0f}K logg={params['logg']:.2f} "
+                  f"[Fe/H]={params['feh']} vturb={params['vturb_kms']:.2f}km/s "
+                  f"(no param update; slopes above are diagnostic only)")
             break
 
         # Gradient-descent parameter adjustment — conservative steps to avoid
@@ -1657,9 +1670,7 @@ def run(star_id: str = 'solar',
     # iteration), then run synthesis. Used to compare engines at a fixed
     # benchmark anchor where convergence would otherwise walk the params and
     # confound the engine diff with a stellar-parameter difference.
-    if skip_convergence:
-        if engine not in ('synthesis', 'synthesis-v2'):
-            raise ValueError("skip_convergence requires engine='synthesis' or 'synthesis-v2'")
+    if skip_convergence and engine in ('synthesis', 'synthesis-v2'):
         print(f"\n[3/4] PINNED params (skip_convergence) — no iteration:")
         print(f"  Teff={params['teff_K']:.0f} K  logg={params['logg']:.2f}  "
               f"[Fe/H]={params['feh']}  vturb={params['vturb_kms']:.2f} km/s")
@@ -1678,11 +1689,19 @@ def run(star_id: str = 'solar',
         print(f"\n{'='*62}\n  abundances_derive complete (pinned synthesis).\n{'='*62}\n")
         return params, results_synth
 
-    # ── Iterative convergence ─────────────────────────────────────
-    print(f"\n[3/4] Iterating to stellar parameter equilibrium "
-          f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
+    # ── Iterative convergence (or pinned single pass for the EW baseline) ──────
+    # RYA-291: skip_convergence on the EW baseline (engine='spectrum') pins the
+    # params to the supplied init (= the synthesis-v2 tables' params) so the MOOG
+    # baseline and the synthesis are compared at IDENTICAL params — removing the
+    # RYA-289 param confound. Same result-building/NLTE/scoring/save path follows.
+    if skip_convergence:
+        print(f"\n[3/4] PINNED params (skip_convergence) — EW baseline, no iteration:")
+    else:
+        print(f"\n[3/4] Iterating to stellar parameter equilibrium "
+              f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
-        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed
+        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed,
+        skip_convergence=skip_convergence,
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
@@ -1843,7 +1862,12 @@ if __name__ == '__main__':
     _repo = str(_Path(__file__).resolve().parent.parent)
     if _repo not in _sys.path:
         _sys.path.insert(0, _repo)
-    star   = _sys.argv[1] if len(_sys.argv) > 1 else 'solar'
-    grid   = _sys.argv[2] if len(_sys.argv) > 2 else 'ATLAS9.Castelli'
-    engine = _sys.argv[3] if len(_sys.argv) > 3 else 'spectrum'
-    run(star, grid, engine=engine)
+    _flags = [a for a in _sys.argv[1:] if a.startswith('--')]
+    _pos   = [a for a in _sys.argv[1:] if not a.startswith('--')]
+    star   = _pos[0] if len(_pos) > 0 else 'solar'
+    grid   = _pos[1] if len(_pos) > 1 else 'ATLAS9.Castelli'
+    engine = _pos[2] if len(_pos) > 2 else 'spectrum'
+    # RYA-291: --skip-convergence pins the params to the star init (no walk), so the
+    # MOOG EW baseline is computed at the synthesis-v2 tables' params for a pure diff.
+    skip   = '--skip-convergence' in _flags or '--pin' in _flags
+    run(star, grid, engine=engine, skip_convergence=skip)
