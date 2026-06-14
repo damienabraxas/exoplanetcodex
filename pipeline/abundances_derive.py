@@ -255,6 +255,34 @@ def _ew_engine_available(code: str) -> bool:
     return bool(check()) if check is not None else False
 
 
+# RYA-305: proper per-line Fe II theoretical EW (SPECTRUM) for the EW triage.
+# The Fe I-calibrated linear COG mis-predicts Fe II by ~2 dex, which is why the
+# old code fail-opened Fe II past the sanity check. calculate_theoretical_ew_and_depth
+# gives the real EW each Fe II line would have at the expected composition — the
+# physical discriminant for clean / blend-contaminated. Cached per (line set, params)
+# since it is intrinsic to the lines and does not change across convergence iterations.
+_fe2_theo_cache: dict = {}
+_fe2_quarantine_state: dict = {'written': False}
+
+
+def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray:
+    """Theoretical Fe II-only EW (mÅ) per line at expected A(Fe)=solar+[Fe/H], via SPECTRUM."""
+    teff = float(stellar_params['teff_K']); logg = float(stellar_params['logg'])
+    feh  = float(stellar_params['feh']);    vturb = float(stellar_params['vturb_kms'])
+    key = (tuple(np.round(np.asarray(fe2_linemasks['wave_A'], dtype=float), 3)),
+           round(teff), round(logg, 2), round(feh, 2))
+    if key in _fe2_theo_cache:
+        return _fe2_theo_cache[key]
+    _, isotopes, _ = _load_synth_resources()
+    solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+    out = ispec.calculate_theoretical_ew_and_depth(
+        atmosphere, teff, logg, feh, 0.0, fe2_linemasks.copy(), isotopes, solar_abund,
+        microturbulence_vel=vturb, verbose=0, tmp_dir='/tmp/ispec_codex')
+    theo = np.asarray(out['theoretical_ew'], dtype=float)
+    _fe2_theo_cache[key] = theo
+    return theo
+
+
 def _ew_to_abundance(ew_df: pd.DataFrame,
                      stellar_params: dict,
                      atmosphere: np.ndarray,
@@ -317,22 +345,65 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     log_ew_obs   = np.log10(np.maximum(ew_mA_obs, 1e-6))
     ew_ratio     = log_ew_obs - log_ew_theo
     good         = np.abs(ew_ratio) < 1.5
-    # Fe II lines without a GES theoretical_ew (=0) bypass the COG sanity check.
-    # The linear COG formula is calibrated for Fe I and gives absurd predictions
-    # for Fe II lines with extreme loggf values, falsely rejecting valid lines.
-    # Fe II lines appended by RYA-243/247 were quality-gated by EW and ew_err;
-    # the pre-filter [5, 300] mÅ already guards against the grossest blends.
-    fe2_no_theo = np.array(
-        [str(r['note']).strip() == 'Fe 2' for r in linemasks]
-    ) & ~has_theo
-    good         = good | fe2_no_theo
+
+    # ── Fe II triage (RYA-305) — the has_theo==False fail-open DIES ─────────────
+    # Old behaviour fail-opened every Fe II line without a GES theoretical_ew, so
+    # physically-impossible blends (e.g. 5376.5 Å, loggf −7.9, ~0 mÅ real Fe II
+    # under ~80 mÅ of blend → A 10.3) were averaged into the Fe II mean (RYA-290).
+    # The Fe I-calibrated linear COG can't vet Fe II (it mis-predicts by ~2 dex),
+    # so judge each Fe II line against its PROPER theoretical EW (SPECTRUM, at the
+    # expected composition). Keep only lines whose observed EW is consistent with
+    # that theoretical EW (clean → EW abundance). Blend-contaminated lines are
+    # EXCLUDED from the EW pool (no silent fail-open): if the line is intrinsically
+    # measurable (theo >= floor) the blend-aware synthesis recovers it; if it is
+    # negligible (theo < floor) it is dropped/quarantined. Anchor = expected A(Fe)
+    # (solar+[Fe/H]), keeping the Fe I−Fe II balance an independent check (RYA-305
+    # DECISION). The Fe II ionization-balance ARBITER is synthesis (DECISION 2).
+    fe2_mask = np.array([str(r['note']).strip() == 'Fe 2' for r in linemasks])
+    if fe2_mask.any():
+        fe2_idx  = np.where(fe2_mask)[0]
+        theo_fe2 = _fe2_theoretical_ew(linemasks[fe2_idx], stellar_params, atmosphere)
+        obs_fe2  = np.array([float(linemasks['ew'][i]) for i in fe2_idx])
+        logr_fe2 = np.log10(np.maximum(obs_fe2, 1e-6) / np.maximum(theo_fe2, 1e-6))
+        clean_fe2 = np.abs(logr_fe2) < float(PIPELINE['fe2_ew_sanity_dex'])
+        for j, i in enumerate(fe2_idx):
+            good[i] = bool(clean_fe2[j])   # Fe II verdict is the triage, not the linear COG
+        _floor = float(PIPELINE['fe2_synth_ew_floor_mA'])
+        n_clean = int(clean_fe2.sum())
+        n_recov = int(((~clean_fe2) & (theo_fe2 >= _floor)).sum())
+        n_drop  = int(((~clean_fe2) & (theo_fe2 <  _floor)).sum())
+        print(f"  Fe II triage (RYA-305): {n_clean} clean (EW kept), "
+              f"{n_recov} blended→synthesis-recover (EW-excluded), "
+              f"{n_drop} dropped/quarantined (theo<{_floor:.0f} mÅ)")
+        # Quarantine record (never delete; provenance preserved — RYA-305 DECISION).
+        if not _fe2_quarantine_state['written'] and (~clean_fe2).any():
+            try:
+                q = pd.DataFrame({
+                    'wave_A': np.round(obs_fe2 * 0 + np.asarray(
+                        [float(linemasks['wave_A'][i]) for i in fe2_idx]), 3),
+                    'obs_ew_mA': np.round(obs_fe2, 2),
+                    'theo_ew_mA': np.round(theo_fe2, 3),
+                    'log_obs_over_theo': np.round(logr_fe2, 2),
+                    'verdict': np.where(clean_fe2, 'clean',
+                               np.where(theo_fe2 >= _floor, 'recover_synthesis', 'drop')),
+                    'reason': np.where(clean_fe2, 'obs~theo (kept in EW)',
+                               np.where(theo_fe2 >= _floor,
+                                        'real line, EW blend-contaminated → synthesis',
+                                        'theo<floor: negligible Fe II under blend → drop')),
+                })
+                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe2_triage_quarantine.csv'
+                q[q.verdict != 'clean'].to_csv(qpath, index=False)
+                _fe2_quarantine_state['written'] = True
+                print(f"  [Fe II triage] quarantine → {qpath.name}")
+            except Exception as _qe:
+                print(f"  [Fe II triage] quarantine write skipped: {_qe}")
+
     n_before = len(linemasks)
     linemasks = linemasks[good]
     n_after  = len(linemasks)
-    n_fe2_bypass = int(fe2_no_theo.sum())
-    note_str = f", {n_fe2_bypass} Fe II bypassed (no theoretical_ew)" if n_fe2_bypass else ""
     print(f"  EW sanity filter: {n_before} → {n_after} lines "
-          f"({n_before - n_after} rejected as blends/misidentifications{note_str})")
+          f"({n_before - n_after} rejected as blends/misidentifications; "
+          f"Fe II via RYA-305 triage)")
 
     teff  = float(stellar_params['teff_K'])
     logg  = float(stellar_params['logg'])
