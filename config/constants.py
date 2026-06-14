@@ -295,6 +295,90 @@ CONTINUUM_PARAMS = {
     },
 }
 
+# ── Per-star fundamental parameters + pin/solve policy (RYA-292) ──────────────
+# Authoritative record of fundamental stellar parameters and an EXPLICIT pin/solve
+# policy for parameter convergence. Generalizes the RYA-290 solar directive: any
+# star whose logg is fixed by fundamental physics (mass + radius / asteroseismology)
+# more precisely than an ionization-balance solve should PIN logg (and Teff),
+# because floating a well-determined gravity lets data/setup error hide as a
+# parameter walk (the solar logg→3.94 walk, RYA-289/290).
+#
+# Sources (Gaia FGK Benchmark Stars — same reference lineage as the RYA-203 Heiter
+# GES loggf cross-match):
+#   Teff, logg : Heiter et al. 2015, A&A 582, A49 — interferometric angular
+#                diameter + bolometric flux (Teff); mass + radius / seismology (logg).
+#   feh_ref    : Jofré et al. 2014, A&A 564, A133 — homogeneous reference [Fe/H].
+#
+# Policy keys per star:
+#   pin   — params held FIXED at the fundamental value during convergence.
+#   solve — params optimized by convergence: 'teff' (excitation/EP slope),
+#           'logg' (Fe I/II ionization balance), 'xi' (reduced-EW slope).
+#           'feh' is derived from A(Fe), not gradient-stepped.
+# feh is SOLVED for every star here, so feh_ref is a reference value only (not a pin).
+# Program stars WITHOUT a fundamental logg keep the full spectroscopic solve
+# (pin=[]) so the benchmark pin never leaks into the unknown-logg path (RYA-290).
+STAR_PARAMS = {
+    'solar': {
+        'teff': 5772.0, 'e_teff': 1.0,  'logg': 4.438, 'e_logg': 0.000,
+        'feh_ref': 0.00, 'e_feh': 0.03,
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'logg_basis': 'IAU nominal solar mass + radius (logg fixed to ~0.001 dex)',
+        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+    },
+    'procyon': {
+        'teff': 6554.0, 'e_teff': 84.0, 'logg': 4.00, 'e_logg': 0.02,
+        'feh_ref': 0.03, 'e_feh': 0.04,
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'logg_basis': 'astrometric binary mass (Procyon B WD) + interferometric radius',
+        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+    },
+    'alpha_cen_a': {
+        'teff': 5792.0, 'e_teff': 16.0, 'logg': 4.30, 'e_logg': 0.01,
+        'feh_ref': 0.20, 'e_feh': 0.04,
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
+        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+    },
+    'alpha_cen_b': {
+        'teff': 5231.0, 'e_teff': 20.0, 'logg': 4.53, 'e_logg': 0.03,
+        'feh_ref': 0.20, 'e_feh': 0.04,
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
+        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+    },
+    # Program star WITHOUT an adopted fundamental logg → full spectroscopic solve.
+    # (55 Cnc A has a CHARA radius + mass and could be pinned later; for now it
+    #  exercises the unknown-logg path so the benchmark pin cannot leak into it.)
+    '55cnc': {
+        'teff': 5196.0, 'e_teff': 24.0, 'logg': 4.41, 'e_logg': 0.02,
+        'feh_ref': 0.32, 'e_feh': 0.02,
+        'source': 'CHARA interferometry (von Braun+2011); logg NOT pinned',
+        'logg_basis': 'no fundamental logg adopted — solved via Fe ionization balance',
+        'pin': [], 'solve': ['teff', 'logg', 'feh', 'xi'],
+    },
+}
+
+
+def get_star_params(star_id: str) -> dict:
+    """
+    Resolve a star_id to its STAR_PARAMS record (fundamental params + pin/solve
+    policy). Fail LOUD if there is no record — no silent default (RYA-292; same
+    discipline as the RYA-288 broadening guard). Matching mirrors the substring
+    convention used elsewhere for star routing.
+    """
+    s = star_id.strip().lower().replace(' ', '_').replace('-', '_')
+    if s in STAR_PARAMS:
+        return STAR_PARAMS[s]
+    for key, rec in STAR_PARAMS.items():
+        if key in s or s in key:
+            return rec
+    raise KeyError(
+        f"No STAR_PARAMS record for star_id='{star_id}'. Add a fundamental-params "
+        f"+ pin/solve entry in config/constants.py before running it — refusing to "
+        f"guess a pin/solve policy or fall back to a default (RYA-292)."
+    )
+
+
 # ── iSpec / Turbospectrum installation ───────────────────────────────────────
 # Path to cloned iSpec repo (machine-specific; override via ISPEC_DIR env var).
 import os as _os
