@@ -44,6 +44,8 @@ import warnings
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from scipy.optimize import minimize_scalar
+from scipy.interpolate import interp1d
 
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
@@ -359,6 +361,65 @@ def _load_synth_resources() -> tuple:
     )
 
 
+# ── Flux-space fitting broadening (RYA-287) ──────────────────────────────────
+# v1 EW matching set macro=vsini=0, R=500000 because EW is broadening-invariant.
+# v2 fits the synthetic FLUX directly to observed normalized flux, and flux is
+# shape-sensitive — the synthesis MUST be broadened to the observed line profile
+# or χ² is dominated by a width mismatch. Broadening = instrumental (HARPS) ⊕
+# macroturbulence ⊕ rotation. These are FIXED inputs (not free params — the only
+# free parameter is the target abundance, per the RYA-287 spec).
+_HARPS_RESOLUTION = 115000.0            # HARPS resolving power (solar & Procyon both HARPS)
+_STAR_BROADENING = {                    # macroturbulence / vsini in km/s (Gray 2005 scale)
+    'solar':   {'vmac': 3.8, 'vsini': 1.8},   # Sun: vmac≈3.8, vsini≈1.8 km/s
+    'procyon': {'vmac': 6.0, 'vsini': 3.2},   # Procyon F5IV-V (parked until RYA-284)
+}
+_DEFAULT_BROADENING = {'vmac': 3.0, 'vsini': 2.0}
+
+
+def _build_fixed_ab(element: str, atom_code: int, trial_A: float) -> np.recarray:
+    """Single free-element fixed-abundance recarray on the iSpec SPECTRUM scale."""
+    fixed_ab               = np.recarray(1, dtype=[('code', int), ('Abund', float),
+                                                    ('element', '|U30')])
+    fixed_ab['code'][0]    = atom_code
+    fixed_ab['Abund'][0]   = trial_A - 12.036   # A_X → log(N/Ntot) SPECTRUM scale
+    fixed_ab['element'][0] = element
+    return fixed_ab
+
+
+def _synth_flux_at_abund(waveobs_nm: np.ndarray,
+                         atmosphere: np.ndarray,
+                         teff: float, logg: float, feh: float, vturb: float,
+                         linelist: np.ndarray,
+                         isotopes: np.ndarray,
+                         solar_abund: np.ndarray,
+                         element: str, atom_code: int,
+                         trial_A: float,
+                         R: float = 500000, macroturbulence: float = 0.0,
+                         vsini: float = 0.0,
+                         tmp_dir: str = '/tmp/ispec_codex_synth') -> np.ndarray:
+    """
+    Normalized Turbospectrum synthetic flux over `waveobs_nm` with ONLY the target
+    element's abundance set to `trial_A` (all others fixed at converged composition).
+
+    This is the shared spectrum generator (RYA-287 Step 1): v1 EW matching and v2
+    flux fitting both call it. Returns the flux array as-is — the v1 EW integration
+    is what discards the blend/wing info (RYA-285 FLAG 1/FLAG 2), so v2 keeps the flux.
+
+    R / macroturbulence / vsini default to the EW-mode values (R=500000, 0, 0) so
+    v1 behaviour is byte-for-byte unchanged; v2 passes the observed broadening.
+    """
+    fixed_ab = _build_fixed_ab(element, atom_code, trial_A)
+    return ispec.generate_spectrum(
+        waveobs_nm, atmosphere,
+        teff, logg, feh, 0.0,
+        linelist, isotopes, solar_abund, fixed_ab,
+        microturbulence_vel=vturb,
+        macroturbulence=macroturbulence, vsini=vsini, R=R,
+        verbose=0, code='turbospectrum',
+        tmp_dir=tmp_dir,
+    )
+
+
 def _synth_ew_at_abund(waveobs_nm: np.ndarray,
                         atmosphere: np.ndarray,
                         teff: float, logg: float, feh: float, vturb: float,
@@ -369,25 +430,14 @@ def _synth_ew_at_abund(waveobs_nm: np.ndarray,
                         trial_A: float,
                         tmp_dir: str = '/tmp/ispec_codex_synth') -> float:
     """
-    Synthesize a narrow spectral window at trial_A and return integrated EW in mÅ.
+    Synthesize a narrow window at trial_A and return integrated EW in mÅ (v1).
 
-    EW = integral(1-flux) dλ_nm × 10000 mÅ/nm.
-    Broadening zeroed (macroturbulence=0, vsini=0) — EW is invariant to it.
-    R=500000 keeps the spectrum at full synthesis resolution.
+    EW = integral(1-flux) dλ_nm × 10000 mÅ/nm. Broadening zeroed (EW-invariant),
+    R=500000 — these are now the defaults of the shared _synth_flux_at_abund.
     """
-    fixed_ab              = np.recarray(1, dtype=[('code', int), ('Abund', float),
-                                                   ('element', '|U30')])
-    fixed_ab['code'][0]   = atom_code
-    fixed_ab['Abund'][0]  = trial_A - 12.036   # iSpec SPECTRUM log(N/Ntot) scale
-    fixed_ab['element'][0] = element
-
-    flux = ispec.generate_spectrum(
-        waveobs_nm, atmosphere,
-        teff, logg, feh, 0.0,
-        linelist, isotopes, solar_abund, fixed_ab,
-        microturbulence_vel=vturb,
-        macroturbulence=0.0, vsini=0.0, R=500000,
-        verbose=0, code='turbospectrum',
+    flux = _synth_flux_at_abund(
+        waveobs_nm, atmosphere, teff, logg, feh, vturb,
+        linelist, isotopes, solar_abund, element, atom_code, trial_A,
         tmp_dir=tmp_dir,
     )
     ew_nm = float(np.trapz(np.maximum(0.0, 1.0 - flux), waveobs_nm))
@@ -642,6 +692,291 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
     print(f"  [synth] Saved → {out_pl.name} ({len(per_line_synth_df)} lines)")
 
     return results_synth, per_line_synth_df
+
+
+# ── Synthesis v2: flux-space fitting (RYA-287) ───────────────────────────────
+# Resolves RYA-285 FLAG 1 (EW double-count) and FLAG 2 (wing clipping) with one
+# move: stop matching EW numbers, fit the synthetic spectrum directly to the
+# observed normalized flux over a wing-wide window. Blends in-window are
+# SYNTHESIZED (never floored) → genuine blend-awareness (FLAG 1); the wing-wide
+# window includes the damping wings instead of clipping them (FLAG 2).
+
+def _load_observed_spectrum(star_id: str) -> tuple:
+    """
+    Load the observed normalized spectrum for flux-space fitting (RYA-287).
+
+    Returns (obs_wave_nm, obs_flux) — continuum-normalized (≈1.0 at continuum).
+    The normalized CSV has no per-pixel error column, so χ² weighting uses a
+    locally-estimated continuum-scatter σ per window (see _fit_synth_flux).
+    """
+    key = None
+    for k in ('solar', 'procyon', '55cnc'):
+        if k in star_id.lower():
+            key = k
+            break
+    if key is None:
+        raise ValueError(f"No normalized-spectrum mapping for star '{star_id}'")
+    norm_path = PATHS.get(f'{key}_normalized')
+    if norm_path is None or not Path(str(norm_path)).exists():
+        raise FileNotFoundError(
+            f"Normalized spectrum not found for {star_id}: {norm_path}. "
+            "Run spectra_normalize.py first.")
+    df = pd.read_csv(str(norm_path), comment='#')
+    wave_nm = df['wavelength_air_A'].to_numpy(dtype=float) / 10.0
+    flux    = df['flux_normalized'].to_numpy(dtype=float)
+    print(f"  [synth-v2] Observed spectrum: {len(wave_nm):,} px, "
+          f"{wave_nm[0]*10:.1f}–{wave_nm[-1]*10:.1f} Å (continuum=1.0)")
+    return wave_nm, flux
+
+
+def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
+                    atmosphere: np.ndarray,
+                    teff: float, logg: float, feh: float, vturb: float,
+                    linelist: np.ndarray, isotopes: np.ndarray,
+                    solar_abund: np.ndarray, element: str, atom_code: int,
+                    wave_base: float, wave_top: float,
+                    a_lo: float, a_hi: float,
+                    R: float, vmac: float, vsini: float,
+                    tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
+    """
+    v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
+    observed normalized flux over [wave_base, wave_top] (nm) by minimizing reduced
+    χ² over the single free abundance. Blends are synthesized in-window, never
+    floored (FLAG 1). Window is wing-wide so damping wings are included (FLAG 2).
+
+    No silent fallback: returns status ∈ {ok, edge_pinned, failed}; failed/edge
+    lines carry A_X=nan / the edge value and are marked, never substituted.
+    """
+    mask = (obs_wave_nm >= wave_base) & (obs_wave_nm <= wave_top)
+    ow, of = obs_wave_nm[mask], obs_flux[mask]
+    if of.size < 5:
+        return {'status': 'failed', 'reason': 'too few observed pixels',
+                'A_X': np.nan, 'red_chi2': np.nan, 'n_pix': int(of.size)}
+
+    # σ scale (Step 0: the normalized CSV has NO per-pixel error column). Use the
+    # spec's constant 0.01-flux placeholder = model-adequacy floor, NOT the tiny
+    # photon-noise continuum scatter (~0.001-0.002 at solar SNR), which would make
+    # χ²ᵣ ≫ 1 for ANY 1D-LTE synthesis (model imperfection ≫ noise) and obscure
+    # the per-line fit quality. CRUCIAL: σ is constant, so the χ² minimum location
+    # — i.e. the fitted A(X) — is σ-scale-invariant; only red_chi2's magnitude
+    # changes. This keeps red_chi2 interpretable (order unity = good fit) while
+    # leaving every abundance identical. Per-pixel weighting awaits an error column.
+    sig_scalar = 0.01
+
+    # Synthesis grid: fine, wing-wide window (0.002 Å). Generated once-per-eval.
+    wstep = 0.0002  # nm
+    sw = np.arange(wave_base, wave_top + wstep * 0.5, wstep)
+
+    _kw = dict(atmosphere=atmosphere, teff=teff, logg=logg, feh=feh, vturb=vturb,
+               linelist=linelist, isotopes=isotopes, solar_abund=solar_abund,
+               element=element, atom_code=atom_code, R=R, macroturbulence=vmac,
+               vsini=vsini, tmp_dir=tmp_dir)
+
+    n_eval = [0]
+    fail   = [None]
+
+    def chi2(a_x):
+        n_eval[0] += 1
+        try:
+            sf = _synth_flux_at_abund(sw, trial_A=float(a_x), **_kw)
+        except Exception as exc:
+            fail[0] = str(exc)
+            return 1e30
+        interp = interp1d(sw, sf, bounds_error=False, fill_value=1.0)
+        sf_i = interp(ow)
+        r = (of - sf_i) / sig_scalar
+        return float(np.nansum(r * r))
+
+    res = minimize_scalar(chi2, bounds=(a_lo, a_hi), method='bounded',
+                          options={'xatol': 1e-3})
+    if fail[0] is not None:
+        return {'status': 'failed', 'reason': f'synthesis error: {fail[0]}',
+                'A_X': np.nan, 'red_chi2': np.nan, 'n_pix': int(of.size)}
+
+    a_best   = float(res.x)
+    dof      = max(of.size - 1, 1)
+    red_chi2 = chi2(a_best) / dof
+    edge_pinned = min(abs(a_best - a_lo), abs(a_best - a_hi)) < 1e-2
+    return {'status': 'edge_pinned' if edge_pinned else 'ok',
+            'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
+            'n_pix': int(of.size), 'n_eval': int(n_eval[0])}
+
+
+def _wingwide_window_nm(wave_nm: float, ew_mA: float) -> tuple:
+    """
+    Wing-wide synthesis/fit window (RYA-287 Step 2). Half-width derived from the
+    line's expected wing extent — EW is the observable strength proxy: a strong
+    damped line has broader Lorentzian wings than a weak line. Not a fixed ±X Å.
+
+      hw_A = 0.12 + 0.0026 · EW_mA   →  20 mÅ ≈ ±0.17 Å,  150 mÅ ≈ ±0.51 Å
+    bounded to [0.15, 0.60] Å so even the weakest line keeps enough continuum
+    pixels and the strongest accepted line (≤ ceiling) contains its wings.
+    """
+    hw_A = float(np.clip(0.12 + 0.0026 * ew_mA, 0.15, 0.60))
+    hw_nm = hw_A / 10.0
+    return wave_nm - hw_nm, wave_nm + hw_nm
+
+
+def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
+                           converged_params: dict,
+                           atmosphere: np.ndarray,
+                           star_id: str,
+                           out_dir: 'Path') -> tuple:
+    """
+    Flux-space synthesis fit (RYA-287) at converged_params for every matched line.
+
+    Writes {star_id}_abundances_synth_v2.csv and {star_id}_per_line_synth_v2.csv
+    (v1 schema + red_chi2 + status). v1 outputs are NOT touched.
+    Returns (results_v2_df, per_line_v2_df).
+    """
+    import time
+    t0 = time.time()
+    print(f"\n  [synth-v2] Flux-space fitting — RYA-287 ({star_id})")
+
+    _synth_tmp = '/tmp/ispec_codex_synth_v2'
+    Path(_synth_tmp).mkdir(exist_ok=True, parents=True)
+
+    obs_wave_nm, obs_flux = _load_observed_spectrum(star_id)
+    linelist, isotopes, chem_elements = _load_synth_resources()
+    solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+
+    teff   = float(converged_params['teff_K'])
+    logg   = float(converged_params['logg'])
+    feh    = float(converged_params['feh'])
+    vturb  = float(converged_params['vturb_kms'])
+    ew_ceil = float(PIPELINE['vmic_ew_ceiling_mA'])  # ceiling from constants (RYA-277 coord)
+
+    # Broadening (fixed inputs — only abundance is free)
+    bkey = 'solar' if 'solar' in star_id.lower() else (
+           'procyon' if 'procyon' in star_id.lower() else None)
+    brd = _STAR_BROADENING.get(bkey, _DEFAULT_BROADENING)
+    R_inst, vmac, vsini = _HARPS_RESOLUTION, brd['vmac'], brd['vsini']
+    print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
+          f"(fixed); EW ceiling={ew_ceil:.0f} mÅ")
+
+    unique_elements = sorted({str(last_linemasks['note'][i]).split()[0]
+                               for i in range(len(last_linemasks))})
+    atom_codes: dict = {}
+    solar_A_ispec: dict = {}
+    for elem in unique_elements:
+        try:
+            tmp = ispec.create_free_abundances_structure([elem], chem_elements, solar_abund)
+            atom_codes[elem]    = int(tmp['code'][0])
+            solar_A_ispec[elem] = float(tmp['Abund'][0]) + 12.036
+        except Exception as exc:
+            print(f"  [synth-v2] WARNING: element '{elem}' not in chem table: {exc}")
+
+    per_line_rows = []
+    n_ok = n_edge = n_fail = n_sat = n_skip = 0
+    n_total = len(last_linemasks)
+
+    for i in range(n_total):
+        note    = str(last_linemasks['note'][i])
+        parts   = note.split()
+        element = parts[0]
+        ion_lbl = 'I' if parts[1] == '1' else 'II'
+        wave_A  = float(last_linemasks['wave_A'][i])
+        wave_nm = wave_A / 10.0
+        ew_obs  = float(last_linemasks['ew'][i])
+
+        base_row = {'element': element, 'ion': ion_lbl,
+                    'wavelength_air_A': wave_A, 'ew_mA': ew_obs}
+
+        # Saturation policy: ceiling pulled from constants (coordinate RYA-277);
+        # above it, flag saturated rather than fit (deferred to RYA-277).
+        if ew_obs > ew_ceil:
+            n_sat += 1
+            per_line_rows.append({**base_row, 'a_synth': np.nan,
+                                  'red_chi2': np.nan, 'status': 'saturated',
+                                  'saturated': True})
+            continue
+
+        if element not in atom_codes:
+            n_skip += 1
+            per_line_rows.append({**base_row, 'a_synth': np.nan,
+                                  'red_chi2': np.nan, 'status': 'failed',
+                                  'saturated': False})
+            print(f"  [synth-v2] {i+1}/{n_total}: {note} {wave_A:.3f} Å — no atom code")
+            continue
+
+        a_code  = atom_codes[element]
+        a_solar = solar_A_ispec[element]
+        a_lo    = max(a_solar - 3.0, 1.0)
+        a_hi    = a_solar + 5.0
+        wbase, wtop = _wingwide_window_nm(wave_nm, ew_obs)
+
+        elapsed = time.time() - t0
+        print(f"  [synth-v2] {i+1}/{n_total}: {note} {wave_A:.3f} Å  "
+              f"EW={ew_obs:.1f} mÅ  win=±{(wtop-wave_nm)*10:.2f}Å  "
+              f"({elapsed:.0f}s)", end='  ', flush=True)
+
+        r = _fit_synth_flux(obs_wave_nm, obs_flux, atmosphere,
+                            teff, logg, feh, vturb,
+                            linelist, isotopes, solar_abund, element, a_code,
+                            wbase, wtop, a_lo, a_hi, R_inst, vmac, vsini,
+                            tmp_dir=_synth_tmp)
+
+        status = r['status']
+        if status == 'ok':
+            n_ok += 1
+            print(f"→ A={r['A_X']:.3f}  χ²ᵣ={r['red_chi2']:.2f} ({r.get('n_eval','?')} ev)")
+        elif status == 'edge_pinned':
+            n_edge += 1
+            print(f"→ EDGE-PINNED A={r['A_X']:.3f}  χ²ᵣ={r['red_chi2']:.2f}")
+        else:
+            n_fail += 1
+            print(f"→ FAILED ({r.get('reason','?')})")
+
+        per_line_rows.append({**base_row,
+                              'a_synth': r['A_X'], 'red_chi2': r['red_chi2'],
+                              'status': status, 'saturated': False})
+
+    wall = time.time() - t0
+    print(f"\n  [synth-v2] {star_id}: {n_ok} ok, {n_edge} edge_pinned, "
+          f"{n_fail} failed, {n_sat} saturated, {n_skip} no-code "
+          f"— {wall:.1f} s ({wall/60:.1f} min) wall-clock")
+
+    per_line_v2_df = pd.DataFrame(per_line_rows)
+
+    # Aggregate from status=='ok' lines only (edge_pinned/saturated/failed excluded).
+    # A_X differential vs iSpec Asplund-2009 ref (same scale convention as v1).
+    ok_df = per_line_v2_df[per_line_v2_df['status'] == 'ok'].copy()
+    rows = []
+    if not ok_df.empty:
+        for (elem, ion), grp in ok_df.groupby(['element', 'ion']):
+            a_vals = grp['a_synth'].dropna().values.astype(float)
+            if len(a_vals) == 0:
+                continue
+            a_med    = float(np.nanmedian(a_vals))
+            a_std    = float(np.nanstd(a_vals)) if len(a_vals) > 1 else np.nan
+            a_ref_09 = solar_A_ispec.get(elem, np.nan)
+            a_diff   = a_med - a_ref_09 if np.isfinite(a_ref_09) else np.nan
+            a_sol21  = SOLAR_ASPLUND2021.get(elem, np.nan)
+            xh = round(a_med - a_sol21, 3) if np.isfinite(a_sol21) else np.nan
+            med_chi2 = float(np.nanmedian(grp['red_chi2'].values.astype(float)))
+            rows.append({'element': elem, 'ion': ion,
+                         'A_X'    : round(a_diff, 3) if np.isfinite(a_diff) else np.nan,
+                         'A_X_abs': round(a_med, 3),
+                         'A_X_std': round(a_std, 3) if np.isfinite(a_std) else np.nan,
+                         'n_lines': len(a_vals),
+                         'med_red_chi2': round(med_chi2, 3), 'XH': xh})
+
+    results_v2 = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
+    fe1 = results_v2[(results_v2['element'] == 'Fe') & (results_v2['ion'] == 'I')]
+    feh_ref = float(fe1.iloc[0]['XH']) if (not fe1.empty
+                                            and np.isfinite(fe1.iloc[0]['XH'])) else np.nan
+    results_v2['XFe'] = results_v2['XH'].apply(
+        lambda xh: round(xh - feh_ref, 3)
+        if (np.isfinite(xh) and np.isfinite(feh_ref)) else np.nan)
+
+    out_ab = Path(str(out_dir)) / f'{star_id}_abundances_synth_v2.csv'
+    out_pl = Path(str(out_dir)) / f'{star_id}_per_line_synth_v2.csv'
+    results_v2.to_csv(out_ab, index=False)
+    per_line_v2_df.to_csv(out_pl, index=False)
+    print(f"  [synth-v2] Saved → {out_ab.name} ({len(results_v2)} elements)")
+    print(f"  [synth-v2] Saved → {out_pl.name} ({len(per_line_v2_df)} lines)")
+
+    return results_v2, per_line_v2_df
 
 
 # ── Fe diagnostics ────────────────────────────────────────────────────────────
@@ -1278,8 +1613,8 @@ def run(star_id: str = 'solar',
     # benchmark anchor where convergence would otherwise walk the params and
     # confound the engine diff with a stellar-parameter difference.
     if skip_convergence:
-        if engine != 'synthesis':
-            raise ValueError("skip_convergence is only supported with engine='synthesis'")
+        if engine not in ('synthesis', 'synthesis-v2'):
+            raise ValueError("skip_convergence requires engine='synthesis' or 'synthesis-v2'")
         print(f"\n[3/4] PINNED params (skip_convergence) — no iteration:")
         print(f"  Teff={params['teff_K']:.0f} K  logg={params['logg']:.2f}  "
               f"[Fe/H]={params['feh']}  vturb={params['vturb_kms']:.2f} km/s")
@@ -1287,9 +1622,14 @@ def run(star_id: str = 'solar',
                                 params['vturb_kms'], model_grid=model_grid)
         last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid)
         out_dir = Path(str(PATHS['solar_ew'])).parent
-        print(f"\n[4/4] Synthesis-EW mode (Turbospectrum bisection) — pinned params...")
-        results_synth, _ = _run_synthesis_mode(
-            last_linemasks, params, _atm, star_id, out_dir)
+        if engine == 'synthesis-v2':
+            print(f"\n[4/4] Synthesis-v2 flux-space fit — pinned params...")
+            results_synth, _ = _run_synthesis_v2_mode(
+                last_linemasks, params, _atm, star_id, out_dir)
+        else:
+            print(f"\n[4/4] Synthesis-EW mode (Turbospectrum bisection) — pinned params...")
+            results_synth, _ = _run_synthesis_mode(
+                last_linemasks, params, _atm, star_id, out_dir)
         print(f"\n{'='*62}\n  abundances_derive complete (pinned synthesis).\n{'='*62}\n")
         return params, results_synth
 
@@ -1345,15 +1685,21 @@ def run(star_id: str = 'solar',
         scored_df.to_csv(per_line_out, index=False)
         print(f"  Saved → {per_line_out.name}  ({len(scored_df)} lines with quality scores)")
 
-    # ── Synthesis mode (RYA-285) ──────────────────────────────────
-    if engine == 'synthesis':
-        print(f"\n[4b/4] Synthesis-EW mode (Turbospectrum bisection)...")
+    # ── Synthesis mode (RYA-285 v1 EW / RYA-287 v2 flux) ──────────
+    if engine in ('synthesis', 'synthesis-v2'):
         _atm_synth = _load_atmosphere(
             converged_params['teff_K'], converged_params['logg'],
             converged_params['feh'],    converged_params['vturb_kms'],
             model_grid=model_grid,
         )
-        _run_synthesis_mode(last_linemasks, converged_params, _atm_synth, star_id, out_dir)
+        if engine == 'synthesis-v2':
+            print(f"\n[4b/4] Synthesis-v2 flux-space fit (Turbospectrum)...")
+            _run_synthesis_v2_mode(last_linemasks, converged_params, _atm_synth,
+                                   star_id, out_dir)
+        else:
+            print(f"\n[4b/4] Synthesis-EW mode (Turbospectrum bisection)...")
+            _run_synthesis_mode(last_linemasks, converged_params, _atm_synth,
+                                star_id, out_dir)
 
     # ── Solar calibration gate ────────────────────────────────────
     fe = results[results['element'] == 'Fe']
