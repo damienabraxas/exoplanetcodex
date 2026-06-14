@@ -44,13 +44,32 @@ import warnings
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from scipy.optimize import minimize_scalar
+from scipy.interpolate import interp1d
 
 from config.constants import (
     PATHS, PIPELINE, SOLAR_ASPLUND2021, STAR_SOLAR, STAR_55CNC, STAR_PROCYON,
-    ISPEC_DIR, RADIATIVE_TRANSFER_CODE,
+    STAR_LINELISTS, STAR_PARAMS, get_star_params,
+    ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
 )
+
+
+def _star_linelist(star_id: str):
+    """
+    Resolve the per-star linelist path from STAR_LINELISTS (RYA-270).
+    Substring match on star_id, same convention as stellar-param routing.
+    Falls back to the solar list WITH AN EXPLICIT WARNING — a star silently
+    analysed against the solar pool is exactly the failure mode RYA-270 fixed.
+    """
+    for key, path in STAR_LINELISTS.items():
+        if key in star_id.lower():
+            return path, key
+    print(f"  WARNING: no linelist mapping for star '{star_id}' — "
+          f"falling back to linelist_solar (add an entry to "
+          f"config.constants.STAR_LINELISTS)")
+    return PATHS['linelist_solar'], 'solar (fallback)'
 
 # ── iSpec bootstrap ───────────────────────────────────────────────────────────
 sys.path.insert(0, str(ISPEC_DIR))
@@ -85,6 +104,16 @@ _LINE_REGIONS_FE = str(
 
 # Module-level pack cache — loading the 2 GB grid once per process
 _pack_cache: dict = {}
+
+# Synthesis-EW resource cache (RYA-285) — loaded once per process
+_synth_cache: dict = {}
+
+_SYNTH_LINELIST_FILE = str(
+    ISPEC_DIR / 'input' / 'linelists' / 'transitions' /
+    'GESv6_atom_hfs_iso.420_920nm' / 'atomic_lines.tsv'
+)
+_SYNTH_ISOTOPE_FILE = str(ISPEC_DIR / 'input' / 'isotopes' / 'SPECTRUM.lst')
+_SYNTH_CHEM_FILE    = str(ISPEC_DIR / 'input' / 'abundances' / 'chemical_elements_symbols.dat')
 
 
 # ── Core atmosphere functions ─────────────────────────────────────────────────
@@ -205,6 +234,27 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
 
 # ── Abundance derivation ──────────────────────────────────────────────────────
 
+def _ew_engine_available(code: str) -> bool:
+    """
+    True iff iSpec can actually run the requested EW→abundance engine.
+
+    No silent fallback (RYA-289 / RYA-167 Bug 1): the caller RAISES on False
+    rather than quietly downgrading to SPECTRUM. The whole point of RYA-289 is
+    that the EW baseline must be the engine that was asked for, not whatever the
+    synthesis RT code happens to leave enabled.
+    """
+    code = (code or '').lower()
+    checks = {
+        'moog'     : ispec.is_moog_support_enabled,
+        'moog-scat': ispec.is_moog_scat_support_enabled,
+        'spectrum' : ispec.is_spectrum_support_enabled,
+        # 'width' is iSpec-internal (no external binary); availability == SPECTRUM build.
+        'width'    : ispec.is_spectrum_support_enabled,
+    }
+    check = checks.get(code)
+    return bool(check()) if check is not None else False
+
+
 def _ew_to_abundance(ew_df: pd.DataFrame,
                      stellar_params: dict,
                      atmosphere: np.ndarray,
@@ -290,11 +340,24 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     vturb = float(stellar_params['vturb_kms'])
 
     # determine_abundances only accepts: 'spectrum', 'moog', 'moog-scat', 'width'.
-    # Turbospectrum is used above for atmosphere interpolation (ATLAS9.Castelli/
-    # MARCS.GES formatted for Turbospectrum). The EW→abundance step uses
-    # 'spectrum' here. Full Turbospectrum synthesis (model_spectrum_from_ew)
-    # is the RYA-165 upgrade path.
-    ew_code = 'spectrum' if code == 'turbospectrum' else code
+    # EW baseline engine is chosen INDEPENDENTLY of the synthesis RT code
+    # (`code`, used above only for Turbospectrum atmosphere interpolation).
+    # RYA-289 fix: the old `ew_code = 'spectrum' if code=='turbospectrum' else code`
+    # silently forced SPECTRUM whenever synthesis was on — so RYA-285/287 compared
+    # synthesis-vs-SPECTRUM, never synthesis-vs-MOOG. Now the baseline is explicit
+    # (EW_BASELINE_CODE) and we REFUSE to run if it is unavailable rather than
+    # downgrading silently (RYA-167 Bug 1: no silent engine fallback).
+    ew_code = EW_BASELINE_CODE
+    if not _ew_engine_available(ew_code):
+        raise RuntimeError(
+            f"EW baseline engine '{ew_code}' is not available to iSpec. Refusing to "
+            f"downgrade to SPECTRUM silently — that downgrade is exactly the bug RYA-289 "
+            f"fixes (RYA-285 ran SPECTRUM, never MOOG). Install/compile MOOGSILENT under "
+            f"$ISPEC_DIR/synthesizer/moog/ or set EW_BASELINE_CODE explicitly in "
+            f"config/constants.py."
+        )
+    print(f"  EW baseline engine: {ew_code}  (RYA-289 — decoupled from "
+          f"RADIATIVE_TRANSFER_CODE='{code}')")
     spec_abund, normal_abund, x_over_h, x_over_fe = ispec.determine_abundances(
         atmosphere, teff, logg, feh, 0.0,
         linemasks, solar_abund,
@@ -307,6 +370,658 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     # spec_abund   = SPECTRUM's internal log(N/N_H) scale (hydrogen≈0).
     # All downstream A(X) / [X/H] / [X/Fe] use normal_abund, not spec_abund.
     return linemasks, normal_abund, x_over_h, x_over_fe
+
+
+# ── Synthesis-EW bisection (RYA-285) ─────────────────────────────────────────
+# Turbospectrum synthesis-EW: synthesize a narrow window at a trial A(X),
+# integrate (1-flux) to get a synthetic EW, bisect until |EW_synth - EW_obs|
+# < 1% of EW_obs or ΔA < 0.01 dex. Linelist, isotopes, and chemical elements
+# are loaded once and cached. No silent fallback — failed lines are logged and
+# marked as such in the per-line output (RYA-167 Bug 1 prevention).
+
+def _load_synth_resources() -> tuple:
+    """Load GES linelist, isotopes, chemical elements (cached per process)."""
+    global _synth_cache
+    if not _synth_cache:
+        print("  [synth] Loading GES linelist (first call — cached)...")
+        _synth_cache['linelist']      = ispec.read_atomic_linelist(_SYNTH_LINELIST_FILE)
+        _synth_cache['isotopes']      = ispec.read_isotope_data(_SYNTH_ISOTOPE_FILE)
+        _synth_cache['chem_elements'] = ispec.read_chemical_elements(_SYNTH_CHEM_FILE)
+        print(f"  [synth] GES linelist: {len(_synth_cache['linelist'])} lines loaded")
+    return (
+        _synth_cache['linelist'],
+        _synth_cache['isotopes'],
+        _synth_cache['chem_elements'],
+    )
+
+
+# ── Flux-space fitting broadening (RYA-287) ──────────────────────────────────
+# v1 EW matching set macro=vsini=0, R=500000 because EW is broadening-invariant.
+# v2 fits the synthetic FLUX directly to observed normalized flux, and flux is
+# shape-sensitive — the synthesis MUST be broadened to the observed line profile
+# or χ² is dominated by a width mismatch. Broadening = instrumental (HARPS) ⊕
+# macroturbulence ⊕ rotation. These are FIXED inputs (not free params — the only
+# free parameter is the target abundance, per the RYA-287 spec).
+_HARPS_RESOLUTION = 115000.0            # HARPS resolving power (solar & Procyon both HARPS)
+_STAR_BROADENING = {                    # macroturbulence / vsini in km/s (Gray 2005 scale)
+    'solar':   {'vmac': 3.8, 'vsini': 1.8},   # Sun: vmac≈3.8, vsini≈1.8 km/s
+    'procyon': {'vmac': 6.0, 'vsini': 3.2},   # Procyon F5IV-V (parked until RYA-284)
+}
+_DEFAULT_BROADENING = {'vmac': 3.0, 'vsini': 2.0}
+
+
+def _build_fixed_ab(element: str, atom_code: int, trial_A: float) -> np.recarray:
+    """Single free-element fixed-abundance recarray on the iSpec SPECTRUM scale."""
+    fixed_ab               = np.recarray(1, dtype=[('code', int), ('Abund', float),
+                                                    ('element', '|U30')])
+    fixed_ab['code'][0]    = atom_code
+    fixed_ab['Abund'][0]   = trial_A - 12.036   # A_X → log(N/Ntot) SPECTRUM scale
+    fixed_ab['element'][0] = element
+    return fixed_ab
+
+
+def _synth_flux_at_abund(waveobs_nm: np.ndarray,
+                         atmosphere: np.ndarray,
+                         teff: float, logg: float, feh: float, vturb: float,
+                         linelist: np.ndarray,
+                         isotopes: np.ndarray,
+                         solar_abund: np.ndarray,
+                         element: str, atom_code: int,
+                         trial_A: float,
+                         R: float = 500000, macroturbulence: float = 0.0,
+                         vsini: float = 0.0,
+                         tmp_dir: str = '/tmp/ispec_codex_synth') -> np.ndarray:
+    """
+    Normalized Turbospectrum synthetic flux over `waveobs_nm` with ONLY the target
+    element's abundance set to `trial_A` (all others fixed at converged composition).
+
+    This is the shared spectrum generator (RYA-287 Step 1): v1 EW matching and v2
+    flux fitting both call it. Returns the flux array as-is — the v1 EW integration
+    is what discards the blend/wing info (RYA-285 FLAG 1/FLAG 2), so v2 keeps the flux.
+
+    R / macroturbulence / vsini default to the EW-mode values (R=500000, 0, 0) so
+    v1 behaviour is byte-for-byte unchanged; v2 passes the observed broadening.
+    """
+    fixed_ab = _build_fixed_ab(element, atom_code, trial_A)
+    return ispec.generate_spectrum(
+        waveobs_nm, atmosphere,
+        teff, logg, feh, 0.0,
+        linelist, isotopes, solar_abund, fixed_ab,
+        microturbulence_vel=vturb,
+        macroturbulence=macroturbulence, vsini=vsini, R=R,
+        verbose=0, code='turbospectrum',
+        tmp_dir=tmp_dir,
+    )
+
+
+def _synth_ew_at_abund(waveobs_nm: np.ndarray,
+                        atmosphere: np.ndarray,
+                        teff: float, logg: float, feh: float, vturb: float,
+                        linelist: np.ndarray,
+                        isotopes: np.ndarray,
+                        solar_abund: np.ndarray,
+                        element: str, atom_code: int,
+                        trial_A: float,
+                        tmp_dir: str = '/tmp/ispec_codex_synth') -> float:
+    """
+    Synthesize a narrow window at trial_A and return integrated EW in mÅ (v1).
+
+    EW = integral(1-flux) dλ_nm × 10000 mÅ/nm. Broadening zeroed (EW-invariant),
+    R=500000 — these are now the defaults of the shared _synth_flux_at_abund.
+    """
+    flux = _synth_flux_at_abund(
+        waveobs_nm, atmosphere, teff, logg, feh, vturb,
+        linelist, isotopes, solar_abund, element, atom_code, trial_A,
+        tmp_dir=tmp_dir,
+    )
+    ew_nm = float(np.trapz(np.maximum(0.0, 1.0 - flux), waveobs_nm))
+    return ew_nm * 10000.0   # nm → mÅ
+
+
+def _bisect_synth_abundance(waveobs_nm: np.ndarray,
+                              ew_obs_mA: float,
+                              atmosphere: np.ndarray,
+                              teff: float, logg: float, feh: float, vturb: float,
+                              linelist: np.ndarray,
+                              isotopes: np.ndarray,
+                              solar_abund: np.ndarray,
+                              element: str, atom_code: int,
+                              a_lo: float = 4.0, a_hi: float = 13.0,
+                              tol: float = 0.01, max_iter: int = 20,
+                              tmp_dir: str = '/tmp/ispec_codex_synth') -> tuple:
+    """
+    Bisect A(X) until synth EW matches EW_obs within tol (relative).
+
+    Returns (A_X, converged: bool, n_iter: int).
+    Returns (nan, False, 0) if the bracket fails or synthesis raises.
+    """
+    _kw = dict(atmosphere=atmosphere, teff=teff, logg=logg, feh=feh, vturb=vturb,
+               linelist=linelist, isotopes=isotopes, solar_abund=solar_abund,
+               element=element, atom_code=atom_code, tmp_dir=tmp_dir)
+    try:
+        ew_lo = _synth_ew_at_abund(waveobs_nm, trial_A=a_lo, **_kw)
+        ew_hi = _synth_ew_at_abund(waveobs_nm, trial_A=a_hi, **_kw)
+    except Exception as exc:
+        print(f"      FAILED bracket eval: {exc}")
+        return np.nan, False, 0
+
+    # Differential bisection: the synthesis window integrates ALL species in the
+    # window, not just the target element.  EW_obs is the Gaussian-fitted EW of
+    # only the target line.  Use ew_floor = ew_lo (blend floor at minimum
+    # target-element abundance) to align scales: find A_X where
+    # ew_synthesis(A_X) = ew_floor + ew_obs.
+    ew_floor  = ew_lo
+    ew_target = ew_floor + ew_obs_mA
+
+    if ew_hi <= ew_target:
+        return np.nan, False, 0
+    # Guard: if blend response (ew_hi - ew_lo) is smaller than 10% of EW_obs,
+    # the target line is too weak to measure in this window.
+    if (ew_hi - ew_lo) < ew_obs_mA * 0.10:
+        return np.nan, False, 0
+
+    a_mid = a_lo
+    for n_iter in range(1, max_iter + 1):
+        a_mid = (a_lo + a_hi) / 2.0
+        try:
+            ew_mid = _synth_ew_at_abund(waveobs_nm, trial_A=a_mid, **_kw)
+        except Exception as exc:
+            print(f"      FAILED iter {n_iter}: {exc}")
+            return np.nan, False, n_iter
+        if (abs(ew_mid - ew_target) / max(ew_target, 1.0) < tol
+                or (a_hi - a_lo) < tol):
+            return a_mid, True, n_iter
+        if ew_mid < ew_target:
+            a_lo = a_mid
+        else:
+            a_hi = a_mid
+
+    return a_mid, False, max_iter
+
+
+def _run_synthesis_mode(last_linemasks: np.ndarray,
+                         converged_params: dict,
+                         atmosphere: np.ndarray,
+                         star_id: str,
+                         out_dir: 'Path') -> tuple:
+    """
+    Run synthesis-EW bisection at converged_params for every matched line.
+
+    Applies the same Fe I EW ceiling as the gate pool (RYA-279).
+    Failed lines are logged explicitly — no silent substitution.
+
+    Saves {star_id}_abundances_synth.csv and {star_id}_per_line_synth.csv.
+    Returns (results_synth_df, per_line_synth_df).
+    """
+    import time
+    from pipeline.progress import ProgressReporter
+
+    t0 = time.time()
+    print(f"\n  [synth] Starting synthesis-EW bisection — RYA-285 ({star_id})")
+
+    _synth_tmp = '/tmp/ispec_codex_synth'
+    Path(_synth_tmp).mkdir(exist_ok=True, parents=True)
+
+    linelist, isotopes, chem_elements = _load_synth_resources()
+    solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+
+    teff   = float(converged_params['teff_K'])
+    logg   = float(converged_params['logg'])
+    feh    = float(converged_params['feh'])
+    vturb  = float(converged_params['vturb_kms'])
+    ew_ceil = float(PIPELINE['vmic_ew_ceiling_mA'])
+
+    # Pre-compute atom codes and iSpec solar A(X) per unique element
+    unique_elements = sorted({str(last_linemasks['note'][i]).split()[0]
+                               for i in range(len(last_linemasks))})
+    atom_codes:   dict = {}
+    solar_A_ispec: dict = {}
+    for elem in unique_elements:
+        try:
+            tmp = ispec.create_free_abundances_structure([elem], chem_elements, solar_abund)
+            atom_codes[elem]     = int(tmp['code'][0])
+            solar_A_ispec[elem]  = float(tmp['Abund'][0]) + 12.036
+        except Exception as exc:
+            print(f"  [synth] WARNING: element '{elem}' not in chemical elements table: {exc}")
+
+    per_line_rows = []
+    n_ok = n_fail = n_skip = 0
+    n_total = len(last_linemasks)
+
+    # RYA-286: stderr-only progress + ETA so the (hours-long) synthesis run can
+    # be left unattended over SSH. Does not touch per_line_rows / the CSV.
+    prog = ProgressReporter(total=n_total,
+                            label=f"{star_id} synthesis abundances")
+
+    for i in range(n_total):
+        note      = str(last_linemasks['note'][i])
+        parts     = note.split()
+        element   = parts[0]
+        ion_lbl   = 'I' if parts[1] == '1' else 'II'
+        wave_A    = float(last_linemasks['wave_A'][i])
+        wave_nm   = wave_A / 10.0
+        ew_obs    = float(last_linemasks['ew'][i])
+
+        if note == 'Fe 1' and ew_obs > ew_ceil:
+            n_skip += 1
+            prog.update(item_label=f"{element} {ion_lbl} {wave_A:.2f} (skip)")
+            continue
+
+        if element not in atom_codes:
+            print(f"  [synth] {i+1}/{n_total}: {note} {wave_A:.3f} Å — no atom code, skip")
+            n_skip += 1
+            per_line_rows.append({
+                'element': element, 'ion': ion_lbl,
+                'wavelength_air_A': wave_A, 'ew_mA': ew_obs,
+                'a_synth': np.nan, 'converged': False, 'n_iter': 0,
+            })
+            prog.update(item_label=f"{element} {ion_lbl} {wave_A:.2f} (skip)")
+            continue
+
+        a_code  = atom_codes[element]
+        a_solar = solar_A_ispec[element]
+        a_lo    = max(a_solar - 3.0, 1.0)
+        a_hi    = a_solar + 5.0
+        # Use the GES line-region window (wave_base / wave_top in nm) —
+        # these are designed to capture the line without excessive blending.
+        # Step 0.0002 nm (0.002 Å) gives ≥10 pts per thermal FWHM (~0.034 Å).
+        wbase  = float(last_linemasks['wave_base'][i])
+        wtop   = float(last_linemasks['wave_top'][i])
+        wstep  = 0.0002  # nm (0.002 Å)
+        waveobs_nm = np.arange(wbase, wtop + wstep * 0.5, wstep)
+
+        elapsed = time.time() - t0
+        print(f"  [synth] {i+1}/{n_total}: {note} {wave_A:.3f} Å  "
+              f"EW={ew_obs:.1f} mÅ  [{a_lo:.2f},{a_hi:.2f}]  "
+              f"({elapsed:.0f}s elapsed)", end='  ', flush=True)
+
+        a_x, converged, n_iter = _bisect_synth_abundance(
+            waveobs_nm, ew_obs, atmosphere,
+            teff, logg, feh, vturb,
+            linelist, isotopes, solar_abund,
+            element, a_code,
+            a_lo=a_lo, a_hi=a_hi,
+            tmp_dir=_synth_tmp,
+        )
+
+        if converged:
+            n_ok += 1
+            print(f"→ A={a_x:.4f} ({n_iter} iter)")
+        else:
+            n_fail += 1
+            print(f"→ FAILED (n_iter={n_iter}, bracket or synthesis error)")
+
+        per_line_rows.append({
+            'element': element, 'ion': ion_lbl,
+            'wavelength_air_A': wave_A, 'ew_mA': ew_obs,
+            'a_synth': round(float(a_x), 4) if np.isfinite(a_x) else np.nan,
+            'converged': converged, 'n_iter': n_iter,
+            'saturated': bool(ew_obs > ew_ceil),
+        })
+
+        prog.update(item_label=f"{element} {ion_lbl} {wave_A:.2f}")
+
+    prog.finish()
+
+    wall = time.time() - t0
+    print(f"\n  [synth] {star_id}: {n_ok} converged, {n_fail} failed, {n_skip} skipped "
+          f"— {wall:.1f} s ({wall/60:.1f} min) wall-clock")
+
+    per_line_synth_df = pd.DataFrame(per_line_rows)
+
+    # Aggregate per-element medians from converged, non-saturated lines.
+    # The narrow GES synthesis window (≈0.2-0.3 Å) captures the line core but
+    # NOT the damping wings, so saturated lines (EW > vmic_ew_ceiling_mA) over-
+    # estimate A(X) by 2-4 dex in this method. They are converged but unphysical
+    # — exclude from the element aggregate (the per-line CSV keeps them flagged).
+    #
+    # A_X is reported DIFFERENTIAL vs the iSpec Asplund-2009 reference, matching
+    # the live MOOG/SPECTRUM path (whose A_X column is also differential, ≈0 for
+    # the Sun). This keeps both engines on the same scale so rya_engine_diff can
+    # join on A_X. A_X_abs carries the absolute A(X) for science use.
+    ok_df = per_line_synth_df[
+        (per_line_synth_df['converged'] == True) &
+        (per_line_synth_df['saturated'] == False)
+    ].copy()
+    n_sat_excl = int(((per_line_synth_df['converged'] == True) &
+                      (per_line_synth_df['saturated'] == True)).sum())
+    if n_sat_excl:
+        print(f"  [synth] Aggregate excludes {n_sat_excl} converged-but-saturated "
+              f"line(s) (EW > {ew_ceil:.0f} mÅ — narrow-window method invalid there)")
+
+    rows = []
+    if not ok_df.empty:
+        for (elem, ion), grp in ok_df.groupby(['element', 'ion']):
+            a_vals = grp['a_synth'].dropna().values.astype(float)
+            if len(a_vals) == 0:
+                continue
+            a_med    = float(np.nanmedian(a_vals))
+            a_std    = float(np.nanstd(a_vals)) if len(a_vals) > 1 else np.nan
+            a_ref_09 = solar_A_ispec.get(elem, np.nan)   # iSpec Asplund-2009 absolute
+            a_diff   = a_med - a_ref_09 if np.isfinite(a_ref_09) else np.nan
+            a_sol21  = SOLAR_ASPLUND2021.get(elem, np.nan)
+            xh = round(a_med - a_sol21, 3) if np.isfinite(a_sol21) else np.nan
+            rows.append({'element': elem, 'ion': ion,
+                         'A_X'    : round(a_diff, 3) if np.isfinite(a_diff) else np.nan,
+                         'A_X_abs': round(a_med, 3),
+                         'A_X_std': round(a_std, 3) if np.isfinite(a_std) else np.nan,
+                         'n_lines': len(a_vals), 'XH': xh})
+
+    results_synth = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
+
+    # [X/Fe] using Fe I [X/H] as reference
+    fe1 = results_synth[(results_synth['element'] == 'Fe') & (results_synth['ion'] == 'I')]
+    feh_ref = float(fe1.iloc[0]['XH']) if (not fe1.empty
+                                            and np.isfinite(fe1.iloc[0]['XH'])) else np.nan
+    results_synth['XFe'] = results_synth['XH'].apply(
+        lambda xh: round(xh - feh_ref, 3)
+        if (np.isfinite(xh) and np.isfinite(feh_ref)) else np.nan
+    )
+
+    # RYA-289 scale label: the cross-engine comparison column is A_X_abs (absolute
+    # LTE A(X)); A_X stays the legacy Asplund-2009-differential column. Synthesis
+    # is pure 1D LTE — no NLTE layer applied here.
+    results_synth['scale']        = 'absolute'   # describes A_X_abs
+    results_synth['nlte_applied'] = False
+
+    out_ab  = Path(str(out_dir)) / f'{star_id}_abundances_synth.csv'
+    out_pl  = Path(str(out_dir)) / f'{star_id}_per_line_synth.csv'
+    results_synth.to_csv(out_ab, index=False)
+    per_line_synth_df.to_csv(out_pl, index=False)
+    print(f"  [synth] Saved → {out_ab.name} ({len(results_synth)} elements)")
+    print(f"  [synth] Saved → {out_pl.name} ({len(per_line_synth_df)} lines)")
+
+    return results_synth, per_line_synth_df
+
+
+# ── Synthesis v2: flux-space fitting (RYA-287) ───────────────────────────────
+# Resolves RYA-285 FLAG 1 (EW double-count) and FLAG 2 (wing clipping) with one
+# move: stop matching EW numbers, fit the synthetic spectrum directly to the
+# observed normalized flux over a wing-wide window. Blends in-window are
+# SYNTHESIZED (never floored) → genuine blend-awareness (FLAG 1); the wing-wide
+# window includes the damping wings instead of clipping them (FLAG 2).
+
+def _load_observed_spectrum(star_id: str) -> tuple:
+    """
+    Load the observed normalized spectrum for flux-space fitting (RYA-287).
+
+    Returns (obs_wave_nm, obs_flux) — continuum-normalized (≈1.0 at continuum).
+    The normalized CSV has no per-pixel error column, so χ² weighting uses a
+    locally-estimated continuum-scatter σ per window (see _fit_synth_flux).
+    """
+    key = None
+    for k in ('solar', 'procyon', '55cnc'):
+        if k in star_id.lower():
+            key = k
+            break
+    if key is None:
+        raise ValueError(f"No normalized-spectrum mapping for star '{star_id}'")
+    norm_path = PATHS.get(f'{key}_normalized')
+    if norm_path is None or not Path(str(norm_path)).exists():
+        raise FileNotFoundError(
+            f"Normalized spectrum not found for {star_id}: {norm_path}. "
+            "Run spectra_normalize.py first.")
+    df = pd.read_csv(str(norm_path), comment='#')
+    wave_nm = df['wavelength_air_A'].to_numpy(dtype=float) / 10.0
+    flux    = df['flux_normalized'].to_numpy(dtype=float)
+    print(f"  [synth-v2] Observed spectrum: {len(wave_nm):,} px, "
+          f"{wave_nm[0]*10:.1f}–{wave_nm[-1]*10:.1f} Å (continuum=1.0)")
+    return wave_nm, flux
+
+
+def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
+                    atmosphere: np.ndarray,
+                    teff: float, logg: float, feh: float, vturb: float,
+                    linelist: np.ndarray, isotopes: np.ndarray,
+                    solar_abund: np.ndarray, element: str, atom_code: int,
+                    wave_base: float, wave_top: float,
+                    a_lo: float, a_hi: float,
+                    R: float, vmac: float, vsini: float,
+                    tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
+    """
+    v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
+    observed normalized flux over [wave_base, wave_top] (nm) by minimizing reduced
+    χ² over the single free abundance. Blends are synthesized in-window, never
+    floored (FLAG 1). Window is wing-wide so damping wings are included (FLAG 2).
+
+    No silent fallback: returns status ∈ {ok, edge_pinned, failed}; failed/edge
+    lines carry A_X=nan / the edge value and are marked, never substituted.
+    """
+    mask = (obs_wave_nm >= wave_base) & (obs_wave_nm <= wave_top)
+    ow, of = obs_wave_nm[mask], obs_flux[mask]
+    if of.size < 5:
+        return {'status': 'failed', 'reason': 'too few observed pixels',
+                'A_X': np.nan, 'red_chi2': np.nan, 'n_pix': int(of.size)}
+
+    # σ scale (Step 0: the normalized CSV has NO per-pixel error column). Use the
+    # spec's constant 0.01-flux placeholder = model-adequacy floor, NOT the tiny
+    # photon-noise continuum scatter (~0.001-0.002 at solar SNR), which would make
+    # χ²ᵣ ≫ 1 for ANY 1D-LTE synthesis (model imperfection ≫ noise) and obscure
+    # the per-line fit quality. CRUCIAL: σ is constant, so the χ² minimum location
+    # — i.e. the fitted A(X) — is σ-scale-invariant; only red_chi2's magnitude
+    # changes. This keeps red_chi2 interpretable (order unity = good fit) while
+    # leaving every abundance identical. Per-pixel weighting awaits an error column.
+    sig_scalar = 0.01
+
+    # Synthesis grid: fine, wing-wide window (0.002 Å). Generated once-per-eval.
+    wstep = 0.0002  # nm
+    sw = np.arange(wave_base, wave_top + wstep * 0.5, wstep)
+
+    _kw = dict(atmosphere=atmosphere, teff=teff, logg=logg, feh=feh, vturb=vturb,
+               linelist=linelist, isotopes=isotopes, solar_abund=solar_abund,
+               element=element, atom_code=atom_code, R=R, macroturbulence=vmac,
+               vsini=vsini, tmp_dir=tmp_dir)
+
+    n_eval = [0]
+    fail   = [None]
+
+    def chi2(a_x):
+        n_eval[0] += 1
+        try:
+            sf = _synth_flux_at_abund(sw, trial_A=float(a_x), **_kw)
+        except Exception as exc:
+            fail[0] = str(exc)
+            return 1e30
+        interp = interp1d(sw, sf, bounds_error=False, fill_value=1.0)
+        sf_i = interp(ow)
+        r = (of - sf_i) / sig_scalar
+        return float(np.nansum(r * r))
+
+    res = minimize_scalar(chi2, bounds=(a_lo, a_hi), method='bounded',
+                          options={'xatol': 1e-3})
+    if fail[0] is not None:
+        return {'status': 'failed', 'reason': f'synthesis error: {fail[0]}',
+                'A_X': np.nan, 'red_chi2': np.nan, 'n_pix': int(of.size)}
+
+    a_best   = float(res.x)
+    dof      = max(of.size - 1, 1)
+    red_chi2 = chi2(a_best) / dof
+    edge_pinned = min(abs(a_best - a_lo), abs(a_best - a_hi)) < 1e-2
+    return {'status': 'edge_pinned' if edge_pinned else 'ok',
+            'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
+            'n_pix': int(of.size), 'n_eval': int(n_eval[0])}
+
+
+def _wingwide_window_nm(wave_nm: float, ew_mA: float) -> tuple:
+    """
+    Wing-wide synthesis/fit window (RYA-287 Step 2). Half-width derived from the
+    line's expected wing extent — EW is the observable strength proxy: a strong
+    damped line has broader Lorentzian wings than a weak line. Not a fixed ±X Å.
+
+      hw_A = 0.12 + 0.0026 · EW_mA   →  20 mÅ ≈ ±0.17 Å,  150 mÅ ≈ ±0.51 Å
+    bounded to [0.15, 0.60] Å so even the weakest line keeps enough continuum
+    pixels and the strongest accepted line (≤ ceiling) contains its wings.
+    """
+    hw_A = float(np.clip(0.12 + 0.0026 * ew_mA, 0.15, 0.60))
+    hw_nm = hw_A / 10.0
+    return wave_nm - hw_nm, wave_nm + hw_nm
+
+
+def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
+                           converged_params: dict,
+                           atmosphere: np.ndarray,
+                           star_id: str,
+                           out_dir: 'Path') -> tuple:
+    """
+    Flux-space synthesis fit (RYA-287) at converged_params for every matched line.
+
+    Writes {star_id}_abundances_synth_v2.csv and {star_id}_per_line_synth_v2.csv
+    (v1 schema + red_chi2 + status). v1 outputs are NOT touched.
+    Returns (results_v2_df, per_line_v2_df).
+    """
+    import time
+    t0 = time.time()
+    print(f"\n  [synth-v2] Flux-space fitting — RYA-287 ({star_id})")
+
+    _synth_tmp = '/tmp/ispec_codex_synth_v2'
+    Path(_synth_tmp).mkdir(exist_ok=True, parents=True)
+
+    obs_wave_nm, obs_flux = _load_observed_spectrum(star_id)
+    linelist, isotopes, chem_elements = _load_synth_resources()
+    solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+
+    teff   = float(converged_params['teff_K'])
+    logg   = float(converged_params['logg'])
+    feh    = float(converged_params['feh'])
+    vturb  = float(converged_params['vturb_kms'])
+    ew_ceil = float(PIPELINE['vmic_ew_ceiling_mA'])  # ceiling from constants (RYA-277 coord)
+
+    # Broadening (fixed inputs — only abundance is free)
+    bkey = 'solar' if 'solar' in star_id.lower() else (
+           'procyon' if 'procyon' in star_id.lower() else None)
+    brd = _STAR_BROADENING.get(bkey, _DEFAULT_BROADENING)
+    R_inst, vmac, vsini = _HARPS_RESOLUTION, brd['vmac'], brd['vsini']
+    print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
+          f"(fixed); EW ceiling={ew_ceil:.0f} mÅ")
+
+    unique_elements = sorted({str(last_linemasks['note'][i]).split()[0]
+                               for i in range(len(last_linemasks))})
+    atom_codes: dict = {}
+    solar_A_ispec: dict = {}
+    for elem in unique_elements:
+        try:
+            tmp = ispec.create_free_abundances_structure([elem], chem_elements, solar_abund)
+            atom_codes[elem]    = int(tmp['code'][0])
+            solar_A_ispec[elem] = float(tmp['Abund'][0]) + 12.036
+        except Exception as exc:
+            print(f"  [synth-v2] WARNING: element '{elem}' not in chem table: {exc}")
+
+    per_line_rows = []
+    n_ok = n_edge = n_fail = n_sat = n_skip = 0
+    n_total = len(last_linemasks)
+
+    for i in range(n_total):
+        note    = str(last_linemasks['note'][i])
+        parts   = note.split()
+        element = parts[0]
+        ion_lbl = 'I' if parts[1] == '1' else 'II'
+        wave_A  = float(last_linemasks['wave_A'][i])
+        wave_nm = wave_A / 10.0
+        ew_obs  = float(last_linemasks['ew'][i])
+
+        base_row = {'element': element, 'ion': ion_lbl,
+                    'wavelength_air_A': wave_A, 'ew_mA': ew_obs}
+
+        # Saturation policy: ceiling pulled from constants (coordinate RYA-277);
+        # above it, flag saturated rather than fit (deferred to RYA-277).
+        if ew_obs > ew_ceil:
+            n_sat += 1
+            per_line_rows.append({**base_row, 'a_synth': np.nan,
+                                  'red_chi2': np.nan, 'status': 'saturated',
+                                  'saturated': True})
+            continue
+
+        if element not in atom_codes:
+            n_skip += 1
+            per_line_rows.append({**base_row, 'a_synth': np.nan,
+                                  'red_chi2': np.nan, 'status': 'failed',
+                                  'saturated': False})
+            print(f"  [synth-v2] {i+1}/{n_total}: {note} {wave_A:.3f} Å — no atom code")
+            continue
+
+        a_code  = atom_codes[element]
+        a_solar = solar_A_ispec[element]
+        a_lo    = max(a_solar - 3.0, 1.0)
+        a_hi    = a_solar + 5.0
+        wbase, wtop = _wingwide_window_nm(wave_nm, ew_obs)
+
+        elapsed = time.time() - t0
+        print(f"  [synth-v2] {i+1}/{n_total}: {note} {wave_A:.3f} Å  "
+              f"EW={ew_obs:.1f} mÅ  win=±{(wtop-wave_nm)*10:.2f}Å  "
+              f"({elapsed:.0f}s)", end='  ', flush=True)
+
+        r = _fit_synth_flux(obs_wave_nm, obs_flux, atmosphere,
+                            teff, logg, feh, vturb,
+                            linelist, isotopes, solar_abund, element, a_code,
+                            wbase, wtop, a_lo, a_hi, R_inst, vmac, vsini,
+                            tmp_dir=_synth_tmp)
+
+        status = r['status']
+        if status == 'ok':
+            n_ok += 1
+            print(f"→ A={r['A_X']:.3f}  χ²ᵣ={r['red_chi2']:.2f} ({r.get('n_eval','?')} ev)")
+        elif status == 'edge_pinned':
+            n_edge += 1
+            print(f"→ EDGE-PINNED A={r['A_X']:.3f}  χ²ᵣ={r['red_chi2']:.2f}")
+        else:
+            n_fail += 1
+            print(f"→ FAILED ({r.get('reason','?')})")
+
+        per_line_rows.append({**base_row,
+                              'a_synth': r['A_X'], 'red_chi2': r['red_chi2'],
+                              'status': status, 'saturated': False})
+
+    wall = time.time() - t0
+    print(f"\n  [synth-v2] {star_id}: {n_ok} ok, {n_edge} edge_pinned, "
+          f"{n_fail} failed, {n_sat} saturated, {n_skip} no-code "
+          f"— {wall:.1f} s ({wall/60:.1f} min) wall-clock")
+
+    per_line_v2_df = pd.DataFrame(per_line_rows)
+
+    # Aggregate from status=='ok' lines only (edge_pinned/saturated/failed excluded).
+    # A_X differential vs iSpec Asplund-2009 ref (same scale convention as v1).
+    ok_df = per_line_v2_df[per_line_v2_df['status'] == 'ok'].copy()
+    rows = []
+    if not ok_df.empty:
+        for (elem, ion), grp in ok_df.groupby(['element', 'ion']):
+            a_vals = grp['a_synth'].dropna().values.astype(float)
+            if len(a_vals) == 0:
+                continue
+            a_med    = float(np.nanmedian(a_vals))
+            a_std    = float(np.nanstd(a_vals)) if len(a_vals) > 1 else np.nan
+            a_ref_09 = solar_A_ispec.get(elem, np.nan)
+            a_diff   = a_med - a_ref_09 if np.isfinite(a_ref_09) else np.nan
+            a_sol21  = SOLAR_ASPLUND2021.get(elem, np.nan)
+            xh = round(a_med - a_sol21, 3) if np.isfinite(a_sol21) else np.nan
+            med_chi2 = float(np.nanmedian(grp['red_chi2'].values.astype(float)))
+            rows.append({'element': elem, 'ion': ion,
+                         'A_X'    : round(a_diff, 3) if np.isfinite(a_diff) else np.nan,
+                         'A_X_abs': round(a_med, 3),
+                         'A_X_std': round(a_std, 3) if np.isfinite(a_std) else np.nan,
+                         'n_lines': len(a_vals),
+                         'med_red_chi2': round(med_chi2, 3), 'XH': xh})
+
+    results_v2 = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
+    fe1 = results_v2[(results_v2['element'] == 'Fe') & (results_v2['ion'] == 'I')]
+    feh_ref = float(fe1.iloc[0]['XH']) if (not fe1.empty
+                                            and np.isfinite(fe1.iloc[0]['XH'])) else np.nan
+    results_v2['XFe'] = results_v2['XH'].apply(
+        lambda xh: round(xh - feh_ref, 3)
+        if (np.isfinite(xh) and np.isfinite(feh_ref)) else np.nan)
+
+    # RYA-289 scale label: comparison column is A_X_abs (absolute LTE A(X)).
+    # A_X stays the legacy Asplund-2009-differential column. v2 flux fit is 1D LTE.
+    results_v2['scale']        = 'absolute'   # describes A_X_abs
+    results_v2['nlte_applied'] = False
+
+    out_ab = Path(str(out_dir)) / f'{star_id}_abundances_synth_v2.csv'
+    out_pl = Path(str(out_dir)) / f'{star_id}_per_line_synth_v2.csv'
+    results_v2.to_csv(out_ab, index=False)
+    per_line_v2_df.to_csv(out_pl, index=False)
+    print(f"  [synth-v2] Saved → {out_ab.name} ({len(results_v2)} elements)")
+    print(f"  [synth-v2] Saved → {out_pl.name} ({len(per_line_v2_df)} lines)")
+
+    return results_v2, per_line_v2_df
 
 
 # ── Fe diagnostics ────────────────────────────────────────────────────────────
@@ -343,7 +1058,9 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       stellar_params_init: dict,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
-                                      vmic_fixed: bool = False) -> tuple:
+                                      vmic_fixed: bool = False,
+                                      skip_convergence: bool = False,
+                                      solve_params=None) -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -360,6 +1077,16 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     """
     params = stellar_params_init.copy()
     last_linemasks = last_spec_abund = last_xh = last_xfe = None
+
+    # RYA-292 pin/solve policy: only params in `solve` are optimized; pinned params
+    # are held fixed at their fundamental (GBS) values. Default = solve all three
+    # spectroscopic params (backward-compatible with pre-292 behaviour). 'xi' also
+    # honours the legacy vmic_fixed flag. A pinned param's equilibrium criterion is
+    # treated as satisfied so convergence is judged only on the solved params.
+    solve = set(solve_params) if solve_params is not None else {'teff', 'logg', 'xi'}
+    solve_teff = 'teff' in solve
+    solve_logg = 'logg' in solve
+    solve_xi   = ('xi' in solve) and not vmic_fixed
 
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
@@ -390,7 +1117,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         # Lines in the damping regime have REW insensitive to vmic but high
         # sensitivity to damping parameters — they corrupt the slope and prevent
         # convergence. Standard practice: Mucciarelli 2011, Sousa et al. 2011.
-        # Full fe1_mask (all Fe I) is still used for A(Fe I) and ionisation balance.
+        # NOTE (RYA-279): the same ceiling is applied to the final gate-statistic
+        # pool (post-convergence). The two cuts share PIPELINE['vmic_ew_ceiling_mA'].
         _vmic_ew_max   = float(PIPELINE['vmic_ew_ceiling_mA'])
         fe1_slope_mask = fe1_mask & (linemasks['ew'] <= _vmic_ew_max)
         n_fe1_post_cog = int(fe1_slope_mask.sum())
@@ -438,22 +1166,39 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                    f"vturb={params['vturb_kms']:.2f}km/s | "
                    f"EP={ep_sl:+.4f}  REW={rew_sl:+.4f}  FeI-FeII=N/A (no Fe II)")
 
+        # RYA-292: judge convergence only on the SOLVED params. A pinned param's
+        # equilibrium slope is informational (it reflects line/data systematics,
+        # not a free param), so it must not block convergence of the solved ones.
         converged = (
-            (np.isnan(ep_sl)  or abs(ep_sl)  < 0.02) and
-            (np.isnan(rew_sl) or abs(rew_sl) < 0.02) and
-            (np.isnan(ion_bal) or abs(ion_bal) < 0.05)
+            (not solve_teff or np.isnan(ep_sl)  or abs(ep_sl)  < 0.02) and
+            (not solve_xi   or np.isnan(rew_sl) or abs(rew_sl) < 0.02) and
+            (not solve_logg or np.isnan(ion_bal) or abs(ion_bal) < 0.05)
         )
         if converged:
             print(f"  ✓ Converged at iteration {iteration}")
             break
 
+        # RYA-291: pinned-params mode. Run exactly one pass at the supplied params
+        # (abundances above are at those params), log the equilibrium slopes for
+        # the record, then break WITHOUT updating Teff/logg/ξ. The results table
+        # below is built from this pinned pass, so the EW baseline lands at exactly
+        # the params the synthesis-v2 tables used — a pure engine diff, no walk.
+        if skip_convergence:
+            print(f"  ⏸ skip_convergence (RYA-291) — pinned at "
+                  f"Teff={params['teff_K']:.0f}K logg={params['logg']:.2f} "
+                  f"[Fe/H]={params['feh']} vturb={params['vturb_kms']:.2f}km/s "
+                  f"(no param update; slopes above are diagnostic only)")
+            break
+
         # Gradient-descent parameter adjustment — conservative steps to avoid
-        # walking off the atmosphere grid on large spurious slopes.
-        if np.isfinite(ep_sl):
+        # walking off the atmosphere grid on large spurious slopes. RYA-292: only
+        # SOLVED params are stepped; pinned Teff/logg/ξ are held at their
+        # fundamental values (no walk — the RYA-290 directive, now data-driven).
+        if solve_teff and np.isfinite(ep_sl):
             params['teff_K']    += np.sign(ep_sl)  * min(abs(ep_sl)  / 0.05, 1.0) * 25
-        if np.isfinite(rew_sl) and not vmic_fixed:
+        if solve_xi and np.isfinite(rew_sl):
             params['vturb_kms'] += np.sign(rew_sl) * min(abs(rew_sl) / 0.10, 1.0) * 0.05
-        if np.isfinite(ion_bal):
+        if solve_logg and np.isfinite(ion_bal):
             params['logg']      += np.sign(ion_bal) * min(abs(ion_bal) / 0.05, 1.0) * 0.05
 
         params['teff_K']    = float(np.clip(params['teff_K'],    3500, 7500))
@@ -468,10 +1213,32 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     # the Asplund 2021 solar reference (RYA-200).
     notes = np.array([str(n) for n in last_linemasks['note']])
 
-    # Pass 1: compute A(X) and [X/H] for all elements on Asplund 2021 scale
+    # RYA-279: single ceiling-correct Fe I pool — gate statistics AND per-line CSV
+    # both draw from the same set of lines. Previously A_X_std was computed over
+    # the full Fe I pool (all EW) while per_line_df had the ceiling applied
+    # post-hoc, creating a divergence: the gate σ reflected lines the CSV excluded.
+    # Fix: apply ceiling once here; use this mask everywhere downstream.
+    # Fe II: no ceiling (Fe II lines are fewer, weaker, and not in the damping regime
+    # at the EW values seen in practice). Ceiling is Fe I specific.
+    _ew_ceiling      = float(PIPELINE['vmic_ew_ceiling_mA'])
+    _lm_ew           = np.array([float(last_linemasks['ew'][i])
+                                  for i in range(len(last_linemasks))])
+    _fe1_ceiling_mask = (notes == 'Fe 1') & (_lm_ew <= _ew_ceiling)
+    _n_fe1_all        = int((notes == 'Fe 1').sum())
+    _n_fe1_ceiling    = int(_fe1_ceiling_mask.sum())
+    if _n_fe1_all > _n_fe1_ceiling:
+        print(f"  Gate pool COG cut (RYA-279): {_n_fe1_all} → {_n_fe1_ceiling} Fe I lines "
+              f"({_n_fe1_all - _n_fe1_ceiling} EW > {_ew_ceiling:.0f} mÅ removed; "
+              f"gate σ and per-line CSV now share the same pool)")
+
+    # Pass 1: compute A(X) and [X/H] for all elements on Asplund 2021 scale.
+    # Fe I uses the ceiling-correct pool; all other species use the full pool.
     rows_pass1 = []
     for note in np.unique(notes):
-        mask  = notes == note
+        if note == 'Fe 1':
+            mask = _fe1_ceiling_mask
+        else:
+            mask = notes == note
         valid = np.isfinite(last_spec_abund[mask])
         if valid.sum() == 0:
             continue
@@ -508,13 +1275,15 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     results_df = pd.DataFrame(rows).sort_values(['element', 'ion']).reset_index(drop=True)
 
     # Build per-line DataFrame for NLTE per-line corrections (RYA-207).
-    # Contains one row per Fe I/II line that survived all filters and contributed
-    # to the final abundance — atomic data + individual 1D LTE A(Fe) per line.
+    # Fe I: ceiling-correct pool only (same pool as gate statistics, per RYA-279).
+    # Fe II: all lines with finite abundances.
     per_line_rows = []
     for i in range(len(last_linemasks)):
         note = str(last_linemasks['note'][i])
         if note not in ('Fe 1', 'Fe 2'):
             continue
+        if note == 'Fe 1' and _lm_ew[i] > _ew_ceiling:
+            continue  # excluded from gate pool — also excluded from CSV (RYA-279)
         a_val = float(last_spec_abund[i])
         if not np.isfinite(a_val):
             continue
@@ -531,30 +1300,15 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         })
     per_line_df = pd.DataFrame(per_line_rows) if per_line_rows else pd.DataFrame()
 
-    # Apply COG ceiling to final abundance pool — same physical basis as vmic slope cut.
-    # Lines in the damping regime (EW > vmic_ew_ceiling_mA) have abundances driven by
-    # damping parameters, not line strength. Excluding them from the final pool is
-    # consistent with Mucciarelli 2011 and GES methodology.
-    # Reference: PIPELINE['vmic_ew_ceiling_mA'] = 150.0 (set in RYA-226)
-    if not per_line_df.empty and 'ew_mA' in per_line_df.columns:
-        _ew_ceiling   = float(PIPELINE['vmic_ew_ceiling_mA'])
-        _fe1_pool     = per_line_df['ion'] == 'I'
-        _n_fe1_before = int(_fe1_pool.sum())
-        per_line_df   = per_line_df[~_fe1_pool | (per_line_df['ew_mA'] <= _ew_ceiling)].copy()
-        _n_fe1_after  = int((per_line_df['ion'] == 'I').sum())
-        if _n_fe1_before > _n_fe1_after:
-            print(f"  Final pool COG cut: {_n_fe1_before} → {_n_fe1_after} Fe I lines "
-                  f"({_n_fe1_before - _n_fe1_after} saturated lines removed, "
-                  f"EW > {_ew_ceiling:.0f} mÅ)")
-
-    return params, results_df, per_line_df
+    return params, results_df, per_line_df, last_linemasks
 
 
 # ── Line quality scoring (RYA-220) ───────────────────────────────────────────
 
 def _compute_line_scores(per_line_df: pd.DataFrame,
                          ew_df: pd.DataFrame,
-                         results_df: pd.DataFrame = None) -> pd.DataFrame:
+                         results_df: pd.DataFrame = None,
+                         linelist_path=None) -> pd.DataFrame:
     """
     Compute per-line quality scores and assign letter grades — RYA-220.
 
@@ -576,14 +1330,23 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
     ew_by_ei = {k: v.reset_index(drop=True)
                 for k, v in ew_df.groupby(['element', 'ion'])}
 
-    try:
-        ll = pd.read_csv(str(PATHS['linelist_solar']),
-                         usecols=['element', 'ion', 'wavelength_air_A', 'vald_proximity_flag'],
-                         low_memory=False)
-        ll_by_ei = {k: v.reset_index(drop=True) for k, v in ll.groupby(['element', 'ion'])}
-    except Exception as _e:
-        print(f"  WARNING: vald_proximity_flag load failed — {_e}")
-        ll_by_ei = {}
+    # RYA-280: load linelist for proximity flag lookup.
+    # comment='#' is required — per-star linelists (e.g. linelist_procyon.csv) carry
+    # metadata comment blocks before the header row. Without it, pandas reads the
+    # first comment line as the header, all four usecols fail to match, and the
+    # old bare-except block defaulted vpf_arr to 0.5 silently — scoring was inert.
+    _ll_path = linelist_path if linelist_path is not None else PATHS['linelist_solar']
+    _ll_required = ['element', 'ion', 'wavelength_air_A', 'vald_proximity_flag']
+    _ll_raw = pd.read_csv(str(_ll_path), comment='#', low_memory=False)
+    _missing = [c for c in _ll_required if c not in _ll_raw.columns]
+    if _missing:
+        raise KeyError(
+            f"vald_proximity_flag load failed: columns {_missing} not found in "
+            f"{_ll_path}. Expected columns: {_ll_required}. "
+            f"Actual columns: {list(_ll_raw.columns[:10])}..."
+        )
+    ll = _ll_raw[_ll_required]
+    ll_by_ei = {k: v.reset_index(drop=True) for k, v in ll.groupby(['element', 'ion'])}
 
     vpf_arr  = np.full(n, 0.5)
     snr_arr  = np.full(n, 0.5)
@@ -784,7 +1547,9 @@ def run(star_id: str = 'solar',
         model_grid: str = 'ATLAS9.Castelli',
         stellar_params_override: dict = None,
         ew_override: str = None,
-        vmic_fixed: bool = False) -> pd.DataFrame:
+        vmic_fixed: bool = False,
+        engine: str = 'spectrum',
+        skip_convergence: bool = False) -> tuple:
     """
     Derive abundances for a star and save results.
 
@@ -798,11 +1563,18 @@ def run(star_id: str = 'solar',
                                solar_ew.csv (e.g. solar_ew_ges_reference.csv for
                                GES pre-stored calibration EWs — RYA-196)
     vmic_fixed               : if True, hold vturb_kms fixed during convergence (RYA-238)
+    engine                   : 'spectrum' (default MOOG/SPECTRUM path) or 'synthesis'
+                               (Turbospectrum synthesis-EW bisection — RYA-285).
+                               'synthesis' runs the normal convergence first, then
+                               re-derives per-line A(X) via synthesis at the converged
+                               params, saving to {star_id}_abundances_synth.csv.
 
     Returns
     -------
-    DataFrame : element, ion, A_X, A_X_std, n_lines, XH ([X/H]), XFe ([X/Fe])
-                [X/H] normalised to SOLAR_ASPLUND2021 (Asplund et al. 2021)
+    (converged_params, results_df) :
+        converged_params — dict with final teff_K, logg, feh, vturb_kms
+        results_df       — element, ion, A_X, A_X_std, n_lines, XH, XFe
+                           [X/H] normalised to SOLAR_ASPLUND2021
     """
     print(f"\n{'='*62}")
     print(f"  abundances_derive  |  {star_id}  |  {model_grid}  |  {RADIATIVE_TRANSFER_CODE}")
@@ -817,6 +1589,24 @@ def run(star_id: str = 'solar',
         params = STAR_PROCYON.copy()
     else:
         params = STAR_55CNC.copy()
+
+    # ── Pin/solve policy (RYA-292) ────────────────────────────────
+    # Resolve the per-star fundamental-param record (fail LOUD if absent), pin the
+    # fundamental Teff/logg to their GBS values, and pass the solve set to the
+    # convergence so pinned params are held fixed. Benchmark calibrators pin
+    # Teff+logg (RYA-290 directive as data); program stars without a fundamental
+    # logg keep the full spectroscopic solve. Override runs bypass the pin.
+    star_policy = get_star_params(star_id)
+    solve_params = list(star_policy.get('solve', ['teff', 'logg', 'feh', 'xi']))
+    if not stellar_params_override:
+        if 'teff' in star_policy.get('pin', []):
+            params['teff_K'] = float(star_policy['teff'])
+        if 'logg' in star_policy.get('pin', []):
+            params['logg'] = float(star_policy['logg'])
+    pin_lbl = ','.join(star_policy.get('pin', [])) or '(none)'
+    solve_lbl = ','.join(solve_params) or '(none)'
+    print(f"  Param policy (RYA-292): PIN [{pin_lbl}]  SOLVE [{solve_lbl}]  "
+          f"— {star_policy.get('source', '?')}")
 
     print(f"[1/4] Stellar params:  Teff={params['teff_K']} K  "
           f"logg={params['logg']}  [Fe/H]={params['feh']}  "
@@ -838,16 +1628,29 @@ def run(star_id: str = 'solar',
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"[2/4] Loaded {len(ew_df)} EW measurements from {Path(str(ew_path)).name}")
 
+    # Per-star linelist routing (RYA-270) — explicit and logged, so a star
+    # silently analysed against the solar pool can never go unnoticed again.
+    _star_ll_path, _star_ll_key = _star_linelist(star_id)
+    try:
+        _ll_full = pd.read_csv(str(_star_ll_path), comment='#', low_memory=False)
+        _fe_pool = _ll_full[(_ll_full['element'] == 'Fe')]
+        if 'priority' in _ll_full.columns:
+            _fe_pool = _fe_pool[_fe_pool['priority'] > 0]
+        _n_fe1 = int((_fe_pool['ion'] == 'I').sum())
+        _n_fe2 = int((_fe_pool['ion'] == 'II').sum())
+        print(f"  Linelist loaded for {star_id}: "
+              f"{Path(str(_star_ll_path)).relative_to(Path(str(PATHS['data_root'])).parent)} "
+              f"({_n_fe1} Fe I, {_n_fe2} Fe II)")
+    except Exception as _e:
+        raise FileNotFoundError(
+            f"Star linelist not loadable: {_star_ll_path} — {_e}")
+
     # Vetted blend cross-reference from linelist — RYA-209.
-    # linelist_solar.csv blend_flag=True rows are the authoritative vetted exclusion list.
+    # The star linelist's blend_flag=True rows are the authoritative vetted exclusion list.
     # Hard exclusion applies only to confirmed non-separable blends, not VALD proximity.
     # vald_proximity_flag (continuous 0-1) feeds into the RYA-220 quality scorer instead.
     try:
-        _ll = pd.read_csv(
-            str(PATHS['linelist_solar']),
-            usecols=['element', 'ion', 'wavelength_air_A', 'blend_flag'],
-            low_memory=False,
-        )
+        _ll = _ll_full[['element', 'ion', 'wavelength_air_A', 'blend_flag']]
         _ll_vetted = _ll[_ll['blend_flag'] == True][['element', 'ion', 'wavelength_air_A']]
         if 'blend_flag' not in ew_df.columns:
             ew_df['blend_flag'] = False
@@ -870,11 +1673,69 @@ def run(star_id: str = 'solar',
     except Exception as _e:
         print(f"  WARNING: vetted blend cross-reference failed — {_e}")
 
-    # ── Iterative convergence ─────────────────────────────────────
-    print(f"\n[3/4] Iterating to stellar parameter equilibrium "
-          f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
-    converged_params, results, per_line_df = _iterative_parameter_convergence(
-        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed
+    # Fe pool-membership filter (RYA-270): for stars with a bespoke linelist,
+    # the linelist's priority>0 Fe rows DEFINE the admissible Fe pool — EW
+    # measurements of Fe lines outside it (e.g. solar-pool lines contaminated
+    # at F-star temperatures) are excluded from convergence and abundance
+    # derivation. The solar path is exempt: its EW pool was built FROM
+    # linelist_solar by lines_fit, so membership holds by construction and
+    # solar behaviour stays bit-for-bit unchanged. Non-Fe rows pass through
+    # (Fe selection is the scope of RYA-270; gates are Fe-only).
+    if Path(str(_star_ll_path)) != Path(str(PATHS['linelist_solar'])):
+        _fe_ew = (ew_df['element'] == 'Fe')
+        _pool_w = {ion: _fe_pool.loc[_fe_pool['ion'] == ion,
+                                     'wavelength_air_A'].values
+                   for ion in ('I', 'II')}
+        _member = np.ones(len(ew_df), dtype=bool)
+        for _i in ew_df.index[_fe_ew]:
+            _ion = ew_df.at[_i, 'ion']
+            _w   = float(ew_df.at[_i, 'wavelength_air_A'])
+            _pw  = _pool_w.get(_ion, np.array([]))
+            _member[ew_df.index.get_loc(_i)] = (
+                len(_pw) > 0 and np.abs(_pw - _w).min() < 0.05)
+        _n_dropped = int((~_member).sum())
+        ew_df = ew_df[_member].copy()
+        print(f"  Fe pool-membership filter ({_star_ll_key} linelist): "
+              f"{_n_dropped} Fe EW line(s) outside the F-star pool excluded, "
+              f"{int((ew_df['element'] == 'Fe').sum())} Fe line(s) retained")
+
+    # ── Pinned-params synthesis (RYA-285 Step 2) ──────────────────
+    # skip_convergence: derive at EXACTLY the supplied params (no Teff/logg/ξ
+    # iteration), then run synthesis. Used to compare engines at a fixed
+    # benchmark anchor where convergence would otherwise walk the params and
+    # confound the engine diff with a stellar-parameter difference.
+    if skip_convergence and engine in ('synthesis', 'synthesis-v2'):
+        print(f"\n[3/4] PINNED params (skip_convergence) — no iteration:")
+        print(f"  Teff={params['teff_K']:.0f} K  logg={params['logg']:.2f}  "
+              f"[Fe/H]={params['feh']}  vturb={params['vturb_kms']:.2f} km/s")
+        _atm = _load_atmosphere(params['teff_K'], params['logg'], params['feh'],
+                                params['vturb_kms'], model_grid=model_grid)
+        last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid)
+        out_dir = Path(str(PATHS['solar_ew'])).parent
+        if engine == 'synthesis-v2':
+            print(f"\n[4/4] Synthesis-v2 flux-space fit — pinned params...")
+            results_synth, _ = _run_synthesis_v2_mode(
+                last_linemasks, params, _atm, star_id, out_dir)
+        else:
+            print(f"\n[4/4] Synthesis-EW mode (Turbospectrum bisection) — pinned params...")
+            results_synth, _ = _run_synthesis_mode(
+                last_linemasks, params, _atm, star_id, out_dir)
+        print(f"\n{'='*62}\n  abundances_derive complete (pinned synthesis).\n{'='*62}\n")
+        return params, results_synth
+
+    # ── Iterative convergence (or pinned single pass for the EW baseline) ──────
+    # RYA-291: skip_convergence on the EW baseline (engine='spectrum') pins the
+    # params to the supplied init (= the synthesis-v2 tables' params) so the MOOG
+    # baseline and the synthesis are compared at IDENTICAL params — removing the
+    # RYA-289 param confound. Same result-building/NLTE/scoring/save path follows.
+    if skip_convergence:
+        print(f"\n[3/4] PINNED params (skip_convergence) — EW baseline, no iteration:")
+    else:
+        print(f"\n[3/4] Iterating to stellar parameter equilibrium "
+              f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
+    converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
+        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed,
+        skip_convergence=skip_convergence, solve_params=solve_params,
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
@@ -905,8 +1766,30 @@ def run(star_id: str = 'solar',
     print(f"  Weights: {LINE_SCORE_WEIGHTS}")
     scored_df = pd.DataFrame()
     if not per_line_df.empty:
-        scored_df = _compute_line_scores(per_line_df, ew_df, results_df=results)
+        scored_df = _compute_line_scores(per_line_df, ew_df, results_df=results,
+                                         linelist_path=_star_ll_path)
         results   = _element_grade_summary(scored_df, results)
+
+    # ── RYA-289: explicit absolute scale labels (no implicit ≡0 differential) ──
+    # MOOG returns absolute A(X) uniformly, so A_X here is 1D-LTE absolute A(X)
+    # for every star (this is what dissolves the solar A_X≡0 degeneracy that the
+    # SPECTRUM path produced). The NLTE layer (Fe only) is stored as a DISTINCT,
+    # explicitly-absolute column (A_X_nlte_absolute) instead of being reconstructed
+    # implicitly via +A(Fe)_sun at gate time. The scale-aware diff harness joins
+    # on the labelled absolute A_X.
+    results['scale']        = 'absolute'   # describes A_X (1D LTE absolute)
+    results['nlte_applied'] = False        # A_X is pre-NLTE; NLTE in A_X_nlte_absolute
+    if 'A_X_nlte' in results.columns:
+        def _nlte_to_absolute(row):
+            flag = str(row.get('nlte_flag', '1D_LTE'))
+            if flag in ('1D_LTE', 'NLTE_unavailable'):
+                return np.nan   # NLTE not actually applied → no absolute NLTE value
+            ref = SOLAR_ASPLUND2021.get(str(row['element']), np.nan)
+            val = row.get('A_X_nlte', np.nan)
+            if pd.notna(val) and np.isfinite(ref):
+                return round(float(val) + float(ref), 3)
+            return np.nan
+        results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
 
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
@@ -917,9 +1800,26 @@ def run(star_id: str = 'solar',
           f"{results['n_lines'].sum()} total lines)")
 
     if not scored_df.empty:
+        scored_df['scale'] = 'absolute'   # RYA-289: per-line A_X is 1D-LTE absolute
         per_line_out = out_dir / f'{star_id}_per_line.csv'
         scored_df.to_csv(per_line_out, index=False)
         print(f"  Saved → {per_line_out.name}  ({len(scored_df)} lines with quality scores)")
+
+    # ── Synthesis mode (RYA-285 v1 EW / RYA-287 v2 flux) ──────────
+    if engine in ('synthesis', 'synthesis-v2'):
+        _atm_synth = _load_atmosphere(
+            converged_params['teff_K'], converged_params['logg'],
+            converged_params['feh'],    converged_params['vturb_kms'],
+            model_grid=model_grid,
+        )
+        if engine == 'synthesis-v2':
+            print(f"\n[4b/4] Synthesis-v2 flux-space fit (Turbospectrum)...")
+            _run_synthesis_v2_mode(last_linemasks, converged_params, _atm_synth,
+                                   star_id, out_dir)
+        else:
+            print(f"\n[4b/4] Synthesis-EW mode (Turbospectrum bisection)...")
+            _run_synthesis_mode(last_linemasks, converged_params, _atm_synth,
+                                star_id, out_dir)
 
     # ── Solar calibration gate ────────────────────────────────────
     fe = results[results['element'] == 'Fe']
@@ -992,6 +1892,16 @@ def run(star_id: str = 'solar',
 
 if __name__ == '__main__':
     import sys as _sys
-    star  = _sys.argv[1] if len(_sys.argv) > 1 else 'solar'
-    grid  = _sys.argv[2] if len(_sys.argv) > 2 else 'ATLAS9.Castelli'
-    run(star, grid)
+    from pathlib import Path as _Path
+    _repo = str(_Path(__file__).resolve().parent.parent)
+    if _repo not in _sys.path:
+        _sys.path.insert(0, _repo)
+    _flags = [a for a in _sys.argv[1:] if a.startswith('--')]
+    _pos   = [a for a in _sys.argv[1:] if not a.startswith('--')]
+    star   = _pos[0] if len(_pos) > 0 else 'solar'
+    grid   = _pos[1] if len(_pos) > 1 else 'ATLAS9.Castelli'
+    engine = _pos[2] if len(_pos) > 2 else 'spectrum'
+    # RYA-291: --skip-convergence pins the params to the star init (no walk), so the
+    # MOOG EW baseline is computed at the synthesis-v2 tables' params for a pure diff.
+    skip   = '--skip-convergence' in _flags or '--pin' in _flags
+    run(star, grid, engine=engine, skip_convergence=skip)

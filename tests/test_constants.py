@@ -9,7 +9,8 @@ from pathlib import Path
 
 from config.constants import (
     PHYSICS, ASTRO, SOLAR_ASPLUND2021, STAR_55CNC,
-    PIPELINE, PATHS, MODEL, validate_constants
+    PIPELINE, PATHS, MODEL, validate_constants,
+    STAR_PARAMS, get_star_params,
 )
 
 
@@ -132,3 +133,47 @@ class TestValidateConstants:
     def test_speed_of_light_consistency(self):
         # c_ms should equal c_kms * 1000 to within floating-point tolerance
         assert PHYSICS['c_ms'] == pytest.approx(PHYSICS['c_kms'] * 1000, rel=1e-9)
+
+
+class TestStarParamsPolicy:
+    """Per-star fundamental-param record + pin/solve policy (RYA-292 / RYA-293)."""
+
+    def test_55cnc_a_pins_teff_and_logg(self):
+        # RYA-293: 55 Cnc A graduates to a pinned target (von Braun et al. 2011).
+        rec = get_star_params('55cnc_a')
+        assert rec['teff'] == pytest.approx(5196.0, rel=1e-3)
+        assert rec['logg'] == pytest.approx(4.45, rel=1e-3)
+        assert rec['pin'] == ['teff', 'logg']
+        assert 'feh' in rec['solve'] and 'xi' in rec['solve']
+        # [Fe/H] must stay solved (spectroscopic), not pinned — it is a sanity target.
+        assert 'feh' not in rec['pin']
+
+    def test_55cnc_a_provenance_is_honest_about_isochrone_mass(self):
+        # The mass is model-dependent — the basis string must not imply a dynamical mass.
+        rec = get_star_params('55cnc_a')
+        assert 'von Braun' in rec['source']
+        assert 'isochrone' in rec['logg_basis'].lower()
+        assert 'interferometric' in rec['logg_basis'].lower()
+
+    def test_solve_path_still_covered(self):
+        # RYA-293 Step 2: after 55 Cnc A became pinned, a no-fundamental-logg star
+        # must still exercise the spectroscopic-solve path (logg solved, pin empty).
+        rec = get_star_params('synthetic_no_logg')
+        assert rec['pin'] == []
+        assert 'logg' in rec['solve']
+        assert 'teff' in rec['solve']
+
+    def test_benchmarks_pin_teff_and_logg(self):
+        for star in ('solar', 'procyon', 'alpha_cen_a', 'alpha_cen_b'):
+            rec = get_star_params(star)
+            assert 'teff' in rec['pin'] and 'logg' in rec['pin'], star
+
+    def test_missing_record_raises(self):
+        # No silent default — fail loud for an unknown star (guard intact).
+        with pytest.raises(KeyError):
+            get_star_params('kepler-10')
+
+    def test_every_record_has_pin_and_solve(self):
+        for key, rec in STAR_PARAMS.items():
+            assert 'pin' in rec and 'solve' in rec, key
+            assert isinstance(rec['pin'], list) and isinstance(rec['solve'], list), key
