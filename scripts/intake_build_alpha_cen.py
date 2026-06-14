@@ -79,9 +79,9 @@ STAR_PARAMS = {
     'b': dict(name='alpha Cen B', teff=5231, logg=4.53, feh=+0.20, vmic=1.0),
 }
 
-# Delivery registry. Each star expects four disjoint bands spanning 1150-17000 Å.
-# A band is "present" once Ryan drops its .gz; the per-system build fires only
-# when all four bands of a star are present AND ACCEPTed.
+# Each star expects four disjoint bands spanning 1150-17000 Å. A band is
+# "present" once Ryan drops its .gz into the star's VALD folder; the per-system
+# build fires only when all four bands of a star are present AND ACCEPTed.
 BANDS = ['uv1', 'uv2', 'optical', 'nir']
 BAND_RANGE = {
     'uv1':     (1150.0, 2000.0),
@@ -89,18 +89,54 @@ BAND_RANGE = {
     'optical': (3780.0, 6910.0),    # THE priority — matches HARPS coverage
     'nir':     (6910.0, 17000.0),
 }
-REGISTRY = {
-    'a': {
-        'uv1':     VALD_ROOT / 'Alpha Centauri A' / 'RyanSchmitt.019537.gz',
-        'uv2':     VALD_ROOT / 'Alpha Centauri A' / 'RyanSchmitt.019538.gz',
-        'optical': VALD_ROOT / 'Alpha Centauri A' / 'RyanSchmitt.019539.gz',
-        'nir':     VALD_ROOT / 'Alpha Centauri A' / 'RyanSchmitt.019540.gz',
-    },
-    'b': {
-        'uv1':     VALD_ROOT / 'Alpha Centauri B' / 'RyanSchmitt.019541.gz',
-        # uv2 / optical / nir pending Ryan's submissions (B is the dense K dwarf)
-    },
+RANGE_TOL = 5.0   # Å tolerance matching a delivery's header range to a band
+
+STAR_FOLDER = {
+    'a': VALD_ROOT / 'Alpha Centauri A',
+    'b': VALD_ROOT / 'Alpha Centauri B',
 }
+
+
+def read_gz_header(gz_path):
+    """Peek the VALD metadata line of a gzipped delivery (first two text lines)
+    without decompressing the whole file. Returns the read_vald_header dict."""
+    with gzip.open(gz_path, 'rt', errors='replace') as f:
+        line1 = f.readline().strip()
+        truncated = line1.startswith('WARNING')
+        meta = f.readline().strip() if truncated else line1
+    fields = [p.strip() for p in meta.split(',')]
+    return {'wl_start': float(fields[0]), 'wl_end': float(fields[1]),
+            'n_selected': int(fields[2]), 'truncated': truncated}
+
+
+def discover(star):
+    """Scan a star's VALD folder and map each .gz delivery to a band by its
+    header wavelength range (robust to whatever request IDs VALD assigns).
+
+    On collision (resubmission of the same band) prefer a non-truncated file,
+    then the one with the most selected transitions, then the newest mtime.
+    Returns {band: Path}."""
+    chosen = {}                      # band -> (path, score tuple)
+    folder = STAR_FOLDER[star]
+    if not folder.is_dir():
+        return {}
+    for gz in sorted(folder.glob('*.gz')):
+        try:
+            h = read_gz_header(gz)
+        except Exception:
+            continue
+        band = next((b for b, (lo, hi) in BAND_RANGE.items()
+                     if abs(h['wl_start'] - lo) <= RANGE_TOL
+                     and abs(h['wl_end'] - hi) <= RANGE_TOL), None)
+        if band is None:
+            continue
+        score = (not h['truncated'], h['n_selected'], gz.stat().st_mtime)
+        if band not in chosen or score > chosen[band][1]:
+            chosen[band] = (gz, score)
+    return {b: v[0] for b, v in chosen.items()}
+
+
+REGISTRY = {star: discover(star) for star in ('a', 'b')}
 
 
 # -----------------------------------------------------------------------------
