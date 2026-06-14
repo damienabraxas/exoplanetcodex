@@ -56,9 +56,12 @@ class TestSolarAbundances:
         assert not missing, f"Missing elements: {missing}"
 
     def test_abundance_values_in_plausible_range(self):
+        # A(X) = log N(X) + 12 with A(H) ≡ 12.00 by definition (the normalization
+        # anchor), so 12 is the inclusive ceiling — nothing should exceed it, but
+        # H sits exactly on it. Upper bound is therefore <= 12, not < 12 (RYA-295).
         for element, abundance in SOLAR_ASPLUND2021.items():
-            assert 0 < abundance < 12, (
-                f"{element} abundance {abundance} outside plausible range (0–12 dex)"
+            assert 0 < abundance <= 12.0, (
+                f"{element} abundance {abundance} outside plausible range (0 < A(X) <= 12 dex)"
             )
 
 
