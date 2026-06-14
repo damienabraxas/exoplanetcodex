@@ -160,7 +160,10 @@ class TestLoadLinelist:
         missing = tmp_path / 'does_not_exist.csv'
         with patch('data.linelists.loader.PATHS', {'linelist_master': missing}), \
              patch('data.linelists.loader.PIPELINE', PATCH_PIPELINE):
-            with pytest.raises(FileNotFoundError, match='linelist_master'):
+            # RYA-297: the error message reports the resolved path, not the
+            # 'linelist_master' key. Match a stable substring that's actually
+            # present while still asserting it is the right (master-list) error.
+            with pytest.raises(FileNotFoundError, match='Master line list not found'):
                 load_linelist()
 
     def test_no_elements_returns_all(self, linelist_csv):

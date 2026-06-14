@@ -102,22 +102,31 @@ def test_marcs_interpolation_mdwarf():
 # ── EW injection tests ────────────────────────────────────────────────────────
 
 def test_ew_injection_matches_fe_lines():
-    """_inject_ew_into_regions should match Fe I lines from solar_ew.csv."""
+    """_build_ispec_line_regions should match Fe I lines from solar_ew.csv.
+
+    RYA-297: re-pointed from the renamed _inject_ew_into_regions /
+    _LINE_REGIONS_TS_ALL (function + constant were renamed, not removed — the
+    EW-injection capability is intact in _build_ispec_line_regions).
+    """
     import pandas as pd
     from config.constants import PATHS
-    from pipeline.abundances_derive import _inject_ew_into_regions, _LINE_REGIONS_TS_ALL
+    from pipeline.abundances_derive import _build_ispec_line_regions, _LINE_REGIONS_ALL
 
     ew_path = PATHS['solar_ew']
     if not Path(str(ew_path)).exists():
         pytest.skip("solar_ew.csv not found — run lines_fit.py first")
 
     ew_df = pd.read_csv(ew_path)
-    fe_ew = ew_df[(ew_df['element'] == 'Fe') & (ew_df['ew_mA'] > 0)].head(50)
+    # RYA-297: use the full Fe set, not .head(50). solar_ew.csv is wavelength-
+    # sorted, so head(50) was all blue (<3831 Å) lines that fall outside the
+    # curated "good_for_abundances" region file → zero matches. The injection
+    # capability is fine: the full set matches ~124 Fe I/II lines.
+    fe_ew = ew_df[(ew_df['element'] == 'Fe') & (ew_df['ew_mA'] > 0)]
 
     if len(fe_ew) == 0:
         pytest.skip("No Fe lines in solar_ew.csv")
 
-    linemasks = _inject_ew_into_regions(fe_ew, _LINE_REGIONS_TS_ALL)
+    linemasks = _build_ispec_line_regions(fe_ew, _LINE_REGIONS_ALL)
     assert len(linemasks) > 0, "No Fe lines matched iSpec regions"
     assert np.all(linemasks['ew'] > 0), "Some matched lines have zero EW"
     # All should be Fe
