@@ -183,9 +183,23 @@ PIPELINE = {
     # Line quality thresholds
     'ew_min_mA'         : 5.0,    # Minimum detectable EW (mÅ)
     'ew_max_mA'         : 300.0,  # Maximum EW before saturation concerns
-    'vmic_ew_ceiling_mA': 150.0,  # COG cut for vmic slope sample — lines above this
-                                   # are in the damping regime; their REW is insensitive
-                                   # to vmic but sensitive to damping params (RYA-226)
+    'vmic_ew_ceiling_mA': 100.0,  # COG cut for the Fe I vmic slope sample AND the
+                                   # RYA-279 gate pool — lines above this are in the
+                                   # damping regime; their REW is insensitive to vmic
+                                   # but sensitive to damping params (RYA-226).
+                                   # RYA-330: tightened 150 → 100 mÅ. At 150 the solar
+                                   # Fe I anchor (GES reference pool) carried 12
+                                   # saturated lines (EW→149 mÅ, A as low as 7.20) that
+                                   # drove a spurious −0.21 reduced-EW slope (RYA-328).
+                                   # The cut applies to ALL stars (the saturation onset
+                                   # is ~star-independent), so Sun and program stars now
+                                   # clear the same bar. Sweep (solar, NLTE-confirmed):
+                                   # 150 → slope −0.209 σ0.169; 120 → −0.086 σ0.154;
+                                   # 100 → −0.053 σ0.151 (flat within error), A(Fe I)
+                                   # NLTE stable 7.516 (median-robust → anchor barely
+                                   # moves, +0.009). Re-routing Fe I to the measured
+                                   # pool was tested and REJECTED (A(Fe I) 7.67, σ0.44,
+                                   # slope +0.43 — the measured solar EWs are worse).
     'vmic_abund_clip_sigma': 2.0,  # σ threshold for per-iteration abundance clip on vmic
                                    # slope sample. Restores behaviour removed by RYA-220
                                    # commit c8a23d2. Sousa et al. 2011, Jofré et al. 2014.
