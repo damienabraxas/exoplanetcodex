@@ -263,6 +263,7 @@ def _ew_engine_available(code: str) -> bool:
 # since it is intrinsic to the lines and does not change across convergence iterations.
 _fe2_theo_cache: dict = {}
 _fe2_quarantine_state: dict = {'written': False}
+_fe1_quarantine_state: dict = {'written': False}   # RYA-309: Fe I triage parity
 
 
 def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray:
@@ -397,6 +398,55 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
                 print(f"  [Fe II triage] quarantine → {qpath.name}")
             except Exception as _qe:
                 print(f"  [Fe II triage] quarantine write skipped: {_qe}")
+
+    # ── Fe I triage (RYA-309 — extend the RYA-305 vetting to Fe I) ─────────────
+    # Procyon's Fe I scatter (0.68 dex) and the implausible NLTE correction
+    # (RYA-317) are driven by blend-inflated Fe I lines that the linear-COG `good`
+    # filter (1.5 dex) lets through — the linear COG under-predicts EW 3-10×, so a
+    # heavily blended line can still land inside 1.5 dex. Vet each Fe I line
+    # against its PROPER Fe-I-only theoretical EW (SPECTRUM, expected composition)
+    # — identical clean/recover/drop logic to the Fe II triage (_fe2_theoretical_ew
+    # is ion-general). Blend-contaminated-but-real lines are EXCLUDED from the EW
+    # pool and recovered by synthesis (RYA-305 DECISION 2: synthesis is the Fe
+    # arbiter); negligible lines (theo<floor) are dropped/quarantined. Same 0.5 dex
+    # sanity threshold + floor as Fe II. Clean solar GES Fe I lines pass (obs~theo).
+    fe1_mask = np.array([str(r['note']).strip() == 'Fe 1' for r in linemasks])
+    if fe1_mask.any():
+        fe1_idx  = np.where(fe1_mask)[0]
+        theo_fe1 = _fe2_theoretical_ew(linemasks[fe1_idx], stellar_params, atmosphere)
+        obs_fe1  = np.array([float(linemasks['ew'][i]) for i in fe1_idx])
+        logr_fe1 = np.log10(np.maximum(obs_fe1, 1e-6) / np.maximum(theo_fe1, 1e-6))
+        clean_fe1 = np.abs(logr_fe1) < float(PIPELINE['fe2_ew_sanity_dex'])
+        for j, i in enumerate(fe1_idx):
+            good[i] = bool(clean_fe1[j])
+        _floor = float(PIPELINE['fe2_synth_ew_floor_mA'])
+        n_clean = int(clean_fe1.sum())
+        n_recov = int(((~clean_fe1) & (theo_fe1 >= _floor)).sum())
+        n_drop  = int(((~clean_fe1) & (theo_fe1 <  _floor)).sum())
+        print(f"  Fe I triage (RYA-309/305): {n_clean} clean (EW kept), "
+              f"{n_recov} blended→synthesis-recover (EW-excluded), "
+              f"{n_drop} dropped/quarantined (theo<{_floor:.0f} mÅ)")
+        if not _fe1_quarantine_state['written'] and (~clean_fe1).any():
+            try:
+                q = pd.DataFrame({
+                    'wave_A': np.round(np.asarray(
+                        [float(linemasks['wave_A'][i]) for i in fe1_idx]), 3),
+                    'obs_ew_mA': np.round(obs_fe1, 2),
+                    'theo_ew_mA': np.round(theo_fe1, 3),
+                    'log_obs_over_theo': np.round(logr_fe1, 2),
+                    'verdict': np.where(clean_fe1, 'clean',
+                               np.where(theo_fe1 >= _floor, 'recover_synthesis', 'drop')),
+                    'reason': np.where(clean_fe1, 'obs~theo (kept in EW)',
+                               np.where(theo_fe1 >= _floor,
+                                        'real line, EW blend-contaminated → synthesis',
+                                        'theo<floor: negligible Fe I under blend → drop')),
+                })
+                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe1_triage_quarantine.csv'
+                q[q.verdict != 'clean'].to_csv(qpath, index=False)
+                _fe1_quarantine_state['written'] = True
+                print(f"  [Fe I triage] quarantine → {qpath.name}")
+            except Exception as _qe:
+                print(f"  [Fe I triage] quarantine write skipped: {_qe}")
 
     n_before = len(linemasks)
     linemasks = linemasks[good]
