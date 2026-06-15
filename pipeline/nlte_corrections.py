@@ -257,7 +257,15 @@ def apply_fe_nlte_corrections(
             fe_lines['a_nlte'] = fe_lines['a_1dlte']  # default: retain 1D LTE
 
             for i, lrow in fe_lines.iterrows():
-                a_fe_abs = float(lrow['a_1dlte']) + _A_FE_SOLAR
+                # RYA-319/RYA-267: per_line_df['a_1dlte'] is iSpec normal_abund =
+                # ALREADY absolute A(Fe) (the convergence stores last_spec_abund),
+                # unlike the legacy mean-field path below which uses the DIFFERENTIAL
+                # A_X and must add _A_FE_SOLAR. Adding it here double-counts the solar
+                # reference (~+7.46 → afe3n clipped to the grid ceiling). Inside the
+                # Amarsi grid this is masked (afe ceiling 7.5 clips anyway), but it
+                # corrupts the MPIA grid's wider afe coverage — so use the absolute
+                # value directly.
+                a_fe_abs = float(lrow['a_1dlte'])
                 ab = _apply_aberr_to_line(
                     ion,
                     float(lrow['excitation_potential_eV']),
