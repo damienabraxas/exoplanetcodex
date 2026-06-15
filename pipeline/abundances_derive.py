@@ -1148,7 +1148,6 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       stellar_params_init: dict,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
-                                      vmic_fixed: bool = False,
                                       skip_convergence: bool = False,
                                       solve_params=None) -> tuple:
     """
@@ -1170,13 +1169,17 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
 
     # RYA-292 pin/solve policy: only params in `solve` are optimized; pinned params
     # are held fixed at their fundamental (GBS) values. Default = solve all three
-    # spectroscopic params (backward-compatible with pre-292 behaviour). 'xi' also
-    # honours the legacy vmic_fixed flag. A pinned param's equilibrium criterion is
-    # treated as satisfied so convergence is judged only on the solved params.
+    # spectroscopic params (backward-compatible with pre-292 behaviour). RYA-325:
+    # solve_xi is derived PURELY from the pin/solve policy now — the legacy
+    # vmic_fixed flag is retired (a pinned ξ / xi_override is applied in run()
+    # before this call, which simply drops 'xi' from solve). A pinned param's
+    # equilibrium criterion is treated as satisfied so convergence is judged only
+    # on the solved params; the reduced-EW slope is still computed + reported at a
+    # pinned ξ as the guardrail (flat = consistent, sloped = a finding).
     solve = set(solve_params) if solve_params is not None else {'teff', 'logg', 'xi'}
     solve_teff = 'teff' in solve
     solve_logg = 'logg' in solve
-    solve_xi   = ('xi' in solve) and not vmic_fixed
+    solve_xi   = 'xi' in solve
 
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
@@ -1637,7 +1640,7 @@ def run(star_id: str = 'solar',
         model_grid: str = 'ATLAS9.Castelli',
         stellar_params_override: dict = None,
         ew_override: str = None,
-        vmic_fixed: bool = False,
+        xi_override: float = None,
         engine: str = 'spectrum',
         skip_convergence: bool = False) -> tuple:
     """
@@ -1652,7 +1655,10 @@ def run(star_id: str = 'solar',
     ew_override              : path to an EW CSV to use instead of the default
                                solar_ew.csv (e.g. solar_ew_ges_reference.csv for
                                GES pre-stored calibration EWs — RYA-196)
-    vmic_fixed               : if True, hold vturb_kms fixed during convergence (RYA-238)
+    xi_override              : explicit ξ (km/s) for experimental runs (e.g. the
+                               RYA-322 ξ sweep) — pins vturb_kms to this value and
+                               drops ξ from the solve, logged. Replaces the retired
+                               silent vmic_fixed flag (RYA-325). None = use policy.
     engine                   : 'spectrum' (default MOOG/SPECTRUM path) or 'synthesis'
                                (Turbospectrum synthesis-EW bisection — RYA-285).
                                'synthesis' runs the normal convergence first, then
@@ -1693,6 +1699,24 @@ def run(star_id: str = 'solar',
             params['teff_K'] = float(star_policy['teff'])
         if 'logg' in star_policy.get('pin', []):
             params['logg'] = float(star_policy['logg'])
+        # RYA-325: ξ pin/solve. xi_override (the ONE explicit experimental knob —
+        # e.g. the RYA-322 ξ sweep) supersedes the pin and is logged; it replaces
+        # the retired silent vmic_fixed default. Else a pinned ξ is set from
+        # STAR_PARAMS (fail loud if pinned without a value); a star whose ξ is
+        # neither pinned-with-value nor solved raises (no silent guess).
+        if xi_override is not None:
+            params['vturb_kms'] = float(xi_override)
+            solve_params = [p for p in solve_params if p != 'xi']
+            print(f"  ξ OVERRIDE (explicit, RYA-322): vturb pinned to "
+                  f"{float(xi_override):.2f} km/s (no re-solve)")
+        elif 'xi' in star_policy.get('pin', []):
+            if 'xi' not in star_policy:
+                raise KeyError(f"{star_id}: ξ is pinned but no 'xi' value in "
+                               f"STAR_PARAMS (RYA-325) — refusing to guess.")
+            params['vturb_kms'] = float(star_policy['xi'])
+        elif 'xi' not in solve_params:
+            raise KeyError(f"{star_id}: ξ is neither pinned-with-value nor in "
+                           f"'solve' (RYA-325) — refusing to guess.")
     pin_lbl = ','.join(star_policy.get('pin', [])) or '(none)'
     solve_lbl = ','.join(solve_params) or '(none)'
     print(f"  Param policy (RYA-292): PIN [{pin_lbl}]  SOLVE [{solve_lbl}]  "
@@ -1824,7 +1848,7 @@ def run(star_id: str = 'solar',
         print(f"\n[3/4] Iterating to stellar parameter equilibrium "
               f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
-        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed,
+        ew_df, params, model_grid=model_grid,
         skip_convergence=skip_convergence, solve_params=solve_params,
     )
 

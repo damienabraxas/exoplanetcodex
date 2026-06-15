@@ -343,38 +343,59 @@ CONTINUUM_PARAMS = {
 HARPS_R = 115000   # HARPS resolving power; instrumental convolution for synthesis
 
 STAR_PARAMS = {
+    # RYA-325: ξ (xi, microturbulence) is PINNED for the four GBS calibrators —
+    # same status as Teff/logg (RYA-292 principle: floating a well-determined
+    # param lets a systematic hide as a parameter shift; cf. the RYA-284 Procyon
+    # ξ undershoot on then-dirty data). ξ is framework-relative (it absorbs
+    # line-list/EW/1D-model choices), so the pinned value is the GBS reference on
+    # a consistent scale: Jofré et al. 2014 (A&A 564, A133, GBS Paper III) — ξ via
+    # the GES vmic relation at the Heiter+2015 (Paper I) fundamental params;
+    # Bruntt et al. 2010 (MNRAS 405, 1907) as the independent cross-check. The
+    # convergence still reports the reduced-EW slope at the pinned ξ as a
+    # guardrail (flat = consistent; sloped = a finding to surface, never re-float).
     'solar': {
         'teff': 5772.0, 'e_teff': 1.0,  'logg': 4.438, 'e_logg': 0.000,
         'feh_ref': 0.00, 'e_feh': 0.03,
+        'xi': 1.0,   # km/s — our scale anchor (Jofré+2014; matches STAR_SOLAR)
         'vmac': 3.8, 'vsini': 1.8,   # km/s — RYA-288: verbatim from the RYA-287
                                       # synth-v2 hardcoded set (solar run = no-op)
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)',
         'logg_basis': 'IAU nominal solar mass + radius (logg fixed to ~0.001 dex)',
-        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
     },
     'procyon': {
         'teff': 6554.0, 'e_teff': 84.0, 'logg': 4.00, 'e_logg': 0.02,
         'feh_ref': 0.03, 'e_feh': 0.04,
+        # RYA-325: ξ PINNED = 1.8 (GBS/Jofré scale, Ryan-confirmed 2026-06-15;
+        # lit consensus 1.7-1.8, ≈ Bruntt+2010 1.69 — NOT the old ~2.0 solve-guess
+        # on dirty data). HARD GATE: the reduced-EW slope on clean (post-309/320)
+        # Fe data must be flat at 1.8; if it still insists on ~2.0, that's a finding
+        # (F-star line-list/EW systematics, RYA-281/206), surfaced not pinned over.
+        # RYA-322 2×2 produces the clean slope → confirms or flags.
+        'xi': 1.8,
         # RYA-288: vmac/vsini INTENTIONALLY ABSENT — source from the converged
-        # record (RYA-284) before Procyon synth-v2; do NOT fill with solar. The
-        # broadening resolver fails loud until these are set (F5 IV-V ≠ solar).
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        # record (RYA-284) before Procyon synth-v2; do NOT fill with solar.
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ); Bruntt+2010 ξ cross-check',
         'logg_basis': 'astrometric binary mass (Procyon B WD) + interferometric radius',
-        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
     },
     'alpha_cen_a': {
         'teff': 5792.0, 'e_teff': 16.0, 'logg': 4.30, 'e_logg': 0.01,
         'feh_ref': 0.20, 'e_feh': 0.04,
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'xi': 1.1,   # km/s — GBS/Jofré scale (Ryan-confirmed; G2V near-solar,
+                     # GES relation @ 5792/4.30/+0.20); slope-validate at α Cen run
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)',
         'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
-        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
     },
     'alpha_cen_b': {
         'teff': 5231.0, 'e_teff': 20.0, 'logg': 4.53, 'e_logg': 0.03,
         'feh_ref': 0.20, 'e_feh': 0.04,
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H])',
+        'xi': 1.0,   # km/s — GBS/Jofré scale (Ryan-confirmed; cooler K1V,
+                     # GES relation @ 5231/4.53/+0.20); slope-validate at α Cen run
+        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)',
         'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
-        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
+        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
     },
     # 55 Cnc A (Copernicus) — flagship science-target primary, host of 55 Cnc e
     # (Janssen). RYA-293: graduates from the solve example to a PINNED target now
@@ -391,7 +412,15 @@ STAR_PARAMS = {
     '55cnc_a': {
         'teff': 5196.0, 'e_teff': 24.0, 'logg': 4.45, 'e_logg': 0.01,
         'feh_ref': 0.31, 'e_feh': 0.04,
-        'source': 'von Braun et al. 2011, ApJ 740, 49',
+        # RYA-325: 55 Cnc is a SCIENCE TARGET, not a GBS calibrator — ξ stays
+        # SOLVED in our framework (reduced-EW slope on our Fe lines, differential
+        # to our solar ξ≈1.0). Literature ξ are heterogeneous & framework-relative
+        # (Teske+2013 1.17±0.14 derived vs THEIR ξ_sun=1.38; Ecuvillon+2004
+        # 0.98±0.07) — used only as the solve INITIAL GUESS + a cross-check
+        # tripwire on a drifted solve (RYA-284 style), never pinned.
+        'xi_init': 1.0,   # km/s — solve seed on our ~1.0-solar scale
+        'xi_xcheck': (0.85, 1.35),   # scale-adjusted sane band (Teske/Ecuvillon)
+        'source': 'von Braun et al. 2011, ApJ 740, 49; ξ x-check Teske+2013 / Ecuvillon+2004',
         'logg_basis': 'CHARA interferometric R=0.943 Rsun (theta_LD 0.711 mas + '
                       'van Leeuwen 2007 parallax) + Yonsei-Yale isochrone M=0.905 '
                       'Msun (model-dependent mass)',
