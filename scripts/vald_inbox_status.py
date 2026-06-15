@@ -36,10 +36,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 from data.linelists.vald_parse import (  # noqa: E402
-    _CASTELLI_RE, _nearest_castelli_node)
+    applied_metallicity_from_lines)
 from config.constants import STAR_PARAMS  # noqa: E402
 
-MET_TOL = 0.02  # matches vald_parse.verify_metallicity default
+MET_TOL = 0.05  # matches vald_parse.verify_metallicity default
 
 VALD_ROOT = Path.home() / 'Documents' / 'Exoplanet Codex' / 'VALD'
 
@@ -87,19 +87,16 @@ def peek_band(path):
 
 
 def peek_metallicity(path):
-    """Castelli [M/H] node VALD applied, read straight from the (gz or plain)
-    footer — same token as vald_parse.parse_vald_model_metallicity, but able to
-    stream a .gz so nothing is decompressed to disk."""
+    """[M/H] VALD APPLIED to the composition, read from the abundance block
+    straight from the (gz or plain) delivery — same logic as
+    vald_parse.parse_vald_applied_metallicity, but streams a .gz so nothing is
+    decompressed to disk. (Not the Castelli structure-model filename, which VALD
+    substitutes to solar when it lacks the exact metal-rich model.)"""
     try:
         with _open_text(path) as f:
-            for line in f:
-                m = _CASTELLI_RE.search(line)
-                if m:
-                    sign = -1.0 if m.group(1).lower() == 'm' else 1.0
-                    return sign * int(m.group(2)) / 10.0
+            return applied_metallicity_from_lines(f)
     except Exception:
         return None
-    return None
 
 
 def archives(folder_path):
@@ -115,21 +112,22 @@ def archives(folder_path):
 
 def verdict_for(path, star_id):
     """(band, mh, (verdict, msg)) for one archive. Applies the same gate as
-    vald_parse.verify_metallicity (nearest Castelli node to catalog feh_ref,
-    tol MET_TOL), evaluated on the node peeked from the gz/plain delivery."""
+    vald_parse.verify_metallicity (applied [M/H] from the abundance block vs
+    catalog feh_ref, tol MET_TOL), peeked from the gz/plain delivery."""
     band = peek_band(path)
     mh = peek_metallicity(path)
     rec = STAR_PARAMS.get(star_id)
     if not rec or 'feh_ref' not in rec:
         return band, mh, ('REJECT', f'no STAR_PARAMS[{star_id}].feh_ref')
     if mh is None:
-        return band, mh, ('REJECT', 'no model-atmosphere metallicity in delivery')
+        return band, mh, ('REJECT', 'no composition (abundance block) in delivery')
     catalog = float(rec['feh_ref'])
-    expected = _nearest_castelli_node(catalog)
-    if abs(mh - expected) > MET_TOL:
+    if abs(mh - catalog) > MET_TOL:
         return band, mh, ('REJECT',
-                          f'M/H={mh:+.2f} != catalog {catalog:+.2f} (node {expected:+.2f})')
-    return band, mh, ('ACCEPT', f'M/H={mh:+.2f} ok vs catalog {catalog:+.2f}')
+                          f'applied [M/H]={mh:+.2f} != catalog {catalog:+.2f} '
+                          f'(|Δ|={abs(mh - catalog):.2f})')
+    return band, mh, ('ACCEPT',
+                      f'applied [M/H]={mh:+.2f} ok vs catalog {catalog:+.2f}')
 
 
 # "Seen" ledger — archives this watcher has already reported. Kept beside the

@@ -60,7 +60,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 from data.linelists.vald_parse import (  # noqa: E402
     read_vald_header, parse_vald_long, verify_metallicity,
-    parse_vald_model_metallicity)
+    parse_vald_applied_metallicity)
 from config.constants import STAR_PARAMS as CODEX_STAR_PARAMS  # noqa: E402
 
 LINELISTS = REPO_ROOT / 'data' / 'linelists'
@@ -219,12 +219,13 @@ def intake_one(star, band, gz_path):
     row['hfs_pct'] = f'{frac*100:.0f}% ({in_grp}/{total})'
     row['_hfs_detail'] = detail
 
-    # 5. metallicity gate (RYA-321) — VALD must have applied the star's catalog
-    # [Fe/H], not the solar default; a solar-default metal-rich delivery has an
+    # 5. metallicity gate (RYA-321) — VALD must have APPLIED the star's catalog
+    # [Fe/H] to the composition (read from the abundance block, NOT the substituted
+    # Castelli structure-model filename); a solar-default metal-rich delivery has an
     # under-selected weak-line pool. feh_ref read live from constants.STAR_PARAMS.
     met_verdict, met_msg = verify_metallicity(
         raw_txt, CODEX_STAR_ID[star], CODEX_STAR_PARAMS)
-    found_mh = parse_vald_model_metallicity(raw_txt)
+    found_mh = parse_vald_applied_metallicity(raw_txt)
     expected_feh = CODEX_STAR_PARAMS[CODEX_STAR_ID[star]]['feh_ref']
     mh_str = f'{found_mh:+.2f}' if found_mh is not None else 'none'
     row['metallicity'] = (f'{mh_str} OK' if met_verdict == 'ACCEPT'
