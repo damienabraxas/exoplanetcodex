@@ -65,15 +65,6 @@ RANGE_TOL = 5.0
 # READY" applies). Anchors (solar/Procyon) use a different split and are done.
 FOUR_BAND_STARS = {'alpha_cen_a', 'alpha_cen_b', '55cnc_a'}
 
-# Committed per-system line list each star builds into — used to tell a genuinely
-# un-ingested archive (newer than the build) from one already extracted, so the
-# alert only nags when there is real work to do.
-LINELIST_FOR = {
-    'alpha_cen_a': REPO_ROOT / 'data' / 'linelists' / 'linelist_alpha_cen_a.csv',
-    'alpha_cen_b': REPO_ROOT / 'data' / 'linelists' / 'linelist_alpha_cen_b.csv',
-    '55cnc_a':     REPO_ROOT / 'data' / 'linelists' / 'linelist_55cnc.csv',
-}
-
 
 def _open_text(path):
     """Open a delivery as text whether it is gzipped or plain."""
@@ -141,54 +132,106 @@ def verdict_for(path, star_id):
     return band, mh, ('ACCEPT', f'M/H={mh:+.2f} ok vs catalog {catalog:+.2f}')
 
 
-def main():
-    print('VALD inbox — metallicity-gated status (RYA-321)')
-    any_ready = False
-    any_held = False
+# "Seen" ledger — archives this watcher has already reported. Kept beside the
+# delivery folders (a stable path that survives git-worktree churn, unlike a
+# committed file's reset mtime) so --quiet fires exactly once per NEW archive.
+LEDGER = VALD_ROOT / '.inbox_seen.json'
+
+
+def _ident(path):
+    """Stable identity for a delivery: parent folder / name / byte size. A
+    re-extraction lands under a new request id (new name) or differing size, so
+    it reads as a new archive."""
+    return f'{path.parent.name}/{path.name}:{path.stat().st_size}'
+
+
+def _load_seen():
+    import json
+    try:
+        return set(json.loads(LEDGER.read_text()))
+    except Exception:
+        return set()
+
+
+def _save_seen(seen):
+    import json
+    try:
+        LEDGER.write_text(json.dumps(sorted(seen)))
+    except Exception:
+        pass  # ledger is a convenience; never let it break the session hook
+
+
+def scan():
+    """Per-folder scan -> list of (folder, star_id, rows) where each row is
+    (path, band, mh, (verdict, msg))."""
+    out = []
     for folder, star_id in FOLDER_STAR.items():
         fp = VALD_ROOT / folder
         if not fp.is_dir():
             continue
         files = archives(fp)
-        if not files:
-            continue
-        # row = (path, band, mh, (verdict, msg))
-        rows = [(p,) + verdict_for(p, star_id) for p in files]
-        accepts = [r for r in rows if r[3][0] == 'ACCEPT']
-        bands_ok = {r[1] for r in accepts}
-        print(f'\n  {folder}  ({star_id})')
-        for path, band, mh, (v, msg) in rows:
-            mark = '✓' if v == 'ACCEPT' else '✗'
-            mhs = f'{mh:+.2f}' if mh is not None else 'none'
-            print(f'    {mark} {path.name:24} {str(band):8} M/H={mhs:6} {v}  {msg}')
+        if files:
+            out.append((folder, star_id, [(p,) + verdict_for(p, star_id) for p in files]))
+    return out
 
-        n_rej = len(rows) - len(accepts)
-        if n_rej:
-            any_held = True
-            print(f'    -> HELD: {n_rej} archive(s) fail the metallicity gate '
-                  f'(re-extract at correct M/H — RYA-323).')
-        elif star_id not in FOUR_BAND_STARS:
-            # solar / Procyon use a different band split and are already built;
-            # for them a clean metallicity gate is all this alert needs to say.
-            print('    -> metallicity OK (anchor star, already correct).')
-        elif bands_ok == set(BAND_RANGE):
-            ll = LINELIST_FOR.get(star_id)
-            newest = max(r[0].stat().st_mtime for r in accepts)
-            if ll and ll.exists() and ll.stat().st_mtime >= newest:
-                print(f'    -> up to date: {ll.name} already built from these archives.')
-            else:
-                any_ready = True
-                print('    -> BUILD READY (action needed): all 4 bands '
-                      'metallicity-correct and newer than the committed list. '
-                      'Run the per-star intake/build script, then commit.')
-        else:
-            missing = sorted(set(BAND_RANGE) - bands_ok)
-            print(f'    -> partial: metallicity-correct bands '
-                  f'{sorted(b for b in bands_ok if b)}, awaiting {missing}.')
-    if not any_ready and not any_held:
-        print('\n  Nothing pending: no metallicity-correct build ready, no rejects.')
+
+def _star_summary(star_id, rows):
+    """One-line verdict for a star's archive set."""
+    accepts = [r for r in rows if r[3][0] == 'ACCEPT']
+    bands_ok = {r[1] for r in accepts}
+    n_rej = len(rows) - len(accepts)
+    if n_rej:
+        return ('HELD', f'{n_rej} archive(s) fail the metallicity gate — '
+                're-extract at correct M/H (RYA-323).')
+    if star_id not in FOUR_BAND_STARS:
+        return ('OK', 'metallicity OK (anchor star, already correct).')
+    if bands_ok == set(BAND_RANGE):
+        return ('READY', 'all 4 bands metallicity-correct — run the per-star '
+                'intake/build script, then commit.')
+    missing = sorted(set(BAND_RANGE) - bands_ok)
+    return ('PARTIAL', f'correct bands {sorted(b for b in bands_ok if b)}, '
+            f'awaiting {missing}.')
+
+
+def _print_star(folder, star_id, rows):
+    print(f'\n  {folder}  ({star_id})')
+    for path, band, mh, (v, msg) in rows:
+        mark = '✓' if v == 'ACCEPT' else '✗'
+        mhs = f'{mh:+.2f}' if mh is not None else 'none'
+        print(f'    {mark} {path.name:24} {str(band):8} M/H={mhs:6} {v}  {msg}')
+    state, note = _star_summary(star_id, rows)
+    print(f'    -> {state}: {note}')
+
+
+def main(argv):
+    quiet = '--quiet' in argv
+    scanned = scan()
+
+    if quiet:
+        # Fire only for archives never reported before; then remember them, so a
+        # routine session stays silent and a fresh drop alerts exactly once.
+        seen = _load_seen()
+        fresh = [(folder, sid, rows) for folder, sid, rows in scanned
+                 if any(_ident(r[0]) not in seen for r in rows)]
+        if not fresh:
+            return 0
+        print('VALD inbox — NEW archive(s) detected (RYA-321 alert)')
+        for folder, sid, rows in fresh:
+            _print_star(folder, sid, rows)
+        ready = [sid for _, sid, rows in fresh if _star_summary(sid, rows)[0] == 'READY']
+        print(f"\n  Action: {'extract now (BUILD READY) — ' + ', '.join(ready) if ready else 'corrected re-extraction still pending (see above)'}.")
+        for folder, sid, rows in scanned:
+            seen.update(_ident(r[0]) for r in rows)
+        _save_seen(seen)
+        return 0
+
+    print('VALD inbox — metallicity-gated status (RYA-321)')
+    if not scanned:
+        print('  (no deliveries in any VALD folder)')
+    for folder, sid, rows in scanned:
+        _print_star(folder, sid, rows)
     return 0
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))
