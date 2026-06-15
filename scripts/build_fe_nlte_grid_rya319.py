@@ -28,7 +28,14 @@ from bs4 import BeautifulSoup
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 from config.constants import PATHS
-from scripts.build_nlte_grids_mpia import _submit_batch, MPIA_URL, LINE_BATCH, STAR_BATCH, SLEEP_S
+from scripts.build_nlte_grids_mpia import _submit_batch, MPIA_URL, SLEEP_S
+
+# Fe is heavier per line than Ca/Ti/Cr — MPIA drops the connection ("Response
+# ended prematurely") on the default 20×12=240-combo batch. The 2-node smoke
+# proved ~80 combos is safe, so cap the batch there and retry transient drops.
+LINE_BATCH = 10
+STAR_BATCH = 8
+MAX_RETRIES = 3
 
 MATCH_TOL_A = 0.15
 ION = {'I': ('felines[]', '26.01'), 'II': ('fe2lines[]', '26.02')}
@@ -36,9 +43,13 @@ ION = {'I': ('felines[]', '26.01'), 'II': ('fe2lines[]', '26.02')}
 # Benchmark box (all five targets strictly inside the convex hull):
 #   Sun 5772/4.44/0.0 · Procyon 6554/4.00/+0.01 · αCenA 5792/4.30/+0.20
 #   αCenB 5231/4.53/+0.20 · 55Cnc 5196/4.45/+0.32
-TEFF_GRID = [5000, 5200, 5500, 5772, 6000, 6300, 6500, 6600]
-LOGG_GRID = [4.0, 4.3, 4.44, 4.5, 4.6]
-FEH_GRID  = [-0.5, -0.2, 0.0, 0.2, 0.35]
+# Coarsened to 80 nodes (5×4×4): NLTE corrections are smooth, so this is ample
+# for linear interpolation, and it keeps the scrape to ~3.7 h (MPIA Fe ≈0.5 s/EW;
+# the 200-node grid was ~10 h). All five benchmarks sit strictly inside the hull:
+#   Teff 5196-6554 ⊂ [5000,6600]; logg 4.00-4.53 ⊂ [4.0,4.6]; [Fe/H] 0.0-0.32 ⊂ [-0.2,0.35].
+TEFF_GRID = [5000, 5400, 5800, 6200, 6600]
+LOGG_GRID = [4.0, 4.3, 4.5, 4.6]
+FEH_GRID  = [-0.2, 0.0, 0.2, 0.35]
 
 OUT_DIR = REPO / 'data' / 'nlte_grids'
 RAW = OUT_DIR / 'raw' / 'Fe_MPIA_raw.csv'
@@ -104,12 +115,20 @@ def main():
         for lb in line_batches:
             for sb in star_batches:
                 bi += 1
-                try:
-                    res = _submit_batch(lb, code, sb)
-                except Exception as e:
-                    print(f"  Fe {ion} batch {bi}/{nb} ERROR {e} — checkpoint+continue", flush=True)
-                    pd.DataFrame(rows).to_csv(RAW, index=False)
-                    time.sleep(SLEEP_S * 3); continue
+                res = None
+                for attempt in range(1, MAX_RETRIES + 1):
+                    try:
+                        res = _submit_batch(lb, code, sb)
+                        break
+                    except Exception as e:
+                        if attempt == MAX_RETRIES:
+                            print(f"  Fe {ion} batch {bi}/{nb} FAILED after {MAX_RETRIES} "
+                                  f"({e}) — checkpoint, will retry on --resume", flush=True)
+                            pd.DataFrame(rows).to_csv(RAW, index=False)
+                        else:
+                            time.sleep(SLEEP_S * 2 * attempt)   # backoff on transient drop
+                if res is None:
+                    continue
                 for p in sb:
                     for w, d in res.get(p['name'], {}).items():
                         rows.append({'element': 'Fe', 'ion': ion, 'wave_A': w,
