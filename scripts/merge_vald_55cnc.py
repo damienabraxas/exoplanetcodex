@@ -83,6 +83,34 @@ def _gz_header_range(gz_path):
     return float(lo), float(hi)
 
 
+SUPP_MAX_WIDTH = 100.0   # a delivery narrower than this is a targeted supplement
+SUPP_CD = 0.01           # request central_depth of the narrow low-cd supplements
+
+
+def discover_supplements():
+    """Targeted low-cd supplements live in SUBFOLDERS of VALD/55 Cancri/ (e.g.
+    'o line zoom in' — RYA-333). Each is a narrow window (< SUPP_MAX_WIDTH Å)
+    extracted at a low cd to recover diagnostic lines that fall below the main
+    cd=0.05 cut (the O I 7771/7774/7775 triplet is shallow at 55 Cnc's 5196 K +
+    metal-rich veiling). Gunzip each into a committed raw and register it as an
+    extraction at SUPP_CD so the dedup keeps its (more inclusive) copy. Returns
+    [(tag, path, request_id, cd)]."""
+    supp = []
+    for gz in sorted(VALD_55CNC_FOLDER.glob('*/*.gz')):
+        try:
+            lo, hi = _gz_header_range(gz)
+        except Exception:
+            continue
+        if hi - lo > SUPP_MAX_WIDTH:          # a full band misfiled, not a supplement
+            continue
+        req_id = gz.stem.split('.')[-1]
+        raw = LINELISTS / f'vald_55cnc_supp_{req_id}_raw.txt'
+        with gzip.open(gz, 'rb') as fi, open(raw, 'wb') as fo:
+            shutil.copyfileobj(fi, fo)
+        supp.append((f'supp_{req_id}', raw, req_id, SUPP_CD))
+    return supp
+
+
 def discover_and_materialize():
     """Map each .gz in the 55 Cancri folder to a band by header range, gunzip the
     best per band (non-truncated, most lines, newest) into its committed raw .txt,
@@ -147,6 +175,7 @@ def main():
     # Intake: discover deliveries by band, gunzip the chosen .gz into committed
     # raws. A missing band is a CRITICAL.
     EXTRACTIONS, discovery_crit = discover_and_materialize()
+    EXTRACTIONS += discover_supplements()        # RYA-333 narrow low-cd supplements
     CD_THRESHOLD = {tag: cd for tag, _, _, cd in EXTRACTIONS}
     for c in discovery_crit:
         critical(c)
@@ -410,8 +439,8 @@ def main():
     applied_mh = parse_vald_applied_metallicity(EXTRACTIONS[0][1])
     applied_s = f'{applied_mh:+.2f}' if applied_mh is not None else 'unknown'
     src_lines = '\n'.join(
-        f"#   {tag:<8}: {path.name} (RyanSchmitt.{req_id}), "
-        f"{BANDS[tag][0][0]:.0f}-{BANDS[tag][0][1]:.0f} A, central_depth {cd}"
+        f"#   {tag:<12}: {path.name} (RyanSchmitt.{req_id}), "
+        f"{headers[tag]['wl_start']:.0f}-{headers[tag]['wl_end']:.0f} A, central_depth {cd}"
         for tag, path, req_id, cd in EXTRACTIONS)
     header = f"""\
 # linelist_55cnc.csv — 55 Cnc A per-system VALD3 linelist (RYA-269; rebuilt RYA-323/324)
