@@ -58,7 +58,10 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
-from data.linelists.vald_parse import read_vald_header, parse_vald_long  # noqa: E402
+from data.linelists.vald_parse import (  # noqa: E402
+    read_vald_header, parse_vald_long, verify_metallicity,
+    parse_vald_model_metallicity)
+from config.constants import STAR_PARAMS as CODEX_STAR_PARAMS  # noqa: E402
 
 LINELISTS = REPO_ROOT / 'data' / 'linelists'
 VALD_ROOT = Path.home() / 'Documents' / 'Exoplanet Codex' / 'VALD'
@@ -78,6 +81,10 @@ STAR_PARAMS = {
     'a': dict(name='alpha Cen A', teff=5792, logg=4.30, feh=+0.20, vmic=1.1),
     'b': dict(name='alpha Cen B', teff=5231, logg=4.53, feh=+0.20, vmic=1.0),
 }
+
+# Local 'a'/'b' band-key -> Codex STAR_PARAMS star_id, so the RYA-321 metallicity
+# gate reads the catalog [Fe/H] live from constants.STAR_PARAMS (never hardcoded).
+CODEX_STAR_ID = {'a': 'alpha_cen_a', 'b': 'alpha_cen_b'}
 
 # Each star expects four disjoint bands spanning 1150-17000 Å. A band is
 # "present" once Ryan drops its .gz into the star's VALD folder; the per-system
@@ -182,7 +189,7 @@ def intake_one(star, band, gz_path):
     req_lo, req_hi = BAND_RANGE[band]
     row = dict(star=star.upper(), band=band, file=gz_path.name,
                requested=f'{req_lo:.0f}-{req_hi:.0f}', truncated='', parsed='',
-               coverage='', hfs_pct='', verdict='')
+               coverage='', hfs_pct='', metallicity='', verdict='')
 
     if not gz_path.exists():
         row['verdict'] = 'MISSING'
@@ -212,7 +219,22 @@ def intake_one(star, band, gz_path):
     row['hfs_pct'] = f'{frac*100:.0f}% ({in_grp}/{total})'
     row['_hfs_detail'] = detail
 
-    # 5. verdict
+    # 5. metallicity gate (RYA-321) — VALD must have applied the star's catalog
+    # [Fe/H], not the solar default; a solar-default metal-rich delivery has an
+    # under-selected weak-line pool. feh_ref read live from constants.STAR_PARAMS.
+    met_verdict, met_msg = verify_metallicity(
+        raw_txt, CODEX_STAR_ID[star], CODEX_STAR_PARAMS)
+    found_mh = parse_vald_model_metallicity(raw_txt)
+    expected_feh = CODEX_STAR_PARAMS[CODEX_STAR_ID[star]]['feh_ref']
+    mh_str = f'{found_mh:+.2f}' if found_mh is not None else 'none'
+    row['metallicity'] = (f'{mh_str} OK' if met_verdict == 'ACCEPT'
+                          else f'{mh_str} ✗ (≠{expected_feh:+.2f})')
+    row['_met_msg'] = met_msg
+
+    # 6. verdict — ACCEPT only if HFS AND metallicity both pass.
+    if met_verdict == 'REJECT':
+        row['verdict'] = 'REJECT (metallicity)'
+        return None, row
     if total == 0:
         row['verdict'] = 'ACCEPT (HFS inconclusive — no capable lines)'
     elif frac >= 0.40:
@@ -300,7 +322,7 @@ def main():
                 rows.append(dict(star=star.upper(), band=band, file='—',
                                  requested=f'{BAND_RANGE[band][0]:.0f}-{BAND_RANGE[band][1]:.0f}',
                                  truncated='', parsed='', coverage='',
-                                 hfs_pct='', verdict='NOT SUBMITTED'))
+                                 hfs_pct='', metallicity='', verdict='NOT SUBMITTED'))
                 continue
             recs, row = intake_one(star, band, gz)
             rows.append(row)
@@ -310,7 +332,7 @@ def main():
     # ---- intake table ----
     print("\nINTAKE GATE")
     cols = ['star', 'band', 'file', 'requested', 'truncated', 'parsed',
-            'coverage', 'hfs_pct', 'verdict']
+            'coverage', 'hfs_pct', 'metallicity', 'verdict']
     tbl = pd.DataFrame(rows)[cols]
     with pd.option_context('display.max_colwidth', 40, 'display.width', 200):
         print(tbl.to_string(index=False))
