@@ -134,6 +134,33 @@ def _in_grid(teff: float, logg: float, afe3n: float, vmic: float) -> bool:
     )
 
 
+# ── Bounded Teff clamp (RYA-317) ──────────────────────────────────────────────
+# The Amarsi grid tops out at Teff 6500 K, but Procyon (6554 K, Heiter GBS) sits
+# 54 K above it — so RYA-309 found 0 Fe lines corrected and the star silently
+# dropped to LTE. Rather than abandon NLTE for a 54 K overshoot, clamp Teff to the
+# grid edge for the NLTE lookup ONLY, and ONLY when the overshoot is within
+# NLTE_TEFF_CLAMP_MARGIN_K — a BOUNDED edge-evaluation, not open-ended: a star far
+# above the grid still returns NaN (fail loud), never a silent extrapolation.
+#
+# Induced error = (NLTE Teff gradient) × (overshoot). MEASURED on Procyon's 102
+# Fe I lines (RYA-317): aberr(6400) vs aberr(6500) → median |dΔ/dTeff| = 1.4e-4
+# dex/K (worst line 5.1e-4). So the 54 K clamp shifts the ENSEMBLE median A(Fe) by
+# 54 × 1.4e-4 ≈ 0.008 dex ≪ the 0.02 dex gate — negligible vs NLTE itself
+# (~0.03-0.10 dex). (Worst single line ~0.028 dex, but the abundance is the
+# median over ~100 lines.) Clamped lines carry the NLTE_Teff_clamped_6500 flag so
+# the approximation is never silent.
+NLTE_TEFF_CLAMP_MARGIN_K = 100.0
+
+
+def _clamp_teff(teff: float) -> tuple:
+    """Return (teff_eff, clamped). Clamp a small Teff overshoot to the grid edge;
+    leave anything beyond the margin untouched (it will fail _in_grid → NaN)."""
+    tmax = _GRID['teff'][1]
+    if tmax < teff <= tmax + NLTE_TEFF_CLAMP_MARGIN_K:
+        return tmax, True
+    return teff, False
+
+
 # ── Per-line correction ───────────────────────────────────────────────────────
 
 def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
@@ -144,11 +171,12 @@ def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
     Returns aberr = A(Fe;1D) − A(Fe;3D) in dex.
     NaN if outside grid or model unavailable.
     """
-    if not _in_grid(teff, logg, afe3n, vmic):
+    teff_eff, _ = _clamp_teff(teff)   # RYA-317: bounded Teff-edge clamp for NLTE lookup
+    if not _in_grid(teff_eff, logg, afe3n, vmic):
         return np.nan
     try:
         models = _get_models()
-        X = np.array([[teff, logg, afe3n, vmic, elo, eup, loggf]])
+        X = np.array([[teff_eff, logg, afe3n, vmic, elo, eup, loggf]])
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             if ion == 'II':
@@ -223,6 +251,15 @@ def apply_fe_nlte_corrections(
     teff = float(stellar_params.get('teff_K', 5777))
     logg = float(stellar_params.get('logg',   4.44))
     vmic = float(stellar_params.get('vturb_kms', 1.0))
+
+    # RYA-317: flag a bounded Teff-edge clamp so it is recorded, never silent.
+    _, _teff_clamped = _clamp_teff(teff)
+    _nlte_flag = ('3D_NLTE_Amarsi2022_Teff_clamped_6500'
+                  if _teff_clamped else '3D_NLTE_Amarsi2022')
+    if _teff_clamped:
+        print(f"  NLTE: Teff {teff:.0f} K clamped to grid edge "
+              f"{_GRID['teff'][1]:.0f} K for the Fe NLTE lookup (RYA-317; "
+              f"gradient error ~0.01 dex ≪ 0.02 gate).")
 
     regions = _load_nlte_regions()
 
@@ -308,7 +345,7 @@ def apply_fe_nlte_corrections(
             result.at[idx, 'n_nlte_lines']    = n_corrected
             result.at[idx, 'A_X_nlte']        = round(a_nlte_mean, 3)
             result.at[idx, 'A_X_std_nlte']    = round(a_nlte_std, 3) if np.isfinite(a_nlte_std) else np.nan
-            result.at[idx, 'nlte_flag']        = '3D_NLTE_Amarsi2022'
+            result.at[idx, 'nlte_flag']        = _nlte_flag
             result.at[idx, 'nlte_ref']         = 'Amarsi+2022_A&A_668_A68'
 
         # ── Legacy mean-field path (no per_line_df) ───────────────────────────
@@ -353,7 +390,7 @@ def apply_fe_nlte_corrections(
                 result.at[idx, 'delta_nlte_mean'] = round(mean_delta, 4)
                 result.at[idx, 'n_nlte_lines']    = len(aberrs)
                 result.at[idx, 'A_X_nlte']        = round(a_nlte, 3)
-                result.at[idx, 'nlte_flag']        = '3D_NLTE_Amarsi2022'
+                result.at[idx, 'nlte_flag']        = _nlte_flag
                 result.at[idx, 'nlte_ref']         = 'Amarsi+2022_A&A_668_A68'
             else:
                 print(f"  Fe {ion}: no lines matched in NLTE grid — 1D LTE retained")
