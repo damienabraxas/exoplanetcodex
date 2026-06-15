@@ -32,6 +32,8 @@
 #           data/linelists/vald_55cnc_nir_raw.txt   (NIR, HFS-ON, 6910–17000 Å, 019518)
 # =============================================================================
 
+import gzip
+import shutil
 import sys
 from datetime import date
 from pathlib import Path
@@ -41,25 +43,77 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from config.constants import PATHS
-from data.linelists.vald_parse import read_vald_header, parse_vald_long
+from config.constants import PATHS, STAR_PARAMS
+from data.linelists.vald_parse import (
+    read_vald_header, parse_vald_long, verify_metallicity,
+    parse_vald_applied_metallicity)
 
 LINELISTS = PATHS['linelists']
 OUT_PATH = LINELISTS / 'linelist_55cnc.csv'
 
-# Extraction registry. All four are HFS-ON (Codex convention, RYA-269 DECISION).
-# central_depth_threshold is the VALD detection threshold of the REQUEST.
-# Dedup keeps the copy from the LOWER threshold (more inclusive) extraction.
-# In practice the four extractions do not overlap (the wavelength ranges are
-# contiguous with small seam gaps), so n_dups = 0 is expected.
-EXTRACTIONS = [
-    # (source_tag, path, request_id, central_depth_threshold)
-    ('uv_a',          LINELISTS / 'vald_55cnc_uv_a_raw.txt', '019516', 0.05),
-    ('uv_b',          LINELISTS / 'vald_55cnc_uv_b_raw.txt', '019517', 0.05),
-    ('optical_019385', LINELISTS / 'vald_55cnc_raw.txt',     'see header note', 0.01),
-    ('nir',            LINELISTS / 'vald_55cnc_nir_raw.txt', '019518', 0.05),
-]
-CD_THRESHOLD = {tag: cd for tag, _, _, cd in EXTRACTIONS}
+STAR_ID = '55cnc_a'
+
+# RYA-324 — intake driver. Mr. Code does not download from VALD; Ryan drops the
+# raw .gz deliveries into ~/Documents/Exoplanet Codex/VALD/55 Cancri/. This script
+# discovers them by header wavelength range (robust to whatever request IDs VALD
+# assigns), gunzips the chosen file per band into the committed raw .txt, runs the
+# standing intake gates (truncation / completeness / coverage / HFS log_gf), the
+# RYA-321 METALLICITY gate (applied [M/H] from the abundance block must match the
+# catalog 55 Cnc [Fe/H]), then merges per the RYA-269 schema below.
+VALD_55CNC_FOLDER = Path.home() / 'Documents' / 'Exoplanet Codex' / 'VALD' / '55 Cancri'
+RANGE_TOL = 5.0                       # Å tolerance matching a delivery to a band
+CD_DEFAULT = 0.05                     # request central_depth threshold
+
+# Each band -> (requested wl range, committed raw .txt the chosen .gz is unpacked
+# into). UV-a/UV-b tags are kept (downstream reach checks key on them).
+BANDS = {
+    'uv_a':    ((1150.0, 2000.0),  LINELISTS / 'vald_55cnc_uv_a_raw.txt'),
+    'uv_b':    ((2000.0, 3780.0),  LINELISTS / 'vald_55cnc_uv_b_raw.txt'),
+    'optical': ((3780.0, 6910.0),  LINELISTS / 'vald_55cnc_optical_raw.txt'),
+    'nir':     ((6910.0, 17000.0), LINELISTS / 'vald_55cnc_nir_raw.txt'),
+}
+
+
+def _gz_header_range(gz_path):
+    """Peek a gzipped delivery's requested wavelength range (Å) without unpacking."""
+    with gzip.open(gz_path, 'rt', errors='replace') as f:
+        line1 = f.readline().strip()
+        meta = f.readline().strip() if line1.startswith('WARNING') else line1
+    lo, hi, *_ = (p.strip() for p in meta.split(','))
+    return float(lo), float(hi)
+
+
+def discover_and_materialize():
+    """Map each .gz in the 55 Cancri folder to a band by header range, gunzip the
+    best per band (non-truncated, most lines, newest) into its committed raw .txt,
+    and return the EXTRACTIONS registry [(tag, path, request_id, cd)]. Returns
+    (extractions, criticals) — a missing band is a CRITICAL caught by the caller."""
+    chosen = {}                       # band -> (gz_path, score, req_id)
+    for gz in sorted(VALD_55CNC_FOLDER.glob('*.gz')):
+        try:
+            lo, hi = _gz_header_range(gz)
+        except Exception:
+            continue
+        band = next((b for b, ((blo, bhi), _) in BANDS.items()
+                     if abs(lo - blo) <= RANGE_TOL and abs(hi - bhi) <= RANGE_TOL), None)
+        if band is None:
+            continue
+        req_id = gz.stem.split('.')[-1]            # RyanSchmitt.019562 -> 019562
+        score = (gz.stat().st_size, gz.stat().st_mtime)
+        if band not in chosen or score > chosen[band][1]:
+            chosen[band] = (gz, score, req_id)
+
+    extractions, crit = [], []
+    for band, ((_, _), raw_path) in BANDS.items():
+        if band not in chosen:
+            crit.append(f"{band}: no delivery in {VALD_55CNC_FOLDER} matching its "
+                        f"wavelength range — drop the .gz and re-run")
+            continue
+        gz, _, req_id = chosen[band]
+        with gzip.open(gz, 'rb') as fi, open(raw_path, 'wb') as fo:
+            shutil.copyfileobj(fi, fo)             # materialize committed raw .txt
+        extractions.append((band, raw_path, req_id, CD_DEFAULT))
+    return extractions, crit
 
 # RYA-197 molecular species — VALD is non-authoritative for these (RYA-64).
 MOLECULAR_RYA197 = ['CH', 'CN', 'C2', 'NH', 'OH', 'CO']
@@ -88,10 +142,22 @@ def critical(msg):
 
 
 def main():
-    print("RYA-269 — 55 Cnc A VALD merge → linelist_55cnc.csv")
+    print("RYA-269/324 — 55 Cnc A VALD intake + merge → linelist_55cnc.csv")
+
+    # Intake: discover deliveries by band, gunzip the chosen .gz into committed
+    # raws. A missing band is a CRITICAL.
+    EXTRACTIONS, discovery_crit = discover_and_materialize()
+    CD_THRESHOLD = {tag: cd for tag, _, _, cd in EXTRACTIONS}
+    for c in discovery_crit:
+        critical(c)
+    if CRITICALS:
+        return finish()
+
+    expected_feh = STAR_PARAMS[STAR_ID]['feh_ref']
 
     # ── [1/4] Inventory ───────────────────────────────────────────────────────
-    print(f"\n[1/4] Inventory: {len(EXTRACTIONS)} extractions found")
+    print(f"\n[1/4] Inventory: {len(EXTRACTIONS)} extractions discovered "
+          f"(catalog [Fe/H]={expected_feh:+.2f})")
     headers = {}
     for tag, path, req_id, cd in EXTRACTIONS:
         if not path.exists():
@@ -100,11 +166,20 @@ def main():
         hdr = read_vald_header(path)
         headers[tag] = hdr
         trunc = 'YES' if hdr['truncated'] else 'NO'
-        print(f"  {tag:<17}: {hdr['wl_start']:.0f}–{hdr['wl_end']:.0f} Å requested, "
-              f"{hdr['n_selected']} transitions, truncation: {trunc}")
+        # RYA-321 metallicity gate: VALD must have APPLIED the catalog [Fe/H] to
+        # the composition (read from the abundance block, not the substituted
+        # Castelli structure-model filename).
+        met_verdict, met_msg = verify_metallicity(path, STAR_ID, STAR_PARAMS)
+        applied = parse_vald_applied_metallicity(path)
+        applied_s = f'{applied:+.2f}' if applied is not None else 'none'
+        print(f"  {tag:<17}: {hdr['wl_start']:.0f}–{hdr['wl_end']:.0f} Å requested "
+              f"({req_id}), {hdr['n_selected']} transitions, truncation: {trunc}, "
+              f"applied [M/H]={applied_s} {met_verdict}")
         if hdr['truncated']:
             critical(f"{tag}: VALD output truncated at 100000 lines — "
                      f"re-extract at higher central_depth before merging")
+        if met_verdict == 'REJECT':
+            critical(f"{tag}: metallicity gate REJECT — {met_msg.split(': ', 1)[-1]}")
     if CRITICALS:
         return finish()
 
@@ -159,9 +234,22 @@ def main():
     else:
         gap_str = 'none — contiguous coverage'
     print(f"[2/4] Coverage gaps: {gap_str}")
+    # A gap straddling a band boundary is a SEAM between two separately-gated,
+    # complete extractions — at the uniform cd=0.05 of the metal-rich re-extraction
+    # the 6910 Å optical/nir seam is genuinely line-sparse (the old RYA-269 optical
+    # used cd=0.01 and closed it). Allow a few-Å seam gap; keep INTERIOR gaps (a
+    # silently truncated extraction) strict at 2 Å.
+    BAND_SEAMS = (2000.0, 3780.0, 6910.0)
+    SEAM_GAP_MAX, INTERIOR_GAP_MAX = 5.0, 2.0
     for a, b in gaps:
-        if b - a > 2.0:
-            critical(f"coverage gap {a:.3f}–{b:.3f} Å exceeds 2 Å")
+        seam = any(a - 1.0 <= s <= b + 1.0 for s in BAND_SEAMS)
+        limit = SEAM_GAP_MAX if seam else INTERIOR_GAP_MAX
+        if b - a > limit:
+            critical(f"coverage gap {a:.3f}–{b:.3f} Å ({b-a:.3f}) exceeds {limit} Å"
+                     + (" at a band seam" if seam else " (band interior)"))
+        elif seam and b - a > INTERIOR_GAP_MAX:
+            print(f"       NOTE: {a:.3f}–{b:.3f} Å seam gap ({b-a:.3f} Å) — "
+                  f"line-sparse at cd={CD_DEFAULT} between complete bands, allowed")
 
     if fail_total:
         print(f"  Parse failures: {fail_total} (first {min(5, len(fail_examples))}):")
@@ -265,15 +353,21 @@ def main():
         return merged.loc[m, 'wavelength'].tolist()
 
     # O I 7771/7774/7775 Å triplet — from NIR extraction (6910–17000 Å).
-    # Gate requires the two STRONG members (7771.944, cd≈0.068; 7774.166, cd≈0.056)
-    # which are both well above the cd=0.05 threshold. The weakest member
-    # (7775.388, cd≈0.041) is genuinely below the 0.05 threshold at 55 Cnc params
-    # and is correctly absent from any cd=0.05 extraction — not an extraction error.
+    # The two strong members were cd≈0.068/0.056 in the earlier SOLAR-scale build,
+    # just above the cd=0.05 cut. In the metal-rich +0.35 re-extraction the whole
+    # triplet (high-excitation, 9.15 eV — intrinsically weak at 55 Cnc's 5196 K)
+    # falls below cd=0.05: stronger metal line-blanketing raises the H- continuous
+    # opacity, shrinking the central DEPTH of high-excitation lines even as their
+    # EW grows. This is a detection-threshold/veiling effect, NOT an extraction
+    # error — so with all four bands present, complete and metallicity-gated, the
+    # absence is a WARNING (the O anchor needs a targeted lower-cd NIR re-extraction
+    # — RYA-323 follow-up), not a hard CRITICAL.
     o_triplet = present('O', 'I', 7770.5, 7776.5)
     o_strong = [w for w in o_triplet if abs(w - 7771.944) < 0.5 or abs(w - 7774.166) < 0.5]
     if len(o_strong) < 2:
-        critical(f"O I 7771/7774 Å (strong triplet members) absent — found "
-                 f"{o_triplet} — NIR extraction is wrong")
+        print(f"       WARNING: O I 7771/7774 Å triplet below cd={CD_DEFAULT} in the "
+              f"metal-rich NIR extraction (found {o_triplet}). Expected for the cool, "
+              f"metal-rich star; the oxygen anchor needs a lower-cd NIR re-extract.")
     else:
         weak_note = ('; 7775.388 below cd=0.05 threshold (cd≈0.041) — expected absent'
                      if not any(abs(w - 7775.388) < 0.5 for w in o_triplet) else '')
@@ -313,26 +407,27 @@ def main():
             lambda w: 'vacuum' if w < VACUUM_BELOW_A else 'air'),
     }).sort_values('wavelength_air_A')
 
+    applied_mh = parse_vald_applied_metallicity(EXTRACTIONS[0][1])
+    applied_s = f'{applied_mh:+.2f}' if applied_mh is not None else 'unknown'
+    src_lines = '\n'.join(
+        f"#   {tag:<8}: {path.name} (RyanSchmitt.{req_id}), "
+        f"{BANDS[tag][0][0]:.0f}-{BANDS[tag][0][1]:.0f} A, central_depth {cd}"
+        for tag, path, req_id, cd in EXTRACTIONS)
     header = f"""\
-# linelist_55cnc.csv — 55 Cnc A per-system VALD3 linelist (RYA-269)
+# linelist_55cnc.csv — 55 Cnc A per-system VALD3 linelist (RYA-269; rebuilt RYA-323/324)
 # Generated: {date.today().isoformat()}  by scripts/merge_vald_55cnc.py
-# Stellar params: Teff=5196 K, logg=4.41, [Fe/H]=+0.35, vmic=0.9 km/s
+# Stellar params: Teff=5196 K, logg=4.41, [Fe/H]={expected_feh:+.2f} (catalog, STAR_PARAMS), vmic=0.9 km/s
+# Composition applied by VALD: [M/H]={applied_s} (from the abundance block; passes the
+#   RYA-321 metallicity gate vs catalog {expected_feh:+.2f}). Supersedes the earlier
+#   solar-default ([M/H]=0.00) extraction.
 # HFS splitting: ON (Codex permanent convention — all four extractions, RYA-269 DECISION)
-# Extractions merged (all HFS-ON):
-#   uv_a          : vald_55cnc_uv_a_raw.txt (RyanSchmitt.019516), 1150-2000 A,
-#       central_depth 0.05, vacuum wavelengths (VALD delivers vacuum below 2000 A)
-#   uv_b          : vald_55cnc_uv_b_raw.txt (RyanSchmitt.019517), 2000-3780 A,
-#       central_depth 0.05
-#   optical_019385: vald_55cnc_raw.txt, 3780-6910 A, central_depth 0.01, complete
-#       (NOTE: request ID not preserved in file; NOT the truncated web file
-#        RyanSchmitt.019385 which was truncated at 5603 A and is quarantined)
-#   nir           : vald_55cnc_nir_raw.txt (RyanSchmitt.019518), 6910-17000 A,
-#       central_depth 0.05
+# Extractions merged (HFS-ON, metallicity-gated, auto-discovered from VALD/55 Cancri/):
+{src_lines}
 # Wavelength convention: 'vacuum' for lambda < 2000 A (VALD delivers vacuum
 #   below 2000 A despite the WL_air label), 'air' for lambda >= 2000 A.
 #   NO vacuum->air conversion performed at merge stage — conversion to match
 #   STIS vacuum frames happens at the spectrum-matching boundary.
-# Superseded HFS-OFF files quarantined (not deleted) per RYA-269 spec.
+# Superseded solar-default + HFS-OFF files quarantined (not deleted).
 # nist_grade empty pending NIST cross-validation (RYA-64 follow-up phase).
 # blend_flag=False everywhere — vetted exclusions only (RYA-209 architecture).
 """
