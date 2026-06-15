@@ -50,8 +50,10 @@ def grid_params():
     for t in TEFF_GRID:
         for g in LOGG_GRID:
             for f in FEH_GRID:
-                rows.append({'name': f'T{t}g{int(g*100):03d}f{int(f*100):+04d}',
-                             'teff_K': t, 'logg': g, 'feh': f})
+                # MPIA rejects '+'/'-' in the starname ("Bad starname"); use the
+                # m/p suffix convention from build_nlte_grids_mpia.py (no sign chars).
+                tag = f'T{t:04d}g{int(g*100):03d}f{int(abs(f)*100):03d}{"m" if f < 0 else "p"}'
+                rows.append({'name': tag, 'teff_K': t, 'logg': g, 'feh': f})
     return rows
 
 
