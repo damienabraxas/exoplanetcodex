@@ -151,72 +151,103 @@ def parse_vald_long(path, max_examples=5):
 # =============================================================================
 # RYA-321 — metallicity intake gate
 # -----------------------------------------------------------------------------
-# A metal-rich star extracted at the solar default under-selects weak metal
-# lines (an incomplete pool, worst for trace / neutron-capture species), because
-# VALD computes line selection from a model atmosphere at the requested
-# composition. The composition is set via the "Extract Stellar" form's free-text
-# Chemical composition field ('M/H: <value>'); this was discovered missing on
-# 2026-06-14, so the metal-rich deliveries (α Cen A/B, 55 Cnc) likely ran solar.
+# A metal-rich star extracted at the solar default under-selects weak metal lines
+# (an incomplete pool, worst for trace / neutron-capture species), because VALD
+# selects lines from the stellar atmosphere at the requested COMPOSITION. The
+# composition is set via the "Extract Stellar" form's free-text Chemical
+# composition field ('M/H: <value>').
 #
-# SPEC DEVIATION (recon-driven, RYA-321 Smoke Test step 1): the issue assumed an
-# 'M/H:' token in the request HEADER. The real VALD3 Long Format deliveries echo
-# NO composition in the header (lines 1-3 = wavelength region / column titles
-# only). VALD records the composition it actually used solely in the
-# model-atmosphere block near the FOOTER, as the Castelli/Kurucz grid filename:
+# WHERE TO READ THE APPLIED [M/H] (corrected 2026-06-15 from the job.019562 email
+# + delivery): NOT the Castelli model filename. VALD splits the request into two
+# things:
+#   * model-atmosphere STRUCTURE — a Castelli/Kurucz grid node. When VALD lacks
+#     the exact metal-rich structure it substitutes the solar-structure node and
+#     stamps 'castelli_ap00k2_...' in the footer (with a "VALD does not have the
+#     exact model, will use ... instead" line in the job email) EVEN WHEN M/H was
+#     applied. So the filename is the WRONG signal — it false-rejects correct
+#     metal-rich extractions. (Earlier RYA-321 audit read the filename and wrongly
+#     concluded α Cen / 55 Cnc were solar-default; they were not.)
+#   * COMPOSITION — the element abundance block that follows the filename, where
+#     ALL metals are uniformly offset from VALD's solar scale by the requested
+#     [M/H] (H, He fixed). This IS what drove line selection. We read it here.
 #
-#     'castelli_ap00k2_T05750G45.krz'
-#               └┬─┘                     [M/H] token: a + sign(p/m) + |[M/H]|*10
-#                                        ap00 = +0.0   ap02 = +0.2   ap05 = +0.5
-#                                        am05 = -0.5   am25 = -2.5
-#
-# followed by an element abundance block ('Fe: -4.54' = solar A(Fe) scale) that
-# independently confirms the grid node. We parse the grid token — it is exactly
-# "what VALD used", which is what this gate must verify. The parser is therefore
-# named *_model_metallicity (footer), not *_header_metallicity as the spec drafted.
-_CASTELLI_RE = re.compile(r'castelli_a([pm])(\d{2})k\d', re.IGNORECASE)
+# VALD's solar reference abundances (log N_X/N_tot, the [M/H]=0 block, taken from
+# vald_solar_raw.txt). Applied [M/H] = delivered abundance - this reference,
+# averaged over these metals (they agree exactly under uniform scaling). This is a
+# property of VALD's line-selection solar scale (like TRUNCATION_WARNING), NOT a
+# per-star metallicity, so it does not violate the no-hardcoded-metallicity rule
+# (that rule binds feh_ref, still read live from STAR_PARAMS).
+_VALD_SOLAR_ABUND = {
+    'Na': -5.71, 'Mg': -4.46, 'Si': -4.49, 'Ca': -5.68,
+    'Ti': -7.02, 'Cr': -6.37, 'Fe': -4.54, 'Ni': -5.79,
+}
 
-# Discrete [M/H] nodes of the Castelli & Kurucz (2003) ODFNEW grid that VALD3
-# serves. VALD delivers the NEAREST node to the requested composition, so a
-# faithful extraction of a +0.31 star is served as the +0.2 node. The gate
-# therefore compares the delivered node against the nearest node to the catalog
-# [Fe/H] — not the raw catalog value, which is finer than the grid can express
-# (this also lets Procyon's +0.03 ACCEPT against the 0.0 node). These nodes are a
-# property of the VALD model library, NOT a per-star metallicity, so listing them
-# does not violate the no-hardcoded-metallicity rule (that rule binds feh_ref,
-# which is still read live from STAR_PARAMS below).
-_CASTELLI_MH_NODES = (-2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.2, 0.5)
+# Quoted 'El: -x.xx' tuples of the abundance block (e.g. 'Fe: -4.54', 'V : -8.04').
+# Transition records ('Fe 1', 3780,...) have no colon after the element, so they
+# do not match.
+_ABUND_RE = re.compile(r"'([A-Z][a-z]?)\s*:\s*(-?\d+\.\d+)'")
 
 
-def parse_vald_model_metallicity(path):
-    """Return the [M/H] of the Castelli model atmosphere VALD used, or None.
+def applied_metallicity_from_lines(lines, max_spread=0.03):
+    """Core: compute applied [M/H] from an iterable of text lines (so a caller can
+    stream a .gz without decompressing to disk). See parse_vald_applied_metallicity
+    for semantics. Returns the mean metal offset, or None."""
+    found = {}
+    for line in lines:
+        for el, val in _ABUND_RE.findall(line):
+            if el in _VALD_SOLAR_ABUND and el not in found:
+                found[el] = float(val)
+        if len(found) == len(_VALD_SOLAR_ABUND):
+            break
+    if not found:
+        return None
+    offsets = [found[el] - _VALD_SOLAR_ABUND[el] for el in found]
+    if max(offsets) - min(offsets) > max_spread:
+        return None
+    return sum(offsets) / len(offsets)
 
-    Scans for the model-atmosphere grid filename anywhere in the file (it sits in
-    the footer block, after the transition records). See _CASTELLI_RE for the
-    token format. Returns None if no grid filename is present (cannot verify).
-    """
+
+def parse_vald_applied_metallicity(path, max_spread=0.03):
+    """Return the [M/H] VALD applied to the composition (from the footer abundance
+    block), or None if it cannot be read. Computed as the mean offset of the
+    reference metals (_VALD_SOLAR_ABUND) from VALD's solar scale. The per-element
+    offsets must agree to within `max_spread` (VALD scales all metals uniformly);
+    a larger spread means a parse error or a changed solar reference, so we return
+    None (fail loud — do not trust a half-read block)."""
+    with open(path, errors='replace') as f:
+        return applied_metallicity_from_lines(f, max_spread)
+
+
+def parse_vald_structure_grid(path):
+    """Informational: the [M/H] of the Castelli STRUCTURE model VALD used (footer
+    'castelli_apNNk2_...' filename), or None. This is the atmosphere structure
+    node, NOT the applied composition (see module note) — used only to report when
+    VALD substituted a solar-structure model. Do NOT gate on this."""
+    m = None
+    rx = re.compile(r'castelli_a([pm])(\d{2})k\d', re.IGNORECASE)
     with open(path, errors='replace') as f:
         for line in f:
-            m = _CASTELLI_RE.search(line)
+            m = rx.search(line)
             if m:
                 sign = -1.0 if m.group(1).lower() == 'm' else 1.0
                 return sign * int(m.group(2)) / 10.0
     return None
 
 
-def _nearest_castelli_node(feh):
-    """Nearest Castelli [M/H] grid node to a continuous catalog [Fe/H]."""
-    return min(_CASTELLI_MH_NODES, key=lambda n: abs(n - feh))
+def verify_metallicity(path, star_id, star_params, tol=0.05):
+    """Intake gate: the [M/H] VALD APPLIED to the composition must match the star's
+    catalog [Fe/H]. Source of truth is STAR_PARAMS[star_id]['feh_ref'] (RYA-292) —
+    never hardcoded. A missing record (no STAR_PARAMS entry, or no abundance block
+    in the delivery) REJECTs loudly: cannot verify == do not trust, no silent
+    fallback. Returns (verdict, message).
 
+    tol defaults to 0.05 dex (~1σ on the GBS [Fe/H]); the composition is applied
+    continuously so this only needs to absorb reasonable reference differences
+    (e.g. a +0.35 vs catalog +0.31 [Fe/H] choice), while still catching a true
+    solar-default extraction (|Δ| ≈ the star's [Fe/H], ≥0.2 for our metal-rich set).
 
-def verify_metallicity(path, star_id, star_params, tol=0.02):
-    """Intake gate: the metallicity VALD applied (Castelli grid node) must match
-    the nearest grid node to the star's catalog [Fe/H]. Source of truth is
-    STAR_PARAMS[star_id]['feh_ref'] (RYA-292) — never hardcoded. A missing record
-    (no STAR_PARAMS entry, or no grid filename in the delivery) REJECTs loudly:
-    cannot verify == do not trust, no silent fallback. Returns (verdict, message).
-
-    NB: the spec drafted the lookup as STAR_PARAMS[...]['feh'], but the live
-    record key is 'feh_ref' (the catalog [Fe/H]; [Fe/H] is solved, not pinned).
+    NB: the spec drafted the lookup as STAR_PARAMS[...]['feh'], but the live record
+    key is 'feh_ref' (the catalog [Fe/H]; [Fe/H] is solved, not pinned).
     """
     rec = star_params.get(star_id)
     if not rec or 'feh_ref' not in rec:
@@ -224,20 +255,18 @@ def verify_metallicity(path, star_id, star_params, tol=0.02):
                 f"{path}: no STAR_PARAMS[{star_id}].feh_ref — cannot verify "
                 f"metallicity. Wire the star into STAR_PARAMS (RYA-292) first.")
     catalog = float(rec['feh_ref'])
-    expected = _nearest_castelli_node(catalog)
-    found = parse_vald_model_metallicity(path)
+    found = parse_vald_applied_metallicity(path)
     if found is None:
         return ('REJECT',
-                f"{path}: no model-atmosphere metallicity recorded — cannot "
-                f"confirm composition (catalog [Fe/H]={catalog:+.2f}). Re-extract "
-                f"with 'M/H: {catalog:+.2f}' in Chemical composition AND a CODEX "
-                f"stamp in the Optional comment field.")
-    if abs(found - expected) > tol:
+                f"{path}: no composition (abundance block) readable — cannot "
+                f"confirm applied [M/H] (catalog [Fe/H]={catalog:+.2f}). Re-extract "
+                f"with 'M/H: {catalog:+.2f}' in the Chemical composition field.")
+    if abs(found - catalog) > tol:
         return ('REJECT',
-                f"{path}: METALLICITY MISMATCH — VALD used M/H={found:+.2f} "
-                f"(Castelli node), catalog [Fe/H]={catalog:+.2f} → nearest node "
-                f"{expected:+.2f} (|Δ|={abs(found - expected):.2f} > {tol}). "
-                f"Re-extract with 'M/H: {catalog:+.2f}' in Chemical composition.")
+                f"{path}: METALLICITY MISMATCH — VALD applied [M/H]={found:+.2f}, "
+                f"catalog [Fe/H]={catalog:+.2f} (|Δ|={abs(found - catalog):.2f} > "
+                f"{tol}). Re-extract with 'M/H: {catalog:+.2f}' in Chemical "
+                f"composition.")
     return ('ACCEPT',
-            f"{path}: metallicity OK (VALD M/H={found:+.2f} = nearest Castelli "
-            f"node to catalog {catalog:+.2f}).")
+            f"{path}: metallicity OK (VALD applied [M/H]={found:+.2f} vs catalog "
+            f"{catalog:+.2f}, |Δ|={abs(found - catalog):.2f}).")
