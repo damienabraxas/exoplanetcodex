@@ -1,8 +1,17 @@
 """
 pipeline/nlte_corrections.py
 ============================
-Apply 3D non-LTE corrections to 1D LTE Fe I/II abundances.
+Apply non-LTE corrections to 1D LTE Fe I/II abundances.
 
+LIVE Fe NLTE source (RYA-319): MPIA Spectrum Tools / Bergemann mafags-os **1D
+NLTE** grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) — covers the full benchmark
+box (Procyon Teff, α Cen A A(Fe), α Cen B logg, 55 Cnc), interpolated per Fe
+line over (teff,logg,feh) via _mpia_fe_delta / apply_fe_nlte_corrections.
+The Amarsi 3D-NLTE MLP below (Teff≤6500 ceiling) is ARCHIVED — kept only for the
+solar 3D-vs-1D cross-check (RYA-283). Trade: 3D→1D, ≲0.05 dex at metal-rich
+targets (Amarsi 2022 Fig 7), accepted for single-methodology coverage.
+
+Archived Amarsi reference (the MLP functions, no longer the live correction):
 Corrections from Amarsi, Liljegren & Nissen 2022 (A&A 668, A68).
 Neural network implementation by Liljegren (github.com/sliljegren/1L-3NErrors).
 Three multi-layer perceptrons trained on STAGGER-grid 3D NLTE models:
@@ -187,6 +196,74 @@ def _apply_aberr_to_line(ion: str, elo: float, eup: float, lggf: float,
     return ab
 
 
+# ── MPIA/Bergemann Fe NLTE grid (RYA-319) — the LIVE Fe NLTE source ───────────
+# Full switch from the Amarsi MLP (3D NLTE, Teff≤6500 ceiling — degraded at the
+# edge, gave Procyon Fe I −0.3) to the MPIA Spectrum Tools / Bergemann mafags-os
+# 1D NLTE grid, which covers the full benchmark box (Procyon Teff, α Cen A A(Fe),
+# α Cen B logg, 55 Cnc). Grid = data/nlte_grids/Fe_Bergemann_MPIA.csv, keyed
+# (ion, wave_A, teff, logg, feh) → delta_nlte. For each Fe line we interpolate
+# delta over (teff,logg,feh) at the line's own wavelength; outside the convex
+# hull → NaN (in-grid handled naturally, no clamp). The Amarsi MLP functions
+# above (_load_models/_compute_aberr/_apply_aberr_to_line/_in_grid) are ARCHIVED
+# — retained ONLY for the solar 3D-vs-1D cross-check (RYA-283), not the live
+# correction. Trade: 3D→1D NLTE, ≲0.05 dex at our metal-rich targets (Amarsi
+# 2022 Fig 7), accepted for single-methodology coverage (RYA-319 decision).
+_MPIA_FE_GRID = _REPO_ROOT / 'data' / 'nlte_grids' / 'Fe_Bergemann_MPIA.csv'
+_mpia_cache: dict = {}
+
+
+def _load_mpia_fe_grid() -> dict:
+    """Build per-(ion, wave) LinearNDInterpolator over (teff, logg, feh)."""
+    if 'interp' in _mpia_cache:
+        return _mpia_cache
+    from scipy.interpolate import LinearNDInterpolator
+    df = pd.read_csv(_MPIA_FE_GRID)
+    df = df[df['delta_nlte'].notna()]
+    interp, waves = {}, {'I': [], 'II': []}
+    for (ion, wave), g in df.groupby(['ion', 'wave_A']):
+        pts = g[['teff_K', 'logg', 'feh']].values
+        if len(pts) < 4:
+            continue
+        try:
+            f = LinearNDInterpolator(pts, g['delta_nlte'].values)
+        except Exception:
+            continue
+        interp[(str(ion), round(float(wave), 3))] = f
+        waves[str(ion)].append(round(float(wave), 3))
+    _mpia_cache['interp'] = interp
+    _mpia_cache['waves'] = {k: np.array(sorted(v)) for k, v in waves.items()}
+    _mpia_cache['bounds'] = {
+        'teff': (float(df.teff_K.min()), float(df.teff_K.max())),
+        'logg': (float(df.logg.min()), float(df.logg.max())),
+        'feh':  (float(df.feh.min()),  float(df.feh.max())),
+    }
+    return _mpia_cache
+
+
+def _mpia_fe_delta(ion: str, wave_A: float, teff: float, logg: float,
+                   feh: float, tol: float = 0.15) -> float:
+    """delta_nlte = A(Fe;1D-NLTE) − A(Fe;1D-LTE) for one Fe line, interpolated
+    from the MPIA grid. NaN if the line has no wave match (not in grid) or the
+    star is outside the (teff,logg,feh) hull."""
+    c = _load_mpia_fe_grid()
+    w = c['waves'].get(str(ion), np.array([]))
+    if len(w) == 0:
+        return np.nan
+    j = int(np.abs(w - wave_A).argmin())
+    if abs(float(w[j]) - wave_A) > tol:
+        return np.nan
+    f = c['interp'].get((str(ion), float(w[j])))
+    return float(f([[teff, logg, feh]])[0]) if f is not None else np.nan
+
+
+def fe_grid_in_bounds(teff: float, logg: float, feh: float) -> bool:
+    """Preflight (RYA-318): is (teff,logg,feh) inside the MPIA Fe grid box?"""
+    b = _load_mpia_fe_grid()['bounds']
+    return (b['teff'][0] <= teff <= b['teff'][1] and
+            b['logg'][0] <= logg <= b['logg'][1] and
+            b['feh'][0]  <= feh  <= b['feh'][1])
+
+
 def apply_fe_nlte_corrections(
     abundances_df: pd.DataFrame,
     stellar_params: dict,
@@ -223,6 +300,7 @@ def apply_fe_nlte_corrections(
     teff = float(stellar_params.get('teff_K', 5777))
     logg = float(stellar_params.get('logg',   4.44))
     vmic = float(stellar_params.get('vturb_kms', 1.0))
+    feh  = float(stellar_params.get('feh', 0.0))   # RYA-319: MPIA grid axis
 
     regions = _load_nlte_regions()
 
@@ -257,23 +335,11 @@ def apply_fe_nlte_corrections(
             fe_lines['a_nlte'] = fe_lines['a_1dlte']  # default: retain 1D LTE
 
             for i, lrow in fe_lines.iterrows():
-                # RYA-319/RYA-267: per_line_df['a_1dlte'] is iSpec normal_abund =
-                # ALREADY absolute A(Fe) (the convergence stores last_spec_abund),
-                # unlike the legacy mean-field path below which uses the DIFFERENTIAL
-                # A_X and must add _A_FE_SOLAR. Adding it here double-counts the solar
-                # reference (~+7.46 → afe3n clipped to the grid ceiling). Inside the
-                # Amarsi grid this is masked (afe ceiling 7.5 clips anyway), but it
-                # corrupts the MPIA grid's wider afe coverage — so use the absolute
-                # value directly.
-                a_fe_abs = float(lrow['a_1dlte'])
-                ab = _apply_aberr_to_line(
-                    ion,
-                    float(lrow['excitation_potential_eV']),
-                    float(lrow['eup_eV']),
-                    float(lrow['log_gf']),
-                    a_fe_abs,
-                    teff, logg, vmic,
-                )
+                # RYA-319: per-line δ from the MPIA grid, interpolated over
+                # (teff,logg,feh) at the line's own wavelength. a_1dlte is the
+                # absolute 1D-LTE A(Fe) (normal_abund); a_nlte = a_1dlte + δ.
+                ab = _mpia_fe_delta(ion, float(lrow['wavelength_air_A']),
+                                    teff, logg, feh)
                 if np.isfinite(ab):
                     fe_lines.at[i, 'aberr']  = ab
                     fe_lines.at[i, 'a_nlte'] = float(lrow['a_1dlte']) + ab
@@ -316,40 +382,26 @@ def apply_fe_nlte_corrections(
             result.at[idx, 'n_nlte_lines']    = n_corrected
             result.at[idx, 'A_X_nlte']        = round(a_nlte_mean, 3)
             result.at[idx, 'A_X_std_nlte']    = round(a_nlte_std, 3) if np.isfinite(a_nlte_std) else np.nan
-            result.at[idx, 'nlte_flag']        = '3D_NLTE_Amarsi2022'
-            result.at[idx, 'nlte_ref']         = 'Amarsi+2022_A&A_668_A68'
+            result.at[idx, 'nlte_flag']        = 'NLTE_MPIA_Bergemann_1D'
+            result.at[idx, 'nlte_ref']         = 'MPIA SpectrumTools / Bergemann mafags-os 1D NLTE (RYA-319)'
 
         # ── Legacy mean-field path (no per_line_df) ───────────────────────────
         else:
-            aberrs      = []
-            a_fe_abs_mean = a_1dlte + _A_FE_SOLAR
-            afe3n_start = float(np.clip(a_fe_abs_mean, _GRID['afe'][0], _GRID['afe'][1]))
-
-            if line_df is not None and not regions.empty:
+            # RYA-319: MPIA grid δ, per the star's measured Fe lines if available,
+            # else a mean over all grid lines for this ion (generic fallback).
+            aberrs = []
+            if line_df is not None:
                 fe_ew = line_df[
                     (line_df['element'] == 'Fe') & (line_df['ion'] == ion)
                 ]
-                ion_regions = regions[regions['ion'] == ion]
                 for _, lrow in fe_ew.iterrows():
-                    wave = float(lrow['wavelength_air_A'])
-                    diffs = (ion_regions['wave_A'] - wave).abs()
-                    if diffs.empty or diffs.min() > wave_tol:
-                        continue
-                    best = ion_regions.loc[diffs.idxmin()]
-                    ab = _apply_aberr_to_line(
-                        ion, float(best['elo_eV']), float(best['eup_eV']),
-                        float(best['loggf']), a_fe_abs_mean, teff, logg, vmic,
-                    )
+                    ab = _mpia_fe_delta(ion, float(lrow['wavelength_air_A']),
+                                        teff, logg, feh)
                     if np.isfinite(ab):
                         aberrs.append(ab)
-
-            elif not regions.empty:
-                ion_regions = regions[regions['ion'] == ion]
-                for _, r in ion_regions.iterrows():
-                    ab = _compute_aberr(
-                        ion, float(r['elo_eV']), float(r['eup_eV']),
-                        float(r['loggf']), teff, logg, afe3n_start, vmic,
-                    )
+            else:
+                for w in _load_mpia_fe_grid()['waves'].get(ion, np.array([])):
+                    ab = _mpia_fe_delta(ion, float(w), teff, logg, feh)
                     if np.isfinite(ab):
                         aberrs.append(ab)
 
