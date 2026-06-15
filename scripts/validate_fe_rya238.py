@@ -73,12 +73,13 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
         if row.empty:
             return {}
         r = row.iloc[0]
-        # A_X_nlte is relative [Fe/H] when NLTE corrections were applied; add solar
-        # offset to reach absolute A(Fe). When NLTE is unavailable, nlte_corrections.py
-        # stores A_X (already absolute) as fallback — use it directly (RYA-267).
+        # RYA-320: A_X_nlte is ABSOLUTE A(Fe) as of the RYA-319 MPIA grid switch
+        # (nlte_corrections.py per-line path: a_fe_abs = a_1dlte, the +_A_FE_SOLAR
+        # double-add was dropped). Use it directly — do NOT re-add the solar offset.
+        # When NLTE is unavailable, A_X (already absolute) is the fallback (RYA-267).
         _nlte_flag = str(r.get('nlte_flag', '1D_LTE'))
         _nlte_applied = _nlte_flag not in ('NLTE_unavailable', '1D_LTE')
-        a_nlte_abs = float(r.get('A_X_nlte', r['A_X'])) + _A_FE_SOLAR if _nlte_applied \
+        a_nlte_abs = float(r.get('A_X_nlte', r['A_X'])) if _nlte_applied \
                      else float(r['A_X'])
         # Prefer NLTE scatter; fall back to 1D scatter when NLTE is unavailable
         # (A_X_std_nlte key exists but is NaN when NLTE corrections were skipped).
@@ -254,9 +255,9 @@ def _plot_ion_balance(results_solar, results_procyon, ax):
         fe2 = fe[fe['ion'] == 'II']
         if fe1.empty or fe2.empty:
             continue
-        # A_X_nlte is relative [Fe/H]; convert to absolute A(Fe) for plot axes
-        a1 = float(fe1.iloc[0].get('A_X_nlte', fe1.iloc[0]['A_X'])) + _A_FE_SOLAR
-        a2 = float(fe2.iloc[0].get('A_X_nlte', fe2.iloc[0]['A_X'])) + _A_FE_SOLAR
+        # RYA-320: A_X_nlte is absolute A(Fe) (RYA-319 MPIA convention) — use directly
+        a1 = float(fe1.iloc[0].get('A_X_nlte', fe1.iloc[0]['A_X']))
+        a2 = float(fe2.iloc[0].get('A_X_nlte', fe2.iloc[0]['A_X']))
         ax.scatter([a1], [a2], s=80, color=color, label=f"{star_id}: ΔFe={a1-a2:+.3f}")
     ax.plot([7.2, 7.8], [7.2, 7.8], 'k--', lw=0.8, label="1:1")
     ax.set_xlabel("A(Fe I) NLTE")
