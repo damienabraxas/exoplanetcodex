@@ -1,0 +1,37 @@
+# Per (star × species) radiative-transfer method policy.  (RYA-315 / RYA-306)
+#
+# Rule (RYA-306, Ryan 2026-06-14): EVERY atomic species is EW-first. Flip to
+# synthesis only on evidence (EW-vs-synth offset, measured by the RYA-291
+# engine-diff). Molecular bands are synthesis-only a priori — no EW on a band.
+#
+# Species-key convention: "<Element> <RomanIon>" — the codebase (element, ion)
+# pair joined by a space, e.g. "Fe I", "Fe II", "Ti I". This matches the linelist
+# `element`/`ion` columns (ion = Roman numeral) and the existing `'Fe I'` literal
+# in pipeline/abundances_derive.py. Molecular bands are keyed by formula ("CN").
+#
+# Resolution order (see pipeline/method_policy.py):
+#   1. explicit (star, species) override below  -> use it
+#   2. else molecular species                    -> synthesis  (a-priori)
+#   3. else known atomic species                 -> ew         (default-pending-data)
+#   4. else unclassifiable species               -> FAIL LOUD  (setup error)
+
+class_defaults:
+  atomic: ew            # confidence: default-pending-data
+  molecular: synthesis  # confidence: a-priori (EW undefined on a band)
+
+molecular_species: [CH, CN, C2, NH, OH, CO]
+
+# Evidence-confirmed (star, species) overrides — appended by the engine-diff
+# as runs land; each carries its provenance.
+overrides:
+  sun:
+    Fe I:
+      method: ew
+      reason: clean
+      evidence: "EW-vs-synth agree, delta -0.025 dex on clean lines (RYA-305)"
+      confidence: evidence-confirmed
+    Fe II:
+      method: synthesis
+      reason: blended-ionization
+      evidence: "EW-vs-synth offset +0.173 dex; ionization balance closes via synth (RYA-305)"
+      confidence: evidence-confirmed
