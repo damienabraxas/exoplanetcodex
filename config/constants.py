@@ -194,9 +194,41 @@ STAR_PROCYON = {
 # FE_GATE_LOWER = -0.05  →  A(Fe) = 7.41
 # FE_GATE_UPPER = +0.05  →  A(Fe) = 7.51
 FE_GATE_LOWER      = -0.05   # [Fe/H] solar Fe lower bound
-FE_GATE_UPPER      = +0.05   # [Fe/H] solar Fe upper bound
+FE_GATE_UPPER      = +0.05   # [Fe/H] solar Fe upper bound  → absolute [7.41, 7.51]
 FE_SCATTER_GATE    =  0.10   # dex — maximum acceptable σ(Fe I)
 FE_IONISATION_GATE =  0.05   # dex — maximum |ΔFe(I−II)|
+
+# ── Scale-aware solar Fe gate (RYA-336) ──────────────────────────────────────
+# The solar Fe verdict rests on SCALE-ROBUST checks: the reduced-EW slope (line-
+# formation shape), the Fe I−Fe II ionization balance (cancels a uniform Fe zero-
+# point), and the Fe I scatter. None of these carry the 1D-vs-3D abundance term, and
+# they are what the differential science actually rests on.
+#
+# The ABSOLUTE A(Fe) is a scale-aware DIAGNOSTIC, not the verdict. Our NLTE grids
+# output on the 1D-NLTE scale, which runs ~+0.05 dex above the 3D-true solar value:
+# 3D granulation strengthens Fe I lines, so a 1D atmosphere needs a higher abundance
+# to match. The diagnostic centre is therefore the in-repo 3D-true anchor (Asplund
+# 2021, SOLAR_ASPLUND2021['Fe'] = 7.46) PLUS the published solar 1D-3D Fe offset
+# below — NOT our own output (that would be circular). Both terms are independent
+# published quantities, so the centre is honest. The window is WIDE: a sanity bound
+# that catches a gross zero-point error (e.g. a loggf scale slip) — which every
+# shift-invariant strong gate misses — while passing the legitimate grid spread
+# (Amarsi 7.495 / MPIA 7.516, straddling ~7.51).
+#
+# Upgrade path: when an APPLIED 3D correction lands (RYA-285 synthesis / Magic 2013),
+# the absolute output moves onto the true 7.46 scale and FE_GATE [7.41,7.51] applies
+# again — this scaffolding retires. (The RYA-334 A_X<12.5 guard is the separate
+# gross double-add tripwire, unrelated to this science sanity bound.)
+FE_1D3D_SOLAR_OFFSET  = 0.05   # dex — solar A(Fe I) on a 1D atmosphere runs ~+0.05
+                               # above the 3D value (granulation term). Literature:
+                               # Magic et al. 2013 (Stagger 3D grid, A&A 557 A26);
+                               # cf. Amarsi et al. 2019 (A&A 624 A111) & Asplund et
+                               # al. 2021 (A&A 653 A141) §3-4. NOT from our output.
+FE_ABS_DIAG_HALFWIDTH = 0.07   # dex — wide half-window around the scale-aware centre
+                               # (≈7.51 → [7.44, 7.58]); passes grid spread + loggf
+                               # zero-point, fails gross errors.
+FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat within error"
+                               # for the solar guardrail (RYA-330: −0.04..−0.09).
 
 # ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.

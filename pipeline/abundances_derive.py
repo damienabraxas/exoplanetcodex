@@ -53,6 +53,7 @@ from config.constants import (
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
+    FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
     assert_abundance_on_scale,
 )
 
@@ -2084,74 +2085,98 @@ def run(star_id: str = 'solar',
             _run_synthesis_mode(last_linemasks, converged_params, _atm_synth,
                                 star_id, out_dir)
 
-    # ── Solar calibration gate ────────────────────────────────────
+    # ── Solar calibration gate (RYA-336: scale-aware) ─────────────
+    # The PASS/FAIL verdict rests on the SCALE-ROBUST checks — reduced-EW slope,
+    # Fe I−Fe II ionization balance, Fe I scatter — which carry no 1D-vs-3D abundance
+    # term and are what the differential science rests on. The ABSOLUTE A(Fe) is a
+    # scale-aware DIAGNOSTIC against a wide window centred on the 3D-true anchor +
+    # the published 1D-3D offset (NOT our own output), there only to catch a gross
+    # zero-point error (e.g. a loggf scale slip) that the shift-invariant strong
+    # gates all miss. (Distinct from the RYA-334 A_X<12.5 double-add tripwire.)
     fe = results[results['element'] == 'Fe']
     if len(fe) > 0:
+        _fe1_df = fe[fe['ion'] == 'I']
+        _fe2_df = fe[fe['ion'] == 'II']
+
+        def _abs_nlte_of(row_df):
+            if row_df is None or len(row_df) == 0:
+                return np.nan
+            r = row_df.iloc[0]
+            _f = str(r.get('nlte_flag', '1D_LTE'))
+            _v = float(r.get('A_X_nlte', np.nan))
+            return _v if (_f not in ('NLTE_unavailable', '1D_LTE') and np.isfinite(_v)) \
+                   else float(r['A_X'])
+
+        # (1) Fe I reduced-EW slope (line-formation shape; vturb guardrail)
+        rew_slope = np.nan
+        if not scored_df.empty:
+            _f1 = scored_df[(scored_df['element'] == 'Fe') & (scored_df['ion'] == 'I')].copy()
+            _f1 = _f1[(_f1['ew_mA'] > 0) & _f1['a_1dlte'].notna()]
+            if len(_f1) >= 5:
+                _rew = np.log10(_f1['ew_mA'].values / _f1['wavelength_air_A'].values)
+                rew_slope = float(np.polyfit(_rew, _f1['a_1dlte'].values, 1)[0])
+        slope_pass = np.isfinite(rew_slope) and abs(rew_slope) < FE_REW_SLOPE_GATE
+        # (2) Fe I−Fe II ionization balance (a uniform Fe zero-point cancels)
+        a_fe1 = _abs_nlte_of(_fe1_df); a_fe2 = _abs_nlte_of(_fe2_df)
+        dfe = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
+        ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        # (3) Fe I scatter
+        sc1 = np.nan
+        if len(_fe1_df):
+            _r1 = _fe1_df.iloc[0]
+            sc1 = float(_r1.get('A_X_std_nlte', np.nan))
+            if not np.isfinite(sc1):
+                sc1 = float(_r1.get('A_X_std', np.nan))
+        scat_pass = np.isfinite(sc1) and sc1 < FE_SCATTER_GATE
+        primary_pass = slope_pass and ion_pass and scat_pass
+
+        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336) ──")
+        print(f"  Fe I reduced-EW slope = {rew_slope:+.3f}  -> {'PASS' if slope_pass else 'FAIL'} (|slope| < {FE_REW_SLOPE_GATE})")
+        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)")
+        print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {FE_SCATTER_GATE} dex)")
+
+        # Absolute A(Fe): scale-aware diagnostic (centre = 3D-true 7.46 + published 1D-3D offset)
+        _diag_c  = SOLAR_ASPLUND2021['Fe'] + FE_1D3D_SOLAR_OFFSET
+        _diag_lo = _diag_c - FE_ABS_DIAG_HALFWIDTH
+        _diag_hi = _diag_c + FE_ABS_DIAG_HALFWIDTH
+        print(f"\n  ── Absolute A(Fe): scale-aware DIAGNOSTIC ──")
+        print(f"  (centre {_diag_c:.2f} = 7.46 + {FE_1D3D_SOLAR_OFFSET} 1D-3D offset; window [{_diag_lo:.2f},{_diag_hi:.2f}]; not the verdict)")
         for _, fe_row in fe.iterrows():
             ion_lbl = fe_row['ion']
             a_1d    = float(fe_row['A_X'])
             n_lines = int(fe_row.get('n_lines', 0))
             scatter_1d   = float(fe_row.get('A_X_std', np.nan))
-            scatter_nlte = float(fe_row.get('A_X_std_nlte', np.nan))
-            scatter      = scatter_nlte if np.isfinite(scatter_nlte) else scatter_1d
-            # RYA-330: A_X_nlte is ABSOLUTE in every path (nlte_corrections.py stores
-            # median(a_1dlte[i] + aberr[i]) with a_1dlte = absolute A_X). The prior
-            # `+ _a_fe_solar` here was a stale RYA-267 relative-scale assumption that
-            # double-counted the solar offset → the gate printed A(Fe)~15 FAIL on a
-            # passing anchor. Use A_X_nlte directly; fall back to 1D LTE only when NLTE
-            # was not applied.
-            _flag       = str(fe_row.get('nlte_flag', '1D_LTE'))
-            nlte_ok     = _flag not in ('NLTE_unavailable', '1D_LTE')
-            _a_fe_solar = SOLAR_ASPLUND2021['Fe']
-            _a_nlte_raw = float(fe_row['A_X_nlte']) if 'A_X_nlte' in fe_row else np.nan
+            flag        = str(fe_row.get('nlte_flag', '1D_LTE'))
+            nlte_ok     = flag not in ('NLTE_unavailable', '1D_LTE')
+            _a_nlte_raw = float(fe_row.get('A_X_nlte', np.nan))
             a_nlte      = _a_nlte_raw if (nlte_ok and np.isfinite(_a_nlte_raw)) else a_1d
-            # RYA-334: guard the gate value itself — a double-add re-introduced here
-            # would land ~15 and silently FAIL the gate; fail loud instead.
+            # RYA-334: guard the gate value (a re-introduced double-add lands ~15)
             assert_abundance_on_scale(a_nlte, f"{star_id} Fe {ion_lbl} gate a_nlte")
-            tgt_lo      = _a_fe_solar + FE_GATE_LOWER  # = 7.41
-            tgt_hi      = _a_fe_solar + FE_GATE_UPPER  # = 7.51
             d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
             n_nlte  = int(fe_row.get('n_nlte_lines', 0))
-            flag    = str(fe_row.get('nlte_flag', '1D_LTE'))
-            ab_pass = tgt_lo <= a_nlte <= tgt_hi
-            sc_pass = np.isfinite(scatter) and scatter < FE_SCATTER_GATE
-            # GES regions file has only 3 Fe II lines in the optical — coverage gap,
-            # not a filter issue. Gate lowered to ≥ 3. See RYA-227 for scope of fix.
-            FE2_MIN_LINES = 3
-            nl_min        = 20 if ion_lbl == 'I' else FE2_MIN_LINES
+            nl_min  = 20 if ion_lbl == 'I' else 3   # Fe II optical coverage gap (RYA-227)
+            diag_pass = _diag_lo <= a_nlte <= _diag_hi
             print(f"\n  Fe {ion_lbl}  1D LTE  = {a_1d:.3f}  (scatter 1D = {scatter_1d:.3f} dex)")
             if np.isfinite(d_nlte):
                 print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
-            print(f"  A(Fe {ion_lbl}) NLTE    = {a_nlte:.3f}  -> {'PASS' if ab_pass else 'FAIL'} (gate {tgt_lo:.2f}-{tgt_hi:.2f})")
-            if np.isfinite(scatter):
-                sc_label = 'NLTE scatter' if np.isfinite(scatter_nlte) else '1D scatter'
-                print(f"  A(Fe {ion_lbl}) {sc_label} = {scatter:.3f}  -> {'PASS' if sc_pass else 'FAIL'} (gate <{FE_SCATTER_GATE} dex)")
+            print(f"  A(Fe {ion_lbl}) NLTE abs = {a_nlte:.3f}  -> {'PASS' if diag_pass else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
-            # Grade summary
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
             n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
             el_grade = str(fe_row.get('element_grade', '?'))
             a_ab_abs = float(fe_row.get('A_X_nlte_AB', np.nan))
-            # RYA-330: A_X_nlte_AB is ABSOLUTE in every path (weighted mean of absolute
-            # a_1dlte + the NLTE delta; see _compute_grades). Use it directly — the prior
-            # `+ _a_fe_solar` was the same stale RYA-267 double-add fixed in the gate above.
-            a_ab     = a_ab_abs if np.isfinite(a_ab_abs) else np.nan
-            n_ab = int(fe_row.get('n_lines_AB', 0))
-            print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}"
-                  f"  element_grade={el_grade}")
-            scatter_ab = float(fe_row.get('A_X_std_AB', np.nan))
-            if np.isfinite(a_ab):
-                ab_gate      = tgt_lo <= a_ab <= tgt_hi
-                sc_ab_pass   = np.isfinite(scatter_ab) and scatter_ab < FE_SCATTER_GATE
-                print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab:.4f}  ({n_ab} lines)"
-                      f"  -> {'PASS' if ab_gate else 'FAIL'} (gate {tgt_lo:.2f}-{tgt_hi:.2f})")
-                if np.isfinite(scatter_ab):
-                    print(f"  A(Fe {ion_lbl}) scatter A+B = {scatter_ab:.3f}"
-                          f"  -> {'PASS' if sc_ab_pass else 'FAIL'} (gate <{FE_SCATTER_GATE} dex)")
+            print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}  element_grade={el_grade}")
+            if np.isfinite(a_ab_abs):
+                ab_diag = _diag_lo <= a_ab_abs <= _diag_hi
+                print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab_abs:.4f}  -> {'PASS' if ab_diag else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")
+
         vmic_val = converged_params.get('vturb_kms', np.nan)
         vmic_pass = 0.80 <= vmic_val <= 1.20 if np.isfinite(vmic_val) else False
-        print(f"  vmic             = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
+        print(f"\n  vmic = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
+        print(f"\n  ►► Solar Fe VERDICT (scale-robust primary): {'PASS' if primary_pass else 'FAIL'}"
+              f"  [slope {'✓' if slope_pass else '✗'} · ionization {'✓' if ion_pass else '✗'} · scatter {'✓' if scat_pass else '✗'}]")
+        print(f"     absolute A(Fe) is a documented scale diagnostic, not the verdict (RYA-336).")
 
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
