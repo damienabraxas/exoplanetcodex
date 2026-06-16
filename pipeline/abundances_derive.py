@@ -53,6 +53,8 @@ from config.constants import (
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
+    FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
+    assert_abundance_on_scale,
 )
 
 
@@ -263,6 +265,7 @@ def _ew_engine_available(code: str) -> bool:
 # since it is intrinsic to the lines and does not change across convergence iterations.
 _fe2_theo_cache: dict = {}
 _fe2_quarantine_state: dict = {'written': False}
+_fe1_quarantine_state: dict = {'written': False}   # RYA-309: Fe I triage parity
 
 
 def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray:
@@ -398,6 +401,55 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
             except Exception as _qe:
                 print(f"  [Fe II triage] quarantine write skipped: {_qe}")
 
+    # ── Fe I triage (RYA-309 — extend the RYA-305 vetting to Fe I) ─────────────
+    # Procyon's Fe I scatter (0.68 dex) and the implausible NLTE correction
+    # (RYA-317) are driven by blend-inflated Fe I lines that the linear-COG `good`
+    # filter (1.5 dex) lets through — the linear COG under-predicts EW 3-10×, so a
+    # heavily blended line can still land inside 1.5 dex. Vet each Fe I line
+    # against its PROPER Fe-I-only theoretical EW (SPECTRUM, expected composition)
+    # — identical clean/recover/drop logic to the Fe II triage (_fe2_theoretical_ew
+    # is ion-general). Blend-contaminated-but-real lines are EXCLUDED from the EW
+    # pool and recovered by synthesis (RYA-305 DECISION 2: synthesis is the Fe
+    # arbiter); negligible lines (theo<floor) are dropped/quarantined. Same 0.5 dex
+    # sanity threshold + floor as Fe II. Clean solar GES Fe I lines pass (obs~theo).
+    fe1_mask = np.array([str(r['note']).strip() == 'Fe 1' for r in linemasks])
+    if fe1_mask.any():
+        fe1_idx  = np.where(fe1_mask)[0]
+        theo_fe1 = _fe2_theoretical_ew(linemasks[fe1_idx], stellar_params, atmosphere)
+        obs_fe1  = np.array([float(linemasks['ew'][i]) for i in fe1_idx])
+        logr_fe1 = np.log10(np.maximum(obs_fe1, 1e-6) / np.maximum(theo_fe1, 1e-6))
+        clean_fe1 = np.abs(logr_fe1) < float(PIPELINE['fe2_ew_sanity_dex'])
+        for j, i in enumerate(fe1_idx):
+            good[i] = bool(clean_fe1[j])
+        _floor = float(PIPELINE['fe2_synth_ew_floor_mA'])
+        n_clean = int(clean_fe1.sum())
+        n_recov = int(((~clean_fe1) & (theo_fe1 >= _floor)).sum())
+        n_drop  = int(((~clean_fe1) & (theo_fe1 <  _floor)).sum())
+        print(f"  Fe I triage (RYA-309/305): {n_clean} clean (EW kept), "
+              f"{n_recov} blended→synthesis-recover (EW-excluded), "
+              f"{n_drop} dropped/quarantined (theo<{_floor:.0f} mÅ)")
+        if not _fe1_quarantine_state['written'] and (~clean_fe1).any():
+            try:
+                q = pd.DataFrame({
+                    'wave_A': np.round(np.asarray(
+                        [float(linemasks['wave_A'][i]) for i in fe1_idx]), 3),
+                    'obs_ew_mA': np.round(obs_fe1, 2),
+                    'theo_ew_mA': np.round(theo_fe1, 3),
+                    'log_obs_over_theo': np.round(logr_fe1, 2),
+                    'verdict': np.where(clean_fe1, 'clean',
+                               np.where(theo_fe1 >= _floor, 'recover_synthesis', 'drop')),
+                    'reason': np.where(clean_fe1, 'obs~theo (kept in EW)',
+                               np.where(theo_fe1 >= _floor,
+                                        'real line, EW blend-contaminated → synthesis',
+                                        'theo<floor: negligible Fe I under blend → drop')),
+                })
+                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe1_triage_quarantine.csv'
+                q[q.verdict != 'clean'].to_csv(qpath, index=False)
+                _fe1_quarantine_state['written'] = True
+                print(f"  [Fe I triage] quarantine → {qpath.name}")
+            except Exception as _qe:
+                print(f"  [Fe I triage] quarantine write skipped: {_qe}")
+
     n_before = len(linemasks)
     linemasks = linemasks[good]
     n_after  = len(linemasks)
@@ -482,22 +534,33 @@ def _load_synth_resources() -> tuple:
 
 
 def _resolve_broadening(star_id: str) -> tuple:
-    """(R, vmac, vsini) for `star_id`, sourced from STAR_PARAMS via get_star_params.
+    """(R, vmac, vsini, fit_vmac) for `star_id`, sourced from STAR_PARAMS via
+    get_star_params.
 
     FAIL LOUD — never default to solar (RYA-288 / RYA-287 review). An unknown star
     raises in get_star_params; a known star missing vmac/vsini raises here with a
     clear message. The data lives only in STAR_PARAMS (no parallel broadening dict).
+
+    vmac may be a number (FIXED input, e.g. solar 3.8) or the string 'fit'
+    (RYA-309 §3.3: fit vmac in synth-v2's RT model with vsini held fixed). When
+    'fit', the returned vmac is the RT initial guess ('vmac_init') and fit_vmac
+    is True — the caller must fit vmac, never silently use the guess as a fixed
+    value (no-silent-broadening, RYA-288).
     """
     rec = get_star_params(star_id)   # raises KeyError if the star has no record
     if 'vmac' not in rec or 'vsini' not in rec:
         raise KeyError(
             f"No broadening (vmac/vsini) in STAR_PARAMS for star '{star_id}'. "
-            f"Add them from the converged-params record (e.g. RYA-284 for Procyon) "
-            f"before running synthesis-v2. Refusing to default to solar broadening "
-            f"— flux-space χ² is shape-sensitive, so wrong broadening biases A(X) "
-            f"itself (RYA-288 / RYA-287 review)."
+            f"Add them (vsini + vmac, or vmac='fit') before running synthesis-v2. "
+            f"Refusing to default to solar broadening — flux-space χ² is "
+            f"shape-sensitive, so wrong broadening biases A(X) itself "
+            f"(RYA-288 / RYA-287 review)."
         )
-    return float(HARPS_R), float(rec['vmac']), float(rec['vsini'])
+    vmac_spec = rec['vmac']
+    if isinstance(vmac_spec, str) and vmac_spec.strip().lower() == 'fit':
+        return (float(HARPS_R), float(rec.get('vmac_init', 5.0)),
+                float(rec['vsini']), True)
+    return float(HARPS_R), float(vmac_spec), float(rec['vsini']), False
 
 
 def _build_fixed_ab(element: str, atom_code: int, trial_A: float) -> np.recarray:
@@ -831,13 +894,51 @@ def _run_synthesis_mode(last_linemasks: np.ndarray,
 # SYNTHESIZED (never floored) → genuine blend-awareness (FLAG 1); the wing-wide
 # window includes the damping wings instead of clipping them (FLAG 2).
 
+# Strong, fairly isolated Fe I lines (air, rest Å) for a robust RV centroid.
+# Used to bring the observed spectrum to REST before flux-space synthesis fitting
+# (RYA-309): the synthesis is rest-frame, so an uncorrected stellar RV misaligns
+# the line cores, inflating χ² and biasing the broadening/abundance fit. Solar is
+# already ~rest (BERV applied per-exposure) so this is a near-no-op there; Procyon
+# carries an uncorrected ≈ -2.3 km/s shift.
+_RV_FE1_REF = np.array([
+    5497.516, 5501.465, 5569.618, 5615.644, 5624.542, 5934.655, 6024.058,
+    6065.482, 6137.692, 6191.558, 6230.723, 6252.555, 6411.649, 6430.846,
+])
+_C_KMS = 299792.458
+
+
+def _measure_rv_kms(wave_nm: np.ndarray, flux: np.ndarray) -> float:
+    """Median velocity shift (km/s) of the observed spectrum vs rest, from
+    parabolic centroids of strong Fe I reference lines. Positive = redshifted."""
+    wl = wave_nm * 10.0
+    vs = []
+    for r0 in _RV_FE1_REF:
+        m = (wl > r0 - 0.25) & (wl < r0 + 0.25)
+        if m.sum() < 5:
+            continue
+        w, f = wl[m], flux[m]
+        i = int(np.argmin(f))
+        if f[i] > 0.85 or i < 1 or i > len(f) - 2:   # need a real, resolved core
+            continue
+        x, y = w[i - 1:i + 2], f[i - 1:i + 2]
+        denom = (x[0] - x[1]) * (x[0] - x[2]) * (x[1] - x[2])
+        if denom == 0:
+            continue
+        A = (x[2] * (y[1] - y[0]) + x[1] * (y[0] - y[2]) + x[0] * (y[2] - y[1])) / denom
+        B = (x[2]**2 * (y[0] - y[1]) + x[1]**2 * (y[2] - y[0]) + x[0]**2 * (y[1] - y[2])) / denom
+        lam = -B / (2 * A) if A != 0 else w[i]
+        vs.append(_C_KMS * (lam - r0) / r0)
+    return float(np.median(vs)) if vs else 0.0
+
+
 def _load_observed_spectrum(star_id: str) -> tuple:
     """
     Load the observed normalized spectrum for flux-space fitting (RYA-287).
 
-    Returns (obs_wave_nm, obs_flux) — continuum-normalized (≈1.0 at continuum).
-    The normalized CSV has no per-pixel error column, so χ² weighting uses a
-    locally-estimated continuum-scatter σ per window (see _fit_synth_flux).
+    Returns (obs_wave_nm, obs_flux) — continuum-normalized (≈1.0 at continuum),
+    shifted to REST frame via a measured Fe I RV (RYA-309). The normalized CSV
+    has no per-pixel error column, so χ² weighting uses a locally-estimated
+    continuum-scatter σ per window (see _fit_synth_flux).
     """
     key = None
     for k in ('solar', 'procyon', '55cnc'):
@@ -854,6 +955,17 @@ def _load_observed_spectrum(star_id: str) -> tuple:
     df = pd.read_csv(str(norm_path), comment='#')
     wave_nm = df['wavelength_air_A'].to_numpy(dtype=float) / 10.0
     flux    = df['flux_normalized'].to_numpy(dtype=float)
+
+    # Bring to REST: the synthesis is rest-frame, so an uncorrected stellar RV
+    # misaligns line cores and biases the flux-space fit (RYA-309). Measure from
+    # Fe I centroids and shift; no-op (<0.5 km/s) for already-rest spectra (solar).
+    rv = _measure_rv_kms(wave_nm, flux)
+    if abs(rv) > 0.5:
+        wave_nm = wave_nm / (1.0 + rv / _C_KMS)
+        print(f"  [synth-v2] RV-corrected observed spectrum to rest: {rv:+.2f} km/s "
+              f"(Fe I centroids)")
+    else:
+        print(f"  [synth-v2] RV {rv:+.2f} km/s — within 0.5 km/s, no shift applied")
     print(f"  [synth-v2] Observed spectrum: {len(wave_nm):,} px, "
           f"{wave_nm[0]*10:.1f}–{wave_nm[-1]*10:.1f} Å (continuum=1.0)")
     return wave_nm, flux
@@ -978,11 +1090,37 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
 
     # Broadening (fixed inputs — only abundance is free). RYA-288: sourced per-star
     # from STAR_PARAMS via get_star_params(); fail loud if absent (no solar default).
-    R_inst, vmac, vsini = _resolve_broadening(star_id)
+    R_inst, vmac, vsini, fit_vmac = _resolve_broadening(star_id)
+    if fit_vmac:
+        # RYA-309 §3.3: vmac is to be FIT in the RT model (vsini fixed). The RT
+        # vmac fit is implemented in the RYA-309 synthesis-run step, not the
+        # parameter prereq — fail loud rather than silently use the init guess as
+        # a fixed vmac (no-silent-broadening, RYA-288).
+        raise NotImplementedError(
+            f"[{star_id}] vmac='fit' (RYA-309 §3.3): vsini fixed = {vsini} km/s, "
+            f"RT init = {vmac} km/s (expect ~5-6). The RT vmac fit is implemented "
+            f"in the RYA-309 synthesis run, not the param prereq. Refusing to use "
+            f"the init as a fixed vmac."
+        )
     print(f"[{star_id}] broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s",
           file=sys.stderr)
     print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
           f"(fixed); EW ceiling={ew_ceil:.0f} mÅ")
+
+    # RYA-338: optional element focus for the decisive test (e.g. the solar
+    # Fe I−Fe II ionization read under clean flux-space synthesis). Opt-in via env
+    # var (comma-separated element symbols); default = all matched lines, no
+    # behaviour change. Restricts only which lines get the per-line flux fit, so the
+    # full 27-element run and this Fe-focused run share identical machinery/output.
+    import os as _os
+    _focus = _os.environ.get('SYNTH_V2_ONLY_ELEMENTS', '').strip()
+    if _focus:
+        _want = {e.strip() for e in _focus.split(',') if e.strip()}
+        _keep = np.array([str(last_linemasks['note'][i]).split()[0] in _want
+                          for i in range(len(last_linemasks))])
+        last_linemasks = last_linemasks[_keep]
+        print(f"  [synth-v2] RYA-338 element focus = {sorted(_want)} → "
+              f"{int(_keep.sum())} lines (of {len(_keep)} matched)")
 
     unique_elements = sorted({str(last_linemasks['note'][i]).split()[0]
                                for i in range(len(last_linemasks))})
@@ -1148,7 +1286,6 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       stellar_params_init: dict,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
-                                      vmic_fixed: bool = False,
                                       skip_convergence: bool = False,
                                       solve_params=None) -> tuple:
     """
@@ -1170,13 +1307,17 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
 
     # RYA-292 pin/solve policy: only params in `solve` are optimized; pinned params
     # are held fixed at their fundamental (GBS) values. Default = solve all three
-    # spectroscopic params (backward-compatible with pre-292 behaviour). 'xi' also
-    # honours the legacy vmic_fixed flag. A pinned param's equilibrium criterion is
-    # treated as satisfied so convergence is judged only on the solved params.
+    # spectroscopic params (backward-compatible with pre-292 behaviour). RYA-325:
+    # solve_xi is derived PURELY from the pin/solve policy now — the legacy
+    # vmic_fixed flag is retired (a pinned ξ / xi_override is applied in run()
+    # before this call, which simply drops 'xi' from solve). A pinned param's
+    # equilibrium criterion is treated as satisfied so convergence is judged only
+    # on the solved params; the reduced-EW slope is still computed + reported at a
+    # pinned ξ as the guardrail (flat = consistent, sloped = a finding).
     solve = set(solve_params) if solve_params is not None else {'teff', 'logg', 'xi'}
     solve_teff = 'teff' in solve
     solve_logg = 'logg' in solve
-    solve_xi   = ('xi' in solve) and not vmic_fixed
+    solve_xi   = 'xi' in solve
 
     for iteration in range(1, max_iter + 1):
         atm = _load_atmosphere(
@@ -1584,6 +1725,18 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
       - Fe II: lines_fit.py measured EWs (solar_ew.csv) — Fe II not NLTE-affected
       - Other: lines_fit.py measured EWs (solar_ew.csv)
 
+    RYA-330: the GES Fe I routing is RETAINED by evidence, not inertia. RYA-328
+    flagged that the GES reference pool is unvetted relative to program-star pools,
+    and proposed re-routing Fe I through the measured solar_ew.csv "for consistency".
+    That was tested and REJECTED: the measured solar Fe I EWs give A(Fe I) NLTE 7.67
+    (gate fail), scatter 0.44, and a +0.43 reduced-EW slope — strictly worse than the
+    GES reference (7.516 / 0.151 / −0.05). The measured solar EWs carry inflated
+    strong-line EWs that the GES curation does not. The actual fix for the −0.21 slope
+    RYA-328 found is the saturation cut, not the pool: vmic_ew_ceiling_mA was tightened
+    150 → 100 mÅ (config.constants.PIPELINE), which removes the 12 saturated GES lines
+    that drove the slope and applies the SAME bar to all stars. Consistency is achieved
+    by the shared cut, not by forcing the Sun onto a worse pool.
+
     If ew_override is provided, use that file directly (bypasses hybrid logic).
     If solar_ew_ges_reference.csv is missing, falls back to solar_ew.csv for all elements.
     """
@@ -1637,7 +1790,7 @@ def run(star_id: str = 'solar',
         model_grid: str = 'ATLAS9.Castelli',
         stellar_params_override: dict = None,
         ew_override: str = None,
-        vmic_fixed: bool = False,
+        xi_override: float = None,
         engine: str = 'spectrum',
         skip_convergence: bool = False) -> tuple:
     """
@@ -1652,7 +1805,10 @@ def run(star_id: str = 'solar',
     ew_override              : path to an EW CSV to use instead of the default
                                solar_ew.csv (e.g. solar_ew_ges_reference.csv for
                                GES pre-stored calibration EWs — RYA-196)
-    vmic_fixed               : if True, hold vturb_kms fixed during convergence (RYA-238)
+    xi_override              : explicit ξ (km/s) for experimental runs (e.g. the
+                               RYA-322 ξ sweep) — pins vturb_kms to this value and
+                               drops ξ from the solve, logged. Replaces the retired
+                               silent vmic_fixed flag (RYA-325). None = use policy.
     engine                   : 'spectrum' (default MOOG/SPECTRUM path) or 'synthesis'
                                (Turbospectrum synthesis-EW bisection — RYA-285).
                                'synthesis' runs the normal convergence first, then
@@ -1693,6 +1849,24 @@ def run(star_id: str = 'solar',
             params['teff_K'] = float(star_policy['teff'])
         if 'logg' in star_policy.get('pin', []):
             params['logg'] = float(star_policy['logg'])
+        # RYA-325: ξ pin/solve. xi_override (the ONE explicit experimental knob —
+        # e.g. the RYA-322 ξ sweep) supersedes the pin and is logged; it replaces
+        # the retired silent vmic_fixed default. Else a pinned ξ is set from
+        # STAR_PARAMS (fail loud if pinned without a value); a star whose ξ is
+        # neither pinned-with-value nor solved raises (no silent guess).
+        if xi_override is not None:
+            params['vturb_kms'] = float(xi_override)
+            solve_params = [p for p in solve_params if p != 'xi']
+            print(f"  ξ OVERRIDE (explicit, RYA-322): vturb pinned to "
+                  f"{float(xi_override):.2f} km/s (no re-solve)")
+        elif 'xi' in star_policy.get('pin', []):
+            if 'xi' not in star_policy:
+                raise KeyError(f"{star_id}: ξ is pinned but no 'xi' value in "
+                               f"STAR_PARAMS (RYA-325) — refusing to guess.")
+            params['vturb_kms'] = float(star_policy['xi'])
+        elif 'xi' not in solve_params:
+            raise KeyError(f"{star_id}: ξ is neither pinned-with-value nor in "
+                           f"'solve' (RYA-325) — refusing to guess.")
     pin_lbl = ','.join(star_policy.get('pin', [])) or '(none)'
     solve_lbl = ','.join(solve_params) or '(none)'
     print(f"  Param policy (RYA-292): PIN [{pin_lbl}]  SOLVE [{solve_lbl}]  "
@@ -1824,7 +1998,7 @@ def run(star_id: str = 'solar',
         print(f"\n[3/4] Iterating to stellar parameter equilibrium "
               f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
-        ew_df, params, model_grid=model_grid, vmic_fixed=vmic_fixed,
+        ew_df, params, model_grid=model_grid,
         skip_convergence=skip_convergence, solve_params=solve_params,
     )
 
@@ -1871,15 +2045,30 @@ def run(star_id: str = 'solar',
     results['nlte_applied'] = False        # A_X is pre-NLTE; NLTE in A_X_nlte_absolute
     if 'A_X_nlte' in results.columns:
         def _nlte_to_absolute(row):
+            # RYA-330: A_X_nlte is stored ABSOLUTE by nlte_corrections.py in every
+            # path — A_X_nlte = median(a_1dlte[i] + aberr[i]) and a_1dlte = A_X, the
+            # absolute MOOG abundance (see nlte_corrections.py:218,271). The earlier
+            # `+ ref` here (and in the solar gate below) was a stale RYA-267 relative-
+            # scale assumption that re-added the 7.46 solar offset, inflating the
+            # absolute NLTE A(Fe) to ~15 and making the solar gate print FAIL on a
+            # passing anchor. A_X_nlte is already absolute → return it directly.
             flag = str(row.get('nlte_flag', '1D_LTE'))
             if flag in ('1D_LTE', 'NLTE_unavailable'):
                 return np.nan   # NLTE not actually applied → no absolute NLTE value
-            ref = SOLAR_ASPLUND2021.get(str(row['element']), np.nan)
             val = row.get('A_X_nlte', np.nan)
-            if pd.notna(val) and np.isfinite(ref):
-                return round(float(val) + float(ref), 3)
-            return np.nan
+            return round(float(val), 3) if pd.notna(val) else np.nan
         results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
+
+    # ── RYA-334 range-sanity tripwire (output chokepoint) ─────────
+    # Every absolute-scale column must sit on the A(H)=12 scale. A double-add of
+    # the 7.46 solar offset (RYA-267 class) lands ~15 = above hydrogen → raise loud
+    # here instead of silently writing it / printing it / hiding behind a gate.
+    # Relative [X/H] (XH) is intentionally NOT checked (legitimately negative).
+    for _abs_col in ('A_X', 'A_X_nlte', 'A_X_nlte_absolute', 'A_X_nlte_AB'):
+        if _abs_col in results.columns:
+            for _, _r in results.iterrows():
+                assert_abundance_on_scale(
+                    _r[_abs_col], f"{star_id} {_r.get('element','?')} {_r.get('ion','?')} {_abs_col}")
 
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
@@ -1911,68 +2100,98 @@ def run(star_id: str = 'solar',
             _run_synthesis_mode(last_linemasks, converged_params, _atm_synth,
                                 star_id, out_dir)
 
-    # ── Solar calibration gate ────────────────────────────────────
+    # ── Solar calibration gate (RYA-336: scale-aware) ─────────────
+    # The PASS/FAIL verdict rests on the SCALE-ROBUST checks — reduced-EW slope,
+    # Fe I−Fe II ionization balance, Fe I scatter — which carry no 1D-vs-3D abundance
+    # term and are what the differential science rests on. The ABSOLUTE A(Fe) is a
+    # scale-aware DIAGNOSTIC against a wide window centred on the 3D-true anchor +
+    # the published 1D-3D offset (NOT our own output), there only to catch a gross
+    # zero-point error (e.g. a loggf scale slip) that the shift-invariant strong
+    # gates all miss. (Distinct from the RYA-334 A_X<12.5 double-add tripwire.)
     fe = results[results['element'] == 'Fe']
     if len(fe) > 0:
+        _fe1_df = fe[fe['ion'] == 'I']
+        _fe2_df = fe[fe['ion'] == 'II']
+
+        def _abs_nlte_of(row_df):
+            if row_df is None or len(row_df) == 0:
+                return np.nan
+            r = row_df.iloc[0]
+            _f = str(r.get('nlte_flag', '1D_LTE'))
+            _v = float(r.get('A_X_nlte', np.nan))
+            return _v if (_f not in ('NLTE_unavailable', '1D_LTE') and np.isfinite(_v)) \
+                   else float(r['A_X'])
+
+        # (1) Fe I reduced-EW slope (line-formation shape; vturb guardrail)
+        rew_slope = np.nan
+        if not scored_df.empty:
+            _f1 = scored_df[(scored_df['element'] == 'Fe') & (scored_df['ion'] == 'I')].copy()
+            _f1 = _f1[(_f1['ew_mA'] > 0) & _f1['a_1dlte'].notna()]
+            if len(_f1) >= 5:
+                _rew = np.log10(_f1['ew_mA'].values / _f1['wavelength_air_A'].values)
+                rew_slope = float(np.polyfit(_rew, _f1['a_1dlte'].values, 1)[0])
+        slope_pass = np.isfinite(rew_slope) and abs(rew_slope) < FE_REW_SLOPE_GATE
+        # (2) Fe I−Fe II ionization balance (a uniform Fe zero-point cancels)
+        a_fe1 = _abs_nlte_of(_fe1_df); a_fe2 = _abs_nlte_of(_fe2_df)
+        dfe = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
+        ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        # (3) Fe I scatter
+        sc1 = np.nan
+        if len(_fe1_df):
+            _r1 = _fe1_df.iloc[0]
+            sc1 = float(_r1.get('A_X_std_nlte', np.nan))
+            if not np.isfinite(sc1):
+                sc1 = float(_r1.get('A_X_std', np.nan))
+        scat_pass = np.isfinite(sc1) and sc1 < FE_SCATTER_GATE
+        primary_pass = slope_pass and ion_pass and scat_pass
+
+        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336) ──")
+        print(f"  Fe I reduced-EW slope = {rew_slope:+.3f}  -> {'PASS' if slope_pass else 'FAIL'} (|slope| < {FE_REW_SLOPE_GATE})")
+        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)")
+        print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {FE_SCATTER_GATE} dex)")
+
+        # Absolute A(Fe): scale-aware diagnostic (centre = 3D-true 7.46 + published 1D-3D offset)
+        _diag_c  = SOLAR_ASPLUND2021['Fe'] + FE_1D3D_SOLAR_OFFSET
+        _diag_lo = _diag_c - FE_ABS_DIAG_HALFWIDTH
+        _diag_hi = _diag_c + FE_ABS_DIAG_HALFWIDTH
+        print(f"\n  ── Absolute A(Fe): scale-aware DIAGNOSTIC ──")
+        print(f"  (centre {_diag_c:.2f} = 7.46 + {FE_1D3D_SOLAR_OFFSET} 1D-3D offset; window [{_diag_lo:.2f},{_diag_hi:.2f}]; not the verdict)")
         for _, fe_row in fe.iterrows():
             ion_lbl = fe_row['ion']
             a_1d    = float(fe_row['A_X'])
             n_lines = int(fe_row.get('n_lines', 0))
             scatter_1d   = float(fe_row.get('A_X_std', np.nan))
-            scatter_nlte = float(fe_row.get('A_X_std_nlte', np.nan))
-            scatter      = scatter_nlte if np.isfinite(scatter_nlte) else scatter_1d
-            # nlte_flag distinguishes the applied-NLTE case from unavailable fallback.
-            # When NLTE is unavailable, nlte_corrections.py stores the raw A_X value
-            # (already absolute) in A_X_nlte — adding _a_fe_solar would double-count
-            # the solar offset. Only convert when NLTE was actually applied (RYA-267).
-            _flag       = str(fe_row.get('nlte_flag', '1D_LTE'))
-            nlte_ok     = _flag not in ('NLTE_unavailable', '1D_LTE')
-            _a_fe_solar = SOLAR_ASPLUND2021['Fe']
-            a_nlte      = float(fe_row['A_X_nlte']) + _a_fe_solar if nlte_ok else a_1d
-            tgt_lo      = _a_fe_solar + FE_GATE_LOWER  # = 7.41
-            tgt_hi      = _a_fe_solar + FE_GATE_UPPER  # = 7.51
+            flag        = str(fe_row.get('nlte_flag', '1D_LTE'))
+            nlte_ok     = flag not in ('NLTE_unavailable', '1D_LTE')
+            _a_nlte_raw = float(fe_row.get('A_X_nlte', np.nan))
+            a_nlte      = _a_nlte_raw if (nlte_ok and np.isfinite(_a_nlte_raw)) else a_1d
+            # RYA-334: guard the gate value (a re-introduced double-add lands ~15)
+            assert_abundance_on_scale(a_nlte, f"{star_id} Fe {ion_lbl} gate a_nlte")
             d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
             n_nlte  = int(fe_row.get('n_nlte_lines', 0))
-            flag    = str(fe_row.get('nlte_flag', '1D_LTE'))
-            ab_pass = tgt_lo <= a_nlte <= tgt_hi
-            sc_pass = np.isfinite(scatter) and scatter < FE_SCATTER_GATE
-            # GES regions file has only 3 Fe II lines in the optical — coverage gap,
-            # not a filter issue. Gate lowered to ≥ 3. See RYA-227 for scope of fix.
-            FE2_MIN_LINES = 3
-            nl_min        = 20 if ion_lbl == 'I' else FE2_MIN_LINES
+            nl_min  = 20 if ion_lbl == 'I' else 3   # Fe II optical coverage gap (RYA-227)
+            diag_pass = _diag_lo <= a_nlte <= _diag_hi
             print(f"\n  Fe {ion_lbl}  1D LTE  = {a_1d:.3f}  (scatter 1D = {scatter_1d:.3f} dex)")
             if np.isfinite(d_nlte):
                 print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
-            print(f"  A(Fe {ion_lbl}) NLTE    = {a_nlte:.3f}  -> {'PASS' if ab_pass else 'FAIL'} (gate {tgt_lo:.2f}-{tgt_hi:.2f})")
-            if np.isfinite(scatter):
-                sc_label = 'NLTE scatter' if np.isfinite(scatter_nlte) else '1D scatter'
-                print(f"  A(Fe {ion_lbl}) {sc_label} = {scatter:.3f}  -> {'PASS' if sc_pass else 'FAIL'} (gate <{FE_SCATTER_GATE} dex)")
+            print(f"  A(Fe {ion_lbl}) NLTE abs = {a_nlte:.3f}  -> {'PASS' if diag_pass else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
-            # Grade summary
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
             n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
             el_grade = str(fe_row.get('element_grade', '?'))
-            a_ab_rel = float(fe_row.get('A_X_nlte_AB', np.nan))
-            # A_X_nlte_AB is relative when NLTE applied, absolute when unavailable — same
-            # convention as A_X_nlte. Only add solar offset when NLTE was applied (RYA-267).
-            a_ab     = (a_ab_rel + _a_fe_solar) if (np.isfinite(a_ab_rel) and nlte_ok) else \
-                       (a_ab_rel if np.isfinite(a_ab_rel) else np.nan)
-            n_ab = int(fe_row.get('n_lines_AB', 0))
-            print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}"
-                  f"  element_grade={el_grade}")
-            scatter_ab = float(fe_row.get('A_X_std_AB', np.nan))
-            if np.isfinite(a_ab):
-                ab_gate      = tgt_lo <= a_ab <= tgt_hi
-                sc_ab_pass   = np.isfinite(scatter_ab) and scatter_ab < FE_SCATTER_GATE
-                print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab:.4f}  ({n_ab} lines)"
-                      f"  -> {'PASS' if ab_gate else 'FAIL'} (gate {tgt_lo:.2f}-{tgt_hi:.2f})")
-                if np.isfinite(scatter_ab):
-                    print(f"  A(Fe {ion_lbl}) scatter A+B = {scatter_ab:.3f}"
-                          f"  -> {'PASS' if sc_ab_pass else 'FAIL'} (gate <{FE_SCATTER_GATE} dex)")
+            a_ab_abs = float(fe_row.get('A_X_nlte_AB', np.nan))
+            print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}  element_grade={el_grade}")
+            if np.isfinite(a_ab_abs):
+                ab_diag = _diag_lo <= a_ab_abs <= _diag_hi
+                print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab_abs:.4f}  -> {'PASS' if ab_diag else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")
+
         vmic_val = converged_params.get('vturb_kms', np.nan)
         vmic_pass = 0.80 <= vmic_val <= 1.20 if np.isfinite(vmic_val) else False
-        print(f"  vmic             = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
+        print(f"\n  vmic = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
+        print(f"\n  ►► Solar Fe VERDICT (scale-robust primary): {'PASS' if primary_pass else 'FAIL'}"
+              f"  [slope {'✓' if slope_pass else '✗'} · ionization {'✓' if ion_pass else '✗'} · scatter {'✓' if scat_pass else '✗'}]")
+        print(f"     absolute A(Fe) is a documented scale diagnostic, not the verdict (RYA-336).")
 
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
