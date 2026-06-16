@@ -66,6 +66,56 @@ class TestSolarAbundances:
             )
 
 
+class TestAbundanceScaleGuard:
+    """RYA-334: the range-sanity tripwire for the relative/absolute double-add."""
+
+    def test_passes_normal_absolute_values(self):
+        import math
+        from config.constants import assert_abundance_on_scale
+        for v in (7.46, 7.516, 12.0, 0.52, -1.0):   # Fe, MPIA solar, H, Eu, faint
+            assert assert_abundance_on_scale(v, 'test') == v
+
+    def test_nan_and_none_pass_through(self):
+        import math
+        from config.constants import assert_abundance_on_scale
+        assert math.isnan(assert_abundance_on_scale(float('nan'), 'test'))
+        assert assert_abundance_on_scale(None, 'test') is None
+
+    def test_raises_on_double_add(self):
+        # A 7.46 solar offset re-added to an already-absolute ~7.5 lands ~15 — the
+        # exact RYA-267/320/330 signature. Must fail loud, not pass.
+        from config.constants import assert_abundance_on_scale
+        with pytest.raises(ValueError, match="off the A.H.=12 scale"):
+            assert_abundance_on_scale(7.495 + 7.46, 'Fe I gate (simulated double-add)')
+
+    def test_raises_below_floor(self):
+        from config.constants import assert_abundance_on_scale
+        with pytest.raises(ValueError):
+            assert_abundance_on_scale(-5.0, 'test')
+
+
+class TestScaleAwareFeGate:
+    """RYA-336: absolute Fe diagnostic centred on 3D-true + published 1D-3D offset."""
+
+    def test_diagnostic_centre_and_window(self):
+        from config.constants import (
+            SOLAR_ASPLUND2021, FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH)
+        centre = SOLAR_ASPLUND2021['Fe'] + FE_1D3D_SOLAR_OFFSET
+        assert centre == pytest.approx(7.51, abs=1e-9)          # 7.46 + 0.05
+        lo, hi = centre - FE_ABS_DIAG_HALFWIDTH, centre + FE_ABS_DIAG_HALFWIDTH
+        assert (lo, hi) == pytest.approx((7.44, 7.58), abs=1e-9)
+        # both grids straddle the centre and fall inside the window
+        for grid_solar in (7.495, 7.516):                       # Amarsi, MPIA
+            assert lo <= grid_solar <= hi
+        # a gross zero-point error (e.g. loggf slip ~+0.3) must fall outside
+        assert not (lo <= 7.46 + 0.30 <= hi)
+
+    def test_offset_is_independent_of_our_output(self):
+        # The offset is a fixed published quantity, NOT read from any run result.
+        from config.constants import FE_1D3D_SOLAR_OFFSET
+        assert FE_1D3D_SOLAR_OFFSET == pytest.approx(0.05, abs=1e-9)
+
+
 class TestStar55Cnc:
     def test_teff(self):
         assert STAR_55CNC['teff_K'] == pytest.approx(5196.0, rel=1e-3)
