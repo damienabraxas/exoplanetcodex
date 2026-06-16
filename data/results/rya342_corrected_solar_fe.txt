@@ -1,0 +1,14 @@
+RYA-342 corrected solar synth Fe (χ²ᵣ-gated, SYNTH_CHI2_GATE=10):
+  Fe I  = 7.485  (n=23, med χ²ᵣ 2.57)
+  Fe II = 7.513  (n=4,  med χ²ᵣ 1.77)
+  Fe I - Fe II = -0.028   (vs 338 -0.089 open; 305 -0.007 closed)
+  gate: 27 accepted / 64 rejected (χ²ᵣ≥10) of 91 Fe lines fitted
+  NOTE: 6239.943 (χ²ᵣ 1.32, trustworthy) NOT recovered — dropped by the EW
+        convergence BLEND filter upstream of the synth (not the ceiling).
+  [synth-v2] REJECT(fit) Fe II 5256.932 Å — χ²ᵣ=334.0 ≥ 10.0 (a_synth=7.456 not used)
+  [synth-v2] REJECT(fit) Fe II 6456.380 Å — χ²ᵣ=277.5 ≥ 10.0 (a_synth=7.685 not used)
+  [synth-v2] REJECT(fit) Fe II 6113.319 Å — χ²ᵣ=232.0 ≥ 10.0 (a_synth=7.595 not used)
+  [synth-v2] REJECT(fit) Fe II 5991.371 Å — χ²ᵣ=213.3 ≥ 10.0 (a_synth=7.586 not used)
+  [synth-v2] REJECT(fit) Fe II 6247.557 Å — χ²ᵣ=179.3 ≥ 10.0 (a_synth=7.555 not used)
+  [synth-v2] REJECT(fit) Fe II 6084.102 Å — χ²ᵣ=133.8 ≥ 10.0 (a_synth=7.634 not used)
+  [synth-v2] REJECT(fit) Fe II 5234.623 Å — χ²ᵣ=127.8 ≥ 10.0 (a_synth=7.494 not used)
