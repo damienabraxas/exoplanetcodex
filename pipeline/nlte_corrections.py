@@ -148,9 +148,18 @@ def _in_grid(teff: float, logg: float, afe3n: float, vmic: float) -> bool:
 def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
                    teff: float, logg: float, afe3n: float, vmic: float) -> float:
     """
-    Compute NLTE correction for one Fe I/II line.
+    Compute the NLTE correction-to-ADD for one Fe I/II line: A(Fe;3D-NLTE) −
+    A(Fe;1D-LTE), in dex, so A_NLTE = A_1D + correction (matches the module
+    convention and the MPIA δ convention).
 
-    Returns aberr = A(Fe;1D) − A(Fe;3D) in dex.
+    RYA-339 sign fix: the trained network returns A(1D) − A(3D-NLTE) (e.g. ≈ −0.20
+    for Procyon Fe I). Amarsi et al. 2022 (2209.13449v3, §6): for Procyon, 1D LTE is
+    0.20 dex SMALLER than 3D-NLTE → the physical correction is +0.20 (a hot F dwarf
+    overionizes Fe I, so NLTE needs MORE iron). The prior code returned the network
+    value directly and the consumers added it (a_1dlte + aberr), flipping the sign →
+    the spurious −0.25 per-line / −0.2 [Fe/H] (RYA-322/339). Negate the network
+    output here — the output-convention adapter at the MLP call.
+
     NaN if outside grid or model unavailable.
     """
     if not _in_grid(teff, logg, afe3n, vmic):
@@ -166,8 +175,8 @@ def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
                 s, m = models['lt02']
             else:
                 s, m = models['gt02']
-            aberr = float(m.predict(s.transform(X))[0])
-        return aberr
+            aberr_raw = float(m.predict(s.transform(X))[0])   # network: A(1D) − A(3D)
+        return -aberr_raw   # RYA-339: adapt to correction-to-add A(3D) − A(1D)
     except Exception:
         return np.nan
 
@@ -193,6 +202,15 @@ def _apply_aberr_to_line(ion: str, elo: float, eup: float, lggf: float,
             afe3n = afe3n_new
             break
         afe3n = afe3n_new
+    # RYA-339 sign guard: in the overionization (hot) regime the Fe I NLTE correction
+    # MUST be positive (NLTE needs more Fe than LTE; Amarsi 2022 §6: Procyon Fe I =
+    # +0.20). Fail loud if a sign flip ever returns. Cooler stars (≲6000 K) can carry
+    # small negative Fe I corrections, so only the hot regime is guarded.
+    if ion == 'I' and np.isfinite(ab) and teff >= 6000.0 and ab < -0.02:
+        raise ValueError(
+            f"Fe I NLTE correction {ab:+.3f} is NEGATIVE at Teff={teff:.0f} K "
+            f"(overionization regime) — expected positive (Amarsi 2022 §6: Procyon "
+            f"Fe I = +0.20). A sign flip has returned (RYA-339).")
     return ab
 
 
