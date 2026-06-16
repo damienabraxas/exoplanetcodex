@@ -33,12 +33,14 @@ from config.constants import (
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
 )
 
-# A_X_nlte from iSpec is relative [Fe/H]; absolute A(Fe) = [Fe/H] + _A_FE_SOLAR
+# RYA-334: A_X_nlte is ABSOLUTE A(Fe) (RYA-319 convention); the _check_gates /
+# _plot_ion_balance readers use it directly (RYA-320). _A_FE_SOLAR is used here only
+# to derive the absolute gate THRESHOLDS (7.46 ± FE_GATE), not to convert A_X_nlte.
 _A_FE_SOLAR = SOLAR_ASPLUND2021['Fe']  # 7.46 (Asplund+2021)
 
 # ── Gate definitions ──────────────────────────────────────────────────────────
-# Solar thresholds derived from FE_GATE_* constants (relative [Fe/H]) converted
-# to absolute A(Fe) for comparison — matching what A_X_nlte stores after conversion.
+# Solar thresholds: FE_GATE_* are offsets in [Fe/H]; absolute bounds = 7.46 ± offset,
+# compared directly against the absolute A_X_nlte the pipeline stores.
 GATES = {
     'solar': {
         'A_Fe_I_lo'  : _A_FE_SOLAR + FE_GATE_LOWER,   # 7.41

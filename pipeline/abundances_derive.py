@@ -53,6 +53,7 @@ from config.constants import (
     ISPEC_DIR, RADIATIVE_TRANSFER_CODE, EW_BASELINE_CODE,
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
+    assert_abundance_on_scale,
 )
 
 
@@ -2042,6 +2043,17 @@ def run(star_id: str = 'solar',
             return round(float(val), 3) if pd.notna(val) else np.nan
         results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
 
+    # ── RYA-334 range-sanity tripwire (output chokepoint) ─────────
+    # Every absolute-scale column must sit on the A(H)=12 scale. A double-add of
+    # the 7.46 solar offset (RYA-267 class) lands ~15 = above hydrogen → raise loud
+    # here instead of silently writing it / printing it / hiding behind a gate.
+    # Relative [X/H] (XH) is intentionally NOT checked (legitimately negative).
+    for _abs_col in ('A_X', 'A_X_nlte', 'A_X_nlte_absolute', 'A_X_nlte_AB'):
+        if _abs_col in results.columns:
+            for _, _r in results.iterrows():
+                assert_abundance_on_scale(
+                    _r[_abs_col], f"{star_id} {_r.get('element','?')} {_r.get('ion','?')} {_abs_col}")
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
     out_dir  = Path(str(PATHS['solar_ew'])).parent
@@ -2093,6 +2105,9 @@ def run(star_id: str = 'solar',
             _a_fe_solar = SOLAR_ASPLUND2021['Fe']
             _a_nlte_raw = float(fe_row['A_X_nlte']) if 'A_X_nlte' in fe_row else np.nan
             a_nlte      = _a_nlte_raw if (nlte_ok and np.isfinite(_a_nlte_raw)) else a_1d
+            # RYA-334: guard the gate value itself — a double-add re-introduced here
+            # would land ~15 and silently FAIL the gate; fail loud instead.
+            assert_abundance_on_scale(a_nlte, f"{star_id} Fe {ion_lbl} gate a_nlte")
             tgt_lo      = _a_fe_solar + FE_GATE_LOWER  # = 7.41
             tgt_hi      = _a_fe_solar + FE_GATE_UPPER  # = 7.51
             d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
