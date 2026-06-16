@@ -1708,6 +1708,18 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
       - Fe II: lines_fit.py measured EWs (solar_ew.csv) — Fe II not NLTE-affected
       - Other: lines_fit.py measured EWs (solar_ew.csv)
 
+    RYA-330: the GES Fe I routing is RETAINED by evidence, not inertia. RYA-328
+    flagged that the GES reference pool is unvetted relative to program-star pools,
+    and proposed re-routing Fe I through the measured solar_ew.csv "for consistency".
+    That was tested and REJECTED: the measured solar Fe I EWs give A(Fe I) NLTE 7.67
+    (gate fail), scatter 0.44, and a +0.43 reduced-EW slope — strictly worse than the
+    GES reference (7.516 / 0.151 / −0.05). The measured solar EWs carry inflated
+    strong-line EWs that the GES curation does not. The actual fix for the −0.21 slope
+    RYA-328 found is the saturation cut, not the pool: vmic_ew_ceiling_mA was tightened
+    150 → 100 mÅ (config.constants.PIPELINE), which removes the 12 saturated GES lines
+    that drove the slope and applies the SAME bar to all stars. Consistency is achieved
+    by the shared cut, not by forcing the Sun onto a worse pool.
+
     If ew_override is provided, use that file directly (bypasses hybrid logic).
     If solar_ew_ges_reference.csv is missing, falls back to solar_ew.csv for all elements.
     """
@@ -2016,14 +2028,18 @@ def run(star_id: str = 'solar',
     results['nlte_applied'] = False        # A_X is pre-NLTE; NLTE in A_X_nlte_absolute
     if 'A_X_nlte' in results.columns:
         def _nlte_to_absolute(row):
+            # RYA-330: A_X_nlte is stored ABSOLUTE by nlte_corrections.py in every
+            # path — A_X_nlte = median(a_1dlte[i] + aberr[i]) and a_1dlte = A_X, the
+            # absolute MOOG abundance (see nlte_corrections.py:218,271). The earlier
+            # `+ ref` here (and in the solar gate below) was a stale RYA-267 relative-
+            # scale assumption that re-added the 7.46 solar offset, inflating the
+            # absolute NLTE A(Fe) to ~15 and making the solar gate print FAIL on a
+            # passing anchor. A_X_nlte is already absolute → return it directly.
             flag = str(row.get('nlte_flag', '1D_LTE'))
             if flag in ('1D_LTE', 'NLTE_unavailable'):
                 return np.nan   # NLTE not actually applied → no absolute NLTE value
-            ref = SOLAR_ASPLUND2021.get(str(row['element']), np.nan)
             val = row.get('A_X_nlte', np.nan)
-            if pd.notna(val) and np.isfinite(ref):
-                return round(float(val) + float(ref), 3)
-            return np.nan
+            return round(float(val), 3) if pd.notna(val) else np.nan
         results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
 
     # ── Save ──────────────────────────────────────────────────────
@@ -2066,14 +2082,17 @@ def run(star_id: str = 'solar',
             scatter_1d   = float(fe_row.get('A_X_std', np.nan))
             scatter_nlte = float(fe_row.get('A_X_std_nlte', np.nan))
             scatter      = scatter_nlte if np.isfinite(scatter_nlte) else scatter_1d
-            # nlte_flag distinguishes the applied-NLTE case from unavailable fallback.
-            # When NLTE is unavailable, nlte_corrections.py stores the raw A_X value
-            # (already absolute) in A_X_nlte — adding _a_fe_solar would double-count
-            # the solar offset. Only convert when NLTE was actually applied (RYA-267).
+            # RYA-330: A_X_nlte is ABSOLUTE in every path (nlte_corrections.py stores
+            # median(a_1dlte[i] + aberr[i]) with a_1dlte = absolute A_X). The prior
+            # `+ _a_fe_solar` here was a stale RYA-267 relative-scale assumption that
+            # double-counted the solar offset → the gate printed A(Fe)~15 FAIL on a
+            # passing anchor. Use A_X_nlte directly; fall back to 1D LTE only when NLTE
+            # was not applied.
             _flag       = str(fe_row.get('nlte_flag', '1D_LTE'))
             nlte_ok     = _flag not in ('NLTE_unavailable', '1D_LTE')
             _a_fe_solar = SOLAR_ASPLUND2021['Fe']
-            a_nlte      = float(fe_row['A_X_nlte']) + _a_fe_solar if nlte_ok else a_1d
+            _a_nlte_raw = float(fe_row['A_X_nlte']) if 'A_X_nlte' in fe_row else np.nan
+            a_nlte      = _a_nlte_raw if (nlte_ok and np.isfinite(_a_nlte_raw)) else a_1d
             tgt_lo      = _a_fe_solar + FE_GATE_LOWER  # = 7.41
             tgt_hi      = _a_fe_solar + FE_GATE_UPPER  # = 7.51
             d_nlte  = float(fe_row.get('delta_nlte_mean', np.nan))
@@ -2098,11 +2117,11 @@ def run(star_id: str = 'solar',
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
             n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
             el_grade = str(fe_row.get('element_grade', '?'))
-            a_ab_rel = float(fe_row.get('A_X_nlte_AB', np.nan))
-            # A_X_nlte_AB is relative when NLTE applied, absolute when unavailable — same
-            # convention as A_X_nlte. Only add solar offset when NLTE was applied (RYA-267).
-            a_ab     = (a_ab_rel + _a_fe_solar) if (np.isfinite(a_ab_rel) and nlte_ok) else \
-                       (a_ab_rel if np.isfinite(a_ab_rel) else np.nan)
+            a_ab_abs = float(fe_row.get('A_X_nlte_AB', np.nan))
+            # RYA-330: A_X_nlte_AB is ABSOLUTE in every path (weighted mean of absolute
+            # a_1dlte + the NLTE delta; see _compute_grades). Use it directly — the prior
+            # `+ _a_fe_solar` was the same stale RYA-267 double-add fixed in the gate above.
+            a_ab     = a_ab_abs if np.isfinite(a_ab_abs) else np.nan
             n_ab = int(fe_row.get('n_lines_AB', 0))
             print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}"
                   f"  element_grade={el_grade}")
