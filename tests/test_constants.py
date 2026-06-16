@@ -66,6 +66,34 @@ class TestSolarAbundances:
             )
 
 
+class TestAbundanceScaleGuard:
+    """RYA-334: the range-sanity tripwire for the relative/absolute double-add."""
+
+    def test_passes_normal_absolute_values(self):
+        import math
+        from config.constants import assert_abundance_on_scale
+        for v in (7.46, 7.516, 12.0, 0.52, -1.0):   # Fe, MPIA solar, H, Eu, faint
+            assert assert_abundance_on_scale(v, 'test') == v
+
+    def test_nan_and_none_pass_through(self):
+        import math
+        from config.constants import assert_abundance_on_scale
+        assert math.isnan(assert_abundance_on_scale(float('nan'), 'test'))
+        assert assert_abundance_on_scale(None, 'test') is None
+
+    def test_raises_on_double_add(self):
+        # A 7.46 solar offset re-added to an already-absolute ~7.5 lands ~15 — the
+        # exact RYA-267/320/330 signature. Must fail loud, not pass.
+        from config.constants import assert_abundance_on_scale
+        with pytest.raises(ValueError, match="off the A.H.=12 scale"):
+            assert_abundance_on_scale(7.495 + 7.46, 'Fe I gate (simulated double-add)')
+
+    def test_raises_below_floor(self):
+        from config.constants import assert_abundance_on_scale
+        with pytest.raises(ValueError):
+            assert_abundance_on_scale(-5.0, 'test')
+
+
 class TestStar55Cnc:
     def test_teff(self):
         assert STAR_55CNC['teff_K'] == pytest.approx(5196.0, rel=1e-3)

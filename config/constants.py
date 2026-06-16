@@ -73,6 +73,46 @@ SOLAR_ASPLUND2021 = {
     'Eu' :  0.52,
 }
 
+# ── Abundance scale sanity guard (RYA-334) ───────────────────────────────────
+# A(X) = log(N_X/N_H) + 12 with A(H) ≡ 12.00 by definition. Every ABSOLUTE
+# abundance sits on this scale: hydrogen is the ceiling, everything else below it
+# (Fe ≈ 7.46). A value above ~12.5 is physically impossible and is the fingerprint
+# of the RYA-267 relative/absolute double-add — re-adding the 7.46 solar offset to
+# an already-absolute A_X / A_X_nlte lands ~15 ("above hydrogen"). This tripwire
+# makes that class of mistake fail loud at computation/output instead of printing
+# ~15 or hiding behind a gate FAIL. Instances were fixed reactively in RYA-320/330;
+# the guard stops the next one.
+A_X_SCALE_MIN = -2.0    # below the faintest measured absolute A(X)
+A_X_SCALE_MAX = 12.5    # just above A(H)=12; a 7.46 double-add lands ~15
+
+
+def assert_abundance_on_scale(value, context=""):
+    """Fail loud if an ABSOLUTE A(X) is off the A(H)=12 scale (RYA-334 tripwire).
+
+    NaN/None pass through (used for 'not applicable' / NLTE-unavailable). Apply to
+    absolute abundances only — A_X, A_X_nlte, A_X_nlte_absolute, A_X_nlte_AB — and
+    NOT to relative [X/H], which is legitimately negative for metal-poor stars.
+    Returns ``value`` so it can be used inline.
+    """
+    import math
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return value
+    if math.isnan(v):
+        return value
+    if not (A_X_SCALE_MIN < v < A_X_SCALE_MAX):
+        raise ValueError(
+            f"Absolute abundance A(X)={v:.3f} for {context!r} is off the A(H)=12 "
+            f"scale (expected {A_X_SCALE_MIN} < A_X < {A_X_SCALE_MAX}). A value above "
+            f"~12.5 ('above hydrogen') is the RYA-267 relative/absolute double-add "
+            f"signature: an already-absolute A_X/A_X_nlte had the 7.46 solar offset "
+            f"re-added. A_X_nlte is stored absolute (RYA-319) — never re-add the solar "
+            f"offset to it (cf. RYA-320/330/334)."
+        )
+    return value
+
+
 # ── 55 Cancri A stellar parameters ───────────────────────────────────────────
 # Primary source: CHARA interferometry, von Braun et al. 2011 (ApJ 729, 63)
 # Secondary: Valenti & Fischer 2005, Teske et al. 2013
