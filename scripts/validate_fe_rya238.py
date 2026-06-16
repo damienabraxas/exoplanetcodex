@@ -277,8 +277,8 @@ def main(star: str = 'both'):
     conv_solar = ab_solar = None
     solar_pl = pd.DataFrame()
     if run_solar:
-        print("\n>>> Running: solar (vmic fixed = 1.00 km/s)")
-        conv_solar, ab_solar = run('solar', vmic_fixed=True)
+        print("\n>>> Running: solar (ξ pinned via STAR_PARAMS policy, RYA-325)")
+        conv_solar, ab_solar = run('solar')
         solar_pl_path = REPO_ROOT / 'data' / 'processed' / 'solar_per_line.csv'
         solar_pl = pd.read_csv(solar_pl_path) if solar_pl_path.exists() else pd.DataFrame()
 
@@ -286,8 +286,8 @@ def main(star: str = 'both'):
     conv_proc = ab_proc = None
     proc_pl = pd.DataFrame()
     if run_procyon:
-        print("\n>>> Running: procyon (vmic fixed = 1.66 km/s)")
-        conv_proc, ab_proc = run('procyon', vmic_fixed=True)
+        print("\n>>> Running: procyon (ξ pinned via STAR_PARAMS policy, RYA-325)")
+        conv_proc, ab_proc = run('procyon')
         proc_pl_path = REPO_ROOT / 'data' / 'processed' / 'procyon_per_line.csv'
         proc_pl = pd.read_csv(proc_pl_path) if proc_pl_path.exists() else pd.DataFrame()
 
