@@ -1107,6 +1107,21 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
     print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
           f"(fixed); EW ceiling={ew_ceil:.0f} mÅ")
 
+    # RYA-338: optional element focus for the decisive test (e.g. the solar
+    # Fe I−Fe II ionization read under clean flux-space synthesis). Opt-in via env
+    # var (comma-separated element symbols); default = all matched lines, no
+    # behaviour change. Restricts only which lines get the per-line flux fit, so the
+    # full 27-element run and this Fe-focused run share identical machinery/output.
+    import os as _os
+    _focus = _os.environ.get('SYNTH_V2_ONLY_ELEMENTS', '').strip()
+    if _focus:
+        _want = {e.strip() for e in _focus.split(',') if e.strip()}
+        _keep = np.array([str(last_linemasks['note'][i]).split()[0] in _want
+                          for i in range(len(last_linemasks))])
+        last_linemasks = last_linemasks[_keep]
+        print(f"  [synth-v2] RYA-338 element focus = {sorted(_want)} → "
+              f"{int(_keep.sum())} lines (of {len(_keep)} matched)")
+
     unique_elements = sorted({str(last_linemasks['note'][i]).split()[0]
                                for i in range(len(last_linemasks))})
     atom_codes: dict = {}
