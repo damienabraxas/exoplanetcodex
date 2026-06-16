@@ -146,3 +146,127 @@ def parse_vald_long(path, max_examples=5):
 
     return records, {'n_failures': n_failures, 'examples': failures,
                      'n_parsed': len(records)}
+
+
+# =============================================================================
+# RYA-321 — metallicity intake gate
+# -----------------------------------------------------------------------------
+# A metal-rich star extracted at the solar default under-selects weak metal lines
+# (an incomplete pool, worst for trace / neutron-capture species), because VALD
+# selects lines from the stellar atmosphere at the requested COMPOSITION. The
+# composition is set via the "Extract Stellar" form's free-text Chemical
+# composition field ('M/H: <value>').
+#
+# WHERE TO READ THE APPLIED [M/H] (corrected 2026-06-15 from the job.019562 email
+# + delivery): NOT the Castelli model filename. VALD splits the request into two
+# things:
+#   * model-atmosphere STRUCTURE — a Castelli/Kurucz grid node. When VALD lacks
+#     the exact metal-rich structure it substitutes the solar-structure node and
+#     stamps 'castelli_ap00k2_...' in the footer (with a "VALD does not have the
+#     exact model, will use ... instead" line in the job email) EVEN WHEN M/H was
+#     applied. So the filename is the WRONG signal — it false-rejects correct
+#     metal-rich extractions. (Earlier RYA-321 audit read the filename and wrongly
+#     concluded α Cen / 55 Cnc were solar-default; they were not.)
+#   * COMPOSITION — the element abundance block that follows the filename, where
+#     ALL metals are uniformly offset from VALD's solar scale by the requested
+#     [M/H] (H, He fixed). This IS what drove line selection. We read it here.
+#
+# VALD's solar reference abundances (log N_X/N_tot, the [M/H]=0 block, taken from
+# vald_solar_raw.txt). Applied [M/H] = delivered abundance - this reference,
+# averaged over these metals (they agree exactly under uniform scaling). This is a
+# property of VALD's line-selection solar scale (like TRUNCATION_WARNING), NOT a
+# per-star metallicity, so it does not violate the no-hardcoded-metallicity rule
+# (that rule binds feh_ref, still read live from STAR_PARAMS).
+_VALD_SOLAR_ABUND = {
+    'Na': -5.71, 'Mg': -4.46, 'Si': -4.49, 'Ca': -5.68,
+    'Ti': -7.02, 'Cr': -6.37, 'Fe': -4.54, 'Ni': -5.79,
+}
+
+# Quoted 'El: -x.xx' tuples of the abundance block (e.g. 'Fe: -4.54', 'V : -8.04').
+# Transition records ('Fe 1', 3780,...) have no colon after the element, so they
+# do not match.
+_ABUND_RE = re.compile(r"'([A-Z][a-z]?)\s*:\s*(-?\d+\.\d+)'")
+
+
+def applied_metallicity_from_lines(lines, max_spread=0.03):
+    """Core: compute applied [M/H] from an iterable of text lines (so a caller can
+    stream a .gz without decompressing to disk). See parse_vald_applied_metallicity
+    for semantics. Returns the mean metal offset, or None."""
+    found = {}
+    for line in lines:
+        for el, val in _ABUND_RE.findall(line):
+            if el in _VALD_SOLAR_ABUND and el not in found:
+                found[el] = float(val)
+        if len(found) == len(_VALD_SOLAR_ABUND):
+            break
+    if not found:
+        return None
+    offsets = [found[el] - _VALD_SOLAR_ABUND[el] for el in found]
+    if max(offsets) - min(offsets) > max_spread:
+        return None
+    return sum(offsets) / len(offsets)
+
+
+def parse_vald_applied_metallicity(path, max_spread=0.03):
+    """Return the [M/H] VALD applied to the composition (from the footer abundance
+    block), or None if it cannot be read. Computed as the mean offset of the
+    reference metals (_VALD_SOLAR_ABUND) from VALD's solar scale. The per-element
+    offsets must agree to within `max_spread` (VALD scales all metals uniformly);
+    a larger spread means a parse error or a changed solar reference, so we return
+    None (fail loud — do not trust a half-read block)."""
+    with open(path, errors='replace') as f:
+        return applied_metallicity_from_lines(f, max_spread)
+
+
+def parse_vald_structure_grid(path):
+    """Informational: the [M/H] of the Castelli STRUCTURE model VALD used (footer
+    'castelli_apNNk2_...' filename), or None. This is the atmosphere structure
+    node, NOT the applied composition (see module note) — used only to report when
+    VALD substituted a solar-structure model. Do NOT gate on this."""
+    m = None
+    rx = re.compile(r'castelli_a([pm])(\d{2})k\d', re.IGNORECASE)
+    with open(path, errors='replace') as f:
+        for line in f:
+            m = rx.search(line)
+            if m:
+                sign = -1.0 if m.group(1).lower() == 'm' else 1.0
+                return sign * int(m.group(2)) / 10.0
+    return None
+
+
+def verify_metallicity(path, star_id, star_params, tol=0.05):
+    """Intake gate: the [M/H] VALD APPLIED to the composition must match the star's
+    catalog [Fe/H]. Source of truth is STAR_PARAMS[star_id]['feh_ref'] (RYA-292) —
+    never hardcoded. A missing record (no STAR_PARAMS entry, or no abundance block
+    in the delivery) REJECTs loudly: cannot verify == do not trust, no silent
+    fallback. Returns (verdict, message).
+
+    tol defaults to 0.05 dex (~1σ on the GBS [Fe/H]); the composition is applied
+    continuously so this only needs to absorb reasonable reference differences
+    (e.g. a +0.35 vs catalog +0.31 [Fe/H] choice), while still catching a true
+    solar-default extraction (|Δ| ≈ the star's [Fe/H], ≥0.2 for our metal-rich set).
+
+    NB: the spec drafted the lookup as STAR_PARAMS[...]['feh'], but the live record
+    key is 'feh_ref' (the catalog [Fe/H]; [Fe/H] is solved, not pinned).
+    """
+    rec = star_params.get(star_id)
+    if not rec or 'feh_ref' not in rec:
+        return ('REJECT',
+                f"{path}: no STAR_PARAMS[{star_id}].feh_ref — cannot verify "
+                f"metallicity. Wire the star into STAR_PARAMS (RYA-292) first.")
+    catalog = float(rec['feh_ref'])
+    found = parse_vald_applied_metallicity(path)
+    if found is None:
+        return ('REJECT',
+                f"{path}: no composition (abundance block) readable — cannot "
+                f"confirm applied [M/H] (catalog [Fe/H]={catalog:+.2f}). Re-extract "
+                f"with 'M/H: {catalog:+.2f}' in the Chemical composition field.")
+    if abs(found - catalog) > tol:
+        return ('REJECT',
+                f"{path}: METALLICITY MISMATCH — VALD applied [M/H]={found:+.2f}, "
+                f"catalog [Fe/H]={catalog:+.2f} (|Δ|={abs(found - catalog):.2f} > "
+                f"{tol}). Re-extract with 'M/H: {catalog:+.2f}' in Chemical "
+                f"composition.")
+    return ('ACCEPT',
+            f"{path}: metallicity OK (VALD applied [M/H]={found:+.2f} vs catalog "
+            f"{catalog:+.2f}, |Δ|={abs(found - catalog):.2f}).")
