@@ -2126,7 +2126,29 @@ def run(star_id: str = 'solar',
         )
         if engine == 'synthesis-v2':
             print(f"\n[4b/4] Synthesis-v2 flux-space fit (Turbospectrum)...")
-            _run_synthesis_v2_mode(last_linemasks, converged_params, _atm_synth,
+            # RYA-342: feed the synth the MEASURED line set, NOT the EW-converged
+            # last_linemasks. The flux-space synth must not inherit ANY EW-domain line
+            # selection (saturation ceiling, blend_flag, or the theoretical-EW sanity
+            # filter that drops recover-tier lines like 6239.943 — χ²ᵣ 1.32 — that
+            # synthesis can measure). Its only acceptance gate is fit quality (χ²ᵣ).
+            # Build from the same valid EW range the convergence uses, but BEFORE the
+            # blend/sanity filter. (EW path keeps its converged set — correct there.)
+            _emin = float(PIPELINE['ew_min_mA']); _emax = float(PIPELINE['ew_max_mA'])
+            _ewm  = ew_df[(ew_df['ew_mA'] >= _emin) & (ew_df['ew_mA'] <= _emax)].copy()
+            _synth_lm = _build_ispec_line_regions(_ewm)
+            # Regression guard (RYA-342): the measured set must be a SUPERSET of the
+            # EW-converged set — no EW-domain filter (ceiling / blend / convergence)
+            # may shrink the synth's input. Fail loud if a converged line is missing.
+            _cw = {round(float(w), 2) for w in last_linemasks['wave_A']}
+            _mw = {round(float(w), 2) for w in _synth_lm['wave_A']}
+            _miss = _cw - _mw
+            assert not _miss, (
+                f"RYA-342: {len(_miss)} EW-converged line(s) absent from the synth "
+                f"measured set — an EW-domain filter shrank the synth input "
+                f"({sorted(_miss)[:5]})")
+            print(f"  [synth-v2] line set: {len(_synth_lm)} measured "
+                  f"(vs {len(last_linemasks)} EW-converged) — synth gates on χ²ᵣ only")
+            _run_synthesis_v2_mode(_synth_lm, converged_params, _atm_synth,
                                    star_id, out_dir)
         else:
             print(f"\n[4b/4] Synthesis-EW mode (Turbospectrum bisection)...")
