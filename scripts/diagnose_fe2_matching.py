@@ -23,11 +23,20 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from config.constants import ISPEC_DIR, PATHS
+from pipeline.species import species_key   # RYA-345 canonical species matcher
 
 sys.path.insert(0, str(ISPEC_DIR))
 import ispec  # noqa: E402
 
 WAVE_TOL = 0.15  # Å — default tolerance in _build_ispec_line_regions
+_FE_II = (26, 2)
+
+
+def _is_fe2(element, ion=None) -> bool:
+    try:
+        return species_key(element, ion) == _FE_II
+    except ValueError:
+        return False
 
 FE_FILE  = str(ISPEC_DIR / 'input' / 'regions' / '42000_VALD' /
                'turbospectrum_synth_good_for_params_codex_extended.txt')
@@ -37,15 +46,16 @@ ALL_FILE = str(ISPEC_DIR / 'input' / 'regions' / '42000_VALD' /
 
 def _get_fe2_wavs(path: str) -> np.ndarray:
     regions = ispec.read_line_regions(path)
-    notes   = np.array([str(n).strip() for n in regions['note']])
-    return regions[notes == 'Fe 2']['wave_A'].astype(float)
+    is_fe2  = np.array([_is_fe2(str(n)) for n in regions['note']])
+    return regions[is_fe2]['wave_A'].astype(float)
 
 
 def main():
     # ── 1. Fe II EWs in solar_ew.csv ─────────────────────────────────────────
     solar_ew = pd.read_csv(str(PATHS['solar_ew']))
     solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
-    fe2_ew   = solar_ew[(solar_ew['element'] == 'Fe') & (solar_ew['ion'] == 'II')].copy()
+    fe2_ew   = solar_ew[[_is_fe2(e, i) for e, i in
+                         zip(solar_ew['element'], solar_ew['ion'])]].copy()
     fe2_ew_clean = fe2_ew[
         (~fe2_ew['blend_flag'].fillna(False)) &
         (fe2_ew['ew_mA'] >= 5) & (fe2_ew['ew_mA'] <= 300)

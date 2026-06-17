@@ -40,6 +40,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from pipeline.species import parse_ion   # RYA-345 canonical ion normalizer
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _REPO_ROOT   = Path(__file__).parent.parent
@@ -237,8 +239,13 @@ def _load_mpia_fe_grid() -> dict:
     from scipy.interpolate import LinearNDInterpolator
     df = pd.read_csv(_MPIA_FE_GRID)
     df = df[df['delta_nlte'].notna()]
-    interp, waves = {}, {'I': [], 'II': []}
+    # RYA-345: the grid encodes ion as 'I'/'II' strings; key the interpolators on
+    # the canonical ion int so callers passing any encoding ('I'/'II'/1/2/'26.1')
+    # resolve to the same bucket. (Broke RYA-339 when the grid string convention
+    # was assumed on the caller side.)
+    interp, waves = {}, {}
     for (ion, wave), g in df.groupby(['ion', 'wave_A']):
+        ion_i = parse_ion(ion)
         pts = g[['teff_K', 'logg', 'feh']].values
         if len(pts) < 4:
             continue
@@ -246,8 +253,8 @@ def _load_mpia_fe_grid() -> dict:
             f = LinearNDInterpolator(pts, g['delta_nlte'].values)
         except Exception:
             continue
-        interp[(str(ion), round(float(wave), 3))] = f
-        waves[str(ion)].append(round(float(wave), 3))
+        interp[(ion_i, round(float(wave), 3))] = f
+        waves.setdefault(ion_i, []).append(round(float(wave), 3))
     _mpia_cache['interp'] = interp
     _mpia_cache['waves'] = {k: np.array(sorted(v)) for k, v in waves.items()}
     _mpia_cache['bounds'] = {
@@ -264,13 +271,14 @@ def _mpia_fe_delta(ion: str, wave_A: float, teff: float, logg: float,
     from the MPIA grid. NaN if the line has no wave match (not in grid) or the
     star is outside the (teff,logg,feh) hull."""
     c = _load_mpia_fe_grid()
-    w = c['waves'].get(str(ion), np.array([]))
+    ion_i = parse_ion(ion)                       # RYA-345 canonical ion
+    w = c['waves'].get(ion_i, np.array([]))
     if len(w) == 0:
         return np.nan
     j = int(np.abs(w - wave_A).argmin())
     if abs(float(w[j]) - wave_A) > tol:
         return np.nan
-    f = c['interp'].get((str(ion), float(w[j])))
+    f = c['interp'].get((ion_i, float(w[j])))
     return float(f([[teff, logg, feh]])[0]) if f is not None else np.nan
 
 
