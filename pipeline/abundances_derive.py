@@ -54,6 +54,7 @@ from config.constants import (
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
+    SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
 )
 
@@ -1086,7 +1087,8 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
     logg   = float(converged_params['logg'])
     feh    = float(converged_params['feh'])
     vturb  = float(converged_params['vturb_kms'])
-    ew_ceil = float(PIPELINE['vmic_ew_ceiling_mA'])  # ceiling from constants (RYA-277 coord)
+    # RYA-342: the EW saturation ceiling does NOT gate the flux-space path; acceptance
+    # is on fit quality (SYNTH_CHI2_GATE) in the aggregation below.
 
     # Broadening (fixed inputs — only abundance is free). RYA-288: sourced per-star
     # from STAR_PARAMS via get_star_params(); fail loud if absent (no solar default).
@@ -1105,7 +1107,8 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
     print(f"[{star_id}] broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s",
           file=sys.stderr)
     print(f"  [synth-v2] Broadening: R={R_inst:.0f}, vmac={vmac} km/s, vsini={vsini} km/s "
-          f"(fixed); EW ceiling={ew_ceil:.0f} mÅ")
+          f"(fixed); line acceptance = fit quality χ²ᵣ < {SYNTH_CHI2_GATE} (RYA-342, "
+          f"NOT the EW ceiling)")
 
     # RYA-338: optional element focus for the decisive test (e.g. the solar
     # Fe I−Fe II ionization read under clean flux-space synthesis). Opt-in via env
@@ -1150,15 +1153,11 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
         base_row = {'element': element, 'ion': ion_lbl,
                     'wavelength_air_A': wave_A, 'ew_mA': ew_obs}
 
-        # Saturation policy: ceiling pulled from constants (coordinate RYA-277);
-        # above it, flag saturated rather than fit (deferred to RYA-277).
-        if ew_obs > ew_ceil:
-            n_sat += 1
-            per_line_rows.append({**base_row, 'a_synth': np.nan,
-                                  'red_chi2': np.nan, 'status': 'saturated',
-                                  'saturated': True})
-            continue
-
+        # RYA-342: the flux-space path does NOT gate on the EW saturation ceiling
+        # (vmic_ew_ceiling_mA) — that is an EW-path concept. Flux-space synthesis is
+        # built (RYA-338 FLAG 2, wing-wide windows) to measure exactly the strong/
+        # blended lines EW saturation kills; the gate is FIT QUALITY (reduced χ²),
+        # applied in the aggregation below. Every line is fit; acceptance is on merit.
         if element not in atom_codes:
             n_skip += 1
             per_line_rows.append({**base_row, 'a_synth': np.nan,
@@ -1206,9 +1205,43 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
 
     per_line_v2_df = pd.DataFrame(per_line_rows)
 
-    # Aggregate from status=='ok' lines only (edge_pinned/saturated/failed excluded).
-    # A_X differential vs iSpec Asplund-2009 ref (same scale convention as v1).
-    ok_df = per_line_v2_df[per_line_v2_df['status'] == 'ok'].copy()
+    # RYA-342: empty-set guard — accessing ['status'] on an empty DataFrame raises
+    # KeyError (root cause of the ceiling-150 crash: an upstream filter left 0 lines).
+    # Fail soft + loud rather than KeyError; never a bare except.
+    if per_line_v2_df.empty or 'status' not in per_line_v2_df.columns:
+        print("  [synth-v2] WARNING: 0 synth lines produced (check line set / element "
+              "focus) — returning empty tables, no aggregation.")
+        empty = pd.DataFrame(columns=['element', 'ion', 'A_X', 'A_X_abs', 'A_X_std',
+                                      'n_lines', 'med_red_chi2', 'XH', 'XFe',
+                                      'scale', 'nlte_applied'])
+        per_line_v2_df.to_csv(Path(str(out_dir)) / f'{star_id}_per_line_synth_v2.csv',
+                              index=False)
+        return empty, per_line_v2_df
+
+    # ── Line acceptance = FIT QUALITY (RYA-342), not the EW saturation ceiling ──
+    # Accept status=='ok' AND reduced-χ² < SYNTH_CHI2_GATE. Lines fit but poorly
+    # (blend/model error, χ²ᵣ ≫ gate) are rejected ON MERIT and LOGGED with their χ²ᵣ —
+    # never silently dropped. (edge_pinned/failed still excluded by status.)
+    _ok    = per_line_v2_df[per_line_v2_df['status'] == 'ok'].copy()
+    ok_df  = _ok[_ok['red_chi2'] < SYNTH_CHI2_GATE].copy()
+    _rej   = _ok[_ok['red_chi2'] >= SYNTH_CHI2_GATE]
+    for _, r in _rej.sort_values('red_chi2', ascending=False).iterrows():
+        print(f"  [synth-v2] REJECT(fit) {r['element']} {r['ion']} "
+              f"{r['wavelength_air_A']:.3f} Å — χ²ᵣ={r['red_chi2']:.1f} ≥ "
+              f"{SYNTH_CHI2_GATE} (a_synth={r['a_synth']:.3f} not used)")
+    if len(_rej):
+        print(f"  [synth-v2] fit-quality gate: {len(ok_df)} accepted / "
+              f"{len(_rej)} rejected (χ²ᵣ ≥ {SYNTH_CHI2_GATE}) of {len(_ok)} fitted")
+    # Regression guard (RYA-342): an EW-domain cut must NEVER drop a good-fit synth
+    # line. 'saturated' True with a good χ²ᵣ means an EW ceiling has re-gated the synth
+    # path — fail loud (the whole point of this fix).
+    _bad = per_line_v2_df[(per_line_v2_df['saturated'] == True) &
+                          (per_line_v2_df['red_chi2'] < SYNTH_CHI2_GATE)]
+    if len(_bad):
+        raise AssertionError(
+            f"RYA-342: {len(_bad)} synth line(s) with good χ²ᵣ were flagged 'saturated' "
+            f"by an EW cut — flux-space synthesis must gate on fit quality only "
+            f"(lines: {_bad['wavelength_air_A'].round(3).tolist()})")
     rows = []
     if not ok_df.empty:
         for (elem, ion), grp in ok_df.groupby(['element', 'ion']):
@@ -2093,7 +2126,29 @@ def run(star_id: str = 'solar',
         )
         if engine == 'synthesis-v2':
             print(f"\n[4b/4] Synthesis-v2 flux-space fit (Turbospectrum)...")
-            _run_synthesis_v2_mode(last_linemasks, converged_params, _atm_synth,
+            # RYA-342: feed the synth the MEASURED line set, NOT the EW-converged
+            # last_linemasks. The flux-space synth must not inherit ANY EW-domain line
+            # selection (saturation ceiling, blend_flag, or the theoretical-EW sanity
+            # filter that drops recover-tier lines like 6239.943 — χ²ᵣ 1.32 — that
+            # synthesis can measure). Its only acceptance gate is fit quality (χ²ᵣ).
+            # Build from the same valid EW range the convergence uses, but BEFORE the
+            # blend/sanity filter. (EW path keeps its converged set — correct there.)
+            _emin = float(PIPELINE['ew_min_mA']); _emax = float(PIPELINE['ew_max_mA'])
+            _ewm  = ew_df[(ew_df['ew_mA'] >= _emin) & (ew_df['ew_mA'] <= _emax)].copy()
+            _synth_lm = _build_ispec_line_regions(_ewm)
+            # Regression guard (RYA-342): the measured set must be a SUPERSET of the
+            # EW-converged set — no EW-domain filter (ceiling / blend / convergence)
+            # may shrink the synth's input. Fail loud if a converged line is missing.
+            _cw = {round(float(w), 2) for w in last_linemasks['wave_A']}
+            _mw = {round(float(w), 2) for w in _synth_lm['wave_A']}
+            _miss = _cw - _mw
+            assert not _miss, (
+                f"RYA-342: {len(_miss)} EW-converged line(s) absent from the synth "
+                f"measured set — an EW-domain filter shrank the synth input "
+                f"({sorted(_miss)[:5]})")
+            print(f"  [synth-v2] line set: {len(_synth_lm)} measured "
+                  f"(vs {len(last_linemasks)} EW-converged) — synth gates on χ²ᵣ only")
+            _run_synthesis_v2_mode(_synth_lm, converged_params, _atm_synth,
                                    star_id, out_dir)
         else:
             print(f"\n[4b/4] Synthesis-EW mode (Turbospectrum bisection)...")

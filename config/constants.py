@@ -230,6 +230,20 @@ FE_ABS_DIAG_HALFWIDTH = 0.07   # dex — wide half-window around the scale-aware
 FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat within error"
                                # for the solar guardrail (RYA-330: −0.04..−0.09).
 
+# ── Flux-space synthesis (synth-v2) line-acceptance gate (RYA-342) ────────────
+# The flux-space fitter accepts/rejects each line on FIT QUALITY (reduced χ²), NOT
+# on the EW saturation ceiling (vmic_ew_ceiling_mA — an EW-path concept). Flux-space
+# synthesis exists to measure exactly the strong/blended lines EW saturation kills
+# (RYA-338 FLAG 2), so gating it on an EW ceiling defeats its purpose and silently
+# suppresses real strong lines for every star/element (RYA-341 found this on solar
+# Fe II: 6239.943 EW 112 mÅ was dropped as "saturated" yet flux-fits at χ²ᵣ 1.32).
+# The χ²ᵣ here is on iSpec's model-adequacy-floor scale (order-unity = synthetic
+# matches observed; ≫1 = unmodeled blend / model error, abundance unreliable). The
+# solar Fe II distribution is starkly bimodal — clean lines χ²ᵣ ≤ 3.0, blend-
+# dominated lines χ²ᵣ ≥ 128, with a wide empty gap (3.0 → 128) — so 10.0 separates
+# them robustly without being delicate. Rejected lines are logged with their χ²ᵣ.
+SYNTH_CHI2_GATE       = 10.0   # max reduced-χ² for a synth-v2 line to enter the median
+
 # ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
 # Source: VALD3 log_gf; Allende Prieto et al. 2001 (ApJ 556, L63) for EW.
