@@ -25,6 +25,18 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from config.constants import PATHS, ISPEC_DIR
+from pipeline.species import species_key   # RYA-345 canonical species matcher
+
+_FE_II = (26, 2)
+
+
+def _is_fe2(element, ion=None) -> bool:
+    """True iff (element, ion) / a region note / a species code is Fe II,
+    routed through the canonical normalizer (RYA-345) — encoding-agnostic."""
+    try:
+        return species_key(element, ion) == _FE_II
+    except ValueError:
+        return False
 
 # ── Paths (derived from PATHS / ISPEC_DIR in constants.py) ──────────────────
 EW_FILE  = PATHS['solar_ew']
@@ -58,9 +70,9 @@ else:
 ew_df = pd.read_csv(EW_FILE)
 ll_df = pd.read_csv(LINELIST)
 
-# Fe II only
-fe2_ew = ew_df[(ew_df['element'] == 'Fe') & (ew_df['ion'] == 'II')].copy()
-fe2_ll = ll_df[(ll_df['element'] == 'Fe') & (ll_df['ion'] == 'II')].copy()
+# Fe II only (RYA-345: canonical species match, encoding-agnostic)
+fe2_ew = ew_df[[_is_fe2(e, i) for e, i in zip(ew_df['element'], ew_df['ion'])]].copy()
+fe2_ll = ll_df[[_is_fe2(e, i) for e, i in zip(ll_df['element'], ll_df['ion'])]].copy()
 
 # ── Identify already-matched lines (present in existing GES file) ─────────────
 ges_wavs = []
@@ -68,7 +80,7 @@ with open(GES_FILE) as f:
     next(f)  # skip header
     for line in f:
         parts = line.strip().split('\t')
-        if len(parts) >= 2 and parts[0].strip() == 'Fe 2':  # element col identifies Fe II
+        if len(parts) >= 2 and _is_fe2(parts[0]):  # element col identifies Fe II
             try:
                 ges_wavs.append(float(parts[1]))  # wave_A col
             except ValueError:
