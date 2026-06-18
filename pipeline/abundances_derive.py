@@ -57,6 +57,7 @@ from config.constants import (
     SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
 )
+from pipeline.species import species_key, species_note
 
 
 def _star_linelist(star_id: str):
@@ -166,8 +167,13 @@ def _load_atmosphere(teff: float, logg: float, feh: float, vturb: float,
 # ── EW → line regions ─────────────────────────────────────────────────────────
 
 def _ours_to_ispec_note(element: str, ion: str) -> str:
-    """'Fe', 'I' → 'Fe 1';  'Fe', 'II' → 'Fe 2'"""
-    return f"{element} {1 if ion.strip().upper() == 'I' else 2}"
+    """'Fe', 'I' → 'Fe 1';  'Fe', 'II' → 'Fe 2'.
+
+    RYA-345: routed through the canonical normalizer (pipeline.species), which
+    fixes the old `1 if ion=='I' else 2` collapse (every non-neutral ion mapped
+    to 2) and raises loudly on unparseable element/ion instead of mis-keying.
+    """
+    return species_note(element, ion)
 
 
 def _build_ispec_line_regions(ew_df: pd.DataFrame,
@@ -191,22 +197,29 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
     """
     regions = ispec.read_line_regions(line_regions_path)
 
-    # Build lookup: ispec_note → [(wav_Å, ew_Å, err_Å), ...]
-    lookup: dict[str, list] = {}
+    # Build lookup keyed by the CANONICAL species key (RYA-345) — (Z, ion) —
+    # so the GES region 'note' ('Fe 2') and our (element, ion) strings ('Fe','II')
+    # resolve to the same key regardless of encoding. A 0-match per species used
+    # to be silent (RYA-339/343); see the guard below.
+    lookup: dict[tuple, list] = {}
     for _, row in ew_df.iterrows():
-        note  = _ours_to_ispec_note(str(row['element']), str(row['ion']))
+        key    = species_key(str(row['element']), str(row['ion']))
         wav    = float(row['wavelength_air_A'])
         ew_mA  = float(row['ew_mA'])
         err_mA = float(row['ew_err_mA']) if 'ew_err_mA' in row.index else 0.0
-        lookup.setdefault(note, []).append((wav, ew_mA, err_mA))
+        lookup.setdefault(key, []).append((wav, ew_mA, err_mA))
 
     # Match regions → our EWs (match on wave_A which is in Å)
     matched_idx, ew_vals, err_vals = [], [], []
+    matched_species: set = set()
     for i, region in enumerate(regions):
-        note = str(region['note'])
-        if note not in lookup:
+        try:
+            key = species_key(str(region['note']))
+        except ValueError:
+            continue                      # molecular / non-atomic region note
+        if key not in lookup:
             continue
-        candidates = lookup[note]
+        candidates = lookup[key]
         diffs = [abs(wav - float(region['wave_A'])) for wav, _, _ in candidates]
         min_diff = min(diffs)
         if min_diff > wave_tol:
@@ -215,12 +228,25 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
         matched_idx.append(i)
         ew_vals.append(best[1])
         err_vals.append(best[2])
+        matched_species.add(key)
 
     if not matched_idx:
         raise RuntimeError(
             f"No EW measurements matched iSpec line regions "
             f"(±{wave_tol} Å). Check element/ion names and wavelengths."
         )
+
+    # RYA-345 regression guard: a species that HAS measured lines but matched
+    # 0 regions is a silent-encoding failure (the exact 339/343 footgun). Warn
+    # loud per species so a 0-match never hides as "no such line".
+    for key, cands in lookup.items():
+        if key not in matched_species:
+            warnings.warn(
+                f"RYA-345 0-match guard: species {key} has {len(cands)} measured "
+                f"line(s) but matched 0 iSpec regions (±{wave_tol} Å). Check the "
+                f"region file coverage / wavelength tolerance — NOT an encoding "
+                f"mismatch (all sides routed through species_key).",
+                RuntimeWarning, stacklevel=2)
 
     linemasks = regions[matched_idx].copy()
     # Store EW in mÅ — iSpec's __spectrum_write_abundance_lines writes
