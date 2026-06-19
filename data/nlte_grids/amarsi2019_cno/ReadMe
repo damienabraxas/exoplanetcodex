@@ -1,0 +1,213 @@
+J/A+A/630/A104      Disk and halo stars C, O and Fe abundances   (Amarsi+, 2019)
+================================================================================
+Carbon, oxygen, and iron abundances in disk and halo stars.
+Implications of 3D non-LTE spectral line formation.
+    Amarsi A.M., Nissen P.E., Skuladottir A.
+    <Astron. Astrophys. 630, A104 (2019)>
+    =2019A&A...630A.104A        (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Stars, late-type ; Abundances
+Keywords: line: formation - radiative transfer - stars: abundances -
+          stars: atmospheres - stars: late-type
+
+Abstract:
+    The abundances of carbon, oxygen, and iron in late-type stars are
+    important parameters in exoplanetary and stellar physics, as well as
+    key tracers of stellar populations and Galactic chemical evolution.
+    However, standard spectroscopic abundance analyses can be prone to
+    severe systematic errors, by the assumption that the stellar
+    atmosphere is one-dimensional (1D) and hydrostatic, and by ignoring
+    departures from local thermodynamic equilibrium (LTE). To address
+    this, we carry out 3D non-LTE radiative transfer calculations for CI
+    and OI, and 3D LTE radiative transfer calculations for FeII, across
+    the stagger-grid of 3D hydrodynamic model atmospheres. The absolute 3D
+    non-LTE versus 1D LTE abundance corrections can be as severe as
+    ~0.3dex for CI lines in low-metallicity F dwarfs, and ~0.6dex for OI
+    lines in high-metallicity F dwarfs. The 3D LTE versus 1D LTE abundance
+    corrections for FeII lines are less severe, typically less than
+    +0.15dex. We use the corrections in a re-analysis of carbon, oxygen,
+    and iron in 187 F and G dwarfs in the Galactic disk and halo. Applying
+    the differential 3D non-LTE corrections to 1D LTE abundances visibly
+    reduces the scatter in the abundance plots. The thick disk and high-
+    halo population rise in carbon and oxygen with decreasing metallicity,
+    reaching a maximum of [C/Fe]~=0.2 and a plateau of [O/Fe]~=0.6 at
+    [Fe/H]~=~1.0. The low- halo population is qualitatively similar,
+    albeit offset towards lower metallicities and with larger scatter.
+    Nevertheless, these populations overlap in the [C/O] versus [O/H]
+    plane, decreasing to a plateau of [C/O]~=0.6 below [O/H]~=1.0. In the
+    thin-disk, stars having confirmed planet detections tend to have
+    higher values of C/O at given [O/H]; this potential signature of
+    planet formation is only apparent after applying the abundance
+    corrections to the 1D LTE results. Our grids of line-by-line abundance
+    corrections are publicly available and can readily be used to improve
+    the accuracy of spectroscopic analyses of late-type stars.
+
+Description:
+    Spectrum synthesis calculations were performed on four different
+    families of model atmospheres: 3D hydrodynamic model atmospheres from
+    the STAGGER-grid (Magic et al. 2013A&A...557A..26M, Cat.
+    J/A+A/557/A26); 1D model atmospheres determined by averaging the <3D>
+    STAGGER model atmospheres (henceforth <3D> model atmospheres;
+    Magic et al. 2013A&A...560A...8M, Cat. J/A+A/560/A8); theoretical 1D
+    hydrostatic model atmospheres from the ATMO-grid (the 1D equivalent
+    of the STAGGER-grid, see Appendix A of Magic et al.
+    2013A&A...557A..26M, Cat. J/A+A/557/A26); and theoretical 1D
+    hydrostatic model atmospheres from the MARCS-grid (Gustafsson et al.
+    2008A&A...486..951G).
+
+    Table1 contains the line parameters that were adopted for the grids of
+    abundance corrections. Table2 contains the 3D non-LTE versus 1D LTE
+    abundance corrections for CI lines. Table3 contains the 3D non-LTE
+    versus 1D LTE abundance corrections for OI lines. Table4 contains the
+    3D LTE versus 1D LTE abundance corrections for FeII lines. Table5
+    contains the 1D non-LTE versus 1D LTE abundance corrections for CI
+    lines. Table6 contains the 1D non-LTE versus 1D LTE abundance
+    corrections for OI lines. Table7 contains the stellar parameters and
+    abundances for the 187 sample stars.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+table7.dat       362      187   Parameters/abundances of 187 stars
+table1.dat        88      185   Line parameters
+table2.dat        59    33966   3N-1L abundance corrections for CI
+table3.dat        59    33966   3N-1L abundance corrections for OI
+table4.dat        51   223650   3L-1L abundance corrections for FeII
+table5.dat        59   829413   1N-1L abundance corrections for CI
+table6.dat        59   829413   1N-1L abundance corrections for OI
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table7.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 12  A12   [-]     Star      Name of star
+  14- 25  A12   [-]     Pop       Population assigned in the paper
+      29  I1    [-]     Nplanet   Number of planet detections
+  33- 39  F7.4  Mjup    Maxmass   Maximum planet mass in system
+  43- 46  I4    K       Teff      Effective temperature
+  50- 54  F5.2  [cm/s2] logg      Logarithm of surface gravity
+  58- 62  F5.2  km/s    vmic      1D microturbulence parameter
+  66- 77  F12.4 [-]     [Fe/H]3L  ?=-9999 3D LTE iron abundance (1)
+  81- 92  F12.4 [-]   e_[Fe/H]3L  ?=-9999 Uncertainty on [Fe/H]3L (1)
+  96-107  F12.4 [-]     [Fe/H]1L  ?=-9999 1D LTE iron abundance (1)
+ 111-122  F12.4 [-]   e_[Fe/H]1L  ?=-9999 Uncertainty on [Fe/H]1L (1)
+ 126-137  F12.4 [-]     [C/H]3N   ?=-9999 3D non-LTE carbon abundance (1)
+ 141-152  F12.4 [-]   e_[C/H]3N   ?=-9999 Uncertainty on [C/H]3N (1)
+ 156-167  F12.4 [-]     [C/H]1N   ?=-9999 1D non-LTE carbon abundance (1)
+ 171-182  F12.4 [-]   e_[C/H]1N   ?=-9999 Uncertainty on [C/H]1N (1)
+ 186-197  F12.4 [-]     [C/H]3L   ?=-9999 3D LTE carbon abundance (1)
+ 201-212  F12.4 [-]   e_[C/H]3L   ?=-9999 Uncertainty on [C/H]3L (1)
+ 216-227  F12.4 [-]     [C/H]1L   ?=-9999 1D LTE carbon abundance (1)
+ 231-242  F12.4 [-]   e_[C/H]1L   ?=-9999 Uncertainty on [C/H]1L (1)
+ 246-257  F12.4 [-]     [O/H]3N   ?=-9999 3D non-LTE oxygen abundance (1)
+ 261-272  F12.4 [-]   e_[O/H]3N   ?=-9999 Uncertainty on [O/H]3N (1)
+ 276-287  F12.4 [-]     [O/H]1N   ?=-9999 1D non-LTE carbon abundance (1)
+ 291-302  F12.4 [-]   e_[O/H]1N   ?=-9999 Uncertainty on [O/H]1N (1)
+ 306-317  F12.4 [-]     [O/H]3L   ?=-9999 3D LTE carbon abundance (1)
+ 321-332  F12.4 [-]   e_[O/H]3L   ?=-9999 Uncertainty on [O/H]3L (1)
+ 336-347  F12.4 [-]     [O/H]1L   ?=-9999 1D LTE carbon abundance (1)
+ 351-362  F12.4 [-]   e_[O/H]1L   ?=-9999 Uncertainty on [O/H]1L (1)
+--------------------------------------------------------------------------------
+Note (1): Missing values are assigned a value of -9999. For the Sun,
+   absolute abundances are shown.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units  Label     Explanations
+--------------------------------------------------------------------------------
+   1-  4  A4    ---    Species   Species identifier (CI, OI or FeII)
+   7- 14  A8    ---    Line      Line label
+  18- 25  F8.3  nm     wlair     Air wavelength
+  29- 36  F8.3  nm     wlvac     Vacuum wavelength
+  40- 50  F11.7 eV     chipot    Excitation potential
+  54- 61  F8.3  [-]    loggf     Logarithm of lower level statistical weight
+                                  times oscillator strength
+  65- 72  F8.3  [s-1]  loggamnat Logarithm of natural broadening
+  76- 80  I5    ---    sigmaABO  ? ABO cross-section at 10^4^m/s
+                                  in a0^2^ unit (1)
+  84- 88  F5.3  ---    alphaABO  ? ABO velocity exponent (1)
+--------------------------------------------------------------------------------
+Note (1): Data are not provided where ABO theory was not applicable.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  4  I4    K       Teff      Effective temperature
+   8- 12  F5.2  [cm/s2] logg      Logarithm of surface gravity
+  16- 20  F5.2  [-]     [Fe/H]    Iron abundance relative to the Sun
+  24- 28  F5.2  km/s    vmic      1D microturbulence parameter
+  32- 37  F6.3  [-]     logeps    Absolute abundance
+  41- 48  A8    ---     Line      CI line label
+  52- 59  F8.3  ---     Delta     3D non-LTE versus 1D LTE correction
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table3.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  4  I4    K       Teff      Effective temperature
+   8- 12  F5.2  [cm/s2] loggg     Logarithm of surface gravity
+  16- 20  F5.2  [-]     [Fe/H]    Iron abundance relative to the Sun
+  24- 28  F5.2  km/s    vmic      1D microturbulence parameter
+  32- 37  F6.3  [-]     logeps    Absolute abundance
+  41- 48  A8    ---     Line      OI line label (1)
+  52- 59  F8.3  ---     Delta     3D non-LTE versus 1D LTE correction
+--------------------------------------------------------------------------------
+Note (1): The line labels '777nm', '844nm', and '926nm' correspond to the
+    average correction of the respective multiplet, derived via integration
+    across all components simultaneously.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table4.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  4  I4    K       Teff      Effective temperature
+   8- 12  F5.2  [cm/s2] logg      Logarithm of surface gravity
+  16- 20  F5.2  km/s    vmic      1D microturbulence parameter
+  24- 29  F6.3  [-]     logeps    Absolute abundance
+  33- 40  A8    ---     Line      FeII line label
+  44- 51  F8.3  ---     Delta     3D LTE versus 1D LTE correction
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table5.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  4  I4    K       Teff      Effective temperature
+   8- 12  F5.2  [cm/s2] logg      Logarithm of surface gravity
+  16- 20  F5.2  [-]     [Fe/H]    Iron abundance relative to the Sun
+  24- 28  F5.2  km/s    vmic      1D microturbulence parameter
+  32- 37  F6.3  [-]     logeps    Absolute abundance
+  41- 48  A8    ---     Line      CI line label
+  52- 59  F8.3  ---     Delta     1D non-LTE versus 1D LTE correction
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table6.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  4  I4    K       Teff      Effective temperature
+   8- 12  F5.2  [cm/s2] logg      Logarithm of surface gravity
+  16- 20  F5.2  [-]     [Fe/H]    Iron abundance relative to the Sun
+  24- 28  F5.2  km/s    vmic      1D microturbulence parameter
+  32- 37  F6.3  [-]     logeps    Absolute abundance
+  41- 48  A8    ---     Line      OI line label (1)
+  52- 59  F8.3  ---     Delta     1D non-LTE versus 1D LTE correction
+--------------------------------------------------------------------------------
+Note (1): The line labels '777nm', '844nm', and '926nm' correspond to the
+    average correction of the respective multiplet, derived via integration
+    across all components simultaneously.
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+    Anish Mayur Amarsi, amarsi(at)mpia.de
+
+================================================================================
+(End)                                        Patricia Vannier [CDS]  28-Aug-2019

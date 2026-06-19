@@ -1,0 +1,53 @@
+{
+  "dataset": "Amarsi, Nissen & Skuladottir 2019 — C I / O I 3D-NLTE and 1D-NLTE abundance correction grids",
+  "source": "CDS / VizieR catalogue J/A+A/630/A104",
+  "citation": "Amarsi A.M., Nissen P.E., Skuladottir A. 2019, A&A 630, A104 (bibcode 2019A&A...630A.104A; arXiv:1908.10319)",
+  "license": "Free for scientific use with citation (CDS terms); no author contact required.",
+  "download_url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/630/A104/",
+  "readme_url": "https://cdsarc.cds.unistra.fr/viz-bin/ReadMe/J/A+A/630/A104?format=html&tex=true",
+  "downloaded_date": "2026-06-19",
+  "downloaded_by": "RYA-359 (Claude Code) via curl from the CDS FTP",
+  "linear_issue": "RYA-359",
+  "notes": [
+    "table4 (Fe II 3L-1L corrections) intentionally NOT vendored — not needed (Fe NLTE is served by the MPIA/Bergemann grid, RYA-319).",
+    "Large 1D-leg tables (table5/table6) vendored gzip-compressed; the loader reads .gz transparently. md5 below is of the gzipped file as downloaded from CDS.",
+    "table1 wavelengths are in nm; the loader converts to Angstrom at the load boundary (pipeline is A throughout).",
+    "O I '777nm'/'844nm'/'926nm' grid labels are multiplet-averaged corrections (integrated across all components) per the CDS ReadMe Note (1); applied as a single per-multiplet correction."
+  ],
+  "files": {
+    "ReadMe": {
+      "md5": "bae3337ea61b675dc61da7b1149ff3b8",
+      "content": "CDS byte-by-byte description for all tables"
+    },
+    "table1.dat": {
+      "md5": "6de00f208c573e749f612ee7f5971c7c",
+      "records": 185,
+      "content": "Line parameters (Species, Line label, lambda_air nm, lambda_vac nm, chi eV, log gf, log gamma_nat, ABO sigma/alpha)"
+    },
+    "table2.dat.gz": {
+      "md5": "3aa8d01289987861562200a6824af624",
+      "records": 33966,
+      "content": "3D non-LTE - 1D LTE abundance corrections for C I (the 3D leg, Teff <= ~6500 K)"
+    },
+    "table3.dat.gz": {
+      "md5": "350b4f55fe10a7015f0be05a18019cb9",
+      "records": 33966,
+      "content": "3D non-LTE - 1D LTE abundance corrections for O I (the 3D leg, Teff <= ~6500 K)"
+    },
+    "table5.dat.gz": {
+      "md5": "0f3ed5e7c752a1d63e982d128d6718d3",
+      "records": 829413,
+      "content": "1D non-LTE - 1D LTE abundance corrections for C I (the above-3D-ceiling leg, to 8000 K)"
+    },
+    "table6.dat.gz": {
+      "md5": "f966294ebb94b99b69085b1db7e4b5a7",
+      "records": 829413,
+      "content": "1D non-LTE - 1D LTE abundance corrections for O I (the above-3D-ceiling leg, to 8000 K)"
+    },
+    "table7.dat": {
+      "md5": "fac51f98c78fa26f4e91d0ea32bc682c",
+      "records": 187,
+      "content": "Sample-star parameters + abundances (3N/1N/3L/1L for C, O, Fe); the self-validation answer key. For the Sun, absolute abundances are given."
+    }
+  }
+}
