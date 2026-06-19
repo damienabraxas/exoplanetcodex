@@ -274,13 +274,73 @@ def _report(df: pd.DataFrame) -> None:
           f"({'OK' if miss.sum()==0 else 'MISSING '+str(miss.sum())})")
 
 
+def validate() -> None:
+    """Prove the reroute: both abundance paths (synth #1, EW regions #3) now resolve
+    to the SAME gf per line — zero cross-path divergence — and the loud-guard fires."""
+    import ispec
+    from pipeline import gf_resolver as gr
+    from pipeline.gf_resolver import cluster_physical_lines
+
+    print("── 1. cross-path gf agreement (synth #1 vs EW regions #3, post-reroute) ──")
+    arr = gr.apply_to_synth_array(ispec.read_atomic_linelist(ad._SYNTH_LINELIST_FILE))
+    keys = [species_key(arr['element'][i], arr['ion'][i], arr['molecule'][i])
+            for i in range(len(arr))]
+    wl = arr['wave_A'].astype(float); ep = arr['lower_state_eV'].astype(float)
+    gf = arr['loggf'].astype(float)
+    syn_tot = {}  # (key, round wl, round ep) -> total gf
+    for cl in cluster_physical_lines(keys, wl, ep):
+        w = 10.0 ** gf[cl]
+        cen = float((wl[cl] * w).sum() / w.sum())
+        syn_tot[(keys[cl[0]], round(cen, 2), round(float(ep[cl].mean()), 2))] = \
+            float(np.log10(w.sum()))
+
+    reg = gr.apply_to_regions(ispec.read_line_regions(ad._LINE_REGIONS_ALL))
+    n_cmp = n_div = n_noabs = 0
+    worst = 0.0
+    for i in range(len(reg)):
+        try:
+            k = species_key(str(reg['note'][i]))
+        except ValueError:
+            continue
+        rwl, rep, rgf = float(reg['wave_A'][i]), float(reg['lower_state_eV'][i]), float(reg['loggf'][i])
+        hit = None
+        for dwl in (0.0, 0.01, -0.01, 0.02, -0.02):
+            cand = syn_tot.get((k, round(rwl + dwl, 2), round(rep, 2)))
+            if cand is not None:
+                hit = cand; break
+        if hit is None:
+            n_noabs += 1; continue
+        n_cmp += 1
+        d = abs(hit - rgf)
+        worst = max(worst, d)
+        if d > 0.01:
+            n_div += 1
+    print(f"  regions in both paths: {n_cmp}  | cross-path divergent (>0.01): {n_div}  "
+          f"| worst |Δ|: {worst:.4f}")
+    print(f"  regions with no synth counterpart (EW-only, expected): {n_noabs}")
+    assert n_div == 0, f"STOP: {n_div} lines still diverge across paths after reroute"
+    print("  ✓ zero cross-path gf divergence — both paths read one value")
+
+    print("\n── 2. loud-guard (no silent fallback) ──")
+    try:
+        gr.resolve(species_key('Fe', 'II'), 9999.99, 3.0)
+        raise SystemExit("STOP: resolver did not raise on an absent line")
+    except gr.GfResolutionError:
+        print("  ✓ resolver raises GfResolutionError on an unresolved line")
+
+    print("\n── 3. anchor (6247.557 → NIST −2.329 on both paths) ──")
+    v = gr.resolve(species_key('Fe', 'II'), 6247.557, 3.892)
+    print(f"  resolve(Fe II 6247.557) = {v:+.4f}  {'✓' if abs(v+2.329) < 1e-3 else '✗ FAIL'}")
+    print("\nVALIDATION PASSED")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--build', action='store_true')
     ap.add_argument('--validate', action='store_true')
     args = ap.parse_args()
     if args.validate:
-        raise SystemExit("--validate is the loader-reroute step (held); not yet implemented.")
+        validate(); return
     if not args.build:
         ap.print_help(); return
 

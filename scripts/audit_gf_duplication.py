@@ -111,26 +111,24 @@ def _aggregate(df: pd.DataFrame, gf_col: str, ep_col: str, extra: dict) -> pd.Da
     ≤HFS_GAP → one line carrying total gf = log10(Σ10^gf) at the gf-weighted
     centroid. `extra` maps output-col → source-col carried from the strongest
     component (for provenance, e.g. nist_grade / source)."""
+    # Cluster via the ONE shared physical-line grouper (RYA-353) so the audit, the
+    # canonical build, and the synth reroute all agree. EP-first + wl-gap; order-robust.
+    from pipeline.gf_resolver import cluster_physical_lines
+    d = df.reset_index(drop=True)
+    keys = d['key'].tolist()
+    wls = d['wl'].to_numpy(float)
+    eps = d[ep_col].to_numpy(float)
+    gfs = d[gf_col].to_numpy(float)
     out = []
-    for key, g in df.groupby('key', sort=False):
-        g = g.sort_values([ep_col, 'wl']).reset_index(drop=True)
-        cl_wl, cl_gf, cl_ep, start = [], [], [], 0
-        for i in range(len(g) + 1):
-            new = (i == len(g)
-                   or abs(g.loc[i, ep_col] - g.loc[start, ep_col]) > EPTOL
-                   or (i > start and g.loc[i, 'wl'] - g.loc[i - 1, 'wl'] > HFS_GAP))
-            if new and i > start:
-                comp = g.iloc[start:i]
-                w = 10.0 ** comp[gf_col].to_numpy()
-                tot = float(np.log10(w.sum()))
-                cen = float((comp['wl'].to_numpy() * w).sum() / w.sum())
-                strongest = comp.loc[comp[gf_col].idxmax()]
-                rec = {'key': key, 'wl': cen, 'gf': tot,
-                       'ep': float(comp[ep_col].mean()), 'n_comp': len(comp)}
-                rec.update({k: strongest[v] for k, v in extra.items()})
-                cl_wl.append(rec)
-                start = i
-        out.extend(cl_wl)
+    for cl in cluster_physical_lines(keys, wls, eps):
+        w = 10.0 ** gfs[cl]
+        rec = {'key': keys[cl[0]],
+               'wl': float((wls[cl] * w).sum() / w.sum()),
+               'gf': float(np.log10(w.sum())),
+               'ep': float(eps[cl].mean()), 'n_comp': len(cl)}
+        strongest = cl[int(np.argmax(gfs[cl]))]
+        rec.update({k: d.iloc[strongest][v] for k, v in extra.items()})
+        out.append(rec)
     return pd.DataFrame(out)
 
 
