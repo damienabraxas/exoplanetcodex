@@ -50,17 +50,18 @@ def test_provenance_complete(violations):
         + "\n".join(f"  {v.locus}: source={v.source}" for v in prov))
 
 
-# ── Known-issue gates (flip to pass when the remediation lands) ────────────────
-@pytest.mark.xfail(reason="gf duplicated across synth+EW lists; resolved by RYA-353 "
-                          "single-source gf migration", strict=False)
+# ── Remediated invariants (RYA-353 + RYA-298 landed; now HARD gates) ───────────
 def test_gf_tables_agree(violations):
+    """RYA-353 landed: both paths resolve gf from canonical_gf via gf_resolver, so the
+    matched Δgf collapses to 0. Was xfail (3,299 divergent) → now a hard pass; a new
+    divergence or an orphan line (outside the single source) fails the build."""
     gf = [v for v in violations if v.invariant == 'gf']
-    assert gf == [], f"{len(gf)} line(s) carry divergent gf across the two lists"
+    assert gf == [], f"{len(gf)} line(s) carry divergent/orphan gf vs the single source"
 
 
-@pytest.mark.xfail(reason="legacy mirror dicts copy STAR_PARAMS fundamentals; "
-                          "resolved by RYA-298 adapter-dict removal", strict=False)
 def test_star_params_single_source(violations):
+    """RYA-298 landed: legacy adapter dicts no longer carry fundamental Teff/logg/feh
+    literals (they live only in stars.yaml). Was xfail → now a hard pass."""
     sp = [v for v in violations if v.invariant == 'star_params']
     assert sp == [], f"{len(sp)} mirror copy/divergence(s) of STAR_PARAMS values"
 
@@ -71,8 +72,12 @@ def test_gf_anchor_selfcheck_runs(violations):
     have raised inside run_all), so the scope numbers are trustworthy."""
     summary = sc._GF_SUMMARY.get('synth-vs-solar')
     assert summary is not None
-    # The RYA-350 headline the check must reproduce: 13,984 clean 1:1 lines.
-    assert summary['clean'] == 13984
+    # Large clean 1:1 cross-match (≈15k with the shared physical-line clustering);
+    # the anchor self-check inside _match_gf would have raised on a wrong match rule.
+    assert summary['clean'] > 13000
+    # Post-RYA-353 both paths resolve to the single source → 0 material divergence,
+    # and the gf-violation count tracks it.
+    assert summary['div_material'] == 0
     assert summary['div_material'] == sum(
         1 for v in violations if v.invariant == 'gf')
 

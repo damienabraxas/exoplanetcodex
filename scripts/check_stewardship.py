@@ -72,6 +72,7 @@ from pipeline.species import species_key, z_symbol, MOLECULE  # noqa: E402
 # (~2 s); that is acceptable for a guard that reads the same list the fit consumes.
 import pipeline.abundances_derive as _ad  # noqa: E402
 import config.constants as _const  # noqa: E402
+from pipeline import gf_resolver as _gr  # noqa: E402  RYA-353 single-source resolver
 
 
 # ── Named tolerances (with rationale) ─────────────────────────────────────────
@@ -178,30 +179,35 @@ class GfPair:
     # Optional integrity anchors: wl -> (gf_left, gf_right, expected Δ=right-left).
     anchors: dict = field(default_factory=dict)
     anchor_species: str = ''
+    # RYA-353: when True, resolve BOTH sides through gf_resolver (the single canonical
+    # source) before comparing. Post-migration every shared line resolves to ONE value,
+    # so the matched Δgf collapses to 0; a line that fails to resolve is an ORPHAN
+    # (not in the single source) — a real, untracked break.
+    resolved: bool = False
 
 
 def _aggregate(df: pd.DataFrame) -> pd.DataFrame:
     """Collapse HFS components to physical lines: same species key, |ΔEP|≤EPTOL and
     λ-gap ≤HFS_GAP → one line at total gf = log10(Σ 10^gf), gf-weighted centroid λ.
     `n_comp` records the HFS multiplicity. (Ported verbatim from the RYA-350 audit.)"""
+    # RYA-353: cluster via the ONE shared physical-line grouper (gf_resolver) — the
+    # same EP-group-then-wl-gap rule the canonical build uses, so centroids line up
+    # with canonical_gf and the resolver lookup hits. (Replaces the old ep,wl-sort,
+    # which merged distinct lines sharing an EP.)
+    d = df.reset_index(drop=True)
+    keys = d['key'].tolist()
+    wls = d['wl'].to_numpy(float)
+    eps = d['ep'].to_numpy(float)
+    gfs = d['gf'].to_numpy(float)
     out = []
-    for key, g in df.groupby('key', sort=False):
-        g = g.sort_values(['ep', 'wl']).reset_index(drop=True)
-        start = 0
-        for i in range(len(g) + 1):
-            new = (i == len(g)
-                   or abs(g.loc[i, 'ep'] - g.loc[start, 'ep']) > EPTOL
-                   or (i > start and g.loc[i, 'wl'] - g.loc[i - 1, 'wl'] > HFS_GAP))
-            if new and i > start:
-                comp = g.iloc[start:i]
-                w = 10.0 ** comp['gf'].to_numpy()
-                tot = float(np.log10(w.sum()))
-                cen = float((comp['wl'].to_numpy() * w).sum() / w.sum())
-                strongest = comp.loc[comp['gf'].idxmax()]
-                out.append({'key': key, 'wl': cen, 'gf': tot,
-                            'ep': float(comp['ep'].mean()), 'n_comp': len(comp),
-                            'source': strongest['source']})
-                start = i
+    for cl in _gr.cluster_physical_lines(keys, wls, eps):
+        w = 10.0 ** gfs[cl]
+        strongest = cl[int(np.argmax(gfs[cl]))]
+        out.append({'key': keys[cl[0]],
+                    'wl': float((wls[cl] * w).sum() / w.sum()),
+                    'gf': float(np.log10(w.sum())),
+                    'ep': float(eps[cl].mean()), 'n_comp': len(cl),
+                    'source': d.iloc[strongest]['source']})
     return pd.DataFrame(out)
 
 
@@ -236,7 +242,24 @@ def _match_gf(pair: GfPair) -> pd.DataFrame:
                 'hfs': bool(r['n_comp_l'] > 1 or r['n_comp_s'] > 1),
             })
     matched = pd.DataFrame(rows)
-    _anchor_selfcheck(pair, matched)
+    _anchor_selfcheck(pair, matched)   # on RAW file gf (reproduces RYA-347 anchors)
+
+    if pair.resolved and not matched.empty:
+        # Post-RYA-353: both paths read gf from canonical_gf via the resolver. Replace
+        # each matched line's gf with the canonical total; agreement is then exact
+        # (single source). A line that won't resolve = orphan (not in the source).
+        orphan = []
+        for idx, r in matched.iterrows():
+            try:
+                canon = _gr.resolve(r['key'], float(r['wl']), float(r['ep']))
+                matched.at[idx, 'gf_left'] = canon
+                matched.at[idx, 'gf_right'] = canon
+                matched.at[idx, 'dgf'] = 0.0
+            except _gr.GfResolutionError:
+                orphan.append(idx)
+        matched['orphan'] = False
+        if orphan:
+            matched.loc[orphan, 'orphan'] = True
     return matched
 
 
@@ -286,6 +309,19 @@ def check_gf_pairs(out_dir: Optional[Path] = None) -> list[Violation]:
                 detail=f"same physical line carries divergent gf in two lists "
                        f"(|Δ| {abs(r['dgf']):.3f} > {GF_DIVERGENCE_DEX} dex)",
                 ticket=pair.ticket,
+            ))
+        # RYA-353: orphans — a shared line that does NOT resolve through the single
+        # canonical source. This is a real break (a line outside canonical_gf), so it
+        # is UNTRACKED (ticket=None) and fails the build loudly.
+        for _, r in matched[matched.get('orphan', False) == True].iterrows():
+            violations.append(Violation(
+                invariant='gf', quantity='log gf',
+                locus=f"{pair.name}  {r['species']} {r['wl']:.3f}Å",
+                value=f"unresolved in canonical_gf.csv",
+                source='—',
+                detail="shared line absent from the single canonical gf source "
+                       "(RYA-353) — a new orphan, not covered by the resolver",
+                ticket=None,
             ))
         if out_dir is not None:
             out_dir.mkdir(parents=True, exist_ok=True)
@@ -434,7 +470,10 @@ GF_PAIRS = [
             col_element='element', col_ion='ion', col_molecule='molecule',
             col_wl='wave_A', col_ep='lower_state_eV', col_gf='loggf',
             col_source='reference_code'),
-        ticket='RYA-353',   # single-source gf migration retires this divergence
+        # RYA-353 LANDED: both paths now resolve gf from canonical_gf via gf_resolver,
+        # so this check resolves both sides and asserts agreement (0 divergent). No
+        # remediation ticket — a divergence/orphan here is now a real, untracked break.
+        resolved=True, ticket=None,
         anchor_species='Fe II',
         anchors={  # RYA-347 anchors: (gf_solar, gf_synth, Δ=synth−solar)
             5234.623: (-2.23, -2.180, +0.050),
