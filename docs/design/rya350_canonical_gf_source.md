@@ -24,10 +24,23 @@ places, and they drift:
 |---|-------|--------|--------|---------|-------------|
 | 1 | `ispec/.../GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv` (shared, outside repo) | `loggf` | `ispec.read_atomic_linelist()` — `abundances_derive.py:537` | GES v6 | flux synthesis (synth-EW RYA-285, synth-v2 flux fit) |
 | 2 | `data/linelists/linelist_solar.csv` (+ per-star lists) | `log_gf` | `data/linelists/loader.py:63`; `lines_fit.py:363` (COG); `diagnostics_abundance.py:82` | VALD3 | Ni 6300 COG blend, Fe I diagnostic, line scoring |
-| 3 | iSpec GES line *regions* (built from store #1) | `loggf` → `last_linemasks['loggf']` → `abundances_derive.py:1588` | — | GES v6 | the **EW→abundance** per-line value written to `*_per_line.csv` |
+| 3 | `ispec/.../regions/42000_VALD/limited_but_with_missing_elements_..._all_extended.txt` (shared, outside repo; 524 curated lines) | `loggf` | `ispec.read_line_regions()` → `_build_ispec_line_regions` `:198` → `determine_abundances` → `last_linemasks['loggf']` `:1588` | **VALD3** | **the live EW→abundance value** (every `*_per_line.csv` A(X)) |
 
-Store #1 and #3 are the same catalog (GES) by different routes; store #2 is a
-different catalog (VALD3). Because `loggf` is degenerate with the floated abundance
+> **Store-model correction (RYA-353 loader trace, 2026-06-18).** Store #3 is **not**
+> GES "regions built from #1" (the `_build_ispec_line_regions` docstring saying "GES
+> regions" is a misnomer — the file lives under `42000_VALD/`). Its `loggf` matches
+> `linelist_solar` (VALD3) **exactly** on all 5 RYA-347 anchors (e.g. 6247.557 = −2.310,
+> vs synth GES −2.435), confirmed by reading the file. So #3 is a **third independent
+> VALD3 copy**, and it — not `linelist_solar.csv` (#2) — is what sets published EW
+> abundances. Worse, **#2 and #3 have themselves drifted**: 201 of 524 region lines
+> diverge >0.01 dex from `linelist_solar` (some HFS-artifact in a non-HFS-aware check,
+> but real cases exist, e.g. Fe I 4924.301 Δ+0.132). Net: three genuinely independent
+> copies — GES (#1, synth) vs VALD3-regions (#3, EW abundance) vs VALD3-linelist (#2,
+> COG/diag) — and the synth-vs-EW cross-path divergence is **#1 vs #3**.
+
+Store #1 (GES) feeds synth; stores #2 and #3 are both VALD3 but separate, drifted
+copies, with #3 driving the live EW abundance (see correction box above). Because
+`loggf` is degenerate with the floated abundance
 (RYA-347: changing 6247.557's synth `loggf` moved A(Fe II) 7.552→7.467 at χ²ᵣ
 unchanged 180→179), a cross-store Δgf is a **pure differential abundance bias**
 between engines — invisible to χ²ᵣ, silently corrupting any cross-path comparison.
@@ -70,25 +83,34 @@ not on every load).
 
 ### 2.2 Resolution: both paths read from the canonical store
 
-Each source line-list **drops its own `loggf`/`log_gf` column** and instead carries a
-foreign key `gf_line_id` (added once at migration). At load time:
+Each source store **drops its own `loggf`/`log_gf` column** and instead resolves it
+from `canonical_gf` (added once at migration). **All three** stores must be rerouted —
+the trace shows three independent copies, not two:
 
-- **Synth path** (`_load_synth_resources`, store #1/#3): after `read_atomic_linelist`,
-  overwrite the in-memory `loggf` field by joining `gf_line_id → canonical_gf.log_gf`.
-  Same for the iSpec line regions (#3) so the EW→abundance value and the synth value
-  are guaranteed identical.
-- **EW path** (`loader.py:load_linelist`, store #2): populate `log_gf` from the join
-  instead of the file column. COG (`lines_fit.py`) and diagnostics inherit it.
+- **Synth path** (store #1, `_load_synth_resources`): after `read_atomic_linelist`,
+  overwrite the in-memory `loggf` by resolving against `canonical_gf` (species_key + λ +
+  EP, or a pre-annotated `gf_line_id`).
+- **EW→abundance path** (store #3, `_build_ispec_line_regions` `:198` → the 524-line
+  `42000_VALD/...all_extended.txt` regions): overwrite the regions' `loggf` from
+  `canonical_gf` **before** `determine_abundances`. **This is the load-bearing one** —
+  it sets every published EW abundance. Once #1 and #3 both resolve from the same source,
+  the synth-vs-EW gf divergence (RYA-349) is gone by construction.
+- **COG/diagnostics path** (store #2, `loader.py:load_linelist`): populate `log_gf` from
+  the same source; COG (`lines_fit.py`) and diagnostics inherit it.
 
-**No silent fallback** (project rule): a `gf_line_id` that fails to resolve, or a line
-with no `gf_line_id`, **raises** — it does not default. This reuses the RYA-345 0-match
+Both shared `ispec/` files (#1, #3) live outside the repo, so the reroute happens in the
+**reader** (overwrite-after-read), not by editing the shared files in place.
+
+**No silent fallback** (project rule): a line that fails to resolve against
+`canonical_gf` **raises** — it does not default. This reuses the RYA-345 0-match
 loud-guard pattern.
 
 ### 2.3 HFS granularity — the one real design fork
 
-The two files disagree on HFS representation: store #1 carries a single total-`gf`
+The stores disagree on HFS representation: store #1 carries a single total-`gf`
 line; store #2 carries N VALD3 components each at a fraction (this produced the fake
-Na/Sc/La/K offsets in Step 0, removed by total-gf aggregation). The abundance pipeline
+Na/Sc/La/K offsets in Step 0, removed by total-gf aggregation). The 524-line regions
+file (#3) is curated and largely one-line-per-feature like #1. The abundance pipeline
 already treats HFS features as **single absorption features** — "the EW from a single
 Voigt fit = total HFS EW" (`docs/linelist_pipeline.md`, Ba II/Eu II/Li I). Therefore:
 
@@ -126,12 +148,13 @@ a line needing a value with no citable source is flagged `pending`, never substi
 
 ## 3. Migration plan (for RYA-353 — not built here)
 
-1. **Loader trace.** Confirm the full set of gf touchpoints (esp. resolve the store-#3
-   iSpec-regions route vs store-#2 for the EW abundance — this design assumes #3 is the
-   live EW→abundance value and #2 feeds COG/diagnostics/scoring; RYA-353 must verify).
+1. **Loader trace.** ✅ DONE (RYA-353, 2026-06-18) — see the §1 store-model correction
+   box. Live EW→abundance gf = store #3 (the 524-line `42000_VALD/...all_extended.txt`
+   regions, VALD3), **not** `linelist_solar` (#2); three independent copies confirmed.
+   The migration reroutes all three readers (§2.2).
 2. **Build `canonical_gf.csv`.** Reuse `scripts/audit_gf_duplication.py`'s match
-   (species_key + λ + EP, HFS-aware total-gf aggregation) to union both stores into
-   physical lines, assign `line_id`, apply the §2.4 seed rule, emit provenance.
+   (species_key + λ + EP, HFS-aware total-gf aggregation) to union **all three** stores
+   into physical lines, assign `line_id`, apply the §2.4 seed rule, emit provenance.
 3. **Annotate source files** with `gf_line_id` (one-time, idempotent, scripted).
 4. **Reroute loaders** (§2.2) behind the join; keep the old in-file gf column for **one
    transition commit** as a shadow with an assert-equal, then delete it.
@@ -190,9 +213,11 @@ invariant that fails loudly on any canonical value duplicated-and-divergent acro
 
 ## 6. Open questions for sign-off
 
-1. **Store #3 vs #2 for the EW abundance** — confirm the live EW→abundance `loggf`
-   route (iSpec GES regions vs `linelist_solar`). Changes how many readers §2.2 touches.
-   (Resolvable in the RYA-353 loader trace; does not change the design shape.)
+1. ~~Store #3 vs #2 for the EW abundance~~ — **RESOLVED** by the RYA-353 loader trace:
+   live EW gf = store #3 (regions file, VALD3); three independent copies; migration
+   reroutes all three readers (§1 box, §2.2). **New decision this surfaces:** the canonical
+   source must now also feed the shared regions file (#3) — confirm the overwrite-after-read
+   approach (vs editing the shared `ispec/` regions file) is acceptable.
 2. **HFS component rows** — collapse `linelist_solar` HFS components to one canonical
    line, or keep component rows all pointing at one `line_id`? (§2.3 — RYA-353 mechanic.)
 3. **6247.557** — apply now as a standalone reviewed edit, or fold into RYA-353?
