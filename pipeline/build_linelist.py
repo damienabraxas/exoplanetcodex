@@ -25,10 +25,12 @@ from pathlib import Path
 from config.constants import PATHS
 
 # Vetted spectroscopic exclusions — RYA-208 confirmed blends at HARPS R~115,000.
-# Add new entries here (with literature reference in the comment) as lines are vetted.
+# (element, ion, wavelength_air_A, source) — RYA-358: each entry carries a
+# machine-readable citation so the RYA-355/358 stewardship guard verifies provenance.
+# Add new entries here (with literature reference) as lines are vetted.
 VETTED_BLENDS = [
-    ('Fe', 'I', 4918.994),  # RYA-208: confirmed non-separable blend
-    ('Fe', 'I', 4970.496),  # RYA-208: confirmed non-separable blend
+    ('Fe', 'I', 4918.994, 'RYA-208: confirmed non-separable blend at HARPS R~115,000'),
+    ('Fe', 'I', 4970.496, 'RYA-208: confirmed non-separable blend at HARPS R~115,000'),
 ]
 VETTING_TOLERANCE = 0.05  # Å — tight; these are exact vetted wavelengths
 
@@ -88,7 +90,7 @@ def build_vetted_blend_flag(df: pd.DataFrame) -> pd.Series:
     Default False; set True for lines in VETTED_BLENDS (within VETTING_TOLERANCE Å).
     """
     flags = pd.Series(False, index=df.index, dtype=bool)
-    for elem, ion, wl in VETTED_BLENDS:
+    for elem, ion, wl, *_src in VETTED_BLENDS:   # RYA-358: 4th field = source (ignored here)
         mask = (
             (df['element'] == elem) &
             (df['ion'] == ion) &
