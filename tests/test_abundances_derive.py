@@ -72,7 +72,7 @@ def test_atmosphere_interpolation_solar(atlas9_pack):
     """ATLAS9 + Turbospectrum should interpolate at solar params."""
     sys.path.insert(0, str(ISPEC_DIR))
     import ispec
-    target = {'teff': 5777.0, 'logg': 4.44, 'MH': 0.0, 'alpha': 0.0}
+    target = {'teff': 5772.0, 'logg': 4.438, 'MH': 0.0, 'alpha': 0.0}
     atm = ispec.interpolate_atmosphere_layers(atlas9_pack, target, code='turbospectrum')
     assert atm is not None
     assert len(atm) > 0, "Atmosphere interpolation returned empty result"
@@ -81,7 +81,7 @@ def test_atmosphere_interpolation_solar(atlas9_pack):
 def test_atmosphere_valid_target(atlas9_pack):
     sys.path.insert(0, str(ISPEC_DIR))
     import ispec
-    solar = {'teff': 5777.0, 'logg': 4.44, 'MH': 0.0, 'alpha': 0.0}
+    solar = {'teff': 5772.0, 'logg': 4.438, 'MH': 0.0, 'alpha': 0.0}
     assert ispec.valid_atmosphere_target(atlas9_pack, solar)
 
 def test_marcs_interpolation_mdwarf():

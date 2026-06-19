@@ -27,7 +27,7 @@ warnings.filterwarnings('ignore')
 
 from config.constants import (
     PIPELINE, PATHS, PHYSICS, CONTINUUM_PARAMS,
-    STAR_SOLAR, STAR_PROCYON,
+    STAR_SOLAR, STAR_PROCYON, get_star_params,
 )
 
 # ── FITS loading ──────────────────────────────────────────────────────────────
@@ -291,13 +291,14 @@ def _plot_diagnostic(wavelength: np.ndarray, flux_raw: np.ndarray,
     """4-panel diagnostic: raw+continuum, full normalized, Hβ Balmer wing, Fe-rich zoom."""
     is_procyon = 'procyon' in star_id.lower()
     star_params = STAR_PROCYON if is_procyon else STAR_SOLAR
+    _fund = get_star_params(star_id)   # RYA-298: fundamentals from single source
     star_name   = star_params.get('name', star_id)
 
     fig = plt.figure(figsize=(14, 12))
     fig.suptitle(
         f"{star_name} continuum normalization — HARPS\n"
-        f"Teff = {star_params['teff_K']:.0f} K   "
-        f"log g = {star_params['logg']}   "
+        f"Teff = {_fund['teff']:.0f} K   "
+        f"log g = {_fund['logg']}   "
         f"ξ = {star_params['vturb_kms']} km/s   "
         f"{n_exp} exposures co-added",
         fontsize=10,

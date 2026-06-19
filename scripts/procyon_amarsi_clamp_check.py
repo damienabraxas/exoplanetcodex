@@ -32,7 +32,7 @@ import pandas as pd
 _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO))
 
-from config.constants import STAR_PARAMS, STAR_SOLAR, SOLAR_ASPLUND2021  # noqa: E402
+from config.constants import STAR_PARAMS, STAR_SOLAR, SOLAR_ASPLUND2021, get_star_params  # noqa: E402
 from pipeline.nlte_corrections import (                                  # noqa: E402
     _GRID, _compute_aberr, _apply_aberr_to_line, _mpia_fe_delta, fe_grid_in_bounds,
 )
@@ -48,8 +48,9 @@ PROC_LOGG = float(P['logg'])     # 4.00  — Heiter+2015
 PROC_XI   = float(P['xi'])       # 1.8 km/s — pinned, RYA-325 (Jofré+2014/GBS scale)
 PROC_FEH_REF = float(P['feh_ref'])  # +0.03 in-repo; lit GBS +0.01 (Jofré+2014)
 
-S_TEFF = float(STAR_SOLAR['teff_K']); S_LOGG = float(STAR_SOLAR['logg'])
-S_FEH  = float(STAR_SOLAR['feh']);    S_XI   = float(STAR_SOLAR['vturb_kms'])
+_sf = get_star_params('solar')   # RYA-298 single source
+S_TEFF = float(_sf['teff']); S_LOGG = float(_sf['logg'])
+S_FEH  = float(_sf['feh_ref']);    S_XI   = float(STAR_SOLAR['vturb_kms'])
 
 AMARSI_TEFF_CEIL = float(_GRID['teff'][1])   # 6500 K — Amarsi 2022 grid upper edge
 AFE_LO, AFE_HI   = float(_GRID['afe'][0]), float(_GRID['afe'][1])   # 4.5, 7.5

@@ -60,7 +60,7 @@ _ISPEC = _REPO.parent / 'ispec'
 if _ISPEC.exists() and str(_ISPEC) not in sys.path:
     sys.path.insert(0, str(_ISPEC))
 
-from config.constants import STAR_PARAMS, STAR_SOLAR, SOLAR_ASPLUND2021  # noqa: E402
+from config.constants import STAR_PARAMS, STAR_SOLAR, SOLAR_ASPLUND2021, get_star_params  # noqa: E402
 from pipeline import abundances_derive as ad                            # noqa: E402
 from pipeline.nlte_corrections import (                                 # noqa: E402
     _mpia_fe_delta, _apply_aberr_to_line, _load_mpia_fe_grid, fe_grid_in_bounds,
@@ -124,8 +124,9 @@ def solar_frame():
     solar per-line table at the solar pinned params (5772/4.438/0.0, xi=1.0)."""
     spl = pd.read_csv(_PROC / 'solar_per_line.csv')
     fe1 = spl[(spl.element == 'Fe') & (spl.ion == 'I')].copy().reset_index(drop=True)
-    s_teff = float(STAR_SOLAR['teff_K']); s_logg = float(STAR_SOLAR['logg'])
-    s_feh = float(STAR_SOLAR['feh']); s_xi = float(STAR_SOLAR['vturb_kms'])
+    _sf = get_star_params('solar')   # RYA-298 single source
+    s_teff = float(_sf['teff']); s_logg = float(_sf['logg'])
+    s_feh = float(_sf['feh_ref']); s_xi = float(STAR_SOLAR['vturb_kms'])
     a_mpia, a_ama, _n_m, _n_a = apply_nlte_per_line(fe1, s_teff, s_logg, s_feh, s_xi)
     fe1['a_nlte_mpia'] = a_mpia
     fe1['a_nlte_amarsi'] = a_ama
