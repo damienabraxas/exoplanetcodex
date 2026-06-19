@@ -117,14 +117,24 @@ class TestScaleAwareFeGate:
 
 
 class TestStar55Cnc:
+    # RYA-298: fundamental teff/logg/feh now live ONLY in stars.yaml — assert via the
+    # single source (get_star_params), not the legacy STAR_55CNC dict (which no longer
+    # carries them). Values are the canonical von Braun 2011 record (5196/4.45/0.31).
     def test_teff(self):
-        assert STAR_55CNC['teff_K'] == pytest.approx(5196.0, rel=1e-3)
+        assert get_star_params('55cnc_a')['teff'] == pytest.approx(5196.0, rel=1e-3)
 
     def test_logg(self):
-        assert STAR_55CNC['logg'] == pytest.approx(4.41, rel=1e-3)
+        assert get_star_params('55cnc_a')['logg'] == pytest.approx(4.45, rel=1e-3)
 
     def test_feh(self):
-        assert STAR_55CNC['feh'] == pytest.approx(0.32, rel=1e-2)
+        assert get_star_params('55cnc_a')['feh_ref'] == pytest.approx(0.31, rel=1e-2)
+
+    def test_no_legacy_stellar_param_literals(self):
+        # The legacy dicts must NOT re-introduce fundamental-param duplicates (RYA-298).
+        from config.constants import STAR_SOLAR, STAR_PROCYON
+        for d in (STAR_55CNC, STAR_SOLAR, STAR_PROCYON):
+            assert not ({'teff_K', 'logg', 'feh'} & set(d)), \
+                "fundamental params must live only in stars.yaml"
 
     def test_rv_kms(self):
         # Positive RV = receding. Important sign convention for Doppler correction.

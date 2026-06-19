@@ -47,6 +47,7 @@ from scipy.optimize import curve_fit
 from scipy.special import voigt_profile
 
 from config.constants import (PIPELINE, PATHS, STAR_SOLAR, STAR_PROCYON,
+                               get_star_params,
                                STAR_LINELISTS, EW_FIT_PARAMS,
                                NI6300_COG, LINE_SCORE_PARAMS)
 
@@ -344,7 +345,7 @@ def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
 
     Returns predicted EW in mÅ.
     """
-    theta   = 5040.0 / STAR_SOLAR['teff_K']
+    theta   = 5040.0 / get_star_params('solar')['teff']   # RYA-298: single source
     ni_ref  = STAR_SOLAR['ni6300_ew_lit_mA']   # 1.1 mÅ — solar literature value
 
     ni_ews = ew_df[
@@ -705,14 +706,15 @@ def _plot_tier1_fe(solar_wav: np.ndarray, solar_flux: np.ndarray,
 
     fig = plt.figure(figsize=(15, 9))
     if star_key == 'solar':
+        _f = get_star_params('solar')   # RYA-298: fundamentals from single source
         title = (f"Tier 1 line profile fits — Solar HARPS  |  "
-                 f"Teff={STAR_SOLAR['teff_K']:.0f} K  log g={STAR_SOLAR['logg']}  "
+                 f"Teff={_f['teff']:.0f} K  log g={_f['logg']}  "
                  f"ξ={STAR_SOLAR['vturb_kms']} km/s\n"
                  f"{STAR_SOLAR['citation']}  |  ESO {STAR_SOLAR['program_id']}")
     else:
-        sp = STAR_PROCYON
+        sp = STAR_PROCYON; _f = get_star_params('procyon')
         title = (f"Tier 1 line profile fits — {sp['name']} HARPS  |  "
-                 f"Teff={sp['teff_K']:.0f} K  log g={sp['logg']}  "
+                 f"Teff={_f['teff']:.0f} K  log g={_f['logg']}  "
                  f"ξ={sp['vturb_kms']} km/s  |  {sp['hd']}")
     fig.suptitle(title, fontsize=10)
     gs = gridspec.GridSpec(2, 3, figure=fig, hspace=0.50, wspace=0.32)
