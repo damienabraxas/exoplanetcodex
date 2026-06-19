@@ -58,6 +58,7 @@ from config.constants import (
     assert_abundance_on_scale,
 )
 from pipeline.species import species_key, species_note
+from pipeline.gf_resolver import apply_to_synth_array, apply_to_regions  # RYA-353 single-source gf
 
 
 def _star_linelist(star_id: str):
@@ -196,6 +197,9 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
                 (wave_A in Å — note iSpec wave_peak is in nm, wave_A is in Å)
     """
     regions = ispec.read_line_regions(line_regions_path)
+    # RYA-353 single-source gf: this is the live EW→abundance gf route (store #3).
+    # Overwrite each region's loggf from canonical so EW and synth read one value.
+    regions = apply_to_regions(regions)
 
     # Build lookup keyed by the CANONICAL species key (RYA-345) — (Z, ion) —
     # so the GES region 'note' ('Fe 2') and our (element, ion) strings ('Fe','II')
@@ -535,6 +539,9 @@ def _load_synth_resources() -> tuple:
     if not _synth_cache:
         print("  [synth] Loading GES linelist (first call — cached)...")
         _synth_cache['linelist']      = ispec.read_atomic_linelist(_SYNTH_LINELIST_FILE)
+        # RYA-353 single-source gf: overwrite GES loggf from canonical (the shared
+        # ispec/ tsv is read-only, so we rescale after read — branching preserved).
+        _synth_cache['linelist']      = apply_to_synth_array(_synth_cache['linelist'])
         _synth_cache['isotopes']      = ispec.read_isotope_data(_SYNTH_ISOTOPE_FILE)
         _synth_cache['chem_elements'] = ispec.read_chemical_elements(_SYNTH_CHEM_FILE)
         print(f"  [synth] GES linelist: {len(_synth_cache['linelist'])} lines loaded")
