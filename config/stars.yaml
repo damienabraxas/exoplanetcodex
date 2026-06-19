@@ -1,0 +1,111 @@
+# config/stars.yaml — SINGLE SOURCE OF TRUTH for per-star fundamental parameters.
+# RYA-298: moved out of config/constants.py so per-star data is data, not code.
+# Loaded ONLY via config.constants.get_star_params(star_id); no module reads raw values.
+# Each record: fundamental teff/logg/feh_ref (+errors), xi (pinned) or xi_init/xi_xcheck
+# (solved), broadening (vmac/vsini), pin/solve policy, and source provenance.
+# Provenance is mandatory (RYA-355 invariant): every record carries `source` + `logg_basis`.
+# GBS scale: Heiter+2015 (Teff/logg, Paper I), Jofré+2014 ([Fe/H], xi, Paper III).
+solar:
+  teff: 5772.0
+  e_teff: 1.0
+  logg: 4.438
+  e_logg: 0.0
+  feh_ref: 0.0
+  e_feh: 0.03
+  xi: 1.0
+  vmac: 3.8
+  vsini: 1.8
+  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
+  logg_basis: IAU nominal solar mass + radius (logg fixed to ~0.001 dex)
+  pin:
+  - teff
+  - logg
+  - xi
+  solve:
+  - feh
+procyon:
+  teff: 6554.0
+  e_teff: 84.0
+  logg: 4.0
+  e_logg: 0.02
+  feh_ref: 0.03
+  e_feh: 0.04
+  xi: 1.8
+  vsini: 2.8
+  vmac: 6.0
+  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ=1.8); broadening: Bruntt+2010
+    vsini=2.8 + adopted RT vmac=6.0 (Gray scale; FT estimator deferred to RYA-316)'
+  logg_basis: astrometric binary mass (Procyon B WD) + interferometric radius
+  pin:
+  - teff
+  - logg
+  - xi
+  solve:
+  - feh
+alpha_cen_a:
+  teff: 5792.0
+  e_teff: 16.0
+  logg: 4.3
+  e_logg: 0.01
+  feh_ref: 0.2
+  e_feh: 0.04
+  xi: 1.1
+  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
+  logg_basis: dynamical binary mass + VLTI interferometric radius + asteroseismology
+  pin:
+  - teff
+  - logg
+  - xi
+  solve:
+  - feh
+alpha_cen_b:
+  teff: 5231.0
+  e_teff: 20.0
+  logg: 4.53
+  e_logg: 0.03
+  feh_ref: 0.2
+  e_feh: 0.04
+  xi: 1.0
+  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
+  logg_basis: dynamical binary mass + VLTI interferometric radius + asteroseismology
+  pin:
+  - teff
+  - logg
+  - xi
+  solve:
+  - feh
+55cnc_a:
+  teff: 5196.0
+  e_teff: 24.0
+  logg: 4.45
+  e_logg: 0.01
+  feh_ref: 0.31
+  e_feh: 0.04
+  xi_init: 1.0
+  xi_xcheck:
+  - 0.85
+  - 1.35
+  source: von Braun et al. 2011, ApJ 740, 49; ξ x-check Teske+2013 / Ecuvillon+2004
+  logg_basis: CHARA interferometric R=0.943 Rsun (theta_LD 0.711 mas + van Leeuwen
+    2007 parallax) + Yonsei-Yale isochrone M=0.905 Msun (model-dependent mass)
+  pin:
+  - teff
+  - logg
+  solve:
+  - feh
+  - xi
+synthetic_no_logg:
+  teff: 5800.0
+  e_teff: 100.0
+  logg: 4.4
+  e_logg: 0.2
+  feh_ref: 0.0
+  e_feh: 0.1
+  source: synthetic test fixture — no fundamental logg available
+  logg_basis: no fundamental logg adopted — solved via Fe ionization balance
+  pin: []
+  solve:
+  - teff
+  - logg
+  - feh
+  - xi

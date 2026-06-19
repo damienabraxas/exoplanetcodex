@@ -46,11 +46,11 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-from config.constants import PATHS, STAR_SOLAR
+from config.constants import PATHS, STAR_SOLAR, get_star_params
 
 TITLE_SUFFIX = "Solar HARPS — Dumusque ESO 1102.D-0954"
 ASPLUND_FE   = 7.46
-THETA_SOLAR  = 5040.0 / STAR_SOLAR['teff_K']   # ≈ 0.8721
+THETA_SOLAR  = 5040.0 / get_star_params('solar')['teff']  # RYA-298 single source   # ≈ 0.8721
 
 DIAG_DIR = PATHS['plots'] / 'diagnostics'
 

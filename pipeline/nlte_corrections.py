@@ -323,7 +323,7 @@ def apply_fe_nlte_corrections(
         nlte_flag       : '3D_NLTE_Amarsi2022' | 'NLTE_unavailable' | '1D_LTE'
         nlte_ref        : citation string
     """
-    teff = float(stellar_params.get('teff_K', 5777))
+    teff = float(stellar_params.get('teff_K', 5772))  # RYA-298: canonical solar Teff
     logg = float(stellar_params.get('logg',   4.44))
     vmic = float(stellar_params.get('vturb_kms', 1.0))
     feh  = float(stellar_params.get('feh', 0.0))   # RYA-319: MPIA grid axis
