@@ -310,6 +310,21 @@ PIPELINE = {
                                     # blended in EW → RECOVER via synthesis; theo < floor
                                     # (e.g. 5376.5 Å, ~0 mÅ real Fe II under blend) → DROP.
 
+    # Fe II EW-quality cull (RYA-352) — re-bases the RYA-239/a88ef0f "fe2_solar_cull_
+    # rya347" hack onto its REAL basis: EW measurement quality, NOT RYA-347's synth
+    # χ²ᵣ verdict. The two paths are independent; a line failing a synth fit is not a
+    # reason to drop a clean EW measurement. Criteria (computed at load, no frozen list):
+    #   (1) saturation — EW above vmic_ew_ceiling_mA (the COG-derived ceiling, RYA-330;
+    #       lines on the flat curve-of-growth over-read because 1D-LTE can't reproduce
+    #       their saturation). Expressed per-line as REW for the report.
+    #   (2) measurement quality — ew_err/EW above the threshold below.
+    #   (3) blend — blend_flag == True (already excluded in _ew_to_abundance; kept here
+    #       for a unified, logged criterion set).
+    # INTERIM Fe II-only (RYA-199 lesson: a fixed REW ceiling right for Fe II wrongly
+    # kills strong Ba/Na lines — the general element/COG-aware EW gate is routed to the
+    # non-Fe curation track, RYA-349). Do NOT blanket this across elements.
+    'fe2_ew_err_frac_max'  : 0.5,  # cull Fe II EW line if ew_err_mA/ew_mA exceeds this.
+
     # NIST grade policy
     'min_nist_grade'    : 'B',    # Minimum acceptable grade for science
 
