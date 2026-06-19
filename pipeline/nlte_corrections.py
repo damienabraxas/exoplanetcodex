@@ -463,3 +463,146 @@ def apply_fe_nlte_corrections(
 #   Ca: +0.013 dex (median, 8 lines)   — range −0.106 to +0.053
 #   Ti: +0.108 dex (median, 19 lines)  — range +0.101 to +0.133
 #   Cr: +0.073 dex (median, 46 lines)  — range +0.009 to +0.132
+
+
+# ── C I / O I NLTE — the C/O leg (RYA-359, Amarsi 2019) ──────────────────────
+# Carbon and oxygen non-LTE corrections come from the Amarsi, Nissen &
+# Skuladottir 2019 (A&A 630, A104; CDS J/A+A/630/A104) line-by-line grids,
+# vendored at data/nlte_grids/amarsi2019_cno/. The resolver lives in
+# pipeline.nlte_cno; it is re-exported here so the C/O leg sits in the same
+# (sign-corrected, RYA-339) module as the Fe NLTE path. 3D-NLTE leg for
+# Teff <= 6500 K, 1D-NLTE leg above (Procyon). Corrections are large & NEGATIVE;
+# applied as A(X;NLTE) = A(X;1D-LTE) + Delta with a sign guard (assert_cno_sign).
+from pipeline.nlte_cno import (            # noqa: E402
+    apply_cno_nlte_corrections,
+    cno_nlte_delta,
+    resolve_line,
+    select_leg,
+    grid_coverage,
+    star_in_grid,
+    coverage_ok,
+    validate_against_table7,
+    assert_cno_sign,
+    REQUIRED_LINES,
+    TEFF_3D_CEILING,
+    CITATION as CNO_CITATION,
+)
+
+
+# ── CLI: coverage + per-star verdict + solar corrections + self-validation ───────
+
+def _cli(argv=None):
+    """Smoke test / characterization entrypoint.
+
+        python -m pipeline.nlte_corrections --species "C I,O I" \\
+            --source amarsi2019_cds --star solar --validate
+    """
+    import argparse
+    parser = argparse.ArgumentParser(description="C/O (and Fe) NLTE grid tools")
+    parser.add_argument('--species', default='C I,O I',
+                        help='comma list, e.g. "C I,O I"')
+    parser.add_argument('--source', default='amarsi2019_cds',
+                        help='grid source (amarsi2019_cds = Amarsi 2019 CDS)')
+    parser.add_argument('--star', default='solar', help='star_id for the demo')
+    parser.add_argument('--validate', action='store_true',
+                        help='run the table7 self-validation cross-check')
+    args = parser.parse_args(argv)
+
+    from config.constants import get_star_params, SOLAR_ASPLUND2021
+
+    sp_map = {'C I': 'CI', 'O I': 'OI', 'CI': 'CI', 'OI': 'OI',
+              'C': 'CI', 'O': 'OI'}
+    species = []
+    for tok in args.species.split(','):
+        s = sp_map.get(tok.strip())
+        if s and s not in species:
+            species.append(s)
+
+    print("=" * 78)
+    print(f"C/O NLTE grids — source={args.source}  "
+          f"(Amarsi 2019, {CNO_CITATION})")
+    print("=" * 78)
+
+    # 1) coverage table -------------------------------------------------------
+    print("\nGRID COVERAGE (per species, per leg)")
+    hdr = (f"  {'species':<8}{'leg':<5}{'Teff':>14}{'logg':>12}"
+           f"{'[Fe/H]':>14}{'vmic':>10}{'nlines':>8}{'nrec':>10}")
+    print(hdr)
+    for sp in species:
+        for leg in ('3D', '1D'):
+            c = grid_coverage(sp, leg)
+            print(f"  {sp:<8}{leg:<5}"
+                  f"{c['teff'][0]:>6.0f}-{c['teff'][1]:<7.0f}"
+                  f"{c['logg'][0]:>5.1f}-{c['logg'][1]:<6.1f}"
+                  f"{c['feh'][0]:>6.2f}-{c['feh'][1]:<7.2f}"
+                  f"{c['vmic'][0]:>4.1f}-{c['vmic'][1]:<5.1f}"
+                  f"{len(c['lines']):>8}{c['n_records']:>10}")
+    ok, problems = coverage_ok()
+    print(f"\n  STOP-GATE (required lines + [Fe/H] >= +0.32): "
+          f"{'PASS' if ok else 'FAIL'}")
+    for p in problems:
+        print(f"    ! {p}")
+
+    # 2) per-star in-grid verdict --------------------------------------------
+    print("\nPER-STAR IN-GRID VERDICT (Sun / Procyon / alpha Cen A / 55 Cnc A)")
+    for star_id in ('solar', 'procyon', 'alpha_cen_a', '55cnc_a'):
+        try:
+            rec = get_star_params(star_id)
+        except Exception as e:
+            print(f"  {star_id}: no STAR_PARAMS record ({e})")
+            continue
+        teff = float(rec['teff']); logg = float(rec['logg'])
+        feh = float(rec.get('feh_ref', 0.0))
+        vmic = float(rec.get('xi', rec.get('xi_init', 1.0)))
+        leg = select_leg(teff)
+        print(f"  {star_id:<12} Teff={teff:.0f} logg={logg:.2f} "
+              f"[Fe/H]={feh:+.2f} vmic={vmic:.2f} → {leg}-leg")
+        for sp in species:
+            v = star_in_grid(sp, teff, logg, feh, vmic)
+            miss = (' MISSING=' + ','.join(v['required_missing'])
+                    if v['required_missing'] else '')
+            print(f"      {sp}: in_box={v['in_box']} "
+                  f"required_present={v['required_present']}{miss}")
+
+    # 3) demo: solar corrections with sign + magnitude -----------------------
+    print(f"\nSOLAR CORRECTIONS (star={args.star}, demo on required lines)")
+    rec = get_star_params(args.star)
+    teff = float(rec['teff']); logg = float(rec['logg'])
+    feh = float(rec.get('feh_ref', 0.0))
+    vmic = float(rec.get('xi', rec.get('xi_init', 1.0)))
+    leg = select_leg(teff)
+    sun_logeps = {'CI': SOLAR_ASPLUND2021['C'], 'OI': SOLAR_ASPLUND2021['O']}
+    print(f"  leg={leg}  logeps(C)={sun_logeps['CI']}  logeps(O)={sun_logeps['OI']}")
+    for sp in species:
+        for label in REQUIRED_LINES[sp]:
+            d = cno_nlte_delta(sp, label, teff, logg, feh, vmic,
+                               sun_logeps[sp], leg=leg)
+            assert_cno_sign(sp, label, d)
+            sign = 'neg' if d < 0 else ('pos' if d > 0 else 'zero')
+            print(f"    {sp} {label:<9} Delta = {d:+.4f} dex  ({sign})")
+
+    # 4) self-validation against table7 --------------------------------------
+    if args.validate:
+        print("\nSELF-VALIDATION vs table7 (interpolated Delta vs published 3N-1L)")
+        res = validate_against_table7()
+        print(f"  {'star':<12}{'leg':<4}{'Teff':>6}{'[Fe/H]':>8}"
+              f"{'C_pred':>9}{'C_obs':>9}{'C_res':>8}"
+              f"{'O_pred':>9}{'O_obs':>9}{'O_res':>8}")
+        for r in res['rows']:
+            def fmt(x): return f"{x:+.3f}" if np.isfinite(x) else "   n/a"
+            print(f"  {r['star']:<12}{r['leg']:<4}{r['teff']:>6}{r['feh']:>+8.2f}"
+                  f"{fmt(r['c_pred']):>9}{fmt(r['c_obs']):>9}{fmt(r['c_resid']):>8}"
+                  f"{fmt(r['o_pred']):>9}{fmt(r['o_obs']):>9}{fmt(r['o_resid']):>8}")
+        print(f"\n  C: MAE={res['c_mae']:.4f}  max|res|(all)={res['c_max']:.4f}  "
+              f"max|res|(sci [Fe/H]>={res['feh_floor']})={res['c_max_sci']:.4f} dex")
+        print(f"  O: MAE={res['o_mae']:.4f}  max|res|(all)={res['o_max']:.4f}  "
+              f"max|res|(sci [Fe/H]>={res['feh_floor']})={res['o_max_sci']:.4f} dex")
+        print(f"  (the fixed optical-C-line proxy degrades at [Fe/H]<~-2 halo "
+              f"stars — outside our near-solar science range; grid itself OK)")
+        print(f"  tolerance={res['tol']} over science range  → "
+              f"{'PASS' if res['passed'] else 'FAIL'}")
+    print("\n" + "=" * 78)
+
+
+if __name__ == '__main__':
+    _cli()
