@@ -1784,6 +1784,58 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
 
 # ── Solar EW loader (hybrid Fe I GES + Fe II lines_fit) ──────────────────────
 
+def _apply_fe2_ew_quality_cull(ew_df: pd.DataFrame) -> pd.DataFrame:
+    """RYA-352 — cull the solar Fe II EW pool on its REAL basis: EW measurement
+    quality, computed from the table (no frozen list, no RYA-347 synth verdict).
+
+    A Fe II EW line is culled if it fails ANY of:
+      • SATURATION — EW > PIPELINE['vmic_ew_ceiling_mA'] (the COG-derived ceiling,
+        RYA-330). Saturated lines on the flat curve of growth over-read because the
+        1D-LTE model can't reproduce their saturation.
+      • MEASUREMENT — ew_err/EW > PIPELINE['fe2_ew_err_frac_max'].
+      • BLEND — blend_flag == True.
+
+    Every drop is logged with its reason (no silent cull). Only Fe II rows are
+    touched — this is the INTERIM Fe II-only gate (RYA-199: a fixed REW ceiling
+    wrongly kills strong Ba/Na lines; the element-aware general gate is RYA-349).
+    Supersedes the misnamed `fe2_solar_cull_rya347.csv` + `_apply_fe2_cull`
+    (a88ef0f), which dropped clean EW lines (5991/6084/6456) for failing a *synth*
+    fit — an independent path.
+    """
+    ceiling = PIPELINE['vmic_ew_ceiling_mA']
+    err_max = PIPELINE['fe2_ew_err_frac_max']
+    is_fe2 = (ew_df['element'] == 'Fe') & (ew_df['ion'] == 'II')
+    if not is_fe2.any():
+        return ew_df
+
+    keep = pd.Series(True, index=ew_df.index)
+    dropped = []
+    for i in ew_df.index[is_fe2]:
+        ew = float(ew_df.at[i, 'ew_mA'])
+        wl = float(ew_df.at[i, 'wavelength_air_A'])
+        err = float(ew_df.at[i, 'ew_err_mA']) if 'ew_err_mA' in ew_df.columns else np.nan
+        blend = bool(ew_df.at[i, 'blend_flag']) if 'blend_flag' in ew_df.columns else False
+        rew = np.log10(ew / 1000.0 / wl) if ew > 0 else np.nan
+        reasons = []
+        if ew > ceiling:
+            reasons.append(f"SAT(EW={ew:.1f}>{ceiling:.0f}mÅ, REW={rew:.2f})")
+        if np.isfinite(err) and ew > 0 and err / ew > err_max:
+            reasons.append(f"HIERR(err/EW={err/ew:.2f}>{err_max})")
+        if blend:
+            reasons.append("BLEND")
+        if reasons:
+            keep[i] = False
+            dropped.append((wl, rew, ';'.join(reasons)))
+
+    if dropped:
+        print(f"  [Fe II EW-quality cull RYA-352] dropped {len(dropped)} of "
+              f"{int(is_fe2.sum())} Fe II lines (ceiling {ceiling:.0f}mÅ, "
+              f"err/EW>{err_max}):")
+        for wl, rew, why in sorted(dropped):
+            print(f"      {wl:9.3f}  {why}")
+    return ew_df[keep].reset_index(drop=True)
+
+
 def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     """
     Load solar EWs for abundance derivation using a hybrid approach:
@@ -1810,7 +1862,7 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         ew_df = pd.read_csv(ew_override)
         ew_df = ew_df[(ew_df['ew_mA'] > 0) & ew_df['ew_mA'].notna()].copy()
         print(f"  EW override: {ew_override} ({len(ew_df)} lines)")
-        return ew_df
+        return _apply_fe2_ew_quality_cull(ew_df)
 
     solar_ew = pd.read_csv(str(PATHS['solar_ew']))
     solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
@@ -1830,12 +1882,12 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         hybrid = pd.concat([ges_fe1, non_fe1], ignore_index=True)
         print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (lines_fit) "
               f"+ {len(non_fe1) - fe2_count} other elements")
-        return hybrid
+        return _apply_fe2_ew_quality_cull(hybrid)
 
     except FileNotFoundError:
         print(f"  WARNING: GES Fe I reference not found at {ges_ref_path} — "
               f"falling back to solar_ew.csv for all elements")
-        return solar_ew
+        return _apply_fe2_ew_quality_cull(solar_ew)
 
 
 # ── Legacy COG (DO NOT USE for science) ──────────────────────────────────────
