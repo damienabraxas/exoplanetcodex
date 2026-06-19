@@ -1,0 +1,60 @@
+{
+  "abundances": {
+    "C": 8.505,
+    "N": 7.526,
+    "O": 8.861,
+    "C/O": 0.441
+  },
+  "iterations": 5,
+  "converged": false,
+  "flags": [
+    "co_equilibrium_not_converged"
+  ],
+  "uncertainty": {
+    "C": {
+      "stat": 0.019,
+      "sys": 0.015,
+      "tot": 0.024
+    },
+    "N": {
+      "stat": 0.143,
+      "sys": 0.57,
+      "tot": 0.587
+    },
+    "O": {
+      "stat": 0.041,
+      "sys": 0.006,
+      "tot": 0.041
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "vis",
+    "instrument": "HARPS",
+    "R_LSF": 115000.0,
+    "atomic_linelist": "GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353)",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 115000.0,
+      "vmac": 3.8,
+      "vsini": 1.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS LTE-by-design (Ryan 2026-06-19); C I cI_vis_lte_assumed (Alexeeva & Mashonkina 2015); [O I] forbidden LTE; molecular bands LTE"
+    },
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 5772.0,
+      "logg": 4.438,
+      "feh": 0.0,
+      "vturb_kms": 1.0
+    },
+    "caveats": [
+      "Store-#2 Ni gf not yet rerouted for [O I] 6300 Ni blend (RYA-353 follow-up)."
+    ]
+  }
+}
