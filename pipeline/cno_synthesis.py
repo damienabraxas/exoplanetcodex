@@ -78,6 +78,7 @@ from pipeline.abundances_derive import (
     _resolve_broadening,
     _ISPEC_SOLAR_ABUND_FILE,
 )
+from pipeline.gf_resolver import resolve as resolve_gf   # RYA-365: canonical Ni gf assert
 
 # Molecular line lists (RYA-236) — iSpec globs this dir when use_molecules=True.
 _MOLECULES_DIR = ISPEC_DIR / 'input' / 'linelists' / 'turbospectrum' / 'molecules'
@@ -191,7 +192,8 @@ VIS_DIAGNOSTICS = (
         nlte_flag='lte_forbidden_insensitive',
         nlte_ref='[O I] forbidden — LTE-insensitive',
         reference='[O I] 6300.30 + Ni I 6300.34 joint synthesis (A(Ni) pinned). '
-                  'Store-#2 Ni gf not yet rerouted — RYA-353 follow-up (caveat carried).',
+                  'Ni I 6300.34 gf resolves via gf_resolver = Johansson+2003 '
+                  'log gf -2.11 (RYA-365 adjudication; the [O I]-blend lab authority).',
     ),
 )
 
@@ -602,8 +604,9 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
                            '[O I] forbidden LTE; molecular bands LTE'},
         'solar_reference': 'Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021',
         'params': params,
-        'caveats': ['Store-#2 Ni gf not yet rerouted for [O I] 6300 Ni blend '
-                    '(RYA-353 follow-up).'],
+        'caveats': ['Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver '
+                    '= Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 '
+                    'per-star-master reroute remains the RYA-353 follow-on umbrella.'],
     }
 
     _write_product(result, out_dir)
@@ -746,12 +749,145 @@ def validate_solar(result: CNOResult) -> bool:
     return all_pass
 
 
+# ── [O I] 6300 blend partition (RYA-365) ─────────────────────────────────────
+# The Ni I 6300.34 gf feeding the [O I] 6300 joint fit must resolve through
+# gf_resolver (canonical = Johansson+2003 -2.11). This diagnostic "sees the
+# blend": it decomposes total / Ni / [O I] contribution + inferred A(O), BEFORE
+# (the stale NIST-grade-B gf -2.310 that RYA-353/354 had seeded) vs AFTER (the
+# canonical Johansson-2003 -2.11). The before/after is in-memory only — the live
+# linelist already carries the canonical value; we transiently override the one
+# Ni row to show the decomposition. No hardcoded gf in the live path.
+
+_NI_6300_WL = 6300.342          # Å (air)
+_NI_6300_EP = 4.266             # eV
+_STALE_NI_GF = -2.310           # pre-RYA-365 canonical (NIST ASD grade B) — diagnostic only
+_OI_PART_WIN_A = (6300.00, 6300.55)   # tight window over the [O I]+Ni blend core for EW
+
+
+def _ni6300_idx(ll) -> int:
+    """Row index of Ni I 6300.34 in the synth linelist (raises if absent)."""
+    w = ll['wave_A'].astype(float)
+    ep = ll['lower_state_eV'].astype(float)
+    for i in np.where((np.abs(w - _NI_6300_WL) <= 0.02) & (np.abs(ep - _NI_6300_EP) <= 0.05))[0]:
+        if str(ll['element'][i]).strip().startswith('Ni') and int(ll['ion'][i]) == 1:
+            return int(i)
+    raise RuntimeError(
+        "Ni I 6300.34 absent from the synth linelist — cannot run the [O I] blend "
+        "partition (RYA-365). The joint fit requires the Ni blend partner.")
+
+
+def _ew_mA(sw_nm, flux) -> float:
+    """Equivalent width in mÅ of (1 - normalized flux) over sw_nm (a nm grid)."""
+    return float(np.trapz(1.0 - np.asarray(flux), np.asarray(sw_nm)) * 1.0e4)
+
+
+def oi_blend_partition(star_id: str = 'solar', *, tmp_dir: str = '/tmp/ispec_cno',
+                       a_C: float = None) -> dict:
+    """Decompose the [O I] 6300.30 + Ni I 6300.34 blend and fit A(O), BEFORE
+    (stale Ni gf -2.310) vs AFTER (canonical gf_resolver = Johansson+2003 -2.11).
+
+    C/N pinned at the solar anchor (CO coupling to [O I] is negligible at solar);
+    A(Ni) pinned from the canonical solar Ni abundance (Asplund 2021, sourced),
+    not a literal. Returns {'before': {...}, 'after': {...}, 'canon_gf': ...}.
+    """
+    region = REGIONS['vis']
+    Path(tmp_dir).mkdir(parents=True, exist_ok=True)
+    rec = get_star_params(star_id)
+    params = {'teff_K': float(rec['teff']), 'logg': float(rec['logg']),
+              'feh': float(rec['feh_ref']), 'vturb_kms': float(rec.get('xi', 1.0))}
+    feh = params['feh']
+    off = (feh if star_id != 'solar' else 0.0)
+
+    print(f"\n{'='*72}\n  [O I] 6300 BLEND PARTITION — {star_id} (RYA-365)\n{'='*72}")
+    broadening = preflight(region, star_id, [d for d in VIS_DIAGNOSTICS if d.key == 'OI_6300'])
+
+    atm = _load_atmosphere(params['teff_K'], params['logg'], feh, params['vturb_kms'])
+    ll, iso, chem = _load_synth_resources()        # already canonical-gf (RYA-353)
+    sab = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+    obs_w, obs_f = _load_observed_spectrum(star_id)
+    codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
+
+    # CRITICAL: the live Ni gf MUST equal the gf_resolver canonical (no hardcoded copy).
+    ni_i = _ni6300_idx(ll)
+    canon_gf = float(resolve_gf((28, 1), _NI_6300_WL, _NI_6300_EP))
+    live_gf = float(ll['loggf'][ni_i])
+    if abs(live_gf - canon_gf) > 1e-4:
+        raise AssertionError(
+            f"Ni I 6300.34 synth gf {live_gf:+.4f} != gf_resolver canonical "
+            f"{canon_gf:+.4f} — the [O I] path is NOT resolving via gf_resolver "
+            f"(RYA-365 invariant violated).")
+    print(f"  Ni I 6300.34 gf via gf_resolver = {canon_gf:+.3f} "
+          f"(Johansson+2003); live synth row matches ✓")
+
+    a_Ni = float(SOLAR_ASPLUND2021['Ni']) + off      # pinned, canonical solar Ni
+    a_C0 = float(a_C if a_C is not None else SOLAR_ASPLUND2021['C']) + (0.0 if a_C is not None else off)
+    a_N0 = float(SOLAR_ASPLUND2021['N']) + off
+    print(f"  pinned: A(Ni)={a_Ni:.2f} (Asplund2021 solar Ni)  A(C)={a_C0:.2f}  A(N)={a_N0:.2f}")
+
+    win = (_OI_PART_WIN_A,)
+    fit_win = ((6299.5, 6301.0),)        # same fit window run_cno uses for OI_6300
+    sw = np.arange(_OI_PART_WIN_A[0] / 10.0, _OI_PART_WIN_A[1] / 10.0 + _WSTEP_NM * 0.5,
+                   _WSTEP_NM)
+
+    out = {'canon_gf': canon_gf}
+    for tag, ni_gf in (('before', _STALE_NI_GF), ('after', canon_gf)):
+        ll_v = ll.copy()
+        ll_v['loggf'][ni_i] = ni_gf
+        seed_O = float(SOLAR_ASPLUND2021['O']) + off
+        rfit = _fit_element(obs_w, obs_f, atm, params, 'O',
+                            {'C': a_C0, 'N': a_N0, 'O': seed_O, 'Ni': a_Ni}, codes,
+                            fit_win, True, broadening,
+                            seed_O - 1.2, seed_O + 1.2, ll_v, iso, sab, tmp_dir)
+        a_O = rfit['A_X']
+        st_full = {'C': a_C0, 'N': a_N0, 'O': a_O, 'Ni': a_Ni}
+        st_noNi = dict(st_full, Ni=a_Ni - 6.0)       # remove Ni (6 dex weaker → ~0)
+        st_noO = dict(st_full, O=a_O - 6.0)          # remove [O I]
+        f_full = _synth_window(sw, atm, params, ll_v, iso, sab, _fixed_ab(st_full, codes),
+                               broadening, True, tmp_dir)
+        f_noNi = _synth_window(sw, atm, params, ll_v, iso, sab, _fixed_ab(st_noNi, codes),
+                               broadening, True, tmp_dir)
+        f_noO = _synth_window(sw, atm, params, ll_v, iso, sab, _fixed_ab(st_noO, codes),
+                              broadening, True, tmp_dir)
+        ew_tot = _ew_mA(sw, f_full)
+        ew_ni = ew_tot - _ew_mA(sw, f_noNi)
+        ew_o = ew_tot - _ew_mA(sw, f_noO)
+        depth = float(1.0 - np.min(f_full))
+        out[tag] = {'ni_gf': ni_gf, 'A_O': a_O, 'red_chi2': rfit['red_chi2'],
+                    'ew_total_mA': round(ew_tot, 2), 'ew_Ni_mA': round(ew_ni, 2),
+                    'ew_OI_mA': round(ew_o, 2), 'core_depth': round(depth, 3),
+                    'ni_frac': round(ew_ni / ew_tot, 3) if ew_tot else float('nan')}
+    return out
+
+
+def print_oi_partition(part: dict) -> bool:
+    """Print the before/after blend-partition table; return whether O clears the gate."""
+    tgt, terr = SOLAR_VIS_GATES['O']
+    print(f"\n  [O I] 6300 blend partition (EW over {_OI_PART_WIN_A[0]}-{_OI_PART_WIN_A[1]} Å):")
+    print(f"  {'case':<26}{'Ni gf':>8}{'EW_tot':>9}{'EW_Ni':>8}{'EW_[OI]':>9}"
+          f"{'Ni frac':>9}{'A(O)':>8}{'χ²ᵣ':>8}")
+    for tag, label in (('before', 'before (NIST B)'), ('after', 'after (Johansson03)')):
+        p = part[tag]
+        print(f"  {label:<26}{p['ni_gf']:>+8.3f}{p['ew_total_mA']:>9.2f}"
+              f"{p['ew_Ni_mA']:>8.2f}{p['ew_OI_mA']:>9.2f}{p['ni_frac']:>9.3f}"
+              f"{p['A_O']:>8.3f}{p['red_chi2']:>8.3f}")
+    aO = part['after']['A_O']
+    within = abs(aO - tgt) <= terr + 1e-9
+    print(f"\n  A(O)☉: before={part['before']['A_O']:.3f}  →  after={aO:.3f}  "
+          f"(target {tgt:.2f} ± {terr:.2f}, Δ={aO - tgt:+.3f})")
+    print(f"  GATE: {'PASS — solar O cleared' if within else 'FAIL — RCA finding, do NOT force (see RYA-354)'}")
+    return within
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description='Region-aware C/N/O synthesis (RYA-237)')
     ap.add_argument('--star', default='solar')
     ap.add_argument('--region', default='vis', choices=sorted(REGIONS))
+    ap.add_argument('--species', default=None,
+                    help='restrict to a channel, e.g. "O I" → the [O I] 6300 blend '
+                         'partition (Ni vs [O I], before/after canonical gf). '
+                         'Omit for the full C/N/O run.')
     ap.add_argument('--validate', action='store_true',
                     help='print the solar-VIS acceptance gate table')
     ap.add_argument('--no-systematics', action='store_true',
@@ -759,6 +895,15 @@ def main(argv=None):
     ap.add_argument('--max-iter', type=int, default=5)
     ap.add_argument('--out', default=None)
     args = ap.parse_args(argv)
+
+    # --species "O I" → the focused [O I] 6300 blend-partition diagnostic (RYA-365).
+    if args.species and args.species.replace(' ', '').upper() in ('OI', 'O'):
+        if args.region != 'vis':
+            raise SystemExit("[O I] 6300 blend partition is a VIS diagnostic (--region vis).")
+        part = oi_blend_partition(args.star, tmp_dir='/tmp/ispec_cno')
+        if args.validate:
+            print_oi_partition(part)
+        return part
 
     result = run_cno(args.star, args.region, max_iter=args.max_iter,
                      with_systematics=not args.no_systematics,
