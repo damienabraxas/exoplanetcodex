@@ -1947,12 +1947,22 @@ def run(star_id: str = 'solar',
     # ── Stellar parameters ────────────────────────────────────────
     if stellar_params_override:
         params = stellar_params_override.copy()
-    elif 'solar' in star_id.lower():
-        params = STAR_SOLAR.copy()
-    elif 'procyon' in star_id.lower():
-        params = STAR_PROCYON.copy()
     else:
-        params = STAR_55CNC.copy()
+        # RYA-298: fundamental teff/logg/feh come from the single source (stars.yaml
+        # via get_star_params); the legacy dict supplies only NON-fundamental fields
+        # (names, RV, ξ-solve seed, Ni 6300 literature EW, broadening).
+        if 'solar' in star_id.lower():
+            params = STAR_SOLAR.copy()
+        elif 'procyon' in star_id.lower():
+            params = STAR_PROCYON.copy()
+        else:
+            params = STAR_55CNC.copy()
+        _fund = get_star_params(star_id)
+        params['teff_K'] = float(_fund['teff'])
+        params['logg'] = float(_fund['logg'])
+        params['feh'] = float(_fund['feh_ref'])
+        params.setdefault('vturb_kms',
+                          float(_fund.get('xi', _fund.get('xi_init', 1.0))))
 
     # ── Pin/solve policy (RYA-292) ────────────────────────────────
     # Resolve the per-star fundamental-param record (fail LOUD if absent), pin the
@@ -2127,9 +2137,10 @@ def run(star_id: str = 'solar',
     # ── NLTE corrections (RYA-165) ────────────────────────────────
     try:
         from pipeline.nlte_corrections import apply_fe_nlte_corrections
+        _sun = get_star_params('solar')  # RYA-298: canonical solar fallback (5772/4.438)
         stellar_params_for_nlte = {
-            'teff_K'   : converged_params.get('teff_K',    5777),
-            'logg'     : converged_params.get('logg',      4.44),
+            'teff_K'   : converged_params.get('teff_K',    _sun['teff']),
+            'logg'     : converged_params.get('logg',      _sun['logg']),
             'feh'      : converged_params.get('feh',        0.0),
             'vturb_kms': converged_params.get('vturb_kms',  1.0),
         }

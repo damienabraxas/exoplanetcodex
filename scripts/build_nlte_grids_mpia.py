@@ -54,10 +54,10 @@ OUTFILES = {
     'Cr': 'Cr_Bergemann2010_MPIA.csv',
 }
 
-SOLAR = (5777.0, 4.44, 0.0)
+SOLAR = (5772.0, 4.438, 0.0)   # RYA-298: canonical solar anchor (IAU/GBS)
 
 # Grid points
-TEFF_GRID = [5000, 5500, 5750, 5777, 6000, 6500]
+TEFF_GRID = [5000, 5500, 5750, 5772, 6000, 6500]   # RYA-298: 5777→5772
 LOGG_GRID = [3.5, 4.0, 4.4, 4.5]
 FEH_GRID  = [-0.5, 0.0, 0.3]
 

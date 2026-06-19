@@ -21,6 +21,6 @@ def log_prior(theta):
 
     # weak Gaussian priors (optional refinement later)
     lp = 0.0
-    lp += -0.5 * ((Teff - 5777) / 200)**2
+    lp += -0.5 * ((Teff - 5772) / 200)**2  # RYA-298: canonical solar Teff (IAU/GBS)
 
     return lp

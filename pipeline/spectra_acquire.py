@@ -33,7 +33,7 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore', category=fits.verify.VerifyWarning)
 
-from config.constants import PHYSICS, PATHS, STAR_55CNC, PIPELINE
+from config.constants import PHYSICS, PATHS, STAR_55CNC, PIPELINE, get_star_params
 
 
 # ── Constants & config ────────────────────────────────────────────────────────
@@ -42,9 +42,10 @@ STAR_NAME   = STAR_55CNC['hd']
 STAR_HIP    = STAR_55CNC['hip']
 STAR_COORDS = SkyCoord("08h52m35.81s", "+28d19m50.95s", frame='icrs')
 
-TEFF    = STAR_55CNC['teff_K']
-LOGG    = STAR_55CNC['logg']
-FEH     = STAR_55CNC['feh']
+_f55    = get_star_params('55cnc_a')   # RYA-298 single source
+TEFF    = _f55['teff']
+LOGG    = _f55['logg']
+FEH     = _f55['feh_ref']
 VTURB   = STAR_55CNC['vturb_kms']
 C_KMS   = PHYSICS['c_kms']
 DATA_DIR = PATHS['raw_spectra']

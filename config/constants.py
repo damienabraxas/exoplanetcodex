@@ -116,18 +116,16 @@ def assert_abundance_on_scale(value, context=""):
 # ── 55 Cancri A stellar parameters ───────────────────────────────────────────
 # Primary source: CHARA interferometry, von Braun et al. 2011 (ApJ 729, 63)
 # Secondary: Valenti & Fischer 2005, Teske et al. 2013
+# RYA-298: fundamental teff/logg/feh live ONLY in stars.yaml (get_star_params).
+# This legacy dict keeps the 55 Cnc-specific NON-fundamental fields consumers read
+# (names, mass/radius, broadening, RV) — no stellar-param literals (was 5196/4.41/0.32;
+# 4.41/0.32 had drifted from the canonical 4.45/0.31, now single-sourced).
 STAR_55CNC = {
     'name'         : '55 Cancri A',
     'iau_name'     : 'Copernicus',
     'hd'           : 'HD 75732',
     'hip'          : 'HIP 43587',
-    'teff_K'       : 5196.0,    # ± 24 K (CHARA)
-    'teff_err'     : 24.0,
-    'logg'         : 4.41,      # ± 0.02 (CHARA)
-    'logg_err'     : 0.02,
-    'feh'          : 0.32,      # ± 0.02 (spectroscopic)
-    'feh_err'      : 0.02,
-    'vturb_kms'    : 0.9,       # km/s initial estimate — refined from Fe lines
+    'vturb_kms'    : 0.9,       # km/s ξ-solve SEED (55 Cnc ξ is solved, not pinned)
     'mass_msun'    : 0.905,     # ± 0.015 (CHARA)
     'radius_rsun'  : 0.943,     # ± 0.010 (CHARA)
     'age_gyr'      : 10.2,      # ± 2.5
@@ -152,14 +150,15 @@ TARGET_ELEMENTS = [
 # ── Solar calibration parameters ─────────────────────────────────────────────
 # Reflected sunlight from Ceres observed with HARPS as solar reference spectrum
 # Citation: Dumusque et al. 2021, arXiv:2009.01945, ESO program 1102.D-0954(A)
+# RYA-298: fundamental teff/logg/feh live ONLY in stars.yaml (get_star_params).
+# The legacy 5777/4.44 here had drifted from the canonical 5772/4.438 (IAU-nominal /
+# GBS Heiter+2015) — RYA-355 flagged it; now single-sourced. Non-fundamental solar
+# fields (provenance, RV, Ni 6300 literature EW) stay here.
 STAR_SOLAR = {
     'name'         : 'Sun',
     'program_id'   : '1102.D-0954(A)',
     'citation'     : 'Dumusque et al. 2021, arXiv:2009.01945',
-    'teff_K'       : 5777.0,    # IAU 2015 nominal solar effective temperature
-    'logg'         : 4.44,      # cgs
-    'feh'          : 0.00,      # by definition — solar zero-point
-    'vturb_kms'    : 1.0,       # km/s
+    'vturb_kms'    : 1.0,       # km/s ξ-solve seed (solar ξ pinned 1.0 in stars.yaml)
     'rv_kms'       : 0.0,       # solar zero-point; BERV correction applied per exposure
     'ni6300_ew_lit_mA' : 1.0,   # Ni I 6300.336 EW in solar photosphere (Allende Prieto+2001, ApJ 556 L63)
                                   # VALD3 log_gf=-2.841 predicts ~3.8 mÅ via COG — 0.575 dex too strong.
@@ -181,9 +180,6 @@ STAR_PROCYON = {
     'name'      : 'Procyon',
     'hd'        : 'HD 61421',
     'hip'       : 'HIP 37279',
-    'teff_K'    : 6554.0,   # Heiter+2015 (mirror of STAR_PARAMS['procyon']['teff'])
-    'logg'      : 4.00,     # Heiter+2015 (mirror of STAR_PARAMS['procyon']['logg'])
-    'feh'       : 0.03,     # Jofré+2014 (mirror of STAR_PARAMS['procyon']['feh_ref'])
     'vturb_kms' : 1.66,     # km/s — ξ-solve seed (Allende Prieto 2002), not pinned
     'rv_kms'    : -3.0,
 }
@@ -468,117 +464,30 @@ CONTINUUM_PARAMS = {
 # Instrumental resolution is an INSTRUMENT constant, not per-star:
 HARPS_R = 115000   # HARPS resolving power; instrumental convolution for synthesis
 
-STAR_PARAMS = {
-    # RYA-325: ξ (xi, microturbulence) is PINNED for the four GBS calibrators —
-    # same status as Teff/logg (RYA-292 principle: floating a well-determined
-    # param lets a systematic hide as a parameter shift; cf. the RYA-284 Procyon
-    # ξ undershoot on then-dirty data). ξ is framework-relative (it absorbs
-    # line-list/EW/1D-model choices), so the pinned value is the GBS reference on
-    # a consistent scale: Jofré et al. 2014 (A&A 564, A133, GBS Paper III) — ξ via
-    # the GES vmic relation at the Heiter+2015 (Paper I) fundamental params;
-    # Bruntt et al. 2010 (MNRAS 405, 1907) as the independent cross-check. The
-    # convergence still reports the reduced-EW slope at the pinned ξ as a
-    # guardrail (flat = consistent; sloped = a finding to surface, never re-float).
-    'solar': {
-        'teff': 5772.0, 'e_teff': 1.0,  'logg': 4.438, 'e_logg': 0.000,
-        'feh_ref': 0.00, 'e_feh': 0.03,
-        'xi': 1.0,   # km/s — our scale anchor (Jofré+2014; matches STAR_SOLAR)
-        'vmac': 3.8, 'vsini': 1.8,   # km/s — RYA-288: verbatim from the RYA-287
-                                      # synth-v2 hardcoded set (solar run = no-op)
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)',
-        'logg_basis': 'IAU nominal solar mass + radius (logg fixed to ~0.001 dex)',
-        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
-    },
-    'procyon': {
-        # RYA-309 §3.4: Teff/logg are the Heiter+2015 GBS values (6554/4.00),
-        # confirmed by Ryan. The RYA-309 brief's "6530/3.96 (Heiter 2015)" was a
-        # mislabel — those are Allende Prieto 2002 (spectroscopic) values.
-        'teff': 6554.0, 'e_teff': 84.0, 'logg': 4.00, 'e_logg': 0.02,
-        'feh_ref': 0.03, 'e_feh': 0.04,
-        # RYA-325: ξ PINNED = 1.8 (GBS/Jofré scale, Ryan-confirmed 2026-06-15;
-        # lit consensus 1.7-1.8, ≈ Bruntt+2010 1.69 — NOT the old ~2.0 solve-guess
-        # on dirty data). HARD GATE: the reduced-EW slope on clean (post-309/320)
-        # Fe data must be flat at 1.8; if it still insists on ~2.0, that's a finding
-        # (F-star line-list/EW systematics, RYA-281/206), surfaced not pinned over.
-        # RYA-322 2×2 produces the clean slope → confirms or flags.
-        'xi': 1.8,
-        # Broadening (RYA-309 §3.3): vsini FIXED at the Bruntt+2010 value; vmac is
-        # an ADOPTED literature RT macroturbulence (Gray RT scale — same footing as
-        # the solar 3.8 RT value). Bruntt's own vmac (4.6) is GAUSSIAN and must NOT
-        # be reused as an RT vmac (cf. solar RT 3.8 vs Bruntt Gaussian 2.4).
-        # WHY ADOPTED, not fit: at Procyon's SNR (~2272) the per-line χ²ᵣ is
-        # dominated by 1D-LTE model error (~0.4%), not noise, so full-profile χ²
-        # monotonically biases vmac high (rails to the search bound, not ~5-6) —
-        # full-profile χ² is the wrong vmac estimator here. The proper FT/width-
-        # based estimator is deferred to RYA-316 (non-blocking). A(Fe) sensitivity
-        # to vmac 5.0↔6.0 is reported with the run (RYA-309 rigor rider) and is
-        # small (vmac couples weakly to A(Fe)).
-        'vsini': 2.8,   # km/s — FIXED. Bruntt et al. 2010, MNRAS 405, 1907
-        'vmac': 6.0,    # km/s — ADOPTED RT (Gray scale), Procyon F5 IV-V ~5.5-6.5
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ=1.8); '
-                  'broadening: Bruntt+2010 vsini=2.8 + adopted RT vmac=6.0 '
-                  '(Gray scale; FT estimator deferred to RYA-316)',
-        'logg_basis': 'astrometric binary mass (Procyon B WD) + interferometric radius',
-        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
-    },
-    'alpha_cen_a': {
-        'teff': 5792.0, 'e_teff': 16.0, 'logg': 4.30, 'e_logg': 0.01,
-        'feh_ref': 0.20, 'e_feh': 0.04,
-        'xi': 1.1,   # km/s — GBS/Jofré scale (Ryan-confirmed; G2V near-solar,
-                     # GES relation @ 5792/4.30/+0.20); slope-validate at α Cen run
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)',
-        'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
-        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
-    },
-    'alpha_cen_b': {
-        'teff': 5231.0, 'e_teff': 20.0, 'logg': 4.53, 'e_logg': 0.03,
-        'feh_ref': 0.20, 'e_feh': 0.04,
-        'xi': 1.0,   # km/s — GBS/Jofré scale (Ryan-confirmed; cooler K1V,
-                     # GES relation @ 5231/4.53/+0.20); slope-validate at α Cen run
-        'source': 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)',
-        'logg_basis': 'dynamical binary mass + VLTI interferometric radius + asteroseismology',
-        'pin': ['teff', 'logg', 'xi'], 'solve': ['feh'],
-    },
-    # 55 Cnc A (Copernicus) — flagship science-target primary, host of 55 Cnc e
-    # (Janssen). RYA-293: graduates from the solve example to a PINNED target now
-    # that von Braun et al. 2011 (ApJ 740, 49) supplies a fundamental logg.
-    # Provenance caveat (recorded honestly): the radius is directly interferometric
-    # but the mass is isochrone-based (model-dependent) — so this logg pin is
-    # slightly softer than the dynamical-mass benchmarks (α Cen) or the IAU-nominal
-    # Sun, but still far tighter (±0.01) than any spectroscopic solve, so pinning is
-    # correct. Pinning the interferometric Teff (5196 K) may surface an excitation-
-    # balance tension with our spectroscopic Teff when spectra run — that visibility
-    # is intended (same pattern as the solar logg pin surfacing the Fe imbalance);
-    # do NOT silently unpin Teff to hide it. feh_ref is a spectroscopic sanity
-    # target (Valenti & Fischer 2005), NOT a pinned input — [Fe/H] stays solved.
-    '55cnc_a': {
-        'teff': 5196.0, 'e_teff': 24.0, 'logg': 4.45, 'e_logg': 0.01,
-        'feh_ref': 0.31, 'e_feh': 0.04,
-        # RYA-325: 55 Cnc is a SCIENCE TARGET, not a GBS calibrator — ξ stays
-        # SOLVED in our framework (reduced-EW slope on our Fe lines, differential
-        # to our solar ξ≈1.0). Literature ξ are heterogeneous & framework-relative
-        # (Teske+2013 1.17±0.14 derived vs THEIR ξ_sun=1.38; Ecuvillon+2004
-        # 0.98±0.07) — used only as the solve INITIAL GUESS + a cross-check
-        # tripwire on a drifted solve (RYA-284 style), never pinned.
-        'xi_init': 1.0,   # km/s — solve seed on our ~1.0-solar scale
-        'xi_xcheck': (0.85, 1.35),   # scale-adjusted sane band (Teske/Ecuvillon)
-        'source': 'von Braun et al. 2011, ApJ 740, 49; ξ x-check Teske+2013 / Ecuvillon+2004',
-        'logg_basis': 'CHARA interferometric R=0.943 Rsun (theta_LD 0.711 mas + '
-                      'van Leeuwen 2007 parallax) + Yonsei-Yale isochrone M=0.905 '
-                      'Msun (model-dependent mass)',
-        'pin': ['teff', 'logg'], 'solve': ['feh', 'xi'],
-    },
-    # Synthetic test fixture (RYA-293) — a star WITHOUT a fundamental logg, kept so
-    # the spectroscopic-solve path (pin does not leak) stays covered after 55 Cnc A
-    # became pinned. Not a real target; never run on spectra. Dummy params.
-    'synthetic_no_logg': {
-        'teff': 5800.0, 'e_teff': 100.0, 'logg': 4.40, 'e_logg': 0.20,
-        'feh_ref': 0.00, 'e_feh': 0.10,
-        'source': 'synthetic test fixture — no fundamental logg available',
-        'logg_basis': 'no fundamental logg adopted — solved via Fe ionization balance',
-        'pin': [], 'solve': ['teff', 'logg', 'feh', 'xi'],
-    },
-}
+import yaml as _yaml
+
+# ── Per-star fundamental parameters — SINGLE SOURCE: config/stars.yaml (RYA-298) ──
+# Moved out of this module so per-star data is data, not code (editable, diffable,
+# self-evidently authoritative). Loaded once here and exposed as STAR_PARAMS for
+# backward-compatible importers; get_star_params() is the resolver. The ξ-pin / GBS-
+# scale rationale and per-record provenance now live in stars.yaml.
+_STARS_YAML = Path(__file__).resolve().parent / 'stars.yaml'
+
+
+def _load_stars_yaml() -> dict:
+    if not _STARS_YAML.exists():
+        raise FileNotFoundError(
+            f"stars.yaml not found at {_STARS_YAML} — the single source of per-star "
+            f"fundamental params (RYA-298). Refusing to fall back (no silent default).")
+    with open(_STARS_YAML) as _fh:
+        data = _yaml.safe_load(_fh)
+    for _rec in data.values():          # xi_xcheck is a (lo, hi) tuple in code
+        if isinstance(_rec.get('xi_xcheck'), list):
+            _rec['xi_xcheck'] = tuple(_rec['xi_xcheck'])
+    return data
+
+
+STAR_PARAMS = _load_stars_yaml()
 
 
 def get_star_params(star_id: str) -> dict:
@@ -691,8 +600,9 @@ _REQUIRED_KEYS = {
     'PHYSICS'          : ['c_kms', 'c_ms', 'h_eV', 'k_eV', 'k_cgs', 'sigma_sb', 'G_cgs', 'amu_g'],
     'ASTRO'            : ['Msun_g', 'Rsun_cm', 'Lsun_erg', 'Teff_sun', 'logg_sun', 'pc_cm', 'AU_cm'],
     'SOLAR_ASPLUND2021': ['H', 'C', 'N', 'O', 'Na', 'Mg', 'Al', 'Si', 'Ca', 'Fe', 'Ni', 'Cu', 'Sr'],
-    'STAR_55CNC'       : ['teff_K', 'logg', 'feh', 'vturb_kms', 'rv_kms', 'hd', 'hip'],
-    'STAR_SOLAR'       : ['teff_K', 'logg', 'feh', 'vturb_kms', 'rv_kms', 'program_id', 'citation'],
+    # RYA-298: teff_K/logg/feh removed — fundamental params live in stars.yaml.
+    'STAR_55CNC'       : ['vturb_kms', 'rv_kms', 'hd', 'hip'],
+    'STAR_SOLAR'       : ['vturb_kms', 'rv_kms', 'program_id', 'citation'],
     'PIPELINE'         : ['wav_min_A', 'wav_max_A', 'snr_min_science', 'ew_min_mA', 'ew_max_mA',
                           'continuum_n_iter', 'continuum_knot_spacing_A', 'continuum_upper_percentile',
                           'cont_edge_frac', 'min_fit_depth', 'blue_edge_warn_A'],
@@ -725,6 +635,6 @@ def validate_constants():
 
     assert abs(PHYSICS['c_kms'] - 299792.458) < 0.001, "Speed of light mismatch"
     assert abs(SOLAR_ASPLUND2021['Fe'] - 7.46) < 0.01, "Solar Fe abundance mismatch"
-    assert 4000 < STAR_55CNC['teff_K'] < 7000, "Teff out of range"
+    assert 4000 < get_star_params('55cnc_a')['teff'] < 7000, "Teff out of range"
 
     print("Constants validated ✓")
