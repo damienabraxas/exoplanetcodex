@@ -452,10 +452,107 @@ def check_provenance() -> list[Violation]:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# Invariant 4 — blend_flag DEFINITION pin (RYA-358)
+# ══════════════════════════════════════════════════════════════════════════════
+# blend_flag gates blend exclusion across all elements (RYA-208). RYA-356 found it
+# had been silently REDEFINED (RYA-209: 0.10 Å proximity binary → curated vetted list,
+# proximity moved to the continuous vald_proximity_flag), and that slipped through as a
+# PR comment, not a CI failure, because nothing pinned the flag's DEFINITION. This
+# invariant pins it: re-run the vetted builder and require the file to match — a builder
+# swap or silent redefinition then fails loudly.
+_BLEND_SUMMARY: dict = {}
+
+
+def check_blend_flag() -> list[Violation]:
+    """Pin blend_flag's definition, propagation, and provenance.
+
+    (1) DEFINITION — re-run pipeline.build_linelist.build_vetted_blend_flag on
+        linelist_solar and require the file's blend_flag column to match it exactly.
+        Any mismatch = a silent redefinition / builder swap (e.g. back to the retired
+        0.10 Å proximity binary) → UNTRACKED, fails the build.
+    (2) PROVENANCE — every VETTED_BLENDS entry carries a non-placeholder citation.
+    (3) PROPAGATION — where the generated solar_ew.csv exists, each matched line's
+        per-measurement blend_flag equals the line-list flag it is propagated from
+        (lines_fit propagates, it does not re-detect). The EW file is a generated
+        artifact (absent in a clean checkout) — its absence is recorded, not failed
+        (it is not a canonical source); a parse failure of the line list IS loud.
+    """
+    from pipeline.build_linelist import VETTED_BLENDS, build_vetted_blend_flag
+    violations: list[Violation] = []
+
+    try:
+        ll = pd.read_csv(_LL_SOLAR, low_memory=False)
+    except Exception as exc:
+        raise StewardshipParseError(f"blend_flag check: cannot read {_LL_SOLAR}: {exc}")
+    if 'blend_flag' not in ll.columns:
+        raise StewardshipParseError(
+            f"blend_flag check: no 'blend_flag' column in {_LL_SOLAR}")
+
+    actual = ll['blend_flag'].astype(str).str.lower().eq('true').to_numpy()
+    expected = build_vetted_blend_flag(ll).to_numpy().astype(bool)   # re-run the builder
+    mism = np.where(actual != expected)[0]
+    _BLEND_SUMMARY.update(n_true=int(actual.sum()), n_vetted=len(VETTED_BLENDS),
+                          mismatch=int(len(mism)))
+    for i in mism:
+        r = ll.iloc[i]
+        violations.append(Violation(
+            invariant='blend_flag', quantity='blend_flag definition',
+            locus=f"linelist_solar.csv {r['element']} {r['ion']} "
+                  f"{float(r['wavelength_air_A']):.3f}Å",
+            value=f"file={bool(actual[i])} / vetted-builder={bool(expected[i])}",
+            source='pipeline.build_linelist.build_vetted_blend_flag (RYA-209)',
+            detail="blend_flag diverges from the vetted builder — a silent redefinition "
+                   "or builder swap (e.g. the retired 0.10 Å proximity binary). "
+                   "vald_proximity_flag is the continuous proximity signal.",
+            ticket=None))
+
+    # (2) provenance of the vetted-blend definitions
+    for entry in VETTED_BLENDS:
+        src = entry[3] if len(entry) > 3 else ''
+        if _is_placeholder(src):
+            violations.append(Violation(
+                invariant='blend_flag', quantity='vetted blend provenance',
+                locus=f"VETTED_BLENDS {entry[0]} {entry[1]} {entry[2]}",
+                value=str(tuple(entry[:3])), source=repr(src),
+                detail="vetted blend carries empty/placeholder provenance (RYA-358)",
+                ticket=None))
+
+    # (3) propagation into the (generated) per-measurement EW table, when present
+    _BLEND_SUMMARY['propagation'] = 'solar_ew.csv absent (generated) — not evaluated'
+    ew_path = Path(str(_SOLAR_EW))
+    if ew_path.exists():
+        ew = pd.read_csv(ew_path, low_memory=False)
+        if 'blend_flag' in ew.columns:
+            llflag = {(e, i, round(float(w), 2)): bool(str(b).lower() == 'true')
+                      for e, i, w, b in zip(ll['element'], ll['ion'],
+                                            ll['wavelength_air_A'], ll['blend_flag'])}
+            n_checked = n_bad = 0
+            for e, i, w, b in zip(ew['element'], ew['ion'],
+                                  ew['wavelength_air_A'], ew['blend_flag']):
+                k = (e, i, round(float(w), 2))
+                if k in llflag:
+                    n_checked += 1
+                    if bool(str(b).lower() == 'true') != llflag[k]:
+                        n_bad += 1
+                        violations.append(Violation(
+                            invariant='blend_flag', quantity='blend_flag propagation',
+                            locus=f"solar_ew {e} {i} {k[2]}Å",
+                            value=f"EW={b} / linelist={llflag[k]}",
+                            source='lines_fit propagation of the line-list blend_flag',
+                            detail="per-measurement blend_flag drifted from the "
+                                   "line-list flag it is propagated from",
+                            ticket=None))
+            _BLEND_SUMMARY['propagation'] = (
+                f"checked {n_checked} matched lines, {n_bad} mismatched")
+    return violations
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # REGISTRY — adding a new canonical table is a one-line append here
 # ══════════════════════════════════════════════════════════════════════════════
 _SYNTH_PATH = Path(_ad._SYNTH_LINELIST_FILE)
 _LL_SOLAR = _const.PATHS['linelist_solar']
+_SOLAR_EW = _const.PATHS['solar_ew']
 
 GF_PAIRS = [
     GfPair(
@@ -502,7 +599,7 @@ PROVENANCE_CHECKS = [
 ]
 
 INVARIANTS: list[Callable[..., list[Violation]]] = [
-    check_gf_pairs, check_star_params, check_provenance,
+    check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
 ]
 
 
@@ -515,6 +612,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_gf_pairs(out_dir=out_dir)
     violations += check_star_params()
     violations += check_provenance()
+    violations += check_blend_flag()
     return violations
 
 
@@ -534,8 +632,17 @@ def _report(violations: list[Violation]) -> None:
         print(f"     divergent >{GF_DIVERGENCE_DEX} dex : {s['div_material']}  "
               f"(>{GF_IDENTICAL_DEX} dex 'not identical': {s['div_identical']})")
 
+    # blend_flag summary
+    if _BLEND_SUMMARY:
+        b = _BLEND_SUMMARY
+        print(f"\n[blend_flag] vetted definition pin:")
+        print(f"     blend_flag=True in linelist_solar : {b.get('n_true')}  "
+              f"(VETTED_BLENDS entries: {b.get('n_vetted')})")
+        print(f"     mismatch vs re-run vetted builder : {b.get('mismatch')}")
+        print(f"     per-measurement propagation       : {b.get('propagation')}")
+
     # per-invariant violation tables
-    for inv in ('gf', 'star_params', 'provenance'):
+    for inv in ('gf', 'star_params', 'provenance', 'blend_flag'):
         vs = [v for v in violations if v.invariant == inv]
         if not vs:
             print(f"\n[{inv}] OK — no violations.")
