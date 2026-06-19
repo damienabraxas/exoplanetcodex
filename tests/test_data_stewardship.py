@@ -117,3 +117,46 @@ def test_parse_error_is_loud(monkeypatch, tmp_path):
         sc.check_provenance()
     # and through main() it becomes a loud non-zero exit (2)
     assert sc.main([]) == 2
+
+
+# ── RYA-358: blend_flag definition pin ────────────────────────────────────────
+def test_blend_flag_definition_holds(violations):
+    """blend_flag in linelist_solar matches the re-run vetted builder (RYA-209), the
+    vetted blends carry provenance, and nothing flips silently → 0 violations."""
+    bf = [v for v in violations if v.invariant == 'blend_flag']
+    assert bf == [], f"{len(bf)} blend_flag violation(s): {[v.locus for v in bf]}"
+    assert sc._BLEND_SUMMARY.get('mismatch') == 0
+
+
+def test_vetted_blends_carry_provenance():
+    """Each VETTED_BLENDS entry has a (element, ion, wl, source) shape with a real
+    citation — the provenance the guard enforces."""
+    from pipeline.build_linelist import VETTED_BLENDS
+    for entry in VETTED_BLENDS:
+        assert len(entry) >= 4, f"VETTED_BLENDS entry missing source: {entry}"
+        assert not sc._is_placeholder(entry[3]), f"placeholder source: {entry}"
+
+
+def test_blend_flag_pin_fails_on_silent_redefinition(monkeypatch, tmp_path):
+    """The guard's whole point: if the file's blend_flag diverges from the vetted
+    builder (a silent redefinition or a builder swap back to proximity), it must
+    produce an UNTRACKED violation that fails the build."""
+    import pandas as pd
+    bad = tmp_path / 'linelist_mutated.csv'
+    pd.DataFrame({
+        'element': ['Fe', 'Ca'],
+        'ion': ['I', 'I'],
+        'wavelength_air_A': [4970.496, 5000.000],
+        'blend_flag': [False, True],   # vetted builder says True/False → both mismatch
+    }).to_csv(bad, index=False)
+    monkeypatch.setattr(sc, '_LL_SOLAR', bad)
+    monkeypatch.setattr(sc, '_SOLAR_EW', tmp_path / 'no_ew.csv')  # propagation skipped
+    v = sc.check_blend_flag()
+    defn = [x for x in v if x.quantity == 'blend_flag definition']
+    assert len(defn) == 2, f"expected 2 definition mismatches, got {len(defn)}"
+    assert all(not x.tracked for x in defn), "a silent redefinition must be UNTRACKED"
+    # and it fails the build loudly through main()
+    monkeypatch.setattr(sc, 'check_gf_pairs', lambda out_dir=None: [])
+    monkeypatch.setattr(sc, 'check_star_params', lambda: [])
+    monkeypatch.setattr(sc, 'check_provenance', lambda: [])
+    assert sc.main(['--out', str(tmp_path)]) == 1
