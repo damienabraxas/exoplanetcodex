@@ -24,6 +24,29 @@ Raw VALD3 long-format output for 55 Cancri A stellar parameters, NIR extension.
 ### `vald_solar_raw.txt`
 Raw VALD3 long-format output for solar parameters (Teff 5777 K, log g 4.44, Vmicro 1.0 km/s).
 Used for solar calibration EW measurements. Same threshold and format as vald_55cnc_raw.txt.
+- Wavelength range: 3780–6910 Å (optical) · Detection threshold: 0.001 · HFS: on
+
+### Solar non-optical extensions — `vald_solar_{fuv,nearuv,redopt,ir_*}_hfson_raw.txt` (RYA-381)
+Six VALD3 Extract Stellar deliveries that extend the solar list beyond the optical, at the
+SAME solar parameters (Teff 5777 / log g 4.44 / Vmicro 1.0; applied [M/H]=0.00) with **HFS
+on**. Gated by `scripts/intake_solar_nonoptical_rya381.py` (all 6 ACCEPT: complete span,
+not truncated, solar composition, `hfs:` reference tags present).
+
+| File | Range (Å) | VALD id | Lines | Threshold |
+|------|-----------|---------|-------|-----------|
+| `vald_solar_fuv_1150_2000_hfson_raw.txt`    | 1150–2000  | 019691 | 28,111 | 0.05 |
+| `vald_solar_nearuv_2000_3780_hfson_raw.txt` | 2000–3780  | 019692 | 83,434 | 0.05 |
+| `vald_solar_redopt_6910_9500_hfson_raw.txt` | 6910–9500  | 019693 |  1,521 | 0.05 |
+| `vald_solar_ir_9500_14000_hfson_raw.txt`    | 9500–14000 | 019694 |    989 | 0.05 |
+| `vald_solar_ir_14000_18000_hfson_raw.txt`   | 14000–18000| 019695 |  1,696 | 0.05 |
+| `vald_solar_ir_18000_25000_hfson_raw.txt`   | 18000–25000| 019696 |  1,019 | 0.05 |
+
+> **⚠ Detection-threshold heterogeneity (RYA-381):** these wings were extracted at central-depth
+> threshold **0.05**, the optical core (`vald_solar_raw.txt`) at **0.001** — 50× shallower. The
+> assembled `linelist_solar.csv` is therefore NOT depth-homogeneous; the wings carry only the
+> strong lines. Weak-line / blend / n-capture work beyond the optical (e.g. the Elgueta IR
+> windows — see `scripts/elgueta_ir_crosscheck_rya381.py`) needs a **0.001 re-extraction** of the
+> non-optical chunks. Per-source provenance: `linelist_solar_provenance_rya381.json`.
 
 ### `linelist_master.csv`
 Processed master line list for 55 Cnc A. 125,617 rows.
@@ -41,8 +64,15 @@ Covers 3780.038–29994.710 Å; 97,899 target-element lines (27 elements, 74 spe
 UV extension (1150–3780 Å) pending a separate VALD request.
 
 ### `linelist_solar.csv`
-Same schema as `linelist_master.csv`, built from `vald_solar_raw.txt` at solar parameters.
-Used by the solar EW pipeline (`pipeline/lines_fit.py run(star_id='solar')`).
+Solar line list used by the solar EW pipeline (`pipeline/lines_fit.py run(star_id='solar')`).
+
+**RYA-381: extended from optical-only (3780–6910 Å) to the full 1150–24985 Å span** by
+appending the six non-optical solar deliveries above via
+`scripts/assemble_solar_linelist_rya381.py`. 225,741 rows. The curated optical core
+(108,971 rows — RYA-365/368 gf adjudications, NIST injections, vetted `blend_flag`) is
+preserved byte-for-byte; only wing rows are added. `vald_proximity_flag` is recomputed over
+the full union. See the depth-heterogeneity warning above before using the wings for
+weak-line work.
 
 #### Column schema
 
@@ -59,7 +89,8 @@ Used by the solar EW pipeline (`pipeline/lines_fit.py run(star_id='solar')`).
 | `damping_stark` | Stark damping constant (log) |
 | `damping_vdW` | van der Waals damping constant (log) |
 | `central_depth` | Predicted central depth (0–1) from VALD3 |
-| `blend_flag` | True if another line is within 0.10 Å |
+| `vald_proximity_flag` | Continuous proximity-contamination score 0–1 (RYA-209; VALD neighbour density × relative depth, 0.5 Å window) |
+| `blend_flag` | Vetted spectroscopic exclusion (RYA-209/358): True only for literature/synthesis-confirmed non-separable blends, not raw proximity |
 | `priority` | 1 = science critical, 2 = tracers (iron-peak/s-r-process/bio), 3 = supplementary |
 | `notes` | Special handling notes |
 

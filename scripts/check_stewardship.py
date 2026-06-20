@@ -572,6 +572,14 @@ _SOLAR_EW = _const.PATHS['solar_ew']
 #     canonical (−9.717 / −2.11) → UNTRACKED regression guard.
 _GFSTORE_SUMMARY: dict = {}
 
+# RYA-381: the solar list was extended beyond the optical core (3780–6910 Å) into the
+# non-optical UV / red-optical / IR (1150–25000 Å). canonical_gf.csv is still optical
+# (3780–9199 Å), so every non-optical extension line is an orphan until RYA-379 ingests
+# the non-optical gf and extends this guard past 9199 Å. Such orphans are TRACKED to
+# RYA-379 (their named remediation). An orphan INSIDE the optical core would be a real
+# break (a curated optical line lost its canonical home) and stays UNTRACKED → FAIL.
+_OPTICAL_CORE_LO, _OPTICAL_CORE_HI = 3780.0, 6910.0
+
 
 def check_all_stores_resolve() -> list[Violation]:
     from pipeline.audit import gf_store_consistency as _gs
@@ -584,14 +592,22 @@ def check_all_stores_resolve() -> list[Violation]:
             'max_dgf': rep['max_abs_dgf'], 'contract': store.contract}
         # orphans — a line outside the single canonical source (no authoritative gf)
         for (key, wl, ep, gf) in rep['orphans']:
+            non_optical = wl < _OPTICAL_CORE_LO or wl >= _OPTICAL_CORE_HI
+            if non_optical:
+                detail = ("RYA-381 non-optical extension line absent from the "
+                          "optical-only canonical_gf.csv — ingest + guard extension "
+                          "past 9199 Å is RYA-379")
+                ticket = 'RYA-379'
+            else:
+                detail = ("store line has no entry in the single canonical gf table "
+                          "(RYA-368) — an orphan with no authoritative gf")
+                ticket = None
             violations.append(Violation(
                 invariant='gf_stores', quantity='log gf',
                 locus=f"{store.label}  {_species_label(key)} {wl:.3f}Å",
                 value="absent from canonical_gf.csv",
                 source=store.contract,
-                detail="store line has no entry in the single canonical gf table "
-                       "(RYA-368) — an orphan with no authoritative gf",
-                ticket=None))
+                detail=detail, ticket=ticket))
         # raw divergence — one tracked summary per store (by-design seed/reference)
         if rep['n_divergent'] > 0:
             violations.append(Violation(
