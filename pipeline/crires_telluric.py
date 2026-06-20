@@ -271,6 +271,65 @@ _ESOREX = "/opt/homebrew/bin/esorex"          # RYA-375 install (Homebrew ESO ta
 _MTRANS_FLOOR = 0.02                            # mask telluric cores below this transmission
 _CONTINUUM_N = 2                                # polynomial continuum order (uncalibrated flux)
 
+# Real GDAS atmospheric profiles (RYA-373 finish-out #2). molecfit's GDAS_PROFILE=auto
+# requested odd hours (T01/T02) absent from the 3-hourly tarball → standard-profile
+# fallback. We bypass that by extracting the nearest real 3-hourly GDAS for the obs
+# MJD and passing it via --GDAS_PROFILE. Tarball is per-site (Paranal -70.4/-24.6).
+_GDAS_LOC = "C-70.4-24.6"
+_GDAS_TARBALL = ("/opt/homebrew/Cellar/telluriccorr/4.3.3_4/share/molecfit/data/"
+                 f"profiles/gdas/gdas_profiles_{_GDAS_LOC}.tar.gz")
+
+
+def _nearest_gdas(mjd: float, work_dir: Path) -> "str | None":
+    """Extract the nearest 3-hourly real GDAS profile for the obs MJD from the local
+    tarball; return its path, or None (→ caller logs + lets molecfit fall back)."""
+    import tarfile
+    from astropy.time import Time
+    if not Path(_GDAS_TARBALL).exists():
+        return None
+    t = Time(float(mjd), format='mjd').to_datetime()
+    hh = int(round(t.hour + t.minute / 60.0) / 3.0) * 3   # nearest 3-hourly slot
+    from datetime import timedelta
+    base = t.replace(minute=0, second=0, microsecond=0, hour=0) + timedelta(hours=hh)
+    work_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        with tarfile.open(_GDAS_TARBALL) as tf:
+            for dh in (0, -3, 3, -6, 6):                  # nearest, then neighbours
+                cand = (base + timedelta(hours=dh))
+                name = f"{_GDAS_LOC}D{cand:%Y-%m-%d}T{cand.hour:02d}.gdas"
+                try:
+                    tf.extract(name, path=str(work_dir))
+                except KeyError:
+                    continue
+                return _gdas_ascii_to_fits(work_dir / name)   # molecfit wants FITS
+    except Exception:
+        return None
+    return None
+
+
+def _gdas_ascii_to_fits(ascii_path) -> str:
+    """Convert a tarball ASCII GDAS profile (# P[hPa] HGT[m] T[K] RELHUM[%]) to the
+    FITS table molecfit's GDAS_PROFILE expects (press[hPa], height[km], temp[K],
+    relhum[%]) — molecfit's GDAS_PROF loader is CFITSIO, it cannot read the ASCII."""
+    from astropy.io import fits
+    ascii_path = Path(ascii_path)
+    rows = []
+    for ln in ascii_path.read_text().splitlines():
+        ln = ln.strip()
+        if not ln or ln.startswith('#'):
+            continue
+        p, hgt_m, t, rh = (float(x) for x in ln.split())
+        rows.append((p, hgt_m / 1000.0, t, rh))           # m → km
+    rows = np.array(rows)
+    out = ascii_path.with_suffix('.gdas.fits')
+    fits.BinTableHDU.from_columns([
+        fits.Column(name='press', format='1D', array=rows[:, 0]),
+        fits.Column(name='height', format='1D', array=rows[:, 1]),
+        fits.Column(name='temp', format='1D', array=rows[:, 2]),
+        fits.Column(name='relhum', format='1D', array=rows[:, 3])],
+    ).writeto(out, overwrite=True)
+    return str(out)
+
 
 def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
                            molecules) -> Path:
@@ -349,11 +408,14 @@ def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFra
     out_dir.mkdir(parents=True, exist_ok=True)
     sof = _write_molecfit_inputs(frame, seg, in_dir, molecules)
 
+    gdas = _nearest_gdas(frame.mjd, in_dir)    # real 3-hourly GDAS for the obs MJD
     env = dict(os.environ, PATH=f"/opt/homebrew/bin:{os.environ.get('PATH', '')}")
     cmd = [esorex, f"--output-dir={out_dir}", "molecfit_model",
            "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux", "--COLUMN_DFLUX=dflux",
            "--WLG_TO_MICRON=1.0", "--WAVELENGTH_FRAME=VAC",
-           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}", str(sof)]
+           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}"]
+    cmd += [f"--GDAS_PROFILE={gdas}"] if gdas else []
+    cmd += [str(sof)]
     proc = subprocess.run(cmd, cwd=str(in_dir), env=env,
                           capture_output=True, text=True)
     bfm = out_dir / 'BEST_FIT_MODEL.fits'
@@ -380,11 +442,65 @@ def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFra
     seg.wave_A = lam_A                          # molecfit grid (Å)
     seg.flux = corr                             # telluric-corrected flux
     seg._mtrans = mtrans                        # model transmission (for downstream verify)
+    seg._flux_raw = fl                          # pre-correction flux (for the D1 gate)
     frame.telluric_corrected = True
-    frame._telluric_residual = resid
+    frame._telluric_residual = resid            # blanket proxy (legacy; see D1 gate)
     frame._telluric_mtrans_max = float(np.nanmax(mtrans))
     frame._molecules = tuple(molecules)
+    frame._gdas = (Path(gdas).name if gdas else 'standard-profile (no GDAS)')
     return frame
+
+
+# ── D1 telluric-specific gate (RYA-373 Decision 1, primary pre-coadd gate) ─────
+# Vetoes the meaningless blanket residual: score telluric quality ONLY on pixels
+# that are (a) telluric-dominated in molecfit's model (transmission well below
+# continuum, not saturated) AND (b) NOT solar-coincident. At those telluric cores
+# the post-correction flux must return to the local continuum. Solar-coincident
+# pixels are excluded via a solar K-band line mask (the CO-overtone bandheads + the
+# strong K-band solar atomic lines); the Kitt Peak FTS solar IR atlas (RYA-162) is
+# the preferred mask source but is NOT in the data set (flagged — end-validation gap).
+
+# Strong solar K-band atomic lines (air→vac ~ +6 Å at 2.2 µm; vacuum Å) for the
+# solar-coincidence mask. CO-overtone bandhead series handled separately.
+_SOLAR_K_LINES_VAC = (22062.4, 22089.7,        # Na I doublet
+                      22614.1, 22631.1,        # Ca I
+                      21066.1, 22834.2)         # Al I / Ti I (approx)
+
+
+def _solar_coincident(wave_A: np.ndarray, rv_kms: float = 0.0,
+                      half_width_A: float = 1.2) -> np.ndarray:
+    """Boolean mask of pixels within half_width of a solar K-band line OR inside the
+    CO-overtone bandhead series (≥22930 Å), shifted by the reflected RV. These carry
+    the wanted solar signal and must be EXCLUDED from the telluric-residual score."""
+    shift = (1.0 + rv_kms / _C_KMS)
+    mask = np.zeros_like(wave_A, dtype=bool)
+    for w0 in _SOLAR_K_LINES_VAC:
+        mask |= np.abs(wave_A - w0 * shift) < half_width_A
+    mask |= wave_A >= (CO_2_0_BANDHEAD_NM * NM_TO_A - 2.0) * shift   # CO bandhead series → red
+    return mask
+
+
+def telluric_residual_gate(frame: CriresFrame, rv_kms: float = 0.0,
+                           tol: float = 0.05) -> dict:
+    """D1 primary gate: at telluric-dominated, solar-clean pixels, does the corrected
+    flux return to the local continuum within `tol`? Returns the residual + PASS.
+    Reflected-solar safe (ignores the solar spectrum). RYA-373 Decision 1."""
+    assert_telluric_corrected(frame)
+    seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
+    mt = getattr(seg, '_mtrans', None)
+    if mt is None:
+        raise RuntimeError("no model transmission on the corrected segment")
+    cont = continuum_normalize(seg.wave_A, seg.flux)
+    telluric = (mt < 0.90) & (mt > _MTRANS_FLOOR)         # telluric-dominated, not saturated
+    solar = _solar_coincident(seg.wave_A, rv_kms)
+    sel = telluric & ~solar & np.isfinite(cont)
+    if sel.sum() < 10:
+        return {'n_px': int(sel.sum()), 'residual': float('nan'),
+                'passed': False, 'reason': 'too few telluric-clean pixels'}
+    resid = float(np.nanmedian(np.abs(1.0 - cont[sel])))   # return-to-continuum residual
+    frame._telluric_gate_residual = resid
+    return {'n_px': int(sel.sum()), 'residual': resid, 'tol': tol,
+            'passed': resid <= tol}
 
 
 # ── RV-condition (RYA-372 reflected_solar_rv — single source) ─────────────────
