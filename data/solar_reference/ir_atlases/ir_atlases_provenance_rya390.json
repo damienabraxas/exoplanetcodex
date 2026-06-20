@@ -1,0 +1,115 @@
+{
+  "ticket": "RYA-390 Part A",
+  "date": "2026-06-20",
+  "co_band_cm-1": [
+    4255.0,
+    4367.0
+  ],
+  "co_band_air_A": [
+    22892.8,
+    23495.4
+  ],
+  "convention": "native = FTS vacuum wavenumber (cm\u207b\u00b9); wavelength_vac_A = 1e8/wn; wavelength_air_A via Birch & Downs (1994)/Edl\u00e9n (VALD3/iSpec). Vesta (reflected solar) = integrated-disk.",
+  "raw_store": "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Solar Calibration/IR Reference Atlases",
+  "sources": [
+    {
+      "name": "ACE-FTS solar atlas",
+      "role": "solar truth (telluric-free, PRIMARY)",
+      "citation": "Hase, Wallace, McLeod, Harrison & Bernath 2010, JQSRT 111, 521 (\"A complete solar spectrum based on ACE data\")",
+      "source_url": "https://databace.scisat.ca/solarspectrum/",
+      "raw_file": "ace-solar-spectrum.txt",
+      "raw_bytes": 16352029,
+      "raw_sha256": "a612786526c01b92e5b4f709627ce03448b89362b1fffc064cf9e9b379f6463f",
+      "native_units": "vacuum wavenumber (cm\u207b\u00b9), 0.005 cm\u207b\u00b9 step; normalized intensity",
+      "full_range_cm-1": [
+        700.0,
+        4430.0
+      ],
+      "resolution_cm-1": 0.02,
+      "snr": "~400",
+      "telluric_status": "telluric-FREE (high-sun ACE occultation, space-based)",
+      "disk_integration": "roughly disk-integrated (occultation) \u2014 matches reflected-Vesta",
+      "segment_file": "ace_fts_solar_co_4255_4367.csv",
+      "segment_columns": [
+        "wavenumber_cm-1",
+        "wavelength_vac_A",
+        "wavelength_air_A",
+        "intensity"
+      ],
+      "n_points": 22401,
+      "wn_cm-1_range": [
+        4255.0,
+        4367.0
+      ],
+      "wl_air_A_range": [
+        22892.768,
+        23495.351
+      ]
+    },
+    {
+      "name": "NSO Kitt Peak IR photosphere atlas (photatl)",
+      "role": "terrestrial solar cross-reference (independent ground-based reduction)",
+      "citation": "Livingston & Wallace 1991, \"An Atlas of the Solar Spectrum in the Infrared from 1850 to 9000 cm\u207b\u00b9 (1.1 to 5.4 \u00b5m)\", NSO Tech. Report #91-001. Acknowledgement: \"NSO/Kitt Peak FTS data used here were produced by NSF/NOAO.\"",
+      "source_url": "https://nispdata.nso.edu/ftp/pub/atlas/photatl/",
+      "raw_file": "wn4250+wn4275+wn4300+wn4325+wn4350",
+      "raw_bytes": 765250,
+      "raw_sha256": {
+        "wn4250": "3c433ac9e174f56fe14d795d04723b3ca820544f2cded7875eaa6baea17bcd78",
+        "wn4275": "6a242e72385f4bec46558023436eb2d574abed737bf8004adb3ff9c784d7267e",
+        "wn4300": "993d8521fa94c10db9506b0a7a7c79c69b59bf77082c1c4a6fa3008455c43b8d",
+        "wn4325": "3ab77722532cc80dfa4de6cbe94346ba91b811dfe3d014c5821ee1c462139b6d",
+        "wn4350": "81b4cb6d2775461025c7f6bb20cad27c279ed47a4ef8848b32a3131a6b33c9b8"
+      },
+      "native_units": "vacuum wavenumber (cm\u207b\u00b9); cols = solar, atmospheric, total",
+      "telluric_status": "TERRESTRIAL (disk-center): col solar=telluric-corrected, col atmospheric=residual telluric, col total=observed. NB gaps in strong-telluric regions are LINEAR INTERPOLATIONS (README); intensities not continuous file-to-file.",
+      "disk_integration": "disk-CENTER (not disk-integrated) \u2014 caveat vs reflected-Vesta",
+      "segment_file": "nso_photatl_co_4255_4367.csv",
+      "segment_columns": [
+        "wavenumber_cm-1",
+        "wavelength_vac_A",
+        "wavelength_air_A",
+        "solar",
+        "atmospheric",
+        "total"
+      ],
+      "n_points": 11818,
+      "wn_cm-1_range": [
+        4255.0068,
+        4366.9976
+      ],
+      "wl_air_A_range": [
+        22892.78,
+        23495.313
+      ]
+    },
+    {
+      "name": "Wallace Telluric Near-IR Atlas",
+      "role": "pure-telluric reference (validates the molecfit telluric MODEL)",
+      "citation": "Wallace, Hinkle & Livingston, \"The Absorption Spectrum of the Earth's Atmosphere from 0.578 to 5.43 \u00b5m (1800 to 17400 cm\u207b\u00b9)\", NOAO/NSO. Telluric = ratio of 5-airmass / 2-airmass FTS scans (1990/12/18 #4 & #5, center disc) \u2192 solar cancels.",
+      "source_url": "https://nispdata.nso.edu/ftp/pub/Wallace_telluric_near_ir_atlas/",
+      "raw_file": "ratio04300.txt",
+      "raw_bytes": 114688,
+      "raw_sha256": "1b127390a8ac84dd2515953b7c4a499afd58d1a0f22591f725564002c5087531",
+      "native_units": "vacuum wavenumber (cm\u207b\u00b9); telluric_ratio = transmission (0\u20131)",
+      "telluric_status": "PURE TELLURIC transmission (Earth atmosphere)",
+      "disk_integration": "N/A (telluric, not solar)",
+      "segment_file": "wallace_telluric_co_ratio.csv",
+      "segment_columns": [
+        "wavenumber_cm-1",
+        "wavelength_vac_A",
+        "wavelength_air_A",
+        "telluric_ratio"
+      ],
+      "COVERAGE_CAVEAT": "the ASCII telluric ratio (ratio04300.txt) spans only 4299.8\u20134338.6 cm\u207b\u00b9 \u2014 the MIDDLE of the 4255\u20134367 CO band. Full-band telluric: use the photatl atmospheric column (4248\u20134377) or the Wallace eps plots (atl04240\u2013atl04360). Telluric line IDs: linelist_TOTAL/H2O/CH4_ext.txt.",
+      "n_points": 4096,
+      "wn_cm-1_range": [
+        4299.7954,
+        4338.6041
+      ],
+      "wl_air_A_range": [
+        23042.599,
+        23250.575
+      ]
+    }
+  ]
+}
