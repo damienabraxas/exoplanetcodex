@@ -61,10 +61,14 @@ class TestStoreReports:
         assert {'atomic_lines.tsv', 'iSpec line regions',
                 'linelist_solar.csv'} <= labels
 
-    def test_no_orphans_anywhere(self, reports):
-        # every store line must have a canonical home (the hard guarantee)
+    def test_no_optical_core_orphans(self, reports):
+        # Hard guarantee: every OPTICAL-CORE (3780–6910 Å) store line has a canonical
+        # home. RYA-381 extended linelist_solar.csv into the non-optical range, whose
+        # lines are orphans until RYA-379 ingests their gf — those are tracked, not a
+        # break. An optical-core orphan would still be a real failure.
         for label, rep in reports.items():
-            assert rep['n_orphan'] == 0, f"{label} has {rep['n_orphan']} orphan(s)"
+            assert rep['n_orphan_optical'] == 0, \
+                f"{label} has {rep['n_orphan_optical']} OPTICAL-CORE orphan(s)"
 
     def test_store2_has_raw_divergence_reported(self, reports):
         # the landmine is visible, not silent
