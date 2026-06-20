@@ -47,6 +47,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 from config.constants import PATHS, STAR_SOLAR, get_star_params
+from pipeline.gf_resolver import resolve_df_gf   # RYA-368: route store-#2 gf to canonical
 
 TITLE_SUFFIX = "Solar HARPS — Dumusque ESO 1102.D-0954"
 ASPLUND_FE   = 7.46
@@ -101,7 +102,21 @@ def _load_and_merge() -> pd.DataFrame:
         )
         groups.append(joined)
 
-    return pd.concat(groups, ignore_index=True)
+    merged = pd.concat(groups, ignore_index=True)
+
+    # RYA-368: linelist_solar.csv (store #2) carries raw VALD3 gf that diverges from
+    # the single canonical source (e.g. [O I] 6300 −9.776 vs −9.717, Ni 6300 −2.70 vs
+    # −2.11). This COG A(Fe) diagnostic is the lone gf consumer of that store, so route
+    # its per-line gf through gf_resolver — the COG then uses canonical gf. Per-line
+    # (resolve_df_gf), NOT a bulk reroute: store #2 is an independent VALD3 list that
+    # does not map cleanly to canonical in bulk (RYA-368 finding). Lines absent from
+    # canonical keep their raw gf (a diagnostic may carry a line outside the source).
+    if 'log_gf' in merged.columns and len(merged):
+        merged, _stats = resolve_df_gf(merged, keep_unresolved=True)
+        print(f"  [RYA-368] gf routed through canonical: "
+              f"{_stats['n_resolved']}/{_stats['n']} lines resolved, "
+              f"{_stats['n_changed']} corrected, {_stats['n_unresolved']} kept raw")
+    return merged
 
 
 def _filter_fe(df: pd.DataFrame) -> pd.DataFrame:
