@@ -135,6 +135,48 @@ class TestGuards:
             ct.rv_condition(f)
 
 
+# ── RV anchors from source + air→vac boundary (no molecfit) ──────────────────
+class TestRvAnchors:
+    def test_air_to_vac_offset(self):
+        # ~+6.3 Å at 2.3 µm; positive (vac > air); within physical range
+        vac = float(ct._air_to_vac([22845.94])[0])
+        assert 6.0 < vac - 22845.94 < 6.6
+
+    @needs_data
+    def test_anchors_resolved_from_source_not_hardcoded(self):
+        a = ct._solar_rv_anchors(22835.0, 23012.0)
+        assert a['source'].endswith('linelist_solar.csv')      # canonical source
+        assert len(a['air']) >= 2                              # selection found lines
+        # every returned wavelength is actually present in the source file (not embedded)
+        import pandas as pd
+        d = pd.read_csv(a['source'], comment='#', low_memory=False)
+        wl = d['wavelength_air_A'].astype(float).to_numpy()
+        for w in a['air']:
+            assert np.min(np.abs(wl - w)) < 1e-3
+
+    @needs_data
+    def test_no_hardcoded_anchor_wavelengths_in_module(self):
+        # guardrail 1: the module must not embed CO-region solar line wavelengths
+        src = (ct.__file__ and open(ct.__file__).read()) or ''
+        for w in ('22845.9', '22872.5', '22934.5', '22906.5'):
+            assert w not in src, f"hardcoded anchor wavelength {w} found in module"
+
+
+# ── coadd checksum-dedup (no molecfit) ───────────────────────────────────────
+def test_coadd_requires_rest_frame(tmp_path):
+    p = tmp_path / 'x.fits'
+    p.write_bytes(b'dummy')                       # real file so the md5 dedup runs
+    f = ct.CriresFrame(path=p, wlen_id='K2192', band='K', mjd=0.0,
+                       date_obs='', ra=0.0, dec=0.0, snr=100.0, specsys='TOPOCENT',
+                       fluxcal='UNCALIBRATED', wmin_nm=2000.0, wmax_nm=2400.0,
+                       telluric_corrected=True, rest_frame=False,
+                       segments=[ct.CriresSegment(4, 3, np.array([22900.0, 22901.0]),
+                                                  np.array([1.0, 1.0]),
+                                                  np.array([0.1, 0.1]), np.array([0, 0]))])
+    with pytest.raises(RuntimeError, match='blind coadd|rest'):
+        ct.coadd_co([f])                          # rest_frame=False → loud refuse
+
+
 # ── molecfit integration (real esorex run; slow + env-gated) ─────────────────
 import os  # noqa: E402
 

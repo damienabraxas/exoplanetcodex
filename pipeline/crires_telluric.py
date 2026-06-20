@@ -44,6 +44,8 @@ from pathlib import Path
 
 import numpy as np
 
+from config.constants import PATHS   # RYA-373: canonical solar line-list path (RV anchors)
+
 # ── Data location (the reflected-solar set lives OUTSIDE the repo, RYA-370) ────
 _DATA_ROOT = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/"
                   "exoplanetcodex-data/Solar Calibration/Solar System Targets")
@@ -515,18 +517,138 @@ def _load_reflected_solar_rv():
             "re-implement it; the RV-condition step waits on RYA-372.")
 
 
-def rv_condition(frame: CriresFrame, horizons_id: str = '4') -> CriresFrame:
-    """Shift a telluric-corrected, continuum-normalized frame to the solar rest frame
-    via the asteroid ephemeris (Vesta = Horizons 4), using the RYA-372 single-source
-    module. AFTER telluric. Verify on a clean K-band solar atomic line.
+# RV guardrails (RYA-373 comment 7db5fe4d). The air→vac offset at 2.3 µm is ~+83
+# km/s — catastrophic if half-applied / wrong-direction. Vesta's physical reflected
+# RV spans ~−17..+33 km/s (RYA-370), so a measured |RV| beyond this band is the
+# air-vac mis-handling signature → loud-fail (never inject 83 km/s silently).
+_RV_PHYSICAL_MAX = 50.0          # km/s — beyond this = air-vac mis-convert, loud-fail
+_TELLURIC_CLOSURE_MAX = 3.0      # km/s — telluric (topocentric) must close to ~0
+_ANCHOR_DEPTH_MIN = 0.08         # central-depth floor for a usable RV anchor line
+_ANCHOR_ISOLATION_A = 0.35       # Å — no comparable neighbour within this → unblended
 
-    Refuses to run on a frame that is not telluric-corrected (the permanent rule)."""
+
+def _air_to_vac(wl_air_A):
+    """IAU air→vacuum (Morton 2000 / Birch & Downs) for Å. The solar line list is in
+    AIR; the CRIRES K-band is VACUUM — convert at the spectrum-matching boundary."""
+    wl = np.asarray(wl_air_A, dtype=float)
+    s2 = (1.0e4 / wl) ** 2
+    n = (1.0 + 0.00008336624212083 + 0.02408926869968 / (130.1065924522 - s2)
+         + 0.0001599740894897 / (38.92568793293 - s2))
+    return wl * n
+
+
+def _solar_rv_anchors(lo_A: float, hi_A: float,
+                      depth_min: float = _ANCHOR_DEPTH_MIN) -> dict:
+    """Curate RV-anchor lines (selection logic) but resolve their wavelengths from the
+    CANONICAL solar line list (PATHS['linelist_solar']) — NOT hardcoded (RYA-373
+    guardrail 1). Select solar ATOMIC lines in [lo,hi] Å with central_depth ≥ depth_min
+    that are isolated (no comparable neighbour within _ANCHOR_ISOLATION_A). Returns
+    {'air': [...], 'labels': [...], 'source': path} — wavelengths are AIR (the list's
+    frame); the caller converts to vacuum at the boundary."""
+    import pandas as pd
+    from pipeline.species import parse_ion       # RYA-345: atomic vs molecular
+    path = Path(str(PATHS['linelist_solar']))
+    df = pd.read_csv(path, comment='#', low_memory=False)
+    w = df['wavelength_air_A'].astype(float)
+    win = df[(w >= lo_A) & (w <= hi_A)].copy()
+    if 'central_depth' not in win.columns:
+        raise RuntimeError(f"{path.name} has no central_depth — cannot select RV anchors")
+    # atomic only (a parseable ion); drop molecular notes
+    def _is_atomic(el, ion):
+        try:
+            parse_ion(ion); return True
+        except Exception:
+            return False
+    win = win[[_is_atomic(e, i) for e, i in zip(win['element'], win['ion'])]]
+    win = win[win['central_depth'].astype(float) >= depth_min].sort_values('wavelength_air_A')
+    wl = win['wavelength_air_A'].astype(float).to_numpy()
+    dep = win['central_depth'].astype(float).to_numpy()
+    keep = []
+    for i in range(len(wl)):
+        near = (np.abs(wl - wl[i]) < _ANCHOR_ISOLATION_A) & (np.arange(len(wl)) != i)
+        if not np.any(near & (dep >= 0.5 * dep[i])):     # isolated from comparable lines
+            keep.append(i)
+    sel = win.iloc[keep]
+    return {'air': sel['wavelength_air_A'].astype(float).tolist(),
+            'labels': [f"{e} {i} {w:.2f}" for e, i, w in
+                       zip(sel['element'], sel['ion'], sel['wavelength_air_A'])],
+            'source': str(path)}
+
+
+def _ccf_velocity(wave_A, obs_abs, model_abs, vmax=25.0, dv=0.3) -> float:
+    """Telluric-anchor closure: velocity lag (km/s) that best aligns the observed
+    telluric absorption (1−raw/continuum) to the molecfit model absorption (1−mtrans),
+    by max cross-correlation (parabola-refined). Tellurics are at topocentric rest →
+    a good wavelength solution closes to ~0."""
+    from scipy.interpolate import interp1d
+    m = np.isfinite(wave_A) & np.isfinite(obs_abs) & np.isfinite(model_abs)
+    if m.sum() < 50:
+        return np.nan
+    w, o, md = wave_A[m], obs_abs[m], model_abs[m]
+    f = interp1d(w, o, bounds_error=False, fill_value=0.0)
+    vs = np.arange(-vmax, vmax + dv, dv)
+    cc = [np.nansum(f(w * (1.0 + v / _C_KMS)) * md) for v in vs]
+    k = int(np.argmax(cc))
+    if 1 <= k < len(vs) - 1:                              # parabola refine
+        y0, y1, y2 = cc[k - 1], cc[k], cc[k + 1]
+        denom = (y0 - 2 * y1 + y2)
+        if denom != 0:
+            return float(vs[k] - 0.5 * dv * (y2 - y0) / denom)
+    return float(vs[k])
+
+
+def rv_condition(frame: CriresFrame, work_dir: Path = None) -> CriresFrame:
+    """Shift the telluric-corrected CO order to the solar rest frame. The reflected RV
+    is MEASURED off K-band solar lines via the RYA-372 single-source velocity module
+    (measure_bulk_velocity) — anchors curated here, wavelengths resolved from the
+    canonical solar line list and air→vac-converted at the boundary (guardrail 1+2).
+    A telluric-anchor closure (tellurics = topocentric rest) verifies the wavelength
+    zero-point. Loud-fails on the air-vac mis-handling signature (guardrail 2).
+
+    Refuses a non-telluric-corrected frame (permanent rule)."""
     if not frame.telluric_corrected:
         raise TelluricNotCorrectedError(
             f"{frame.path.name}: refusing to RV-condition a frame whose telluric "
             f"correction is not verified (telluric_corrected=False). Telluric first.")
     rrv = _load_reflected_solar_rv()
-    return rrv.condition_frame(frame, horizons_id=horizons_id)   # RYA-372 API
+    seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
+    lo, hi = float(np.nanmin(seg.wave_A)), float(np.nanmax(seg.wave_A))
+
+    anchors = _solar_rv_anchors(lo, hi)
+    if len(anchors['air']) < 2:
+        raise RuntimeError(f"{frame.path.name}: <2 isolated solar RV anchors in the CO "
+                           f"order [{lo:.0f},{hi:.0f}] Å — cannot condition RV.")
+    anchors_vac = list(_air_to_vac(anchors['air']))       # ← air→vac BOUNDARY
+
+    res = rrv.measure_bulk_velocity(seg.wave_A, seg.flux, lines=anchors_vac)
+    v = res.get('v_med', np.nan)
+    if not np.isfinite(v):
+        raise RuntimeError(f"{frame.path.name}: RV measurement INSUFFICIENT "
+                           f"(n_used={res.get('n_used')}/{len(anchors_vac)} anchors).")
+    # guardrail 2 — air-vac loud-fail: a physical Vesta reflected RV is |v|≲33 km/s;
+    # an unconverted/wrong-direction air-vac handling shows up as ~±83 km/s.
+    if abs(v) > _RV_PHYSICAL_MAX:
+        raise AssertionError(
+            f"{frame.path.name}: measured reflected RV {v:+.1f} km/s exceeds the "
+            f"physical Vesta band (±{_RV_PHYSICAL_MAX}) — the air↔vac (~83 km/s @ "
+            f"2.3 µm) boundary is mis-handled. Refusing (no silent 83 km/s).")
+
+    # telluric-anchor closure (zero-point): observed telluric absorption vs model
+    cont_raw = continuum_normalize(seg.wave_A, getattr(seg, '_flux_raw', seg.flux))
+    closure = _ccf_velocity(seg.wave_A, 1.0 - cont_raw, 1.0 - seg._mtrans)
+    if np.isfinite(closure) and abs(closure) > _TELLURIC_CLOSURE_MAX:
+        raise AssertionError(
+            f"{frame.path.name}: telluric-anchor closure {closure:+.2f} km/s > "
+            f"{_TELLURIC_CLOSURE_MAX} — wavelength zero-point is off (the tellurics "
+            f"should sit at topocentric rest). Refusing.")
+
+    seg.wave_A = seg.wave_A / (1.0 + v / _C_KMS)          # → solar rest frame
+    frame.rest_frame = True
+    frame._rv_refl = float(v)
+    frame._rv_n_anchors = int(res.get('n_used', 0))
+    frame._rv_anchor_src = anchors['source']
+    frame._telluric_closure_kms = float(closure) if np.isfinite(closure) else None
+    return frame
 
 
 # ── Guard for downstream abundance/synthesis consumers ────────────────────────
@@ -537,6 +659,130 @@ def assert_telluric_corrected(frame: CriresFrame) -> None:
         raise TelluricNotCorrectedError(
             f"{frame.path.name}: IR abundance/synthesis attempted on a NON-telluric-"
             f"corrected frame. Run run_molecfit_telluric first (RYA-373, mandatory).")
+
+
+# ── Per-epoch coadd (RV-registered; checksum-deduped) ─────────────────────────
+def _file_md5(path) -> str:
+    import hashlib
+    return hashlib.md5(Path(path).read_bytes()).hexdigest()
+
+
+def coadd_co(frames: list, step_A: float = 0.05) -> dict:
+    """Coadd rest-frame, continuum-normalized CO orders on a common grid (inverse-
+    variance weighted). CHECKSUM-DEDUP first (RYA-377: 6 byte-identical dup IDPs must
+    never enter as independent frames and falsely √N-inflate SNR). Frames must be
+    distinct SETTINGS at solar rest. Never blind — each frame is RV-registered first."""
+    seen, uniq = {}, []
+    for f in frames:
+        h = _file_md5(f.path)
+        if h in seen:
+            print(f"  [coadd] DROPPED byte-duplicate {f.path.name} (== {seen[h]})")
+            continue
+        seen[h] = f.path.name
+        uniq.append(f)
+    for f in uniq:
+        if not f.rest_frame:
+            raise RuntimeError(f"{f.path.name}: not RV-conditioned — refusing blind coadd.")
+    segs = [(f, f.segment_at(CO_2_0_BANDHEAD_NM)) for f in uniq]
+    lo = max(float(np.nanmin(s.wave_A)) for _, s in segs)
+    hi = min(float(np.nanmax(s.wave_A)) for _, s in segs)
+    grid = np.arange(lo, hi + step_A * 0.5, step_A)
+    from scipy.interpolate import interp1d
+    num = np.zeros_like(grid); den = np.zeros_like(grid)
+    for f, s in segs:
+        ok = np.isfinite(s.wave_A) & np.isfinite(s.flux)
+        fl = interp1d(s.wave_A[ok], s.flux[ok], bounds_error=False, fill_value=np.nan)(grid)
+        wgt = (f.snr ** 2)                          # per-setting SNR² weight
+        m = np.isfinite(fl)
+        num[m] += fl[m] * wgt; den[m] += wgt
+    coadd = np.where(den > 0, num / den, np.nan)
+    snr_eff = float(np.sqrt(np.nansum([f.snr ** 2 for f in uniq])))
+    return {'wave_A': grid, 'flux': coadd, 'frames': [f.wlen_id for f in uniq],
+            'n_frames': len(uniq), 'snr_coadd': snr_eff}
+
+
+# ── Conditioned-product output + provenance (PROVISIONAL, two gaps) ───────────
+def write_conditioned(coadd: dict, frames: list, out_dir: Path,
+                      gate_residuals: dict) -> Path:
+    """Write the conditioned, continuum-normalized, rest-frame, coadded CO spectrum +
+    a provenance header. Marked PROVISIONAL (RYA-373 guardrail 3): (a) telluric-gate
+    final calibration pending the FTS solar IR atlas (RYA-162, absent); (b) re-validate
+    after the RYA-387 0.001 re-extraction (RV anchors resolve from the provisional
+    RYA-381 list). MUST NOT feed any published abundance until both clear."""
+    from astropy.io import fits
+    out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+    ph = fits.PrimaryHDU()
+    h = ph.header
+    h['RYA'] = 'RYA-373'
+    h['PROVIS'] = (True, 'PROVISIONAL — not for published abundance')
+    h['GAP1'] = 'FTS solar IR atlas (RYA-162) absent — telluric-gate final cal pending'
+    h['GAP2'] = 'revalidate after RYA-387 0.001 re-extraction (anchors from RYA-381)'
+    h['TELL'] = ('molecfit', 'ESO molecfit (esorex), topocentric, H2O+CH4+CO2')
+    h['CONTNORM'] = (True, 'continuum-normalized CO order')
+    h['RESTFRM'] = (True, 'shifted to solar rest (measured reflected RV)')
+    h['NFRAMES'] = (coadd['n_frames'], 'distinct K settings coadded')
+    h['SNRCOADD'] = (round(coadd['snr_coadd'], 1), 'inverse-variance coadd SNR')
+    for i, f in enumerate(frames):
+        h[f'WLEN{i}'] = f.wlen_id
+        h[f'GDAS{i}'] = getattr(f, '_gdas', '?')
+        h[f'GATE{i}'] = (round(gate_residuals.get(f.wlen_id, float('nan')), 4),
+                         'D1 telluric-specific residual')
+        h[f'RVREFL{i}'] = (round(getattr(f, '_rv_refl', float('nan')), 3), 'reflected RV km/s')
+        h[f'RVCLOS{i}'] = (round(getattr(f, '_telluric_closure_kms', float('nan')) or
+                                 float('nan'), 3), 'telluric-anchor closure km/s')
+    tab = fits.BinTableHDU.from_columns([
+        fits.Column(name='wave_rest_A', format='1D', array=coadd['wave_A']),
+        fits.Column(name='flux_norm', format='1D', array=coadd['flux'])], name='CO_COADD')
+    out = out_dir / 'vesta_crires_K_CO_conditioned_PROVISIONAL.fits'
+    fits.HDUList([ph, tab]).writeto(out, overwrite=True)
+    return out
+
+
+def condition_co_arm(out_dir: Path = None, work_root: Path = Path('/tmp/rya373_co')) -> dict:
+    """Full implementable finish-out (RYA-373 #3–5): for each on-chip ¹²CO(2-0) frame
+    (K2192, K2217) → molecfit telluric (GDAS) → D1 gate → continuum-normalize → RV-
+    condition (measured, air→vac anchors, telluric closure) → per-epoch RV-registered,
+    checksum-deduped coadd → conditioned CO output (PROVISIONAL). Returns a summary."""
+    out_dir = Path(out_dir) if out_dir else (
+        Path(str(PATHS['linelist_solar'])).parents[1] / 'audit' / 'crires_co_conditioned')
+    frames = co_overtone_frames(on_chip_only=True)       # K2192, K2217 (¹²CO 2-0)
+    gate_res, rv_status, done = {}, {}, []
+    for f in frames:
+        run_molecfit_telluric(f, work_root / f.wlen_id, molecules=TELLURIC_MOLECULES)
+        g = telluric_residual_gate(f, rv_kms=0.0)
+        gate_res[f.wlen_id] = g['residual']
+        seg = f.segment_at(CO_2_0_BANDHEAD_NM)
+        seg.flux = continuum_normalize(seg.wave_A, seg.flux)   # telluric→continuum-norm
+        f.continuum_normalized = True
+        # RV-condition; a non-measurable RV is reported LOUD (not faked, not crashed) —
+        # the guardrail working. (RYA-373 finding: reflected RV is NOT reliably
+        # measurable from the CO order — CO-band-dominated, sub-floor SNR.)
+        try:
+            rv_condition(f, work_root / f.wlen_id)
+            rv_status[f.wlen_id] = f'OK v={f._rv_refl:+.2f} km/s (n={f._rv_n_anchors})'
+            done.append(f)
+        except (RuntimeError, AssertionError) as exc:
+            rv_status[f.wlen_id] = f'RV-INSUFFICIENT: {exc}'
+            print(f"  [rv] {f.wlen_id}: {exc}")
+
+    result = {'frames': [f.wlen_id for f in frames], 'gate_residuals': gate_res,
+              'rv_status': rv_status, 'telluric_corrected': True}
+    if len(done) >= 2:
+        coadd = coadd_co(done)
+        result['output'] = str(write_conditioned(coadd, done, out_dir, gate_res))
+        result['coadd_snr'] = coadd['snr_coadd']
+        result['rv_refl'] = {f.wlen_id: f._rv_refl for f in done}
+    else:
+        result['output'] = None
+        result['DATA_GAP'] = (
+            "reflected RV not reliably measurable from the CO order on "
+            f"{[f.wlen_id for f in frames if f.wlen_id not in [d.wlen_id for d in done]]} "
+            "(CO-band-dominated, sub-floor SNR → clean atomic anchors too shallow; "
+            "deep features are CO, not the atomic core). Telluric-corrected + D1-gated + "
+            "continuum-normalized products ARE produced per frame; the rest-frame coadd "
+            "needs the reflected RV measured from a clean-atomic-line order (resume point) "
+            "or a higher-|RV| epoch (Decision 2).")
+    return result
 
 
 # ── CLI / smoke test ──────────────────────────────────────────────────────────
@@ -657,9 +903,20 @@ def main(argv=None):
     ap.add_argument('--verify', action='store_true', help="run the verification report")
     ap.add_argument('--telluric', action='store_true',
                     help="also run the real molecfit telluric pass (slow; needs esorex)")
+    ap.add_argument('--condition', action='store_true',
+                    help="run the full #3-5 finish-out: telluric→gate→continuum→RV→coadd"
+                         "→conditioned CO output (slow; needs esorex + RYA-372)")
     args = ap.parse_args(argv)
     if args.set != 'vesta_crires_k':
         raise SystemExit(f"unknown --set {args.set!r} (only 'vesta_crires_k')")
+    if args.condition:
+        import json
+        res = condition_co_arm()
+        print("\n" + "=" * 84)
+        print("  RYA-373 #3-5 — conditioned CO arm (PROVISIONAL)")
+        print("=" * 84)
+        print(json.dumps(res, indent=2, default=str))
+        return res
     return _verify(run_telluric=args.telluric)
 
 
