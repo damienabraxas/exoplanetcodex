@@ -107,7 +107,14 @@ def apply_to_regions(regions: np.ndarray) -> np.ndarray:
 
 def apply_to_linelist_df(df: pd.DataFrame) -> pd.DataFrame:
     """Return a copy of a linelist_solar-style df with `log_gf` resolved from
-    canonical. Requires element, ion, wavelength_air_A, excitation_potential_eV."""
+    canonical. Requires element, ion, wavelength_air_A, excitation_potential_eV.
+    Raises GfResolutionError on any unresolved line (no silent fallback).
+
+    NOTE: per-row overwrite to the canonical TOTAL — correct only when each df row
+    is a distinct physical line. Do NOT use on a store that splits a physical line
+    into multiple component rows (e.g. the VALD3 HFS pairs in linelist_solar): each
+    component would be set to the full total and the summed strength would double.
+    For per-line CONSUMERS (a COG that reads one gf per line) use resolve_df_gf."""
     out = df.copy()
     gf = np.empty(len(out), dtype=float)
     for j, (el, ion, wl, ep) in enumerate(zip(
@@ -116,6 +123,52 @@ def apply_to_linelist_df(df: pd.DataFrame) -> pd.DataFrame:
         gf[j] = resolve(species_key(str(el), str(ion)), float(wl), float(ep))
     out['log_gf'] = gf
     return out
+
+
+def resolve_df_gf(df: pd.DataFrame, *, element_col: str = 'element',
+                  ion_col: str = 'ion', wl_col: str = 'wavelength_air_A',
+                  ep_col: str = 'excitation_potential_eV', gf_col: str = 'log_gf',
+                  keep_unresolved: bool = True) -> tuple[pd.DataFrame, dict]:
+    """Resolve a per-line consumer's gf column to canonical, line by line.
+
+    For a CONSUMER that reads one gf per spectral line (e.g. the COG A(Fe)
+    diagnostic) — NOT for a store whose physical lines are split into HFS
+    component rows. Each row resolves independently via `resolve(key, wl, ep)`:
+
+      * resolved  → gf_col overwritten with the canonical value
+      * unresolved (not in canonical): keep_unresolved=True keeps the row's
+        existing gf (a CONSUMER may legitimately carry a line outside canonical);
+        keep_unresolved=False raises (no silent fallback for an authoritative use).
+
+    Returns (df_copy, stats) with stats = {n, n_resolved, n_unresolved, n_changed}.
+    A `gf_canonical` boolean column flags which rows now hold the canonical value.
+    """
+    out = df.copy().reset_index(drop=True)
+    gf = out[gf_col].to_numpy(dtype=float, copy=True)
+    is_canon = np.zeros(len(out), dtype=bool)
+    n_res = n_unres = n_changed = 0
+    for j in range(len(out)):
+        el, ion = out.at[j, element_col], out.at[j, ion_col]
+        wl, ep = out.at[j, wl_col], out.at[j, ep_col]
+        if pd.isna(wl) or pd.isna(ep):
+            continue
+        try:
+            key = species_key(str(el), str(ion))
+            c = resolve(key, float(wl), float(ep))
+        except (GfResolutionError, ValueError):
+            if not keep_unresolved:
+                raise
+            n_unres += 1
+            continue
+        n_res += 1
+        if np.isfinite(gf[j]) and abs(gf[j] - c) > 1e-6:
+            n_changed += 1
+        gf[j] = c
+        is_canon[j] = True
+    out[gf_col] = gf
+    out['gf_canonical'] = is_canon
+    return out, {'n': len(out), 'n_resolved': n_res,
+                 'n_unresolved': n_unres, 'n_changed': n_changed}
 
 
 # ── synth consumer (#1) — branching-preserved rescale ─────────────────────────

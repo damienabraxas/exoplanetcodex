@@ -554,6 +554,70 @@ _SYNTH_PATH = Path(_ad._SYNTH_LINELIST_FILE)
 _LL_SOLAR = _const.PATHS['linelist_solar']
 _SOLAR_EW = _const.PATHS['solar_ew']
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 5 — all gf stores resolve to a canonical home (RYA-368)
+# ══════════════════════════════════════════════════════════════════════════════
+# The gf-pair invariant (1) resolves BOTH sides through gf_resolver before comparing,
+# so it proves the SHARED lines collapse to one value but cannot see a store carrying
+# raw gf that no consumer routes (the RYA-367 store-#2 landmine: linelist_solar's raw
+# VALD3 [O I] −9.776 / Ni −2.70, read by a diagnostic that did not resolve). This
+# invariant covers EVERY registered gf store:
+#   • ORPHAN (a physical line with no entry in the canonical table) → UNTRACKED, fails
+#     loudly: a line outside the single source has no authoritative gf.
+#   • RAW divergence from canonical → reported as a TRACKED summary (per the store's
+#     load contract: resolve-at-load #1/#3 → RYA-353; independent VALD3 ref #2 →
+#     RYA-368). Visible, CI-green — the by-design seed/reference divergence.
+#   • the RYA-367 trigger lines ([O I] 6300.304, Ni I 6300.34) MUST resolve to
+#     canonical (−9.717 / −2.11) → UNTRACKED regression guard.
+_GFSTORE_SUMMARY: dict = {}
+
+
+def check_all_stores_resolve() -> list[Violation]:
+    from pipeline.audit import gf_store_consistency as _gs
+    violations: list[Violation] = []
+    for store in _gs.STORES:
+        rep = _gs.store_report(store)
+        _GFSTORE_SUMMARY[store.label] = {
+            'lines': rep['n_lines'], 'overlap': rep['n_overlap'],
+            'orphan': rep['n_orphan'], 'raw_div': rep['n_divergent'],
+            'max_dgf': rep['max_abs_dgf'], 'contract': store.contract}
+        # orphans — a line outside the single canonical source (no authoritative gf)
+        for (key, wl, ep, gf) in rep['orphans']:
+            violations.append(Violation(
+                invariant='gf_stores', quantity='log gf',
+                locus=f"{store.label}  {_species_label(key)} {wl:.3f}Å",
+                value="absent from canonical_gf.csv",
+                source=store.contract,
+                detail="store line has no entry in the single canonical gf table "
+                       "(RYA-368) — an orphan with no authoritative gf",
+                ticket=None))
+        # raw divergence — one tracked summary per store (by-design seed/reference)
+        if rep['n_divergent'] > 0:
+            violations.append(Violation(
+                invariant='gf_stores', quantity='log gf (raw vs canonical)',
+                locus=f"{store.label}",
+                value=f"{rep['n_divergent']} physical line(s) diverge "
+                      f">{_gs.GF_DIVERGENCE_DEX} dex (max {rep['max_abs_dgf']:.2f})",
+                source=store.contract,
+                detail=("by-design: " + ("resolve-at-load (the loader rewrites gf to "
+                        "canonical)" if store.is_load_bearing_gf else
+                        "independent VALD3 reference; gf NOT load-bearing, consumers "
+                        "resolve per-line (RYA-368)")),
+                ticket=store.ticket))
+    # RYA-367 trigger lines must resolve to canonical (regression guard)
+    for t in _gs.check_targets():
+        if not t['ok']:
+            violations.append(Violation(
+                invariant='gf_stores', quantity='log gf',
+                locus=t['label'],
+                value=f"resolver={t['got']:+.3f} (expected {t['expect']:+.3f})",
+                source='gf_resolver.resolve vs canonical_gf.csv',
+                detail="RYA-367 trigger line no longer resolves to canonical — the "
+                       "[O I]/Ni 6300 landmine has returned",
+                ticket=None))
+    return violations
+
 GF_PAIRS = [
     GfPair(
         name='synth-vs-solar',
@@ -600,6 +664,7 @@ PROVENANCE_CHECKS = [
 
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
+    check_all_stores_resolve,
 ]
 
 
@@ -613,6 +678,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_star_params()
     violations += check_provenance()
     violations += check_blend_flag()
+    violations += check_all_stores_resolve()
     return violations
 
 
@@ -641,8 +707,15 @@ def _report(violations: list[Violation]) -> None:
         print(f"     mismatch vs re-run vetted builder : {b.get('mismatch')}")
         print(f"     per-measurement propagation       : {b.get('propagation')}")
 
+    # gf-stores summary (RYA-368, all stores)
+    if _GFSTORE_SUMMARY:
+        print(f"\n[gf_stores] all-stores resolution vs canonical:")
+        for label, s in _GFSTORE_SUMMARY.items():
+            print(f"     {label:<22} overlap {s['overlap']:>6}  orphan {s['orphan']:>3}  "
+                  f"raw_div {s['raw_div']:>5} (max {s['max_dgf']:.2f})  [{s['contract']}]")
+
     # per-invariant violation tables
-    for inv in ('gf', 'star_params', 'provenance', 'blend_flag'):
+    for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores'):
         vs = [v for v in violations if v.invariant == inv]
         if not vs:
             print(f"\n[{inv}] OK — no violations.")
