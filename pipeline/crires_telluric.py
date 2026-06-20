@@ -232,7 +232,9 @@ def continuum_normalize(wave_A: np.ndarray, flux: np.ndarray,
 
 # ── Telluric (molecfit, TOPOCENTRIC frame) — the mandatory engine ─────────────
 def _esorex_available() -> bool:
-    return shutil.which("esorex") is not None or shutil.which("molecfit_model") is not None
+    return (shutil.which("esorex") is not None
+            or Path(_ESOREX).exists()              # RYA-375 Homebrew install (off default PATH)
+            or shutil.which("molecfit_model") is not None)
 
 
 def run_molecfit_telluric(frame: CriresFrame, work_dir: Path,
@@ -265,13 +267,124 @@ def run_molecfit_telluric(frame: CriresFrame, work_dir: Path,
     return _molecfit_driver(frame, work_dir, molecules)
 
 
-def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFrame:  # pragma: no cover
-    """esorex molecfit_model → molecfit_calctrans on the K CO orders; divide the
-    fitted telluric model out; mask saturated cores; verify the telluric residual.
-    Finalized when molecfit is installed (engine-dependent recipe params)."""
-    raise MolecfitNotAvailableError(
-        "molecfit driver pending finalization against the installed esorex/molecfit "
-        "(recipe parameters are version-specific). Engine not yet available.")
+_ESOREX = "/opt/homebrew/bin/esorex"          # RYA-375 install (Homebrew ESO tap)
+_MTRANS_FLOOR = 0.02                            # mask telluric cores below this transmission
+_CONTINUUM_N = 2                                # polynomial continuum order (uncalibrated flux)
+
+
+def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
+                           molecules) -> Path:
+    """Write the three molecfit_model inputs for one CO order: SCIENCE (binary table
+    lambda[µm]/flux/dflux, primary header carrying the ESO atmospheric keywords),
+    WAVE_INCLUDE (µm, edges trimmed), MOLECULES (LIST_MOLEC/FIT_MOLEC=1J/REL_COL=1D —
+    the int32 FIT_MOLEC is mandatory, astropy's default int64 fails CPL). Returns the
+    SOF path."""
+    from astropy.io import fits
+    work_dir.mkdir(parents=True, exist_ok=True)
+    m = np.isfinite(seg.wave_A) & np.isfinite(seg.flux) & (seg.flux > 0)
+    lam_um = seg.wave_A[m] / 1.0e4              # Å → µm (molecfit internal)
+    flux = seg.flux[m].astype(float)
+    err = seg.err[m].astype(float)
+
+    src = fits.getheader(str(frame.path))
+    ph = fits.PrimaryHDU()
+    for k in src.keys():                         # carry ESO TEL/INS keywords for the atm model
+        if k.startswith('ESO ') or k in ('MJD-OBS', 'RA', 'DEC', 'UTC', 'INSTRUME'):
+            try:
+                ph.header[k] = src[k]
+            except Exception:
+                pass
+    from astropy.table import Table
+    sci = fits.BinTableHDU(Table({'lambda': lam_um, 'flux': flux, 'dflux': err}),
+                           name='SCIENCE')
+    fits.HDUList([ph, sci]).writeto(work_dir / 'science.fits', overwrite=True)
+
+    lo, hi = float(lam_um.min() + 5e-4), float(lam_um.max() - 5e-4)
+    fits.BinTableHDU.from_columns([
+        fits.Column(name='LOWER_LIMIT', format='1D', array=np.array([lo])),
+        fits.Column(name='UPPER_LIMIT', format='1D', array=np.array([hi]))],
+    ).writeto(work_dir / 'wave_include.fits', overwrite=True)
+
+    fits.BinTableHDU.from_columns([
+        fits.Column(name='LIST_MOLEC', format='4A', array=np.array(list(molecules))),
+        fits.Column(name='FIT_MOLEC', format='1J',         # int32 — CPL rejects int64
+                    array=np.ones(len(molecules), dtype=np.int32)),
+        fits.Column(name='REL_COL', format='1D', array=np.ones(len(molecules)))],
+    ).writeto(work_dir / 'molecules.fits', overwrite=True)
+
+    sof = work_dir / 'model.sof'
+    sof.write_text(f"{work_dir/'science.fits'} SCIENCE\n"
+                   f"{work_dir/'wave_include.fits'} WAVE_INCLUDE\n"
+                   f"{work_dir/'molecules.fits'} MOLECULES\n")
+    return sof
+
+
+def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFrame:
+    """esorex molecfit_model on the CO-overtone order(s); divide by the fitted
+    convolved telluric transmission (BEST_FIT_MODEL.mtrans) — saturated cores masked.
+
+    Sets frame.telluric_corrected and stashes per-segment corrected flux +
+    telluric diagnostics on the segment. Uses molecfit_model's mtrans directly (the
+    convolved transmission over the science grid), which avoids the calctrans
+    chip-mapping step for a single order.
+
+    NOTE (RYA-373 finding): on a reflected-SOLAR target the spectrum is solar-line-
+    rich, so molecfit's continuum cannot model the solar lines and a blanket fit
+    residual conflates the (wanted) solar spectrum with telluric misfit — the
+    telluric-residual metric must be telluric-line-specific. The corrected flux and
+    the model transmission are returned for that downstream verification.
+    """
+    import os
+    from astropy.io import fits
+    esorex = _ESOREX if Path(_ESOREX).exists() else shutil.which("esorex")
+    if esorex is None:
+        raise MolecfitNotAvailableError("esorex not found (RYA-375 install expected at "
+                                        f"{_ESOREX}).")
+    seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
+    if seg is None:
+        raise RuntimeError(f"{frame.path.name}: CO(2-0) bandhead not on-chip — nothing "
+                           f"to telluric-correct in this frame.")
+    in_dir = Path(work_dir) / 'in'
+    out_dir = Path(work_dir) / 'out'
+    out_dir.mkdir(parents=True, exist_ok=True)
+    sof = _write_molecfit_inputs(frame, seg, in_dir, molecules)
+
+    env = dict(os.environ, PATH=f"/opt/homebrew/bin:{os.environ.get('PATH', '')}")
+    cmd = [esorex, f"--output-dir={out_dir}", "molecfit_model",
+           "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux", "--COLUMN_DFLUX=dflux",
+           "--WLG_TO_MICRON=1.0", "--WAVELENGTH_FRAME=VAC",
+           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}", str(sof)]
+    proc = subprocess.run(cmd, cwd=str(in_dir), env=env,
+                          capture_output=True, text=True)
+    bfm = out_dir / 'BEST_FIT_MODEL.fits'
+    if proc.returncode != 0 or not bfm.exists():
+        tail = "\n".join(l for l in proc.stdout.splitlines()
+                         if 'ERROR' in l and 'gdas' not in l.lower())[-1500:]
+        raise RuntimeError(f"molecfit_model failed (rc={proc.returncode}) on "
+                           f"{frame.path.name}:\n{tail}")
+
+    m = fits.open(bfm)[1].data
+    lam_A = m['lambda'] * 1.0e4
+    mtrans = m['mtrans']
+    fl = m['flux']
+    ok = np.isfinite(fl) & np.isfinite(mtrans) & (mtrans > _MTRANS_FLOOR)
+    corr = np.full_like(fl, np.nan)
+    corr[ok] = fl[ok] / mtrans[ok]
+    # telluric-line-specific residual: scatter of corrected/continuum where the model
+    # has MODERATE telluric absorption (0.3–0.95) — the cleanest available proxy
+    # (deep cores are masked; solar lines still contribute, hence reported not gated).
+    cont = continuum_normalize(lam_A, corr)
+    modtell = ok & (mtrans < 0.95) & (mtrans > 0.30)
+    resid = float(np.nanstd(cont[modtell])) if modtell.any() else np.nan
+
+    seg.wave_A = lam_A                          # molecfit grid (Å)
+    seg.flux = corr                             # telluric-corrected flux
+    seg._mtrans = mtrans                        # model transmission (for downstream verify)
+    frame.telluric_corrected = True
+    frame._telluric_residual = resid
+    frame._telluric_mtrans_max = float(np.nanmax(mtrans))
+    frame._molecules = tuple(molecules)
+    return frame
 
 
 # ── RV-condition (RYA-372 reflected_solar_rv — single source) ─────────────────
@@ -311,9 +424,10 @@ def assert_telluric_corrected(frame: CriresFrame) -> None:
 
 
 # ── CLI / smoke test ──────────────────────────────────────────────────────────
-def _verify(crires_dir=VESTA_CRIRES_DIR) -> dict:
+def _verify(crires_dir=VESTA_CRIRES_DIR, run_telluric: bool = False) -> dict:
     """Run the molecfit-independent core on the real data + report the engine-gated
-    steps' availability. Returns a findings dict."""
+    steps' availability. With run_telluric=True (and esorex present), also runs the
+    real molecfit telluric pass on the best on-chip CO frame. Returns findings."""
     print("=" * 84)
     print("  RYA-373 — Vesta CRIRES+ K-band telluric/continuum/RV conditioning")
     print("=" * 84)
@@ -379,6 +493,30 @@ def _verify(crires_dir=VESTA_CRIRES_DIR) -> dict:
         rv = False
     print(f"    reflected_solar_rv (RYA-372)    : {'available' if rv else 'NOT PRESENT'}")
 
+    # optional real molecfit telluric pass (the smoke test's --telluric)
+    tell_result = None
+    if run_telluric and mol and co:
+        f0 = max(co, key=lambda f: f.snr)
+        print(f"\n  RUNNING molecfit telluric on {f0.wlen_id} (TOPOCENTRIC) …")
+        try:
+            run_molecfit_telluric(f0, Path(f'/tmp/mfit_{f0.wlen_id}'),
+                                  molecules=TELLURIC_MOLECULES)
+            seg = f0.segment_at(CO_2_0_BANDHEAD_NM)
+            tell_result = {'wlen': f0.wlen_id, 'residual': f0._telluric_residual,
+                           'mtrans_max': f0._telluric_mtrans_max,
+                           'molecules': f0._molecules}
+            print(f"    telluric_corrected=True; model transmission max "
+                  f"{f0._telluric_mtrans_max:.3f}; molecules {f0._molecules}")
+            print(f"    telluric residual (moderate-telluric proxy) "
+                  f"{f0._telluric_residual*100:.1f}%  — NOTE: a reflected-SOLAR target is "
+                  f"solar-line-rich, so this proxy conflates solar lines with telluric "
+                  f"misfit; a telluric-line-specific metric is needed for the <2% gate.")
+            print(f"    solar CO(2-0) bandhead region (22930-22960 Å) min flux "
+                  f"{np.nanmin(seg.flux[(seg.wave_A>22930)&(seg.wave_A<22960)]):.0f} "
+                  f"(residual absorption present = candidate surviving solar CO).")
+        except Exception as exc:
+            print(f"    molecfit telluric run FAILED: {exc}")
+
     print("\n" + "-" * 84)
     if mol and rv:
         print("  READY: both engines present — run the full telluric→RV→coadd pass.")
@@ -401,10 +539,12 @@ def main(argv=None):
     ap.add_argument('--set', default='vesta_crires_k',
                     help="dataset (only vesta_crires_k implemented)")
     ap.add_argument('--verify', action='store_true', help="run the verification report")
+    ap.add_argument('--telluric', action='store_true',
+                    help="also run the real molecfit telluric pass (slow; needs esorex)")
     args = ap.parse_args(argv)
     if args.set != 'vesta_crires_k':
         raise SystemExit(f"unknown --set {args.set!r} (only 'vesta_crires_k')")
-    return _verify()
+    return _verify(run_telluric=args.telluric)
 
 
 if __name__ == '__main__':

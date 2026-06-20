@@ -125,8 +125,30 @@ class TestGuards:
         with pytest.raises(ct.TelluricNotCorrectedError):
             ct.rv_condition(self._fake_frame(telluric=False))
 
-    def test_rv_fails_loud_when_372_absent(self):
-        # telluric flag set → passes that guard, then the RYA-372 module is absent
+    def test_rv_fails_loud_when_372_absent(self, monkeypatch):
+        # telluric flag set → passes that guard; force the 372 module absent
+        monkeypatch.setattr(ct, '_load_reflected_solar_rv',
+                            lambda: (_ for _ in ()).throw(
+                                ct.VelocityModuleNotAvailableError("absent")))
         f = self._fake_frame(telluric=True)
         with pytest.raises(ct.VelocityModuleNotAvailableError):
             ct.rv_condition(f)
+
+
+# ── molecfit integration (real esorex run; slow + env-gated) ─────────────────
+import os  # noqa: E402
+
+_RUN_MOLECFIT = (os.environ.get('RYA373_RUN_MOLECFIT') == '1'
+                 and ct._esorex_available() and _HAS_DATA)
+
+
+@pytest.mark.skipif(not _RUN_MOLECFIT,
+                    reason="set RYA373_RUN_MOLECFIT=1 with esorex+data to run the "
+                           "real molecfit telluric pass (slow, ~3 min)")
+def test_real_molecfit_telluric_pass(tmp_path, k_co_frame):
+    f = ct.run_molecfit_telluric(k_co_frame, tmp_path, molecules=ct.TELLURIC_MOLECULES)
+    assert f.telluric_corrected is True
+    assert 0.0 < f._telluric_mtrans_max <= 1.0
+    seg = f.segment_at(ct.CO_2_0_BANDHEAD_NM)
+    assert np.isfinite(seg.flux).sum() > 100   # corrected flux produced
+    ct.assert_telluric_corrected(f)            # guard now passes
