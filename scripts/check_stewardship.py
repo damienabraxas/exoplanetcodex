@@ -618,6 +618,53 @@ def check_all_stores_resolve() -> list[Violation]:
                 ticket=None))
     return violations
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 6 — VALD extraction-threshold consistency (RYA-389 item 3)
+# Every VALD delivery must be extracted at the canonical synthesis-era detection
+# depth (0.001). The engine is blend-aware Turbospectrum synthesis (RYA-285) which
+# needs the weak lines; a shallower cut (the EW-era 0.05) drops blends + trace
+# species (Zr/P/S/n-capture — RYA-381), producing a heterogeneous list. This is the
+# intake-gate check that makes the benchmark audits (RYA-382/384/385) catch the same
+# defect on every star automatically. Under-deep deliveries are TRACKED against the
+# star's re-extraction ticket (visible, CI-green); a NEW under-deep delivery with no
+# ticket → UNTRACKED → loud FAIL.
+# ══════════════════════════════════════════════════════════════════════════════
+sys.path.insert(0, str(_REPO / 'data' / 'linelists'))
+from vald_parse import (  # noqa: E402
+    verify_extraction_threshold as _verify_threshold, THRESHOLD_CANONICAL as _THR)
+
+# star-prefix → re-extraction ticket for KNOWN under-deep deliveries (the EW-era
+# 0.05 / 0.01 raws). A delivery not matched here, if under-deep, is UNTRACKED → FAIL.
+_THRESHOLD_TICKETS = [
+    ('solar', 'RYA-387'), ('55cnc', 'RYA-382'),
+    ('alpha_cen', 'RYA-384'), ('procyon', 'RYA-385'),
+]
+
+
+def check_vald_threshold() -> list[Violation]:
+    ll_dir = _REPO / 'data' / 'linelists'
+    violations: list[Violation] = []
+    for p in sorted(ll_dir.glob('vald_*.txt')):
+        if 'quarantine' in p.name.lower():
+            continue                              # quarantined raws are out-of-band (RYA-378)
+        verdict, msg, eff = _verify_threshold(p)
+        if verdict == 'ACCEPT':
+            continue
+        if verdict == 'REJECT':                   # unparseable → loud, never skipped
+            raise StewardshipParseError(msg)
+        ticket = next((t for pre, t in _THRESHOLD_TICKETS if pre in p.name.lower()), None)
+        violations.append(Violation(
+            invariant='vald_threshold', quantity='extraction detection depth',
+            locus=p.name, value=f'{eff:.3f} (canonical {_THR})',
+            source='VALD extraction threshold (min central_depth)',
+            detail=('delivery extracted under-deep vs the synthesis-era canonical '
+                    f'{_THR} — drops blends + trace species (RYA-381/285). Re-extract '
+                    'at 0.001 with finer wavelength chunking (not a shallower cut)'),
+            ticket=ticket))                        # None ⇒ UNTRACKED ⇒ loud FAIL
+    return violations
+
+
 GF_PAIRS = [
     GfPair(
         name='synth-vs-solar',
@@ -664,7 +711,7 @@ PROVENANCE_CHECKS = [
 
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
-    check_all_stores_resolve,
+    check_all_stores_resolve, check_vald_threshold,
 ]
 
 
@@ -679,6 +726,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_provenance()
     violations += check_blend_flag()
     violations += check_all_stores_resolve()
+    violations += check_vald_threshold()
     return violations
 
 
