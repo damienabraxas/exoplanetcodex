@@ -43,6 +43,14 @@ _CANON = _REPO / 'data' / 'linelists' / 'canonical_gf.csv'
 # materiality threshold — same as the RYA-355 stewardship gf invariant
 GF_DIVERGENCE_DEX = 0.05
 
+# RYA-381: linelist_solar.csv now extends beyond the optical core (3780–6910 Å) into the
+# non-optical UV / red-optical / IR. canonical_gf.csv is still optical-only, so every
+# non-optical extension line is an orphan until RYA-379 ingests its gf and extends the
+# guard past 9199 Å. A non-optical orphan is therefore a KNOWN, tracked gap (RYA-379);
+# an orphan INSIDE the optical core is a genuine break (a curated line lost its canonical
+# home) and remains a hard failure.
+OPTICAL_CORE_LO, OPTICAL_CORE_HI = 3780.0, 6910.0
+
 # Science-critical target lines (the RYA-367 trigger): must resolve to canonical.
 TARGETS = [
     ('[O I] 6300.304', (8, 1), 6300.304, 0.0, -9.717),
@@ -105,14 +113,15 @@ def store_report(store: GfStore) -> dict:
     rows = _load_store_lines(store)
     if not rows:
         return dict(store=store, n_lines=0, n_overlap=0, n_orphan=0,
-                    n_divergent=0, max_abs_dgf=0.0, orphans=[], divergent=[])
+                    n_orphan_optical=0, n_divergent=0, max_abs_dgf=0.0,
+                    orphans=[], orphans_optical=[], divergent=[])
     keys = [r[0] for r in rows]
     wls = np.array([r[1] for r in rows])
     eps = np.array([r[2] for r in rows])
     gfs = np.array([r[3] for r in rows])
-    n_overlap = n_orphan = n_div = 0
+    n_overlap = n_orphan = n_orphan_optical = n_div = 0
     max_abs = 0.0
-    orphans, divergent = [], []
+    orphans, orphans_optical, divergent = [], [], []
     for cl in gr.cluster_physical_lines(keys, wls, eps):
         comp = gfs[cl]
         raw_total = float(np.log10(np.sum(10.0 ** comp)))
@@ -125,6 +134,12 @@ def store_report(store: GfStore) -> dict:
             n_orphan += 1
             if len(orphans) < 20:
                 orphans.append((keys[cl[0]], centroid, ep_mean, raw_total))
+            # RYA-381: an orphan inside the optical core is a real break; one outside it
+            # is the tracked non-optical extension (RYA-379).
+            if OPTICAL_CORE_LO <= centroid < OPTICAL_CORE_HI:
+                n_orphan_optical += 1
+                if len(orphans_optical) < 20:
+                    orphans_optical.append((keys[cl[0]], centroid, ep_mean, raw_total))
             continue
         n_overlap += 1
         dgf = raw_total - canon
@@ -135,8 +150,10 @@ def store_report(store: GfStore) -> dict:
             if len(divergent) < 20:
                 divergent.append((keys[cl[0]], centroid, raw_total, canon, dgf))
     return dict(store=store, n_lines=len(rows),
-                n_overlap=n_overlap, n_orphan=n_orphan, n_divergent=n_div,
-                max_abs_dgf=max_abs, orphans=orphans, divergent=divergent)
+                n_overlap=n_overlap, n_orphan=n_orphan,
+                n_orphan_optical=n_orphan_optical, n_divergent=n_div,
+                max_abs_dgf=max_abs, orphans=orphans,
+                orphans_optical=orphans_optical, divergent=divergent)
 
 
 def check_targets() -> list[dict]:
@@ -180,11 +197,18 @@ def run(verbose: bool = True) -> dict:
               f"gf consumer (COG A(Fe) diagnostic) resolves per-line (RYA-368).")
 
     # ── hard assertions (the durable guarantees) ───────────────────────────────
+    # RYA-381: a non-optical extension orphan is a tracked gap (RYA-379), not a break;
+    # only an OPTICAL-CORE orphan fails. Non-optical orphans stay visible in the summary.
     problems = []
     for r in reports:
-        if r['n_orphan'] > 0:
-            problems.append(f"{r['store'].label}: {r['n_orphan']} orphan line(s) with "
-                            f"no canonical home (e.g. {r['orphans'][:3]})")
+        if r.get('n_orphan_optical', 0) > 0:
+            problems.append(f"{r['store'].label}: {r['n_orphan_optical']} OPTICAL-CORE "
+                            f"orphan line(s) with no canonical home "
+                            f"(e.g. {r['orphans_optical'][:3]})")
+        n_nonopt = r['n_orphan'] - r.get('n_orphan_optical', 0)
+        if verbose and n_nonopt > 0:
+            print(f"  [note] {r['store'].label}: {n_nonopt} non-optical orphan(s) "
+                  f"absent from optical-only canonical_gf.csv — tracked RYA-379")
     for t in targets:
         if not t['ok']:
             problems.append(f"target {t['label']} resolves to {t['got']:+.3f}, "
