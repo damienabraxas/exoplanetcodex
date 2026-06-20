@@ -34,6 +34,15 @@ from pathlib import Path
 # a capped delivery carries this warning on line 1 (RYA-64 post-mortem).
 TRUNCATION_WARNING = 'WARNING: Output was truncated to 100000 lines'
 
+# Synthesis-era detection (central-depth) threshold. The engine is full
+# Turbospectrum synthesis (RYA-285) — blend-aware, needs the weak lines, so the
+# canonical extraction cut is DEEP: 0.001 (matching the optical core; ratified
+# RYA-387). The old 0.05 was an EW-era vestige that drops blends and trace species
+# (Zr/P/S/n-capture — RYA-381). The de-facto threshold of a delivery = the shallowest
+# line it contains (min central_depth): lines below the cut are not output.
+THRESHOLD_CANONICAL = 0.001
+THRESHOLD_TOL_FACTOR = 3.0   # ACCEPT if effective ≤ canonical × this (absorbs rounding)
+
 _ROMAN = {1: 'I', 2: 'II', 3: 'III', 4: 'IV', 5: 'V'}
 
 
@@ -270,3 +279,49 @@ def verify_metallicity(path, star_id, star_params, tol=0.05):
     return ('ACCEPT',
             f"{path}: metallicity OK (VALD applied [M/H]={found:+.2f} vs catalog "
             f"{catalog:+.2f}, |Δ|={abs(found - catalog):.2f}).")
+
+
+def effective_extraction_threshold(path):
+    """The de-facto detection (central-depth) threshold of a VALD delivery = the
+    shallowest line it contains (min central_depth over the data lines). VALD does
+    not output lines below the submitted threshold, so this recovers it without a
+    header field. Returns the float threshold, or None if no parseable data line.
+
+    Lightweight scan (central_depth only, field 13) — fast on 100k-line files."""
+    cd_min = None
+    for line in open(path, errors='replace'):
+        hit = is_vald_data_line(line)
+        if hit is None:
+            continue
+        try:
+            cd = float(hit[1].split(',')[13])
+        except (ValueError, IndexError):
+            continue
+        if cd > 0 and (cd_min is None or cd < cd_min):
+            cd_min = cd
+    return cd_min
+
+
+def verify_extraction_threshold(path, canonical=THRESHOLD_CANONICAL,
+                                tol_factor=THRESHOLD_TOL_FACTOR):
+    """Intake gate (RYA-389, item 3): a delivery's extraction threshold must match the
+    canonical synthesis-era depth (0.001). The engine is blend-aware Turbospectrum
+    synthesis (RYA-285) and needs the weak lines; a shallower cut (e.g. the EW-era
+    0.05) drops blends and trace species (Zr/P/S/n-capture — RYA-381), producing a
+    heterogeneous list. Reports the effective threshold and FLAGs a mismatch — the
+    check the benchmark audits (RYA-382/384/385) run so the same defect is caught on
+    every star automatically. The answer to a too-large delivery is finer wavelength
+    chunking, NOT a shallower threshold. Returns (verdict, message, effective).
+    """
+    eff = effective_extraction_threshold(path)
+    name = str(path).split('/')[-1]
+    if eff is None:
+        return ('REJECT', f"{name}: no parseable transitions — cannot read threshold.", None)
+    if eff <= canonical * tol_factor:
+        return ('ACCEPT',
+                f"{name}: threshold OK (effective {eff:.4f} ≈ canonical {canonical}).", eff)
+    return ('FLAG',
+            f"{name}: THRESHOLD MISMATCH — extracted at {eff:.3f}, canonical "
+            f"{canonical} (synthesis-grade). The {eff:.2f} cut is under-deep "
+            f"(EW-era; drops blends + trace species, RYA-381). Re-extract at "
+            f"{canonical} with finer wavelength chunks to beat the 100k cap.", eff)
