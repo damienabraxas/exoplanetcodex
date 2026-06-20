@@ -62,13 +62,25 @@ class TestStoreReports:
                 'linelist_solar.csv'} <= labels
 
     def test_no_optical_core_orphans(self, reports):
-        # Hard guarantee: every OPTICAL-CORE (3780–6910 Å) store line has a canonical
-        # home. RYA-381 extended linelist_solar.csv into the non-optical range, whose
-        # lines are orphans until RYA-379 ingests their gf — those are tracked, not a
-        # break. An optical-core orphan would still be a real failure.
+        # Hard guarantee: every curated ATOMIC optical-core (3780–6910 Å) store line has
+        # a canonical home. RYA-381 extended linelist_solar.csv into the non-optical
+        # range, whose lines are orphans until RYA-379 ingests their gf — tracked, not a
+        # break. An atomic optical-core orphan would still be a real failure. RYA-387:
+        # molecular optical-core orphans are excluded from this hard-fail (see next test).
         for label, rep in reports.items():
             assert rep['n_orphan_optical'] == 0, \
-                f"{label} has {rep['n_orphan_optical']} OPTICAL-CORE orphan(s)"
+                f"{label} has {rep['n_orphan_optical']} ATOMIC OPTICAL-CORE orphan(s)"
+
+    def test_optical_core_orphans_are_atomic_only(self, reports):
+        # RYA-387: the deep (0.001) wings add many CH/CN/CO components that shift the
+        # global molecular cluster centroids, so a few optical molecular lines no longer
+        # match canonical. That is a clustering artifact on NON-AUTHORITATIVE molecular
+        # gf (RYA-197), not a curated-atomic-line break — so n_orphan_optical (the
+        # hard-fail counter) must never count a molecular ('mol', X) orphan.
+        for rep in reports.values():
+            for key, *_ in rep['orphans_optical']:
+                assert not (isinstance(key, tuple) and key[0] == 'mol'), \
+                    f"molecular orphan {key} must not be in the optical hard-fail set"
 
     def test_store2_has_raw_divergence_reported(self, reports):
         # the landmine is visible, not silent

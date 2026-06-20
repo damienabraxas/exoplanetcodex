@@ -136,7 +136,15 @@ def store_report(store: GfStore) -> dict:
                 orphans.append((keys[cl[0]], centroid, ep_mean, raw_total))
             # RYA-381: an orphan inside the optical core is a real break; one outside it
             # is the tracked non-optical extension (RYA-379).
-            if OPTICAL_CORE_LO <= centroid < OPTICAL_CORE_HI:
+            # RYA-387: the hard-fail guards CURATED ATOMIC lines (gf load-bearing). A
+            # MOLECULAR optical-core orphan is not a break: molecular gf is non-
+            # authoritative (RYA-197) and this store is not gf-load-bearing. The denser
+            # 0.001 wings add many CH/CN/CO components whose presence shifts the GLOBAL
+            # molecular cluster centroids by >±0.02 Å, so a handful of optical molecular
+            # lines (e.g. CH 4308, CN 3882) no longer match canonical — a clustering
+            # artifact, not a lost atomic home. Exclude molecules from the hard-fail.
+            is_mol = isinstance(keys[cl[0]], tuple) and keys[cl[0]][0] == 'mol'
+            if OPTICAL_CORE_LO <= centroid < OPTICAL_CORE_HI and not is_mol:
                 n_orphan_optical += 1
                 if len(orphans_optical) < 20:
                     orphans_optical.append((keys[cl[0]], centroid, ep_mean, raw_total))

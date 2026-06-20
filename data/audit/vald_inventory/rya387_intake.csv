@@ -1,0 +1,6 @@
+asset,req_lo_A,req_hi_A,actual_lo_A,actual_hi_A,n_selected_hdr,n_data_lines,n_processed,coverage_frac,max_gap_frac,span_ok,all_delivered,truncated,min_depth,vmicro,applied_MH,struct_grid_MH,hfs_tag_count,hfs_prone_species,n_elements,hfs,threshold_389,verdict
+vald_solar_fuv_1150_2000_hfson_raw.txt,1150.0,2000.0,1150.26,1999.97,42886,42886,159454,0.9997,0.0016,True,True,False,0.001,1.0,0.0,0.0,12408,"Ba,Co,Cu,Mn,Sc,V",51,ON,ACCEPT (eff=0.001),ACCEPT
+vald_solar_nearuv_2000_3780_hfson_raw.txt,2000.0,3780.0,2000.01,3780.0,161526,161526,2386002,1.0,0.0002,True,True,False,0.001,1.0,0.0,0.0,93560,"Ba,Co,Cu,Eu,La,Mn,Nb,Nd,Pr,Sc,V",76,ON,ACCEPT (eff=0.001),ACCEPT
+vald_solar_redopt_6910_9500_hfson_raw.txt,6910.0,9500.0,6910.15,9499.89,14352,14352,9029212,0.9999,0.0014,True,True,False,0.001,1.0,0.0,0.0,5746,"Ba,Co,Cu,Eu,La,Mn,Nd,Pr,Sc,V",45,ON,ACCEPT (eff=0.001),ACCEPT
+vald_solar_ir_9500_17000_hfson_raw.txt,9500.0,17000.0,9500.35,16998.46,16793,16793,9148282,0.9997,0.001,True,True,False,0.001,1.0,0.0,0.0,5122,"Ba,Co,Cu,Eu,Mn,Sc,V",40,ON,ACCEPT (eff=0.001),ACCEPT
+vald_solar_ir_17000_25000_hfson_raw.txt,17000.0,25000.0,17000.57,24997.99,9968,9968,2801064,0.9997,0.0017,True,True,False,0.001,1.0,0.0,0.0,2542,"Co,Cu,Mn,Sc,V",27,ON,ACCEPT (eff=0.001),ACCEPT
