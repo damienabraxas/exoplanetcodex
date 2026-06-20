@@ -1,0 +1,73 @@
+{
+  "linelist": "linelist_solar.csv",
+  "assembled_by": "RYA-387",
+  "supersedes": "RYA-381 0.05 non-optical wings",
+  "date": "2026-06-20",
+  "total_lines": 354496,
+  "span_A": [
+    1150.25622,
+    24997.9922
+  ],
+  "DETECTION_THRESHOLD": "HOMOGENEOUS 0.001 throughout (optical core + all non-optical wings). The RYA-381 depth heterogeneity (0.05 wings vs 0.001 core) is RESOLVED.",
+  "sources": [
+    {
+      "file": "vald_solar_raw.txt",
+      "req_lo_A": 3780.0,
+      "req_hi_A": 6910.0,
+      "n_lines": 108971,
+      "detection_threshold": 0.001,
+      "hfs": "on",
+      "params": "solar (existing optical core, preserved verbatim)"
+    },
+    {
+      "file": "vald_solar_fuv_1150_2000_hfson_raw.txt",
+      "vald_id": "RyanSchmitt.019704",
+      "req_lo_A": 1150.0,
+      "req_hi_A": 2000.0,
+      "n_lines": 42886,
+      "detection_threshold": 0.001,
+      "hfs": "on",
+      "params": "solar (Teff 5772, logg 4.438, vmic 1.0; [M/H]=0.00) [config/stars.yaml]"
+    },
+    {
+      "file": "vald_solar_nearuv_2000_3780_hfson_raw.txt",
+      "vald_id": "RyanSchmitt.019705",
+      "req_lo_A": 2000.0,
+      "req_hi_A": 3780.0,
+      "n_lines": 161526,
+      "detection_threshold": 0.001,
+      "hfs": "on",
+      "params": "solar (Teff 5772, logg 4.438, vmic 1.0; [M/H]=0.00) [config/stars.yaml]"
+    },
+    {
+      "file": "vald_solar_redopt_6910_9500_hfson_raw.txt",
+      "vald_id": "RyanSchmitt.019706",
+      "req_lo_A": 6910.0,
+      "req_hi_A": 9500.0,
+      "n_lines": 14352,
+      "detection_threshold": 0.001,
+      "hfs": "on",
+      "params": "solar (Teff 5772, logg 4.438, vmic 1.0; [M/H]=0.00) [config/stars.yaml]"
+    },
+    {
+      "file": "vald_solar_ir_9500_17000_hfson_raw.txt",
+      "vald_id": "RyanSchmitt.019707",
+      "req_lo_A": 9500.0,
+      "req_hi_A": 17000.0,
+      "n_lines": 16793,
+      "detection_threshold": 0.001,
+      "hfs": "on",
+      "params": "solar (Teff 5772, logg 4.438, vmic 1.0; [M/H]=0.00) [config/stars.yaml]"
+    },
+    {
+      "file": "vald_solar_ir_17000_25000_hfson_raw.txt",
+      "vald_id": "RyanSchmitt.019708",
+      "req_lo_A": 17000.0,
+      "req_hi_A": 25000.0,
+      "n_lines": 9968,
+      "detection_threshold": 0.001,
+      "hfs": "on",
+      "params": "solar (Teff 5772, logg 4.438, vmic 1.0; [M/H]=0.00) [config/stars.yaml]"
+    }
+  ]
+}
