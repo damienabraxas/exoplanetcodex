@@ -380,36 +380,23 @@ def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Pat
     return sof
 
 
-def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFrame:
-    """esorex molecfit_model on the CO-overtone order(s); divide by the fitted
-    convolved telluric transmission (BEST_FIT_MODEL.mtrans) — saturated cores masked.
-
-    Sets frame.telluric_corrected and stashes per-segment corrected flux +
-    telluric diagnostics on the segment. Uses molecfit_model's mtrans directly (the
-    convolved transmission over the science grid), which avoids the calctrans
-    chip-mapping step for a single order.
-
-    NOTE (RYA-373 finding): on a reflected-SOLAR target the spectrum is solar-line-
-    rich, so molecfit's continuum cannot model the solar lines and a blanket fit
-    residual conflates the (wanted) solar spectrum with telluric misfit — the
-    telluric-residual metric must be telluric-line-specific. The corrected flux and
-    the model transmission are returned for that downstream verification.
-    """
+def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
+                      molecules) -> dict:
+    """Run esorex molecfit_model on ONE arbitrary segment (TOPOCENTRIC) and divide by
+    the fitted convolved transmission (BEST_FIT_MODEL.mtrans, saturated cores masked).
+    Returns {lam_A, corr, mtrans, flux_raw, gdas, resid} — does NOT mutate the frame
+    (reused for both the CO order and the bluer RV-anchor order). Real GDAS profile
+    (RYA-380 mechanic). No silent fallback — raises on a molecfit failure."""
     import os
     from astropy.io import fits
     esorex = _ESOREX if Path(_ESOREX).exists() else shutil.which("esorex")
     if esorex is None:
         raise MolecfitNotAvailableError("esorex not found (RYA-375 install expected at "
                                         f"{_ESOREX}).")
-    seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
-    if seg is None:
-        raise RuntimeError(f"{frame.path.name}: CO(2-0) bandhead not on-chip — nothing "
-                           f"to telluric-correct in this frame.")
     in_dir = Path(work_dir) / 'in'
     out_dir = Path(work_dir) / 'out'
     out_dir.mkdir(parents=True, exist_ok=True)
     sof = _write_molecfit_inputs(frame, seg, in_dir, molecules)
-
     gdas = _nearest_gdas(frame.mjd, in_dir)    # real 3-hourly GDAS for the obs MJD
     env = dict(os.environ, PATH=f"/opt/homebrew/bin:{os.environ.get('PATH', '')}")
     cmd = [esorex, f"--output-dir={out_dir}", "molecfit_model",
@@ -418,15 +405,13 @@ def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFra
            "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}"]
     cmd += [f"--GDAS_PROFILE={gdas}"] if gdas else []
     cmd += [str(sof)]
-    proc = subprocess.run(cmd, cwd=str(in_dir), env=env,
-                          capture_output=True, text=True)
+    proc = subprocess.run(cmd, cwd=str(in_dir), env=env, capture_output=True, text=True)
     bfm = out_dir / 'BEST_FIT_MODEL.fits'
     if proc.returncode != 0 or not bfm.exists():
         tail = "\n".join(l for l in proc.stdout.splitlines()
                          if 'ERROR' in l and 'gdas' not in l.lower())[-1500:]
         raise RuntimeError(f"molecfit_model failed (rc={proc.returncode}) on "
-                           f"{frame.path.name}:\n{tail}")
-
+                           f"{frame.path.name} seg ord{seg.order}/det{seg.detector}:\n{tail}")
     m = fits.open(bfm)[1].data
     lam_A = m['lambda'] * 1.0e4
     mtrans = m['mtrans']
@@ -434,22 +419,29 @@ def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFra
     ok = np.isfinite(fl) & np.isfinite(mtrans) & (mtrans > _MTRANS_FLOOR)
     corr = np.full_like(fl, np.nan)
     corr[ok] = fl[ok] / mtrans[ok]
-    # telluric-line-specific residual: scatter of corrected/continuum where the model
-    # has MODERATE telluric absorption (0.3–0.95) — the cleanest available proxy
-    # (deep cores are masked; solar lines still contribute, hence reported not gated).
     cont = continuum_normalize(lam_A, corr)
     modtell = ok & (mtrans < 0.95) & (mtrans > 0.30)
     resid = float(np.nanstd(cont[modtell])) if modtell.any() else np.nan
+    return {'lam_A': lam_A, 'corr': corr, 'mtrans': mtrans, 'flux_raw': fl,
+            'gdas': (Path(gdas).name if gdas else 'standard-profile (no GDAS)'),
+            'resid': resid}
 
-    seg.wave_A = lam_A                          # molecfit grid (Å)
-    seg.flux = corr                             # telluric-corrected flux
-    seg._mtrans = mtrans                        # model transmission (for downstream verify)
-    seg._flux_raw = fl                          # pre-correction flux (for the D1 gate)
+
+def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFrame:
+    """Telluric-correct the CO-overtone order (the science order) and set the frame
+    state. Thin wrapper over _molecfit_segment on the CO bandhead segment."""
+    seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
+    if seg is None:
+        raise RuntimeError(f"{frame.path.name}: CO(2-0) bandhead not on-chip — nothing "
+                           f"to telluric-correct in this frame.")
+    r = _molecfit_segment(frame, seg, work_dir, molecules)
+    seg.wave_A = r['lam_A']; seg.flux = r['corr']
+    seg._mtrans = r['mtrans']; seg._flux_raw = r['flux_raw']
     frame.telluric_corrected = True
-    frame._telluric_residual = resid            # blanket proxy (legacy; see D1 gate)
-    frame._telluric_mtrans_max = float(np.nanmax(mtrans))
+    frame._telluric_residual = r['resid']       # blanket proxy (legacy; see D1 gate)
+    frame._telluric_mtrans_max = float(np.nanmax(r['mtrans']))
     frame._molecules = tuple(molecules)
-    frame._gdas = (Path(gdas).name if gdas else 'standard-profile (no GDAS)')
+    frame._gdas = r['gdas']
     return frame
 
 
@@ -523,6 +515,13 @@ def _load_reflected_solar_rv():
 # air-vac mis-handling signature → loud-fail (never inject 83 km/s silently).
 _RV_PHYSICAL_MAX = 50.0          # km/s — beyond this = air-vac mis-convert, loud-fail
 _TELLURIC_CLOSURE_MAX = 3.0      # km/s — telluric (topocentric) must close to ~0
+# Closure of the MEASURED reflected RV against the Horizons ephemeris cross-check.
+# RYA-372 found the IDP frames are not always header-honest (measured ≠ two-leg
+# Horizons by up to ~tens of km/s for the optical S1D frames); CRIRES is raw EXTRACTC
+# TOPOCENT, so the measured solar RV should track Horizons more closely, but allow
+# generous slack for the leg-2 projection + IDP frame term. 10 km/s catches gross
+# errors (air-vac, wrong line ID) while admitting the known measured-vs-Horizons gap.
+_HORIZONS_CLOSURE_MAX = 10.0     # km/s
 _ANCHOR_DEPTH_MIN = 0.08         # central-depth floor for a usable RV anchor line
 _ANCHOR_ISOLATION_A = 0.35       # Å — no comparable neighbour within this → unblended
 
@@ -597,57 +596,103 @@ def _ccf_velocity(wave_A, obs_abs, model_abs, vmax=25.0, dv=0.3) -> float:
     return float(vs[k])
 
 
-def rv_condition(frame: CriresFrame, work_dir: Path = None) -> CriresFrame:
-    """Shift the telluric-corrected CO order to the solar rest frame. The reflected RV
-    is MEASURED off K-band solar lines via the RYA-372 single-source velocity module
-    (measure_bulk_velocity) — anchors curated here, wavelengths resolved from the
-    canonical solar line list and air→vac-converted at the boundary (guardrail 1+2).
-    A telluric-anchor closure (tellurics = topocentric rest) verifies the wavelength
-    zero-point. Loud-fails on the air-vac mis-handling signature (guardrail 2).
+def _best_rv_segment(frame: CriresFrame, min_anchors: int = 5) -> tuple:
+    """Pick the best frame segment for the frame-level reflected-RV measurement — NOT
+    the CO bandhead order (CO-band-dominated, atomic cores too shallow; RYA-373). Among
+    orders with ≥min_anchors isolated solar atomic anchors, pick the HIGHEST raw SNR:
+    telluric division roughly triples the per-pixel noise, so a high-raw-SNR, less-
+    telluric order yields more clean cores than the line-richest (but bluest/telluric-
+    saturated) order. Returns (segment, anchors_dict). Raises if none qualifies."""
+    co = frame.segment_at(CO_2_0_BANDHEAD_NM)
+    cands = []
+    for s in frame.segments:
+        if s is co:
+            continue
+        lo, hi = float(np.nanmin(s.wave_A)), float(np.nanmax(s.wave_A))
+        if not np.isfinite(lo) or hi - lo < 1.0:
+            continue
+        anc = _solar_rv_anchors(lo, hi)
+        if len(anc['air']) < min_anchors:
+            continue
+        with np.errstate(invalid='ignore', divide='ignore'):
+            snr = float(np.nanmedian(s.flux / s.err)) if np.any(np.isfinite(s.err)) else 0.0
+        cands.append((snr, len(anc['air']), s, anc))
+    if not cands:
+        raise RuntimeError(
+            f"{frame.path.name}: no non-CO order has ≥{min_anchors} isolated solar "
+            f"atomic anchors — cannot measure the frame RV.")
+    cands.sort(key=lambda c: -c[0])             # highest raw SNR first
+    _, _, best, best_anc = cands[0]
+    return best, best_anc
 
-    Refuses a non-telluric-corrected frame (permanent rule)."""
+
+def measure_frame_rv(frame: CriresFrame, work_dir: Path, molecules) -> dict:
+    """Measure the frame-level reflected RV from a CLEAN bluer K order (not the CO
+    band). Telluric-correct that order, then measure the solar bulk velocity via the
+    RYA-372 module on its air→vac anchors (resolved from the canonical list). Asserts
+    (guardrails): air-vac (|v|<±50 = the ~83 km/s signature), telluric-anchor closure
+    (tellurics at topocentric rest), AND closure vs the Horizons reflected RV. Returns
+    {v, n, seg_id, closure_kms, horizons, anchor_src}."""
+    rrv = _load_reflected_solar_rv()
+    rv_seg, anchors = _best_rv_segment(frame)
+    r = _molecfit_segment(frame, rv_seg, Path(work_dir) / f"rv_ord{rv_seg.order}_{rv_seg.detector}",
+                          molecules)
+    anchors_vac = list(_air_to_vac(anchors['air']))        # ← air→vac BOUNDARY
+    res = rrv.measure_bulk_velocity(r['lam_A'], r['corr'], lines=anchors_vac)
+    v = res.get('v_med', np.nan)
+    if not np.isfinite(v):
+        raise RuntimeError(
+            f"{frame.path.name}: frame-RV INSUFFICIENT on the clean order "
+            f"ord{rv_seg.order}/det{rv_seg.detector} (n_used={res.get('n_used')}/"
+            f"{len(anchors_vac)}).")
+    # guardrail 2a — air-vac loud-fail (|v|≳50 = the ~83 km/s @ 2.3 µm signature)
+    if abs(v) > _RV_PHYSICAL_MAX:
+        raise AssertionError(
+            f"{frame.path.name}: measured RV {v:+.1f} km/s beyond the physical Vesta "
+            f"band (±{_RV_PHYSICAL_MAX}) — air↔vac (~83 km/s) boundary mis-handled.")
+    # guardrail 2b — telluric-anchor closure (zero-point ~0, topocentric)
+    cont_raw = continuum_normalize(r['lam_A'], r['flux_raw'])
+    closure = _ccf_velocity(r['lam_A'], 1.0 - cont_raw, 1.0 - r['mtrans'])
+    if np.isfinite(closure) and abs(closure) > _TELLURIC_CLOSURE_MAX:
+        raise AssertionError(
+            f"{frame.path.name}: telluric-anchor closure {closure:+.2f} km/s > "
+            f"{_TELLURIC_CLOSURE_MAX} — wavelength zero-point off (tellurics should be "
+            f"at topocentric rest).")
+    # NEW guardrail — closure vs Horizons reflected RV (cross-check, RYA-372 module).
+    hz = rrv.reflected_solar_rv(frame.mjd)['v_total']
+    if abs(v - hz) > _HORIZONS_CLOSURE_MAX:
+        raise AssertionError(
+            f"{frame.path.name}: measured RV {v:+.2f} km/s disagrees with Horizons "
+            f"{hz:+.2f} by {abs(v-hz):.1f} > {_HORIZONS_CLOSURE_MAX} km/s — the "
+            f"reflected-RV measurement does not close against the ephemeris.")
+    return {'v': float(v), 'n': int(res.get('n_used', 0)),
+            'seg_id': f"ord{rv_seg.order}/det{rv_seg.detector}",
+            'seg_range_A': (float(np.nanmin(r['lam_A'])), float(np.nanmax(r['lam_A']))),
+            'closure_kms': float(closure) if np.isfinite(closure) else None,
+            'horizons': float(hz), 'anchor_src': anchors['source'], 'gdas': r['gdas']}
+
+
+def rv_condition(frame: CriresFrame, work_dir: Path = None) -> CriresFrame:
+    """Shift the telluric-corrected CO order to the solar rest frame using the
+    FRAME-LEVEL reflected RV measured off a clean bluer K order (measure_frame_rv).
+    The RV is a frame property, so it is measured where clean solar atomic cores exist
+    (not the CO band) and applied to the CO order. Refuses a non-telluric-corrected
+    frame (permanent rule)."""
     if not frame.telluric_corrected:
         raise TelluricNotCorrectedError(
             f"{frame.path.name}: refusing to RV-condition a frame whose telluric "
             f"correction is not verified (telluric_corrected=False). Telluric first.")
-    rrv = _load_reflected_solar_rv()
+    _load_reflected_solar_rv()        # 372 engine must be present (fail loud, never faked)
+    rv = measure_frame_rv(frame, work_dir, frame._molecules)
     seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
-    lo, hi = float(np.nanmin(seg.wave_A)), float(np.nanmax(seg.wave_A))
-
-    anchors = _solar_rv_anchors(lo, hi)
-    if len(anchors['air']) < 2:
-        raise RuntimeError(f"{frame.path.name}: <2 isolated solar RV anchors in the CO "
-                           f"order [{lo:.0f},{hi:.0f}] Å — cannot condition RV.")
-    anchors_vac = list(_air_to_vac(anchors['air']))       # ← air→vac BOUNDARY
-
-    res = rrv.measure_bulk_velocity(seg.wave_A, seg.flux, lines=anchors_vac)
-    v = res.get('v_med', np.nan)
-    if not np.isfinite(v):
-        raise RuntimeError(f"{frame.path.name}: RV measurement INSUFFICIENT "
-                           f"(n_used={res.get('n_used')}/{len(anchors_vac)} anchors).")
-    # guardrail 2 — air-vac loud-fail: a physical Vesta reflected RV is |v|≲33 km/s;
-    # an unconverted/wrong-direction air-vac handling shows up as ~±83 km/s.
-    if abs(v) > _RV_PHYSICAL_MAX:
-        raise AssertionError(
-            f"{frame.path.name}: measured reflected RV {v:+.1f} km/s exceeds the "
-            f"physical Vesta band (±{_RV_PHYSICAL_MAX}) — the air↔vac (~83 km/s @ "
-            f"2.3 µm) boundary is mis-handled. Refusing (no silent 83 km/s).")
-
-    # telluric-anchor closure (zero-point): observed telluric absorption vs model
-    cont_raw = continuum_normalize(seg.wave_A, getattr(seg, '_flux_raw', seg.flux))
-    closure = _ccf_velocity(seg.wave_A, 1.0 - cont_raw, 1.0 - seg._mtrans)
-    if np.isfinite(closure) and abs(closure) > _TELLURIC_CLOSURE_MAX:
-        raise AssertionError(
-            f"{frame.path.name}: telluric-anchor closure {closure:+.2f} km/s > "
-            f"{_TELLURIC_CLOSURE_MAX} — wavelength zero-point is off (the tellurics "
-            f"should sit at topocentric rest). Refusing.")
-
-    seg.wave_A = seg.wave_A / (1.0 + v / _C_KMS)          # → solar rest frame
+    seg.wave_A = seg.wave_A / (1.0 + rv['v'] / _C_KMS)     # → solar rest frame
     frame.rest_frame = True
-    frame._rv_refl = float(v)
-    frame._rv_n_anchors = int(res.get('n_used', 0))
-    frame._rv_anchor_src = anchors['source']
-    frame._telluric_closure_kms = float(closure) if np.isfinite(closure) else None
+    frame._rv_refl = rv['v']
+    frame._rv_n_anchors = rv['n']
+    frame._rv_seg = rv['seg_id']
+    frame._rv_anchor_src = rv['anchor_src']
+    frame._telluric_closure_kms = rv['closure_kms']
+    frame._rv_horizons = rv['horizons']
     return frame
 
 
@@ -702,6 +747,45 @@ def coadd_co(frames: list, step_A: float = 0.05) -> dict:
 
 
 # ── Conditioned-product output + provenance (PROVISIONAL, two gaps) ───────────
+def write_frame_product(frame: CriresFrame, out_dir: Path, gate_residual: float,
+                        rv_status: str) -> Path:
+    """Persist ONE frame's telluric-corrected + D1-gated + continuum-normalized CO
+    order. This is the per-frame deliverable that is achievable regardless of whether
+    the rest-frame coadd completes — it is honestly NOT rest-frame unless the reflected
+    RV was measured (RESTFRM reflects that). Marked PROVISIONAL (same two gaps as the
+    coadd) and tagged with the RV status so a sub-floor-SNR frame can never be mistaken
+    for a science-grade rest-frame product."""
+    from astropy.io import fits
+    out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+    seg = frame.segment_at(CO_2_0_BANDHEAD_NM)
+    rest = bool(getattr(frame, 'rest_frame', False))
+    ph = fits.PrimaryHDU(); h = ph.header
+    h['RYA'] = 'RYA-373'
+    h['PROVIS'] = (True, 'PROVISIONAL - not for published abundance')
+    h['GAP1'] = 'FTS solar IR atlas (RYA-162) absent - telluric-gate final cal pending'
+    h['GAP2'] = 'revalidate after RYA-387 0.001 re-extraction (anchors from RYA-381)'
+    h['TELL'] = ('molecfit', 'ESO molecfit (esorex), topocentric, H2O+CH4+CO2')
+    h['CONTNORM'] = (True, 'continuum-normalized CO order')
+    h['RESTFRM'] = (rest, 'shifted to solar rest (only if reflected RV measured)')
+    h['SPECSYS'] = ('TOPOCENT' if not rest else 'reflected-solar-rest')
+    h['WLEN'] = frame.wlen_id
+    h['GDAS'] = getattr(frame, '_gdas', '?')
+    h['GATE'] = (round(gate_residual, 4), 'D1 telluric-specific residual')
+    h['SNRFRAME'] = (round(frame.snr, 1), 'per-frame SNR (coarse; < floor)')
+    h['RVSTATUS'] = (rv_status.encode('ascii', 'replace').decode()[:68],
+                     'reflected-RV measurement status')  # FITS comments are ASCII-only
+    if rest:
+        h['RVREFL'] = (round(getattr(frame, '_rv_refl', float('nan')), 3), 'reflected RV km/s')
+    tab = fits.BinTableHDU.from_columns([
+        fits.Column(name='wave_A', format='1D', array=seg.wave_A),
+        fits.Column(name='flux_norm', format='1D', array=seg.flux),
+        fits.Column(name='err', format='1D', array=seg.err)], name='CO_ORDER')
+    tag = 'rest' if rest else 'topocent'
+    out = out_dir / f'vesta_crires_K_CO_{frame.wlen_id}_{tag}_PROVISIONAL.fits'
+    fits.HDUList([ph, tab]).writeto(out, overwrite=True)
+    return out
+
+
 def write_conditioned(coadd: dict, frames: list, out_dir: Path,
                       gate_residuals: dict) -> Path:
     """Write the conditioned, continuum-normalized, rest-frame, coadded CO spectrum +
@@ -714,8 +798,8 @@ def write_conditioned(coadd: dict, frames: list, out_dir: Path,
     ph = fits.PrimaryHDU()
     h = ph.header
     h['RYA'] = 'RYA-373'
-    h['PROVIS'] = (True, 'PROVISIONAL — not for published abundance')
-    h['GAP1'] = 'FTS solar IR atlas (RYA-162) absent — telluric-gate final cal pending'
+    h['PROVIS'] = (True, 'PROVISIONAL - not for published abundance')
+    h['GAP1'] = 'FTS solar IR atlas (RYA-162) absent - telluric-gate final cal pending'
     h['GAP2'] = 'revalidate after RYA-387 0.001 re-extraction (anchors from RYA-381)'
     h['TELL'] = ('molecfit', 'ESO molecfit (esorex), topocentric, H2O+CH4+CO2')
     h['CONTNORM'] = (True, 'continuum-normalized CO order')
@@ -746,7 +830,7 @@ def condition_co_arm(out_dir: Path = None, work_root: Path = Path('/tmp/rya373_c
     out_dir = Path(out_dir) if out_dir else (
         Path(str(PATHS['linelist_solar'])).parents[1] / 'audit' / 'crires_co_conditioned')
     frames = co_overtone_frames(on_chip_only=True)       # K2192, K2217 (¹²CO 2-0)
-    gate_res, rv_status, done = {}, {}, []
+    gate_res, rv_status, done, frame_products = {}, {}, [], {}
     for f in frames:
         run_molecfit_telluric(f, work_root / f.wlen_id, molecules=TELLURIC_MOLECULES)
         g = telluric_residual_gate(f, rv_kms=0.0)
@@ -764,24 +848,37 @@ def condition_co_arm(out_dir: Path = None, work_root: Path = Path('/tmp/rya373_c
         except (RuntimeError, AssertionError) as exc:
             rv_status[f.wlen_id] = f'RV-INSUFFICIENT: {exc}'
             print(f"  [rv] {f.wlen_id}: {exc}")
+        # ALWAYS persist the achievable per-frame product (telluric + D1-gate +
+        # continuum-norm). It is rest-frame only if the RV measured above; otherwise
+        # written TOPOCENT and tagged RV-INSUFFICIENT — never lost, never overstated.
+        frame_products[f.wlen_id] = str(
+            write_frame_product(f, out_dir, gate_res[f.wlen_id], rv_status[f.wlen_id]))
 
     result = {'frames': [f.wlen_id for f in frames], 'gate_residuals': gate_res,
-              'rv_status': rv_status, 'telluric_corrected': True}
-    if len(done) >= 2:
-        coadd = coadd_co(done)
+              'rv_status': rv_status, 'telluric_corrected': True,
+              'frame_products': frame_products}
+    missing = [f.wlen_id for f in frames if f not in done]
+    if done:
+        coadd = coadd_co(done)                            # ≥2 → coadd; 1 → single-frame
         result['output'] = str(write_conditioned(coadd, done, out_dir, gate_res))
+        result['n_coadded'] = coadd['n_frames']
         result['coadd_snr'] = coadd['snr_coadd']
         result['rv_refl'] = {f.wlen_id: f._rv_refl for f in done}
+        result['rv_horizons'] = {f.wlen_id: f._rv_horizons for f in done}
+        result['rv_seg'] = {f.wlen_id: f._rv_seg for f in done}
+        if len(done) < 2:
+            result['PARTIAL'] = (f"single-frame product ({done[0].wlen_id}); the 2-frame "
+                                 f"coadd is blocked — {missing} RV-INSUFFICIENT (frame SNR "
+                                 f"below floor; no order yields MIN_LINES clean cores).")
     else:
         result['output'] = None
         result['DATA_GAP'] = (
-            "reflected RV not reliably measurable from the CO order on "
-            f"{[f.wlen_id for f in frames if f.wlen_id not in [d.wlen_id for d in done]]} "
-            "(CO-band-dominated, sub-floor SNR → clean atomic anchors too shallow; "
-            "deep features are CO, not the atomic core). Telluric-corrected + D1-gated + "
-            "continuum-normalized products ARE produced per frame; the rest-frame coadd "
-            "needs the reflected RV measured from a clean-atomic-line order (resume point) "
-            "or a higher-|RV| epoch (Decision 2).")
+            f"reflected RV not measurable on {missing}: sub-floor SNR — no K order (CO or "
+            "clean bluer) yields MIN_LINES=5 clean solar cores after telluric division "
+            "(coarse RV is Horizons-consistent, but the fine measurement does not reach "
+            "standard). Telluric-corrected + D1-gated + continuum-normalized products ARE "
+            "produced per frame; the rest-frame coadd needs a higher-SNR / higher-|RV| "
+            "epoch (Decision 2, Ryan-side data task).")
     return result
 
 
