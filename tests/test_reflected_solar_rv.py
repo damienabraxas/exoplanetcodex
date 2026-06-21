@@ -8,6 +8,8 @@ the Horizons-cache path, and the status logic. The full per-frame conditioning i
 exercised by the smoke test (`--set vesta_espresso/--verify`, output in the Linear
 comment), which needs the out-of-repo data + Horizons.
 """
+import sys
+
 import numpy as np
 import pytest
 
@@ -88,14 +90,74 @@ class TestRobustMedian:
 class TestEphemerisPath:
     def test_uses_cache_no_network(self):
         # Seed the cache so reflected_solar_rv resolves without hitting Horizons.
+        # RYA-394: key is (mjd, body_key, obs_code); value carries the targetname.
         mjd = 12345.678
-        rsv._HZ_CACHE[(round(mjd, 6), rsv.VESTA_ID, rsv.PARANAL)] = (1.5, 12.0)
-        out = rsv.reflected_solar_rv(mjd)
+        rsv._HZ_CACHE[(round(mjd, 6), 'vesta', rsv.PARANAL)] = (1.5, 12.0, '4 Vesta (A807 FA)')
+        out = rsv.reflected_solar_rv(mjd, 'vesta')
         assert out['v_helio'] == 1.5 and out['v_obs'] == 12.0
         assert out['v_total'] == pytest.approx(13.5)    # two-leg sum
+        assert 'Vesta' in out['targetname']
 
-    def test_paranal_obscode(self):
-        assert rsv.PARANAL == '309' and rsv.VESTA_ID == '4'
+    def test_paranal_obscode_and_default_body_key(self):
+        # the default is a registry KEY, never a raw Horizons id (no bare '4'=Mars)
+        assert rsv.PARANAL == '309' and rsv.DEFAULT_BODY == 'vesta'
+        assert not hasattr(rsv, 'VESTA_ID')
+
+
+class TestBodyIDGuard:
+    """RYA-394 — the body-ID bug must be structurally impossible."""
+
+    def test_unknown_body_key_raises(self):
+        with pytest.raises(rsv.BodyIDError):
+            rsv.reflected_solar_rv(60000.0, 'nibiru')
+
+    def test_raw_horizons_id_rejected(self):
+        # passing a raw id (the old bug surface) is an unknown KEY → BodyIDError,
+        # never a silent Horizons lookup that could return Mars.
+        with pytest.raises(rsv.BodyIDError):
+            rsv.reflected_solar_rv(60000.0, '4')
+
+    def test_registry_matches_intended_bodies(self):
+        from config.constants import REFLECTED_SOLAR_BODIES as REG
+        assert REG['vesta']['id_type'] == 'smallbody' and REG['vesta']['match'] == 'Vesta'
+        assert REG['iris']['id_type'] == 'smallbody'
+        assert REG['ganymede']['id'] == '503' and REG['ganymede']['id_type'] is None
+
+    def test_guard_raises_on_target_mismatch(self, monkeypatch):
+        # simulate Horizons resolving 'vesta' to Mars Barycenter → guard must loud-fail
+        import types
+
+        class _Eph:
+            def __getitem__(self, k):
+                return {'targetname': ['Mars Barycenter (4)'],
+                        'r_rate': [2.3], 'delta_rate': [-3.3]}[k]
+
+        class _H:
+            def __init__(self, *a, **k):
+                pass
+
+            def ephemerides(self):
+                return _Eph()
+
+        monkeypatch.setitem(sys.modules, 'astroquery.jplhorizons',
+                            types.SimpleNamespace(Horizons=_H))
+        rsv._HZ_CACHE.clear()
+        with pytest.raises(rsv.BodyIDError):
+            rsv.reflected_solar_rv(60001.234, 'vesta')
+
+
+class TestRestFrameAssert:
+    """RYA-394 — the closed loop that was left report-only."""
+
+    def test_assert_passes_within_tol(self):
+        rsv.assert_rest_frame(0.2, 'test line')          # no raise
+
+    def test_assert_loud_fails_off_rest(self):
+        with pytest.raises(rsv.RestFrameError):
+            rsv.assert_rest_frame(25.0, 'Vesta-as-Mars line')   # the Mars-swap signature
+
+    def test_nonfinite_is_not_a_rest_failure(self):
+        rsv.assert_rest_frame(float('nan'), 'unmeasurable')      # insufficient ≠ off-rest
 
 
 def _write_fits(tmp_path, pro_catg, instrument='ESPRESSO', wave_air=None):
