@@ -125,6 +125,25 @@ def test_real_na_grid_physics():
     assert 0.1 < b.min() < b.max() < 10                   # physical departures
 
 
+@pytest.mark.skipif(_na_grid_path() is None, reason="vendored Na .grd not present (gitignored)")
+def test_level_and_tau_mapping():
+    g = bf.read_amarsi_grid('Na')
+    assert g.level_for_energy(2.102) in (1, 2)            # Na I 3p
+    assert g.level_for_energy(4.283) in range(9, 15)      # Na I 4d
+    with pytest.raises(ValueError):
+        g.level_for_energy(99.0)
+    tau = g.node_tau(5772, 4.44, 0.0)
+    assert tau.shape == (56,) and tau.min() < 0.01 < tau.max()
+
+
+@pytest.mark.skipif(_na_grid_path() is None, reason="vendored Na .grd not present (gitignored)")
+def test_stop_gate_fires_on_shortcut():
+    """The guard MUST refuse the departure-only shortcut: it gives ~-0.01, the anchor
+    is -0.107, so validate_against raises (no tuning to the anchor, no Al/K from it)."""
+    with pytest.raises(RuntimeError, match="STOP-gate"):
+        bf.validate_against('Na')
+
+
 # ── b-factor -> delta extraction (pure math) ─────────────────────────────────
 
 def test_delta_recovers_known_shift_identity_cog():
