@@ -36,6 +36,21 @@ the CO first-overtone (Δv=2) region for the ¹³C/¹⁸O arm.
   (README); intensities are not continuous file-to-file. The `atmospheric`/`total`
   columns are the unaltered observed/telluric.
 
+## Part B — three-way validation (`pipeline/co_validation_rya390.py`)
+The validation harness consuming these atlases. Run: `python -m pipeline.co_validation_rya390`
+→ `data/audit/crires_co_conditioned/rya390_co_validation.json`. **All comparisons are in
+VACUUM** (CRIRES IDP / molecfit `WAVELENGTH_FRAME=VAC`); the conditioned CO is topocentric
++ RV-insufficient, so the solar checks cross-correlate to measure the reflected-solar
+velocity first.
+
+**Finding on RYA-373's provisional conditioned CO** (snapshot `data/audit/crires_co_conditioned/
+vesta_crires_K_CO_K21{92,17}_topocent_PROVISIONAL.fits`): both settings are
+**TELLURIC-DOMINATED** — the "corrected" product correlates **0.92/0.86 with the telluric
+atlas at v≈0** but only ~0.15–0.21 with the solar atlases → telluric removal incomplete,
+re-run RYA-373. The telluric-reference cross-check (Wallace vs photatl atmospheric) agrees
+at **0.99**, validating the atlases + machinery. Check 2 (molecfit telluric vs Wallace) is
+**BLOCKED** until RYA-373 persists the molecfit transmission (`mtrans`) in the product.
+
 ## Raw atlases (large, not in git)
 `<repo-parent>/data/spectra/exoplanetcodex-data/Solar Calibration/IR Reference Atlases/`
 — `ACE-FTS/` (ace-solar-spectrum.txt 16 MB + line lists), `NSO_photatl/` (wn4250–wn4350
