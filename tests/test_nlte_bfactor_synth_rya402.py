@@ -137,11 +137,14 @@ def test_level_and_tau_mapping():
 
 
 @pytest.mark.skipif(_na_grid_path() is None, reason="vendored Na .grd not present (gitignored)")
-def test_stop_gate_fires_on_shortcut():
-    """The guard MUST refuse the departure-only shortcut: it gives ~-0.01, the anchor
-    is -0.107, so validate_against raises (no tuning to the anchor, no Al/K from it)."""
-    with pytest.raises(RuntimeError, match="STOP-gate"):
-        bf.validate_against('Na')
+def test_shortcut_is_inadequate():
+    """The departure-only shortcut is DOCUMENTED-INADEQUATE: it gives ~-0.01 for the
+    Na lines, nowhere near the -0.107 anchor — which is why we use full PySME
+    synthesis (pipeline.pysme_nlte), validated to reproduce -0.107, instead."""
+    g = bf.read_amarsi_grid('Na')
+    ests = [bf.shortcut_delta_estimate(g, (5682.633, 2.102, 4.284), 5772, 4.44, 0.0),
+            bf.shortcut_delta_estimate(g, (5688.205, 2.104, 4.283), 5772, 4.44, 0.0)]
+    assert abs(np.median(ests)) < 0.03                  # ~-0.01: far from the -0.107 anchor
 
 
 # ── b-factor -> delta extraction (pure math) ─────────────────────────────────

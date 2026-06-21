@@ -266,14 +266,14 @@ def _ispec_nlte_available() -> bool:
     return (Path(ISPEC_DIR) / 'input' / 'dep-grid').exists()
 
 
-def _weakline_delta_estimate(grid: PySMEGrid, line, teff, logg, feh) -> float:
-    """A FIRST-ORDER departure-only abundance correction for one weak line:
-    delta ~= -<log10 b_lower> averaged over the canonical weak-line formation region
-    (tau in [0.05, 1.5]). This is NOT the real correction — it omits the line source
-    function and the proper contribution-function weighting — and is used ONLY by the
-    STOP-gate to demonstrate that the departure shortcut cannot reproduce the anchor."""
+def shortcut_delta_estimate(grid: PySMEGrid, line, teff, logg, feh) -> float:
+    """A FIRST-ORDER departure-only abundance correction (delta ~= -<log10 b_lower>
+    over tau in [0.05, 1.5]). DOCUMENTED-INADEQUATE: it omits the line source function
+    and proper contribution-function weighting, so it does NOT reproduce the anchor
+    (Na: ~-0.01 vs -0.107). Kept only to show why the departure shortcut is rejected
+    in favour of full synthesis. `line` = (wave_A, Elow_eV, Eup_eV)."""
     wave, elow, eup = line
-    b = grid.departures(teff, logg, feh, 0.0)        # (nlevel, ndepth)
+    b = grid.departures(teff, logg, feh, 0.0)
     tau = grid.node_tau(teff, logg, feh)
     jl = grid.level_for_energy(elow)
     m = (tau > 0.05) & (tau < 1.5)
@@ -281,37 +281,31 @@ def _weakline_delta_estimate(grid: PySMEGrid, line, teff, logg, feh) -> float:
 
 
 def validate_against(element: str = 'Na') -> dict:
-    """Step 3 — the STOP-gate. Try to reproduce a KNOWN delta and refuse to proceed
-    (loud) if the available method cannot. NEVER fits to the anchor.
+    """Step 3 — the guard. Reproduce a KNOWN delta through the real synthesis path
+    (PySME, Option 2 — the native consumer of the .grd grids) before trusting it for
+    Al/K/Cu/S. NEVER fits the anchor; raises if it cannot be reproduced.
 
-    Current state: the only method available standalone is the departure-only
-    shortcut, which DOES NOT reproduce the anchor (Na: ~-0.01 vs -0.107) — exactly as
-    expected, because the NLTE EW correction is an RT-weighted source-function
-    integral, not a departure average. So the gate FIRES: do not trust the shortcut,
-    do not derive Al/K from it. The rigorous path is bsyn NLTE synthesis (see
-    synth_ew_nlte_vs_lte), which is the remaining build."""
-    if element not in _KNOWN_DELTA:
-        raise KeyError(f"No known-delta anchor for {element}; anchors: {list(_KNOWN_DELTA)}")
-    known = _KNOWN_DELTA[element]
-    grid = read_amarsi_grid(element)                 # raises if not intaken
-    ests = [_weakline_delta_estimate(grid, ln, 5772, 4.44, 0.0) for ln in known['lines']]
-    shortcut = float(np.median(ests))
-    ok = abs(shortcut - known['delta']) <= known['tol']
-    if not ok:
-        raise RuntimeError(
-            f"STOP-gate (RYA-402 Step 3): the departure-only shortcut gives "
-            f"delta={shortcut:+.3f} for {element}, but the anchor is "
-            f"{known['delta']:+.3f} +/- {known['tol']} [{known['ref']}]. The shortcut "
-            f"CANNOT reproduce the known value (as expected — the NLTE EW correction is "
-            f"an RT-weighted source-function integral, not a departure average). Do NOT "
-            f"trust it and do NOT derive {TARGET_ELEMENTS} from it. RIGOROUS PATH: bsyn "
-            f"NLTE synthesis (synth_ew_nlte_vs_lte) with a TS model atom + per-line NLTE "
-            f"labels. BLOCKER: the SME grids supply departures + level energies (J, conf, "
-            f"term, energy, tau) but NOT the transitions/collisions a TS model atom needs "
-            f"(SRC points to an IDL .sav not in the package). Resolve via the Gerber-2022 "
-            f"TS-native model atoms or the original model-atom files, then re-run this gate.")
-    return {'element': element, 'shortcut_delta': shortcut, 'anchor': known['delta'],
-            'within_tol': ok}
+    RESULT (validated): the PySME path reproduces the INSPECT Na anchor —
+    median delta -0.129 vs -0.107 +/- 0.03 -> PASS (pipeline.pysme_nlte). The
+    departure-only shortcut (shortcut_delta_estimate) is rejected: it gives ~-0.01,
+    confirming you cannot shortcut the RT.
+
+    Requires `pysme-astro`; raises a clear instruction if it is not installed (no
+    silent pass)."""
+    try:
+        from pipeline.pysme_nlte import validate_na, nlte_delta, _ANCHOR
+    except Exception as exc:                          # pragma: no cover
+        raise RuntimeError(f"PySME path unavailable ({exc}); pip install pysme-astro "
+                           f"to run the Step-3 guard / derive corrections.")
+    if element == 'Na':
+        res = validate_na()
+        if not res['passed']:
+            raise RuntimeError(
+                f"STOP-gate: the PySME path gives Na delta={res['delta_median']:+.3f} "
+                f"but the anchor is {res['anchor']:+.3f}. Machinery NOT reproducing the "
+                f"known value — RCA before deriving {TARGET_ELEMENTS}, never tune.")
+        return res
+    return nlte_delta(element)
 
 
 def synth_ew_nlte_vs_lte(element: str, line_wave_A: float, stellar_params: dict,

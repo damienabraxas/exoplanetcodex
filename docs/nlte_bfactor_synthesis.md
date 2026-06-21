@@ -51,33 +51,44 @@ multi-GB file into RAM). **Format check (the physics):** at the solar node the d
 layers give `b → 1.000` (thermalised to LTE) while the surface departs — verified
 live on the Na grid, and asserted in the tests.
 
-## Validate-don't-tune (the critical Step 3) — the gate is *firing*
+## Validate-don't-tune (the critical Step 3) — PASSED via PySME
 
-Before trusting the path for Al/K, reproduce an **already-known** correction: the
-Na I 3p→4d doublet 5682.633 / 5688.205, INSPECT solar δ ≈ **−0.107**. `python -m
-pipeline.nlte_bfactor_synth --validate-against Na` runs the gate.
+Before trusting the path for Al/K/Cu/S, reproduce an **already-known** correction:
+the Na I 3p→4d doublet 5682.633 / 5688.205, INSPECT (Lind 2011) solar δ ≈ **−0.107**.
 
-**Result: the gate STOPS (correctly).** The only standalone method available — a
-departure-only shortcut (`δ ≈ −⟨log₁₀ b_lower⟩`) — gives **−0.008**, an order of
-magnitude off. This is *expected*: the NLTE EW correction is an RT-weighted source-
-function integral, **not** a departure average. So we refuse to trust the shortcut
-and **do not derive Al/K from it** (validate-don't-tune: never calibrate the method
-to the anchor). The rigorous path is bsyn NLTE synthesis.
+**Result — the guard PASSES** (`pipeline.pysme_nlte.validate_na`):
 
-## The blocker — a TS model atom is missing
+| line | δ (PySME) |
+|------|-----------|
+| Na I 5682.633 | −0.121 |
+| Na I 5688.205 | −0.138 |
+| **median** | **−0.129** vs anchor −0.107 ± 0.03 → **PASS** |
 
-The SME `.grd` supplies the departures **and** the level identification (`energy`,
-`J`, `conf`, `term`, `spec`) and the depth scale (`tau`) — but **not** a
-Turbospectrum model atom (the transitions/collisions; `SRC` points to an IDL `.sav`
-not shipped). bsyn NLTE needs that model atom (+ per-line `nlte_label_low/up`) to
-map lines to levels and apply the departures. So the remaining work needs the model
-atom from one of:
-- the **Gerber-2022 TS-native** atoms (Na/Mg/Si/Ca/Ti/Mn/Fe/Co/Ni/Sr/Ba have them —
-  *Family A*; but Al/K/Cu/S do **not**), or
-- the **original model-atom files** (Na = Lind 2011, Al = Nordlander & Lind 2017, …).
+The anchor is **reproduced, never fitted** — validate-don't-tune. (For contrast, the
+departure-only shortcut `δ ≈ −⟨log₁₀ b_lower⟩` gives ~−0.01 — it omits the line
+source function, so it cannot reproduce the anchor and is rejected;
+`shortcut_delta_estimate` keeps it only to document why.)
 
-A PySME cross-check (PySME consumes the `.grd` natively) is the fast way to confirm
-the grid+δ-extraction independently once a synthesis is stood up.
+## Two synthesis routes (Ryan's call, 2026-06-21)
+
+- **Family B (Al, K, Cu, S) → Option 2, PySME.** Their grids exist only in SME form
+  (no Turbospectrum model atom), and **PySME consumes the `.grd` natively** —
+  validated above. `pipeline/pysme_nlte.py` derives δ = A(NLTE) − A(LTE) by
+  synthesising NLTE vs LTE for each diagnostic line.
+- **Family A (O/Na/Mg/Si/Ca/Ti/Mn/Fe/Co/Ni/Sr/Ba) → Option 3, Gerber-2022
+  TS-native** grids (they ship the TS model atoms; route those through the
+  Turbospectrum/iSpec NLTE path, not this SME path).
+
+### PySME gotchas baked into `pysme_nlte.py` (each was a real failure mode)
+- NLTE needs the **VALD3 long** line format (short silently runs LTE → δ=0).
+- lines match grid levels by `(species, configuration, term, 2J+1)`; `term_lower/
+  upper` must read `'conf term'` exactly as the grid encodes them.
+- PySME resolves the grid via a **file URI → breaks on a path with spaces**; the
+  module symlinks the grid into a space-free temp dir.
+- the **ABO van der Waals** broadening (`gamvw`, e.g. `1955.327`) matters — these
+  lines are saturated and δ is damping-sensitive.
+- the **sign**: NLTE strengthens these lines, so δ = A(NLTE) − A(LTE) = A_used − A\*
+  where EW_LTE(A\*) = EW_NLTE (negative).
 
 ## Data — intaken (md5-verified, gitignored, provenance committed)
 
