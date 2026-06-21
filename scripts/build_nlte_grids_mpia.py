@@ -1,32 +1,39 @@
 """
 scripts/build_nlte_grids_mpia.py
 =================================
-Scrape MPIA Spectrum Tools (https://nlte.mpia.de) to build NLTE abundance
-correction grids for Ca I, Ti I, and Cr I.
+Scrape MPIA Spectrum Tools (https://nlte.mpia.de) to build param-driven NLTE
+abundance-correction grids. Ca/Ti/Cr (RYA-245) plus Mn/Co/Si (RYA-396) — all hosted
+on the MPIA form, confirmed by probing the live `<select>` line dropdowns
+(mnlines[]/colines[]/silines[]). Species codes follow the unambiguous SIU `Z.01`
+neutral convention (Z = atomic number): Ca 20.01 / Ti 22.01 / Cr 24.01 / Mn 25.01 /
+Co 27.01 / Si 14.01 / Mg 12.01.
 
 Usage:
-    python scripts/build_nlte_grids_mpia.py --element Ca
-    python scripts/build_nlte_grids_mpia.py --element Ti
-    python scripts/build_nlte_grids_mpia.py --element Cr
-    python scripts/build_nlte_grids_mpia.py --element Ca --resume
+    python scripts/build_nlte_grids_mpia.py --element Mn
+    python scripts/build_nlte_grids_mpia.py --element Mn --resume
 
-Form structure (verified by inspection, RYA-245):
+Form structure (verified by inspection, RYA-245/396):
   POST https://nlte.mpia.de/gui-siuAC_secE.php
   Fields:
     model      : 'mafags-os'  (covers logg 1.0-5; MARCS only goes to 3.5)
     user_input : multiline 'Name Teff logg [Fe/H] vmic_kms'
     linelist   : '0'
     lines_input: multiline 'wavelength_A species_code'
-  Species codes: Ca I=20.01, Ti I=22.01, Cr I=24.01
   Result in: <div id='result'><pre><b>StarName   delta</b></pre>...
+
+Line source (RYA-396): the committed, citable measured set
+data/measured/sol_ew_results_v1.csv (NOT the gitignored data/processed/solar_ew.csv).
+A provenance sidecar `{grid}.prov.json` is written next to each grid.
 
 Science decision (RYA-243/244/245): MAFAGS-OS model grid used throughout.
 """
 
 import argparse
+import json
 import time
 import sys
 import re
+from datetime import date
 import numpy as np
 import pandas as pd
 import requests
@@ -46,12 +53,35 @@ LINE_BATCH = 20              # lines per HTTP request
 STAR_BATCH = 12              # stellar param sets per HTTP request
 SLEEP_S    = 2.0             # seconds between requests
 
-SPECIES = {'Ca': '20.01', 'Ti': '22.01', 'Cr': '24.01'}
+# Committed, citable measured-line source (RYA-396) — never the gitignored solar_ew.csv
+MEASURED_LINES = Path(__file__).resolve().parents[1] / 'data' / 'measured' / 'sol_ew_results_v1.csv'
+
+# SIU Z.01 neutral codes (Z = atomic number); Mn/Co/Si/Mg hosted, probed RYA-396.
+SPECIES = {'Ca': '20.01', 'Ti': '22.01', 'Cr': '24.01',
+           'Mn': '25.01', 'Co': '27.01', 'Si': '14.01', 'Mg': '12.01'}
+
+# MPIA per-element line-select dropdown names (probed live, RYA-396).
+SELECT_NAME = {'Ca': 'calines[]', 'Ti': 'tilines[]', 'Cr': 'crlines[]',
+               'Mn': 'mnlines[]', 'Co': 'colines[]', 'Si': 'silines[]', 'Mg': 'mglines[]'}
 
 OUTFILES = {
     'Ca': 'Ca_Mashonkina2017.csv',
     'Ti': 'Ti_Bergemann2011_MPIA.csv',
     'Cr': 'Cr_Bergemann2010_MPIA.csv',
+    'Mn': 'Mn_Bergemann_MPIA.csv',
+    'Co': 'Co_Bergemann_MPIA.csv',
+    'Si': 'Si_Bergemann_MPIA.csv',
+    'Mg': 'Mg_Bergemann_MPIA.csv',
+}
+
+REFS = {
+    'Ca': 'Mashonkina et al. 2017 (A&A 606, A147)',
+    'Ti': 'Bergemann 2011 (MNRAS 413, 2184)',
+    'Cr': 'Bergemann & Cescutti 2010 (A&A 522, A9)',
+    'Mn': 'Bergemann group (MPIA SpectrumTools MAFAGS-OS)',
+    'Co': 'Bergemann group (MPIA SpectrumTools MAFAGS-OS)',
+    'Si': 'Bergemann group (MPIA SpectrumTools MAFAGS-OS)',
+    'Mg': 'Bergemann group (MPIA SpectrumTools MAFAGS-OS)',
 }
 
 SOLAR = (5772.0, 4.438, 0.0)   # RYA-298: canonical solar anchor (IAU/GBS)
@@ -84,7 +114,9 @@ GRID_PARAMS = _build_grid_params()
 
 # ── Match solar EW lines to MPIA wavelengths ──────────────────────────────────
 def _get_matched_lines(element, mpia_opts):
-    ew = pd.read_csv(PATHS['solar_ew'])
+    if not MEASURED_LINES.exists():
+        raise SystemExit(f'CRITICAL: committed measured-line source missing: {MEASURED_LINES}')
+    ew = pd.read_csv(MEASURED_LINES)
     our = ew[(ew['element'] == element) & (ew['ion'] == 'I')]['wavelength_air_A'].tolist()
     matched = {}
     for w in our:
@@ -97,7 +129,7 @@ def _get_matched_lines(element, mpia_opts):
 
 # ── GET MPIA form to extract available wavelengths ────────────────────────────
 def _get_mpia_options(element):
-    sel_name = {'Ca': 'calines[]', 'Ti': 'tilines[]', 'Cr': 'crlines[]'}[element]
+    sel_name = SELECT_NAME[element]
     r = requests.get(MPIA_URL, timeout=30)
     r.raise_for_status()
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -285,13 +317,35 @@ def build_grid(element, resume=False):
     df[out_cols].to_csv(final_path, index=False)
     print(f'Saved: {final_path}')
 
+    # ── Provenance sidecar (RYA-396) — loader reads the bare CSV, so provenance
+    # lives next to it as JSON (not inline comments). ──────────────────────────
+    n_valid = int(df['delta_nlte'].notna().sum())
+    prov = {
+        'element': element, 'ion': 'I', 'species_code': SPECIES[element],
+        'reference': REFS[element], 'model': MODEL,
+        'source_url': MPIA_URL, 'mpia_select': SELECT_NAME[element],
+        'convention': 'delta_nlte = A_NLTE - A_LTE (dex)',
+        'line_source': str(MEASURED_LINES.relative_to(Path(__file__).resolve().parents[1])),
+        'extraction_date': date.today().isoformat(),
+        'grid_axes': {'teff_K': TEFF_GRID, 'logg': LOGG_GRID, 'feh': FEH_GRID},
+        'vmic_kms': VMIC,
+        'n_lines': int(df['wave_A'].nunique()),
+        'n_rows': int(len(df)), 'n_valid_delta': n_valid,
+        'solar_anchor': {'teff_K': SOLAR[0], 'logg': SOLAR[1], 'feh': SOLAR[2],
+                         'delta_nlte': round(solar_delta, 4)},
+    }
+    prov_path = final_path.with_suffix('.prov.json')
+    prov_path.write_text(json.dumps(prov, indent=2))
+    print(f'Saved provenance: {prov_path}')
+
     return solar_delta
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--element', required=True, choices=['Ca', 'Ti', 'Cr'])
+    parser.add_argument('--element', required=True,
+                        choices=['Ca', 'Ti', 'Cr', 'Mn', 'Co', 'Si', 'Mg'])
     parser.add_argument('--resume', action='store_true',
                         help='Skip wavelengths already in raw checkpoint')
     args = parser.parse_args()

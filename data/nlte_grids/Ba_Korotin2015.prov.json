@@ -1,0 +1,43 @@
+{
+  "element": "Ba",
+  "ion": "II",
+  "reference": "Korotin et al. 2015, A&A 581, A70",
+  "source": "CDS VizieR J/A+A/581/A70",
+  "source_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A%2BA/581/A70&-out.all&-out.max=unlimited",
+  "convention": "delta_nlte = A_NLTE - A_LTE (dex)",
+  "lines_air_A": {
+    "1": 4554.029,
+    "2": 5853.668,
+    "3": 6141.713,
+    "4": 6496.897
+  },
+  "reduction": {
+    "alpha": "non-enhanced (disk)",
+    "Vt_kms": 1.0,
+    "BaFe": "interpolated to [Ba/Fe]=0 between nodes (-0.2,+0.1,+0.4)"
+  },
+  "extraction_date": "2026-06-21",
+  "n_rows": 1428,
+  "n_lines": 4,
+  "coverage": {
+    "teff_K": [
+      4000,
+      6500
+    ],
+    "logg": [
+      0.0,
+      5.0
+    ],
+    "feh": [
+      -0.5,
+      0.5
+    ]
+  },
+  "solar_anchor": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "line_A": 5853.668,
+    "delta_nlte": -0.0285
+  }
+}
