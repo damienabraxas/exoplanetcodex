@@ -156,13 +156,13 @@ elements:
   Al:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE", solar_corr_dex: "see Nordlander&Lind2017", cite: "Nordlander&Lind2017 (A&A 607,A75); Amarsi2020"}
-    grid: {status: GETTABLE, source: "Amarsi2020 GALAH (Al) / Nordlander&Lind2017 (INSPECT-class)"}
+    departure: {regime: "NLTE", solar_corr_dex: "-0.022 (PySME from Amarsi2020 grid; reproduces Nordlander&Lind2017 subordinate band <=-0.04)", cite: "Nordlander&Lind2017 (A&A 607,A75); Amarsi2020 (A&A 642,A62)"}
+    grid: {status: HAVE, source: "Amarsi2020 GALAH (Al) departure grid via PySME (RYA-402 Option 2); Al I model atom Nordlander&Lind2017"}
     indicators: {lines: "Al I 6696/6698 (subord., clean); 3944/3961 resonance strong", in_data: "2 measured lines"}
-    hazards: "resonance lines strong/blue; subordinate 6696/6698 preferred"
-    verdict: GET-GRID
-    routing: RYA-396-pattern
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
+    hazards: "resonance lines strong/blue; subordinate 6696/6698 preferred (the ones derived)"
+    verdict: LOCKED
+    routing: "RYA-402 (PySME b-factor synthesis; Family-B Option 2). Validated vs N&L2017 (solar median -0.022, PASS) + LTE-baseline-portable (eps -0.011)."
+    verified_in_repo: {registry: true, grid_file: "Al_Amarsi2020_PySME.csv", measured_ew_lines: 2}
 
   K:
     ion: "I"

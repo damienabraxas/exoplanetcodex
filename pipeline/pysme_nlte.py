@@ -52,7 +52,13 @@ NLTE_LINES = {
         (5682.633, -0.706, 2.102, 0.5, 4.284, 1.5, '2p6.3p 2P*', '2p6.4d 2D', 1955.327),
         (5688.205, -0.404, 2.104, 1.5, 4.283, 2.5, '2p6.3p 2P*', '2p6.4d 2D', 1955.327),
     ],
-    # Al / K / Cu / S diagnostic lines + their grid level labels are added as each
+    # Al I subordinate doublet 4s 2S -> 5p 2P* (the clean Na-analog: subordinate,
+    # weak, not the saturated resonance regime). gamvw=0 -> Unsold (GES waals=0).
+    'Al': [
+        (6696.023, -1.569, 3.143, 0.5, 4.994, 1.5, '3s2.4s 2S', '3s2.5p 2P*', 0.0),
+        (6698.673, -1.870, 3.143, 0.5, 4.993, 0.5, '3s2.4s 2S', '3s2.5p 2P*', 0.0),
+    ],
+    # K / Cu / S diagnostic lines + their grid level labels are added as each
     # element is derived (read the labels from PySMEGrid.get('conf'/'term'/'J'/'energy')).
 }
 
@@ -146,21 +152,40 @@ def nlte_delta(element: str, star: dict = None, offs=(-0.2, -0.1, 0.0, 0.1, 0.2)
             'delta_median': float(np.median(list(per_line.values())))}
 
 
-# Known anchors for the Step-3 guard (reproduce, never fit).
-_ANCHOR = {'Na': (-0.107, 0.03, 'Lind et al. 2011 INSPECT')}
+# Published solar anchors for the Step-3 guard — each element validated against its
+# OWN published delta (reproduce, never fit). (anchor, tol, reference).
+#   Na: Lind 2011 INSPECT solar median -0.107 (the strong subordinate doublet).
+#   Al: Nordlander & Lind 2017 (A&A 607, A75) — subordinate optical lines have
+#       "small negative abundance corrections of at most -0.04 dex on the lower MS";
+#       so the solar 6696/6698 correction is near-zero-to-slightly-negative. Anchor
+#       the band there (NOT the +0.2 resonance 3961 line).
+_ANCHOR = {
+    'Na': (-0.107, 0.03, 'Lind et al. 2011 INSPECT (Na I 5682/5688)'),
+    'Al': (-0.02, 0.04, 'Nordlander & Lind 2017, A&A 607 A75 (subordinate Al I; <=-0.04 dex on the lower MS)'),
+}
 
 
-def validate_na() -> dict:
-    """The RYA-402 Step-3 guard via the PySME path: reproduce the Na -0.107 anchor.
-    Returns the verdict; `passed` True iff within tolerance (no tuning)."""
-    res = nlte_delta('Na')
-    anchor, tol, ref = _ANCHOR['Na']
+def validate(element: str = 'Na') -> dict:
+    """The RYA-402 Step-3 guard, generalised per element: reproduce the element's OWN
+    published solar delta. `passed` True iff within tolerance. NEVER tunes the anchor —
+    if it cannot be reproduced, `passed` is False and the caller STOPS."""
+    if element not in _ANCHOR:
+        raise KeyError(f"No published anchor for {element}; have {list(_ANCHOR)}")
+    res = nlte_delta(element)
+    anchor, tol, ref = _ANCHOR[element]
     res['anchor'] = anchor
+    res['anchor_tol'] = tol
     res['passed'] = abs(res['delta_median'] - anchor) <= tol
     res['ref'] = ref
     return res
 
 
+def validate_na() -> dict:
+    """Back-compat alias — the Na guard."""
+    return validate('Na')
+
+
 if __name__ == '__main__':
-    import json
-    print(json.dumps(validate_na(), indent=2, default=float))
+    import json, sys
+    el = sys.argv[1] if len(sys.argv) > 1 else 'Na'
+    print(json.dumps(validate(el), indent=2, default=float))

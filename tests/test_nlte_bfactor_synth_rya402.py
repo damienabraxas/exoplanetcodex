@@ -175,3 +175,20 @@ def test_live_synth_fails_loud_without_depgrid():
 def test_known_delta_anchor_is_the_inspect_na():
     assert bf._KNOWN_DELTA['Na']['delta'] == pytest.approx(-0.107)
     assert bf.TARGET_ELEMENTS == ['Al', 'K']
+
+
+# ── Al (Family-B Option 2) registered + interpolating from the PySME grid ─────
+
+def test_al_registered_and_grid_interpolates():
+    """Al is wired source-aware in NLTE_CORRECTION_ELEMENTS with the PySME-derived
+    grid, and the registry interpolates the validated solar correction (no PySME
+    needed — reads the committed CSV)."""
+    from config.constants import NLTE_CORRECTION_ELEMENTS as R
+    from pipeline.nlte_corrections import _mpia_element_delta, element_grid_in_bounds
+    assert R['Al']['grid'] == 'Al_Amarsi2020_PySME.csv'
+    assert R['Al']['flag'] == 'NLTE_Amarsi2020_PySME_1D'
+    assert element_grid_in_bounds('Al', 5772, 4.44, 0.0)
+    assert element_grid_in_bounds('Al', 5172, 4.43, 0.31)        # covers 55 Cnc too
+    d = _mpia_element_delta('Al', 6696.023, 5772, 4.44, 0.0)
+    assert d == pytest.approx(-0.0275, abs=2e-3)                  # the validated solar delta
+    assert -0.05 < d < 0.0                                        # small negative (N&L 2017)
