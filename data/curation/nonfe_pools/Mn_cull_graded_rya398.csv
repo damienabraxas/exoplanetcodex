@@ -1,0 +1,23 @@
+# RYA-398 graded (independent-gf) non-Fe EW line-pool curation — Mn
+# Single source: measured EW = data/measured/sol_ew_results_v1.csv;
+#   atomic data (loggf/EP/nist_grade/loggf_reference) = data/linelists/canonical_gf.csv.
+# Cull criteria (FIXED in advance, abundance-BLIND, uniform across elements):
+#   WEAK  ew_mA < 5
+#   SAT   log(EW/λ) > -4.9  (linear-COG knee) OR ew_mA > 100
+#   HIERR ew_err/ew > 0.5
+#   BLEND measured blend_flag OR strength-weighted contaminant opacity > 0.5
+#         (NOT vald_proximity_flag — that crude flag was the known silent bug)
+#   BADGF nist_grade in {D,E,F}
+#   GRADE gf not in ACCEPTED_GF_TIERS {HIGH,MED} — i.e. Kurucz-theoretical (K03-K10/KP) or unreferenced gf (RYA-398 independent-gf cull)
+# gf_flag=GF_UNVERIFIED marks ungraded/Kurucz-theoretical gf (LOW tier).
+# Abundances (A_lte) are reported as VALIDATION only — never used to choose culls.
+element,ion,wavelength_air_A,ew_mA,ew_err_mA,err_frac,rew,log_gf,excitation_potential_eV,nist_grade,loggf_reference,gf_tier,blend_ratio,A_lte,cull_reason,kept,gf_flag
+Mn,I,4036.22158,14.28,19.97,1.3984593837535013,-5.451246792624671,-0.227,4.6601,,VALD3,MED,0.0,,HIERR,False,
+Mn,I,4998.1212,63.37,9.77,0.15417389932144548,-4.896923076048346,-0.505,4.425,,K07,LOW,2.3675304862013724,6.771,"SAT,BLEND,GRADE",False,GF_UNVERIFIED
+Mn,I,5289.38672,75.47,17.8,0.23585530674440175,-4.845630970520167,-0.282,5.52,,K07,LOW,7.291519614718021,,"SAT,BLEND,GRADE",False,GF_UNVERIFIED
+Mn,I,5495.00762,23.44,6.0,0.25597269624573377,-5.370010691655796,-0.952,4.889,,K07,LOW,0.028512755074703112,6.807,GRADE,False,GF_UNVERIFIED
+Mn,I,5718.25995,85.01,8.38,0.09857663804258322,-4.827793878161104,0.175,5.696,,K07,LOW,0.0004503238881990871,,"SAT,GRADE",False,GF_UNVERIFIED
+Mn,I,5720.17924,43.37,12.01,0.27691952962877564,-5.120220215337152,0.308,5.673,,K07,LOW,0.2664315001046261,,GRADE,False,GF_UNVERIFIED
+Mn,I,6304.92885,52.68,68.64,1.3029612756264237,-5.0780344237110695,-0.532,4.889,,K07,LOW,0.0,6.963,"HIERR,GRADE",False,GF_UNVERIFIED
+Mn,I,6306.36464,31.96,2.32,0.07259073842302878,-5.29517230781584,-0.656,4.889,,K07,LOW,0.010448607602352286,6.704,GRADE,False,GF_UNVERIFIED
+Mn,I,6867.01357,276.35,143.23,0.5182920209878776,-4.39530843669256,-0.68,5.199,,K07,LOW,0.0,9.227,"SAT,HIERR,GRADE",False,GF_UNVERIFIED
