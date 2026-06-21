@@ -24,7 +24,14 @@ treatment), not an artifact of an unexamined default.
 (measure/observe first) · `GET-3D` → routes to **RYA-399** (3D arm) · `HARD-carry-forward`
 (document the limit, carry to the next star).
 
-**Tally:** LOCKED **12** · GET-GRID **6** · GET-DATA **3** · HARD-carry-forward **3** · LTE-OK **2**.
+**Tally (round-1):** LOCKED **12** · GET-GRID **6** · GET-DATA **3** · HARD-carry-forward **3** · LTE-OK **2**.
+
+> **Round-2 update (RYA-401):** the 6 GET-GRID elements were probed against the live
+> sources — **0 were vendorable** (each a distinct documented gap; no fabrication), so they
+> are flipped out of GET-GRID. **Current tally:** LOCKED **12** · GET-DATA **4** (Co, Sc,
+> P, **Sr**) · HARD-carry-forward **8** (Li, Eu, Zr + **Al, K, S, Cu, V**) · LTE-OK **2**.
+> See [`nlte_grid_acquisition_rya401.md`](nlte_grid_acquisition_rya401.md) + the `rya401:`
+> blocks in the YAML. The GET-GRID table below is the round-1 audit (superseded).
 
 ---
 
@@ -47,7 +54,7 @@ treatment), not an artifact of an unexamined default.
 
 *Even the LOCKED set carries its 3D status: Si/Ti/Cr are flagged 3D-dominated and routed to **RYA-399** (the 3D-extension arm); O is already 3D.*
 
-## GET-GRID — NLTE grid exists in the literature, vendor it (RYA-396 pattern)
+## GET-GRID (round-1 audit — SUPERSEDED by RYA-401: all 6 → documented gaps)
 
 | El | Departure (solar Δ) | Grid source | Indicators (in data) | Hazards | Verdict |
 |----|---------------------|-------------|----------------------|---------|---------|
