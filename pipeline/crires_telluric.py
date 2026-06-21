@@ -659,7 +659,7 @@ def measure_frame_rv(frame: CriresFrame, work_dir: Path, molecules) -> dict:
             f"{_TELLURIC_CLOSURE_MAX} — wavelength zero-point off (tellurics should be "
             f"at topocentric rest).")
     # NEW guardrail — closure vs Horizons reflected RV (cross-check, RYA-372 module).
-    hz = rrv.reflected_solar_rv(frame.mjd)['v_total']
+    hz = rrv.reflected_solar_rv(frame.mjd, 'vesta')['v_total']   # RYA-394: body_key, not bare-'4'=Mars
     if abs(v - hz) > _HORIZONS_CLOSURE_MAX:
         raise AssertionError(
             f"{frame.path.name}: measured RV {v:+.2f} km/s disagrees with Horizons "
