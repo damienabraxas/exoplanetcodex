@@ -376,6 +376,21 @@ PATHS = {
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
 }
 
+# ── Reflected-solar bodies — SINGLE SOURCE for JPL Horizons ids (RYA-394) ─────
+# 4 Vesta / 7 Iris are SMALL BODIES: a bare Horizons id="4" resolves to NAIF 4 =
+# MARS BARYCENTER, not asteroid 4 Vesta (NAIF 2000004) — the silent-wrong-value bug
+# that mislabelled Vesta's reflected RV as Mars's for four tickets (RYA-372→373→380→391).
+# Ganymede is a MAJOR BODY (Jovian satellite, NAIF 503), so a blanket "reject major
+# bodies" guard would wrongly reject it — the guard asserts resolved-target == intended
+# body via `match`, never by body class. Each entry carries its own id + id_type;
+# callers pass a KEY, never a raw Horizons id. id_type strings are astroquery-version-
+# dependent — confirmed against astroquery 0.4.11 (RYA-394).
+REFLECTED_SOLAR_BODIES = {
+    'vesta':    {'id': 'Vesta', 'id_type': 'smallbody', 'match': 'Vesta'},
+    'iris':     {'id': 'Iris',  'id_type': 'smallbody', 'match': 'Iris'},
+    'ganymede': {'id': '503',   'id_type': None,        'match': 'Ganymede'},  # Jovian satellite
+}
+
 # ── Star → linelist mapping (RYA-270) ────────────────────────────────────────
 # Explicit per-star linelist routing. Stars not listed here fall back to the
 # solar list — the fallback is LOGGED at runtime by abundances_derive so a
