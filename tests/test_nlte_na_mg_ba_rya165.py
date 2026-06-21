@@ -1,8 +1,9 @@
 """
 tests/test_nlte_na_mg_ba_rya165.py
 ==================================
-RYA-165 (rescoped) — register Na I / Mg I / Ba II in NLTE_CORRECTION_ELEMENTS and drop
-in the vendored grids (Na = Lind 2011 / INSPECT, Mg = MPIA MAFAGS-OS, Ba = Korotin 2015).
+RYA-165 (rescoped) — register Na I / Mg I / Ba II (+ the Mn I / Si I gap-fill) in
+NLTE_CORRECTION_ELEMENTS and drop in the vendored grids (Na = Lind 2011 / INSPECT,
+Mg/Mn/Si = MPIA MAFAGS-OS, Ba = Korotin 2015).
 This ticket is REGISTRATION + grid wiring only: the generic per-line apply machinery is
 RYA-235's. Guards here: the vendored grids load + interpolate to their documented
 provenance solar anchors; the apply layer corrects Na/Mg (neutral) + Ba (ion II) and
@@ -29,6 +30,8 @@ NEW = {
     'Na': {'ion': 1, 'grid': 'Na_Lind2011_INSPECT.csv', 'flag': 'NLTE_INSPECT_Lind2011_1D'},
     'Mg': {'ion': 1, 'grid': 'Mg_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},
     'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',      'flag': 'NLTE_Korotin2015_1D'},
+    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},  # gap-fill
+    'Si': {'ion': 1, 'grid': 'Si_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},  # negligible, documented
 }
 
 
@@ -44,7 +47,7 @@ def test_na_mg_ba_registered_with_correct_ion_and_grid():
 
 
 # ── grids load + reproduce their documented provenance solar anchors ──────────
-@pytest.mark.parametrize('el', ['Na', 'Mg', 'Ba'])
+@pytest.mark.parametrize('el', ['Na', 'Mg', 'Ba', 'Mn', 'Si'])
 def test_grid_loads_and_matches_provenance_solar_anchor(el):
     prov = json.loads((GRIDS / (Path(REG[el]['grid']).stem + '.prov.json')).read_text())
     anchor = prov['solar_anchor']
@@ -101,6 +104,17 @@ def test_ba_ii_corrected_and_ba_i_left_alone():
 
 
 # ── curate-first contract carried over to the new elements ───────────────────
+def test_mn_sizeable_si_clean_solar_nlte():
+    # the gap-fill characterisation: Mn I NLTE is real (~+0.10), Si I is negligible
+    # (~−0.004 → registered as 'NLTE-clean & documented', not silently 1D-LTE).
+    mn = np.median([N._mpia_element_delta('Mn', float(w), 5772, 4.438, 0.0)
+                    for w in N._load_mpia_element_grid('Mn')['waves']])
+    si = np.median([N._mpia_element_delta('Si', float(w), 5772, 4.438, 0.0)
+                    for w in N._load_mpia_element_grid('Si')['waves']])
+    assert mn > 0.05                                   # Mn NLTE is sizeable
+    assert abs(si) < 0.02                              # Si NLTE is negligible (clean)
+
+
 def test_validation_still_deferred_not_asserted_onto_asplund():
     # registration does NOT claim Asplund acceptance — applying NLTE to a raw pool just
     # shifts the (possibly un-curated) number. We assert the MACHINERY ran, not science.
