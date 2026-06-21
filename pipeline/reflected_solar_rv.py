@@ -54,10 +54,31 @@ from pathlib import Path
 import numpy as np
 from astropy.io import fits
 
+from config.constants import REFLECTED_SOLAR_BODIES   # RYA-394 single-source body registry
+
 warnings.simplefilter('ignore')
 
 C_KMS = 299792.458
-VESTA_ID = '4'
+# Default reflected-solar body key (the Vesta optical/IR set). RYA-394: this is a
+# REGISTRY KEY, never a raw Horizons id — a bare id '4' resolves to Mars barycenter.
+DEFAULT_BODY = 'vesta'
+
+
+class BodyIDError(RuntimeError):
+    """Horizons resolved a body to something other than the intended target (e.g. the
+    bare-'4'⇒Mars-barycenter trap), or an unknown body key was passed. Never silently
+    return the wrong body's velocity (RYA-394)."""
+
+
+class RestFrameError(RuntimeError):
+    """A frame's lines do NOT land at rest after RV conditioning — the applied velocity
+    (hence the body ID or sign) is wrong. The closed-loop assert RYA-372 specced but left
+    report-only, which let the Mars-for-Vesta swap ride four tickets (RYA-394). Carries
+    the partial conditioning record on `.rec` for survey tools."""
+
+    def __init__(self, message, rec=None):
+        super().__init__(message)
+        self.rec = rec
 PARANAL = '309'            # JPL Horizons observatory code for ESO Paranal (VLT)
 
 # Reflected-solar data root (outside the repo — RYA-370). Override with --root.
@@ -105,25 +126,62 @@ MIN_LINES = 5             # minimum clean lines for a valid bulk-velocity measur
 _HZ_CACHE: dict = {}
 
 
-def reflected_solar_rv(mjd: float, body: str = VESTA_ID, obs_code: str = PARANAL) -> dict:
-    """Molaro/Lanza two-leg reflected-solar velocity model from JPL Horizons.
+def reflected_solar_rv(mjd: float, body_key: str = DEFAULT_BODY,
+                       obs_code: str = PARANAL) -> dict:
+    """Molaro/Lanza two-leg reflected-solar velocity model from JPL Horizons, km/s.
 
-    leg1 Sun→Vesta = `r_rate` (heliocentric range rate);
-    leg2 Vesta→observer = `delta_rate` (topocentric range rate);
+    leg1 Sun→body  = `r_rate` (heliocentric range rate, v_helio);
+    leg2 body→observer = `delta_rate` (topocentric range rate, v_obs);
     v_total = r_rate + delta_rate (the leading-order topocentric reflected-solar
-    line-of-sight velocity).
+    line-of-sight velocity; sign convention POSITIVE = receding / redshift).
 
-    This is the PHYSICAL MODEL / cross-check. The sign + combination are NOT
-    trusted as the applied correction (see module docstring): the empirical
-    photospheric anchor in `condition_frame` is what conditions to rest.
+    `body_key` indexes the single-source REFLECTED_SOLAR_BODIES registry (RYA-394) —
+    raw Horizons ids are NO LONGER accepted, so the bare-'4'⇒Mars-barycenter trap cannot
+    recur. The resolved Horizons targetname is asserted against the registry `match`
+    (RYA-374 discipline): a body resolving to a non-matching target raises BodyIDError,
+    never silently returns the wrong body's velocity. Returns the v_helio/v_obs/v_total
+    breakdown plus the resolved `targetname`.
+
+    This is the PHYSICAL MODEL / cross-check. The empirical photospheric anchor in
+    `condition_frame` is what conditions to rest; this closes the loop against it.
     """
     from astroquery.jplhorizons import Horizons
-    key = (round(float(mjd), 6), body, obs_code)
+    try:
+        spec = REFLECTED_SOLAR_BODIES[body_key]
+    except (KeyError, TypeError):
+        raise BodyIDError(
+            f"Unknown reflected-solar body key {body_key!r}. Pass a key from "
+            f"REFLECTED_SOLAR_BODIES ({sorted(REFLECTED_SOLAR_BODIES)}), never a raw "
+            f"Horizons id — a bare id like '4' resolves to Mars barycenter (RYA-394).")
+    key = (round(float(mjd), 6), body_key, obs_code)
     if key not in _HZ_CACHE:
-        eph = Horizons(id=body, location=obs_code, epochs=float(mjd) + 2400000.5).ephemerides()
-        _HZ_CACHE[key] = (float(eph['r_rate'][0]), float(eph['delta_rate'][0]))
-    r_rate, delta_rate = _HZ_CACHE[key]
-    return {'v_helio': r_rate, 'v_obs': delta_rate, 'v_total': r_rate + delta_rate}
+        eph = Horizons(id=spec['id'], location=obs_code, epochs=float(mjd) + 2400000.5,
+                       id_type=spec['id_type']).ephemerides()
+        targ = str(eph['targetname'][0])
+        # GUARD (RYA-374): resolved target MUST be the intended body — not Mars-for-Vesta.
+        if spec['match'].lower() not in targ.lower():
+            raise BodyIDError(
+                f"Horizons resolved body_key={body_key!r} (id={spec['id']!r}, "
+                f"id_type={spec['id_type']!r}) to {targ!r}, which does not match "
+                f"{spec['match']!r}. Refusing — the bare-'4'⇒Mars-barycenter trap.")
+        _HZ_CACHE[key] = (float(eph['r_rate'][0]), float(eph['delta_rate'][0]), targ)
+    r_rate, delta_rate, targ = _HZ_CACHE[key]
+    return {'v_helio': r_rate, 'v_obs': delta_rate, 'v_total': r_rate + delta_rate,
+            'targetname': targ}
+
+
+def assert_rest_frame(measured_residual_kms: float, line_id: str,
+                      tol_kms: float = PASS_TOL_KMS) -> None:
+    """CLOSED LOOP — the empirical assert RYA-372 specced but left report-only. A nonzero
+    residual after RV correction means the applied velocity (hence the body ID or sign)
+    is wrong → loud-fail RestFrameError, never report-and-continue. A non-finite residual
+    is NOT a rest failure (it is an unmeasurable / insufficient case handled upstream)."""
+    if np.isfinite(measured_residual_kms) and abs(measured_residual_kms) > tol_kms:
+        raise RestFrameError(
+            f"{line_id} lands at {measured_residual_kms:+.3f} km/s after RV correction "
+            f"(tol ±{tol_kms} km/s) — NOT at rest. The reflected-solar RV is wrong "
+            f"(body-ID? sign?). This is the open assert that let the Mars-for-Vesta swap "
+            f"ride four tickets (RYA-394).")
 
 
 # ── Line-core velocity measurement ────────────────────────────────────────────
@@ -265,15 +323,18 @@ def discover_set(set_name: str, root: Path = DEFAULT_ROOT) -> list:
 
 # ── Per-frame conditioning ────────────────────────────────────────────────────
 
-def condition_frame(path: Path, obs_code: str = PARANAL) -> dict:
+def condition_frame(path: Path, obs_code: str = PARANAL,
+                    body_key: str = DEFAULT_BODY) -> dict:
     """Condition one frame to the solar rest frame and verify on held-out lines.
 
     Anchor velocity = robust median of TRAIN photospheric cores. Apply
     λ_rest = λ_obs / (1 + v_anchor/C). Verify on the disjoint TEST set: the held-out
-    photospheric residual must be ≤ PASS_TOL_KMS or the frame is flagged CRITICAL
-    (never silently passed or dropped). Na D2 / Hα residuals are reported for
-    context (small chromospheric offset expected). The Horizons two-leg model is
-    computed as an independent cross-check.
+    photospheric residual must be ≤ PASS_TOL_KMS or the frame loud-fails RestFrameError
+    (RYA-394 — the closed loop; never silently passed or report-only). Na D2 / Hα
+    residuals are reported for context (they carry a small chromospheric core offset, so
+    they are NOT asserted; the held-out PHOTOSPHERIC set is the rigorous rest proof). The
+    Horizons two-leg model (`body_key`, single-source registry) is the independent
+    cross-check — now Vesta, not the bare-'4'⇒Mars value (RYA-394).
     """
     fr = _load_frame(Path(path))
     rec = {k: fr.get(k) for k in ('file', 'instrument', 'pro_catg', 'ins_mode',
@@ -290,12 +351,15 @@ def condition_frame(path: Path, obs_code: str = PARANAL) -> dict:
     rec['v_anchor'] = train['v_med']
     rec['n_train'] = train['n_used']
 
-    # Independent physical cross-check (Molaro two-leg).
+    # Independent physical cross-check (Molaro two-leg) — body from the single-source
+    # registry (RYA-394); BodyIDError (wrong-target) must surface, never be swallowed.
     try:
-        eph = reflected_solar_rv(fr['mjd_mid'], obs_code=obs_code)
+        eph = reflected_solar_rv(fr['mjd_mid'], body_key, obs_code=obs_code)
         rec.update({'v_helio': round(eph['v_helio'], 3), 'v_obs': round(eph['v_obs'], 3),
-                    'v_total_eph': round(eph['v_total'], 3)})
-    except Exception as exc:                                   # surface, never fake
+                    'v_total_eph': round(eph['v_total'], 3), 'eph_target': eph['targetname']})
+    except BodyIDError:
+        raise                                                 # body-ID bug is never silent
+    except Exception as exc:                                   # transient Horizons/network
         rec.update({'v_helio': np.nan, 'v_obs': np.nan, 'v_total_eph': np.nan,
                     'eph_error': str(exc)[:80]})
 
@@ -318,36 +382,55 @@ def condition_frame(path: Path, obs_code: str = PARANAL) -> dict:
         if wave_rest.min() < HALPHA_AIR < wave_rest.max() else np.nan
     rec['eph_minus_meas'] = round(rec['v_total_eph'] - v, 3) if np.isfinite(rec.get('v_total_eph', np.nan)) else np.nan
 
+    rec['wave_rest'] = wave_rest          # for an optional writer (RYA-371)
     if test['n_used'] < MIN_LINES or not np.isfinite(test['v_med']):
+        # Cannot VERIFY (data gap) — distinct from an off-rest failure; honestly flagged,
+        # not a silent pass (the frame is not handed downstream as conditioned).
         rec['status'] = 'INSUFFICIENT'
         rec['reason'] = f'held-out set has {test["n_used"]} clean lines (<{MIN_LINES}) — cannot verify.'
-    elif abs(test['v_med']) > PASS_TOL_KMS:
+        return rec
+    # CLOSED-LOOP rest-frame assert (RYA-394): the held-out PHOTOSPHERIC set must land at
+    # rest, else the applied velocity (body-ID? sign?) is wrong. Loud-fail — no report-only
+    # path. verify_set catches RestFrameError (via `.rec`) to keep surveying.
+    if abs(test['v_med']) > PASS_TOL_KMS:
         rec['status'] = 'CRITICAL'
         rec['reason'] = (f'held-out photospheric lines land at {test["v_med"]:+.3f} km/s '
                          f'(> {PASS_TOL_KMS} km/s) after conditioning — NOT at rest.')
-    else:
-        rec['status'] = 'PASS'
-    rec['wave_rest'] = wave_rest          # for an optional writer (RYA-371)
+        try:
+            assert_rest_frame(test['v_med'], f"{rec['file']}: held-out photospheric set")
+        except RestFrameError as e:
+            e.rec = rec
+            raise
+    rec['status'] = 'PASS'
     return rec
 
 
 # ── Verify a whole set (smoke test) ───────────────────────────────────────────
 
-def verify_set(set_name: str, root: Path = DEFAULT_ROOT, obs_code: str = PARANAL) -> list:
+def verify_set(set_name: str, root: Path = DEFAULT_ROOT, obs_code: str = PARANAL,
+               body_key: str = DEFAULT_BODY) -> list:
     paths = discover_set(set_name, root)
+    spec = REFLECTED_SOLAR_BODIES[body_key]
     print(f"\n{'='*118}\n  RYA-372 reflected-solar RV conditioning — set '{set_name}'  "
           f"({len(paths)} frames; root={root.name})\n{'='*118}")
-    print("  ASSERTION: asteroid-ephemeris path used (JPL Horizons, Vesta=4 @Paranal=309); "
-          "NO stellar-BERV shortcut.")
-    print(f"  Anchor = measured photospheric bulk velocity; verified on held-out lines "
-          f"(±{PASS_TOL_KMS} km/s); Horizons two-leg = cross-check.\n")
+    print(f"  ASSERTION: asteroid-ephemeris path used (JPL Horizons, body_key={body_key!r} "
+          f"→ id={spec['id']!r}/id_type={spec['id_type']!r} @Paranal={obs_code}); NO bare-'4' "
+          f"(=Mars) trap, NO stellar-BERV shortcut.")
+    print(f"  Anchor = measured photospheric bulk velocity; CLOSED-LOOP rest assert on "
+          f"held-out lines (±{PASS_TOL_KMS} km/s, RestFrameError); Horizons two-leg = cross-check.\n")
     hdr = (f"  {'file':40s} {'mode':9s} {'SPECSYS':9s} {'v_helio':>8s} {'v_obs':>8s} "
            f"{'v_eph':>8s} {'v_anch':>8s} {'NaD2':>7s} {'Ha':>7s} {'test':>7s} {'status':12s}")
     print(hdr)
     print("  " + "-" * 116)
     recs = []
     for p in paths:
-        r = condition_frame(p, obs_code=obs_code)
+        # condition_frame loud-fails RestFrameError on an off-rest frame (no report-only
+        # path); the survey catches it (via .rec) to tabulate every frame as CRITICAL.
+        try:
+            r = condition_frame(p, obs_code=obs_code, body_key=body_key)
+        except RestFrameError as e:
+            r = e.rec if e.rec is not None else {'file': Path(p).name, 'status': 'CRITICAL',
+                                                 'reason': str(e)[:60]}
         recs.append(r)
         if r['status'] == 'REJECTED':
             print(f"  {r['file']:40s} {str(r.get('ins_mode','')):9s} {str(r.get('specsys','')):9s} "
