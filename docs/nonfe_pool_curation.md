@@ -88,6 +88,45 @@ solar-validation path: if it is ever handed a `log_gf_astro` / `delta_log_gf` /
 information — the next puzzle — never something to erase by switching to
 solar-calibrated gf.**
 
+## The metal 3D leg — `pipeline/threed_corrections.py` (RYA-399)
+
+RYA-400 routed Si/Ti/Cr as "3D-owed". RYA-399 sources and applies the published
+solar 3D correction on top of the 1D-NLTE pass — the metal analogue of the C/N/O
+3D leg (`pipeline.nlte_cno`):
+
+```
+A(3D-NLTE) = A(1D-NLTE; NLTE_CORRECTION_ELEMENTS) + delta_3d
+```
+
+`delta_3d` is the 3D **dimensional** correction (A(3D) − A(1D) at fixed NLTE — the
+increment, so the NLTE already applied is never double-counted), vendored at
+`data/threed_grids/solar3d_metals_rya399.csv` with full provenance.
+
+| element | delta_3d (dex) | source |
+|---------|----------------|--------|
+| Si | −0.01 | Amarsi & Asplund 2017 (MNRAS 464, 264); Scott+2015 I (A&A 573, A25) |
+| Ti | +0.06 | Scott et al. 2015 II (A&A 573, A26) |
+| Cr | +0.03 | Scott et al. 2015 II (A&A 573, A26) |
+
+**Finding (validate-don't-tune).** The published solar 3D corrections are all
+|Δ| ≤ 0.1 dex — an order of magnitude below the RYA-398 graded+1D-NLTE residuals
+(Si +0.378, Ti +0.502, Cr +0.402) — and for Ti/Cr **positive**, so 3D moves them
+the *wrong* way (`python -m pipeline.threed_corrections --report` →
+`3D_NOT_THE_LEVER` for all three). **3D is not the lever that closes the Si/Ti/Cr
+solar residual.** The residual is line-data / gf-zero-point (RYA-161
+differential-survey territory) and is **carried forward to the multi-star arc,
+never tuned.** The corrections are real published physics, applied because the
+audit owed the check — and the check says 3D is not the answer here.
+
+**Off-solar limitation.** A full per-(Teff,logg,[Fe/H]) 3D-NLTE grid exists
+publicly only for Si (Amarsi & Asplund 2017 / Amarsi 2020 GALAH). Ti/Cr (Fe-peak)
+have **no** public off-solar 3D-NLTE grid — that gap is documented and carried to
+the cool / metal-rich targets where the 1D→3D term grows. An element with no grid
+node is left at 1D-NLTE flagged `3D_unavailable` — never silently "corrected".
+
+The leg is re-exported from `pipeline.nlte_corrections` (`apply_threed_corrections`)
+so the RYA-371 Phase-C compose runs NLTE → 3D from one place.
+
 ## Outputs
 
 `data/curation/nonfe_pools/`
