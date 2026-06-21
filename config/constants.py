@@ -376,6 +376,29 @@ PATHS = {
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
 }
 
+# ── Non-Fe NLTE correction registry (RYA-235) ────────────────────────────────
+# Element-level NLTE corrections applied PER LINE after the Fe I/II leg, from the
+# real MPIA SpectrumTools MAFAGS-OS grids (scraped RYA-244/245; columns
+# element,wave_A,teff_K,logg,feh,delta_nlte). The feh axis is [Fe/H] RELATIVE
+# (0 at solar) — pass stellar_params['feh'] directly, NO solar offset (unlike the
+# absolute-A(Fe) Amarsi Fe grid). Neutral species only (Ca I/Ti I/Cr I); Cr II is
+# deliberately excluded (the RYA-232 −0.777 dex was two saturated lines in the COG
+# damping wing, a line-matching artifact, not a real systematic — RYA-240).
+# The Asplund-2021 solar anchors (SOLAR_ASPLUND2021) are the validation targets,
+# but acceptance is gated on a CURATED line pool (RYA-235 reopen: raw 1D-LTE Cr
+# already reads high; NLTE on an un-curated pool overshoots — curate first).
+NLTE_CORRECTION_ELEMENTS = {
+    'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
+           'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
+           'mpia_species': '20.01'},
+    'Ti': {'ion': 1, 'grid': 'Ti_Bergemann2011_MPIA.csv',
+           'ref': 'Bergemann 2011 (MNRAS 413, 2184), MPIA MAFAGS-OS 1D NLTE',
+           'mpia_species': '22.01'},
+    'Cr': {'ion': 1, 'grid': 'Cr_Bergemann2010_MPIA.csv',
+           'ref': 'Bergemann & Cescutti 2010 (A&A 522, A9), MPIA MAFAGS-OS 1D NLTE',
+           'mpia_species': '24.01'},
+}
+
 # ── Reflected-solar bodies — SINGLE SOURCE for JPL Horizons ids (RYA-394) ─────
 # 4 Vesta / 7 Iris are SMALL BODIES: a bare Horizons id="4" resolves to NAIF 4 =
 # MARS BARYCENTER, not asteroid 4 Vesta (NAIF 2000004) — the silent-wrong-value bug

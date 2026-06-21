@@ -2154,6 +2154,22 @@ def run(star_id: str = 'solar',
     except Exception as e:
         print(f"  WARNING: NLTE correction failed — running 1D LTE only: {e}")
 
+    # ── Non-Fe element NLTE (RYA-235): Ca I / Ti I / Cr I per-line, MPIA MAFAGS-OS.
+    # Composes with the Fe leg (touches only registry rows). NOTE: this is the
+    # application layer — Asplund acceptance is gated on a CURATED pool (raw 1D-LTE
+    # Cr reads high; NLTE on an un-curated pool overshoots), tracked under RYA-235.
+    try:
+        from pipeline.nlte_corrections import apply_element_nlte_corrections
+        results = apply_element_nlte_corrections(
+            results, stellar_params_for_nlte,
+            per_line_df=per_line_df, line_df=ew_df,
+        )
+        print(f"  NLTE corrections applied to Ca I / Ti I / Cr I (MPIA MAFAGS-OS)")
+    except FileNotFoundError as e:
+        print(f"  WARNING: element NLTE grid not found — those elements stay 1D LTE: {e}")
+    except Exception as e:
+        print(f"  WARNING: element NLTE correction failed — those elements stay 1D LTE: {e}")
+
     # ── Line quality scoring (RYA-220) ────────────────────────────
     print(f"\n  Line quality scoring (RYA-220)...")
     print(f"  Weights: {LINE_SCORE_WEIGHTS}")
