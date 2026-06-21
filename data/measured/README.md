@@ -28,3 +28,21 @@ element, ion, wavelength_air_A, ew_mA, ew_err_mA, profile_type, chi2, blend_flag
 
 Regenerate / re-version only from a committed pipeline run; never overwrite in place
 (bump the version suffix), so the source stays citable.
+
+## Canonical solar-EW sources — the three roles (RYA-397)
+
+There is no `sol_ew_results_v1_1.csv`; **`sol_ew_results_v1.csv` is the current
+canonical committed set.** The three solar-EW artifacts are distinct and all *live* —
+none is deprecated (RYA-396 vendored the committed one and verified currency, so there
+was nothing to quarantine here):
+
+| File | Role | Tracked? | Referenced via |
+|------|------|----------|----------------|
+| `data/processed/solar_ew.csv` | **Transient runtime** EW table — regenerated every pipeline run by `lines_fit.py`; the working file the abundance/diagnostic path reads. | gitignored (`data/processed/`) | `PATHS['solar_ew']` |
+| `data/measured/sol_ew_results_v1.csv` | **Canonical committed/citable** measured-line set (806 lines, 22 elements) — for tasks needing a stable in-repo source (NLTE scrapers/grids, non-Fe pool curation). | committed | `data/measured/sol_ew_results_v1.csv` (literal) |
+| `data/processed/solar_ew_ges_reference.csv` | **GES Fe I EW reference** — pre-stored GES EWs used for the solar Fe I leg only (avoids the NLTE EW bias the measured Fe I carries; RYA-330). | committed (force-added) | `…/solar_ew_ges_reference.csv` |
+
+Rule: query the **committed** set (`sol_ew_results_v1.csv`) from any script that must
+not depend on a transient run; the pipeline's own EW path uses `PATHS['solar_ew']`. A
+dated `results/Solar/<date>/solar_ew.csv` snapshot is NOT a source — repoint any such
+reference to the committed set.
