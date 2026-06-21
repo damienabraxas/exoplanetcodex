@@ -425,6 +425,37 @@ NLTE_CORRECTION_ELEMENTS = {
            'mpia_species': '14.01'},
 }
 
+# ── 3D abundance corrections — the metal 3D leg (RYA-399) ─────────────────────
+# RYA-400 routed Si/Ti/Cr as "3D-owed". This registry holds the 3D DIMENSIONAL
+# correction (A(3D) − A(1D), at fixed NLTE) applied ON TOP of the existing 1D-NLTE
+# pass (NLTE_CORRECTION_ELEMENTS) — i.e. the increment, so it never double-counts
+# the NLTE already applied:  A(3D-NLTE) = A(1D-NLTE) + delta_3d.  Mirrors the C/N/O
+# 3D leg (pipeline.nlte_cno) which adds a STAGGER-grid Δ to the 1D abundance.
+#
+# KEY FINDING (RYA-399, validate-don't-tune): the published solar 3D corrections for
+# these metals are SMALL (|Δ| ≲ 0.1 dex) — far below the +0.38/+0.50/+0.40 dex
+# graded-pool residuals (RYA-398). For Ti/Cr they are POSITIVE (3D raises the
+# abundance), so 3D moves them the WRONG way. 3D is therefore NOT the lever that
+# closes the Si/Ti/Cr solar residual; the residual is line-data / gf-zero-point
+# (RYA-161 differential territory) and is carried forward, never tuned away.
+#
+# Solar node only (Teff 5772, logg 4.44, [Fe/H] 0). A full per-(Teff,logg,feh) 3D
+# grid exists publicly only for Si (Amarsi & Asplund 2017; Amarsi 2020 GALAH);
+# Ti/Cr have NO public off-solar 3D-NLTE grid (Fe-peak excluded from Amarsi 2020) —
+# off-solar 3D for those is documented as a gap and carried to the multi-star arc.
+THREED_CORRECTION_ELEMENTS = {
+    'Si': {'ion': 1, 'grid': 'solar3d_metals_rya399.csv',
+           'ref': 'Amarsi & Asplund 2017 (MNRAS 464, 264), 3D non-LTE Si; '
+                  'Scott et al. 2015 Paper I (A&A 573, A25), A(Si)=7.51',
+           'off_solar_grid': 'Amarsi & Asplund 2017 / Amarsi 2020 GALAH (A&A 642, A62)'},
+    'Ti': {'ion': 1, 'grid': 'solar3d_metals_rya399.csv',
+           'ref': 'Scott et al. 2015 Paper II (A&A 573, A26), solar 3D Ti, A(Ti)=4.93',
+           'off_solar_grid': None},   # no public off-solar 3D-NLTE Ti grid
+    'Cr': {'ion': 1, 'grid': 'solar3d_metals_rya399.csv',
+           'ref': 'Scott et al. 2015 Paper II (A&A 573, A26), solar 3D Cr, A(Cr)=5.62',
+           'off_solar_grid': None},   # no public off-solar 3D-NLTE Cr grid
+}
+
 # ── Reflected-solar bodies — SINGLE SOURCE for JPL Horizons ids (RYA-394) ─────
 # 4 Vesta / 7 Iris are SMALL BODIES: a bare Horizons id="4" resolves to NAIF 4 =
 # MARS BARYCENTER, not asteroid 4 Vesta (NAIF 2000004) — the silent-wrong-value bug

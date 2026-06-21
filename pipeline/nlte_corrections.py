@@ -670,6 +670,19 @@ from pipeline.nlte_cno import (            # noqa: E402
 )
 
 
+# ── Metal 3D leg (RYA-399, Si/Ti/Cr) — composes AFTER the element NLTE pass ───
+# The 3D dimensional correction for the GET-3D metals (routed by RYA-400) is added
+# on top of the 1D-NLTE abundance: A(3D-NLTE) = A(1D-NLTE) + delta_3d. Re-exported
+# here so the RYA-371 Phase-C compose can run NLTE then 3D from one module. FINDING:
+# the published solar 3D corrections are small (<=0.1 dex, Ti/Cr positive) and do
+# NOT close the Si/Ti/Cr solar residual — carried forward, never tuned (RYA-399).
+from pipeline.threed_corrections import (    # noqa: E402
+    apply_threed_corrections,
+    solar_threed_delta,
+    residual_after_3d,
+)
+
+
 # ── CLI: coverage + per-star verdict + solar corrections + self-validation ───────
 
 def _cli(argv=None):
