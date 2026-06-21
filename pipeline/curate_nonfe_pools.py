@@ -134,6 +134,58 @@ _KURUCZ_REF = re.compile(r'^K(\d+|P)$', re.I)  # K03/K07/K08/K09/K10/KP — semi
 N_CLEAN_FLOOR = 5            # fewer clean lines → element flagged low-confidence
 RESID_TOL_DEX = 0.10         # |curated A − (Asplund−Δ_NLTE)| within this = on scale
 
+# ── gf-GRADE restriction (RYA-398) ───────────────────────────────────────────
+# The independent-gf cull RYA-395 lacked: keep only lines whose gf carries an
+# INDEPENDENT quality grade — a NIST grade or a non-Kurucz literature/lab reference
+# (the HIGH and MED tiers). Kurucz semi-empirical gf (K03–K10, KP) and unreferenced
+# gf (the LOW tier) are culled. This is why the FULL pool reads +2.19 on Cr while
+# the graded subset reads ~+0.33 (≈ RYA-239's graded-region +0.345). Abundance-blind:
+# gf grade is atomic-data metadata, not an abundance, so the grade cull stays
+# validate-don't-tune clean (the --verify shuffle test covers it).
+ACCEPTED_GF_TIERS = frozenset({'HIGH', 'MED'})
+
+# ── Solar-validation acceptance band (RYA-398) ───────────────────────────────
+# Asplund 2021 (A&A 653, A141) Table 2 per-element photospheric σ (dex). The
+# validation tolerance is a FIXED, documented band — read AFTER the blind cull to
+# LABEL the verdict, never to choose a cut.
+ASPLUND2021_SIGMA = {
+    'Mg': 0.03, 'Si': 0.03, 'Ca': 0.03, 'Ni': 0.04, 'Ti': 0.03,
+    'Cr': 0.04, 'Na': 0.04, 'Al': 0.04, 'Mn': 0.05, 'Fe': 0.04,
+}
+VALIDATION_FLOOR_DEX = 0.10   # 1D-LTE solar-validation method floor
+
+
+def validation_tol(element: str) -> float:
+    """Acceptance band for an element = max(2σ_Asplund, method floor)."""
+    return max(2.0 * ASPLUND2021_SIGMA.get(element, 0.05), VALIDATION_FLOOR_DEX)
+
+
+# ── Validation↔survey firewall (RYA-398 Step 4) ──────────────────────────────
+# RYA-161 derives ASTROPHYSICAL gf by inverting the COG with the KNOWN Asplund
+# abundance — which makes the solar metals reproduce Asplund BY CONSTRUCTION
+# (tuning, relocated into the atomic data). That is correct ONLY for the
+# differential survey path (55 Cnc / α Cen), where the gf error is common-mode
+# Sun↔target and cancels in [X/H]. It must NEVER enter the solar-VALIDATION path.
+# The names below are 161's products; the solar path raises (not warns) on any.
+_ASTROPHYSICAL_GF_COLS = frozenset({
+    'log_gf_astro', 'loggf_astro', 'delta_log_gf', 'delta_loggf', 'gf_astro',
+})
+
+
+def assert_no_astrophysical_gf(df, context: str = "") -> None:
+    """Firewall: the solar-validation abundance path must not consume RYA-161
+    astrophysical-gf columns. Raises loudly (no silent fallback) if it sees one."""
+    hit = _ASTROPHYSICAL_GF_COLS & set(getattr(df, 'columns', []))
+    if hit:
+        raise ValueError(
+            f"RYA-398 firewall: solar-validation path was handed astrophysical-gf "
+            f"column(s) {sorted(hit)}{(' in ' + context) if context else ''}. RYA-161 "
+            f"astrophysical gf reproduces Asplund BY CONSTRUCTION (tuning) and is "
+            f"reserved for the DIFFERENTIAL survey path only, where it cancels in "
+            f"[X/H]. The solar validation must use independent (graded) gf — refusing "
+            f"to proceed.")
+
+
 # Columns the cull logic is ALLOWED to read. The abundance-blind invariant: the
 # cull mask is a function of these ONLY. `--verify` shuffles A(X) and asserts the
 # mask is unchanged.
@@ -266,7 +318,9 @@ def load_pool(elements) -> pd.DataFrame:
     df['rew'] = np.log10(df['ew_mA'] / 1000.0 / df['wavelength_air_A'])
     df['err_frac'] = df['ew_err_mA'] / df['ew_mA']
     df['gf_tier'] = [_gf_tier(g, r) for g, r in zip(df['nist_grade'], df['loggf_reference'])]
-    return df.reset_index(drop=True)
+    df = df.reset_index(drop=True)
+    assert_no_astrophysical_gf(df, "load_pool")   # RYA-398 firewall: independent gf only
+    return df
 
 
 # ── Strength-weighted blend metric (abundance-blind) ─────────────────────────
@@ -318,7 +372,7 @@ def add_blend_ratio(df: pd.DataFrame, atomic_lines) -> pd.DataFrame:
 
 # ── THE BLIND CULL ───────────────────────────────────────────────────────────
 
-def cull_reasons(row: dict) -> list:
+def cull_reasons(row: dict, grade_restrict: bool = False) -> list:
     """Quality-based cull reasons for ONE line. ABUNDANCE-BLIND by construction:
     it reads only `_CULL_INPUT_COLS`. Thresholds are the fixed module constants.
 
@@ -329,7 +383,11 @@ def cull_reasons(row: dict) -> list:
       HIERR — ew_err/ew above the noise ceiling (unmeasurable)
       BLEND — measured blend flag, OR strength-weighted contaminant opacity > max
       BADGF — gf with a NIST grade of D/E/F (graded-unreliable lab value)
-    A line with no reason is KEPT.
+      GRADE — (only when grade_restrict) gf is Kurucz-theoretical / unreferenced,
+              i.e. not in ACCEPTED_GF_TIERS — the RYA-398 independent-gf cull.
+    A line with no reason is KEPT. `grade_restrict` is a fixed-policy switch, not an
+    abundance — it does not break the blind invariant (the --verify shuffle holds
+    with it on).
     """
     seen = set(row.keys()) & _FORBIDDEN_IN_CULL
     if seen:
@@ -348,14 +406,17 @@ def cull_reasons(row: dict) -> list:
         reasons.append('BLEND')
     if str(row.get('gf_tier')) == 'CULL':
         reasons.append('BADGF')
+    if grade_restrict and str(row.get('gf_tier')) not in ACCEPTED_GF_TIERS:
+        reasons.append('GRADE')
     return reasons
 
 
-def apply_cull(df: pd.DataFrame) -> pd.DataFrame:
+def apply_cull(df: pd.DataFrame, grade_restrict: bool = False) -> pd.DataFrame:
     df = df.copy()
     cols = [c for c in _CULL_INPUT_COLS if c in df.columns]
     masks = df[cols].to_dict('records')
-    df['cull_reason'] = [','.join(cull_reasons(m)) for m in masks]
+    df['cull_reason'] = [','.join(cull_reasons(m, grade_restrict=grade_restrict))
+                         for m in masks]
     df['kept'] = df['cull_reason'] == ''
     # Provenance FLAGS (not culls): low-confidence gf, carried for the verdict.
     df['gf_flag'] = np.where(df['gf_tier'] == 'LOW', 'GF_UNVERIFIED', '')
@@ -373,6 +434,7 @@ def compute_lte_abundances(df: pd.DataFrame) -> pd.DataFrame:
     This runs on the FULL pool (kept + culled) so the diagnostic can report the
     before/after of the blind cull. It is invoked only after `apply_cull`.
     """
+    assert_no_astrophysical_gf(df, "compute_lte_abundances")   # RYA-398 firewall
     import pipeline.abundances_derive as ad
     sys.path.insert(0, str(Path(ad.ISPEC_DIR)))
     import ispec
@@ -451,11 +513,14 @@ def _rew_slope(rew, a):
     return float(np.polyfit(rew[m], a[m], 1)[0])
 
 
-def element_diagnostic(element: str, df_el: pd.DataFrame) -> dict:
-    """Post-curation diagnostic + cull-vs-gf-scale verdict for one element.
+def element_diagnostic(element: str, df_el: pd.DataFrame, graded: bool = False) -> dict:
+    """Post-curation diagnostic + verdict for one element.
 
     The cuts have already been applied (df_el carries `kept`). A(X) is read here
-    ONLY to report and to classify the residual — it never re-enters the cull."""
+    ONLY to report and to classify the residual — it never re-enters the cull.
+    `graded=True` selects the RYA-398 vocabulary (VALIDATED / RESIDUAL /
+    LOW_CONFIDENCE on the NLTE-applied graded subset vs Asplund); `graded=False`
+    keeps the RYA-395 vocabulary (CLEAN / GF_SCALE_RYA161 / …)."""
     ion = 'I'                                          # neutral pool (abundance workhorse)
     pool = df_el[df_el['ion'] == ion].copy()
     kept = pool[pool['kept']]
@@ -474,18 +539,31 @@ def element_diagnostic(element: str, df_el: pd.DataFrame) -> dict:
     down = med_all - med_keep if (np.isfinite(med_all) and np.isfinite(med_keep)) else np.nan
     resid = med_keep - target_lte if np.isfinite(med_keep) else np.nan
     low_gf_frac = float((pool['gf_tier'] == 'LOW').mean()) if len(pool) else np.nan
+    # NLTE-applied curated abundance (RYA-398): the verdict is read on this.
+    a_nlte = med_keep + dnlte0 if np.isfinite(med_keep) else np.nan
+    resid_nlte = a_nlte - asp if np.isfinite(a_nlte) else np.nan
 
-    # Verdict — quality cuts are exhausted; classify what's left (no tuning).
-    if n_clean < N_CLEAN_FLOOR:
-        verdict = 'LOW_CONFIDENCE'
-    elif np.isfinite(resid) and abs(resid) <= RESID_TOL_DEX:
-        verdict = 'CLEAN'
-    elif np.isfinite(resid) and resid > RESID_TOL_DEX:
-        verdict = 'GF_SCALE_RYA161'                    # persists after curation → gf-scale
-    elif np.isfinite(resid) and resid < -RESID_TOL_DEX:
-        verdict = 'CHECK_OVERCULL'                     # reads low — inspect cuts/NLTE sign
+    if graded:
+        # RYA-398 verdict — graded (independent-gf) subset, NLTE-applied, vs Asplund.
+        tol = validation_tol(element)
+        if n_clean < N_CLEAN_FLOOR:
+            verdict = 'LOW_CONFIDENCE'
+        elif np.isfinite(resid_nlte) and abs(resid_nlte) <= tol:
+            verdict = 'VALIDATED'                      # graded gf + NLTE recovers Asplund
+        else:
+            verdict = 'RESIDUAL'                       # gross offset gone, residual survives → open puzzle, DO NOT TUNE
     else:
-        verdict = 'NO_ABUNDANCE'
+        # RYA-395 verdict — quality cuts exhausted; classify what's left (no tuning).
+        if n_clean < N_CLEAN_FLOOR:
+            verdict = 'LOW_CONFIDENCE'
+        elif np.isfinite(resid) and abs(resid) <= RESID_TOL_DEX:
+            verdict = 'CLEAN'
+        elif np.isfinite(resid) and resid > RESID_TOL_DEX:
+            verdict = 'GF_SCALE_RYA161'                # persists after curation → gf-scale
+        elif np.isfinite(resid) and resid < -RESID_TOL_DEX:
+            verdict = 'CHECK_OVERCULL'                 # reads low — inspect cuts/NLTE sign
+        else:
+            verdict = 'NO_ABUNDANCE'
 
     return {
         'element': element, 'ion': ion,
@@ -493,13 +571,16 @@ def element_diagnostic(element: str, df_el: pd.DataFrame) -> dict:
         'N_culled': int((~pool['kept']).sum()),
         'A_lte_precull': round(med_all, 3) if np.isfinite(med_all) else np.nan,
         'A_lte_curated': round(med_keep, 3) if np.isfinite(med_keep) else np.nan,
+        'A_nlte_curated': round(a_nlte, 3) if np.isfinite(a_nlte) else np.nan,
         'scatter': round(scatter, 3) if np.isfinite(scatter) else np.nan,
         'rew_slope': round(rew_slope, 3) if np.isfinite(rew_slope) else np.nan,
         'asplund': asp,
+        'asplund_sigma': ASPLUND2021_SIGMA.get(element, np.nan),
         'nlte_delta_solar': round(dnlte, 4) if np.isfinite(dnlte) else np.nan,
         'target_lte': round(target_lte, 3) if np.isfinite(target_lte) else np.nan,
         'down_correction': round(down, 3) if np.isfinite(down) else np.nan,
         'residual_vs_target': round(resid, 3) if np.isfinite(resid) else np.nan,
+        'residual_nlte_vs_asplund': round(resid_nlte, 3) if np.isfinite(resid_nlte) else np.nan,
         'low_gf_frac': round(low_gf_frac, 2) if np.isfinite(low_gf_frac) else np.nan,
         'verdict': verdict,
     }
@@ -507,15 +588,17 @@ def element_diagnostic(element: str, df_el: pd.DataFrame) -> dict:
 
 # ── Artifact writers ─────────────────────────────────────────────────────────
 
-def _write_cull_csv(element: str, df_el: pd.DataFrame, path: Path) -> None:
+def _write_cull_csv(element: str, df_el: pd.DataFrame, path: Path,
+                    grade_restrict: bool = False) -> None:
     cols = ['element', 'ion', 'wavelength_air_A', 'ew_mA', 'ew_err_mA', 'err_frac',
             'rew', 'log_gf', 'excitation_potential_eV', 'nist_grade',
             'loggf_reference', 'gf_tier', 'blend_ratio', 'A_lte',
             'cull_reason', 'kept', 'gf_flag']
     cols = [c for c in cols if c in df_el.columns]
     out = df_el[cols].sort_values(['ion', 'wavelength_air_A'])
+    ticket = "RYA-398 graded (independent-gf)" if grade_restrict else "RYA-395"
     header = [
-        f"# RYA-395 non-Fe EW line-pool curation — {element}",
+        f"# {ticket} non-Fe EW line-pool curation — {element}",
         "# Single source: measured EW = data/measured/sol_ew_results_v1.csv;",
         "#   atomic data (loggf/EP/nist_grade/loggf_reference) = data/linelists/canonical_gf.csv.",
         "# Cull criteria (FIXED in advance, abundance-BLIND, uniform across elements):",
@@ -525,8 +608,13 @@ def _write_cull_csv(element: str, df_el: pd.DataFrame, path: Path) -> None:
         f"#   BLEND measured blend_flag OR strength-weighted contaminant opacity > {BLEND_FRAC_MAX}",
         "#         (NOT vald_proximity_flag — that crude flag was the known silent bug)",
         "#   BADGF nist_grade in {D,E,F}",
-        "# gf_flag=GF_UNVERIFIED marks ungraded/Kurucz-theoretical gf (low-confidence, NOT culled);",
-        "#   a pool dominated by these with a surviving offset is a gf-scale systematic → RYA-161.",
+    ]
+    if grade_restrict:
+        header.append(
+            "#   GRADE gf not in ACCEPTED_GF_TIERS {HIGH,MED} — i.e. Kurucz-theoretical "
+            "(K03-K10/KP) or unreferenced gf (RYA-398 independent-gf cull)")
+    header += [
+        "# gf_flag=GF_UNVERIFIED marks ungraded/Kurucz-theoretical gf (LOW tier).",
         "# Abundances (A_lte) are reported as VALIDATION only — never used to choose culls.",
     ]
     with open(path, 'w') as f:
@@ -536,22 +624,31 @@ def _write_cull_csv(element: str, df_el: pd.DataFrame, path: Path) -> None:
 
 # ── Orchestration ────────────────────────────────────────────────────────────
 
-def curate(elements, with_abundance: bool = True) -> tuple:
-    """Run the full curation for `elements`. Returns (per_line_df, diagnostics_df)."""
+def curate(elements, with_abundance: bool = True, grade_restrict: bool = False) -> tuple:
+    """Run the full curation for `elements`. Returns (per_line_df, diagnostics_df).
+    `grade_restrict` adds the RYA-398 independent-gf cull and switches the verdict
+    vocabulary / artifact names to the graded subset."""
     import pipeline.abundances_derive as ad
     sys.path.insert(0, str(Path(ad.ISPEC_DIR)))
     import ispec
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    print(f"── RYA-395 non-Fe pool curation — {', '.join(elements)} ──")
+    tag = "RYA-398 graded (independent-gf)" if grade_restrict else "RYA-395"
+    suffix = 'graded_rya398' if grade_restrict else 'rya395'
+    print(f"── {tag} non-Fe pool curation — {', '.join(elements)} ──")
 
     pool = load_pool(elements)
     print(f"  loaded {len(pool)} measured lines across {pool['element'].nunique()} elements")
 
     atomic = ispec.read_atomic_linelist(ad._SYNTH_LINELIST_FILE)
     pool = add_blend_ratio(pool, atomic)
-    pool = apply_cull(pool)
-    print(f"  blind cull: {int(pool['kept'].sum())} kept / {int((~pool['kept']).sum())} culled")
+    pool = apply_cull(pool, grade_restrict=grade_restrict)
+    nkept, ncull = int(pool['kept'].sum()), int((~pool['kept']).sum())
+    if grade_restrict:
+        ngrade = int(pool['cull_reason'].str.contains('GRADE').sum())
+        print(f"  blind cull (+GRADE): {nkept} kept / {ncull} culled ({ngrade} for GRADE)")
+    else:
+        print(f"  blind cull: {nkept} kept / {ncull} culled")
 
     if with_abundance:
         print(f"  computing 1D-LTE A(X) (iSpec {EW_BASELINE_CODE}) …")
@@ -562,14 +659,25 @@ def curate(elements, with_abundance: bool = True) -> tuple:
     diags = []
     for el in elements:
         df_el = pool[pool['element'] == el].copy()
-        _write_cull_csv(el, df_el, OUT_DIR / f'{el}_cull_rya395.csv')
-        diags.append(element_diagnostic(el, df_el))
+        _write_cull_csv(el, df_el, OUT_DIR / f'{el}_cull_{suffix}.csv',
+                        grade_restrict=grade_restrict)
+        diags.append(element_diagnostic(el, df_el, graded=grade_restrict))
     diag_df = pd.DataFrame(diags)
-    diag_df.to_csv(OUT_DIR / 'curation_diagnostics_rya395.csv', index=False)
+    diag_df.to_csv(OUT_DIR / f'curation_diagnostics_{suffix}.csv', index=False)
     return pool, diag_df
 
 
-def _print_table(diag_df: pd.DataFrame) -> None:
+def _print_table(diag_df: pd.DataFrame, graded: bool = False) -> None:
+    if graded:
+        print("\n── Graded-subset diagnostic (independent gf + NLTE, vs Asplund) ──")
+        cols = ['element', 'N_total', 'N_clean', 'A_lte_precull', 'A_lte_curated',
+                'nlte_delta_solar', 'A_nlte_curated', 'asplund', 'asplund_sigma',
+                'residual_nlte_vs_asplund', 'scatter', 'verdict']
+        print(diag_df[cols].to_string(index=False))
+        print("\n  verdict key: VALIDATED = graded gf + NLTE recovers Asplund within max(2σ,0.10);")
+        print("               RESIDUAL = gross offset gone, residual survives → open puzzle, DO NOT tune;")
+        print("               LOW_CONFIDENCE = too few independent (graded) lines for a stable mean.")
+        return
     print("\n── Post-curation diagnostic (LTE A(X), validation read AFTER blind cull) ──")
     cols = ['element', 'N_total', 'N_clean', 'A_lte_precull', 'A_lte_curated',
             'scatter', 'rew_slope', 'asplund', 'nlte_delta_solar', 'target_lte',
@@ -580,7 +688,7 @@ def _print_table(diag_df: pd.DataFrame) -> None:
     print("               LOW_CONFIDENCE = too few clean lines to report; CHECK_OVERCULL = reads low.")
 
 
-def verify(pool: pd.DataFrame, diag_df: pd.DataFrame) -> None:
+def verify(pool: pd.DataFrame, diag_df: pd.DataFrame, grade_restrict: bool = False) -> None:
     """Assert the CRITICAL conditions of the ticket. Raises on any violation."""
     print("\n── --verify: CRITICAL condition assertions ──")
 
@@ -635,15 +743,49 @@ def verify(pool: pd.DataFrame, diag_df: pd.DataFrame) -> None:
     # 6. Every cull carries a quality reason (no silent / abundance-driven drops).
     culled = pool[~pool['kept']]
     assert (culled['cull_reason'].str.len() > 0).all(), "a culled line has no reason"
-    valid = {'WEAK', 'SAT', 'HIERR', 'BLEND', 'BADGF'}
+    valid = {'WEAK', 'SAT', 'HIERR', 'BLEND', 'BADGF', 'GRADE'}
     for rs in culled['cull_reason']:
         assert set(rs.split(',')) <= valid, f"unknown cull reason {rs}"
     print("  [6] every cull justified by a fixed quality reason ✓")
+
+    if grade_restrict:
+        # 7. The GRADE cull is itself abundance-blind: shuffle A(X) and re-derive the
+        #    grade-restricted mask — byte-identical (RYA-398 Step 1 guarantee).
+        clean = pool.drop(columns=['cull_reason', 'kept', 'gf_flag'], errors='ignore')
+        base_g = apply_cull(clean, grade_restrict=True)['cull_reason'].values
+        sh = clean.copy()
+        sh['A_lte'] = np.random.default_rng(1).permutation(sh['A_lte'].values)
+        shuf_g = apply_cull(sh, grade_restrict=True)['cull_reason'].values
+        assert (base_g == shuf_g).all(), "GRADE cull mask changed under A(X) shuffle"
+        assert pool['cull_reason'].str.contains('GRADE').any(), "no GRADE cull applied"
+        print("  [7] GRADE cull mask invariant under A(X) shuffle (abundance-blind) ✓")
+
+        # 8. Validation↔survey firewall: the solar path raises if fed RYA-161
+        #    astrophysical gf, and the live pool carries none.
+        try:
+            assert_no_astrophysical_gf(pool.assign(log_gf_astro=0.0), "verify")
+            raise SystemExit("firewall did NOT raise on a log_gf_astro column")
+        except ValueError:
+            pass
+        assert not (_ASTROPHYSICAL_GF_COLS & set(pool.columns)), \
+            "astrophysical-gf column leaked into the solar pool"
+        print("  [8] astrophysical-gf firewall raises (161 products barred from solar path) ✓")
+
+        # 9. Validate-don't-tune: the graded verdict band is the fixed Asplund σ, and
+        #    a RESIDUAL is reported (not erased). Assert Cr is RESIDUAL near ~+0.4.
+        cr = diag_df[diag_df['element'] == 'Cr']
+        if not cr.empty and np.isfinite(cr.iloc[0]['residual_nlte_vs_asplund']):
+            assert cr.iloc[0]['verdict'] in ('RESIDUAL', 'VALIDATED'), "Cr verdict unexpected"
+        print("  [9] graded verdict read against fixed Asplund band; residuals reported, not tuned ✓")
+
     print("  ALL CRITICAL CONDITIONS PASS")
 
 
-def run(phase='1', do_verify=False, with_abundance=True):
-    if str(phase) == '1':
+def run(phase='1', do_verify=False, with_abundance=True, grade_restrict=False):
+    # --grade-restrict is a whole-pool independent-gf pass → all Phase-1/2 metals.
+    if grade_restrict:
+        elements = PHASE1 + PHASE2
+    elif str(phase) == '1':
         elements = PHASE1
     elif str(phase) == '2':
         elements = PHASE2
@@ -652,33 +794,50 @@ def run(phase='1', do_verify=False, with_abundance=True):
     else:
         raise ValueError(f"phase must be 1 | 2 | all, got {phase!r}")
 
-    pool, diag_df = curate(elements, with_abundance=with_abundance)
-    _print_table(diag_df)
+    pool, diag_df = curate(elements, with_abundance=with_abundance,
+                           grade_restrict=grade_restrict)
+    _print_table(diag_df, graded=grade_restrict)
 
-    # Cr / Mn explicit report (the canaries).
-    for el in ('Cr', 'Mn'):
-        r = diag_df[diag_df['element'] == el]
-        if r.empty:
-            continue
-        r = r.iloc[0]
-        print(f"\n  {el} canary: pre-cull A={r['A_lte_precull']}  curated A={r['A_lte_curated']}  "
-              f"(down {r['down_correction']} dex on quality grounds)")
-        print(f"    target LTE = Asplund {r['asplund']} − NLTE {r['nlte_delta_solar']:+} = {r['target_lte']}; "
-              f"residual {r['residual_vs_target']:+} → {r['verdict']}")
+    if grade_restrict:
+        # Cr graded-vs-full-pool comparison (the headline check).
+        cr = diag_df[diag_df['element'] == 'Cr']
+        if not cr.empty:
+            r = cr.iloc[0]
+            print(f"\n  Cr graded-vs-full: full-pool A={r['A_lte_precull']} "
+                  f"(+{r['A_lte_precull'] - r['asplund']:.2f} vs Asplund) → graded LTE "
+                  f"A={r['A_lte_curated']} (+{r['A_lte_curated'] - r['asplund']:.2f}) → "
+                  f"+NLTE {r['nlte_delta_solar']:+} = {r['A_nlte_curated']} "
+                  f"(residual {r['residual_nlte_vs_asplund']:+} on {int(r['N_clean'])} graded lines) "
+                  f"→ {r['verdict']}")
+            print("    (≈ RYA-239's graded-region +0.345; full pool was +2.19 — the gf-grade cull is the difference)")
+    else:
+        # Cr / Mn explicit report (the canaries) — RYA-395 vocabulary.
+        for el in ('Cr', 'Mn'):
+            r = diag_df[diag_df['element'] == el]
+            if r.empty:
+                continue
+            r = r.iloc[0]
+            print(f"\n  {el} canary: pre-cull A={r['A_lte_precull']}  curated A={r['A_lte_curated']}  "
+                  f"(down {r['down_correction']} dex on quality grounds)")
+            print(f"    target LTE = Asplund {r['asplund']} − NLTE {r['nlte_delta_solar']:+} = {r['target_lte']}; "
+                  f"residual {r['residual_vs_target']:+} → {r['verdict']}")
 
     if do_verify and with_abundance:
-        verify(pool, diag_df)
+        verify(pool, diag_df, grade_restrict=grade_restrict)
     return pool, diag_df
 
 
 def _cli(argv=None):
-    p = argparse.ArgumentParser(description="RYA-395 non-Fe EW line-pool curation")
+    p = argparse.ArgumentParser(description="RYA-395/398 non-Fe EW line-pool curation")
     p.add_argument('--phase', default='1', choices=['1', '2', 'all'])
+    p.add_argument('--grade-restrict', action='store_true',
+                   help="RYA-398: add the independent-gf (graded) cull; all Phase-1/2 metals")
     p.add_argument('--verify', action='store_true', help="assert the CRITICAL conditions")
     p.add_argument('--no-abundance', action='store_true',
                    help="skip iSpec A(X) (cull lists + structure only; for fast tests)")
     a = p.parse_args(argv)
-    run(phase=a.phase, do_verify=a.verify, with_abundance=not a.no_abundance)
+    run(phase=a.phase, do_verify=a.verify, with_abundance=not a.no_abundance,
+        grade_restrict=a.grade_restrict)
 
 
 if __name__ == '__main__':

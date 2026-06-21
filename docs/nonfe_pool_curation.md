@@ -9,6 +9,7 @@ non-Fe pools never got the curation Fe I/II received.
 python -m pipeline.curate_nonfe_pools --phase 1 --verify   # Mg Si Ca Ni
 python -m pipeline.curate_nonfe_pools --phase 2 --verify   # Ti Cr Na Al Mn
 python -m pipeline.curate_nonfe_pools --phase all
+python -m pipeline.curate_nonfe_pools --grade-restrict --verify   # RYA-398 independent-gf pass
 ```
 
 ## The cardinal rule — validate, don't tune
@@ -53,12 +54,47 @@ live from the RYA-396 grids), so curation must bring LTE to **(Asplund − Δ_NL
 — not to Asplund directly, or the positive NLTE overshoots. `--verify` asserts
 that contract (`target_lte + Δ_NLTE == Asplund`, `Δ_NLTE > 0`).
 
+## The independent-gf (grade) cull — `--grade-restrict` (RYA-398)
+
+The 395 cull removed SAT/blend/noise but **not gf-grade**, so the surviving pools
+were 43–81 % ungraded/Kurucz gf — which is why the full pool reads +2.19 on Cr
+while RYA-239's graded-region subset read +0.345. `--grade-restrict` adds the
+missing cull: a `GRADE` reason that keeps only **independent quality-graded gf**
+(`ACCEPTED_GF_TIERS = {HIGH, MED}` — a NIST grade, or a non-Kurucz literature/lab
+reference) and culls Kurucz semi-empirical (K03–K10, KP) and unreferenced gf.
+
+It is **abundance-blind** (gf grade is atomic-data metadata, not an abundance) —
+`--verify` shuffles A(X) and asserts the grade-cull mask is byte-identical. On the
+graded subset we recompute 1D-LTE A(X), apply the registered NLTE per element, and
+read the verdict against the fixed Asplund band `max(2σ_Asplund, 0.10)`:
+
+* **VALIDATED** — graded gf + NLTE recovers Asplund within tolerance.
+* **RESIDUAL** — gross offset gone, a residual survives (Cr ≈ +0.40 after NLTE):
+  a real open puzzle (1D-LTE vs 3D, residual line quality). **Reported, never tuned.**
+* **LOW_CONFIDENCE** — too few independent (graded) lines for a stable mean.
+
+## The validation↔survey firewall (RYA-398)
+
+There are **two gf paths and they must not cross**:
+
+| path | gf source | why |
+|------|-----------|-----|
+| **solar validation** (this module) | independent (graded) gf only | Asplund is the *check*; reproducing it must come from independent atomic data, or the validation is circular. |
+| **differential survey** (55 Cnc / α Cen) | RYA-161 astrophysical gf | 161 inverts the COG with the *known* Asplund abundance (`log_gf_astro = invert_COG(EW, A=Asplund)`), so it reproduces Asplund **by construction** — fine for [X/H], where the common-mode Sun↔target gf error cancels, but it is tuning if it touches the solar validation. |
+
+`assert_no_astrophysical_gf()` is a loud guard (raises, never warns) on the
+solar-validation path: if it is ever handed a `log_gf_astro` / `delta_log_gf` /
+`gf_astro` column it refuses to proceed. **A residual on independent gf is
+information — the next puzzle — never something to erase by switching to
+solar-calibrated gf.**
+
 ## Outputs
 
 `data/curation/nonfe_pools/`
-* `{element}_cull_rya395.csv` — per-line KEEP/CULL + reason, provenance header.
-* `curation_diagnostics_rya395.csv` — per-element A(X) LTE, scatter, REW slope,
-  N_clean, NLTE Δ, target, down-correction, residual, low-gf-fraction, verdict.
+* `{element}_cull_rya395.csv` / `{element}_cull_graded_rya398.csv` — per-line
+  KEEP/CULL + reason, provenance header (full pool / graded subset).
+* `curation_diagnostics_rya395.csv` / `curation_diagnostics_graded_rya398.csv` —
+  per-element A(X) LTE, scatter, REW slope, N_clean, NLTE Δ, residual, verdict.
 
 Data sources (single-source, nothing hardcoded): measured EW =
 `data/measured/sol_ew_results_v1.csv`; atomic data (loggf/EP/nist_grade/
