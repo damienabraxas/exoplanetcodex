@@ -449,20 +449,195 @@ def apply_fe_nlte_corrections(
     return result
 
 
-# ── Ca / Ti / Cr NLTE — integration notes (RYA-256) ─────────────────────────
+# ── Ca / Ti / Cr NLTE — per-line application from the MPIA grids (RYA-235) ────
 # Grids: data/nlte_grids/{Ca_Mashonkina2017,Ti_Bergemann2011_MPIA,Cr_Bergemann2010_MPIA}.csv
-# Columns: element, wave_A, teff_K, logg, feh, delta_nlte
+# Columns: element, wave_A, teff_K, logg, feh, delta_nlte (per-line; neutral only).
+# Registry: config.constants.NLTE_CORRECTION_ELEMENTS.
 #
-# UNIT CONVENTION: feh axis is [Fe/H] RELATIVE (range −0.5 to +0.3).
-# iSpec returns [X/H] relative (0.0 at solar) for all elements.
-# Caller should pass stellar_params['feh'] directly — NO solar offset needed.
-# This is unlike the Fe Amarsi grid (afe axis = absolute A(Fe) 4.5–7.5),
-# which required _A_FE_SOLAR = 7.46 added before lookup (see above, RYA-247).
+# UNIT CONVENTION: feh axis is [Fe/H] RELATIVE (range −0.5 to +0.3). iSpec returns
+# [X/H] relative (0.0 at solar) for all elements → pass stellar_params['feh']
+# directly, NO solar offset. This is unlike the Fe Amarsi grid (afe axis = absolute
+# A(Fe) 4.5–7.5, which required _A_FE_SOLAR = 7.46 added before lookup, RYA-247).
 #
-# Expected solar deltas (Teff=5777, logg=4.4, feh=0.0):
-#   Ca: +0.013 dex (median, 8 lines)   — range −0.106 to +0.053
-#   Ti: +0.108 dex (median, 19 lines)  — range +0.101 to +0.133
-#   Cr: +0.073 dex (median, 46 lines)  — range +0.009 to +0.132
+# Per-line application mirrors the Fe leg: for each measured line of an element in
+# the registry we interpolate delta over (teff,logg,feh) at the line's wavelength,
+# set a_nlte[i] = a_1dlte[i] + delta[i], and recompute median/std from the corrected
+# values. Outside the convex hull → NaN (line skipped). Availability gate: an element
+# with no in-grid line stays 1D-LTE with nlte_flag='NLTE_unavailable' (no silent fix).
+#
+# Real-grid solar deltas (Teff~5777, logg~4.4, feh=0.0; from these MPIA grids):
+#   Ca ~+0.013, Ti ~+0.108, Cr ~+0.073 dex (medians).
+#   NB — the MPIA MAFAGS-OS Cr median (~+0.07) is FAR below the +0.3–0.5 the RYA-235
+#   description cited from Bergemann & Cescutti 2010; the large landmark correction is
+#   line/regime specific. This does NOT rescue the raw-pool Cr overshoot: 1D-LTE Cr
+#   already reads high (RYA-239), so acceptance still requires a CURATED pool first.
+_MPIA_ELEMENT_DIR = _REPO_ROOT / 'data' / 'nlte_grids'
+_mpia_element_cache: dict = {}
+
+
+def _load_mpia_element_grid(element: str) -> dict:
+    """Per-(wave) LinearNDInterpolator over (teff_K, logg, feh) for a registry
+    element (Ca/Ti/Cr). Cached per element; loud-fails if the element is not in the
+    registry or its grid file is missing (no silent skip of a configured element)."""
+    if element in _mpia_element_cache:
+        return _mpia_element_cache[element]
+    from scipy.interpolate import LinearNDInterpolator
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    if element not in NLTE_CORRECTION_ELEMENTS:
+        raise KeyError(f"{element!r} is not in NLTE_CORRECTION_ELEMENTS "
+                       f"({sorted(NLTE_CORRECTION_ELEMENTS)})")
+    spec = NLTE_CORRECTION_ELEMENTS[element]
+    path = _MPIA_ELEMENT_DIR / spec['grid']
+    if not path.exists():
+        raise FileNotFoundError(f"NLTE grid for {element} not found: {path}")
+    df = pd.read_csv(path)
+    df = df[df['delta_nlte'].notna()]
+    interp, waves = {}, []
+    for wave, g in df.groupby('wave_A'):
+        pts = g[['teff_K', 'logg', 'feh']].values
+        if len(pts) < 4:                      # need a simplex for LinearND
+            continue
+        try:
+            interp[round(float(wave), 3)] = LinearNDInterpolator(pts, g['delta_nlte'].values)
+        except Exception:
+            continue
+        waves.append(round(float(wave), 3))
+    cache = {
+        'interp': interp,
+        'waves': np.array(sorted(waves)),
+        'ref': spec['ref'],
+        'ion': int(spec['ion']),
+        'bounds': {
+            'teff': (float(df.teff_K.min()), float(df.teff_K.max())),
+            'logg': (float(df.logg.min()),  float(df.logg.max())),
+            'feh':  (float(df.feh.min()),   float(df.feh.max())),
+        },
+    }
+    _mpia_element_cache[element] = cache
+    return cache
+
+
+def _mpia_element_delta(element: str, wave_A: float, teff: float, logg: float,
+                        feh: float, tol: float = 0.15) -> float:
+    """delta_nlte for one line of `element`, interpolated from its MPIA grid over
+    (teff,logg,feh) at the line wavelength. NaN if no wave match within `tol` or the
+    star sits outside the (teff,logg,feh) convex hull."""
+    c = _load_mpia_element_grid(element)
+    w = c['waves']
+    if len(w) == 0:
+        return np.nan
+    j = int(np.abs(w - wave_A).argmin())
+    if abs(float(w[j]) - wave_A) > tol:
+        return np.nan
+    f = c['interp'].get(float(w[j]))
+    return float(f([[teff, logg, feh]])[0]) if f is not None else np.nan
+
+
+def element_grid_in_bounds(element: str, teff: float, logg: float, feh: float) -> bool:
+    """Preflight: is (teff,logg,feh) inside the element's MPIA grid box?"""
+    b = _load_mpia_element_grid(element)['bounds']
+    return (b['teff'][0] <= teff <= b['teff'][1] and
+            b['logg'][0] <= logg <= b['logg'][1] and
+            b['feh'][0]  <= feh  <= b['feh'][1])
+
+
+def apply_element_nlte_corrections(
+    abundances_df: pd.DataFrame,
+    stellar_params: dict,
+    per_line_df: pd.DataFrame = None,
+    line_df: pd.DataFrame = None,
+    elements=None,
+    wave_tol: float = 0.15,
+) -> pd.DataFrame:
+    """Apply per-line NLTE corrections to the non-Fe registry elements (Ca I/Ti I/
+    Cr I) from the MPIA MAFAGS-OS grids. Runs AFTER apply_fe_nlte_corrections and
+    composes with it: it touches ONLY rows whose (element, ion) are in
+    NLTE_CORRECTION_ELEMENTS, leaving the Fe leg and every other row exactly as the
+    Fe pass left them.
+
+    Mirrors the Fe per-line path: per-line delta interpolated at each line's
+    wavelength; A_X_nlte = median(a_1dlte[i] + delta[i]); columns written are the
+    same schema (delta_nlte_mean / n_nlte_lines / A_X_nlte / A_X_std_nlte /
+    nlte_flag / nlte_ref). An element with no in-grid line is left 1D-LTE with
+    nlte_flag='NLTE_unavailable' — never silently "corrected".
+
+    NOTE (RYA-235): this is the application + wiring layer. Validation to the
+    Asplund-2021 anchors is intentionally NOT asserted here — it is gated on a
+    curated line pool (raw 1D-LTE Cr reads high; NLTE on an un-curated pool
+    overshoots). Acceptance is owed on the curated pool, separately.
+    """
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    reg = NLTE_CORRECTION_ELEMENTS
+    want = set(elements) if elements is not None else set(reg)
+
+    teff = float(stellar_params.get('teff_K', 5772))
+    logg = float(stellar_params.get('logg',   4.44))
+    feh  = float(stellar_params.get('feh', 0.0))    # RELATIVE [Fe/H] — no solar offset
+
+    result = abundances_df.copy()
+    # ensure the NLTE schema exists even if the Fe pass did not run first
+    for col, default in (('delta_nlte_mean', np.nan), ('n_nlte_lines', 0),
+                         ('A_X_nlte', np.nan), ('A_X_std_nlte', np.nan),
+                         ('nlte_flag', '1D_LTE'), ('nlte_ref', '')):
+        if col not in result.columns:
+            result[col] = default
+
+    for idx, row in result.iterrows():
+        element = str(row['element'])
+        if element not in reg or element not in want:
+            continue
+        if parse_ion(row.get('ion', 1)) != int(reg[element]['ion']):
+            continue                                  # neutral only (Cr II excluded)
+
+        a_1dlte = float(row['A_X'])
+        ref     = reg[element]['ref']
+
+        if per_line_df is None or per_line_df.empty:
+            print(f"  {element} I: no per-line table — element NLTE skipped (1D LTE retained)")
+            result.at[idx, 'A_X_nlte']  = a_1dlte
+            result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+            continue
+
+        lines = per_line_df[
+            (per_line_df['element'] == element)
+            & (per_line_df['ion'].apply(parse_ion) == int(reg[element]['ion']))
+        ].copy().reset_index(drop=True)
+        if lines.empty:
+            result.at[idx, 'A_X_nlte']  = a_1dlte
+            result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+            continue
+
+        lines['aberr']  = np.nan
+        lines['a_nlte'] = lines['a_1dlte']
+        for i, lrow in lines.iterrows():
+            ab = _mpia_element_delta(element, float(lrow['wavelength_air_A']),
+                                     teff, logg, feh, tol=wave_tol)
+            if np.isfinite(ab):
+                lines.at[i, 'aberr']  = ab
+                lines.at[i, 'a_nlte'] = float(lrow['a_1dlte']) + ab
+
+        n_corrected = int(lines['aberr'].notna().sum())
+        if n_corrected == 0:
+            print(f"  {element} I: no lines in NLTE grid (Δ all NaN) — 1D LTE retained")
+            result.at[idx, 'A_X_nlte']  = a_1dlte
+            result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+            continue
+
+        a_nlte_med = float(np.median(lines['a_nlte']))
+        a_nlte_std = float(lines['a_nlte'].std()) if len(lines) > 1 else np.nan
+        mean_delta = float(lines['aberr'].mean(skipna=True))
+        print(f"  {element} I per-line NLTE ({n_corrected}/{len(lines)} corrected): "
+              f"mean Δ = {mean_delta:+.4f} dex  A({element};1D)={a_1dlte:.3f} → "
+              f"A({element};NLTE)={a_nlte_med:.3f}")
+
+        result.at[idx, 'delta_nlte_mean'] = round(mean_delta, 4)
+        result.at[idx, 'n_nlte_lines']    = n_corrected
+        result.at[idx, 'A_X_nlte']        = round(a_nlte_med, 3)
+        result.at[idx, 'A_X_std_nlte']    = round(a_nlte_std, 3) if np.isfinite(a_nlte_std) else np.nan
+        result.at[idx, 'nlte_flag']       = 'NLTE_MPIA_MAFAGS_1D'
+        result.at[idx, 'nlte_ref']        = ref
+
+    return result
 
 
 # ── C I / O I NLTE — the C/O leg (RYA-359, Amarsi 2019) ──────────────────────
