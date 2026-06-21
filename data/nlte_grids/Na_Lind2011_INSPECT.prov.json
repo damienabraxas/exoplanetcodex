@@ -1,0 +1,57 @@
+{
+  "element": "Na",
+  "ion": "I",
+  "reference": "Lind et al. 2011",
+  "source": "INSPECT database (inspect-stars.com)",
+  "endpoint": "https://www.inspect-stars.com/A_from_e",
+  "input_mode": "ew",
+  "convention": "delta_nlte = A_NLTE - A_LTE (dex)",
+  "feh_axis": "REAL \u2014 INSPECT form field `f` is [Fe/H] (RYA-396 correction; not faked)",
+  "strength": "measured solar EW per line (mA)",
+  "line_source": "data/measured/sol_ew_results_v1.csv",
+  "lines": [
+    {
+      "our_wave_A": 5682.633,
+      "inspect_wave_A": 5682.63,
+      "wi": 2,
+      "ew_mA": 159.39
+    },
+    {
+      "our_wave_A": 5688.205,
+      "inspect_wave_A": 5688.2,
+      "wi": 3,
+      "ew_mA": 163.0
+    }
+  ],
+  "grid_axes": {
+    "teff_K": [
+      5000,
+      5500,
+      5750,
+      5772,
+      6000,
+      6500
+    ],
+    "logg": [
+      3.5,
+      4.0,
+      4.4,
+      4.5
+    ],
+    "feh": [
+      -0.5,
+      0.0,
+      0.3
+    ]
+  },
+  "vmic_kms": 1.0,
+  "extraction_date": "2026-06-21",
+  "n_rows": 144,
+  "caveat": "\u0394 on INSPECT model atmosphere applied to our A_LTE \u2014 ~0.02-0.05 dex differential-transfer systematic (RYA-245), cancels Sun\u2194star if used consistently.",
+  "solar_anchor": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "delta_nlte": -0.1069
+  }
+}
