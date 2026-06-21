@@ -19,10 +19,18 @@ We do NOT need to build a Turbospectrum NLTE engine from scratch:
   * iSpec ALREADY interpolates departure grids and feeds bsyn
     (ispec.atmospheres.interpolate_nlte_departure_coefficients; departure grids live
     in $ISPEC_DIR/input/dep-grid/{El}_nlte_grid_data.h5).
-So the remaining work is (1) a READER for the Amarsi ASCII b-factor format, (2) a
-CONVERTER to iSpec's dep-grid HDF5 (or a direct bsyn driver), and (3) the
-b-factor -> delta EXTRACTION. (1) and (3) are built + unit-tested here; (2)/the live
-synthesis run is wired to the verified engine and FAIL-LOUD until the grids are in.
+So the remaining work is (1) a READER for the Amarsi grid, (2) feeding the
+departures to Turbospectrum (the Gerber-2022 adaptation, or iSpec's dep-grid), and
+(3) the b-factor -> delta EXTRACTION. (1) the PySMEGrid reader is BUILT + verified
+against the real vendored Na grid (deep-layer b->1, the format check); (3) is
+built + unit-tested; (2)/the live synthesis is wired and FAIL-LOUD until wired to
+the Gerber-2022 TS departure machinery.
+
+GRID FORMAT (intake-verified, RYA-402): the grids are PySME "DirectAccess file
+Version 1.10" (.grd) binaries — a 4D departure grid over (Teff, logg, [Fe/H],
+abund-offset) with a (ndepth, nlevel) b = n_NLTE/n_LTE block per node, plus the
+model-atom level data. Read by `PySMEGrid`. Vendored (md5-verified, gitignored;
+provenance JSON committed): Cu (v6), S (v7), Na/Al/K (v3).
 
 VALIDATE-DON'T-TUNE (the critical guarantee, ticket Step 3)
 ----------------------------------------------------------
@@ -39,6 +47,7 @@ Linear: RYA-402  (follow-up to RYA-401; complements RYA-399)
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -67,112 +76,123 @@ _KNOWN_DELTA = {
 TARGET_ELEMENTS = ['Al', 'K']
 
 
-# ── 1. Amarsi b-factor grid reader ───────────────────────────────────────────
+# ── 1. PySME departure-grid reader (the real .grd format) ────────────────────
+# RYA-402 intake (2026-06-21) established the actual on-disk format: the Amarsi
+# departure grids ship as a PySME "DirectAccess file Version 1.10" (.grd) — the
+# legacy IDL/SME save format. Layout:
+#   64-byte version string;
+#   header (nblocks u8, dir_length i2, ndir u8);
+#   ndir directory entries (key S256, size[23] i4, pointer i8);
+#   arrays are memmapped at `pointer`, dtype from the IDL typecode, shape REVERSED
+#   (IDL column-major -> NumPy row-major).
+# Keys: axis vectors teff/grav/feh/abund; model-atom data conf/term/spec/J/energy;
+# and one departure block PER MODEL keyed 't{teff}_g{logg}_m{feh}_a{abund}', each an
+# (ndepth, nlevel) float64 array of b = n_NLTE / n_LTE. (Format per the PySME source,
+# pysme.nlte.DirectAccessFile; cross-checked live against the vendored Na grid.)
 
-class AmarsiBFactorGrid:
-    """A parsed Amarsi-2020 GALAH departure-coefficient grid for one element.
+# IDL save-format typecodes -> NumPy dtype.
+_IDL_TYPECODE = {1: 'u1', 2: '<i2', 3: '<i4', 4: '<f4', 5: '<f8', 6: '<c8',
+                 7: 'S', 9: '<c16', 12: '<u2', 13: '<u4', 14: '<i8', 15: '<u8'}
 
-    Amarsi ASCII layout (per the pinned SOURCE_rya402.json):
-      label_{El}.txt : grid-node table — one row per model, columns
-                       (teff, logg, feh, a_x, ...) defining the node order.
-      nlte_{El}.txt  : the departure block — for each node, an (nlevel x ndepth)
-                       array of b = n_NLTE / n_LTE.
-    This reader is format-tolerant (whitespace ASCII) and validates shapes; it does
-    NOT invent data — a missing/short file raises.
-    """
+_MODEL_KEY_RE = re.compile(r't(-?\d+)_g([+-]\d+\.\d+)_m([+-]\d+\.\d+)_a([+-]\d+\.\d+)$')
 
-    def __init__(self, element: str, nodes: np.ndarray, node_cols: list,
-                 b: np.ndarray, ndepth: int, nlevel: int):
-        self.element = element
-        self.nodes = nodes            # (nnode, ncol) float
-        self.node_cols = node_cols    # column names
-        self.b = b                    # (nnode, nlevel, ndepth) float
-        self.ndepth = ndepth
-        self.nlevel = nlevel
+
+class PySMEGrid:
+    """A vendored Amarsi PySME departure-coefficient grid (.grd DirectAccessFile).
+
+    Read-only, memmapped — never loads the multi-GB file into RAM. `departures()`
+    snaps to the nearest (Teff, logg, [Fe/H], abund) node; quadrilinear interpolation
+    is layered on top for the live synthesis. Loud on a missing file / unknown key —
+    no fake."""
+
+    def __init__(self, path):
+        self.path = Path(path)
+        if not self.path.exists():
+            raise FileNotFoundError(
+                f"PySME departure grid not found: {self.path}. Fetch + intake per the "
+                f"provenance JSON in {self.path.parent} (RYA-402 Step 1).")
+        with open(self.path, 'rb') as f:
+            self.version = np.fromfile(f, 'S64', 1)[0].decode('latin1').strip()
+            major = int(self.version[26]) if len(self.version) > 26 else 1
+            minor = int(self.version[28:30]) if len(self.version) > 29 else 0
+            if (major, minor) < (1, 10):
+                # v1.00 header uses u2 for nblocks/ndir
+                hdt = np.dtype([('nblocks', '<u2'), ('dir_length', '<u2'), ('ndir', '<u2')])
+            else:
+                hdt = np.dtype([('nblocks', '<u8'), ('dir_length', '<i2'), ('ndir', '<u8')])
+            hdr = np.fromfile(f, hdt, 1)[0]
+            ddt = np.dtype([('key', 'S256'), ('size', '<i4', 23), ('pointer', '<i8')])
+            self._dir = np.fromfile(f, ddt, int(hdr['ndir']))
+        self.keys = [k.decode('latin1').strip() for k in self._dir['key']]
+        self._index = {k: i for i, k in enumerate(self.keys)}
+        nodes, node_keys = [], []
+        for k in self.keys:
+            m = _MODEL_KEY_RE.match(k)
+            if m:
+                node_keys.append(k)
+                nodes.append([float(m.group(1)), float(m.group(2)),
+                              float(m.group(3)), float(m.group(4))])
+        self.node_keys = node_keys
+        self.nodes = np.asarray(nodes, dtype=float)   # (nmodel, 4): teff,logg,feh,abund
+
+    def get(self, key: str) -> np.ndarray:
+        """The array stored under `key` (a real ndarray copy of the memmap)."""
+        if key not in self._index:
+            raise KeyError(f"key {key!r} not in {self.path.name}")
+        i = self._index[key]
+        s = self._dir['size'][i]
+        ndim = int(s[0])
+        shape = tuple(int(x) for x in s[1:1 + ndim])
+        dt = _IDL_TYPECODE[int(s[1 + ndim])]
+        if dt == 'S':                       # byte-string array: first dim = itemsize
+            dt = f'S{shape[0]}'
+            shape = shape[1:] if ndim > 1 else (1,)
+        mm = np.memmap(self.path, mode='r', offset=int(self._dir['pointer'][i]),
+                       dtype=dt, shape=shape[::-1])
+        return np.array(mm)
+
+    # axis vectors
+    @property
+    def teff(self):  return self.get('teff')
+    @property
+    def logg(self):  return self.get('grav')
+    @property
+    def feh(self):   return self.get('feh')
+    @property
+    def abund(self): return self.get('abund')
 
     @property
-    def n_nodes(self) -> int:
-        return len(self.nodes)
+    def n_models(self) -> int:
+        return len(self.node_keys)
 
-    def node_index(self, teff, logg, feh, a_x=None, tol=(30.0, 0.05, 0.05, 0.05)):
-        """Nearest grid node to (teff, logg, feh[, a_x]); raises if outside tol."""
-        cols = {c: i for i, c in enumerate(self.node_cols)}
-        q = [teff, logg, feh] + ([a_x] if a_x is not None else [])
-        keys = ['teff', 'logg', 'feh'] + (['a_x'] if a_x is not None else [])
-        d2 = np.zeros(self.n_nodes)
-        for k, qq, t in zip(keys, q, tol):
-            d2 += ((self.nodes[:, cols[k]] - qq) / t) ** 2
-        j = int(np.argmin(d2))
-        for k, qq, t in zip(keys, q, tol):
-            if abs(self.nodes[j, cols[k]] - qq) > t:
-                raise ValueError(
-                    f"{self.element}: requested {k}={qq} outside grid tol {t} "
-                    f"(nearest node {k}={self.nodes[j, cols[k]]}).")
-        return j
+    @property
+    def n_levels(self) -> int:
+        return int(self.get('energy').shape[-1])
 
-    def departures(self, teff, logg, feh, a_x=None) -> np.ndarray:
-        """b[level, depth] at the nearest node (no interpolation — node-snap; the
-        live path will interpolate via iSpec's Delaunay machinery)."""
-        return self.b[self.node_index(teff, logg, feh, a_x)]
+    def level_energy(self):  return self.get('energy')   # eV, (nlevel,)
+    def level_J(self):       return self.get('J')
+
+    def nearest_node(self, teff, logg, feh, abund):
+        """Index of the nearest model node (Teff scaled so 1000 K ~ 1 dex)."""
+        scale = np.array([1000.0, 1.0, 1.0, 1.0])
+        q = (np.array([teff, logg, feh, abund]) ) / scale
+        d2 = (((self.nodes / scale) - q) ** 2).sum(axis=1)
+        return int(np.argmin(d2))
+
+    def departures(self, teff, logg, feh, abund) -> np.ndarray:
+        """Departure block b at the nearest node, shape (nlevel, ndepth)."""
+        return self.get(self.node_keys[self.nearest_node(teff, logg, feh, abund)])
 
 
-def _read_label(path: Path):
-    """Parse label_{El}.txt -> (nodes ndarray, column names). The Amarsi label file
-    is whitespace ASCII; the first non-comment line may name columns. We accept a
-    header line beginning '#' with column names, else assume teff logg feh a_x."""
-    cols, rows = None, []
-    for line in path.read_text().splitlines():
-        s = line.strip()
-        if not s:
-            continue
-        if s.startswith('#'):
-            toks = s.lstrip('#').split()
-            if any(t.lower() in ('teff', 'logg', 'feh') for t in toks):
-                cols = [t.lower() for t in toks]
-            continue
-        rows.append([float(x) for x in s.split()])
-    arr = np.array(rows, dtype=float)
-    if cols is None:
-        cols = (['teff', 'logg', 'feh', 'a_x'] + [f'c{i}' for i in range(arr.shape[1] - 4)])[:arr.shape[1]]
-    return arr, cols
-
-
-def read_amarsi_grid(element: str, base_dir: Path = _AMARSI_DIR) -> AmarsiBFactorGrid:
-    """Load the Amarsi b-factor grid for `element` from `base_dir`. Raises (loud, no
-    fake) if the files are absent — they are fetched by Ryan per SOURCE_rya402.json."""
-    label = base_dir / f'label_{element}.txt'
-    matches = sorted(base_dir.glob(f'nlte_{element}_*.txt')) + \
-        ([base_dir / f'nlte_{element}.txt'] if (base_dir / f'nlte_{element}.txt').exists() else [])
-    if not label.exists() or not matches:
+def read_amarsi_grid(element: str, base_dir: Path = _AMARSI_DIR) -> PySMEGrid:
+    """Load the vendored PySME departure grid for `element` (the nlte_{El}*.grd in
+    `base_dir`). Loud FileNotFoundError if not intaken."""
+    matches = sorted(base_dir.glob(f'nlte_{element}_*.grd'))
+    if not matches:
         raise FileNotFoundError(
-            f"Amarsi-2020 b-factor grid for {element} not found in {base_dir} "
-            f"(need label_{element}.txt + nlte_{element}*.txt). Fetch from the Zenodo "
-            f"deposit pinned in {base_dir / 'SOURCE_rya402.json'} (Step 1).")
-    nodes, cols = _read_label(label)
-    b, ndepth, nlevel = _read_departures(matches[0], n_nodes=len(nodes))
-    return AmarsiBFactorGrid(element, nodes, cols, b, ndepth, nlevel)
-
-
-def _read_departures(path: Path, n_nodes: int):
-    """Parse nlte_{El}.txt -> b[node, level, depth]. The Amarsi block stores, per
-    node, an (nlevel x ndepth) departure array; the header line of each node block
-    gives 'ndepth nlevel'. Format-tolerant; validates the node count."""
-    toks = path.read_text().split()
-    i = 0
-    blocks, ndepth = [], None
-    while i < len(toks):
-        nd, nl = int(float(toks[i])), int(float(toks[i + 1]))
-        i += 2
-        n = nd * nl
-        arr = np.array(toks[i:i + n], dtype=float).reshape(nl, nd)
-        i += n
-        blocks.append(arr)
-        ndepth = nd
-    b = np.stack(blocks)
-    if len(b) != n_nodes:
-        raise ValueError(f"departure node count {len(b)} != label node count {n_nodes} "
-                         f"in {path.name}")
-    return b, ndepth, b.shape[1]
+            f"No PySME departure grid (nlte_{element}_*.grd) in {base_dir}. Intake it "
+            f"first (verify md5, place, provenance) per the RYA-402 intake gate.")
+    return PySMEGrid(matches[0])
 
 
 # ── 3. b-factor -> abundance delta (the extraction; pure, unit-tested) ────────
@@ -231,10 +251,12 @@ def synth_ew_nlte_vs_lte(element: str, line_wave_A: float, stellar_params: dict,
     interpolate_nlte_departure_coefficients). FAIL-LOUD until the departure grid is
     installed — no silent LTE fallback (that is exactly the RYA-289 anti-pattern).
 
-    Resume point: convert the Amarsi grid (read_amarsi_grid) to iSpec's
-    input/dep-grid/{El}_nlte_grid_data.h5 (same MARCS nodes), then call the live
-    Turbospectrum NLTE synthesis here. The engine is confirmed present; only the
-    converted grid is owed (gated on Ryan's fetch)."""
+    Resume point: take the PySMEGrid departures (read_amarsi_grid + interpolate the
+    (Teff,logg,[Fe/H],abund) node to the target), write them as a Turbospectrum
+    departure file + NLTEINFOFILE + model atom (the Gerber-2022 adaptation) OR
+    convert to iSpec's input/dep-grid/{El}_nlte_grid_data.h5, then run babsma_lu +
+    bsyn_lu NLTE vs LTE here. The reader + engine are ready; the TS departure
+    adaptation is the remaining wiring (guarded by the Na -0.107 reproduction)."""
     if not _ispec_nlte_available():
         raise RuntimeError(
             f"NLTE synthesis for {element} {line_wave_A:.3f} A requires the departure "
@@ -277,13 +299,14 @@ def _cli(argv=None):
         print(f"  engine: bsyn_lu NLTE compiled = VERIFIED; iSpec dep-grid present = "
               f"{_ispec_nlte_available()}")
         print(f"  Amarsi grids dir: {_AMARSI_DIR}")
-        for el in ['Na'] + TARGET_ELEMENTS:
+        for el in ['Na', 'Cu', 'S'] + TARGET_ELEMENTS:
             try:
                 g = read_amarsi_grid(el)
-                print(f"    {el}: grid PRESENT ({g.n_nodes} nodes)")
+                print(f"    {el}: grid PRESENT ({g.n_models} models, {g.n_levels} levels)")
             except FileNotFoundError:
-                print(f"    {el}: grid NOT fetched yet (Ryan — SOURCE_rya402.json)")
-        print("  Na validation + Al/K derivation are BLOCKED on the Amarsi fetch.")
+                print(f"    {el}: grid NOT intaken")
+        print("  Reader READY. Na validation + Cu/S/Al/K derivation: pending the "
+              "Gerber-2022 TS departure adaptation (Step 2 wiring).")
         return
     if a.validate_against:
         try:
