@@ -1,0 +1,43 @@
+{
+  "element": "Mn",
+  "ion": "I",
+  "species_code": "25.01",
+  "reference": "Bergemann group (MPIA SpectrumTools MAFAGS-OS)",
+  "model": "mafags-os",
+  "source_url": "https://nlte.mpia.de/gui-siuAC_secE.php",
+  "mpia_select": "mnlines[]",
+  "convention": "delta_nlte = A_NLTE - A_LTE (dex)",
+  "line_source": "data/measured/sol_ew_results_v1.csv",
+  "extraction_date": "2026-06-21",
+  "grid_axes": {
+    "teff_K": [
+      5000,
+      5500,
+      5750,
+      5772,
+      6000,
+      6500
+    ],
+    "logg": [
+      3.5,
+      4.0,
+      4.4,
+      4.5
+    ],
+    "feh": [
+      -0.5,
+      0.0,
+      0.3
+    ]
+  },
+  "vmic_kms": 1.0,
+  "n_lines": 4,
+  "n_rows": 288,
+  "n_valid_delta": 220,
+  "solar_anchor": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "delta_nlte": 0.1021
+  }
+}
