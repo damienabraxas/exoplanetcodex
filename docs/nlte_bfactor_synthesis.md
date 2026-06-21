@@ -51,13 +51,33 @@ multi-GB file into RAM). **Format check (the physics):** at the solar node the d
 layers give `b → 1.000` (thermalised to LTE) while the surface departs — verified
 live on the Na grid, and asserted in the tests.
 
-## Validate-don't-tune (the critical Step 3)
+## Validate-don't-tune (the critical Step 3) — the gate is *firing*
 
-Before trusting the path for Al/K, reproduce an **already-known** correction: run
-the vendored Na grid (INSPECT, δ = −0.107) through the synthesis path and confirm
-it lands within tolerance. **If it cannot, STOP** and do RCA — never fit to Asplund.
-`--validate-against Na` is that gate (loud-stops until the Gerber-2022 TS wiring is
-in).
+Before trusting the path for Al/K, reproduce an **already-known** correction: the
+Na I 3p→4d doublet 5682.633 / 5688.205, INSPECT solar δ ≈ **−0.107**. `python -m
+pipeline.nlte_bfactor_synth --validate-against Na` runs the gate.
+
+**Result: the gate STOPS (correctly).** The only standalone method available — a
+departure-only shortcut (`δ ≈ −⟨log₁₀ b_lower⟩`) — gives **−0.008**, an order of
+magnitude off. This is *expected*: the NLTE EW correction is an RT-weighted source-
+function integral, **not** a departure average. So we refuse to trust the shortcut
+and **do not derive Al/K from it** (validate-don't-tune: never calibrate the method
+to the anchor). The rigorous path is bsyn NLTE synthesis.
+
+## The blocker — a TS model atom is missing
+
+The SME `.grd` supplies the departures **and** the level identification (`energy`,
+`J`, `conf`, `term`, `spec`) and the depth scale (`tau`) — but **not** a
+Turbospectrum model atom (the transitions/collisions; `SRC` points to an IDL `.sav`
+not shipped). bsyn NLTE needs that model atom (+ per-line `nlte_label_low/up`) to
+map lines to levels and apply the departures. So the remaining work needs the model
+atom from one of:
+- the **Gerber-2022 TS-native** atoms (Na/Mg/Si/Ca/Ti/Mn/Fe/Co/Ni/Sr/Ba have them —
+  *Family A*; but Al/K/Cu/S do **not**), or
+- the **original model-atom files** (Na = Lind 2011, Al = Nordlander & Lind 2017, …).
+
+A PySME cross-check (PySME consumes the `.grd` natively) is the fast way to confirm
+the grid+δ-extraction independently once a synthesis is stood up.
 
 ## Data — intaken (md5-verified, gitignored, provenance committed)
 

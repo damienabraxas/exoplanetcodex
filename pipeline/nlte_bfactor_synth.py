@@ -66,9 +66,13 @@ _AMARSI_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
 # Step 2 reworks the reader/driver for this layout via the Gerber-2022 TS adaptation.
 
 # Known-delta anchors for the Step-3 machinery validation (reproduce, never fit).
-# Na from the vendored INSPECT grid (RYA-396): solar delta = -0.107.
+# Na from the vendored INSPECT grid (RYA-396): the solar median is -0.107, from the
+# Na I 3p->4d subordinate doublet 5682.633 (delta -0.103) and 5688.205 (-0.115) at
+# (Teff 5772, logg 4.44, [Fe/H] 0). Lower level = Na I 3p 2P (E~2.10 eV), upper = 4d
+# 2D (E~4.28 eV) — used to map the line to the grid's model-atom levels.
 _KNOWN_DELTA = {
     'Na': {'delta': -0.107, 'tol': 0.03,
+           'lines': [(5682.633, 2.102, 4.283), (5688.205, 2.104, 4.284)],  # (wave_A, Elow_eV, Eup_eV)
            'ref': 'Lind et al. 2011 INSPECT (vendored Na_Lind2011_INSPECT.csv, RYA-396)'},
 }
 
@@ -183,6 +187,24 @@ class PySMEGrid:
         """Departure block b at the nearest node, shape (nlevel, ndepth)."""
         return self.get(self.node_keys[self.nearest_node(teff, logg, feh, abund)])
 
+    def level_for_energy(self, e_eV: float, tol: float = 0.05) -> int:
+        """Index of the model-atom level nearest `e_eV` (raises if none within tol)."""
+        E = self.get('energy')
+        j = int(np.argmin(np.abs(E - e_eV)))
+        if abs(float(E[j]) - e_eV) > tol:
+            raise ValueError(f"no {self.path.stem} level within {tol} eV of {e_eV} "
+                             f"(nearest {float(E[j]):.3f} eV)")
+        return j
+
+    def node_tau(self, teff, logg, feh):
+        """The departure-grid optical-depth scale at the nearest (Teff,logg,[Fe/H])
+        node — `tau` is stored (feh, logg, teff, ndepth) and is abund-independent."""
+        tau = self.get('tau')
+        it = int(np.argmin(np.abs(self.teff - teff)))
+        ig = int(np.argmin(np.abs(self.logg - logg)))
+        im = int(np.argmin(np.abs(self.feh - feh)))
+        return np.asarray(tau[im, ig, it, :], dtype=float)
+
 
 def read_amarsi_grid(element: str, base_dir: Path = _AMARSI_DIR) -> PySMEGrid:
     """Load the vendored PySME departure grid for `element` (the nlte_{El}*.grd in
@@ -244,45 +266,74 @@ def _ispec_nlte_available() -> bool:
     return (Path(ISPEC_DIR) / 'input' / 'dep-grid').exists()
 
 
-def synth_ew_nlte_vs_lte(element: str, line_wave_A: float, stellar_params: dict,
-                         grid: 'AmarsiBFactorGrid' = None) -> tuple:
-    """(EW_lte, EW_nlte) for one line via Turbospectrum, with and without the
-    element's departures. Wired to the verified engine (bsyn_lu NLTE + iSpec
-    interpolate_nlte_departure_coefficients). FAIL-LOUD until the departure grid is
-    installed — no silent LTE fallback (that is exactly the RYA-289 anti-pattern).
-
-    Resume point: take the PySMEGrid departures (read_amarsi_grid + interpolate the
-    (Teff,logg,[Fe/H],abund) node to the target), write them as a Turbospectrum
-    departure file + NLTEINFOFILE + model atom (the Gerber-2022 adaptation) OR
-    convert to iSpec's input/dep-grid/{El}_nlte_grid_data.h5, then run babsma_lu +
-    bsyn_lu NLTE vs LTE here. The reader + engine are ready; the TS departure
-    adaptation is the remaining wiring (guarded by the Na -0.107 reproduction)."""
-    if not _ispec_nlte_available():
-        raise RuntimeError(
-            f"NLTE synthesis for {element} {line_wave_A:.3f} A requires the departure "
-            f"grid installed at $ISPEC_DIR/input/dep-grid/{element}_nlte_grid_data.h5. "
-            f"It is not present. Fetch the Amarsi-2020 {element} grid (SOURCE_rya402.json), "
-            f"convert via the Amarsi->iSpec dep-grid step, then re-run. Refusing to fake "
-            f"an LTE result (no silent fallback).")
-    raise NotImplementedError(
-        "live Turbospectrum NLTE EW extraction — wire to "
-        "ispec.interpolate_nlte_departure_coefficients + bsyn_lu once a dep-grid is installed")
+def _weakline_delta_estimate(grid: PySMEGrid, line, teff, logg, feh) -> float:
+    """A FIRST-ORDER departure-only abundance correction for one weak line:
+    delta ~= -<log10 b_lower> averaged over the canonical weak-line formation region
+    (tau in [0.05, 1.5]). This is NOT the real correction — it omits the line source
+    function and the proper contribution-function weighting — and is used ONLY by the
+    STOP-gate to demonstrate that the departure shortcut cannot reproduce the anchor."""
+    wave, elow, eup = line
+    b = grid.departures(teff, logg, feh, 0.0)        # (nlevel, ndepth)
+    tau = grid.node_tau(teff, logg, feh)
+    jl = grid.level_for_energy(elow)
+    m = (tau > 0.05) & (tau < 1.5)
+    return float(-np.mean(np.log10(b[jl][m])))
 
 
 def validate_against(element: str = 'Na') -> dict:
-    """Step 3 — reproduce a KNOWN delta through the synthesis path. Loud STOP on
-    mismatch; never fits to Asplund. Returns the verdict dict."""
+    """Step 3 — the STOP-gate. Try to reproduce a KNOWN delta and refuse to proceed
+    (loud) if the available method cannot. NEVER fits to the anchor.
+
+    Current state: the only method available standalone is the departure-only
+    shortcut, which DOES NOT reproduce the anchor (Na: ~-0.01 vs -0.107) — exactly as
+    expected, because the NLTE EW correction is an RT-weighted source-function
+    integral, not a departure average. So the gate FIRES: do not trust the shortcut,
+    do not derive Al/K from it. The rigorous path is bsyn NLTE synthesis (see
+    synth_ew_nlte_vs_lte), which is the remaining build."""
     if element not in _KNOWN_DELTA:
         raise KeyError(f"No known-delta anchor for {element}; anchors: {list(_KNOWN_DELTA)}")
     known = _KNOWN_DELTA[element]
-    grid = read_amarsi_grid(element)             # raises if not fetched
-    # ... live synth path here once the dep-grid is installed ...
-    raise RuntimeError(
-        f"Cannot run the {element} machinery validation yet: the Amarsi-2020 {element} "
-        f"departure grid is not installed (fetch + convert per SOURCE_rya402.json). "
-        f"Target on success: reproduce delta = {known['delta']:+.3f} +/- {known['tol']} "
-        f"[{known['ref']}]. STOP-gate: if the synthesis path cannot reproduce it, do RCA "
-        f"before going near {TARGET_ELEMENTS} (never fit the anchor).")
+    grid = read_amarsi_grid(element)                 # raises if not intaken
+    ests = [_weakline_delta_estimate(grid, ln, 5772, 4.44, 0.0) for ln in known['lines']]
+    shortcut = float(np.median(ests))
+    ok = abs(shortcut - known['delta']) <= known['tol']
+    if not ok:
+        raise RuntimeError(
+            f"STOP-gate (RYA-402 Step 3): the departure-only shortcut gives "
+            f"delta={shortcut:+.3f} for {element}, but the anchor is "
+            f"{known['delta']:+.3f} +/- {known['tol']} [{known['ref']}]. The shortcut "
+            f"CANNOT reproduce the known value (as expected — the NLTE EW correction is "
+            f"an RT-weighted source-function integral, not a departure average). Do NOT "
+            f"trust it and do NOT derive {TARGET_ELEMENTS} from it. RIGOROUS PATH: bsyn "
+            f"NLTE synthesis (synth_ew_nlte_vs_lte) with a TS model atom + per-line NLTE "
+            f"labels. BLOCKER: the SME grids supply departures + level energies (J, conf, "
+            f"term, energy, tau) but NOT the transitions/collisions a TS model atom needs "
+            f"(SRC points to an IDL .sav not in the package). Resolve via the Gerber-2022 "
+            f"TS-native model atoms or the original model-atom files, then re-run this gate.")
+    return {'element': element, 'shortcut_delta': shortcut, 'anchor': known['delta'],
+            'within_tol': ok}
+
+
+def synth_ew_nlte_vs_lte(element: str, line_wave_A: float, stellar_params: dict,
+                         grid: 'PySMEGrid' = None) -> tuple:
+    """(EW_lte, EW_nlte) for one line via Turbospectrum bsyn NLTE vs LTE. FAIL-LOUD
+    until the bsyn NLTE deck is built — no silent LTE fallback (RYA-289 anti-pattern).
+
+    The reader (PySMEGrid) + engine (bsyn_lu has NLTE compiled; iSpec interpolates
+    dep grids) are ready. The remaining wiring is the bsyn NLTE deck:
+      1. interpolate the PySMEGrid departures b(level, depth) to the target params;
+      2. write a TS departure file (on the grid `tau` scale) + a TS MODEL ATOM +
+         NLTEINFOFILE (the Gerber-2022 adaptation), or iSpec's dep-grid HDF5;
+      3. tag the line's lower/upper levels with NLTE labels (level_for_energy);
+      4. run babsma_lu + bsyn_lu twice (with / without departures) -> two EWs.
+    BLOCKER (RYA-402): the SME grids carry departures + levels but NOT a TS model
+    atom (transitions/collisions). It must come from the Gerber-2022 TS-native atoms
+    or the original model-atom files before this can run."""
+    raise NotImplementedError(
+        f"bsyn NLTE deck for {element} {line_wave_A:.3f} A is not built yet: the SME "
+        f"departure grid lacks a TS model atom (transitions/collisions). Source the "
+        f"Gerber-2022 TS-native atom (or the original model atom), then wire the bsyn "
+        f"NLTE-vs-LTE run here. No silent LTE fallback.")
 
 
 def _cli(argv=None):
