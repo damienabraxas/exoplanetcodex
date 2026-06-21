@@ -48,7 +48,13 @@ _REPO = Path(__file__).resolve().parents[1]
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
-_AMARSI_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi2020_galah'
+_AMARSI_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
+
+# RYA-402 intake correction (Cu/S, 2026-06-21): the real Amarsi PySME layout is
+#   atmos_{El}.txt  = (Teff, logg, [Fe/H]) MARCS NODE table
+#   label_{El}.txt  = model-atom ENERGY LEVELS (not the nodes the Step-1 scaffold
+#                     assumed) ; nlte_{El}_*.grd = the PySME BINARY departure array.
+# Step 2 reworks the reader/driver for this layout via the Gerber-2022 TS adaptation.
 
 # Known-delta anchors for the Step-3 machinery validation (reproduce, never fit).
 # Na from the vendored INSPECT grid (RYA-396): solar delta = -0.107.

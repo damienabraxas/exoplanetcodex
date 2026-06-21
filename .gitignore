@@ -53,3 +53,6 @@ esorex.log
 
 # RYA-396 NLTE-grid scrape checkpoints (intermediate)
 data/nlte_grids/raw/
+
+# RYA-402: Amarsi/GALAH PySME departure grids (multi-GB binaries; re-fetchable from the provenance JSON, never committed)
+data/nlte_grids/**/*.grd
