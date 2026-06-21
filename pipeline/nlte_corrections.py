@@ -549,8 +549,10 @@ def apply_element_nlte_corrections(
     elements=None,
     wave_tol: float = 0.15,
 ) -> pd.DataFrame:
-    """Apply per-line NLTE corrections to the non-Fe registry elements (Ca I/Ti I/
-    Cr I) from the MPIA MAFAGS-OS grids. Runs AFTER apply_fe_nlte_corrections and
+    """Apply per-line NLTE corrections to the non-Fe registry elements (Ca/Ti/Cr/Na/
+    Mg I + Ba II; RYA-235 + RYA-165) from their vendored grids — MPIA MAFAGS-OS for
+    Ca/Ti/Cr/Mg, INSPECT/Lind 2011 for Na, Korotin 2015 for Ba. Runs AFTER
+    apply_fe_nlte_corrections and
     composes with it: it touches ONLY rows whose (element, ion) are in
     NLTE_CORRECTION_ELEMENTS, leaving the Fe leg and every other row exactly as the
     Fe pass left them.
@@ -587,13 +589,14 @@ def apply_element_nlte_corrections(
         if element not in reg or element not in want:
             continue
         if parse_ion(row.get('ion', 1)) != int(reg[element]['ion']):
-            continue                                  # neutral only (Cr II excluded)
+            continue                          # registry ion only (Cr II excluded; Ba II included)
 
-        a_1dlte = float(row['A_X'])
-        ref     = reg[element]['ref']
+        a_1dlte   = float(row['A_X'])
+        ref       = reg[element]['ref']
+        ion_label = 'II' if int(reg[element]['ion']) == 2 else 'I'
 
         if per_line_df is None or per_line_df.empty:
-            print(f"  {element} I: no per-line table — element NLTE skipped (1D LTE retained)")
+            print(f"  {element} {ion_label}: no per-line table — element NLTE skipped (1D LTE retained)")
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
             continue
@@ -618,7 +621,7 @@ def apply_element_nlte_corrections(
 
         n_corrected = int(lines['aberr'].notna().sum())
         if n_corrected == 0:
-            print(f"  {element} I: no lines in NLTE grid (Δ all NaN) — 1D LTE retained")
+            print(f"  {element} {ion_label}: no lines in NLTE grid (Δ all NaN) — 1D LTE retained")
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
             continue
@@ -626,7 +629,7 @@ def apply_element_nlte_corrections(
         a_nlte_med = float(np.median(lines['a_nlte']))
         a_nlte_std = float(lines['a_nlte'].std()) if len(lines) > 1 else np.nan
         mean_delta = float(lines['aberr'].mean(skipna=True))
-        print(f"  {element} I per-line NLTE ({n_corrected}/{len(lines)} corrected): "
+        print(f"  {element} {ion_label} per-line NLTE ({n_corrected}/{len(lines)} corrected): "
               f"mean Δ = {mean_delta:+.4f} dex  A({element};1D)={a_1dlte:.3f} → "
               f"A({element};NLTE)={a_nlte_med:.3f}")
 
@@ -634,7 +637,10 @@ def apply_element_nlte_corrections(
         result.at[idx, 'n_nlte_lines']    = n_corrected
         result.at[idx, 'A_X_nlte']        = round(a_nlte_med, 3)
         result.at[idx, 'A_X_std_nlte']    = round(a_nlte_std, 3) if np.isfinite(a_nlte_std) else np.nan
-        result.at[idx, 'nlte_flag']       = 'NLTE_MPIA_MAFAGS_1D'
+        # per-source provenance tag (RYA-165): MPIA MAFAGS-OS by default; a non-MPIA
+        # grid (Na INSPECT/Lind, Ba Korotin) carries its own `flag` so it is never
+        # mislabelled as MPIA.
+        result.at[idx, 'nlte_flag']       = reg[element].get('flag', 'NLTE_MPIA_MAFAGS_1D')
         result.at[idx, 'nlte_ref']        = ref
 
     return result
