@@ -381,12 +381,16 @@ PATHS = {
 # real MPIA SpectrumTools MAFAGS-OS grids (scraped RYA-244/245; columns
 # element,wave_A,teff_K,logg,feh,delta_nlte). The feh axis is [Fe/H] RELATIVE
 # (0 at solar) — pass stellar_params['feh'] directly, NO solar offset (unlike the
-# absolute-A(Fe) Amarsi Fe grid). Neutral species only (Ca I/Ti I/Cr I); Cr II is
-# deliberately excluded (the RYA-232 −0.777 dex was two saturated lines in the COG
-# damping wing, a line-matching artifact, not a real systematic — RYA-240).
+# absolute-A(Fe) Amarsi Fe grid). Cr II is deliberately excluded (the RYA-232 −0.777
+# dex was two saturated lines in the COG damping wing, a line-matching artifact, not a
+# real systematic — RYA-240). Ca/Ti/Cr/Mg/Mn/Si are neutral (ion 1); Ba is
+# singly-ionised (Ba II, ion 2 — the dominant Ba stage in FGK photospheres).
 # The Asplund-2021 solar anchors (SOLAR_ASPLUND2021) are the validation targets,
 # but acceptance is gated on a CURATED line pool (RYA-235 reopen: raw 1D-LTE Cr
 # already reads high; NLTE on an un-curated pool overshoots — curate first).
+# `flag` overrides the default per-source NLTE provenance tag ('NLTE_MPIA_MAFAGS_1D');
+# set it where the grid is NOT an MPIA MAFAGS-OS extraction (Na = INSPECT/Lind,
+# Ba = Korotin/VizieR) so a non-MPIA grid is never mislabelled as MPIA (RYA-165).
 NLTE_CORRECTION_ELEMENTS = {
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
@@ -397,6 +401,28 @@ NLTE_CORRECTION_ELEMENTS = {
     'Cr': {'ion': 1, 'grid': 'Cr_Bergemann2010_MPIA.csv',
            'ref': 'Bergemann & Cescutti 2010 (A&A 522, A9), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '24.01'},
+    # RYA-165 (grids vendored RYA-396): the rescoped Na/Mg/Ba leg + the Mn/Si gap-fill.
+    # Li deferred (RYA-103 Li 6707 CN-blend); C/O owned by nlte_cno (Amarsi 2019).
+    # Asplund acceptance still gated on a curated pool (Na +0.27 / Ba +0.19 NLTE-sized;
+    # Mg's +1.72 is saturation/curation, NLTE here is a rounding-error rung).
+    'Na': {'ion': 1, 'grid': 'Na_Lind2011_INSPECT.csv',
+           'ref': 'Lind et al. 2011 (A&A 528, A103), INSPECT database (inspect-stars.com)',
+           'flag': 'NLTE_INSPECT_Lind2011_1D'},
+    'Mg': {'ion': 1, 'grid': 'Mg_Bergemann_MPIA.csv',
+           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (cf. Osorio et al. 2015, A&A 579, A53)',
+           'mpia_species': '12.01'},
+    'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',
+           'ref': 'Korotin et al. 2015 (A&A 581, A70), CDS VizieR J/A+A/581/A70',
+           'flag': 'NLTE_Korotin2015_1D'},
+    # Mn I — sizeable NLTE (solar Δ ≈ +0.10); Si I — negligible in FGK (Δ ≈ −0.004),
+    # registered so it is explicitly 'NLTE-clean & documented' rather than silently
+    # 1D-LTE. Both MPIA MAFAGS-OS (neutral) → default MPIA flag, no override.
+    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',
+           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Mn I; cf. Bergemann & Gehren 2008, A&A 492, 823)',
+           'mpia_species': '25.01'},
+    'Si': {'ion': 1, 'grid': 'Si_Bergemann_MPIA.csv',
+           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Si I; ~negligible in FGK dwarfs)',
+           'mpia_species': '14.01'},
 }
 
 # ── Reflected-solar bodies — SINGLE SOURCE for JPL Horizons ids (RYA-394) ─────
