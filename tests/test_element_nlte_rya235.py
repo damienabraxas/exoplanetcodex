@@ -24,12 +24,15 @@ from config.constants import NLTE_CORRECTION_ELEMENTS, SOLAR_ASPLUND2021  # noqa
 SOLAR = dict(teff_K=5777, logg=4.4, feh=0.0)
 
 
-def test_registry_is_neutral_only_and_grids_exist():
-    assert set(NLTE_CORRECTION_ELEMENTS) == {'Ca', 'Ti', 'Cr'}
+def test_registry_grids_exist_and_ions_well_formed():
+    # RYA-235 seeded Ca/Ti/Cr; RYA-165 added Na/Mg (neutral) + Ba (ion II).
+    assert {'Ca', 'Ti', 'Cr'} <= set(NLTE_CORRECTION_ELEMENTS)
     for el, spec in NLTE_CORRECTION_ELEMENTS.items():
-        assert spec['ion'] == 1                                    # neutral only
+        assert int(spec['ion']) in (1, 2)
         assert (ROOT / 'data' / 'nlte_grids' / spec['grid']).exists()
         assert spec['ref']                                          # cited
+    # Ca/Ti/Cr remain neutral (the original RYA-235 contract)
+    assert all(NLTE_CORRECTION_ELEMENTS[el]['ion'] == 1 for el in ('Ca', 'Ti', 'Cr'))
 
 
 def test_grids_load_and_solar_deltas_match_documented():
