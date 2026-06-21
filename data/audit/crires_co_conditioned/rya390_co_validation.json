@@ -1,0 +1,117 @@
+{
+  "ticket": "RYA-390 Part B",
+  "co_band_vac_A": [
+    22899.0,
+    23502.0
+  ],
+  "wavelength_convention": "VACUUM (CRIRES/molecfit VAC; atlas wavelength_vac_A)",
+  "note_gap1": "closes RYA-373 GAP1 (FTS solar IR atlas absent)",
+  "settings": {
+    "K2192": {
+      "frame": "TOPOCENT",
+      "restfrm": false,
+      "rvstatus": "RV-INSUFFICIENT: ADP.2025-06-06T16:29:59.738.fits: frame-RV ",
+      "provisional": true,
+      "check1_telluric_removal_vs_ACE": {
+        "reference": "ACE-FTS (telluric-free solar)",
+        "v_kms": -22.5,
+        "peak_xcorr": 0.14967142784671708,
+        "n_overlap_px": 1669,
+        "overlap_vac_A": [
+          22899.02,
+          23006.63
+        ],
+        "resid_rms": 0.10949193838755503,
+        "depth_corr": 0.1496714278467171,
+        "n_px": 1669
+      },
+      "check3_cross_instrument_vs_photatl": {
+        "reference": "NSO photatl (terrestrial solar)",
+        "v_kms": 25.0,
+        "peak_xcorr": 0.15555584636594708,
+        "n_overlap_px": 1669,
+        "overlap_vac_A": [
+          22899.03,
+          23006.63
+        ],
+        "resid_rms": 0.10268653830881375,
+        "depth_corr": 0.15563669204556876,
+        "n_px": 1640
+      },
+      "check2_telluric_model_vs_Wallace": {
+        "reference": "Wallace telluric near-IR atlas",
+        "status": "BLOCKED \u2014 molecfit transmission (mtrans) not persisted by RYA-373 (only corrected flux is saved). RECOMMEND RYA-373 add the BEST_FIT_MODEL.mtrans column to the conditioned FITS; then this check runs directly.",
+        "verdict": "BLOCKED"
+      },
+      "diagnostic_residual_telluric_vs_photatl_atm": {
+        "reference": "photatl (telluric)",
+        "v_kms": 0.0,
+        "peak_xcorr": 0.9241393276544303,
+        "n_overlap_px": 1669,
+        "overlap_vac_A": [
+          22899.03,
+          23006.63
+        ]
+      },
+      "verdict": "TELLURIC-DOMINATED \u2014 residual telluric still dominates the corrected product (xcorr 0.92 with the telluric atlas at v\u22480); solar CO NOT recovered. Telluric removal incomplete \u2014 re-run RYA-373."
+    },
+    "K2217": {
+      "frame": "TOPOCENT",
+      "restfrm": false,
+      "rvstatus": "RV-INSUFFICIENT: ADP.2025-06-06T16:14:11.206.fits: frame-RV ",
+      "provisional": true,
+      "check1_telluric_removal_vs_ACE": {
+        "reference": "ACE-FTS (telluric-free solar)",
+        "v_kms": -21.0,
+        "peak_xcorr": 0.1974911219513831,
+        "n_overlap_px": 1041,
+        "overlap_vac_A": [
+          22899.02,
+          22969.57
+        ],
+        "resid_rms": 0.11790866642536432,
+        "depth_corr": 0.19749112195138308,
+        "n_px": 1041
+      },
+      "check3_cross_instrument_vs_photatl": {
+        "reference": "NSO photatl (terrestrial solar)",
+        "v_kms": 24.5,
+        "peak_xcorr": 0.2105229386497743,
+        "n_overlap_px": 1040,
+        "overlap_vac_A": [
+          22899.03,
+          22969.57
+        ],
+        "resid_rms": 0.10757896389229443,
+        "depth_corr": 0.21067480901198093,
+        "n_px": 1013
+      },
+      "check2_telluric_model_vs_Wallace": {
+        "reference": "Wallace telluric near-IR atlas",
+        "status": "BLOCKED \u2014 molecfit transmission (mtrans) not persisted by RYA-373 (only corrected flux is saved). RECOMMEND RYA-373 add the BEST_FIT_MODEL.mtrans column to the conditioned FITS; then this check runs directly.",
+        "verdict": "BLOCKED"
+      },
+      "diagnostic_residual_telluric_vs_photatl_atm": {
+        "reference": "photatl (telluric)",
+        "v_kms": 0.0,
+        "peak_xcorr": 0.856257082890089,
+        "n_overlap_px": 1040,
+        "overlap_vac_A": [
+          22899.03,
+          22969.57
+        ]
+      },
+      "verdict": "TELLURIC-DOMINATED \u2014 residual telluric still dominates the corrected product (xcorr 0.86 with the telluric atlas at v\u22480); solar CO NOT recovered. Telluric removal incomplete \u2014 re-run RYA-373."
+    }
+  },
+  "telluric_reference_crosscheck": {
+    "status": "RAN",
+    "overlap_vac_A": [
+      23048.89,
+      23256.92
+    ],
+    "telluric_depth_corr": 0.9913062954561412,
+    "n_px": 4096,
+    "verdict": "PASS \u2014 independent telluric refs agree"
+  }
+}
