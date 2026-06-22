@@ -179,14 +179,14 @@ elements:
   S:
     ion: "I"
     dimensionality: {regime: "3D (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE (line-dependent; LARGE for NIR triplet)", solar_corr_dex: "NIR 9212/9228/9237 up to ~-1.1; opt 6743/6757 ~-0.1; 8694 ~-0.26", cite: "Korotin2009 (Astron.Rep.53,651); Takeda2005"}
-    grid: {status: GETTABLE, source: "Korotin/Takeda S I NLTE (no INSPECT/MPIA public grid -> CDS/author or compute); NOT in Amarsi2020"}
-    indicators: {lines: "weak high-EP optical (6743/6757, smaller NLTE) vs strong NIR triplet 9212/9228/9237 (big NLTE)", in_data: "7 measured lines"}
-    hazards: "indicator decision: optical = small NLTE but weak; NIR = strong but -1.1 NLTE + Takeda/Korotin disagree ~0.4; CHNOPS-critical"
-    verdict: GET-GRID
-    routing: "RYA-396-pattern (S NLTE) + indicator decision (RYA-162)"
+    departure: {regime: "NLTE (line-dependent)", solar_corr_dex: "opt 6748/6757 -0.016 (RYA-402 PySME from Amarsi2025 grid); NIR 9212/9228/9237 up to ~-1.1 (separate indicator)", cite: "Amarsi2025 (A&A 703,A35, grid); Takeda2005; Korotin2009"}
+    grid: {status: HAVE, source: "Amarsi2025 (A&A 703,A35) S departure grid via PySME (RYA-402 Option 2); optical 6748/6757"}
+    indicators: {lines: "OPTICAL high-EP 6748/6757 (derived, small NLTE -0.016) vs strong NIR triplet 9212/9228/9237 (big NLTE, separate derivation owed)", in_data: "7 measured lines (6748/6757 used)"}
+    hazards: "indicator decision = OPTICAL chosen (we measure 6748/6757; small clean NLTE). NIR triplet (-1.1, Takeda/Korotin disagree ~0.4) is a separate indicator if needed. CHNOPS-critical."
+    verdict: LOCKED
+    routing: "RYA-402 (PySME b-factor synthesis; Family-B Option 2). Validated small-negative (median -0.016, PASS) + portable. NIR triplet owed separately."
     spotlight: true
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 7}
+    verified_in_repo: {registry: true, grid_file: "S_Amarsi2025_PySME.csv", measured_ew_lines: 7}
 
   Cu:
     ion: "I"

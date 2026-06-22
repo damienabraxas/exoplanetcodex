@@ -70,7 +70,14 @@ NLTE_LINES = {
     'Cu': [
         (5782.130, -1.488, 1.642, 1.5, 3.786, 0.5, '3d9.4s2 2D', '3d10.4p 2P*', -7.79),
     ],
-    # K / S diagnostic lines added as each is derived.
+    # S I multiplet-8 high-excitation subordinate lines 4p 5P -> 5d 5D* (6748/6757),
+    # the standard optical S diagnostics (we measure them, clean). Small negative NLTE
+    # (high-excitation -> both levels ~thermalised): solar median -0.016. gamvw=0 Unsold.
+    'S': [
+        (6748.680, -0.639, 7.868, 2.0, 9.704, 3.0, '3s2.3p3.(4S*).4p 5P', '3s2.3p3.(4S*).5d 5D*', 0.0),
+        (6757.150, -0.240, 7.870, 3.0, 9.704, 4.0, '3s2.3p3.(4S*).4p 5P', '3s2.3p3.(4S*).5d 5D*', 0.0),
+    ],
+    # K diagnostic lines added when derived.
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
@@ -174,6 +181,7 @@ _ANCHOR = {
     'Na': (-0.107, 0.03, 'Lind et al. 2011 INSPECT (Na I 5682/5688)'),
     'Al': (-0.02, 0.04, 'Nordlander & Lind 2017, A&A 607 A75 (subordinate Al I; <=-0.04 dex on the lower MS)'),
     'Cu': (0.01, 0.05, 'Shi et al. 2014 (small positive ~+0.02 for optical Cu I in the Sun; approximate band)'),
+    'S':  (-0.04, 0.07, 'Amarsi et al. 2025 (A&A 703 A35, grid source) / Takeda 2005: optical high-excitation S I (6757 mult-8) small negative, 0 to ~-0.1'),
 }
 
 

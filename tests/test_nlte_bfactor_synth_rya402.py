@@ -192,3 +192,16 @@ def test_al_registered_and_grid_interpolates():
     d = _mpia_element_delta('Al', 6696.023, 5772, 4.44, 0.0)
     assert d == pytest.approx(-0.0275, abs=2e-3)                  # the validated solar delta
     assert -0.05 < d < 0.0                                        # small negative (N&L 2017)
+
+
+def test_s_registered_and_grid_interpolates():
+    """S I optical 6748/6757 registered source-aware (Amarsi 2025 grid via PySME);
+    small-negative solar correction, covers 55 Cnc."""
+    from config.constants import NLTE_CORRECTION_ELEMENTS as R
+    from pipeline.nlte_corrections import _mpia_element_delta, element_grid_in_bounds
+    assert R['S']['grid'] == 'S_Amarsi2025_PySME.csv'
+    assert R['S']['flag'] == 'NLTE_Amarsi2025_PySME_1D'
+    assert element_grid_in_bounds('S', 5172, 4.43, 0.31)         # 55 Cnc
+    d = _mpia_element_delta('S', 6757.15, 5772, 4.44, 0.0)
+    assert d == pytest.approx(-0.0171, abs=2e-3)
+    assert -0.05 < d < 0.0                                        # small negative (high-excit S)
