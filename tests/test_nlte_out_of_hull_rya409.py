@@ -16,8 +16,12 @@ from pipeline.nlte_corrections import apply_element_nlte_corrections, element_gr
 # 55 Cnc A: cool, metal-rich — [Fe/H] +0.31 just past the +0.30 MPIA grid ceiling.
 CNC = {'teff_K': 5172, 'logg': 4.43, 'feh': 0.31}
 SOLAR = {'teff_K': 5772, 'logg': 4.44, 'feh': 0.0}
-# the 7 registered MPIA/INSPECT elements whose grid ceiling is +0.30 (clamp at 55 Cnc)
-CLAMPED = ['Ca', 'Ti', 'Cr', 'Na', 'Mg', 'Mn', 'Si']
+# RYA-409 found 7 MPIA/INSPECT elements clamped at +0.30. RYA-410 re-sourced Na/Mg/Si
+# onto Amarsi-2020 PySME grids ([Fe/H] -> +0.6), CLOSING their clamp; Ca/Mn stayed on
+# MPIA (PySME-Amarsi cross-check STOPPED — Ca model diff, Mn HFS), and Ti/Cr are not in
+# Amarsi-2020 — so these four still clamp at 55 Cnc.
+STILL_CLAMPED = ['Ca', 'Ti', 'Cr', 'Mn']
+RESOURCED = ['Na', 'Mg', 'Si']            # RYA-410: Amarsi grid now covers +0.31
 
 
 def _dfs(element, ion='I', wave=6000.0):
@@ -45,18 +49,32 @@ def test_strict_raises_out_of_hull():
             apply_element_nlte_corrections(ab, CNC, per_line_df=pl, elements=['Ca'], strict=True)
 
 
-def test_all_seven_clamp_loud_at_55cnc():
-    """A mock 55-Cnc run: all 7 ceiling-+0.30 elements report NLTE_OUT_OF_HULL loudly."""
+def test_remaining_four_clamp_loud_at_55cnc():
+    """A mock 55-Cnc run: the four still-MPIA elements (Ca/Ti/Cr/Mn) report
+    NLTE_OUT_OF_HULL loudly — none silently drops to LTE (RYA-409 guard)."""
     flagged = []
-    for el in CLAMPED:
-        ion = 'II' if el == 'Ba' else 'I'                  # (Ba not clamped; all 7 here are neutral)
+    for el in STILL_CLAMPED:
         ab, pl = _dfs(el)
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             out = apply_element_nlte_corrections(ab, CNC, per_line_df=pl, elements=[el])
         if out.iloc[0]['nlte_flag'] == 'NLTE_OUT_OF_HULL':
             flagged.append(el)
-    assert set(flagged) == set(CLAMPED)                    # all 7 loudly clamped, none silent
+    assert set(flagged) == set(STILL_CLAMPED)              # all four loudly clamped, none silent
+
+
+def test_resourced_elements_no_longer_clamp_at_55cnc():
+    """RYA-410: Na/Mg/Si moved to Amarsi grids covering [Fe/H]+0.31, so the 55-Cnc clamp
+    is CLOSED — they are in-hull and must NOT trip the out-of-hull guard."""
+    for el in RESOURCED:
+        assert element_grid_in_bounds(el, teff=CNC['teff_K'], logg=CNC['logg'], feh=CNC['feh']), \
+            f"{el} should be in-hull at 55 Cnc after RYA-410 re-source"
+        ab, pl = _dfs(el)
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            out = apply_element_nlte_corrections(ab, CNC, per_line_df=pl, elements=[el])
+        assert out.iloc[0]['nlte_flag'] != 'NLTE_OUT_OF_HULL', \
+            f"{el} clamp should be closed by RYA-410, not OUT_OF_HULL"
 
 
 def test_in_hull_does_not_trip_the_guard():

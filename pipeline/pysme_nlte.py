@@ -137,7 +137,13 @@ def _spacefree_grid(element: str) -> str:
     d = Path(tempfile.gettempdir()) / 'rya402_pysme_grids'
     d.mkdir(exist_ok=True)
     link = d / _GRID_FILENAME[element]
-    if not link.exists():
+    # Replace a stale/broken link (e.g. left by a previous run whose grid was since
+    # freed to manage disk) — os.path.lexists catches a broken symlink that
+    # link.exists() reports absent, which would make os.symlink raise FileExists.
+    if os.path.lexists(link):
+        if not link.exists() or os.path.realpath(link) != str(src.resolve()):
+            os.unlink(link)
+    if not os.path.lexists(link):
         os.symlink(src, link)
     return str(link)
 
