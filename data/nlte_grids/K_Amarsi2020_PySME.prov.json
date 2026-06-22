@@ -1,0 +1,21 @@
+{
+  "ticket": "RYA-402",
+  "element": "K",
+  "ion": 1,
+  "status": "VALIDATED + READY, but NOT registered (production data-blocked).",
+  "what": "K I resonance doublet 7665/7699 (4s 2S -> 4p 2P*, ground state) 1D non-LTE abundance corrections, derived NLTE-vs-LTE in PySME from the Amarsi-2020 K departure grid. The boss fight: SATURATED + LARGE negative NLTE.",
+  "model_atom": "Amarsi et al. 2020 (A&A 642, A62) GALAH K I departure grid (Zenodo v3, record 3982506).",
+  "derivation": "PySME 1.0.1 + SME backend 6.13, MARCS marcs2012; ABO van der Waals (487/485). SATURATED -> derived with the WIDE EW window (hw=2 A, broad damping wings) + WIDE abundance bracket (+/-0.4; the COG is flat) -- _DERIV_OPTS['K']. Standard narrow settings would under-integrate the wing and fail to bracket.",
+  "validation": {
+    "anchor": "Reggiani et al. 2019 (A&A 627, A177) / Andrievsky et al. 2006: K I 7665/7699 resonance, severe negative NLTE (line stronger in NLTE); solar ~-0.2..-0.3 (up to -0.7 for warm/metal-poor, e.g. Procyon).",
+    "result": "solar (5772/4.44/0.0): 7665 -0.271, 7699 -0.312, median -0.292 -> PASS (large-negative regime; reproduced, not fitted). Teff trend: more negative toward warmer Teff (-0.40 at 6200 K), matching Reggiani 2019."
+  },
+  "grid": {
+    "file": "K_Amarsi2020_PySME.csv",
+    "schema": "element, ion, wave_A, teff_K, logg, feh, delta_nlte",
+    "nodes": "9 (Teff 5100-6200, logg 4.0-4.7, [Fe/H] -0.3..+0.4) spanning FGK dwarfs incl. solar + 55 Cnc.",
+    "delta_range": {"7664.899": [-0.370, -0.137], "7698.964": [-0.400, -0.161]}
+  },
+  "PRODUCTION_BLOCKER": "K is NOT registered in NLTE_CORRECTION_ELEMENTS and NOT flipped to LOCKED, because it cannot be APPLIED: (1) 0 measured K lines, and (2) 7665/7699 sit IN the O2 telluric A-band -> need the RYA-380 telluric recipe + a measurement before the (validated, ready) grid can be used. The grid is validated and waiting; registering K is a one-line change once the lines are measured.",
+  "derived": "2026-06-21"
+}

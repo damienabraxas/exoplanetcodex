@@ -162,53 +162,53 @@ elements:
   Al:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE", solar_corr_dex: "see Nordlander&Lind2017", cite: "Nordlander&Lind2017 (A&A 607,A75); Amarsi2020"}
-    grid: {status: DEFERRED, source: "Amarsi2020 GALAH departure-coefficients (no delta-CSV); Nordlander&Lind2017"}
-    rya401: {probe: "INSPECT A_from_e Al → HTTP 500; not on MPIA tool", gap_reason: "no simple delta-CSV grid — Amarsi2020 provides DEPARTURE COEFFICIENTS needing RT line-formation conversion (RYA-399-class), not a scrape", path: "convert Amarsi2020 GALAH Al departure coeffs (heavier build) OR carry to next star"}
+    departure: {regime: "NLTE", solar_corr_dex: "-0.022 (PySME from Amarsi2020 grid; reproduces Nordlander&Lind2017 subordinate band <=-0.04)", cite: "Nordlander&Lind2017 (A&A 607,A75); Amarsi2020 (A&A 642,A62)"}
+    grid: {status: HAVE, source: "Amarsi2020 GALAH (Al) departure grid via PySME (RYA-402 Option 2); Al I model atom Nordlander&Lind2017"}
+    rya401: {probe: "INSPECT A_from_e Al → HTTP 500; not on MPIA tool; no simple delta-CSV", outcome: "SUPERSEDED by RYA-402 — the departure-coefficient→delta conversion that RYA-401 flagged as RYA-399-class was done via PySME synthesis (not a scrape)"}
     indicators: {lines: "Al I 6696/6698 (subord., clean); 3944/3961 resonance strong", in_data: "2 measured lines"}
-    hazards: "resonance lines strong/blue; subordinate 6696/6698 preferred"
-    verdict: HARD-carry-forward
-    routing: "deferred → Amarsi2020 departure-coeff conversion (RYA-399-class) or carry-forward"
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
+    hazards: "resonance lines strong/blue; subordinate 6696/6698 preferred (the ones derived)"
+    verdict: LOCKED
+    routing: "RYA-402 (PySME b-factor synthesis; Family-B Option 2). Validated vs N&L2017 (solar median -0.022, PASS) + LTE-baseline-portable (eps -0.011)."
+    verified_in_repo: {registry: true, grid_file: "Al_Amarsi2020_PySME.csv", measured_ew_lines: 2}
 
   K:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021, new 3D-NLTE)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE (strong; resonance)", solar_corr_dex: "see Amarsi2020/Asplund2021", cite: "Amarsi2020; Asplund2021"}
-    grid: {status: DEFERRED, source: "Amarsi2020 GALAH departure-coefficients (no delta-CSV)"}
-    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool", gap_reason: "departure-coeffs only (RT conversion needed) + 0 measured lines + resonance sits in O2 telluric band", path: "RYA-380 telluric usability of 7665/7699 + measure + Amarsi2020 conversion — multi-blocker"}
-    indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured (telluric band)"}
-    hazards: "TRIPLE-THREAT: saturated + strong NLTE + sits IN the O2 telluric A/B band -> needs telluric correction (RYA-380 recipe) before EW"
-    verdict: HARD-carry-forward
-    routing: "deferred → RYA-380 (telluric) + measurement + Amarsi2020 conversion"
+    departure: {regime: "NLTE (severe; saturated resonance)", solar_corr_dex: "7665 -0.27 / 7699 -0.31 (median -0.29; RYA-402 PySME from Amarsi2020 grid, saturated-aware)", cite: "Reggiani2019 (A&A 627,A177); Andrievsky2006; Amarsi2020 (grid)"}
+    grid: {status: HAVE-VALIDATED, source: "Amarsi2020 GALAH (K) via PySME (RYA-402); K_Amarsi2020_PySME.csv -- DERIVED + VALIDATED, NOT registered (data-blocked)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool", outcome: "NLTE grid SUPERSEDED by RYA-402 (derived+validated via PySME, median -0.29); the RYA-401 multi-blocker reduces to RYA-380 telluric + measurement (the grid is no longer the blocker)"}
+    indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured (in O2 telluric band)"}
+    hazards: "TRIPLE-THREAT: saturated + severe NLTE (validated -0.29) + sits IN the O2 telluric A-band. The NLTE grid is now DONE; the remaining blockers are MEASUREMENT (0 lines) + TELLURIC (RYA-380 recipe) before the grid can be applied."
+    verdict: GET-DATA
+    routing: "RYA-402 NLTE grid DERIVED + VALIDATED (saturation handled; median -0.29 PASS vs Reggiani2019). Production blocked on RYA-380 (telluric) + measurement; register K once the lines are measured (one-line change)."
     spotlight: true
     xref: RYA-380
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
+    verified_in_repo: {registry: false, grid_file: "K_Amarsi2020_PySME.csv (ready, unregistered)", measured_ew_lines: 0}
 
   S:
     ion: "I"
     dimensionality: {regime: "3D (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE (line-dependent; LARGE for NIR triplet)", solar_corr_dex: "NIR 9212/9228/9237 up to ~-1.1; opt 6743/6757 ~-0.1; 8694 ~-0.26", cite: "Korotin2009 (Astron.Rep.53,651); Takeda2005"}
-    grid: {status: GAP, source: "no public machine-readable S I NLTE grid (Korotin2008/2009 author/compute; tables only, 2<=logg<=4 partial)"}
-    indicator_decision: "OPTICAL high-EP multiplet 6743/6757 (RYA-401): measured in our set (6748.7/6757.0/6757.1), telluric-free, and small solar NLTE (~-0.1) — chosen OVER the NIR 9212/9228/9237 triplet (strong but -1.1 dex NLTE, Takeda05 vs Korotin09 disagree ~0.4 at 9213, NIR-telluric). Per the Beast indicators column + RYA-393 strategy logic."
-    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; no VizieR deposit found", gap_reason: "no public grid for the chosen optical indicator; solar NLTE is small (~-0.1) so LTE-with-flag is tolerable at solar", path: "Korotin author-contact / digitise the 6743-6757 table (logg~4.4 is at the published edge) OR carry-forward as LTE-flagged"}
-    indicators: {lines: "CHOSEN: optical 6743/6757 (small NLTE). Alt: NIR 9212/9228/9237 (big NLTE)", in_data: "7 measured lines (incl. 6748.7/6757.0/6757.1)"}
-    hazards: "CHNOPS-critical; optical indicator small-NLTE so LTE-flagged is acceptable at solar pending the grid"
-    verdict: HARD-carry-forward
-    routing: "indicator=optical decided; grid author/compute → carry-forward (LTE-flagged) until vendored"
+    departure: {regime: "NLTE (line-dependent)", solar_corr_dex: "opt 6748/6757 -0.016 (RYA-402 PySME from Amarsi2025 grid); NIR 9212/9228/9237 up to ~-1.1 (separate indicator)", cite: "Amarsi2025 (A&A 703,A35, grid); Takeda2005; Korotin2009"}
+    grid: {status: HAVE, source: "Amarsi2025 (A&A 703,A35) S departure grid via PySME (RYA-402 Option 2); optical 6748/6757"}
+    indicator_decision: "OPTICAL high-EP multiplet 6743/6757 (RYA-401, confirmed by RYA-402): measured in our set (6748.7/6757.0/6757.1), telluric-free, small solar NLTE — chosen OVER the NIR 9212/9228/9237 triplet (strong but -1.1 dex NLTE, Takeda05/Korotin09 disagree ~0.4). Per the Beast indicators column + RYA-393 strategy logic."
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; no VizieR deposit", outcome: "SUPERSEDED by RYA-402 — the optical 6748/6757 grid was derived via PySME from the Amarsi2025 departure grid (registered); no longer LTE-flagged at solar"}
+    indicators: {lines: "OPTICAL high-EP 6748/6757 (derived, small NLTE -0.016) vs strong NIR triplet 9212/9228/9237 (big NLTE, separate derivation owed)", in_data: "7 measured lines (6748/6757 used)"}
+    hazards: "indicator decision = OPTICAL chosen (we measure 6748/6757; small clean NLTE). NIR triplet (-1.1, Takeda/Korotin disagree ~0.4) is a separate indicator if needed. CHNOPS-critical."
+    verdict: LOCKED
+    routing: "RYA-402 (PySME b-factor synthesis; Family-B Option 2). Validated small-negative (median -0.016, PASS) + portable. NIR triplet owed separately."
     spotlight: true
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 7}
+    verified_in_repo: {registry: true, grid_file: "S_Amarsi2025_PySME.csv", measured_ew_lines: 7}
 
   Cu:
     ion: "I"
     dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE (significant; HFS)", solar_corr_dex: "see Shi2014/Korotin2018", cite: "Shi2014; Andrievsky2018; Korotin2018 (MNRAS 480,965)"}
-    grid: {status: GAP, source: "NO public NLTE grid for neutral copper (Korotin2018/Andrievsky2018 = per-star corrections, no deposited grid)"}
-    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; no VizieR Cu I correction grid", gap_reason: "literature explicitly: no available NLTE grid for Cu I — only individual-star corrections", path: "author-contact / compute Cu I NLTE OR carry-forward"}
-    indicators: {lines: "Cu I 5105/5218/5782 (HFS)", in_data: "2 measured lines"}
-    hazards: "HFS (VALD HFS-on); resonance 3247/3274 blue/strong avoided"
-    verdict: HARD-carry-forward
-    routing: "no public grid → carry-forward (HFS-LTE) until a grid exists"
+    departure: {regime: "NLTE small for optical Cu I (RYA-402: 5782 delta +0.001)", solar_corr_dex: "+0.001 single / +0.003 HFS (PySME from Amarsi/Caliskan grid; Shi2014 ~+0.02 small)", cite: "Shi2014; Caliskan2024 (grid); Amarsi2020"}
+    grid: {status: HAVE, source: "Amarsi Cu (Caliskan Oct2024) departure grid via PySME (RYA-402)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; RYA-401 found no public Cu I correction grid", outcome: "SUPERSEDED — RYA-402 derived the grid via PySME from the Amarsi Cu (Caliskan) departure grid + validated HFS×NLTE (small). NOT registered: the blocker is now measured-line QUALITY (4767 junk, 4704 high-Rydberg), not the grid -> RYA-395"}
+    indicators: {lines: "Cu I 5105/5218/5782 (HFS) standard; OUR measured 4704 (high-excit, fragile upper) + 4767 (EW=198 UNPHYSICAL=junk)", in_data: "2 measured (both inadequate)"}
+    hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER: measured Cu lines inadequate (4767 junk, 4704 high-Rydberg) -> Cu NLTE not production-registered; needs standard-line measurement (RYA-395 curation)."
+    verdict: GET-GRID
+    routing: "RYA-402 machinery + HFS VALIDATED (small delta); production BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then register"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
 
   V:
