@@ -167,14 +167,14 @@ elements:
   K:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021, new 3D-NLTE)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE (strong; resonance)", solar_corr_dex: "see Amarsi2020/Asplund2021", cite: "Amarsi2020; Asplund2021"}
-    grid: {status: GETTABLE, source: "Amarsi2020 GALAH (K)"}
-    indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured (telluric band)"}
-    hazards: "TRIPLE-THREAT: saturated + strong NLTE + sits IN the O2 telluric A/B band -> needs telluric correction (RYA-380 recipe) before EW"
-    verdict: GET-GRID
-    routing: "RYA-396-pattern (grid) + RYA-380 (telluric) + measurement"
+    departure: {regime: "NLTE (severe; saturated resonance)", solar_corr_dex: "7665 -0.27 / 7699 -0.31 (median -0.29; RYA-402 PySME from Amarsi2020 grid, saturated-aware)", cite: "Reggiani2019 (A&A 627,A177); Andrievsky2006; Amarsi2020 (grid)"}
+    grid: {status: HAVE-VALIDATED, source: "Amarsi2020 GALAH (K) via PySME (RYA-402); K_Amarsi2020_PySME.csv -- DERIVED + VALIDATED, NOT registered (data-blocked)"}
+    indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured (in O2 telluric band)"}
+    hazards: "TRIPLE-THREAT: saturated + severe NLTE (validated -0.29) + sits IN the O2 telluric A-band. The NLTE grid is now DONE; the remaining blockers are MEASUREMENT (0 lines) + TELLURIC (RYA-380 recipe) before the grid can be applied."
+    verdict: GET-DATA
+    routing: "RYA-402 NLTE grid DERIVED + VALIDATED (saturation handled; median -0.29 PASS vs Reggiani2019). Production blocked on RYA-380 (telluric) + measurement; register K once the lines are measured (one-line change)."
     spotlight: true
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
+    verified_in_repo: {registry: false, grid_file: "K_Amarsi2020_PySME.csv (ready, unregistered)", measured_ew_lines: 0}
 
   S:
     ion: "I"
