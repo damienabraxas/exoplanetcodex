@@ -94,9 +94,38 @@ _GRID_FILENAME = {
     'Na': 'nlte_Na_scatt_pysme.grd', 'Al': 'nlte_Al_scatt_pysme.grd',
     'K': 'nlte_K_scatt_pysme.grd', 'Cu': 'nlte_Cu_caliskan_Oct2024_pysme.grd',
     'S': 'nlte_S_ama51_Sep2024_pysme.grd',
+    # RYA-409 Part B re-source (v3 Amarsi-2020 grids, [Fe/H] -> +1):
+    'Mg': 'nlte_Mg_scatt_pysme.grd', 'Si': 'nlte_Si_scatt_pysme.grd',
+    'Ca': 'nlte_Ca_scatt_pysme.grd', 'Mn': 'nlte_Mn_scatt_pysme.grd',
 }
 _REPO = Path(__file__).resolve().parents[1]
 _GRID_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
+
+
+def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
+    """Resolve the grid level labels for a line by NEAREST ENERGY — so Family-A
+    re-derivations (Mg/Si/Ca/Mn) don't need hand-mapping like Al/S did. Returns
+    (term_lower 'conf term', term_upper 'conf term', j_lo, j_up). Raises if either
+    level is >tol eV from any grid level (a wrong-level match is exactly where a
+    silent NLTE error hides). RYA-409."""
+    from pipeline.nlte_bfactor_synth import read_amarsi_grid
+    g = read_amarsi_grid(element)
+    E = g.get('energy'); J = g.get('J')
+    conf = g.get('conf'); term = g.get('term')
+
+    def _dec(arr, i):
+        return bytes(arr[i]).decode('latin1').strip()
+
+    def _match(e):
+        i = int(np.argmin(np.abs(E - e)))
+        if abs(float(E[i]) - e) > tol:
+            raise ValueError(f"{element}: no grid level within {tol} eV of {e:.3f} eV "
+                             f"(nearest {float(E[i]):.3f}).")
+        return i
+
+    il, iu = _match(elow_eV), _match(eup_eV)
+    return (f"{_dec(conf, il)} {_dec(term, il)}", f"{_dec(conf, iu)} {_dec(term, iu)}",
+            float(J[il]), float(J[iu]))
 
 
 def _spacefree_grid(element: str) -> str:
@@ -142,7 +171,9 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
     sme.teff, sme.logg, sme.monh = star['teff'], star['logg'], star['feh']
     sme.vmic, sme.vmac, sme.vsini = star.get('vmic', 1.0), 0.0, 0.0
     ab = Abund.solar(); ab[element] = _A_SUN[element] + offset; sme.abund = ab
-    sme.linelist = LineList(pd.DataFrame(rows), lineformat='long')
+    # PySME requires the line list ascending in wavelength.
+    sme.linelist = LineList(pd.DataFrame(rows).sort_values('wlcent').reset_index(drop=True),
+                            lineformat='long')
     wmin = min(l[0] for l in lines) - 2.0
     wmax = max(l[0] for l in lines) + 2.0
     sme.wave = np.linspace(wmin, wmax, int((wmax - wmin) * 220))
@@ -159,7 +190,8 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
 
 
 def _Z(el):
-    return {'Na': 11, 'Al': 13, 'K': 19, 'Cu': 29, 'S': 16}[el]
+    return {'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16, 'K': 19,
+            'Ca': 20, 'Mn': 25, 'Cu': 29}[el]
 
 
 def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
