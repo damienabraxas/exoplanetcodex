@@ -191,12 +191,12 @@ elements:
   Cu:
     ion: "I"
     dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE (significant; HFS)", solar_corr_dex: "see Shi2014/Korotin2018", cite: "Shi2014; Andrievsky2018; Korotin2018 (MNRAS 480,965)"}
-    grid: {status: GETTABLE, source: "Korotin2018 / Andrievsky2018 Cu I NLTE (CDS/author)"}
-    indicators: {lines: "Cu I 5105/5218/5782 (HFS)", in_data: "2 measured lines"}
-    hazards: "HFS (VALD HFS-on); resonance 3247/3274 blue/strong avoided"
+    departure: {regime: "NLTE small for optical Cu I (RYA-402: 5782 delta +0.001)", solar_corr_dex: "+0.001 single / +0.003 HFS (PySME from Amarsi/Caliskan grid; Shi2014 ~+0.02 small)", cite: "Shi2014; Caliskan2024 (grid); Amarsi2020"}
+    grid: {status: HAVE, source: "Amarsi Cu (Caliskan Oct2024) departure grid via PySME (RYA-402)"}
+    indicators: {lines: "Cu I 5105/5218/5782 (HFS) standard; OUR measured 4704 (high-excit, fragile upper) + 4767 (EW=198 UNPHYSICAL=junk)", in_data: "2 measured (both inadequate)"}
+    hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER: measured Cu lines inadequate (4767 junk, 4704 high-Rydberg) -> Cu NLTE not production-registered; needs standard-line measurement (RYA-395 curation)."
     verdict: GET-GRID
-    routing: RYA-396-pattern
+    routing: "RYA-402 machinery + HFS VALIDATED (small delta); production BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then register"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
 
   V:
