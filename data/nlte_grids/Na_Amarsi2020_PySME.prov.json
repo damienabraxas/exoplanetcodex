@@ -1,0 +1,38 @@
+{
+  "ticket": "RYA-410",
+  "element": "Na",
+  "ion": 1,
+  "what": "Na I 1D non-LTE abundance corrections (delta_nlte = A_NLTE - A_LTE) for the diagnostic lines 5682.633 / 5688.205, derived by synthesising NLTE vs LTE in PySME from the Amarsi-2020 GALAH departure grid (pipeline/pysme_nlte.py + scripts/resource_clamped_grids_rya409.py). Re-source of the 55-Cnc-clamped Family-A grid: the Amarsi grid covers [Fe/H] -> +1, closing the metal-rich clamp that the prior MPIA/INSPECT grid (ceiling +0.30) left open.",
+  "model_atom": "Lind et al. 2011 (A&A 528, A103) Na I model atom, as packaged in the Amarsi et al. 2020 (A&A 642, A62) GALAH departure grid (Zenodo v3, record 3982506, DOI 10.5281/zenodo.3982506).",
+  "derivation": "PySME 1.0.1 + SME backend 6.13, MARCS marcs2012 grid. delta = A_used - A* where EW_LTE(A*) = EW_NLTE. Diagnostic-line atomic data resolved from the GES synthesis linelist (loggf/EP), grid level labels matched by nearest energy (pysme_nlte.auto_labels). _resolve_atomic clusters HFS/fine-structure components by lower-level energy and keeps the dominant gf-summed group (RYA-410 fix; the prior wide median-merge invented the Si 5772 EP-5.348 level that broke RYA-409).",
+  "validation": {
+    "method": "validate-don't-tune CROSS-CHECK: the PySME-Amarsi SOLAR delta must reproduce the prior registered value within 0.04 dex before the grid is trusted/swapped.",
+    "result": "solar (5772/4.44/0.0): PySME-Amarsi -0.129 vs registered INSPECT Lind-2011 -0.107 (diff -0.022, tol 0.04) -> PASS. reproduces the INSPECT Lind-2011 solar -0.107 (strong subordinate doublet). Reproduced, not fitted."
+  },
+  "grid": {
+    "file": "Na_Amarsi2020_PySME.csv",
+    "schema": "element, ion, wave_A, teff_K, logg, feh, delta_nlte",
+    "nodes": "11 (Teff 5100-6200, logg 4.0-4.7, [Fe/H] -0.3..+0.6) spanning the FGK-dwarf range incl. solar + 55 Cnc (5172/4.43/+0.31) + metal-rich +0.6; LinearND-interpolated per wave by the registry. No NaN in grid.",
+    "delta_range": {
+      "5682.633": [
+        -0.1591,
+        -0.0977
+      ],
+      "5688.205": [
+        -0.1772,
+        -0.0991
+      ]
+    },
+    "metal_rich_closure": "55 Cnc node (5172,4.43,+0.31) resolved (no clamp); replaces the MPIA/INSPECT +0.30 ceiling that RYA-409 made loud."
+  },
+  "registered": "config.constants.NLTE_CORRECTION_ELEMENTS['Na'] (flag NLTE_Amarsi2020_PySME_1D), replacing the prior MPIA/INSPECT entry as the single source. Beast YAML verdict stays LOCKED (grid-source swap, not a regime change); RYA-400 audit green.",
+  "supersedes": "the prior registered grid for this element (RYA-396/RYA-165 MPIA/INSPECT); kept in repo for reference but no longer the live correction.",
+  "derived": "2026-06-22",
+  "solar_anchor": {
+    "teff_K": 5772,
+    "logg": 4.44,
+    "feh": 0.0,
+    "delta_nlte": -0.1293,
+    "note": "PySME-Amarsi solar median (the validate-dont-tune cross-check value); reproduces the prior registered MPIA/INSPECT delta within 0.04."
+  }
+}
