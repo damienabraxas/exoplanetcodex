@@ -548,6 +548,7 @@ def apply_element_nlte_corrections(
     line_df: pd.DataFrame = None,
     elements=None,
     wave_tol: float = 0.15,
+    strict: bool = False,
 ) -> pd.DataFrame:
     """Apply per-line NLTE corrections to the non-Fe registry elements (Ca/Ti/Cr/Na/
     Mg I + Ba II; RYA-235 + RYA-165) from their vendored grids — MPIA MAFAGS-OS for
@@ -608,6 +609,29 @@ def apply_element_nlte_corrections(
         if lines.empty:
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
+            continue
+
+        # ── RYA-409 Part A: LOUD out-of-hull guard — kill the silent NaN→1D-LTE clamp ──
+        # The LinearND interpolator returns NaN outside the (Teff,logg,[Fe/H]) hull, which
+        # used to collapse to the generic 'NLTE_unavailable' with no signal — so 7 Family-A
+        # elements silently dropped to 1D-LTE at the metal-rich 55 Cnc ([Fe/H]+0.31 vs grid
+        # ceiling +0.30). Same loud-failure-over-silent-fallback class as RYA-399's
+        # 3D_unavailable / the RestFrameError gate: flag it LOUD + distinct (NLTE_OUT_OF_HULL),
+        # name the element + (Teff,logg,[Fe/H]) + the hull it missed, retain LTE only WITH that
+        # explicit flag — never a silent substitution. `strict=True` raises instead.
+        if not element_grid_in_bounds(element, teff, logg, feh):
+            b = _load_mpia_element_grid(element)['bounds']
+            msg = (f"{element} {ion_label}: (Teff={teff:.0f}, logg={logg:.2f}, [Fe/H]={feh:+.2f}) is "
+                   f"OUTSIDE the NLTE grid hull (Teff {b['teff'][0]:.0f}–{b['teff'][1]:.0f}, logg "
+                   f"{b['logg'][0]:.2f}–{b['logg'][1]:.2f}, [Fe/H] {b['feh'][0]:+.2f}..{b['feh'][1]:+.2f}). "
+                   f"Retaining 1D-LTE with an explicit NLTE_OUT_OF_HULL flag — NOT a silent NLTE→LTE "
+                   f"substitution (RYA-409). Re-source the grid past this [Fe/H] (Part B).")
+            warnings.warn(msg, RuntimeWarning, stacklevel=2)
+            print(f"  LOUD [NLTE_OUT_OF_HULL]: {msg}")
+            result.at[idx, 'A_X_nlte']  = a_1dlte
+            result.at[idx, 'nlte_flag'] = 'NLTE_OUT_OF_HULL'
+            if strict:
+                raise ValueError(f"RYA-409 strict NLTE hull guard: {msg}")
             continue
 
         lines['aberr']  = np.nan
