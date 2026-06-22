@@ -54,6 +54,7 @@ from config.constants import (
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
+    FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
     SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
 )
@@ -2315,10 +2316,30 @@ def run(star_id: str = 'solar',
                 _rew = np.log10(_f1['ew_mA'].values / _f1['wavelength_air_A'].values)
                 rew_slope = float(np.polyfit(_rew, _f1['a_1dlte'].values, 1)[0])
         slope_pass = np.isfinite(rew_slope) and abs(rew_slope) < FE_REW_SLOPE_GATE
-        # (2) Fe I−Fe II ionization balance (a uniform Fe zero-point cancels)
+        # (2) Fe I−Fe II ionization balance — scored on the SYNTHESIS arbiter (RYA-406).
+        # The EW-path ΔFe is a DIAGNOSTIC: the EW Fe II pool is blend-limited and reads
+        # HIGH BY DESIGN (RYA-352), so its imbalance is spurious. The ratified ionization
+        # arbiter is flux-space synthesis (DECISION 2, RYA-305/341). Source: a single-
+        # source cited constant for the calibrated Sun; otherwise the star's synth-v2
+        # product; otherwise loud-fallback to the EW path (never a silent verdict swap).
         a_fe1 = _abs_nlte_of(_fe1_df); a_fe2 = _abs_nlte_of(_fe2_df)
-        dfe = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
-        ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        dfe_ew = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
+        _arb = FE_IONIZATION_SYNTH_ARBITER.get(star_id)
+        if _arb is not None:                          # ratified synth arbiter (cited)
+            dfe = float(_arb['dFe'])
+            fe2_synth = float(_arb['fe2_synth'])
+            ion_src = f"synth arbiter ({_arb['provenance']})"
+            ion_pass = abs(dfe) < FE_IONISATION_GATE
+        else:                                          # no ratified arbiter for this star
+            # (a synth-v2 product consumer would slot here; absent → EW path, flagged loud)
+            dfe = dfe_ew
+            fe2_synth = np.nan
+            ion_src = "EW path (NO ratified synth arbiter for this star — RYA-406; diagnostic-grade verdict)"
+            ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        # EW-vs-synth Fe II spread — reported diagnostic, flagged if beyond the blend-bias
+        # band (Socratic check: confirm it is the EW blend-bias, not an unexplained term).
+        ew_synth_spread = (a_fe2 - fe2_synth) if np.isfinite(fe2_synth) else np.nan
+        spread_flag = np.isfinite(ew_synth_spread) and abs(ew_synth_spread) > FE_EW_SYNTH_SPREAD_BAND
         # (3) Fe I scatter
         sc1 = np.nan
         if len(_fe1_df):
@@ -2329,9 +2350,15 @@ def run(star_id: str = 'solar',
         scat_pass = np.isfinite(sc1) and sc1 < FE_SCATTER_GATE
         primary_pass = slope_pass and ion_pass and scat_pass
 
-        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336) ──")
+        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336/406) ──")
         print(f"  Fe I reduced-EW slope = {rew_slope:+.3f}  -> {'PASS' if slope_pass else 'FAIL'} (|slope| < {FE_REW_SLOPE_GATE})")
-        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)")
+        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)  [{ion_src}]")
+        if np.isfinite(ew_synth_spread):
+            _band = (f"FLAG > {FE_EW_SYNTH_SPREAD_BAND} (unexplained?)" if spread_flag
+                     else f"within blend-bias band <= {FE_EW_SYNTH_SPREAD_BAND}")
+            print(f"    · DIAGNOSTIC EW-vs-synth Fe II spread = {ew_synth_spread:+.3f} "
+                  f"(EW {a_fe2:.3f} blend-limited HIGH, RYA-352; synth {fe2_synth:.3f}, RYA-341) -> {_band}")
+            print(f"    · (EW-path ΔFe(I−II) = {dfe_ew:+.3f} is NOT the verdict — EW Fe II is blend-biased; RYA-405/406)")
         print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {FE_SCATTER_GATE} dex)")
 
         # Absolute A(Fe): scale-aware diagnostic (centre = 3D-true 7.46 + published 1D-3D offset)
