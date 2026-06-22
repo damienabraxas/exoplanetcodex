@@ -681,6 +681,102 @@ def check_vald_threshold() -> list[Violation]:
     return violations
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 7 — solar-EW canonical input source (RYA-408)
+# ══════════════════════════════════════════════════════════════════════════════
+# Root cause of the RYA-406 incident: the solar Fe gate / abundance derivation read
+# its EW input from the GITIGNORED, regenerable staging file data/processed/solar_ew.csv,
+# whose per-worktree content can silently diverge from the committed canonical. This
+# guard enforces three things:
+#   (1) the committed canonical (data/measured/sol_ew_results_v1.csv) is present and
+#       well-formed — it is the single source the gate must read;
+#   (2) IDENTITY — pipeline.abundances_derive._load_solar_ews actually reads the
+#       canonical (PATHS['solar_ew_canonical']) and NOT the staging file as its EW pool
+#       (a regression that re-points the gate at the runtime is a loud, untracked break);
+#   (3) DRIFT — if the regenerable staging file is present, every canonical line must
+#       appear in it with matching EW and blend_flag; a divergent staging set is stale /
+#       from a different run and must never be mistaken for the source.
+_SOLAR_EW_CANONICAL = _const.PATHS['solar_ew_canonical']
+_EW_DRIFT_TOL_MA = 0.5  # mÅ — canonical is a resolved subset of the same lines_fit run
+
+def check_solar_ew_canonical() -> list[Violation]:
+    import inspect
+    violations: list[Violation] = []
+    canon = Path(str(_SOLAR_EW_CANONICAL))
+
+    # (1) canonical present + well-formed
+    if 'data/measured' not in canon.as_posix():
+        raise StewardshipParseError(
+            f"solar-EW canonical must live under data/measured (committed), got {canon}")
+    if not canon.exists():
+        raise StewardshipParseError(
+            f"solar-EW canonical missing at {canon} — the gate/abundance EW source is gone (RYA-408)")
+    try:
+        cdf = pd.read_csv(canon, low_memory=False)
+    except Exception as exc:
+        raise StewardshipParseError(f"cannot read solar-EW canonical {canon}: {exc}")
+    need = {'element', 'ion', 'wavelength_air_A', 'ew_mA', 'blend_flag'}
+    miss = need - set(cdf.columns)
+    if miss or len(cdf) == 0:
+        raise StewardshipParseError(
+            f"solar-EW canonical malformed (missing {miss or 'rows'}): {canon}")
+
+    # (2) IDENTITY — the gate's loader must read the canonical, not the staging file
+    try:
+        src = inspect.getsource(_ad._load_solar_ews)
+    except Exception as exc:
+        raise StewardshipParseError(f"cannot inspect _load_solar_ews source: {exc}")
+    reads_canonical = 'solar_ew_canonical' in src
+    reads_runtime_pool = "read_csv(str(PATHS['solar_ew']))" in src
+    if (not reads_canonical) or reads_runtime_pool:
+        violations.append(Violation(
+            invariant='solar_ew_canonical', quantity='gate EW input source',
+            locus='pipeline.abundances_derive._load_solar_ews',
+            value=f"reads_canonical={reads_canonical} reads_runtime_pool={reads_runtime_pool}",
+            source="PATHS['solar_ew_canonical'] vs PATHS['solar_ew']",
+            detail="the solar EW pool must be read from the committed canonical "
+                   "(sol_ew_results_v1.csv), never the gitignored staging solar_ew.csv "
+                   "(RYA-408; this is the RYA-406 incident). No remediation ticket — a "
+                   "re-point to the runtime is a real, untracked break.",
+            ticket=None))
+
+    # (3) DRIFT — a present staging file must agree with the canonical on the MEASURED
+    # EW of shared lines. blend_flag is intentionally NOT compared here: it is a curation
+    # quantity OWNED by the canonical (11 vetted blends incl. O I 6300.3 Ni-blend,
+    # RYA-104/408) that the raw lines_fit staging legitimately lacks — its integrity is
+    # the job of check_blend_flag (linelist ↔ vetted-builder ↔ propagation). Only an EW
+    # divergence signals a stale / different-run staging set masquerading as the source.
+    staging = Path(str(_const.PATHS['solar_ew']))
+    if staging.exists():
+        try:
+            sdf = pd.read_csv(staging, low_memory=False)
+        except Exception as exc:
+            raise StewardshipParseError(f"cannot read solar-EW staging {staging}: {exc}")
+        skey = {(e, i, round(float(w), 2)): float(m)
+                for e, i, w, m in zip(sdf['element'], sdf['ion'],
+                                      sdf['wavelength_air_A'], sdf['ew_mA'])}
+        n_div = 0
+        for e, i, w, m in zip(cdf['element'], cdf['ion'], cdf['wavelength_air_A'],
+                              cdf['ew_mA']):
+            k = (e, i, round(float(w), 2))
+            if k not in skey:
+                continue  # canonical line not in staging — coverage, not drift
+            if abs(skey[k] - float(m)) > _EW_DRIFT_TOL_MA:
+                n_div += 1
+                if n_div <= 5:  # cap the noise; the count is the signal
+                    violations.append(Violation(
+                        invariant='solar_ew_canonical', quantity='staging↔canonical EW drift',
+                        locus=f"{e} {i} {k[2]}Å",
+                        value=f"staging EW={skey[k]:.2f} mÅ vs canonical EW={float(m):.2f} mÅ",
+                        source=f"{staging.name} vs {canon.name}",
+                        detail="the regenerable staging solar_ew.csv diverges from the "
+                               "committed canonical on a measured EW — it is stale / from a "
+                               "different run and must not be mistaken for the EW source "
+                               "(RYA-408).",
+                        ticket=None))
+    return violations
+
+
 GF_PAIRS = [
     GfPair(
         name='synth-vs-solar',
@@ -727,7 +823,7 @@ PROVENANCE_CHECKS = [
 
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
-    check_all_stores_resolve, check_vald_threshold,
+    check_all_stores_resolve, check_vald_threshold, check_solar_ew_canonical,
 ]
 
 
@@ -743,6 +839,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_blend_flag()
     violations += check_all_stores_resolve()
     violations += check_vald_threshold()
+    violations += check_solar_ew_canonical()
     return violations
 
 

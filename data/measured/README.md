@@ -29,20 +29,32 @@ element, ion, wavelength_air_A, ew_mA, ew_err_mA, profile_type, chi2, blend_flag
 Regenerate / re-version only from a committed pipeline run; never overwrite in place
 (bump the version suffix), so the source stays citable.
 
-## Canonical solar-EW sources — the three roles (RYA-397)
+## Canonical solar-EW sources — the three roles (RYA-397, updated RYA-408)
 
-There is no `sol_ew_results_v1_1.csv`; **`sol_ew_results_v1.csv` is the current
-canonical committed set.** The three solar-EW artifacts are distinct and all *live* —
-none is deprecated (RYA-396 vendored the committed one and verified currency, so there
-was nothing to quarantine here):
+There is no `sol_ew_results_v1_1.csv`; **`sol_ew_results_v1.csv` is the single canonical
+committed set** read by the solar Fe gate, abundance derivation, and stewardship. The
+three solar-EW artifacts are distinct:
 
 | File | Role | Tracked? | Referenced via |
 |------|------|----------|----------------|
-| `data/processed/solar_ew.csv` | **Transient runtime** EW table — regenerated every pipeline run by `lines_fit.py`; the working file the abundance/diagnostic path reads. | gitignored (`data/processed/`) | `PATHS['solar_ew']` |
-| `data/measured/sol_ew_results_v1.csv` | **Canonical committed/citable** measured-line set (806 lines, 22 elements) — for tasks needing a stable in-repo source (NLTE scrapers/grids, non-Fe pool curation). | committed | `data/measured/sol_ew_results_v1.csv` (literal) |
+| `data/measured/sol_ew_results_v1.csv` | **CANONICAL** committed measured-line set (806 lines, 22 elements) — the single source of truth for the Fe gate, `abundances_derive`, the NLTE scrapers/grids, and non-Fe pool curation. | committed | `PATHS['solar_ew_canonical']` |
+| `data/processed/solar_ew.csv` | **STAGING ONLY** — the per-run `lines_fit.py` output. Regenerable, gitignored, **never a gate/abundance EW input** (RYA-408: this was the RYA-406 incident). Promoted to the canonical only via the reviewed `scripts/promote_solar_ew.py`. | gitignored (`data/processed/`) | `PATHS['solar_ew']` |
 | `data/processed/solar_ew_ges_reference.csv` | **GES Fe I EW reference** — pre-stored GES EWs used for the solar Fe I leg only (avoids the NLTE EW bias the measured Fe I carries; RYA-330). | committed (force-added) | `…/solar_ew_ges_reference.csv` |
 
-Rule: query the **committed** set (`sol_ew_results_v1.csv`) from any script that must
-not depend on a transient run; the pipeline's own EW path uses `PATHS['solar_ew']`. A
-dated `results/Solar/<date>/solar_ew.csv` snapshot is NOT a source — repoint any such
-reference to the committed set.
+**RYA-408 contract:** no gate or abundance derivation may take a gitignored, regenerable
+file as its EW input. `abundances_derive._load_solar_ews` reads the canonical
+(`PATHS['solar_ew_canonical']`) for the Fe II + non-Fe-I pool; Fe I stays on the committed
+GES reference. The stewardship invariant `check_solar_ew_canonical` enforces this
+(canonical present + well-formed; the loader actually reads it; and a present staging file
+must not drift from the canonical on a measured EW). A dated
+`results/Solar/<date>/solar_ew.csv` snapshot is NOT a source.
+
+### Promotion (staging → canonical)
+Re-version only from a committed, reviewed pipeline run via `scripts/promote_solar_ew.py`
+(dry-run by default; `--apply` writes). Promotion **STOPS** — writing nothing — on any
+`blend_flag` conflict between staging and the canonical: the canonical's 11 vetted
+blends (incl. **O I 6300.304**, Ni-blended per RYA-104/208) are curation that the raw
+`lines_fit` staging does not own and must never silently overwrite. EW measurements are
+promoted; canonical coverage is preserved; new staging-only lines are reported, not
+auto-added. A genuine `lines_fit` flag bug is a follow-up (fix `VETTED_BLENDS`, the single
+source of `blend_flag`), not a promotion-time overwrite.
