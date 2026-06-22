@@ -161,12 +161,70 @@ def part_ca():
     return dict(same_lines_pysme=same_med, mpia_ref=ref, rya410_repro=r2['delta_median'])
 
 
+# the three clean single-component MPIA Mn lines (HFS moot, NLTE-active; 4998 excluded —
+# its upper level is unperturbed by the Amarsi grid) — the set the ~2x rests on.
+MN_CLEAN = [6304.906, 6306.342, 6867.11]
+
+
+def part_mn_controls():
+    """RYA-411 finishing brief: is the ~2x Mn divergence PURELY the model atom, or partly
+    parametric? +0.107 is Bergemann's PUBLISHED grid value (his atmosphere / xi / A(Mn)),
+    not recomputed through our harness. Sensitivity of OUR Amarsi delta to the controls we
+    CAN vary (xi, reference A(Mn)); the gap to explain is 0.107 - ~0.050 = ~0.057 dex."""
+    P._A_SUN.setdefault('Mn', SOLAR_ASPLUND2021['Mn'])
+    lines, _ = _build_lines('Mn', MN_CLEAN, hfs=True)
+    P.NLTE_LINES['Mn'] = lines
+    a_sun0 = P._A_SUN['Mn']
+    print(f"\n== Mn controls — clean lines {MN_CLEAN}; A(Mn)_ref={a_sun0} ==")
+
+    print("\n  (1) MICROTURBULENCE xi  [A(Mn) fixed] — high-EP weak lines -> expect ~flat")
+    base = {}
+    for xi in (0.8, 1.0, 1.5, 2.0):
+        r = P.nlte_delta('Mn', star={'teff': 5772, 'logg': 4.44, 'feh': 0.0, 'vmic': xi})
+        base[xi] = r['delta_median']
+        print(f"    xi={xi}: median delta {r['delta_median']:+.4f}  per-line "
+              f"{{{', '.join(f'{k:.0f}:{v:+.3f}' for k,v in r['per_line'].items())}}}")
+    xi_span = max(base.values()) - min(base.values())
+    print(f"    -> xi 0.8..2.0 swing = {xi_span:.4f} dex")
+
+    print("\n  (2) REFERENCE A(Mn) zero-point  [xi=1.0] — delta is differential -> expect ~0")
+    amn = {}
+    for a in (a_sun0 - 0.1, a_sun0, a_sun0 + 0.1):
+        P._A_SUN['Mn'] = a
+        r = P.nlte_delta('Mn', star={'teff': 5772, 'logg': 4.44, 'feh': 0.0, 'vmic': 1.0})
+        amn[round(a, 2)] = r['delta_median']
+        print(f"    A(Mn)={a:.2f}: median delta {r['delta_median']:+.4f}")
+    P._A_SUN['Mn'] = a_sun0
+    amn_span = max(amn.values()) - min(amn.values())
+    print(f"    -> A(Mn) +/-0.1 swing = {amn_span:.4f} dex")
+
+    print("\n  (3) MODEL ATMOSPHERE — ours MARCS marcs2012; Bergemann MPIA = MAFAGS-OS.")
+    print("      Cannot run MAFAGS-OS in PySME (MPIA gives precomputed deltas, not a departure")
+    print("      grid). PROXY: perturb Teff +/-25 K (~ the MARCS-vs-MAFAGS-OS solar T(tau)")
+    print("      difference in the line-forming layers) -> bounds the atmosphere-STRUCTURE")
+    print("      sensitivity of the (differential) delta.")
+    atm = {}
+    for te in (5747, 5772, 5797):
+        r = P.nlte_delta('Mn', star={'teff': te, 'logg': 4.44, 'feh': 0.0, 'vmic': 1.0})
+        atm[te] = r['delta_median']
+        print(f"    Teff={te}: median delta {r['delta_median']:+.4f}")
+    atm_span = max(atm.values()) - min(atm.values())
+    print(f"    -> Teff +/-25 K swing = {atm_span:.4f} dex (atmosphere-structure proxy)")
+
+    tot = xi_span + amn_span + atm_span
+    print(f"\n  SUMMED parametric bound: xi {xi_span:.4f} + A(Mn) {amn_span:.4f} + atmo(Teff) "
+          f"{atm_span:.4f} = {tot:.4f} dex  vs the 0.057 dex gap")
+    print(f"  -> {'PARAMETRIC TERMS << GAP: the ~2x is the MODEL ATOM (claim airtight)' if tot < 0.03 else 'parametric terms non-negligible — soften the claim'}")
+
+
 def main(argv=None):
     p = argparse.ArgumentParser()
-    p.add_argument('--part', choices=['mn', 'mn-demo', 'ca'], required=True)
+    p.add_argument('--part', choices=['mn', 'mn-demo', 'mn-controls', 'ca'], required=True)
     a = p.parse_args(argv)
     if a.part == 'mn-demo':
         part_mn(demo=True)
+    elif a.part == 'mn-controls':
+        part_mn_controls()
     elif a.part == 'mn':
         part_mn(demo=False)
     elif a.part == 'ca':
