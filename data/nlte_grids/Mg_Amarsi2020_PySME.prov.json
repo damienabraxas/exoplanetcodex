@@ -34,5 +34,13 @@
     "feh": 0.0,
     "delta_nlte": -0.0216,
     "note": "PySME-Amarsi solar median (the validate-dont-tune cross-check value); reproduces the prior registered MPIA/INSPECT delta within 0.04."
+  },
+  "grd_source": {
+    "binary": "amarsi_galah/nlte_Mg_scatt_pysme.grd (gitignored, freed)",
+    "zenodo_record": "https://zenodo.org/records/3982506",
+    "tar": "nlte_Mg_scatt_pysme.tar.gz",
+    "tar_md5_verified": "cdc4449e17f580cac0c5cf6f041bcc2f",
+    "binary_provenance": "amarsi_galah/Mg_amarsi2020_v3.prov.json",
+    "refetch": "zenodo.org/records/3982506/files/nlte_Mg_scatt_pysme.tar.gz?download=1 (verify md5 cdc4449e17f580cac0c5cf6f041bcc2f)"
   }
 }

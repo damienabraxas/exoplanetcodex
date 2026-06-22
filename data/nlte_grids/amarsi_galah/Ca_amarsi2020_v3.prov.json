@@ -1,0 +1,40 @@
+{
+  "ticket": "RYA-410",
+  "element": "Ca",
+  "kind": "NLTE departure-coefficient grid (PySME DirectAccessFile v1.10), Amarsi-2020 GALAH",
+  "status": "NOT registered (RYA-410 cross-check STOP \u2014 Amarsi-vs-Mashonkina model diff); .grd fetched+freed",
+  "source": {
+    "grid_cite": "Amarsi, Lind, Osorio et al. 2020, A&A 642, A62 (GALAH non-LTE departure grids)",
+    "deposit": "Amarsi 'Grid/NLTE' Zenodo, version 3 (the original 13-element 2020 release)",
+    "zenodo_version": "v3 (2020-06-11)",
+    "zenodo_record": "https://zenodo.org/records/3982506",
+    "zenodo_doi": "10.5281/zenodo.3982506"
+  },
+  "files": [
+    {
+      "name": "nlte_Ca_scatt_pysme.tar.gz",
+      "md5": "90a886a4bc6fb4f2b2e037f0188d41c6",
+      "committed": false,
+      "role": "Zenodo download archive (re-fetch source; md5 VERIFIED at fetch, RYA-410)"
+    },
+    {
+      "name": "nlte_Ca_scatt_pysme.grd",
+      "md5": "deterministic from the tar (gzip/tar is reproducible); not separately captured \u2014 the binary is freed after each derivation to conserve disk. Re-fetch verification is anchored on the tar md5 above.",
+      "committed": false,
+      "role": "PySME DirectAccessFile: 4D departure grid b(level,depth)"
+    },
+    {
+      "name": "atmos_Ca.txt",
+      "committed": true,
+      "role": "MARCS atmosphere node list"
+    },
+    {
+      "name": "label_Ca.txt",
+      "committed": false,
+      "role": "model-atom energy levels (~525 levels)"
+    }
+  ],
+  "refetch": "Re-download nlte_Ca_scatt_pysme.tar.gz from zenodo.org/records/3982506/files/nlte_Ca_scatt_pysme.tar.gz?download=1 (verify md5 90a886a4bc6fb4f2b2e037f0188d41c6), extract; the inner nlte_Ca_scatt_pysme.grd is reproduced deterministically.",
+  "freed_safe": "This grid was fetched->used->freed (RYA-410 disk-safe pipeline). It is re-fetchable from the verified tar md5 + Zenodo record above \u2014 the production artifact (the per-line delta CSV) is committed; the binary is recoverable.",
+  "derived": "2026-06-22"
+}
