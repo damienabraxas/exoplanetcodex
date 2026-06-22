@@ -58,8 +58,19 @@ NLTE_LINES = {
         (6696.023, -1.569, 3.143, 0.5, 4.994, 1.5, '3s2.4s 2S', '3s2.5p 2P*', 0.0),
         (6698.673, -1.870, 3.143, 0.5, 4.993, 0.5, '3s2.4s 2S', '3s2.5p 2P*', 0.0),
     ],
-    # K / Cu / S diagnostic lines + their grid level labels are added as each
-    # element is derived (read the labels from PySMEGrid.get('conf'/'term'/'J'/'energy')).
+    # Cu I 5782 (3d9.4s2 2D -> 3d10.4p 2P*), the standard NLTE-studied line, used to
+    # validate the machinery + the HFS x NLTE interaction. RYA-402 finding: Cu NLTE is
+    # SMALL (single-component delta +0.001; HFS-resolved 10-component +0.003 -> HFS x
+    # NLTE interaction ~+0.002 dex, NEGLIGIBLE for this weak line; would only bite a
+    # saturated HFS line). Consistent with Shi et al. 2014 (small positive optical Cu).
+    # NOT registered for production: our MEASURED Cu lines are inadequate (4767 EW=198
+    # mA at EP 5.7 is unphysical -> junk; 4704 upper is a high-Rydberg state with no
+    # clean grid level) and the standard lines (5105/5220/5782) are unmeasured. Cu's
+    # blocker is line quality (RYA-395 curation), not the NLTE machinery.
+    'Cu': [
+        (5782.130, -1.488, 1.642, 1.5, 3.786, 0.5, '3d9.4s2 2D', '3d10.4p 2P*', -7.79),
+    ],
+    # K / S diagnostic lines added as each is derived.
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
@@ -162,6 +173,7 @@ def nlte_delta(element: str, star: dict = None, offs=(-0.2, -0.1, 0.0, 0.1, 0.2)
 _ANCHOR = {
     'Na': (-0.107, 0.03, 'Lind et al. 2011 INSPECT (Na I 5682/5688)'),
     'Al': (-0.02, 0.04, 'Nordlander & Lind 2017, A&A 607 A75 (subordinate Al I; <=-0.04 dex on the lower MS)'),
+    'Cu': (0.01, 0.05, 'Shi et al. 2014 (small positive ~+0.02 for optical Cu I in the Sun; approximate band)'),
 }
 
 
