@@ -56,3 +56,5 @@ data/nlte_grids/raw/
 
 # RYA-402: Amarsi/GALAH PySME departure grids (multi-GB binaries; re-fetchable from the provenance JSON, never committed)
 data/nlte_grids/**/*.grd
+# RYA-410: the Zenodo download archives are transient (extracted then deleted) — never commit
+data/nlte_grids/**/*.tar.gz

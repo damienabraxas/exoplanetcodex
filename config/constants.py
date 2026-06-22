@@ -424,6 +424,11 @@ PATHS = {
 # set it where the grid is NOT an MPIA MAFAGS-OS extraction (Na = INSPECT/Lind,
 # Ba = Korotin/VizieR) so a non-MPIA grid is never mislabelled as MPIA (RYA-165).
 NLTE_CORRECTION_ELEMENTS = {
+    # Ca I — STAYS on Mashonkina2017 MPIA. RYA-410 PySME-Amarsi cross-check STOPPED
+    # (+0.064 vs MPIA +0.012, diff +0.053 > 0.04) — a genuine Amarsi-2020-vs-Mashonkina-
+    # 2017 Ca model-atom difference (both small positive, methodology-dependent), to be
+    # ADJUDICATED, not silently swapped. Ca keeps the MPIA grid; the 55 Cnc clamp stays
+    # open for Ca (loud via RYA-409) pending that adjudication.
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '20.01'},
@@ -437,24 +442,38 @@ NLTE_CORRECTION_ELEMENTS = {
     # Li deferred (RYA-103 Li 6707 CN-blend); C/O owned by nlte_cno (Amarsi 2019).
     # Asplund acceptance still gated on a curated pool (Na +0.27 / Ba +0.19 NLTE-sized;
     # Mg's +1.72 is saturation/curation, NLTE here is a rounding-error rung).
-    'Na': {'ion': 1, 'grid': 'Na_Lind2011_INSPECT.csv',
-           'ref': 'Lind et al. 2011 (A&A 528, A103), INSPECT database (inspect-stars.com)',
-           'flag': 'NLTE_INSPECT_Lind2011_1D'},
-    'Mg': {'ion': 1, 'grid': 'Mg_Bergemann_MPIA.csv',
-           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (cf. Osorio et al. 2015, A&A 579, A53)',
-           'mpia_species': '12.01'},
+    # RYA-410: re-sourced onto the Amarsi-2020 PySME departure grid ([Fe/H] -> +1, so
+    # the 55 Cnc +0.31 clamp is closed — the MPIA/INSPECT grids ceilinged at +0.30).
+    # Validate-don't-tune: the PySME-Amarsi SOLAR delta REPRODUCED the prior registered
+    # value within tol before the swap (Na -0.129 vs INSPECT -0.107; Mg -0.022 vs MPIA
+    # +0.013, both ~0; Si -0.013 vs MPIA -0.004). Now the single source per element.
+    'Na': {'ion': 1, 'grid': 'Na_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; Na I model '
+                  'atom Lind et al. 2011 (A&A 528, A103); RYA-410 PySME-derived deltas '
+                  '(5682/5688; reproduces the INSPECT Lind-2011 solar -0.107)',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    'Mg': {'ion': 1, 'grid': 'Mg_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; RYA-410 '
+                  'PySME-derived deltas (5711/4730; Mg NLTE ~0 in FGK, solar -0.022)',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
     'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',
            'ref': 'Korotin et al. 2015 (A&A 581, A70), CDS VizieR J/A+A/581/A70',
            'flag': 'NLTE_Korotin2015_1D'},
-    # Mn I — sizeable NLTE (solar Δ ≈ +0.10); Si I — negligible in FGK (Δ ≈ −0.004),
-    # registered so it is explicitly 'NLTE-clean & documented' rather than silently
-    # 1D-LTE. Both MPIA MAFAGS-OS (neutral) → default MPIA flag, no override.
+    # Mn I — STAYS on MPIA. RYA-410 PySME-Amarsi cross-check STOPPED (+0.018 vs MPIA
+    # +0.107, diff -0.089 > 0.04): the Mn triplet 6013/6016/6021 is strong-HFS, and the
+    # PySME path collapses each feature to a single gf-summed line (no HFS desaturation)
+    # -> over-saturates -> wrong delta. NOT a model adjudication — a harness limitation;
+    # an HFS-resolved synthesis is owed before any Amarsi swap. No silent swap. Mn keeps
+    # the MPIA grid (ceiling +0.30 -> 55 Cnc clamp stays open for Mn; loud via RYA-409).
     'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',
            'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Mn I; cf. Bergemann & Gehren 2008, A&A 492, 823)',
            'mpia_species': '25.01'},
-    'Si': {'ion': 1, 'grid': 'Si_Bergemann_MPIA.csv',
-           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Si I; ~negligible in FGK dwarfs)',
-           'mpia_species': '14.01'},
+    # Si I — RYA-410: re-sourced onto the Amarsi-2020 PySME grid (closes the 55 Cnc
+    # clamp). Cross-check PASSED (-0.013 vs MPIA -0.004). Si NLTE negligible in FGK.
+    'Si': {'ion': 1, 'grid': 'Si_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; RYA-410 '
+                  'PySME-derived deltas (5772/6125; Si NLTE ~0 in FGK, solar -0.013)',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
     # RYA-402 Family-B (Option 2): derived by NLTE synthesis in PySME from the Amarsi
     # 2020 GALAH departure grid (Al I model atom = Nordlander & Lind 2017). Validated
     # vs the published subordinate-Al correction (solar median -0.022, in the

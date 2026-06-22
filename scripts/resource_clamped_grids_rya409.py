@@ -35,8 +35,12 @@ from pipeline import pysme_nlte as P                              # noqa: E402
 # Diagnostic wavelengths (air, A) per element — standard NLTE optical lines.
 DIAG_WAVES = {
     'Na': [5682.633, 5688.205],
-    'Mg': [5711.088, 4730.029],
-    'Si': [5772.146, 6125.021],
+    'Mg': [5711.088, 4730.029],            # isolated, clean; the old 6319 region is a
+                                           # self-blend (3 comps <0.8A) incompatible with
+                                           # the windowed-EW synth — Mg NLTE ~0 regardless
+    # Si: preserve the old MPIA 7-line coverage (RYA-410) — all isolated (>=7A apart),
+    # level-matched, loggf>-2.7. Drops only the very weak 6067 (loggf -3.1, noisy EW).
+    'Si': [5622.220, 5701.104, 5708.400, 5772.146, 5780.384, 6125.021, 6253.598],
     'Ca': [6166.439, 6169.563, 6455.598],
     'Mn': [6013.51, 6016.67, 6021.80],     # the Mn I triplet (HFS — summed per feature)
 }
@@ -56,16 +60,36 @@ def _ges():
     return _atomic_cache['ll'], _atomic_cache['notes'], _atomic_cache['w']
 
 
-def _resolve_atomic(element, wl, ion='1', dw=0.25):
-    """(loggf_total, EP, Eup, gamvw) for the feature at `wl` from GES (HFS summed)."""
+def _resolve_atomic(element, wl, ion='1', dw=0.25, ep_tol=0.03):
+    """(loggf_total, EP, Eup, gamvw) for the feature at `wl` from GES.
+
+    HFS components of one feature share a lower level (split by ~µeV), so they must
+    be gf-SUMMED; but a wavelength window can also catch a *distinct* nearby
+    transition (different lower level) that must NOT be merged — medianing the two
+    EPs invents a level the model atom doesn't have (the RYA-409 Si 5772 failure:
+    EP 5.082 line + EP 5.614 neighbour -> fake 5.348). So: group the window's
+    components by lower-level energy (within ep_tol), keep the DOMINANT group (largest
+    summed gf — abundance-blind), and HFS-sum only within it."""
     ll, notes, w = _ges()
     m = np.where((notes == f'{element} {ion}') & (np.abs(w - wl) < dw))[0]
     if len(m) == 0:
         raise ValueError(f"{element} {wl}: not in GES linelist (±{dw} A).")
-    gf = np.array([10 ** float(ll['loggf'][i]) for i in m])
-    ep = float(np.median([float(ll['lower_state_eV'][i]) for i in m]))
-    vw = float(np.median([float(ll['waals'][i]) for i in m]))
-    loggf = float(np.log10(gf.sum()))
+    eps = np.array([float(ll['lower_state_eV'][i]) for i in m])
+    gfs = np.array([10 ** float(ll['loggf'][i]) for i in m])
+    vws = np.array([float(ll['waals'][i]) for i in m])
+    # cluster components by lower-level energy; pick the strongest cluster
+    order = np.argsort(eps)
+    groups, cur = [], [order[0]]
+    for k in order[1:]:
+        if eps[k] - eps[cur[-1]] <= ep_tol:
+            cur.append(k)
+        else:
+            groups.append(cur); cur = [k]
+    groups.append(cur)
+    g = max(groups, key=lambda idx: gfs[idx].sum())
+    loggf = float(np.log10(gfs[g].sum()))
+    ep = float(np.median(eps[g]))
+    vw = float(np.median(vws[g]))
     eup = ep + 12398.42 / wl
     return loggf, ep, eup, (vw if vw > 0 else 0.0)
 

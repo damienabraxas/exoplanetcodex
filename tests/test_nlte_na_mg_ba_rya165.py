@@ -26,12 +26,15 @@ from config.constants import NLTE_CORRECTION_ELEMENTS as REG  # noqa: E402
 
 GRIDS = ROOT / 'data' / 'nlte_grids'
 SOLAR = dict(teff_K=5777, logg=4.4, feh=0.0)
+# RYA-410 re-sourced Na/Mg/Si onto the Amarsi-2020 PySME grids (single source, [Fe/H]->+0.6,
+# closing the 55-Cnc clamp); the PySME-Amarsi solar delta reproduced the prior MPIA/INSPECT
+# value within tol before the swap. Ba/Mn stayed (Mn: PySME cross-check STOPPED on HFS).
 NEW = {
-    'Na': {'ion': 1, 'grid': 'Na_Lind2011_INSPECT.csv', 'flag': 'NLTE_INSPECT_Lind2011_1D'},
-    'Mg': {'ion': 1, 'grid': 'Mg_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},
+    'Na': {'ion': 1, 'grid': 'Na_Amarsi2020_PySME.csv', 'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    'Mg': {'ion': 1, 'grid': 'Mg_Amarsi2020_PySME.csv', 'flag': 'NLTE_Amarsi2020_PySME_1D'},
     'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',      'flag': 'NLTE_Korotin2015_1D'},
-    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},  # gap-fill
-    'Si': {'ion': 1, 'grid': 'Si_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},  # negligible, documented
+    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',   'flag': 'NLTE_MPIA_MAFAGS_1D'},  # gap-fill (stayed MPIA)
+    'Si': {'ion': 1, 'grid': 'Si_Amarsi2020_PySME.csv', 'flag': 'NLTE_Amarsi2020_PySME_1D'},  # negligible, documented
 }
 
 
@@ -84,10 +87,10 @@ def test_apply_flags_each_source_correctly_not_mislabelled_mpia():
     out = N.apply_element_nlte_corrections(res, SOLAR, per_line_df=pl)
 
     flag = lambda el, ion: out[(out.element == el) & (out.ion == ion)].iloc[0]['nlte_flag']
-    assert flag('Na', 1) == 'NLTE_INSPECT_Lind2011_1D'    # NOT mislabelled MPIA
+    assert flag('Na', 1) == 'NLTE_Amarsi2020_PySME_1D'    # RYA-410 re-source; NOT mislabelled MPIA
     assert flag('Ba', 2) == 'NLTE_Korotin2015_1D'         # NOT mislabelled MPIA
-    assert flag('Mg', 1) == 'NLTE_MPIA_MAFAGS_1D'         # Mg genuinely IS MPIA
-    # ref column carries the true citation
+    assert flag('Mg', 1) == 'NLTE_Amarsi2020_PySME_1D'    # RYA-410: Mg now Amarsi, not MPIA
+    # ref column carries the true citation (Na model atom is still Lind 2011)
     assert 'Lind' in out[out.element == 'Na'].iloc[0]['nlte_ref']
     assert 'Korotin' in out[out.element == 'Ba'].iloc[0]['nlte_ref']
 
@@ -121,5 +124,5 @@ def test_validation_still_deferred_not_asserted_onto_asplund():
     res = pd.DataFrame([{'element': 'Na', 'ion': 1, 'A_X': 6.51, 'n_lines': 2}])  # raw-high Na (239 +0.27)
     out = N.apply_element_nlte_corrections(res, SOLAR, per_line_df=pd.DataFrame(_per_line('Na', 6.51)))
     row = out.iloc[0]
-    assert row['nlte_flag'] == 'NLTE_INSPECT_Lind2011_1D'        # applied
+    assert row['nlte_flag'] == 'NLTE_Amarsi2020_PySME_1D'        # applied (RYA-410 re-source)
     assert np.isfinite(row['A_X_nlte']) and row['n_nlte_lines'] >= 1
