@@ -152,39 +152,50 @@ elements:
     verdict: LOCKED
     verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Mn]", grid_file: "Mn_Bergemann_MPIA.csv"}
 
-# ── GET-GRID — NLTE grid exists in the literature, not yet vendored/wired ────────
+# ── GET-GRID round-2 (RYA-401) — PROBED live; all 6 are DOCUMENTED GAPS (no grid ────
+# vendored, none fabricated). Empirical source reality (RYA-401, 2026-06-21):
+#   MPIA SpectrumTools hosts only {Ca,Co,Cr,Fe,Mg,Mn,O,Si,Ti}; INSPECT A_from_e answers
+#   only for Sr (Al/K/S/Cu/V → HTTP 500). So NONE of the six is vendorable via the RYA-396
+#   simple-delta-CSV scrapers, each for a distinct, cited reason below. Per the ticket:
+#   document the gap loudly, flip out of GET-GRID, do NOT fabricate. Recovery path recorded
+#   per element. See docs/nlte_grid_acquisition_rya401.md.
   Al:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE", solar_corr_dex: "see Nordlander&Lind2017", cite: "Nordlander&Lind2017 (A&A 607,A75); Amarsi2020"}
-    grid: {status: GETTABLE, source: "Amarsi2020 GALAH (Al) / Nordlander&Lind2017 (INSPECT-class)"}
+    grid: {status: DEFERRED, source: "Amarsi2020 GALAH departure-coefficients (no delta-CSV); Nordlander&Lind2017"}
+    rya401: {probe: "INSPECT A_from_e Al → HTTP 500; not on MPIA tool", gap_reason: "no simple delta-CSV grid — Amarsi2020 provides DEPARTURE COEFFICIENTS needing RT line-formation conversion (RYA-399-class), not a scrape", path: "convert Amarsi2020 GALAH Al departure coeffs (heavier build) OR carry to next star"}
     indicators: {lines: "Al I 6696/6698 (subord., clean); 3944/3961 resonance strong", in_data: "2 measured lines"}
     hazards: "resonance lines strong/blue; subordinate 6696/6698 preferred"
-    verdict: GET-GRID
-    routing: RYA-396-pattern
+    verdict: HARD-carry-forward
+    routing: "deferred → Amarsi2020 departure-coeff conversion (RYA-399-class) or carry-forward"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
 
   K:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021, new 3D-NLTE)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (strong; resonance)", solar_corr_dex: "see Amarsi2020/Asplund2021", cite: "Amarsi2020; Asplund2021"}
-    grid: {status: GETTABLE, source: "Amarsi2020 GALAH (K)"}
+    grid: {status: DEFERRED, source: "Amarsi2020 GALAH departure-coefficients (no delta-CSV)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool", gap_reason: "departure-coeffs only (RT conversion needed) + 0 measured lines + resonance sits in O2 telluric band", path: "RYA-380 telluric usability of 7665/7699 + measure + Amarsi2020 conversion — multi-blocker"}
     indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured (telluric band)"}
     hazards: "TRIPLE-THREAT: saturated + strong NLTE + sits IN the O2 telluric A/B band -> needs telluric correction (RYA-380 recipe) before EW"
-    verdict: GET-GRID
-    routing: "RYA-396-pattern (grid) + RYA-380 (telluric) + measurement"
+    verdict: HARD-carry-forward
+    routing: "deferred → RYA-380 (telluric) + measurement + Amarsi2020 conversion"
     spotlight: true
+    xref: RYA-380
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
 
   S:
     ion: "I"
     dimensionality: {regime: "3D (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (line-dependent; LARGE for NIR triplet)", solar_corr_dex: "NIR 9212/9228/9237 up to ~-1.1; opt 6743/6757 ~-0.1; 8694 ~-0.26", cite: "Korotin2009 (Astron.Rep.53,651); Takeda2005"}
-    grid: {status: GETTABLE, source: "Korotin/Takeda S I NLTE (no INSPECT/MPIA public grid -> CDS/author or compute); NOT in Amarsi2020"}
-    indicators: {lines: "weak high-EP optical (6743/6757, smaller NLTE) vs strong NIR triplet 9212/9228/9237 (big NLTE)", in_data: "7 measured lines"}
-    hazards: "indicator decision: optical = small NLTE but weak; NIR = strong but -1.1 NLTE + Takeda/Korotin disagree ~0.4; CHNOPS-critical"
-    verdict: GET-GRID
-    routing: "RYA-396-pattern (S NLTE) + indicator decision (RYA-162)"
+    grid: {status: GAP, source: "no public machine-readable S I NLTE grid (Korotin2008/2009 author/compute; tables only, 2<=logg<=4 partial)"}
+    indicator_decision: "OPTICAL high-EP multiplet 6743/6757 (RYA-401): measured in our set (6748.7/6757.0/6757.1), telluric-free, and small solar NLTE (~-0.1) — chosen OVER the NIR 9212/9228/9237 triplet (strong but -1.1 dex NLTE, Takeda05 vs Korotin09 disagree ~0.4 at 9213, NIR-telluric). Per the Beast indicators column + RYA-393 strategy logic."
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; no VizieR deposit found", gap_reason: "no public grid for the chosen optical indicator; solar NLTE is small (~-0.1) so LTE-with-flag is tolerable at solar", path: "Korotin author-contact / digitise the 6743-6757 table (logg~4.4 is at the published edge) OR carry-forward as LTE-flagged"}
+    indicators: {lines: "CHOSEN: optical 6743/6757 (small NLTE). Alt: NIR 9212/9228/9237 (big NLTE)", in_data: "7 measured lines (incl. 6748.7/6757.0/6757.1)"}
+    hazards: "CHNOPS-critical; optical indicator small-NLTE so LTE-flagged is acceptable at solar pending the grid"
+    verdict: HARD-carry-forward
+    routing: "indicator=optical decided; grid author/compute → carry-forward (LTE-flagged) until vendored"
     spotlight: true
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 7}
 
@@ -192,33 +203,36 @@ elements:
     ion: "I"
     dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (significant; HFS)", solar_corr_dex: "see Shi2014/Korotin2018", cite: "Shi2014; Andrievsky2018; Korotin2018 (MNRAS 480,965)"}
-    grid: {status: GETTABLE, source: "Korotin2018 / Andrievsky2018 Cu I NLTE (CDS/author)"}
+    grid: {status: GAP, source: "NO public NLTE grid for neutral copper (Korotin2018/Andrievsky2018 = per-star corrections, no deposited grid)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; no VizieR Cu I correction grid", gap_reason: "literature explicitly: no available NLTE grid for Cu I — only individual-star corrections", path: "author-contact / compute Cu I NLTE OR carry-forward"}
     indicators: {lines: "Cu I 5105/5218/5782 (HFS)", in_data: "2 measured lines"}
     hazards: "HFS (VALD HFS-on); resonance 3247/3274 blue/strong avoided"
-    verdict: GET-GRID
-    routing: RYA-396-pattern
+    verdict: HARD-carry-forward
+    routing: "no public grid → carry-forward (HFS-LTE) until a grid exists"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
 
   V:
     ion: "I"
     dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (moderate; HFS-dominated)", solar_corr_dex: "see literature (V I NLTE)", cite: "Asplund2021; (V I NLTE sparse)"}
-    grid: {status: GAP, source: "no standard public V I grid located this pass -> author/compute"}
+    grid: {status: GAP, source: "no standard public V I NLTE grid (V I NLTE sparsely studied)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool", gap_reason: "V I NLTE sparsely studied — no public grid; HFS likely dominates over NLTE at solar", path: "carry-forward (HFS-LTE); HFS treatment first"}
     indicators: {lines: "V I optical (7 measured); HFS strong", in_data: "7 measured lines"}
     hazards: "HFS-dominated (VALD HFS-on) — HFS likely larger than NLTE; confirm"
-    verdict: GET-GRID
-    routing: "RYA-396-pattern (low priority; HFS first)"
+    verdict: HARD-carry-forward
+    routing: "no grid → carry-forward (HFS-LTE)"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 7}
 
   Sr:
     ion: "II"
     dimensionality: {regime: "3D-NLTE sensitive (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (resonance; ionisation balance)", solar_corr_dex: "LTE disc. up to ~0.5; solar A=2.93 NLTE", cite: "Bergemann2012 (A&A 546,A90; arXiv 1207.2451)"}
-    grid: {status: GETTABLE, source: "Bergemann2012 Sr II NLTE (MPIA / ChETEC-INFRA 3DNLTE)"}
-    indicators: {lines: "Sr II 4077/4215 resonance (strong, blue); Sr I 4607 weak", in_data: "1 measured line"}
-    hazards: "Sr II resonance strong + blue-edge; NLTE-sensitive resonance"
-    verdict: GET-GRID
-    routing: RYA-396-pattern
+    grid: {status: GETTABLE-but-ion-mismatch, source: "INSPECT Sr II (Bergemann2012) — resonance 4077/4215 + NIR 10036/10327/10914 hosted (probe PASS)"}
+    rya401: {probe: "INSPECT A_from_e Sr → form PASS (Sr II lines 4077.71/4215.52/10036.66/...)", gap_reason: "ION MISMATCH: the available grid is Sr II; our solar set measures only Sr I 6617.3 (no Sr II EW). Vendoring Sr II would not apply to our Sr I line.", path: "GET-DATA: measure Sr II 4077/4215 (blue/saturated hazards) → then the INSPECT Sr II grid is a quick scrape"}
+    indicators: {lines: "grid: Sr II 4077/4215 resonance; OUR data: Sr I 6617 (ion mismatch)", in_data: "1 measured line (Sr I)"}
+    hazards: "Sr II resonance strong + blue-edge; NLTE-sensitive; ION-MISMATCH vs our Sr I measurement"
+    verdict: GET-DATA
+    routing: "measure Sr II 4077/4215 → INSPECT Sr II grid scrape (quick once measured)"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 1}
 
 # ── Likely-LTE / ionised-majority — confirm small NLTE, mostly LOCKED-LTE ────────
