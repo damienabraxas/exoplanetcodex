@@ -54,6 +54,7 @@ from config.constants import (
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
+    FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
     SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
 )
@@ -1840,8 +1841,15 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     """
     Load solar EWs for abundance derivation using a hybrid approach:
       - Fe I:  GES pre-stored EWs (solar_ew_ges_reference.csv) — avoids NLTE EW bias
-      - Fe II: lines_fit.py measured EWs (solar_ew.csv) — Fe II not NLTE-affected
-      - Other: lines_fit.py measured EWs (solar_ew.csv)
+      - Fe II: committed canonical EWs (sol_ew_results_v1.csv) — Fe II not NLTE-affected
+      - Other: committed canonical EWs (sol_ew_results_v1.csv)
+
+    RYA-408: the non-Fe-I pool is read from the COMMITTED canonical
+    PATHS['solar_ew_canonical'] (data/measured/sol_ew_results_v1.csv), NOT the
+    gitignored lines_fit staging output data/processed/solar_ew.csv. No gate or
+    abundance derivation may take a gitignored, regenerable file as its EW input
+    (root cause of the RYA-406 incident). The reviewed staging→canonical promotion
+    that preserves vetted blend_flags lives in scripts/promote_solar_ew.py.
 
     RYA-330: the GES Fe I routing is RETAINED by evidence, not inertia. RYA-328
     flagged that the GES reference pool is unvetted relative to program-star pools,
@@ -1856,7 +1864,7 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     by the shared cut, not by forcing the Sun onto a worse pool.
 
     If ew_override is provided, use that file directly (bypasses hybrid logic).
-    If solar_ew_ges_reference.csv is missing, falls back to solar_ew.csv for all elements.
+    If solar_ew_ges_reference.csv is missing, falls back to the canonical for all elements.
     """
     if ew_override:
         ew_df = pd.read_csv(ew_override)
@@ -1864,10 +1872,20 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         print(f"  EW override: {ew_override} ({len(ew_df)} lines)")
         return _apply_fe2_ew_quality_cull(ew_df)
 
-    solar_ew = pd.read_csv(str(PATHS['solar_ew']))
+    # RYA-408: read the COMMITTED canonical, never the gitignored staging file.
+    canon_path = Path(str(PATHS['solar_ew_canonical']))
+    if not canon_path.exists():
+        raise FileNotFoundError(
+            f"Canonical solar EWs not found at {canon_path} (RYA-408). The gate/abundance "
+            f"path requires the committed canonical sol_ew_results_v1.csv — it must not fall "
+            f"back to the gitignored staging file data/processed/solar_ew.csv. Restore the "
+            f"canonical or run scripts/promote_solar_ew.py to promote a reviewed staging set."
+        )
+    solar_ew = pd.read_csv(str(canon_path))
     solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
-    print(f"  solar_ew.csv: {len(solar_ew)} lines total")
+    print(f"  canonical sol_ew_results_v1.csv: {len(solar_ew)} lines total")
 
+    # GES Fe I reference is committed in data/processed (force-added past the gitignore).
     ges_ref_path = Path(str(PATHS['solar_ew'])).parent / 'solar_ew_ges_reference.csv'
     try:
         ges_fe1 = pd.read_csv(str(ges_ref_path))
@@ -1880,13 +1898,13 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         non_fe1 = solar_ew[~((solar_ew['element'] == 'Fe') & (solar_ew['ion'] == 'I'))]
         fe2_count = int(((non_fe1['element'] == 'Fe') & (non_fe1['ion'] == 'II')).sum())
         hybrid = pd.concat([ges_fe1, non_fe1], ignore_index=True)
-        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (lines_fit) "
-              f"+ {len(non_fe1) - fe2_count} other elements")
+        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (canonical) "
+              f"+ {len(non_fe1) - fe2_count} other elements (canonical)")
         return _apply_fe2_ew_quality_cull(hybrid)
 
     except FileNotFoundError:
         print(f"  WARNING: GES Fe I reference not found at {ges_ref_path} — "
-              f"falling back to solar_ew.csv for all elements")
+              f"falling back to canonical sol_ew_results_v1.csv for all elements")
         return _apply_fe2_ew_quality_cull(solar_ew)
 
 
@@ -2298,10 +2316,30 @@ def run(star_id: str = 'solar',
                 _rew = np.log10(_f1['ew_mA'].values / _f1['wavelength_air_A'].values)
                 rew_slope = float(np.polyfit(_rew, _f1['a_1dlte'].values, 1)[0])
         slope_pass = np.isfinite(rew_slope) and abs(rew_slope) < FE_REW_SLOPE_GATE
-        # (2) Fe I−Fe II ionization balance (a uniform Fe zero-point cancels)
+        # (2) Fe I−Fe II ionization balance — scored on the SYNTHESIS arbiter (RYA-406).
+        # The EW-path ΔFe is a DIAGNOSTIC: the EW Fe II pool is blend-limited and reads
+        # HIGH BY DESIGN (RYA-352), so its imbalance is spurious. The ratified ionization
+        # arbiter is flux-space synthesis (DECISION 2, RYA-305/341). Source: a single-
+        # source cited constant for the calibrated Sun; otherwise the star's synth-v2
+        # product; otherwise loud-fallback to the EW path (never a silent verdict swap).
         a_fe1 = _abs_nlte_of(_fe1_df); a_fe2 = _abs_nlte_of(_fe2_df)
-        dfe = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
-        ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        dfe_ew = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
+        _arb = FE_IONIZATION_SYNTH_ARBITER.get(star_id)
+        if _arb is not None:                          # ratified synth arbiter (cited)
+            dfe = float(_arb['dFe'])
+            fe2_synth = float(_arb['fe2_synth'])
+            ion_src = f"synth arbiter ({_arb['provenance']})"
+            ion_pass = abs(dfe) < FE_IONISATION_GATE
+        else:                                          # no ratified arbiter for this star
+            # (a synth-v2 product consumer would slot here; absent → EW path, flagged loud)
+            dfe = dfe_ew
+            fe2_synth = np.nan
+            ion_src = "EW path (NO ratified synth arbiter for this star — RYA-406; diagnostic-grade verdict)"
+            ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        # EW-vs-synth Fe II spread — reported diagnostic, flagged if beyond the blend-bias
+        # band (Socratic check: confirm it is the EW blend-bias, not an unexplained term).
+        ew_synth_spread = (a_fe2 - fe2_synth) if np.isfinite(fe2_synth) else np.nan
+        spread_flag = np.isfinite(ew_synth_spread) and abs(ew_synth_spread) > FE_EW_SYNTH_SPREAD_BAND
         # (3) Fe I scatter
         sc1 = np.nan
         if len(_fe1_df):
@@ -2312,9 +2350,15 @@ def run(star_id: str = 'solar',
         scat_pass = np.isfinite(sc1) and sc1 < FE_SCATTER_GATE
         primary_pass = slope_pass and ion_pass and scat_pass
 
-        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336) ──")
+        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336/406) ──")
         print(f"  Fe I reduced-EW slope = {rew_slope:+.3f}  -> {'PASS' if slope_pass else 'FAIL'} (|slope| < {FE_REW_SLOPE_GATE})")
-        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)")
+        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)  [{ion_src}]")
+        if np.isfinite(ew_synth_spread):
+            _band = (f"FLAG > {FE_EW_SYNTH_SPREAD_BAND} (unexplained?)" if spread_flag
+                     else f"within blend-bias band <= {FE_EW_SYNTH_SPREAD_BAND}")
+            print(f"    · DIAGNOSTIC EW-vs-synth Fe II spread = {ew_synth_spread:+.3f} "
+                  f"(EW {a_fe2:.3f} blend-limited HIGH, RYA-352; synth {fe2_synth:.3f}, RYA-341) -> {_band}")
+            print(f"    · (EW-path ΔFe(I−II) = {dfe_ew:+.3f} is NOT the verdict — EW Fe II is blend-biased; RYA-405/406)")
         print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {FE_SCATTER_GATE} dex)")
 
         # Absolute A(Fe): scale-aware diagnostic (centre = 3D-true 7.46 + published 1D-3D offset)

@@ -31,6 +31,7 @@ from pipeline.abundances_derive import run
 from config.constants import (
     SOLAR_ASPLUND2021,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
+    FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
 )
 
 # RYA-334: A_X_nlte is ABSOLUTE A(Fe) (RYA-319 convention); the _check_gates /
@@ -101,8 +102,20 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
 
     a1  = fe1.get('a_nlte', np.nan)
     a2  = fe2.get('a_nlte', np.nan)
-    # ΔFe is the same in relative and absolute units (offset cancels in difference)
-    dfe = abs(a1 - a2) if (np.isfinite(a1) and np.isfinite(a2)) else np.nan
+    # ΔFe(I−II): scored on the ratified SYNTHESIS arbiter (RYA-406, DECISION 2), not the
+    # EW-path Fe II (blend-limited, high by design — RYA-352). The EW ΔFe + the EW-vs-synth
+    # Fe II spread are reported as diagnostics. Arbiter = cited single-source constant for
+    # the calibrated Sun; otherwise the EW path, flagged loud (no silent verdict swap).
+    dfe_ew = abs(a1 - a2) if (np.isfinite(a1) and np.isfinite(a2)) else np.nan
+    _arb = FE_IONIZATION_SYNTH_ARBITER.get(star_id)
+    if _arb is not None:
+        dfe = abs(float(_arb['dFe']))
+        ion_src = f"synth arbiter ({_arb['provenance']})"
+        ew_synth_spread = (a2 - float(_arb['fe2_synth'])) if np.isfinite(a2) else np.nan
+    else:
+        dfe = dfe_ew
+        ion_src = "EW path (no ratified synth arbiter for this star — RYA-406)"
+        ew_synth_spread = np.nan
     sc  = fe1.get('scatter', np.nan)
     n2  = fe2.get('n_lines', 0)
 
@@ -112,6 +125,10 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
         'A_Fe_II_nlte': a2,
         'A_Fe_II_pass': g['A_Fe_II_lo'] <= a2 <= g['A_Fe_II_hi'] if np.isfinite(a2) else False,
         'dFe'         : dfe,
+        'dFe_ew'      : dfe_ew,
+        'dFe_src'     : ion_src,
+        'ew_synth_spread'  : ew_synth_spread,
+        'spread_flag' : bool(np.isfinite(ew_synth_spread) and abs(ew_synth_spread) > FE_EW_SYNTH_SPREAD_BAND),
         'dFe_pass'    : dfe <= g['dFe_max'] if np.isfinite(dfe) else False,
         'scatter'     : sc,
         'scatter_pass': sc < g['scatter_max'] if np.isfinite(sc) else False,
@@ -146,10 +163,15 @@ def _print_gate_table(star_id: str, res: dict):
         res['A_Fe_II_nlte'],
         f"[{g['A_Fe_II_lo']:.2f}, {g['A_Fe_II_hi']:.2f}]",
         res['A_Fe_II_pass'])
-    row("ΔFe(I−II)",
+    row("ΔFe(I−II) [synth arbiter]",
         res['dFe'],
         f"< {g['dFe_max']}",
         res['dFe_pass'])
+    print(f"    └ source: {res.get('dFe_src', '?')}")
+    if np.isfinite(res.get('ew_synth_spread', np.nan)):
+        _fl = "FLAG (unexplained?)" if res.get('spread_flag') else "within blend-bias band"
+        print(f"    └ DIAGNOSTIC EW-vs-synth Fe II spread = {res['ew_synth_spread']:+.3f}  "
+              f"(EW ΔFe={res.get('dFe_ew', float('nan')):+.3f} blend-biased, NOT the verdict) → {_fl}")
     row("Fe I scatter (σ NLTE)",
         res['scatter'],
         f"< {g['scatter_max']}",
