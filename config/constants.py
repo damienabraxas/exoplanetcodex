@@ -455,6 +455,23 @@ NLTE_CORRECTION_ELEMENTS = {
     'Si': {'ion': 1, 'grid': 'Si_Bergemann_MPIA.csv',
            'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Si I; ~negligible in FGK dwarfs)',
            'mpia_species': '14.01'},
+    # RYA-402 Family-B (Option 2): derived by NLTE synthesis in PySME from the Amarsi
+    # 2020 GALAH departure grid (Al I model atom = Nordlander & Lind 2017). Validated
+    # vs the published subordinate-Al correction (solar median -0.022, in the
+    # near-zero-to--0.04 band) and confirmed LTE-baseline-portable (eps -0.011 vs the
+    # TS/EW baseline). Subordinate doublet 6696/6698 (NOT the +0.2 resonance 3961).
+    'Al': {'ion': 1, 'grid': 'Al_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; Al I model '
+                  'atom Nordlander & Lind 2017 (A&A 607, A75); RYA-402 PySME-derived deltas',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    # RYA-402 Family-B (Option 2): S I multiplet-8 optical lines 6748/6757 (high-excit,
+    # small negative NLTE, solar median -0.016) derived via PySME from the Amarsi 2025
+    # (A&A 703, A35) S departure grid. Validated vs the small-negative optical-S band;
+    # the NIR 9212/9228/9237 triplet (large NLTE) is a separate indicator (RYA-401).
+    'S': {'ion': 1, 'grid': 'S_Amarsi2025_PySME.csv',
+          'ref': 'Amarsi et al. 2025 (A&A 703, A35) S departure grid via PySME; '
+                 'RYA-402 PySME-derived deltas (optical 6748/6757)',
+          'flag': 'NLTE_Amarsi2025_PySME_1D'},
 }
 
 # ── 3D abundance corrections — the metal 3D leg (RYA-399) ─────────────────────

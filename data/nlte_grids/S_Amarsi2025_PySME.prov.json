@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-402",
+  "element": "S",
+  "ion": 1,
+  "what": "S I 1D non-LTE abundance corrections (delta_nlte = A_NLTE - A_LTE) for the multiplet-8 high-excitation optical doublet 6748.68 / 6757.15 (4p 5P -> 5d 5D*, EP ~7.87 eV), derived by NLTE-vs-LTE synthesis in PySME from the Amarsi-2025 S departure grid (pipeline/pysme_nlte.py). Family-B element (Option 2, PySME).",
+  "model_atom": "Amarsi, Li, Grevesse & Jurewicz 2025 (A&A 703, A35) S I model atom / departure grid (Zenodo v7, record 17064337).",
+  "derivation": "PySME 1.0.1 + SME backend 6.13, MARCS marcs2012 grid; gamvw=0 (Unsold; weak high-excitation lines).",
+  "validation": {
+    "anchor": "Amarsi 2025 (grid source) / Takeda 2005: optical high-excitation S I (6757 mult-8) has small negative solar NLTE (0 to ~-0.1).",
+    "result": "solar (5772/4.44/0.0): 6748 -0.014, 6757 -0.017, median -0.016 -> PASS (small-negative regime; reproduced, not fitted).",
+    "indicator_note": "These are the OPTICAL high-excitation lines (small NLTE). The NIR triplet 9212/9228/9237 has a much larger correction (to ~-1.1 dex) and would need its own derivation if used (the indicator decision, RYA-401)."
+  },
+  "grid": {
+    "file": "S_Amarsi2025_PySME.csv",
+    "schema": "element, ion, wave_A, teff_K, logg, feh, delta_nlte",
+    "nodes": "10 (Teff 5100-6200, logg 4.0-4.7, [Fe/H] -0.3..+0.4) spanning FGK dwarfs incl. solar + 55 Cnc.",
+    "delta_range": {"6748.68": [-0.023, -0.006], "6757.15": [-0.030, -0.007]}
+  },
+  "scope_note": "Grid covers the 6748/6757 standard diagnostics (which we measure). Our other measured S I lines (5606/5822/5961/5706) are addable with their own grid level labels; 5706 (143 mA) is strong -> exclude.",
+  "registered": "config.constants.NLTE_CORRECTION_ELEMENTS['S'] (flag NLTE_Amarsi2025_PySME_1D); Beast YAML S verdict GET-GRID -> LOCKED.",
+  "derived": "2026-06-21"
+}
