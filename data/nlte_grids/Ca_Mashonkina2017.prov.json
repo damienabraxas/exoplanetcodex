@@ -1,0 +1,37 @@
+{
+  "ticket": "RYA-410 (provenance sweep; grid itself vendored earlier, RYA-235/165/396 era)",
+  "element": "Ca",
+  "ion": "I",
+  "species_code": "20.01",
+  "reference": "Mashonkina et al. 2017 (A&A 606, A147), 1D NLTE (MAFAGS-OS)",
+  "model": "mafags-os",
+  "source": "Mashonkina 2017 Ca I NLTE grid (vendored RYA-235/165 era, pre-provenance-convention)",
+  "convention": "delta_nlte = A_NLTE - A_LTE (dex)",
+  "grid_file": "Ca_Mashonkina2017.csv",
+  "storage": "COMMITTED git-tracked text CSV \u2014 NOT a freed binary. Recoverable from version control; no re-fetch md5 required (the file IS the artifact). This sidecar closes the RYA-410 provenance-completeness sweep for a grid that predated the convention.",
+  "grid_axes": {
+    "teff_K": [
+      5000.0,
+      5500.0,
+      5750.0,
+      5777.0,
+      6000.0,
+      6500.0
+    ],
+    "logg": [
+      3.5,
+      4.0,
+      4.4,
+      4.5
+    ],
+    "feh": [
+      -0.5,
+      0.0,
+      0.3
+    ]
+  },
+  "n_waves": 9,
+  "n_rows": 648,
+  "n_valid_delta": 544,
+  "reconstructed": "2026-06-22 (axes + counts computed from the committed CSV; citation from the registry ref. Original extraction parameters not captured at vendoring time.)"
+}
