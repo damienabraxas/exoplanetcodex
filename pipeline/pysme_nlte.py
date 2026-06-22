@@ -77,7 +77,14 @@ NLTE_LINES = {
         (6748.680, -0.639, 7.868, 2.0, 9.704, 3.0, '3s2.3p3.(4S*).4p 5P', '3s2.3p3.(4S*).5d 5D*', 0.0),
         (6757.150, -0.240, 7.870, 3.0, 9.704, 4.0, '3s2.3p3.(4S*).4p 5P', '3s2.3p3.(4S*).5d 5D*', 0.0),
     ],
-    # K diagnostic lines added when derived.
+    # K I resonance doublet 7665/7699 (4s 2S -> 4p 2P*, GROUND state lower) -- the boss
+    # fight: SATURATED + LARGE negative NLTE (line much stronger in NLTE) + sits in the
+    # O2 telluric A-band. ABO van der Waals (487/485). Needs the wide-window/bracket
+    # derivation (_DERIV_OPTS['K']). Solar: 7665 -0.27, 7699 -0.31, median -0.29.
+    'K': [
+        (7664.899, 0.149, 0.0, 0.5, 1.617, 1.5, '3p6.4s 2S', '3p6.4p 2P*', 487.23),
+        (7698.964, -0.154, 0.0, 0.5, 1.610, 0.5, '3p6.4s 2S', '3p6.4p 2P*', 485.23),
+    ],
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
@@ -106,7 +113,17 @@ def _spacefree_grid(element: str) -> str:
     return str(link)
 
 
-def _synth_ew(element, offset, nlte, star, lines, grid_path):
+# Per-element derivation options. Saturated resonance lines (K 7665/7699) need a
+# WIDE EW window (broad damping wings) and a WIDE abundance bracket (the COG is flat,
+# so EW barely moves with A) — the standard narrow settings under-integrate the wing
+# and fail to bracket. (ew_hw in A, offs = abundance offsets for the LTE COG.)
+_DERIV_OPTS = {
+    'K': {'ew_hw': 2.0, 'offs': (-0.4, -0.2, 0.0, 0.2, 0.4)},
+}
+_DEFAULT_OPTS = {'ew_hw': 0.8, 'offs': (-0.2, -0.1, 0.0, 0.1, 0.2)}
+
+
+def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
     """One PySME synthesis; returns {wl: EW_mA}. Lazy PySME import (fail-loud)."""
     import pandas as pd
     from pysme.sme import SME_Structure
@@ -135,7 +152,7 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path):
     sme = synthesize_spectrum(sme)
     w = np.asarray(sme.wave[0]); f = np.asarray(sme.synth[0])
 
-    def ew(c, hw=0.8):
+    def ew(c, hw=ew_hw):
         m = (w > c - hw) & (w < c + hw)
         return float(np.trapz(1 - f[m], w[m]) * 1000.0)
     return {l[0]: ew(l[0]) for l in lines}
@@ -145,19 +162,23 @@ def _Z(el):
     return {'Na': 11, 'Al': 13, 'K': 19, 'Cu': 29, 'S': 16}[el]
 
 
-def nlte_delta(element: str, star: dict = None, offs=(-0.2, -0.1, 0.0, 0.1, 0.2)) -> dict:
+def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     """Per-line NLTE abundance correction delta = A(NLTE) - A(LTE) via PySME, plus
-    the median. Raises if the element has no registered diagnostic lines/grid."""
+    the median. Uses per-element derivation options (_DERIV_OPTS) — wide EW window +
+    bracket for saturated lines (K). Raises if the element has no diagnostic lines."""
     if element not in NLTE_LINES:
         raise KeyError(f"No NLTE diagnostic lines registered for {element} "
                        f"(have {list(NLTE_LINES)}). Add them from the grid level labels.")
+    opts = _DERIV_OPTS.get(element, _DEFAULT_OPTS)
+    offs = offs if offs is not None else opts['offs']
+    ew_hw = opts['ew_hw']
     star = star or {'teff': 5772, 'logg': 4.44, 'feh': 0.0, 'vmic': 1.0}
     lines = NLTE_LINES[element]
     grid = _spacefree_grid(element)
-    ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid)
+    ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid, ew_hw=ew_hw)
     cog = {l[0]: [] for l in lines}
     for off in offs:
-        ew_lte = _synth_ew(element, off, False, star, lines, grid)
+        ew_lte = _synth_ew(element, off, False, star, lines, grid, ew_hw=ew_hw)
         for l in lines:
             cog[l[0]].append(ew_lte[l[0]])
     A = _A_SUN[element] + np.array(offs)
@@ -182,6 +203,7 @@ _ANCHOR = {
     'Al': (-0.02, 0.04, 'Nordlander & Lind 2017, A&A 607 A75 (subordinate Al I; <=-0.04 dex on the lower MS)'),
     'Cu': (0.01, 0.05, 'Shi et al. 2014 (small positive ~+0.02 for optical Cu I in the Sun; approximate band)'),
     'S':  (-0.04, 0.07, 'Amarsi et al. 2025 (A&A 703 A35, grid source) / Takeda 2005: optical high-excitation S I (6757 mult-8) small negative, 0 to ~-0.1'),
+    'K':  (-0.27, 0.10, 'Reggiani et al. 2019 (A&A 627 A177) / Andrievsky et al. 2006: K I 7665/7699 resonance, severe negative NLTE (line stronger in NLTE); solar ~-0.2..-0.3'),
 }
 
 
