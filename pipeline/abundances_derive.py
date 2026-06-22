@@ -1840,8 +1840,15 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     """
     Load solar EWs for abundance derivation using a hybrid approach:
       - Fe I:  GES pre-stored EWs (solar_ew_ges_reference.csv) — avoids NLTE EW bias
-      - Fe II: lines_fit.py measured EWs (solar_ew.csv) — Fe II not NLTE-affected
-      - Other: lines_fit.py measured EWs (solar_ew.csv)
+      - Fe II: committed canonical EWs (sol_ew_results_v1.csv) — Fe II not NLTE-affected
+      - Other: committed canonical EWs (sol_ew_results_v1.csv)
+
+    RYA-408: the non-Fe-I pool is read from the COMMITTED canonical
+    PATHS['solar_ew_canonical'] (data/measured/sol_ew_results_v1.csv), NOT the
+    gitignored lines_fit staging output data/processed/solar_ew.csv. No gate or
+    abundance derivation may take a gitignored, regenerable file as its EW input
+    (root cause of the RYA-406 incident). The reviewed staging→canonical promotion
+    that preserves vetted blend_flags lives in scripts/promote_solar_ew.py.
 
     RYA-330: the GES Fe I routing is RETAINED by evidence, not inertia. RYA-328
     flagged that the GES reference pool is unvetted relative to program-star pools,
@@ -1856,7 +1863,7 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     by the shared cut, not by forcing the Sun onto a worse pool.
 
     If ew_override is provided, use that file directly (bypasses hybrid logic).
-    If solar_ew_ges_reference.csv is missing, falls back to solar_ew.csv for all elements.
+    If solar_ew_ges_reference.csv is missing, falls back to the canonical for all elements.
     """
     if ew_override:
         ew_df = pd.read_csv(ew_override)
@@ -1864,10 +1871,20 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         print(f"  EW override: {ew_override} ({len(ew_df)} lines)")
         return _apply_fe2_ew_quality_cull(ew_df)
 
-    solar_ew = pd.read_csv(str(PATHS['solar_ew']))
+    # RYA-408: read the COMMITTED canonical, never the gitignored staging file.
+    canon_path = Path(str(PATHS['solar_ew_canonical']))
+    if not canon_path.exists():
+        raise FileNotFoundError(
+            f"Canonical solar EWs not found at {canon_path} (RYA-408). The gate/abundance "
+            f"path requires the committed canonical sol_ew_results_v1.csv — it must not fall "
+            f"back to the gitignored staging file data/processed/solar_ew.csv. Restore the "
+            f"canonical or run scripts/promote_solar_ew.py to promote a reviewed staging set."
+        )
+    solar_ew = pd.read_csv(str(canon_path))
     solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
-    print(f"  solar_ew.csv: {len(solar_ew)} lines total")
+    print(f"  canonical sol_ew_results_v1.csv: {len(solar_ew)} lines total")
 
+    # GES Fe I reference is committed in data/processed (force-added past the gitignore).
     ges_ref_path = Path(str(PATHS['solar_ew'])).parent / 'solar_ew_ges_reference.csv'
     try:
         ges_fe1 = pd.read_csv(str(ges_ref_path))
@@ -1880,13 +1897,13 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         non_fe1 = solar_ew[~((solar_ew['element'] == 'Fe') & (solar_ew['ion'] == 'I'))]
         fe2_count = int(((non_fe1['element'] == 'Fe') & (non_fe1['ion'] == 'II')).sum())
         hybrid = pd.concat([ges_fe1, non_fe1], ignore_index=True)
-        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (lines_fit) "
-              f"+ {len(non_fe1) - fe2_count} other elements")
+        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (canonical) "
+              f"+ {len(non_fe1) - fe2_count} other elements (canonical)")
         return _apply_fe2_ew_quality_cull(hybrid)
 
     except FileNotFoundError:
         print(f"  WARNING: GES Fe I reference not found at {ges_ref_path} — "
-              f"falling back to solar_ew.csv for all elements")
+              f"falling back to canonical sol_ew_results_v1.csv for all elements")
         return _apply_fe2_ew_quality_cull(solar_ew)
 
 
