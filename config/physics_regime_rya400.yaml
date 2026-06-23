@@ -73,32 +73,32 @@ elements:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE", solar_corr_dex: "-0.05..-0.15 (resonance/subord.)", cite: "Lind2011 (A&A 528,A103); Amarsi2020"}
-    grid: {status: HAVE, source: "Na_Lind2011_INSPECT.csv (RYA-165); solar median d=-0.107"}
+    grid: {status: HAVE, source: "Na_Amarsi2020_PySME.csv (RYA-410 re-source onto Amarsi-2020 PySME; was Na_Lind2011_INSPECT.csv RYA-165); solar median d=-0.107"}
     indicators: {lines: "Na I 5682/5688/6154/6160 (subordinate, used); D doublet saturated", in_data: true}
     hazards: "D lines saturated (avoid); subordinate lines clean"
     verdict: LOCKED
-    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Na]", grid_file: "Na_Lind2011_INSPECT.csv"}
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Na]", grid_file: "Na_Amarsi2020_PySME.csv"}
 
   Mg:
     ion: "I"
     dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (small in FGK)", solar_corr_dex: "~+0.007 (repo); ~0.02-0.05", cite: "Osorio2015 (A&A 579,A53); Bergemann MAFAGS (repo)"}
-    grid: {status: HAVE, source: "Mg_Bergemann_MPIA.csv (RYA-165); solar median d=+0.007"}
+    grid: {status: HAVE, source: "Mg_Amarsi2020_PySME.csv (RYA-410 re-source onto Amarsi-2020 PySME; was Mg_Bergemann_MPIA.csv RYA-165); Mg NLTE ~0 in FGK"}
     indicators: {lines: "Mg I 5711/4730/.. (clean subord.)", in_data: true}
     hazards: "RYA-239 Mg +1.72 = SATURATION/CURATION not NLTE; fix is pool curation (RYA-395/398)"
     verdict: LOCKED
-    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Mg]", grid_file: "Mg_Bergemann_MPIA.csv"}
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Mg]", grid_file: "Mg_Amarsi2020_PySME.csv"}
 
   Si:
     ion: "I"
     dimensionality: {regime: "3D — flag for RYA-399", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (negligible in FGK)", solar_corr_dex: "~-0.004 (repo, clean)", cite: "Bergemann MAFAGS (repo); Asplund2021"}
-    grid: {status: HAVE, source: "Si_Bergemann_MPIA.csv (RYA-165); registered NLTE-clean"}
+    grid: {status: HAVE, source: "Si_Amarsi2020_PySME.csv (RYA-410 re-source onto Amarsi-2020 PySME, 7-line; was Si_Bergemann_MPIA.csv RYA-165); registered NLTE-clean"}
     indicators: {lines: "many Si I optical (80 measured)", in_data: true}
     hazards: "none major; 3D check owed (RYA-399)"
     verdict: LOCKED
     routing: RYA-399
-    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Si]", grid_file: "Si_Bergemann_MPIA.csv"}
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Si]", grid_file: "Si_Amarsi2020_PySME.csv"}
 
   Ca:
     ion: "I"
