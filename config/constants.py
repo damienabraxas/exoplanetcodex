@@ -424,11 +424,16 @@ PATHS = {
 # set it where the grid is NOT an MPIA MAFAGS-OS extraction (Na = INSPECT/Lind,
 # Ba = Korotin/VizieR) so a non-MPIA grid is never mislabelled as MPIA (RYA-165).
 NLTE_CORRECTION_ELEMENTS = {
-    # Ca I — STAYS on Mashonkina2017 MPIA. RYA-410 PySME-Amarsi cross-check STOPPED
-    # (+0.064 vs MPIA +0.012, diff +0.053 > 0.04) — a genuine Amarsi-2020-vs-Mashonkina-
-    # 2017 Ca model-atom difference (both small positive, methodology-dependent), to be
-    # ADJUDICATED, not silently swapped. Ca keeps the MPIA grid; the 55 Cnc clamp stays
-    # open for Ca (loud via RYA-409) pending that adjudication.
+    # Ca I — STAYS on Mashonkina2017 MPIA. RYA-411 ADJUDICATED the RYA-410 STOP (+0.064
+    # vs +0.012): it is NOT a model-atom difference — Amarsi-2020 (+0.017) and Mashonkina
+    # (+0.027) AGREE on the only cleanly-computed shared line (5867). The gap was (a)
+    # line-set (RYA-410 used 6166/6169/6455, where Amarsi gives real +0.05..+0.08) and
+    # (b) a DATA DEFECT: MPIA's Ca 6166 is a placeholder zero (all 72 nodes = 0.000),
+    # dragging the MPIA reference down. Adopting Amarsi would close the 55 Cnc clamp AND
+    # add the missing NLTE on the subordinate 3d-4p lines (~+0.05 solar Ca shift) — a
+    # solar-calibration change to RATIFY against a solar-Ca re-validation (RYA-371), not a
+    # silent swap here. So Ca keeps MPIA (clamped-but-loud at 55 Cnc, RYA-409). FLAG: the
+    # MPIA Ca 6166 placeholder-zero is a registered-grid defect worth fixing.
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '20.01'},
@@ -459,12 +464,16 @@ NLTE_CORRECTION_ELEMENTS = {
     'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',
            'ref': 'Korotin et al. 2015 (A&A 581, A70), CDS VizieR J/A+A/581/A70',
            'flag': 'NLTE_Korotin2015_1D'},
-    # Mn I — STAYS on MPIA. RYA-410 PySME-Amarsi cross-check STOPPED (+0.018 vs MPIA
-    # +0.107, diff -0.089 > 0.04): the Mn triplet 6013/6016/6021 is strong-HFS, and the
-    # PySME path collapses each feature to a single gf-summed line (no HFS desaturation)
-    # -> over-saturates -> wrong delta. NOT a model adjudication — a harness limitation;
-    # an HFS-resolved synthesis is owed before any Amarsi swap. No silent swap. Mn keeps
-    # the MPIA grid (ceiling +0.30 -> 55 Cnc clamp stays open for Mn; loud via RYA-409).
+    # Mn I — STAYS on MPIA. RYA-411 RESOLVED the RYA-410 STOP (+0.018 vs +0.107). Built an
+    # HFS-resolved synthesis (pysme_nlte _synth_ew RYA-411) and ran the probes: HFS-collapse
+    # was real but MINOR (the 6013/6016/6021 triplet only moves +0.018 -> +0.024 HFS-
+    # resolved); the harness had also picked the wrong (low-EP) lines. The DECISIVE test —
+    # same lines as MPIA (4998/6304/6306/6867), HFS-resolved — still gives Amarsi-2020
+    # ~+0.05 (clean lines 6304/6306/6867 = +0.048/+0.049/+0.058) vs MPIA/Bergemann +0.107.
+    # So the residual is a GENUINE Amarsi-2020-vs-Bergemann Mn model-atom difference (~2x),
+    # not HFS/line-set. The dedicated Mn-NLTE literature (Bergemann & Gehren 2008) supports
+    # the larger correction -> KEEP MPIA (do not adopt the smaller survey-grid value just to
+    # close the clamp = would be tuning). Mn stays clamped-but-loud at 55 Cnc (RYA-409).
     'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',
            'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Mn I; cf. Bergemann & Gehren 2008, A&A 492, 823)',
            'mpia_species': '25.01'},

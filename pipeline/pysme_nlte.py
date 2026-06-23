@@ -158,21 +158,41 @@ _DERIV_OPTS = {
 _DEFAULT_OPTS = {'ew_hw': 0.8, 'offs': (-0.2, -0.1, 0.0, 0.1, 0.2)}
 
 
+def _linelist_rows(element, lines):
+    """Build PySME long-format line rows from diagnostic lines. HFS-resolved (RYA-411):
+    a line's optional 10th element is a list of (wl, gflog) hyperfine components — each is
+    emitted as its own row sharing the feature's lower/upper NLTE level labels (HFS splits
+    the level by ~ueV, so the departure coefficients are identical). Pure logic (no PySME),
+    so the HFS expansion is unit-testable without the gitignored grid."""
+    rows = []
+    for line in lines:
+        wl, gf, elo, jlo, eup, jup, tl, tu, vw = line[:9]
+        comps = line[9] if len(line) > 9 and line[9] else [(wl, gf)]
+        for cwl, cgf in comps:
+            rows.append(dict(species=f'{element} 1', wlcent=cwl, excit=elo, gflog=cgf,
+                             gamrad=7.8, gamqst=0.0, gamvw=vw, atom_number=_Z(element),
+                             ionization=1, lande_lower=0.0, lande_upper=0.0, lande=0.0,
+                             j_lo=jlo, j_up=jup, e_upp=eup, term_lower=tl, term_upper=tu,
+                             error=0.0, depth=0.6, reference='RYA-411'))
+    return rows
+
+
 def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
-    """One PySME synthesis; returns {wl: EW_mA}. Lazy PySME import (fail-loud)."""
+    """One PySME synthesis; returns {feature_wl: EW_mA}. Lazy PySME import (fail-loud).
+
+    HFS-resolved (RYA-411): a diagnostic 'line' may carry an optional 10th element — a
+    list of (wl, gflog) hyperfine components. When present, each component is emitted as
+    its OWN line (sharing the feature's lower/upper NLTE level labels, EP, J, vdW — HFS
+    splits the level by ~ueV so the departure coefficients are identical), so the feature
+    DESATURATES correctly instead of being a single over-saturated gf-summed line (which
+    suppressed the Mn NLTE delta in RYA-410). EW is still integrated per FEATURE center."""
     import pandas as pd
     from pysme.sme import SME_Structure
     from pysme.abund import Abund
     from pysme.linelist.linelist import LineList
     from pysme.synthesize import synthesize_spectrum
 
-    rows = []
-    for wl, gf, elo, jlo, eup, jup, tl, tu, vw in lines:
-        rows.append(dict(species=f'{element} 1', wlcent=wl, excit=elo, gflog=gf,
-                         gamrad=7.8, gamqst=0.0, gamvw=vw, atom_number=_Z(element),
-                         ionization=1, lande_lower=0.0, lande_upper=0.0, lande=0.0,
-                         j_lo=jlo, j_up=jup, e_upp=eup, term_lower=tl, term_upper=tu,
-                         error=0.0, depth=0.6, reference='RYA-402'))
+    rows = _linelist_rows(element, lines)
     sme = SME_Structure()
     sme.teff, sme.logg, sme.monh = star['teff'], star['logg'], star['feh']
     sme.vmic, sme.vmac, sme.vsini = star.get('vmic', 1.0), 0.0, 0.0
