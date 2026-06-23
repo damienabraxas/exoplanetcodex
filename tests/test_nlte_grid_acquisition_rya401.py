@@ -1,11 +1,15 @@
 """
 tests/test_nlte_grid_acquisition_rya401.py
 ==========================================
-RYA-401 — Beast round-2 NLTE-grid vendoring (Al/K/S/Cu/V/Sr). The honest outcome: 0 of 6
-vendorable, all documented gaps (no fabrication). These guards pin that result so it
-can't silently regress: the 6 are out of GET-GRID, none is registered as NLTE-applied,
-each carries its `rya401:` probe/gap/path provenance, S's indicator decision is recorded,
-the Sr ion-mismatch is captured, K cross-refs RYA-380, and the RYA-400 audit still PASSes.
+RYA-401 — Beast round-2 NLTE-grid vendoring (Al/K/S/Cu/V/Sr). Round-2's honest outcome was
+0 of 6 vendorable via a scrape. RYA-412 reconciles these guards to the post-merge 401-vs-402
+adjudication: **Al and S were SUPERSEDED by RYA-402** (their departure grids were derived via
+PySME, registered, LOCKED, and NLTE-wired), while **K/Cu/V/Sr remain unregistered gaps** —
+K and Cu now HAVE a grid (RYA-402 PySME) but are data-blocked (GET-DATA: K telluric/RYA-380,
+Cu measured-line quality/RYA-395); V is a genuine no-public-grid gap (HARD-carry-forward);
+Sr is an ion mismatch (grid is Sr II, our line is Sr I → GET-DATA). No element still claims
+GET-GRID, none is falsely registered without a grid, each carries `rya401:` provenance, and
+the RYA-400 audit still PASSes.
 """
 import sys
 from pathlib import Path
@@ -21,24 +25,36 @@ from config.constants import NLTE_CORRECTION_ELEMENTS  # noqa: E402
 
 MAP = yaml.safe_load((ROOT / 'config' / 'physics_regime_rya400.yaml').read_text())['elements']
 SIX = ['Al', 'K', 'S', 'Cu', 'V', 'Sr']
+# RYA-412 post-merge adjudication of the round-2 six:
+SUPERSEDED_BY_402 = ['Al', 'S']          # departure grid derived via PySME → registered, LOCKED
+STILL_GAP         = ['K', 'Cu', 'V', 'Sr']  # unregistered: data/ion-blocked or no public grid
 
 
 def test_no_get_grid_verdicts_remain():
-    # round-2 flipped every GET-GRID element out; nothing should still claim GET-GRID
+    # round-2 + RYA-402 flipped every GET-GRID element out; nothing should still claim GET-GRID
     assert not [el for el, s in MAP.items() if s.get('verdict') == 'GET-GRID']
 
 
-def test_six_flipped_to_documented_gaps():
-    for el in SIX:
+def test_six_adjudicated_post_merge():
+    # Al/S superseded by RYA-402 (LOCKED); the rest are documented gaps. Every one of the six
+    # still carries its rya401 provenance (probe + either a 402 'outcome' or a gap_reason/path).
+    for el in SUPERSEDED_BY_402:
+        assert MAP[el]['verdict'] == 'LOCKED', f"{el} should be LOCKED (RYA-402)"
+    for el in STILL_GAP:
         assert MAP[el]['verdict'] in ('HARD-carry-forward', 'GET-DATA'), el
-        r = MAP[el].get('rya401')
-        assert r and r.get('probe') and r.get('gap_reason') and r.get('path'), \
-            f"{el} missing rya401 probe/gap/path provenance"
-
-
-def test_none_of_the_six_is_registered_no_false_done():
     for el in SIX:
-        assert el not in NLTE_CORRECTION_ELEMENTS, f"{el} must not be registered (no grid vendored)"
+        r = MAP[el].get('rya401')
+        assert r and r.get('probe'), f"{el} missing rya401 probe provenance"
+        assert r.get('outcome') or (r.get('gap_reason') and r.get('path')), \
+            f"{el} missing rya401 outcome (402-superseded) or gap_reason/path (genuine gap)"
+
+
+def test_registration_matches_adjudication_no_false_done():
+    # Al/S are registered via RYA-402; the still-gap four must NOT be (no grid → no false DONE)
+    for el in SUPERSEDED_BY_402:
+        assert el in NLTE_CORRECTION_ELEMENTS, f"{el} should be registered (RYA-402 PySME grid)"
+    for el in STILL_GAP:
+        assert el not in NLTE_CORRECTION_ELEMENTS, f"{el} must not be registered (unresolved gap)"
 
 
 def test_s_indicator_decision_is_optical():
@@ -56,13 +72,21 @@ def test_sr_ion_mismatch_recorded():
 
 
 def test_k_cross_refs_rya380_not_resolved_here():
+    # K's grid is now HAVE-VALIDATED (RYA-402) but it stays GET-DATA, data-blocked on RYA-380
+    # (telluric/measurement). The RYA-380 cross-ref moved into the rya401 'outcome'.
     assert MAP['K'].get('xref') == 'RYA-380'
-    assert 'RYA-380' in MAP['K']['rya401']['path']
+    assert 'RYA-380' in MAP['K']['rya401']['outcome']
+    assert MAP['K']['verdict'] == 'GET-DATA'
 
 
-def test_cu_and_v_are_genuine_grid_gaps():
-    assert MAP['Cu']['grid']['status'] == 'GAP'
+def test_v_genuine_grid_gap_cu_data_blocked():
+    # V is the genuine no-public-grid gap (HARD-carry-forward). Cu's grid is now HAVE
+    # (RYA-402 PySME) but unregistered — the blocker moved from the grid to line quality
+    # (GET-DATA → RYA-395), so Cu no longer claims a grid gap.
     assert MAP['V']['grid']['status'] == 'GAP'
+    assert MAP['V']['verdict'] == 'HARD-carry-forward'
+    assert MAP['Cu']['grid']['status'] == 'HAVE'
+    assert MAP['Cu']['verdict'] == 'GET-DATA' and 'Cu' not in NLTE_CORRECTION_ELEMENTS
 
 
 def test_rya400_audit_still_passes():
