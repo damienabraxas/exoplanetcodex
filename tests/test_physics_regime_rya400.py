@@ -60,10 +60,10 @@ def test_live_audit_passes():
 
 
 def test_is_wired_reflects_real_code():
-    # RYA-412: Al and S are now NLTE-wired (registered via RYA-402's PySME departure grids).
-    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S'):
+    # RYA-412: Al and S NLTE-wired (RYA-402 PySME). RYA-421: Sr II grid registered + wired.
+    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S', 'Sr'):
         assert A._is_wired(el)[0], f"{el} should be wired"
-    for el in ('K', 'Co', 'Cu', 'Sr', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
+    for el in ('K', 'Co', 'Cu', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
         assert not A._is_wired(el)[0], f"{el} should NOT be wired"
 
 
