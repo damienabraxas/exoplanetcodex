@@ -281,6 +281,18 @@ def build_grid(element, resume=False):
     df = pd.DataFrame(all_rows)
     print(f'\n{element} raw grid: {len(df)} rows')
 
+    # ── Placeholder-zero guard (RYA-413) ──────────────────────────────────────
+    # MPIA OFFERS some lines in its dropdown but RETURNS a literal 0 for them (it serves
+    # but does not NLTE-model the line; e.g. Ca 6166). A line identically 0 across ALL
+    # nodes is NOT a physical correction — DROP it loudly, never persist a zero as if it
+    # were a correction. (A real correction varies over the teff/logg/feh grid.)
+    from pipeline.nlte_corrections import detect_placeholder_zero_lines
+    dropped_placeholders = detect_placeholder_zero_lines(df)
+    if dropped_placeholders:
+        print(f'  [PLACEHOLDER_ZERO] dropping {len(dropped_placeholders)} MPIA-served-zero '
+              f'line(s) (0.0 across all nodes, not NLTE-modelled): {dropped_placeholders}')
+        df = df[~df['wave_A'].round(3).isin(dropped_placeholders)].copy()
+
     # ── Solar anchor verification ─────────────────────────────────────────────
     print('\nSolar anchor verification...')
     valid = df[df['delta_nlte'].notna()].copy()
@@ -333,6 +345,7 @@ def build_grid(element, resume=False):
         'n_rows': int(len(df)), 'n_valid_delta': n_valid,
         'solar_anchor': {'teff_K': SOLAR[0], 'logg': SOLAR[1], 'feh': SOLAR[2],
                          'delta_nlte': round(solar_delta, 4)},
+        'dropped_placeholder_zero_lines': dropped_placeholders,   # RYA-413: MPIA-served-zero, not modelled
     }
     prov_path = final_path.with_suffix('.prov.json')
     prov_path.write_text(json.dumps(prov, indent=2))
