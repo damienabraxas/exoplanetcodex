@@ -237,6 +237,17 @@ def solar_nlte_delta(element: str) -> float:
     g = pd.read_csv(path)
     if 'delta_nlte' not in g.columns:
         return np.nan
+    # RYA-417: a placeholder-zero line (0 across all nodes) biases this solar-median
+    # target toward 0 (a silent fake-LTE). Refuse it loudly — symmetric with the
+    # registry-leg (RYA-413) and Fe-leg (RYA-417) guards; no leg trusts a served zero.
+    from pipeline.nlte_corrections import detect_placeholder_zero_lines
+    _grp = g.groupby('ion') if 'ion' in g.columns else [(None, g)]
+    _ph = [w for _, sub in _grp for w in detect_placeholder_zero_lines(sub)]
+    if _ph:
+        raise ValueError(
+            f"[PLACEHOLDER_ZERO] {element} NLTE grid {fname} carries placeholder-zero "
+            f"line(s) {_ph} (0 across all nodes). Drop them before the grid feeds a "
+            f"verdict target (RYA-417/413) — never read a served zero as an NLTE Δ.")
     sp = get_star_params('solar')
     teff, logg = float(sp['teff']), float(sp['logg'])
     sel = g[(g['teff_K'].sub(teff).abs() < 150) &
