@@ -63,3 +63,29 @@ Header-truth target split (HD128620 = alpha Cen A; HD128621 = alpha Cen B). See 
 6. **FEROS A/B disambiguation** (Gl-559 is the system name).
 
 **Bottom line:** alpha Cen A is in good shape for an OPTICAL run on the clean HARPS set (+ FEROS red with GDAS); the blocker is the duplicated/mixed UVES+STIS folders (select by header) and the absent reduced NIR. alpha Cen B's optical primary (CHIRON) needs a format-aware confirm. VALD coverage is strong (1150–16997 Å, HFS-on) with the K-band extraction the one line-list gap.
+
+---
+
+## ADDENDUM (2026-06-23) — systemic binary mislabeling + spectral-type re-sort
+
+After deeper vetting (and the user dropping more ESO downloads), the headline hardened: **for this close visual binary the ESO archive target labels are systematically unreliable across EVERY instrument.** The only trustworthy discriminator is the spectrum itself — G2V (alpha Cen A) shallow lines vs K1V (alpha Cen B) ~2x deeper lines, validated by RV-lag cross-correlation against templates built from the HARPS set.
+
+### Confirmed by spectral type (high confidence)
+- **HARPS "A folder" (88) = 75 A + 13 B.** The 13 highest-SNR (SN0 ~300, single night 2010-04-02) are spectroscopically K1V = alpha Cen B, mislabeled HD128620. (CC margins: known-A CC_A=1.0/CC_B=0.52; known-B CC_A=0.5/CC_B=0.96.)
+- **HARPS archive "HD128621" query** returns mostly A — selecting by SNR biases to the brighter star (A). Harvested 12 genuine B from 150 downloaded.
+- **ESPRESSO (15) labeled "alf Cen B" = alpha Cen A** (depth 0.18, firmly G-dwarf; resolution-matched). Excellent high-res A optical (3772-7900 A), just mislabeled.
+
+### Could NOT be auto-classified (cross-instrument CC too weak; routed by label, FLAGGED UNVERIFIED)
+- **UVES** (CC ~0.22/0.00 vs both templates — unreliable), **CHIRON** (CTIO IDP, no usable window -> _REVIEW), **FEROS**, **GIRAFFE**, **HST/STIS** (UV), **NIRPS** (YJH).
+These need dedicated per-instrument vetting (resolution-matched templates or RV cross-match to simultaneous optical).
+
+### IR data (the CO / NIR gaps — both stars, mixed targets)
+- **CRIRES** in both folders: Y/J/H/K settings. **All K-band settings (K2148/66/92/2217, 1.95-2.49 um) cover the 12CO (2.2935 um) AND 13CO (2.3448 um) bandheads** = the CO arm. Targets mixed; vetted tentatively by CO-bandhead depth (strong->B). The "Star S5" K-band CO is at alpha Cen coords.
+- **NIRPS**: 322 processed YJH (0.97-1.92 um) spectra exist; 8 best downloaded (SNR up to 403). Labels mixed; A/B in the NIR needs a dedicated discriminator.
+- **GEMINI = TReCS mid-IR (10-20 um)** -> NOT-FOR-ABUNDANCES; **Phoenix** = raw Gemini darks -> NOT-FOR-ABUNDANCES.
+
+### Vetted folder tree (NON-DESTRUCTIVE copy; originals preserved)
+`Alpha Centauri (vetted)/Alpha Cen A` (302) + `Alpha Cen B` (147) + `_REVIEW` (102: CHIRON/CRIRES-YJH/FEROS/GIRAFFE/UVES) + `_NEEDS-REVIEW` (HARPS-borderline, NIRPS) + `_NOT-FOR-ABUNDANCES` (TReCS, Phoenix). Built by scripts/reorg_acen_by_spectral_type_rya384.py; per-file routing + method/CC in reorg_by_spectraltype_manifest.csv. **alpha Cen B real optical = 25 HARPS (confirmed) + UVES + CHIRON; high-res B optical still owed (the ESPRESSO turned out to be A).**
+
+### Standing recommendation
+Going forward, do NOT trust HD128620/HD128621/"alf Cen B" labels. Pull a generous batch per instrument and sort by spectral type. Confirmed-reliable method exists for HARPS-resolution optical; UVES/IR/UV need per-instrument templates.
