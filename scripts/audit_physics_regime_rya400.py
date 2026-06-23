@@ -104,6 +104,17 @@ def run() -> int:
         if live == 0 and verdict in LOCKED_VERDICTS and el not in _CNO_LEG:
             warns.append(f"{el}: LOCKED but 0 measured EW lines (synthesis/other path?)")
 
+        # 5. GRID-DRIFT (RYA-418): the map's recorded grid_file MUST equal the live registry
+        # grid. The live registration (NLTE_CORRECTION_ELEMENTS) is the single source of truth;
+        # the map conforms to it, never the reverse. A silent divergence (e.g. RYA-410 re-sourced
+        # Na/Mg/Si onto Amarsi PySME while the map still named Bergemann/INSPECT) is the defect.
+        if el in NLTE_CORRECTION_ELEMENTS:
+            reg_grid = NLTE_CORRECTION_ELEMENTS[el].get('grid')
+            map_grid = claim.get('grid_file')
+            if map_grid is not None and map_grid != reg_grid:
+                errors.append(f"GRID-DRIFT: {el} map grid_file={map_grid!r} != live registry "
+                              f"grid={reg_grid!r} (RYA-418: registry is source of truth; conform the map)")
+
         rows.append((el, spec.get('ion', '?'), verdict, 'wired' if wired else '-', live,
                      str(spec.get('routing', '') or '')))
 
