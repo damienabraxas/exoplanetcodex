@@ -428,12 +428,14 @@ NLTE_CORRECTION_ELEMENTS = {
     # vs +0.012): it is NOT a model-atom difference — Amarsi-2020 (+0.017) and Mashonkina
     # (+0.027) AGREE on the only cleanly-computed shared line (5867). The gap was (a)
     # line-set (RYA-410 used 6166/6169/6455, where Amarsi gives real +0.05..+0.08) and
-    # (b) a DATA DEFECT: MPIA's Ca 6166 is a placeholder zero (all 72 nodes = 0.000),
-    # dragging the MPIA reference down. Adopting Amarsi would close the 55 Cnc clamp AND
-    # add the missing NLTE on the subordinate 3d-4p lines (~+0.05 solar Ca shift) — a
-    # solar-calibration change to RATIFY against a solar-Ca re-validation (RYA-371), not a
-    # silent swap here. So Ca keeps MPIA (clamped-but-loud at 55 Cnc, RYA-409). FLAG: the
-    # MPIA Ca 6166 placeholder-zero is a registered-grid defect worth fixing.
+    # (b) a DATA DEFECT: MPIA's Ca 6166 was a placeholder zero (all 72 nodes = 0.000),
+    # dragging the MPIA reference down. RYA-413 FIXED it: confirmed live that MPIA OFFERS
+    # 6166 but RETURNS a literal 0 (serves but does not NLTE-model the line) -> dropped the
+    # line (never carry a zero as a correction) -> clean MPIA solar Ca median = +0.017
+    # (was +0.0118). A registration-time placeholder-zero guard now refuses the class.
+    # Adopting Amarsi would close the 55 Cnc clamp AND add the missing NLTE on the
+    # subordinate 3d-4p lines (~+0.05 solar Ca shift) — a solar-calibration change to RATIFY
+    # against a solar-Ca re-validation (RYA-371), not a silent swap here. Ca keeps MPIA.
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '20.01'},
