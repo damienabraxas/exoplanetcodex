@@ -475,10 +475,25 @@ _MPIA_ELEMENT_DIR = _REPO_ROOT / 'data' / 'nlte_grids'
 _mpia_element_cache: dict = {}
 
 
+def detect_placeholder_zero_lines(df: pd.DataFrame, eps: float = 1e-9) -> list:
+    """Lines that are IDENTICALLY ~0 across ALL their (teff,logg,feh) nodes — almost
+    certainly a failed build or an MPIA-served-but-unmodelled line written as 0, NOT a
+    physical NLTE correction (a real correction varies over the parameter grid; it is not
+    exactly 0.000 everywhere). Returns the sorted wave_A list. RYA-413: this is the
+    placeholder-zero class (root: MPIA offers Ca 6166 in its dropdown but returns 0)."""
+    bad = []
+    for wave, g in df.groupby('wave_A'):
+        col = g['delta_nlte'].dropna()
+        if len(col) >= 2 and (col.abs() < eps).all():
+            bad.append(round(float(wave), 3))
+    return sorted(bad)
+
+
 def _load_mpia_element_grid(element: str) -> dict:
     """Per-(wave) LinearNDInterpolator over (teff_K, logg, feh) for a registry
     element (Ca/Ti/Cr). Cached per element; loud-fails if the element is not in the
-    registry or its grid file is missing (no silent skip of a configured element)."""
+    registry or its grid file is missing (no silent skip of a configured element).
+    RYA-413: REFUSES to register a grid carrying a placeholder-zero line (raises loud)."""
     if element in _mpia_element_cache:
         return _mpia_element_cache[element]
     from scipy.interpolate import LinearNDInterpolator
@@ -491,6 +506,14 @@ def _load_mpia_element_grid(element: str) -> dict:
     if not path.exists():
         raise FileNotFoundError(f"NLTE grid for {element} not found: {path}")
     df = pd.read_csv(path)
+    placeholders = detect_placeholder_zero_lines(df)
+    if placeholders:
+        raise ValueError(
+            f"[PLACEHOLDER_ZERO] {element} NLTE grid {spec['grid']} carries {len(placeholders)} "
+            f"line(s) that are identically 0 across all nodes: {placeholders}. A registered grid "
+            f"must NOT store a placeholder zero as if it were an NLTE correction (RYA-413) — "
+            f"re-fetch the line or DROP it from the pool with a documented reason; never register "
+            f"the zero.")
     df = df[df['delta_nlte'].notna()]
     interp, waves = {}, []
     for wave, g in df.groupby('wave_A'):

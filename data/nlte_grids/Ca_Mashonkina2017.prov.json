@@ -30,8 +30,16 @@
       0.3
     ]
   },
-  "n_waves": 9,
-  "n_rows": 648,
+  "n_waves": 8,
+  "n_rows": 576,
   "n_valid_delta": 544,
-  "reconstructed": "2026-06-22 (axes + counts computed from the committed CSV; citation from the registry ref. Original extraction parameters not captured at vendoring time.)"
+  "reconstructed": "2026-06-22 (axes + counts computed from the committed CSV; citation from the registry ref. Original extraction parameters not captured at vendoring time.)",
+  "rya413_fix": {
+    "what": "DROPPED the Ca I 6166.44 line \u2014 it was a placeholder zero across all 72 grid nodes.",
+    "root_cause": "CONFIRMED live (RYA-413): MPIA's calines[] dropdown OFFERS 6166.44, but the mafags-os tool RETURNS a literal 0.0 for it at every node (not an error code, not a build failure -- reproduced live for sun/cool/metal-rich while neighbours 5867/6122 return real varying values). MPIA serves the line but does not NLTE-model it; it returns 0, which was silently stored as a correction.",
+    "action": "Per the validate-don't-tune / no-placeholder rule: drop the line (do not carry a zero as a correction). 6166 is not in MPIA's modelled Ca set.",
+    "effect": "Clean MPIA solar Ca median 7 lines = +0.017 (was +0.0118 with the placeholder; the fake zero dragged it down 0.0052 dex). This is the clean MPIA comparand.",
+    "guard": "Registration-time guard added (RYA-413) -> a placeholder-zero line is now refused, not silently accepted.",
+    "fixed": "2026-06-22"
+  }
 }
