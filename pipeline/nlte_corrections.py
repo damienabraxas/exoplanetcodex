@@ -238,6 +238,21 @@ def _load_mpia_fe_grid() -> dict:
         return _mpia_cache
     from scipy.interpolate import LinearNDInterpolator
     df = pd.read_csv(_MPIA_FE_GRID)
+    # RYA-417: refuse to register a Fe-leg grid carrying placeholder-zero lines (a line
+    # identically 0 across ALL its nodes = MPIA served-but-unmodelled, i.e. a silent
+    # fake-LTE correction). This extends the RYA-413 registry-leg guard
+    # (_load_mpia_element_grid) to the SEPARATE primary-Fe path — the gap the 31 Fe
+    # placeholders rode. Detected per ion (the grid carries Fe I + Fe II at shared waves).
+    _ph = []
+    for _ion, _g in df.groupby('ion'):
+        _ph += [(str(_ion), w) for w in detect_placeholder_zero_lines(_g)]
+    if _ph:
+        raise ValueError(
+            f"[PLACEHOLDER_ZERO] Fe NLTE grid {_MPIA_FE_GRID.name} carries {len(_ph)} line(s) "
+            f"identically 0 across all nodes: {_ph}. The Fe leg must NOT apply a placeholder "
+            f"zero as if it were an NLTE correction (RYA-417, extends RYA-413) — drop them via "
+            f"scripts/drop_fe_leg_placeholders_rya417.py after a live-MPIA TRUE_PLACEHOLDER "
+            f"confirmation; never register the zero.")
     df = df[df['delta_nlte'].notna()]
     # RYA-345: the grid encodes ion as 'I'/'II' strings; key the interpolators on
     # the canonical ion int so callers passing any encoding ('I'/'II'/1/2/'26.1')
