@@ -89,3 +89,26 @@ These need dedicated per-instrument vetting (resolution-matched templates or RV 
 
 ### Standing recommendation
 Going forward, do NOT trust HD128620/HD128621/"alf Cen B" labels. Pull a generous batch per instrument and sort by spectral type. Confirmed-reliable method exists for HARPS-resolution optical; UVES/IR/UV need per-instrument templates.
+
+---
+
+## PROOF: alpha Cen A/B labels swapped (NIRPS) — two independent discriminators (2026-06-23)
+
+Demanded a rigorous proof. Built one with TWO PHYSICALLY INDEPENDENT discriminators that must
+agree, anchored to the validated HARPS ground truth. Figure: plots/acen_label_swap_proof.png
+(4 panels: HARPS A/B overlay; HARPS bimodal depth histogram = the 13 mislabeled B; NIRPS
+flux-vs-depth 2D; NIRPS spectrum overlay). Script: scripts/prove_acen_label_swap_rya384.py.
+
+Quantitative (decisive):
+- HARPS GROUND TRUTH: confirmed-A line-depth = 0.224 (n=75); confirmed-B = 0.506 (n=13).
+- NIRPS 'AlphaCenB'-labeled: J-depth 0.132 (SHALLOW=G2) + flux 3.9e-10 erg/cm2/s/A (BRIGHT)
+  -> alpha Cen A on BOTH axes.
+- NIRPS 'alf Cen A'/'Star S5'-labeled: J-depth 0.797 (DEEP=K1) + flux 4.1e-12 (FAINT, ~95x
+  dimmer) -> alpha Cen B on BOTH axes.
+The spectroscopic axis (line depth, 6x ratio) and the photometric axis (flux, 95x ratio) are
+INDEPENDENT and agree perfectly: the 'AlphaCenB' label = actual alpha Cen A. LABELS SWAPPED.
+(NIRPS flux is calibrated: BUNIT = erg.cm-2.s-1.angstrom-1.)
+
+Acted on it: re-queried ESO for the swapped-label B candidates (label 'alf Cen A' + 'Star S5')
+and verified each by J-depth -> 22 confirmed-B NIRPS routed to Alpha Cen B/NIRPS (up from 2);
+15 -> Alpha Cen A/NIRPS. alpha Cen B NIR (YJH) is now well-populated.
