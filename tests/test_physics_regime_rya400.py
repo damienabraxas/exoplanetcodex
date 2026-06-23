@@ -60,17 +60,19 @@ def test_live_audit_passes():
 
 
 def test_is_wired_reflects_real_code():
-    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si'):
+    # RYA-412: Al and S are now NLTE-wired (registered via RYA-402's PySME departure grids).
+    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S'):
         assert A._is_wired(el)[0], f"{el} should be wired"
-    for el in ('K', 'S', 'Co', 'Al', 'Cu', 'Sr', 'Ni', 'Li', 'Eu', 'Zr'):
+    for el in ('K', 'Co', 'Cu', 'Sr', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
         assert not A._is_wired(el)[0], f"{el} should NOT be wired"
 
 
 def test_locked_not_wired_guard_bites(monkeypatch):
-    # the central contract: if a NOT-wired element is mislabelled LOCKED, the audit FAILS
+    # the central contract: if a NOT-wired element is mislabelled LOCKED, the audit FAILS.
+    # RYA-412: Al is now genuinely wired, so use Cu (HAVE grid but unregistered/not-wired).
     bad = dict(MAP)
-    al = dict(bad['Al']); al['verdict'] = 'LOCKED'        # Al is not NLTE-wired
-    bad['Al'] = al
+    cu = dict(bad['Cu']); cu['verdict'] = 'LOCKED'        # Cu is not NLTE-wired
+    bad['Cu'] = cu
     monkeypatch.setattr(A, '_load_map', lambda: bad)
     assert A.run() == 1
 
