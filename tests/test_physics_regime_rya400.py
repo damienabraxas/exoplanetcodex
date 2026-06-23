@@ -35,12 +35,40 @@ def test_every_regime_call_is_cited():
         assert spec.get('verdict'), f"{el} missing verdict"
 
 
-def test_registry_and_cno_and_fe_are_locked():
-    # everything actually NLTE-wired must be verdict LOCKED in the map
+def test_registry_locked_requires_measured_or_pending():
+    # RYA-428: registration alone is NOT "handled". A registered element is LOCKED only if
+    # a measured line of its prescribed ion exists; otherwise it is the legitimate
+    # grid-registered/measurement-owed state (verdict GET-DATA), NOT LOCKED.
+    import audit_physics_regime_rya400 as AUD
+    df = AUD._measured_df()
     for el in NLTE_CORRECTION_ELEMENTS:
-        assert MAP[el]['verdict'] == 'LOCKED', f"{el} is NLTE-registered but not LOCKED"
+        ion = AUD._prescribed_ion(el)
+        n = AUD._measured_lines_of_ion(el, ion, df)
+        v = MAP[el]['verdict']
+        if n > 0:
+            assert v == 'LOCKED', f"{el} has {n} measured {ion} line(s) but verdict={v}"
+        else:
+            assert v != 'LOCKED', \
+                f"{el} verdict=LOCKED but ZERO measured {ion} lines — registration != handled (RYA-428)"
     for el in ('Fe', 'C', 'N', 'O'):
         assert MAP[el]['verdict'] == 'LOCKED'
+
+
+def test_handled_precondition_guard_bites(monkeypatch):
+    # RYA-428 central contract: if a registered element is marked LOCKED but no measured line
+    # of its prescribed ion exists, the audit FAILS loudly (the paper-done gap Sr exposed).
+    import audit_physics_regime_rya400 as AUD
+    bad = {el: dict(s) for el, s in AUD._load_map().items()}
+    bad['Sr'] = dict(bad['Sr']); bad['Sr']['verdict'] = 'LOCKED'   # registered, 0 Sr II measured
+    monkeypatch.setattr(AUD, '_load_map', lambda: bad)
+    assert AUD.run() == 1                                          # loud-fail
+
+
+def test_sr_is_grid_registered_but_pending_not_locked():
+    # Sr: grid registered (RYA-421) but measurement owed -> GET-DATA, NOT LOCKED (RYA-428).
+    assert 'Sr' in NLTE_CORRECTION_ELEMENTS                        # registration preserved
+    assert MAP['Sr']['verdict'] == 'GET-DATA'
+    assert MAP['Sr']['verified_in_repo']['grid_file'] == 'Sr_Bergemann2012_INSPECT.csv'
 
 
 def test_known_lurkers_and_data_gaps():
