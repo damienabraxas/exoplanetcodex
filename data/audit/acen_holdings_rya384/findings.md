@@ -112,3 +112,26 @@ INDEPENDENT and agree perfectly: the 'AlphaCenB' label = actual alpha Cen A. LAB
 Acted on it: re-queried ESO for the swapped-label B candidates (label 'alf Cen A' + 'Star S5')
 and verified each by J-depth -> 22 confirmed-B NIRPS routed to Alpha Cen B/NIRPS (up from 2);
 15 -> Alpha Cen A/NIRPS. alpha Cen B NIR (YJH) is now well-populated.
+
+---
+
+## IR target ID on all accounts + NIRPS-A sufficiency (2026-06-23)
+
+NIRPS (proof-grade, see plot): labels SWAPPED, confirmed by 2 independent axes. Acted ->
+20 confirmed-A + 20 confirmed-B NIRPS (YJH 0.97-1.92um) routed to Alpha Cen A|B/NIRPS by
+J-band line-depth (clean split). alpha Cen A NIRPS = MORE THAN ENOUGH (293 available in the
+ESO archive; the 20 grabbed include the top-SNR set 232-403; co-add -> SNR>1000). alpha Cen B
+NIRPS now well-populated (20, archive SNR up to 179).
+
+CRIRES (Y/J/H/K) target ID — CANNOT be proof-graded by the quick two-axis method, and here is
+why (honest):
+- FLUX axis dead: CRIRES BUNIT = ADU (counts, NOT flux-calibrated) -> exposure-dependent, so
+  the A-label vs B-label "fluxes" are ~equal and carry no brightness information.
+- DEPTH axis weak: the reduced CRIRES line depths are uniformly ~0.05 across Y/J/H/K for the
+  'alf Cen A'/'alf Cen B' pairs (over-flattened continuum / telluric-dominated) -> no clean
+  G2-vs-K1 separation.
+- ONLY solid IR signal: 'Star S5' K-band has deep CO (~0.18 vs ~0.05) = a real K-dwarf =
+  alpha Cen B's CO arm (confident).
+So the CRIRES 'alf Cen A/B' Y/J/H/K target labels are UNVERIFIED (flagged, not pretended);
+resolving them needs telluric correction + NIR (G2 vs K1) templates — a dedicated reduction
+task, not quick vetting. The CO arm (Star S5 K-band) for alpha Cen B is confirmed.
