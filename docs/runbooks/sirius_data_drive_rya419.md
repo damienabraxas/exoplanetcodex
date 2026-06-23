@@ -1,5 +1,15 @@
 # RYA-419 — Sirius 500 GB data-drive runbook (RUN ON SIRIUS)
 
+> **EXECUTED 2026-06-23** (over SSH, once RYA-80 key-auth + NOPASSWD sudo landed).
+> Actual hardware (supersedes the stale RYA-113 "256 + 500" assumption):
+> - `sdb` 476.9 GiB (~512 GB) = **OS drive** — `sdb1` 1G vfat `/boot/efi`, `sdb2` ext4 `/` (395G free).
+> - `sda` 465.8 GiB (**500 GB**) = **data drive** — was BLANK; formatted GPT + `sda1` ext4 (label `codex-data`)
+>   per Ryan's sign-off. **UUID `75f9235a-0d9f-4b77-9eb8-3eb9474a2c88`**, mounted at `/mnt/codex-data`
+>   (458G usable). fstab line (UUID, `nofail`) verified via `mount -a`; all 5 smoke checks pass incl. the
+>   negative test (unmounted → CRITICAL/exit 1). Skeleton created. The steps below are the as-run procedure.
+
+
+
 **This is a Linux/Sirius (HP ProBook 450) ops runbook.** The drive is physically on
 Sirius; the commands below use `lsblk`/`/etc/fstab`/`mountpoint`/`systemctl` and `sudo`,
 which do not exist / do not apply on the MacBook. They were **not** run from the Mac
