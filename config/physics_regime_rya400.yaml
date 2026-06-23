@@ -207,7 +207,7 @@ elements:
     rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; RYA-401 found no public Cu I correction grid", outcome: "SUPERSEDED — RYA-402 derived the grid via PySME from the Amarsi Cu (Caliskan) departure grid + validated HFS×NLTE (small). NOT registered: the blocker is now measured-line QUALITY (4767 junk, 4704 high-Rydberg), not the grid -> RYA-395"}
     indicators: {lines: "Cu I 5105/5218/5782 (HFS) standard; OUR measured 4704 (high-excit, fragile upper) + 4767 (EW=198 UNPHYSICAL=junk)", in_data: "2 measured (both inadequate)"}
     hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER: measured Cu lines inadequate (4767 junk, 4704 high-Rydberg) -> Cu NLTE not production-registered; needs standard-line measurement (RYA-395 curation)."
-    verdict: GET-GRID
+    verdict: GET-DATA   # RYA-412: reconciled from GET-GRID — the grid is HAVE (RYA-402 PySME, Caliskan); the blocker is now measured-line QUALITY, not the grid (parallel to K). GET-DATA = needs standard-line measurement (RYA-395).
     routing: "RYA-402 machinery + HFS VALIDATED (small delta); production BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then register"
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
 
