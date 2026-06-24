@@ -25,10 +25,12 @@ from config.constants import NLTE_CORRECTION_ELEMENTS  # noqa: E402
 
 MAP = yaml.safe_load((ROOT / 'config' / 'physics_regime_rya400.yaml').read_text())['elements']
 SIX = ['Al', 'K', 'S', 'Cu', 'V', 'Sr']
-# RYA-412 + RYA-421 adjudication of the round-2 six:
-SUPERSEDED_BY_402 = ['Al', 'S']          # departure grid via PySME (RYA-402) → registered, LOCKED
-REGISTERED        = ['Al', 'S', 'Sr']    # + Sr: ion-mismatch resolved at grid level (RYA-421)
-STILL_GAP         = ['K', 'Cu', 'V']     # unregistered: data-blocked or no public grid
+# RYA-412 + RYA-421 + RYA-428 adjudication of the round-2 six:
+LOCKED_REGISTERED  = ['Al', 'S']    # PySME grid + measured prescribed-ion line → LOCKED (RYA-402)
+PENDING_REGISTERED = ['Sr']         # grid registered (RYA-421) but Sr II measurement OWED →
+                                    # GET-DATA-pending, NOT LOCKED (RYA-428 reverted premature handled)
+REGISTERED         = LOCKED_REGISTERED + PENDING_REGISTERED
+STILL_GAP          = ['K', 'Cu', 'V']     # unregistered: data-blocked or no public grid
 
 
 def test_no_get_grid_verdicts_remain():
@@ -37,11 +39,13 @@ def test_no_get_grid_verdicts_remain():
 
 
 def test_six_adjudicated_post_merge():
-    # Al/S superseded by RYA-402 + Sr by RYA-421 (all LOCKED); K/Cu/V are documented gaps.
-    # Every one of the six still carries its rya401 provenance (probe + a resolution 'outcome'
-    # for the registered three, or a gap_reason/path for the genuine gaps).
-    for el in REGISTERED:
+    # Al/S LOCKED (RYA-402: grid + measured line). Sr is grid-REGISTERED but GET-DATA-pending
+    # (RYA-428: measurement owed -> not LOCKED). K/Cu/V are documented gaps. Each of the six
+    # carries its rya401 provenance (probe + a resolution 'outcome' or a gap_reason/path).
+    for el in LOCKED_REGISTERED:
         assert MAP[el]['verdict'] == 'LOCKED', f"{el} should be LOCKED"
+    for el in PENDING_REGISTERED:
+        assert MAP[el]['verdict'] == 'GET-DATA', f"{el} should be GET-DATA-pending (measurement owed)"
     for el in STILL_GAP:
         assert MAP[el]['verdict'] in ('HARD-carry-forward', 'GET-DATA'), el
     for el in SIX:
@@ -66,14 +70,15 @@ def test_s_indicator_decision_is_optical():
     assert '6743' in s['indicator_decision'] or '6757' in s['indicator_decision']
 
 
-def test_sr_ion_mismatch_resolved_rya421():
-    # RYA-421 resolved the Sr ion mismatch at the GRID level: Sr II 4077/4215 NLTE grid
-    # fetched + registered → verdict flipped GET-DATA → LOCKED. The dead-end record now
-    # carries the resolution in rya401.outcome (measurement still owed, documented there).
+def test_sr_ion_mismatch_grid_resolved_measurement_owed():
+    # RYA-421 resolved the Sr ion mismatch at the GRID level (Sr II 4077/4215 NLTE grid
+    # fetched + registered). RYA-428: that is NOT "handled" — the Sr II MEASUREMENT is owed,
+    # so the verdict stays GET-DATA-pending, not LOCKED (registration != measurement).
     sr = MAP['Sr']
-    assert sr['ion'] == 'II' and sr['verdict'] == 'LOCKED'
+    assert sr['ion'] == 'II' and sr['verdict'] == 'GET-DATA'
     assert 'Sr' in NLTE_CORRECTION_ELEMENTS and NLTE_CORRECTION_ELEMENTS['Sr']['ion'] == 2
     assert 'RYA-421' in sr['rya401']['outcome']
+    assert 'OWED' in sr['rya401']['outcome'] or 'owed' in sr['rya401']['outcome'].lower()
     assert 'measurement' in sr['rya401']['outcome'].lower()   # Step-1 measurement owed, recorded
 
 
