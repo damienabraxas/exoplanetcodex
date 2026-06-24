@@ -135,3 +135,35 @@ why (honest):
 So the CRIRES 'alf Cen A/B' Y/J/H/K target labels are UNVERIFIED (flagged, not pretended);
 resolving them needs telluric correction + NIR (G2 vs K1) templates — a dedicated reduction
 task, not quick vetting. The CO arm (Star S5 K-band) for alpha Cen B is confirmed.
+
+---
+
+## RYA-431 — the "NIRPS B" -34.6 km/s offset is NOT a mask zero-point: the frames are a different star
+
+RYA-423 flagged the 20 NIRPS "B" frames at RV -34.6 km/s and attributed it to a G-vs-K mask
+zero-point (RV flagged, spec-type carries B). RYA-431 RCA (scripts/rca_nirps_b_rv_rya431.py)
+overturns that attribution:
+
+- **BERV bug RULED OUT.** Header `ESO QC BERV` equals an independent astropy coord+time BERV to
+  ~5 m/s (no NaN). The confirmed-A frames hold RV -26.8 +/- 0.16 across BERV -18..+20 km/s, so
+  BERV is applied correctly (a BERV error would correlate RV with that 38 km/s BERV swing).
+- **CONSTANT, single epoch.** All 20 frames are one night, 2024-03-17 (RV std 0.29). No
+  cross-epoch BERV/date correlation is testable -> the offset is constant, not BERV-driven.
+- **Real, truncated stellar peak.** CCF contrast ~17.6, FWHM ~11.6 -- a genuine stellar peak,
+  not noise. The pipeline centred the CCF search at -18 (expecting alpha Cen A) with a blue edge
+  at -38; the peak's blue half-max (-40.4) is past that edge -> the peak is TRUNCATED, so the
+  true RV is <= -34.6 (even more negative).
+- **Off the orbit.** A bound alpha Cen member is confined to gamma +/- max(K) = [-28.3, -16.4]
+  km/s (acen_orbit.rv_bounds). -34.6 is ~6 km/s below the floor. A NIRPS precision-RV mask
+  cannot move a CCF by >5 km/s, so -34.6 is a REAL velocity.
+
+**=> The 20 frames are NOT alpha Cen B -- a different K-type star, mislabelled "alf Cen A"** (the
+J-depth "deep -> B" call is a K-type false positive). Re-dispositioned NOT-ALPHA-CEN in the
+manifest; the RV ephemeris (PRIMARY) overrules the spectral type (SECONDARY) when the RV is
+orbitally impossible. Files moved to `Alpha Cen B/NIRPS/_NOT-ALPHA-CEN-RYA431/` (not deleted) so
+nothing routes them as B by folder. The off-orbit gate is now wired into ir_star_id_rya423.verdict
+(supersedes the old "mask zero-point, flagged not overridden" branch).
+
+**Consequence: there is currently NO confirmed alpha Cen B in the NIRPS holdings** (11 A, 20
+not-alpha-Cen, 9 'Star S5' low-contrast standard). Real alpha Cen B NIRPS must be acquired; its
+RV should track the orbit (~-18 km/s in 2024-25), not sit at -34.6.

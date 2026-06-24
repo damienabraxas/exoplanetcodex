@@ -38,3 +38,15 @@ def test_separation_grows_2022_to_2025():
     s22 = O.predicted_rv(Time(2022.0, format='byear').mjd)['sep_kms']
     s25 = O.predicted_rv(Time(2025.0, format='byear').mjd)['sep_kms']
     assert s25 > s22                           # opening since the ~2016 projected minimum
+
+
+def test_orbit_bounds_gate_rya431():
+    # RYA-431: any bound alpha Cen member is confined to gamma +/- max(K). The 20 "NIRPS B"
+    # frames sit at -34.6 km/s -- OFF the orbit (a different K star, not alpha Cen B).
+    lo, hi = O.rv_bounds()
+    assert lo < O.GAMMA - O.K_B and hi > O.GAMMA + O.K_B   # brackets the systemic +/- reflex
+    assert O.consistent_with_orbit(-26.7)      # confirmed alpha Cen A
+    assert O.consistent_with_orbit(-18.0)      # alpha Cen B near apoapsis branch
+    assert not O.consistent_with_orbit(-34.6)  # the off-orbit "NIRPS B" frames
+    assert not O.consistent_with_orbit(float('nan'))
+    assert not O.consistent_with_orbit(None)
