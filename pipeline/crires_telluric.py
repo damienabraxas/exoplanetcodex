@@ -381,14 +381,20 @@ def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Pat
 
 
 def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
-                      molecules) -> dict:
+                      molecules, continuum_n: int = None, extra_cmd=None) -> dict:
     """Run esorex molecfit_model on ONE arbitrary segment (TOPOCENTRIC) and divide by
     the fitted convolved transmission (BEST_FIT_MODEL.mtrans, saturated cores masked).
     Returns {lam_A, corr, mtrans, flux_raw, gdas, resid} — does NOT mutate the frame
     (reused for both the CO order and the bluer RV-anchor order). Real GDAS profile
-    (RYA-380 mechanic). No silent fallback — raises on a molecfit failure."""
+    (RYA-380 mechanic). No silent fallback — raises on a molecfit failure.
+
+    `continuum_n` / `extra_cmd` (RYA-437 RCA hooks): override the recipe continuum order
+    and append extra esorex args (e.g. --FIT_WLC=1, tighter --FTOL/--XTOL) to probe
+    whether the telluric residual is molecfit-setup-limited vs data-floor-limited.
+    Defaults reproduce the RYA-373 baseline exactly (continuum_n=_CONTINUUM_N, no extras)."""
     import os
     from astropy.io import fits
+    cont_n = _CONTINUUM_N if continuum_n is None else int(continuum_n)
     esorex = _ESOREX if Path(_ESOREX).exists() else shutil.which("esorex")
     if esorex is None:
         raise MolecfitNotAvailableError("esorex not found (RYA-375 install expected at "
@@ -402,7 +408,8 @@ def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
     cmd = [esorex, f"--output-dir={out_dir}", "molecfit_model",
            "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux", "--COLUMN_DFLUX=dflux",
            "--WLG_TO_MICRON=1.0", "--WAVELENGTH_FRAME=VAC",
-           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}"]
+           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={cont_n}"]
+    cmd += list(extra_cmd) if extra_cmd else []
     cmd += [f"--GDAS_PROFILE={gdas}"] if gdas else []
     cmd += [str(sof)]
     proc = subprocess.run(cmd, cwd=str(in_dir), env=env, capture_output=True, text=True)
