@@ -51,13 +51,14 @@ elements:
 
   N:
     ion: "I"
-    dimensionality: {regime: "3D needed", solar_corr_dex: "see Amarsi2019/Asplund2021", cite: "Amarsi2019; Asplund2021"}
-    departure: {regime: "NLTE", solar_corr_dex: "see Amarsi2019", cite: "Amarsi2019; Amarsi2020"}
-    grid: {status: HAVE, source: "nlte_cno (amarsi2019_cno/)"}
-    indicators: {lines: "N I 7468/8216 weak; NH 3360; CN — mostly SYNTHESIS not EW", in_data: "0 measured EW lines (synthesis path, cno_synthesis)"}
-    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); needs synthesis"
-    verdict: LOCKED
-    verified_in_repo: {nlte_leg: "nlte_cno", measured_ew_lines: 0, note: "N via cno_synthesis, not EW"}
+    dimensionality: {regime: "3D needed", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE owed (no vendored N grid)", solar_corr_dex: "owed", cite: "Amarsi2020 (N NLTE exists in lit, NOT vendored here)"}
+    grid: {status: MISSING, source: "nlte_cno models ONLY C I + O I (Amarsi 2019 C/O grid; REQUIRED_LINES={CI,OI}); there is NO N grid -- cno_nlte_delta('NI') errors. The prior 'HAVE via nlte_cno' claim was false (RYA-434)."}
+    indicators: {lines: "N I 7468/8216 weak; NH 3360; CN -- mostly SYNTHESIS not EW", in_data: "0 measured EW lines; CN synthesis (cno_synthesis) weak/non-converged (RYA-237)"}
+    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); NO N NLTE grid in nlte_cno (C/O only)"
+    verdict: GET-DATA
+    routing: "N NLTE OWED (RYA-434): nlte_cno does NOT model N. Needs a vendored N NLTE grid + a measured/synthesised N abundance before LOCKED; N I atomic red-optical + NH UV (RYA-369)"
+    verified_in_repo: {nlte_leg: "none (nlte_cno is C/O only)", measured_ew_lines: 0, note: "RYA-434 demoted from LOCKED: N had no production artifact on any path (not an nlte_cno species, no registry grid, 0 EW lines)"}
 
   O:
     ion: "I"
