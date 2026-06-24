@@ -1,0 +1,20 @@
+{
+  "grid": "Sr_Bergemann2012_INSPECT.csv",
+  "source_primary": "Mashonkina et al. 2022 Sr II model atom / INASAN (Mashonkina+2023) - CITED PRIMARY, to be vendored when machine-readable; demonstrated to [Fe/H]=+0.25",
+  "source_working": "Bergemann et al. 2012a (A&A 546 A90; arXiv 1207.2451) via INSPECT (inspect-stars.com, A_from_e/nonlte_from_lte), the fetchable cross-check; agrees with Mashonkina within 0.15 dex",
+  "lines": "Sr II 4077.709 + 4215.519 (air); resonance doublet, negligible HFS (even-A isotopes)",
+  "delta_convention": "A_lte = A(Sr)_sun(2.87) + [Fe/H], [Sr/Fe]=0 scaled-solar; delta_nlte = A_NLTE - A_LTE from INSPECT nonlte_from_lte",
+  "feh_ceiling": 0.0,
+  "feh_nodes": [
+    -3.0,
+    -2.0,
+    -1.0,
+    0.0
+  ],
+  "metal_rich_note": "ceiling +0.00; 55 Cnc (+0.32) + tau Boo (+0.25) are flagged extrapolations into the NEAR-LTE regime (correction ~-0.005 at solar, grows only metal-poor) - RYA-421 Step 3",
+  "solar_anchor_delta": {
+    "4077.709": -0.004,
+    "4215.519": -0.006
+  },
+  "fetched": "2026-06-23"
+}
