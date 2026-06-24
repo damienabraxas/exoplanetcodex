@@ -466,6 +466,21 @@ NLTE_CORRECTION_ELEMENTS = {
     'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',
            'ref': 'Korotin et al. 2015 (A&A 581, A70), CDS VizieR J/A+A/581/A70',
            'flag': 'NLTE_Korotin2015_1D'},
+    # Sr II — RYA-421: closes the RYA-401 ION-MISMATCH GET-DATA gap (our EW set measured
+    # Sr I 6617, but the NLTE grid exists for the Sr II 4077/4215 resonance doublet).
+    # Delta-type grid (not an Amarsi-2020 b-factor), source-flag pattern (RYA-165):
+    # PRIMARY = Mashonkina 2022 / INASAN (cited; demonstrated to [Fe/H]=+0.25; vendor when
+    # machine-readable); WORKING grid = Bergemann 2012a via INSPECT (fetchable, agrees with
+    # Mashonkina within 0.15 dex). NEAR-LTE at our metallicities (solar 4077 -0.004 /
+    # 4215 -0.006; the correction grows only toward metal-poor). Grid [Fe/H] CEILING = +0.0
+    # -> 55 Cnc (+0.32) and tau Boo (+0.25) are FLAGGED extrapolations (out-of-hull ->
+    # nlte_flag NLTE_unavailable, loud, RYA-409) into the near-LTE regime; acceptable, never
+    # silent (RYA-421 Step 3). 4215 carries an Fe I blend -> cool-star discipline below.
+    'Sr': {'ion': 2, 'grid': 'Sr_Bergemann2012_INSPECT.csv',
+           'ref': 'Mashonkina et al. 2022 / INASAN (Mashonkina+2023) PRIMARY (cited, to vendor); '
+                  'Bergemann et al. 2012a (A&A 546 A90; arXiv 1207.2451) via INSPECT = working '
+                  'delta grid, agrees within 0.15 dex; Sr II 4077/4215 resonance doublet (RYA-421)',
+           'flag': 'NLTE_Bergemann2012_INSPECT_1D'},
     # Mn I — STAYS on MPIA. RYA-411 RESOLVED the RYA-410 STOP (+0.018 vs +0.107). Built an
     # HFS-resolved synthesis (pysme_nlte _synth_ew RYA-411) and ran the probes: HFS-collapse
     # was real but MINOR (the 6013/6016/6021 triplet only moves +0.018 -> +0.024 HFS-
@@ -503,6 +518,19 @@ NLTE_CORRECTION_ELEMENTS = {
                  'RYA-402 PySME-derived deltas (optical 6748/6757)',
           'flag': 'NLTE_Amarsi2025_PySME_1D'},
 }
+
+# ── Sr II resonance-doublet line discipline (RYA-421 Step 4) ──────────────────
+# Sr II 4215 is blended by an Fe I line (Bergemann 2012a) — the blend grows toward
+# cool stars. Per-line role by stellar temperature, enforced at measurement/loader
+# time so a known-blended line is NEVER silently averaged into a cool-star Sr abundance:
+#   - Sun / warm (tau Boo): BOTH 4077 + 4215 usable.
+#   - COOL (55 Cnc, G8V, Teff<~5300): 4077 PRIMARY; 4215 cross-check-only or DROPPED.
+SR2_LINES = {
+    'primary':    [4077.709],            # clean resonance line, all targets
+    'crosscheck': [4215.519],            # Fe I-blended -> cool-star caution
+}
+SR2_COOLSTAR_TEFF_K = 5300.0             # below this, 4215 is cross-check-only/dropped
+SR2_4215_BLEND = 'Fe I (Bergemann 2012a); avoid in cool stars'
 
 # ── 3D abundance corrections — the metal 3D leg (RYA-399) ─────────────────────
 # RYA-400 routed Si/Ti/Cr as "3D-owed". This registry holds the 3D DIMENSIONAL
