@@ -1,0 +1,24 @@
+{
+  "dataset": "vesta_crires_k",
+  "source_path": "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Solar Calibration/Solar System Targets/Vesta/CRIRES/ADP.2025-06-06T16:29:59.738.fits",
+  "instrument": "CRIRES+",
+  "engine": "molecfit",
+  "site": "paranal",
+  "wave_lo_A": 19459.13834104394,
+  "wave_hi_A": 24855.362130241097,
+  "regime": "ir",
+  "telluric_required": true,
+  "telluric_verified": false,
+  "residual": 0.06057255467497191,
+  "tolerance": 0.05,
+  "n_verify_px": 162,
+  "gdas_profile": "C-70.4-24.6D2022-11-23T00.gdas.fits",
+  "mjd": 59906.01093518,
+  "rya": "RYA-424",
+  "provisional": true,
+  "notes": [
+    "VERIFY-FAIL: residual above tolerance (residual=0.06057255467497191, tol=0.05, n_px=162)",
+    "RYA-373 PROVISIONAL: FTS solar IR atlas (RYA-162) absent \u2014 telluric-gate final calibration pending; re-validate after RYA-387 0.001 re-extract."
+  ],
+  "analysis_ready": false
+}
