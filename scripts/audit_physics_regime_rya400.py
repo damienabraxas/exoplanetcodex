@@ -7,13 +7,16 @@ artifact instead of a static doc. Cross-checks config/physics_regime_rya400.yaml
 the actual repository wiring so a regime CALL can never silently drift from the code:
 
   1. COVERAGE   — every TARGET_ELEMENTS symbol has a regime row (loud-fail on a gap).
-  2. LOCKED     — every element verdict-LOCKED is ACTUALLY wired: in
-                  NLTE_CORRECTION_ELEMENTS with its grid file present, OR the Fe leg
-                  (apply_fe_nlte_corrections + Fe grid), OR the C/N/O nlte_cno leg.
-                  A LOCKED row that is not wired → loud-fail (the whole point: a green
-                  matrix means the physics it claims is really applied).
-  3. NOT-WIRED  — a non-LOCKED verdict (GET-GRID/GET-DATA/HARD/LTE-OK) must NOT be
-                  registered as an applied NLTE element (consistency; no false "done").
+  2. HANDLED    — every element verdict-LOCKED is ACTUALLY handled. RYA-428: "handled"
+                  requires BOTH (i) a wired grid (NLTE_CORRECTION_ELEMENTS + grid file,
+                  OR the Fe leg, OR the C/N/O nlte_cno leg) AND (ii) at least one MEASURED
+                  line of the prescribed ion in the star's pool. Grid registration alone
+                  is NOT handled (the paper-done gap: a Sr II grid can be registered while
+                  only Sr I is measured). LOCKED-without-a-measured-prescribed-ion →
+                  loud-fail, naming the element. (Fe/CNO use their own non-EW legs → exempt.)
+  3. PENDING-OK — a registered element with a non-LOCKED verdict is the LEGITIMATE
+                  grid-registered/measurement-owed state (RYA-428 relaxes the old rule that
+                  equated registration with "done"). Recorded as a note, never a false done.
   4. MEAS-LINES — each row's `measured_ew_lines` matches the live count in
                   data/measured/sol_ew_results_v1.csv (catches data drift; 0-line
                   elements like Co/K/Sc/N are flagged for the GET-DATA routing).
@@ -50,11 +53,18 @@ def _load_map() -> dict:
     return yaml.safe_load(REGIME_YAML.read_text())['elements']
 
 
-def _measured_counts() -> dict:
+def _measured_df():
     import pandas as pd
     if not MEASURED.exists():
+        return None
+    return pd.read_csv(MEASURED)
+
+
+def _measured_counts(df=None) -> dict:
+    if df is None:
+        df = _measured_df()
+    if df is None:
         return {}
-    df = pd.read_csv(MEASURED)
     return df.groupby('element').size().to_dict()
 
 
@@ -74,10 +84,32 @@ def _is_wired(el: str) -> "tuple[bool, str]":
     return (False, "not wired")
 
 
+_ION_INT_TO_STR = {1: 'I', 2: 'II', 3: 'III'}
+
+
+def _prescribed_ion(el: str) -> "str | None":
+    """The ion the registered NLTE grid corrects — the ion that must be MEASURED for
+    `el` to count as handled (RYA-428). For a registry element, read it from the live
+    registration (single source of truth); else fall back to the map's ion field."""
+    if el in NLTE_CORRECTION_ELEMENTS:
+        return _ION_INT_TO_STR.get(int(NLTE_CORRECTION_ELEMENTS[el]['ion']))
+    return None
+
+
+def _measured_lines_of_ion(el: str, ion: "str | None", df) -> int:
+    """Count measured EW lines of `el` in ionisation stage `ion` (ew_mA > 0) in the
+    star's canonical measured pool. The pool's single source of truth is sol_ew_results."""
+    if df is None or ion is None or 'ion' not in df.columns:
+        return 0
+    sub = df[(df['element'] == el) & (df['ion'].astype(str) == ion) & (df['ew_mA'] > 0)]
+    return int(len(sub))
+
+
 def run() -> int:
     emap = _load_map()
-    meas = _measured_counts()
-    errors, warns, rows = [], [], []
+    meas_df = _measured_df()
+    meas = _measured_counts(meas_df)
+    errors, warns, rows, false_handled = [], [], [], []
 
     # 1. coverage
     for el in TARGET_ELEMENTS:
@@ -89,12 +121,35 @@ def run() -> int:
         wired, how = _is_wired(el)
         claim = spec.get('verified_in_repo', {}) or {}
 
-        # 2. LOCKED must be wired
+        # 2. LOCKED ("handled") requires BOTH a wired grid AND a MEASURED line of the
+        # prescribed ion in the pool — registration alone is not "handled" (RYA-428). This
+        # closes the paper-done gap: a grid can be registered without the abundance existing
+        # (e.g. Sr II grid registered while only Sr I 6617 is measured). The generic-registry
+        # elements are bound here; Fe (gate) and C/N/O (nlte_cno synthesis) use their own legs
+        # and do not draw the prescribed ion from the EW pool, so they are exempt.
         if verdict in LOCKED_VERDICTS and not wired:
             errors.append(f"LOCKED-NOT-WIRED: {el} verdict=LOCKED but not NLTE-wired ({how})")
-        # 3. non-LOCKED must not be registered as applied
+        if verdict in LOCKED_VERDICTS and wired and el in NLTE_CORRECTION_ELEMENTS:
+            ion = _prescribed_ion(el)
+            n_ion = _measured_lines_of_ion(el, ion, meas_df)
+            if n_ion == 0:
+                msg = (f"LOCKED-NOT-MEASURED: {el} verdict=LOCKED (grid {NLTE_CORRECTION_ELEMENTS[el].get('grid')} "
+                       f"registered) but ZERO measured {el} {ion} lines in the pool — grid registration "
+                       f"is not measurement; revert to GET-DATA-pending until {el} {ion} is measured (RYA-428)")
+                errors.append(msg)
+                false_handled.append((el, ion))
+        # 3. A registered element with a non-LOCKED verdict is the LEGITIMATE
+        # grid-registered/measurement-owed state (RYA-428 relaxes the old FALSE-DONE rule,
+        # which equated registration with "done"). Recorded as a note, not an error.
         if verdict not in LOCKED_VERDICTS and el in NLTE_CORRECTION_ELEMENTS:
-            errors.append(f"FALSE-DONE: {el} verdict={verdict} but is in NLTE_CORRECTION_ELEMENTS")
+            ion = _prescribed_ion(el)
+            n_ion = _measured_lines_of_ion(el, ion, meas_df)
+            if n_ion == 0:
+                warns.append(f"{el}: grid registered ({NLTE_CORRECTION_ELEMENTS[el].get('grid')}) but "
+                             f"verdict={verdict} -- measurement of {el} {ion} OWED (correct pending state)")
+            else:
+                warns.append(f"{el}: registered + {n_ion} measured {el} {ion} line(s) but verdict={verdict} "
+                             f"(under-claim? could be promotable to LOCKED) -- review")
 
         # 4. measured-line count consistency
         live = int(meas.get(el, 0))
@@ -135,6 +190,14 @@ def run() -> int:
     print("  " + "-" * 92)
     print("  verdict tally: " + "  ".join(f"{k}={v}" for k, v in sorted(tally.items())))
     print(f"  elements mapped: {len(emap)} (TARGET_ELEMENTS: {len(TARGET_ELEMENTS)}; Fe I/II → 27 species)")
+
+    # RYA-428 RCA sweep: registry elements marked LOCKED with no measured prescribed-ion line
+    print("\n  RYA-428 handled-precondition sweep (LOCKED requires a measured prescribed-ion line):")
+    if false_handled:
+        for el, ion in false_handled:
+            print(f"    ✗ FALSE-HANDLED: {el} (needs measured {el} {ion}) — see errors")
+    else:
+        print("    ✓ no registry element is marked LOCKED without a measured prescribed-ion line")
 
     if warns:
         print("\n  NOTES:")
