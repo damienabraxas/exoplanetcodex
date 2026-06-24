@@ -26,7 +26,7 @@ import warnings, glob, os, sys; warnings.filterwarnings('ignore')
 import numpy as np, pandas as pd
 from astropy.io import fits as pf
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from pipeline.acen_orbit import predicted_rv, SOURCE, GAMMA, K_A, K_B   # noqa: E402
+from pipeline.acen_orbit import predicted_rv, consistent_with_orbit, rv_bounds, SOURCE, GAMMA, K_A, K_B   # noqa: E402
 
 DATA = "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data"
 VET = os.path.join(DATA, "Alpha Centauri (vetted)")
@@ -63,26 +63,37 @@ def jdepth(f):
 
 
 def verdict(rv, pa, pb, jd, contrast):
-    """Combine PRIMARY (RV) + SECONDARY (J-depth/flux/contrast) into A / B / BLEND / INDETERMINATE."""
+    """Combine PRIMARY (RV) + SECONDARY (J-depth/flux/contrast) into A / B / NOT-ALPHA-CEN /
+    INDETERMINATE.
+
+    RYA-431 correction: a REAL absolute RV that lies OUTSIDE the hard orbit bounds gamma +/-
+    max(K) (acen_orbit.rv_bounds) means the frame is NOT a bound alpha Cen member -- a NIRPS
+    mask zero-point cannot move a precision-RV CCF by >5 km/s, so an off-orbit RV is a real
+    velocity, and the spectral type CANNOT override an orbital impossibility. This supersedes
+    the old "NIR mask zero-point, flagged not overridden" branch (the 20 2024-03-17 "B" frames
+    sit at -34.6, 6 km/s below the floor -> a different K star mislabelled 'alf Cen A')."""
     st = 'A' if (jd is not None and jd < 0.45) else ('B' if (jd is not None and jd > 0.55) else '?')
+    lo, hi = rv_bounds()
     rv_match = None
     if rv is not None and np.isfinite(rv):
         if abs(rv - pa) <= RV_TOL and abs(rv - pa) < abs(rv - pb):
             rv_match = 'A'
         elif abs(rv - pb) <= RV_TOL and abs(rv - pb) < abs(rv - pa):
             rv_match = 'B'
-        elif rv < min(pa, pb) - RV_TOL or rv > max(pa, pb) + RV_TOL:
-            rv_match = 'OUT-OF-RANGE'    # outside both -> mask zero-point or non-member
+        elif not consistent_with_orbit(rv):
+            rv_match = 'OFF-ORBIT'      # outside gamma +/- max(K) -> not a bound alpha Cen member
     # flags
     if contrast is not None and contrast < CONTRAST_MIN:
         return 'INDETERMINATE', f'low CCF contrast {contrast:.1f} (few lines: possible hot standard/blend); spec-type={st}; RV={rv}'
+    if rv_match == 'OFF-ORBIT':
+        return 'NOT-ALPHA-CEN', (f'PRIMARY RV {rv:+.1f} is OUTSIDE the alpha Cen orbit bounds '
+                    f'[{lo:.1f},{hi:.1f}] (gamma {GAMMA} +/- max(K) {max(K_A,K_B):.1f}) -- a real '
+                    f'velocity (NIRPS mask cannot offset a CCF by >5 km/s), so NOT a bound member; '
+                    f'spec-type={st} (K-type but a DIFFERENT star). RV ephemeris overrules spec-type.')
     if rv_match == 'A' and st in ('A', '?'):
         return 'A', f'PRIMARY RV matches A ({rv:+.1f} vs {pa:+.1f}); spec-type={st}: AGREE'
     if rv_match == 'B' and st in ('B', '?'):
         return 'B', f'PRIMARY RV matches B ({rv:+.1f} vs {pb:+.1f}); spec-type={st}: AGREE'
-    if rv_match == 'OUT-OF-RANGE' and st in ('A', 'B'):
-        return st, (f'spec-type={st} (J-depth+flux); RV {rv:+.1f} OUT of [{min(pa,pb):.1f},{max(pa,pb):.1f}] '
-                    f'= NIR mask zero-point offset, RV inconclusive [FLAGGED, not overridden]')
     if rv_match and st in ('A', 'B') and rv_match != st:
         return 'INDETERMINATE', f'PRIMARY-vs-SECONDARY DISAGREE: RV->{rv_match}, spec-type->{st} [human review]'
     if st in ('A', 'B'):
@@ -94,7 +105,7 @@ def main():
     rows = []
     # ---- NIRPS (pipeline CCF RV) ----
     for star_dir, _ in [('Alpha Cen A', 'A'), ('Alpha Cen B', 'B')]:
-        for f in sorted(glob.glob(os.path.join(VET, star_dir, 'NIRPS', '*.fits'))):
+        for f in sorted(glob.glob(os.path.join(VET, star_dir, 'NIRPS', '**', '*.fits'), recursive=True)):
             with pf.open(f) as hd:
                 h = hd[0].header
                 mjd = hk(h, 'MJD-OBS'); rv = hk(h, 'ESO QC CCF RV'); con = hk(h, 'ESO QC CCF CONTRAST')

@@ -67,6 +67,19 @@ def _rv(byear: float, K: float, omega: float) -> float:
     return GAMMA + K * (np.cos(nu + omega) + ECC * np.cos(omega))
 
 
+def rv_bounds(pad: float = 0.5) -> tuple:
+    """The hard [min, max] heliocentric RV any BOUND alpha Cen member can have: gamma +/- the
+    larger reflex amplitude (+ a small pad). A frame whose measured RV is OUTSIDE this is not
+    on the alpha Cen orbit -> not alpha Cen A or B (RYA-431)."""
+    k = max(K_A, K_B)
+    return (GAMMA - k - pad, GAMMA + k + pad)
+
+
+def consistent_with_orbit(rv) -> bool:
+    lo, hi = rv_bounds()
+    return (rv is not None) and np.isfinite(rv) and (lo <= rv <= hi)
+
+
 def predicted_rv(mjd: float) -> dict:
     """Predicted heliocentric RV (km/s) of alpha Cen A and B at a given MJD, plus their
     separation. delta_AB = RV_B - RV_A (the binary RV split the frames must reflect)."""
