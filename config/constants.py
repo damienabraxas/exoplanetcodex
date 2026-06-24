@@ -629,6 +629,10 @@ PATHS = {
     # for the accessors and docs/design/adr_data_namespacing_and_gold_reference.md for the law.
     'outputs_root'       : ROOT / 'data' / 'outputs',
     'solar_reference_dir': ROOT / 'data' / 'reference' / 'solar',
+
+    # Per-night GDAS atmospheric profiles for molecfit telluric correction (RYA-380).
+    # Cache of real per-night profiles (ESO GDAS tarball / NOAA ARL manual pull).
+    'gdas_cache'         : ROOT / 'data' / 'telluric' / 'gdas_cache',
 }
 
 # ── Solar reference library (RYA-459, under the RYA-162 epic) ─────────────────
@@ -923,6 +927,26 @@ REFLECTED_SOLAR_BODIES = {
     'iris':     {'id': 'Iris',  'id_type': 'smallbody', 'match': 'Iris'},
     'ganymede': {'id': '503',   'id_type': None,        'match': 'Ganymede'},  # Jovian satellite
 }
+
+# ── Observatory sites — telluric / GDAS recipe (RYA-380) ─────────────────────
+# Single source for site coordinates used by the per-night GDAS retrieval
+# (pipeline.telluric.gdas_fetch). `gdas_loc` is the ESO telluriccorr GDAS-tarball
+# site id, encoded C{lon}{lat} (e.g. Paranal C-70.4-24.6 → lon -70.4, lat -24.6).
+# Site coords NEVER hardcoded in the driver — sourced here (RYA-388 de-hardcode rule).
+SITES = {
+    'paranal': {'lat': -24.6, 'lon': -70.4, 'gdas_loc': 'C-70.4-24.6'},  # VLT/CRIRES+/UVES/ESPRESSO
+}
+
+
+def get_site(name: str) -> dict:
+    """Return the site record for `name` (case-insensitive). Loud-fail on an
+    unknown site rather than silently defaulting — a wrong site picks the wrong
+    atmosphere (the RYA-373 silent-fallback class of bug)."""
+    key = str(name).strip().lower()
+    if key not in SITES:
+        raise KeyError(f"unknown observatory site {name!r}; known: {sorted(SITES)}. "
+                       f"Add it to config.constants.SITES (single source).")
+    return SITES[key]
 
 # ── Star → linelist mapping (RYA-270) ────────────────────────────────────────
 # Explicit per-star linelist routing. Stars not listed here fall back to the

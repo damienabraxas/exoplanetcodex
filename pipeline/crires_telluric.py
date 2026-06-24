@@ -273,64 +273,21 @@ _ESOREX = "/opt/homebrew/bin/esorex"          # RYA-375 install (Homebrew ESO ta
 _MTRANS_FLOOR = 0.02                            # mask telluric cores below this transmission
 _CONTINUUM_N = 2                                # polynomial continuum order (uncalibrated flux)
 
-# Real GDAS atmospheric profiles (RYA-373 finish-out #2). molecfit's GDAS_PROFILE=auto
-# requested odd hours (T01/T02) absent from the 3-hourly tarball → standard-profile
-# fallback. We bypass that by extracting the nearest real 3-hourly GDAS for the obs
-# MJD and passing it via --GDAS_PROFILE. Tarball is per-site (Paranal -70.4/-24.6).
-_GDAS_LOC = "C-70.4-24.6"
-_GDAS_TARBALL = ("/opt/homebrew/Cellar/telluriccorr/4.3.3_4/share/molecfit/data/"
-                 f"profiles/gdas/gdas_profiles_{_GDAS_LOC}.tar.gz")
+# Real per-night GDAS atmospheric profiles (RYA-373 finish-out #2 → RYA-380 standing
+# recipe). molecfit's GDAS_PROFILE=auto requests odd hours (T01/T02) absent from the
+# 3-hourly tarball → SILENT standard-profile fallback (the RYA-373 telluric-dominated
+# failure). The retrieval + nearest-3-hourly + ASCII→FITS mechanic now lives in the
+# reusable, loud-fail pipeline.telluric.gdas_fetch (generic over site/datetime so the
+# red-optical arms + 55 Cnc / α Cen CRIRES+ reuse it). The Vesta CRIRES+ set is Paranal.
+_GDAS_SITE = "paranal"
 
 
-def _nearest_gdas(mjd: float, work_dir: Path) -> "str | None":
-    """Extract the nearest 3-hourly real GDAS profile for the obs MJD from the local
-    tarball; return its path, or None (→ caller logs + lets molecfit fall back)."""
-    import tarfile
-    from astropy.time import Time
-    if not Path(_GDAS_TARBALL).exists():
-        return None
-    t = Time(float(mjd), format='mjd').to_datetime()
-    hh = int(round(t.hour + t.minute / 60.0) / 3.0) * 3   # nearest 3-hourly slot
-    from datetime import timedelta
-    base = t.replace(minute=0, second=0, microsecond=0, hour=0) + timedelta(hours=hh)
-    work_dir.mkdir(parents=True, exist_ok=True)
-    try:
-        with tarfile.open(_GDAS_TARBALL) as tf:
-            for dh in (0, -3, 3, -6, 6):                  # nearest, then neighbours
-                cand = (base + timedelta(hours=dh))
-                name = f"{_GDAS_LOC}D{cand:%Y-%m-%d}T{cand.hour:02d}.gdas"
-                try:
-                    tf.extract(name, path=str(work_dir))
-                except KeyError:
-                    continue
-                return _gdas_ascii_to_fits(work_dir / name)   # molecfit wants FITS
-    except Exception:
-        return None
-    return None
-
-
-def _gdas_ascii_to_fits(ascii_path) -> str:
-    """Convert a tarball ASCII GDAS profile (# P[hPa] HGT[m] T[K] RELHUM[%]) to the
-    FITS table molecfit's GDAS_PROFILE expects (press[hPa], height[km], temp[K],
-    relhum[%]) — molecfit's GDAS_PROF loader is CFITSIO, it cannot read the ASCII."""
-    from astropy.io import fits
-    ascii_path = Path(ascii_path)
-    rows = []
-    for ln in ascii_path.read_text().splitlines():
-        ln = ln.strip()
-        if not ln or ln.startswith('#'):
-            continue
-        p, hgt_m, t, rh = (float(x) for x in ln.split())
-        rows.append((p, hgt_m / 1000.0, t, rh))           # m → km
-    rows = np.array(rows)
-    out = ascii_path.with_suffix('.gdas.fits')
-    fits.BinTableHDU.from_columns([
-        fits.Column(name='press', format='1D', array=rows[:, 0]),
-        fits.Column(name='height', format='1D', array=rows[:, 1]),
-        fits.Column(name='temp', format='1D', array=rows[:, 2]),
-        fits.Column(name='relhum', format='1D', array=rows[:, 3])],
-    ).writeto(out, overwrite=True)
-    return str(out)
+def _resolve_gdas(frame: "CriresFrame", work_dir: Path) -> str:
+    """Return the path to the REAL per-night GDAS profile (FITS) for this frame, or
+    raise GDASUnavailable. There is NO standard-atmosphere fallback — a silent fallback
+    is the RYA-373 CRITICAL bug, so the absence of a profile must fail loud here."""
+    from pipeline.telluric.gdas_fetch import fetch_gdas
+    return str(fetch_gdas(_GDAS_SITE, mjd=frame.mjd, work_dir=Path(work_dir)))
 
 
 def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
@@ -397,14 +354,14 @@ def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
     out_dir = Path(work_dir) / 'out'
     out_dir.mkdir(parents=True, exist_ok=True)
     sof = _write_molecfit_inputs(frame, seg, in_dir, molecules)
-    gdas = _nearest_gdas(frame.mjd, in_dir)    # real 3-hourly GDAS for the obs MJD
+    gdas = _resolve_gdas(frame, in_dir)        # REAL per-night GDAS or GDASUnavailable
     env = dict(os.environ, PATH=f"/opt/homebrew/bin:{os.environ.get('PATH', '')}")
     cmd = [esorex, f"--output-dir={out_dir}", "molecfit_model",
            "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux", "--COLUMN_DFLUX=dflux",
            "--WLG_TO_MICRON=1.0", "--WAVELENGTH_FRAME=VAC",
-           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}"]
-    cmd += [f"--GDAS_PROFILE={gdas}"] if gdas else []
-    cmd += [str(sof)]
+           "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}",
+           f"--GDAS_PROFILE={gdas}",              # always a real profile (no silent fallback)
+           str(sof)]
     proc = subprocess.run(cmd, cwd=str(in_dir), env=env, capture_output=True, text=True)
     bfm = out_dir / 'BEST_FIT_MODEL.fits'
     if proc.returncode != 0 or not bfm.exists():
@@ -423,7 +380,7 @@ def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
     modtell = ok & (mtrans < 0.95) & (mtrans > 0.30)
     resid = float(np.nanstd(cont[modtell])) if modtell.any() else np.nan
     return {'lam_A': lam_A, 'corr': corr, 'mtrans': mtrans, 'flux_raw': fl,
-            'gdas': (Path(gdas).name if gdas else 'standard-profile (no GDAS)'),
+            'gdas': Path(gdas).name,            # always a real per-night profile (RYA-380)
             'resid': resid}
 
 
@@ -775,10 +732,19 @@ def write_frame_product(frame: CriresFrame, out_dir: Path, gate_residual: float,
                      'reflected-RV measurement status')  # FITS comments are ASCII-only
     if rest:
         h['RVREFL'] = (round(getattr(frame, '_rv_refl', float('nan')), 3), 'reflected RV km/s')
+    # Persist molecfit's transmission model (mtrans) alongside the corrected flux
+    # (RYA-380 step 0): unblocks the RYA-390 telluric-MODEL check (mtrans vs Wallace).
+    # mtrans is on the molecfit-model grid = aligned with seg.wave_A / seg.flux.
+    n = len(seg.wave_A)
+    mt = getattr(seg, '_mtrans', None)
+    mt = np.asarray(mt, float) if mt is not None and len(mt) == n else np.full(n, np.nan)
+    err = seg.err if len(seg.err) == n else np.full(n, np.nan)
+    h['MTRANS'] = (True, 'molecfit BEST_FIT_MODEL.mtrans persisted (RYA-380)')
     tab = fits.BinTableHDU.from_columns([
         fits.Column(name='wave_A', format='1D', array=seg.wave_A),
         fits.Column(name='flux_norm', format='1D', array=seg.flux),
-        fits.Column(name='err', format='1D', array=seg.err)], name='CO_ORDER')
+        fits.Column(name='err', format='1D', array=err),
+        fits.Column(name='mtrans', format='1D', array=mt)], name='CO_ORDER')
     tag = 'rest' if rest else 'topocent'
     out = out_dir / f'vesta_crires_K_CO_{frame.wlen_id}_{tag}_PROVISIONAL.fits'
     fits.HDUList([ph, tab]).writeto(out, overwrite=True)
