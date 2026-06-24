@@ -408,6 +408,80 @@ PATHS = {
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
 }
 
+# ── Telluric data-input stage (RYA-424) ──────────────────────────────────────
+# Telluric correction is a STANDING, instrument-aware data-input stage (RYA-424),
+# promoting the RYA-373 molecfit driver + RYA-380 per-night-GDAS recipe from
+# per-dataset one-offs into a gate every red-optical / IR dataset passes through
+# before it can be marked analysis-ready.
+#
+# THE RULE IS WAVELENGTH-GATED, NOT INSTRUMENT-GATED (RYA-380, codified here):
+#   * λ ≳ TELLURIC_LAMBDA_MIN_A  (red-optical + IR): sharp telluric forest
+#     (H2O / O2 A-band / CH4 / CO2) — molecfit + observation-night GDAS MANDATORY.
+#     Includes red-optical 6910–9500 Å (O I 7772, K I 7699, N I 8216), not only IR.
+#   * λ ≲ TELLURIC_BLUE_MAX_A  (blue/UV) and space-UV (HST/STIS, COS): NO telluric
+#     step (space-UV is above the atmosphere; blue = broad ozone/Rayleigh handled
+#     by normalization).
+#   * mid-optical 3800–6800 Å: largely clean; case-by-case (NOT auto-required).
+TELLURIC_LAMBDA_MIN_A = 6800.0   # ≳ this (Å) → telluric forest → correction MANDATORY
+TELLURIC_BLUE_MAX_A   = 3800.0   # ≲ this (Å) → blue/UV → no telluric-line step
+
+# Wavelength-regime labels (the gate's verdict on a [lo, hi] Å span).
+TELLURIC_REGIME_IR          = 'ir'            # fully ≳ 6800 Å (sharp forest)
+TELLURIC_REGIME_RED_OPTICAL = 'red_optical'   # crosses/sits in 6800–~10000 Å
+TELLURIC_REGIME_MID_OPTICAL = 'mid_optical'   # 3800–6800 Å, case-by-case
+TELLURIC_REGIME_BLUE        = 'blue'          # ≲ 3800 Å ground-based
+TELLURIC_REGIME_SPACE_UV    = 'space_uv'      # HST/STIS/COS — above the atmosphere
+
+# Instrument → telluric ENGINE, single source of truth (NO silent default — an
+# unknown instrument LOUD-FAILS; engine is chosen explicitly, never guessed).
+#   'molecfit'      → ESO molecfit (esorex molecfit_model/calctrans) + per-night GDAS
+#                     (RYA-373 driver + RYA-380 recipe).
+#   'apero_wapiti'  → APERO extraction + Wapiti telluric (SPIRou permanent rule —
+#                     NOT molecfit; SPIRou is reduced by its own DRS).
+TELLURIC_ENGINE_MOLECFIT     = 'molecfit'
+TELLURIC_ENGINE_APERO_WAPITI = 'apero_wapiti'
+TELLURIC_ENGINES = {
+    'CRIRES':        TELLURIC_ENGINE_MOLECFIT,
+    'CRIRES+':       TELLURIC_ENGINE_MOLECFIT,
+    'UVES-red':      TELLURIC_ENGINE_MOLECFIT,
+    'ESPRESSO-red':  TELLURIC_ENGINE_MOLECFIT,
+    'FEROS-red':     TELLURIC_ENGINE_MOLECFIT,
+    'CHIRON':        TELLURIC_ENGINE_MOLECFIT,
+    'NIRPS':         TELLURIC_ENGINE_MOLECFIT,
+    'SPIRou':        TELLURIC_ENGINE_APERO_WAPITI,
+}
+
+# Instrument → observatory site for the per-night GDAS profile (molecfit engine).
+# GDAS tarballs are per-site; the molecfit GDAS loc code is "C{lon}{lat}" with EAST-
+# positive longitude (Paranal = -70.4, -24.6). SPIRou (CFHT) uses APERO+Wapiti, not
+# GDAS, so it has no molecfit GDAS site (None).
+SITES = {
+    'paranal':  {'name': 'ESO Paranal (VLT)', 'lat_deg': -24.6, 'lon_deg': -70.4,
+                 'elev_m': 2635.0, 'horizons_code': '309', 'gdas_loc': 'C-70.4-24.6'},
+    'la_silla': {'name': 'ESO La Silla',      'lat_deg': -29.26, 'lon_deg': -70.73,
+                 'elev_m': 2400.0, 'horizons_code': '809', 'gdas_loc': 'C-70.7-29.3'},
+    'ctio':     {'name': 'CTIO (SMARTS)',     'lat_deg': -30.17, 'lon_deg': -70.81,
+                 'elev_m': 2200.0, 'horizons_code': '807', 'gdas_loc': 'C-70.8-30.2'},
+    'cfht':     {'name': 'CFHT (Maunakea)',   'lat_deg': 19.83, 'lon_deg': -155.47,
+                 'elev_m': 4204.0, 'horizons_code': '568', 'gdas_loc': None},
+}
+TELLURIC_INSTRUMENT_SITE = {
+    'CRIRES':        'paranal',
+    'CRIRES+':       'paranal',
+    'UVES-red':      'paranal',
+    'ESPRESSO-red':  'paranal',
+    'FEROS-red':     'la_silla',
+    'CHIRON':        'ctio',
+    'NIRPS':         'la_silla',
+    'SPIRou':        'cfht',
+}
+
+# Telluric-residual VERIFICATION tolerance (RYA-424 §3 gate). Score is the median
+# |1 − corrected_flux/continuum| at telluric-DOMINATED, science-clean pixels in the
+# known telluric windows; a frame whose residual exceeds this is FLAGGED, not silently
+# passed. 0.05 (5%) inherits the RYA-373 D1 telluric-specific gate (telluric_residual_gate).
+TELLURIC_RESIDUAL_TOL = 0.05
+
 # ── Non-Fe NLTE correction registry (RYA-235) ────────────────────────────────
 # Element-level NLTE corrections applied PER LINE after the Fe I/II leg, from the
 # real MPIA SpectrumTools MAFAGS-OS grids (scraped RYA-244/245; columns
