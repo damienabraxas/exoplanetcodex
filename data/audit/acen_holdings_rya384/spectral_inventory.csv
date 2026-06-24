@@ -1,0 +1,16 @@
+folder_star,instrument,n_files,instr_hdr,n_A,n_B,n_unknown,wmin,wmax,snr_sample,date_sample,verdict
+A,FEROS,2,FEROS,0,0,2,352.752,921.6509872841,173.5,2004-06-09T01:17:31.290,target indeterminate from header (format-specific read needed)
+A,GIRAFFE,22,GIRAFFE,9,0,13,533.325617777258,561.921991376247,0.755688242265226,2012-04-08T09:17:57.100,clean A
+A,HARPS,88,HARPS,88,0,0,378.176,691.324,320.85,2010-04-03T08:50:47.971,clean A
+A,Phoenix,10,PHOENIX,0,0,10,,,,,target indeterminate from header (format-specific read needed)
+A,UVES,75,UVES,19,56,0,495.95154908278,707.06900471506,1580.32889577542,2001-05-07T08:55:44.274,"MIXED A/B (19 A, 56 B) -- select by header target, NOT folder"
+A,nuv-e230h,43,STIS,20,23,0,,,,,"MIXED A/B (20 A, 23 B) -- select by header target, NOT folder"
+A,nuv-e230m,4,STIS,0,4,0,,,,,clean B
+A,uv-e140h,22,STIS,3,19,0,,,,,"MIXED A/B (3 A, 19 B) -- select by header target, NOT folder"
+A,uv-e140m,42,STIS,25,17,0,,,,,"MIXED A/B (25 A, 17 B) -- select by header target, NOT folder"
+B,Alpha Centauri B ESO,79,UVES,19,56,4,495.95154908278,707.06900471506,1580.32889577542,2001-05-07T08:55:44.274,"MIXED A/B (19 A, 56 B) -- select by header target, NOT folder"
+B,CHIRON,76,,0,0,76,,,,2021-01-26T09:00:19.500,target indeterminate from header (format-specific read needed)
+B,nuv-e230h,43,STIS,20,23,0,,,,,"MIXED A/B (20 A, 23 B) -- select by header target, NOT folder"
+B,nuv-e230m,4,STIS,0,4,0,,,,,clean B
+B,uv-e140h,22,STIS,3,19,0,,,,,"MIXED A/B (3 A, 19 B) -- select by header target, NOT folder"
+B,uv-e140m,42,STIS,25,17,0,,,,,"MIXED A/B (25 A, 17 B) -- select by header target, NOT folder"
