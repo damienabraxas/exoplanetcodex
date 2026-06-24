@@ -35,12 +35,44 @@ def test_every_regime_call_is_cited():
         assert spec.get('verdict'), f"{el} missing verdict"
 
 
-def test_registry_and_cno_and_fe_are_locked():
-    # everything actually NLTE-wired must be verdict LOCKED in the map
+def test_registry_locked_requires_measured_or_pending():
+    # RYA-428: registration alone is NOT "handled". A registered element is LOCKED only if
+    # a measured line of its prescribed ion exists; otherwise it is the legitimate
+    # grid-registered/measurement-owed state (verdict GET-DATA), NOT LOCKED.
+    import audit_physics_regime_rya400 as AUD
+    df = AUD._measured_df()
     for el in NLTE_CORRECTION_ELEMENTS:
-        assert MAP[el]['verdict'] == 'LOCKED', f"{el} is NLTE-registered but not LOCKED"
-    for el in ('Fe', 'C', 'N', 'O'):
+        ion = AUD._prescribed_ion(el)
+        n = AUD._measured_lines_of_ion(el, ion, df)
+        v = MAP[el]['verdict']
+        if n > 0:
+            assert v == 'LOCKED', f"{el} has {n} measured {ion} line(s) but verdict={v}"
+        else:
+            assert v != 'LOCKED', \
+                f"{el} verdict=LOCKED but ZERO measured {ion} lines — registration != handled (RYA-428)"
+    # Fe + the CNO species nlte_cno actually models (C, O) are LOCKED — verified on their legs.
+    for el in ('Fe', 'C', 'O'):
         assert MAP[el]['verdict'] == 'LOCKED'
+    # RYA-434: N is NOT an nlte_cno species (C/O only) and has no other NLTE path -> demoted
+    # from the premature LOCKED to GET-DATA (the flagship CNO paper-done hole this ticket closed).
+    assert MAP['N']['verdict'] == 'GET-DATA'
+
+
+def test_handled_precondition_guard_bites(monkeypatch):
+    # RYA-428 central contract: if a registered element is marked LOCKED but no measured line
+    # of its prescribed ion exists, the audit FAILS loudly (the paper-done gap Sr exposed).
+    import audit_physics_regime_rya400 as AUD
+    bad = {el: dict(s) for el, s in AUD._load_map().items()}
+    bad['Sr'] = dict(bad['Sr']); bad['Sr']['verdict'] = 'LOCKED'   # registered, 0 Sr II measured
+    monkeypatch.setattr(AUD, '_load_map', lambda: bad)
+    assert AUD.run() == 1                                          # loud-fail
+
+
+def test_sr_is_grid_registered_but_pending_not_locked():
+    # Sr: grid registered (RYA-421) but measurement owed -> GET-DATA, NOT LOCKED (RYA-428).
+    assert 'Sr' in NLTE_CORRECTION_ELEMENTS                        # registration preserved
+    assert MAP['Sr']['verdict'] == 'GET-DATA'
+    assert MAP['Sr']['verified_in_repo']['grid_file'] == 'Sr_Bergemann2012_INSPECT.csv'
 
 
 def test_known_lurkers_and_data_gaps():
@@ -60,11 +92,37 @@ def test_live_audit_passes():
 
 
 def test_is_wired_reflects_real_code():
-    # RYA-412: Al and S NLTE-wired (RYA-402 PySME). RYA-421: Sr II grid registered + wired.
+    # RYA-412: Al/S NLTE-wired (RYA-402). RYA-421: Sr registered. RYA-434: the CNO leg is
+    # read from nlte_cno.REQUIRED_LINES (C/O only) -> N is correctly NOT wired (no N grid).
     for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S', 'Sr'):
         assert A._is_wired(el)[0], f"{el} should be wired"
-    for el in ('K', 'Co', 'Cu', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
+    for el in ('N', 'K', 'Co', 'Cu', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
         assert not A._is_wired(el)[0], f"{el} should NOT be wired"
+
+
+def test_cno_leg_read_from_nlte_cno_single_source():
+    # the CNO class is the species nlte_cno models, read from its own REQUIRED_LINES -- not a
+    # hardcoded list. C and O are in it; N is not (Amarsi 2019 is a C/O grid).
+    assert A._cno_species() == {'C', 'O'}
+    assert 'N' not in A._cno_species()
+
+
+def test_cno_guard_bites_no_nlte_cno_output(monkeypatch):
+    # RYA-434 (a): if nlte_cno emits no finite delta, the CNO-class verifier finds no artifact
+    # and the audit FAILS -- O (the flagship) LOCKED-without-nlte_cno-output -> exit 1.
+    import audit_physics_regime_rya400 as AUD
+    from pipeline import nlte_cno
+    monkeypatch.setattr(nlte_cno, 'cno_nlte_delta', lambda *a, **k: float('nan'))
+    assert AUD.run() == 1
+
+
+def test_fe_guard_bites_no_converged_solve(monkeypatch):
+    # RYA-434 (b): if the Fe parameter-solve artifact (the ratified ionization arbiter) is
+    # absent, the Fe-class verifier finds no A(Fe) and the audit FAILS -> exit 1.
+    import audit_physics_regime_rya400 as AUD
+    import config.constants as C
+    monkeypatch.setattr(C, 'FE_IONIZATION_SYNTH_ARBITER', {})   # no converged Fe solve
+    assert AUD.run() == 1
 
 
 def test_locked_not_wired_guard_bites(monkeypatch):

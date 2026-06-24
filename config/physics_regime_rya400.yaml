@@ -51,13 +51,14 @@ elements:
 
   N:
     ion: "I"
-    dimensionality: {regime: "3D needed", solar_corr_dex: "see Amarsi2019/Asplund2021", cite: "Amarsi2019; Asplund2021"}
-    departure: {regime: "NLTE", solar_corr_dex: "see Amarsi2019", cite: "Amarsi2019; Amarsi2020"}
-    grid: {status: HAVE, source: "nlte_cno (amarsi2019_cno/)"}
-    indicators: {lines: "N I 7468/8216 weak; NH 3360; CN — mostly SYNTHESIS not EW", in_data: "0 measured EW lines (synthesis path, cno_synthesis)"}
-    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); needs synthesis"
-    verdict: LOCKED
-    verified_in_repo: {nlte_leg: "nlte_cno", measured_ew_lines: 0, note: "N via cno_synthesis, not EW"}
+    dimensionality: {regime: "3D needed", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE owed (no vendored N grid)", solar_corr_dex: "owed", cite: "Amarsi2020 (N NLTE exists in lit, NOT vendored here)"}
+    grid: {status: MISSING, source: "nlte_cno models ONLY C I + O I (Amarsi 2019 C/O grid; REQUIRED_LINES={CI,OI}); there is NO N grid -- cno_nlte_delta('NI') errors. The prior 'HAVE via nlte_cno' claim was false (RYA-434)."}
+    indicators: {lines: "N I 7468/8216 weak; NH 3360; CN -- mostly SYNTHESIS not EW", in_data: "0 measured EW lines; CN synthesis (cno_synthesis) weak/non-converged (RYA-237)"}
+    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); NO N NLTE grid in nlte_cno (C/O only)"
+    verdict: GET-DATA
+    routing: "N NLTE OWED (RYA-434): nlte_cno does NOT model N. Needs a vendored N NLTE grid + a measured/synthesised N abundance before LOCKED; N I atomic red-optical + NH UV (RYA-369)"
+    verified_in_repo: {nlte_leg: "none (nlte_cno is C/O only)", measured_ew_lines: 0, note: "RYA-434 demoted from LOCKED: N had no production artifact on any path (not an nlte_cno species, no registry grid, 0 EW lines)"}
 
   O:
     ion: "I"
@@ -228,11 +229,11 @@ elements:
     dimensionality: {regime: "3D-NLTE sensitive (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE resonance, NEAR-LTE at our [Fe/H]", solar_corr_dex: "4077 -0.004 / 4215 -0.006 (small; grows only metal-poor)", cite: "Mashonkina2022/INASAN primary; Bergemann2012 (A&A 546,A90) working grid"}
     grid: {status: HAVE, source: "Sr_Bergemann2012_INSPECT.csv (Bergemann 2012a via INSPECT, RYA-421); PRIMARY Mashonkina2022/INASAN cited, to vendor. [Fe/H] ceiling +0.0 -> 55 Cnc(+0.32)/tauBoo(+0.25) flagged extrapolations (out-of-hull NLTE_unavailable, loud RYA-409); near-LTE up here so acceptable"}
-    rya401: {probe: "INSPECT A_from_e Sr -> form PASS (Sr II 4077.71/4215.52/10036.66/...)", outcome: "SUPERSEDED by RYA-421 -- ion mismatch resolved at the GRID level: the Sr II 4077/4215 NLTE delta grid is fetched + registered in NLTE_CORRECTION_ELEMENTS[Sr]. REMAINING: the Sr II 4077/4215 MEASUREMENT (synthesis, RYA-421 Step 1) to populate A(Sr II) -- until measured, no Sr II line is in the EW pool (we still hold only Sr I 6617)."}
-    indicators: {lines: "grid+registry: Sr II 4077 (primary) / 4215 (Fe I-blended, cool-star cross-check only); measurement owed", in_data: "Sr I 6617 (old ion) measured; Sr II EW pending Step 1"}
+    rya401: {probe: "INSPECT A_from_e Sr -> form PASS (Sr II 4077.71/4215.52/10036.66/...)", outcome: "RYA-421 registered the Sr II 4077/4215 NLTE delta grid (NLTE_CORRECTION_ELEMENTS[Sr]); ion mismatch resolved at the GRID level only. NOT handled: the Sr II 4077/4215 MEASUREMENT (synthesis, RYA-421 Step 1) is OWED -- no Sr II line is in the solar EW pool (we hold only Sr I 6617, 32.46 mA), so A(Sr II) does not exist yet (RYA-428 reverted the premature LOCKED)."}
+    indicators: {lines: "grid+registry: Sr II 4077 (primary) / 4215 (Fe I-blended, cool-star cross-check only); MEASUREMENT OWED", in_data: "Sr I 6617 (old ion) measured; no Sr II EW measured -- pending RYA-421 Step 1"}
     hazards: "4215 Fe I blend -> drop/cross-check in cool stars (SR2_LINES, Teff<5300); strong blue-edge saturated resonance -> synthesis not Gaussian EW; [Fe/H] grid ceiling +0.0"
-    verdict: LOCKED
-    routing: "NLTE grid wired (RYA-421 Steps 0/2/3/4/5); Sr II 4077/4215 synthesis measurement (Step 1) is the remaining piece to produce A(Sr II)"
+    verdict: GET-DATA
+    routing: "GRID REGISTERED (RYA-421), Sr II MEASUREMENT OWED (RYA-421 Step 1) -> measure Sr II 4077/4215 (synthesis) to produce A(Sr II); only then handled/LOCKED (RYA-428)"
     verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Sr]", grid_file: "Sr_Bergemann2012_INSPECT.csv", measured_ew_lines: 1}
 
 # ── Likely-LTE / ionised-majority — confirm small NLTE, mostly LOCKED-LTE ────────
