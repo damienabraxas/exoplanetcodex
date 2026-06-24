@@ -248,7 +248,8 @@ def telluric_residual_metric(wave_A: np.ndarray, corrected_flux: np.ndarray,
                              science_mask: "np.ndarray | None" = None,
                              continuum: "np.ndarray | None" = None,
                              mtrans_hi: float = 0.90, mtrans_floor: float = 0.02,
-                             tol: float = None) -> dict:
+                             tol: float = None,
+                             window_A: "tuple | None" = None) -> dict:
     """The single telluric VERIFICATION metric (RYA-424 §3.3, generalizing the RYA-373
     D1 gate). At pixels that are (a) telluric-DOMINATED in the engine's model
     (mtrans_floor < transmission < mtrans_hi — absorbing but not saturated) and (b) NOT
@@ -256,8 +257,13 @@ def telluric_residual_metric(wave_A: np.ndarray, corrected_flux: np.ndarray,
     target is not scored as telluric misfit), the telluric-corrected flux must return
     to the local continuum. The metric is the median |1 − corrected/continuum| there.
 
-    Returns {n_px, residual, tol, passed}. `passed` requires enough clean telluric
-    pixels (≥10) AND residual ≤ tol; too-few-pixels is reported (not silently passed)."""
+    `window_A=(lo,hi)` (RYA-437 Part B): restrict the score to a wavelength window —
+    telluric quality is wavelength-dependent, so for CO (12C/13C, C/O) science the gate
+    scores LOCAL to the CO bandheads (TELLURIC_CO_LOCAL_WINDOW_A) while the global
+    median (window_A=None) is kept as a secondary report.
+
+    Returns {n_px, residual, tol, passed, window_A}. `passed` requires enough clean
+    telluric pixels (≥10) AND residual ≤ tol; too-few-pixels is reported (not passed)."""
     tol = C.TELLURIC_RESIDUAL_TOL if tol is None else tol
     wave_A = np.asarray(wave_A, float)
     corrected_flux = np.asarray(corrected_flux, float)
@@ -271,12 +277,40 @@ def telluric_residual_metric(wave_A: np.ndarray, corrected_flux: np.ndarray,
     sel = telluric & np.isfinite(cont)
     if science_mask is not None:
         sel &= ~np.asarray(science_mask, bool)
+    if window_A is not None:
+        lo, hi = float(min(window_A)), float(max(window_A))
+        sel &= (wave_A >= lo) & (wave_A <= hi)
     n = int(sel.sum())
     if n < 10:
         return {'n_px': n, 'residual': float('nan'), 'tol': float(tol),
-                'passed': False, 'reason': 'too few telluric-clean pixels to verify'}
+                'passed': False, 'window_A': window_A,
+                'reason': 'too few telluric-clean pixels to verify'}
     resid = float(np.nanmedian(np.abs(1.0 - cont[sel])))
-    return {'n_px': n, 'residual': resid, 'tol': float(tol), 'passed': resid <= tol}
+    return {'n_px': n, 'residual': resid, 'tol': float(tol), 'passed': resid <= tol,
+            'window_A': window_A}
+
+
+def co_local_residual_metric(wave_A: np.ndarray, corrected_flux: np.ndarray,
+                             model_transmission: np.ndarray,
+                             science_mask: "np.ndarray | None" = None,
+                             continuum: "np.ndarray | None" = None,
+                             tol: float = None) -> dict:
+    """RYA-437 Part B: the CO-science verification metric. Reports the residual scored
+    LOCAL to the CO (2-0) bandheads (TELLURIC_CO_LOCAL_WINDOW_A, 2.2935→2.3448 µm) as the
+    PRIMARY verdict, plus the GLOBAL median as a secondary. The verdict (`passed`,
+    `residual`) is the CO-local one — telluric quality at the CO bandheads is what biases
+    12C/13C, not the segment-wide median (which can pass while the CO region is dirty)."""
+    co = telluric_residual_metric(wave_A, corrected_flux, model_transmission,
+                                  science_mask=science_mask, continuum=continuum,
+                                  tol=tol, window_A=C.TELLURIC_CO_LOCAL_WINDOW_A)
+    glob = telluric_residual_metric(wave_A, corrected_flux, model_transmission,
+                                    science_mask=science_mask, continuum=continuum,
+                                    tol=tol, window_A=None)
+    return {'residual': co['residual'], 'passed': co['passed'], 'tol': co['tol'],
+            'n_px': co['n_px'], 'reason': co.get('reason'),
+            'metric_used': 'co_local', 'window_A': C.TELLURIC_CO_LOCAL_WINDOW_A,
+            'residual_co_local': co['residual'], 'residual_global': glob['residual'],
+            'n_px_co_local': co['n_px'], 'n_px_global': glob['n_px']}
 
 
 def _continuum_normalize(wave_A, flux):
@@ -303,11 +337,15 @@ class TelluricManifest:
     regime: str                      # ir | red_optical | mid_optical | blue | space_uv
     telluric_required: bool          # did the wavelength gate require correction?
     telluric_verified: bool          # passed correction + GDAS + residual gate?
-    residual: "float | None"         # the verification metric (median return-to-continuum)
-    tolerance: float
+    residual: "float | None"         # the verification metric the verdict used (CO-local for CO science)
+    tolerance: float                 # TELLURIC_RESIDUAL_TOL (RYA-437: 13C/CO-derived)
     n_verify_px: int                 # telluric-clean pixels the residual was scored on
     gdas_profile: str                # per-night GDAS provenance (real profile name)
     mjd: float = float('nan')
+    # RYA-437: which metric drove the verdict + both numbers (CO-local primary, global secondary).
+    metric_used: str = 'global'      # 'co_local' for CO science, else 'global'
+    residual_co_local: "float | None" = None
+    residual_global: "float | None" = None
     rya: str = 'RYA-424'
     provisional: bool = False        # carry RYA-373 PROVISIONAL where applicable
     notes: list = field(default_factory=list)
@@ -406,32 +444,44 @@ def condition_crires_frame(frame, work_dir: Path, dataset: str = 'crires',
     gdas_prov = getattr(frame, '_gdas', '')
     assert_real_gdas(gdas_prov, instrument)          # no silent standard-profile fallback
 
-    # Verification: score the residual at telluric-dominated, solar-clean pixels.
+    # Verification (RYA-437): for CO science the verdict is the CO-region-LOCAL residual
+    # (telluric quality at the 2-0 bandheads, what biases 12C/13C), with the global median
+    # kept as a secondary report. Both scored at telluric-dominated, solar-clean pixels.
     seg = frame.segment_at(ct.CO_2_0_BANDHEAD_NM)
     mt = getattr(seg, '_mtrans', None)
     science_mask = ct._solar_coincident(seg.wave_A, rv_kms) if mt is not None else None
     if mt is None:
         verify = {'n_px': 0, 'residual': float('nan'),
                   'tol': C.TELLURIC_RESIDUAL_TOL, 'passed': False,
+                  'metric_used': 'co_local', 'residual_co_local': float('nan'),
+                  'residual_global': float('nan'),
                   'reason': 'no model transmission on corrected segment'}
     else:
-        verify = telluric_residual_metric(seg.wave_A, seg.flux, mt,
+        verify = co_local_residual_metric(seg.wave_A, seg.flux, mt,
                                           science_mask=science_mask)
     if not verify['passed']:
-        notes.append(f"VERIFY-FAIL: {verify.get('reason', 'residual above tolerance')} "
-                     f"(residual={verify['residual']}, tol={verify['tol']}, "
+        notes.append(f"VERIFY-FAIL: {verify.get('reason', 'CO-local residual above tolerance')} "
+                     f"(residual_co_local={verify['residual_co_local']}, "
+                     f"residual_global={verify['residual_global']}, tol={verify['tol']}, "
                      f"n_px={verify['n_px']})")
-    notes.append('RYA-373 PROVISIONAL: FTS solar IR atlas (RYA-162) absent — telluric-'
-                 'gate final calibration pending; re-validate after RYA-387 0.001 re-extract.')
+    notes.append('RYA-437: tol is 13C/CO-derived (binding 13CO 2-0); verdict on the CO-'
+                 'region-local residual. RYA-373 PROVISIONAL: FTS solar IR atlas (RYA-162) '
+                 'absent; re-validate after RYA-387 0.001 re-extract.')
 
+    def _f(x):
+        return None if (x is None or not np.isfinite(x)) else float(x)
     return TelluricManifest(
         dataset=dataset, source_path=str(frame.path), instrument=instrument,
         engine=engine, site=site['key'], wave_lo_A=lo_A, wave_hi_A=hi_A,
         regime=regime, telluric_required=required,
         telluric_verified=bool(verify['passed']),
-        residual=(None if not np.isfinite(verify['residual']) else float(verify['residual'])),
+        residual=_f(verify['residual']),
         tolerance=float(verify['tol']), n_verify_px=int(verify['n_px']),
-        gdas_profile=str(gdas_prov), mjd=float(frame.mjd), provisional=True, notes=notes)
+        gdas_profile=str(gdas_prov), mjd=float(frame.mjd),
+        metric_used=verify.get('metric_used', 'co_local'),
+        residual_co_local=_f(verify.get('residual_co_local')),
+        residual_global=_f(verify.get('residual_global')),
+        provisional=True, notes=notes)
 
 
 def condition_vesta_crires(out_dir: Path = None,

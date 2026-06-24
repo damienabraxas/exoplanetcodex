@@ -9,16 +9,19 @@
   "regime": "ir",
   "telluric_required": true,
   "telluric_verified": false,
-  "residual": 0.06534009531094004,
-  "tolerance": 0.05,
-  "n_verify_px": 342,
+  "residual": 0.03172012434705662,
+  "tolerance": 0.0107,
+  "n_verify_px": 121,
   "gdas_profile": "C-70.4-24.6D2022-11-25T00.gdas.fits",
   "mjd": 59908.01372708,
+  "metric_used": "co_local",
+  "residual_co_local": 0.03172012434705662,
+  "residual_global": 0.06534009531094004,
   "rya": "RYA-424",
   "provisional": true,
   "notes": [
-    "VERIFY-FAIL: residual above tolerance (residual=0.06534009531094004, tol=0.05, n_px=342)",
-    "RYA-373 PROVISIONAL: FTS solar IR atlas (RYA-162) absent \u2014 telluric-gate final calibration pending; re-validate after RYA-387 0.001 re-extract."
+    "VERIFY-FAIL: None (residual_co_local=0.03172012434705662, residual_global=0.06534009531094004, tol=0.0107, n_px=121)",
+    "RYA-437: tol is 13C/CO-derived (binding 13CO 2-0); verdict on the CO-region-local residual. RYA-373 PROVISIONAL: FTS solar IR atlas (RYA-162) absent; re-validate after RYA-387 0.001 re-extract."
   ],
   "analysis_ready": false
 }

@@ -476,11 +476,34 @@ TELLURIC_INSTRUMENT_SITE = {
     'SPIRou':        'cfht',
 }
 
-# Telluric-residual VERIFICATION tolerance (RYA-424 §3 gate). Score is the median
-# |1 − corrected_flux/continuum| at telluric-DOMINATED, science-clean pixels in the
-# known telluric windows; a frame whose residual exceeds this is FLAGGED, not silently
-# passed. 0.05 (5%) inherits the RYA-373 D1 telluric-specific gate (telluric_residual_gate).
-TELLURIC_RESIDUAL_TOL = 0.05
+# Telluric-residual VERIFICATION tolerance (RYA-424 §3 gate, CALIBRATED by RYA-437).
+# Score is the median |1 − corrected_flux/continuum| at telluric-DOMINATED, science-
+# clean pixels (RYA-437: CO-region-local for CO science); a frame whose residual exceeds
+# this is FLAGGED, not silently passed.
+#
+# DERIVED from the 13C/CO precision requirement (RYA-437 Part A) — NOT a round number
+# (RYA-436 discipline). r = sigma * ln10 * d, where sigma = 0.05 dex is the project's
+# carbon-abundance precision (Asplund 2021, cno_synthesis.SOLAR_VIS_GATES['C']) and d is
+# the binding CO bandhead depth. The weak 13CO(2-0) 2.3448 µm bandhead (d=0.093 from the
+# ACE-FTS solar atlas, Hase et al. 2010) BINDS: r(13CO)=0.0107 < r(12CO)=0.0161. So a 13C
+# abundance bias reaches the 0.05-dex target at a telluric residual of ~1.1%. (At the old
+# round 0.05 the 13C bias would be ~0.23 dex — it would admit frames that cannot do the
+# isotopic science.) Full derivation: pipeline/telluric_tolerance_rya437.derive_tolerance
+# + docs/telluric_tolerance_rya437.md. The stored value MUST equal that derivation
+# (tested); do not hand-edit it to admit a specific frame.
+TELLURIC_RESIDUAL_TOL = 0.0107
+TELLURIC_RESIDUAL_TOL_PROVENANCE = (
+    "RYA-437: r = sigma*ln10*d; sigma=0.05 dex (Asplund 2021 carbon precision, "
+    "cno_synthesis.SOLAR_VIS_GATES['C']); binding feature 13CO(2-0) 2.3448 um, depth "
+    "d=0.093 (ACE-FTS solar atlas, Hase et al. 2010 JQSRT 111, 521); r(13CO)=0.0107 < "
+    "r(12CO)=0.0161. See pipeline/telluric_tolerance_rya437 + docs/telluric_tolerance_rya437.md.")
+
+# CO-region-local residual window (RYA-437 Part B). Telluric-correction quality is
+# wavelength-dependent: a GLOBAL median can pass while the CO region is dirty (or vice
+# versa). For CO (12C/13C, C/O) science the gate scores the residual LOCAL to the CO
+# (2-0) bandheads — 2.2935 µm (12CO) through 2.3448 µm (13CO) — with the global metric
+# kept as a secondary report. Vacuum Å.
+TELLURIC_CO_LOCAL_WINDOW_A = (22900.0, 23500.0)
 
 # ── Non-Fe NLTE correction registry (RYA-235) ────────────────────────────────
 # Element-level NLTE corrections applied PER LINE after the Fe I/II leg, from the
