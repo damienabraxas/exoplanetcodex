@@ -477,9 +477,14 @@ NLTE_CORRECTION_ELEMENTS = {
     # nlte_flag NLTE_unavailable, loud, RYA-409) into the near-LTE regime; acceptable, never
     # silent (RYA-421 Step 3). 4215 carries an Fe I blend -> cool-star discipline below.
     'Sr': {'ion': 2, 'grid': 'Sr_Bergemann2012_INSPECT.csv',
-           'ref': 'Mashonkina et al. 2022 / INASAN (Mashonkina+2023) PRIMARY (cited, to vendor); '
-                  'Bergemann et al. 2012a (A&A 546 A90; arXiv 1207.2451) via INSPECT = working '
-                  'delta grid, agrees within 0.15 dex; Sr II 4077/4215 resonance doublet (RYA-421)',
+           'ref': 'WORKING grid ON DISK + APPLIED = Bergemann et al. 2012a (A&A 546 A90; '
+                  'arXiv 1207.2451) via INSPECT (the applied delta grid). PRIMARY = Mashonkina '
+                  'et al. 2022 / INASAN (Mashonkina+2023; DB cite Mashonkina, Sitnova, Pakhomov '
+                  '2016 AstL 42,606) -- NOT YET VENDORED: RYA-433 found the INASAN nLTE.cgi '
+                  'endpoint WAF-BLOCKED (403) to all programmatic clients -> MANUAL PULL OWED '
+                  '(see data/nlte_grids/Sr_Mashonkina2022_INASAN.PENDING.md). Both are metal-poor '
+                  'MARCS grids (INASAN [Fe/H] -5..-2; Bergemann -3..0); published agreement '
+                  '~0.15 dex (our cross-check pending the pull). Sr II 4077/4215 doublet (RYA-421/433)',
            'flag': 'NLTE_Bergemann2012_INSPECT_1D'},
     # Mn I — STAYS on MPIA. RYA-411 RESOLVED the RYA-410 STOP (+0.018 vs +0.107). Built an
     # HFS-resolved synthesis (pysme_nlte _synth_ew RYA-411) and ran the probes: HFS-collapse
