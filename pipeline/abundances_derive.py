@@ -57,6 +57,7 @@ from config.constants import (
     FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
     SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
+    ACCEPTANCE_PROFILES, STAR_SPECTRAL_TYPE, fe1_scatter_threshold,
 )
 from pipeline.species import species_key, species_note
 from pipeline.gf_resolver import apply_to_synth_array, apply_to_regions  # RYA-353 single-source gf
@@ -2347,7 +2348,18 @@ def run(star_id: str = 'solar',
             sc1 = float(_r1.get('A_X_std_nlte', np.nan))
             if not np.isfinite(sc1):
                 sc1 = float(_r1.get('A_X_std', np.nan))
-        scat_pass = np.isfinite(sc1) and sc1 < FE_SCATTER_GATE
+        # Fe I scatter ceiling from the active acceptance profile (RYA-446/277): the Sun
+        # (G anchor) reads the cited RYA-407 honest floor; types without a populated
+        # profile keep the legacy-universal value until RYA-277 builds them (F/K/M TODO).
+        # Threshold SOURCE only — the raw σ (sc1) computation is untouched.
+        _spec = STAR_SPECTRAL_TYPE.get(star_id)
+        if _spec is not None and ACCEPTANCE_PROFILES.get(_spec) is not None:
+            _scatter_max = fe1_scatter_threshold(_spec)
+            _scatter_src = f"{_spec}-anchor: {ACCEPTANCE_PROFILES[_spec]['provenance']}"
+        else:
+            _scatter_max = FE_SCATTER_GATE   # legacy-universal (RYA-277 profile pending)
+            _scatter_src = f"legacy-universal {FE_SCATTER_GATE} (RYA-277 profile pending)"
+        scat_pass = np.isfinite(sc1) and sc1 < _scatter_max
         primary_pass = slope_pass and ion_pass and scat_pass
 
         print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336/406) ──")
@@ -2359,7 +2371,7 @@ def run(star_id: str = 'solar',
             print(f"    · DIAGNOSTIC EW-vs-synth Fe II spread = {ew_synth_spread:+.3f} "
                   f"(EW {a_fe2:.3f} blend-limited HIGH, RYA-352; synth {fe2_synth:.3f}, RYA-341) -> {_band}")
             print(f"    · (EW-path ΔFe(I−II) = {dfe_ew:+.3f} is NOT the verdict — EW Fe II is blend-biased; RYA-405/406)")
-        print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {FE_SCATTER_GATE} dex)")
+        print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {_scatter_max} dex)  [{_scatter_src}]")
 
         # Absolute A(Fe): scale-aware diagnostic (centre = 3D-true 7.46 + published 1D-3D offset)
         _diag_c  = SOLAR_ASPLUND2021['Fe'] + FE_1D3D_SOLAR_OFFSET
