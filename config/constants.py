@@ -191,7 +191,14 @@ STAR_PROCYON = {
 # FE_GATE_UPPER = +0.05  →  A(Fe) = 7.51
 FE_GATE_LOWER      = -0.05   # [Fe/H] solar Fe lower bound
 FE_GATE_UPPER      = +0.05   # [Fe/H] solar Fe upper bound  → absolute [7.41, 7.51]
-FE_SCATTER_GATE    =  0.10   # dex — maximum acceptable σ(Fe I)
+FE_SCATTER_GATE    =  0.10   # dex — SUPERSEDED legacy-universal σ(Fe I) ceiling (RYA-277).
+                             # Calibrated on the Sun and silently applied as universal; RYA-407
+                             # verdict (c) showed it is mis-set for the current GES-EW 1D-LTE
+                             # Fe I pool (raw-pool σ=0.1398; no cited mechanism reaches 0.10).
+                             # The G-anchor solar gate now reads its ceiling from
+                             # ACCEPTANCE_PROFILES['G'] (RYA-446); this value is retained only as
+                             # the legacy default for not-yet-profiled types (F/K/M TODO, RYA-277).
+                             # Do NOT use for the Sun.
 FE_IONISATION_GATE =  0.05   # dex — maximum |ΔFe(I−II)|
 
 # ── Fe I−Fe II ionization arbiter: SYNTHESIS, not the EW path (RYA-406, DECISION 2) ──
@@ -252,6 +259,51 @@ FE_ABS_DIAG_HALFWIDTH = 0.07   # dex — wide half-window around the scale-aware
                                # zero-point, fails gross errors.
 FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat within error"
                                # for the solar guardrail (RYA-330: −0.04..−0.09).
+
+# ── Per-spectral-type acceptance profiles (RYA-277 seed; RYA-446 G-anchor slice) ──
+# Acceptance thresholds are a FUNCTION of stellar type, not universal (RYA-277): every
+# legacy threshold was calibrated on the Sun and silently labelled "universal". This is
+# the minimal interim seed — ONLY the G anchor is populated, to unblock the RYA-371
+# Phase C solar Fe verdict (RYA-446). F/K/M are TODO stubs deferred to the full RYA-277
+# build (gated on the Procyon F-anchor numbers, RYA-270/273); do NOT populate them here.
+#
+# Single source of truth: the solar Fe gate reads its Fe I scatter ceiling from the
+# active profile via fe1_scatter_threshold() — no hardcoded threshold in the scripts.
+ACCEPTANCE_PROFILES = {
+    'G': {
+        # Fe I line-to-line scatter ceiling = the cited RYA-407 honest floor of the
+        # current GES-EW 1D-LTE solar Fe I pool: σ(1D) = 0.1398 dex (the gate's NLTE σ
+        # ≈ 1D σ; RYA-407 Step 0). This is the characterized POOL floor, derived BLIND
+        # to gate pass/fail (RYA-407's cuts were residual-independent) — NOT a round
+        # number and NOT chosen to make the Sun pass. RYA-407 verdict (c): no cited
+        # mechanism reaches the legacy 0.10. Source: docs/audit/
+        # fe1_scatter_diagnostic_rya407.md (Step 0). RYA-279 will recompute the gate σ
+        # over the vetted/ceiling'd pool (RYA-407: proximity-cut → ~0.128); re-confirm
+        # this threshold when RYA-279 lands.
+        'fe1_scatter_max': 0.1398,        # RYA-407 σ(1D) floor, GES-EW 1D-LTE Fe I pool
+        'teff_range'     : (5300, 6000),  # G regime (Sun ≈ 5772 K)
+        'provenance'     : 'RYA-407 honest floor σ(1D)=0.1398 (GES-EW 1D-LTE solar Fe I pool)',
+    },
+    'F': None,   # TODO RYA-277 — Procyon F-anchor (gated on RYA-270/273 F-numbers)
+    'K': None,   # TODO RYA-277
+    'M': None,   # TODO RYA-277
+}
+
+# Star → spectral type, for acceptance-profile routing (minimal RYA-446 seed).
+STAR_SPECTRAL_TYPE = {'solar': 'G', 'procyon': 'F'}
+
+
+def fe1_scatter_threshold(spectral_type):
+    """Active Fe I line-to-line scatter ceiling for `spectral_type`, read from
+    ACCEPTANCE_PROFILES (single source of truth). Fails loud on an unpopulated profile
+    (RYA-277 F/K/M are TODO stubs) — no silent default."""
+    prof = ACCEPTANCE_PROFILES.get(spectral_type)
+    if prof is None or 'fe1_scatter_max' not in prof:
+        raise KeyError(
+            f"No acceptance profile populated for spectral type {spectral_type!r}; the "
+            f"RYA-277 F/K/M profiles are deferred TODO stubs. Refusing to default "
+            f"silently — populate the profile (RYA-277) before gating this type.")
+    return prof['fe1_scatter_max']
 
 # ── Flux-space synthesis (synth-v2) line-acceptance gate (RYA-342) ────────────
 # The flux-space fitter accepts/rejects each line on FIT QUALITY (reduced χ²), NOT
