@@ -32,6 +32,7 @@ from config.constants import (
     SOLAR_ASPLUND2021,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
+    ACCEPTANCE_PROFILES, STAR_SPECTRAL_TYPE, fe1_scatter_threshold,
 )
 
 # RYA-334: A_X_nlte is ABSOLUTE A(Fe) (RYA-319 convention); the _check_gates /
@@ -49,7 +50,10 @@ GATES = {
         'A_Fe_II_lo' : _A_FE_SOLAR + FE_GATE_LOWER,   # 7.41
         'A_Fe_II_hi' : _A_FE_SOLAR + FE_GATE_UPPER,   # 7.51
         'dFe_max'    : FE_IONISATION_GATE,             # 0.05
-        'scatter_max': FE_SCATTER_GATE,                # 0.10
+        # G-anchor Fe I scatter ceiling from the active acceptance profile (RYA-446):
+        # the cited RYA-407 honest floor, NOT the superseded legacy 0.10. The value
+        # lives ONLY in ACCEPTANCE_PROFILES['G'] (single source); no copy here.
+        'scatter_max': fe1_scatter_threshold('G'),     # RYA-407 floor via ACCEPTANCE_PROFILES['G']
         'n_Fe2_min'  : 8,
         'vmic'       : 1.00,
     },
@@ -176,6 +180,16 @@ def _print_gate_table(star_id: str, res: dict):
         res['scatter'],
         f"< {g['scatter_max']}",
         res['scatter_pass'])
+    # Anti-silent-assumption (RYA-270/277): name the active acceptance profile + the
+    # cited source of the scatter ceiling the gate is using.
+    _spec = STAR_SPECTRAL_TYPE.get(star_id)
+    _prof = ACCEPTANCE_PROFILES.get(_spec) if _spec else None
+    if _prof is not None:
+        print(f"    └ acceptance profile: {_spec}-star  |  Fe I scatter ≤ "
+              f"{g['scatter_max']}  |  {_prof['provenance']}")
+    else:
+        print(f"    └ acceptance profile: {_spec}-star UNPROFILED → legacy-universal "
+              f"{g['scatter_max']} (RYA-277 TODO)")
     row(f"Fe II n_lines",
         float(res['n_Fe2']),
         f">= {g['n_Fe2_min']}",
