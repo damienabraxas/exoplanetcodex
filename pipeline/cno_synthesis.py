@@ -79,6 +79,7 @@ from pipeline.abundances_derive import (
     _ISPEC_SOLAR_ABUND_FILE,
 )
 from pipeline.gf_resolver import resolve as resolve_gf   # RYA-365: canonical Ni gf assert
+from pipeline import nlte_cno   # RYA-359: vendored Amarsi 2019 C I / O I 3D-NLTE grid (Phase-A C I correction)
 
 # Molecular line lists (RYA-236) — iSpec globs this dir when use_molecules=True.
 _MOLECULES_DIR = ISPEC_DIR / 'input' / 'linelists' / 'turbospectrum' / 'molecules'
@@ -231,6 +232,76 @@ def amarsi_grid_backend(diag: 'Diagnostic', a_lte: float, params: dict) -> tuple
 
 
 NLTE_BACKENDS = {'lte_by_design': vis_lte_backend, 'amarsi_grid': amarsi_grid_backend}
+
+
+# ── Phase-A cited correction layer (RYA-371) ──────────────────────────────────
+# The VIS synthesis MEASURES in 1D-LTE; Phase A applies the CITED 3D/NLTE
+# correction on top, per diagnostic, each tagged with its source. VALIDATE-DON'T-
+# TUNE: every value here is published / vendored, NEVER fitted to the Asplund
+# anchors. Three kinds, by what the literature actually provides for the line:
+#   * vendored grid delta — C I 5052/5380: Amarsi 2019 3D-NLTE (pipeline.nlte_cno,
+#     RYA-359). A real interpolated Delta = A(3D-NLTE) - A(1D-LTE).
+#   * cited 3D anchor     — [O I] 6300: Caffau et al. 2015 (A&A 579 A88, POSP III)
+#     full-3D solar A(O)=8.73 with OUR EXACT atomic data (Ni I -2.11 Johansson
+#     2003 + [O I] -9.717 Storey & Zeippen 2000; RYA-367). NO hardcoded 3D-1D
+#     offset — Caffau 2015 publishes the absolute, not a grid node (RYA-367 rule).
+#   * 3D-offset-owed      — CH/CN/C2 molecular bands: no vendored solar 3D grid →
+#     reported 1D-LTE, flagged owed (honest, not silently called LTE).
+
+# Cited per-line full-3D solar anchors: {key: (A_3d, unc, flag, source)}. The
+# published absolute for the exact line + our atomic data, surfaced as the
+# reconciled value — a citation, not a fit.
+CITED_3D_ANCHORS = {
+    'OI_6300': (
+        8.73, 0.05, '3d_lte_caffau2015',
+        'Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, '
+        'Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our '
+        'atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).'),
+}
+# Atomic C I lines that carry a vendored Amarsi-2019 3D-NLTE grid delta.
+_CI_GRID_KEYS = {'CI_5052': 5052.17, 'CI_5380': 5380.34}
+
+
+def apply_cited_corrections(per_band, params, region) -> list:
+    """Attach the cited Phase-A correction to each VIS diagnostic. Returns a list of
+    records {key, element, role, a_lte, kind, a_corr, delta, flag, source}. Cited /
+    vendored values only — never fitted (RYA-371 validate-don't-tune)."""
+    teff = float(params['teff_K']); logg = float(params['logg'])
+    feh = float(params['feh']); vmic = float(params['vturb_kms'])
+    out = []
+    for r in per_band:
+        key = r.get('key'); a_lte = r.get('A_X')
+        rec = {'key': key, 'element': r.get('element'), 'role': r.get('role'),
+               'a_lte': a_lte, 'kind': None, 'a_corr': a_lte, 'delta': 0.0,
+               'flag': r.get('nlte_flag'), 'source': r.get('nlte_ref')}
+        if not (a_lte is not None and np.isfinite(a_lte)):
+            out.append(rec); continue
+        if key in CITED_3D_ANCHORS:                       # cited full-3D anchor
+            a3d, unc, flag, src = CITED_3D_ANCHORS[key]
+            rec.update(kind='cited_3d_anchor', a_corr=a3d, delta=round(a3d - a_lte, 3),
+                       flag=flag, source=src, unc=unc)
+        elif key in _CI_GRID_KEYS:                        # vendored Amarsi-2019 grid delta
+            try:
+                label = nlte_cno.resolve_line('CI', _CI_GRID_KEYS[key])
+                delta = nlte_cno.cno_nlte_delta('CI', label, teff, logg, feh, vmic, a_lte)
+                if np.isfinite(delta):
+                    nlte_cno.assert_cno_sign('CI', label, delta)
+                    rec.update(kind='amarsi2019_grid', a_corr=round(a_lte + delta, 3),
+                               delta=round(delta, 3), flag='3d_nlte_amarsi2019',
+                               source=f'Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, '
+                                      f'C I {label} 3D-NLTE leg ({nlte_cno.select_leg(teff)})')
+                else:                                     # outside 4D hull → flag, no silent LTE
+                    rec.update(kind='grid_out_of_hull',
+                               flag='amarsi2019_out_of_hull', source='Amarsi 2019 grid: query outside 4D hull')
+            except Exception as exc:                       # noqa: BLE001 — surface, never fake
+                rec.update(kind='grid_error', flag='amarsi2019_error', source=f'grid error: {exc}')
+        elif r.get('nlte_flag') == 'lte_molecular_band':  # molecular band, no vendored 3D grid
+            rec.update(kind='3d_offset_owed', flag='lte_molecular_band_3d_offset_owed',
+                       source='molecular band; no vendored solar 3D-LTE offset grid → '
+                              'reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D '
+                              '0.00..-0.15; not applied — would be uncited)')
+        out.append(rec)
+    return out
 
 
 # ── Abundance state + low-level synthesis ─────────────────────────────────────
@@ -466,6 +537,7 @@ class CNOResult:
     flags: list = field(default_factory=list)
     provenance: dict = field(default_factory=dict)
     uncertainty: dict = field(default_factory=dict)      # element -> {stat, sys, tot}
+    phase_a_corrections: list = field(default_factory=list)  # RYA-371 cited 3D/NLTE per diagnostic
 
 
 def _seed_abundances(star_id, params, codes, solar_A_ispec, feh) -> dict:
@@ -579,6 +651,20 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     result.per_band = [last[d.key] for d in diagnostics if d.key in last]
     result.abundances = {'C': state['C'], 'N': state['N'], 'O': state['O']}
 
+    # ── Phase-A cited correction layer (RYA-371): 1D-LTE → cited 3D/NLTE ───────
+    corrections = apply_cited_corrections(result.per_band, params, region)
+    result.phase_a_corrections = corrections
+    print(f"\n  ── Phase-A cited corrections ({region.instrument} arm) — "
+          f"validate-don't-tune (cited/vendored only) ──")
+    print(f"    {'diagnostic':10s} {'el':2s} {'1D-LTE':>7s} {'corr':>7s} "
+          f"{'recon':>7s}  kind / source")
+    for c in corrections:
+        al = f"{c['a_lte']:.3f}" if isinstance(c['a_lte'], float) and np.isfinite(c['a_lte']) else '  N/A '
+        ac = f"{c['a_corr']:.3f}" if isinstance(c['a_corr'], float) and np.isfinite(c['a_corr']) else '  N/A '
+        dl = f"{c['delta']:+.3f}" if np.isfinite(c.get('delta', np.nan)) else '   -- '
+        print(f"    {c['key']:10s} {c['element']:2s} {al:>7s} {dl:>7s} {ac:>7s}  "
+              f"[{c['kind']}] {(c['source'] or '')[:64]}")
+
     # ── Uncertainty budget (Type A statistical + Type B systematic) ───────────
     result.uncertainty = _uncertainty_budget(
         result, last, by_key, star_id, params, rec, state, codes, obs_w, obs_f,
@@ -599,9 +685,11 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
         'broadening': {'R': broadening[0], 'vmac': broadening[1], 'vsini': broadening[2],
                        'source': rec.get('source', ''), 'rule': 'per-star RYA-288'},
         'nlte': {'backend': region.nlte_backend,
-                 'policy': 'VIS LTE-by-design (Ryan 2026-06-19); '
-                           'C I cI_vis_lte_assumed (Alexeeva & Mashonkina 2015); '
-                           '[O I] forbidden LTE; molecular bands LTE'},
+                 'policy': 'VIS synthesis is 1D-LTE; Phase-A cited corrections applied '
+                           'on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; '
+                           '[O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, '
+                           'no hardcoded offset); CH/CN/C2 molecular 3D offset OWED'},
+        'phase_a_corrections': result.phase_a_corrections,
         'solar_reference': 'Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021',
         'params': params,
         'caveats': ['Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver '
