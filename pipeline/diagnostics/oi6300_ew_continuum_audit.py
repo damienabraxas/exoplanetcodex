@@ -3,7 +3,8 @@
 [O I] 6300 1D-LTE seam isolation -- observed EW + continuum audit.
 
 RYA-447: 3D differential ~0. RYA-448: Ni partition ruled out (dA(O)/dA(Ni)=-0.38;
-matched-pair A(Ni)=6.25 buys only ~0.02 dex). The ~0.11 dex excess in our 1D-LTE
+even A(Ni)=6.25 buys only ~0.02 dex; the -2.11 Ni gf is Johansson 2003 lab, not an
+A(Ni) basis -- RYA-450). The ~0.11 dex excess in our 1D-LTE
 [O I] 6300 O lives in the MEASUREMENT level. This audit bifurcates: is our
 observed [O I]+Ni feature too STRONG (continuum/normalization/telluric/blend ->
 measurement artifact), or NORMAL while our synthesis over-converts EW->A (1D
