@@ -6,9 +6,14 @@ RYA-447 STOP established the ~0.07-0.11 dex excess in our 1D-LTE [O I] 6300 O
 (our 8.80 vs Caffau 8.73 vs Asplund 8.69) is NOT a 3D-correction problem
 (Amarsi 630nm Delta ~= 0). It lives in the 1D-LTE absolute level. [O I] 6300.30
 / Ni I 6300.34 is an unresolved blend; A(O) is partitioned against the PINNED
-A(Ni). We pin A(Ni) = SOLAR_ASPLUND2021['Ni'] (6.20, Asplund 2021), but the Ni
-gf -2.11 (RYA-365) was derived (Allende Prieto+2001) on A(Ni) ~= 6.25 -- a split
-gf/abundance pair under-weights Ni and inflates O.
+A(Ni). We pin A(Ni) = SOLAR_ASPLUND2021['Ni'] (6.20, Asplund 2021). The Ni gf
+-2.11 (RYA-365) is the Johansson et al. 2003 LABORATORY value (FT emission,
+abundance-independent) -- it is NOT tied to any A(Ni) basis, so there is no
+"matched gf/abundance pair" to restore. (Allende Prieto, Lambert & Asplund 2001's
+*astrophysical* gf was ~ -2.31, ~0.2 dex below the lab value.) The only lever is
+the solar A(Ni) itself, and plausible modern values (6.15 Scott 2009/Bedell ->
+6.20-6.22 Asplund) all leave O high -- a LOWER A(Ni) weakens Ni and pushes O even
+higher. (RYA-450 provenance reconciliation; corrects the RYA-448 brief's framing.)
 
 This MEASURES dA(O)/dA(Ni) by re-fitting A(O) over the real [O I] window at fixed
 A(Ni) values, reusing the production fitter (_fit_element). It does NOT change any
@@ -32,8 +37,11 @@ import ispec
 
 ASPLUND_O = 8.69
 CAFFAU_O  = 8.73
-ALLENDE_PRIETO_NI = 6.25   # A(Ni) basis the -2.11 Ni gf was derived on (Allende Prieto+2001)
-DEFENSIBLE_NI_HI  = 6.28   # ~ upper edge of plausible solar A(Ni) (Asplund 6.20+/-~0.04; AP01 6.25)
+REF_NI_HI = 6.25   # reference high A(Ni) sweep point. The -2.11 Ni gf is Johansson 2003
+                   # (lab, abundance-independent) -- NOT tied to any A(Ni) basis. Allende
+                   # Prieto 2001's astrophysical gf was ~ -2.31 (~0.2 dex lower).
+REF_NI_LO = 6.15   # reference low A(Ni) (Scott 2009 / Bedell) -- brackets the modern solar range.
+DEFENSIBLE_NI_HI  = 6.28   # ~ upper edge of plausible solar A(Ni) (Asplund 6.20 +/- ~0.04)
 
 
 def _setup(star_id, region_name):
@@ -81,10 +89,11 @@ def main() -> None:
     ctx = _setup(a.star, a.region)
     ni_pin = float(SOLAR_ASPLUND2021['Ni'])
     print(f"current pinned A(Ni) = SOLAR_ASPLUND2021['Ni'] = {ni_pin:.2f} (Asplund 2021)")
-    print(f"Ni gf basis (Allende Prieto+2001; RYA-365 gf -2.11): A(Ni) ~ {ALLENDE_PRIETO_NI:.2f}\n")
+    print(f"Ni gf -2.11 (RYA-365) = Johansson 2003 lab value (abundance-independent; NOT an "
+          f"A(Ni) basis). Allende Prieto 2001 astrophysical gf = ~ -2.31.\n")
 
     ni_grid = sorted({round(float(x), 3) for x in a.ni_grid.split(',')}
-                     | {round(ni_pin, 3), ALLENDE_PRIETO_NI})
+                     | {round(ni_pin, 3), REF_NI_HI, REF_NI_LO})
 
     print(f"{'A(Ni)':>7s}  {'A(O) fit':>9s}  note")
     res = {}
@@ -92,7 +101,8 @@ def main() -> None:
         aO = _fit_O_at_ni(ni, a.a_c, a.a_n, a.o_center, ctx, a.tmp_dir)
         res[ni] = aO
         note = ('<- current pin' if abs(ni - ni_pin) < 1e-6 else
-                '<- gf basis (AP01)' if abs(ni - ALLENDE_PRIETO_NI) < 1e-6 else '')
+                '<- ref hi (Asplund/AP01 6.25)' if abs(ni - REF_NI_HI) < 1e-6 else
+                '<- ref lo (Scott09/Bedell 6.15)' if abs(ni - REF_NI_LO) < 1e-6 else '')
         print(f"{ni:7.3f}  {aO:9.3f}  {note}")
 
     # self-check: the current pin MUST reproduce production A(O) ~ o_center
@@ -123,10 +133,10 @@ def main() -> None:
     print("\n-- verdict ------------------------------------------------------")
     if np.isfinite(ni_caf) and ni_caf <= DEFENSIBLE_NI_HI:
         print(f"  Ni-PARTITION LIKELY: A(Ni) ~ {ni_caf:.2f}-{ni_asp:.2f} closes the gap and is "
-              f"within the defensible solar range (<= {DEFENSIBLE_NI_HI:.2f}; AP01 basis "
-              f"{ALLENDE_PRIETO_NI:.2f}). Seam = the split gf/abundance pair. RECOMMEND (for "
-              f"Ryan, not auto-applied): pin A(Ni) consistent with the -2.11 gf basis. This is a "
-              f"CITED fix, NOT tuning.")
+              f"within the defensible solar range (<= {DEFENSIBLE_NI_HI:.2f}). Seam = the adopted "
+              f"solar A(Ni). RECOMMEND (for Ryan, not auto-applied): re-examine the adopted solar "
+              f"A(Ni). The -2.11 gf is the Johansson 2003 lab value (fixed, abundance-independent); "
+              f"this would be a CITED A(Ni) choice, NOT tuning.")
     else:
         print(f"  Ni-PARTITION INSUFFICIENT: closing the gap needs A(Ni) ~ {ni_caf:.2f}, beyond "
               f"the defensible range (> {DEFENSIBLE_NI_HI:.2f}). Ni is not the whole story -> move "
