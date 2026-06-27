@@ -58,30 +58,30 @@
     {
       "element": "Mg",
       "asplund2021": 7.55,
-      "A_measured": 8.424,
-      "delta_vs_asplund": 0.874,
-      "sigma": 1.044,
-      "n_lines": 2,
-      "channel": "EW: 2 line(s)",
+      "A_measured": null,
+      "delta_vs_asplund": null,
+      "sigma": null,
+      "n_lines": 0,
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": "Mg_Amarsi2020_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 8.424 vs Asplund 7.55 (+0.874), sigma 1.04 \u2014 gf-/blend-limited pool (RYA-395/398). NLTE grid Mg_Amarsi2020_PySME.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv)."
     },
     {
       "element": "Si",
       "asplund2021": 7.51,
-      "A_measured": 8.06,
-      "delta_vs_asplund": 0.55,
-      "sigma": 0.611,
-      "n_lines": 15,
-      "channel": "EW: 15 line(s)",
+      "A_measured": 7.888,
+      "delta_vs_asplund": 0.378,
+      "sigma": 0.359,
+      "n_lines": 7,
+      "channel": "EW: 7 curated line(s), graded-gf (RYA-395/398)",
       "nlte_grid": "Si_Amarsi2020_PySME.csv",
       "nlte_wired": true,
       "threed_wired": true,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 8.060 vs Asplund 7.51 (+0.550), sigma 0.61 \u2014 gf-/blend-limited pool (RYA-395/398). NLTE grid Si_Amarsi2020_PySME.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable)."
+      "owed": "A(X) 7.888 vs Asplund 7.51 (+0.378), sigma 0.36 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune)."
     },
     {
       "element": "Fe",
@@ -100,16 +100,16 @@
     {
       "element": "S",
       "asplund2021": 7.12,
-      "A_measured": 7.386,
-      "delta_vs_asplund": 0.266,
-      "sigma": null,
-      "n_lines": 1,
-      "channel": "EW: 1 line(s)",
+      "A_measured": 7.753,
+      "delta_vs_asplund": 0.633,
+      "sigma": 0.367,
+      "n_lines": 2,
+      "channel": "EW: 2 curated line(s), low-confidence (RYA-395/398)",
       "nlte_grid": "S_Amarsi2025_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 7.386 vs Asplund 7.12 (+0.266), sigma nan \u2014 gf-/blend-limited pool (RYA-395/398). NLTE grid S_Amarsi2025_PySME.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable)."
+      "owed": "A(X) 7.753 vs Asplund 7.12 (+0.633) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
     },
     {
       "element": "Al",
@@ -118,26 +118,26 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": "Al_Amarsi2020_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Al_Amarsi2020_PySME.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv)."
     },
     {
       "element": "Ca",
       "asplund2021": 6.3,
-      "A_measured": 6.382,
-      "delta_vs_asplund": 0.082,
-      "sigma": 0.559,
-      "n_lines": 4,
-      "channel": "EW: 4 line(s)",
+      "A_measured": 6.324,
+      "delta_vs_asplund": 0.024,
+      "sigma": 0.124,
+      "n_lines": 2,
+      "channel": "EW: 2 curated line(s), low-confidence (RYA-395/398)",
       "nlte_grid": "Ca_Mashonkina2017.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 6.382 vs Asplund 6.30 (+0.082), sigma 0.56 \u2014 gf-/blend-limited pool (RYA-395/398). NLTE grid Ca_Mashonkina2017.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable)."
+      "owed": "A(X) 6.324 vs Asplund 6.30 (+0.024) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
     },
     {
       "element": "Na",
@@ -146,40 +146,40 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": "Na_Amarsi2020_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Na_Amarsi2020_PySME.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Na_Amarsi2020_PySME.csv)."
     },
     {
       "element": "Ni",
       "asplund2021": 6.2,
-      "A_measured": 7.297,
-      "delta_vs_asplund": 1.097,
-      "sigma": 0.972,
-      "n_lines": 3,
-      "channel": "EW: 3 line(s)",
+      "A_measured": 6.946,
+      "delta_vs_asplund": 0.746,
+      "sigma": 0.513,
+      "n_lines": 2,
+      "channel": "EW: 2 curated line(s), low-confidence (RYA-395/398)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 7.297 vs Asplund 6.20 (+1.097), sigma 0.97 \u2014 gf-/blend-limited pool (RYA-395/398). no NLTE grid (LTE-flagged)."
+      "owed": "A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
     },
     {
       "element": "Cr",
       "asplund2021": 5.62,
-      "A_measured": 5.906,
-      "delta_vs_asplund": 0.286,
-      "sigma": 1.09,
-      "n_lines": 3,
-      "channel": "EW: 3 line(s)",
+      "A_measured": 6.022,
+      "delta_vs_asplund": 0.402,
+      "sigma": 0.603,
+      "n_lines": 7,
+      "channel": "EW: 7 curated line(s), graded-gf (RYA-395/398)",
       "nlte_grid": "Cr_Bergemann2010_MPIA.csv",
       "nlte_wired": true,
       "threed_wired": true,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 5.906 vs Asplund 5.62 (+0.286), sigma 1.09 \u2014 gf-/blend-limited pool (RYA-395/398). NLTE grid Cr_Bergemann2010_MPIA.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable)."
+      "owed": "A(X) 6.022 vs Asplund 5.62 (+0.402), sigma 0.60 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune)."
     },
     {
       "element": "Mn",
@@ -188,12 +188,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": "Mn_Bergemann_MPIA.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Mn_Bergemann_MPIA.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mn_Bergemann_MPIA.csv)."
     },
     {
       "element": "P",
@@ -226,16 +226,16 @@
     {
       "element": "Ti",
       "asplund2021": 4.97,
-      "A_measured": 6.374,
-      "delta_vs_asplund": 1.404,
-      "sigma": 0.848,
-      "n_lines": 6,
-      "channel": "EW: 6 line(s)",
+      "A_measured": 5.471,
+      "delta_vs_asplund": 0.501,
+      "sigma": 0.926,
+      "n_lines": 10,
+      "channel": "EW: 10 curated line(s), graded-gf (RYA-395/398)",
       "nlte_grid": "Ti_Bergemann2011_MPIA.csv",
       "nlte_wired": true,
       "threed_wired": true,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 6.374 vs Asplund 4.97 (+1.404), sigma 0.85 \u2014 gf-/blend-limited pool (RYA-395/398). NLTE grid Ti_Bergemann2011_MPIA.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable)."
+      "owed": "A(X) 5.471 vs Asplund 4.97 (+0.501), sigma 0.93 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune)."
     },
     {
       "element": "Co",
@@ -258,12 +258,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
     },
     {
       "element": "V",
@@ -272,12 +272,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
     },
     {
       "element": "Sc",
@@ -296,16 +296,16 @@
     {
       "element": "Sr",
       "asplund2021": 2.83,
-      "A_measured": null,
-      "delta_vs_asplund": null,
+      "A_measured": 4.961,
+      "delta_vs_asplund": 2.131,
       "sigma": null,
-      "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "n_lines": 1,
+      "channel": "EW: 1 curated line(s), low-confidence (RYA-395/398)",
       "nlte_grid": "Sr_Bergemann2012_INSPECT.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Sr_Bergemann2012_INSPECT.csv)."
+      "owed": "A(X) 4.961 vs Asplund 2.83 (+2.131) on 1 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
     },
     {
       "element": "Zr",
@@ -314,12 +314,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
     },
     {
       "element": "Ba",
@@ -328,12 +328,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": "Ba_Korotin2015.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Ba_Korotin2015.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Ba_Korotin2015.csv)."
     },
     {
       "element": "Y",
@@ -342,12 +342,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
     },
     {
       "element": "Li",
@@ -370,12 +370,12 @@
       "delta_vs_asplund": null,
       "sigma": null,
       "n_lines": 0,
-      "channel": "EW present, not wired into production A(X)",
+      "channel": "EW present; no independent-gf line survives the graded cull",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
     }
   ]
 }
