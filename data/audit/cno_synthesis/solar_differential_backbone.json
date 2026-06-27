@@ -1,0 +1,35 @@
+{
+  "ticket": "RYA-371 Phase C",
+  "role": "differential anchor \u2014 every target (Procyon / aCen / 55 Cnc) is analysed line-by-line DIFFERENTIALLY against this solar reference, same instrument arm vs same arm, so shared systematics cancel.",
+  "instruments": {
+    "HARPS": {
+      "arm": "optical VIS 380-690 nm",
+      "R": 115000,
+      "reference": "reflected-solar (Vesta) + 10 OBJECT=SUN direct frames (RYA-162)",
+      "anchors": "CH G-band, C I 5052/5380, C2 Swan, [O I] 6300, CN red, Fe I/II pool",
+      "status": "REGISTERED (Phase A + Fe baseline)"
+    },
+    "ESPRESSO": {
+      "arm": "optical 380-788 nm",
+      "R": 140000,
+      "reference": "reflected-solar (Vesta), RYA-372 rest-frame co-add",
+      "anchors": "O I 777 triplet (PRIMARY O), [O I] 6300, C I 5052",
+      "status": "REGISTERED (Phase A) \u2014 same instrument as 55 Cnc"
+    },
+    "UVES": {
+      "arm": "blue 300-388 nm + red",
+      "R": 70000,
+      "reference": "reflected-solar (Vesta), RYA-372 rest-frame co-add",
+      "anchors": "N I 8216, CN red; NH 3360 / CN violet = under-SNR DATA-GAP",
+      "status": "REGISTERED (Phase A, partial) \u2014 NH 3360 owed"
+    },
+    "CRIRES+": {
+      "arm": "IR Y/J/H/K, 2.3 um CO overtone",
+      "R": 86000,
+      "reference": "Vesta cr2res 1.6.9",
+      "anchors": "12C/13C, C, O from CO overtone",
+      "status": "PARKED (Phase B) \u2014 telluric/molecfit gate not cleared (RYA-373)"
+    }
+  },
+  "reads": "data/processed/solar_abundances.csv (Fe + non-Fe EW baseline); data/audit/cno_synthesis/solar_phase_a_cross_arm.json (CNO); data/audit/cno_synthesis/solar_phase_c_verdict.json (per-element status)."
+}
