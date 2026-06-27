@@ -258,6 +258,76 @@ VIS_DIAGNOSTICS = (
 )
 
 
+# ── ESPRESSO + UVES arms (RYA-371 Phase A multi-arm; reflected-solar, RYA-372) ─
+# These consume the RYA-372 rest-frame conditioned co-add (_load_reflected_solar_arm),
+# NOT the HARPS normalized spectrum. Per the RYA-455 O-handling amendment, O I 777
+# (ESPRESSO) is the PRIMARY O; [O I] 6300 is a continuum-limited cross-check only.
+ESPRESSO_OPT = RegionConfig(
+    name='espresso', instrument='ESPRESSO', R=140000.0,
+    wave_min_A=3780.0, wave_max_A=7890.0, telluric_correction_required=False,
+    nlte_backend='amarsi_grid',
+    notes='ESPRESSO reflected-solar Vesta (RYA-370/372); O I 777 primary O + [O I] 6300 '
+          'cross-check + C I. O I 777 sits in an H2O region (RYA-373 optical telluric owed).',
+)
+UVES_OPT = RegionConfig(
+    name='uves', instrument='UVES', R=70000.0,
+    wave_min_A=3760.0, wave_max_A=9470.0, telluric_correction_required=False,
+    nlte_backend='amarsi_grid',
+    notes='UVES reflected-solar Vesta (RYA-370/372); N from N I 8216 + CN red. NH 3360 is '
+          'a DATA-GAP (UVES-346 blue under SNR floor, did not condition — RYA-369). '
+          'R is a representative value across the co-added dichroic settings.',
+)
+
+ESPRESSO_DIAGNOSTICS = (
+    Diagnostic(
+        key='OI_777', element='O', kind='atomic',
+        windows_A=((7771.0, 7772.9), (7773.2, 7775.0), (7774.6, 7776.3)),
+        use_molecules=False, role='primary',
+        nlte_flag='oI_777_amarsi2019',
+        nlte_ref='O I 777 triplet 3D-NLTE — Amarsi 2019 (RYA-359); large negative',
+        reference='O I 7771.94/7774.17/7775.39 (ESPRESSO); PRIMARY solar A(O) (RYA-455).',
+    ),
+    Diagnostic(
+        key='OI_6300', element='O', kind='forbidden_blend',
+        windows_A=((6299.5, 6301.0),), use_molecules=True, role='cross_check',
+        pinned_blends=('Ni',),
+        nlte_flag='lte_forbidden_continuum_limited',
+        nlte_ref='[O I] forbidden; continuum-limited (RYA-447->455); adopt Caffau 2015 8.73',
+        reference='[O I] 6300.30 + Ni I 6300.34 (ESPRESSO); CONTINUUM-LIMITED cross-check.',
+    ),
+    Diagnostic(
+        key='CI_5052', element='C', kind='atomic', windows_A=((5051.3, 5053.0),),
+        use_molecules=False, role='cross_check',
+        nlte_flag='cI_amarsi2019', nlte_ref='C I 3D-NLTE — Amarsi 2019 (RYA-359)',
+        reference='C I 5052.17 (ESPRESSO); C cross-check vs HARPS.',
+    ),
+    Diagnostic(
+        key='CI_5380', element='C', kind='atomic', windows_A=((5379.3, 5381.3),),
+        use_molecules=False, role='cross_check',
+        nlte_flag='cI_amarsi2019', nlte_ref='C I 3D-NLTE — Amarsi 2019 (RYA-359)',
+        reference='C I 5380.34 (ESPRESSO); C cross-check vs HARPS.',
+    ),
+)
+
+UVES_DIAGNOSTICS = (
+    Diagnostic(
+        key='NI_8216', element='N', kind='atomic', windows_A=((8216.0, 8216.7),),
+        use_molecules=False, role='primary',
+        nlte_flag='nI_lte_flagged',
+        nlte_ref='N I 8216; no NLTE grid wired — LTE-flagged (NLTE owed, RYA-369)',
+        reference='N I 8216.34 (UVES red); best available N (NH 3360 DATA-GAP, RYA-369).',
+    ),
+    Diagnostic(
+        key='CN_red', element='N', kind='molecular_band',
+        windows_A=((6125.0, 6130.0), (6195.0, 6200.0)),
+        use_molecules=True, role='cross_check', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE)',
+        reference='CN red A-X (UVES); N cross-check given A(C).',
+    ),
+)
+
+
 # ── VIS NLTE policy — LTE-by-design, pluggable per arm ────────────────────────
 # This is the `lte_by_design` backend. It applies ZERO correction and stamps the
 # physics-justified flag per diagnostic. The red/IR/UV arms pass a different
@@ -1031,6 +1101,116 @@ def print_oi_partition(part: dict) -> bool:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+# ── Phase-A multi-arm orchestration (RYA-371) ─────────────────────────────────
+
+def _fit_arm(region, diagnostics, params, fixed_state, atm, ll, iso, sab, codes,
+             broadening, tmp_dir):
+    """Fit each diagnostic of a reflected-solar arm on its co-added rest-frame spectrum
+    (the free element varies; fixed_state holds the rest, e.g. A(C) from HARPS for CN).
+    Returns (per_band, corrections) — corrections via the same cited layer as HARPS."""
+    obs_w, obs_f = _load_reflected_solar_arm(region.instrument.lower())
+    per_band = []
+    for d in diagnostics:
+        st = dict(fixed_state)
+        center = float(st.get(d.element, SOLAR_ASPLUND2021[d.element]))
+        t0 = time.time()
+        r = _fit_element(obs_w, obs_f, atm, params, d.element, st, codes,
+                         d.windows_A, d.use_molecules, broadening,
+                         center - 1.0, center + 1.0, ll, iso, sab, tmp_dir)
+        r.update(key=d.key, element=d.element, role=d.role,
+                 nlte_flag=d.nlte_flag, nlte_ref=d.nlte_ref,
+                 wall_s=round(time.time() - t0, 1))
+        per_band.append(r)
+        print(f"    {d.key:10s} A({d.element})={r['A_X']}  χ²ᵣ={r['red_chi2']}  "
+              f"[{r['status']}]  ({r['wall_s']}s)")
+    return per_band, apply_cited_corrections(per_band, params, region)
+
+
+def _print_cross_arm_table(per_arm: dict) -> dict:
+    """Cross-arm CNO agreement map (RYA-455 O handling). Per element: the reconciled
+    A(X) from each arm/indicator (cited corrections applied), primary vs cross-check,
+    the spread, and a verdict — disagreement is REPORTED, never averaged. Returns a
+    summary dict (the differential-backbone seed)."""
+    anchors = {'C': 8.46, 'N': 7.83, 'O': 8.69}     # Asplund 2021 validation targets
+    rows = {'C': [], 'N': [], 'O': []}
+    for arm, d in per_arm.items():
+        for c in d.get('corrections', []):
+            el = c.get('element')
+            if el in rows and c.get('a_corr') is not None and np.isfinite(c['a_corr']):
+                rows[el].append((arm, c['key'], c['role'], float(c['a_corr']), c['kind']))
+    print(f"\n{'='*72}\n  CROSS-ARM CNO AGREEMENT — cited corrections applied "
+          f"(validate-don't-tune)\n{'='*72}")
+    summary = {}
+    for el in ('C', 'N', 'O'):
+        print(f"\n  {el}  (Asplund {anchors[el]}):")
+        if not rows[el]:
+            print("    (no reconciled indicator this run)")
+            summary[el] = {'indicators': [], 'verdict': 'NO-DATA'}
+            continue
+        for arm, key, role, a, kind in rows[el]:
+            print(f"    {arm:9s} {key:11s} {role:11s} A({el})={a:.3f}  "
+                  f"Δ={a - anchors[el]:+.3f}  [{kind}]")
+        prim = [a for _, _, role, a, _ in rows[el] if role == 'primary']
+        allv = [a for *_, a, _ in rows[el]]
+        spread = max(allv) - min(allv)
+        verdict = 'AGREE (≤0.10)' if spread <= 0.10 else 'FLAGGED-DISAGREEMENT (reported, not averaged)'
+        pnote = (f"primary mean {np.mean(prim):.3f} (Δ {np.mean(prim) - anchors[el]:+.3f})"
+                 if prim else "NO primary indicator this arm-set")
+        print(f"    → {len(allv)} indicator(s), spread {spread:.3f} dex; {pnote}; {verdict}")
+        summary[el] = {'indicators': [{'arm': a, 'key': k, 'role': ro, 'A': v, 'kind': ki}
+                                      for a, k, ro, v, ki in rows[el]],
+                       'spread': round(spread, 3), 'primary_mean': (round(float(np.mean(prim)), 3) if prim else None),
+                       'verdict': verdict}
+    return summary
+
+
+def run_phase_a(star_id: str = 'solar', arms=('harps', 'espresso', 'uves'),
+                tmp_dir: str = '/tmp/ispec_cno', out_dir: Path = None) -> dict:
+    """RYA-371 Phase A: optical multi-arm CNO (HARPS / ESPRESSO / UVES) → per-arm
+    A(C/N/O) with cited 3D/NLTE corrections + a cross-arm agreement table. O handling
+    per the RYA-455 amendment: O I 777 (ESPRESSO) primary, [O I] 6300 cross-check."""
+    Path(tmp_dir).mkdir(parents=True, exist_ok=True)
+    rec = get_star_params(star_id)
+    params = {'teff_K': float(rec['teff']), 'logg': float(rec['logg']),
+              'feh': float(rec['feh_ref']), 'vturb_kms': float(rec.get('xi', 1.0))}
+    atm = _load_atmosphere(params['teff_K'], params['logg'], params['feh'], params['vturb_kms'])
+    ll, iso, chem = _load_synth_resources()
+    sab = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+    codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
+    _, vmac, vsini, _ = _resolve_broadening(star_id)
+
+    per_arm = {}
+    if 'harps' in arms:                              # the molecular CNO-equilibrium engine
+        print(f"\n{'#'*72}\n#  ARM — HARPS (CH/CN/[O I] + C I), molecular CNO equilibrium\n{'#'*72}")
+        h = run_cno(star_id, 'vis', tmp_dir=tmp_dir)
+        per_arm['harps'] = {'abundances': h.abundances, 'corrections': h.phase_a_corrections}
+    fixed = {'Ni': 6.20}
+    for el in ('C', 'N', 'O'):                       # CN needs A(C); pin from HARPS, else anchor
+        fixed[el] = float(per_arm.get('harps', {}).get('abundances', {}).get(el, SOLAR_ASPLUND2021[el]))
+    for name, region, diags in (('espresso', ESPRESSO_OPT, ESPRESSO_DIAGNOSTICS),
+                                ('uves', UVES_OPT, UVES_DIAGNOSTICS)):
+        if name not in arms:
+            continue
+        print(f"\n{'#'*72}\n#  ARM — {region.instrument} (RYA-372 rest-frame co-add; "
+              f"pinned A(C)={fixed['C']:.2f})\n{'#'*72}")
+        pb, corr = _fit_arm(region, diags, params, fixed, atm, ll, iso, sab, codes,
+                            (region.R, vmac, vsini), tmp_dir)
+        per_arm[name] = {'per_band': pb, 'corrections': corr}
+
+    summary = _print_cross_arm_table(per_arm)
+
+    out_dir = Path(out_dir) if out_dir else (Path(PATHS['solar_ew']).parent.parent /
+                                             'audit' / 'cno_synthesis')
+    out_dir.mkdir(parents=True, exist_ok=True)
+    rep = {'ticket': 'RYA-371 Phase A', 'star': star_id, 'arms': list(arms),
+           'o_handling': 'RYA-455: O I 777 primary, [O I] 6300 continuum-limited cross-check',
+           'cross_arm': summary,
+           'per_arm': {a: d.get('corrections', []) for a, d in per_arm.items()}}
+    (out_dir / 'solar_phase_a_cross_arm.json').write_text(json.dumps(rep, indent=2, default=str))
+    print(f"\n  [out] {out_dir / 'solar_phase_a_cross_arm.json'}")
+    return per_arm
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description='Region-aware C/N/O synthesis (RYA-237)')
     ap.add_argument('--star', default='solar')
@@ -1045,7 +1225,20 @@ def main(argv=None):
                     help='skip the Type-B stellar-parameter sensitivity refits')
     ap.add_argument('--max-iter', type=int, default=5)
     ap.add_argument('--out', default=None)
+    ap.add_argument('--arms', default=None,
+                    help='comma-separated Phase-A multi-arm run, e.g. "harps,espresso,uves" '
+                         '(RYA-371): per-arm C/N/O + cross-arm agreement table. Omit for '
+                         'the single HARPS-VIS run.')
     args = ap.parse_args(argv)
+
+    # --arms → RYA-371 Phase A optical multi-arm CNO (HARPS / ESPRESSO / UVES).
+    if args.arms:
+        arms = tuple(a.strip().lower() for a in args.arms.split(',') if a.strip())
+        unknown = [a for a in arms if a not in ('harps', 'espresso', 'uves')]
+        if unknown:
+            raise SystemExit(f"Unknown arm(s) {unknown}; choose from harps,espresso,uves.")
+        return run_phase_a(args.star, arms=arms,
+                           out_dir=Path(args.out) if args.out else None)
 
     # --species "O I" → the focused [O I] 6300 blend-partition diagnostic (RYA-365).
     if args.species and args.species.replace(' ', '').upper() in ('OI', 'O'):
