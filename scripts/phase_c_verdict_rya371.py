@@ -112,6 +112,12 @@ def build_verdicts(ab, ew, phase_a):
         nlte_flag = str(mrow['nlte_flag']) if (mrow is not None and 'nlte_flag' in mrow) else ''
         n_lines = int(mrow['n_lines']) if (mrow is not None and np.isfinite(mrow.get('n_lines', np.nan))) else 0
         sigma = float(mrow['A_X_std']) if (mrow is not None and np.isfinite(mrow.get('A_X_std', np.nan))) else float('nan')
+        # RYA-456: the curation's BLIND verdict (VALIDATED / RESIDUAL / LOW_CONFIDENCE),
+        # carried on the wired non-Fe rows. The classifier MAPS it (it never re-derives
+        # a threshold), so the science decision stays in curate_nonfe_pools (RYA-395/398).
+        cverdict = (str(mrow['curation_verdict'])
+                    if (mrow is not None and 'curation_verdict' in mrow
+                        and isinstance(mrow.get('curation_verdict'), str)) else '')
         # C/N/O are derived from the Phase A SYNTHESIS path, not the EW baseline —
         # the EW-path value for C (10.26) is an uncurated artifact; report the
         # multi-arm cross-arm result instead (primary mean + spread).
@@ -125,7 +131,8 @@ def build_verdicts(ab, ew, phase_a):
 
         verdict, channel, owed = _classify(el, asp, a_meas, delta, sigma, n_lines,
                                             grid, threed, nlte_flag,
-                                            el in pool_elems, el in produced, phase_a)
+                                            el in pool_elems, el in produced, phase_a,
+                                            cverdict)
         rows.append({
             'element': el, 'asplund2021': asp,
             'A_measured': round(a_meas, 3) if np.isfinite(a_meas) else None,
@@ -140,7 +147,7 @@ def build_verdicts(ab, ew, phase_a):
 
 
 def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
-              in_pool, produced, phase_a):
+              in_pool, produced, phase_a, cverdict=''):
     """Return (verdict, channel, owed-note). Pure classification — no tuning."""
     # ── C / N / O come from the Phase A synthesis path, not the EW baseline ──
     if el in ('C', 'N', 'O'):
@@ -180,6 +187,27 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
             return ('CURATION-OWED', 'EW: Li I 6707 (single line, upper limit)',
                     'CN-blended upper limit (RYA-103); A(Li) 0.73 is a LTE lower bound, not a '
                     'clean determination. Curation/3D-NLTE owed for a real value.')
+        # RYA-456: the wired non-Fe metals carry the curation's BLIND verdict. Map it
+        # (no threshold re-derived here — the decision was made blind in RYA-395/398):
+        #   VALIDATED      → PASS (graded gf + NLTE recovers Asplund within the band)
+        #   RESIDUAL       → CURATION-OWED (gross offset gone; gf-scale residual survives
+        #                    on the graded pool → escalate to RYA-161/162, never tuned)
+        #   LOW_CONFIDENCE → CURATION-OWED (too few independent-gf lines for a stable mean)
+        if cverdict == 'VALIDATED':
+            return ('PASS', f'EW: {n_lines} curated line(s), graded-gf + NLTE (RYA-395/398)',
+                    f'A(X) {a_meas:.3f} vs Asplund {asp:.2f} ({delta:+.3f}), sigma {sigma:.2f} — '
+                    f'graded-gf curated pool reconciles within max(2sigma, {TOL_PASS}) after NLTE.')
+        if cverdict == 'RESIDUAL':
+            return ('CURATION-OWED', f'EW: {n_lines} curated line(s), graded-gf (RYA-395/398)',
+                    f'A(X) {a_meas:.3f} vs Asplund {asp:.2f} ({delta:+.3f}), sigma {sigma:.2f} — '
+                    f'gross offset removed by the blind cull, gf-scale residual survives on the '
+                    f'graded pool → escalate to RYA-161/162 (do NOT tune).')
+        if cverdict == 'LOW_CONFIDENCE':
+            return ('CURATION-OWED', f'EW: {n_lines} curated line(s), low-confidence (RYA-395/398)',
+                    f'A(X) {a_meas:.3f} vs Asplund {asp:.2f} ({delta:+.3f}) on {n_lines} graded '
+                    f'line(s) — below the stable-mean floor; thin independent-gf pool, '
+                    f'differential-survey curation owed (RYA-161/162).')
+        # Non-curated produced row (e.g. a legacy EW species without a curation verdict).
         nlte_note = (f'NLTE grid {grid} wired but measured lines fall outside its node '
                      f'coverage (flag {nlte_flag})' if grid and 'unavailable' in nlte_flag.lower()
                      else (f'NLTE-wired ({grid})' if grid else 'no NLTE grid (LTE-flagged)'))
@@ -187,13 +215,17 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
                 f'A(X) {a_meas:.3f} vs Asplund {asp:.2f} ({delta:+.3f}), sigma {sigma:.2f} — '
                 f'gf-/blend-limited pool (RYA-395/398). {nlte_note}.')
 
-    # ── in the canonical EW pool but no production abundance (GES-region wiring gap) ──
+    # ── in the canonical EW pool but no production abundance ──
+    # RYA-456 wired curate_nonfe_pools into the default run, so a non-produced in-pool
+    # element no longer means "curation not wired" — it means the RYA-398 graded firewall
+    # left no independent-gf line to stand on (the pool's gf is all Kurucz/ungraded).
     if in_pool:
         nlte_note = (f'NLTE grid available ({grid})' if grid else 'no NLTE grid (would be LTE-flagged)')
-        return ('CURATION-OWED', 'EW present, not wired into production A(X)',
-                'solar EW measured + matched in linelist_solar, but the line drops in the GES '
-                'synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in '
-                f'default run). {nlte_note}.')
+        return ('CURATION-OWED', 'EW present; no independent-gf line survives the graded cull',
+                'solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf '
+                'firewall (now wired into the default run, RYA-456) culls every line — the '
+                'pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). '
+                f'{nlte_note}.')
 
     # ── no solar lines in the present set ──
     return ('DATA-GAP', 'no curated solar lines in present set',

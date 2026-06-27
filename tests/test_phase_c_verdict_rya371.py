@@ -66,10 +66,20 @@ def test_phosphorus_is_the_data_gap():
 
 def test_measured_metals_are_curation_owed_not_silently_passed():
     rows, _ = _rows()
-    # Ti/Cr/Mg/Ni measured far off Asplund on gf-limited pools — must NOT be PASS
-    for el in ('Ti', 'Cr', 'Mg', 'Ni', 'Si'):
+    # RYA-456: the RYA-395/398 graded curation is now wired into the run. The
+    # gf-limited metals that carry an independent-gf line (Ti/Cr/Ni/Si) now produce
+    # A(X) AT THE DOCUMENTED FLOOR and must stay CURATION-OWED — never PASS.
+    for el in ('Ti', 'Cr', 'Ni', 'Si'):
         assert rows[el]['verdict'] == 'CURATION-OWED', el
-        assert rows[el]['A_measured'] is not None          # a real (off-anchor) number
+        assert rows[el]['A_measured'] is not None          # produced at the floor, off-anchor
+    # Mg's pool has no independent-gf line → the graded firewall culls it to nothing;
+    # still CURATION-OWED (gf-data-limited), but with no produced value.
+    assert rows['Mg']['verdict'] == 'CURATION-OWED'
+    # The Cr canary: the graded pool lands Cr ~+0.40 vs Asplund (RYA-398), NOT at the
+    # anchor. A Cr PASS / Cr≈0 would mean tuning crept into the wiring.
+    cr = rows['Cr']
+    assert cr['verdict'] != 'PASS'
+    assert cr['delta_vs_asplund'] is not None and cr['delta_vs_asplund'] > 0.25, cr
 
 
 def test_counts_cover_all_metals_once():

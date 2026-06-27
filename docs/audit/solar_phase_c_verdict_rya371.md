@@ -16,29 +16,29 @@ _Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune:
 | O | 8.69 | 8.735 | +0.045 | 0.01 | 3 | - | **PASS** | synthesis: O I 777 (primary) + [O I] 6300 (cross-check) |
 | C | 8.46 | 8.491 | +0.031 | 0.15 | 6 | - | **PASS** | synthesis: CH G-band + C I 5052/5380 + C2 Swan |
 | N | 7.83 | 7.774 | -0.056 | 0.96 | 3 | - | **NLTE-OWED** | synthesis: N I 8216 + CN red; NH 3360 primary |
-| Mg | 7.55 | 8.424 | +0.874 | 1.04 | 2 | wired | **CURATION-OWED** | EW: 2 line(s) |
-| Si | 7.51 | 8.060 | +0.550 | 0.61 | 15 | wired+3D | **CURATION-OWED** | EW: 15 line(s) |
+| Mg | 7.55 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
+| Si | 7.51 | 7.888 | +0.378 | 0.36 | 7 | wired+3D | **CURATION-OWED** | EW: 7 curated line(s), graded-gf (RYA-395/398) |
 | Fe | 7.46 | 7.516 | +0.056 | 0.14 | 62 | - | **PASS** | EW: 62 Fe I + 3 Fe II, NLTE-wired (Bergemann MPIA) |
-| S | 7.12 | 7.386 | +0.266 |  | 1 | wired | **CURATION-OWED** | EW: 1 line(s) |
-| Al | 6.43 |  |  |  |  | wired | **CURATION-OWED** | EW present, not wired into production A(X) |
-| Ca | 6.30 | 6.382 | +0.082 | 0.56 | 4 | wired | **CURATION-OWED** | EW: 4 line(s) |
-| Na | 6.24 |  |  |  |  | wired | **CURATION-OWED** | EW present, not wired into production A(X) |
-| Ni | 6.20 | 7.297 | +1.097 | 0.97 | 3 | - | **CURATION-OWED** | EW: 3 line(s) |
-| Cr | 5.62 | 5.906 | +0.286 | 1.09 | 3 | wired+3D | **CURATION-OWED** | EW: 3 line(s) |
-| Mn | 5.42 |  |  |  |  | wired | **CURATION-OWED** | EW present, not wired into production A(X) |
+| S | 7.12 | 7.753 | +0.633 | 0.37 | 2 | wired | **CURATION-OWED** | EW: 2 curated line(s), low-confidence (RYA-395/398) |
+| Al | 6.43 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
+| Ca | 6.30 | 6.324 | +0.024 | 0.12 | 2 | wired | **CURATION-OWED** | EW: 2 curated line(s), low-confidence (RYA-395/398) |
+| Na | 6.24 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
+| Ni | 6.20 | 6.946 | +0.746 | 0.51 | 2 | - | **CURATION-OWED** | EW: 2 curated line(s), low-confidence (RYA-395/398) |
+| Cr | 5.62 | 6.022 | +0.402 | 0.60 | 7 | wired+3D | **CURATION-OWED** | EW: 7 curated line(s), graded-gf (RYA-395/398) |
+| Mn | 5.42 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 | P | 5.41 |  |  |  |  | - | **DATA-GAP** | none on present ground set |
 | K | 5.07 |  |  |  |  | - | **DATA-GAP** | no curated solar lines in present set |
-| Ti | 4.97 | 6.374 | +1.404 | 0.85 | 6 | wired+3D | **CURATION-OWED** | EW: 6 line(s) |
+| Ti | 4.97 | 5.471 | +0.501 | 0.93 | 10 | wired+3D | **CURATION-OWED** | EW: 10 curated line(s), graded-gf (RYA-395/398) |
 | Co | 4.94 |  |  |  |  | - | **DATA-GAP** | no curated solar lines in present set |
-| Cu | 4.18 |  |  |  |  | - | **CURATION-OWED** | EW present, not wired into production A(X) |
-| V | 3.90 |  |  |  |  | - | **CURATION-OWED** | EW present, not wired into production A(X) |
+| Cu | 4.18 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
+| V | 3.90 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 | Sc | 3.14 |  |  |  |  | - | **DATA-GAP** | no curated solar lines in present set |
-| Sr | 2.83 |  |  |  |  | wired | **CURATION-OWED** | EW present, not wired into production A(X) |
-| Zr | 2.59 |  |  |  |  | - | **CURATION-OWED** | EW present, not wired into production A(X) |
-| Ba | 2.27 |  |  |  |  | wired | **CURATION-OWED** | EW present, not wired into production A(X) |
-| Y | 2.21 |  |  |  |  | - | **CURATION-OWED** | EW present, not wired into production A(X) |
+| Sr | 2.83 | 4.961 | +2.131 |  | 1 | wired | **CURATION-OWED** | EW: 1 curated line(s), low-confidence (RYA-395/398) |
+| Zr | 2.59 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
+| Ba | 2.27 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
+| Y | 2.21 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 | Li | 1.05 | 0.727 | -0.323 |  | 1 | - | **CURATION-OWED** | EW: Li I 6707 (single line, upper limit) |
-| Eu | 0.52 |  |  |  |  | - | **CURATION-OWED** | EW present, not wired into production A(X) |
+| Eu | 0.52 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 
 ## Remaining-work map
 
@@ -54,24 +54,24 @@ _Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune:
 
 ### CURATION-OWED (18)
 
-- **Mg** — A(X) 8.424 vs Asplund 7.55 (+0.874), sigma 1.04 — gf-/blend-limited pool (RYA-395/398). NLTE grid Mg_Amarsi2020_PySME.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable).
-- **Si** — A(X) 8.060 vs Asplund 7.51 (+0.550), sigma 0.61 — gf-/blend-limited pool (RYA-395/398). NLTE grid Si_Amarsi2020_PySME.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable).
-- **S** — A(X) 7.386 vs Asplund 7.12 (+0.266), sigma nan — gf-/blend-limited pool (RYA-395/398). NLTE grid S_Amarsi2025_PySME.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable).
-- **Al** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Al_Amarsi2020_PySME.csv).
-- **Ca** — A(X) 6.382 vs Asplund 6.30 (+0.082), sigma 0.56 — gf-/blend-limited pool (RYA-395/398). NLTE grid Ca_Mashonkina2017.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable).
-- **Na** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Na_Amarsi2020_PySME.csv).
-- **Ni** — A(X) 7.297 vs Asplund 6.20 (+1.097), sigma 0.97 — gf-/blend-limited pool (RYA-395/398). no NLTE grid (LTE-flagged).
-- **Cr** — A(X) 5.906 vs Asplund 5.62 (+0.286), sigma 1.09 — gf-/blend-limited pool (RYA-395/398). NLTE grid Cr_Bergemann2010_MPIA.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable).
-- **Mn** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Mn_Bergemann_MPIA.csv).
-- **Ti** — A(X) 6.374 vs Asplund 4.97 (+1.404), sigma 0.85 — gf-/blend-limited pool (RYA-395/398). NLTE grid Ti_Bergemann2011_MPIA.csv wired but measured lines fall outside its node coverage (flag NLTE_unavailable).
-- **Cu** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged).
-- **V** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged).
-- **Sr** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Sr_Bergemann2012_INSPECT.csv).
-- **Zr** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged).
-- **Ba** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). NLTE grid available (Ba_Korotin2015.csv).
-- **Y** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged).
+- **Mg** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv).
+- **Si** — A(X) 7.888 vs Asplund 7.51 (+0.378), sigma 0.36 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
+- **S** — A(X) 7.753 vs Asplund 7.12 (+0.633) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
+- **Al** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv).
+- **Ca** — A(X) 6.324 vs Asplund 6.30 (+0.024) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
+- **Na** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Na_Amarsi2020_PySME.csv).
+- **Ni** — A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
+- **Cr** — A(X) 6.022 vs Asplund 5.62 (+0.402), sigma 0.60 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
+- **Mn** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mn_Bergemann_MPIA.csv).
+- **Ti** — A(X) 5.471 vs Asplund 4.97 (+0.501), sigma 0.93 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
+- **Cu** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
+- **V** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
+- **Sr** — A(X) 4.961 vs Asplund 2.83 (+2.131) on 1 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
+- **Zr** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
+- **Ba** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Ba_Korotin2015.csv).
+- **Y** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
 - **Li** — CN-blended upper limit (RYA-103); A(Li) 0.73 is a LTE lower bound, not a clean determination. Curation/3D-NLTE owed for a real value.
-- **Eu** — solar EW measured + matched in linelist_solar, but the line drops in the GES synthesis-region match of the EW->A(X) path (RYA-395 curate_nonfe_pools not in default run). no NLTE grid (would be LTE-flagged).
+- **Eu** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
 
 ### DATA-GAP (4)
 

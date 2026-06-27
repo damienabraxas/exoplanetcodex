@@ -1935,6 +1935,120 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         return _apply_fe2_ew_quality_cull(solar_ew)
 
 
+# ── RYA-456: curated non-Fe pool → production A(X) ───────────────────────────
+# RYA-371 Phase C found the non-Fe EW elements drop at the GES synthesis-region
+# match (_build_ispec_line_regions reads the SPARSE pre-built regions file; for
+# Eu/Ba/Sr it has 0 regions), and the few that survive (Cr/Ti/Ni) read wildly
+# high on the un-curated pool. RYA-395/398 already built the abundance-BLIND,
+# graded-gf curation (curate_nonfe_pools) but it was never wired into the run.
+#
+# The fix routes the non-Fe metals through the curation's OWN line-building path
+# (compute_lte_abundances matches the FULL GES synthesis atomic linelist, note +
+# wave ≤0.05 Å — the path that actually carries Eu/Ba/Sr), so the production
+# baseline uses the SAME kept lines and SAME A(X) the standalone curation kept.
+# This is a routing change only: the cull logic stays in curate_nonfe_pools
+# (blind); we never re-derive a threshold or pull a value toward Asplund.
+#
+# Fe (its own curated pool, RYA-279/347), C/N/O (Phase A synthesis), Li (RYA-103
+# force-include upper limit) and P (ground-unreachable DATA-GAP) are EXCLUDED —
+# everything else in the solar EW pool is curated here.
+_CURATED_NONFE_EXCLUDE = frozenset({'Fe', 'C', 'N', 'O', 'Li', 'P'})
+
+
+def _curate_nonfe_pool(elements):
+    """Reuse curate_nonfe_pools end-to-end (NOT reimplemented): the blind RYA-395
+    quality cull + the RYA-398 graded-gf firewall, then the post-cull 1D-LTE A(X).
+    Returns the per-line pool DataFrame (carries `kept`, `cull_reason`, `A_lte`)."""
+    import pipeline.curate_nonfe_pools as cur
+    pool = cur.load_pool(elements)
+    atomic = ispec.read_atomic_linelist(_SYNTH_LINELIST_FILE)
+    pool = cur.add_blend_ratio(pool, atomic)
+    pool = cur.apply_cull(pool, grade_restrict=True)        # RYA-398 independent-gf firewall
+    cur.assert_no_astrophysical_gf(pool, "RYA-456 non-Fe wiring")  # blindness firewall stays live
+    pool = cur.compute_lte_abundances(pool)                 # A(X) read AFTER the blind cull
+    return pool
+
+
+def _curated_nonfe_rows(elements):
+    """Per-element curated A(X) for the non-Fe metals, in production results-row
+    format. The median is taken over the curation's KEPT lines of the dominant ion
+    (the abundance workhorse: neutral for the light metals — matching
+    curate_nonfe_pools.element_diagnostic — singly-ionized for the s-process / Eu),
+    NLTE-applied with the curation's solar Δ. Carries the curation's BLIND verdict
+    (VALIDATED / RESIDUAL / LOW_CONFIDENCE) for the Phase C classifier. Returns
+    (rows_df, pool); rows_df has one row per element that produced ≥1 curated line."""
+    import pipeline.curate_nonfe_pools as cur
+    pool = _curate_nonfe_pool(elements)
+    rows = []
+    for el in sorted(set(elements)):
+        df_el = pool[pool['element'] == el]
+        kept = df_el[df_el['kept'] & df_el['A_lte'].notna()]
+        if kept.empty:
+            continue
+        ion = kept['ion'].value_counts().idxmax()           # dominant (most-kept) ion
+        sub = kept[kept['ion'] == ion]
+        a_lte = float(np.median(sub['A_lte']))
+        scatter = float(np.std(sub['A_lte'])) if len(sub) > 1 else np.nan
+        n_clean = int(len(sub))
+        dnlte = cur.solar_nlte_delta(el)
+        dnlte0 = 0.0 if not np.isfinite(dnlte) else float(dnlte)
+        a_nlte = a_lte + dnlte0
+        asp = SOLAR_ASPLUND2021.get(el, np.nan)
+        resid = (a_nlte - asp) if np.isfinite(asp) else np.nan
+        tol = cur.validation_tol(el)
+        # Verdict vocabulary = curate_nonfe_pools.element_diagnostic(graded=True),
+        # read AFTER the blind cull (validation, never a cull input).
+        if n_clean < cur.N_CLEAN_FLOOR:
+            cverdict = 'LOW_CONFIDENCE'
+        elif np.isfinite(resid) and abs(resid) <= tol:
+            cverdict = 'VALIDATED'
+        else:
+            cverdict = 'RESIDUAL'
+        applied = np.isfinite(dnlte) and abs(dnlte0) > 0.0
+        rows.append({
+            'element': el, 'ion': ion,
+            'A_X': round(a_lte, 3),
+            'A_X_std': round(scatter, 3) if np.isfinite(scatter) else np.nan,
+            'n_lines': n_clean,
+            'XH': round(a_lte - asp, 3) if np.isfinite(asp) else np.nan,
+            'XFe': np.nan,
+            'scale': 'absolute',
+            'nlte_applied': bool(applied),
+            'nlte_flag': 'NLTE' if applied else '1D_LTE',
+            'A_X_nlte': round(a_nlte, 3) if np.isfinite(a_nlte) else np.nan,
+            'A_X_nlte_absolute': round(a_nlte, 3) if applied else np.nan,
+            'A_X_std_nlte': round(scatter, 3) if np.isfinite(scatter) else np.nan,
+            'curation_verdict': cverdict,
+            'curation_residual_nlte': round(resid, 3) if np.isfinite(resid) else np.nan,
+            'nlte_delta_solar': round(dnlte, 4) if np.isfinite(dnlte) else np.nan,
+            'curation_source': 'RYA-395/398 graded blind cull (curate_nonfe_pools)',
+        })
+    return pd.DataFrame(rows), pool
+
+
+def _wire_curated_nonfe_results(results, ew_df):
+    """RYA-456 wiring: replace the un-curated / dropped non-Fe metal rows in the
+    production `results` with the curated (RYA-395/398) A(X). Fe, C/N/O, Li and P
+    rows are left byte-stable. Returns (results_out, curated_rows, pool)."""
+    routed = sorted({str(e) for e in ew_df['element'].unique()} - _CURATED_NONFE_EXCLUDE)
+    curated, pool = _curated_nonfe_rows(routed)
+    produced = set(curated['element']) if not curated.empty else set()
+    kept = results[~results['element'].isin(routed)].copy()
+    out = pd.concat([kept, curated], ignore_index=True) if not curated.empty else kept
+    out = out.sort_values(['element', 'ion']).reset_index(drop=True)
+    thin = sorted(set(routed) - produced)
+    print(f"  RYA-456 curated non-Fe wiring: routed {len(routed)} EW-pool metal(s); "
+          f"{len(produced)} produced curated A(X), {len(thin)} no curated line "
+          f"(thin/over-culled: {thin}).")
+    for _, r in curated.sort_values('element').iterrows():
+        a_nlte = r['A_X_nlte']
+        a_nlte_s = f"{a_nlte:.3f}" if pd.notna(a_nlte) else "  -  "
+        print(f"    {r['element']:>3s} {r['ion']:<3s} A(LTE)={r['A_X']:.3f} "
+              f"A(NLTE)={a_nlte_s} n={int(r['n_lines'])}  "
+              f"Δvs_Asplund={r['curation_residual_nlte']}  [{r['curation_verdict']}]")
+    return out, curated, pool
+
+
 # ── Legacy COG (DO NOT USE for science) ──────────────────────────────────────
 
 def _derive_abundances_cog_legacy(*args, **kwargs):
@@ -2248,6 +2362,14 @@ def run(star_id: str = 'solar',
             val = row.get('A_X_nlte', np.nan)
             return round(float(val), 3) if pd.notna(val) else np.nan
         results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
+
+    # ── RYA-456: wire the curated (RYA-395/398) non-Fe pool into the baseline ──
+    # The non-Fe EW metals drop / read wild through the GES region match; route
+    # them through the curation's own (blind) line-building so the production
+    # baseline carries the SAME kept lines + A(X) the standalone curation kept.
+    # Fe / C / N / O / Li / P rows are untouched (asserted byte-stable downstream).
+    if 'solar' in star_id.lower():
+        results, _curated_nonfe, _ = _wire_curated_nonfe_results(results, ew_df)
 
     # ── RYA-334 range-sanity tripwire (output chokepoint) ─────────
     # Every absolute-scale column must sit on the A(H)=12 scale. A double-add of
