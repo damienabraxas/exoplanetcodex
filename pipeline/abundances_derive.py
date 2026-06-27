@@ -319,6 +319,35 @@ def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray
     return theo
 
 
+# RYA-102/103 fold-in (RYA-371 Phase 1): the special weak/blended lines that are
+# their element's ONLY solar indicator. lines_fit force-MEASURES these; the EW→A(X)
+# pre-filter must FORCE-INCLUDE them or they vanish into a DATA-GAP. Eu II 6645
+# (HFS-total EW, RYA-102) = a real measurement; Li I 6707 (CN-blend, RYA-103) = an
+# UPPER LIMIT — both already carry their flags in 'notes' for the per-element verdict.
+EW_FORCE_INCLUDE = (('Eu', 'II', 6645.127), ('Li', 'I', 6707.840))   # RYA-102 / RYA-103
+
+
+def _ew_prefilter(ew_df: pd.DataFrame, ew_min: float, ew_max: float):
+    """Pre-filter the EW table for abundance derivation: drop blend-flagged and
+    out-of-range lines, EXCEPT the RYA-102/103 force-include set (kept with flags so
+    Eu/Li are not silently lost). Returns (ew_clean, n_force_included). Additive —
+    non-force-include rows are filtered exactly as before (Fe/metal pools unchanged)."""
+    df = ew_df.copy()
+    if not len(df):
+        return df, 0
+    wcol = 'wavelength_air_A' if 'wavelength_air_A' in df.columns else 'wavelength'
+    force = pd.Series(False, index=df.index)
+    for el, ion, w in EW_FORCE_INCLUDE:
+        force |= ((df['element'].astype(str) == el) & (df['ion'].astype(str) == ion)
+                  & (df[wcol].astype(float).sub(w).abs() < 0.1))
+    keep = pd.Series(True, index=df.index)
+    if 'blend_flag' in df.columns:
+        keep &= (df['blend_flag'] == False)
+    keep &= (df['ew_mA'] >= ew_min) & (df['ew_mA'] <= ew_max)
+    n_forced = int((force & ~keep).sum())
+    return df[keep | force], n_forced
+
+
 def _ew_to_abundance(ew_df: pd.DataFrame,
                      stellar_params: dict,
                      atmosphere: np.ndarray,
@@ -347,16 +376,13 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     # in _converge_vmic_fe1_only(), not here. (RYA-199)
     ew_min = float(PIPELINE['ew_min_mA'])   # 5 mÅ
     ew_max = float(PIPELINE['ew_max_mA'])   # 300 mÅ
-    ew_clean = ew_df.copy()
-    if 'blend_flag' in ew_clean.columns:
-        ew_clean = ew_clean[ew_clean['blend_flag'] == False]
-    ew_clean = ew_clean[(ew_clean['ew_mA'] >= ew_min) & (ew_clean['ew_mA'] <= ew_max)]
+    ew_clean, n_forced = _ew_prefilter(ew_df, ew_min, ew_max)
 
     n_total  = len(ew_df)
     n_blends = int((ew_df.get('blend_flag', pd.Series(False, index=ew_df.index)) == True).sum())
-    n_ew_cut = n_total - n_blends - len(ew_clean)
-    print(f"  EW pre-filter: {n_total} total → {n_blends} blends removed, "
-          f"{n_ew_cut} outside [{ew_min:.0f},{ew_max:.0f}] mÅ → {len(ew_clean)} clean")
+    print(f"  EW pre-filter: {n_total} total → {n_blends} blend-flagged, "
+          f"cuts [{ew_min:.0f},{ew_max:.0f}] mÅ → {len(ew_clean)} kept "
+          f"(incl. {n_forced} force-included RYA-102/103 Eu II 6645 / Li I 6707)")
 
     linemasks = _build_ispec_line_regions(ew_clean)
 
