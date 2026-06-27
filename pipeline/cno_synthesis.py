@@ -80,12 +80,71 @@ from pipeline.abundances_derive import (
 )
 from pipeline.gf_resolver import resolve as resolve_gf   # RYA-365: canonical Ni gf assert
 from pipeline import nlte_cno   # RYA-359: vendored Amarsi 2019 C I / O I 3D-NLTE grid (Phase-A C I correction)
+from pipeline.spectra_normalize import fit_continuum   # RYA-371: arm co-add continuum (same machinery as HARPS)
 
 # Molecular line lists (RYA-236) — iSpec globs this dir when use_molecules=True.
 _MOLECULES_DIR = ISPEC_DIR / 'input' / 'linelists' / 'turbospectrum' / 'molecules'
 
 # χ²ᵣ fit-quality gate per band (the established synth convention, RYA-342).
 from config.constants import SYNTH_CHI2_GATE
+
+
+# ── Reflected-solar arm loader (RYA-371 Phase A multi-arm) ────────────────────
+# Co-add + continuum-normalize the RYA-372 rest-frame conditioned ESPRESSO/UVES
+# frames into ONE normalized spectrum per arm for synthesis. The 372 --write emits
+# ONLY PASS frames (held-out rest-frame residual < 0.5 km/s); we re-assert rest-frame
+# readiness from the manifest and LOUD-FAIL otherwise — the Phase-A "wiring check
+# FIRST" rule (never synthesize against raw velocity-shifted spectra). FLUXCAL flux is
+# rescaled to ~unity before fit_continuum (which floors the continuum at 1e-6; the raw
+# ESPRESSO FLUXCAL flux is ~1e-12, so un-rescaled it normalizes to ~0).
+_REFLECTED_DIR = Path(__file__).resolve().parents[1] / 'data' / 'processed' / 'reflected_solar'
+
+
+def _load_reflected_solar_arm(inst: str, closure_tol_kms: float = 1.5) -> tuple:
+    """RYA-372 rest-frame ESPRESSO/UVES → (wave_nm, flux_norm), co-added + normalized.
+    Loud-fails if the rest-frame product is absent or no PASS frame is rest-frame
+    verified (no silent use of unconditioned data)."""
+    man = _REFLECTED_DIR / f'vesta_{inst}_manifest.csv'
+    if not man.exists():
+        raise FileNotFoundError(
+            f"RYA-372 rest-frame manifest absent: {man}. Run `python -m "
+            f"pipeline.reflected_solar_rv --set vesta_{inst} --write` first — Phase A "
+            f"consumes the 372 rest-frame product, NOT raw velocity-shifted spectra.")
+    mf = pd.read_csv(man)
+    passed = mf[mf['status'].astype(str) == 'PASS']
+    if passed.empty:
+        raise RuntimeError(f"No PASS (rest-frame-verified) {inst} frame in {man.name}; "
+                           f"refusing to synthesize against unconditioned data.")
+    cl = pd.to_numeric(passed['closure_resid'], errors='coerce').abs()
+    if cl.notna().any() and cl.max() > closure_tol_kms:
+        raise RuntimeError(f"{inst}: max telluric-closure residual {cl.max():.2f} km/s "
+                           f"> {closure_tol_kms} — rest frame NOT verified, refusing.")
+    frames = []
+    for _, r in passed.iterrows():
+        p = _REFLECTED_DIR / str(r['output'])
+        if not p.exists():
+            continue
+        d = pd.read_csv(p, comment='#')
+        w = d['wavelength_air_A'].to_numpy(float)
+        fl = d['flux'].to_numpy(float)
+        m = np.isfinite(fl) & (fl > 0)
+        if m.sum() > 1000:
+            frames.append((w[m], fl[m]))
+    if not frames:
+        raise RuntimeError(f"{inst}: PASS manifest rows present but no readable rest-frame files.")
+    lo = min(w.min() for w, _ in frames)
+    hi = max(w.max() for w, _ in frames)
+    grid = np.arange(lo, hi, 0.02)
+    stack = np.array([np.interp(grid, w, fl, left=np.nan, right=np.nan) for w, fl in frames])
+    coadd = np.nanmedian(stack, axis=0)
+    ok = np.isfinite(coadd) & (coadd > 0)
+    g, c = grid[ok], coadd[ok]
+    c = c / np.nanmedian(c)              # FLUXCAL → ~unity (fit_continuum 1e-6 floor)
+    cont = fit_continuum(g, c)
+    print(f"  [arm-load] {inst}: co-added {len(frames)} PASS frame(s) over "
+          f"{g.min():.0f}-{g.max():.0f} A; continuum-normalized (median "
+          f"{np.median(c / cont):.3f}); max closure {cl.max():.2f} km/s")
+    return g / 10.0, (c / cont)
 
 _C_KMS = 299792.458
 
@@ -258,8 +317,11 @@ CITED_3D_ANCHORS = {
         'Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our '
         'atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).'),
 }
-# Atomic C I lines that carry a vendored Amarsi-2019 3D-NLTE grid delta.
-_CI_GRID_KEYS = {'CI_5052': 5052.17, 'CI_5380': 5380.34}
+# Atomic C I / O I lines that carry a vendored Amarsi-2019 3D-NLTE grid delta:
+# {diagnostic key: (species, representative air wavelength A)}. O I 777 is the
+# ESPRESSO PRIMARY O (RYA-455 amendment) — large negative NLTE (~-0.17 solar).
+_ATOMIC_GRID_KEYS = {'CI_5052': ('CI', 5052.17), 'CI_5380': ('CI', 5380.34),
+                     'OI_777': ('OI', 7773.0)}
 
 
 def apply_cited_corrections(per_band, params, region) -> list:
@@ -280,16 +342,17 @@ def apply_cited_corrections(per_band, params, region) -> list:
             a3d, unc, flag, src = CITED_3D_ANCHORS[key]
             rec.update(kind='cited_3d_anchor', a_corr=a3d, delta=round(a3d - a_lte, 3),
                        flag=flag, source=src, unc=unc)
-        elif key in _CI_GRID_KEYS:                        # vendored Amarsi-2019 grid delta
+        elif key in _ATOMIC_GRID_KEYS:                    # vendored Amarsi-2019 grid delta (C I / O I)
+            species, wave = _ATOMIC_GRID_KEYS[key]
             try:
-                label = nlte_cno.resolve_line('CI', _CI_GRID_KEYS[key])
-                delta = nlte_cno.cno_nlte_delta('CI', label, teff, logg, feh, vmic, a_lte)
+                label = nlte_cno.resolve_line(species, wave)
+                delta = nlte_cno.cno_nlte_delta(species, label, teff, logg, feh, vmic, a_lte)
                 if np.isfinite(delta):
-                    nlte_cno.assert_cno_sign('CI', label, delta)
+                    nlte_cno.assert_cno_sign(species, label, delta)
                     rec.update(kind='amarsi2019_grid', a_corr=round(a_lte + delta, 3),
                                delta=round(delta, 3), flag='3d_nlte_amarsi2019',
                                source=f'Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, '
-                                      f'C I {label} 3D-NLTE leg ({nlte_cno.select_leg(teff)})')
+                                      f'{species} {label} 3D-NLTE leg ({nlte_cno.select_leg(teff)})')
                 else:                                     # outside 4D hull → flag, no silent LTE
                     rec.update(kind='grid_out_of_hull',
                                flag='amarsi2019_out_of_hull', source='Amarsi 2019 grid: query outside 4D hull')

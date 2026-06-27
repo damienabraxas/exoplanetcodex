@@ -12,7 +12,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from pipeline.cno_synthesis import apply_cited_corrections, HARPS_VIS, CITED_3D_ANCHORS  # noqa: E402
+from pipeline.cno_synthesis import (apply_cited_corrections, HARPS_VIS,  # noqa: E402
+                                    CITED_3D_ANCHORS, _ATOMIC_GRID_KEYS)
 
 PARAMS = {'teff_K': 5772.0, 'logg': 4.44, 'feh': 0.0, 'vturb_kms': 1.0}
 
@@ -53,6 +54,19 @@ def test_ci_lines_get_vendored_amarsi2019_grid_delta():
         assert np.isfinite(c['delta']) and abs(c['delta']) < 0.05   # optical C I near-LTE
         assert c['delta'] < 0                                        # NLTE negative
         assert c['a_corr'] == round(c['a_lte'] + c['delta'], 3)
+
+
+def test_oi777_primary_o_routes_through_amarsi_grid():
+    # RYA-455 amendment: O I 777 (ESPRESSO) is the PRIMARY O — it must take the
+    # vendored Amarsi-2019 3D-NLTE grid delta (large negative), NOT a cited anchor.
+    assert _ATOMIC_GRID_KEYS['OI_777'][0] == 'OI'
+    pb = [{'key': 'OI_777', 'element': 'O', 'role': 'primary', 'A_X': 8.917,
+           'nlte_flag': 'x', 'nlte_ref': 'x'}]
+    c = apply_cited_corrections(pb, PARAMS, HARPS_VIS)[0]
+    assert c['kind'] == 'amarsi2019_grid'
+    assert c['delta'] < -0.05               # large negative NLTE (high-excitation O I triplet)
+    assert 'Amarsi' in c['source'] and '2019' in c['source']
+    assert c['a_corr'] == round(8.917 + c['delta'], 3)
 
 
 def test_molecular_bands_flag_3d_offset_owed_not_silent_lte():
