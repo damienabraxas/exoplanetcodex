@@ -1,27 +1,27 @@
 {
   "summary": {
-    "ticket": "RYA-371 Phase C (RYA-460 reference-wired)",
+    "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "star": "solar",
-    "generated": "2026-06-27",
+    "generated": "2026-06-28",
     "reference": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)",
     "tol_pass_dex": 0.1,
     "n_elements": 26,
     "counts": {
-      "PASS": 3,
-      "NLTE-OWED": 2,
+      "PASS": 4,
+      "NLTE-OWED": 1,
       "CURATION-OWED": 21
     },
     "prior_counts": {
       "PASS": 3,
-      "NLTE-OWED": 1,
-      "CURATION-OWED": 18,
-      "DATA-GAP": 4
+      "NLTE-OWED": 2,
+      "CURATION-OWED": 21,
+      "DATA-GAP": 0
     },
     "diff_vs_prior": {
-      "PASS": 0,
-      "NLTE-OWED": 1,
-      "CURATION-OWED": 3,
-      "DATA-GAP": -4
+      "PASS": 1,
+      "NLTE-OWED": -1,
+      "CURATION-OWED": 0,
+      "DATA-GAP": 0
     },
     "kittpeak_wired": true,
     "kittpeak_elements": [
@@ -246,16 +246,16 @@
     {
       "element": "K",
       "asplund2021": 5.07,
-      "A_measured": 5.411,
-      "delta_vs_asplund": 0.341,
+      "A_measured": 5.099,
+      "delta_vs_asplund": 0.029,
       "sigma": null,
       "n_lines": 1,
-      "channel": "kittpeak: K I 7699 (clean; 7665 sits in the telluric O2 A-band)",
-      "nlte_grid": null,
-      "nlte_wired": false,
+      "channel": "kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) \u2014 NLTE-wired",
+      "nlte_grid": "K_Amarsi2020_PySME.csv",
+      "nlte_wired": true,
       "threed_wired": false,
-      "verdict": "NLTE-OWED",
-      "owed": "MEASURED from Kitt Peak K I 7699 = 5.411 (+0.34 vs 5.07) \u2014 OFF DATA-GAP. K_Amarsi2020_PySME NLTE grid EXISTS but is not in NLTE_CORRECTION_ELEMENTS \u2192 NLTE-OWED (wiring); the +0.34 LTE offset is consistent with the known negative K I resonance NLTE.",
+      "verdict": "PASS",
+      "owed": "MEASURED Kitt Peak K I 7699 = 5.411 (1D-LTE, +0.34 vs 5.07). K_Amarsi2020_PySME NLTE delta -0.312 APPLIED via the existing interpolation subsystem (RYA-462 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune) -> A(K) 5.099 (+0.029 vs Asplund 5.07). Reconciles within TOL after the cited NLTE correction \u2014 the severe negative K I resonance NLTE is real, not tuned.",
       "provenance": "kittpeak-measured"
     },
     {
