@@ -6,10 +6,13 @@ RYA-401 — Beast round-2 NLTE-grid vendoring (Al/K/S/Cu/V/Sr). Round-2's honest
 adjudication: **Al and S were SUPERSEDED by RYA-402** (departure grids via PySME → registered,
 LOCKED) and **Sr by RYA-421** (the ion mismatch was resolved at the grid level — the Sr II
 4077/4215 NLTE grid is fetched + registered → LOCKED; measurement owed, recorded in rya401).
-**K/Cu/V remain unregistered gaps** — K and Cu HAVE a grid (RYA-402 PySME) but are data-blocked
-(GET-DATA: K telluric/RYA-380, Cu line-quality/RYA-395); V is a genuine no-public-grid gap
-(HARD-carry-forward). No element still claims GET-GRID, none is falsely registered without a
-grid, each carries `rya401:` provenance, and the RYA-400 audit still PASSes.
+**Cu/V remain unregistered gaps** — Cu HAS a grid (RYA-402 PySME) but is data-blocked
+(GET-DATA: line-quality/RYA-395); V is a genuine no-public-grid gap (HARD-carry-forward).
+**K was REGISTERED by RYA-462** — RYA-460 measured the clean K I 7699 off the Kitt Peak atlas,
+lifting the data-block, so K joins Sr as grid-registered + GET-DATA-pending (the EW-pool
+prescribed-ion measurement is still RYA-380 telluric-owed, so NOT yet LOCKED). No element still
+claims GET-GRID, none is falsely registered without a grid, each carries `rya401:` provenance,
+and the RYA-400 audit still PASSes.
 """
 import sys
 from pathlib import Path
@@ -27,10 +30,12 @@ MAP = yaml.safe_load((ROOT / 'config' / 'physics_regime_rya400.yaml').read_text(
 SIX = ['Al', 'K', 'S', 'Cu', 'V', 'Sr']
 # RYA-412 + RYA-421 + RYA-428 adjudication of the round-2 six:
 LOCKED_REGISTERED  = ['Al', 'S']    # PySME grid + measured prescribed-ion line → LOCKED (RYA-402)
-PENDING_REGISTERED = ['Sr']         # grid registered (RYA-421) but Sr II measurement OWED →
-                                    # GET-DATA-pending, NOT LOCKED (RYA-428 reverted premature handled)
+PENDING_REGISTERED = ['Sr', 'K']    # grid registered but the prescribed-ion EW measurement is
+                                    # OWED → GET-DATA-pending, NOT LOCKED. Sr (RYA-421/428);
+                                    # K (RYA-462: registered after RYA-460 Kitt Peak K I 7699;
+                                    # the EW-pool measurement is still RYA-380 telluric-owed).
 REGISTERED         = LOCKED_REGISTERED + PENDING_REGISTERED
-STILL_GAP          = ['K', 'Cu', 'V']     # unregistered: data-blocked or no public grid
+STILL_GAP          = ['Cu', 'V']    # unregistered: data-blocked (Cu) or no public grid (V)
 
 
 def test_no_get_grid_verdicts_remain():
@@ -83,8 +88,9 @@ def test_sr_ion_mismatch_grid_resolved_measurement_owed():
 
 
 def test_k_cross_refs_rya380_not_resolved_here():
-    # K's grid is now HAVE-VALIDATED (RYA-402) but it stays GET-DATA, data-blocked on RYA-380
-    # (telluric/measurement). The RYA-380 cross-ref moved into the rya401 'outcome'.
+    # K's grid is now REGISTERED (RYA-462) and the solar leg is measured (Kitt Peak 7699),
+    # but the general EW-pool prescribed-ion measurement stays GET-DATA-pending, data-blocked
+    # on RYA-380 (telluric). The RYA-380 cross-ref stays in xref + the rya401 'outcome'.
     assert MAP['K'].get('xref') == 'RYA-380'
     assert 'RYA-380' in MAP['K']['rya401']['outcome']
     assert MAP['K']['verdict'] == 'GET-DATA'

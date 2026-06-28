@@ -69,7 +69,7 @@ def test_NH_CN_blue_edge_flagged_not_forced():
 def test_reclassify_moves_pkcosc_off_datagap():
     ov = V._kittpeak_reclassify(_kp())
     assert ov['N']['verdict'] == 'NLTE-OWED'
-    assert ov['K']['verdict'] == 'NLTE-OWED'          # K_Amarsi2020 grid exists, not wired
+    assert ov['K']['verdict'] == 'PASS'               # RYA-462 wired K_Amarsi2020 -> NLTE applied
     for el in ('P', 'Co', 'Sc'):
         assert ov[el]['verdict'] == 'CURATION-OWED'
         assert ov[el]['verdict'] != 'DATA-GAP'
@@ -89,7 +89,7 @@ def test_apply_kittpeak_eliminates_datagap_in_verdict_rows():
     V._apply_kittpeak(rows, _kp())
     verdicts = {r['element']: r['verdict'] for r in rows}
     assert 'DATA-GAP' not in verdicts.values()        # all 4 closed
-    assert verdicts['K'] == 'NLTE-OWED'
+    assert verdicts['K'] == 'PASS'                    # RYA-462 wired K's NLTE grid
     # KP measured value now populated (off None) and not tuned to Asplund
     p = next(r for r in rows if r['element'] == 'P')
     assert p['A_measured'] is not None and p['A_measured'] != p['asplund2021']

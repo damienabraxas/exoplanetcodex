@@ -1,15 +1,15 @@
 # RYA-371 Phase C — Solar 27-element verdict table (RYA-239 retry)
 
-_Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
+_Generated 2026-06-28 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
 
 _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by overlap: PASS._
 
 ## Verdict counts
 
-- **PASS**: 3  (prior 3, diff +0)
-- **NLTE-OWED**: 2  (prior 1, diff +1)
-- **CURATION-OWED**: 21  (prior 18, diff +3)
-- **DATA-GAP**: 0  (prior 4, diff -4)
+- **PASS**: 4  (prior 3, diff +1)
+- **NLTE-OWED**: 1  (prior 2, diff -1)
+- **CURATION-OWED**: 21  (prior 21, diff +0)
+- **DATA-GAP**: 0  (prior 0, diff +0)
 
 ## RYA-460 overlap cross-check (Kitt Peak leg validation)
 
@@ -38,7 +38,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 | Cr | 5.62 | 6.022 | +0.402 | 0.60 | 7 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 7 curated line(s), graded-gf (RYA-395/398) |
 | Mn | 5.42 |  |  |  |  | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
 | P | 5.41 | 6.610 | +1.200 |  | 2 | - | **CURATION-OWED** | kittpeak-measured | kittpeak: P I 10581/10596 near-IR multiplet |
-| K | 5.07 | 5.411 | +0.341 |  | 1 | - | **NLTE-OWED** | kittpeak-measured | kittpeak: K I 7699 (clean; 7665 sits in the telluric O2 A-band) |
+| K | 5.07 | 5.099 | +0.029 |  | 1 | wired | **PASS** | kittpeak-measured | kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) — NLTE-wired |
 | Ti | 4.97 | 5.471 | +0.501 | 0.93 | 10 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 10 curated line(s), graded-gf (RYA-395/398) |
 | Co | 4.94 | 6.128 | +1.188 |  | 1 | - | **CURATION-OWED** | kittpeak-measured | kittpeak: Co I 3845 (blue-edge, SNR-limited) |
 | Cu | 4.18 |  |  |  |  | - | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
@@ -53,16 +53,16 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 
 ## Remaining-work map
 
-### PASS (3)
+### PASS (4)
 
 - **O** — cross-arm AGREE; O I 777 Amarsi-2019 3D-NLTE, [O I] Caffau-2015 3D anchor — measured 8.74 vs Asplund 8.69 (+0.05). RYA-455.
 - **C** — C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); C I 5380 formally excluded ew_integrity=BAD_FIT (RYA-458); surviving cross-arm spread 0.054 on 5 indicators. [C I 5380 EXCLUDED (ew_integrity=BAD_FIT, espresso:CI_5380); cross-arm spread 0.149->0.054 on 5 surviving indicators.]
 - **Fe** — A(Fe I) NLTE 7.516 vs Asplund 7.46 (+0.056); ionization-balance gated, scatter 0.139 = honest floor (RYA-407). Documented +0.05 1D/3D scale offset (RYA-336), not the verdict.
+- **K** — MEASURED Kitt Peak K I 7699 = 5.411 (1D-LTE, +0.34 vs 5.07). K_Amarsi2020_PySME NLTE delta -0.312 APPLIED via the existing interpolation subsystem (RYA-462 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune) -> A(K) 5.099 (+0.029 vs Asplund 5.07). Reconciles within TOL after the cited NLTE correction — the severe negative K I resonance NLTE is real, not tuned.
 
-### NLTE-OWED (2)
+### NLTE-OWED (1)
 
 - **N** — MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE: 8.189 / 8.222 / 8.196 (mean 8.202, spread 0.033). +0.37 vs Asplund 7.83 is the N I NLTE offset OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent — FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).
-- **K** — MEASURED from Kitt Peak K I 7699 = 5.411 (+0.34 vs 5.07) — OFF DATA-GAP. K_Amarsi2020_PySME NLTE grid EXISTS but is not in NLTE_CORRECTION_ELEMENTS → NLTE-OWED (wiring); the +0.34 LTE offset is consistent with the known negative K I resonance NLTE.
 
 ### CURATION-OWED (21)
 

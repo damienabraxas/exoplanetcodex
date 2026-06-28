@@ -50,8 +50,10 @@ AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
 DOCS = ROOT / 'docs' / 'audit'
 KITTPEAK_JSON = AUDIT / 'solar_kittpeak_rya460.json'   # RYA-460 KP measurements
 
-# Prior Phase C verdict counts (RYA-371 / 456 / 458) — the baseline RYA-460 diffs against.
-PRIOR_COUNTS = {'PASS': 3, 'NLTE-OWED': 1, 'CURATION-OWED': 18, 'DATA-GAP': 4}
+# Prior Phase C verdict counts — the immediate baseline this run diffs against.
+# RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
+# turn moved it off the pre-Kitt-Peak 3 / 1 / 18 / 4 (DATA-GAP eliminated).
+PRIOR_COUNTS = {'PASS': 3, 'NLTE-OWED': 2, 'CURATION-OWED': 21, 'DATA-GAP': 0}
 
 # Tolerance for a PASS against Asplund 2021. The Sun's 1D-LTE/NLTE absolute scale
 # carries a documented ~+0.05 dex zero-point vs Asplund's 3D values for the
@@ -380,6 +382,28 @@ def _load_kittpeak():
     return json.loads(KITTPEAK_JSON.read_text())
 
 
+def _apply_nlte_grid_delta(element, wave_A, a_1dlte, star=None):
+    """RYA-462: apply the vendored NLTE grid delta to a (Kitt Peak) 1D-LTE measurement
+    through the EXISTING interpolation subsystem (pipeline.nlte_corrections) — the same
+    path Ca/Ti/Cr/Na travel. Returns (a_nlte, delta, flag). If the element/line is out
+    of grid coverage it returns (a_1dlte, nan, 'NLTE_unavailable ...') and NEVER silently
+    corrects. Validate-don't-tune: delta is READ from the grid, never fitted to Asplund."""
+    star = star or {'teff': 5772.0, 'logg': 4.44, 'feh': 0.0}
+    try:
+        from pipeline import nlte_corrections as N
+        if element not in NLTE_CORRECTION_ELEMENTS:
+            return float(a_1dlte), float('nan'), 'NLTE_unavailable (element not registered)'
+        if not N.element_grid_in_bounds(element, star['teff'], star['logg'], star['feh']):
+            return float(a_1dlte), float('nan'), 'NLTE_unavailable (star out of grid hull)'
+        d = N._mpia_element_delta(element, wave_A, star['teff'], star['logg'], star['feh'])
+        if d is None or not np.isfinite(d):
+            return float(a_1dlte), float('nan'), 'NLTE_unavailable (no grid node within tol)'
+        flag = NLTE_CORRECTION_ELEMENTS[element].get('flag', 'NLTE_1D')
+        return float(a_1dlte) + float(d), float(d), flag
+    except Exception as e:                            # never let the wiring break the verdict
+        return float(a_1dlte), float('nan'), f'NLTE_unavailable ({e})'
+
+
 def _kittpeak_reclassify(kp):
     """RYA-460 — fold the Kitt Peak measurements into the verdict for the diagnostics
     HARPS-VIS cannot reach (N + the P/K/Co/Sc DATA-GAP elements). Honest verdicts
@@ -414,16 +438,37 @@ def _kittpeak_reclassify(kp):
                      f"UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the "
                      f"Turbospectrum molecular linelist is absent — FLAGGED, not forced. {leg_txt}.")}
 
-    # ── K — measured; NLTE grid exists but is not wired ──
+    # ── K — measured; NLTE grid now WIRED (RYA-462) ──
+    # The K_Amarsi2020_PySME grid was PRESENT-but-UNWIRED (grid + full PySME machinery
+    # existed, K just wasn't in NLTE_CORRECTION_ELEMENTS). RYA-462 registers it; here we
+    # apply its vendored solar delta to the Kitt Peak K I 7699 1D-LTE value through the
+    # same interpolation subsystem the other registry elements use. Validate-don't-tune:
+    # the delta is read from the grid (solar 7699 ~ -0.31), not fitted to Asplund.
     if leg_ok and (k := m.get('KI_7665_7699')) and k['a_1dlte'] is not None:
-        out['K'] = {
-            'verdict': 'NLTE-OWED', 'A_measured': k['a_1dlte'], 'n_lines': 1,
-            'provenance': 'kittpeak-measured',
-            'channel': 'kittpeak: K I 7699 (clean; 7665 sits in the telluric O2 A-band)',
-            'owed': (f"MEASURED from Kitt Peak K I 7699 = {k['a_1dlte']} ({k['delta_vs_asplund']:+.2f} "
-                     f"vs 5.07) — OFF DATA-GAP. K_Amarsi2020_PySME NLTE grid EXISTS but is not in "
-                     f"NLTE_CORRECTION_ELEMENTS → NLTE-OWED (wiring); the +0.34 LTE offset is "
-                     f"consistent with the known negative K I resonance NLTE.")}
+        asp_k = float(k.get('asplund2021', SOLAR_ASPLUND2021.get('K', 5.07)))
+        a_nlte, kd, kflag = _apply_nlte_grid_delta('K', 7698.964, k['a_1dlte'])
+        if np.isfinite(kd):
+            reconciled = abs(a_nlte - asp_k) <= TOL_PASS
+            out['K'] = {
+                'verdict': 'PASS' if reconciled else 'NLTE-OWED',
+                'A_measured': a_nlte, 'n_lines': 1, 'provenance': 'kittpeak-measured',
+                'channel': 'kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) — NLTE-wired',
+                'owed': (f"MEASURED Kitt Peak K I 7699 = {k['a_1dlte']} (1D-LTE, {k['delta_vs_asplund']:+.2f} "
+                         f"vs {asp_k:.2f}). K_Amarsi2020_PySME NLTE delta {kd:+.3f} APPLIED via the existing "
+                         f"interpolation subsystem (RYA-462 wiring; {kflag}; validate-don't-tune) -> A(K) "
+                         f"{a_nlte:.3f} ({a_nlte - asp_k:+.3f} vs Asplund {asp_k:.2f}). "
+                         + ("Reconciles within TOL after the cited NLTE correction — the severe negative "
+                            "K I resonance NLTE is real, not tuned."
+                            if reconciled else
+                            "An NLTE residual survives -> still owed (do NOT tune)."))}
+        else:
+            out['K'] = {
+                'verdict': 'NLTE-OWED', 'A_measured': k['a_1dlte'], 'n_lines': 1,
+                'provenance': 'kittpeak-measured',
+                'channel': 'kittpeak: K I 7699 (clean; 7665 sits in the telluric O2 A-band)',
+                'owed': (f"MEASURED Kitt Peak K I 7699 = {k['a_1dlte']} ({k['delta_vs_asplund']:+.2f} vs "
+                         f"{asp_k:.2f}). K_Amarsi2020_PySME grid registered (RYA-462) but the delta could "
+                         f"not be interpolated here ({kflag}) -> held NLTE-OWED, never silently LTE.")}
 
     # ── P — measured near-IR multiplet (the alternative to FUV/HST); gf-limited ──
     if leg_ok and (p := m.get('PI_10581_10596')) and p['a_1dlte'] is not None:
@@ -564,7 +609,7 @@ def main():
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
     diff = {k: counts.get(k, 0) - PRIOR_COUNTS.get(k, 0)
             for k in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP')}
-    summary = {'ticket': 'RYA-371 Phase C (RYA-460 reference-wired)', 'star': args.star,
+    summary = {'ticket': 'RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)', 'star': args.star,
                'generated': date.today().isoformat(),
                'reference': 'Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)',
                'tol_pass_dex': TOL_PASS, 'n_elements': len(rows), 'counts': counts,
