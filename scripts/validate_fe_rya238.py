@@ -304,7 +304,7 @@ def _plot_ion_balance(results_solar, results_procyon, ax):
     ax.legend(fontsize=8)
 
 
-def main(star: str = 'both'):
+def main(star: str = 'both', ew_verify: bool = False):
     print("\n" + "="*62)
     print("  RYA-238: Fe I/II validation — solar + Procyon")
     print("="*62 + "\n")
@@ -317,7 +317,7 @@ def main(star: str = 'both'):
     solar_pl = pd.DataFrame()
     if run_solar:
         print("\n>>> Running: solar (ξ pinned via STAR_PARAMS policy, RYA-325)")
-        conv_solar, ab_solar = run('solar')
+        conv_solar, ab_solar = run('solar', ew_verify=ew_verify)
         solar_pl_path = REPO_ROOT / 'data' / 'processed' / 'solar_per_line.csv'
         solar_pl = pd.read_csv(solar_pl_path) if solar_pl_path.exists() else pd.DataFrame()
 
@@ -326,7 +326,7 @@ def main(star: str = 'both'):
     proc_pl = pd.DataFrame()
     if run_procyon:
         print("\n>>> Running: procyon (ξ pinned via STAR_PARAMS policy, RYA-325)")
-        conv_proc, ab_proc = run('procyon')
+        conv_proc, ab_proc = run('procyon', ew_verify=ew_verify)
         proc_pl_path = REPO_ROOT / 'data' / 'processed' / 'procyon_per_line.csv'
         proc_pl = pd.read_csv(proc_pl_path) if proc_pl_path.exists() else pd.DataFrame()
 
@@ -422,5 +422,8 @@ def main(star: str = 'both'):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--star', choices=['solar', 'procyon', 'both'], default='both')
+    ap.add_argument('--ew-verify', action='store_true',
+                    help='run the RYA-458 EW-integrity QA pass (per-star, RYA-273); '
+                         'flags only, never mutates an EW')
     args = ap.parse_args()
-    main(star=args.star)
+    main(star=args.star, ew_verify=args.ew_verify)
