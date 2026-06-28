@@ -102,9 +102,12 @@ def test_no_value_mutated_toward_anchor():
             assert r['delta_vs_asplund'] == round(r['A_measured'] - r['asplund2021'], 3), r['element']
 
 
-def test_differential_backbone_registers_four_instruments():
+def test_differential_backbone_registers_optical_instruments():
     bb = P.differential_backbone()
     insts = bb['instruments']
-    assert set(insts) == {'HARPS', 'ESPRESSO', 'UVES', 'CRIRES+'}
+    # the four optical/IR legs + the RYA-459/460 reference legs (KITT_PEAK measured,
+    # UV_COMPOSITE cited)
+    assert {'HARPS', 'ESPRESSO', 'UVES', 'CRIRES+'} <= set(insts)
+    assert {'KITT_PEAK', 'UV_COMPOSITE'} <= set(insts)      # RYA-460 registered the KP leg
     assert 'PARKED' in insts['CRIRES+']['status']           # Phase B telluric gate
     assert insts['ESPRESSO']['R'] == 140000
