@@ -1,0 +1,1509 @@
+{
+  "ticket": "RYA-459 (under RYA-162)",
+  "source_name": "Kitt Peak Solar Flux Atlas",
+  "citation": "Kurucz, Furenlid, Brault & Testerman 1984, \"Solar Flux Atlas from 296 to 1300 nm\", National Solar Observatory Atlas No. 1. Acknowledgement: NSO/Kitt Peak FTS data used here were produced by NSF/NOAO.",
+  "source_url": "https://nispdata.nso.edu/ftp/pub/atlas/fluxatl/",
+  "retrieval_date": "2026-06-27",
+  "provenance": "measured",
+  "instrument": "FTS at McMath/Pierce Solar Telescope, NSO/Kitt Peak",
+  "native_units": "col1 = air wavelength (nm, uneven grid); col2 = pseudo-residual (continuum-normalized) flux; col3 = observed irradiance (uW/cm^2/nm)",
+  "normalization_state": "residual_flux = normalized (0-1); irradiance = absolute flux",
+  "full_coverage_nm": [
+    296,
+    1300.1
+  ],
+  "n_segments": 251,
+  "segment_bytes_total": 44156296,
+  "raw_manifest_md5": "7168d062dd00f81ed5bd7e2856318553",
+  "raw_store": "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Solar Calibration/Kitt Peak Flux Atlas",
+  "raw_inventory": [
+    {
+      "file": "lm0296",
+      "start_nm": 296,
+      "bytes": 481004
+    },
+    {
+      "file": "lm0300",
+      "start_nm": 300,
+      "bytes": 468388
+    },
+    {
+      "file": "lm0304",
+      "start_nm": 304,
+      "bytes": 456228
+    },
+    {
+      "file": "lm0308",
+      "start_nm": 308,
+      "bytes": 444524
+    },
+    {
+      "file": "lm0312",
+      "start_nm": 312,
+      "bytes": 433276
+    },
+    {
+      "file": "lm0316",
+      "start_nm": 316,
+      "bytes": 422446
+    },
+    {
+      "file": "lm0320",
+      "start_nm": 320,
+      "bytes": 411996
+    },
+    {
+      "file": "lm0324",
+      "start_nm": 324,
+      "bytes": 401964
+    },
+    {
+      "file": "lm0328",
+      "start_nm": 328,
+      "bytes": 399190
+    },
+    {
+      "file": "lm0332",
+      "start_nm": 332,
+      "bytes": 395580
+    },
+    {
+      "file": "lm0336",
+      "start_nm": 336,
+      "bytes": 386308
+    },
+    {
+      "file": "lm0340",
+      "start_nm": 340,
+      "bytes": 377302
+    },
+    {
+      "file": "lm0344",
+      "start_nm": 344,
+      "bytes": 368638
+    },
+    {
+      "file": "lm0348",
+      "start_nm": 348,
+      "bytes": 360278
+    },
+    {
+      "file": "lm0352",
+      "start_nm": 352,
+      "bytes": 352146
+    },
+    {
+      "file": "lm0356",
+      "start_nm": 356,
+      "bytes": 344318
+    },
+    {
+      "file": "lm0360",
+      "start_nm": 360,
+      "bytes": 336756
+    },
+    {
+      "file": "lm0364",
+      "start_nm": 364,
+      "bytes": 329460
+    },
+    {
+      "file": "lm0368",
+      "start_nm": 368,
+      "bytes": 322354
+    },
+    {
+      "file": "lm0372",
+      "start_nm": 372,
+      "bytes": 315476
+    },
+    {
+      "file": "lm0376",
+      "start_nm": 376,
+      "bytes": 333830
+    },
+    {
+      "file": "lm0380",
+      "start_nm": 380,
+      "bytes": 358188
+    },
+    {
+      "file": "lm0384",
+      "start_nm": 384,
+      "bytes": 350778
+    },
+    {
+      "file": "lm0388",
+      "start_nm": 388,
+      "bytes": 343672
+    },
+    {
+      "file": "lm0392",
+      "start_nm": 392,
+      "bytes": 336718
+    },
+    {
+      "file": "lm0396",
+      "start_nm": 396,
+      "bytes": 329954
+    },
+    {
+      "file": "lm0400",
+      "start_nm": 400,
+      "bytes": 246354
+    },
+    {
+      "file": "lm0404",
+      "start_nm": 404,
+      "bytes": 171266
+    },
+    {
+      "file": "lm0408",
+      "start_nm": 408,
+      "bytes": 167922
+    },
+    {
+      "file": "lm0412",
+      "start_nm": 412,
+      "bytes": 164692
+    },
+    {
+      "file": "lm0416",
+      "start_nm": 416,
+      "bytes": 161576
+    },
+    {
+      "file": "lm0420",
+      "start_nm": 420,
+      "bytes": 158536
+    },
+    {
+      "file": "lm0424",
+      "start_nm": 424,
+      "bytes": 155572
+    },
+    {
+      "file": "lm0428",
+      "start_nm": 428,
+      "bytes": 152684
+    },
+    {
+      "file": "lm0432",
+      "start_nm": 432,
+      "bytes": 149872
+    },
+    {
+      "file": "lm0436",
+      "start_nm": 436,
+      "bytes": 147136
+    },
+    {
+      "file": "lm0440",
+      "start_nm": 440,
+      "bytes": 144476
+    },
+    {
+      "file": "lm0444",
+      "start_nm": 444,
+      "bytes": 141930
+    },
+    {
+      "file": "lm0448",
+      "start_nm": 448,
+      "bytes": 139422
+    },
+    {
+      "file": "lm0452",
+      "start_nm": 452,
+      "bytes": 136952
+    },
+    {
+      "file": "lm0456",
+      "start_nm": 456,
+      "bytes": 134596
+    },
+    {
+      "file": "lm0460",
+      "start_nm": 460,
+      "bytes": 132278
+    },
+    {
+      "file": "lm0464",
+      "start_nm": 464,
+      "bytes": 129998
+    },
+    {
+      "file": "lm0468",
+      "start_nm": 468,
+      "bytes": 127794
+    },
+    {
+      "file": "lm0472",
+      "start_nm": 472,
+      "bytes": 218082
+    },
+    {
+      "file": "lm0476",
+      "start_nm": 476,
+      "bytes": 286178
+    },
+    {
+      "file": "lm0480",
+      "start_nm": 480,
+      "bytes": 281466
+    },
+    {
+      "file": "lm0484",
+      "start_nm": 484,
+      "bytes": 276868
+    },
+    {
+      "file": "lm0488",
+      "start_nm": 488,
+      "bytes": 272384
+    },
+    {
+      "file": "lm0492",
+      "start_nm": 492,
+      "bytes": 267976
+    },
+    {
+      "file": "lm0496",
+      "start_nm": 496,
+      "bytes": 263682
+    },
+    {
+      "file": "lm0500",
+      "start_nm": 500,
+      "bytes": 259502
+    },
+    {
+      "file": "lm0504",
+      "start_nm": 504,
+      "bytes": 255436
+    },
+    {
+      "file": "lm0508",
+      "start_nm": 508,
+      "bytes": 251408
+    },
+    {
+      "file": "lm0512",
+      "start_nm": 512,
+      "bytes": 247494
+    },
+    {
+      "file": "lm0516",
+      "start_nm": 516,
+      "bytes": 243694
+    },
+    {
+      "file": "lm0520",
+      "start_nm": 520,
+      "bytes": 239970
+    },
+    {
+      "file": "lm0524",
+      "start_nm": 524,
+      "bytes": 236360
+    },
+    {
+      "file": "lm0528",
+      "start_nm": 528,
+      "bytes": 232788
+    },
+    {
+      "file": "lm0532",
+      "start_nm": 532,
+      "bytes": 229330
+    },
+    {
+      "file": "lm0536",
+      "start_nm": 536,
+      "bytes": 225948
+    },
+    {
+      "file": "lm0540",
+      "start_nm": 540,
+      "bytes": 222604
+    },
+    {
+      "file": "lm0544",
+      "start_nm": 544,
+      "bytes": 219336
+    },
+    {
+      "file": "lm0548",
+      "start_nm": 548,
+      "bytes": 216144
+    },
+    {
+      "file": "lm0552",
+      "start_nm": 552,
+      "bytes": 213066
+    },
+    {
+      "file": "lm0556",
+      "start_nm": 556,
+      "bytes": 210026
+    },
+    {
+      "file": "lm0560",
+      "start_nm": 560,
+      "bytes": 207024
+    },
+    {
+      "file": "lm0564",
+      "start_nm": 564,
+      "bytes": 204136
+    },
+    {
+      "file": "lm0568",
+      "start_nm": 568,
+      "bytes": 201286
+    },
+    {
+      "file": "lm0572",
+      "start_nm": 572,
+      "bytes": 198512
+    },
+    {
+      "file": "lm0576",
+      "start_nm": 576,
+      "bytes": 249318
+    },
+    {
+      "file": "lm0580",
+      "start_nm": 580,
+      "bytes": 253270
+    },
+    {
+      "file": "lm0584",
+      "start_nm": 584,
+      "bytes": 249812
+    },
+    {
+      "file": "lm0588",
+      "start_nm": 588,
+      "bytes": 246468
+    },
+    {
+      "file": "lm0592",
+      "start_nm": 592,
+      "bytes": 243124
+    },
+    {
+      "file": "lm0596",
+      "start_nm": 596,
+      "bytes": 239932
+    },
+    {
+      "file": "lm0600",
+      "start_nm": 600,
+      "bytes": 236702
+    },
+    {
+      "file": "lm0604",
+      "start_nm": 604,
+      "bytes": 233624
+    },
+    {
+      "file": "lm0608",
+      "start_nm": 608,
+      "bytes": 230584
+    },
+    {
+      "file": "lm0612",
+      "start_nm": 612,
+      "bytes": 227582
+    },
+    {
+      "file": "lm0616",
+      "start_nm": 616,
+      "bytes": 224618
+    },
+    {
+      "file": "lm0620",
+      "start_nm": 620,
+      "bytes": 221768
+    },
+    {
+      "file": "lm0624",
+      "start_nm": 624,
+      "bytes": 218918
+    },
+    {
+      "file": "lm0628",
+      "start_nm": 628,
+      "bytes": 216144
+    },
+    {
+      "file": "lm0632",
+      "start_nm": 632,
+      "bytes": 213446
+    },
+    {
+      "file": "lm0636",
+      "start_nm": 636,
+      "bytes": 210748
+    },
+    {
+      "file": "lm0640",
+      "start_nm": 640,
+      "bytes": 208164
+    },
+    {
+      "file": "lm0644",
+      "start_nm": 644,
+      "bytes": 205580
+    },
+    {
+      "file": "lm0648",
+      "start_nm": 648,
+      "bytes": 203034
+    },
+    {
+      "file": "lm0652",
+      "start_nm": 652,
+      "bytes": 200564
+    },
+    {
+      "file": "lm0656",
+      "start_nm": 656,
+      "bytes": 198170
+    },
+    {
+      "file": "lm0660",
+      "start_nm": 660,
+      "bytes": 195738
+    },
+    {
+      "file": "lm0664",
+      "start_nm": 664,
+      "bytes": 193420
+    },
+    {
+      "file": "lm0668",
+      "start_nm": 668,
+      "bytes": 191102
+    },
+    {
+      "file": "lm0672",
+      "start_nm": 672,
+      "bytes": 188860
+    },
+    {
+      "file": "lm0676",
+      "start_nm": 676,
+      "bytes": 186618
+    },
+    {
+      "file": "lm0680",
+      "start_nm": 680,
+      "bytes": 184452
+    },
+    {
+      "file": "lm0684",
+      "start_nm": 684,
+      "bytes": 182286
+    },
+    {
+      "file": "lm0688",
+      "start_nm": 688,
+      "bytes": 180196
+    },
+    {
+      "file": "lm0692",
+      "start_nm": 692,
+      "bytes": 178144
+    },
+    {
+      "file": "lm0696",
+      "start_nm": 696,
+      "bytes": 176092
+    },
+    {
+      "file": "lm0700",
+      "start_nm": 700,
+      "bytes": 174116
+    },
+    {
+      "file": "lm0704",
+      "start_nm": 704,
+      "bytes": 172102
+    },
+    {
+      "file": "lm0708",
+      "start_nm": 708,
+      "bytes": 170164
+    },
+    {
+      "file": "lm0712",
+      "start_nm": 712,
+      "bytes": 168264
+    },
+    {
+      "file": "lm0716",
+      "start_nm": 716,
+      "bytes": 166402
+    },
+    {
+      "file": "lm0720",
+      "start_nm": 720,
+      "bytes": 164578
+    },
+    {
+      "file": "lm0724",
+      "start_nm": 724,
+      "bytes": 162792
+    },
+    {
+      "file": "lm0728",
+      "start_nm": 728,
+      "bytes": 161006
+    },
+    {
+      "file": "lm0732",
+      "start_nm": 732,
+      "bytes": 159220
+    },
+    {
+      "file": "lm0736",
+      "start_nm": 736,
+      "bytes": 157510
+    },
+    {
+      "file": "lm0740",
+      "start_nm": 740,
+      "bytes": 155800
+    },
+    {
+      "file": "lm0744",
+      "start_nm": 744,
+      "bytes": 154166
+    },
+    {
+      "file": "lm0748",
+      "start_nm": 748,
+      "bytes": 152532
+    },
+    {
+      "file": "lm0752",
+      "start_nm": 752,
+      "bytes": 173280
+    },
+    {
+      "file": "lm0756",
+      "start_nm": 756,
+      "bytes": 190684
+    },
+    {
+      "file": "lm0760",
+      "start_nm": 760,
+      "bytes": 188708
+    },
+    {
+      "file": "lm0764",
+      "start_nm": 764,
+      "bytes": 186694
+    },
+    {
+      "file": "lm0768",
+      "start_nm": 768,
+      "bytes": 184794
+    },
+    {
+      "file": "lm0772",
+      "start_nm": 772,
+      "bytes": 182856
+    },
+    {
+      "file": "lm0776",
+      "start_nm": 776,
+      "bytes": 180994
+    },
+    {
+      "file": "lm0780",
+      "start_nm": 780,
+      "bytes": 179132
+    },
+    {
+      "file": "lm0784",
+      "start_nm": 784,
+      "bytes": 177308
+    },
+    {
+      "file": "lm0788",
+      "start_nm": 788,
+      "bytes": 175560
+    },
+    {
+      "file": "lm0792",
+      "start_nm": 792,
+      "bytes": 173774
+    },
+    {
+      "file": "lm0796",
+      "start_nm": 796,
+      "bytes": 172064
+    },
+    {
+      "file": "lm0800",
+      "start_nm": 800,
+      "bytes": 170316
+    },
+    {
+      "file": "lm0804",
+      "start_nm": 804,
+      "bytes": 168644
+    },
+    {
+      "file": "lm0808",
+      "start_nm": 808,
+      "bytes": 167010
+    },
+    {
+      "file": "lm0812",
+      "start_nm": 812,
+      "bytes": 165338
+    },
+    {
+      "file": "lm0816",
+      "start_nm": 816,
+      "bytes": 163742
+    },
+    {
+      "file": "lm0820",
+      "start_nm": 820,
+      "bytes": 162146
+    },
+    {
+      "file": "lm0824",
+      "start_nm": 824,
+      "bytes": 160550
+    },
+    {
+      "file": "lm0828",
+      "start_nm": 828,
+      "bytes": 159030
+    },
+    {
+      "file": "lm0832",
+      "start_nm": 832,
+      "bytes": 157510
+    },
+    {
+      "file": "lm0836",
+      "start_nm": 836,
+      "bytes": 156028
+    },
+    {
+      "file": "lm0840",
+      "start_nm": 840,
+      "bytes": 714
+    },
+    {
+      "file": "lm0844",
+      "start_nm": 844,
+      "bytes": 153064
+    },
+    {
+      "file": "lm0848",
+      "start_nm": 848,
+      "bytes": 151658
+    },
+    {
+      "file": "lm0852",
+      "start_nm": 852,
+      "bytes": 150214
+    },
+    {
+      "file": "lm0856",
+      "start_nm": 856,
+      "bytes": 148808
+    },
+    {
+      "file": "lm0860",
+      "start_nm": 860,
+      "bytes": 147440
+    },
+    {
+      "file": "lm0864",
+      "start_nm": 864,
+      "bytes": 146072
+    },
+    {
+      "file": "lm0868",
+      "start_nm": 868,
+      "bytes": 144742
+    },
+    {
+      "file": "lm0872",
+      "start_nm": 872,
+      "bytes": 143412
+    },
+    {
+      "file": "lm0876",
+      "start_nm": 876,
+      "bytes": 142120
+    },
+    {
+      "file": "lm0880",
+      "start_nm": 880,
+      "bytes": 140828
+    },
+    {
+      "file": "lm0884",
+      "start_nm": 884,
+      "bytes": 139574
+    },
+    {
+      "file": "lm0888",
+      "start_nm": 888,
+      "bytes": 138320
+    },
+    {
+      "file": "lm0892",
+      "start_nm": 892,
+      "bytes": 137066
+    },
+    {
+      "file": "lm0896",
+      "start_nm": 896,
+      "bytes": 135888
+    },
+    {
+      "file": "lm0900",
+      "start_nm": 900,
+      "bytes": 134634
+    },
+    {
+      "file": "lm0904",
+      "start_nm": 904,
+      "bytes": 133494
+    },
+    {
+      "file": "lm0908",
+      "start_nm": 908,
+      "bytes": 132316
+    },
+    {
+      "file": "lm0912",
+      "start_nm": 912,
+      "bytes": 131138
+    },
+    {
+      "file": "lm0916",
+      "start_nm": 916,
+      "bytes": 129998
+    },
+    {
+      "file": "lm0920",
+      "start_nm": 920,
+      "bytes": 128858
+    },
+    {
+      "file": "lm0924",
+      "start_nm": 924,
+      "bytes": 127756
+    },
+    {
+      "file": "lm0928",
+      "start_nm": 928,
+      "bytes": 126692
+    },
+    {
+      "file": "lm0932",
+      "start_nm": 932,
+      "bytes": 125590
+    },
+    {
+      "file": "lm0936",
+      "start_nm": 936,
+      "bytes": 124526
+    },
+    {
+      "file": "lm0940",
+      "start_nm": 940,
+      "bytes": 123500
+    },
+    {
+      "file": "lm0944",
+      "start_nm": 944,
+      "bytes": 122398
+    },
+    {
+      "file": "lm0948",
+      "start_nm": 948,
+      "bytes": 121372
+    },
+    {
+      "file": "lm0952",
+      "start_nm": 952,
+      "bytes": 120384
+    },
+    {
+      "file": "lm0956",
+      "start_nm": 956,
+      "bytes": 119358
+    },
+    {
+      "file": "lm0960",
+      "start_nm": 960,
+      "bytes": 118370
+    },
+    {
+      "file": "lm0964",
+      "start_nm": 964,
+      "bytes": 117420
+    },
+    {
+      "file": "lm0968",
+      "start_nm": 968,
+      "bytes": 116432
+    },
+    {
+      "file": "lm0972",
+      "start_nm": 972,
+      "bytes": 115482
+    },
+    {
+      "file": "lm0976",
+      "start_nm": 976,
+      "bytes": 114532
+    },
+    {
+      "file": "lm0980",
+      "start_nm": 980,
+      "bytes": 113620
+    },
+    {
+      "file": "lm0984",
+      "start_nm": 984,
+      "bytes": 112708
+    },
+    {
+      "file": "lm0988",
+      "start_nm": 988,
+      "bytes": 111796
+    },
+    {
+      "file": "lm0992",
+      "start_nm": 992,
+      "bytes": 110884
+    },
+    {
+      "file": "lm0996",
+      "start_nm": 996,
+      "bytes": 112480
+    },
+    {
+      "file": "lm1000",
+      "start_nm": 1000,
+      "bytes": 134368
+    },
+    {
+      "file": "lm1004",
+      "start_nm": 1004,
+      "bytes": 133304
+    },
+    {
+      "file": "lm1008",
+      "start_nm": 1008,
+      "bytes": 132278
+    },
+    {
+      "file": "lm1012",
+      "start_nm": 1012,
+      "bytes": 131214
+    },
+    {
+      "file": "lm1016",
+      "start_nm": 1016,
+      "bytes": 130226
+    },
+    {
+      "file": "lm1020",
+      "start_nm": 1020,
+      "bytes": 129162
+    },
+    {
+      "file": "lm1024",
+      "start_nm": 1024,
+      "bytes": 128212
+    },
+    {
+      "file": "lm1028",
+      "start_nm": 1028,
+      "bytes": 127186
+    },
+    {
+      "file": "lm1032",
+      "start_nm": 1032,
+      "bytes": 126198
+    },
+    {
+      "file": "lm1036",
+      "start_nm": 1036,
+      "bytes": 125248
+    },
+    {
+      "file": "lm1040",
+      "start_nm": 1040,
+      "bytes": 124260
+    },
+    {
+      "file": "lm1044",
+      "start_nm": 1044,
+      "bytes": 123310
+    },
+    {
+      "file": "lm1048",
+      "start_nm": 1048,
+      "bytes": 122398
+    },
+    {
+      "file": "lm1052",
+      "start_nm": 1052,
+      "bytes": 121448
+    },
+    {
+      "file": "lm1056",
+      "start_nm": 1056,
+      "bytes": 120536
+    },
+    {
+      "file": "lm1060",
+      "start_nm": 1060,
+      "bytes": 119662
+    },
+    {
+      "file": "lm1064",
+      "start_nm": 1064,
+      "bytes": 118750
+    },
+    {
+      "file": "lm1068",
+      "start_nm": 1068,
+      "bytes": 117838
+    },
+    {
+      "file": "lm1072",
+      "start_nm": 1072,
+      "bytes": 116964
+    },
+    {
+      "file": "lm1076",
+      "start_nm": 1076,
+      "bytes": 116128
+    },
+    {
+      "file": "lm1080",
+      "start_nm": 1080,
+      "bytes": 115292
+    },
+    {
+      "file": "lm1084",
+      "start_nm": 1084,
+      "bytes": 114380
+    },
+    {
+      "file": "lm1088",
+      "start_nm": 1088,
+      "bytes": 113582
+    },
+    {
+      "file": "lm1092",
+      "start_nm": 1092,
+      "bytes": 112746
+    },
+    {
+      "file": "lm1096",
+      "start_nm": 1096,
+      "bytes": 111910
+    },
+    {
+      "file": "lm1100",
+      "start_nm": 1100,
+      "bytes": 111074
+    },
+    {
+      "file": "lm1104",
+      "start_nm": 1104,
+      "bytes": 110314
+    },
+    {
+      "file": "lm1108",
+      "start_nm": 1108,
+      "bytes": 109516
+    },
+    {
+      "file": "lm1112",
+      "start_nm": 1112,
+      "bytes": 108756
+    },
+    {
+      "file": "lm1116",
+      "start_nm": 1116,
+      "bytes": 107958
+    },
+    {
+      "file": "lm1120",
+      "start_nm": 1120,
+      "bytes": 107160
+    },
+    {
+      "file": "lm1124",
+      "start_nm": 1124,
+      "bytes": 106400
+    },
+    {
+      "file": "lm1128",
+      "start_nm": 1128,
+      "bytes": 105678
+    },
+    {
+      "file": "lm1132",
+      "start_nm": 1132,
+      "bytes": 104918
+    },
+    {
+      "file": "lm1136",
+      "start_nm": 1136,
+      "bytes": 104196
+    },
+    {
+      "file": "lm1140",
+      "start_nm": 1140,
+      "bytes": 103474
+    },
+    {
+      "file": "lm1144",
+      "start_nm": 1144,
+      "bytes": 102752
+    },
+    {
+      "file": "lm1148",
+      "start_nm": 1148,
+      "bytes": 102030
+    },
+    {
+      "file": "lm1152",
+      "start_nm": 1152,
+      "bytes": 101308
+    },
+    {
+      "file": "lm1156",
+      "start_nm": 1156,
+      "bytes": 100624
+    },
+    {
+      "file": "lm1160",
+      "start_nm": 1160,
+      "bytes": 99940
+    },
+    {
+      "file": "lm1164",
+      "start_nm": 1164,
+      "bytes": 99256
+    },
+    {
+      "file": "lm1168",
+      "start_nm": 1168,
+      "bytes": 98572
+    },
+    {
+      "file": "lm1172",
+      "start_nm": 1172,
+      "bytes": 97888
+    },
+    {
+      "file": "lm1176",
+      "start_nm": 1176,
+      "bytes": 97242
+    },
+    {
+      "file": "lm1180",
+      "start_nm": 1180,
+      "bytes": 96596
+    },
+    {
+      "file": "lm1184",
+      "start_nm": 1184,
+      "bytes": 95912
+    },
+    {
+      "file": "lm1188",
+      "start_nm": 1188,
+      "bytes": 95266
+    },
+    {
+      "file": "lm1192",
+      "start_nm": 1192,
+      "bytes": 94658
+    },
+    {
+      "file": "lm1196",
+      "start_nm": 1196,
+      "bytes": 94050
+    },
+    {
+      "file": "lm1200",
+      "start_nm": 1200,
+      "bytes": 93404
+    },
+    {
+      "file": "lm1204",
+      "start_nm": 1204,
+      "bytes": 92796
+    },
+    {
+      "file": "lm1208",
+      "start_nm": 1208,
+      "bytes": 92150
+    },
+    {
+      "file": "lm1212",
+      "start_nm": 1212,
+      "bytes": 91580
+    },
+    {
+      "file": "lm1216",
+      "start_nm": 1216,
+      "bytes": 90972
+    },
+    {
+      "file": "lm1220",
+      "start_nm": 1220,
+      "bytes": 90364
+    },
+    {
+      "file": "lm1224",
+      "start_nm": 1224,
+      "bytes": 89756
+    },
+    {
+      "file": "lm1228",
+      "start_nm": 1228,
+      "bytes": 89224
+    },
+    {
+      "file": "lm1232",
+      "start_nm": 1232,
+      "bytes": 88616
+    },
+    {
+      "file": "lm1236",
+      "start_nm": 1236,
+      "bytes": 88008
+    },
+    {
+      "file": "lm1240",
+      "start_nm": 1240,
+      "bytes": 87476
+    },
+    {
+      "file": "lm1244",
+      "start_nm": 1244,
+      "bytes": 86906
+    },
+    {
+      "file": "lm1248",
+      "start_nm": 1248,
+      "bytes": 86374
+    },
+    {
+      "file": "lm1252",
+      "start_nm": 1252,
+      "bytes": 85804
+    },
+    {
+      "file": "lm1256",
+      "start_nm": 1256,
+      "bytes": 85272
+    },
+    {
+      "file": "lm1260",
+      "start_nm": 1260,
+      "bytes": 84740
+    },
+    {
+      "file": "lm1264",
+      "start_nm": 1264,
+      "bytes": 84208
+    },
+    {
+      "file": "lm1268",
+      "start_nm": 1268,
+      "bytes": 83638
+    },
+    {
+      "file": "lm1272",
+      "start_nm": 1272,
+      "bytes": 83144
+    },
+    {
+      "file": "lm1276",
+      "start_nm": 1276,
+      "bytes": 82612
+    },
+    {
+      "file": "lm1280",
+      "start_nm": 1280,
+      "bytes": 82118
+    },
+    {
+      "file": "lm1284",
+      "start_nm": 1284,
+      "bytes": 81624
+    },
+    {
+      "file": "lm1288",
+      "start_nm": 1288,
+      "bytes": 81092
+    },
+    {
+      "file": "lm1292",
+      "start_nm": 1292,
+      "bytes": 80598
+    },
+    {
+      "file": "lm1296",
+      "start_nm": 1296,
+      "bytes": 78204
+    }
+  ],
+  "extracted_diagnostics": [
+    {
+      "name": "NH_3360",
+      "element": "N",
+      "line_A": 3360.0,
+      "window_A": [
+        3350.0,
+        3375.0
+      ],
+      "consumer": "RYA-369 N (NH UV band head)",
+      "covered": true,
+      "segment_file": "kpno_NH_3360.csv",
+      "segment_bytes": 246859,
+      "segment_md5": "7b0d27d6b67ea06d4389d94e85e39b9c",
+      "n_points": 6265,
+      "median_dlambda_A": 0.004,
+      "wl_air_A_range": [
+        3350.001,
+        3374.998
+      ],
+      "flux_min": 0.0334
+    },
+    {
+      "name": "CN_violet_3883",
+      "element": "N",
+      "line_A": 3883.0,
+      "window_A": [
+        3870.0,
+        3895.0
+      ],
+      "consumer": "RYA-369 N cross-check (CN B-X)",
+      "covered": true,
+      "segment_file": "kpno_CN_violet_3883.csv",
+      "segment_bytes": 219654,
+      "segment_md5": "4393739fffd73d8afe31c16cac27fc14",
+      "n_points": 5565,
+      "median_dlambda_A": 0.0046,
+      "wl_air_A_range": [
+        3870.004,
+        3894.998
+      ],
+      "flux_min": 0.0398
+    },
+    {
+      "name": "CoI_3845",
+      "element": "Co",
+      "line_A": 3845.46,
+      "window_A": [
+        3843.0,
+        3848.0
+      ],
+      "consumer": "Co DATA-GAP probe",
+      "covered": true,
+      "segment_file": "kpno_CoI_3845.csv",
+      "segment_bytes": 45025,
+      "segment_md5": "bcafcd517785b975e7da07a116f0f14d",
+      "n_points": 1134,
+      "median_dlambda_A": 0.0043,
+      "wl_air_A_range": [
+        3843.003,
+        3847.996
+      ],
+      "flux_min": 0.0811
+    },
+    {
+      "name": "ScII_4246",
+      "element": "Sc",
+      "line_A": 4246.82,
+      "window_A": [
+        4244.0,
+        4249.0
+      ],
+      "consumer": "Sc DATA-GAP probe",
+      "covered": true,
+      "segment_file": "kpno_ScII_4246.csv",
+      "segment_bytes": 20120,
+      "segment_md5": "a89b91792430d790d69928f745781864",
+      "n_points": 503,
+      "median_dlambda_A": 0.01,
+      "wl_air_A_range": [
+        4244.003,
+        4248.997
+      ],
+      "flux_min": 0.0867
+    },
+    {
+      "name": "OI_6300",
+      "element": "O",
+      "line_A": 6300.3,
+      "window_A": [
+        6295.0,
+        6305.0
+      ],
+      "consumer": "O forbidden (cross-check, RYA-455)",
+      "covered": true,
+      "segment_file": "kpno_OI_6300.csv",
+      "segment_bytes": 55530,
+      "segment_md5": "da82c068b847e19dd510b007aeb5bbaf",
+      "n_points": 1388,
+      "median_dlambda_A": 0.0073,
+      "wl_air_A_range": [
+        6295.0,
+        6304.996
+      ],
+      "flux_min": 0.331
+    },
+    {
+      "name": "NI_7442_7468",
+      "element": "N",
+      "line_A": 7455.0,
+      "window_A": [
+        7438.0,
+        7472.0
+      ],
+      "consumer": "RYA-369 N I red (7442/7468)",
+      "covered": true,
+      "segment_file": "kpno_NI_7442_7468.csv",
+      "segment_bytes": 134771,
+      "segment_md5": "4126456e5c954fc12083aeb74304e542",
+      "n_points": 3369,
+      "median_dlambda_A": 0.0103,
+      "wl_air_A_range": [
+        7438.007,
+        7471.994
+      ],
+      "flux_min": 0.4128
+    },
+    {
+      "name": "KI_7665_7699",
+      "element": "K",
+      "line_A": 7682.0,
+      "window_A": [
+        7662.0,
+        7702.0
+      ],
+      "consumer": "K DATA-GAP (resonance doublet)",
+      "covered": true,
+      "segment_file": "kpno_KI_7665_7699.csv",
+      "segment_bytes": 190327,
+      "segment_md5": "0f895b887c25e44d48ff2d827dff514c",
+      "n_points": 4767,
+      "median_dlambda_A": 0.0085,
+      "wl_air_A_range": [
+        7662.004,
+        7701.998
+      ],
+      "flux_min": -0.0068
+    },
+    {
+      "name": "OI_777_triplet",
+      "element": "O",
+      "line_A": 7773.0,
+      "window_A": [
+        7768.0,
+        7778.0
+      ],
+      "consumer": "O I 777 (PRIMARY O, RYA-455)",
+      "covered": true,
+      "segment_file": "kpno_OI_777_triplet.csv",
+      "segment_bytes": 46579,
+      "segment_md5": "7d7f48cbde3c3dcfb2185f9b03287608",
+      "n_points": 1164,
+      "median_dlambda_A": 0.0085,
+      "wl_air_A_range": [
+        7768.007,
+        7777.999
+      ],
+      "flux_min": 0.7009
+    },
+    {
+      "name": "NI_8216_8223",
+      "element": "N",
+      "line_A": 8219.5,
+      "window_A": [
+        8210.0,
+        8228.0
+      ],
+      "consumer": "RYA-369 N I red (8216/8223)",
+      "covered": true,
+      "segment_file": "kpno_NI_8216_8223.csv",
+      "segment_bytes": 74552,
+      "segment_md5": "17ed40567410a432535e466d6f632d47",
+      "n_points": 1874,
+      "median_dlambda_A": 0.0097,
+      "wl_air_A_range": [
+        8210.004,
+        8227.995
+      ],
+      "flux_min": 0.002
+    },
+    {
+      "name": "NI_8680_8718",
+      "element": "N",
+      "line_A": 8699.0,
+      "window_A": [
+        8676.0,
+        8722.0
+      ],
+      "consumer": "RYA-369 N I red (8680-8718 multiplet)",
+      "covered": true,
+      "segment_file": "kpno_NI_8680_8718.csv",
+      "segment_bytes": 167223,
+      "segment_md5": "62bb9119341a537848d1244e622fe503",
+      "n_points": 4275,
+      "median_dlambda_A": 0.011,
+      "wl_air_A_range": [
+        8676.003,
+        8721.993
+      ],
+      "flux_min": 0.328
+    },
+    {
+      "name": "PI_10581_10596",
+      "element": "P",
+      "line_A": 10589.0,
+      "window_A": [
+        10575.0,
+        10602.0
+      ],
+      "consumer": "P near-IR multiplet (alt to FUV)",
+      "covered": true,
+      "segment_file": "kpno_PI_10581_10596.csv",
+      "segment_bytes": 85554,
+      "segment_md5": "b86a1d757d72b61c9e24f38a8dcd9a86",
+      "n_points": 2085,
+      "median_dlambda_A": 0.0134,
+      "wl_air_A_range": [
+        10575.012,
+        10601.988
+      ],
+      "flux_min": 0.3701
+    }
+  ]
+}
