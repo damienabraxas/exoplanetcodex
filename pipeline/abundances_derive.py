@@ -2051,15 +2051,36 @@ def _wire_curated_nonfe_results(results, ew_df):
 
 # ── RYA-458: EW-verification layer emission ──────────────────────────────────
 
+def _measured_ew_path(star_id: str):
+    """Resolve the MEASURED per-line EW pool for the EW-integrity pass (RYA-458/273).
+
+    Solar uses its promoted canonical pool (sol_ew_results_v1.csv, RYA-408); any other
+    star uses its lines_fit EW staging output (PATHS['<star>_ew'], e.g. procyon_ew.csv)
+    — the file where the per-line chi2 / profile / blend_flag / notes actually live.
+    Falls back to the solar canonical only if the star has no resolvable EW product."""
+    s = star_id.lower()
+    if 'solar' in s or 'sun' in s:
+        return PATHS['solar_ew_canonical']
+    key = next((k for k in STAR_LINELISTS if k != 'solar' and k in s), None)
+    cand = PATHS.get(f'{key}_ew') if key else None
+    return cand if (cand is not None and Path(cand).exists()) else PATHS['solar_ew_canonical']
+
+
 def _emit_ew_integrity(out_dir, star_id, scored_df, curated_pool):
     """Run the RYA-458 EW-integrity QA pass and save {star}_ew_integrity.csv.
 
-    Builds the per-line frame from the MEASURED solar EW pool (where chi2 / notes /
-    blend_flag live), attaches the implied A(X) (Fe from the per-line scoring, non-Fe
-    from the curated RYA-456 pool) for the ABUND_OUTLIER check, flags integrity, and
-    asserts no EW was mutated. Flags only — never edits an EW (RYA-451/458)."""
+    Builds the per-line frame from the star's MEASURED EW pool (where chi2 / notes /
+    blend_flag live — solar canonical, or the per-star lines_fit output for Procyon /
+    others, RYA-273), attaches the implied A(X) (Fe from the per-line scoring, non-Fe
+    from the curated RYA-456 pool when present) for the ABUND_OUTLIER check, flags
+    integrity, and asserts no EW was mutated. Flags only — never edits an EW (RYA-451/458).
+
+    For F-stars (Procyon) the value is the BAD_FIT / ABUND_OUTLIER / COG_FLAG catch on
+    the broader, saturation-/blend-prone profiles; the solar charter cases (C I 5380 /
+    Li 6707 / Eu 6645) are simply ABSENT and reported as such."""
     import pipeline.ew_integrity as ei
-    measured = pd.read_csv(str(PATHS['solar_ew_canonical']))
+    ew_src = _measured_ew_path(star_id)
+    measured = pd.read_csv(str(ew_src), comment='#')
     measured = measured[(measured['ew_mA'] > 0) & measured['ew_mA'].notna()].reset_index(drop=True)
 
     # implied A(X) per line, keyed (element, ion, wave@2dp): Fe from scoring, else curated.
@@ -2446,10 +2467,13 @@ def run(star_id: str = 'solar',
     # ── RYA-458: EW-verification layer (opt-in --ew-verify) ───────
     # A per-line EW-INTEGRITY QA pass: flag BAD_FIT / ABUND_OUTLIER / COG_FLAG /
     # LIT_DEVIATION and assign the charter-case dispositions. It FLAGS only — a hard
-    # assert proves no measured EW is mutated. Runs on the measured solar pool (where
+    # assert proves no measured EW is mutated. Runs on the star's measured EW pool (where
     # the per-line fit quality + notes live), with the implied A(X) attached from the
-    # Fe scoring + the curated non-Fe pool (RYA-456) for the ABUND_OUTLIER check.
-    if ew_verify and 'solar' in star_id.lower():
+    # Fe scoring + the curated non-Fe pool (RYA-456, solar) for the ABUND_OUTLIER check.
+    # RYA-273: generalized beyond solar — Procyon's F-star pool runs through the same
+    # layer (the curated non-Fe pool is solar-only, so curated_pool is None here and the
+    # ABUND_OUTLIER check stands on the Fe per-line scoring, which is the F-star target).
+    if ew_verify:
         _emit_ew_integrity(out_dir, star_id, scored_df, _curated_pool)
 
     # ── Synthesis mode (RYA-285 v1 EW / RYA-287 v2 flux) ──────────
