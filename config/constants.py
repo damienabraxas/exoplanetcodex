@@ -260,48 +260,161 @@ FE_ABS_DIAG_HALFWIDTH = 0.07   # dex — wide half-window around the scale-aware
 FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat within error"
                                # for the solar guardrail (RYA-330: −0.04..−0.09).
 
-# ── Per-spectral-type acceptance profiles (RYA-277 seed; RYA-446 G-anchor slice) ──
-# Acceptance thresholds are a FUNCTION of stellar type, not universal (RYA-277): every
-# legacy threshold was calibrated on the Sun and silently labelled "universal". This is
-# the minimal interim seed — ONLY the G anchor is populated, to unblock the RYA-371
-# Phase C solar Fe verdict (RYA-446). F/K/M are TODO stubs deferred to the full RYA-277
-# build (gated on the Procyon F-anchor numbers, RYA-270/273); do NOT populate them here.
+# ── Per-spectral-type acceptance profiles (RYA-277) ──────────────────────────
+# THE ARCHITECTURAL FACT: acceptance/quality criteria are a FUNCTION of stellar type,
+# not universal. Every legacy threshold (σ-clip, COG/EW ceiling, scatter gate, A(Fe)
+# window, n_lines floor, continuum strategy, NLTE applicability) was calibrated on the
+# Sun and silently labelled "universal" — an implicit, unlabelled "G-star, 5772 K"
+# assumption (the same failure family as the solar-only CODE PATHS in RYA-270/273/274,
+# one level up: the solar assumption baked into the scientific CUTS themselves).
 #
-# Single source of truth: the solar Fe gate reads its Fe I scatter ceiling from the
-# active profile via fe1_scatter_threshold() — no hardcoded threshold in the scripts.
+# This structure makes the type explicit. It is a ROUTING/parameterization layer, NOT a
+# science change: the G profile = the current solar values, relabelled — routing solar
+# through it reproduces the signed-off solar Fe result BIT-FOR-BIT (A(Fe I) NLTE 7.516).
+# That regression (scripts/validate_fe_rya238.py --star sun) is the proof the refactor
+# changed nothing for the anchor. Prototype patterns followed: CONTINUUM_PARAMS (RYA-274)
+# and EW_FIT_PARAMS (RYA-273) are already per-star — those operative pool-construction
+# params stay where they live; this profile CROSS-LINKS to them by key and owns the
+# per-type ACCEPTANCE GATE thresholds (the validation criteria) as the single source.
+#
+# Anchors populated from real data (RYA-277 §3):
+#   G = Sun (G2V, 5772 K)     — current solar gate values, regression-proven.
+#   F = Procyon (F5IV, 6554 K) — Fe I scatter floor σ=0.222 FINAL from RYA-281 (the 4
+#       RYA-458 ABUND_OUTLIER lines tested for bad-gf vs GES Heiter+2021: 0/4 confirmed,
+#       EW blends excluded, no gf tuned → 0.222 is the genuine 1D-LTE F-star floor, NOT
+#       contamination), nlte_available=False (Fe I NLTE grid runs out > 6500 K, RYA-319 →
+#       1D-LTE-only → irreducible NLTE-driven floor), A(Fe) window/dFe/n_Fe2/vmic from the
+#       RYA-273 F-anchor run. The "Procyon Fe σ FAILED" verdict was a SOLAR gate applied
+#       to an F star; under this profile σ=0.222 is at-floor → PASS for an NLTE-unavailable
+#       F dwarf. COG ceiling marked PROVISIONAL (RYA-273 COG_FLAG knee ≈ 120 mÅ) — the
+#       operative pool cut stays PIPELINE['vmic_ew_ceiling_mA'] (the σ=0.222 anchor was
+#       characterized at that cut; see RYA-277 §4 — F/K/M pool thresholds not reset here).
+#   K, M = STUBS with the §2 physics notes + TODO; not populated (no target reached). The
+#       accessor fails LOUD on a stub (no silent default), same anti-assumption discipline.
+#
+# σ-floor trend (RYA-407/281, the point of the per-type gate): the Fe I scatter floor
+# RISES from cool G to warm F — G 0.1398 (NLTE-covered) → F 0.222 (NLTE-unavailable).
+# A single universal number cannot be right for both; the gate must be a function of type.
 ACCEPTANCE_PROFILES = {
     'G': {
+        'teff_range'      : (5300, 6000),    # G regime (Sun ≈ 5772 K)
+        'method'          : 'EW',            # atomic-line EW measurement is valid
+        'nlte_available'  : True,            # Fe I NLTE grid covers G (Teff < 6500 K, RYA-319)
+        # Acceptance GATE thresholds (single source; the validate script reads these):
+        'a_fe_lo'         : SOLAR_ASPLUND2021['Fe'] + FE_GATE_LOWER,  # 7.41 (RYA-261)
+        'a_fe_hi'         : SOLAR_ASPLUND2021['Fe'] + FE_GATE_UPPER,  # 7.51
+        'dFe_max'         : FE_IONISATION_GATE,                       # 0.05 (RYA-261)
         # Fe I line-to-line scatter ceiling = the cited RYA-407 honest floor of the
         # current GES-EW 1D-LTE solar Fe I pool: σ(1D) = 0.1398 dex (the gate's NLTE σ
-        # ≈ 1D σ; RYA-407 Step 0). This is the characterized POOL floor, derived BLIND
-        # to gate pass/fail (RYA-407's cuts were residual-independent) — NOT a round
-        # number and NOT chosen to make the Sun pass. RYA-407 verdict (c): no cited
-        # mechanism reaches the legacy 0.10. Source: docs/audit/
-        # fe1_scatter_diagnostic_rya407.md (Step 0). RYA-279 will recompute the gate σ
-        # over the vetted/ceiling'd pool (RYA-407: proximity-cut → ~0.128); re-confirm
-        # this threshold when RYA-279 lands.
-        'fe1_scatter_max': 0.1398,        # RYA-407 σ(1D) floor, GES-EW 1D-LTE Fe I pool
-        'teff_range'     : (5300, 6000),  # G regime (Sun ≈ 5772 K)
-        'provenance'     : 'RYA-407 honest floor σ(1D)=0.1398 (GES-EW 1D-LTE solar Fe I pool)',
+        # ≈ 1D σ; RYA-407 Step 0). Characterized POOL floor, derived BLIND to gate
+        # pass/fail — NOT a round number, NOT chosen to make the Sun pass. RYA-407
+        # verdict (c): no cited mechanism reaches the legacy 0.10.
+        'fe1_scatter_max' : 0.1398,          # RYA-407 σ(1D) floor, GES-EW 1D-LTE Fe I pool
+        'n_Fe2_min'       : 8,               # RYA-238 solar Fe II pool floor
+        'vmic_lit'        : 1.00,            # km/s, solar microturbulence (pinned)
+        # Pool-construction config — DOCUMENTED here, OPERATIVE value stays per-star:
+        'cog_ceiling_mA'  : 100.0,           # == PIPELINE['vmic_ew_ceiling_mA'] (RYA-330 saturation cut)
+        'continuum_key'   : 'solar',         # → CONTINUUM_PARAMS['solar'] (RYA-274)
+        'ew_fit_key'      : 'solar',         # → EW_FIT_PARAMS['solar'] (RYA-273)
+        'provenance'      : 'RYA-407 honest floor σ(1D)=0.1398 (GES-EW 1D-LTE solar Fe I pool); G=solar anchor (5772 K)',
     },
-    'F': None,   # TODO RYA-277 — Procyon F-anchor (gated on RYA-270/273 F-numbers)
-    'K': None,   # TODO RYA-277
-    'M': None,   # TODO RYA-277
+    'F': {
+        'teff_range'      : (6000, 6800),    # F regime (Procyon ≈ 6554 K converged)
+        'method'          : 'EW',
+        'nlte_available'  : False,           # Fe I NLTE grid runs out > 6500 K (Procyon 6554 K, RYA-319) → 1D-LTE-only
+        'a_fe_lo'         : 7.38, 'a_fe_hi'  : 7.54,   # RYA-273 F-anchor window
+        'dFe_max'         : 0.08,            # RYA-273 F-anchor ionization gate
+        # FINAL F-star Fe I scatter floor (RYA-281): bad-gf disproved (0/4 GES-confirmed),
+        # blends excluded (priority 0, no gf tuned), post-NLTE σ=0.222. Sits just above the
+        # ~0.18 NLTE-unavailable expectation → the genuine 1D-LTE F-star floor (Procyon
+        # above the Fe NLTE grid ceiling), NOT removable contamination. This RISES above the
+        # G floor 0.1398 by design — that rise IS why the gate must be per-type.
+        'fe1_scatter_max' : 0.222,           # RYA-281 FINAL F-anchor floor (NLTE-unavailable)
+        'n_Fe2_min'       : 3,               # RYA-273 F-anchor Fe II pool floor
+        'vmic_lit'        : 1.66,            # km/s, Allende Prieto 2002 (Procyon)
+        'cog_ceiling_mA'  : 120.0,           # PROVISIONAL F-anchor: RYA-273 COG_FLAG knee ≈ 120 mÅ
+                                             # (operative pool cut stays PIPELINE['vmic_ew_ceiling_mA'];
+                                             #  the σ=0.222 anchor was characterized at that cut — RYA-277 §4).
+        'continuum_key'   : 'procyon',       # → CONTINUUM_PARAMS['procyon'] (RYA-274)
+        'ew_fit_key'      : 'procyon',       # → EW_FIT_PARAMS['procyon'] (RYA-273)
+        'provenance'      : 'RYA-281 F-star Fe σ floor 0.222 FINAL (bad-gf disproved, blends excluded, '
+                            'NLTE-unavailable > 6500 K → genuine 1D-LTE floor); Procyon 6554 K anchor',
+    },
+    # ── STUBS — physics notes only, NOT populated (RYA-277 §2/§4) ──────────────
+    'K': {
+        'status'         : 'TODO',
+        'method'         : 'EW',             # likely still EW, but molecular-band-aware
+        'nlte_available' : None,             # unknown until a K target is reached
+        'physics_note'   : ('Cooler than the Sun: sharper, deeper lines (good) BUT molecular '
+                            'bands (CN, and toward late-K the onset of TiO) begin contaminating '
+                            'regions that are clean in the Sun → a different BLEND regime. The '
+                            'continuum-window strategy must avoid molecular bands. Thresholds '
+                            'TODO — populate when a K-dwarf target is reached (RYA-277).'),
+        'provenance'     : 'STUB — not populated (RYA-277 §2); no K target reached',
+    },
+    'M': {
+        'status'         : 'TODO',
+        'method'         : 'synthesis',      # EW likely INVALID as a method — pseudo-continuum forest
+        'nlte_available' : None,
+        'physics_note'   : ('M dwarfs (Tier-2 targets): severe molecular blanketing (TiO, VO, H2O) — '
+                            'arguably NO true optical continuum, the pseudo-continuum is a forest. '
+                            'Atomic-line EW measurement as done for the Sun may not be the valid '
+                            'METHOD — full-spectrum synthesis on MARCS.GES atmospheres likely '
+                            'mandatory. The M profile may specify METHOD, not just thresholds. '
+                            'TODO (RYA-277).'),
+        'provenance'     : 'STUB — not populated; method=synthesis flagged (RYA-277 §2)',
+    },
 }
 
-# Star → spectral type, for acceptance-profile routing (minimal RYA-446 seed).
+# Star → spectral type, for acceptance-profile routing (RYA-446 seed; RYA-277 anchors).
 STAR_SPECTRAL_TYPE = {'solar': 'G', 'procyon': 'F'}
+
+# Keys a populated (non-stub) acceptance profile must carry — used by the loud accessor
+# to distinguish a real anchor from a physics-note stub.
+_ACCEPTANCE_GATE_KEYS = ('a_fe_lo', 'a_fe_hi', 'dFe_max', 'fe1_scatter_max',
+                         'n_Fe2_min', 'vmic_lit')
+
+
+def get_acceptance_profile(spectral_type):
+    """Active acceptance profile for `spectral_type`, read from ACCEPTANCE_PROFILES
+    (single source of truth). Fails LOUD on a missing or stub profile (RYA-277 K/M are
+    physics-note stubs) — no silent default, same anti-assumption discipline as the
+    RYA-270 linelist-routing log."""
+    prof = ACCEPTANCE_PROFILES.get(spectral_type)
+    if prof is None or not all(k in prof for k in _ACCEPTANCE_GATE_KEYS):
+        _note = (f" ({prof['physics_note']})" if isinstance(prof, dict)
+                 and 'physics_note' in prof else '')
+        raise KeyError(
+            f"No acceptance profile populated for spectral type {spectral_type!r}; it is "
+            f"a deferred RYA-277 stub.{_note} Refusing to default silently — populate the "
+            f"profile (RYA-277) before gating this type.")
+    return prof
+
+
+def acceptance_profile_for_star(star_id):
+    """Resolve a star_id → its spectral type → the populated acceptance profile.
+    Fails loud if the star has no type mapping or the type's profile is a stub."""
+    s = star_id.strip().lower()
+    spec = STAR_SPECTRAL_TYPE.get(s)
+    if spec is None:
+        spec = next((t for k, t in STAR_SPECTRAL_TYPE.items() if k in s or s in k), None)
+    if spec is None:
+        raise KeyError(
+            f"No spectral-type mapping for star_id={star_id!r}; add it to "
+            f"STAR_SPECTRAL_TYPE before acceptance-gating it (RYA-277).")
+    return spec, get_acceptance_profile(spec)
 
 
 def fe1_scatter_threshold(spectral_type):
     """Active Fe I line-to-line scatter ceiling for `spectral_type`, read from
-    ACCEPTANCE_PROFILES (single source of truth). Fails loud on an unpopulated profile
-    (RYA-277 F/K/M are TODO stubs) — no silent default."""
+    ACCEPTANCE_PROFILES (single source of truth). Fails loud on a missing/stub profile
+    (RYA-277 K/M are stubs) — no silent default. Back-compat alias kept for RYA-446
+    callers; new code can use get_acceptance_profile()['fe1_scatter_max']."""
     prof = ACCEPTANCE_PROFILES.get(spectral_type)
     if prof is None or 'fe1_scatter_max' not in prof:
         raise KeyError(
             f"No acceptance profile populated for spectral type {spectral_type!r}; the "
-            f"RYA-277 F/K/M profiles are deferred TODO stubs. Refusing to default "
+            f"RYA-277 K/M profiles are deferred TODO stubs. Refusing to default "
             f"silently — populate the profile (RYA-277) before gating this type.")
     return prof['fe1_scatter_max']
 

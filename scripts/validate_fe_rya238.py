@@ -33,6 +33,7 @@ from config.constants import (
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
     ACCEPTANCE_PROFILES, STAR_SPECTRAL_TYPE, fe1_scatter_threshold,
+    get_acceptance_profile,
 )
 
 # RYA-334: A_X_nlte is ABSOLUTE A(Fe) (RYA-319 convention); the _check_gates /
@@ -40,32 +41,29 @@ from config.constants import (
 # to derive the absolute gate THRESHOLDS (7.46 ± FE_GATE), not to convert A_X_nlte.
 _A_FE_SOLAR = SOLAR_ASPLUND2021['Fe']  # 7.46 (Asplund+2021)
 
-# ── Gate definitions ──────────────────────────────────────────────────────────
-# Solar thresholds: FE_GATE_* are offsets in [Fe/H]; absolute bounds = 7.46 ± offset,
-# compared directly against the absolute A_X_nlte the pipeline stores.
-GATES = {
-    'solar': {
-        'A_Fe_I_lo'  : _A_FE_SOLAR + FE_GATE_LOWER,   # 7.41
-        'A_Fe_I_hi'  : _A_FE_SOLAR + FE_GATE_UPPER,   # 7.51
-        'A_Fe_II_lo' : _A_FE_SOLAR + FE_GATE_LOWER,   # 7.41
-        'A_Fe_II_hi' : _A_FE_SOLAR + FE_GATE_UPPER,   # 7.51
-        'dFe_max'    : FE_IONISATION_GATE,             # 0.05
-        # G-anchor Fe I scatter ceiling from the active acceptance profile (RYA-446):
-        # the cited RYA-407 honest floor, NOT the superseded legacy 0.10. The value
-        # lives ONLY in ACCEPTANCE_PROFILES['G'] (single source); no copy here.
-        'scatter_max': fe1_scatter_threshold('G'),     # RYA-407 floor via ACCEPTANCE_PROFILES['G']
-        'n_Fe2_min'  : 8,
-        'vmic'       : 1.00,
-    },
-    'procyon': {
-        'A_Fe_I_lo'  : 7.38, 'A_Fe_I_hi'  : 7.54,
-        'A_Fe_II_lo' : 7.38, 'A_Fe_II_hi' : 7.54,
-        'dFe_max'    : 0.08,
-        'scatter_max': 0.15,
-        'n_Fe2_min'  : 3,
-        'vmic'       : 1.66,
-    },
-}
+# ── Gate definitions — ROUTED, not hardcoded (RYA-277) ────────────────────────
+# Every per-star acceptance threshold now comes from the star's per-spectral-type
+# ACCEPTANCE_PROFILE (config/constants.py), the single source of truth. There is NO
+# hardcoded gate table here: the Sun reads the G profile (= its signed-off values,
+# regression-proven bit-for-bit at A(Fe I) NLTE 7.516) and Procyon reads the F profile
+# (Fe I scatter floor 0.222 FINAL from RYA-281, NLTE-unavailable). This is the
+# anti-silent-assumption fix: the gate a star runs against is its TYPE's gate, named
+# at runtime — never an unlabelled "G-star" default applied to an F dwarf.
+def _gates_from_profile(star_id: str) -> dict:
+    spec = STAR_SPECTRAL_TYPE[star_id]
+    p = get_acceptance_profile(spec)        # loud on a stub — no silent default
+    return {
+        'spectral_type': spec,
+        'A_Fe_I_lo'  : p['a_fe_lo'], 'A_Fe_I_hi'  : p['a_fe_hi'],
+        'A_Fe_II_lo' : p['a_fe_lo'], 'A_Fe_II_hi' : p['a_fe_hi'],
+        'dFe_max'    : p['dFe_max'],
+        'scatter_max': p['fe1_scatter_max'],
+        'n_Fe2_min'  : p['n_Fe2_min'],
+        'vmic'       : p['vmic_lit'],
+        'nlte_available': p['nlte_available'],
+    }
+
+GATES = {s: _gates_from_profile(s) for s in STAR_SPECTRAL_TYPE}
 
 PLOT_DIR = REPO_ROOT / 'data' / 'processed'
 
@@ -135,7 +133,12 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
         'spread_flag' : bool(np.isfinite(ew_synth_spread) and abs(ew_synth_spread) > FE_EW_SYNTH_SPREAD_BAND),
         'dFe_pass'    : dfe <= g['dFe_max'] if np.isfinite(dfe) else False,
         'scatter'     : sc,
-        'scatter_pass': sc < g['scatter_max'] if np.isfinite(sc) else False,
+        # AT-FLOOR PASSES (RYA-277): the per-type fe1_scatter_max IS the characterized,
+        # cited POOL FLOOR for that type (G 0.1398 RYA-407; F 0.222 RYA-281). For an
+        # NLTE-unavailable type the floor is irreducible, so σ == floor is acceptance,
+        # not failure — hence ≤, not <. No-op for the Sun (σ 0.138 is strictly below
+        # 0.1398); flips Procyon's at-floor σ 0.222 to PASS (the RYA-281 verdict).
+        'scatter_pass': sc <= g['scatter_max'] if np.isfinite(sc) else False,
         'n_Fe2'       : n2,
         'n_Fe2_pass'  : n2 >= g['n_Fe2_min'],
         'vmic'        : vmic_val,
@@ -176,20 +179,23 @@ def _print_gate_table(star_id: str, res: dict):
         _fl = "FLAG (unexplained?)" if res.get('spread_flag') else "within blend-bias band"
         print(f"    └ DIAGNOSTIC EW-vs-synth Fe II spread = {res['ew_synth_spread']:+.3f}  "
               f"(EW ΔFe={res.get('dFe_ew', float('nan')):+.3f} blend-biased, NOT the verdict) → {_fl}")
-    row("Fe I scatter (σ NLTE)",
+    # σ label tracks NLTE availability: NLTE for G, 1D for an NLTE-unavailable F star.
+    _sigma_label = "σ NLTE" if g.get('nlte_available') else "σ 1D (NLTE-unavail)"
+    row(f"Fe I scatter ({_sigma_label})",
         res['scatter'],
-        f"< {g['scatter_max']}",
+        f"<= {g['scatter_max']}",
         res['scatter_pass'])
     # Anti-silent-assumption (RYA-270/277): name the active acceptance profile + the
-    # cited source of the scatter ceiling the gate is using.
-    _spec = STAR_SPECTRAL_TYPE.get(star_id)
+    # cited source of the per-type scatter ceiling the gate is using.
+    _spec = g.get('spectral_type') or STAR_SPECTRAL_TYPE.get(star_id)
     _prof = ACCEPTANCE_PROFILES.get(_spec) if _spec else None
-    if _prof is not None:
-        print(f"    └ acceptance profile: {_spec}-star  |  Fe I scatter ≤ "
-              f"{g['scatter_max']}  |  {_prof['provenance']}")
+    if _prof is not None and 'fe1_scatter_max' in _prof:
+        _nl = 'NLTE-available' if _prof.get('nlte_available') else 'NLTE-UNAVAILABLE'
+        print(f"    └ acceptance profile: {_spec}-star ({_prof.get('method','?')}, {_nl})  |  "
+              f"Fe I scatter ≤ {g['scatter_max']}  |  {_prof['provenance']}")
     else:
-        print(f"    └ acceptance profile: {_spec}-star UNPROFILED → legacy-universal "
-              f"{g['scatter_max']} (RYA-277 TODO)")
+        print(f"    └ acceptance profile: {_spec}-star UNPROFILED (RYA-277 stub) → "
+              f"would fail loud; no silent default")
     row(f"Fe II n_lines",
         float(res['n_Fe2']),
         f">= {g['n_Fe2_min']}",
