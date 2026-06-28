@@ -14,7 +14,7 @@ _Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune:
 | El | Asplund21 | A(meas) | Delta | sigma | n | NLTE | Verdict | Channel |
 |----|----------:|--------:|------:|------:|--:|:----:|:--------|:--------|
 | O | 8.69 | 8.735 | +0.045 | 0.01 | 3 | - | **PASS** | synthesis: O I 777 (primary) + [O I] 6300 (cross-check) |
-| C | 8.46 | 8.491 | +0.031 | 0.15 | 6 | - | **PASS** | synthesis: CH G-band + C I 5052/5380 + C2 Swan |
+| C | 8.46 | 8.491 | +0.031 | 0.05 | 5 | - | **PASS** | synthesis: CH G-band + C I 5052 + C2 Swan (C I 5380 BAD_FIT-excluded) |
 | N | 7.83 | 7.774 | -0.056 | 0.96 | 3 | - | **NLTE-OWED** | synthesis: N I 8216 + CN red; NH 3360 primary |
 | Mg | 7.55 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 | Si | 7.51 | 7.888 | +0.378 | 0.36 | 7 | wired+3D | **CURATION-OWED** | EW: 7 curated line(s), graded-gf (RYA-395/398) |
@@ -37,7 +37,7 @@ _Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune:
 | Zr | 2.59 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 | Ba | 2.27 |  |  |  |  | wired | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 | Y | 2.21 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
-| Li | 1.05 | 0.727 | -0.323 |  | 1 | - | **CURATION-OWED** | EW: Li I 6707 (single line, upper limit) |
+| Li | 1.05 | 0.727 | -0.323 |  | 1 | - | **CURATION-OWED** | EW: Li I 6707 (single line, UPPER LIMIT) |
 | Eu | 0.52 |  |  |  |  | - | **CURATION-OWED** | EW present; no independent-gf line survives the graded cull |
 
 ## Remaining-work map
@@ -45,7 +45,7 @@ _Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune:
 ### PASS (3)
 
 - **O** — cross-arm AGREE; O I 777 Amarsi-2019 3D-NLTE, [O I] Caffau-2015 3D anchor — measured 8.74 vs Asplund 8.69 (+0.05). RYA-455.
-- **C** — C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); ESPRESSO C I 5380 chi2r~103 flagged outlier, NOT averaged. spread 0.149.
+- **C** — C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); C I 5380 formally excluded ew_integrity=BAD_FIT (RYA-458); surviving cross-arm spread 0.054 on 5 indicators. [C I 5380 EXCLUDED (ew_integrity=BAD_FIT, espresso:CI_5380); cross-arm spread 0.149->0.054 on 5 surviving indicators.]
 - **Fe** — A(Fe I) NLTE 7.516 vs Asplund 7.46 (+0.056); ionization-balance gated, scatter 0.139 = honest floor (RYA-407). Documented +0.05 1D/3D scale offset (RYA-336), not the verdict.
 
 ### NLTE-OWED (1)
@@ -70,8 +70,8 @@ _Generated 2026-06-27 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune:
 - **Zr** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
 - **Ba** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Ba_Korotin2015.csv).
 - **Y** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
-- **Li** — CN-blended upper limit (RYA-103); A(Li) 0.73 is a LTE lower bound, not a clean determination. Curation/3D-NLTE owed for a real value.
-- **Eu** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).
+- **Li** — CN-blended UPPER LIMIT (RYA-103/458, ew_integrity disposition=UPPER_LIMIT); A(Li) 0.73 is a LTE lower bound, not a clean determination. A clean low value here would be a RED FLAG (CN deblend not applied).
+- **Eu** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged). Eu II 6645 EW 6.8 mA, ew_integrity disposition=RECOVERED (RYA-102/458 HFS-summing).
 
 ### DATA-GAP (4)
 

@@ -68,6 +68,52 @@ def _load():
     return ab, ew, phase_a
 
 
+def _ew_integrity_charter():
+    """RYA-458: the per-line EW-integrity charter dispositions for the verdict.
+
+    Computed from the measured solar pool via pipeline.ew_integrity (the same fixed,
+    abundance-blind flags the --ew-verify pass writes; the charter cases need no A(X),
+    so this is self-contained and cheap). Returns (charter_dict, reference_df) or
+    ({}, None) if the layer is unavailable. The verdict CONSUMES these flags (pure
+    classification) — it never re-measures or adjusts an EW."""
+    try:
+        import pipeline.ew_integrity as ei
+        measured = pd.read_csv(ROOT / 'data' / 'measured' / 'sol_ew_results_v1.csv')
+        measured = measured[(measured['ew_mA'] > 0) & measured['ew_mA'].notna()].reset_index(drop=True)
+        flagged = ei.flag_ew_integrity(measured)
+        return ei.charter_summary(flagged), ei.load_reference_table()
+    except Exception as e:                       # never let QA wiring break the verdict
+        print(f"  (RYA-458 EW-integrity layer unavailable: {e})")
+        return {}, None
+
+
+def _c_crossarm_excluding_bad_fit(rec, ref):
+    """Recompute the C cross-arm (primary_mean, spread) after EXCLUDING the BAD_FIT
+    C I 5380 indicator on the cited arm (RYA-458). Returns
+    (primary_mean, spread, n_used, excluded_label). The primary indicator (CH G-band)
+    is untouched; only the flagged cross-check indicator is dropped on fit-quality
+    grounds — a named exclusion, never a value-based outlier trim."""
+    inds = rec.get('indicators', [])
+    bad_arm = None
+    if ref is not None:
+        cr = ref[(ref['element'] == 'C') & (ref['ion'] == 'I')]
+        if not cr.empty and 'bad_fit_arm' in cr.columns:
+            v = cr.iloc[0].get('bad_fit_arm')
+            bad_arm = str(v) if isinstance(v, str) and v else None
+    excluded = []
+    kept = []
+    for ind in inds:
+        if str(ind.get('key')) == 'CI_5380' and (bad_arm is None or str(ind.get('arm')) == bad_arm):
+            excluded.append(f"{ind.get('arm')}:CI_5380")
+        else:
+            kept.append(ind)
+    avals = [float(i['A']) for i in kept if np.isfinite(i.get('A', np.nan))]
+    prim = [float(i['A']) for i in kept if i.get('role') == 'primary' and np.isfinite(i.get('A', np.nan))]
+    primary_mean = float(np.mean(prim)) if prim else (float(np.mean(avals)) if avals else float('nan'))
+    spread = float(max(avals) - min(avals)) if len(avals) >= 2 else 0.0
+    return primary_mean, round(spread, 3), len(kept), ','.join(excluded)
+
+
 def _measured_row(ab, el):
     """Return the dominant measured ion row for an element (most lines), or None."""
     sub = ab[ab['element'] == el]
@@ -95,6 +141,7 @@ def _phase_a_summary(phase_a, el):
 def build_verdicts(ab, ew, phase_a):
     pool_elems = set(ew['element'].unique())
     produced = set(ab['element'].unique())
+    charter, ew_ref = _ew_integrity_charter()      # RYA-458 EW-integrity dispositions
     rows = []
 
     # Element universe = Asplund 2021 metals (exclude H, He — not derived from these
@@ -121,18 +168,29 @@ def build_verdicts(ab, ew, phase_a):
         # C/N/O are derived from the Phase A SYNTHESIS path, not the EW baseline —
         # the EW-path value for C (10.26) is an uncurated artifact; report the
         # multi-arm cross-arm result instead (primary mean + spread).
+        ew_integrity_note = ''
         if el in ('C', 'N', 'O'):
             rec = phase_a['cross_arm'][el]
             a_meas = float(rec['primary_mean'])
             sigma = float(rec['spread'])
             n_lines = len(rec['indicators'])
             nlte_flag = ''
+            # RYA-458: formalize the C I 5380 BAD_FIT exclusion (Phase C had it ad-hoc).
+            # Exclude the cited-anomalous indicator, recompute the cross-arm spread.
+            if el == 'C' and charter.get('C_I_5380', {}).get('ew_excluded'):
+                pm, sp, n_used, excl = _c_crossarm_excluding_bad_fit(rec, ew_ref)
+                a_meas, sigma, n_lines = pm, sp, n_used
+                ew_integrity_note = (f"C I 5380 EXCLUDED (ew_integrity=BAD_FIT, {excl}); "
+                                     f"cross-arm spread {rec['spread']}->{sp} on {n_used} "
+                                     f"surviving indicators.")
         delta = round(a_meas - asp, 3) if np.isfinite(a_meas) else float('nan')
 
         verdict, channel, owed = _classify(el, asp, a_meas, delta, sigma, n_lines,
                                             grid, threed, nlte_flag,
                                             el in pool_elems, el in produced, phase_a,
-                                            cverdict)
+                                            cverdict, charter)
+        if ew_integrity_note:
+            owed = f"{owed} [{ew_integrity_note}]"
         rows.append({
             'element': el, 'asplund2021': asp,
             'A_measured': round(a_meas, 3) if np.isfinite(a_meas) else None,
@@ -147,8 +205,9 @@ def build_verdicts(ab, ew, phase_a):
 
 
 def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
-              in_pool, produced, phase_a, cverdict=''):
+              in_pool, produced, phase_a, cverdict='', charter=None):
     """Return (verdict, channel, owed-note). Pure classification — no tuning."""
+    charter = charter or {}
     # ── C / N / O come from the Phase A synthesis path, not the EW baseline ──
     if el in ('C', 'N', 'O'):
         rec = phase_a['cross_arm'][el]
@@ -158,10 +217,12 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
                     'cross-arm AGREE; O I 777 Amarsi-2019 3D-NLTE, [O I] Caffau-2015 3D anchor — '
                     'measured 8.74 vs Asplund 8.69 (+0.05). RYA-455.')
         if el == 'C':
-            return ('PASS', 'synthesis: CH G-band + C I 5052/5380 + C2 Swan',
-                    'C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); '
-                    'ESPRESSO C I 5380 chi2r~103 flagged outlier, NOT averaged. spread '
-                    f"{rec['spread']}.")
+            # RYA-458: C I 5380 is formally excluded (ew_integrity=BAD_FIT); the
+            # surviving cross-arm spread is `sigma` (recomputed in build_verdicts).
+            return ('PASS', 'synthesis: CH G-band + C I 5052 + C2 Swan (C I 5380 BAD_FIT-excluded)',
+                    f'C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); '
+                    f'C I 5380 formally excluded ew_integrity=BAD_FIT (RYA-458); surviving '
+                    f'cross-arm spread {sigma} on {n_lines} indicators.')
         # N
         return ('NLTE-OWED', 'synthesis: N I 8216 + CN red; NH 3360 primary',
                 'N I 8216 LTE 7.99 (NLTE owed -> N I grid, RYA-369, would pull toward 7.83); '
@@ -184,9 +245,13 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
     # ── elements with a measured abundance (EW path produced A(X)) ──
     if produced and np.isfinite(a_meas):
         if el == 'Li':
-            return ('CURATION-OWED', 'EW: Li I 6707 (single line, upper limit)',
-                    'CN-blended upper limit (RYA-103); A(Li) 0.73 is a LTE lower bound, not a '
-                    'clean determination. Curation/3D-NLTE owed for a real value.')
+            # RYA-458: formal UPPER_LIMIT disposition (CN-blend); never a point value.
+            li = charter.get('Li_6707', {})
+            disp = li.get('ew_disposition', 'UPPER_LIMIT') if li.get('present') else 'UPPER_LIMIT'
+            return ('CURATION-OWED', 'EW: Li I 6707 (single line, UPPER LIMIT)',
+                    f'CN-blended UPPER LIMIT (RYA-103/458, ew_integrity disposition={disp}); '
+                    f'A(Li) 0.73 is a LTE lower bound, not a clean determination. A clean low '
+                    f'value here would be a RED FLAG (CN deblend not applied).')
         # RYA-456: the wired non-Fe metals carry the curation's BLIND verdict. Map it
         # (no threshold re-derived here — the decision was made blind in RYA-395/398):
         #   VALIDATED      → PASS (graded gf + NLTE recovers Asplund within the band)
@@ -221,11 +286,18 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
     # left no independent-gf line to stand on (the pool's gf is all Kurucz/ungraded).
     if in_pool:
         nlte_note = (f'NLTE grid available ({grid})' if grid else 'no NLTE grid (would be LTE-flagged)')
+        # RYA-458: surface the Eu 6645 HFS recovery disposition (RYA-102) on its row.
+        eu_note = ''
+        if el == 'Eu':
+            euc = charter.get('Eu_6645', {})
+            if euc.get('present'):
+                eu_note = (f" Eu II 6645 EW {euc['ew_mA']:.1f} mA, ew_integrity "
+                           f"disposition={euc['ew_disposition']} (RYA-102/458 HFS-summing).")
         return ('CURATION-OWED', 'EW present; no independent-gf line survives the graded cull',
                 'solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf '
                 'firewall (now wired into the default run, RYA-456) culls every line — the '
                 'pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). '
-                f'{nlte_note}.')
+                f'{nlte_note}.{eu_note}')
 
     # ── no solar lines in the present set ──
     return ('DATA-GAP', 'no curated solar lines in present set',

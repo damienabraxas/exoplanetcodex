@@ -2049,6 +2049,51 @@ def _wire_curated_nonfe_results(results, ew_df):
     return out, curated, pool
 
 
+# ── RYA-458: EW-verification layer emission ──────────────────────────────────
+
+def _emit_ew_integrity(out_dir, star_id, scored_df, curated_pool):
+    """Run the RYA-458 EW-integrity QA pass and save {star}_ew_integrity.csv.
+
+    Builds the per-line frame from the MEASURED solar EW pool (where chi2 / notes /
+    blend_flag live), attaches the implied A(X) (Fe from the per-line scoring, non-Fe
+    from the curated RYA-456 pool) for the ABUND_OUTLIER check, flags integrity, and
+    asserts no EW was mutated. Flags only — never edits an EW (RYA-451/458)."""
+    import pipeline.ew_integrity as ei
+    measured = pd.read_csv(str(PATHS['solar_ew_canonical']))
+    measured = measured[(measured['ew_mA'] > 0) & measured['ew_mA'].notna()].reset_index(drop=True)
+
+    # implied A(X) per line, keyed (element, ion, wave@2dp): Fe from scoring, else curated.
+    a_map: dict = {}
+    if scored_df is not None and not scored_df.empty and 'a_1dlte' in scored_df.columns:
+        for _, r in scored_df.iterrows():
+            a_map[(r['element'], r['ion'], round(float(r['wavelength_air_A']), 2))] = float(r['a_1dlte'])
+    if curated_pool is not None and 'A_lte' in getattr(curated_pool, 'columns', []):
+        for _, r in curated_pool[curated_pool['A_lte'].notna()].iterrows():
+            a_map.setdefault((r['element'], r['ion'], round(float(r['wavelength_air_A']), 2)),
+                             float(r['A_lte']))
+    measured['a_lte'] = [a_map.get((e, i, round(float(w), 2)), np.nan)
+                         for e, i, w in zip(measured['element'], measured['ion'],
+                                            measured['wavelength_air_A'])]
+
+    flagged = ei.flag_ew_integrity(measured)
+    ei.assert_no_ew_mutation(measured, flagged)          # cardinal guard (also asserted inside)
+    out_path = out_dir / f'{star_id}_ew_integrity.csv'
+    flagged.to_csv(out_path, index=False)
+
+    n_flag = int((flagged['ew_integrity'].astype(str).str.len() > 0).sum())
+    n_excl = int(flagged['ew_excluded'].sum())
+    print(f"  RYA-458 EW-verify: {len(flagged)} lines scanned, {n_flag} flagged, "
+          f"{n_excl} excluded (no EW mutated). Saved → {out_path.name}")
+    cs = ei.charter_summary(flagged)
+    for key, c in cs.items():
+        if not c.get('present'):
+            print(f"    charter {key}: ABSENT from the measured pool")
+            continue
+        print(f"    charter {key}: EW {c['ew_mA']:.2f} mA  flags=[{c['ew_integrity']}]  "
+              f"disposition={c['ew_disposition'] or '-'}  excluded={c['ew_excluded']}")
+    return flagged
+
+
 # ── Legacy COG (DO NOT USE for science) ──────────────────────────────────────
 
 def _derive_abundances_cog_legacy(*args, **kwargs):
@@ -2069,7 +2114,8 @@ def run(star_id: str = 'solar',
         ew_override: str = None,
         xi_override: float = None,
         engine: str = 'spectrum',
-        skip_convergence: bool = False) -> tuple:
+        skip_convergence: bool = False,
+        ew_verify: bool = False) -> tuple:
     """
     Derive abundances for a star and save results.
 
@@ -2368,8 +2414,9 @@ def run(star_id: str = 'solar',
     # them through the curation's own (blind) line-building so the production
     # baseline carries the SAME kept lines + A(X) the standalone curation kept.
     # Fe / C / N / O / Li / P rows are untouched (asserted byte-stable downstream).
+    _curated_pool = None
     if 'solar' in star_id.lower():
-        results, _curated_nonfe, _ = _wire_curated_nonfe_results(results, ew_df)
+        results, _curated_nonfe, _curated_pool = _wire_curated_nonfe_results(results, ew_df)
 
     # ── RYA-334 range-sanity tripwire (output chokepoint) ─────────
     # Every absolute-scale column must sit on the A(H)=12 scale. A double-add of
@@ -2395,6 +2442,15 @@ def run(star_id: str = 'solar',
         per_line_out = out_dir / f'{star_id}_per_line.csv'
         scored_df.to_csv(per_line_out, index=False)
         print(f"  Saved → {per_line_out.name}  ({len(scored_df)} lines with quality scores)")
+
+    # ── RYA-458: EW-verification layer (opt-in --ew-verify) ───────
+    # A per-line EW-INTEGRITY QA pass: flag BAD_FIT / ABUND_OUTLIER / COG_FLAG /
+    # LIT_DEVIATION and assign the charter-case dispositions. It FLAGS only — a hard
+    # assert proves no measured EW is mutated. Runs on the measured solar pool (where
+    # the per-line fit quality + notes live), with the implied A(X) attached from the
+    # Fe scoring + the curated non-Fe pool (RYA-456) for the ABUND_OUTLIER check.
+    if ew_verify and 'solar' in star_id.lower():
+        _emit_ew_integrity(out_dir, star_id, scored_df, _curated_pool)
 
     # ── Synthesis mode (RYA-285 v1 EW / RYA-287 v2 flux) ──────────
     if engine in ('synthesis', 'synthesis-v2'):
@@ -2584,4 +2640,6 @@ if __name__ == '__main__':
     # RYA-291: --skip-convergence pins the params to the star init (no walk), so the
     # MOOG EW baseline is computed at the synthesis-v2 tables' params for a pure diff.
     skip   = '--skip-convergence' in _flags or '--pin' in _flags
-    run(star, grid, engine=engine, skip_convergence=skip)
+    # RYA-458: --ew-verify runs the per-line EW-integrity QA pass + charter cases.
+    ew_verify = '--ew-verify' in _flags
+    run(star, grid, engine=engine, skip_convergence=skip, ew_verify=ew_verify)
