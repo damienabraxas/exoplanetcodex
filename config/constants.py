@@ -625,6 +625,20 @@ NLTE_CORRECTION_ELEMENTS = {
           'ref': 'Amarsi et al. 2025 (A&A 703, A35) S departure grid via PySME; '
                  'RYA-402 PySME-derived deltas (optical 6748/6757)',
           'flag': 'NLTE_Amarsi2025_PySME_1D'},
+    # RYA-462: K I resonance doublet 7665/7699 (ground-state 4s 2S -> 4p 2P*), the last
+    # PRESENT-but-UNWIRED grid the RYA-460 solar polish surfaced. The grid + the full
+    # PySME machinery already existed (pipeline.pysme_nlte, RYA-402); the CSV departure
+    # grid K_Amarsi2020_PySME.csv was vendored but K was never added to this registry, so
+    # the default run left K at 1D-LTE. K I resonance NLTE is LARGE and NEGATIVE (the line
+    # is much stronger in NLTE): solar 7665 -0.27 / 7699 -0.31, applied as-is from the
+    # vendored grid (validate-don't-tune — the same interpolation path as Ca/Ti/Cr/Na).
+    # 7665 sits in the telluric O2 A-band; the clean diagnostic is 7699. Solar leg:
+    # Kitt Peak K I 7699 = 5.411 (1D-LTE), -0.312 -> 5.099 (+0.03 vs Asplund 5.07).
+    'K': {'ion': 1, 'grid': 'K_Amarsi2020_PySME.csv',
+          'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; K I resonance '
+                 '7665/7699; solar anchor Reggiani et al. 2019 (A&A 627, A177) / Andrievsky '
+                 'et al. 2006 (severe negative K I resonance NLTE); RYA-402/462 PySME-derived deltas',
+          'flag': 'NLTE_Amarsi2020_PySME_1D'},
 }
 
 # ── Sr II resonance-doublet line discipline (RYA-421 Step 4) ──────────────────

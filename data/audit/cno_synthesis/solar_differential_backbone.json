@@ -21,7 +21,21 @@
       "R": 70000,
       "reference": "reflected-solar (Vesta), RYA-372 rest-frame co-add",
       "anchors": "N I 8216, CN red; NH 3360 / CN violet = under-SNR DATA-GAP",
-      "status": "REGISTERED (Phase A, partial) \u2014 NH 3360 owed"
+      "status": "REGISTERED (Phase A, partial) \u2014 NH 3360 now superseded by Kitt Peak (RYA-460)"
+    },
+    "KITT_PEAK": {
+      "arm": "flux atlas 296-1300 nm",
+      "R": 400000,
+      "reference": "Kitt Peak Solar Flux Atlas (Kurucz+1984), provenance=measured (RYA-459)",
+      "anchors": "N I red 7442/7468 + 8216/8223 + 8680-8718; [O I] 6300; O I 777; K I 7699; P I 10581/10596; Sc II 4246; Co I 3845",
+      "status": "REGISTERED (RYA-460) \u2014 leg validated by [O I]6300/O I 777 overlap vs HARPS/ESPRESSO; the out-of-HARPS measured anchor for N + P/K/Co/Sc"
+    },
+    "UV_COMPOSITE": {
+      "arm": "CALSPEC composite 119.5-2695.7 nm",
+      "R": 200,
+      "reference": "Colina/Bohlin/Castelli 1996 (RYA-459), provenance=CITED-COMPOSITE",
+      "anchors": "deep-UV (<296 nm) + absolute flux scale only \u2014 NOT a line atlas",
+      "status": "REGISTERED cited \u2014 never presented as measured (RYA-455 discipline)"
     },
     "CRIRES+": {
       "arm": "IR Y/J/H/K, 2.3 um CO overtone",
