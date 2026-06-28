@@ -460,6 +460,57 @@ PATHS = {
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
 }
 
+# ── Solar reference library (RYA-459, under the RYA-162 epic) ─────────────────
+# The multi-wavelength solar reference atlases that reach lines HARPS-VIS (380-690
+# nm) cannot — the anchors for solar N (N I red + NH 3360), the CNO arms, and the
+# P/K/Co/Sc DATA-GAP elements. Each source carries an explicit provenance flag.
+#
+# CRITICAL honesty constraint (RYA-455 discipline): Hubble cannot observe the Sun
+# directly, so there is NO direct solar UV spectrum. The UV composite is
+# provenance='cited-composite' and must NEVER be presented as a measurement; the
+# audit gate (pipeline/audit_solar_reference) fails loud if a UV/composite source
+# is tagged 'measured'. Any downstream UV-derived abundance inherits the cited flag.
+#
+# provenance in {measured, cited-composite, model}.
+SOLAR_REFERENCE_SPECTRA = {
+    'kpno_flux_atlas': {
+        'path': 'data/solar_reference/kpno_flux_atlas',
+        'wavelength_coverage_nm': [296.0, 1300.0],
+        'resolution': 'FTS high-res (uneven grid, lambda/dlambda ~ 4e5)',
+        'flux_units': 'normalized residual flux + irradiance (uW/cm^2/nm)',
+        'provenance': 'measured',
+        'citation': 'Kurucz, Furenlid, Brault & Testerman 1984, NSO Atlas No. 1 '
+                    '("Solar Flux Atlas from 296 to 1300 nm")',
+    },
+    'uv_composite': {
+        'path': 'data/solar_reference/uv_composite',
+        'wavelength_coverage_nm': [119.5, 2695.7],
+        'resolution': 'low (dlambda ~ 20 A, R ~ 150-300) — flux composite, not a line atlas',
+        'flux_units': 'FLAM (erg/s/cm^2/A, absolute)',
+        'provenance': 'cited-composite',
+        'citation': 'Colina, Bohlin & Castelli 1996 (AJ 112, 307) / Bohlin+2001 '
+                    '(CALSPEC sun_reference_stis_002); UV below 4100A = Woods+1996',
+    },
+    'ir_atlases': {                     # RYA-390 (K-band CO arm) — already staged
+        'path': 'data/solar_reference/ir_atlases',
+        'wavelength_coverage_nm': [2289.3, 2349.5],   # CO dv=2 segment extracted
+        'resolution': 'FTS (ACE-FTS 0.02 cm^-1)',
+        'flux_units': 'normalized intensity',
+        'provenance': 'measured',
+        'citation': 'ACE-FTS (Hase+2010) / NSO photatl (Livingston & Wallace 1991) '
+                    '/ Wallace telluric (NOAO/NSO) — RYA-390',
+    },
+    'ir_atlas_irtf': {                  # Tier-2 — documented + deferred (RYA-459)
+        'path': 'data/solar_reference/ir_atlas',
+        'wavelength_coverage_nm': [940.0, 2500.0],
+        'resolution': 'R ~ 2000 (IRTF SpeX)',
+        'flux_units': 'TBD on stage',
+        'provenance': 'measured',
+        'citation': 'Rayner et al. 2009 (IRTF) — DEFERRED, see README_SOURCE.md',
+        'status': 'deferred',
+    },
+}
+
 # ── Non-Fe NLTE correction registry (RYA-235) ────────────────────────────────
 # Element-level NLTE corrections applied PER LINE after the Fe I/II leg, from the
 # real MPIA SpectrumTools MAFAGS-OS grids (scraped RYA-244/245; columns
@@ -868,6 +919,8 @@ _REQUIRED_KEYS = {
     'PATHS'            : ['data_root', 'raw_spectra', 'results', 'plots',
                           'solar_spectra', 'solar_normalized', 'solar_diagnostic',
                           'procyon_spectra', 'procyon_normalized', 'procyon_diagnostic'],
+    # RYA-459: the Tier-1 solar reference sources must stay registered (audit reads these).
+    'SOLAR_REFERENCE_SPECTRA': ['kpno_flux_atlas', 'uv_composite'],
 }
 
 _DICTS = {
@@ -878,6 +931,7 @@ _DICTS = {
     'STAR_SOLAR'       : STAR_SOLAR,
     'PIPELINE'         : PIPELINE,
     'PATHS'            : PATHS,
+    'SOLAR_REFERENCE_SPECTRA': SOLAR_REFERENCE_SPECTRA,
 }
 
 
