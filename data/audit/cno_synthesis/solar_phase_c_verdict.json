@@ -1,16 +1,36 @@
 {
   "summary": {
-    "ticket": "RYA-371 Phase C",
+    "ticket": "RYA-371 Phase C (RYA-460 reference-wired)",
+    "star": "solar",
     "generated": "2026-06-27",
     "reference": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)",
     "tol_pass_dex": 0.1,
     "n_elements": 26,
     "counts": {
       "PASS": 3,
+      "NLTE-OWED": 2,
+      "CURATION-OWED": 21
+    },
+    "prior_counts": {
+      "PASS": 3,
       "NLTE-OWED": 1,
       "CURATION-OWED": 18,
       "DATA-GAP": 4
-    }
+    },
+    "diff_vs_prior": {
+      "PASS": 0,
+      "NLTE-OWED": 1,
+      "CURATION-OWED": 3,
+      "DATA-GAP": -4
+    },
+    "kittpeak_wired": true,
+    "kittpeak_elements": [
+      "Co",
+      "K",
+      "N",
+      "P",
+      "Sc"
+    ]
   },
   "verdicts": [
     {
@@ -25,7 +45,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "PASS",
-      "owed": "cross-arm AGREE; O I 777 Amarsi-2019 3D-NLTE, [O I] Caffau-2015 3D anchor \u2014 measured 8.74 vs Asplund 8.69 (+0.05). RYA-455."
+      "owed": "cross-arm AGREE; O I 777 Amarsi-2019 3D-NLTE, [O I] Caffau-2015 3D anchor \u2014 measured 8.74 vs Asplund 8.69 (+0.05). RYA-455.",
+      "provenance": "synthesis: harps/espresso (Phase A)"
     },
     {
       "element": "C",
@@ -39,21 +60,23 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "PASS",
-      "owed": "C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); C I 5380 formally excluded ew_integrity=BAD_FIT (RYA-458); surviving cross-arm spread 0.054 on 5 indicators. [C I 5380 EXCLUDED (ew_integrity=BAD_FIT, espresso:CI_5380); cross-arm spread 0.149->0.054 on 5 surviving indicators.]"
+      "owed": "C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); C I 5380 formally excluded ew_integrity=BAD_FIT (RYA-458); surviving cross-arm spread 0.054 on 5 indicators. [C I 5380 EXCLUDED (ew_integrity=BAD_FIT, espresso:CI_5380); cross-arm spread 0.149->0.054 on 5 surviving indicators.]",
+      "provenance": "synthesis: harps/espresso (Phase A)"
     },
     {
       "element": "N",
       "asplund2021": 7.83,
-      "A_measured": 7.774,
-      "delta_vs_asplund": -0.056,
-      "sigma": 0.96,
+      "A_measured": 8.202,
+      "delta_vs_asplund": 0.372,
+      "sigma": 0.033,
       "n_lines": 3,
-      "channel": "synthesis: N I 8216 + CN red; NH 3360 primary",
+      "channel": "kittpeak: N I red 7442/7468 + 8216/8223 + 8680-8718 (NH/CN blue-edge flagged)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "NLTE-OWED",
-      "owed": "N I 8216 LTE 7.99 (NLTE owed -> N I grid, RYA-369, would pull toward 7.83); NH 3360 primary channel is a DATA-GAP (UVES-blue under-SNR). cross-arm FLAGGED-DISAGREEMENT (reported, not averaged) (spread 0.96)."
+      "owed": "MEASURED from Kitt Peak N I red \u2014 3 independent multiplets AGREE: 8.189 / 8.222 / 8.196 (mean 8.202, spread 0.033). +0.37 vs Asplund 7.83 is the N I NLTE offset OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here \u2014 blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent \u2014 FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).",
+      "provenance": "kittpeak-measured"
     },
     {
       "element": "Mg",
@@ -67,7 +90,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Si",
@@ -81,7 +105,8 @@
       "nlte_wired": true,
       "threed_wired": true,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 7.888 vs Asplund 7.51 (+0.378), sigma 0.36 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune)."
+      "owed": "A(X) 7.888 vs Asplund 7.51 (+0.378), sigma 0.36 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Fe",
@@ -95,7 +120,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "PASS",
-      "owed": "A(Fe I) NLTE 7.516 vs Asplund 7.46 (+0.056); ionization-balance gated, scatter 0.139 = honest floor (RYA-407). Documented +0.05 1D/3D scale offset (RYA-336), not the verdict."
+      "owed": "A(Fe I) NLTE 7.516 vs Asplund 7.46 (+0.056); ionization-balance gated, scatter 0.139 = honest floor (RYA-407). Documented +0.05 1D/3D scale offset (RYA-336), not the verdict.",
+      "provenance": "harps-measured (EW)"
     },
     {
       "element": "S",
@@ -109,7 +135,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 7.753 vs Asplund 7.12 (+0.633) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
+      "owed": "A(X) 7.753 vs Asplund 7.12 (+0.633) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Al",
@@ -123,7 +150,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Ca",
@@ -137,7 +165,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 6.324 vs Asplund 6.30 (+0.024) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
+      "owed": "A(X) 6.324 vs Asplund 6.30 (+0.024) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Na",
@@ -151,7 +180,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Na_Amarsi2020_PySME.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Na_Amarsi2020_PySME.csv).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Ni",
@@ -165,7 +195,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
+      "owed": "A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Cr",
@@ -179,7 +210,8 @@
       "nlte_wired": true,
       "threed_wired": true,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 6.022 vs Asplund 5.62 (+0.402), sigma 0.60 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune)."
+      "owed": "A(X) 6.022 vs Asplund 5.62 (+0.402), sigma 0.60 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Mn",
@@ -193,35 +225,38 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mn_Bergemann_MPIA.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mn_Bergemann_MPIA.csv).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "P",
       "asplund2021": 5.41,
-      "A_measured": null,
-      "delta_vs_asplund": null,
+      "A_measured": 6.61,
+      "delta_vs_asplund": 1.2,
       "sigma": null,
-      "n_lines": 0,
-      "channel": "none on present ground set",
+      "n_lines": 2,
+      "channel": "kittpeak: P I 10581/10596 near-IR multiplet",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
-      "verdict": "DATA-GAP",
-      "owed": "usable P lines are FUV/near-UV-hard, below the ~300 nm atmospheric floor; needs HST/STIS (RYA-119). Do not force."
+      "verdict": "CURATION-OWED",
+      "owed": "MEASURED from Kitt Peak P I near-IR = 6.61 (+1.20 vs 5.41) \u2014 OFF DATA-GAP: the near-IR multiplet is reachable from the ground, no HST/STIS needed (RYA-119 superseded for the Sun). The large +1.2 offset is a gf-scale residual (P I near-IR gf are uncertain) \u2192 curation owed RYA-161/162; do NOT tune.",
+      "provenance": "kittpeak-measured"
     },
     {
       "element": "K",
       "asplund2021": 5.07,
-      "A_measured": null,
-      "delta_vs_asplund": null,
+      "A_measured": 5.411,
+      "delta_vs_asplund": 0.341,
       "sigma": null,
-      "n_lines": 0,
-      "channel": "no curated solar lines in present set",
+      "n_lines": 1,
+      "channel": "kittpeak: K I 7699 (clean; 7665 sits in the telluric O2 A-band)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
-      "verdict": "DATA-GAP",
-      "owed": "K not in the canonical solar EW pool; extraction owed. no NLTE grid."
+      "verdict": "NLTE-OWED",
+      "owed": "MEASURED from Kitt Peak K I 7699 = 5.411 (+0.34 vs 5.07) \u2014 OFF DATA-GAP. K_Amarsi2020_PySME NLTE grid EXISTS but is not in NLTE_CORRECTION_ELEMENTS \u2192 NLTE-OWED (wiring); the +0.34 LTE offset is consistent with the known negative K I resonance NLTE.",
+      "provenance": "kittpeak-measured"
     },
     {
       "element": "Ti",
@@ -235,21 +270,23 @@
       "nlte_wired": true,
       "threed_wired": true,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 5.471 vs Asplund 4.97 (+0.501), sigma 0.93 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune)."
+      "owed": "A(X) 5.471 vs Asplund 4.97 (+0.501), sigma 0.93 \u2014 gross offset removed by the blind cull, gf-scale residual survives on the graded pool \u2192 escalate to RYA-161/162 (do NOT tune).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Co",
       "asplund2021": 4.94,
-      "A_measured": null,
-      "delta_vs_asplund": null,
+      "A_measured": 6.128,
+      "delta_vs_asplund": 1.188,
       "sigma": null,
-      "n_lines": 0,
-      "channel": "no curated solar lines in present set",
+      "n_lines": 1,
+      "channel": "kittpeak: Co I 3845 (blue-edge, SNR-limited)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
-      "verdict": "DATA-GAP",
-      "owed": "Co not in the canonical solar EW pool; extraction owed. no NLTE grid."
+      "verdict": "CURATION-OWED",
+      "owed": "Kitt Peak covers Co, but the extracted Co I 3845 sits in the blanketed blue edge (SNR~24, chi2r~3100) \u2192 the value 6.128 is NOT trusted (blue-edge per the RYA-451/454 caveat). OFF pure DATA-GAP (a measured reference now exists) but curation owed: extract cleaner red Co I lines (within KP's 1300 nm reach) + HFS. Do NOT force the blue value.",
+      "provenance": "kittpeak-measured"
     },
     {
       "element": "Cu",
@@ -263,7 +300,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "V",
@@ -277,21 +315,23 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Sc",
       "asplund2021": 3.14,
-      "A_measured": null,
-      "delta_vs_asplund": null,
+      "A_measured": 3.203,
+      "delta_vs_asplund": 0.063,
       "sigma": null,
-      "n_lines": 0,
-      "channel": "no curated solar lines in present set",
+      "n_lines": 1,
+      "channel": "kittpeak: Sc II 4246 (blue-edge, HFS)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
-      "verdict": "DATA-GAP",
-      "owed": "Sc not in the canonical solar EW pool; extraction owed. no NLTE grid."
+      "verdict": "CURATION-OWED",
+      "owed": "MEASURED from Kitt Peak Sc II 4246 = 3.203 (+0.06 vs 3.14) \u2014 OFF DATA-GAP, value close to Asplund BUT single blue-edge HFS line (SNR~180, no true continuum) \u2192 LOW_CONFIDENCE; HFS-resolved synthesis + a cleaner Sc II line owed before any PASS.",
+      "provenance": "kittpeak-measured"
     },
     {
       "element": "Sr",
@@ -305,7 +345,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "A(X) 4.961 vs Asplund 2.83 (+2.131) on 1 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162)."
+      "owed": "A(X) 4.961 vs Asplund 2.83 (+2.131) on 1 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Zr",
@@ -319,7 +360,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Ba",
@@ -333,7 +375,8 @@
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Ba_Korotin2015.csv)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Ba_Korotin2015.csv).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Y",
@@ -347,7 +390,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Li",
@@ -361,7 +405,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "CN-blended UPPER LIMIT (RYA-103/458, ew_integrity disposition=UPPER_LIMIT); A(Li) 0.73 is a LTE lower bound, not a clean determination. A clean low value here would be a RED FLAG (CN deblend not applied)."
+      "owed": "CN-blended UPPER LIMIT (RYA-103/458, ew_integrity disposition=UPPER_LIMIT); A(Li) 0.73 is a LTE lower bound, not a clean determination. A clean low value here would be a RED FLAG (CN deblend not applied).",
+      "provenance": "harps-measured (EW pool)"
     },
     {
       "element": "Eu",
@@ -375,7 +420,8 @@
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged). Eu II 6645 EW 6.8 mA, ew_integrity disposition=RECOVERED (RYA-102/458 HFS-summing)."
+      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged). Eu II 6645 EW 6.8 mA, ew_integrity disposition=RECOVERED (RYA-102/458 HFS-summing).",
+      "provenance": "harps-measured (EW pool)"
     }
   ]
 }
