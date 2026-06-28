@@ -1,0 +1,30 @@
+element,subsystem,grid_file,present,wired,role,source_if_absent,note
+Fe,fe-nlte,Fe_Bergemann_MPIA.csv,True,True,production,,"ionization-balance-gated Fe leg (validated, RYA-407)"
+Ca,registry-nlte,Ca_Mashonkina2017.csv,True,True,production,,ion 1; applied in default run
+Ti,registry-nlte,Ti_Bergemann2011_MPIA.csv,True,True,production,,ion 1; applied in default run
+Cr,registry-nlte,Cr_Bergemann2010_MPIA.csv,True,True,production,,ion 1; applied in default run
+Na,registry-nlte,Na_Amarsi2020_PySME.csv,True,True,production,,ion 1; applied in default run
+Mg,registry-nlte,Mg_Amarsi2020_PySME.csv,True,True,production,,ion 1; applied in default run
+Ba,registry-nlte,Ba_Korotin2015.csv,True,True,production,,ion 2; applied in default run
+Sr,registry-nlte,Sr_Bergemann2012_INSPECT.csv,True,True,production,,ion 2; applied in default run
+Mn,registry-nlte,Mn_Bergemann_MPIA.csv,True,True,production,,ion 1; applied in default run
+Si,registry-nlte,Si_Amarsi2020_PySME.csv,True,True,production,,ion 1; applied in default run
+Al,registry-nlte,Al_Amarsi2020_PySME.csv,True,True,production,,ion 1; applied in default run
+S,registry-nlte,S_Amarsi2025_PySME.csv,True,True,production,,ion 1; applied in default run
+K,registry-nlte,K_Amarsi2020_PySME.csv,True,True,production,,ion 1; applied in default run
+Si,metals-3d,solar3d_metals_rya399.csv,True,True,production,,3D-LTE/NLTE solar-metals increment (RYA-399)
+Ti,metals-3d,solar3d_metals_rya399.csv,True,True,production,,3D-LTE/NLTE solar-metals increment (RYA-399)
+Cr,metals-3d,solar3d_metals_rya399.csv,True,True,production,,3D-LTE/NLTE solar-metals increment (RYA-399)
+C,cno-3dnlte,amarsi2019_cno/,True,True,production,,CH G-band + C I 3D-NLTE via synthesis (Amarsi 2019)
+O,cno-3dnlte,amarsi2019_cno/,True,True,production,,O I 777 3D-NLTE + [O I] 6300 3D via synthesis (Amarsi 2019)
+N,cno-3dnlte,amarsi2019_cno/,True,False,production,"N I atomic NLTE grid OWED (RYA-369). The Amarsi-2019 CNO tables cover C/O synthesis NLTE; N I atomic departures are a separate, not-yet-vendored item.",CNO tables cover C/O; N I atomic NLTE is a SEPARATE owed grid (RYA-369)
+Al,pysme-grd,amarsi_galah/nlte_Al_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Ca,pysme-grd,amarsi_galah/nlte_Ca_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Cu,pysme-grd,amarsi_galah/nlte_Cu_caliskan_Oct2024_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+K,pysme-grd,amarsi_galah/nlte_K_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Mg,pysme-grd,amarsi_galah/nlte_Mg_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Mn,pysme-grd,amarsi_galah/nlte_Mn_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Na,pysme-grd,amarsi_galah/nlte_Na_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+S,pysme-grd,amarsi_galah/nlte_S_ama51_Sep2024_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Si,pysme-grd,amarsi_galah/nlte_Si_scatt_pysme.grd,False,False,offline-derivation,"Amarsi GALAH DR3 departure grids (Amarsi et al. 2020, A&A 642 A62); Zenodo / request from Amarsi. Re-derivation input for pipeline.pysme_nlte only.",PySME departure grid — input to pipeline.pysme_nlte ONLY; the production value is the vendored CSV derived from it
+Cu,registry-nlte,(none derived),False,False,production,"No production CSV grid derived. PySME .grd Cu_caliskan2024 (Caliskan et al. 2024) present as metadata only; deriving the CSV needs pysme_nlte + the .grd. NB pysme_nlte documents Cu NLTE as SMALL and the blocker as line quality (RYA-395), not the grid.",in EW pool but no usable CSV grid + line-quality blocker (RYA-395)

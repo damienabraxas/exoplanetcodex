@@ -92,11 +92,13 @@ def test_live_audit_passes():
 
 
 def test_is_wired_reflects_real_code():
-    # RYA-412: Al/S NLTE-wired (RYA-402). RYA-421: Sr registered. RYA-434: the CNO leg is
-    # read from nlte_cno.REQUIRED_LINES (C/O only) -> N is correctly NOT wired (no N grid).
-    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S', 'Sr'):
+    # RYA-412: Al/S NLTE-wired (RYA-402). RYA-421: Sr registered. RYA-462: K registered
+    # (grid now applied; the EW-pool measurement is still owed -> GET-DATA-pending, not LOCKED).
+    # RYA-434: the CNO leg is read from nlte_cno.REQUIRED_LINES (C/O only) -> N is correctly
+    # NOT wired (no N grid).
+    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S', 'Sr', 'K'):
         assert A._is_wired(el)[0], f"{el} should be wired"
-    for el in ('N', 'K', 'Co', 'Cu', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
+    for el in ('N', 'Co', 'Cu', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
         assert not A._is_wired(el)[0], f"{el} should NOT be wired"
 
 

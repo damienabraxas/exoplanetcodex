@@ -16,6 +16,7 @@
     "nodes": "9 (Teff 5100-6200, logg 4.0-4.7, [Fe/H] -0.3..+0.4) spanning FGK dwarfs incl. solar + 55 Cnc.",
     "delta_range": {"7664.899": [-0.370, -0.137], "7698.964": [-0.400, -0.161]}
   },
-  "PRODUCTION_BLOCKER": "K is NOT registered in NLTE_CORRECTION_ELEMENTS and NOT flipped to LOCKED, because it cannot be APPLIED: (1) 0 measured K lines, and (2) 7665/7699 sit IN the O2 telluric A-band -> need the RYA-380 telluric recipe + a measurement before the (validated, ready) grid can be used. The grid is validated and waiting; registering K is a one-line change once the lines are measured.",
+  "PRODUCTION_BLOCKER": "RESOLVED (RYA-462). Was: K not registered in NLTE_CORRECTION_ELEMENTS because it could not be APPLIED -- (1) 0 measured K lines, (2) 7665/7699 sit IN the O2 telluric A-band. RYA-460 lifted (1) by measuring the CLEAN K I 7699 off the Kitt Peak Solar Flux Atlas (A(K) 1D-LTE 5.411); 7699 avoids the worst of the A-band that hits 7665. RYA-462 then registered K (the one-line change this note predicted) and the verdict applies the vendored solar delta -0.312 -> A(K) 5.099 (+0.03 vs Asplund 5.07) = PASS. Validate-don't-tune: the delta is read from this grid, not fitted.",
+  "registered": "RYA-462 (2026-06-28) -- NLTE_CORRECTION_ELEMENTS['K']; applied via the existing pipeline.nlte_corrections interpolation path.",
   "derived": "2026-06-21"
 }

@@ -48,6 +48,12 @@ from config.constants import (SOLAR_ASPLUND2021,  # noqa: E402
 PROC = ROOT / 'data' / 'processed'
 AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
 DOCS = ROOT / 'docs' / 'audit'
+KITTPEAK_JSON = AUDIT / 'solar_kittpeak_rya460.json'   # RYA-460 KP measurements
+
+# Prior Phase C verdict counts — the immediate baseline this run diffs against.
+# RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
+# turn moved it off the pre-Kitt-Peak 3 / 1 / 18 / 4 (DATA-GAP eliminated).
+PRIOR_COUNTS = {'PASS': 3, 'NLTE-OWED': 2, 'CURATION-OWED': 21, 'DATA-GAP': 0}
 
 # Tolerance for a PASS against Asplund 2021. The Sun's 1D-LTE/NLTE absolute scale
 # carries a documented ~+0.05 dex zero-point vs Asplund's 3D values for the
@@ -200,6 +206,7 @@ def build_verdicts(ab, ew, phase_a):
             'channel': channel,
             'nlte_grid': grid, 'nlte_wired': bool(reg), 'threed_wired': threed,
             'verdict': verdict, 'owed': owed,
+            'provenance': _default_provenance(el),
         })
     return rows
 
@@ -330,7 +337,21 @@ def differential_backbone():
                 'arm': 'blue 300-388 nm + red', 'R': 70000,
                 'reference': 'reflected-solar (Vesta), RYA-372 rest-frame co-add',
                 'anchors': 'N I 8216, CN red; NH 3360 / CN violet = under-SNR DATA-GAP',
-                'status': 'REGISTERED (Phase A, partial) — NH 3360 owed',
+                'status': 'REGISTERED (Phase A, partial) — NH 3360 now superseded by Kitt Peak (RYA-460)',
+            },
+            'KITT_PEAK': {
+                'arm': 'flux atlas 296-1300 nm', 'R': 400000,
+                'reference': 'Kitt Peak Solar Flux Atlas (Kurucz+1984), provenance=measured (RYA-459)',
+                'anchors': 'N I red 7442/7468 + 8216/8223 + 8680-8718; [O I] 6300; O I 777; '
+                           'K I 7699; P I 10581/10596; Sc II 4246; Co I 3845',
+                'status': 'REGISTERED (RYA-460) — leg validated by [O I]6300/O I 777 overlap vs '
+                          'HARPS/ESPRESSO; the out-of-HARPS measured anchor for N + P/K/Co/Sc',
+            },
+            'UV_COMPOSITE': {
+                'arm': 'CALSPEC composite 119.5-2695.7 nm', 'R': 200,
+                'reference': 'Colina/Bohlin/Castelli 1996 (RYA-459), provenance=CITED-COMPOSITE',
+                'anchors': 'deep-UV (<296 nm) + absolute flux scale only — NOT a line atlas',
+                'status': 'REGISTERED cited — never presented as measured (RYA-455 discipline)',
             },
             'CRIRES+': {
                 'arm': 'IR Y/J/H/K, 2.3 um CO overtone', 'R': 86000,
@@ -345,18 +366,180 @@ def differential_backbone():
     }
 
 
-def render_md(rows, summary):
+def _default_provenance(el):
+    """Source tag for the base (pre-Kitt-Peak) rows."""
+    if el in ('C', 'N', 'O'):
+        return 'synthesis: harps/espresso (Phase A)'
+    if el == 'Fe':
+        return 'harps-measured (EW)'
+    return 'harps-measured (EW pool)'
+
+
+def _load_kittpeak():
+    """RYA-460: the Kitt Peak measurements, or None if the campaign hasn't run."""
+    if not KITTPEAK_JSON.exists():
+        return None
+    return json.loads(KITTPEAK_JSON.read_text())
+
+
+def _apply_nlte_grid_delta(element, wave_A, a_1dlte, star=None):
+    """RYA-462: apply the vendored NLTE grid delta to a (Kitt Peak) 1D-LTE measurement
+    through the EXISTING interpolation subsystem (pipeline.nlte_corrections) — the same
+    path Ca/Ti/Cr/Na travel. Returns (a_nlte, delta, flag). If the element/line is out
+    of grid coverage it returns (a_1dlte, nan, 'NLTE_unavailable ...') and NEVER silently
+    corrects. Validate-don't-tune: delta is READ from the grid, never fitted to Asplund."""
+    star = star or {'teff': 5772.0, 'logg': 4.44, 'feh': 0.0}
+    try:
+        from pipeline import nlte_corrections as N
+        if element not in NLTE_CORRECTION_ELEMENTS:
+            return float(a_1dlte), float('nan'), 'NLTE_unavailable (element not registered)'
+        if not N.element_grid_in_bounds(element, star['teff'], star['logg'], star['feh']):
+            return float(a_1dlte), float('nan'), 'NLTE_unavailable (star out of grid hull)'
+        d = N._mpia_element_delta(element, wave_A, star['teff'], star['logg'], star['feh'])
+        if d is None or not np.isfinite(d):
+            return float(a_1dlte), float('nan'), 'NLTE_unavailable (no grid node within tol)'
+        flag = NLTE_CORRECTION_ELEMENTS[element].get('flag', 'NLTE_1D')
+        return float(a_1dlte) + float(d), float(d), flag
+    except Exception as e:                            # never let the wiring break the verdict
+        return float(a_1dlte), float('nan'), f'NLTE_unavailable ({e})'
+
+
+def _kittpeak_reclassify(kp):
+    """RYA-460 — fold the Kitt Peak measurements into the verdict for the diagnostics
+    HARPS-VIS cannot reach (N + the P/K/Co/Sc DATA-GAP elements). Honest verdicts
+    driven by the measured values; no tuning. Returns {element: override-dict}.
+
+    The leg is trusted only if the overlap cross-check ([O I]6300 / O I 777 vs the
+    Phase A HARPS/ESPRESSO legs) AGREES — else we do not promote KP-only elements.
+    """
+    if not kp:
+        return {}
+    leg_ok = kp['leg_validation']['leg_validated']
+    m = {x['key']: x for x in kp['measurements']}
+    nci = kp['n_cross_indicator']
+    leg_txt = ('Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs '
+               'HARPS/ESPRESSO (agree within 0.04)' if leg_ok else
+               'Kitt Peak leg NOT validated (overlap disagreement) — KP-only values held')
+    out = {}
+
+    # ── N — measured from Kitt Peak N I red (the RYA-369 unblock) ──
+    if leg_ok and nci.get('atomic_NI_mean') is not None:
+        out['N'] = {
+            'verdict': 'NLTE-OWED', 'A_measured': nci['atomic_NI_mean'],
+            'sigma': nci['atomic_NI_spread'], 'n_lines': 3,
+            'provenance': 'kittpeak-measured',
+            'channel': 'kittpeak: N I red 7442/7468 + 8216/8223 + 8680-8718 (NH/CN blue-edge flagged)',
+            'owed': (f"MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE: "
+                     f"{nci['indicators']['NI_7442_7468']} / {nci['indicators']['NI_8216_8223']} / "
+                     f"{nci['indicators']['NI_8680_8718']} (mean {nci['atomic_NI_mean']}, spread "
+                     f"{nci['atomic_NI_spread']}). +0.37 vs Asplund 7.83 is the N I NLTE offset "
+                     f"OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: "
+                     f"Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 "
+                     f"UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the "
+                     f"Turbospectrum molecular linelist is absent — FLAGGED, not forced. {leg_txt}.")}
+
+    # ── K — measured; NLTE grid now WIRED (RYA-462) ──
+    # The K_Amarsi2020_PySME grid was PRESENT-but-UNWIRED (grid + full PySME machinery
+    # existed, K just wasn't in NLTE_CORRECTION_ELEMENTS). RYA-462 registers it; here we
+    # apply its vendored solar delta to the Kitt Peak K I 7699 1D-LTE value through the
+    # same interpolation subsystem the other registry elements use. Validate-don't-tune:
+    # the delta is read from the grid (solar 7699 ~ -0.31), not fitted to Asplund.
+    if leg_ok and (k := m.get('KI_7665_7699')) and k['a_1dlte'] is not None:
+        asp_k = float(k.get('asplund2021', SOLAR_ASPLUND2021.get('K', 5.07)))
+        a_nlte, kd, kflag = _apply_nlte_grid_delta('K', 7698.964, k['a_1dlte'])
+        if np.isfinite(kd):
+            reconciled = abs(a_nlte - asp_k) <= TOL_PASS
+            out['K'] = {
+                'verdict': 'PASS' if reconciled else 'NLTE-OWED',
+                'A_measured': a_nlte, 'n_lines': 1, 'provenance': 'kittpeak-measured',
+                'channel': 'kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) — NLTE-wired',
+                'owed': (f"MEASURED Kitt Peak K I 7699 = {k['a_1dlte']} (1D-LTE, {k['delta_vs_asplund']:+.2f} "
+                         f"vs {asp_k:.2f}). K_Amarsi2020_PySME NLTE delta {kd:+.3f} APPLIED via the existing "
+                         f"interpolation subsystem (RYA-462 wiring; {kflag}; validate-don't-tune) -> A(K) "
+                         f"{a_nlte:.3f} ({a_nlte - asp_k:+.3f} vs Asplund {asp_k:.2f}). "
+                         + ("Reconciles within TOL after the cited NLTE correction — the severe negative "
+                            "K I resonance NLTE is real, not tuned."
+                            if reconciled else
+                            "An NLTE residual survives -> still owed (do NOT tune)."))}
+        else:
+            out['K'] = {
+                'verdict': 'NLTE-OWED', 'A_measured': k['a_1dlte'], 'n_lines': 1,
+                'provenance': 'kittpeak-measured',
+                'channel': 'kittpeak: K I 7699 (clean; 7665 sits in the telluric O2 A-band)',
+                'owed': (f"MEASURED Kitt Peak K I 7699 = {k['a_1dlte']} ({k['delta_vs_asplund']:+.2f} vs "
+                         f"{asp_k:.2f}). K_Amarsi2020_PySME grid registered (RYA-462) but the delta could "
+                         f"not be interpolated here ({kflag}) -> held NLTE-OWED, never silently LTE.")}
+
+    # ── P — measured near-IR multiplet (the alternative to FUV/HST); gf-limited ──
+    if leg_ok and (p := m.get('PI_10581_10596')) and p['a_1dlte'] is not None:
+        out['P'] = {
+            'verdict': 'CURATION-OWED', 'A_measured': p['a_1dlte'], 'n_lines': 2,
+            'provenance': 'kittpeak-measured',
+            'channel': 'kittpeak: P I 10581/10596 near-IR multiplet',
+            'owed': (f"MEASURED from Kitt Peak P I near-IR = {p['a_1dlte']} ({p['delta_vs_asplund']:+.2f} "
+                     f"vs 5.41) — OFF DATA-GAP: the near-IR multiplet is reachable from the ground, no "
+                     f"HST/STIS needed (RYA-119 superseded for the Sun). The large +1.2 offset is a "
+                     f"gf-scale residual (P I near-IR gf are uncertain) → curation owed RYA-161/162; "
+                     f"do NOT tune.")}
+
+    # ── Sc — measured but blue-edge + HFS single line → low confidence ──
+    if leg_ok and (s := m.get('ScII_4246')) and s['a_1dlte'] is not None:
+        out['Sc'] = {
+            'verdict': 'CURATION-OWED', 'A_measured': s['a_1dlte'], 'n_lines': 1,
+            'provenance': 'kittpeak-measured',
+            'channel': 'kittpeak: Sc II 4246 (blue-edge, HFS)',
+            'owed': (f"MEASURED from Kitt Peak Sc II 4246 = {s['a_1dlte']} ({s['delta_vs_asplund']:+.2f} "
+                     f"vs 3.14) — OFF DATA-GAP, value close to Asplund BUT single blue-edge HFS line "
+                     f"(SNR~180, no true continuum) → LOW_CONFIDENCE; HFS-resolved synthesis + a "
+                     f"cleaner Sc II line owed before any PASS.")}
+
+    # ── Co — KP covers it but the only extracted line is blue-edge SNR-limited ──
+    if leg_ok and (c := m.get('CoI_3845')) and c['a_1dlte'] is not None:
+        out['Co'] = {
+            'verdict': 'CURATION-OWED', 'A_measured': c['a_1dlte'], 'n_lines': 1,
+            'provenance': 'kittpeak-measured',
+            'channel': 'kittpeak: Co I 3845 (blue-edge, SNR-limited)',
+            'owed': (f"Kitt Peak covers Co, but the extracted Co I 3845 sits in the blanketed blue "
+                     f"edge (SNR~24, chi2r~3100) → the value {c['a_1dlte']} is NOT trusted (blue-edge "
+                     f"per the RYA-451/454 caveat). OFF pure DATA-GAP (a measured reference now "
+                     f"exists) but curation owed: extract cleaner red Co I lines (within KP's 1300 nm "
+                     f"reach) + HFS. Do NOT force the blue value.")}
+    return out
+
+
+def render_md(rows, summary, kp=None):
     lines = []
     lines.append('# RYA-371 Phase C — Solar 27-element verdict table (RYA-239 retry)\n')
     lines.append(f'_Generated {date.today().isoformat()} by scripts/phase_c_verdict_rya371.py. '
                  'Validate-don\'t-tune: classification only, no correction fitted to the anchor._\n')
+    if kp:
+        lines.append('_RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). '
+                     f"Leg validated by overlap: {'PASS' if kp['leg_validation']['leg_validated'] else 'FLAG'}._\n")
     lines.append('## Verdict counts\n')
-    for k, v in summary['counts'].items():
-        lines.append(f'- **{k}**: {v}')
+    for k in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP'):
+        v = summary['counts'].get(k, 0)
+        if kp:
+            d = summary['diff_vs_prior'][k]
+            lines.append(f'- **{k}**: {v}  (prior {summary["prior_counts"][k]}, diff {d:+d})')
+        else:
+            lines.append(f'- **{k}**: {v}')
     lines.append('')
+    if kp:
+        ov = kp['leg_validation']['overlap']
+        lines.append('## RYA-460 overlap cross-check (Kitt Peak leg validation)\n')
+        lines.append('| line | Kitt Peak raw | Phase A (arm) | Δ | agree |')
+        lines.append('|------|--------------:|---------------|---:|:-----:|')
+        for k2, v2 in ov.items():
+            lines.append(f"| {k2} | {v2['kittpeak_raw']} | {v2['phase_a_raw']} ({v2['phase_a_arm']}) "
+                         f"| {v2['delta']:+.3f} | {'YES' if v2['agree'] else 'NO'} |")
+        nci = kp['n_cross_indicator']
+        lines.append(f"\n**N solar cross-indicator map** (NLTE-OWED, not validated): N I red "
+                     f"mean **{nci.get('atomic_NI_mean')}** (spread {nci.get('atomic_NI_spread')}) "
+                     f"from {nci.get('indicators')}. NH 3360 / CN violet blue-edge FLAGGED "
+                     f"({nci.get('molecular_blue_edge_flagged')}).\n")
     lines.append('## Per-element table\n')
-    lines.append('| El | Asplund21 | A(meas) | Delta | sigma | n | NLTE | Verdict | Channel |')
-    lines.append('|----|----------:|--------:|------:|------:|--:|:----:|:--------|:--------|')
+    lines.append('| El | Asplund21 | A(meas) | Delta | sigma | n | NLTE | Verdict | Provenance | Channel |')
+    lines.append('|----|----------:|--------:|------:|------:|--:|:----:|:--------|:-----------|:--------|')
     for r in rows:
         am = '' if r['A_measured'] is None else f"{r['A_measured']:.3f}"
         dl = '' if r['delta_vs_asplund'] is None else f"{r['delta_vs_asplund']:+.3f}"
@@ -366,7 +549,7 @@ def render_md(rows, summary):
         if r['threed_wired']:
             nlte += '+3D'
         lines.append(f"| {r['element']} | {r['asplund2021']:.2f} | {am} | {dl} | {sg} | "
-                     f"{nl} | {nlte} | **{r['verdict']}** | {r['channel']} |")
+                     f"{nl} | {nlte} | **{r['verdict']}** | {r.get('provenance','')} | {r['channel']} |")
     lines.append('')
     lines.append('## Remaining-work map\n')
     for cat in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP'):
@@ -387,16 +570,52 @@ def render_md(rows, summary):
     return '\n'.join(lines)
 
 
+def _apply_kittpeak(rows, kp):
+    """Overlay the RYA-460 Kitt Peak reclassification onto the base rows (in place)."""
+    overrides = _kittpeak_reclassify(kp)
+    for r in rows:
+        ov = overrides.get(r['element'])
+        if not ov:
+            continue
+        for key in ('verdict', 'channel', 'owed', 'provenance'):
+            if key in ov:
+                r[key] = ov[key]
+        if ov.get('A_measured') is not None:
+            r['A_measured'] = round(float(ov['A_measured']), 3)
+            asp = r['asplund2021']
+            r['delta_vs_asplund'] = round(r['A_measured'] - asp, 3)
+        if ov.get('sigma') is not None:
+            r['sigma'] = round(float(ov['sigma']), 3)
+        if ov.get('n_lines') is not None:
+            r['n_lines'] = int(ov['n_lines'])
+    return overrides
+
+
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--star', default='solar')
+    args = ap.parse_args()
+
     ab, ew, phase_a = _load()
     rows = build_verdicts(ab, ew, phase_a)
+
+    # RYA-460: fold in the Kitt Peak measurements (N + P/K/Co/Sc) if the campaign ran.
+    kp = _load_kittpeak()
+    overrides = _apply_kittpeak(rows, kp)
 
     counts = {}
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
-    summary = {'ticket': 'RYA-371 Phase C', 'generated': date.today().isoformat(),
+    diff = {k: counts.get(k, 0) - PRIOR_COUNTS.get(k, 0)
+            for k in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP')}
+    summary = {'ticket': 'RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)', 'star': args.star,
+               'generated': date.today().isoformat(),
                'reference': 'Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)',
-               'tol_pass_dex': TOL_PASS, 'n_elements': len(rows), 'counts': counts}
+               'tol_pass_dex': TOL_PASS, 'n_elements': len(rows), 'counts': counts,
+               'prior_counts': PRIOR_COUNTS, 'diff_vs_prior': diff,
+               'kittpeak_wired': bool(kp),
+               'kittpeak_elements': sorted(overrides) if overrides else []}
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
@@ -407,7 +626,7 @@ def main():
     with open(out_back, 'w') as fh:
         json.dump(differential_backbone(), fh, indent=2)
     out_md = DOCS / 'solar_phase_c_verdict_rya371.md'
-    out_md.write_text(render_md(rows, summary))
+    out_md.write_text(render_md(rows, summary, kp))
 
     # Console table
     print(f"\n{'='*78}\n  RYA-371 Phase C — solar 27-element verdict ({len(rows)} elements)\n{'='*78}")
@@ -421,7 +640,16 @@ def main():
         nlte = ('W' if r['nlte_wired'] else '-') + ('3' if r['threed_wired'] else ' ')
         print(f"  {r['element']:3s} {r['asplund2021']:6.2f} {am} {dl} {sg} {nl}  "
               f"{nlte:5s} {r['verdict']:14s} {r['channel'][:40]}")
-    print(f"\n  Counts: " + '  '.join(f'{k}={v}' for k, v in counts.items()))
+    print(f"\n  Counts: " + '  '.join(f'{k}={counts.get(k,0)}'
+          for k in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP')))
+    if kp:
+        print(f"  Prior : " + '  '.join(f'{k}={PRIOR_COUNTS[k]}'
+              for k in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP')))
+        print(f"  Diff  : " + '  '.join(f'{k}={diff[k]:+d}'
+              for k in ('PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP'))
+              + f"   (Kitt Peak wired: {summary['kittpeak_elements']})")
+        print(f"  Leg validation (overlap [O I]6300/O I 777 vs HARPS/ESPRESSO): "
+              f"{'PASS' if kp['leg_validation']['leg_validated'] else 'FLAG'}")
     print(f"\n  Wrote:\n    {out_json.relative_to(ROOT)}\n    {out_back.relative_to(ROOT)}"
           f"\n    {out_md.relative_to(ROOT)}\n")
 
