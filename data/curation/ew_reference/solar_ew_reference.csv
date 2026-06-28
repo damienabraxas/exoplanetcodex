@@ -1,0 +1,29 @@
+# RYA-458 solar EW reference table — cited cross-check values for the EW-integrity QA layer.
+#
+# PURPOSE: a CITED, cross-check reference EW (or fit-quality flag) per line. The
+# EW-verification layer (pipeline/ew_integrity.py) computes measured minus reference
+# and flags LIT_DEVIATION beyond a fixed band; it NEVER adjusts a measured EW toward
+# these values (validate, don't tune — RYA-451/458). A missing reference is silent,
+# not a failure. Seeded with the three RYA-451 charter cases + the [O I] anchor;
+# extensible via GBS / RYA-162.
+#
+# COLUMNS
+#   reference_ew_mA : cited solar EW (mA). Empty = no EW reference (fit-quality entry only).
+#   ew_kind         : value | upper_limit | (empty)
+#   fit_chi2r       : cited synthesis flux-fit reduced chi-square where a fit anomaly is
+#                     documented (drives BAD_FIT for synthesis anchors). Empty = none.
+#   disposition     : fixed charter disposition (UPPER_LIMIT | BAD_FIT). Empty = none /
+#                     computed at runtime (Eu recovery: RECOVERED vs FITTER_INCOMPLETE).
+#   charter_case    : True for the RYA-451 charter lines.
+#   bad_fit_arm     : for a synthesis anchor, the specific instrument arm whose fit is
+#                     the cited anomaly (so the verdict excludes only that indicator and
+#                     retains the clean arm). Empty = not arm-specific.
+#   reference       : citation.
+#
+# THRESHOLDS that consume this table are fixed in pipeline/ew_integrity.py, documented,
+# uniform across elements, and set before any abundance is read (RYA-395 discipline).
+element,ion,wavelength_air_A,reference_ew_mA,ew_kind,fit_chi2r,disposition,charter_case,bad_fit_arm,reference,notes
+O,I,6300.304,5.4,value,,,False,,"Caffau et al. 2008 A&A 488 1031 ([O I] 6300 + Ni I blend, solar)","forbidden line blended with Ni I 6300.34; reference is the total feature EW, our deblended feature EW is lower by the Ni share (RYA-449) — expected, not a defect"
+Li,I,6707.840,2.0,upper_limit,,UPPER_LIMIT,True,,"Asplund Grevesse Sauval Scott 2009 ARAA 47 481 (A(Li)=1.05, weak CN-blended line)","CN-molecular-blend contaminated (RYA-103); correct disposition is a flagged UPPER LIMIT, never a clean point value"
+Eu,II,6645.127,8.0,value,,,True,,"Lawler Wickliffe den Hartog Sneden 2001 ApJ 563 1075 (Eu II HFS, solar)","weak line with 53 HFS components; RYA-102 HFS-summing must recover EW into ~6-10 mA, else FITTER_INCOMPLETE"
+C,I,5380.337,,,103.0,BAD_FIT,True,espresso,"RYA-371 Phase A ESPRESSO synthesis fit chi2r~103; RYA-454 ~2.8% local-continuum excursion","twice-anomalous C anchor; formal disposition BAD_FIT (exclude the ESPRESSO indicator). EW-pool profile measures 149.5 mA = saturated/contaminated, a second independent strike. HARPS C I 5380 fit is clean and retained"
