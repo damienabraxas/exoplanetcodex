@@ -7,7 +7,8 @@ Each loader ingests a raw FITS file and returns a standardised
 SpectrumData object: wave_A (Å, barycentric), flux, err, meta dict.
 
 Supported instruments:
-  SPIRou   — CFHT/APERO _t.fits (telluric-corrected)  ← this session
+  SPIRou   — CFHT/APERO _t.fits (telluric-corrected)
+  UVES     — ESO Phase-3 IDP (TOPOCENT → BERV applied)  ← RYA-272
   HARPS    — ESO S1D_A                                  ← future
   HARPS-N  — TNG/IA2 S1D_A                              ← future
   HIRES    — Keck/KOA                                   ← future
@@ -15,6 +16,7 @@ Supported instruments:
 """
 
 from .spirou_loader import SPIRouLoader
+from .uves_loader import UVESLoader, UVESProductError
 from .base_loader import SpectrumData
 
-__all__ = ['SPIRouLoader', 'SpectrumData']
+__all__ = ['SPIRouLoader', 'UVESLoader', 'UVESProductError', 'SpectrumData']
