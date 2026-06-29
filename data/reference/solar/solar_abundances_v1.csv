@@ -1,3 +1,13 @@
+# solar gold-standard abundance reference — RYA-469 (write-once, immutable)
+# version: v1
+# frozen_utc: 2026-06-29T04:42:34Z
+# source_commit: 9d06f59ed616
+# source_file: data/processed/solar_abundances.csv
+# fe_anchor_a_fe1: 7.516
+# verdict: PASS=4 NLTE-OWED=1 CURATION-OWED=21 DATA-GAP=0
+# changelog: initial freeze of data/processed/solar_abundances.csv (RYA-371/462/467b final verdict, KP+K-NLTE applied)
+# supersedes: none
+# immutable: editing this file trips the RYA-469 immutability guard
 element,ion,A_X,A_X_std,n_lines,XH,XFe,delta_nlte_mean,n_nlte_lines,A_X_nlte,A_X_std_nlte,nlte_flag,nlte_ref,n_lines_A,n_lines_B,n_lines_C,n_lines_D,element_score,element_grade,A_X_nlte_AB,A_X_std_AB,n_lines_AB,scale,nlte_applied,A_X_nlte_absolute,curation_verdict,curation_residual_nlte,nlte_delta_solar,curation_source
 Al,I,7.406,,1,0.976,,,,7.406,,1D_LTE,,,,,,,,,,,absolute,False,,LOW_CONFIDENCE,0.976,,RYA-395/398 graded blind cull (curate_nonfe_pools)
 C,I,10.26,,1,1.8,1.75,,0.0,10.26,,1D_LTE,,,,,,,,,,,absolute,False,,,,,

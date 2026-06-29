@@ -26,8 +26,11 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'scripts'))
 
 import phase_c_verdict_rya371 as P  # noqa: E402
+from pipeline import data_namespace as ns  # noqa: E402
 
-AB = ROOT / 'data' / 'processed' / 'solar_abundances.csv'
+# RYA-469: the solar baseline is now the FROZEN gold reference (committed), not the
+# gitignored working file — so these assertions run in CI instead of skipping.
+AB = ns.reference_path(ns.current_version())
 GRADED_DIAG = ROOT / 'data' / 'curation' / 'nonfe_pools' / 'curation_diagnostics_graded_rya398.csv'
 NONFE_DIR = ROOT / 'data' / 'curation' / 'nonfe_pools'
 
@@ -97,7 +100,7 @@ _CURATED_ION_I = ['Si', 'Ca', 'Ni', 'Ti', 'Cr']
 
 @pytest.mark.skipif(not AB.exists(), reason="needs a solar run (solar_abundances.csv is gitignored)")
 def test_curation_faithful_abundance_reproduces_diagnostics():
-    ab = pd.read_csv(AB)
+    ab = pd.read_csv(AB, comment='#')
     diag = pd.read_csv(GRADED_DIAG).set_index('element')
     for el in _CURATED_ION_I:
         row = ab[(ab['element'] == el) & (ab['ion'] == 'I')]
@@ -109,7 +112,7 @@ def test_curation_faithful_abundance_reproduces_diagnostics():
 
 @pytest.mark.skipif(not AB.exists(), reason="needs a solar run (gitignored output)")
 def test_cr_canary_lands_at_floor_not_pass():
-    ab = pd.read_csv(AB)
+    ab = pd.read_csv(AB, comment='#')
     cr = ab[(ab['element'] == 'Cr') & (ab['ion'] == 'I')]
     assert len(cr) == 1
     cr = cr.iloc[0]
@@ -121,7 +124,7 @@ def test_cr_canary_lands_at_floor_not_pass():
 
 @pytest.mark.skipif(not AB.exists(), reason="needs a solar run (gitignored output)")
 def test_fe_legs_present_and_validated():
-    ab = pd.read_csv(AB)
+    ab = pd.read_csv(AB, comment='#')
     fe1 = ab[(ab['element'] == 'Fe') & (ab['ion'] == 'I')].iloc[0]
     fe2 = ab[(ab['element'] == 'Fe') & (ab['ion'] == 'II')]
     assert int(fe1['n_lines']) >= 60                                 # deep Fe I pool untouched

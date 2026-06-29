@@ -23,8 +23,12 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'scripts'))
 
 import pipeline.ew_integrity as ei  # noqa: E402
+from pipeline import data_namespace as ns  # noqa: E402  RYA-469 gold solar reference
 
 PROC = ROOT / 'data' / 'processed'
+# RYA-469: phase_c reads the FROZEN gold solar reference (committed), so the verdict
+# wiring tests run in CI rather than skipping on the gitignored working file.
+_GOLD_SOLAR = ns.reference_path(ns.current_version())
 
 
 def _frame(rows):
@@ -153,7 +157,7 @@ def test_reference_table_is_cited():
 
 # ── verdict wiring (needs the run output; skips cleanly otherwise) ────────────
 
-@pytest.mark.skipif(not (PROC / 'solar_abundances.csv').exists(),
+@pytest.mark.skipif(not _GOLD_SOLAR.exists(),
                     reason="needs a solar run (solar_abundances.csv is gitignored)")
 def test_charter_c_still_pass_after_5380_exclusion():
     import phase_c_verdict_rya371 as P
@@ -165,7 +169,7 @@ def test_charter_c_still_pass_after_5380_exclusion():
     assert c['sigma'] is not None and c['sigma'] < 0.149   # spread tightened vs the full set
 
 
-@pytest.mark.skipif(not (PROC / 'solar_abundances.csv').exists(),
+@pytest.mark.skipif(not _GOLD_SOLAR.exists(),
                     reason="needs a solar run (gitignored output)")
 def test_charter_li_reported_upper_limit_in_verdict():
     import phase_c_verdict_rya371 as P
