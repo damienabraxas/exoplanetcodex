@@ -62,3 +62,5 @@ data/nlte_grids/raw/
 data/nlte_grids/**/*.grd
 # RYA-410: the Zenodo download archives are transient (extracted then deleted) — never commit
 data/nlte_grids/**/*.tar.gz
+# RYA-426: UV conditioning manifests (per-star working artifacts, regenerable)
+data/conditioning/
