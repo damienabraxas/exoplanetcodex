@@ -1,0 +1,74 @@
+{
+  "ticket": "RYA-473",
+  "star": "solar",
+  "generated": "2026-06-29",
+  "engine": "pipeline.cno_synthesis._fit_element (synthesis v2, RYA-338) on GESv6_atom_hfs_iso (HFS-resolved); Turbospectrum 1D-LTE flux fit",
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "Mn": {
+    "method": "HFS-resolved synthesis (flux-space \u03c7\u00b2\u1d63 fit) on the Den Hartog e6S\u2192z6P triplet 6013/16/21",
+    "why_synthesis": "EW path SAT-culls these (RYA-468: REW \u22124.78..\u22124.82 over the \u22124.90 knee, HFS-split hfs_n=6); synthesis on the GES HFS line list (6 components/feature) measures them.",
+    "gf_provenance": "Den Hartog Lawler Sobeck Sneden Cowan 2011 ApJS 194,35 (MED tier, adjudicated RYA-468); the GES synth list carries the matching 6-component hfs pattern (DLSSC = Den Hartog Table 4).",
+    "hfs_provenance": "Den Hartog+2011 Table 4 hfs components (native in GES GESv6_atom_hfs_iso) \u2014 cited, not invented.",
+    "hfs_components": {
+      "6013.51": {
+        "n_components": 6,
+        "gf_sum_loggf": -0.354,
+        "dh_canonical": -0.354,
+        "gf_matches_dh": true
+      },
+      "6016.67": {
+        "n_components": 6,
+        "gf_sum_loggf": -0.181,
+        "dh_canonical": -0.181,
+        "gf_matches_dh": true
+      },
+      "6021.82": {
+        "n_components": 6,
+        "gf_sum_loggf": -0.054,
+        "dh_canonical": -0.054,
+        "gf_matches_dh": true
+      }
+    },
+    "A_lte_median": 5.446,
+    "A_lte_mean": 5.357,
+    "scatter": 0.154,
+    "n_lines": 3,
+    "nlte_delta": 0.108,
+    "nlte_live": false,
+    "nlte_source": "MPIA SpectrumTools / Bergemann Mn NLTE grid (data/nlte_grids/Mn_Bergemann_MPIA.csv); solar Mn \u03b4 ~+0.107 dex on its high-EP reference lines (4998/6304/6306/6867). RYA-411: the low-EP HFS triplet 6013/16/21 is NOT a grid node \u2014 its HFS-resolved Amarsi delta differs (HFS desaturation) and needs the offline nlte_Mn_scatt_pysme.grd. (live Amarsi .grd offline: FileNotFoundError; MPIA grid solar \u03b4 +0.108 on high-EP reference lines applied as a VENDORED correction, FLAGGED \u2014 the triplet-exact HFS-resolved \u03b4 would differ, RYA-411).",
+    "A_nlte": 5.554,
+    "asplund2021": 5.42,
+    "delta_vs_asplund": 0.134,
+    "per_line": [
+      {
+        "line": 6013.51,
+        "A_X": 5.447,
+        "red_chi2": 119.535,
+        "sigma_fit": 0.006,
+        "n_pix": 80,
+        "status": "ok"
+      },
+      {
+        "line": 6016.67,
+        "A_X": 5.179,
+        "red_chi2": 125.368,
+        "sigma_fit": 0.012,
+        "n_pix": 80,
+        "status": "ok"
+      },
+      {
+        "line": 6021.82,
+        "A_X": 5.446,
+        "red_chi2": 118.218,
+        "sigma_fit": 0.01,
+        "n_pix": 80,
+        "status": "ok"
+      }
+    ]
+  }
+}

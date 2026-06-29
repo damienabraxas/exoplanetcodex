@@ -1,6 +1,6 @@
 # RYA-371 Phase C — Solar 27-element verdict table (RYA-239 retry)
 
-_Generated 2026-06-28 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
+_Generated 2026-06-29 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
 
 _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by overlap: PASS._
 
@@ -36,7 +36,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 | Na | 6.24 | 6.264 | +0.024 | 0.02 | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
 | Ni | 6.20 | 6.946 | +0.746 | 0.51 | 2 | - | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
 | Cr | 5.62 | 6.022 | +0.402 | 0.60 | 7 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 7 curated line(s), graded-gf (RYA-395/398) |
-| Mn | 5.42 |  |  |  |  | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
+| Mn | 5.42 | 5.554 | +0.134 | 0.15 | 3 | wired | **CURATION-OWED** | synthesis: HFS-resolved (RYA-473) | HFS synthesis: Mn I 3 lines (6013/6016/6021, Den Hartog e6S→z6P), gf=Den Hartog+2011 (MED), NLTE vendored MPIA/Bergemann grid (live Amarsi .grd offline) |
 | P | 5.41 | 6.610 | +1.200 |  | 2 | - | **CURATION-OWED** | kittpeak-measured | kittpeak: P I 10581/10596 near-IR multiplet |
 | K | 5.07 | 5.099 | +0.029 |  | 1 | wired | **PASS** | kittpeak-measured | kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) — NLTE-wired |
 | Ti | 4.97 | 5.471 | +0.501 | 0.93 | 10 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 10 curated line(s), graded-gf (RYA-395/398) |
@@ -74,7 +74,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 - **Na** — A(X) 6.264 vs Asplund 6.24 (+0.024) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
 - **Ni** — A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
 - **Cr** — A(X) 6.022 vs Asplund 5.62 (+0.402), sigma 0.60 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
-- **Mn** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mn_Bergemann_MPIA.csv).
+- **Mn** — MEASURED via HFS-resolved synthesis — the EW path SAT-culls the Den Hartog triplet (REW −4.78..−4.82 over the −4.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.446 + Mn NLTE +0.108 (vendored MPIA/Bergemann grid (live Amarsi .grd offline)) = 5.554 (+0.134 vs Asplund 5.42; σ 0.154, n=3). The NLTE δ is the MPIA grid's HIGH-EP reference value (+0.107); the low-EP triplet is NOT a grid node and its HFS-resolved Amarsi δ differs (RYA-411, .grd offline) → do NOT certify PASS on the vendored δ. The MEASUREMENT-TOOL blocker is fixed (off no-value); the line-exact NLTE is owed (RYA-411 Amarsi grid).
 - **P** — MEASURED from Kitt Peak P I near-IR = 6.61 (+1.20 vs 5.41) — OFF DATA-GAP: the near-IR multiplet is reachable from the ground, no HST/STIS needed (RYA-119 superseded for the Sun). The large +1.2 offset is a gf-scale residual (P I near-IR gf are uncertain) → curation owed RYA-161/162; do NOT tune.
 - **Ti** — A(X) 5.471 vs Asplund 4.97 (+0.501), sigma 0.93 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
 - **Co** — Kitt Peak covers Co, but the extracted Co I 3845 sits in the blanketed blue edge (SNR~24, chi2r~3100) → the value 6.128 is NOT trusted (blue-edge per the RYA-451/454 caveat). OFF pure DATA-GAP (a measured reference now exists) but curation owed: extract cleaner red Co I lines (within KP's 1300 nm reach) + HFS. Do NOT force the blue value.
