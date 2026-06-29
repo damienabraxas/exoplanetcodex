@@ -2,7 +2,7 @@
   "summary": {
     "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "star": "solar",
-    "generated": "2026-06-28",
+    "generated": "2026-06-29",
     "reference": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)",
     "solar_ref_version": "v1",
     "tol_pass_dex": 0.1,
@@ -36,6 +36,10 @@
     "cu_v_synthesis_elements": [
       "Cu",
       "V"
+    ],
+    "mn_synthesis_wired": true,
+    "mn_synthesis_elements": [
+      "Mn"
     ]
   },
   "verdicts": [
@@ -222,17 +226,17 @@
     {
       "element": "Mn",
       "asplund2021": 5.42,
-      "A_measured": null,
-      "delta_vs_asplund": null,
-      "sigma": null,
-      "n_lines": 0,
-      "channel": "EW present; no independent-gf line survives the graded cull",
+      "A_measured": 5.554,
+      "delta_vs_asplund": 0.134,
+      "sigma": 0.154,
+      "n_lines": 3,
+      "channel": "HFS synthesis: Mn I 3 lines (6013/6016/6021, Den Hartog e6S\u2192z6P), gf=Den Hartog+2011 (MED), NLTE vendored MPIA/Bergemann grid (live Amarsi .grd offline)",
       "nlte_grid": "Mn_Bergemann_MPIA.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Mn_Bergemann_MPIA.csv).",
-      "provenance": "harps-measured (EW pool)"
+      "owed": "MEASURED via HFS-resolved synthesis \u2014 the EW path SAT-culls the Den Hartog triplet (REW \u22124.78..\u22124.82 over the \u22124.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.446 + Mn NLTE +0.108 (vendored MPIA/Bergemann grid (live Amarsi .grd offline)) = 5.554 (+0.134 vs Asplund 5.42; \u03c3 0.154, n=3). The NLTE \u03b4 is the MPIA grid's HIGH-EP reference value (+0.107); the low-EP triplet is NOT a grid node and its HFS-resolved Amarsi \u03b4 differs (RYA-411, .grd offline) \u2192 do NOT certify PASS on the vendored \u03b4. The MEASUREMENT-TOOL blocker is fixed (off no-value); the line-exact NLTE is owed (RYA-411 Amarsi grid).",
+      "provenance": "synthesis: HFS-resolved (RYA-473)"
     },
     {
       "element": "P",
