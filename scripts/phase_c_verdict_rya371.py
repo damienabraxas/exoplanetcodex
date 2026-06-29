@@ -52,6 +52,8 @@ DOCS = ROOT / 'docs' / 'audit'
 KITTPEAK_JSON = AUDIT / 'solar_kittpeak_rya460.json'   # RYA-460 KP measurements
 CU_V_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' /
                    'solar_cu_v_hfs_synthesis_rya466.json')   # RYA-466 HFS-synthesis Cu/V
+MN_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' /
+                 'solar_mn_hfs_synthesis_rya473.json')       # RYA-473 HFS-synthesis Mn
 
 # Prior Phase C verdict counts — the immediate baseline this run diffs against.
 # RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
@@ -570,6 +572,83 @@ def _cu_v_reclassify(data):
     return out
 
 
+def _load_mn_synthesis():
+    """RYA-473: the HFS-resolved synthesis Mn measurement, or None if it hasn't run."""
+    if not MN_SYNTH_JSON.exists():
+        return None
+    return json.loads(MN_SYNTH_JSON.read_text())
+
+
+def _mn_reclassify(data):
+    """RYA-473 — fold the HFS-resolved synthesis measurement of Mn into the verdict.
+    Mn was no-value: its gf is graded (Den Hartog, RYA-468) but the EW path SAT-culls the
+    e6S→z6P triplet (REW −4.78..−4.82 over the −4.90 knee, HFS-split). Synthesis on the GES
+    HFS-resolved line list (6 components/feature = Den Hartog Table 4) measures it. Driven
+    by the measured value, not tuned: a synthesised Mn that still sits high is a finding.
+    Returns {'Mn': override-dict}."""
+    if not data:
+        return {}
+    mn = data.get('Mn', {})
+    a_lte = mn.get('A_lte_median')
+    if a_lte is None:
+        return {}
+    a = float(mn['A_nlte']) if mn.get('A_nlte') is not None else float(a_lte)
+    asp = float(mn['asplund2021']); d = a - asp
+    has_nlte = mn.get('nlte_delta') is not None
+    nlte = ('live Amarsi HFS-resolved' if mn.get('nlte_live')
+            else 'vendored MPIA/Bergemann grid (live Amarsi .grd offline)')
+    reconciled = abs(d) <= TOL_PASS
+    # Mn carries the RYA-411 NLTE caveat: the MPIA grid δ is its high-EP reference value,
+    # the low-EP triplet is not a grid node → do NOT certify PASS on the vendored δ alone.
+    vendored_caveat = has_nlte and not mn.get('nlte_live')
+    verdict = 'PASS' if (reconciled and not vendored_caveat) else 'CURATION-OWED'
+    nlte_txt = (f"+ Mn NLTE {mn.get('nlte_delta'):+.3f} ({nlte}) = {a:.3f}"
+                if has_nlte else f"= A(Mn)_LTE {a:.3f} (NLTE unavailable)")
+    return {'Mn': {
+        'verdict': verdict,
+        'A_measured': a, 'sigma': mn.get('scatter'), 'n_lines': mn.get('n_lines'),
+        'provenance': 'synthesis: HFS-resolved (RYA-473)',
+        'channel': f"HFS synthesis: Mn I {mn.get('n_lines')} lines "
+                   f"(6013/6016/6021, Den Hartog e6S→z6P), gf=Den Hartog+2011 (MED), "
+                   f"NLTE {nlte}",
+        'owed': (f"MEASURED via HFS-resolved synthesis — the EW path SAT-culls the Den Hartog "
+                 f"triplet (REW −4.78..−4.82 over the −4.90 knee, HFS-split hfs_n=6; RYA-468 "
+                 f"finding: gf graded but saturation is the blocker). Synthesis on the GES HFS "
+                 f"line list (6 components/feature = Den Hartog Table 4, cited) measures it. "
+                 f"A(Mn)_LTE {a_lte} {nlte_txt} ({d:+.3f} vs Asplund {asp:.2f}; σ "
+                 f"{mn.get('scatter')}, n={mn.get('n_lines')}). "
+                 + ("Reconciles within TOL — the HFS-synthesis path closes the Mn gap."
+                    if (reconciled and not vendored_caveat) else
+                    ("The NLTE δ is the MPIA grid's HIGH-EP reference value (+0.107); the "
+                     "low-EP triplet is NOT a grid node and its HFS-resolved Amarsi δ differs "
+                     "(RYA-411, .grd offline) → do NOT certify PASS on the vendored δ. The "
+                     "MEASUREMENT-TOOL blocker is fixed (off no-value); the line-exact NLTE is "
+                     "owed (RYA-411 Amarsi grid)." if vendored_caveat else
+                     "The offset survives → 1D Mn sits off Asplund; fuller NLTE/3D curation "
+                     "owed. The blocker was the MEASUREMENT TOOL, now fixed; the residual is a "
+                     "finding, do NOT tune.")))}}
+
+
+def _apply_mn_synthesis(rows, data):
+    """Overlay the RYA-473 Mn HFS-synthesis reclassification onto the base rows (in place)."""
+    overrides = _mn_reclassify(data)
+    for r in rows:
+        ov = overrides.get(r['element'])
+        if not ov:
+            continue
+        for key in ('verdict', 'channel', 'owed', 'provenance'):
+            if key in ov:
+                r[key] = ov[key]
+        if ov.get('A_measured') is not None:
+            r['A_measured'] = round(float(ov['A_measured']), 3)
+            r['delta_vs_asplund'] = round(r['A_measured'] - r['asplund2021'], 3)
+        if ov.get('sigma') is not None:
+            r['sigma'] = round(float(ov['sigma']), 3)
+        if ov.get('n_lines') is not None:
+            r['n_lines'] = int(ov['n_lines'])
+    return overrides
+
+
 def _apply_cu_v_synthesis(rows, data):
     """Overlay the RYA-466 Cu/V HFS-synthesis reclassification onto the base rows (in place)."""
     overrides = _cu_v_reclassify(data)
@@ -692,6 +771,11 @@ def main():
     cuv = _load_cu_v_synthesis()
     cuv_overrides = _apply_cu_v_synthesis(rows, cuv)
 
+    # RYA-473: fold in the HFS-resolved synthesis measurement of Mn (the Den Hartog e6S→z6P
+    # triplet the EW path SAT-culls). Moves Mn off "no value" → measured.
+    mn = _load_mn_synthesis()
+    mn_overrides = _apply_mn_synthesis(rows, mn)
+
     counts = {}
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
@@ -706,7 +790,9 @@ def main():
                'kittpeak_wired': bool(kp),
                'kittpeak_elements': sorted(overrides) if overrides else [],
                'cu_v_synthesis_wired': bool(cuv),
-               'cu_v_synthesis_elements': sorted(cuv_overrides) if cuv_overrides else []}
+               'cu_v_synthesis_elements': sorted(cuv_overrides) if cuv_overrides else [],
+               'mn_synthesis_wired': bool(mn),
+               'mn_synthesis_elements': sorted(mn_overrides) if mn_overrides else []}
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
