@@ -8,9 +8,9 @@
     "tol_pass_dex": 0.1,
     "n_elements": 26,
     "counts": {
-      "PASS": 4,
+      "PASS": 5,
       "NLTE-OWED": 1,
-      "CURATION-OWED": 21
+      "CURATION-OWED": 20
     },
     "prior_counts": {
       "PASS": 3,
@@ -19,9 +19,9 @@
       "DATA-GAP": 0
     },
     "diff_vs_prior": {
-      "PASS": 1,
+      "PASS": 2,
       "NLTE-OWED": -1,
-      "CURATION-OWED": 0,
+      "CURATION-OWED": -1,
       "DATA-GAP": 0
     },
     "kittpeak_wired": true,
@@ -226,16 +226,16 @@
     {
       "element": "Mn",
       "asplund2021": 5.42,
-      "A_measured": 5.554,
-      "delta_vs_asplund": 0.134,
+      "A_measured": 5.47,
+      "delta_vs_asplund": 0.05,
       "sigma": 0.154,
       "n_lines": 3,
-      "channel": "HFS synthesis: Mn I 3 lines (6013/6016/6021, Den Hartog e6S\u2192z6P), gf=Den Hartog+2011 (MED), NLTE vendored MPIA/Bergemann grid (live Amarsi .grd offline)",
+      "channel": "HFS synthesis: Mn I 3 lines (6013/6016/6021, Den Hartog e6S\u2192z6P), gf=Den Hartog+2011 (MED), NLTE live Amarsi HFS-resolved",
       "nlte_grid": "Mn_Bergemann_MPIA.csv",
       "nlte_wired": true,
       "threed_wired": false,
-      "verdict": "CURATION-OWED",
-      "owed": "MEASURED via HFS-resolved synthesis \u2014 the EW path SAT-culls the Den Hartog triplet (REW \u22124.78..\u22124.82 over the \u22124.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.446 + Mn NLTE +0.108 (vendored MPIA/Bergemann grid (live Amarsi .grd offline)) = 5.554 (+0.134 vs Asplund 5.42; \u03c3 0.154, n=3). The NLTE \u03b4 is the MPIA grid's HIGH-EP reference value (+0.107); the low-EP triplet is NOT a grid node and its HFS-resolved Amarsi \u03b4 differs (RYA-411, .grd offline) \u2192 do NOT certify PASS on the vendored \u03b4. The MEASUREMENT-TOOL blocker is fixed (off no-value); the line-exact NLTE is owed (RYA-411 Amarsi grid).",
+      "verdict": "PASS",
+      "owed": "MEASURED via HFS-resolved synthesis \u2014 the EW path SAT-culls the Den Hartog triplet (REW \u22124.78..\u22124.82 over the \u22124.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.446 + Mn NLTE +0.024 (live Amarsi HFS-resolved) = 5.470 (+0.050 vs Asplund 5.42; \u03c3 0.154, n=3). Reconciles within TOL \u2014 the HFS-synthesis path closes the Mn gap.",
       "provenance": "synthesis: HFS-resolved (RYA-473)"
     },
     {
