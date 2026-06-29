@@ -65,7 +65,7 @@ from scipy.optimize import minimize_scalar
 from scipy.interpolate import interp1d
 
 from config.constants import (
-    PATHS, SOLAR_ASPLUND2021, HARPS_R, ISPEC_DIR, get_star_params,
+    PATHS, SOLAR_ASPLUND2021, HARPS_R, ISPEC_DIR, get_star_params, ROOT,
 )
 # Reuse the synth-v2 core (RYA-285/287/288/353) — same atmosphere interpolation,
 # linelist (canonical-gf rescaled), isotopes, observed-spectrum loader and
@@ -146,6 +146,53 @@ def _load_reflected_solar_arm(inst: str, closure_tol_kms: float = 1.5) -> tuple:
           f"{g.min():.0f}-{g.max():.0f} A; continuum-normalized (median "
           f"{np.median(c / cont):.3f}); max closure {cl.max():.2f} km/s")
     return g / 10.0, (c / cont)
+
+
+def _load_procyon_uves_arm() -> tuple:
+    """RYA-348 Phase 2 — Procyon UVES red arm → (wave_nm, flux_norm), the O I 777 PRIMARY-O
+    arm. Resolves the RYA-272 registry's oi_anchor epoch (the single CLEAN telluric-verdict
+    frame), loads it through the RYA-272 UVESLoader (BERV applied → barycentric rest frame,
+    air Angstrom, GES-quarantine guards), then continuum-normalizes the same way the
+    reflected-solar arm does. NEVER reflected-solar Vesta (RYA-464): a real Procyon UVES
+    spectrum or a loud failure. Telluric: the anchor is the CLEAN epoch (RYA-271/272 audit);
+    EXCLUDE/CORRECTABLE epochs are never selected here."""
+    from pipeline.loaders.uves_loader import UVESLoader
+    reg_path = ROOT / 'data' / 'spectra' / 'procyon' / 'uves_registry.csv'
+    if not reg_path.exists():
+        raise FileNotFoundError(
+            f"RYA-272 UVES registry absent: {reg_path}. Build it (pipeline UVES intake) "
+            f"before resolving the Procyon UVES arm — no silent Vesta fallback (RYA-464).")
+    reg = pd.read_csv(reg_path)
+    anchor = reg[(reg['oi_anchor'].astype(str).str.lower() == 'true') &
+                 (reg['oi_telluric_verdict'].astype(str).str.upper() == 'CLEAN')]
+    if anchor.empty:
+        raise RuntimeError(
+            f"No CLEAN oi_anchor epoch in {reg_path.name} — the O I 777 primary-O arm needs a "
+            f"telluric-CLEAN frame (RYA-271). EXCLUDE/CORRECTABLE epochs are not auto-used.")
+    row = anchor.iloc[0]
+    uves_dir = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+    fpath = uves_dir / str(row['filename'])
+    if not fpath.exists():
+        raise FileNotFoundError(
+            f"Procyon UVES anchor staged in registry but absent on disk: {fpath}. Stage the "
+            f"RYA-272 UVES frames before the run (data store, gitignored).")
+    spec = UVESLoader(fpath).load()
+    obj = str(spec.meta.get('object', '')).lower()
+    if 'procyon' not in obj and 'vesta' in obj:        # anti-silent-Vesta belt-and-suspenders
+        raise RuntimeError(f"UVES anchor object={spec.meta.get('object')!r} is reflected-solar — "
+                           f"refusing to synthesize Procyon against Vesta (RYA-464).")
+    w = np.asarray(spec.wave_A, float)
+    fl = np.asarray(spec.flux, float)
+    m = np.isfinite(w) & np.isfinite(fl) & (fl > 0)
+    w, fl = w[m], fl[m]
+    fl = fl / np.nanmedian(fl)                          # FLUXCAL → ~unity (fit_continuum floor)
+    cont = fit_continuum(w, fl)
+    print(f"  [arm-load] UVES Procyon: anchor {row['filename']} ({row['date_obs']} "
+          f"{row['setting']}, SNR {float(row['snr']):.0f}, telluric {row['oi_telluric_verdict']}); "
+          f"{w.min():.0f}-{w.max():.0f} A, BERV {spec.meta['berv_kms']:+.2f} km/s applied; "
+          f"continuum-normalized (median {np.nanmedian(fl / cont):.3f})")
+    return w / 10.0, (fl / cont)
+
 
 _C_KMS = 299792.458
 
@@ -399,10 +446,9 @@ _SOLAR_ARMS = {
 _PROCYON_ARMS = {
     'harps': ArmWiring('harps', HARPS_VIS, VIS_DIAGNOSTICS, 'harps_normalized', True,
                        provenance='measured (HARPS ADP, RYA-273)'),
-    'uves':  ArmWiring('uves', UVES_OPT, PROCYON_UVES_DIAGNOSTICS, 'uves_rya272', False,
-                       defer_reason='RYA-272 UVES loader not built + Procyon UVES spectra not '
-                                    'staged (gate: RYA-271 UVES audit). O I 777 = primary O.',
-                       provenance='measured (pending)'),
+    'uves':  ArmWiring('uves', UVES_OPT, PROCYON_UVES_DIAGNOSTICS, 'uves_rya272', True,
+                       provenance='measured (UVES RED760 oi_anchor 2013-10-08, CLEAN telluric, '
+                                  'BERV-applied; RYA-272 loader + RYA-271 audit). O I 777 = primary O.'),
     'uv':    ArmWiring('uv', HST_UV, _hst_uv.uv_arm_diagnostics(), 'hst_stis', False,
                        defer_reason='loader BUILT + Procyon STIS staged/conditioned (RYA-471, '
                                     'smoke-proven on E140M: C I 1657 covered, vac->air verified). '
@@ -463,9 +509,15 @@ def resolve_arm_spectrum(star_id: str, arm: ArmWiring):
                 f"{star_id}/{arm.name}: the HST STIS UV loader is Procyon-only today "
                 f"(RYA-222 whitelist). Stage + audit {star_id}'s UV frames before wiring (RYA-464).")
         return _hst_uv.load_procyon_uv_arm('E140M')   # FUV grating covering C I 1657 + O I 1355
+    if arm.loader == 'uves_rya272':              # RYA-348 Phase 2: Procyon UVES O I 777 primary-O
+        if 'procyon' not in star_id.lower():
+            raise ArmNotWired(
+                f"{star_id}/{arm.name}: the RYA-272 UVES loader is wired for Procyon's staged "
+                f"anchor only. Stage + audit {star_id}'s UVES frames before wiring (RYA-464).")
+        return _load_procyon_uves_arm()
     raise ArmNotWired(
         f"{star_id}/{arm.name}: loader {arm.loader!r} not implemented yet "
-        f"(RYA-272 UVES / IR CRIRES build pending).")
+        f"(IR CRIRES build pending).")
 
 
 # ── VIS NLTE policy — LTE-by-design, pluggable per arm ────────────────────────
