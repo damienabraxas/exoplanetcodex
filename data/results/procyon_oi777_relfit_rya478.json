@@ -1,0 +1,24 @@
+{
+  "ticket": "RYA-478 Phase 2b",
+  "procyon": {
+    "star": "procyon",
+    "a_lte": 9.36,
+    "chi2r": 46.671,
+    "delta": -0.54,
+    "a_nlte": 8.82,
+    "oh": 0.085,
+    "status": "ok",
+    "vmac": 6.0,
+    "vsini": 2.8,
+    "broad_ref": "Bruntt et al. 2010 A&A 519 A51 (vsini 2.8 km/s) + adopted RT vmac 6.0 km/s (Gray scale) \u2014 config/stars.yaml; already F-star, not solar"
+  },
+  "solar_control": {
+    "star": "solar_kpno",
+    "a_lte_global": 8.956,
+    "a_lte_local": 8.907,
+    "method_shift": -0.049,
+    "chi2r_local": 48.72,
+    "delta": -0.171,
+    "a_nlte_local": 8.736
+  }
+}
