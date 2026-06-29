@@ -76,18 +76,28 @@ def test_solar_anchor_untouched_no_fe_row_changed():
     assert not any('Fe' in s for s in species)
 
 
-def test_al_unlocks_through_the_firewall_na_mg_do_not():
-    # The payoff: Al 6696 now carries a graded (MED-tier) gf and survives the
-    # RYA-398 independent-gf firewall; Na/Mg stay blocked by saturation/EW-error.
+def test_al_unlocks_through_the_firewall_mg_does_not():
+    # The Batch-1 payoff: Al 6696 now carries a graded (MED-tier) gf and survives the
+    # RYA-398 independent-gf firewall. Mg stays blocked (every optical Mg I line is
+    # saturated/HIERR — RYA-465 confirmed Mg is wavelength-coverage-limited, not gf).
+    # NOTE: Na was ALSO blocked at Batch-1 time, but RYA-465 later added the unsaturated
+    # subordinate lines (Na I 6154/6160) so Na now survives — this asserts the current
+    # post-465 reality, not the original Batch-1 snapshot.
     from pipeline import curate_nonfe_pools as C
     df = C.apply_cull(C.load_pool(['Na', 'Mg', 'Al']), grade_restrict=True)
     al = df[(df['element'] == 'Al')]
     al6696 = al[(al['wavelength_air_A'] - 6696.185).abs() < 0.02].iloc[0]
     assert al6696['gf_tier'] == 'MED'
     assert al6696['cull_reason'] == ''                          # KEPT -> Al unlocks
-    # Na/Mg: no line survives (their blocker is SAT/HIERR, not gf — the finding)
-    assert (df[df['element'] == 'Na']['cull_reason'] != '').all()
+    # Mg: no line survives (blocker is SAT/HIERR, not gf — the finding)
     assert (df[df['element'] == 'Mg']['cull_reason'] != '').all()
+    # Na: the RYA-465 unsaturated recovery lines (6154/6160) now survive; the original
+    # saturated 5682/5688 are still culled (SAT) — gf was never Na's blocker.
+    na = df[df['element'] == 'Na']
+    na_kept = na[na['cull_reason'] == '']
+    assert {round(w, 1) for w in na_kept['wavelength_air_A']} >= {6154.2, 6160.7}
+    na_5682 = na[(na['wavelength_air_A'] - 5682.633).abs() < 0.02].iloc[0]
+    assert 'SAT' in str(na_5682['cull_reason'])
 
 
 def test_counts_three_adjudicated_three_flagged_three_confirmed():
