@@ -6,9 +6,9 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 
 ## Verdict counts
 
-- **PASS**: 4  (prior 3, diff +1)
+- **PASS**: 5  (prior 3, diff +2)
 - **NLTE-OWED**: 1  (prior 2, diff -1)
-- **CURATION-OWED**: 21  (prior 21, diff +0)
+- **CURATION-OWED**: 20  (prior 21, diff -1)
 - **DATA-GAP**: 0  (prior 0, diff +0)
 
 ## RYA-460 overlap cross-check (Kitt Peak leg validation)
@@ -36,7 +36,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 | Na | 6.24 | 6.264 | +0.024 | 0.02 | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
 | Ni | 6.20 | 6.946 | +0.746 | 0.51 | 2 | - | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
 | Cr | 5.62 | 6.022 | +0.402 | 0.60 | 7 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 7 curated line(s), graded-gf (RYA-395/398) |
-| Mn | 5.42 | 5.554 | +0.134 | 0.15 | 3 | wired | **CURATION-OWED** | synthesis: HFS-resolved (RYA-473) | HFS synthesis: Mn I 3 lines (6013/6016/6021, Den Hartog e6S→z6P), gf=Den Hartog+2011 (MED), NLTE vendored MPIA/Bergemann grid (live Amarsi .grd offline) |
+| Mn | 5.42 | 5.470 | +0.050 | 0.15 | 3 | wired | **PASS** | synthesis: HFS-resolved (RYA-473) | HFS synthesis: Mn I 3 lines (6013/6016/6021, Den Hartog e6S→z6P), gf=Den Hartog+2011 (MED), NLTE live Amarsi HFS-resolved |
 | P | 5.41 | 6.610 | +1.200 |  | 2 | - | **CURATION-OWED** | kittpeak-measured | kittpeak: P I 10581/10596 near-IR multiplet |
 | K | 5.07 | 5.099 | +0.029 |  | 1 | wired | **PASS** | kittpeak-measured | kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) — NLTE-wired |
 | Ti | 4.97 | 5.471 | +0.501 | 0.93 | 10 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 10 curated line(s), graded-gf (RYA-395/398) |
@@ -53,18 +53,19 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 
 ## Remaining-work map
 
-### PASS (4)
+### PASS (5)
 
 - **O** — cross-arm AGREE; O I 777 Amarsi-2019 3D-NLTE, [O I] Caffau-2015 3D anchor — measured 8.74 vs Asplund 8.69 (+0.05). RYA-455.
 - **C** — C I Amarsi-2019 3D-NLTE -> 8.46; CH 8.49 (3D-offset-owed); C I 5380 formally excluded ew_integrity=BAD_FIT (RYA-458); surviving cross-arm spread 0.054 on 5 indicators. [C I 5380 EXCLUDED (ew_integrity=BAD_FIT, espresso:CI_5380); cross-arm spread 0.149->0.054 on 5 surviving indicators.]
 - **Fe** — A(Fe I) NLTE 7.516 vs Asplund 7.46 (+0.056); ionization-balance gated, scatter 0.139 = honest floor (RYA-407). Documented +0.05 1D/3D scale offset (RYA-336), not the verdict.
+- **Mn** — MEASURED via HFS-resolved synthesis — the EW path SAT-culls the Den Hartog triplet (REW −4.78..−4.82 over the −4.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.446 + Mn NLTE +0.024 (live Amarsi HFS-resolved) = 5.470 (+0.050 vs Asplund 5.42; σ 0.154, n=3). Reconciles within TOL — the HFS-synthesis path closes the Mn gap.
 - **K** — MEASURED Kitt Peak K I 7699 = 5.411 (1D-LTE, +0.34 vs 5.07). K_Amarsi2020_PySME NLTE delta -0.312 APPLIED via the existing interpolation subsystem (RYA-462 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune) -> A(K) 5.099 (+0.029 vs Asplund 5.07). Reconciles within TOL after the cited NLTE correction — the severe negative K I resonance NLTE is real, not tuned.
 
 ### NLTE-OWED (1)
 
 - **N** — MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE: 8.189 / 8.222 / 8.196 (mean 8.202, spread 0.033). +0.37 vs Asplund 7.83 is the N I NLTE offset OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent — FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).
 
-### CURATION-OWED (21)
+### CURATION-OWED (20)
 
 - **Mg** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv).
 - **Si** — A(X) 7.888 vs Asplund 7.51 (+0.378), sigma 0.36 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
@@ -74,7 +75,6 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 - **Na** — A(X) 6.264 vs Asplund 6.24 (+0.024) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
 - **Ni** — A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
 - **Cr** — A(X) 6.022 vs Asplund 5.62 (+0.402), sigma 0.60 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
-- **Mn** — MEASURED via HFS-resolved synthesis — the EW path SAT-culls the Den Hartog triplet (REW −4.78..−4.82 over the −4.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.446 + Mn NLTE +0.108 (vendored MPIA/Bergemann grid (live Amarsi .grd offline)) = 5.554 (+0.134 vs Asplund 5.42; σ 0.154, n=3). The NLTE δ is the MPIA grid's HIGH-EP reference value (+0.107); the low-EP triplet is NOT a grid node and its HFS-resolved Amarsi δ differs (RYA-411, .grd offline) → do NOT certify PASS on the vendored δ. The MEASUREMENT-TOOL blocker is fixed (off no-value); the line-exact NLTE is owed (RYA-411 Amarsi grid).
 - **P** — MEASURED from Kitt Peak P I near-IR = 6.61 (+1.20 vs 5.41) — OFF DATA-GAP: the near-IR multiplet is reachable from the ground, no HST/STIS needed (RYA-119 superseded for the Sun). The large +1.2 offset is a gf-scale residual (P I near-IR gf are uncertain) → curation owed RYA-161/162; do NOT tune.
 - **Ti** — A(X) 5.471 vs Asplund 4.97 (+0.501), sigma 0.93 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
 - **Co** — Kitt Peak covers Co, but the extracted Co I 3845 sits in the blanketed blue edge (SNR~24, chi2r~3100) → the value 6.128 is NOT trusted (blue-edge per the RYA-451/454 caveat). OFF pure DATA-GAP (a measured reference now exists) but curation owed: extract cleaner red Co I lines (within KP's 1300 nm reach) + HFS. Do NOT force the blue value.

@@ -59,10 +59,36 @@ not the triplet-exact Amarsi δ. **The MEASUREMENT-TOOL blocker is fixed**; what
 the line-exact NLTE (RYA-411 Amarsi grid) and fuller curation — a finding, not a tune.
 Counts unchanged: **4 / 1 / 21 / 0**; Fe anchor 7.516.
 
-## Owed
+## RYA-476 resolution — Mn → PASS (live triplet-exact NLTE)
 
-- Line-exact HFS-resolved Mn NLTE on 6013/16/21 (Amarsi GALAH `nlte_Mn_scatt_pysme.grd`,
-  offline here) — would replace the vendored MPIA high-EP +0.108 and could move Mn to PASS.
+The owed lever below was pulled in **RYA-476**: the Amarsi GALAH `nlte_Mn_scatt_pysme.grd`
+was staged from Zenodo (record 3982506, tar md5 `ba01596031b054386a79a992141ebf72`, 8.4 GB
+extracted; `scripts/stage_amarsi_mn_grid_rya476.py`, disk-safe) and RYA-473's synthesis —
+which already tried the live path first — auto-upgraded to the **line-exact δ**.
+
+| quantity | vendored (RYA-473) | live (RYA-476) |
+|---|---|---|
+| Mn NLTE δ | +0.108 (MPIA high-EP) | **+0.024** (Amarsi triplet-exact) |
+| A(Mn)_NLTE | 5.554 | **5.470** |
+| vs Asplund 5.42 | +0.134 | **+0.050** (inside TOL 0.10) |
+| verdict | CURATION-OWED | **PASS** |
+
+This **confirms RYA-411 quantitatively**: the low-EP strong-HFS triplet desaturates to a
+δ (+0.024) far below the grid's high-EP nodes (+0.108). The PASS is **validate-don't-tune**:
+A(Mn)_LTE 5.446 is a real fit (+0.026 off Asplund, per-line spread 0.27), and the small δ
+is the physical line-exact value — not a number pulled to 5.42. **Verdict 4/1/21/0 →
+5/1/20/0** (PASS = O, C, Fe, K, **Mn**); Fe anchor 7.516.
+
+> **Reproduction note:** the `.grd` is gitignored (8.4 GB, kept on disk per RYA-461 / the
+> RYA-410 disk-safe pattern). The committed `solar_mn_hfs_synthesis_rya473.json` carries the
+> live δ — tests read it, no grid needed. A grid-less re-run of the measurement script falls
+> back to the MPIA +0.108 (Mn → CURATION-OWED) and would overwrite the JSON; re-stage via
+> `scripts/stage_amarsi_mn_grid_rya476.py` before regenerating.
+
+## Owed (RYA-473 — now resolved by RYA-476)
+
+- ~~Line-exact HFS-resolved Mn NLTE on 6013/16/21 (Amarsi GALAH grid) — would move Mn to
+  PASS.~~ **Done (RYA-476): Mn PASS.**
 
 **Related:** RYA-468 (the graded gf — input), RYA-411 (HFS-synth machinery + the NLTE
 caveat), RYA-466 (the Cu precedent — same pattern), RYA-371 (the verdict).
