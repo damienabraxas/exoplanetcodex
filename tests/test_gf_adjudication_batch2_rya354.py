@@ -63,11 +63,14 @@ def test_no_value_invented_log_gf_and_grade_byte_untouched():
 
 
 def test_canonical_edit_is_surgical_only_those_three_rows():
-    # The disposition lands on EXACTLY the 3 Mn I unlock candidates, nowhere else.
-    # Post-RYA-468 the Batch-2 manual-pull flag is fully resolved (none remain) and the
-    # 3 candidates carry the confirmed-void disposition.
+    # RYA-468 resolved the Batch-2 manual pull: the 3 Mn I candidates are now CONFIRMED
+    # lab-gf void (void_lab_gf_confirmed_rya468), so NO Mn I line carries the flag and the
+    # 3 carry the confirmed-void disposition. The 'flagged_manual_pull_rya354' marker is
+    # SHARED across the RYA-354 track (Batch 3 uses it for Y I), so the "none flagged"
+    # invariant is scoped to Mn I.
     df = _canon()
-    assert (df['adjudication_status'] == 'flagged_manual_pull_rya354').sum() == 0
+    assert df[(df['adjudication_status'] == 'flagged_manual_pull_rya354') &
+              (df['species'] == 'Mn I')].empty
     void = df[df['adjudication_status'] == 'void_lab_gf_confirmed_rya468']
     assert len(void) == 3
     assert set(void['species']) == {'Mn I'}
