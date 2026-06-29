@@ -157,6 +157,7 @@ def _load_procyon_uves_arm() -> tuple:
     spectrum or a loud failure. Telluric: the anchor is the CLEAN epoch (RYA-271/272 audit);
     EXCLUDE/CORRECTABLE epochs are never selected here."""
     from pipeline.loaders.uves_loader import UVESLoader
+    from pipeline.abundances_derive import _measure_rv_kms
     reg_path = ROOT / 'data' / 'spectra' / 'procyon' / 'uves_registry.csv'
     if not reg_path.exists():
         raise FileNotFoundError(
@@ -187,11 +188,19 @@ def _load_procyon_uves_arm() -> tuple:
     w, fl = w[m], fl[m]
     fl = fl / np.nanmedian(fl)                          # FLUXCAL → ~unity (fit_continuum floor)
     cont = fit_continuum(w, fl)
+    fln = fl / cont
+    # Bring to the STELLAR REST frame (RYA-478): UVESLoader applies BERV (-> barycentric) but
+    # NOT the stellar systemic RV, so the lines sit blueshifted ~0.12 A at 7773 (Procyon RV).
+    # The synthesis is rest-frame; an uncorrected RV misaligns line cores and biases the
+    # flux-space fit (the χ²ᵣ-147 / inflated-A(O) bug). Measure from Fe I centroids and shift
+    # (the same correction _load_observed_spectrum applies to the HARPS arm, RYA-309).
+    rv = _measure_rv_kms(w / 10.0, fln)
+    w_rest = w / (1.0 + rv / _C_KMS) if abs(rv) > 0.05 else w
     print(f"  [arm-load] UVES Procyon: anchor {row['filename']} ({row['date_obs']} "
           f"{row['setting']}, SNR {float(row['snr']):.0f}, telluric {row['oi_telluric_verdict']}); "
-          f"{w.min():.0f}-{w.max():.0f} A, BERV {spec.meta['berv_kms']:+.2f} km/s applied; "
-          f"continuum-normalized (median {np.nanmedian(fl / cont):.3f})")
-    return w / 10.0, (fl / cont)
+          f"{w.min():.0f}-{w.max():.0f} A, BERV {spec.meta['berv_kms']:+.2f} km/s applied, "
+          f"stellar RV {rv:+.2f} km/s -> rest; continuum-normalized (median {np.nanmedian(fln):.3f})")
+    return w_rest / 10.0, fln
 
 
 _C_KMS = 299792.458
