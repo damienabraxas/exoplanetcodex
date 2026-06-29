@@ -33,6 +33,8 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from pipeline import data_namespace as ns  # noqa: E402  RYA-469 per-star namespacing
+
 REGISTRY_CSV = ROOT / 'data' / 'registry' / 'problem_children.csv'
 REGISTRY_DOC = ROOT / 'docs' / 'science' / 'problem_children_registry.md'
 
@@ -232,7 +234,7 @@ def aggregate_ew_integrity(star_id, path=None):
     per-line outliers (anything beyond a lone COG_FLAG) are kept per-line; routine
     COG saturation is collapsed per (species, ion). Returns a list of row dicts."""
     if path is None:
-        path = ROOT / 'data' / 'processed' / f'{star_id}_ew_integrity.csv'
+        path = ns.output_path(star_id, 'ew_integrity.csv', create=False)  # RYA-469 namespaced
     path = Path(path)
     if not path.exists():
         return []
