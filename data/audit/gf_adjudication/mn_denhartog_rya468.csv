@@ -1,0 +1,7 @@
+species,wavelength_air_A,action,loggf_before,ref_before,adj_before,note,loggf_after,ref_after,adj_after,delta_loggf
+Mn I,5495.008,VOID,-0.952,K07,flagged_manual_pull_rya354,"no NIST/DH line (NIST void, DH Table 3 ends 6021 A); Kurucz-only",-0.952,K07,void_lab_gf_confirmed_rya468,0.0
+Mn I,5720.179,VOID,0.308,K07,flagged_manual_pull_rya354,no NIST/DH line; Kurucz-only,0.308,K07,void_lab_gf_confirmed_rya468,0.0
+Mn I,6306.365,VOID,-0.656,K07,flagged_manual_pull_rya354,past Den Hartog 6021 A ceiling + NIST void; Kurucz-only,-0.656,K07,void_lab_gf_confirmed_rya468,0.0
+Mn I,6013.51,ADJUDICATE,-0.352,VALD3,agreed,DH+2011 e6S->z6P J2.5->1.5,-0.354,Den Hartog Lawler Sobeck Sneden Cowan 2011 ApJS 194 35 (unc 0.016 dex),adjudicated_rya468,-0.002
+Mn I,6016.67,ADJUDICATE,-0.183,VALD3,single_source,DH+2011 e6S->z6P J2.5->2.5,-0.181,Den Hartog Lawler Sobeck Sneden Cowan 2011 ApJS 194 35 (unc 0.016 dex),adjudicated_rya468,0.002
+Mn I,6021.82,ADJUDICATE,-0.054,VALD3,agreed,DH+2011 e6S->z6P J2.5->3.5,-0.054,Den Hartog Lawler Sobeck Sneden Cowan 2011 ApJS 194 35 (unc 0.016 dex),adjudicated_rya468,0.0
