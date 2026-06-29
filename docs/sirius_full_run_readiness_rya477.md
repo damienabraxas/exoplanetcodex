@@ -70,10 +70,13 @@ Driven from Mac over SSH onto `/mnt/codex-data`, **md5-verified, no silent parti
 per-item provenance JSON; the RYA-359/461 stewardship pattern). Manifest:
 `data/sirius_manifest/grids_zenodo_3982506.json`.
 
-- **Zenodo 3982506 PySME grid set (13 items, 5.34 GB archives):** ⏳ running under `nohup`
-  on Sirius → `grids/nlte/amarsi_galah/`. Each archive md5-checked against the Zenodo
-  checksum before its `.grd` is extracted; archive freed post-extract (re-fetchable by md5).
-  Status: `grids/nlte/_fetch_status_sirius_grids_zenodo_3982506.json`.
+- **Zenodo 3982506 PySME grid set (13 items, 5.34 GB archives):** ✅ **COMPLETE — 13/13
+  verified** (finished 2026-06-29T20:49Z) → `grids/nlte/amarsi_galah/`. Each archive
+  md5-checked against the Zenodo checksum before its `.grd` was extracted; archives freed
+  post-extract (re-fetchable by md5). **~78 GB extracted** (Al 2.17 · Ba 3.26 · C 7.37 ·
+  Ca 9.59 · H 0.28 · K 3.47 · Li 7.06 · Mg 5.78 · **Mn 8.40** · N 5.76 · Na 2.57 · O 4.38 ·
+  Si 8.29 GB); Mn `.grd` size bit-identical to the RYA-476 Mac extraction. Status:
+  `grids/nlte/_fetch_status_sirius_grids_zenodo_3982506.json`.
 - **Engine source:** ✅ iSpec + PySME cloned to `/mnt/codex-data/engines/` (for the RYA-172/375 compile).
 - **Committed substrate (Amarsi CNO, MPIA Fe/Ca/Ti/Cr, built VALD linelists, atlases, gold
   ref, constants):** routes via the **Part D repo/stager transfer** — Sirius cannot clone the
