@@ -152,9 +152,16 @@ def adjudicate_cu_gf(apply: bool = True) -> list:
     """Resolve the Cu I VALD-vs-GES gf conflict to the NIST-graded Kock & Richter value
     (already the synthesis gf, GES column), recording adjudication_status on the 5 lines.
     Value/grade/reference are FROZEN (the synthesis already uses KR; we never invent or
-    transcribe a gf). Returns the per-line audit (GES vs VALD Δ)."""
-    hdr, rows = _canon_index()
+    transcribe a gf). Returns the per-line audit (GES vs VALD Δ).
+
+    BYTE-SAFE textual line-edit (the RYA-354 Batch-2 precedent): we read the file as raw
+    lines, replace ONLY the adjudication_status field on the 5 target rows, and write the
+    bytes back — every other row is preserved byte-for-byte. (A csv.writer round-trip would
+    rewrite all 145k line endings; the canonical_gf mixed-type columns also corrupt under
+    pandas to_csv — hence the textual edit.)"""
+    hdr, rows = _canon_index()      # parsed view, for locating + auditing
     c = _GF_COLS
+    raw = CANON.read_text().splitlines(keepends=True)
     audit, edits = [], []
     for wl, _ in CU_LINES:
         match = None
@@ -165,20 +172,19 @@ def adjudicate_cu_gf(apply: bool = True) -> list:
         if match is None:
             raise SystemExit(f"FATAL: Cu I {wl} not in canonical_gf — refusing to proceed")
         r = rows[match]
-        if len(r) != len(hdr):
-            raise SystemExit(f"Cu I {wl}: embedded comma (ncols {len(r)} != {len(hdr)}) — "
-                             f"refusing textual edit")
+        # refuse the textual edit if the row has an embedded comma (field count drift)
+        if len(raw[match].rstrip('\n').split(',')) != len(hdr) or len(r) != len(hdr):
+            raise SystemExit(f"Cu I {wl}: embedded comma (ncols mismatch) — refusing textual edit")
         ges = r[c['gf_synth_ges']]
         vald = r[c['gf_linelist_vald']] or r[c['gf_regions_vald']]
         try:
             delta = float(ges) - float(vald)
         except ValueError:
             delta = float('nan')
-        adopted = r[c['log_gf']]
         already_kr = 'KR' in r[c['loggf_reference']]
         audit.append(dict(line=round(wl, 3), gf_GES_KR=ges, gf_VALD3=vald,
                           delta_GES_minus_VALD=round(delta, 3),
-                          canonical_adopted=adopted,
+                          canonical_adopted=r[c['log_gf']],
                           canonical_ref=r[c['loggf_reference']],
                           synthesis_uses='GES = Kock & Richter (reference_code KR)',
                           disposition=('already KR' if already_kr else
@@ -187,12 +193,13 @@ def adjudicate_cu_gf(apply: bool = True) -> list:
 
     if apply:
         for i in edits:
-            r = rows[i]
-            r[c['adjudication_status']] = 'adjudicated_kr1968_rya466'
-            assert not any(',' in x for x in r), "new field contains a comma"
-            # value / grade / reference UNTOUCHED — the synthesis already uses KR
-        with open(CANON, 'w', newline='') as fh:
-            csv.writer(fh).writerows(rows)
+            fields = raw[i].rstrip('\n').split(',')
+            assert len(fields) == len(hdr), "field-count drift — refusing edit"
+            fields[c['adjudication_status']] = 'adjudicated_kr1968_rya466'
+            assert not any(',' in f for f in fields), "new field contains a comma"
+            eol = '\n' if raw[i].endswith('\n') else ''
+            raw[i] = ','.join(fields) + eol
+        CANON.write_text(''.join(raw))
     return audit
 
 

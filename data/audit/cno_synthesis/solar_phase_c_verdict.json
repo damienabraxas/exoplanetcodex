@@ -31,6 +31,11 @@
       "N",
       "P",
       "Sc"
+    ],
+    "cu_v_synthesis_wired": true,
+    "cu_v_synthesis_elements": [
+      "Cu",
+      "V"
     ]
   },
   "verdicts": [
@@ -292,32 +297,32 @@
     {
       "element": "Cu",
       "asplund2021": 4.18,
-      "A_measured": null,
-      "delta_vs_asplund": null,
-      "sigma": null,
-      "n_lines": 0,
-      "channel": "EW present; no independent-gf line survives the graded cull",
+      "A_measured": 4.345,
+      "delta_vs_asplund": 0.165,
+      "sigma": 0.139,
+      "n_lines": 5,
+      "channel": "HFS synthesis: Cu I 5 lines (5105/5218/5220/5700/5782), gf=Kock&Richter, NLTE vendored RYA-402 b-factor (live .grd offline)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).",
-      "provenance": "harps-measured (EW pool)"
+      "owed": "MEASURED via HFS-resolved synthesis \u2014 the EW path could not reach Cu (all 5 lines hyperfine-split, RYA-354 finding); synthesis on the GES HFS line list (4-10 components/feature) measures it. gf adjudicated to GES=Kock&Richter (KR), VALD3 superseded (GES = Kock & Richter (reference_code KR; the NIST-graded authority RYA-354 named) \u2014 VALD3 superseded, median |\u0394(GES\u2212VALD)|=0.327 dex). A(Cu)_LTE 4.342 + RYA-402 b-factor NLTE +0.003 (vendored RYA-402 b-factor (live .grd offline)) = 4.345 (+0.165 vs Asplund 4.18; \u03c3 0.139, n=5). The +offset survives the small Cu NLTE \u2192 1D-LTE optical Cu I sits high; 3D / fuller-NLTE curation owed (RYA-161/162). The blocker was the MEASUREMENT TOOL, now fixed; the residual is a finding, do NOT tune.",
+      "provenance": "synthesis: HFS-resolved (RYA-466)"
     },
     {
       "element": "V",
       "asplund2021": 3.9,
-      "A_measured": null,
-      "delta_vs_asplund": null,
-      "sigma": null,
-      "n_lines": 0,
-      "channel": "EW present; no independent-gf line survives the graded cull",
+      "A_measured": 3.917,
+      "delta_vs_asplund": 0.017,
+      "sigma": 0.029,
+      "n_lines": 6,
+      "channel": "HFS synthesis LTE: V I 6 lines \u2014 NLTE-VOID (no model atom)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). no NLTE grid (would be LTE-flagged).",
-      "provenance": "harps-measured (EW pool)"
+      "owed": "MEASURED via HFS-resolved LTE synthesis \u2014 V was unmeasurable by the EW path (HFS, RYA-354). A(V)_LTE 3.917 (+0.017 vs Asplund 3.90; \u03c3 0.029, n=6) \u2014 tight, AGREES with Asplund, BUT V is the NLTE-VOID (no model atom anywhere, RYA-463) \u2192 LTE-only, LOWER CONFIDENCE; a V NLTE model + graded gf (V I Lawler+2014, V II Wood+2014) owed before any PASS. Off no-value, do NOT certify on LTE agreement alone.",
+      "provenance": "synthesis: HFS-resolved LTE (RYA-466)"
     },
     {
       "element": "Sc",

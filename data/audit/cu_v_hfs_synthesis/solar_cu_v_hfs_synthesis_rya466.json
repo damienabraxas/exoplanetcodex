@@ -1,0 +1,188 @@
+{
+  "ticket": "RYA-466",
+  "star": "solar",
+  "generated": "2026-06-28",
+  "engine": "pipeline.cno_synthesis._fit_element (synthesis v2, RYA-338) on GESv6_atom_hfs_iso (HFS-resolved); Turbospectrum 1D-LTE flux fit",
+  "params": {
+    "teff_K": 5772.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "Cu": {
+    "method": "HFS-resolved synthesis (flux-space \u03c7\u00b2\u1d63 fit)",
+    "gf_provenance": "GES = Kock & Richter (reference_code KR; the NIST-graded authority RYA-354 named) \u2014 VALD3 superseded, median |\u0394(GES\u2212VALD)|=0.327 dex",
+    "gf_adjudication": [
+      {
+        "line": 5105.537,
+        "gf_GES_KR": "-1.2149",
+        "gf_VALD3": "-1.5419",
+        "delta_GES_minus_VALD": 0.327,
+        "canonical_adopted": "-1.542",
+        "canonical_ref": "VALD3",
+        "synthesis_uses": "GES = Kock & Richter (reference_code KR)",
+        "disposition": "VALD3 SUPERSEDED by GES=KR (Kock & Richter)"
+      },
+      {
+        "line": 5218.198,
+        "gf_GES_KR": "0.565",
+        "gf_VALD3": "0.3641",
+        "delta_GES_minus_VALD": 0.201,
+        "canonical_adopted": "0.364",
+        "canonical_ref": "VALD3",
+        "synthesis_uses": "GES = Kock & Richter (reference_code KR)",
+        "disposition": "VALD3 SUPERSEDED by GES=KR (Kock & Richter)"
+      },
+      {
+        "line": 5220.066,
+        "gf_GES_KR": "-0.315",
+        "gf_VALD3": "-0.5899",
+        "delta_GES_minus_VALD": 0.275,
+        "canonical_adopted": "-0.59",
+        "canonical_ref": "VALD3",
+        "synthesis_uses": "GES = Kock & Richter (reference_code KR)",
+        "disposition": "VALD3 SUPERSEDED by GES=KR (Kock & Richter)"
+      },
+      {
+        "line": 5700.237,
+        "gf_GES_KR": "-2.029",
+        "gf_VALD3": "-2.5829",
+        "delta_GES_minus_VALD": 0.554,
+        "canonical_adopted": "-2.583",
+        "canonical_ref": "VALD3",
+        "synthesis_uses": "GES = Kock & Richter (reference_code KR)",
+        "disposition": "VALD3 SUPERSEDED by GES=KR (Kock & Richter)"
+      },
+      {
+        "line": 5782.122,
+        "gf_GES_KR": "-1.4879",
+        "gf_VALD3": "-1.9048",
+        "delta_GES_minus_VALD": 0.417,
+        "canonical_adopted": "-1.4879",
+        "canonical_ref": "KR|1989ZPh",
+        "synthesis_uses": "GES = Kock & Richter (reference_code KR)",
+        "disposition": "already KR"
+      }
+    ],
+    "hfs_components": {
+      "5105.537": 7,
+      "5218.198": 4,
+      "5220.066": 4,
+      "5700.237": 10,
+      "5782.122": 10
+    },
+    "A_lte_median": 4.342,
+    "A_lte_mean": 4.325,
+    "scatter": 0.139,
+    "n_lines": 5,
+    "nlte_delta": 0.003,
+    "nlte_live": false,
+    "nlte_source": "RYA-402 b-factor (departure-coefficient) Cu model, HFS-resolved solar delta +0.003 dex; cross-check Shi et al. 2014 (small positive optical Cu). (live grid unavailable in worktree: FileNotFoundError; vendored value applied, FLAGGED).",
+    "A_nlte": 4.345,
+    "asplund2021": 4.18,
+    "delta_vs_asplund": 0.165,
+    "per_line": [
+      {
+        "line": 5105.537,
+        "A_X": 4.488,
+        "red_chi2": 8.484,
+        "sigma_fit": 0.01,
+        "n_pix": 90,
+        "status": "ok"
+      },
+      {
+        "line": 5218.198,
+        "A_X": 4.328,
+        "red_chi2": 127.323,
+        "sigma_fit": 0.011,
+        "n_pix": 90,
+        "status": "ok"
+      },
+      {
+        "line": 5220.066,
+        "A_X": 4.365,
+        "red_chi2": 114.589,
+        "sigma_fit": 0.018,
+        "n_pix": 90,
+        "status": "ok"
+      },
+      {
+        "line": 5700.237,
+        "A_X": 4.342,
+        "red_chi2": 109.534,
+        "sigma_fit": 0.014,
+        "n_pix": 90,
+        "status": "ok"
+      },
+      {
+        "line": 5782.122,
+        "A_X": 4.103,
+        "red_chi2": 112.204,
+        "sigma_fit": 0.007,
+        "n_pix": 90,
+        "status": "ok"
+      }
+    ]
+  },
+  "V": {
+    "method": "LTE synthesis (NLTE-VOID \u2014 no model atom; RYA-463 registry)",
+    "nlte_void": true,
+    "gf_sources_for_future_pull": "V I Lawler+2014 ApJS 215,20; V II Wood+2014 ApJS 214,18",
+    "A_lte_median": 3.917,
+    "A_lte_mean": 3.914,
+    "scatter": 0.029,
+    "n_lines": 6,
+    "asplund2021": 3.9,
+    "delta_vs_asplund": 0.017,
+    "per_line": [
+      {
+        "line": 5727.048,
+        "A_X": 3.887,
+        "red_chi2": 106.288,
+        "sigma_fit": 0.007,
+        "n_pix": 60,
+        "status": "ok"
+      },
+      {
+        "line": 6039.722,
+        "A_X": 3.95,
+        "red_chi2": 164.742,
+        "sigma_fit": 0.017,
+        "n_pix": 60,
+        "status": "ok"
+      },
+      {
+        "line": 6081.441,
+        "A_X": 3.936,
+        "red_chi2": 161.358,
+        "sigma_fit": 1.0,
+        "n_pix": 60,
+        "status": "ok"
+      },
+      {
+        "line": 6090.214,
+        "A_X": 3.905,
+        "red_chi2": 167.834,
+        "sigma_fit": 0.008,
+        "n_pix": 60,
+        "status": "ok"
+      },
+      {
+        "line": 6251.827,
+        "A_X": 3.928,
+        "red_chi2": 100.279,
+        "sigma_fit": 0.016,
+        "n_pix": 60,
+        "status": "ok"
+      },
+      {
+        "line": 6531.415,
+        "A_X": 3.876,
+        "red_chi2": 167.536,
+        "sigma_fit": 0.033,
+        "n_pix": 60,
+        "status": "ok"
+      }
+    ]
+  }
+}
