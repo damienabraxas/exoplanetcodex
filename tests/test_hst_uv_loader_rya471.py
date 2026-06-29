@@ -118,9 +118,10 @@ def test_uv_arm_diagnostics_from_rya190():
 def test_registry_uv_arm_built_but_deferred():
     uv = cs.star_arm_registry('procyon')['uv']
     assert uv.loader == 'hst_stis'
-    assert uv.ready is False                          # honest: synthesis gated on RYA-359
+    # honest: RYA-348 Phase 3 ran the synthesis and found it not science-grade
+    assert uv.ready is False
     assert len(uv.diagnostics) == 4                   # diagnostics ARE wired
-    assert 'RYA-359' in uv.defer_reason
+    assert 'RYA-471' in uv.defer_reason               # loader provenance still cited
 
 
 def test_resolver_deferred_arm_raises():

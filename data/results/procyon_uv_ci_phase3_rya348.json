@@ -1,0 +1,50 @@
+{
+  "ticket": "RYA-348 Phase 3 \u2014 UV arm C I discriminator",
+  "vacuum_to_air": {
+    "mg_ii_k_air": 2795.53,
+    "known": 2795.528,
+    "ci_1657_stays_vac": 1657.38
+  },
+  "arm": {
+    "grating": "E140M",
+    "npix": 30417,
+    "ci1657_covered": true,
+    "pseudo_continuum_median": 0.806,
+    "pseudo_continuum_std": 0.221
+  },
+  "uv_ci1657_fit": {
+    "global": {
+      "A_X": 7.009,
+      "red_chi2": 842.618,
+      "status": "edge_pinned"
+    },
+    "local": {
+      "A_X": 7.009,
+      "red_chi2": 620.841,
+      "status": "edge_pinned"
+    },
+    "science_grade": false,
+    "reason": "FUV pseudo-continuum not modeled by optical-tuned synthesis; fit rails to abundance floor under both continuum choices"
+  },
+  "nlte": "FUV C I 1657 NOT in the Amarsi grid (nlte_cno.resolve_line CI 1657 = None); GRID_OWED, cited ~+0.10 (Amarsi 2020), flagged-not-applied (RYA-190)",
+  "solar_control": {
+    "available": false,
+    "reason": "solar UV ref = CALSPEC composite R~150-300; C I 1657 unresolved"
+  },
+  "leg": {
+    "optical_ci": {
+      "CI_5052": 8.501,
+      "CI_5380": 8.304,
+      "CH_Gband": 8.324,
+      "C2_Swan": 8.557
+    },
+    "uv_ci": null,
+    "completable": false
+  },
+  "carbon_spread_dex": 0.253,
+  "carbon_spread_uv_verdict": "UNDISCRIMINATED \u2014 UV arm cannot yet measure UV C I",
+  "blockers": [
+    "FUV pseudo-continuum synthesis (needs FUV line list + FUV continuum opacities)",
+    "solar UV reference resolution (CALSPEC composite cannot resolve UV C I -> no differential/control)"
+  ]
+}
