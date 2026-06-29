@@ -1,0 +1,14 @@
+element,ion,A_X,A_X_std,n_lines,XH,XFe,delta_nlte_mean,n_nlte_lines,A_X_nlte,A_X_std_nlte,nlte_flag,nlte_ref,n_lines_A,n_lines_B,n_lines_C,n_lines_D,element_score,element_grade,A_X_nlte_AB,A_X_std_AB,n_lines_AB,scale,nlte_applied,A_X_nlte_absolute,curation_verdict,curation_residual_nlte,nlte_delta_solar,curation_source
+Al,I,7.406,,1,0.976,,,,7.406,,1D_LTE,,,,,,,,,,,absolute,False,,LOW_CONFIDENCE,0.976,,RYA-395/398 graded blind cull (curate_nonfe_pools)
+C,I,10.26,,1,1.8,1.75,,0.0,10.26,,1D_LTE,,,,,,,,,,,absolute,False,,,,,
+Ca,I,6.308,0.124,2,0.008,,,,6.324,0.124,NLTE,,,,,,,,,,,absolute,True,6.324,LOW_CONFIDENCE,0.024,0.016,RYA-395/398 graded blind cull (curate_nonfe_pools)
+Cr,I,5.95,0.603,7,0.33,,,,6.022,0.603,NLTE,,,,,,,,,,,absolute,True,6.022,RESIDUAL,0.402,0.072,RYA-395/398 graded blind cull (curate_nonfe_pools)
+Fe,I,7.51,0.139,62,0.05,0.0,0.0105,22.0,7.516,0.138,NLTE_MPIA_Bergemann_1D,MPIA SpectrumTools / Bergemann mafags-os 1D NLTE (RYA-319),0.0,46.0,16.0,0.0,0.7291,B,7.5082,0.0954,46.0,absolute,False,7.516,,,,
+Fe,II,7.657,0.136,3,0.197,0.147,0.0,1.0,7.657,0.167,NLTE_MPIA_Bergemann_1D,MPIA SpectrumTools / Bergemann mafags-os 1D NLTE (RYA-319),0.0,3.0,0.0,0.0,0.6481,B,7.7145,0.1363,3.0,absolute,False,7.657,,,,
+Li,I,0.727,,1,-0.323,-0.373,,0.0,0.727,,1D_LTE,,,,,,,,,,,absolute,False,,,,,
+Na,I,6.37,0.022,2,0.13,,,,6.264,0.022,NLTE,,,,,,,,,,,absolute,True,6.264,LOW_CONFIDENCE,0.024,-0.1055,RYA-395/398 graded blind cull (curate_nonfe_pools)
+Ni,I,6.946,0.513,2,0.746,,,,6.946,0.513,1D_LTE,,,,,,,,,,,absolute,False,,LOW_CONFIDENCE,0.746,,RYA-395/398 graded blind cull (curate_nonfe_pools)
+S,I,7.753,0.367,2,0.633,,,,7.753,0.367,1D_LTE,,,,,,,,,,,absolute,False,,LOW_CONFIDENCE,0.633,,RYA-395/398 graded blind cull (curate_nonfe_pools)
+Si,I,7.892,0.359,7,0.382,,,,7.888,0.359,NLTE,,,,,,,,,,,absolute,True,7.888,RESIDUAL,0.378,-0.004,RYA-395/398 graded blind cull (curate_nonfe_pools)
+Sr,I,4.961,,1,2.131,,,,4.961,,1D_LTE,,,,,,,,,,,absolute,False,,LOW_CONFIDENCE,2.131,,RYA-395/398 graded blind cull (curate_nonfe_pools)
+Ti,I,5.364,0.926,10,0.394,,,,5.471,0.926,NLTE,,,,,,,,,,,absolute,True,5.471,RESIDUAL,0.502,0.107,RYA-395/398 graded blind cull (curate_nonfe_pools)
