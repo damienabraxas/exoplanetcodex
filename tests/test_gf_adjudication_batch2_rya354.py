@@ -40,11 +40,15 @@ def _row(df, species, wave, tol=0.02):
     return r
 
 
-def test_three_mn_lines_flagged_manual_pull():
+def test_three_mn_lines_resolved_to_confirmed_void_rya468():
+    # RYA-468 ran the manual pull: these 3 are absent from BOTH NIST ASD and Den
+    # Hartog+2011 (Kurucz-only) -> the flag resolves from 'flagged_manual_pull_rya354'
+    # to the confirmed lab-gf void. The value stays K07 (asserted below); only the
+    # disposition advances (the owed pull is done, the answer is "void").
     df = _canon()
     for wave in MN_UNLOCK:
         r = _row(df, 'Mn I', wave)
-        assert r['adjudication_status'] == 'flagged_manual_pull_rya354'
+        assert r['adjudication_status'] == 'void_lab_gf_confirmed_rya468'
 
 
 def test_no_value_invented_log_gf_and_grade_byte_untouched():
@@ -59,12 +63,15 @@ def test_no_value_invented_log_gf_and_grade_byte_untouched():
 
 
 def test_canonical_edit_is_surgical_only_those_three_rows():
-    # The manual-pull flag appears on EXACTLY the 3 Mn I unlock candidates, nowhere else.
+    # The disposition lands on EXACTLY the 3 Mn I unlock candidates, nowhere else.
+    # Post-RYA-468 the Batch-2 manual-pull flag is fully resolved (none remain) and the
+    # 3 candidates carry the confirmed-void disposition.
     df = _canon()
-    flagged = df[df['adjudication_status'] == 'flagged_manual_pull_rya354']
-    assert len(flagged) == 3
-    assert set(flagged['species']) == {'Mn I'}
-    assert sorted(round(float(w), 3) for w in flagged['wavelength_air_A']) == sorted(MN_UNLOCK)
+    assert (df['adjudication_status'] == 'flagged_manual_pull_rya354').sum() == 0
+    void = df[df['adjudication_status'] == 'void_lab_gf_confirmed_rya468']
+    assert len(void) == 3
+    assert set(void['species']) == {'Mn I'}
+    assert sorted(round(float(w), 3) for w in void['wavelength_air_A']) == sorted(MN_UNLOCK)
 
 
 def test_audit_split_mn_grade_limited_vs_cu_v_upstream():
