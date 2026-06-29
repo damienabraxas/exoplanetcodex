@@ -81,6 +81,7 @@ from pipeline.abundances_derive import (
 from pipeline.gf_resolver import resolve as resolve_gf   # RYA-365: canonical Ni gf assert
 from pipeline import nlte_cno   # RYA-359: vendored Amarsi 2019 C I / O I 3D-NLTE grid (Phase-A C I correction)
 from pipeline.spectra_normalize import fit_continuum   # RYA-371: arm co-add continuum (same machinery as HARPS)
+from pipeline.loaders import hst_uv_loader as _hst_uv   # RYA-471: HST STIS/COS UV arm loader + diagnostics
 
 # Molecular line lists (RYA-236) — iSpec globs this dir when use_molecules=True.
 _MOLECULES_DIR = ISPEC_DIR / 'input' / 'linelists' / 'turbospectrum' / 'molecules'
@@ -337,8 +338,10 @@ HST_UV = RegionConfig(
     name='uv', instrument='STIS', R=114000.0,
     wave_min_A=1150.0, wave_max_A=3200.0, telluric_correction_required=False,
     nlte_backend='amarsi_grid',
-    notes='HST STIS/COS UV (RYA-222 data in hand; RYA-262 audit). FUV C I / CH / NH 3360 '
-          '= MEASURED C/N (Procyon advantage over solar cited composite). Loader pending.',
+    notes='HST STIS/COS UV (RYA-222 data in hand; RYA-262 audit). FUV C I / O I / S I '
+          '= MEASURED C/O/S (Procyon advantage over the solar cited composite). Loader BUILT '
+          '(RYA-471, pipeline.loaders.hst_uv_loader); synthesis gated on the Amarsi NLTE grid '
+          '(RYA-359) + FUV pseudo-continuum (RYA-426 gate 5).',
 )
 CRIRES_IR = RegionConfig(
     name='ir', instrument='CRIRES+', R=86000.0,
@@ -400,10 +403,14 @@ _PROCYON_ARMS = {
                        defer_reason='RYA-272 UVES loader not built + Procyon UVES spectra not '
                                     'staged (gate: RYA-271 UVES audit). O I 777 = primary O.',
                        provenance='measured (pending)'),
-    'uv':    ArmWiring('uv', HST_UV, (), 'hst_stis', False,
-                       defer_reason='HST STIS/COS loader not built; only RYA-222/262 audit '
-                                    'inventories present (no staged 1D spectra, no diagnostics yet).',
-                       provenance='measured (pending)'),
+    'uv':    ArmWiring('uv', HST_UV, _hst_uv.uv_arm_diagnostics(), 'hst_stis', False,
+                       defer_reason='loader BUILT + Procyon STIS staged/conditioned (RYA-471, '
+                                    'smoke-proven on E140M: C I 1657 covered, vac->air verified). '
+                                    'Synthesis still gated on (1) the Amarsi C/O NLTE grid (RYA-359) '
+                                    '— FUV C I carries a large negative correction; amarsi_grid_backend '
+                                    'loud-fails by design, and (2) the FUV pseudo-continuum (RYA-426 '
+                                    'gate 5, synthesis-not-EW). Flip to ready=True once RYA-359 lands.',
+                       provenance='measured (loader built; synthesis gated on RYA-359)'),
     'ir':    ArmWiring('ir', CRIRES_IR, (), 'ir_crires', False,
                        defer_reason='telluric-gated (RYA-373); no 2.3um CO overtone staged '
                                     '(RYA-351: APOGEE weak-CO only); IR conditioning RYA-425.',
@@ -450,9 +457,15 @@ def resolve_arm_spectrum(star_id: str, arm: ArmWiring):
                 f"non-solar star must use its own instrument loader (RYA-464). Refusing to "
                 f"synthesize {star_id} against reflected sunlight.")
         return _load_reflected_solar_arm(arm.region.instrument.lower())
+    if arm.loader == 'hst_stis':                 # RYA-471: HST STIS/COS UV arm
+        if 'procyon' not in star_id.lower():
+            raise ArmNotWired(
+                f"{star_id}/{arm.name}: the HST STIS UV loader is Procyon-only today "
+                f"(RYA-222 whitelist). Stage + audit {star_id}'s UV frames before wiring (RYA-464).")
+        return _hst_uv.load_procyon_uv_arm('E140M')   # FUV grating covering C I 1657 + O I 1355
     raise ArmNotWired(
         f"{star_id}/{arm.name}: loader {arm.loader!r} not implemented yet "
-        f"(RYA-272 UVES / HST STIS / IR CRIRES build pending).")
+        f"(RYA-272 UVES / IR CRIRES build pending).")
 
 
 # ── VIS NLTE policy — LTE-by-design, pluggable per arm ────────────────────────
