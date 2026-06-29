@@ -31,7 +31,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 | Si | 7.51 | 7.888 | +0.378 | 0.36 | 7 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 7 curated line(s), graded-gf (RYA-395/398) |
 | Fe | 7.46 | 7.516 | +0.056 | 0.14 | 62 | - | **PASS** | harps-measured (EW) | EW: 62 Fe I + 3 Fe II, NLTE-wired (Bergemann MPIA) |
 | S | 7.12 | 7.753 | +0.633 | 0.37 | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
-| Al | 6.43 |  |  |  |  | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
+| Al | 6.43 | 7.406 | +0.976 |  | 1 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW: 1 curated line(s), low-confidence (RYA-395/398) |
 | Ca | 6.30 | 6.324 | +0.024 | 0.12 | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
 | Na | 6.24 |  |  |  |  | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
 | Ni | 6.20 | 6.946 | +0.746 | 0.51 | 2 | - | **CURATION-OWED** | harps-measured (EW pool) | EW: 2 curated line(s), low-confidence (RYA-395/398) |
@@ -69,7 +69,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 - **Mg** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv).
 - **Si** — A(X) 7.888 vs Asplund 7.51 (+0.378), sigma 0.36 — gross offset removed by the blind cull, gf-scale residual survives on the graded pool → escalate to RYA-161/162 (do NOT tune).
 - **S** — A(X) 7.753 vs Asplund 7.12 (+0.633) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
-- **Al** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv).
+- **Al** — A(X) 7.406 vs Asplund 6.43 (+0.976) on 1 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
 - **Ca** — A(X) 6.324 vs Asplund 6.30 (+0.024) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
 - **Na** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Na_Amarsi2020_PySME.csv).
 - **Ni** — A(X) 6.946 vs Asplund 6.20 (+0.746) on 2 graded line(s) — below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).
