@@ -328,6 +328,133 @@ UVES_DIAGNOSTICS = (
 )
 
 
+# ── UV (HST STIS) + IR (CRIRES+/SPIRou) arms — DECLARED, wired as loaders+data land ──
+# RYA-464: declared so the per-star registry can carry them; ready=False until their
+# loader (RYA-184 loaders/ package) + staged+audited data exist. Wavelength spans are the
+# factual instrument ranges (RYA-351 coverage); diagnostics are populated by the audits
+# (UV RYA-262, IR RYA-425) — NOT fabricated here (no invented UV/IR line data).
+HST_UV = RegionConfig(
+    name='uv', instrument='STIS', R=114000.0,
+    wave_min_A=1150.0, wave_max_A=3200.0, telluric_correction_required=False,
+    nlte_backend='amarsi_grid',
+    notes='HST STIS/COS UV (RYA-222 data in hand; RYA-262 audit). FUV C I / CH / NH 3360 '
+          '= MEASURED C/N (Procyon advantage over solar cited composite). Loader pending.',
+)
+CRIRES_IR = RegionConfig(
+    name='ir', instrument='CRIRES+', R=86000.0,
+    wave_min_A=15000.0, wave_max_A=24000.0, telluric_correction_required=True,
+    nlte_backend='lte_by_design',
+    notes='IR CO first-overtone 2.3um + OH/CN (C cross-check + 12C/13C). TELLURIC-GATED '
+          '(cr2res+molecfit / APERO+Wapiti, RYA-373). APOGEE H-band = weak-CO only (RYA-351).',
+)
+
+# Procyon UVES red optical diagnostic set: O I 777 (PRIMARY O) + [O I] 6300 cross-check +
+# C I 5052/5380 + N I 8216 + CN red — composed by REUSING the existing Diagnostic objects
+# (ESPRESSO red-optical C/O set + the UVES N set), no new line data (RYA-464 reuse rule).
+PROCYON_UVES_DIAGNOSTICS = ESPRESSO_DIAGNOSTICS + UVES_DIAGNOSTICS
+
+
+# ── Per-star multi-instrument arm registry (RYA-464 — the unlock) ──────────────
+# THE FIX: run_cno/run_phase_a registered a HARDCODED single region ('vis') and the
+# espresso/uves arms loaded reflected-solar Vesta UNCONDITIONALLY. So a non-solar star
+# would silently synthesize against SUNLIGHT. This replaces that with a PER-STAR arm
+# registry: each arm declares its RegionConfig, diagnostics, spectrum loader, and a
+# readiness flag. The solar/Vesta path is one case (all arms ready via the existing
+# loaders → bit-identical). A non-solar arm whose loader+data+audit are not yet present is
+# DECLARED but ready=False → run_phase_a DEFERS it with the reason and NEVER falls back to
+# reflected-solar geometry (the loud-fail that closes the latent bug).
+
+class ArmNotWired(RuntimeError):
+    """Raised when an arm is requested for a star but its loader/data/audit isn't ready —
+    instead of silently substituting reflected-solar (Vesta) data (RYA-464)."""
+
+
+@dataclass(frozen=True)
+class ArmWiring:
+    name: str                       # 'harps' | 'uves' | 'uv' | 'ir' | 'espresso'
+    region: RegionConfig
+    diagnostics: tuple
+    loader: str                     # 'harps_normalized' | 'reflected_solar' | 'uves_rya272'
+                                    #   | 'hst_stis' | 'ir_crires'
+    ready: bool
+    defer_reason: str = ''
+    provenance: str = ''            # 'measured' | 'cited' | per-arm note
+
+
+# Reflected-solar (Vesta) arms — the existing RYA-371/372 solar path, untouched.
+_SOLAR_ARMS = {
+    'harps':    ArmWiring('harps', HARPS_VIS, VIS_DIAGNOSTICS, 'harps_normalized', True,
+                          provenance='measured (HARPS Dumusque)'),
+    'espresso': ArmWiring('espresso', ESPRESSO_OPT, ESPRESSO_DIAGNOSTICS, 'reflected_solar', True,
+                          provenance='measured (Vesta reflected-solar, RYA-370/372)'),
+    'uves':     ArmWiring('uves', UVES_OPT, UVES_DIAGNOSTICS, 'reflected_solar', True,
+                          provenance='measured (Vesta reflected-solar, RYA-370/372)'),
+}
+
+# Procyon — HARPS VIS is runnable today; UVES/UV/IR are DECLARED but gated on their
+# loaders + staged+audited data (RYA-272 / HST loader / IR telluric), so ready=False.
+_PROCYON_ARMS = {
+    'harps': ArmWiring('harps', HARPS_VIS, VIS_DIAGNOSTICS, 'harps_normalized', True,
+                       provenance='measured (HARPS ADP, RYA-273)'),
+    'uves':  ArmWiring('uves', UVES_OPT, PROCYON_UVES_DIAGNOSTICS, 'uves_rya272', False,
+                       defer_reason='RYA-272 UVES loader not built + Procyon UVES spectra not '
+                                    'staged (gate: RYA-271 UVES audit). O I 777 = primary O.',
+                       provenance='measured (pending)'),
+    'uv':    ArmWiring('uv', HST_UV, (), 'hst_stis', False,
+                       defer_reason='HST STIS/COS loader not built; only RYA-222/262 audit '
+                                    'inventories present (no staged 1D spectra, no diagnostics yet).',
+                       provenance='measured (pending)'),
+    'ir':    ArmWiring('ir', CRIRES_IR, (), 'ir_crires', False,
+                       defer_reason='telluric-gated (RYA-373); no 2.3um CO overtone staged '
+                                    '(RYA-351: APOGEE weak-CO only); IR conditioning RYA-425.',
+                       provenance='measured (pending)'),
+}
+
+STAR_ARMS = {'solar': _SOLAR_ARMS, 'procyon': _PROCYON_ARMS}
+
+
+def star_arm_registry(star_id: str) -> dict:
+    """Per-star arm registry (RYA-464). Substring-matched like the other star resolvers.
+    Fails loud for an undeclared star — no silent solar-geometry default."""
+    s = star_id.strip().lower()
+    if s in STAR_ARMS:
+        return STAR_ARMS[s]
+    for k, v in STAR_ARMS.items():
+        if k in s or s in k:
+            return v
+    raise KeyError(
+        f"No multi-instrument arm registry for star_id={star_id!r}. Declare its arms in "
+        f"STAR_ARMS (RYA-464) before a multi-arm run — refusing to assume solar geometry.")
+
+
+def available_arms(star_id: str) -> tuple:
+    """(ready_arm_names, {deferred_name: reason}) for `star_id` — the runtime arm map."""
+    reg = star_arm_registry(star_id)
+    ready = tuple(n for n, a in reg.items() if a.ready)
+    deferred = {n: a.defer_reason for n, a in reg.items() if not a.ready}
+    return ready, deferred
+
+
+def resolve_arm_spectrum(star_id: str, arm: ArmWiring):
+    """Load the observed spectrum for (star, arm) → (wave_nm, flux). Dispatch by loader
+    kind; LOUD-FAIL (ArmNotWired) for an unready arm or a non-solar star routed at the
+    reflected-solar loader — the bug RYA-464 closes (no silent Vesta substitution)."""
+    if not arm.ready:
+        raise ArmNotWired(f"{star_id}/{arm.name}: {arm.defer_reason}")
+    if arm.loader == 'harps_normalized':
+        return _load_observed_spectrum(star_id)
+    if arm.loader == 'reflected_solar':
+        if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
+            raise ArmNotWired(
+                f"{star_id}/{arm.name}: reflected-solar (Vesta) loader is solar-only; a "
+                f"non-solar star must use its own instrument loader (RYA-464). Refusing to "
+                f"synthesize {star_id} against reflected sunlight.")
+        return _load_reflected_solar_arm(arm.region.instrument.lower())
+    raise ArmNotWired(
+        f"{star_id}/{arm.name}: loader {arm.loader!r} not implemented yet "
+        f"(RYA-272 UVES / HST STIS / IR CRIRES build pending).")
+
+
 # ── VIS NLTE policy — LTE-by-design, pluggable per arm ────────────────────────
 # This is the `lte_by_design` backend. It applies ZERO correction and stamps the
 # physics-justified flag per diagnostic. The red/IR/UV arms pass a different
@@ -1103,12 +1230,12 @@ def print_oi_partition(part: dict) -> bool:
 
 # ── Phase-A multi-arm orchestration (RYA-371) ─────────────────────────────────
 
-def _fit_arm(region, diagnostics, params, fixed_state, atm, ll, iso, sab, codes,
-             broadening, tmp_dir):
-    """Fit each diagnostic of a reflected-solar arm on its co-added rest-frame spectrum
-    (the free element varies; fixed_state holds the rest, e.g. A(C) from HARPS for CN).
-    Returns (per_band, corrections) — corrections via the same cited layer as HARPS."""
-    obs_w, obs_f = _load_reflected_solar_arm(region.instrument.lower())
+def _fit_arm(region, diagnostics, obs_w, obs_f, params, fixed_state, atm, ll, iso, sab,
+             codes, broadening, tmp_dir):
+    """Fit each diagnostic of an arm on its PRE-LOADED co-added rest-frame spectrum
+    (obs_w, obs_f — resolved per-star by resolve_arm_spectrum, RYA-464; the free element
+    varies, fixed_state holds the rest, e.g. A(C) from HARPS for CN). Returns
+    (per_band, corrections) — corrections via the same cited layer as HARPS."""
     per_band = []
     for d in diagnostics:
         st = dict(fixed_state)
@@ -1164,12 +1291,21 @@ def _print_cross_arm_table(per_arm: dict) -> dict:
     return summary
 
 
-def run_phase_a(star_id: str = 'solar', arms=('harps', 'espresso', 'uves'),
+def run_phase_a(star_id: str = 'solar', arms=None,
                 tmp_dir: str = '/tmp/ispec_cno', out_dir: Path = None) -> dict:
-    """RYA-371 Phase A: optical multi-arm CNO (HARPS / ESPRESSO / UVES) → per-arm
-    A(C/N/O) with cited 3D/NLTE corrections + a cross-arm agreement table. O handling
-    per the RYA-455 amendment: O I 777 (ESPRESSO) primary, [O I] 6300 cross-check."""
+    """Phase-A multi-arm CNO, PER-STAR (RYA-464 generalization of the RYA-371 solar path).
+    Arms are resolved from the star's STAR_ARMS registry, not a hardcoded list: each arm
+    declares its region, diagnostics, spectrum loader, and readiness. Ready arms run; arms
+    whose loader/data/audit aren't present are DEFERRED with their reason (never silently
+    run against reflected-solar geometry). `arms` (names) restricts the run; None = the
+    star's full declared set. O handling per RYA-455: O I 777 primary, [O I] 6300 cross-check.
+
+    Solar is one case of this mechanism (harps + espresso + uves all ready via the existing
+    loaders) → bit-identical to the pre-RYA-464 solar run."""
     Path(tmp_dir).mkdir(parents=True, exist_ok=True)
+    registry = star_arm_registry(star_id)
+    requested = tuple(a.strip().lower() for a in arms) if arms else tuple(registry)
+
     rec = get_star_params(star_id)
     params = {'teff_K': float(rec['teff']), 'logg': float(rec['logg']),
               'feh': float(rec['feh_ref']), 'vturb_kms': float(rec.get('xi', 1.0))}
@@ -1179,35 +1315,64 @@ def run_phase_a(star_id: str = 'solar', arms=('harps', 'espresso', 'uves'),
     codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
     _, vmac, vsini, _ = _resolve_broadening(star_id)
 
+    # Announce the per-star arm map (anti-silent-assumption, RYA-270/464 discipline).
+    _ready, _deferred = available_arms(star_id)
+    print(f"\n{'='*72}\n  PHASE-A ARM REGISTRY — {star_id} "
+          f"({len(registry)} declared region(s))\n{'='*72}")
+    for n, a in registry.items():
+        tag = 'READY' if a.ready else f'DEFERRED — {a.defer_reason}'
+        print(f"  [{ 'x' if a.ready else ' ' }] {n:9s} {a.region.instrument:9s} "
+              f"{a.region.wave_min_A:.0f}-{a.region.wave_max_A:.0f} A  {tag}")
+
     per_arm = {}
-    if 'harps' in arms:                              # the molecular CNO-equilibrium engine
+    deferred = {}
+    # HARPS first — the molecular CNO-equilibrium engine (only if requested + ready).
+    if 'harps' in requested and 'harps' in registry and registry['harps'].ready:
         print(f"\n{'#'*72}\n#  ARM — HARPS (CH/CN/[O I] + C I), molecular CNO equilibrium\n{'#'*72}")
         h = run_cno(star_id, 'vis', tmp_dir=tmp_dir)
         per_arm['harps'] = {'abundances': h.abundances, 'corrections': h.phase_a_corrections}
+
     fixed = {'Ni': 6.20}
     for el in ('C', 'N', 'O'):                       # CN needs A(C); pin from HARPS, else anchor
         fixed[el] = float(per_arm.get('harps', {}).get('abundances', {}).get(el, SOLAR_ASPLUND2021[el]))
-    for name, region, diags in (('espresso', ESPRESSO_OPT, ESPRESSO_DIAGNOSTICS),
-                                ('uves', UVES_OPT, UVES_DIAGNOSTICS)):
-        if name not in arms:
+
+    for name in requested:
+        if name == 'harps':
             continue
-        print(f"\n{'#'*72}\n#  ARM — {region.instrument} (RYA-372 rest-frame co-add; "
-              f"pinned A(C)={fixed['C']:.2f})\n{'#'*72}")
-        pb, corr = _fit_arm(region, diags, params, fixed, atm, ll, iso, sab, codes,
-                            (region.R, vmac, vsini), tmp_dir)
+        arm = registry.get(name)
+        if arm is None:
+            deferred[name] = 'not declared for this star (add to STAR_ARMS, RYA-464)'
+            print(f"\n#  ARM — {name}: SKIPPED — {deferred[name]}")
+            continue
+        if not arm.ready:                            # loud defer, NEVER fall back to Vesta
+            deferred[name] = arm.defer_reason
+            print(f"\n#  ARM — {arm.region.instrument} ({name}): DEFERRED — {arm.defer_reason}")
+            continue
+        print(f"\n{'#'*72}\n#  ARM — {arm.region.instrument} ({name}; pinned "
+              f"A(C)={fixed['C']:.2f})\n{'#'*72}")
+        obs_w, obs_f = resolve_arm_spectrum(star_id, arm)   # per-star loader dispatch
+        pb, corr = _fit_arm(arm.region, arm.diagnostics, obs_w, obs_f, params, fixed,
+                            atm, ll, iso, sab, codes, (arm.region.R, vmac, vsini), tmp_dir)
         per_arm[name] = {'per_band': pb, 'corrections': corr}
 
     summary = _print_cross_arm_table(per_arm)
+    if deferred:
+        print(f"\n  DEFERRED ARMS ({len(deferred)}): "
+              + "; ".join(f"{n} ({r})" for n, r in deferred.items()))
 
     out_dir = Path(out_dir) if out_dir else (Path(PATHS['solar_ew']).parent.parent /
                                              'audit' / 'cno_synthesis')
     out_dir.mkdir(parents=True, exist_ok=True)
-    rep = {'ticket': 'RYA-371 Phase A', 'star': star_id, 'arms': list(arms),
+    rep = {'ticket': 'RYA-371 Phase A / RYA-464 per-star arms', 'star': star_id,
+           'arms_requested': list(requested),
+           'arms_run': [a for a in per_arm], 'arms_deferred': deferred,
            'o_handling': 'RYA-455: O I 777 primary, [O I] 6300 continuum-limited cross-check',
            'cross_arm': summary,
            'per_arm': {a: d.get('corrections', []) for a, d in per_arm.items()}}
-    (out_dir / 'solar_phase_a_cross_arm.json').write_text(json.dumps(rep, indent=2, default=str))
-    print(f"\n  [out] {out_dir / 'solar_phase_a_cross_arm.json'}")
+    out_name = ('solar_phase_a_cross_arm.json' if 'solar' in star_id.lower()
+                else f'{star_id}_phase_a_cross_arm.json')
+    (out_dir / out_name).write_text(json.dumps(rep, indent=2, default=str))
+    print(f"\n  [out] {out_dir / out_name}")
     return per_arm
 
 
@@ -1226,17 +1391,38 @@ def main(argv=None):
     ap.add_argument('--max-iter', type=int, default=5)
     ap.add_argument('--out', default=None)
     ap.add_argument('--arms', default=None,
-                    help='comma-separated Phase-A multi-arm run, e.g. "harps,espresso,uves" '
-                         '(RYA-371): per-arm C/N/O + cross-arm agreement table. Omit for '
-                         'the single HARPS-VIS run.')
+                    help='Phase-A multi-arm run (RYA-371/464): comma-separated arm names '
+                         'from the STAR\'s registry (e.g. "harps,uves"), or "all" for the '
+                         'star\'s full declared set. Per-arm C/N/O + cross-arm agreement; '
+                         'arms whose loader/data are not ready are DEFERRED, not run. Omit '
+                         'for the single HARPS-VIS run.')
+    ap.add_argument('--list-arms', action='store_true',
+                    help='print the star\'s per-star arm registry (ready / deferred) and exit')
     args = ap.parse_args(argv)
 
-    # --arms → RYA-371 Phase A optical multi-arm CNO (HARPS / ESPRESSO / UVES).
+    # --list-arms → just report the per-star arm registry (RYA-464) and exit.
+    if args.list_arms:
+        reg = star_arm_registry(args.star)
+        ready, deferred = available_arms(args.star)
+        print(f"\nArm registry — {args.star} ({len(reg)} declared region(s)):")
+        for n, a in reg.items():
+            tag = 'READY' if a.ready else f'DEFERRED — {a.defer_reason}'
+            print(f"  {n:9s} {a.region.instrument:9s} "
+                  f"{a.region.wave_min_A:.0f}-{a.region.wave_max_A:.0f} A  {tag}")
+        print(f"\n  ready: {list(ready)}   deferred: {list(deferred)}")
+        return {'ready': ready, 'deferred': deferred}
+
+    # --arms → Phase A per-star multi-arm CNO (RYA-371/464), validated vs the star's registry.
     if args.arms:
-        arms = tuple(a.strip().lower() for a in args.arms.split(',') if a.strip())
-        unknown = [a for a in arms if a not in ('harps', 'espresso', 'uves')]
-        if unknown:
-            raise SystemExit(f"Unknown arm(s) {unknown}; choose from harps,espresso,uves.")
+        reg = star_arm_registry(args.star)
+        if args.arms.strip().lower() == 'all':
+            arms = tuple(reg)
+        else:
+            arms = tuple(a.strip().lower() for a in args.arms.split(',') if a.strip())
+            unknown = [a for a in arms if a not in reg]
+            if unknown:
+                raise SystemExit(f"Unknown arm(s) {unknown} for {args.star}; declared arms: "
+                                 f"{list(reg)} (STAR_ARMS, RYA-464).")
         return run_phase_a(args.star, arms=arms,
                            out_dir=Path(args.out) if args.out else None)
 
