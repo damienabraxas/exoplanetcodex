@@ -38,12 +38,12 @@
     "A_lte_mean": 5.357,
     "scatter": 0.154,
     "n_lines": 3,
-    "nlte_delta": 0.108,
-    "nlte_live": false,
-    "nlte_source": "MPIA SpectrumTools / Bergemann Mn NLTE grid (data/nlte_grids/Mn_Bergemann_MPIA.csv); solar Mn \u03b4 ~+0.107 dex on its high-EP reference lines (4998/6304/6306/6867). RYA-411: the low-EP HFS triplet 6013/16/21 is NOT a grid node \u2014 its HFS-resolved Amarsi delta differs (HFS desaturation) and needs the offline nlte_Mn_scatt_pysme.grd. (live Amarsi .grd offline: FileNotFoundError; MPIA grid solar \u03b4 +0.108 on high-EP reference lines applied as a VENDORED correction, FLAGGED \u2014 the triplet-exact HFS-resolved \u03b4 would differ, RYA-411).",
-    "A_nlte": 5.554,
+    "nlte_delta": 0.024,
+    "nlte_live": true,
+    "nlte_source": "Amarsi GALAH PySME Mn HFS-resolved delta on the 6013/16/21 triplet (live, RYA-411 path); line-exact, NOT the MPIA high-EP value.",
+    "A_nlte": 5.47,
     "asplund2021": 5.42,
-    "delta_vs_asplund": 0.134,
+    "delta_vs_asplund": 0.05,
     "per_line": [
       {
         "line": 6013.51,

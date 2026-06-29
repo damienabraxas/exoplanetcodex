@@ -106,6 +106,11 @@ def test_committed_verdict_counts_and_invariants():
     assert abs(by['Cr']['delta_vs_asplund'] - 0.402) < 0.01
     for el in ('O', 'C', 'Fe'):
         assert by[el]['verdict'] == 'PASS'             # unchanged
+    # RYA-476: Mn certifies PASS via HFS synthesis + the live triplet-exact Amarsi
+    # NLTE δ (A(Mn) 5.470, +0.050 vs Asplund — inside TOL). Earned by the measurement,
+    # not a tune (the δ is the small line-exact value, not the MPIA high-EP +0.108).
+    assert by['Mn']['verdict'] == 'PASS'
+    assert abs(by['Mn']['A_measured'] - 5.470) < 0.01
     assert by['N']['verdict'] == 'NLTE-OWED'           # the one remaining NLTE-OWED
     counts = d['summary']['counts']
-    assert counts == {'PASS': 4, 'NLTE-OWED': 1, 'CURATION-OWED': 21}
+    assert counts == {'PASS': 5, 'NLTE-OWED': 1, 'CURATION-OWED': 20}

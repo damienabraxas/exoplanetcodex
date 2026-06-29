@@ -1,8 +1,9 @@
 {
-  "ticket": "RYA-410",
+  "ticket": "RYA-410 (staged + used: RYA-476)",
   "element": "Mn",
   "kind": "NLTE departure-coefficient grid (PySME DirectAccessFile v1.10), Amarsi-2020 GALAH",
-  "status": "NOT registered (RYA-410 cross-check STOP \u2014 HFS-collapse); .grd fetched+freed",
+  "status": "USED via the HFS-resolved synthesis path (RYA-411 fixed the RYA-410 HFS-collapse STOP; RYA-476 staged the .grd and applied the LIVE triplet-exact delta to solar Mn). The MPIA grid (Mn_Bergemann_MPIA.csv) remains the EW-path NLTE source; this Amarsi grid is the synthesis-path source for the low-EP HFS triplet 6013/16/21 whose delta the MPIA high-EP nodes do not cover.",
+  "staging": "scripts/stage_amarsi_mn_grid_rya476.py (download -> md5-verify -> extract -> remove tar; .grd KEPT, gitignored 8.4 GB). RYA-476 derived A(Mn)_NLTE 5.470 (live delta +0.024) -> Mn PASS.",
   "source": {
     "grid_cite": "Amarsi, Lind, Osorio et al. 2020, A&A 642, A62 (GALAH non-LTE departure grids)",
     "deposit": "Amarsi 'Grid/NLTE' Zenodo, version 3 (the original 13-element 2020 release)",
