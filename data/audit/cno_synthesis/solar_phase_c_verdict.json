@@ -141,16 +141,16 @@
     {
       "element": "Al",
       "asplund2021": 6.43,
-      "A_measured": null,
-      "delta_vs_asplund": null,
+      "A_measured": 7.406,
+      "delta_vs_asplund": 0.976,
       "sigma": null,
-      "n_lines": 0,
-      "channel": "EW present; no independent-gf line survives the graded cull",
+      "n_lines": 1,
+      "channel": "EW: 1 curated line(s), low-confidence (RYA-395/398)",
       "nlte_grid": "Al_Amarsi2020_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv).",
+      "owed": "A(X) 7.406 vs Asplund 6.43 (+0.976) on 1 graded line(s) \u2014 below the stable-mean floor; thin independent-gf pool, differential-survey curation owed (RYA-161/162).",
       "provenance": "harps-measured (EW pool)"
     },
     {
