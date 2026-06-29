@@ -61,6 +61,7 @@ from config.constants import (
 )
 from pipeline.species import species_key, species_note
 from pipeline.gf_resolver import apply_to_synth_array, apply_to_regions  # RYA-353 single-source gf
+from pipeline import data_namespace as ns                               # RYA-469 per-star namespacing
 
 
 def _star_linelist(star_id: str):
@@ -352,7 +353,8 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
                      stellar_params: dict,
                      atmosphere: np.ndarray,
                      model_grid: str = 'ATLAS9.Castelli',
-                     code: str = RADIATIVE_TRANSFER_CODE) -> tuple:
+                     code: str = RADIATIVE_TRANSFER_CODE,
+                     star_id: str = 'solar') -> tuple:
     """
     Call ispec.determine_abundances on the matched linemasks.
 
@@ -453,7 +455,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
                                         'real line, EW blend-contaminated → synthesis',
                                         'theo<floor: negligible Fe II under blend → drop')),
                 })
-                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe2_triage_quarantine.csv'
+                qpath = ns.diagnostics_dir(star_id) / 'fe2_triage_quarantine.csv'  # RYA-469
                 q[q.verdict != 'clean'].to_csv(qpath, index=False)
                 _fe2_quarantine_state['written'] = True
                 print(f"  [Fe II triage] quarantine → {qpath.name}")
@@ -502,7 +504,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
                                         'real line, EW blend-contaminated → synthesis',
                                         'theo<floor: negligible Fe I under blend → drop')),
                 })
-                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe1_triage_quarantine.csv'
+                qpath = ns.diagnostics_dir(star_id) / 'fe1_triage_quarantine.csv'  # RYA-469
                 q[q.verdict != 'clean'].to_csv(qpath, index=False)
                 _fe1_quarantine_state['written'] = True
                 print(f"  [Fe I triage] quarantine → {qpath.name}")
@@ -1381,7 +1383,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
                                       skip_convergence: bool = False,
-                                      solve_params=None) -> tuple:
+                                      solve_params=None,
+                                      star_id: str = 'solar') -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -1419,7 +1422,7 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
             params['vturb_kms'], model_grid=model_grid
         )
         linemasks, spec_abund, x_over_h, x_over_fe = _ew_to_abundance(
-            ew_df, params, atm, model_grid
+            ew_df, params, atm, model_grid, star_id=star_id
         )
         last_linemasks, last_spec_abund, last_xh, last_xfe = (
             linemasks, spec_abund, x_over_h, x_over_fe
@@ -2328,8 +2331,8 @@ def run(star_id: str = 'solar',
               f"[Fe/H]={params['feh']}  vturb={params['vturb_kms']:.2f} km/s")
         _atm = _load_atmosphere(params['teff_K'], params['logg'], params['feh'],
                                 params['vturb_kms'], model_grid=model_grid)
-        last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid)
-        out_dir = Path(str(PATHS['solar_ew'])).parent
+        last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid, star_id=star_id)
+        out_dir = ns.outputs_dir(star_id)                                  # RYA-469 namespaced
         if engine == 'synthesis-v2':
             print(f"\n[4/4] Synthesis-v2 flux-space fit — pinned params...")
             results_synth, _ = _run_synthesis_v2_mode(
@@ -2353,7 +2356,7 @@ def run(star_id: str = 'solar',
               f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
         ew_df, params, model_grid=model_grid,
-        skip_convergence=skip_convergence, solve_params=solve_params,
+        skip_convergence=skip_convergence, solve_params=solve_params, star_id=star_id,
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
@@ -2450,9 +2453,22 @@ def run(star_id: str = 'solar',
                 assert_abundance_on_scale(
                     _r[_abs_col], f"{star_id} {_r.get('element','?')} {_r.get('ion','?')} {_abs_col}")
 
+    # ── RYA-469 Deliverable D: pin the differential denominator version ──
+    # A target's [X/H] is differential vs OUR measured Sun. Record which FROZEN gold
+    # solar version is the denominator in the target's own output, so re-baselining the
+    # Sun later (a new solar_abundances_v{N}) never SILENTLY changes this target's
+    # already-derived numbers — you re-run the target against the new version on purpose.
+    if 'solar' not in star_id.lower():
+        try:
+            results = ns.stamp_solar_ref_version(results)
+            print(f"  [RYA-469] differential denominator pinned: solar_ref_version="
+                  f"{results['solar_ref_version'].iloc[0]}")
+        except ns.ImmutableReferenceError as _e:
+            print(f"  [RYA-469] solar_ref_version unstamped (no gold reference yet): {_e}")
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
-    out_dir  = Path(str(PATHS['solar_ew'])).parent
+    out_dir  = ns.outputs_dir(star_id)                       # RYA-469 namespaced per-star
     out_path = out_dir / f'{star_id}_abundances.csv'
     results.to_csv(out_path, index=False)
     print(f"  Saved → {out_path.name}  ({len(results)} elements, "
