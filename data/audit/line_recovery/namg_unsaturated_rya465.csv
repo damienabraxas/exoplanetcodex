@@ -1,0 +1,7 @@
+element,ion,wavelength_air_A,excitation_potential_eV,log_gf,nist_grade,loggf_reference,rew,cog_regime,unsaturated,status,ew_mA,ew_err_mA,profile,chi2,local_cont,fit_center,center_off_mA,depth
+Na,I,6154.225,2.102,-1.547,A,NIST ASD v5.11 grade A,-5.139,linear/unsaturated,True,ok,44.7,0.94,voigt,0.0,0.9948,6154.241,16.2,0.243
+Na,I,6160.747,2.104,-1.246,A,NIST ASD v5.11 grade A,-5.003,linear/unsaturated,True,ok,61.15,8.33,voigt,0.0015,0.9832,6160.764,17.1,0.353
+Mg,I,4730.029,4.346,-2.347,C+,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade C+ L7428,-4.693,saturated/over-ceiling,False,ok,95.95,19.84,voigt,0.0115,0.9074,4730.041,11.9,0.456
+Mg,I,4571.096,0.0,-5.623,A,NIST ASD v5.11 grade A,-4.564,saturated/over-ceiling,False,ok,124.69,7.61,voigt,0.0032,0.931,4571.105,9.2,0.823
+Mg,I,4167.271,4.346,-0.745,?,VALD3 (grade TBD),-4.274,saturated/over-ceiling,False,ok,221.69,20.07,voigt,0.0055,0.7165,4167.291,20.4,0.809
+Mg,I,4702.991,4.346,-0.44,B+,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade B+ L7428,-4.279,saturated/over-ceiling,False,ok,247.34,10.21,voigt,0.0006,0.8162,4703.002,11.1,0.801
