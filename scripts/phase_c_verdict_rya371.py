@@ -50,6 +50,8 @@ PROC = ROOT / 'data' / 'processed'
 AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
 DOCS = ROOT / 'docs' / 'audit'
 KITTPEAK_JSON = AUDIT / 'solar_kittpeak_rya460.json'   # RYA-460 KP measurements
+CU_V_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' /
+                   'solar_cu_v_hfs_synthesis_rya466.json')   # RYA-466 HFS-synthesis Cu/V
 
 # Prior Phase C verdict counts — the immediate baseline this run diffs against.
 # RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
@@ -510,6 +512,84 @@ def _kittpeak_reclassify(kp):
     return out
 
 
+def _load_cu_v_synthesis():
+    """RYA-466: the HFS-resolved synthesis Cu/V measurement, or None if it hasn't run."""
+    if not CU_V_SYNTH_JSON.exists():
+        return None
+    return json.loads(CU_V_SYNTH_JSON.read_text())
+
+
+def _cu_v_reclassify(data):
+    """RYA-466 — fold the HFS-resolved synthesis measurement of Cu/V into the verdict.
+    These elements are UNMEASURABLE by the EW path (hyperfine-split → the single-profile
+    EW fit can't reach them; they never enter the gf-curation pool — the RYA-354 finding).
+    Synthesis on the GES HFS-resolved line list measures them. The verdicts are driven by
+    the measured values, not tuned: a synthesised value that still sits high is a finding,
+    not a PASS. Returns {element: override-dict}."""
+    if not data:
+        return {}
+    out = {}
+    cu = data.get('Cu', {})
+    if cu.get('A_nlte') is not None:
+        a = float(cu['A_nlte']); asp = float(cu['asplund2021']); d = a - asp
+        nlte = ('live RYA-402 b-factor' if cu.get('nlte_live')
+                else 'vendored RYA-402 b-factor (live .grd offline)')
+        reconciled = abs(d) <= TOL_PASS
+        out['Cu'] = {
+            'verdict': 'PASS' if reconciled else 'CURATION-OWED',
+            'A_measured': a, 'sigma': cu.get('scatter'), 'n_lines': cu.get('n_lines'),
+            'provenance': 'synthesis: HFS-resolved (RYA-466)',
+            'channel': f"HFS synthesis: Cu I {cu.get('n_lines')} lines (5105/5218/5220/5700/5782), "
+                       f"gf=Kock&Richter, NLTE {nlte}",
+            'owed': (f"MEASURED via HFS-resolved synthesis — the EW path could not reach Cu "
+                     f"(all 5 lines hyperfine-split, RYA-354 finding); synthesis on the GES "
+                     f"HFS line list (4-10 components/feature) measures it. gf adjudicated to "
+                     f"GES=Kock&Richter (KR), VALD3 superseded ({cu.get('gf_provenance','')}). "
+                     f"A(Cu)_LTE {cu.get('A_lte_median')} + RYA-402 b-factor NLTE "
+                     f"{cu.get('nlte_delta'):+.3f} ({nlte}) = {a:.3f} ({d:+.3f} vs Asplund "
+                     f"{asp:.2f}; σ {cu.get('scatter')}, n={cu.get('n_lines')}). "
+                     + ("Reconciles within TOL — the HFS-synthesis path closes the Cu gap."
+                        if reconciled else
+                        "The +offset survives the small Cu NLTE → 1D-LTE optical Cu I sits high; "
+                        "3D / fuller-NLTE curation owed (RYA-161/162). The blocker was the "
+                        "MEASUREMENT TOOL, now fixed; the residual is a finding, do NOT tune."))}
+    v = data.get('V', {})
+    if v.get('A_lte_median') is not None:
+        a = float(v['A_lte_median']); asp = float(v['asplund2021']); d = a - asp
+        out['V'] = {
+            'verdict': 'CURATION-OWED',
+            'A_measured': a, 'sigma': v.get('scatter'), 'n_lines': v.get('n_lines'),
+            'provenance': 'synthesis: HFS-resolved LTE (RYA-466)',
+            'channel': f"HFS synthesis LTE: V I {v.get('n_lines')} lines — NLTE-VOID (no model atom)",
+            'owed': (f"MEASURED via HFS-resolved LTE synthesis — V was unmeasurable by the EW path "
+                     f"(HFS, RYA-354). A(V)_LTE {a:.3f} ({d:+.3f} vs Asplund {asp:.2f}; σ "
+                     f"{v.get('scatter')}, n={v.get('n_lines')}) — tight, AGREES with Asplund, BUT "
+                     f"V is the NLTE-VOID (no model atom anywhere, RYA-463) → LTE-only, LOWER "
+                     f"CONFIDENCE; a V NLTE model + graded gf (V I Lawler+2014, V II Wood+2014) "
+                     f"owed before any PASS. Off no-value, do NOT certify on LTE agreement alone.")}
+    return out
+
+
+def _apply_cu_v_synthesis(rows, data):
+    """Overlay the RYA-466 Cu/V HFS-synthesis reclassification onto the base rows (in place)."""
+    overrides = _cu_v_reclassify(data)
+    for r in rows:
+        ov = overrides.get(r['element'])
+        if not ov:
+            continue
+        for key in ('verdict', 'channel', 'owed', 'provenance'):
+            if key in ov:
+                r[key] = ov[key]
+        if ov.get('A_measured') is not None:
+            r['A_measured'] = round(float(ov['A_measured']), 3)
+            r['delta_vs_asplund'] = round(r['A_measured'] - r['asplund2021'], 3)
+        if ov.get('sigma') is not None:
+            r['sigma'] = round(float(ov['sigma']), 3)
+        if ov.get('n_lines') is not None:
+            r['n_lines'] = int(ov['n_lines'])
+    return overrides
+
+
 def render_md(rows, summary, kp=None):
     lines = []
     lines.append('# RYA-371 Phase C — Solar 27-element verdict table (RYA-239 retry)\n')
@@ -607,6 +687,11 @@ def main():
     kp = _load_kittpeak()
     overrides = _apply_kittpeak(rows, kp)
 
+    # RYA-466: fold in the HFS-resolved synthesis measurement of Cu / V (the elements the
+    # EW path cannot reach — hyperfine-split). Moves Cu/V off "no value" → measured.
+    cuv = _load_cu_v_synthesis()
+    cuv_overrides = _apply_cu_v_synthesis(rows, cuv)
+
     counts = {}
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
@@ -619,7 +704,9 @@ def main():
                'tol_pass_dex': TOL_PASS, 'n_elements': len(rows), 'counts': counts,
                'prior_counts': PRIOR_COUNTS, 'diff_vs_prior': diff,
                'kittpeak_wired': bool(kp),
-               'kittpeak_elements': sorted(overrides) if overrides else []}
+               'kittpeak_elements': sorted(overrides) if overrides else [],
+               'cu_v_synthesis_wired': bool(cuv),
+               'cu_v_synthesis_elements': sorted(cuv_overrides) if cuv_overrides else []}
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
