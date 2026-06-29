@@ -1,5 +1,15 @@
 # Exoplanet Codex — engineering conventions
 
+## Per-star output namespacing + frozen gold solar reference (RYA-469)
+
+Every per-star pipeline product carries the star in its **path**
+(`data/outputs/{star}/{star}_*`), so two stars cannot collide on a filename; the
+gold-standard solar differential denominator is **frozen + versioned + immutable**
+(`data/reference/solar/solar_abundances_v{N}.csv`, `CURRENT` pointer, hash-guarded).
+Use `pipeline/data_namespace.py` for all of it; re-baseline the Sun only via
+`scripts/promote_solar_reference.py` (bump, never overwrite). Full rule:
+[`docs/design/adr_data_namespacing_and_gold_reference.md`](design/adr_data_namespacing_and_gold_reference.md).
+
 ## Artifact preservation: save-before-clean (RYA-461)
 
 **The recurring failure this prevents:** gitignored artifacts produced inside a git

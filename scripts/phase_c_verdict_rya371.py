@@ -44,6 +44,7 @@ sys.path.insert(0, str(ROOT))
 from config.constants import (SOLAR_ASPLUND2021,  # noqa: E402
                               NLTE_CORRECTION_ELEMENTS,
                               THREED_CORRECTION_ELEMENTS)
+from pipeline import data_namespace as ns  # noqa: E402  RYA-469 gold solar reference
 
 PROC = ROOT / 'data' / 'processed'
 AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
@@ -67,7 +68,9 @@ GROUND_UNREACHABLE = {'P'}     # FUV/near-UV, needs HST/STIS (RYA-119)
 
 
 def _load():
-    ab = pd.read_csv(PROC / 'solar_abundances.csv')
+    # RYA-469: the solar verdict is computed from the FROZEN gold reference (CURRENT),
+    # not a regenerable working file — a perturbed regen can never become the baseline.
+    ab, _solar_ref_version = ns.read_solar_reference('CURRENT')
     ew = pd.read_csv(ROOT / 'data' / 'measured' / 'sol_ew_results_v1.csv')
     with open(AUDIT / 'solar_phase_a_cross_arm.json') as fh:
         phase_a = json.load(fh)
@@ -612,6 +615,7 @@ def main():
     summary = {'ticket': 'RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)', 'star': args.star,
                'generated': date.today().isoformat(),
                'reference': 'Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)',
+               'solar_ref_version': ns.current_version(),  # RYA-469 gold reference frozen
                'tol_pass_dex': TOL_PASS, 'n_elements': len(rows), 'counts': counts,
                'prior_counts': PRIOR_COUNTS, 'diff_vs_prior': diff,
                'kittpeak_wired': bool(kp),
@@ -619,9 +623,14 @@ def main():
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
-    out_json = AUDIT / 'solar_phase_c_verdict.json'
+    payload = {'summary': summary, 'verdicts': rows}
+    out_json = AUDIT / 'solar_phase_c_verdict.json'   # cno_synthesis audit trail (star-prefixed)
     with open(out_json, 'w') as fh:
-        json.dump({'summary': summary, 'verdicts': rows}, fh, indent=2)
+        json.dump(payload, fh, indent=2)
+    # RYA-469: the canonical per-star verdict is namespaced (data/outputs/{star}/{star}_verdict.json)
+    out_ns = ns.output_path(args.star, 'verdict.json')
+    with open(out_ns, 'w') as fh:
+        json.dump(payload, fh, indent=2)
     out_back = AUDIT / 'solar_differential_backbone.json'
     with open(out_back, 'w') as fh:
         json.dump(differential_backbone(), fh, indent=2)

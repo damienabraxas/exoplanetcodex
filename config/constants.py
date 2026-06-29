@@ -571,6 +571,15 @@ PATHS = {
     'procyon_diagnostic' : ROOT / 'results' / 'plots' / 'procyon_continuum_diagnostic.png',
     'procyon_ew'         : ROOT / 'data' / 'processed' / 'procyon_ew.csv',
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
+
+    # RYA-469: per-star NAMESPACED pipeline outputs + the frozen gold solar reference.
+    # Working per-star products live under data/outputs/{star}/ (gitignored, regenerable);
+    # the star is in the PATH so two stars physically cannot collide on a filename. The
+    # gold-standard solar differential denominator is the versioned, write-once, immutable
+    # data/reference/solar/solar_abundances_v{N}.csv (committed). See pipeline/data_namespace.py
+    # for the accessors and docs/design/adr_data_namespacing_and_gold_reference.md for the law.
+    'outputs_root'       : ROOT / 'data' / 'outputs',
+    'solar_reference_dir': ROOT / 'data' / 'reference' / 'solar',
 }
 
 # ── Solar reference library (RYA-459, under the RYA-162 epic) ─────────────────
