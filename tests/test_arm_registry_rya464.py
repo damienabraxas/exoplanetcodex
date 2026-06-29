@@ -38,12 +38,12 @@ def test_procyon_registers_more_than_one_region():
     pr = cs.star_arm_registry('procyon')
     assert len(pr) > 1
     assert pr['harps'].ready is True            # HARPS VIS runnable today
-    assert pr['uves'].ready is False            # gated on RYA-272 loader + data
-    assert pr['uv'].ready is False
-    assert pr['ir'].ready is False
+    assert pr['uves'].ready is True             # RYA-348 Phase 2: UVES O I 777 arm wired + staged
+    assert pr['uv'].ready is False              # RYA-471 loader on main, synthesis gated on RYA-359
+    assert pr['ir'].ready is False              # telluric-gated (RYA-373)
     ready, deferred = cs.available_arms('procyon')
-    assert ready == ('harps',)
-    assert set(deferred) == {'uves', 'uv', 'ir'}
+    assert ready == ('harps', 'uves')
+    assert set(deferred) == {'uv', 'ir'}
     assert all(deferred.values())               # every deferral carries a reason
 
 
@@ -58,8 +58,9 @@ def test_resolver_never_silently_loads_reflected_solar_for_nonsolar():
     # THE BUG RYA-464 CLOSES: a non-solar star must never be synthesized against Vesta.
     pr = cs.star_arm_registry('procyon')
     with pytest.raises(cs.ArmNotWired):
-        cs.resolve_arm_spectrum('procyon', pr['uves'])      # unready → loud
-    # Even a hypothetical READY reflected_solar arm must refuse for a non-solar star.
+        cs.resolve_arm_spectrum('procyon', pr['ir'])        # still-deferred arm → loud
+    # Even a hypothetical READY reflected_solar arm must refuse for a non-solar star
+    # (the actual anti-Vesta guard; the real uves arm is now the Procyon uves_rya272 loader).
     fake = cs.ArmWiring('uves', cs.UVES_OPT, cs.UVES_DIAGNOSTICS, 'reflected_solar', True)
     with pytest.raises(cs.ArmNotWired, match='reflected'):
         cs.resolve_arm_spectrum('procyon', fake)
