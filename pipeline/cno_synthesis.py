@@ -459,13 +459,20 @@ _PROCYON_ARMS = {
                        provenance='measured (UVES RED760 oi_anchor 2013-10-08, CLEAN telluric, '
                                   'BERV-applied; RYA-272 loader + RYA-271 audit). O I 777 = primary O.'),
     'uv':    ArmWiring('uv', HST_UV, _hst_uv.uv_arm_diagnostics(), 'hst_stis', False,
-                       defer_reason='loader BUILT + Procyon STIS staged/conditioned (RYA-471, '
+                       defer_reason='loader+conditioning BUILT + Procyon STIS staged (RYA-471, '
                                     'smoke-proven on E140M: C I 1657 covered, vac->air verified). '
-                                    'Synthesis still gated on (1) the Amarsi C/O NLTE grid (RYA-359) '
-                                    '— FUV C I carries a large negative correction; amarsi_grid_backend '
-                                    'loud-fails by design, and (2) the FUV pseudo-continuum (RYA-426 '
-                                    'gate 5, synthesis-not-EW). Flip to ready=True once RYA-359 lands.',
-                       provenance='measured (loader built; synthesis gated on RYA-359)'),
+                                    'RYA-348 Phase 3 ran the synthesis end-to-end and found two HARD '
+                                    'blockers, so the arm stays deferred (running it produces garbage): '
+                                    '(1) FUV pseudo-continuum — the observed 1652-1662A "continuum" is a '
+                                    'line forest (median 0.81, std 0.22), not flat; the optical-tuned '
+                                    'synthesis cannot model it and the C I 1657 fit RAILS to the A floor '
+                                    '(A(C) 7.009, chi2r 843 global / 621 local — both edge_pinned), a '
+                                    'FUV-line-list + FUV-continuum-opacity BUILD, not a run-tune; '
+                                    '(2) solar UV reference — CALSPEC composite R~150-300 cannot resolve '
+                                    'C I 1657, so there is no solar UV C I for the differential/control. '
+                                    'Also: FUV C I 1657/1931 are NOT in the Amarsi grid (resolve_line '
+                                    'None) so NLTE stays GRID_OWED even if continuum were solved.',
+                       provenance='measured (loader built; synthesis NOT science-grade — RYA-348 Phase 3)'),
     'ir':    ArmWiring('ir', CRIRES_IR, (), 'ir_crires', False,
                        defer_reason='telluric-gated (RYA-373); no 2.3um CO overtone staged '
                                     '(RYA-351: APOGEE weak-CO only); IR conditioning RYA-425.',
