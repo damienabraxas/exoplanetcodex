@@ -1,0 +1,13 @@
+species,wavelength_air_A,ew_mA,rew,saturation,log_gf,loggf_reference,nist_grade,in_regions,new_adjudication_status,cited_source,disposition
+Zr I,4028.95,12.51,-5.51,clean,-0.72,VALD3,,False,(unchanged),,"sourced (VALD3); blocker is in_regions=False/HFS, not gf"
+Zr I,4542.22,202.95,-4.35,SATURATED,-0.31,BGHL,,False,(unchanged),,"saturation-limited (REW -4.35) — gf-moot, no action"
+Zr I,4815.04,122.1,-4.6,SATURATED,-0.53,BGHL,,False,(unchanged),,"saturation-limited (REW -4.60) — gf-moot, no action"
+Zr II,4629.079,127.24,-4.56,SATURATED,-0.59,CCout,,False,(unchanged),,"saturation-limited (REW -4.56) — gf-moot, no action"
+Zr II,5350.089,237.47,-4.35,SATURATED,-1.24,CC,,False,(unchanged),,"saturation-limited (REW -4.35) — gf-moot, no action"
+Zr II,5372.466,266.13,-4.31,SATURATED,-0.81,LNAJ,,False,adjudicated_lnaj2006_rya354,Ljung Nilsson Asplund & Johansson 2006 A&A 456 1181 (Zr II lab gf),"STAMP graded (LNAJ) — best-available cited, value frozen"
+Y I,4348.786,37.02,-5.07,strong,0.725,K06,,False,flagged_manual_pull_rya354,NIST ASD -> Hannaford Lowe Grevesse Biemont & Whaling 1982 ApJ 261 736 (Y I/II lab gf; verify Y I coverage - graded Y I lab data is thin),FLAG manual pull — gf is ungraded Kurucz (K06)
+Y I,6191.718,189.94,-4.51,SATURATED,-0.68,K06,,False,flagged_manual_pull_rya354,NIST ASD -> Hannaford Lowe Grevesse Biemont & Whaling 1982 ApJ 261 736 (Y I/II lab gf; verify Y I coverage - graded Y I lab data is thin),FLAG manual pull — gf is ungraded Kurucz (K06)
+Y I,6435.004,9.04,-5.85,clean,-0.521,K06,,False,flagged_manual_pull_rya354,NIST ASD -> Hannaford Lowe Grevesse Biemont & Whaling 1982 ApJ 261 736 (Y I/II lab gf; verify Y I coverage - graded Y I lab data is thin),FLAG manual pull — gf is ungraded Kurucz (K06)
+Ba II,5853.668,74.62,-4.89,strong,-1.01,NIST ASD v5.11 grade A,A,True,(unchanged),,"CONFIRMED NIST grade A — best-available, no change"
+Ba I,6498.757,166.7,-4.59,SATURATED,0.58,MW,,False,(unchanged),,"saturation-limited (REW -4.59) — gf-moot, no action"
+Eu II,6645.127,6.8,-5.99,clean,0.4208,LWHS,,False,adjudicated_lwhs2001_rya354,Lawler Wickliffe den Hartog & Sneden 2001 ApJS 137 351 (Eu II HFS lab gf; the NIST ASD authority),"STAMP graded (LWHS) — best-available cited, value frozen"
