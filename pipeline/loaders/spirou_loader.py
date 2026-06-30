@@ -48,6 +48,7 @@ import astropy.units as u
 
 from config.constants import PHYSICS
 from .base_loader import SpectrumData
+from pipeline import frame_object_contract as foc
 
 
 _CFHT_LOCATION = EarthLocation(
@@ -81,16 +82,23 @@ class SPIRouLoader:
         # spec.meta    — provenance dict
     """
 
-    def __init__(self, filepath: str | Path, fiber: str = 'AB'):
+    def __init__(self, filepath: str | Path, fiber: str = 'AB', *, expected_star: str | None = None):
         self.filepath = Path(filepath)
         if fiber not in ('AB', 'A', 'B'):
             raise ValueError(f"fiber must be 'AB', 'A', or 'B', got {fiber!r}")
         self.fiber = fiber
+        # RYA-481 §A: verify the star by the OBJECT header when the caller knows
+        # which star this file should be (never by folder/filename). Default None
+        # preserves prior behaviour.
+        self.expected_star = expected_star
 
     def load(self) -> SpectrumData:
         with fits.open(self.filepath) as hdl:
             self._check_telluric_product(hdl)
             h0      = hdl[0].header
+            if self.expected_star is not None:
+                foc.assert_object(h0.get('OBJECT'), expected=self.expected_star,
+                                  context=f"{self.filepath.name}: ")
             flux    = hdl[f'Flux{self.fiber}'].data.astype(np.float64)
             wave_nm = hdl[f'Wave{self.fiber}'].data.astype(np.float64)
 
@@ -172,6 +180,13 @@ class SPIRouLoader:
             'apero_drspdate'     : h0.get('DRSPDATE', 'UNKNOWN'),
             'apero_drsvdate'     : h0.get('DRSVDATE', 'UNKNOWN'),
             'berv_kms'           : berv_kms,
+            # RYA-481 §B declaration. Observer-frame (BERV=NaN in header) → loader
+            # applies BERV; systemic RV is the fit's job. APERO wavelengths are
+            # vacuum nm; the vacuum→air conversion for this pipeline is an OWED
+            # per-loader audit item (flagged, not silently assumed — RYA-481 §B.4).
+            'velocity_frame'     : ('observer-frame → barycentric (BERV applied); systemic-RV not '
+                                    'applied; nm→Å; vacuum→air conversion OWED (RYA-481 §B audit)'),
+            'object_canonical'   : foc.resolve_object(h0.get('OBJECT')).canonical,
             'wave_units_raw'     : 'nm',
             'wave_coverage_A'    : (9558.0, 25158.0),
             'n_orders'           : 49,
