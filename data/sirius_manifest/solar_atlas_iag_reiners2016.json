@@ -1,0 +1,39 @@
+{
+  "manifest_id": "sirius_solar_atlas_iag_reiners2016",
+  "ticket": "RYA-485 Issue 3",
+  "source_cite": "Reiners, Mello, Hauschildt et al. 2016, A&A 587 A65 \u2014 IAG disk-integrated solar flux atlas (Goettingen VVT FTS, R~1e6), VIS 4050-10650 A",
+  "source_url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/587/A65/",
+  "zenodo_record": null,
+  "zenodo_doi": null,
+  "checksum_provenance": "computed-at-fetch (CDS publishes no md5); integrity via gunzip -t + ReadMe",
+  "purpose": "IAG BASE atlas (the telluric-corrected Baker+2020 derives from this); independent non-Kitt 777+6300 reference for the RYA-483/484 continuum-lever triangulation",
+  "dest_subdir": "solar_reference/iag_reiners2016",
+  "items": [
+    {
+      "name": "spvis.dat.gz",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/587/A65/spvis.dat.gz",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "spnir.dat.gz",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/587/A65/spnir.dat.gz",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "tablea1.dat",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/587/A65/tablea1.dat",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "ReadMe",
+      "url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/587/A65/ReadMe",
+      "size_bytes": null,
+      "md5": null
+    }
+  ],
+  "n_items": 4,
+  "total_bytes": 0
+}
