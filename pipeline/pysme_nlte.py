@@ -85,15 +85,25 @@ NLTE_LINES = {
         (7664.899, 0.149, 0.0, 0.5, 1.617, 1.5, '3p6.4s 2S', '3p6.4p 2P*', 487.23),
         (7698.964, -0.154, 0.0, 0.5, 1.610, 0.5, '3p6.4s 2S', '3p6.4p 2P*', 485.23),
     ],
+    # N I red-optical atomic primary (RYA-369): 7468/8216/8683 (2s2.2p2.3s 4P ->
+    # 2s2.2p2.3p), high-excitation (EP ~10.3 eV), DECOUPLED from C/O. Amarsi/GALAH PySME
+    # grid (nlte_N_scatt_pysme.grd, Zenodo 3982506). RYA-369 load-test: solar delta is a
+    # SMALL negative (median ~-0.015, NOT the "large NLTE" the strategy anticipated for the
+    # Sun) — sign-discipline OK (RYA-339). Labels auto-resolved from the grid levels.
+    'N': [
+        (7468.31, -0.183, 10.336, 2.5, 11.996, 1.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4S*', 528.227),
+        (8216.34, 0.138, 10.336, 2.5, 11.845, 2.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4P*', 496.229),
+        (8683.40, 0.105, 10.330, 1.5, 11.758, 2.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4D*', 480.231),
+    ],
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
-_A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12}
+_A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12, 'N': 7.83}
 
 _GRID_FILENAME = {
     'Na': 'nlte_Na_scatt_pysme.grd', 'Al': 'nlte_Al_scatt_pysme.grd',
     'K': 'nlte_K_scatt_pysme.grd', 'Cu': 'nlte_Cu_caliskan_Oct2024_pysme.grd',
-    'S': 'nlte_S_ama51_Sep2024_pysme.grd',
+    'S': 'nlte_S_ama51_Sep2024_pysme.grd', 'N': 'nlte_N_scatt_pysme.grd',  # RYA-369
     # RYA-409 Part B re-source (v3 Amarsi-2020 grids, [Fe/H] -> +1):
     'Mg': 'nlte_Mg_scatt_pysme.grd', 'Si': 'nlte_Si_scatt_pysme.grd',
     'Ca': 'nlte_Ca_scatt_pysme.grd', 'Mn': 'nlte_Mn_scatt_pysme.grd',
@@ -216,7 +226,7 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
 
 
 def _Z(el):
-    return {'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16, 'K': 19,
+    return {'N': 7, 'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16, 'K': 19,
             'Ca': 20, 'Mn': 25, 'Cu': 29}[el]
 
 
