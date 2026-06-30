@@ -1,0 +1,38 @@
+{
+  "ticket": "RYA-369 N grid load-test",
+  "production_wiring": "registered: _GRID_FILENAME/_A_SUN/NLTE_LINES['N'] + _Z 'N':7 (RYA-369)",
+  "format": {
+    "loaded": true,
+    "nlevels": null,
+    "teff": [
+      2500.0,
+      8000.0
+    ],
+    "logg": [
+      -0.5,
+      5.5
+    ],
+    "feh": [
+      -5.0,
+      1.0
+    ]
+  },
+  "coverage": {
+    "Sun": true,
+    "Procyon": true,
+    "aCenA": true,
+    "aCenB": true,
+    "55Cnc": true
+  },
+  "coverage_all_inside": true,
+  "resolve": {
+    "per_line": {
+      "7468.31": -0.0115,
+      "8216.34": -0.0145,
+      "8683.4": -0.0154
+    },
+    "median": -0.0145,
+    "sane_negative": true
+  },
+  "loadtest_passed": true
+}
