@@ -46,6 +46,7 @@ from pathlib import Path
 import numpy as np
 
 import config.constants as const
+from pipeline.wavelength_util import AIR_VACUUM_BOUNDARY_A
 
 ROOT = Path(str(const.ROOT))
 CONDITIONING_DIR = ROOT / 'data' / 'conditioning'
@@ -55,7 +56,9 @@ CONDITIONING_DIR = ROOT / 'data' / 'conditioning'
 # the VALD air/vacuum convention used by linelist_solar.csv). RYA-303 recorded the same:
 # STIS arrays are VACUUM; the pipeline is air for lambda >= 2000 A. So 2000 A is BOTH the
 # air/vacuum boundary AND the STIS FUV-MAMA / NUV-MAMA detector split — one number.
-UV_AIR_VACUUM_BOUNDARY_A = 2000.0
+# The constant + the vac<->air converter now live in the shared wavelength_util SSOT
+# (RYA-264); this is the single boundary value reused here for the regime split.
+UV_AIR_VACUUM_BOUNDARY_A = AIR_VACUUM_BOUNDARY_A
 
 # ── STIS / COS UV gratings (single source of truth; STIS IHB + RYA-384/303/426) ──
 # 'frame' = native wavelength frame of the science product (always vacuum for HST UV).
@@ -120,31 +123,11 @@ class UVConditioningError(RuntimeError):
     """A UV conditioning gate failed hard (loud failure over silent fallback)."""
 
 
-# ── gate 2: vacuum <-> air (Birch & Downs 1994, as adopted by VALD3/NIST) ────
-def _bd1994_n(wave_vac_A: np.ndarray) -> np.ndarray:
-    s2 = (1.0e4 / np.asarray(wave_vac_A, float)) ** 2          # (1/lambda_um)^2
-    return (1.0 + 8.34254e-5 + 2.406147e-2 / (130.0 - s2)
-            + 1.5998e-4 / (38.9 - s2))
-
-
-def vac_to_air(wave_vac_A) -> np.ndarray:
-    """Vacuum -> air (Birch & Downs 1994). Identity below 2000 A, where air is undefined
-    and the VALD/IAU convention keeps wavelengths in vacuum (RYA-303). So the FUV is
-    returned unchanged and the NUV is converted — the loader-boundary convention."""
-    w = np.asarray(wave_vac_A, float)
-    out = w.copy()
-    nuv = w >= UV_AIR_VACUUM_BOUNDARY_A
-    out[nuv] = w[nuv] / _bd1994_n(w[nuv])
-    return out
-
-
-def air_to_vac(wave_air_A) -> np.ndarray:
-    """Air -> vacuum inverse (one Newton step on Birch & Downs; identity below 2000 A)."""
-    w = np.asarray(wave_air_A, float)
-    out = w.copy()
-    nuv = w >= UV_AIR_VACUUM_BOUNDARY_A
-    out[nuv] = w[nuv] * _bd1994_n(w[nuv])      # n ~ const locally; lambda_vac = lambda_air * n
-    return out
+# ── gate 2: vacuum <-> air — the shared SSOT converter (RYA-264/426) ─────────
+# Birch & Downs 1994 (VALD3/NIST). The implementation lives once in wavelength_util;
+# re-exported here so existing `uvc.vac_to_air` / `uvc.air_to_vac` importers are
+# unchanged. Below 2000 A both are the identity → FUV stays vacuum, NUV converts.
+from pipeline.wavelength_util import vac_to_air, air_to_vac   # noqa: E402,F401
 
 
 def to_pipeline_frame(wave_vac_A) -> np.ndarray:

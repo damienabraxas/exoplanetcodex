@@ -48,6 +48,12 @@ _C_KMS = PHYSICS['c_kms']
 
 _WAVE_MIN_A, _WAVE_MAX_A = 3000.0, 11000.0   # plausible UVES air-wavelength span
 
+# RYA-264 §C: UVES Phase-3 IDP is native AIR Å — declared explicitly (an explicit
+# "air, no conversion" is now a stated fact, not an assumption). Cross-checked against
+# the cited registry; to_air_angstrom is a no-op (×1) + the unit-sanity band gate.
+_UVES_SCALE = foc.WavelengthScale('UVES', native_unit='A', native_scale='air',
+                                  note='UVES IDP air Å — explicit no-op (RYA-264)')
+
 
 class UVESProductError(RuntimeError):
     """Raised when a file is not a loadable topocentric UVES IDP (frame / instrument /
@@ -79,6 +85,9 @@ class UVESLoader:
                                   context=f"{self.filepath.name}: ", exc=UVESProductError)
             tab = hdl[1].data
             wave = np.asarray(tab['WAVE'][0], dtype=np.float64)            # air Å, topocentric
+            # RYA-264 §C: explicit air-Å declaration (no-op conversion) + unit-sanity
+            # gate, in the OBSERVED frame before the velocity shift (canonical order).
+            wave = _UVES_SCALE.validate().to_air_angstrom(wave)
             flux = self._first_present(tab, ('FLUX', 'FLUX_REDUCED')).astype(np.float64)
             err = self._first_present(tab, ('ERR', 'ERR_REDUCED'), optional=True)
             qual = self._first_present(tab, ('QUAL', 'QUAL_REDUCED'), optional=True)
@@ -177,6 +186,7 @@ class UVESLoader:
             'berv_kms'           : berv,
             'frame'              : 'barycentric (BERV applied)',
             'velocity_frame'     : vframe.declare(),      # RYA-481 §B declaration
+            'wavelength_scale'   : _UVES_SCALE.declare(),  # RYA-264 §C declaration
             'object_canonical'   : foc.resolve_object(h0.get('OBJECT')).canonical,
             'specsys_original'   : h0.get('SPECSYS', 'UNKNOWN'),
             'wave_units_raw'     : 'angstrom',
