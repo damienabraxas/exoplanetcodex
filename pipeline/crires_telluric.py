@@ -527,13 +527,12 @@ _ANCHOR_ISOLATION_A = 0.35       # Å — no comparable neighbour within this �
 
 
 def _air_to_vac(wl_air_A):
-    """IAU air→vacuum (Morton 2000 / Birch & Downs) for Å. The solar line list is in
-    AIR; the CRIRES K-band is VACUUM — convert at the spectrum-matching boundary."""
-    wl = np.asarray(wl_air_A, dtype=float)
-    s2 = (1.0e4 / wl) ** 2
-    n = (1.0 + 0.00008336624212083 + 0.02408926869968 / (130.1065924522 - s2)
-         + 0.0001599740894897 / (38.92568793293 - s2))
-    return wl * n
+    """IAU air→vacuum (Birch & Downs 1994) for Å. The solar line list is in AIR; the
+    CRIRES K-band is VACUUM — convert at the spectrum-matching boundary. Delegates to
+    the shared wavelength_util SSOT (RYA-264) — one converter for the whole codebase
+    (was a local Morton-2000 copy; B&D vs Morton differ ≪1 mÅ, far below anchor tol)."""
+    from pipeline.wavelength_util import air_to_vac
+    return air_to_vac(wl_air_A)
 
 
 def _solar_rv_anchors(lo_A: float, hi_A: float,

@@ -1,21 +1,26 @@
 """
 pipeline/frame_object_contract.py
 =================================
-The RYA-481 standing convention, made executable — the single source of truth for
-the two things **every** loader must declare and verify about a frame before its
+The standing loader convention, made executable — the single source of truth for
+the things **every** loader must declare and verify about a frame before its
 photons reach any fit, EW, or synthesis:
 
-  A.  **OBJECT attribution** — which star the frame is, by authoritative FITS
-      header, NEVER by folder / filename / glob.
-  B.  **Velocity frame** — the frame's velocity reference (SPECSYS, applied BERV,
-      systemic RV), with the corrections it needs applied *exactly* — no more, no
-      less — and verified against a known line.
+  A.  **OBJECT attribution** (RYA-481) — which star the frame is, by authoritative
+      FITS header, NEVER by folder / filename / glob.
+  B.  **Velocity frame** (RYA-481) — the frame's velocity reference (SPECSYS,
+      applied BERV, systemic RV), with the corrections it needs applied *exactly*
+      — no more, no less — and verified against a known line.
+  C.  **Wavelength scale** (RYA-264) — the frame's native wavelength UNIT (nm/µm→Å)
+      and SCALE (vacuum→air), converted to the pipeline's air-Å at the loader
+      boundary from a CITED per-instrument convention, with a unit-sanity band gate
+      (the ×10 / ×10000 catch) and a known-line air-rest verification.
 
-C is the principle shared by both: the correct response to *any* unverifiable
-attribution or velocity frame is **raise/flag, never silently proceed on a
-default**. A wrong-star or wrong-frame result is worse than no result, because it
-looks right (a plausible, wrong abundance that passes every check except an
-explicit one). Silence is the bug; loudness is the fix.
+D is the principle shared by all three: the correct response to *any* unverifiable
+attribution, velocity frame, or wavelength scale is **raise/flag, never silently
+proceed on a default**. A wrong-star, wrong-frame, or wrong-scale result is worse
+than no result, because it looks right (a plausible, wrong abundance that passes
+every check except an explicit one). Silence is the bug; loudness is the fix. All
+three raise a common base, ``FrameContractError``.
 
 Why this module exists (the receipts — five disguises of one disease)
 --------------------------------------------------------------------
@@ -61,15 +66,23 @@ from typing import Optional
 import numpy as np
 
 from config.constants import PHYSICS
+from pipeline.wavelength_util import vac_to_air   # the ONE vac→air impl (RYA-264/426)
 
 _C_KMS = PHYSICS['c_kms']
+
+
+class FrameContractError(RuntimeError):
+    """Base for every loader-contract failure — OBJECT attribution, velocity frame,
+    or wavelength scale. Catch this to handle any contract violation; the axis
+    subclasses (``ObjectAttributionError``, ``VelocityFrameError``) narrow it. The
+    wavelength-scale axis raises ``FrameContractError`` directly (RYA-264)."""
 
 
 # ════════════════════════════════════════════════════════════════════════════
 # A.  OBJECT attribution — central canonical map (never per-loader, never folder)
 # ════════════════════════════════════════════════════════════════════════════
 
-class ObjectAttributionError(RuntimeError):
+class ObjectAttributionError(FrameContractError):
     """Raised when a frame's OBJECT cannot be attributed to the expected star —
     unresolved, ambiguous, or a confident mismatch. Names the raw OBJECT and the
     reason; never a silent include or a folder-name fallback (RYA-481 §A)."""
@@ -226,7 +239,7 @@ def assert_object(obj, expected, *, context: str = '',
 # B.  Velocity frame — declared, corrected exactly, verified
 # ════════════════════════════════════════════════════════════════════════════
 
-class VelocityFrameError(RuntimeError):
+class VelocityFrameError(FrameContractError):
     """Raised on an unrecognized velocity frame, a contradictory correction (the
     double-BERV trap), or a known line that lands off its rest wavelength after
     correction (a missing/sign-wrong term) — RYA-481 §B."""
@@ -367,3 +380,209 @@ def verify_line_position(wave_A, flux, expected_A: float, *, tol_kms: float = 5.
             f"sign-wrong velocity term (BERV or systemic RV) — verify, do not assume "
             f"(RYA-481 §B.3; RYA-272 sign-check, RYA-478 systemic-RV).")
     return v
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# C.  Wavelength scale — native unit (nm/µm→Å) + scale (vacuum→air), CITED
+# ════════════════════════════════════════════════════════════════════════════
+# The third declared+verified axis (RYA-264), extending the same loader contract.
+# The SPIRou/APERO vacuum-nm "vac→air OWED" that the RYA-481 build loud-declared is
+# the concrete driver: reading vacuum IR wavelengths against an air line list
+# mis-identifies lines by ~4–6 Å (~15–25 resolution elements at R~70k) — the same
+# disease on a third axis.
+#
+# OPERATION ORDER vs. the §B velocity frame (canonical, documented, deterministic):
+# wavelength-scale conversion and the velocity shift BOTH transform the wave axis.
+# Convert UNIT+SCALE to air-Å in the OBSERVED frame FIRST (the refractive index n(λ)
+# is evaluated at the observed wavelength), THEN apply the §B velocity shift. The
+# loaders follow this: to_air_angstrom() runs on the raw grid, then ×(1+v/c). The
+# effect of the order is sub-mÅ, but the contract must not be ambiguous.
+
+_UNIT_TO_ANGSTROM = {'A': 1.0, 'nm': 10.0, 'um': 1.0e4}
+_NATIVE_SCALES = ('air', 'vacuum')
+
+
+@dataclass(frozen=True)
+class WavelengthConvention:
+    """One instrument's CITED native wavelength convention — the single source of
+    truth for unit + scale. ``citation`` is the instrument pipeline/DRS doc the
+    entry was VERIFIED against (an unsourced entry is a defect — never from memory).
+    ``band_A`` is the plausible air-Å coverage for the unit-sanity gate (the ×10 /
+    ×10000 catch); ``None`` skips the gate for multi-regime instruments."""
+    native_unit: str          # 'A' | 'nm' | 'um'
+    native_scale: str         # 'air' | 'vacuum'
+    citation: str
+    band_A: Optional[tuple] = None     # (lo, hi) air-Å, or None
+    band_ref: str = ''
+
+
+# instrument id (as the loader reports it) -> CITED convention. Unknown -> RAISE.
+# VERIFIED 2026-06 against each instrument's DRS/pipeline doc (sources inline). The
+# RYA-264 starting-hypothesis table was a guess to confirm, NOT authority — ESPRESSO
+# (vacuum, not air) and NIRPS (vacuum) corrected from it on verification.
+WAVELENGTH_CONVENTION: dict[str, WavelengthConvention] = {
+    'HARPS': WavelengthConvention(
+        'A', 'air', "ESO HARPS DRS User Manual (3M6-MAN-HAR-33110-0016): wavelengths "
+        "in air, Solar-System barycentric rest frame",
+        (3780.0, 6910.0), "HARPS 378–691 nm (Mayor et al. 2003 Msngr 114,20)"),
+    'HARPS-N': WavelengthConvention(
+        'A', 'air', "HARPS-N DRS (TNG; same DRS lineage as HARPS) — air, barycentric",
+        (3830.0, 6930.0), "HARPS-N 383–693 nm (Cosentino et al. 2012 SPIE 8446)"),
+    'UVES': WavelengthConvention(
+        'A', 'air', "ESO UVES Phase-3 SDP: TUCD1=em.wl;obs.atmos ⇒ air (RYA-271 audit "
+        "confirmed empirically)",
+        (3000.0, 11000.0), "UVES 300–1100 nm (Dekker et al. 2000 SPIE 4008); matches "
+        "uves_loader guard band"),
+    'ESPRESSO': WavelengthConvention(
+        'A', 'vacuum', "ESPRESSO DRS: native VACUUM, barycentric; an air WAVE_MATRIX "
+        "extension is also provided — a loader may prefer that air extension (verified "
+        "2026-06; corrects the RYA-264 'air' hypothesis)",
+        (3780.0, 7880.0), "ESPRESSO 378–788 nm (Pepe et al. 2021 A&A 645,A96)"),
+    'NIRPS': WavelengthConvention(
+        'A', 'vacuum', "NIRPS-DRS (adapted from the ESPRESSO DRS ⇒ vacuum), BERV-applied; "
+        "Mercier et al. 2025 A&A 700,A8 (arXiv:2507.21290). The α Cen S1D ADP carries a "
+        "WAVE_AIR column — the loader PREFERS WAVE_AIR where present (RYA-481 NIRPS comment)",
+        (9724.0, 19196.0), "NIRPS 972.4–1919.6 nm (Mercier et al. 2025)"),
+    'SPIRou': WavelengthConvention(
+        'nm', 'vacuum', "APERO (Cook et al. 2022 PASP 134,114509): vacuum nm. The vac→air "
+        "conversion was declared OWED by the RYA-481 SPIRou wiring and is delivered here",
+        (9558.0, 25158.0), "SPIRou 0.98–2.35 µm; APERO-extracted 955.8–2515.8 nm "
+        "(Donati et al. 2020 MNRAS 498,5684); matches spirou_loader coverage"),
+    'CRIRES+': WavelengthConvention(
+        'nm', 'vacuum', "ESO cr2res pipeline: nm, vacuum (RYA-480 CRIRES nm→Å, "
+        "TOPOCENT→bary). INSTRUME header is 'CRIRES'",
+        None, "CRIRES+ 0.95–5.3 µm across settings — band per-setting, gate deferred"),
+    'STIS': WavelengthConvention(
+        'A', 'vacuum', "HST STIS Instrument Handbook: UV/optical wavelengths are vacuum "
+        "(RYA-303/426; the FUV-stays-vacuum boundary at 2000 Å)",
+        None, "STIS spans FUV→optical (multi-regime) — gate deferred to per-grating"),
+    'COS': WavelengthConvention(
+        'A', 'vacuum', "HST COS Instrument Handbook: vacuum wavelengths",
+        None, "COS FUV/NUV (multi-segment) — gate deferred"),
+    'APOGEE': WavelengthConvention(
+        'A', 'vacuum', "SDSS APOGEE: vacuum Å (Nidever et al. 2015 AJ 150,173; "
+        "Holtzman et al. 2015 AJ 150,148)",
+        (15100.0, 17000.0), "APOGEE H-band 1.51–1.70 µm (Wilson et al. 2019 PASP 131,055001)"),
+    'iSHELL': WavelengthConvention(
+        'um', 'vacuum', "IRTF iSHELL / Spextool: µm, vacuum (Rayner et al. 2016 SPIE 9908; "
+        "Cushing et al. 2004 PASP 116,362)",
+        None, "iSHELL 1.06–5.3 µm across modes — gate deferred"),
+}
+
+
+def wavelength_convention(instrument: str, *, exc: type = FrameContractError) -> WavelengthConvention:
+    """Return the CITED wavelength convention for an instrument, raising on an
+    undeclared one rather than guessing unit/scale (RYA-264 §C). No default."""
+    if instrument not in WAVELENGTH_CONVENTION:
+        raise exc(
+            f"[LOUD] wavelength convention undeclared for instrument {instrument!r} — no "
+            f"default unit/scale (RYA-264). Add a CITED entry to WAVELENGTH_CONVENTION "
+            f"(verify against its DRS doc) before loading. Known: {sorted(WAVELENGTH_CONVENTION)}.")
+    return WAVELENGTH_CONVENTION[instrument]
+
+
+def _band_gate(w: np.ndarray, conv: WavelengthConvention, instrument: str, exc: type) -> None:
+    """Unit-sanity gate: catch a ×10 / ×10000 unit mismatch (the RYA-263 zero class).
+    Skipped when the convention declares no band."""
+    if conv.band_A is None:
+        return
+    finite = w[np.isfinite(w)]
+    if finite.size == 0:
+        raise exc(f"[LOUD] {instrument}: all wavelengths non-finite after conversion.")
+    lo, hi = conv.band_A
+    wmin, wmax = float(finite.min()), float(finite.max())
+    if not (lo * 0.9 <= wmin and wmax <= hi * 1.1):
+        raise exc(
+            f"[LOUD] {instrument} wavelengths {wmin:.1f}–{wmax:.1f} Å outside the plausible "
+            f"air band {lo:.0f}–{hi:.0f} Å ({conv.band_ref}) — unit mismatch (nm/µm read as "
+            f"Å)? Refusing to proceed on ×10/×10000-off wavelengths (RYA-264 §C; RYA-263).")
+
+
+def to_air_angstrom(wave, instrument: str, *, header=None, exc: type = FrameContractError) -> np.ndarray:
+    """Convert a native instrument wavelength grid to the pipeline frame (air Å) from
+    the CITED per-instrument convention: native unit → Å, then vacuum → air (the ONE
+    shared Birch & Downs converter), then the unit-sanity band gate. Raises on an
+    undeclared instrument or a band-gate failure — never a silent default or a ×10-off
+    array. ``header`` is accepted for forward use (e.g. a per-product WAVUNIT/scale
+    keyword); the DRS-provided air-column shortcut (NIRPS WAVE_AIR / ESPRESSO air ext)
+    is a loader choice expressed via ``WavelengthScale(provided_air=True)``."""
+    conv = wavelength_convention(instrument, exc=exc)
+    w = np.asarray(wave, dtype=float) * _UNIT_TO_ANGSTROM[conv.native_unit]
+    if conv.native_scale == 'vacuum':
+        w = vac_to_air(w)                       # single shared SSOT impl (RYA-264/426)
+    elif conv.native_scale != 'air':
+        raise exc(f"[LOUD] unknown native scale {conv.native_scale!r} for {instrument}.")
+    _band_gate(w, conv, instrument, exc)
+    return w
+
+
+@dataclass(frozen=True)
+class WavelengthScale:
+    """A loader's explicit declaration of the wavelength scale it converted from —
+    the §C analogue of ``VelocityFrame``. Stamp ``.declare()`` into
+    ``meta['wavelength_scale']`` so every spectrum carries its scale provenance; call
+    ``.validate()`` to cross-check the declared native unit/scale against the CITED
+    registry (a loader claiming the wrong convention fails loud); use
+    ``.to_air_angstrom(wave)`` to perform the conversion the same way every time."""
+    instrument: str
+    native_unit: str            # 'A' | 'nm' | 'um'
+    native_scale: str           # 'air' | 'vacuum'
+    provided_air: bool = False  # loader read a DRS-provided air column (no vac→air needed)
+    note: str = ''
+
+    def __post_init__(self):
+        if self.native_unit not in _UNIT_TO_ANGSTROM:
+            raise FrameContractError(
+                f"native_unit={self.native_unit!r} must be one of {sorted(_UNIT_TO_ANGSTROM)}.")
+        if self.native_scale not in _NATIVE_SCALES:
+            raise FrameContractError(
+                f"native_scale={self.native_scale!r} must be one of {_NATIVE_SCALES}.")
+
+    def validate(self) -> 'WavelengthScale':
+        """Raise if the declared native unit/scale contradicts the CITED registry for
+        this instrument (a loader must not silently disagree with the documented
+        convention). Returns self so it chains."""
+        conv = wavelength_convention(self.instrument)
+        if (self.native_unit, self.native_scale) != (conv.native_unit, conv.native_scale):
+            raise FrameContractError(
+                f"[LOUD] {self.instrument}: loader declares native "
+                f"{self.native_unit}/{self.native_scale} but the cited convention is "
+                f"{conv.native_unit}/{conv.native_scale} ({conv.citation}). Resolve the "
+                f"disagreement — do not load on a contradicted scale (RYA-264 §C).")
+        return self
+
+    def to_air_angstrom(self, wave, *, header=None, exc: type = FrameContractError) -> np.ndarray:
+        """Convert ``wave`` to air Å. If ``provided_air`` (the loader read a DRS air
+        column, e.g. NIRPS WAVE_AIR), only the unit factor + band gate are applied —
+        the vacuum→air step is skipped because the DRS already did it."""
+        if self.provided_air:
+            conv = wavelength_convention(self.instrument, exc=exc)
+            w = np.asarray(wave, dtype=float) * _UNIT_TO_ANGSTROM[self.native_unit]
+            _band_gate(w, conv, self.instrument, exc)
+            return w
+        return to_air_angstrom(wave, self.instrument, header=header, exc=exc)
+
+    def declare(self) -> str:
+        """One-line human declaration for ``meta`` / docstrings."""
+        path = (f"DRS-provided air column (no vac→air)" if self.provided_air
+                else (f"{self.native_scale}→air" if self.native_scale == 'vacuum' else 'air (no conversion)'))
+        unit = '' if self.native_unit == 'A' else f"{self.native_unit}→Å; "
+        return (f"{self.instrument}: native {self.native_unit}/{self.native_scale} → air Å; "
+                f"{unit}{path}{' — ' + self.note if self.note else ''}")
+
+
+def verify_vac_to_air(known_vac_A: float, known_air_A: float, *, tol_A: float = 0.01,
+                      context: str = '', exc: type = FrameContractError) -> float:
+    """Scale-axis sign-check (the §C analogue of ``verify_line_position``): confirm the
+    shared vac→air converter sends a KNOWN vacuum line to its tabulated air rest
+    wavelength (e.g. Mg II k 2796.3543 vac → 2795.528 air). Returns the residual in Å;
+    raises if it exceeds ``tol_A`` — a wrong sign or wrong formula shows up here as a
+    fixed offset, the deterministic data-free counterpart to the BERV sign-check."""
+    got = float(vac_to_air(np.array([known_vac_A]))[0])
+    resid = got - known_air_A
+    if abs(resid) > tol_A:
+        raise exc(
+            f"{context}vac→air check failed: {known_vac_A} Å(vac) → {got:.4f} Å, expected "
+            f"{known_air_A} Å(air) (residual {resid:+.4f} Å > {tol_A} Å). The shared "
+            f"converter is wrong or mis-applied (RYA-264 §C).")
+    return resid
