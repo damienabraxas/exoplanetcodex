@@ -2,17 +2,19 @@
 
 Read-only audit of all VALD assets under `data/linelists/`.
 Regenerate: `python scripts/audit_vald_inventory_rya376.py`
-→ `assets.csv`, `coverage_matrix.csv`, `ir_triage.csv`, `groupA_depth_confirm.csv`.
+→ `assets.csv`, `coverage_matrix.csv`, `ir_triage.csv`, `non_canonical_holdings.csv`, `groupA_depth_confirm.csv`.
 Bands (air Å): optical <9500 · Y 9500–11000 · J 11000–14000 · H 14000–18000 · K 18000–25000.
 
-> **Re-baselined 2026-06-30.** The original audit (cb43ef4, 2026-06-20) reported
-> *NEAR-IR EXTRACTION NEEDED (solar)*. Since then **RYA-381** (assemble non-optical
-> solar VALD → `linelist_solar` 1150–25000 Å) and **RYA-387** (re-extract the solar
-> wings at central-depth 0.001, HFS-on) **closed that gap**. This re-run reflects the
-> current holdings AND adds the ticket's two new deliverables: the **27-element IR
-> triage** (IR-PRIMARY / IR-CROSSCHECK / IR-NONE) and the **Group-A depth confirmation**.
+> **Re-baselined 2026-06-30, corrected per the 16:26 review.** The original audit
+> (cb43ef4, 2026-06-20) reported *NEAR-IR EXTRACTION NEEDED (solar)*. Since then
+> **RYA-381** (assemble non-optical solar VALD → `linelist_solar` 1150–25000 Å) and
+> **RYA-387** (re-extract the solar wings at central-depth 0.001, HFS-on) **closed that
+> gap**. This run reflects current holdings AND adds the two new deliverables: the
+> **canonical-27 IR triage** (IR-PRIMARY / IR-CROSSCHECK / IR-NONE) and the **Group-A
+> depth confirmation**. The triage now runs over the **canonical 27 species (Fe I + Fe II
+> separate, no Zn)** — see the RCA below for the earlier miscount.
 
-## Headline verdict — NEAR-IR READY (solar), HFS-on, full Y/J/H/K to 2.5 µm
+## Headline verdict — NEAR-IR READY-to-MEASURE (solar), HFS-on, full Y/J/H/K to 2.5 µm
 
 - **Solar now holds the complete near-IR atomic list, HFS-on.** `linelist_solar.csv`
   spans **1150–24998 Å** (354,496 lines) with **NIR Y/J/H/K = 3600 / 4966 / 10207 / 7988**,
@@ -23,39 +25,69 @@ Bands (air Å): optical <9500 · Y 9500–11000 · J 11000–14000 · H 14000–
   not VALD atomic; VALD-NIR validates the *atomic* diagnostics beyond CO.)
 - **Y/J/H (0.95–1.80 µm) HFS-on atomic data is also held** for **55 Cnc A, α Cen A,
   α Cen B** (per-star lists to 1.70 µm) and **Procyon to 1.10 µm (Y only)**.
-- **Residual extraction items remain (see below):** 55 Cnc **K-band** is still
-  quarantine-grade (HFS-off, defect 1); **Procyon** is Y-only (no J/H/K); and the
-  **single-source gf table is optical-only** (defect 2) so NIR gf is unguarded.
+- **⚠️ READY = lines present + HFS-on, i.e. ready to MEASURE, NOT ready to TRUST.**
+  `canonical_gf.csv` (the RYA-353 single-source gf table) **stops at 9199 Å**, so **all
+  NIR gf is UNGUARDED** — outside the RYA-355 single-source CI check (defect 2). **Production
+  synthesis-grade NIR abundances are gated on RYA-379** extending the gf-guard past 9199 Å.
+  Read READY as *ready to measure*, conditional on RYA-379 — not unconditional.
+- **Other residual extraction items:** 55 Cnc **K-band** is still quarantine-grade
+  (HFS-off, defect 1); **Procyon** is Y-only (no J/H/K).
 
-## 27-element IR triage (IR-PRIMARY / IR-CROSSCHECK / IR-NONE)
+## Canonical-27 IR triage (IR-PRIMARY / IR-CROSSCHECK / IR-NONE)
 
-Each target element tagged by the VALUE the IR adds, then CONFIRMED against actual
-holdings (full table: `ir_triage.csv`). All Group-A/B elements have NIR coverage held;
-Group-C heavies are barren or low-value in the IR — confirming they belong to the
-UV/near-blue leg, not the IR extraction.
+Triage runs over the **canonical 27 species (RYA-109)** — 26 distinct elements with
+**Fe I and Fe II counted SEPARATELY** = 27 species; **there is no Zn**. Each species tagged
+by the VALUE the IR adds, then CONFIRMED against actual NIR holdings + line counts (full
+table: `ir_triage.csv`).
 
-| group | tag | elements | confirmation |
+| group | tag | species (count) | confirmation |
 |---|---|---|---|
-| **A** | **IR-PRIMARY** | C, N, O, S, P, K, Na, Mg, Al | all CONFIRMED — NIR held + diagnostics present (below) |
-| **B** | **IR-CROSSCHECK** | Si, Ca, Ti, Cr, Mn, V, Co, Ni, Sc, Cu, **Fe**, **Zn** | all CONFIRMED — NIR held; optical owns value |
-| **C** | **IR-NONE** | Ba, Y, Zr, Sr, Eu, Li | CONFIRMED — IR barren/low-value → UV/near-blue leg |
+| **A** | **IR-PRIMARY** | C, N, O, S, P, K, Na, Mg, Al (9) | all CONFIRMED — NIR held + diagnostics present (below) |
+| **B** | **IR-CROSSCHECK** | Si, Ca, Ti, Cr, Mn, V, Co, Ni, Sc, Cu, **Fe I**, **Fe II** (12) | all NIR-held; optical owns value |
+| **C** | **IR-NONE** | Ba, Y, Zr, Sr, Eu, Li (6) | IR barren/low-value → UV/near-blue leg |
 
 - **IR-PRIMARY (Group A) — IR is a new or best channel.** S I 1.045 µm ≫ the lone
   weak optical S I 6757 (RYA-488); P I 1.05 µm is essentially the ONLY real P channel;
   K I 1.17 µm sidesteps the O₂ A-band telluric on optical 7699; Na/Mg/Al near-IR
   subordinate lines are UNSATURATED where the optical resonance lines saturate (the
   RYA-465 problem); C/N/O flagship (C I near-IR, N I red + NH, O I 777 + OH).
-- **IR-CROSSCHECK (Group B) — optical owns the value, IR confirms.** Deliberate
-  exception **Fe = the IR SIGMA RULER**: Fe carries **7581 NIR lines — by far the most
-  of any atomic element** (H-band alone 2968, of which 845 with central depth >0.05),
-  so it is the right element to characterize the IR scatter/systematic, then apply that
-  to the sparse-line CNOPS measurements. **Zn is the 27th element, not named in the
-  ticket triage** → classified IR-CROSSCHECK (optical Zn I 4722/4810/6362 owns the
-  value; IR lines are subordinate).
+- **IR-CROSSCHECK (Group B) — optical owns the value, IR confirms.**
+  - **Fe I = the IR SIGMA RULER**: **7454 solar NIR lines — by far the most of any
+    species** (H-band alone 2911, of which 1552 with central depth >0.05), so it is the
+    right species to characterize the IR scatter/systematic, then apply that to the
+    sparse-line CNOPS measurements.
+  - **Fe II = SPARSE in the IR** (a UV/blue species): only **127 solar NIR lines** and
+    just **2 with depth >0.05**. Honest result — **cross-check only where IR Fe II lines
+    exist; the real Fe II measurement (and the ionization balance) stays in the blue legs.**
+    The sparseness is itself the finding, not a gap to paper over.
 - **IR-NONE (Group C) — IR does not help.** The neutron-capture heavies (Ba, Y, Zr,
   Sr, Eu) live in the blue/near-UV as ionized lines; the few NIR lines the solar list
-  carries for them are sparse/weak (`nir_held` true but low-value). Li stays optical
+  carries for them are sparse/weak (Ba 4, Eu 7, Sr 9, Y 27, Zr 3; Li 0). Li stays optical
   (6707). Group C confirms the UVES Ceres NUV leg is where the heavies belong.
+
+## Zn and the non-canonical universe (noted-only, NOT triaged)
+
+`non_canonical_holdings.csv` lists **48 non-canonical atomic species present in the solar
+holdings** — **Zn** (56 lines, 8 NIR) plus the lanthanide/heavy universe the VALD pull
+returns (Nb 7491, Ce 5873, Pr 5776, Ta 5654, La 3662, …). The **canon criterion (RYA-109)**:
+a species earns a slot only if it is an **alpha element, CNO, bio-significant, or a metal of
+interest**. Zn clears none → **noted-only, not added; no change to RYA-109.** Zn is not
+special — it was simply the species grabbed to backfill the count in the earlier run (RCA).
+
+## RCA — why the earlier triage miscounted (27 = A9 + B10 + Fe + Zn)
+
+The 15:42 run presented 27 entries as A(9) + B(10 + Fe + **Zn**) + C(6). **Root cause: the
+two iron species Fe I and Fe II were collapsed into a single element-keyed "Fe."** The audit
+script keyed the triage on the `element` symbol (`'Fe'`), not on species, so Fe I + Fe II
+became one row → the set fell to **26**. To reach the expected 27, **Zn was pulled from the
+non-canonical universe to backfill** — a silent reconciliation that *looked* right (27) while
+being wrong on membership. Two compounding habits: (1) element-symbol keys erased the
+Fe I/Fe II distinction that the data carries explicitly (`ion` column: 7454 vs 127 NIR lines);
+(2) "make the count equal 27" was satisfied by adding any present species rather than by
+checking against the canonical list (RYA-109). **Fix applied:** triage is now species-keyed
+(`'Fe I'`/`'Fe II'`), validated against the canonical 27, with a regression test asserting
+Fe I + Fe II present and Zn absent. **Guard for the Procyon / α Cen / 55 Cnc triages:** key on
+species and validate against RYA-109 — never let the count reconcile by backfilling.
 
 ## Group-A IR diagnostic depth confirmation (held solar list)
 
@@ -138,7 +170,9 @@ silent server-side cap on future large extractions.
    **All NIR gf is outside the single-source table** and outside the RYA-355 stewardship
    guard — now more pressing because the solar NIR list is in active use. Divergent-gf
    instance: the same NIR transition carries different `log_gf` HFS-on (per-star/solar
-   lists) vs HFS-off (`linelist_full`) — an un-reconciled duplication.
+   lists) vs HFS-off (`linelist_full`) — an un-reconciled duplication. **This is the gate on
+   the READY verdict: ready to MEASURE, not to TRUST — production NIR abundances wait on
+   RYA-379 extending the gf-guard past 9199 Å.**
 
 ## Residual extraction NEEDED (hand to RYA-427), per the codex-vald-extraction recipe
 
@@ -154,8 +188,9 @@ silent server-side cap on future large extractions.
 Confirmed against actual holdings + line depth: **Group A reach is real** — every named
 IR-PRIMARY diagnostic (S I 1.045, P I 1.05, K I 1.17, C I near-IR, O I, Mg I 1.57,
 Al I 1.67) is present in the held solar list with sane depth. **Group C belongs on the
-UV/near-blue leg** — the heavies are barren/low-value in the IR. **Fe is the IR sigma
-ruler** (7581 NIR lines). The 27th element **Zn** (unlisted in the ticket) is tagged
-IR-CROSSCHECK.
+UV/near-blue leg** — the heavies are barren/low-value in the IR. **Fe I is the IR sigma
+ruler** (7454 NIR lines); **Fe II is sparse in the IR** (127 NIR lines, cross-check only —
+real Fe II stays in the blue legs). The canonical set is the **27 species (Fe I + Fe II
+separate, no Zn)**; **Zn is non-canonical, noted-only** (clears no RYA-109 criterion).
 
 *Audit only — no merge.*
