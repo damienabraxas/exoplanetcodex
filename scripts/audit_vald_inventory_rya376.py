@@ -39,6 +39,76 @@ VALD_WEB_CAP = 100000
 BANDS = [('optical', 3000, 9500), ('Y', 9500, 11000), ('J', 11000, 14000),
          ('H', 14000, 18000), ('K', 18000, 25000)]
 
+# ── Canonical-27 IR triage (re-baselined 2026-06-30; corrected per the 16:26 comment) ─
+# Tag every CANONICAL species by the VALUE the IR adds, so the downstream extraction
+# scope (RYA-427) is driven by value and the IR-vs-UV/near-blue leg split is explicit.
+#   IR-PRIMARY    Group A — IR is a new or best channel (extraction priority)
+#   IR-CROSSCHECK Group B — optical owns the value; IR confirms (Fe I = the IR sigma ruler)
+#   IR-NONE       Group C — IR does not help; species argues for the UV/near-blue leg
+#
+# CANONICAL 27 (RYA-109): 26 distinct elements with Fe counted as TWO species, Fe I AND
+# Fe II, = 27 species. There is NO Zn. (The earlier run collapsed Fe I+Fe II into one
+# "Fe" → 26, then backfilled Zn to reach 27 — a silent miscount; see verdicts.md RCA.)
+# Keys are species labels ("Fe I"/"Fe II"); all others are mono-ion at the canonical level.
+# Tags are CONFIRMED against actual holdings + line counts below — not assumed.
+IR_TRIAGE = {
+    # Group A — IR-PRIMARY
+    'C':  ('A', 'IR-PRIMARY',    'C I near-IR multiplets (flagship)'),
+    'N':  ('A', 'IR-PRIMARY',    'N I red + NH (flagship)'),
+    'O':  ('A', 'IR-PRIMARY',    'O I 777 triplet + OH (flagship)'),
+    'S':  ('A', 'IR-PRIMARY',    'S I 1.045 um >> lone weak optical S I 6757 (RYA-488)'),
+    'P':  ('A', 'IR-PRIMARY',    'P I 1.05 um is essentially the ONLY real P channel'),
+    'K':  ('A', 'IR-PRIMARY',    'K I 1.17 um sidesteps the O2 A-band telluric on optical 7699'),
+    'Na': ('A', 'IR-PRIMARY',    'near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)'),
+    'Mg': ('A', 'IR-PRIMARY',    'near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)'),
+    'Al': ('A', 'IR-PRIMARY',    'near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)'),
+    # Group B — IR-CROSSCHECK (optical owns the value)
+    'Si':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Ca':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Ti':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Cr':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Mn':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'V':     ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Co':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Ni':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Sc':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Cu':    ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Fe I':  ('B', 'IR-CROSSCHECK', 'IR SIGMA RULER — most IR lines by far; characterize IR scatter on Fe I, apply to sparse CNOPS'),
+    'Fe II': ('B', 'IR-CROSSCHECK', 'SPARSE in IR (UV/blue species) — cross-check only where IR Fe II lines exist; real Fe II measurement stays in the blue legs'),
+    # Group C — IR-NONE (argue for the UV/near-blue leg, not IR)
+    'Ba': ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Y':  ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Zr': ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Sr': ('C', 'IR-NONE',       'neutron-capture heavy; blue Sr II doublet (RYA-428/433), IR barren'),
+    'Eu': ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Li': ('C', 'IR-NONE',       'stays optical (Li I 6707)'),
+}
+
+# Zn is NOT canonical (RYA-109). The canon criterion: a species earns a slot only if it is
+# an alpha element, CNO, bio-significant, or a metal of interest. Zn clears none → noted-only,
+# never added. It is one of ~48 non-canonical atomic species the solar VALD pull returned
+# (Nb, Ce, Pr, La, ... lanthanides/heavies); reported separately by non_canonical_report().
+
+# Named Group-A IR diagnostics to CONFIRM (reach + depth) against held solar data.
+# (element, ion, target air-Å, band, channel label). OH/NH/CO are MOLECULAR — not in
+# the VALD atomic list — so they are reported separately, not looked up here.
+GROUP_A_DIAGNOSTICS = [
+    ('S', 'I', 10455.45, 'Y', 'S I 1.045 um triplet'),
+    ('S', 'I', 10456.76, 'Y', 'S I 1.045 um triplet'),
+    ('S', 'I', 10459.41, 'Y', 'S I 1.045 um triplet'),
+    ('P', 'I', 10511.59, 'Y', 'P I 1.05 um quartet'),
+    ('P', 'I', 10529.52, 'Y', 'P I 1.05 um quartet'),
+    ('P', 'I', 10581.58, 'Y', 'P I 1.05 um quartet'),
+    ('P', 'I', 10596.90, 'Y', 'P I 1.05 um quartet'),
+    ('K', 'I', 11690.22, 'J', 'K I 1.17 um doublet'),
+    ('K', 'I', 11769.64, 'J', 'K I 1.17 um doublet'),
+    ('C', 'I', 10691.25, 'Y', 'C I near-IR'),
+    ('O', 'I', 7771.94,  'optical', 'O I 777 triplet'),
+    ('O', 'I', 11302.38, 'J', 'O I near-IR'),
+    ('Mg', 'I', 15740.71, 'H', 'Mg I 1.57 um (unsaturated subordinate)'),
+    ('Al', 'I', 16718.96, 'H', 'Al I 1.67 um (unsaturated subordinate)'),
+]
+
 
 def band_of(wl_A: float) -> str:
     for name, lo, hi in BANDS:
@@ -116,7 +186,7 @@ def scan_csv(path: Path) -> dict:
     wcol = 'wavelength_air_A' if 'wavelength_air_A' in cols else None
     if wcol is None:
         return {'asset': path.name, 'type': 'assembled', 'verdict': 'SKIP (no wl column)'}
-    usecols = [c for c in (wcol, 'element', 'loggf_source', 'loggf_reference') if c in cols]
+    usecols = [c for c in (wcol, 'element', 'ion', 'loggf_source', 'loggf_reference') if c in cols]
     df = pd.read_csv(path, usecols=usecols, comment='#')
     df[wcol] = pd.to_numeric(df[wcol], errors='coerce')
     df = df.dropna(subset=[wcol])
@@ -168,6 +238,129 @@ def coverage_matrix(csv_assets: dict, targets: list) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# Canonical 26 element SYMBOLS (RYA-109); Fe expands to Fe I + Fe II → 27 species.
+CANONICAL_SYMBOLS = {'Fe', 'C', 'O', 'N', 'Mg', 'Si', 'S', 'Ca', 'Ti', 'Co', 'Ni', 'Na',
+                     'Al', 'K', 'P', 'Ba', 'Y', 'Eu', 'Mn', 'Cr', 'V', 'Sc', 'Cu', 'Zr',
+                     'Li', 'Sr'}
+# Molecular species the VALD pull carries — excluded from the non-canonical ATOMIC report.
+MOLECULES = {'CN', 'CO', 'CH', 'OH', 'NH', 'C2', 'MgH', 'SiH', 'TiO', 'CaH', 'FeH', 'ZrO',
+             'VO', 'H'}
+
+
+def _parse_species(key: str):
+    """'Fe I' → ('Fe','I'); 'C' → ('C', None)."""
+    if ' ' in key:
+        el, ion = key.split(' ', 1)
+        return el, ion
+    return key, None
+
+
+def _solar_species_nir():
+    """Per-species NIR (≥9500 Å) line counts from the held solar list (the readiness
+    reference). Returns {(element, ion_or_None): nir_count}; also element-level totals."""
+    path = LL / 'linelist_solar.csv'
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path, comment='#', low_memory=False,
+                     usecols=['element', 'ion', 'wavelength_air_A'])
+    df['wavelength_air_A'] = pd.to_numeric(df['wavelength_air_A'], errors='coerce')
+    nir = df[df['wavelength_air_A'] >= 9500]
+    counts = {}
+    for (el, ion), n in nir.groupby(['element', 'ion']).size().items():
+        counts[(el, ion)] = int(n)
+        counts[(el, None)] = counts.get((el, None), 0) + int(n)   # element-level total
+    return counts
+
+
+def ir_triage_table(csv_assets: dict) -> pd.DataFrame:
+    """Tag each CANONICAL species IR-PRIMARY / IR-CROSSCHECK / IR-NONE and CONFIRM the tag
+    against actual NIR holdings — ion-aware, so Fe I and Fe II are scored separately."""
+    solar_nir = _solar_species_nir()
+    rows = []
+    for key, (group, tag, why) in IR_TRIAGE.items():
+        el, ion = _parse_species(key)
+        # held = any assembled asset carries an NIR (Y..K) line for this species (ion-aware)
+        nir = False
+        for a in csv_assets.values():
+            df = a.get('_df')
+            if df is None or 'element' not in df:
+                continue
+            sub = df[df['element'] == el]
+            if ion is not None and 'ion' in df.columns:
+                sub = sub[sub['ion'] == ion]
+            if len(sub[(sub['wl'] >= 9500) & (sub['wl'] < 25000)]):
+                nir = True
+                break
+        n_solar = solar_nir.get((el, ion), 0)
+        if group in ('A', 'B'):
+            confirm = (f'CONFIRMED (NIR held; {n_solar} solar NIR lines)' if nir
+                       else 'GAP (tag says IR but NO NIR held)')
+        else:
+            confirm = ('CONFIRMED (IR barren → UV/blue leg)' if not nir
+                       else f'sparse/low-value ({n_solar} solar NIR lines) → UV/blue leg')
+        rows.append({'species': key, 'element': el, 'ion': ion or '', 'group': group,
+                     'tag': tag, 'nir_held': nir, 'solar_nir_lines': n_solar,
+                     'confirm': confirm, 'rationale': why})
+    order = {'A': 0, 'B': 1, 'C': 2}
+    df = pd.DataFrame(rows)
+    return df.sort_values(['group', 'species'],
+                          key=lambda s: s.map(order) if s.name == 'group' else s)
+
+
+def non_canonical_report() -> pd.DataFrame:
+    """Atomic species PRESENT in the held solar list but NOT in the canonical 27 (RYA-109).
+    Zn is the headline case (it was wrongly backfilled into the canonical triage); it sits
+    among ~dozens of lanthanide/heavy species the VALD pull returns. Noted-only — the canon
+    criterion (alpha / CNO / bio-significant / metal of interest) admits none of them."""
+    path = LL / 'linelist_solar.csv'
+    if not path.exists():
+        return pd.DataFrame([{'note': 'linelist_solar.csv absent'}])
+    df = pd.read_csv(path, comment='#', low_memory=False,
+                     usecols=['element', 'wavelength_air_A'])
+    df['wavelength_air_A'] = pd.to_numeric(df['wavelength_air_A'], errors='coerce')
+    nir = df[df['wavelength_air_A'] >= 9500]
+    rows = []
+    for el in df['element'].dropna().unique():
+        if el in CANONICAL_SYMBOLS or el in MOLECULES:
+            continue
+        rows.append({'element': el, 'total_lines': int((df['element'] == el).sum()),
+                     'nir_lines': int((nir['element'] == el).sum()),
+                     'canonical': False,
+                     'note': 'Zn: real but non-canonical — clears no canon criterion'
+                             if el == 'Zn' else 'non-canonical (lanthanide/heavy)'})
+    out = pd.DataFrame(rows).sort_values('total_lines', ascending=False)
+    return out
+
+
+def groupA_depth_confirm() -> pd.DataFrame:
+    """Confirm the named Group-A IR diagnostics exist with sane depth in the held solar
+    list (linelist_solar.csv). Reach + depth come from the data, never from memory."""
+    path = LL / 'linelist_solar.csv'
+    if not path.exists():
+        return pd.DataFrame([{'note': 'linelist_solar.csv absent'}])
+    df = pd.read_csv(path, comment='#', low_memory=False,
+                     usecols=['element', 'ion', 'wavelength_air_A', 'log_gf', 'central_depth'])
+    df['wavelength_air_A'] = pd.to_numeric(df['wavelength_air_A'], errors='coerce')
+    df['central_depth'] = pd.to_numeric(df['central_depth'], errors='coerce')
+    rows = []
+    for el, ion, wl, band, label in GROUP_A_DIAGNOSTICS:
+        sub = df[(df['element'] == el) & (df['ion'] == ion)
+                 & (df['wavelength_air_A'].between(wl - 0.6, wl + 0.6))]
+        if len(sub):
+            # HFS-split features deliver many components at one wl — take the deepest.
+            best = sub.loc[sub['central_depth'].idxmax()]
+            rows.append({'diagnostic': label, 'species': f'{el} {ion}', 'target_A': wl,
+                         'band': band, 'covered': True,
+                         'matched_A': round(float(best['wavelength_air_A']), 3),
+                         'n_components': len(sub),
+                         'max_central_depth': round(float(best['central_depth']), 3)})
+        else:
+            rows.append({'diagnostic': label, 'species': f'{el} {ion}', 'target_A': wl,
+                         'band': band, 'covered': False, 'matched_A': np.nan,
+                         'n_components': 0, 'max_central_depth': np.nan})
+    return pd.DataFrame(rows)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     targets = ['C', 'N', 'O', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'K', 'Ca', 'Sc', 'Ti',
@@ -198,6 +391,15 @@ def main():
     matrix = coverage_matrix(csv_assets, targets)
     matrix.to_csv(OUT / 'coverage_matrix.csv', index=False)
 
+    triage = ir_triage_table(csv_assets)
+    triage.to_csv(OUT / 'ir_triage.csv', index=False)
+
+    noncanon = non_canonical_report()
+    noncanon.to_csv(OUT / 'non_canonical_holdings.csv', index=False)
+
+    depth = groupA_depth_confirm()
+    depth.to_csv(OUT / 'groupA_depth_confirm.csv', index=False)
+
     # ── Console report ────────────────────────────────────────────────────────
     pd.set_option('display.width', 200, 'display.max_columns', 40, 'display.max_colwidth', 28)
     print("\n================ RAW VALD DELIVERIES ================")
@@ -212,6 +414,17 @@ def main():
 
     print("\n================ COVERAGE MATRIX (element × band, assembled assets) ================")
     print(matrix.to_string(index=False))
+
+    print("\n================ CANONICAL-27 IR TRIAGE (species × tag × confirmation) ================")
+    print(f"  {len(triage)} canonical species (RYA-109: 26 elements, Fe I + Fe II separate; no Zn)")
+    print(triage[['species', 'group', 'tag', 'nir_held', 'solar_nir_lines', 'confirm']].to_string(index=False))
+
+    print("\n================ NON-CANONICAL ATOMIC HOLDINGS (noted-only, NOT triaged) ================")
+    print(noncanon.head(12).to_string(index=False))
+    print(f"  ... {len(noncanon)} non-canonical atomic species total (Zn among them).")
+
+    print("\n================ GROUP-A IR DIAGNOSTIC DEPTH CONFIRM (held solar list) ================")
+    print(depth.to_string(index=False))
 
     # Near-IR readiness headline
     nir_csv = [a for a in csv_assets.values()
