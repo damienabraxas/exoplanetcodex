@@ -1,0 +1,88 @@
+{
+  "ticket": "RYA-485/486 solar CNO redo",
+  "validate_dont_tune": true,
+  "banked_371": {
+    "C": 8.491,
+    "N": 8.202,
+    "O": 8.735,
+    "S": 7.753
+  },
+  "asplund_comparison_only": {
+    "C": 8.46,
+    "N": 7.83,
+    "O": 8.69,
+    "S": 7.12
+  },
+  "oi777_swap_test": {
+    "per_reference": [
+      {
+        "reference": "kurucz_kpno",
+        "a_lte": 8.907,
+        "chi2r": 48.7,
+        "a_nlte_3d": 8.736,
+        "a_nlte_1d": 8.755
+      },
+      {
+        "reference": "reiners_iag",
+        "a_lte": 8.921,
+        "chi2r": 58.3,
+        "a_nlte_3d": 8.75,
+        "a_nlte_1d": 8.768
+      },
+      {
+        "reference": "baker_iag_tel",
+        "a_lte": 8.915,
+        "chi2r": 54.7,
+        "a_nlte_3d": 8.744,
+        "a_nlte_1d": 8.762
+      },
+      {
+        "reference": "wallace_kpno",
+        "a_lte": 8.886,
+        "chi2r": 51.1,
+        "a_nlte_3d": 8.715,
+        "a_nlte_1d": 8.735
+      }
+    ],
+    "spread": 0.035,
+    "iag_minus_kurucz": 0.011,
+    "wallace_sides_with": "KPNO-family (\u2248Kurucz)",
+    "verdict": "continuum NOT reference-driven (all agree within ~0.03) \u2014 RYA-483 \u03c3 intrinsic",
+    "combined_a_lte": 8.907,
+    "combined_a_nlte_3d": 8.736,
+    "combined_a_nlte_1d": 8.755
+  },
+  "regime_matched_O": {
+    "solar_A_O_3D": 8.736,
+    "solar_A_O_1D": 8.755,
+    "note": "use _1D as the denominator for >6500 K stars (Procyon) to regime-match"
+  },
+  "sulphur": {
+    "per_line": [
+      {
+        "line": 6748.68,
+        "a_lte": 7.608,
+        "chi2r": 135.6,
+        "nlte_delta": -0.0143,
+        "a_nlte": 7.594,
+        "status": "ok"
+      },
+      {
+        "line": 6757.15,
+        "a_lte": 7.471,
+        "chi2r": 137.5,
+        "nlte_delta": -0.0171,
+        "a_nlte": 7.454,
+        "status": "ok"
+      }
+    ],
+    "a_nlte": 7.524,
+    "sigma": 0.099,
+    "n": 2,
+    "asplund": 7.12
+  },
+  "deferred": [
+    "full C/N 3D-1D legs across molecular arms (CH/CN/NH) \u2014 atomic C I/O I have the Amarsi grid; molecular + N I post-hoc are a separate regime split",
+    "IR O I 844/926 nm (Lever-4) \u2014 needs telluric-gated IR solar data reaching the line"
+  ]
+}
