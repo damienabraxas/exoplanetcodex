@@ -187,14 +187,10 @@ def optical_cross_check(element: str) -> list:
 
 
 def _air_to_vac(wave_air_A: float) -> float:
-    """Air -> vacuum (Birch & Downs 1994, the VALD/NIST standard). Identity below 2000 A
-    where air is undefined. Self-contained copy of the RYA-426 converter so this module does
-    not hard-depend on the (separately-reviewed) uv_conditioning module."""
-    if wave_air_A < 2000.0:
-        return float(wave_air_A)
-    s2 = (1.0e4 / wave_air_A) ** 2
-    n = 1.0 + 8.34254e-5 + 2.406147e-2 / (130.0 - s2) + 1.5998e-4 / (38.9 - s2)
-    return float(wave_air_A * n)
+    """Air -> vacuum (Birch & Downs 1994, the VALD/NIST standard). Identity below 2000 A.
+    Delegates to the shared wavelength_util SSOT (RYA-264) — no second formula copy."""
+    from pipeline.wavelength_util import air_to_vac
+    return float(air_to_vac(wave_air_A))
 
 
 def anchors_for_window_map(usable_only: bool = False) -> list:
