@@ -39,6 +39,66 @@ VALD_WEB_CAP = 100000
 BANDS = [('optical', 3000, 9500), ('Y', 9500, 11000), ('J', 11000, 14000),
          ('H', 14000, 18000), ('K', 18000, 25000)]
 
+# ── 27-element IR triage (re-baselined 2026-06-30, per RYA-376 ticket) ─────────
+# Tag every target element by the VALUE the IR adds, so the downstream extraction
+# scope (RYA-427) is driven by value and the IR-vs-UV/near-blue leg split is explicit.
+#   IR-PRIMARY    Group A — IR is a new or best channel (extraction priority)
+#   IR-CROSSCHECK Group B — optical owns the value; IR confirms (Fe = the IR sigma ruler)
+#   IR-NONE       Group C — IR does not help; element argues for the UV/near-blue leg
+# 'prior' is the ticket's expectation; this script CONFIRMS it against actual holdings.
+IR_TRIAGE = {
+    # Group A — IR-PRIMARY
+    'C':  ('A', 'IR-PRIMARY',    'C I near-IR multiplets (flagship)'),
+    'N':  ('A', 'IR-PRIMARY',    'N I red + NH (flagship)'),
+    'O':  ('A', 'IR-PRIMARY',    'O I 777 triplet + OH (flagship)'),
+    'S':  ('A', 'IR-PRIMARY',    'S I 1.045 um >> lone weak optical S I 6757 (RYA-488)'),
+    'P':  ('A', 'IR-PRIMARY',    'P I 1.05 um is essentially the ONLY real P channel'),
+    'K':  ('A', 'IR-PRIMARY',    'K I 1.17 um sidesteps the O2 A-band telluric on optical 7699'),
+    'Na': ('A', 'IR-PRIMARY',    'near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)'),
+    'Mg': ('A', 'IR-PRIMARY',    'near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)'),
+    'Al': ('A', 'IR-PRIMARY',    'near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)'),
+    # Group B — IR-CROSSCHECK (optical owns the value)
+    'Si': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Ca': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Ti': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Cr': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Mn': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'V':  ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Co': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Ni': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms'),
+    'Sc': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Cu': ('B', 'IR-CROSSCHECK', 'optical owns the value; IR confirms (HFS element)'),
+    'Fe': ('B', 'IR-CROSSCHECK', 'IR SIGMA RULER — most IR lines by far; characterize IR scatter on Fe, apply to sparse CNOPS'),
+    'Zn': ('B', 'IR-CROSSCHECK', '27th element, not in ticket triage; optical Zn I 4722/4810/6362 owns value, IR subordinate'),
+    # Group C — IR-NONE (argue for the UV/near-blue leg, not IR)
+    'Ba': ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Y':  ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Zr': ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Sr': ('C', 'IR-NONE',       'neutron-capture heavy; blue Sr II doublet (RYA-428/433), IR barren'),
+    'Eu': ('C', 'IR-NONE',       'neutron-capture heavy; ionized lines live in blue/near-UV, IR barren'),
+    'Li': ('C', 'IR-NONE',       'stays optical (Li I 6707)'),
+}
+
+# Named Group-A IR diagnostics to CONFIRM (reach + depth) against held solar data.
+# (element, ion, target air-Å, band, channel label). OH/NH/CO are MOLECULAR — not in
+# the VALD atomic list — so they are reported separately, not looked up here.
+GROUP_A_DIAGNOSTICS = [
+    ('S', 'I', 10455.45, 'Y', 'S I 1.045 um triplet'),
+    ('S', 'I', 10456.76, 'Y', 'S I 1.045 um triplet'),
+    ('S', 'I', 10459.41, 'Y', 'S I 1.045 um triplet'),
+    ('P', 'I', 10511.59, 'Y', 'P I 1.05 um quartet'),
+    ('P', 'I', 10529.52, 'Y', 'P I 1.05 um quartet'),
+    ('P', 'I', 10581.58, 'Y', 'P I 1.05 um quartet'),
+    ('P', 'I', 10596.90, 'Y', 'P I 1.05 um quartet'),
+    ('K', 'I', 11690.22, 'J', 'K I 1.17 um doublet'),
+    ('K', 'I', 11769.64, 'J', 'K I 1.17 um doublet'),
+    ('C', 'I', 10691.25, 'Y', 'C I near-IR'),
+    ('O', 'I', 7771.94,  'optical', 'O I 777 triplet'),
+    ('O', 'I', 11302.38, 'J', 'O I near-IR'),
+    ('Mg', 'I', 15740.71, 'H', 'Mg I 1.57 um (unsaturated subordinate)'),
+    ('Al', 'I', 16718.96, 'H', 'Al I 1.67 um (unsaturated subordinate)'),
+]
+
 
 def band_of(wl_A: float) -> str:
     for name, lo, hi in BANDS:
@@ -168,6 +228,54 @@ def coverage_matrix(csv_assets: dict, targets: list) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def ir_triage_table(matrix: pd.DataFrame) -> pd.DataFrame:
+    """Tag each target element IR-PRIMARY / IR-CROSSCHECK / IR-NONE and CONFIRM the tag
+    against actual NIR holdings (does any Y/J/H/K coverage exist for it?)."""
+    held = {r['element']: any(str(r[b]).startswith('✓') for b in ('Y', 'J', 'H', 'K'))
+            for _, r in matrix.iterrows()}
+    rows = []
+    for el, (group, tag, why) in IR_TRIAGE.items():
+        nir = held.get(el, False)
+        # Confirmation logic: Group A/B want NIR present; Group C expects it barren.
+        if group in ('A', 'B'):
+            confirm = 'CONFIRMED (NIR held)' if nir else 'GAP (tag says IR but NO NIR held)'
+        else:
+            confirm = 'CONFIRMED (IR barren → UV/blue leg)' if not nir else 'NIR present but low-value (heavy)'
+        rows.append({'element': el, 'group': group, 'tag': tag,
+                     'nir_held': nir, 'confirm': confirm, 'rationale': why})
+    order = {'A': 0, 'B': 1, 'C': 2}
+    return pd.DataFrame(rows).sort_values(['group', 'element'], key=lambda s: s.map(order) if s.name == 'group' else s)
+
+
+def groupA_depth_confirm() -> pd.DataFrame:
+    """Confirm the named Group-A IR diagnostics exist with sane depth in the held solar
+    list (linelist_solar.csv). Reach + depth come from the data, never from memory."""
+    path = LL / 'linelist_solar.csv'
+    if not path.exists():
+        return pd.DataFrame([{'note': 'linelist_solar.csv absent'}])
+    df = pd.read_csv(path, comment='#', low_memory=False,
+                     usecols=['element', 'ion', 'wavelength_air_A', 'log_gf', 'central_depth'])
+    df['wavelength_air_A'] = pd.to_numeric(df['wavelength_air_A'], errors='coerce')
+    df['central_depth'] = pd.to_numeric(df['central_depth'], errors='coerce')
+    rows = []
+    for el, ion, wl, band, label in GROUP_A_DIAGNOSTICS:
+        sub = df[(df['element'] == el) & (df['ion'] == ion)
+                 & (df['wavelength_air_A'].between(wl - 0.6, wl + 0.6))]
+        if len(sub):
+            # HFS-split features deliver many components at one wl — take the deepest.
+            best = sub.loc[sub['central_depth'].idxmax()]
+            rows.append({'diagnostic': label, 'species': f'{el} {ion}', 'target_A': wl,
+                         'band': band, 'covered': True,
+                         'matched_A': round(float(best['wavelength_air_A']), 3),
+                         'n_components': len(sub),
+                         'max_central_depth': round(float(best['central_depth']), 3)})
+        else:
+            rows.append({'diagnostic': label, 'species': f'{el} {ion}', 'target_A': wl,
+                         'band': band, 'covered': False, 'matched_A': np.nan,
+                         'n_components': 0, 'max_central_depth': np.nan})
+    return pd.DataFrame(rows)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     targets = ['C', 'N', 'O', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'K', 'Ca', 'Sc', 'Ti',
@@ -198,6 +306,12 @@ def main():
     matrix = coverage_matrix(csv_assets, targets)
     matrix.to_csv(OUT / 'coverage_matrix.csv', index=False)
 
+    triage = ir_triage_table(matrix)
+    triage.to_csv(OUT / 'ir_triage.csv', index=False)
+
+    depth = groupA_depth_confirm()
+    depth.to_csv(OUT / 'groupA_depth_confirm.csv', index=False)
+
     # ── Console report ────────────────────────────────────────────────────────
     pd.set_option('display.width', 200, 'display.max_columns', 40, 'display.max_colwidth', 28)
     print("\n================ RAW VALD DELIVERIES ================")
@@ -212,6 +326,12 @@ def main():
 
     print("\n================ COVERAGE MATRIX (element × band, assembled assets) ================")
     print(matrix.to_string(index=False))
+
+    print("\n================ 27-ELEMENT IR TRIAGE (tag × confirmation) ================")
+    print(triage[['element', 'group', 'tag', 'nir_held', 'confirm']].to_string(index=False))
+
+    print("\n================ GROUP-A IR DIAGNOSTIC DEPTH CONFIRM (held solar list) ================")
+    print(depth.to_string(index=False))
 
     # Near-IR readiness headline
     nir_csv = [a for a in csv_assets.values()
