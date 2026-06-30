@@ -1,0 +1,50 @@
+{
+  "ticket": "RYA-369 follow-on \u2014 measure solar N I denominator",
+  "observed": "Kitt Peak FTS flux atlas (R~350000), red N I 7468/8216/8683",
+  "nlte_source": "GALAH PySME N grid, solar per-line delta from n_grid_loadtest_rya369.json (cited)",
+  "per_line": [
+    {
+      "line": 7468.31,
+      "a_raw": 7.905,
+      "a_local": 7.796,
+      "nlte": -0.0115,
+      "core_depth": 0.0238,
+      "cont_max": 0.9965,
+      "chi2r": 98.6
+    },
+    {
+      "line": 8216.34,
+      "a_raw": 8.111,
+      "a_local": 7.737,
+      "nlte": -0.0145,
+      "core_depth": 0.0424,
+      "cont_max": 0.9907,
+      "chi2r": 161.5
+    },
+    {
+      "line": 8683.4,
+      "a_raw": 8.171,
+      "a_local": 7.941,
+      "nlte": -0.0154,
+      "core_depth": 0.0384,
+      "cont_max": 0.9951,
+      "chi2r": 138.1
+    }
+  ],
+  "a_n_local": 7.796,
+  "a_n_raw": 8.111,
+  "continuum_lever_dex": 0.315,
+  "a_n_provisional": 7.796,
+  "sigma_total": 0.332,
+  "sigma_line": 0.105,
+  "sigma_continuum": 0.315,
+  "n_lines": 3,
+  "vs_asplund_783": -0.034,
+  "nlte_live_crosscheck": "unavailable (FileNotFoundError)",
+  "continuum_limited": true,
+  "prior_phase_c_8202_explained": "raw atlas-1.0 treatment = upper bracket (~8.13), not a bug",
+  "validate_dont_tune": true,
+  "verdict": "provisional_continuum_limited",
+  "definitive_path": "solar CNO re-bank (RYA-486/493) via same-instrument UVES reflected-solar (differential continuum cancellation) + NH 3360 / CN cross-checks",
+  "secondary_owed": "NH 3360 (UV) separate secondary; CN red (HARPS) molecular cross-check"
+}
