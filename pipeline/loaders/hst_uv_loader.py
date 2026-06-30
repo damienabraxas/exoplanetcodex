@@ -50,17 +50,12 @@ from . import base_loader
 from .base_loader import SpectrumData
 from pipeline import uv_conditioning as uvc
 from pipeline import uv_line_selection as uvls
+from pipeline import frame_object_contract as foc
 
 ROOT = Path(str(const.ROOT))
 
 # RYA-222 science-ready whitelist (the ONLY source of file paths — never glob).
 SCIENCE_READY_CSV = ROOT / 'data' / 'audit' / 'procyon_hst' / 'procyon_hst_science_ready.csv'
-
-# Accepted target identities for Procyon (the per-file guard against 55 Cnc / strays).
-_PROCYON_TARGETS = ('HD61421', 'HD 61421', 'HD061421', 'PROCYON', 'ALF CMI', 'ALPHA CMI',
-                    'ALF-CMI', 'ALPHACMI', 'HR2943')
-_FORBIDDEN_TARGETS = ('CNC', '55CNC', 'RHO', 'SRHO')   # 55 Cnc lives in the same tree
-
 
 class HstUvProductError(RuntimeError):
     """Raised when a file is not a loadable Procyon STIS/COS UV product (grating /
@@ -83,21 +78,13 @@ def _read_cspec(path: Path):
     return w[order], f[order], (e[order] if e is not None else None), targ
 
 
-def _norm_target(s: str) -> str:
-    return ''.join(ch for ch in str(s).upper() if ch.isalnum())
-
-
 def _assert_procyon(targname: str, filename: str) -> None:
-    """Loud target guard: confirm Procyon, reject 55 Cnc / strays (never route by glob)."""
-    t = _norm_target(targname)
-    if any(_norm_target(b) in t for b in _FORBIDDEN_TARGETS):
-        raise HstUvProductError(
-            f"{filename}: TARGNAME={targname!r} is a non-Procyon target (55 Cnc / rho Cnc "
-            f"share the 'Procyon HST' tree) — refusing to load it as Procyon (RYA-222).")
-    if not any(_norm_target(a) in t or t in _norm_target(a) for a in _PROCYON_TARGETS):
-        raise HstUvProductError(
-            f"{filename}: TARGNAME={targname!r} does not confirm Procyon (HD 61421 / alpha CMi). "
-            f"A UV frame is never routed by header — verify it is on the RYA-222 whitelist.")
+    """Loud target guard: confirm Procyon by authoritative header, reject 55 Cnc /
+    strays (never route by glob). Attribution goes through the central RYA-481 map
+    (``frame_object_contract``) so 'Procyon HST' tree contaminants — 55 Cnc / rho
+    Cnc — resolve to their own star and are refused as Procyon (RYA-222/481 §A)."""
+    foc.assert_object(targname, expected='procyon',
+                      context=f"{filename}: TARGNAME ", exc=HstUvProductError)
 
 
 # ── the loader ────────────────────────────────────────────────────────────────

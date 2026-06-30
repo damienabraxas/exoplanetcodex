@@ -39,6 +39,7 @@ import astropy.units as u
 
 from config.constants import PHYSICS
 from .base_loader import SpectrumData
+from pipeline import frame_object_contract as foc
 
 # Paranal (UT2/Kueyen), hardcoded so the loader never depends on an astropy site
 # download (mirrors the SPIRou loader's hardcoded CFHT location).
@@ -62,13 +63,20 @@ class UVESLoader:
         # spec.meta   — provenance incl. berv_kms, setting, R, original SPECSYS
     """
 
-    def __init__(self, filepath: str | Path):
+    def __init__(self, filepath: str | Path, *, expected_star: str | None = None):
         self.filepath = Path(filepath)
+        # RYA-481 §A: when the caller knows which star this file should be, the
+        # loader verifies it by the OBJECT header (never by folder/filename) and
+        # fails loud on a mismatch. Default None preserves prior behaviour.
+        self.expected_star = expected_star
 
     def load(self) -> SpectrumData:
         with fits.open(self.filepath) as hdl:
             h0 = hdl[0].header
             self._guard(h0, hdl)
+            if self.expected_star is not None:
+                foc.assert_object(h0.get('OBJECT'), expected=self.expected_star,
+                                  context=f"{self.filepath.name}: ", exc=UVESProductError)
             tab = hdl[1].data
             wave = np.asarray(tab['WAVE'][0], dtype=np.float64)            # air Å, topocentric
             flux = self._first_present(tab, ('FLUX', 'FLUX_REDUCED')).astype(np.float64)
@@ -145,6 +153,13 @@ class UVESLoader:
         return f"{path}{int(wlen)}" if wlen else path
 
     def _build_meta(self, h0: fits.Header, berv: float, wave_topo: np.ndarray) -> dict:
+        # RYA-481 §B: declare + self-check the velocity frame. TOPOCENT IDP → BERV
+        # applied here, systemic RV NOT (rest-frame shift is the fit's job, RYA-478).
+        # validate() raises on the double-BERV / under-correction contradiction.
+        vframe = foc.VelocityFrame(
+            specsys=str(h0.get('SPECSYS', 'TOPOCENT')), berv_applied=True,
+            systemic_rv_applied=False, wave_units='air', wave_scale='angstrom',
+            note='UVES IDP — BERV applied by loader (RYA-272)').validate()
         return {
             'instrument'         : 'UVES',
             'object'             : h0.get('OBJECT', 'UNKNOWN'),
@@ -161,6 +176,8 @@ class UVESLoader:
             'apero_version'      : h0.get('HIERARCH ESO PRO REC1 PIPE ID', 'uves'),
             'berv_kms'           : berv,
             'frame'              : 'barycentric (BERV applied)',
+            'velocity_frame'     : vframe.declare(),      # RYA-481 §B declaration
+            'object_canonical'   : foc.resolve_object(h0.get('OBJECT')).canonical,
             'specsys_original'   : h0.get('SPECSYS', 'UNKNOWN'),
             'wave_units_raw'     : 'angstrom',
             'wave_coverage_topo_A': (round(float(np.nanmin(wave_topo)), 1),
