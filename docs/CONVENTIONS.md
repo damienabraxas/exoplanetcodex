@@ -1,11 +1,11 @@
 # Exoplanet Codex — engineering conventions
 
-## Loaders declare + verify velocity frame and OBJECT attribution (RYA-481)
+## Loaders declare + verify OBJECT, velocity frame, and wavelength scale (RYA-481 + RYA-264)
 
-**Every loader must explicitly declare and verify two things about every frame
-before that frame's photons reach any fit, EW, or synthesis: (1) its velocity
-reference frame, and (2) its OBJECT attribution. Selection is by authoritative
-FITS header — never by folder, filename, or glob.**
+**Every loader must explicitly declare and verify three things about every frame
+before that frame's photons reach any fit, EW, or synthesis: (1) its OBJECT
+attribution, (2) its velocity reference frame, and (3) its wavelength unit+scale.
+Selection is by authoritative FITS header — never by folder, filename, or glob.**
 
 **The recurring failure this prevents** — one disease, six disguises, each a
 plausible *wrong* answer that passed every check except an explicit one:
@@ -43,30 +43,47 @@ corrections_for_specsys(h0['SPECSYS'])              # raises on an unknown frame
 VelocityFrame(specsys='TOPOCENT', berv_applied=True, systemic_rv_applied=False,
               wave_units='air', wave_scale='angstrom').validate()   # double-BERV trap
 verify_line_position(wave_A, flux, 6562.79, tol_kms=8.0)   # BERV sign-check
+
+# §C — wavelength unit+scale (nm/µm→Å, vacuum→air) from the CITED registry.
+wave_air = WavelengthScale('SPIRou', native_unit='nm',
+                           native_scale='vacuum').validate().to_air_angstrom(wave_nm)
+#   • per-instrument convention is CITED to its DRS doc (never from memory);
+#     unknown instrument → raises. Unit-sanity band gate catches a ×10/×10000
+#     mismatch (the RYA-263 zero class). verify_vac_to_air = the scale sign-check.
 ```
 
 Per-SPECSYS policy (loaders must apply exactly this, no more, no less):
 `TOPOCENT` → loader **applies** BERV (UVES/CRIRES IDP); `BARYCENT`/`HELIOCEN` →
 flux already barycentric, loader must **not** re-apply (HARPS S1D — the
 double-BERV trap). Stellar **systemic RV** is separate from BERV: for any
-rest-frame fit, shift to rest with systemic RV too (RYA-478). Units (vacuum/air,
-nm/Å) are declared and converted at the documented boundary (RYA-426 UV
-vacuum→air at 2000 Å; RYA-480 CRIRES nm→Å).
+rest-frame fit, shift to rest with systemic RV too (RYA-478).
 
-### Fail-loud (the principle shared by §A and §B)
+**Wavelength scale (§C, RYA-264):** there is exactly **one** vacuum↔air converter
+in the codebase — `pipeline/wavelength_util.py` (Birch & Downs 1994, VALD/NIST),
+imported by both the RYA-426 UV path and this axis. The per-instrument unit/scale
+lives in the cited `WAVELENGTH_CONVENTION` registry (verified against each DRS doc;
+ESPRESSO and NIRPS are **vacuum**, not the table's guessed "air"). **Operation
+order** is canonical and documented: convert unit+scale to air Å in the **observed**
+frame **first** (n(λ) is evaluated at the observed wavelength), **then** apply the
+§B velocity shift.
 
-The correct response to *any* unverifiable attribution or velocity frame is
-**raise/flag, never silently proceed on a default** — same spirit as the RYA-288
-broadening guard (a missing entry errors, it does not fall back to solar).
+### Fail-loud (the principle shared by §A, §B, §C)
+
+The correct response to *any* unverifiable attribution, velocity frame, or
+wavelength scale is **raise/flag, never silently proceed on a default** — same
+spirit as the RYA-288 broadening guard (a missing entry errors, it does not fall
+back to solar). All three axes raise a common base, `FrameContractError`.
 
 ### How to apply
 
-* **New loaders:** implement §A + §B as part of the loader contract; the smoke
-  test asserts OBJECT-selection (not glob) and a post-correction known-line check.
+* **New loaders:** implement §A + §B + §C as part of the loader contract; the smoke
+  test asserts OBJECT-selection (not glob), a post-correction known-line check, and
+  the air-Å unit-sanity band.
 * **Existing loaders:** audit against this checklist when next touched. Already
   wired: `hst_uv_loader` (target guard → central map), `uves_loader`
-  (`expected_star` + `VelocityFrame.validate`), `spirou_loader`
-  (`expected_star`; vacuum→air audit flagged as owed).
+  (`expected_star` + `VelocityFrame.validate` + `WavelengthScale` air no-op),
+  `spirou_loader` (`expected_star`; **vacuum-nm → air-Å now converted** — the
+  RYA-481 OWED is closed, clearing SPIRou IR for production).
 * **Authority ranking (RYA-495):** where headers are proven fallible, RV star-ID
   outranks OBJECT outranks folder — register that layer via `register_aliases`.
 
