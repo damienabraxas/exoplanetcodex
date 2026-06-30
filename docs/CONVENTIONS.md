@@ -1,5 +1,75 @@
 # Exoplanet Codex — engineering conventions
 
+## Loaders declare + verify velocity frame and OBJECT attribution (RYA-481)
+
+**Every loader must explicitly declare and verify two things about every frame
+before that frame's photons reach any fit, EW, or synthesis: (1) its velocity
+reference frame, and (2) its OBJECT attribution. Selection is by authoritative
+FITS header — never by folder, filename, or glob.**
+
+**The recurring failure this prevents** — one disease, six disguises, each a
+plausible *wrong* answer that passed every check except an explicit one:
+
+| # | incident | wrong… | how it bit |
+|---|----------|--------|------------|
+| 1 | Vesta-as-solar           | source   | reflected sunlight substituted for direct solar |
+| 2 | glob-loading             | star     | globbed a tree, picked another star's frames |
+| 3 | arm-registry default     | source   | a silent default resolved an arm to the wrong spectrum |
+| 4 | Procyon tree held 55 Cnc | star     | `srho01cnc` frames in the "Procyon HST" tree (RYA-471) |
+| 5 | α Cen folders mislabeled | star     | "α Cen A/HARPS" was 63 % α Cen B by OBJECT (RYA-301/479) |
+| 6 | UVES O I 777 no sys-RV    | velocity | BERV applied, systemic RV not → −0.12 Å, χ²ᵣ 147 (RYA-478) |
+
+Two root classes: **wrong-source/wrong-star** (attribution) and **wrong-wavelength**
+(velocity frame). Both put good-looking photons in the wrong place.
+
+### The standing rule (made executable)
+
+`pipeline/frame_object_contract.py` is the single source of truth. Use it in every
+loader:
+
+```python
+from pipeline.frame_object_contract import (
+    assert_object, corrections_for_specsys, VelocityFrame, verify_line_position)
+
+# §A — OBJECT attribution by authoritative header, never folder/filename/glob.
+star = assert_object(h0['OBJECT'], expected='alpha_cen_a', context=f"{fn}: ")
+#   • central canonical alias map (HD numbers, Bayer/proper names, composite
+#     'SUN,FP,G2V'); case/separator-insensitive; one-to-one.
+#   • refuses on ambiguity / unknown / wrong-star → raises (pass exc= for the
+#     loader's own error type). A loader that can't confirm the star fails loud.
+
+# §B — velocity frame, declared and corrected EXACTLY, then verified.
+corrections_for_specsys(h0['SPECSYS'])              # raises on an unknown frame
+VelocityFrame(specsys='TOPOCENT', berv_applied=True, systemic_rv_applied=False,
+              wave_units='air', wave_scale='angstrom').validate()   # double-BERV trap
+verify_line_position(wave_A, flux, 6562.79, tol_kms=8.0)   # BERV sign-check
+```
+
+Per-SPECSYS policy (loaders must apply exactly this, no more, no less):
+`TOPOCENT` → loader **applies** BERV (UVES/CRIRES IDP); `BARYCENT`/`HELIOCEN` →
+flux already barycentric, loader must **not** re-apply (HARPS S1D — the
+double-BERV trap). Stellar **systemic RV** is separate from BERV: for any
+rest-frame fit, shift to rest with systemic RV too (RYA-478). Units (vacuum/air,
+nm/Å) are declared and converted at the documented boundary (RYA-426 UV
+vacuum→air at 2000 Å; RYA-480 CRIRES nm→Å).
+
+### Fail-loud (the principle shared by §A and §B)
+
+The correct response to *any* unverifiable attribution or velocity frame is
+**raise/flag, never silently proceed on a default** — same spirit as the RYA-288
+broadening guard (a missing entry errors, it does not fall back to solar).
+
+### How to apply
+
+* **New loaders:** implement §A + §B as part of the loader contract; the smoke
+  test asserts OBJECT-selection (not glob) and a post-correction known-line check.
+* **Existing loaders:** audit against this checklist when next touched. Already
+  wired: `hst_uv_loader` (target guard → central map), `uves_loader`
+  (`expected_star` + `VelocityFrame.validate`), `spirou_loader`
+  (`expected_star`; vacuum→air audit flagged as owed).
+* **Authority ranking (RYA-495):** where headers are proven fallible, RV star-ID
+  outranks OBJECT outranks folder — register that layer via `register_aliases`.
+
 ## Per-star output namespacing + frozen gold solar reference (RYA-469)
 
 Every per-star pipeline product carries the star in its **path**
