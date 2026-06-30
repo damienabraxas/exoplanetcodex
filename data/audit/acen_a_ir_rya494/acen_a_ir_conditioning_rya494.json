@@ -1,0 +1,133 @@
+{
+  "ticket": "RYA-494",
+  "target": "alpha_cen_a",
+  "velocity_mode": "stellar",
+  "crires_frames": {
+    "Y1029": {
+      "nm": [
+        949.6,
+        1120.5
+      ],
+      "specsys": "TOPOCENT",
+      "snr": 302.2
+    },
+    "J1232": {
+      "nm": [
+        1122.1,
+        1330.8
+      ],
+      "specsys": "TOPOCENT",
+      "snr": 280.3
+    },
+    "H1582": {
+      "nm": [
+        1445.8,
+        1796.3
+      ],
+      "specsys": "TOPOCENT",
+      "snr": 257.6
+    },
+    "H1559": {
+      "nm": [
+        1461.3,
+        1771.5
+      ],
+      "specsys": "TOPOCENT",
+      "snr": 209.8
+    },
+    "K2192": {
+      "nm": [
+        1945.9,
+        2485.5
+      ],
+      "specsys": "TOPOCENT",
+      "snr": 103.8
+    },
+    "K2148": {
+      "nm": [
+        1972.3,
+        2452.3
+      ],
+      "specsys": "TOPOCENT",
+      "snr": 66.1
+    }
+  },
+  "nirps_n_frames": 28,
+  "nirps_attribution": "RYA-423 IR RV star-ID: the NIRPS frames headered OBJECT='AlphaCenB' have verdict=A (obs_rv\u2248-26.2 matches \u03b1 Cen A -25.8, not B -18.4). The IR star-ID is authoritative over the (program-mislabeled) OBJECT header \u2014 these are \u03b1 Cen A. The OBJECT='alf Cen A'-labelled NIRPS frames are verdict=NOT-ALPHA-CEN (RV\u2248-34, RYA-431 quarantine). \u03b1 Cen B has NO NIRPS (RYA-439). This INVERTS the RYA-479 OBJECT-based NIRPS attribution for the IR arm.",
+  "nirps_telluric_column": "FLUX_TELL_CAL",
+  "nirps_specsys": "BARYCENT",
+  "atomic_ir_coverage": {
+    "O I 8446": {
+      "crires_settings": [],
+      "nirps": false,
+      "covered": false
+    },
+    "O I 9266": {
+      "crires_settings": [],
+      "nirps": false,
+      "covered": false
+    },
+    "Fe I 11593": {
+      "crires_settings": [
+        "J1232"
+      ],
+      "nirps": true,
+      "covered": true
+    },
+    "Mg I 11831": {
+      "crires_settings": [
+        "J1232"
+      ],
+      "nirps": true,
+      "covered": true
+    },
+    "Si I 10827": {
+      "crires_settings": [
+        "Y1029"
+      ],
+      "nirps": true,
+      "covered": true
+    }
+  },
+  "flags": {
+    "O_I_844_926": "NOT COVERED \u2014 both fall below CRIRES-Y (9496\u00c5) and NIRPS (9661\u00c5) blue edges; the brief's headline atomic lines are not reachable in \u03b1 Cen A IR (coverage gap, not a telluric gap).",
+    "13C_CO": "STAGGER-pending \u2014 molecular CO \u00b9\u00b3C/\u00b9\u00b2C needs the Amarsi 3D model (RYA-373 wall); deferred, not silently dropped.",
+    "alpha_cen_B_IR": "NO NIRPS (RYA-439: the 'ALPHACENB' program is \u03b1 Cen A); B has only 1 CRIRES frame. B IR is a data-acquisition gap."
+  },
+  "nirps_demo": {
+    "file": "ADP.2025-04-11T12:47:11.925.fits",
+    "telluric_corrected": true,
+    "rv_applied": {
+      "berv": 0.0,
+      "systemic": -22.3,
+      "frame_in": "BARYCENT"
+    },
+    "rest_frame": true,
+    "atm_transm_min": 0.0
+  },
+  "crires_demo": {
+    "frame": "Y1029",
+    "window_nm": [
+      1100.0,
+      1120.0
+    ],
+    "molecfit_gdas": "C-70.4-24.6D2022-04-15T03.gdas.fits",
+    "telluric_corrected": true,
+    "telluric_gate": {
+      "n_telluric_px": 1691,
+      "n_clean_px": 2996,
+      "resid_telluric": 0.0286,
+      "resid_clean_baseline": 0.0128,
+      "excess": 0.0158,
+      "tol": 0.02,
+      "passed": true
+    },
+    "rv_applied": {
+      "berv": 12.800714899606424,
+      "systemic": -22.3,
+      "frame_in": "TOPOCENT"
+    },
+    "rest_frame": true
+  },
+  "crires_product": "data/audit/acen_a_ir_rya494/acen_a_CRIRES_Y1029_telluric_clean_rya494.fits"
+}
