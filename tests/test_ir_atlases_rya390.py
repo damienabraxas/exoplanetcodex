@@ -19,14 +19,17 @@ SEG = ROOT / 'data' / 'solar_reference' / 'ir_atlases'
 
 
 def test_vac_to_air_birch_downs():
+    # RYA-501: the intake script now imports the shared SSOT converter (vac_to_air);
+    # the local vac_to_air_A copy is gone. Both anchors are >2000 Å, so the canonical
+    # (boundaried) converter is numerically identical to the retired local copy.
     # air < vac, and the index of refraction n−1 ≈ 2.7e-4 in the near-IR (2.3 µm)
     vac = np.array([23501.76])              # Å (≈ 4255 cm⁻¹, vacuum)
-    air = intake.vac_to_air_A(vac)
+    air = intake.vac_to_air(vac)
     assert air[0] < vac[0]
     n_minus_1 = vac[0] / air[0] - 1.0
     assert 2.5e-4 < n_minus_1 < 3.0e-4
     # H-alpha anchor (well-known): vac 6564.61 Å → air 6562.81 Å (Birch & Downs)
-    ha = intake.vac_to_air_A(np.array([6564.61]))[0]
+    ha = intake.vac_to_air(np.array([6564.61]))[0]
     assert abs(ha - 6562.81) < 0.05
 
 
