@@ -280,3 +280,70 @@ Scope reminders: single body solar (`SUN,FP,G2V`) → **no asteroid ephemeris**
 (unlike Vesta/Ceres UVES). 2.3 µm CO / ¹³C is **outside** NIRPS YJH range
 (stays CRIRES+/STAGGER, RYA-373). Validate-don't-tune: this is a *reference*,
 abundances come later.
+
+---
+
+## 7. Reduction execution status (hand-driven esorex cascade)
+
+Driver: `scratch/nirps_drs_rya498/reduce_solar_cascade_rya498.sh` (step-gated:
+`prep|orderdef|mflat|wavefp|wavethar|scired`). Runs on Sirius against
+`/mnt/codex-data/engines/nirps_drs/reduce_solar/`. Two install/data gaps fixed
+en route:
+
+- **Empty `datastatic`.** `install_pipeline` created the calib dir but never
+  populated the static reference set. Extracted `nirps-calib-3.3.12/cal/` (140
+  statics: `NIRPS_CCD_geom_config`, `NIRPS_HA_master_inst_config`, hot/bad
+  pixels, `master_dark`, `ORDERS_MASK`, `STATIC_WAVE/DLL_MATRIX`,
+  `TH_REF_LINE_TABLE`, `NIRPS_G2` = the G2V CCF mask, HITRAN telluric tables) to
+  `calib_static/`. Statics valid ≤2023-04-29 are the 2022-11-01 / 2023-01-01 set.
+- **One corrupt raw frame.** `NIRPS.2023-04-29T14:50:00.845` (WAVE,FP,FP) was
+  the truncated 28 MB partial from the RYA-498 anonymous-DL *test* (the batch
+  then skipped it as "exists"). Re-fetched clean (302 MB). Size-scan confirms all
+  other cals + science frames intact.
+
+SOF construction: raw→tag via the reflex OCA (`nirps_wkf.oca`) classification;
+product→tag via each product's actual `PRO.CATG` (filenames ≠ tags, e.g.
+`NIRPS_FLAT_A.fits` carries `FSPECTRUM_A`). Detector-cal steps short-circuited
+with the static `master_dark`/`hot_pixels`/`bad_pixels` (the night's 61.3 s darks
+don't meet the `mdark` OCA predicate `EXPTIME>830 & NDSAMPLES>=150` — NIRPS long
+darks are monthly, not in the science night).
+
+**Cascade result — WORKS through wave_FP; blocked at wave_THAR:**
+
+| recipe | status | products |
+|---|---|---|
+| `espdr_orderdef` | ✅ 105 s | `ORDER_TABLE_A/B` |
+| `espdr_mflat` | ✅ 128 s | `FSPECTRUM_A/B` (master flat), `BLAZE_A/B`, `ORDER_PROFILE_A/B`, backgrounds |
+| `espdr_wave_FP` | ✅ 14 s | `FP_SEARCHED_LINE_TABLE_A/B`, `S2D_FP_FP_A/B`, `S2D_BLAZE_FP_FP_A/B` |
+| `espdr_wave_THAR` | ❌ blocked | — |
+| `espdr_sci_red` | ⛔ gated on wave_THAR | — |
+
+18 valid intermediate products in `reduce_solar/products/`.
+
+**Blocker — `espdr_wave_THAR` edge-order convergence.** With the full, OCA-correct
+input set (order tables/profiles, master flat, blaze, FP line tables, S2D FP
+blaze, `TH_REF_LINE_TABLE`, `ORDERS_MASK`, `MASTER_DARK`, fibre-B static wave/dll),
+the recipe extracts spectra and finds FP lines for most orders but dies:
+`No FP line identified for order 1, exiting` →
+`espdr_get_all_FP_ll_per_order failed: Input data do not match`
+(`espdr_wave_THAR_cal.c:1286`). The absolute UNe/ThAr solution can't bracket the
+edge order against the **2022-11-01 static wave first-guess** (the latest the
+kit ships — ~6 months stale vs the 2023-04-29 data). `wave_THAR` exposes no
+order-range / FP-window relaxation option. This is the wave-solution bootstrap
+the operational reflex/EDPS iterates; a single hand-driven pass with a stale
+static prior does not converge on the edge order. **No S1D produced yet.**
+
+**Resume options (in preference order):**
+1. Install **EDPS**/pyesorex and run the `nirps` workflow — it iterates the wave
+   bootstrap and auto-associates (the intended headless path; blocked here only
+   because pyesorex/edps aren't installed on Sirius py3.14 — needs a py≤3.12 venv).
+2. Seed `wave_THAR` with a **fresher wave prior** — e.g. run `espdr_wave_THAR_THAR`
+   on the `WAVE,UN1,UN1` frame first for an FP-independent absolute solution, or
+   obtain a same-epoch `WAVE_MATRIX` from a nearby archival reduction.
+3. Diagnose the `order 1` gap directly: check whether the wave_FP
+   `FP_SEARCHED_LINE_TABLE` populates the edge order, and whether the
+   `ORDERS_MASK` order count matches the orderdef `ORDER_TABLE`.
+
+The cascade + all inputs are proven and staged; only the wave-solution
+convergence remains between here and `sci_red → S1D_FINAL`. Same blocker will
+gate the RYA-500 α Cen re-reduction (same DRS, same wave step).
