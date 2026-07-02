@@ -29,11 +29,20 @@ Plugs into (already on main):
   * the sign-corrected NLTE module (RYA-339) — wired as a pluggable per-arm hook.
 
 Molecular bands: iSpec's Turbospectrum wrapper auto-includes
-`input/linelists/turbospectrum/molecules/*.bsyn` (CH Masseron, CN Brooke+Sneden,
-C2, OH, NH, CO; RYA-236, verified at the iSpec tool path) whenever
-`use_molecules=True`. Setting C/N/O as fixed abundances feeds babsma's molecular
-equilibrium, so the band depths respond to A(C)/A(N)/A(O) — that coupling is the
-whole point of synthesizing CNO.
+`input/linelists/turbospectrum/molecules/*.bsyn` whenever `use_molecules=True`.
+Coverage is band-specific (RYA-360 measured spans; molecules-dir README = Gerber
+et al. 2023 / Masseron VALD compilation, 420–920 nm):
+  * CH, CN, C2, OH, NH — held as **400–950 nm ELECTRONIC bands only** (measured
+    spans ≈4200–9200 Å). Their mid-IR ro-vibrational fundamentals are NOT held
+    (0 rows in the OH/NH/CH fundamental windows — confirmed by measurement,
+    RYA-360/499); acquiring those is RYA-503.
+  * CO — the mid-IR exception: `CO_IR_Li2015.dat` (ExoMol Li+2015, RYA-236) is a
+    genuine mid-IR ro-vibrational list (spans NIR overtones through the ~4.6 µm
+    fundamental).
+All are vendored + guarded (RYA-360: data/linelists/molecular/turbospectrum/ +
+the [molecular] stewardship invariant). Setting C/N/O as fixed abundances feeds
+babsma's molecular equilibrium, so the band depths respond to A(C)/A(N)/A(O) —
+that coupling is the whole point of synthesizing CNO.
 
 NLTE — VIS arm is LTE-correct by physics (run scope, Ryan 2026-06-19; this is
 correct treatment, NOT a silent fallback — see `VIS_NLTE_POLICY`):
