@@ -46,3 +46,22 @@ fresher wave prior and (2) science-target keywords, both needing a decision:
 
 No silent order drop occurred — the failure is a hard stop at `wave_THAR`,
 reported loudly here.
+
+### Isolation test with the ESO demo (nirps-demo-reflex-0.4.0) — partial, inconclusive on wave
+Ran the ESO known-good NIRPS reflex demo (18 GB; 36 HA raw frames incl. a real
+`SCIENCE OBJECT,FP` frame + 5 darks + full cals, dated **2022-12-06** = ~1 month
+past the 2022-11-01 static — vs our ~6 months). Purpose: confirm the engine is
+correct and pin our `wave_THAR` failure to prior-staleness.
+- **Confirmed:** the demo's real `SCIENCE OBJECT,FP` frame **auto-targets and
+  builds a dataset** (DO reaches the `SCIENCE_FP` action, virtual/non-virtual
+  calib tree assembled) — validating that our CALIB `SUN,FP,G2V` frames genuinely
+  needed the `REFLEX.TARGET` toggle (a real SCIENCE-vs-CALIB difference), and that
+  the engine builds datasets for proper science frames.
+- **Inconclusive on wave:** the demo run then failed at an **mdark recipe-config
+  error** (`ovsc_sig_clip_method parameter not found in input sop`) — *before*
+  the wave step, and a *different* error than our solar run (whose mdark ran
+  fine). Likely an invocation/recipe-config quirk of the demo run (launched with
+  `-ROOT_DATA_DIR`/`-RAW_DATA_DIR` overrides on a fresh bookkeeping tree), not a
+  wave result. Chasing it is out of the review's time-box; the wave finding
+  stands on the two independent solar runs (hand-driven + reflex), which fail
+  `wave_THAR` identically.
