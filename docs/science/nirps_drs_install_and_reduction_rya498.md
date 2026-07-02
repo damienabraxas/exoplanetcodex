@@ -427,26 +427,53 @@ Disabled -GlobalPlotInteractivity false -GlobalCalibPlotInteractivity false
 -EraseDirs true`. Inputs: 41 raw frames (10 science + 31 cals) in
 `reflex_solar/reflex_input/nirps/`; 139 statics in `reflex_calib/nirps-3.3.12/`.
 
-### CURRENT BLOCKER — Data Organizer static-calib association
-The DO parses, classifies the 41 raw frames, and scans `CALIB_DATA_DIR` (139
-statics, confirmed by checksum-warning log lines on `reflex_calib/...`), but the
-science association fails: `Could not find enough products of type
-HOT_PIXEL_MASK ... Requested 1. Found 0` → `No datasets have been created`.
-The association is `select ... where PRO.CATG=="HOT_PIXEL_MASK" and VIRTUAL==T`;
-the static `NIRPS_HA_hot_pixels_2023-01-01.fits` has the right
-`PRO.CATG=HOT_PIXEL_MASK` + `INSTRUME=NIRPS` + `INS MODE=HA`, but the DO is not
-marking the `CALIB_DATA_DIR` statics as `VIRTUAL==T`. (Our night's 61.3 s darks
-don't meet the `mdark` predicate `EXPTIME>830`, so `HOT_PIXEL_MASK` cannot be
-generated either — it must come from the static.)
+### Data Organizer blocker — DIAGNOSED + FIXED (3 parts)
 
-**Next-step hypotheses:** (a) reflex may require the static master calibs
-registered in the bookkeeping DB / a specific "purpose" mapping
-(`FileSystemDatasetCreator` distinguishes `isVirtual()`; `DataOrganizer` maps
-`"RAW CALIBRATIONS" → AssociationPreference.VIRTUAL`) — investigate the DO
-`purpose`/`AssociationPreference` config; (b) place the static detector masters
-where reflex treats them as virtual products; (c) supply qualifying long darks
-(>830 s, nearby night) so `mdark` generates `HOT_PIXEL_MASK` in-run.
+The DO stopped at `Could not find enough products of type HOT_PIXEL_MASK …
+Found 0 → No datasets have been created`. DEBUG logging
+(`log4j.logger.org.eso.util.FileSystemDatasetCreator=DEBUG` +
+`org.eso.DataOrganizer=DEBUG` + `org.eso.oca=DEBUG`, appended to
+`kepler/resources/log4j.properties`, `.orig` backed up) was the key tool — it
+showed the DO reads/classifies every static, and pinned three distinct causes:
 
-**Status: esoreflex engine fully operational headless (Step 0 gate passed,
-workflow runs, DO executes); the last mile is the DO static-calib `VIRTUAL`
-association.** This engine + version is what **RYA-500** reuses for α Cen.
+1. **`HOT_PIXEL_MASK` must be *generated*, not static.** The DO **does** associate
+   the other static masters (`INST_CONFIG`, `ORDERS_MASK`, `MASTER_DARK`,
+   `BAD_PIXEL_MASK`, `STATIC_WAVE/DLL_MATRIX`) — their OCA selects match on
+   `INS.MODE`/`INSTRUME`. But the `HOT_PIXEL_MASK` select is
+   `PRO.CATG=="HOT_PIXEL_MASK" and VIRTUAL==T` (VIRTUAL = a pipeline-generated
+   product), so the physical static (VIRTUAL=F) can't satisfy it — it must be
+   produced by the `DARK` action (`espdr_mdark`). The night's 61.3 s darks fail
+   the DARK OCA predicate (`EXPTIME>830 & NDSAMPLES>=150`), and **no qualifying
+   long HA darks exist near 2023-04-29**. FIX: the static's own
+   `ARCFILE=NIRPS.2023-01-12T22:38:42.691` is one of **5 qualifying HA long darks
+   (EXPTIME=830.42 s, NDSAMPLES=150, `NIRPS_HA_cal_dark`) in the Jan-2023 demo
+   set** (`nirps_extra_raw_calibs`, already on disk). Symlinked those 5 into
+   `RAW_DATA_DIR` → they classify `RAW.TYPE=DARK` → the DARK action runs →
+   `HOT_PIXEL_MASK` generated (VIRTUAL=T) → `Found 0` cleared. Scientifically
+   sound: detector masks are month-stable; these are the exact darks that made
+   the shipped static `hot_pixels_2023-01-01`.
+2. **numpy** for the reflex python actors → apt (above).
+3. **Solar frames weren't dataset *targets*.** After (1), the DO logged
+   `REFLEX.TARGET has undefined value` for the science frames → still "no
+   datasets." In the OCA the `SUN,FP,G2V → OBJ_FP` rule has
+   `//REFLEX.TARGET = "T"` **commented out** (unlike `OBJ_SKY`) — because these
+   are `DPR.CATG=CALIB` HELIOS frames the default workflow reduces only for the
+   narrow He-line RV product (Mercier), not full YJH. **Documented config
+   change:** uncommented that one line (`nirps_wkf.oca`, `.orig` backed up) so
+   our solar frames seed a dataset. This is also *why no reduced solar NIRPS is
+   published* (RYA-497 finding) — they're CALIB, not auto-targeted.
+
+After all three, the DO builds the dataset action tree (adds the virtual
+`ORDERDEF`/`bad_pixels` products + their raw files) and the cascade runs. This is
+the standard, reproducible path (qualifying darks + a 1-line documented OCA
+toggle) — **not** fragile hand-editing of Kepler bookkeeping (the last-resort
+option in the review, avoided).
+
+### Status
+esoreflex engine fully operational headless (Step 0 gate passed); DO blocker
+diagnosed + fixed; the full cascade (incl. the wave bootstrap that walled the
+hand-driven `wave_THAR`) is running → `sci_red → S1D_FINAL`. This engine +
+version is what **RYA-500** reuses for α Cen. Remaining once S1D lands:
+converged-wave confirmation (all orders incl. the edge order), telluric-verify
+vs the Wallace NIR atlas via the RYA-494 module, and the `OPEN_QUESTIONS.md`
+entry (what reflex does differently on the edge order vs standalone `wave_THAR`).
