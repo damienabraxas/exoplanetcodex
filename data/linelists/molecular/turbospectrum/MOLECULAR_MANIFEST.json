@@ -1,0 +1,325 @@
+{
+  "schema": "molecular_lists/v1 (RYA-360)",
+  "generated": "2026-07-01",
+  "ispec_source_dir": "/Users/ryanschmitt/Documents/Exoplanet Codex/ispec/input/linelists/turbospectrum/molecules",
+  "reconciliation": "The usable Turbospectrum molecular .bsyn lists live in the iSpec TOOL dir input/linelists/turbospectrum/molecules/ (RYA-236 audit), NOT the raw-download dir data/linelists/molecular/exomol/ (.bz2) the RYA-237 recon looked in. Vendored here as the git-tracked secure record of truth.",
+  "harps_range_A": [
+    3800.0,
+    6900.0
+  ],
+  "pipeline_resolution": "Turbospectrum (iSpec, use_molecules=True) reads from the iSpec molecules dir; repointing that hard-coded path mid-stream is risky, so the vendored copy is the TRACKED BACKUP-OF-RECORD. The RYA-355 [molecular] guard asserts the vendored copy is present + non-empty + provenance-complete (the CI gate), and \u2014 when iSpec is present \u2014 that the iSpec dir still matches it (drift = a reinstall wiped/reset a list).",
+  "molecules": {
+    "CH": {
+      "species": "CH",
+      "isotopologues": [
+        "12CH",
+        "13CH"
+      ],
+      "files": [
+        "12CH_400-450.bsyn",
+        "12CH_450-500.bsyn",
+        "12CH_500-550.bsyn",
+        "12CH_550-600.bsyn",
+        "12CH_600-650.bsyn",
+        "12CH_650-700.bsyn",
+        "12CH_700-750.bsyn",
+        "12CH_750-800.bsyn",
+        "12CH_800-850.bsyn",
+        "12CH_850-900.bsyn",
+        "12CH_900-950.bsyn",
+        "13CH_400-450.bsyn",
+        "13CH_450-500.bsyn",
+        "13CH_500-550.bsyn",
+        "13CH_550-600.bsyn",
+        "13CH_600-650.bsyn",
+        "13CH_650-700.bsyn",
+        "13CH_700-750.bsyn",
+        "13CH_750-800.bsyn",
+        "13CH_800-850.bsyn",
+        "13CH_850-900.bsyn",
+        "13CH_900-950.bsyn"
+      ],
+      "source": "CH A-X: Masseron et al. 2014 (MNRAS 442, 1489) / 2022 update",
+      "distribution": "Masseron compilation, VALD-based, distributed with iSpec/Turbospectrum (Gerber et al. 2023, A&A 669, A43; uploaded 2022 to keeper.mpdl.mpg.de, split per wavelength region) \u2014 see molecules-dir README.md",
+      "line_source_label": [
+        "CH PGopher"
+      ],
+      "line_count": 36061,
+      "harps_range_count": 29963,
+      "wavelength_coverage": {
+        "min_A": 4200.299,
+        "max_A": 9199.633,
+        "min_cm-1": 10870.0,
+        "max_cm-1": 23807.8,
+        "regime": "electronic-optical"
+      },
+      "harps_window": {
+        "name": "CH A-X G-band",
+        "range_A": [
+          4290.0,
+          4315.0
+        ],
+        "isotopologue": "12CH",
+        "count": 583
+      },
+      "midir_window": {
+        "label": "CH 1-0 fundamental (2650-3100 cm\u207b\u00b9)",
+        "range_cm-1": [
+          2650.0,
+          3100.0
+        ],
+        "range_A": [
+          32258.1,
+          37735.8
+        ],
+        "count": 0,
+        "verdict": "MID-IR ABSENT (confirmed-by-measurement; RYA-503 unblocked)"
+      },
+      "vendored_subdir": "CH"
+    },
+    "CN": {
+      "species": "CN",
+      "isotopologues": [
+        "12C14N",
+        "13C14N",
+        "12C15N"
+      ],
+      "files": [
+        "12C14N_400-450.bsyn",
+        "12C14N_450-500.bsyn",
+        "12C14N_500-550.bsyn",
+        "12C14N_550-600.bsyn",
+        "12C14N_600-650.bsyn",
+        "12C14N_650-700.bsyn",
+        "12C14N_700-750.bsyn",
+        "12C14N_750-800.bsyn",
+        "12C14N_800-850.bsyn",
+        "12C14N_850-900.bsyn",
+        "12C14N_900-950.bsyn",
+        "13C14N_400-450.bsyn",
+        "13C14N_450-500.bsyn",
+        "13C14N_500-550.bsyn",
+        "13C14N_550-600.bsyn",
+        "13C14N_600-650.bsyn",
+        "13C14N_650-700.bsyn",
+        "13C14N_700-750.bsyn",
+        "13C14N_750-800.bsyn",
+        "13C14N_800-850.bsyn",
+        "13C14N_850-900.bsyn",
+        "13C14N_900-950.bsyn",
+        "12C15N_400-450.bsyn",
+        "12C15N_450-500.bsyn",
+        "12C15N_500-550.bsyn",
+        "12C15N_550-600.bsyn",
+        "12C15N_600-650.bsyn",
+        "12C15N_650-700.bsyn",
+        "12C15N_700-750.bsyn",
+        "12C15N_750-800.bsyn",
+        "12C15N_800-850.bsyn",
+        "12C15N_850-900.bsyn",
+        "12C15N_900-950.bsyn"
+      ],
+      "source": "CN red A-X: Brooke et al. 2014 / Sneden et al. 2014 (isotopologues)",
+      "distribution": "Masseron compilation, VALD-based, distributed with iSpec/Turbospectrum (Gerber et al. 2023, A&A 669, A43; uploaded 2022 to keeper.mpdl.mpg.de, split per wavelength region) \u2014 see molecules-dir README.md",
+      "line_source_label": [
+        "Sneden web"
+      ],
+      "line_count": 146110,
+      "harps_range_count": 97710,
+      "wavelength_coverage": {
+        "min_A": 4200.0,
+        "max_A": 9199.843,
+        "min_cm-1": 10869.8,
+        "max_cm-1": 23809.5,
+        "regime": "electronic-optical"
+      },
+      "harps_window": {
+        "name": "CN red A-X",
+        "range_A": [
+          6000.0,
+          6200.0
+        ],
+        "isotopologue": "12C14N",
+        "count": 3534
+      },
+      "vendored_subdir": "CN"
+    },
+    "C2": {
+      "species": "C2",
+      "isotopologues": [
+        "12C12C",
+        "12C13C",
+        "13C13C"
+      ],
+      "files": [
+        "12C12C_400-450.bsyn",
+        "12C12C_450-500.bsyn",
+        "12C12C_500-550.bsyn",
+        "12C12C_550-600.bsyn",
+        "12C12C_600-650.bsyn",
+        "12C12C_650-700.bsyn",
+        "12C12C_700-750.bsyn",
+        "12C12C_750-800.bsyn",
+        "12C12C_800-850.bsyn",
+        "12C12C_850-900.bsyn",
+        "12C12C_900-950.bsyn",
+        "12C13C_400-450.bsyn",
+        "12C13C_450-500.bsyn",
+        "12C13C_500-550.bsyn",
+        "12C13C_550-600.bsyn",
+        "12C13C_600-650.bsyn",
+        "13C13C_400-450.bsyn",
+        "13C13C_450-500.bsyn",
+        "13C13C_500-550.bsyn",
+        "13C13C_550-600.bsyn",
+        "13C13C_600-650.bsyn",
+        "13C13C_650-700.bsyn",
+        "13C13C_700-750.bsyn",
+        "13C13C_750-800.bsyn",
+        "13C13C_800-850.bsyn"
+      ],
+      "source": "C2 Swan d\u00b3\u03a0g\u2013a\u00b3\u03a0u (Brooke et al. 2013 / Masseron compilation)",
+      "distribution": "Masseron compilation, VALD-based, distributed with iSpec/Turbospectrum (Gerber et al. 2023, A&A 669, A43; uploaded 2022 to keeper.mpdl.mpg.de, split per wavelength region) \u2014 see molecules-dir README.md",
+      "line_source_label": [
+        "Sneden web"
+      ],
+      "line_count": 175113,
+      "harps_range_count": 150481,
+      "wavelength_coverage": {
+        "min_A": 4200.001,
+        "max_A": 9199.852,
+        "min_cm-1": 10869.7,
+        "max_cm-1": 23809.5,
+        "regime": "electronic-optical"
+      },
+      "harps_window": {
+        "name": "C2 Swan (0,0)",
+        "range_A": [
+          5130.0,
+          5170.0
+        ],
+        "isotopologue": "12C12C",
+        "count": 1019
+      },
+      "vendored_subdir": "C2"
+    },
+    "OH": {
+      "species": "OH",
+      "isotopologues": [
+        "16OH"
+      ],
+      "files": [
+        "16OH_400-450.bsyn",
+        "16OH_450-500.bsyn",
+        "16OH_500-550.bsyn",
+        "16OH_550-600.bsyn",
+        "16OH_600-650.bsyn",
+        "16OH_650-700.bsyn",
+        "16OH_700-750.bsyn",
+        "16OH_750-800.bsyn",
+        "16OH_800-850.bsyn",
+        "16OH_850-900.bsyn",
+        "16OH_900-950.bsyn"
+      ],
+      "source": "OH A-X electronic (Masseron compilation, VALD-based)",
+      "distribution": "Masseron compilation, VALD-based, distributed with iSpec/Turbospectrum (Gerber et al. 2023, A&A 669, A43; uploaded 2022 to keeper.mpdl.mpg.de, split per wavelength region) \u2014 see molecules-dir README.md",
+      "line_source_label": [
+        "OH PGopher"
+      ],
+      "line_count": 38409,
+      "harps_range_count": 24891,
+      "wavelength_coverage": {
+        "min_A": 4200.04,
+        "max_A": 9199.99,
+        "min_cm-1": 10869.6,
+        "max_cm-1": 23809.3,
+        "regime": "electronic-optical"
+      },
+      "midir_window": {
+        "label": "OH 1-0 fundamental (2600-3600 cm\u207b\u00b9)",
+        "range_cm-1": [
+          2600.0,
+          3600.0
+        ],
+        "range_A": [
+          27777.8,
+          38461.5
+        ],
+        "count": 0,
+        "verdict": "MID-IR ABSENT (confirmed-by-measurement; RYA-503 unblocked)"
+      },
+      "vendored_subdir": "OH"
+    },
+    "NH": {
+      "species": "NH",
+      "isotopologues": [
+        "14NH"
+      ],
+      "files": [
+        "14NH_400-450.bsyn",
+        "14NH_450-500.bsyn",
+        "14NH_500-550.bsyn",
+        "14NH_550-600.bsyn",
+        "14NH_600-650.bsyn",
+        "14NH_650-700.bsyn",
+        "14NH_700-750.bsyn",
+        "14NH_750-800.bsyn"
+      ],
+      "source": "NH A-X electronic (Masseron compilation, VALD-based)",
+      "distribution": "Masseron compilation, VALD-based, distributed with iSpec/Turbospectrum (Gerber et al. 2023, A&A 669, A43; uploaded 2022 to keeper.mpdl.mpg.de, split per wavelength region) \u2014 see molecules-dir README.md",
+      "line_source_label": [
+        "NH PGopher"
+      ],
+      "line_count": 8573,
+      "harps_range_count": 8144,
+      "wavelength_coverage": {
+        "min_A": 4200.023,
+        "max_A": 7730.282,
+        "min_cm-1": 12936.1,
+        "max_cm-1": 23809.4,
+        "regime": "electronic-optical"
+      },
+      "midir_window": {
+        "label": "NH 1-0 fundamental (3000-3500 cm\u207b\u00b9)",
+        "range_cm-1": [
+          3000.0,
+          3500.0
+        ],
+        "range_A": [
+          28571.4,
+          33333.3
+        ],
+        "count": 0,
+        "verdict": "MID-IR ABSENT (confirmed-by-measurement; RYA-503 unblocked)"
+      },
+      "vendored_subdir": "NH"
+    },
+    "CO": {
+      "species": "CO",
+      "isotopologues": [],
+      "files": [
+        "CO_IR_Li2015.dat"
+      ],
+      "source": "CO ExoMol line list, Li et al. 2015 (ApJS 216, 15)",
+      "distribution": "RYA-236 conversion of the ExoMol Li2015 CO list to the Turbospectrum babsma .dat format (converted to species code 0608.012016; conversion script external to this repo \u2014 RYA-236)",
+      "line_source_label": [
+        "ExoMol Li2015"
+      ],
+      "line_count": 117783,
+      "harps_range_count": 17324,
+      "wavelength_coverage": {
+        "min_A": 4515.025,
+        "max_A": 99957.608,
+        "min_cm-1": 1000.4,
+        "max_cm-1": 22148.3,
+        "regime": "mid-IR-rovibrational (+ NIR/optical overtones)"
+      },
+      "midir_reach": {
+        "CO 1-0 fundamental ~4.6 \u00b5m (46000 \u00c5)": true,
+        "CO 2-0 overtone ~2.3 \u00b5m (23000 \u00c5)": true,
+        "note": "CO_IR_Li2015 is the genuine mid-IR rovibrational list (spans NIR overtones through the fundamental)."
+      },
+      "vendored_subdir": "CO"
+    }
+  }
+}
