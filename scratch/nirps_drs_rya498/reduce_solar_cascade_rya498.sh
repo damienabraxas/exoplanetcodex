@@ -118,6 +118,20 @@ if [ "$step" = wavethar ] || [ "$step" = all ]; then
   echo "products:"; ls -t "$PROD"/*WAVE_MATRIX* "$PROD"/*DLL_MATRIX* 2>/dev/null | head
 fi
 
+if [ "$step" = wavetharthar ]; then
+  echo "### espdr_wave_THAR_THAR (WAVE,UN1,UN1 diagnostic) ###"
+  s=$SOF/wavetharthar.sof; : > "$s"
+  for f in $(files_of "WAVE,UN1,UN1"); do echo "$f THAR_THAR" >> "$s"; done
+  { echo "$GEOM CCD_GEOM"; echo "$ICFG INST_CONFIG"; echo "$HOTP HOT_PIXEL_MASK"; echo "$BADP BAD_PIXEL_MASK";
+    prods_common;
+    echo "$ODM ORDERS_MASK"; echo "$MDARK MASTER_DARK";
+    echo "$RLA REF_LINE_TABLE_A"; echo "$RLB REF_LINE_TABLE_B";
+    echo "$SWA STATIC_WAVE_MATRIX_A"; echo "$SWB STATIC_WAVE_MATRIX_B";
+    echo "$SDA STATIC_DLL_MATRIX_A"; echo "$SDB STATIC_DLL_MATRIX_B"; } >> "$s"
+  ( cd "$PROD" && $ESOREX espdr_wave_THAR_THAR "$s" ) 2>&1 | grep -vE "No FP line|WARNING" | tail -25
+  echo "products:"; ls -t "$PROD"/*THAR_THAR* "$PROD"/*WAVE_MATRIX* 2>/dev/null | head
+fi
+
 if [ "$step" = scired ] || [ "$step" = all ]; then
   echo "### espdr_sci_red (10 SUN,FP,G2V) ###"
   s=$SOF/scired.sof; : > "$s"

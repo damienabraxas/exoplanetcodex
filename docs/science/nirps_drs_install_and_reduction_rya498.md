@@ -333,17 +333,39 @@ order-range / FP-window relaxation option. This is the wave-solution bootstrap
 the operational reflex/EDPS iterates; a single hand-driven pass with a stale
 static prior does not converge on the edge order. **No S1D produced yet.**
 
-**Resume options (in preference order):**
-1. Install **EDPS**/pyesorex and run the `nirps` workflow — it iterates the wave
-   bootstrap and auto-associates (the intended headless path; blocked here only
-   because pyesorex/edps aren't installed on Sirius py3.14 — needs a py≤3.12 venv).
-2. Seed `wave_THAR` with a **fresher wave prior** — e.g. run `espdr_wave_THAR_THAR`
-   on the `WAVE,UN1,UN1` frame first for an FP-independent absolute solution, or
-   obtain a same-epoch `WAVE_MATRIX` from a nearby archival reduction.
-3. Diagnose the `order 1` gap directly: check whether the wave_FP
-   `FP_SEARCHED_LINE_TABLE` populates the edge order, and whether the
-   `ORDERS_MASK` order count matches the orderdef `ORDER_TABLE`.
+**Resume options investigated (2026-07-01):**
 
-The cascade + all inputs are proven and staged; only the wave-solution
-convergence remains between here and `sci_red → S1D_FINAL`. Same blocker will
-gate the RYA-500 α Cen re-reduction (same DRS, same wave step).
+- **(2) THAR_THAR seed — TRIED, insufficient.** `espdr_wave_THAR_THAR` on the
+  `WAVE,UN1,UN1` frame **succeeds** (14 s → `S2D_THAR_THAR_A/B` +
+  `S2D_BLAZE_THAR_THAR_A/B`). Valuable diagnostic: the UNe extraction + all
+  detector cals (order tables/profiles, master flat, blaze) are **good** — the
+  failure is *only* the FP-line→ThAr wavelength assignment in `wave_THAR`. But
+  THAR_THAR emits **no WAVE_MATRIX** (only S2D spectra), so it cannot seed the
+  wave solution or feed `sci_red`. Dead end for producing the wave map.
+- **(1) EDPS — BLOCKED, no NIRPS workflow.** The ESO pip index
+  (`ftp.eso.org/pub/dfs/pipelines/libraries/`) carries the EDPS *engine*
+  (`edps`, `pyesorex`, `pycpl`, `adari`, `hdrl`, `telluriccorr`) and Python 3.12
+  is bootstrappable via `uv` (Ubuntu 26.04 ships only 3.14; SWIG 4.4 apt-available)
+  — **but there is no NIRPS EDPS *workflow* package** anywhere (not on the index,
+  not in the nirps ftp path, not in the kit). NIRPS 3.3.12 is a **reflex**
+  pipeline (`share/esopipes/nirps-3.3.12/reflex/nirps.xml` + actors), not EDPS.
+  Standing up edps yields nothing to run for NIRPS.
+
+**Remaining true paths (need a steer / new engine):**
+1. **esoreflex** (the *intended* NIRPS orchestrator) — runs `nirps.xml` + the
+   `.oca` + reflex actors and iterates the wave bootstrap. Needs esoreflex + a
+   **Java** runtime installed (both absent on Sirius; Java is apt-available).
+   Headless via `esoreflex -n`. This is the ESO-supported way to get the wave
+   solution to converge.
+2. **Fresher wave prior** for `wave_THAR` — obtain a 2023-epoch `WAVE_MATRIX`
+   (e.g. from an ESO-archive-reduced NIRPS product near 2023-04-29) and feed it
+   as the first-guess in place of the stale 2022-11-01 static. Tag/format
+   compatibility to be verified.
+3. **Order-index debug** — confirm whether orderdef traced a spurious edge order
+   ("order 1") absent from the static wave matrix / `ORDERS_MASK`, causing the
+   per-order FP assignment to fail; if so, constrain the order range.
+
+The cascade + all inputs are proven and staged (orderdef/mflat/wave_FP +
+THAR_THAR = 22 valid products); only the `wave_THAR` convergence stands between
+here and `sci_red → S1D_FINAL`. **Same blocker gates RYA-500** (α Cen, same DRS +
+wave step) — resolving it unblocks both.
