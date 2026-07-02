@@ -777,6 +777,141 @@ def check_solar_ew_canonical() -> list[Violation]:
     return violations
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 8 — C/N/O molecular line lists secured (RYA-360)
+# ══════════════════════════════════════════════════════════════════════════════
+# RYA-236 acquired the Turbospectrum molecular lists (CH/¹³CH, CN isotopologues, C2,
+# OH, NH) + the converted CO_IR_Li2015.dat, but they lived ONLY in the iSpec install
+# tree — the repo tracked ZERO molecular artifacts, so an iSpec reinstall/rebuild would
+# silently wipe the CO addition (same failure class as gf / blend_flag / STAR_PARAMS).
+# RYA-360 vendored them into data/linelists/molecular/turbospectrum/ with a provenance
+# manifest; this invariant makes the securing mechanical, registry-driven off that
+# manifest (one entry per molecule):
+#   • each required list PRESENT in the vendored location + non-empty (≥ recorded baseline),
+#   • HARPS-window coverage non-empty (≥ baseline; headline CH/CN/C2 window too),
+#   • provenance complete (source + distribution) and wavelength_coverage present,
+#   • DRIFT: when iSpec is present, its files must still match the vendored copy (a
+#     reinstall that reset/wiped a list → loud CI event).
+# Any breach → UNTRACKED violation, exit 1 (a missing list is a CI event, not a silent
+# RYA-237 false-absence).
+_MOLECULAR_SUMMARY: dict = {}
+
+
+def check_molecular_lists() -> list[Violation]:
+    from pipeline import molecular_lists as _ml
+    violations: list[Violation] = []
+    try:
+        manifest = _ml.load_manifest()
+    except Exception as exc:
+        raise StewardshipParseError(f"molecular manifest unreadable/absent: {exc}")
+    mols = manifest.get('molecules', {})
+    if not mols:
+        raise StewardshipParseError("molecular manifest records no molecules (RYA-360)")
+
+    ispec_present = _ml.ISPEC_MOLECULES_DIR.exists()
+    summary: dict = {}
+    for mol, entry in mols.items():
+        sub = _ml.VENDORED_DIR / entry.get('vendored_subdir', mol)
+        files = entry.get('files', [])
+        baseline = int(entry.get('line_count', 0))
+
+        # (1) vendored lists present + non-empty (≥ recorded baseline)
+        missing = [f for f in files if not (sub / f).exists()]
+        counted = sum(_ml.count_bsyn_lines(sub / f) for f in files if (sub / f).exists())
+        if not files or missing:
+            violations.append(Violation(
+                invariant='molecular', quantity='vendored list present',
+                locus=f"{mol}  molecular/turbospectrum/{entry.get('vendored_subdir', mol)}",
+                value=(f"missing {len(missing)}/{len(files)} file(s): {missing[:3]}"
+                       if files else "no files recorded"),
+                source=str(entry.get('source', '—')),
+                detail="required molecular list absent from the vendored secure record — "
+                       "an iSpec reinstall/deletion would now be invisible (RYA-360). "
+                       "Re-vendor: scripts/vendor_molecular_lists_rya360.py.",
+                ticket=None))
+        elif counted < baseline:
+            violations.append(Violation(
+                invariant='molecular', quantity='vendored list non-empty',
+                locus=f"{mol}  molecular/turbospectrum/{entry.get('vendored_subdir', mol)}",
+                value=f"{counted} lines < recorded baseline {baseline}",
+                source=str(entry.get('source', '—')),
+                detail="vendored molecular list is empty/truncated below its recorded "
+                       "line count — the secure copy has been corrupted (RYA-360).",
+                ticket=None))
+
+        # (2) HARPS-window coverage non-empty (headline window + overall HARPS range)
+        hw = entry.get('harps_window')
+        if hw and int(hw.get('count', 0)) <= 0:
+            violations.append(Violation(
+                invariant='molecular', quantity='HARPS-window coverage',
+                locus=f"{mol}  {hw.get('name', '')}",
+                value=f"0 lines in {hw.get('range_A')}",
+                source=str(entry.get('source', '—')),
+                detail="headline HARPS diagnostic window is empty — the band the "
+                       "synthesis keystone (RYA-237) fits has no lines (RYA-360).",
+                ticket=None))
+        if mol != 'CO' and int(entry.get('harps_range_count', 0)) <= 0:
+            violations.append(Violation(
+                invariant='molecular', quantity='HARPS-range coverage',
+                locus=f"{mol}", value="0 lines in 3800–6900 Å",
+                source=str(entry.get('source', '—')),
+                detail="no lines across the HARPS-VIS arm — an optical molecular list "
+                       "with zero HARPS coverage is unusable (RYA-360).",
+                ticket=None))
+
+        # (3) provenance complete (source + distribution) + wavelength_coverage present
+        for pf in ('source', 'distribution'):
+            if _is_placeholder(entry.get(pf, '')):
+                violations.append(Violation(
+                    invariant='molecular', quantity=f'provenance ({pf})',
+                    locus=f"{mol}", value=repr(entry.get(pf, '')),
+                    source='manifest', detail=f"molecular list carries empty/placeholder "
+                    f"{pf} provenance (RYA-360).", ticket=None))
+        wc = entry.get('wavelength_coverage') or {}
+        if (wc.get('min_A') is None or wc.get('max_A') is None
+                or _is_placeholder(wc.get('regime', ''))):
+            violations.append(Violation(
+                invariant='molecular', quantity='wavelength_coverage',
+                locus=f"{mol}", value=repr(wc),
+                source='manifest',
+                detail="wavelength_coverage (min/max Å + regime) missing — the "
+                       "electronic-vs-mid-IR distinction must be machine-recorded "
+                       "(RYA-360/499).", ticket=None))
+
+        # (4) DRIFT — when iSpec is present, its files must still match the vendored copy
+        drift_note = 'iSpec absent — skipped'
+        if ispec_present and files and not missing:
+            drifted = []
+            for f in files:
+                ip = _ml.ISPEC_MOLECULES_DIR / f
+                if not ip.exists():
+                    drifted.append((f, 'absent-in-iSpec'))
+                elif _ml.count_bsyn_lines(ip) != _ml.count_bsyn_lines(sub / f):
+                    drifted.append((f, 'line-count differs'))
+            if drifted:
+                drift_note = f"{len(drifted)} file(s) DRIFTED"
+                violations.append(Violation(
+                    invariant='molecular', quantity='iSpec↔vendored drift',
+                    locus=f"{mol}", value=f"{drifted[:3]}",
+                    source='iSpec molecules dir vs vendored copy',
+                    detail="the iSpec molecular list no longer matches the vendored "
+                           "secure record — a reinstall/rebuild reset or wiped it "
+                           "(the exact RYA-360 risk). Re-vendor or restore.",
+                    ticket=None))
+            else:
+                drift_note = 'matches vendored'
+
+        summary[mol] = {
+            'files': len(files), 'lines': counted, 'baseline': baseline,
+            'harps_range': int(entry.get('harps_range_count', 0)),
+            'headline': (f"{hw['name']} {hw['count']}" if hw else '—'),
+            'regime': wc.get('regime', '?'), 'drift': drift_note,
+        }
+    _MOLECULAR_SUMMARY.clear()
+    _MOLECULAR_SUMMARY.update(summary)
+    return violations
+
+
 GF_PAIRS = [
     GfPair(
         name='synth-vs-solar',
@@ -824,6 +959,7 @@ PROVENANCE_CHECKS = [
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
     check_all_stores_resolve, check_vald_threshold, check_solar_ew_canonical,
+    check_molecular_lists,
 ]
 
 
@@ -840,6 +976,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_all_stores_resolve()
     violations += check_vald_threshold()
     violations += check_solar_ew_canonical()
+    violations += check_molecular_lists()
     return violations
 
 
@@ -875,8 +1012,17 @@ def _report(violations: list[Violation]) -> None:
             print(f"     {label:<22} overlap {s['overlap']:>6}  orphan {s['orphan']:>3}  "
                   f"raw_div {s['raw_div']:>5} (max {s['max_dgf']:.2f})  [{s['contract']}]")
 
+    # molecular-lists summary (RYA-360)
+    if _MOLECULAR_SUMMARY:
+        print(f"\n[molecular] C/N/O line lists secured (vendored + iSpec drift):")
+        for mol, s in _MOLECULAR_SUMMARY.items():
+            print(f"     {mol:<3} {s['files']:>2} file(s)  {s['lines']:>7} lines "
+                  f"(baseline {s['baseline']})  HARPS {s['harps_range']:>7}  "
+                  f"headline[{s['headline']}]  {s['regime']:<34} iSpec: {s['drift']}")
+
     # per-invariant violation tables
-    for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores'):
+    for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores',
+                'vald_threshold', 'solar_ew_canonical', 'molecular'):
         vs = [v for v in violations if v.invariant == inv]
         if not vs:
             print(f"\n[{inv}] OK — no violations.")
