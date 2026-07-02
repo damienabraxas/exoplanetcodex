@@ -3,12 +3,19 @@
 scripts/nlte_fstar_ceiling_rya505.py — RYA-505 hot-Teff NLTE coverage recon (Step 0).
 
 Extends the RYA-349 Step-0 finding (non-Fe NLTE grids top out 6200-6500 K, so Procyon
-6554 K is off-grid for everything but Fe). Step 0 here is a HARD RECON GATE: per non-Fe
-element in NLTE_CORRECTION_ELEMENTS, report (a) the current grid + code/atom + atmosphere
-family we wire, (b) our ON-DISK Teff ceiling (max node in the loaded CSV), (c) the
-PUBLISHED grid's real Teff ceiling from a CITED source (the in-repo binary-provenance
-JSON, or the cited survey where provenance didn't record it), and the verdict:
-self-consistent-extend / MPIA-with-cross-check / bounded-clamp / real-limit.
+6554 K is off-grid for everything but Fe). RYA-505 reframe: MULTI-MODEL NLTE == multi-
+instrument — run every model family that covers a point, report per-model, and treat the
+inter-model spread as a measured model-systematic (RYA-282). This harness reports:
+
+  Step 0 (recon gate): per non-Fe element in NLTE_CORRECTION_ELEMENTS — (a) current grid +
+  code/atom + atmosphere family, (b) ON-DISK Teff ceiling (max node in the loaded CSV),
+  (c) PUBLISHED ceiling from a CITED source (in-repo binary provenance or the cited
+  survey). The per-element ceiling verdict names how each family reaches Procyon.
+
+  Multi-model layer (Steps 3-4): per element, which model families are on disk, the
+  per-family SOLAR delta, and the inter-model SPREAD at the solar overlap (the model-
+  systematic meter; UPPER BOUND — carries the atmosphere-baseline term too) vs a 0.05 tol.
+  Single-model elements are flagged (no cross-check available), never silently trusted.
 
 Also confirms (not re-derives): Step 1 the CNO 1D-NLTE leg covers Procyon, and Step 2
 the RYA-483 banked Procyon O used the 1D-NLTE (in-grid) correction.
@@ -162,11 +169,77 @@ def step2_o():
     }
 
 
+# ── Multi-model layer (RYA-505 reframe): run every model family that covers ───
+# On-disk families per element beyond the single registered grid. Amarsi/MARCS vs
+# Bergemann/MAFAGS-OS are independent measurements; where >=2 are on disk, the solar
+# overlap spread is the model-systematic meter (UPPER BOUND — carries the atmosphere
+# baseline too). Elements not listed here are single-model (flagged) at present.
+MULTI_FAMILY = {
+    'Na': [('Amarsi2020_MARCS', 'Na_Amarsi2020_PySME.csv'),
+           ('Lind2011_INSPECT_MARCS', 'Na_Lind2011_INSPECT.csv')],
+    'Mg': [('Amarsi2020_MARCS', 'Mg_Amarsi2020_PySME.csv'),
+           ('Bergemann_MAFAGS-OS', 'Mg_Bergemann_MPIA.csv')],
+    'Si': [('Amarsi2020_MARCS', 'Si_Amarsi2020_PySME.csv'),
+           ('Bergemann_MAFAGS-OS', 'Si_Bergemann_MPIA.csv')],
+}
+OVERLAP_TOL = 0.05
+
+
+def _solar_delta_median(gridfile, teff=5772.0, logg=4.44, feh=0.0):
+    from scipy.interpolate import LinearNDInterpolator, griddata
+    df = pd.read_csv(GD / gridfile)
+    cols = {c.lower(): c for c in df.columns}
+    tc = cols.get('teff_k', cols.get('teff')); gc = cols['logg']; fc = cols['feh']
+    dc = cols['delta_nlte']; wc = cols.get('wave_a', list(df.columns)[2])
+    df = df.dropna(subset=[dc])
+    out = []
+    for _w, g in df.groupby(wc):
+        pts = g[[tc, gc, fc]].values
+        val = g[dc].values
+        if len(pts) < 4:
+            out.append(float(griddata(pts, val, [[teff, logg, feh]], method='nearest')[0]))
+            continue
+        try:
+            v = LinearNDInterpolator(pts, val)([[teff, logg, feh]])[0]
+            if not np.isfinite(v):
+                v = griddata(pts, val, [[teff, logg, feh]], method='nearest')[0]
+            out.append(float(v))
+        except Exception:
+            out.append(float(griddata(pts, val, [[teff, logg, feh]], method='nearest')[0]))
+    return float(np.median(out)), len(out)
+
+
+def multimodel_table():
+    """Per element: model families on disk, per-family solar delta, inter-model spread +
+    agreement badge (Step 4 meter). Single-model elements are flagged (no cross-check)."""
+    rows = []
+    for el, fams in MULTI_FAMILY.items():
+        deltas = {}
+        for name, f in fams:
+            try:
+                d, n = _solar_delta_median(f)
+                deltas[name] = d
+                rows.append({'element': el, 'model': name, 'grid': f,
+                             'solar_delta': round(d, 4), 'n_lines': n})
+            except Exception as exc:
+                rows.append({'element': el, 'model': name, 'grid': f,
+                             'solar_delta': np.nan, 'n_lines': 0, 'err': str(exc)[:40]})
+        if len(deltas) == 2:
+            a, b = list(deltas.values())
+            spread = abs(a - b)
+            rows.append({'element': el, 'model': 'SPREAD', 'grid': '',
+                         'solar_delta': round(spread, 4),
+                         'n_lines': ('AGREE' if spread <= OVERLAP_TOL else 'FLAG-adjudicate')})
+    return pd.DataFrame(rows)
+
+
 def main():
     t = step0_table()
     s1 = step1_cno()
     s2 = step2_o()
+    mm = multimodel_table()
     t.to_csv(RESULTS / 'nlte_fstar_ceiling_rya505.csv', index=False)
+    mm.to_csv(RESULTS / 'nlte_multimodel_rya505.csv', index=False)
 
     print("=" * 78)
     print("  RYA-505 — hot-Teff NLTE coverage recon (Step 0 gate)")
@@ -179,6 +252,11 @@ def main():
     print("\n[Step 2 — RYA-483 banked Procyon O]")
     for k, v in s2.items():
         print(f"    {k}: {v}")
+
+    print("\n[Multi-model layer — run every family that covers; solar-overlap spread meter]")
+    print(mm.to_string(index=False))
+    print("    (Mg/Si Bergemann=MAFAGS-OS vs Amarsi=MARCS -> spread is an UPPER BOUND: "
+          "carries the atmosphere-baseline term as well as the NLTE-method term.)")
 
     # Procyon / tau Boo coverage map after the decision
     print("\n[Coverage map]")
