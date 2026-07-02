@@ -469,11 +469,31 @@ the standard, reproducible path (qualifying darks + a 1-line documented OCA
 toggle) — **not** fragile hand-editing of Kepler bookkeeping (the last-resort
 option in the review, avoided).
 
-### Status
-esoreflex engine fully operational headless (Step 0 gate passed); DO blocker
-diagnosed + fixed; the full cascade (incl. the wave bootstrap that walled the
-hand-driven `wave_THAR`) is running → `sci_red → S1D_FINAL`. This engine +
-version is what **RYA-500** reuses for α Cen. Remaining once S1D lands:
-converged-wave confirmation (all orders incl. the edge order), telluric-verify
-vs the Wallace NIR atlas via the RYA-494 module, and the `OPEN_QUESTIONS.md`
-entry (what reflex does differently on the edge order vs standalone `wave_THAR`).
+### RESULT — full cascade RAN under reflex; `wave_THAR` fails identically → no S1D
+
+reflex 2.11.2 orchestrated the **entire cascade end-to-end** (mdark → orderdef →
+mflat → cal_contam → wave_FP → **wave_THAR** → sci_red; dataset saved to
+`reflex_end_products/…`), 16 min. The orchestration (DO, dataset tree,
+bookkeeping, reflex-generated SOFs) is fully working. But **no `S1D_FINAL`** — two
+hard findings:
+
+1. **`wave_THAR` fails identically to the standalone run.** reflex invoked it
+   **~20×** (`wave_THAR_1`/`_2`, 10 attempts each) — every one died with
+   `espdr_find_first_FP_ll: No FP line before/after the ThAr line (order 1, …)` →
+   `espdr_get_all_FP_ll_per_order: Input data do not match` (status 13). **This
+   disproves the brief's premise** that reflex iterates the bootstrap to
+   converge the edge order — it's a deterministic recipe failure against the
+   stale **2022-11-01** static wave first-guess (the newest NIRPS ships) for our
+   2023-04-29 data. Both orchestration methods agree the wave issue is a genuine
+   recipe/data limitation, not an orchestration gap. See `docs/OPEN_QUESTIONS.md`.
+2. **`sci_red` second blocker:** the solar frames are `DPR.CATG=CALIB`,
+   `OBJECT=SUN,FP,G2V`, lacking `ESO OCS TARG SPTYPE` + `ESO TEL TARG RADVEL` →
+   `espdr_get_science_params failed`. HELIOS CALIB monitoring frames don't carry
+   the science-target keywords a normal `OBJECT` frame does.
+
+**Time-boxed STOP + flag** (per the review): the supported reflex path is fully
+stood up and *run*, revealing the wave blocker is a real recipe/data limitation
+(fresher wave prior needed, or an ESO support ticket — reflex is ESO-supported)
+plus the sci_red keyword gap. No silent order drop — hard stop at `wave_THAR`,
+reported loudly. This engine + version is what **RYA-500** reuses for α Cen (which
+will hit the same wave step). No hack applied; decisions flagged for review.
