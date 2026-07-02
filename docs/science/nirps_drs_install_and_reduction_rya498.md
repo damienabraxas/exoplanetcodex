@@ -369,3 +369,84 @@ The cascade + all inputs are proven and staged (orderdef/mflat/wave_FP +
 THAR_THAR = 22 valid products); only the `wave_THAR` convergence stands between
 here and `sci_red → S1D_FINAL`. **Same blocker gates RYA-500** (α Cen, same DRS +
 wave step) — resolving it unblocks both.
+
+---
+
+## 8. esoreflex path (the wave-bootstrap orchestrator) — RYA-498 esoreflex brief
+
+The hand-driven cascade walls at `wave_THAR` because a single pass can't iterate
+the wave bootstrap. **esoreflex** (Kepler workflow engine) runs `nirps.xml` + the
+`.oca` and iterates it. NIRPS is a reflex pipeline (no EDPS workflow exists), so
+esoreflex is the ESO-native orchestrator.
+
+### Install (cited versions)
+- **esoreflex 2.11.2** (`ftp.eso.org/pub/dfs/reflex/esoreflex-2.11.2-linux.tar.gz`,
+  the last reflex release — ESO froze reflex at 2.11.2 and moved to EDPS; nirps
+  3.3.12's `nirps.xml` targets it). Extracted to
+  `/mnt/codex-data/engines/nirps_drs/esoreflex-2.11.2-linux/`. Kepler-based, no
+  bundled JRE.
+- **openjdk-8-jre** (`8u492`, apt) — Kepler needs Java 8 (min = 1.8; breaks on
+  11+). Ubuntu 26.04 ships only Python 3.14 / Java 21, but `openjdk-8-jre` is
+  apt-available.
+- **xvfb** (`21.1.22`, apt) — Kepler needs an X display even non-interactive;
+  run under `xvfb-run -a`.
+- python3 sci stack (`python3-numpy` 2.3.5 / `scipy` / `astropy` 7.2.0 /
+  `matplotlib` 3.10.7, apt) — the reflex python actors import numpy at load.
+
+### Config (`~/.esoreflex/esoreflex.rc`)
+`java-command` → the Java 8 binary; `esorex-command=esorex` (bare, on PATH);
+`esorex-config=` (empty — esorex finds all 18 recipes from its compiled-in
+default recipe-dir, which recurses into `esopipes-plugins/nirps-3.3.12`);
+`python-command=python3`; `path=<install>/bin`; `library-path=<install>/lib*`;
+`inherit-environment=TRUE`.
+
+### STEP 0 HEADLESS GATE — PASSED ✅
+`esoreflex -v` → `Reflex version: 2.11.2` + `Installed pipelines: nirps-3.3.12`
+(reflex↔pipeline compat confirmed). `xvfb-run -a esoreflex -n -p nirps` loads the
+workflow in Kepler **headless** and prints all parameters — no X11 wall. The
+non-interactive run then parses + executes the workflow and the Data Organizer.
+
+### GOTCHAS solved
+1. **Recipe "not available" at parse.** The `RecipeExecuter`/`EsorexInvoker` runs
+   bare `esorex --recipes` and parses ` name : desc`; my earlier
+   `esorex-config=TRUE` made esorex fail (it got `--config TRUE`). Fix: empty
+   config + bare esorex on PATH (recipes found by default). Traced via an esorex
+   logging shim in `install/bin` — confirmed reflex calls `--version`,
+   `--recipes`, then per-recipe `--create-config <recipe>` param queries.
+2. **numpy missing** → apt `python3-numpy` etc.
+3. **Unreplaced install placeholders.** `nirps.xml` shipped with
+   `ROOT_DATA_PATH_TO_REPLACE` / `CALIB_DATA_PATH_TO_REPLACE` (the reflex-install
+   substitution never ran). `sed`-substituted them to real paths (`reflex_solar`
+   / `reflex_calib`, with `reflex_calib/nirps-3.3.12` → the static cal set).
+   `nirps.xml.orig` backed up.
+
+### Run
+`scratch/nirps_drs_rya498/run_reflex_solar.sh` — `xvfb-run -a esoreflex -n nirps
+-SelectDatasetMethod All -RecipeFailureMode Continue -ProductExplorerMode
+Disabled -GlobalPlotInteractivity false -GlobalCalibPlotInteractivity false
+-EraseDirs true`. Inputs: 41 raw frames (10 science + 31 cals) in
+`reflex_solar/reflex_input/nirps/`; 139 statics in `reflex_calib/nirps-3.3.12/`.
+
+### CURRENT BLOCKER — Data Organizer static-calib association
+The DO parses, classifies the 41 raw frames, and scans `CALIB_DATA_DIR` (139
+statics, confirmed by checksum-warning log lines on `reflex_calib/...`), but the
+science association fails: `Could not find enough products of type
+HOT_PIXEL_MASK ... Requested 1. Found 0` → `No datasets have been created`.
+The association is `select ... where PRO.CATG=="HOT_PIXEL_MASK" and VIRTUAL==T`;
+the static `NIRPS_HA_hot_pixels_2023-01-01.fits` has the right
+`PRO.CATG=HOT_PIXEL_MASK` + `INSTRUME=NIRPS` + `INS MODE=HA`, but the DO is not
+marking the `CALIB_DATA_DIR` statics as `VIRTUAL==T`. (Our night's 61.3 s darks
+don't meet the `mdark` predicate `EXPTIME>830`, so `HOT_PIXEL_MASK` cannot be
+generated either — it must come from the static.)
+
+**Next-step hypotheses:** (a) reflex may require the static master calibs
+registered in the bookkeeping DB / a specific "purpose" mapping
+(`FileSystemDatasetCreator` distinguishes `isVirtual()`; `DataOrganizer` maps
+`"RAW CALIBRATIONS" → AssociationPreference.VIRTUAL`) — investigate the DO
+`purpose`/`AssociationPreference` config; (b) place the static detector masters
+where reflex treats them as virtual products; (c) supply qualifying long darks
+(>830 s, nearby night) so `mdark` generates `HOT_PIXEL_MASK` in-run.
+
+**Status: esoreflex engine fully operational headless (Step 0 gate passed,
+workflow runs, DO executes); the last mile is the DO static-calib `VIRTUAL`
+association.** This engine + version is what **RYA-500** reuses for α Cen.
