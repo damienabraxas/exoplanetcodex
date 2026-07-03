@@ -497,3 +497,16 @@ stood up and *run*, revealing the wave blocker is a real recipe/data limitation
 plus the sci_red keyword gap. No silent order drop — hard stop at `wave_THAR`,
 reported loudly. This engine + version is what **RYA-500** reuses for α Cen (which
 will hit the same wave step). No hack applied; decisions flagged for review.
+
+**Update 2026-07-03 (order-exclusion route → make-do exit).** Pursuing Ryan's
+"exclude the edge order" steer overturned the edge-order framing: the FP-line
+starvation is **global** (median ~3 FP lines/order across all 71 orders; reflex
+identical), because the good FP comb (~745 peaks/mid-order in the `S2D_FP`) is
+matched against the **stale 2022-11-01 static wave prior**, which mis-locates it
+for 2023-04-29. Excluding order 1 can't help (order 2 also starved), and no
+recipe exposes an order/FP-threshold param. Real fix = a fresher ~2023 HA
+`WAVE_MATRIX` prior, not trivially grabbable → **make-do exit**: park from-raw;
+fall back to the on-disk external solar IR atlas (`IR Reference Atlases/ACE-FTS`,
+`NSO_photatl`) as the YJH reference, non-instrument-matched caveat. Full analysis
++ the reusable reduction diagnosis (feeds RYA-508) in `docs/OPEN_QUESTIONS.md`.
+IR *science* unaffected (runs on the reduced α Cen ADP, RYA-507).
