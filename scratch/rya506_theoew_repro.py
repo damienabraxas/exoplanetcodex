@@ -8,13 +8,13 @@ Reproduces + instruments the Procyon Fe theo-EW collapse: a clean-from-raw regen
 consumes at the quarantine step (it does NOT change the computation — it wraps the original).
 
 ROOT CAUSE (confirmed): iSpec `calculate_theoretical_ew_and_depth` runs the SPECTRUM synthesis
-in a child multiprocessing.Process and initialises `output_ew = np.zeros(num_lines)`. If the
-child dies without enqueueing results, the poll loop (`while p.is_alive() and ...`) falls
-through with output_ew STILL ZEROS and iSpec returns them SILENTLY (the dead-child path does
-not even log — only the timeout path does). `_fe2_theoretical_ew` trusts + caches these zeros
-→ every Fe line fails the theo<5 quarantine. It is a timing-sensitive race: this logging
-wrapper perturbs parent-process scheduling enough that the child reliably completes, so the
-INSTRUMENTED run SUCCEEDS (theo sane, A(FeI)≈7.571) while the PLAIN run fails — same inputs.
+in a child multiprocessing.Process that imports the C `synthesizer` extension and expects FORK
+semantics, and initialises `output_ew = np.zeros(num_lines)`. On macOS the Python 3.8+ default
+start method is `spawn`, under which that child dies without enqueueing → iSpec silently
+returns the zeros → every Fe line fails the theo<5 quarantine. FIX (applied in
+pipeline/abundances_derive.py): force the start method to `fork` (eliminates it, deterministic)
++ a loud all-zero-batch guard. Post-fix the plain run reproduces A(FeI)=7.557/7.571. This
+harness remains a probe of the theo-EW values; it is no longer needed to make the run succeed.
 
 Prereq: stage Procyon data first (fast):
     python -m pipeline.spectra_normalize --star procyon
