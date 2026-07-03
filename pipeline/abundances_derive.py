@@ -39,9 +39,27 @@ Calibration notes (first solar run, 2026-06-04)
 - Asplund.2009 vs Asplund.2021 offset for Fe: 7.46 – 7.67 = –0.01 dex (negligible)
 """
 
+import os
 import sys
 import warnings
+import multiprocessing as _mp
 import numpy as np
+
+# RYA-506: force the multiprocessing start method to 'fork'. iSpec runs its SPECTRUM
+# theoretical-EW synthesis in a child process that imports the C `synthesizer` extension
+# and relies on FORK semantics (the pipeline was developed on Linux, where fork is the
+# default). On macOS, Python 3.8+ defaults to 'spawn', under which that child re-imports
+# the C extension and dies WITHOUT enqueueing its result; iSpec then silently returns a
+# zero-initialised theoretical-EW array (ispec/synth/spectrum.py:260-289), which made
+# 100% of the Procyon Fe pool fail the theo<5 mÅ quarantine → "MOOG: No abundances".
+# Establishing 'fork' ELIMINATES the root cause (verified: fork → theo-EW sane, the Fe
+# pool + A(Fe) reproduce); the all-zero-batch guard in _fe2_theoretical_ew is the loud
+# backstop for any residual failure. Set once, before any child process is created.
+try:
+    if _mp.get_start_method(allow_none=True) != 'fork':
+        _mp.set_start_method('fork', force=True)
+except (RuntimeError, ValueError):   # already started / platform without fork → guard still catches
+    pass
 import pandas as pd
 from pathlib import Path
 from scipy.optimize import minimize_scalar
@@ -301,9 +319,22 @@ _fe2_theo_cache: dict = {}
 _fe2_quarantine_state: dict = {'written': False}
 _fe1_quarantine_state: dict = {'written': False}   # RYA-309: Fe I triage parity
 
+# RYA-506: the theoretical-EW step is the universal quarantine gate. Its silent-failure
+# mode was iSpec returning a zero-initialised array when its child synthesis process died
+# (root cause: the macOS 'spawn' default — fixed at module import above). This guard is the
+# loud backstop: an all-zero BATCH is the clean signature of a failed synthesis (physically
+# impossible for a real Fe pool), so we RAISE and do NOT cache rather than let a failed
+# synthesis silently quarantine a real pool. It does NOT loosen the theo<5 mÅ filter: a
+# single weak line legitimately near zero still sits inside a batch with non-zero
+# neighbours, so `np.any(theo > 0)` separates "synthesis failed" from "one line quarantined".
+_TMP_DIR = '/tmp/ispec_codex'
+
 
 def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray:
-    """Theoretical Fe II-only EW (mÅ) per line at expected A(Fe)=solar+[Fe/H], via SPECTRUM."""
+    """Theoretical Fe II-only EW (mÅ) per line at expected A(Fe)=solar+[Fe/H], via SPECTRUM.
+
+    RYA-506: RAISES (does not cache) if the synthesis returns an all-zero batch — the
+    signature of a silently-failed iSpec child — instead of quarantining a real pool on it."""
     teff = float(stellar_params['teff_K']); logg = float(stellar_params['logg'])
     feh  = float(stellar_params['feh']);    vturb = float(stellar_params['vturb_kms'])
     key = (tuple(np.round(np.asarray(fe2_linemasks['wave_A'], dtype=float), 3)),
@@ -312,10 +343,20 @@ def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray
         return _fe2_theo_cache[key]
     _, isotopes, _ = _load_synth_resources()
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+    os.makedirs(_TMP_DIR, exist_ok=True)   # RYA-506: never let a missing tmp dir crash write_atmosphere
+    n_lines = int(len(fe2_linemasks))
     out = ispec.calculate_theoretical_ew_and_depth(
         atmosphere, teff, logg, feh, 0.0, fe2_linemasks.copy(), isotopes, solar_abund,
-        microturbulence_vel=vturb, verbose=0, tmp_dir='/tmp/ispec_codex')
+        microturbulence_vel=vturb, verbose=0, tmp_dir=_TMP_DIR)
     theo = np.asarray(out['theoretical_ew'], dtype=float)
+    if not np.any(theo > 0):               # all-zero batch → failed synthesis, not physics
+        raise RuntimeError(
+            f"[RYA-506] theoretical-EW synthesis returned an all-zero batch for {n_lines} "
+            f"Fe lines at teff={teff} logg={logg} feh={feh}. An all-zero theoretical EW is "
+            f"physically impossible for a real Fe pool — the iSpec child synthesis died "
+            f"without enqueueing a result (silent zero-init; root cause = a non-'fork' "
+            f"multiprocessing start method — see the module-level fix + docs/OPEN_QUESTIONS.md). "
+            f"REFUSING to cache it or quarantine a real pool on a failed synthesis.")
     _fe2_theo_cache[key] = theo
     return theo
 
