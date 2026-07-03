@@ -839,25 +839,39 @@ def check_molecular_lists() -> list[Violation]:
                        "line count — the secure copy has been corrupted (RYA-360).",
                 ticket=None))
 
-        # (2) HARPS-window coverage non-empty (headline window + overall HARPS range)
+        # (2) coverage non-empty — HARPS window for the held optical/electronic lists;
+        #     the RYA-499 mid-IR window for the RYA-503 acquired ro-vibrational lists.
+        gate = entry.get('coverage_gate', 'harps')
         hw = entry.get('harps_window')
-        if hw and int(hw.get('count', 0)) <= 0:
-            violations.append(Violation(
-                invariant='molecular', quantity='HARPS-window coverage',
-                locus=f"{mol}  {hw.get('name', '')}",
-                value=f"0 lines in {hw.get('range_A')}",
-                source=str(entry.get('source', '—')),
-                detail="headline HARPS diagnostic window is empty — the band the "
-                       "synthesis keystone (RYA-237) fits has no lines (RYA-360).",
-                ticket=None))
-        if mol != 'CO' and int(entry.get('harps_range_count', 0)) <= 0:
-            violations.append(Violation(
-                invariant='molecular', quantity='HARPS-range coverage',
-                locus=f"{mol}", value="0 lines in 3800–6900 Å",
-                source=str(entry.get('source', '—')),
-                detail="no lines across the HARPS-VIS arm — an optical molecular list "
-                       "with zero HARPS coverage is unusable (RYA-360).",
-                ticket=None))
+        mw = entry.get('midir_window') or {}
+        if gate == 'midir':
+            if int(mw.get('count', 0)) <= 0:
+                violations.append(Violation(
+                    invariant='molecular', quantity='mid-IR window coverage',
+                    locus=f"{mol}  {mw.get('label', '')}",
+                    value=f"0 lines in {mw.get('range_cm-1')} cm⁻¹",
+                    source=str(entry.get('source', '—')),
+                    detail="acquired list carries no rows in its RYA-499 mid-IR "
+                           "fundamental window — the acquisition is empty where it must "
+                           "cover (RYA-503).", ticket=None))
+        else:
+            if hw and int(hw.get('count', 0)) <= 0:
+                violations.append(Violation(
+                    invariant='molecular', quantity='HARPS-window coverage',
+                    locus=f"{mol}  {hw.get('name', '')}",
+                    value=f"0 lines in {hw.get('range_A')}",
+                    source=str(entry.get('source', '—')),
+                    detail="headline HARPS diagnostic window is empty — the band the "
+                           "synthesis keystone (RYA-237) fits has no lines (RYA-360).",
+                    ticket=None))
+            if mol != 'CO' and int(entry.get('harps_range_count', 0)) <= 0:
+                violations.append(Violation(
+                    invariant='molecular', quantity='HARPS-range coverage',
+                    locus=f"{mol}", value="0 lines in 3800–6900 Å",
+                    source=str(entry.get('source', '—')),
+                    detail="no lines across the HARPS-VIS arm — an optical molecular list "
+                           "with zero HARPS coverage is unusable (RYA-360).",
+                    ticket=None))
 
         # (3) provenance complete (source + distribution) + wavelength_coverage present
         for pf in ('source', 'distribution'):
@@ -878,9 +892,12 @@ def check_molecular_lists() -> list[Violation]:
                        "electronic-vs-mid-IR distinction must be machine-recorded "
                        "(RYA-360/499).", ticket=None))
 
-        # (4) DRIFT — when iSpec is present, its files must still match the vendored copy
-        drift_note = 'iSpec absent — skipped'
-        if ispec_present and files and not missing:
+        # (4) DRIFT — when iSpec is present, its files must still match the vendored copy.
+        #     Skipped for RYA-503 acquired lists (in_ispec: false) — they were acquired
+        #     into the repo, not the iSpec bundle, so there is nothing to drift against.
+        drift_note = ('acquired — not in iSpec' if not entry.get('in_ispec', True)
+                      else 'iSpec absent — skipped')
+        if entry.get('in_ispec', True) and ispec_present and files and not missing:
             drifted = []
             for f in files:
                 ip = _ml.ISPEC_MOLECULES_DIR / f
@@ -901,11 +918,12 @@ def check_molecular_lists() -> list[Violation]:
             else:
                 drift_note = 'matches vendored'
 
+        headline = (f"{mw['label'].split(' (')[0]} {mw['count']}" if gate == 'midir' and mw
+                    else (f"{hw['name']} {hw['count']}" if hw else '—'))
         summary[mol] = {
             'files': len(files), 'lines': counted, 'baseline': baseline,
             'harps_range': int(entry.get('harps_range_count', 0)),
-            'headline': (f"{hw['name']} {hw['count']}" if hw else '—'),
-            'regime': wc.get('regime', '?'), 'drift': drift_note,
+            'headline': headline, 'regime': wc.get('regime', '?'), 'drift': drift_note,
         }
     _MOLECULAR_SUMMARY.clear()
     _MOLECULAR_SUMMARY.update(summary)
