@@ -1,6 +1,6 @@
 {
   "schema": "molecular_lists/v1 (RYA-360)",
-  "generated": "2026-07-01",
+  "generated": "2026-07-02",
   "ispec_source_dir": "/Users/ryanschmitt/Documents/Exoplanet Codex/ispec/input/linelists/turbospectrum/molecules",
   "reconciliation": "The usable Turbospectrum molecular .bsyn lists live in the iSpec TOOL dir input/linelists/turbospectrum/molecules/ (RYA-236 audit), NOT the raw-download dir data/linelists/molecular/exomol/ (.bz2) the RYA-237 recon looked in. Vendored here as the git-tracked secure record of truth.",
   "harps_range_A": [
@@ -319,7 +319,138 @@
         "CO 2-0 overtone ~2.3 \u00b5m (23000 \u00c5)": true,
         "note": "CO_IR_Li2015 is the genuine mid-IR rovibrational list (spans NIR overtones through the fundamental)."
       },
-      "vendored_subdir": "CO"
+      "vendored_subdir": "CO",
+      "conversion": {
+        "converter": "scripts/molecular_linelist_convert.py (RYA-503)",
+        "source_format": "ExoMol .states/.trans",
+        "source_dataset": "ExoMol CO Li2015",
+        "source_url": "https://www.exomol.com/db/CO/12C-16O/Li2015/",
+        "version": "20170101",
+        "doi": "10.1088/0067-0049/216/1/15",
+        "citation": "Li, Gordon, Rothman et al. 2015, ApJS 216, 15 (CO rovibrational line lists), ExoMol-hosted Li2015",
+        "recipe": "vacuum \u03bb = 1e8/(E_u\u2212E_l); \u03c7_low = E_l/8065.543937 eV; loggf = log10(1.49919e-16\u00b7\u03bb\u00b2\u00b7g_u\u00b7A_ul); filter \u03bd \u2265 1000 cm\u207b\u00b9 (drops 7713 pure-rotational lines below 1000 cm\u207b\u00b9 / above 10 \u00b5m)",
+        "roundtrip": "PASS \u2014 reproduces the vendored CO_IR_Li2015.dat: 117783/117783 lines, 0 only-in-either; max dev \u03bb 8.7e-3 \u00c5, \u03c7 5.1e-6 eV, loggf 5.0e-4 dex, A exact at the file's 3-sig-fig precision. Closes the RYA-360 CO-script reproducibility gap."
+      }
+    },
+    "OH_MYTHOS_midIR": {
+      "species": "OH (mid-IR ro-vibrational, MYTHOS)",
+      "vendored_subdir": "OH",
+      "files": [
+        "16O-1H__MYTHOS_rovib.bsyn"
+      ],
+      "ts_species_code": "0108.000016",
+      "source": "OH X\u2013X ro-vibrational \u2014 Mitev, Bowesman, Zhang, Yurchenko & Tennyson 2025, MNRAS 536, 3401 (ExoMol LXI; OH MYTHOS)",
+      "distribution": "ExoMol MYTHOS v20240526 (https://www.exomol.com/db/OH/16O-1H/MYTHOS/); DOI 10.1093/mnras/stae2803; converted via scripts/molecular_linelist_convert.py",
+      "doi": "10.1093/mnras/stae2803",
+      "version": "20240526",
+      "origin": "acquired (RYA-503)",
+      "in_ispec": false,
+      "coverage_gate": "midir",
+      "conversion": {
+        "converter": "scripts/molecular_linelist_convert.py",
+        "source_format": "ExoMol .states/.trans",
+        "recipe": "ground X\u2013X (ro-vibrational), \u03bd \u2265 1000 cm\u207b\u00b9; vacuum \u03bb; loggf = log10(1.49919e-16\u00b7\u03bb\u00b2\u00b7g_u\u00b7A); \u03c7_low = E_l/8065.543937 eV",
+        "gf_const": 1.49919e-16,
+        "cm_per_eV": 8065.543937
+      },
+      "line_count": 72762,
+      "wavelength_coverage": {
+        "min_A": 3133.337,
+        "max_A": 99939.241,
+        "min_cm-1": 1000.6,
+        "max_cm-1": 31914.9,
+        "regime": "mid-IR-rovibrational"
+      },
+      "midir_window": {
+        "label": "OH 1-0 fundamental (2600-3600 cm\u207b\u00b9)",
+        "range_cm-1": [
+          2600.0,
+          3600.0
+        ],
+        "count": 5779,
+        "verdict": "MID-IR PRESENT (acquired; was 0 in the held electronic .bsyn)"
+      }
+    },
+    "NH_kNigHt_midIR": {
+      "species": "NH (mid-IR ro-vibrational, kNigHt)",
+      "vendored_subdir": "NH",
+      "files": [
+        "14N-1H__kNigHt_rovib.bsyn"
+      ],
+      "ts_species_code": "0107.000014",
+      "source": "NH X\u2013X ro-vibrational \u2014 Perri & McKemmish 2024, MNRAS 531, 3023 (NH kNigHt). Note: the newer 2kNigHt (v20260414) is in press with no DOI yet; kNigHt is the cited published variational list.",
+      "distribution": "ExoMol kNigHt v20240301 (https://www.exomol.com/db/NH/14N-1H/kNigHt/); DOI 10.1093/mnras/stae1340; converted via scripts/molecular_linelist_convert.py",
+      "doi": "10.1093/mnras/stae1340",
+      "version": "20240301",
+      "origin": "acquired (RYA-503)",
+      "in_ispec": false,
+      "coverage_gate": "midir",
+      "conversion": {
+        "converter": "scripts/molecular_linelist_convert.py",
+        "source_format": "ExoMol .states/.trans",
+        "recipe": "ground X\u2013X (ro-vibrational), \u03bd \u2265 1000 cm\u207b\u00b9; vacuum \u03bb; loggf = log10(1.49919e-16\u00b7\u03bb\u00b2\u00b7g_u\u00b7A); \u03c7_low = E_l/8065.543937 eV",
+        "gf_const": 1.49919e-16,
+        "cm_per_eV": 8065.543937
+      },
+      "line_count": 52831,
+      "wavelength_coverage": {
+        "min_A": 3446.796,
+        "max_A": 99988.064,
+        "min_cm-1": 1000.1,
+        "max_cm-1": 29012.5,
+        "regime": "mid-IR-rovibrational"
+      },
+      "midir_window": {
+        "label": "NH 1-0 fundamental (3000-3500 cm\u207b\u00b9)",
+        "range_cm-1": [
+          3000.0,
+          3500.0
+        ],
+        "count": 2074,
+        "verdict": "MID-IR PRESENT (acquired; was 0 in the held electronic .bsyn)"
+      }
+    },
+    "CH_MoLLIST_midIR": {
+      "species": "CH (mid-IR ro-vibrational, MoLLIST)",
+      "vendored_subdir": "CH",
+      "files": [
+        "12C-1H__MoLLIST_rovib.bsyn"
+      ],
+      "ts_species_code": "0106.000012",
+      "source": "CH X\u2013X ro-vibrational \u2014 Masseron et al. 2014, A&A 571, A47 (CH linelist); re-hosted via Bernath 2020, JQSRT 240, 106687 (MoLLIST, DOI 10.1016/j.jqsrt.2019.106687)",
+      "distribution": "ExoMol MoLLIST v20190214 (https://www.exomol.com/db/CH/12C-1H/MoLLIST/); DOI 10.1051/0004-6361/201423956; converted via scripts/molecular_linelist_convert.py",
+      "doi": "10.1051/0004-6361/201423956",
+      "version": "20190214",
+      "origin": "acquired (RYA-503)",
+      "in_ispec": false,
+      "coverage_gate": "midir",
+      "conversion": {
+        "converter": "scripts/molecular_linelist_convert.py",
+        "source_format": "ExoMol .states/.trans",
+        "recipe": "ground X\u2013X (ro-vibrational), \u03bd \u2265 1000 cm\u207b\u00b9; vacuum \u03bb; loggf = log10(1.49919e-16\u00b7\u03bb\u00b2\u00b7g_u\u00b7A); \u03c7_low = E_l/8065.543937 eV",
+        "gf_const": 1.49919e-16,
+        "cm_per_eV": 8065.543937
+      },
+      "line_count": 38263,
+      "wavelength_coverage": {
+        "min_A": 2751.321,
+        "max_A": 99970.106,
+        "min_cm-1": 1000.3,
+        "max_cm-1": 36346.2,
+        "regime": "mid-IR-rovibrational"
+      },
+      "midir_window": {
+        "label": "CH 1-0 fundamental (2650-3100 cm\u207b\u00b9)",
+        "range_cm-1": [
+          2650.0,
+          3100.0
+        ],
+        "count": 1078,
+        "verdict": "MID-IR PRESENT (acquired; was 0 in the held electronic .bsyn)"
+      }
     }
+  },
+  "acquisitions": {
+    "RYA-503": "OH/NH/CH mid-IR ro-vibrational fundamentals acquired from ExoMol; CO conversion recipe recovered + validated (round-trip PASS). CO gap closed."
   }
 }

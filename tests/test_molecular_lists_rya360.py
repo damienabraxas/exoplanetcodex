@@ -28,9 +28,15 @@ def manifest():
 
 
 # ── vendored secure record present + complete ─────────────────────────────────
+def _held(manifest):
+    # the RYA-360 held iSpec-bundle lists (RYA-503 acquisitions have their own tests)
+    return {m: e for m, e in manifest['molecules'].items()
+            if not str(e.get('origin', '')).startswith('acquired')}
+
+
 def test_all_required_molecules_vendored(manifest):
-    assert set(manifest['molecules']) == _REQUIRED
-    for mol, e in manifest['molecules'].items():
+    assert _REQUIRED <= set(_held(manifest))
+    for mol, e in manifest['molecules'].items():        # every entry (held + acquired) present
         sub = ml.VENDORED_DIR / e['vendored_subdir']
         assert e['files'], mol
         for f in e['files']:
@@ -39,7 +45,7 @@ def test_all_required_molecules_vendored(manifest):
 
 
 def test_manifest_provenance_and_coverage_complete(manifest):
-    for mol, e in manifest['molecules'].items():
+    for mol, e in _held(manifest).items():
         assert e['source'] and e['distribution'], mol
         wc = e['wavelength_coverage']
         assert wc['min_A'] and wc['max_A'] and wc['regime'], mol
