@@ -65,3 +65,49 @@ correct and pin our `wave_THAR` failure to prior-staleness.
   wave result. Chasing it is out of the review's time-box; the wave finding
   stands on the two independent solar runs (hand-driven + reflex), which fail
   `wave_THAR` identically.
+
+### 2026-07-03 — refined diagnosis (order-exclusion route) + make-do exit
+Ryan's reframe: exclude the broken edge order (don't chase convergence); hard
+time-box; a reference tolerates a dropped order. Investigating that **overturned
+the "order 1 edge" framing and found the real cause:**
+
+- **Order counts match:** orderdef traced **71** orders; the static
+  `WAVE_MATRIX_A` covers **71**. So order 1 is *covered*, not a spurious extra
+  edge order → not the "constrain the range" case.
+- **The FP-line starvation is GLOBAL, not edge-specific.** The wave_FP
+  `FP_SEARCHED_LINE_TABLE` has a **median of 3 FP lines/order** across all 71
+  orders (order 1=4, order 2=3, orders 68–71=2–3; only orders 3–4 have 14–27).
+  Total ≈ 363 lines. **reflex's own run got the identical 363/median-3** — so it
+  is inherent, not a hand-config artifact. Excluding order 1 cannot help:
+  `wave_THAR` would just fail at the next starved order (order 2 has 3).
+- **The FP frame is good; the *matching* is starved.** The extracted `S2D_FP_FP`
+  spectrum shows a proper dense FP comb (~**745 peaks in a mid-order**). So the
+  FP data is fine — but the FP-line search keeps only ~3/order because it matches
+  against the **~6-month-stale 2022-11-01 static wave first-guess**, which
+  mis-locates the comb for our 2023-04-29 data. This is the "covered-but-
+  mis-placed → stale first-guess" case, now confirmed precisely.
+- **`wave_THAR` / `orderdef` expose no order-range / FP-threshold / exclude
+  parameter** (full `--params` checked) — so there's no clean recipe-level lever
+  to constrain the order set anyway.
+
+**Conclusion:** the from-raw solar wave solution can't be built with the shipped
+static prior at this epoch gap; the only real fix is a fresher (~2023) HA
+`WAVE_MATRIX` first-guess, which is **not trivially grabbable** (the demo run
+failed at an mdark-config error; the archive α Cen ADPs are 3.2.6 — a
+format-provenance project Ryan scoped out; no ESO ticket). Per the make-do
+time-box → **STOP**.
+
+**Make-do exit — fallback reference (parked state):** use the on-disk external
+solar IR atlas as the YJH reference instead of a self-reduced NIRPS solar S1D:
+`data/spectra/exoplanetcodex-data/Solar Calibration/IR Reference Atlases/ACE-FTS`
+and `/NSO_photatl` (Kitt Peak), with the explicit caveat that these are **not
+instrument-matched to NIRPS** (resolution/LSF/sampling differ). Telluric verify
+still available via `/Wallace_telluric` (RYA-390). IR *science* is unaffected —
+it runs on the reduced α Cen ADP in the repo (RYA-507).
+
+**Reusable reduction diagnosis (feeds RYA-508):** a NIRPS from-raw reduction with
+the shipped static wave prior fails `wave_THAR` when the science epoch is far
+(~6 months) from the newest static (2022-11-01) — not via an edge order, but via
+*global* FP-comb-match starvation (median ~3 lines/order) against the stale
+first-guess. Any future from-raw NIRPS target near an up-to-date static will not
+hit this; targets far from 2022-11-01 need a contemporaneous `WAVE_MATRIX`.
