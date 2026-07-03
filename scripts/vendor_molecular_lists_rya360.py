@@ -196,7 +196,9 @@ def measure_all() -> dict:
 
 def vendor(manifest: dict) -> None:
     """Copy each molecule's lists into data/linelists/molecular/turbospectrum/<MOL>/
-    and record the vendored subdir. Idempotent (overwrites)."""
+    and record the vendored subdir. Idempotent (overwrites). PRESERVES any acquired
+    entries (origin='acquired', e.g. the RYA-503 mid-IR lists) already in the manifest —
+    this script owns only the iSpec-bundle molecules, it must not clobber acquisitions."""
     VENDORED_DIR.mkdir(parents=True, exist_ok=True)
     for mol, entry in manifest['molecules'].items():
         sub = VENDORED_DIR / mol
@@ -204,6 +206,16 @@ def vendor(manifest: dict) -> None:
         for fname in entry['files']:
             shutil.copy2(ISPEC_MOLECULES_DIR / fname, sub / fname)
         entry['vendored_subdir'] = mol
+    if MANIFEST_PATH.exists():
+        prev = json.loads(MANIFEST_PATH.read_text())
+        for key, entry in prev.get('molecules', {}).items():
+            if entry.get('origin', '').startswith('acquired') and key not in manifest['molecules']:
+                manifest['molecules'][key] = entry           # keep RYA-503 acquisitions
+        if 'acquisitions' in prev:
+            manifest['acquisitions'] = prev['acquisitions']
+        for key in ('conversion',):                          # keep CO recipe stamp
+            if 'CO' in manifest['molecules'] and key in prev.get('molecules', {}).get('CO', {}):
+                manifest['molecules']['CO'][key] = prev['molecules']['CO'][key]
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2) + '\n')
 
 
@@ -216,8 +228,10 @@ def report(manifest: dict) -> None:
     print(f"{'MOL':<5} {'files':>5} {'lines':>9} {'HARPS-rng':>10}   span (Å)            regime")
     print('-' * 78)
     for mol, e in manifest['molecules'].items():
+        if e.get('origin', '').startswith('acquired'):
+            continue                                        # RYA-503 acquisitions (own report)
         c = e['wavelength_coverage']
-        print(f"{mol:<5} {len(e['files']):>5} {e['line_count']:>9} {e['harps_range_count']:>10}   "
+        print(f"{mol:<5} {len(e['files']):>5} {e['line_count']:>9} {e.get('harps_range_count', 0):>10}   "
               f"{c['min_A']:>8.1f}-{c['max_A']:<8.1f}  {c['regime']}")
     print('\nHARPS headline diagnostic windows (reproduce the RYA-236 baseline):')
     for mol, e in manifest['molecules'].items():
