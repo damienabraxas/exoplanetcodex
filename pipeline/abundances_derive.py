@@ -1808,6 +1808,90 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
     return df
 
 
+# ── RYA-329: line_score-weighted aggregation + the discrimination GATE ─────────
+# Decision (Ryan): the primary A_X/A_X_nlte should be a line_score-WEIGHTED MEDIAN —
+# but ONLY if line_score genuinely discriminates good vs bad lines. The primary must
+# never be weighted on an unvalidated signal, so the weighting is gated per pool by
+# `_line_score_discriminates`. Where the gate fails, the primary stays the plain
+# (grade-blind but outlier-robust) median and the scoring repair routes to RYA-220.
+# All five estimators are emitted as loud diagnostics regardless of the gate outcome.
+_LS_SUBSCORES = ['ew_snr_score', 'fit_chi2_score', 'saturation_score',
+                 'abundance_outlier_score', 'nlte_correction_score']
+_LS_INERT_STD = 0.02          # a sub-score with std below this is inert (never populated)
+_LS_MIN_SPREAD = 0.05         # line_score needs at least this std to weight anything
+_LS_MIN_RHO = 0.30            # non-circular |Spearman| vs |a-median| to count as discriminating
+
+
+def _weighted_median(values, weights):
+    """Weighted median: the value where the cumulative weight crosses half the total."""
+    v = np.asarray(values, float); w = np.asarray(weights, float)
+    m = np.isfinite(v) & np.isfinite(w) & (w > 0)
+    v, w = v[m], w[m]
+    if v.size == 0:
+        return np.nan
+    order = np.argsort(v)
+    v, w = v[order], w[order]
+    cw = np.cumsum(w)
+    return float(v[np.searchsorted(cw, 0.5 * cw[-1])])
+
+
+def _line_score_discriminates(lines: pd.DataFrame) -> dict:
+    """RYA-329 gate: does line_score separate good vs bad lines on a NON-circular basis?
+
+    abundance_outlier_score is derived from |a-median|, so it must be excluded before
+    testing line_score against abundance deviation (else the test is self-fulfilling).
+    Verdict DISCRIMINATES only if the non-circular part of the signal has real spread AND
+    correlates with deviation. Returns the gate report (never raises)."""
+    from scipy import stats
+    n = len(lines)
+    a = lines['a_1dlte'].astype(float).values
+    ls = lines['line_score'].astype(float).values
+    dev = np.abs(a - np.median(a))
+    inert = [s for s in _LS_SUBSCORES
+             if s in lines and float(lines[s].astype(float).std(ddof=0)) < _LS_INERT_STD]
+    # non-circular signal = mean of the sub-scores EXCEPT abundance_outlier_score
+    noncirc_cols = [s for s in _LS_SUBSCORES
+                    if s != 'abundance_outlier_score' and s in lines]
+    ls_noncirc = lines[noncirc_cols].astype(float).mean(axis=1).values if noncirc_cols else ls
+    rho_circ = rho_nonc = float('nan')
+    if n >= 5 and np.ptp(dev) > 0:
+        if np.ptp(ls) > 0:
+            rho_circ = float(stats.spearmanr(ls, dev).statistic)
+        if np.ptp(ls_noncirc) > 0:
+            rho_nonc = float(stats.spearmanr(ls_noncirc, dev).statistic)
+    spread = float(np.std(ls, ddof=0))
+    discriminates = (spread >= _LS_MIN_SPREAD and np.isfinite(rho_nonc)
+                     and rho_nonc <= -_LS_MIN_RHO)
+    return {'n': n, 'ls_spread': round(spread, 3), 'inert_subscores': inert,
+            'rho_circular': round(rho_circ, 3) if np.isfinite(rho_circ) else None,
+            'rho_noncircular': round(rho_nonc, 3) if np.isfinite(rho_nonc) else None,
+            'discriminates': bool(discriminates)}
+
+
+def _aggregation_diagnostics(lines: pd.DataFrame, delta_nlte: float) -> dict:
+    """The five estimators + n-per-grade for one species pool (RYA-329 loud diagnostics).
+    a_1dlte is 1D-LTE; the species delta_nlte is added to give the NLTE-scale twins."""
+    a = lines['a_1dlte'].astype(float).values
+    w = lines['line_score'].astype(float).values
+    d = float(delta_nlte) if np.isfinite(delta_nlte) else 0.0
+    gc = lines['line_grade'].value_counts()
+    umean = float(np.mean(a)); pmed = float(np.median(a))
+    wmean = float(np.average(a, weights=w)) if w.sum() > 0 else float('nan')
+    wmed = _weighted_median(a, w)
+    ab = lines[lines['line_grade'].isin(['A', 'B'])]
+    abcut = (float(np.average(ab['a_1dlte'], weights=ab['line_score']))
+             if len(ab) and ab['line_score'].sum() > 0 else float('nan'))
+    return {
+        'unweighted_mean': round(umean, 4), 'plain_median': round(pmed, 4),
+        'weighted_mean': round(wmean, 4), 'weighted_median': round(wmed, 4),
+        'ab_cut': round(abcut, 4) if np.isfinite(abcut) else None,
+        'wmed_minus_median': round(wmed - pmed, 4),
+        'n_A': int(gc.get('A', 0)), 'n_B': int(gc.get('B', 0)),
+        'n_C': int(gc.get('C', 0)), 'n_D': int(gc.get('D', 0)),
+        'plain_median_nlte': round(pmed + d, 4), 'weighted_median_nlte': round(wmed + d, 4),
+    }
+
+
 def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute element_score, element_grade, n_lines_A/B/C/D and A+B weighted abundance.
@@ -1815,6 +1899,7 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
     """
     T = LINE_GRADE_THRESHOLDS
     results = results_df.copy()
+    _gate_reports = []
 
     for _, row in results.iterrows():
         elem, ion = row['element'], row['ion']
@@ -1850,6 +1935,44 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
             results.at[idx, 'A_X_nlte_AB']  = a_ab_nlte
             results.at[idx, 'A_X_std_AB']   = a_ab_std
             results.at[idx, 'n_lines_AB']   = len(ab_lines)
+
+        # ── RYA-329: aggregation diagnostics + the discrimination gate ─────────
+        d_nlte = float(row.get('delta_nlte_mean', np.nan))
+        diag = _aggregation_diagnostics(lines, d_nlte)
+        gate = _line_score_discriminates(lines)
+        for k, v in diag.items():
+            results.at[idx, f'agg_{k}'] = v
+        results.at[idx, 'ls_discriminates']   = gate['discriminates']
+        results.at[idx, 'ls_spread']          = gate['ls_spread']
+        results.at[idx, 'ls_rho_noncircular'] = gate['rho_noncircular']
+        results.at[idx, 'ls_inert_subscores'] = ';'.join(gate['inert_subscores'])
+        # Primary weighting is GATED: only weight on a validated signal (Ryan, RYA-329).
+        if gate['discriminates']:
+            a_wm = diag['weighted_median']
+            results.at[idx, 'A_X']      = round(a_wm, 3)
+            results.at[idx, 'A_X_nlte'] = round(a_wm + (d_nlte if np.isfinite(d_nlte) else 0.0), 3)
+            results.at[idx, 'primary_estimator'] = 'line_score_weighted_median (RYA-329)'
+        else:
+            results.at[idx, 'primary_estimator'] = 'plain_median (RYA-329 gate FAIL: line_score not discriminating -> RYA-220)'
+        _gate_reports.append((f'{elem} {ion}', diag, gate))
+
+    # ── Loud aggregation-diagnostics summary (RYA-329) ─────────────────────────
+    if _gate_reports:
+        print("\n  RYA-329 aggregation diagnostics (line_score-weighted median GATED on discrimination):")
+        print("    species  n(A/B/C/D)  u.mean  p.median  w.mean  w.median  A+B   wmed-med  ls_spread rho_nc  discriminates")
+        n_pass = 0
+        for name, dg, gt in _gate_reports:
+            n_pass += int(gt['discriminates'])
+            print(f"    {name:7s}  {dg['n_A']}/{dg['n_B']}/{dg['n_C']}/{dg['n_D']:<3}"
+                  f"  {dg['unweighted_mean']:.3f}  {dg['plain_median']:.3f}  {dg['weighted_mean']:.3f}"
+                  f"  {dg['weighted_median']:.3f}  {str(dg['ab_cut'])[:5]:5s}  {dg['wmed_minus_median']:+.3f}"
+                  f"    {gt['ls_spread']:.3f}   {str(gt['rho_noncircular']):>6s}   {gt['discriminates']}")
+            if gt['inert_subscores']:
+                print(f"             ^ INERT sub-scores (never populated -> RYA-220): {gt['inert_subscores']}")
+        if n_pass == 0:
+            print("    GATE VERDICT: line_score does NOT discriminate on any pool -> PRIMARY STAYS PLAIN MEDIAN "
+                  "(unchanged, no re-bank). The apparent line_score signal is circular (abundance_outlier_score "
+                  "= f(|a-median|)) and mostly inert -> scoring repair owed to RYA-220 before the primary can be weighted.")
 
     return results
 
