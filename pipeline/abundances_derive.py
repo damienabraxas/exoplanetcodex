@@ -42,24 +42,8 @@ Calibration notes (first solar run, 2026-06-04)
 import os
 import sys
 import warnings
-import multiprocessing as _mp
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS pins; import BEFORE numpy/scipy so the pins land before the BLAS backend spins up. Supersedes the RYA-506 inline fork block.
 import numpy as np
-
-# RYA-506: force the multiprocessing start method to 'fork'. iSpec runs its SPECTRUM
-# theoretical-EW synthesis in a child process that imports the C `synthesizer` extension
-# and relies on FORK semantics (the pipeline was developed on Linux, where fork is the
-# default). On macOS, Python 3.8+ defaults to 'spawn', under which that child re-imports
-# the C extension and dies WITHOUT enqueueing its result; iSpec then silently returns a
-# zero-initialised theoretical-EW array (ispec/synth/spectrum.py:260-289), which made
-# 100% of the Procyon Fe pool fail the theo<5 mÅ quarantine → "MOOG: No abundances".
-# Establishing 'fork' ELIMINATES the root cause (verified: fork → theo-EW sane, the Fe
-# pool + A(Fe) reproduce); the all-zero-batch guard in _fe2_theoretical_ew is the loud
-# backstop for any residual failure. Set once, before any child process is created.
-try:
-    if _mp.get_start_method(allow_none=True) != 'fork':
-        _mp.set_start_method('fork', force=True)
-except (RuntimeError, ValueError):   # already started / platform without fork → guard still catches
-    pass
 import pandas as pd
 from pathlib import Path
 from scipy.optimize import minimize_scalar

@@ -37,6 +37,7 @@ Linear issue: RYA-45
 import warnings
 warnings.filterwarnings('ignore')
 
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
 import pandas as pd
 import matplotlib
