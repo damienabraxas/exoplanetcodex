@@ -118,12 +118,30 @@ committed file restored exact reproduction. Lesson: cross-machine parity require
 committed input set (incl. tracked files under `data/processed/`), and a missing Fe I GES
 reference degrades *silently* rather than erroring — a fallback worth making loud (follow-up).
 
+## True numerical floor (full precision, split by axis)
+The reported A(X) columns are `round(median, 3)`, and MOOG itself prints per-line abundances at
+**1e-3 dex granularity** — that quantum is the finest quantity the pipeline produces, so it *is*
+the floor; there is no sub-mdex float exposed to compare. Capturing the UNROUNDED per-line
+`normal_abund` (iSpec `determine_abundances` return) on each stack and comparing all 473 lines
+at MOOG's native granularity:
+
+| split | axis isolated | max \|Δ\| | lines differing |
+|---|---|---|---|
+| **same-machine** (Mac): v1 py3.9/np1.26 ↔ v2 py3.12/np2.2 | numpy/stack | **0 dex (exact)** | 0 / 473 |
+| **cross-machine** (both v2): Mac arm64 ↔ Sirius x86_64 | platform | **0 dex (exact)** | 0 / 473 |
+| (both-axes) Mac py3.9 ↔ Sirius py3.12 | stack+platform | 0 dex (exact) | 0 / 473 |
+
+Exact identity to MOOG's last printed digit on every line — **not** rounding-masked. The
+aggregate A(X) inherit this (identical inputs → identical median → identical `round(·,3)`),
+hence max|Δ| = 0 exactly for both splits.
+
 ## Byte-level intermediates: three distinct hashes, one science answer
 | stage | v1 (mac py3.9) | v2 (mac py3.12) | v2 (sirius py3.12) |
 |---|---|---|---|
 | solar_normalized.csv | df4a49cf | d2b92e9b | 833554ad |
 | solar_ew.csv | 230c27c4 | bcfa16c6 | 4e8e40e6 |
 
-All three differ (numpy-2.x FP + platform libm/BLAS), yet QA metrics and **all abundances are
-identical to 3 dp**. Confirms: **gate cross-machine agreement on abundance-identity, never on
-byte-identical intermediates.**
+All three differ (numpy-2.x FP + platform libm/BLAS) — proving sub-quantum FP noise DOES exist
+upstream — yet it is far below the 1e-3 dex MOOG quantum and never reaches even the finest
+reported abundance digit (per-line max|Δ| = 0, above). Confirms: **gate cross-machine agreement
+on abundance-identity, never on byte-identical intermediates.**
