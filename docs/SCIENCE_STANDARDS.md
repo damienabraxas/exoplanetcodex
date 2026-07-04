@@ -110,8 +110,13 @@ not automatic; here nothing moved).
 ### Standing rules
 1. **Anchor-identity, not byte-identity.** numpy-2.x + platform libm/BLAS give three distinct
    `solar_normalized.csv`/`solar_ew.csv` md5s (py3.9, mac-py3.12, sirius-py3.12) for one
-   identical set of abundances. Cross-machine/stack agreement is gated on A(X) to reporting
-   precision, never on byte-identical intermediates.
+   identical set of abundances. The true floor, measured on the UNROUNDED per-line
+   `normal_abund` at MOOG's native 1e-3 dex granularity (the finest quantity the pipeline
+   emits): **max|Δ| = 0 dex EXACTLY on both splits** — same-machine v1↔v2 (numpy/stack axis)
+   and cross-machine Mac↔Sirius (platform axis), 0 of 473 lines differ in either. The
+   byte-differing intermediates prove sub-quantum FP noise exists upstream, but it never
+   reaches even the finest reported abundance digit. Gate cross-machine/stack agreement on
+   A(X)-identity, never on byte-identical intermediates.
 2. **Full committed input set required for parity.** `data/processed/solar_ew_ges_reference.csv`
    is a *git-tracked* input (the 62-line GES Fe I pool); its absence makes the run *silently*
    fall back to a different Fe I pool (n 62→19, +0.12 dex, gate FAIL). Stage all tracked inputs
