@@ -98,11 +98,15 @@ CURATED_SEED = [
          severity='medium', governing_tickets='369,460', status='active',
          notes='Molecular band, synthesis-only; demoted to N cross-check (RYA-369). Blue-edge on '
                'KP; C/O-coupled.'),
-    dict(species='N I', lambda_or_scope='7442-8718 (red multiplets)', problem_class='NLTE_OWED',
-         required_treatment='NLTE_grid', observed_in='Sun', amplifies_with='Teff↑',
-         severity='high', governing_tickets='369,460', status='owed',
-         notes='3 KP red multiplets agree (8.20, spread 0.033) but +0.37 vs Asplund = the OWED '
-               'N I NLTE (grid RYA-369). NOT validated; Teff-bracketed (Procyon/aCenB).'),
+    dict(species='N I', lambda_or_scope='7442-8718 (red multiplets)', problem_class='DATA_GAP',
+         required_treatment='per_region_source', observed_in='Sun', amplifies_with='Teff↑',
+         severity='high', governing_tickets='369,459,460,491', status='owed',
+         notes='NOT physics-owed: the N I NLTE grid is WIRED (RYA-369, GALAH). The gap is DATA-'
+               'CHANNEL - the good N I red multiplets (7442/7468, 8216, 8680-8718) are red of the '
+               'HARPS 6910 cutoff; HARPS only sees weak C/O-coupled CN red (6000-6200). Solar N '
+               'needs the FTS atlas (KP/Delbouille, RYA-459 acquire / 460 wire) or UVES; NH 3360 '
+               'is blue of 3780 -> HST/STIS UV (RYA-119). Pending the atlas-channel wired-check '
+               '(RYA-491).'),
     dict(species='Cr I', lambda_or_scope='gf pool', problem_class='BAD_GF',
          required_treatment='astrophysical_gf_differential', observed_in='Sun', amplifies_with='all',
          severity='high', governing_tickets='398,399,161', status='active',
@@ -161,6 +165,37 @@ CURATED_SEED = [
          severity='medium', governing_tickets='421,428,433', status='owed',
          notes='NLTE grid registered (Bergemann2012 working; Mashonkina2022/INASAN primary owed, '
                'RYA-433). Out-of-hull above [Fe/H]+0.0 -> target risk. EW measurement owed.'),
+    # ── RYA-519 Part-B: element-level dispositions for the EW-thin metals (were
+    #    silently falling back to stray auto per-line saturation flags) ──
+    dict(species='Mn I', lambda_or_scope='6013/16/21 (e6S->z6P triplet)', problem_class='HFS_SUMMING',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='all',
+         severity='medium', governing_tickets='411,468,473,476', status='resolved',
+         notes='EW SAT-culls the HFS-split triplet (NOT an EW-pool element, RYA-306). MEASURED via '
+               'HFS-resolved synthesis (RYA-473: Den Hartog gf+HFS) + triplet-exact Amarsi Mn NLTE '
+               'grid (RYA-476) -> A(Mn)_NLTE 5.554 PASS. Grid on Sirius amarsi_galah.'),
+    dict(species='Cu I', lambda_or_scope='HFS-split lines', problem_class='HFS_SUMMING',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='all',
+         severity='medium', governing_tickets='402,466', status='active',
+         notes='EW cannot measure the HFS-split Cu lines (over-saturated core). Route = HFS-'
+               'resolved synthesis + RYA-402 b-factor NLTE (RYA-466); not an EW-pool element.'),
+    dict(species='Ba II', lambda_or_scope='5853 (+HFS, strong)', problem_class='SATURATION_COG',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='[Fe/H]↑',
+         severity='medium', governing_tickets='279,165', status='owed',
+         notes='EW SAT-culls the strong Ba II line (5853 REW -4.90, at the knee, +HFS/blend). '
+               'ROUTE EXISTS: synthesis of Ba II + the wired Korotin2015 NLTE grid (Ba is the '
+               'majority ion). Measurable-owed, NOT a void.'),
+    dict(species='Zr II', lambda_or_scope='4629/5350/5372 (strong)', problem_class='SATURATION_COG',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='all',
+         severity='low', governing_tickets='279,458', status='owed',
+         notes='Zr II is the majority ion (LTE-robust, the Sr II/V II logic); the strong Zr II '
+               'lines EW SAT-cull (4629 REW -4.56) -> route = synthesis, no NLTE grid needed. '
+               'Measurable-owed, NOT a void.'),
+    dict(species='Y II', lambda_or_scope='dominant ion absent from pool', problem_class='DATA_GAP',
+         required_treatment='per_region_source', observed_in='Sun', amplifies_with='blue/UV',
+         severity='medium', governing_tickets='458', status='active',
+         notes='Only 3 Y I lines in HARPS coverage, all saturated/high-err (Y I is trace; Y is '
+               'dominantly Y II). No Y II lines in the current pool + no NLTE grid -> UN-MEASURABLE '
+               'now; route = acquire blue Y II lines (UV/blue arm).'),
 ]
 
 
@@ -317,6 +352,49 @@ def build_registry(star_files=None):
     for star_id, path in star_files.items():
         df = upsert(df, aggregate_ew_integrity(star_id, path))
     return df
+
+
+def load_registry():
+    """The persisted registry (built from the curated seed if the CSV is absent)."""
+    return (pd.read_csv(REGISTRY_CSV) if REGISTRY_CSV.exists() else build_registry())
+
+
+# ── per-element disposition accessor (RYA-519: the verdict's disposition source) ─
+# The verdict layer asks the registry "what is X's treatment?" so a non-emitting
+# expected metal carries a CITED disposition (NLTE_VOID / HFS_SUMMING / BAD_GF /
+# DATA_GAP …) instead of silently vanishing. Element-level: aggregates across ions;
+# the CURATED architectural row wins over an auto_ew_integrity per-line flag; among
+# ties the highest severity wins. Returns None when the registry has no entry
+# (Part C then treats an expected-but-unregistered non-emitter as a LOUD failure).
+_SEV_RANK = {'critical': 0, 'high': 1, 'medium': 2, 'low': 3}
+
+
+def disposition_for(species, registry=None):
+    """Registry disposition for an element/species, or None if unregistered.
+
+    `species` may be an element ('Mn', 'V') or an ion string ('Mn I', 'V I') —
+    matched at the element level (first token). Returns a dict:
+    {species, problem_class, required_treatment, status, governing_tickets,
+     population_source, notes}."""
+    if registry is None:
+        registry = load_registry()
+    el = str(species).split()[0]
+    m = registry[registry['species'].astype(str).str.split().str[0] == el]
+    if m.empty:
+        return None
+    curated = m[m['population_source'] == 'curated'] if 'population_source' in m.columns else m
+    pick = curated if not curated.empty else m
+    pick = pick.assign(_sev=pick['severity'].map(lambda x: _SEV_RANK.get(x, 9))).sort_values('_sev')
+    r = pick.iloc[0]
+    return {
+        'species': r['species'],
+        'problem_class': r['problem_class'],
+        'required_treatment': r['required_treatment'],
+        'status': r['status'],
+        'governing_tickets': r['governing_tickets'],
+        'population_source': r.get('population_source', ''),
+        'notes': r.get('notes', ''),
+    }
 
 
 # ── prediction layer (the payoff) ─────────────────────────────────────────────
