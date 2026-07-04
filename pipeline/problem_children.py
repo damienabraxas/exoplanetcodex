@@ -196,6 +196,13 @@ CURATED_SEED = [
          notes='Only 3 Y I lines in HARPS coverage, all saturated/high-err (Y I is trace; Y is '
                'dominantly Y II). No Y II lines in the current pool + no NLTE grid -> UN-MEASURABLE '
                'now; route = acquire blue Y II lines (UV/blue arm).'),
+    dict(species='Mg I', lambda_or_scope='b-triplet 5167/72/83 + 5528 (strong)', problem_class='SATURATION_COG',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='all',
+         severity='medium', governing_tickets='410,235', status='resolved',
+         notes='The strong optical Mg I lines (b-triplet + 5528) EW SAT-cull, so the EW-curation '
+               'pool is thin. Value comes from the NLTE-registered path: Amarsi-2020 Mg grid, '
+               'RYA-410 Family-A PASS (Na/Mg/Si) -> synthesis + wired grid, not the EW pool. '
+               '(Surfaced by the RYA-519 Part-C guard as a routed non-emitter.)'),
 ]
 
 

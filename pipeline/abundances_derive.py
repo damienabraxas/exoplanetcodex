@@ -2197,6 +2197,39 @@ def _wire_curated_nonfe_results(results, ew_df):
         print(f"    {r['element']:>3s} {r['ion']:<3s} A(LTE)={r['A_X']:.3f} "
               f"A(NLTE)={a_nlte_s} n={int(r['n_lines'])}  "
               f"Δvs_Asplund={r['curation_residual_nlte']}  [{r['curation_verdict']}]")
+    # ── RYA-519 Part B/C: a routed metal that produced no value carries a CITED
+    #    registry disposition (problem_children, RYA-463) instead of silently
+    #    vanishing from the verdict; an expected non-emitter with NO registry
+    #    disposition is a LOUD failure (Part C), never a silent skip. ──
+    import pipeline.problem_children as _pc
+    disp_rows, unregistered = [], []
+    for el in thin:
+        d = _pc.disposition_for(el)
+        if d is None:
+            unregistered.append(el)
+            continue
+        disp_rows.append({
+            'element': el, 'ion': '', 'A_X': np.nan, 'A_X_nlte': np.nan,
+            'n_lines': 0, 'scale': 'absolute', 'nlte_flag': 'not_emitted',
+            'curation_verdict': d['problem_class'],
+            'disposition_class': d['problem_class'],
+            'disposition_treatment': d['required_treatment'],
+            'disposition_status': d['status'],
+            'disposition_tickets': d['governing_tickets'],
+            'disposition_source': 'RYA-463 problem_children registry',
+        })
+        print(f"    {el:>3s}  no EW-pool value -> registry disposition: "
+              f"{d['problem_class']} / {d['required_treatment']} [{d['status']}] "
+              f"(RYA-{d['governing_tickets']})")
+    if unregistered:
+        raise RuntimeError(
+            f"RYA-519 Part C LOUD-FAIL: expected metal(s) {unregistered} produced no "
+            f"value AND carry no problem_children (RYA-463) disposition. A silently-"
+            f"omitted element is a defect — add a cited disposition in "
+            f"pipeline/problem_children.py or fix the wiring before the verdict counts.")
+    if disp_rows:
+        out = pd.concat([out, pd.DataFrame(disp_rows)], ignore_index=True)
+        out = out.sort_values(['element', 'ion']).reset_index(drop=True)
     return out, curated, pool
 
 
