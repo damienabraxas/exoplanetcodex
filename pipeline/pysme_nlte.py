@@ -42,6 +42,7 @@ import os
 import tempfile
 from pathlib import Path
 
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
 
 # Diagnostic lines per element, with the grid level labels for NLTE matching.

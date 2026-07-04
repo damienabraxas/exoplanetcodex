@@ -68,6 +68,7 @@ import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
 import pandas as pd
 from scipy.optimize import minimize_scalar

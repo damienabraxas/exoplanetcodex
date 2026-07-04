@@ -51,6 +51,7 @@ import re
 import sys
 from pathlib import Path
 
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
 
 _REPO = Path(__file__).resolve().parents[1]
