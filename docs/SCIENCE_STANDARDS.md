@@ -79,3 +79,48 @@ the ±0.05 solar cross-check vs the current MAFAGS-OS registered value before sw
 re-scrape MPIA to 7000 K + solar overlap check. Ba: implement the bounded-clamp-with-σ. This
 session delivered the recon gate + decision record + the CNO/O confirmations; the grid
 re-synthesis is the bounded next execution step (needs the multi-GB `.grd` refetch + PySME).
+
+---
+
+## Reference compute stack: Python 3.12 + numpy 2.2.x — RYA-517
+
+**Decision date:** 2026-07-04 · **Evidence:** `requirements.lock`,
+`data/audit/rya517_compat_probe/{findings.md, mac_v2_revalidation.md}`. **Scope:** the pinned
+interpreter + scientific-library stack the solar anchor is validated on; binds BOTH machines.
+
+### Decision
+The reference stack is **Python 3.12.13 + numpy 2.2.x** (scipy ≥1.15.3, astropy ≥7.1.0,
+pandas ≥2.2.3; exact resolved versions in `requirements.lock`). A stack change is a **science
+event** — the anchor is re-validated on the new stack, never a silent infra bump.
+
+### Why (the below-floor finding)
+The banked v1 anchor ran on **py3.9.6 + numpy 1.26.4 — *below* iSpec's own declared minimum**
+(`numpy>=2.2.5, scipy>=1.15.3, astropy>=7.1.0, pandas>=2.2.3`), an EOL accident (py3.9 EOL
+Oct 2025). py3.12+numpy2.2 is the newest stack with a **proven iSpec C-extension build** and is
+the FIRST anchor-validated stack that meets iSpec's floor.
+
+### Validation (the science event, done — RYA-517 steps 2–4)
+Solar FULL re-run reproduces banked v1 **to 0.000 dex on all 27 verdict elements**, Fe scatter
+gate PASS (0.1390 ≤ 0.1398), RYA-371 verdict PASS=5/NLTE-OWED=1/CURATION-OWED=20/DATA-GAP=0 —
+**identical on BOTH machines**: Mac (darwin arm64, prebuilt iSpec `.so`) and Sirius (linux
+x86_64, iSpec C ext + MOOGSILENT **compiled from source**, gcc 15 needs
+`CFLAGS="-std=gnu17 -fcommon -w"`). v2 ≡ v1 on both → **no re-bank** (Ryan's call: re-bank is
+not automatic; here nothing moved).
+
+### Standing rules
+1. **Anchor-identity, not byte-identity.** numpy-2.x + platform libm/BLAS give three distinct
+   `solar_normalized.csv`/`solar_ew.csv` md5s (py3.9, mac-py3.12, sirius-py3.12) for one
+   identical set of abundances. The true floor, measured on the UNROUNDED per-line
+   `normal_abund` at MOOG's native 1e-3 dex granularity (the finest quantity the pipeline
+   emits): **max|Δ| = 0 dex EXACTLY on both splits** — same-machine v1↔v2 (numpy/stack axis)
+   and cross-machine Mac↔Sirius (platform axis), 0 of 473 lines differ in either. The
+   byte-differing intermediates prove sub-quantum FP noise exists upstream, but it never
+   reaches even the finest reported abundance digit. Gate cross-machine/stack agreement on
+   A(X)-identity, never on byte-identical intermediates.
+2. **Full committed input set required for parity.** `data/processed/solar_ew_ges_reference.csv`
+   is a *git-tracked* input (the 62-line GES Fe I pool); its absence makes the run *silently*
+   fall back to a different Fe I pool (n 62→19, +0.12 dex, gate FAIL). Stage all tracked inputs
+   before a cross-machine run.
+3. **Native engines compile per-platform** (iSpec `.so`, MOOGSILENT) — see `requirements.lock`
+   for the gcc-15 flags. Turbospectrum/standalone-SPECTRUM binaries are not on the solar
+   EW→abundance path.
