@@ -56,6 +56,15 @@ All work on the Exoplanet Codex follows a formal development cycle. This applies
 - Only after Ryan approval does anything get committed to the repo or published to the site
 - Linear ticket is marked Done after Ryan signs off
 
+### 7. SESSION CLOSE — update the State Register
+**Owner: Mr. Code, ratified by Ryan (RYA-516)**
+- `CODEX_STATE_REGISTER.md` (repo root) is the **mutable current-truth ledger** — read it FIRST for "what is the current state of X", instead of reconstructing state from the ticket journal.
+- Before posting any end-of-session Linear comment on a run that **settled / regressed / superseded** a component, **signed off a gate**, or hit a **milestone**, update the register per `skills/codex-state-register/SKILL.md`:
+  - MIRROR rows (stellar params, abundances) are **regenerated from source** — `python scripts/gen_state_register_targets.py --write` — never hand-typed.
+  - NATIVE rows (verdicts, statuses, gate states) are edited by hand with the establishing ticket cited; bump `Version:` + add a Changelog line.
+  - Verify merge/integration state against **git**, not memory, before writing SETTLED.
+- The end-of-session comment states which register rows changed (and flags any row a source contradicted).
+
 ---
 
 ## Hard Rules (Neither AI May Override)
@@ -66,6 +75,7 @@ All work on the Exoplanet Codex follows a formal development cycle. This applies
 4. Test before production — always synthetic data first
 5. One Linear ticket per piece of work — no untracked changes
 6. Mr. Code commits reference the ticket ID in every commit message
+7. **A gate cannot be signed off while its `CODEX_STATE_REGISTER.md` rows are stale** — the register is updated at every gate sign-off and the moment any component settles/regresses/is superseded (RYA-516; procedure in `skills/codex-state-register/SKILL.md`)
 
 ---
 
