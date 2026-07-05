@@ -2647,6 +2647,50 @@ def run(star_id: str = 'solar',
         except ns.ImmutableReferenceError as _e:
             print(f"  [RYA-469] solar_ref_version unstamped (no gold reference yet): {_e}")
 
+    # ── RYA-520: synthesis-required elements must NOT emit an authoritative
+    #    EW-derived abundance. EW is the WRONG method for molecular-coupled C/N/O
+    #    (RYA-237) and the HFS heavies — a saturated line on the flat curve-of-
+    #    growth turns a tiny EW error into ~1.8 dex (solar C I 5380 -> C=10.26 vs
+    #    the synthesis verdict 8.491). The raw EW value is preserved DIAGNOSTIC-
+    #    ONLY; the authoritative abundance columns are nulled + labelled SUPERSEDED
+    #    _BY_SYNTHESIS so no committed artifact carries a wrong flagship number.
+    #    LOUD-FAIL if one slips through as authoritative. ──
+    if 'solar' in star_id.lower():
+        from config.constants import TARGET_ELEMENTS as _TGT520
+        import pipeline.problem_children as _pc520
+        _synth_req = {'C', 'N', 'O'} | {
+            _e for _e in _TGT520
+            if (_d := _pc520.disposition_for(_e)) and _d['required_treatment'] in ('synthesis', 'HFS_sum')}
+        _abs_cols = [c for c in ('A_X', 'A_X_nlte', 'A_X_nlte_absolute', 'A_X_nlte_AB')
+                     if c in results.columns]
+        for _c, _dft in (('ew_diagnostic_A_X', np.nan), ('authoritative', True),
+                         ('method', ''), ('superseded_by', '')):
+            if _c not in results.columns:
+                results[_c] = _dft
+        for _i in results.index:
+            _el = str(results.at[_i, 'element'])
+            if _el not in _synth_req:
+                continue
+            _ax = results.at[_i, 'A_X'] if 'A_X' in results.columns else np.nan
+            if pd.notna(_ax):
+                results.at[_i, 'ew_diagnostic_A_X'] = _ax
+                for _col in _abs_cols:
+                    results.at[_i, _col] = np.nan
+                results.at[_i, 'authoritative'] = False
+                results.at[_i, 'method'] = 'EW_SUPERSEDED_BY_SYNTHESIS'
+                results.at[_i, 'superseded_by'] = 'synthesis (RYA-237 C/N/O; HFS-resolved metals)'
+                print(f"  [RYA-520] {_el} raw-EW A(X)={_ax:.3f} SUPPRESSED -> diagnostic-only "
+                      f"(synthesis-required; authoritative value is the synthesis verdict).")
+        _leak = sorted({str(results.at[_i, 'element']) for _i in results.index
+                        if str(results.at[_i, 'element']) in _synth_req
+                        and results.at[_i, 'authoritative']
+                        and pd.notna(results.at[_i, 'A_X'] if 'A_X' in results.columns else np.nan)})
+        if _leak:
+            raise RuntimeError(
+                f"RYA-520 LOUD-FAIL: synthesis-required element(s) {_leak} still carry an "
+                f"authoritative EW-derived A(X). EW is the wrong method for these "
+                f"(molecular-coupled / HFS) — the value must come from synthesis.")
+
     # ── RYA-519 completeness: NO target element silently absent from the verdict.
     #    Every metal in TARGET_ELEMENTS either emits a value (n_lines>0) or carries
     #    a cited problem_children (RYA-463) disposition; neither = LOUD failure.
