@@ -2733,9 +2733,13 @@ def run(star_id: str = 'solar',
     print(f"\n[4/4] Saving results...")
     out_dir  = ns.outputs_dir(star_id)                       # RYA-469 namespaced per-star
     out_path = out_dir / f'{star_id}_abundances.csv'
-    results.to_csv(out_path, index=False)
+    # RYA-521: this raw EW file is DIAGNOSTIC-ONLY — the authoritative abundance is
+    # the phase_c verdict. Stamp an in-file label so no consumer mistakes it for the
+    # reported number (comment-aware readers strip it; see authoritative_channel.py).
+    from pipeline.authoritative_channel import DIAGNOSTIC_ONLY_HEADER as _DIAG_HDR
+    out_path.write_text(_DIAG_HDR + results.to_csv(index=False))
     print(f"  Saved → {out_path.name}  ({len(results)} elements, "
-          f"{results['n_lines'].sum()} total lines)")
+          f"{results['n_lines'].sum()} total lines)  [RYA-521 DIAGNOSTIC-ONLY]")
 
     if not scored_df.empty:
         scored_df['scale'] = 'absolute'   # RYA-289: per-line A_X is 1D-LTE absolute
