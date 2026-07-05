@@ -1,3 +1,13 @@
+# solar gold-standard abundance reference — RYA-469 (write-once, immutable)
+# version: v2
+# frozen_utc: 2026-07-05T07:33:28Z
+# source_commit: fee58e8d1c0f
+# source_file: data/reference/solar/solar_abundances_v2_candidate.csv
+# fe_anchor_a_fe1: 7.516
+# verdict: PASS=5 NLTE-OWED=1 CURATION-OWED=20 DATA-GAP=0
+# changelog: v2 verdict-sourced re-freeze (RYA-521 channel): C 10.26->8.491 (RYA-520 saturated-CI-5380 fix); tiered confidence (gold C/O/K/Mn/Fe/Sc, gf_floor Cr/Si, upper_limit Li, owed held incl S/Sr/N/Co). Supersedes v1.
+# supersedes: v1
+# immutable: editing this file trips the RYA-469 immutability guard
 element,ion,A_X,A_X_nlte,confidence,verdict,method_scale,asplund2021,n_lines,source,note
 Fe,I,7.516,7.516,gold,PASS,1D-NLTE (Fe I),7.46,62,phase_c_verdict (RYA-521),"our 1D-NLTE runs ~+0.05 above Asplund 3D-true 7.46 (RYA-336) — documented offset, NOT a discrepancy"
 C,I,8.491,8.491,gold,PASS,synthesis,8.46,5,phase_c_verdict (RYA-521),CH G-band + C I (RYA-237)

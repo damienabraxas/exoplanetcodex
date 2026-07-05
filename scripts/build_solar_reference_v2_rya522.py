@@ -3,19 +3,20 @@
 scripts/build_solar_reference_v2_rya522.py  (RYA-522)
 =====================================================
 Regenerate the solar gold reference v2 candidate ENTIRELY from the phase_c verdict
-channel (RYA-521 single authoritative source) — NOT by hand-editing v1's C cell.
-Produces two artifacts (candidates; the write-once freeze is a separate, Ryan-
-ratified step via promote_solar_reference):
+channel (RYA-521 single authoritative source) — NOT by hand-editing v1's C cell —
+and TIER it by row-confidence per Ryan's ratification (RYA-522 comment 2026-07-05).
 
-  data/reference/solar/solar_abundances_v2_candidate.csv   — verdict-sourced rows
-  docs/audit/solar_gold_v2_ratification_rya522.md          — the diff table (step-4
-      ratification artifact): v2 | scale | v1 | Δ(v2-v1) | Asplund2021 | Δ(v2-Asplund)
+Tiers (ratified): a value is frozen ONLY if we would stake a differential on it.
+  gold        — C, O, K, Mn, Fe, Sc            (normal method/scale spread of Asplund)
+  gf_floor    — Cr, Si                          (characterized ~+0.4 floor; Si<=0.5)
+  upper_limit — Li                              (RYA-103; tagged, not a point value)
+  owed        — everything else                 (NO frozen value; suspect -> held, not
+                                                  immortalised — the C=10.26 lesson)
+S is owed (offset +0.63 > ~0.5). Sr is the +2.1-tail saturation suspect (owed).
 
-Asplund column = the in-repo cited reference SOLAR_ASPLUND2021 (Asplund, Amarsi &
-Grevesse 2021, A&A 653 A141), never typed from memory. Scale is stated per row so a
-documented 1D-NLTE-vs-3D offset is not misread as a discrepancy.
-
-Usage: python scripts/build_solar_reference_v2_rya522.py --verdict <path>
+Artifacts (candidates; the write-once freeze is promote_solar_reference --apply):
+  data/reference/solar/solar_abundances_v2_candidate.csv
+  docs/audit/solar_gold_v2_ratification_rya522.md
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -33,30 +35,47 @@ from config.constants import SOLAR_ASPLUND2021, TARGET_ELEMENTS  # noqa: E402
 
 ASPLUND_CITE = "Asplund, Amarsi & Grevesse 2021, A&A 653, A141"
 
+# Ratified tiers (RYA-522, Ryan 2026-07-05). Everything not listed -> owed.
+TIER_GOLD = {"C", "O", "K", "Mn", "Fe", "Sc"}
+TIER_GF_FLOOR = {"Cr", "Si"}
+TIER_UPPER_LIMIT = {"Li"}
+# Dominant ion for the frozen rows (cosmetic except Fe I, which the anchor check needs).
+ION = {"Sc": "II"}
 
-def _scale_and_note(el: str, ch: str, verdict: str, a, asp):
+
+def confidence_of(el: str) -> str:
+    if el in TIER_GOLD:
+        return "gold"
+    if el in TIER_GF_FLOOR:
+        return "gf_floor"
+    if el in TIER_UPPER_LIMIT:
+        return "upper_limit"
+    return "owed"
+
+
+def _scale_and_note(el, ch, verdict, a, asp, conf):
     ch = ch or ""
     d = (a - asp) if (a is not None and asp is not None) else None
     if el == "Fe":
         return "1D-NLTE (Fe I)", "our 1D-NLTE runs ~+0.05 above Asplund 3D-true 7.46 (RYA-336) — documented offset, NOT a discrepancy"
-    if "synthesis" in ch:
-        base = "synthesis"
-        return base, ("CH G-band + C I (RYA-237)" if el == "C" else
-                      "O I 777 + [O I] 6300 (RYA-237)" if el == "O" else
-                      "HFS-resolved synthesis (RYA-411/466/473)")
-    if "kittpeak" in ch:
-        n = {"N": "N I red multiplets; +0.37 = owed NLTE (RYA-369)",
-             "P": "near-IR multiplet, gf-limited (RYA-460)",
-             "K": "K I 7699 + K NLTE grid (RYA-462)",
-             "Co": "blue-edge, SNR-limited — value not fully trusted (RYA-460)",
-             "Sc": "blue-edge HFS single line (RYA-460)"}.get(el, "Kitt Peak atlas (RYA-460)")
-        return "atlas 1D", n
-    # EW-curation path
     if el == "Li":
         return "EW (upper limit)", "CN-blended, carried as UPPER LIMIT (RYA-103) — a clean low value is a red flag"
-    if verdict == "CURATION-OWED" and d is not None and d > 0.15:
-        return "EW 1D-LTE/NLTE", f"gf-limited residual floor ({d:+.2f}); NOT an Asplund disagreement (RYA-399)"
-    return "EW 1D-LTE/NLTE", "curated EW; low-confidence" if verdict == "CURATION-OWED" else ""
+    if "synthesis" in ch:
+        return "synthesis", ("CH G-band + C I (RYA-237)" if el == "C" else
+                             "O I 777 + [O I] 6300 (RYA-237)" if el == "O" else
+                             "HFS-resolved synthesis (RYA-411/466/473)")
+    if "kittpeak" in ch:
+        return "atlas 1D", {"N": "N I red multiplets; +0.37 owed NLTE (RYA-369)",
+                            "P": "near-IR multiplet, gf-limited (RYA-460)",
+                            "K": "K I 7699 + K NLTE grid (RYA-462)",
+                            "Co": "blue-edge, SNR-limited — not trusted (RYA-460)",
+                            "Sc": "blue-edge HFS single line (RYA-460)"}.get(el, "Kitt Peak atlas (RYA-460)")
+    if conf == "gf_floor":
+        return "EW 1D-LTE/NLTE", f"characterized gf-scale floor ({d:+.2f}); 3D not the lever (RYA-398/399)"
+    if el == "Sr":
+        return "EW (SUSPECT)", f"+{d:.2f} — NOT a gf-floor; saturated-line-on-flat-COG signature (the RYA-520 disease) → saturation-trace owed"
+    return "EW 1D-LTE/NLTE", (f"LOW_CONFIDENCE / thin graded pool ({d:+.2f})" if d is not None
+                              else "no independent-gf line survives the graded cull")
 
 
 def load_v1(path):
@@ -73,7 +92,7 @@ def load_v1(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--verdict", required=True, help="phase_c verdict json (authoritative source)")
+    ap.add_argument("--verdict", required=True)
     ap.add_argument("--v1", default=str(ROOT / "data/reference/solar/solar_abundances_v1.csv"))
     args = ap.parse_args()
 
@@ -83,51 +102,60 @@ def main():
     cand_rows, table = [], []
     for el in TARGET_ELEMENTS:
         r = V.get(el, {})
-        a = r.get("A_measured")
-        a = float(a) if a is not None else None
+        a_verdict = r.get("A_measured")
+        a_verdict = float(a_verdict) if a_verdict is not None else None
+        conf = confidence_of(el)
+        # OWED tier freezes NO authoritative value (held), even if the verdict has one.
+        a_frozen = a_verdict if conf != "owed" else None
         ch, verdict = r.get("channel", ""), r.get("verdict", "")
         asp = SOLAR_ASPLUND2021.get(el)
-        scale, note = _scale_and_note(el, ch, verdict, a, asp)
+        scale, note = _scale_and_note(el, ch, verdict, a_verdict, asp, conf)
         v1v = v1.get(el)
-        cand_rows.append({"element": el, "A_authoritative": a, "verdict": verdict,
-                          "channel": ch, "scale": scale, "n_lines": r.get("n_lines"),
-                          "source": "phase_c_verdict (RYA-521)"})
+        cand_rows.append({
+            "element": el, "ion": ION.get(el, "I"),
+            "A_X": a_frozen if a_frozen is not None else np.nan,
+            "A_X_nlte": a_frozen if a_frozen is not None else np.nan,
+            "confidence": conf, "verdict": verdict, "method_scale": scale,
+            "asplund2021": asp, "n_lines": r.get("n_lines"),
+            "source": "phase_c_verdict (RYA-521)", "note": note,
+        })
+        val = (f"{a_frozen:.3f}" if a_frozen is not None
+               else (f"[{a_verdict:.3f} held]" if a_verdict is not None else "owed"))
         table.append({
-            "Element": el,
-            "v2 (verdict)": f"{a:.3f}" if a is not None else "owed",
-            "method/scale": scale,
+            "Element": el, "conf": conf, "v2 (frozen)": val, "method/scale": scale,
             "v1 (old)": f"{v1v:.3f}" if v1v is not None else "—",
-            "Δ(v2−v1)": f"{a - v1v:+.3f}" if (a is not None and v1v is not None) else "—",
-            f"Asplund 2021": f"{asp:.2f}" if asp is not None else "—",
-            "Δ(v2−Asp)": f"{a - asp:+.3f}" if (a is not None and asp is not None) else "—",
-            "verdict": verdict, "note": note,
+            "Δ(v2−v1)": f"{a_frozen - v1v:+.3f}" if (a_frozen is not None and v1v is not None) else "—",
+            "Asplund 2021": f"{asp:.2f}" if asp is not None else "—",
+            "Δ(v2−Asp)": f"{a_verdict - asp:+.3f}" if (a_verdict is not None and asp is not None) else "—",
+            "note": note,
         })
 
     cand = pd.DataFrame(cand_rows)
     cand_path = ROOT / "data/reference/solar/solar_abundances_v2_candidate.csv"
     cand.to_csv(cand_path, index=False)
 
-    tdf = pd.DataFrame(table)
-    cols = list(tdf.columns)
-    md_table = ["| " + " | ".join(cols) + " |",
-                "|" + "|".join("---" for _ in cols) + "|"]
-    md_table += ["| " + " | ".join(str(r[c]) for c in cols) + " |" for _, r in tdf.iterrows()]
-    md = ["# Solar gold reference v2 — ratification diff table (RYA-522)", "",
-          f"Source: the phase_c **verdict** channel (RYA-521), regenerated — not hand-edited. "
-          f"Asplund column = `SOLAR_ASPLUND2021` ({ASPLUND_CITE}).", "",
-          "**Scales differ:** our values are 1D-NLTE / synthesis on our stack; Asplund 2021 is "
-          "3D-NLTE photospheric. The `note` states each row's scale so documented offsets "
-          "(e.g. Fe I +0.05, RYA-336) are not misread as disagreement.", "",
-          *md_table, "",
-          f"**Headline:** C {v1.get('C')} → {float(V['C']['A_measured']):.3f} "
-          f"(the RYA-520 saturated-C I-5380 artifact corrected; −1.77 dex).",
-          "", "Freeze is GATED on Ryan's explicit ratification of this table (RYA-522 step 4)."]
+    cols = list(table[0].keys())
+    mdt = ["| " + " | ".join(cols) + " |", "|" + "|".join("---" for _ in cols) + "|"]
+    mdt += ["| " + " | ".join(str(row[c]) for c in cols) + " |" for row in table]
+    n = {t: sum(1 for e in TARGET_ELEMENTS if confidence_of(e) == t)
+         for t in ("gold", "gf_floor", "upper_limit", "owed")}
+    md = ["# Solar gold reference v2 — TIERED ratification table (RYA-522)", "",
+          f"Verdict-sourced (RYA-521), tiered by row-confidence per Ryan's ratification. "
+          f"Asplund = `SOLAR_ASPLUND2021` ({ASPLUND_CITE}).", "",
+          f"**Tiers:** gold={n['gold']} · gf_floor={n['gf_floor']} · upper_limit={n['upper_limit']} "
+          f"· owed(held, no frozen value)={n['owed']}.", "",
+          "Scales differ (ours 1D-NLTE/synth vs Asplund 3D-NLTE) — `note` states each row's scale so "
+          "documented offsets are not misread as disagreement. `owed` rows freeze NO value (the C=10.26 "
+          "lesson: suspect → held, not immortalised).", "",
+          *mdt, "",
+          f"**Headline:** C {v1.get('C')} → {float(V['C']['A_measured']):.3f} (RYA-520 saturated-C I-5380 fix, −1.77 dex).",
+          "**+2.1-tail suspect:** Sr (Δ+2.13) — saturated-line-on-flat-COG signature (RYA-520 class) → held owed, routed to a saturation-trace ticket.", ""]
     doc = ROOT / "docs/audit/solar_gold_v2_ratification_rya522.md"
     doc.parent.mkdir(parents=True, exist_ok=True)
     doc.write_text("\n".join(md) + "\n")
-    print(f"wrote {cand_path.relative_to(ROOT)} ({len(cand)} elements)")
+    print(f"wrote {cand_path.relative_to(ROOT)} ({len(cand)} rows; "
+          f"gold={n['gold']} gf_floor={n['gf_floor']} upper_limit={n['upper_limit']} owed={n['owed']})")
     print(f"wrote {doc.relative_to(ROOT)}")
-    print(f"C: {v1.get('C')} -> {float(V['C']['A_measured']):.3f}")
 
 
 if __name__ == "__main__":
