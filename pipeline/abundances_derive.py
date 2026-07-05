@@ -2647,6 +2647,44 @@ def run(star_id: str = 'solar',
         except ns.ImmutableReferenceError as _e:
             print(f"  [RYA-469] solar_ref_version unstamped (no gold reference yet): {_e}")
 
+    # ── RYA-519 completeness: NO target element silently absent from the verdict.
+    #    Every metal in TARGET_ELEMENTS either emits a value (n_lines>0) or carries
+    #    a cited problem_children (RYA-463) disposition; neither = LOUD failure.
+    #    Catches elements outside the EW pool (K/Co/Sc) and the CNO/P paths that
+    #    this run did not surface — the amendment's "no silent absence" guarantee. ──
+    if 'solar' in star_id.lower():
+        from config.constants import TARGET_ELEMENTS as _TGT
+        import pipeline.problem_children as _pc519
+        _present = set(results['element'].astype(str))
+        _comp_rows, _comp_unreg = [], []
+        for _el in _TGT:
+            if _el in _present:
+                continue
+            _d = _pc519.disposition_for(_el)
+            if _d is None:
+                _comp_unreg.append(_el)
+                continue
+            _comp_rows.append({
+                'element': _el, 'ion': '', 'A_X': np.nan, 'A_X_nlte': np.nan,
+                'n_lines': 0, 'scale': 'absolute', 'nlte_flag': 'not_emitted',
+                'curation_verdict': _d['problem_class'],
+                'disposition_class': _d['problem_class'],
+                'disposition_treatment': _d['required_treatment'],
+                'disposition_status': _d['status'],
+                'disposition_tickets': _d['governing_tickets'],
+                'disposition_source': 'RYA-463 registry (RYA-519 completeness pass)',
+            })
+            print(f"    {_el:>3s}  not surfaced by this run -> registry disposition: "
+                  f"{_d['problem_class']} / {_d['required_treatment']} [{_d['status']}]")
+        if _comp_unreg:
+            raise RuntimeError(
+                f"RYA-519 completeness LOUD-FAIL: target element(s) {_comp_unreg} are "
+                f"absent from the solar verdict AND carry no problem_children (RYA-463) "
+                f"disposition — a silently-omitted element is a defect.")
+        if _comp_rows:
+            results = pd.concat([results, pd.DataFrame(_comp_rows)], ignore_index=True)
+            results = results.sort_values(['element', 'ion']).reset_index(drop=True)
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
     out_dir  = ns.outputs_dir(star_id)                       # RYA-469 namespaced per-star
