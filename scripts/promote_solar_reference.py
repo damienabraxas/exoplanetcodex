@@ -96,6 +96,24 @@ def main():
     print(f"  next version  : {target}  (previous = {prev or 'none'})")
     print(f"  verdict       : {_verdict_counts()}")
 
+    # RYA-521: the phase_c verdict is the SINGLE authoritative channel. Refuse to freeze
+    # a raw-EW source that diverges from the verdict on a PASS element (the C=10.260
+    # class) — the gold reference must be verdict-consistent, never a raw-EW artifact.
+    from pipeline.authoritative_channel import channel_divergence
+    div = channel_divergence('solar', raw_path=src)
+    if div:
+        print(f"  channel divergence (raw EW vs verdict, >0.1 dex): {len(div)} element(s)")
+        for d in div:
+            print(f"    {d['element']:>3s}  raw={d['raw_ew']}  verdict={d['verdict']}  "
+                  f"Δ={d['delta']}  [{d['verdict_status']}]"
+                  f"{'   <-- PASS element!' if d['pass_element'] else ''}")
+    pass_div = [d['element'] for d in div if d['pass_element']]
+    if pass_div:
+        raise SystemExit(
+            f"FATAL (RYA-521): raw-EW source diverges from the verdict on PASS element(s) "
+            f"{pass_div} — freezing it would bake a non-authoritative flagship value (the "
+            f"C=10.260 class). Reconcile, or freeze from the verdict channel.")
+
     if abs(fe - FE_ANCHOR_EXPECT) > FE_ANCHOR_TOL:
         raise SystemExit(f"FATAL: Fe anchor {fe:.3f} off baseline {FE_ANCHOR_EXPECT} by "
                          f">{FE_ANCHOR_TOL} — a perturbed regen will NOT be frozen.")
