@@ -76,17 +76,27 @@ def load_verdict_abundances(star: str = 'solar', path=None) -> dict:
 
 
 def load_raw_ew_abundances(path) -> dict:
-    """{element: A_X} from the raw DIAGNOSTIC-ONLY run output — only rows still marked
-    authoritative (post-RYA-520 suppression) with a finite A_X. For the divergence
-    guard, never as the reported number."""
+    """{element: A} from the raw DIAGNOSTIC-ONLY run output, comparable to the verdict:
+    the dominant/neutral ion (the verdict reports one abundance per element, from the
+    workhorse ion) and the NLTE-applied value where present (else 1D-LTE A_X) — so the
+    guard compares like-with-like and does not false-positive on LTE-vs-NLTE or an Fe I
+    vs Fe II ion mismatch. Rows suppressed by RYA-520 (authoritative=False) are skipped."""
     df = pd.read_csv(path, comment='#')
     out = {}
-    for _, r in df.iterrows():
-        if 'authoritative' in df.columns and r.get('authoritative') is False:
+    for el, g in df.groupby(df['element'].astype(str)):
+        if 'authoritative' in g.columns:
+            g = g[g['authoritative'] != False]
+        if g.empty:
             continue
-        a = r.get('A_X')
+        if 'ion' in g.columns:
+            neutral = g[g['ion'].astype(str).str.strip().isin(('I', '1', '1.0'))]
+            g = neutral if not neutral.empty else g
+        r = g.iloc[0]
+        a = r.get('A_X_nlte')
+        if a is None or pd.isna(a):
+            a = r.get('A_X')
         if pd.notna(a):
-            out[str(r['element'])] = float(a)
+            out[el] = float(a)
     return out
 
 
