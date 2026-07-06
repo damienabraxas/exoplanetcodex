@@ -14,7 +14,7 @@ Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwe
 
 **Status vocab:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`
 
-**Version: v5** · _Last updated: 2026-07-05 · By: Mr. Code + Ryan (RYA-522 set-down: solar gold → v2 verdict-sourced (C 10.26→8.491), tiered confidence; verdict 5/1/20/0; Sirius = authoritative runner on py3.12/numpy2.2 (517 null drift); verdict = single authoritative channel (521); "merged ≠ wired" row (463 orphaned→wired, 519))._
+**Version: v6** · _Last updated: 2026-07-06 · By: Mr. Code + Ryan (RYA-526 set-down + 525 architecture capture: two-engine floor ratified as governing law (build-pending); N wired into production NLTE + N I grid row; Sirius scope extended to all downloads/extractions + PySME venv-isolation; solar 5/1/20/0 flagged STALE pending the RYA-527 two-engine re-freeze)._
 
 ---
 
@@ -61,7 +61,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 | Solar 13-species verdict (v1) | banked baseline | PASS-4 (O, C, Fe, K) | pre-June v1 baseline | STALE — predates the June Fe stack; does not reflect the RYA-406/407 gate state | RYA-251 sign-off supersedes |
 | NLTE unit convention | absolute A(Fe); `_A_FE_SOLAR = 7.46` offset | — | RYA-247 fix | SETTLED for Fe; **Ca/Ti/Cr grids not yet verified for the same convention** | verify Ca/Ti/Cr grid units (RYA-245/256) |
 | Solar gold reference | **v2 — verdict-sourced, tiered** | C 10.26→**8.491**; tiers: gold=C/O/K/Mn/Fe/Sc, gf_floor=Cr/Si, upper_limit=Li, **owed(held, no value)**=S/Sr/N/Co/Ti/Ni/Al/Na/Ca/P/Mg/Ba/Y/Zr/Eu/Cu/V | RYA-522 (frozen+hashed; RYA-521 channel; RYA-520 C fix) | SETTLED — `CURRENT`→v2; v1 retained immutable + SUPERSEDED (C=10.26 RYA-520 artifact) | a new ratified verdict re-freeze (v3) |
-| Solar 27-el verdict | **5 PASS / 1 NLTE-OWED / 20 CURATION-OWED / 0 DATA-GAP** | PASS: O, C, Fe, Mn, K | RYA-519 (wiring) / RYA-371 (phase_c); per-element detail → RYA-463 registry | SETTLED (rollup) — authoritative on the verdict channel | wiring / channel / re-run change |
+| Solar 27-el verdict | **5 PASS / 1 NLTE-OWED / 20 CURATION-OWED / 0 DATA-GAP** | PASS: O, C, Fe, Mn, K | RYA-519 (wiring) / RYA-371 (phase_c); per-element detail → RYA-463 registry | **STALE** — the live 5/1/20/0 predates the N wiring (RYA-526: N no longer NLTE-OWED) and the 491/492/520 merges (RYA-524 audit). Re-freeze on the two-engine floor = **RYA-527** (verdict v-next, gold v3) — THE Beta gate | RYA-527 re-freeze lands |
 
 ---
 
@@ -85,6 +85,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 | grade application | `line_grade` applied to EW aggregation | — | RYA-329 | OPEN — computed, not applied (silent leak). NOTE: RYA-407 found the Fe I scatter is an honest floor, so 329 is NOT the scatter driver (earlier guess retracted) | — |
 | per-line engine provenance | `{engine, correction, source}` stamp per line | — | RYA-250 / RYA-512 / RYA-515 | OPEN — no per-line stamp yet; verdicts not fully auditable | — |
 | Engine (all 27 elements) | Turbospectrum synthesis + MOOG EW comparison | `RADIATIVE_TRANSFER_CODE='turbospectrum'`, `EW_BASELINE_CODE='moog'` | RYA-285 (Done) | SETTLED — reverses MOOG-for-speed; Turbospectrum-via-EW not viable (RYA-234) | — |
+| Two-engine floor (governing law) | every element on BOTH 1D-NLTE + synthesis; report the single best engine by a PRE-DECLARED line-quality criterion (σ / REW / blend flag / COG — NEVER reference-proximity); missing synth grid → RAISE (acquire, never silent EW-1D); rejected engine recorded but excluded from value + budget; cross-engine spread = separate diagnostic, never in the error bar | RYA-525 (ratified 2026-07-05, triggered by RYA-524 audit) | RATIFIED — **build pending** (`SCIENCE_STANDARDS.md` + selection fn + loud-fail guard not yet wired; only RYA-526's grid-presence guard core landed) | build lands (RYA-525) → upgrade to SETTLED |
 
 ---
 
@@ -98,6 +99,7 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 | Cr I | MPIA MAFAGS-OS / Bergemann & Cescutti 2010 | Cr II deliberately excluded (RYA-240 COG artifact) | constants.py / RYA-235/240 | SETTLED (selection) |
 | Na / Mg / Ba / Mn / Si | Lind 2011 (Na, INSPECT) · Bergemann MPIA (Mg/Mn/Si) · Korotin 2015 (Ba, VizieR) | feh axis is [Fe/H] RELATIVE — no solar offset (unlike Fe) | constants.py `NLTE_CORRECTION_ELEMENTS` / RYA-165/396 | SETTLED (selection) |
 | C I / O I | Amarsi 2019/2020 grids (owned by `nlte_cno`) | C/O flagship prerequisite | RYA-359 | OPEN — status per C/O track |
+| N I | Amarsi 2020 N grid → `N_Amarsi2020_PySME.csv` (Zenodo 3982506, md5-verified; derived via PySME on Sirius, grids never on Mac) | N I red near-LTE at the Sun (solar δ −0.0115/−0.0145/−0.0154, max\|Δ\|=0.0000 vs the RYA-369 load-test); **warm-star indicator** — 4 cool metal-rich weak-line COG nodes excluded → out-of-hull loud-flag (genuine weak-line info-loss; bracket-widening worsened it), not shipped as spurious +0.2 | RYA-526 (wired into `NLTE_CORRECTION_ELEMENTS`) | SETTLED (selection + wiring) — production resolves the solar δ live | 3D-NLTE, or a new N I grid |
 | — (principle) | Amarsi/Balder **and** Bergemann/MPIA are **independent measurements**; inter-model spread feeds the uncertainty budget | not "pick one" | RYA-282 / project | SETTLED (principle) |
 
 ---
@@ -144,6 +146,8 @@ _Target order: Sun → Procyon → α Cen A/B → 55 Cnc A (**55 Cnc LAST**). 27
 | Sirius | **authoritative runner — BUILT** | `/mnt/codex-data`: venv312 (py3.12.13/numpy2.2.6, byte-identical to Mac), iSpec compiled, 69 GB Amarsi grids, engines, RYA-514 fork confirmed | RYA-511 Phase 0 (done) | SETTLED — all runs execute on Sirius now; reproduced Fe I 7.516/n=62 | — |
 | Compute stack | **py3.12 + numpy 2.2** (reference stack, off EOL 3.9.6) | exact-zero cross-machine floor (per-line bit-identical); Mac↔Sirius drift = **null** | RYA-517 (merged) | SETTLED — Sirius alone authoritative (no dual-machine cross-confirm required) | new engine ceiling |
 | Trust model | Sirius = the authoritative runner (null drift) | forced-fork + single-thread BLAS both machines | RYA-506 / RYA-511 / RYA-517 | SETTLED — "Sirius = native fork" dead (py3.14 forkserver); 517 proved null drift → Sirius authoritative | — |
+| Sirius scope (downloads too) | **all downloads + grid extractions run on Sirius, never the Mac** | a Mac-side `.grd` extraction filled the disk | RYA-526 | SETTLED — extends "runs on Sirius" to downloads/extractions | — |
+| venv isolation | **PySME in its own dedicated venv**; the RYA-517 reference `venv312` (astropy/pandas exact pins) stays untouched — never install into it | a transient `pysme-astro` install downgraded venv312 (astropy/pandas); restored to exact pins | RYA-526 / RYA-517 | SETTLED | deliberate reference-stack bump |
 | NIRPS solar from-raw | walled | wave_THAR global FP-comb starvation vs stale 2022-11 prior | RYA-498 (parked) | SETTLED (make-do: atlas fallback) | 2023-epoch 3.3.12 WAVE_MATRIX becomes trivially available |
 | α Cen NIRPS | adopt existing reduced ADP | S1D_FINAL_A (HA, 28 frames) | RYA-500 (reframed) / RYA-494 | SETTLED — absolute-mode, version-caveat; NIRPS = α Cen **A** not B (RYA-494) | fresher prior (as above) |
 | Orion | planned 2nd runner (3D-RT / molecular-synthesis era) | — | project | PENDING | — |
@@ -192,6 +196,7 @@ _Supersede the pinned project-instructions doc (a May-2026 snapshot) wherever th
 **Claude's standing reminder duty:** when a register-worthy moment lands in conversation — a verdict, a confirmed fix, a milestone, a "this works now" — Claude proactively says *"this belongs in the register."* Ryan need not remember to ask.
 
 ## Changelog
+- **v6** (2026-07-06) — RYA-526 set-down + RYA-525 architecture capture. **Two-engine floor** ratified as governing law (RYA-525, build-pending — SCIENCE_STANDARDS.md/selection-fn/loud-fail guard not yet wired). **N wired** into production NLTE (RYA-526: `N_Amarsi2020_PySME.csv`, near-LTE at the Sun, warm-star indicator; 4 cool-metal-rich COG nodes excluded → loud-flag) + N I NLTE-grid row. **Infra:** Sirius scope extended to all downloads/extractions (Mac disk-fill); PySME venv-isolation, venv312 pinned/untouched (transient downgrade, restored) — both RYA-526 incidents. Solar 5/1/20/0 verdict flagged **STALE** pending the RYA-527 two-engine re-freeze (verdict v-next, gold v3).
 - **v5** (2026-07-05) — RYA-522 set-down (Ryan-ratified checkpoint, the picture stopped moving): solar gold reference re-frozen **v2** from the verdict channel (RYA-521), **C 10.26→8.491** (RYA-520 saturated-C I-5380 fix), **tiered confidence** (gold C/O/K/Mn/Fe/Sc; gf_floor Cr/Si; upper_limit Li; owed/held incl S/Sr/N/Co — no value immortalised), v1 immutable+SUPERSEDED. Solar verdict → **5/1/20/0**. Sirius = authoritative runner, py3.12/numpy2.2, null cross-machine drift (RYA-511/517). Verdict = single authoritative channel; raw EW diagnostic-only (RYA-521). "merged ≠ wired" wiring-integrity row (RYA-463 orphaned → wired, RYA-519). +2.1-tail Sr flagged for saturation-trace.
 - **v4** (2026-07-04) — VENDORED (RYA-516, Mr. Code): confirmed every row against its ticket + `constants.py`; **Targets table now script-generated** from `STAR_PARAMS` (was hand-typed). Corrections from source: Sun Teff resolved to 5772; Procyon [Fe/H] +0.03 / ξ 1.8; α Cen A/B params emitted from source (0.20) with the RYA-435 ratification caveat; 55 Cnc [Fe/H] +0.31. Merge states verified vs `origin/main` @ `3425995`: RYA-406 (#47) + RYA-407 (#48) + RYA-336 + RYA-446 (#71) confirmed **merged** → upgraded from SETTLED-PENDING-MERGE to SETTLED. Telluric [confirm] resolved to RYA-424 (+ NIRPS nuance). NARVAL source flagged **[OPEN]** (no ticket). Wired maintenance into `DEV_CYCLE.md` + `skills/codex-state-register`.
 - **v3** (2026-07-04) — Fe rows corrected after verifying RYA-406/407: no Fe II regression (arbiter 7.486 balanced, on main; 406 reconciled the gate); Fe I scale-gate 336 already on main; Fe I scatter 0.138 = honest floor (446). Retracted the "329 drives scatter" guess. Added the versioning & edit protocol.
