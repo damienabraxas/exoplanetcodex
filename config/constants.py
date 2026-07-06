@@ -761,6 +761,19 @@ NLTE_CORRECTION_ELEMENTS = {
                  '7665/7699; solar anchor Reggiani et al. 2019 (A&A 627, A177) / Andrievsky '
                  'et al. 2006 (severe negative K I resonance NLTE); RYA-402/462 PySME-derived deltas',
           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    # N I red-optical triplet 7468/8216/8683 (RYA-369 strategy; wired RYA-526). High-excitation
+    # (~10.3 eV), atomic-primary, DECOUPLED from the C/O CNO synthesis leg. Derived on Sirius via
+    # PySME from the Amarsi-2020 GALAH N grid (nlte_N_scatt_pysme.grd, Zenodo 3982506) over the
+    # standard 11-node box; the SOLAR node reproduces the RYA-369 load-test EXACTLY (7468 -0.0115,
+    # 8216 -0.0145, 8683 -0.0154 — SMALL negative, N I red is NEAR-LTE at the Sun, sign-discipline
+    # OK RYA-339). N I red is a WARM-star indicator: 4 weak-line COG rails at cool (Teff<=5172)
+    # metal-rich nodes (7468 x3, 8216 x1) were EXCLUDED from the grid, so those fall out-of-hull ->
+    # loud-flagged (RYA-409), never a spurious value. Same PySME-derived path + flag as Na/Mg/Si/Al/S/K.
+    'N': {'ion': 1, 'grid': 'N_Amarsi2020_PySME.csv',
+          'ref': 'Amarsi et al. 2020 (A&A 642, A62) N I departure grid via PySME (Zenodo 3982506); '
+                 'N I red triplet 7468/8216/8683 high-excitation atomic; RYA-369 strategy / RYA-526 '
+                 'PySME-derived deltas (solar reproduces the RYA-369 load-test)',
+          'flag': 'NLTE_Amarsi2020_PySME_1D'},
 }
 
 # ── Sr II resonance-doublet line discipline (RYA-421 Step 4) ──────────────────
