@@ -56,22 +56,27 @@ ELEMENTS = {
                grid='NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin',
                waves=[6013.510, 6021.800], anchor=+0.10, tol=0.06,
                ref='Mn I 6013/6021, solar NLTE +~0.1 (Bergemann&Gehren 2008 / our Mn_Bergemann_MPIA +0.107; same atom lineage)'),
+    # Co/Ni line picks CORRECTED (RYA-534): the first-pass lines had an UNIDENTIFIED
+    # upper level in the GES list ('none'/'x') -> bsyn silently set departure=1 (the deck
+    # RAISED). These lines carry BOTH levels identified ('c'/'a'/'c').
     'Co': dict(Z=27, a_sun=4.94, atom='atom.co247qm', aux='auxData_CO_MARCS_Nov-14-2024.dat',
                grid='NLTEgrid4TS_CO_MARCS_Nov-14-2024.bin',
-               waves=[5342.695], anchor=+0.15, tol=0.10,
-               ref='Co I, solar NLTE large+ (Bergemann+2010 MNRAS 401 1334)'),
+               waves=[5000.875, 5013.324], anchor=+0.10, tol=0.12,
+               ref='Co I 5000/5013 (both GES levels identified), solar NLTE positive (Bergemann+2010 MNRAS 401 1334)'),
     'Ni': dict(Z=28, a_sun=6.20, atom='atom.ni538qm', aux='auxData_Ni_MARCS_Jan-21-2022.txt',
                grid='NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin',
-               waves=[6643.630, 6767.772], anchor=+0.02, tol=0.05,
-               ref='Ni I, solar NLTE small+ (Bergemann+2021)'),
+               waves=[5018.282, 5035.972], anchor=+0.02, tol=0.05,
+               ref='Ni I 5018/5035 (both GES levels identified), solar NLTE small+ (Bergemann+2021)'),
+    # Sr/Ba: II (singly-ionised) — ges_lines ion=1 (GES stage 2). Line picks CORRECTED to
+    # those actually present + identified in the GES Sr II / Ba II NLTE blocks.
     'Sr': dict(Z=38, a_sun=2.83, atom='atom.sr191',  aux='auxData_Sr_MARCS_Mar-15-2023.dat',
                grid='NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin',
-               waves=[4077.709, 4215.519], anchor=-0.01, tol=0.05,
-               ref='Sr II 4077/4215 resonance, near-LTE at solar (our Sr_Bergemann2012_INSPECT ~-0.005)'),
+               waves=[4215.519], anchor=-0.01, tol=0.06,
+               ref='Sr II 4215 resonance (GES-identified; 4077 absent from GES block), near-LTE at solar (our Sr_Bergemann2012_INSPECT ~-0.005)'),
     'Ba': dict(Z=56, a_sun=2.27, atom='atom.ba111',  aux='auxData_Ba_MARCS_Jul-29-2023.dat',
                grid='NLTEgrid_Ba_MARCS_Jul-29-2023.bin',
-               waves=[5853.668, 6141.713, 6496.897], anchor=+0.03, tol=0.07,
-               ref='Ba II 5853/6141/6496 subordinate, solar NLTE small (Korotin+2015; resonance larger)'),
+               waves=[4554.029], anchor=-0.05, tol=0.10,
+               ref='Ba II 4554 resonance (GES-identified; 5853/6141/6496 absent from GES block), solar NLTE moderate negative (Korotin+2015)'),
 }
 
 ION = {'Sr': 1, 'Ba': 1}   # singly-ionised diagnostics; the rest are neutral (I)
@@ -85,25 +90,29 @@ def sh(cmd, **kw):
 
 
 def ges_lines(Z, ion, waves, tol=0.02):
-    """Extract the GES NLTE lines for species Z.00{ion} nearest each requested wave,
-    VERBATIM (keeps the level-identification fields). Returns (header_species, rows)."""
+    """Extract the GES NLTE lines for element Z at ionisation `ion` (0=I, 1=II)
+    nearest each requested wave, VERBATIM (keeps the level-identification fields).
+    NOTE: the GES header encodes the species as `'  Z.000  '  STAGE  NLINES`, where
+    STAGE = ion+1 is a SEPARATE middle field (1=neutral, 2=singly-ionised) — NOT the
+    decimals of the species code. Returns (header_species, rows)."""
+    stage = ion + 1
     rows = []
     with open(GES) as f:
         lines = f.readlines()
-    # find the species block for this Z.00{ion}
+    hdr_re = re.compile(r"^'\s*(\d+)\.\d\d\d\s*'\s+(\d+)\s+(\d+)")
     blk_start = None
     for i, ln in enumerate(lines):
-        m = re.match(r"^'\s*(\d+)\.(\d\d\d)\s*'\s+\d+\s+\d+", ln)
-        if m and int(m.group(1)) == Z and int(m.group(2)) == ion:
+        m = hdr_re.match(ln)
+        if m and int(m.group(1)) == Z and int(m.group(2)) == stage:
             blk_start = i
             break
     if blk_start is None:
-        raise SystemExit(f"no GES NLTE block for Z={Z} ion={ion}")
+        raise SystemExit(f"no GES NLTE block for Z={Z} stage={stage} (ion={ion})")
     hdr_species = lines[blk_start].rstrip("\n")
     # scan rows until the next species header
     body = []
     for ln in lines[blk_start + 2:]:
-        if re.match(r"^'\s*\d+\.\d\d\d\s*'\s+\d+\s+\d+", ln):
+        if hdr_re.match(ln):
             break
         body.append(ln)
     for w in waves:
