@@ -72,19 +72,21 @@ Legend — **Engine A source flag:** the production `NLTE_CORRECTION_ELEMENTS` /
 - **`nlte_cno` Amarsi-2019 (2):** C, O.
 - **LTE (no NLTE, 9):** Ni, P, Co, Y, V, Sc, Li, Eu, Zr (+ Cu in production).
 
-## Engine B (TS-native NLTE synthesis) — status: **BUILD IN PROGRESS (RYA-533), 0/27 gated yet**
+## Engine B (TS-native NLTE synthesis) — status: **DECK BUILT + Na-VALIDATED (RYA-533); 1/11 Family-A provisioned**
 
-**RYA-533 update (2026-07-06):** the Engine-B TS-native NLTE deck is now being built. Turbospectrum_NLTE
-(BSYN v20.1) is **compiled on Sirius**, the deck format is recovered, and the **Na Gerber-2023**
-departure grid (15.9 GB) + model atom (`atom.na_qmh`) + aux index are **provisioned** (md5-pinned,
-Sirius-only `/mnt/codex-data/grids/nlte/gerber_ts/`). Still PENDING: the babsma/bsyn NLTE deck driver
-+ 4D departure interpolation + the **Na TS-Gerber gate**. Until the gate passes, every element's
-Engine-B column stays **NONE-VALIDATED** (LTE synth in production) — no SETTLED claim. Gerber-2023
-(A&A 669 A43) covers 11 of the 27 for TS-native NLTE: O, Na, Mg, Si, Ca, Ti, Mn, Co, Ni, Sr, Ba
-(+ Fe, H, Al, Y in the wider release). Resume point → `data/audit/rya533_ts_gerber_build/build_status.md`.
+**RYA-533 (2026-07-06):** the Engine-B TS-native NLTE deck is **built and validated on Sirius**.
+Turbospectrum_NLTE (BSYN v20.1) compiled; the **Na Gerber-2023** departure grid (15.9 GB) + model atom
+(`atom.na_qmh`) + aux provisioned (md5-pinned, Sirius-only); bsyn NLTE deck wired (interpol departures →
+babsma → bsyn NLTE-vs-LTE COG). **Na gate GREEN: median δ −0.068 vs anchor −0.107 (PASS, model-atom tol
+0.05); validate-don't-tune.** Cross-engine Na = INSPECT −0.107 / PySME −0.129 / TS-Gerber −0.068 (the
+RYA-525 model-atom-systematic diagnostic). Deck `scripts/ts_gerber_na_gate_rya533.py`; gate test
+`tests/test_ts_gerber_nlte_rya533.py`.
 
-`gerber_ts/` on Sirius was empty at RYA-531; RYA-533 is populating it. This is the genuine build the
-two-engine floor (RYA-525) needs for its Engine-B NLTE column.
+Gerber-2023 (A&A 669 A43) provides TS-native NLTE for 11 of the 27: **O, Na, Mg, Si, Ca, Ti, Mn, Co, Ni,
+Sr, Ba** (+ Fe, H, Al, Y wider). **Na is provisioned + validated (1/11);** the other 10 are a **mechanical
+per-element repeat** — download the element's Gerber grid + atom (Keeper), run the interpolator, swap the
+line list, re-run the gate. So for RYA-525's Engine-B-NLTE column: Na = REAL now; O/Mg/Si/Ca/Ti/Mn/Co/Ni/
+Sr/Ba = deck-ready, grid-download-pending. `gerber_ts/` on Sirius (empty at RYA-531) now holds the Na set.
 
 **Provisioning feasibility (RYA-531 recon — data IS available, but the build is from-scratch):**
 - Gerber 2023 (A&A 669, A43) publicly releases native model atoms + departure-coefficient grids
