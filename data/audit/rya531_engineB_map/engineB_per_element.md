@@ -56,7 +56,7 @@ Legend — **Engine A source flag:** the production `NLTE_CORRECTION_ELEMENTS` /
 | 18 | Y | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |
 | 19 | V | **LTE** — true NLTE void (RYA-526 → build RYA-470) | — | NONE-BUILT (LTE synth) |
 | 20 | Cu | **LTE** in production — PySME machinery validated but NOT registered (junk measured lines, RYA-402/395) | Family B | NONE-BUILT (LTE synth) |
-| 21 | Mn | `Mn_Bergemann_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
+| 21 | Mn | `Mn_Bergemann_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; 6013/6021 δ +0.043 vs Bergemann +0.107 / ~½; RYA-411 xref) |
 | 22 | Sc | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |
 | 23 | Li | **LTE** — deferred (RYA-103 Li 6707 CN-blend) | Family B (deferred) | NONE-BUILT (LTE synth) |
 | 24 | Eu | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |

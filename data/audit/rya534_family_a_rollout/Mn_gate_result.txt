@@ -1,0 +1,13 @@
+/mnt/codex-data/codex/rya534/ts_gerber_gate.py:190: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  return float(np.trapz(1.0 - fl[m], w[m]) * 1000.0)
+=== Mn: babsma ===
+=== Mn: bsyn NLTE @ A=5.42 ===
+  NLTE departure engaged: True
+=== Mn: bsyn LTE COG ===
+
+=== Mn RESULT (delta = A_sun - A*) ===
+  Mn 6013.510: EW_NLTE=20.18 mA  A*=5.3773  delta=+0.0427
+  Mn 6021.800: EW_NLTE=60.45 mA  A*=5.3768  delta=+0.0432
+  median delta = +0.0429
+  anchor +0.100 +/- 0.06 (Mn I 6013/6021, solar NLTE +~0.1 (Bergemann&Gehren 2008 / our Mn_Bergemann_MPIA +0.107; same atom lineage))
+  VERDICT: PASS
