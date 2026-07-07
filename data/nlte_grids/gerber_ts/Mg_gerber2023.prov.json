@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-534",
+  "element": "Mg",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned.",
+  "sirius_only": "Sirius /mnt/codex-data/grids/nlte/gerber_ts/ only (RYA-526).",
+  "files": {
+    "model_atom": {"name": "atom.mg86d", "url": "https://keeper.mpdl.mpg.de/f/85997523dd4f4eedbe56/?dl=1", "md5": "872509f4b44672397f288718b7c1471a"},
+    "grid_1d_aux": {"name": "auxData_Mg_MARCS_Nov-13-2024.dat", "url": "https://keeper.mpdl.mpg.de/f/0c57afa355fe45f49f2a/?dl=1", "md5": "01ca2a23c64eab1335c1f321aabb5040"},
+    "grid_1d_bin_zip": {"name": "NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin.zip", "url": "https://keeper.mpdl.mpg.de/f/0910baf8184e41c3bdf0/?dl=1", "md5": "3cc28460638dddd8010a40a9bb83e30b"}
+  },
+  "gate": {
+    "lines": "Mg I 5711.088, GES NLTE level-IDs verbatim",
+    "result": "median delta -0.023 (EW_NLTE 129 mA)",
+    "anchor": "-0.02 (our Mg_Amarsi2020_PySME solar -0.022; Mg NLTE ~0 in FGK)",
+    "verdict": "PASS (|median - anchor| = 0.003 <= 0.05). Cross-engine: PySME -0.022 vs TS-Gerber -0.023 (agree to 0.001).",
+    "departures_engaged": true
+  }
+}

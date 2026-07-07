@@ -17,9 +17,9 @@ nlte_cno), which also makes each gate a cross-engine model-atom-systematic check
 |----|----|----|----|----|----|
 | Na | 5682/5688 | −0.068 | −0.107 INSPECT (RYA-533) | ✅ PASS | d1e8b51e… (RYA-533) |
 | O  | 7771/7774/7775 (777 triplet) | −0.105 | **−0.134** Amarsi-2019 1D-NLTE (our nlte_cno table6; RYA-362 cross-check) | ✅ PASS | 504f3e2a… |
-| Mg | — | — | — | ⏳ provisioning | — |
+| Mg | 5711.088 | −0.023 | −0.02 (our Mg_Amarsi2020_PySME −0.022) | ✅ PASS | 3cc28460… |
 | Si | — | — | — | ⏳ pending | — |
-| Ca | — | — | — | ⏳ pending | — |
+| Ca | 6122.217 / 6162.173 | −0.009 | +0.02 (our Ca_Mashonkina2017 +0.017) | ✅ PASS (small sign diff, both ~0) | 70054bdb… |
 | Ti | — | — | — | ⏳ pending | — |
 | Mn | — | — | — | ⏳ pending | — |
 | Co | — | — | — | ⏳ pending | — |
