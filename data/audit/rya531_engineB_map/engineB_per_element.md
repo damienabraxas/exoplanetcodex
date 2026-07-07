@@ -39,9 +39,9 @@ Legend — **Engine A source flag:** the production `NLTE_CORRECTION_ELEMENTS` /
 | 1 | Fe | MPIA/Amarsi Fe grid, dedicated Fe leg (`Fe_Bergemann_MPIA.csv`, RYA-319) | — (Fe handled pre-402) | NONE-BUILT (LTE synth) |
 | 2 | C | `nlte_cno` Amarsi 2019 CDS 1D-NLTE C grid | — (nlte_cno) | NONE-BUILT (LTE synth) |
 | 3 | O | `nlte_cno` Amarsi 2019 CDS 1D-NLTE O grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; O 777 δ −0.105 vs Amarsi-2019 1D −0.134) |
-| 4 | Mg | `Mg_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | NONE-BUILT (LTE synth) |
+| 4 | Mg | `Mg_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5711 δ −0.023 vs PySME −0.022) |
 | 5 | Si | `Si_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | NONE-BUILT (LTE synth) |
-| 6 | Ca | `Ca_Mashonkina2017.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
+| 6 | Ca | `Ca_Mashonkina2017.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; 6122/6162 δ −0.009 vs Mashonkina +0.017) |
 | 7 | Ti | `Ti_Bergemann2011_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
 | 8 | Ni | **LTE** — no NLTE grid registered (RYA-526: LTE-synth-covered) | Family A (never wired) | NONE-BUILT (LTE synth) |
 | 9 | Na | `Na_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410; RYA-529 Sirius gate δ −0.129) | Family A **and** B (dual-validator) | **TS-native NLTE VALIDATED** (RYA-533; 5682/5688 δ −0.068 vs −0.107) |
