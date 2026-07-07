@@ -30,17 +30,19 @@ The TS binary's OWN NLTE hooks have existed since RYA-402 (`read_departure.f`, c
    - `NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin.zip` (1D departure grid, **15.9 GB**, md5 `d1e8b51efd66ad079bdef3377ce164d1`) ✅ downloaded.
    - Provenance JSON committed: `data/nlte_grids/gerber_ts/Na_gerber2023.prov.json`. URLs pinned from TSFitPy `nlte_grids_links.cfg`.
 
-## Resume point (multi-session build — as the ticket anticipates)
+## Step 3 — THE GATE: DONE, GREEN (validate-don't-tune)
 
-Engine + data are being provisioned; the **deck driver + gate are not yet written** (so the register stays Engine-B-OWED; no SETTLED claim — the Na gate has NOT run). To finish:
+The full deck is wired and the Na gate reproduces the anchor. Steps executed (all Sirius):
+1. Unzipped the Na grid → `.bin` (8.4 GB unpacked).
+2. Provisioned MARCS standard-composition models (141 MB, 15691 models) from the same MPG Keeper share; solar node `p5750_g+4.5_z+0.00`.
+3. Compiled + ran `interpol_modeles_nlte` → `sun_Na_coef.dat` departure file (4D interp; **gotcha: it reads the aux ROW COUNT from stdin — pass wc-l-1 = 436255, not "9"**).
+4. Na line list = the 5682/5688 lines taken VERBATIM from the bundled GES NLTE line list (carries the level IDs; **the silent-error site — a plain VALD line makes bsyn fall back to departure=1**).
+5. Deck driver `scripts/ts_gerber_na_gate_rya533.py`: babsma (contopac, `DATA/` symlinked) → bsyn NLTE (NLTEINFOFILE with exact `# path for ...` markers) + bsyn LTE COG → per-line EW inversion → Δ. RAISES if departures don't engage.
 
-1. Unzip the Na grid `.bin.zip` (15.9 GB, md5 `d1e8b51efd66ad079bdef3377ce164d1`, already on Sirius) → `.bin` for the interpolator.
-2. Get a **solar MARCS `.mod`** atmosphere (from iSpec's MARCS pack or the TS interpolator) at Teff 5772/logg 4.44/[Fe/H] 0.
-3. Run `interpol_modeles_nlte.f` to produce the solar Na **departure file** from the grid (4D interp).
-4. Build a **Na line list** in TS format for 5682.633 / 5688.205 (the anchor doublet; VALD long / GES format).
-5. Write the pipeline **deck driver**: babsma_lu (contopac) → bsyn_lu twice (NLTE-with-departures via NLTEINFOFILE, and LTE), integrate EWs, invert on the LTE COG → Δ = A(NLTE) − A(LTE). No silent LTE fallback (RAISE if departures not engaged).
-6. **Na gate:** reproduce the anchor (~−0.107; Amarsi-2020/Lind-2011; allow 0.02–0.05 dex model-atom difference — path-correctness, not a tune). Spot-check one more Family-A element (e.g. Ca via `atom.ca105b`).
-7. **Write the test** that codifies the gate (closes the RYA-530 loop — the next forensic sweep must find it).
-8. Register **v8 → v9**: flip Family-A Engine-B-NLTE OWED → SETTLED (only on a green gate); update `data/audit/rya531_engineB_map/engineB_per_element.md`.
+**RESULT (`na_gate_result.txt`):** Na I 5682.633 δ −0.065 (EW 112.5 mA) / 5688.205 δ −0.072 (EW 147.8 mA) → **median −0.068 vs anchor −0.107 ± 0.05 → PASS**. Departures engaged (read_departure 56 depths × 290 levels; no silent-LTE fallback). Cross-engine Na: INSPECT −0.107 / PySME −0.129 (RYA-529) / TS-Gerber −0.068 = the RYA-525 model-atom systematic.
 
-**STOP discipline:** do NOT register SETTLED until the Na gate passes; a miss → RCA. TS NLTE not engaged (0.0/LTE) → RAISE.
+Gate codified in `tests/test_ts_gerber_nlte_rya533.py` (recorded-result test always runs; live test runs on Sirius). Register **v9** Engine-B TS-native NLTE flipped to **SETTLED (Na)**; Engine-B map updated.
+
+## Remaining (mechanical, per-element — beyond this ticket's Na gate)
+
+The other 10 Family-A elements (O/Mg/Si/Ca/Ti/Mn/Co/Ni/Sr/Ba) are a repeat: download the element's Gerber grid + atom from the Keeper (`download_nlte_grids.py 1D <El>`), run the interpolator, swap the line list block, re-run the gate. Deck + engine are done.
