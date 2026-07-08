@@ -61,7 +61,7 @@ Legend — **Engine A source flag:** the production `NLTE_CORRECTION_ELEMENTS` /
 | 23 | Li | **LTE** — deferred (RYA-103 Li 6707 CN-blend) | Family B (deferred) | NONE-BUILT (LTE synth) |
 | 24 | Eu | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |
 | 25 | Zr | **LTE** — dominant-ion, no grid needed (RYA-526) | — | NONE-BUILT (LTE synth) |
-| 26 | Sr | `Sr_Bergemann2012_INSPECT.csv` — INSPECT delta grid (Sr II 4077/4215) | Family A | NONE-BUILT (LTE synth) |
+| 26 | Sr | `Sr_Bergemann2012_INSPECT.csv` — INSPECT delta grid (Sr II 4077/4215) | Family A | **TS-native NLTE VALIDATED** (RYA-534; Sr II 4215 δ −0.013 vs INSPECT ~−0.005) |
 
 *(26 unique symbols = 27 targets; Fe covers Fe I + Fe II.)*
 
