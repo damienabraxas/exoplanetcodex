@@ -18,18 +18,17 @@ nlte_cno), which also makes each gate a cross-engine model-atom-systematic check
 | Na | 5682/5688 | −0.068 | −0.107 INSPECT (RYA-533) | ✅ PASS | d1e8b51e… (RYA-533) |
 | O  | 7771/7774/7775 (777 triplet) | −0.105 | **−0.134** Amarsi-2019 1D-NLTE (our nlte_cno table6; RYA-362 cross-check) | ✅ PASS | 504f3e2a… |
 | Mg | 5711.088 | −0.023 | −0.02 (our Mg_Amarsi2020_PySME −0.022) | ✅ PASS | 3cc28460… |
-| Si | — | — | — | ⏳ pending | — |
 | Ca | 6122.217 / 6162.173 | −0.009 | +0.02 (our Ca_Mashonkina2017 +0.017) | ✅ PASS (small sign diff, both ~0) | 70054bdb… |
 | Mn | 6013.510 / 6021.800 | +0.043 | +0.10 (Bergemann; our MPIA +0.107) | ✅ PASS (~½ Bergemann; RYA-411 xref) | 60f1543e… |
 | Si | 5772 | — | −0.01 (our PySME −0.013) | 🔁 re-provision (grid truncated under disk contention) | eeb806a1… |
 | Ti | 5866/5964 | — | +0.05 | 🔁 re-provision (54 GB grid, stalled/disk) | — |
 | Co | 5000/5013 | — | +0.10 | 🔁 re-provision (lines corrected: GES-identified levels) | — |
 | Ni | 5018/5035 | — | +0.02 | 🔁 re-provision (lines corrected: GES-identified levels) | — |
-| Sr | 4215.519 (II) | — | −0.01 | 🔁 re-provision (ion-lookup + line fixed) | — |
+| Sr | 4215.519 (II) | −0.013 | −0.01 (our Sr_Bergemann2012_INSPECT) | ✅ PASS | 8d387ae8… |
 | Ba | 4554.029 (II) | — | −0.05 | 🔁 re-provision (ion-lookup + line fixed) | — |
 
-**Landed: Na (RYA-533) + O + Mg + Ca + Mn = 5 / 11.** Remaining 6 (Si/Ti/Co/Ni/Sr/Ba) need
-clean grid re-provisioning — the driver config is now CORRECTED for all of them (see below). Provenance JSONs in `data/nlte_grids/gerber_ts/`;
+**Landed: Na (RYA-533) + O + Mg + Ca + Mn + Sr = 6 / 11.** Remaining 5 (Si/Ti/Co/Ni/Ba) re-provisioning
+sequentially (one grid at a time — driver config CORRECTED for all). Provenance JSONs in `data/nlte_grids/gerber_ts/`;
 gate outputs in this dir. Cross-engine (the RYA-525 model-atom-systematic diagnostic), Na:
 INSPECT −0.107 / PySME −0.129 / TS-Gerber −0.068. O: Amarsi-2019 1D −0.134 / TS-Gerber −0.105.
 
