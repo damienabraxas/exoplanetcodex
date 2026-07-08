@@ -20,15 +20,14 @@ nlte_cno), which also makes each gate a cross-engine model-atom-systematic check
 | Mg | 5711.088 | −0.023 | −0.02 (our Mg_Amarsi2020_PySME −0.022) | ✅ PASS | 3cc28460… |
 | Ca | 6122.217 / 6162.173 | −0.009 | +0.02 (our Ca_Mashonkina2017 +0.017) | ✅ PASS (small sign diff, both ~0) | 70054bdb… |
 | Mn | 6013.510 / 6021.800 | +0.043 | +0.10 (Bergemann; our MPIA +0.107) | ✅ PASS (~½ Bergemann; RYA-411 xref) | 60f1543e… |
-| Si | 5772 | — | −0.01 (our PySME −0.013) | 🔁 re-provision (grid truncated under disk contention) | eeb806a1… |
-| Ti | 5866/5964 | — | +0.05 | 🔁 re-provision (54 GB grid, stalled/disk) | — |
-| Co | 5000/5013 | — | +0.10 | 🔁 re-provision (lines corrected: GES-identified levels) | — |
-| Ni | 5018/5035 | — | +0.02 | 🔁 re-provision (lines corrected: GES-identified levels) | — |
+| Si | 5772.146 | −0.034 | −0.01 (our Si PySME −0.013) | ✅ PASS | eeb806a1… |
+| Ti | 5702/5703 | — | +0.05 | 🔁 re-provision (55 GB grid; corrupt-zip re-download in flight) | — |
+| Co | 5000/5013 | +0.099 | +0.10 (Bergemann+2010) | ✅ PASS (weak lines, sub-mÅ) | 947a5c43… |
+| Ni | 5018/5035 | +0.018 | +0.02 (Bergemann+2021) | ✅ PASS | 7e970bb0… |
 | Sr | 4215.519 (II) | −0.013 | −0.01 (our Sr_Bergemann2012_INSPECT) | ✅ PASS | 8d387ae8… |
-| Ba | 4554.029 (II) | — | −0.05 | 🔁 re-provision (ion-lookup + line fixed) | — |
+| Ba | 4554.029 (II) | −0.018 | −0.05 (Korotin+2015) | ✅ PASS | 246b295a… |
 
-**Landed: Na (RYA-533) + O + Mg + Ca + Mn + Sr = 6 / 11.** Remaining 5 (Si/Ti/Co/Ni/Ba) re-provisioning
-sequentially (one grid at a time — driver config CORRECTED for all). Provenance JSONs in `data/nlte_grids/gerber_ts/`;
+**Landed: Na + O + Mg + Ca + Mn + Sr + Ba + Ni + Co + Si = 10 / 11.** Only **Ti** remains (55 GB grid — first zip download was truncated; clean re-download in flight). Driver config correct for all. Provenance JSONs in `data/nlte_grids/gerber_ts/`;
 gate outputs in this dir. Cross-engine (the RYA-525 model-atom-systematic diagnostic), Na:
 INSPECT −0.107 / PySME −0.129 / TS-Gerber −0.068. O: Amarsi-2019 1D −0.134 / TS-Gerber −0.105.
 
