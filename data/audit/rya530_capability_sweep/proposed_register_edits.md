@@ -1,8 +1,8 @@
 # RYA-530 — proposed CODEX_STATE_REGISTER section-edits
 
-**Status: PROPOSED — for Ryan+Claude ratification** (register protocol: big/new rows decided together).
-Base = whatever register version lands next (structure shown against v9; stack on top of the
-534/535 register tip when those merge). Every value cites its ticket + merge commit — no value from memory.
+**Status: APPLIED in register v17** (ratified by Ryan; 534+535 merged first → applied on top of v16).
+Every value cites its ticket + merge commit — no value from memory. This file is retained as the
+proposal-of-record; the live rows are now in `CODEX_STATE_REGISTER.md` v17.
 
 ---
 
