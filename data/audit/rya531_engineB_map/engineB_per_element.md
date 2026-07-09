@@ -42,7 +42,7 @@ Legend — **Engine A source flag:** the production `NLTE_CORRECTION_ELEMENTS` /
 | 4 | Mg | `Mg_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5711 δ −0.023 vs PySME −0.022) |
 | 5 | Si | `Si_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5772 δ −0.034 vs PySME −0.013) |
 | 6 | Ca | `Ca_Mashonkina2017.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; 6122/6162 δ −0.009 vs Mashonkina +0.017) |
-| 7 | Ti | `Ti_Bergemann2011_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
+| 7 | Ti | `Ti_Bergemann2011_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE PROVISIONED** (RYA-534; 5689/5648/5662 δ **+0.221 = ~2× Bergemann-2011 +0.107** — model-atom Δ flagged, cross-engine diagnostic) |
 | 8 | Ni | **LTE** (Engine-A: no grid) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5018/5035 δ +0.018 vs Bergemann +0.02) |
 | 9 | Na | `Na_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410; RYA-529 Sirius gate δ −0.129) | Family A **and** B (dual-validator) | **TS-native NLTE VALIDATED** (RYA-533; 5682/5688 δ −0.068 vs −0.107) |
 | 10 | P | **LTE** — no NLTE grid (not an Amarsi/MPIA element) | — | NONE-BUILT (LTE synth) |

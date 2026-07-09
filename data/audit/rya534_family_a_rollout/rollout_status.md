@@ -21,13 +21,13 @@ nlte_cno), which also makes each gate a cross-engine model-atom-systematic check
 | Ca | 6122.217 / 6162.173 | −0.009 | +0.02 (our Ca_Mashonkina2017 +0.017) | ✅ PASS (small sign diff, both ~0) | 70054bdb… |
 | Mn | 6013.510 / 6021.800 | +0.043 | +0.10 (Bergemann; our MPIA +0.107) | ✅ PASS (~½ Bergemann; RYA-411 xref) | 60f1543e… |
 | Si | 5772.146 | −0.034 | −0.01 (our Si PySME −0.013) | ✅ PASS | eeb806a1… |
-| Ti | 5689/5648/5662 (was 5702/5703) | +0.228 (weak-line, 1st) | **+0.107** (our Ti_Bergemann2011_MPIA median) | ⚠️ CHECK → re-gate | c4ef399f… |
+| Ti | 5689/5648/5662 | **+0.221** | +0.107 (our Ti_Bergemann2011_MPIA) | ⚠️ CHECK — **~2× model-atom Δ** (deck OK, 3 consistent lines) | c4ef399f… |
 | Co | 5000/5013 | +0.099 | +0.10 (Bergemann+2010) | ✅ PASS (weak lines, sub-mÅ) | 947a5c43… |
 | Ni | 5018/5035 | +0.018 | +0.02 (Bergemann+2021) | ✅ PASS | 7e970bb0… |
 | Sr | 4215.519 (II) | −0.013 | −0.01 (our Sr_Bergemann2012_INSPECT) | ✅ PASS | 8d387ae8… |
 | Ba | 4554.029 (II) | −0.018 | −0.05 (Korotin+2015) | ✅ PASS | 246b295a… |
 
-**Landed 10 / 11 (PASS): Na, O, Mg, Ca, Mn, Sr, Ba, Ni, Co, Si.** **Ti = CHECK (not registered)** — first gate gave +0.228 from two very weak lines (5702/5703, 0.9-5.7 mA) against a wrong +0.05 guess. Correct anchor = our Ti_Bergemann2011_MPIA solar median **+0.107**; even so +0.228 is ~2x, so re-gate with stronger MPIA-overlap lines (5689/5648/5662, GES-identified) to disentangle weak-line-artifact vs a real Ti model-atom difference. Grid re-download in flight (~20 h, Keeper-throttled); auto re-gates against the corrected config. Provenance JSONs in `data/nlte_grids/gerber_ts/`;
+**Rollout COMPLETE — 11/11 provisioned + deck-validated on Sirius.** 10 reproduce their published 1D-NLTE anchor within tol (PASS): Na, O, Mg, Ca, Mn, Sr, Ba, Ni, Co, Si. **Ti = CHECK, not a clean pass** — the deck ran fine (departures engaged; 3 strong, MPIA-directly-comparable lines 5689/5648/5662, all consistent), but TS-Gerber gives median **+0.221** vs our Bergemann-2011 grid **+0.107** = a **~2× genuine Ti model-atom difference** (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011), analogous to the Mn **~½** finding. Both are real cross-engine model-atom systematics — exactly the RYA-525 "cross-engine spread = separate diagnostic" — recorded honestly, NOT forced to pass. Provenance JSONs in `data/nlte_grids/gerber_ts/`;
 gate outputs in this dir. Cross-engine (the RYA-525 model-atom-systematic diagnostic), Na:
 INSPECT −0.107 / PySME −0.129 / TS-Gerber −0.068. O: Amarsi-2019 1D −0.134 / TS-Gerber −0.105.
 
