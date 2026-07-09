@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-534",
+  "element": "Ca",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned.",
+  "sirius_only": "Sirius /mnt/codex-data/grids/nlte/gerber_ts/ only (RYA-526).",
+  "files": {
+    "model_atom": {"name": "atom.ca105b", "url": "https://keeper.mpdl.mpg.de/f/0d4e29243e0047ae8777/?dl=1", "md5": "63d986e2fb0386978a2434fd40ac5d1d"},
+    "grid_1d_aux": {"name": "auxData_Ca_MARCS_Jun-02-2021.dat", "url": "https://keeper.mpdl.mpg.de/f/475fd582bb594c0da9f1/?dl=1", "md5": "eb3af488f2a3452ba7093428abd6ef1a"},
+    "grid_1d_bin_zip": {"name": "NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin.zip", "url": "https://keeper.mpdl.mpg.de/f/06e10b553c08488a87d6/?dl=1", "md5": "70054bdb769dc7a7a754359cfb7d2ebf"}
+  },
+  "gate": {
+    "lines": "Ca I 6122.217 / 6162.173, GES NLTE level-IDs verbatim",
+    "result": "per-line delta -0.009 / -0.010; median -0.009 (EW 228/275 mA, strong lines)",
+    "anchor": "+0.02 (our Ca_Mashonkina2017 solar +0.017; same MAFAGS-OS lineage as Gerber atom.ca105b)",
+    "verdict": "PASS (|median - anchor| = 0.026 <= 0.05). NOTE: small sign difference (TS-Gerber -0.009 vs Mashonkina +0.017) on these strong 6122/6162 lines; both near-zero, within tol. Ca NLTE is line-dependent in sign.",
+    "departures_engaged": true
+  }
+}
