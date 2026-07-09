@@ -261,5 +261,130 @@ def main():
     print(f"  VERDICT: {'PASS' if passed else 'CHECK'}")
 
 
+def _solar_node():
+    """Solar node from STAR_PARAMS (single source of truth, RYA-298) — NEVER hardcoded.
+    Locates a repo root (env TSGERBER_REPO_ROOT, then this file's repo parent, then the
+    Sirius checkouts) and imports config.constants from it. RAISES if none found — there is
+    NO hardcoded fallback (a hardcoded solar node would be the exact defect this RCA guards)."""
+    import sys as _s
+    from pathlib import Path as _P
+    cands = []
+    if os.environ.get('TSGERBER_REPO_ROOT'):
+        cands.append(os.environ['TSGERBER_REPO_ROOT'])
+    cands += [str(_P(__file__).resolve().parents[1]),
+              '/mnt/codex-data/codex/rya519', '/mnt/codex-data/codex/repo']
+    for root in cands:
+        if os.path.exists(os.path.join(root, 'config', 'constants.py')):
+            if root not in _s.path:
+                _s.path.insert(0, root)
+            from config.constants import STAR_PARAMS
+            sp = STAR_PARAMS['solar']
+            print(f"  [STAR_PARAMS source: {root}/config/constants.py]")
+            return dict(teff=sp['teff'], logg=sp['logg'], feh=sp.get('feh_ref', 0.0), xi=sp['xi'])
+    raise SystemExit("no repo root with config/constants.py found (set TSGERBER_REPO_ROOT); "
+                     "REFUSING to hardcode the solar node (single-source-of-truth, RYA-298).")
+
+
+def _line_level_indices(el, cfg):
+    """(lower_idx, upper_idx) model-atom level indices per line, parsed VERBATIM from the
+    GES NLTE line row (the two ints after the level label). RAISES if absent."""
+    ion = ION.get(el, 0)
+    _, rows = ges_lines(cfg['Z'], ion, cfg['waves'])
+    out = {}
+    for wl, r in zip(cfg['waves'], rows):
+        m = re.search(r"'\s+(\d+)\s+(\d+)\s+'", r)
+        if not m:
+            raise SystemExit(f"{el} {wl}: no level indices in GES row (RAISE, no default): {r[:90]}")
+        out[wl] = (int(m.group(1)), int(m.group(2)))
+    return out
+
+
+def _read_departures(el):
+    """Parse the ASCII departure file bsyn consumes (sun_{el}_coef.dat, written by
+    interpol_modeles_nlte): returns A(X), tau[ndepth], b[level(1..nlevel), depth]. b is
+    level-major in the file (read_departure.f: do level: do depth). RAISES on structural
+    mismatch — no silent fallback."""
+    f = f"{W}/Testout/sun_{el}_coef.dat"
+    if not os.path.exists(f):
+        raise SystemExit(f"departure file missing (run the gate first): {f}")
+    toks = []
+    with open(f) as fh:
+        for ln in fh:
+            if ln.lstrip().startswith('#'):
+                continue
+            toks += ln.split()
+    a_x = float(toks[0]); ndepth = int(toks[1]); nlevel = int(toks[2])
+    tau = np.array([float(t) for t in toks[3:3 + ndepth]])
+    bvals = np.array([float(t) for t in toks[3 + ndepth: 3 + ndepth + nlevel * ndepth]])
+    if bvals.size != nlevel * ndepth:
+        raise SystemExit(f"{el}: departure file has {bvals.size} b-values, expected "
+                         f"{nlevel*ndepth} ({nlevel} levels x {ndepth} depths) — RAISE")
+    # interpol_modeles_nlte.f writes DEPTH-MAJOR (line 772: `do depth: write all n_lev`),
+    # i.e. per depth, all levels. So reshape (ndepth, nlevel) then transpose -> b[level, depth].
+    b = bvals.reshape(ndepth, nlevel).T   # b[level0-based, depth]
+    return a_x, ndepth, nlevel, tau, b
+
+
+def dump_bfactors(el):
+    """B2 RCA: dump the departure coefficients bsyn ACTUALLY applies for each diagnostic
+    line's lower & upper level vs optical depth, at the solar node. Engine-B (TS-Gerber /
+    MARCS) only — Engine-A here (MPIA Bergemann-2011) is a banked MAFAGS-OS SCALAR delta
+    grid, so it has NO per-level b-factors to dump (stated, not silently faked)."""
+    cfg = ELEMENTS[el]
+    node = _solar_node()
+    print(f"=== {el} b-factor dump (Engine-B TS-Gerber, MARCS) ===")
+    print(f"  solar node (from STAR_PARAMS['solar'], NOT hardcoded): "
+          f"Teff={node['teff']} logg={node['logg']} [Fe/H]={node['feh']} xi={node['xi']}")
+    print(f"  departure grid interpolated at the nearest MARCS node "
+          f"Teff={TREF} logg={LOGGREF} z={ZREF}, A({el})={cfg['a_sun']}")
+    print(f"  Engine-A anchor = MPIA Bergemann-2011 (MAFAGS-OS) SCALAR +0.108 — "
+          f"no per-level b-factors (different atmosphere; not dumpable). Same atom both engines.")
+    a_x, ndepth, nlevel, tau, b = _read_departures(el)
+    print(f"  departure file: A({el})={a_x}, ndepth={ndepth}, nlevel={nlevel}")
+    idx = _line_level_indices(el, cfg)
+    # sanity: deep-layer thermalisation (b -> ~1) is the unforgeable correctness signature
+    for wl, (lo, up) in idx.items():
+        for lab, j in (('lower', lo), ('upper', up)):
+            if not (1 <= j <= nlevel):
+                raise SystemExit(f"{el} {wl}: {lab} level {j} out of range 1..{nlevel} — RAISE")
+    print(f"\n  {'logtau':>8} " + " ".join(
+        f"{wl:.0f}_lo {wl:.0f}_up" for wl in cfg['waves']))
+    step = max(1, ndepth // 14)
+    for i in range(0, ndepth, step):
+        row = f"  {tau[i]:8.3f} "
+        for wl in cfg['waves']:
+            lo, up = idx[wl]
+            row += f"{b[lo-1, i]:7.3f} {b[up-1, i]:7.3f}"
+        print(row)
+    print("\n  deep-layer b (should thermalise -> ~1):")
+    for wl in cfg['waves']:
+        lo, up = idx[wl]
+        print(f"    {wl:.3f}: b_lower[deepest]={b[lo-1,-1]:.3f}  b_upper[deepest]={b[up-1,-1]:.3f}")
+    print("\n  line-forming-layer b (logtau in [-1, 0], the EW-weighted region):")
+    m = (tau >= -1.0) & (tau <= 0.0)
+    for wl in cfg['waves']:
+        lo, up = idx[wl]
+        bl = b[lo-1, m].mean() if m.any() else float('nan')
+        bu = b[up-1, m].mean() if m.any() else float('nan')
+        print(f"    {wl:.3f}: <b_lower>={bl:.3f}  <b_upper>={bu:.3f}  (b_lo<1 -> line weaker in NLTE -> +delta)")
+
+
 if __name__ == '__main__':
-    main()
+    import argparse
+    ap = argparse.ArgumentParser(description="RYA-534/535 TS-Gerber NLTE deck")
+    ap.add_argument('element', nargs='?', help="element to gate (legacy positional)")
+    ap.add_argument('--element', dest='element_opt', help="element")
+    ap.add_argument('--dump-bfactors', action='store_true', help="B2 RCA: dump departures")
+    ap.add_argument('--node', default='solar', help="node (only 'solar' supported)")
+    a = ap.parse_args()
+    el = a.element_opt or a.element
+    if not el:
+        ap.error("element required")
+    if a.node != 'solar':
+        ap.error("only --node solar is supported")
+    if a.dump_bfactors:
+        dump_bfactors(el)
+    else:
+        import sys as _s
+        _s.argv = [_s.argv[0], el]
+        main()
