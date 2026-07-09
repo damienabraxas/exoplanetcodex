@@ -38,30 +38,30 @@ Legend — **Engine A source flag:** the production `NLTE_CORRECTION_ELEMENTS` /
 |---|---|---|---|---|
 | 1 | Fe | MPIA/Amarsi Fe grid, dedicated Fe leg (`Fe_Bergemann_MPIA.csv`, RYA-319) | — (Fe handled pre-402) | NONE-BUILT (LTE synth) |
 | 2 | C | `nlte_cno` Amarsi 2019 CDS 1D-NLTE C grid | — (nlte_cno) | NONE-BUILT (LTE synth) |
-| 3 | O | `nlte_cno` Amarsi 2019 CDS 1D-NLTE O grid | Family A | NONE-BUILT (LTE synth) |
-| 4 | Mg | `Mg_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | NONE-BUILT (LTE synth) |
-| 5 | Si | `Si_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | NONE-BUILT (LTE synth) |
-| 6 | Ca | `Ca_Mashonkina2017.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
-| 7 | Ti | `Ti_Bergemann2011_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
-| 8 | Ni | **LTE** — no NLTE grid registered (RYA-526: LTE-synth-covered) | Family A (never wired) | NONE-BUILT (LTE synth) |
-| 9 | Na | `Na_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410; RYA-529 Sirius gate δ −0.129) | Family A **and** B (dual-validator) | NONE-BUILT (LTE synth) |
+| 3 | O | `nlte_cno` Amarsi 2019 CDS 1D-NLTE O grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; O 777 δ −0.105 vs Amarsi-2019 1D −0.134) |
+| 4 | Mg | `Mg_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5711 δ −0.023 vs PySME −0.022) |
+| 5 | Si | `Si_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5772 δ −0.034 vs PySME −0.013) |
+| 6 | Ca | `Ca_Mashonkina2017.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; 6122/6162 δ −0.009 vs Mashonkina +0.017) |
+| 7 | Ti | `Ti_Bergemann2011_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE PROVISIONED** (RYA-534; 5689/5648/5662 δ **+0.221 = ~2× Bergemann-2011 +0.107** — model-atom Δ flagged, cross-engine diagnostic) |
+| 8 | Ni | **LTE** (Engine-A: no grid) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5018/5035 δ +0.018 vs Bergemann +0.02) |
+| 9 | Na | `Na_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-410; RYA-529 Sirius gate δ −0.129) | Family A **and** B (dual-validator) | **TS-native NLTE VALIDATED** (RYA-533; 5682/5688 δ −0.068 vs −0.107) |
 | 10 | P | **LTE** — no NLTE grid (not an Amarsi/MPIA element) | — | NONE-BUILT (LTE synth) |
 | 11 | S | `S_Amarsi2025_PySME.csv` — **PySME**-derived (RYA-402) | Family B | NONE-BUILT (LTE synth) |
 | 12 | N | `N_Amarsi2020_PySME.csv` — **PySME**-derived on Sirius (RYA-526) | Family A | NONE-BUILT (LTE synth) |
-| 13 | Co | **LTE** — no NLTE grid registered (RYA-526: LTE-synth-covered) | Family A (never wired) | NONE-BUILT (LTE synth) |
+| 13 | Co | **LTE** (Engine-A: no grid) | Family A | **TS-native NLTE VALIDATED** (RYA-534; 5000/5013 δ +0.099 vs Bergemann +0.10; weak lines) |
 | 14 | Cr | `Cr_Bergemann2010_MPIA.csv` — MPIA MAFAGS-OS delta grid | — (MPIA/RYA-235) | NONE-BUILT (LTE synth) |
 | 15 | Al | `Al_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-402) | Family B | NONE-BUILT (LTE synth) |
 | 16 | K | `K_Amarsi2020_PySME.csv` — **PySME**-derived (RYA-402/462) | Family B | NONE-BUILT (LTE synth) |
-| 17 | Ba | `Ba_Korotin2015.csv` — Korotin CDS delta grid | Family A | NONE-BUILT (LTE synth) |
+| 17 | Ba | `Ba_Korotin2015.csv` — Korotin CDS delta grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; Ba II 4554 δ −0.018 vs Korotin) |
 | 18 | Y | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |
 | 19 | V | **LTE** — true NLTE void (RYA-526 → build RYA-470) | — | NONE-BUILT (LTE synth) |
 | 20 | Cu | **LTE** in production — PySME machinery validated but NOT registered (junk measured lines, RYA-402/395) | Family B | NONE-BUILT (LTE synth) |
-| 21 | Mn | `Mn_Bergemann_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | NONE-BUILT (LTE synth) |
+| 21 | Mn | `Mn_Bergemann_MPIA.csv` — MPIA MAFAGS-OS delta grid | Family A | **TS-native NLTE VALIDATED** (RYA-534; 6013/6021 δ +0.043 vs Bergemann +0.107 / ~½; RYA-411 xref) |
 | 22 | Sc | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |
 | 23 | Li | **LTE** — deferred (RYA-103 Li 6707 CN-blend) | Family B (deferred) | NONE-BUILT (LTE synth) |
 | 24 | Eu | **LTE** — no NLTE grid | — | NONE-BUILT (LTE synth) |
 | 25 | Zr | **LTE** — dominant-ion, no grid needed (RYA-526) | — | NONE-BUILT (LTE synth) |
-| 26 | Sr | `Sr_Bergemann2012_INSPECT.csv` — INSPECT delta grid (Sr II 4077/4215) | Family A | NONE-BUILT (LTE synth) |
+| 26 | Sr | `Sr_Bergemann2012_INSPECT.csv` — INSPECT delta grid (Sr II 4077/4215) | Family A | **TS-native NLTE VALIDATED** (RYA-534; Sr II 4215 δ −0.013 vs INSPECT ~−0.005) |
 
 *(26 unique symbols = 27 targets; Fe covers Fe I + Fe II.)*
 

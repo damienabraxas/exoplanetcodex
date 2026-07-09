@@ -1,0 +1,13 @@
+/mnt/codex-data/codex/rya534/ts_gerber_gate.py:199: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  return float(np.trapz(1.0 - fl[m], w[m]) * 1000.0)
+=== Ni: babsma ===
+=== Ni: bsyn NLTE @ A=6.2 ===
+  NLTE departure engaged: True
+=== Ni: bsyn LTE COG ===
+
+=== Ni RESULT (delta = A_sun - A*) ===
+  Ni 5018.282: EW_NLTE=75.33 mA  A*=6.1797  delta=+0.0203
+  Ni 5035.972: EW_NLTE=92.66 mA  A*=6.1839  delta=+0.0161
+  median delta = +0.0182
+  anchor +0.020 +/- 0.05 (Ni I 5018/5035 (both GES levels identified), solar NLTE small+ (Bergemann+2021))
+  VERDICT: PASS

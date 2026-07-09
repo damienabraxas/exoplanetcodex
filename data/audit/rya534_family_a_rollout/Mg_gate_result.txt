@@ -1,0 +1,10 @@
+=== Mg: babsma ===
+=== Mg: bsyn NLTE @ A=7.55 ===
+  NLTE departure engaged: True
+=== Mg: bsyn LTE COG ===
+
+=== Mg RESULT (delta = A_sun - A*) ===
+  Mg 5711.088: EW_NLTE=129.09 mA  A*=7.5733  delta=-0.0233
+  median delta = -0.0233
+  anchor -0.020 +/- 0.05 (Mg I 5711, solar NLTE ~0 in FGK (our Mg_Amarsi2020_PySME -0.022))
+  VERDICT: PASS
