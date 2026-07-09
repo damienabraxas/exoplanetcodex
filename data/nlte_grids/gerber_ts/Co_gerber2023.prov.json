@@ -1,0 +1,34 @@
+{
+  "ticket": "RYA-534",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned.",
+  "sirius_only": "Sirius /mnt/codex-data/grids/nlte/gerber_ts/ only (RYA-526).",
+  "element": "Co",
+  "files": {
+    "model_atom": {
+      "name": "atom.co247qm",
+      "url": "https://keeper.mpdl.mpg.de/f/a2ce33c90c6b47109875/?dl=1",
+      "md5": "56460beb595edb0549f4d645de7128dc"
+    },
+    "grid_1d_aux": {
+      "name": "auxData_CO_MARCS_Nov-14-2024.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/fa2847085e8b42e29f20/?dl=1",
+      "md5": "2a849bdffea4190ebe266114e89af609"
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid4TS_CO_MARCS_Nov-14-2024.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/1c6dd1d999dc4d7b9871/?dl=1",
+      "md5": "947a5c43be354b18e47ce82b5467f5a0"
+    }
+  },
+  "gate": {
+    "lines": "Co I 5000.875/5013.324 (GES level-IDs; corrected to both-identified)",
+    "result": "per-line +0.098/+0.100; median +0.099 (EW 0.7/1.1 mA \u2014 WEAK lines, weak-line regime)",
+    "anchor": "+0.10 (Bergemann+2010; Co large+)",
+    "verdict": "PASS (|median-anchor|=0.001<=0.12); departures engaged. NOTE lines are very weak (sub-mA) \u2014 clean weak-line NLTE delta but not practical abundance lines.",
+    "departures_engaged": true
+  }
+}
