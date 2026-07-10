@@ -537,6 +537,35 @@ PIPELINE = {
     'cont_window_scale_factors' : (1.0, 1.75, 2.5),     # multipliers per tier
 }
 
+# ── Two-engine floor (RYA-525): pre-declared, reference-BLIND selection ────────
+# Ratified 2026-07-10 (RYA-525 description §2 + the three ratification comments +
+# the ratification appendix). The reported value per element is aggregated from the
+# PER-LINE winners; each line is won by the engine chosen on LINE PHYSICS ALONE —
+# never on proximity to any reference value (tuning firewall, RYA-161). ALL knobs
+# live here (no inline thresholds in the selector). SSOT: the saturation knee and the
+# synth eligibility floor reference their existing homes, they are not re-typed.
+TWO_ENGINE = {
+    # Clause-1 validity gate (ELIGIBILITY, not a quality selector): Engine-B (synthesis)
+    # is eligible for a line only if its fit did not catastrophically fail. This gates
+    # validity; it does NOT pick the winner among eligible engines.
+    'synth_chi2_gate'       : SYNTH_CHI2_GATE,               # med_red_chi2 ≤ this ⇒ Engine-B eligible
+
+    # Clause-3 line-regime classifier (reference-blind line physics):
+    'saturation_knee_mA'    : PIPELINE['vmic_ew_ceiling_mA'], # EW above this ⇒ SATURATED ⇒ HARD ⇒ Engine-B
+    'hfs_elements'          : ('Mn', 'Co', 'Cu', 'Sc', 'V', 'Eu', 'Ba', 'Nb', 'La', 'Pr'),
+                                                             # hyperfine-split ⇒ HARD (EW mismeasures the split core)
+
+    # Clause-3 aggregation guard (the Ti lesson): if an element's per-line winners span
+    # BOTH engines AND the mean cross-engine Δ exceeds this, FLAG + adjudicate — never
+    # silently average two disagreeing scales (would inject a regime-correlated bias).
+    'cross_engine_mix_gate' : 0.10,                          # dex; "agree within ~0.1 dex" convention
+
+    # Clause-4 tie / indeterminate default = 1D-NLTE: it is the differential zero-point
+    # (solar Fe is anchored 1D-NLTE 7.516), so defaulting ties there keeps every reported
+    # value on ONE consistent scale. Logged as the reason so it does not read as arbitrary.
+    'tie_default_engine'    : 'engineA_1dnlte',
+}
+
 # ── File paths ────────────────────────────────────────────────────────────────
 PATHS = {
     'data_root'         : ROOT / 'data',
