@@ -160,10 +160,11 @@ STAR_SOLAR = {
     'citation'     : 'Dumusque et al. 2021, arXiv:2009.01945',
     'vturb_kms'    : 1.0,       # km/s ξ-solve seed (solar ξ pinned 1.0 in stars.yaml)
     'rv_kms'       : 0.0,       # solar zero-point; BERV correction applied per exposure
-    'ni6300_ew_lit_mA' : 1.0,   # Ni I 6300.336 EW in solar photosphere (Allende Prieto+2001, ApJ 556 L63)
-                                  # VALD3 log_gf=-2.841 predicts ~3.8 mÅ via COG — 0.575 dex too strong.
-                                  # COG sanity cap fires; this literature value is used as the fallback.
-                                  # log_gf needs cross-check vs Johansson et al. 2003 (separate ticket).
+    'ni6300_ew_lit_mA' : 1.0,   # Ni I 6300.336 solar EW — CAP / fallback reference ONLY, not the operative gf
+                                  # (Allende Prieto+2001, ApJ 556 L63). The Ni 6300.34 log gf is single-sourced
+                                  # to Johansson et al. 2003 (−2.11), adjudicated in RYA-365 and resolved via
+                                  # gf_resolver in both the synth and [O I] EW/COG paths (RYA-543) — the old
+                                  # "needs cross-check / separate ticket" note is resolved. COG sanity cap = 3×.
 }
 
 # ── Procyon (α CMi A) stellar parameters ─────────────────────────────────────
@@ -432,13 +433,19 @@ def fe1_scatter_threshold(spectral_type):
 # them robustly without being delicate. Rejected lines are logged with their χ²ᵣ.
 SYNTH_CHI2_GATE       = 10.0   # max reduced-χ² for a synth-v2 line to enter the median
 
-# ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
+# ── Ni I 6300.34 COG line data ────────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
-# Source: VALD3 log_gf; Allende Prieto et al. 2001 (ApJ 556, L63) for EW.
+# The Ni I 6300.34 log gf is NOT stored here — it is single-sourced to the
+# canonical gf table (Johansson, Litzen, Lundberg & Zhang 2003, ApJ 584 L107;
+# log gf −2.11, adjudicated RYA-365; canonical_gf.csv gf_101075) and resolved at
+# use via gf_resolver in BOTH the synth and the [O I] EW/COG paths. The old
+# hardcoded VALD3 −2.841 here was a STALE SSOT DUPLICATE, 0.73 dex weaker than the
+# adjudicated value → under-subtracted Ni → A(O) biased high (removed, RYA-543).
+# wavelength_air_A + excitation_potential_eV mirror the same canonical row.
 NI6300_COG = {
-    'log_gf'               : -2.841,
-    'excitation_potential_eV': 4.266,
-    'ew_lit_solar_mA'      : 1.1,   # Allende Prieto+2001
+    'wavelength_air_A'       : 6300.342,   # mirrors canonical_gf gf_101075 (resolver lookup)
+    'excitation_potential_eV': 4.266,      # mirrors canonical_gf gf_101075
+    'ew_lit_solar_mA'        : 1.1,        # Allende Prieto+2001 (EW sanity reference only)
 }
 
 # ── Pipeline settings ─────────────────────────────────────────────────────────
