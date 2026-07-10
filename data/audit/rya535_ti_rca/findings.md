@@ -73,14 +73,91 @@ effect (line formation / gf / vdW of the GES Ti lines / EW-inversion). Two const
 it has NARROWED the +0.11 excess to MAFAGS-OS-vs-MARCS atmosphere and/or a Ti-line-specific effect,
 but has NOT fully localized it.** Ti remains **CHECK — NOT registered, NOT a "model-atom difference"**.
 
-## Decisive next step (deferred; needs a fresh grid pull — Keeper-throttled 55 GB)
+## Decisive next step — RESOLVED by RYA-542 (see below)
 
-Run an **independent MARCS-Bergemann-2011 Ti synthesis via TSFitPy** (the reference pipeline that
-ships these exact grids): if it returns ~+0.22 → the MARCS atmosphere genuinely gives it (real
-atmosphere effect, same atom; then compare to a 3rd reference e.g. Mallinson 2024 / Sitnova). If it
-returns ~+0.11 → the excess is in our Engine-B deck's Ti line handling (localize gf/vdW/blend/EW).
-Also map the GES line indices to the `atom.ti503b` level table to confirm the dump reads the exact
-transition levels bsyn uses. Until then: Ti CHECK, RCA open, test strict-xfail, not merged.
+The deferred discriminator has now been run. See **"RYA-542 resolution"**. Result: **ATMOSPHERE
+branch** — an independent TSFitPy MARCS synthesis reproduces the deck's ~+0.20, so +0.221 is NOT a
+deck bug; the +0.11 Engine-A↔Engine-B gap is the MAFAGS-OS-vs-MARCS atmosphere systematic. Ti's
+Engine-B value is legitimate (atmosphere-flagged), NOT a model-atom difference, NOT a deck defect.
+
+---
+
+# RYA-542 resolution — independent TSFitPy MARCS Bergemann-2011 Ti synthesis
+
+**Date:** 2026-07-09 · **Branch:** `ryandamienschmitt/rya-542-...` (off origin/main 4ff3fb5) · **NO MERGE.**
+Script: `scripts/rya542_ti_tsfitpy.py`. Full log: `rya542_tsfitpy_ti_run.log` (this dir). Runs on Sirius only.
+
+## Method (what makes it an independent discriminator)
+
+An **independent driver** on the **same physics inputs** as the deck. It reuses TSFitPy's own
+synthesis + EW + abundance inversion (`generate_and_fit_atmosphere` → `TurboSpectrum` class +
+`calculate_equivalent_width` + `root_scalar`), sharing with `scripts/ts_gerber_gate.py` **only** the
+compiled Fortran (`bsyn_lu`/`babsma_lu`/`interpol_modeles_nlte`) and the physics:
+
+- atmosphere: **MARCS** standard-composition grid (same grid the deck uses),
+- model atom: **atom.ti503b (Bergemann 2011)** + the Gerber `NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin`
+  (54.8 GB), pulled **once** into the RYA-540 persistent md5-pinned cache (`bin_md5 5677e3a7…`) and **kept**,
+- line data: the **verbatim GES Ti I rows** (loggf/χ/level-IDs) via the deck's `ges_lines()`,
+- solar node: via the deck's `_solar_node()` = STAR_PARAMS **5772 / 4.438 / 0.0 / 1.0** (no hardcode),
+- reference A(Ti) = **4.90** (deck a_sun; [Ti/Fe]=−0.04 vs TSFitPy solar 4.94). Validate-don't-tune.
+
+The suspected "deck line handling" lives entirely in the Python driver — which here is **TSFitPy's,
+not ours**. Departures verified to **engage** (bsyn log: `read departure file header`, `NLTE
+abundance: 4.90`, 503-level departures, `Ti I NLTE … 1 lines in the interval`) — not the RYA-533
+silent-LTE trap. `delta = A_NLTE − A_LTE` (same convention as the deck's +0.221 and Engine-A +0.108).
+
+## Result — three deltas side by side
+
+| line (Ti I) | TSFitPy-MARCS (independent) | deck Engine-B (TS-Gerber, MARCS) | EW_LTE (mA) |
+|---|---|---|---|
+| 5689.460 | **+0.249** | +0.266 | 14.0 |
+| 5648.565 | **+0.193** | +0.207 | 14.2 |
+| 5662.150 | **+0.203** | +0.221 | 26.3 |
+| **median** | **+0.203** | **+0.221** | — |
+
+Engine-A (MPIA **Bergemann-2011**, **MAFAGS-OS**) = **+0.108**.
+
+`|median − deck +0.221| = 0.017`  ·  `|median − MAFAGS +0.108| = 0.095`.
+
+## Decision — ATMOSPHERE branch
+
+A **fully independent** MARCS Bergemann-2011 synthesis reproduces the deck's large correction
+(+0.203 vs +0.221, per-line within ~0.02) and does **NOT** reproduce MAFAGS-OS (+0.108, off by
+0.095). Two independent drivers agreeing on **MARCS+Bergemann-2011 → ~+0.20** rules out the
+"deck-Ti-line-handling-bug" hypothesis.
+
+⇒ **The deck's +0.221 is the genuine MARCS Ti I NLTE correction, not a defect.** The +0.11
+Engine-A↔Engine-B gap is a real **MAFAGS-OS-vs-MARCS atmosphere systematic** (Ti I is a trace,
+strongly over-ionization/atmosphere-sensitive neutral). It is **NOT** a model-atom difference (same
+Bergemann-2011 atom, confirmed) and **NOT** a deck bug.
+
+**Ti disposition:** moves from "CHECK — unresolved same-atom systematic" to **atmosphere-flagged
+(legitimate value), same-atom-confirmed**. The Engine-A(MAFAGS-OS)↔Engine-B(MARCS) reconciliation is
+now a **documented atmosphere systematic** to record when Ti is registered (the register/test flip is
+the reconciliation follow-on — NOT done on this ticket; NO MERGE). Off the Beta-science critical path.
+
+## Cache confirmation (RYA-540 governing rule)
+
+Ti grid `NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin` (**54.8 GB**, `bin_md5 5677e3a728c2…`, `zip_md5
+c4ef399f…`) is in `gerber_ts/_cache_index.json` and **retained on disk after the run — NOT freed**
+(no free-after-gate). This was the **first real production pull through the RYA-540 persistent cache**
+(prior smoke was synthetic). The last Ti download, ever.
+
+## Engineering notes (fixes made to stand up the independent path)
+
+1. **Compiled the LTE `interpol_modeles`** binary (`gfortran -o interpol_modeles interpol_modeles.f`)
+   in `Turbospectrum_NLTE/interpolator/` — only the NLTE interpolator had been built; TSFitPy's LTE
+   EW step needs the LTE one. (Engine completion, not a data mutation.)
+2. **TSFitPy builds the model-atom path by raw string concat** (`model_atom_path + atom_file`), so
+   `model_atom_path` must end in `/` — else bsyn fails opening `gerber_tsatom.ti503b`. Wrapper sets it.
+3. Built a dedicated `venv_tsfitpy` (dask) — did NOT pollute the pinned `venv_pysme`.
+
+## Mn parallel (noted, not blocked here)
+
+Mn carries the same same-atom question (Gerber ships **Bergemann 2019** Mn; deck ~½ vs MPIA). The
+identical discriminator (independent TSFitPy MARCS Mn synthesis, or a 1D-vs-3D analog) applies. Mn
+**passed** its gate so it stays registered and is **not** blocked on this — a TSFitPy Mn cross-check is
+the analog to run only if Mn's ~½ is ever contested.
 
 ## Note on Mn (related, out of scope here)
 
