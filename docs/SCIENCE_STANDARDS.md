@@ -124,3 +124,73 @@ not automatic; here nothing moved).
 3. **Native engines compile per-platform** (iSpec `.so`, MOOGSILENT) — see `requirements.lock`
    for the gcc-15 flags. Turbospectrum/standalone-SPECTRUM binaries are not on the solar
    EW→abundance path.
+
+---
+
+## Two-engine floor — quality-based per-line selection — RYA-525
+
+**Decision date:** 2026-07-05 (ratified), pre-declared criterion ratified 2026-07-10.
+**Evidence / build:** `pipeline/engine_selection.py`, `config.constants.TWO_ENGINE`,
+`tests/test_two_engine_floor_rya525.py`; coverage map `data/curation/nlte_two_engine_coverage.csv`
+(RYA-526). **Scope:** governing law for every element on every star. **The full 27-element
+both-engine RUN is gated on RYA-526 grid coverage and executes under RYA-527** (this ticket builds
+the law + selector + guards).
+
+### The law
+1. **Both engines, every element.** Every element is measured on BOTH **Engine-A** (1D-NLTE =
+   EW + grid delta) AND **Engine-B** (synthesis; Turbospectrum LTE + TS-native Gerber NLTE).
+   Neither optional. A missing synthesis grid is a grid-**acquisition** task (RYA-526/540),
+   **never** a license for EW-1D-only. "Both ran" is enforced even when one is reported.
+2. **Report the best, selected by a PRE-DECLARED PHYSICAL criterion — per LINE.** The reported
+   value is the quality-selected best, chosen line-by-line on line/measurement QUALITY (σ, REW/
+   saturation, blend flag [RYA-463], COG regime), then aggregated to the element. The criterion
+   keys on the LINE, **decided before seeing which answer is closer to any reference.**
+   FORBIDDEN: selecting the engine closer to Asplund/a literature value — that is tuning wearing a
+   selection label (the RYA-161 firewall). The selector has **no reference-value input by
+   construction**; a smuggled one RAISES (`ReferenceProximityError`).
+3. **The rejected engine is recorded + shown, EXCLUDED from the value and its uncertainty budget**
+   — per LINE. Never average a rejected engine into σ (the C=10.26 disease). The element budget
+   carries only the winning lines' real uncertainties (inverse-variance combined).
+4. **Cross-engine spread = a SEPARATE diagnostic**, never folded into the reported error bar.
+
+### The pre-declared per-line criterion (ratified — encode, don't tune)
+- **Validity gates (clause 1):** Engine-A eligible iff its grid is in-hull; Engine-B eligible iff
+  `med_red_chi2 ≤ TWO_ENGINE['synth_chi2_gate']` — an eligibility floor ("synth didn't
+  catastrophically fail"), **NOT** a quality selector.
+- **Clause 2** — exactly one eligible → report it.
+- **Clause 3 (clear regimes)** — both eligible → line regime decides: **CLEAN-WEAK** (unsaturated
+  below the `saturation_knee_mA` AND unblended AND not a problem-child/HFS) → **Engine-A** (cleanest
+  for clean weak lines); **HARD** (blended OR saturated OR problem-child/HFS) → **Engine-B**
+  (synthesis handles the blend/saturation an EW cannot).
+- **Clause 4 (INDETERMINATE regime ONLY)** — a line that is neither clearly clean-weak nor clearly
+  hard → lower line-scatter σ; **exact tie → 1D-NLTE**, the differential zero-point / anchor scale
+  (solar Fe is anchored 1D-NLTE 7.516), so ties stay on ONE consistent scale. Clause 3 governs
+  every clear regime; clause 4 governs only the border — they do not overlap.
+- **Clause 5** — neither eligible → no value; a cited disposition is recorded (never a silent PASS).
+
+### Element aggregation + the cross-engine-mixing guard
+- Reported element value = **inverse-variance combine of the per-LINE winners** (each line
+  contributes only its winning engine's value + error; the rejected engine stays diagnostic).
+- **`CROSS_ENGINE_MIX_GATE` (the Ti lesson):** when an element's per-line winners span BOTH engines
+  AND the mean cross-engine Δ exceeds `TWO_ENGINE['cross_engine_mix_gate']` (dex), **FLAG +
+  adjudicate** — do not silently average two disagreeing scales (mixing a 1D-NLTE and a synthesis
+  scale that systematically disagree injects a regime-correlated bias, e.g. Ti's ~0.11 same-atom
+  split, RYA-535/542). A threshold breach is a recorded adjudication, not a silent mean.
+
+### Loud-fail guards (RYA-525 §3; siblings of RYA-409/518)
+- **Missing synthesis grid → RAISE** ("acquire it / RYA-526"): read the RYA-526 two-engine ledger
+  as the pre-declared exception list — raise where `disposition ∈ {acquire-task, build-task}` and
+  the grid is genuinely absent, or where `wired-both` produced only one engine at runtime. Never on
+  `wired-one` / `LTE-only-by-design` (documented, owned single-engine states).
+- **A reported single-engine value with no cross-engine record and no documented disposition →
+  RAISE.**
+- **Selection keyed on reference-proximity → RAISE** (the tuning firewall).
+- **No silent LTE:** the `abundances_derive.run()` `except Exception → print → continue` swallows
+  around the NLTE calls are removed — a missing wired grid / NLTE failure propagates.
+
+### Standing rules
+- All thresholds live in `config.constants.TWO_ENGINE` (no inline knobs); the saturation knee and
+  synth eligibility floor reference their existing SSOT homes.
+- Ti stays **CHECK / excluded from the reported value** until RYA-535/542 resolves the same-atom
+  systematic — but both engines still run for Ti and the spread is recorded. Mn carries the same
+  open provenance question. Neither blocks the floor.
