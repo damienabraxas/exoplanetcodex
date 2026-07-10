@@ -204,13 +204,13 @@ elements:
     ion: "I"
     dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE small for optical Cu I (RYA-402: 5782 delta +0.001)", solar_corr_dex: "+0.001 single / +0.003 HFS (PySME from Amarsi/Caliskan grid; Shi2014 ~+0.02 small)", cite: "Shi2014; Caliskan2024 (grid); Amarsi2020"}
-    grid: {status: HAVE, source: "Amarsi Cu (Caliskan Oct2024) departure grid via PySME (RYA-402)"}
+    grid: {status: HAVE, source: "Cu_Caliskan2024_PySME.csv — RYA-540 PySME-derived from the Amarsi/Caliskan-Oct2024 departure grid (Zenodo 15062813 v6, md5 d6fce44e); solar Cu I 5782 delta +0.001 reproduces Shi-2014"}
     rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; RYA-401 found no public Cu I correction grid", outcome: "SUPERSEDED — RYA-402 derived the grid via PySME from the Amarsi Cu (Caliskan) departure grid + validated HFS×NLTE (small). NOT registered: the blocker is now measured-line QUALITY (4767 junk, 4704 high-Rydberg), not the grid -> RYA-395"}
     indicators: {lines: "Cu I 5105/5218/5782 (HFS) standard; OUR measured 4704 (high-excit, fragile upper) + 4767 (EW=198 UNPHYSICAL=junk)", in_data: "2 measured (both inadequate)"}
     hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER: measured Cu lines inadequate (4767 junk, 4704 high-Rydberg) -> Cu NLTE not production-registered; needs standard-line measurement (RYA-395 curation)."
     verdict: GET-DATA   # RYA-412: reconciled from GET-GRID — the grid is HAVE (RYA-402 PySME, Caliskan); the blocker is now measured-line QUALITY, not the grid (parallel to K). GET-DATA = needs standard-line measurement (RYA-395).
-    routing: "RYA-402 machinery + HFS VALIDATED (small delta); production BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then register"
-    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
+    routing: "RYA-540: grid DERIVED + REGISTERED (Cu_Caliskan2024_PySME.csv, PySME δ+0.001 = Shi-2014). Verdict stays GET-DATA (PENDING-OK: registered grid, non-LOCKED) — production still BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then promote to LOCKED"
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Cu]", grid_file: "Cu_Caliskan2024_PySME.csv", measured_ew_lines: 2}
 
   V:
     ion: "I"
