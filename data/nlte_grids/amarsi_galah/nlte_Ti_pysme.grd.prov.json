@@ -1,0 +1,30 @@
+{
+  "ticket": "RYA-544",
+  "element": "Ti",
+  "what": "Mallinson et al. 2024 Ti (I+II) NLTE departure-coefficient grid, PySME DirectAccessFile (.grd), for deriving OUR solar Ti I NLTE abundance correction. Replaces the outdated Bergemann-2011 scaled-Drawin atom that inflated the Engine-A (MAFAGS-OS +0.108) and Engine-B (MARCS +0.20) corrections (RYA-542 adjudication).",
+  "model_atom": "Mallinson et al. 2024 (A&A 687, A77) Ti model atom: 587 levels (459 Ti I + 127 Ti II + Ti III ground). Inelastic H collisions: ab initio Grumer & Barklem (2020) for Ti I; Sitnova et al. (2020) for Ti II. Abundances relative to Grevesse et al. 2007.",
+  "source": {
+    "host": "Zenodo",
+    "doi": "10.5281/zenodo.10753497",
+    "record": "10753497",
+    "url_grid": "https://zenodo.org/api/records/10753497/files/nlte_Ti_pysme.grd/content",
+    "url_atmos": "https://zenodo.org/api/records/10753497/files/atmos_Ti.txt/content",
+    "url_label": "https://zenodo.org/api/records/10753497/files/label_Ti.txt/content"
+  },
+  "files": {
+    "nlte_Ti_pysme.grd": {"bytes": 11381408872, "md5": "80ad1bb5ac676910de8bb905eee4bca1"},
+    "atmos_Ti.txt": {"bytes": 82689, "md5": "944a677d4be49a60b58b09ffd4012173"},
+    "label_Ti.txt": {"bytes": 64322, "md5": "d1ed77bcd03667b2a588a5a36b2c533f"}
+  },
+  "grid_coverage": "3756 1D MARCS models, 3000<Teff<8000, -0.5<logg<5.5, -5<[Fe/H]<+1 (solar node well inside).",
+  "sirius_only": "Sirius M.2 /srv/codex/grids/nlte/amarsi_galah/ (RYA-526); md5-pinned + retained (RYA-540 policy).",
+  "reader_note": "Our Amarsi-format PySMEGrid reader (pipeline/nlte_bfactor_synth.read_amarsi_grid) MIS-PARSES this grid's internal level table (same v1.10 container, different layout: returns 813 garbage levels). Level labels for line matching MUST be read from the ASCII label_Ti.txt (NIST energies); the DEPARTURES are read natively by PySME's set_nlte at synthesis time (works). See scripts/rya544_ti_mallinson.py::_label_index.",
+  "derivation": {
+    "method": "pipeline/pysme_nlte.py (PySME NLTE-vs-LTE COG) on the MARCS solar node 5772/4.44/0.0/1.0, A(Ti)=4.97. delta = A_used - A* where EW_LTE(A*) = EW_NLTE. Level labels energy-matched from label_Ti.txt.",
+    "solar_delta_per_line": {"5689.460": 0.0503, "5648.565": 0.0542, "5662.150": 0.0506},
+    "solar_delta_median": 0.0506,
+    "cross_check": "OUR +0.0506 reproduces Mallinson-2024's reported solar Ti I correction +0.052 (and Mallinson-2022 +0.03 / Sitnova-2020 +0.03, ab-initio ~+0.04). Departures engaged; validate-don't-tune (RYA-544 firewall)."
+  },
+  "status": "ACQUIRED + DERIVED, but NOT WIRED to production. The RYA-544 ionization-balance acceptance gate STOPPED: OUR Ti I pool (n=9 weak lines) gives A_LTE 5.598 with MAD 0.508 dex vs OUR clean Ti II 5.008 (MAD 0.032) -> imbalance +0.643 >> FE_IONISATION_GATE 0.05. The NLTE correction (+0.0506) is a differential (gf cancels) and is sound; the imbalance is OUR Ti I gf-scale (the RYA-521/395/398 +0.502-residual thin graded pool), which swamps the correction. Fix the Ti I gf-scale + re-gate before wiring this grid (follow-on).",
+  "derived": "2026-07-10"
+}
