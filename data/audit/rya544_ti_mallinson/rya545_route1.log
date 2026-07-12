@@ -1,0 +1,747 @@
+=== RYA-545 Route 1 — PySME full-window BLENDED synthesis, MARCS, reference-blind ===
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         4997.10  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         5474.22  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         5618.35  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         5679.92  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         5953.16  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         6264.81  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         6371.50  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         6716.67  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         6745.54  railed/no-target — dropped
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+         6746.33  railed/no-target — dropped
+  Ti I: n=7/17  A_LTE=5.013 (MAD 0.235, SEM 0.153)
+         4449.14  A=5.854
+         4548.76  A=4.844
+         4742.79  A=5.013
+         4759.27  A=4.730
+         5903.31  A=5.418
+         6258.10  A=5.178
+         6554.22  A=4.778
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:119: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab['Ti'] = A_TI + offset; sme.abund = ab
+/mnt/codex-data/codex/rya519/scripts/rya545_route1_blended.py:145: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(f2i[m] - f1[m], w1[m]) * 1000.0))   # differential = target EW
+  Ti II: n=3/3  A_LTE=5.004 (MAD 0.025, SEM 0.139)
+         5185.90  A=4.600
+         5211.53  A=5.004
+         5418.77  A=5.029
+
+  A(Ti I)_LTE=5.013 (SEM 0.153)  A(Ti II)_LTE=5.004 (SEM 0.139)  LTE bal=+0.009
+  A(Ti I)_NLTE=5.063  A(Ti II)_NLTE=5.002  NLTE bal=+0.061 ± 0.207
+  gate |.|<0.05, SEM<<gate  =>  VERDICT: INCONCLUSIVE (SEM not << gate)
