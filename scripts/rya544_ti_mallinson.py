@@ -121,7 +121,31 @@ def derive():
 # ---------------------------------------------------------------------------
 # Part 2 — ionization-balance gate: LTE EW-invert OUR Ti I + Ti II pools on MARCS.
 # ---------------------------------------------------------------------------
-def _load_pool(ion: str, ew_min=5.0, ew_max=60.0, relerr_max=0.5):
+# RYA-545 PRE-DECLARED gf-provenance retire criterion (fixed BEFORE inspecting any abundance;
+# firewall: retire by gf provenance grade, NEVER by which line breaks Ti I/II balance).
+# KEEP a Ti I line iff its canonical_gf `loggf_reference` is a PRIMARY LABORATORY transition-
+# probability measurement of NIST quality; RETIRE ungraded semi-empirical / GES-synth-fitted gf
+# (K10) and bare VALD3 compilation entries. Ti II is NOT filtered — it is the untouched validator.
+LAB_REFS = {
+    'LGWSC',        # Lawler, Guardiola, Wood & Sobeck 2013 (ApJS 205, 11) — the definitive Ti I lab gf
+    '2013ApJS..',   # = the same Lawler et al. 2013 ApJS reference string
+    '1982MNRAS.', '1983MNRAS.', '1986MNRAS.',  # Blackwell et al. (Oxford) Ti I lab measurements
+    'NWL', 'MFW', 'BLNP', 'SK',                  # other primary lab transition-probability sources
+}
+
+
+def _ti1_lab_refs():
+    """{wl_round2 -> loggf_reference} for Ti I from canonical_gf (for the provenance filter)."""
+    ref = {}
+    with open(os.path.join(REPO, 'data/linelists/canonical_gf.csv')) as f:
+        for r in csv.DictReader(f):
+            if r['key_z'] == '22' and r['ion'] == '1':
+                keep = (r['loggf_reference'] in LAB_REFS) or (r['nist_grade'].strip() != '')
+                ref[round(float(r['wavelength_air_A']), 2)] = (r['loggf_reference'], keep)
+    return ref
+
+
+def _load_pool(ion: str, ew_min=5.0, ew_max=60.0, relerr_max=0.5, graded=False):
     """Join OUR measured solar Ti EWs with canonical gf. Quality cuts: unblended, EW in
     [ew_min,ew_max] mA (weak/moderate = LINEAR COG, well-conditioned inversion, vdW-insensitive;
     saturated >60 mA lines have a flat COG so EW->A is ill-posed), relative EW error < relerr_max.
@@ -142,11 +166,20 @@ def _load_pool(ion: str, ew_min=5.0, ew_max=60.0, relerr_max=0.5):
                     gf[round(float(r[4]), 2)] = (float(r[5]), float(r[7]))
                 except (ValueError, IndexError):
                     pass
-    pool = []
+    lab = _ti1_lab_refs() if (graded and ion == 'I') else None
+    pool, retired = [], []
     for wl, e in sorted(ew.items()):
-        if wl in gf:
-            elo, lgf = gf[wl]
-            pool.append((wl, elo, lgf, e))
+        if wl not in gf:
+            continue
+        elo, lgf = gf[wl]
+        if lab is not None:
+            ref, keep = lab.get(wl, ('?', False))
+            if not keep:
+                retired.append((wl, ref)); continue
+        pool.append((wl, elo, lgf, e))
+    if retired:
+        print(f"    [RYA-545 pre-declared retire (non-lab gf): {len(retired)}] "
+              + ", ".join(f"{w:.1f}({r})" for w, r in retired))
     return pool
 
 
@@ -186,33 +219,32 @@ def _lte_abund(ion_code: int, wl: float, elo: float, loggf: float, ew_meas: floa
     return float(np.interp(ew_meas, ews, As))
 
 
-def gate(delta_ti1: float):
-    print("\n=== RYA-544 Part 2 — ionization-balance acceptance gate (reference-blind) ===")
+def gate(delta_ti1: float, graded: bool = False):
+    tag = "RYA-545 (NIST-quality lab-gf Ti I pool)" if graded else "RYA-544 (full Ti I pool)"
+    print(f"\n=== ionization-balance acceptance gate — {tag} — reference-blind ===")
     print(f"  OUR Ti I(NLTE) = OUR Ti II on MARCS; gate = FE_IONISATION_GATE = {FE_IONISATION_GATE} dex")
-    diag_wl = {ln[0] for ln in TI_DIAG}   # the 3 clean RYA-542 lines (good gf)
     out = {}
     for ion, code in (('I', 1), ('II', 2)):
-        pool = _load_pool(ion)
-        abunds, diag = [], []
+        pool = _load_pool(ion, graded=(graded and ion == 'I'))
+        wl_abund = []
         for wl, elo, lgf, ew in pool:
             try:
                 a = _lte_abund(code, wl, elo, lgf, ew)
             except Exception as e:
                 print(f"    Ti {ion} {wl}: inversion failed ({e})"); continue
             if not np.isfinite(a):
-                continue                                   # railed (outside COG) — dropped
-            abunds.append(a)
-            if round(wl, 2) in {round(x, 2) for x in diag_wl}:
-                diag.append(a)
-        abunds = np.array(abunds)
+                print(f"       {wl:9.2f}  railed (outside COG) — dropped"); continue
+            wl_abund.append((wl, a))
+        abunds = np.array([a for _, a in wl_abund])
         med = float(np.median(abunds)) if len(abunds) else float('nan')
         mad = float(np.median(np.abs(abunds - med))) if len(abunds) else float('nan')
+        sem = float(np.std(abunds, ddof=1) / np.sqrt(len(abunds))) if len(abunds) > 1 else float('nan')
         out[ion] = (med, mad, len(abunds))
-        n_pool = len(pool)
-        print(f"  Ti {ion}: n={len(abunds)}/{n_pool} lines resolved  A_LTE = {med:.3f} (MAD {mad:.3f})")
-        if ion == 'I' and diag:
-            print(f"         clean RYA-542 diag lines (good gf): A_LTE median = {np.median(diag):.3f} (n={len(diag)})")
-    a1_lte, _, n1 = out['I']; a2_lte, _, n2 = out['II']
+        print(f"  Ti {ion}: n={len(abunds)}/{len(pool)} lines resolved  A_LTE = {med:.3f} "
+              f"(MAD {mad:.3f}, SEM {sem:.3f})")
+        for wl, a in wl_abund:
+            print(f"       {wl:9.2f}  A_LTE = {a:.3f}")
+    a1_lte, mad1, n1 = out['I']; a2_lte, mad2, n2 = out['II']
     a1_nlte = a1_lte + delta_ti1
     a2_nlte = a2_lte + TIII_NLTE
     bal_lte = a1_lte - a2_lte
@@ -237,6 +269,8 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--derive', action='store_true')
     ap.add_argument('--gate', action='store_true')
+    ap.add_argument('--graded', action='store_true',
+                    help='RYA-545: restrict Ti I to NIST-quality lab-gf lines (pre-declared provenance)')
     ap.add_argument('--delta', type=float, help='Ti I NLTE delta for the gate (else derive it)')
     a = ap.parse_args()
     d = None
@@ -244,4 +278,4 @@ if __name__ == '__main__':
         d = derive()
     if a.gate:
         _register_ti()
-        gate(a.delta if a.delta is not None else d['delta_median'])
+        gate(a.delta if a.delta is not None else d['delta_median'], graded=a.graded)

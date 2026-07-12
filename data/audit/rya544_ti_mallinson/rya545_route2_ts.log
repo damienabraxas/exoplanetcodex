@@ -1,0 +1,30 @@
+=== RYA-545 Route 2 — production Turbospectrum synth-EW bisection, MARCS.GES ===
+  [synth] Loading GES linelist (first call — cached)...
+  [synth] GES linelist: 141233 lines loaded
+         4449.14  A=6.23 out of physical bracket — dropped
+         4997.10  A=6.32 out of physical bracket — dropped
+         5474.22  A=6.16 out of physical bracket — dropped
+         5618.35  A=7.34 out of physical bracket — dropped
+         5679.92  A=6.74 out of physical bracket — dropped
+         5953.16  A=6.64 out of physical bracket — dropped
+         6264.81  A=8.11 out of physical bracket — dropped
+         6371.50  A=7.06 out of physical bracket — dropped
+         6716.67  A=8.32 out of physical bracket — dropped
+         6745.54  A=6.09 out of physical bracket — dropped
+         6746.33  A=6.76 out of physical bracket — dropped
+  Ti I: n=6/17  A_LTE=5.283 (MAD 0.229, SEM 0.109)
+         4548.76  A=5.512
+         4742.79  A=5.160
+         4759.27  A=5.055
+         5903.31  A=5.617
+         6258.10  A=5.406
+         6554.22  A=4.949
+         5492.88  A=7.18 out of physical bracket — dropped
+  Ti II: n=3/4  A_LTE=5.301 (MAD 0.141, SEM 0.113)
+         5185.90  A=5.547
+         5211.53  A=5.160
+         5418.77  A=5.301
+
+  A(Ti I)_LTE=5.283 (SEM 0.109)  A(Ti II)_LTE=5.301 (SEM 0.113)  LTE bal=-0.018
+  A(Ti I)_NLTE=5.334  A(Ti II)_NLTE=5.299  NLTE bal=+0.035 ± 0.157
+  gate |.|<0.05, SEM<<gate  =>  VERDICT: INCONCLUSIVE (SEM not << gate)
