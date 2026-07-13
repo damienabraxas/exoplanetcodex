@@ -231,10 +231,33 @@ def _Z(el):
             'Ca': 20, 'Mn': 25, 'Cu': 29}[el]
 
 
+def assert_in_grid_hull(element: str, star: dict) -> dict:
+    """RYA-546 (Addition B): HARD-FAIL if the star's (Teff, logg, [Fe/H]) falls outside the
+    element's departure-grid coverage — no silent extrapolation off the boundary. The grids
+    are axis-rectangular (Teff × logg × [Fe/H] node vectors) so the bounding box IS the hull.
+    Solar is safely in-hull; metal-rich/cool targets (55 Cnc A [Fe/H]=+0.32, alpha Cen A) ride
+    the edge, so this guard keeps a later target run from extrapolating and returning a
+    plausible-looking wrong δ. Returns the coverage bounds (logged by the caller)."""
+    from pipeline.nlte_bfactor_synth import read_amarsi_grid
+    g = read_amarsi_grid(element)
+    axes = {'teff': (float(np.min(g.teff)), float(np.max(g.teff))),
+            'logg': (float(np.min(g.logg)), float(np.max(g.logg))),
+            'feh':  (float(np.min(g.feh)),  float(np.max(g.feh)))}
+    pt = {'teff': float(star['teff']), 'logg': float(star['logg']), 'feh': float(star['feh'])}
+    oob = {k: (pt[k], axes[k]) for k in axes if not (axes[k][0] <= pt[k] <= axes[k][1])}
+    if oob:
+        raise ValueError(
+            f"{element}: star {pt} is OUTSIDE the NLTE grid hull on {list(oob)} — bounds {oob}. "
+            f"Refusing to extrapolate off the grid boundary (RYA-546 Addition B: no silent "
+            f"extrapolation). Acquire a wider grid or exclude this target.")
+    return axes
+
+
 def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     """Per-line NLTE abundance correction delta = A(NLTE) - A(LTE) via PySME, plus
     the median. Uses per-element derivation options (_DERIV_OPTS) — wide EW window +
-    bracket for saturated lines (K). Raises if the element has no diagnostic lines."""
+    bracket for saturated lines (K). Raises if the element has no diagnostic lines.
+    RYA-546 Addition B: hard-fails if the star node is outside the grid hull."""
     if element not in NLTE_LINES:
         raise KeyError(f"No NLTE diagnostic lines registered for {element} "
                        f"(have {list(NLTE_LINES)}). Add them from the grid level labels.")
@@ -242,6 +265,9 @@ def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     offs = offs if offs is not None else opts['offs']
     ew_hw = opts['ew_hw']
     star = star or {'teff': 5772, 'logg': 4.44, 'feh': 0.0, 'vmic': 1.0}
+    _bounds = assert_in_grid_hull(element, star)   # RYA-546 Addition B — no silent extrapolation
+    print(f"  [in-hull guard {element}] star ok; grid coverage Teff{_bounds['teff']} "
+          f"logg{_bounds['logg']} [Fe/H]{_bounds['feh']}")
     lines = NLTE_LINES[element]
     grid = _spacefree_grid(element)
     ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid, ew_hw=ew_hw)
