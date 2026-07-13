@@ -974,10 +974,59 @@ PROVENANCE_CHECKS = [
     ProvenanceCheck('STAR_PARAMS', 'star_params', quantity='stellar parameters'),
 ]
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 8 — no hardcoded physical-line gf in constants.py dicts (RYA-543)
+# ══════════════════════════════════════════════════════════════════════════════
+# A gf for a real physical line must live ONLY in canonical_gf.csv and resolve at use
+# via gf_resolver. A constants.py dict that hardcodes a `log_gf` for a physical line is
+# a silent-divergence duplicate — the RYA-543 defect: NI6300_COG['log_gf'] = −2.841
+# (stale VALD3) shadowed the RYA-365-adjudicated canonical −2.11 (Johansson 2003) in the
+# [O I] 6300 Ni-subtraction, biasing A(O) high. The gf-pair (Inv. 1) and all-stores
+# (Inv. 5) invariants cover LINE-LIST stores; they never looked inside constants.py, so
+# this duplicate slipped. This guard closes that gap.
+#
+# Registry: (dict name, dict object, canonical key, wl, ep). TARGET STATE = the dict has
+# NO 'log_gf' key (gf resolved at use), so this check is a no-op tripwire that FAILS
+# loudly (UNTRACKED → exit 1) if a hardcoded, canonical-divergent gf is ever reintroduced.
+_CONST_GF_DICTS = [
+    ('NI6300_COG', _const.NI6300_COG, (28, 1), 6300.342, 4.266),  # Ni I 6300.34 (RYA-365/543)
+]
+
+
+def check_constants_gf_duplicates() -> list[Violation]:
+    """Fail if any registered constants dict hardcodes a physical-line log gf that
+    diverges from (or is absent from) the single canonical gf source."""
+    out: list[Violation] = []
+    for name, obj, key, wl, ep in _CONST_GF_DICTS:
+        if 'log_gf' not in obj:
+            continue  # RYA-543 target state: no hardcoded copy → nothing can diverge
+        hard = float(obj['log_gf'])
+        try:
+            canon = _gr.resolve(key, wl, ep)
+        except _gr.GfResolutionError:
+            out.append(Violation(
+                invariant='const_gf', quantity='log gf',
+                locus=f"config.constants.{name}['log_gf']",
+                value=f"hardcoded {hard:+.3f}; absent from canonical_gf.csv",
+                source='config.constants vs canonical_gf.csv',
+                detail="constants dict hardcodes a physical-line gf with no entry in the "
+                       "single canonical source (RYA-543) — orphan, no authoritative gf"))
+            continue
+        if abs(hard - canon) > GF_DIVERGENCE_DEX:
+            out.append(Violation(
+                invariant='const_gf', quantity='log gf',
+                locus=f"config.constants.{name}['log_gf']",
+                value=f"hardcoded {hard:+.3f} vs canonical {canon:+.3f} (Δ={hard - canon:+.3f})",
+                source='config.constants vs canonical_gf.csv',
+                detail="constants dict hardcodes a physical-line gf that diverges from the "
+                       "single canonical source (RYA-543) — resolve at use via gf_resolver"))
+    return out
+
+
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
     check_all_stores_resolve, check_vald_threshold, check_solar_ew_canonical,
-    check_molecular_lists,
+    check_molecular_lists, check_constants_gf_duplicates,
 ]
 
 
@@ -995,6 +1044,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_vald_threshold()
     violations += check_solar_ew_canonical()
     violations += check_molecular_lists()
+    violations += check_constants_gf_duplicates()
     return violations
 
 
@@ -1040,7 +1090,7 @@ def _report(violations: list[Violation]) -> None:
 
     # per-invariant violation tables
     for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores',
-                'vald_threshold', 'solar_ew_canonical', 'molecular'):
+                'vald_threshold', 'solar_ew_canonical', 'molecular', 'const_gf'):
         vs = [v for v in violations if v.invariant == inv]
         if not vs:
             print(f"\n[{inv}] OK — no violations.")

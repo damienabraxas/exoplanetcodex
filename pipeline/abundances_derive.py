@@ -2544,41 +2544,37 @@ def run(star_id: str = 'solar',
           f"logg={converged_params['logg']:.2f}  "
           f"vturb={converged_params['vturb_kms']:.2f} km/s")
 
-    # ── NLTE corrections (RYA-165) ────────────────────────────────
-    try:
-        from pipeline.nlte_corrections import apply_fe_nlte_corrections
-        _sun = get_star_params('solar')  # RYA-298: canonical solar fallback (5772/4.438)
-        stellar_params_for_nlte = {
-            'teff_K'   : converged_params.get('teff_K',    _sun['teff']),
-            'logg'     : converged_params.get('logg',      _sun['logg']),
-            'feh'      : converged_params.get('feh',        0.0),
-            'vturb_kms': converged_params.get('vturb_kms',  1.0),
-        }
-        results = apply_fe_nlte_corrections(
-            results, stellar_params_for_nlte,
-            line_df=ew_df, per_line_df=per_line_df,
-        )
-        print(f"  NLTE corrections applied to Fe I/II (Amarsi+2022)")
-    except FileNotFoundError as e:
-        print(f"  WARNING: NLTE grid not found — running 1D LTE only: {e}")
-    except Exception as e:
-        print(f"  WARNING: NLTE correction failed — running 1D LTE only: {e}")
+    # ── NLTE corrections (RYA-165) — LOUD-FAIL, no silent 1D-LTE fallback (RYA-525 §3) ──
+    # nlte_corrections is loud by design (FileNotFoundError / ValueError[PLACEHOLDER_ZERO]
+    # / KeyError). The former `except Exception -> print("...1D LTE only") -> continue`
+    # swallows here UNDID that one layer up and let an element ride into a PASS on a
+    # silently-downgraded LTE value — the exact cop-out the two-engine floor outlaws
+    # (RYA-536 Review 6a). Removed: a missing wired grid / any NLTE failure now RAISES.
+    # An element that is LTE-BY-DESIGN carries its cited disposition in the RYA-526
+    # two-engine coverage ledger (LTE-only-by-design) — it is never a swallowed exception.
+    from pipeline.nlte_corrections import (
+        apply_fe_nlte_corrections, apply_element_nlte_corrections)
+    _sun = get_star_params('solar')  # RYA-298: canonical solar fallback (5772/4.438)
+    stellar_params_for_nlte = {
+        'teff_K'   : converged_params.get('teff_K',    _sun['teff']),
+        'logg'     : converged_params.get('logg',      _sun['logg']),
+        'feh'      : converged_params.get('feh',        0.0),
+        'vturb_kms': converged_params.get('vturb_kms',  1.0),
+    }
+    results = apply_fe_nlte_corrections(
+        results, stellar_params_for_nlte, line_df=ew_df, per_line_df=per_line_df,
+    )
+    print(f"  NLTE corrections applied to Fe I/II (Amarsi+2022)")
 
     # ── Non-Fe element NLTE (RYA-235): Ca I / Ti I / Cr I per-line, MPIA MAFAGS-OS.
     # Composes with the Fe leg (touches only registry rows). NOTE: this is the
     # application layer — Asplund acceptance is gated on a CURATED pool (raw 1D-LTE
     # Cr reads high; NLTE on an un-curated pool overshoots), tracked under RYA-235.
-    try:
-        from pipeline.nlte_corrections import apply_element_nlte_corrections
-        results = apply_element_nlte_corrections(
-            results, stellar_params_for_nlte,
-            per_line_df=per_line_df, line_df=ew_df,
-        )
-        print(f"  NLTE corrections applied to Ca I / Ti I / Cr I (MPIA MAFAGS-OS)")
-    except FileNotFoundError as e:
-        print(f"  WARNING: element NLTE grid not found — those elements stay 1D LTE: {e}")
-    except Exception as e:
-        print(f"  WARNING: element NLTE correction failed — those elements stay 1D LTE: {e}")
+    # LOUD-FAIL as above (RYA-525 §3) — no silent stay-1D-LTE on failure.
+    results = apply_element_nlte_corrections(
+        results, stellar_params_for_nlte, per_line_df=per_line_df, line_df=ew_df,
+    )
+    print(f"  NLTE corrections applied to Ca I / Ti I / Cr I (MPIA MAFAGS-OS)")
 
     # ── Line quality scoring (RYA-220) ────────────────────────────
     print(f"\n  Line quality scoring (RYA-220)...")

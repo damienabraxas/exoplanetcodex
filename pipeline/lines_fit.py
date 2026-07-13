@@ -51,6 +51,8 @@ from config.constants import (PIPELINE, PATHS, STAR_SOLAR, STAR_PROCYON,
                                get_star_params,
                                STAR_LINELISTS, EW_FIT_PARAMS,
                                NI6300_COG, LINE_SCORE_PARAMS)
+from pipeline import gf_resolver as _gr        # RYA-543: single-source Ni 6300.34 gf
+from pipeline.species import species_key       # RYA-543: canonical species key
 
 
 def _ew_scores(ew_mA: float, ew_err: float, chi2: float) -> tuple:
@@ -387,7 +389,13 @@ def _predict_ni6300_ew(ew_df: pd.DataFrame, lines_df: pd.DataFrame) -> float:
         return ni_ref
 
     const = float(np.median(Y[mask] - X[mask]))
-    ni6300_log_ew = NI6300_COG['log_gf'] - NI6300_COG['excitation_potential_eV'] * theta + const
+    # RYA-543: resolve the Ni I 6300.34 log gf from the single canonical source
+    # (Johansson 2003 −2.11, adjudicated RYA-365) — NOT a hardcoded constant. The
+    # same value the synth path uses, so the [O I] Ni-subtraction is consistent.
+    ni6300_log_gf = _gr.resolve(species_key('Ni', 'I'),
+                                NI6300_COG['wavelength_air_A'],
+                                NI6300_COG['excitation_potential_eV'])
+    ni6300_log_ew = ni6300_log_gf - NI6300_COG['excitation_potential_eV'] * theta + const
     pred = float(10 ** ni6300_log_ew)
 
     # Sanity cap: prediction must not exceed 3× the solar literature value
