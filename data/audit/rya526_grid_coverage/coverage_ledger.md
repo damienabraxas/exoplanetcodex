@@ -123,3 +123,70 @@ Ni/P/Co/Sc/Y/Eu/Zr/V with no departure grid (V = the only true void).
 2. **N "grid is Done" — half true.** N is registered + load-tested (RYA-369) but the production
    CSV was never derived and N was never added to `NLTE_CORRECTION_ELEMENTS`; the `.grd` is
    Amarsi-2020 (Zenodo 3982506), staged on Sirius. Wiring = the derivation in §B.
+
+---
+
+## Two-engine coverage refresh — RYA-526 (2026-07-10, additive)
+
+**Why:** the tables above are the **Engine-A (1D-NLTE departure grid)** coverage map and predate
+the RYA-534 Engine-B (TS-Gerber in-synthesis NLTE) rollout. RYA-525's loud-fail guard reads the
+coverage ledger as its **pre-declared exception list** — it must see *both* engines per element or
+it cannot tell a genuine gap ("acquire/build a grid") from a correctly-finished element ("LTE by
+design"). This section adds the **Engine-B axis**; it does **not** alter the Engine-A ledger above
+(the RYA-543 registry↔disk anti-drift test reads that unchanged).
+
+**Method (ground truth, no memory):** disk-verified on Sirius, 2026-07-10 —
+`/srv/codex/grids/nlte/gerber_ts` (Engine-B atoms/aux/provenance/md5 + `_cache_index.json`) and
+`/srv/codex/grids/nlte/amarsi_galah/*.grd` (Engine-A PySME inputs), per the RYA-540 census
+(`data/audit/rya540_disk_layout/`). Machine-readable companion:
+`data/curation/nlte_two_engine_coverage.csv`. Gerber-2023 (A&A 669 A43) covers 14 target elements
+(O Na Mg Al Si Ca Ti Mn Fe Co Ni Sr Ba Y); the `.bin` grids are freed-but-md5-pinned and
+re-acquired on demand by `scripts/grid_cache.py` (RYA-540) — provisioned+deck-validated (RYA-534)
+counts as **Engine-B wired**.
+
+**State vocabulary (per engine):** `wired` (grid present + validated + pipeline-reachable) ·
+`task` (grid genuinely absent, an acquisition/build task with an owner) · `LTE-only-by-design`
+(no NLTE grid exists **and none is needed** — near-LTE or majority-ion species; a *finished* state,
+NOT owed work — this is what stops 525 raising forever on a correctly-done element).
+
+| El | Engine-A (1D-NLTE) | Engine-B (TS-Gerber) | Disposition | Owner · ticket |
+|----|----|----|----|----|
+| Fe | wired | task | wired-one | Ryan · 534/361 |
+| C  | wired | task | wired-one | Ryan · 363 |
+| O  | wired | wired | **wired-both** | — · 534 |
+| Mg | wired | wired | **wired-both** | — · 534 |
+| Si | wired | wired | **wired-both** | — · 534 |
+| Ca | wired | wired | **wired-both** | — · 534 |
+| Ti | wired | wired (CHECK) | **wired-both** | Ryan · 535 |
+| Ni | task  | wired | wired-one | Ryan · 534 |
+| Na | wired | wired | **wired-both** | — · 533/534 |
+| P  | LTE-by-design | LTE-by-design | **LTE-only-by-design** | — · 460 |
+| S  | wired | task | wired-one | Ryan · 361 |
+| N  | wired | task | wired-one | Ryan · 369/363 |
+| Co | task  | wired | wired-one | Ryan · 534 |
+| Cr | wired | task | wired-one | Ryan · 361 |
+| Al | wired | task | wired-one | Ryan · 534/361 |
+| K  | wired | task | wired-one | Ryan · 361 |
+| Ba | wired | wired | **wired-both** | — · 534 |
+| Y  | task  | task | acquire-task | Ryan · 458 |
+| V  | task | task | **build-task** (NLTE_VOID) | Ryan · 470/363 |
+| Cu | task  | task | acquire-task | Ryan · 466 |
+| Mn | wired | wired | **wired-both** | — · 534 |
+| Sc | LTE-by-design | LTE-by-design | **LTE-only-by-design** | — · 460 |
+| Li | task  | task | acquire-task | Ryan · 103/458 |
+| Eu | LTE-by-design | LTE-by-design | **LTE-only-by-design** | — · 458 |
+| Zr | LTE-by-design | LTE-by-design | **LTE-only-by-design** | — · 526 |
+| Sr | wired | wired | **wired-both** | Ryan · 421/534 |
+
+**Per-state counts (26 TARGET_ELEMENTS, each resolves to exactly one):**
+- **wired-both = 9** — O Na Mg Si Ca Ti\* Mn Ba Sr  (\*Ti = CHECK, RYA-535: run both, record the spread, excluded from the reported value)
+- **wired-one = 9** — A-wired/B-task: Fe C N S K Cr Al · B-wired/A-task: Co Ni
+- **acquire-task = 3** — Li Cu Y  (grid exists/gettable; not yet derived+wired)
+- **build-task = 1** — V  (the only true NLTE_VOID)
+- **LTE-only-by-design = 4** — P Sc Eu Zr  (finished in LTE; NLTE grid neither exists nor needed)
+
+**For RYA-525's guard:** raise ONLY where `disposition ∈ {acquire-task, build-task}` **and** the
+grid is genuinely absent — never on `wired-*` (grid present) or `LTE-only-by-design` (finished).
+`wired-one` elements run the one wired engine now and carry the other engine as a documented,
+owned task (fed to RYA-540 for the Gerber-available set: Fe, Al, Y; and to RYA-363 for the
+Gerber-absent set: C, N, S, K, Cr).
