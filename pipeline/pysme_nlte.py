@@ -113,12 +113,15 @@ NLTE_LINES = {
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
-_A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12, 'N': 7.83, 'Ti': 4.97}
+_A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12, 'N': 7.83,
+          'Li': 1.05,   # RYA-540: Li I 6707 (Amarsi-2020 GALAH grid)
+          'Ti': 4.97}   # RYA-545: Ti I 5689/5648/5662 (Mallinson-2024)
 
 _GRID_FILENAME = {
     'Na': 'nlte_Na_scatt_pysme.grd', 'Al': 'nlte_Al_scatt_pysme.grd',
     'K': 'nlte_K_scatt_pysme.grd', 'Cu': 'nlte_Cu_caliskan_Oct2024_pysme.grd',
     'S': 'nlte_S_ama51_Sep2024_pysme.grd', 'N': 'nlte_N_scatt_pysme.grd',  # RYA-369
+    'Li': 'nlte_Li_scatt_pysme.grd',  # RYA-540 (Amarsi-2020 GALAH; Zenodo 3982506)
     # RYA-409 Part B re-source (v3 Amarsi-2020 grids, [Fe/H] -> +1):
     'Mg': 'nlte_Mg_scatt_pysme.grd', 'Si': 'nlte_Si_scatt_pysme.grd',
     'Ca': 'nlte_Ca_scatt_pysme.grd', 'Mn': 'nlte_Mn_scatt_pysme.grd',
@@ -181,6 +184,9 @@ def _spacefree_grid(element: str) -> str:
 # and fail to bracket. (ew_hw in A, offs = abundance offsets for the LTE COG.)
 _DERIV_OPTS = {
     'K': {'ew_hw': 2.0, 'offs': (-0.4, -0.2, 0.0, 0.2, 0.4)},
+    # Li I 6707 is a ground-state resonance doublet: wide bracket like K (the COG can be
+    # flat if the solar line saturates), wide EW window for the blended doublet. RYA-540.
+    'Li': {'ew_hw': 1.5, 'offs': (-0.4, -0.2, 0.0, 0.2, 0.4)},
 }
 _DEFAULT_OPTS = {'ew_hw': 0.8, 'offs': (-0.2, -0.1, 0.0, 0.1, 0.2)}
 
@@ -243,8 +249,8 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
 
 
 def _Z(el):
-    return {'N': 7, 'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16, 'K': 19,
-            'Ca': 20, 'Ti': 22, 'Mn': 25, 'Cu': 29}[el]
+    return {'Li': 3, 'N': 7, 'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16,
+            'K': 19, 'Ca': 20, 'Ti': 22, 'Mn': 25, 'Cu': 29}[el]
 
 
 def assert_in_grid_hull(element: str, star: dict) -> dict:
@@ -315,6 +321,11 @@ _ANCHOR = {
     'Cu': (0.01, 0.05, 'Shi et al. 2014 (small positive ~+0.02 for optical Cu I in the Sun; approximate band)'),
     'S':  (-0.04, 0.07, 'Amarsi et al. 2025 (A&A 703 A35, grid source) / Takeda 2005: optical high-excitation S I (6757 mult-8) small negative, 0 to ~-0.1'),
     'K':  (-0.27, 0.10, 'Reggiani et al. 2019 (A&A 627 A177) / Andrievsky et al. 2006: K I 7665/7699 resonance, severe negative NLTE (line stronger in NLTE); solar ~-0.2..-0.3'),
+    # Li I 6707: for the SUN the line is very weak (A(Li)~1.05, EW~2 mA) so NLTE is small
+    # and slightly positive; Lind, Asplund & Barklem 2009 (A&A 503, 541) INSPECT grid
+    # gives ~0 to +0.03 dex at solar params. Loose band — the large Li NLTE lives in warm
+    # metal-poor stars, not the solar weak-line regime.
+    'Li': (0.02, 0.05, 'Lind, Asplund & Barklem 2009 (A&A 503, A541) INSPECT: solar Li I 6707 weak-line NLTE small positive (~0..+0.03)'),
     'Ti': (0.052, 0.03, 'Mallinson et al. 2024 (A&A 687 A5) ab-initio Grumer-Barklem-2020 H collisions, ionization-balance-validated solar Ti I +0.052 (Mallinson 2022 +0.03 / Sitnova 2020 +0.03); our PySME/MARCS derivation reproduces +0.0506, RYA-544/545)'),
 }
 

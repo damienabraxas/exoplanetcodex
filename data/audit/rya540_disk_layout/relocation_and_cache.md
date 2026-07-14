@@ -92,8 +92,27 @@ working deck) so the running pipeline stops re-downloading immediately; verified
 loading through `ensure_grid(el)`. The same 2-line diff is tracked here to apply to the deck
 on the RYA-534 branch when 534/540 integrate (the deck is not on the rya540 branch).
 
+## Finalize (2026-07-12) — full Gerber re-acquire + M.2/SSD overflow
+
+The full 11-element Gerber set was re-acquired into the persistent cache. **Key correction to
+the capacity math:** the unzipped `.bin` grids are **2.0–3.6× their zips** (Na: 15.9 GB zip →
+**57 GB** bin), so the full set is **~365 GB unzipped**, not the 149 GB zip figure. The M.2
+(468 G) cannot hold that alongside amarsi (70 G) + OS — it filled to 91% and the cache's
+capacity guard **correctly loud-failed** on the last grids (no thrash — the designed behavior).
+
+Resolved per the standing "overflow onto the SSD before Orion" rule (RYA-477):
+- **8 grids on the M.2** (`/srv/codex/grids/nlte/gerber_ts`): O, Mg, Ca, Ba, Co, Mn, Na, Ti (242 G).
+- **3 grids overflowed to the SSD** (`/mnt/codex-data/gerber_overflow/`): Si (36.5 G), Sr (54.2 G),
+  Ni (67.3 G) — each **symlinked into `gerber_ts`** so the deck path is unchanged, and their
+  entries **merged into the canonical `_cache_index.json`**.
+- All 11 md5-verified in the cache; **zero re-download** of anything already acquired (Ti was
+  recovered from a stray download + re-indexed; Sr reused its complete zip).
+- Post: M.2 86 G free, SSD 152 G free.
+
+Inventory: `scripts/verify_grid_md5_ledger_rya540.py` → `grid_inventory.md` (follows the SSD
+symlinks; all 11 Gerber VERIFIED). `bytes` backfill done for the 10 RYA-534 provs.
+
 ## Follow-ups
-- Reclaim `*_OLD_rya540` (~71 G) after owner confirm.
-- Backfill exact zip `bytes` into the 10 RYA-534 prov JSONs (strengthens the pre-download guard).
-- The one-time real re-pulls (Ti 55 G etc., RYA-535) now land in the persistent cache and are
-  never re-downloaded again — the defect RYA-540 was filed to end.
+- Reclaim `*_OLD_rya540` (~71 G) after owner confirm. (Done in the merged RYA-540.)
+- The one-time real re-pulls now land in the persistent cache and are never re-downloaded
+  again — the defect RYA-540 was filed to end.
