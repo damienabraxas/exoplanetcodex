@@ -34,6 +34,7 @@ results/plots/solar_ew_diagnostic.png (grid of Tier 1 Fe line profiles)
 Linear issue: RYA-45
 """
 
+import json
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -53,6 +54,7 @@ from config.constants import (PIPELINE, PATHS, STAR_SOLAR, STAR_PROCYON,
                                NI6300_COG, LINE_SCORE_PARAMS)
 from pipeline import gf_resolver as _gr        # RYA-543: single-source Ni 6300.34 gf
 from pipeline.species import species_key       # RYA-543: canonical species key
+from pipeline import rejection_ledger as _rl   # RYA-429: per-line rejection ledger
 
 
 def _ew_scores(ew_mA: float, ew_err: float, chi2: float) -> tuple:
@@ -578,11 +580,17 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
                  worklist: pd.DataFrame,
                  lines_df: pd.DataFrame,
                  run_oi_cog: bool = True,
-                 fit_window_A: float = None) -> pd.DataFrame:
+                 fit_window_A: float = None,
+                 ledger: '_rl.RejectionLedger' = None) -> pd.DataFrame:
     """Fit every line in worklist; return results DataFrame.
     run_oi_cog: perform [O I] 6300 COG Ni-subtraction (solar only).
     fit_window_A: per-star fit half-window override (None → PIPELINE default).
+    ledger: RYA-429 rejection ledger — every worklist line that fails to yield a
+            measured EW is recorded here with an explicit reason (no silent drop).
     """
+    def _reject(reason, value=None, note=''):
+        if ledger is not None:
+            ledger.reject(elem, ion, line_wav, reason, value=value, note=note)
     ew_min    = PIPELINE['ew_min_mA']
     ew_max    = PIPELINE['ew_max_mA']
     blue_warn = PIPELINE['blue_edge_warn_A']
@@ -603,8 +611,10 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
 
         # O I and Ni I 6300 are handled after the main loop via COG subtraction
         if elem == 'O' and ion == 'I' and abs(line_wav - 6300.304) < 0.15:
-            continue
+            continue   # O I 6300 IS measured later (COG Ni subtraction) — not a drop
         if elem == 'Ni' and ion == 'I' and abs(line_wav - 6300.336) < 0.15:
+            _reject('blend_overlap', note='modeled + subtracted as the Ni I blend '
+                                          'partner for the [O I] 6300 COG measurement')
             continue
 
         # ── Depth peek → adaptive fit window ─────────────────────────────────
@@ -619,6 +629,8 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         mask = ((solar_wav >= line_wav - window) &
                 (solar_wav <= line_wav + window))
         if mask.sum() < 10:
+            _reject('out_of_coverage', value=int(mask.sum()),
+                    note=f'only {int(mask.sum())} in-window pixels (<10) — spectral gap')
             continue
 
         wav_w  = solar_wav[mask]
@@ -641,6 +653,8 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         # ── Fit ───────────────────────────────────────────────────────────────
         popt, pcov, profile_t, chi2 = _fit_profile(wav_fit, flux_fit, line_wav)
         if popt is None:
+            _reject('failed_chi2', value=chi2,
+                    note='profile fit (Voigt + Gaussian fallback) did not converge')
             continue
 
         ew_mA  = _integrate_profile(wav_fit, popt, profile_t)
@@ -649,8 +663,16 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         is_sp = _is_special(elem, ion, line_wav)
 
         if np.isnan(ew_mA):
+            _reject('failed_chi2', value=chi2,
+                    note=f'{profile_t} fit integrated to a non-finite EW')
             continue
         if not is_sp and (ew_mA < ew_min or ew_mA > ew_max):
+            if ew_mA > ew_max:
+                _reject('saturated_core', value=round(float(ew_mA), 2),
+                        note=f'measured EW {ew_mA:.1f} mA > ew_max_mA {ew_max} (strong/saturated)')
+            else:
+                _reject('low_snr', value=round(float(ew_mA), 2),
+                        note=f'measured EW {ew_mA:.1f} mA < ew_min_mA {ew_min} (below reliable floor)')
             continue
 
         # ── Build notes ───────────────────────────────────────────────────────
@@ -971,6 +993,102 @@ def _plot_ca6122_diagnostic(solar_wav: np.ndarray, solar_flux: np.ndarray,
     print(f"  Saved → {out_path.name}")
 
 
+# ── RYA-429: rejection ledger finalisation ────────────────────────────────────
+
+# Canonical Sr II lines this ticket's RCA is about (air wavelengths).
+_SR2_CANONICAL = (4077.70935, 4161.79172, 4215.51920, 4305.44336)
+
+
+def _sr2_verdict(lines: pd.DataFrame, results: pd.DataFrame,
+                 rej: pd.DataFrame, spec_wav: np.ndarray) -> list:
+    """Per-line disposition of each canonical Sr II line: measured (EW) OR
+    rejected (reason + note). Documents WHY 4161/4305 fell out (RYA-430 owns the
+    science of fixing that; here we just make the drop non-silent)."""
+    lo, hi = float(np.min(spec_wav)), float(np.max(spec_wav))
+    out = []
+    for wav in _SR2_CANONICAL:
+        rec = dict(wavelength_air_A=wav, in_coverage=bool(lo <= wav <= hi))
+        m = results[(results['element'] == 'Sr') & (results['ion'] == 'II') &
+                    (results['wavelength_air_A'].between(wav - 0.1, wav + 0.1))]
+        m = m[np.isfinite(pd.to_numeric(m['ew_mA'], errors='coerce'))]
+        if len(m):
+            rec.update(status='measured', ew_mA=float(m.iloc[0]['ew_mA']),
+                       reason=None, note='')
+        else:
+            r = rej[(rej['element'] == 'Sr') & (rej['ion'] == 'II') &
+                    (rej['wavelength_air_A'].between(wav - 0.1, wav + 0.1))]
+            if len(r):
+                rec.update(status='rejected', ew_mA=None,
+                           reason=str(r.iloc[0]['reason']),
+                           value=(None if pd.isna(r.iloc[0]['value'])
+                                  else float(r.iloc[0]['value'])),
+                           note=str(r.iloc[0]['note']))
+            else:
+                rec.update(status='UNACCOUNTED', ew_mA=None, reason=None, note='')
+        out.append(rec)
+    return out
+
+
+def _finalize_rejection_ledger(star_key: str, lines: pd.DataFrame,
+                               results: pd.DataFrame, spec_wav: np.ndarray,
+                               ledger: '_rl.RejectionLedger') -> dict:
+    """Close the ledger, enforce the no-silent-drop invariant, run the
+    ionization-stage-presence audit, and persist ledger CSV + audit JSON."""
+    print(f"\n[4b/5] Rejection ledger + no-silent-drop invariant (RYA-429)")
+    min_depth = PIPELINE['min_fit_depth']
+    report = _rl.reconcile(lines, results, ledger, spec_wav, min_depth)
+    rej = ledger.to_frame()
+
+    # Ledger CSV — gitignored staging beside the EW output.
+    rej_path = PATHS.get(f'{star_key}_ew_rejections')
+    if rej_path is not None:
+        rej_path.parent.mkdir(parents=True, exist_ok=True)
+        rej.to_csv(rej_path, index=False)
+        print(f"  Rejection ledger → {rej_path.name}  ({len(rej)} rows)")
+
+    print(f"  In-coverage input lines : {report['n_in_coverage']}")
+    print(f"  Measured                : {report['n_measured']}")
+    print(f"  Rejected-with-reason    : {report['n_rejected']}")
+    print(f"  Reason breakdown        : {report['reason_counts']}")
+    inv = report['invariant_holds'] and report['n_unclassified'] == 0
+    if inv:
+        print(f"  ✓  no-silent-drop invariant HOLDS "
+              f"({report['n_measured']}+{report['n_rejected']}=={report['n_in_coverage']})")
+    else:
+        banner = (f"NO-SILENT-DROP INVARIANT VIOLATED for {star_key}: "
+                  f"{report['n_unaccounted']} unaccounted, "
+                  f"{report['n_unclassified']} unclassified. "
+                  f"Sample: {report['unaccounted_sample']}")
+        print(f"  !! {banner}")
+        warnings.warn(banner, stacklevel=2)
+
+    # Ionization-stage-presence audit (Step 3).
+    flags = _rl.ionization_stage_presence_check(lines, results, spec_wav)
+    if not flags:
+        print(f"  Ionization-stage-presence: no empty-stage flags")
+
+    # Sr II RCA verdict.
+    sr2 = _sr2_verdict(lines, results, rej, spec_wav)
+    print(f"  Sr II canonical verdict:")
+    for r in sr2:
+        if r['status'] == 'measured':
+            print(f"    {r['wavelength_air_A']:.3f}  measured  EW={r['ew_mA']:.2f} mÅ")
+        else:
+            print(f"    {r['wavelength_air_A']:.3f}  {r['status']}  "
+                  f"reason={r.get('reason')}  ({r.get('note')})")
+
+    # Committed audit JSON.
+    audit = dict(report)
+    audit['ionization_stage_flags'] = flags
+    audit['sr_ii_verdict'] = sr2
+    audit_path = PATHS.get(f'{star_key}_ew_rejection_audit')
+    if audit_path is not None:
+        audit_path.parent.mkdir(parents=True, exist_ok=True)
+        audit_path.write_text(json.dumps(audit, indent=2))
+        print(f"  Audit summary → {audit_path.name}")
+    return audit
+
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 def run(star_id: str = 'solar') -> pd.DataFrame:
@@ -1023,9 +1141,11 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
 
     # ── Measure EWs ───────────────────────────────────────────────────────────
     print(f"\n[3/5] Measuring EWs")
+    ledger = _rl.RejectionLedger(star_key)     # RYA-429: no line exits unaccounted-for
     results = _measure_all(spec_wav, spec_flux, worklist, lines,
                            run_oi_cog=is_solar,
-                           fit_window_A=ew_params['fit_window_A'])
+                           fit_window_A=ew_params['fit_window_A'],
+                           ledger=ledger)
     print(f"  {len(results)} lines measured")
 
     # ── QA summary ────────────────────────────────────────────────────────────
@@ -1051,6 +1171,9 @@ def run(star_id: str = 'solar') -> pd.DataFrame:
     out_df['notes'] = out_df['notes'].fillna('')
     out_df.to_csv(out_csv, index=False)
     print(f"\n  Saved → {out_csv.name}  ({len(results)} rows)")
+
+    # ── RYA-429: rejection ledger + no-silent-drop invariant + stage flag ──────
+    _finalize_rejection_ledger(star_key, lines, results, spec_wav, ledger)
 
     # ── Diagnostic plot ───────────────────────────────────────────────────────
     print(f"\n[5/5] Generating diagnostic plots")
