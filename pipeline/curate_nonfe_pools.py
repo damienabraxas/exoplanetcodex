@@ -215,7 +215,7 @@ _NLTE_GRID_FILES = {
     'Na': 'Na_Lind2011_INSPECT.csv',
     'Ba': 'Ba_Korotin2015.csv',
     'Ca': 'Ca_Mashonkina2017.csv',
-    'Ti': 'Ti_Bergemann2011_MPIA.csv',
+    'Ti': 'Ti_Mallinson2024_PySME.csv',   # RYA-545: ab-initio, supersedes Ti_Bergemann2011_MPIA (scaled-Drawin)
     'Cr': 'Cr_Bergemann2010_MPIA.csv',
     # Ni, Al: no vendored NLTE grid → Δ≈0 (pure-curation / LTE target = Asplund).
 }
