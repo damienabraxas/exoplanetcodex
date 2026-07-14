@@ -1,0 +1,74 @@
+{
+  "grid_csv": "Ti_Mallinson2024_PySME.csv",
+  "source_grid": "/srv/codex/grids/nlte/amarsi_galah/nlte_Ti_pysme.grd",
+  "source_grid_md5": "80ad1bb5ac676910de8bb905eee4bca1",
+  "source_doi": "10.5281/zenodo.10753497",
+  "reference": "Mallinson et al. 2024 (A&A 687, A5), ab-initio Grumer & Barklem 2020 H collisions",
+  "derivation": "pipeline.pysme_nlte.nlte_delta (PySME COG, MARCS marcs2012 PP), RYA-545",
+  "lines": [
+    5689.46,
+    5648.565,
+    5662.15
+  ],
+  "solar_delta_median": 0.0506,
+  "nodes": [
+    [
+      5772,
+      4.44,
+      0.0
+    ],
+    [
+      5100,
+      4.44,
+      0.0
+    ],
+    [
+      6200,
+      4.44,
+      0.0
+    ],
+    [
+      5772,
+      4.0,
+      0.0
+    ],
+    [
+      5772,
+      4.7,
+      0.0
+    ],
+    [
+      5772,
+      4.44,
+      -0.3
+    ],
+    [
+      5172,
+      4.43,
+      0.31
+    ],
+    [
+      5100,
+      4.5,
+      0.5
+    ],
+    [
+      6000,
+      4.3,
+      -0.2
+    ],
+    [
+      5772,
+      4.44,
+      0.6
+    ],
+    [
+      5400,
+      4.5,
+      0.5
+    ]
+  ],
+  "supersedes": "Ti_Bergemann2011_MPIA.csv (Bergemann-2011 scaled-Drawin, RYA-546 vintage audit)",
+  "firewall": "derived not tuned; solar node reproduces RYA-544 +0.0506 (RYA-545 corroboration-accept)",
+  "ticket": "RYA-545"
+}

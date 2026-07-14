@@ -6,6 +6,37 @@ section cites its evidence and the ticket that set it.
 
 ---
 
+## Corroboration-accept — registering an ab-initio value past a failed acceptance gate — RYA-544/545
+
+**Decision date:** 2026-07-13 · **Set by:** Ryan (RYA-544 decision comment) · **First invocation:** Ti I (RYA-545).
+
+A NLTE (or other physics) value MAY be registered **despite a FAILED acceptance gate** — but ONLY as a
+**bounded exception** when **all five** of the following hold. This is *not* "accept when the gate is
+inconvenient": a gate that fails because the point estimate is off does **not** qualify.
+
+1. **Derived ab-initio, not tuned** to the gate — the validate-don't-tune firewall is intact (the value
+   was produced by the physics, never fitted to pass).
+2. **Reproduces an external published** result (independent of us).
+3. **≥ 2 independent instruments** corroborate the gate's *point estimate*.
+4. The gate failed on **precision** (wide SEM / measurement floor), **not** on the point estimate being off.
+5. The **incumbent it replaces is confirmed wrong** (independently established).
+
+The failed gate is then recorded as a **documented diagnostic** (why it is precision-limited), not erased and
+not counted as a value defect. The threshold itself is **never lowered** to manufacture a pass.
+
+**Directionality caveat (RYA-546):** this rule licenses *adopting* an externally-corroborated ab-initio value.
+It does **NOT** license *retiring* a correction (e.g. dropping a NLTE grid to LTE) on a weak/precision-limited
+balance — that is the opposite direction and needs its own affirmative evidence.
+
+**First invocation — Ti I (RYA-545):** registered on the Mallinson-2024 ab-initio grid (δ=+0.0506, PySME/MARCS)
+though the ionization-balance gate STOPPED on precision (SEM ~0.12–0.16 on the thin solar Ti pools, 6–7 Ti I /
+3 Ti II). All five held: (1) derived from the grid, firewall intact; (2) reproduces Mallinson-2024 +0.052;
+(3) two blend-aware instruments (PySME full-window blended + production TS synth-EW) agree LTE balance ≈0,
+NLTE ≈+0.05; (4) the gate failed on SEM, not on the estimate (LTE re-graded to ≈0, NLTE dead on the grid);
+(5) the incumbent (Bergemann-2011 scaled-Drawin +0.108) is confirmed inflated ~2× by the RYA-546 vintage audit.
+
+---
+
 ## Hot-Teff NLTE grid coverage (F-star benchmarks: Procyon 6554 K, τ Boo 6400 K) — RYA-505
 
 **Decision date:** 2026-07-02 · **Evidence:** `scripts/nlte_fstar_ceiling_rya505.py`
@@ -44,7 +75,7 @@ genuine real-limit clamp.
 | S  | Amarsi2025 · PySME · MARCS | 6200 | **8000** (prov, 3000–8000) | self-consistent-extend |
 | Ca | Mashonkina2017 · DETAIL · MAFAGS-OS | 6500 | unrecorded (subset) | **self-consistent-extend via Amarsi Ca `.grd`** (staged in `amarsi_galah/`, Family-A) with validate-don't-tune cross-check vs the MAFAGS-OS value |
 | Mn | Bergemann MPIA · DETAIL/SIU · MAFAGS-OS | 6500 | 7000 (nlte.mpia.de survey) | **self-consistent-extend via Amarsi Mn `.grd`** (staged) w/ cross-check |
-| Ti | Bergemann2011 MPIA · MAFAGS-OS | 6500 | 7000 (survey) | MPIA-with-cross-check (near-LTE, low pri) |
+| Ti | **Mallinson2024 · PySME · MARCS** (RYA-545) | 8000 | **8000** (Zenodo 10753497, hull 2500–8000) | **self-consistent-extend** (ab-initio Grumer-Barklem-2020; supersedes Bergemann2011 MPIA, RYA-546; near-LTE, low pri) |
 | Cr | Bergemann2010 MPIA · MAFAGS-OS | 6500 | 7000 (survey) | MPIA-with-cross-check |
 | **Ba** | Korotin2015 · MULTI · MARCS | 6500 | **6500 (REAL LIMIT)** — Korotin2015 prov coverage 4000–6500 | **bounded clamp** (54 K, monotonic) or find a higher-ceiling Ba grid |
 | Sr | Bergemann2012 INSPECT · MARCS (metal-poor) | 6000 | unrecorded | defer (off-critical; INASAN primary pending RYA-433) |
