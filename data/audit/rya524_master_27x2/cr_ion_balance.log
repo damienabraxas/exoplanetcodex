@@ -1,0 +1,533 @@
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:72: FutureWarning: Direct abundance assignment via sme.abund["X"] is ambiguous and kept for backward compatibility. Use sme.abund.A["X"] to set the abundance used in synthesis, or sme.abund.pattern["X"] to set the internal SME pattern.
+  ab = Abund.solar(); ab[element] = a_sun + off; sme.abund = ab
+/mnt/codex-data/codex/rya545/scripts/rya524_ion_balance.py:82: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  ews.append(float(np.trapz(1 - fl[m], w[m]) * 1000.0)); As.append(a_sun + off)
+=== RYA-524 LTE ionization balance — Cr I vs Cr II — MARCS solar, reference-blind ===
+  A(Cr)_sun = 5.62  gate = FE_IONISATION_GATE = 0.05 dex
+
+    Cr I   5609.16  railed (outside COG) — dropped
+    Cr I   5970.69  railed (outside COG) — dropped
+    Cr I   5972.26  railed (outside COG) — dropped
+    Cr I   6522.61  railed (outside COG) — dropped
+    Cr I   6734.20  railed (outside COG) — dropped
+    Cr I   6765.35  railed (outside COG) — dropped
+  Cr I: n=10/16  A_LTE = 6.058  MAD 0.236  SEM 0.114
+         5220.89  A_LTE = 6.332
+         5238.96  A_LTE = 5.691
+         5842.54  A_LTE = 6.224
+         6630.01  A_LTE = 5.617
+         6657.59  A_LTE = 6.687
+         6661.07  A_LTE = 5.954
+         6669.28  A_LTE = 5.861
+         6680.28  A_LTE = 6.070
+         6729.73  A_LTE = 6.633
+         6882.51  A_LTE = 6.046
+    Cr II   6053.47  railed (outside COG) — dropped
+  Cr II: n=1/2  A_LTE = 5.957  MAD 0.000  SEM nan
+         4588.20  A_LTE = 5.957
+
+  A(Cr I)_LTE = 6.058 (n10, SEM 0.114)   A(Cr II)_LTE = 5.957 (n1, SEM nan)
+  LTE ionization balance A(Cr I) - A(Cr II) = +0.102  (gate |.| < 0.05)
+
+  --- classification ---
+  STOP-PRECISION-LIMITED: max SEM 0.114 NOT << 0.05 (thin pool: Cr I n10 / Cr II n1). Cannot certify a retire on an uncertain balance (RYA-546 Cr gate discipline). Flag for Ryan.
