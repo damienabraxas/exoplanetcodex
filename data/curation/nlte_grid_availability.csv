@@ -1,5 +1,5 @@
 element,subsystem,grid_file,present,wired,role,source_if_absent,note
-Fe,fe-nlte,Fe_Bergemann_MPIA.csv,True,True,production,,"ionization-balance-gated Fe leg (validated, RYA-407)"
+Fe,fe-nlte,Fe_Bergemann_MPIA.csv,True,True,production,,"ionization-balance-gated Fe leg (validated, RYA-407); RYA-319 deliberate choice for full-benchmark-box coverage (Amarsi-2022-NN ceilings [Fe/H]<=0/Teff<=6500 -> archived); RYA-549 forensic: code=register=matrix, NLTE delta TINY (+0.010 solar/+0.004 55Cnc), NOT the Ti/Mn/Cr inflated class"
 Ca,registry-nlte,Ca_Mashonkina2017.csv,True,True,production,,ion 1; applied in default run
 Ti,registry-nlte,Ti_Bergemann2011_MPIA.csv,True,True,production,,ion 1; applied in default run
 Cr,registry-nlte,Cr_Bergemann2010_MPIA.csv,True,True,production,,ion 1; applied in default run
