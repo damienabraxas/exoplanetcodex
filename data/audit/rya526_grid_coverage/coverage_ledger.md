@@ -63,8 +63,8 @@ on Sirius only (never the Mac).
 
 | El | NLTE grid situation | Route | Ticket |
 |----|---------------------|-------|--------|
-| **Li** | Amarsi 2020 GALAH grid **AVAILABLE** (Zenodo 3982506 `nlte_Li_scatt_pysme.tar.gz`, 378 MB; on Sirius amarsi_galah). | Acquire → PySME-derive CSV → wire; measurement is synthesis (Li I 6707 is CN-molecular-blended, RYA-103) — HFS/synth, not EW. | 103/458 |
-| **Cu** | Grid **EXISTS** (Caliskan 2024 `nlte_Cu_caliskan_Oct2024_pysme.grd`, registered in `pysme_nlte`); no production CSV yet. | Route = HFS-resolved synthesis + RYA-402 b-factor NLTE (RYA-466); Cu is NOT an EW-pool element (over-saturated HFS core). Derive CSV when the synthesis measurement lands. | 402/466 |
+| **Li** | Grid staged on Sirius (`nlte_Li_scatt_pysme.grd` 7.6 GB). **RYA-540: PySME derivation ATTEMPTED** (`scripts/wire_li_cu_rya540.py`) → solar δ = **−0.030**, does **NOT** reproduce the Lind-2009 small-positive anchor (sign discrepancy; the grid J-label resolves oddly as J0→0). **NOT wired** (validate-don't-tune STOP). | Li I 6707 resonance+CN-blend derivation needs the dedicated ticket; not EW. | 103/458 |
+| **Cu** | **RYA-540: DONE (grid).** Grid absent on disk but the prov pins a Zenodo DOI (15062813 v6) — re-acquired (md5 d6fce44e VERIFIED), PySME-derived `Cu_Caliskan2024_PySME.csv` (Cu I 5782 solar δ **+0.001** = Shi-2014), **REGISTERED** (PENDING-OK: registered grid, verdict stays GET-DATA). | Grid half complete + registered. Promotion to LOCKED still owed to **measured-line quality** (RYA-395: 5105/5218/5782). | 395/466 |
 
 ---
 

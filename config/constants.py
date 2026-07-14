@@ -830,6 +830,13 @@ NLTE_CORRECTION_ELEMENTS = {
                  'N I red triplet 7468/8216/8683 high-excitation atomic; RYA-369 strategy / RYA-526 '
                  'PySME-derived deltas (solar reproduces the RYA-369 load-test)',
           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    'Cu': {'ion': 1, 'grid': 'Cu_Caliskan2024_PySME.csv',
+           'ref': 'Caliskan et al. 2024 Cu I/II model atom, Amarsi PySME departure grid '
+                  '(Zenodo 15062813 v6); RYA-540 PySME-derived deltas (Cu I 5782; solar '
+                  '+0.001 reproduces Shi et al. 2014 small-positive optical Cu). Grid '
+                  'registered/available, but Cu production stays GET-DATA — held on '
+                  'measured-line QUALITY (RYA-395), NOT the grid.',
+           'flag': 'NLTE_Caliskan2024_PySME_1D'},
 }
 
 # ── Sr II resonance-doublet line discipline (RYA-421 Step 4) ──────────────────
