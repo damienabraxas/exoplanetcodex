@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-473",
   "star": "solar",
-  "generated": "2026-06-29",
+  "generated": "2026-07-13",
   "engine": "pipeline.cno_synthesis._fit_element (synthesis v2, RYA-338) on GESv6_atom_hfs_iso (HFS-resolved); Turbospectrum 1D-LTE flux fit",
   "params": {
     "teff_K": 5772.0,
@@ -34,38 +34,38 @@
         "gf_matches_dh": true
       }
     },
-    "A_lte_median": 5.446,
-    "A_lte_mean": 5.357,
+    "A_lte_median": 5.442,
+    "A_lte_mean": 5.355,
     "scatter": 0.154,
     "n_lines": 3,
     "nlte_delta": 0.024,
     "nlte_live": true,
     "nlte_source": "Amarsi GALAH PySME Mn HFS-resolved delta on the 6013/16/21 triplet (live, RYA-411 path); line-exact, NOT the MPIA high-EP value.",
-    "A_nlte": 5.47,
+    "A_nlte": 5.466,
     "asplund2021": 5.42,
-    "delta_vs_asplund": 0.05,
+    "delta_vs_asplund": 0.046,
     "per_line": [
       {
         "line": 6013.51,
         "A_X": 5.447,
-        "red_chi2": 119.535,
+        "red_chi2": 120.621,
         "sigma_fit": 0.006,
         "n_pix": 80,
         "status": "ok"
       },
       {
         "line": 6016.67,
-        "A_X": 5.179,
-        "red_chi2": 125.368,
-        "sigma_fit": 0.012,
+        "A_X": 5.177,
+        "red_chi2": 126.948,
+        "sigma_fit": 0.011,
         "n_pix": 80,
         "status": "ok"
       },
       {
         "line": 6021.82,
-        "A_X": 5.446,
-        "red_chi2": 118.218,
-        "sigma_fit": 0.01,
+        "A_X": 5.442,
+        "red_chi2": 119.402,
+        "sigma_fit": 0.012,
         "n_pix": 80,
         "status": "ok"
       }

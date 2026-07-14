@@ -700,9 +700,24 @@ NLTE_CORRECTION_ELEMENTS = {
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '20.01'},
-    'Ti': {'ion': 1, 'grid': 'Ti_Bergemann2011_MPIA.csv',
-           'ref': 'Bergemann 2011 (MNRAS 413, 2184), MPIA MAFAGS-OS 1D NLTE',
-           'mpia_species': '22.01'},
+    # Ti I — RYA-545 wired the Mallinson-2024 ab-initio grid (STOP->GO corroboration-accept,
+    # Ryan 2026-07-13). SUPERSEDES Ti_Bergemann2011_MPIA.csv: RYA-542/544/546 established that
+    # the old MAFAGS-OS +0.108 (and Engine-B MARCS +0.20) were BOTH inflated ~2x by the outdated
+    # Bergemann-2011 scaled-Drawin H-collision atom (atom.ti503b). The correct ab-initio value
+    # (Grumer-Barklem-2020 collisions, Mallinson-2024) is +0.052; our PySME/MARCS derivation
+    # reproduces +0.0506 (RYA-544), corroborated by two independent blend-aware ionization-balance
+    # instruments (RYA-545: LTE Ti I/II balance ~0, NLTE ~+0.05). Certified by corroboration-accept
+    # (SCIENCE_STANDARDS five-criteria rule), NOT the <0.05 ionization gate (which is precision-
+    # limited on our thin solar Ti pools — a documented diagnostic, not a value defect). The old
+    # Ti_Bergemann2011_MPIA.csv is retained (v1 immutable) but FLAGGED superseded (scaled-Drawin,
+    # RYA-546 vintage audit). v1 frozen A(Ti) 5.471 stays; this sets the forward/v2 correction.
+    'Ti': {'ion': 1, 'grid': 'Ti_Mallinson2024_PySME.csv',
+           'ref': 'Mallinson et al. 2024 (A&A 687, A5), ab-initio Grumer-Barklem-2020 H collisions, '
+                  'PySME departure grid (Zenodo 10753497, DOI 10.5281/zenodo.10753497); RYA-545 '
+                  'PySME/MARCS-derived per-line deltas (Ti I 5689/5648/5662, solar median +0.0506, '
+                  'reproduces the published +0.052); corroboration-certified (two-instrument, RYA-545). '
+                  'Supersedes Ti_Bergemann2011_MPIA.csv (Bergemann-2011 scaled-Drawin, inflated ~2x, RYA-546).',
+           'flag': 'NLTE_Mallinson2024_PySME_1D'},
     'Cr': {'ion': 1, 'grid': 'Cr_Bergemann2010_MPIA.csv',
            'ref': 'Bergemann & Cescutti 2010 (A&A 522, A9), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '24.01'},
@@ -747,18 +762,23 @@ NLTE_CORRECTION_ELEMENTS = {
                   'MARCS grids (INASAN [Fe/H] -5..-2; Bergemann -3..0); published agreement '
                   '~0.15 dex (our cross-check pending the pull). Sr II 4077/4215 doublet (RYA-421/433)',
            'flag': 'NLTE_Bergemann2012_INSPECT_1D'},
-    # Mn I — STAYS on MPIA. RYA-411 RESOLVED the RYA-410 STOP (+0.018 vs +0.107). Built an
-    # HFS-resolved synthesis (pysme_nlte _synth_ew RYA-411) and ran the probes: HFS-collapse
-    # was real but MINOR (the 6013/6016/6021 triplet only moves +0.018 -> +0.024 HFS-
-    # resolved); the harness had also picked the wrong (low-EP) lines. The DECISIVE test —
-    # same lines as MPIA (4998/6304/6306/6867), HFS-resolved — still gives Amarsi-2020
-    # ~+0.05 (clean lines 6304/6306/6867 = +0.048/+0.049/+0.058) vs MPIA/Bergemann +0.107.
-    # So the residual is a GENUINE Amarsi-2020-vs-Bergemann Mn model-atom difference (~2x),
-    # not HFS/line-set. The dedicated Mn-NLTE literature (Bergemann & Gehren 2008) supports
-    # the larger correction -> KEEP MPIA (do not adopt the smaller survey-grid value just to
-    # close the clamp = would be tuning). Mn stays clamped-but-loud at 55 Cnc (RYA-409).
-    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',
-           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Mn I; cf. Bergemann & Gehren 2008, A&A 492, 823)',
+    # Mn I — SOLAR value now on the ab-initio triplet-exact δ (RYA-546 re-derivation). The
+    # RYA-411 "keep MPIA (+0.107)" decision is REVERSED: RYA-411 kept the larger value trusting
+    # the "dedicated Mn literature (Bergemann & Gehren 2008)", but RYA-546's H-collision vintage
+    # audit showed B&Gehren-2008 IS the outdated scaled-DRAWIN inelastic-H recipe, which inflates
+    # the over-ionization correction — the exact defect Ti found (RYA-542/544). The Amarsi-2020
+    # GALAH grid uses ab-initio (Barklem/Grumer) H collisions; on the low-EP Den Hartog triplet
+    # 6013/16/21 (the measured solar Mn lines, RYA-473 — these NaN on the MPIA high-EP grid) the
+    # LIVE Amarsi HFS-resolved δ = +0.024 (per-line +0.030/+0.024/+0.017), corroborated by the
+    # RYA-534 Engine-B TS-Gerber ab-initio δ +0.043 — both << the scaled-Drawin +0.107. Solar
+    # A(Mn)_NLTE = 5.466 (+0.046 vs Asplund 5.42) → PASS (was 5.554 on the +0.107 high-EP
+    # mismatch). Closes RYA-411. The grid pointer below still serves the (unused-for-Mn, HFS-
+    # bypassed) EW-path + other stars; a production repoint to an Amarsi Mn δ-grid is the
+    # RYA-527 fan-out follow-on. The +0.107 MPIA value is SUPERSEDED for the solar Mn gold.
+    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',   # SUPERSEDED for solar (RYA-546); EW-path only
+           'ref': 'SOLAR: Amarsi-2020 GALAH ab-initio HFS-resolved triplet δ +0.024 (RYA-546); '
+                  'EW-path grid: Bergemann group MPIA MAFAGS-OS scaled-Drawin (B&Gehren 2008) '
+                  '+0.107 = SUPERSEDED, repoint = RYA-527 fan-out',
            'mpia_species': '25.01'},
     # Si I — RYA-410: re-sourced onto the Amarsi-2020 PySME grid (closes the 55 Cnc
     # clamp). Cross-check PASSED (-0.013 vs MPIA -0.004). Si NLTE negligible in FGK.

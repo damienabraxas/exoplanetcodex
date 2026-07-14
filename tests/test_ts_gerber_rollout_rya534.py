@@ -16,16 +16,20 @@ _ROLLOUT = Path(__file__).resolve().parents[1] / 'data' / 'audit' / 'rya534_fami
 _RESULTS = sorted(_ROLLOUT.glob('*_gate_result.txt')) if _ROLLOUT.exists() else []
 
 
-# Elements with an OPEN RCA — the gate CHECKs and the cause is unresolved, so the element
-# must NOT contribute to a green board. It is xfail (loud, strict) until the RCA closes.
-# Ti (RYA-535): +0.221 vs Bergemann-2011 +0.107 is a SAME-ATOM systematic — Engine-A
-# (MPIA Bergemann-2011, MAFAGS-OS) and Engine-B (TS-Gerber, MARCS) use the SAME atom
-# (Gerber 2023 Table 1 lists Ti = Bergemann 2011; atom.ti503b just ships it). Encoding it
-# as an allowed "model-atom-difference pass" is a silent fallback; this test fails loud
-# (xfail) until RYA-535 localizes the cause (atmosphere / interpolation / downstream).
+# Elements that must NOT contribute to a green board here, kept as loud strict-xfail.
+# Ti: the RCA is now CLOSED (RYA-542/544/546) — the +0.22 this Engine-B TS-Gerber deck
+# produces is the outdated Bergemann-2011 SCALED-DRAWIN atom (`atom.ti503b`), inflated ~2x
+# over the correct ab-initio ~+0.05 (Grumer-Barklem-2020). Ti's PRODUCTION NLTE is now
+# registered on the Engine-A Mallinson-2024 grid (+0.0506, RYA-545, corroboration-accept).
+# But THIS gate exercises the Engine-B TS-Gerber deck, which STILL ships the outdated atom,
+# so it honestly CHECKs — asserting a PASS would falsely certify the TS-Gerber Ti deck.
+# Stays strict-xfail (Engine-B Ti atom is superseded, not validated) until a follow-on swaps
+# the TS-Gerber Ti atom to an ab-initio one — a firewall-clean flag, not a silent fallback.
 _OPEN_RCA_REASON = {
-    'Ti': "Ti unresolved same-atom systematic — RYA-535 RCA open (+0.221 vs +0.107, "
-          "same Bergemann-2011 atom). Not a pass; fails loud until localized.",
+    'Ti': "Ti Engine-B TS-Gerber leg still on the outdated atom.ti503b (Bergemann-2011 "
+          "scaled-Drawin) -> +0.22, KNOWN-inflated ~2x (RYA-546). Production Ti NLTE is "
+          "registered on Engine-A Mallinson-2024 ab-initio (+0.0506, RYA-545); this TS-Gerber "
+          "deck is superseded, not validated. Not a pass until the Engine-B Ti atom is swapped (RYA-548).",
 }
 
 

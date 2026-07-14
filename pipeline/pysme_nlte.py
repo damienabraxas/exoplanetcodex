@@ -96,11 +96,26 @@ NLTE_LINES = {
         (8216.34, 0.138, 10.336, 2.5, 11.845, 2.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4P*', 496.229),
         (8683.40, 0.105, 10.330, 1.5, 11.758, 2.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4D*', 480.231),
     ],
+    # Ti I diagnostic triplet 5689/5648/5662 (3d2.(3F).4s.4p z-levels -> 3d2.4s.(4F).5s e-levels),
+    # the RYA-542/534 GES-identified clean lines that overlap the grid. Grid = Mallinson-2024
+    # (Zenodo 10753497, ab-initio Grumer-Barklem-2020 H collisions), the correct replacement for
+    # the outdated Bergemann-2011 scaled-Drawin atom (RYA-544/546). Labels are resolved by ENERGY
+    # from the grid's shipped NIST table label_Ti.txt (NOT auto_labels): our Amarsi-format .grd
+    # reader mis-parses the Mallinson grid's internal level array (same v1.10 container, different
+    # layout), so we freeze the energy-matched grid-native labels here; PySME's native set_nlte
+    # reads the .grd departures directly (RYA-544). Solar delta +0.0506 (per-line +0.050/054/051),
+    # reproduces Mallinson-2024 +0.052 — corroboration-certified, RYA-545. gamvw = ABO (GES).
+    'Ti': [
+        (5689.460, -0.360, 2.297, 2.0, 4.476, 3.0, '3d2.(3F).4s.4p.(3P*) z5D*', '3d2.4s.(4F).5s e5F', 794.242),
+        (5648.565, -0.161, 2.495, 3.0, 4.690, 4.0, '3d2.(3F).4s.4p.(3P*) z3D*', '3d2.4s.(4F).5s e3F', 926.229),
+        (5662.150,  0.010, 2.318, 4.0, 4.508, 5.0, '3d2.(3F).4s.4p.(3P*) z5D*', '3d2.4s.(4F).5s e5F', 808.240),
+    ],
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
 _A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12, 'N': 7.83,
-          'Li': 1.05}   # RYA-540: Li I 6707 (Amarsi-2020 GALAH grid)
+          'Li': 1.05,   # RYA-540: Li I 6707 (Amarsi-2020 GALAH grid)
+          'Ti': 4.97}   # RYA-545: Ti I 5689/5648/5662 (Mallinson-2024)
 
 _GRID_FILENAME = {
     'Na': 'nlte_Na_scatt_pysme.grd', 'Al': 'nlte_Al_scatt_pysme.grd',
@@ -110,6 +125,8 @@ _GRID_FILENAME = {
     # RYA-409 Part B re-source (v3 Amarsi-2020 grids, [Fe/H] -> +1):
     'Mg': 'nlte_Mg_scatt_pysme.grd', 'Si': 'nlte_Si_scatt_pysme.grd',
     'Ca': 'nlte_Ca_scatt_pysme.grd', 'Mn': 'nlte_Mn_scatt_pysme.grd',
+    # RYA-545: Mallinson-2024 Ti grid (Zenodo 10753497, ab-initio; supersedes Bergemann-2011).
+    'Ti': 'nlte_Ti_pysme.grd',
 }
 _REPO = Path(__file__).resolve().parents[1]
 _GRID_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
@@ -233,13 +250,36 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
 
 def _Z(el):
     return {'Li': 3, 'N': 7, 'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16,
-            'K': 19, 'Ca': 20, 'Mn': 25, 'Cu': 29}[el]
+            'K': 19, 'Ca': 20, 'Ti': 22, 'Mn': 25, 'Cu': 29}[el]
+
+
+def assert_in_grid_hull(element: str, star: dict) -> dict:
+    """RYA-546 (Addition B): HARD-FAIL if the star's (Teff, logg, [Fe/H]) falls outside the
+    element's departure-grid coverage — no silent extrapolation off the boundary. The grids
+    are axis-rectangular (Teff × logg × [Fe/H] node vectors) so the bounding box IS the hull.
+    Solar is safely in-hull; metal-rich/cool targets (55 Cnc A [Fe/H]=+0.32, alpha Cen A) ride
+    the edge, so this guard keeps a later target run from extrapolating and returning a
+    plausible-looking wrong δ. Returns the coverage bounds (logged by the caller)."""
+    from pipeline.nlte_bfactor_synth import read_amarsi_grid
+    g = read_amarsi_grid(element)
+    axes = {'teff': (float(np.min(g.teff)), float(np.max(g.teff))),
+            'logg': (float(np.min(g.logg)), float(np.max(g.logg))),
+            'feh':  (float(np.min(g.feh)),  float(np.max(g.feh)))}
+    pt = {'teff': float(star['teff']), 'logg': float(star['logg']), 'feh': float(star['feh'])}
+    oob = {k: (pt[k], axes[k]) for k in axes if not (axes[k][0] <= pt[k] <= axes[k][1])}
+    if oob:
+        raise ValueError(
+            f"{element}: star {pt} is OUTSIDE the NLTE grid hull on {list(oob)} — bounds {oob}. "
+            f"Refusing to extrapolate off the grid boundary (RYA-546 Addition B: no silent "
+            f"extrapolation). Acquire a wider grid or exclude this target.")
+    return axes
 
 
 def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     """Per-line NLTE abundance correction delta = A(NLTE) - A(LTE) via PySME, plus
     the median. Uses per-element derivation options (_DERIV_OPTS) — wide EW window +
-    bracket for saturated lines (K). Raises if the element has no diagnostic lines."""
+    bracket for saturated lines (K). Raises if the element has no diagnostic lines.
+    RYA-546 Addition B: hard-fails if the star node is outside the grid hull."""
     if element not in NLTE_LINES:
         raise KeyError(f"No NLTE diagnostic lines registered for {element} "
                        f"(have {list(NLTE_LINES)}). Add them from the grid level labels.")
@@ -247,6 +287,9 @@ def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     offs = offs if offs is not None else opts['offs']
     ew_hw = opts['ew_hw']
     star = star or {'teff': 5772, 'logg': 4.44, 'feh': 0.0, 'vmic': 1.0}
+    _bounds = assert_in_grid_hull(element, star)   # RYA-546 Addition B — no silent extrapolation
+    print(f"  [in-hull guard {element}] star ok; grid coverage Teff{_bounds['teff']} "
+          f"logg{_bounds['logg']} [Fe/H]{_bounds['feh']}")
     lines = NLTE_LINES[element]
     grid = _spacefree_grid(element)
     ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid, ew_hw=ew_hw)
@@ -283,6 +326,7 @@ _ANCHOR = {
     # gives ~0 to +0.03 dex at solar params. Loose band — the large Li NLTE lives in warm
     # metal-poor stars, not the solar weak-line regime.
     'Li': (0.02, 0.05, 'Lind, Asplund & Barklem 2009 (A&A 503, A541) INSPECT: solar Li I 6707 weak-line NLTE small positive (~0..+0.03)'),
+    'Ti': (0.052, 0.03, 'Mallinson et al. 2024 (A&A 687 A5) ab-initio Grumer-Barklem-2020 H collisions, ionization-balance-validated solar Ti I +0.052 (Mallinson 2022 +0.03 / Sitnova 2020 +0.03); our PySME/MARCS derivation reproduces +0.0506, RYA-544/545)'),
 }
 
 
