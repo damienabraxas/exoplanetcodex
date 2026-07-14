@@ -700,9 +700,24 @@ NLTE_CORRECTION_ELEMENTS = {
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '20.01'},
-    'Ti': {'ion': 1, 'grid': 'Ti_Bergemann2011_MPIA.csv',
-           'ref': 'Bergemann 2011 (MNRAS 413, 2184), MPIA MAFAGS-OS 1D NLTE',
-           'mpia_species': '22.01'},
+    # Ti I — RYA-545 wired the Mallinson-2024 ab-initio grid (STOP->GO corroboration-accept,
+    # Ryan 2026-07-13). SUPERSEDES Ti_Bergemann2011_MPIA.csv: RYA-542/544/546 established that
+    # the old MAFAGS-OS +0.108 (and Engine-B MARCS +0.20) were BOTH inflated ~2x by the outdated
+    # Bergemann-2011 scaled-Drawin H-collision atom (atom.ti503b). The correct ab-initio value
+    # (Grumer-Barklem-2020 collisions, Mallinson-2024) is +0.052; our PySME/MARCS derivation
+    # reproduces +0.0506 (RYA-544), corroborated by two independent blend-aware ionization-balance
+    # instruments (RYA-545: LTE Ti I/II balance ~0, NLTE ~+0.05). Certified by corroboration-accept
+    # (SCIENCE_STANDARDS five-criteria rule), NOT the <0.05 ionization gate (which is precision-
+    # limited on our thin solar Ti pools — a documented diagnostic, not a value defect). The old
+    # Ti_Bergemann2011_MPIA.csv is retained (v1 immutable) but FLAGGED superseded (scaled-Drawin,
+    # RYA-546 vintage audit). v1 frozen A(Ti) 5.471 stays; this sets the forward/v2 correction.
+    'Ti': {'ion': 1, 'grid': 'Ti_Mallinson2024_PySME.csv',
+           'ref': 'Mallinson et al. 2024 (A&A 687, A5), ab-initio Grumer-Barklem-2020 H collisions, '
+                  'PySME departure grid (Zenodo 10753497, DOI 10.5281/zenodo.10753497); RYA-545 '
+                  'PySME/MARCS-derived per-line deltas (Ti I 5689/5648/5662, solar median +0.0506, '
+                  'reproduces the published +0.052); corroboration-certified (two-instrument, RYA-545). '
+                  'Supersedes Ti_Bergemann2011_MPIA.csv (Bergemann-2011 scaled-Drawin, inflated ~2x, RYA-546).',
+           'flag': 'NLTE_Mallinson2024_PySME_1D'},
     'Cr': {'ion': 1, 'grid': 'Cr_Bergemann2010_MPIA.csv',
            'ref': 'Bergemann & Cescutti 2010 (A&A 522, A9), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '24.01'},

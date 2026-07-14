@@ -96,10 +96,24 @@ NLTE_LINES = {
         (8216.34, 0.138, 10.336, 2.5, 11.845, 2.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4P*', 496.229),
         (8683.40, 0.105, 10.330, 1.5, 11.758, 2.5, '2s2.2p2.(3P).3s    4P', '2s2.2p2.(3P).3p    4D*', 480.231),
     ],
+    # Ti I diagnostic triplet 5689/5648/5662 (3d2.(3F).4s.4p z-levels -> 3d2.4s.(4F).5s e-levels),
+    # the RYA-542/534 GES-identified clean lines that overlap the grid. Grid = Mallinson-2024
+    # (Zenodo 10753497, ab-initio Grumer-Barklem-2020 H collisions), the correct replacement for
+    # the outdated Bergemann-2011 scaled-Drawin atom (RYA-544/546). Labels are resolved by ENERGY
+    # from the grid's shipped NIST table label_Ti.txt (NOT auto_labels): our Amarsi-format .grd
+    # reader mis-parses the Mallinson grid's internal level array (same v1.10 container, different
+    # layout), so we freeze the energy-matched grid-native labels here; PySME's native set_nlte
+    # reads the .grd departures directly (RYA-544). Solar delta +0.0506 (per-line +0.050/054/051),
+    # reproduces Mallinson-2024 +0.052 — corroboration-certified, RYA-545. gamvw = ABO (GES).
+    'Ti': [
+        (5689.460, -0.360, 2.297, 2.0, 4.476, 3.0, '3d2.(3F).4s.4p.(3P*) z5D*', '3d2.4s.(4F).5s e5F', 794.242),
+        (5648.565, -0.161, 2.495, 3.0, 4.690, 4.0, '3d2.(3F).4s.4p.(3P*) z3D*', '3d2.4s.(4F).5s e3F', 926.229),
+        (5662.150,  0.010, 2.318, 4.0, 4.508, 5.0, '3d2.(3F).4s.4p.(3P*) z5D*', '3d2.4s.(4F).5s e5F', 808.240),
+    ],
 }
 
 # Solar A(X) reference (Asplund 2021) for the COG zero point.
-_A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12, 'N': 7.83}
+_A_SUN = {'Na': 6.24, 'Al': 6.43, 'K': 5.07, 'Cu': 4.18, 'S': 7.12, 'N': 7.83, 'Ti': 4.97}
 
 _GRID_FILENAME = {
     'Na': 'nlte_Na_scatt_pysme.grd', 'Al': 'nlte_Al_scatt_pysme.grd',
@@ -108,6 +122,8 @@ _GRID_FILENAME = {
     # RYA-409 Part B re-source (v3 Amarsi-2020 grids, [Fe/H] -> +1):
     'Mg': 'nlte_Mg_scatt_pysme.grd', 'Si': 'nlte_Si_scatt_pysme.grd',
     'Ca': 'nlte_Ca_scatt_pysme.grd', 'Mn': 'nlte_Mn_scatt_pysme.grd',
+    # RYA-545: Mallinson-2024 Ti grid (Zenodo 10753497, ab-initio; supersedes Bergemann-2011).
+    'Ti': 'nlte_Ti_pysme.grd',
 }
 _REPO = Path(__file__).resolve().parents[1]
 _GRID_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
@@ -228,7 +244,7 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
 
 def _Z(el):
     return {'N': 7, 'Na': 11, 'Mg': 12, 'Al': 13, 'Si': 14, 'S': 16, 'K': 19,
-            'Ca': 20, 'Mn': 25, 'Cu': 29}[el]
+            'Ca': 20, 'Ti': 22, 'Mn': 25, 'Cu': 29}[el]
 
 
 def assert_in_grid_hull(element: str, star: dict) -> dict:
@@ -299,6 +315,7 @@ _ANCHOR = {
     'Cu': (0.01, 0.05, 'Shi et al. 2014 (small positive ~+0.02 for optical Cu I in the Sun; approximate band)'),
     'S':  (-0.04, 0.07, 'Amarsi et al. 2025 (A&A 703 A35, grid source) / Takeda 2005: optical high-excitation S I (6757 mult-8) small negative, 0 to ~-0.1'),
     'K':  (-0.27, 0.10, 'Reggiani et al. 2019 (A&A 627 A177) / Andrievsky et al. 2006: K I 7665/7699 resonance, severe negative NLTE (line stronger in NLTE); solar ~-0.2..-0.3'),
+    'Ti': (0.052, 0.03, 'Mallinson et al. 2024 (A&A 687 A5) ab-initio Grumer-Barklem-2020 H collisions, ionization-balance-validated solar Ti I +0.052 (Mallinson 2022 +0.03 / Sitnova 2020 +0.03); our PySME/MARCS derivation reproduces +0.0506, RYA-544/545)'),
 }
 
 
