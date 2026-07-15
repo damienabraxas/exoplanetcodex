@@ -766,7 +766,10 @@ NLTE_CORRECTION_ELEMENTS = {
                   'endpoint WAF-BLOCKED (403) to all programmatic clients -> MANUAL PULL OWED '
                   '(see data/nlte_grids/Sr_Mashonkina2022_INASAN.PENDING.md). Both are metal-poor '
                   'MARCS grids (INASAN [Fe/H] -5..-2; Bergemann -3..0); published agreement '
-                  '~0.15 dex (our cross-check pending the pull). Sr II 4077/4215 doublet (RYA-421/433)',
+                  '~0.15 dex (our cross-check pending the pull). Sr II 4077/4215 doublet (RYA-421/433). '
+                  'RYA-551: Sr II MEASURED via Turbospectrum synthesis (delta applied to 4077/4215 only; '
+                  '4161/4305 NLTE_unavailable, LTE, corr ~0 at solar). Chosen lines: 4077 primary, '
+                  '4215+4161 cross-check, 4305 excluded (see SR2_LINES).',
            'flag': 'NLTE_Bergemann2012_INSPECT_1D'},
     # Mn I — SOLAR value now on the ab-initio triplet-exact δ (RYA-546 re-derivation). The
     # RYA-411 "keep MPIA (+0.107)" decision is REVERSED: RYA-411 kept the larger value trusting
@@ -845,18 +848,28 @@ NLTE_CORRECTION_ELEMENTS = {
            'flag': 'NLTE_Caliskan2024_PySME_1D'},
 }
 
-# ── Sr II resonance-doublet line discipline (RYA-421 Step 4) ──────────────────
-# Sr II 4215 is blended by an Fe I line (Bergemann 2012a) — the blend grows toward
-# cool stars. Per-line role by stellar temperature, enforced at measurement/loader
-# time so a known-blended line is NEVER silently averaged into a cool-star Sr abundance:
-#   - Sun / warm (tau Boo): BOTH 4077 + 4215 usable.
-#   - COOL (55 Cnc, G8V, Teff<~5300): 4077 PRIMARY; 4215 cross-check-only or DROPPED.
+# ── Sr II line-selection decision (RYA-430, from the RYA-551 synthesis run) ────
+# Decided on SENSITIVITY + COVERAGE (never proximity to Asplund; validate-don't-tune).
+# Turbospectrum synthesis A(Sr II) + fit sensitivity (dEW/dA) per line, solar:
+#   4077.709 : A_NLTE 2.77(HARPS)/2.74(IAG), dEW/dA 203 mA/dex, NLTE delta -0.004 -> PRIMARY
+#   4215.519 : A_NLTE 2.72/2.67,  dEW/dA 128, NLTE delta -0.006, Fe I blend -> CROSS-CHECK (cool-star caution)
+#   4161.792 : A_LTE  2.73/2.71,  dEW/dA  36 (cleanest fit), NLTE_unavailable (corr ~0) -> CROSS-CHECK (LTE)
+#   4305.443 : railed, dEW/dA 0.2 mA/dex (no abundance sensitivity) -> EXCLUDED (not an abundance line)
+# 4077 wins on sensitivity AND coverage; the subordinate lines RYA-430 raised are NOT
+# promoted over it (4161 = usable LTE cross-check; 4305 = excluded). Sr II is measured by
+# SYNTHESIS, not EW (registered synthesis-required, RYA-520/551); the naive EW is an artifact.
 SR2_LINES = {
-    'primary':    [4077.709],            # clean resonance line, all targets
-    'crosscheck': [4215.519],            # Fe I-blended -> cool-star caution
+    'primary':    [4077.709],                    # highest sensitivity, NLTE-covered, resonance
+    'crosscheck': [4215.519, 4161.792],          # 4215 Fe I-blended (cool-star caution); 4161 clean LTE
+    'excluded':   [4305.443],                    # zero abundance sensitivity (RYA-551 synthesis fit railed)
 }
 SR2_COOLSTAR_TEFF_K = 5300.0             # below this, 4215 is cross-check-only/dropped
 SR2_4215_BLEND = 'Fe I (Bergemann 2012a); avoid in cool stars'
+# Solar synthesis measurement (RYA-551, validate-don't-tune; carries a ~0.05-0.1 dex
+# near-UV-synthesis systematic — high red-chi2, MARCS nearest-node, broadening approx):
+SR2_A_SYNTH_SOLAR = {'primary_line': 4077.709, 'A_NLTE_harps': 2.769, 'A_NLTE_iag': 2.740,
+                     'engineB_A_LTE': 2.773, 'engineA_A_NLTE': 2.769,   # RYA-525 two-engine
+                     'reported_A_range': [2.67, 2.77], 'reference': 'data/results/sr2_synthesis_rya551.json'}
 
 # ── 3D abundance corrections — the metal 3D leg (RYA-399) ─────────────────────
 # RYA-400 routed Si/Ti/Cr as "3D-owed". This registry holds the 3D DIMENSIONAL
