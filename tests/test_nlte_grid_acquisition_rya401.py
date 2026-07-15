@@ -75,16 +75,20 @@ def test_s_indicator_decision_is_optical():
     assert '6743' in s['indicator_decision'] or '6757' in s['indicator_decision']
 
 
-def test_sr_ion_mismatch_grid_resolved_measurement_owed():
-    # RYA-421 resolved the Sr ion mismatch at the GRID level (Sr II 4077/4215 NLTE grid
-    # fetched + registered). RYA-428: that is NOT "handled" — the Sr II MEASUREMENT is owed,
-    # so the verdict stays GET-DATA-pending, not LOCKED (registration != measurement).
+def test_sr_ion_mismatch_resolved_synthesis_measured_pending_freeze():
+    # RYA-421 resolved the Sr ion mismatch at the GRID level (Sr II 4077/4215 NLTE grid).
+    # RYA-551 then COMPLETED the Sr II measurement via Turbospectrum synthesis (RYA-421
+    # Step 1). Sr II is now synthesis-required (raw EW suppressed, RYA-520 class) and stays
+    # OUT of the EW pool by design; the verdict stays GET-DATA (not LOCKED) pending the
+    # RYA-527 two-engine production freeze.
     sr = MAP['Sr']
     assert sr['ion'] == 'II' and sr['verdict'] == 'GET-DATA'
     assert 'Sr' in NLTE_CORRECTION_ELEMENTS and NLTE_CORRECTION_ELEMENTS['Sr']['ion'] == 2
     assert 'RYA-421' in sr['rya401']['outcome']
-    assert 'OWED' in sr['rya401']['outcome'] or 'owed' in sr['rya401']['outcome'].lower()
-    assert 'measurement' in sr['rya401']['outcome'].lower()   # Step-1 measurement owed, recorded
+    out = sr['rya401']['outcome']
+    assert 'RYA-551' in out and 'MEASURED' in out          # synthesis measurement recorded
+    assert 'RYA-527' in out                                 # production freeze pending
+    assert 'synthesis' in out.lower()
 
 
 def test_k_cross_refs_rya380_not_resolved_here():

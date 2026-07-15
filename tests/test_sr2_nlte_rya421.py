@@ -46,5 +46,9 @@ def test_feh_ceiling_flag_metal_rich_out_of_hull():
 
 def test_4215_coolstar_blend_rule_encoded():
     assert SR2_LINES['primary'] == [4077.709]          # clean line, all targets
-    assert SR2_LINES['crosscheck'] == [4215.519]       # Fe I-blended -> cool-star caution
+    # RYA-551 refined the crosscheck set from the synthesis run: 4215 (Fe I-blend,
+    # cool-star caution) stays, 4161 added as a clean LTE cross-check; 4305 excluded.
+    assert 4215.519 in SR2_LINES['crosscheck']         # Fe I-blended -> cool-star caution
+    assert 4161.792 in SR2_LINES['crosscheck']         # clean subordinate (RYA-551, LTE)
+    assert SR2_LINES['excluded'] == [4305.443]         # zero abundance sensitivity (RYA-551)
     assert SR2_COOLSTAR_TEFF_K == 5300.0               # below this 4215 is cross-check/dropped
