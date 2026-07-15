@@ -114,13 +114,13 @@ elements:
   Ti:
     ion: "I"
     dimensionality: {regime: "3D-dominated — route RYA-399", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE", solar_corr_dex: "~+0.108 (repo median)", cite: "Bergemann2011 (MNRAS 413,2184)"}
-    grid: {status: HAVE, source: "Ti_Bergemann2011_MPIA.csv (RYA-256)"}
+    departure: {regime: "NLTE", solar_corr_dex: "~+0.051 (Mallinson2024 ab-initio, RYA-545; solar median +0.0506, reproduces published +0.052). SUPERSEDES the old ~+0.108 (Bergemann2011 scaled-Drawin, inflated ~2x, RYA-546)", cite: "Mallinson et al. 2024 (A&A 687,A5), ab-initio Grumer-Barklem-2020 H collisions"}
+    grid: {status: HAVE, source: "Ti_Mallinson2024_PySME.csv (RYA-545; Zenodo 10753497 M.2, DOI 10.5281/zenodo.10753497, md5-pinned per RYA-544/545) = the production Engine-A grid. SUPERSEDES Ti_Bergemann2011_MPIA.csv (RYA-256) — retired reference kept, not deleted (scaled-Drawin, RYA-546)"}
     indicators: {lines: "many Ti I (91 measured); Ti II ionisation check", in_data: true}
     hazards: "Ti I/Ti II NLTE differ; 3D term flagged"
     verdict: LOCKED
     routing: RYA-399
-    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Ti]", grid_file: "Ti_Bergemann2011_MPIA.csv"}
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Ti]", grid_file: "Ti_Mallinson2024_PySME.csv"}
 
   Cr:
     ion: "I"
