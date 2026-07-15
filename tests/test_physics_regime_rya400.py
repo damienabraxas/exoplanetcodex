@@ -129,10 +129,13 @@ def test_fe_guard_bites_no_converged_solve(monkeypatch):
 
 def test_locked_not_wired_guard_bites(monkeypatch):
     # the central contract: if a NOT-wired element is mislabelled LOCKED, the audit FAILS.
-    # RYA-412: Al is now genuinely wired, so use Cu (HAVE grid but unregistered/not-wired).
+    # RYA-412: Al wired; RYA-530: Cu wired (Caliskan2024) — the old Cu example went stale
+    # (it only "passed" because the pre-fix Ti GRID-DRIFT was independently failing the audit,
+    # RYA-552). Use V, the genuine NLTE_VOID (no grid, never wired), so this guard cannot
+    # silently go stale again.
     bad = dict(MAP)
-    cu = dict(bad['Cu']); cu['verdict'] = 'LOCKED'        # Cu is not NLTE-wired
-    bad['Cu'] = cu
+    v = dict(bad['V']); v['verdict'] = 'LOCKED'           # V is a genuine NLTE_VOID, not NLTE-wired
+    bad['V'] = v
     monkeypatch.setattr(A, '_load_map', lambda: bad)
     assert A.run() == 1
 
