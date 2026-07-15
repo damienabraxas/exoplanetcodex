@@ -603,10 +603,16 @@ PATHS = {
     # abundance derivation, and stewardship (RYA-408; promotion via scripts/promote_solar_ew.py).
     'solar_ew_canonical': ROOT / 'data' / 'measured' / 'sol_ew_results_v1.csv',
     'solar_ew_diagnostic': ROOT / 'results' / 'plots' / 'solar_ew_diagnostic.png',
+    # RYA-429: per-line rejection ledger (gitignored staging, beside solar_ew.csv) +
+    # committed audit summary (no-silent-drop invariant, Sr II verdict, stage flags).
+    'solar_ew_rejections': ROOT / 'data' / 'processed' / 'solar_ew_rejections.csv',
+    'solar_ew_rejection_audit': ROOT / 'data' / 'results' / 'rejection_ledger_solar_rya429.json',
     'procyon_normalized' : ROOT / 'data' / 'processed' / 'procyon_normalized.csv',
     'procyon_diagnostic' : ROOT / 'results' / 'plots' / 'procyon_continuum_diagnostic.png',
     'procyon_ew'         : ROOT / 'data' / 'processed' / 'procyon_ew.csv',
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
+    'procyon_ew_rejections': ROOT / 'data' / 'processed' / 'procyon_ew_rejections.csv',
+    'procyon_ew_rejection_audit': ROOT / 'data' / 'results' / 'rejection_ledger_procyon_rya429.json',
 
     # RYA-469: per-star NAMESPACED pipeline outputs + the frozen gold solar reference.
     # Working per-star products live under data/outputs/{star}/ (gitignored, regenerable);
