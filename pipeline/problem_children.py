@@ -160,11 +160,18 @@ CURATED_SEED = [
          severity='medium', governing_tickets='460', status='active',
          notes='Blue-edge SNR-limited (KP ~24, chi2r~3100) -> value not trusted; extract cleaner '
                'red Co I lines (within KP 1300nm reach) + HFS (RYA-460).'),
-    dict(species='Sr II', lambda_or_scope='4077/4215', problem_class='NLTE_OWED',
-         required_treatment='NLTE_grid', observed_in='Sun', amplifies_with='[Fe/H]↑',
-         severity='medium', governing_tickets='421,428,433', status='owed',
-         notes='NLTE grid registered (Bergemann2012 working; Mashonkina2022/INASAN primary owed, '
-               'RYA-433). Out-of-hull above [Fe/H]+0.0 -> target risk. EW measurement owed.'),
+    dict(species='Sr II', lambda_or_scope='4077/4161/4215/4305', problem_class='SATURATION_COG',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='[Fe/H]↑',
+         severity='medium', governing_tickets='421,428,429,430,433,520,551', status='resolved',
+         notes='Strong near-UV resonance doublet (4077/4215) SAT-culls the naive EW fitter and the '
+               'congested near-UV inflates blended Gaussian widths (RYA-429 read 370-633 mA artifacts). '
+               'MEASURED via Turbospectrum synthesis with in-window blend handling (RYA-551): '
+               'A(Sr II)_NLTE ~2.74 (4077 primary, dEW/dA 203 mA/dex, INSPECT delta -0.004). '
+               'required_treatment=synthesis so the RYA-520 raw-EW suppressor routes Sr II to the '
+               'synthesis channel (Sr I 6617 EW leg preserved). NLTE grid Bergemann2012/INSPECT covers '
+               'ONLY 4077/4215 (delta -0.004/-0.006); 4161/4305 LTE-flagged NLTE_unavailable (corr ~0 '
+               'at solar). 4305 EXCLUDED (zero abundance sensitivity, 0.2 mA/dex). Out-of-hull above '
+               '[Fe/H]+0.0 -> target risk. Production two-engine freeze pending RYA-527.'),
     # ── RYA-519 Part-B: element-level dispositions for the EW-thin metals (were
     #    silently falling back to stray auto per-line saturation flags) ──
     dict(species='Mn I', lambda_or_scope='6013/16/21 (e6S->z6P triplet)', problem_class='HFS_SUMMING',

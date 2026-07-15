@@ -2667,6 +2667,12 @@ def run(star_id: str = 'solar',
             _el = str(results.at[_i, 'element'])
             if _el not in _synth_req:
                 continue
+            # RYA-551: Sr's synthesis requirement is ION-SPECIFIC (Sr II resonance
+            # doublet + subordinate lines route to synthesis). The clean Sr I 6617
+            # EW leg stays authoritative — it is the RYA-422 ionization-balance
+            # cross-check. Never suppress Sr I.
+            if _el == 'Sr' and str(results.at[_i, 'ion']).strip() != 'II':
+                continue
             _ax = results.at[_i, 'A_X'] if 'A_X' in results.columns else np.nan
             if pd.notna(_ax):
                 results.at[_i, 'ew_diagnostic_A_X'] = _ax
@@ -2679,6 +2685,8 @@ def run(star_id: str = 'solar',
                       f"(synthesis-required; authoritative value is the synthesis verdict).")
         _leak = sorted({str(results.at[_i, 'element']) for _i in results.index
                         if str(results.at[_i, 'element']) in _synth_req
+                        and not (str(results.at[_i, 'element']) == 'Sr'
+                                 and str(results.at[_i, 'ion']).strip() != 'II')
                         and results.at[_i, 'authoritative']
                         and pd.notna(results.at[_i, 'A_X'] if 'A_X' in results.columns else np.nan)})
         if _leak:
