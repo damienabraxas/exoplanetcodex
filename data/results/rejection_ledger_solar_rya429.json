@@ -14,8 +14,9 @@
   "n_unclassified": 0,
   "reason_counts": {
     "below_priority_threshold": 8690,
-    "saturated_core": 4605,
+    "saturated_core": 4601,
     "low_snr": 1124,
+    "other": 4,
     "blend_overlap": 2
   },
   "ionization_stage_flags": [
@@ -50,36 +51,36 @@
       "in_coverage": true,
       "status": "rejected",
       "ew_mA": null,
-      "reason": "saturated_core",
-      "value": 633.61,
-      "note": "measured EW 633.6 mA > ew_max_mA 300.0 (strong/saturated)"
+      "reason": "other",
+      "value": null,
+      "note": "synthesis-required (RYA-520 class): abundance via Turbospectrum synthesis + Bergemann2012/INSPECT NLTE (RYA-551); the raw single-Gaussian EW is a near-UV blend/saturation artifact, not authoritative \u2014 see the synthesis channel"
     },
     {
       "wavelength_air_A": 4161.79172,
       "in_coverage": true,
       "status": "rejected",
       "ew_mA": null,
-      "reason": "saturated_core",
-      "value": 370.41,
-      "note": "measured EW 370.4 mA > ew_max_mA 300.0 (strong/saturated)"
+      "reason": "other",
+      "value": null,
+      "note": "synthesis-required (RYA-520 class): abundance via Turbospectrum synthesis + Bergemann2012/INSPECT NLTE (RYA-551); the raw single-Gaussian EW is a near-UV blend/saturation artifact, not authoritative \u2014 see the synthesis channel"
     },
     {
       "wavelength_air_A": 4215.5192,
       "in_coverage": true,
       "status": "rejected",
       "ew_mA": null,
-      "reason": "saturated_core",
-      "value": 617.45,
-      "note": "measured EW 617.5 mA > ew_max_mA 300.0 (strong/saturated)"
+      "reason": "other",
+      "value": null,
+      "note": "synthesis-required (RYA-520 class): abundance via Turbospectrum synthesis + Bergemann2012/INSPECT NLTE (RYA-551); the raw single-Gaussian EW is a near-UV blend/saturation artifact, not authoritative \u2014 see the synthesis channel"
     },
     {
       "wavelength_air_A": 4305.44336,
       "in_coverage": true,
       "status": "rejected",
       "ew_mA": null,
-      "reason": "saturated_core",
-      "value": 599.37,
-      "note": "measured EW 599.4 mA > ew_max_mA 300.0 (strong/saturated)"
+      "reason": "other",
+      "value": null,
+      "note": "synthesis-required (RYA-520 class): abundance via Turbospectrum synthesis + Bergemann2012/INSPECT NLTE (RYA-551); the raw single-Gaussian EW is a near-UV blend/saturation artifact, not authoritative \u2014 see the synthesis channel"
     }
   ]
 }

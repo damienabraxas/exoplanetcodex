@@ -1,0 +1,110 @@
+{
+  "4077.709": {
+    "wave": 4077.709,
+    "ep": 0.0,
+    "loggf": 0.143,
+    "nlte_delta": -0.004,
+    "nlte_status": "applied",
+    "harps": {
+      "A_LTE": 2.773,
+      "A_NLTE": 2.769,
+      "gsig_kms": 2.0,
+      "red_chi2": 95.72,
+      "npix": 320,
+      "dEW_dA_mA_dex": 203.5,
+      "railed": false,
+      "reliable": true
+    },
+    "iag": {
+      "A_LTE": 2.744,
+      "A_NLTE": 2.74,
+      "gsig_kms": 1.5,
+      "red_chi2": 102.33,
+      "npix": 5108,
+      "dEW_dA_mA_dex": 203.5,
+      "railed": false,
+      "reliable": true
+    }
+  },
+  "4161.792": {
+    "wave": 4161.792,
+    "ep": 2.9403,
+    "loggf": -0.327,
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable",
+    "harps": {
+      "A_LTE": 2.725,
+      "A_NLTE": 2.725,
+      "gsig_kms": 3.0,
+      "red_chi2": 75.2,
+      "npix": 180,
+      "dEW_dA_mA_dex": 36.3,
+      "railed": false,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.71,
+      "A_NLTE": 2.71,
+      "gsig_kms": 2.0,
+      "red_chi2": 77.7,
+      "npix": 2758,
+      "dEW_dA_mA_dex": 35.7,
+      "railed": false,
+      "reliable": false
+    }
+  },
+  "4215.519": {
+    "wave": 4215.519,
+    "ep": 0.0,
+    "loggf": -0.173,
+    "nlte_delta": -0.006,
+    "nlte_status": "applied",
+    "harps": {
+      "A_LTE": 2.73,
+      "A_NLTE": 2.724,
+      "gsig_kms": 4.0,
+      "red_chi2": 199.02,
+      "npix": 320,
+      "dEW_dA_mA_dex": 128.3,
+      "railed": false,
+      "reliable": true
+    },
+    "iag": {
+      "A_LTE": 2.679,
+      "A_NLTE": 2.673,
+      "gsig_kms": 3.5,
+      "red_chi2": 201.08,
+      "npix": 4779,
+      "dEW_dA_mA_dex": 122.4,
+      "railed": false,
+      "reliable": true
+    }
+  },
+  "4305.443": {
+    "wave": 4305.443,
+    "ep": 3.0397,
+    "loggf": -0.041,
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable",
+    "harps": {
+      "A_LTE": 2.1,
+      "A_NLTE": 2.1,
+      "gsig_kms": 2.0,
+      "red_chi2": 137.54,
+      "npix": 180,
+      "dEW_dA_mA_dex": 0.2,
+      "railed": true,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.1,
+      "A_NLTE": 2.1,
+      "gsig_kms": 1.5,
+      "red_chi2": 124.84,
+      "npix": 2577,
+      "dEW_dA_mA_dex": 0.2,
+      "railed": true,
+      "reliable": false
+    }
+  }
+}

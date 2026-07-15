@@ -1,0 +1,33 @@
+{
+  "ticket": "RYA-430 (line-selection decision) delivered by RYA-551",
+  "method": "Turbospectrum LTE flux synthesis with in-window blend handling vs the observed solar spectrum (Sirius); NLTE delta from committed Sr_Bergemann2012_INSPECT grid. gf/EP from canonical linelist_solar. Decision on SENSITIVITY + COVERAGE, never proximity to Asplund (validate-don't-tune).",
+  "arms": {
+    "harps": "reflected-solar HARPS normalized spectrum (primary, per RYA-421)",
+    "iag": "IAG Reiners+2016 disk-integrated FTS solar flux atlas (cross-check; ESPRESSO solar not staged anywhere, IAG is the honest cross-source check)"
+  },
+  "per_line": {
+    "4077.709": {"role": "PRIMARY", "ep_eV": 0.0, "loggf": 0.143, "A_LTE_harps": 2.773, "A_NLTE_harps": 2.769, "A_NLTE_iag": 2.740, "nlte_delta": -0.004, "nlte_status": "applied", "sensitivity_dEW_dA_mA_dex": 203.5, "red_chi2": 100, "reliable": true,
+      "why": "resonance line, HIGHEST abundance sensitivity (203 mA/dex), NLTE-covered (delta -0.004), clean fit. Wins on sensitivity AND coverage."},
+    "4215.519": {"role": "CROSS-CHECK", "ep_eV": 0.0, "loggf": -0.173, "A_LTE_harps": 2.730, "A_NLTE_harps": 2.724, "A_NLTE_iag": 2.673, "nlte_delta": -0.006, "nlte_status": "applied", "sensitivity_dEW_dA_mA_dex": 128.3, "red_chi2": 200, "reliable": true,
+      "why": "resonance, good sensitivity + NLTE-covered, BUT Fe I blend (Bergemann 2012a) inflates the fit residual (worst red_chi2) and grows toward cool stars -> cross-check with cool-star caution (SR2_COOLSTAR_TEFF_K)."},
+    "4161.792": {"role": "CROSS-CHECK", "ep_eV": 2.9403, "loggf": -0.327, "A_LTE_harps": 2.725, "A_NLTE_harps": 2.725, "A_NLTE_iag": 2.710, "nlte_delta": null, "nlte_status": "NLTE_unavailable", "sensitivity_dEW_dA_mA_dex": 36.3, "red_chi2": 75, "reliable": true,
+      "why": "subordinate (EP 2.94); CLEANEST fit (lowest red_chi2) but LOW sensitivity (36 mA/dex) and NOT in the NLTE grid. LTE defensible at solar (resonance corr is only -0.004/-0.006; a higher-EP subordinate line is even less NLTE-sensitive). Usable LTE cross-check, flagged NLTE_unavailable (never a silent zero)."},
+    "4305.443": {"role": "EXCLUDED", "ep_eV": 3.0397, "loggf": -0.041, "A_fit": "railed at grid floor", "nlte_delta": null, "nlte_status": "NLTE_unavailable", "sensitivity_dEW_dA_mA_dex": 0.2, "red_chi2": 130, "reliable": false,
+      "why": "subordinate (EP 3.04); the synthesis fit RAILED with ~ZERO abundance sensitivity (0.2 mA/dex) -> the line does not constrain A(Sr). NOT an abundance line. This is exactly the RYA-429 saturated_core artifact seen for what it is: a blend, not a measurement."}
+  },
+  "decision": {
+    "primary": [4077.709],
+    "cross_check": [4215.519, 4161.792],
+    "excluded": [4305.443],
+    "rationale": "Sensitivity-ranked: 4077 (203) > 4215 (128) > 4161 (36) >> 4305 (0.2 mA/dex). 4077 wins on sensitivity AND coverage -> PRIMARY. Per RYA-430's explicit instruction the subordinate lines are NOT promoted over the resonance line just because they exist: 4161 is a usable clean LTE cross-check, 4305 is excluded (no sensitivity). The old numbers RYA-430 was blocked on (370-633 mA) were Gaussian-EW blend artifacts; these are real synthesis numbers.",
+    "not_keyed_to_asplund": "The reported A(Sr II) ~2.72-2.77 sits ~0.09-0.11 dex BELOW Asplund 2.83 and was NOT adjusted toward it (validate-don't-tune). Sr I vs Sr II were NOT forced into agreement (RYA-422 ionization diagnostic is a check, never a tuning target)."
+  },
+  "two_engine_rya525": {
+    "engineB_synth_LTE": {"primary_4077": 2.773, "note": "Turbospectrum LTE flux fit = Engine B"},
+    "engineA_1dnlte": {"primary_4077": 2.769, "note": "Engine A = Engine B + INSPECT NLTE delta (-0.004 at 4077); 4161/4305 have no Engine-A (NLTE_unavailable)"},
+    "reported": {"A_Sr_II_solar_NLTE": 2.769, "arm": "harps", "cross_arm_iag": 2.740, "cross_arm_spread_dex": 0.03, "cross_line_spread_dex": 0.05},
+    "note": "Both engines recorded per the RYA-525 per-element format; Engine A (1D-NLTE) is the reported leg for the covered doublet. Full production two-engine freeze is gated under RYA-527."
+  },
+  "systematics": "The absolute scale carries a ~0.05-0.1 dex near-UV synthesis systematic: high red_chi2 (near-UV blend/continuum residuals), MARCS nearest-node (p5750/g4.5 vs solar 5772/4.438), and an approximate combined macro+instrumental Gaussian broadening (fit as a nuisance). Reported as-is; not tuned.",
+  "sr_i_leg": "Sr I 6617 (32.46 mA EW) remains the neutral-ion leg and the RYA-422 ionization-balance cross-check; it is PRESERVED as an authoritative EW measurement (only Sr II is synthesis-routed/suppressed)."
+}

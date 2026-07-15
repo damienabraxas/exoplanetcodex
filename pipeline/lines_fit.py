@@ -167,6 +167,14 @@ def _get_profile_fit_window(elem: str, ion: str, line_wav: float,
     return cont_window
 
 
+# RYA-551: species the EW fitter routes to the synthesis channel instead of the
+# naive single-Gaussian fit. Their raw EW is a known artifact (strong resonance +
+# congested near-UV blends for Sr II), so emitting it would be a leak of the same
+# family as the RYA-520 C=10.26 saturated-EW leak. Scoped to Sr II so no other
+# element's EW output changes; the abundance-stage RYA-520 suppression is the
+# element-level backstop, and pipeline.problem_children carries the registry entry.
+_SYNTH_ROUTED_SPECIES = {('Sr', 'II')}
+
 # Elements requiring NLTE note in output
 NLTE_ELEMENTS = {'O', 'Na', 'C', 'Li'}
 
@@ -615,6 +623,20 @@ def _measure_all(solar_wav: np.ndarray, solar_flux: np.ndarray,
         if elem == 'Ni' and ion == 'I' and abs(line_wav - 6300.336) < 0.15:
             _reject('blend_overlap', note='modeled + subtracted as the Ni I blend '
                                           'partner for the [O I] 6300 COG measurement')
+            continue
+
+        # RYA-551: synthesis-routed species (Sr II) never go through the naive single-
+        # Gaussian fitter — their EW is a congested-near-UV blend/saturation artifact
+        # (Sr II 4161/4305 read a spurious 370–599 mA in the RYA-429 ledger). The
+        # abundance comes from Turbospectrum synthesis + INSPECT NLTE (RYA-551). Route
+        # them to the ledger as 'other' with a synthesis pointer — not 'saturated_core'
+        # — so no misleading EW is emitted. Kept narrow so no other element's EW output
+        # changes; the abundance-stage RYA-520 suppression is the element-level backstop.
+        if (elem, ion) in _SYNTH_ROUTED_SPECIES:
+            _reject('other', note='synthesis-required (RYA-520 class): abundance via '
+                    'Turbospectrum synthesis + Bergemann2012/INSPECT NLTE (RYA-551); the '
+                    'raw single-Gaussian EW is a near-UV blend/saturation artifact, not '
+                    'authoritative — see the synthesis channel')
             continue
 
         # ── Depth peek → adaptive fit window ─────────────────────────────────
