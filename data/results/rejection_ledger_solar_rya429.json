@@ -1,0 +1,85 @@
+{
+  "star_key": "solar",
+  "coverage_A": [
+    3782.556,
+    6909.991
+  ],
+  "min_fit_depth": 0.008,
+  "n_in_coverage": 23371,
+  "n_measured": 8950,
+  "n_rejected": 14421,
+  "invariant_holds": true,
+  "n_unaccounted": 0,
+  "unaccounted_sample": [],
+  "n_unclassified": 0,
+  "reason_counts": {
+    "below_priority_threshold": 8690,
+    "saturated_core": 4605,
+    "low_snr": 1124,
+    "blend_overlap": 2
+  },
+  "ionization_stage_flags": [
+    {
+      "element": "Cu",
+      "neutral_measured": 29,
+      "ionized_measured": 0,
+      "empty_stage": "ionized",
+      "linelist_neutral": 262,
+      "linelist_ionized": 1
+    },
+    {
+      "element": "Eu",
+      "neutral_measured": 0,
+      "ionized_measured": 13,
+      "empty_stage": "neutral",
+      "linelist_neutral": 3,
+      "linelist_ionized": 471
+    },
+    {
+      "element": "Sr",
+      "neutral_measured": 20,
+      "ionized_measured": 0,
+      "empty_stage": "ionized",
+      "linelist_neutral": 57,
+      "linelist_ionized": 4
+    }
+  ],
+  "sr_ii_verdict": [
+    {
+      "wavelength_air_A": 4077.70935,
+      "in_coverage": true,
+      "status": "rejected",
+      "ew_mA": null,
+      "reason": "saturated_core",
+      "value": 633.61,
+      "note": "measured EW 633.6 mA > ew_max_mA 300.0 (strong/saturated)"
+    },
+    {
+      "wavelength_air_A": 4161.79172,
+      "in_coverage": true,
+      "status": "rejected",
+      "ew_mA": null,
+      "reason": "saturated_core",
+      "value": 370.41,
+      "note": "measured EW 370.4 mA > ew_max_mA 300.0 (strong/saturated)"
+    },
+    {
+      "wavelength_air_A": 4215.5192,
+      "in_coverage": true,
+      "status": "rejected",
+      "ew_mA": null,
+      "reason": "saturated_core",
+      "value": 617.45,
+      "note": "measured EW 617.5 mA > ew_max_mA 300.0 (strong/saturated)"
+    },
+    {
+      "wavelength_air_A": 4305.44336,
+      "in_coverage": true,
+      "status": "rejected",
+      "ew_mA": null,
+      "reason": "saturated_core",
+      "value": 599.37,
+      "note": "measured EW 599.4 mA > ew_max_mA 300.0 (strong/saturated)"
+    }
+  ]
+}
