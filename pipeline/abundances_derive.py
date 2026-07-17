@@ -56,6 +56,7 @@ from config.constants import (
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
+    CORRECTIONS_3D,                      # RYA-553 tabulated solar Fe 1D→3D correction
     FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
     SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
@@ -2913,6 +2914,20 @@ def run(star_id: str = 'solar',
             if np.isfinite(d_nlte):
                 print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
             print(f"  A(Fe {ion_lbl}) NLTE abs = {a_nlte:.3f}  -> {'PASS' if diag_pass else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")
+            # RYA-553: for the SUN the tabulated Magic-2013 1D→3D correction is APPLIED to
+            # the reported Fe I anchor (verdict/gold/gate layer). Show the 3D-corrected
+            # value and gate it against the real FE_GATE [7.41,7.51]; the scale-aware
+            # window above describes the un-corrected 1D-NLTE MEASUREMENT. SOLAR ONLY,
+            # Fe I only (Fe II is NOT shifted); off-solar per-star 3D is owed (RYA-550).
+            if 'solar' in star_id.lower() and ion_lbl == 'I':
+                _fe_3d   = a_nlte + CORRECTIONS_3D['Fe_1D3D_solar_dex']
+                _gate_lo = SOLAR_ASPLUND2021['Fe'] + FE_GATE_LOWER
+                _gate_hi = SOLAR_ASPLUND2021['Fe'] + FE_GATE_UPPER
+                _gate_ok = _gate_lo <= _fe_3d <= _gate_hi
+                assert_abundance_on_scale(_fe_3d, f"{star_id} Fe I 3D-corrected reported anchor")
+                print(f"  A(Fe I) 3D-NLTE     = {_fe_3d:.3f}  (1D-NLTE {a_nlte:.3f} "
+                      f"{CORRECTIONS_3D['Fe_1D3D_solar_dex']:+.3f}, Magic 2013) -> "
+                      f"{'PASS' if _gate_ok else 'FAIL'} (FE_GATE [{_gate_lo:.2f},{_gate_hi:.2f}], RYA-553)")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
@@ -2929,7 +2944,8 @@ def run(star_id: str = 'solar',
         print(f"\n  vmic = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
         print(f"\n  ►► Solar Fe VERDICT (scale-robust primary): {'PASS' if primary_pass else 'FAIL'}"
               f"  [slope {'✓' if slope_pass else '✗'} · ionization {'✓' if ion_pass else '✗'} · scatter {'✓' if scat_pass else '✗'}]")
-        print(f"     absolute A(Fe) is a documented scale diagnostic, not the verdict (RYA-336).")
+        print(f"     1D-NLTE A(Fe) is the measurement; the reported solar anchor is the "
+              f"3D-corrected A(Fe I) gated on FE_GATE (Magic 2013 applied, RYA-553).")
 
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
