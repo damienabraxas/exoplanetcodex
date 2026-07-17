@@ -10,8 +10,9 @@ Each assertion below is a single pass/fail check, sourced from COMMITTED artifac
 + ratified, cited thresholds (never a threshold loosened to fit a run — validate-
 don't-tune). It aggregates checks that otherwise live in separate scripts:
 
-  A1  A(Fe) in the RYA-336 scale-aware DIAGNOSTIC window [7.44, 7.58]
-      (absolute A(Fe) is a diagnostic, NOT a strict 7.46+/-0.05 pass/fail)
+  A1  3D-corrected A(Fe I) in the real FE_GATE [7.41, 7.51] (RYA-553: Magic-2013
+      1D→3D solar Fe correction applied to the reported anchor; the old scale-aware
+      diagnostic band [7.44,7.58] is retired here)
   A2  Fe I-vs-Fe II ionization balance <= FE_IONISATION_GATE (RYA-406 synth arbiter)
   A3  Fe I reduced-EW (vmic) slope |slope| < FE_REW_SLOPE_GATE (RYA-330)
   A4  Fe I RAW line-to-line scatter <= 0.1398 honest floor (RYA-407, wired RYA-446)
@@ -40,7 +41,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 
 from config.constants import (ACCEPTANCE_PROFILES, FE_IONISATION_GATE,          # noqa: E402
                               FE_IONIZATION_SYNTH_ARBITER, FE_REW_SLOPE_GATE,
-                              FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH,
+                              FE_GATE_LOWER, FE_GATE_UPPER, CORRECTIONS_3D,
                               TARGET_ELEMENTS)
 
 # ── committed artifacts (guard these, never re-run the pipeline in the gate) ──
@@ -50,8 +51,13 @@ UNCERT = ROOT / 'data' / 'audit' / 'uncertainty' / 'solar_uncertainty_rya158.jso
 LEDGER = ROOT / 'data' / 'results' / 'rejection_ledger_solar_rya429.json'
 
 ASPLUND_FE = 7.46
-FE_ABS_DIAG_LO = ASPLUND_FE + FE_1D3D_SOLAR_OFFSET - FE_ABS_DIAG_HALFWIDTH   # 7.44
-FE_ABS_DIAG_HI = ASPLUND_FE + FE_1D3D_SOLAR_OFFSET + FE_ABS_DIAG_HALFWIDTH   # 7.58
+# RYA-553: the tabulated Magic-2013 1D→3D solar Fe correction is now APPLIED to the
+# reported Fe I anchor (in the verdict), so the anchor sits on the true 3D scale and
+# FE_GATE [7.41,7.51] is again the real solar reported-value gate — the scale-aware
+# diagnostic band [7.44,7.58] is retired here (it still describes the un-corrected
+# 1D-NLTE measurement layer / off-solar stars, RYA-550).
+FE_GATE_LO = ASPLUND_FE + FE_GATE_LOWER    # 7.41
+FE_GATE_HI = ASPLUND_FE + FE_GATE_UPPER    # 7.51
 SIGMA_REPORTED_GATE = 0.05     # Asplund 2021 reported-uncertainty target (RYA-158/166)
 VALID_VERDICTS = {'PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP'}
 
@@ -80,13 +86,23 @@ def _uncertainty_fe():
     return next(r for r in d['per_element'] if r['element'] == 'Fe')
 
 
-# ── A1 — absolute A(Fe): scale-aware diagnostic window (RYA-336) ─────────────
+# ── A1 — 3D-corrected A(Fe I) on the real FE_GATE (RYA-553) ──────────────────
 
-def test_A1_a_fe_in_scale_aware_diagnostic_window():
-    a_fe = float(_fe_verdict()['A_measured'])
-    assert FE_ABS_DIAG_LO <= a_fe <= FE_ABS_DIAG_HI, (
-        f"A(Fe)={a_fe} outside RYA-336 diagnostic window "
-        f"[{FE_ABS_DIAG_LO:.2f},{FE_ABS_DIAG_HI:.2f}]")
+def test_A1_a_fe_in_fe_gate():
+    """The reported Fe I anchor is the 3D-corrected value (Magic-2013 1D→3D applied,
+    RYA-553); it must sit inside the real FE_GATE [7.41,7.51]. A gross zero-point error
+    (e.g. a loggf slip ~+0.3 → 7.76) still falls outside, so the gate keeps its teeth."""
+    fe = _fe_verdict()
+    a_fe = float(fe['A_measured'])
+    # guard that the value under test is genuinely the 3D-corrected anchor, not a
+    # coincidental 1D value — a silent regression that drops the correction must FAIL.
+    corr = fe.get('fe_1d3d_correction')
+    assert corr is not None and corr.get('applied') is True, (
+        "Fe verdict is not on the applied-3D scale (RYA-553 correction missing/not applied)")
+    assert corr.get('correction_dex') == CORRECTIONS_3D['Fe_1D3D_solar_dex'], (
+        "Fe 1D→3D correction magnitude drifted from CORRECTIONS_3D (single-source broken)")
+    assert FE_GATE_LO <= a_fe <= FE_GATE_HI, (
+        f"3D-corrected A(Fe I)={a_fe} outside FE_GATE [{FE_GATE_LO:.2f},{FE_GATE_HI:.2f}]")
 
 
 # ── A2 — Fe I/II ionization balance on the synth arbiter (RYA-406) ───────────
@@ -177,7 +193,7 @@ def test_solar_is_beta_ready():
         except AssertionError as e:
             checks.append((name, False, str(e).splitlines()[0]))
 
-    _run('A1 A(Fe) diagnostic window', test_A1_a_fe_in_scale_aware_diagnostic_window)
+    _run('A1 3D-corrected A(Fe) in FE_GATE', test_A1_a_fe_in_fe_gate)
     _run('A2 ionization balance', test_A2_ionization_balance_within_gate)
     _run('A3 REW slope', test_A3_rew_slope_flat_within_tolerance)
     _run('A4 raw scatter floor', test_A4_raw_scatter_within_honest_floor)
