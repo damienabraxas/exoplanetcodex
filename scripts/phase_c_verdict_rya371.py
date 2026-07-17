@@ -43,7 +43,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from config.constants import (SOLAR_ASPLUND2021,  # noqa: E402
                               NLTE_CORRECTION_ELEMENTS,
-                              THREED_CORRECTION_ELEMENTS)
+                              THREED_CORRECTION_ELEMENTS,
+                              CORRECTIONS_3D)      # RYA-553 tabulated 1D→3D corrections
 from pipeline import data_namespace as ns  # noqa: E402  RYA-469 gold solar reference
 
 PROC = ROOT / 'data' / 'processed'
@@ -127,6 +128,25 @@ def _c_crossarm_excluding_bad_fit(rec, ref):
     return primary_mean, round(spread, 3), len(kept), ','.join(excluded)
 
 
+FE1_RESID_RYA407 = (ROOT / 'data' / 'audit' / 'fe1_scatter' /
+                    'fe1_per_line_residuals_rya407.csv')     # RYA-407 honest-floor pool
+
+
+def _fe1_raw_scatter():
+    """Fe I line-to-line raw scatter from the canonical RYA-407 honest-floor pool.
+
+    The frozen gold reference carries no per-line Fe scatter column, so a regenerated
+    verdict would otherwise report sigma=null and the RYA-166 A4 gate could not read
+    it. Restore the scatter from its canonical source, computed exactly as the pipeline
+    does (np.nanstd, numpy default ddof=0 — the same 0.139 that A_X_std produced when
+    the gold was first built), which sits at/under the 0.1398 ddof=1 floor
+    (ACCEPTANCE_PROFILES['G']['fe1_scatter_max'], RYA-407/446). Returns NaN if absent."""
+    if not FE1_RESID_RYA407.exists():
+        return float('nan')
+    pool = pd.read_csv(FE1_RESID_RYA407)['a_1dlte'].astype(float).values
+    return float(np.nanstd(pool)) if pool.size > 1 else float('nan')
+
+
 def _measured_row(ab, el):
     """Return the dominant measured ion row for an element (most lines), or None."""
     sub = ab[ab['element'] == el]
@@ -172,6 +192,37 @@ def build_verdicts(ab, ew, phase_a):
         nlte_flag = str(mrow['nlte_flag']) if (mrow is not None and 'nlte_flag' in mrow) else ''
         n_lines = int(mrow['n_lines']) if (mrow is not None and np.isfinite(mrow.get('n_lines', np.nan))) else 0
         sigma = float(mrow['A_X_std']) if (mrow is not None and np.isfinite(mrow.get('A_X_std', np.nan))) else float('nan')
+
+        # ── RYA-553: apply the tabulated Magic-2013 1D→3D solar Fe correction ──
+        # The reported Fe I anchor is the value the RYA-166 gate and the RYA-527
+        # gold-v3 freeze both read. Our NLTE grids emit on the 1D-NLTE scale
+        # (~+0.05 above 3D-true); add the NEGATIVE tabulated offset, AFTER NLTE, to
+        # move the reported anchor onto the true 7.46 scale. Idempotent on the gold
+        # row's method_scale: applied to a 1D-NLTE anchor, SKIPPED if the anchor is
+        # already 3D-NLTE (so a re-frozen v3 gold is never double-corrected — the
+        # fine-grained analogue of the RYA-334 gross double-add tripwire). SOLAR ONLY
+        # (off-solar per-Teff/[Fe/H] generalisation is owed, RYA-550). Never silent:
+        # logged + recorded pre/post on the row.
+        fe_1d3d = None
+        if el == 'Fe' and np.isfinite(a_meas):
+            scale = str(mrow['method_scale']) if (mrow is not None and 'method_scale' in mrow) else ''
+            dex = float(CORRECTIONS_3D['Fe_1D3D_solar_dex'])
+            a_pre = a_meas
+            if '3D' not in scale.upper():
+                a_meas = round(a_meas + dex, 3)
+                print(f"  RYA-553 Fe 1D→3D: A(Fe I) {a_pre:.3f} (1D-NLTE) {dex:+.3f} "
+                      f"-> {a_meas:.3f} (3D-NLTE, Magic 2013)")
+                fe_1d3d = {'applied': True, 'source': 'Magic et al. 2013 (Stagger 3D, A&A 557 A26)',
+                           'correction_dex': dex, 'a_1dnlte_pre': round(a_pre, 3),
+                           'a_3dnlte_post': a_meas, 'scale': '3D-NLTE'}
+            else:
+                fe_1d3d = {'applied': False, 'reason': f'anchor already 3D ({scale})',
+                           'correction_dex': 0.0, 'a_1dnlte_pre': round(a_pre, 3),
+                           'a_3dnlte_post': round(a_pre, 3), 'scale': scale}
+            # RYA-407/446: the frozen gold has no per-line Fe scatter — restore it.
+            if not np.isfinite(sigma):
+                sigma = _fe1_raw_scatter()
+
         # RYA-456: the curation's BLIND verdict (VALIDATED / RESIDUAL / LOW_CONFIDENCE),
         # carried on the wired non-Fe rows. The classifier MAPS it (it never re-derives
         # a threshold), so the science decision stays in curate_nonfe_pools (RYA-395/398).
@@ -214,6 +265,7 @@ def build_verdicts(ab, ew, phase_a):
             'nlte_grid': grid, 'nlte_wired': bool(reg), 'threed_wired': threed,
             'verdict': verdict, 'owed': owed,
             'provenance': _default_provenance(el),
+            'fe_1d3d_correction': fe_1d3d,   # RYA-553: solar Fe 1D→3D pre/post (None for non-Fe)
         })
     return rows
 
@@ -246,9 +298,10 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
     # ── Fe — the validated leg ──
     if el == 'Fe':
         return ('PASS', 'EW: 62 Fe I + 3 Fe II, NLTE-wired (Bergemann MPIA)',
-                f'A(Fe I) NLTE {a_meas:.3f} vs Asplund 7.46 ({delta:+.3f}); ionization-balance '
-                'gated, scatter 0.139 = honest floor (RYA-407). Documented +0.05 1D/3D scale '
-                'offset (RYA-336), not the verdict.')
+                f'A(Fe I) 3D-NLTE {a_meas:.3f} vs Asplund 7.46 ({delta:+.3f}); ionization-balance '
+                'gated, scatter 0.139 = honest floor (RYA-407). The +0.05 1D→3D solar offset '
+                '(Magic 2013) is now APPLIED at the reported layer (RYA-553), so the anchor sits '
+                'on the true 3D scale; FE_GATE [7.41,7.51] governs.')
 
     # ── DATA-GAP: ground-unreachable channels ──
     if el in GROUND_UNREACHABLE:

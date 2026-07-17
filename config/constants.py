@@ -246,18 +246,25 @@ FE_EW_SYNTH_SPREAD_BAND = 0.30   # dex — |EW Fe II − synth Fe II| above this
 # shift-invariant strong gate misses — while passing the legitimate grid spread
 # (Amarsi 7.495 / MPIA 7.516, straddling ~7.51).
 #
-# Upgrade path: when an APPLIED 3D correction lands (RYA-285 synthesis / Magic 2013),
-# the absolute output moves onto the true 7.46 scale and FE_GATE [7.41,7.51] applies
-# again — this scaffolding retires. (The RYA-334 A_X<12.5 guard is the separate
-# gross double-add tripwire, unrelated to this science sanity bound.)
+# Upgrade path — LANDED for the Sun (RYA-553): the tabulated Magic-2013 1D→3D solar
+# Fe correction (CORRECTIONS_3D['Fe_1D3D_solar_dex'] = -FE_1D3D_SOLAR_OFFSET) is now
+# APPLIED at the reported-value layer (phase_c verdict → gold → gate), moving the
+# SOLAR anchor onto the true 7.46 scale, so FE_GATE [7.41,7.51] is again the real
+# solar reported-value gate. FE_ABS_DIAG_HALFWIDTH is retired as the SOLAR gate; it
+# still describes the un-corrected 1D-NLTE MEASUREMENT layer (abundances_derive
+# `results`, rya238) and OFF-SOLAR stars, whose per-Teff/[Fe/H] 3D correction is owed
+# (RYA-550). (The RYA-334 A_X<12.5 guard is the separate gross double-add tripwire.)
 FE_1D3D_SOLAR_OFFSET  = 0.05   # dex — solar A(Fe I) on a 1D atmosphere runs ~+0.05
                                # above the 3D value (granulation term). Literature:
                                # Magic et al. 2013 (Stagger 3D grid, A&A 557 A26);
                                # cf. Amarsi et al. 2019 (A&A 624 A111) & Asplund et
                                # al. 2021 (A&A 653 A141) §3-4. NOT from our output.
+                               # Consumed by CORRECTIONS_3D['Fe_1D3D_solar_dex'] (RYA-553).
 FE_ABS_DIAG_HALFWIDTH = 0.07   # dex — wide half-window around the scale-aware centre
                                # (≈7.51 → [7.44, 7.58]); passes grid spread + loggf
-                               # zero-point, fails gross errors.
+                               # zero-point, fails gross errors. RYA-553: retired as the
+                               # SOLAR gate (now FE_GATE post-3D); still governs the
+                               # 1D-NLTE measurement layer + off-solar (RYA-550).
 FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat within error"
                                # for the solar guardrail (RYA-330: −0.04..−0.09).
 
@@ -1123,6 +1130,13 @@ CORRECTIONS_3D = {
     # Both lines share the same -0.07 dex offset from granulation effects.
     'O_6300_3d_dex': -0.07,
     'O_6363_3d_dex': -0.07,
+    # Solar Fe I: 1D → 3D hydrodynamic correction (Magic et al. 2013, Stagger grid, A&A 557 A26).
+    # Our 1D-NLTE Fe I anchor runs ~+0.05 above the 3D-true value (granulation strengthens
+    # Fe I lines); the correction is therefore NEGATIVE. Magnitude is single-sourced from
+    # FE_1D3D_SOLAR_OFFSET (do NOT duplicate the literal). SOLAR ONLY — the per-Teff/[Fe/H]
+    # generalisation for off-solar stars is owed (RYA-550). Applied at the reported-value
+    # layer (phase_c verdict), not the 1D-NLTE measurement layer. RYA-553.
+    'Fe_1D3D_solar_dex': -FE_1D3D_SOLAR_OFFSET,
 }
 
 # ── Model atmosphere parameters ───────────────────────────────────────────────
