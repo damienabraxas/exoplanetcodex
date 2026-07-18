@@ -137,6 +137,15 @@ def main():
             if el == 'Fe':
                 source = ('EW Fe I ionization-gated, 3D-corrected (RYA-406/407/553); '
                           'two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY')
+        elif es.is_upper_limit_disposition(el):                        # RYA-563
+            v3 = phase_c_val          # the phase_c UPPER-LIMIT value governs
+            source = ('upper-limit disposition (phase_c, RYA-103/458); two-engine synth '
+                      'recorded as DIAGNOSTIC-ONLY, never the reported value')
+            if te_record is not None:                                  # demote synth to diagnostic
+                te_record['diagnostic_only_species'] = (te_record.get('diagnostic_only_species') or []) + [
+                    {'species': f"{el} {te_record.get('ion')}", 'value': te_record.get('reported'),
+                     'DIAGNOSTIC_ONLY': True, 'reason': 'UPPER_LIMIT disposition (RYA-563/103/458)'}]
+                te_record['reported'] = None
         elif te_record is not None and te_record['reported'] is not None:
             es.assert_not_excluded_value(f"{el} {te_record['ion']}")   # RYA-558 loud guard
             v3 = te_record['reported']             # two-engine synthesis floor (allowed ion)
