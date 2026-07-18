@@ -7,8 +7,9 @@ Part A (N wiring): N is registered in NLTE_CORRECTION_ELEMENTS; the applied sola
 the VENDORED PySME-derived grid value read through the production interpolation subsystem
 (validate-don't-tune — it reproduces the committed RYA-369 load-test, not fitted to Asplund);
 the excluded cool-metal-rich weak-line rails fall out-of-hull (loud-flagged, never a spurious
-value). NOTE: the solar VERDICT re-run/re-freeze (N NLTE-OWED -> PASS) is RYA-527's scope, not
-this ticket — the committed verdict artifact is intentionally left untouched here.
+value). NOTE: applying this registered N I NLTE delta in the phase_c KP channel (N NLTE-OWED ->
+CURATION-OWED, off the NLTE-OWED bucket — NOT PASS, the +0.36 gf/data residual stays owed) is
+RYA-556's scope; here the grid delta is only verified to resolve, verdict wiring untouched.
 
 Part C (stewardship): every grid referenced by NLTE_CORRECTION_ELEMENTS is PRESENT on disk —
 the RYA-525 loud-fail guard's "something real to check" (Mn's PASS depends on the COMMITTED

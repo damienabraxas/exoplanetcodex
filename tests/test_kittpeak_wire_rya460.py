@@ -68,7 +68,7 @@ def test_NH_CN_blue_edge_flagged_not_forced():
 
 def test_reclassify_moves_pkcosc_off_datagap():
     ov = V._kittpeak_reclassify(_kp())
-    assert ov['N']['verdict'] == 'NLTE-OWED'
+    assert ov['N']['verdict'] == 'CURATION-OWED'      # RYA-556 wired N_Amarsi2020 -> off NLTE-OWED
     assert ov['K']['verdict'] == 'PASS'               # RYA-462 wired K_Amarsi2020 -> NLTE applied
     for el in ('P', 'Co', 'Sc'):
         assert ov[el]['verdict'] == 'CURATION-OWED'

@@ -107,10 +107,12 @@ def test_phase_c_fold_moves_mn_to_pass():
     assert 'closes the Mn gap' in ov['Mn']['owed']
 
 
-def test_fold_moves_verdict_counts_to_5_1_20_0():
+def test_fold_moves_verdict_counts_to_5_0_21_0():
     # RYA-476: Mn was CURATION-OWED (no value), now MEASURED + reconciled via the
     # live triplet-exact NLTE → PASS. The category flip is earned by the measurement,
     # NOT fabricated: it rests on the line-exact Amarsi δ (+0.024), not a tune.
+    # RYA-556: the N I NLTE grid is now wired in the KP channel, so the NLTE-OWED
+    # bucket is empty (N -> CURATION-OWED); counts are 5 / 0 / 21 / 0.
     ab, ew, phase_a = V._load()
     rows = V.build_verdicts(ab, ew, phase_a)
     V._apply_kittpeak(rows, V._load_kittpeak())
@@ -120,8 +122,8 @@ def test_fold_moves_verdict_counts_to_5_1_20_0():
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
     assert counts['PASS'] == 5
-    assert counts['NLTE-OWED'] == 1
-    assert counts['CURATION-OWED'] == 20
+    assert counts.get('NLTE-OWED', 0) == 0                   # RYA-556: N I NLTE grid wired
+    assert counts['CURATION-OWED'] == 21                     # +N (was NLTE-OWED)
     assert counts.get('DATA-GAP', 0) == 0
     # Mn carries the measured value + PASS now
     mn = next(r for r in rows if r['element'] == 'Mn')
