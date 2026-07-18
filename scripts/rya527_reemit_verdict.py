@@ -37,6 +37,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from config.constants import SOLAR_ASPLUND2021, CORRECTIONS_3D          # noqa: E402
+from pipeline import engine_selection as es    # noqa: E402  RYA-558 ratified-exclusion guard
 
 VERDICT = ROOT / 'data' / 'audit' / 'cno_synthesis' / 'solar_phase_c_verdict.json'
 RECORDS = ROOT / 'data' / 'audit' / 'rya527_two_engine' / 'solar_two_engine_records.json'
@@ -45,10 +46,11 @@ OUT_DIR = ROOT / 'data' / 'audit' / 'rya527_reemit'
 
 # The reported value comes from the ratified/dedicated channel; the two-engine
 # result is a cross-engine DIAGNOSTIC (Ryan's Fe policy, generalised).
-RATIFIED = {'Fe', 'O', 'C', 'Mn', 'K', 'N', 'P', 'Co', 'Sc', 'Cu', 'V'}
-# For these owed metals the two-engine synthesis floor's value is proposed as the v3
-# diagnostic value (supersedes raw-EW). Ion preference where both ions were run.
-TWO_ENGINE_ION_PREF = {'Sr': 'II', 'Cr': 'II', 'Ti': 'I', 'Si': 'I'}
+# Cr is RATIFIED here (RYA-558): its reported value is the phase_c Cr I gf-floor (the
+# RYA-398 graded pool, +0.40 vs Asplund — the CANARY that must stay owed-at-floor, never
+# reconciled). Cr II is a ratified EXCLUSION (RYA-240) and the two-engine Cr I synthesis
+# sits near-anchor, so BOTH are diagnostics, never the reported value.
+RATIFIED = {'Fe', 'O', 'C', 'Mn', 'K', 'N', 'P', 'Co', 'Sc', 'Cu', 'V', 'Cr'}
 TIER = {'PASS': 0, 'NLTE-OWED': 1, 'CURATION-OWED': 2, 'DATA-GAP': 3}
 
 
@@ -64,16 +66,23 @@ def _records_by_element():
     return by, d.get('gerber_nlte_delta', {}), set(d.get('gerber_xfail', []))
 
 
-def _pick_ion(el, recs):
-    """Element-level two-engine record: the ratified/cited ion, else most lines."""
-    if len(recs) == 1:
-        return recs[0]
-    pref = TWO_ENGINE_ION_PREF.get(el)
-    if pref:
-        for r in recs:
-            if r['ion'] == pref:
-                return r
-    return max(recs, key=lambda r: r.get('n_lines', 0))
+def _pick_reported_and_diagnostics(el, recs):
+    """Split an element's per-ion two-engine records into (reported, [diagnostic-only]).
+
+    RYA-558: the reference-blind floor may NOT report a ratified-EXCLUDED species
+    (engine_selection.is_ratified_excluded_species) — Cr II is a diagnostic only (RYA-240),
+    never the reported value. The reported record is the ratified registry ion among the
+    allowed species (else most lines); the excluded species are kept, clearly labelled
+    DIAGNOSTIC-ONLY, for the cross-engine record. If ONLY an excluded species exists, the
+    reported record is None (loud — the guard also raises if it ever reaches the value)."""
+    excluded = [r for r in recs if es.is_ratified_excluded_species(f"{el} {r['ion']}")]
+    allowed = [r for r in recs if r not in excluded]
+    reported = None
+    if allowed:
+        want = {1: 'I', 2: 'II'}.get(es.ratified_reported_ion(el))
+        reported = next((r for r in allowed if r['ion'] == want), None) \
+            or max(allowed, key=lambda r: r.get('n_lines', 0))
+    return reported, excluded
 
 
 def main():
@@ -96,12 +105,18 @@ def main():
         asp = float(SOLAR_ASPLUND2021[el])
         vb = vbase.get(el, {})
         g = gold.get(el)
-        te = _pick_ion(el, recs_by_el[el]) if el in recs_by_el else None
+        te, te_excluded = (_pick_reported_and_diagnostics(el, recs_by_el[el])
+                           if el in recs_by_el else (None, []))
 
         phase_c_val = _f(vb.get('A_measured'))
         verdict_cls = vb.get('verdict', 'CURATION-OWED')
-        # two-engine cross-engine diagnostic (recorded for every covered element)
+        # two-engine cross-engine diagnostic (recorded for every covered element); any
+        # ratified-excluded species (Cr II, RYA-240/558) is carried DIAGNOSTIC-ONLY.
         te_record = None
+        diag_only = [{'species': f"{el} {r['ion']}", 'value': _f(r.get('reported')),
+                      'engineA': _f(r.get('engineA')), 'engineB': _f(r.get('engineB')),
+                      'DIAGNOSTIC_ONLY': True, 'reason': es.exclusion_reason(f"{el} {r['ion']}")}
+                     for r in te_excluded]
         if te is not None:
             te_record = {
                 'ion': te['ion'], 'reported': _f(te.get('reported')),
@@ -110,7 +125,10 @@ def main():
                 'selected_engines': te.get('selected_engines'),
                 'mix_flagged': te.get('mix_flagged'),
                 'gerber_nlte_delta': gerber_delta.get(el),
-                'gerber_xfail': el in gerber_xfail}
+                'gerber_xfail': el in gerber_xfail,
+                'diagnostic_only_species': diag_only or None}
+        elif diag_only:
+            te_record = {'ion': None, 'reported': None, 'diagnostic_only_species': diag_only}
 
         # ---- proposed v3 value + provenance, per the explicit rule ----
         if el in RATIFIED:
@@ -120,7 +138,8 @@ def main():
                 source = ('EW Fe I ionization-gated, 3D-corrected (RYA-406/407/553); '
                           'two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY')
         elif te_record is not None and te_record['reported'] is not None:
-            v3 = te_record['reported']             # two-engine synthesis floor
+            es.assert_not_excluded_value(f"{el} {te_record['ion']}")   # RYA-558 loud guard
+            v3 = te_record['reported']             # two-engine synthesis floor (allowed ion)
             source = (f"two-engine synthesis floor ({te_record['ion']}, "
                       f"{','.join(e.replace('engine','') for e in (te_record['selected_engines'] or []))})")
         else:
@@ -158,6 +177,14 @@ def main():
             flags.append("Ti: production NLTE = Engine-A Mallinson-2024 (RYA-545). The "
                          "Engine-B Gerber Ti (+0.221) ships atom.ti503b and is a strict xfail "
                          "(RYA-548) — recorded as diagnostic, not applied to the reported value.")
+        if el == 'Cr':
+            flags.append(f"Cr: reported = Cr I gf-floor {v3} (+{_f(v3-asp)} vs Asplund, the "
+                         "RYA-398 graded-pool CANARY — stays CURATION-OWED at floor, NOT PASS). "
+                         "Cr II 5.676 is DIAGNOSTIC-ONLY (RYA-240 ratified exclusion — COG/"
+                         "saturation artifact; enforced by the engine_selection guard, RYA-558) "
+                         "and the two-engine Cr I synthesis 5.654 sits near-anchor — both are "
+                         "diagnostics, never the reported value. Promotion of Cr II needs clean "
+                         "unsaturated weak lines (future decision), not the blind floor.")
 
     rows.sort(key=lambda r: (TIER.get(r['verdict'], 9), -r['asplund2021']))
 
