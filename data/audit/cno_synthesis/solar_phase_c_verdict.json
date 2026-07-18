@@ -43,6 +43,10 @@
     "s_synthesis_wired": true,
     "s_synthesis_elements": [
       "S"
+    ],
+    "ba_synthesis_wired": true,
+    "ba_synthesis_elements": [
+      "Ba"
     ]
   },
   "verdicts": [
@@ -408,17 +412,17 @@
     {
       "element": "Ba",
       "asplund2021": 2.27,
-      "A_measured": null,
-      "delta_vs_asplund": null,
-      "sigma": null,
-      "n_lines": 0,
-      "channel": "EW present; no independent-gf line survives the graded cull",
+      "A_measured": 2.41,
+      "delta_vs_asplund": 0.14,
+      "sigma": 0.07,
+      "n_lines": 1,
+      "channel": "synthesis: Ba II 5853.668 HFS-resolved LTE COG (Turbospectrum, VALD3 gf loggf -1.000) + Engine-A Korotin2015 1D-NLTE delta",
       "nlte_grid": "Ba_Korotin2015.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (Ba_Korotin2015.csv).",
-      "provenance": "harps-measured (EW pool)",
+      "owed": "MEASURED via HFS-resolved synthesis \u2014 the EW path SAT-culls the strong Ba II 5853 (REW -4.90, at the knee, +HFS/isotope; registry owed). A(Ba)_LTE 2.439 (bsyn COG inverting the observed solar EW 74.62 mA, 23 VALD3 HFS components, total loggf -1.0) + Engine-A Korotin2015 delta -0.0285 (solar 5853 node; validate-don't-tune) = A(Ba) 2.410 (+0.140 vs Asplund 2.27). Off no-value. Engine-B (Gerber atom.ba111 TS-native NLTE) corroborates at the departure level (Ba II 4554 delta -0.018, RYA-534) \u2014 5853 is absent from the GES level-ID block so Engine-A drives the delta; both agree Ba II NLTE is small-negative, so A is engine-insensitive. NOT PASS: the pool EW carries blend_flag=True (~10 mA over the clean solar line ~64 mA), inflating A by ~+0.15 \u2014 a blend/gf floor (RYA-161/162), NOT real Ba enhancement. Clean-EW cross-check (64.0 mA->2.187; 66.0 mA->2.231) reconciles with Asplund, confirming the offset is the blend. Deblend owed; do NOT tune.",
+      "provenance": "synthesis: Ba II 5853 HFS (RYA-559)",
       "fe_1d3d_correction": null
     },
     {

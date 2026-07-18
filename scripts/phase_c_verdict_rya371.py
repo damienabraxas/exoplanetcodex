@@ -56,6 +56,7 @@ CU_V_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' /
 MN_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' /
                  'solar_mn_hfs_synthesis_rya473.json')       # RYA-473 HFS-synthesis Mn
 S_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_s_costasilva_rya492.json'  # RYA-492 CS-gf S
+BA_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_ba_synthesis_rya559.json'  # RYA-559 Ba II 5853 synth
 
 # Prior Phase C verdict counts — the immediate baseline this run diffs against.
 # RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
@@ -807,6 +808,84 @@ def _apply_s_synthesis(rows, data):
     return overrides
 
 
+def _load_ba_synthesis():
+    """RYA-559: the Ba II 5853 HFS-synthesis measurement, or None if it hasn't run."""
+    if not BA_SYNTH_JSON.exists():
+        return None
+    return json.loads(BA_SYNTH_JSON.read_text())
+
+
+def _ba_reclassify(data):
+    """RYA-559 — fold the Ba II 5853 synthesis measurement into the verdict. Ba was
+    owed-NO-value: the EW path SAT-culls the strong Ba II 5853 line (REW -4.90, at the
+    saturation knee, +HFS/isotope), so it never enters the produced pool. The registry
+    route is SYNTHESIS of Ba II + the wired Korotin2015 NLTE grid (Ba is the majority
+    ion). This lands the value: an HFS-resolved LTE curve-of-growth (Turbospectrum bsyn,
+    23 VALD3 components, total loggf -1.000) inverts the OBSERVED solar EW (74.62 mA) ->
+    A(Ba)_LTE, then the production Engine-A Korotin2015 1D-NLTE delta (solar 5853 node,
+    -0.0285) is applied. Driven by the measured value, not tuned: a synthesised Ba that
+    sits high is a finding, not a PASS.
+
+    Ba stays CURATION-OWED: the +0.14 vs Asplund 2.27 is driven by the blend-inflated
+    pool EW (blend_flag=True; ~10 mA over the clean solar Ba II 5853 ~64 mA) — a gf/blend
+    floor routed to RYA-161/162, NOT closed here. Validate-don't-tune: the EW and the
+    Korotin delta are READ, never fitted toward Asplund. Returns {'Ba': override-dict}."""
+    if not data:
+        return {}
+    a = data.get('A_nlte')
+    if a is None:
+        return {}
+    a = float(a)
+    asp = float(data.get('asplund2021', SOLAR_ASPLUND2021.get('Ba', 2.27)))
+    d = a - asp
+    dk = data.get('engineA_korotin_delta')
+    a_lte = data.get('A_lte')
+    clean = (data.get('clean_ew_crosscheck', {}) or {}).get('values', {})
+    clean_txt = '; '.join(f"{ew} mA->{v.get('A_nlte')}" for ew, v in clean.items())
+    reconciled = abs(d) <= TOL_PASS          # False for Ba (blend/gf floor) — never PASS
+    return {'Ba': {
+        'verdict': 'PASS' if reconciled else 'CURATION-OWED',
+        'A_measured': a, 'sigma': data.get('sigma_ew_dex'),
+        'n_lines': 1, 'provenance': 'synthesis: Ba II 5853 HFS (RYA-559)',
+        'channel': 'synthesis: Ba II 5853.668 HFS-resolved LTE COG (Turbospectrum, '
+                   'VALD3 gf loggf -1.000) + Engine-A Korotin2015 1D-NLTE delta',
+        'owed': (f"MEASURED via HFS-resolved synthesis — the EW path SAT-culls the strong "
+                 f"Ba II 5853 (REW -4.90, at the knee, +HFS/isotope; registry owed). "
+                 f"A(Ba)_LTE {a_lte} (bsyn COG inverting the observed solar EW "
+                 f"{data.get('ew_obs_mA')} mA, 23 VALD3 HFS components, total loggf "
+                 f"{data.get('total_loggf')}) + Engine-A Korotin2015 delta {dk:+.4f} "
+                 f"(solar 5853 node; validate-don't-tune) = A(Ba) {a:.3f} ({d:+.3f} vs "
+                 f"Asplund {asp:.2f}). Off no-value. Engine-B (Gerber atom.ba111 TS-native "
+                 f"NLTE) corroborates at the departure level (Ba II 4554 delta -0.018, "
+                 f"RYA-534) — 5853 is absent from the GES level-ID block so Engine-A drives "
+                 f"the delta; both agree Ba II NLTE is small-negative, so A is engine-"
+                 f"insensitive. NOT PASS: the pool EW carries blend_flag=True (~10 mA over "
+                 f"the clean solar line ~64 mA), inflating A by ~+0.15 — a blend/gf floor "
+                 f"(RYA-161/162), NOT real Ba enhancement. Clean-EW cross-check ({clean_txt}) "
+                 f"reconciles with Asplund, confirming the offset is the blend. Deblend owed; "
+                 f"do NOT tune.")}}
+
+
+def _apply_ba_synthesis(rows, data):
+    """Overlay the RYA-559 Ba II 5853 synthesis reclassification onto the rows (in place)."""
+    overrides = _ba_reclassify(data)
+    for r in rows:
+        ov = overrides.get(r['element'])
+        if not ov:
+            continue
+        for key in ('verdict', 'channel', 'owed', 'provenance'):
+            if key in ov:
+                r[key] = ov[key]
+        if ov.get('A_measured') is not None:
+            r['A_measured'] = round(float(ov['A_measured']), 3)
+            r['delta_vs_asplund'] = round(r['A_measured'] - r['asplund2021'], 3)
+        if ov.get('sigma') is not None:
+            r['sigma'] = round(float(ov['sigma']), 3)
+        if ov.get('n_lines') is not None:
+            r['n_lines'] = int(ov['n_lines'])
+    return overrides
+
+
 def _apply_cu_v_synthesis(rows, data):
     """Overlay the RYA-466 Cu/V HFS-synthesis reclassification onto the base rows (in place)."""
     overrides = _cu_v_reclassify(data)
@@ -939,6 +1018,11 @@ def main():
     s_synth = _load_s_synthesis()
     s_overrides = _apply_s_synthesis(rows, s_synth)
 
+    # RYA-559: fold in the Ba II 5853 synthesis value (2.41). The EW path SAT-culls the
+    # strong Ba II 5853 (REW -4.90, HFS/blend); synthesis + Korotin NLTE lands it (owed).
+    ba_synth = _load_ba_synthesis()
+    ba_overrides = _apply_ba_synthesis(rows, ba_synth)
+
     counts = {}
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
@@ -957,7 +1041,9 @@ def main():
                'mn_synthesis_wired': bool(mn),
                'mn_synthesis_elements': sorted(mn_overrides) if mn_overrides else [],
                's_synthesis_wired': bool(s_synth),
-               's_synthesis_elements': sorted(s_overrides) if s_overrides else []}
+               's_synthesis_elements': sorted(s_overrides) if s_overrides else [],
+               'ba_synthesis_wired': bool(ba_synth),
+               'ba_synthesis_elements': sorted(ba_overrides) if ba_overrides else []}
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
