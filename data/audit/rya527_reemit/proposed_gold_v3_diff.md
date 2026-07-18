@@ -21,7 +21,7 @@ Verdict counts: {'PASS': 5, 'NLTE-OWED': 1, 'CURATION-OWED': 20}
 | Ca I | 6.3 | - | 6.372 **NEW** | +0.072 | CURATION-OWED | 6.344 | 6.327 | A_1dnlte,B_synth | 0.016 | two-engine synthesis floor (I, A_1dnlte,B_synth) |
 | Na I | 6.24 | - | 6.369 **NEW** | +0.129 | CURATION-OWED | 6.37 | 6.248 | A_1dnlte | -0.121 | two-engine synthesis floor (I, A_1dnlte) |
 | Ni I | 6.2 | - | 6.253 **NEW** | +0.053 | CURATION-OWED | 7.297 | 6.2 | B_synth | -1.253 | two-engine synthesis floor (I, B_synth) |
-| Cr II | 5.62 | 6.022 | 5.676 **NEW** | +0.056 | CURATION-OWED | 8.354 | 5.676 | B_synth | -2.677 | two-engine synthesis floor (II, B_synth) |
+| Cr I | 5.62 | 6.022 | 6.022 | +0.402 | CURATION-OWED | 6.036 | 5.638 | B_synth | -1.058 | ratified/dedicated channel (phase_c); two-engine = diagnostic |
 | P I | 5.41 | - | 6.61 **NEW** | +1.200 | CURATION-OWED | - | - | - | - | ratified/dedicated channel (phase_c); two-engine = diagnostic |
 | Ti I | 4.97 | - | 4.88 **NEW** | -0.090 | CURATION-OWED | 6.401 | 4.862 | B_synth | -1.326 | two-engine synthesis floor (I, B_synth) |
 | Co I | 4.94 | - | 6.128 **NEW** | +1.188 | CURATION-OWED | - | - | - | - | ratified/dedicated channel (phase_c); two-engine = diagnostic |
@@ -46,4 +46,5 @@ Verdict counts: {'PASS': 5, 'NLTE-OWED': 1, 'CURATION-OWED': 20}
 - N: base phase_c = 8.202 / NLTE-OWED (Kittpeak red multiplets). RYA-526 registered the N I NLTE grid; the phase_c KP channel does not auto-apply its (~-0.014) delta, so N still reads NLTE-OWED here — a properly-wired verdict moves it to ~8.188 CURATION-OWED (data-channel/gf floor, not an NLTE debt). WIRING FLAG.
 - Fe: reported 7.466 (3D, RYA-553). Two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY (per-line winner-combine biases high) — NOT the verdict (Ryan 2026-07-16).
 - S: the committed two-engine record engineA=7.369 is on the PRE-RYA-492 gf (the records were run off 7fb2224). A fresh two-engine run on current main picks up the Costa-Silva-2020 gf (A(S)~7.486); S stays CURATION-OWED (gf-scale floor, RYA-161) either way.
+- Cr: reported = Cr I gf-floor 6.022 (+0.402 vs Asplund, the RYA-398 graded-pool CANARY — stays CURATION-OWED at floor, NOT PASS). Cr II 5.676 is DIAGNOSTIC-ONLY (RYA-240 ratified exclusion — COG/saturation artifact; enforced by the engine_selection guard, RYA-558) and the two-engine Cr I synthesis 5.654 sits near-anchor — both are diagnostics, never the reported value. Promotion of Cr II needs clean unsaturated weak lines (future decision), not the blind floor.
 - Ti: production NLTE = Engine-A Mallinson-2024 (RYA-545). The Engine-B Gerber Ti (+0.221) ships atom.ti503b and is a strict xfail (RYA-548) — recorded as diagnostic, not applied to the reported value.

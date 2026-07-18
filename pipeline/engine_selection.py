@@ -44,7 +44,7 @@ from typing import Optional
 
 import numpy as np
 
-from config.constants import TWO_ENGINE
+from config.constants import TWO_ENGINE, NLTE_CORRECTION_ELEMENTS
 
 # ── engine + regime labels ────────────────────────────────────────────────────
 ENGINE_A = 'engineA_1dnlte'   # 1D-NLTE = EW + grid delta
@@ -274,3 +274,65 @@ def assert_reference_blind(selector_inputs) -> None:
             raise ReferenceProximityError(
                 f"selection input '{name}' references a reference value — selection must key "
                 "on line physics only (RYA-525 §2.2, tuning firewall RYA-161)")
+
+
+# ── Guard (d): ratified-excluded species (RYA-558) ───────────────────────────
+# The reference-blind floor selects on line physics alone — but it must not be able to
+# report a species the science has RATIFIED as excluded. The archetype is Cr II: the
+# RYA-232 −0.777 dex was two saturated lines in the COG damping wing (a line-matching
+# artifact, not a real systematic), so Cr II was deliberately excluded (RYA-240) and Cr
+# is reported as Cr I. Left unguarded, the floor picked Cr II 5.676 in the RYA-527 re-emit
+# only because it looked better than a worse raw-EW artifact (8.354) — the exact failure
+# this guard prevents. A ratified-excluded species stays a cross-engine DIAGNOSTIC; it is
+# NEVER the reported value. Promotion (e.g. Cr II) is a separate decision gated on clean
+# unsaturated weak lines — not something the blind floor may do implicitly.
+#
+# Single source of truth = the NLTE registry: a registered element's ratified ionisation
+# stage is fixed (NLTE_CORRECTION_ELEMENTS[el]['ion']; Cr=1, Sr/Ba=2), so a species on a
+# different ion is excluded-from-value. Explicit, cited exclusions are listed below.
+_ION_NUM = {'I': 1, 'II': 2, 'III': 3}
+RATIFIED_EXCLUDED_SPECIES = {
+    'Cr II': 'RYA-240 — COG/damping-wing saturation artifact (the RYA-232 −0.777 dex was '
+             '2 saturated lines); Cr is reported as Cr I. Bergemann & Cescutti 2010.',
+}
+
+
+def ratified_reported_ion(element: str):
+    """The ratified reported ionisation stage for an element, from the NLTE registry
+    (Cr=1 Cr I, Sr/Ba=2). None if the element is not registry-ion-locked."""
+    e = NLTE_CORRECTION_ELEMENTS.get(element)
+    return e.get('ion') if e else None
+
+
+def is_ratified_excluded_species(species: str) -> bool:
+    """True if `species` (e.g. 'Cr II') is a ratified EXCLUSION — a cross-engine
+    diagnostic only, NEVER the reported value of the reference-blind floor. Sourced from
+    the registry (a registered element's ratified ion is fixed; a different ion is
+    excluded) plus the explicit RATIFIED_EXCLUDED_SPECIES list."""
+    parts = str(species).split()
+    if len(parts) < 2:
+        return False
+    if species in RATIFIED_EXCLUDED_SPECIES:
+        return True
+    ratified = ratified_reported_ion(parts[0])
+    ion_num = _ION_NUM.get(parts[1])
+    return ratified is not None and ion_num is not None and ion_num != ratified
+
+
+def exclusion_reason(species: str) -> str:
+    """Cited reason a species is ratified-excluded (for the diagnostic label / log)."""
+    if species in RATIFIED_EXCLUDED_SPECIES:
+        return RATIFIED_EXCLUDED_SPECIES[species]
+    return (f"not the registry-ratified ion for {str(species).split()[0]} "
+            f"(NLTE_CORRECTION_ELEMENTS ion={ratified_reported_ion(str(species).split()[0])})")
+
+
+def assert_not_excluded_value(species: str) -> None:
+    """Guard (d): a ratified-excluded species must NEVER be the reported floor value.
+    Loud-fail (record it as a diagnostic instead) — the blind floor may not implicitly
+    promote a ratified exclusion (RYA-558/240)."""
+    if is_ratified_excluded_species(species):
+        raise TwoEngineError(
+            f"{species}: ratified-excluded species cannot be the reported value of the "
+            f"reference-blind floor ({exclusion_reason(species)}) — keep it as a "
+            f"cross-engine DIAGNOSTIC, report the ratified ion (RYA-558/240).")
