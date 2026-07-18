@@ -7,8 +7,8 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 ## Verdict counts
 
 - **PASS**: 5  (prior 3, diff +2)
-- **NLTE-OWED**: 1  (prior 2, diff -1)
-- **CURATION-OWED**: 20  (prior 21, diff -1)
+- **NLTE-OWED**: 0  (prior 2, diff -2)
+- **CURATION-OWED**: 21  (prior 21, diff +0)
 - **DATA-GAP**: 0  (prior 0, diff +0)
 
 ## RYA-460 overlap cross-check (Kitt Peak leg validation)
@@ -26,7 +26,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 |----|----------:|--------:|------:|------:|--:|:----:|:--------|:-----------|:--------|
 | O | 8.69 | 8.735 | +0.045 | 0.01 | 3 | - | **PASS** | synthesis: harps/espresso (Phase A) | synthesis: O I 777 (primary) + [O I] 6300 (cross-check) |
 | C | 8.46 | 8.491 | +0.031 | 0.05 | 5 | - | **PASS** | synthesis: harps/espresso (Phase A) | synthesis: CH G-band + C I 5052 + C2 Swan (C I 5380 BAD_FIT-excluded) |
-| N | 7.83 | 8.202 | +0.372 | 0.03 | 3 | wired | **NLTE-OWED** | kittpeak-measured | kittpeak: N I red 7442/7468 + 8216/8223 + 8680-8718 (NH/CN blue-edge flagged) |
+| N | 7.83 | 8.188 | +0.358 | 0.03 | 3 | wired | **CURATION-OWED** | kittpeak-measured | kittpeak: N I red 7468/8216/8683 — NLTE-wired (N_Amarsi2020_PySME, RYA-369/526) |
 | Mg | 7.55 |  |  |  |  | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
 | Si | 7.51 | 7.888 | +0.378 |  | 7 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 7 line(s) |
 | Fe | 7.46 | 7.466 | +0.006 | 0.14 | 62 | - | **PASS** | harps-measured (EW) | EW: 62 Fe I + 3 Fe II, NLTE-wired (Bergemann MPIA) |
@@ -61,12 +61,9 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 - **Mn** — MEASURED via HFS-resolved synthesis — the EW path SAT-culls the Den Hartog triplet (REW −4.78..−4.82 over the −4.90 knee, HFS-split hfs_n=6; RYA-468 finding: gf graded but saturation is the blocker). Synthesis on the GES HFS line list (6 components/feature = Den Hartog Table 4, cited) measures it. A(Mn)_LTE 5.442 + Mn NLTE +0.024 (live Amarsi HFS-resolved) = 5.466 (+0.046 vs Asplund 5.42; σ 0.154, n=3). Reconciles within TOL — the HFS-synthesis path closes the Mn gap.
 - **K** — MEASURED Kitt Peak K I 7699 = 5.411 (1D-LTE, +0.34 vs 5.07). K_Amarsi2020_PySME NLTE delta -0.312 APPLIED via the existing interpolation subsystem (RYA-462 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune) -> A(K) 5.099 (+0.029 vs Asplund 5.07). Reconciles within TOL after the cited NLTE correction — the severe negative K I resonance NLTE is real, not tuned.
 
-### NLTE-OWED (1)
+### CURATION-OWED (21)
 
-- **N** — MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE: 8.189 / 8.222 / 8.196 (mean 8.202, spread 0.033). +0.37 vs Asplund 7.83 is the N I NLTE offset OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent — FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).
-
-### CURATION-OWED (20)
-
+- **N** — MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE (1D-LTE mean 8.202, spread 0.033). N I NLTE delta APPLIED via the registered N_Amarsi2020_PySME grid (RYA-369/526) through the existing interpolation subsystem (RYA-556 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune): per-line -0.0115/-0.0145/-0.0154, mean -0.0138 -> A(N) 8.188 (+0.358 vs Asplund 7.83). The NLTE debt is now CLEARED (off NLTE-OWED). The remaining +0.36 is a KP red-multiplet gf/data-channel floor (RYA-161) — curation owed, NOT an NLTE debt; do NOT tune. NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent — FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).
 - **Mg** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv).
 - **Si** — A(X) 7.888 vs Asplund 7.51 (+0.378), sigma nan — gf-/blend-limited pool (RYA-395/398). NLTE-wired (Si_Amarsi2020_PySME.csv).
 - **S** — REPOINTED to the RYA-492 Costa-Silva-2020 atlas-tuned S I gf (single cited source; canonical_gf S I 6743 -0.6103->-0.5476). Synthesis A(S)_NLTE 7.486 (σ 0.045; GES-gf control 7.482) — the CS gf moved it only ~-0.03 (7.516->7.486). +0.366 vs Asplund 7.12 is a gf-SCALE floor (RYA-161), NOT a line-ID error and NOT closed by the gf; stays CURATION-OWED, do NOT tune. PROVENANCE of the other S numbers: the RYA-527 two-engine Engine-A 7.369 is the EW path — the EW cull keeps only S I 6757.15 (A_LTE 7.386) + NLTE delta -0.017 = 7.369 (single blend-limited line, no 6743, does NOT use the CS gf); the frozen gold v1 7.753 is the older EW cull (n=2). These are distinct channels, now reconciled: the reported verdict value is the CS-gf synthesis 7.486.

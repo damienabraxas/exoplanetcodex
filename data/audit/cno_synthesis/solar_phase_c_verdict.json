@@ -9,8 +9,7 @@
     "n_elements": 26,
     "counts": {
       "PASS": 5,
-      "NLTE-OWED": 1,
-      "CURATION-OWED": 20
+      "CURATION-OWED": 21
     },
     "prior_counts": {
       "PASS": 3,
@@ -20,8 +19,8 @@
     },
     "diff_vs_prior": {
       "PASS": 2,
-      "NLTE-OWED": -1,
-      "CURATION-OWED": -1,
+      "NLTE-OWED": -2,
+      "CURATION-OWED": 0,
       "DATA-GAP": 0
     },
     "kittpeak_wired": true,
@@ -82,16 +81,16 @@
     {
       "element": "N",
       "asplund2021": 7.83,
-      "A_measured": 8.202,
-      "delta_vs_asplund": 0.372,
+      "A_measured": 8.188,
+      "delta_vs_asplund": 0.358,
       "sigma": 0.033,
       "n_lines": 3,
-      "channel": "kittpeak: N I red 7442/7468 + 8216/8223 + 8680-8718 (NH/CN blue-edge flagged)",
+      "channel": "kittpeak: N I red 7468/8216/8683 \u2014 NLTE-wired (N_Amarsi2020_PySME, RYA-369/526)",
       "nlte_grid": "N_Amarsi2020_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
-      "verdict": "NLTE-OWED",
-      "owed": "MEASURED from Kitt Peak N I red \u2014 3 independent multiplets AGREE: 8.189 / 8.222 / 8.196 (mean 8.202, spread 0.033). +0.37 vs Asplund 7.83 is the N I NLTE offset OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here \u2014 blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent \u2014 FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).",
+      "verdict": "CURATION-OWED",
+      "owed": "MEASURED from Kitt Peak N I red \u2014 3 independent multiplets AGREE (1D-LTE mean 8.202, spread 0.033). N I NLTE delta APPLIED via the registered N_Amarsi2020_PySME grid (RYA-369/526) through the existing interpolation subsystem (RYA-556 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune): per-line -0.0115/-0.0145/-0.0154, mean -0.0138 -> A(N) 8.188 (+0.358 vs Asplund 7.83). The NLTE debt is now CLEARED (off NLTE-OWED). The remaining +0.36 is a KP red-multiplet gf/data-channel floor (RYA-161) \u2014 curation owed, NOT an NLTE debt; do NOT tune. NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here \u2014 blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent \u2014 FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).",
       "provenance": "kittpeak-measured",
       "fe_1d3d_correction": null
     },

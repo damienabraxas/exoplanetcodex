@@ -483,21 +483,57 @@ def _kittpeak_reclassify(kp):
                'Kitt Peak leg NOT validated (overlap disagreement) — KP-only values held')
     out = {}
 
-    # ── N — measured from Kitt Peak N I red (the RYA-369 unblock) ──
+    # ── N — measured from Kitt Peak N I red; NLTE grid now WIRED (RYA-556) ──
+    # The N_Amarsi2020_PySME grid was PRESENT-but-UNWIRED here: registered in
+    # NLTE_CORRECTION_ELEMENTS (RYA-369/526) but this KP channel emitted the 1D-LTE
+    # mean and left N in NLTE-OWED (the merged-not-wired gap RYA-527 surfaced). Apply
+    # its vendored solar delta to each of the 3 KP N I multiplets through the SAME
+    # interpolation subsystem the other registry elements use (Ca/Ti/Cr/Na/K), and
+    # average — the near-LTE correction (per-line ~-0.011/-0.015/-0.015) clears the
+    # NLTE debt. Validate-don't-tune: the delta is READ from the grid, never fitted.
+    # N does NOT become PASS: the +0.36 residual vs Asplund is a KP red-multiplet
+    # gf/data-channel floor (RYA-161), routed to curation, NOT an NLTE debt.
+    N_GRID_NODES = {'NI_7442_7468': 7468.31, 'NI_8216_8223': 8216.34, 'NI_8680_8718': 8683.4}
     if leg_ok and nci.get('atomic_NI_mean') is not None:
-        out['N'] = {
-            'verdict': 'NLTE-OWED', 'A_measured': nci['atomic_NI_mean'],
-            'sigma': nci['atomic_NI_spread'], 'n_lines': 3,
-            'provenance': 'kittpeak-measured',
-            'channel': 'kittpeak: N I red 7442/7468 + 8216/8223 + 8680-8718 (NH/CN blue-edge flagged)',
-            'owed': (f"MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE: "
-                     f"{nci['indicators']['NI_7442_7468']} / {nci['indicators']['NI_8216_8223']} / "
-                     f"{nci['indicators']['NI_8680_8718']} (mean {nci['atomic_NI_mean']}, spread "
-                     f"{nci['atomic_NI_spread']}). +0.37 vs Asplund 7.83 is the N I NLTE offset "
-                     f"OWED (N I grid RYA-369; NLTE is negative, pulls toward 7.83). NOT validated: "
-                     f"Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 "
-                     f"UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the "
-                     f"Turbospectrum molecular linelist is absent — FLAGGED, not forced. {leg_txt}.")}
+        a_lte = float(nci['atomic_NI_mean'])
+        asp_n = float(SOLAR_ASPLUND2021.get('N', 7.83))
+        per_line = [(_apply_nlte_grid_delta('N', w, a_lte), key)
+                    for key, w in N_GRID_NODES.items()]
+        deltas = [pl[0][1] for pl in per_line]           # (a_nlte, delta, flag)
+        nflag = per_line[0][0][2]
+        if all(np.isfinite(d) for d in deltas):          # grid resolved for every multiplet
+            nd = float(np.mean(deltas))
+            a_nlte = round(a_lte + nd, 3)
+            print(f"  RYA-556 N I NLTE: A(N) {a_lte:.3f} (1D-LTE) {nd:+.4f} "
+                  f"-> {a_nlte:.3f} (N_Amarsi2020_PySME, RYA-369/526) — off NLTE-OWED")
+            out['N'] = {
+                'verdict': 'CURATION-OWED', 'A_measured': a_nlte,
+                'sigma': nci['atomic_NI_spread'], 'n_lines': 3, 'provenance': 'kittpeak-measured',
+                'channel': 'kittpeak: N I red 7468/8216/8683 — NLTE-wired (N_Amarsi2020_PySME, RYA-369/526)',
+                'owed': (f"MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE "
+                         f"(1D-LTE mean {a_lte:.3f}, spread {nci['atomic_NI_spread']}). N I NLTE "
+                         f"delta APPLIED via the registered N_Amarsi2020_PySME grid (RYA-369/526) "
+                         f"through the existing interpolation subsystem (RYA-556 wiring; {nflag}; "
+                         f"validate-don't-tune): per-line {deltas[0]:+.4f}/{deltas[1]:+.4f}/"
+                         f"{deltas[2]:+.4f}, mean {nd:+.4f} -> A(N) {a_nlte:.3f} ({a_nlte - asp_n:+.3f} "
+                         f"vs Asplund {asp_n:.2f}). The NLTE debt is now CLEARED (off NLTE-OWED). The "
+                         f"remaining +{a_nlte - asp_n:.2f} is a KP red-multiplet gf/data-channel floor "
+                         f"(RYA-161) — curation owed, NOT an NLTE debt; do NOT tune. NOT validated: "
+                         f"Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 "
+                         f"UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the "
+                         f"Turbospectrum molecular linelist is absent — FLAGGED, not forced. {leg_txt}.")}
+        else:
+            # Grid unavailable at runtime -> LOUD, held NLTE-OWED, never silently LTE.
+            print(f"  RYA-556 N I NLTE: grid unavailable ({nflag}) — N held NLTE-OWED, "
+                  f"never silently LTE (delta not applied).")
+            out['N'] = {
+                'verdict': 'NLTE-OWED', 'A_measured': a_lte,
+                'sigma': nci['atomic_NI_spread'], 'n_lines': 3, 'provenance': 'kittpeak-measured',
+                'channel': 'kittpeak: N I red 7442/7468 + 8216/8223 + 8680-8718 (NH/CN blue-edge flagged)',
+                'owed': (f"MEASURED from Kitt Peak N I red (1D-LTE mean {a_lte:.3f}, spread "
+                         f"{nci['atomic_NI_spread']}). N_Amarsi2020_PySME grid registered "
+                         f"(RYA-369/526) but the delta could NOT be interpolated at runtime "
+                         f"({nflag}) -> held NLTE-OWED, never silently LTE. {leg_txt}.")}
 
     # ── K — measured; NLTE grid now WIRED (RYA-462) ──
     # The K_Amarsi2020_PySME grid was PRESENT-but-UNWIRED (grid + full PySME machinery
