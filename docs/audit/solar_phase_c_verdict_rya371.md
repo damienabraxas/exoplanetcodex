@@ -1,6 +1,6 @@
 # RYA-371 Phase C — Solar 27-element verdict table (RYA-239 retry)
 
-_Generated 2026-07-17 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
+_Generated 2026-07-18 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
 
 _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by overlap: PASS._
 
@@ -30,7 +30,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 | Mg | 7.55 |  |  |  |  | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
 | Si | 7.51 | 7.888 | +0.378 |  | 7 | wired+3D | **CURATION-OWED** | harps-measured (EW pool) | EW: 7 line(s) |
 | Fe | 7.46 | 7.466 | +0.006 | 0.14 | 62 | - | **PASS** | harps-measured (EW) | EW: 62 Fe I + 3 Fe II, NLTE-wired (Bergemann MPIA) |
-| S | 7.12 |  |  |  | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
+| S | 7.12 | 7.486 | +0.366 | 0.04 | 2 | wired | **CURATION-OWED** | synthesis: Costa-Silva gf (RYA-492) | synthesis: S I 6743.53 + 6757.15 windows, gf=Costa Silva+2020 (A&A 634 A136) Table1, NLTE Amarsi 2025 (RYA-492) |
 | Al | 6.43 |  |  |  | 1 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
 | Ca | 6.30 |  |  |  | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
 | Na | 6.24 |  |  |  | 2 | wired | **CURATION-OWED** | harps-measured (EW pool) | EW present; no independent-gf line survives the graded cull |
@@ -66,7 +66,7 @@ _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by 
 - **N** — MEASURED from Kitt Peak N I red — 3 independent multiplets AGREE (1D-LTE mean 8.202, spread 0.033). N I NLTE delta APPLIED via the registered N_Amarsi2020_PySME grid (RYA-369/526) through the existing interpolation subsystem (RYA-556 wiring; NLTE_Amarsi2020_PySME_1D; validate-don't-tune): per-line -0.0115/-0.0145/-0.0154, mean -0.0138 -> A(N) 8.188 (+0.358 vs Asplund 7.83). The NLTE debt is now CLEARED (off NLTE-OWED). The remaining +0.36 is a KP red-multiplet gf/data-channel floor (RYA-161) — curation owed, NOT an NLTE debt; do NOT tune. NOT validated: Teff-bracket owed (Procyon / aCen B, RYA-369). NH 3360 + CN violet 3883 UNMEASURABLE here — blue-edge no-true-continuum (SNR~28, RYA-451/454) + the Turbospectrum molecular linelist is absent — FLAGGED, not forced. Kitt Peak leg VALIDATED by the [O I]6300/O I 777 overlap cross-check vs HARPS/ESPRESSO (agree within 0.04).
 - **Mg** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Mg_Amarsi2020_PySME.csv).
 - **Si** — A(X) 7.888 vs Asplund 7.51 (+0.378), sigma nan — gf-/blend-limited pool (RYA-395/398). NLTE-wired (Si_Amarsi2020_PySME.csv).
-- **S** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (S_Amarsi2025_PySME.csv).
+- **S** — REPOINTED to the RYA-492 Costa-Silva-2020 atlas-tuned S I gf (single cited source; canonical_gf S I 6743 -0.6103->-0.5476). Synthesis A(S)_NLTE 7.486 (σ 0.045; GES-gf control 7.482) — the CS gf moved it only ~-0.03 (7.516->7.486). +0.366 vs Asplund 7.12 is a gf-SCALE floor (RYA-161), NOT a line-ID error and NOT closed by the gf; stays CURATION-OWED, do NOT tune. PROVENANCE of the other S numbers: the RYA-527 two-engine Engine-A 7.369 is the EW path — the EW cull keeps only S I 6757.15 (A_LTE 7.386) + NLTE delta -0.017 = 7.369 (single blend-limited line, no 6743, does NOT use the CS gf); the frozen gold v1 7.753 is the older EW cull (n=2). These are distinct channels, now reconciled: the reported verdict value is the CS-gf synthesis 7.486.
 - **Al** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Al_Amarsi2020_PySME.csv).
 - **Ca** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Ca_Mashonkina2017.csv).
 - **Na** — solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line — the pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). NLTE grid available (Na_Amarsi2020_PySME.csv).
