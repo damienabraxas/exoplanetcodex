@@ -58,11 +58,17 @@ def test_cno_sourced_from_phase_a_not_ew_artifact():
     assert rows['C']['channel'].startswith('synthesis')
 
 
-def test_nitrogen_is_nlte_owed_with_named_grid():
+def test_nitrogen_nlte_wired_off_nlte_owed():
+    # RYA-556: the registered N I NLTE grid (N_Amarsi2020_PySME, RYA-369/526) is now
+    # APPLIED in the KP channel, so N clears NLTE-OWED -> CURATION-OWED. It does NOT
+    # become PASS: the +0.36 vs Asplund is a KP gf/data-channel floor (RYA-161).
     rows, _ = _rows()
     n = rows['N']
-    assert n['verdict'] == 'NLTE-OWED'
-    assert 'N I' in n['owed'] and 'RYA-369' in n['owed']   # the owed grid is named
+    assert n['verdict'] == 'CURATION-OWED'                  # off the NLTE-OWED bucket
+    assert 'RYA-369' in n['owed']                           # the applied grid is named
+    assert 'APPLIED' in n['owed'] and 'RYA-161' in n['owed']  # NLTE applied; residual routed
+    assert abs(float(n['A_measured']) - 8.188) < 0.01       # near-LTE shift from 8.202
+    assert float(n['delta_vs_asplund']) > 0.30              # the gf/data floor survives (owed)
 
 
 def test_phosphorus_measured_from_kittpeak_off_data_gap():
@@ -112,10 +118,12 @@ def test_counts_cover_all_metals_once():
     for r in rows.values():
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
     assert sum(counts.values()) == 26
-    # FINAL (Kitt-Peak-applied) verdict: 4 / 1 / 21 / 0.
+    # FINAL (Kitt-Peak-applied) verdict: 4 / 0 / 22 / 0 (base+KP flow; Mn/Cu/V synthesis
+    # folds are not applied in _rows()). RYA-556 wired the N I NLTE grid, emptying the
+    # NLTE-OWED bucket (N -> CURATION-OWED).
     assert counts['PASS'] == 4                               # O, C, Fe, K (KP-wired NLTE)
-    assert counts['NLTE-OWED'] == 1                          # N (N I grid owed)
-    assert counts['CURATION-OWED'] == 21
+    assert counts.get('NLTE-OWED', 0) == 0                   # RYA-556: N NLTE grid now applied
+    assert counts['CURATION-OWED'] == 22                     # +N (was NLTE-OWED)
     assert counts.get('DATA-GAP', 0) == 0                    # P/K/Co/Sc all measured off DATA-GAP
     assert set(counts) <= {'PASS', 'NLTE-OWED', 'CURATION-OWED', 'DATA-GAP'}
 

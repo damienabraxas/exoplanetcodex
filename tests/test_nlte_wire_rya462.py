@@ -111,6 +111,6 @@ def test_committed_verdict_counts_and_invariants():
     # not a tune (the δ is the small line-exact value, not the MPIA high-EP +0.108).
     assert by['Mn']['verdict'] == 'PASS'
     assert abs(by['Mn']['A_measured'] - 5.470) < 0.01
-    assert by['N']['verdict'] == 'NLTE-OWED'           # the one remaining NLTE-OWED
+    assert by['N']['verdict'] == 'CURATION-OWED'       # RYA-556: N I NLTE grid now applied
     counts = d['summary']['counts']
-    assert counts == {'PASS': 5, 'NLTE-OWED': 1, 'CURATION-OWED': 20}
+    assert counts == {'PASS': 5, 'CURATION-OWED': 21}  # NLTE-OWED bucket emptied by RYA-556
