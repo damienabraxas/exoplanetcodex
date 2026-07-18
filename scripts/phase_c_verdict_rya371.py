@@ -55,6 +55,7 @@ CU_V_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' /
                    'solar_cu_v_hfs_synthesis_rya466.json')   # RYA-466 HFS-synthesis Cu/V
 MN_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' /
                  'solar_mn_hfs_synthesis_rya473.json')       # RYA-473 HFS-synthesis Mn
+S_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_s_costasilva_rya492.json'  # RYA-492 CS-gf S
 
 # Prior Phase C verdict counts — the immediate baseline this run diffs against.
 # RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
@@ -702,6 +703,74 @@ def _apply_mn_synthesis(rows, data):
     return overrides
 
 
+def _load_s_synthesis():
+    """RYA-492: the Costa-Silva-gf synthesis S measurement, or None if it hasn't run."""
+    if not S_SYNTH_JSON.exists():
+        return None
+    return json.loads(S_SYNTH_JSON.read_text())
+
+
+def _s_reclassify(data):
+    """RYA-557 — repoint solar S to the RYA-492 Costa-Silva gf synthesis value (7.486),
+    the single cited source for S. The generic EW path leaves S owed-no-value: the EW
+    sanity/gf-grade cull rejects all solar S I lines but 6757.15, and the 6743 line that
+    carries the CS gf (canonical_gf, RYA-492) is a SYNTHESIS line absent from the EW pool.
+    So the CS-gf value lives on the synthesis channel — fold it in like Cu/V/Mn.
+
+    S stays CURATION-OWED: the +0.37 vs Asplund 7.12 is a gf-scale floor (RYA-161), NOT
+    closed by the gf (adopting CS gf moved it only -0.03, 7.516->7.486). Validate-don't-
+    tune: the value is READ from the committed measurement, never fitted toward Asplund.
+    Returns {'S': override-dict}."""
+    if not data:
+        return {}
+    cs = data.get('costa_silva', {})
+    a = cs.get('a_nlte')
+    if a is None:
+        return {}
+    a = float(a)
+    asp = float(SOLAR_ASPLUND2021.get('S', 7.12))
+    d = a - asp
+    ctrl = (data.get('control_ges', {}) or {}).get('a_nlte')
+    reconciled = abs(d) <= TOL_PASS          # False for S (gf-floor) — never PASS
+    return {'S': {
+        'verdict': 'PASS' if reconciled else 'CURATION-OWED',
+        'A_measured': a, 'sigma': cs.get('sigma'), 'n_lines': len(cs.get('per_window', [])) or 2,
+        'provenance': 'synthesis: Costa-Silva gf (RYA-492)',
+        'channel': 'synthesis: S I 6743.53 + 6757.15 windows, gf=Costa Silva+2020 '
+                   '(A&A 634 A136) Table1, NLTE Amarsi 2025 (RYA-492)',
+        'owed': (f"REPOINTED to the RYA-492 Costa-Silva-2020 atlas-tuned S I gf (single "
+                 f"cited source; canonical_gf S I 6743 -0.6103->-0.5476). Synthesis A(S)_NLTE "
+                 f"{a:.3f} (σ {cs.get('sigma')}; GES-gf control {ctrl}) — the CS gf moved it "
+                 f"only ~-0.03 (7.516->{a:.3f}). {d:+.3f} vs Asplund {asp:.2f} is a gf-SCALE "
+                 f"floor (RYA-161), NOT a line-ID error and NOT closed by the gf; stays "
+                 f"CURATION-OWED, do NOT tune. PROVENANCE of the other S numbers: the RYA-527 "
+                 f"two-engine Engine-A 7.369 is the EW path — the EW cull keeps only S I "
+                 f"6757.15 (A_LTE 7.386) + NLTE delta -0.017 = 7.369 (single blend-limited "
+                 f"line, no 6743, does NOT use the CS gf); the frozen gold v1 7.753 is the "
+                 f"older EW cull (n=2). These are distinct channels, now reconciled: the "
+                 f"reported verdict value is the CS-gf synthesis {a:.3f}.")}}
+
+
+def _apply_s_synthesis(rows, data):
+    """Overlay the RYA-492 Costa-Silva-gf S synthesis reclassification onto the rows (RYA-557)."""
+    overrides = _s_reclassify(data)
+    for r in rows:
+        ov = overrides.get(r['element'])
+        if not ov:
+            continue
+        for key in ('verdict', 'channel', 'owed', 'provenance'):
+            if key in ov:
+                r[key] = ov[key]
+        if ov.get('A_measured') is not None:
+            r['A_measured'] = round(float(ov['A_measured']), 3)
+            r['delta_vs_asplund'] = round(r['A_measured'] - r['asplund2021'], 3)
+        if ov.get('sigma') is not None:
+            r['sigma'] = round(float(ov['sigma']), 3)
+        if ov.get('n_lines') is not None:
+            r['n_lines'] = int(ov['n_lines'])
+    return overrides
+
+
 def _apply_cu_v_synthesis(rows, data):
     """Overlay the RYA-466 Cu/V HFS-synthesis reclassification onto the base rows (in place)."""
     overrides = _cu_v_reclassify(data)
@@ -829,6 +898,11 @@ def main():
     mn = _load_mn_synthesis()
     mn_overrides = _apply_mn_synthesis(rows, mn)
 
+    # RYA-557: repoint S to the RYA-492 Costa-Silva-gf synthesis value (7.486). The EW path
+    # leaves S owed-no-value (all but 6757.15 culled; the CS-gf 6743 line is synthesis-only).
+    s_synth = _load_s_synthesis()
+    s_overrides = _apply_s_synthesis(rows, s_synth)
+
     counts = {}
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
@@ -845,7 +919,9 @@ def main():
                'cu_v_synthesis_wired': bool(cuv),
                'cu_v_synthesis_elements': sorted(cuv_overrides) if cuv_overrides else [],
                'mn_synthesis_wired': bool(mn),
-               'mn_synthesis_elements': sorted(mn_overrides) if mn_overrides else []}
+               'mn_synthesis_elements': sorted(mn_overrides) if mn_overrides else [],
+               's_synthesis_wired': bool(s_synth),
+               's_synthesis_elements': sorted(s_overrides) if s_overrides else []}
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)

@@ -2,7 +2,7 @@
   "summary": {
     "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "star": "solar",
-    "generated": "2026-07-17",
+    "generated": "2026-07-18",
     "reference": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)",
     "solar_ref_version": "v2",
     "tol_pass_dex": 0.1,
@@ -40,6 +40,10 @@
     "mn_synthesis_wired": true,
     "mn_synthesis_elements": [
       "Mn"
+    ],
+    "s_synthesis_wired": true,
+    "s_synthesis_elements": [
+      "S"
     ]
   },
   "verdicts": [
@@ -149,17 +153,17 @@
     {
       "element": "S",
       "asplund2021": 7.12,
-      "A_measured": null,
-      "delta_vs_asplund": null,
-      "sigma": null,
+      "A_measured": 7.486,
+      "delta_vs_asplund": 0.366,
+      "sigma": 0.045,
       "n_lines": 2,
-      "channel": "EW present; no independent-gf line survives the graded cull",
+      "channel": "synthesis: S I 6743.53 + 6757.15 windows, gf=Costa Silva+2020 (A&A 634 A136) Table1, NLTE Amarsi 2025 (RYA-492)",
       "nlte_grid": "S_Amarsi2025_PySME.csv",
       "nlte_wired": true,
       "threed_wired": false,
       "verdict": "CURATION-OWED",
-      "owed": "solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf firewall (now wired into the default run, RYA-456) culls every line \u2014 the pool gf is Kurucz/ungraded. gf-data-limited \u2192 RYA-161/162 (differential survey). NLTE grid available (S_Amarsi2025_PySME.csv).",
-      "provenance": "harps-measured (EW pool)",
+      "owed": "REPOINTED to the RYA-492 Costa-Silva-2020 atlas-tuned S I gf (single cited source; canonical_gf S I 6743 -0.6103->-0.5476). Synthesis A(S)_NLTE 7.486 (\u03c3 0.045; GES-gf control 7.482) \u2014 the CS gf moved it only ~-0.03 (7.516->7.486). +0.366 vs Asplund 7.12 is a gf-SCALE floor (RYA-161), NOT a line-ID error and NOT closed by the gf; stays CURATION-OWED, do NOT tune. PROVENANCE of the other S numbers: the RYA-527 two-engine Engine-A 7.369 is the EW path \u2014 the EW cull keeps only S I 6757.15 (A_LTE 7.386) + NLTE delta -0.017 = 7.369 (single blend-limited line, no 6743, does NOT use the CS gf); the frozen gold v1 7.753 is the older EW cull (n=2). These are distinct channels, now reconciled: the reported verdict value is the CS-gf synthesis 7.486.",
+      "provenance": "synthesis: Costa-Silva gf (RYA-492)",
       "fe_1d3d_correction": null
     },
     {
