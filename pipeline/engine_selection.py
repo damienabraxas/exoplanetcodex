@@ -39,12 +39,16 @@ Per element:
 """
 from __future__ import annotations
 
+import csv as _csv
 from dataclasses import dataclass, field
+from pathlib import Path as _Path
 from typing import Optional
 
 import numpy as np
 
 from config.constants import TWO_ENGINE, NLTE_CORRECTION_ELEMENTS
+
+_REGISTRY_CSV = _Path(__file__).resolve().parents[1] / 'data' / 'registry' / 'problem_children.csv'
 
 # ── engine + regime labels ────────────────────────────────────────────────────
 ENGINE_A = 'engineA_1dnlte'   # 1D-NLTE = EW + grid delta
@@ -336,3 +340,20 @@ def assert_not_excluded_value(species: str) -> None:
             f"{species}: ratified-excluded species cannot be the reported value of the "
             f"reference-blind floor ({exclusion_reason(species)}) — keep it as a "
             f"cross-engine DIAGNOSTIC, report the ratified ion (RYA-558/240).")
+
+
+def is_upper_limit_disposition(element: str) -> bool:
+    """True if the registry gives this element an UPPER_LIMIT disposition
+    (required_treatment == 'upper_limit'). Such an element must be carried as an
+    upper limit — the reference-blind two-engine floor may NOT emit a synthesis
+    point value for it (RYA-563/103/458). Single source of truth: problem_children.csv.
+    Loud-fail: if the registry file is missing, raise — never silently return False."""
+    if not _REGISTRY_CSV.exists():
+        raise TwoEngineError(f"registry not found at {_REGISTRY_CSV} — cannot resolve "
+                             f"upper_limit disposition for {element} (RYA-563)")
+    with open(_REGISTRY_CSV) as fh:
+        for row in _csv.DictReader(fh):
+            sp = (row.get('species') or '').split()
+            if sp and sp[0] == element and (row.get('required_treatment') or '').strip() == 'upper_limit':
+                return True
+    return False
