@@ -593,14 +593,14 @@
       "asplund2021": 1.05,
       "v2_gold": 0.727,
       "v2_verdict": "CURATION-OWED",
-      "v3_proposed": 1.409,
-      "v3_delta_vs_asplund": 0.359,
+      "v3_proposed": 0.727,
+      "v3_delta_vs_asplund": -0.323,
       "verdict": "CURATION-OWED",
-      "source": "two-engine synthesis floor (I, B_synth)",
-      "changed": true,
+      "source": "upper-limit disposition (phase_c, RYA-103/458); two-engine synth recorded as DIAGNOSTIC-ONLY, never the reported value",
+      "changed": false,
       "two_engine_record": {
         "ion": "I",
-        "reported": 1.409,
+        "reported": null,
         "engineA": 0.727,
         "engineB": 1.409,
         "cross_engine_delta": 0.682,
@@ -610,7 +610,14 @@
         "mix_flagged": false,
         "gerber_nlte_delta": null,
         "gerber_xfail": false,
-        "diagnostic_only_species": null
+        "diagnostic_only_species": [
+          {
+            "species": "Li I",
+            "value": 1.409,
+            "DIAGNOSTIC_ONLY": true,
+            "reason": "UPPER_LIMIT disposition (RYA-563/103/458)"
+          }
+        ]
       }
     },
     {

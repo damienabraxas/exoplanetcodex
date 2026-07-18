@@ -32,7 +32,7 @@ Verdict counts: {'PASS': 5, 'NLTE-OWED': 1, 'CURATION-OWED': 20}
 | Zr I | 2.59 | - | - | - | CURATION-OWED | - | - | - | - | phase_c (owed) |
 | Ba I | 2.27 | - | - | - | CURATION-OWED | - | - | - | - | phase_c (owed) |
 | Y I | 2.21 | - | - | - | CURATION-OWED | - | - | - | - | phase_c (owed) |
-| Li I | 1.05 | 0.727 | 1.409 **NEW** | +0.359 | CURATION-OWED | 0.727 | 1.409 | B_synth | 0.682 | two-engine synthesis floor (I, B_synth) |
+| Li I | 1.05 | 0.727 | 0.727 | -0.323 | CURATION-OWED | 0.727 | 1.409 | B_synth | 0.682 | upper-limit disposition (phase_c, RYA-103/458); two-engine synth recorded as DIAGNOSTIC-ONLY, never the reported value |
 | Eu I | 0.52 | - | - | - | CURATION-OWED | - | - | - | - | phase_c (owed) |
 
 ## RYA-524 reconciliation (S / Sr / N)
