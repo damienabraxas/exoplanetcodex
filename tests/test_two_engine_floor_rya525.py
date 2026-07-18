@@ -185,3 +185,35 @@ def test_thresholds_sourced_from_config_not_inline():
     assert classify_regime(_line(ew_mA=30.0), cfg) == HARD          # 30 > 25 → saturated
     cfg['saturation_knee_mA'] = 50.0
     assert classify_regime(_line(ew_mA=30.0), cfg) == CLEAN_WEAK    # 30 ≤ 50 → clean
+
+
+# ── RYA-558: ratified-excluded species guard (Cr II) ─────────────────────────
+class TestRatifiedExclusion:
+    def test_cr_ii_is_ratified_excluded_cr_i_is_not(self):
+        # Cr II is the RYA-240 exclusion; the reported Cr is Cr I (registry ion 1).
+        assert es.is_ratified_excluded_species('Cr II') is True
+        assert es.is_ratified_excluded_species('Cr I') is False
+        assert 'RYA-240' in es.exclusion_reason('Cr II')
+
+    def test_registry_ion_drives_the_guard(self):
+        # a registered element's ratified ion is the single source: Sr/Ba report II,
+        # so their I state is excluded-from-value; the II states are allowed.
+        assert es.is_ratified_excluded_species('Sr I') is True
+        assert es.is_ratified_excluded_species('Sr II') is False
+        assert es.is_ratified_excluded_species('Ba II') is False
+        assert es.ratified_reported_ion('Cr') == 1
+        assert es.ratified_reported_ion('Sr') == 2
+
+    def test_unregistered_element_has_no_ion_lock(self):
+        # Fe is not in the NLTE registry (its NLTE leg is the Fe-specific path) — the
+        # guard must NOT exclude Fe II (the ionization arbiter) or any Fe state.
+        assert es.is_ratified_excluded_species('Fe II') is False
+        assert es.is_ratified_excluded_species('Fe I') is False
+        assert es.ratified_reported_ion('Zn') is None       # unregistered → no lock
+
+    def test_excluded_species_cannot_be_the_reported_value(self):
+        # the loud guard: a ratified-excluded species reaching the value RAISES.
+        with pytest.raises(TwoEngineError):
+            es.assert_not_excluded_value('Cr II')
+        es.assert_not_excluded_value('Cr I')                # the ratified ion passes
+        es.assert_not_excluded_value('Sr II')
