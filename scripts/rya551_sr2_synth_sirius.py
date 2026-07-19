@@ -265,6 +265,11 @@ def fit_line(center, obs_w, obs_f, synth):
 
 
 def main():
+    # RYA-567: Sirius-only heavy-compute leg (TS Turbospectrum NLTE + MARCS). Refuse to
+    # run it off Sirius — loud-fail, never against local-Mac copies of engines/grids.
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from config.constants import assert_on_sirius
+    assert_on_sirius("RYA-551 Sr II synthesis", require_subdirs=("engines", "grids"))
     os.makedirs(W, exist_ok=True)
     if not os.path.lexists(f"{W}/DATA"):
         os.symlink("/mnt/codex-data/engines/Turbospectrum_NLTE/DATA", f"{W}/DATA")
