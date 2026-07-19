@@ -66,6 +66,7 @@ CNO_PHASE_A = ROOT / 'data' / 'audit' / 'cno_synthesis' / 'solar_phase_a_cross_a
 MN_JSON  = ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' / 'solar_mn_hfs_synthesis_rya473.json'
 CUV_JSON = ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' / 'solar_cu_v_hfs_synthesis_rya466.json'
 SR2_JSON = ROOT / 'data' / 'results' / 'sr2_synthesis_rya551.json'
+ZR2_JSON = ROOT / 'data' / 'results' / 'zr2_synthesis_rya560.json'   # RYA-560 Zr II LTE synth
 
 
 def _solar_params():
@@ -161,6 +162,20 @@ def _dedicated_engine_B():
         v = json.loads(SR2_JSON.read_text()).get('4077.709', {}).get('harps', {}).get('A_NLTE')
         if v is not None:
             out[('Sr', 'II')] = (float(v), 'RYA-551 Sr II synth')
+    if ZR2_JSON.exists():
+        # RYA-560: Zr II is the majority ion -> LTE-robust (registry 279/458, the
+        # Sr II/V II precedent); A_LTE IS the value, no NLTE grid. RELIABILITY-GATED:
+        # emit only a line that cleared the dEW/dA floor and is not railed. As of the
+        # RYA-560 Sirius run NO Zr II line clears the floor (best dEW/dA 36.8 < 40),
+        # so this contributes nothing and Zr stays MEASURABLE-OWED — never a silent
+        # weak/railed value. When a reliable Zr II line lands, it flows through here.
+        zr = json.loads(ZR2_JSON.read_text())
+        rel = [d['harps']['A_LTE'] for w, d in zr.items()
+               if isinstance(d, dict) and isinstance(d.get('harps'), dict)
+               and d['harps'].get('reliable') and d['harps'].get('A_LTE') is not None]
+        if rel:
+            out[('Zr', 'II')] = (float(np.mean(rel)),
+                                 f"RYA-560 Zr II synth LTE (n={len(rel)} reliable)")
     return out
 
 
