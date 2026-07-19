@@ -1402,6 +1402,19 @@ def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
     return float(np.polyfit(rew, abund[valid], 1)[0])
 
 
+def _fe1_ceiling_pool_mask(notes, ew_mA, ceiling_mA: float) -> np.ndarray:
+    """RYA-279: THE single ceiling-correct Fe I pool. A Fe I line enters the pool iff
+    its EW ≤ ceiling. This one predicate feeds BOTH the gate scatter statistic
+    (A_X_std) and the per-line CSV, so the two can never diverge again — the original
+    bug computed σ over the full Fe I pool while the CSV had the ceiling applied
+    post-hoc, so the gate reflected lines the artifact excluded. Fe II carries no
+    ceiling (fewer, weaker lines, not in the damping regime at the EW seen in
+    practice). Returns a boolean mask over the input lines."""
+    notes = np.asarray([str(n) for n in notes])
+    ew = np.asarray(ew_mA, dtype=float)
+    return (notes == 'Fe 1') & (ew <= float(ceiling_mA))
+
+
 # ── Iterative parameter convergence ──────────────────────────────────────────
 
 def _iterative_parameter_convergence(ew_df: pd.DataFrame,
@@ -1577,7 +1590,9 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     _ew_ceiling      = float(PIPELINE['vmic_ew_ceiling_mA'])
     _lm_ew           = np.array([float(last_linemasks['ew'][i])
                                   for i in range(len(last_linemasks))])
-    _fe1_ceiling_mask = (notes == 'Fe 1') & (_lm_ew <= _ew_ceiling)
+    # RYA-279: ONE predicate for the gate pool AND the per-line CSV (below), so they
+    # cannot diverge — both index this exact mask array, not a re-derived threshold.
+    _fe1_ceiling_mask = _fe1_ceiling_pool_mask(notes, _lm_ew, _ew_ceiling)
     _n_fe1_all        = int((notes == 'Fe 1').sum())
     _n_fe1_ceiling    = int(_fe1_ceiling_mask.sum())
     if _n_fe1_all > _n_fe1_ceiling:
@@ -1636,8 +1651,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         note = str(last_linemasks['note'][i])
         if note not in ('Fe 1', 'Fe 2'):
             continue
-        if note == 'Fe 1' and _lm_ew[i] > _ew_ceiling:
-            continue  # excluded from gate pool — also excluded from CSV (RYA-279)
+        if note == 'Fe 1' and not _fe1_ceiling_mask[i]:
+            continue  # same mask as the gate pool — never a re-derived threshold (RYA-279)
         a_val = float(last_spec_abund[i])
         if not np.isfinite(a_val):
             continue
