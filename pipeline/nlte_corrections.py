@@ -45,6 +45,9 @@ from pipeline.species import parse_ion   # RYA-345 canonical ion normalizer
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _REPO_ROOT   = Path(__file__).parent.parent
+# repo root is already on sys.path (the `from pipeline.species import parse_ion` above
+# requires it), so config.constants is importable here.
+from config.constants import committed_grid_artifact  # noqa: E402  (RYA-567)
 _VENDOR_DIR  = _REPO_ROOT / 'vendor' / '1L-3NErrors'
 _MODEL_LT02  = _VENDOR_DIR / 'fe1_model_lt02.p'   # Fe I, Elo < 2 eV
 _MODEL_GT02  = _VENDOR_DIR / 'fe1_model_gt02.p'   # Fe I, Elo >= 2 eV
@@ -228,7 +231,9 @@ def _apply_aberr_to_line(ion: str, elo: float, eup: float, lggf: float,
 # — retained ONLY for the solar 3D-vs-1D cross-check (RYA-283), not the live
 # correction. Trade: 3D→1D NLTE, ≲0.05 dex at our metal-rich targets (Amarsi
 # 2022 Fig 7), accepted for single-methodology coverage (RYA-319 decision).
-_MPIA_FE_GRID = _REPO_ROOT / 'data' / 'nlte_grids' / 'Fe_Bergemann_MPIA.csv'
+# RYA-567: committed, version-controlled Fe NLTE delta-CSV artifact (in-repo by
+# ratified convention, NOT a heavy Sirius compute input) — routed via the resolver.
+_MPIA_FE_GRID = committed_grid_artifact('nlte_grids', 'Fe_Bergemann_MPIA.csv')
 _mpia_cache: dict = {}
 
 
@@ -486,7 +491,7 @@ def apply_fe_nlte_corrections(
 #   description cited from Bergemann & Cescutti 2010; the large landmark correction is
 #   line/regime specific. This does NOT rescue the raw-pool Cr overshoot: 1D-LTE Cr
 #   already reads high (RYA-239), so acceptance still requires a CURATED pool first.
-_MPIA_ELEMENT_DIR = _REPO_ROOT / 'data' / 'nlte_grids'
+_MPIA_ELEMENT_DIR = committed_grid_artifact('nlte_grids')   # RYA-567 (committed artifact dir)
 _mpia_element_cache: dict = {}
 
 

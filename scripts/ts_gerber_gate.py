@@ -200,6 +200,11 @@ def ew(specfile, c, hw=EW_HW):
 
 
 def main():
+    # RYA-567: this is a Sirius-only heavy-compute leg (TS engine + Gerber grids +
+    # MARCS). Refuse to run it off Sirius — loud-fail, never against local-Mac copies.
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from config.constants import assert_on_sirius
+    assert_on_sirius("RYA-534 TS-Gerber NLTE gate", require_subdirs=("engines", "grids"))
     el = sys.argv[1]
     cfg = ELEMENTS[el]
     os.makedirs(f"{W}/work", exist_ok=True)

@@ -225,3 +225,57 @@ the law + selector + guards).
 - Ti stays **CHECK / excluded from the reported value** until RYA-535/542 resolves the same-atom
   systematic — but both engines still run for Ti and the spread is recorded. Mn carries the same
   open provenance question. Neither blocks the floor.
+
+---
+
+## All computation on Sirius — grid/atmosphere/engine provenance is single-sourced, absence → loud-fail — RYA-567
+
+Successor to the RYA-555 calibration-ladder / RYA-528 truth-sync standards work, and a sibling of
+the RYA-409 out-of-hull "no silent LTE" guard applied to the **data-provenance** axis.
+
+### The law
+**All heavy computation runs on Sirius, and every GRID / MODEL ATMOSPHERE / departure-coefficient
+grid / synthesis ENGINE input for a compute step is single-sourced from the Sirius data root
+(`/mnt/codex-data`, env `SIRIUS_DATA_ROOT`) — NEVER a local-Mac copy.** If a required compute-input
+grid is absent under the Sirius root, the code **RAISES** naming the expected path; it never
+substitutes a repo-local (`data/nlte_grids/…`) or `~/`-relative copy. A silent local-grid read for a
+computation is a correctness-**and-provenance** defect of the same class as the silent-LTE fallback
+(RYA-409): a repo-local copy can be stale or partial, so the number it produces is untrustworthy and
+unattributable. (Set 2026-07-18 after a local-Mac grid was caught being read in place of the
+authoritative Sirius-staged grid — the exact failure this standard closes.)
+
+### The two categories (the distinction the resolver encodes)
+- **COMPUTE-INPUT (heavy, Sirius-only):** the multi-GB `.grd` departure source grids, MARCS/ATLAS9
+  atmospheres consumed by synthesis, the Turbospectrum/PySME engines, Gerber `.bin` grids, dep-grid
+  HDF5. Read live to PRODUCE a number. → `config.constants.sirius_grid_path()` for the path (no
+  existence check at import) + `require_sirius_grid()` / a loader loud-check at access +
+  `assert_on_sirius()` gating the leg. **No local fallback, ever.**
+- **COMMITTED-ARTIFACT (small, in-repo by ratified convention):** the KB-scale pre-derived NLTE
+  delta-CSVs (`data/nlte_grids/*.csv`), the `amarsi2019_cno` tables, `data/threed_grids`. These are
+  version-controlled RESULTS the Mac verdict path folds in — NOT live compute inputs — so they
+  resolve **in-repo** via `committed_grid_artifact()` and do not loud-fail. Physically evicting them
+  to the Sirius root is a **separate repo-wide migration** (RYA-559 successor); **no NEW
+  compute-input grid may be added under `data/`** — route new source grids through the Sirius resolver.
+
+### The resolver (single source, `config/constants.py`)
+`SIRIUS_DATA_ROOT` (env-overridable) + `sirius_data_root()`, `sirius_root_present()`,
+`sirius_grid_path()`, `require_sirius_grid(..., context=)` (loud-fail, no fallback),
+`assert_on_sirius(context, require_subdirs=)` (refuse a compute leg off Sirius), and
+`committed_grid_artifact()` (in-repo committed-result path). **No ad-hoc grid/atmosphere/engine path
+literals** — every read is constructed through these.
+
+### On-Sirius assertion (heavy-compute entrypoints)
+`pipeline/nlte_bfactor_synth.py` (validate/derive), `pipeline/pysme_nlte.py` (`nlte_delta`), and the
+`*_synth_sirius.py` / `ts_gerber_*` babsma/bsyn harnesses call `assert_on_sirius()` before touching a
+grid or engine — so running them off Sirius fails with a clear "run this on Sirius" message naming the
+missing `SIRIUS_DATA_ROOT`, rather than silently computing against whatever is local.
+
+### Documented scope boundary (open, RYA-567 → follow-up)
+The **Mac EW-measurement leg** (`pipeline/abundances_derive.py`) reads iSpec-bundled ATLAS9/MARCS
+atmospheres + the MOOG/Turbospectrum engine via `ISPEC_DIR` (per-machine env, Mac default
+`../ispec`). This is the **ratified Mac-banked measurement** (RYA-509: the solar anchor reproduces
+from raw EXACTLY on the Mac; RYA-517 verified bit-identical Mac↔Sirius). It is NOT the grid-provenance
+defect this standard targets, and forcing it Sirius-only would reverse Mac-banking and break the 9/9
+gate — so it is **deliberately left on the local iSpec install** here. Whether to also move the EW
+measurement leg's atmospheres to the Sirius root is an explicit architecture question for a follow-up
+ticket, not silently decided inside this one.
