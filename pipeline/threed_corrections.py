@@ -48,9 +48,13 @@ _REPO = Path(__file__).resolve().parents[1]
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
-from config.constants import THREED_CORRECTION_ELEMENTS, SOLAR_ASPLUND2021  # noqa: E402
+from config.constants import (  # noqa: E402
+    THREED_CORRECTION_ELEMENTS, SOLAR_ASPLUND2021, committed_grid_artifact,
+)
 
-_GRID_DIR = _REPO / 'data' / 'threed_grids'
+# RYA-567: committed, version-controlled 3D-correction delta-CSV artifact (in-repo by
+# ratified convention) — NOT a heavy Sirius compute input — routed via the resolver.
+_GRID_DIR = committed_grid_artifact('threed_grids')
 
 # Magnitude sanity ceiling: a solar 3D dimensional correction larger than this is
 # physically implausible for an FGK dwarf metal line and almost certainly a grid

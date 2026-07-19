@@ -58,7 +58,15 @@ _REPO = Path(__file__).resolve().parents[1]
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
-_AMARSI_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
+from config.constants import sirius_grid_path, assert_on_sirius  # noqa: E402  (RYA-567)
+
+# RYA-567: the Amarsi-2020 PySME `.grd` departure grids are a COMPUTE INPUT and live
+# ONLY on the Sirius data root (/mnt/codex-data/grids/nlte/amarsi_galah) — never a
+# repo-local Mac copy (the multi-GB `.grd` are gitignored + Sirius-staged, RYA-402/
+# 419/477/526). Construct the path via the Sirius resolver (no existence check here —
+# module import must stay cheap); absence loud-fails at ACCESS in read_amarsi_grid /
+# PySMEGrid, and the whole leg is gated by assert_on_sirius() below. NO local fallback.
+_AMARSI_DIR = sirius_grid_path('grids', 'nlte', 'amarsi_galah')
 
 # RYA-402 intake correction (Cu/S, 2026-06-21): the real Amarsi PySME layout is
 #   atmos_{El}.txt  = (Teff, logg, [Fe/H]) MARCS NODE table
@@ -293,6 +301,10 @@ def validate_against(element: str = 'Na') -> dict:
 
     Requires `pysme-astro`; raises a clear instruction if it is not installed (no
     silent pass)."""
+    # RYA-567: this is a heavy Sirius-only compute leg (reads the .grd source grids +
+    # runs the RT engine). Refuse to run it against local-Mac copies — loud-fail with
+    # a "run on Sirius" message naming the missing SIRIUS_DATA_ROOT, never fall back.
+    assert_on_sirius(f"RYA-402 b-factor NLTE validation ({element})")
     try:
         from pipeline.pysme_nlte import validate_na, nlte_delta, _ANCHOR
     except Exception as exc:                          # pragma: no cover
@@ -324,6 +336,8 @@ def synth_ew_nlte_vs_lte(element: str, line_wave_A: float, stellar_params: dict,
     BLOCKER (RYA-402): the SME grids carry departures + levels but NOT a TS model
     atom (transitions/collisions). It must come from the Gerber-2022 TS-native atoms
     or the original model-atom files before this can run."""
+    # RYA-567: Sirius-only compute leg — gate before any grid/engine access.
+    assert_on_sirius(f"RYA-402 b-factor NLTE synthesis ({element} {line_wave_A:.3f})")
     raise NotImplementedError(
         f"bsyn NLTE deck for {element} {line_wave_A:.3f} A is not built yet: the SME "
         f"departure grid lacks a TS model atom (transitions/collisions). Source the "

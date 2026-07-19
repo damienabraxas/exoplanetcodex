@@ -129,7 +129,15 @@ _GRID_FILENAME = {
     'Ti': 'nlte_Ti_pysme.grd',
 }
 _REPO = Path(__file__).resolve().parents[1]
-_GRID_DIR = _REPO / 'data' / 'nlte_grids' / 'amarsi_galah'
+# repo root is already on sys.path (the `from pipeline import _runtime` above requires it)
+from config.constants import sirius_grid_path, assert_on_sirius  # noqa: E402  (RYA-567)
+
+# RYA-567: the PySME `.grd` source departure grids are a COMPUTE INPUT single-sourced
+# from the Sirius data root (/mnt/codex-data/grids/nlte/amarsi_galah) — NEVER a repo-
+# local Mac copy. Path built via the Sirius resolver (no existence check at import);
+# _spacefree_grid() loud-fails at access, and nlte_delta() gates the whole leg with
+# assert_on_sirius(). No silent local fallback (mirrors RYA-409).
+_GRID_DIR = sirius_grid_path('grids', 'nlte', 'amarsi_galah')
 
 
 def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
@@ -283,6 +291,9 @@ def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     if element not in NLTE_LINES:
         raise KeyError(f"No NLTE diagnostic lines registered for {element} "
                        f"(have {list(NLTE_LINES)}). Add them from the grid level labels.")
+    # RYA-567: heavy Sirius-only compute leg (reads the .grd grids + PySME/MARCS RT).
+    # Refuse to run against a local-Mac copy — loud-fail naming the missing Sirius root.
+    assert_on_sirius(f"RYA-402 PySME NLTE derivation ({element})")
     opts = _DERIV_OPTS.get(element, _DEFAULT_OPTS)
     offs = offs if offs is not None else opts['offs']
     ew_hw = opts['ew_hw']
