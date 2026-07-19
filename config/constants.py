@@ -1076,6 +1076,99 @@ RADIATIVE_TRANSFER_CODE = 'turbospectrum'   # 'turbospectrum' | 'spectrum' | 'mo
 # also dissolves the solar A_X≡0 / differential-vs-absolute scale split.
 EW_BASELINE_CODE = 'moog'   # 'moog' | 'moog-scat' | 'spectrum' | 'width'
 
+# ── Sirius compute/data root + grid-provenance resolver (RYA-567) ─────────────
+# STANDING POLICY (Ryan, 2026-07-18): ALL heavy computation runs on Sirius, and
+# every GRID / MODEL ATMOSPHERE / departure-coefficient grid / synthesis ENGINE
+# input is single-sourced from the Sirius data root — NEVER a local Mac copy. The
+# repo carries small COMMITTED derived delta-CSVs (data/nlte_grids/*.csv) as
+# version-controlled RESULTS; the authoritative multi-GB source grids + engines
+# live ONLY on Sirius (RYA-402/419/477/526/540). A silent local-grid read for a
+# COMPUTE step is a correctness-and-provenance defect of the SAME class as the
+# silent-LTE fallback (RYA-409) — so it must LOUD-FAIL, never fall back to a
+# repo-local or ~/-relative copy. Every grid/atmosphere/engine path is constructed
+# through the resolver below (no ad-hoc path literals). Canonical root is
+# /mnt/codex-data (env SIRIUS_DATA_ROOT overrides). See docs/SCIENCE_STANDARDS.md
+# "All computation on Sirius" (successor to RYA-555).
+SIRIUS_DATA_ROOT = Path(_os.environ.get('SIRIUS_DATA_ROOT', '/mnt/codex-data'))
+
+
+def sirius_data_root() -> Path:
+    """The canonical Sirius data root (env SIRIUS_DATA_ROOT, default /mnt/codex-data)."""
+    return SIRIUS_DATA_ROOT
+
+
+def sirius_root_present() -> bool:
+    """True iff the Sirius data root is a visible directory on THIS machine (i.e. we
+    are on Sirius, or the mount is present). Used to gate heavy-compute legs."""
+    return SIRIUS_DATA_ROOT.is_dir()
+
+
+def sirius_grid_path(*relparts) -> Path:
+    """Construct a COMPUTE-INPUT path under the Sirius data root WITHOUT an existence
+    check — for module-level path constants. The absence of the actual file is
+    enforced at ACCESS time by require_sirius_grid() or the loader's own loud check,
+    NEVER by silently substituting a local-Mac copy (RYA-567)."""
+    return SIRIUS_DATA_ROOT.joinpath(*[str(p) for p in relparts])
+
+
+def require_sirius_grid(*relparts, context: str = "") -> Path:
+    """Resolve a REQUIRED compute-input grid/atmosphere/engine under the Sirius data
+    root and return it, or LOUD-FAIL if it is absent. NEVER substitutes a repo-local
+    (data/nlte_grids/…) or ~/-relative copy (RYA-567; mirrors the RYA-409 out-of-hull
+    no-silent-fallback guard). The raise names the exact expected Sirius path."""
+    p = SIRIUS_DATA_ROOT.joinpath(*[str(x) for x in relparts])
+    if not p.exists():
+        raise FileNotFoundError(
+            f"Required Sirius compute input not found: {p}"
+            + (f"  [{context}]" if context else "")
+            + f"\n  SIRIUS_DATA_ROOT = {SIRIUS_DATA_ROOT} "
+            + ("(present on this machine)" if sirius_root_present()
+               else "(NOT a directory on this machine — you are not on Sirius)")
+            + "\n  This is a COMPUTE input: it is read ONLY from the Sirius data root; "
+              "there is NO local-Mac fallback (RYA-567). Run this leg on Sirius "
+              "(`ssh sirius`), or stage the grid at the path above."
+        )
+    return p
+
+
+def assert_on_sirius(context: str = "", *, require_subdirs=("grids",)) -> Path:
+    """Refuse a heavy-compute leg unless the Sirius data root (and any required
+    sub-directories) are present. Fails LOUD with a 'run this on Sirius' message
+    rather than silently computing against whatever is local (RYA-567). Returns the
+    Sirius root on success so callers can chain path construction."""
+    root = SIRIUS_DATA_ROOT
+    missing = None
+    if not root.is_dir():
+        missing = root
+    else:
+        for sub in require_subdirs:
+            if not (root / sub).is_dir():
+                missing = root / sub
+                break
+    if missing is not None:
+        raise RuntimeError(
+            "Sirius-only compute leg refused"
+            + (f" ({context})" if context else "")
+            + f": required path not present → {missing}.\n"
+            f"  SIRIUS_DATA_ROOT = {root}. All grids/atmospheres/engines are single-"
+            f"sourced from the Sirius data root; this leg does NOT run against local-Mac "
+            f"copies (RYA-567). Run it on Sirius (`ssh sirius`), or set SIRIUS_DATA_ROOT "
+            f"to the mounted data root."
+        )
+    return root
+
+
+def committed_grid_artifact(*relparts) -> Path:
+    """Path to a COMMITTED, version-controlled derived grid ARTIFACT under data/
+    (the small NLTE delta-CSVs data/nlte_grids/*.csv, the amarsi2019_cno tables,
+    data/threed_grids). These are pre-derived RESULTS checked into the repo by
+    ratified convention (NOT live Sirius compute inputs), so they resolve IN-REPO and
+    do NOT loud-fail. Physically evicting them to Sirius is a SEPARATE repo-wide
+    migration (RYA-559 successor); NO NEW heavy/compute-input grid may be added here —
+    route new source grids through require_sirius_grid() instead. RYA-567."""
+    return ROOT.joinpath('data', *[str(p) for p in relparts])
+
+
 # Auto-create all output directories on import
 for _key in ('data_root', 'raw_spectra', 'processed_spectra', 'linelists',
              'model_atmospheres', 'results', 'plots', 'tables'):

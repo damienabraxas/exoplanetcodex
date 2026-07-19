@@ -38,6 +38,12 @@ GOTCHAS baked in (each was a real failure while wiring this):
 """
 import subprocess, os, sys, numpy as np
 
+# RYA-567: Sirius-only heavy-compute leg (TS engine + Gerber grids). Refuse to run it
+# off Sirius — loud-fail, never against local-Mac copies.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config.constants import assert_on_sirius
+assert_on_sirius("RYA-533 TS-Gerber Na gate", require_subdirs=("engines", "grids"))
+
 EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 W   = "/mnt/codex-data/codex/rya533"
 GT  = "/mnt/codex-data/grids/nlte/gerber_ts"

@@ -86,6 +86,7 @@ if str(_REPO) not in sys.path:
 
 from config.constants import (              # noqa: E402
     PATHS, PIPELINE, SOLAR_ASPLUND2021, get_star_params, EW_BASELINE_CODE,
+    committed_grid_artifact,
 )
 
 # ── Scope (the Tier-1/2 metals, phased) ──────────────────────────────────────
@@ -207,7 +208,12 @@ _CANON   = _REPO / 'data' / 'linelists' / 'canonical_gf.csv'
 
 # NLTE grids (RYA-396 / 235) — element → vendored grid file. Solar Δ is QUERIED
 # from these at solar params for the verdict contract; never hardcoded.
-_NLTE_GRID_DIR = _REPO / 'data' / 'nlte_grids'
+# RYA-567: these are COMMITTED, version-controlled pre-derived delta-CSV ARTIFACTS
+# (small KB tables, the ratified in-repo grid convention) — NOT heavy Sirius compute
+# inputs — so they resolve IN-REPO via committed_grid_artifact() (no ad-hoc literal).
+# Eviction to the Sirius root is a separate repo-wide migration (RYA-559 successor);
+# NO NEW compute-input grid may be added here.
+_NLTE_GRID_DIR = committed_grid_artifact('nlte_grids')
 _NLTE_GRID_FILES = {
     'Mg': 'Mg_Bergemann_MPIA.csv',
     'Si': 'Si_Bergemann_MPIA.csv',

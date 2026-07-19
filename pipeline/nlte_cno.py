@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import gzip
 import re
+import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -55,7 +56,15 @@ import numpy as np
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _REPO_ROOT = Path(__file__).parent.parent
-_DATA_DIR  = _REPO_ROOT / 'data' / 'nlte_grids' / 'amarsi2019_cno'
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+from config.constants import committed_grid_artifact  # noqa: E402  (RYA-567)
+
+# RYA-567: the Amarsi-2019 CNO delta tables are COMMITTED, version-controlled
+# pre-derived ARTIFACTS (in-repo by ratified convention) — NOT heavy Sirius compute
+# inputs — routed via the resolver (no ad-hoc literal). Eviction is a separate
+# repo-wide migration (RYA-559 successor); no NEW compute-input grid here.
+_DATA_DIR  = committed_grid_artifact('nlte_grids', 'amarsi2019_cno')
 
 # table-to-(species, leg) map. table4 (Fe II) intentionally excluded.
 _TABLES = {
