@@ -1,6 +1,6 @@
 # RYA-463 — Master problem-children line registry
 
-_Generated 2026-07-14 by pipeline/problem_children.py. A CATALOG (never mutates a measured value); the cross-star feed for every per-star pre-run audit (RYA-205) and the line-level companion to the RYA-277 acceptance profiles._
+_Generated 2026-07-26 by pipeline/problem_children.py. A CATALOG (never mutates a measured value); the cross-star feed for every per-star pre-run audit (RYA-205) and the line-level companion to the RYA-277 acceptance profiles._
 
 **Rows:** 25 (25 curated, 0 auto-aggregated from RYA-458 EW-integrity).
 
@@ -40,7 +40,7 @@ _Generated 2026-07-14 by pipeline/problem_children.py. A CATALOG (never mutates 
 | Ba II | 5853 (+HFS, strong) | SATURATION_COG | synthesis | Sun | [Fe/H]↑ | medium | 279,165 | owed | curated |
 | Zr II | 4629/5350/5372 (strong) | SATURATION_COG | synthesis | Sun | all | low | 279,458 | owed | curated |
 | Y II | dominant ion absent from pool | DATA_GAP | per_region_source | Sun | blue/UV | medium | 458 | active | curated |
-| Mg I | b-triplet 5167/72/83 + 5528 (strong) | SATURATION_COG | synthesis | Sun | all | medium | 410,235 | resolved | curated |
+| Mg I | b-triplet 5167/72/83 + 5528 (strong) | SATURATION_COG | synthesis | Sun | all | medium | 410,235,534,561,592 | resolved | curated |
 
 ## Auto-aggregated layer (RYA-458 EW-integrity)
 
