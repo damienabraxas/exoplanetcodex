@@ -128,8 +128,14 @@ BLEND_FRAC_MAX = 0.50        # cull if Σ contaminant opacity / target opacity >
 # gf provenance — cull only graded-bad lab values; FLAG (low-confidence, do not
 # auto-cull) the ungraded / Kurucz-theoretical majority. The fraction of LOW-tier
 # gf in a pool is the cull-vs-gf-scale evidence (RYA-161).
-NIST_GRADE_HIGH = {'A+', 'A', 'B'}           # lab, <3 % — trusted
-NIST_GRADE_CULL = {'D', 'E', 'F'}            # <25 % or worse — cull
+# The FULL NIST ASD accuracy ladder (physics.nist.gov/PhysRefData/ASD/Html/lineshelp.html):
+#   AAA <=0.3%  AA <=1%  A+ <=2%  A <=3%  B+ <=7%  B <=10%
+#   C+ <=18%  C <=25%  D+ <=40%  D <=50%  E >50%
+# RYA-592: the '+' tiers were MISSING here. That silently demoted a line graded B+
+# (<=7%, i.e. BETTER than B) out of HIGH — an inversion of the ladder, not a policy.
+# Enumerated from the source so a faithful grade can never cost a line its tier.
+NIST_GRADE_HIGH = {'AAA', 'AA', 'A+', 'A', 'B+', 'B'}   # lab, <=10 % — trusted
+NIST_GRADE_CULL = {'D+', 'D', 'E', 'F'}                 # >25 % — cull ('F' = local legacy code)
 _KURUCZ_REF = re.compile(r'^K(\d+|P)$', re.I)  # K03/K07/K08/K09/K10/KP — semi-empirical
 
 N_CLEAN_FLOOR = 5            # fewer clean lines → element flagged low-confidence
