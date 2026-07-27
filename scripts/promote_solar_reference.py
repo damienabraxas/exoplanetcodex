@@ -38,8 +38,14 @@ sys.path.insert(0, str(_REPO))
 import config.constants as const                     # noqa: E402
 from pipeline import data_namespace as ns            # noqa: E402
 
-FE_ANCHOR_EXPECT = 7.516
-FE_ANCHOR_TOL = 0.05      # a promotion-time sanity bound, NOT a fit target
+# RYA-553/527: the reported solar Fe anchor is now the 3D-corrected value (7.466 =
+# 7.516 1D-NLTE − 0.05 Magic-2013 1D→3D). The guard expects the 3D value with a TIGHT
+# tolerance: the old 7.516 ± 0.05 was BLIND to the exact regression we must catch — a
+# silently-dropped 3D correction reverting Fe to 7.516 passed (|7.516−7.516|=0). At
+# 7.466 with tol 0.02, that reversion (Δ=0.05) FATALs, while run-to-run recompute noise
+# on the deterministic 3D-corrected anchor (≪0.02) passes. NOT a fit target.
+FE_ANCHOR_EXPECT = 7.466
+FE_ANCHOR_TOL = 0.02      # a promotion-time sanity bound (tight: protects the applied 3D correction)
 
 
 def _git_commit() -> str:

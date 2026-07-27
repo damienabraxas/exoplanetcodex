@@ -1,0 +1,586 @@
+{
+  "ticket": "RYA-527 re-emitted solar verdict + PROPOSED gold v3 (two-engine floor, Fe=7.466 3D) \u2014 REVIEW ARTIFACT, NOT frozen",
+  "fe_policy": "reported 7.466 (3D, RYA-553); two-engine 7.580 = cross-engine diagnostic only",
+  "value_rule": "RATIFIED channel governs reported value (two-engine=diagnostic); owed metals take the two-engine synthesis floor value; Sr II from RYA-551",
+  "counts": {
+    "PASS": 5,
+    "NLTE-OWED": 1,
+    "CURATION-OWED": 20
+  },
+  "gerber_nlte_delta": {
+    "O": -0.105,
+    "Mg": -0.023,
+    "Si": -0.034,
+    "Ca": -0.009,
+    "Ni": 0.018,
+    "Na": -0.068,
+    "Co": 0.099,
+    "Ba": -0.018,
+    "Mn": 0.043,
+    "Sr": -0.013,
+    "Ti": 0.221
+  },
+  "gerber_xfail": [
+    "Ti"
+  ],
+  "rya524_reconciliation": [
+    {
+      "element": "S",
+      "old": "STALE (owed, no value / pre-492 gf)",
+      "new": "CURATION-OWED, two-engine 7.369",
+      "reason": "RYA-492 Costa-Silva gf; gf barely moves it (+0.004 on GES) so the +0.37 vs Asplund is a gf-scale floor (RYA-161), not a line-ID error \u2014 stays owed."
+    },
+    {
+      "element": "Sr",
+      "old": "WRONG-SPECIES (Sr I raw-EW +2.13 artifact)",
+      "new": "CURATION-OWED, Sr II 2.769 (two-engine synth, RYA-551)",
+      "reason": "Discarded the Sr I raw-EW artifact; Sr II 4077 synthesis (INSPECT NLTE). ~0.05-0.1 dex near-UV systematic -> refinement owed, not a clean PASS."
+    },
+    {
+      "element": "N",
+      "old": "STALE/unwired (NLTE-OWED, no value)",
+      "new": "8.202 / NLTE-OWED (Kittpeak); RYA-526 grid registered",
+      "reason": "N I NLTE grid registered (RYA-369/526). See the N WIRING FLAG: the KP channel does not auto-apply the grid delta in phase_c yet; the +0.36 residual is a data-channel/gf item, not an NLTE debt."
+    }
+  ],
+  "flags": [
+    "N: base phase_c = 8.202 / NLTE-OWED (Kittpeak red multiplets). RYA-526 registered the N I NLTE grid; the phase_c KP channel does not auto-apply its (~-0.014) delta, so N still reads NLTE-OWED here \u2014 a properly-wired verdict moves it to ~8.188 CURATION-OWED (data-channel/gf floor, not an NLTE debt). WIRING FLAG.",
+    "Fe: reported 7.466 (3D, RYA-553). Two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY (per-line winner-combine biases high) \u2014 NOT the verdict (Ryan 2026-07-16).",
+    "S: the committed two-engine record engineA=7.369 is on the PRE-RYA-492 gf (the records were run off 7fb2224). A fresh two-engine run on current main picks up the Costa-Silva-2020 gf (A(S)~7.486); S stays CURATION-OWED (gf-scale floor, RYA-161) either way.",
+    "Ti: production NLTE = Engine-A Mallinson-2024 (RYA-545). The Engine-B Gerber Ti (+0.221) ships atom.ti503b and is a strict xfail (RYA-548) \u2014 recorded as diagnostic, not applied to the reported value."
+  ],
+  "diff_table": [
+    {
+      "element": "O",
+      "ion": "I",
+      "asplund2021": 8.69,
+      "v2_gold": 8.735,
+      "v2_verdict": "PASS",
+      "v3_proposed": 8.735,
+      "v3_delta_vs_asplund": 0.045,
+      "verdict": "PASS",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": false,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 8.73,
+        "engineA": null,
+        "engineB": 8.73,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.105,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "C",
+      "ion": "I",
+      "asplund2021": 8.46,
+      "v2_gold": 8.491,
+      "v2_verdict": "PASS",
+      "v3_proposed": 8.491,
+      "v3_delta_vs_asplund": 0.031,
+      "verdict": "PASS",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": false,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 8.491,
+        "engineA": null,
+        "engineB": 8.491,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "asplund2021": 7.46,
+      "v2_gold": 7.516,
+      "v2_verdict": "PASS",
+      "v3_proposed": 7.466,
+      "v3_delta_vs_asplund": 0.006,
+      "verdict": "PASS",
+      "source": "EW Fe I ionization-gated, 3D-corrected (RYA-406/407/553); two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 7.58,
+        "engineA": 7.475,
+        "engineB": 7.495,
+        "cross_engine_delta": 0.084,
+        "selected_engines": [
+          "engineA_1dnlte",
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Mn",
+      "ion": "I",
+      "asplund2021": 5.42,
+      "v2_gold": 5.47,
+      "v2_verdict": "PASS",
+      "v3_proposed": 5.466,
+      "v3_delta_vs_asplund": 0.046,
+      "verdict": "PASS",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 5.466,
+        "engineA": null,
+        "engineB": 5.466,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": 0.043,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "K",
+      "ion": "I",
+      "asplund2021": 5.07,
+      "v2_gold": 5.099,
+      "v2_verdict": "PASS",
+      "v3_proposed": 5.099,
+      "v3_delta_vs_asplund": 0.029,
+      "verdict": "PASS",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": false,
+      "two_engine_record": null
+    },
+    {
+      "element": "N",
+      "ion": "I",
+      "asplund2021": 7.83,
+      "v2_gold": null,
+      "v2_verdict": "NLTE-OWED",
+      "v3_proposed": 8.202,
+      "v3_delta_vs_asplund": 0.372,
+      "verdict": "NLTE-OWED",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": true,
+      "two_engine_record": null
+    },
+    {
+      "element": "Mg",
+      "ion": "I",
+      "asplund2021": 7.55,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 7.614,
+      "v3_delta_vs_asplund": 0.064,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 7.614,
+        "engineA": null,
+        "engineB": 7.614,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.023,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Si",
+      "ion": "I",
+      "asplund2021": 7.51,
+      "v2_gold": 7.888,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 7.639,
+      "v3_delta_vs_asplund": 0.129,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 7.639,
+        "engineA": 8.06,
+        "engineB": 7.633,
+        "cross_engine_delta": -0.756,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.034,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "S",
+      "ion": "I",
+      "asplund2021": 7.12,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 7.369,
+      "v3_delta_vs_asplund": 0.249,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, A_1dnlte)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 7.369,
+        "engineA": 7.369,
+        "engineB": 7.41,
+        "cross_engine_delta": 0.041,
+        "selected_engines": [
+          "engineA_1dnlte"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Al",
+      "ion": "I",
+      "asplund2021": 6.43,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": null,
+      "v3_delta_vs_asplund": null,
+      "verdict": "CURATION-OWED",
+      "source": "phase_c (owed)",
+      "changed": false,
+      "two_engine_record": null
+    },
+    {
+      "element": "Ca",
+      "ion": "I",
+      "asplund2021": 6.3,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 6.372,
+      "v3_delta_vs_asplund": 0.072,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, A_1dnlte,B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 6.372,
+        "engineA": 6.344,
+        "engineB": 6.327,
+        "cross_engine_delta": 0.016,
+        "selected_engines": [
+          "engineA_1dnlte",
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.009,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Na",
+      "ion": "I",
+      "asplund2021": 6.24,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 6.369,
+      "v3_delta_vs_asplund": 0.129,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, A_1dnlte)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 6.369,
+        "engineA": 6.37,
+        "engineB": 6.248,
+        "cross_engine_delta": -0.121,
+        "selected_engines": [
+          "engineA_1dnlte"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.068,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Ni",
+      "ion": "I",
+      "asplund2021": 6.2,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 6.253,
+      "v3_delta_vs_asplund": 0.053,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 6.253,
+        "engineA": 7.297,
+        "engineB": 6.2,
+        "cross_engine_delta": -1.253,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": 0.018,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Cr",
+      "ion": "II",
+      "asplund2021": 5.62,
+      "v2_gold": 6.022,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 5.676,
+      "v3_delta_vs_asplund": 0.056,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (II, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "II",
+        "reported": 5.676,
+        "engineA": 8.354,
+        "engineB": 5.676,
+        "cross_engine_delta": -2.677,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "P",
+      "ion": "I",
+      "asplund2021": 5.41,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 6.61,
+      "v3_delta_vs_asplund": 1.2,
+      "verdict": "CURATION-OWED",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": true,
+      "two_engine_record": null
+    },
+    {
+      "element": "Ti",
+      "ion": "I",
+      "asplund2021": 4.97,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 4.88,
+      "v3_delta_vs_asplund": -0.09,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 4.88,
+        "engineA": 6.401,
+        "engineB": 4.862,
+        "cross_engine_delta": -1.326,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": 0.221,
+        "gerber_xfail": true
+      }
+    },
+    {
+      "element": "Co",
+      "ion": "I",
+      "asplund2021": 4.94,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 6.128,
+      "v3_delta_vs_asplund": 1.188,
+      "verdict": "CURATION-OWED",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": true,
+      "two_engine_record": null
+    },
+    {
+      "element": "Cu",
+      "ion": "I",
+      "asplund2021": 4.18,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 4.345,
+      "v3_delta_vs_asplund": 0.165,
+      "verdict": "CURATION-OWED",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 4.345,
+        "engineA": null,
+        "engineB": 4.345,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "V",
+      "ion": "I",
+      "asplund2021": 3.9,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 3.917,
+      "v3_delta_vs_asplund": 0.017,
+      "verdict": "CURATION-OWED",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 3.917,
+        "engineA": null,
+        "engineB": 3.917,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Sc",
+      "ion": "II",
+      "asplund2021": 3.14,
+      "v2_gold": 3.203,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 3.203,
+      "v3_delta_vs_asplund": 0.063,
+      "verdict": "CURATION-OWED",
+      "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
+      "changed": false,
+      "two_engine_record": null
+    },
+    {
+      "element": "Sr",
+      "ion": "II",
+      "asplund2021": 2.83,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 2.769,
+      "v3_delta_vs_asplund": -0.061,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (II, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "II",
+        "reported": 2.769,
+        "engineA": null,
+        "engineB": 2.769,
+        "cross_engine_delta": null,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.013,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Zr",
+      "ion": "I",
+      "asplund2021": 2.59,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": null,
+      "v3_delta_vs_asplund": null,
+      "verdict": "CURATION-OWED",
+      "source": "phase_c (owed)",
+      "changed": false,
+      "two_engine_record": null
+    },
+    {
+      "element": "Ba",
+      "ion": "I",
+      "asplund2021": 2.27,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": null,
+      "v3_delta_vs_asplund": null,
+      "verdict": "CURATION-OWED",
+      "source": "phase_c (owed)",
+      "changed": false,
+      "two_engine_record": null
+    },
+    {
+      "element": "Y",
+      "ion": "I",
+      "asplund2021": 2.21,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": null,
+      "v3_delta_vs_asplund": null,
+      "verdict": "CURATION-OWED",
+      "source": "phase_c (owed)",
+      "changed": false,
+      "two_engine_record": null
+    },
+    {
+      "element": "Li",
+      "ion": "I",
+      "asplund2021": 1.05,
+      "v2_gold": 0.727,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 1.409,
+      "v3_delta_vs_asplund": 0.359,
+      "verdict": "CURATION-OWED",
+      "source": "two-engine synthesis floor (I, B_synth)",
+      "changed": true,
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 1.409,
+        "engineA": 0.727,
+        "engineB": 1.409,
+        "cross_engine_delta": 0.682,
+        "selected_engines": [
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": null,
+        "gerber_xfail": false
+      }
+    },
+    {
+      "element": "Eu",
+      "ion": "I",
+      "asplund2021": 0.52,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": null,
+      "v3_delta_vs_asplund": null,
+      "verdict": "CURATION-OWED",
+      "source": "phase_c (owed)",
+      "changed": false,
+      "two_engine_record": null
+    }
+  ]
+}
