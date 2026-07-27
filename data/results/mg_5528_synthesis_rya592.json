@@ -1,0 +1,149 @@
+{
+  "_meta": {
+    "ticket": "RYA-592",
+    "element": "Mg",
+    "ion": "I",
+    "z": 12,
+    "a_sun_ref": 7.55,
+    "a_sun_ref_source": "Asplund2021",
+    "method": "in-window blend-fit synthesis (chi2 over the fit window vs the observed solar profile, ALL VALD3 in-window components synthesised) \u2014 NOT an isolated-line EW inversion",
+    "target_line": 5528.405,
+    "concordance_reference_line": 5711.088,
+    "reliable_dEW_dA_floor": 40.0,
+    "saturation_knee_mA": 100.0,
+    "saturation_knee_source": "config.constants.TWO_ENGINE['saturation_knee_mA'] (RYA-525 clause-3)",
+    "engine_a": {
+      "name": "Mg_Amarsi2020_PySME",
+      "grid": "nlte_Mg_scatt_pysme.grd",
+      "control_line": 5711.088,
+      "control_committed": -0.0343,
+      "control_rederived": -0.03434570861825659,
+      "control_tol": 0.005
+    },
+    "engine_b": {
+      "name": "Mg_gerber2023_TSnative",
+      "grid": "NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin",
+      "control_line": 5711.088,
+      "control_committed": -0.023,
+      "control_rederived": -0.023800509354881427,
+      "control_tol": 0.005
+    },
+    "gate3_note": "RYA-561 STRICT: the Engine-A/Engine-B agreement recorded here is an ATOM-delta agreement on a shared profile fit \u2014 DIAGNOSTIC ONLY. It is NOT a cross-engine dCE and must never satisfy gate 3.",
+    "scale_caveat": "1D-NLTE value vs 3D-NLTE reference; un-applied 3D term folded into the offset (RYA-561; class-wide 3D-metals fix is post-Beta)."
+  },
+  "5528.405": {
+    "wave": 5528.405,
+    "role": "target",
+    "ep": 4.346,
+    "loggf": -0.498,
+    "gf_id": "gf_087251",
+    "gf_ref": "NIST ASD v5.12 grade B+ (RYA-592 Step 0)",
+    "fit_hw": 1.4,
+    "n_blend_components_in_window": 288,
+    "nlte_delta_engineA": -0.0326,
+    "nlte_delta_engineB": -0.0394,
+    "nlte_delta_atom_spread": 0.0067,
+    "harps": {
+      "A_LTE": 7.215,
+      "A_NLTE_engineA": 7.183,
+      "A_NLTE_engineB": 7.176,
+      "gsig_kms": 1.4,
+      "gsig_railed": false,
+      "dv_fitted_kms": 0.9,
+      "dv_measured_kms": 0.756,
+      "red_chi2": 1.37,
+      "npix": 280,
+      "obs_ew_mA": 339.8,
+      "dEW_dA_mA_dex": 130.1,
+      "railed": false,
+      "reliable": true,
+      "ew_route_admissible": false
+    },
+    "iag": {
+      "A_LTE": 7.219,
+      "A_NLTE_engineA": 7.187,
+      "A_NLTE_engineB": 7.18,
+      "gsig_kms": 1.0,
+      "gsig_railed": false,
+      "dv_fitted_kms": 0.5,
+      "dv_measured_kms": 0.278,
+      "red_chi2": 1.59,
+      "npix": 2431,
+      "obs_ew_mA": 341.5,
+      "dEW_dA_mA_dex": 130.3,
+      "railed": false,
+      "reliable": true,
+      "ew_route_admissible": false
+    }
+  },
+  "5711.088": {
+    "wave": 5711.088,
+    "role": "concordance_reference",
+    "ep": 4.346,
+    "loggf": -1.724,
+    "gf_id": "gf_087252",
+    "gf_ref": "NIST ASD v5.12 grade B (RYA-592 Step 0)",
+    "fit_hw": 0.6,
+    "n_blend_components_in_window": 77,
+    "nlte_delta_engineA": -0.0343,
+    "nlte_delta_engineB": -0.0238,
+    "nlte_delta_atom_spread": 0.0105,
+    "harps": {
+      "A_LTE": 7.424,
+      "A_NLTE_engineA": 7.39,
+      "A_NLTE_engineB": 7.4,
+      "gsig_kms": 1.8,
+      "gsig_railed": false,
+      "dv_fitted_kms": 0.7,
+      "dv_measured_kms": 0.756,
+      "red_chi2": 1.28,
+      "npix": 120,
+      "obs_ew_mA": 113.4,
+      "dEW_dA_mA_dex": 60.1,
+      "railed": false,
+      "reliable": true,
+      "ew_route_admissible": false
+    },
+    "iag": {
+      "A_LTE": 7.438,
+      "A_NLTE_engineA": 7.404,
+      "A_NLTE_engineB": 7.414,
+      "gsig_kms": 1.4,
+      "gsig_railed": false,
+      "dv_fitted_kms": 0.2,
+      "dv_measured_kms": 0.278,
+      "red_chi2": 1.48,
+      "npix": 976,
+      "obs_ew_mA": 116.3,
+      "dEW_dA_mA_dex": 57.9,
+      "railed": false,
+      "reliable": true,
+      "ew_route_admissible": false
+    }
+  },
+  "_concordance": {
+    "harps": {
+      "A": -0.207,
+      "B": -0.224,
+      "both_reliable": true
+    },
+    "iag": {
+      "A": -0.217,
+      "B": -0.234,
+      "both_reliable": true
+    }
+  },
+  "_verdict": {
+    "target_reliable": true,
+    "target_A_NLTE_engineB": 7.176,
+    "reference_A_NLTE_engineB": 7.4,
+    "concordance_band": 0.1,
+    "concordance_worst_abs_dex": 0.234,
+    "lines_concordant": false,
+    "engineA_ew_route_admissible": false,
+    "engineA_ew_route_reason": "observed EW 339.8 mA vs ratified saturation knee 100.0 mA (TWO_ENGINE clause-3: EW above the knee => SATURATED => HARD => Engine-B). NOT admissible \u2014 Engine-A (EW->A) cannot run on this line",
+    "real_cross_engine_dCE_available": false,
+    "gate3_status": "NO real dCE from this line (saturated => Engine-B by the ratified clause-3 classifier), so under the RYA-561 STRICT rule gate 3 FAILS. The separately-flagged >=2-concordant-line variant is NOT ratified AND would fail anyway: the two lines disagree by 0.234 dex (band 0.1). Mg holds CURATION-OWED-with-value.",
+    "disposition": "CURATION-OWED-with-value (unchanged)"
+  }
+}
