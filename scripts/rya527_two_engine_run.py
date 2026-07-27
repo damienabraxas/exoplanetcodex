@@ -67,6 +67,7 @@ MN_JSON  = ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' / 'solar_mn_hfs_synthesi
 CUV_JSON = ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' / 'solar_cu_v_hfs_synthesis_rya466.json'
 SR2_JSON = ROOT / 'data' / 'results' / 'sr2_synthesis_rya551.json'
 ZR2_JSON = ROOT / 'data' / 'results' / 'zr2_synthesis_rya560.json'   # RYA-560 Zr II LTE synth
+MG5528_JSON = ROOT / 'data' / 'results' / 'mg_5528_synthesis_rya592.json'  # RYA-592 Mg 2nd line
 
 
 def _solar_params():
@@ -176,6 +177,31 @@ def _dedicated_engine_B():
         if rel:
             out[('Zr', 'II')] = (float(np.mean(rel)),
                                  f"RYA-560 Zr II synth LTE (n={len(rel)} reliable)")
+    if MG5528_JSON.exists():
+        # RYA-592: the SECOND clean Mg I line (5528.405), measured by in-window blend-fit
+        # synthesis so Mg could stop being single-line. CONCORDANCE-GATED, and as of the
+        # RYA-592 Sirius run the gate is CLOSED: 5528 is reliable (dEW/dA 130 mA/dex,
+        # red_chi2 1.4, 288 blend components modelled) but lands 0.21-0.23 dex BELOW the
+        # same harness's 5711 -- outside the 0.10 band. Emitting it would silently average
+        # two measurements that disagree, which is exactly what the RYA-525 floor forbids
+        # ("never silently average two disagreeing scales"), and it would move Mg's reported
+        # value on evidence that is itself contested. So while DISCORDANT this contributes
+        # NOTHING and Mg stays single-line CURATION-OWED with the reason recorded (the
+        # RYA-560 Zr pattern: wired, gated, currently silent). When the discordance is
+        # adjudicated (element_status_tracker_drift.md section E), the line flows through
+        # here without further wiring. Note this can only ever add an ENGINE-B line: 5528's
+        # EW is 3.4x the ratified saturation knee, so it has no Engine-A EW route and
+        # cannot create the dCE that RYA-561 gate 3 requires.
+        mg = json.loads(MG5528_JSON.read_text())
+        v = mg.get('_verdict', {})
+        if v.get('lines_concordant') and v.get('target_reliable'):
+            out[('Mg', 'I')] = (float(v['target_A_NLTE_engineB']),
+                                'RYA-592 Mg I 5528 in-window blend-fit synth (concordant)')
+        else:
+            print(f"[two-engine] RYA-592 Mg I 5528 HELD OUT: reliable="
+                  f"{v.get('target_reliable')}, concordant={v.get('lines_concordant')} "
+                  f"(|d| {v.get('concordance_worst_abs_dex')} vs band "
+                  f"{v.get('concordance_band')}) -> Mg stays single-line")
     return out
 
 
