@@ -1,0 +1,14 @@
+system_name,star_params_key,hd_id,hip_id,simbad_id,spectral_type,role,is_gbs,run_order,n_known_planets,pipeline_status,linear_parent,website_slug,data_archives,source_refs,notes
+Sun,solar,,,,,calibration_anchor,false,1,,running,,sun,,,Solar Beta gate RYA-527; params pinned not solved
+Procyon,procyon,,,,,benchmark,true,2,,vald_done,,procyon,,,Gaia FGK Benchmark; warm F check; run pending RYA-404
+Alpha Cen A,alpha_cen_a,,,,,science_target,true,3,,vald_done,,alpha-cen-a,,,First science target; Aug 2026 JWST deadline RYA-116
+Alpha Cen B,alpha_cen_b,,,,,science_target,true,4,,vald_done,,alpha-cen-b,,,Cool-K dress rehearsal for 55 Cnc
+55 Cnc A,55cnc_a,,,,,science_target,false,5,,queued,,55-cnc-a,,,Flagship C/O target; pinned last per run-order rule
+tau Boo,,,,,,benchmark_candidate,false,,,data_audit,,tau-boo,,,Metal-rich multi-wavelength candidate; audit RYA-415
+HD 77338,,,,,,benchmark_candidate,false,,,queued,RYA-595,hd-77338,,,55 Cnc cool-bracket; scope pending RYA-595
+HD 209458,,,,,,future_target,false,,,queued,,hd-209458,,,Future C/O campaign RYA-111
+HD 189733,,,,,,future_target,false,,,queued,,hd-189733,,,Future C/O campaign RYA-111
+tau Ceti,,,,,,future_target,false,,,queued,,tau-ceti,,,Future target; confirm GBS flag in identity pass
+WASP-107,,,,,,future_target,false,,,queued,,wasp-107,,,Future C/O campaign RYA-111
+LHS 3844,,,,,,future_target,false,,,queued,,lhs-3844,,,M dwarf target RYA-163
+Barnards Star,,,,,,future_target,false,,,queued,,barnards-star,,,M dwarf target RYA-163
