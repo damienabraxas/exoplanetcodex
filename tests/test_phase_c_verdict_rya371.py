@@ -95,15 +95,26 @@ def test_potassium_passes_via_kittpeak_wired_nlte():
 
 def test_measured_metals_are_curation_owed_not_silently_passed():
     rows, _ = _rows()
-    # RYA-456: the RYA-395/398 graded curation is now wired into the run. The
-    # gf-limited metals that carry an independent-gf line (Ti/Cr/Ni/Si) now produce
-    # A(X) AT THE DOCUMENTED FLOOR and must stay CURATION-OWED — never PASS.
+    # RYA-456: the RYA-395/398 graded curation is wired into the run. Every one of
+    # Ti/Cr/Ni/Si carries independent-gf survivors and must stay CURATION-OWED —
+    # never PASS.
     for el in ('Ti', 'Cr', 'Ni', 'Si'):
         assert rows[el]['verdict'] == 'CURATION-OWED', el
-        assert rows[el]['A_measured'] is not None          # produced at the floor, off-anchor
+        assert rows[el]['n_lines'] > 0, el                  # graded survivors exist
+    # RYA-596: but only the gf_floor tier (Cr, Si) FREEZES that value. Ti and Ni sit
+    # in the ratified `owed` tier, which withholds a number by design (RYA-522) — so
+    # their A_measured is blank even though the cull produced one. This assertion
+    # used to demand a value for all four; that encoded the pre-gold-v2 world and had
+    # been red ever since. A blank here is the HOLD, never a graded-cull blank.
+    for el in ('Cr', 'Si'):
+        assert rows[el]['A_measured'] is not None, el       # produced at the floor, off-anchor
+    for el in ('Ti', 'Ni'):
+        assert rows[el]['A_measured'] is None, el           # held unfrozen at tier `owed`
+        assert P.ZERO_SURVIVOR_CHANNEL not in rows[el]['channel'], el
     # Mg's pool has no independent-gf line → the graded firewall culls it to nothing;
     # still CURATION-OWED (gf-data-limited), but with no produced value.
     assert rows['Mg']['verdict'] == 'CURATION-OWED'
+    assert rows['Mg']['n_lines'] == 0
     # The Cr canary: the graded pool lands Cr ~+0.40 vs Asplund (RYA-398), NOT at the
     # anchor. A Cr PASS / Cr≈0 would mean tuning crept into the wiring.
     cr = rows['Cr']
