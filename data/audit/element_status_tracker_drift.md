@@ -130,3 +130,78 @@ their lines are MED tier and die on SAT/BLEND/HIERR (the RYA-395 quality cuts), 
 
 `PASS 5` (O, C, Fe, Mn, K) · `NLTE-OWED 0` · `CURATION-OWED 21` · `DATA-GAP 0`.
 The seed predates the NLTE-OWED → 0 transition (N cleared by RYA-556).
+
+---
+
+## E. Mg I — a REAL measurement disagreement, recorded not reconciled (RYA-592, 2026-07-27)
+
+Reads together with RYA-596 (§B, Mg row): RYA-596 verified that Mg's EW pool is a **genuine**
+zero-survivor state (0 of 5 lines kept) — unlike Ca/Ti/Ni/Na/Al, Mg's blank really is a cull, not
+a gold-tier hold. That is precisely why Mg has to be measured by synthesis, and what RYA-592 did.
+
+RYA-592 measured the second clean Mg I line (5528.405) by in-window blend-fit synthesis on
+Sirius, and re-measured 5711.088 **with the same harness** so the comparison is like-for-like.
+Three numbers for the same element now disagree, and per the corollary-1 rule none of them is
+silently overwritten:
+
+Per-line Engine-B values (all include the Gerber δ = −0.023), so like is compared with like:
+
+| source | line | A(Mg) | red-χ² | method |
+|---|---|---|---|---|
+| committed channel | 5711.088 | **7.494** | 4.85 | synth-v2 flux fit |
+| committed channel | 6319.237 | **7.734** | **58.5** | synth-v2 flux fit |
+| committed channel | **reported = mean of the two** | **7.614** | — | two-engine floor, n=2 |
+| RYA-592 harness | 5711.088 | **7.400 / 7.414** (HARPS / IAG) | 1.28 / 1.48 | in-window blend-fit, rest-frame |
+| RYA-592 harness | 5528.405 | **7.176 / 7.180** (HARPS / IAG) | 1.37 / 1.59 | in-window blend-fit, rest-frame |
+
+The headline is **line-to-line scatter of ~0.2 dex in Mg, present in BOTH methods**:
+
+1. **5528 vs 5711, RYA-592 harness** — 0.207–0.234 dex, well outside the 0.10 band, and
+   *consistent across two independent solar arms* (HARPS and the IAG FTS atlas agree to
+   ≤0.015 dex on each line). A line-to-line disagreement, not an arm artefact.
+2. **6319.237 vs 5711, committed channel** — **0.240 dex**, the same size and the same
+   direction of problem, already present inside the value the verdict carries today.
+3. **Same-line, method-to-method (5711)** — only **0.080–0.094 dex**, i.e. the two
+   independent profile-fit implementations agree far better with each other than either
+   agrees across lines. That localises the problem to the LINES, not to either harness.
+
+Point 3 also means the committed 7.614 is not a robust central value: it is the mean of a
+reasonable fit (5711, red-χ² 4.85) and a poor one (6319.237, red-χ² **58.5**) — and 6319.237
+is the strong 6318/6319 complex sitting on the Ca I autoionisation feature, i.e. a line the
+RYA-592 ticket itself lists among Mg's unusable measurements. It contributes half the
+reported value and pulls it **up** by +0.12 dex.
+
+What is already ruled out as the cause (all tested, see the ticket comment):
+
+- **NLTE atom** — both engines reproduce their own committed 5711 δ (Engine-A residual
+  −0.0000 vs the committed grid; Engine-B −0.0008 vs the RYA-534 record), and the two atoms
+  agree on 5528 to 0.007 dex.
+- **gf** — canonical, NIST-verified, and identical in all three stores for both lines.
+- **Rest frame** — the solar arms carry a real +0.76 (HARPS) / +0.28 (IAG) km/s residual
+  velocity (RYA-309). Fitting it as a nuisance parameter cut red-χ² ~4× (5.5→1.4) but moved
+  A by only 0.003–0.005 dex. Not the cause.
+- **van der Waals damping / broadening grid** — 5528 is insensitive (7.217 vs 7.220 across
+  the VALD and GES-ABO values); 5711 *is* damping-sensitive (7.37 ABO → 7.43 VALD → railed
+  at 8.05 with Unsold), which is a lead for (2) but does not explain (1).
+
+**Live suspicion (not yet demonstrated):** 5528 is a strongly saturated line (observed EW
+≈340 mÅ, 3.4× the ratified 100 mÅ saturation knee), so it sits on the damping/microturbulence
+part of the curve of growth where 1D-LTE is weakest — exactly the regime standard solar Mg
+analyses avoid. A ξ/damping/3D systematic on the strong line is the leading explanation, which
+would mean 5528 is *measurable but not trustworthy as an abundance indicator*, distinct from
+"not measurable" (it comfortably clears the reliability floor at dEW/dA = 130 mÅ/dex).
+
+**Consequence:** Mg does NOT promote. The second line contradicts rather than confirms the
+first, and RYA-561 gate 3 fails independently anyway (5528 is saturated → Engine-B by the
+ratified clause-3 classifier → dCE stays `None`). Mg stays `CURATION-OWED-with-value`.
+
+**Owed, before the v3 freeze carries Mg's +0.064:**
+
+1. Adjudicate the ~0.2 dex Mg line-to-line scatter (which lines are admissible at all).
+2. Re-examine whether **6319.237** belongs in the reported value: red-χ² 58.5 on a known
+   bad blend, contributing half of 7.614 and +0.12 dex of it. On 5711 alone the committed
+   channel gives 7.494 (+0.056 →) and the RYA-592 harness 7.400 (−0.15).
+3. Note the *sign* is at stake, not just the magnitude: drop 6319 and/or adopt the RYA-592
+   scale and Mg's offset moves from **+0.064** to somewhere in **−0.06 … −0.37**. Mg's
+   "+0.064, comfortably inside the band" framing does not survive either change, so this is
+   not a cosmetic difference.
