@@ -73,9 +73,20 @@ def test_reclassify_moves_pkcosc_off_datagap():
     for el in ('P', 'Co', 'Sc'):
         assert ov[el]['verdict'] == 'CURATION-OWED'
         assert ov[el]['verdict'] != 'DATA-GAP'
-    # every KP override carries the measured-from-Kitt-Peak provenance
-    for el in ('N', 'K', 'P', 'Co', 'Sc'):
+    # every KP override carries the measured-from-Kitt-Peak provenance — EXCEPT Co, whose
+    # blue-edge 3845 line was demoted to diagnostic-only by RYA-564 (it measured something,
+    # but nothing reportable; the value now comes from the red-line synthesis).
+    for el in ('N', 'K', 'P', 'Sc'):
         assert ov[el]['provenance'] == 'kittpeak-measured'
+    assert ov['Co']['provenance'] == 'diagnostic-only (no reported value)'
+
+
+def test_co_3845_is_demoted_not_reported():
+    """RYA-564: the +1.188 blue-edge artifact must never be handed back as A(Co)."""
+    ov = V._kittpeak_reclassify(_kp())['Co']
+    assert ov.get('A_measured') is None
+    assert ov['A_measured_blank'] is True
+    assert 'DIAGNOSTIC-ONLY' in ov['channel']
 
 
 def test_apply_kittpeak_eliminates_datagap_in_verdict_rows():
