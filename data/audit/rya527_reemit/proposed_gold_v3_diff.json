@@ -2,10 +2,160 @@
   "ticket": "RYA-527 re-emitted solar verdict + PROPOSED gold v3 (two-engine floor, Fe=7.466 3D) \u2014 REVIEW ARTIFACT, NOT frozen",
   "fe_policy": "reported 7.466 (3D, RYA-553); two-engine 7.580 = cross-engine diagnostic only",
   "value_rule": "RATIFIED channel governs reported value (two-engine=diagnostic); owed metals take the two-engine synthesis floor value; Sr II from RYA-551",
+  "floor_promotion_rule": {
+    "ticket": "RYA-561 (ratified by Ryan 2026-07-27) \u2014 STRICT gate 3",
+    "rule": "a two-engine-FLOOR-governed element is promoted CURATION-OWED -> PASS iff (1) its NLTE atom is RYA-534 anchor-validated, (2) |A(X)-Asplund2021| <= tol_pass_dex, and (3) a REAL cross-engine delta exists with |dCE| <= cross_engine_dex. A MISSING dCE FAILS gate 3 \u2014 the atom delta may never substitute (it IS gate 1; validate-don't-tune, RYA-161).",
+    "thresholds": {
+      "tol_pass_dex": 0.1,
+      "cross_engine_dex": 0.1
+    },
+    "scale_caveat": "1D-NLTE value vs 3D-NLTE reference; un-applied 3D term folded into the offset",
+    "promoted": [
+      "Ca"
+    ],
+    "evaluated": {
+      "Ca": {
+        "promoted": true,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": true,
+        "delta_vs_reference": 0.072,
+        "cross_engine_delta": 0.016,
+        "atom_citation": "Ca_gerber2023.prov.json: PASS (|median - anchor| = 0.026 <= 0.05). NOTE: small sign difference (TS-Gerber -0.009 vs Mashonkina +0.017) on these strong 6122/6162 lines; both near-zero, within tol. Ca NLTE is line-dependent in sign.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "PROMOTED: 534-validated atom; |d_ref|=0.072 <= 0.1; |dCE|=0.016 <= 0.1. 1D-NLTE value vs 3D-NLTE reference; un-applied 3D term folded into the offset.",
+        "n_lines": 4,
+        "applied": true,
+        "tier_before": "CURATION-OWED"
+      },
+      "Mg": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.064,
+        "cross_engine_delta": null,
+        "atom_citation": "Mg_gerber2023.prov.json: PASS (|median - anchor| = 0.003 <= 0.05). Cross-engine: PySME -0.022 vs TS-Gerber -0.023 (agree to 0.001).",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
+        "n_lines": 2,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
+      "Si": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": false,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.129,
+        "cross_engine_delta": -0.756,
+        "atom_citation": "Si_gerber2023.prov.json: PASS (|median-anchor|=0.024<=0.05); departures engaged.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate2 |d_ref|=0.129 > 0.1; gate3 |dCE|=0.756 > 0.1",
+        "n_lines": 15,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
+      "S": {
+        "promoted": false,
+        "gate1_atom_validated": false,
+        "gate2_within_tol": false,
+        "gate3_cross_engine": true,
+        "delta_vs_reference": 0.249,
+        "cross_engine_delta": 0.041,
+        "atom_citation": "no RYA-534 Engine-B grid provenance on record for S",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate1 NLTE atom not 534-validated (no RYA-534 Engine-B grid provenance on record for S); gate2 |d_ref|=0.249 > 0.1",
+        "n_lines": 1,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
+      "Na": {
+        "promoted": false,
+        "gate1_atom_validated": false,
+        "gate2_within_tol": false,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.129,
+        "cross_engine_delta": -0.121,
+        "atom_citation": "Na_gerber2023.prov.json: no verdict recorded",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate1 NLTE atom not 534-validated (Na_gerber2023.prov.json: no verdict recorded); gate2 |d_ref|=0.129 > 0.1; gate3 |dCE|=0.121 > 0.1",
+        "n_lines": 2,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
+      "Ni": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.053,
+        "cross_engine_delta": -1.253,
+        "atom_citation": "Ni_gerber2023.prov.json: PASS (|median-anchor|=0.002<=0.05); departures engaged. Confirms the Co/Ni line-ID fix.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate3 |dCE|=1.253 > 0.1",
+        "n_lines": 3,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
+      "Ti": {
+        "promoted": false,
+        "gate1_atom_validated": false,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": -0.09,
+        "cross_engine_delta": -1.326,
+        "atom_citation": "Ti_gerber2023.prov.json: CHECK (not PASS): |median-anchor|=0.114 > tol 0.06. FINDING \u2014 NOT a deck/line failure: departures engaged, 3 directly-MPIA-comparable well-measured lines all ~2x the Bergemann-2011 value => a genuine Ti model-atom difference (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011). Analogous to the Mn ~1/2 finding; a cross-engine model-atom systematic for RYA-525, not a pass. First-pass weak lines (5702/5703, 0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate1 NLTE atom not 534-validated (Ti_gerber2023.prov.json: CHECK (not PASS): |median-anchor|=0.114 > tol 0.06. FINDING \u2014 NOT a deck/line failure: departures engaged, 3 directly-MPIA-comparable well-measured lines all ~2x the Bergemann-2011 value => a genuine Ti model-atom difference (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011). Analogous to the Mn ~1/2 finding; a cross-engine model-atom systematic for RYA-525, not a pass. First-pass weak lines (5702/5703, 0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess.); gate3 |dCE|=1.326 > 0.1",
+        "n_lines": 6,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
+      "Sr": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": -0.061,
+        "cross_engine_delta": null,
+        "atom_citation": "Sr_gerber2023.prov.json: PASS (|median - anchor| = 0.003 <= 0.06). Sr II near-LTE at solar; departures engaged.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
+        "n_lines": 1,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      }
+    }
+  },
   "counts": {
-    "PASS": 5,
+    "PASS": 6,
     "NLTE-OWED": 1,
-    "CURATION-OWED": 20
+    "CURATION-OWED": 19
   },
   "gerber_nlte_delta": {
     "O": -0.105,
@@ -45,8 +195,10 @@
   ],
   "flags": [
     "N: base phase_c = 8.202 / NLTE-OWED (Kittpeak red multiplets). RYA-526 registered the N I NLTE grid; the phase_c KP channel does not auto-apply its (~-0.014) delta, so N still reads NLTE-OWED here \u2014 a properly-wired verdict moves it to ~8.188 CURATION-OWED (data-channel/gf floor, not an NLTE debt). WIRING FLAG.",
+    "Mg: HELD at CURATION-OWED-with-value 7.614 (+0.064 vs Asplund, INSIDE the 0.1 band, and the NLTE atom IS RYA-534 anchor-validated) \u2014 held by gate 3 ONLY: the record has NO cross-engine delta because Engine-A is suppressed for Mg BY DESIGN (RYA-520 synth-required + the SAT-culled b-triplet EW pool), so the value rests on 2 Engine-B lines with zero independent confirmation. This is a RATIFIED HOLD (Ryan 2026-07-27), not an omission: the atom delta may NOT stand in for gate 3 (it is gate 1 under a second name \u2014 validate-don't-tune, RYA-161). Mg's path to PASS is the real second-line measurement, Mg I 5528 (RYA-592).",
     "Fe: reported 7.466 (3D, RYA-553). Two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY (per-line winner-combine biases high) \u2014 NOT the verdict (Ryan 2026-07-16).",
     "S: the committed two-engine record engineA=7.369 is on the PRE-RYA-492 gf (the records were run off 7fb2224). A fresh two-engine run on current main picks up the Costa-Silva-2020 gf (A(S)~7.486); S stays CURATION-OWED (gf-scale floor, RYA-161) either way.",
+    "Ca: PROMOTED CURATION-OWED -> PASS at 6.372 (+0.072) by the ratified RYA-561 three-gate rule \u2014 534-validated atom, d_ref within 0.1, and a REAL cross-engine dCE +0.016 from BOTH engines over 4 lines. SCALE CAVEAT: 1D-NLTE value vs 3D-NLTE reference; un-applied 3D term folded into the offset \u2014 3D is Fe-only so far (Magic-2013, RYA-553); small for weak lines like Ca 6122/6162, not zero (RYA-399/586).",
     "Cr: reported = Cr I gf-floor 6.022 (+0.402 vs Asplund, the RYA-398 graded-pool CANARY \u2014 stays CURATION-OWED at floor, NOT PASS). Cr II 5.676 is DIAGNOSTIC-ONLY (RYA-240 ratified exclusion \u2014 COG/saturation artifact; enforced by the engine_selection guard, RYA-558) and the two-engine Cr I synthesis 5.654 sits near-anchor \u2014 both are diagnostics, never the reported value. Promotion of Cr II needs clean unsaturated weak lines (future decision), not the blind floor.",
     "Ti: production NLTE = Engine-A Mallinson-2024 (RYA-545). The Engine-B Gerber Ti (+0.221) ships atom.ti503b and is a strict xfail (RYA-548) \u2014 recorded as diagnostic, not applied to the reported value."
   ],
@@ -62,6 +214,7 @@
       "verdict": "PASS",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 8.73,
@@ -88,6 +241,7 @@
       "verdict": "PASS",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 8.491,
@@ -114,6 +268,7 @@
       "verdict": "PASS",
       "source": "EW Fe I ionization-gated, 3D-corrected (RYA-406/407/553); two-engine 7.580 is the RYA-525 cross-engine diagnostic ONLY",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 7.58,
@@ -131,6 +286,50 @@
       }
     },
     {
+      "element": "Ca",
+      "ion": "I",
+      "asplund2021": 6.3,
+      "v2_gold": null,
+      "v2_verdict": "CURATION-OWED",
+      "v3_proposed": 6.372,
+      "v3_delta_vs_asplund": 0.072,
+      "verdict": "PASS",
+      "source": "two-engine synthesis floor (I, A_1dnlte,B_synth) \u2014 RYA-561 PASS: 534-validated atom [Ca_gerber2023.prov.json], d_ref +0.072 <= 0.1, dCE +0.016 <= 0.1 over 4 lines; 1D-NLTE value vs 3D-NLTE reference; un-applied 3D term folded into the offset",
+      "changed": true,
+      "floor_promotion": {
+        "promoted": true,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": true,
+        "delta_vs_reference": 0.072,
+        "cross_engine_delta": 0.016,
+        "atom_citation": "Ca_gerber2023.prov.json: PASS (|median - anchor| = 0.026 <= 0.05). NOTE: small sign difference (TS-Gerber -0.009 vs Mashonkina +0.017) on these strong 6122/6162 lines; both near-zero, within tol. Ca NLTE is line-dependent in sign.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "PROMOTED: 534-validated atom; |d_ref|=0.072 <= 0.1; |dCE|=0.016 <= 0.1. 1D-NLTE value vs 3D-NLTE reference; un-applied 3D term folded into the offset.",
+        "n_lines": 4,
+        "applied": true,
+        "tier_before": "CURATION-OWED"
+      },
+      "two_engine_record": {
+        "ion": "I",
+        "reported": 6.372,
+        "engineA": 6.344,
+        "engineB": 6.327,
+        "cross_engine_delta": 0.016,
+        "selected_engines": [
+          "engineA_1dnlte",
+          "engineB_synth"
+        ],
+        "mix_flagged": false,
+        "gerber_nlte_delta": -0.009,
+        "gerber_xfail": false,
+        "diagnostic_only_species": null
+      }
+    },
+    {
       "element": "Mn",
       "ion": "I",
       "asplund2021": 5.42,
@@ -141,6 +340,7 @@
       "verdict": "PASS",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 5.466,
@@ -167,6 +367,7 @@
       "verdict": "PASS",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -180,6 +381,7 @@
       "verdict": "NLTE-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -193,6 +395,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (I, B_synth)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.064,
+        "cross_engine_delta": null,
+        "atom_citation": "Mg_gerber2023.prov.json: PASS (|median - anchor| = 0.003 <= 0.05). Cross-engine: PySME -0.022 vs TS-Gerber -0.023 (agree to 0.001).",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
+        "n_lines": 2,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "I",
         "reported": 7.614,
@@ -219,6 +438,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (I, B_synth)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": false,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.129,
+        "cross_engine_delta": -0.756,
+        "atom_citation": "Si_gerber2023.prov.json: PASS (|median-anchor|=0.024<=0.05); departures engaged.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate2 |d_ref|=0.129 > 0.1; gate3 |dCE|=0.756 > 0.1",
+        "n_lines": 15,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "I",
         "reported": 7.639,
@@ -254,6 +490,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (I, A_1dnlte)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": false,
+        "gate2_within_tol": false,
+        "gate3_cross_engine": true,
+        "delta_vs_reference": 0.249,
+        "cross_engine_delta": 0.041,
+        "atom_citation": "no RYA-534 Engine-B grid provenance on record for S",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate1 NLTE atom not 534-validated (no RYA-534 Engine-B grid provenance on record for S); gate2 |d_ref|=0.249 > 0.1",
+        "n_lines": 1,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "I",
         "reported": 7.369,
@@ -280,34 +533,8 @@
       "verdict": "CURATION-OWED",
       "source": "phase_c (owed)",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
-    },
-    {
-      "element": "Ca",
-      "ion": "I",
-      "asplund2021": 6.3,
-      "v2_gold": null,
-      "v2_verdict": "CURATION-OWED",
-      "v3_proposed": 6.372,
-      "v3_delta_vs_asplund": 0.072,
-      "verdict": "CURATION-OWED",
-      "source": "two-engine synthesis floor (I, A_1dnlte,B_synth)",
-      "changed": true,
-      "two_engine_record": {
-        "ion": "I",
-        "reported": 6.372,
-        "engineA": 6.344,
-        "engineB": 6.327,
-        "cross_engine_delta": 0.016,
-        "selected_engines": [
-          "engineA_1dnlte",
-          "engineB_synth"
-        ],
-        "mix_flagged": false,
-        "gerber_nlte_delta": -0.009,
-        "gerber_xfail": false,
-        "diagnostic_only_species": null
-      }
     },
     {
       "element": "Na",
@@ -320,6 +547,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (I, A_1dnlte)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": false,
+        "gate2_within_tol": false,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.129,
+        "cross_engine_delta": -0.121,
+        "atom_citation": "Na_gerber2023.prov.json: no verdict recorded",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate1 NLTE atom not 534-validated (Na_gerber2023.prov.json: no verdict recorded); gate2 |d_ref|=0.129 > 0.1; gate3 |dCE|=0.121 > 0.1",
+        "n_lines": 2,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "I",
         "reported": 6.369,
@@ -346,6 +590,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (I, B_synth)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": 0.053,
+        "cross_engine_delta": -1.253,
+        "atom_citation": "Ni_gerber2023.prov.json: PASS (|median-anchor|=0.002<=0.05); departures engaged. Confirms the Co/Ni line-ID fix.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate3 |dCE|=1.253 > 0.1",
+        "n_lines": 3,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "I",
         "reported": 6.253,
@@ -372,6 +633,7 @@
       "verdict": "CURATION-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 5.654,
@@ -407,6 +669,7 @@
       "verdict": "CURATION-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -420,6 +683,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (I, B_synth)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": false,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": -0.09,
+        "cross_engine_delta": -1.326,
+        "atom_citation": "Ti_gerber2023.prov.json: CHECK (not PASS): |median-anchor|=0.114 > tol 0.06. FINDING \u2014 NOT a deck/line failure: departures engaged, 3 directly-MPIA-comparable well-measured lines all ~2x the Bergemann-2011 value => a genuine Ti model-atom difference (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011). Analogous to the Mn ~1/2 finding; a cross-engine model-atom systematic for RYA-525, not a pass. First-pass weak lines (5702/5703, 0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate1 NLTE atom not 534-validated (Ti_gerber2023.prov.json: CHECK (not PASS): |median-anchor|=0.114 > tol 0.06. FINDING \u2014 NOT a deck/line failure: departures engaged, 3 directly-MPIA-comparable well-measured lines all ~2x the Bergemann-2011 value => a genuine Ti model-atom difference (Gerber-2023 atom.ti503b/503-level vs Bergemann-2011). Analogous to the Mn ~1/2 finding; a cross-engine model-atom systematic for RYA-525, not a pass. First-pass weak lines (5702/5703, 0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess.); gate3 |dCE|=1.326 > 0.1",
+        "n_lines": 6,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "I",
         "reported": 4.88,
@@ -455,6 +735,7 @@
       "verdict": "CURATION-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -468,6 +749,7 @@
       "verdict": "CURATION-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 4.345,
@@ -494,6 +776,7 @@
       "verdict": "CURATION-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": true,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": 3.917,
@@ -520,6 +803,7 @@
       "verdict": "CURATION-OWED",
       "source": "ratified/dedicated channel (phase_c); two-engine = diagnostic",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -533,6 +817,23 @@
       "verdict": "CURATION-OWED",
       "source": "two-engine synthesis floor (II, B_synth)",
       "changed": true,
+      "floor_promotion": {
+        "promoted": false,
+        "gate1_atom_validated": true,
+        "gate2_within_tol": true,
+        "gate3_cross_engine": false,
+        "delta_vs_reference": -0.061,
+        "cross_engine_delta": null,
+        "atom_citation": "Sr_gerber2023.prov.json: PASS (|median - anchor| = 0.003 <= 0.06). Sr II near-LTE at solar; departures engaged.",
+        "thresholds": {
+          "tol_pass_dex": 0.1,
+          "cross_engine_dex": 0.1
+        },
+        "reason": "HELD: gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
+        "n_lines": 1,
+        "applied": false,
+        "tier_before": "CURATION-OWED"
+      },
       "two_engine_record": {
         "ion": "II",
         "reported": 2.769,
@@ -559,6 +860,7 @@
       "verdict": "CURATION-OWED",
       "source": "phase_c (owed)",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -572,6 +874,7 @@
       "verdict": "CURATION-OWED",
       "source": "phase_c (owed)",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -585,6 +888,7 @@
       "verdict": "CURATION-OWED",
       "source": "phase_c (owed)",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
     },
     {
@@ -598,6 +902,7 @@
       "verdict": "CURATION-OWED",
       "source": "upper-limit disposition (phase_c, RYA-103/458); two-engine synth recorded as DIAGNOSTIC-ONLY, never the reported value",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": {
         "ion": "I",
         "reported": null,
@@ -631,6 +936,7 @@
       "verdict": "CURATION-OWED",
       "source": "phase_c (owed)",
       "changed": false,
+      "floor_promotion": null,
       "two_engine_record": null
     }
   ]

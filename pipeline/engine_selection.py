@@ -40,6 +40,7 @@ Per element:
 from __future__ import annotations
 
 import csv as _csv
+import json as _json
 from dataclasses import dataclass, field
 from pathlib import Path as _Path
 from typing import Optional
@@ -49,6 +50,7 @@ import numpy as np
 from config.constants import TWO_ENGINE, NLTE_CORRECTION_ELEMENTS
 
 _REGISTRY_CSV = _Path(__file__).resolve().parents[1] / 'data' / 'registry' / 'problem_children.csv'
+_GERBER_PROV_DIR = _Path(__file__).resolve().parents[1] / 'data' / 'nlte_grids' / 'gerber_ts'
 
 # ── engine + regime labels ────────────────────────────────────────────────────
 ENGINE_A = 'engineA_1dnlte'   # 1D-NLTE = EW + grid delta
@@ -357,3 +359,126 @@ def is_upper_limit_disposition(element: str) -> bool:
             if sp and sp[0] == element and (row.get('required_treatment') or '').strip() == 'upper_limit':
                 return True
     return False
+
+
+# ── RYA-561 floor promotion (CURATION-OWED → PASS) ────────────────────────────
+# Ryan's ratified rule (2026-07-27, RYA-561 comment): a two-engine-FLOOR-governed
+# element earns PASS iff ALL THREE gates hold. STRICT gate 3 — a MISSING cross-engine
+# delta FAILS; it may never be substituted by the atom delta, because the atom delta
+# reproducing the published anchor IS gate 1, so reusing it is gate 1 under a second
+# name (validate-don't-tune firewall, RYA-161). Mg's path to PASS is a real second
+# line (RYA-592), not a rule relaxation.
+FLOOR_PROMOTION = {
+    # |A(X) - reference| — same value as the phase_c TOL_PASS (RYA-371), re-declared
+    # here rather than imported from a script.
+    'tol_pass_dex': 0.10,
+    # |mean cross-engine delta| — the already-declared RYA-525 cross-engine gate.
+    'cross_engine_dex': TWO_ENGINE['cross_engine_mix_gate'],
+}
+# The reported metal values are 1D-NLTE while the Asplund-2021 reference is 3D-NLTE
+# (3D is Fe-only so far: Magic-2013, RYA-553). The un-applied 3D-1D term is small for
+# weak lines and does not flip a call, but it is NOT zero — every promoted metal
+# carries this caveat (Ryan, RYA-561; class-wide fix relates RYA-399/336/553/586).
+FLOOR_PROMOTION_SCALE_CAVEAT = ('1D-NLTE value vs 3D-NLTE reference; un-applied 3D term '
+                                'folded into the offset')
+
+
+def nlte_atom_validation(element: str):
+    """Gate 1: did this element's Engine-B NLTE atom reproduce the published solar
+    anchor? Returns ``(validated, citation)``. Single source of truth = the md5-pinned
+    RYA-534 grid provenance (``data/nlte_grids/gerber_ts/<El>_gerber2023.prov.json``,
+    ``gate.verdict``) — never a hardcoded element list.
+
+    A per-element provenance file that is ABSENT means no Engine-B Gerber grid was
+    validated for that element (e.g. Cr, Li, S) → gate 1 fails, honestly. A missing
+    provenance DIRECTORY is a corrupt checkout → loud-fail, never a silent False."""
+    if not _GERBER_PROV_DIR.exists():
+        raise TwoEngineError(
+            f"RYA-534 grid provenance dir not found at {_GERBER_PROV_DIR} — cannot resolve "
+            f"the NLTE-atom validation gate for {element} (RYA-561); refusing to guess")
+    matches = sorted(_GERBER_PROV_DIR.glob(f'{element}_*.prov.json'))
+    if not matches:
+        return False, f'no RYA-534 Engine-B grid provenance on record for {element}'
+    gate = (_json.loads(matches[0].read_text()) or {}).get('gate') or {}
+    verdict = str(gate.get('verdict') or '').strip()
+    return verdict.upper().startswith('PASS'), f"{matches[0].name}: {verdict or 'no verdict recorded'}"
+
+
+@dataclass(frozen=True)
+class FloorPromotion:
+    """The audit record of the three-gate promotion test for ONE element."""
+    element: str
+    promoted: bool
+    gate1_atom_validated: bool
+    gate2_within_tol: bool
+    gate3_cross_engine: bool
+    delta_vs_reference: Optional[float]
+    cross_engine_delta: Optional[float]
+    atom_citation: str
+    reason: str
+
+    def as_dict(self) -> dict:
+        return {'promoted': self.promoted,
+                'gate1_atom_validated': self.gate1_atom_validated,
+                'gate2_within_tol': self.gate2_within_tol,
+                'gate3_cross_engine': self.gate3_cross_engine,
+                'delta_vs_reference': self.delta_vs_reference,
+                'cross_engine_delta': self.cross_engine_delta,
+                'atom_citation': self.atom_citation,
+                'thresholds': dict(FLOOR_PROMOTION),
+                'reason': self.reason}
+
+
+def evaluate_floor_promotion(element: str, a_value: Optional[float],
+                             reference_value: Optional[float],
+                             cross_engine_delta: Optional[float],
+                             species: Optional[str] = None,
+                             cfg=FLOOR_PROMOTION) -> FloorPromotion:
+    """Apply the ratified RYA-561 three-gate rule to a two-engine-floor element.
+
+    Gate 1  the NLTE atom is RYA-534 anchor-validated (grid PASS on record)
+    Gate 2  ``|a_value - reference_value| <= tol_pass_dex``
+    Gate 3  ``cross_engine_delta is not None AND |cross_engine_delta| <= cross_engine_dex``
+            — STRICT: a missing delta means no independent confirmation of the value,
+            which is exactly the state that keeps an element owed.
+
+    Callers apply this ONLY where the two-engine floor governs the reported value; a
+    ratified/dedicated-channel element is not promoted here. The ratified vetoes
+    (UPPER_LIMIT disposition, ratified-excluded species) short-circuit to held."""
+    g1, citation = nlte_atom_validation(element)
+    d_ref = (None if (a_value is None or reference_value is None)
+             else round(float(a_value) - float(reference_value), 4))
+    dce = None if cross_engine_delta is None else round(float(cross_engine_delta), 4)
+    g2 = d_ref is not None and abs(d_ref) <= cfg['tol_pass_dex']
+    g3 = dce is not None and abs(dce) <= cfg['cross_engine_dex']
+
+    veto = None
+    if is_upper_limit_disposition(element):
+        veto = 'UPPER_LIMIT disposition (RYA-563/103/458) — never a PASS point value'
+    elif species and is_ratified_excluded_species(species):
+        veto = f'ratified-excluded species ({exclusion_reason(species)})'
+
+    if veto:
+        promoted, reason = False, f'HELD: {veto}'
+    elif g1 and g2 and g3:
+        promoted = True
+        reason = (f"PROMOTED: 534-validated atom; |d_ref|={abs(d_ref):.3f} <= "
+                  f"{cfg['tol_pass_dex']}; |dCE|={abs(dce):.3f} <= {cfg['cross_engine_dex']}. "
+                  f"{FLOOR_PROMOTION_SCALE_CAVEAT}.")
+    else:
+        failed = []
+        if not g1:
+            failed.append(f'gate1 NLTE atom not 534-validated ({citation})')
+        if not g2:
+            failed.append(f"gate2 |d_ref|={'n/a' if d_ref is None else f'{abs(d_ref):.3f}'} > "
+                          f"{cfg['tol_pass_dex']}")
+        if not g3:
+            failed.append('gate3 NO cross-engine delta (single-engine record — zero '
+                          'independent confirmation of the value; atom-delta fallback is '
+                          'REJECTED, RYA-561)' if dce is None else
+                          f"gate3 |dCE|={abs(dce):.3f} > {cfg['cross_engine_dex']}")
+        promoted, reason = False, 'HELD: ' + '; '.join(failed)
+    return FloorPromotion(element=element, promoted=promoted, gate1_atom_validated=g1,
+                          gate2_within_tol=g2, gate3_cross_engine=g3,
+                          delta_vs_reference=d_ref, cross_engine_delta=dce,
+                          atom_citation=citation, reason=reason)
