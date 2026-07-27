@@ -25,6 +25,15 @@ Value rule (explicit, so Ryan can ratify):
     blend-limited raw-EW artifact — e.g. Cr II 5.676 vs raw-EW 8.354). These stay
     CURATION-OWED (gf-scale / near-UV-synthesis floors), now with an honest value.
   - Sr: Sr II 2.769 (two-engine synth = RYA-551), superseding the Sr I +2.13 artifact.
+  - RYA-561 FLOOR PROMOTION (Ryan ratified 2026-07-27, STRICT): a floor-governed element
+    is promoted CURATION-OWED -> PASS iff (1) its NLTE atom is RYA-534 anchor-validated,
+    (2) |A(X) - Asplund2021| <= 0.10, and (3) a REAL cross-engine |dCE| <= 0.10. A MISSING
+    dCE FAILS gate 3 and may NEVER be substituted by the atom delta — that delta IS gate 1,
+    so reusing it is gate 1 under a second name (validate-don't-tune firewall, RYA-161).
+    On the committed record this promotes Ca ONLY. Mg is a RATIFIED HOLD at
+    CURATION-OWED-with-value 7.614 (+0.064, atom validated) because Engine-A is suppressed
+    for Mg by design (RYA-520 + SAT-culled b-triplet) so no dCE exists; Mg's path to PASS
+    is the real Mg I 5528 second line (RYA-592), not a rule relaxation.
 
 Honest gaps are FLAGGED, never papered over (RYA-527 critical-failure rule).
 """
@@ -113,6 +122,7 @@ def main():
         # two-engine cross-engine diagnostic (recorded for every covered element); any
         # ratified-excluded species (Cr II, RYA-240/558) is carried DIAGNOSTIC-ONLY.
         te_record = None
+        promo_rec = None          # RYA-561 three-gate record; per-element, never carried over
         diag_only = [{'species': f"{el} {r['ion']}", 'value': _f(r.get('reported')),
                       'engineA': _f(r.get('engineA')), 'engineB': _f(r.get('engineB')),
                       'DIAGNOSTIC_ONLY': True, 'reason': es.exclusion_reason(f"{el} {r['ion']}")}
@@ -151,6 +161,24 @@ def main():
             v3 = te_record['reported']             # two-engine synthesis floor (allowed ion)
             source = (f"two-engine synthesis floor ({te_record['ion']}, "
                       f"{','.join(e.replace('engine','') for e in (te_record['selected_engines'] or []))})")
+            # ---- RYA-561 three-gate floor promotion (CURATION-OWED -> PASS) ----
+            promo = es.evaluate_floor_promotion(
+                el, v3, asp, te_record.get('cross_engine_delta'),
+                species=f"{el} {te_record['ion']}")
+            promo_rec = {**promo.as_dict(), 'n_lines': te.get('n_lines'),
+                         'applied': False, 'tier_before': verdict_cls}
+            if promo.promoted and verdict_cls == 'CURATION-OWED':
+                verdict_cls = 'PASS'               # the only tier change this rule may make
+                promo_rec['applied'] = True
+                source = (f"{source} — RYA-561 PASS: 534-validated atom "
+                          f"[{promo.atom_citation.split(':')[0]}], d_ref "
+                          f"{promo.delta_vs_reference:+.3f} <= {es.FLOOR_PROMOTION['tol_pass_dex']}, "
+                          f"dCE {promo.cross_engine_delta:+.3f} <= "
+                          f"{es.FLOOR_PROMOTION['cross_engine_dex']} over {te.get('n_lines')} lines; "
+                          f"{es.FLOOR_PROMOTION_SCALE_CAVEAT}")
+            elif promo.promoted:                   # gates pass but the tier is not CURATION-OWED
+                promo_rec['reason'] += (f' | NOT applied: tier is {verdict_cls}, the rule only '
+                                        'promotes CURATION-OWED (RYA-561)')
         else:
             v3 = phase_c_val                       # owed-no-value carries through
             source = 'phase_c (owed)'
@@ -164,6 +192,7 @@ def main():
             'v3_proposed': v3,
             'v3_delta_vs_asplund': (_f(v3 - asp) if v3 is not None else None),
             'verdict': verdict_cls, 'source': source, 'changed': changed,
+            'floor_promotion': promo_rec,
             'two_engine_record': te_record})
 
         # ---- honest gap / policy flags ----
@@ -182,6 +211,26 @@ def main():
                          "channel does not auto-apply its (~-0.014) delta, so N still reads "
                          "NLTE-OWED here — a properly-wired verdict moves it to ~8.188 "
                          "CURATION-OWED (data-channel/gf floor, not an NLTE debt). WIRING FLAG.")
+        if el == 'Mg' and promo_rec:
+            flags.append(
+                f"Mg: HELD at CURATION-OWED-with-value {v3} (+{_f(v3-asp)} vs Asplund, INSIDE "
+                f"the {es.FLOOR_PROMOTION['tol_pass_dex']} band, and the NLTE atom IS RYA-534 "
+                "anchor-validated) — held by gate 3 ONLY: the record has NO cross-engine delta "
+                "because Engine-A is suppressed for Mg BY DESIGN (RYA-520 synth-required + the "
+                f"SAT-culled b-triplet EW pool), so the value rests on {promo_rec['n_lines']} "
+                "Engine-B lines with zero independent confirmation. This is a RATIFIED HOLD "
+                "(Ryan 2026-07-27), not an omission: the atom delta may NOT stand in for gate 3 "
+                "(it is gate 1 under a second name — validate-don't-tune, RYA-161). Mg's path to "
+                "PASS is the real second-line measurement, Mg I 5528 (RYA-592).")
+        if el == 'Ca' and promo_rec and promo_rec['applied']:
+            flags.append(
+                f"Ca: PROMOTED CURATION-OWED -> PASS at {v3} (+{_f(v3-asp)}) by the ratified "
+                f"RYA-561 three-gate rule — 534-validated atom, d_ref within "
+                f"{es.FLOOR_PROMOTION['tol_pass_dex']}, and a REAL cross-engine "
+                f"dCE {promo_rec['cross_engine_delta']:+.3f} from BOTH engines over "
+                f"{promo_rec['n_lines']} lines. SCALE CAVEAT: "
+                f"{es.FLOOR_PROMOTION_SCALE_CAVEAT} — 3D is Fe-only so far (Magic-2013, "
+                "RYA-553); small for weak lines like Ca 6122/6162, not zero (RYA-399/586).")
         if el == 'Ti' and te_record:
             flags.append("Ti: production NLTE = Engine-A Mallinson-2024 (RYA-545). The "
                          "Engine-B Gerber Ti (+0.221) ships atom.ti503b and is a strict xfail "
@@ -227,6 +276,17 @@ def main():
         'fe_policy': 'reported 7.466 (3D, RYA-553); two-engine 7.580 = cross-engine diagnostic only',
         'value_rule': 'RATIFIED channel governs reported value (two-engine=diagnostic); owed '
                       'metals take the two-engine synthesis floor value; Sr II from RYA-551',
+        'floor_promotion_rule': {
+            'ticket': 'RYA-561 (ratified by Ryan 2026-07-27) — STRICT gate 3',
+            'rule': 'a two-engine-FLOOR-governed element is promoted CURATION-OWED -> PASS iff '
+                    '(1) its NLTE atom is RYA-534 anchor-validated, (2) |A(X)-Asplund2021| <= '
+                    'tol_pass_dex, and (3) a REAL cross-engine delta exists with |dCE| <= '
+                    'cross_engine_dex. A MISSING dCE FAILS gate 3 — the atom delta may never '
+                    'substitute (it IS gate 1; validate-don\'t-tune, RYA-161).',
+            'thresholds': dict(es.FLOOR_PROMOTION),
+            'scale_caveat': es.FLOOR_PROMOTION_SCALE_CAVEAT,
+            'promoted': [r['element'] for r in rows if (r.get('floor_promotion') or {}).get('applied')],
+            'evaluated': {r['element']: r['floor_promotion'] for r in rows if r.get('floor_promotion')}},
         'counts': counts, 'gerber_nlte_delta': gerber_delta, 'gerber_xfail': sorted(gerber_xfail),
         'rya524_reconciliation': reconciliation, 'flags': flags, 'diff_table': rows}
     (OUT_DIR / 'proposed_gold_v3_diff.json').write_text(json.dumps(payload, indent=2))
@@ -253,6 +313,30 @@ def main():
                  f"{v3_s} | {dasp_s} | {r['verdict']} | {_cell(te.get('engineA'))} | "
                  f"{_cell(te.get('engineB'))} | {se} | {_cell(te.get('cross_engine_delta'))} | "
                  f"{r['source']} |")
+    # ---- RYA-561 three-gate floor-promotion ledger (every candidate, promote AND hold) ----
+    promo_rows = [r for r in rows if r.get('floor_promotion')]
+    L += ['', '## RYA-561 floor-promotion ledger (ratified 2026-07-27 — STRICT gate 3)', '',
+          f"Gates: (1) RYA-534 anchor-validated NLTE atom · (2) |dAsp| <= "
+          f"{es.FLOOR_PROMOTION['tol_pass_dex']} · (3) a REAL cross-engine |dCE| <= "
+          f"{es.FLOOR_PROMOTION['cross_engine_dex']}. A MISSING dCE **fails** gate 3 — the atom "
+          "delta may never substitute for it (that is gate 1 under a second name; "
+          "validate-don't-tune, RYA-161).", '',
+          '| El | A(X) | dAsp | n_lines | g1 atom | g2 tol | g3 dCE | dCE | outcome |',
+          '|----|------|------|---------|---------|--------|--------|-----|---------|']
+    tick = {True: 'PASS', False: 'FAIL'}
+    for r in promo_rows:
+        p = r['floor_promotion']
+        d, dce = p['delta_vs_reference'], p['cross_engine_delta']
+        d_s = '-' if d is None else f"{d:+.3f}"
+        dce_s = '**None**' if dce is None else f"{dce:+.3f}"
+        outcome = '**PROMOTED -> PASS**' if p['applied'] else f"held ({r['verdict']})"
+        L.append(f"| {r['element']} {r['ion']} | {r['v3_proposed']} | {d_s} | "
+                 f"{_cell(p.get('n_lines'))} | {tick[p['gate1_atom_validated']]} | "
+                 f"{tick[p['gate2_within_tol']]} | {tick[p['gate3_cross_engine']]} | "
+                 f"{dce_s} | {outcome} |")
+    L += ['', 'Reasons:', '']
+    L += [f"- **{r['element']}**: {r['floor_promotion']['reason']}" for r in promo_rows]
+
     L += ['', '## RYA-524 reconciliation (S / Sr / N)', '']
     for rc in reconciliation:
         L.append(f"- **{rc['element']}**: {rc['old']} -> {rc['new']}. {rc['reason']}")
@@ -260,7 +344,9 @@ def main():
     L += [f"- {f}" for f in flags]
     (OUT_DIR / 'proposed_gold_v3_diff.md').write_text('\n'.join(L))
 
+    promoted = [r['element'] for r in rows if (r.get('floor_promotion') or {}).get('applied')]
     print(f"counts {counts}")
+    print(f"RYA-561 promoted (CURATION-OWED -> PASS): {promoted or 'none'}")
     print(f"changed: {[r['element'] for r in rows if r['changed']]}")
     print(f"wrote {OUT_DIR.relative_to(ROOT)}/proposed_gold_v3_diff.(md|json)")
     return 0
