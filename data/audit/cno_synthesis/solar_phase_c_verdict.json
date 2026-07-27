@@ -2,14 +2,14 @@
   "summary": {
     "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "star": "solar",
-    "generated": "2026-07-18",
+    "generated": "2026-07-26",
     "reference": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)",
     "solar_ref_version": "v2",
     "tol_pass_dex": 0.1,
     "n_elements": 26,
     "counts": {
-      "PASS": 5,
-      "CURATION-OWED": 21
+      "PASS": 6,
+      "CURATION-OWED": 20
     },
     "prior_counts": {
       "PASS": 3,
@@ -18,9 +18,9 @@
       "DATA-GAP": 0
     },
     "diff_vs_prior": {
-      "PASS": 2,
+      "PASS": 3,
       "NLTE-OWED": -2,
-      "CURATION-OWED": 0,
+      "CURATION-OWED": -1,
       "DATA-GAP": 0
     },
     "kittpeak_wired": true,
@@ -47,6 +47,13 @@
     "ba_synthesis_wired": true,
     "ba_synthesis_elements": [
       "Ba"
+    ],
+    "co_synthesis_wired": true,
+    "co_synthesis_elements": [
+      "Co"
+    ],
+    "demoted_diagnostic_only": [
+      "Co I 3845 (blue-edge artifact, RYA-564)"
     ]
   },
   "verdicts": [
@@ -316,17 +323,17 @@
     {
       "element": "Co",
       "asplund2021": 4.94,
-      "A_measured": 6.128,
-      "delta_vs_asplund": 1.188,
-      "sigma": null,
-      "n_lines": 1,
-      "channel": "kittpeak: Co I 3845 (blue-edge, SNR-limited)",
+      "A_measured": 4.965,
+      "delta_vs_asplund": 0.025,
+      "sigma": 0.069,
+      "n_lines": 5,
+      "channel": "synthesis: Co I red HFS-resolved flux fit (5 lines, HARPS; blends modelled) + per-line Gerber 1D-NLTE (RYA-534 deck)",
       "nlte_grid": null,
       "nlte_wired": false,
       "threed_wired": false,
-      "verdict": "CURATION-OWED",
-      "owed": "Kitt Peak covers Co, but the extracted Co I 3845 sits in the blanketed blue edge (SNR~24, chi2r~3100) \u2192 the value 6.128 is NOT trusted (blue-edge per the RYA-451/454 caveat). OFF pure DATA-GAP (a measured reference now exists) but curation owed: extract cleaner red Co I lines (within KP's 1300 nm reach) + HFS. Do NOT force the blue value.",
-      "provenance": "kittpeak-measured",
+      "verdict": "PASS",
+      "owed": "MEASURED on clean RED Co I lines via HFS-resolved synthesis \u2014 the EW path cannot reach Co (hyperfine-split, RYA-354/466) and the previous number came from the blue-edge Co I 3845, now DEMOTED to diagnostic-only (that +1.188 was an SNR~24/chi2r~3100 artifact, not solar Co). Per-line A(Co) [4813.476=4.974, 5212.688=4.847, 5352.040=4.875, 5483.354=4.965, 6771.034=5.008] -> A(Co) 4.965 (+0.025 vs Asplund 4.94), scatter 0.069; per-line 1D-NLTE from the RYA-534-validated Gerber TS-native grid (median +0.0951 vs the Bergemann+2010 anchor +0.100 \u00b1 0.12 \u2014 CONSISTENT; read, never fitted). Cross-checks \u2014 gf-'agreed' lines only: 4.925 (n=4, scatter 0.077); IAG FTS arm: 4.939 (n=5, scatter 0.056). RECONCILES within tol on a validated leg: the red-line value replaces the artifact and Co clears. Scale caveat (RYA-561/593): this is a 1D-NLTE value against a 3D-NLTE Asplund reference \u2014 the un-applied 3D term is folded into the offset; the class-wide 3D-metals correction is post-Beta (RYA-593).",
+      "provenance": "synthesis: Co I red HFS (RYA-564)",
       "fe_1d3d_correction": null
     },
     {

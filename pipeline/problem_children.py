@@ -155,11 +155,21 @@ CURATED_SEED = [
          severity='medium', governing_tickets='460', status='active',
          notes='Blue-edge HFS single line (KP SNR ~180); value close (+0.06) but LOW_CONFIDENCE '
                '-> HFS-resolved synthesis + a cleaner line owed (RYA-460).'),
-    dict(species='Co I', lambda_or_scope='3845.46', problem_class='CONTINUUM_LIMITED',
-         required_treatment='per_region_source', observed_in='Sun', amplifies_with='blue/UV',
-         severity='medium', governing_tickets='460', status='active',
-         notes='Blue-edge SNR-limited (KP ~24, chi2r~3100) -> value not trusted; extract cleaner '
-               'red Co I lines (within KP 1300nm reach) + HFS (RYA-460).'),
+    dict(species='Co I', lambda_or_scope='3845.46 (demoted) / red HFS 4813/5212/5352/5483/6771',
+         problem_class='CONTINUUM_LIMITED',
+         required_treatment='synthesis', observed_in='Sun', amplifies_with='blue/UV',
+         severity='medium', governing_tickets='460,534,564', status='resolved',
+         notes='Blue-edge SNR-limited (KP ~24, chi2r~3100) -> the 3845 value (+1.188) is an '
+               'artifact, DEMOTED to diagnostic-only (RYA-564); it must never be the reported '
+               'A(Co). Co is HFS-split so the EW path cannot reach it at all (RYA-354/466 class). '
+               'MEASURED instead by HFS-resolved Turbospectrum synthesis on clean RED Co I lines '
+               'with in-window blend handling (RYA-564, the RYA-551 method): A(Co) 4.965 from 5 '
+               'reliable lines (4813/5212/5352/5483/6771, dEW/dA 41-75 mA/dex), +0.025 vs Asplund '
+               '-> PASS. Per-line 1D-NLTE read from the RYA-534-validated Gerber TS-native grid '
+               '(median +0.095 vs the Bergemann+2010 anchor +0.10). 5000/5013 (the RYA-534 gate '
+               'lines) are sub-mA and carry no abundance sensitivity -> diagnostic-only; '
+               '5369.589/5454.570 excluded (upper model-atom level unidentified in the GES NLTE '
+               'list -> no departure route). Production two-engine freeze pending RYA-527.'),
     dict(species='Sr II', lambda_or_scope='4077/4161/4215/4305', problem_class='SATURATION_COG',
          required_treatment='synthesis', observed_in='Sun', amplifies_with='[Fe/H]↑',
          severity='medium', governing_tickets='421,428,429,430,433,520,551', status='resolved',

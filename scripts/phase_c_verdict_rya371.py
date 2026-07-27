@@ -57,6 +57,7 @@ MN_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' /
                  'solar_mn_hfs_synthesis_rya473.json')       # RYA-473 HFS-synthesis Mn
 S_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_s_costasilva_rya492.json'  # RYA-492 CS-gf S
 BA_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_ba_synthesis_rya559.json'  # RYA-559 Ba II 5853 synth
+CO_SYNTH_JSON = ROOT / 'data' / 'results' / 'co_synthesis_rya564.json'   # RYA-564 Co I red-line synth
 
 # Prior Phase C verdict counts — the immediate baseline this run diffs against.
 # RYA-462 diffs against RYA-460's reference-wired verdict (3 / 2 / 21 / 0); RYA-460 in
@@ -591,17 +592,27 @@ def _kittpeak_reclassify(kp):
                      f"(SNR~180, no true continuum) → LOW_CONFIDENCE; HFS-resolved synthesis + a "
                      f"cleaner Sc II line owed before any PASS.")}
 
-    # ── Co — KP covers it but the only extracted line is blue-edge SNR-limited ──
+    # ── Co — the blue-edge 3845 line is DIAGNOSTIC-ONLY (RYA-564) ──
+    # RYA-460 originally reported A(Co) from the Kitt Peak Co I 3845 extraction. That value
+    # (6.128, +1.188 vs Asplund) is an artifact of the blanketed blue edge (SNR~24,
+    # chi2r~3100) — the same class as the Sr I +2.13 the RYA-524 audit was built to catch —
+    # and the registry already marked it "value NOT trusted". RYA-564 DEMOTES it here, at
+    # source and UNCONDITIONALLY: the line stays on the record as a diagnostic, but it can
+    # never be the reported A(Co) again, whether or not the red-line synthesis has run.
+    # The reportable value comes from _co_reclassify (clean red Co I lines); if that has not
+    # run, or no red line clears reliability, Co honestly reports NO VALUE.
     if leg_ok and (c := m.get('CoI_3845')) and c['a_1dlte'] is not None:
         out['Co'] = {
-            'verdict': 'CURATION-OWED', 'A_measured': c['a_1dlte'], 'n_lines': 1,
-            'provenance': 'kittpeak-measured',
-            'channel': 'kittpeak: Co I 3845 (blue-edge, SNR-limited)',
-            'owed': (f"Kitt Peak covers Co, but the extracted Co I 3845 sits in the blanketed blue "
-                     f"edge (SNR~24, chi2r~3100) → the value {c['a_1dlte']} is NOT trusted (blue-edge "
-                     f"per the RYA-451/454 caveat). OFF pure DATA-GAP (a measured reference now "
-                     f"exists) but curation owed: extract cleaner red Co I lines (within KP's 1300 nm "
-                     f"reach) + HFS. Do NOT force the blue value.")}
+            'verdict': 'CURATION-OWED', 'A_measured_blank': True, 'n_lines': 0,
+            'provenance': 'diagnostic-only (no reported value)',
+            'channel': 'kittpeak: Co I 3845 — DIAGNOSTIC-ONLY (blue-edge artifact, demoted RYA-564)',
+            'owed': (f"NO VALUE REPORTED from Kitt Peak. The extracted Co I 3845 sits in the "
+                     f"blanketed blue edge (SNR~24, chi2r~3100); its A(Co)={c['a_1dlte']} "
+                     f"({c['delta_vs_asplund']:+.3f} vs 4.94) is NOT credible solar Co — the same "
+                     f"artifact class as the Sr I +2.13 (RYA-524). DEMOTED to diagnostic-only by "
+                     f"RYA-564; it must never enter the freeze. The measurement route is "
+                     f"HFS-resolved synthesis on the clean RED Co I lines (RYA-564); until that "
+                     f"lands a reliable line, Co is owed WITHOUT a value — never the blue value.")}
     return out
 
 
@@ -886,6 +897,109 @@ def _apply_ba_synthesis(rows, data):
     return overrides
 
 
+def _load_co_synthesis():
+    """RYA-564: the red-line Co I HFS-synthesis measurement, or None if it hasn't run."""
+    if not CO_SYNTH_JSON.exists():
+        return None
+    return json.loads(CO_SYNTH_JSON.read_text())
+
+
+def _co_reclassify(data):
+    """RYA-564 — fold the RED-line Co I measurement into the verdict, REPLACING the demoted
+    blue-edge 3845 artifact (+1.188, KP SNR~24, chi2r~3100; see _kittpeak_reclassify).
+
+    Co is hyperfine-split, so the EW path cannot reach it (the RYA-354/466 finding). The
+    measurement is an HFS-resolved Turbospectrum flux fit on clean red Co I lines — the GES
+    NLTE line list supplies the HFS components, the VALD in-window block supplies the blends
+    — plus a PER-LINE 1D-NLTE delta read from the RYA-534-validated Gerber grid (Engine-B
+    TS-native; the deck raises rather than running silent-LTE). Validate-don't-tune: both the
+    gf (canonical_gf single source) and the NLTE delta are READ, never fitted.
+
+    If NO red line clears the reliability floor the element reports NO VALUE — the ticket's
+    CRITICAL condition. Falling back to 3845 is never an option. Returns {'Co': override}."""
+    if not data:
+        return {}
+    s = data.get('_summary', {})
+    a = s.get('A_Co')
+    med_delta = s.get('median_nlte_delta')
+    anchor_ok = s.get('nlte_anchor_consistent')
+    asp = float(SOLAR_ASPLUND2021.get('Co', 4.94))
+    nlte_txt = (f"per-line 1D-NLTE from the RYA-534-validated Gerber TS-native grid "
+                f"(median {med_delta:+.4f} vs the Bergemann+2010 anchor +0.100 ± 0.12 — "
+                f"{'CONSISTENT' if anchor_ok else 'CHECK'}; read, never fitted)")
+
+    if a is None:
+        # Reliability floor not cleared anywhere -> honest no-value. NEVER the 3845 artifact.
+        return {'Co': {
+            'verdict': 'CURATION-OWED', 'A_measured_blank': True, 'n_lines': 0,
+            'provenance': 'synthesis: Co I red HFS (RYA-564) — no line cleared reliability',
+            'channel': 'synthesis: Co I red HFS-resolved (RYA-564) — measurable-owed, no value',
+            'owed': (f"NO VALUE. The red Co I HFS synthesis ran ({nlte_txt}) but no line cleared "
+                     f"the reliability floor: {s.get('reason')}. Co is measurable-owed. The "
+                     f"blue-edge 3845 artifact stays DIAGNOSTIC-ONLY — it is not a fallback.")}}
+
+    a = float(a)
+    d = a - asp
+    n = int(s.get('n_reliable', 0))
+    lines = s.get('reliable_lines', {}) or {}
+    line_txt = ', '.join(f"{w}={v:.3f}" for w, v in sorted(lines.items()))
+    po = s.get('primary_only') or {}
+    iag = s.get('iag_crosscheck') or {}
+    reconciled = abs(d) <= TOL_PASS
+    checks = []
+    if po:
+        checks.append(f"gf-'agreed' lines only: {po['median']:.3f} (n={po['n']}, "
+                      f"scatter {po['scatter']:.3f})")
+    if iag:
+        checks.append(f"IAG FTS arm: {iag['median']:.3f} (n={iag['n']}, "
+                      f"scatter {iag['scatter']:.3f})")
+    check_txt = ('; '.join(checks)) if checks else 'none'
+    return {'Co': {
+        'verdict': 'PASS' if reconciled else 'CURATION-OWED',
+        'A_measured': a, 'sigma': s.get('scatter'), 'n_lines': n,
+        'provenance': 'synthesis: Co I red HFS (RYA-564)',
+        'channel': (f'synthesis: Co I red HFS-resolved flux fit ({n} lines, HARPS; blends '
+                    f'modelled) + per-line Gerber 1D-NLTE (RYA-534 deck)'),
+        'owed': (f"MEASURED on clean RED Co I lines via HFS-resolved synthesis — the EW path "
+                 f"cannot reach Co (hyperfine-split, RYA-354/466) and the previous number came "
+                 f"from the blue-edge Co I 3845, now DEMOTED to diagnostic-only (that +1.188 was "
+                 f"an SNR~24/chi2r~3100 artifact, not solar Co). Per-line A(Co) [{line_txt}] -> "
+                 f"A(Co) {a:.3f} ({d:+.3f} vs Asplund {asp:.2f}), scatter {s.get('scatter')}; "
+                 f"{nlte_txt}. Cross-checks — {check_txt}. "
+                 + ("RECONCILES within tol on a validated leg: the red-line value replaces the "
+                    "artifact and Co clears. Scale caveat (RYA-561/593): this is a 1D-NLTE value "
+                    "against a 3D-NLTE Asplund reference — the un-applied 3D term is folded into "
+                    "the offset; the class-wide 3D-metals correction is post-Beta (RYA-593)."
+                    if reconciled else
+                    "A residual survives tol -> curation owed (gf/blend floor, RYA-161/162); "
+                    "do NOT tune."))}}
+
+
+def _apply_co_synthesis(rows, data):
+    """Overlay the RYA-564 red-line Co synthesis reclassification onto the rows (in place).
+    Runs AFTER _apply_kittpeak so it replaces the demoted 3845 row."""
+    overrides = _co_reclassify(data)
+    for r in rows:
+        ov = overrides.get(r['element'])
+        if not ov:
+            continue
+        for key in ('verdict', 'channel', 'owed', 'provenance'):
+            if key in ov:
+                r[key] = ov[key]
+        if ov.get('A_measured_blank'):
+            r['A_measured'] = None
+            r['delta_vs_asplund'] = None
+            r['sigma'] = None
+        if ov.get('A_measured') is not None:
+            r['A_measured'] = round(float(ov['A_measured']), 3)
+            r['delta_vs_asplund'] = round(r['A_measured'] - r['asplund2021'], 3)
+        if ov.get('sigma') is not None:
+            r['sigma'] = round(float(ov['sigma']), 3)
+        if ov.get('n_lines') is not None:
+            r['n_lines'] = int(ov['n_lines'])
+    return overrides
+
+
 def _apply_cu_v_synthesis(rows, data):
     """Overlay the RYA-466 Cu/V HFS-synthesis reclassification onto the base rows (in place)."""
     overrides = _cu_v_reclassify(data)
@@ -979,6 +1093,13 @@ def _apply_kittpeak(rows, kp):
         for key in ('verdict', 'channel', 'owed', 'provenance'):
             if key in ov:
                 r[key] = ov[key]
+        # RYA-564: an explicit demotion — the channel measured something but it is NOT
+        # reportable (Co I 3845). Blank the value rather than leaving a stale one standing;
+        # a demoted artifact must never survive as the element's number.
+        if ov.get('A_measured_blank'):
+            r['A_measured'] = None
+            r['delta_vs_asplund'] = None
+            r['sigma'] = None
         if ov.get('A_measured') is not None:
             r['A_measured'] = round(float(ov['A_measured']), 3)
             asp = r['asplund2021']
@@ -1023,6 +1144,11 @@ def main():
     ba_synth = _load_ba_synthesis()
     ba_overrides = _apply_ba_synthesis(rows, ba_synth)
 
+    # RYA-564: fold in the RED-line Co I HFS synthesis. MUST run after _apply_kittpeak — it
+    # replaces the blue-edge Co I 3845 artifact (+1.188) that KP demoted to diagnostic-only.
+    co_synth = _load_co_synthesis()
+    co_overrides = _apply_co_synthesis(rows, co_synth)
+
     counts = {}
     for r in rows:
         counts[r['verdict']] = counts.get(r['verdict'], 0) + 1
@@ -1043,7 +1169,12 @@ def main():
                's_synthesis_wired': bool(s_synth),
                's_synthesis_elements': sorted(s_overrides) if s_overrides else [],
                'ba_synthesis_wired': bool(ba_synth),
-               'ba_synthesis_elements': sorted(ba_overrides) if ba_overrides else []}
+               'ba_synthesis_elements': sorted(ba_overrides) if ba_overrides else [],
+               'co_synthesis_wired': bool(co_synth),
+               'co_synthesis_elements': sorted(co_overrides) if co_overrides else [],
+               # RYA-564: the blue-edge Co I 3845 is demoted unconditionally, whether or not
+               # the red-line synthesis has run — record it so the freeze can assert it.
+               'demoted_diagnostic_only': ['Co I 3845 (blue-edge artifact, RYA-564)']}
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
