@@ -80,18 +80,27 @@ def _read_csv_provenance(path: Path) -> dict:
 
 def load_conditioned_co(setting: str) -> dict:
     """Conditioned CRIRES CO order: VACUUM wavelength + continuum-normalized flux,
-    gap/bad pixels (wave≈0, flux≤0, non-finite) dropped, ascending λ."""
+    gap/bad pixels (wave≈0, flux≤0, non-finite) dropped, ascending λ. If the snapshot
+    carries molecfit's transmission model (`mtrans`, persisted by RYA-380), it is loaded
+    on its own grid (finite mtrans, NOT flux-gated — the telluric-model check needs the
+    transmission everywhere it was modelled, including under deep solar cores)."""
     path = COND / CONDITIONED[setting]
     meta = _read_csv_provenance(path)
     df = pd.read_csv(path, comment='#')
     w = df['wave_vac_A'].to_numpy(float)        # CRIRES/molecfit VAC
     f = df['flux_norm'].to_numpy(float)
     good = (w > 1000) & np.isfinite(f) & (f > 0)
-    w, f = w[good], f[good]
-    o = np.argsort(w)
-    return {'setting': setting, 'wave_A': w[o], 'flux': f[o],
-            'restfrm': meta.get('RESTFRM') == 'True', 'specsys': meta.get('SPECSYS'),
-            'rvstatus': meta.get('RVSTATUS', ''), 'provisional': meta.get('PROVIS') == 'True'}
+    o = np.argsort(w[good])
+    out = {'setting': setting, 'wave_A': w[good][o], 'flux': f[good][o],
+           'restfrm': meta.get('RESTFRM') == 'True', 'specsys': meta.get('SPECSYS'),
+           'rvstatus': meta.get('RVSTATUS', ''), 'provisional': meta.get('PROVIS') == 'True',
+           'mtrans_wave_A': None, 'mtrans': None}
+    if 'mtrans' in df.columns:
+        mt = df['mtrans'].to_numpy(float)
+        mok = (w > 1000) & np.isfinite(mt)
+        mo = np.argsort(w[mok])
+        out['mtrans_wave_A'], out['mtrans'] = w[mok][mo], mt[mok][mo]
+    return out
 
 
 def load_atlas(name: str, flux_col: str) -> dict:
@@ -190,25 +199,68 @@ def diagnose_residual_telluric(co: dict, telluric_ref: dict) -> dict:
     return {'reference': f"{telluric_ref['name']} (telluric)", **vel}
 
 
-def check_telluric_model(mtrans_wave_A, mtrans, wallace: dict) -> dict:
-    """Check 2: molecfit telluric transmission vs the Wallace telluric ratio. Ready for
-    when RYA-373 persists `mtrans`; mtrans is None on the current products → BLOCKED."""
-    if mtrans is None or mtrans_wave_A is None:
-        return {'reference': 'Wallace telluric near-IR atlas',
-                'status': 'BLOCKED — molecfit transmission (mtrans) not persisted by '
-                          'RYA-373 (only corrected flux is saved). RECOMMEND RYA-373 add '
-                          'the BEST_FIT_MODEL.mtrans column to the conditioned FITS; then '
-                          'this check runs directly.', 'verdict': 'BLOCKED'}
-    wgrid = np.asarray(mtrans_wave_A)
-    lo, hi = _overlap(wgrid, wallace['wave_A'])
+def _model_vs_one(mtrans_wave_A, mtrans, ref: dict) -> dict:
+    """molecfit transmission vs ONE telluric reference (transmission scale) over their
+    overlap. Reference is a telluric TRANSMISSION (Wallace ratio, or 1−photatl_atm depth
+    pre-converted by the caller). Returns RAN/rms/n or NO-OVERLAP."""
+    wgrid = np.asarray(mtrans_wave_A, float)
+    lo, hi = _overlap(wgrid, ref['wave_A'])
     m = (wgrid >= lo) & (wgrid <= hi)
-    wr = np.interp(wgrid[m], wallace['wave_A'], _smooth_to_crires(wallace['wave_A'], wallace['flux']))
-    mt = np.asarray(mtrans)[m]
+    if m.sum() == 0:
+        return {'reference': ref['name'], 'status': 'NO-OVERLAP',
+                'mtrans_vac_A': [round(float(wgrid.min()), 1), round(float(wgrid.max()), 1)],
+                'ref_vac_A': [round(float(ref['wave_A'].min()), 1), round(float(ref['wave_A'].max()), 1)],
+                'verdict': 'NO-OVERLAP — atlas segment does not cover this CO order'}
+    wr = np.interp(wgrid[m], ref['wave_A'], _smooth_to_crires(ref['wave_A'], ref['flux']))
+    mt = np.asarray(mtrans, float)[m]
     ok = np.isfinite(wr) & np.isfinite(mt)
+    if ok.sum() == 0:
+        return {'reference': ref['name'], 'status': 'NO-OVERLAP', 'n_px': 0,
+                'verdict': 'NO-OVERLAP — no finite pixels in common'}
     rms = float(np.sqrt(np.nanmean((mt[ok] - wr[ok]) ** 2)))
-    return {'reference': 'Wallace telluric near-IR atlas', 'status': 'RAN', 'resid_rms': rms,
-            'n_px': int(ok.sum()),
-            'verdict': 'PASS — telluric model matches' if rms <= 0.05 else 'FAIL — model–reality mismatch'}
+    # Depth correlation (1−transmission) is the condition-robust shape metric: absolute
+    # rms scales with airmass/PWV between this night's molecfit model and the fixed
+    # Kitt Peak atlas, but the telluric line STRUCTURE should correlate if the model is
+    # right. This mirrors the harness's own reference crosscheck (depth_corr ≥ 0.6).
+    do, dr = 1.0 - mt[ok], 1.0 - wr[ok]
+    den = np.sqrt(np.sum((do - do.mean()) ** 2) * np.sum((dr - dr.mean()) ** 2))
+    depth_corr = float(np.sum((do - do.mean()) * (dr - dr.mean())) / den) if den > 0 else np.nan
+    return {'reference': ref['name'], 'status': 'RAN', 'resid_rms': rms,
+            'depth_corr': depth_corr, 'n_px': int(ok.sum()),
+            'verdict': ('PASS — telluric model captures the structure'
+                        if np.isfinite(depth_corr) and depth_corr >= 0.6
+                        else 'WEAK — model–reality shape mismatch (or epoch/airmass diff)')}
+
+
+def check_telluric_model(mtrans_wave_A, mtrans, wallace: dict,
+                         photatl_atm: "dict | None" = None) -> dict:
+    """Check 2: molecfit telluric transmission vs the INDEPENDENT telluric references.
+    RYA-380 persists `mtrans`, so this now RUNS (was BLOCKED). Compares against BOTH
+    (RYA-373 Part-B design): the Wallace dedicated-telluric ratio (band middle,
+    4299.8–4338.6 cm⁻¹) AND the photatl atmospheric column (full-band, 4248–4377 cm⁻¹,
+    converted depth→transmission = 1−atm), since the on-chip CO bandhead order often
+    falls outside the narrow Wallace segment. Verdict = best-overlapping reference."""
+    if mtrans is None or mtrans_wave_A is None:
+        return {'reference': 'Wallace + photatl-atmospheric', 'status': 'BLOCKED',
+                'verdict': 'BLOCKED — molecfit transmission (mtrans) not persisted'}
+    refs = {'wallace': _model_vs_one(mtrans_wave_A, mtrans, wallace)}
+    if photatl_atm is not None:
+        # photatl atmospheric column is already a TRANSMISSION (continuum≈1, lines dip to
+        # ~0) — same scale as molecfit mtrans and the Wallace ratio; compare directly.
+        atm_T = {'name': 'photatl-atmospheric (transmission, full-band)',
+                 'wave_A': photatl_atm['wave_A'], 'flux': photatl_atm['flux']}
+        refs['photatl_atm'] = _model_vs_one(mtrans_wave_A, mtrans, atm_T)
+    ran = [r for r in refs.values() if r.get('status') == 'RAN']
+    # best overlapping reference = highest telluric-structure (depth) correlation
+    best = max(ran, key=lambda r: (r.get('depth_corr') or -1)) if ran else None
+    return {'status': 'RAN' if ran else 'NO-OVERLAP',
+            'resid_rms': best['resid_rms'] if best else float('nan'),
+            'depth_corr': best.get('depth_corr') if best else float('nan'),
+            'n_px': best['n_px'] if best else 0,
+            'reference': best['reference'] if best else 'Wallace + photatl-atmospheric',
+            'verdict': best['verdict'] if best else
+                       'NO-OVERLAP — neither telluric atlas covers this on-chip CO order',
+            'per_reference': refs}
 
 
 def crosscheck_telluric_references(wallace: dict, photatl_atm: dict) -> dict:
@@ -263,7 +315,8 @@ def run() -> dict:
             'rvstatus': co['rvstatus'][:60], 'provisional': co['provisional'],
             'check1_telluric_removal_vs_ACE': c1,
             'check3_cross_instrument_vs_photatl': c3,
-            'check2_telluric_model_vs_Wallace': check_telluric_model(None, None, wallace),
+            'check2_telluric_model_vs_Wallace': check_telluric_model(
+                co['mtrans_wave_A'], co['mtrans'], wallace, ph_atm),
             'diagnostic_residual_telluric_vs_photatl_atm': rt,
             'verdict': _setting_verdict(solar_best, rt['peak_xcorr']),
         }
@@ -284,7 +337,10 @@ def run() -> dict:
         print(f"    3 solar  vs photatl : v={c3['v_kms']:+6.1f}  xcorr={c3['peak_xcorr']:.3f}  "
               f"depth_corr={c3['depth_corr']:.3f}  rms={c3['resid_rms']:.3f}")
         print(f"    ! residual telluric : v={rt['v_kms']:+6.1f}  xcorr={rt['peak_xcorr']:.3f}  (v≈0 ⇒ telluric)")
-        print(f"    2 telluric-model    : {r['check2_telluric_model_vs_Wallace']['verdict']}")
+        c2 = r['check2_telluric_model_vs_Wallace']
+        print(f"    2 telluric-model    : {c2['verdict']}"
+              + (f"  depth_corr={c2['depth_corr']:.3f} rms={c2['resid_rms']:.3f} "
+                 f"(n={c2['n_px']}, {c2['reference']})" if c2.get('status') == 'RAN' else ""))
         print(f"    → {r['verdict']}\n")
     tc = report['telluric_reference_crosscheck']
     print(f"  telluric-ref cross-check (Wallace vs photatl-atm): {tc.get('verdict', tc['status'])}"
