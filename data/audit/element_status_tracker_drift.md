@@ -52,17 +52,55 @@ all match. (Vocabulary differs: the audit says `gold PASS` / `gf_floor` / `owed`
 | 4 | **S I** | 7.753, Δ+0.633, `DONE-BUT-STALE`, expected ≈ 7.486 | **7.486**, Δ+0.366 | Audit prediction **confirmed** by RYA-557/492. Drift resolved in the live verdict; seed row is simply older. |
 | 5 | **Ba II** | blank, `owed`, EW culled | **2.410**, Δ+0.140 (RYA-559 Ba II 5853 HFS synthesis + Korotin2015 δ −0.0285) | Live verdict is **ahead** of the seed. Live also flags the pool EW as blend-inflated by ≈ +0.15 (clean ≈ 2.19–2.23) — deblend owed. |
 | 6 | **Mn I** | 5.470, Δ+0.050 | 5.466, Δ+0.046 | Small; RYA-546 ab-initio δ+0.024 re-derivation. |
-| 7 | **Ca I** | 6.324, Δ+0.024 | **blank** — "no independent-gf line survives the graded cull" | see note below |
-| 8 | **Ti I** | 5.471, Δ+0.501 | **blank** — same cull | see note below |
-| 9 | **Ni I** | 6.946, Δ+0.746 | **blank** — same cull | see note below |
-| 10 | **Na I** | 6.264, Δ+0.024 | **blank** — same cull | see note below |
-| 11 | **Al I** | 7.406, Δ+0.976 | **blank** — same cull | see note below |
+| 7 | **Ca I** | 6.324, Δ+0.024 | **blank** — ~~"no independent-gf line survives the graded cull"~~ **REFUTED, see below** | see note below |
+| 8 | **Ti I** | 5.471, Δ+0.501 | **blank** — same | see note below |
+| 9 | **Ni I** | 6.946, Δ+0.746 | **blank** — same | see note below |
+| 10 | **Na I** | 6.264, Δ+0.024 | **blank** — same | see note below |
+| 11 | **Al I** | 7.406, Δ+0.976 | **blank** — same | see note below |
 
-**Rows 7–11 (one cause):** the live verdict reports **no value** for Ca/Ti/Ni/Na/Al because the
-RYA-398 graded-gf firewall — wired into the default run by RYA-456 — culls every line in those pools
-(pool gf is Kurucz/ungraded). The audit's 2026-07-14 numbers are pre-cull. This is a **systematic
-channel change, not five independent regressions**, and it moves those five from "owed with a number"
-to "owed with no number". Direction of truth not adjudicated here.
+**Rows 7–11 — ADJUDICATED by RYA-596 (2026-07-27). The cause recorded above was WRONG.**
+
+The original read here — "the RYA-398 graded-gf firewall culls every line in those pools" — was
+**quoting the verdict's own channel text, which was itself a hardcoded, unverified claim.** It is
+refuted on both legs:
+
+1. **The firewall is not over-culling, and not culling to zero.** A fresh grade-restricted cull on
+   the live pool leaves survivors for every one of the five:
+
+   | element | pool | kept | gf tiers | cull reasons |
+   |---|---|---|---|---|
+   | Ca I | 28 | **3** | LOW 16 / MED 10 / HIGH 2 | SAT 13, GRADE 16, HIERR 3 |
+   | Ti I | 81 | **10** | MED 46 / LOW 35 | SAT 44, GRADE 35, HIERR 25 |
+   | Ni I | 26 | **2** | LOW 20 / MED 6 | GRADE 20, SAT 10, HIERR 6, BLEND 3 |
+   | Na I | 4 | **2** | **HIGH 4** | SAT 2, BLEND 2 — **GRADE culls ZERO Na lines** |
+   | Al I | 2 | **1** | LOW 1 / MED 1 | GRADE 1 |
+
+   Na is the cleanest refutation: all four Na lines carry a NIST **HIGH** grade, so the RYA-398
+   grade cull removes none of them. The firewall could not have blanked Na.
+
+2. **The real cause is the RYA-522 gold tiering — and it is by ratified design, not a bug.**
+   `build_solar_reference_v2_rya522.py` freezes a value only for the `gold` / `gf_floor` /
+   `upper_limit` tiers; everything else is `owed` and freezes **no value even when one was
+   produced** (`a_frozen = a_verdict if conf != "owed" else None`) — Ryan's 2026-07-05
+   ratification, "suspect → held, not immortalised". All five sit in `owed`. Gold **v1** still
+   carries their curated numbers (Al 7.406, Ca 6.324, Na 6.264, Ni 6.946, Ti 5.471 — exactly the
+   seed values), proving the curation produced them.
+
+3. **The bug was the round-trip.** `phase_c_verdict_rya371.py` reads the frozen gold back in
+   (RYA-469), sees a blank `A_X`, and fell through to a branch that asserted the firewall cause
+   **without checking it**. So a deliberate hold re-entered the verdict disguised as a cull. The
+   tell was on the row all along: `n_lines` = 2/10/2/2/1 sitting next to "no line survives".
+   **Sr I (row 1) carried the same phantom string** for the same reason.
+
+**Fixed in RYA-596:** the classifier now distinguishes *held at tier* from *zero survivors*, and a
+generation-time tripwire (`_assert_blank_cause_is_honest`) refuses to emit the zero-survivor claim
+on any row with `n_lines > 0`. Verdict counts are unchanged (5/0/21/0) — this corrects the stated
+cause, it does not invent a value.
+
+**Still genuinely zero-survivor (claim verified, text retained):** Mg (0/5), Y (0/3), Zr (0/6),
+Eu (0/1). Caveat worth its own ticket: for **Zr and Eu the blank is NOT gf-grade-driven** — all
+their lines are MED tier and die on SAT/BLEND/HIERR (the RYA-395 quality cuts), so the surviving
+"pool gf is Kurucz/ungraded" wording is right for Mg/Y but imprecise for Zr/Eu.
 
 **Structural mismatch (not counted above):**
 

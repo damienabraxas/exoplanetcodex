@@ -232,6 +232,16 @@ def build_verdicts(ab, ew, phase_a):
         cverdict = (str(mrow['curation_verdict'])
                     if (mrow is not None and 'curation_verdict' in mrow
                         and isinstance(mrow.get('curation_verdict'), str)) else '')
+        # RYA-596: the gold row's ratified confidence TIER (RYA-522). An `owed`-tier
+        # row freezes NO value BY DESIGN even when the curation produced one — so a
+        # blank A_measured here means "held by the tier", NOT "the graded cull left
+        # nothing". The classifier must not conflate the two (see _classify).
+        gold_tier = (str(mrow['confidence'])
+                     if (mrow is not None and 'confidence' in mrow
+                         and isinstance(mrow.get('confidence'), str)) else '')
+        gold_note = (str(mrow['note'])
+                     if (mrow is not None and 'note' in mrow
+                         and isinstance(mrow.get('note'), str)) else '')
         # C/N/O are derived from the Phase A SYNTHESIS path, not the EW baseline —
         # the EW-path value for C (10.26) is an uncurated artifact; report the
         # multi-arm cross-arm result instead (primary mean + spread).
@@ -255,9 +265,10 @@ def build_verdicts(ab, ew, phase_a):
         verdict, channel, owed = _classify(el, asp, a_meas, delta, sigma, n_lines,
                                             grid, threed, nlte_flag,
                                             el in pool_elems, el in produced, phase_a,
-                                            cverdict, charter)
+                                            cverdict, charter, gold_tier, gold_note)
         if ew_integrity_note:
             owed = f"{owed} [{ew_integrity_note}]"
+        _assert_blank_cause_is_honest(el, channel, n_lines)
         rows.append({
             'element': el, 'asplund2021': asp,
             'A_measured': round(a_meas, 3) if np.isfinite(a_meas) else None,
@@ -273,8 +284,25 @@ def build_verdicts(ab, ew, phase_a):
     return rows
 
 
+ZERO_SURVIVOR_CHANNEL = 'EW present; no independent-gf line survives the graded cull'
+
+
+def _assert_blank_cause_is_honest(el, channel, n_lines):
+    """RYA-596 tripwire: never claim a zero-survivor graded cull on a row that
+    carries graded survivors. The two are contradictory on their face, and that
+    contradiction (n_lines>0 alongside "no line survives") is exactly how the
+    Ca/Ti/Ni/Na/Al/Sr phantom cause hid in plain sight across verdict generations."""
+    if channel == ZERO_SURVIVOR_CHANNEL and n_lines > 0:
+        raise AssertionError(
+            f"RYA-596: {el} row claims '{ZERO_SURVIVOR_CHANNEL}' but carries "
+            f"n_lines={n_lines} graded survivor(s). A blank A(X) on a row with "
+            f"survivors is a gold-tier HOLD (RYA-522), not a cull — the classifier "
+            f"must not attribute it to the RYA-398 firewall.")
+
+
 def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
-              in_pool, produced, phase_a, cverdict='', charter=None):
+              in_pool, produced, phase_a, cverdict='', charter=None,
+              gold_tier='', gold_note=''):
     """Return (verdict, channel, owed-note). Pure classification — no tuning."""
     charter = charter or {}
     # ── C / N / O come from the Phase A synthesis path, not the EW baseline ──
@@ -351,9 +379,6 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
                 f'gf-/blend-limited pool (RYA-395/398). {nlte_note}.')
 
     # ── in the canonical EW pool but no production abundance ──
-    # RYA-456 wired curate_nonfe_pools into the default run, so a non-produced in-pool
-    # element no longer means "curation not wired" — it means the RYA-398 graded firewall
-    # left no independent-gf line to stand on (the pool's gf is all Kurucz/ungraded).
     if in_pool:
         nlte_note = (f'NLTE grid available ({grid})' if grid else 'no NLTE grid (would be LTE-flagged)')
         # RYA-458: surface the Eu 6645 HFS recovery disposition (RYA-102) on its row.
@@ -363,10 +388,39 @@ def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
             if euc.get('present'):
                 eu_note = (f" Eu II 6645 EW {euc['ew_mA']:.1f} mA, ew_integrity "
                            f"disposition={euc['ew_disposition']} (RYA-102/458 HFS-summing).")
-        return ('CURATION-OWED', 'EW present; no independent-gf line survives the graded cull',
+
+        # ── RYA-596: TWO distinct blank causes, never conflated ──
+        # This branch used to assert one cause unconditionally — "the RYA-398 graded-gf
+        # firewall culls every line" — for ANY in-pool row with a blank A(X). That claim
+        # was FALSE for Ca/Ti/Ni/Na/Al/Sr and was self-contradicted by the `n_lines` on
+        # the very same row (2/10/2/2/1/1 graded survivors). The real cause there is the
+        # RYA-522 gold tiering: an `owed`-tier row freezes NO value BY RATIFIED DESIGN
+        # (Ryan 2026-07-05, build_solar_reference_v2_rya522.py — "suspect → held, not
+        # immortalised"), and this verdict READS the frozen gold back in (RYA-469). The
+        # blank is a deliberate HOLD round-tripping through the gold, not a cull.
+        # n_lines here IS the curated graded-survivor count carried on the gold row, so
+        # it is the evidence that decides which cause we may state.
+        if n_lines > 0:
+            held = (f'A(X) was produced by the RYA-395/398 graded cull on {n_lines} surviving '
+                    f'independent-gf line(s) and is HELD UNFROZEN at the ratified gold tier '
+                    f"'{gold_tier or 'owed'}' (RYA-522: a value is frozen only if we would stake "
+                    f'a differential on it). This is a deliberate hold, NOT a zero-survivor cull '
+                    f'— the graded firewall did leave lines to stand on. To surface a number the '
+                    f'tier must be re-ratified (RYA-522), or the pool broadened via RYA-161/162 '
+                    f'(differential survey).')
+            if gold_note:
+                held += f' Gold note: "{gold_note}".'
+            return ('CURATION-OWED',
+                    f'EW: {n_lines} curated line(s); value HELD at gold tier '
+                    f"'{gold_tier or 'owed'}' (RYA-522) — not a graded-cull blank",
+                    f'{held} {nlte_note}.{eu_note}')
+
+        # n_lines == 0 → the graded firewall genuinely left nothing (Mg, Y, Zr, Eu).
+        return ('CURATION-OWED', ZERO_SURVIVOR_CHANNEL,
                 'solar EW measured + matched in linelist_solar, but the RYA-398 graded-gf '
-                'firewall (now wired into the default run, RYA-456) culls every line — the '
-                'pool gf is Kurucz/ungraded. gf-data-limited → RYA-161/162 (differential survey). '
+                'firewall (wired into the default run, RYA-456) culls every line — zero '
+                'independent-gf survivors (pool gf is Kurucz/ungraded, or every line fails '
+                'SAT/HIERR/BLEND). gf-data-limited → RYA-161/162 (differential survey). '
                 f'{nlte_note}.{eu_note}')
 
     # ── no solar lines in the present set ──
