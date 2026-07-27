@@ -1,8 +1,24 @@
-# NIST Atomic Spectra Database — A and A+ grade reference lines
+# NIST Atomic Spectra Database — high-accuracy reference lines
 # Source: NIST ASD v5.11 (physics.nist.gov/asd)
 # These are the highest-accuracy wavelength/log gf values available
 # Use for: cross-validation of VALD3 extract, Type B uncertainty anchor
 # Retrieved: 2026-05-29
+#
+# RYA-592 re-verification (2026-07-26, NIST ASD v5.12, Mg I rows 5528/5711 ONLY):
+#   the log_gf values RE-DERIVE EXACTLY from the live source, but two columns were
+#   wrong and are corrected here — the accuracy CODE (both rows carried A; ASD
+#   reports B+ and B) and aki_s-1 (both rows disagreed with their own log_gf).
+#   ASD codes: A <=3%, B+ <=7%, B <=10% — so neither line is A-grade, and the file
+#   is no longer "A and A+ grade" only. Both still clear PIPELINE['min_nist_grade']
+#   ('B'), so no line is dropped; only the provenance label changes.
+#   Query (reproducible): physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=Mg+I
+#     &low_w=5520&upp_w=5720&unit=0&format=3&show_obs_wl=1&A_out=1&f_out=on&en_unit=1
+#   ASD returns, verbatim:
+#     5528.4047  gA 6.95e+07  fik 1.06e-01  Acc B+  Ei 4.3458029  g_i 3  g_k 5
+#     5711.0880  gA 3.86e+06  fik 6.30e-03  Acc B   Ei 4.3458029  g_i 3  g_k 1
+#   log gf = log10(g_i * fik) -> -0.4976 and -1.7235; aki = gA / g_k.
+#   The OTHER rows in this file are NOT re-verified against v5.12 (out of RYA-592
+#   scope) — the drift found here means they should not be assumed current.
 element,ion,wavelength_air_A,excitation_potential_eV,log_gf,nist_grade,aki_s-1,notes
 Fe,I,5250.209,0.121,-4.938,A,6.17e+02,Blackwell+1995; canonical solar benchmark
 Fe,I,5506.779,0.990,-2.797,A,3.61e+04,
@@ -13,8 +29,8 @@ Mg,I,4571.096,0.000,-5.623,A,2.54e+02,Ground state intercombination line
 Mg,I,5167.322,2.709,-1.031,A,1.14e+07,Mg b triplet b1
 Mg,I,5172.684,2.712,-0.450,A,3.37e+07,Mg b triplet b2
 Mg,I,5183.604,2.717,0.180,A,7.10e+07,Mg b triplet b3; strongest
-Mg,I,5528.405,4.346,-0.498,A,1.79e+07,Best weak Mg I line for EW
-Mg,I,5711.088,4.346,-1.724,A,2.17e+06,
+Mg,I,5528.405,4.346,-0.498,B+,1.39e+07,RYA-592 re-verified vs ASD v5.12; grade was A (source says B+); aki was 1.79e+07 (inconsistent with log_gf)
+Mg,I,5711.088,4.346,-1.724,B,3.86e+06,RYA-592 re-verified vs ASD v5.12; grade was A (source says B); aki was 2.17e+06 (inconsistent with log_gf)
 Ca,I,5857.451,2.933,0.240,A,1.49e+07,
 Ca,I,6102.723,1.879,-0.793,A,4.98e+06,
 Ca,I,6122.217,1.886,-0.316,A,1.23e+07,
