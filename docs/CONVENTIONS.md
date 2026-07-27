@@ -152,3 +152,36 @@ provenance.
 
 This rule is also the reason the `codex-artifact-preservation` step belongs in every
 Mr. Code brief that produces gitignored output.
+
+## Element status tracker must be updated with the element (RYA-594)
+
+`data/audit/element_status_tracker.csv` is the git-tracked single source of truth for
+"where does each of the 27 elements stand". It exists because per-element status has
+drifted before: RYA-524's master 27×2 audit was needed precisely because status was
+scattered across the verdict file, the RYA-463 registry and ticket history, and none of
+them agreed.
+
+**The standing rule:** a ticket that changes an element's
+
+- **classification** (`WIRED-OK` / `GENUINELY-OWED` / `DONE-BUT-STALE` /
+  `VINTAGE-INFLATED` / `WRONG-SPECIES` / `NLTE-VOID`), or
+- **`verdict_value` / `tier`**, or
+- **either engine's model-atom vintage** (`AB-INITIO` / `SCALED-DRAWIN` / `LTE` /
+  `NLTE-VOID`)
+
+**must update that row in the same change** — bump its `snapshot_date` and cite the ticket
+in `source_tickets`. **A ticket that changes an element's status without updating this file
+is INCOMPLETE**, the same discipline as the end-of-session Linear comment.
+
+Two corollaries:
+
+1. **Never silently reconcile a disagreement.** If the tracker and the live verdict
+   (`docs/audit/solar_phase_c_verdict_rya371.md`) disagree, record it in
+   `data/audit/element_status_tracker_drift.md` and flag it — do not pick one and
+   overwrite.
+2. **This file is the tracker, not a second pipeline output.** It is maintained outside
+   the pipeline and reviewed by eye. A read-only one-way mirror generated *from* it is
+   fine; a second writable copy is a single-source-of-truth violation.
+
+The file carries the same rule as `#` comment lines in its own header, so it travels with
+the data. Read it with `pandas.read_csv(path, comment='#')`.
