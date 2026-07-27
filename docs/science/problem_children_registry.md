@@ -33,7 +33,7 @@ _Generated 2026-07-26 by pipeline/problem_children.py. A CATALOG (never mutates 
 | P I | FUV / near-IR 10581/10596 | DATA_GAP | per_region_source | Sun | — | medium | 119,460 | active | curated |
 | K I | 7665/7699 | NLTE_OWED | NLTE_grid | Sun | all | low | 460,462 | resolved | curated |
 | Sc II | 4246.82 | HFS_SUMMING | HFS_sum | Sun | blue/UV | medium | 460 | active | curated |
-| Co I | 3845.46 | CONTINUUM_LIMITED | per_region_source | Sun | blue/UV | medium | 460 | active | curated |
+| Co I | 3845.46 (demoted) / red HFS 4813/5212/5352/5483/6771 | CONTINUUM_LIMITED | synthesis | Sun | blue/UV | medium | 460,534,564 | resolved | curated |
 | Sr II | 4077/4161/4215/4305 | SATURATION_COG | synthesis | Sun | [Fe/H]↑ | medium | 421,428,429,430,433,520,551 | resolved | curated |
 | Mn I | 6013/16/21 (e6S->z6P triplet) | HFS_SUMMING | synthesis | Sun | all | medium | 411,468,473,476 | resolved | curated |
 | Cu I | HFS-split lines | HFS_SUMMING | synthesis | Sun | all | medium | 402,466 | active | curated |
@@ -52,7 +52,7 @@ _Generated 2026-07-26 by pipeline/problem_children.py. A CATALOG (never mutates 
 ```
 Problem-children heads-up for (5777 K, [Fe/H]=+0.00, Sun):
   - [O I] 6300 OK at this [Fe/H] but WATCH it for metal-rich targets (amplifies [Fe/H]↑↑) -> O I 777 is the safe primary.
-  -> 25 entries: 0 amplified, 21 always-on, 0 watch. Top:
+  -> 25 entries: 0 amplified, 20 always-on, 0 watch. Top:
      [high  |expected ] O I [O I] 6300 -> CONTINUUM_LIMITED (cited_substitution)
      [high  |expected ] C I 5380.34 -> SATURATION_COG (exclude)
      [high  |expected ] NH ~3360 (band head) -> CONTINUUM_LIMITED (synthesis)
@@ -65,7 +65,7 @@ Problem-children heads-up for (5777 K, [Fe/H]=+0.00, Sun):
 Problem-children heads-up for (6554 K, [Fe/H]=+0.01, Procyon):
   - F-star (Teff↑): COG saturation knee shifts up to ~114 mA (est); watch strong-line saturation + bad-gf Fe outliers (RYA-281).
   - [O I] 6300 OK at this [Fe/H] but WATCH it for metal-rich targets (amplifies [Fe/H]↑↑) -> O I 777 is the safe primary.
-  -> 24 entries: 10 amplified, 4 always-on, 6 watch. Top:
+  -> 24 entries: 10 amplified, 4 always-on, 5 watch. Top:
      [high  |amplified] C I 5380.34 -> SATURATION_COG (exclude)
      [high  |amplified] N I 7442-8718 (red multiplets) -> DATA_GAP (per_region_source)
      [high  |amplified] Cr I gf pool -> BAD_GF (astrophysical_gf_differential)
@@ -79,7 +79,7 @@ Problem-children heads-up for (5196 K, [Fe/H]=+0.32, 55 Cnc):
   - cool (Teff↓): molecular bands (CH/CN/C2/NH/OH/CO) strengthen — synthesis-only handling amplified.
   - very metal-rich ([Fe/H]↑↑): [O I] 6300 unreliable -> O I 777 primary; blends + saturation amplified.
   - [O I] 6300 UNRELIABLE at this metallicity -> use O I 777 (primary).
-  -> 22 entries: 12 amplified, 3 always-on, 3 watch. Top:
+  -> 22 entries: 12 amplified, 3 always-on, 2 watch. Top:
      [high  |amplified] O I [O I] 6300 -> CONTINUUM_LIMITED (cited_substitution)
      [high  |amplified] Cr I gf pool -> BAD_GF (astrophysical_gf_differential)
      [high  |amplified] Ti I gf pool -> BAD_GF (astrophysical_gf_differential)
