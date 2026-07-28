@@ -1,0 +1,41 @@
+# Known, RATIFIED cross-artifact verdict divergences (RYA-632).
+#
+# Read by pipeline/ledger_consistency_guard.py. An entry here says: "these two results
+# artifacts disagree about this element ON PURPOSE, and here is the ticket that ratified
+# it." Undocumented disagreement fails the guard.
+#
+# RULES (enforced by load_allowed_divergences):
+#   * `ratified_by` is MANDATORY. No annotation without a ratifying ticket -- the same
+#     rule RYA-436 applies to documented constant/citation divergences. An entry without
+#     it raises, it does not warn.
+#   * `between` names exactly two artifacts, from:
+#     tracker | phase_c | gold | physics_regime.
+#   * One entry per DISAGREEING PAIR. A divergence visible across three artifacts needs
+#     three entries; that verbosity is deliberate, so that adding an artifact to an
+#     existing exception is a visible edit rather than a silent widening.
+#
+# WHAT MUST NEVER BE ADDED HERE: an entry written to turn the guard green on a
+# contradiction nobody has adjudicated. The guard is red on Co by design (RYA-564 left
+# the Co reconciliation to "a deliberate pass, not a drive-by") and on the five other
+# GET-DATA-vs-measured rows surfaced by the RYA-632 audit. Those stay red until ratified.
+
+# ── Sr -- RYA-551 (ratified) ────────────────────────────────────────────────────────
+# physics_regime_rya400.yaml deliberately holds Sr at GET-DATA while the measurement
+# exists, because the LOCKED verifier is EW-pool-based and Sr II is synthesis-sourced
+# by design (RYA-520 class: the raw Sr II EW channel is SUPPRESSED, so the EW-pool leg
+# genuinely stays owed). The yaml says so in its own routing note. The measured value
+# A(Sr II) ~= 2.74 lives in data/results/sr2_synthesis_rya551.json.
+- element: Sr
+  between: [physics_regime, phase_c]
+  reason: "LOCKED verifier is EW-pool-based; Sr II is synthesis-sourced and its raw EW channel is suppressed by design (RYA-520 class), so the yaml's EW-leg GET-DATA and the measured synthesis value are both correct"
+  ratified_by: RYA-551
+
+- element: Sr
+  between: [physics_regime, gold]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- the frozen gold carries the Sr I EW row (n_lines=1) that the yaml's GET-DATA verdict is about"
+  ratified_by: RYA-551
+
+- element: Sr
+  between: [physics_regime, tracker]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- the tracker records Sr at an owed tier (CURATION-OWED) against the yaml's EW-leg GET-DATA"
+  ratified_by: RYA-551
