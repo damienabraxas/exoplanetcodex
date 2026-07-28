@@ -39,8 +39,10 @@ Calibration notes (first solar run, 2026-06-04)
 - Asplund.2009 vs Asplund.2021 offset for Fe: 7.46 – 7.67 = –0.01 dex (negligible)
 """
 
+import os
 import sys
 import warnings
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS pins; import BEFORE numpy/scipy so the pins land before the BLAS backend spins up. Supersedes the RYA-506 inline fork block.
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -54,11 +56,15 @@ from config.constants import (
     LINE_SCORE_WEIGHTS, LINE_GRADE_THRESHOLDS, LINE_SCORE_PARAMS,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
     FE_1D3D_SOLAR_OFFSET, FE_ABS_DIAG_HALFWIDTH, FE_REW_SLOPE_GATE,
+    CORRECTIONS_3D,                      # RYA-553 tabulated solar Fe 1D→3D correction
+    FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
     SYNTH_CHI2_GATE,
     assert_abundance_on_scale,
+    ACCEPTANCE_PROFILES, STAR_SPECTRAL_TYPE, fe1_scatter_threshold,
 )
 from pipeline.species import species_key, species_note
 from pipeline.gf_resolver import apply_to_synth_array, apply_to_regions  # RYA-353 single-source gf
+from pipeline import data_namespace as ns                               # RYA-469 per-star namespacing
 
 
 def _star_linelist(star_id: str):
@@ -298,9 +304,22 @@ _fe2_theo_cache: dict = {}
 _fe2_quarantine_state: dict = {'written': False}
 _fe1_quarantine_state: dict = {'written': False}   # RYA-309: Fe I triage parity
 
+# RYA-506: the theoretical-EW step is the universal quarantine gate. Its silent-failure
+# mode was iSpec returning a zero-initialised array when its child synthesis process died
+# (root cause: the macOS 'spawn' default — fixed at module import above). This guard is the
+# loud backstop: an all-zero BATCH is the clean signature of a failed synthesis (physically
+# impossible for a real Fe pool), so we RAISE and do NOT cache rather than let a failed
+# synthesis silently quarantine a real pool. It does NOT loosen the theo<5 mÅ filter: a
+# single weak line legitimately near zero still sits inside a batch with non-zero
+# neighbours, so `np.any(theo > 0)` separates "synthesis failed" from "one line quarantined".
+_TMP_DIR = '/tmp/ispec_codex'
+
 
 def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray:
-    """Theoretical Fe II-only EW (mÅ) per line at expected A(Fe)=solar+[Fe/H], via SPECTRUM."""
+    """Theoretical Fe II-only EW (mÅ) per line at expected A(Fe)=solar+[Fe/H], via SPECTRUM.
+
+    RYA-506: RAISES (does not cache) if the synthesis returns an all-zero batch — the
+    signature of a silently-failed iSpec child — instead of quarantining a real pool on it."""
     teff = float(stellar_params['teff_K']); logg = float(stellar_params['logg'])
     feh  = float(stellar_params['feh']);    vturb = float(stellar_params['vturb_kms'])
     key = (tuple(np.round(np.asarray(fe2_linemasks['wave_A'], dtype=float), 3)),
@@ -309,19 +328,59 @@ def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray
         return _fe2_theo_cache[key]
     _, isotopes, _ = _load_synth_resources()
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+    os.makedirs(_TMP_DIR, exist_ok=True)   # RYA-506: never let a missing tmp dir crash write_atmosphere
+    n_lines = int(len(fe2_linemasks))
     out = ispec.calculate_theoretical_ew_and_depth(
         atmosphere, teff, logg, feh, 0.0, fe2_linemasks.copy(), isotopes, solar_abund,
-        microturbulence_vel=vturb, verbose=0, tmp_dir='/tmp/ispec_codex')
+        microturbulence_vel=vturb, verbose=0, tmp_dir=_TMP_DIR)
     theo = np.asarray(out['theoretical_ew'], dtype=float)
+    if not np.any(theo > 0):               # all-zero batch → failed synthesis, not physics
+        raise RuntimeError(
+            f"[RYA-506] theoretical-EW synthesis returned an all-zero batch for {n_lines} "
+            f"Fe lines at teff={teff} logg={logg} feh={feh}. An all-zero theoretical EW is "
+            f"physically impossible for a real Fe pool — the iSpec child synthesis died "
+            f"without enqueueing a result (silent zero-init; root cause = a non-'fork' "
+            f"multiprocessing start method — see the module-level fix + docs/OPEN_QUESTIONS.md). "
+            f"REFUSING to cache it or quarantine a real pool on a failed synthesis.")
     _fe2_theo_cache[key] = theo
     return theo
+
+
+# RYA-102/103 fold-in (RYA-371 Phase 1): the special weak/blended lines that are
+# their element's ONLY solar indicator. lines_fit force-MEASURES these; the EW→A(X)
+# pre-filter must FORCE-INCLUDE them or they vanish into a DATA-GAP. Eu II 6645
+# (HFS-total EW, RYA-102) = a real measurement; Li I 6707 (CN-blend, RYA-103) = an
+# UPPER LIMIT — both already carry their flags in 'notes' for the per-element verdict.
+EW_FORCE_INCLUDE = (('Eu', 'II', 6645.127), ('Li', 'I', 6707.840))   # RYA-102 / RYA-103
+
+
+def _ew_prefilter(ew_df: pd.DataFrame, ew_min: float, ew_max: float):
+    """Pre-filter the EW table for abundance derivation: drop blend-flagged and
+    out-of-range lines, EXCEPT the RYA-102/103 force-include set (kept with flags so
+    Eu/Li are not silently lost). Returns (ew_clean, n_force_included). Additive —
+    non-force-include rows are filtered exactly as before (Fe/metal pools unchanged)."""
+    df = ew_df.copy()
+    if not len(df):
+        return df, 0
+    wcol = 'wavelength_air_A' if 'wavelength_air_A' in df.columns else 'wavelength'
+    force = pd.Series(False, index=df.index)
+    for el, ion, w in EW_FORCE_INCLUDE:
+        force |= ((df['element'].astype(str) == el) & (df['ion'].astype(str) == ion)
+                  & (df[wcol].astype(float).sub(w).abs() < 0.1))
+    keep = pd.Series(True, index=df.index)
+    if 'blend_flag' in df.columns:
+        keep &= (df['blend_flag'] == False)
+    keep &= (df['ew_mA'] >= ew_min) & (df['ew_mA'] <= ew_max)
+    n_forced = int((force & ~keep).sum())
+    return df[keep | force], n_forced
 
 
 def _ew_to_abundance(ew_df: pd.DataFrame,
                      stellar_params: dict,
                      atmosphere: np.ndarray,
                      model_grid: str = 'ATLAS9.Castelli',
-                     code: str = RADIATIVE_TRANSFER_CODE) -> tuple:
+                     code: str = RADIATIVE_TRANSFER_CODE,
+                     star_id: str = 'solar') -> tuple:
     """
     Call ispec.determine_abundances on the matched linemasks.
 
@@ -345,16 +404,13 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     # in _converge_vmic_fe1_only(), not here. (RYA-199)
     ew_min = float(PIPELINE['ew_min_mA'])   # 5 mÅ
     ew_max = float(PIPELINE['ew_max_mA'])   # 300 mÅ
-    ew_clean = ew_df.copy()
-    if 'blend_flag' in ew_clean.columns:
-        ew_clean = ew_clean[ew_clean['blend_flag'] == False]
-    ew_clean = ew_clean[(ew_clean['ew_mA'] >= ew_min) & (ew_clean['ew_mA'] <= ew_max)]
+    ew_clean, n_forced = _ew_prefilter(ew_df, ew_min, ew_max)
 
     n_total  = len(ew_df)
     n_blends = int((ew_df.get('blend_flag', pd.Series(False, index=ew_df.index)) == True).sum())
-    n_ew_cut = n_total - n_blends - len(ew_clean)
-    print(f"  EW pre-filter: {n_total} total → {n_blends} blends removed, "
-          f"{n_ew_cut} outside [{ew_min:.0f},{ew_max:.0f}] mÅ → {len(ew_clean)} clean")
+    print(f"  EW pre-filter: {n_total} total → {n_blends} blend-flagged, "
+          f"cuts [{ew_min:.0f},{ew_max:.0f}] mÅ → {len(ew_clean)} kept "
+          f"(incl. {n_forced} force-included RYA-102/103 Eu II 6645 / Li I 6707)")
 
     linemasks = _build_ispec_line_regions(ew_clean)
 
@@ -425,7 +481,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
                                         'real line, EW blend-contaminated → synthesis',
                                         'theo<floor: negligible Fe II under blend → drop')),
                 })
-                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe2_triage_quarantine.csv'
+                qpath = ns.diagnostics_dir(star_id) / 'fe2_triage_quarantine.csv'  # RYA-469
                 q[q.verdict != 'clean'].to_csv(qpath, index=False)
                 _fe2_quarantine_state['written'] = True
                 print(f"  [Fe II triage] quarantine → {qpath.name}")
@@ -474,7 +530,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
                                         'real line, EW blend-contaminated → synthesis',
                                         'theo<floor: negligible Fe I under blend → drop')),
                 })
-                qpath = Path(str(PATHS['solar_ew'])).parent / 'fe1_triage_quarantine.csv'
+                qpath = ns.diagnostics_dir(star_id) / 'fe1_triage_quarantine.csv'  # RYA-469
                 q[q.verdict != 'clean'].to_csv(qpath, index=False)
                 _fe1_quarantine_state['written'] = True
                 print(f"  [Fe I triage] quarantine → {qpath.name}")
@@ -1346,6 +1402,19 @@ def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
     return float(np.polyfit(rew, abund[valid], 1)[0])
 
 
+def _fe1_ceiling_pool_mask(notes, ew_mA, ceiling_mA: float) -> np.ndarray:
+    """RYA-279: THE single ceiling-correct Fe I pool. A Fe I line enters the pool iff
+    its EW ≤ ceiling. This one predicate feeds BOTH the gate scatter statistic
+    (A_X_std) and the per-line CSV, so the two can never diverge again — the original
+    bug computed σ over the full Fe I pool while the CSV had the ceiling applied
+    post-hoc, so the gate reflected lines the artifact excluded. Fe II carries no
+    ceiling (fewer, weaker lines, not in the damping regime at the EW seen in
+    practice). Returns a boolean mask over the input lines."""
+    notes = np.asarray([str(n) for n in notes])
+    ew = np.asarray(ew_mA, dtype=float)
+    return (notes == 'Fe 1') & (ew <= float(ceiling_mA))
+
+
 # ── Iterative parameter convergence ──────────────────────────────────────────
 
 def _iterative_parameter_convergence(ew_df: pd.DataFrame,
@@ -1353,7 +1422,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
                                       model_grid: str = 'ATLAS9.Castelli',
                                       max_iter: int = 10,
                                       skip_convergence: bool = False,
-                                      solve_params=None) -> tuple:
+                                      solve_params=None,
+                                      star_id: str = 'solar') -> tuple:
     """
     Iterate Teff, log g, vturb to excitation + ionisation equilibrium.
 
@@ -1391,7 +1461,7 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
             params['vturb_kms'], model_grid=model_grid
         )
         linemasks, spec_abund, x_over_h, x_over_fe = _ew_to_abundance(
-            ew_df, params, atm, model_grid
+            ew_df, params, atm, model_grid, star_id=star_id
         )
         last_linemasks, last_spec_abund, last_xh, last_xfe = (
             linemasks, spec_abund, x_over_h, x_over_fe
@@ -1520,7 +1590,9 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
     _ew_ceiling      = float(PIPELINE['vmic_ew_ceiling_mA'])
     _lm_ew           = np.array([float(last_linemasks['ew'][i])
                                   for i in range(len(last_linemasks))])
-    _fe1_ceiling_mask = (notes == 'Fe 1') & (_lm_ew <= _ew_ceiling)
+    # RYA-279: ONE predicate for the gate pool AND the per-line CSV (below), so they
+    # cannot diverge — both index this exact mask array, not a re-derived threshold.
+    _fe1_ceiling_mask = _fe1_ceiling_pool_mask(notes, _lm_ew, _ew_ceiling)
     _n_fe1_all        = int((notes == 'Fe 1').sum())
     _n_fe1_ceiling    = int(_fe1_ceiling_mask.sum())
     if _n_fe1_all > _n_fe1_ceiling:
@@ -1579,8 +1651,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         note = str(last_linemasks['note'][i])
         if note not in ('Fe 1', 'Fe 2'):
             continue
-        if note == 'Fe 1' and _lm_ew[i] > _ew_ceiling:
-            continue  # excluded from gate pool — also excluded from CSV (RYA-279)
+        if note == 'Fe 1' and not _fe1_ceiling_mask[i]:
+            continue  # same mask as the gate pool — never a re-derived threshold (RYA-279)
         a_val = float(last_spec_abund[i])
         if not np.isfinite(a_val):
             continue
@@ -1736,6 +1808,90 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
     return df
 
 
+# ── RYA-329: line_score-weighted aggregation + the discrimination GATE ─────────
+# Decision (Ryan): the primary A_X/A_X_nlte should be a line_score-WEIGHTED MEDIAN —
+# but ONLY if line_score genuinely discriminates good vs bad lines. The primary must
+# never be weighted on an unvalidated signal, so the weighting is gated per pool by
+# `_line_score_discriminates`. Where the gate fails, the primary stays the plain
+# (grade-blind but outlier-robust) median and the scoring repair routes to RYA-220.
+# All five estimators are emitted as loud diagnostics regardless of the gate outcome.
+_LS_SUBSCORES = ['ew_snr_score', 'fit_chi2_score', 'saturation_score',
+                 'abundance_outlier_score', 'nlte_correction_score']
+_LS_INERT_STD = 0.02          # a sub-score with std below this is inert (never populated)
+_LS_MIN_SPREAD = 0.05         # line_score needs at least this std to weight anything
+_LS_MIN_RHO = 0.30            # non-circular |Spearman| vs |a-median| to count as discriminating
+
+
+def _weighted_median(values, weights):
+    """Weighted median: the value where the cumulative weight crosses half the total."""
+    v = np.asarray(values, float); w = np.asarray(weights, float)
+    m = np.isfinite(v) & np.isfinite(w) & (w > 0)
+    v, w = v[m], w[m]
+    if v.size == 0:
+        return np.nan
+    order = np.argsort(v)
+    v, w = v[order], w[order]
+    cw = np.cumsum(w)
+    return float(v[np.searchsorted(cw, 0.5 * cw[-1])])
+
+
+def _line_score_discriminates(lines: pd.DataFrame) -> dict:
+    """RYA-329 gate: does line_score separate good vs bad lines on a NON-circular basis?
+
+    abundance_outlier_score is derived from |a-median|, so it must be excluded before
+    testing line_score against abundance deviation (else the test is self-fulfilling).
+    Verdict DISCRIMINATES only if the non-circular part of the signal has real spread AND
+    correlates with deviation. Returns the gate report (never raises)."""
+    from scipy import stats
+    n = len(lines)
+    a = lines['a_1dlte'].astype(float).values
+    ls = lines['line_score'].astype(float).values
+    dev = np.abs(a - np.median(a))
+    inert = [s for s in _LS_SUBSCORES
+             if s in lines and float(lines[s].astype(float).std(ddof=0)) < _LS_INERT_STD]
+    # non-circular signal = mean of the sub-scores EXCEPT abundance_outlier_score
+    noncirc_cols = [s for s in _LS_SUBSCORES
+                    if s != 'abundance_outlier_score' and s in lines]
+    ls_noncirc = lines[noncirc_cols].astype(float).mean(axis=1).values if noncirc_cols else ls
+    rho_circ = rho_nonc = float('nan')
+    if n >= 5 and np.ptp(dev) > 0:
+        if np.ptp(ls) > 0:
+            rho_circ = float(stats.spearmanr(ls, dev).statistic)
+        if np.ptp(ls_noncirc) > 0:
+            rho_nonc = float(stats.spearmanr(ls_noncirc, dev).statistic)
+    spread = float(np.std(ls, ddof=0))
+    discriminates = (spread >= _LS_MIN_SPREAD and np.isfinite(rho_nonc)
+                     and rho_nonc <= -_LS_MIN_RHO)
+    return {'n': n, 'ls_spread': round(spread, 3), 'inert_subscores': inert,
+            'rho_circular': round(rho_circ, 3) if np.isfinite(rho_circ) else None,
+            'rho_noncircular': round(rho_nonc, 3) if np.isfinite(rho_nonc) else None,
+            'discriminates': bool(discriminates)}
+
+
+def _aggregation_diagnostics(lines: pd.DataFrame, delta_nlte: float) -> dict:
+    """The five estimators + n-per-grade for one species pool (RYA-329 loud diagnostics).
+    a_1dlte is 1D-LTE; the species delta_nlte is added to give the NLTE-scale twins."""
+    a = lines['a_1dlte'].astype(float).values
+    w = lines['line_score'].astype(float).values
+    d = float(delta_nlte) if np.isfinite(delta_nlte) else 0.0
+    gc = lines['line_grade'].value_counts()
+    umean = float(np.mean(a)); pmed = float(np.median(a))
+    wmean = float(np.average(a, weights=w)) if w.sum() > 0 else float('nan')
+    wmed = _weighted_median(a, w)
+    ab = lines[lines['line_grade'].isin(['A', 'B'])]
+    abcut = (float(np.average(ab['a_1dlte'], weights=ab['line_score']))
+             if len(ab) and ab['line_score'].sum() > 0 else float('nan'))
+    return {
+        'unweighted_mean': round(umean, 4), 'plain_median': round(pmed, 4),
+        'weighted_mean': round(wmean, 4), 'weighted_median': round(wmed, 4),
+        'ab_cut': round(abcut, 4) if np.isfinite(abcut) else None,
+        'wmed_minus_median': round(wmed - pmed, 4),
+        'n_A': int(gc.get('A', 0)), 'n_B': int(gc.get('B', 0)),
+        'n_C': int(gc.get('C', 0)), 'n_D': int(gc.get('D', 0)),
+        'plain_median_nlte': round(pmed + d, 4), 'weighted_median_nlte': round(wmed + d, 4),
+    }
+
+
 def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute element_score, element_grade, n_lines_A/B/C/D and A+B weighted abundance.
@@ -1743,6 +1899,7 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
     """
     T = LINE_GRADE_THRESHOLDS
     results = results_df.copy()
+    _gate_reports = []
 
     for _, row in results.iterrows():
         elem, ion = row['element'], row['ion']
@@ -1778,6 +1935,44 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
             results.at[idx, 'A_X_nlte_AB']  = a_ab_nlte
             results.at[idx, 'A_X_std_AB']   = a_ab_std
             results.at[idx, 'n_lines_AB']   = len(ab_lines)
+
+        # ── RYA-329: aggregation diagnostics + the discrimination gate ─────────
+        d_nlte = float(row.get('delta_nlte_mean', np.nan))
+        diag = _aggregation_diagnostics(lines, d_nlte)
+        gate = _line_score_discriminates(lines)
+        for k, v in diag.items():
+            results.at[idx, f'agg_{k}'] = v
+        results.at[idx, 'ls_discriminates']   = gate['discriminates']
+        results.at[idx, 'ls_spread']          = gate['ls_spread']
+        results.at[idx, 'ls_rho_noncircular'] = gate['rho_noncircular']
+        results.at[idx, 'ls_inert_subscores'] = ';'.join(gate['inert_subscores'])
+        # Primary weighting is GATED: only weight on a validated signal (Ryan, RYA-329).
+        if gate['discriminates']:
+            a_wm = diag['weighted_median']
+            results.at[idx, 'A_X']      = round(a_wm, 3)
+            results.at[idx, 'A_X_nlte'] = round(a_wm + (d_nlte if np.isfinite(d_nlte) else 0.0), 3)
+            results.at[idx, 'primary_estimator'] = 'line_score_weighted_median (RYA-329)'
+        else:
+            results.at[idx, 'primary_estimator'] = 'plain_median (RYA-329 gate FAIL: line_score not discriminating -> RYA-220)'
+        _gate_reports.append((f'{elem} {ion}', diag, gate))
+
+    # ── Loud aggregation-diagnostics summary (RYA-329) ─────────────────────────
+    if _gate_reports:
+        print("\n  RYA-329 aggregation diagnostics (line_score-weighted median GATED on discrimination):")
+        print("    species  n(A/B/C/D)  u.mean  p.median  w.mean  w.median  A+B   wmed-med  ls_spread rho_nc  discriminates")
+        n_pass = 0
+        for name, dg, gt in _gate_reports:
+            n_pass += int(gt['discriminates'])
+            print(f"    {name:7s}  {dg['n_A']}/{dg['n_B']}/{dg['n_C']}/{dg['n_D']:<3}"
+                  f"  {dg['unweighted_mean']:.3f}  {dg['plain_median']:.3f}  {dg['weighted_mean']:.3f}"
+                  f"  {dg['weighted_median']:.3f}  {str(dg['ab_cut'])[:5]:5s}  {dg['wmed_minus_median']:+.3f}"
+                  f"    {gt['ls_spread']:.3f}   {str(gt['rho_noncircular']):>6s}   {gt['discriminates']}")
+            if gt['inert_subscores']:
+                print(f"             ^ INERT sub-scores (never populated -> RYA-220): {gt['inert_subscores']}")
+        if n_pass == 0:
+            print("    GATE VERDICT: line_score does NOT discriminate on any pool -> PRIMARY STAYS PLAIN MEDIAN "
+                  "(unchanged, no re-bank). The apparent line_score signal is circular (abundance_outlier_score "
+                  "= f(|a-median|)) and mostly inert -> scoring repair owed to RYA-220 before the primary can be weighted.")
 
     return results
 
@@ -1840,8 +2035,15 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     """
     Load solar EWs for abundance derivation using a hybrid approach:
       - Fe I:  GES pre-stored EWs (solar_ew_ges_reference.csv) — avoids NLTE EW bias
-      - Fe II: lines_fit.py measured EWs (solar_ew.csv) — Fe II not NLTE-affected
-      - Other: lines_fit.py measured EWs (solar_ew.csv)
+      - Fe II: committed canonical EWs (sol_ew_results_v1.csv) — Fe II not NLTE-affected
+      - Other: committed canonical EWs (sol_ew_results_v1.csv)
+
+    RYA-408: the non-Fe-I pool is read from the COMMITTED canonical
+    PATHS['solar_ew_canonical'] (data/measured/sol_ew_results_v1.csv), NOT the
+    gitignored lines_fit staging output data/processed/solar_ew.csv. No gate or
+    abundance derivation may take a gitignored, regenerable file as its EW input
+    (root cause of the RYA-406 incident). The reviewed staging→canonical promotion
+    that preserves vetted blend_flags lives in scripts/promote_solar_ew.py.
 
     RYA-330: the GES Fe I routing is RETAINED by evidence, not inertia. RYA-328
     flagged that the GES reference pool is unvetted relative to program-star pools,
@@ -1856,7 +2058,7 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     by the shared cut, not by forcing the Sun onto a worse pool.
 
     If ew_override is provided, use that file directly (bypasses hybrid logic).
-    If solar_ew_ges_reference.csv is missing, falls back to solar_ew.csv for all elements.
+    If solar_ew_ges_reference.csv is missing, falls back to the canonical for all elements.
     """
     if ew_override:
         ew_df = pd.read_csv(ew_override)
@@ -1864,10 +2066,20 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         print(f"  EW override: {ew_override} ({len(ew_df)} lines)")
         return _apply_fe2_ew_quality_cull(ew_df)
 
-    solar_ew = pd.read_csv(str(PATHS['solar_ew']))
+    # RYA-408: read the COMMITTED canonical, never the gitignored staging file.
+    canon_path = Path(str(PATHS['solar_ew_canonical']))
+    if not canon_path.exists():
+        raise FileNotFoundError(
+            f"Canonical solar EWs not found at {canon_path} (RYA-408). The gate/abundance "
+            f"path requires the committed canonical sol_ew_results_v1.csv — it must not fall "
+            f"back to the gitignored staging file data/processed/solar_ew.csv. Restore the "
+            f"canonical or run scripts/promote_solar_ew.py to promote a reviewed staging set."
+        )
+    solar_ew = pd.read_csv(str(canon_path))
     solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
-    print(f"  solar_ew.csv: {len(solar_ew)} lines total")
+    print(f"  canonical sol_ew_results_v1.csv: {len(solar_ew)} lines total")
 
+    # GES Fe I reference is committed in data/processed (force-added past the gitignore).
     ges_ref_path = Path(str(PATHS['solar_ew'])).parent / 'solar_ew_ges_reference.csv'
     try:
         ges_fe1 = pd.read_csv(str(ges_ref_path))
@@ -1880,14 +2092,227 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
         non_fe1 = solar_ew[~((solar_ew['element'] == 'Fe') & (solar_ew['ion'] == 'I'))]
         fe2_count = int(((non_fe1['element'] == 'Fe') & (non_fe1['ion'] == 'II')).sum())
         hybrid = pd.concat([ges_fe1, non_fe1], ignore_index=True)
-        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (lines_fit) "
-              f"+ {len(non_fe1) - fe2_count} other elements")
+        print(f"  Hybrid EW: {len(ges_fe1)} Fe I (GES) + {fe2_count} Fe II (canonical) "
+              f"+ {len(non_fe1) - fe2_count} other elements (canonical)")
         return _apply_fe2_ew_quality_cull(hybrid)
 
     except FileNotFoundError:
         print(f"  WARNING: GES Fe I reference not found at {ges_ref_path} — "
-              f"falling back to solar_ew.csv for all elements")
+              f"falling back to canonical sol_ew_results_v1.csv for all elements")
         return _apply_fe2_ew_quality_cull(solar_ew)
+
+
+# ── RYA-456: curated non-Fe pool → production A(X) ───────────────────────────
+# RYA-371 Phase C found the non-Fe EW elements drop at the GES synthesis-region
+# match (_build_ispec_line_regions reads the SPARSE pre-built regions file; for
+# Eu/Ba/Sr it has 0 regions), and the few that survive (Cr/Ti/Ni) read wildly
+# high on the un-curated pool. RYA-395/398 already built the abundance-BLIND,
+# graded-gf curation (curate_nonfe_pools) but it was never wired into the run.
+#
+# The fix routes the non-Fe metals through the curation's OWN line-building path
+# (compute_lte_abundances matches the FULL GES synthesis atomic linelist, note +
+# wave ≤0.05 Å — the path that actually carries Eu/Ba/Sr), so the production
+# baseline uses the SAME kept lines and SAME A(X) the standalone curation kept.
+# This is a routing change only: the cull logic stays in curate_nonfe_pools
+# (blind); we never re-derive a threshold or pull a value toward Asplund.
+#
+# Fe (its own curated pool, RYA-279/347), C/N/O (Phase A synthesis), Li (RYA-103
+# force-include upper limit) and P (ground-unreachable DATA-GAP) are EXCLUDED —
+# everything else in the solar EW pool is curated here.
+_CURATED_NONFE_EXCLUDE = frozenset({'Fe', 'C', 'N', 'O', 'Li', 'P'})
+
+
+def _curate_nonfe_pool(elements):
+    """Reuse curate_nonfe_pools end-to-end (NOT reimplemented): the blind RYA-395
+    quality cull + the RYA-398 graded-gf firewall, then the post-cull 1D-LTE A(X).
+    Returns the per-line pool DataFrame (carries `kept`, `cull_reason`, `A_lte`)."""
+    import pipeline.curate_nonfe_pools as cur
+    pool = cur.load_pool(elements)
+    atomic = ispec.read_atomic_linelist(_SYNTH_LINELIST_FILE)
+    pool = cur.add_blend_ratio(pool, atomic)
+    pool = cur.apply_cull(pool, grade_restrict=True)        # RYA-398 independent-gf firewall
+    cur.assert_no_astrophysical_gf(pool, "RYA-456 non-Fe wiring")  # blindness firewall stays live
+    pool = cur.compute_lte_abundances(pool)                 # A(X) read AFTER the blind cull
+    return pool
+
+
+def _curated_nonfe_rows(elements):
+    """Per-element curated A(X) for the non-Fe metals, in production results-row
+    format. The median is taken over the curation's KEPT lines of the dominant ion
+    (the abundance workhorse: neutral for the light metals — matching
+    curate_nonfe_pools.element_diagnostic — singly-ionized for the s-process / Eu),
+    NLTE-applied with the curation's solar Δ. Carries the curation's BLIND verdict
+    (VALIDATED / RESIDUAL / LOW_CONFIDENCE) for the Phase C classifier. Returns
+    (rows_df, pool); rows_df has one row per element that produced ≥1 curated line."""
+    import pipeline.curate_nonfe_pools as cur
+    pool = _curate_nonfe_pool(elements)
+    rows = []
+    for el in sorted(set(elements)):
+        df_el = pool[pool['element'] == el]
+        kept = df_el[df_el['kept'] & df_el['A_lte'].notna()]
+        if kept.empty:
+            continue
+        ion = kept['ion'].value_counts().idxmax()           # dominant (most-kept) ion
+        sub = kept[kept['ion'] == ion]
+        a_lte = float(np.median(sub['A_lte']))
+        scatter = float(np.std(sub['A_lte'])) if len(sub) > 1 else np.nan
+        n_clean = int(len(sub))
+        dnlte = cur.solar_nlte_delta(el)
+        dnlte0 = 0.0 if not np.isfinite(dnlte) else float(dnlte)
+        a_nlte = a_lte + dnlte0
+        asp = SOLAR_ASPLUND2021.get(el, np.nan)
+        resid = (a_nlte - asp) if np.isfinite(asp) else np.nan
+        tol = cur.validation_tol(el)
+        # Verdict vocabulary = curate_nonfe_pools.element_diagnostic(graded=True),
+        # read AFTER the blind cull (validation, never a cull input).
+        if n_clean < cur.N_CLEAN_FLOOR:
+            cverdict = 'LOW_CONFIDENCE'
+        elif np.isfinite(resid) and abs(resid) <= tol:
+            cverdict = 'VALIDATED'
+        else:
+            cverdict = 'RESIDUAL'
+        applied = np.isfinite(dnlte) and abs(dnlte0) > 0.0
+        rows.append({
+            'element': el, 'ion': ion,
+            'A_X': round(a_lte, 3),
+            'A_X_std': round(scatter, 3) if np.isfinite(scatter) else np.nan,
+            'n_lines': n_clean,
+            'XH': round(a_lte - asp, 3) if np.isfinite(asp) else np.nan,
+            'XFe': np.nan,
+            'scale': 'absolute',
+            'nlte_applied': bool(applied),
+            'nlte_flag': 'NLTE' if applied else '1D_LTE',
+            'A_X_nlte': round(a_nlte, 3) if np.isfinite(a_nlte) else np.nan,
+            'A_X_nlte_absolute': round(a_nlte, 3) if applied else np.nan,
+            'A_X_std_nlte': round(scatter, 3) if np.isfinite(scatter) else np.nan,
+            'curation_verdict': cverdict,
+            'curation_residual_nlte': round(resid, 3) if np.isfinite(resid) else np.nan,
+            'nlte_delta_solar': round(dnlte, 4) if np.isfinite(dnlte) else np.nan,
+            'curation_source': 'RYA-395/398 graded blind cull (curate_nonfe_pools)',
+        })
+    return pd.DataFrame(rows), pool
+
+
+def _wire_curated_nonfe_results(results, ew_df):
+    """RYA-456 wiring: replace the un-curated / dropped non-Fe metal rows in the
+    production `results` with the curated (RYA-395/398) A(X). Fe, C/N/O, Li and P
+    rows are left byte-stable. Returns (results_out, curated_rows, pool)."""
+    routed = sorted({str(e) for e in ew_df['element'].unique()} - _CURATED_NONFE_EXCLUDE)
+    curated, pool = _curated_nonfe_rows(routed)
+    produced = set(curated['element']) if not curated.empty else set()
+    kept = results[~results['element'].isin(routed)].copy()
+    out = pd.concat([kept, curated], ignore_index=True) if not curated.empty else kept
+    out = out.sort_values(['element', 'ion']).reset_index(drop=True)
+    thin = sorted(set(routed) - produced)
+    print(f"  RYA-456 curated non-Fe wiring: routed {len(routed)} EW-pool metal(s); "
+          f"{len(produced)} produced curated A(X), {len(thin)} no curated line "
+          f"(thin/over-culled: {thin}).")
+    for _, r in curated.sort_values('element').iterrows():
+        a_nlte = r['A_X_nlte']
+        a_nlte_s = f"{a_nlte:.3f}" if pd.notna(a_nlte) else "  -  "
+        print(f"    {r['element']:>3s} {r['ion']:<3s} A(LTE)={r['A_X']:.3f} "
+              f"A(NLTE)={a_nlte_s} n={int(r['n_lines'])}  "
+              f"Δvs_Asplund={r['curation_residual_nlte']}  [{r['curation_verdict']}]")
+    # ── RYA-519 Part B/C: a routed metal that produced no value carries a CITED
+    #    registry disposition (problem_children, RYA-463) instead of silently
+    #    vanishing from the verdict; an expected non-emitter with NO registry
+    #    disposition is a LOUD failure (Part C), never a silent skip. ──
+    import pipeline.problem_children as _pc
+    disp_rows, unregistered = [], []
+    for el in thin:
+        d = _pc.disposition_for(el)
+        if d is None:
+            unregistered.append(el)
+            continue
+        disp_rows.append({
+            'element': el, 'ion': '', 'A_X': np.nan, 'A_X_nlte': np.nan,
+            'n_lines': 0, 'scale': 'absolute', 'nlte_flag': 'not_emitted',
+            'curation_verdict': d['problem_class'],
+            'disposition_class': d['problem_class'],
+            'disposition_treatment': d['required_treatment'],
+            'disposition_status': d['status'],
+            'disposition_tickets': d['governing_tickets'],
+            'disposition_source': 'RYA-463 problem_children registry',
+        })
+        print(f"    {el:>3s}  no EW-pool value -> registry disposition: "
+              f"{d['problem_class']} / {d['required_treatment']} [{d['status']}] "
+              f"(RYA-{d['governing_tickets']})")
+    if unregistered:
+        raise RuntimeError(
+            f"RYA-519 Part C LOUD-FAIL: expected metal(s) {unregistered} produced no "
+            f"value AND carry no problem_children (RYA-463) disposition. A silently-"
+            f"omitted element is a defect — add a cited disposition in "
+            f"pipeline/problem_children.py or fix the wiring before the verdict counts.")
+    if disp_rows:
+        out = pd.concat([out, pd.DataFrame(disp_rows)], ignore_index=True)
+        out = out.sort_values(['element', 'ion']).reset_index(drop=True)
+    return out, curated, pool
+
+
+# ── RYA-458: EW-verification layer emission ──────────────────────────────────
+
+def _measured_ew_path(star_id: str):
+    """Resolve the MEASURED per-line EW pool for the EW-integrity pass (RYA-458/273).
+
+    Solar uses its promoted canonical pool (sol_ew_results_v1.csv, RYA-408); any other
+    star uses its lines_fit EW staging output (PATHS['<star>_ew'], e.g. procyon_ew.csv)
+    — the file where the per-line chi2 / profile / blend_flag / notes actually live.
+    Falls back to the solar canonical only if the star has no resolvable EW product."""
+    s = star_id.lower()
+    if 'solar' in s or 'sun' in s:
+        return PATHS['solar_ew_canonical']
+    key = next((k for k in STAR_LINELISTS if k != 'solar' and k in s), None)
+    cand = PATHS.get(f'{key}_ew') if key else None
+    return cand if (cand is not None and Path(cand).exists()) else PATHS['solar_ew_canonical']
+
+
+def _emit_ew_integrity(out_dir, star_id, scored_df, curated_pool):
+    """Run the RYA-458 EW-integrity QA pass and save {star}_ew_integrity.csv.
+
+    Builds the per-line frame from the star's MEASURED EW pool (where chi2 / notes /
+    blend_flag live — solar canonical, or the per-star lines_fit output for Procyon /
+    others, RYA-273), attaches the implied A(X) (Fe from the per-line scoring, non-Fe
+    from the curated RYA-456 pool when present) for the ABUND_OUTLIER check, flags
+    integrity, and asserts no EW was mutated. Flags only — never edits an EW (RYA-451/458).
+
+    For F-stars (Procyon) the value is the BAD_FIT / ABUND_OUTLIER / COG_FLAG catch on
+    the broader, saturation-/blend-prone profiles; the solar charter cases (C I 5380 /
+    Li 6707 / Eu 6645) are simply ABSENT and reported as such."""
+    import pipeline.ew_integrity as ei
+    ew_src = _measured_ew_path(star_id)
+    measured = pd.read_csv(str(ew_src), comment='#')
+    measured = measured[(measured['ew_mA'] > 0) & measured['ew_mA'].notna()].reset_index(drop=True)
+
+    # implied A(X) per line, keyed (element, ion, wave@2dp): Fe from scoring, else curated.
+    a_map: dict = {}
+    if scored_df is not None and not scored_df.empty and 'a_1dlte' in scored_df.columns:
+        for _, r in scored_df.iterrows():
+            a_map[(r['element'], r['ion'], round(float(r['wavelength_air_A']), 2))] = float(r['a_1dlte'])
+    if curated_pool is not None and 'A_lte' in getattr(curated_pool, 'columns', []):
+        for _, r in curated_pool[curated_pool['A_lte'].notna()].iterrows():
+            a_map.setdefault((r['element'], r['ion'], round(float(r['wavelength_air_A']), 2)),
+                             float(r['A_lte']))
+    measured['a_lte'] = [a_map.get((e, i, round(float(w), 2)), np.nan)
+                         for e, i, w in zip(measured['element'], measured['ion'],
+                                            measured['wavelength_air_A'])]
+
+    flagged = ei.flag_ew_integrity(measured)
+    ei.assert_no_ew_mutation(measured, flagged)          # cardinal guard (also asserted inside)
+    out_path = out_dir / f'{star_id}_ew_integrity.csv'
+    flagged.to_csv(out_path, index=False)
+
+    n_flag = int((flagged['ew_integrity'].astype(str).str.len() > 0).sum())
+    n_excl = int(flagged['ew_excluded'].sum())
+    print(f"  RYA-458 EW-verify: {len(flagged)} lines scanned, {n_flag} flagged, "
+          f"{n_excl} excluded (no EW mutated). Saved → {out_path.name}")
+    cs = ei.charter_summary(flagged)
+    for key, c in cs.items():
+        if not c.get('present'):
+            print(f"    charter {key}: ABSENT from the measured pool")
+            continue
+        print(f"    charter {key}: EW {c['ew_mA']:.2f} mA  flags=[{c['ew_integrity']}]  "
+              f"disposition={c['ew_disposition'] or '-'}  excluded={c['ew_excluded']}")
+    return flagged
 
 
 # ── Legacy COG (DO NOT USE for science) ──────────────────────────────────────
@@ -1910,7 +2335,8 @@ def run(star_id: str = 'solar',
         ew_override: str = None,
         xi_override: float = None,
         engine: str = 'spectrum',
-        skip_convergence: bool = False) -> tuple:
+        skip_convergence: bool = False,
+        ew_verify: bool = False) -> tuple:
     """
     Derive abundances for a star and save results.
 
@@ -2102,8 +2528,8 @@ def run(star_id: str = 'solar',
               f"[Fe/H]={params['feh']}  vturb={params['vturb_kms']:.2f} km/s")
         _atm = _load_atmosphere(params['teff_K'], params['logg'], params['feh'],
                                 params['vturb_kms'], model_grid=model_grid)
-        last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid)
-        out_dir = Path(str(PATHS['solar_ew'])).parent
+        last_linemasks, _, _, _ = _ew_to_abundance(ew_df, params, _atm, model_grid, star_id=star_id)
+        out_dir = ns.outputs_dir(star_id)                                  # RYA-469 namespaced
         if engine == 'synthesis-v2':
             print(f"\n[4/4] Synthesis-v2 flux-space fit — pinned params...")
             results_synth, _ = _run_synthesis_v2_mode(
@@ -2127,48 +2553,44 @@ def run(star_id: str = 'solar',
               f"({model_grid} / {RADIATIVE_TRANSFER_CODE})...")
     converged_params, results, per_line_df, last_linemasks = _iterative_parameter_convergence(
         ew_df, params, model_grid=model_grid,
-        skip_convergence=skip_convergence, solve_params=solve_params,
+        skip_convergence=skip_convergence, solve_params=solve_params, star_id=star_id,
     )
 
     print(f"\n  Final params: Teff={converged_params['teff_K']:.0f} K  "
           f"logg={converged_params['logg']:.2f}  "
           f"vturb={converged_params['vturb_kms']:.2f} km/s")
 
-    # ── NLTE corrections (RYA-165) ────────────────────────────────
-    try:
-        from pipeline.nlte_corrections import apply_fe_nlte_corrections
-        _sun = get_star_params('solar')  # RYA-298: canonical solar fallback (5772/4.438)
-        stellar_params_for_nlte = {
-            'teff_K'   : converged_params.get('teff_K',    _sun['teff']),
-            'logg'     : converged_params.get('logg',      _sun['logg']),
-            'feh'      : converged_params.get('feh',        0.0),
-            'vturb_kms': converged_params.get('vturb_kms',  1.0),
-        }
-        results = apply_fe_nlte_corrections(
-            results, stellar_params_for_nlte,
-            line_df=ew_df, per_line_df=per_line_df,
-        )
-        print(f"  NLTE corrections applied to Fe I/II (Amarsi+2022)")
-    except FileNotFoundError as e:
-        print(f"  WARNING: NLTE grid not found — running 1D LTE only: {e}")
-    except Exception as e:
-        print(f"  WARNING: NLTE correction failed — running 1D LTE only: {e}")
+    # ── NLTE corrections (RYA-165) — LOUD-FAIL, no silent 1D-LTE fallback (RYA-525 §3) ──
+    # nlte_corrections is loud by design (FileNotFoundError / ValueError[PLACEHOLDER_ZERO]
+    # / KeyError). The former `except Exception -> print("...1D LTE only") -> continue`
+    # swallows here UNDID that one layer up and let an element ride into a PASS on a
+    # silently-downgraded LTE value — the exact cop-out the two-engine floor outlaws
+    # (RYA-536 Review 6a). Removed: a missing wired grid / any NLTE failure now RAISES.
+    # An element that is LTE-BY-DESIGN carries its cited disposition in the RYA-526
+    # two-engine coverage ledger (LTE-only-by-design) — it is never a swallowed exception.
+    from pipeline.nlte_corrections import (
+        apply_fe_nlte_corrections, apply_element_nlte_corrections)
+    _sun = get_star_params('solar')  # RYA-298: canonical solar fallback (5772/4.438)
+    stellar_params_for_nlte = {
+        'teff_K'   : converged_params.get('teff_K',    _sun['teff']),
+        'logg'     : converged_params.get('logg',      _sun['logg']),
+        'feh'      : converged_params.get('feh',        0.0),
+        'vturb_kms': converged_params.get('vturb_kms',  1.0),
+    }
+    results = apply_fe_nlte_corrections(
+        results, stellar_params_for_nlte, line_df=ew_df, per_line_df=per_line_df,
+    )
+    print(f"  NLTE corrections applied to Fe I/II (Amarsi+2022)")
 
     # ── Non-Fe element NLTE (RYA-235): Ca I / Ti I / Cr I per-line, MPIA MAFAGS-OS.
     # Composes with the Fe leg (touches only registry rows). NOTE: this is the
     # application layer — Asplund acceptance is gated on a CURATED pool (raw 1D-LTE
     # Cr reads high; NLTE on an un-curated pool overshoots), tracked under RYA-235.
-    try:
-        from pipeline.nlte_corrections import apply_element_nlte_corrections
-        results = apply_element_nlte_corrections(
-            results, stellar_params_for_nlte,
-            per_line_df=per_line_df, line_df=ew_df,
-        )
-        print(f"  NLTE corrections applied to Ca I / Ti I / Cr I (MPIA MAFAGS-OS)")
-    except FileNotFoundError as e:
-        print(f"  WARNING: element NLTE grid not found — those elements stay 1D LTE: {e}")
-    except Exception as e:
-        print(f"  WARNING: element NLTE correction failed — those elements stay 1D LTE: {e}")
+    # LOUD-FAIL as above (RYA-525 §3) — no silent stay-1D-LTE on failure.
+    results = apply_element_nlte_corrections(
+        results, stellar_params_for_nlte, per_line_df=per_line_df, line_df=ew_df,
+    )
+    print(f"  NLTE corrections applied to Ca I / Ti I / Cr I (MPIA MAFAGS-OS)")
 
     # ── Line quality scoring (RYA-220) ────────────────────────────
     print(f"\n  Line quality scoring (RYA-220)...")
@@ -2204,6 +2626,15 @@ def run(star_id: str = 'solar',
             return round(float(val), 3) if pd.notna(val) else np.nan
         results['A_X_nlte_absolute'] = results.apply(_nlte_to_absolute, axis=1)
 
+    # ── RYA-456: wire the curated (RYA-395/398) non-Fe pool into the baseline ──
+    # The non-Fe EW metals drop / read wild through the GES region match; route
+    # them through the curation's own (blind) line-building so the production
+    # baseline carries the SAME kept lines + A(X) the standalone curation kept.
+    # Fe / C / N / O / Li / P rows are untouched (asserted byte-stable downstream).
+    _curated_pool = None
+    if 'solar' in star_id.lower():
+        results, _curated_nonfe, _curated_pool = _wire_curated_nonfe_results(results, ew_df)
+
     # ── RYA-334 range-sanity tripwire (output chokepoint) ─────────
     # Every absolute-scale column must sit on the A(H)=12 scale. A double-add of
     # the 7.46 solar offset (RYA-267 class) lands ~15 = above hydrogen → raise loud
@@ -2215,19 +2646,138 @@ def run(star_id: str = 'solar',
                 assert_abundance_on_scale(
                     _r[_abs_col], f"{star_id} {_r.get('element','?')} {_r.get('ion','?')} {_abs_col}")
 
+    # ── RYA-469 Deliverable D: pin the differential denominator version ──
+    # A target's [X/H] is differential vs OUR measured Sun. Record which FROZEN gold
+    # solar version is the denominator in the target's own output, so re-baselining the
+    # Sun later (a new solar_abundances_v{N}) never SILENTLY changes this target's
+    # already-derived numbers — you re-run the target against the new version on purpose.
+    if 'solar' not in star_id.lower():
+        try:
+            results = ns.stamp_solar_ref_version(results)
+            print(f"  [RYA-469] differential denominator pinned: solar_ref_version="
+                  f"{results['solar_ref_version'].iloc[0]}")
+        except ns.ImmutableReferenceError as _e:
+            print(f"  [RYA-469] solar_ref_version unstamped (no gold reference yet): {_e}")
+
+    # ── RYA-520: synthesis-required elements must NOT emit an authoritative
+    #    EW-derived abundance. EW is the WRONG method for molecular-coupled C/N/O
+    #    (RYA-237) and the HFS heavies — a saturated line on the flat curve-of-
+    #    growth turns a tiny EW error into ~1.8 dex (solar C I 5380 -> C=10.26 vs
+    #    the synthesis verdict 8.491). The raw EW value is preserved DIAGNOSTIC-
+    #    ONLY; the authoritative abundance columns are nulled + labelled SUPERSEDED
+    #    _BY_SYNTHESIS so no committed artifact carries a wrong flagship number.
+    #    LOUD-FAIL if one slips through as authoritative. ──
+    if 'solar' in star_id.lower():
+        from config.constants import TARGET_ELEMENTS as _TGT520
+        import pipeline.problem_children as _pc520
+        _synth_req = {'C', 'N', 'O'} | {
+            _e for _e in _TGT520
+            if (_d := _pc520.disposition_for(_e)) and _d['required_treatment'] in ('synthesis', 'HFS_sum')}
+        _abs_cols = [c for c in ('A_X', 'A_X_nlte', 'A_X_nlte_absolute', 'A_X_nlte_AB')
+                     if c in results.columns]
+        for _c, _dft in (('ew_diagnostic_A_X', np.nan), ('authoritative', True),
+                         ('method', ''), ('superseded_by', '')):
+            if _c not in results.columns:
+                results[_c] = _dft
+        for _i in results.index:
+            _el = str(results.at[_i, 'element'])
+            if _el not in _synth_req:
+                continue
+            # RYA-551: Sr's synthesis requirement is ION-SPECIFIC (Sr II resonance
+            # doublet + subordinate lines route to synthesis). The clean Sr I 6617
+            # EW leg stays authoritative — it is the RYA-422 ionization-balance
+            # cross-check. Never suppress Sr I.
+            if _el == 'Sr' and str(results.at[_i, 'ion']).strip() != 'II':
+                continue
+            _ax = results.at[_i, 'A_X'] if 'A_X' in results.columns else np.nan
+            if pd.notna(_ax):
+                results.at[_i, 'ew_diagnostic_A_X'] = _ax
+                for _col in _abs_cols:
+                    results.at[_i, _col] = np.nan
+                results.at[_i, 'authoritative'] = False
+                results.at[_i, 'method'] = 'EW_SUPERSEDED_BY_SYNTHESIS'
+                results.at[_i, 'superseded_by'] = 'synthesis (RYA-237 C/N/O; HFS-resolved metals)'
+                print(f"  [RYA-520] {_el} raw-EW A(X)={_ax:.3f} SUPPRESSED -> diagnostic-only "
+                      f"(synthesis-required; authoritative value is the synthesis verdict).")
+        _leak = sorted({str(results.at[_i, 'element']) for _i in results.index
+                        if str(results.at[_i, 'element']) in _synth_req
+                        and not (str(results.at[_i, 'element']) == 'Sr'
+                                 and str(results.at[_i, 'ion']).strip() != 'II')
+                        and results.at[_i, 'authoritative']
+                        and pd.notna(results.at[_i, 'A_X'] if 'A_X' in results.columns else np.nan)})
+        if _leak:
+            raise RuntimeError(
+                f"RYA-520 LOUD-FAIL: synthesis-required element(s) {_leak} still carry an "
+                f"authoritative EW-derived A(X). EW is the wrong method for these "
+                f"(molecular-coupled / HFS) — the value must come from synthesis.")
+
+    # ── RYA-519 completeness: NO target element silently absent from the verdict.
+    #    Every metal in TARGET_ELEMENTS either emits a value (n_lines>0) or carries
+    #    a cited problem_children (RYA-463) disposition; neither = LOUD failure.
+    #    Catches elements outside the EW pool (K/Co/Sc) and the CNO/P paths that
+    #    this run did not surface — the amendment's "no silent absence" guarantee. ──
+    if 'solar' in star_id.lower():
+        from config.constants import TARGET_ELEMENTS as _TGT
+        import pipeline.problem_children as _pc519
+        _present = set(results['element'].astype(str))
+        _comp_rows, _comp_unreg = [], []
+        for _el in _TGT:
+            if _el in _present:
+                continue
+            _d = _pc519.disposition_for(_el)
+            if _d is None:
+                _comp_unreg.append(_el)
+                continue
+            _comp_rows.append({
+                'element': _el, 'ion': '', 'A_X': np.nan, 'A_X_nlte': np.nan,
+                'n_lines': 0, 'scale': 'absolute', 'nlte_flag': 'not_emitted',
+                'curation_verdict': _d['problem_class'],
+                'disposition_class': _d['problem_class'],
+                'disposition_treatment': _d['required_treatment'],
+                'disposition_status': _d['status'],
+                'disposition_tickets': _d['governing_tickets'],
+                'disposition_source': 'RYA-463 registry (RYA-519 completeness pass)',
+            })
+            print(f"    {_el:>3s}  not surfaced by this run -> registry disposition: "
+                  f"{_d['problem_class']} / {_d['required_treatment']} [{_d['status']}]")
+        if _comp_unreg:
+            raise RuntimeError(
+                f"RYA-519 completeness LOUD-FAIL: target element(s) {_comp_unreg} are "
+                f"absent from the solar verdict AND carry no problem_children (RYA-463) "
+                f"disposition — a silently-omitted element is a defect.")
+        if _comp_rows:
+            results = pd.concat([results, pd.DataFrame(_comp_rows)], ignore_index=True)
+            results = results.sort_values(['element', 'ion']).reset_index(drop=True)
+
     # ── Save ──────────────────────────────────────────────────────
     print(f"\n[4/4] Saving results...")
-    out_dir  = Path(str(PATHS['solar_ew'])).parent
+    out_dir  = ns.outputs_dir(star_id)                       # RYA-469 namespaced per-star
     out_path = out_dir / f'{star_id}_abundances.csv'
-    results.to_csv(out_path, index=False)
+    # RYA-521: this raw EW file is DIAGNOSTIC-ONLY — the authoritative abundance is
+    # the phase_c verdict. Stamp an in-file label so no consumer mistakes it for the
+    # reported number (comment-aware readers strip it; see authoritative_channel.py).
+    from pipeline.authoritative_channel import DIAGNOSTIC_ONLY_HEADER as _DIAG_HDR
+    out_path.write_text(_DIAG_HDR + results.to_csv(index=False))
     print(f"  Saved → {out_path.name}  ({len(results)} elements, "
-          f"{results['n_lines'].sum()} total lines)")
+          f"{results['n_lines'].sum()} total lines)  [RYA-521 DIAGNOSTIC-ONLY]")
 
     if not scored_df.empty:
         scored_df['scale'] = 'absolute'   # RYA-289: per-line A_X is 1D-LTE absolute
         per_line_out = out_dir / f'{star_id}_per_line.csv'
         scored_df.to_csv(per_line_out, index=False)
         print(f"  Saved → {per_line_out.name}  ({len(scored_df)} lines with quality scores)")
+
+    # ── RYA-458: EW-verification layer (opt-in --ew-verify) ───────
+    # A per-line EW-INTEGRITY QA pass: flag BAD_FIT / ABUND_OUTLIER / COG_FLAG /
+    # LIT_DEVIATION and assign the charter-case dispositions. It FLAGS only — a hard
+    # assert proves no measured EW is mutated. Runs on the star's measured EW pool (where
+    # the per-line fit quality + notes live), with the implied A(X) attached from the
+    # Fe scoring + the curated non-Fe pool (RYA-456, solar) for the ABUND_OUTLIER check.
+    # RYA-273: generalized beyond solar — Procyon's F-star pool runs through the same
+    # layer (the curated non-Fe pool is solar-only, so curated_pool is None here and the
+    # ABUND_OUTLIER check stands on the Fe per-line scoring, which is the F-star target).
+    if ew_verify:
+        _emit_ew_integrity(out_dir, star_id, scored_df, _curated_pool)
 
     # ── Synthesis mode (RYA-285 v1 EW / RYA-287 v2 flux) ──────────
     if engine in ('synthesis', 'synthesis-v2'):
@@ -2298,10 +2848,30 @@ def run(star_id: str = 'solar',
                 _rew = np.log10(_f1['ew_mA'].values / _f1['wavelength_air_A'].values)
                 rew_slope = float(np.polyfit(_rew, _f1['a_1dlte'].values, 1)[0])
         slope_pass = np.isfinite(rew_slope) and abs(rew_slope) < FE_REW_SLOPE_GATE
-        # (2) Fe I−Fe II ionization balance (a uniform Fe zero-point cancels)
+        # (2) Fe I−Fe II ionization balance — scored on the SYNTHESIS arbiter (RYA-406).
+        # The EW-path ΔFe is a DIAGNOSTIC: the EW Fe II pool is blend-limited and reads
+        # HIGH BY DESIGN (RYA-352), so its imbalance is spurious. The ratified ionization
+        # arbiter is flux-space synthesis (DECISION 2, RYA-305/341). Source: a single-
+        # source cited constant for the calibrated Sun; otherwise the star's synth-v2
+        # product; otherwise loud-fallback to the EW path (never a silent verdict swap).
         a_fe1 = _abs_nlte_of(_fe1_df); a_fe2 = _abs_nlte_of(_fe2_df)
-        dfe = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
-        ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        dfe_ew = (a_fe1 - a_fe2) if (np.isfinite(a_fe1) and np.isfinite(a_fe2)) else np.nan
+        _arb = FE_IONIZATION_SYNTH_ARBITER.get(star_id)
+        if _arb is not None:                          # ratified synth arbiter (cited)
+            dfe = float(_arb['dFe'])
+            fe2_synth = float(_arb['fe2_synth'])
+            ion_src = f"synth arbiter ({_arb['provenance']})"
+            ion_pass = abs(dfe) < FE_IONISATION_GATE
+        else:                                          # no ratified arbiter for this star
+            # (a synth-v2 product consumer would slot here; absent → EW path, flagged loud)
+            dfe = dfe_ew
+            fe2_synth = np.nan
+            ion_src = "EW path (NO ratified synth arbiter for this star — RYA-406; diagnostic-grade verdict)"
+            ion_pass = np.isfinite(dfe) and abs(dfe) < FE_IONISATION_GATE
+        # EW-vs-synth Fe II spread — reported diagnostic, flagged if beyond the blend-bias
+        # band (Socratic check: confirm it is the EW blend-bias, not an unexplained term).
+        ew_synth_spread = (a_fe2 - fe2_synth) if np.isfinite(fe2_synth) else np.nan
+        spread_flag = np.isfinite(ew_synth_spread) and abs(ew_synth_spread) > FE_EW_SYNTH_SPREAD_BAND
         # (3) Fe I scatter
         sc1 = np.nan
         if len(_fe1_df):
@@ -2309,13 +2879,30 @@ def run(star_id: str = 'solar',
             sc1 = float(_r1.get('A_X_std_nlte', np.nan))
             if not np.isfinite(sc1):
                 sc1 = float(_r1.get('A_X_std', np.nan))
-        scat_pass = np.isfinite(sc1) and sc1 < FE_SCATTER_GATE
+        # Fe I scatter ceiling from the active acceptance profile (RYA-446/277): the Sun
+        # (G anchor) reads the cited RYA-407 honest floor; types without a populated
+        # profile keep the legacy-universal value until RYA-277 builds them (F/K/M TODO).
+        # Threshold SOURCE only — the raw σ (sc1) computation is untouched.
+        _spec = STAR_SPECTRAL_TYPE.get(star_id)
+        if _spec is not None and ACCEPTANCE_PROFILES.get(_spec) is not None:
+            _scatter_max = fe1_scatter_threshold(_spec)
+            _scatter_src = f"{_spec}-anchor: {ACCEPTANCE_PROFILES[_spec]['provenance']}"
+        else:
+            _scatter_max = FE_SCATTER_GATE   # legacy-universal (RYA-277 profile pending)
+            _scatter_src = f"legacy-universal {FE_SCATTER_GATE} (RYA-277 profile pending)"
+        scat_pass = np.isfinite(sc1) and sc1 < _scatter_max
         primary_pass = slope_pass and ion_pass and scat_pass
 
-        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336) ──")
+        print(f"\n  ── Solar Fe gate — PRIMARY (scale-robust, RYA-336/406) ──")
         print(f"  Fe I reduced-EW slope = {rew_slope:+.3f}  -> {'PASS' if slope_pass else 'FAIL'} (|slope| < {FE_REW_SLOPE_GATE})")
-        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)")
-        print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {FE_SCATTER_GATE} dex)")
+        print(f"  Fe I-Fe II ionization = {dfe:+.3f}  -> {'PASS' if ion_pass else 'FAIL'} (|ΔFe| < {FE_IONISATION_GATE} dex)  [{ion_src}]")
+        if np.isfinite(ew_synth_spread):
+            _band = (f"FLAG > {FE_EW_SYNTH_SPREAD_BAND} (unexplained?)" if spread_flag
+                     else f"within blend-bias band <= {FE_EW_SYNTH_SPREAD_BAND}")
+            print(f"    · DIAGNOSTIC EW-vs-synth Fe II spread = {ew_synth_spread:+.3f} "
+                  f"(EW {a_fe2:.3f} blend-limited HIGH, RYA-352; synth {fe2_synth:.3f}, RYA-341) -> {_band}")
+            print(f"    · (EW-path ΔFe(I−II) = {dfe_ew:+.3f} is NOT the verdict — EW Fe II is blend-biased; RYA-405/406)")
+        print(f"  Fe I scatter          = {sc1:.3f}  -> {'PASS' if scat_pass else 'FAIL'} (< {_scatter_max} dex)  [{_scatter_src}]")
 
         # Absolute A(Fe): scale-aware diagnostic (centre = 3D-true 7.46 + published 1D-3D offset)
         _diag_c  = SOLAR_ASPLUND2021['Fe'] + FE_1D3D_SOLAR_OFFSET
@@ -2342,6 +2929,20 @@ def run(star_id: str = 'solar',
             if np.isfinite(d_nlte):
                 print(f"  Mean Δ(NLTE) Fe {ion_lbl}= {d_nlte:+.4f} dex  ({n_nlte} lines corrected)")
             print(f"  A(Fe {ion_lbl}) NLTE abs = {a_nlte:.3f}  -> {'PASS' if diag_pass else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")
+            # RYA-553: for the SUN the tabulated Magic-2013 1D→3D correction is APPLIED to
+            # the reported Fe I anchor (verdict/gold/gate layer). Show the 3D-corrected
+            # value and gate it against the real FE_GATE [7.41,7.51]; the scale-aware
+            # window above describes the un-corrected 1D-NLTE MEASUREMENT. SOLAR ONLY,
+            # Fe I only (Fe II is NOT shifted); off-solar per-star 3D is owed (RYA-550).
+            if 'solar' in star_id.lower() and ion_lbl == 'I':
+                _fe_3d   = a_nlte + CORRECTIONS_3D['Fe_1D3D_solar_dex']
+                _gate_lo = SOLAR_ASPLUND2021['Fe'] + FE_GATE_LOWER
+                _gate_hi = SOLAR_ASPLUND2021['Fe'] + FE_GATE_UPPER
+                _gate_ok = _gate_lo <= _fe_3d <= _gate_hi
+                assert_abundance_on_scale(_fe_3d, f"{star_id} Fe I 3D-corrected reported anchor")
+                print(f"  A(Fe I) 3D-NLTE     = {_fe_3d:.3f}  (1D-NLTE {a_nlte:.3f} "
+                      f"{CORRECTIONS_3D['Fe_1D3D_solar_dex']:+.3f}, Magic 2013) -> "
+                      f"{'PASS' if _gate_ok else 'FAIL'} (FE_GATE [{_gate_lo:.2f},{_gate_hi:.2f}], RYA-553)")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
@@ -2358,7 +2959,8 @@ def run(star_id: str = 'solar',
         print(f"\n  vmic = {vmic_val:.3f} km/s  -> {'PASS' if vmic_pass else 'FAIL'} (gate 0.80-1.20)")
         print(f"\n  ►► Solar Fe VERDICT (scale-robust primary): {'PASS' if primary_pass else 'FAIL'}"
               f"  [slope {'✓' if slope_pass else '✗'} · ionization {'✓' if ion_pass else '✗'} · scatter {'✓' if scat_pass else '✗'}]")
-        print(f"     absolute A(Fe) is a documented scale diagnostic, not the verdict (RYA-336).")
+        print(f"     1D-NLTE A(Fe) is the measurement; the reported solar anchor is the "
+              f"3D-corrected A(Fe I) gated on FE_GATE (Magic 2013 applied, RYA-553).")
 
     print(f"\n{'='*62}")
     print(f"  abundances_derive complete.")
@@ -2380,4 +2982,6 @@ if __name__ == '__main__':
     # RYA-291: --skip-convergence pins the params to the star init (no walk), so the
     # MOOG EW baseline is computed at the synthesis-v2 tables' params for a pure diff.
     skip   = '--skip-convergence' in _flags or '--pin' in _flags
-    run(star, grid, engine=engine, skip_convergence=skip)
+    # RYA-458: --ew-verify runs the per-line EW-integrity QA pass + charter cases.
+    ew_verify = '--ew-verify' in _flags
+    run(star, grid, engine=engine, skip_convergence=skip, ew_verify=ew_verify)

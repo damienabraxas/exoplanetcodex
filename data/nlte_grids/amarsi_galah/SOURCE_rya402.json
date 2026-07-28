@@ -1,0 +1,27 @@
+{
+  "ticket": "RYA-402",
+  "what": "Pinned source for the Amarsi-2020 GALAH non-LTE DEPARTURE-COEFFICIENT (b-factor) grids. These are b per atmospheric depth per atomic level over a MARCS grid -- NOT pre-computed abundance deltas. They require NLTE SYNTHESIS (Turbospectrum bsyn NLTE) to convert to line-by-line abundance corrections (that conversion is what pipeline/nlte_bfactor_synth.py does).",
+  "paper": {
+    "cite": "Amarsi, A. M., Lind, K., Osorio, Y., et al. 2020, A&A 642, A62, 'The GALAH Survey: non-LTE departure coefficients for large spectroscopic surveys'",
+    "doi": "10.1051/0004-6361/202038650",
+    "bibcode": "2020A&A...642A..62A",
+    "arxiv": "2008.09582"
+  },
+  "covers_elements": ["H", "Li", "C", "N", "O", "Na", "Mg", "Al", "Si", "K", "Ca", "Mn", "Ba"],
+  "grid_axes": "3756 1D MARCS models: 3000 <= Teff/K <= 8000, -0.5 <= logg <= 5.5, -5 <= [Fe/H] <= 1 (plus the abundance A(X) and depth axes for the departure coefficients)",
+  "data_repository": {
+    "host": "Zenodo (deposit 'Grid/NLTE', author Amarsi, Anish Mayur, Uppsala University)",
+    "latest_version_seen": "v6, 2025-03-21, record https://zenodo.org/records/15062813 (DOI 10.5281/zenodo.15062813) -- NOTE v6 hosts Cu/H/Ti only.",
+    "needed_version": "the GALAH-2020 release version of this same Zenodo concept that contains Na / Al / K (the 13-element A&A 642 A62 set). Pick the version whose file list includes nlte_Na_*, nlte_Al_*, nlte_K_*.",
+    "file_format": {
+      "atmos_{El}.txt": "list of MARCS atmospheres / grid nodes",
+      "label_{El}.txt": "grid axis labels (Teff/logg/[Fe/H]/A(X) nodes; level labels)",
+      "nlte_{El}_{tag}.txt": "ASCII departure coefficients b(level, depth) over the grid (large, up to several GB)",
+      "nlte_{El}_{tag}_pysme.grd / _idlsme.grd": "binary departure grids for PySME / IDL-SME"
+    },
+    "download_url_pattern": "https://zenodo.org/records/<RECORD_ID>/files/<filename>?download=1"
+  },
+  "fetch_instructions_for_ryan": "Grab the Na, Al, and K departure grids (atmos_{El}.txt + label_{El}.txt + nlte_{El}_*.txt, and optionally the *_pysme.grd) from the Na/Al/K-bearing version of the Zenodo 'Grid/NLTE' deposit, and drop them into data/nlte_grids/amarsi2020_galah/. Na is needed FIRST -- it is the validate-the-machinery cross-check (reproduce the INSPECT Na delta -0.107 through the synthesis path before trusting Al/K).",
+  "engine_note": "The local Turbospectrum bsyn_lu binary HAS the NLTE path compiled in (read_departure.f / read_nlteinfofile.f; control keys NLTEINFOFILE, MODELATOMFILE, DEPARTUREFILE; 'no departure file -> coefficients = 1.0'). iSpec's Python wrapper does NOT expose it, so pipeline/nlte_bfactor_synth.py drives bsyn_lu directly.",
+  "retrieved": "2026-06-21 via A&A (aa38650-20), arXiv 2008.09582, Zenodo records/15062813"
+}

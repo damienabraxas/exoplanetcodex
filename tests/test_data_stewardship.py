@@ -160,3 +160,63 @@ def test_blend_flag_pin_fails_on_silent_redefinition(monkeypatch, tmp_path):
     monkeypatch.setattr(sc, 'check_star_params', lambda: [])
     monkeypatch.setattr(sc, 'check_provenance', lambda: [])
     assert sc.main(['--out', str(tmp_path)]) == 1
+
+
+# ── RYA-408: solar-EW canonical input source ──────────────────────────────────
+def test_solar_ew_canonical_invariant_clean(violations):
+    """On a clean checkout (no staging file) the canonical is present + well-formed
+    and the gate loader reads it → 0 violations from this invariant."""
+    sec = [v for v in violations if v.invariant == 'solar_ew_canonical']
+    assert sec == [], f"{len(sec)} solar_ew_canonical violation(s): " \
+                      f"{[(v.quantity, v.locus) for v in sec]}"
+
+
+def test_gate_loader_reads_canonical_not_staging():
+    """IDENTITY: _load_solar_ews must read the committed canonical and must NOT read
+    the gitignored staging file as its EW pool (the RYA-406 incident)."""
+    import inspect
+    src = inspect.getsource(sc._ad._load_solar_ews)
+    assert 'solar_ew_canonical' in src
+    assert "read_csv(str(PATHS['solar_ew']))" not in src
+
+
+def test_repoint_to_runtime_is_untracked_break(monkeypatch):
+    """If a regression re-points the loader at the gitignored staging file, the
+    identity guard fires an UNTRACKED violation."""
+    def _fake_loader(ew_override=None):
+        import pandas as pd
+        return pd.read_csv(str(PATHS['solar_ew']))   # the forbidden read pattern
+    monkeypatch.setattr(sc._ad, '_load_solar_ews', _fake_loader)
+    v = sc.check_solar_ew_canonical()
+    ident = [x for x in v if x.quantity == 'gate EW input source']
+    assert len(ident) == 1 and not ident[0].tracked
+
+
+def test_staging_drift_fires_untracked(monkeypatch, tmp_path):
+    """DRIFT: a present staging file diverging from the canonical on a measured EW is
+    an UNTRACKED loud failure (stale / different-run staging masquerading as source)."""
+    import pandas as pd
+    canon = pd.read_csv(sc._SOLAR_EW_CANONICAL, low_memory=False)
+    stage = canon.copy()
+    stage.loc[stage.index[0], 'ew_mA'] = float(stage.iloc[0]['ew_mA']) + 9.0  # >0.5 mÅ
+    staging = tmp_path / 'solar_ew.csv'
+    stage.to_csv(staging, index=False)
+    monkeypatch.setitem(sc._const.PATHS, 'solar_ew', staging)
+    v = sc.check_solar_ew_canonical()
+    drift = [x for x in v if x.quantity == 'staging↔canonical EW drift']
+    assert len(drift) >= 1 and all(not x.tracked for x in drift)
+
+
+def test_matching_staging_no_drift(monkeypatch, tmp_path):
+    """A staging file that agrees with the canonical (a resolved subset of the same
+    run) produces NO drift violation — curated blend_flags are not compared here."""
+    import pandas as pd
+    canon = pd.read_csv(sc._SOLAR_EW_CANONICAL, low_memory=False)
+    stage = canon.copy()
+    stage['blend_flag'] = False   # raw staging legitimately lacks the curated flags
+    staging = tmp_path / 'solar_ew.csv'
+    stage.to_csv(staging, index=False)
+    monkeypatch.setitem(sc._const.PATHS, 'solar_ew', staging)
+    drift = [x for x in sc.check_solar_ew_canonical()
+             if x.quantity == 'staging↔canonical EW drift']
+    assert drift == []

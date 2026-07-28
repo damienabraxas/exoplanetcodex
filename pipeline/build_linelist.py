@@ -31,6 +31,10 @@ from config.constants import PATHS
 VETTED_BLENDS = [
     ('Fe', 'I', 4918.994, 'RYA-208: confirmed non-separable blend at HARPS R~115,000'),
     ('Fe', 'I', 4970.496, 'RYA-208: confirmed non-separable blend at HARPS R~115,000'),
+    ('O', 'I', 6300.304, 'RYA-104/408: forbidden [O I] blended with Ni I 6300.339 '
+                         '(non-separable at HARPS R~115,000); the EW canonical already '
+                         'carries blend_flag=True — this aligns the line-list registry '
+                         'to the scientifically-correct value (validate, do not mute).'),
 ]
 VETTING_TOLERANCE = 0.05  # Å — tight; these are exact vetted wavelengths
 

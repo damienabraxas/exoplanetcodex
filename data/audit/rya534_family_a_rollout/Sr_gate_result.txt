@@ -1,0 +1,12 @@
+/mnt/codex-data/codex/rya534/ts_gerber_gate.py:199: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  return float(np.trapz(1.0 - fl[m], w[m]) * 1000.0)
+=== Sr: babsma ===
+=== Sr: bsyn NLTE @ A=2.83 ===
+  NLTE departure engaged: True
+=== Sr: bsyn LTE COG ===
+
+=== Sr RESULT (delta = A_sun - A*) ===
+  Sr 4215.519: EW_NLTE=303.15 mA  A*=2.8430  delta=-0.0130
+  median delta = -0.0130
+  anchor -0.010 +/- 0.06 (Sr II 4215 resonance (GES-identified; 4077 absent from GES block), near-LTE at solar (our Sr_Bergemann2012_INSPECT ~-0.005))
+  VERDICT: PASS

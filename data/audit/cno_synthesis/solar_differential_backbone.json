@@ -1,0 +1,49 @@
+{
+  "ticket": "RYA-371 Phase C",
+  "role": "differential anchor \u2014 every target (Procyon / aCen / 55 Cnc) is analysed line-by-line DIFFERENTIALLY against this solar reference, same instrument arm vs same arm, so shared systematics cancel.",
+  "instruments": {
+    "HARPS": {
+      "arm": "optical VIS 380-690 nm",
+      "R": 115000,
+      "reference": "reflected-solar (Vesta) + 10 OBJECT=SUN direct frames (RYA-162)",
+      "anchors": "CH G-band, C I 5052/5380, C2 Swan, [O I] 6300, CN red, Fe I/II pool",
+      "status": "REGISTERED (Phase A + Fe baseline)"
+    },
+    "ESPRESSO": {
+      "arm": "optical 380-788 nm",
+      "R": 140000,
+      "reference": "reflected-solar (Vesta), RYA-372 rest-frame co-add",
+      "anchors": "O I 777 triplet (PRIMARY O), [O I] 6300, C I 5052",
+      "status": "REGISTERED (Phase A) \u2014 same instrument as 55 Cnc"
+    },
+    "UVES": {
+      "arm": "blue 300-388 nm + red",
+      "R": 70000,
+      "reference": "reflected-solar (Vesta), RYA-372 rest-frame co-add",
+      "anchors": "N I 8216, CN red; NH 3360 / CN violet = under-SNR DATA-GAP",
+      "status": "REGISTERED (Phase A, partial) \u2014 NH 3360 now superseded by Kitt Peak (RYA-460)"
+    },
+    "KITT_PEAK": {
+      "arm": "flux atlas 296-1300 nm",
+      "R": 400000,
+      "reference": "Kitt Peak Solar Flux Atlas (Kurucz+1984), provenance=measured (RYA-459)",
+      "anchors": "N I red 7442/7468 + 8216/8223 + 8680-8718; [O I] 6300; O I 777; K I 7699; P I 10581/10596; Sc II 4246; Co I 3845",
+      "status": "REGISTERED (RYA-460) \u2014 leg validated by [O I]6300/O I 777 overlap vs HARPS/ESPRESSO; the out-of-HARPS measured anchor for N + P/K/Co/Sc"
+    },
+    "UV_COMPOSITE": {
+      "arm": "CALSPEC composite 119.5-2695.7 nm",
+      "R": 200,
+      "reference": "Colina/Bohlin/Castelli 1996 (RYA-459), provenance=CITED-COMPOSITE",
+      "anchors": "deep-UV (<296 nm) + absolute flux scale only \u2014 NOT a line atlas",
+      "status": "REGISTERED cited \u2014 never presented as measured (RYA-455 discipline)"
+    },
+    "CRIRES+": {
+      "arm": "IR Y/J/H/K, 2.3 um CO overtone",
+      "R": 86000,
+      "reference": "Vesta cr2res 1.6.9",
+      "anchors": "12C/13C, C, O from CO overtone",
+      "status": "PARKED (Phase B) \u2014 telluric/molecfit gate not cleared (RYA-373)"
+    }
+  },
+  "reads": "data/processed/solar_abundances.csv (Fe + non-Fe EW baseline); data/audit/cno_synthesis/solar_phase_a_cross_arm.json (CNO); data/audit/cno_synthesis/solar_phase_c_verdict.json (per-element status)."
+}

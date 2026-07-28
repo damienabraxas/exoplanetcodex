@@ -1,0 +1,32 @@
+  [STAR_PARAMS source: /mnt/codex-data/codex/rya519/config/constants.py]
+=== Ti b-factor dump (Engine-B TS-Gerber, MARCS) ===
+  solar node (from STAR_PARAMS['solar'], NOT hardcoded): Teff=5772.0 logg=4.438 [Fe/H]=0.0 xi=1.0
+  departure grid interpolated at the nearest MARCS node Teff=5750 logg=+4.50 z=+0.00, A(Ti)=4.9
+  Engine-A anchor = MPIA Bergemann-2011 (MAFAGS-OS) SCALAR +0.108 — no per-level b-factors (different atmosphere; not dumpable). Same atom both engines.
+  departure file: A(Ti)=4.9, ndepth=56, nlevel=503
+
+    logtau 5689_lo 5689_up 5649_lo 5649_up 5662_lo 5662_up
+    -4.918   0.089   0.265  0.083   0.196  0.085   0.205
+    -4.148   0.154   0.358  0.143   0.265  0.145   0.271
+    -3.387   0.258   0.474  0.240   0.358  0.240   0.357
+    -2.810   0.353   0.560  0.335   0.445  0.333   0.429
+    -2.424   0.419   0.611  0.409   0.512  0.402   0.481
+    -2.036   0.483   0.659  0.486   0.580  0.472   0.536
+    -1.648   0.546   0.707  0.559   0.644  0.543   0.598
+    -1.262   0.615   0.762  0.631   0.706  0.616   0.672
+    -0.878   0.698   0.825  0.711   0.777  0.700   0.760
+    -0.494   0.809   0.896  0.818   0.864  0.810   0.859
+    -0.107   0.934   0.965  0.938   0.953  0.934   0.953
+     0.280   1.001   0.999  1.001   0.999  1.001   0.999
+     0.651   1.000   1.000  1.000   1.000  1.000   1.000
+     1.203   1.000   1.000  1.000   1.000  1.000   1.000
+
+  deep-layer b (should thermalise -> ~1):
+    5689.460: b_lower[deepest]=1.000  b_upper[deepest]=1.000
+    5648.565: b_lower[deepest]=1.000  b_upper[deepest]=1.000
+    5662.150: b_lower[deepest]=1.000  b_upper[deepest]=1.000
+
+  line-forming-layer b (logtau in [-1, 0], the EW-weighted region):
+    5689.460: <b_lower>=0.813  <b_upper>=0.895  (b_lo<1 -> line weaker in NLTE -> +delta)
+    5648.565: <b_lower>=0.822  <b_upper>=0.865  (b_lo<1 -> line weaker in NLTE -> +delta)
+    5662.150: <b_lower>=0.814  <b_upper>=0.857  (b_lo<1 -> line weaker in NLTE -> +delta)

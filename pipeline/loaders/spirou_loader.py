@@ -48,6 +48,7 @@ import astropy.units as u
 
 from config.constants import PHYSICS
 from .base_loader import SpectrumData
+from pipeline import frame_object_contract as foc
 
 
 _CFHT_LOCATION = EarthLocation(
@@ -57,6 +58,11 @@ _CFHT_LOCATION = EarthLocation(
 )
 
 _C_KMS = PHYSICS['c_kms']
+
+# RYA-264 §C: SPIRou/APERO is native VACUUM nm. Declared once, cross-checked against
+# the cited registry (frame_object_contract), and applied at the loader boundary.
+_SPIROU_SCALE = foc.WavelengthScale('SPIRou', native_unit='nm', native_scale='vacuum',
+                                    note='APERO vacuum nm → air Å (RYA-264; was the RYA-481 OWED)')
 
 
 class TelluricNotCorrectedError(RuntimeError):
@@ -81,23 +87,34 @@ class SPIRouLoader:
         # spec.meta    — provenance dict
     """
 
-    def __init__(self, filepath: str | Path, fiber: str = 'AB'):
+    def __init__(self, filepath: str | Path, fiber: str = 'AB', *, expected_star: str | None = None):
         self.filepath = Path(filepath)
         if fiber not in ('AB', 'A', 'B'):
             raise ValueError(f"fiber must be 'AB', 'A', or 'B', got {fiber!r}")
         self.fiber = fiber
+        # RYA-481 §A: verify the star by the OBJECT header when the caller knows
+        # which star this file should be (never by folder/filename). Default None
+        # preserves prior behaviour.
+        self.expected_star = expected_star
 
     def load(self) -> SpectrumData:
         with fits.open(self.filepath) as hdl:
             self._check_telluric_product(hdl)
             h0      = hdl[0].header
+            if self.expected_star is not None:
+                foc.assert_object(h0.get('OBJECT'), expected=self.expected_star,
+                                  context=f"{self.filepath.name}: ")
             flux    = hdl[f'Flux{self.fiber}'].data.astype(np.float64)
             wave_nm = hdl[f'Wave{self.fiber}'].data.astype(np.float64)
 
-        # nm → Å (no CUNIT1 in header — confirmed nm from value range 955–2515)
-        wave_A_obs = wave_nm * 10.0
+        # RYA-264 §C: native vacuum nm → air Å in the OBSERVED frame (unit ×10 + the
+        # single shared vac→air converter + unit-sanity band gate), BEFORE the velocity
+        # shift — the canonical operation order. This fixes the RYA-481-declared OWED:
+        # at 1.5–2.4 µm the vac–air offset is ~4–6 Å (~15–25 res. elements at R~70k), so
+        # skipping it would mis-identify lines against the air line list.
+        wave_A_obs = _SPIROU_SCALE.validate().to_air_angstrom(wave_nm)
 
-        # Barycentric correction
+        # Barycentric correction (applied AFTER unit+scale, per the documented order)
         berv_kms   = self._compute_berv(h0)
         wave_A_bary = wave_A_obs * (1.0 + berv_kms / _C_KMS)
 
@@ -172,6 +189,14 @@ class SPIRouLoader:
             'apero_drspdate'     : h0.get('DRSPDATE', 'UNKNOWN'),
             'apero_drsvdate'     : h0.get('DRSVDATE', 'UNKNOWN'),
             'berv_kms'           : berv_kms,
+            # RYA-481 §B (velocity) + RYA-264 §C (wavelength scale). Observer-frame
+            # (BERV=NaN in header) → loader applies BERV; systemic RV is the fit's job.
+            # The vacuum→air conversion the RYA-481 build declared OWED is now done at
+            # the loader boundary (RYA-264) — no longer assumed/skipped.
+            'velocity_frame'     : ('observer-frame → barycentric (BERV applied); '
+                                    'systemic-RV not applied (fit\'s job)'),
+            'wavelength_scale'   : _SPIROU_SCALE.declare(),   # RYA-264 §C declaration
+            'object_canonical'   : foc.resolve_object(h0.get('OBJECT')).canonical,
             'wave_units_raw'     : 'nm',
             'wave_coverage_A'    : (9558.0, 25158.0),
             'n_orders'           : 49,

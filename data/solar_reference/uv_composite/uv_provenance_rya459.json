@@ -1,0 +1,58 @@
+{
+  "ticket": "RYA-459 (under RYA-162)",
+  "source_name": "CALSPEC solar reference composite (sun_reference_stis_002)",
+  "citation": "Colina, Bohlin & Castelli 1996, AJ 112, 307; Bohlin, Dickinson & Calzetti 2001, AJ 122, 2118",
+  "source_url": "https://archive.stsci.edu/hlsps/reference-atlases/cdbs/current_calspec/sun_reference_stis_002.fits",
+  "retrieval_date": "2026-06-27",
+  "provenance": "cited-composite",
+  "critical_note": "Hubble cannot observe the Sun directly; this is a COMPOSITE of literature UV + ground-based visible + a model IR tail. The UV (<4100 A) is a CITED composite, never a direct solar measurement. Tagged cited-composite in full so any downstream UV abundance inherits the cited (not measured) flag, per the RYA-455 discipline.",
+  "wavelength_frame": "vacuum (native); air column added (Birch & Downs 1994)",
+  "flux_units": "FLAM = erg/s/cm^2/A (absolute)",
+  "resolution": "low (median dlambda ~20 A; R ~ 150-300) \u2014 a flux composite, not a line atlas",
+  "n_points": 1467,
+  "wl_vac_A_range": [
+    1195.0,
+    26957.4
+  ],
+  "raw_file": "sun_reference_stis_002.fits",
+  "raw_bytes": 37440,
+  "raw_md5": "79408b220a3f16751e55437a446c8abe",
+  "raw_sha256": "20133cdf2a402655e3726de6b334bf09d05c9429ebd27ebf5492dc37fc89cfd8",
+  "composite_sub_sources": [
+    {
+      "range_A": [
+        1195,
+        4100
+      ],
+      "source": "Woods et al. 1996 (UV)",
+      "kind": "cited-UV-composite"
+    },
+    {
+      "range_A": [
+        4100,
+        8700
+      ],
+      "source": "Neckel & Labs 1984",
+      "kind": "measured-ground"
+    },
+    {
+      "range_A": [
+        8700,
+        9600
+      ],
+      "source": "Arvesen et al. 1969",
+      "kind": "measured-ground"
+    },
+    {
+      "range_A": [
+        9600,
+        26950
+      ],
+      "source": "Castelli model",
+      "kind": "model"
+    }
+  ],
+  "segment_file": "sun_calspec_composite.csv",
+  "segment_bytes": 114171,
+  "segment_md5": "8e8fb4ae2c081d737dce89f3a8a89b97"
+}

@@ -1,0 +1,41 @@
+{
+  "ticket": "RYA-402",
+  "element": "Cu",
+  "kind": "NLTE departure-coefficient grid (PySME-packaged), Family B (Amarsi/SME-form)",
+  "intake": {
+    "verified": "2026-06-21",
+    "md5_status": "PASS (all 3 files match the Zenodo v6 hashes)",
+    "source_folder": "~/Downloads (Ryan's fetch)"
+  },
+  "source": {
+    "model_atom_cite": "Caliskan et al. (Cu I/II NLTE model atom), distributed via the Amarsi 'Grid/NLTE' Zenodo deposit",
+    "deposit": "Amarsi, A. M., 'Grid/NLTE' (Uppsala) — rolling versioned Zenodo record",
+    "zenodo_version": "v6 (2025-03-21)",
+    "zenodo_record": "https://zenodo.org/records/15062813",
+    "zenodo_doi": "10.5281/zenodo.15062813",
+    "ts_adaptation_cite": "Gerber, Bergemann et al. 2022, A&A 666, A18 (Non-LTE radiative transfer with Turbospectrum; arXiv 2206.00967) — the machinery that consumes these PySME departure grids in Turbospectrum (Step 2)"
+  },
+  "files": [
+    {"name": "nlte_Cu_caliskan_Oct2024_pysme.grd", "bytes": 2495530092,
+     "md5": "d6fce44eadfebe7d89050f7b15918364",
+     "committed": false, "git": "ignored (multi-GB binary)",
+     "role": "departure coefficients b(level, depth) over the MARCS grid, PySME binary form"},
+    {"name": "atmos_Cu.txt", "bytes": 82689,
+     "md5": "944a677d4be49a60b58b09ffd4012173",
+     "committed": true, "role": "MARCS atmosphere node table: index, Teff/K, log(g), [Fe/H] (3756 nodes)"},
+    {"name": "label_Cu.txt", "bytes": 11945,
+     "md5": "c9a316baa975deed26bd74bfba896b9e",
+     "committed": true, "role": "model-atom energy levels: index, species, config, term, J, E(NIST)/eV (150 levels: Cu I 1-125, Cu II 126-149, Cu III 150)"}
+  ],
+  "coverage": {
+    "n_marcs_nodes": 3756,
+    "teff_K": [3000, 8000],
+    "logg": [-0.5, 5.5],
+    "feh": [-5, 1],
+    "n_levels": 150,
+    "note": "[Fe/H] ceiling +1 — NO metal-rich clamp; covers the 55 Cnc regime (~+0.3)."
+  },
+  "local_path": "data/nlte_grids/amarsi_galah/nlte_Cu_caliskan_Oct2024_pysme.grd",
+  "refetch": "Re-downloadable from the Zenodo v6 record above (file nlte_Cu_caliskan_Oct2024_pysme.grd?download=1); verify md5 d6fce44eadfebe7d89050f7b15918364 on re-fetch.",
+  "format_note": "RYA-402 reader correction: atmos_{El}.txt = (Teff,logg,[Fe/H]) NODE table; label_{El}.txt = model-atom LEVELS; nlte_{El}_*.grd = the PySME binary departure array. (The Step-1 scaffold reader assumed label held the nodes — Step 2 reworks it for this real PySME layout + the Gerber-2022 TS adaptation.)"
+}

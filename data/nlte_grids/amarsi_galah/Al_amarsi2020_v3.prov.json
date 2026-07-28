@@ -1,0 +1,73 @@
+{
+  "ticket": "RYA-402",
+  "element": "Al",
+  "kind": "NLTE departure-coefficient grid (PySME DirectAccessFile v1.10), Family B (Amarsi/SME-form)",
+  "intake": {
+    "verified": "2026-06-21",
+    "md5_status": "PASS (tar.gz matches Zenodo v3)",
+    "source_folder": "~/Downloads (Ryan's fetch)"
+  },
+  "source": {
+    "grid_cite": "Amarsi, Lind, Osorio et al. 2020, A&A 642, A62 (GALAH non-LTE departure grids); Nordlander & Lind 2017 (A&A 607, A75) Al I model atom",
+    "deposit": "Amarsi 'Grid/NLTE' Zenodo, version 3 (the original 13-element 2020 release)",
+    "zenodo_version": "v3 (2020-06-11)",
+    "zenodo_record": "https://zenodo.org/records/3982506",
+    "zenodo_doi": "10.5281/zenodo.3982506",
+    "ts_adaptation_cite": "Gerber, Bergemann et al. 2022, A&A 666, A18 (arXiv 2206.00967)"
+  },
+  "files": [
+    {
+      "name": "nlte_Al_scatt_pysme.tar.gz",
+      "md5": "38fbe23f4d3fe90da3aacf1021bb2bb9",
+      "committed": false,
+      "git": "not stored (the extracted .grd is kept instead)",
+      "role": "Zenodo download archive (re-fetch source; md5 verified)"
+    },
+    {
+      "name": "nlte_Al_scatt_pysme.grd",
+      "md5": "6895a76012e21020733c1baa7d439916",
+      "committed": false,
+      "git": "ignored (multi-GB binary)",
+      "role": "PySME DirectAccessFile: 4D departure grid b(level,depth) over (Teff,logg,[Fe/H],abund)"
+    },
+    {
+      "name": "atmos_Al.txt",
+      "committed": true,
+      "role": "MARCS atmosphere node list"
+    },
+    {
+      "name": "label_Al.txt",
+      "committed": true,
+      "role": "model-atom energy levels (118 levels)"
+    }
+  ],
+  "coverage": {
+    "teff_K": [
+      2500,
+      8000
+    ],
+    "n_teff": 32,
+    "logg": [
+      -0.5,
+      5.5
+    ],
+    "n_logg": 13,
+    "feh": [
+      -5,
+      1
+    ],
+    "n_feh": 15,
+    "abund_offset": [
+      -2,
+      2
+    ],
+    "n_abund": 7,
+    "ndepth": 56,
+    "nlevel": 118,
+    "n_models": 43680,
+    "note": "[Fe/H] ceiling +1 (covers 55 Cnc). Grid is the SME/PySME DirectAccessFile: model keys 't{teff}_g{logg}_m{feh}_a{abund}' each -> (ndepth=56, nlevel) departure block; axis keys teff/grav/feh/abund; level data conf/term/spec/J/energy."
+  },
+  "local_path": "data/nlte_grids/amarsi_galah/nlte_Al_scatt_pysme.grd",
+  "refetch": "Re-download nlte_Al_scatt_pysme.tar.gz from zenodo.org/records/3982506 (verify md5 38fbe23f4d3fe90da3aacf1021bb2bb9), extract; inner .grd md5 6895a76012e21020733c1baa7d439916.",
+  "format_note": "DirectAccessFile v1.10 (1970s IDL/SME save format): 64B version string, then (nblocks u8, dir_length i2, ndir u8) header, then ndir x (key S256, size[23] i4, pointer i8) directory; arrays memmapped at pointer with reversed shape. Read by pipeline.nlte_bfactor_synth.PySMEGrid."
+}

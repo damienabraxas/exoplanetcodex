@@ -1,0 +1,10 @@
+species,wavelength_air_A,action,loggf_before,grade_before,ref_before,adj_before,loggf_after,grade_after,ref_after,adj_after,note,delta_loggf
+Na I,5682.633,CONFIRM,-0.7,A,NIST ASD v5.11 grade A,nist,-0.7,A,NIST ASD v5.11 grade A,nist,"already NIST A; blocker=SAT+BLEND (EW 159 mA), not gf",0.0
+Na I,5688.205,CONFIRM,-0.452,A,NIST ASD v5.11 grade A,nist,-0.452,A,NIST ASD v5.11 grade A,nist,"already NIST A; blocker=SAT+BLEND (EW 163 mA), not gf",0.0
+Mg I,5711.088,CONFIRM,-1.724,A,NIST ASD v5.11 grade A,nist,-1.724,A,NIST ASD v5.11 grade A,nist,"already NIST A; blocker=SAT (EW 91 mA, REW -4.80), not gf",0.0
+Mg I,6083.522,FLAG,-3.27,,KP,single_source,-3.27,,KP,flagged_uncitable_rya354,NO Mg I line near 6083 in NIST ASD -> uncitable (genuine void); keeps Kurucz KP value; also HIERR-culled,0.0
+Mg I,6319.237,ADJUDICATE,-2.324,,VALD3,agreed,-2.324,D,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade D L6095,adjudicated_rya354,"NIST grade D (fik 1.58e-3, gi 3); value == prior VALD3 -2.324 (no move); D is below the graded-reliable bar + line is SAT-culled",0.0
+Mg I,6319.493,ADJUDICATE,-2.803,,1993JPhB..,single_source,-2.803,E,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p1285 (Na/Mg) grade E L6095,adjudicated_rya354,"NIST grade E (fik 5.25e-4, gi 3); value == prior -2.803 (no move); SAT-culled",0.0
+Mg I,6630.833,FLAG,-2.62,,KP,single_source,-2.62,,KP,flagged_uncitable_rya354,NIST lists Mg I 6630.834 but with NO oscillator strength / no graded gf -> uncitable; keeps Kurucz KP value; also HIERR-culled,0.0
+Al I,6631.218,FLAG,-1.7,,K75,single_source,-1.7,,K75,flagged_uncitable_rya354,NO Al I line near 6631 in NIST ASD -> uncitable (likely mis-ID / Kurucz-only line); keeps K75 value; flag for manual line-ID verification,0.0
+Al I,6696.185,ADJUDICATE,-1.576,,K75,single_source,-1.569,C+,NIST ASD v5.11; Kelleher & Podobedova 2008 JPCRD 37 p709 (Al/Si) grade C+ L4737,adjudicated_rya354,"NIST Al I 6696.015 grade C+ (fik 1.35e-2, gi 2 -> log gf -1.569); prior K75 -1.576 ~ identical (no move). NB pool wavelength 6696.185 is +0.17 A vs NIST 6696.015 (same transition) -> wavelength-ID flag, gf adjudicated.",0.007

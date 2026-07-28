@@ -1,0 +1,39 @@
+# RYA-517 — reference compute stack LOCK (chosen + dual-machine-validated).
+#
+# This is the pinned reference stack the solar anchor (v1) was RE-VALIDATED on, on BOTH
+# machines (Mac darwin-arm64, Sirius linux-x86_64), py3.12 + numpy 2.2.x. It is the first
+# anchor-validated stack that MEETS iSpec's own declared minimum (numpy >= 2.2.5); the prior
+# banked stack (py3.9.6 + numpy 1.26.4) sat BELOW that floor by EOL accident.
+#
+# Reproduction: solar FULL re-run reproduces banked v1 to 0.000 dex on all 27 verdict
+# elements, Fe gate PASS, RYA-371 verdict PASS=5/NLTE-OWED=1/CURATION-OWED=20/DATA-GAP=0,
+# identical on both machines. (Byte-level intermediates differ across platforms/numpy builds;
+# gate parity on ABUNDANCE-identity, not byte-identity.)
+#
+# Interpreter
+#   Python == 3.12.13    (Mac: Homebrew; Sirius: pyenv)
+#
+# Lower bounds are iSpec v2023.08.04-20-g2126994 requirements.txt; the pins after "# ->" are
+# the exact resolved versions verified identical on both machines this session.
+
+numpy>=2.2.5,<2.3        # -> 2.2.6   (iSpec floor; the pin that raises us onto numpy 2.x)
+scipy>=1.15.3            # -> 1.18.0
+astropy>=7.1.0           # -> 8.0.0
+pandas>=2.2.3            # -> 3.0.3
+matplotlib>=3.10.0       # -> 3.11.0
+Cython>=3.0.12           # -> 3.2.8   (needed only to COMPILE the iSpec C extension)
+statsmodels>=0.14.4      # -> 0.14.6
+dill>=0.3.8              # -> 0.4.1
+h5py>=3.14.0             # -> 3.16.0
+hdf5plugin>=5.1.0        # -> 7.0.0
+lockfile>=0.12.2         # -> 0.12.2  (required by iSpec ispec/synth/grid.py)
+setuptools>=72.1.0       # -> 83.0.0  (provides the distutils shim removed from py3.12 stdlib)
+PyYAML>=6.0              # -> 6.0.3    (method_policy.yaml resolver, RYA-315)
+
+# --- Native engines (compiled per-platform; not pip) ---
+# iSpec C synthesizer (SPECTRUM): synthesizer.cpython-312-*.so
+#   Mac    : ships prebuilt (installed into ispec/ispec/ as the ABI-tagged .so).
+#   Linux  : COMPILE with  CFLAGS="-std=gnu17 -fcommon -w"  (gcc 15 defaults to C23, which
+#            rejects the vendored SPECTRUM K&R empty-paren prototypes; -std=gnu89 breaks the
+#            Cython-emitted C99 for-loops, so gnu17 is the one std that satisfies both).
+# MOOGSILENT (EW->abundance baseline, RYA-289): compile via `make moog` (gfortran).

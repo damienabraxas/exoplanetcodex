@@ -160,10 +160,11 @@ STAR_SOLAR = {
     'citation'     : 'Dumusque et al. 2021, arXiv:2009.01945',
     'vturb_kms'    : 1.0,       # km/s ξ-solve seed (solar ξ pinned 1.0 in stars.yaml)
     'rv_kms'       : 0.0,       # solar zero-point; BERV correction applied per exposure
-    'ni6300_ew_lit_mA' : 1.0,   # Ni I 6300.336 EW in solar photosphere (Allende Prieto+2001, ApJ 556 L63)
-                                  # VALD3 log_gf=-2.841 predicts ~3.8 mÅ via COG — 0.575 dex too strong.
-                                  # COG sanity cap fires; this literature value is used as the fallback.
-                                  # log_gf needs cross-check vs Johansson et al. 2003 (separate ticket).
+    'ni6300_ew_lit_mA' : 1.0,   # Ni I 6300.336 solar EW — CAP / fallback reference ONLY, not the operative gf
+                                  # (Allende Prieto+2001, ApJ 556 L63). The Ni 6300.34 log gf is single-sourced
+                                  # to Johansson et al. 2003 (−2.11), adjudicated in RYA-365 and resolved via
+                                  # gf_resolver in both the synth and [O I] EW/COG paths (RYA-543) — the old
+                                  # "needs cross-check / separate ticket" note is resolved. COG sanity cap = 3×.
 }
 
 # ── Procyon (α CMi A) stellar parameters ─────────────────────────────────────
@@ -191,8 +192,42 @@ STAR_PROCYON = {
 # FE_GATE_UPPER = +0.05  →  A(Fe) = 7.51
 FE_GATE_LOWER      = -0.05   # [Fe/H] solar Fe lower bound
 FE_GATE_UPPER      = +0.05   # [Fe/H] solar Fe upper bound  → absolute [7.41, 7.51]
-FE_SCATTER_GATE    =  0.10   # dex — maximum acceptable σ(Fe I)
+FE_SCATTER_GATE    =  0.10   # dex — SUPERSEDED legacy-universal σ(Fe I) ceiling (RYA-277).
+                             # Calibrated on the Sun and silently applied as universal; RYA-407
+                             # verdict (c) showed it is mis-set for the current GES-EW 1D-LTE
+                             # Fe I pool (raw-pool σ=0.1398; no cited mechanism reaches 0.10).
+                             # The G-anchor solar gate now reads its ceiling from
+                             # ACCEPTANCE_PROFILES['G'] (RYA-446); this value is retained only as
+                             # the legacy default for not-yet-profiled types (F/K/M TODO, RYA-277).
+                             # Do NOT use for the Sun.
 FE_IONISATION_GATE =  0.05   # dex — maximum |ΔFe(I−II)|
+
+# ── Fe I−Fe II ionization arbiter: SYNTHESIS, not the EW path (RYA-406, DECISION 2) ──
+# The Fe ionization-balance VERDICT is scored on flux-space SYNTHESIS Fe II (the ratified
+# arbiter, RYA-305/341 DECISION 2), NOT the EW-path Fe II. The EW Fe II pool is blend-
+# limited and reads HIGH BY DESIGN (RYA-352: clean EW pool 7.696; the EW path is
+# deliberately not forced onto Asplund), so its ΔFe(I−II) is a DIAGNOSTIC, not the verdict
+# (RYA-405/406). Values are CITED single-source, never tuned: synth Fe II 7.486 (RYA-305)
+# … 7.500 (RYA-341 crowned), balanced ΔFe(I−II) = −0.007 (RYA-305) / −0.015 (RYA-341).
+# The synth Fe II's OWN uncertainty (RYA-305 7.486 vs RYA-338 7.571 ≈ 0.085 spread; thin /
+# core-broken pool RYA-347) is reported; the balance is scored against the principled
+# FE_IONISATION_GATE (0.05) — the ratified −0.015 is well within it, so NO threshold is
+# loosened to pass (validate-don't-tune). Keyed by star: only the Sun is a ratified
+# calibrator; other stars consume their own synth-v2 product or are flagged (no silent EW
+# fallback as a verdict).
+FE_IONIZATION_SYNTH_ARBITER = {
+    'solar': {
+        'dFe'             : -0.015,   # Fe I 7.485 − Fe II 7.500 (RYA-341 crowned; RYA-305 = −0.007)
+        'fe2_synth'       :  7.500,   # ratified synth Fe II (RYA-341; RYA-305 = 7.486)
+        'fe2_uncertainty' :  0.085,   # RYA-305 7.486 vs RYA-338 7.571 method spread
+        'provenance'      : 'RYA-305/341/405 (DECISION 2: synthesis is the Fe ionization arbiter)',
+    },
+}
+# Expected EW-vs-synth Fe II blend-bias band: above this, the spread is FLAGGED as a
+# finding rather than waved through as "high by design" (RYA-406 Socratic check). Set from
+# the documented EW-high (RYA-352 7.696) vs synth (RYA-341 7.500) ≈ 0.20 + the synth-pool
+# uncertainty (0.085) headroom.
+FE_EW_SYNTH_SPREAD_BAND = 0.30   # dex — |EW Fe II − synth Fe II| above this → flag, not "by design"
 
 # ── Scale-aware solar Fe gate (RYA-336) ──────────────────────────────────────
 # The solar Fe verdict rests on SCALE-ROBUST checks: the reduced-EW slope (line-
@@ -211,20 +246,185 @@ FE_IONISATION_GATE =  0.05   # dex — maximum |ΔFe(I−II)|
 # shift-invariant strong gate misses — while passing the legitimate grid spread
 # (Amarsi 7.495 / MPIA 7.516, straddling ~7.51).
 #
-# Upgrade path: when an APPLIED 3D correction lands (RYA-285 synthesis / Magic 2013),
-# the absolute output moves onto the true 7.46 scale and FE_GATE [7.41,7.51] applies
-# again — this scaffolding retires. (The RYA-334 A_X<12.5 guard is the separate
-# gross double-add tripwire, unrelated to this science sanity bound.)
+# Upgrade path — LANDED for the Sun (RYA-553): the tabulated Magic-2013 1D→3D solar
+# Fe correction (CORRECTIONS_3D['Fe_1D3D_solar_dex'] = -FE_1D3D_SOLAR_OFFSET) is now
+# APPLIED at the reported-value layer (phase_c verdict → gold → gate), moving the
+# SOLAR anchor onto the true 7.46 scale, so FE_GATE [7.41,7.51] is again the real
+# solar reported-value gate. FE_ABS_DIAG_HALFWIDTH is retired as the SOLAR gate; it
+# still describes the un-corrected 1D-NLTE MEASUREMENT layer (abundances_derive
+# `results`, rya238) and OFF-SOLAR stars, whose per-Teff/[Fe/H] 3D correction is owed
+# (RYA-550). (The RYA-334 A_X<12.5 guard is the separate gross double-add tripwire.)
 FE_1D3D_SOLAR_OFFSET  = 0.05   # dex — solar A(Fe I) on a 1D atmosphere runs ~+0.05
                                # above the 3D value (granulation term). Literature:
                                # Magic et al. 2013 (Stagger 3D grid, A&A 557 A26);
                                # cf. Amarsi et al. 2019 (A&A 624 A111) & Asplund et
                                # al. 2021 (A&A 653 A141) §3-4. NOT from our output.
+                               # Consumed by CORRECTIONS_3D['Fe_1D3D_solar_dex'] (RYA-553).
 FE_ABS_DIAG_HALFWIDTH = 0.07   # dex — wide half-window around the scale-aware centre
                                # (≈7.51 → [7.44, 7.58]); passes grid spread + loggf
-                               # zero-point, fails gross errors.
+                               # zero-point, fails gross errors. RYA-553: retired as the
+                               # SOLAR gate (now FE_GATE post-3D); still governs the
+                               # 1D-NLTE measurement layer + off-solar (RYA-550).
 FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat within error"
                                # for the solar guardrail (RYA-330: −0.04..−0.09).
+
+# ── Per-spectral-type acceptance profiles (RYA-277) ──────────────────────────
+# THE ARCHITECTURAL FACT: acceptance/quality criteria are a FUNCTION of stellar type,
+# not universal. Every legacy threshold (σ-clip, COG/EW ceiling, scatter gate, A(Fe)
+# window, n_lines floor, continuum strategy, NLTE applicability) was calibrated on the
+# Sun and silently labelled "universal" — an implicit, unlabelled "G-star, 5772 K"
+# assumption (the same failure family as the solar-only CODE PATHS in RYA-270/273/274,
+# one level up: the solar assumption baked into the scientific CUTS themselves).
+#
+# This structure makes the type explicit. It is a ROUTING/parameterization layer, NOT a
+# science change: the G profile = the current solar values, relabelled — routing solar
+# through it reproduces the signed-off solar Fe result BIT-FOR-BIT (A(Fe I) NLTE 7.516).
+# That regression (scripts/validate_fe_rya238.py --star sun) is the proof the refactor
+# changed nothing for the anchor. Prototype patterns followed: CONTINUUM_PARAMS (RYA-274)
+# and EW_FIT_PARAMS (RYA-273) are already per-star — those operative pool-construction
+# params stay where they live; this profile CROSS-LINKS to them by key and owns the
+# per-type ACCEPTANCE GATE thresholds (the validation criteria) as the single source.
+#
+# Anchors populated from real data (RYA-277 §3):
+#   G = Sun (G2V, 5772 K)     — current solar gate values, regression-proven.
+#   F = Procyon (F5IV, 6554 K) — Fe I scatter floor σ=0.222 FINAL from RYA-281 (the 4
+#       RYA-458 ABUND_OUTLIER lines tested for bad-gf vs GES Heiter+2021: 0/4 confirmed,
+#       EW blends excluded, no gf tuned → 0.222 is the genuine 1D-LTE F-star floor, NOT
+#       contamination), nlte_available=False (Fe I NLTE grid runs out > 6500 K, RYA-319 →
+#       1D-LTE-only → irreducible NLTE-driven floor), A(Fe) window/dFe/n_Fe2/vmic from the
+#       RYA-273 F-anchor run. The "Procyon Fe σ FAILED" verdict was a SOLAR gate applied
+#       to an F star; under this profile σ=0.222 is at-floor → PASS for an NLTE-unavailable
+#       F dwarf. COG ceiling marked PROVISIONAL (RYA-273 COG_FLAG knee ≈ 120 mÅ) — the
+#       operative pool cut stays PIPELINE['vmic_ew_ceiling_mA'] (the σ=0.222 anchor was
+#       characterized at that cut; see RYA-277 §4 — F/K/M pool thresholds not reset here).
+#   K, M = STUBS with the §2 physics notes + TODO; not populated (no target reached). The
+#       accessor fails LOUD on a stub (no silent default), same anti-assumption discipline.
+#
+# σ-floor trend (RYA-407/281, the point of the per-type gate): the Fe I scatter floor
+# RISES from cool G to warm F — G 0.1398 (NLTE-covered) → F 0.222 (NLTE-unavailable).
+# A single universal number cannot be right for both; the gate must be a function of type.
+ACCEPTANCE_PROFILES = {
+    'G': {
+        'teff_range'      : (5300, 6000),    # G regime (Sun ≈ 5772 K)
+        'method'          : 'EW',            # atomic-line EW measurement is valid
+        'nlte_available'  : True,            # Fe I NLTE grid covers G (Teff < 6500 K, RYA-319)
+        # Acceptance GATE thresholds (single source; the validate script reads these):
+        'a_fe_lo'         : SOLAR_ASPLUND2021['Fe'] + FE_GATE_LOWER,  # 7.41 (RYA-261)
+        'a_fe_hi'         : SOLAR_ASPLUND2021['Fe'] + FE_GATE_UPPER,  # 7.51
+        'dFe_max'         : FE_IONISATION_GATE,                       # 0.05 (RYA-261)
+        # Fe I line-to-line scatter ceiling = the cited RYA-407 honest floor of the
+        # current GES-EW 1D-LTE solar Fe I pool: σ(1D) = 0.1398 dex (the gate's NLTE σ
+        # ≈ 1D σ; RYA-407 Step 0). Characterized POOL floor, derived BLIND to gate
+        # pass/fail — NOT a round number, NOT chosen to make the Sun pass. RYA-407
+        # verdict (c): no cited mechanism reaches the legacy 0.10.
+        'fe1_scatter_max' : 0.1398,          # RYA-407 σ(1D) floor, GES-EW 1D-LTE Fe I pool
+        'n_Fe2_min'       : 8,               # RYA-238 solar Fe II pool floor
+        'vmic_lit'        : 1.00,            # km/s, solar microturbulence (pinned)
+        # Pool-construction config — DOCUMENTED here, OPERATIVE value stays per-star:
+        'cog_ceiling_mA'  : 100.0,           # == PIPELINE['vmic_ew_ceiling_mA'] (RYA-330 saturation cut)
+        'continuum_key'   : 'solar',         # → CONTINUUM_PARAMS['solar'] (RYA-274)
+        'ew_fit_key'      : 'solar',         # → EW_FIT_PARAMS['solar'] (RYA-273)
+        'provenance'      : 'RYA-407 honest floor σ(1D)=0.1398 (GES-EW 1D-LTE solar Fe I pool); G=solar anchor (5772 K)',
+    },
+    'F': {
+        'teff_range'      : (6000, 6800),    # F regime (Procyon ≈ 6554 K converged)
+        'method'          : 'EW',
+        'nlte_available'  : False,           # Fe I NLTE grid runs out > 6500 K (Procyon 6554 K, RYA-319) → 1D-LTE-only
+        'a_fe_lo'         : 7.38, 'a_fe_hi'  : 7.54,   # RYA-273 F-anchor window
+        'dFe_max'         : 0.08,            # RYA-273 F-anchor ionization gate
+        # FINAL F-star Fe I scatter floor (RYA-281): bad-gf disproved (0/4 GES-confirmed),
+        # blends excluded (priority 0, no gf tuned), post-NLTE σ=0.222. Sits just above the
+        # ~0.18 NLTE-unavailable expectation → the genuine 1D-LTE F-star floor (Procyon
+        # above the Fe NLTE grid ceiling), NOT removable contamination. This RISES above the
+        # G floor 0.1398 by design — that rise IS why the gate must be per-type.
+        'fe1_scatter_max' : 0.222,           # RYA-281 FINAL F-anchor floor (NLTE-unavailable)
+        'n_Fe2_min'       : 3,               # RYA-273 F-anchor Fe II pool floor
+        'vmic_lit'        : 1.66,            # km/s, Allende Prieto 2002 (Procyon)
+        'cog_ceiling_mA'  : 120.0,           # PROVISIONAL F-anchor: RYA-273 COG_FLAG knee ≈ 120 mÅ
+                                             # (operative pool cut stays PIPELINE['vmic_ew_ceiling_mA'];
+                                             #  the σ=0.222 anchor was characterized at that cut — RYA-277 §4).
+        'continuum_key'   : 'procyon',       # → CONTINUUM_PARAMS['procyon'] (RYA-274)
+        'ew_fit_key'      : 'procyon',       # → EW_FIT_PARAMS['procyon'] (RYA-273)
+        'provenance'      : 'RYA-281 F-star Fe σ floor 0.222 FINAL (bad-gf disproved, blends excluded, '
+                            'NLTE-unavailable > 6500 K → genuine 1D-LTE floor); Procyon 6554 K anchor',
+    },
+    # ── STUBS — physics notes only, NOT populated (RYA-277 §2/§4) ──────────────
+    'K': {
+        'status'         : 'TODO',
+        'method'         : 'EW',             # likely still EW, but molecular-band-aware
+        'nlte_available' : None,             # unknown until a K target is reached
+        'physics_note'   : ('Cooler than the Sun: sharper, deeper lines (good) BUT molecular '
+                            'bands (CN, and toward late-K the onset of TiO) begin contaminating '
+                            'regions that are clean in the Sun → a different BLEND regime. The '
+                            'continuum-window strategy must avoid molecular bands. Thresholds '
+                            'TODO — populate when a K-dwarf target is reached (RYA-277).'),
+        'provenance'     : 'STUB — not populated (RYA-277 §2); no K target reached',
+    },
+    'M': {
+        'status'         : 'TODO',
+        'method'         : 'synthesis',      # EW likely INVALID as a method — pseudo-continuum forest
+        'nlte_available' : None,
+        'physics_note'   : ('M dwarfs (Tier-2 targets): severe molecular blanketing (TiO, VO, H2O) — '
+                            'arguably NO true optical continuum, the pseudo-continuum is a forest. '
+                            'Atomic-line EW measurement as done for the Sun may not be the valid '
+                            'METHOD — full-spectrum synthesis on MARCS.GES atmospheres likely '
+                            'mandatory. The M profile may specify METHOD, not just thresholds. '
+                            'TODO (RYA-277).'),
+        'provenance'     : 'STUB — not populated; method=synthesis flagged (RYA-277 §2)',
+    },
+}
+
+# Star → spectral type, for acceptance-profile routing (RYA-446 seed; RYA-277 anchors).
+STAR_SPECTRAL_TYPE = {'solar': 'G', 'procyon': 'F'}
+
+# Keys a populated (non-stub) acceptance profile must carry — used by the loud accessor
+# to distinguish a real anchor from a physics-note stub.
+_ACCEPTANCE_GATE_KEYS = ('a_fe_lo', 'a_fe_hi', 'dFe_max', 'fe1_scatter_max',
+                         'n_Fe2_min', 'vmic_lit')
+
+
+def get_acceptance_profile(spectral_type):
+    """Active acceptance profile for `spectral_type`, read from ACCEPTANCE_PROFILES
+    (single source of truth). Fails LOUD on a missing or stub profile (RYA-277 K/M are
+    physics-note stubs) — no silent default, same anti-assumption discipline as the
+    RYA-270 linelist-routing log."""
+    prof = ACCEPTANCE_PROFILES.get(spectral_type)
+    if prof is None or not all(k in prof for k in _ACCEPTANCE_GATE_KEYS):
+        _note = (f" ({prof['physics_note']})" if isinstance(prof, dict)
+                 and 'physics_note' in prof else '')
+        raise KeyError(
+            f"No acceptance profile populated for spectral type {spectral_type!r}; it is "
+            f"a deferred RYA-277 stub.{_note} Refusing to default silently — populate the "
+            f"profile (RYA-277) before gating this type.")
+    return prof
+
+
+def acceptance_profile_for_star(star_id):
+    """Resolve a star_id → its spectral type → the populated acceptance profile.
+    Fails loud if the star has no type mapping or the type's profile is a stub."""
+    s = star_id.strip().lower()
+    spec = STAR_SPECTRAL_TYPE.get(s)
+    if spec is None:
+        spec = next((t for k, t in STAR_SPECTRAL_TYPE.items() if k in s or s in k), None)
+    if spec is None:
+        raise KeyError(
+            f"No spectral-type mapping for star_id={star_id!r}; add it to "
+            f"STAR_SPECTRAL_TYPE before acceptance-gating it (RYA-277).")
+    return spec, get_acceptance_profile(spec)
+
+
+def fe1_scatter_threshold(spectral_type):
+    """Active Fe I line-to-line scatter ceiling for `spectral_type`, read from
+    ACCEPTANCE_PROFILES (single source of truth). Fails loud on a missing/stub profile
+    (RYA-277 K/M are stubs) — no silent default. Back-compat alias kept for RYA-446
+    callers; new code can use get_acceptance_profile()['fe1_scatter_max']."""
+    prof = ACCEPTANCE_PROFILES.get(spectral_type)
+    if prof is None or 'fe1_scatter_max' not in prof:
+        raise KeyError(
+            f"No acceptance profile populated for spectral type {spectral_type!r}; the "
+            f"RYA-277 K/M profiles are deferred TODO stubs. Refusing to default "
+            f"silently — populate the profile (RYA-277) before gating this type.")
+    return prof['fe1_scatter_max']
 
 # ── Flux-space synthesis (synth-v2) line-acceptance gate (RYA-342) ────────────
 # The flux-space fitter accepts/rejects each line on FIT QUALITY (reduced χ²), NOT
@@ -240,13 +440,19 @@ FE_REW_SLOPE_GATE     = 0.10   # |reduced-EW slope| at pinned ξ — "flat withi
 # them robustly without being delicate. Rejected lines are logged with their χ²ᵣ.
 SYNTH_CHI2_GATE       = 10.0   # max reduced-χ² for a synth-v2 line to enter the median
 
-# ── Ni I 6300.336 COG constants ───────────────────────────────────────────────
+# ── Ni I 6300.34 COG line data ────────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
-# Source: VALD3 log_gf; Allende Prieto et al. 2001 (ApJ 556, L63) for EW.
+# The Ni I 6300.34 log gf is NOT stored here — it is single-sourced to the
+# canonical gf table (Johansson, Litzen, Lundberg & Zhang 2003, ApJ 584 L107;
+# log gf −2.11, adjudicated RYA-365; canonical_gf.csv gf_101075) and resolved at
+# use via gf_resolver in BOTH the synth and the [O I] EW/COG paths. The old
+# hardcoded VALD3 −2.841 here was a STALE SSOT DUPLICATE, 0.73 dex weaker than the
+# adjudicated value → under-subtracted Ni → A(O) biased high (removed, RYA-543).
+# wavelength_air_A + excitation_potential_eV mirror the same canonical row.
 NI6300_COG = {
-    'log_gf'               : -2.841,
-    'excitation_potential_eV': 4.266,
-    'ew_lit_solar_mA'      : 1.1,   # Allende Prieto+2001
+    'wavelength_air_A'       : 6300.342,   # mirrors canonical_gf gf_101075 (resolver lookup)
+    'excitation_potential_eV': 4.266,      # mirrors canonical_gf gf_101075
+    'ew_lit_solar_mA'        : 1.1,        # Allende Prieto+2001 (EW sanity reference only)
 }
 
 # ── Pipeline settings ─────────────────────────────────────────────────────────
@@ -338,6 +544,35 @@ PIPELINE = {
     'cont_window_scale_factors' : (1.0, 1.75, 2.5),     # multipliers per tier
 }
 
+# ── Two-engine floor (RYA-525): pre-declared, reference-BLIND selection ────────
+# Ratified 2026-07-10 (RYA-525 description §2 + the three ratification comments +
+# the ratification appendix). The reported value per element is aggregated from the
+# PER-LINE winners; each line is won by the engine chosen on LINE PHYSICS ALONE —
+# never on proximity to any reference value (tuning firewall, RYA-161). ALL knobs
+# live here (no inline thresholds in the selector). SSOT: the saturation knee and the
+# synth eligibility floor reference their existing homes, they are not re-typed.
+TWO_ENGINE = {
+    # Clause-1 validity gate (ELIGIBILITY, not a quality selector): Engine-B (synthesis)
+    # is eligible for a line only if its fit did not catastrophically fail. This gates
+    # validity; it does NOT pick the winner among eligible engines.
+    'synth_chi2_gate'       : SYNTH_CHI2_GATE,               # med_red_chi2 ≤ this ⇒ Engine-B eligible
+
+    # Clause-3 line-regime classifier (reference-blind line physics):
+    'saturation_knee_mA'    : PIPELINE['vmic_ew_ceiling_mA'], # EW above this ⇒ SATURATED ⇒ HARD ⇒ Engine-B
+    'hfs_elements'          : ('Mn', 'Co', 'Cu', 'Sc', 'V', 'Eu', 'Ba', 'Nb', 'La', 'Pr'),
+                                                             # hyperfine-split ⇒ HARD (EW mismeasures the split core)
+
+    # Clause-3 aggregation guard (the Ti lesson): if an element's per-line winners span
+    # BOTH engines AND the mean cross-engine Δ exceeds this, FLAG + adjudicate — never
+    # silently average two disagreeing scales (would inject a regime-correlated bias).
+    'cross_engine_mix_gate' : 0.10,                          # dex; "agree within ~0.1 dex" convention
+
+    # Clause-4 tie / indeterminate default = 1D-NLTE: it is the differential zero-point
+    # (solar Fe is anchored 1D-NLTE 7.516), so defaulting ties there keeps every reported
+    # value on ONE consistent scale. Logged as the reason so it does not read as arbitrary.
+    'tie_default_engine'    : 'engineA_1dnlte',
+}
+
 # ── File paths ────────────────────────────────────────────────────────────────
 PATHS = {
     'data_root'         : ROOT / 'data',
@@ -368,12 +603,87 @@ PATHS = {
     # Processed outputs (CSV gitignored — generated by pipeline; PNG committed to results/)
     'solar_normalized'  : ROOT / 'data' / 'processed' / 'solar_normalized.csv',
     'solar_diagnostic'  : ROOT / 'results' / 'plots' / 'solar_continuum_diagnostic.png',
+    # RYA-408: solar_ew.csv is the gitignored lines_fit STAGING output ONLY.
+    # It must NOT be a gate/abundance EW input — gates read the committed canonical below.
     'solar_ew'          : ROOT / 'data' / 'processed' / 'solar_ew.csv',
+    # Committed CANONICAL solar EW measurements — single source of truth for gates,
+    # abundance derivation, and stewardship (RYA-408; promotion via scripts/promote_solar_ew.py).
+    'solar_ew_canonical': ROOT / 'data' / 'measured' / 'sol_ew_results_v1.csv',
     'solar_ew_diagnostic': ROOT / 'results' / 'plots' / 'solar_ew_diagnostic.png',
+    # RYA-429: per-line rejection ledger (gitignored staging, beside solar_ew.csv) +
+    # committed audit summary (no-silent-drop invariant, Sr II verdict, stage flags).
+    'solar_ew_rejections': ROOT / 'data' / 'processed' / 'solar_ew_rejections.csv',
+    'solar_ew_rejection_audit': ROOT / 'data' / 'results' / 'rejection_ledger_solar_rya429.json',
     'procyon_normalized' : ROOT / 'data' / 'processed' / 'procyon_normalized.csv',
     'procyon_diagnostic' : ROOT / 'results' / 'plots' / 'procyon_continuum_diagnostic.png',
     'procyon_ew'         : ROOT / 'data' / 'processed' / 'procyon_ew.csv',
     'procyon_ew_diagnostic': ROOT / 'results' / 'plots' / 'procyon_ew_diagnostic.png',
+    'procyon_ew_rejections': ROOT / 'data' / 'processed' / 'procyon_ew_rejections.csv',
+    'procyon_ew_rejection_audit': ROOT / 'data' / 'results' / 'rejection_ledger_procyon_rya429.json',
+
+    # RYA-469: per-star NAMESPACED pipeline outputs + the frozen gold solar reference.
+    # Working per-star products live under data/outputs/{star}/ (gitignored, regenerable);
+    # the star is in the PATH so two stars physically cannot collide on a filename. The
+    # gold-standard solar differential denominator is the versioned, write-once, immutable
+    # data/reference/solar/solar_abundances_v{N}.csv (committed). See pipeline/data_namespace.py
+    # for the accessors and docs/design/adr_data_namespacing_and_gold_reference.md for the law.
+    'outputs_root'       : ROOT / 'data' / 'outputs',
+    'solar_reference_dir': ROOT / 'data' / 'reference' / 'solar',
+
+    # Per-night GDAS atmospheric profiles for molecfit telluric correction (RYA-380).
+    # Cache of real per-night profiles (ESO GDAS tarball / NOAA ARL manual pull).
+    'gdas_cache'         : ROOT / 'data' / 'telluric' / 'gdas_cache',
+}
+
+# ── Solar reference library (RYA-459, under the RYA-162 epic) ─────────────────
+# The multi-wavelength solar reference atlases that reach lines HARPS-VIS (380-690
+# nm) cannot — the anchors for solar N (N I red + NH 3360), the CNO arms, and the
+# P/K/Co/Sc DATA-GAP elements. Each source carries an explicit provenance flag.
+#
+# CRITICAL honesty constraint (RYA-455 discipline): Hubble cannot observe the Sun
+# directly, so there is NO direct solar UV spectrum. The UV composite is
+# provenance='cited-composite' and must NEVER be presented as a measurement; the
+# audit gate (pipeline/audit_solar_reference) fails loud if a UV/composite source
+# is tagged 'measured'. Any downstream UV-derived abundance inherits the cited flag.
+#
+# provenance in {measured, cited-composite, model}.
+SOLAR_REFERENCE_SPECTRA = {
+    'kpno_flux_atlas': {
+        'path': 'data/solar_reference/kpno_flux_atlas',
+        'wavelength_coverage_nm': [296.0, 1300.0],
+        'resolution': 'FTS high-res (uneven grid, lambda/dlambda ~ 4e5)',
+        'flux_units': 'normalized residual flux + irradiance (uW/cm^2/nm)',
+        'provenance': 'measured',
+        'citation': 'Kurucz, Furenlid, Brault & Testerman 1984, NSO Atlas No. 1 '
+                    '("Solar Flux Atlas from 296 to 1300 nm")',
+    },
+    'uv_composite': {
+        'path': 'data/solar_reference/uv_composite',
+        'wavelength_coverage_nm': [119.5, 2695.7],
+        'resolution': 'low (dlambda ~ 20 A, R ~ 150-300) — flux composite, not a line atlas',
+        'flux_units': 'FLAM (erg/s/cm^2/A, absolute)',
+        'provenance': 'cited-composite',
+        'citation': 'Colina, Bohlin & Castelli 1996 (AJ 112, 307) / Bohlin+2001 '
+                    '(CALSPEC sun_reference_stis_002); UV below 4100A = Woods+1996',
+    },
+    'ir_atlases': {                     # RYA-390 (K-band CO arm) — already staged
+        'path': 'data/solar_reference/ir_atlases',
+        'wavelength_coverage_nm': [2289.3, 2349.5],   # CO dv=2 segment extracted
+        'resolution': 'FTS (ACE-FTS 0.02 cm^-1)',
+        'flux_units': 'normalized intensity',
+        'provenance': 'measured',
+        'citation': 'ACE-FTS (Hase+2010) / NSO photatl (Livingston & Wallace 1991) '
+                    '/ Wallace telluric (NOAO/NSO) — RYA-390',
+    },
+    'ir_atlas_irtf': {                  # Tier-2 — documented + deferred (RYA-459)
+        'path': 'data/solar_reference/ir_atlas',
+        'wavelength_coverage_nm': [940.0, 2500.0],
+        'resolution': 'R ~ 2000 (IRTF SpeX)',
+        'flux_units': 'TBD on stage',
+        'provenance': 'measured',
+        'citation': 'Rayner et al. 2009 (IRTF) — DEFERRED, see README_SOURCE.md',
+        'status': 'deferred',
+    },
 }
 
 # ── Non-Fe NLTE correction registry (RYA-235) ────────────────────────────────
@@ -392,12 +702,39 @@ PATHS = {
 # set it where the grid is NOT an MPIA MAFAGS-OS extraction (Na = INSPECT/Lind,
 # Ba = Korotin/VizieR) so a non-MPIA grid is never mislabelled as MPIA (RYA-165).
 NLTE_CORRECTION_ELEMENTS = {
+    # Ca I — STAYS on Mashonkina2017 MPIA. RYA-411 ADJUDICATED the RYA-410 STOP (+0.064
+    # vs +0.012): it is NOT a model-atom difference — Amarsi-2020 (+0.017) and Mashonkina
+    # (+0.027) AGREE on the only cleanly-computed shared line (5867). The gap was (a)
+    # line-set (RYA-410 used 6166/6169/6455, where Amarsi gives real +0.05..+0.08) and
+    # (b) a DATA DEFECT: MPIA's Ca 6166 was a placeholder zero (all 72 nodes = 0.000),
+    # dragging the MPIA reference down. RYA-413 FIXED it: confirmed live that MPIA OFFERS
+    # 6166 but RETURNS a literal 0 (serves but does not NLTE-model the line) -> dropped the
+    # line (never carry a zero as a correction) -> clean MPIA solar Ca median = +0.017
+    # (was +0.0118). A registration-time placeholder-zero guard now refuses the class.
+    # Adopting Amarsi would close the 55 Cnc clamp AND add the missing NLTE on the
+    # subordinate 3d-4p lines (~+0.05 solar Ca shift) — a solar-calibration change to RATIFY
+    # against a solar-Ca re-validation (RYA-371), not a silent swap here. Ca keeps MPIA.
     'Ca': {'ion': 1, 'grid': 'Ca_Mashonkina2017.csv',
            'ref': 'Mashonkina et al. 2017 (A&A 606, A147), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '20.01'},
-    'Ti': {'ion': 1, 'grid': 'Ti_Bergemann2011_MPIA.csv',
-           'ref': 'Bergemann 2011 (MNRAS 413, 2184), MPIA MAFAGS-OS 1D NLTE',
-           'mpia_species': '22.01'},
+    # Ti I — RYA-545 wired the Mallinson-2024 ab-initio grid (STOP->GO corroboration-accept,
+    # Ryan 2026-07-13). SUPERSEDES Ti_Bergemann2011_MPIA.csv: RYA-542/544/546 established that
+    # the old MAFAGS-OS +0.108 (and Engine-B MARCS +0.20) were BOTH inflated ~2x by the outdated
+    # Bergemann-2011 scaled-Drawin H-collision atom (atom.ti503b). The correct ab-initio value
+    # (Grumer-Barklem-2020 collisions, Mallinson-2024) is +0.052; our PySME/MARCS derivation
+    # reproduces +0.0506 (RYA-544), corroborated by two independent blend-aware ionization-balance
+    # instruments (RYA-545: LTE Ti I/II balance ~0, NLTE ~+0.05). Certified by corroboration-accept
+    # (SCIENCE_STANDARDS five-criteria rule), NOT the <0.05 ionization gate (which is precision-
+    # limited on our thin solar Ti pools — a documented diagnostic, not a value defect). The old
+    # Ti_Bergemann2011_MPIA.csv is retained (v1 immutable) but FLAGGED superseded (scaled-Drawin,
+    # RYA-546 vintage audit). v1 frozen A(Ti) 5.471 stays; this sets the forward/v2 correction.
+    'Ti': {'ion': 1, 'grid': 'Ti_Mallinson2024_PySME.csv',
+           'ref': 'Mallinson et al. 2024 (A&A 687, A5), ab-initio Grumer-Barklem-2020 H collisions, '
+                  'PySME departure grid (Zenodo 10753497, DOI 10.5281/zenodo.10753497); RYA-545 '
+                  'PySME/MARCS-derived per-line deltas (Ti I 5689/5648/5662, solar median +0.0506, '
+                  'reproduces the published +0.052); corroboration-certified (two-instrument, RYA-545). '
+                  'Supersedes Ti_Bergemann2011_MPIA.csv (Bergemann-2011 scaled-Drawin, inflated ~2x, RYA-546).',
+           'flag': 'NLTE_Mallinson2024_PySME_1D'},
     'Cr': {'ion': 1, 'grid': 'Cr_Bergemann2010_MPIA.csv',
            'ref': 'Bergemann & Cescutti 2010 (A&A 522, A9), MPIA MAFAGS-OS 1D NLTE',
            'mpia_species': '24.01'},
@@ -405,24 +742,175 @@ NLTE_CORRECTION_ELEMENTS = {
     # Li deferred (RYA-103 Li 6707 CN-blend); C/O owned by nlte_cno (Amarsi 2019).
     # Asplund acceptance still gated on a curated pool (Na +0.27 / Ba +0.19 NLTE-sized;
     # Mg's +1.72 is saturation/curation, NLTE here is a rounding-error rung).
-    'Na': {'ion': 1, 'grid': 'Na_Lind2011_INSPECT.csv',
-           'ref': 'Lind et al. 2011 (A&A 528, A103), INSPECT database (inspect-stars.com)',
-           'flag': 'NLTE_INSPECT_Lind2011_1D'},
-    'Mg': {'ion': 1, 'grid': 'Mg_Bergemann_MPIA.csv',
-           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (cf. Osorio et al. 2015, A&A 579, A53)',
-           'mpia_species': '12.01'},
+    # RYA-410: re-sourced onto the Amarsi-2020 PySME departure grid ([Fe/H] -> +1, so
+    # the 55 Cnc +0.31 clamp is closed — the MPIA/INSPECT grids ceilinged at +0.30).
+    # Validate-don't-tune: the PySME-Amarsi SOLAR delta REPRODUCED the prior registered
+    # value within tol before the swap (Na -0.129 vs INSPECT -0.107; Mg -0.022 vs MPIA
+    # +0.013, both ~0; Si -0.013 vs MPIA -0.004). Now the single source per element.
+    'Na': {'ion': 1, 'grid': 'Na_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; Na I model '
+                  'atom Lind et al. 2011 (A&A 528, A103); RYA-410 PySME-derived deltas '
+                  '(5682/5688; reproduces the INSPECT Lind-2011 solar -0.107)',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    'Mg': {'ion': 1, 'grid': 'Mg_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; RYA-410 '
+                  'PySME-derived deltas (5711/4730; Mg NLTE ~0 in FGK, solar -0.022)',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
     'Ba': {'ion': 2, 'grid': 'Ba_Korotin2015.csv',
            'ref': 'Korotin et al. 2015 (A&A 581, A70), CDS VizieR J/A+A/581/A70',
            'flag': 'NLTE_Korotin2015_1D'},
-    # Mn I — sizeable NLTE (solar Δ ≈ +0.10); Si I — negligible in FGK (Δ ≈ −0.004),
-    # registered so it is explicitly 'NLTE-clean & documented' rather than silently
-    # 1D-LTE. Both MPIA MAFAGS-OS (neutral) → default MPIA flag, no override.
-    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',
-           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Mn I; cf. Bergemann & Gehren 2008, A&A 492, 823)',
+    # Sr II — RYA-421: closes the RYA-401 ION-MISMATCH GET-DATA gap (our EW set measured
+    # Sr I 6617, but the NLTE grid exists for the Sr II 4077/4215 resonance doublet).
+    # Delta-type grid (not an Amarsi-2020 b-factor), source-flag pattern (RYA-165):
+    # PRIMARY = Mashonkina 2022 / INASAN (cited; demonstrated to [Fe/H]=+0.25; vendor when
+    # machine-readable); WORKING grid = Bergemann 2012a via INSPECT (fetchable, agrees with
+    # Mashonkina within 0.15 dex). NEAR-LTE at our metallicities (solar 4077 -0.004 /
+    # 4215 -0.006; the correction grows only toward metal-poor). Grid [Fe/H] CEILING = +0.0
+    # -> 55 Cnc (+0.32) and tau Boo (+0.25) are FLAGGED extrapolations (out-of-hull ->
+    # nlte_flag NLTE_unavailable, loud, RYA-409) into the near-LTE regime; acceptable, never
+    # silent (RYA-421 Step 3). 4215 carries an Fe I blend -> cool-star discipline below.
+    'Sr': {'ion': 2, 'grid': 'Sr_Bergemann2012_INSPECT.csv',
+           'ref': 'WORKING grid ON DISK + APPLIED = Bergemann et al. 2012a (A&A 546 A90; '
+                  'arXiv 1207.2451) via INSPECT (the applied delta grid). PRIMARY = Mashonkina '
+                  'et al. 2022 / INASAN (Mashonkina+2023; DB cite Mashonkina, Sitnova, Pakhomov '
+                  '2016 AstL 42,606) -- NOT YET VENDORED: RYA-433 found the INASAN nLTE.cgi '
+                  'endpoint WAF-BLOCKED (403) to all programmatic clients -> MANUAL PULL OWED '
+                  '(see data/nlte_grids/Sr_Mashonkina2022_INASAN.PENDING.md). Both are metal-poor '
+                  'MARCS grids (INASAN [Fe/H] -5..-2; Bergemann -3..0); published agreement '
+                  '~0.15 dex (our cross-check pending the pull). Sr II 4077/4215 doublet (RYA-421/433). '
+                  'RYA-551: Sr II MEASURED via Turbospectrum synthesis (delta applied to 4077/4215 only; '
+                  '4161/4305 NLTE_unavailable, LTE, corr ~0 at solar). Chosen lines: 4077 primary, '
+                  '4215+4161 cross-check, 4305 excluded (see SR2_LINES).',
+           'flag': 'NLTE_Bergemann2012_INSPECT_1D'},
+    # Mn I — SOLAR value now on the ab-initio triplet-exact δ (RYA-546 re-derivation). The
+    # RYA-411 "keep MPIA (+0.107)" decision is REVERSED: RYA-411 kept the larger value trusting
+    # the "dedicated Mn literature (Bergemann & Gehren 2008)", but RYA-546's H-collision vintage
+    # audit showed B&Gehren-2008 IS the outdated scaled-DRAWIN inelastic-H recipe, which inflates
+    # the over-ionization correction — the exact defect Ti found (RYA-542/544). The Amarsi-2020
+    # GALAH grid uses ab-initio (Barklem/Grumer) H collisions; on the low-EP Den Hartog triplet
+    # 6013/16/21 (the measured solar Mn lines, RYA-473 — these NaN on the MPIA high-EP grid) the
+    # LIVE Amarsi HFS-resolved δ = +0.024 (per-line +0.030/+0.024/+0.017), corroborated by the
+    # RYA-534 Engine-B TS-Gerber ab-initio δ +0.043 — both << the scaled-Drawin +0.107. Solar
+    # A(Mn)_NLTE = 5.466 (+0.046 vs Asplund 5.42) → PASS (was 5.554 on the +0.107 high-EP
+    # mismatch). Closes RYA-411. The grid pointer below still serves the (unused-for-Mn, HFS-
+    # bypassed) EW-path + other stars; a production repoint to an Amarsi Mn δ-grid is the
+    # RYA-527 fan-out follow-on. The +0.107 MPIA value is SUPERSEDED for the solar Mn gold.
+    'Mn': {'ion': 1, 'grid': 'Mn_Bergemann_MPIA.csv',   # SUPERSEDED for solar (RYA-546); EW-path only
+           'ref': 'SOLAR: Amarsi-2020 GALAH ab-initio HFS-resolved triplet δ +0.024 (RYA-546); '
+                  'EW-path grid: Bergemann group MPIA MAFAGS-OS scaled-Drawin (B&Gehren 2008) '
+                  '+0.107 = SUPERSEDED, repoint = RYA-527 fan-out',
            'mpia_species': '25.01'},
-    'Si': {'ion': 1, 'grid': 'Si_Bergemann_MPIA.csv',
-           'ref': 'Bergemann group MPIA SpectrumTools MAFAGS-OS (Si I; ~negligible in FGK dwarfs)',
-           'mpia_species': '14.01'},
+    # Si I — RYA-410: re-sourced onto the Amarsi-2020 PySME grid (closes the 55 Cnc
+    # clamp). Cross-check PASSED (-0.013 vs MPIA -0.004). Si NLTE negligible in FGK.
+    'Si': {'ion': 1, 'grid': 'Si_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; RYA-410 '
+                  'PySME-derived deltas (5772/6125; Si NLTE ~0 in FGK, solar -0.013)',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    # RYA-402 Family-B (Option 2): derived by NLTE synthesis in PySME from the Amarsi
+    # 2020 GALAH departure grid (Al I model atom = Nordlander & Lind 2017). Validated
+    # vs the published subordinate-Al correction (solar median -0.022, in the
+    # near-zero-to--0.04 band) and confirmed LTE-baseline-portable (eps -0.011 vs the
+    # TS/EW baseline). Subordinate doublet 6696/6698 (NOT the +0.2 resonance 3961).
+    'Al': {'ion': 1, 'grid': 'Al_Amarsi2020_PySME.csv',
+           'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; Al I model '
+                  'atom Nordlander & Lind 2017 (A&A 607, A75); RYA-402 PySME-derived deltas',
+           'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    # RYA-402 Family-B (Option 2): S I multiplet-8 optical lines 6748/6757 (high-excit,
+    # small negative NLTE, solar median -0.016) derived via PySME from the Amarsi 2025
+    # (A&A 703, A35) S departure grid. Validated vs the small-negative optical-S band;
+    # the NIR 9212/9228/9237 triplet (large NLTE) is a separate indicator (RYA-401).
+    'S': {'ion': 1, 'grid': 'S_Amarsi2025_PySME.csv',
+          'ref': 'Amarsi et al. 2025 (A&A 703, A35) S departure grid via PySME; '
+                 'RYA-402 PySME-derived deltas (optical 6748/6757)',
+          'flag': 'NLTE_Amarsi2025_PySME_1D'},
+    # RYA-462: K I resonance doublet 7665/7699 (ground-state 4s 2S -> 4p 2P*), the last
+    # PRESENT-but-UNWIRED grid the RYA-460 solar polish surfaced. The grid + the full
+    # PySME machinery already existed (pipeline.pysme_nlte, RYA-402); the CSV departure
+    # grid K_Amarsi2020_PySME.csv was vendored but K was never added to this registry, so
+    # the default run left K at 1D-LTE. K I resonance NLTE is LARGE and NEGATIVE (the line
+    # is much stronger in NLTE): solar 7665 -0.27 / 7699 -0.31, applied as-is from the
+    # vendored grid (validate-don't-tune — the same interpolation path as Ca/Ti/Cr/Na).
+    # 7665 sits in the telluric O2 A-band; the clean diagnostic is 7699. Solar leg:
+    # Kitt Peak K I 7699 = 5.411 (1D-LTE), -0.312 -> 5.099 (+0.03 vs Asplund 5.07).
+    'K': {'ion': 1, 'grid': 'K_Amarsi2020_PySME.csv',
+          'ref': 'Amarsi et al. 2020 (A&A 642, A62) departure grid via PySME; K I resonance '
+                 '7665/7699; solar anchor Reggiani et al. 2019 (A&A 627, A177) / Andrievsky '
+                 'et al. 2006 (severe negative K I resonance NLTE); RYA-402/462 PySME-derived deltas',
+          'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    # N I red-optical triplet 7468/8216/8683 (RYA-369 strategy; wired RYA-526). High-excitation
+    # (~10.3 eV), atomic-primary, DECOUPLED from the C/O CNO synthesis leg. Derived on Sirius via
+    # PySME from the Amarsi-2020 GALAH N grid (nlte_N_scatt_pysme.grd, Zenodo 3982506) over the
+    # standard 11-node box; the SOLAR node reproduces the RYA-369 load-test EXACTLY (7468 -0.0115,
+    # 8216 -0.0145, 8683 -0.0154 — SMALL negative, N I red is NEAR-LTE at the Sun, sign-discipline
+    # OK RYA-339). N I red is a WARM-star indicator: 4 weak-line COG rails at cool (Teff<=5172)
+    # metal-rich nodes (7468 x3, 8216 x1) were EXCLUDED from the grid, so those fall out-of-hull ->
+    # loud-flagged (RYA-409), never a spurious value. Same PySME-derived path + flag as Na/Mg/Si/Al/S/K.
+    'N': {'ion': 1, 'grid': 'N_Amarsi2020_PySME.csv',
+          'ref': 'Amarsi et al. 2020 (A&A 642, A62) N I departure grid via PySME (Zenodo 3982506); '
+                 'N I red triplet 7468/8216/8683 high-excitation atomic; RYA-369 strategy / RYA-526 '
+                 'PySME-derived deltas (solar reproduces the RYA-369 load-test)',
+          'flag': 'NLTE_Amarsi2020_PySME_1D'},
+    'Cu': {'ion': 1, 'grid': 'Cu_Caliskan2024_PySME.csv',
+           'ref': 'Caliskan et al. 2024 Cu I/II model atom, Amarsi PySME departure grid '
+                  '(Zenodo 15062813 v6); RYA-540 PySME-derived deltas (Cu I 5782; solar '
+                  '+0.001 reproduces Shi et al. 2014 small-positive optical Cu). Grid '
+                  'registered/available, but Cu production stays GET-DATA — held on '
+                  'measured-line QUALITY (RYA-395), NOT the grid.',
+           'flag': 'NLTE_Caliskan2024_PySME_1D'},
+}
+
+# ── Sr II line-selection decision (RYA-430, from the RYA-551 synthesis run) ────
+# Decided on SENSITIVITY + COVERAGE (never proximity to Asplund; validate-don't-tune).
+# Turbospectrum synthesis A(Sr II) + fit sensitivity (dEW/dA) per line, solar:
+#   4077.709 : A_NLTE 2.77(HARPS)/2.74(IAG), dEW/dA 203 mA/dex, NLTE delta -0.004 -> PRIMARY
+#   4215.519 : A_NLTE 2.72/2.67,  dEW/dA 128, NLTE delta -0.006, Fe I blend -> CROSS-CHECK (cool-star caution)
+#   4161.792 : A_LTE  2.73/2.71,  dEW/dA  36 (cleanest fit), NLTE_unavailable (corr ~0) -> CROSS-CHECK (LTE)
+#   4305.443 : railed, dEW/dA 0.2 mA/dex (no abundance sensitivity) -> EXCLUDED (not an abundance line)
+# 4077 wins on sensitivity AND coverage; the subordinate lines RYA-430 raised are NOT
+# promoted over it (4161 = usable LTE cross-check; 4305 = excluded). Sr II is measured by
+# SYNTHESIS, not EW (registered synthesis-required, RYA-520/551); the naive EW is an artifact.
+SR2_LINES = {
+    'primary':    [4077.709],                    # highest sensitivity, NLTE-covered, resonance
+    'crosscheck': [4215.519, 4161.792],          # 4215 Fe I-blended (cool-star caution); 4161 clean LTE
+    'excluded':   [4305.443],                    # zero abundance sensitivity (RYA-551 synthesis fit railed)
+}
+SR2_COOLSTAR_TEFF_K = 5300.0             # below this, 4215 is cross-check-only/dropped
+SR2_4215_BLEND = 'Fe I (Bergemann 2012a); avoid in cool stars'
+# Solar synthesis measurement (RYA-551, validate-don't-tune; carries a ~0.05-0.1 dex
+# near-UV-synthesis systematic — high red-chi2, MARCS nearest-node, broadening approx):
+SR2_A_SYNTH_SOLAR = {'primary_line': 4077.709, 'A_NLTE_harps': 2.769, 'A_NLTE_iag': 2.740,
+                     'engineB_A_LTE': 2.773, 'engineA_A_NLTE': 2.769,   # RYA-525 two-engine
+                     'reported_A_range': [2.67, 2.77], 'reference': 'data/results/sr2_synthesis_rya551.json'}
+
+# ── 3D abundance corrections — the metal 3D leg (RYA-399) ─────────────────────
+# RYA-400 routed Si/Ti/Cr as "3D-owed". This registry holds the 3D DIMENSIONAL
+# correction (A(3D) − A(1D), at fixed NLTE) applied ON TOP of the existing 1D-NLTE
+# pass (NLTE_CORRECTION_ELEMENTS) — i.e. the increment, so it never double-counts
+# the NLTE already applied:  A(3D-NLTE) = A(1D-NLTE) + delta_3d.  Mirrors the C/N/O
+# 3D leg (pipeline.nlte_cno) which adds a STAGGER-grid Δ to the 1D abundance.
+#
+# KEY FINDING (RYA-399, validate-don't-tune): the published solar 3D corrections for
+# these metals are SMALL (|Δ| ≲ 0.1 dex) — far below the +0.38/+0.50/+0.40 dex
+# graded-pool residuals (RYA-398). For Ti/Cr they are POSITIVE (3D raises the
+# abundance), so 3D moves them the WRONG way. 3D is therefore NOT the lever that
+# closes the Si/Ti/Cr solar residual; the residual is line-data / gf-zero-point
+# (RYA-161 differential territory) and is carried forward, never tuned away.
+#
+# Solar node only (Teff 5772, logg 4.44, [Fe/H] 0). A full per-(Teff,logg,feh) 3D
+# grid exists publicly only for Si (Amarsi & Asplund 2017; Amarsi 2020 GALAH);
+# Ti/Cr have NO public off-solar 3D-NLTE grid (Fe-peak excluded from Amarsi 2020) —
+# off-solar 3D for those is documented as a gap and carried to the multi-star arc.
+THREED_CORRECTION_ELEMENTS = {
+    'Si': {'ion': 1, 'grid': 'solar3d_metals_rya399.csv',
+           'ref': 'Amarsi & Asplund 2017 (MNRAS 464, 264), 3D non-LTE Si; '
+                  'Scott et al. 2015 Paper I (A&A 573, A25), A(Si)=7.51',
+           'off_solar_grid': 'Amarsi & Asplund 2017 / Amarsi 2020 GALAH (A&A 642, A62)'},
+    'Ti': {'ion': 1, 'grid': 'solar3d_metals_rya399.csv',
+           'ref': 'Scott et al. 2015 Paper II (A&A 573, A26), solar 3D Ti, A(Ti)=4.93',
+           'off_solar_grid': None},   # no public off-solar 3D-NLTE Ti grid
+    'Cr': {'ion': 1, 'grid': 'solar3d_metals_rya399.csv',
+           'ref': 'Scott et al. 2015 Paper II (A&A 573, A26), solar 3D Cr, A(Cr)=5.62',
+           'off_solar_grid': None},   # no public off-solar 3D-NLTE Cr grid
 }
 
 # ── Reflected-solar bodies — SINGLE SOURCE for JPL Horizons ids (RYA-394) ─────
@@ -439,6 +927,26 @@ REFLECTED_SOLAR_BODIES = {
     'iris':     {'id': 'Iris',  'id_type': 'smallbody', 'match': 'Iris'},
     'ganymede': {'id': '503',   'id_type': None,        'match': 'Ganymede'},  # Jovian satellite
 }
+
+# ── Observatory sites — telluric / GDAS recipe (RYA-380) ─────────────────────
+# Single source for site coordinates used by the per-night GDAS retrieval
+# (pipeline.telluric.gdas_fetch). `gdas_loc` is the ESO telluriccorr GDAS-tarball
+# site id, encoded C{lon}{lat} (e.g. Paranal C-70.4-24.6 → lon -70.4, lat -24.6).
+# Site coords NEVER hardcoded in the driver — sourced here (RYA-388 de-hardcode rule).
+SITES = {
+    'paranal': {'lat': -24.6, 'lon': -70.4, 'gdas_loc': 'C-70.4-24.6'},  # VLT/CRIRES+/UVES/ESPRESSO
+}
+
+
+def get_site(name: str) -> dict:
+    """Return the site record for `name` (case-insensitive). Loud-fail on an
+    unknown site rather than silently defaulting — a wrong site picks the wrong
+    atmosphere (the RYA-373 silent-fallback class of bug)."""
+    key = str(name).strip().lower()
+    if key not in SITES:
+        raise KeyError(f"unknown observatory site {name!r}; known: {sorted(SITES)}. "
+                       f"Add it to config.constants.SITES (single source).")
+    return SITES[key]
 
 # ── Star → linelist mapping (RYA-270) ────────────────────────────────────────
 # Explicit per-star linelist routing. Stars not listed here fall back to the
@@ -592,6 +1100,99 @@ RADIATIVE_TRANSFER_CODE = 'turbospectrum'   # 'turbospectrum' | 'spectrum' | 'mo
 # also dissolves the solar A_X≡0 / differential-vs-absolute scale split.
 EW_BASELINE_CODE = 'moog'   # 'moog' | 'moog-scat' | 'spectrum' | 'width'
 
+# ── Sirius compute/data root + grid-provenance resolver (RYA-567) ─────────────
+# STANDING POLICY (Ryan, 2026-07-18): ALL heavy computation runs on Sirius, and
+# every GRID / MODEL ATMOSPHERE / departure-coefficient grid / synthesis ENGINE
+# input is single-sourced from the Sirius data root — NEVER a local Mac copy. The
+# repo carries small COMMITTED derived delta-CSVs (data/nlte_grids/*.csv) as
+# version-controlled RESULTS; the authoritative multi-GB source grids + engines
+# live ONLY on Sirius (RYA-402/419/477/526/540). A silent local-grid read for a
+# COMPUTE step is a correctness-and-provenance defect of the SAME class as the
+# silent-LTE fallback (RYA-409) — so it must LOUD-FAIL, never fall back to a
+# repo-local or ~/-relative copy. Every grid/atmosphere/engine path is constructed
+# through the resolver below (no ad-hoc path literals). Canonical root is
+# /mnt/codex-data (env SIRIUS_DATA_ROOT overrides). See docs/SCIENCE_STANDARDS.md
+# "All computation on Sirius" (successor to RYA-555).
+SIRIUS_DATA_ROOT = Path(_os.environ.get('SIRIUS_DATA_ROOT', '/mnt/codex-data'))
+
+
+def sirius_data_root() -> Path:
+    """The canonical Sirius data root (env SIRIUS_DATA_ROOT, default /mnt/codex-data)."""
+    return SIRIUS_DATA_ROOT
+
+
+def sirius_root_present() -> bool:
+    """True iff the Sirius data root is a visible directory on THIS machine (i.e. we
+    are on Sirius, or the mount is present). Used to gate heavy-compute legs."""
+    return SIRIUS_DATA_ROOT.is_dir()
+
+
+def sirius_grid_path(*relparts) -> Path:
+    """Construct a COMPUTE-INPUT path under the Sirius data root WITHOUT an existence
+    check — for module-level path constants. The absence of the actual file is
+    enforced at ACCESS time by require_sirius_grid() or the loader's own loud check,
+    NEVER by silently substituting a local-Mac copy (RYA-567)."""
+    return SIRIUS_DATA_ROOT.joinpath(*[str(p) for p in relparts])
+
+
+def require_sirius_grid(*relparts, context: str = "") -> Path:
+    """Resolve a REQUIRED compute-input grid/atmosphere/engine under the Sirius data
+    root and return it, or LOUD-FAIL if it is absent. NEVER substitutes a repo-local
+    (data/nlte_grids/…) or ~/-relative copy (RYA-567; mirrors the RYA-409 out-of-hull
+    no-silent-fallback guard). The raise names the exact expected Sirius path."""
+    p = SIRIUS_DATA_ROOT.joinpath(*[str(x) for x in relparts])
+    if not p.exists():
+        raise FileNotFoundError(
+            f"Required Sirius compute input not found: {p}"
+            + (f"  [{context}]" if context else "")
+            + f"\n  SIRIUS_DATA_ROOT = {SIRIUS_DATA_ROOT} "
+            + ("(present on this machine)" if sirius_root_present()
+               else "(NOT a directory on this machine — you are not on Sirius)")
+            + "\n  This is a COMPUTE input: it is read ONLY from the Sirius data root; "
+              "there is NO local-Mac fallback (RYA-567). Run this leg on Sirius "
+              "(`ssh sirius`), or stage the grid at the path above."
+        )
+    return p
+
+
+def assert_on_sirius(context: str = "", *, require_subdirs=("grids",)) -> Path:
+    """Refuse a heavy-compute leg unless the Sirius data root (and any required
+    sub-directories) are present. Fails LOUD with a 'run this on Sirius' message
+    rather than silently computing against whatever is local (RYA-567). Returns the
+    Sirius root on success so callers can chain path construction."""
+    root = SIRIUS_DATA_ROOT
+    missing = None
+    if not root.is_dir():
+        missing = root
+    else:
+        for sub in require_subdirs:
+            if not (root / sub).is_dir():
+                missing = root / sub
+                break
+    if missing is not None:
+        raise RuntimeError(
+            "Sirius-only compute leg refused"
+            + (f" ({context})" if context else "")
+            + f": required path not present → {missing}.\n"
+            f"  SIRIUS_DATA_ROOT = {root}. All grids/atmospheres/engines are single-"
+            f"sourced from the Sirius data root; this leg does NOT run against local-Mac "
+            f"copies (RYA-567). Run it on Sirius (`ssh sirius`), or set SIRIUS_DATA_ROOT "
+            f"to the mounted data root."
+        )
+    return root
+
+
+def committed_grid_artifact(*relparts) -> Path:
+    """Path to a COMMITTED, version-controlled derived grid ARTIFACT under data/
+    (the small NLTE delta-CSVs data/nlte_grids/*.csv, the amarsi2019_cno tables,
+    data/threed_grids). These are pre-derived RESULTS checked into the repo by
+    ratified convention (NOT live Sirius compute inputs), so they resolve IN-REPO and
+    do NOT loud-fail. Physically evicting them to Sirius is a SEPARATE repo-wide
+    migration (RYA-559 successor); NO NEW heavy/compute-input grid may be added here —
+    route new source grids through require_sirius_grid() instead. RYA-567."""
+    return ROOT.joinpath('data', *[str(p) for p in relparts])
+
+
 # Auto-create all output directories on import
 for _key in ('data_root', 'raw_spectra', 'processed_spectra', 'linelists',
              'model_atmospheres', 'results', 'plots', 'tables'):
@@ -646,6 +1247,13 @@ CORRECTIONS_3D = {
     # Both lines share the same -0.07 dex offset from granulation effects.
     'O_6300_3d_dex': -0.07,
     'O_6363_3d_dex': -0.07,
+    # Solar Fe I: 1D → 3D hydrodynamic correction (Magic et al. 2013, Stagger grid, A&A 557 A26).
+    # Our 1D-NLTE Fe I anchor runs ~+0.05 above the 3D-true value (granulation strengthens
+    # Fe I lines); the correction is therefore NEGATIVE. Magnitude is single-sourced from
+    # FE_1D3D_SOLAR_OFFSET (do NOT duplicate the literal). SOLAR ONLY — the per-Teff/[Fe/H]
+    # generalisation for off-solar stars is owed (RYA-550). Applied at the reported-value
+    # layer (phase_c verdict), not the 1D-NLTE measurement layer. RYA-553.
+    'Fe_1D3D_solar_dex': -FE_1D3D_SOLAR_OFFSET,
 }
 
 # ── Model atmosphere parameters ───────────────────────────────────────────────
@@ -673,6 +1281,8 @@ _REQUIRED_KEYS = {
     'PATHS'            : ['data_root', 'raw_spectra', 'results', 'plots',
                           'solar_spectra', 'solar_normalized', 'solar_diagnostic',
                           'procyon_spectra', 'procyon_normalized', 'procyon_diagnostic'],
+    # RYA-459: the Tier-1 solar reference sources must stay registered (audit reads these).
+    'SOLAR_REFERENCE_SPECTRA': ['kpno_flux_atlas', 'uv_composite'],
 }
 
 _DICTS = {
@@ -683,6 +1293,7 @@ _DICTS = {
     'STAR_SOLAR'       : STAR_SOLAR,
     'PIPELINE'         : PIPELINE,
     'PATHS'            : PATHS,
+    'SOLAR_REFERENCE_SPECTRA': SOLAR_REFERENCE_SPECTRA,
 }
 
 
