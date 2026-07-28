@@ -7,9 +7,16 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 CATALOG = Path(__file__).with_name("instrument_catalog.csv")
+MODES = Path(__file__).with_name("instrument_modes.csv")
+HOLDINGS = Path(__file__).with_name("holdings_manifest_registry.csv")
+SYSTEMS = Path(__file__).with_name("system_catalog.csv")
 STATUSES = {"active", "experimental", "candidate", "rejected", "reference"}
 INGEST = {"loader_ready", "loader_partial", "audit_only", "candidate",
           "reference_only", "rejected"}
+BANDS = {"FUV", "NUV", "VIS", "red_optical", "NIR", "Y", "J", "H", "K", "L", "M", "IR",
+         "FUV_edge"}
+MODE_STATUSES = {"active", "experimental", "candidate", "rejected"}
+EVIDENCE_STATES = {"verified", "audited", "candidate", "rejected"}
 REQUIRED = {
     "instrument_id", "instrument_name", "archive_name", "archive_url",
     "bands_supported", "wavelength_min_nm", "wavelength_max_nm",
@@ -20,6 +27,11 @@ REQUIRED = {
 
 
 def load_catalog(path: Path = CATALOG) -> list[dict[str, str]]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
+def _load_csv(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 
@@ -42,6 +54,9 @@ def validate_catalog(path: Path = CATALOG) -> list[str]:
             errors.append(f"{ident}: invalid codex_status")
         if row.get("pipeline_ingest_status") not in INGEST:
             errors.append(f"{ident}: invalid pipeline_ingest_status")
+        bands = set(filter(None, row.get("bands_supported", "").split("|")))
+        if not bands or not bands <= BANDS:
+            errors.append(f"{ident}: invalid bands_supported {sorted(bands - BANDS)}")
         try:
             lo = float(row["wavelength_min_nm"])
             hi = float(row["wavelength_max_nm"])
@@ -64,6 +79,64 @@ def validate_catalog(path: Path = CATALOG) -> list[str]:
         if row.get("telluric_required") == "yes" and not row.get("reduction_requirements"):
             errors.append(f"{ident}: telluric-heavy product lacks reduction guidance")
     return errors
+
+
+def validate_modes(path: Path = MODES) -> list[str]:
+    rows = _load_csv(path)
+    instrument_ids = {row["instrument_id"] for row in load_catalog()}
+    errors: list[str] = []
+    mode_ids: set[str] = set()
+    for line, row in enumerate(rows, start=2):
+        ident = row.get("mode_id", "")
+        if not ident or ident in mode_ids:
+            errors.append(f"mode line {line}: blank/duplicate mode_id {ident!r}")
+        mode_ids.add(ident)
+        if row.get("instrument_id") not in instrument_ids:
+            errors.append(f"{ident}: unknown instrument_id {row.get('instrument_id')!r}")
+        if row.get("mode_status") not in MODE_STATUSES:
+            errors.append(f"{ident}: invalid mode_status")
+        bands = set(filter(None, row.get("bands_supported", "").split("|")))
+        if not bands or not bands <= BANDS:
+            errors.append(f"{ident}: invalid bands_supported {sorted(bands - BANDS)}")
+        try:
+            lo, hi = float(row["wavelength_min_nm"]), float(row["wavelength_max_nm"])
+            resolution = float(row["resolving_power"])
+            if not 0 < lo < hi:
+                errors.append(f"{ident}: invalid wavelength range")
+            if resolution <= 0:
+                errors.append(f"{ident}: resolving_power must be positive")
+        except (KeyError, TypeError, ValueError):
+            errors.append(f"{ident}: non-numeric wavelength/resolution")
+    return errors
+
+
+def validate_holdings(path: Path = HOLDINGS) -> list[str]:
+    rows = _load_csv(path)
+    instrument_ids = {row["instrument_id"] for row in load_catalog()}
+    system_ids = {row["star_params_key"] for row in _load_csv(SYSTEMS)
+                  if row["star_params_key"]}
+    root = CATALOG.parents[2]
+    errors: list[str] = []
+    holding_ids: set[str] = set()
+    for line, row in enumerate(rows, start=2):
+        ident = row.get("holding_id", "")
+        if not ident or ident in holding_ids:
+            errors.append(f"holding line {line}: blank/duplicate holding_id {ident!r}")
+        holding_ids.add(ident)
+        if row.get("instrument_id") not in instrument_ids:
+            errors.append(f"{ident}: unknown instrument_id {row.get('instrument_id')!r}")
+        if row.get("system_id") not in system_ids:
+            errors.append(f"{ident}: unknown system_id {row.get('system_id')!r}")
+        manifest = row.get("manifest_path", "")
+        if not manifest or Path(manifest).is_absolute() or not (root / manifest).is_file():
+            errors.append(f"{ident}: missing/non-portable manifest_path {manifest!r}")
+        if row.get("evidence_state") not in EVIDENCE_STATES:
+            errors.append(f"{ident}: invalid evidence_state")
+    return errors
+
+
+def validate_all() -> list[str]:
+    return validate_catalog() + validate_modes() + validate_holdings()
 
 
 README_SELECTION = (
@@ -96,12 +169,15 @@ def render_markdown_table(path: Path = CATALOG) -> str:
 
 
 def main() -> int:
-    errors = validate_catalog()
+    errors = validate_all()
     if errors:
         print("\n".join(f"[FAIL] {error}" for error in errors))
         return 1
     rows = load_catalog()
-    print(f"[OK] {len(rows)} instrument/data-source records validated")
+    print(
+        f"[OK] {len(rows)} sources, {len(_load_csv(MODES))} modes, and "
+        f"{len(_load_csv(HOLDINGS))} holdings links validated"
+    )
     return 0
 
 

@@ -5,6 +5,10 @@ These machine-readable artifacts are the public metadata layer:
 - `system_catalog.csv` — one row per stellar system; target identity and lifecycle.
 - `instrument_catalog.csv` — one row per instrument/atlas capability; archives,
   wavelength coverage, preprocessing, and Codex support state.
+- `instrument_modes.csv` — mode/grating rows where a broad instrument envelope
+  would hide scientifically material coverage or resolving-power differences.
+- `holdings_manifest_registry.csv` — normalized, portable joins from systems and
+  instruments to repository evidence manifests; it contains no local file paths.
 - `../audit/element_status_tracker.csv` — canonical element/status artifact until
   a normalized `data/catalog/elements.csv` is ratified.
 
@@ -35,3 +39,15 @@ python -m data.catalog.instruments
 
 Do not add per-star file counts or claim holdings in the instrument master.
 Those belong in target-specific manifests and must reference `instrument_id`.
+
+## Companion schemas
+
+`instrument_modes.csv` uses `mode_id` as its primary key and `instrument_id` as
+a foreign key. Coverage remains numeric nanometers. A mode row must stay within
+the documented capability of its parent source.
+
+`holdings_manifest_registry.csv` uses `holding_id` as its primary key and joins
+`system_id` to `system_catalog.star_params_key` and `instrument_id` to the
+instrument register. `manifest_path` is repository-relative; `evidence_state`
+is `verified`, `audited`, `candidate`, or `rejected`. This registry asserts only
+that the named manifest contains the cited evidence, never a live file count.
