@@ -30,6 +30,11 @@ import sys
 
 import numpy as np
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
+                               fit_profile, local_renorm, measure_arm_rv,
+                               require_arm_rv)
+
 EXE   = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
          "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
@@ -42,7 +47,6 @@ INSPECT = "/mnt/codex-data/codex/_solar_tmp/Sr_Bergemann2012_INSPECT.csv"
 A_SUN = 2.83          # Asplund 2021 reference point (NOT a tuning target)
 XI    = 1.0           # solar microturbulence (matches the t01 MARCS node)
 VSINI = 1.8           # solar vsini (STAR_PARAMS)
-CLIGHT = 299792.458
 
 # Canonical Sr II lines: (wave_air, EP_eV, log_gf) from linelist_solar (single source).
 LINES = {
@@ -130,56 +134,6 @@ def bsyn(center, a_x, linelist, opac, lmin, lmax, tag):
     return d[:, 0], d[:, 1]
 
 
-def rot_kernel(dv, vsini, eps=0.6):
-    x = dv / vsini
-    m = np.abs(x) < 1.0
-    k = np.zeros_like(dv)
-    c1 = 2 * (1 - eps) / (np.pi * vsini * (1 - eps / 3.0))
-    c2 = 0.5 * eps / (vsini * (1 - eps / 3.0))
-    k[m] = c1 * np.sqrt(1 - x[m] ** 2) + c2 * (1 - x[m] ** 2)
-    return k
-
-
-def broaden(wl, fl, vsini, gsig_kms):
-    """Rotational (vsini) then Gaussian (gsig_kms, absorbing vmac+instrumental)."""
-    step = wl[1] - wl[0]
-    cen = np.median(wl)
-    dv = (wl - cen) / cen * CLIGHT
-    out = fl
-    if vsini > 0.1:
-        kv = np.arange(-vsini * 1.2, vsini * 1.2 + step, step) / cen * CLIGHT
-        rk = rot_kernel(kv, vsini)
-        if rk.sum() > 0:
-            rk /= rk.sum()
-            out = np.convolve(1 - out, rk, mode='same')
-            out = 1 - out
-    if gsig_kms > 0.05:
-        gsig_A = gsig_kms / CLIGHT * cen
-        n = int(np.ceil(4 * gsig_A / step))
-        gx = np.arange(-n, n + 1) * step
-        gk = np.exp(-0.5 * (gx / gsig_A) ** 2); gk /= gk.sum()
-        out = np.convolve(1 - out, gk, mode='same'); out = 1 - out
-    return out
-
-
-def local_renorm(w, f, center, hw):
-    """Divide observed flux by a linear continuum fit to the top-percentile points
-    in the [center-hw-1, center+hw+1] window edges."""
-    win = (w > center - hw - 1.2) & (w < center + hw + 1.2)
-    ww, ff = w[win], f[win]
-    if len(ww) < 20:
-        return w, f, win
-    edge = (ww < center - hw * 0.7) | (ww > center + hw * 0.7)
-    xe, ye = ww[edge], ff[edge]
-    if len(xe) < 6:
-        return ww, ff, win
-    thr = np.percentile(ye, 70)
-    keep = ye >= thr
-    c = np.polyfit(xe[keep], ye[keep], 1)
-    cont = np.polyval(c, ww)
-    return ww, ff / np.clip(cont, 1e-3, None), win
-
-
 def load_harps():
     import csv
     w, f = [], []
@@ -215,53 +169,18 @@ def load_iag(repo="/mnt/codex-data/codex/repo"):
 
 
 def fit_line(center, obs_w, obs_f, synth):
-    """synth = dict A -> (wl, fl_norm). Fit A by min chi2 over the fit window, with a
-    joint Gaussian broadening nuisance (grid) + fixed rotational vsini."""
-    hw = LINES[center]['fit_hw']
-    ww, ff, _ = local_renorm(obs_w, obs_f, center, hw)
-    fitm = (ww > center - hw) & (ww < center + hw)
-    if fitm.sum() < 10:
-        return None
-    xo, yo = ww[fitm], ff[fitm]
-    gsig_grid = np.arange(1.5, 7.0, 0.5)    # km/s combined macro+instrumental
-    best = dict(chi2=1e30)
-    for a, (sw, sf) in synth.items():
-        for gs in gsig_grid:
-            sb = broaden(sw, sf, VSINI, gs)
-            ys = np.interp(xo, sw, sb)
-            chi2 = float(np.sum((yo - ys) ** 2)) / max(len(xo) - 2, 1) / (0.01 ** 2)
-            if chi2 < best['chi2']:
-                best = dict(chi2=chi2, A=float(a), gsig=float(gs), npix=int(len(xo)))
-    # parabolic refine in A around the min (fixed gsig)
-    gs = best['gsig']
-    As = np.array(sorted(synth))
-    chis = []
-    for a in As:
-        sw, sf = synth[a]
-        sb = broaden(sw, sf, VSINI, gs)
-        ys = np.interp(xo, sw, sb)
-        chis.append(np.sum((yo - np.interp(xo, sw, sb)) ** 2))
-    chis = np.array(chis)
-    k = int(np.argmin(chis))
-    A_ref = float(As[k])
-    if 0 < k < len(As) - 1:
-        d = chis[k + 1] - 2 * chis[k] + chis[k - 1]
-        if d > 0:
-            A_ref = float(As[k] - 0.5 * (chis[k + 1] - chis[k - 1]) / d * (As[1] - As[0]))
-    best['A'] = A_ref
-    best['red_chi2'] = best['chi2']
-    # sensitivity: change in synthetic core EW (mA) per dex A near the fit (dEW/dA).
-    # A weak / blend-dominated line barely responds -> low sensitivity -> unreliable.
-    def _core_ew(a):
-        aa = min(A_HI, max(A_LO, a))
-        k = int(np.argmin(np.abs(As - aa)))
-        sw, sf = synth[float(As[k])]
-        sb = broaden(sw, sf, VSINI, gs)
-        m = (sw > center - 0.4) & (sw < center + 0.4)
-        return float(np.trapz(1 - sb[m], sw[m]) * 1000.0)
-    best['dEW_dA'] = round(abs(_core_ew(A_ref + 0.15) - _core_ew(A_ref - 0.15)) / 0.30, 1)
-    best['railed'] = bool(A_ref <= A_LO + 0.03 or A_ref >= A_HI - 0.03)
-    return best
+    """Thin adapter onto the SHARED fitter (scripts/solar_profile_fit.fit_profile).
+
+    RYA-643: this harness previously carried its OWN copy of the fitter, which is how
+    it kept the two defects RYA-592 fixed in ITS copy — (a) no rest-frame handling at
+    all, so the fit compared the observed profile against rest-frame synthesis while
+    the solar arms carry a real velocity offset, and (b) a broadening grid starting at
+    1.5 km/s that the fit railed against. Both now come from the single shared source;
+    dv is fitted as a nuisance and cross-checked against the abundance-blind
+    measure_arm_rv()."""
+    return fit_profile(center, obs_w, obs_f, synth,
+                       hw=LINES[center]['fit_hw'], vsini=VSINI,
+                       a_lo=A_LO, a_hi=A_HI)
 
 
 def main():
@@ -282,6 +201,16 @@ def main():
         print(f"  IAG load FAILED ({e}); HARPS-only")
 
     results = {}
+    # RYA-643: the rest-frame correction must be SOURCED from a measurement on
+    # each arm being fitted — never hardcoded, never a silent zero. Loud-fails if
+    # the clean check lines cannot deliver one.
+    arm_rv = {}
+    print('  residual velocity per arm (clean-line centroids, abundance-blind):')
+    for _arm, (_ow, _of) in arms.items():
+        _v, _n, _sd = require_arm_rv(_ow, _of, _arm)
+        arm_rv[_arm] = dict(v_kms=round(_v, 3), n_lines=_n, scatter_kms=round(_sd, 3))
+        print(f'    {_arm:6s}: {_v:+.3f} km/s (n={_n}, scatter {_sd:.3f})')
+
     for center, cfg in LINES.items():
         print(f"\n=== Sr II {center} (EP {cfg['ep']}, canonical loggf {cfg['loggf']}) ===")
         ll = patch_linelist(center, cfg['vald'])
@@ -303,7 +232,10 @@ def main():
                 continue
             a_lte = fit['A']
             a_nlte = a_lte + delta if delta is not None else a_lte
-            rec[arm] = dict(A_LTE=round(a_lte, 3), A_NLTE=round(a_nlte, 3),
+            rec[arm] = dict(dv_fitted_kms=round(fit['dv'], 2),
+                            dv_measured_kms=arm_rv[arm]['v_kms'],
+                            gsig_railed=fit['gsig_railed'],
+                            A_LTE=round(a_lte, 3), A_NLTE=round(a_nlte, 3),
                             gsig_kms=round(fit['gsig'], 2),
                             red_chi2=round(fit['red_chi2'], 2), npix=fit['npix'],
                             dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'],
@@ -316,6 +248,18 @@ def main():
     with open(f"{W}/rya551_sr2_synth_result.json", "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nWrote {W}/rya551_sr2_synth_result.json")
+
+    # RYA-643: also write the COMMITTED artifact directly. This script previously wrote
+    # only to the Sirius work dir and data/results/sr2_synthesis_rya551.json was placed
+    # there by hand — a manual copy step between "what the harness computed" and "what
+    # the repo carries" is exactly where a stale value hides. Same path, one writer.
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    out_dir = os.path.join(root, "data", "results")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "sr2_synthesis_rya551.json")
+    with open(out_path, "w") as f:
+        json.dump(results, f, indent=2)
+    print(f"Wrote {out_path}")
 
 
 if __name__ == '__main__':

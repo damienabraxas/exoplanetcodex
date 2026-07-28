@@ -53,6 +53,11 @@ import sys
 
 import numpy as np
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
+                               fit_profile, local_renorm, measure_arm_rv,
+                               require_arm_rv)
+
 EXE    = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
 GES    = ("/mnt/codex-data/engines/Turbospectrum_NLTE/COM/linelists/"
@@ -73,7 +78,6 @@ TREF, LOGGREF, ZREF = "5750", "+4.50", "+0.00"      # nearest MARCS node (RYA-53
 
 XI     = 1.0            # solar microturbulence (matches the t01 MARCS node)
 VSINI  = 1.8            # solar vsini (STAR_PARAMS)
-CLIGHT = 299792.458
 
 # RYA-534 published/banked Co anchor — used ONLY to CHECK the per-line deltas this run
 # computes (cross-engine sanity), never to set them.
@@ -374,52 +378,6 @@ def bsyn(a_x, linelists, opac, lmin, lmax, tag, nlte=False, nlteinfo=None):
 
 
 # ────────────────────────────── observed arms + fitting ──────────────────────────────
-def rot_kernel(dv, vsini, eps=0.6):
-    x = dv / vsini
-    m = np.abs(x) < 1.0
-    k = np.zeros_like(dv)
-    c1 = 2 * (1 - eps) / (np.pi * vsini * (1 - eps / 3.0))
-    c2 = 0.5 * eps / (vsini * (1 - eps / 3.0))
-    k[m] = c1 * np.sqrt(1 - x[m] ** 2) + c2 * (1 - x[m] ** 2)
-    return k
-
-
-def broaden(wl, fl, vsini, gsig_kms):
-    step = wl[1] - wl[0]
-    cen = np.median(wl)
-    out = fl
-    if vsini > 0.1:
-        kv = np.arange(-vsini * 1.2, vsini * 1.2 + step, step) / cen * CLIGHT
-        rk = rot_kernel(kv, vsini)
-        if rk.sum() > 0:
-            rk /= rk.sum()
-            out = 1 - np.convolve(1 - out, rk, mode='same')
-    if gsig_kms > 0.05:
-        gsig_A = gsig_kms / CLIGHT * cen
-        n = int(np.ceil(4 * gsig_A / step))
-        gx = np.arange(-n, n + 1) * step
-        gk = np.exp(-0.5 * (gx / gsig_A) ** 2)
-        gk /= gk.sum()
-        out = 1 - np.convolve(1 - out, gk, mode='same')
-    return out
-
-
-def local_renorm(w, f, center, hw):
-    win = (w > center - hw - 1.2) & (w < center + hw + 1.2)
-    ww, ff = w[win], f[win]
-    if len(ww) < 20:
-        return w, f, win
-    edge = (ww < center - hw * 0.7) | (ww > center + hw * 0.7)
-    xe, ye = ww[edge], ff[edge]
-    if len(xe) < 6:
-        return ww, ff, win
-    thr = np.percentile(ye, 70)
-    keep = ye >= thr
-    c = np.polyfit(xe[keep], ye[keep], 1)
-    cont = np.polyval(c, ww)
-    return ww, ff / np.clip(cont, 1e-3, None), win
-
-
 def load_harps():
     w, f = [], []
     with open(HARPS) as fh:
@@ -454,48 +412,13 @@ def load_iag(root):
 
 
 def fit_line(center, cfg, obs_w, obs_f, synth):
-    """Flux fit: joint (A, gsig) grid search then a parabolic refinement of A at the best
-    gsig. Reports the core-EW sensitivity dEW/dA — the RYA-551/560 reliability statistic."""
-    hw = cfg['fit_hw']
-    ww, ff, _ = local_renorm(obs_w, obs_f, center, hw)
-    fitm = (ww > center - hw) & (ww < center + hw)
-    if fitm.sum() < 10:
-        return None
-    xo, yo = ww[fitm], ff[fitm]
-    gsig_grid = np.arange(1.5, 7.0, 0.5)
-    best = dict(chi2=1e30)
-    for a, (sw, sf) in synth.items():
-        for gs in gsig_grid:
-            sb = broaden(sw, sf, VSINI, gs)
-            chi2 = float(np.sum((yo - np.interp(xo, sw, sb)) ** 2)) / max(len(xo) - 2, 1) / (0.01 ** 2)
-            if chi2 < best['chi2']:
-                best = dict(chi2=chi2, A=float(a), gsig=float(gs), npix=int(len(xo)))
-    gs = best['gsig']
-    As = np.array(sorted(synth))
-    chis = np.array([float(np.sum((yo - np.interp(xo, synth[float(a)][0],
-                                                  broaden(*synth[float(a)], VSINI, gs))) ** 2))
-                     for a in As])
-    k = int(np.argmin(chis))
-    A_ref = float(As[k])
-    if 0 < k < len(As) - 1:
-        d = chis[k + 1] - 2 * chis[k] + chis[k - 1]
-        if d > 0:
-            A_ref = float(As[k] - 0.5 * (chis[k + 1] - chis[k - 1]) / d * (As[1] - As[0]))
-    best['A'] = A_ref
-    best['red_chi2'] = best['chi2']
+    """Thin adapter onto the SHARED fitter (scripts/solar_profile_fit.fit_profile).
 
-    def _core_ew(a):
-        aa = min(A_HI, max(A_LO, a))
-        kk = int(np.argmin(np.abs(As - aa)))
-        sw, sf = synth[float(As[kk])]
-        sb = broaden(sw, sf, VSINI, gs)
-        m = (sw > center - 0.4) & (sw < center + 0.4)
-        return float(np.trapz(1 - sb[m], sw[m]) * 1000.0)
-
-    best['dEW_dA'] = round(abs(_core_ew(A_ref + 0.15) - _core_ew(A_ref - 0.15)) / 0.30, 1)
-    best['core_EW_mA'] = round(_core_ew(A_ref), 2)
-    best['railed'] = bool(A_ref <= A_LO + 0.03 or A_ref >= A_HI - 0.03)
-    return best
+    RYA-643 lineage audit: this harness was a FOURTH copy of the RYA-551 fitter and
+    carried both defects RYA-592 fixed in its own copy — no rest-frame handling, and a
+    broadening grid the fit railed against at its 1.5 km/s floor. Now single-sourced."""
+    return fit_profile(center, obs_w, obs_f, synth,
+                       hw=cfg['fit_hw'], vsini=VSINI, a_lo=A_LO, a_hi=A_HI)
 
 
 def nlte_delta(center, co_list, nlteinfo, model, opac_nlte, lmin, lmax):
@@ -570,6 +493,16 @@ def main():
     except Exception as e:
         print(f"IAG load FAILED ({e}); HARPS-only")
 
+    # RYA-643: the rest-frame correction must be SOURCED from a measurement on
+    # each arm being fitted — never hardcoded, never a silent zero. Loud-fails if
+    # the clean check lines cannot deliver one.
+    arm_rv = {}
+    print('  residual velocity per arm (clean-line centroids, abundance-blind):')
+    for _arm, (_ow, _of) in arms.items():
+        _v, _n, _sd = require_arm_rv(_ow, _of, _arm)
+        arm_rv[_arm] = dict(v_kms=round(_v, 3), n_lines=_n, scatter_kms=round(_sd, 3))
+        print(f'    {_arm:6s}: {_v:+.3f} km/s (n={_n}, scatter {_sd:.3f})')
+
     centers = sorted(LINES) if not args.only else [c for c in sorted(LINES)
                                                    if any(abs(c - o) < 0.05 for o in args.only)]
     results = {'_meta': dict(
@@ -632,7 +565,10 @@ def main():
             reliable = bool((not fit['railed'])
                             and fit['dEW_dA'] >= RELIABLE_DEWDA
                             and fit['red_chi2'] <= RELIABLE_RCHI2)
-            rec[arm] = dict(A_LTE=round(a_lte, 3), A_NLTE=round(a_nlte, 3),
+            rec[arm] = dict(dv_fitted_kms=round(fit['dv'], 2),
+                            dv_measured_kms=arm_rv[arm]['v_kms'],
+                            gsig_railed=fit['gsig_railed'],
+                            A_LTE=round(a_lte, 3), A_NLTE=round(a_nlte, 3),
                             nlte_delta=dl['delta'], gsig_kms=round(fit['gsig'], 2),
                             red_chi2=round(fit['red_chi2'], 2), npix=fit['npix'],
                             core_EW_mA=fit['core_EW_mA'], dEW_dA_mA_dex=fit['dEW_dA'],
