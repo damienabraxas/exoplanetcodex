@@ -52,6 +52,10 @@ import sys
 
 import numpy as np
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from solar_profile_fit import (CLIGHT, GSIG_GRID, broaden,  # noqa: E402,F401
+                               fit_profile, local_renorm, measure_arm_rv)
+
 EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
          "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
@@ -65,7 +69,6 @@ IAG = "/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz"
 Z_MG = 12             # Mg atomic number (bsyn INDIVIDUAL ABUNDANCES element)
 XI = 1.0              # solar microturbulence (matches the t01 MARCS node)
 VSINI = 1.8           # solar vsini (STAR_PARAMS)
-CLIGHT = 299792.458
 
 # Canonical Mg I lines: (wave_air, EP_eV, log_gf) — the CANONICAL single-source gf
 # from data/linelists/canonical_gf.csv; verify_canonical_gf() asserts these match the
@@ -97,20 +100,10 @@ RELIABLE_DEWDA = 40.0     # mA/dex core-EW sensitivity floor (as RYA-551/560)
 # result.
 CONCORDANCE_BAND = 0.10
 
-# Rest-frame fit (RYA-309): the flux fit compares REST-frame synthetic flux to the
-# observed profile, so a residual velocity offset misaligns the cores, inflates chi2
-# and biases the broadening. The solar HARPS arm carries an uncorrected +0.8 km/s
-# (measured independently below from 9 clean Fe/Si line centroids), so dv is fitted as
-# a NUISANCE parameter and cross-checked against that measurement. dv is never tuned
-# toward an abundance — it is checked against the centroids, which know nothing about A.
-DV_GRID = np.round(np.arange(-1.5, 2.55, 0.10), 2)      # km/s
-GSIG_GRID = np.round(np.arange(0.4, 8.01, 0.20), 2)     # km/s (vmac + instrumental)
-
-# Clean, unblended solar lines used ONLY to measure the arm's residual velocity, as an
-# independent check on the fitted dv. Air wavelengths; no abundance information is taken
-# from them.
-RV_CHECK_LINES = [5522.446, 5525.544, 5615.644, 5679.023, 5686.530,
-                  5701.104, 5701.544, 5709.378, 5731.762]
+# Rest-frame fit + broadening grid: RYA-592 fixed both defects HERE, which is exactly
+# how RYA-551/560 were left carrying them. Both now live in ONE place —
+# scripts/solar_profile_fit.py (RYA-643) — and every harness imports them. Do not
+# re-inline these; a fourth copy is how this recurs.
 
 # Committed per-engine 5711 solar deltas — the validate-don't-tune CONTROLS.
 CTRL_TOL = 0.005          # dex; a re-derivation must land this close to its committed value
@@ -405,55 +398,6 @@ def bsyn(center, a_x, linelist, opac, lmin, lmax, tag):
     return d[:, 0], d[:, 1]
 
 
-def rot_kernel(dv, vsini, eps=0.6):
-    x = dv / vsini
-    m = np.abs(x) < 1.0
-    k = np.zeros_like(dv)
-    c1 = 2 * (1 - eps) / (np.pi * vsini * (1 - eps / 3.0))
-    c2 = 0.5 * eps / (vsini * (1 - eps / 3.0))
-    k[m] = c1 * np.sqrt(1 - x[m] ** 2) + c2 * (1 - x[m] ** 2)
-    return k
-
-
-def broaden(wl, fl, vsini, gsig_kms):
-    """Rotational (vsini) then Gaussian (gsig_kms, absorbing vmac+instrumental)."""
-    step = wl[1] - wl[0]
-    cen = np.median(wl)
-    out = fl
-    if vsini > 0.1:
-        kv = np.arange(-vsini * 1.2, vsini * 1.2 + step, step) / cen * CLIGHT
-        rk = rot_kernel(kv, vsini)
-        if rk.sum() > 0:
-            rk /= rk.sum()
-            out = np.convolve(1 - out, rk, mode='same')
-            out = 1 - out
-    if gsig_kms > 0.05:
-        gsig_A = gsig_kms / CLIGHT * cen
-        n = int(np.ceil(4 * gsig_A / step))
-        gx = np.arange(-n, n + 1) * step
-        gk = np.exp(-0.5 * (gx / gsig_A) ** 2)
-        gk /= gk.sum()
-        out = np.convolve(1 - out, gk, mode='same')
-        out = 1 - out
-    return out
-
-
-def local_renorm(w, f, center, hw):
-    win = (w > center - hw - 1.2) & (w < center + hw + 1.2)
-    ww, ff = w[win], f[win]
-    if len(ww) < 20:
-        return w, f, win
-    edge = (ww < center - hw * 0.7) | (ww > center + hw * 0.7)
-    xe, ye = ww[edge], ff[edge]
-    if len(xe) < 6:
-        return ww, ff, win
-    thr = np.percentile(ye, 70)
-    keep = ye >= thr
-    c = np.polyfit(xe[keep], ye[keep], 1)
-    cont = np.polyval(c, ww)
-    return ww, ff / np.clip(cont, 1e-3, None), win
-
-
 def load_harps():
     w, f = [], []
     with open(HARPS) as fh:
@@ -489,90 +433,13 @@ def load_iag(root):
     return lam_air[idx], fl[idx]
 
 
-def measure_arm_rv(obs_w, obs_f):
-    """Residual velocity of an arm from parabolic core centroids of clean, unblended
-    solar lines (RYA-309 _measure_rv_kms in spirit). Abundance-blind: it is the
-    independent check that the fitted nuisance dv is a real wavelength offset and not
-    the fit absorbing a profile mismatch."""
-    vs = []
-    for lam0 in RV_CHECK_LINES:
-        m = (obs_w > lam0 - 0.12) & (obs_w < lam0 + 0.12)
-        if m.sum() < 8:
-            continue
-        x, y = obs_w[m], obs_f[m]
-        k = int(np.argmin(y))
-        sl = slice(max(k - 3, 0), min(k + 4, len(x)))
-        if sl.stop - sl.start < 4:
-            continue
-        c = np.polyfit(x[sl], y[sl], 2)
-        if c[0] <= 0:
-            continue
-        vs.append((-c[1] / (2 * c[0]) - lam0) / lam0 * CLIGHT)
-    if not vs:
-        return None, 0, 0.0
-    return float(np.median(vs)), len(vs), float(np.std(vs))
-
-
 def fit_line(center, obs_w, obs_f, synth):
-    """chi2 profile fit of A(Mg) over the fit window (NOT an isolated-line EW inversion).
-
-    Free parameters: A(Mg) [the measurement], plus two nuisance parameters — gsig (vmac
-    + instrumental Gaussian) and dv (residual velocity, RYA-309: the fit is against
-    REST-frame synthetic flux, and this solar arm carries ~+0.8 km/s). Returns the
-    fitted A_LTE, the quality metrics the reliability gate needs, and the OBSERVED EW
-    over the fit window (used for the ratified saturation-knee routing)."""
-    hw = LINES[center]['fit_hw']
-    ww, ff, _ = local_renorm(obs_w, obs_f, center, hw)
-    pad = (ww > center - hw - 0.05) & (ww < center + hw + 0.05)
-    if pad.sum() < 10:
-        return None
-    wp, fp = ww[pad], ff[pad]
-    best = dict(chi2=1e30)
-    for a, (sw, sf) in synth.items():
-        for gs in GSIG_GRID:
-            sb = broaden(sw, sf, VSINI, gs)
-            for dv in DV_GRID:
-                xo = wp / (1 + dv / CLIGHT)      # shift the OBSERVED to rest
-                sel = (xo > center - hw) & (xo < center + hw)
-                if sel.sum() < 10:
-                    continue
-                r = fp[sel] - np.interp(xo[sel], sw, sb)
-                chi2 = float(np.sum(r ** 2)) / max(int(sel.sum()) - 3, 1) / (0.01 ** 2)
-                if chi2 < best['chi2']:
-                    best = dict(chi2=chi2, A=float(a), gsig=float(gs), dv=float(dv),
-                                npix=int(sel.sum()))
-    gs, dv = best['gsig'], best['dv']
-    xo = wp / (1 + dv / CLIGHT)
-    sel = (xo > center - hw) & (xo < center + hw)
-    xo, yo = xo[sel], fp[sel]
-    As = np.array(sorted(synth))
-    chis = []
-    for a in As:
-        sw, sf = synth[a]
-        sb = broaden(sw, sf, VSINI, gs)
-        chis.append(np.sum((yo - np.interp(xo, sw, sb)) ** 2))
-    chis = np.array(chis)
-    k = int(np.argmin(chis))
-    A_ref = float(As[k])
-    if 0 < k < len(As) - 1:
-        d = chis[k + 1] - 2 * chis[k] + chis[k - 1]
-        if d > 0:
-            A_ref = float(As[k] - 0.5 * (chis[k + 1] - chis[k - 1]) / d * (As[1] - As[0]))
-    best['A'] = A_ref
-    best['red_chi2'] = best['chi2']
-    best['gsig_railed'] = bool(gs <= GSIG_GRID[0] + 1e-9 or gs >= GSIG_GRID[-1] - 1e-9)
-    best['obs_ew_mA'] = float(np.trapz(1 - yo, xo) * 1000.0)
-
-    def _core_ew(a):
-        aa = min(A_HI, max(A_LO, a))
-        kk = int(np.argmin(np.abs(As - aa)))
-        sw, sf = synth[float(As[kk])]
-        sb = broaden(sw, sf, VSINI, gs)
-        m = (sw > center - 0.4) & (sw < center + 0.4)
-        return float(np.trapz(1 - sb[m], sw[m]) * 1000.0)
-    best['dEW_dA'] = round(abs(_core_ew(A_ref + 0.15) - _core_ew(A_ref - 0.15)) / 0.30, 1)
-    best['railed'] = bool(A_ref <= A_LO + 0.03 or A_ref >= A_HI - 0.03)
-    return best
+    """Thin adapter onto the SHARED fitter (scripts/solar_profile_fit.fit_profile,
+    RYA-643) — the rest-frame dv nuisance and the broadening grid live there, once,
+    so Sr II / Zr II / Mg I cannot drift apart again."""
+    return fit_profile(center, obs_w, obs_f, synth,
+                       hw=LINES[center]['fit_hw'], vsini=VSINI,
+                       a_lo=A_LO, a_hi=A_HI)
 
 
 # ── main ────────────────────────────────────────────────────────────────────
