@@ -1,0 +1,12 @@
+# RYA-399 — solar 3D abundance corrections for the GET-3D metals (Si/Ti/Cr).
+# delta_3d = the 3D DIMENSIONAL correction A(3D)-A(1D) (at fixed NLTE), to be ADDED
+#   on top of the existing 1D-NLTE pass:  A(3D-NLTE) = A(1D-NLTE) + delta_3d.
+#   (Mirrors the C/N/O 3D leg in pipeline.nlte_cno.)
+# Solar node only (Teff 5772, logg 4.44, [Fe/H] 0). Values are PUBLISHED solar
+# corrections (validate-don't-tune: independent literature, never fit to our residual).
+# All |delta_3d| <= 0.1 dex -- far below the +0.38/+0.50/+0.40 graded residuals
+# (RYA-398), and POSITIVE for Ti/Cr -> 3D is NOT the lever; residual carried forward.
+element,ion,teff_K,logg,feh,delta_3d,delta_3d_unc,kind,source
+Si,1,5772,4.44,0.0,-0.01,0.01,3D_dimensional_increment_on_1D_NLTE,"Amarsi & Asplund 2017 (MNRAS 464, 264) 3D non-LTE Si; Scott+2015 I (A&A 573, A25)"
+Ti,1,5772,4.44,0.0,0.06,0.03,3D_dimensional_increment_on_1D_NLTE,"Scott et al. 2015 II (A&A 573, A26) solar 3D Ti I"
+Cr,1,5772,4.44,0.0,0.03,0.02,3D_dimensional_increment_on_1D_NLTE,"Scott et al. 2015 II (A&A 573, A26) solar 3D Cr I"

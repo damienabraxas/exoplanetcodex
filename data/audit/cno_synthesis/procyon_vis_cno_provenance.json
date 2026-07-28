@@ -1,0 +1,127 @@
+{
+  "abundances": {
+    "C": 8.324,
+    "N": 9.788,
+    "O": 9.417,
+    "C/O": 0.081
+  },
+  "iterations": 4,
+  "converged": true,
+  "flags": [],
+  "uncertainty": {
+    "C": {
+      "stat": 0.064,
+      "sys": 0.11,
+      "tot": 0.127
+    },
+    "N": {
+      "stat": 0.052,
+      "sys": 0.292,
+      "tot": 0.297
+    },
+    "O": {
+      "stat": 0.015,
+      "sys": 0.047,
+      "tot": 0.049
+    }
+  },
+  "provenance": {
+    "engine": "pipeline.cno_synthesis (RYA-237)",
+    "rt_code": "turbospectrum",
+    "region": "vis",
+    "instrument": "HARPS",
+    "R_LSF": 115000.0,
+    "atomic_linelist": "GESv6_atom_hfs_iso (canonical-gf via gf_resolver, RYA-353)",
+    "molecular_lists": "molecules/*.bsyn (RYA-236: CH/CN/C2/CO/OH/NH)",
+    "broadening": {
+      "R": 115000.0,
+      "vmac": 6.0,
+      "vsini": 2.8,
+      "source": "GBS: Heiter+2015 (Teff/logg), Jofr\u00e9+2014 ([Fe/H], \u03be=1.8); broadening: Bruntt+2010 vsini=2.8 + adopted RT vmac=6.0 (Gray scale; FT estimator deferred to RYA-316)",
+      "rule": "per-star RYA-288"
+    },
+    "nlte": {
+      "backend": "lte_by_design",
+      "policy": "VIS synthesis is 1D-LTE; Phase-A cited corrections applied on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; [O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, no hardcoded offset); CH/CN/C2 molecular 3D offset OWED"
+    },
+    "phase_a_corrections": [
+      {
+        "key": "CH_Gband",
+        "element": "C",
+        "role": "primary",
+        "a_lte": 8.324,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.324,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CI_5052",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.526,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.501,
+        "delta": -0.025,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 505.2nm 3D-NLTE leg (1D)"
+      },
+      {
+        "key": "CI_5380",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.32,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.304,
+        "delta": -0.016,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 538.0nm 3D-NLTE leg (1D)"
+      },
+      {
+        "key": "C2_Swan",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.557,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.557,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CN_red",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 9.788,
+        "kind": "3d_offset_owed",
+        "a_corr": 9.788,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "OI_6300",
+        "element": "O",
+        "role": "primary",
+        "a_lte": 9.417,
+        "kind": "cited_3d_anchor",
+        "a_corr": 8.73,
+        "delta": -0.687,
+        "flag": "3d_lte_caffau2015",
+        "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).",
+        "unc": 0.05
+      }
+    ],
+    "solar_reference": "Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021",
+    "params": {
+      "teff_K": 6554.0,
+      "logg": 4.0,
+      "feh": 0.03,
+      "vturb_kms": 1.8
+    },
+    "caveats": [
+      "Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver = Johansson+2003 log gf -2.11 (RYA-365). Broader store-#2 per-star-master reroute remains the RYA-353 follow-on umbrella."
+    ]
+  }
+}

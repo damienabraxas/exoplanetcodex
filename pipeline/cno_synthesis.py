@@ -29,11 +29,20 @@ Plugs into (already on main):
   * the sign-corrected NLTE module (RYA-339) — wired as a pluggable per-arm hook.
 
 Molecular bands: iSpec's Turbospectrum wrapper auto-includes
-`input/linelists/turbospectrum/molecules/*.bsyn` (CH Masseron, CN Brooke+Sneden,
-C2, OH, NH, CO; RYA-236, verified at the iSpec tool path) whenever
-`use_molecules=True`. Setting C/N/O as fixed abundances feeds babsma's molecular
-equilibrium, so the band depths respond to A(C)/A(N)/A(O) — that coupling is the
-whole point of synthesizing CNO.
+`input/linelists/turbospectrum/molecules/*.bsyn` whenever `use_molecules=True`.
+Coverage is band-specific (RYA-360 measured spans; molecules-dir README = Gerber
+et al. 2023 / Masseron VALD compilation, 420–920 nm):
+  * CH, CN, C2, OH, NH — held as **400–950 nm ELECTRONIC bands only** (measured
+    spans ≈4200–9200 Å). Their mid-IR ro-vibrational fundamentals are NOT held
+    (0 rows in the OH/NH/CH fundamental windows — confirmed by measurement,
+    RYA-360/499); acquiring those is RYA-503.
+  * CO — the mid-IR exception: `CO_IR_Li2015.dat` (ExoMol Li+2015, RYA-236) is a
+    genuine mid-IR ro-vibrational list (spans NIR overtones through the ~4.6 µm
+    fundamental).
+All are vendored + guarded (RYA-360: data/linelists/molecular/turbospectrum/ +
+the [molecular] stewardship invariant). Setting C/N/O as fixed abundances feeds
+babsma's molecular equilibrium, so the band depths respond to A(C)/A(N)/A(O) —
+that coupling is the whole point of synthesizing CNO.
 
 NLTE — VIS arm is LTE-correct by physics (run scope, Ryan 2026-06-19; this is
 correct treatment, NOT a silent fallback — see `VIS_NLTE_POLICY`):
@@ -59,13 +68,14 @@ import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
 import pandas as pd
 from scipy.optimize import minimize_scalar
 from scipy.interpolate import interp1d
 
 from config.constants import (
-    PATHS, SOLAR_ASPLUND2021, HARPS_R, ISPEC_DIR, get_star_params,
+    PATHS, SOLAR_ASPLUND2021, HARPS_R, ISPEC_DIR, get_star_params, ROOT,
 )
 # Reuse the synth-v2 core (RYA-285/287/288/353) — same atmosphere interpolation,
 # linelist (canonical-gf rescaled), isotopes, observed-spectrum loader and
@@ -79,12 +89,129 @@ from pipeline.abundances_derive import (
     _ISPEC_SOLAR_ABUND_FILE,
 )
 from pipeline.gf_resolver import resolve as resolve_gf   # RYA-365: canonical Ni gf assert
+from pipeline import nlte_cno   # RYA-359: vendored Amarsi 2019 C I / O I 3D-NLTE grid (Phase-A C I correction)
+from pipeline.spectra_normalize import fit_continuum   # RYA-371: arm co-add continuum (same machinery as HARPS)
+from pipeline.loaders import hst_uv_loader as _hst_uv   # RYA-471: HST STIS/COS UV arm loader + diagnostics
 
 # Molecular line lists (RYA-236) — iSpec globs this dir when use_molecules=True.
 _MOLECULES_DIR = ISPEC_DIR / 'input' / 'linelists' / 'turbospectrum' / 'molecules'
 
 # χ²ᵣ fit-quality gate per band (the established synth convention, RYA-342).
 from config.constants import SYNTH_CHI2_GATE
+
+
+# ── Reflected-solar arm loader (RYA-371 Phase A multi-arm) ────────────────────
+# Co-add + continuum-normalize the RYA-372 rest-frame conditioned ESPRESSO/UVES
+# frames into ONE normalized spectrum per arm for synthesis. The 372 --write emits
+# ONLY PASS frames (held-out rest-frame residual < 0.5 km/s); we re-assert rest-frame
+# readiness from the manifest and LOUD-FAIL otherwise — the Phase-A "wiring check
+# FIRST" rule (never synthesize against raw velocity-shifted spectra). FLUXCAL flux is
+# rescaled to ~unity before fit_continuum (which floors the continuum at 1e-6; the raw
+# ESPRESSO FLUXCAL flux is ~1e-12, so un-rescaled it normalizes to ~0).
+_REFLECTED_DIR = Path(__file__).resolve().parents[1] / 'data' / 'processed' / 'reflected_solar'
+
+
+def _load_reflected_solar_arm(inst: str, closure_tol_kms: float = 1.5) -> tuple:
+    """RYA-372 rest-frame ESPRESSO/UVES → (wave_nm, flux_norm), co-added + normalized.
+    Loud-fails if the rest-frame product is absent or no PASS frame is rest-frame
+    verified (no silent use of unconditioned data)."""
+    man = _REFLECTED_DIR / f'vesta_{inst}_manifest.csv'
+    if not man.exists():
+        raise FileNotFoundError(
+            f"RYA-372 rest-frame manifest absent: {man}. Run `python -m "
+            f"pipeline.reflected_solar_rv --set vesta_{inst} --write` first — Phase A "
+            f"consumes the 372 rest-frame product, NOT raw velocity-shifted spectra.")
+    mf = pd.read_csv(man)
+    passed = mf[mf['status'].astype(str) == 'PASS']
+    if passed.empty:
+        raise RuntimeError(f"No PASS (rest-frame-verified) {inst} frame in {man.name}; "
+                           f"refusing to synthesize against unconditioned data.")
+    cl = pd.to_numeric(passed['closure_resid'], errors='coerce').abs()
+    if cl.notna().any() and cl.max() > closure_tol_kms:
+        raise RuntimeError(f"{inst}: max telluric-closure residual {cl.max():.2f} km/s "
+                           f"> {closure_tol_kms} — rest frame NOT verified, refusing.")
+    frames = []
+    for _, r in passed.iterrows():
+        p = _REFLECTED_DIR / str(r['output'])
+        if not p.exists():
+            continue
+        d = pd.read_csv(p, comment='#')
+        w = d['wavelength_air_A'].to_numpy(float)
+        fl = d['flux'].to_numpy(float)
+        m = np.isfinite(fl) & (fl > 0)
+        if m.sum() > 1000:
+            frames.append((w[m], fl[m]))
+    if not frames:
+        raise RuntimeError(f"{inst}: PASS manifest rows present but no readable rest-frame files.")
+    lo = min(w.min() for w, _ in frames)
+    hi = max(w.max() for w, _ in frames)
+    grid = np.arange(lo, hi, 0.02)
+    stack = np.array([np.interp(grid, w, fl, left=np.nan, right=np.nan) for w, fl in frames])
+    coadd = np.nanmedian(stack, axis=0)
+    ok = np.isfinite(coadd) & (coadd > 0)
+    g, c = grid[ok], coadd[ok]
+    c = c / np.nanmedian(c)              # FLUXCAL → ~unity (fit_continuum 1e-6 floor)
+    cont = fit_continuum(g, c)
+    print(f"  [arm-load] {inst}: co-added {len(frames)} PASS frame(s) over "
+          f"{g.min():.0f}-{g.max():.0f} A; continuum-normalized (median "
+          f"{np.median(c / cont):.3f}); max closure {cl.max():.2f} km/s")
+    return g / 10.0, (c / cont)
+
+
+def _load_procyon_uves_arm() -> tuple:
+    """RYA-348 Phase 2 — Procyon UVES red arm → (wave_nm, flux_norm), the O I 777 PRIMARY-O
+    arm. Resolves the RYA-272 registry's oi_anchor epoch (the single CLEAN telluric-verdict
+    frame), loads it through the RYA-272 UVESLoader (BERV applied → barycentric rest frame,
+    air Angstrom, GES-quarantine guards), then continuum-normalizes the same way the
+    reflected-solar arm does. NEVER reflected-solar Vesta (RYA-464): a real Procyon UVES
+    spectrum or a loud failure. Telluric: the anchor is the CLEAN epoch (RYA-271/272 audit);
+    EXCLUDE/CORRECTABLE epochs are never selected here."""
+    from pipeline.loaders.uves_loader import UVESLoader
+    from pipeline.abundances_derive import _measure_rv_kms
+    reg_path = ROOT / 'data' / 'spectra' / 'procyon' / 'uves_registry.csv'
+    if not reg_path.exists():
+        raise FileNotFoundError(
+            f"RYA-272 UVES registry absent: {reg_path}. Build it (pipeline UVES intake) "
+            f"before resolving the Procyon UVES arm — no silent Vesta fallback (RYA-464).")
+    reg = pd.read_csv(reg_path)
+    anchor = reg[(reg['oi_anchor'].astype(str).str.lower() == 'true') &
+                 (reg['oi_telluric_verdict'].astype(str).str.upper() == 'CLEAN')]
+    if anchor.empty:
+        raise RuntimeError(
+            f"No CLEAN oi_anchor epoch in {reg_path.name} — the O I 777 primary-O arm needs a "
+            f"telluric-CLEAN frame (RYA-271). EXCLUDE/CORRECTABLE epochs are not auto-used.")
+    row = anchor.iloc[0]
+    uves_dir = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+    fpath = uves_dir / str(row['filename'])
+    if not fpath.exists():
+        raise FileNotFoundError(
+            f"Procyon UVES anchor staged in registry but absent on disk: {fpath}. Stage the "
+            f"RYA-272 UVES frames before the run (data store, gitignored).")
+    spec = UVESLoader(fpath).load()
+    obj = str(spec.meta.get('object', '')).lower()
+    if 'procyon' not in obj and 'vesta' in obj:        # anti-silent-Vesta belt-and-suspenders
+        raise RuntimeError(f"UVES anchor object={spec.meta.get('object')!r} is reflected-solar — "
+                           f"refusing to synthesize Procyon against Vesta (RYA-464).")
+    w = np.asarray(spec.wave_A, float)
+    fl = np.asarray(spec.flux, float)
+    m = np.isfinite(w) & np.isfinite(fl) & (fl > 0)
+    w, fl = w[m], fl[m]
+    fl = fl / np.nanmedian(fl)                          # FLUXCAL → ~unity (fit_continuum floor)
+    cont = fit_continuum(w, fl)
+    fln = fl / cont
+    # Bring to the STELLAR REST frame (RYA-478): UVESLoader applies BERV (-> barycentric) but
+    # NOT the stellar systemic RV, so the lines sit blueshifted ~0.12 A at 7773 (Procyon RV).
+    # The synthesis is rest-frame; an uncorrected RV misaligns line cores and biases the
+    # flux-space fit (the χ²ᵣ-147 / inflated-A(O) bug). Measure from Fe I centroids and shift
+    # (the same correction _load_observed_spectrum applies to the HARPS arm, RYA-309).
+    rv = _measure_rv_kms(w / 10.0, fln)
+    w_rest = w / (1.0 + rv / _C_KMS) if abs(rv) > 0.05 else w
+    print(f"  [arm-load] UVES Procyon: anchor {row['filename']} ({row['date_obs']} "
+          f"{row['setting']}, SNR {float(row['snr']):.0f}, telluric {row['oi_telluric_verdict']}); "
+          f"{w.min():.0f}-{w.max():.0f} A, BERV {spec.meta['berv_kms']:+.2f} km/s applied, "
+          f"stellar RV {rv:+.2f} km/s -> rest; continuum-normalized (median {np.nanmedian(fln):.3f})")
+    return w_rest / 10.0, fln
+
 
 _C_KMS = 299792.458
 
@@ -198,6 +325,220 @@ VIS_DIAGNOSTICS = (
 )
 
 
+# ── ESPRESSO + UVES arms (RYA-371 Phase A multi-arm; reflected-solar, RYA-372) ─
+# These consume the RYA-372 rest-frame conditioned co-add (_load_reflected_solar_arm),
+# NOT the HARPS normalized spectrum. Per the RYA-455 O-handling amendment, O I 777
+# (ESPRESSO) is the PRIMARY O; [O I] 6300 is a continuum-limited cross-check only.
+ESPRESSO_OPT = RegionConfig(
+    name='espresso', instrument='ESPRESSO', R=140000.0,
+    wave_min_A=3780.0, wave_max_A=7890.0, telluric_correction_required=False,
+    nlte_backend='amarsi_grid',
+    notes='ESPRESSO reflected-solar Vesta (RYA-370/372); O I 777 primary O + [O I] 6300 '
+          'cross-check + C I. O I 777 sits in an H2O region (RYA-373 optical telluric owed).',
+)
+UVES_OPT = RegionConfig(
+    name='uves', instrument='UVES', R=70000.0,
+    wave_min_A=3760.0, wave_max_A=9470.0, telluric_correction_required=False,
+    nlte_backend='amarsi_grid',
+    notes='UVES reflected-solar Vesta (RYA-370/372); N from N I 8216 + CN red. NH 3360 is '
+          'a DATA-GAP (UVES-346 blue under SNR floor, did not condition — RYA-369). '
+          'R is a representative value across the co-added dichroic settings.',
+)
+
+ESPRESSO_DIAGNOSTICS = (
+    Diagnostic(
+        key='OI_777', element='O', kind='atomic',
+        windows_A=((7771.0, 7772.9), (7773.2, 7775.0), (7774.6, 7776.3)),
+        use_molecules=False, role='primary',
+        nlte_flag='oI_777_amarsi2019',
+        nlte_ref='O I 777 triplet 3D-NLTE — Amarsi 2019 (RYA-359); large negative',
+        reference='O I 7771.94/7774.17/7775.39 (ESPRESSO); PRIMARY solar A(O) (RYA-455).',
+    ),
+    Diagnostic(
+        key='OI_6300', element='O', kind='forbidden_blend',
+        windows_A=((6299.5, 6301.0),), use_molecules=True, role='cross_check',
+        pinned_blends=('Ni',),
+        nlte_flag='lte_forbidden_continuum_limited',
+        nlte_ref='[O I] forbidden; continuum-limited (RYA-447->455); adopt Caffau 2015 8.73',
+        reference='[O I] 6300.30 + Ni I 6300.34 (ESPRESSO); CONTINUUM-LIMITED cross-check.',
+    ),
+    Diagnostic(
+        key='CI_5052', element='C', kind='atomic', windows_A=((5051.3, 5053.0),),
+        use_molecules=False, role='cross_check',
+        nlte_flag='cI_amarsi2019', nlte_ref='C I 3D-NLTE — Amarsi 2019 (RYA-359)',
+        reference='C I 5052.17 (ESPRESSO); C cross-check vs HARPS.',
+    ),
+    Diagnostic(
+        key='CI_5380', element='C', kind='atomic', windows_A=((5379.3, 5381.3),),
+        use_molecules=False, role='cross_check',
+        nlte_flag='cI_amarsi2019', nlte_ref='C I 3D-NLTE — Amarsi 2019 (RYA-359)',
+        reference='C I 5380.34 (ESPRESSO); C cross-check vs HARPS.',
+    ),
+)
+
+UVES_DIAGNOSTICS = (
+    Diagnostic(
+        key='NI_8216', element='N', kind='atomic', windows_A=((8216.0, 8216.7),),
+        use_molecules=False, role='primary',
+        nlte_flag='nI_lte_flagged',
+        nlte_ref='N I 8216; no NLTE grid wired — LTE-flagged (NLTE owed, RYA-369)',
+        reference='N I 8216.34 (UVES red); best available N (NH 3360 DATA-GAP, RYA-369).',
+    ),
+    Diagnostic(
+        key='CN_red', element='N', kind='molecular_band',
+        windows_A=((6125.0, 6130.0), (6195.0, 6200.0)),
+        use_molecules=True, role='cross_check', depends_on=('C',),
+        nlte_flag='lte_molecular_band',
+        nlte_ref='molecular band — no NLTE grid (LTE)',
+        reference='CN red A-X (UVES); N cross-check given A(C).',
+    ),
+)
+
+
+# ── UV (HST STIS) + IR (CRIRES+/SPIRou) arms — DECLARED, wired as loaders+data land ──
+# RYA-464: declared so the per-star registry can carry them; ready=False until their
+# loader (RYA-184 loaders/ package) + staged+audited data exist. Wavelength spans are the
+# factual instrument ranges (RYA-351 coverage); diagnostics are populated by the audits
+# (UV RYA-262, IR RYA-425) — NOT fabricated here (no invented UV/IR line data).
+HST_UV = RegionConfig(
+    name='uv', instrument='STIS', R=114000.0,
+    wave_min_A=1150.0, wave_max_A=3200.0, telluric_correction_required=False,
+    nlte_backend='amarsi_grid',
+    notes='HST STIS/COS UV (RYA-222 data in hand; RYA-262 audit). FUV C I / O I / S I '
+          '= MEASURED C/O/S (Procyon advantage over the solar cited composite). Loader BUILT '
+          '(RYA-471, pipeline.loaders.hst_uv_loader); synthesis gated on the Amarsi NLTE grid '
+          '(RYA-359) + FUV pseudo-continuum (RYA-426 gate 5).',
+)
+CRIRES_IR = RegionConfig(
+    name='ir', instrument='CRIRES+', R=86000.0,
+    wave_min_A=15000.0, wave_max_A=24000.0, telluric_correction_required=True,
+    nlte_backend='lte_by_design',
+    notes='IR CO first-overtone 2.3um + OH/CN (C cross-check + 12C/13C). TELLURIC-GATED '
+          '(cr2res+molecfit / APERO+Wapiti, RYA-373). APOGEE H-band = weak-CO only (RYA-351).',
+)
+
+# Procyon UVES red optical diagnostic set: O I 777 (PRIMARY O) + [O I] 6300 cross-check +
+# C I 5052/5380 + N I 8216 + CN red — composed by REUSING the existing Diagnostic objects
+# (ESPRESSO red-optical C/O set + the UVES N set), no new line data (RYA-464 reuse rule).
+PROCYON_UVES_DIAGNOSTICS = ESPRESSO_DIAGNOSTICS + UVES_DIAGNOSTICS
+
+
+# ── Per-star multi-instrument arm registry (RYA-464 — the unlock) ──────────────
+# THE FIX: run_cno/run_phase_a registered a HARDCODED single region ('vis') and the
+# espresso/uves arms loaded reflected-solar Vesta UNCONDITIONALLY. So a non-solar star
+# would silently synthesize against SUNLIGHT. This replaces that with a PER-STAR arm
+# registry: each arm declares its RegionConfig, diagnostics, spectrum loader, and a
+# readiness flag. The solar/Vesta path is one case (all arms ready via the existing
+# loaders → bit-identical). A non-solar arm whose loader+data+audit are not yet present is
+# DECLARED but ready=False → run_phase_a DEFERS it with the reason and NEVER falls back to
+# reflected-solar geometry (the loud-fail that closes the latent bug).
+
+class ArmNotWired(RuntimeError):
+    """Raised when an arm is requested for a star but its loader/data/audit isn't ready —
+    instead of silently substituting reflected-solar (Vesta) data (RYA-464)."""
+
+
+@dataclass(frozen=True)
+class ArmWiring:
+    name: str                       # 'harps' | 'uves' | 'uv' | 'ir' | 'espresso'
+    region: RegionConfig
+    diagnostics: tuple
+    loader: str                     # 'harps_normalized' | 'reflected_solar' | 'uves_rya272'
+                                    #   | 'hst_stis' | 'ir_crires'
+    ready: bool
+    defer_reason: str = ''
+    provenance: str = ''            # 'measured' | 'cited' | per-arm note
+
+
+# Reflected-solar (Vesta) arms — the existing RYA-371/372 solar path, untouched.
+_SOLAR_ARMS = {
+    'harps':    ArmWiring('harps', HARPS_VIS, VIS_DIAGNOSTICS, 'harps_normalized', True,
+                          provenance='measured (HARPS Dumusque)'),
+    'espresso': ArmWiring('espresso', ESPRESSO_OPT, ESPRESSO_DIAGNOSTICS, 'reflected_solar', True,
+                          provenance='measured (Vesta reflected-solar, RYA-370/372)'),
+    'uves':     ArmWiring('uves', UVES_OPT, UVES_DIAGNOSTICS, 'reflected_solar', True,
+                          provenance='measured (Vesta reflected-solar, RYA-370/372)'),
+}
+
+# Procyon — HARPS VIS is runnable today; UVES/UV/IR are DECLARED but gated on their
+# loaders + staged+audited data (RYA-272 / HST loader / IR telluric), so ready=False.
+_PROCYON_ARMS = {
+    'harps': ArmWiring('harps', HARPS_VIS, VIS_DIAGNOSTICS, 'harps_normalized', True,
+                       provenance='measured (HARPS ADP, RYA-273)'),
+    'uves':  ArmWiring('uves', UVES_OPT, PROCYON_UVES_DIAGNOSTICS, 'uves_rya272', True,
+                       provenance='measured (UVES RED760 oi_anchor 2013-10-08, CLEAN telluric, '
+                                  'BERV-applied; RYA-272 loader + RYA-271 audit). O I 777 = primary O.'),
+    'uv':    ArmWiring('uv', HST_UV, _hst_uv.uv_arm_diagnostics(), 'hst_stis', False,
+                       defer_reason='loader BUILT + Procyon STIS staged/conditioned (RYA-471, '
+                                    'smoke-proven on E140M: C I 1657 covered, vac->air verified). '
+                                    'Synthesis still gated on (1) the Amarsi C/O NLTE grid (RYA-359) '
+                                    '— FUV C I carries a large negative correction; amarsi_grid_backend '
+                                    'loud-fails by design, and (2) the FUV pseudo-continuum (RYA-426 '
+                                    'gate 5, synthesis-not-EW). Flip to ready=True once RYA-359 lands.',
+                       provenance='measured (loader built; synthesis gated on RYA-359)'),
+    'ir':    ArmWiring('ir', CRIRES_IR, (), 'ir_crires', False,
+                       defer_reason='telluric-gated (RYA-373); no 2.3um CO overtone staged '
+                                    '(RYA-351: APOGEE weak-CO only); IR conditioning RYA-425.',
+                       provenance='measured (pending)'),
+}
+
+STAR_ARMS = {'solar': _SOLAR_ARMS, 'procyon': _PROCYON_ARMS}
+
+
+def star_arm_registry(star_id: str) -> dict:
+    """Per-star arm registry (RYA-464). Substring-matched like the other star resolvers.
+    Fails loud for an undeclared star — no silent solar-geometry default."""
+    s = star_id.strip().lower()
+    if s in STAR_ARMS:
+        return STAR_ARMS[s]
+    for k, v in STAR_ARMS.items():
+        if k in s or s in k:
+            return v
+    raise KeyError(
+        f"No multi-instrument arm registry for star_id={star_id!r}. Declare its arms in "
+        f"STAR_ARMS (RYA-464) before a multi-arm run — refusing to assume solar geometry.")
+
+
+def available_arms(star_id: str) -> tuple:
+    """(ready_arm_names, {deferred_name: reason}) for `star_id` — the runtime arm map."""
+    reg = star_arm_registry(star_id)
+    ready = tuple(n for n, a in reg.items() if a.ready)
+    deferred = {n: a.defer_reason for n, a in reg.items() if not a.ready}
+    return ready, deferred
+
+
+def resolve_arm_spectrum(star_id: str, arm: ArmWiring):
+    """Load the observed spectrum for (star, arm) → (wave_nm, flux). Dispatch by loader
+    kind; LOUD-FAIL (ArmNotWired) for an unready arm or a non-solar star routed at the
+    reflected-solar loader — the bug RYA-464 closes (no silent Vesta substitution)."""
+    if not arm.ready:
+        raise ArmNotWired(f"{star_id}/{arm.name}: {arm.defer_reason}")
+    if arm.loader == 'harps_normalized':
+        return _load_observed_spectrum(star_id)
+    if arm.loader == 'reflected_solar':
+        if 'solar' not in star_id.lower() and 'sun' not in star_id.lower():
+            raise ArmNotWired(
+                f"{star_id}/{arm.name}: reflected-solar (Vesta) loader is solar-only; a "
+                f"non-solar star must use its own instrument loader (RYA-464). Refusing to "
+                f"synthesize {star_id} against reflected sunlight.")
+        return _load_reflected_solar_arm(arm.region.instrument.lower())
+    if arm.loader == 'hst_stis':                 # RYA-471: HST STIS/COS UV arm
+        if 'procyon' not in star_id.lower():
+            raise ArmNotWired(
+                f"{star_id}/{arm.name}: the HST STIS UV loader is Procyon-only today "
+                f"(RYA-222 whitelist). Stage + audit {star_id}'s UV frames before wiring (RYA-464).")
+        return _hst_uv.load_procyon_uv_arm('E140M')   # FUV grating covering C I 1657 + O I 1355
+    if arm.loader == 'uves_rya272':              # RYA-348 Phase 2: Procyon UVES O I 777 primary-O
+        if 'procyon' not in star_id.lower():
+            raise ArmNotWired(
+                f"{star_id}/{arm.name}: the RYA-272 UVES loader is wired for Procyon's staged "
+                f"anchor only. Stage + audit {star_id}'s UVES frames before wiring (RYA-464).")
+        return _load_procyon_uves_arm()
+    raise ArmNotWired(
+        f"{star_id}/{arm.name}: loader {arm.loader!r} not implemented yet "
+        f"(IR CRIRES build pending).")
+
+
 # ── VIS NLTE policy — LTE-by-design, pluggable per arm ────────────────────────
 # This is the `lte_by_design` backend. It applies ZERO correction and stamps the
 # physics-justified flag per diagnostic. The red/IR/UV arms pass a different
@@ -231,6 +572,80 @@ def amarsi_grid_backend(diag: 'Diagnostic', a_lte: float, params: dict) -> tuple
 
 
 NLTE_BACKENDS = {'lte_by_design': vis_lte_backend, 'amarsi_grid': amarsi_grid_backend}
+
+
+# ── Phase-A cited correction layer (RYA-371) ──────────────────────────────────
+# The VIS synthesis MEASURES in 1D-LTE; Phase A applies the CITED 3D/NLTE
+# correction on top, per diagnostic, each tagged with its source. VALIDATE-DON'T-
+# TUNE: every value here is published / vendored, NEVER fitted to the Asplund
+# anchors. Three kinds, by what the literature actually provides for the line:
+#   * vendored grid delta — C I 5052/5380: Amarsi 2019 3D-NLTE (pipeline.nlte_cno,
+#     RYA-359). A real interpolated Delta = A(3D-NLTE) - A(1D-LTE).
+#   * cited 3D anchor     — [O I] 6300: Caffau et al. 2015 (A&A 579 A88, POSP III)
+#     full-3D solar A(O)=8.73 with OUR EXACT atomic data (Ni I -2.11 Johansson
+#     2003 + [O I] -9.717 Storey & Zeippen 2000; RYA-367). NO hardcoded 3D-1D
+#     offset — Caffau 2015 publishes the absolute, not a grid node (RYA-367 rule).
+#   * 3D-offset-owed      — CH/CN/C2 molecular bands: no vendored solar 3D grid →
+#     reported 1D-LTE, flagged owed (honest, not silently called LTE).
+
+# Cited per-line full-3D solar anchors: {key: (A_3d, unc, flag, source)}. The
+# published absolute for the exact line + our atomic data, surfaced as the
+# reconciled value — a citation, not a fit.
+CITED_3D_ANCHORS = {
+    'OI_6300': (
+        8.73, 0.05, '3d_lte_caffau2015',
+        'Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, '
+        'Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our '
+        'atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).'),
+}
+# Atomic C I / O I lines that carry a vendored Amarsi-2019 3D-NLTE grid delta:
+# {diagnostic key: (species, representative air wavelength A)}. O I 777 is the
+# ESPRESSO PRIMARY O (RYA-455 amendment) — large negative NLTE (~-0.17 solar).
+_ATOMIC_GRID_KEYS = {'CI_5052': ('CI', 5052.17), 'CI_5380': ('CI', 5380.34),
+                     'OI_777': ('OI', 7773.0)}
+
+
+def apply_cited_corrections(per_band, params, region) -> list:
+    """Attach the cited Phase-A correction to each VIS diagnostic. Returns a list of
+    records {key, element, role, a_lte, kind, a_corr, delta, flag, source}. Cited /
+    vendored values only — never fitted (RYA-371 validate-don't-tune)."""
+    teff = float(params['teff_K']); logg = float(params['logg'])
+    feh = float(params['feh']); vmic = float(params['vturb_kms'])
+    out = []
+    for r in per_band:
+        key = r.get('key'); a_lte = r.get('A_X')
+        rec = {'key': key, 'element': r.get('element'), 'role': r.get('role'),
+               'a_lte': a_lte, 'kind': None, 'a_corr': a_lte, 'delta': 0.0,
+               'flag': r.get('nlte_flag'), 'source': r.get('nlte_ref')}
+        if not (a_lte is not None and np.isfinite(a_lte)):
+            out.append(rec); continue
+        if key in CITED_3D_ANCHORS:                       # cited full-3D anchor
+            a3d, unc, flag, src = CITED_3D_ANCHORS[key]
+            rec.update(kind='cited_3d_anchor', a_corr=a3d, delta=round(a3d - a_lte, 3),
+                       flag=flag, source=src, unc=unc)
+        elif key in _ATOMIC_GRID_KEYS:                    # vendored Amarsi-2019 grid delta (C I / O I)
+            species, wave = _ATOMIC_GRID_KEYS[key]
+            try:
+                label = nlte_cno.resolve_line(species, wave)
+                delta = nlte_cno.cno_nlte_delta(species, label, teff, logg, feh, vmic, a_lte)
+                if np.isfinite(delta):
+                    nlte_cno.assert_cno_sign(species, label, delta)
+                    rec.update(kind='amarsi2019_grid', a_corr=round(a_lte + delta, 3),
+                               delta=round(delta, 3), flag='3d_nlte_amarsi2019',
+                               source=f'Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, '
+                                      f'{species} {label} 3D-NLTE leg ({nlte_cno.select_leg(teff)})')
+                else:                                     # outside 4D hull → flag, no silent LTE
+                    rec.update(kind='grid_out_of_hull',
+                               flag='amarsi2019_out_of_hull', source='Amarsi 2019 grid: query outside 4D hull')
+            except Exception as exc:                       # noqa: BLE001 — surface, never fake
+                rec.update(kind='grid_error', flag='amarsi2019_error', source=f'grid error: {exc}')
+        elif r.get('nlte_flag') == 'lte_molecular_band':  # molecular band, no vendored 3D grid
+            rec.update(kind='3d_offset_owed', flag='lte_molecular_band_3d_offset_owed',
+                       source='molecular band; no vendored solar 3D-LTE offset grid → '
+                              'reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D '
+                              '0.00..-0.15; not applied — would be uncited)')
+        out.append(rec)
+    return out
 
 
 # ── Abundance state + low-level synthesis ─────────────────────────────────────
@@ -466,6 +881,7 @@ class CNOResult:
     flags: list = field(default_factory=list)
     provenance: dict = field(default_factory=dict)
     uncertainty: dict = field(default_factory=dict)      # element -> {stat, sys, tot}
+    phase_a_corrections: list = field(default_factory=list)  # RYA-371 cited 3D/NLTE per diagnostic
 
 
 def _seed_abundances(star_id, params, codes, solar_A_ispec, feh) -> dict:
@@ -579,6 +995,20 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
     result.per_band = [last[d.key] for d in diagnostics if d.key in last]
     result.abundances = {'C': state['C'], 'N': state['N'], 'O': state['O']}
 
+    # ── Phase-A cited correction layer (RYA-371): 1D-LTE → cited 3D/NLTE ───────
+    corrections = apply_cited_corrections(result.per_band, params, region)
+    result.phase_a_corrections = corrections
+    print(f"\n  ── Phase-A cited corrections ({region.instrument} arm) — "
+          f"validate-don't-tune (cited/vendored only) ──")
+    print(f"    {'diagnostic':10s} {'el':2s} {'1D-LTE':>7s} {'corr':>7s} "
+          f"{'recon':>7s}  kind / source")
+    for c in corrections:
+        al = f"{c['a_lte']:.3f}" if isinstance(c['a_lte'], float) and np.isfinite(c['a_lte']) else '  N/A '
+        ac = f"{c['a_corr']:.3f}" if isinstance(c['a_corr'], float) and np.isfinite(c['a_corr']) else '  N/A '
+        dl = f"{c['delta']:+.3f}" if np.isfinite(c.get('delta', np.nan)) else '   -- '
+        print(f"    {c['key']:10s} {c['element']:2s} {al:>7s} {dl:>7s} {ac:>7s}  "
+              f"[{c['kind']}] {(c['source'] or '')[:64]}")
+
     # ── Uncertainty budget (Type A statistical + Type B systematic) ───────────
     result.uncertainty = _uncertainty_budget(
         result, last, by_key, star_id, params, rec, state, codes, obs_w, obs_f,
@@ -599,9 +1029,11 @@ def run_cno(star_id: str, region_name: str = 'vis', *,
         'broadening': {'R': broadening[0], 'vmac': broadening[1], 'vsini': broadening[2],
                        'source': rec.get('source', ''), 'rule': 'per-star RYA-288'},
         'nlte': {'backend': region.nlte_backend,
-                 'policy': 'VIS LTE-by-design (Ryan 2026-06-19); '
-                           'C I cI_vis_lte_assumed (Alexeeva & Mashonkina 2015); '
-                           '[O I] forbidden LTE; molecular bands LTE'},
+                 'policy': 'VIS synthesis is 1D-LTE; Phase-A cited corrections applied '
+                           'on top (RYA-371): C I 5052/5380 Amarsi-2019 3D-NLTE grid; '
+                           '[O I] 6300 cited Caffau-2015 full-3D anchor 8.73 (RYA-367, '
+                           'no hardcoded offset); CH/CN/C2 molecular 3D offset OWED'},
+        'phase_a_corrections': result.phase_a_corrections,
         'solar_reference': 'Asplund 2021 (A&A 653, A141) via SOLAR_ASPLUND2021',
         'params': params,
         'caveats': ['Ni I 6300.34 gf in the [O I] blend resolves via gf_resolver '
@@ -880,6 +1312,154 @@ def print_oi_partition(part: dict) -> bool:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+# ── Phase-A multi-arm orchestration (RYA-371) ─────────────────────────────────
+
+def _fit_arm(region, diagnostics, obs_w, obs_f, params, fixed_state, atm, ll, iso, sab,
+             codes, broadening, tmp_dir):
+    """Fit each diagnostic of an arm on its PRE-LOADED co-added rest-frame spectrum
+    (obs_w, obs_f — resolved per-star by resolve_arm_spectrum, RYA-464; the free element
+    varies, fixed_state holds the rest, e.g. A(C) from HARPS for CN). Returns
+    (per_band, corrections) — corrections via the same cited layer as HARPS."""
+    per_band = []
+    for d in diagnostics:
+        st = dict(fixed_state)
+        center = float(st.get(d.element, SOLAR_ASPLUND2021[d.element]))
+        t0 = time.time()
+        r = _fit_element(obs_w, obs_f, atm, params, d.element, st, codes,
+                         d.windows_A, d.use_molecules, broadening,
+                         center - 1.0, center + 1.0, ll, iso, sab, tmp_dir)
+        r.update(key=d.key, element=d.element, role=d.role,
+                 nlte_flag=d.nlte_flag, nlte_ref=d.nlte_ref,
+                 wall_s=round(time.time() - t0, 1))
+        per_band.append(r)
+        print(f"    {d.key:10s} A({d.element})={r['A_X']}  χ²ᵣ={r['red_chi2']}  "
+              f"[{r['status']}]  ({r['wall_s']}s)")
+    return per_band, apply_cited_corrections(per_band, params, region)
+
+
+def _print_cross_arm_table(per_arm: dict) -> dict:
+    """Cross-arm CNO agreement map (RYA-455 O handling). Per element: the reconciled
+    A(X) from each arm/indicator (cited corrections applied), primary vs cross-check,
+    the spread, and a verdict — disagreement is REPORTED, never averaged. Returns a
+    summary dict (the differential-backbone seed)."""
+    anchors = {'C': 8.46, 'N': 7.83, 'O': 8.69}     # Asplund 2021 validation targets
+    rows = {'C': [], 'N': [], 'O': []}
+    for arm, d in per_arm.items():
+        for c in d.get('corrections', []):
+            el = c.get('element')
+            if el in rows and c.get('a_corr') is not None and np.isfinite(c['a_corr']):
+                rows[el].append((arm, c['key'], c['role'], float(c['a_corr']), c['kind']))
+    print(f"\n{'='*72}\n  CROSS-ARM CNO AGREEMENT — cited corrections applied "
+          f"(validate-don't-tune)\n{'='*72}")
+    summary = {}
+    for el in ('C', 'N', 'O'):
+        print(f"\n  {el}  (Asplund {anchors[el]}):")
+        if not rows[el]:
+            print("    (no reconciled indicator this run)")
+            summary[el] = {'indicators': [], 'verdict': 'NO-DATA'}
+            continue
+        for arm, key, role, a, kind in rows[el]:
+            print(f"    {arm:9s} {key:11s} {role:11s} A({el})={a:.3f}  "
+                  f"Δ={a - anchors[el]:+.3f}  [{kind}]")
+        prim = [a for _, _, role, a, _ in rows[el] if role == 'primary']
+        allv = [a for *_, a, _ in rows[el]]
+        spread = max(allv) - min(allv)
+        verdict = 'AGREE (≤0.10)' if spread <= 0.10 else 'FLAGGED-DISAGREEMENT (reported, not averaged)'
+        pnote = (f"primary mean {np.mean(prim):.3f} (Δ {np.mean(prim) - anchors[el]:+.3f})"
+                 if prim else "NO primary indicator this arm-set")
+        print(f"    → {len(allv)} indicator(s), spread {spread:.3f} dex; {pnote}; {verdict}")
+        summary[el] = {'indicators': [{'arm': a, 'key': k, 'role': ro, 'A': v, 'kind': ki}
+                                      for a, k, ro, v, ki in rows[el]],
+                       'spread': round(spread, 3), 'primary_mean': (round(float(np.mean(prim)), 3) if prim else None),
+                       'verdict': verdict}
+    return summary
+
+
+def run_phase_a(star_id: str = 'solar', arms=None,
+                tmp_dir: str = '/tmp/ispec_cno', out_dir: Path = None) -> dict:
+    """Phase-A multi-arm CNO, PER-STAR (RYA-464 generalization of the RYA-371 solar path).
+    Arms are resolved from the star's STAR_ARMS registry, not a hardcoded list: each arm
+    declares its region, diagnostics, spectrum loader, and readiness. Ready arms run; arms
+    whose loader/data/audit aren't present are DEFERRED with their reason (never silently
+    run against reflected-solar geometry). `arms` (names) restricts the run; None = the
+    star's full declared set. O handling per RYA-455: O I 777 primary, [O I] 6300 cross-check.
+
+    Solar is one case of this mechanism (harps + espresso + uves all ready via the existing
+    loaders) → bit-identical to the pre-RYA-464 solar run."""
+    Path(tmp_dir).mkdir(parents=True, exist_ok=True)
+    registry = star_arm_registry(star_id)
+    requested = tuple(a.strip().lower() for a in arms) if arms else tuple(registry)
+
+    rec = get_star_params(star_id)
+    params = {'teff_K': float(rec['teff']), 'logg': float(rec['logg']),
+              'feh': float(rec['feh_ref']), 'vturb_kms': float(rec.get('xi', 1.0))}
+    atm = _load_atmosphere(params['teff_K'], params['logg'], params['feh'], params['vturb_kms'])
+    ll, iso, chem = _load_synth_resources()
+    sab = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
+    codes = _atom_codes(('C', 'N', 'O', 'Ni'), chem, sab)
+    _, vmac, vsini, _ = _resolve_broadening(star_id)
+
+    # Announce the per-star arm map (anti-silent-assumption, RYA-270/464 discipline).
+    _ready, _deferred = available_arms(star_id)
+    print(f"\n{'='*72}\n  PHASE-A ARM REGISTRY — {star_id} "
+          f"({len(registry)} declared region(s))\n{'='*72}")
+    for n, a in registry.items():
+        tag = 'READY' if a.ready else f'DEFERRED — {a.defer_reason}'
+        print(f"  [{ 'x' if a.ready else ' ' }] {n:9s} {a.region.instrument:9s} "
+              f"{a.region.wave_min_A:.0f}-{a.region.wave_max_A:.0f} A  {tag}")
+
+    per_arm = {}
+    deferred = {}
+    # HARPS first — the molecular CNO-equilibrium engine (only if requested + ready).
+    if 'harps' in requested and 'harps' in registry and registry['harps'].ready:
+        print(f"\n{'#'*72}\n#  ARM — HARPS (CH/CN/[O I] + C I), molecular CNO equilibrium\n{'#'*72}")
+        h = run_cno(star_id, 'vis', tmp_dir=tmp_dir)
+        per_arm['harps'] = {'abundances': h.abundances, 'corrections': h.phase_a_corrections}
+
+    fixed = {'Ni': 6.20}
+    for el in ('C', 'N', 'O'):                       # CN needs A(C); pin from HARPS, else anchor
+        fixed[el] = float(per_arm.get('harps', {}).get('abundances', {}).get(el, SOLAR_ASPLUND2021[el]))
+
+    for name in requested:
+        if name == 'harps':
+            continue
+        arm = registry.get(name)
+        if arm is None:
+            deferred[name] = 'not declared for this star (add to STAR_ARMS, RYA-464)'
+            print(f"\n#  ARM — {name}: SKIPPED — {deferred[name]}")
+            continue
+        if not arm.ready:                            # loud defer, NEVER fall back to Vesta
+            deferred[name] = arm.defer_reason
+            print(f"\n#  ARM — {arm.region.instrument} ({name}): DEFERRED — {arm.defer_reason}")
+            continue
+        print(f"\n{'#'*72}\n#  ARM — {arm.region.instrument} ({name}; pinned "
+              f"A(C)={fixed['C']:.2f})\n{'#'*72}")
+        obs_w, obs_f = resolve_arm_spectrum(star_id, arm)   # per-star loader dispatch
+        pb, corr = _fit_arm(arm.region, arm.diagnostics, obs_w, obs_f, params, fixed,
+                            atm, ll, iso, sab, codes, (arm.region.R, vmac, vsini), tmp_dir)
+        per_arm[name] = {'per_band': pb, 'corrections': corr}
+
+    summary = _print_cross_arm_table(per_arm)
+    if deferred:
+        print(f"\n  DEFERRED ARMS ({len(deferred)}): "
+              + "; ".join(f"{n} ({r})" for n, r in deferred.items()))
+
+    out_dir = Path(out_dir) if out_dir else (Path(PATHS['solar_ew']).parent.parent /
+                                             'audit' / 'cno_synthesis')
+    out_dir.mkdir(parents=True, exist_ok=True)
+    rep = {'ticket': 'RYA-371 Phase A / RYA-464 per-star arms', 'star': star_id,
+           'arms_requested': list(requested),
+           'arms_run': [a for a in per_arm], 'arms_deferred': deferred,
+           'o_handling': 'RYA-455: O I 777 primary, [O I] 6300 continuum-limited cross-check',
+           'cross_arm': summary,
+           'per_arm': {a: d.get('corrections', []) for a, d in per_arm.items()}}
+    out_name = ('solar_phase_a_cross_arm.json' if 'solar' in star_id.lower()
+                else f'{star_id}_phase_a_cross_arm.json')
+    (out_dir / out_name).write_text(json.dumps(rep, indent=2, default=str))
+    print(f"\n  [out] {out_dir / out_name}")
+    return per_arm
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description='Region-aware C/N/O synthesis (RYA-237)')
     ap.add_argument('--star', default='solar')
@@ -894,7 +1474,41 @@ def main(argv=None):
                     help='skip the Type-B stellar-parameter sensitivity refits')
     ap.add_argument('--max-iter', type=int, default=5)
     ap.add_argument('--out', default=None)
+    ap.add_argument('--arms', default=None,
+                    help='Phase-A multi-arm run (RYA-371/464): comma-separated arm names '
+                         'from the STAR\'s registry (e.g. "harps,uves"), or "all" for the '
+                         'star\'s full declared set. Per-arm C/N/O + cross-arm agreement; '
+                         'arms whose loader/data are not ready are DEFERRED, not run. Omit '
+                         'for the single HARPS-VIS run.')
+    ap.add_argument('--list-arms', action='store_true',
+                    help='print the star\'s per-star arm registry (ready / deferred) and exit')
     args = ap.parse_args(argv)
+
+    # --list-arms → just report the per-star arm registry (RYA-464) and exit.
+    if args.list_arms:
+        reg = star_arm_registry(args.star)
+        ready, deferred = available_arms(args.star)
+        print(f"\nArm registry — {args.star} ({len(reg)} declared region(s)):")
+        for n, a in reg.items():
+            tag = 'READY' if a.ready else f'DEFERRED — {a.defer_reason}'
+            print(f"  {n:9s} {a.region.instrument:9s} "
+                  f"{a.region.wave_min_A:.0f}-{a.region.wave_max_A:.0f} A  {tag}")
+        print(f"\n  ready: {list(ready)}   deferred: {list(deferred)}")
+        return {'ready': ready, 'deferred': deferred}
+
+    # --arms → Phase A per-star multi-arm CNO (RYA-371/464), validated vs the star's registry.
+    if args.arms:
+        reg = star_arm_registry(args.star)
+        if args.arms.strip().lower() == 'all':
+            arms = tuple(reg)
+        else:
+            arms = tuple(a.strip().lower() for a in args.arms.split(',') if a.strip())
+            unknown = [a for a in arms if a not in reg]
+            if unknown:
+                raise SystemExit(f"Unknown arm(s) {unknown} for {args.star}; declared arms: "
+                                 f"{list(reg)} (STAR_ARMS, RYA-464).")
+        return run_phase_a(args.star, arms=arms,
+                           out_dir=Path(args.out) if args.out else None)
 
     # --species "O I" → the focused [O I] 6300 blend-partition diagnostic (RYA-365).
     if args.species and args.species.replace(' ', '').upper() in ('OI', 'O'):

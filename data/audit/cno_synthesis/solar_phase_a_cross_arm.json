@@ -1,0 +1,259 @@
+{
+  "ticket": "RYA-371 Phase A",
+  "star": "solar",
+  "arms": [
+    "harps",
+    "espresso",
+    "uves"
+  ],
+  "o_handling": "RYA-455: O I 777 primary, [O I] 6300 continuum-limited cross-check",
+  "cross_arm": {
+    "C": {
+      "indicators": [
+        {
+          "arm": "harps",
+          "key": "CH_Gband",
+          "role": "primary",
+          "A": 8.491,
+          "kind": "3d_offset_owed"
+        },
+        {
+          "arm": "harps",
+          "key": "CI_5052",
+          "role": "cross_check",
+          "A": 8.462,
+          "kind": "amarsi2019_grid"
+        },
+        {
+          "arm": "harps",
+          "key": "CI_5380",
+          "role": "cross_check",
+          "A": 8.467,
+          "kind": "amarsi2019_grid"
+        },
+        {
+          "arm": "harps",
+          "key": "C2_Swan",
+          "role": "cross_check",
+          "A": 8.437,
+          "kind": "3d_offset_owed"
+        },
+        {
+          "arm": "espresso",
+          "key": "CI_5052",
+          "role": "cross_check",
+          "A": 8.454,
+          "kind": "amarsi2019_grid"
+        },
+        {
+          "arm": "espresso",
+          "key": "CI_5380",
+          "role": "cross_check",
+          "A": 8.342,
+          "kind": "amarsi2019_grid"
+        }
+      ],
+      "spread": 0.149,
+      "primary_mean": 8.491,
+      "verdict": "FLAGGED-DISAGREEMENT (reported, not averaged)"
+    },
+    "N": {
+      "indicators": [
+        {
+          "arm": "harps",
+          "key": "CN_red",
+          "role": "primary",
+          "A": 7.558,
+          "kind": "3d_offset_owed"
+        },
+        {
+          "arm": "uves",
+          "key": "NI_8216",
+          "role": "primary",
+          "A": 7.99,
+          "kind": null
+        },
+        {
+          "arm": "uves",
+          "key": "CN_red",
+          "role": "cross_check",
+          "A": 8.518,
+          "kind": "3d_offset_owed"
+        }
+      ],
+      "spread": 0.96,
+      "primary_mean": 7.774,
+      "verdict": "FLAGGED-DISAGREEMENT (reported, not averaged)"
+    },
+    "O": {
+      "indicators": [
+        {
+          "arm": "harps",
+          "key": "OI_6300",
+          "role": "primary",
+          "A": 8.73,
+          "kind": "cited_3d_anchor"
+        },
+        {
+          "arm": "espresso",
+          "key": "OI_777",
+          "role": "primary",
+          "A": 8.74,
+          "kind": "amarsi2019_grid"
+        },
+        {
+          "arm": "espresso",
+          "key": "OI_6300",
+          "role": "cross_check",
+          "A": 8.73,
+          "kind": "cited_3d_anchor"
+        }
+      ],
+      "spread": 0.01,
+      "primary_mean": 8.735,
+      "verdict": "AGREE (\u22640.10)"
+    }
+  },
+  "per_arm": {
+    "harps": [
+      {
+        "key": "CH_Gband",
+        "element": "C",
+        "role": "primary",
+        "a_lte": 8.491,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.491,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CI_5052",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.48,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.462,
+        "delta": -0.018,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 505.2nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "CI_5380",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.486,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.467,
+        "delta": -0.019,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 538.0nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "C2_Swan",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.437,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.437,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "CN_red",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 7.558,
+        "kind": "3d_offset_owed",
+        "a_corr": 7.558,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      },
+      {
+        "key": "OI_6300",
+        "element": "O",
+        "role": "primary",
+        "a_lte": 8.8,
+        "kind": "cited_3d_anchor",
+        "a_corr": 8.73,
+        "delta": -0.07,
+        "flag": "3d_lte_caffau2015",
+        "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).",
+        "unc": 0.05
+      }
+    ],
+    "espresso": [
+      {
+        "key": "OI_777",
+        "element": "O",
+        "role": "primary",
+        "a_lte": 8.911,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.74,
+        "delta": -0.171,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, OI 777nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "OI_6300",
+        "element": "O",
+        "role": "cross_check",
+        "a_lte": 8.857,
+        "kind": "cited_3d_anchor",
+        "a_corr": 8.73,
+        "delta": -0.127,
+        "flag": "3d_lte_caffau2015",
+        "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset).",
+        "unc": 0.05
+      },
+      {
+        "key": "CI_5052",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.472,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.454,
+        "delta": -0.018,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 505.2nm 3D-NLTE leg (3D)"
+      },
+      {
+        "key": "CI_5380",
+        "element": "C",
+        "role": "cross_check",
+        "a_lte": 8.361,
+        "kind": "amarsi2019_grid",
+        "a_corr": 8.342,
+        "delta": -0.019,
+        "flag": "3d_nlte_amarsi2019",
+        "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, CI 538.0nm 3D-NLTE leg (3D)"
+      }
+    ],
+    "uves": [
+      {
+        "key": "NI_8216",
+        "element": "N",
+        "role": "primary",
+        "a_lte": 7.99,
+        "kind": null,
+        "a_corr": 7.99,
+        "delta": 0.0,
+        "flag": "nI_lte_flagged",
+        "source": "N I 8216; no NLTE grid wired \u2014 LTE-flagged (NLTE owed, RYA-369)"
+      },
+      {
+        "key": "CN_red",
+        "element": "N",
+        "role": "cross_check",
+        "a_lte": 8.518,
+        "kind": "3d_offset_owed",
+        "a_corr": 8.518,
+        "delta": 0.0,
+        "flag": "lte_molecular_band_3d_offset_owed",
+        "source": "molecular band; no vendored solar 3D-LTE offset grid \u2192 reported 1D-LTE, 3D offset OWED (Asplund 2005b CH/C2 3D-1D 0.00..-0.15; not applied \u2014 would be uncited)"
+      }
+    ]
+  }
+}
