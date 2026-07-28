@@ -1,0 +1,11 @@
+=== Ca: babsma ===
+=== Ca: bsyn NLTE @ A=6.3 ===
+  NLTE departure engaged: True
+=== Ca: bsyn LTE COG ===
+
+=== Ca RESULT (delta = A_sun - A*) ===
+  Ca 6122.217: EW_NLTE=228.23 mA  A*=6.3091  delta=-0.0091
+  Ca 6162.173: EW_NLTE=274.84 mA  A*=6.3097  delta=-0.0097
+  median delta = -0.0094
+  anchor +0.020 +/- 0.05 (Ca I 6122/6162, solar NLTE small+ (our Ca_Mashonkina2017 +0.017; same atom lineage))
+  VERDICT: PASS

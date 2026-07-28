@@ -1,0 +1,15 @@
+/mnt/codex-data/codex/rya534/ts_gerber_gate.py:199: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  return float(np.trapz(1.0 - fl[m], w[m]) * 1000.0)
+=== Ti: babsma ===
+=== Ti: bsyn NLTE @ A=4.9 ===
+  NLTE departure engaged: True
+=== Ti: bsyn LTE COG ===
+
+=== Ti RESULT (delta = A_sun - A*) ===
+  Ti 5689.460: EW_NLTE=8.56 mA  A*=4.6342  delta=+0.2658
+  Ti 5648.565: EW_NLTE=9.74 mA  A*=4.6927  delta=+0.2073
+  Ti 5662.150: EW_NLTE=18.61 mA  A*=4.6794  delta=+0.2206
+  median delta = +0.2206
+  anchor +0.107 +/- 0.06 (Ti I 5689/5648/5662 (stronger, GES-identified, overlap the MPIA grid lines); anchor = our banked Ti_Bergemann2011_MPIA solar median +0.107 (range +0.10..+0.13). NOTE: first-pass weak lines 5702/5703 (0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess = CHECK; re-gate with these stronger MPIA-overlap lines against the correct +0.107 anchor)
+  VERDICT: CHECK
+TI_GATED

@@ -1,0 +1,56 @@
+{
+  "ticket": "RYA-348 Phase 2 \u2014 Procyon UVES O I 777 primary-O",
+  "star": "procyon",
+  "params": {
+    "teff_K": 6554.0,
+    "logg": 4.0,
+    "feh": 0.03,
+    "vturb_kms": 1.8
+  },
+  "arm": {
+    "instrument": "UVES",
+    "anchor_epoch": "2013-10-08 RED760 (oi_anchor, CLEAN)",
+    "resolved_via": "resolve_arm_spectrum (RYA-464, never silent-Vesta)"
+  },
+  "indicators": [
+    {
+      "key": "OI_777",
+      "role": "primary",
+      "A_lte": 9.506,
+      "A_corr": 8.961,
+      "delta": -0.545,
+      "chi2r": 147.17,
+      "corr_kind": "amarsi2019_grid",
+      "flag": "3d_nlte_amarsi2019",
+      "source": "Amarsi, Nissen & Skuladottir 2019 A&A 630 A104, OI 777nm 3D-NLTE leg (1D)"
+    },
+    {
+      "key": "OI_6300",
+      "role": "cross_check",
+      "A_lte": 8.807,
+      "A_corr": 8.73,
+      "delta": -0.077,
+      "chi2r": 162.24,
+      "corr_kind": "cited_3d_anchor",
+      "flag": "3d_lte_caffau2015",
+      "source": "Caffau et al. 2015, A&A 579 A88 (POSP III): [O I] 630 nm CO5BOLD full-3D, Ni I -2.11 (Johansson 2003) + [O I] -9.717 (Storey & Zeippen 2000) = our atomic data; in gate 8.69+/-0.05. RYA-367 (no hardcoded 3D-1D offset)."
+    }
+  ],
+  "primary_O": {
+    "A_lte": 9.506,
+    "A_nlte": 8.961,
+    "nlte_delta": -0.545,
+    "solar_O_ours": 8.735,
+    "OH_differential_nlte": 0.226,
+    "chi2r": 147.17
+  },
+  "leg_validation": {
+    "uves_oi777_nlte": 8.961,
+    "uves_oi777_lte": 9.506,
+    "harps_oi6300_lte": 9.417,
+    "harps_oi6300_cited": 8.73,
+    "harps_oi6300_chi2r": 58.7,
+    "zeropoint_uves777_minus_harps6300": 0.231,
+    "verdict": "DISAGREE \u2014 surfaced as a finding, NOT averaged (the HARPS leg is cited-anchor)"
+  }
+}

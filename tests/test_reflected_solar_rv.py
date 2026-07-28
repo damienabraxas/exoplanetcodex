@@ -201,5 +201,95 @@ class TestFrameLoading:
         assert fr['wave_air'].min() > 1000   # Å, not nm
 
 
+def _mock_frame(specsys='BARYCENT', berv=-27.0):
+    w = np.linspace(5000.0, 6000.0, 4000)
+    return {'file': 'x.fits', 'instrument': 'ESPRESSO', 'pro_catg': 'S1D_FINAL_A',
+            'ins_mode': 'HR', 'specsys': specsys, 'mjd_mid': 58425.0, 'date_obs': '2018',
+            'berv': berv, 'snr': 250.0, 'wave_air': w, 'flux': np.ones_like(w)}
+
+
+def _patch_condition(monkeypatch, tell_v, specsys='BARYCENT', berv=-27.0):
+    """Patch frame load + measurements so condition_frame runs without data/network/iSpec.
+    TRAIN anchor = -5.0; held-out TEST = 0.0 (lands at rest); telluric = `tell_v`."""
+    monkeypatch.setattr(rsv, '_load_frame', lambda p: _mock_frame(specsys, berv))
+
+    def fake_measure(w, f, lines=rsv.VEL_LINES_AIR, clip=2.5):
+        v = -5.0 if lines is rsv.TRAIN_LINES else 0.0
+        return {'v_med': v, 'v_std': 0.05, 'n_used': 12, 'n_in_range': 12,
+                'v_coarse': v, 'per_line': {}}
+    monkeypatch.setattr(rsv, 'measure_bulk_velocity', fake_measure)
+    monkeypatch.setattr(rsv, '_core_velocity', lambda *a, **k: 0.1)   # NaD2/Ha residuals
+    monkeypatch.setattr(rsv, 'reflected_solar_rv',
+                        lambda mjd, **k: {'v_helio': 1.0, 'v_obs': 12.0, 'v_total': 13.0})
+    monkeypatch.setattr(rsv, 'telluric_velocity', lambda w, f: tell_v)
+
+
+class TestTelluricClosure:
+    def test_pass_when_telluric_matches_berv(self, monkeypatch):
+        # BARYCENT frame: telluric should sit at BERV (-27). -27.1 ≈ -27 → PASS.
+        _patch_condition(monkeypatch, tell_v=-27.1, specsys='BARYCENT', berv=-27.0)
+        r = rsv.condition_frame('x.fits')
+        assert r['status'] == 'PASS'
+        assert abs(r['closure_resid'] - (-0.1)) < 1e-6      # v_tell - BERV
+
+    def test_closure_fail_on_common_mode_offset(self, monkeypatch):
+        # Telluric far from BERV → a common-mode wavelength offset the held-out
+        # check cannot see → loud CLOSURE_FAIL (not a silent pass).
+        _patch_condition(monkeypatch, tell_v=-5.0, specsys='BARYCENT', berv=-27.0)
+        r = rsv.condition_frame('x.fits')
+        assert r['status'] == 'CLOSURE_FAIL'
+        assert abs(r['closure_resid']) > rsv.TELL_CLOSURE_TOL
+
+    def test_topocent_expects_zero(self, monkeypatch):
+        # UVES TOPOCENT: claimed shift = 0; telluric ≈ 0 → PASS, closure ≈ telluric.
+        _patch_condition(monkeypatch, tell_v=0.05, specsys='TOPOCENT', berv=None)
+        r = rsv.condition_frame('x.fits')
+        assert r['status'] == 'PASS' and r['tell_expected'] == 0.0
+        assert r['closure_resid'] == pytest.approx(0.05)
+
+    def test_closure_unavailable_is_flagged_not_failed(self, monkeypatch):
+        # No telluric peak (nan) → closure n/a, still PASS (held-out validated it),
+        # but the gap is recorded, never a silent pass.
+        _patch_condition(monkeypatch, tell_v=np.nan, specsys='BARYCENT', berv=-27.0)
+        r = rsv.condition_frame('x.fits')
+        assert r['status'] == 'PASS' and np.isnan(r['closure_resid'])
+        assert 'closure_note' in r
+
+    def test_telluric_velocity_nan_safe(self):
+        # Garbage input must not crash (iSpec may be absent) — returns NaN.
+        v = rsv.telluric_velocity(np.array([5000.0, 5001.0]), np.array([1.0, 1.0]))
+        assert np.isnan(v) or np.isfinite(v)
+
+
+class TestWriter:
+    def test_writes_pass_excludes_failed(self, tmp_path):
+        wave = np.linspace(5880.0, 5890.0, 50)
+        recs = [
+            {'file': 'good.fits', 'instrument': 'ESPRESSO', 'ins_mode': 'HR',
+             'specsys': 'BARYCENT', 'date_obs': '2018', 'mjd_mid': 58425.0, 'status': 'PASS',
+             'v_anchor': -4.8, 'n_train': 25, 'resid_test': -0.1, 'resid_NaD2': 0.1,
+             'resid_Halpha': 1.0, 'v_telluric': -27.3, 'tell_expected': -27.4,
+             'closure_resid': 0.1, 'v_total_eph': 13.3, 'geom_gap': 9.2,
+             'wave_rest': wave},
+            {'file': 'bad.fits', 'instrument': 'ESPRESSO', 'ins_mode': 'HR',
+             'specsys': 'BARYCENT', 'status': 'CLOSURE_FAIL', 'v_anchor': -4.8,
+             'closure_resid': 5.0, 'reason': 'common-mode offset'},
+        ]
+        # write_set reloads flux from root/file for PASS frames; _write_fits names the
+        # file '{pro_catg}.fits' → pass pro_catg='good' so it lands at tmp_path/good.fits.
+        _write_fits(tmp_path, 'good', instrument='ESPRESSO', wave_air=wave)
+        out = tmp_path / 'out'
+        rsv.write_set('vesta_espresso', out, recs=recs, root=tmp_path)
+        written = out / 'vesta_espresso' / 'good_rest.csv'
+        assert written.exists()
+        text = written.read_text()
+        assert 'convective blueshift' in text                 # provenance stamp
+        assert 'applied v_anch (removed): -4.8' in text
+        assert 'wavelength_air_A,flux' in text
+        man = (out / 'vesta_espresso_manifest.csv').read_text()
+        assert 'good.fits' in man and 'bad.fits' in man       # both logged
+        assert 'CLOSURE_FAIL' in man                          # exclusion reason recorded
+
+
 if __name__ == '__main__':
     raise SystemExit(pytest.main([__file__, '-v']))

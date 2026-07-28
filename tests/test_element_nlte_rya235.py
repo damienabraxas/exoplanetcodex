@@ -36,11 +36,13 @@ def test_registry_grids_exist_and_ions_well_formed():
 
 
 def test_grids_load_and_solar_deltas_match_documented():
-    # the real MPIA grids → Ca ~+0.013, Ti ~+0.108, Cr ~+0.073 (RYA-256 notes)
-    expect = {'Ca': 0.013, 'Ti': 0.108, 'Cr': 0.073}
+    # the real MPIA grids → Ti ~+0.108, Cr ~+0.073 (RYA-256 notes); Ca clean median +0.017
+    # after RYA-413 dropped the 6166 placeholder-zero (was +0.0118 with the placeholder).
+    expect = {'Ca': 0.017, 'Ti': 0.108, 'Cr': 0.073}
+    min_waves = {'Ca': 7, 'Ti': 8, 'Cr': 8}        # Ca = 7 after the RYA-413 6166 drop
     for el, ex in expect.items():
         c = N._load_mpia_element_grid(el)
-        assert len(c['waves']) >= 8
+        assert len(c['waves']) >= min_waves[el]
         ds = [N._mpia_element_delta(el, float(w), 5777, 4.4, 0.0) for w in c['waves']]
         ds = [d for d in ds if np.isfinite(d)]
         assert abs(float(np.median(ds)) - ex) < 0.02, f"{el} solar median Δ off"

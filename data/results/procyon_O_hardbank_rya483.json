@@ -1,0 +1,46 @@
+{
+  "ticket": "RYA-483",
+  "primary_indicator": "OI_777_1D_NLTE",
+  "procyon_O_AO_nlte": 8.82,
+  "procyon_OH_vs_our_sun": 0.085,
+  "our_solar_O": 8.735,
+  "banked_sigma": 0.186,
+  "hard_bankable": false,
+  "verdict": "PROVISIONAL_NOT_HARD_BANKED \u2014 continuum zero-point ~0.18 dex + [O I] 6300 leg terminal",
+  "blockers": [
+    "UVES O I 777 continuum-localization lever 0.23 dex (no \u03c7\u00b2 discrimination)",
+    "[O I] 6300 terminal (RYA-447/448/455) \u2014 corroboration leg unavailable"
+  ],
+  "solar_control_unmoved": true,
+  "part_a_zeropoint": {
+    "solar": {
+      "a_global": 8.956,
+      "a_local": 8.907,
+      "chi2r_local": 48.72,
+      "shift": -0.049,
+      "a_nlte_local": 8.736
+    },
+    "procyon": {
+      "a_global": 9.591,
+      "a_local": 9.36,
+      "chi2r_local": 46.67,
+      "shift": -0.231,
+      "a_nlte_local": 8.82
+    },
+    "continuum_diff_zp": -0.182,
+    "kpno_reference_accuracy": 0.001,
+    "kpno_espresso_zp": 0.04,
+    "zeropoint_sigma": 0.186,
+    "disposition": "fold into sigma (cross-instrument, not a correctable additive offset)"
+  },
+  "part_b_oi6300_leg": {
+    "solar_kpno_oi6300_lte": 7.256,
+    "solar_chi2r": 94.72,
+    "procyon_harps_oi6300_lte": 8.228,
+    "procyon_chi2r": 102.88,
+    "procyon_status": "ok",
+    "deanchored_leg_777_minus_6300": 0.592,
+    "solar_terminal": true,
+    "leg_available": false
+  }
+}

@@ -35,3 +35,17 @@ overrides:
       reason: blended-ionization
       evidence: "EW-vs-synth offset +0.173 dex; ionization balance closes via synth (RYA-305)"
       confidence: evidence-confirmed
+    Cu I:
+      method: synthesis
+      reason: hyperfine-structure
+      evidence: "all 5 solar Cu I lines hyperfine-split (4-10 GES components/feature) -> the
+        single-profile EW fit cannot measure them; 0 lines reach the EW pool (RYA-354). HFS
+        synthesis measures A(Cu)=4.345 (n=5), gf=Kock&Richter, RYA-402 b-factor NLTE (RYA-466)."
+      confidence: evidence-confirmed
+    V I:
+      method: synthesis
+      reason: hyperfine-structure
+      evidence: "V I lines hyperfine-split -> unmeasurable by the EW path (RYA-354); HFS
+        synthesis measures A(V)_LTE=3.917 (n=6). NLTE-VOID (no model atom, RYA-463) ->
+        LTE-only, lower confidence (RYA-466)."
+      confidence: evidence-confirmed

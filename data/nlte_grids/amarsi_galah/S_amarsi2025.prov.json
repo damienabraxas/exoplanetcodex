@@ -1,0 +1,42 @@
+{
+  "ticket": "RYA-402",
+  "element": "S",
+  "kind": "NLTE departure-coefficient grid (PySME-packaged), Family B (Amarsi/SME-form)",
+  "intake": {
+    "verified": "2026-06-21",
+    "md5_status": "PASS (all 3 files match the Zenodo v7 hashes)",
+    "source_folder": "~/Downloads (Ryan's fetch)"
+  },
+  "source": {
+    "paper_cite": "Amarsi, Li, Grevesse & Jurewicz 2025, A&A 703, A35, 'The solar sulphur abundance in view of large-scale atomic structure calculations and 3D non-LTE models'",
+    "arxiv": "2509.05225",
+    "deposit": "Amarsi, A. M., 'Grid/NLTE' (Uppsala) — rolling versioned Zenodo record",
+    "zenodo_version": "v7 (2025-09-05)",
+    "zenodo_record": "https://zenodo.org/records/17064337",
+    "zenodo_doi": "10.5281/zenodo.17064337",
+    "ts_adaptation_cite": "Gerber, Bergemann et al. 2022, A&A 666, A18 (Non-LTE radiative transfer with Turbospectrum; arXiv 2206.00967) — consumes this PySME departure grid in Turbospectrum (Step 2)"
+  },
+  "files": [
+    {"name": "nlte_S_ama51_Sep2024_pysme.grd", "bytes": 3007372949,
+     "md5": "c4486707374e6e598b8a4d7b9d97c706",
+     "committed": false, "git": "ignored (multi-GB binary)",
+     "role": "departure coefficients b(level, depth) over the MARCS grid, PySME binary form"},
+    {"name": "atmos_S.txt", "bytes": 82689,
+     "md5": "944a677d4be49a60b58b09ffd4012173",
+     "committed": true, "role": "MARCS atmosphere node table: index, Teff/K, log(g), [Fe/H] (3756 nodes; BYTE-IDENTICAL to atmos_Cu.txt — the shared MARCS grid)"},
+    {"name": "label_S.txt", "bytes": 14394,
+     "md5": "786d34f6c404acdd0ec8e16bfc314383",
+     "committed": true, "role": "model-atom energy levels: index, species, config, term, J, E(NIST)/eV (181 levels: S I 173, S II 8)"}
+  ],
+  "coverage": {
+    "n_marcs_nodes": 3756,
+    "teff_K": [3000, 8000],
+    "logg": [-0.5, 5.5],
+    "feh": [-5, 1],
+    "n_levels": 181,
+    "note": "[Fe/H] ceiling +1 — NO metal-rich clamp; covers the 55 Cnc regime (~+0.3). Departure coefficients are per energy level, so the grid covers ALL S I lines — the optical 6743/6757 multiplet AND the NIR 9212/9228/9237 triplet — making the optical-vs-NIR indicator a per-target line-quality choice, not a grid-availability constraint (supersedes the RYA-401 S verdict; S flips LTE-flagged -> GET-GRID, PUBLISHED)."
+  },
+  "local_path": "data/nlte_grids/amarsi_galah/nlte_S_ama51_Sep2024_pysme.grd",
+  "refetch": "Re-downloadable from the Zenodo v7 record above (file nlte_S_ama51_Sep2024_pysme.grd?download=1); verify md5 c4486707374e6e598b8a4d7b9d97c706 on re-fetch.",
+  "format_note": "atmos_{El}.txt = (Teff,logg,[Fe/H]) NODE table; label_{El}.txt = model-atom LEVELS; nlte_{El}_*.grd = PySME binary departures. Step 2 reads this layout via the Gerber-2022 TS adaptation."
+}

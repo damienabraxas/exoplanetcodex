@@ -1,0 +1,41 @@
+{
+  "ticket": "RYA-533",
+  "element": "Na",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B NLTE)",
+  "paper": "Gerber, Magg, Plez, Bergemann, Heiter, et al. 2023, A&A 669, A43 (NLTE radiative transfer with Turbospectrum)",
+  "arxiv": "2206.00967",
+  "note_2022_vs_2023": "arXiv posted 2022 (2206.00967); published A&A 669, A43 (2023). The grid/atom DATA release is cited as Gerber 2023. The 'A&A 666 A18' locator in RYA-531/533 is incorrect.",
+  "data_host": "MPG Keeper (Seafile) share https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/ (subfolders 'dep grids' + 'model_atoms')",
+  "url_source": "per-file Seafile links pinned from TSFitPy utilities/nlte_grids_links.cfg (the canonical Gerber-grid downloader); github.com/TSFitPy-developers/TSFitPy",
+  "provenance_caveat": "NO DOI, mutable/unversioned Seafile share (RYA-461/provenance bar) -> md5-pinned here; re-fetch verifies against these hashes.",
+  "sirius_only": "downloaded + stored ONLY on Sirius /mnt/codex-data/grids/nlte/gerber_ts/ (RYA-526). Never the Mac.",
+  "files": {
+    "model_atom": {
+      "name": "atom.na_qmh",
+      "url": "https://keeper.mpdl.mpg.de/f/e591b04ed6694306b876/?dl=1",
+      "bytes": 2508749,
+      "md5": "8297b392587941eaece3dfc9626f23be",
+      "desc": "Na I/II model atom (FoRMATo-2.1); bsyn MODELATOMFILE input"
+    },
+    "grid_1d_aux": {
+      "name": "auxData_Na_MARCS_Jul-14-2023.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/f844a547fe0746c196e8/?dl=1",
+      "bytes": 91894470,
+      "md5": "bea18709a21e9bbfe144436cb435ac88",
+      "desc": "1D-MARCS departure-grid parameter index: atmos ID, Teff, logg, [Fe/H], [alpha/Fe], mass, Vturb, A(X), pointer -> 4D interpolation axes"
+    },
+    "grid_1d_bin": {
+      "name": "NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/4223b6468d914975896b/?dl=1",
+      "bytes": 15904268552,
+      "md5": "d1e8b51efd66ad079bdef3377ce164d1",
+      "desc": "1D-MARCS departure-coefficient grid binary (bsyn DEPARTUREFILE source, via interpol_modeles_nlte)"
+    }
+  },
+  "engine_build": {
+    "repo": "github.com/bertrandplez/Turbospectrum_NLTE",
+    "path_sirius": "/mnt/codex-data/engines/Turbospectrum_NLTE",
+    "binaries": "exec-gf/babsma_lu + exec-gf/bsyn_lu (BSYN v20.1) — compiled with gfortran 15.2.0, -fconvert=big-endian -O3 -fno-automatic -std=legacy -mcmodel=small",
+    "nlte_hooks_live": "strings bsyn_lu shows NLTEINFOFILE/MODELATOMFILE/DEPARTUREFILE, 'missing NLTEINFOFILE!', unity-departure LTE fallback"
+  }
+}

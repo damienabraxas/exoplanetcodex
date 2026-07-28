@@ -39,5 +39,14 @@
     "logg": 4.438,
     "feh": 0.0,
     "delta_nlte": -0.0044
-  }
+  },
+  "rya417_dropped_placeholders": [
+    {
+      "ion": "I",
+      "wave_A": 6253.6,
+      "nodes_dropped": 72,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    }
+  ]
 }

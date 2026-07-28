@@ -1,0 +1,27 @@
+{
+  "ticket": "RYA-371 Phase A / RYA-464 per-star arms",
+  "star": "procyon",
+  "arms_requested": [
+    "uv"
+  ],
+  "arms_run": [],
+  "arms_deferred": {
+    "uv": "loader BUILT + Procyon STIS staged/conditioned (RYA-471, smoke-proven on E140M: C I 1657 covered, vac->air verified). Synthesis still gated on (1) the Amarsi C/O NLTE grid (RYA-359) \u2014 FUV C I carries a large negative correction; amarsi_grid_backend loud-fails by design, and (2) the FUV pseudo-continuum (RYA-426 gate 5, synthesis-not-EW). Flip to ready=True once RYA-359 lands."
+  },
+  "o_handling": "RYA-455: O I 777 primary, [O I] 6300 continuum-limited cross-check",
+  "cross_arm": {
+    "C": {
+      "indicators": [],
+      "verdict": "NO-DATA"
+    },
+    "N": {
+      "indicators": [],
+      "verdict": "NO-DATA"
+    },
+    "O": {
+      "indicators": [],
+      "verdict": "NO-DATA"
+    }
+  },
+  "per_arm": {}
+}

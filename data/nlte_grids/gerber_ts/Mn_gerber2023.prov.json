@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-534",
+  "element": "Mn",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned.",
+  "sirius_only": "Sirius /mnt/codex-data/grids/nlte/gerber_ts/ only (RYA-526).",
+  "files": {
+    "model_atom": {"name": "atom.mn281kbc", "url": "https://keeper.mpdl.mpg.de/f/39fb1c4531494da594bd/?dl=1", "md5": "a457d2ef89ca86c04f6ad529eb253c1d"},
+    "grid_1d_aux": {"name": "auxData_MN_MARCS_Mar-15-2023.dat", "url": "https://keeper.mpdl.mpg.de/f/7a252b64d5ea459aaa0c/?dl=1", "md5": "b01c1fb168ed7adcd11bf0bcbe53afbb"},
+    "grid_1d_bin_zip": {"name": "NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin.zip", "url": "https://keeper.mpdl.mpg.de/f/26173f90793a4b0a858c/?dl=1", "md5": "60f1543e4c7a1410cc4a5038a5e59537", "bytes": 14884418114}
+  },
+  "gate": {
+    "lines": "Mn I 6013.510 / 6021.800, GES NLTE level-IDs verbatim",
+    "result": "per-line delta +0.043 / +0.043; median +0.043",
+    "anchor": "+0.10 (Bergemann&Gehren 2008 / our Mn_Bergemann_MPIA +0.107; Gerber atom.mn281kbc = Bergemann 2019 lineage)",
+    "verdict": "PASS (|median - anchor| = 0.057 <= 0.06). NOTE: TS-Gerber +0.043 is ~half the registered Bergemann +0.107 — a meaningful cross-engine data point, consistent with the RYA-411 Amarsi(+0.05)-vs-Bergemann(+0.107) Mn model-atom discrepancy; the Gerber/Bergemann-2019 atom sits nearer the Amarsi value.",
+    "departures_engaged": true
+  }
+}

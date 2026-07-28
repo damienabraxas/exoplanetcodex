@@ -45,6 +45,9 @@ from pipeline.species import parse_ion   # RYA-345 canonical ion normalizer
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _REPO_ROOT   = Path(__file__).parent.parent
+# repo root is already on sys.path (the `from pipeline.species import parse_ion` above
+# requires it), so config.constants is importable here.
+from config.constants import committed_grid_artifact  # noqa: E402  (RYA-567)
 _VENDOR_DIR  = _REPO_ROOT / 'vendor' / '1L-3NErrors'
 _MODEL_LT02  = _VENDOR_DIR / 'fe1_model_lt02.p'   # Fe I, Elo < 2 eV
 _MODEL_GT02  = _VENDOR_DIR / 'fe1_model_gt02.p'   # Fe I, Elo >= 2 eV
@@ -228,7 +231,9 @@ def _apply_aberr_to_line(ion: str, elo: float, eup: float, lggf: float,
 # — retained ONLY for the solar 3D-vs-1D cross-check (RYA-283), not the live
 # correction. Trade: 3D→1D NLTE, ≲0.05 dex at our metal-rich targets (Amarsi
 # 2022 Fig 7), accepted for single-methodology coverage (RYA-319 decision).
-_MPIA_FE_GRID = _REPO_ROOT / 'data' / 'nlte_grids' / 'Fe_Bergemann_MPIA.csv'
+# RYA-567: committed, version-controlled Fe NLTE delta-CSV artifact (in-repo by
+# ratified convention, NOT a heavy Sirius compute input) — routed via the resolver.
+_MPIA_FE_GRID = committed_grid_artifact('nlte_grids', 'Fe_Bergemann_MPIA.csv')
 _mpia_cache: dict = {}
 
 
@@ -238,6 +243,21 @@ def _load_mpia_fe_grid() -> dict:
         return _mpia_cache
     from scipy.interpolate import LinearNDInterpolator
     df = pd.read_csv(_MPIA_FE_GRID)
+    # RYA-417: refuse to register a Fe-leg grid carrying placeholder-zero lines (a line
+    # identically 0 across ALL its nodes = MPIA served-but-unmodelled, i.e. a silent
+    # fake-LTE correction). This extends the RYA-413 registry-leg guard
+    # (_load_mpia_element_grid) to the SEPARATE primary-Fe path — the gap the 31 Fe
+    # placeholders rode. Detected per ion (the grid carries Fe I + Fe II at shared waves).
+    _ph = []
+    for _ion, _g in df.groupby('ion'):
+        _ph += [(str(_ion), w) for w in detect_placeholder_zero_lines(_g)]
+    if _ph:
+        raise ValueError(
+            f"[PLACEHOLDER_ZERO] Fe NLTE grid {_MPIA_FE_GRID.name} carries {len(_ph)} line(s) "
+            f"identically 0 across all nodes: {_ph}. The Fe leg must NOT apply a placeholder "
+            f"zero as if it were an NLTE correction (RYA-417, extends RYA-413) — drop them via "
+            f"scripts/drop_fe_leg_placeholders_rya417.py after a live-MPIA TRUE_PLACEHOLDER "
+            f"confirmation; never register the zero.")
     df = df[df['delta_nlte'].notna()]
     # RYA-345: the grid encodes ion as 'I'/'II' strings; key the interpolators on
     # the canonical ion int so callers passing any encoding ('I'/'II'/1/2/'26.1')
@@ -471,14 +491,29 @@ def apply_fe_nlte_corrections(
 #   description cited from Bergemann & Cescutti 2010; the large landmark correction is
 #   line/regime specific. This does NOT rescue the raw-pool Cr overshoot: 1D-LTE Cr
 #   already reads high (RYA-239), so acceptance still requires a CURATED pool first.
-_MPIA_ELEMENT_DIR = _REPO_ROOT / 'data' / 'nlte_grids'
+_MPIA_ELEMENT_DIR = committed_grid_artifact('nlte_grids')   # RYA-567 (committed artifact dir)
 _mpia_element_cache: dict = {}
+
+
+def detect_placeholder_zero_lines(df: pd.DataFrame, eps: float = 1e-9) -> list:
+    """Lines that are IDENTICALLY ~0 across ALL their (teff,logg,feh) nodes — almost
+    certainly a failed build or an MPIA-served-but-unmodelled line written as 0, NOT a
+    physical NLTE correction (a real correction varies over the parameter grid; it is not
+    exactly 0.000 everywhere). Returns the sorted wave_A list. RYA-413: this is the
+    placeholder-zero class (root: MPIA offers Ca 6166 in its dropdown but returns 0)."""
+    bad = []
+    for wave, g in df.groupby('wave_A'):
+        col = g['delta_nlte'].dropna()
+        if len(col) >= 2 and (col.abs() < eps).all():
+            bad.append(round(float(wave), 3))
+    return sorted(bad)
 
 
 def _load_mpia_element_grid(element: str) -> dict:
     """Per-(wave) LinearNDInterpolator over (teff_K, logg, feh) for a registry
     element (Ca/Ti/Cr). Cached per element; loud-fails if the element is not in the
-    registry or its grid file is missing (no silent skip of a configured element)."""
+    registry or its grid file is missing (no silent skip of a configured element).
+    RYA-413: REFUSES to register a grid carrying a placeholder-zero line (raises loud)."""
     if element in _mpia_element_cache:
         return _mpia_element_cache[element]
     from scipy.interpolate import LinearNDInterpolator
@@ -491,6 +526,14 @@ def _load_mpia_element_grid(element: str) -> dict:
     if not path.exists():
         raise FileNotFoundError(f"NLTE grid for {element} not found: {path}")
     df = pd.read_csv(path)
+    placeholders = detect_placeholder_zero_lines(df)
+    if placeholders:
+        raise ValueError(
+            f"[PLACEHOLDER_ZERO] {element} NLTE grid {spec['grid']} carries {len(placeholders)} "
+            f"line(s) that are identically 0 across all nodes: {placeholders}. A registered grid "
+            f"must NOT store a placeholder zero as if it were an NLTE correction (RYA-413) — "
+            f"re-fetch the line or DROP it from the pool with a documented reason; never register "
+            f"the zero.")
     df = df[df['delta_nlte'].notna()]
     interp, waves = {}, []
     for wave, g in df.groupby('wave_A'):
@@ -548,6 +591,7 @@ def apply_element_nlte_corrections(
     line_df: pd.DataFrame = None,
     elements=None,
     wave_tol: float = 0.15,
+    strict: bool = False,
 ) -> pd.DataFrame:
     """Apply per-line NLTE corrections to the non-Fe registry elements (Ca/Ti/Cr/Na/
     Mg I + Ba II; RYA-235 + RYA-165) from their vendored grids — MPIA MAFAGS-OS for
@@ -610,6 +654,29 @@ def apply_element_nlte_corrections(
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
             continue
 
+        # ── RYA-409 Part A: LOUD out-of-hull guard — kill the silent NaN→1D-LTE clamp ──
+        # The LinearND interpolator returns NaN outside the (Teff,logg,[Fe/H]) hull, which
+        # used to collapse to the generic 'NLTE_unavailable' with no signal — so 7 Family-A
+        # elements silently dropped to 1D-LTE at the metal-rich 55 Cnc ([Fe/H]+0.31 vs grid
+        # ceiling +0.30). Same loud-failure-over-silent-fallback class as RYA-399's
+        # 3D_unavailable / the RestFrameError gate: flag it LOUD + distinct (NLTE_OUT_OF_HULL),
+        # name the element + (Teff,logg,[Fe/H]) + the hull it missed, retain LTE only WITH that
+        # explicit flag — never a silent substitution. `strict=True` raises instead.
+        if not element_grid_in_bounds(element, teff, logg, feh):
+            b = _load_mpia_element_grid(element)['bounds']
+            msg = (f"{element} {ion_label}: (Teff={teff:.0f}, logg={logg:.2f}, [Fe/H]={feh:+.2f}) is "
+                   f"OUTSIDE the NLTE grid hull (Teff {b['teff'][0]:.0f}–{b['teff'][1]:.0f}, logg "
+                   f"{b['logg'][0]:.2f}–{b['logg'][1]:.2f}, [Fe/H] {b['feh'][0]:+.2f}..{b['feh'][1]:+.2f}). "
+                   f"Retaining 1D-LTE with an explicit NLTE_OUT_OF_HULL flag — NOT a silent NLTE→LTE "
+                   f"substitution (RYA-409). Re-source the grid past this [Fe/H] (Part B).")
+            warnings.warn(msg, RuntimeWarning, stacklevel=2)
+            print(f"  LOUD [NLTE_OUT_OF_HULL]: {msg}")
+            result.at[idx, 'A_X_nlte']  = a_1dlte
+            result.at[idx, 'nlte_flag'] = 'NLTE_OUT_OF_HULL'
+            if strict:
+                raise ValueError(f"RYA-409 strict NLTE hull guard: {msg}")
+            continue
+
         lines['aberr']  = np.nan
         lines['a_nlte'] = lines['a_1dlte']
         for i, lrow in lines.iterrows():
@@ -667,6 +734,19 @@ from pipeline.nlte_cno import (            # noqa: E402
     REQUIRED_LINES,
     TEFF_3D_CEILING,
     CITATION as CNO_CITATION,
+)
+
+
+# ── Metal 3D leg (RYA-399, Si/Ti/Cr) — composes AFTER the element NLTE pass ───
+# The 3D dimensional correction for the GET-3D metals (routed by RYA-400) is added
+# on top of the 1D-NLTE abundance: A(3D-NLTE) = A(1D-NLTE) + delta_3d. Re-exported
+# here so the RYA-371 Phase-C compose can run NLTE then 3D from one module. FINDING:
+# the published solar 3D corrections are small (<=0.1 dex, Ti/Cr positive) and do
+# NOT close the Si/Ti/Cr solar residual — carried forward, never tuned (RYA-399).
+from pipeline.threed_corrections import (    # noqa: E402
+    apply_threed_corrections,
+    solar_threed_delta,
+    residual_after_3d,
 )
 
 
