@@ -1,43 +1,18 @@
-# Model Atmospheres
+# Model-atmosphere pointer
 
-This directory holds stellar atmosphere models used for abundance analysis.
+Large model grids are not committed here. The live abundance code uses the
+iSpec-formatted `ATLAS9.Castelli` and `MARCS.GES` packs below `ISPEC_DIR`, not a
+partial grid copied into this directory.
 
-## ATLAS9 Grid (Kurucz)
+See [the model-assets guide](../../docs/models/assets.md) for classifications,
+authoritative sources, expected paths, checksum policy, licensing caveats, and
+validation commands. Run:
 
-Model type: `ATLAS9` — 1D, plane-parallel, LTE, opacity-sampled
-
-These files are large binary/text files and are **not included in the repo**.
-Download instructions below.
-
-### Acquiring the ATLAS9 Grid
-
-**Option A: Kurucz website**
-1. Visit [Kurucz ATLAS9 models](http://kurucz.harvard.edu/grids.html)
-2. Download the grid matching 55 Cancri's parameters:
-   - Teff range: 4750–5750 K (step 250 K)
-   - log g range: 4.0–5.0 (step 0.5)
-   - [Fe/H] range: 0.0–+0.5 (step 0.1)
-
-**Option B: MOOG companion grid**
-If using MOOG for radiative transfer, download the standard `odfnew` grid:
-```
-wget http://kurucz.harvard.edu/grids/gridm01odfnew/
+```bash
+export ISPEC_DIR=/absolute/path/to/ispec
+python scripts/validate_installation.py --full
+python -m pytest tests/test_abundances_derive.py -q
 ```
 
-**Option C: iSpec bundled grid**
-iSpec ships with a pre-interpolated ATLAS9 grid.
-See [iSpec documentation](https://www.blancocuaresma.com/s/iSpec).
-
-## Model Parameters for 55 Cancri A
-
-Interpolation target (from `config/constants.py` → `STAR_55CNC`):
-
-| Parameter | Value | Source |
-|-----------|-------|--------|
-| Teff | 5196 K | von Braun et al. 2011 (CHARA) |
-| log g | 4.41 | von Braun et al. 2011 |
-| [Fe/H] | +0.32 | Initial estimate |
-| vturb | 0.9 km/s | Initial estimate |
-
-These are starting values; the final parameters are determined iteratively
-through excitation/ionization equilibrium in `pipeline/05_abundances.py`.
+Do not populate this directory with an ad hoc model subset and assume the live
+iSpec interpolation path will discover it.

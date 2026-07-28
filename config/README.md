@@ -34,9 +34,9 @@ validate_constants()
 | `ASTRO` | Solar mass/radius/luminosity, AU, parsec | IAU 2015 nominal values |
 | `SOLAR_ASPLUND2021` | A(X) for 27 elements | Asplund et al. 2021, A&A 653, A141 |
 | `STAR_55CNC` | Teff, log g, [Fe/H], RV, distance, etc. | von Braun et al. 2011, ApJ 729, 63 |
-| `PIPELINE` | Wavelength range, S/N limits, EW thresholds | Internal — see methodology.md |
+| `PIPELINE` | Wavelength range, S/N limits, EW thresholds | Internal — see `../docs/` |
 | `PATHS` | All data/results directory and file paths | Auto-resolved from repo root |
-| `MODEL` | ATLAS9 configuration | Castelli & Kurucz 2004 |
+| `MODEL` | Legacy ATLAS9 metadata | Castelli & Kurucz 2004; live paths use `ISPEC_DIR` |
 
 ## Notes
 
@@ -50,3 +50,8 @@ atlas9_grid) are not created — they must be populated by the data acquisition 
 
 **Updating constants:** Bump `__version__` whenever any value changes. All changes
 should be traceable to a cited source in the comment on that line.
+
+Fundamental stellar parameters no longer live in this module. Edit
+`config/stars.yaml`, the canonical `STAR_PARAMS` source, and run
+`python scripts/check_stewardship.py`. See the root README for the distinction
+between target parameters, method policy, external spectra, and iSpec assets.
