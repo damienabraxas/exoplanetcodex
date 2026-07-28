@@ -205,3 +205,72 @@ ratified clause-3 classifier → dCE stays `None`). Mg stays `CURATION-OWED-with
    scale and Mg's offset moves from **+0.064** to somewhere in **−0.06 … −0.37**. Mg's
    "+0.064, comfortably inside the band" framing does not survive either change, so this is
    not a cosmetic difference.
+
+---
+
+## F. Rest-frame + gsig harness defects — lineage audit and corrected re-run (RYA-643, 2026-07-28)
+
+RYA-592 fixed two defects in **its own copy** of the in-window profile fitter and flagged that
+Sr II / Zr II might share the lineage. They did — and so did a fourth channel nobody had named.
+
+### F.1 Lineage: CONFIRMED SHARED (four copies, not two)
+
+| harness | element | introduced | rest-frame handling | broadening grid |
+|---|---|---|---|---|
+| `scripts/rya551_sr2_synth_sirius.py` | Sr II | `503d572` (PR#152 `4b3280e`) | **none** | `arange(1.5, 7.0, 0.5)` |
+| `scripts/rya560_zr2_synth_sirius.py` | Zr II | `2dc2c38` (PR#162) | **none** | `arange(1.5, 7.0, 0.5)` |
+| `scripts/rya564_co1_synth_sirius.py` | Co I | `dd484b4` (PR#166) | **none** | `arange(1.5, 7.0, 0.5)` |
+| `scripts/rya592_mg_5528_synth_sirius.py` | Mg I | `ee4a651` (PR#170) | fitted `dv` | `arange(0.4, 8.01, 0.2)` |
+
+Proof, not assertion: an AST comparison of the shared functions shows `babsma` and `rot_kernel`
+**byte-identical across all copies**, and `fit_line` / `local_renorm` differing **only in comments,
+one variable rename and statement splitting** — the executable logic was identical. RYA-560's own
+docstring says it "adapts rya551 verbatim". The only `dv` in the pre-fix copies is the local
+velocity axis inside `rot_kernel`, unrelated to the frame.
+
+The fix lived on the **main-mergeable** RYA-592 branch (`906fb34` → squashed `ee4a651`), not the
+hook (`c87420d`/`ae518e8`), which touched only `rya527_two_engine_run.py`.
+
+### F.2 Root cause fixed, not just the symptom
+
+The defect propagated because one algorithm existed in four places. The corrected machinery now
+lives once, in **`scripts/solar_profile_fit.py`**, and all four harnesses import it.
+`tests/test_solar_profile_fit_rya643.py` fails if any harness re-defines it, if the gsig grid
+regains a floor, or if a frame velocity is ever hardcoded. `require_arm_rv()` loud-fails when an
+arm's velocity cannot be measured — no silent zero.
+
+**Regression gate:** re-running Mg on the shared fitter reproduces the committed
+`mg_5528_synthesis_rya592.json` **exactly — 0 of 121 values differ.** The refactor is
+behaviour-preserving; every change below is the defect fix, not the refactor.
+
+### F.3 Corrected re-run vs the pre-declared 0.05 dex gate
+
+Measured arm velocities (abundance-blind, 9 clean-line centroids): **HARPS +0.756**, **IAG +0.278**
+km/s. The fitted per-line `dv` recovers them (e.g. Sr II 4077 fits +0.90 against a measured +0.756).
+
+| channel | line | BEFORE | AFTER | Δ | red-χ² | call |
+|---|---|---|---|---|---|---|
+| **Sr II** | **4077.709** (PRIMARY) | **2.769** | **2.759** | **−0.010** | 95.7 → 78.3 | **PASS** |
+| Sr II | 4215.519 | 2.724 | 2.693 | −0.031 | 199.0 → 180.0 | PASS |
+| Zr II | *(no reliable line, before or after)* | — | — | — | — | n/a |
+| **Co I** | 5212.688 (worst reliable) | 4.847 | 4.860 | +0.013 | 1.6 → 1.2 | **PASS** |
+| Co I | reported A(Co) | 4.965 | **4.960** | −0.005 | — | PASS |
+
+**All three CONFIRMED-ROBUST** on their reliable lines (worst |Δ|: Sr 0.031, Zr n/a, Co 0.013).
+
+* **Sr II is cleared for RYA-527 adoption.** The queued value moves 2.769 → **2.759**.
+* **Zr II conclusion unchanged** — still no line clears the dEW/dA ≥ 40 mÅ/dex floor, so Zr stays
+  MEASURABLE-OWED. Note two *sub-floor* lines did move materially (4258 +0.115, 4629 +0.127): the
+  defect was real here, it simply cannot reach a verdict that emits no value.
+* **Co I's PASS survives** — worth stating plainly, since Co promoted on this harness only days ago.
+
+### F.4 Two things this did NOT settle (flagged, not fixed)
+
+1. **Near-UV fit quality is poor in absolute terms.** Sr II 4077 improved to red-χ² **78** and 4215
+   sits at **180** — against Mg's 1.4 in the optical. The rest-frame fix helped and the *abundance*
+   is robust to it, but a red-χ² of 78 means the model does not reproduce that window. How much to
+   trust Sr II's value at all is a separate question this ticket does not answer.
+2. **Three Co lines now rail at the TOP of the widened gsig grid** (5301, 5331 at 8.0 km/s; 6632
+   moved −0.133). All are sub-floor and excluded, and the railing is now *reported* rather than
+   hidden — which is the point. But a fit wanting >8 km/s of broadening on a solar line is a bad
+   fit, and those lines should be looked at rather than left silently in the artefact.
