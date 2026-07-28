@@ -1,0 +1,91 @@
+{
+  "manifest_id": "sirius_solar_atlas_iag_baker2020",
+  "ticket": "RYA-485 Issue 3",
+  "source_cite": "Baker, Blake & Reiners 2020, ApJS 247, 24 \u2014 Telluric-Corrected IAG Solar Flux Atlas (base: IAG/Reiners et al. 2016, A&A 587 A65, Goettingen VVT FTS, R~1e6)",
+  "zenodo_record": "https://zenodo.org/records/3598136",
+  "zenodo_doi": "10.5281/zenodo.3598136",
+  "purpose": "non-Kitt-Peak independent solar 777 reference (RYA-483 continuum-lever test); 0.5-1.0 um covers O I 777 + [O I] 6300",
+  "dest_subdir": "solar_reference/iag_baker2020",
+  "n_items": 13,
+  "total_bytes": 550615706,
+  "items": [
+    {
+      "name": "iag_telfree_solaratlas.fits",
+      "url": "https://zenodo.org/records/3598136/files/iag_telfree_solaratlas.fits?download=1",
+      "size_bytes": 11658240,
+      "md5": "1a47d929df32778f72cc4080ff1f95ec"
+    },
+    {
+      "name": "open_data.py",
+      "url": "https://zenodo.org/records/3598136/files/open_data.py?download=1",
+      "size_bytes": 5786,
+      "md5": "7e7e5467f3aaae15db37a04b6ee907b6"
+    },
+    {
+      "name": "telluric_spectra_0.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_0.fits?download=1",
+      "size_bytes": 40786560,
+      "md5": "194a1cb2d7f82da62d5475234bb71879"
+    },
+    {
+      "name": "telluric_spectra_1.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_1.fits?download=1",
+      "size_bytes": 49524480,
+      "md5": "e13d3bd6ba20d2edf7168854cd469d21"
+    },
+    {
+      "name": "telluric_spectra_10.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_10.fits?download=1",
+      "size_bytes": 49524480,
+      "md5": "9881e698d391b04bf28bd450a8a2f832"
+    },
+    {
+      "name": "telluric_spectra_2.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_2.fits?download=1",
+      "size_bytes": 46612800,
+      "md5": "b46147066a86878366b150250b172069"
+    },
+    {
+      "name": "telluric_spectra_3.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_3.fits?download=1",
+      "size_bytes": 46612800,
+      "md5": "7d9406f08d0d57f5d1de81127750ff55"
+    },
+    {
+      "name": "telluric_spectra_4.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_4.fits?download=1",
+      "size_bytes": 52439040,
+      "md5": "68e19ef3e8a1752061fd02b08067a8e8"
+    },
+    {
+      "name": "telluric_spectra_5.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_5.fits?download=1",
+      "size_bytes": 52439040,
+      "md5": "4796263c09a32e191da37af142215e2d"
+    },
+    {
+      "name": "telluric_spectra_6.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_6.fits?download=1",
+      "size_bytes": 49524480,
+      "md5": "4d144071c3b6273ba03ef8fefe0938b8"
+    },
+    {
+      "name": "telluric_spectra_7.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_7.fits?download=1",
+      "size_bytes": 55350720,
+      "md5": "90aeac1662a3fe446cf2533f5858d0bc"
+    },
+    {
+      "name": "telluric_spectra_8.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_8.fits?download=1",
+      "size_bytes": 49524480,
+      "md5": "0c4696bfa9deec1edb5da1119b2ad8f6"
+    },
+    {
+      "name": "telluric_spectra_9.fits",
+      "url": "https://zenodo.org/records/3598136/files/telluric_spectra_9.fits?download=1",
+      "size_bytes": 46612800,
+      "md5": "7e37f8b8176115b6c43492ed91cfe504"
+    }
+  ]
+}

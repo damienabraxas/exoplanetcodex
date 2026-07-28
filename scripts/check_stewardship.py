@@ -681,6 +681,255 @@ def check_vald_threshold() -> list[Violation]:
     return violations
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 7 — solar-EW canonical input source (RYA-408)
+# ══════════════════════════════════════════════════════════════════════════════
+# Root cause of the RYA-406 incident: the solar Fe gate / abundance derivation read
+# its EW input from the GITIGNORED, regenerable staging file data/processed/solar_ew.csv,
+# whose per-worktree content can silently diverge from the committed canonical. This
+# guard enforces three things:
+#   (1) the committed canonical (data/measured/sol_ew_results_v1.csv) is present and
+#       well-formed — it is the single source the gate must read;
+#   (2) IDENTITY — pipeline.abundances_derive._load_solar_ews actually reads the
+#       canonical (PATHS['solar_ew_canonical']) and NOT the staging file as its EW pool
+#       (a regression that re-points the gate at the runtime is a loud, untracked break);
+#   (3) DRIFT — if the regenerable staging file is present, every canonical line must
+#       appear in it with matching EW and blend_flag; a divergent staging set is stale /
+#       from a different run and must never be mistaken for the source.
+_SOLAR_EW_CANONICAL = _const.PATHS['solar_ew_canonical']
+_EW_DRIFT_TOL_MA = 0.5  # mÅ — canonical is a resolved subset of the same lines_fit run
+
+def check_solar_ew_canonical() -> list[Violation]:
+    import inspect
+    violations: list[Violation] = []
+    canon = Path(str(_SOLAR_EW_CANONICAL))
+
+    # (1) canonical present + well-formed
+    if 'data/measured' not in canon.as_posix():
+        raise StewardshipParseError(
+            f"solar-EW canonical must live under data/measured (committed), got {canon}")
+    if not canon.exists():
+        raise StewardshipParseError(
+            f"solar-EW canonical missing at {canon} — the gate/abundance EW source is gone (RYA-408)")
+    try:
+        cdf = pd.read_csv(canon, low_memory=False)
+    except Exception as exc:
+        raise StewardshipParseError(f"cannot read solar-EW canonical {canon}: {exc}")
+    need = {'element', 'ion', 'wavelength_air_A', 'ew_mA', 'blend_flag'}
+    miss = need - set(cdf.columns)
+    if miss or len(cdf) == 0:
+        raise StewardshipParseError(
+            f"solar-EW canonical malformed (missing {miss or 'rows'}): {canon}")
+
+    # (2) IDENTITY — the gate's loader must read the canonical, not the staging file
+    try:
+        src = inspect.getsource(_ad._load_solar_ews)
+    except Exception as exc:
+        raise StewardshipParseError(f"cannot inspect _load_solar_ews source: {exc}")
+    reads_canonical = 'solar_ew_canonical' in src
+    reads_runtime_pool = "read_csv(str(PATHS['solar_ew']))" in src
+    if (not reads_canonical) or reads_runtime_pool:
+        violations.append(Violation(
+            invariant='solar_ew_canonical', quantity='gate EW input source',
+            locus='pipeline.abundances_derive._load_solar_ews',
+            value=f"reads_canonical={reads_canonical} reads_runtime_pool={reads_runtime_pool}",
+            source="PATHS['solar_ew_canonical'] vs PATHS['solar_ew']",
+            detail="the solar EW pool must be read from the committed canonical "
+                   "(sol_ew_results_v1.csv), never the gitignored staging solar_ew.csv "
+                   "(RYA-408; this is the RYA-406 incident). No remediation ticket — a "
+                   "re-point to the runtime is a real, untracked break.",
+            ticket=None))
+
+    # (3) DRIFT — a present staging file must agree with the canonical on the MEASURED
+    # EW of shared lines. blend_flag is intentionally NOT compared here: it is a curation
+    # quantity OWNED by the canonical (11 vetted blends incl. O I 6300.3 Ni-blend,
+    # RYA-104/408) that the raw lines_fit staging legitimately lacks — its integrity is
+    # the job of check_blend_flag (linelist ↔ vetted-builder ↔ propagation). Only an EW
+    # divergence signals a stale / different-run staging set masquerading as the source.
+    staging = Path(str(_const.PATHS['solar_ew']))
+    if staging.exists():
+        try:
+            sdf = pd.read_csv(staging, low_memory=False)
+        except Exception as exc:
+            raise StewardshipParseError(f"cannot read solar-EW staging {staging}: {exc}")
+        skey = {(e, i, round(float(w), 2)): float(m)
+                for e, i, w, m in zip(sdf['element'], sdf['ion'],
+                                      sdf['wavelength_air_A'], sdf['ew_mA'])}
+        n_div = 0
+        for e, i, w, m in zip(cdf['element'], cdf['ion'], cdf['wavelength_air_A'],
+                              cdf['ew_mA']):
+            k = (e, i, round(float(w), 2))
+            if k not in skey:
+                continue  # canonical line not in staging — coverage, not drift
+            if abs(skey[k] - float(m)) > _EW_DRIFT_TOL_MA:
+                n_div += 1
+                if n_div <= 5:  # cap the noise; the count is the signal
+                    violations.append(Violation(
+                        invariant='solar_ew_canonical', quantity='staging↔canonical EW drift',
+                        locus=f"{e} {i} {k[2]}Å",
+                        value=f"staging EW={skey[k]:.2f} mÅ vs canonical EW={float(m):.2f} mÅ",
+                        source=f"{staging.name} vs {canon.name}",
+                        detail="the regenerable staging solar_ew.csv diverges from the "
+                               "committed canonical on a measured EW — it is stale / from a "
+                               "different run and must not be mistaken for the EW source "
+                               "(RYA-408).",
+                        ticket=None))
+    return violations
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 8 — C/N/O molecular line lists secured (RYA-360)
+# ══════════════════════════════════════════════════════════════════════════════
+# RYA-236 acquired the Turbospectrum molecular lists (CH/¹³CH, CN isotopologues, C2,
+# OH, NH) + the converted CO_IR_Li2015.dat, but they lived ONLY in the iSpec install
+# tree — the repo tracked ZERO molecular artifacts, so an iSpec reinstall/rebuild would
+# silently wipe the CO addition (same failure class as gf / blend_flag / STAR_PARAMS).
+# RYA-360 vendored them into data/linelists/molecular/turbospectrum/ with a provenance
+# manifest; this invariant makes the securing mechanical, registry-driven off that
+# manifest (one entry per molecule):
+#   • each required list PRESENT in the vendored location + non-empty (≥ recorded baseline),
+#   • HARPS-window coverage non-empty (≥ baseline; headline CH/CN/C2 window too),
+#   • provenance complete (source + distribution) and wavelength_coverage present,
+#   • DRIFT: when iSpec is present, its files must still match the vendored copy (a
+#     reinstall that reset/wiped a list → loud CI event).
+# Any breach → UNTRACKED violation, exit 1 (a missing list is a CI event, not a silent
+# RYA-237 false-absence).
+_MOLECULAR_SUMMARY: dict = {}
+
+
+def check_molecular_lists() -> list[Violation]:
+    from pipeline import molecular_lists as _ml
+    violations: list[Violation] = []
+    try:
+        manifest = _ml.load_manifest()
+    except Exception as exc:
+        raise StewardshipParseError(f"molecular manifest unreadable/absent: {exc}")
+    mols = manifest.get('molecules', {})
+    if not mols:
+        raise StewardshipParseError("molecular manifest records no molecules (RYA-360)")
+
+    ispec_present = _ml.ISPEC_MOLECULES_DIR.exists()
+    summary: dict = {}
+    for mol, entry in mols.items():
+        sub = _ml.VENDORED_DIR / entry.get('vendored_subdir', mol)
+        files = entry.get('files', [])
+        baseline = int(entry.get('line_count', 0))
+
+        # (1) vendored lists present + non-empty (≥ recorded baseline)
+        missing = [f for f in files if not (sub / f).exists()]
+        counted = sum(_ml.count_bsyn_lines(sub / f) for f in files if (sub / f).exists())
+        if not files or missing:
+            violations.append(Violation(
+                invariant='molecular', quantity='vendored list present',
+                locus=f"{mol}  molecular/turbospectrum/{entry.get('vendored_subdir', mol)}",
+                value=(f"missing {len(missing)}/{len(files)} file(s): {missing[:3]}"
+                       if files else "no files recorded"),
+                source=str(entry.get('source', '—')),
+                detail="required molecular list absent from the vendored secure record — "
+                       "an iSpec reinstall/deletion would now be invisible (RYA-360). "
+                       "Re-vendor: scripts/vendor_molecular_lists_rya360.py.",
+                ticket=None))
+        elif counted < baseline:
+            violations.append(Violation(
+                invariant='molecular', quantity='vendored list non-empty',
+                locus=f"{mol}  molecular/turbospectrum/{entry.get('vendored_subdir', mol)}",
+                value=f"{counted} lines < recorded baseline {baseline}",
+                source=str(entry.get('source', '—')),
+                detail="vendored molecular list is empty/truncated below its recorded "
+                       "line count — the secure copy has been corrupted (RYA-360).",
+                ticket=None))
+
+        # (2) coverage non-empty — HARPS window for the held optical/electronic lists;
+        #     the RYA-499 mid-IR window for the RYA-503 acquired ro-vibrational lists.
+        gate = entry.get('coverage_gate', 'harps')
+        hw = entry.get('harps_window')
+        mw = entry.get('midir_window') or {}
+        if gate == 'midir':
+            if int(mw.get('count', 0)) <= 0:
+                violations.append(Violation(
+                    invariant='molecular', quantity='mid-IR window coverage',
+                    locus=f"{mol}  {mw.get('label', '')}",
+                    value=f"0 lines in {mw.get('range_cm-1')} cm⁻¹",
+                    source=str(entry.get('source', '—')),
+                    detail="acquired list carries no rows in its RYA-499 mid-IR "
+                           "fundamental window — the acquisition is empty where it must "
+                           "cover (RYA-503).", ticket=None))
+        else:
+            if hw and int(hw.get('count', 0)) <= 0:
+                violations.append(Violation(
+                    invariant='molecular', quantity='HARPS-window coverage',
+                    locus=f"{mol}  {hw.get('name', '')}",
+                    value=f"0 lines in {hw.get('range_A')}",
+                    source=str(entry.get('source', '—')),
+                    detail="headline HARPS diagnostic window is empty — the band the "
+                           "synthesis keystone (RYA-237) fits has no lines (RYA-360).",
+                    ticket=None))
+            if mol != 'CO' and int(entry.get('harps_range_count', 0)) <= 0:
+                violations.append(Violation(
+                    invariant='molecular', quantity='HARPS-range coverage',
+                    locus=f"{mol}", value="0 lines in 3800–6900 Å",
+                    source=str(entry.get('source', '—')),
+                    detail="no lines across the HARPS-VIS arm — an optical molecular list "
+                           "with zero HARPS coverage is unusable (RYA-360).",
+                    ticket=None))
+
+        # (3) provenance complete (source + distribution) + wavelength_coverage present
+        for pf in ('source', 'distribution'):
+            if _is_placeholder(entry.get(pf, '')):
+                violations.append(Violation(
+                    invariant='molecular', quantity=f'provenance ({pf})',
+                    locus=f"{mol}", value=repr(entry.get(pf, '')),
+                    source='manifest', detail=f"molecular list carries empty/placeholder "
+                    f"{pf} provenance (RYA-360).", ticket=None))
+        wc = entry.get('wavelength_coverage') or {}
+        if (wc.get('min_A') is None or wc.get('max_A') is None
+                or _is_placeholder(wc.get('regime', ''))):
+            violations.append(Violation(
+                invariant='molecular', quantity='wavelength_coverage',
+                locus=f"{mol}", value=repr(wc),
+                source='manifest',
+                detail="wavelength_coverage (min/max Å + regime) missing — the "
+                       "electronic-vs-mid-IR distinction must be machine-recorded "
+                       "(RYA-360/499).", ticket=None))
+
+        # (4) DRIFT — when iSpec is present, its files must still match the vendored copy.
+        #     Skipped for RYA-503 acquired lists (in_ispec: false) — they were acquired
+        #     into the repo, not the iSpec bundle, so there is nothing to drift against.
+        drift_note = ('acquired — not in iSpec' if not entry.get('in_ispec', True)
+                      else 'iSpec absent — skipped')
+        if entry.get('in_ispec', True) and ispec_present and files and not missing:
+            drifted = []
+            for f in files:
+                ip = _ml.ISPEC_MOLECULES_DIR / f
+                if not ip.exists():
+                    drifted.append((f, 'absent-in-iSpec'))
+                elif _ml.count_bsyn_lines(ip) != _ml.count_bsyn_lines(sub / f):
+                    drifted.append((f, 'line-count differs'))
+            if drifted:
+                drift_note = f"{len(drifted)} file(s) DRIFTED"
+                violations.append(Violation(
+                    invariant='molecular', quantity='iSpec↔vendored drift',
+                    locus=f"{mol}", value=f"{drifted[:3]}",
+                    source='iSpec molecules dir vs vendored copy',
+                    detail="the iSpec molecular list no longer matches the vendored "
+                           "secure record — a reinstall/rebuild reset or wiped it "
+                           "(the exact RYA-360 risk). Re-vendor or restore.",
+                    ticket=None))
+            else:
+                drift_note = 'matches vendored'
+
+        headline = (f"{mw['label'].split(' (')[0]} {mw['count']}" if gate == 'midir' and mw
+                    else (f"{hw['name']} {hw['count']}" if hw else '—'))
+        summary[mol] = {
+            'files': len(files), 'lines': counted, 'baseline': baseline,
+            'harps_range': int(entry.get('harps_range_count', 0)),
+            'headline': headline, 'regime': wc.get('regime', '?'), 'drift': drift_note,
+        }
+    _MOLECULAR_SUMMARY.clear()
+    _MOLECULAR_SUMMARY.update(summary)
+    return violations
+
+
 GF_PAIRS = [
     GfPair(
         name='synth-vs-solar',
@@ -725,9 +974,59 @@ PROVENANCE_CHECKS = [
     ProvenanceCheck('STAR_PARAMS', 'star_params', quantity='stellar parameters'),
 ]
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 8 — no hardcoded physical-line gf in constants.py dicts (RYA-543)
+# ══════════════════════════════════════════════════════════════════════════════
+# A gf for a real physical line must live ONLY in canonical_gf.csv and resolve at use
+# via gf_resolver. A constants.py dict that hardcodes a `log_gf` for a physical line is
+# a silent-divergence duplicate — the RYA-543 defect: NI6300_COG['log_gf'] = −2.841
+# (stale VALD3) shadowed the RYA-365-adjudicated canonical −2.11 (Johansson 2003) in the
+# [O I] 6300 Ni-subtraction, biasing A(O) high. The gf-pair (Inv. 1) and all-stores
+# (Inv. 5) invariants cover LINE-LIST stores; they never looked inside constants.py, so
+# this duplicate slipped. This guard closes that gap.
+#
+# Registry: (dict name, dict object, canonical key, wl, ep). TARGET STATE = the dict has
+# NO 'log_gf' key (gf resolved at use), so this check is a no-op tripwire that FAILS
+# loudly (UNTRACKED → exit 1) if a hardcoded, canonical-divergent gf is ever reintroduced.
+_CONST_GF_DICTS = [
+    ('NI6300_COG', _const.NI6300_COG, (28, 1), 6300.342, 4.266),  # Ni I 6300.34 (RYA-365/543)
+]
+
+
+def check_constants_gf_duplicates() -> list[Violation]:
+    """Fail if any registered constants dict hardcodes a physical-line log gf that
+    diverges from (or is absent from) the single canonical gf source."""
+    out: list[Violation] = []
+    for name, obj, key, wl, ep in _CONST_GF_DICTS:
+        if 'log_gf' not in obj:
+            continue  # RYA-543 target state: no hardcoded copy → nothing can diverge
+        hard = float(obj['log_gf'])
+        try:
+            canon = _gr.resolve(key, wl, ep)
+        except _gr.GfResolutionError:
+            out.append(Violation(
+                invariant='const_gf', quantity='log gf',
+                locus=f"config.constants.{name}['log_gf']",
+                value=f"hardcoded {hard:+.3f}; absent from canonical_gf.csv",
+                source='config.constants vs canonical_gf.csv',
+                detail="constants dict hardcodes a physical-line gf with no entry in the "
+                       "single canonical source (RYA-543) — orphan, no authoritative gf"))
+            continue
+        if abs(hard - canon) > GF_DIVERGENCE_DEX:
+            out.append(Violation(
+                invariant='const_gf', quantity='log gf',
+                locus=f"config.constants.{name}['log_gf']",
+                value=f"hardcoded {hard:+.3f} vs canonical {canon:+.3f} (Δ={hard - canon:+.3f})",
+                source='config.constants vs canonical_gf.csv',
+                detail="constants dict hardcodes a physical-line gf that diverges from the "
+                       "single canonical source (RYA-543) — resolve at use via gf_resolver"))
+    return out
+
+
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
-    check_all_stores_resolve, check_vald_threshold,
+    check_all_stores_resolve, check_vald_threshold, check_solar_ew_canonical,
+    check_molecular_lists, check_constants_gf_duplicates,
 ]
 
 
@@ -743,6 +1042,9 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_blend_flag()
     violations += check_all_stores_resolve()
     violations += check_vald_threshold()
+    violations += check_solar_ew_canonical()
+    violations += check_molecular_lists()
+    violations += check_constants_gf_duplicates()
     return violations
 
 
@@ -778,8 +1080,17 @@ def _report(violations: list[Violation]) -> None:
             print(f"     {label:<22} overlap {s['overlap']:>6}  orphan {s['orphan']:>3}  "
                   f"raw_div {s['raw_div']:>5} (max {s['max_dgf']:.2f})  [{s['contract']}]")
 
+    # molecular-lists summary (RYA-360)
+    if _MOLECULAR_SUMMARY:
+        print(f"\n[molecular] C/N/O line lists secured (vendored + iSpec drift):")
+        for mol, s in _MOLECULAR_SUMMARY.items():
+            print(f"     {mol:<3} {s['files']:>2} file(s)  {s['lines']:>7} lines "
+                  f"(baseline {s['baseline']})  HARPS {s['harps_range']:>7}  "
+                  f"headline[{s['headline']}]  {s['regime']:<34} iSpec: {s['drift']}")
+
     # per-invariant violation tables
-    for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores'):
+    for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores',
+                'vald_threshold', 'solar_ew_canonical', 'molecular', 'const_gf'):
         vs = [v for v in violations if v.invariant == inv]
         if not vs:
             print(f"\n[{inv}] OK — no violations.")

@@ -1,0 +1,328 @@
+# config/physics_regime_rya400.yaml
+# =================================================================================
+# RYA-400 "The Beast" — per-element physics-regime map for all 27 (26 symbols; Fe I/II
+# split). The single source of truth for each element's 1D-vs-3D × LTE-vs-NLTE regime,
+# grid/data availability, indicator lines, hazards, and routing verdict — the homework
+# that earns the RYA-371 Phase-C serious validation.
+#
+# Validate-don't-tune. Every regime CALL carries a citation (value-provenance); none is
+# asserted from memory. The `verified_in_repo` block of each element is cross-checked
+# against the live code by scripts/audit_physics_regime_rya400.py (a LOCKED row that is
+# not actually wired loud-fails). Correction magnitudes are dex, solar (FGK-dwarf) unless
+# noted; "see <cite>" = the regime DIRECTION is cited but a precise solar number was not
+# pinned in this pass (do not invent one).
+#
+# Verdicts: LOCKED | GET-GRID | GET-3D | GET-DATA | HARD-carry-forward
+# Routing : RYA-399 = 3D-extension arm; RYA-396-pattern = NLTE-grid vendoring (INSPECT/
+#           MPIA/CDS/Amarsi-GALAH); RYA-119 = HST/MAST data; RYA-102/103/161 = open bugs.
+
+meta:
+  ticket: RYA-400
+  gates: RYA-371-PhaseC
+  regime_authority: "Asplund, Amarsi & Grevesse 2021, A&A 653, A141 (3D non-LTE solar abundances)"
+  galah_nlte_grids: "Amarsi et al. 2020, A&A 642, A62 — public NLTE departure-coeff grids for H, Li, C, N, O, Na, Mg, Al, Si, K, Ca, Mn, Ba"
+  amarsi2020_dabun_range: "relaxing LTE changes line abundances -0.7..+0.2 dex (line/star dependent)"
+  conventions:
+    feh_axis: "[X/H] RELATIVE (0.0 at solar); pass stellar_params['feh'] directly (RYA-256)"
+    hfs: "splitting handled via the VALD HFS-on extraction convention (per-element confirmed below)"
+    corr_sign: "delta_nlte = A_NLTE - A_LTE; A(X;NLTE) = A(X;1D-LTE) + delta (RYA-339 sign guard)"
+
+# ── LOCKED — NLTE applied + wired in-repo (3D status confirmed/flagged) ──────────
+elements:
+  Fe:
+    ion: "I+II"
+    dimensionality: {regime: "1D-OK (3D small for Fe I in the Sun)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (Fe I over-ionisation)", solar_corr_dex: "-0.01..-0.06 (line-dep)", cite: "Asplund2021; Bergemann MAFAGS-OS (repo RYA-319)"}
+    grid: {status: HAVE, source: "Fe_Bergemann_MPIA.csv (RYA-319); per-line over teff/logg/feh"}
+    indicators: {lines: "many Fe I (Teff) + Fe II (logg) optical", in_data: true}
+    hazards: "Fe II = logg anchor; scatter/saturation handled (RYA-279)"
+    verdict: LOCKED
+    verified_in_repo: {nlte_leg: "apply_fe_nlte_corrections", grid_file: "Fe_Bergemann_MPIA.csv"}
+
+  C:
+    ion: "I"
+    dimensionality: {regime: "3D needed", solar_corr_dex: "see Amarsi2019/Asplund2021", cite: "Amarsi2019; Asplund2021"}
+    departure: {regime: "NLTE (large, negative)", solar_corr_dex: "up to ~-0.1 (C I high-EP)", cite: "Amarsi2019 (A&A 630, A104)"}
+    grid: {status: HAVE, source: "nlte_cno (amarsi2019_cno/), 3D-leg<=6500K"}
+    indicators: {lines: "C I 5052/5380 + IR 9094/9111/9406; CH (synthesis)", in_data: "VIS yes; IR partial"}
+    hazards: "CH/C2 molecular blends; A(C) drives CH EOS (cno_synthesis)"
+    verdict: LOCKED
+    verified_in_repo: {nlte_leg: "nlte_cno.apply_cno_nlte_corrections", grid_dir: "amarsi2019_cno"}
+
+  N:
+    ion: "I"
+    dimensionality: {regime: "3D needed", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE owed (no vendored N grid)", solar_corr_dex: "owed", cite: "Amarsi2020 (N NLTE exists in lit, NOT vendored here)"}
+    grid: {status: MISSING, source: "nlte_cno models ONLY C I + O I (Amarsi 2019 C/O grid; REQUIRED_LINES={CI,OI}); there is NO N grid -- cno_nlte_delta('NI') errors. The prior 'HAVE via nlte_cno' claim was false (RYA-434)."}
+    indicators: {lines: "N I 7468/8216 weak; NH 3360; CN -- mostly SYNTHESIS not EW", in_data: "0 measured EW lines; CN synthesis (cno_synthesis) weak/non-converged (RYA-237)"}
+    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); NO N NLTE grid in nlte_cno (C/O only)"
+    verdict: GET-DATA
+    routing: "N NLTE OWED (RYA-434): nlte_cno does NOT model N. Needs a vendored N NLTE grid + a measured/synthesised N abundance before LOCKED; N I atomic red-optical + NH UV (RYA-369)"
+    verified_in_repo: {nlte_leg: "none (nlte_cno is C/O only)", measured_ew_lines: 0, note: "RYA-434 demoted from LOCKED: N had no production artifact on any path (not an nlte_cno species, no registry grid, 0 EW lines)"}
+
+  O:
+    ion: "I"
+    dimensionality: {regime: "3D applied", solar_corr_dex: "3D-NLTE; +0.11 1D->3D-ish at [OI]6300", cite: "Amarsi2016; Caffau2015 (RYA-367); Asplund2021"}
+    departure: {regime: "NLTE (O I 777 large +; [O I] small)", solar_corr_dex: "777: +0.2..+0.3; 6300: small", cite: "Amarsi2016 (MNRAS 463,1518)"}
+    grid: {status: HAVE, source: "nlte_cno (amarsi2019_cno/), O I 777 multiplet"}
+    indicators: {lines: "[O I] 6300 (+Ni blend), O I 7771-5 triplet", in_data: true}
+    hazards: "[O I]6300 Ni I blend (gf rerouted RYA-365/367); 777 telluric-adjacent"
+    verdict: LOCKED
+    verified_in_repo: {nlte_leg: "nlte_cno", grid_dir: "amarsi2019_cno"}
+
+  Na:
+    ion: "I"
+    dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE", solar_corr_dex: "-0.05..-0.15 (resonance/subord.)", cite: "Lind2011 (A&A 528,A103); Amarsi2020"}
+    grid: {status: HAVE, source: "Na_Amarsi2020_PySME.csv (RYA-410 re-source onto Amarsi-2020 PySME; was Na_Lind2011_INSPECT.csv RYA-165); solar median d=-0.107"}
+    indicators: {lines: "Na I 5682/5688/6154/6160 (subordinate, used); D doublet saturated", in_data: true}
+    hazards: "D lines saturated (avoid); subordinate lines clean"
+    verdict: LOCKED
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Na]", grid_file: "Na_Amarsi2020_PySME.csv"}
+
+  Mg:
+    ion: "I"
+    dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (small in FGK)", solar_corr_dex: "~+0.007 (repo); ~0.02-0.05", cite: "Osorio2015 (A&A 579,A53); Bergemann MAFAGS (repo)"}
+    grid: {status: HAVE, source: "Mg_Amarsi2020_PySME.csv (RYA-410 re-source onto Amarsi-2020 PySME; was Mg_Bergemann_MPIA.csv RYA-165); Mg NLTE ~0 in FGK"}
+    indicators: {lines: "Mg I 5711/4730/.. (clean subord.)", in_data: true}
+    hazards: "RYA-239 Mg +1.72 = SATURATION/CURATION not NLTE; fix is pool curation (RYA-395/398)"
+    verdict: LOCKED
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Mg]", grid_file: "Mg_Amarsi2020_PySME.csv"}
+
+  Si:
+    ion: "I"
+    dimensionality: {regime: "3D — flag for RYA-399", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (negligible in FGK)", solar_corr_dex: "~-0.004 (repo, clean)", cite: "Bergemann MAFAGS (repo); Asplund2021"}
+    grid: {status: HAVE, source: "Si_Amarsi2020_PySME.csv (RYA-410 re-source onto Amarsi-2020 PySME, 7-line; was Si_Bergemann_MPIA.csv RYA-165); registered NLTE-clean"}
+    indicators: {lines: "many Si I optical (80 measured)", in_data: true}
+    hazards: "none major; 3D check owed (RYA-399)"
+    verdict: LOCKED
+    routing: RYA-399
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Si]", grid_file: "Si_Amarsi2020_PySME.csv"}
+
+  Ca:
+    ion: "I"
+    dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE", solar_corr_dex: "~+0.013 (repo median)", cite: "Mashonkina2017 (A&A 606,A147)"}
+    grid: {status: HAVE, source: "Ca_Mashonkina2017.csv (RYA-256)"}
+    indicators: {lines: "Ca I optical (29 measured); avoid 6122/6162 strong wings", in_data: true}
+    hazards: "strong Ca I lines saturate; narrow-window diagnostic exists (solar_ca6122)"
+    verdict: LOCKED
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Ca]", grid_file: "Ca_Mashonkina2017.csv"}
+
+  Ti:
+    ion: "I"
+    dimensionality: {regime: "3D-dominated — route RYA-399", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE", solar_corr_dex: "~+0.051 (Mallinson2024 ab-initio, RYA-545; solar median +0.0506, reproduces published +0.052). SUPERSEDES the old ~+0.108 (Bergemann2011 scaled-Drawin, inflated ~2x, RYA-546)", cite: "Mallinson et al. 2024 (A&A 687,A5), ab-initio Grumer-Barklem-2020 H collisions"}
+    grid: {status: HAVE, source: "Ti_Mallinson2024_PySME.csv (RYA-545; Zenodo 10753497 M.2, DOI 10.5281/zenodo.10753497, md5-pinned per RYA-544/545) = the production Engine-A grid. SUPERSEDES Ti_Bergemann2011_MPIA.csv (RYA-256) — retired reference kept, not deleted (scaled-Drawin, RYA-546)"}
+    indicators: {lines: "many Ti I (91 measured); Ti II ionisation check", in_data: true}
+    hazards: "Ti I/Ti II NLTE differ; 3D term flagged"
+    verdict: LOCKED
+    routing: RYA-399
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Ti]", grid_file: "Ti_Mallinson2024_PySME.csv"}
+
+  Cr:
+    ion: "I"
+    dimensionality: {regime: "3D-dominated — route RYA-399", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE", solar_corr_dex: "~+0.073 (repo median; NOT the +0.3-0.5 landmark)", cite: "Bergemann&Cescutti2010 (A&A 522,A9)"}
+    grid: {status: HAVE, source: "Cr_Bergemann2010_MPIA.csv (RYA-256)"}
+    indicators: {lines: "many Cr I (80 measured); Cr II excluded (RYA-240 artifact)", in_data: true}
+    hazards: "raw 1D-LTE Cr reads HIGH (RYA-239 +0.345); NLTE worsens uncurated -> curate first (RYA-395)"
+    verdict: LOCKED
+    routing: RYA-399
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Cr]", grid_file: "Cr_Bergemann2010_MPIA.csv"}
+
+  Ba:
+    ion: "II"
+    dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE", solar_corr_dex: "~-0.03 (repo); ~-0.1", cite: "Korotin2015 (A&A 581,A70); Amarsi2020"}
+    grid: {status: HAVE, source: "Ba_Korotin2015.csv (RYA-165); ion II"}
+    indicators: {lines: "Ba II 4554/5853/6141/6496 (strong, saturated)", in_data: true}
+    hazards: "Ba II resonance saturated; HFS+isotopes; 5853 subordinate cleaner"
+    verdict: LOCKED
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Ba]", grid_file: "Ba_Korotin2015.csv"}
+
+  Mn:
+    ion: "I"
+    dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (sizeable +)", solar_corr_dex: "~+0.10 (repo median)", cite: "Bergemann&Gehren2008 (A&A 492,823); MAFAGS (repo)"}
+    grid: {status: HAVE, source: "Mn_Bergemann_MPIA.csv (RYA-165)"}
+    indicators: {lines: "Mn I optical (9 measured); HFS strong", in_data: true}
+    hazards: "HFS-heavy (VALD HFS-on); NLTE+HFS both matter"
+    verdict: LOCKED
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Mn]", grid_file: "Mn_Bergemann_MPIA.csv"}
+
+# ── GET-GRID round-2 (RYA-401) — PROBED live; all 6 are DOCUMENTED GAPS (no grid ────
+# vendored, none fabricated). Empirical source reality (RYA-401, 2026-06-21):
+#   MPIA SpectrumTools hosts only {Ca,Co,Cr,Fe,Mg,Mn,O,Si,Ti}; INSPECT A_from_e answers
+#   only for Sr (Al/K/S/Cu/V → HTTP 500). So NONE of the six is vendorable via the RYA-396
+#   simple-delta-CSV scrapers, each for a distinct, cited reason below. Per the ticket:
+#   document the gap loudly, flip out of GET-GRID, do NOT fabricate. Recovery path recorded
+#   per element. See docs/nlte_grid_acquisition_rya401.md.
+  Al:
+    ion: "I"
+    dimensionality: {regime: "3D-NLTE (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE", solar_corr_dex: "-0.022 (PySME from Amarsi2020 grid; reproduces Nordlander&Lind2017 subordinate band <=-0.04)", cite: "Nordlander&Lind2017 (A&A 607,A75); Amarsi2020 (A&A 642,A62)"}
+    grid: {status: HAVE, source: "Amarsi2020 GALAH (Al) departure grid via PySME (RYA-402 Option 2); Al I model atom Nordlander&Lind2017"}
+    rya401: {probe: "INSPECT A_from_e Al → HTTP 500; not on MPIA tool; no simple delta-CSV", outcome: "SUPERSEDED by RYA-402 — the departure-coefficient→delta conversion that RYA-401 flagged as RYA-399-class was done via PySME synthesis (not a scrape)"}
+    indicators: {lines: "Al I 6696/6698 (subord., clean); 3944/3961 resonance strong", in_data: "2 measured lines"}
+    hazards: "resonance lines strong/blue; subordinate 6696/6698 preferred (the ones derived)"
+    verdict: LOCKED
+    routing: "RYA-402 (PySME b-factor synthesis; Family-B Option 2). Validated vs N&L2017 (solar median -0.022, PASS) + LTE-baseline-portable (eps -0.011)."
+    verified_in_repo: {registry: true, grid_file: "Al_Amarsi2020_PySME.csv", measured_ew_lines: 2}
+
+  K:
+    ion: "I"
+    dimensionality: {regime: "3D-NLTE (Asplund2021, new 3D-NLTE)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (severe; saturated resonance)", solar_corr_dex: "7665 -0.27 / 7699 -0.31 (median -0.29; RYA-402 PySME from Amarsi2020 grid, saturated-aware)", cite: "Reggiani2019 (A&A 627,A177); Andrievsky2006; Amarsi2020 (grid)"}
+    grid: {status: HAVE-REGISTERED, source: "Amarsi2020 GALAH (K) via PySME (RYA-402); K_Amarsi2020_PySME.csv -- DERIVED + VALIDATED, REGISTERED RYA-462 (was data-blocked; RYA-460 Kitt Peak K I 7699 measurement lifted it)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool", outcome: "NLTE grid SUPERSEDED by RYA-402 (derived+validated via PySME, median -0.29). RYA-460 measured the CLEAN K I 7699 off the Kitt Peak atlas (7665 stays in the O2 A-band) and RYA-462 REGISTERED K + applied the vendored solar delta -0.31 -> solar A(K) 5.099 PASS. The general EW-pool prescribed-ion measurement is still RYA-380 telluric-blocked (so GET-DATA-pending, like Sr: registered + measurement owed, NOT yet LOCKED)."}
+    indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured in the EW pool (7665/7699 in O2 telluric band); solar leg measured off the Kitt Peak atlas (7699, RYA-460)"}
+    hazards: "TRIPLE-THREAT: saturated + severe NLTE (validated -0.29) + sits IN the O2 telluric A-band. The NLTE grid is now REGISTERED (RYA-462); the solar leg is measured (Kitt Peak 7699). The remaining blocker for the general EW path is TELLURIC (RYA-380 recipe) for an EW-pool K I measurement off ground spectra."
+    verdict: GET-DATA
+    routing: "RYA-402 NLTE grid DERIVED + VALIDATED (saturation handled; median -0.29 PASS vs Reggiani2019), REGISTERED RYA-462 (the one-line change). Solar verdict PASS off the Kitt Peak K I 7699 leg with the NLTE delta applied. GET-DATA-pending: the EW-pool prescribed-ion measurement is still RYA-380 telluric-blocked -- registered + measurement owed (NOT LOCKED), the Sr pattern (RYA-428)."
+    spotlight: true
+    xref: RYA-380
+    verified_in_repo: {registry: true, grid_file: "K_Amarsi2020_PySME.csv", measured_ew_lines: 0}
+
+  S:
+    ion: "I"
+    dimensionality: {regime: "3D (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (line-dependent)", solar_corr_dex: "opt 6748/6757 -0.016 (RYA-402 PySME from Amarsi2025 grid); NIR 9212/9228/9237 up to ~-1.1 (separate indicator)", cite: "Amarsi2025 (A&A 703,A35, grid); Takeda2005; Korotin2009"}
+    grid: {status: HAVE, source: "Amarsi2025 (A&A 703,A35) S departure grid via PySME (RYA-402 Option 2); optical 6748/6757"}
+    indicator_decision: "OPTICAL high-EP multiplet 6743/6757 (RYA-401, confirmed by RYA-402): measured in our set (6748.7/6757.0/6757.1), telluric-free, small solar NLTE — chosen OVER the NIR 9212/9228/9237 triplet (strong but -1.1 dex NLTE, Takeda05/Korotin09 disagree ~0.4). Per the Beast indicators column + RYA-393 strategy logic."
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; no VizieR deposit", outcome: "SUPERSEDED by RYA-402 — the optical 6748/6757 grid was derived via PySME from the Amarsi2025 departure grid (registered); no longer LTE-flagged at solar"}
+    indicators: {lines: "OPTICAL high-EP 6748/6757 (derived, small NLTE -0.016) vs strong NIR triplet 9212/9228/9237 (big NLTE, separate derivation owed)", in_data: "7 measured lines (6748/6757 used)"}
+    hazards: "indicator decision = OPTICAL chosen (we measure 6748/6757; small clean NLTE). NIR triplet (-1.1, Takeda/Korotin disagree ~0.4) is a separate indicator if needed. CHNOPS-critical."
+    verdict: LOCKED
+    routing: "RYA-402 (PySME b-factor synthesis; Family-B Option 2). Validated small-negative (median -0.016, PASS) + portable. NIR triplet owed separately."
+    spotlight: true
+    verified_in_repo: {registry: true, grid_file: "S_Amarsi2025_PySME.csv", measured_ew_lines: 7}
+
+  Cu:
+    ion: "I"
+    dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE small for optical Cu I (RYA-402: 5782 delta +0.001)", solar_corr_dex: "+0.001 single / +0.003 HFS (PySME from Amarsi/Caliskan grid; Shi2014 ~+0.02 small)", cite: "Shi2014; Caliskan2024 (grid); Amarsi2020"}
+    grid: {status: HAVE, source: "Cu_Caliskan2024_PySME.csv — RYA-540 PySME-derived from the Amarsi/Caliskan-Oct2024 departure grid (Zenodo 15062813 v6, md5 d6fce44e); solar Cu I 5782 delta +0.001 reproduces Shi-2014"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; RYA-401 found no public Cu I correction grid", outcome: "SUPERSEDED — RYA-402 derived the grid via PySME from the Amarsi Cu (Caliskan) departure grid + validated HFS×NLTE (small). NOT registered: the blocker is now measured-line QUALITY (4767 junk, 4704 high-Rydberg), not the grid -> RYA-395"}
+    indicators: {lines: "Cu I 5105/5218/5782 (HFS) standard; OUR measured 4704 (high-excit, fragile upper) + 4767 (EW=198 UNPHYSICAL=junk)", in_data: "2 measured (both inadequate)"}
+    hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER: measured Cu lines inadequate (4767 junk, 4704 high-Rydberg) -> Cu NLTE not production-registered; needs standard-line measurement (RYA-395 curation)."
+    verdict: GET-DATA   # RYA-412: reconciled from GET-GRID — the grid is HAVE (RYA-402 PySME, Caliskan); the blocker is now measured-line QUALITY, not the grid (parallel to K). GET-DATA = needs standard-line measurement (RYA-395).
+    routing: "RYA-540: grid DERIVED + REGISTERED (Cu_Caliskan2024_PySME.csv, PySME δ+0.001 = Shi-2014). Verdict stays GET-DATA (PENDING-OK: registered grid, non-LOCKED) — production still BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then promote to LOCKED"
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Cu]", grid_file: "Cu_Caliskan2024_PySME.csv", measured_ew_lines: 2}
+
+  V:
+    ion: "I"
+    dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (moderate; HFS-dominated)", solar_corr_dex: "see literature (V I NLTE)", cite: "Asplund2021; (V I NLTE sparse)"}
+    grid: {status: GAP, source: "no standard public V I NLTE grid (V I NLTE sparsely studied)"}
+    rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool", gap_reason: "V I NLTE sparsely studied — no public grid; HFS likely dominates over NLTE at solar", path: "carry-forward (HFS-LTE); HFS treatment first"}
+    indicators: {lines: "V I optical (7 measured); HFS strong", in_data: "7 measured lines"}
+    hazards: "HFS-dominated (VALD HFS-on) — HFS likely larger than NLTE; confirm"
+    verdict: HARD-carry-forward
+    routing: "no grid → carry-forward (HFS-LTE)"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 7}
+
+  Sr:
+    ion: "II"
+    dimensionality: {regime: "3D-NLTE sensitive (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE resonance, NEAR-LTE at our [Fe/H]", solar_corr_dex: "4077 -0.004 / 4215 -0.006: small NEGATIVE near-solar (resonance core forms high, photon losses push S<Planck -> enhanced core absorption), SIGN-CHANGES, then POSITIVE and GROWING toward metal-poor (overionization) -- NOT a monotonic shrink to zero (RYA-433, Belyakova & Mashonkina)", cite: "Mashonkina2022/INASAN primary; Bergemann2012 (A&A 546,A90) working/cross-check grid"}
+    grid: {status: HAVE-cross-check-only, source: "ON DISK: Sr_Bergemann2012_INSPECT.csv (Bergemann 2012a via INSPECT, RYA-421) = the WORKING grid. PRIMARY Mashonkina2022/INASAN is NOT on disk: RYA-433 found the INASAN nLTE.cgi endpoint WAF-BLOCKED (403) to all programmatic clients -> MANUAL PULL OWED (never silently treat Bergemann as the primary). INASAN [Fe/H] axis = -5..-2 (CEILING -2.0, even lower than Bergemann's 0.0): BOTH grids are metal-poor MARCS, so solar..55Cnc(+0.32) are out-of-hull for both -> NLTE_unavailable, loud (RYA-409). See data/nlte_grids/Sr_Mashonkina2022_INASAN.PENDING.md"}
+    rya401: {probe: "INSPECT A_from_e Sr -> form PASS (Sr II 4077.71/4215.52/10036.66/...)", outcome: "RYA-421 registered the Sr II 4077/4215 NLTE delta grid (NLTE_CORRECTION_ELEMENTS[Sr]). RYA-551 MEASURED A(Sr II) via Turbospectrum synthesis (RYA-421 Step 1 completed): 4077 A_NLTE ~2.77(HARPS)/2.74(IAG), 4161/4215 ~2.71-2.73, delta from INSPECT applied to 4077/4215 only. Sr II is now SYNTHESIS-required (RYA-520/551): the raw EW is suppressed and Sr II stays OUT of the EW pool BY DESIGN (we still hold Sr I 6617, 32.46 mA, as the RYA-422 ionization cross-check). Production two-engine freeze pending RYA-527, so verdict stays GET-DATA (not yet LOCKED)."}
+    indicators: {lines: "SR2_LINES decision (RYA-430/551): 4077 PRIMARY (sensitivity 203 mA/dex, NLTE delta -0.004); 4215 + 4161 CROSS-CHECK (4215 Fe I-blended cool-star caution; 4161 clean LTE, corr ~0); 4305 EXCLUDED (zero sensitivity). Measured by synthesis, not EW.", in_data: "Sr I 6617 (neutral) measured in EW pool; Sr II measured via synthesis (data/results/sr2_synthesis_rya551.json), suppressed from EW pool (RYA-520 class)"}
+    hazards: "4215 Fe I blend -> drop/cross-check in cool stars (SR2_LINES, Teff<5300); strong blue-edge saturated resonance -> synthesis not Gaussian EW (raw EW is an artifact, RYA-429/551); 4305 no abundance sensitivity; [Fe/H] grid ceiling +0.0; ~0.05-0.1 dex near-UV synthesis systematic"
+    verdict: GET-DATA
+    routing: "GRID REGISTERED (RYA-421) + Sr II MEASURED by synthesis (RYA-551): A(Sr II) now exists. Sr II registered synthesis-required (RYA-520); raw EW suppressed. Verdict stays GET-DATA (not LOCKED) pending the RYA-527 two-engine production freeze; the LOCKED verifier is EW-pool-based and Sr II is synthesis-sourced by design."
+    verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Sr]", grid_file: "Sr_Bergemann2012_INSPECT.csv", measured_ew_lines: 1, synthesis_result: "data/results/sr2_synthesis_rya551.json"}
+
+# ── Likely-LTE / ionised-majority — confirm small NLTE, mostly LOCKED-LTE ────────
+  Ni:
+    ion: "I"
+    dimensionality: {regime: "1D OK (small 3D)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE small", solar_corr_dex: "small (Fe-peak, well-behaved)", cite: "Asplund2021; Bergemann (Ni MPIA, optional)"}
+    grid: {status: "GETTABLE (low priority)", source: "MPIA Ni I (optional); LTE acceptable at solar"}
+    indicators: {lines: "many Ni I optical (26 measured)", in_data: true}
+    hazards: "Ni I 6300.34 blends [O I] (gf adjudicated RYA-365/367)"
+    verdict: "LTE-OK"
+    routing: "GET-GRID low-priority (MPIA Ni I optional; LTE acceptable at solar)"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 26}
+
+  Y:
+    ion: "II"
+    dimensionality: {regime: "1D likely OK", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE small (ionised majority)", solar_corr_dex: "small", cite: "Asplund2021"}
+    grid: {status: "GAP (low priority)", source: "Y II NLTE sparse; LTE acceptable at solar"}
+    indicators: {lines: "Y II 4883/5087/5200 (3 measured)", in_data: "3 measured lines"}
+    hazards: "ionised majority -> ionisation NLTE small; blends in blue"
+    verdict: "LTE-OK"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 3}
+
+  Sc:
+    ion: "II"
+    dimensionality: {regime: "1D likely OK", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE small (Sc II); HFS", solar_corr_dex: "small (Sc II)", cite: "Zhang2008 (Sc II NLTE); Asplund2021"}
+    grid: {status: "GAP (low priority)", source: "Sc II NLTE (Zhang2008); LTE acceptable"}
+    indicators: {lines: "Sc II 5031/5526/5657 (HFS)", in_data: "0 measured lines"}
+    hazards: "0 measured lines -> GET-DATA (measure Sc II first); HFS (VALD HFS-on)"
+    verdict: GET-DATA
+    routing: "measurement first, then LTE-OK/grid"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
+
+# ── GET-DATA — measurement/data must precede physics ────────────────────────────
+  Co:
+    ion: "I"
+    dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (+) + HFS — both required", solar_corr_dex: "solar NLTE-LTE ~+0.14; A(Co)_NLTE 4.95", cite: "Bergemann2010 (MNRAS 401,1334)"}
+    grid: {status: GETTABLE, source: "Bergemann2010 Co I NLTE (MPIA) — but MEASUREMENT first"}
+    indicators: {lines: "Co I optical (HFS-heavy)", in_data: "0 measured lines"}
+    hazards: "0 measured lines today -> measurement MUST precede physics; HFS-heavy (VALD HFS-on)"
+    verdict: GET-DATA
+    routing: "measure Co I (then RYA-396-pattern Bergemann2010 grid)"
+    spotlight: true
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
+
+  P:
+    ion: "I"
+    dimensionality: {regime: "see Asplund2021", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (P I)", solar_corr_dex: "see literature", cite: "Asplund2021"}
+    grid: {status: "GAP / data-limited", source: "P I NLTE sparse"}
+    indicators: {lines: "P I 10511/10581 NIR + FUV (CHNOPS); weak optical", in_data: "2 measured lines (marginal)"}
+    hazards: "FUV needs HST/STIS (RYA-119); NIR P I weak; data-gap class"
+    verdict: GET-DATA
+    routing: "RYA-119 (HST/MAST) + RYA-162 (multi-wavelength solar ref)"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
+
+# ── HARD-carry-forward — document the limitation, carry to the next star ─────────
+  Li:
+    ion: "I"
+    dimensionality: {regime: "3D (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "NLTE (strong, Teff-dependent)", solar_corr_dex: "up to +/-0.3 (Teff-dep)", cite: "Lind2009 (A&A 503,541); Amarsi2020"}
+    grid: {status: HAVE-able, source: "Lind2009 / Amarsi2020 GALAH (Li)"}
+    indicators: {lines: "Li I 6707 resonance doublet", in_data: "1 measured line"}
+    hazards: "RYA-103: Li 6707 CN molecular-blend contamination (EW 10.2 vs ~2 expected) — blend-limited, deferred"
+    verdict: HARD-carry-forward
+    routing: "RYA-103 (CN-blend) blocks; grid exists — carry to next star"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 1}
+
+  Eu:
+    ion: "II"
+    dimensionality: {regime: "1D likely OK", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "~LTE (Eu II); HFS dominant", solar_corr_dex: "small NLTE", cite: "Asplund2021; Mashonkina (Eu HFS)"}
+    grid: {status: "GAP (low priority)", source: "Eu II NLTE small; HFS is the issue"}
+    indicators: {lines: "Eu II 6645 (0.3 mA — BELOW noise floor)", in_data: "1 measured line (sub-floor)"}
+    hazards: "RYA-102: Eu II 6645 EW 0.3 mA below noise floor (expected ~8) — NOISE-FLOOR limited; HFS (VALD HFS-on)"
+    verdict: HARD-carry-forward
+    routing: "RYA-102 (noise floor) — carry to next star (cooler/enhanced may help)"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 1}
+
+  Zr:
+    ion: "II"
+    dimensionality: {regime: "1D likely OK", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
+    departure: {regime: "~LTE (Zr II); small NLTE", solar_corr_dex: "small", cite: "Asplund2021"}
+    grid: {status: "GAP (low priority)", source: "Zr II NLTE sparse; LTE acceptable"}
+    indicators: {lines: "Zr II 5112/4208 (6 measured); blue-edge", in_data: "6 measured lines"}
+    hazards: "RYA-161: saturation + blue-edge log gf calibration; saturation-limited"
+    verdict: HARD-carry-forward
+    routing: "RYA-161 (blue-edge/saturation) — carry to next star"
+    verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 6}

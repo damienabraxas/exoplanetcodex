@@ -1,0 +1,12 @@
+/mnt/codex-data/codex/rya534/ts_gerber_gate.py:199: DeprecationWarning: `trapz` is deprecated. Use `trapezoid` instead, or one of the numerical integration functions in `scipy.integrate`.
+  return float(np.trapz(1.0 - fl[m], w[m]) * 1000.0)
+=== Si: babsma ===
+=== Si: bsyn NLTE @ A=7.51 ===
+  NLTE departure engaged: True
+=== Si: bsyn LTE COG ===
+
+=== Si RESULT (delta = A_sun - A*) ===
+  Si 5772.146: EW_NLTE=53.40 mA  A*=7.5435  delta=-0.0335
+  median delta = -0.0335
+  anchor -0.010 +/- 0.05 (Si I 5772, solar NLTE ~0 (our Si_Amarsi2020_PySME -0.013))
+  VERDICT: PASS

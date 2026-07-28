@@ -1,0 +1,19 @@
+# RYA-398 graded (independent-gf) non-Fe EW line-pool curation — Mg
+# Single source: measured EW = data/measured/sol_ew_results_v1.csv;
+#   atomic data (loggf/EP/nist_grade/loggf_reference) = data/linelists/canonical_gf.csv.
+# Cull criteria (FIXED in advance, abundance-BLIND, uniform across elements):
+#   WEAK  ew_mA < 5
+#   SAT   log(EW/λ) > -4.9  (linear-COG knee) OR ew_mA > 100
+#   HIERR ew_err/ew > 0.5
+#   BLEND measured blend_flag OR strength-weighted contaminant opacity > 0.5
+#         (NOT vald_proximity_flag — that crude flag was the known silent bug)
+#   BADGF nist_grade in {D,E,F}
+#   GRADE gf not in ACCEPTED_GF_TIERS {HIGH,MED} — i.e. Kurucz-theoretical (K03-K10/KP) or unreferenced gf (RYA-398 independent-gf cull)
+# gf_flag=GF_UNVERIFIED marks ungraded/Kurucz-theoretical gf (LOW tier).
+# Abundances (A_lte) are reported as VALIDATION only — never used to choose culls.
+element,ion,wavelength_air_A,ew_mA,ew_err_mA,err_frac,rew,log_gf,excitation_potential_eV,nist_grade,loggf_reference,gf_tier,blend_ratio,A_lte,cull_reason,kept,gf_flag
+Mg,I,5711.088,90.94,2.68,0.029469980206729713,-4.797963902227036,-1.724,4.346,A,NIST ASD v5.11 grade A,HIGH,0.00020094095486395265,7.373,SAT,False,
+Mg,I,6083.522,59.89,82.68,1.3805309734513276,-5.006800769857942,-3.27,5.394,,KP,LOW,0.16590626703567188,9.264,"HIERR,GRADE",False,GF_UNVERIFIED
+Mg,I,6319.237,199.88,27.63,0.1382329397638583,-4.499895302908371,-2.324,5.108,,VALD3,MED,0.039036595143926385,9.467,SAT,False,
+Mg,I,6319.493,176.15,80.81,0.458756741413568,-4.554799589604573,-2.803,5.108,,1993JPhB..,MED,0.04608119206094562,9.806,SAT,False,
+Mg,I,6630.833,22.99,14.09,0.6128751631143976,-5.460029118912104,-2.62,5.394,,KP,LOW,0.00017777532933584326,8.073,"HIERR,GRADE",False,GF_UNVERIFIED

@@ -1,0 +1,38 @@
+{
+  "ticket": "RYA-485 Issue 2",
+  "mode": "diagnose-only",
+  "oi777_leg": {
+    "solar": {
+      "teff": 5772.0,
+      "leg": "3D",
+      "delta_auto": -0.1713
+    },
+    "procyon": {
+      "teff": 6554.0,
+      "leg": "1D",
+      "delta_auto": -0.5397
+    }
+  },
+  "sun_gets_3d_on_777": true,
+  "oi6300_3d_delta": 0.0011,
+  "forbidden_lte_is_correct": true,
+  "regime_mismatch": {
+    "sun_oi777_3d_nlte": 8.736,
+    "sun_oi777_1d_nlte": 8.755,
+    "regime_term_3d_minus_1d": 0.019,
+    "procyon_oh_vs_sun3d": 0.084,
+    "procyon_oh_vs_sun1d": 0.065,
+    "shift_if_regime_matched": -0.019
+  },
+  "per_arm_solar_O": {
+    "oi777_3d_nlte": 8.784,
+    "oi6300_forbidden_lte": 8.835,
+    "spread": 0.051,
+    "procyon_continuum_lever": 0.18,
+    "mirrors_procyon": false
+  },
+  "no_silent_lte": true,
+  "findings": [
+    "differential regime-mismatch: Procyon-1D-NLTE differenced against Sun-3D-NLTE; regime-matched (Sun-1D denominator) shifts Procyon [O/H] by -0.019 dex"
+  ]
+}

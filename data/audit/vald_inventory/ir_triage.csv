@@ -1,0 +1,28 @@
+species,element,ion,group,tag,nir_held,solar_nir_lines,confirm,rationale
+Al,Al,,A,IR-PRIMARY,True,306,CONFIRMED (NIR held; 306 solar NIR lines),near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)
+C,C,,A,IR-PRIMARY,True,364,CONFIRMED (NIR held; 364 solar NIR lines),C I near-IR multiplets (flagship)
+K,K,,A,IR-PRIMARY,True,126,CONFIRMED (NIR held; 126 solar NIR lines),K I 1.17 um sidesteps the O2 A-band telluric on optical 7699
+Mg,Mg,,A,IR-PRIMARY,True,482,CONFIRMED (NIR held; 482 solar NIR lines),near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)
+N,N,,A,IR-PRIMARY,True,24,CONFIRMED (NIR held; 24 solar NIR lines),N I red + NH (flagship)
+Na,Na,,A,IR-PRIMARY,True,518,CONFIRMED (NIR held; 518 solar NIR lines),near-IR subordinate lines UNSATURATED where optical resonance saturates (RYA-465)
+O,O,,A,IR-PRIMARY,True,53,CONFIRMED (NIR held; 53 solar NIR lines),O I 777 triplet + OH (flagship)
+P,P,,A,IR-PRIMARY,True,80,CONFIRMED (NIR held; 80 solar NIR lines),P I 1.05 um is essentially the ONLY real P channel
+S,S,,A,IR-PRIMARY,True,409,CONFIRMED (NIR held; 409 solar NIR lines),S I 1.045 um >> lone weak optical S I 6757 (RYA-488)
+Ca,Ca,,B,IR-CROSSCHECK,True,541,CONFIRMED (NIR held; 541 solar NIR lines),optical owns the value; IR confirms
+Co,Co,,B,IR-CROSSCHECK,True,3077,CONFIRMED (NIR held; 3077 solar NIR lines),optical owns the value; IR confirms (HFS element)
+Cr,Cr,,B,IR-CROSSCHECK,True,385,CONFIRMED (NIR held; 385 solar NIR lines),optical owns the value; IR confirms
+Cu,Cu,,B,IR-CROSSCHECK,True,166,CONFIRMED (NIR held; 166 solar NIR lines),optical owns the value; IR confirms (HFS element)
+Fe I,Fe,I,B,IR-CROSSCHECK,True,7454,CONFIRMED (NIR held; 7454 solar NIR lines),"IR SIGMA RULER — most IR lines by far; characterize IR scatter on Fe I, apply to sparse CNOPS"
+Fe II,Fe,II,B,IR-CROSSCHECK,True,127,CONFIRMED (NIR held; 127 solar NIR lines),SPARSE in IR (UV/blue species) — cross-check only where IR Fe II lines exist; real Fe II measurement stays in the blue legs
+Mn,Mn,,B,IR-CROSSCHECK,True,1167,CONFIRMED (NIR held; 1167 solar NIR lines),optical owns the value; IR confirms (HFS element)
+Ni,Ni,,B,IR-CROSSCHECK,True,995,CONFIRMED (NIR held; 995 solar NIR lines),optical owns the value; IR confirms
+Sc,Sc,,B,IR-CROSSCHECK,True,297,CONFIRMED (NIR held; 297 solar NIR lines),optical owns the value; IR confirms (HFS element)
+Si,Si,,B,IR-CROSSCHECK,True,1238,CONFIRMED (NIR held; 1238 solar NIR lines),optical owns the value; IR confirms
+Ti,Ti,,B,IR-CROSSCHECK,True,759,CONFIRMED (NIR held; 759 solar NIR lines),optical owns the value; IR confirms
+V,V,,B,IR-CROSSCHECK,True,2326,CONFIRMED (NIR held; 2326 solar NIR lines),optical owns the value; IR confirms (HFS element)
+Ba,Ba,,C,IR-NONE,True,4,sparse/low-value (4 solar NIR lines) → UV/blue leg,"neutron-capture heavy; ionized lines live in blue/near-UV, IR barren"
+Eu,Eu,,C,IR-NONE,True,7,sparse/low-value (7 solar NIR lines) → UV/blue leg,"neutron-capture heavy; ionized lines live in blue/near-UV, IR barren"
+Li,Li,,C,IR-NONE,False,0,CONFIRMED (IR barren → UV/blue leg),stays optical (Li I 6707)
+Sr,Sr,,C,IR-NONE,True,9,sparse/low-value (9 solar NIR lines) → UV/blue leg,"neutron-capture heavy; blue Sr II doublet (RYA-428/433), IR barren"
+Y,Y,,C,IR-NONE,True,27,sparse/low-value (27 solar NIR lines) → UV/blue leg,"neutron-capture heavy; ionized lines live in blue/near-UV, IR barren"
+Zr,Zr,,C,IR-NONE,True,3,sparse/low-value (3 solar NIR lines) → UV/blue leg,"neutron-capture heavy; ionized lines live in blue/near-UV, IR barren"

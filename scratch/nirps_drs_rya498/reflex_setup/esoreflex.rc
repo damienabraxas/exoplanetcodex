@@ -1,0 +1,12 @@
+# RYA-498 — ~/.esoreflex/esoreflex.rc for headless NIRPS reflex on Sirius.
+# esoreflex 2.11.2 (Kepler) + openjdk-8 + xvfb. esorex found by default (bare,
+# on PATH; its compiled-in recipe-dir recurses into esopipes-plugins/nirps-3.3.12).
+esoreflex.inherit-environment=TRUE
+esoreflex.java-command=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
+esoreflex.esorex-command=esorex
+esoreflex.esorex-config=
+esoreflex.esorex-recipe-config=
+esoreflex.python-command=python3
+esoreflex.workflow-path=/mnt/codex-data/engines/nirps_drs/install/share/esopipes/nirps-3.3.12/reflex
+esoreflex.path=/mnt/codex-data/engines/nirps_drs/install/bin
+esoreflex.library-path=/mnt/codex-data/engines/nirps_drs/install/lib:/mnt/codex-data/engines/nirps_drs/install/lib64
