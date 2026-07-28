@@ -1,38 +1,59 @@
 # The Exoplanet Codex science pipeline
 
-Open-science software and curated inputs for deriving stellar elemental
-abundances from high-resolution spectra. This is the **science repository**:
-it contains analysis code, registries, line data, correction grids, tests, and
-provenance records. It is not the separately deployed
-[Exoplanet Codex website](https://exoplanetcodex.org), and generated website
-products do not belong here.
+Open-science software, scientific registries, and curated inputs for deriving
+stellar elemental abundances from high-resolution spectra across the UV, visible,
+near-infrared, and infrared. This is the **science repository**, not the
+separately deployed [Exoplanet Codex website](https://exoplanetcodex.org).
 
 The project is active research software. Solar and Procyon benchmark paths are
-the most developed; 55 Cancri A is the primary science target. Alpha Centauri A/B
-have canonical parameters and line-list work. M-dwarf model support exists at
-the atmosphere/interface level but does not yet constitute a validated
-abundance reproduction. See [reproduction status](docs/reproduction/workflows.md)
-before interpreting any output.
+the most developed; Alpha Centauri A/B and 55 Cancri A are current science
+targets. Read the [reproduction status](docs/reproduction/workflows.md) before
+interpreting any output.
+
+## Canonical scientific registries
+
+These machine-readable artifacts are the discovery layer for agents,
+collaborators, reviewers, and downstream publication systems:
+
+- [System Register](data/catalog/system_catalog.csv) — target identity, role,
+  run order, lifecycle, and website key.
+- [Instrument and Data-Source Register](data/catalog/instrument_catalog.csv) —
+  archive, wavelength capability, resolution, preprocessing, support state, and
+  provenance.
+- [Element Status Register](data/audit/element_status_tracker.csv) — the current
+  canonical element/status artifact while a normalized
+  `data/catalog/elements.csv` remains unratified.
+- [Stellar parameters](config/stars.yaml) — fundamental parameters and pin/solve
+  policy for runnable stars.
+- [Method policy](data/method_policy.yaml) — per-star/species EW-versus-synthesis
+  selection.
+
+The current target inventory is always the
+[System Register](data/catalog/system_catalog.csv); the README does not maintain
+a second star list. Instrument capability likewise does not prove that a system
+has data. Verified per-system holdings belong in manifests that join
+`system_catalog.star_params_key` to `instrument_catalog.instrument_id`. Schemas
+and join rules are documented in [data/catalog/README.md](data/catalog/README.md).
 
 ## What is reproducible today
 
 | Capability | Status | External inputs |
 |---|---|---|
-| Configuration, line-list, correction-grid validation | Tested | None |
+| Registries, line data, correction grids, and core validation | Tested | None |
 | Solar O I 777 nm 3D-NLTE correction smoke example | Tested | None; grid is vendored |
-| Unit test suite | Tested; asset-dependent tests may skip | iSpec only for integration tests |
-| Solar / Procyon normalization and abundance runs | Research workflow | HARPS spectra and full iSpec input bundle |
-| 55 Cancri full pipeline | Incomplete | Acquisition has demo data; normalization is not implemented |
-| M-dwarf abundance reproduction | Planned/experimental | MARCS.GES plus approved spectrum and line data |
+| Solar/Procyon normalization and abundance workflows | Research workflow | Approved spectra and full iSpec input bundle |
+| Multi-arm solar/Procyon work | Mixed active/experimental | Per-arm holdings, loaders, and conditioning |
+| 55 Cancri full pipeline | Incomplete | Normalization route remains unimplemented |
+| M-dwarf abundance reproduction | Experimental/planned | MARCS.GES, molecular assets, approved spectrum |
 
-“Tested” does not mean a correction-grid smoke result is a publishable stellar
-abundance. Full science products require the stated spectra, atmosphere grids,
-radiative-transfer assets, and provenance capture.
+“Tested” does not make a correction-grid smoke result a publishable stellar
+abundance. Full products require the stated spectra, model assets, line data,
+corrections, diagnostics, and provenance.
 
-## Quick start
+## Tested quick start
 
-Tested on macOS 15 arm64 with Python 3.9.6. Python 3.9–3.11 is the supported
-range; other versions are unverified.
+The exact lock below was tested on macOS 15 arm64 with CPython 3.9.6. Python
+3.10/3.11 users should resolve `requirements.txt` and record `pip freeze`.
 
 ```bash
 git clone https://github.com/damienabraxas/exoplanetcodex.git
@@ -44,74 +65,18 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements-lock-py39.txt
 
 python scripts/validate_installation.py
+python -m data.catalog.instruments
 python scripts/quickstart_example.py
 cat results/tables/quickstart_oi777.json
 python -m pytest -q
 ```
 
-Python 3.10/3.11 users should install `requirements.txt`; the checked-in lock is
-the exact Python 3.9 environment tested for this ticket. The example reads the
-canonical solar parameters and the vendored Amarsi et al.
+The example reads canonical solar parameters and the vendored Amarsi et al.
 (2019) C/O grid, evaluates the O I 777.194 nm correction, and writes a manifest.
-The expected result is approximately `delta=-0.169 dex` and corrected
-`A(O)=8.521`; small numerical differences across SciPy versions are acceptable.
-It performs no spectral synthesis and needs no model atmosphere.
+Expected: `delta≈-0.169 dex`, corrected `A(O)≈8.521`. It is an offline
+correction-grid smoke test, not spectral synthesis.
 
-For iSpec/Turbospectrum work, stage the external bundle, set `ISPEC_DIR`, then
-run the stricter preflight:
-pip install -r requirements.txt
-
-# List runnable targets (resolve via config/stars.yaml)
-python run_pipeline.py --list-stars
-
-# Run the pipeline for the solar calibrator (real spectra; no synthetic data)
-python run_pipeline.py --star solar
-
-# Stop after the stellar-parameter stage
-python run_pipeline.py --star solar --validate-only
-
-# Run tests
-pytest tests/ -v
-```
-
-`run_pipeline.py` is a **thin driver**: it orchestrates the real stage `run()`s and
-surfaces their own guards. It never generates data and never holds star parameters —
-those come only from `config/stars.yaml` via `get_star_params()`. The real sequence is
-
-```
-spectra_normalize → lines_fit → [params_stellar*] → abundances_derive
-                  → uncertainty_stack → ratios_interpret
-```
-
-`*params_stellar` runs **only** for stars that must *solve* a spectroscopic-equilibrium
-parameter (Teff/log g/ξ — e.g. 55 Cnc ξ). Pinned calibrators (solar, Procyon, α Cen)
-take their parameters straight from `stars.yaml` and skip it. Reading FITS happens inside
-`spectra_normalize` (there is no separate acquire step), and linelist loading is internal
-to `abundances_derive` (via `data/linelists/loader.py`). Stages that are not yet
-implemented stop the run with a clear message rather than fabricating output.
-
-## Pipeline
-
-Scripts use **subject_action** naming: the noun tells you what data it operates on,
-the verb tells you what it does. Related scripts sort together alphabetically.
-
-| Script | Operates on | Action | Status |
-|--------|-------------|--------|--------|
-| `pipeline/spectra_normalize.py` | Raw spectra | Read FITS, co-add, continuum-normalize | **Real** (solar, Procyon) |
-| `pipeline/lines_fit.py` | Normalized spectrum | Fit profiles, measure equivalent widths | **Real** (solar path) |
-| `pipeline/abundances_derive.py` | EW + params | LTE (+NLTE) EW → A(X) abundance analysis | **Real** |
-| `pipeline/params_stellar.py` | EW table | Solve Teff/log g/ξ via excitation+ionization equilibrium | Stub — RYA-537 |
-| `pipeline/uncertainty_stack.py` | Abundances | Type A + Type B formal uncertainty budget | Stub |
-| `pipeline/ratios_interpret.py` | Abundances | Solar-normalized ratios, Mg/Si, C/O, science plots | Stub |
-| `pipeline/spectra_acquire.py` | Raw spectra | ESO/HARPS query + FITS inspection **library** | Not a pipeline stage — `run()` raises |
-| `pipeline/lines_load.py` | Line list CSV | VALD3 + NIST loader wrapper | Not a pipeline stage — loading is internal to `abundances_derive` |
-
-`run_pipeline.py` orchestrates only the real stages, in the sequence above. The two
-non-stage modules keep their library functions but their `run()` raises (they are not
-wired into the driver): `spectra_acquire` used to return synthetic demo data, which is
-exactly what this driver removes.
-
-## Repo Structure
+For full iSpec/Turbospectrum work:
 
 ```bash
 export ISPEC_DIR=/absolute/path/to/ispec
@@ -119,72 +84,96 @@ python scripts/validate_installation.py --full \
   --json results/tables/install-validation.json
 ```
 
-Do not use the old `python run_pipeline.py --star 55cancri` command as a quick
-start: the current live code stops at the unimplemented normalization step.
+The smallest real-spectrum benchmark uses one approved solar or Procyon HARPS
+product plus its manifest. A full multi-wavelength reproduction adds only the
+arms required for the science question and independently validates each one.
 
-## Pipeline map
+## Multi-wavelength data strategy
+
+HARPS is the optical backbone, not the whole program. HST/STIS and COS provide
+FUV/NUV access; UVES and ESPRESSO extend optical/red diagnostics; NIRPS and
+SPIRou cover YJH/K; CRIRES+ reaches CO/OH and isotope-sensitive K-band regions;
+Kitt Peak, CALSPEC, ACE, and NSO products anchor solar/reference work.
+
+The table below is validated byte-for-byte against selected rows of the
+[canonical instrument CSV](data/catalog/instrument_catalog.csv). The full
+register also records HARPS-N, HIRES, NIRSPEC, KPF, ESPaDOnS, NARVAL, Phoenix,
+CHIRON, iSHELL, MIKE, APOGEE, and explicit candidate/rejected decisions.
+
+<!-- instrument-table:start -->
+| Instrument / atlas | Facility · archive | Coverage (nm) | R | Bands | Science role | Key caveats | Codex status |
+|---|---|---:|---:|---|---|---|---|
+| HST/STIS | STScI · [MAST](https://mast.stsci.edu) | 114–1027 | 500–114000 | FUV/NUV/VIS | Resolved FUV/NUV abundance diagnostics | Grating-specific coverage; scattered-light/chromospheric masks; convert vacuum to air only above 200nm | active |
+| HST/COS | STScI · [MAST](https://mast.stsci.edu) | 90–320 | 1500–24000 | FUV/NUV | FUV/NUV coverage and cross-checks | Grating/segment-specific conditioning and chromospheric masks | experimental |
+| HARPS | ESO · [ESO Science Archive](https://archive.eso.org) | 378–691 | 115000 | VIS/red_optical | Primary optical abundance backbone | Use reduced merged products; verify BERV and SPECSYS | active |
+| ESPRESSO | ESO · [ESO Science Archive](https://archive.eso.org) | 378–788 | 70000–140000 | VIS/red_optical | High-stability optical cross-arm reference | Prefer WAVE_AIR where supplied; reject velocity-smeared stack products | active |
+| UVES | ESO · [ESO Science Archive](https://archive.eso.org) | 300–1100 | 40000–110000 | FUV_edge/NUV/VIS/red_optical | UV-to-red high-resolution diagnostics | Mode/dichroic specific coverage; apply BERV only when product frame requires it | active |
+| FEROS | ESO · [ESO Science Archive](https://archive.eso.org) | 350–920 | 48000 | NUV/VIS/red_optical | Supplementary wide optical coverage | Confirm object identity and product frame before use | experimental |
+| CRIRES+ | ESO · [ESO Science Archive](https://archive.eso.org) | 950–5300 | 50000–100000 | Y/J/H/K/L/M | K-band CO/OH and isotopic synthesis | Per-setting coverage; nm-to-A conversion; topocentric-to-barycentric correction; molecfit conditioning | experimental |
+| NIRPS | ESO · [ESO Science Archive](https://archive.eso.org) | 972.4–1919.6 | 70000–85000 | Y/J/H | YJH molecular and atomic diagnostics | Prefer WAVE_AIR where supplied; do not reapply BERV; custom DRS may be required | experimental |
+| SPIRou | CFHT · [CADC](https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca) | 955.8–2515.8 | 70000 | Y/J/H/K | NIR atomic and molecular coverage | Only APERO telluric-corrected _t.fits; vacuum-nm to air-A; compute BERV | experimental |
+| GHOST | Gemini · [Gemini Observatory Archive](https://archive.gemini.edu) | 363–950 | 56000–76000 | NUV/VIS/red_optical | Southern high-resolution optical gap filler | Confirm mode and DRAGONS product schema | candidate |
+| Kitt Peak Solar Flux Atlas | NSO · [NSO Digital Library](https://nispdata.nso.edu/ftp/pub/atlas/) | 296–1300 | 300000–500000 | NUV/VIS/red_optical/NIR | Primary resolved solar reference | Use measured disk-integrated flux atlas; preserve original sampling | reference |
+| CALSPEC solar composite | STScI · [MAST CALSPEC](https://archive.stsci.edu/hlsps/reference-atlases/cdbs/calspec/) | 119.5–2695.7 | 150–300 | FUV/NUV/VIS/NIR/IR | Absolute flux and deep-UV coverage | Cited composite only; never label as direct solar measurement | reference |
+<!-- instrument-table:end -->
+
+See [instrument strategy and preprocessing](docs/data/instruments.md) for archive
+coverage, air/vacuum handling, tellurics, iodine rejection, product formats, and
+minimal versus full reproduction.
+
+## Pipeline
 
 ```mermaid
 flowchart LR
-  A[Archive or local spectra] --> B[Acquire and checksum]
-  B --> C[Rest-frame correction and normalization]
+  A[Archive or reference source] --> B[Manifest, identity, checksum]
+  B --> C[Instrument-aware conditioning]
   C --> D[Line selection and profile fitting]
   D --> E[Equivalent widths]
   D --> F[Flux synthesis]
-  G[stars.yaml + method policy] --> E
-  G --> F
-  H[VALD/NIST + molecular lists] --> E
+  G[System + element + instrument registries] --> C
+  H[stars.yaml + method policy] --> E
   H --> F
-  I[ATLAS9 or MARCS atmosphere] --> E
+  I[Atomic/molecular data + atmosphere] --> E
   I --> F
   E --> J[1D-LTE abundance]
   F --> J
-  K[Fe, element, C/O correction grids] --> L[NLTE / 3D corrections]
+  K[NLTE/3D correction grids] --> L[Corrected abundance]
   J --> L
-  L --> M[Diagnostics, uncertainties, manifests]
-  M --> N[Reviewed publication products]
+  L --> M[Diagnostics, uncertainty, manifest]
+  M --> N[Reviewed publication product]
 ```
 
-The repository stores code and selected redistributable inputs under `data/`.
-Large/proprietary spectra and iSpec model assets remain outside Git. Generated
-intermediates use `data/processed/`; tables and plots use `results/`. The
-website consumes only separately reviewed publication products.
+`run_pipeline.py` is a thin driver over real stage `run()` functions. It does
+not generate synthetic replacement data or own stellar parameters. Current
+stages stop loudly when a target/path is unsupported.
 
-## Canonical inputs
+| Stage | Current role/status |
+|---|---|
+| `pipeline/spectra_normalize.py` | Real FITS/co-add/normalization paths for supported targets |
+| `pipeline/lines_fit.py` | Real line-profile/EW path where wired |
+| `pipeline/abundances_derive.py` | LTE/NLTE abundance and synthesis engines |
+| `pipeline/params_stellar.py` | Spectroscopic solve path; incomplete for some targets |
+| `pipeline/uncertainty_stack.py` | Partial/stub |
+| `pipeline/ratios_interpret.py` | Partial/stub |
 
-- `config/stars.yaml`: stellar parameters, pin/solve policy, broadening, sources.
-- `data/method_policy.yaml`: per-star/species EW-versus-synthesis policy.
-- `config/constants.py`: physical constants, paths, element registry, thresholds.
-- `data/linelists/`: target line lists and their provenance.
-- `data/nlte_grids/`: vendored correction grids and provenance sidecars.
-1. Create a free account at the [ESO User Portal](https://www.eso.org/UserPortal)
-2. Visit the [ESO Science Archive](http://archive.eso.org/wdb/wdb/adp/phase3_main/form)
-3. Search: Target = `HD 75732`, Instrument = `HARPS`, Data Product = `SCIENCE`
-4. Download the `ADP.*S1D*.fits` files (merged 1D spectra)
-5. Place the files where the star's loader expects them (see `pipeline/spectra_normalize.py`)
-6. Run `python run_pipeline.py --star <id>` — `spectra_normalize` reads the FITS directly
-
-(`pipeline/spectra_acquire.py` provides the ESO query / FITS-inspection helpers as a
-library, but it is not part of the pipeline run.)
-
-There is currently no `data/catalog/system_catalog.csv`; do not create a second
-target registry silently. `config/stars.yaml` is the live stellar registry.
+Do not use `python run_pipeline.py --star 55cancri` as a quick start; its
+normalization route is not implemented.
 
 ## Documentation
 
 - [Environment and prerequisites](docs/setup/environment.md)
-- [Atmosphere, radiative-transfer, NLTE, and 3D assets](docs/models/assets.md)
-- [Spectra, atomic data, and directory layout](docs/data/spectra.md)
+- [Atmospheres, radiative transfer, NLTE, and 3D assets](docs/models/assets.md)
+- [Instrument and archive strategy](docs/data/instruments.md)
+- [Spectral/atomic data and directory layout](docs/data/spectra.md)
 - [Solar, Procyon, host-star, and M-dwarf workflows](docs/reproduction/workflows.md)
-- [Reproducibility and citation](docs/reproducibility.md)
+- [Reproducibility and provenance](docs/reproducibility.md)
+- [Categorized scientific references](docs/references.md)
 - [Troubleshooting](docs/troubleshooting.md)
-- [Line-list construction](docs/linelist_pipeline.md)
-- [Scientific limitations from the solar review](docs/pipeline_review_solar.md)
 
 ## License and citation
 
-Code is MIT licensed; see [LICENSE](LICENSE). Data and model assets retain their
-upstream terms and citation requirements. Record the repository commit and cite
-the spectrum archive, atmosphere grid, line database, radiative-transfer code,
-and every applied correction grid. A ready-to-fill citation block is in the
-[reproducibility guide](docs/reproducibility.md).
+Code is MIT licensed; data/model assets retain upstream terms. Cite the code
+commit, spectrum archive and instrument paper, atmosphere/radiative-transfer
+software, atomic/molecular datasets, solar reference, and every correction grid
+actually used. Start with the [citation guide](docs/reproducibility.md) and
+[categorized bibliography](docs/references.md).
