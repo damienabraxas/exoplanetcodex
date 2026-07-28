@@ -1,0 +1,27 @@
+element,ion,A_X,A_X_nlte,confidence,verdict,method_scale,asplund2021,n_lines,source,note
+Fe,I,7.516,7.516,gold,PASS,1D-NLTE (Fe I),7.46,62,phase_c_verdict (RYA-521),"our 1D-NLTE runs ~+0.05 above Asplund 3D-true 7.46 (RYA-336) — documented offset, NOT a discrepancy"
+C,I,8.491,8.491,gold,PASS,synthesis,8.46,5,phase_c_verdict (RYA-521),CH G-band + C I (RYA-237)
+O,I,8.735,8.735,gold,PASS,synthesis,8.69,3,phase_c_verdict (RYA-521),O I 777 + [O I] 6300 (RYA-237)
+Mg,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,7.55,0,phase_c_verdict (RYA-521),no independent-gf line survives the graded cull
+Si,I,7.888,7.888,gf_floor,CURATION-OWED,EW 1D-LTE/NLTE,7.51,7,phase_c_verdict (RYA-521),characterized gf-scale floor (+0.38); 3D not the lever (RYA-398/399)
+Ca,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.3,2,phase_c_verdict (RYA-521),LOW_CONFIDENCE / thin graded pool (+0.02)
+Ti,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,4.97,10,phase_c_verdict (RYA-521),LOW_CONFIDENCE / thin graded pool (+0.50)
+Ni,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.2,2,phase_c_verdict (RYA-521),LOW_CONFIDENCE / thin graded pool (+0.75)
+Na,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.24,2,phase_c_verdict (RYA-521),LOW_CONFIDENCE / thin graded pool (+0.02)
+P,I,,,owed,CURATION-OWED,atlas 1D,5.41,2,phase_c_verdict (RYA-521),"near-IR multiplet, gf-limited (RYA-460)"
+S,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,7.12,2,phase_c_verdict (RYA-521),LOW_CONFIDENCE / thin graded pool (+0.63)
+N,I,,,owed,NLTE-OWED,atlas 1D,7.83,3,phase_c_verdict (RYA-521),N I red multiplets; +0.37 owed NLTE (RYA-369)
+Co,I,,,owed,CURATION-OWED,atlas 1D,4.94,1,phase_c_verdict (RYA-521),"blue-edge, SNR-limited — not trusted (RYA-460)"
+Cr,I,6.022,6.022,gf_floor,CURATION-OWED,EW 1D-LTE/NLTE,5.62,7,phase_c_verdict (RYA-521),characterized gf-scale floor (+0.40); 3D not the lever (RYA-398/399)
+Al,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.43,1,phase_c_verdict (RYA-521),LOW_CONFIDENCE / thin graded pool (+0.98)
+K,I,5.099,5.099,gold,PASS,atlas 1D,5.07,1,phase_c_verdict (RYA-521),K I 7699 + K NLTE grid (RYA-462)
+Ba,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,2.27,0,phase_c_verdict (RYA-521),no independent-gf line survives the graded cull
+Y,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,2.21,0,phase_c_verdict (RYA-521),no independent-gf line survives the graded cull
+V,I,,,owed,CURATION-OWED,synthesis,3.9,6,phase_c_verdict (RYA-521),HFS-resolved synthesis (RYA-411/466/473)
+Cu,I,,,owed,CURATION-OWED,synthesis,4.18,5,phase_c_verdict (RYA-521),HFS-resolved synthesis (RYA-411/466/473)
+Mn,I,5.47,5.47,gold,PASS,synthesis,5.42,3,phase_c_verdict (RYA-521),HFS-resolved synthesis (RYA-411/466/473)
+Sc,II,3.203,3.203,gold,CURATION-OWED,atlas 1D,3.14,1,phase_c_verdict (RYA-521),blue-edge HFS single line (RYA-460)
+Li,I,0.727,0.727,upper_limit,CURATION-OWED,EW (upper limit),1.05,1,phase_c_verdict (RYA-521),"CN-blended, carried as UPPER LIMIT (RYA-103) — a clean low value is a red flag"
+Eu,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,0.52,0,phase_c_verdict (RYA-521),no independent-gf line survives the graded cull
+Zr,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,2.59,0,phase_c_verdict (RYA-521),no independent-gf line survives the graded cull
+Sr,I,,,owed,CURATION-OWED,EW (SUSPECT),2.83,1,phase_c_verdict (RYA-521),+2.13 — NOT a gf-floor; saturated-line-on-flat-COG signature (the RYA-520 disease) → saturation-trace owed

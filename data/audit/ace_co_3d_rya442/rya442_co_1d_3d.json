@@ -1,0 +1,41 @@
+{
+  "ticket": "RYA-442",
+  "A_C_1D_mu1_441": 8.646,
+  "A_C_reference": 8.46,
+  "near_ref_band": 0.1,
+  "step1_literature": {
+    "full_3d_results": [
+      [
+        "Asplund, Grevesse, Sauval, Allende Prieto & Blomme 2005, A&A 431, 693 (3D solar granulation, CH/C2/[C I])",
+        8.39
+      ],
+      [
+        "Amarsi, Grevesse, Asplund & Collet 2021, A&A 656, A113 (3D LTE, 408 molecular lines incl. CO)",
+        8.47
+      ],
+      [
+        "Popa, Hoppe, Bergemann et al. 2025, MNRAS (arXiv:2511.14289) (3D NLTE CH, updated STAGGER/Magic 2013)",
+        8.52
+      ]
+    ],
+    "reference": 8.46,
+    "full_3d_min_max": [
+      8.39,
+      8.52
+    ],
+    "all_full3d_within_band": true,
+    "implied_1D_to_3D_correction_band": [
+      -0.256,
+      -0.126
+    ],
+    "sign": "NEGATIVE (toward reference)",
+    "note": "CH/C2 3D-1D 0.00..-0.15 (Asplund 2005b); CO more T-sensitive (Ayres thermal bifurcation) -> at/beyond -0.15. Allende Prieto 2002: molecular C reduced 1D->3D. Magnitude is model-generation dependent (Popa 2025 caveat) -> a BAND, not a point."
+  },
+  "step2_probe": {
+    "ran": false,
+    "reason": "skipped (--no-probe)"
+  },
+  "verdict": "REOPEN (viable pending full-3D synthesis)",
+  "reopen": true,
+  "441_record_correction": "441 RECORD CORRECTION: '3D strengthens the NO-GO' was the wrong sign. Every published FULL-3D solar molecular-C abundance (8.39 / 8.47 / 8.52) lands within ~0.10 dex of the 8.46 reference, while the 1D mu=1 value is 8.646 (+0.186). So 3D corrects TOWARD the reference (implied correction ~ -0.13..-0.26 dex), reopening ACE-as-solar-CO-source rather than strengthening the NO-GO. Magnitude is model-generation dependent (Popa 2025); REOPEN is 'viable pending a full-3D-cube synthesis (Linfor3D-class)', not a turnkey clearance. The <3D> mean-model probe is a partial lower bound and here points the wrong way -- the demonstration that the horizontal-inhomogeneity term (which <3D> omits) is essential."
+}

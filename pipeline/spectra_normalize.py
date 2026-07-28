@@ -13,6 +13,7 @@ Procyon: RYA-274  — 20 HARPS Phase 3 ADPs, SPECSYS=BARYCENT (no BERV applied)
 import argparse
 import datetime
 import subprocess
+from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
 import pandas as pd
 import matplotlib

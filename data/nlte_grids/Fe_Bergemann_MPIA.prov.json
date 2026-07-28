@@ -1,0 +1,224 @@
+{
+  "grid": "Fe_Bergemann_MPIA.csv",
+  "source": "MPIA Spectrum Tools / Bergemann MAFAGS-OS 1D NLTE (felines[] 26.01 / fe2lines[] 26.02), built by scripts/build_fe_nlte_grid_rya319.py (RYA-319)",
+  "source_url": "https://nlte.mpia.de/gui-siuAC_secE.php",
+  "rya417_dropped_placeholders": [
+    {
+      "ion": "I",
+      "wave_A": 5225.533,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 5373.7,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 5522.46,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 5696.1,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 5855.077,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6157.733,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6213.44,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6219.28,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6270.225,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6380.75,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6430.846,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6574.233,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6609.119,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "I",
+      "wave_A": 6625.026,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 3884.676,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4199.09,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4343.275,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4361.205,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4380.74,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4455.266,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4455.85,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4461.706,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4480.688,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4720.15,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4847.555,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 4893.812,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 5732.72,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 6129.707,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 6150.1,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 6369.375,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    },
+    {
+      "ion": "II",
+      "wave_A": 6432.68,
+      "nodes_dropped": 80,
+      "verdict": "TRUE_PLACEHOLDER (live MPIA re-query: literal 0 at every served node)",
+      "basis": "RYA-417 audit_fe_leg_placeholders_rya417.py"
+    }
+  ]
+}

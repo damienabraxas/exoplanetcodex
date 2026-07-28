@@ -140,6 +140,21 @@ def main():
                 time.sleep(SLEEP_S)
 
     df = pd.DataFrame(rows)
+
+    # RYA-417: drop placeholder-zero lines at BUILD time (a line identically 0 across
+    # all nodes = MPIA served-but-unmodelled, not a physical NLTE correction — never
+    # persist a zero as if it were one). Mirrors build_nlte_grids_mpia's build-time drop
+    # and is symmetric with the load-time guard in _load_mpia_fe_grid (RYA-413/417).
+    from pipeline.nlte_corrections import detect_placeholder_zero_lines
+    dropped = []
+    for ion, g in df.groupby('ion'):
+        for w in detect_placeholder_zero_lines(g):
+            dropped.append((str(ion), w))
+            df = df[~((df.ion == ion) & ((df.wave_A - w).abs() < 1e-3))]
+    if dropped:
+        print(f"\n[PLACEHOLDER_ZERO] dropped {len(dropped)} Fe line(s) (0.0 across all nodes, "
+              f"not NLTE-modelled): {dropped}", flush=True)
+
     df[['element', 'ion', 'wave_A', 'teff_K', 'logg', 'feh', 'delta_nlte']].to_csv(FINAL, index=False)
     valid = df[df.delta_nlte.notna()]
     print(f"\nDONE: {len(df)} rows ({len(valid)} valid), "

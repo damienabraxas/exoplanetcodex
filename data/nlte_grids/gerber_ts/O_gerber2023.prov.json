@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-534",
+  "element": "O",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) share https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/ (subfolders 'dep-grids' + 'model_atoms')",
+  "url_source": "per-file Seafile links pinned from TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable/unversioned Seafile share -> md5-pinned; re-fetch verifies against these hashes.",
+  "sirius_only": "downloaded + stored ONLY on Sirius /mnt/codex-data/grids/nlte/gerber_ts/ (RYA-526). Never the Mac.",
+  "files": {
+    "model_atom": {"name": "atom.o41f", "url": "https://keeper.mpdl.mpg.de/f/71b6565adcc2498181ac/?dl=1", "md5": "9e378e792103919079903c313db52167"},
+    "grid_1d_aux": {"name": "auxData_O_MARCS_May-21-2021.txt", "url": "https://keeper.mpdl.mpg.de/f/e85d1a6e4d7945ff9f52/?dl=1", "md5": "99f952d4f4716450d98ead79b721aa68"},
+    "grid_1d_bin_zip": {"name": "NLTEgrid4TS_O_MARCS_May-21-2021.bin.zip", "url": "https://keeper.mpdl.mpg.de/f/d3a239e5f5d848089dfd/?dl=1", "md5": "504f3e2a3339a153ffe0493c7c7ed00f", "bytes": 2687989330, "unzipped_bin_bytes": 6303045348}
+  },
+  "gate": {
+    "lines": "O I 7771.940 / 7774.170 / 7775.390 (777 triplet), GES NLTE level-IDs verbatim",
+    "result": "per-line delta -0.125 / -0.105 / -0.095; median -0.105",
+    "anchor": "-0.134 (our banked Amarsi-2019 nlte_cno 1D-NLTE leg, table6, solar; the 3D leg is -0.169)",
+    "verdict": "PASS (|median - anchor| = 0.030 <= 0.05). RYA-362 cross-check: Amarsi-2019 post-hoc -0.134 vs Gerber in-synthesis -0.105 agree to 0.03 dex.",
+    "departures_engaged": true
+  }
+}

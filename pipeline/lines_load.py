@@ -26,5 +26,10 @@ from data.linelists.loader import load_linelist, summarize_linelist
 
 
 def run(star_id: str) -> None:
-    """Called by run_pipeline.py. TODO: implement pipeline line list wrapper."""
-    raise NotImplementedError("lines_load.run() is not yet implemented.")
+    """NOT a pipeline stage. Linelist loading is internal to abundances_derive
+    (via data/linelists/loader.py), so run_pipeline.py does NOT call this (RYA-541).
+    This wrapper is unimplemented; it raises rather than being silently wired."""
+    raise NotImplementedError(
+        "lines_load.run() is not a pipeline stage — linelist loading happens inside "
+        "abundances_derive via data/linelists/loader.py. Use load_linelist() directly."
+    )

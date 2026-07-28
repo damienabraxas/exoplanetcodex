@@ -1,0 +1,89 @@
+{
+  "ticket": "RYA-493 Procyon CNO redo",
+  "validate_dont_tune": true,
+  "metals_untouched": true,
+  "solar_denominators": {
+    "O_1D": 8.755,
+    "C_3D": 8.449,
+    "N_banked": 8.202
+  },
+  "params": {
+    "teff_K": 6554.0,
+    "logg": 4.0,
+    "feh": 0.03,
+    "vturb_kms": 1.8
+  },
+  "O": {
+    "oi777_a_lte": 9.36,
+    "oi777_chi2r": 46.7,
+    "oi777_nlte_1d": -0.54,
+    "oi777_a_1d": 8.82,
+    "oh_rebanked": 0.065,
+    "oh_provisional": 0.066,
+    "delta_from_provisional": -0.001,
+    "oi6300": {
+      "a_lte": 8.228,
+      "chi2r": 102.88,
+      "status": "ok"
+    },
+    "continuum_sigma": 0.186
+  },
+  "C": {
+    "refit_per_line": {
+      "CI_5052_HARPS": {
+        "a_lte": 8.546,
+        "a_1d": 8.52,
+        "chi2r": 82.4
+      },
+      "CI_5380_HARPS": {
+        "a_lte": 8.33,
+        "a_1d": 8.314,
+        "chi2r": 122.5
+      }
+    },
+    "phase1_CH": {
+      "CH_Gband": -0.125,
+      "CI_5052": 0.052,
+      "CI_5380": -0.145,
+      "C2_Swan": 0.108
+    },
+    "vis_ci_spread": 0.197,
+    "atomic_vs_molecular_spread": 0.038,
+    "full_spread": 0.253,
+    "ci5052_refit_harps_1d": 8.52,
+    "holds": true
+  },
+  "N": {
+    "per_line": [
+      {
+        "line": 7468.31,
+        "a_lte": 8.326,
+        "chi2r": 115.3,
+        "status": "ok"
+      },
+      {
+        "line": 8216.34,
+        "a_lte": 8.13,
+        "chi2r": 52.0,
+        "status": "ok"
+      },
+      {
+        "line": 8683.4,
+        "a_lte": 8.201,
+        "chi2r": 275.6,
+        "status": "ok"
+      }
+    ],
+    "a_lte": 8.201,
+    "nlte_delta_procyon": -0.0594,
+    "nlte_solar": -0.015,
+    "warm_teff_larger": true,
+    "a_nlte": 8.142,
+    "nh_provisional": -0.06,
+    "solar_n_bank_pending": true
+  },
+  "gaps": [
+    "IR CO 2.3\u00b5m absent (CRIRES+/STAGGER)",
+    "IR O I 844/926 Procyon-IR absent (APOGEE H-band 1.5-1.7\u00b5m)"
+  ]
+}

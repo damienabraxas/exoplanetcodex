@@ -1,0 +1,112 @@
+{
+  "ticket": "RYA-492 solar S Costa Silva gf re-measure",
+  "gf_provenance": "Costa Silva+2020 A&A 634 A136 Table 1 (arXiv:1912.08659 LaTeX source, verified)",
+  "control_ges": {
+    "per_window": [
+      {
+        "window": 6743.53,
+        "a_lte": 7.527,
+        "chi2r": 137.8,
+        "nlte": -0.0171,
+        "a_nlte": 7.51,
+        "status": "ok"
+      },
+      {
+        "window": 6757.15,
+        "a_lte": 7.471,
+        "chi2r": 137.5,
+        "nlte": -0.0171,
+        "a_nlte": 7.454,
+        "status": "ok"
+      }
+    ],
+    "a_nlte": 7.482,
+    "sigma": 0.04
+  },
+  "costa_silva": {
+    "per_window": [
+      {
+        "window": 6743.53,
+        "a_lte": 7.535,
+        "chi2r": 137.9,
+        "nlte": -0.0171,
+        "a_nlte": 7.518,
+        "status": "ok"
+      },
+      {
+        "window": 6757.15,
+        "a_lte": 7.471,
+        "chi2r": 137.5,
+        "nlte": -0.0171,
+        "a_nlte": 7.454,
+        "status": "ok"
+      }
+    ],
+    "a_nlte": 7.486,
+    "sigma": 0.045
+  },
+  "gf_changes": [
+    {
+      "our_wl": 6743.483,
+      "cs_wl": 6743.4834,
+      "old": -1.2473,
+      "new": -1.27,
+      "d": -0.0227,
+      "ref": "emp",
+      "grid_offset": -0.0004
+    },
+    {
+      "our_wl": 6743.54,
+      "cs_wl": 6743.54,
+      "old": -1.0033,
+      "new": -0.95,
+      "d": 0.0533,
+      "ref": "Kurucz2004",
+      "grid_offset": 0.0
+    },
+    {
+      "our_wl": 6743.58,
+      "cs_wl": 6743.6401,
+      "old": -0.8943,
+      "new": -0.93,
+      "d": -0.0357,
+      "ref": "emp",
+      "grid_offset": -0.0601
+    },
+    {
+      "our_wl": 6756.75,
+      "cs_wl": 6756.75,
+      "old": -1.67,
+      "new": -1.67,
+      "d": 0.0,
+      "ref": "Kurucz2004",
+      "grid_offset": 0.0
+    },
+    {
+      "our_wl": 6756.96,
+      "cs_wl": 6757.0,
+      "old": -0.83,
+      "new": -0.83,
+      "d": 0.0,
+      "ref": "Kurucz2004",
+      "grid_offset": -0.04
+    },
+    {
+      "our_wl": 6757.15,
+      "cs_wl": 6757.175,
+      "old": -0.24,
+      "new": -0.24,
+      "d": 0.0,
+      "ref": "Kurucz2004",
+      "grid_offset": -0.025
+    }
+  ],
+  "a_s_ges": 7.482,
+  "a_s_costa_silva": 7.486,
+  "moved": 0.004,
+  "residual_vs_712": 0.366,
+  "settled": false,
+  "verdict": "escalate_rya161_gf_floor",
+  "note_6757_window": "our 6757 triplet already carries Costa-Silva-identical gf -> no change there; the entire lever is the 6743 triplet",
+  "caveat_grid_offset": "our third 6743 component is at 6743.580 vs Costa Silva 6743.6401 (0.06 A); CS gf adopted onto the nearest component, flagged"
+}

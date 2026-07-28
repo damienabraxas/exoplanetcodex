@@ -50,7 +50,10 @@ alpha_cen_a:
   feh_ref: 0.2
   e_feh: 0.04
   xi: 1.1
-  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
+  vsini: 1.9
+  vmac: 2.3
+  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ); broadening: Bruntt+2010
+    (MNRAS 405,1907) Table B1 vsini=1.9 + vmac=2.3 (RT, Gray scale)'
   logg_basis: dynamical binary mass + VLTI interferometric radius + asteroseismology
   pin:
   - teff
@@ -66,7 +69,10 @@ alpha_cen_b:
   feh_ref: 0.2
   e_feh: 0.04
   xi: 1.0
-  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
+  vsini: 1.0
+  vmac: 0.8
+  source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ); broadening: Bruntt+2010
+    (MNRAS 405,1907) Table B1 vsini=1.0 + vmac=0.8 (RT, Gray scale)'
   logg_basis: dynamical binary mass + VLTI interferometric radius + asteroseismology
   pin:
   - teff

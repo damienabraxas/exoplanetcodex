@@ -1,0 +1,114 @@
+{
+  "ticket": "RYA-491 finish solar",
+  "validate_dont_tune": true,
+  "frame_declared": "Salami & Ross 2005 iodine template (FTS), wavenumber cm-1 vacuum -> air (Birch&Downs); RYA-481 declared",
+  "O_primary_777_3d": 8.736,
+  "O_844_3d": 8.603,
+  "O_844_formation_offset": -0.133,
+  "O_926_unusable": true,
+  "O_4indicator": [
+    {
+      "indicator": "OI_777",
+      "arm": "RED/UVES-IAG",
+      "a_3d": 8.736,
+      "a_1d": 8.755,
+      "note": "4-reference swap-test (RYA-485)"
+    },
+    {
+      "indicator": "OI_6300",
+      "arm": "VIS/KP",
+      "a_3d": 8.835,
+      "a_1d": 8.835,
+      "note": "forbidden-LTE, continuum-limited (RYA-447/448/455); 3D term ~0"
+    },
+    {
+      "indicator": "OI_844",
+      "arm": "IR/Baker-IAG",
+      "a_3d": 8.603,
+      "a_1d": 8.643,
+      "note": "reliable"
+    },
+    {
+      "indicator": "OI_926",
+      "arm": "IR/Baker-IAG",
+      "a_3d": 9.877,
+      "a_1d": 9.885,
+      "note": "FLAG-LIMITED (flag-frac 0.288)"
+    }
+  ],
+  "O_reliable_spread": 0.232,
+  "O_combined_3d": 8.725,
+  "S_gf_caveat": "fit uses the GES gf; A(S) still +0.40 high on the CORRECT line 6743.5 -> the Costa Silva+2020 atlas-tuned gf is the lever (Ryan supplies); gf-floor finding (RYA-161/162)",
+  "ir_O": [
+    {
+      "indicator": "OI_844",
+      "line": 8446.36,
+      "a_lte": 8.754,
+      "chi2r": 56.4,
+      "a_nlte_3d": 8.603,
+      "a_nlte_1d": 8.643,
+      "flag_frac": 0.006,
+      "reliable": true
+    },
+    {
+      "indicator": "OI_926",
+      "line": 9266.01,
+      "a_lte": 9.988,
+      "chi2r": 116.1,
+      "a_nlte_3d": 9.877,
+      "a_nlte_1d": 9.885,
+      "flag_frac": 0.288,
+      "reliable": false
+    }
+  ],
+  "C_confirm": {
+    "per_line": [
+      {
+        "line": 5052.17,
+        "a_lte": 8.467,
+        "chi2r": 71.2,
+        "a_nlte_3d": 8.449,
+        "status": "ok"
+      },
+      {
+        "line": 5380.34,
+        "a_lte": 8.507,
+        "chi2r": 122.7,
+        "a_nlte_3d": 8.488,
+        "status": "ok"
+      }
+    ],
+    "c_5052_3d": 8.449,
+    "banked": 8.491
+  },
+  "S_fix": {
+    "per_line": [
+      {
+        "line": 6743.53,
+        "a_lte": 7.596,
+        "chi2r": 137.8,
+        "nlte": -0.0171,
+        "a_nlte": 7.579,
+        "status": "ok"
+      },
+      {
+        "line": 6757.15,
+        "a_lte": 7.471,
+        "chi2r": 137.5,
+        "nlte": -0.0171,
+        "a_nlte": 7.454,
+        "status": "ok"
+      }
+    ],
+    "a_nlte": 7.516,
+    "sigma": 0.088,
+    "prev_wrong_line": 7.524,
+    "still_high": true
+  },
+  "N_status": "DEFERRED+FLAGGED (RYA-369): NH 3360 data-gap + N I grid owed \u2014 remaining soft solar species",
+  "blocked": "CRIRES+ CO 2.3\u00b5m overtone + 13C + OH 1.5-1.6\u00b5m: STAGGER collaborator gate + telluric (RYA-373)",
+  "regime_matched_O_denominators": {
+    "solar_A_O_3D": 8.736,
+    "solar_A_O_1D": 8.755
+  }
+}

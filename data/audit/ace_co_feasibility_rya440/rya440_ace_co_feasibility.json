@@ -1,0 +1,72 @@
+{
+  "ticket": "RYA-440",
+  "params": {
+    "teff_K": 5778.0,
+    "logg": 4.438,
+    "feh": 0.0,
+    "vturb_kms": 1.0
+  },
+  "A_C_reference": 8.46,
+  "A_O_reference_fixed": 8.69,
+  "geom_tolerance_dex": 0.05,
+  "synthesis_frame": "vacuum (matched ACE wavelength_vac_A)",
+  "synth_bandhead_A": 22935.28,
+  "step0_linelists": {
+    "co12_present": true,
+    "co12_path": "/Users/ryanschmitt/Documents/Exoplanet Codex/ispec/input/linelists/turbospectrum/molecules/CO_IR_Li2015.dat",
+    "co12_species_token": "0608.012016",
+    "co12_lines_in_overtone_band": 834,
+    "co13_present": false,
+    "co13_files": [],
+    "wiring_note": "CO_IR_Li2015.dat is a .dat, not the _<lo>-<hi>.bsyn iSpec globs (turbospectrum.py glob 'molecules/*.bsyn'); it is NOT auto-included in synthesis. This module stages a band-scoped symlink 16O12C_<lo>-<hi>.bsyn for the 2.3 um window only, leaving the optical CNO arm untouched."
+  },
+  "step1_airvac": {
+    "matched_frame": "wavelength_vac_A",
+    "frames": {
+      "wavelength_vac_A": {
+        "bandhead_A": 22935.333,
+        "dv_vs_synth_kms": 0.7
+      },
+      "wavelength_air_A": {
+        "bandhead_A": 22929.075,
+        "dv_vs_synth_kms": -81.1
+      }
+    },
+    "airvac_slip_kms": 81.1
+  },
+  "step23_flux_fit": {
+    "A_X": 8.497,
+    "red_chi2": 3.04,
+    "sigma_fit": 0.004,
+    "n_pix": 2086,
+    "n_eval": 15,
+    "status": "ok"
+  },
+  "step5_geometry": {
+    "reference": "Hase, Wallace, McLeod, Harrison & Bernath 2010, JQSRT 111, 521; ACE-FTS instrument papers (Bernath 2006; Gilbert 2007)",
+    "suntracker": "fine pointing to the radiometric centre of the Sun, stability <15 urad",
+    "fov_mrad": 1.25,
+    "solar_disk_mrad": 9.3,
+    "fov_fraction_of_diameter": 0.134,
+    "mu_range_sampled": [
+      0.991,
+      1.0
+    ],
+    "finding": "KNOWABLE and near disk-CENTER. The suntracker locks on the radiometric centre and the 1.25 mrad FOV spans only the central ~13% of the disk diameter, so the sampled mu is 0.99-1.00 -- effectively disk-CENTER INTENSITY (mu~1), NOT disk-integrated flux and NOT mu=0.5. The geometry bracket COLLAPSES to mu~1; it does not span to mu=0.5. The remaining systematic is intensity(mu~1)-vs-flux, not an open disk-geometry ambiguity."
+  },
+  "step4_verdict": {
+    "geometry_table": {
+      "mu=1.0 (disk-center; ACE actual)": "NOT-SYNTHESIZABLE (flux-only path)",
+      "flux (disk-integrated)": "8.497",
+      "mu=0.5 (intermediate)": "NOT-APPLICABLE (ACE FOV is mu~1, not a disk average)"
+    },
+    "A_C_flux": 8.497,
+    "A_C_reference": 8.46,
+    "flux_minus_ref_dex": 0.037,
+    "flux_lands_near_ref": true,
+    "geom_spread_synthesizable": false,
+    "geom_tolerance_dex": 0.05,
+    "verdict": "NO-GO (geometry risk retired; 2 bounded fast-follows)",
+    "verdict_detail": "NO-GO (today) as a turnkey source, but the geometry RISK is RETIRED. Reasons: (1) the RYA-237 Turbospectrum-via-iSpec path exposes disk-integrated FLUX only -- no mu-resolved intensity -- so we cannot synthesize at ACE's actual geometry; the 3-geometry synthesis spread is therefore not computable by the toolchain. (2) Step 5 RESOLVES the disk-geometry ambiguity the ticket feared: ACE samples mu~0.99-1.00 (disk-center intensity), NOT a disk average, so the bracket does not span to mu=0.5. The open-ended geometry risk thus becomes two BOUNDED fast-follows: (a) expose Turbospectrum disk-center (mu=1) specific-intensity through iSpec; (b) acquire the 13C16O line list (absent). With both, ACE is a viable telluric-free solar CO source. Until then, fitting FLUX to the disk-center ACE atlas carries an intensity-vs-flux systematic that, for the strongest (2-0) bandhead lines (which form very high; Scott et al. 2006 A&A 456, 675), exceeds the 0.05 dex C/O tolerance -- restrict to weaker CO lines."
+  }
+}

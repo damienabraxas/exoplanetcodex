@@ -78,7 +78,7 @@ The C_zero calibrated from Fe I gives ±0.5–2 dex errors for other elements. R
 
 | File | Status | Notes |
 |------|--------|-------|
-| `results/Solar/2026-05-31/solar_ew.csv` | ✅ Publishable | 806 lines, 22 elements |
+| `data/measured/sol_ew_results_v1.csv` | ✅ Publishable | 806 lines, 22 elements — canonical committed set (RYA-396; was a stale `results/Solar/2026-05-31/solar_ew.csv` path, repointed RYA-397) |
 | `results/plots/solar_ew_diagnostic.png` | ✅ Publishable | Tier 1 Fe line fits |
 | `results/plots/solar_oi6300_diagnostic.png` | ✅ Publishable | O I Ni-subtraction diagnostic |
 | `results/plots/solar_ca6122_diagnostic.png` | ✅ Publishable | Ca I narrow-window diagnostic |

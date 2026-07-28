@@ -15,38 +15,64 @@
       "check1_telluric_removal_vs_ACE": {
         "reference": "ACE-FTS (telluric-free solar)",
         "v_kms": -22.5,
-        "peak_xcorr": 0.14967142784671708,
+        "peak_xcorr": 0.14967164488548493,
         "n_overlap_px": 1669,
         "overlap_vac_A": [
           22899.02,
           23006.63
         ],
-        "resid_rms": 0.10949193838755503,
-        "depth_corr": 0.1496714278467171,
+        "resid_rms": 0.10949192682137615,
+        "depth_corr": 0.14967164488548484,
         "n_px": 1669
       },
       "check3_cross_instrument_vs_photatl": {
         "reference": "NSO photatl (terrestrial solar)",
         "v_kms": 25.0,
-        "peak_xcorr": 0.15555584636594708,
+        "peak_xcorr": 0.15555544673618973,
         "n_overlap_px": 1669,
         "overlap_vac_A": [
           22899.03,
           23006.63
         ],
-        "resid_rms": 0.10268653830881375,
-        "depth_corr": 0.15563669204556876,
+        "resid_rms": 0.102686542522378,
+        "depth_corr": 0.15563629221840197,
         "n_px": 1640
       },
       "check2_telluric_model_vs_Wallace": {
-        "reference": "Wallace telluric near-IR atlas",
-        "status": "BLOCKED \u2014 molecfit transmission (mtrans) not persisted by RYA-373 (only corrected flux is saved). RECOMMEND RYA-373 add the BEST_FIT_MODEL.mtrans column to the conditioned FITS; then this check runs directly.",
-        "verdict": "BLOCKED"
+        "status": "RAN",
+        "resid_rms": 0.2208409359324831,
+        "depth_corr": 0.14943540257556348,
+        "n_px": 1749,
+        "reference": "photatl-atmospheric (transmission, full-band)",
+        "verdict": "WEAK \u2014 model\u2013reality shape mismatch (or epoch/airmass diff)",
+        "per_reference": {
+          "wallace": {
+            "reference": "wallace",
+            "status": "NO-OVERLAP",
+            "mtrans_vac_A": [
+              22880.4,
+              23011.7
+            ],
+            "ref_vac_A": [
+              23048.9,
+              23256.9
+            ],
+            "verdict": "NO-OVERLAP \u2014 atlas segment does not cover this CO order"
+          },
+          "photatl_atm": {
+            "reference": "photatl-atmospheric (transmission, full-band)",
+            "status": "RAN",
+            "resid_rms": 0.2208409359324831,
+            "depth_corr": 0.14943540257556348,
+            "n_px": 1749,
+            "verdict": "WEAK \u2014 model\u2013reality shape mismatch (or epoch/airmass diff)"
+          }
+        }
       },
       "diagnostic_residual_telluric_vs_photatl_atm": {
         "reference": "photatl (telluric)",
         "v_kms": 0.0,
-        "peak_xcorr": 0.9241393276544303,
+        "peak_xcorr": 0.9241392942916968,
         "n_overlap_px": 1669,
         "overlap_vac_A": [
           22899.03,
@@ -63,38 +89,64 @@
       "check1_telluric_removal_vs_ACE": {
         "reference": "ACE-FTS (telluric-free solar)",
         "v_kms": -21.0,
-        "peak_xcorr": 0.1974911219513831,
+        "peak_xcorr": 0.19749135276491644,
         "n_overlap_px": 1041,
         "overlap_vac_A": [
           22899.02,
           22969.57
         ],
-        "resid_rms": 0.11790866642536432,
-        "depth_corr": 0.19749112195138308,
+        "resid_rms": 0.11790866516994457,
+        "depth_corr": 0.1974913527649165,
         "n_px": 1041
       },
       "check3_cross_instrument_vs_photatl": {
         "reference": "NSO photatl (terrestrial solar)",
         "v_kms": 24.5,
-        "peak_xcorr": 0.2105229386497743,
+        "peak_xcorr": 0.2105230495567112,
         "n_overlap_px": 1040,
         "overlap_vac_A": [
           22899.03,
           22969.57
         ],
-        "resid_rms": 0.10757896389229443,
-        "depth_corr": 0.21067480901198093,
+        "resid_rms": 0.10757895923455671,
+        "depth_corr": 0.2106749200847166,
         "n_px": 1013
       },
       "check2_telluric_model_vs_Wallace": {
-        "reference": "Wallace telluric near-IR atlas",
-        "status": "BLOCKED \u2014 molecfit transmission (mtrans) not persisted by RYA-373 (only corrected flux is saved). RECOMMEND RYA-373 add the BEST_FIT_MODEL.mtrans column to the conditioned FITS; then this check runs directly.",
-        "verdict": "BLOCKED"
+        "status": "RAN",
+        "resid_rms": 0.2825687496773353,
+        "depth_corr": -0.15456747120851214,
+        "n_px": 1115,
+        "reference": "photatl-atmospheric (transmission, full-band)",
+        "verdict": "WEAK \u2014 model\u2013reality shape mismatch (or epoch/airmass diff)",
+        "per_reference": {
+          "wallace": {
+            "reference": "wallace",
+            "status": "NO-OVERLAP",
+            "mtrans_vac_A": [
+              22835.4,
+              22974.6
+            ],
+            "ref_vac_A": [
+              23048.9,
+              23256.9
+            ],
+            "verdict": "NO-OVERLAP \u2014 atlas segment does not cover this CO order"
+          },
+          "photatl_atm": {
+            "reference": "photatl-atmospheric (transmission, full-band)",
+            "status": "RAN",
+            "resid_rms": 0.2825687496773353,
+            "depth_corr": -0.15456747120851214,
+            "n_px": 1115,
+            "verdict": "WEAK \u2014 model\u2013reality shape mismatch (or epoch/airmass diff)"
+          }
+        }
       },
       "diagnostic_residual_telluric_vs_photatl_atm": {
         "reference": "photatl (telluric)",
         "v_kms": 0.0,
-        "peak_xcorr": 0.856257082890089,
+        "peak_xcorr": 0.8562569568896486,
         "n_overlap_px": 1040,
         "overlap_vac_A": [
           22899.03,

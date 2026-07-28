@@ -1,0 +1,12 @@
+=== O: babsma ===
+=== O: bsyn NLTE @ A=8.69 ===
+  NLTE departure engaged: True
+=== O: bsyn LTE COG ===
+
+=== O RESULT (delta = A_sun - A*) ===
+  O 7771.940: EW_NLTE=67.78 mA  A*=8.8151  delta=-0.1251
+  O 7774.170: EW_NLTE=74.43 mA  A*=8.7945  delta=-0.1045
+  O 7775.390: EW_NLTE=66.44 mA  A*=8.7846  delta=-0.0946
+  median delta = -0.1045
+  anchor -0.134 +/- 0.05 (O I 777, 1D-NLTE; anchor = our banked Amarsi-2019 nlte_cno 1D leg (table6) solar -0.134 (RYA-362 cross-check; the 3D leg is -0.169))
+  VERDICT: PASS

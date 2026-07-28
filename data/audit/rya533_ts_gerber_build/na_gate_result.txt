@@ -1,0 +1,11 @@
+=== babsma (continuum opacity) ===
+=== bsyn NLTE @ A(Na)=6.24 ===
+  NLTE departure engaged: True
+=== bsyn LTE COG (per line) ===
+
+=== RESULT (per line: delta = A_sun - A*) ===
+  Na I 5682.633: EW_NLTE=112.52 mA  A*=6.3047  delta=-0.0647
+  Na I 5688.205: EW_NLTE=147.78 mA  A*=6.3118  delta=-0.0718
+  median delta = -0.0682
+  anchor -0.107 (INSPECT/Amarsi); model-atom tol 0.05 → PASS if |med-(-0.107)|<=0.05
+  VERDICT: PASS
