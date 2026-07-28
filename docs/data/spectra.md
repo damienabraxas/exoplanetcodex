@@ -2,28 +2,22 @@
 
 ## Spectral inputs
 
-The implemented normalization paths expect reduced, merged one-dimensional
-HARPS products in FITS binary tables with `WAVE`, `FLUX`, and `ERR` arrays.
-Wavelengths are Angstroms. Procyon inputs must declare `SPECSYS=BARYCENT`;
-the loader refuses to apply a second barycentric correction. The solar path
-records and applies BERV. Resolution used for synthesis is `HARPS_R=115000`.
+The observational program spans UV/VIS/NIR/IR. Instrument capability and
+preprocessing rules are canonical in
+[`instrument_catalog.csv`](../../data/catalog/instrument_catalog.csv); the
+human-readable strategy is [instruments.md](instruments.md). Per-target holdings
+must come from a manifest joined to the System Register—not from a static table
+on this page.
 
-Raw detector frames and order extraction are outside this repository's scope.
-Do not substitute an echelle order file, vacuum wavelength grid, normalized
-flux, or different resolution without adding an explicit loader/instrument
-profile and validation.
+The most mature normalization path expects reduced, merged HARPS
+one-dimensional FITS tables with `WAVE`, `FLUX`, and `ERR`. Other live modules
+handle UVES, HST/STIS/COS, NIRPS, SPIRou, CRIRES+, and reference atlases with
+instrument-specific contracts. Never substitute an echelle order, vacuum grid,
+polarimetric product, normalized survey product, or different resolution
+without the matching loader/profile and validation.
 
-| Target | Source/status | Runtime location |
-|---|---|---|
-| Solar reflected-light calibration | HARPS direct solar feed; observation provenance in code | `$REPO_PARENT/data/spectra/exoplanetcodex-data/Solar Calibration/archive/*.fits` |
-| Procyon | ESO HARPS Phase 3 ADPs; independently retrieve | `$REPO_PARENT/data/spectra/exoplanetcodex-data/Procyon/Procyon Harps/*.fits` |
-| 55 Cancri A | ESO archive search by HD 75732; no approved redistributable quick-start spectrum | `data/raw/` for acquisition experiments |
-| SPIRou | Loader scaffold exists | No validated reproduction |
-| STIS/CRIRES/reference atlases | Audit/indicator-specific paths | See `data/audit/` and `data/solar_reference/` |
-
-Retrieve ESO products through the
-[ESO Science Archive](https://archive.eso.org/scienceportal/home) under its data
-policy. Never commit restricted or very large spectra. Create a manifest:
+Retrieve products from the archive named in the instrument register under its
+data policy. Never commit restricted or very large spectra. Create a manifest:
 
 ```bash
 find /absolute/path/to/spectra -type f -name '*.fits' -print0 \
@@ -71,6 +65,8 @@ tests, and compare benchmark outputs before approval.
 ```text
 config/stars.yaml              canonical target parameters
 data/method_policy.yaml        EW/synthesis selection
+data/catalog/                  system and instrument registries
+data/audit/element_status_tracker.csv  canonical element-status artifact
 data/linelists/                versioned atomic/selected molecular data
 data/nlte_grids/               versioned correction grids
 data/raw/                      local FITS (ignored)
@@ -86,5 +82,6 @@ repository parent; there is no supported local YAML override. If your layout
 differs, symlink the expected target directories or propose a configuration
 change—do not add a workstation-specific absolute path to version control.
 
-There is no live `data/catalog/system_catalog.csv`. `config/stars.yaml` owns
-stellar parameters, while `data/method_policy.yaml` owns method selection.
+`data/catalog/system_catalog.csv` owns project target inventory;
+`config/stars.yaml` owns runnable stellar parameters; `data/method_policy.yaml`
+owns method selection. They are related but not interchangeable.
