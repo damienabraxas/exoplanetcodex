@@ -16,3 +16,10 @@ pytest>=8.0.0
 tqdm>=4.66.0
 lockfile  # required by iSpec (ispec/ispec/synth/grid.py), Python 3.9
 PyYAML>=6.0  # method_policy.yaml resolver (RYA-315)
+
+# iSpec runtime support (the iSpec source/input bundle remains external)
+Cython>=3.0
+dill>=0.3.8
+h5py>=3.10
+hdf5plugin>=4.4
+statsmodels>=0.14
