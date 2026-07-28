@@ -59,5 +59,11 @@ def test_run_telluric_dominated_and_refs_agree():
         assert abs(rt['v_kms']) <= v.V_TELLURIC_KMS
         assert rt['peak_xcorr'] > 0.7
         assert 'TELLURIC-DOMINATED' in r['verdict']
-        # telluric-model check is blocked until RYA-373 persists mtrans
-        assert r['check2_telluric_model_vs_Wallace']['verdict'] == 'BLOCKED'
+        # telluric-model check 2 now RUNS — RYA-380 persists molecfit mtrans (was
+        # BLOCKED). It compares mtrans vs the independent telluric atlases; on the
+        # on-chip bandhead order the overlap is photatl-atmospheric (Wallace segment
+        # misses it). The corrected product being telluric-dominated corroborates a
+        # weak telluric MODEL: depth_corr is low, not a PASS.
+        c2 = r['check2_telluric_model_vs_Wallace']
+        assert c2['status'] == 'RAN' and c2['verdict'] != 'BLOCKED'
+        assert 'depth_corr' in c2 and 'per_reference' in c2

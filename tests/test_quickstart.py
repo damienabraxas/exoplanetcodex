@@ -13,8 +13,12 @@ def test_documented_entry_points_exist():
         "docs/setup/environment.md",
         "docs/models/assets.md",
         "docs/data/spectra.md",
+        "docs/data/instruments.md",
         "docs/reproduction/workflows.md",
         "docs/reproducibility.md",
         "docs/troubleshooting.md",
+        "docs/references.md",
+        "data/catalog/system_catalog.csv",
+        "data/catalog/instrument_catalog.csv",
     ):
         assert (ROOT / relative).is_file(), relative

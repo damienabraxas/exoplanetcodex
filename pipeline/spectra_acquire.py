@@ -251,16 +251,18 @@ def make_synthetic_demo_spectrum() -> tuple[np.ndarray, np.ndarray]:
 # ── Pipeline entry point ─────────────────────────────────────────────────────────
 
 def run(star_id: str) -> tuple:
-    """Called by run_pipeline.py. Returns (wavelength, flux, header)."""
-    print(f"\n{'='*60}\n  spectra_acquire — {star_id}\n{'='*60}")
-    wavelength, flux = make_synthetic_demo_spectrum()
-    header = {'OBJECT': star_id, 'DATE-OBS': 'unknown', 'EXPTIME': 0.0, 'INSTRUME': 'HARPS'}
-    spectrum_summary(wavelength, flux, header)
-    plot_spectrum_overview(
-        wavelength, flux, header,
-        save_path=PATHS['plots'] / 'spectra_acquire_overview.png'
+    """NOT a pipeline stage. This module is a demo/inspection LIBRARY: its real
+    functions (query_eso_archive, load_harps_spectrum, correct_radial_velocity,
+    estimate_snr, ...) are used interactively / by other tools, but the production
+    pipeline reads FITS directly inside spectra_normalize — there is no synthetic
+    acquire step (RYA-541). Calling run() used to return SYNTHETIC demo data, which
+    silently poisoned any pipeline that invoked it; it now raises instead."""
+    raise NotImplementedError(
+        "spectra_acquire.run() is a demo inspector only and returns no pipeline data. "
+        "The real pipeline reads FITS via spectra_normalize.run(); use this module's "
+        "load_harps_spectrum()/make_synthetic_demo_spectrum() directly for inspection. "
+        "(RYA-541: removed the synthetic-acquire stage from run_pipeline.)"
     )
-    return wavelength, flux, header
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────

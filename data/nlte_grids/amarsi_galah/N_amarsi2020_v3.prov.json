@@ -1,0 +1,43 @@
+{
+  "ticket": "RYA-526 (strategy RYA-369)",
+  "element": "N",
+  "kind": "NLTE departure-coefficient grid (PySME DirectAccessFile v1.10), Family B (Amarsi/SME-form)",
+  "intake": {
+    "verified": "2026-07-05",
+    "md5_status": "PASS (tar.gz matches Zenodo v3 checksum md5:03cf5e489a93ba0633a4e0e45cffeea0)",
+    "fetched_to": "Sirius /mnt/codex-data/grids/nlte/amarsi_galah/ (grids live on Sirius only, never the Mac)"
+  },
+  "source": {
+    "grid_cite": "Amarsi, Lind, Osorio et al. 2020, A&A 642, A62 (GALAH non-LTE departure grids); N I model atom per Amarsi et al. 2020",
+    "deposit": "Amarsi 'Grid/NLTE' Zenodo, version 3 (the original 13-element 2020 release)",
+    "zenodo_version": "v3 (2020-06-11)",
+    "zenodo_record": "https://zenodo.org/records/3982506",
+    "zenodo_doi": "10.5281/zenodo.3982506"
+  },
+  "files": [
+    {
+      "name": "nlte_N_scatt_pysme.tar.gz",
+      "md5": "03cf5e489a93ba0633a4e0e45cffeea0",
+      "committed": false,
+      "role": "Zenodo download archive (201.9 MB; md5 verified vs the Zenodo record)"
+    },
+    {
+      "name": "nlte_N_scatt_pysme.grd",
+      "md5": "cd6d0cca4fd6e45a5a426aa6fceed4c1",
+      "committed": false,
+      "git": "ignored (multi-GB binary; on Sirius amarsi_galah, NOT the Mac)",
+      "role": "PySME DirectAccessFile: 4D departure grid b(level,depth) over (Teff,logg,[Fe/H],abund)"
+    },
+    {"name": "label_N.txt", "committed": true, "role": "NLTE grid level labels"},
+    {"name": "atmos_N.txt", "committed": true, "role": "MARCS atmosphere node list"}
+  ],
+  "derivation": {
+    "script": "scratch derive_n_grid_rya526.py (mirrors scripts/resource_clamped_grids_rya409.py row-gen; no MPIA cross-check — N is a NEW element, no prior registered grid)",
+    "ran_on": "Sirius, /mnt/codex-data/venv_pysme (dedicated PySME env, numpy 2.2.6 to match the RYA-517 reference stack; np.trapz present)",
+    "product": "data/nlte_grids/N_Amarsi2020_PySME.csv (29 rows over the standard 11-node box, [Fe/H] up to +0.6)",
+    "lines": "N I red triplet 7468.31 / 8216.34 / 8683.40 (high-excitation ~10.3 eV, atomic-primary, decoupled from the C/O CNO leg)",
+    "validation": "validate-don't-tune: the SOLAR node reproduces the committed RYA-369 load-test EXACTLY (7468 -0.0115, 8216 -0.0145, 8683 -0.0154; max |Δ| = 0.0000 dex). N I red is NEAR-LTE at the Sun (small negative), sign-discipline OK (RYA-339).",
+    "rail_exclusions": "4 weak-line COG rails at cool metal-rich nodes EXCLUDED (7468 @ 5100/[Fe/H]0.0, 7468 @ 5172/+0.31, 7468 @ 5100/+0.5, 8216 @ 5100/+0.5) — the |delta| railed at the +-0.2 offset-bracket edge because the high-excitation N I lines are information-poor there. Excluded cells fall out-of-hull -> loud-flagged in production (RYA-409), never injected as a spurious value. Consistent with N I red being a WARM-star indicator (RYA-369).",
+    "wired": "NLTE_CORRECTION_ELEMENTS['N'] (ion 1, flag NLTE_Amarsi2020_PySME_1D), RYA-526"
+  }
+}

@@ -28,6 +28,7 @@ Out:    data/solar_reference/ir_atlases/{*_co_*.csv, ir_atlases_provenance_rya39
 """
 import hashlib
 import json
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -35,6 +36,12 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))          # run from anywhere; import the pipeline SSOT
+# RYA-501: vac→air comes from the single shared converter (Birch & Downs 1994) — no
+# local formula copy. All wavelengths here are K-band IR (>2000 Å), so this is a pure
+# source-dedup with zero numerical change (the ≥2000 Å identity boundary never fires).
+from pipeline.wavelength_util import vac_to_air   # noqa: E402
+
 RAW = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' /
        'Solar Calibration' / 'IR Reference Atlases')
 OUT = ROOT / 'data' / 'solar_reference' / 'ir_atlases'
@@ -43,20 +50,11 @@ OUT = ROOT / 'data' / 'solar_reference' / 'ir_atlases'
 CO_LO_CM, CO_HI_CM = 4255.0, 4367.0
 
 
-def vac_to_air_A(wl_vac_A: np.ndarray) -> np.ndarray:
-    """Birch & Downs (1994) / Edlén vacuum→air wavelength (Å), the VALD3/iSpec
-    convention. s = 1e4/λ_vac(Å) in µm⁻¹. Valid across the optical–near-IR."""
-    s2 = (1.0e4 / wl_vac_A) ** 2
-    n = (1.0 + 0.0000834254 + 0.02406147 / (130.0 - s2)
-         + 0.00015998 / (38.9 - s2))
-    return wl_vac_A / n
-
-
 def add_wavelengths(df: pd.DataFrame, wn_col: str = 'wavenumber_cm-1') -> pd.DataFrame:
     """Attach vacuum + air wavelength (Å) from the FTS vacuum wavenumber."""
     wl_vac = 1.0e8 / df[wn_col].to_numpy(dtype=float)   # cm⁻¹ → Å (vacuum)
     df.insert(1, 'wavelength_vac_A', np.round(wl_vac, 4))
-    df.insert(2, 'wavelength_air_A', np.round(vac_to_air_A(wl_vac), 4))
+    df.insert(2, 'wavelength_air_A', np.round(vac_to_air(wl_vac), 4))
     return df
 
 
@@ -194,8 +192,8 @@ def main():
     manifest = {
         'ticket': 'RYA-390 Part A', 'date': str(date.today()),
         'co_band_cm-1': [CO_LO_CM, CO_HI_CM],
-        'co_band_air_A': [round(float(vac_to_air_A(np.array([1e8 / CO_HI_CM]))[0]), 1),
-                          round(float(vac_to_air_A(np.array([1e8 / CO_LO_CM]))[0]), 1)],
+        'co_band_air_A': [round(float(vac_to_air(np.array([1e8 / CO_HI_CM]))[0]), 1),
+                          round(float(vac_to_air(np.array([1e8 / CO_LO_CM]))[0]), 1)],
         'convention': 'native = FTS vacuum wavenumber (cm⁻¹); wavelength_vac_A = 1e8/wn; '
                       'wavelength_air_A via Birch & Downs (1994)/Edlén (VALD3/iSpec). '
                       'Vesta (reflected solar) = integrated-disk.',

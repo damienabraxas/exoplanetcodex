@@ -1,0 +1,34 @@
+{
+  "ticket": "RYA-534",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned.",
+  "sirius_only": "Sirius /mnt/codex-data/grids/nlte/gerber_ts/ only (RYA-526).",
+  "element": "Si",
+  "files": {
+    "model_atom": {
+      "name": "atom.si340",
+      "url": "https://keeper.mpdl.mpg.de/f/9d70635e75864b8e9b79/?dl=1",
+      "md5": "dd67f9e9423d65fdec6a7943577b6fcf"
+    },
+    "grid_1d_aux": {
+      "name": "auxData_Si_MARCS_Feb-13-2022.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/9292d086fc104a90a997/?dl=1",
+      "md5": "d1c0d7322c36d27d07c1c8adac68df9c"
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/4235ff57b3e64e6f928a/?dl=1",
+      "md5": "eeb806a1783b7630b7813e1acd9b594f", "bytes": 13380206185
+    }
+  },
+  "gate": {
+    "lines": "Si I 5772.146 (GES level-IDs)",
+    "result": "median delta -0.034 (EW 53 mA)",
+    "anchor": "-0.01 (our Si_Amarsi2020_PySME -0.013)",
+    "verdict": "PASS (|median-anchor|=0.024<=0.05); departures engaged.",
+    "departures_engaged": true
+  }
+}

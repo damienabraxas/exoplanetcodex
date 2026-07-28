@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "element": "Zr",
+    "ion": "II",
+    "z": 40,
+    "a_sun_ref": 2.59,
+    "a_sun_ref_source": "Asplund2021",
+    "nlte": "NLTE_unavailable_LTE_robust",
+    "nlte_rationale": "Zr II is the majority ion in the solar photosphere -> LTE-robust (registry 279/458, Sr II/V II precedent); no departure grid exists",
+    "reliable_dEW_dA_floor": 40.0
+  },
+  "4208.98": {
+    "wave": 4208.98,
+    "ep": 0.713,
+    "loggf": -0.51,
+    "gf_id": "gf_145794",
+    "gf_ref": "LNAJ (Ljung+2006)",
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable_LTE_robust",
+    "harps": {
+      "A_LTE": 2.391,
+      "A_NLTE": null,
+      "gsig_kms": 2.0,
+      "red_chi2": 90.98,
+      "npix": 320,
+      "dEW_dA_mA_dex": 36.8,
+      "railed": false,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.39,
+      "A_NLTE": null,
+      "gsig_kms": 1.5,
+      "red_chi2": 90.61,
+      "npix": 4795,
+      "dEW_dA_mA_dex": 36.8,
+      "railed": false,
+      "reliable": false
+    }
+  },
+  "4258.041": {
+    "wave": 4258.041,
+    "ep": 0.559,
+    "loggf": -1.2,
+    "gf_id": "gf_145801",
+    "gf_ref": "LNAJ (Ljung+2006)",
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable_LTE_robust",
+    "harps": {
+      "A_LTE": 2.286,
+      "A_NLTE": null,
+      "gsig_kms": 2.0,
+      "red_chi2": 45.35,
+      "npix": 240,
+      "dEW_dA_mA_dex": 26.6,
+      "railed": false,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.379,
+      "A_NLTE": null,
+      "gsig_kms": 1.5,
+      "red_chi2": 31.03,
+      "npix": 3514,
+      "dEW_dA_mA_dex": 29.6,
+      "railed": false,
+      "reliable": false
+    }
+  },
+  "4442.992": {
+    "wave": 4442.992,
+    "ep": 1.486,
+    "loggf": -0.42,
+    "gf_id": "gf_145833",
+    "gf_ref": "LNAJ (Ljung+2006)",
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable_LTE_robust",
+    "harps": {
+      "A_LTE": 2.499,
+      "A_NLTE": null,
+      "gsig_kms": 2.0,
+      "red_chi2": 41.27,
+      "npix": 280,
+      "dEW_dA_mA_dex": 29.7,
+      "railed": false,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.521,
+      "A_NLTE": null,
+      "gsig_kms": 1.5,
+      "red_chi2": 20.78,
+      "npix": 3765,
+      "dEW_dA_mA_dex": 29.7,
+      "railed": false,
+      "reliable": false
+    }
+  },
+  "4629.079": {
+    "wave": 4629.079,
+    "ep": 2.49,
+    "loggf": -0.59,
+    "gf_id": "gf_145848",
+    "gf_ref": "CCout (Gaia-ESO)",
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable_LTE_robust",
+    "harps": {
+      "A_LTE": 1.9,
+      "A_NLTE": null,
+      "gsig_kms": 3.5,
+      "red_chi2": 37.27,
+      "npix": 180,
+      "dEW_dA_mA_dex": 0.7,
+      "railed": true,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.169,
+      "A_NLTE": null,
+      "gsig_kms": 2.5,
+      "red_chi2": 29.54,
+      "npix": 2229,
+      "dEW_dA_mA_dex": 2.1,
+      "railed": false,
+      "reliable": false
+    }
+  },
+  "5350.089": {
+    "wave": 5350.089,
+    "ep": 1.827,
+    "loggf": -1.24,
+    "gf_id": "gf_145861",
+    "gf_ref": "CC (Gaia-ESO)",
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable_LTE_robust",
+    "harps": {
+      "A_LTE": 2.681,
+      "A_NLTE": null,
+      "gsig_kms": 2.0,
+      "red_chi2": 17.76,
+      "npix": 180,
+      "dEW_dA_mA_dex": 16.3,
+      "railed": false,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 2.702,
+      "A_NLTE": null,
+      "gsig_kms": 1.5,
+      "red_chi2": 10.08,
+      "npix": 1670,
+      "dEW_dA_mA_dex": 16.3,
+      "railed": false,
+      "reliable": false
+    }
+  },
+  "5372.466": {
+    "wave": 5372.466,
+    "ep": 2.409,
+    "loggf": -0.81,
+    "gf_id": "gf_145863",
+    "gf_ref": "LNAJ (Ljung+2006, RYA-354)",
+    "nlte_delta": null,
+    "nlte_status": "NLTE_unavailable_LTE_robust",
+    "harps": {
+      "A_LTE": 1.9,
+      "A_NLTE": null,
+      "gsig_kms": 1.5,
+      "red_chi2": 2.65,
+      "npix": 180,
+      "dEW_dA_mA_dex": 0.5,
+      "railed": true,
+      "reliable": false
+    },
+    "iag": {
+      "A_LTE": 1.9,
+      "A_NLTE": null,
+      "gsig_kms": 1.5,
+      "red_chi2": 3.59,
+      "npix": 1655,
+      "dEW_dA_mA_dex": 0.5,
+      "railed": true,
+      "reliable": false
+    }
+  }
+}

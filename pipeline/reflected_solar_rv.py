@@ -121,6 +121,31 @@ STRONG_ANCHORS_AIR = (4226.728, 4861.350, 5183.604, 5889.951, 5895.924, 6162.170
 PASS_TOL_KMS = 0.5        # held-out photospheric lines must land within this of rest
 MIN_LINES = 5             # minimum clean lines for a valid bulk-velocity measurement
 
+# Telluric-CCF wavelength-zero-point closure (RYA-372 review item 2). The held-out
+# photospheric check CANNOT catch a uniform wavelength zero-point offset: a common-mode
+# shift δ moves the anchor lines AND the held-out lines together, so zeroing the anchor
+# lands everything at rest by construction. The telluric lines are the one header-
+# independent reference — they sit at rest in the TOPOCENTRIC frame regardless of what
+# the pipeline did. So we measure the telluric velocity (iSpec CCF) and assert it equals
+# the pipeline's *claimed* applied frame shift: BERV for a BARYCENT frame, 0 for a
+# TOPOCENT frame. A mismatch = a common-mode wavelength offset (or a frame mislabel) →
+# loud-fail. Observed closure (RYA-372): ESPRESSO v_tell−BERV = +0.13 ± 0.03 km/s;
+# UVES v_tell−0 = −0.04 ± 0.52 km/s (→ UVES is genuinely TOPOCENT, telluric at rest).
+TELLURIC_CCF_MASK = ('input', 'linelists', 'CCF', 'Synth.Tellurics.500_1100nm', 'mask.lst')
+TELL_CLOSURE_TOL = 1.5    # start (review §2); tighten per-instrument once distribution seen
+BERV_KEYWORD = 'HIERARCH ESO QC BERV'   # confirmed against ESPRESSO headers (review note)
+
+# "rest = mean Fe I core" carries the solar convective-blueshift zero-point
+# (~−0.3 to −0.4 km/s, line-depth-dependent) + the +0.633 km/s gravitational redshift.
+# Harmless for EW/synthesis (shift-invariant) and it cancels differentially, but it is
+# NOT the laboratory rest frame — stamped in the --write provenance so a conditioned
+# frame is not mistaken for it.
+CONVECTIVE_BLUESHIFT_NOTE = (
+    'rest frame = mean photospheric Fe I core (NOT laboratory rest): carries the solar '
+    'convective blueshift (~-0.3..-0.4 km/s, depth-dependent) + gravitational redshift '
+    '(+0.633 km/s). Shift-invariant for EW/synthesis; cancels in differential abundances.'
+)
+
 
 # ── Horizons two-leg ephemeris model ──────────────────────────────────────────
 _HZ_CACHE: dict = {}
@@ -182,6 +207,44 @@ def assert_rest_frame(measured_residual_kms: float, line_id: str,
             f"(tol ±{tol_kms} km/s) — NOT at rest. The reflected-solar RV is wrong "
             f"(body-ID? sign?). This is the open assert that let the Mars-for-Vesta swap "
             f"ride four tickets (RYA-394).")
+
+
+# ── Telluric velocity (iSpec CCF) — the header-independent frame reference ────
+_ISPEC = {}
+
+
+def _ispec():
+    """Lazily bootstrap iSpec (heavy import); cache the module + telluric mask."""
+    if 'mod' not in _ISPEC:
+        from config.constants import ISPEC_DIR
+        sys.path.insert(0, str(ISPEC_DIR))
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            import ispec
+        _ISPEC['mod'] = ispec
+        _ISPEC['mask'] = ispec.read_cross_correlation_mask(str(ISPEC_DIR.joinpath(*TELLURIC_CCF_MASK)))
+    return _ISPEC['mod'], _ISPEC['mask']
+
+
+def telluric_velocity(wave_air: np.ndarray, flux: np.ndarray) -> float:
+    """Telluric line-of-sight velocity (km/s) via iSpec cross-correlation against the
+    Synth.Tellurics mask. This is the *applied frame shift* of the spectrum: telluric
+    absorption is at rest in the topocentric frame, so its measured velocity is exactly
+    how far the pipeline moved the wavelength scale. NaN if iSpec/the mask is
+    unavailable or the CCF finds no telluric peak (e.g. a blue arm with no telluric
+    band) — the caller flags 'closure unavailable', never a silent pass.
+    """
+    try:
+        ispec, mask = _ispec()
+        spec = ispec.create_spectrum_structure(wave_air / 10.0)   # iSpec waveobs in nm
+        spec['flux'] = flux
+        spec['err'] = 1.0
+        models, _ccf = ispec.cross_correlate_with_mask(
+            spec, mask, lower_velocity_limit=-120, upper_velocity_limit=120,
+            velocity_step=0.5, mask_depth=0.01, fourier=False)
+        return float(models[0].mu()) if models else np.nan
+    except Exception:
+        return np.nan
 
 
 # ── Line-core velocity measurement ────────────────────────────────────────────
@@ -324,7 +387,7 @@ def discover_set(set_name: str, root: Path = DEFAULT_ROOT) -> list:
 # ── Per-frame conditioning ────────────────────────────────────────────────────
 
 def condition_frame(path: Path, obs_code: str = PARANAL,
-                    body_key: str = DEFAULT_BODY) -> dict:
+                    body_key: str = DEFAULT_BODY, closure: bool = True) -> dict:
     """Condition one frame to the solar rest frame and verify on held-out lines.
 
     Anchor velocity = robust median of TRAIN photospheric cores. Apply
@@ -335,6 +398,12 @@ def condition_frame(path: Path, obs_code: str = PARANAL,
     they are NOT asserted; the held-out PHOTOSPHERIC set is the rigorous rest proof). The
     Horizons two-leg model (`body_key`, single-source registry) is the independent
     cross-check — now Vesta, not the bare-'4'⇒Mars value (RYA-394).
+
+    `closure` adds the telluric-CCF wavelength-zero-point check (review item 2): the
+    measured telluric velocity must equal the pipeline's claimed applied frame shift
+    (BERV for BARYCENT, 0 for TOPOCENT) within TELL_CLOSURE_TOL, else the frame is
+    downgraded to CLOSURE_FAIL — this is the only guard against a common-mode offset
+    the held-out check cannot see.
     """
     fr = _load_frame(Path(path))
     rec = {k: fr.get(k) for k in ('file', 'instrument', 'pro_catg', 'ins_mode',
@@ -401,57 +470,173 @@ def condition_frame(path: Path, obs_code: str = PARANAL,
         except RestFrameError as e:
             e.rec = rec
             raise
-    rec['status'] = 'PASS'
+    else:
+        rec['status'] = 'PASS'
+
+    # ── Telluric-CCF wavelength-zero-point closure (review item 2) ────────────
+    # Measured on the AS-DELIVERED wave (the telluric tells us the applied frame
+    # shift). Expected = the pipeline's claimed shift: BERV for BARYCENT, 0 for
+    # TOPOCENT. Mismatch > tol = common-mode offset / frame mislabel → loud-fail.
+    # (Reached only for PASS frames; an off-rest frame already raised RestFrameError.)
+    if closure:
+        v_tell = telluric_velocity(wave, flux)
+        rec['v_telluric'] = round(v_tell, 3) if np.isfinite(v_tell) else np.nan
+        specsys = str(fr.get('specsys', ''))
+        berv = fr.get('berv', None)
+        if specsys == 'BARYCENT' and berv is not None:
+            expected = float(berv)
+        elif specsys == 'TOPOCENT':
+            expected = 0.0                      # validated: UVES telluric ≈ 0 (RYA-372)
+        else:
+            expected = np.nan
+        rec['tell_expected'] = round(expected, 3) if np.isfinite(expected) else np.nan
+        if np.isfinite(v_tell) and np.isfinite(expected):
+            rec['closure_resid'] = round(v_tell - expected, 3)
+            # Reflected-solar geometry cross-check (NOT gated): the measured
+            # topocentric reflected velocity (v_anch − v_telluric) vs the Horizons
+            # two-leg. The large/variable gap is the leading-order model limit.
+            if np.isfinite(rec.get('v_total_eph', np.nan)):
+                rec['geom_gap'] = round((v - v_tell) - rec['v_total_eph'], 3)
+            if abs(rec['closure_resid']) > TELL_CLOSURE_TOL and rec['status'] == 'PASS':
+                rec['status'] = 'CLOSURE_FAIL'
+                rec['reason'] = (f'telluric at {v_tell:+.2f} km/s vs claimed frame shift '
+                                 f'{expected:+.2f} ({specsys}); closure {v_tell-expected:+.2f} '
+                                 f'> {TELL_CLOSURE_TOL} km/s — common-mode wavelength offset.')
+        else:
+            rec['closure_resid'] = np.nan
+            rec['closure_note'] = 'telluric CCF unavailable (no telluric band / iSpec) — closure not checked'
+
     return rec
 
 
 # ── Verify a whole set (smoke test) ───────────────────────────────────────────
 
+_FAIL_STATES = ('CRITICAL', 'CLOSURE_FAIL')
+
+
 def verify_set(set_name: str, root: Path = DEFAULT_ROOT, obs_code: str = PARANAL,
-               body_key: str = DEFAULT_BODY) -> list:
+               body_key: str = DEFAULT_BODY, closure: bool = True) -> list:
     paths = discover_set(set_name, root)
     spec = REFLECTED_SOLAR_BODIES[body_key]
-    print(f"\n{'='*118}\n  RYA-372 reflected-solar RV conditioning — set '{set_name}'  "
-          f"({len(paths)} frames; root={root.name})\n{'='*118}")
+    print(f"\n{'='*120}\n  RYA-372 reflected-solar RV conditioning — set '{set_name}'  "
+          f"({len(paths)} frames; root={root.name})\n{'='*120}")
     print(f"  ASSERTION: asteroid-ephemeris path used (JPL Horizons, body_key={body_key!r} "
           f"→ id={spec['id']!r}/id_type={spec['id_type']!r} @Paranal={obs_code}); NO bare-'4' "
           f"(=Mars) trap, NO stellar-BERV shortcut.")
     print(f"  Anchor = measured photospheric bulk velocity; CLOSED-LOOP rest assert on "
-          f"held-out lines (±{PASS_TOL_KMS} km/s, RestFrameError); Horizons two-leg = cross-check.\n")
-    hdr = (f"  {'file':40s} {'mode':9s} {'SPECSYS':9s} {'v_helio':>8s} {'v_obs':>8s} "
-           f"{'v_eph':>8s} {'v_anch':>8s} {'NaD2':>7s} {'Ha':>7s} {'test':>7s} {'status':12s}")
-    print(hdr)
-    print("  " + "-" * 116)
+          f"held-out lines (±{PASS_TOL_KMS} km/s, RestFrameError).")
+    print(f"  CLOSURE (teeth): telluric CCF must match the claimed frame shift "
+          f"(BERV/0) within ±{TELL_CLOSURE_TOL} km/s — guards the common-mode offset the held-out check cannot.\n")
+    hdr = (f"  {'file':32s} {'mode':9s} {'SPECSYS':9s} {'v_anch':>7s} {'v_eph':>7s} "
+           f"{'v_tell':>7s} {'expect':>7s} {'closure':>8s} {'geomgap':>8s} {'test':>6s} {'status':12s}")
+    print(hdr + "\n  " + "-" * 118)
     recs = []
     for p in paths:
         # condition_frame loud-fails RestFrameError on an off-rest frame (no report-only
         # path); the survey catches it (via .rec) to tabulate every frame as CRITICAL.
         try:
-            r = condition_frame(p, obs_code=obs_code, body_key=body_key)
+            r = condition_frame(p, obs_code=obs_code, body_key=body_key, closure=closure)
         except RestFrameError as e:
             r = e.rec if e.rec is not None else {'file': Path(p).name, 'status': 'CRITICAL',
                                                  'reason': str(e)[:60]}
         recs.append(r)
         if r['status'] == 'REJECTED':
-            print(f"  {r['file']:40s} {str(r.get('ins_mode','')):9s} {str(r.get('specsys','')):9s} "
-                  f"{'':>8s} {'':>8s} {'':>8s} {'':>8s} {'':>7s} {'':>7s} {'':>7s} "
-                  f"REJECTED  ({r['reason'][:42]})")
+            print(f"  {r['file']:32s} {str(r.get('ins_mode','')):9s} {str(r.get('specsys','')):9s} "
+                  f"{'':>7s} {'':>7s} {'':>7s} {'':>7s} {'':>8s} {'':>8s} {'':>6s} "
+                  f"REJECTED ({r['reason'][:34]})")
             continue
-        def g(k):
+
+        def g(k, w=7):
             v = r.get(k)
             return f"{v:+.2f}" if isinstance(v, (int, float)) and np.isfinite(v) else '—'
-        print(f"  {r['file']:40s} {str(r.get('ins_mode','')):9s} {str(r.get('specsys','')):9s} "
-              f"{g('v_helio'):>8s} {g('v_obs'):>8s} {g('v_total_eph'):>8s} {g('v_anchor'):>8s} "
-              f"{g('resid_NaD2'):>7s} {g('resid_Halpha'):>7s} {g('resid_test'):>7s} {r['status']:12s}"
-              + (f" {r.get('reason','')[:40]}" if r['status'] in ('CRITICAL', 'INSUFFICIENT') else ''))
-    # Summary
+        note = ''
+        if r['status'] in ('CRITICAL', 'INSUFFICIENT', 'CLOSURE_FAIL'):
+            note = ' ' + str(r.get('reason', ''))[:38]
+        elif r.get('closure_note'):
+            note = ' (closure n/a)'
+        print(f"  {r['file']:32s} {str(r.get('ins_mode','')):9s} {str(r.get('specsys','')):9s} "
+              f"{g('v_anchor'):>7s} {g('v_total_eph'):>7s} {g('v_telluric'):>7s} {g('tell_expected'):>7s} "
+              f"{g('closure_resid'):>8s} {g('geom_gap'):>8s} {g('resid_test'):>6s} {r['status']:12s}{note}")
+
     from collections import Counter
     c = Counter(r['status'] for r in recs)
-    print("  " + "-" * 116)
-    print(f"  summary: " + "  ".join(f"{k}={v}" for k, v in sorted(c.items())))
-    crit = [r for r in recs if r['status'] == 'CRITICAL']
-    if crit:
-        print(f"  ⚠️  {len(crit)} CRITICAL frame(s) — lines do not land at rest; NOT silently passed.")
+    print("  " + "-" * 118)
+    print("  summary: " + "  ".join(f"{k}={v}" for k, v in sorted(c.items())))
+    clo = np.array([r['closure_resid'] for r in recs
+                    if r.get('status') == 'PASS'
+                    and np.isfinite(r.get('closure_resid', np.nan))])
+    if clo.size:
+        print(f"  closure residual (telluric − claimed frame shift): median={np.median(clo):+.3f}  "
+              f"std={np.std(clo):.3f}  max|·|={np.max(np.abs(clo)):.3f} km/s  (n={clo.size}; tol ±{TELL_CLOSURE_TOL})")
+    fails = [r for r in recs if r['status'] in _FAIL_STATES]
+    if fails:
+        print(f"  ⚠️  {len(fails)} loud-fail frame(s) ({', '.join(sorted({r['status'] for r in fails}))}) "
+              f"— NOT silently passed.")
+    return recs
+
+
+# ── --write: emit rest-frame conditioned spectra for RYA-371 ──────────────────
+
+def write_set(set_name: str, out_dir: Path, recs: list = None, root: Path = DEFAULT_ROOT,
+              obs_code: str = PARANAL) -> list:
+    """Write per-frame rest-frame spectra for PASS frames (CRITICAL / CLOSURE_FAIL /
+    INSUFFICIENT / REJECTED excluded, logged in the manifest). Per-frame only — never
+    coadded (Vesta 5.3 h rotation). Each CSV carries a provenance header (applied
+    v_anch, anchor set, held-out + closure residuals, the convective-blueshift note);
+    columns are `wavelength_air_A,flux` (air per instrument convention). Reuses
+    pre-computed `recs` (from verify_set) when given, to avoid a second conditioning pass."""
+    import csv
+    out_dir = Path(out_dir)
+    if recs is None:
+        recs = [condition_frame(p, obs_code=obs_code, closure=True)
+                for p in discover_set(set_name, root)]
+    manifest = []
+    written = 0
+    for r in recs:
+        p = root / r['file']
+        if r['status'] != 'PASS':
+            manifest.append({**{k: r.get(k) for k in ('file', 'instrument', 'ins_mode',
+                                 'specsys', 'status', 'v_anchor', 'closure_resid')},
+                             'output': '', 'reason': r.get('reason', r.get('closure_note', ''))})
+            continue
+        inst_dir = out_dir / f'vesta_{str(r["instrument"]).lower()}'
+        inst_dir.mkdir(parents=True, exist_ok=True)
+        out_path = inst_dir / f'{Path(r["file"]).stem}_rest.csv'
+        wave_rest = r['wave_rest']
+        flux = _load_frame(Path(p))['flux']
+        prov = [
+            f'# RYA-372 reflected-solar rest-frame conditioned spectrum',
+            f'# source: {r["file"]}  ({r["instrument"]} {r.get("ins_mode","")}, {r.get("specsys","")})',
+            f'# date-obs: {r.get("date_obs","")}  mjd_mid: {r.get("mjd_mid","")}',
+            f'# applied v_anch (removed): {r["v_anchor"]:+.4f} km/s  (lambda_rest = lambda_obs/(1+v/c))',
+            f'# anchor: median of {r.get("n_train","?")} TRAIN photospheric Fe I cores (two-pass coarse->fine)',
+            f'# held-out residual: {r.get("resid_test")} km/s   NaD2: {r.get("resid_NaD2")}   Ha: {r.get("resid_Halpha")}',
+            f'# telluric closure: v_tell={r.get("v_telluric")} expected={r.get("tell_expected")} resid={r.get("closure_resid")} km/s',
+            f'# Horizons two-leg cross-check: r+delta={r.get("v_total_eph")}  geom_gap={r.get("geom_gap")} km/s',
+            f'# {CONVECTIVE_BLUESHIFT_NOTE}',
+            f'# wavelength: AIR Angstrom (ESPRESSO WAVE_AIR / UVES WAVE); flux as delivered (FLUXCAL per header)',
+        ]
+        with open(out_path, 'w', newline='') as fh:
+            fh.write('\n'.join(prov) + '\n')
+            w = csv.writer(fh)
+            w.writerow(['wavelength_air_A', 'flux'])
+            for wl, fx in zip(wave_rest, flux):
+                w.writerow([f'{wl:.6f}', f'{fx:.6g}'])
+        written += 1
+        manifest.append({'file': r['file'], 'instrument': r['instrument'],
+                         'ins_mode': r.get('ins_mode'), 'specsys': r.get('specsys'),
+                         'status': 'PASS', 'v_anchor': r['v_anchor'],
+                         'closure_resid': r.get('closure_resid'),
+                         'output': str(out_path.relative_to(out_dir)), 'reason': ''})
+    out_dir.mkdir(parents=True, exist_ok=True)
+    man_path = out_dir / f'{set_name}_manifest.csv'
+    with open(man_path, 'w', newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=['file', 'instrument', 'ins_mode', 'specsys',
+                                           'status', 'v_anchor', 'closure_resid', 'output', 'reason'])
+        w.writeheader()
+        w.writerows(manifest)
+    print(f"\n  [--write] {written} rest-frame spectra → {out_dir}/vesta_*/   "
+          f"manifest → {man_path.name}  ({len(manifest)-written} excluded, logged)")
     return recs
 
 
@@ -459,13 +644,21 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description='Reflected-solar RV conditioning (RYA-372)')
     ap.add_argument('--set', dest='set_name', required=True,
                     choices=['vesta_espresso', 'vesta_uves'])
-    ap.add_argument('--verify', action='store_true', help='per-frame RV + line-residual table')
+    ap.add_argument('--verify', action='store_true', help='per-frame RV + closure table')
+    ap.add_argument('--write', action='store_true', help='emit rest-frame spectra (PASS frames) + manifest')
+    ap.add_argument('--out', default=None, help='output dir for --write (default data/processed/reflected_solar)')
+    ap.add_argument('--no-closure', action='store_true', help='skip the telluric-CCF closure check')
     ap.add_argument('--root', default=str(DEFAULT_ROOT))
     ap.add_argument('--obs-code', default=PARANAL)
     args = ap.parse_args(argv)
-    recs = verify_set(args.set_name, root=Path(args.root), obs_code=args.obs_code)
-    # Non-zero exit if any CRITICAL (loud-fail, for CI / RYA-371 gating).
-    return 1 if any(r['status'] == 'CRITICAL' for r in recs) else 0
+    recs = verify_set(args.set_name, root=Path(args.root), obs_code=args.obs_code,
+                      closure=not args.no_closure)
+    if args.write:
+        out = Path(args.out) if args.out else (
+            Path(__file__).resolve().parent.parent / 'data' / 'processed' / 'reflected_solar')
+        write_set(args.set_name, out, recs=recs, root=Path(args.root), obs_code=args.obs_code)
+    # Non-zero exit on any loud-fail (CRITICAL / CLOSURE_FAIL) for CI / RYA-371 gating.
+    return 1 if any(r['status'] in _FAIL_STATES for r in recs) else 0
 
 
 if __name__ == '__main__':

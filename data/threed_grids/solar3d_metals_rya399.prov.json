@@ -1,0 +1,27 @@
+{
+  "ticket": "RYA-399",
+  "artifact": "solar3d_metals_rya399.csv",
+  "what": "Solar 3D dimensional abundance corrections for the GET-3D metals (Si/Ti/Cr) routed by RYA-400. delta_3d = A(3D) - A(1D) at fixed NLTE, added on top of the 1D-NLTE pass.",
+  "convention": "A(3D-NLTE) = A(1D-NLTE; NLTE_CORRECTION_ELEMENTS) + delta_3d. Positive delta_3d means 3D RAISES the abundance.",
+  "node": "solar only (Teff 5772 K, logg 4.44, [Fe/H] 0.0)",
+  "sources": {
+    "Si": {
+      "value_dex": -0.01,
+      "cite": "Amarsi & Asplund 2017, MNRAS 464, 264 (3D non-LTE solar Si, A(Si)=7.51 +/- 0.03); Scott, Grevesse, Asplund et al. 2015 Paper I, A&A 573, A25",
+      "note": "Si 3D and NLTE corrections are both ~hundredths of a dex; Si is a primary abundance anchor. A full off-solar 3D grid exists (Amarsi 2020 GALAH, A&A 642, A62)."
+    },
+    "Ti": {
+      "value_dex": 0.06,
+      "cite": "Scott, Asplund, Grevesse et al. 2015 Paper II, A&A 573, A26 (solar iron-group; 3D raises Ti I abundance; NLTE +0.04..+0.09; A(Ti)=4.93 +/- 0.04)",
+      "note": "Solar value only; no public per-(Teff,logg,feh) 3D-NLTE Ti grid (Fe-peak excluded from Amarsi 2020). Off-solar 3D for Ti is a documented gap, carried forward."
+    },
+    "Cr": {
+      "value_dex": 0.03,
+      "cite": "Scott, Asplund, Grevesse et al. 2015 Paper II, A&A 573, A26 (solar iron-group; NLTE +0.02..+0.04; A(Cr)=5.62 +/- 0.04)",
+      "note": "Solar value only; no public off-solar 3D-NLTE Cr grid. Carried forward."
+    }
+  },
+  "headline_finding": "All |delta_3d| <= 0.1 dex; for Ti/Cr POSITIVE. The RYA-398 graded+1D-NLTE residuals are +0.378 (Si) / +0.502 (Ti) / +0.402 (Cr). 3D moves Si by ~-0.01 and Ti/Cr UPWARD by +0.06/+0.03 -> it does NOT close the residual and for Ti/Cr slightly worsens it. CONCLUSION: 3D is not the dominant term for the Si/Ti/Cr SOLAR absolute residual; the residual is line-data / gf-zero-point (RYA-161 differential territory). Carried forward to the multi-star arc, never tuned.",
+  "validate_dont_tune": "delta_3d values are published independent literature corrections; they are NOT fit to our residual (and demonstrably do not close it).",
+  "retrieved": "2026-06-21 via A&A / arXiv (Scott+2015 II A&A 573 A26 = arXiv 1405.0287; Amarsi & Asplund 2017 = arXiv 1609.07283)"
+}

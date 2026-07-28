@@ -53,6 +53,9 @@ def main() -> int:
     required_repo = [
         ROOT / "config" / "stars.yaml",
         ROOT / "data" / "method_policy.yaml",
+        ROOT / "data" / "catalog" / "system_catalog.csv",
+        ROOT / "data" / "catalog" / "instrument_catalog.csv",
+        ROOT / "data" / "audit" / "element_status_tracker.csv",
         PATHS["linelist_master"],
         ROOT / "data" / "nlte_grids" / "Fe_Bergemann_MPIA.csv",
         ROOT / "data" / "nlte_grids" / "amarsi2019_cno" / "provenance.json",
@@ -62,6 +65,15 @@ def main() -> int:
                "present" if path.is_file() else "missing", results)
     _check("STAR_PARAMS registry", bool(STAR_PARAMS),
            f"{len(STAR_PARAMS)} targets in config/stars.yaml", results)
+    from data.catalog.instruments import load_catalog, validate_catalog
+    instrument_errors = validate_catalog()
+    _check(
+        "instrument catalog",
+        not instrument_errors,
+        f"{len(load_catalog())} records" if not instrument_errors
+        else "; ".join(instrument_errors),
+        results,
+    )
 
     if args.full:
         ispec_dir = Path(os.environ.get("ISPEC_DIR", ISPEC_DIR)).expanduser()

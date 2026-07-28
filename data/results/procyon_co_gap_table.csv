@@ -1,0 +1,9 @@
+diagnostic,role,instrument,wiring,note
+[O I] 6300 (Ni-blend),O cross-check,HARPS VIS,WIRED (run here),continuum/blend-limited at +0.01; registry: OK but not primary
+C I 5052 / 5380,C (NLTE),HARPS VIS,WIRED (run here),C I 5380 → SATURATION_COG exclude (registry); NLTE in-grid at 6554 K
+CH G-band 4290-4315,C molecular,HARPS VIS,WIRED (run here),"blue end, lower HARPS S/N; molecular-synth path"
+CN red / C2 Swan,N / C molec,HARPS VIS,WIRED (run here),molecular cross-checks
+O I 7771-5 triplet,O PRIMARY,UVES red,NOT WIRED for Procyon,region defined but unregistered; loader is Vesta-reflected-solar → BUILD (follow-on)
+C I red-optical / NI 8216,C/N,UVES red,NOT WIRED for Procyon,same UVES build dependency
+FUV C I / NH 3360,C/N MEASURED,HST STIS/COS,NOT WIRED (audit only),RYA-222/351 inventory exists; no synth loader → multi-region follow-on
+CO overtone / OH / CN,C cross + 12C/13C,IR CRIRES+/APOGEE,NOT WIRED (telluric-gated),RYA-351: APOGEE weak-CO only; no 2.3um overtone; telluric mandatory (RYA-373)

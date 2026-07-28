@@ -1,0 +1,16 @@
+# RYA-395 non-Fe EW line-pool curation — Al
+# Single source: measured EW = data/measured/sol_ew_results_v1.csv;
+#   atomic data (loggf/EP/nist_grade/loggf_reference) = data/linelists/canonical_gf.csv.
+# Cull criteria (FIXED in advance, abundance-BLIND, uniform across elements):
+#   WEAK  ew_mA < 5
+#   SAT   log(EW/λ) > -4.9  (linear-COG knee) OR ew_mA > 100
+#   HIERR ew_err/ew > 0.5
+#   BLEND measured blend_flag OR strength-weighted contaminant opacity > 0.5
+#         (NOT vald_proximity_flag — that crude flag was the known silent bug)
+#   BADGF nist_grade in {D,E,F}
+# gf_flag=GF_UNVERIFIED marks ungraded/Kurucz-theoretical gf (low-confidence, NOT culled);
+#   a pool dominated by these with a surviving offset is a gf-scale systematic → RYA-161.
+# Abundances (A_lte) are reported as VALIDATION only — never used to choose culls.
+element,ion,wavelength_air_A,ew_mA,ew_err_mA,err_frac,rew,log_gf,excitation_potential_eV,nist_grade,loggf_reference,gf_tier,blend_ratio,A_lte,cull_reason,kept,gf_flag
+Al,I,6631.218,34.53,5.43,0.157254561251086,-5.283396727143735,-1.7,4.022,,K75,LOW,3.841028572183441e-06,7.244,,True,GF_UNVERIFIED
+Al,I,6696.185,59.65,2.32,0.03889354568315172,-5.0502169956899055,-1.576,4.022,,K75,LOW,0.016142937292285428,7.413,,True,GF_UNVERIFIED

@@ -1,0 +1,57 @@
+{
+  "manifest_id": "sirius_solar_atlas_wallace2011_kpno",
+  "ticket": "RYA-485 Issue 3",
+  "source_cite": "Wallace, Hinkle, Livingston & Davis 2011 (NSO) \u2014 telluric-REMOVED KPNO solar flux atlas (sptr.reg1-6); a SECOND KPNO variant vs the Kurucz-1984 reference we currently use",
+  "source_url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/",
+  "zenodo_record": null,
+  "zenodo_doi": null,
+  "checksum_provenance": "computed-at-fetch (NSO publishes no md5)",
+  "purpose": "tie-breaker for the RYA-483 continuum lever: distinguishes a KPNO-family systematic (Wallace agrees Kurucz) from a Kurucz-reduction-specific one (Wallace agrees IAG)",
+  "dest_subdir": "solar_reference/wallace2011_kpno",
+  "items": [
+    {
+      "name": "sptr.reg1",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/sptr.reg1",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "sptr.reg2",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/sptr.reg2",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "sptr.reg3",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/sptr.reg3",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "sptr.reg4",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/sptr.reg4",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "sptr.reg5",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/sptr.reg5",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "sptr.reg6",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/sptr.reg6",
+      "size_bytes": null,
+      "md5": null
+    },
+    {
+      "name": "Wallace_2011_solar_flux_atlas.pdf",
+      "url": "https://nispdata.nso.edu/ftp/pub/Wallace_2011_solar_flux_atlas/Wallace_2011_solar_flux_atlas.pdf",
+      "size_bytes": null,
+      "md5": null
+    }
+  ],
+  "n_items": 7,
+  "total_bytes": 0
+}

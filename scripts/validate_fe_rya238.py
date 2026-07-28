@@ -31,6 +31,9 @@ from pipeline.abundances_derive import run
 from config.constants import (
     SOLAR_ASPLUND2021,
     FE_GATE_LOWER, FE_GATE_UPPER, FE_SCATTER_GATE, FE_IONISATION_GATE,
+    FE_IONIZATION_SYNTH_ARBITER, FE_EW_SYNTH_SPREAD_BAND,
+    ACCEPTANCE_PROFILES, STAR_SPECTRAL_TYPE, fe1_scatter_threshold,
+    get_acceptance_profile,
 )
 
 # RYA-334: A_X_nlte is ABSOLUTE A(Fe) (RYA-319 convention); the _check_gates /
@@ -38,29 +41,29 @@ from config.constants import (
 # to derive the absolute gate THRESHOLDS (7.46 ± FE_GATE), not to convert A_X_nlte.
 _A_FE_SOLAR = SOLAR_ASPLUND2021['Fe']  # 7.46 (Asplund+2021)
 
-# ── Gate definitions ──────────────────────────────────────────────────────────
-# Solar thresholds: FE_GATE_* are offsets in [Fe/H]; absolute bounds = 7.46 ± offset,
-# compared directly against the absolute A_X_nlte the pipeline stores.
-GATES = {
-    'solar': {
-        'A_Fe_I_lo'  : _A_FE_SOLAR + FE_GATE_LOWER,   # 7.41
-        'A_Fe_I_hi'  : _A_FE_SOLAR + FE_GATE_UPPER,   # 7.51
-        'A_Fe_II_lo' : _A_FE_SOLAR + FE_GATE_LOWER,   # 7.41
-        'A_Fe_II_hi' : _A_FE_SOLAR + FE_GATE_UPPER,   # 7.51
-        'dFe_max'    : FE_IONISATION_GATE,             # 0.05
-        'scatter_max': FE_SCATTER_GATE,                # 0.10
-        'n_Fe2_min'  : 8,
-        'vmic'       : 1.00,
-    },
-    'procyon': {
-        'A_Fe_I_lo'  : 7.38, 'A_Fe_I_hi'  : 7.54,
-        'A_Fe_II_lo' : 7.38, 'A_Fe_II_hi' : 7.54,
-        'dFe_max'    : 0.08,
-        'scatter_max': 0.15,
-        'n_Fe2_min'  : 3,
-        'vmic'       : 1.66,
-    },
-}
+# ── Gate definitions — ROUTED, not hardcoded (RYA-277) ────────────────────────
+# Every per-star acceptance threshold now comes from the star's per-spectral-type
+# ACCEPTANCE_PROFILE (config/constants.py), the single source of truth. There is NO
+# hardcoded gate table here: the Sun reads the G profile (= its signed-off values,
+# regression-proven bit-for-bit at A(Fe I) NLTE 7.516) and Procyon reads the F profile
+# (Fe I scatter floor 0.222 FINAL from RYA-281, NLTE-unavailable). This is the
+# anti-silent-assumption fix: the gate a star runs against is its TYPE's gate, named
+# at runtime — never an unlabelled "G-star" default applied to an F dwarf.
+def _gates_from_profile(star_id: str) -> dict:
+    spec = STAR_SPECTRAL_TYPE[star_id]
+    p = get_acceptance_profile(spec)        # loud on a stub — no silent default
+    return {
+        'spectral_type': spec,
+        'A_Fe_I_lo'  : p['a_fe_lo'], 'A_Fe_I_hi'  : p['a_fe_hi'],
+        'A_Fe_II_lo' : p['a_fe_lo'], 'A_Fe_II_hi' : p['a_fe_hi'],
+        'dFe_max'    : p['dFe_max'],
+        'scatter_max': p['fe1_scatter_max'],
+        'n_Fe2_min'  : p['n_Fe2_min'],
+        'vmic'       : p['vmic_lit'],
+        'nlte_available': p['nlte_available'],
+    }
+
+GATES = {s: _gates_from_profile(s) for s in STAR_SPECTRAL_TYPE}
 
 PLOT_DIR = REPO_ROOT / 'data' / 'processed'
 
@@ -101,8 +104,20 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
 
     a1  = fe1.get('a_nlte', np.nan)
     a2  = fe2.get('a_nlte', np.nan)
-    # ΔFe is the same in relative and absolute units (offset cancels in difference)
-    dfe = abs(a1 - a2) if (np.isfinite(a1) and np.isfinite(a2)) else np.nan
+    # ΔFe(I−II): scored on the ratified SYNTHESIS arbiter (RYA-406, DECISION 2), not the
+    # EW-path Fe II (blend-limited, high by design — RYA-352). The EW ΔFe + the EW-vs-synth
+    # Fe II spread are reported as diagnostics. Arbiter = cited single-source constant for
+    # the calibrated Sun; otherwise the EW path, flagged loud (no silent verdict swap).
+    dfe_ew = abs(a1 - a2) if (np.isfinite(a1) and np.isfinite(a2)) else np.nan
+    _arb = FE_IONIZATION_SYNTH_ARBITER.get(star_id)
+    if _arb is not None:
+        dfe = abs(float(_arb['dFe']))
+        ion_src = f"synth arbiter ({_arb['provenance']})"
+        ew_synth_spread = (a2 - float(_arb['fe2_synth'])) if np.isfinite(a2) else np.nan
+    else:
+        dfe = dfe_ew
+        ion_src = "EW path (no ratified synth arbiter for this star — RYA-406)"
+        ew_synth_spread = np.nan
     sc  = fe1.get('scatter', np.nan)
     n2  = fe2.get('n_lines', 0)
 
@@ -112,9 +127,18 @@ def _check_gates(star_id: str, abundances: pd.DataFrame, per_line: pd.DataFrame,
         'A_Fe_II_nlte': a2,
         'A_Fe_II_pass': g['A_Fe_II_lo'] <= a2 <= g['A_Fe_II_hi'] if np.isfinite(a2) else False,
         'dFe'         : dfe,
+        'dFe_ew'      : dfe_ew,
+        'dFe_src'     : ion_src,
+        'ew_synth_spread'  : ew_synth_spread,
+        'spread_flag' : bool(np.isfinite(ew_synth_spread) and abs(ew_synth_spread) > FE_EW_SYNTH_SPREAD_BAND),
         'dFe_pass'    : dfe <= g['dFe_max'] if np.isfinite(dfe) else False,
         'scatter'     : sc,
-        'scatter_pass': sc < g['scatter_max'] if np.isfinite(sc) else False,
+        # AT-FLOOR PASSES (RYA-277): the per-type fe1_scatter_max IS the characterized,
+        # cited POOL FLOOR for that type (G 0.1398 RYA-407; F 0.222 RYA-281). For an
+        # NLTE-unavailable type the floor is irreducible, so σ == floor is acceptance,
+        # not failure — hence ≤, not <. No-op for the Sun (σ 0.138 is strictly below
+        # 0.1398); flips Procyon's at-floor σ 0.222 to PASS (the RYA-281 verdict).
+        'scatter_pass': sc <= g['scatter_max'] if np.isfinite(sc) else False,
         'n_Fe2'       : n2,
         'n_Fe2_pass'  : n2 >= g['n_Fe2_min'],
         'vmic'        : vmic_val,
@@ -146,14 +170,32 @@ def _print_gate_table(star_id: str, res: dict):
         res['A_Fe_II_nlte'],
         f"[{g['A_Fe_II_lo']:.2f}, {g['A_Fe_II_hi']:.2f}]",
         res['A_Fe_II_pass'])
-    row("ΔFe(I−II)",
+    row("ΔFe(I−II) [synth arbiter]",
         res['dFe'],
         f"< {g['dFe_max']}",
         res['dFe_pass'])
-    row("Fe I scatter (σ NLTE)",
+    print(f"    └ source: {res.get('dFe_src', '?')}")
+    if np.isfinite(res.get('ew_synth_spread', np.nan)):
+        _fl = "FLAG (unexplained?)" if res.get('spread_flag') else "within blend-bias band"
+        print(f"    └ DIAGNOSTIC EW-vs-synth Fe II spread = {res['ew_synth_spread']:+.3f}  "
+              f"(EW ΔFe={res.get('dFe_ew', float('nan')):+.3f} blend-biased, NOT the verdict) → {_fl}")
+    # σ label tracks NLTE availability: NLTE for G, 1D for an NLTE-unavailable F star.
+    _sigma_label = "σ NLTE" if g.get('nlte_available') else "σ 1D (NLTE-unavail)"
+    row(f"Fe I scatter ({_sigma_label})",
         res['scatter'],
-        f"< {g['scatter_max']}",
+        f"<= {g['scatter_max']}",
         res['scatter_pass'])
+    # Anti-silent-assumption (RYA-270/277): name the active acceptance profile + the
+    # cited source of the per-type scatter ceiling the gate is using.
+    _spec = g.get('spectral_type') or STAR_SPECTRAL_TYPE.get(star_id)
+    _prof = ACCEPTANCE_PROFILES.get(_spec) if _spec else None
+    if _prof is not None and 'fe1_scatter_max' in _prof:
+        _nl = 'NLTE-available' if _prof.get('nlte_available') else 'NLTE-UNAVAILABLE'
+        print(f"    └ acceptance profile: {_spec}-star ({_prof.get('method','?')}, {_nl})  |  "
+              f"Fe I scatter ≤ {g['scatter_max']}  |  {_prof['provenance']}")
+    else:
+        print(f"    └ acceptance profile: {_spec}-star UNPROFILED (RYA-277 stub) → "
+              f"would fail loud; no silent default")
     row(f"Fe II n_lines",
         float(res['n_Fe2']),
         f">= {g['n_Fe2_min']}",
@@ -268,7 +310,7 @@ def _plot_ion_balance(results_solar, results_procyon, ax):
     ax.legend(fontsize=8)
 
 
-def main(star: str = 'both'):
+def main(star: str = 'both', ew_verify: bool = False):
     print("\n" + "="*62)
     print("  RYA-238: Fe I/II validation — solar + Procyon")
     print("="*62 + "\n")
@@ -281,7 +323,7 @@ def main(star: str = 'both'):
     solar_pl = pd.DataFrame()
     if run_solar:
         print("\n>>> Running: solar (ξ pinned via STAR_PARAMS policy, RYA-325)")
-        conv_solar, ab_solar = run('solar')
+        conv_solar, ab_solar = run('solar', ew_verify=ew_verify)
         solar_pl_path = REPO_ROOT / 'data' / 'processed' / 'solar_per_line.csv'
         solar_pl = pd.read_csv(solar_pl_path) if solar_pl_path.exists() else pd.DataFrame()
 
@@ -290,7 +332,7 @@ def main(star: str = 'both'):
     proc_pl = pd.DataFrame()
     if run_procyon:
         print("\n>>> Running: procyon (ξ pinned via STAR_PARAMS policy, RYA-325)")
-        conv_proc, ab_proc = run('procyon')
+        conv_proc, ab_proc = run('procyon', ew_verify=ew_verify)
         proc_pl_path = REPO_ROOT / 'data' / 'processed' / 'procyon_per_line.csv'
         proc_pl = pd.read_csv(proc_pl_path) if proc_pl_path.exists() else pd.DataFrame()
 
@@ -386,5 +428,8 @@ def main(star: str = 'both'):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--star', choices=['solar', 'procyon', 'both'], default='both')
+    ap.add_argument('--ew-verify', action='store_true',
+                    help='run the RYA-458 EW-integrity QA pass (per-star, RYA-273); '
+                         'flags only, never mutates an EW')
     args = ap.parse_args()
-    main(star=args.star)
+    main(star=args.star, ew_verify=args.ew_verify)
