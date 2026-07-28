@@ -1,0 +1,12 @@
+mode_id,instrument_id,mode_name,observing_domain,bands_supported,wavelength_min_nm,wavelength_max_nm,wavelength_frame,resolving_power,detector,mode_status,source_issue_ids,source_documentation
+hst_stis_e140h,hst_stis,E140H,FUV,FUV,114,170,vacuum,114000,FUV-MAMA,active,RYA-426,HST STIS Instrument Handbook; pipeline/uv_conditioning.py
+hst_stis_e140m,hst_stis,E140M,FUV,FUV,114,173,vacuum,45800,FUV-MAMA,active,RYA-426,HST STIS Instrument Handbook; pipeline/uv_conditioning.py
+hst_stis_e230h,hst_stis,E230H,NUV,NUV,162,315,vacuum,114000,NUV-MAMA,active,RYA-426,HST STIS Instrument Handbook; pipeline/uv_conditioning.py
+hst_stis_e230m,hst_stis,E230M,NUV,NUV,157,311,vacuum,30000,NUV-MAMA,active,RYA-426,HST STIS Instrument Handbook; pipeline/uv_conditioning.py
+hst_stis_g230mb,hst_stis,G230MB,NUV,NUV,199,316,vacuum,10000,CCD,experimental,RYA-426,HST STIS Instrument Handbook; pipeline/uv_conditioning.py
+hst_cos_g130m,hst_cos,G130M,FUV,FUV,115,145,vacuum,16000,COS-FUV,experimental,RYA-426,HST COS Instrument Handbook; pipeline/uv_conditioning.py
+hst_cos_g160m,hst_cos,G160M,FUV,FUV,140.5,177.5,vacuum,16000,COS-FUV,experimental,RYA-426,HST COS Instrument Handbook; pipeline/uv_conditioning.py
+uves_blue346,uves,BLUE346,UV_VIS,NUV|VIS,304.32,391.59,air,65030,CCD,active,RYA-348,data/spectra/procyon/uves_registry.csv
+uves_blue437,uves,BLUE437,VIS,VIS,373.09,499.89,air,65030,CCD,active,RYA-348,data/spectra/procyon/uves_registry.csv
+uves_red580,uves,RED580,VIS,VIS|red_optical,472.65,683.46,air,74450,CCD,active,RYA-348,data/spectra/procyon/uves_registry.csv
+uves_red860,uves,RED860,VIS_NIR,red_optical|NIR,664.99,1042.70,air,74450,CCD,active,RYA-348,data/spectra/procyon/uves_registry.csv

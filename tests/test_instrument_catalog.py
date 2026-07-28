@@ -1,12 +1,16 @@
 from pathlib import Path
 
 from data.catalog.instruments import (
-    load_catalog, render_markdown_table, validate_catalog,
+    load_catalog, render_markdown_table, validate_all, validate_catalog,
+    validate_holdings, validate_modes,
 )
 
 
 def test_instrument_catalog_contract():
     assert validate_catalog() == []
+    assert validate_modes() == []
+    assert validate_holdings() == []
+    assert validate_all() == []
 
 
 def test_required_multiwavelength_sources_are_registered():
