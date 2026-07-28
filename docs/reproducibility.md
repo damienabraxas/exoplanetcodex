@@ -67,3 +67,7 @@ Replace brackets with the exact run assets:
 Also cite Asplund et al. (2021) for the repository's solar abundance reference.
 Each data provider may impose additional acknowledgement or usage language;
 consult the upstream license at retrieval time.
+
+Use the [categorized project bibliography](references.md) to distinguish
+methodology, software, model/grid, instrument, archive, atomic/molecular, and
+reference-dataset citations. Cite only resources actually used by the run.
