@@ -99,11 +99,11 @@ def fake_repo(tmp_path: Path) -> Path:
     return repo
 
 
-def _guard_at(root: Path) -> subprocess.CompletedProcess:
+def _guard_at(root: Path, *argv: str) -> subprocess.CompletedProcess:
     """Run the guard's full main() with its ROOT pointed at `root`.
 
-    Goes through main() (not history_mode directly) so the GitError -> exit 2
-    contract is exercised as shipped.
+    Goes through main() (not history_mode directly) so the arg parsing and the
+    GitError -> exit 2 contract are exercised as shipped.
     """
     code = (
         "import sys\n"
@@ -111,7 +111,7 @@ def _guard_at(root: Path) -> subprocess.CompletedProcess:
         "import scripts.check_register_freshness as g\n"
         "from pathlib import Path\n"
         f"g.ROOT = Path({str(root)!r})\n"
-        "sys.argv = ['check_register_freshness.py']\n"
+        f"sys.argv = ['check_register_freshness.py', *{list(argv)!r}]\n"
         "sys.exit(g.main())\n"
     )
     return subprocess.run(
@@ -157,6 +157,46 @@ def test_touch_alone_does_not_trip_the_guard(fake_repo):
     (fake_repo / ss.LEDGER_PATHS[0]).touch()
     r = _guard_at(fake_repo)
     assert r.returncode == 0, "an uncommitted mtime is not a state change"
+
+
+# --------------------------------------------------------------------------
+# PR mode (--since-main)
+# --------------------------------------------------------------------------
+
+def test_pr_mode_fails_when_state_changes_without_the_register(fake_repo):
+    _git(fake_repo, "branch", "-q", "base")
+    (fake_repo / ss.LEDGER_PATHS[0]).write_text("element,status\nFe,PASS\nCo,PASS\n")
+    _git(fake_repo, "commit", "-q", "-a", "-m", "PR: element state only",
+         when="2026-07-10T12:00:00")
+
+    r = _guard_at(fake_repo, "--since-main", "base")
+    assert r.returncode == 1, f"PR mode must FAIL; stdout={r.stdout}"
+    assert "PR changes state but not the register" in r.stderr
+    assert ss.LEDGER_PATHS[0] in r.stderr
+
+
+def test_pr_mode_passes_when_the_register_moves_too(fake_repo):
+    _git(fake_repo, "branch", "-q", "base")
+    (fake_repo / ss.LEDGER_PATHS[0]).write_text("element,status\nFe,PASS\nCo,PASS\n")
+    (fake_repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v2**\n")
+    _git(fake_repo, "commit", "-q", "-a", "-m", "PR: element state + register bump",
+         when="2026-07-10T12:00:00")
+
+    r = _guard_at(fake_repo, "--since-main", "base")
+    assert r.returncode == 0, r.stderr
+    assert "register updated" in r.stdout
+
+
+def test_pr_mode_passes_when_no_state_surface_is_touched(fake_repo):
+    _git(fake_repo, "branch", "-q", "base")
+    (fake_repo / "notes.txt").write_text("not a state surface\n")
+    _git(fake_repo, "add", "-A")
+    _git(fake_repo, "commit", "-q", "-m", "PR: docs only",
+         when="2026-07-10T12:00:00")
+
+    r = _guard_at(fake_repo, "--since-main", "base")
+    assert r.returncode == 0, r.stderr
+    assert "0 state surface(s) changed" in r.stdout
 
 
 def test_git_failure_is_loud_not_a_pass(tmp_path):
