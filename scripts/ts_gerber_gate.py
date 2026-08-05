@@ -20,6 +20,7 @@ import re
 import subprocess
 import sys
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
@@ -196,7 +197,7 @@ def ew(specfile, c, hw=EW_HW):
     d = np.loadtxt(specfile)
     w, fl = d[:, 0], d[:, 1]
     m = (w > c - hw) & (w < c + hw)
-    return float(np.trapz(1.0 - fl[m], w[m]) * 1000.0)
+    return float(_trapezoid(1.0 - fl[m], w[m]) * 1000.0)
 
 
 def main():

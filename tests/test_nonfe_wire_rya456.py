@@ -30,7 +30,15 @@ from pipeline import data_namespace as ns  # noqa: E402
 
 # RYA-469: the solar baseline is now the FROZEN gold reference (committed), not the
 # gitignored working file — so these assertions run in CI instead of skipping.
-AB = ns.reference_path(ns.current_version())
+# Pinned to gold v1 ON PURPOSE (RYA-313). These three tests assert that the RYA-456
+# wiring reproduced the RYA-398 GRADED CULL DIAGNOSTICS
+# (curation_diagnostics_graded_rya398.csv, below) — a historical reproduction claim, so
+# it must name the reference it reproduces. Following `current_version()` silently
+# repointed them at gold v2 when RYA-522 re-froze, where the comparison is meaningless:
+# v2 drops the `curation_verdict` column and deliberately HOLDS Ca/Ti/Ni/Na/Al blank at
+# the ratified `owed` tier (RYA-522/596), so a v1-era value check reads nan-vs-6.324.
+# Tests that should track the CURRENT pointer live in test_data_namespacing_rya469.py.
+AB = ns.reference_path('v1')
 GRADED_DIAG = ROOT / 'data' / 'curation' / 'nonfe_pools' / 'curation_diagnostics_graded_rya398.csv'
 NONFE_DIR = ROOT / 'data' / 'curation' / 'nonfe_pools'
 

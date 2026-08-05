@@ -44,6 +44,7 @@ import sys
 import warnings
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS pins; import BEFORE numpy/scipy so the pins land before the BLAS backend spins up. Supersedes the RYA-506 inline fork block.
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import pandas as pd
 from pathlib import Path
 from scipy.optimize import minimize_scalar
@@ -315,6 +316,20 @@ _fe1_quarantine_state: dict = {'written': False}   # RYA-309: Fe I triage parity
 _TMP_DIR = '/tmp/ispec_codex'
 
 
+def ensure_ispec_tmp_dir(tmp_dir: str = _TMP_DIR) -> str:
+    """Create the iSpec/MOOG scratch dir and return it. Never silently skipped.
+
+    RYA-506 added the makedirs guard to `_fe2_theoretical_ew` only, but three other
+    call sites hand the SAME path to `ispec.determine_abundances` without creating it
+    (two here, one in curate_nonfe_pools) — MOOG then dies on
+    `FileNotFoundError: /tmp/ispec_codex/tmpXXXX` the first time the dir is absent
+    (e.g. a fresh boot, or /tmp reaped). Every caller routes through this helper so the
+    precondition holds once, in one place, instead of three literals drifting apart.
+    """
+    os.makedirs(tmp_dir, exist_ok=True)
+    return tmp_dir
+
+
 def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray:
     """Theoretical Fe II-only EW (mÅ) per line at expected A(Fe)=solar+[Fe/H], via SPECTRUM.
 
@@ -574,7 +589,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
         microturbulence_vel=vturb,
         verbose=0,
         code=ew_code,
-        tmp_dir='/tmp/ispec_codex',
+        tmp_dir=ensure_ispec_tmp_dir(),
     )
     # normal_abund = A(X) in the standard log(N/N_H)+12 scale (hydrogen=12).
     # spec_abund   = SPECTRUM's internal log(N/N_H) scale (hydrogen≈0).
@@ -717,7 +732,7 @@ def _synth_ew_at_abund(waveobs_nm: np.ndarray,
         linelist, isotopes, solar_abund, element, atom_code, trial_A,
         tmp_dir=tmp_dir,
     )
-    ew_nm = float(np.trapz(np.maximum(0.0, 1.0 - flux), waveobs_nm))
+    ew_nm = float(_trapezoid(np.maximum(0.0, 1.0 - flux), waveobs_nm))
     return ew_nm * 10000.0   # nm → mÅ
 
 

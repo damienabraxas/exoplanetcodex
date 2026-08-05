@@ -68,8 +68,19 @@ def test_grd_inputs_are_offline_not_production():
     assert (~grd['wired'].astype(bool)).all()   # never counted as a wired production grid
 
 
-def test_cu_grid_absent_as_csv():
+def test_cu_grid_present_but_production_still_data_blocked():
+    # RYA-540 SUPERSEDED the "Cu grid absent" expectation: the Caliskan-2024 PySME
+    # departure grid was acquired, derived and REGISTERED
+    # (data/nlte_grids/Cu_Caliskan2024_PySME.csv, commit 70456d2).
+    #
+    # The distinction that matters and must NOT be flattened: Cu's GRID is present,
+    # while Cu's PRODUCTION verdict stays GET-DATA — held on measured-line QUALITY
+    # (5 lines at red_chi2 8-127, RYA-395/466), NOT on the grid. This is the same
+    # shape as the owed-HELD vs owed-BLANK distinction (RYA-596): "blocked" does not
+    # mean "missing".
     df = M.build_matrix()
     cu = df[(df.element == 'Cu') & (df.subsystem == 'registry-nlte')].iloc[0]
-    assert not bool(cu['present'])           # no production CSV grid derived
-    assert cu['source_if_absent']            # documented (line-quality blocker, RYA-395)
+    assert bool(cu['present'])                    # production CSV grid IS derived (RYA-540)
+    assert bool(cu['wired'])                      # and applied in the default run
+    assert cu['role'] == 'production'
+    assert not cu['source_if_absent']             # nothing absent to account for any more

@@ -36,10 +36,18 @@ def test_registry_grids_exist_and_ions_well_formed():
 
 
 def test_grids_load_and_solar_deltas_match_documented():
-    # the real MPIA grids → Ti ~+0.108, Cr ~+0.073 (RYA-256 notes); Ca clean median +0.017
-    # after RYA-413 dropped the 6166 placeholder-zero (was +0.0118 with the placeholder).
-    expect = {'Ca': 0.017, 'Ti': 0.108, 'Cr': 0.073}
-    min_waves = {'Ca': 7, 'Ti': 8, 'Cr': 8}        # Ca = 7 after the RYA-413 6166 drop
+    # Cr ~+0.073 (RYA-256 notes, MPIA); Ca clean median +0.017 after RYA-413 dropped the
+    # 6166 placeholder-zero (was +0.0118 with the placeholder).
+    #
+    # RYA-545 SUPERSEDED the Ti expectation: production Ti moved off
+    # Ti_Bergemann2011_MPIA.csv (scaled-Drawin, +0.108 over 8+ waves) onto
+    # Ti_Mallinson2024_PySME.csv (ab-initio Grumer-Barklem-2020 H collisions, Zenodo
+    # 10753497) — 3 lines (5648/5662/5689), solar δ +0.0506 reproducing the published
+    # +0.052. The old +0.108 was inflated ~2x by the outdated atom (RYA-546 vintage
+    # audit), so asserting it here would be asserting the retired defect.
+    expect = {'Ca': 0.017, 'Ti': 0.052, 'Cr': 0.073}
+    min_waves = {'Ca': 7, 'Ti': 3, 'Cr': 8}        # Ca = 7 after the RYA-413 6166 drop;
+                                                   # Ti = 3 (the Mallinson line set)
     for el, ex in expect.items():
         c = N._load_mpia_element_grid(el)
         assert len(c['waves']) >= min_waves[el]

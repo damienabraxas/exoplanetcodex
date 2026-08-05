@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import os
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 import pipeline.cno_synthesis as cs
 from pipeline.cno_synthesis import (
@@ -53,7 +54,7 @@ def _ew_mA(w_nm, f, cont, lo_nm, hi_nm) -> float:
     if m.sum() < 3:
         return np.nan
     depth = 1.0 - f[m] / cont
-    return float(np.trapz(depth, w_nm[m]) * 1.0e4)     # nm -> mA (1 nm = 1e4 mA)
+    return float(_trapezoid(depth, w_nm[m]) * 1.0e4)     # nm -> mA (1 nm = 1e4 mA)
 
 
 def main() -> None:

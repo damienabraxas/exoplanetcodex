@@ -54,8 +54,13 @@ def test_output_path_does_not_double_prefix():
 
 # ── Deliverable C: v1 exists, frozen, provenance-stamped ─────────────────────
 def test_v1_exists_with_provenance_and_final_verdict():
-    assert ns.current_version() == 'v1'
-    df, v = ns.read_solar_reference('CURRENT')
+    # RYA-522 froze gold v2 from the verdict channel and moved the CURRENT pointer to it
+    # (v1 retained immutable + SUPERSEDED — the C=10.26 RYA-520 saturated-C-I-5380
+    # artifact). So CURRENT is no longer v1. What this test owns is unchanged: v1 still
+    # EXISTS, is still frozen, and still carries its own provenance and verdict. Read it
+    # by explicit version rather than through the moving pointer.
+    assert ns.current_version() == 'v2'
+    df, v = ns.read_solar_reference('v1')
     assert v == 'v1'
     prov = ns.read_provenance('v1')
     assert prov['version'] == 'v1'

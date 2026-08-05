@@ -52,6 +52,7 @@ import subprocess
 import sys
 
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
@@ -428,7 +429,7 @@ def nlte_delta(center, co_list, nlteinfo, model, opac_nlte, lmin, lmax):
     RAISES if departures do not engage — a line is never silently reported as LTE."""
     def _ew(w, f):
         m = (w > center - 1.2) & (w < center + 1.2)
-        return float(np.trapz(1.0 - f[m], w[m]) * 1000.0)
+        return float(_trapezoid(1.0 - f[m], w[m]) * 1000.0)
 
     w, f, engaged = bsyn(A_SUN, [co_list], opac_nlte, lmin, lmax,
                          f"{center:.0f}_nlte", nlte=True, nlteinfo=nlteinfo)

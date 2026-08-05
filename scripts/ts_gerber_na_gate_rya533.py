@@ -37,6 +37,7 @@ GOTCHAS baked in (each was a real failure while wiring this):
      carries "... 2 11 '3p2P0*' '4d2D1' 'c' 'a'". The driver RAISES if departures don't engage.
 """
 import subprocess, os, sys, numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 # RYA-567: Sirius-only heavy-compute leg (TS engine + Gerber grids). Refuse to run it
 # off Sirius — loud-fail, never against local-Mac copies.
@@ -141,7 +142,7 @@ def ew_mA(specfile, center, hw=1.0):
     d = np.loadtxt(specfile)
     w, fl = d[:,0], d[:,1]
     m = (w > center-hw) & (w < center+hw)
-    return np.trapz(1.0 - fl[m], w[m]) * 1000.0
+    return _trapezoid(1.0 - fl[m], w[m]) * 1000.0
 
 centers = [5682.633, 5688.205]
 print("=== babsma (continuum opacity) ===")
