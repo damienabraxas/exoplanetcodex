@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -42,7 +43,7 @@ def test_smooth_to_crires_broadens():
     f = _synthetic(w, [22950.0], depth=0.8, sigma=0.02)   # very narrow line
     fs = v._smooth_to_crires(w, f)
     assert fs.min() > f.min()           # smoothing makes the core shallower
-    assert np.trapz(1 - fs, w) == pytest.approx(np.trapz(1 - f, w), rel=0.05)  # ~flux conserved
+    assert _trapezoid(1 - fs, w) == pytest.approx(_trapezoid(1 - f, w), rel=0.05)  # ~flux conserved
 
 
 @pytest.mark.skipif(not (COND / v.CONDITIONED['K2192']).exists(),

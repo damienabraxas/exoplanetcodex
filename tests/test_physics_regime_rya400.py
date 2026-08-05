@@ -39,6 +39,19 @@ def test_registry_locked_requires_measured_or_pending():
     # RYA-428: registration alone is NOT "handled". A registered element is LOCKED only if
     # a measured line of its prescribed ion exists; otherwise it is the legitimate
     # grid-registered/measurement-owed state (verdict GET-DATA), NOT LOCKED.
+    # RYA-540 refined this: "has measured lines" does NOT imply LOCKED. Cu has 2 measured
+    # Cu I lines AND a registered grid, yet stays GET-DATA because those lines fail
+    # QUALITY (5 lines at red_chi2 8-127, RYA-395/466). Measured-but-quality-blocked is a
+    # third legitimate state, distinct from both LOCKED and no-data.
+    #
+    # The strong direction is kept intact and un-weakened:
+    #     LOCKED  =>  n > 0        (registration alone is never "handled", RYA-428)
+    # The converse now carries an ADJUDICATED exception list. Anything that acquires
+    # measured lines without being LOCKED and without an entry here still FAILS — the
+    # exception must be argued per element, not assumed.
+    QUALITY_BLOCKED = {
+        'Cu': 'measured lines fail quality (red_chi2 8-127); GET-DATA per RYA-395/466/540',
+    }
     import audit_physics_regime_rya400 as AUD
     df = AUD._measured_df()
     for el in NLTE_CORRECTION_ELEMENTS:
@@ -46,10 +59,17 @@ def test_registry_locked_requires_measured_or_pending():
         n = AUD._measured_lines_of_ion(el, ion, df)
         v = MAP[el]['verdict']
         if n > 0:
-            assert v == 'LOCKED', f"{el} has {n} measured {ion} line(s) but verdict={v}"
+            assert v == 'LOCKED' or el in QUALITY_BLOCKED, \
+                f"{el} has {n} measured {ion} line(s) but verdict={v} with no adjudicated reason"
         else:
             assert v != 'LOCKED', \
                 f"{el} verdict=LOCKED but ZERO measured {ion} lines — registration != handled (RYA-428)"
+    # the exception list may not rot into a blanket excuse: every entry must still be
+    # non-LOCKED and still have the measured lines that made it interesting.
+    for el, why in QUALITY_BLOCKED.items():
+        assert MAP[el]['verdict'] != 'LOCKED', f"{el} is LOCKED now — drop it from QUALITY_BLOCKED ({why})"
+        assert AUD._measured_lines_of_ion(el, AUD._prescribed_ion(el), df) > 0, \
+            f"{el} no longer has measured lines — drop it from QUALITY_BLOCKED ({why})"
     # Fe + the CNO species nlte_cno actually models (C, O) are LOCKED — verified on their legs.
     for el in ('Fe', 'C', 'O'):
         assert MAP[el]['verdict'] == 'LOCKED'
@@ -94,11 +114,20 @@ def test_live_audit_passes():
 def test_is_wired_reflects_real_code():
     # RYA-412: Al/S NLTE-wired (RYA-402). RYA-421: Sr registered. RYA-462: K registered
     # (grid now applied; the EW-pool measurement is still owed -> GET-DATA-pending, not LOCKED).
-    # RYA-434: the CNO leg is read from nlte_cno.REQUIRED_LINES (C/O only) -> N is correctly
-    # NOT wired (no N grid).
-    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S', 'Sr', 'K'):
+    # RYA-434: the CNO leg is read from nlte_cno.REQUIRED_LINES (C/O only).
+    #
+    # SUPERSEDED since: N and Cu both moved onto the wired side.
+    #   N  — RYA-526 registered N_Amarsi2020_PySME.csv in NLTE_CORRECTION_ELEMENTS and
+    #        RYA-556 wired it into the phase_c Kitt Peak channel, clearing N off NLTE-OWED.
+    #        (N is wired via the registry, not via nlte_cno.REQUIRED_LINES — the CNO
+    #        single-source contract below is unchanged.)
+    #   Cu — RYA-540 derived + registered Cu_Caliskan2024_PySME.csv.
+    # Being wired is NOT being finished: both remain CURATION-OWED / GET-DATA on
+    # data-channel grounds, which is what the verdict tests above assert.
+    for el in ('Fe', 'C', 'O', 'Mg', 'Ca', 'Ti', 'Cr', 'Na', 'Ba', 'Mn', 'Si', 'Al', 'S',
+               'Sr', 'K', 'N', 'Cu'):
         assert A._is_wired(el)[0], f"{el} should be wired"
-    for el in ('N', 'Co', 'Cu', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
+    for el in ('Co', 'Ni', 'Li', 'Eu', 'Zr', 'V'):
         assert not A._is_wired(el)[0], f"{el} should NOT be wired"
 
 

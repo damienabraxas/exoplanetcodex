@@ -45,6 +45,7 @@ Scale of the effect: for the clean optical Mg I 5528/5711 both fixes moved A by
 elsewhere — RYA-643 exists to measure it for the blue/near-UV channels.
 """
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 CLIGHT = 299792.458
 
@@ -210,7 +211,7 @@ def fit_profile(center, obs_w, obs_f, synth, hw, vsini, a_lo, a_hi,
     best['A'] = A_ref
     best['red_chi2'] = best['chi2']
     best['gsig_railed'] = bool(gs <= gsig_grid[0] + 1e-9 or gs >= gsig_grid[-1] - 1e-9)
-    best['obs_ew_mA'] = float(np.trapz(1 - yo, xo) * 1000.0)
+    best['obs_ew_mA'] = float(_trapezoid(1 - yo, xo) * 1000.0)
 
     # sensitivity: change in synthetic CORE EW (mA) per dex of A near the fit.
     # A weak / blend-dominated line barely responds -> low sensitivity -> unreliable.
@@ -220,7 +221,7 @@ def fit_profile(center, obs_w, obs_f, synth, hw, vsini, a_lo, a_hi,
         sw, sf = synth[float(As[kk])]
         sb = broaden(sw, sf, vsini, gs)
         m = (sw > center - core_hw) & (sw < center + core_hw)
-        return float(np.trapz(1 - sb[m], sw[m]) * 1000.0)
+        return float(_trapezoid(1 - sb[m], sw[m]) * 1000.0)
     best['dEW_dA'] = round(abs(_core_ew(A_ref + 0.15) - _core_ew(A_ref - 0.15)) / 0.30, 1)
     best['core_EW_mA'] = round(_core_ew(A_ref), 2)   # synthetic core EW at the fitted A
     best['railed'] = bool(A_ref <= a_lo + 0.03 or A_ref >= a_hi - 0.03)

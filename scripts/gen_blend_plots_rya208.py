@@ -26,6 +26,7 @@
 from pathlib import Path
 from astropy.io import fits
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -171,7 +172,7 @@ def estimate_ew(wl_norm, flux_norm, center, ew_half_width=0.4):
         return float('nan')
     x = wl_norm[mask]
     y = np.clip(1.0 - flux_norm[mask], 0, None)
-    return float(np.trapz(y, x) * 1000)  # Å → mÅ
+    return float(_trapezoid(y, x) * 1000)  # Å → mÅ
 
 
 def make_problem_line_plot(wl_all, flux_all, target_wl, spec_info):
