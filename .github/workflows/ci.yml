@@ -48,7 +48,14 @@ jobs:
       # <repo>/../ispec -- which is a Mac-layout assumption. Point it at the Sirius
       # install explicitly rather than symlinking the checkout.
       ISPEC_DIR: /mnt/codex-data/engines/ispec_src
-      PYTHON: /mnt/codex-data/venv312/bin/python
+      # DEDICATED CI venv -- deliberately NOT the RYA-517 reference venv312.
+      # venv312 carries exact astropy/pandas pins and is under a standing
+      # "never install into it" rule (RYA-517/526: a transient pysme-astro install
+      # once downgraded it). It also has no pytest. venv_ci is built straight from
+      # requirements.txt on the same py3.12.13 base, so CI additionally proves that
+      # the DECLARED dependency set actually installs and passes -- which testing
+      # inside a hand-curated venv never would.
+      PYTHON: /mnt/codex-data/venv_ci/bin/python
 
     steps:
       - name: Check out the repo
