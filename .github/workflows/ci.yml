@@ -73,15 +73,18 @@ jobs:
 
       - name: Run test suite
         # No `-x`: report every failure in one run, not just the first.
-        run: "$PYTHON" -m pytest tests/ -q
+        run: |
+          "$PYTHON" -m pytest tests/ -q
 
       - name: Register-freshness guard (RYA-659) - PR mode
         if: github.event_name == 'pull_request'
-        run: "$PYTHON" scripts/check_register_freshness.py --since-main origin/${{ github.base_ref }}
+        run: |
+          "$PYTHON" scripts/check_register_freshness.py --since-main "origin/${{ github.base_ref }}"
 
       - name: Register-freshness guard (RYA-659) - history mode
         if: github.event_name == 'push'
-        run: "$PYTHON" scripts/check_register_freshness.py
+        run: |
+          "$PYTHON" scripts/check_register_freshness.py
 
       - name: Results-ledger consistency guard (RYA-632) - informational until Co ratifies
         # RYA-632 pre-declares this guard FAILS RED on Co (physics_regime GET-DATA vs a
@@ -92,4 +95,5 @@ jobs:
         # -- visible in the log, blocking nothing. It starts doing real work the moment
         # that branch lands, with no edit here.
         continue-on-error: true
-        run: "$PYTHON" -m pipeline.ledger_consistency_guard
+        run: |
+          "$PYTHON" -m pipeline.ledger_consistency_guard
