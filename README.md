@@ -12,6 +12,10 @@ interpreting any output.
 
 ## Canonical scientific registries
 
+> **New here, human or agent? Read [`LEDGERS.md`](LEDGERS.md) first.** It is the
+> canonical read-set index: the five ledgers that hold the project's current
+> state, what each is source-of-truth for, and its update trigger.
+
 These machine-readable artifacts are the discovery layer for agents,
 collaborators, reviewers, and downstream publication systems:
 
