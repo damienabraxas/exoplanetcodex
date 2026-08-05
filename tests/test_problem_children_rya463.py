@@ -93,7 +93,13 @@ def test_predict_sun_returns_the_solar_set():
     preds = P.predict(5777, 0.0, df, star_name='Sun')
     cls = {(p['species'], p['problem_class']) for p in preds}
     assert ('O I', 'CONTINUUM_LIMITED') in cls
-    assert ('N I', 'NLTE_OWED') in cls
+    # N I is registered DATA_GAP, not NLTE_OWED. The registry row says so explicitly
+    # ("NOT physics-owed: the N I NLTE grid is WIRED") — the NLTE debt was discharged by
+    # RYA-369/526 (grid registered) and RYA-556 (wired into the phase_c Kitt Peak
+    # channel), which took N off the NLTE-OWED bucket entirely. This test asserts what
+    # the registry carries; re-classifying N is a science call owned by RYA-463/654,
+    # not by a test edit.
+    assert ('N I', 'DATA_GAP') in cls
     assert any(s == 'Cr I' and c == 'BAD_GF' for s, c in cls)
 
 

@@ -35,7 +35,10 @@ PENDING_REGISTERED = ['Sr', 'K']    # grid registered but the prescribed-ion EW 
                                     # K (RYA-462: registered after RYA-460 Kitt Peak K I 7699;
                                     # the EW-pool measurement is still RYA-380 telluric-owed).
 REGISTERED         = LOCKED_REGISTERED + PENDING_REGISTERED
-STILL_GAP          = ['Cu', 'V']    # unregistered: data-blocked (Cu) or no public grid (V)
+STILL_GAP          = ['V']          # no public NLTE grid anywhere (HARD-carry-forward).
+                                    # Cu LEFT this list at RYA-540: its grid is derived and
+                                    # registered; the remaining blocker is measured-line
+                                    # quality (GET-DATA, RYA-395/466), not a grid gap.
 
 
 def test_no_get_grid_verdicts_remain():
@@ -101,13 +104,19 @@ def test_k_cross_refs_rya380_not_resolved_here():
 
 
 def test_v_genuine_grid_gap_cu_data_blocked():
-    # V is the genuine no-public-grid gap (HARD-carry-forward). Cu's grid is now HAVE
-    # (RYA-402 PySME) but unregistered — the blocker moved from the grid to line quality
-    # (GET-DATA → RYA-395), so Cu no longer claims a grid gap.
+    # V is the genuine no-public-grid gap (HARD-carry-forward).
+    #
+    # Cu: RYA-540 SUPERSEDED the "grid HAVE but unregistered" half of this. The
+    # Caliskan-2024 PySME grid is now derived AND registered
+    # (Cu_Caliskan2024_PySME.csv, commit 70456d2). What did NOT change is the blocker:
+    # Cu production stays GET-DATA on measured-line QUALITY (RYA-395/466), not on the
+    # grid. Registered-and-still-owed is a legitimate state; asserting Cu's absence
+    # from the registry would now assert a closed gap.
     assert MAP['V']['grid']['status'] == 'GAP'
     assert MAP['V']['verdict'] == 'HARD-carry-forward'
     assert MAP['Cu']['grid']['status'] == 'HAVE'
-    assert MAP['Cu']['verdict'] == 'GET-DATA' and 'Cu' not in NLTE_CORRECTION_ELEMENTS
+    assert MAP['Cu']['verdict'] == 'GET-DATA'
+    assert 'Cu' in NLTE_CORRECTION_ELEMENTS          # RYA-540 registration
 
 
 def test_rya400_audit_still_passes():

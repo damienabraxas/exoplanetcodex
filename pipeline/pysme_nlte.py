@@ -44,6 +44,7 @@ from pathlib import Path
 
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
 # Diagnostic lines per element, with the grid level labels for NLTE matching.
 # (wl_A, loggf, Elow_eV, Jlow, Eup_eV, Jup, term_lower, term_upper, gamvw_ABO)
@@ -252,7 +253,7 @@ def _synth_ew(element, offset, nlte, star, lines, grid_path, ew_hw=0.8):
 
     def ew(c, hw=ew_hw):
         m = (w > c - hw) & (w < c + hw)
-        return float(np.trapz(1 - f[m], w[m]) * 1000.0)
+        return float(_trapezoid(1 - f[m], w[m]) * 1000.0)
     return {l[0]: ew(l[0]) for l in lines}
 
 
