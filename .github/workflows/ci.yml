@@ -64,6 +64,13 @@ jobs:
           # Required by the register-freshness guard's --since-main mode, which diffs
           # <base>...HEAD. The default depth=1 has no merge base to diff against.
           fetch-depth: 0
+          # The VALD deliveries (data/linelists/vald_*_raw.txt, 22 files / ~460 MB) are
+          # in Git LFS. Without this, checkout writes 132-byte POINTER FILES and the
+          # stewardship checker reads them as "no parseable transitions" -- 9 failures
+          # and 7 errors that look like data corruption but are just un-smudged LFS.
+          # Cost is a one-time fetch: this is a self-hosted runner, so _work persists
+          # and later runs hit the local LFS cache.
+          lfs: true
 
       - name: Preflight - data mount + engines present
         # Loud-fail early with a legible message. Without this, an unmounted data drive

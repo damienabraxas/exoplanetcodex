@@ -20,8 +20,14 @@ import re
 import subprocess
 import sys
 import numpy as np
-from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
+# Standalone-script bootstrap: these run under foreign interpreters (e.g. venv_pysme)
+# and from arbitrary cwds, so put the REPO ROOT on sys.path BEFORE importing anything
+# from `pipeline`. Derived from __file__, never from cwd. (RYA-313)
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
 GES = "/mnt/codex-data/engines/Turbospectrum_NLTE/COM/linelists/nlte_ges_linelist_jmg17feb2022_I_II"

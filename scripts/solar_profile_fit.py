@@ -45,8 +45,14 @@ Scale of the effect: for the clean optical Mg I 5528/5711 both fixes moved A by
 elsewhere — RYA-643 exists to measure it for the blue/near-UV channels.
 """
 import numpy as np
-from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 
+# Standalone-script bootstrap: these run under foreign interpreters (e.g. venv_pysme)
+# and from arbitrary cwds, so put the REPO ROOT on sys.path BEFORE importing anything
+# from `pipeline`. Derived from __file__, never from cwd. (RYA-313)
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 CLIGHT = 299792.458
 
 # Nuisance-parameter grids. DV brackets the measured solar-arm offsets with room
