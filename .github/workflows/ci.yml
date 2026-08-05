@@ -72,6 +72,20 @@ jobs:
           # and later runs hit the local LFS cache.
           lfs: true
 
+      - name: Materialise Git LFS content
+        # `lfs: true` above covers a FRESH clone, but this is a self-hosted runner: the
+        # _work tree persists, and a workspace first cloned without git-lfs keeps its
+        # 132-byte pointer files -- checkout sees the worktree matching the index and
+        # never re-smudges them. `git lfs pull` is idempotent and repairs that case, so
+        # the suite can never silently run against pointers instead of line lists.
+        run: |
+          set -euo pipefail
+          git lfs pull
+          f=data/linelists/vald_55cnc_nir_raw.txt
+          head -c 40 "$f" | grep -q 'git-lfs.github.com' \
+            && { echo "::error::LFS content did not materialise ($f is still a pointer)"; exit 1; }
+          echo "LFS OK: $f is $(wc -c < "$f") bytes"
+
       - name: Preflight - data mount + engines present
         # Loud-fail early with a legible message. Without this, an unmounted data drive
         # or a missing iSpec surfaces later as a wall of confusing collection errors.
