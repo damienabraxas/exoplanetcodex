@@ -1,5 +1,9 @@
 # Canonical scientific registries
 
+> **Start at [`LEDGERS.md`](../../LEDGERS.md)** (repo root) — it names the full
+> canonical read-set, what each ledger owns, and when to update it. The catalogs
+> below are members #3–#5 of that read-set.
+
 These machine-readable artifacts are the public metadata layer:
 
 - `system_catalog.csv` — one row per stellar system; target identity and lifecycle.
