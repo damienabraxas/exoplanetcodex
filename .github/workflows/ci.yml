@@ -1,0 +1,127 @@
+name: CI
+
+# RYA-313 (merge protocol) / RYA-314 (this workflow).
+#
+# Runs on SIRIUS, self-hosted. Why not ubuntu-latest: 24 of 118 test files import
+# iSpec (external, not vendored, with compiled MOOG/SPECTRUM engines), so an ephemeral
+# GitHub runner cannot even COLLECT them -- it would report a green check covering 868
+# of 1116 tests. Sirius already carries the compiled engines and is the project's
+# declared authoritative runner (RYA-511/517), and running CI there honours the
+# Sirius-only-computation rule (RYA-567) instead of fighting it.
+#
+# SECURITY (this repo is PUBLIC): a self-hosted runner executes PR code on real
+# hardware. Two controls are in force --
+#   1. Repo setting "fork pull request workflows from outside collaborators" is set to
+#      REQUIRE APPROVAL FOR ALL EXTERNAL CONTRIBUTORS, so no outside code runs without
+#      an explicit human approval (set via the API in RYA-313).
+#   2. The trigger below is `pull_request`, never `pull_request_target`, so fork PRs get
+#      a read-only token and no repository secrets.
+# Residual risk, accepted knowingly: the runner runs as `damienabraxas`, which holds
+# NOPASSWD sudo. Moving it to a dedicated unprivileged service account is a flagged
+# follow-on, not a blocker.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# One machine: never let runs pile up on Sirius. Newest push for a ref wins.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    # This job's check appears on the PR as `CI / test` -- the single string to select
+    # in the branch ruleset's "Require status checks to pass" list. All guard families
+    # run INSIDE this job, so the required-check name never changes as guards are added.
+    name: test
+    runs-on: [self-hosted, sirius]
+    timeout-minutes: 45
+
+    env:
+      # config/constants.py resolves ISPEC_DIR from the environment, defaulting to
+      # <repo>/../ispec -- which is a Mac-layout assumption. Point it at the Sirius
+      # install explicitly rather than symlinking the checkout.
+      ISPEC_DIR: /mnt/codex-data/engines/ispec_src
+      # DEDICATED CI venv -- deliberately NOT the RYA-517 reference venv312.
+      # venv312 carries exact astropy/pandas pins and is under a standing
+      # "never install into it" rule (RYA-517/526: a transient pysme-astro install
+      # once downgraded it). It also has no pytest. venv_ci is built straight from
+      # requirements.txt on the same py3.12.13 base, so CI additionally proves that
+      # the DECLARED dependency set actually installs and passes -- which testing
+      # inside a hand-curated venv never would.
+      PYTHON: /mnt/codex-data/venv_ci/bin/python
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          # Required by the register-freshness guard's --since-main mode, which diffs
+          # <base>...HEAD. The default depth=1 has no merge base to diff against.
+          fetch-depth: 0
+          # The VALD deliveries (data/linelists/vald_*_raw.txt, 22 files / ~460 MB) are
+          # in Git LFS. Without this, checkout writes 132-byte POINTER FILES and the
+          # stewardship checker reads them as "no parseable transitions" -- 9 failures
+          # and 7 errors that look like data corruption but are just un-smudged LFS.
+          # Cost is a one-time fetch: this is a self-hosted runner, so _work persists
+          # and later runs hit the local LFS cache.
+          lfs: true
+
+      - name: Materialise Git LFS content
+        # `lfs: true` above covers a FRESH clone, but this is a self-hosted runner: the
+        # _work tree persists, and a workspace first cloned without git-lfs keeps its
+        # 132-byte pointer files -- checkout sees the worktree matching the index and
+        # never re-smudges them. `git lfs pull` is idempotent and repairs that case, so
+        # the suite can never silently run against pointers instead of line lists.
+        run: |
+          set -euo pipefail
+          git lfs pull
+          f=data/linelists/vald_55cnc_nir_raw.txt
+          head -c 40 "$f" | grep -q 'git-lfs.github.com' \
+            && { echo "::error::LFS content did not materialise ($f is still a pointer)"; exit 1; }
+          echo "LFS OK: $f is $(wc -c < "$f") bytes"
+
+      - name: Preflight - data mount + engines present
+        # Loud-fail early with a legible message. Without this, an unmounted data drive
+        # or a missing iSpec surfaces later as a wall of confusing collection errors.
+        run: |
+          set -euo pipefail
+          test -x "$PYTHON" || { echo "::error::reference venv missing at $PYTHON"; exit 1; }
+          test -d "$ISPEC_DIR" || { echo "::error::iSpec missing at $ISPEC_DIR"; exit 1; }
+          mountpoint -q /mnt/codex-data || { echo "::error::/mnt/codex-data is not mounted (RYA-419)"; exit 1; }
+          test -f /mnt/codex-data/.codex_mounted || { echo "::error::data-mount sentinel absent (RYA-419)"; exit 1; }
+          "$PYTHON" --version
+          "$PYTHON" -c "import sys; sys.path.insert(0, '$ISPEC_DIR'); import ispec; \
+            print('iSpec OK; MOOG support:', ispec.is_moog_support_enabled())"
+
+      - name: Run test suite
+        # No `-x`: report every failure in one run, not just the first.
+        run: |
+          "$PYTHON" -m pytest tests/ -q
+
+      - name: Register-freshness guard (RYA-659) - PR mode
+        if: github.event_name == 'pull_request'
+        run: |
+          "$PYTHON" scripts/check_register_freshness.py --since-main "origin/${{ github.base_ref }}"
+
+      - name: Register-freshness guard (RYA-659) - history mode
+        if: github.event_name == 'push'
+        run: |
+          "$PYTHON" scripts/check_register_freshness.py
+
+      - name: Results-ledger consistency guard (RYA-632) - informational until Co ratifies
+        # RYA-632 pre-declares this guard FAILS RED on Co (physics_regime GET-DATA vs a
+        # measured synthesis value) until RYA-654 ratifies Co via tracker regeneration.
+        # Running it informationally surfaces any NEW contradiction without blocking every
+        # PR on the known Co red. Drop continue-on-error in the follow-up PR that closes
+        # RYA-654. NOTE: RYA-632 is not merged yet, so today this step reports "no module"
+        # -- visible in the log, blocking nothing. It starts doing real work the moment
+        # that branch lands, with no edit here.
+        continue-on-error: true
+        run: |
+          "$PYTHON" -m pipeline.ledger_consistency_guard

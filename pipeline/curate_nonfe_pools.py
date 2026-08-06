@@ -515,7 +515,7 @@ def compute_lte_abundances(df: pd.DataFrame) -> pd.DataFrame:
         _, normal_ab, _, _ = ispec.determine_abundances(
             atmosphere, teff, logg, 0.0, 0.0, lm, solar_abund,
             microturbulence_vel=vturb, verbose=0, code=EW_BASELINE_CODE,
-            tmp_dir='/tmp/ispec_codex')
+            tmp_dir=ad.ensure_ispec_tmp_dir())   # single-sourced (RYA-506/313)
         for idx, a in zip(refs, np.asarray(normal_ab, dtype=float)):
             a_lte.at[idx] = a
     out = df.copy()

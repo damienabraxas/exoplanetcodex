@@ -38,6 +38,13 @@ GOTCHAS baked in (each was a real failure while wiring this):
 """
 import subprocess, os, sys, numpy as np
 
+# Standalone-script bootstrap: these run under foreign interpreters (e.g. venv_pysme)
+# and from arbitrary cwds, so put the REPO ROOT on sys.path BEFORE importing anything
+# from `pipeline`. Derived from __file__, never from cwd. (RYA-313)
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 # RYA-567: Sirius-only heavy-compute leg (TS engine + Gerber grids). Refuse to run it
 # off Sirius — loud-fail, never against local-Mac copies.
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -141,7 +148,7 @@ def ew_mA(specfile, center, hw=1.0):
     d = np.loadtxt(specfile)
     w, fl = d[:,0], d[:,1]
     m = (w > center-hw) & (w < center+hw)
-    return np.trapz(1.0 - fl[m], w[m]) * 1000.0
+    return _trapezoid(1.0 - fl[m], w[m]) * 1000.0
 
 centers = [5682.633, 5688.205]
 print("=== babsma (continuum opacity) ===")
