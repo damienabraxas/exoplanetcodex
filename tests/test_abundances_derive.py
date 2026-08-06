@@ -6,6 +6,7 @@ the full iSpec install (skipped if ISPEC_DIR missing).
 
 RYA-167
 """
+import os
 import pytest
 import sys
 import numpy as np
@@ -28,12 +29,31 @@ def test_ispec_importable():
         "ispec.interpolate_atmosphere_layers not found — iSpec install may be incomplete"
 
 def test_turbospectrum_binaries_exist():
-    """babsma_lu and bsyn_lu must be compiled before Turbospectrum can run."""
-    ts_dir = ISPEC_DIR / 'synthesizer' / 'turbospectrum' / 'exec-gf'
-    babsma = ts_dir / 'babsma_lu'
-    bsyn   = ts_dir / 'bsyn_lu'
-    assert babsma.exists(), f"Turbospectrum babsma_lu not found: {babsma}\nRun: cd {ts_dir} && make"
-    assert bsyn.exists(),   f"Turbospectrum bsyn_lu not found: {bsyn}"
+    """babsma_lu and bsyn_lu must be RUNNABLE before Turbospectrum can run.
+
+    Assert the RUNTIME path, not the build directory. iSpec invokes
+    ``<turbospectrum_dir>/bin/babsma_lu`` and ``bin/bsyn_lu``
+    (ispec/common.py, ispec/atmospheres.py) — that is the only location that
+    decides whether synthesis works.
+
+    This previously asserted ``exec-gf/``, which is where ``make`` happens to
+    leave its output. That is an incidental build-layout detail and the two
+    machines differ on it: the Mac keeps real binaries in exec-gf/ with bin/
+    holding symlinks to them, while Sirius builds straight into bin/ and leaves
+    only .o/.mod in exec-gf/. Both run Turbospectrum fine (Sirius: BABSMA
+    version 20.1), but the old assertion passed on the Mac and failed on Sirius
+    while testing neither machine's ability to actually synthesize. Resolving
+    the path also means a broken symlink cannot pass (RYA-313).
+    """
+    ts_dir = ISPEC_DIR / 'synthesizer' / 'turbospectrum'
+    for name in ('babsma_lu', 'bsyn_lu'):
+        exe = ts_dir / 'bin' / name
+        assert exe.exists(), (
+            f"Turbospectrum {name} not found at the runtime path: {exe}\n"
+            f"Build it: cd {ts_dir / 'exec-gf'} && make   "
+            f"(then ensure bin/{name} exists — real file or symlink)"
+        )
+        assert os.access(exe, os.X_OK), f"Turbospectrum {name} is not executable: {exe}"
 
 def test_atlas9_grid_exists():
     atm = ISPEC_DIR / 'input' / 'atmospheres' / 'ATLAS9.Castelli'
