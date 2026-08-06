@@ -18,9 +18,14 @@ CNC = {'teff_K': 5172, 'logg': 4.43, 'feh': 0.31}
 SOLAR = {'teff_K': 5772, 'logg': 4.44, 'feh': 0.0}
 # RYA-409 found 7 MPIA/INSPECT elements clamped at +0.30. RYA-410 re-sourced Na/Mg/Si
 # onto Amarsi-2020 PySME grids ([Fe/H] -> +0.6), CLOSING their clamp; Ca/Mn stayed on
-# MPIA (PySME-Amarsi cross-check STOPPED — Ca model diff, Mn HFS), and Ti/Cr are not in
-# Amarsi-2020 — so these four still clamp at 55 Cnc.
-STILL_CLAMPED = ['Ca', 'Ti', 'Cr', 'Mn']
+# MPIA (PySME-Amarsi cross-check STOPPED — Ca model diff, Mn HFS), and Cr is not in
+# Amarsi-2020 — so those three still clamp at 55 Cnc.
+#
+# RYA-545 REMOVED Ti from this list: production Ti moved onto Ti_Mallinson2024_PySME.csv,
+# whose hull spans 2500-8000 K and reaches [Fe/H] +0.31, retiring the MPIA clamp (and the
+# RYA-505 6500 K Ti wall with it). Ti clamping at 55 Cnc is now the *old* behaviour —
+# asserting it would re-encode a closed defect.
+STILL_CLAMPED = ['Ca', 'Cr', 'Mn']
 RESOURCED = ['Na', 'Mg', 'Si']            # RYA-410: Amarsi grid now covers +0.31
 
 

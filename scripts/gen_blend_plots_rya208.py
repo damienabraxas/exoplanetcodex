@@ -26,6 +26,13 @@
 from pathlib import Path
 from astropy.io import fits
 import numpy as np
+# Standalone-script bootstrap: these run under foreign interpreters (e.g. venv_pysme)
+# and from arbitrary cwds, so put the REPO ROOT on sys.path BEFORE importing anything
+# from `pipeline`. Derived from __file__, never from cwd. (RYA-313)
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -171,7 +178,7 @@ def estimate_ew(wl_norm, flux_norm, center, ew_half_width=0.4):
         return float('nan')
     x = wl_norm[mask]
     y = np.clip(1.0 - flux_norm[mask], 0, None)
-    return float(np.trapz(y, x) * 1000)  # Å → mÅ
+    return float(_trapezoid(y, x) * 1000)  # Å → mÅ
 
 
 def make_problem_line_plot(wl_all, flux_all, target_wl, spec_info):

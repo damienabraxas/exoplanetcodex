@@ -46,6 +46,13 @@ elsewhere — RYA-643 exists to measure it for the blue/near-UV channels.
 """
 import numpy as np
 
+# Standalone-script bootstrap: these run under foreign interpreters (e.g. venv_pysme)
+# and from arbitrary cwds, so put the REPO ROOT on sys.path BEFORE importing anything
+# from `pipeline`. Derived from __file__, never from cwd. (RYA-313)
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 CLIGHT = 299792.458
 
 # Nuisance-parameter grids. DV brackets the measured solar-arm offsets with room
@@ -210,7 +217,7 @@ def fit_profile(center, obs_w, obs_f, synth, hw, vsini, a_lo, a_hi,
     best['A'] = A_ref
     best['red_chi2'] = best['chi2']
     best['gsig_railed'] = bool(gs <= gsig_grid[0] + 1e-9 or gs >= gsig_grid[-1] - 1e-9)
-    best['obs_ew_mA'] = float(np.trapz(1 - yo, xo) * 1000.0)
+    best['obs_ew_mA'] = float(_trapezoid(1 - yo, xo) * 1000.0)
 
     # sensitivity: change in synthetic CORE EW (mA) per dex of A near the fit.
     # A weak / blend-dominated line barely responds -> low sensitivity -> unreliable.
@@ -220,7 +227,7 @@ def fit_profile(center, obs_w, obs_f, synth, hw, vsini, a_lo, a_hi,
         sw, sf = synth[float(As[kk])]
         sb = broaden(sw, sf, vsini, gs)
         m = (sw > center - core_hw) & (sw < center + core_hw)
-        return float(np.trapz(1 - sb[m], sw[m]) * 1000.0)
+        return float(_trapezoid(1 - sb[m], sw[m]) * 1000.0)
     best['dEW_dA'] = round(abs(_core_ew(A_ref + 0.15) - _core_ew(A_ref - 0.15)) / 0.30, 1)
     best['core_EW_mA'] = round(_core_ew(A_ref), 2)   # synthetic core EW at the fitted A
     best['railed'] = bool(A_ref <= a_lo + 0.03 or A_ref >= a_hi - 0.03)

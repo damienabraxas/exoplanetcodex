@@ -70,6 +70,7 @@ from pathlib import Path
 
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import pandas as pd
 from scipy.optimize import minimize_scalar
 from scipy.interpolate import interp1d
@@ -1210,7 +1211,7 @@ def _ni6300_idx(ll) -> int:
 
 def _ew_mA(sw_nm, flux) -> float:
     """Equivalent width in mÅ of (1 - normalized flux) over sw_nm (a nm grid)."""
-    return float(np.trapz(1.0 - np.asarray(flux), np.asarray(sw_nm)) * 1.0e4)
+    return float(_trapezoid(1.0 - np.asarray(flux), np.asarray(sw_nm)) * 1.0e4)
 
 
 def oi_blend_partition(star_id: str = 'solar', *, tmp_dir: str = '/tmp/ispec_cno',

@@ -40,6 +40,7 @@ warnings.filterwarnings('ignore')
 
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS (before numpy)
 import numpy as np
+from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
@@ -505,7 +506,7 @@ def _integrate_profile(wav: np.ndarray, popt, profile_type: str) -> float:
         y = _gauss_abs(x, *popt)
     else:
         return np.nan
-    return float(np.trapz(np.clip(1.0 - y, 0.0, None), x)) * 1000.0  # → mÅ
+    return float(_trapezoid(np.clip(1.0 - y, 0.0, None), x)) * 1000.0  # → mÅ
 
 
 def _ew_error(flux_edges: np.ndarray, ew_mA: float,
