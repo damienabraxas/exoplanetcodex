@@ -35,8 +35,13 @@ folds in at a ratified re-freeze (currently RYA-527, gold v3).
 
 ## Consistency enforcement
 
-- **RYA-632** — results-ledger consistency guard: tracker vs verdict artifacts
-  cross-checked, contradictions unrepresentable at merge. *(built, not merged)*
+- **RYA-632** — results-ledger consistency guard: `pipeline/ledger_consistency_guard.py`
+  cross-checks the tracker against the verdict artifacts (phase_c · gold ·
+  physics_regime) and refuses SILENT disagreement. It is source-AGNOSTIC: it does
+  not decide which artifact is right, so a stale tracker fails here — that is how
+  "the tracker is updated on every merge" is enforced without a merge hook.
+  Documented+ratified divergences live in `data/audit/known_verdict_divergences.yaml`;
+  an entry without a `ratified_by` ticket is itself an error.
 - **RYA-659** — register-freshness guard: `scripts/check_register_freshness.py`
   loud-fails when a state surface is newer than the State Register, or when a PR
   changes state without touching it.
@@ -44,6 +49,7 @@ folds in at a ratified re-freeze (currently RYA-527, gold v3).
 ```
 python scripts/check_register_freshness.py                    # history mode
 python scripts/check_register_freshness.py --since-main       # PR mode
+python -m pipeline.ledger_consistency_guard                   # ledger consistency
 ```
 
 The authoritative list of state-changing surfaces (a superset of the ledgers
@@ -52,10 +58,21 @@ and `config/constants.py`) is single-sourced in
 [`pipeline/state_surfaces.py`](pipeline/state_surfaces.py). Add a surface there,
 not in a consumer.
 
-**There is currently NO CI harness in this repo** (no `.github/workflows/`, no
-Makefile, tox or pre-commit config), so both guards are runnable standalone and
-are not yet enforced automatically. Wiring them in is a flagged follow-on shared
-by RYA-632 and RYA-659.
+**Both guards now run in CI** (`.github/workflows/ci.yml`, RYA-313/314 — a Sirius
+self-hosted runner; all guard families run inside the `CI / test` job so the
+required-check name never changes as guards are added). They remain runnable
+standalone by the commands above. Enforcement differs, deliberately:
+
+- register-freshness — **BLOCKING** (PR mode and push mode).
+- ledger-consistency — **`continue-on-error`, informational**, because it is
+  PRE-DECLARED RED on six un-ratified `physics_regime` GET-DATA divergences
+  (Co · N · P · Sc stale; K · Cu deliberate holds). Running it informationally
+  surfaces any NEW contradiction without blocking every PR on the known red.
+  It becomes blocking in the PR that closes **RYA-654**, by deleting one line
+  of the workflow. Do NOT silence the red by annotating those elements into the
+  exceptions file: an entry there requires a ratifying ticket, and annotating
+  around an un-ratified contradiction is exactly the laundering this guard exists
+  to stop.
 
 ## Maintenance discipline
 
