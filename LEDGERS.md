@@ -1,7 +1,7 @@
 # Codex Ledgers — canonical read-set (read at session start, in order)
 
 **If you are an agent, a Sirius-local model, or a collaborator opening this repo
-cold: these five files are what you read first.** They are the mutable state of
+cold: these six files are what you read first.** They are the mutable state of
 the project. Everything else in the repo is code, data, or history.
 
 Until RYA-659 this list lived only in Claude.ai memory and chat, which is why the
@@ -15,6 +15,7 @@ noticing. It is now a file.
 | 3 | System catalog | [`data/catalog/system_catalog.csv`](data/catalog/system_catalog.csv) | star identity + pipeline lifecycle stage (13 systems) | a star advances a lifecycle stage | **NATIVE** — index-by-pointer; physics lives in `config/stars.yaml` |
 | 4 | Instrument catalog (+ modes) | [`data/catalog/instrument_catalog.csv`](data/catalog/instrument_catalog.csv), [`instrument_modes.csv`](data/catalog/instrument_modes.csv) | instrument / mode capability + coverage (25 instruments, 11 modes) | a new instrument or mode use is verified | **NATIVE** |
 | 5 | Holdings manifest registry | [`data/catalog/holdings_manifest_registry.csv`](data/catalog/holdings_manifest_registry.csv) | what data we already hold (anti-reinvent) | data acquired or verified for a system | **NATIVE** |
+| 6 | Sequence log | [`SEQUENCE.md`](SEQUENCE.md) | narrative "what landed recently" overlay on the register | at every register bump, same PR | **NATIVE** — human-maintained, append-only, one line per landing |
 
 **Read #5 BEFORE proposing any download.** The holdings registry exists so we
 stop re-acquiring data we already have.
@@ -28,6 +29,9 @@ Naming convention (RYA-631) — these words are not interchangeable:
 - **Tracker** = per-item work/progress status (#2).
 - **Reference** = frozen, validated truth values — **"gold" lives ONLY there**,
   at `data/reference/solar/` (pointed at by `data/reference/solar/CURRENT`).
+
+`SEQUENCE.md` is not a catalog/register/tracker/reference — it is a narrative log
+that overlays the register; the four-noun convention still holds for state artifacts.
 
 A value in the register or the tracker is *state*, not gold. Gold is frozen,
 hashed and immutable; a measured-but-unfrozen value is recorded as such and

@@ -36,8 +36,9 @@ Run this before posting the end-of-session Linear comment on any ticket that cha
 3. **NATIVE rows:** edit the affected row(s). New value + `established by` ticket + `status` (from the vocab) + `reopen-only-if`.
 4. **Verify merge/integration state against git**, not memory (e.g. `git log origin/main | grep -i rya-NNN`) before writing SETTLED vs SETTLED-PENDING-MERGE.
 5. **Bump the header `Version:` and add a one-line Changelog entry** (git holds the full diff).
-6. **Commit** with the ticket ID: `[RYA-XXX] update state register: <what changed>`.
-7. **In the Linear close comment,** state which register rows changed and why (and flag any row a source contradicted).
+6. **`SEQUENCE.md` bumps alongside.** Every PR that touches the register must also add one line to `SEQUENCE.md` under a `## YYYY-MM-DD` heading. If the date section already exists, append to it. One line per landing, newest first, format `- **RYA-XXX** — one-sentence summary; what it unblocks`. Keep under ~140 chars. No CI guard on this — it is discipline, not machinery.
+7. **Commit** with the ticket ID: `[RYA-XXX] update state register: <what changed>`.
+8. **In the Linear close comment,** state which register rows changed and why (and flag any row a source contradicted).
 
 ## Regenerating the MIRROR (params)
 `scripts/gen_state_register_targets.py` reads `STAR_PARAMS` (from `config/stars.yaml`) and rewrites the block between
