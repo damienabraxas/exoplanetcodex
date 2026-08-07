@@ -62,7 +62,7 @@ Invisible to the RYA-632 ledger guard, which compares verdicts and counts but ne
 | Mg | CURATION-OWED | owed-BLANK | 7.614 | 7.550 | — | ✓ | ✓ | FAILED | EW pool is blank (0 graded survivors) but a value exists off another channel [two-engine reported (REVIEW artifact)] — reconcile the channels before promoting; gate 3: single-engine record — zero independent confirmation |
 | Mn | PASS | PASS | 5.466 | 5.420 | — | — | — | n/a | already PASS — nothing owed |
 | N | CURATION-OWED | measured-awaiting-freeze | 8.188 | 7.830 | — | ✗ | ✗ | UNEVALUABLE | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for N); gate 2: |A - ref| = 0.358 > 0.1; gate 3: UNEVALUABLE — no two-engine record (the RYA-527 re-run is what produces one) |
-| Na | CURATION-OWED | owed-HELD | 6.264 | 6.240 | -0.121 | ✗ | ✓ | FAILED | gate 1: Engine-B atom not RYA-534-validated (Na_gerber2023.prov.json: no verdict recorded); gate 3: |dCE| = 0.121 > 0.1 |
+| Na | CURATION-OWED | owed-HELD | 6.264 | 6.240 | -0.121 | ✓ | ✓ | FAILED | gate 3: |dCE| = 0.121 > 0.1 |
 | Ni | CURATION-OWED | owed-HELD | 6.946 | 6.200 | -1.253 | ✓ | ✗ | FAILED | gate 2: |A - ref| = 0.746 > 0.1; gate 3: |dCE| = 1.253 > 0.1 |
 | O | PASS | PASS | 8.735 | 8.690 | — | — | — | n/a | already PASS — nothing owed |
 | P | CURATION-OWED | measured-awaiting-freeze | 6.610 | 5.410 | — | ✗ | ✗ | UNEVALUABLE | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for P); gate 2: |A - ref| = 1.200 > 0.1; gate 3: UNEVALUABLE — no two-engine record (the RYA-527 re-run is what produces one) |
