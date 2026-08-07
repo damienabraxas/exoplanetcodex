@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from pipeline import state_surfaces
+from pipeline import provenance_honesty, state_surfaces
 
 REPO_ROOT = state_surfaces.REPO_ROOT
 EXCEPTIONS_PATH = REPO_ROOT / "data" / "audit" / "known_verdict_divergences.yaml"
@@ -43,8 +43,13 @@ EXCEPTIONS_PATH = REPO_ROOT / "data" / "audit" / "known_verdict_divergences.yaml
 MEASURED_VERDICTS = {"PASS", "NLTE_OWED"}     # verdict alone asserts a real line pool
 NO_DATA_VERDICTS = {"DATA_GAP", "GET_DATA"}   # element claims zero usable data
 # Raw cause strings that assert "no usable line" -- used for the honesty check.
-NO_SURVIVOR_PATTERNS = ("no line survives", "no independent-gf line survives",
-                        "0 measured lines", "no measured lines", "get-data")
+# The canonical graded-cull claim is OWNED by pipeline/provenance_honesty.py
+# (RYA-596/653) and imported, never re-spelled here: that module is what both
+# EMITTERS assert with, so this guard and the emitters cannot drift apart on the
+# wording. Listed below are only the additional spellings that module does not
+# own -- the physics_regime ROUTING strings, and the older bare wording.
+EXTRA_NO_SURVIVOR_PATTERNS = ("no line survives", "0 measured lines",
+                              "no measured lines", "get-data")
 OWED_TIERS = {"nlte_owed", "curation_owed", "owed"}
 
 
@@ -62,8 +67,12 @@ class ArtifactState:
 def _claims_no_data(s: ArtifactState) -> bool:
     if s.verdict in NO_DATA_VERDICTS:
         return True
-    if s.raw_cause and any(p in s.raw_cause.lower() for p in NO_SURVIVOR_PATTERNS):
-        return True
+    if s.raw_cause:
+        # The RYA-596/653 claim, in the emitters' own words.
+        if provenance_honesty.claims_zero_survivors(s.raw_cause):
+            return True
+        if any(p in s.raw_cause.lower() for p in EXTRA_NO_SURVIVOR_PATTERNS):
+            return True
     return False
 
 
