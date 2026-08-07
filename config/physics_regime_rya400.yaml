@@ -52,12 +52,12 @@ elements:
   N:
     ion: "I"
     dimensionality: {regime: "3D needed", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
-    departure: {regime: "NLTE owed (no vendored N grid)", solar_corr_dex: "owed", cite: "Amarsi2020 (N NLTE exists in lit, NOT vendored here)"}
-    grid: {status: MISSING, source: "nlte_cno models ONLY C I + O I (Amarsi 2019 C/O grid; REQUIRED_LINES={CI,OI}); there is NO N grid -- cno_nlte_delta('NI') errors. The prior 'HAVE via nlte_cno' claim was false (RYA-434)."}
+    departure: {regime: "NLTE — N_Amarsi2020_PySME REGISTERED (RYA-369/526) and WIRED (RYA-556); near-LTE at solar", solar_corr_dex: "per-line -0.0115/-0.0145/-0.0154, mean -0.0138 (READ from the grid, RYA-556; validate-don't-tune)", cite: "Amarsi2020 (A&A 642, A62)"}
+    grid: {status: HAVE-REGISTERED, source: "N_Amarsi2020_PySME.csv — registered in NLTE_CORRECTION_ELEMENTS (RYA-526) and wired into the phase_c Kitt Peak channel through the existing interpolation subsystem (RYA-556). The RYA-434 finding stands where it was true: nlte_cno models ONLY C I + O I (REQUIRED_LINES={CI,OI}), so cno_nlte_delta('NI') still errors — N's NLTE travels the REGISTRY path, not the CNO path."}
     indicators: {lines: "N I 7468/8216 weak; NH 3360; CN -- mostly SYNTHESIS not EW", in_data: "0 measured EW lines; CN synthesis (cno_synthesis) weak/non-converged (RYA-237)"}
-    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); NO N NLTE grid in nlte_cno (C/O only)"
+    hazards: "no clean EW N I in VIS; CN-window soft (RYA-237); nlte_cno is C/O-only -- never route N through it"
     verdict: GET-DATA
-    routing: "N NLTE OWED (RYA-434): nlte_cno does NOT model N. Needs a vendored N NLTE grid + a measured/synthesised N abundance before LOCKED; N I atomic red-optical + NH UV (RYA-369)"
+    routing: "RYA-654 (the Sr pattern, RYA-428/551): this GET-DATA is the EW-POOL leg — 0 measured EW N I lines, and the yaml's own hazard says why (no clean EW N I in VIS), so the EW-pool verifier is structurally blind to N. N IS measured, on the atlas leg: RYA-460 fit the Kitt Peak N I red multiplets 7468/8216/8683 (3 independent multiplets AGREE, 1D-LTE mean 8.202, spread 0.033) and RYA-556 applied the registered NLTE delta -> A(N) 8.188, phase_c CURATION-OWED. The NLTE debt is CLEARED; the remaining +0.36 vs Asplund is a KP red-multiplet gf/data-channel floor (RYA-161), NOT an NLTE debt -- do NOT tune. Divergence RATIFIED in data/audit/known_verdict_divergences.yaml (RYA-654)."
     verified_in_repo: {nlte_leg: "none (nlte_cno is C/O only)", measured_ew_lines: 0, note: "RYA-434 demoted from LOCKED: N had no production artifact on any path (not an nlte_cno species, no registry grid, 0 EW lines)"}
 
   O:
@@ -181,7 +181,7 @@ elements:
     indicators: {lines: "K I 7665/7699 resonance doublet", in_data: "0 measured in the EW pool (7665/7699 in O2 telluric band); solar leg measured off the Kitt Peak atlas (7699, RYA-460)"}
     hazards: "TRIPLE-THREAT: saturated + severe NLTE (validated -0.29) + sits IN the O2 telluric A-band. The NLTE grid is now REGISTERED (RYA-462); the solar leg is measured (Kitt Peak 7699). The remaining blocker for the general EW path is TELLURIC (RYA-380 recipe) for an EW-pool K I measurement off ground spectra."
     verdict: GET-DATA
-    routing: "RYA-402 NLTE grid DERIVED + VALIDATED (saturation handled; median -0.29 PASS vs Reggiani2019), REGISTERED RYA-462 (the one-line change). Solar verdict PASS off the Kitt Peak K I 7699 leg with the NLTE delta applied. GET-DATA-pending: the EW-pool prescribed-ion measurement is still RYA-380 telluric-blocked -- registered + measurement owed (NOT LOCKED), the Sr pattern (RYA-428)."
+    routing: "RYA-402 NLTE grid DERIVED + VALIDATED (saturation handled; median -0.29 PASS vs Reggiani2019), REGISTERED RYA-462 (the one-line change). Solar verdict PASS off the Kitt Peak K I 7699 leg with the NLTE delta applied. GET-DATA-pending: the EW-pool prescribed-ion measurement is still RYA-380 telluric-blocked -- registered + measurement owed (NOT LOCKED), the Sr pattern (RYA-428). RYA-654 RATIFIED this row's self-documented hold as a ledger divergence (data/audit/known_verdict_divergences.yaml): the hold is verifier-blindness (0 EW-pool lines, both resonance lines in/next to the O2 A-band) on a REAL measurement -- A(K) 5.099 is PASS in phase_c AND FROZEN in gold v2. Removing the telluric block (RYA-380) is what would retire the divergence; until then do NOT 'fix' this to LOCKED."
     spotlight: true
     xref: RYA-380
     verified_in_repo: {registry: true, grid_file: "K_Amarsi2020_PySME.csv", measured_ew_lines: 0}
@@ -207,9 +207,9 @@ elements:
     grid: {status: HAVE, source: "Cu_Caliskan2024_PySME.csv — RYA-540 PySME-derived from the Amarsi/Caliskan-Oct2024 departure grid (Zenodo 15062813 v6, md5 d6fce44e); solar Cu I 5782 delta +0.001 reproduces Shi-2014"}
     rya401: {probe: "not on INSPECT (HTTP 500) nor MPIA tool; RYA-401 found no public Cu I correction grid", outcome: "SUPERSEDED — RYA-402 derived the grid via PySME from the Amarsi Cu (Caliskan) departure grid + validated HFS×NLTE (small). NOT registered: the blocker is now measured-line QUALITY (4767 junk, 4704 high-Rydberg), not the grid -> RYA-395"}
     indicators: {lines: "Cu I 5105/5218/5782 (HFS) standard; OUR measured 4704 (high-excit, fragile upper) + 4767 (EW=198 UNPHYSICAL=junk)", in_data: "2 measured (both inadequate)"}
-    hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER: measured Cu lines inadequate (4767 junk, 4704 high-Rydberg) -> Cu NLTE not production-registered; needs standard-line measurement (RYA-395 curation)."
+    hazards: "HFS (VALD HFS-on) -- RYA-402 HFS x NLTE interaction = ~+0.002 dex on weak 5782 (negligible; would bite a saturated HFS line). BLOCKER (EW POOL): the 2 Cu I lines in the EW pool are inadequate (4767.42 at EW 197.8 mA = unphysical junk, 4704.59 high-Rydberg fragile) and the 5 STANDARD lines are all hyperfine-split, so the EW path cannot reach them at all (RYA-354) -- the EW-pool leg is structurally blind, which is why the standard-line measurement went the SYNTHESIS route (RYA-466)."
     verdict: GET-DATA   # RYA-412: reconciled from GET-GRID — the grid is HAVE (RYA-402 PySME, Caliskan); the blocker is now measured-line QUALITY, not the grid (parallel to K). GET-DATA = needs standard-line measurement (RYA-395).
-    routing: "RYA-540: grid DERIVED + REGISTERED (Cu_Caliskan2024_PySME.csv, PySME δ+0.001 = Shi-2014). Verdict stays GET-DATA (PENDING-OK: registered grid, non-LOCKED) — production still BLOCKED on measured-line quality -> RYA-395 (re-measure 5105/5218/5782), then promote to LOCKED"
+    routing: "RYA-540: grid DERIVED + REGISTERED (Cu_Caliskan2024_PySME.csv, PySME δ+0.001 = Shi-2014). Verdict stays GET-DATA (PENDING-OK: registered grid, non-LOCKED) — the EW-POOL leg is what stays owed. RYA-654 (the Sr pattern, RYA-428/551): the standard-line measurement this row asks for HAS been delivered, on the synthesis leg — RYA-466 fit Cu I 5105/5218/5220/5700/5782 HFS-resolved (4-10 components/feature, gf adjudicated to GES = Kock & Richter, VALD3 superseded) -> A(Cu) 4.345, phase_c CURATION-OWED. Divergence RATIFIED in data/audit/known_verdict_divergences.yaml. Cu is NOT promoted by that: it stays CURATION-OWED everywhere on a gf zero-point residual (+0.165 -> RYA-161); the NLTE leg is the vendored RYA-402 b-factor (+0.003, live .grd offline, FLAGGED). Retiring this GET-DATA needs the EW-pool block lifted, not a re-read of the synthesis."
     verified_in_repo: {registry: "NLTE_CORRECTION_ELEMENTS[Cu]", grid_file: "Cu_Caliskan2024_PySME.csv", measured_ew_lines: 2}
 
   V:
@@ -266,7 +266,10 @@ elements:
     indicators: {lines: "Sc II 5031/5526/5657 (HFS)", in_data: "0 measured lines"}
     hazards: "0 measured lines -> GET-DATA (measure Sc II first); HFS (VALD HFS-on)"
     verdict: GET-DATA
-    routing: "measurement first, then LTE-OK/grid"
+    # RYA-654: Sc is the MEASUREMENT-NOT-TRUSTED member of the RYA-632 GET-DATA-vs-measured
+    # class. It is deliberately NOT annotated in data/audit/known_verdict_divergences.yaml,
+    # and the ledger guard stays red on it on purpose.
+    routing: "measurement first, then LTE-OK/grid. RYA-654: the ONLY Sc value anywhere in the results channel is the RYA-460 Kitt Peak Sc II 4246 blue-edge HFS single line (3.203), and phase_c itself holds it LOW_CONFIDENCE — 'HFS-resolved synthesis + a cleaner Sc II line owed BEFORE ANY PASS'. That is measurement-not-trusted, NOT a verifier-blind divergence: this GET-DATA is CORRECT, there is nothing to reconcile to, and annotating it would launder an un-done element."
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
 
 # ── GET-DATA — measurement/data must precede physics ────────────────────────────
@@ -274,26 +277,32 @@ elements:
     ion: "I"
     dimensionality: {regime: "1D likely OK (confirm)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (+) + HFS — both required", solar_corr_dex: "solar NLTE-LTE ~+0.14; A(Co)_NLTE 4.95", cite: "Bergemann2010 (MNRAS 401,1334)"}
-    grid: {status: GETTABLE, source: "Bergemann2010 Co I NLTE (MPIA) — but MEASUREMENT first"}
+    grid: {status: GETTABLE, source: "Bergemann2010 Co I NLTE (MPIA) not vendored; the applied NLTE is PER-LINE off the RYA-534-validated Gerber TS-native deck (median +0.0951, vs the Bergemann+2010 anchor +0.100) — Co is deliberately NOT in NLTE_CORRECTION_ELEMENTS: it travels the synthesis leg, not the EW interpolation registry"}
     indicators: {lines: "Co I optical (HFS-heavy)", in_data: "0 measured lines"}
-    hazards: "0 measured lines today -> measurement MUST precede physics; HFS-heavy (VALD HFS-on)"
+    hazards: "0 measured EW-pool lines and there never will be by this route — every usable Co I line is hyperfine-split, so the EW path cannot reach Co (RYA-354/466); HFS-heavy (VALD HFS-on)"
     verdict: GET-DATA
-    routing: "measure Co I (then RYA-396-pattern Bergemann2010 grid)"
+    routing: "RYA-654 (the Sr pattern, RYA-428/551): this GET-DATA is the EW-POOL leg and it stays owed BY CONSTRUCTION — 0 Co I lines in the pool, and the EW path structurally cannot reach an HFS-split element. Co IS measured, on the synthesis leg: RYA-564 fit 5 clean RED Co I lines HFS-resolved against HARPS + per-line Gerber 1D-NLTE -> A(Co) 4.965, phase_c PASS (the old blue-edge Co I 3845 +1.188 is DEMOTED to diagnostic-only: SNR~24, chi2r~3100). The divergence between this row and the measured verdict is RATIFIED in data/audit/known_verdict_divergences.yaml (RYA-654) — do not 'fix' it to a PASS, that would write a pass into a verifier that cannot see the element."
     spotlight: true
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 0}
 
+# ── HARD-carry-forward — document the limitation, carry to the next star ─────────
+  # RYA-654 moved P here out of GET-DATA. Its GET-DATA rested on "FUV needs HST/STIS
+  # (RYA-119)" — a DATA-acquisition premise that is superseded for the Sun, and P is the
+  # one member of the RYA-632 GET-DATA-vs-measured class that is genuinely EW-measurable
+  # (2 clean optical P I lines live in the EW pool), so it is a stale row to FIX, not a
+  # verifier-blind divergence to annotate. What is left is a physics/curation limitation,
+  # which is exactly what HARD-carry-forward means here.
   P:
     ion: "I"
     dimensionality: {regime: "see Asplund2021", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}
     departure: {regime: "NLTE (P I)", solar_corr_dex: "see literature", cite: "Asplund2021"}
-    grid: {status: "GAP / data-limited", source: "P I NLTE sparse"}
-    indicators: {lines: "P I 10511/10581 NIR + FUV (CHNOPS); weak optical", in_data: "2 measured lines (marginal)"}
-    hazards: "FUV needs HST/STIS (RYA-119); NIR P I weak; data-gap class"
-    verdict: GET-DATA
-    routing: "RYA-119 (HST/MAST) + RYA-162 (multi-wavelength solar ref)"
+    grid: {status: "GAP / data-limited", source: "P I NLTE sparse — no public P I departure grid to vendor"}
+    indicators: {lines: "P I 6034.04/6043.12 optical (weak, 15.3/53.0 mA — both in the EW pool) + 10581/10596 near-IR multiplet (RYA-460 atlas)", in_data: "2 measured lines (marginal)"}
+    hazards: "P I optical lines weak; near-IR multiplet gf uncertain -> +1.20 dex gf-scale residual (RYA-161/162); no P I NLTE grid -> LTE-flagged"
+    verdict: HARD-carry-forward
+    routing: "RYA-654: the RYA-119 (HST/STIS FUV) premise is SUPERSEDED FOR THE SUN — RYA-460 measured the P I 10581/10596 near-IR multiplet off the Kitt Peak atlas (A(P) 6.61, n=2, phase_c CURATION-OWED), and the ground-reachable near-IR needs no HST. DATA is no longer the blocker. Remaining: no P I NLTE grid (carry-forward, LTE-flagged) + the +1.20 gf-scale residual -> RYA-161/162 differential-gf. Do NOT tune."
     verified_in_repo: {registry: false, grid_file: false, measured_ew_lines: 2}
 
-# ── HARD-carry-forward — document the limitation, carry to the next star ─────────
   Li:
     ion: "I"
     dimensionality: {regime: "3D (Asplund2021)", solar_corr_dex: "see Asplund2021", cite: "Asplund2021"}

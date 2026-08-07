@@ -1,0 +1,307 @@
+# Element status tracker -- EDITORIAL SIDECAR (RYA-654)
+# =====================================================================================
+# This file is HAND-AUTHORED. It holds the half of data/audit/element_status_tracker.csv
+# that has no machine source: the two engines' model-atom vintages, the RYA-524
+# classification, the owed action, the ticket trail, and the analyst notes.
+#
+# The OTHER half -- element, ion, verdict, verdict_value, sigma, n_lines,
+# delta_vs_asplund, tier, method, regime_verdict -- is GENERATED and must never be
+# written here. Those columns come from their own single sources:
+#     verdict / value / sigma / n_lines / delta / method  <- the phase_c verdict channel
+#     tier                                                 <- the RYA-522 ratified tiers
+#     ion / regime_verdict                                 <- config/physics_regime_rya400.yaml
+#
+# EDIT THIS FILE, then regenerate:
+#     python scripts/generate_element_status_tracker_rya654.py
+#     python scripts/generate_element_status_tracker_rya654.py --check   # CI / guard mode
+#
+# Editing element_status_tracker.csv directly is what --check exists to catch.
+#
+# Seeded verbatim from the hand-maintained tracker at RYA-654 (rows as of the RYA-524
+# audit snapshot plus the RYA-592/643 updates); `editorial_updated` carries the old
+# per-row snapshot_date so no provenance was lost in the migration.
+#
+# KEYS: element symbol, except `Fe_II` for the Fe II ionization-arbiter diagnostic row.
+Al:
+  action_needed: RYA-161/162 differential-gf
+  classification: GENUINELY-OWED (gf)
+  editorial_updated: '2026-07-27'
+  engine_a_model_vintage: Al_Amarsi2020 / AB-INITIO
+  engine_b_model_vintage: LTE
+  notes: 'RYA-596 AUDIT: the blank in the live verdict is NOT a graded-gf cull. The RYA-395/398 firewall
+    leaves 1 independent-gf survivor(s) and DID produce A(X)=7.406 (frozen in gold v1). The value is HELD
+    UNFROZEN by the ratified RYA-522 `owed` tier, which freezes no value by design. Verdict text corrected
+    (RYA-596); to surface the number, re-ratify the tier (RYA-522) or broaden the pool via RYA-161/162.'
+  source_tickets: RYA-402,RYA-410,RYA-596
+Ba:
+  action_needed: Ba II 5853 synthesis (RYA-162)
+  classification: GENUINELY-OWED
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Ba_Korotin2015 / SCALED-DRAWIN (near-LTE)
+  engine_b_model_vintage: ba111 / SCALED-DRAWIN / -0.02
+  notes: 'No value in the audit: SATURATION_COG, EW pool culled. Ionised resonance line is near-LTE so
+    the scaled-Drawin recipe is immaterial here.'
+  source_tickets: RYA-165,RYA-396,RYA-199,RYA-92
+C:
+  action_needed: 'none (minor: reconcile 8.491 vs RYA-491''s 8.449)'
+  classification: WIRED-OK
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Amarsi2019 / AB-INITIO
+  engine_b_model_vintage: LTE
+  notes: C I 5380 excluded SATURATION_COG per RYA-463 registry.
+  source_tickets: RYA-237,RYA-520,RYA-493
+Ca:
+  action_needed: 'Batch A RE-DERIVE (LOW): migrate Engine-A to Amarsi Ca; Batch E: broaden the thin 2-line
+    pool via RYA-161/162'
+  classification: GENUINELY-OWED + EngA-SD
+  editorial_updated: '2026-07-27'
+  engine_a_model_vintage: Ca_Mashonkina2017 / SCALED-DRAWIN
+  engine_b_model_vintage: ca105b / AB-INITIO / -0.01
+  notes: 'Engine-A leg is scaled-Drawin but the value is owed and the correction small - low stakes. RYA-596
+    AUDIT: the blank in the live verdict is NOT a graded-gf cull. The RYA-395/398 firewall leaves 3 independent-gf
+    survivor(s) and DID produce A(X)=6.324 (frozen in gold v1). The value is HELD UNFROZEN by the ratified
+    RYA-522 `owed` tier, which freezes no value by design. Verdict text corrected (RYA-596); to surface
+    the number, re-ratify the tier (RYA-522) or broaden the pool via RYA-161/162.'
+  source_tickets: RYA-235,RYA-411,RYA-413,RYA-596
+Co:
+  action_needed: Extract clean red Co I lines + HFS; do not force the blue value; gf floor -> RYA-161/162
+  classification: GENUINELY-OWED (blue-edge)
+  editorial_updated: '2026-07-28'
+  engine_a_model_vintage: LTE
+  engine_b_model_vintage: co247qm / AB-INITIO / +0.10
+  notes: 'CONTINUUM_LIMITED = per_region per RYA-463 registry; Co I 3845 is blue-edge SNR-limited and
+    not trusted. RYA-643 LINEAGE AUDIT found the RYA-564 harness was a FOURTH copy of the same fitter
+    and carried both defects - beyond this ticket''s named Sr/Zr scope, and material because Co had just
+    promoted to PASS on it. Corrected re-run: A(Co) 4.965 -> 4.960, worst reliable |delta| 0.013 <= 0.05
+    -> CONFIRMED-ROBUST; the PASS survives. Sub-floor 6632.439 moved -0.133 and now rails at the TOP of
+    the widened gsig grid - a bad fit that is now visibly bad.'
+  source_tickets: RYA-460,RYA-564,RYA-643
+Cr:
+  action_needed: 'Batch C DROP-TO-LTE = STOP-PRECISION-LIMITED: hold + flag, retire is NOT certifiable;
+    needs clean weak Cr II lines. gf floor -> RYA-161/162'
+  classification: VINTAGE-INFLATED
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Cr_Bergemann2010 / SCALED-DRAWIN (SH=0)
+  engine_b_model_vintage: LTE
+  notes: 'Sirius Cr I/II LTE ionization balance: Cr I n=10/16 A_LTE 6.058 MAD 0.236 SEM 0.114; Cr II n=1/2
+    (4588 only, 6053 railed) A_LTE 5.957; balance +0.102 vs a <0.05 gate. The SH=0 correction is positive
+    so it would WORSEN the imbalance - directionally supports ''inflated'' but uncertifiable.'
+  source_tickets: RYA-235,RYA-399,RYA-395,RYA-398,RYA-546
+Cu:
+  action_needed: gf zero-point residual -> RYA-161; acquire a fuller NLTE .grd
+  classification: WIRED-OK (fragile .grd)
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Cu_Caliskan2024 / AB-INITIO
+  engine_b_model_vintage: LTE
+  notes: HFS_SUMMING = synthesis per RYA-463 registry; live .grd offline at audit time.
+  source_tickets: RYA-466,RYA-402
+Eu:
+  action_needed: HFS-resolved synthesis of Eu II 6645
+  classification: GENUINELY-OWED (HFS)
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: LTE
+  engine_b_model_vintage: LTE
+  notes: 'No value in the audit: HFS_SUMMING = HFS_sum per RYA-463 registry.'
+  source_tickets: RYA-102,RYA-92
+Fe:
+  action_needed: 'Batch A RE-DERIVE (HIGHEST): confirm the MPIA inelastic-H recipe and reconcile code-vs-register
+    (register claims Amarsi-2022-NN), gated on Fe I/II balance'
+  classification: WIRED-OK + VINTAGE-FLAG
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Fe_Bergemann_MPIA / SCALED-DRAWIN
+  engine_b_model_vintage: LTE
+  notes: 'THE anchor - the whole scale hangs on it. Amarsi-2022 NN present but ARCHIVED; live code uses
+    MPIA so code != register selection. Mitigant: ionization-balance-gated (RYA-407).'
+  source_tickets: RYA-247,RYA-336,RYA-406,RYA-407,RYA-446,RYA-517
+Fe_II:
+  action_needed: none (per-line provenance RYA-515, minor)
+  classification: WIRED-OK
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: (ion 2, same grid) / SCALED-DRAWIN
+  engine_b_model_vintage: LTE
+  notes: Arbiter/diagnostic row, not a displayed value. EW-path 7.657 (n=3) is diagnostic only. Audit
+    reported no Delta for this row.
+  source_tickets: RYA-305,RYA-341,RYA-406
+K:
+  action_needed: none
+  classification: WIRED-OK
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: K_Amarsi2020 / AB-INITIO
+  engine_b_model_vintage: LTE
+  notes: The merged-then-wired success case; RYA-463 NLTE_OWED status RESOLVED.
+  source_tickets: RYA-462,RYA-460
+Li:
+  action_needed: none
+  classification: WIRED-OK (terminal upper limit)
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: grid unwired (RYA-540 STOP)
+  engine_b_model_vintage: LTE
+  notes: MOLECULAR_BLEND = upper_limit by design (CN blend). A clean LOW value here would be a RED FLAG,
+    not a result.
+  source_tickets: RYA-103,RYA-199
+Mg:
+  action_needed: Resolve the 5528-vs-5711 0.21 dex line-to-line discordance BEFORE any Mg promotion; then
+    RYA-161/162 differential-gf
+  classification: GENUINELY-OWED
+  editorial_updated: '2026-07-27'
+  engine_a_model_vintage: Mg_Amarsi2020 / AB-INITIO
+  engine_b_model_vintage: mg86d / AB-INITIO / -0.02
+  notes: 'No value in the audit: SATURATION_COG on the Mg I b triplet, EW pool culled. RYA-596 CONFIRMED
+    the EW pool is a genuine zero-survivor state (0 of 5 lines kept; GRADE 4 / BADGF 2 / SAT 3 / HIERR
+    2), so the "no independent-gf line survives" verdict text is correct here -- which is exactly why
+    Mg has to go the synthesis route. RYA-592 then measured the SECOND clean line (5528.405) by in-window
+    blend-fit synthesis: A_NLTE 7.18, vs the same harness re-measuring 5711 at 7.40-7.41 -> DISCORDANT
+    by 0.21-0.23 dex (band 0.10). The committed channel carries the SAME ~0.2 dex line-to-line scatter
+    (5711 7.494 vs 6319.237 7.734, the latter at red_chi2 58.5 on the Ca I autoionisation blend), and
+    7.614 is just their mean; same-line method-to-method agreement is much tighter (0.08-0.09 dex). So
+    the second line CONTRADICTS rather than confirms 5711; RYA-561 gate 3 still fails (5528 EW 340 mA
+    is far above the ratified saturation knee, so no Engine-A EW route and dCE stays None). Classification
+    unchanged; see element_status_tracker_drift.md section E.'
+  source_tickets: RYA-410,RYA-235,RYA-396,RYA-465,RYA-561,RYA-592,RYA-596
+Mn:
+  action_needed: 'Batch D doc-sync: the EW-path pointer is still scaled-Drawin -> RYA-527; pin/guard the
+    gitignored NLTE .grd artifact'
+  classification: WIRED-OK + FRAGILITY
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: AB-INITIO delta +0.024 (RYA-546); scaled-Drawin pointer superseded
+  engine_b_model_vintage: mn281kbc / AB-INITIO / +0.043
+  notes: Displayed leg is ab-initio and CLEAN. PASS is load-bearing on an 8.4 GB gitignored Amarsi .grd
+    - a grid-less re-run silently reverts Mn to MPIA +0.108 and back to owed.
+  source_tickets: RYA-411,RYA-468,RYA-473,RYA-476,RYA-546
+N:
+  action_needed: 'Batch D: apply the wired NLTE delta (audit expected approx -0.37) OR formally ratify
+    N as data-channel-owed per the RYA-519 addendum - a decision, not a silent carry'
+  classification: DONE-BUT-STALE
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: N_Amarsi2020_PySME / AB-INITIO (wired RYA-526)
+  engine_b_model_vintage: LTE
+  notes: Grid load-tested and registered; the 2026-07-05 pass found the in-repo wiring matrix still said
+    wired=False.
+  source_tickets: RYA-369,RYA-460,RYA-491,RYA-526
+Na:
+  action_needed: Broaden the thin low-confidence pool; RYA-161/162
+  classification: GENUINELY-OWED
+  editorial_updated: '2026-07-27'
+  engine_a_model_vintage: Na_Amarsi2020 / AB-INITIO
+  engine_b_model_vintage: Gerber deck (RYA-533) / AB-INITIO / -0.07
+  notes: 'RYA-596 AUDIT: the blank in the live verdict is NOT a graded-gf cull. The RYA-395/398 firewall
+    leaves 2 independent-gf survivor(s) and DID produce A(X)=6.264 (frozen in gold v1). The value is HELD
+    UNFROZEN by the ratified RYA-522 `owed` tier, which freezes no value by design. Verdict text corrected
+    (RYA-596); to surface the number, re-ratify the tier (RYA-522) or broaden the pool via RYA-161/162.'
+  source_tickets: RYA-410,RYA-165,RYA-199,RYA-465,RYA-596
+Ni:
+  action_needed: RYA-161/162 differential-gf
+  classification: GENUINELY-OWED (gf)
+  editorial_updated: '2026-07-27'
+  engine_a_model_vintage: LTE
+  engine_b_model_vintage: ni538qm / AB-INITIO / +0.02
+  notes: 'BAD_GF = astro-gf-diff per RYA-463 registry. RYA-596 AUDIT: the blank in the live verdict is
+    NOT a graded-gf cull. The RYA-395/398 firewall leaves 2 independent-gf survivor(s) and DID produce
+    A(X)=6.946 (frozen in gold v1). The value is HELD UNFROZEN by the ratified RYA-522 `owed` tier, which
+    freezes no value by design. Verdict text corrected (RYA-596); to surface the number, re-ratify the
+    tier (RYA-522) or broaden the pool via RYA-161/162.'
+  source_tickets: RYA-395,RYA-398,RYA-596
+O:
+  action_needed: none
+  classification: WIRED-OK
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Amarsi2019 / AB-INITIO
+  engine_b_model_vintage: o41f / AB-INITIO / -0.10
+  notes: '[O I] 6300 CONTINUUM_LIMITED = cited_sub per RYA-463 registry.'
+  source_tickets: RYA-237,RYA-491,RYA-365,RYA-450
+P:
+  action_needed: RYA-161/162 (P I near-IR gf)
+  classification: GENUINELY-OWED
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: LTE
+  engine_b_model_vintage: LTE
+  notes: DATA_GAP = per_region per RYA-463 registry; large offset is a gf-scale residual.
+  source_tickets: RYA-460
+S:
+  action_needed: 'Batch D: re-emit with the RYA-492 Costa-Silva gf (audit expected approx 7.486); residual
+    escalates to RYA-161'
+  classification: DONE-BUT-STALE
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: S_Amarsi2025 / AB-INITIO
+  engine_b_model_vintage: LTE
+  notes: Audit explicitly refutes the 'expect 7.12' myth - the residual is a gf-scale floor, not a line-ID
+    error.
+  source_tickets: RYA-492,RYA-491,RYA-402
+Sc:
+  action_needed: HFS-resolved synthesis + a cleaner Sc II line before any PASS
+  classification: GENUINELY-OWED (blue-edge HFS)
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: LTE
+  engine_b_model_vintage: LTE
+  notes: 'Single blue-edge HFS line (Sc II 4246). The 2026-07-05 pass noted a tier/verdict mismatch: gold
+    confidence vs owed verdict.'
+  source_tickets: RYA-460
+Si:
+  action_needed: 'Batch E: RYA-161/162 differential-gf'
+  classification: GENUINELY-OWED (gf)
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: Si_Amarsi2020 / AB-INITIO
+  engine_b_model_vintage: si340 / AB-INITIO / -0.03
+  notes: BAD_GF = astro-gf-diff per RYA-463 registry.
+  source_tickets: RYA-410,RYA-399,RYA-395,RYA-398
+Sr:
+  action_needed: 'Batch D REROUTE: the verdict reads the Sr I EW leg while the wired species is Sr II.
+    RYA-551 delivered the Sr II synthesis; reclassification is pending merge of RYA-429 + RYA-551'
+  classification: WRONG-SPECIES -> reclassified WIRED-OK 2026-07-15
+  editorial_updated: '2026-07-28'
+  engine_a_model_vintage: Sr_Bergemann2012 / SCALED-DRAWIN (near-LTE)
+  engine_b_model_vintage: sr191 / SCALED-DRAWIN / -0.01
+  notes: '2026-07-15 correction comment (RYA-551, commit 503d572 on a53c0a8): Sr II now has a real Turbospectrum
+    synthesis - 4077 PRIMARY (delta -0.004), 4215/4161 cross-check, 4305 EXCLUDED (sensitivity ~zero,
+    railed fit); A(Sr II) approx 2.74, approx 0.1 dex below Asplund, reported untuned, carrying a noted
+    0.05-0.1 dex near-UV synthesis systematic. Supersedes RYA-523 (not saturation). verdict_value is left
+    at the 4.961 Sr I snapshot BECAUSE the live verdict still has not adopted 2.74 - see the drift note.
+    RYA-643 CORRECTED RE-RUN: the RYA-551 harness carried the two RYA-592 defects (no rest-frame handling;
+    broadening grid railing at its 1.5 km/s floor). Re-run on the corrected single-source fitter -> A(Sr
+    II) 4077 2.769 -> 2.759 (delta -0.010), 4215 2.724 -> 2.693 (-0.031); worst reliable |delta| 0.031
+    <= the 0.05 gate -> CONFIRMED-ROBUST, cleared for RYA-527 adoption. red_chi2 improved 95.7 -> 78.3
+    but is still high in absolute terms (cf. Mg 1.4) - the near-UV window fit quality is a SEPARATE open
+    concern, not settled by this ticket.'
+  source_tickets: RYA-421,RYA-433,RYA-428,RYA-429,RYA-551,RYA-523,RYA-643
+Ti:
+  action_needed: Batch B ATOM-SWAP Engine-B old->ab-initio = RYA-548 (already open); gf floor -> RYA-161/162
+  classification: GENUINELY-OWED (gf) + EngB-SD
+  editorial_updated: '2026-07-27'
+  engine_a_model_vintage: Ti_Mallinson2024 / AB-INITIO (RYA-545)
+  engine_b_model_vintage: ti503b / SCALED-DRAWIN / +0.22 CHECK
+  notes: 'Displayed leg is ab-initio and CLEAN. Engine-B ti503b is scaled-Drawin but NOT displayed. Audit
+    stale-doc finding: data/curation/nlte_grid_availability.csv still lists Ti_Bergemann2011_MPIA.csv.
+    RYA-596 AUDIT: the blank in the live verdict is NOT a graded-gf cull. The RYA-395/398 firewall leaves
+    10 independent-gf survivor(s) and DID produce A(X)=5.471 (frozen in gold v1). The value is HELD UNFROZEN
+    by the ratified RYA-522 `owed` tier, which freezes no value by design. Verdict text corrected (RYA-596);
+    to surface the number, re-ratify the tier (RYA-522) or broaden the pool via RYA-161/162.'
+  source_tickets: RYA-235,RYA-399,RYA-395,RYA-398,RYA-544,RYA-545,RYA-596
+V:
+  action_needed: 'Batch E: V II majority-ion anchor = RYA-470 (the only NLTE lever)'
+  classification: NLTE-VOID
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: NLTE-VOID (no model atom)
+  engine_b_model_vintage: LTE
+  notes: LTE-flagged by design. Do NOT certify on LTE agreement with Asplund alone.
+  source_tickets: RYA-466,RYA-470
+Y:
+  action_needed: Acquire Y II lines
+  classification: GENUINELY-OWED (data gap)
+  editorial_updated: '2026-07-14'
+  engine_a_model_vintage: LTE
+  engine_b_model_vintage: LTE
+  notes: 'No value in the audit: Y II absent from the pool (DATA_GAP = per_region).'
+  source_tickets: RYA-458,RYA-519
+Zr:
+  action_needed: Zr II synthesis (RYA-162)
+  classification: GENUINELY-OWED (synth)
+  editorial_updated: '2026-07-28'
+  engine_a_model_vintage: LTE (Zr II is the majority ion)
+  engine_b_model_vintage: LTE
+  notes: 'No value in the audit: SATURATION_COG, EW pool culled. RYA-560 measured Zr II by synthesis (LTE-robust
+    majority ion) but NO line cleared the dEW/dA >= 40 mA/dex floor, so Zr stayed MEASURABLE-OWED with
+    no value. RYA-643 CORRECTED RE-RUN on the fixed fitter: conclusion UNCHANGED - still no reliable line,
+    Zr stays owed. Worst reliable |delta| n/a (no reliable line). Two SUB-FLOOR lines did move materially
+    (4258 +0.115, 4629 +0.127), so the defect was real here; it simply cannot affect a verdict that emits
+    no value.'
+  source_tickets: RYA-279,RYA-458,RYA-560,RYA-643
