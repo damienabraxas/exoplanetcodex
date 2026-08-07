@@ -294,27 +294,31 @@ def test_live_gold_never_freezes_a_value_at_an_owed_tier():
 
 
 @pytest.mark.xfail(strict=True, reason=(
-    "PRE-DECLARED RED, now down to TWO documented-owed elements (was six un-ratified "
+    "PRE-DECLARED RED, now down to ONE documented-owed element (was six un-ratified "
     "divergences plus two count mismatches at RYA-632). RYA-654 cleared Co/N/K/Cu by "
     "ratification, P by fixing the stale yaml row, and both count mismatches by "
-    "generating the tracker. What remains is red ON PURPOSE: Sc (measurement-not-trusted "
-    "— cleared by measuring Sc, never by an exceptions entry) and Ba (gold v2's phantom "
-    "blank cause; the correction is built as the RYA-653 candidate and lands at the "
-    "RYA-527 gold v3 re-freeze). When BOTH clear, this strict marker fires and must be "
-    "removed deliberately."))
+    "generating the tracker; RYA-665's gold v3 freeze cleared Ba, whose red was the "
+    "phantom blank cause frozen into gold v2. What remains is red ON PURPOSE: Sc "
+    "(measurement-not-trusted — cleared by measuring Sc, never by an exceptions entry). "
+    "When Sc clears, this strict marker fires and must be removed deliberately."))
 def test_live_ledger_is_consistent():
     assert run_check() == 0
 
 
 def test_the_live_reds_are_exactly_the_documented_ones():
     """The stronger companion to the xfail above: not merely 'red', but red for EXACTLY
-    the two adjudicated reasons. A new contradiction cannot hide behind the known ones."""
+    the adjudicated reason. A new contradiction cannot hide behind the known one.
+
+    The triple equality is the load-bearing part: the live offender set must equal the
+    documented-owed table, so an element cannot be red without an explanation NOR carry a
+    stale explanation without being red. RYA-665's v3 freeze cleared Ba on both sides at
+    once — it left the offender set and its _OWED_NOT_LAUNDERED entry was removed."""
     from pipeline.ledger_consistency_guard import _OWED_NOT_LAUNDERED
     states_by_element, tracker_counts, tallied_counts = collect_element_states()
     allowed = load_allowed_divergences()
     offenders = {e for e in states_by_element
                  if check_element(states_by_element[e], allowed)}
-    assert offenders == set(_OWED_NOT_LAUNDERED) == {"Sc", "Ba"}
+    assert offenders == set(_OWED_NOT_LAUNDERED) == {"Sc"}
     # the RYA-632 count mismatches (PASS 5 vs 6, NLTE_OWED 1 vs 0) are gone for good:
     # the tracker is generated from the same phase_c the tally is taken over.
     assert check_counts(tracker_counts, tallied_counts) == []
