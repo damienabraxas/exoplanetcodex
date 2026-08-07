@@ -70,8 +70,19 @@ treatment), not an artifact of an unexamined default.
 | El | Note | Indicators | Verdict |
 |----|------|-----------|---------|
 | **Co** ⭐ | **0 measured lines today.** NLTE+HFS both required: solar NLTE−LTE ≈ +0.14, A(Co)=4.95 `[Bergemann10]`. Grid gettable (Bergemann10) but **measure first**. | Co I (HFS-heavy) — 0 | GET-DATA |
-| **P** | FUV needs HST/STIS (**RYA-119**); NIR P I 10511/10581 weak. CHNOPS data-gap. | P I NIR/FUV (2 marginal) | GET-DATA |
 | **Sc II** | **0 measured lines** — measure Sc II first; then small-NLTE/LTE-OK `[Zhang08]`; HFS. | Sc II 5031/5526/5657 — 0 | GET-DATA |
+
+> **RYA-654 — P has LEFT this class → `HARD-carry-forward`.** Its GET-DATA rested on
+> "FUV needs HST/STIS (RYA-119)", and that premise is **superseded for the Sun**: RYA-460
+> measured the P I 10581/10596 near-IR multiplet off the Kitt Peak atlas (A(P) 6.61, n=2),
+> and the EW pool independently holds P I 6034.04/6043.12. Data is no longer the blocker;
+> what remains is the missing P I NLTE grid plus a +1.20 gf-scale residual (RYA-161/162).
+> P was the one member of the RYA-632 GET-DATA-vs-measured class that was genuinely
+> EW-measurable, so it was FIXED rather than annotated as a divergence.
+>
+> Co, Sc and the other rows above are unchanged. **The tables on this page are round-1
+> narrative snapshots** — `config/physics_regime_rya400.yaml` is the single source, and
+> several tallies here predate RYA-412/462/540; do not read a count off this page.
 
 ## LTE-OK — ionised-majority / well-behaved (small NLTE, confirmed)
 
@@ -103,7 +114,7 @@ treatment), not an artifact of an unexamined default.
 - **Blocks RYA-371 Phase C** — the serious 27-element validation runs once every element's regime is decided and the gettable grids/data are in hand.
 - **Spawns grid-vendoring children (RYA-396 pattern):** Al, K, S, Cu, Sr (and Co after measurement) → INSPECT/MPIA/CDS/Amarsi-GALAH scrapers.
 - **Feeds RYA-399 (3D arm):** Si, Ti, Cr (3D-dominated) + any element the audit flags 3D.
-- **GET-DATA dependencies:** Co (measure), Sc (measure), P (RYA-119 HST/MAST).
+- **GET-DATA dependencies:** Co (EW-blind: HFS ⇒ synthesis leg, measured RYA-564), Sc (measure — the KP 4246 blue-edge line is not trusted). **P is no longer one** (RYA-654: RYA-119 superseded for the Sun).
 - **HARD-carry-forward → 371 reports honestly, never tuned:** Li (RYA-103), Eu (RYA-102), Zr (RYA-161).
 
 ## Citations
