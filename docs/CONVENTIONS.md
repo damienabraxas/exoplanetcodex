@@ -161,27 +161,50 @@ drifted before: RYA-524's master 27×2 audit was needed precisely because status
 scattered across the verdict file, the RYA-463 registry and ticket history, and none of
 them agreed.
 
-**The standing rule:** a ticket that changes an element's
+**Since RYA-654 it is GENERATED — do not hand-edit it.** The hand-maintained era ended
+because hand-maintenance is what let it drift: it was still carrying Co's demoted
+blue-edge +1.188 and N's cleared NLTE debt long after the verdict channel had moved.
+This is RYA-436's rule applied to the results side — *generate, do not hand-sync*.
 
-- **classification** (`WIRED-OK` / `GENUINELY-OWED` / `DONE-BUT-STALE` /
-  `VINTAGE-INFLATED` / `WRONG-SPECIES` / `NLTE-VOID`), or
-- **`verdict_value` / `tier`**, or
-- **either engine's model-atom vintage** (`AB-INITIO` / `SCALED-DRAWIN` / `LTE` /
-  `NLTE-VOID`)
+```
+python scripts/generate_element_status_tracker_rya654.py            # rebuild
+python scripts/generate_element_status_tracker_rya654.py --check    # CI: committed == regenerated
+```
 
-**must update that row in the same change** — bump its `snapshot_date` and cite the ticket
-in `source_tickets`. **A ticket that changes an element's status without updating this file
-is INCOMPLETE**, the same discipline as the end-of-session Linear comment.
+**The standing rule is now about WHERE you make the change**, not whether you remember to:
 
-Two corollaries:
+- a **status** column (`verdict` / `verdict_value` / `sigma` / `n_lines` /
+  `delta_vs_asplund` / `method`) is derived from the phase_c verdict channel — it is
+  ratified canonical for status (RYA-654 §1). Fix it at the source and regenerate;
+- `tier` is the RYA-522 ratified freeze tier, and `ion` / `regime_verdict` come from
+  `config/physics_regime_rya400.yaml`. Same rule: fix the source;
+- the **analyst** columns — **classification** (`WIRED-OK` / `GENUINELY-OWED` /
+  `DONE-BUT-STALE` / `VINTAGE-INFLATED` / `WRONG-SPECIES` / `NLTE-VOID`),
+  `action_needed`, `source_tickets`, **either engine's model-atom vintage**
+  (`AB-INITIO` / `SCALED-DRAWIN` / `LTE` / `NLTE-VOID`) and `notes` — have no machine
+  source. Edit **`data/audit/element_status_tracker_editorial.yaml`**, bump that entry's
+  `editorial_updated`, cite the ticket in `source_tickets`, and regenerate.
 
-1. **Never silently reconcile a disagreement.** If the tracker and the live verdict
-   (`docs/audit/solar_phase_c_verdict_rya371.md`) disagree, record it in
-   `data/audit/element_status_tracker_drift.md` and flag it — do not pick one and
-   overwrite.
-2. **This file is the tracker, not a second pipeline output.** It is maintained outside
-   the pipeline and reviewed by eye. A read-only one-way mirror generated *from* it is
-   fine; a second writable copy is a single-source-of-truth violation.
+**A ticket that changes an element's status without updating the relevant source and
+regenerating is INCOMPLETE**, the same discipline as the end-of-session Linear comment.
+`--check` is what enforces it: it diffs the committed CSV against a fresh regeneration,
+so a hand-edit is a build break rather than a silent divergence.
+
+Note `verdict` and `tier` are **different things** and have separate columns: a verdict is
+live status, a tier is a freeze decision. Before RYA-654 one column carried both
+vocabularies and the guard had to infer.
+
+Three corollaries:
+
+1. **Never silently reconcile a disagreement.** Cross-artifact contradictions are checked
+   by `python -m pipeline.ledger_consistency_guard` (RYA-632). A disagreement is either
+   fixed at its source or **ratified** in `data/audit/known_verdict_divergences.yaml`
+   with a ticket — never overwritten, and never annotated just to reach green.
+2. **This file is the tracker, not a second pipeline output.** A read-only one-way mirror
+   generated *from* it is fine; a second writable copy is a single-source-of-truth
+   violation.
+3. **The generator will not run off an uncommitted verdict artifact.** The tracker traces
+   to the ratified, committed phase_c run, never to a local Mac canary re-run.
 
 The file carries the same rule as `#` comment lines in its own header, so it travels with
 the data. Read it with `pandas.read_csv(path, comment='#')`.
