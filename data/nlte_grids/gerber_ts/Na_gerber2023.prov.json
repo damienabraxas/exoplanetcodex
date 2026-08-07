@@ -37,5 +37,17 @@
     "path_sirius": "/mnt/codex-data/engines/Turbospectrum_NLTE",
     "binaries": "exec-gf/babsma_lu + exec-gf/bsyn_lu (BSYN v20.1) — compiled with gfortran 15.2.0, -fconvert=big-endian -O3 -fno-automatic -std=legacy -mcmodel=small",
     "nlte_hooks_live": "strings bsyn_lu shows NLTEINFOFILE/MODELATOMFILE/DEPARTUREFILE, 'missing NLTEINFOFILE!', unity-departure LTE fallback"
+  },
+  "gate": {
+    "lines": "Na I 5682.633 / 5688.205 (Na D subordinate doublet), GES NLTE level-IDs verbatim",
+    "result": "per-line delta -0.0647 / -0.0718; median -0.0682",
+    "anchor": "-0.107 (INSPECT/Amarsi)",
+    "tolerance": 0.05,
+    "verdict": "PASS ( |median - anchor| = 0.039 <= 0.05 )",
+    "departures_engaged": true,
+    "source_artifact": "data/audit/rya533_ts_gerber_build/na_gate_result.txt",
+    "gate_deck": "scripts/ts_gerber_na_gate_rya533.py",
+    "ratified_by": "RYA-533 (Engine-B TS-native NLTE deck build + Na anchor gate)",
+    "writeback_ticket": "RYA-664"
   }
 }
