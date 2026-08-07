@@ -46,6 +46,8 @@ from config.constants import (SOLAR_ASPLUND2021,  # noqa: E402
                               THREED_CORRECTION_ELEMENTS,
                               CORRECTIONS_3D)      # RYA-553 tabulated 1D→3D corrections
 from pipeline import data_namespace as ns  # noqa: E402  RYA-469 gold solar reference
+from pipeline.provenance_honesty import (  # noqa: E402  RYA-596 tripwire, shared (RYA-653)
+    ZERO_SURVIVOR_CHANNEL, assert_blank_cause_is_honest)
 
 PROC = ROOT / 'data' / 'processed'
 AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
@@ -268,7 +270,8 @@ def build_verdicts(ab, ew, phase_a):
                                             cverdict, charter, gold_tier, gold_note)
         if ew_integrity_note:
             owed = f"{owed} [{ew_integrity_note}]"
-        _assert_blank_cause_is_honest(el, channel, n_lines)
+        _assert_blank_cause_is_honest(el, channel, n_lines, a_measured=a_meas,
+                                      site='phase_c verdict (RYA-371)')
         rows.append({
             'element': el, 'asplund2021': asp,
             'A_measured': round(a_meas, 3) if np.isfinite(a_meas) else None,
@@ -284,20 +287,11 @@ def build_verdicts(ab, ew, phase_a):
     return rows
 
 
-ZERO_SURVIVOR_CHANNEL = 'EW present; no independent-gf line survives the graded cull'
-
-
-def _assert_blank_cause_is_honest(el, channel, n_lines):
-    """RYA-596 tripwire: never claim a zero-survivor graded cull on a row that
-    carries graded survivors. The two are contradictory on their face, and that
-    contradiction (n_lines>0 alongside "no line survives") is exactly how the
-    Ca/Ti/Ni/Na/Al/Sr phantom cause hid in plain sight across verdict generations."""
-    if channel == ZERO_SURVIVOR_CHANNEL and n_lines > 0:
-        raise AssertionError(
-            f"RYA-596: {el} row claims '{ZERO_SURVIVOR_CHANNEL}' but carries "
-            f"n_lines={n_lines} graded survivor(s). A blank A(X) on a row with "
-            f"survivors is a gold-tier HOLD (RYA-522), not a cull — the classifier "
-            f"must not attribute it to the RYA-398 firewall.")
+# RYA-653: the tripwire and the claim it guards now live in ONE place
+# (pipeline/provenance_honesty.py) so the gold reference builder enforces the
+# same invariant from the same code, not from a forked copy. Re-exported under
+# their original names — this module's callers and tests are unchanged.
+_assert_blank_cause_is_honest = assert_blank_cause_is_honest
 
 
 def _classify(el, asp, a_meas, delta, sigma, n_lines, grid, threed, nlte_flag,
