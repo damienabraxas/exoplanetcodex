@@ -16,6 +16,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from pipeline import provenance_honesty  # noqa: E402
 from pipeline.ledger_consistency_guard import (  # noqa: E402
     ArtifactState,
     check_counts,
@@ -26,7 +27,10 @@ from pipeline.ledger_consistency_guard import (  # noqa: E402
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-ZERO_SURVIVOR = "EW present; no independent-gf line survives the graded cull"
+# Taken from the module that OWNS the claim (RYA-596/653), not re-typed: if the
+# emitters reword it, these fixtures follow and the coupling test below fails loudly
+# rather than this suite quietly testing a string nothing writes any more.
+ZERO_SURVIVOR = provenance_honesty.ZERO_SURVIVOR_CHANNEL
 
 
 def _allowed(*entries):
@@ -87,6 +91,24 @@ def test_c1_clean_when_every_artifact_agrees_there_is_no_data():
         ArtifactState("tracker", "Mg", verdict="CURATION_OWED", tier="owed"),
     ]
     assert check_element(states, {}) == []
+
+
+def test_c1_recognises_the_claim_in_the_emitters_own_words():
+    """The guard must read the zero-survivor claim from pipeline.provenance_honesty
+    (RYA-653), which is what the phase_c verdict and the gold builder actually assert
+    with. If it kept a private copy of the wording, a reword in those emitters would
+    silently blind C1 — the guard would stop seeing the very phantom it exists for.
+
+    Both live spellings are covered: the gold builder writes the bare claim, the
+    verdict channel writes it behind an "EW present; " prefix.
+    """
+    for cause in (provenance_honesty.ZERO_SURVIVOR_CLAIM,
+                  provenance_honesty.ZERO_SURVIVOR_CHANNEL):
+        states = [
+            ArtifactState("gold", "Ba", verdict="CURATION_OWED", raw_cause=cause),
+            ArtifactState("phase_c", "Ba", verdict="CURATION_OWED", n_lines=1),
+        ]
+        assert check_element(states, {}) != [], f"C1 went blind to {cause!r}"
 
 
 # ── C2 — an owed tier freezes no value (RYA-522, Ryan 2026-07-05) ────────────────────
