@@ -36,6 +36,15 @@ REGISTER = "CODEX_STATE_REGISTER.md"
 #: The repo-root startup index naming the canonical read-set (RYA-659 Part B).
 LEDGERS_INDEX = "LEDGERS.md"
 
+# Named handles for the surfaces a consumer resolves INDIVIDUALLY rather than by
+# sweeping the whole registry (RYA-632's guard needs exactly these three). They are
+# defined here and referenced in STATE_SURFACES below, so each path literal exists
+# in the repo exactly once -- renaming a surface is a one-line edit that cannot
+# leave a consumer reading a stale path.
+TRACKER = "data/audit/element_status_tracker.csv"
+PHASE_C_VERDICT_JSON = "data/audit/cno_synthesis/solar_phase_c_verdict.json"
+PHYSICS_REGIME = "config/physics_regime_rya400.yaml"
+
 
 class StateSurface(NamedTuple):
     """One state-changing surface. `path` is repo-relative, POSIX-style."""
@@ -59,7 +68,7 @@ STATE_SURFACES: tuple[StateSurface, ...] = (
         False,
     ),
     StateSurface(
-        "data/audit/cno_synthesis/solar_phase_c_verdict.json",
+        PHASE_C_VERDICT_JSON,
         "the machine-readable twin of the verdict above",
         False,
     ),
@@ -74,14 +83,14 @@ STATE_SURFACES: tuple[StateSurface, ...] = (
         False,
     ),
     StateSurface(
-        "data/audit/element_status_tracker.csv",
+        TRACKER,
         "per-element status / tier / verdict (RYA-594)",
         True,
     ),
     StateSurface(
         # A state surface but NOT a LEDGERS.md read-set member: it is consumed by
         # the tracker/verdict rather than read directly at session start.
-        "config/physics_regime_rya400.yaml",
+        PHYSICS_REGIME,
         "per-element physics regime + NLTE-grid wiring claims (RYA-400)",
         False,
     ),

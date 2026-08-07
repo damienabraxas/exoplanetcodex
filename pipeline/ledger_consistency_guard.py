@@ -24,7 +24,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+from pipeline import state_surfaces
+
+REPO_ROOT = state_surfaces.REPO_ROOT
 EXCEPTIONS_PATH = REPO_ROOT / "data" / "audit" / "known_verdict_divergences.yaml"
 
 # Normalized verdict vocabulary. Map each artifact's raw verdict onto these in
@@ -201,9 +203,12 @@ def load_allowed_divergences(path: Path = EXCEPTIONS_PATH) -> dict:
 #  brief's "do not force it" rule it is left out rather than prose-parsed.
 # ─────────────────────────────────────────────────────────────────────────────
 
-TRACKER_PATH = REPO_ROOT / "data" / "audit" / "element_status_tracker.csv"
-PHASE_C_PATH = REPO_ROOT / "data" / "audit" / "cno_synthesis" / "solar_phase_c_verdict.json"
-PHYSICS_REGIME_PATH = REPO_ROOT / "config" / "physics_regime_rya400.yaml"
+# Resolved from the RYA-659 state-surface registry, NOT re-declared here: all three
+# are registered surfaces, and state_surfaces.py is the single source of truth for
+# where they live. Importing the names means a rename there reaches this guard.
+TRACKER_PATH = REPO_ROOT / state_surfaces.TRACKER
+PHASE_C_PATH = REPO_ROOT / state_surfaces.PHASE_C_VERDICT_JSON
+PHYSICS_REGIME_PATH = REPO_ROOT / state_surfaces.PHYSICS_REGIME
 
 # The tracker's `tier` column mixes the RYA-522 tier vocabulary with a verdict word.
 # Mapping is the one already documented in element_status_tracker_drift.md section B
