@@ -413,13 +413,13 @@ _OWED_NOT_LAUNDERED = {
            "holds LOW_CONFIDENCE -- 'HFS-resolved synthesis + a cleaner Sc II line owed "
            "before any PASS'. physics_regime's GET-DATA is CORRECT; there is nothing to "
            "reconcile to. Cleared by measuring Sc, NOT by an exceptions entry."),
-    "Ba": ("RYA-653 (owner) -- gold v2's Ba row carries n_lines=0 + the phantom cause 'no "
-           "independent-gf line survives the graded cull' against the measured Ba II 5853 "
-           "synthesis (2.410, RYA-559). The correction is BUILT as "
-           "data/reference/solar/solar_abundances_corrected_candidate_rya653.csv (Ba "
-           "n_lines=1, honest note) but is a CANDIDATE: data/reference/solar/CURRENT still "
-           "reads v2. Cleared by the RYA-527 gold v3 re-freeze, NOT by this guard."),
 }
+# Ba's entry is GONE, and its removal is the point. It read "Cleared by the RYA-527 gold
+# v3 re-freeze, NOT by this guard" -- RYA-665 performed exactly that freeze, so gold v3
+# now carries Ba n_lines=1 + the honest RYA-559 synthesis cause and Ba is no longer an
+# offender. Leaving the entry behind would be worse than dead code: it would annotate a
+# FUTURE genuine Ba contradiction as "documented-owed" and drop it out of the
+# undocumented count, which is the exact hiding place this guard exists to close.
 
 
 def _annotate_documented(message: str) -> str:

@@ -12,9 +12,16 @@ sys.path.insert(0, str(ROOT))
 from pipeline import data_namespace as ns  # noqa: E402
 
 
-def test_current_is_v2():
+def test_current_is_v3_and_v2_is_retained_immutable():
+    # RYA-665 froze v3 from the RYA-653 corrected candidate and repointed CURRENT off v2.
+    # v2 is NOT deleted or edited — it is retained-immutable-but-superseded, exactly as v1
+    # was at the v2 freeze. The RYA-522 invariants below are version-agnostic and keep
+    # reading CURRENT; only the pointer identity moved.
     _, ver = ns.read_solar_reference("CURRENT")
-    assert ver == "v2"
+    assert ver == "v3"
+    _, v2 = ns.read_solar_reference("v2")
+    assert v2 == "v2"
+    ns.assert_frozen_references()          # v1 + v2 + v3 all match the committed manifest
 
 
 def test_carbon_fixed_and_gold():

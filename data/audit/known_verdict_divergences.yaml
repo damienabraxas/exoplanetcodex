@@ -156,42 +156,31 @@
   ratified_by: RYA-654
 
 # ════════════════════════════════════════════════════════════════════════════════════
-#  CLASS B -- frozen gold vN lags the live channel, RATIFIED RYA-654
+#  CLASS B -- frozen gold vN lags the live channel, RATIFIED RYA-654 -- **RETIRED RYA-665**
 #
-#  A DIFFERENT class from Class A, kept separate on purpose. Per the RYA-654 ratification
-#  "gold vN owns frozen reference VALUES (not status)" and the RYA-469/522 write-once
-#  freeze: gold's `verdict` column is a SNAPSHOT of status at freeze time, and the live
-#  status channel is phase_c. A measured-but-unfrozen change folds in at the next ratified
-#  re-freeze -- currently gold v3, RYA-527. Gold lagging is the freeze working, not drift.
+#  This class held four entries (Co/N x [gold,phase_c] + [gold,tracker]) annotating the
+#  gap between gold v2's frozen status snapshot and the live phase_c channel: gold v2 was
+#  frozen before RYA-564 measured Co on the synthesis leg and before RYA-556 wired the N I
+#  NLTE grid, so it carried Co CURATION-OWED and N NLTE-OWED against phase_c's PASS and
+#  CURATION-OWED.
 #
-#  These entries are therefore RETIRED BY the gold v3 re-freeze, not by any new physics.
-#  Only the two elements where the snapshot actually disagrees are listed; do not widen
-#  this to a blanket "gold never has to agree".
+#  Their standing instruction was: "When CURRENT moves, DELETE these four entries; the
+#  guard will then be green on Co/N without them." RYA-665 froze gold v3 from the RYA-653
+#  corrected candidate and moved data/reference/solar/CURRENT from v2 to v3, so gold now
+#  reads Co PASS n_lines=5 and N CURATION-OWED n_lines=3 -- identical to phase_c and the
+#  tracker. The four entries are DELETED, and the guard is verified green on Co/N without
+#  them.
 #
-#  The corrected content already EXISTS and agrees with phase_c: RYA-653 built
-#  data/reference/solar/solar_abundances_corrected_candidate_rya653.csv, whose Co row is
-#  PASS n_lines=5 and whose N row is CURATION-OWED n_lines=3. It is a CANDIDATE, not the
-#  live reference -- data/reference/solar/CURRENT still reads v2 -- so both entries below
-#  stay live until that candidate is ratified and frozen as gold v3 (RYA-527). When CURRENT
-#  moves, DELETE these four entries; the guard will then be green on Co/N without them.
+#  Deleting rather than keeping is the point. A ratified divergence that no longer
+#  describes a live disagreement is a standing permission for a FUTURE gold-vs-phase_c
+#  contradiction on Co or N to pass unnoticed -- the same hiding place RYA-665 closed by
+#  dropping Ba from _OWED_NOT_LAUNDERED in pipeline/ledger_consistency_guard.py.
+#
+#  Class B is now EMPTY. It is kept as this note, not deleted outright, because the class
+#  is real and will recur: the next time the live channel moves ahead of a frozen gold,
+#  new entries belong here, carrying the same retire-at-the-next-freeze instruction.
+#
+#  NOTE: the Class A [physics_regime, gold] entries for Co and N above are a DIFFERENT
+#  divergence and stay live -- they annotate physics_regime's EW-leg GET-DATA against the
+#  gold row, which v3 does not change (physics_regime still reads GET_DATA).
 # ════════════════════════════════════════════════════════════════════════════════════
-
-- element: Co
-  between: [gold, phase_c]
-  reason: "gold v2 was frozen before RYA-564 measured Co on the synthesis leg -- it carries the demoted blue-edge row (n_lines=1, 'blue-edge, SNR-limited - not trusted') at CURATION-OWED while phase_c is PASS 4.965. Frozen VALUES are gold's remit, live STATUS is phase_c's; folds in at the RYA-527 gold v3 re-freeze"
-  ratified_by: RYA-654
-
-- element: Co
-  between: [gold, tracker]
-  reason: "same as [gold, phase_c] -- the tracker is now GENERATED from phase_c, so it inherits the live status the frozen gold v2 snapshot predates"
-  ratified_by: RYA-654
-
-- element: N
-  between: [gold, phase_c]
-  reason: "gold v2 was frozen before RYA-556 wired the registered N I NLTE grid -- it still carries verdict NLTE-OWED while phase_c has cleared the NLTE debt to CURATION-OWED (A(N) 8.188). Frozen VALUES are gold's remit, live STATUS is phase_c's; folds in at the RYA-527 gold v3 re-freeze"
-  ratified_by: RYA-654
-
-- element: N
-  between: [gold, tracker]
-  reason: "same as [gold, phase_c] -- the tracker is now GENERATED from phase_c, so it inherits the live status the frozen gold v2 snapshot predates"
-  ratified_by: RYA-654
