@@ -58,13 +58,14 @@ All work on the Exoplanet Codex follows a formal development cycle. This applies
 
 ### 7. SESSION CLOSE — update the State Register
 **Owner: Mr. Code, ratified by Ryan (RYA-516)**
-- **`LEDGERS.md` (repo root) names the canonical read-set** — the five ledgers to read at session start, what each owns, and its update trigger (RYA-659). Start there.
+- **`LEDGERS.md` (repo root) names the canonical read-set** — the six ledgers to read at session start, what each owns, and its update trigger (RYA-659; `SEQUENCE.md` added as #6 by RYA-666). Start there.
 - `CODEX_STATE_REGISTER.md` (repo root) is the **mutable current-truth ledger** — read it FIRST for "what is the current state of X", instead of reconstructing state from the ticket journal.
 - Run `python scripts/check_register_freshness.py` before closing: it loud-fails when a state-changing surface is newer than the register (RYA-659). If it fails, the register is stale — bump it or cite why no state changed.
 - Before posting any end-of-session Linear comment on a run that **settled / regressed / superseded** a component, **signed off a gate**, or hit a **milestone**, update the register per `skills/codex-state-register/SKILL.md`:
   - MIRROR rows (stellar params, abundances) are **regenerated from source** — `python scripts/gen_state_register_targets.py --write` — never hand-typed.
   - NATIVE rows (verdicts, statuses, gate states) are edited by hand with the establishing ticket cited; bump `Version:` + add a Changelog line.
   - Verify merge/integration state against **git**, not memory, before writing SETTLED.
+- **`SEQUENCE.md` bumps alongside.** Every PR that touches the register must also add one line to `SEQUENCE.md` under a `## YYYY-MM-DD` heading. If the date section already exists, append to it. One line per landing, newest first, format `- **RYA-XXX** — one-sentence summary; what it unblocks`. Keep under ~140 chars. No CI guard on this — it is discipline, not machinery.
 - The end-of-session comment states which register rows changed (and flags any row a source contradicted).
 
 ---
