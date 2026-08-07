@@ -230,11 +230,45 @@ def test_load_allowed_divergences_on_a_missing_file_is_empty(tmp_path):
     assert load_allowed_divergences(tmp_path / "nope.yaml") == {}
 
 
-def test_the_committed_exceptions_file_loads_and_seeds_only_sr():
-    """Co must NOT be seeded — annotating an un-ratified contradiction is exactly the
-    laundering this guard exists to stop (RYA-632 §2)."""
+def test_the_committed_exceptions_file_seeds_only_the_ratified_axis():
+    """RYA-632 seeded Sr alone; RYA-654 ratified Co/N/K/Cu after re-cutting the GET-DATA
+    class on the EW-measurable-vs-synthesis-sourced axis. The two ABSENCES are the
+    load-bearing part of this test:
+
+      * Sc — measurement-not-trusted (its only value is the KP Sc II 4246 blue-edge HFS
+        single line, held LOW_CONFIDENCE by phase_c itself). Nothing to diverge from, so
+        annotating it would launder an un-done element. It stays red.
+      * P  — EW-measurable and merely stale, so RYA-654 FIXED the physics_regime row
+        instead. A fix must never leave an annotation behind.
+    """
     allowed = load_allowed_divergences()
-    assert set(allowed) == {"Sr"}
+    assert set(allowed) == {"Sr", "Co", "N", "K", "Cu"}
+    assert "Sc" not in allowed, "annotating Sc would launder an un-done element"
+    assert "P" not in allowed, "P was reconciled by fixing the yaml, not by annotating"
+    for element in ("Co", "N", "K", "Cu"):
+        # every pair that actually disagrees needs its own entry (RYA-632 rule)
+        assert frozenset(("physics_regime", "phase_c")) in allowed[element]
+        assert frozenset(("physics_regime", "tracker")) in allowed[element]
+
+
+def test_documented_owed_annotates_but_never_suppresses():
+    """The RYA-654 message mechanism must not become a second exceptions file.
+
+    _OWED_NOT_LAUNDERED explains a red; it may never remove one. If this ever inverts,
+    the laundering the guard exists to stop has been re-introduced through the door
+    marked 'documentation'.
+    """
+    from pipeline.ledger_consistency_guard import (_OWED_NOT_LAUNDERED,
+                                                   _annotate_documented)
+    assert "Sc" in _OWED_NOT_LAUNDERED
+    errs = check_element(
+        [ArtifactState("physics_regime", "Sc", verdict="GET_DATA"),
+         ArtifactState("phase_c", "Sc", verdict="CURATION_OWED", n_lines=1)],
+        load_allowed_divergences())
+    assert errs, "Sc must still FAIL — documenting a red does not clear it"
+    annotated = _annotate_documented(errs[0])
+    assert "DOCUMENTED-OWED, still failing" in annotated
+    assert errs[0] in annotated          # the original failure text is never replaced
 
 
 # ── live adapter ────────────────────────────────────────────────────────────────────
@@ -260,14 +294,30 @@ def test_live_gold_never_freezes_a_value_at_an_owed_tier():
 
 
 @pytest.mark.xfail(strict=True, reason=(
-    "PRE-DECLARED RED (RYA-632): the live ledger carries six un-ratified divergences — "
-    "Co (physics_regime GET-DATA vs the RYA-564 red-line synthesis PASS, held for a "
-    "deliberate pass), N/P/Sc (stale physics_regime rows), K/Cu (self-documented "
-    "GET-DATA holds awaiting the same ratification Sr got), plus the stale gold Ba "
-    "blank-cause and the stale tracker counts. Do NOT annotate around these; when they "
-    "are ratified this strict marker fires and must be removed deliberately."))
+    "PRE-DECLARED RED, now down to TWO documented-owed elements (was six un-ratified "
+    "divergences plus two count mismatches at RYA-632). RYA-654 cleared Co/N/K/Cu by "
+    "ratification, P by fixing the stale yaml row, and both count mismatches by "
+    "generating the tracker. What remains is red ON PURPOSE: Sc (measurement-not-trusted "
+    "— cleared by measuring Sc, never by an exceptions entry) and Ba (gold v2's phantom "
+    "blank cause; the correction is built as the RYA-653 candidate and lands at the "
+    "RYA-527 gold v3 re-freeze). When BOTH clear, this strict marker fires and must be "
+    "removed deliberately."))
 def test_live_ledger_is_consistent():
     assert run_check() == 0
+
+
+def test_the_live_reds_are_exactly_the_documented_ones():
+    """The stronger companion to the xfail above: not merely 'red', but red for EXACTLY
+    the two adjudicated reasons. A new contradiction cannot hide behind the known ones."""
+    from pipeline.ledger_consistency_guard import _OWED_NOT_LAUNDERED
+    states_by_element, tracker_counts, tallied_counts = collect_element_states()
+    allowed = load_allowed_divergences()
+    offenders = {e for e in states_by_element
+                 if check_element(states_by_element[e], allowed)}
+    assert offenders == set(_OWED_NOT_LAUNDERED) == {"Sc", "Ba"}
+    # the RYA-632 count mismatches (PASS 5 vs 6, NLTE_OWED 1 vs 0) are gone for good:
+    # the tracker is generated from the same phase_c the tally is taken over.
+    assert check_counts(tracker_counts, tallied_counts) == []
 
 
 def test_guard_is_runnable_as_a_module():
@@ -278,4 +328,7 @@ def test_guard_is_runnable_as_a_module():
     assert r.returncode == 1
     assert "RESULTS-LEDGER CONSISTENCY GUARD FAILED" in r.stderr
     assert "Traceback" not in r.stderr
-    assert "Co:" in r.stderr
+    assert "Sc:" in r.stderr
+    # a documented red still prints its explanation AND still counts as a failure
+    assert "DOCUMENTED-OWED, still failing" in r.stderr
+    assert "0 undocumented" in r.stderr

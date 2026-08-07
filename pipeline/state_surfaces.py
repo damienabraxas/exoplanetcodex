@@ -37,11 +37,12 @@ REGISTER = "CODEX_STATE_REGISTER.md"
 LEDGERS_INDEX = "LEDGERS.md"
 
 # Named handles for the surfaces a consumer resolves INDIVIDUALLY rather than by
-# sweeping the whole registry (RYA-632's guard needs exactly these three). They are
-# defined here and referenced in STATE_SURFACES below, so each path literal exists
-# in the repo exactly once -- renaming a surface is a one-line edit that cannot
-# leave a consumer reading a stale path.
+# sweeping the whole registry (RYA-632's guard needs three of them; RYA-654's tracker
+# generator needs all four). They are defined here and referenced in STATE_SURFACES
+# below, so each path literal exists in the repo exactly once -- renaming a surface is
+# a one-line edit that cannot leave a consumer reading a stale path.
 TRACKER = "data/audit/element_status_tracker.csv"
+TRACKER_EDITORIAL = "data/audit/element_status_tracker_editorial.yaml"
 PHASE_C_VERDICT_JSON = "data/audit/cno_synthesis/solar_phase_c_verdict.json"
 PHYSICS_REGIME = "config/physics_regime_rya400.yaml"
 
@@ -84,8 +85,16 @@ STATE_SURFACES: tuple[StateSurface, ...] = (
     ),
     StateSurface(
         TRACKER,
-        "per-element status / tier / verdict (RYA-594)",
+        "per-element status / tier / verdict (RYA-594; GENERATED since RYA-654)",
         True,
+    ),
+    StateSurface(
+        # The hand-authored half of the tracker (RYA-654). Not a LEDGERS.md read-set
+        # member -- you read the generated tracker, not its inputs -- but editing it
+        # changes what the Codex claims about an element, so it is a state surface.
+        TRACKER_EDITORIAL,
+        "analyst half of the tracker: classification / action / vintages (RYA-654)",
+        False,
     ),
     StateSurface(
         # A state surface but NOT a LEDGERS.md read-set member: it is consumed by

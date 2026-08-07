@@ -18,6 +18,27 @@
 # contradiction nobody has adjudicated. The guard is red on Co by design (RYA-564 left
 # the Co reconciliation to "a deliberate pass, not a drive-by") and on the five other
 # GET-DATA-vs-measured rows surfaced by the RYA-632 audit. Those stay red until ratified.
+#
+# ── RYA-654 ratification: the DISCRIMINATOR ─────────────────────────────────────────
+# For a physics_regime GET-DATA row that contradicts a measured verdict, the test is the
+# EW-measurable vs synthesis-sourced axis -- NOT documentation state:
+#
+#   synthesis-/atlas-sourced  -> the GET-DATA is STRUCTURAL: physics_regime's LOCKED
+#                                verifier is EW-POOL-based, so it is blind to a value
+#                                that was never going to come through the EW pool.
+#                                Both rows are correct. ANNOTATE HERE.
+#   EW-measurable, un-updated -> genuinely stale. FIX the physics_regime row; do not
+#                                annotate. (RYA-654 did exactly this to P.)
+#   measurement-not-trusted   -> there is nothing to diverge FROM. NO entry, NO fix.
+#                                (RYA-654: Sc. Its only value is the KP Sc II 4246
+#                                blue-edge HFS single line, which phase_c itself holds
+#                                LOW_CONFIDENCE "before any PASS". The ledger guard
+#                                stays RED on Sc on purpose -- see _OWED_NOT_LAUNDERED
+#                                in pipeline/ledger_consistency_guard.py.)
+#
+# An entry here never promotes an element. Co/N/K/Cu keep exactly the verdicts their
+# results artifacts already carry; all an entry says is which CHANNEL each artifact is
+# talking about.
 
 # ── Sr -- RYA-551 (ratified) ────────────────────────────────────────────────────────
 # physics_regime_rya400.yaml deliberately holds Sr at GET-DATA while the measurement
@@ -39,3 +60,138 @@
   between: [physics_regime, tracker]
   reason: "same ratified divergence as [physics_regime, phase_c] -- the tracker records Sr at an owed tier (CURATION-OWED) against the yaml's EW-leg GET-DATA"
   ratified_by: RYA-551
+
+# ════════════════════════════════════════════════════════════════════════════════════
+#  CLASS A -- EW-pool verifier is structurally blind (the Sr pattern), RATIFIED RYA-654
+# ════════════════════════════════════════════════════════════════════════════════════
+
+# ── Co -- RYA-654 (basis RYA-564) ──────────────────────────────────────────────────
+# 0 Co I lines in the EW pool and there never will be by that route: every usable Co I
+# line is hyperfine-split, so the EW path cannot reach Co (RYA-354/466). The measurement
+# is on the SYNTHESIS leg -- 5 clean RED Co I lines, HFS-resolved flux fit vs HARPS with
+# blends modelled, + per-line Gerber 1D-NLTE off the RYA-534-validated TS-native deck
+# -> A(Co) 4.965, phase_c PASS. The demoted blue-edge Co I 3845 (+1.188, SNR~24,
+# chi2r~3100) is diagnostic-only. physics_regime's GET-DATA is the EW-pool leg; it is
+# correct about that leg and blind to the one that measured Co.
+- element: Co
+  between: [physics_regime, phase_c]
+  reason: "synthesis-sourced (HFS-resolved red Co I flux fit, RYA-564); the EW pool holds 0 Co I lines and the EW path cannot reach an HFS-split element (RYA-354/466), so the EW-pool verifier is structurally blind to the measurement"
+  ratified_by: RYA-654
+
+- element: Co
+  between: [physics_regime, gold]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- gold v2 carries the Co row the yaml's EW-leg GET-DATA is about"
+  ratified_by: RYA-654
+
+- element: Co
+  between: [physics_regime, tracker]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- the generated tracker records Co at the phase_c verdict against the yaml's EW-leg GET-DATA"
+  ratified_by: RYA-654
+
+# ── N -- RYA-654 (basis RYA-460 + RYA-556) ─────────────────────────────────────────
+# 0 measured EW N I lines, and the physics_regime row states the structural reason in its
+# own hazards field: "no clean EW N I in VIS". The measurement is on the ATLAS leg --
+# Kitt Peak N I red 7468/8216/8683, 3 independent multiplets agreeing at spread 0.033,
+# with the registered N_Amarsi2020_PySME delta applied (RYA-556) -> A(N) 8.188. The
+# residual +0.36 vs Asplund is a gf/data-channel floor (RYA-161), not an NLTE debt.
+- element: N
+  between: [physics_regime, phase_c]
+  reason: "atlas/synthesis-sourced (KP N I red multiplets, RYA-460/556); the yaml's own hazard is 'no clean EW N I in VIS', so the EW-pool verifier is structurally blind to the measurement"
+  ratified_by: RYA-654
+
+- element: N
+  between: [physics_regime, gold]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- gold v2 carries the N row the yaml's EW-leg GET-DATA is about"
+  ratified_by: RYA-654
+
+- element: N
+  between: [physics_regime, tracker]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- the generated tracker records N at the phase_c verdict against the yaml's EW-leg GET-DATA"
+  ratified_by: RYA-654
+
+# ── K -- RYA-654 (basis RYA-460 + RYA-462) ─────────────────────────────────────────
+# The K row already self-documented this hold as "the Sr pattern (RYA-428)"; RYA-654
+# ratifies it as a ledger divergence. 0 K I lines in the EW pool -- 7665 sits IN the O2
+# telluric A-band and the EW-pool leg is RYA-380 telluric-blocked. The measurement is on
+# the ATLAS leg: KP K I 7699 (the clean line) + the registered K_Amarsi2020_PySME delta
+# -0.312 -> A(K) 5.099, phase_c PASS and FROZEN in gold v2. Lifting the telluric block
+# (RYA-380) is what retires this entry.
+- element: K
+  between: [physics_regime, phase_c]
+  reason: "atlas-sourced (KP K I 7699 + registered NLTE delta, RYA-460/462); 0 EW-pool K I lines because the resonance doublet sits in/next to the O2 A-band and the EW leg is RYA-380 telluric-blocked, so the EW-pool verifier is blind to a measurement that is PASS and frozen"
+  ratified_by: RYA-654
+
+- element: K
+  between: [physics_regime, gold]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- gold v2 FROZE A(K) 5.099 at confidence 'gold' against the yaml's EW-leg GET-DATA"
+  ratified_by: RYA-654
+
+- element: K
+  between: [physics_regime, tracker]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- the generated tracker records K PASS against the yaml's EW-leg GET-DATA"
+  ratified_by: RYA-654
+
+# ── Cu -- RYA-654 (basis RYA-466 + RYA-540) ────────────────────────────────────────
+# The EW pool holds 2 Cu I lines and both are junk (4767.42 at EW 197.8 mA = unphysical;
+# 4704.59 high-Rydberg fragile), while the 5 STANDARD lines are all hyperfine-split, so
+# the EW path cannot reach them (RYA-354). The standard-line measurement the yaml asks
+# for was delivered on the SYNTHESIS leg (RYA-466): Cu I 5105/5218/5220/5700/5782
+# HFS-resolved, gf adjudicated to GES = Kock & Richter -> A(Cu) 4.345.
+# This entry does NOT promote Cu: it stays CURATION-OWED in tracker, phase_c and gold on
+# a +0.165 gf zero-point residual (RYA-161), with the NLTE leg flagged (vendored RYA-402
+# b-factor +0.003, live .grd offline).
+- element: Cu
+  between: [physics_regime, phase_c]
+  reason: "synthesis-sourced (HFS-resolved Cu I 5-line fit, RYA-466); the EW pool's only 2 Cu I lines are unusable and the 5 standard lines are HFS-split so the EW path cannot reach them (RYA-354) -- the EW-pool verifier is structurally blind. Cu remains CURATION-OWED everywhere; this annotates a channel, not a promotion"
+  ratified_by: RYA-654
+
+- element: Cu
+  between: [physics_regime, gold]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- gold v2 carries the Cu row (n_lines=5, synthesis) the yaml's EW-leg GET-DATA is about"
+  ratified_by: RYA-654
+
+- element: Cu
+  between: [physics_regime, tracker]
+  reason: "same ratified divergence as [physics_regime, phase_c] -- the generated tracker records Cu at the phase_c verdict against the yaml's EW-leg GET-DATA"
+  ratified_by: RYA-654
+
+# ════════════════════════════════════════════════════════════════════════════════════
+#  CLASS B -- frozen gold vN lags the live channel, RATIFIED RYA-654
+#
+#  A DIFFERENT class from Class A, kept separate on purpose. Per the RYA-654 ratification
+#  "gold vN owns frozen reference VALUES (not status)" and the RYA-469/522 write-once
+#  freeze: gold's `verdict` column is a SNAPSHOT of status at freeze time, and the live
+#  status channel is phase_c. A measured-but-unfrozen change folds in at the next ratified
+#  re-freeze -- currently gold v3, RYA-527. Gold lagging is the freeze working, not drift.
+#
+#  These entries are therefore RETIRED BY the gold v3 re-freeze, not by any new physics.
+#  Only the two elements where the snapshot actually disagrees are listed; do not widen
+#  this to a blanket "gold never has to agree".
+#
+#  The corrected content already EXISTS and agrees with phase_c: RYA-653 built
+#  data/reference/solar/solar_abundances_corrected_candidate_rya653.csv, whose Co row is
+#  PASS n_lines=5 and whose N row is CURATION-OWED n_lines=3. It is a CANDIDATE, not the
+#  live reference -- data/reference/solar/CURRENT still reads v2 -- so both entries below
+#  stay live until that candidate is ratified and frozen as gold v3 (RYA-527). When CURRENT
+#  moves, DELETE these four entries; the guard will then be green on Co/N without them.
+# ════════════════════════════════════════════════════════════════════════════════════
+
+- element: Co
+  between: [gold, phase_c]
+  reason: "gold v2 was frozen before RYA-564 measured Co on the synthesis leg -- it carries the demoted blue-edge row (n_lines=1, 'blue-edge, SNR-limited - not trusted') at CURATION-OWED while phase_c is PASS 4.965. Frozen VALUES are gold's remit, live STATUS is phase_c's; folds in at the RYA-527 gold v3 re-freeze"
+  ratified_by: RYA-654
+
+- element: Co
+  between: [gold, tracker]
+  reason: "same as [gold, phase_c] -- the tracker is now GENERATED from phase_c, so it inherits the live status the frozen gold v2 snapshot predates"
+  ratified_by: RYA-654
+
+- element: N
+  between: [gold, phase_c]
+  reason: "gold v2 was frozen before RYA-556 wired the registered N I NLTE grid -- it still carries verdict NLTE-OWED while phase_c has cleared the NLTE debt to CURATION-OWED (A(N) 8.188). Frozen VALUES are gold's remit, live STATUS is phase_c's; folds in at the RYA-527 gold v3 re-freeze"
+  ratified_by: RYA-654
+
+- element: N
+  between: [gold, tracker]
+  reason: "same as [gold, phase_c] -- the tracker is now GENERATED from phase_c, so it inherits the live status the frozen gold v2 snapshot predates"
+  ratified_by: RYA-654
