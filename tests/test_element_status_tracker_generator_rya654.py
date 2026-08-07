@@ -81,20 +81,54 @@ def test_status_columns_match_phase_c_exactly():
             assert row["verdict_value"] == pytest.approx(rec["A_measured"], abs=5e-4)
 
 
-def test_gold_is_not_a_source_for_status():
-    """Co and N are the live proof: gold v2 still says CURATION-OWED / NLTE-OWED while
-    phase_c says PASS / CURATION-OWED. The tracker must follow phase_c. If this ever
-    flips, status has been re-sourced from a frozen snapshot — the exact defect that made
-    the hand-maintained tracker stale."""
-    from pipeline.data_namespace import read_solar_reference
-    gold, _version = read_solar_reference()
-    gold_verdict = {str(r["element"]).strip(): str(r["verdict"]).strip()
-                    for _, r in gold.iterrows()}
+def test_gold_is_not_a_source_for_status(tmp_path, monkeypatch):
+    """The tracker's status columns come from phase_c and NOT from the frozen gold.
+
+    This used to be proved by a LIVE divergence: gold v2 said Co CURATION-OWED / N
+    NLTE-OWED while phase_c said PASS / CURATION-OWED, so following phase_c was visible
+    in the committed numbers. RYA-665's gold v3 freeze HEALED that divergence — v3 is
+    built from the same phase_c channel, so gold and phase_c now agree on Co and N and
+    the old assertion could no longer distinguish the two sources. That is a consumed
+    fixture, not a fixed bug: re-pinning it to whichever elements happen to diverge today
+    would just rot again at the next freeze.
+
+    So prove the independence STRUCTURALLY instead — perturb the gold reference into
+    something no honest generator could reproduce, and require the regenerated tracker to
+    come out byte-identical. This holds whether or not a live divergence exists.
+    """
+    from pipeline import data_namespace as ns
+
+    committed = TRACKER.read_text(encoding="utf-8")
+    assert G.generate() == committed, "precondition: tracker is regenerable as committed"
+
+    gold, _version = ns.read_solar_reference()
+    poisoned = gold.copy()
+    # every status cell the generator could possibly be tempted to read, made absurd
+    poisoned["verdict"] = "POISONED"
+    poisoned["n_lines"] = -1
+    poisoned["confidence"] = "POISONED"
+
+    monkeypatch.setattr(ns, "SOLAR_REFERENCE_DIR", tmp_path)
+    monkeypatch.setattr(ns, "CURRENT_POINTER", tmp_path / "CURRENT")
+    monkeypatch.setattr(ns, "HASH_MANIFEST", tmp_path / "hash_manifest.json")
+    ns.write_reference_version("v1", poisoned, {"changelog": "poisoned copy for test"})
+    ns.set_current("v1")
+    assert (ns.read_solar_reference()[0]["verdict"] == "POISONED").all()
+
+    assert G.generate() == committed, (
+        "the tracker changed when only the GOLD reference was perturbed — status has been "
+        "re-sourced from the frozen snapshot (RYA-654 §1 forbids this)")
+
+
+def test_co_and_n_carry_the_live_verdict():
+    """Co and N by name — they are the two the v2-era gold got wrong, and the pair gold v3
+    (RYA-665) was frozen to align. `test_status_columns_match_phase_c_exactly` proves the
+    general rule; this pins the two that motivated it so a regression names itself."""
     df = _read_tracker()
     tracker_verdict = {r["element"]: r["verdict"]
                        for _, r in df[df["tier"] != "diagnostic"].iterrows()}
-    assert gold_verdict["Co"] == "CURATION-OWED" and tracker_verdict["Co"] == "PASS"
-    assert gold_verdict["N"] == "NLTE-OWED" and tracker_verdict["N"] == "CURATION-OWED"
+    assert tracker_verdict["Co"] == "PASS"
+    assert tracker_verdict["N"] == "CURATION-OWED"
 
 
 def test_tier_comes_from_the_rya522_ratified_tiers():
