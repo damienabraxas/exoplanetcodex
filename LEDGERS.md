@@ -11,7 +11,7 @@ noticing. It is now a file.
 | # | Ledger | Path | Source-of-truth for | Update trigger | Generated? |
 |---|--------|------|---------------------|----------------|-----------|
 | 1 | State Register | [`CODEX_STATE_REGISTER.md`](CODEX_STATE_REGISTER.md) | live state / verdicts / gates / grid + model + instrument selections / scope corrections | any gate sign-off, verdict change, milestone, or validated "we now know X" | **NATIVE** (hand) + MIRROR blocks (`scripts/gen_state_register_targets.py`) |
-| 2 | Element status tracker | [`data/audit/element_status_tracker.csv`](data/audit/element_status_tracker.csv) | per-element status / tier / verdict / owed-work, 27 rows | any ticket changing an element's status | NATIVE today; **GENERATED from phase_c is RYA-654** (not yet built) |
+| 2 | Element status tracker | [`data/audit/element_status_tracker.csv`](data/audit/element_status_tracker.csv) | per-element status / tier / verdict / owed-work, 27 rows | any ticket changing an element's status | **GENERATED** (RYA-654) from phase_c + [`element_status_tracker_editorial.yaml`](data/audit/element_status_tracker_editorial.yaml) — `scripts/generate_element_status_tracker_rya654.py`; **do not hand-edit** |
 | 3 | System catalog | [`data/catalog/system_catalog.csv`](data/catalog/system_catalog.csv) | star identity + pipeline lifecycle stage (13 systems) | a star advances a lifecycle stage | **NATIVE** — index-by-pointer; physics lives in `config/stars.yaml` |
 | 4 | Instrument catalog (+ modes) | [`data/catalog/instrument_catalog.csv`](data/catalog/instrument_catalog.csv), [`instrument_modes.csv`](data/catalog/instrument_modes.csv) | instrument / mode capability + coverage (25 instruments, 11 modes) | a new instrument or mode use is verified | **NATIVE** |
 | 5 | Holdings manifest registry | [`data/catalog/holdings_manifest_registry.csv`](data/catalog/holdings_manifest_registry.csv) | what data we already hold (anti-reinvent) | data acquired or verified for a system | **NATIVE** |
@@ -42,6 +42,15 @@ folds in at a ratified re-freeze (currently RYA-527, gold v3).
   "the tracker is updated on every merge" is enforced without a merge hook.
   Documented+ratified divergences live in `data/audit/known_verdict_divergences.yaml`;
   an entry without a `ratified_by` ticket is itself an error.
+- **RYA-654** — tracker generator + `--check`: the committed tracker must equal a fresh
+  regeneration, so hand-editing it is a build break. Status columns come from the phase_c
+  verdict channel (ratified canonical); the analyst columns come from the editorial
+  sidecar. The generator refuses to run off an uncommitted verdict artifact.
+
+```
+python scripts/generate_element_status_tracker_rya654.py --check
+python -m pipeline.ledger_consistency_guard
+```
 - **RYA-659** — register-freshness guard: `scripts/check_register_freshness.py`
   loud-fails when a state surface is newer than the State Register, or when a PR
   changes state without touching it.

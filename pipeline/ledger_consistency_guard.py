@@ -219,17 +219,15 @@ TRACKER_PATH = REPO_ROOT / state_surfaces.TRACKER
 PHASE_C_PATH = REPO_ROOT / state_surfaces.PHASE_C_VERDICT_JSON
 PHYSICS_REGIME_PATH = REPO_ROOT / state_surfaces.PHYSICS_REGIME
 
-# The tracker's `tier` column mixes the RYA-522 tier vocabulary with a verdict word.
-# Mapping is the one already documented in element_status_tracker_drift.md section B
-# ("the audit says gold PASS / gf_floor / owed, the verdict says PASS / CURATION-OWED").
-TRACKER_TIER_TO_VERDICT = {
-    "gold pass": "PASS",
-    "nlte-owed": "NLTE_OWED",
-    "owed": "CURATION_OWED",
-    "gf_floor": "CURATION_OWED",
-    "upper_limit": "CURATION_OWED",
-    "diagnostic": None,      # the Fe II arbiter row asserts no verdict
-}
+# RYA-654 retired the tier->verdict inference. The tracker is now GENERATED and carries
+# an explicit `verdict` column sourced from phase_c, so the guard reads the verdict it is
+# checking instead of deducing it from a `tier` column that mixed two vocabularies
+# ("gold PASS" beside "gf_floor"). `tier` now carries only the RYA-522 freeze tiers and is
+# still read, for C2 (an owed tier may freeze no value).
+#
+# The Fe II arbiter row asserts no verdict (blank) and is skipped: phase_c carries a
+# single Fe row annotated "62 Fe I + 3 Fe II", so keeping the diagnostic row in the tally
+# would compare 27 tracker rows against 26 verdicts.
 
 # physics_regime verdicts are ROUTING states (LOCKED | GET-GRID | GET-3D | GET-DATA |
 # HARD-carry-forward | LTE-OK), not measurement verdicts. Only GET-DATA makes a claim
@@ -262,22 +260,28 @@ def _float_or_none(v) -> Optional[float]:
 
 
 def _read_tracker(path: Path = TRACKER_PATH):
-    """Tracker rows -> (states, counts). Fe is carried at a FINER grain than the verdict
-    (separate Fe I and Fe II rows; the verdict has one Fe row annotated '62 Fe I + 3 Fe II'
-    -- drift log section B, 'structural mismatch'). The Fe II diagnostic row is dropped so
-    the two tallies compare like with like; it asserts no verdict anyway."""
+    """Tracker rows -> (states, counts).
+
+    Fe is carried at a FINER grain than the verdict (separate Fe I and Fe II rows; the
+    verdict has one Fe row annotated '62 Fe I + 3 Fe II' -- drift log section B,
+    'structural mismatch'). The Fe II arbiter row asserts no verdict, so it is dropped
+    and the two tallies compare like with like.
+    """
     import pandas as pd
     if not path.exists():
         raise FileNotFoundError(f"element status tracker not found at {path}")
     df = pd.read_csv(path, comment="#")
+    if "verdict" not in df.columns:
+        raise ValueError(
+            f"{path.name} has no `verdict` column. Since RYA-654 the tracker is GENERATED "
+            f"and carries the phase_c verdict explicitly -- regenerate it with "
+            f"scripts/generate_element_status_tracker_rya654.py rather than reviving the "
+            f"tier->verdict inference this replaced.")
     states, counts = [], {}
     for _, r in df.iterrows():
-        el, tier = str(r["element"]).strip(), str(r["tier"]).strip()
-        key = tier.lower()
-        if key not in TRACKER_TIER_TO_VERDICT:
-            raise ValueError(f"tracker row {el!r} carries unmapped tier {tier!r} -- extend "
-                             f"TRACKER_TIER_TO_VERDICT deliberately, do not guess")
-        verdict = TRACKER_TIER_TO_VERDICT[key]
+        el = str(r["element"]).strip()
+        raw = r["verdict"]
+        verdict = _normalize_verdict(_str_or_none(raw))
         if verdict is None:      # Fe II arbiter/diagnostic row
             continue
         counts[verdict] = counts.get(verdict, 0) + 1
@@ -287,7 +291,7 @@ def _read_tracker(path: Path = TRACKER_PATH):
         # the 11 tracker rows that legitimately record a value at an owed tier.
         states.append(ArtifactState(
             artifact="tracker", element=el, verdict=verdict,
-            tier=key.replace("gold pass", "gold"),
+            tier=_str_or_none(r.get("tier")),
         ))
     return states, counts
 
@@ -387,6 +391,47 @@ def collect_element_states(repo_root: Path = REPO_ROOT):
     return states_by_element, tracker_counts, tallied_counts
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+#  RYA-654 -- DOCUMENTED-OWED reds.
+#
+#  These elements are red ON PURPOSE and the entry below explains why. Read the
+#  mechanism carefully: it ANNOTATES the error message and does NOT suppress the
+#  error. The exit code is unchanged, the failure still prints, and nothing is
+#  moved into known_verdict_divergences.yaml.
+#
+#  That asymmetry is the whole point. The ratified RYA-654 rule is that an
+#  element whose measurement is not yet trusted has NOTHING to diverge from, so
+#  annotating it as a ratified divergence would launder an un-done element into
+#  a fake reconciliation. But a red with no explanation rots into "the guard is
+#  just always red", which is how a real contradiction hides. So: say why, stay
+#  red. If you ever find yourself wanting to make this suppress, the honest move
+#  is to finish the measurement instead.
+# ─────────────────────────────────────────────────────────────────────────────
+_OWED_NOT_LAUNDERED = {
+    "Sc": ("RYA-654 measurement-not-trusted: the only Sc value anywhere is the RYA-460 "
+           "Kitt Peak Sc II 4246 blue-edge HFS single line (3.203), which phase_c itself "
+           "holds LOW_CONFIDENCE -- 'HFS-resolved synthesis + a cleaner Sc II line owed "
+           "before any PASS'. physics_regime's GET-DATA is CORRECT; there is nothing to "
+           "reconcile to. Cleared by measuring Sc, NOT by an exceptions entry."),
+    "Ba": ("RYA-653 (owner) -- gold v2's Ba row carries n_lines=0 + the phantom cause 'no "
+           "independent-gf line survives the graded cull' against the measured Ba II 5853 "
+           "synthesis (2.410, RYA-559). The correction is BUILT as "
+           "data/reference/solar/solar_abundances_corrected_candidate_rya653.csv (Ba "
+           "n_lines=1, honest note) but is a CANDIDATE: data/reference/solar/CURRENT still "
+           "reads v2. Cleared by the RYA-527 gold v3 re-freeze, NOT by this guard."),
+}
+
+
+def _annotate_documented(message: str) -> str:
+    """Append the documented-owed explanation to an error line, if one applies.
+
+    Matches on the leading 'El: ' the check_* messages already emit.
+    """
+    element = message.split(":", 1)[0].strip()
+    note = _OWED_NOT_LAUNDERED.get(element)
+    return f"{message}\n      DOCUMENTED-OWED, still failing: {note}" if note else message
+
+
 def run_check(repo_root: Path = REPO_ROOT) -> int:
     allowed = load_allowed_divergences()
     states_by_element, tracker_counts, tallied_counts = collect_element_states(repo_root)
@@ -395,9 +440,14 @@ def run_check(repo_root: Path = REPO_ROOT) -> int:
         errors.extend(check_element(states_by_element[element], allowed))
     errors.extend(check_counts(tracker_counts, tallied_counts))
     if errors:
+        undocumented = [e for e in errors
+                        if e.split(":", 1)[0].strip() not in _OWED_NOT_LAUNDERED]
         print("RESULTS-LEDGER CONSISTENCY GUARD FAILED:", file=sys.stderr)
         for e in errors:
-            print(f"  - {e}", file=sys.stderr)
+            print(f"  - {_annotate_documented(e)}", file=sys.stderr)
+        print(f"\n  {len(errors)} failure(s): {len(errors) - len(undocumented)} documented-owed "
+              f"(RYA-654/653 -- explained above, deliberately NOT annotated away), "
+              f"{len(undocumented)} undocumented.", file=sys.stderr)
         return 1
     n = len(states_by_element)
     print(f"Results-ledger consistency guard OK: {n} elements, counts {tracker_counts}")
