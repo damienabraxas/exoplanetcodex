@@ -22,6 +22,15 @@
 #     value, so there is nothing owed. A row here would misread as unfinished work.
 #   * Zr II on BOTH engines and C I / O I / Mg I / Cu I / Mn I / Sr II on Engine A —
 #     `DELIBERATELY_SKIPPED` in the RYA-673 audit. A ratified exclusion is not a debt.
+#   * P I / Sc II / Eu II on Engine B — `LTE-only-by-design` in the RYA-526 coverage
+#     registry (P and Sc governed by RYA-460, Eu by RYA-458). No Engine-B atom is
+#     SUPPOSED to exist for these; the absence is the ratified answer. RYA-673's audit
+#     reported them as NO_MODEL_ATOM because it reads the orchestrator's coverage
+#     functions and never consulted the RYA-526 registry, and this file consumed that
+#     label — three TBD acquisition rows for elements that must never have an atom.
+#     Fixed in RYA-692; the audit now emits LTE_ONLY_BY_DESIGN. Their OTHER debts
+#     (P gf-scale-floor, Sc single-line-blue-edge, Eu noise-floor-limited) are real
+#     and remain.
 #   * Si / Ni / Na — owed, but no landed artifact or filed ticket names a specific
 #     refinement for them today. Blank is the honest answer; inventing one is not.
 #
@@ -77,9 +86,6 @@ element,ion,situation,resolving_ticket,ticket_state,provenance_ticket,phase,shor
 Ba,II,engine-B-unwired,RYA-680,Backlog,RYA-673,Solar Beta,Ba engine-B harness,"RYA-673 wiring audit: engine_b_reason=NO_HARNESS_INVOCATION, blocks_beta=True. The RYA-559/581 Ba II 5853 synthesis route exists but is never called from _dedicated_engine_B(), so Ba produces NO two-engine record and the ratified STRICT gate 3 is UNEVALUABLE — no measurement can move it. Pure code work."
 Co,I,engine-B-unwired,RYA-680,Backlog,RYA-673,Solar Beta,Co engine-B harness,"RYA-673 wiring audit: engine_b_reason=NO_HARNESS_INVOCATION, blocks_beta=True. The RYA-564 red-line HFS synthesis route is not invoked from _dedicated_engine_B(). Co reads PASS at 4.965 on ONE engine with zero independent confirmation. Pure code work, same fix as Ba II."
 N,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,N engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM, blocks_beta=True. The Amarsi-2020 N I grid (RYA-526/556) feeds Engine A only; the TS-native Gerber deck carries no N I atom. Needs an atom or a grid, not code — no ticket filed."
-Sc,II,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Sc engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM, blocks_beta=True. No ticket filed. Distinct from Sc's line-quality debt on the row below."
-Eu,II,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Eu engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM, blocks_beta=True. No ticket filed. Eu also carries the noise-floor debt on the row below; they are different fixes and neither substitutes for the other."
-P,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,P engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL). blocks_beta=False. RYA-654 separately recorded 'no P I NLTE grid' as one of P's two remaining blockers, so this is the same gap seen from both sides. No ticket filed."
 Al,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Al engine-B model atom,RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL). blocks_beta=False. Al is owed-HELD at 7.406 in gold v1 on ONE survivor. No ticket filed.
 K,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,K engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL — the resonance doublet sits in the O2 A-band, RYA-380-blocked). blocks_beta=False. READ THIS ROW CAREFULLY: K is gold PASS at 5.099 via Kitt Peak 7699 synthesis + NLTE. The debt is the absent SECOND ENGINE, not the measurement. No ticket filed."
 Y,II,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Y engine-B model atom,RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL). blocks_beta=False. No ticket filed.
