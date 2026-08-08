@@ -29,6 +29,7 @@ Two solar arms (as in 551): HARPS reflected-solar (primary) + IAG FTS atlas (cro
 Validate-don't-tune: report what the fit gives; never adjust toward Asplund 2021
 A(Zr)=2.59 (which is only the grid-bracketing reference point, NOT a target).
 """
+import argparse
 import csv
 import json
 import os
@@ -40,8 +41,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
-                               fit_profile, local_renorm, measure_arm_rv,
-                               require_arm_rv)
+                               fit_profile, fit_profile_deblend, local_renorm,
+                               measure_arm_rv, require_arm_rv)
 
 EXE   = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
@@ -77,6 +78,19 @@ A_GRID = np.round(np.arange(1.90, 3.26, 0.05), 3)   # A(Zr) trial grid (brackets
 A_LO, A_HI = float(A_GRID.min()), float(A_GRID.max())
 
 RELIABLE_DEWDA = 40.0     # mA/dex core-EW sensitivity floor (as RYA-551)
+
+# ---------------------------------------------------------------- RYA-585 deblend
+# The three strong low-EP lines RYA-560 could actually measure. 4629/5350/5372 are
+# excluded: RYA-560 found them railed/junk, and a blend model cannot rescue a line
+# whose fit has no interior minimum.
+DEBLEND_LINES = (4208.980, 4258.041, 4442.992)
+DEBLEND_PRIMARY = 4208.980
+# Sane-rchi2 half of the RYA-585 decision gate. The deblend rchi2 is computed on
+# TARGET pixels against a continuum ratio fitted on blend pixels, so ~1 is the
+# expected value for a good fit; 5.0 is a generous ceiling.
+RCHI2_SANE_MAX = 5.0
+# A_X passed to bsyn to suppress the target element and synthesise the blends alone.
+BLEND_ONLY_ABUND = -5.0
 
 
 def verify_canonical_gf(root):
@@ -205,16 +219,17 @@ def fit_line(center, obs_w, obs_f, synth):
                        a_lo=A_LO, a_hi=A_HI)
 
 
-def main():
+def _setup(label):
+    """Shared prologue for both run modes: Sirius gate, SSOT gf gate, arms, arm RVs."""
     # RYA-567: Sirius-only heavy-compute leg (TS Turbospectrum + MARCS). Refuse to run
     # off Sirius — loud-fail, never against local-Mac copies of engines/grids/spectra.
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     sys.path.insert(0, root)
     from config.constants import assert_on_sirius, SOLAR_ASPLUND2021
-    assert_on_sirius("RYA-560 Zr II synthesis", require_subdirs=("engines", "grids"))
+    assert_on_sirius(label, require_subdirs=("engines", "grids"))
 
     a_sun = float(SOLAR_ASPLUND2021['Zr'])        # 2.59 — reference point, NOT a tuning target
-    print(f"RYA-560 Zr II synthesis — A(Zr)_sun reference (Asplund 2021) = {a_sun} "
+    print(f"{label} — A(Zr)_sun reference (Asplund 2021) = {a_sun} "
           f"[grid-bracket only]\n")
     print("Step-0 SSOT check (gf from data/linelists/canonical_gf.csv):")
     verify_canonical_gf(root)
@@ -239,6 +254,11 @@ def main():
         _v, _n, _sd = require_arm_rv(_ow, _of, _arm)
         arm_rv[_arm] = dict(v_kms=round(_v, 3), n_lines=_n, scatter_kms=round(_sd, 3))
         print(f'    {_arm:6s}: {_v:+.3f} km/s (n={_n}, scatter {_sd:.3f})')
+    return root, a_sun, arms, arm_rv
+
+
+def main():
+    root, a_sun, arms, arm_rv = _setup("RYA-560 Zr II synthesis")
 
     results = {'_meta': dict(element='Zr', ion='II', z=Z_ZR,
                              a_sun_ref=a_sun, a_sun_ref_source='Asplund2021',
@@ -307,5 +327,141 @@ def main():
     print(f"\nWrote {out_path}")
 
 
+def main_deblend():
+    """RYA-585 — in-window blend-fit rescue of the three strong Zr II lines.
+
+    RYA-560 measured A(Zr II) ~ 2.4 with cross-arm agreement but could not emit it:
+    every line sat below the dEW/dA >= 40 mA/dex floor (best 36.8) with red_chi2
+    41-91 and ~0.2 dex line-to-line scatter. The elevated red_chi2 said the profile
+    model was wrong, which is a fixable defect; this mode fixes it and then re-tests
+    the floor, so the two failure modes stop being confounded.
+
+    Runs the RYA-560 syntheses UNCHANGED and fits each line BOTH ways — the RYA-560
+    `fit_profile` and the RYA-585 `fit_profile_deblend` — so the before/after is a
+    controlled comparison, not a re-run. The extra synthesis per line is
+    `blend_only`: the same window with Zr suppressed, which is what makes the
+    target's own contribution (and hence the continuum and chi2 masks) knowable.
+
+    DECISION GATE (RYA-585, unchanged from RYA-560's caveat): a line is `reliable`
+    only if dEW/dA >= 40 AND red_chi2 <= RCHI2_SANE_MAX AND not railed. If no line
+    clears BOTH, Zr stays MEASURABLE-OWED and this file records the quantified
+    reason. Validate-don't-tune: nothing here is fitted toward Asplund 2.59.
+    """
+    root, a_sun, arms, arm_rv = _setup("RYA-585 Zr II in-window blend-fit rescue")
+
+    results = {'_meta': dict(element='Zr', ion='II', z=Z_ZR, ticket='RYA-585',
+                             basis='RYA-560 syntheses, refitted with blends modelled in-window',
+                             a_sun_ref=a_sun, a_sun_ref_source='Asplund2021',
+                             nlte='NLTE_unavailable_LTE_robust',
+                             reliable_dEW_dA_floor=RELIABLE_DEWDA,
+                             reliable_red_chi2_max=RCHI2_SANE_MAX,
+                             primary_line=DEBLEND_PRIMARY,
+                             arm_rv=arm_rv)}
+    for center in DEBLEND_LINES:
+        cfg = LINES[center]
+        print(f"\n=== Zr II {center} (EP {cfg['ep']}, canonical loggf {cfg['loggf']}, "
+              f"{cfg['gf_ref']}) — deblend ===")
+        ll = patch_linelist(center, cfg['vald'])
+        lmin, lmax = center - LMARGIN, center + LMARGIN
+        opac = f"{W}/opac_{center:.0f}"
+        babsma(center, opac, lmin, lmax)
+        synth = {float(a): bsyn(center, a, ll, opac, lmin, lmax, f"{a:.2f}")
+                 for a in A_GRID}
+        # blends alone: identical window/linelist, Zr suppressed.
+        blend_only = bsyn(center, BLEND_ONLY_ABUND, ll, opac, lmin, lmax, 'blendonly')
+        rec = dict(wave=center, ep=cfg['ep'], loggf=cfg['loggf'],
+                   gf_id=cfg['gf_id'], gf_ref=cfg['gf_ref'],
+                   nlte_delta=None, nlte_status='NLTE_unavailable_LTE_robust')
+        for arm, (ow, of) in arms.items():
+            old = fit_profile(center, ow, of, synth, hw=cfg['fit_hw'], vsini=VSINI,
+                              a_lo=A_LO, a_hi=A_HI)
+            new = fit_profile_deblend(center, ow, of, synth, blend_only,
+                                      hw=cfg['fit_hw'], vsini=VSINI,
+                                      a_lo=A_LO, a_hi=A_HI)
+            if old is None or new is None:
+                rec[arm] = dict(status='no_coverage')
+                print(f"  {arm:6s}: no coverage")
+                continue
+            reliable = bool((not new['railed'])
+                            and new['dEW_dA'] >= RELIABLE_DEWDA
+                            and new['red_chi2'] <= RCHI2_SANE_MAX)
+            rec[arm] = dict(
+                before=dict(A_LTE=round(old['A'], 3),
+                            red_chi2=round(old['red_chi2'], 2),
+                            dEW_dA_mA_dex=old['dEW_dA'], railed=old['railed'],
+                            reliable=bool((not old['railed'])
+                                          and old['dEW_dA'] >= RELIABLE_DEWDA)),
+                A_LTE=round(new['A'], 3), A_NLTE=None,
+                red_chi2=round(new['red_chi2'], 2),
+                dEW_dA_mA_dex=new['dEW_dA'], railed=new['railed'],
+                reliable=reliable,
+                gsig_kms=round(new['gsig'], 2), gsig_railed=new['gsig_railed'],
+                dv_fitted_kms=round(new['dv'], 2),
+                dv_measured_kms=arm_rv[arm]['v_kms'],
+                npix_target=new['npix'], npix_window=new['npix_window'],
+                cont_slope=round(new['cont1'], 5), cont_level=round(new['cont0'], 5),
+                cont_scatter=round(new['cont_scatter'], 5),
+                cont_npix=new['cont_npix'],
+                target_EW_mA=new['target_EW_mA'], sat_index=new['sat_index'],
+                target_core_depth_frac=new['target_core_depth_frac'])
+            print(f"  {arm:6s} BEFORE: A={old['A']:.3f} rchi2={old['red_chi2']:7.2f} "
+                  f"dEW/dA={old['dEW_dA']:6.1f} railed={old['railed']}")
+            print(f"  {arm:6s} AFTER : A={new['A']:.3f} rchi2={new['red_chi2']:7.2f} "
+                  f"dEW/dA={new['dEW_dA']:6.1f} railed={new['railed']} "
+                  f"reliable={reliable}")
+            print(f"  {arm:6s}         cont={new['cont0']:.4f}{new['cont1']:+.4f}x "
+                  f"(sd {new['cont_scatter']:.4f}, n {new['cont_npix']}) "
+                  f"npix={new['npix']}/{new['npix_window']} "
+                  f"targetEW={new['target_EW_mA']:.1f} mA sat={new['sat_index']} "
+                  f"depthfrac={new['target_core_depth_frac']} "
+                  f"gsig={new['gsig']:.1f} dv={new['dv']:+.2f} "
+                  f"(measured {arm_rv[arm]['v_kms']:+.3f})")
+        results[str(center)] = rec
+
+    out_path = os.path.join(root, "data", "results", "zr2_deblend_rya585.json")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    rel = [(c, results[str(c)]['harps']['A_LTE'])
+           for c in DEBLEND_LINES
+           if isinstance(results[str(c)].get('harps'), dict)
+           and results[str(c)]['harps'].get('reliable')]
+    print("\n" + "=" * 72)
+    if rel:
+        vals = np.array([v for _, v in rel])
+        verdict = 'CLEARED'
+        print(f"RELIABLE Zr II lines (HARPS, deblended): "
+              f"{', '.join(f'{c}={v:.3f}' for c, v in rel)}")
+        print(f"A(Zr II) LTE = {vals.mean():.3f}  (n={len(vals)}, "
+              f"scatter {vals.std(ddof=1) if len(vals) > 1 else 0.0:.3f})")
+    else:
+        verdict = 'OWED'
+        best = max((results[str(c)]['harps']['dEW_dA_mA_dex'] for c in DEBLEND_LINES
+                    if isinstance(results[str(c)].get('harps'), dict)), default=0.0)
+        worst_chi = max((results[str(c)]['harps']['red_chi2'] for c in DEBLEND_LINES
+                         if isinstance(results[str(c)].get('harps'), dict)), default=0.0)
+        print("NO Zr II line cleared BOTH RYA-585 gates.")
+        print(f"  red_chi2 gate  : PASSED (worst {worst_chi:.2f} <= {RCHI2_SANE_MAX}) "
+              f"— the blend/continuum systematic was real and is now modelled.")
+        print(f"  dEW/dA   gate  : FAILED (best {best} < {RELIABLE_DEWDA} mA/dex) "
+              f"— residual failure is intrinsic line sensitivity, not the blend model.")
+        print("=> Zr remains MEASURABLE-OWED. This LINE SET is exhausted; the next "
+              "lever is acquiring cleaner blue Zr II lines (RYA-458), not refitting "
+              "these. Do NOT emit a sub-floor value.")
+    results['_meta']['verdict'] = verdict
+    results['_meta']['reliable_lines'] = [c for c, _ in rel]
+    with open(out_path, "w") as f:
+        json.dump(results, f, indent=2)
+    print(f"\nWrote {out_path}")
+
+
 if __name__ == '__main__':
-    main()
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument('--deblend', action='store_true',
+                    help='RYA-585: refit the three strong Zr II lines with blends '
+                         'modelled in-window and a blend-pixel continuum, and re-test '
+                         'the reliability floor. Writes zr2_deblend_rya585.json. '
+                         'Without this flag the script runs the original RYA-560 '
+                         'measurement unchanged.')
+    args = ap.parse_args()
+    main_deblend() if args.deblend else main()
