@@ -40,7 +40,8 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
+from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402,F401
+                               RELIABLE_DEWDA, assess_reliability, broaden,
                                fit_profile, fit_profile_deblend, local_renorm,
                                measure_arm_rv, require_arm_rv)
 
@@ -77,18 +78,12 @@ LMARGIN = 8.0                                       # synth half-window (A) for 
 A_GRID = np.round(np.arange(1.90, 3.26, 0.05), 3)   # A(Zr) trial grid (brackets Asplund 2.59)
 A_LO, A_HI = float(A_GRID.min()), float(A_GRID.max())
 
-RELIABLE_DEWDA = 40.0     # mA/dex core-EW sensitivity floor (as RYA-551)
-
 # ---------------------------------------------------------------- RYA-585 deblend
 # The three strong low-EP lines RYA-560 could actually measure. 4629/5350/5372 are
 # excluded: RYA-560 found them railed/junk, and a blend model cannot rescue a line
 # whose fit has no interior minimum.
 DEBLEND_LINES = (4208.980, 4258.041, 4442.992)
 DEBLEND_PRIMARY = 4208.980
-# Sane-rchi2 half of the RYA-585 decision gate. The deblend rchi2 is computed on
-# TARGET pixels against a continuum ratio fitted on blend pixels, so ~1 is the
-# expected value for a good fit; 5.0 is a generous ceiling.
-RCHI2_SANE_MAX = 5.0
 # A_X passed to bsyn to suppress the target element and synthesise the blends alone.
 BLEND_ONLY_ABUND = -5.0
 
@@ -266,7 +261,9 @@ def main():
                              nlte_rationale=('Zr II is the majority ion in the solar '
                                              'photosphere -> LTE-robust (registry 279/458, '
                                              'Sr II/V II precedent); no departure grid exists'),
-                             reliable_dEW_dA_floor=RELIABLE_DEWDA)}
+                             reliable_dEW_dA_floor=RELIABLE_DEWDA,
+                             red_chi2_review_trigger=RCHI2_REVIEW,
+                             red_chi2_gates_reliable=False)}
     for center, cfg in LINES.items():
         print(f"\n=== Zr II {center} (EP {cfg['ep']}, canonical loggf {cfg['loggf']}, "
               f"{cfg['gf_ref']}) ===")
@@ -288,7 +285,7 @@ def main():
                 print(f"  {arm:6s}: no coverage")
                 continue
             a_lte = fit['A']
-            reliable = bool((not fit['railed']) and fit['dEW_dA'] >= RELIABLE_DEWDA)
+            rel_f = assess_reliability(fit)
             rec[arm] = dict(dv_fitted_kms=round(fit['dv'], 2),
                             dv_measured_kms=arm_rv[arm]['v_kms'],
                             gsig_railed=fit['gsig_railed'],
@@ -296,7 +293,7 @@ def main():
                             gsig_kms=round(fit['gsig'], 2),
                             red_chi2=round(fit['red_chi2'], 2), npix=fit['npix'],
                             dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'],
-                            reliable=reliable)
+                            **rel_f)
             print(f"  {arm:6s}: A_LTE={a_lte:.3f}  (LTE-robust, no NLTE; "
                   f"gsig={fit['gsig']:.1f} km/s, rchi2={fit['red_chi2']:.1f}, "
                   f"dEW/dA={fit['dEW_dA']} mA/dex, railed={fit['railed']}, reliable={reliable})")
@@ -342,9 +339,13 @@ def main_deblend():
     `blend_only`: the same window with Zr suppressed, which is what makes the
     target's own contribution (and hence the continuum and chi2 masks) knowable.
 
-    DECISION GATE (RYA-585, unchanged from RYA-560's caveat): a line is `reliable`
-    only if dEW/dA >= 40 AND red_chi2 <= RCHI2_SANE_MAX AND not railed. If no line
-    clears BOTH, Zr stays MEASURABLE-OWED and this file records the quantified
+    DECISION GATE (RYA-679 ratified rule, via `assess_reliability`): a line is
+    `reliable` only if dEW/dA >= RELIABLE_DEWDA AND not railed. red_chi2 is REPORTED
+    and review-flagged above RCHI2_REVIEW but does NOT gate — RYA-679 measured that
+    full-window red_chi2 tracks blend-list fidelity rather than the element, using
+    this very line set (4208.98: 83.12 full-window vs 0.39 deblended, same data).
+    Zr's outcome is unchanged either way: it fails on sensitivity, not on fit quality.
+    If no line clears, Zr stays MEASURABLE-OWED and this file records the quantified
     reason. Validate-don't-tune: nothing here is fitted toward Asplund 2.59.
     """
     root, a_sun, arms, arm_rv = _setup("RYA-585 Zr II in-window blend-fit rescue")
@@ -354,7 +355,8 @@ def main_deblend():
                              a_sun_ref=a_sun, a_sun_ref_source='Asplund2021',
                              nlte='NLTE_unavailable_LTE_robust',
                              reliable_dEW_dA_floor=RELIABLE_DEWDA,
-                             reliable_red_chi2_max=RCHI2_SANE_MAX,
+                             red_chi2_review_trigger=RCHI2_REVIEW,
+                             red_chi2_gates_reliable=False,
                              primary_line=DEBLEND_PRIMARY,
                              arm_rv=arm_rv)}
     for center in DEBLEND_LINES:
@@ -382,19 +384,17 @@ def main_deblend():
                 rec[arm] = dict(status='no_coverage')
                 print(f"  {arm:6s}: no coverage")
                 continue
-            reliable = bool((not new['railed'])
-                            and new['dEW_dA'] >= RELIABLE_DEWDA
-                            and new['red_chi2'] <= RCHI2_SANE_MAX)
+            rel_new = assess_reliability(new)
+            reliable = rel_new['reliable']
             rec[arm] = dict(
                 before=dict(A_LTE=round(old['A'], 3),
                             red_chi2=round(old['red_chi2'], 2),
                             dEW_dA_mA_dex=old['dEW_dA'], railed=old['railed'],
-                            reliable=bool((not old['railed'])
-                                          and old['dEW_dA'] >= RELIABLE_DEWDA)),
+                            **assess_reliability(old)),
                 A_LTE=round(new['A'], 3), A_NLTE=None,
                 red_chi2=round(new['red_chi2'], 2),
                 dEW_dA_mA_dex=new['dEW_dA'], railed=new['railed'],
-                reliable=reliable,
+                **rel_new,
                 gsig_kms=round(new['gsig'], 2), gsig_railed=new['gsig_railed'],
                 dv_fitted_kms=round(new['dv'], 2),
                 dv_measured_kms=arm_rv[arm]['v_kms'],
@@ -440,7 +440,8 @@ def main_deblend():
         worst_chi = max((results[str(c)]['harps']['red_chi2'] for c in DEBLEND_LINES
                          if isinstance(results[str(c)].get('harps'), dict)), default=0.0)
         print("NO Zr II line cleared BOTH RYA-585 gates.")
-        print(f"  red_chi2 gate  : PASSED (worst {worst_chi:.2f} <= {RCHI2_SANE_MAX}) "
+        print(f"  red_chi2 (reported, NOT a gate — RYA-679): worst {worst_chi:.2f} "
+              f"vs review trigger {RCHI2_REVIEW} "
               f"— the blend/continuum systematic was real and is now modelled.")
         print(f"  dEW/dA   gate  : FAILED (best {best} < {RELIABLE_DEWDA} mA/dex) "
               f"— residual failure is intrinsic line sensitivity, not the blend model.")

@@ -32,8 +32,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
-                               fit_profile, local_renorm, measure_arm_rv,
-                               require_arm_rv)
+                               assess_reliability, fit_profile, local_renorm,
+                               measure_arm_rv, require_arm_rv)
 
 EXE   = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
@@ -239,10 +239,13 @@ def main():
                             gsig_kms=round(fit['gsig'], 2),
                             red_chi2=round(fit['red_chi2'], 2), npix=fit['npix'],
                             dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'],
-                            reliable=bool((not fit['railed']) and fit['dEW_dA'] >= 40.0))
+                            **assess_reliability(fit))
             print(f"  {arm:6s}: A_LTE={a_lte:.3f}  A_NLTE={a_nlte:.3f}  "
                   f"(delta={delta}, gsig={fit['gsig']:.1f} km/s, rchi2={fit['red_chi2']:.1f}, "
-                  f"dEW/dA={fit['dEW_dA']} mA/dex, railed={fit['railed']})")
+                  f"dEW/dA={fit['dEW_dA']} mA/dex, railed={fit['railed']}, "
+                  f"reliable={rec[arm]['reliable']})")
+            if rec[arm]['rchi2_review']:
+                print(f"          REVIEW: {rec[arm]['rchi2_review_reason']}")
         results[str(center)] = rec
 
     with open(f"{W}/rya551_sr2_synth_result.json", "w") as f:
