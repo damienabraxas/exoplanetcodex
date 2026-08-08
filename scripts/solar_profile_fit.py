@@ -43,6 +43,31 @@ The two defects (found RYA-592, fixed here for everyone)
 Scale of the effect: for the clean optical Mg I 5528/5711 both fixes moved A by
 <0.005 dex. That is a result for those lines, NOT a licence to assume the same
 elsewhere — RYA-643 exists to measure it for the blue/near-UV channels.
+
+THE RELIABILITY RULE (RYA-679) — one definition, see `assess_reliability`
+-------------------------------------------------------------------------
+The reliability constants used to be redefined per harness, with three different
+red_chi2 ceilings live at once (60.0 in RYA-564/581, 15.0 in RYA-565, 5.0 in
+RYA-560's deblend path) and no ceiling at all in RYA-551/560-plain/592. RYA-679
+adjudicated that spread; the ratified rule and its evidence live in
+`assess_reliability` below. Harnesses import it. Do not redefine these constants.
+
+TWO FIT ENTRYPOINTS — deliberate variants, NOT duplicates (RYA-679 §3D)
+-----------------------------------------------------------------------
+`fit_profile` and `fit_profile_deblend` are both first-class and both belong here.
+They are not two copies of one algorithm (the situation this module was created to
+end); they are two chi2 DOMAINS over the same measurement, and the choice between
+them is a modelling decision a harness makes explicitly:
+
+  * `fit_profile`        — chi2 over the whole fit window, observed renormalised by
+                           `local_renorm`. Right for a clean, uncrowded window.
+  * `fit_profile_deblend` — chi2 over the target's own pixels only, with a continuum
+                           RATIO fitted on the blend pixels. Right for a crowded
+                           window, where the full-window statistic stops being about
+                           the element (see `assess_reliability` for the numbers).
+
+Their `red_chi2` values are therefore NOT comparable with each other, and a single
+threshold cannot be applied to both. That is the core RYA-679 finding.
 """
 import numpy as np
 
@@ -66,6 +91,97 @@ GSIG_GRID = np.round(np.arange(0.4, 8.01, 0.20), 2)     # km/s (vmac + instrumen
 # for the blue channels too, where they measure the arm's GLOBAL frame offset.)
 RV_CHECK_LINES = [5522.446, 5525.544, 5615.644, 5679.023, 5686.530,
                   5701.104, 5701.544, 5709.378, 5731.762]
+
+# The per-pixel flux uncertainty ASSUMED by every chi2 in this module. It is a fixed
+# constant, NOT a measured noise estimate — see `assess_reliability` for what that
+# means for the interpretation of `red_chi2`. Named here so the two chi2 expressions
+# below cannot drift apart, and so the assumption is visible rather than a literal.
+SIGMA_FLUX_ASSUMED = 0.01
+
+# ── Reliability rule (RYA-679 ratified) ──────────────────────────────────────────
+# THE single definition. No harness may redefine these.
+RELIABLE_DEWDA = 40.0      # mA/dex core-EW sensitivity floor (RYA-551 origin)
+RCHI2_REVIEW = 5.0         # REPORTING trigger only — never gates `reliable`
+
+
+def assess_reliability(fit, dewda_floor=None):
+    """THE reliability rule for an in-window profile fit (RYA-679, ratified).
+
+        reliable = (not railed) AND dEW_dA >= RELIABLE_DEWDA
+
+    `red_chi2` is REPORTED and REVIEW-FLAGGED, but does NOT gate. Returns a dict of
+    {reliable, rchi2_review, rchi2_review_reason} to merge into a per-line record.
+
+    Why no red_chi2 ceiling — three findings, all measured
+    ------------------------------------------------------
+    (1) THE STATED RATIONALE FOR 60.0 IS BACKWARDS. RYA-564 set a ceiling of 60 with
+        the reason "sigma_flux=0.01 floor inflates rchi2". Measured per-pixel noise in
+        the actual fit windows of the actual arms (MAD of 2nd differences, which is
+        blind to line/continuum structure) is sigma_pix = 0.00007-0.0051 — so the
+        assumed 0.01 is 2x to 146x LARGER than the truth, everywhere. A sigma larger
+        than the truth DEFLATES chi2. The floor suppresses red_chi2; it cannot inflate
+        it. A perfect model on pure photon noise would score red_chi2 = 0.0000-0.26
+        here, not 1. So 60.0's only written justification is wrong in sign.
+
+    (2) red_chi2 IS NOT A CHI2 — it is a rescaled residual RMS,
+        red_chi2 = (RMS_resid / SIGMA_FLUX_ASSUMED)^2. Because the assumed sigma
+        swamps the real noise, anything above ~0.26 is essentially pure model and
+        continuum systematic with no photon-noise content. Sr II 4077's red_chi2
+        78.27 means a residual RMS of 8.9% of the continuum against a 0.42% photon
+        noise — 21x the noise, i.e. ~99.8% systematic. There is no statistical
+        calibration here to hang a pass/fail bar on.
+
+    (3) FULL-WINDOW red_chi2 MEASURES THE BLEND LIST, NOT THE ELEMENT. Controlled
+        experiment (RYA-560/585 Zr II, identical lines, identical spectra, only the
+        chi2 domain and continuum treatment changed):
+
+            line        fit_profile   fit_profile_deblend   ratio
+            4208.98        83.12             0.39           213x
+            4258.04        25.92             0.35            74x
+            4442.99        15.93             1.49            11x
+
+        while dEW_dA barely moved (36.8->36.2, 29.6->33.5, 29.7->33.5). Across
+        species the full-window statistic simply tracks how crowded the window is —
+        clean red windows score Eu II 6645: 0.16, Co I 5352: 0.20, Ba II 5853: 0.71;
+        crowded blue/near-UV score Zr II 4208: 83.12, Sr II 4077: 78.27, Sr II 4215:
+        179.97. Gating on it would gate on which part of the spectrum a line lives
+        in, which is not a statement about whether A(X) is measurable.
+
+    And it never bound anything anyway. In RYA-564's OWN data — the ticket that
+    introduced 60.0 — every reliable Co line scores 0.04-4.72, and every line above
+    60 is already excluded by `railed`. The term has never changed a Co disposition,
+    nor Ba's (0.71), nor Eu's (fails on dEW_dA 13.9), nor Zr's (fails on dEW_dA 33.5).
+    The ONLY species on which any candidate ceiling was load-bearing is Sr II — so a
+    ceiling would have functioned, in practice, purely as a silent veto on the one
+    live adoption candidate, on the strength of a near-UV blend model. That is the
+    wrong reason to demote a measurement.
+
+    What replaces it: RCHI2_REVIEW = 5.0 raises a LOUD, non-gating flag. It is set at
+    the empirical upper edge of the clean-window population (worst reliable Co line
+    4.72; Ba <=0.83; Eu 0.16; Zr deblended <=1.66) and means "the in-window model does
+    not reproduce this window — inspect the blend list and continuum before adopting
+    this value", which is precisely and only what a high red_chi2 licenses. Being
+    non-gating, its value cannot flip any disposition by construction, so it is not a
+    tunable knob (validate-don't-tune).
+
+    NOTE the review flag is only comparable WITHIN a fit entrypoint — see the module
+    docstring. A `fit_profile_deblend` red_chi2 above 5 is a much stronger signal than
+    a `fit_profile` one, because the blend pixels have already been divided out.
+    """
+    floor = RELIABLE_DEWDA if dewda_floor is None else dewda_floor
+    dewda = fit.get('dEW_dA')
+    railed = bool(fit.get('railed'))
+    rchi2 = fit.get('red_chi2')
+    reliable = bool((not railed) and dewda is not None and dewda >= floor)
+    review = bool(rchi2 is not None and rchi2 > RCHI2_REVIEW)
+    reason = None
+    if review:
+        rms = (rchi2 ** 0.5) * SIGMA_FLUX_ASSUMED
+        reason = (f"red_chi2 {rchi2:.2f} > {RCHI2_REVIEW} (residual RMS {rms * 100:.1f}% "
+                  f"of continuum): the in-window model does not reproduce this window. "
+                  f"Does NOT gate `reliable` (RYA-679) — inspect the blend list and "
+                  f"continuum before adopting this value.")
+    return dict(reliable=reliable, rchi2_review=review, rchi2_review_reason=reason)
 
 
 def rot_kernel(dv, vsini, eps=0.6):
@@ -192,7 +308,8 @@ def fit_profile(center, obs_w, obs_f, synth, hw, vsini, a_lo, a_hi,
                 if sel.sum() < 10:
                     continue
                 r = fp[sel] - np.interp(xo[sel], sw, sb)
-                chi2 = float(np.sum(r ** 2)) / max(int(sel.sum()) - 3, 1) / (0.01 ** 2)
+                chi2 = (float(np.sum(r ** 2)) / max(int(sel.sum()) - 3, 1)
+                        / (SIGMA_FLUX_ASSUMED ** 2))
                 if chi2 < best['chi2']:
                     best = dict(chi2=chi2, A=float(a), gsig=float(gs), dv=float(dv),
                                 npix=int(sel.sum()))
@@ -330,7 +447,8 @@ def fit_profile_deblend(center, obs_w, obs_f, synth, blend_only, hw, vsini,
                 si = np.interp(xs, sw, sb_all[i])
                 c1, c0, _, _ = _cont_ratio(xc, ys / np.clip(si, 1e-3, None), ~m)
                 r = ys / np.clip(c0 + c1 * xc, 1e-3, None) - si
-                chi2 = float(np.sum(r[m] ** 2)) / max(int(m.sum()) - 3, 1) / (0.01 ** 2)
+                chi2 = (float(np.sum(r[m] ** 2)) / max(int(m.sum()) - 3, 1)
+                        / (SIGMA_FLUX_ASSUMED ** 2))
                 if chi2 < best['chi2']:
                     best = dict(chi2=chi2, A=float(a), gsig=float(gs), dv=float(dv),
                                 npix=int(m.sum()), npix_window=int(sel.sum()),
