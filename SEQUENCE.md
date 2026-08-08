@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-08
+
+- **RYA-673** — Engine A/B wiring audit across all 27 canonical species; **11 `neither` / 6 `B_only` / only Fe of the 6 PASS elements confirmed on both engines**; 7 synthesis-required species have no Engine B; per-element wiring tickets owed
+
 ## 2026-08-07 — gold v3 freeze + pre-527 cleanup
 
 - **RYA-668** — Science Product Package (SPP) framework doc landed at docs/SCIENCE_PRODUCT_PACKAGE.md; peer of Glossary/Method/Science-Architecture; unblocks per-star SPP tickets
