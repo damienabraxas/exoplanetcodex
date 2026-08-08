@@ -1,7 +1,7 @@
 # Codex Ledgers — canonical read-set (read at session start, in order)
 
 **If you are an agent, a Sirius-local model, or a collaborator opening this repo
-cold: these six files are what you read first.** They are the mutable state of
+cold: these seven files are what you read first.** They are the mutable state of
 the project. Everything else in the repo is code, data, or history.
 
 Until RYA-659 this list lived only in Claude.ai memory and chat, which is why the
@@ -16,9 +16,15 @@ noticing. It is now a file.
 | 4 | Instrument catalog (+ modes) | [`data/catalog/instrument_catalog.csv`](data/catalog/instrument_catalog.csv), [`instrument_modes.csv`](data/catalog/instrument_modes.csv) | instrument / mode capability + coverage (25 instruments, 11 modes) | a new instrument or mode use is verified | **NATIVE** |
 | 5 | Holdings manifest registry | [`data/catalog/holdings_manifest_registry.csv`](data/catalog/holdings_manifest_registry.csv) | what data we already hold (anti-reinvent) | data acquired or verified for a system | **NATIVE** |
 | 6 | Sequence log | [`SEQUENCE.md`](SEQUENCE.md) | narrative "what landed recently" overlay on the register | at every register bump, same PR | **NATIVE** — human-maintained, append-only, one line per landing |
+| 7 | Element disposition report | [`docs/audit/element_disposition_rya663.md`](docs/audit/element_disposition_rya663.md) (+ machine twin [`data/audit/element_disposition_rya663.json`](data/audit/element_disposition_rya663.json)) | **can this element flip to PASS now, and if not what exactly is holding it** — the three ratified gates shown per element, plus stale-input evidence | any verdict / two-engine / gold change | **GENERATED** (RYA-663) — `scripts/gen_element_disposition.py`, `--check` in CI |
 
 **Read #5 BEFORE proposing any download.** The holdings registry exists so we
 stop re-acquiring data we already have.
+
+**Read #7 BEFORE answering "why is element X still owed".** #2 tells you an
+element's status; #7 tells you what is *holding* it, gate by gate. RYA-672 had to
+reconstruct that by hand across three tickets because nothing routed a reader
+here — which is precisely why it is now a read-set member (RYA-676).
 
 ## What each ledger is NOT
 
@@ -55,6 +61,23 @@ folds in at a ratified re-freeze (currently RYA-527, gold v3).
 python scripts/generate_element_status_tracker_rya654.py --check
 python -m pipeline.ledger_consistency_guard
 ```
+- **RYA-676** — refinement-debt registry + join:
+  [`data/audit/element_refinement_registry.csv`](data/audit/element_refinement_registry.csv)
+  is the SSOT mapping **"this row is owed" → "this ticket resolves it"**, and
+  `pipeline/refinement_debt_join.py` renders it into the tracker's generated
+  `refinement_debt` column. It exists because the tracker said `owed`, Linear said
+  `Backlog`, and nothing joined the two — which is how RYA-524's refinement
+  children (RYA-581/585/565) sat unfired through eight architecture tickets.
+  A cell reading **`TBD - no resolving ticket`** means the debt is established
+  and **nobody has filed a ticket**; an **empty** cell means no known refinement
+  path, which is *not* the same as "nothing owed". Adding a row requires a
+  `provenance_ticket` — the admission rule lives in the registry's own header.
+
+```
+python -m pipeline.refinement_debt_join --report          # informational, always exit 0
+python -m pipeline.refinement_debt_join --phase-close     # ESCALATED: exit 1 on open debt
+```
+
 - **RYA-659** — register-freshness guard: `scripts/check_register_freshness.py`
   loud-fails when a state surface is newer than the State Register, or when a PR
   changes state without touching it.
@@ -77,6 +100,15 @@ required-check name never changes as guards are added). They remain runnable
 standalone by the commands above. Enforcement differs, deliberately:
 
 - register-freshness — **BLOCKING** (PR mode and push mode).
+- refinement-debt — **INFORMATIONAL BY CONSTRUCTION** (RYA-676 §2C), not merely by
+  workflow config: `--report` always exits 0, and the count carried in
+  `pipeline.ledger_consistency_guard --json` cannot change that guard's exit code
+  either. Seven registry rows are Engine-B `NO_MODEL_ATOM` gaps that need a model
+  atom *acquired* — nobody clears those in a PR, and a permanently-red guard is a
+  guard nobody reads. **Visibility is the deliverable, not gating.** A phase-close
+  or freeze ticket (RYA-677) escalates it deliberately by running
+  `--phase-close`, which exits 1 while any owed row in the phase still carries
+  un-fired refinement debt. Do NOT flip the default.
 - ledger-consistency — **`continue-on-error`, informational**, because it is
   PRE-DECLARED RED on six un-ratified `physics_regime` GET-DATA divergences
   (Co · N · P · Sc stale; K · Cu deliberate holds). Running it informationally
