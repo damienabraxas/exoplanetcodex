@@ -78,7 +78,8 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402
+from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402
+                               RELIABLE_DEWDA, assess_reliability, broaden,
                                fit_profile, local_renorm, require_arm_rv)
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline._numcompat import trapezoid  # noqa: E402  (numpy>=2 removed np.trapz)
@@ -128,8 +129,11 @@ A_LO, A_HI = float(A_GRID.min()), float(A_GRID.max())
 A_BLEND_ONLY = -6.0        # Eu effectively switched off -> the blend-only continuum
 BLEND_PROBE_DEX = 0.20     # +/- perturbation on the ungraded blend gf (the systematic)
 
-RELIABLE_DEWDA = 40.0      # mA/dex core-EW sensitivity floor (RYA-551/560/585 definition)
-RCHI2_SANE_MAX = 15.0      # upper bound on a "sane" reduced chi2 for a modelled window
+# Reliability constants + rule: imported from the shared module (RYA-679). This
+# harness used to carry its own RCHI2_SANE_MAX = 15.0 — a third live value alongside
+# RYA-564/581's 60.0 and RYA-560's 5.0. Retired: red_chi2 is reported, not gated.
+# Not load-bearing for Eu either way — Eu II 6645 fails on sensitivity (dEW/dA 13.9)
+# with an excellent fit (red_chi2 0.16).
 
 
 # ─────────────────────────── gf / HFS provenance (SSOT) ───────────────────────────
@@ -466,8 +470,8 @@ def fit_all_arms(center, cfg, arms, arm_rv, synth, synth_blend, label):
         nf = noise_floor(ow, of, center, cfg['fit_hw'], fit['gsig'])
         ew_eu = eu_only_ew(synth, synth_blend, fit['A'], center, 0.4, fit['gsig'])
         rchi2 = fit['red_chi2']
-        reliable = bool((not fit['railed']) and fit['dEW_dA'] >= RELIABLE_DEWDA
-                        and rchi2 <= RCHI2_SANE_MAX)
+        rel_f = assess_reliability(fit)
+        reliable = rel_f['reliable']
         rec = dict(A_LTE=round(fit['A'], 3), A_NLTE=None,
                    red_chi2=round(rchi2, 2), npix=fit['npix'],
                    dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'],
@@ -477,7 +481,7 @@ def fit_all_arms(center, cfg, arms, arm_rv, synth, synth_blend, label):
                    obs_window_EW_mA=round(fit['obs_ew_mA'], 2),
                    synth_core_EW_mA=fit['core_EW_mA'],
                    eu_only_EW_mA=round(ew_eu, 3),
-                   reliable=reliable)
+                   **rel_f)
         # Linear-COG diagnostic: on the linear part of the curve of growth a line's
         # sensitivity is EW*ln10 exactly. A ratio near 1 says the LOW dEW/dA is
         # intrinsic weakness (maximal sensitivity per mA), NOT desensitisation by
@@ -551,7 +555,8 @@ def main():
         nlte_rationale=('Eu II is the majority ion of Eu in the solar photosphere and no Eu '
                         'departure grid exists in either engine (registry LTE-only-by-design, '
                         'RYA-458). The binding blocker is NOT NLTE.'),
-        reliable_dEW_dA_floor=RELIABLE_DEWDA, rchi2_sane_max=RCHI2_SANE_MAX,
+        reliable_dEW_dA_floor=RELIABLE_DEWDA, red_chi2_review_trigger=RCHI2_REVIEW,
+        red_chi2_gates_reliable=False,
         A_grid=[A_LO, A_HI, 0.05], blend_probe_dex=BLEND_PROBE_DEX,
         measured_EW_mA=6.8,
         measured_EW_source=('data/measured/sol_ew_results_v1.csv — Eu II 6645.127, 6.8 mA, '

@@ -61,7 +61,8 @@ _sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
     _os_boot.path.abspath(__file__))))
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
+from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402,F401
+                               RELIABLE_DEWDA, assess_reliability, broaden,
                                fit_profile, local_renorm, measure_arm_rv,
                                require_arm_rv)
 
@@ -92,8 +93,12 @@ ANCHOR_DELTA = 0.10     # Bergemann+2010 MNRAS 401 1334 (RYA-534 TS-Gerber media
 ANCHOR_TOL   = 0.12     # the RYA-534 gate tolerance for Co
 
 # Reliability floor — identical to RYA-551/560 so Co is judged on the same bar as Sr/Zr.
-RELIABLE_DEWDA = 40.0   # mA/dex core-EW sensitivity
-RELIABLE_RCHI2 = 60.0   # in-window fit quality ceiling (sigma_flux=0.01 floor inflates rchi2)
+# Reliability: RELIABLE_DEWDA + `assess_reliability` are imported from the shared
+# module. RYA-564's own RELIABLE_RCHI2 = 60.0 was RETIRED by RYA-679, which measured
+# that its stated rationale ("the sigma_flux=0.01 floor inflates rchi2") is backwards
+# — the assumed 0.01 is 2x-146x LARGER than the true per-pixel noise, so it deflates
+# red_chi2. The ceiling also never bound anything here: every reliable Co line below
+# scores red_chi2 0.04-4.72, and every line above 60 is already excluded by `railed`.
 
 LMARGIN = 7.0                                   # synth half-window (A)
 A_GRID  = np.round(np.arange(4.20, 5.76, 0.05), 3)   # A(Co) trial grid (brackets 4.94)
@@ -520,7 +525,8 @@ def main():
                 'PER-LINE 1D-NLTE delta read from the RYA-534-validated Gerber TS-native grid'),
         nlte_grid=GRID, nlte_atom=ATOM, nlte_engine='Engine-B TS-Gerber (RYA-533/534 deck)',
         nlte_anchor=ANCHOR_DELTA, nlte_anchor_ref='Bergemann+2010 MNRAS 401 1334 (RYA-534 +0.099)',
-        reliable_dEW_dA_floor=RELIABLE_DEWDA, reliable_red_chi2_ceiling=RELIABLE_RCHI2,
+        reliable_dEW_dA_floor=RELIABLE_DEWDA, red_chi2_review_trigger=RCHI2_REVIEW,
+        red_chi2_gates_reliable=False,
         arms=sorted(arms), vsini=VSINI, xi=XI, marcs_node=f"{TREF}/{LOGGREF}/{ZREF}",
         excluded_lines={str(k): v for k, v in EXCLUDED.items()},
         demotes=('Co I 3845.468 (Kitt Peak blue edge, SNR~24, chi2r~3100, A=6.128 / +1.188) '
@@ -569,9 +575,8 @@ def main():
                 continue
             a_lte = fit['A']
             a_nlte = a_lte + dl['delta']
-            reliable = bool((not fit['railed'])
-                            and fit['dEW_dA'] >= RELIABLE_DEWDA
-                            and fit['red_chi2'] <= RELIABLE_RCHI2)
+            rel_f = assess_reliability(fit)
+            reliable = rel_f['reliable']
             rec[arm] = dict(dv_fitted_kms=round(fit['dv'], 2),
                             dv_measured_kms=arm_rv[arm]['v_kms'],
                             gsig_railed=fit['gsig_railed'],
@@ -579,7 +584,7 @@ def main():
                             nlte_delta=dl['delta'], gsig_kms=round(fit['gsig'], 2),
                             red_chi2=round(fit['red_chi2'], 2), npix=fit['npix'],
                             core_EW_mA=fit['core_EW_mA'], dEW_dA_mA_dex=fit['dEW_dA'],
-                            railed=fit['railed'], reliable=reliable)
+                            railed=fit['railed'], **rel_f)
             print(f"  {arm:6s}: A_LTE={a_lte:.3f} {dl['delta']:+.4f} -> A_NLTE={a_nlte:.3f}  "
                   f"(EW~{fit['core_EW_mA']:.1f} mA, gsig={fit['gsig']:.1f} km/s, "
                   f"rchi2={fit['red_chi2']:.1f}, dEW/dA={fit['dEW_dA']} mA/dex, "
@@ -636,8 +641,8 @@ def main():
                   f"(n={ia['n']}, scatter {ia['scatter']:.3f})")
     else:
         summary.update(A_Co=None, reason=('no red Co I line cleared the reliability floor '
-                                          f'(dEW/dA >= {RELIABLE_DEWDA} mA/dex, red_chi2 <= '
-                                          f'{RELIABLE_RCHI2}, not railed)'))
+                                          f'(dEW/dA >= {RELIABLE_DEWDA} mA/dex, not railed; '
+                                          f'red_chi2 reported, not gated — RYA-679)'))
         print(f"NO red Co I line cleared the reliability floor -> Co reports NO VALUE (owed).")
         print("Do NOT fall back to the blue-edge 3845 artifact (ticket CRITICAL).")
     results['_summary'] = summary
