@@ -1382,6 +1382,25 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
     results_v2['scale']        = 'absolute'   # describes A_X_abs
     results_v2['nlte_applied'] = False
 
+    # RYA-682: never write a per-line table in which NO row is usable. The RYA-342
+    # guard above only catches an EMPTY frame; the failure that actually happened
+    # produces a full-length frame where every row is status='failed' (iSpec's
+    # atom-code call breaks on numpy >= 2.3, so every element is skipped). That
+    # file parses, looks like a successful run, and silently reduces the two-engine
+    # floor to one engine downstream. Fail here, where the cause is still visible.
+    if n_ok == 0:
+        import numpy as _np
+        raise SystemExit(
+            f"RYA-682 REFUSING TO WRITE AN UNUSABLE ARTIFACT: {star_id} synthesis-v2 "
+            f"produced {len(per_line_rows)} lines and ZERO usable ones "
+            f"({n_skip} no-atom-code, {n_fail} failed, {n_edge} edge-pinned).\n"
+            f"If no-atom-code dominates, this is the numpy break: ispec/abundances.py:132 "
+            f"assigns a size-1 array into a scalar slot, which numpy >= 2.3 rejects "
+            f"(running numpy {_np.__version__}). docs/SCIENCE_STANDARDS.md (RYA-517) "
+            f"ratifies python 3.12 + numpy 2.2.x as the reference stack — regenerate "
+            f"there. Writing this file would hand the two-engine driver an Engine-B "
+            f"table with nothing in it.")
+
     out_ab = Path(str(out_dir)) / f'{star_id}_abundances_synth_v2.csv'
     out_pl = Path(str(out_dir)) / f'{star_id}_per_line_synth_v2.csv'
     results_v2.to_csv(out_ab, index=False)
