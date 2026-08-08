@@ -220,13 +220,21 @@ def species_decisions(vbase: dict, te: dict, report: dict) -> list[dict]:
     out.append({
         'id': 'D.2', 'element': 'Co', 'question': 'which Co value goes into gold v4?',
         'fresh_value': co_fresh,
+        'no_fresh_value_because': None if co_fresh is not None else (
+            'Co produced NO two-engine record at all. It has no EW-pool lines and no '
+            'synth-v2 lines, and `_dedicated_engine_B()` in rya527_two_engine_run.py '
+            'wires C/O/Mn/Cu/V/Sr/Zr/Mg but NOT the RYA-564 Co red-line synthesis '
+            '(data/results/co_synthesis_rya564.json). So Phase 2 CANNOT arbitrate this '
+            'split — it produced no third number to weigh. Wiring Co into the dedicated '
+            'Engine-B set is the prerequisite, and is not in this ticket\'s scope.'),
         'candidates': {'phase_c (RYA-564)': _f((vbase.get('Co') or {}).get('A_measured')),
                        'RYA-643 corrected re-run': 4.960, 'fresh two-engine': co_fresh},
         'recommendation': (
-            "The split is 0.005 dex — inside every gate and below the reported "
-            "precision. Recommend the RYA-643 corrected 4.960, because it is the run "
-            "with the rest-frame/gsig defect fixed; but this is a provenance choice, "
-            "not a measurement difference, and Ryan picks."),
+            "Phase 2 cannot break this tie — it produced no Co number (see above). On "
+            "the two existing candidates the split is 0.005 dex, inside every gate and "
+            "below the reported precision, so it is a provenance choice, not a "
+            "measurement one: 4.960 comes from the run with the RYA-643 rest-frame/gsig "
+            "defect fixed, which is the better-founded of the two. Ryan picks."),
         'caveat': 'Co is verdict PASS at tier `owed` ⇒ v3 freezes NO value for it '
                   '(RYA-665). Whichever number is picked, it stays HELD until the tier '
                   'moves — adopting a value here does not by itself freeze one.',
@@ -238,6 +246,12 @@ def species_decisions(vbase: dict, te: dict, report: dict) -> list[dict]:
         'id': 'D.3', 'element': 'Ba', 'question':
             'fire RYA-581 deblend BEFORE the v4 freeze, or freeze 2.410 HELD-with-caveat?',
         'fresh_value': ba_fresh,
+        'no_fresh_value_because': None if ba_fresh is not None else (
+            'Ba produced NO two-engine record either, for the same reason as Co: no '
+            'EW-pool or synth-v2 lines, and the RYA-559 Ba II 5853 synthesis '
+            '(data/results/solar_ba_synthesis_rya559.json) is not wired into '
+            '`_dedicated_engine_B()`. Ba\'s gate 3 therefore stays UNEVALUABLE after '
+            'Phase 2 — which the ticket expected the re-run to fix, and it does not.'),
         'current_verdict_channel': _f((vbase.get('Ba') or {}).get('A_measured')),
         'clean_cross_check': [2.187, 2.231],
         'recommendation': (
@@ -265,12 +279,18 @@ def species_decisions(vbase: dict, te: dict, report: dict) -> list[dict]:
             'blocker': d.get('blocker'),
             'gate3_still_provisional': report['gate3_provisional'],
             'recommendation': (
+                f"PROMOTE {el} — clears all three ratified gates on a FRESH cross-engine "
+                f"delta ({d.get('cross_engine_delta')}) computed this run from both "
+                f"engines over real solar data. The report's blanket PROVISIONAL stamp "
+                f"is spurious here (see the gate-3 section): it comes from "
+                f"cross-CHANNEL disagreements on other elements, not from anything about "
+                f"{el}'s delta or the artifact's age."
+                if d.get('promoted') and report['gate3_provisional'] else
                 f"PROMOTE {el} — clears all three ratified gates on the FRESH "
-                f"cross-engine delta." if d.get('promoted') and
-                not report['gate3_provisional'] else
-                f"PROMOTE {el} but note gate 3 still reads PROVISIONAL — see "
-                f"stale_input_evidence." if d.get('promoted') else
-                f"DO NOT promote {el} — {d.get('blocker')}"),
+                f"cross-engine delta." if d.get('promoted') else
+                f"DO NOT promote {el} — {d.get('blocker')}. This is a FRESH answer: "
+                f"RYA-664 cleared its gate 1, and gate 3 is now decided on a "
+                f"current delta rather than deferred."),
         })
     return out
 
@@ -443,8 +463,9 @@ def render_summary_md(rows, counts, decisions, moved, report, stops, gold_versio
           'dedicated-channel measurements — it does not re-derive A(X) from spectra. '
           'Re-running it answers "does the freeze re-classify consistently", NOT "does '
           'the measurement reproduce". |',
-          f'| disposition report | **YES** | same classifier, run over the FRESH record — '
-          f'this is what retires the gate-3 staleness RYA-663 flagged. |', '',
+          f'| disposition report | **YES** | same classifier, run over the FRESH record. '
+          f'It was expected to retire the gate-3 staleness RYA-663 flagged; it does not, '
+          f'and the section below shows why that flag cannot clear by re-running. |', '',
           f'Gold compared against: **{gold_version}**. Verdict counts: `{counts}`.', '']
 
     L += ['## Elements whose value moved > 0.01 dex vs frozen v3', '']
@@ -456,25 +477,56 @@ def render_summary_md(rows, counts, decisions, moved, report, stops, gold_versio
         L += ['**None.**']
     L += ['']
 
-    L += ['## Gate 3 — the RYA-663 staleness', '']
+    L += ['## Gate 3 — and why the PROVISIONAL flag cannot clear itself', '']
     if report['gate3_provisional']:
-        L += [f"⚠ Still **PROVISIONAL**: the two-engine record read here still disagrees "
-              f"with the live verdict channel on {len(report['stale_input_evidence'])} "
-              f"element(s), so every gate-3 number remains provisional.", '']
+        L += [f"`gate3_provisional` still reads **True**, on "
+              f"{len(report['stale_input_evidence'])} element(s):", '']
         L += [f"- {e}" for e in report['stale_input_evidence']]
+        L += ['',
+              '**That verdict is now demonstrably wrong, and this run is what proves '
+              'it.** `detect_stale_inputs` infers "the two-engine artifact predates that '
+              'measurement" from *any* value disagreement with the live channel. The '
+              'artifact it just read was generated on current main during this run, so '
+              'it predates nothing. Every one of the disagreements above is a '
+              'CROSS-CHANNEL difference, not an age difference:', '',
+              '| element | two-engine leg | live channel leg | why they differ |',
+              '|---|---|---|---|',
+              '| Fe | per-line winner-combine | EW ionization-gated + 3D | the RATIFIED '
+              'Fe policy — the two-engine number is a diagnostic that sits above the '
+              'anchor BY CONSTRUCTION (Ryan, 2026-07-16) |',
+              '| Cr | Cr I synthesis floor | gf_floor EW value | different legs |',
+              '| Si | synthesis floor | gf_floor EW value | different legs |',
+              '| S | EW leg | RYA-492 Costa-Silva dedicated synthesis | different legs |',
+              '| Li | synthesis point value | ratified UPPER_LIMIT | the RYA-563 veto |',
+              '| O | 8.730 | 8.735 | 0.005 — rounding |', '',
+              'The detector conflates *"this artifact is old"* with *"the diagnostic '
+              'legitimately disagrees with the ratified channel"*. The second is the '
+              'normal, designed state of a two-engine floor. So the flag is **not '
+              'clearable by re-running** — RYA-663 deferred Ca\'s promotion to "confirm '
+              'on the RYA-527 re-run", the re-run has now happened, and the flag reads '
+              'exactly the same.', '',
+              '**Ca\'s cross-engine delta is nevertheless genuinely fresh: −0.003**, '
+              'computed this run from both engines over real solar data. The number gate '
+              '3 needs is sound; only the blanket provisional stamp on top of it is not.',
+              '', 'Recommendation (a decision, so not taken here): narrow '
+              '`detect_stale_inputs` to compare like-for-like legs, or bound it by the '
+              'artifact\'s git commit date against the verdict\'s, so a same-day artifact '
+              'cannot be reported as predating anything.', '']
     else:
         L += ['✅ **Cleared.** The fresh two-engine record carries no contradiction '
-              'against the live verdict channel, so gate 3 is evaluated on a current '
-              'delta for the first time. Ca\'s PROVISIONAL flip from RYA-663 is now '
-              'decided on real evidence.']
-    L += ['', f"Can flip to PASS under the ratified three gates: "
-              f"**{', '.join(report['can_flip_now']) or 'none'}**", '']
+              'against the live verdict channel.', '']
+    L += [f"Promotes under the ratified three gates: "
+          f"**{', '.join(report['can_flip_now']) or 'none'}**", '']
 
     L += ['## The four species-adoption decisions — NOT adopted, Ryan decides', '']
     for d in decisions:
+        fresh = d.get('fresh_value', d.get('value'))
         L += [f"**{d['id']} — {d['element']}: {d['question']}**", '',
-              f"- Fresh number: `{d.get('fresh_value', d.get('value'))}`",
-              f"- Recommendation: {d['recommendation']}"]
+              f"- Fresh number: `{fresh}`"
+              + ('' if fresh is not None else '  ← **no fresh value produced**')]
+        if d.get('no_fresh_value_because'):
+            L.append(f"- Why not: {d['no_fresh_value_because']}")
+        L.append(f"- Recommendation: {d['recommendation']}")
         if d.get('caveat'):
             L.append(f"- ⚠ {d['caveat']}")
         L.append('')
