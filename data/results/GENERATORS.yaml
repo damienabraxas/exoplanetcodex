@@ -86,6 +86,17 @@ artifacts:
       solar_ba_synthesis_rya559.json, whose entry stays UNREPRODUCIBLE. A rebuild is a
       new measurement, not retroactive provenance for the old one.
 
+  - artifact: eu2_synthesis_rya565.json
+    generator: scripts/rya565_eu2_synth_sirius.py
+    invocation: python scripts/rya565_eu2_synth_sirius.py
+    ticket: RYA-565
+    note: >-
+      LTE in-window HFS synthesis of 5 Eu II lines x 2 arms. Emits NO abundance --
+      the disposition is owed-no-value (Eu II 6645 returns dEW/dA 13.9 against the
+      40.0 floor). The artifact records the fit and the reason, which is exactly why
+      it must stay reproducible: the owed verdict rests on it. Optional flags
+      `--lines` and `--skip-sensitivity` both default to the full run recorded here.
+
   - artifact: solar_s_costasilva_rya492.json
     generator: scripts/measure_solar_s_costasilva_rya492.py
     invocation: python scripts/measure_solar_s_costasilva_rya492.py
