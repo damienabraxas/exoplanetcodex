@@ -21,12 +21,21 @@ import pipeline.abundances_derive as ad
 from pipeline.abundances_derive import (_load_solar_ews, _build_ispec_line_regions,
                                         _load_atmosphere, _load_synth_resources,
                                         _ISPEC_SOLAR_ABUND_FILE)
-from config.constants import PATHS, SOLAR_ASPLUND2021
+from config.constants import SOLAR_ASPLUND2021
+from pipeline import data_namespace as ns
+from pipeline import two_engine_inputs as tei
 
 TEFF, LOGG, FEH, XI = 5772.0, 4.438, 0.0, 1.0
 COG_THRESH = 0.5      # |log10(obs/theo)| below this = clean (obs consistent with theory)
 EW_FLOOR_MA = 5.0     # synthetic Fe II-only EW floor (mA): below = no real line -> drop
-PROC = Path(str(PATHS['solar_ew'])).parent
+
+# RYA-682: these two per-line tables are RYA-469-namespaced products of the solar
+# run — data/outputs/solar/, not the pre-namespacing data/processed/ this script
+# used to read. That path drifted at RYA-469 and was never migrated: nothing writes
+# a per-line table to data/processed/ any more, so a clean checkout hit a bare
+# pandas FileNotFoundError and stale worktrees quietly served June copies.
+PER_LINE = ns.output_path('solar', 'per_line.csv', create=False)
+PER_LINE_SYNTH_V2 = tei.engine_b_per_line_path('solar')
 
 
 def main():
@@ -43,11 +52,11 @@ def main():
     obs = np.asarray(fe2['ew'], dtype=float)
     wave = np.asarray(fe2['wave_A'], dtype=float)
 
-    moog = pd.read_csv(PROC / 'solar_per_line.csv')
-    syn = pd.read_csv(PROC / 'solar_per_line_synth_v2.csv')
+    moog = pd.read_csv(PER_LINE)
+    syn = pd.read_csv(PER_LINE_SYNTH_V2)
     moog = moog[(moog.element == 'Fe') & (moog.ion.astype(str) == 'II')]
     syn = syn[(syn.element == 'Fe') & (syn.ion.astype(str) == 'II')]
-    fe1 = pd.read_csv(PROC / 'solar_per_line.csv')
+    fe1 = pd.read_csv(PER_LINE)
     fe1 = fe1[(fe1.element == 'Fe') & (fe1.ion.astype(str) == 'I')]
     a_fe1 = float(np.nanmedian(fe1['a_1dlte']))
 
@@ -86,7 +95,7 @@ def main():
     print(f"Fe I (clean EW) median={a_fe1:.3f}")
     print(f"==> Fe I - Fe II (EW Fe I vs mixed Fe II) = {a_fe1 - fe2_final.median():+.3f} dex  (target <0.05)")
     # all-synthesis reference
-    v2 = pd.read_csv(PROC / 'solar_abundances_synth_v2.csv')
+    v2 = pd.read_csv(ns.output_path('solar','abundances_synth_v2.csv', create=False))
     fe2_syn = df['a_synth'].dropna()
     fe1_syn = float(v2[(v2.element == 'Fe') & (v2.ion.astype(str) == 'I')]['A_X_abs'].iloc[0])
     print(f"All-synthesis ref: Fe I {fe1_syn:.3f} - Fe II {fe2_syn.median():.3f} = {fe1_syn - fe2_syn.median():+.3f}")
