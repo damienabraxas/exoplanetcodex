@@ -31,7 +31,8 @@ PROC = ROOT / 'data' / 'processed'
 _GOLD_SOLAR = ns.reference_path(ns.current_version())
 
 
-from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+from tests.gold_scale_blocker import (  # noqa: E402  RYA-681/669, parameterised RYA-674
+    verdict_gold_version, xfail_if_regeneration_blocked)
 
 def _frame(rows):
     return pd.DataFrame(rows, columns=['element', 'ion', 'wavelength_air_A', 'ew_mA',
@@ -162,9 +163,12 @@ def test_reference_table_is_cited():
 @pytest.mark.skipif(not _GOLD_SOLAR.exists(),
                     reason="needs a solar run (solar_abundances.csv is gitignored)")
 def test_charter_c_still_pass_after_5380_exclusion():
-    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
+    # RYA-674: regenerate against the gold version the COMMITTED artifact declares it
+    # was built from — not a hardcoded CURRENT. Same named input, guard at full strength.
+    gold = verdict_gold_version()
+    xfail_if_regeneration_blocked(gold)
     import phase_c_verdict_rya371 as P
-    ab, ew, phase_a = P._load()
+    ab, ew, phase_a, _gold = P._load(gold)
     rows = {r['element']: r for r in P.build_verdicts(ab, ew, phase_a)}
     c = rows['C']
     assert c['verdict'] == 'PASS'                       # C survives the exclusion
@@ -175,8 +179,11 @@ def test_charter_c_still_pass_after_5380_exclusion():
 @pytest.mark.skipif(not _GOLD_SOLAR.exists(),
                     reason="needs a solar run (gitignored output)")
 def test_charter_li_reported_upper_limit_in_verdict():
-    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
+    # RYA-674: regenerate against the gold version the COMMITTED artifact declares it
+    # was built from — not a hardcoded CURRENT. Same named input, guard at full strength.
+    gold = verdict_gold_version()
+    xfail_if_regeneration_blocked(gold)
     import phase_c_verdict_rya371 as P
-    ab, ew, phase_a = P._load()
+    ab, ew, phase_a, _gold = P._load(gold)
     rows = {r['element']: r for r in P.build_verdicts(ab, ew, phase_a)}
     assert 'UPPER LIMIT' in rows['Li']['owed'] or 'UPPER_LIMIT' in rows['Li']['owed']

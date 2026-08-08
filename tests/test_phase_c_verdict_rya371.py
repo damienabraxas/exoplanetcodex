@@ -22,12 +22,16 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import phase_c_verdict_rya371 as P  # noqa: E402
 
 
-from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+from tests.gold_scale_blocker import (  # noqa: E402  RYA-681/669, parameterised RYA-674
+    verdict_gold_version, xfail_if_regeneration_blocked)
 
 def _rows():
-    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
+    # RYA-674: regenerate against the gold version the COMMITTED artifact declares it
+    # was built from — not a hardcoded CURRENT. Same named input, guard at full strength.
+    gold = verdict_gold_version()
+    xfail_if_regeneration_blocked(gold)
     # The FINAL verdict = base assembler + the Kitt-Peak overlay (main()'s flow).
-    ab, ew, phase_a = P._load()
+    ab, ew, phase_a, _gold = P._load(gold)
     rows = P.build_verdicts(ab, ew, phase_a)
     P._apply_kittpeak(rows, P._load_kittpeak())
     return {r['element']: r for r in rows}, phase_a

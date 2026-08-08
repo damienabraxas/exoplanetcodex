@@ -1,0 +1,74 @@
+# config/corrections_registry.yaml  (RYA-674 §2A)
+# =================================================================================
+# ONE ENTRY PER TABULATED CORRECTION THAT A REPORTED VALUE MAY CARRY.
+#
+# The key of each entry is the CORRECTION IDENTIFIER — the exact token that appears
+# in a gold row's `corrections_applied` list. `corrections_applied` is the machine
+# readable record of WHICH corrections a frozen number already has baked in; this
+# file is the dictionary that says what each of those tokens MEANS.
+#
+# THE ONE RULE FOR THIS FILE: it declares WHERE A NUMBER LIVES, NEVER THE NUMBER.
+# ------------------------------------------------------------------------------
+# RYA-674 exists because of one defect class: metadata asserted in one place about a
+# quantity that lives in another, with nothing keeping the two in sync (Fe's value vs
+# its scale label; a gold row's tier vs the verdict's; one rchi2 constant copied into
+# three harnesses at three values). A registry that TABULATED `magnitude: -0.05` and
+# `post_range: [7.45, 7.48]` would be a fresh instance of exactly that class: three
+# hand-maintained numbers that must all be edited together if the Magic-2013 offset is
+# ever revised, and nothing that fails if only one of them is.
+#
+# So every quantity here is a *_source POINTER into `config/constants.py`, resolved at
+# load time by `pipeline/corrections_registry.py`. The "is this value already
+# corrected?" bands that RYA-674 §2B asked for as literals are DERIVED from those
+# pointers instead (see `classifier` below) — RYA-681's construction, which places the
+# decision boundary at |magnitude| / 2 and therefore tracks the tabulated offset
+# automatically. If the offset moves, every band here moves with it, for free.
+#
+# Adding an entry: it needs a ratifying RYA-# and a literature citation. A correction
+# that is applied by code but absent here is undeclarable in `corrections_applied`,
+# which is the point — an undeclared correction is how a correction gets applied twice.
+
+1D_3D_solar_Fe_Magic2013:
+  provenance_ticket: RYA-553
+  hardening_ticket: RYA-681           # value-keyed idempotency; the derived boundary
+  citation: "Magic, Collet, Asplund et al. 2013 (Stagger 3D grid), A&A 557, A26"
+  summary: >-
+    The tabulated 1D -> 3D solar granulation correction on A(Fe I), applied at the
+    REPORTED-value layer AFTER the NLTE correction, to move our 1D-NLTE anchor onto
+    the true 3D scale the Asplund 2021 reference is quoted on.
+  layer: reported                     # not a per-line correction: it moves the anchor
+  scope:
+    elements: [Fe]
+    ions: [I]
+    stars: [solar]                    # SOLAR ONLY — the per-Teff/[Fe/H] form is owed (RYA-550)
+  # ── the magnitude: a POINTER, never a literal ──────────────────────────────
+  magnitude_source: "config.constants.CORRECTIONS_3D['Fe_1D3D_solar_dex']"
+  # ── the two scales this correction moves BETWEEN ───────────────────────────
+  pre_scale: 1D-NLTE
+  post_scale: 3D-NLTE
+  # The post-correction scale centre is an independently published quantity (the
+  # Asplund 2021 3D-true value); the pre-correction centre is that centre minus the
+  # (negative) magnitude. Both external literature, so the bands are not circular.
+  post_scale_centre_source: "config.constants.SOLAR_ASPLUND2021['Fe']"
+  # ── "does this value look already-corrected?" (RYA-674 §2B) ────────────────
+  # DERIVED, not tabulated. The two centres are separated by exactly |magnitude|, so
+  # the two-hypothesis decision boundary sits at their midpoint: half-width
+  # |magnitude| / 2. Bands are exactly adjacent, never overlap, and a value outside
+  # both is on NEITHER scale (the doubled-correction signature — RYA-669's 7.416).
+  classifier: "pipeline.solar_scale_provenance.scale_from_value"
+  # ── why the value-side check is mandatory here (RYA-674 §2B trigger) ───────
+  # The rule: a correction whose magnitude is >= half the acceptance gate's half-width
+  # cannot be caught by the gate alone, so the guard MUST also classify the value.
+  # Both terms are pointers; `value_check_required` is computed, not asserted.
+  gate_lower_source: "config.constants.FE_GATE_LOWER"
+  gate_upper_source: "config.constants.FE_GATE_UPPER"
+  gate_note: >-
+    FE_GATE is a symmetric +/-0.05 dex physical acceptance window on the 3D-true
+    reference and |magnitude| is also 0.05, so a doubled correction lands exactly on
+    the window edge and stays green (RYA-669 measured this: 9 gate tests passed on
+    A(Fe I) 7.416). The gate is NOT narrowed to compensate — it is a physics window,
+    not a bookkeeping check. The value-side classification is what catches this.
+  # ── where the applied/not-applied fact is RECORDED ────────────────────────
+  recorded_in:
+    gold_column: corrections_applied  # JSON list on the frozen gold row (RYA-674 §2A)
+    verdict_key: fe_1d3d_correction   # phase_c's own per-run correction record
