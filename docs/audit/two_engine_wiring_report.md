@@ -36,6 +36,27 @@ The guard iterates the **union of the three coverage sources**. An element absen
 
 Species that produce **no two-engine record at all**, and therefore never reach the guard: **Mg I, P I, N I, Co I, Al I, K I, Ba II, Y II, Sc II, Eu II, Zr II**.
 
+## `neither` splits in two, and the halves need opposite responses
+
+A species wired to no engine is not necessarily unmeasured. `phase_c` reads dedicated channels the orchestrator never sees — chiefly the RYA-460 Kitt Peak atlas. Reading `neither` as "unmeasured" would send someone to fix the wrong thing entirely.
+
+### Measured, but invisible to the floor (6)
+
+These carry a real value on exactly ONE channel, and the two-engine floor cannot see it. **They have no cross-engine confirmation and cannot acquire one until they are wired** — for Beta's "best of abilities on all engines" bar, this is the important class, and it is invisible in every existing report.
+
+| species | value | channel |
+|---|---|---|
+| P I | 6.61 | kittpeak: P I 10581/10596 near-IR multiplet |
+| N I | 8.188 | kittpeak: N I red 7468/8216/8683 — NLTE-wired (N_Amarsi2020_PySME, RYA |
+| Co I | 4.965 | synthesis: Co I red HFS-resolved flux fit (5 lines, HARPS; blends mode |
+| K I | 5.099 | kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) — NLTE-wire |
+| Ba II | 2.41 | synthesis: Ba II 5853.668 HFS-resolved LTE COG (Turbospectrum, VALD3 g |
+| Sc II | 3.203 | kittpeak: Sc II 4246 (blue-edge, HFS) |
+
+### Genuinely unmeasured (5)
+
+**Mg I, Al I, Y II, Eu II, Zr II** — no engine and no value anywhere. These need a measurement, not wiring.
+
 ## Per-species
 
 | species | status | A | B | A reason | B reason | treatment | blocks Beta |
@@ -86,11 +107,11 @@ Recommendations only. **No tickets filed** — per §4, Ryan directs which get f
 | C I | None — ratified decision, working as designed. |
 | O I | None — ratified decision, working as designed. |
 | Mg I | **BLOCKS BETA** — synthesis-required with no Engine B (`DELIBERATELY_SKIPPED`). Needs the underlying gap closed first. |
-| P I | Line-pool / gf work, not wiring. No wiring ticket. |
+| P I | Measured off-orchestrator (A=6.61) with NO cross-engine confirmation. Wiring it into the floor is what makes that value confirmable — a Beta-quality question, not a measurement one. |
 | N I | **BLOCKS BETA** — synthesis-required with no Engine B (`NO_MODEL_ATOM`). Needs the underlying gap closed first. |
 | Co I | **FILE A WIRING TICKET** — result exists, orchestrator does not read it. Blocks Beta: this species currently reports on no engine. |
 | Al I | Line-pool / gf work, not wiring. No wiring ticket. |
-| K I | Line-pool / gf work, not wiring. No wiring ticket. |
+| K I | Measured off-orchestrator (A=5.099) with NO cross-engine confirmation. Wiring it into the floor is what makes that value confirmable — a Beta-quality question, not a measurement one. |
 | Ba II | **FILE A WIRING TICKET** — result exists, orchestrator does not read it. Blocks Beta: this species currently reports on no engine. |
 | Y II | Line-pool / gf work, not wiring. No wiring ticket. |
 | V I | Line-pool / gf work, not wiring. No wiring ticket. |
@@ -145,7 +166,7 @@ A: 2 EW-pool line(s). B: Engine B via synth-v2 per-line
 
 ### P I — `neither`
 
-A: no line survives the curated EW pool for this species. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for P
+A: no line survives the curated EW pool for this species. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for P; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A=6.61 via "kittpeak: P I 10581/10596 near-IR multiplet" — a channel the two-engine floor never sees, so this value has NO cross-engine confirmation and never can until it is wired
 
 ### S I — `both`
 
@@ -153,11 +174,11 @@ A: 1 EW-pool line(s). B: Engine B via synth-v2 per-line; ⚠ the ratified RYA-49
 
 ### N I — `neither`
 
-A: raw-EW leg suppressed by RYA-520 (required_treatment=per_region_source) — Engine B is this species' only valid leg. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for N
+A: raw-EW leg suppressed by RYA-520 (required_treatment=per_region_source) — Engine B is this species' only valid leg. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for N; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A=8.188 via "kittpeak: N I red 7468/8216/8683 — NLTE-wired (N_Amarsi2020_" — a channel the two-engine floor never sees, so this value has NO cross-engine confirmation and never can until it is wired
 
 ### Co I — `neither`
 
-A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B is this species' only valid leg. B: the RYA-564 synthesis result already exists at data/results/co_synthesis_rya564.json — the orchestrator never reads it
+A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B is this species' only valid leg. B: the RYA-564 synthesis result already exists at data/results/co_synthesis_rya564.json — the orchestrator never reads it; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A=4.965 via "synthesis: Co I red HFS-resolved flux fit (5 lines, HARPS; b" — a channel the two-engine floor never sees, so this value has NO cross-engine confirmation and never can until it is wired
 
 ### Cr I — `both`
 
@@ -169,11 +190,11 @@ A: no line survives the curated EW pool for this species. B: no validated Engine
 
 ### K I — `neither`
 
-A: no line survives the curated EW pool for this species. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for K
+A: no line survives the curated EW pool for this species. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for K; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A=5.099 via "kittpeak: K I 7699 (clean; 7665 in the telluric O2 A-band) —" — a channel the two-engine floor never sees, so this value has NO cross-engine confirmation and never can until it is wired
 
 ### Ba II — `neither`
 
-A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B is this species' only valid leg. B: the RYA-559 synthesis result already exists at data/results/solar_ba_synthesis_rya559.json — the orchestrator never reads it
+A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B is this species' only valid leg. B: the RYA-559 synthesis result already exists at data/results/solar_ba_synthesis_rya559.json — the orchestrator never reads it; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A=2.41 via "synthesis: Ba II 5853.668 HFS-resolved LTE COG (Turbospectru" — a channel the two-engine floor never sees, so this value has NO cross-engine confirmation and never can until it is wired
 
 ### Y II — `neither`
 
@@ -193,7 +214,7 @@ A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B 
 
 ### Sc II — `neither`
 
-A: raw-EW leg suppressed by RYA-520 (required_treatment=HFS_sum) — Engine B is this species' only valid leg. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for Sc
+A: raw-EW leg suppressed by RYA-520 (required_treatment=HFS_sum) — Engine B is this species' only valid leg. B: no validated Engine-B NLTE atom: no RYA-534 Engine-B grid provenance on record for Sc; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A=3.203 via "kittpeak: Sc II 4246 (blue-edge, HFS)" — a channel the two-engine floor never sees, so this value has NO cross-engine confirmation and never can until it is wired
 
 ### Li I — `both`
 
