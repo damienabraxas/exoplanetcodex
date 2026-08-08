@@ -32,6 +32,7 @@ add a second copy here or in RYA-632's ledger_consistency_guard.
 from __future__ import annotations
 
 import argparse
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -83,6 +84,121 @@ def _last_commit_epoch(path: str) -> int:
 
 def _fmt_gap(seconds: int) -> str:
     return f"{seconds // 86400}d {(seconds % 86400) // 3600}h"
+
+
+def structure_mode() -> int:
+    """RYA-690 structural guard — the register's header must be single-valued.
+
+    RATIFIED by Ryan 2026-08-08 ("add the guard, three times is enough") after the
+    same defect landed three times in a row: RYA-673, RYA-684 and RYA-682 each
+    bumped the `**Version:` header without adding a changelog row. By the time
+    RYA-690 ran, main carried EIGHT header lines, `v36` was claimed twice, and
+    three landings had no changelog row of their own.
+
+    It recurred because the natural merge resolution is wrong here. Every ticket
+    edits the header at the same anchor, so concurrent branches always conflict;
+    "accept both" is CORRECT for an append-only log like SEQUENCE.md and WRONG for
+    a single-valued header. Same dialog, same gesture, opposite correctness. This
+    guard is what tells the two apart.
+
+    Three assertions, each derived from an observed failure:
+
+      1. exactly one `**Version:` line          (eight were on main)
+      2. its version has a changelog row        (kills the orphan class outright)
+      3. no version appears twice in the log    (`v29` identified two things)
+
+    Deliberately NOT asserted:
+
+      * CONTIGUITY. The changelog legitimately skips v25, and a guard demanding an
+        unbroken run would fail on real history and tempt someone to fabricate a
+        row to silence it. Uniqueness is the invariant; completeness is not.
+      * ORDERING. Verified against the file before deciding: the changelog reads
+        v36, v35, v34, v31, v32, v30 ... — already non-monotonic. An ordering rule
+        would fail on existing, legitimate state.
+
+    Loud-fail per RYA-518: this raises the exit code, it never warns and continues.
+    """
+    path = ROOT / REGISTER
+    if not path.exists():
+        print(f"REGISTER STRUCTURE GUARD FAILED: {REGISTER} not found.", file=sys.stderr)
+        return 1
+    text = path.read_text(encoding="utf-8")
+    lines = text.split("\n")
+
+    headers = [
+        (i, int(m.group(1)))
+        for i, l in enumerate(lines, 1)
+        if (m := re.match(r"^\*\*Version:\s*v(\d+)\*\*", l))
+    ]
+    log = [
+        (i, int(m.group(1)))
+        for i, l in enumerate(lines, 1)
+        if (m := re.match(r"^-\s*\*\*v(\d+)\*\*\s*\(\d{4}-\d{2}-\d{2}\)", l))
+    ]
+
+    problems: list[str] = []
+
+    if len(headers) != 1:
+        where = ", ".join(f"line {i} (v{v})" for i, v in headers) or "none found"
+        problems.append(
+            f"expected exactly ONE '**Version:' header line, found {len(headers)}: {where}.\n"
+            f"      A merge that kept both sides of this line is the usual cause. The header "
+            f"is single-valued: keep the NEWER version and make sure the older one has its "
+            f"own changelog row before dropping its line."
+        )
+
+    counts: dict[int, int] = {}
+    for _, v in log:
+        counts[v] = counts.get(v, 0) + 1
+    dupes = sorted(v for v, c in counts.items() if c > 1)
+    if dupes:
+        problems.append(
+            f"changelog version(s) {', '.join('v%d' % v for v in dupes)} appear more than "
+            f"once. A version number identifies exactly one landing."
+        )
+
+    # 4. The header is DERIVED, not allocated: it must name the newest changelog row.
+    #
+    # This is the RYA-690 §3D structural fix made enforceable, and it closes the hole
+    # the other three assertions leave. RYA-673's header said v29 and RYA-675's said
+    # v36 — both versions EXIST in the changelog, but owned by RYA-581 and RYA-676
+    # respectively, so an "is there a row?" check passes while the landing is still
+    # orphaned. Requiring header == max(changelog) means the only way to bump the
+    # header is to add a row, which is the behaviour the orphan class violated three
+    # times. It also removes the independently-allocated counter that made two
+    # concurrent branches collide on a number every single time.
+    if log and len(headers) == 1:
+        newest = max(v for _, v in log)
+        hv = headers[0][1]
+        if hv != newest:
+            problems.append(
+                f"header declares v{hv} but the newest changelog row is v{newest}. The "
+                f"header is a POINTER derived from the changelog, not a number you "
+                f"allocate: add your changelog row first, then point the header at it. "
+                f"(If v{hv}'s row belongs to a different ticket, yours is orphaned.)"
+            )
+
+    log_versions = {v for _, v in log}
+    for i, v in headers:
+        if v not in log_versions:
+            problems.append(
+                f"header line {i} declares v{v}, which has NO changelog row. This is the "
+                f"orphan class: the header is that landing's only record, so the line "
+                f"cannot be dropped without losing it. Add a `- **v{v}** (YYYY-MM-DD) — ...` "
+                f"row carrying the narrative, then collapse the header."
+            )
+
+    if problems:
+        print("REGISTER STRUCTURE GUARD FAILED (RYA-690):", file=sys.stderr)
+        for p in problems:
+            print(f"  - {p}", file=sys.stderr)
+        return 1
+
+    print(
+        f"Register structure OK: 1 header line (v{headers[0][1]}), "
+        f"{len(log)} changelog rows, all version numbers unique."
+    )
+    return 0
 
 
 def history_mode() -> int:
@@ -168,12 +284,27 @@ def main() -> int:
         default=None,
         help="PR mode: check the diff BASE...HEAD (default base: origin/main).",
     )
+    ap.add_argument(
+        "--structure-only",
+        action="store_true",
+        help="run only the RYA-690 structural check (no git history needed).",
+    )
     a = ap.parse_args()
+
+    # RYA-690: the structural check runs in EVERY mode and FIRST. It reads the file,
+    # not git history, so it costs nothing and cannot be skipped by choosing a mode.
+    # Both failures are reported rather than short-circuiting, so one CI run tells
+    # you everything that is wrong.
+    structure = structure_mode()
+    if a.structure_only:
+        return structure
+
     try:
-        return since_main_mode(a.since_main) if a.since_main else history_mode()
+        freshness = since_main_mode(a.since_main) if a.since_main else history_mode()
     except GitError as exc:
         print(f"REGISTER FRESHNESS GUARD ERRORED (not a pass): {exc}", file=sys.stderr)
         return 2
+    return structure or freshness
 
 
 if __name__ == "__main__":
