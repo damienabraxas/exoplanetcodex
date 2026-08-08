@@ -208,7 +208,13 @@ def _dedicated_engine_B():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--star', default='solar')
-    ap.parse_args()
+    # RYA-669: Phase 2 re-emits into its OWN directory so the 2026-07-18 record stays
+    # readable beside the fresh one. Overwriting it would destroy the only evidence of
+    # what the pre-v3 floor actually produced, which is what the diff is read against.
+    ap.add_argument('--out-dir', default=None,
+                    help='repo-relative output dir (default data/audit/rya527_two_engine)')
+    args = ap.parse_args()
+    out_dir = OUT_DIR if args.out_dir is None else (ROOT / args.out_dir)
     p = _solar_params()
     print(f"[two-engine] solar params {p}")
 
@@ -281,8 +287,8 @@ def main():
         raise SystemExit("RYA-525 TWO-ENGINE LOUD-FAIL (synthesis-required missing Engine-B):\n  - "
                          + "\n  - ".join(loud))
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / 'solar_two_engine_records.json').write_text(json.dumps(
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'solar_two_engine_records.json').write_text(json.dumps(
         dict(ticket='RYA-527 real two-engine run (RYA-525 floor)',
              gerber_nlte_delta=GERBER_NLTE_DELTA, gerber_xfail=sorted(GERBER_XFAIL),
              records=records), indent=2))
@@ -293,7 +299,7 @@ def main():
               f"{','.join(e.replace('engine','') for e in r['selected_engines']):<16s} "
               f"{str(r['engineA']):>6s}  {str(r['engineB']):>6s}  "
               f"{'MIX*' if r['mix_flagged'] else ('mix' if r['cross_engine_mix'] else '')}")
-    print(f"\n  wrote {OUT_DIR.relative_to(ROOT)}/solar_two_engine_records.json "
+    print(f"\n  wrote {out_dir.relative_to(ROOT)}/solar_two_engine_records.json "
           f"({len(records)} species)")
     return 0
 
