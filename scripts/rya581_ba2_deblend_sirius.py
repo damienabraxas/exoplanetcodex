@@ -42,19 +42,24 @@ therefore a MEASURED quantity here (`deblend_shift_dex`), not an eyeball check a
 remembered number. The run REFUSES to write a result if the blend list is empty or the
 two configurations are indistinguishable.
 
-KNOWN DUPLICATION WITH RYA-585 (PR #189, open/unmerged) — NOT resolved here
----------------------------------------------------------------------------
-RYA-585 adds `fit_profile_deblend` to scripts/solar_profile_fit.py — the same shared
-RYA-643 module this harness imports from — implementing equivalent in-window deblend
-machinery, and it carries its own sane-red_chi2 threshold of ~5.0 against the 60.0 used
-here (inherited from RYA-564; see the RELIABLE_RCHI2 note). This branch is cut from
-e72a981 and does not contain that change.
+RELATIONSHIP TO RYA-585 — RESOLVED by RYA-679
+----------------------------------------------
+This harness once flagged an unresolved overlap with RYA-585's `fit_profile_deblend`
+and a 60.0-vs-5.0 threshold divergence. RYA-679 adjudicated both:
 
-Deliberately NOT reconciled in this ticket: both PRs are open, independently reviewable,
-and NEITHER threshold has been ratified by Ryan, so rebasing onto 585 or restructuring
-around it would be churn on an unratified base. Recording the overlap is the deliverable.
-The two should converge before both land, and the 60.0-vs-5.0 divergence needs a single
-ratified answer rather than two harnesses each asserting their own.
+  * NO DUPLICATED MACHINERY. This harness never had its own fitter — it deblends by
+    building the synthesis with the VALD blend block present in-window (see
+    `read_vald_blocks`/`write_blocks`) and then calls the SHARED `fit_profile`.
+    `fit_profile_deblend` is a different chi2 DOMAIN over the same measurement, not a
+    second copy of this one; both live in `solar_profile_fit.py` as deliberate
+    variants. The RYA-643 single-source rule was already intact for the machinery.
+  * THE DIVERGENCE WAS IN THE CONSTANTS, and it is gone: `RELIABLE_DEWDA` and the
+    reliability rule are imported from `solar_profile_fit.assess_reliability`, and
+    the red_chi2 ceiling was retired outright rather than picked between.
+
+NOTE the two entrypoints' `red_chi2` are NOT comparable — a full-window value is
+dominated by the blend list. Ba II 5853 sits in a clean red window and scores 0.71,
+so the full-window fitter is the right choice here; a crowded blue line would not be.
 
 VALIDATE-DON'T-TUNE
 -------------------
@@ -81,7 +86,8 @@ _ROOT = _os_boot.path.dirname(_os_boot.path.dirname(_os_boot.path.abspath(__file
 _sys_boot.path.insert(0, _ROOT)
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solar_profile_fit import (CLIGHT, broaden,  # noqa: E402,F401
+from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402,F401
+                               RELIABLE_DEWDA, assess_reliability, broaden,
                                fit_profile, local_renorm, measure_arm_rv,
                                require_arm_rv)
 
@@ -116,8 +122,9 @@ A_LO, A_HI = float(A_GRID.min()), float(A_GRID.max())
 # NOT load-bearing for this result either way: Ba's in-window fit returns red_chi2 0.71,
 # so `reliable` is unchanged under a ceiling of 60, a ceiling of 5, or no ceiling at all.
 # Flagged for ratification rather than quietly inherited (see RYA-585 note below).
-RELIABLE_DEWDA = 40.0       # mA/dex core-EW sensitivity (RYA-551/560/564)
-RELIABLE_RCHI2 = 60.0       # in-window fit-quality ceiling (RYA-564 only; UNRATIFIED)
+# Both now imported from the shared module. The UNRATIFIED red_chi2 ceiling this
+# harness flagged was adjudicated by RYA-679 and RETIRED (red_chi2 is reported and
+# review-flagged, never gated). As predicted here, Ba is unaffected: red_chi2 0.71.
 
 # Damping for the HFS components. PRIMARY keeps the RYA-559 choice (Unsold enhancement
 # 3.000) so the ONLY thing that changes between 2.410 and this value is the blend
@@ -316,9 +323,8 @@ def _pack(fit, delta, arm_rv):
     if fit is None:
         return dict(status='no_coverage')
     a_lte = fit['A']
-    reliable = bool((not fit['railed'])
-                    and fit['dEW_dA'] >= RELIABLE_DEWDA
-                    and fit['red_chi2'] <= RELIABLE_RCHI2)
+    rel_f = assess_reliability(fit)
+    reliable = rel_f['reliable']
     return dict(A_LTE=round(a_lte, 3),
                 A_NLTE=round(a_lte + delta, 3) if delta is not None else None,
                 nlte_delta=delta,
@@ -326,7 +332,7 @@ def _pack(fit, delta, arm_rv):
                 gsig_kms=round(fit['gsig'], 2), gsig_railed=fit['gsig_railed'],
                 red_chi2=round(fit['red_chi2'], 2), npix=fit['npix'],
                 obs_EW_mA=round(fit['obs_ew_mA'], 2), core_EW_mA=fit['core_EW_mA'],
-                dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'], reliable=reliable)
+                dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'], **rel_f)
 
 
 # ────────────────────────────── main ──────────────────────────────
@@ -551,7 +557,8 @@ def main():
         'fit': {'half_window_A': FIT_HW, 'sweep_A': list(HW_SWEEP),
                 'a_grid': [A_LO, A_HI, 0.05], 'vsini': VSINI,
                 'reliable_dEW_dA_floor': RELIABLE_DEWDA,
-                'reliable_red_chi2_ceiling': RELIABLE_RCHI2},
+                'red_chi2_review_trigger': RCHI2_REVIEW,
+                'red_chi2_gates_reliable': False},
         'arms': {k: arm_rv[k] for k in arms},
         'engineA_korotin_delta': round(delta, 4),
         'engineA_in_bounds': in_bounds,
