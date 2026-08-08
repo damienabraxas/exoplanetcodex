@@ -35,8 +35,12 @@ from config.constants import SOLAR_ASPLUND2021, TARGET_ELEMENTS  # noqa: E402
 from pipeline.provenance_honesty import (  # noqa: E402  RYA-653 shared tripwire
     assert_blank_cause_is_honest)
 from pipeline.solar_scale_provenance import (  # noqa: E402  RYA-681 scale is DATA
-    REPORTED_SCALE_CORRECTED_ELEMENTS, SCALE_1D_NLTE, SCALE_3D_NLTE,
-    SCALE_STATE_COLUMN, ScaleProvenanceError, method_scale_label, scale_from_value)
+    CORRECTIONS_APPLIED_COLUMN, REPORTED_SCALE_CORRECTED_ELEMENTS, SCALE_1D_NLTE,
+    SCALE_3D_NLTE, SCALE_STATE_COLUMN, ScaleProvenanceError,
+    corrections_applied_for_state, encode_corrections_applied, method_scale_label,
+    scale_from_value)
+from pipeline.ratified_constraints import (  # noqa: E402  RYA-674 emission-time gate
+    assert_ratified_constraints_satisfied)
 
 ASPLUND_CITE = "Asplund, Amarsi & Grevesse 2021, A&A 653, A141"
 HONESTY_SITE = "gold reference builder (RYA-522)"
@@ -253,6 +257,11 @@ def main(argv=None):
                     help="also write a per-cell diff of the rebuilt candidate vs the "
                          "live FROZEN reference (RYA-653 deliverable; freezing stays "
                          "a separate, ratified act)")
+    # RYA-674: which frozen reference the --diff-md comparison is against, as a NAMED
+    # input. Default CURRENT, unchanged. Same reasoning as phase_c's --gold-version: a
+    # diff whose baseline is implicit is a diff you cannot audit later.
+    ap.add_argument("--gold-version", default="CURRENT",
+                    help="frozen gold version the --diff-md baseline reads ('CURRENT' or 'vN')")
     args = ap.parse_args(argv)
 
     V = {r["element"]: r for r in json.loads(Path(args.verdict).read_text())["verdicts"]}
@@ -275,6 +284,13 @@ def main(argv=None):
         # scale correction has no scale state to desynchronise.
         scale_state = (_scale_state_from_verdict(el, r)
                        if el in REPORTED_SCALE_CORRECTED_ELEMENTS else "")
+        # RYA-674: the AUTHORITATIVE declaration — which registered corrections this
+        # number already carries. `scale_state` above is now a VIEW of this list, not an
+        # independent second fact, so the two cannot drift; `[]` is a POSITIVE statement
+        # ("no correction applied") and is written for every row, because a blank cell
+        # meaning "apply" is precisely the silence RYA-669 fell into.
+        corrections_applied = encode_corrections_applied(
+            corrections_applied_for_state(el, scale_state) if scale_state else [])
         # An `owed` row that HAS a verdict value is held, not absent — say so on
         # the row, so the withheld value is visible instead of the row reading as
         # "nothing was ever measured" (RYA-653; the Ba/RYA-559 shape).
@@ -295,6 +311,7 @@ def main(argv=None):
             "A_X_nlte": a_frozen if a_frozen is not None else np.nan,
             "confidence": conf, "verdict": verdict, "method_scale": scale,
             SCALE_STATE_COLUMN: scale_state,          # RYA-681 — scale as DATA
+            CORRECTIONS_APPLIED_COLUMN: corrections_applied,   # RYA-674 — authoritative
             "asplund2021": asp, "n_lines": n_lines,
             "source": "phase_c_verdict (RYA-521)", "note": note,
         })
@@ -308,6 +325,12 @@ def main(argv=None):
             "Δ(v2−Asp)": f"{a_verdict - asp:+.3f}" if (a_verdict is not None and asp is not None) else "—",
             "note": note,
         })
+
+    # RYA-674 §2C: the emission-time gate. A gold candidate is the most consequential
+    # emission in the repo — it is what the next freeze immortalises — so it is checked
+    # against every ratified constraint before it is written, not after it is frozen.
+    assert_ratified_constraints_satisfied(
+        cand_rows, 'gold solar reference builder (RYA-522)')
 
     cand = pd.DataFrame(cand_rows)
     cand_path = Path(args.out_csv)
@@ -338,7 +361,7 @@ def main(argv=None):
 
     if args.diff_md:
         from pipeline.data_namespace import read_solar_reference
-        frozen, version = read_solar_reference()
+        frozen, version = read_solar_reference(args.gold_version)
         rows, n_changed = diff_vs_frozen(cand, frozen, version)
         dpath = Path(args.diff_md)
         dpath.parent.mkdir(parents=True, exist_ok=True)
