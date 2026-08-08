@@ -102,6 +102,45 @@ DELIBERATELY_SKIPPED = 'DELIBERATELY_SKIPPED'
 NO_EW_POOL = 'NO_EW_POOL'
 UNKNOWN = 'UNKNOWN'
 
+#: RYA-692. An element the RYA-526 coverage registry ratifies as LTE-only. There is no
+#: Engine-B atom because none is SUPPOSED to exist -- the majority-ion/HFS species whose
+#: ratified treatment is LTE (P, Sc, Eu today, governed by RYA-458/460).
+#:
+#: This is NOT `NO_MODEL_ATOM`. The two are opposite meanings: NO_MODEL_ATOM says the
+#: orchestrator lacks an atom it OUGHT to have; LTE_ONLY_BY_DESIGN says the absence is
+#: the ratified answer. Collapsing them was the RYA-673 defect -- the audit reads the
+#: orchestrator's own coverage functions (see the module docstring) and never consulted
+#: `data/curation/nlte_two_engine_coverage.csv`, so a ratified design decision was
+#: reported as an unfinished acquisition. RYA-676's debt registry then consumed that
+#: label and filed P/Sc/Eu as `engine-B-no-model-atom` / TBD -- three acquisition
+#: tickets for elements that must never have an atom.
+LTE_ONLY_BY_DESIGN = 'LTE_ONLY_BY_DESIGN'
+
+#: The RYA-526 coverage registry: the ratified per-element Engine-A/Engine-B disposition.
+#: Single-sourced; this audit reports the ORCHESTRATOR's state against it rather than
+#: re-deciding coverage.
+COVERAGE_REGISTRY = ROOT / 'data' / 'curation' / 'nlte_two_engine_coverage.csv'
+
+
+def _lte_only_by_design() -> dict[str, str]:
+    """Elements the RYA-526 registry ratifies as LTE-only -> the governing ticket.
+
+    Loud-fails rather than defaulting: a missing or unreadable registry means this
+    audit cannot tell a ratified LTE decision from a genuine gap, and guessing is
+    exactly the RYA-673 defect (RYA-518 discipline).
+    """
+    if not COVERAGE_REGISTRY.exists():
+        raise FileNotFoundError(
+            f'RYA-526 coverage registry missing: {COVERAGE_REGISTRY}. Without it this '
+            f'audit cannot distinguish LTE_ONLY_BY_DESIGN from NO_MODEL_ATOM and would '
+            f'report ratified design decisions as unfinished work (the RYA-673 defect).')
+    out: dict[str, str] = {}
+    with COVERAGE_REGISTRY.open(encoding='utf-8') as fh:
+        for row in csv.DictReader(fh):
+            if str(row.get('disposition', '')).strip() == 'LTE-only-by-design':
+                out[str(row['element']).strip()] = str(row.get('governing_ticket') or '').strip()
+    return out
+
 BOTH, A_ONLY, B_ONLY, NEITHER = 'both', 'A_only', 'B_only', 'neither'
 
 _ION_NUMERAL = {1: 'I', 2: 'II', 3: 'III'}
@@ -181,6 +220,9 @@ def audit(mod) -> list[dict]:
     ded_b = mod._dedicated_engine_B()          # {(el, ion): (value, source)}
     synth_req = synthesis_required(mod)
     pcc = phase_c_channels()
+    # RYA-692: read the RYA-526 ratified coverage registry so a settled LTE-only
+    # decision is never reported as a missing atom.
+    LTE_ONLY = _lte_only_by_design()
 
     rows = []
     for el, ion in canonical_species():
@@ -231,6 +273,13 @@ def audit(mod) -> list[dict]:
             b_wired, b_reason = False, NO_HARNESS_INVOCATION
             b_note = (f'the {harness_ticket} synthesis result already exists at '
                       f'{harness_path} — the orchestrator never reads it')
+        elif not atom_ok and el in LTE_ONLY:
+            # RYA-692: the RYA-526 registry ratifies this element as LTE-only. The
+            # absent atom IS the answer, not a gap -- do not report it as one.
+            b_wired, b_reason = False, LTE_ONLY_BY_DESIGN
+            b_note = (f'ratified LTE-only by {LTE_ONLY[el] or "the RYA-526 registry"} — '
+                      f'no Engine-B atom is supposed to exist for this species; this is '
+                      f'a settled disposition, NOT refinement debt')
         elif not atom_ok and el not in HARNESS_RESULTS:
             b_wired, b_reason = False, NO_MODEL_ATOM
             b_note = f'no validated Engine-B NLTE atom: {atom_citation}'
