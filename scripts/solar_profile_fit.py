@@ -232,3 +232,157 @@ def fit_profile(center, obs_w, obs_f, synth, hw, vsini, a_lo, a_hi,
     best['core_EW_mA'] = round(_core_ew(A_ref), 2)   # synthetic core EW at the fitted A
     best['railed'] = bool(A_ref <= a_lo + 0.03 or A_ref >= a_hi - 0.03)
     return best
+
+
+def _cont_ratio(xc, ratio, keep0, n_clip=2):
+    """Robust linear fit of the obs/synth flux ratio over a pixel mask (RYA-585).
+
+    Closed-form least squares + `n_clip` rounds of 2-sigma clipping. `keep0` is the
+    pixel mask the fit is allowed to use — callers pass the BLEND (target-free)
+    pixels, which is what makes this a continuum estimate rather than a fit to the
+    line being measured. Returns (slope, intercept, residual_scatter, n_used).
+    """
+    keep = keep0.copy()
+    c1 = c0 = 0.0
+    sd = 0.0
+    for _ in range(n_clip + 1):
+        n = int(keep.sum())
+        if n < 5:                                   # too few blend pixels to fit a slope
+            return 0.0, float(np.median(ratio[keep0])) if keep0.any() else 1.0, 0.0, n
+        x, y = xc[keep], ratio[keep]
+        sx, sy = x.sum(), y.sum()
+        sxx, sxy = (x * x).sum(), (x * y).sum()
+        den = n * sxx - sx * sx
+        if abs(den) < 1e-30:
+            c1, c0 = 0.0, sy / n
+        else:
+            c1 = (n * sxy - sx * sy) / den
+            c0 = (sy - c1 * sx) / n
+        res = ratio - (c0 + c1 * xc)
+        sd = float(np.std(res[keep]))
+        if sd <= 0:
+            break
+        keep = keep0 & (np.abs(res) < 2.0 * sd)
+    return float(c1), float(c0), sd, int(keep.sum())
+
+
+def fit_profile_deblend(center, obs_w, obs_f, synth, blend_only, hw, vsini,
+                        a_lo, a_hi, core_hw=0.4, sens_frac=0.05):
+    """In-window blend-fit variant of `fit_profile` (RYA-585, the RYA-551 pattern).
+
+    Same measurement (A over rest-frame syntheses, `gsig`/`dv` as nuisances), same
+    `dEW_dA` definition VERBATIM — the reliability floor is NOT moved by using this
+    path. Two things change, both aimed at a blend/continuum systematic:
+
+    (1) CONTINUUM. `fit_profile` calls `local_renorm`, which normalises the OBSERVED
+        spectrum by a top-percentile fit over the window while the SYNTHETIC keeps
+        its true continuum. That operator is asymmetric: in a crowded blue window
+        there are no true continuum pixels, so the "continuum" is pinned to blend
+        shoulders and the observed profile is scaled against a synthetic that was
+        never scaled the same way. Here we instead fit a low-order continuum RATIO
+        obs/synth over the BLEND pixels only — pixels where the target line
+        contributes nothing — so the identical normalisation applies to both by
+        construction, and the continuum can never eat the target line.
+
+    (2) CHI2 DOMAIN. chi2 is restricted to the pixels the target actually touches
+        (|target contribution| > `sens_frac` of its peak). The full-window red_chi2
+        of `fit_profile` is dominated by VALD's rendition of the couple-hundred
+        neighbouring components; it is a statistic about the blend list, not about
+        the element being measured, and it is why RYA-560 saw red_chi2 41-91 on
+        lines whose own profiles fit well.
+
+    `blend_only` is a (wl, flux) synthesis of the SAME window with the target
+    element suppressed; `blend_only - synth[A]` is therefore the target's own
+    contribution, which defines both masks above.
+
+    Returns None on insufficient coverage, else the `fit_profile` keys plus:
+      cont0/cont1 (continuum ratio), cont_scatter, cont_npix, npix_window,
+      target_EW_mA, sat_index, target_core_depth_frac.
+    """
+    As = np.array(sorted(synth))
+    a_mid = float(As[len(As) // 2])
+    sw = synth[a_mid][0]
+    pad = (obs_w > center - hw - 0.05) & (obs_w < center + hw + 0.05)
+    if pad.sum() < 10:
+        return None
+    wp, fp = obs_w[pad], obs_f[pad]
+    # target-only depth in the rest frame (blend-only MINUS blend+target)
+    contrib_raw = blend_only[1] - synth[a_mid][1]
+
+    best = dict(chi2=1e30)
+    cache = {}
+    for gs in GSIG_GRID:
+        sb_all = np.array([broaden(sw, synth[float(a)][1], vsini, gs) for a in As])
+        zc = 1.0 - broaden(sw, 1.0 - contrib_raw, vsini, gs)   # broadened target depth
+        cache[float(gs)] = (sb_all, zc)
+        for dv in DV_GRID:
+            xo = wp / (1 + dv / CLIGHT)            # shift the OBSERVED to rest
+            sel = (xo > center - hw) & (xo < center + hw)
+            if sel.sum() < 10:
+                continue
+            xs, ys = xo[sel], fp[sel]
+            zci = np.interp(xs, sw, zc)
+            m = np.abs(zci) > sens_frac * np.abs(zci).max()    # target pixels
+            if m.sum() < 5 or (~m).sum() < 10:                 # need both populations
+                continue
+            xc = xs - center
+            for i, a in enumerate(As):
+                si = np.interp(xs, sw, sb_all[i])
+                c1, c0, _, _ = _cont_ratio(xc, ys / np.clip(si, 1e-3, None), ~m)
+                r = ys / np.clip(c0 + c1 * xc, 1e-3, None) - si
+                chi2 = float(np.sum(r[m] ** 2)) / max(int(m.sum()) - 3, 1) / (0.01 ** 2)
+                if chi2 < best['chi2']:
+                    best = dict(chi2=chi2, A=float(a), gsig=float(gs), dv=float(dv),
+                                npix=int(m.sum()), npix_window=int(sel.sum()),
+                                cont0=c0, cont1=c1)
+    if 'A' not in best:
+        return None
+
+    # parabolic refine in A at the best (gsig, dv), continuum re-fitted per trial A
+    gs, dv = best['gsig'], best['dv']
+    sb_all, zc = cache[gs]
+    xo = wp / (1 + dv / CLIGHT)
+    sel = (xo > center - hw) & (xo < center + hw)
+    xs, ys = xo[sel], fp[sel]
+    zci = np.interp(xs, sw, zc)
+    m = np.abs(zci) > sens_frac * np.abs(zci).max()
+    xc = xs - center
+    chis, sd, nu = [], 0.0, 0
+    for i, a in enumerate(As):
+        si = np.interp(xs, sw, sb_all[i])
+        c1, c0, sd, nu = _cont_ratio(xc, ys / np.clip(si, 1e-3, None), ~m)
+        chis.append(float(np.sum((ys / np.clip(c0 + c1 * xc, 1e-3, None) - si)[m] ** 2)))
+    chis = np.array(chis)
+    k = int(np.argmin(chis))
+    A_ref = float(As[k])
+    if 0 < k < len(As) - 1:
+        d = chis[k + 1] - 2 * chis[k] + chis[k - 1]
+        if d > 0:
+            A_ref = float(As[k] - 0.5 * (chis[k + 1] - chis[k - 1]) / d * (As[1] - As[0]))
+    best.update(A=A_ref, red_chi2=best['chi2'],
+                gsig_railed=bool(gs <= GSIG_GRID[0] + 1e-9 or gs >= GSIG_GRID[-1] - 1e-9),
+                cont_scatter=sd, cont_npix=nu)
+
+    # sensitivity: IDENTICAL definition to fit_profile (do not diverge — the
+    # reliability floor is defined against this number).
+    def _core_ew(a):
+        aa = min(a_hi, max(a_lo, a))
+        kk = int(np.argmin(np.abs(As - aa)))
+        mm = (sw > center - core_hw) & (sw < center + core_hw)
+        return float(_trapezoid(1 - sb_all[kk][mm], sw[mm]) * 1000.0)
+    best['dEW_dA'] = round(abs(_core_ew(A_ref + 0.15) - _core_ew(A_ref - 0.15)) / 0.30, 1)
+    best['core_EW_mA'] = round(_core_ew(A_ref), 2)
+    best['railed'] = bool(A_ref <= a_lo + 0.03 or A_ref >= a_hi - 0.03)
+
+    # Diagnostics that explain a LOW dEW_dA — i.e. distinguish "the blend model was
+    # wrong" (fixable here) from "the line is saturated / blend-dominated" (not).
+    mm = (sw > center - core_hw) & (sw < center + core_hw)
+    ew_t = float(_trapezoid(zc[mm], sw[mm]) * 1000.0)         # the TARGET's own core EW
+    best['target_EW_mA'] = round(ew_t, 2)
+    # sat_index = dEW/dA over the optically-thin (linear-COG) expectation ln(10)*EW.
+    # ->1 is the unsaturated linear regime; <<1 means the core is on the flat part.
+    best['sat_index'] = round(best['dEW_dA'] / max(np.log(10) * ew_t, 1e-9), 3)
+    tot = float(np.max(1 - sb_all[int(np.argmin(np.abs(As - A_ref)))][mm]))
+    # fraction of the observed core depth that is the TARGET rather than blends
+    best['target_core_depth_frac'] = round(float(np.max(zc[mm])) / max(tot, 1e-9), 3)
+    return best

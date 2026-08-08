@@ -67,6 +67,7 @@ MN_JSON  = ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' / 'solar_mn_hfs_synthesi
 CUV_JSON = ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' / 'solar_cu_v_hfs_synthesis_rya466.json'
 SR2_JSON = ROOT / 'data' / 'results' / 'sr2_synthesis_rya551.json'
 ZR2_JSON = ROOT / 'data' / 'results' / 'zr2_synthesis_rya560.json'   # RYA-560 Zr II LTE synth
+ZR2_DEBLEND_JSON = ROOT / 'data' / 'results' / 'zr2_deblend_rya585.json'  # RYA-585 deblend refit
 MG5528_JSON = ROOT / 'data' / 'results' / 'mg_5528_synthesis_rya592.json'  # RYA-592 Mg 2nd line
 
 
@@ -163,20 +164,36 @@ def _dedicated_engine_B():
         v = json.loads(SR2_JSON.read_text()).get('4077.709', {}).get('harps', {}).get('A_NLTE')
         if v is not None:
             out[('Sr', 'II')] = (float(v), 'RYA-551 Sr II synth')
-    if ZR2_JSON.exists():
-        # RYA-560: Zr II is the majority ion -> LTE-robust (registry 279/458, the
-        # Sr II/V II precedent); A_LTE IS the value, no NLTE grid. RELIABILITY-GATED:
-        # emit only a line that cleared the dEW/dA floor and is not railed. As of the
-        # RYA-560 Sirius run NO Zr II line clears the floor (best dEW/dA 36.8 < 40),
-        # so this contributes nothing and Zr stays MEASURABLE-OWED — never a silent
-        # weak/railed value. When a reliable Zr II line lands, it flows through here.
-        zr = json.loads(ZR2_JSON.read_text())
+    # Zr II — the majority ion -> LTE-robust (registry 279/458, the Sr II/V II
+    # precedent); A_LTE IS the value, no NLTE grid. RELIABILITY-GATED throughout:
+    # emit only a line that cleared the dEW/dA floor and is not railed.
+    #
+    # Two sources, tried best-first. RYA-585 (deblend) supersedes RYA-560 for the
+    # three strong lines because it re-fits the SAME syntheses with the blends
+    # modelled in-window and a blend-pixel continuum, and additionally gates on a
+    # sane red_chi2. RYA-560 remains the fallback so the original measurement stays
+    # reproducible and wired if the deblend artifact is absent.
+    #
+    # As of the RYA-585 Sirius run BOTH are silent and Zr stays MEASURABLE-OWED.
+    # The deblend fixed what it set out to fix — red_chi2 collapsed from 41-91 to
+    # <=1.7, confirming the blend/continuum systematic was real — but every line
+    # still sits below the sensitivity floor (best dEW/dA 36.5 < 40) because these
+    # three cores are saturated (sat_index 0.36-0.69). That is an intrinsic property
+    # of the line set, not a modelling defect, so refitting cannot rescue it; the
+    # next lever is cleaner blue Zr II lines (RYA-458). Never a silent sub-floor
+    # value. When a reliable Zr II line lands, it flows through here unchanged.
+    for _src, _path, _tag in ((585, ZR2_DEBLEND_JSON, 'RYA-585 Zr II deblend LTE'),
+                              (560, ZR2_JSON, 'RYA-560 Zr II synth LTE')):
+        if not _path.exists():
+            continue
+        zr = json.loads(_path.read_text())
         rel = [d['harps']['A_LTE'] for w, d in zr.items()
                if isinstance(d, dict) and isinstance(d.get('harps'), dict)
                and d['harps'].get('reliable') and d['harps'].get('A_LTE') is not None]
         if rel:
             out[('Zr', 'II')] = (float(np.mean(rel)),
-                                 f"RYA-560 Zr II synth LTE (n={len(rel)} reliable)")
+                                 f"{_tag} (n={len(rel)} reliable)")
+            break
     if MG5528_JSON.exists():
         # RYA-592: the SECOND clean Mg I line (5528.405), measured by in-window blend-fit
         # synthesis so Mg could stop being single-line. CONCORDANCE-GATED, and as of the
