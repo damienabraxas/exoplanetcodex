@@ -19,12 +19,22 @@ other and vs the human ledger).
 
 from __future__ import annotations
 
+import argparse
+import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from pipeline import provenance_honesty, state_surfaces
+# Runnable BOTH ways on purpose. `python -m pipeline.ledger_consistency_guard` is what
+# LEDGERS.md and CI use; `python pipeline/ledger_consistency_guard.py --json` is what the
+# RYA-672 and RYA-676 briefs use, and before RYA-676 that form died on ModuleNotFoundError
+# because running a file puts pipeline/ on sys.path instead of the repo root. A smoke test
+# that cannot be run as written is a smoke test nobody runs.
+if __package__ in (None, ""):                                   # pragma: no cover
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from pipeline import provenance_honesty, refinement_debt_join, state_surfaces  # noqa: E402
 
 REPO_ROOT = state_surfaces.REPO_ROOT
 EXCEPTIONS_PATH = REPO_ROOT / "data" / "audit" / "known_verdict_divergences.yaml"
@@ -432,27 +442,113 @@ def _annotate_documented(message: str) -> str:
     return f"{message}\n      DOCUMENTED-OWED, still failing: {note}" if note else message
 
 
-def run_check(repo_root: Path = REPO_ROOT) -> int:
+# ─────────────────────────────────────────────────────────────────────────────
+#  RYA-676 -- refinement debt, reported here and NEVER enforced here.
+#
+#  The consistency checks above answer "do the artifacts contradict each other".
+#  This section answers a different question the same reader needs at the same
+#  moment: "which owed rows have a ticket that has not fired, and which have no
+#  ticket at all". They ride together because that is the read a PR author
+#  actually does; they are scored separately because one is a contradiction and
+#  the other is a backlog.
+#
+#  INFORMATIONAL BY CONSTRUCTION. It cannot change this guard's exit code -- the
+#  count is carried in the JSON and printed, and that is all. Seven of the
+#  registry's rows are Engine-B `NO_MODEL_ATOM` gaps that need a model atom
+#  acquired; nobody clears those this week, and a permanently-red guard is a
+#  guard nobody reads. A phase-close ticket escalates deliberately, by running
+#  `python -m pipeline.refinement_debt_join --phase-close`, which DOES exit 1.
+# ─────────────────────────────────────────────────────────────────────────────
+def collect_refinement_debt(phase: str = refinement_debt_join.ACTIVE_PHASE) -> dict:
+    """The two open-debt buckets, or an `error` key if the registry cannot be read.
+
+    A registry failure is reported, not raised: this guard's own verdict must not
+    depend on an informational side-car.
+    """
+    try:
+        rows = refinement_debt_join.load_registry()
+        tiers = refinement_debt_join.tracker_tiers()
+        return refinement_debt_join.open_debt(tiers, rows, phase)
+    except refinement_debt_join.RegistryError as exc:
+        return {"refinement_debt_open": [], "refinement_debt_unticketed": [],
+                "refinement_debt_error": str(exc)}
+
+
+def collect_results(repo_root: Path = REPO_ROOT,
+                    phase: str = refinement_debt_join.ACTIVE_PHASE) -> dict:
+    """Everything both output modes need, computed once."""
     allowed = load_allowed_divergences()
     states_by_element, tracker_counts, tallied_counts = collect_element_states(repo_root)
-    errors = []
+    errors: list[str] = []
     for element in sorted(states_by_element):
         errors.extend(check_element(states_by_element[element], allowed))
     errors.extend(check_counts(tracker_counts, tallied_counts))
+    undocumented = [e for e in errors
+                    if e.split(":", 1)[0].strip() not in _OWED_NOT_LAUNDERED]
+    documented = [e for e in errors if e not in undocumented]
+    return {
+        "n_elements": len(states_by_element),
+        "tracker_counts": tracker_counts,
+        "tallied_counts": tallied_counts,
+        "failures": errors,
+        "undocumented_failures": undocumented,
+        "documented_owed_failures": documented,
+        "phase": phase,
+        **collect_refinement_debt(phase),
+    }
+
+
+def _print_refinement_debt(result: dict) -> None:
+    err = result.get("refinement_debt_error")
+    if err:
+        print(f"\nREFINEMENT DEBT (RYA-676): registry unreadable -- {err}", file=sys.stderr)
+        return
+    backlog = result["refinement_debt_open"]
+    unticketed = result["refinement_debt_unticketed"]
+    print(f"\nREFINEMENT DEBT (RYA-676) -- phase {result['phase']!r}, INFORMATIONAL "
+          f"(does not affect this guard's exit code)")
+    print(f"  owed with a ticket that has NOT fired : {len(backlog)}")
+    for r in backlog:
+        print(f"    - {r['element']} {r['ion']}: {r['refinement_debt']}")
+    print(f"  owed with NO ticket filed             : {len(unticketed)}"
+          f"   <- file a ticket; a run cannot clear these")
+    for r in unticketed:
+        print(f"    - {r['element']} {r['ion']}: {r['refinement_debt']}")
+
+
+def run_check(repo_root: Path = REPO_ROOT) -> int:
+    result = collect_results(repo_root)
+    errors = result["failures"]
     if errors:
-        undocumented = [e for e in errors
-                        if e.split(":", 1)[0].strip() not in _OWED_NOT_LAUNDERED]
+        undocumented = result["undocumented_failures"]
         print("RESULTS-LEDGER CONSISTENCY GUARD FAILED:", file=sys.stderr)
         for e in errors:
             print(f"  - {_annotate_documented(e)}", file=sys.stderr)
         print(f"\n  {len(errors)} failure(s): {len(errors) - len(undocumented)} documented-owed "
               f"(RYA-654/653 -- explained above, deliberately NOT annotated away), "
               f"{len(undocumented)} undocumented.", file=sys.stderr)
+        _print_refinement_debt(result)
         return 1
-    n = len(states_by_element)
-    print(f"Results-ledger consistency guard OK: {n} elements, counts {tracker_counts}")
+    print(f"Results-ledger consistency guard OK: {result['n_elements']} elements, "
+          f"counts {result['tracker_counts']}")
+    _print_refinement_debt(result)
     return 0
 
 
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
+    ap.add_argument("--json", action="store_true",
+                    help="emit the full result as JSON on stdout (keys: "
+                         "undocumented_failures, refinement_debt_open, "
+                         "refinement_debt_unticketed, ...). Exit code is unchanged.")
+    args = ap.parse_args(argv)
+
+    if args.json:
+        result = collect_results()
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 1 if result["failures"] else 0
+    return run_check()
+
+
 if __name__ == "__main__":
-    sys.exit(run_check())
+    sys.exit(main())

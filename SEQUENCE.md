@@ -17,6 +17,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-08
 
+- **RYA-676** — refinement debt architecture: element_refinement_registry.csv (SSOT) + refinement_debt tracker column + LEDGERS.md + CI guard extension + codex-mr-code-brief skill pre-check; structurally prevents the RYA-524 → 581/585/565 orphan class recurring
+- **RYA-585** (backfill; landed PR#189 2026-08-08, no SEQUENCE line at the time) — Zr II deblend fixed the MODEL (rchi2 83→0.39); lines intrinsically insensitive, Zr stays owed, line set declared EXHAUSTED
 - **RYA-675** — staleness detector narrowed: artifact_age_stale vs cross_channel_disagreement are now distinct signals with distinct remedies; unblocks honest Ca promotion decision at v4 freeze
 - **RYA-674** — ratified constraints re-checked at EVERY emission (registry + gate + SCIENCE_STANDARDS); Fe/Li/CrII protected structurally; `--gold-version` unblocks re-emit
 - **RYA-679** — ONE reliability rule; red_chi2 ceiling RETIRED (60.0's sigma_flux rationale refuted); 80 records re-adjudicated, 0 flips; Sr II 4077 kept
