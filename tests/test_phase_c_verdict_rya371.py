@@ -22,7 +22,10 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import phase_c_verdict_rya371 as P  # noqa: E402
 
 
+from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+
 def _rows():
+    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
     # The FINAL verdict = base assembler + the Kitt-Peak overlay (main()'s flow).
     ab, ew, phase_a = P._load()
     rows = P.build_verdicts(ab, ew, phase_a)
