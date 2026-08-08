@@ -68,9 +68,26 @@ It does not "fix" gold v3. Gold v3 is write-once and frozen (RYA-469; sha256
 (RYA-669). Until that lands, `resolve_gold_scale('Fe', <gold v3 row>)` raises, and
 phase_c cannot regenerate. That is the intended, honest outcome: the channel is
 blocked LOUDLY instead of quietly emitting 7.416.
+
+RYA-674 — the declaration generalises from one string to a LIST
+--------------------------------------------------------------
+`scale_state` answers exactly one question ("which of two Fe scales is this on?"). The
+question the project actually has is "which tabulated corrections does this number
+already carry?", and an element may one day carry more than one. So the authoritative
+declaration is now `corrections_applied` — a JSON list of identifiers from
+`config/corrections_registry.yaml` — and `scale_state` is DERIVED from it rather than
+stored independently. One stored fact, two views: two stored facts is how RYA-669
+happened. The reader below prefers, in order:
+
+    corrections_applied  (RYA-674, authoritative)
+  > scale_state          (RYA-681, still written; corroborating)
+  > method_scale prose   (legacy frozen rows only)
+
+and RAISES if any two of them disagree.
 """
 from __future__ import annotations
 
+import json
 from typing import Any, Mapping
 
 import numpy as np
@@ -80,6 +97,8 @@ from config.constants import CORRECTIONS_3D, SOLAR_ASPLUND2021
 __all__ = [
     'ScaleProvenanceError',
     'SCALE_STATE_COLUMN',
+    'CORRECTIONS_APPLIED_COLUMN',
+    'FE_1D3D_CORRECTION_ID',
     'SCALE_1D_NLTE',
     'SCALE_3D_NLTE',
     'REPORTED_SCALE_CORRECTED_ELEMENTS',
@@ -87,6 +106,10 @@ __all__ = [
     'scale_centres',
     'scale_discrimination_halfwidth',
     'scale_from_value',
+    'read_corrections_applied',
+    'encode_corrections_applied',
+    'corrections_applied_for_state',
+    'scale_state_from_corrections',
     'declared_scale',
     'resolve_gold_scale',
     'apply_reported_scale_correction',
@@ -103,6 +126,18 @@ class ScaleProvenanceError(RuntimeError):
 # The explicit machine-readable declaration. Written by the gold builder from the
 # verdict's own correction record; read here in preference to any prose label.
 SCALE_STATE_COLUMN = 'scale_state'
+
+# RYA-674 — THE authoritative declaration: a JSON list of correction identifiers from
+# config/corrections_registry.yaml naming every tabulated correction this number
+# already carries. `[]` means "none applied" and is a POSITIVE statement; a missing
+# column means "this row predates the schema" and is not the same thing (the old ''
+# fallback silently meant "apply", which is how RYA-669 happened).
+CORRECTIONS_APPLIED_COLUMN = 'corrections_applied'
+
+# The one correction that currently exists at the reported layer. Named here so the
+# gold builder and the guards agree on the token without re-typing it; the token's
+# MEANING lives in config/corrections_registry.yaml, not here.
+FE_1D3D_CORRECTION_ID = '1D_3D_solar_Fe_Magic2013'
 
 SCALE_1D_NLTE = '1D-NLTE'
 SCALE_3D_NLTE = '3D-NLTE'
@@ -193,26 +228,126 @@ def _canonicalise(token: Any) -> str | None:
     return None
 
 
+def read_corrections_applied(row: Mapping[str, Any]) -> list[str] | None:
+    """The `corrections_applied` declaration on one row, or None if it has none.
+
+    RYA-674. Accepts the JSON-encoded string a CSV round-trips and the real list a
+    freshly-built candidate row carries. Distinguishes THREE states, deliberately:
+
+      * ``None``  — the row carries no `corrections_applied` column at all (a legacy
+        frozen row). "Undeclared" is not "none applied".
+      * ``[]``    — the row positively declares that no correction is baked in.
+      * ``[...]`` — the identifiers whose corrections this number already carries.
+
+    A present-but-unparseable cell RAISES: a declaration we cannot read is worse than
+    no declaration, because it looks like one.
+    """
+    if row is None or not hasattr(row, 'get'):
+        return None
+    raw = row.get(CORRECTIONS_APPLIED_COLUMN)
+    if raw is None:
+        return None
+    if isinstance(raw, (list, tuple)):
+        return [str(x) for x in raw]
+    if isinstance(raw, float) and np.isnan(raw):
+        return None
+    s = str(raw).strip()
+    if not s or s.lower() in ('nan', 'none'):
+        return None
+    try:
+        parsed = json.loads(s)
+    except ValueError as exc:
+        raise ScaleProvenanceError(
+            f"{CORRECTIONS_APPLIED_COLUMN}={raw!r} is not JSON ({exc}). A correction "
+            f"declaration that cannot be read is not a declaration (RYA-674).") from exc
+    if not isinstance(parsed, list):
+        raise ScaleProvenanceError(
+            f"{CORRECTIONS_APPLIED_COLUMN}={raw!r} decoded to {type(parsed).__name__}, "
+            f"expected a JSON list of correction identifiers (RYA-674)")
+    return [str(x) for x in parsed]
+
+
+def encode_corrections_applied(identifiers) -> str:
+    """The canonical CSV cell for a `corrections_applied` list — sorted JSON, so two
+    rows carrying the same corrections are byte-identical."""
+    return json.dumps(sorted({str(x) for x in (identifiers or [])}))
+
+
+def corrections_applied_for_state(element: str, state: str) -> list[str]:
+    """The correction identifiers a row on `state` must declare, for `element`.
+
+    Derived from `config/corrections_registry.yaml` (scope + post_scale), never a
+    literal list here: registering a second reported-layer correction for an element
+    needs no edit to this module.
+    """
+    if state not in _CANONICAL_STATES:
+        raise ScaleProvenanceError(f"{state!r} is not a canonical scale token")
+    from pipeline.corrections_registry import correction, corrections_for_element
+    return sorted(cid for cid in corrections_for_element(element)
+                  if str(correction(cid).get('post_scale')) == state)
+
+
+def scale_state_from_corrections(element: str, applied) -> str | None:
+    """The canonical scale state implied by a `corrections_applied` list, or None.
+
+    The list is the stored fact; the state is a VIEW of it. `[]` for a
+    reported-layer-corrected element positively means the pre-correction scale.
+    """
+    if applied is None:
+        return None
+    have = set(applied)
+    post = set(corrections_applied_for_state(element, SCALE_3D_NLTE))
+    if not post:
+        return None                     # element carries no reported-layer correction
+    if post & have:
+        return SCALE_3D_NLTE
+    return SCALE_1D_NLTE
+
+
 def declared_scale(row: Mapping[str, Any]) -> tuple[str | None, str]:
     """(canonical state, where it came from) for one gold row.
 
-    Prefers the explicit `scale_state` column (data, written from the verdict's own
-    record); falls back to the `method_scale` prose only for pre-RYA-681 frozen rows.
+    Reads, in order of authority: the RYA-674 `corrections_applied` list, the RYA-681
+    `scale_state` column, and — only for frozen rows that predate both — the
+    `method_scale` prose. Where a row carries more than one of these they must AGREE:
+    a disagreement is the RYA-669 shape one layer in, and RAISES rather than resolving
+    to whichever the reader happens to prefer.
     """
     if row is None:
         return None, 'absent'
+    element = str(row.get('element') or '') if hasattr(row, 'get') else ''
+    readings: list[tuple[str, str]] = []          # (state, source)
+
+    applied = read_corrections_applied(row)
+    if applied is not None and element:
+        state = scale_state_from_corrections(element, applied)
+        if state is not None:
+            readings.append((state, CORRECTIONS_APPLIED_COLUMN))
+
     explicit = row.get(SCALE_STATE_COLUMN) if hasattr(row, 'get') else None
     state = _canonicalise(explicit)
     if state is not None:
         if state not in _CANONICAL_STATES:                      # pragma: no cover
             raise ScaleProvenanceError(
                 f"{SCALE_STATE_COLUMN}={explicit!r} is not a canonical scale token")
-        return state, SCALE_STATE_COLUMN
+        readings.append((state, SCALE_STATE_COLUMN))
+
     label = row.get('method_scale') if hasattr(row, 'get') else None
     state = _canonicalise(label)
     if state is not None:
-        return state, 'method_scale (legacy prose fallback)'
-    return None, 'absent'
+        readings.append((state, 'method_scale (legacy prose fallback)'))
+
+    if not readings:
+        return None, 'absent'
+    distinct = {s for s, _ in readings}
+    if len(distinct) > 1:
+        detail = '; '.join(f"{src} says {st}" for st, src in readings)
+        raise ScaleProvenanceError(
+            f"the {element or '?'} row's own scale declarations DISAGREE — {detail}. "
+            f"`{CORRECTIONS_APPLIED_COLUMN}` is authoritative and the others are views of "
+            f"it, so they cannot legitimately differ; a row that states two scales states "
+            f"none (RYA-674).")
+    return readings[0][0], readings[0][1]
 
 
 def resolve_gold_scale(element: str, row: Mapping[str, Any], a_x: float) -> str:
@@ -283,6 +418,10 @@ def apply_reported_scale_correction(element: str, a_x: float,
             'scale': SCALE_3D_NLTE,
             'gold_scale_state': state,
             'gold_scale_source': source,
+            # RYA-674 §2B outcome 3: the value was on the pre-correction scale, so the
+            # correction is applied AND its identifier is added to the declaration the
+            # freeze will carry. The identifier list is derived from the registry.
+            'corrections_applied': corrections_applied_for_state(element, SCALE_3D_NLTE),
         }
         return a_out, record
     record = {
@@ -295,6 +434,9 @@ def apply_reported_scale_correction(element: str, a_x: float,
         'scale': state,
         'gold_scale_state': state,
         'gold_scale_source': source,
+        # RYA-674 §2B outcome 1 (idempotent skip) — the declaration the value already
+        # satisfies, carried forward unchanged so the next freeze restates it.
+        'corrections_applied': corrections_applied_for_state(element, state),
     }
     return a_pre, record
 

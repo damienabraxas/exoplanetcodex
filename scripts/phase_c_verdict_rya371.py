@@ -49,6 +49,8 @@ from pipeline.provenance_honesty import (  # noqa: E402  RYA-596 tripwire, share
     ZERO_SURVIVOR_CHANNEL, assert_blank_cause_is_honest)
 from pipeline.solar_scale_provenance import (  # noqa: E402  RYA-681 value-keyed idempotency
     apply_reported_scale_correction)
+from pipeline.ratified_constraints import (  # noqa: E402  RYA-674 emission-time gate
+    assert_ratified_constraints_satisfied)
 
 PROC = ROOT / 'data' / 'processed'
 AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
@@ -79,14 +81,27 @@ TOL_PASS = 0.10
 GROUND_UNREACHABLE = {'P'}     # FUV/near-UV, needs HST/STIS (RYA-119)
 
 
-def _load():
-    # RYA-469: the solar verdict is computed from the FROZEN gold reference (CURRENT),
-    # not a regenerable working file — a perturbed regen can never become the baseline.
-    ab, _solar_ref_version = ns.read_solar_reference('CURRENT')
+def _load(gold_version: str = 'CURRENT'):
+    """Load the verdict's inputs. Returns (gold_df, ew_pool, phase_a, resolved_version).
+
+    RYA-469: the solar verdict is computed from a FROZEN gold reference, not a
+    regenerable working file — a perturbed regen can never become the baseline.
+
+    RYA-674: WHICH frozen reference is now a PARAMETER, defaulting to CURRENT so
+    nothing else changes. It was hardcoded, and once RYA-681 made gold v3's
+    self-contradictory Fe row a loud refusal to load, that hardcoding meant the verdict
+    artifact could not be regenerated AT ALL — and since the RYA-654 element status
+    tracker is generated from that committed artifact, the tracker could not be updated
+    after any element was fixed. Naming a different frozen input is auditable (the
+    resolved version is stamped into the emitted summary and every artifact header);
+    a flag that skipped the scale guard, or an in-memory label repair, would be the
+    silent-correction pattern RYA-681 just spent a session removing.
+    """
+    ab, resolved = ns.read_solar_reference(gold_version)
     ew = pd.read_csv(ROOT / 'data' / 'measured' / 'sol_ew_results_v1.csv')
     with open(AUDIT / 'solar_phase_a_cross_arm.json') as fh:
         phase_a = json.load(fh)
-    return ab, ew, phase_a
+    return ab, ew, phase_a, resolved
 
 
 def _ew_integrity_charter():
@@ -289,6 +304,10 @@ def build_verdicts(ab, ew, phase_a):
             'provenance': _default_provenance(el),
             'fe_1d3d_correction': fe_1d3d,   # RYA-553: solar Fe 1D→3D pre/post (None for non-Fe)
         })
+    # RYA-674 §2C: the emission-time gate on ratified constraints. Runs on the BASE
+    # assembly here and again in main() after the dedicated-channel overlays, because
+    # an overlay is itself an emission — the Li 1.409 leak was an overlay-shaped move.
+    assert_ratified_constraints_satisfied(rows, 'phase_c verdict generator (RYA-371)')
     return rows
 
 
@@ -1253,9 +1272,16 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument('--star', default='solar')
+    # RYA-674: the gold source is a NAMED INPUT, not a hardcoded 'CURRENT'. Default is
+    # unchanged, so an unflagged run behaves exactly as before; naming a frozen version
+    # is how the verdict is regenerated while CURRENT carries a row that the RYA-681
+    # scale guard refuses to load. The resolved version is stamped into the summary.
+    ap.add_argument('--gold-version', default='CURRENT',
+                    help="frozen gold solar reference to compute the verdict against "
+                         "('CURRENT' or a 'vN' token, e.g. v2). RYA-469/674.")
     args = ap.parse_args()
 
-    ab, ew, phase_a = _load()
+    ab, ew, phase_a, gold_version = _load(args.gold_version)
     rows = build_verdicts(ab, ew, phase_a)
 
     # RYA-460: fold in the Kitt Peak measurements (N + P/K/Co/Sc) if the campaign ran.
@@ -1295,7 +1321,11 @@ def main():
     summary = {'ticket': 'RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)', 'star': args.star,
                'generated': date.today().isoformat(),
                'reference': 'Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)',
-               'solar_ref_version': ns.current_version(),  # RYA-469 gold reference frozen
+               # RYA-674: the gold version this run ACTUALLY read, resolved from the
+               # named input — not `current_version()`, which is a second lookup that a
+               # freeze between load and write would silently desynchronise. Metadata
+               # about a number must come from the number's own provenance.
+               'solar_ref_version': gold_version,          # RYA-469 gold reference frozen
                'tol_pass_dex': TOL_PASS, 'n_elements': len(rows), 'counts': counts,
                'prior_counts': PRIOR_COUNTS, 'diff_vs_prior': diff,
                'kittpeak_wired': bool(kp),
@@ -1313,6 +1343,12 @@ def main():
                # RYA-564: the blue-edge Co I 3845 is demoted unconditionally, whether or not
                # the red-line synthesis has run — record it so the freeze can assert it.
                'demoted_diagnostic_only': ['Co I 3845 (blue-edge artifact, RYA-564)']}
+
+    # RYA-674 §2C: re-gate AFTER every dedicated-channel overlay. The overlays above
+    # replace reported values (Kitt Peak, Cu/V, Mn, S, Ba, Co), and an overlay that
+    # substitutes a vetoed or excluded value is exactly the RYA-669 shape.
+    assert_ratified_constraints_satisfied(
+        rows, 'phase_c verdict generator (RYA-371, post-overlay)')
 
     AUDIT.mkdir(parents=True, exist_ok=True)
     DOCS.mkdir(parents=True, exist_ok=True)
