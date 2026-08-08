@@ -101,6 +101,7 @@ FE_II_KEY = "Fe_II"
 COLUMNS = [
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
+    "two_engine_wiring_status",
     "engine_a_model_vintage", "engine_b_model_vintage", "classification",
     "action_needed", "source_tickets", "editorial_updated", "notes",
 ]
@@ -108,7 +109,16 @@ COLUMNS = [
 GENERATED_COLUMNS = frozenset({
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
+    "two_engine_wiring_status",
 })
+
+#: RYA-673. The tracker already says what each element's verdict IS; it never said how
+#: many engines that verdict rests on. Those are different facts, and the second one is
+#: what Beta's "best of abilities on all engines" bar is actually about — an element
+#: reporting a clean PASS on one engine with no cross-check looked identical here to one
+#: confirmed on both.
+WIRING_REL = "data/audit/two_engine_wiring_audit.csv"
+WIRING_PATH = ROOT / WIRING_REL
 
 
 class SourceError(RuntimeError):
@@ -178,6 +188,23 @@ def load_editorial() -> dict:
     return yaml.safe_load(EDITORIAL_PATH.read_text(encoding="utf-8")) or {}
 
 
+def load_wiring() -> dict:
+    """(element, ion) -> two-engine wiring status, from the RYA-673 audit.
+
+    Loud on absence like every other source here: a blank wiring column would read as
+    "no problem" on precisely the elements the audit exists to flag.
+    """
+    if not WIRING_PATH.exists():
+        raise SourceError(
+            f"two-engine wiring audit not found at {WIRING_REL} -- regenerate it with "
+            f"scripts/rya673_two_engine_wiring_audit.py (needs Sirius: it drives both "
+            f"engines over real solar data)")
+    import csv as _csv
+    with WIRING_PATH.open(encoding="utf-8") as fh:
+        return {(r["element"], r["ion"]): r["wiring_status"]
+                for r in _csv.DictReader(fh)}
+
+
 def tier_of(element: str) -> str:
     """RYA-522 ratified freeze tier, read from the gold builder -- not re-implemented."""
     from build_solar_reference_v2_rya522 import confidence_of
@@ -193,6 +220,36 @@ def _fmt(value, spec: str = "") -> str:
     if spec and isinstance(value, (int, float)):
         return format(value, spec)
     return str(value)
+
+
+def _wiring_for(wiring: dict, element: str, ion: str) -> str:
+    """Wiring status for one row, matched on the ion the tracker reports.
+
+    The audit is keyed per SPECIES because wiring is per species — Cr I and Cr II do not
+    share an Engine-B atom. A tracker ion that finds no audit row is a real disagreement
+    between the two about which species the Codex reports, so it raises rather than
+    emitting a blank that would read as "fine".
+    """
+    if (element, ion) in wiring:
+        return wiring[(element, ion)]
+
+    # A COMBINED ion token ("Fe" -> "I+II"): the tracker carries one row for an element
+    # analysed on both stages, while wiring is per species because it IS per species --
+    # Fe I and Fe II do not share an Engine-B atom. Report each stage rather than picking
+    # one, so a row that is wired on one stage and not the other cannot read as clean.
+    if "+" in ion:
+        parts = [p.strip() for p in ion.split("+") if p.strip()]
+        statuses = [wiring.get((element, p)) for p in parts]
+        if all(statuses):
+            uniq = set(statuses)
+            return statuses[0] if len(uniq) == 1 else "; ".join(
+                f"{p}:{s}" for p, s in zip(parts, statuses))
+
+    same_element = {k[1] for k in wiring if k[0] == element}
+    raise SourceError(
+        f"{element} {ion}: no row in {WIRING_REL} (it has {element} on "
+        f"{sorted(same_element) or 'no ion'}). The tracker and the wiring audit "
+        f"disagree about which species is reported -- reconcile them, do not blank it")
 
 
 def _editorial_row(editorial: dict, key: str, element: str) -> dict:
@@ -214,6 +271,7 @@ def build_rows() -> list[dict]:
     phase_c = load_phase_c()
     regime = load_regime()
     editorial = load_editorial()
+    wiring = load_wiring()
 
     rows = []
     for rec in phase_c["verdicts"]:
@@ -224,9 +282,10 @@ def build_rows() -> list[dict]:
                 f"{element} is in the phase_c verdict but not in {REGIME_REL} -- the two "
                 f"element sets must agree; map it there rather than emitting a blank ion")
         ed = _editorial_row(editorial, element, element)
+        ion = str(spec.get("ion", "")).strip()
         rows.append({
             "element": element,
-            "ion": str(spec.get("ion", "")).strip(),
+            "ion": ion,
             "verdict": _fmt(rec.get("verdict")),
             "verdict_value": _fmt(rec.get("A_measured"), ".3f"),
             "sigma": _fmt(rec.get("sigma"), ".3f"),
@@ -235,16 +294,17 @@ def build_rows() -> list[dict]:
             "tier": tier_of(element),
             "method": _fmt(rec.get("channel")),
             "regime_verdict": str(spec.get("verdict", "")).strip(),
+            "two_engine_wiring_status": _wiring_for(wiring, element, ion),
             **{k: str(ed[k]) for k in (
                 "engine_a_model_vintage", "engine_b_model_vintage", "classification",
                 "action_needed", "source_tickets", "editorial_updated", "notes")},
         })
 
-    rows.append(_fe_ii_row(editorial))
+    rows.append(_fe_ii_row(editorial, wiring))
     return rows
 
 
-def _fe_ii_row(editorial: dict) -> dict:
+def _fe_ii_row(editorial: dict, wiring: dict) -> dict:
     """The Fe II ionization-arbiter row, from the ratified arbiter constant (RYA-305/341/405).
 
     It asserts no element verdict -- it is the diagnostic the Fe I anchor is gated on --
@@ -270,6 +330,7 @@ def _fe_ii_row(editorial: dict) -> dict:
         "method": f"arbiter synthesis -- {solar.get('provenance', '')}"
                   f" (dFe {_fmt(solar.get('dFe'), '+.3f')})",
         "regime_verdict": "",
+        "two_engine_wiring_status": _wiring_for(wiring, "Fe", "II"),
         **{k: str(ed[k]) for k in (
             "engine_a_model_vintage", "engine_b_model_vintage", "classification",
             "action_needed", "source_tickets", "editorial_updated", "notes")},
