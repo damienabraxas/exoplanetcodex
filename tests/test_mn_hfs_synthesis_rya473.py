@@ -40,6 +40,8 @@ JSON = (ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' /
         'solar_mn_hfs_synthesis_rya473.json')
 
 
+from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+
 def _data():
     return json.loads(JSON.read_text())
 
@@ -113,6 +115,7 @@ def test_fold_moves_verdict_counts_to_5_0_21_0():
     # NOT fabricated: it rests on the line-exact Amarsi δ (+0.024), not a tune.
     # RYA-556: the N I NLTE grid is now wired in the KP channel, so the NLTE-OWED
     # bucket is empty (N -> CURATION-OWED); counts are 5 / 0 / 21 / 0.
+    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
     ab, ew, phase_a = V._load()
     rows = V.build_verdicts(ab, ew, phase_a)
     V._apply_kittpeak(rows, V._load_kittpeak())
