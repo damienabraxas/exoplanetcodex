@@ -972,9 +972,13 @@ def _ba_reclassify_deblend(data):
             f"single-line terms). "
             + (f"RECONCILED within TOL_PASS {TOL_PASS} -> PASS, but it rests on ONE line: "
                f"flagged for the RYA-527 freeze review, and a second clean Ba II line "
-               f"(6141.713 / 6496.897) is the confirming follow-up. Note the two-engine "
-               f"record is still UNEVALUABLE for Ba — the synthesis route is not wired into "
-               f"_dedicated_engine_B(), so gate 3 cannot see this value (RYA-669)."
+               f"(6141.713 / 6496.897) is the confirming follow-up. Gate 3 still does not "
+               f"CONFIRM this value, for a NARROWER reason than RYA-669 found: RYA-680 "
+               f"wires this route into _dedicated_engine_B(), so Ba now carries a "
+               f"two-engine record instead of none and gate 3 is no longer UNEVALUABLE — "
+               f"but the record is ENGINE-B ONLY. Ba is synthesis-required, so RYA-520 "
+               f"suppresses its raw-EW leg and there is no cross-engine delta for gate 3 "
+               f"to test; the second clean line is what changes that."
                if verdict == 'PASS' else
                f"NOT PASS: |{d:+.3f}| exceeds TOL_PASS {TOL_PASS}"
                + ("" if reliable else " / the profile fit did not meet the reliability floor")
