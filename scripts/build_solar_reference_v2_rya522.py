@@ -34,6 +34,9 @@ sys.path.insert(0, str(ROOT))
 from config.constants import SOLAR_ASPLUND2021, TARGET_ELEMENTS  # noqa: E402
 from pipeline.provenance_honesty import (  # noqa: E402  RYA-653 shared tripwire
     assert_blank_cause_is_honest)
+from pipeline.solar_scale_provenance import (  # noqa: E402  RYA-681 scale is DATA
+    REPORTED_SCALE_CORRECTED_ELEMENTS, SCALE_1D_NLTE, SCALE_3D_NLTE,
+    SCALE_STATE_COLUMN, ScaleProvenanceError, method_scale_label, scale_from_value)
 
 ASPLUND_CITE = "Asplund, Amarsi & Grevesse 2021, A&A 653, A141"
 HONESTY_SITE = "gold reference builder (RYA-522)"
@@ -76,7 +79,43 @@ KITTPEAK_NOTES = {"N": "N I red multiplets; +0.37 owed NLTE (RYA-369)",
                   "Sc": "blue-edge HFS single line (RYA-460)"}
 
 
-def _scale_and_note(el, ch, verdict, a, asp, conf, provenance=""):
+def _scale_state_from_verdict(el, vrow):
+    """The canonical abundance-scale state for a reported-layer-corrected element,
+    read out of the VERDICT'S OWN correction record — data copied from data.
+
+    RYA-681. phase_c writes `fe_1d3d_correction` on the Fe verdict row, stating the
+    scale the reported value ended up on (`'3D-NLTE'` when the Magic-2013 offset was
+    applied, the incoming scale when it was skipped). That record — not a literal in
+    this file — is what the frozen row must carry. Raises rather than guessing: an
+    undeclared scale on a frozen anchor is exactly the hole RYA-669 fell into.
+    """
+    rec = (vrow or {}).get("fe_1d3d_correction") if isinstance(vrow, dict) else None
+    if not isinstance(rec, dict):
+        raise ScaleProvenanceError(
+            f"the verdict row for {el} carries no 'fe_1d3d_correction' record, so the "
+            f"abundance scale of its reported value is UNDECLARED. Refusing to freeze a "
+            f"scale-corrected anchor whose scale we would have to guess (RYA-681). "
+            f"Regenerate the verdict with scripts/phase_c_verdict_rya371.py.")
+    declared = str(rec.get("scale", "")).upper()
+    state = SCALE_3D_NLTE if ("3D" in declared and "1D" not in declared) else (
+        SCALE_1D_NLTE if ("1D" in declared and "3D" not in declared) else None)
+    if state is None:
+        raise ScaleProvenanceError(
+            f"the {el} verdict's fe_1d3d_correction['scale'] = {rec.get('scale')!r} is not a "
+            f"recognisable scale token (RYA-681)")
+    # Cross-check the declaration against the number it describes, so this builder can
+    # never WRITE the contradiction it now refuses to read (gold v3's shape).
+    a_rep = rec.get("a_3dnlte_post") if rec.get("applied") else rec.get("a_1dnlte_pre")
+    from_value = scale_from_value(el, a_rep) if a_rep is not None else None
+    if from_value is not None and from_value != state:
+        raise ScaleProvenanceError(
+            f"the {el} verdict contradicts itself: fe_1d3d_correction declares scale "
+            f"{state!r} but its reported value {a_rep} sits on the {from_value!r} scale "
+            f"(RYA-681/669). Refusing to freeze it.")
+    return state
+
+
+def _scale_and_note(el, ch, verdict, a, asp, conf, provenance="", vrow=None):
     """Return (method_scale, note) for one row.
 
     RYA-653: every branch here must state a cause this builder can stand behind.
@@ -84,11 +123,26 @@ def _scale_and_note(el, ch, verdict, a, asp, conf, provenance=""):
     not invented. The old tail fabricated "no independent-gf line survives the
     graded cull" for EVERY value-less row, which is how gold v2's Ba row came to
     blame a cull for an element RYA-559 has measured.
+
+    RYA-681: the Fe branch used to return the LITERAL "1D-NLTE (Fe I)" regardless of
+    what the verdict said. That is the desync source. phase_c had already applied the
+    RYA-553 1D→3D correction, so this builder copied the 3D value out of the verdict
+    and stamped a 1D label beside it — and phase_c's next run read that label and
+    re-applied the correction (RYA-669: A(Fe I) 7.416). The label is now DERIVED from
+    the verdict's own `fe_1d3d_correction` record, so value and label move together
+    or not at all.
     """
     ch = ch or ""
     d = (a - asp) if (a is not None and asp is not None) else None
     if el == "Fe":
-        return "1D-NLTE (Fe I)", "our 1D-NLTE runs ~+0.05 above Asplund 3D-true 7.46 (RYA-336) — documented offset, NOT a discrepancy"
+        state = _scale_state_from_verdict(el, vrow)
+        note = ("our 1D-NLTE runs ~+0.05 above Asplund 3D-true 7.46 (RYA-336) — "
+                "documented offset, NOT a discrepancy")
+        if state == SCALE_3D_NLTE:
+            note = ("reported anchor on the true 3D scale — the tabulated Magic-2013 "
+                    "1D→3D solar Fe offset is APPLIED (RYA-553); scale carried as DATA "
+                    "in `scale_state`, never inferred from this prose (RYA-681)")
+        return method_scale_label(el, state), note
     if el == "Li":
         return "EW (upper limit)", "CN-blended, carried as UPPER LIMIT (RYA-103) — a clean low value is a red flag"
     if "synthesis" in ch:
@@ -208,7 +262,12 @@ def main(argv=None):
         ch, verdict = r.get("channel", ""), r.get("verdict", "")
         asp = SOLAR_ASPLUND2021.get(el)
         scale, note = _scale_and_note(el, ch, verdict, a_verdict, asp, conf,
-                                      provenance=r.get("provenance", ""))
+                                      provenance=r.get("provenance", ""), vrow=r)
+        # RYA-681: the machine-readable scale declaration, for the elements that
+        # carry a reported-layer 1D→3D correction. Blank elsewhere — a row with no
+        # scale correction has no scale state to desynchronise.
+        scale_state = (_scale_state_from_verdict(el, r)
+                       if el in REPORTED_SCALE_CORRECTED_ELEMENTS else "")
         # An `owed` row that HAS a verdict value is held, not absent — say so on
         # the row, so the withheld value is visible instead of the row reading as
         # "nothing was ever measured" (RYA-653; the Ba/RYA-559 shape).
@@ -228,6 +287,7 @@ def main(argv=None):
             "A_X": a_frozen if a_frozen is not None else np.nan,
             "A_X_nlte": a_frozen if a_frozen is not None else np.nan,
             "confidence": conf, "verdict": verdict, "method_scale": scale,
+            SCALE_STATE_COLUMN: scale_state,          # RYA-681 — scale as DATA
             "asplund2021": asp, "n_lines": n_lines,
             "source": "phase_c_verdict (RYA-521)", "note": note,
         })
