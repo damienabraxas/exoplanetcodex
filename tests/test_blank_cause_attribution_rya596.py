@@ -34,7 +34,10 @@ import phase_c_verdict_rya371 as P  # noqa: E402
 HELD_WITH_SURVIVORS = ('Ca', 'Ti', 'Ni', 'Na', 'Al', 'Sr')
 
 
+from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+
 def _rows():
+    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
     ab, ew, phase_a = P._load()
     rows = P.build_verdicts(ab, ew, phase_a)
     P._apply_kittpeak(rows, P._load_kittpeak())
