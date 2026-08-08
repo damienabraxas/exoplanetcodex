@@ -72,6 +72,27 @@ from pipeline.engine_selection import (                                 # noqa: 
 CSV_OUT = ROOT / 'data' / 'audit' / 'two_engine_wiring_audit.csv'
 MD_OUT = ROOT / 'docs' / 'audit' / 'two_engine_wiring_report.md'
 ORCHESTRATOR = ROOT / 'scripts' / 'rya527_two_engine_run.py'
+PHASE_C = ROOT / 'data' / 'audit' / 'cno_synthesis' / 'solar_phase_c_verdict.json'
+
+
+def phase_c_channels() -> dict[str, tuple]:
+    """element -> (A_measured, channel) from the live verdict.
+
+    THE THIRD CHANNEL. Neither engine is the whole story: `phase_c` also reads
+    dedicated channels the orchestrator never sees — chiefly the RYA-460 Kitt Peak
+    atlas. K I is the sharpest case: it is a gold-tier PASS at 5.099, and it is
+    `neither`-wired here. Without this column the audit would read as "K is
+    unmeasured", which is false and would send someone to fix the wrong thing.
+
+    The real finding for those species is subtler and worse: they are measured on
+    exactly ONE channel that the two-engine floor cannot see, so the floor can never
+    cross-check them. That is an architectural gap, not a measurement gap.
+    """
+    if not PHASE_C.exists():
+        return {}
+    doc = json.loads(PHASE_C.read_text(encoding='utf-8'))
+    return {v['element']: (v.get('A_measured'), str(v.get('channel') or ''))
+            for v in doc.get('verdicts', [])}
 
 # ── reason classes ───────────────────────────────────────────────────────────
 NO_MODEL_ATOM = 'NO_MODEL_ATOM'
@@ -159,6 +180,7 @@ def audit(mod) -> list[dict]:
     b_cov = mod._engine_B_perline()            # {(el, ion): {...lines}}
     ded_b = mod._dedicated_engine_B()          # {(el, ion): (value, source)}
     synth_req = synthesis_required(mod)
+    pcc = phase_c_channels()
 
     rows = []
     for el, ion in canonical_species():
@@ -240,6 +262,16 @@ def audit(mod) -> list[dict]:
         # The RYA-525 loud-fail was written to make exactly this unrepresentable.
         blocks_beta = is_synth_req and not b_wired
 
+        # Is this species measured at all, and if so on a channel neither engine sees?
+        pc_val, pc_channel = pcc.get(el, (None, ''))
+        measured = pc_val is not None
+        off_channel = measured and status == NEITHER
+        if off_channel:
+            b_note += (f'; ⚠ MEASURED OFF-ORCHESTRATOR: phase_c carries A={pc_val} via '
+                       f'"{pc_channel[:60]}" — a channel the two-engine floor never '
+                       f'sees, so this value has NO cross-engine confirmation and '
+                       f'never can until it is wired')
+
         rows.append({
             'element': el, 'ion': ion,
             'engine_a_wired': a_wired, 'engine_a_reason': a_reason,
@@ -254,6 +286,10 @@ def audit(mod) -> list[dict]:
             'harness_ticket': harness_ticket or '',
             'synthesis_required': is_synth_req,
             'blocks_beta': blocks_beta,
+            'phase_c_measured': measured,
+            'phase_c_value': pc_val,
+            'measured_off_orchestrator': off_channel,
+            'phase_c_channel': pc_channel,
             'notes': f'A: {a_note}. B: {b_note}',
         })
     return rows
@@ -307,6 +343,30 @@ def render_md(rows: list[dict]) -> str:
         L += [f"Species that produce **no two-engine record at all**, and therefore "
               f"never reach the guard: **{', '.join(r['element'] + ' ' + r['ion'] for r in silent)}**.",
               '']
+
+    off = [r for r in rows if r['measured_off_orchestrator']]
+    unmeasured = [r for r in rows if r['wiring_status'] == NEITHER
+                  and not r['phase_c_measured']]
+    L += ['## `neither` splits in two, and the halves need opposite responses', '',
+          'A species wired to no engine is not necessarily unmeasured. `phase_c` reads '
+          'dedicated channels the orchestrator never sees — chiefly the RYA-460 Kitt '
+          'Peak atlas. Reading `neither` as "unmeasured" would send someone to fix the '
+          'wrong thing entirely.', '']
+    if off:
+        L += [f'### Measured, but invisible to the floor ({len(off)})', '',
+              'These carry a real value on exactly ONE channel, and the two-engine floor '
+              'cannot see it. **They have no cross-engine confirmation and cannot '
+              'acquire one until they are wired** — for Beta\'s "best of abilities on '
+              'all engines" bar, this is the important class, and it is invisible in '
+              'every existing report.', '',
+              '| species | value | channel |', '|---|---|---|']
+        L += [f"| {r['element']} {r['ion']} | {r['phase_c_value']} | "
+              f"{r['phase_c_channel'][:70]} |" for r in off]
+        L.append('')
+    if unmeasured:
+        L += [f'### Genuinely unmeasured ({len(unmeasured)})', '',
+              f"**{', '.join(r['element'] + ' ' + r['ion'] for r in unmeasured)}** — no "
+              f"engine and no value anywhere. These need a measurement, not wiring.", '']
 
     L += ['## Per-species', '',
           '| species | status | A | B | A reason | B reason | treatment | blocks Beta |',
@@ -362,6 +422,11 @@ def render_md(rows: list[dict]) -> str:
         elif r['engine_b_reason'] == NO_HARNESS_INVOCATION:
             act = ('File a wiring ticket (low cost, result already exists). Not '
                    'Beta-blocking — the species has another leg.')
+        elif r['measured_off_orchestrator']:
+            act = (f"Measured off-orchestrator (A={r['phase_c_value']}) with NO "
+                   f"cross-engine confirmation. Wiring it into the floor is what makes "
+                   f"that value confirmable — a Beta-quality question, not a "
+                   f"measurement one.")
         elif NO_EW_POOL in reasons:
             act = 'Line-pool / gf work, not wiring. No wiring ticket.'
         elif r['engine_b_reason'] == NO_MODEL_ATOM:
