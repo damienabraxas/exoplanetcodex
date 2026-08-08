@@ -537,6 +537,18 @@ def main():
                                      for a in results
                                      if results[a]['deblended'][f"{FIT_HW:.1f}"].get('A_NLTE')
                                      is not None], ddof=0)), 3) if len(results) > 1 else None,
+        # Say what that number IS, so nobody reads it as a total error budget. It is the
+        # HARPS-vs-IAG arm scatter and nothing else: it does not carry the canonical gf
+        # uncertainty, the Korotin delta uncertainty, the 1D-MARCS model error, or the
+        # fact that this is a SINGLE line. The honest read is a floor, not a sigma.
+        'sigma_basis': ('inter-arm scatter of the fitted A_NLTE (HARPS vs IAG) at the '
+                        'headline fit window ONLY — a precision floor, NOT a total '
+                        'uncertainty budget: it excludes the canonical gf uncertainty, '
+                        'the Korotin2015 delta uncertainty, 1D-MARCS model error, and the '
+                        'single-line risk. Do not quote it as the error on A(Ba).'),
+        'window_choice_spread_dex': round(
+            max(v['A_NLTE'] for v in results['harps']['deblended'].values())
+            - min(v['A_NLTE'] for v in results['harps']['deblended'].values()), 3),
         'reliable': prim['reliable'],
         'control_no_blend_A_nlte': ctrl['A_NLTE'],
         'deblend_shift_dex': shift,

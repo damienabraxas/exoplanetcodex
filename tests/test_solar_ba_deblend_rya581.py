@@ -116,6 +116,18 @@ def test_not_tuned_toward_asplund():
     assert max(vals) - min(vals) < 0.05        # window-choice insensitive
 
 
+def test_sigma_is_labelled_as_a_precision_floor_not_an_error_budget():
+    # sigma here is the HARPS-vs-IAG arm scatter (0.016) — an order of magnitude
+    # tighter than the RYA-559 EW sigma (0.07). Shipping it unlabelled would invite
+    # reading a single-line 1D measurement as +/-0.016. The record must say what it is,
+    # and the phase_c fold must repeat the caveat where a reader will actually see it.
+    d = _data()
+    basis = d['sigma_basis']
+    assert 'NOT a total' in basis and 'single-line' in basis
+    owed = V._ba_reclassify(d)['Ba']['owed']
+    assert 'precision floor' in owed and 'NOT a total error budget' in owed
+
+
 def test_fit_is_reliable_not_railed():
     d = _data()
     prim = d['per_arm']['harps']['deblended'][f"{d['fit']['half_window_A']:.1f}"]
