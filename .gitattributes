@@ -1,1 +1,27 @@
 data/linelists/vald_*_raw.txt filter=lfs diff=lfs merge=lfs -text
+
+# RYA-690 §3D — kill the recurring merge conflict at its source.
+#
+# SEQUENCE.md is an append-only narrative log: every ticket inserts one line
+# directly under the current date heading, i.e. at an identical anchor. Two
+# concurrent branches therefore collide there by construction, whatever those
+# tickets did — three conflicts of exactly this shape occurred in one batch
+# (PR #188, PR #193 twice). `union` makes git concatenate both sides instead of
+# asking, and the conflict class disappears.
+#
+# CAVEAT, stated rather than discovered later: if two branches each CREATE a new
+# date heading, union keeps both copies of that heading. That is cosmetic and
+# trivially deduped, and far cheaper than conflicting on every merge. Entry order
+# within a day becomes merge order rather than authored order, which is fine for a
+# narrative log where the date is the unit of meaning.
+SEQUENCE.md merge=union
+
+# CODEX_STATE_REGISTER.md deliberately gets NO union merge.
+#
+# This is the whole point of RYA-690. "Accept both" is CORRECT for the append-only
+# log above and WRONG for the register's `**Version:` header, which is single-valued
+# — union there would have AUTOMATED the eight-header bug rather than prevented it.
+# Same gesture, opposite correctness. The register is protected structurally instead:
+# the header carries no narrative (so there is nothing to merge but one short token),
+# and `scripts/check_register_freshness.py --structure-only` asserts there is exactly
+# one header line and that it names the newest changelog row.
