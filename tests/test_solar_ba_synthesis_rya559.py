@@ -26,6 +26,8 @@ from config.constants import SOLAR_ASPLUND2021                      # noqa: E402
 JSON = ROOT / 'data' / 'results' / 'solar_ba_synthesis_rya559.json'
 
 
+from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+
 def _data():
     return json.loads(JSON.read_text())
 
@@ -84,6 +86,7 @@ def test_ba_stays_off_pass_high():
 def test_fold_keeps_counts_5_0_21():
     # Ba was CURATION-OWED with NO value; the fold gives it a value but the category is
     # unchanged, so the 5 / 0 / 21 counts (RYA-556 N-wired baseline) are preserved.
+    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
     ab, ew, phase_a = V._load()
     rows = V.build_verdicts(ab, ew, phase_a)
     # the full main() fold chain — the 5th PASS is Mn (its synthesis fold, RYA-476).
