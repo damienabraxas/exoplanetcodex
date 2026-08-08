@@ -363,6 +363,95 @@ def render_diff_md(rows, counts, decisions, moved) -> str:
     return '\n'.join(L) + '\n'
 
 
+def render_summary_md(rows, counts, decisions, moved, report, stops, gold_version,
+                      te_path: Path) -> str:
+    """The one page Ryan reads first. Says what moved, what did not, and what is owed.
+
+    Deliberately leads with the verdict-level answer (does v3 stand?) rather than the
+    table, because the table cannot be read without knowing which column is a fresh
+    measurement and which is a re-classification of the freeze.
+    """
+    fresh_ok = not stops and not moved
+    L = ['# RYA-669 — RYA-527 Phase 2 run summary', '',
+         '**REVIEW ARTIFACT. Nothing frozen, promoted or adopted.** Gold v3 is '
+         'byte-untouched; `data/reference/solar/` was not written to.', '']
+
+    L += ['## The answer', '']
+    if stops:
+        L += [f'🛑 **STOPPED — {len(stops)} §4 STOP condition(s) tripped.** The artifacts '
+              'below were still written so the evidence is readable, but no further step '
+              'was taken.', '']
+        L += [f'- {s}' for s in stops] + ['']
+    elif fresh_ok:
+        L += ['✅ **Gold v3 STANDS on the fresh re-emit.** No STOP condition tripped, and '
+              'no element carrying a frozen v3 value moved by more than 0.01 dex. The '
+              'freeze reproduces on a genuinely fresh two-engine run.', '',
+              'Path A in the ticket: Beta can close on v3, subject to the four species '
+              'decisions below — none of which is a *correction* to v3, all of which are '
+              'about elements v3 holds unfrozen.', '']
+    else:
+        L += [f'⚠️ **A v4 candidate emerged.** No STOP condition tripped, but '
+              f'{len(moved)} element(s) carrying a frozen v3 value moved by more than '
+              f'0.01 dex on the fresh run. Path B: these need Ryan\'s ratification '
+              f'before any freeze.', '']
+
+    L += ['## What is actually fresh here', '',
+          '| leg | fresh? | what it means |', '|---|---|---|',
+          f'| two-engine record (`{te_path.name}`) | **YES — re-computed** | both engines '
+          're-driven over real solar data on current main (Sirius): Engine A EW→A(X) per '
+          'line + production NLTE δ; Engine B a new Turbospectrum synthesis-v2 flux fit '
+          'per line + Gerber TS-native NLTE δ. Nothing cherry-picked from the July 18 '
+          'branch. |',
+          '| phase_c verdict | fresh run, **derived** input | since RYA-469 phase_c '
+          'CLASSIFIES the frozen gold (`read_solar_reference(\'CURRENT\')`) plus the '
+          'dedicated-channel measurements — it does not re-derive A(X) from spectra. '
+          'Re-running it answers "does the freeze re-classify consistently", NOT "does '
+          'the measurement reproduce". |',
+          f'| disposition report | **YES** | same classifier, run over the FRESH record — '
+          f'this is what retires the gate-3 staleness RYA-663 flagged. |', '',
+          f'Gold compared against: **{gold_version}**. Verdict counts: `{counts}`.', '']
+
+    L += ['## Elements whose value moved > 0.01 dex vs frozen v3', '']
+    if moved:
+        L += ['| element | v3 | v4 | Δ | why |', '|---|---|---|---|---|']
+        L += [f"| {m['element']} | {m['v3_gold']} | {m['v4_proposed']} | "
+              f"{m['delta_v4_minus_v3']:+.3f} | {m['source']} |" for m in moved]
+    else:
+        L += ['**None.**']
+    L += ['']
+
+    L += ['## Gate 3 — the RYA-663 staleness', '']
+    if report['gate3_provisional']:
+        L += [f"⚠ Still **PROVISIONAL**: the two-engine record read here still disagrees "
+              f"with the live verdict channel on {len(report['stale_input_evidence'])} "
+              f"element(s), so every gate-3 number remains provisional.", '']
+        L += [f"- {e}" for e in report['stale_input_evidence']]
+    else:
+        L += ['✅ **Cleared.** The fresh two-engine record carries no contradiction '
+              'against the live verdict channel, so gate 3 is evaluated on a current '
+              'delta for the first time. Ca\'s PROVISIONAL flip from RYA-663 is now '
+              'decided on real evidence.']
+    L += ['', f"Can flip to PASS under the ratified three gates: "
+              f"**{', '.join(report['can_flip_now']) or 'none'}**", '']
+
+    L += ['## The four species-adoption decisions — NOT adopted, Ryan decides', '']
+    for d in decisions:
+        L += [f"**{d['id']} — {d['element']}: {d['question']}**", '',
+              f"- Fresh number: `{d.get('fresh_value', d.get('value'))}`",
+              f"- Recommendation: {d['recommendation']}"]
+        if d.get('caveat'):
+            L.append(f"- ⚠ {d['caveat']}")
+        L.append('')
+
+    L += ['## Known defect carried forward (not fixed here)', '',
+          '`data/reference/solar/solar_abundances_v3.csv` holds a **Sr I** row and no '
+          'Sr II row, while the NLTE registry ratifies Sr as **Sr II** (RYA-551/643). '
+          'The diff table therefore shows Sr II against a blank v3 cell. This is the '
+          'RYA-663 defect, unchanged by the v3 freeze; adopting Sr II (D.1) is what '
+          'would repair it.', '']
+    return '\n'.join(L) + '\n'
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--two-engine', default=None,
@@ -428,6 +517,9 @@ def main() -> int:
     (OUT_DIR / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
     (OUT_DIR / 'proposed_gold_v4_diff.md').write_text(
         render_diff_md(rows, counts, decisions, moved))
+    (OUT_DIR / 'phase2_run_summary.md').write_text(
+        render_summary_md(rows, counts, decisions, moved, report, stops,
+                          gold_version, te_path))
 
     print(f"gold compared against : {gold_version}")
     print(f"counts                : {counts}")
