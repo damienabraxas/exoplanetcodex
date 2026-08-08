@@ -4,15 +4,14 @@
 
 **Discovery only.** No wiring was changed, no engine touched, no verdict regenerated. Every "wired" below means *the orchestrator's own coverage function returned a value for this species on real solar data* — not that a code path appears to exist.
 
-`both` **10** · `A_only` **0** · `B_only` **6** · `neither` **11** — 27 species
+`both` **10** · `A_only` **0** · `B_only` **7** · `neither` **10** — 27 species
 
 ## The headline
 
-**11 of 27 species have no Engine B.** Of those, **7 are synthesis-required** — elements whose raw-EW leg is deliberately suppressed by RYA-520, so Engine B is not their second opinion, it is their *only* leg. Those rows are reporting on one engine or on nothing.
+**10 of 27 species have no Engine B.** Of those, **6 are synthesis-required** — elements whose raw-EW leg is deliberately suppressed by RYA-520, so Engine B is not their second opinion, it is their *only* leg. Those rows are reporting on one engine or on nothing.
 
 | species | treatment | why Engine B is missing |
 |---|---|---|
-| Mg I | `synthesis` | `DELIBERATELY_SKIPPED` |
 | N I | `per_region_source` | `NO_MODEL_ATOM` |
 | Co I | `synthesis` | `NO_HARNESS_INVOCATION` |
 | Ba II | `synthesis` | `NO_HARNESS_INVOCATION` |
@@ -34,7 +33,7 @@ for (el, ion) in species:
 
 The guard iterates the **union of the three coverage sources**. An element absent from all three never enters the loop, so it is never tested — it is skipped in silence. The guard catches a *partially* covered species and is blind to a *completely* uncovered one, which is the more serious case.
 
-Species that produce **no two-engine record at all**, and therefore never reach the guard: **Mg I, P I, N I, Co I, Al I, K I, Ba II, Y II, Sc II, Eu II, Zr II**.
+Species that produce **no two-engine record at all**, and therefore never reach the guard: **P I, N I, Co I, Al I, K I, Ba II, Y II, Sc II, Eu II, Zr II**.
 
 ## `neither` splits in two, and the halves need opposite responses
 
@@ -53,9 +52,9 @@ These carry a real value on exactly ONE channel, and the two-engine floor cannot
 | Ba II | 2.41 | synthesis: Ba II 5853.668 HFS-resolved LTE COG (Turbospectrum, VALD3 g |
 | Sc II | 3.203 | kittpeak: Sc II 4246 (blue-edge, HFS) |
 
-### Genuinely unmeasured (5)
+### Genuinely unmeasured (4)
 
-**Mg I, Al I, Y II, Eu II, Zr II** — no engine and no value anywhere. These need a measurement, not wiring.
+**Al I, Y II, Eu II, Zr II** — no engine and no value anywhere. These need a measurement, not wiring.
 
 ## Per-species
 
@@ -65,7 +64,7 @@ These carry a real value on exactly ONE channel, and the two-engine floor cannot
 | Fe II | `both` | ✓ | ✓ | — | — | `astrophysical_gf_differential` | — |
 | C I | `B_only` | ✗ | ✓ | DELIBERATELY_SKIPPED | — | `exclude` | — |
 | O I | `B_only` | ✗ | ✓ | DELIBERATELY_SKIPPED | — | `cited_substitution` | — |
-| Mg I | `neither` | ✗ | ✗ | DELIBERATELY_SKIPPED | DELIBERATELY_SKIPPED | `synthesis` | **YES** |
+| Mg I | `B_only` | ✗ | ✓ | DELIBERATELY_SKIPPED | — | `synthesis` | — |
 | Si I | `both` | ✓ | ✓ | — | — | `astrophysical_gf_differential` | — |
 | Ca I | `both` | ✓ | ✓ | — | — | `none` | — |
 | Ti I | `both` | ✓ | ✓ | — | — | `astrophysical_gf_differential` | — |
@@ -106,7 +105,7 @@ Recommendations only. **No tickets filed** — per §4, Ryan directs which get f
 |---|---|
 | C I | None — ratified decision, working as designed. |
 | O I | None — ratified decision, working as designed. |
-| Mg I | **BLOCKS BETA** — synthesis-required with no Engine B (`DELIBERATELY_SKIPPED`). Needs the underlying gap closed first. |
+| Mg I | None — ratified decision, working as designed. |
 | P I | Measured off-orchestrator (A=6.61) with NO cross-engine confirmation. Wiring it into the floor is what makes that value confirmable — a Beta-quality question, not a measurement one. |
 | N I | **BLOCKS BETA** — synthesis-required with no Engine B (`NO_MODEL_ATOM`). Needs the underlying gap closed first. |
 | Co I | **FILE A WIRING TICKET** — result exists, orchestrator does not read it. Blocks Beta: this species currently reports on no engine. |
@@ -140,9 +139,9 @@ A: raw-EW leg suppressed by RYA-520 (required_treatment=exclude) — Engine B is
 
 A: raw-EW leg suppressed by RYA-520 (required_treatment=cited_substitution) — Engine B is this species' only valid leg. B: Engine B via dedicated harness
 
-### Mg I — `neither`
+### Mg I — `B_only`
 
-A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B is this species' only valid leg. B: harness IS wired (RYA-592) and is gated shut: it returns nothing until its reliability/concordance condition is met. Wiring is NOT the fix — the measurement is.
+A: raw-EW leg suppressed by RYA-520 (required_treatment=synthesis) — Engine B is this species' only valid leg. B: Engine B via synth-v2 per-line
 
 ### Si I — `both`
 
