@@ -1,5 +1,17 @@
 # Core scientific stack
-numpy>=1.26.0
+#
+# RYA-682: the numpy CEILING is load-bearing, not tidiness. iSpec's
+# create_free_abundances_structure (ispec/abundances.py:132) assigns a size-1 array
+# into a scalar recarray slot; numpy deprecated that in 1.25 and made it an ERROR in
+# 2.3. On numpy >= 2.3 every element loses its atom code, the synthesis-v2 run writes
+# a full-length per-line table in which every row is status='failed', and it EXITS 0 —
+# so the two-engine driver silently degrades to one engine. Measured on Sirius:
+# numpy 2.5.1 -> 0 usable lines of 129; numpy 2.2.6 -> all fine.
+#
+# This floor+ceiling is also what docs/SCIENCE_STANDARDS.md (RYA-517) ratifies as the
+# reference compute stack: python 3.12 + numpy 2.2.x, "the newest stack with a proven
+# iSpec C-extension build". Raising the ceiling requires fixing iSpec first.
+numpy>=1.26.0,<2.3
 scipy>=1.12.0
 matplotlib>=3.8.0
 pandas>=2.2.0
