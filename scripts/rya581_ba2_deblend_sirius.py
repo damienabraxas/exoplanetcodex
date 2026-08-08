@@ -42,6 +42,20 @@ therefore a MEASURED quantity here (`deblend_shift_dex`), not an eyeball check a
 remembered number. The run REFUSES to write a result if the blend list is empty or the
 two configurations are indistinguishable.
 
+KNOWN DUPLICATION WITH RYA-585 (PR #189, open/unmerged) — NOT resolved here
+---------------------------------------------------------------------------
+RYA-585 adds `fit_profile_deblend` to scripts/solar_profile_fit.py — the same shared
+RYA-643 module this harness imports from — implementing equivalent in-window deblend
+machinery, and it carries its own sane-red_chi2 threshold of ~5.0 against the 60.0 used
+here (inherited from RYA-564; see the RELIABLE_RCHI2 note). This branch is cut from
+e72a981 and does not contain that change.
+
+Deliberately NOT reconciled in this ticket: both PRs are open, independently reviewable,
+and NEITHER threshold has been ratified by Ryan, so rebasing onto 585 or restructuring
+around it would be churn on an unratified base. Recording the overlap is the deliverable.
+The two should converge before both land, and the 60.0-vs-5.0 divergence needs a single
+ratified answer rather than two harnesses each asserting their own.
+
 VALIDATE-DON'T-TUNE
 -------------------
 Nothing is adjusted toward Asplund 2021 A(Ba) = 2.27. The observed profile, the canonical
@@ -91,9 +105,19 @@ CORE_HW = 0.4               # core-EW integration half-window (blend accounting)
 A_GRID = np.round(np.arange(1.85, 2.81, 0.05), 3)   # A(Ba) trial grid (brackets 2.27)
 A_LO, A_HI = float(A_GRID.min()), float(A_GRID.max())
 
-# Reliability floor — identical to RYA-551/560/564 so Ba is judged on the same bar.
-RELIABLE_DEWDA = 40.0       # mA/dex core-EW sensitivity
-RELIABLE_RCHI2 = 60.0       # in-window fit-quality ceiling
+# Reliability floor. Be precise about where each half comes from, because they do NOT
+# share a provenance:
+#   * the dEW/dA sensitivity floor is the RYA-551/560/564 bar (rya560:79, rya564:95);
+#   * the red_chi2 ceiling exists ONLY in RYA-564 (rya564_co1_synth_sirius.py:96, same
+#     value, same three-term conjunction at :573-574). RYA-551 defines no reliability
+#     constant at all and RYA-560 gates on sensitivity + railed only. So this is the Co
+#     bar, not a universal one, and it has never been separately ratified — RYA-564's
+#     own stated reason for 60 is that the sigma_flux=0.01 floor inflates red_chi2.
+# NOT load-bearing for this result either way: Ba's in-window fit returns red_chi2 0.71,
+# so `reliable` is unchanged under a ceiling of 60, a ceiling of 5, or no ceiling at all.
+# Flagged for ratification rather than quietly inherited (see RYA-585 note below).
+RELIABLE_DEWDA = 40.0       # mA/dex core-EW sensitivity (RYA-551/560/564)
+RELIABLE_RCHI2 = 60.0       # in-window fit-quality ceiling (RYA-564 only; UNRATIFIED)
 
 # Damping for the HFS components. PRIMARY keeps the RYA-559 choice (Unsold enhancement
 # 3.000) so the ONLY thing that changes between 2.410 and this value is the blend
