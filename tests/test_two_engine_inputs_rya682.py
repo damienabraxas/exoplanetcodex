@@ -184,6 +184,44 @@ def test_driver_no_longer_hand_builds_the_output_path():
     assert 'tei.engine_b_per_line_path' in src
 
 
+# ── the numpy ceiling that prevents recurrence ───────────────────────────────
+
+def _numpy_specifier(path: Path) -> str:
+    for raw in path.read_text().splitlines():
+        line = raw.split('#')[0].strip()
+        if line.lower().startswith('numpy'):
+            return line
+    return ''
+
+
+def test_requirements_pins_numpy_below_the_ispec_break():
+    """The declared dependency set must not float onto a numpy that breaks iSpec.
+
+    Ratified 2026-08-08. Without a ceiling the CI venv rebuilds onto the newest
+    numpy; from 2.3 on, ispec/abundances.py:132 raises and every synthesis-v2 line
+    is written status='failed' while the run exits 0. The guards elsewhere in this
+    module make that loud — the ceiling is what stops it happening.
+    """
+    spec = _numpy_specifier(ROOT / 'requirements.txt')
+    assert spec, "numpy is no longer declared in requirements.txt"
+    assert '<2.3' in spec.replace(' ', ''), (
+        f"requirements.txt numpy specifier is {spec!r} — the <2.3 ceiling is "
+        f"load-bearing (RYA-682). Raising it requires fixing iSpec's "
+        f"create_free_abundances_structure first.")
+
+
+def test_numpy_ceiling_is_explained_where_it_is_declared():
+    """A bare ceiling invites a future 'why is this pinned?' bump."""
+    text = (ROOT / 'requirements.txt').read_text()
+    assert 'RYA-682' in text and 'abundances.py' in text
+
+
+def test_py39_lock_is_below_the_ceiling_too():
+    spec = _numpy_specifier(ROOT / 'requirements-lock-py39.txt')
+    assert spec.startswith('numpy==1.'), (
+        f"the py39 lock pins {spec!r}; it must also sit below the 2.3 break")
+
+
 # ── the pre-RYA-469 path drift is gone ───────────────────────────────────────
 
 def test_rya305_reads_the_namespaced_per_line_tables():
