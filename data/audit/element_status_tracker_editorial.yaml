@@ -96,13 +96,22 @@ Cu:
   notes: HFS_SUMMING = synthesis per RYA-463 registry; live .grd offline at audit time.
   source_tickets: RYA-466,RYA-402
 Eu:
-  action_needed: HFS-resolved synthesis of Eu II 6645
-  classification: GENUINELY-OWED (HFS)
-  editorial_updated: '2026-07-14'
+  action_needed: Acquire a cleaner line / higher-SNR blue arm (Eu II 4129/4205). The red
+    HFS line set is exhausted — re-running 6645 buys nothing.
+  classification: GENUINELY-OWED (noise-floor)
+  editorial_updated: '2026-08-07'
   engine_a_model_vintage: LTE
   engine_b_model_vintage: LTE
-  notes: 'No value in the audit: HFS_SUMMING = HFS_sum per RYA-463 registry.'
-  source_tickets: RYA-102,RYA-92
+  notes: 'RYA-565 DID the HFS-resolved in-window blend-fit synthesis the registry called
+    the finished treatment (5 HFS-resolved Eu II lines x 2 arms, GES v6 LWHS pattern).
+    Result: owed-no-value. The profile fit is GOOD (rchi2 0.16, not railed, 61 sigma
+    detection) but Eu II 6645 returns dEW/dA 13.9 mA/dex against the 40.0 floor, and
+    cog_linearity 0.95 puts it on the LINEAR curve of growth — so the sensitivity floor
+    is unreachable for this line at ANY S/N. Binding error is SYSTEMATIC, not photon
+    noise: line-to-line scatter 0.349 dex (range 0.94) over 5 lines vs sigma_A(noise)
+    0.0074 dex. Noise-floor/blend-limited (RYA-458), NOT NLTE-limited. Registry wording
+    softened to match in nlte_two_engine_coverage.csv + nlte_grid_availability.csv.'
+  source_tickets: RYA-102,RYA-92,RYA-565
 Fe:
   action_needed: 'Batch A RE-DERIVE (HIGHEST): confirm the MPIA inelastic-H recipe and reconcile code-vs-register
     (register claims Amarsi-2022-NN), gated on Fe I/II balance'
