@@ -37,6 +37,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from config.constants import SOLAR_ASPLUND2021, CORRECTIONS_3D          # noqa: E402
+from pipeline.ratified_constraints import (  # noqa: E402  RYA-674 emission-time gate
+    assert_ratified_constraints_satisfied)
 
 VERDICT = ROOT / 'data' / 'audit' / 'cno_synthesis' / 'solar_phase_c_verdict.json'
 RECORDS = ROOT / 'data' / 'audit' / 'rya527_two_engine' / 'solar_two_engine_records.json'
@@ -193,6 +195,13 @@ def main():
                       'metals take the two-engine synthesis floor value; Sr II from RYA-551',
         'counts': counts, 'gerber_nlte_delta': gerber_delta, 'gerber_xfail': sorted(gerber_xfail),
         'rya524_reconciliation': reconciliation, 'flags': flags, 'diff_table': rows}
+    # RYA-674 §2C. THIS is where the Li 1.409 and Cr II 5.676 leaks happened: the
+    # ladder above adopts `te_record['reported']` for every non-ratified element, with
+    # no re-check of the RYA-563 upper-limit veto or the RYA-240/558 exclusion. The gate
+    # is loud, so a stale two-engine artifact that still carries either leak stops this
+    # script rather than propagating into a proposed gold table.
+    assert_ratified_constraints_satisfied(
+        rows, 'RYA-527 verdict re-emit / proposed gold v3 ladder')
     (OUT_DIR / 'proposed_gold_v3_diff.json').write_text(json.dumps(payload, indent=2))
 
     # ---- human-readable review artifact ----
