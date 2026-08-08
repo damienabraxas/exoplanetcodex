@@ -279,3 +279,89 @@ defect this standard targets, and forcing it Sirius-only would reverse Mac-banki
 gate — so it is **deliberately left on the local iSpec install** here. Whether to also move the EW
 measurement leg's atmospheres to the Sirius root is an explicit architecture question for a follow-up
 ticket, not silently decided inside this one.
+
+## Ratified Constraints — structural re-check on every emission — RYA-674
+
+Any element value, species selection, line inclusion, correction application, or gate result that has
+been ratified by Ryan is a ratified constraint. Ratified constraints are protected by structural
+re-check at emission time, not by discipline or by trust in cached state. Every emission path
+(phase_c verdict, gold reference builder, disposition report, two-engine record) invokes
+`pipeline/ratified_constraints.py::assert_ratified_constraints_satisfied()` before writing. Violation
+is loud-fail, not warn-and-continue.
+
+The pattern is deliberate: a ratified constraint that a downstream module could silently violate is
+not actually ratified — it is a suggestion. The RYA-596 blank-cause honesty tripwire is the template.
+Make the contradiction unrepresentable, not merely detectable. The alternative (each module
+remembering to re-check each ratified constraint) has failed at least three times in the RYA-527 arc
+(Fe method_scale, Li 1.409, Cr II 5.676) and will continue failing.
+
+Adding a ratified constraint requires:
+
+1. The ratifying Ryan decision (in the ratifying ticket's comments or description)
+2. A new entry in `pipeline/ratified_constraints.py` registry, with the ratifying ticket's RYA-# as
+   provenance
+3. A test in `tests/test_ratified_constraints.py` that exercises the check
+
+Removing a ratified constraint requires an explicit Ryan-ratified reversal in a new ticket. The
+registry is append-only + revoked (with a revocation ticket), never silent-delete.
+
+### The registry as it stands (RYA-674)
+
+| `constraint_id` | type | ratified by | check semantics |
+|---|---|---|---|
+| `Li_6707_veto_1_409` | `FORBIDDEN_VALUE` | RYA-563 (RYA-103/458) | An element whose registry `required_treatment` is `upper_limit` (membership read from `problem_children.csv`, never a hardcoded element list) may not have its reported value sourced from the two-engine synthesis floor, and may never be emitted with verdict `PASS`. A floor **record** for such an element must carry its value under `diagnostic_only` / `diagnostic_value`, not `reported`. The phase_c upper limit itself (A(Li) 0.727) is the ratified treatment and passes. |
+| `Cr_II_species_exclusion` | `EXCLUDED_SPECIES` | RYA-240 / RYA-558 | A species in `engine_selection.RATIFIED_EXCLUDED_SPECIES` (today: Cr II) may never carry a value in an emission unless the row is marked `diagnostic_only`. Cr is reported as Cr I. Scope is the **explicit, cited** list, not the registry-ion rule that additionally excludes Ti II / Si II from the selector — those are not ratified emission-time constraints. |
+| `Fe_1D_3D_correction_required_on_solar_report` | `REQUIRED_CORRECTION` | RYA-553 (hardened RYA-681/674) | For every element with a reported-layer 1D→3D correction registered in `config/corrections_registry.yaml` (today: solar Fe), an element-level emission must (a) sit on one of the two recognised scales — a value on neither is the doubled-correction signature (7.416); (b) agree with its own declaration — a 3D value under a 1D declaration is gold v3's shape and re-arms the correction; and (c) sit on the **post**-correction scale, since a reported solar anchor carries the correction. Species-level diagnostic records are exempt: the floor's raw Fe I leg is not a claim about the reported anchor. |
+
+### Two row kinds, and why the distinction is load-bearing
+
+`RowKind.ELEMENT_VALUE` is an element-level assertion ("element X's reported / frozen / proposed value
+is V"). `RowKind.SPECIES_RECORD` is a per-species record in a diagnostic table, where a table may
+legitimately carry species we would never report (the two-engine artifact records Fe II, Ti II and
+Si II beside the reported ions).
+
+Collapsing the two would be wrong in both directions. Applied to species records, the Cr II exclusion
+would forbid the very diagnostic RYA-558 ratified keeping. Applied only to element rows, the floor
+could keep writing Li 1.409 into `reported` for something downstream to adopt — which is exactly what
+happened. So a species record may carry a vetoed or excluded species **only if it is marked
+`diagnostic_only`**, which is the demotion RYA-558 and RYA-563 each specify in their own words.
+
+### Correction bookkeeping is DATA, and the declaration is a list — RYA-674 / RYA-681
+
+A frozen gold row declares which tabulated corrections its number already carries, in a
+`corrections_applied` column holding a JSON list of identifiers from
+`config/corrections_registry.yaml`. That list is the **single stored fact**. RYA-681's `scale_state`
+and the human-readable `method_scale` prose are **views derived from it** at write time, never
+independently computed — two stored facts that must agree is precisely how RYA-669 happened, and
+`declared_scale()` raises if any two of them disagree.
+
+`[]` is a positive statement ("no correction applied") and is written on every row. An **absent**
+column means "this row predates the schema" and is a different state; the old empty-string fallback
+silently meant "apply", which is the silence the doubled correction fell into.
+
+`config/corrections_registry.yaml` declares **where a number lives, never the number**. Every quantity
+is a `*_source` pointer into `config/constants.py`, resolved at load by
+`pipeline/corrections_registry.py`. The "does this value look already-corrected?" bands are derived
+from the magnitude — the two published scale centres are separated by exactly `|magnitude|`, so the
+two-hypothesis decision boundary is their midpoint and the half-width is `|magnitude| / 2`. Revise the
+tabulated offset and every band moves with it, with no edit anywhere else. A tabulated
+`magnitude: -0.05` beside a tabulated `post_range: [7.45, 7.48]` would be three hand-maintained copies
+of one literature value, none of which fails if only one is edited — the defect class this standard
+exists to end, one level up.
+
+`value_check_required()` states when the value-side check is mandatory rather than optional, and
+computes it: a correction whose magnitude is at least half the acceptance gate's half-width cannot be
+caught by the gate alone. Solar Fe is the archetype — `|−0.05|` against `FE_GATE`'s `0.05` half-width,
+so a doubled correction lands exactly on the window edge and stays green (RYA-669 measured nine gate
+tests passing on A(Fe I) 7.416). **`FE_GATE` is not narrowed to compensate**: it is a physical
+acceptance window, not a bookkeeping check.
+
+### Named inputs, not implicit ones
+
+`scripts/phase_c_verdict_rya371.py --gold-version` and
+`scripts/build_solar_reference_v2_rya522.py --gold-version` name the frozen gold an emission is
+computed against, defaulting to `CURRENT`. The resolved version is stamped into the emitted summary,
+so an artifact always says which frozen input produced it — and the guards run at full strength
+against whatever is named. This is the sanctioned way to regenerate while `CURRENT` carries a row the
+scale guard refuses to load. **A flag that skips a guard, or an in-memory repair of a frozen row, is
+not.** A named input file is auditable; a silent correction is the pattern RYA-681 removed.
