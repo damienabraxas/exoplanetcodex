@@ -20,11 +20,38 @@ Engine-B sources, labelled per element:
   - fresh synth-v2 per-line (this run's data/outputs/solar/solar_per_line_synth_v2.csv);
   - for synthesis-required HFS/Sr elements SUPPRESSED from the EW pool (so absent
     from synth-v2), the dedicated Engine-B synthesis measurement (Mn RYA-473,
-    Cu/V RYA-466, Sr II RYA-551) — an Engine-B output, injected as a single synth
-    line, clearly sourced. A fully-fresh re-run of those harnesses is the Sirius
-    step; here they carry their committed synthesis value.
+    Cu/V RYA-466, Sr II RYA-551, Co I RYA-564, Ba II RYA-581) — an Engine-B output,
+    injected as a single synth line, clearly sourced. A fully-fresh re-run of those
+    harnesses is the Sirius step; here they carry their committed synthesis value.
 
 Preflight (scripts/rya527_preflight_reconciliation.py) MUST be green first.
+
+RYA-680 — Co I and Ba II are wired (they were not)
+--------------------------------------------------
+RYA-673's Engine-B wiring audit classified both `NO_HARNESS_INVOCATION`: the
+ratified synthesis result was committed in the repo and `_dedicated_engine_B()`
+never read it. The consequence was not a wrong number, it was NO number — neither
+species entered the species loop at all, so RYA-525's own loud-fail could not see
+them either (it iterates the union of the three coverage sources; a species absent
+from all three never enters the loop). Gate 3 read UNEVALUABLE for both, and no
+amount of measurement quality could move that. Both are read here now.
+
+RYA-691 — the `reliable` contract, honoured at every read
+---------------------------------------------------------
+Each dedicated read now returns a RELIABILITY BASIS alongside its value, and that
+basis is written into the record. Three states, and they are not interchangeable:
+
+  * the artifact carries the RYA-679 flag and it is True  -> gated, value admitted;
+  * the artifact carries the flag and it is False         -> RAISE (never silent);
+  * the artifact carries no flag at all                   -> admitted, but recorded
+    as UNGATED with the reason, so "nothing gated this" can never be read as
+    "this was gated".
+
+The third state is not a loophole, it is a fact about four of these artifacts: the
+CNO cross-arm (RYA-491/237) and the Mn / Cu / V HFS harnesses (RYA-473/466) are not
+in-window profile fits and predate the RYA-679 rule, so they have no `dEW_dA` and no
+`railed` to compute it from. Fabricating a uniform check over them would assert a
+gate that does not exist. What is forbidden is SILENCE about which state applies.
 """
 import argparse
 import json
@@ -76,6 +103,56 @@ SR2_JSON = ROOT / 'data' / 'results' / 'sr2_synthesis_rya551.json'
 ZR2_JSON = ROOT / 'data' / 'results' / 'zr2_synthesis_rya560.json'   # RYA-560 Zr II LTE synth
 ZR2_DEBLEND_JSON = ROOT / 'data' / 'results' / 'zr2_deblend_rya585.json'  # RYA-585 deblend refit
 MG5528_JSON = ROOT / 'data' / 'results' / 'mg_5528_synthesis_rya592.json'  # RYA-592 Mg 2nd line
+CO_JSON = ROOT / 'data' / 'results' / 'co_synthesis_rya564.json'          # RYA-564 Co I red HFS
+# RYA-680: Ba reads the RYA-581 IN-WINDOW DEBLEND, never the RYA-559 EW->COG file.
+# `data/results/solar_ba_synthesis_rya559.json` is still in the tree (it is the
+# measurement RYA-581 supersedes and its cross-checks are the evidence for the
+# supersession) and it holds A(Ba) 2.410 — a value RYA-581 demonstrated is inflated
+# by a blend_flag=True pool EW that an EW inversion cannot deblend. Wiring that file
+# here would silently undo a merged result, so this driver does not know its path at
+# all: there is nothing to fall back to and nothing to get wrong. phase_c makes the
+# same choice (`_ba_reclassify` dispatches to `_ba_reclassify_deblend` on ticket
+# RYA-581), so the floor and the verdict read the SAME barium.
+BA_DEBLEND_JSON = ROOT / 'data' / 'results' / 'solar_ba_deblend_rya581.json'
+
+
+class DedicatedEngineBError(RuntimeError):
+    """A dedicated Engine-B route could not produce a usable record.
+
+    RYA-680/518: raised, never swallowed. The failure mode this replaces is the one
+    that made this ticket necessary — a route that returns nothing, an element that
+    silently leaves the species set, and a gate that reads UNEVALUABLE with no trace
+    of why. Every message here names the artifact, the species and the reason.
+    """
+
+
+#: RYA-691 — the recorded reliability basis when an artifact carries no RYA-679 flag.
+UNGATED = 'UNGATED'
+
+
+def _reliability_basis(obj, what, absent_reason, key='reliable'):
+    """RYA-691: THE `reliable` contract for one dedicated Engine-B read.
+
+    Returns the basis string to record with the value. Raises when the flag is
+    present and false — an unreliable measurement must never reach the map, and it
+    must never reach it quietly either (RYA-518, rule ratified RYA-679:
+    ``reliable = (not railed) AND dEW_dA >= 40.0``, produced by
+    ``scripts/solar_profile_fit.assess_reliability``; this is the CONSUMER side and
+    deliberately re-derives nothing).
+
+    `absent_reason` is required, not optional: an artifact with no flag is a real
+    and legitimate state, but only if the record says so in words.
+    """
+    if key not in obj:
+        return f"{UNGATED} — {absent_reason}"
+    if bool(obj.get(key)):
+        return f"RYA-679 reliability-gated: {key}=True"
+    raise DedicatedEngineBError(
+        f"RYA-691: {what} is marked {key}=False and MUST NOT be emitted. The RYA-679 "
+        f"rule (not railed AND dEW_dA >= 40.0) demoted this measurement; a consumer "
+        f"that used it anyway would carry a demotion the artifact recorded and the "
+        f"record hid. Fix the measurement or hold the element owed — do not exempt "
+        f"this read.")
 
 
 def _solar_params():
@@ -146,33 +223,198 @@ def _engine_B_perline():
     return out
 
 
+def _nlte_or_lte(rec, what, tag):
+    """RYA-691 §2/§3C — resolve the ENGINE, explicitly, and say which one it was.
+
+    Replaces ``v = rec.get('A_nlte') or rec.get('A_lte_median')``. That construct had
+    two defects and one of them is live:
+
+      * it substituted the LTE median for a missing NLTE value under the SAME
+        provenance tag, so a consumer could not tell an NLTE result from an LTE
+        fall-back. **This fires today for V I** — `data/audit/cu_v_hfs_synthesis/`
+        records `nlte_void: true` (no V I grid, RYA-466), so V's emitted value has
+        always been A_lte_median wearing 'RYA-466 HFS synth'. The VALUE is right and
+        does not change here; what changes is that the record now says LTE.
+      * `or` is falsy-triggered, so `A_nlte = 0.0` would also fall through. On the
+        A(X) = 12 + log(N_X/N_H) scale a literal 0.0 means N_X/N_H = 1e-12 — nine
+        orders below the rarest element measured here, and no artifact in the repo
+        carries it — so the case is NOT reachable with today's inputs. It is fixed
+        anyway: a numeric test is `is None`, never truthiness, and "unreachable
+        today" is a property of the data, not of the code.
+
+    Returns (value, tag-with-engine).
+    """
+    v = rec.get('A_nlte')
+    if v is not None:
+        return float(v), f"{tag} (NLTE)"
+    v = rec.get('A_lte_median')
+    if v is not None:
+        why = 'nlte_void — no grid (RYA-466)' if rec.get('nlte_void') else 'no A_nlte in artifact'
+        return float(v), f"{tag} (LTE FALL-BACK: {why})"
+    raise DedicatedEngineBError(
+        f"RYA-691: {what} carries neither 'A_nlte' nor 'A_lte_median' — there is no "
+        f"value to emit. An Engine-B route that produces nothing must say so, not "
+        f"drop the element (RYA-680).")
+
+
 def _dedicated_engine_B():
     """Committed Engine-B SYNTHESIS-HARNESS measurements for the synthesis-required
-    elements (CNO nlte_cno primary indicator; Mn/Cu/V HFS synth; Sr II synth)."""
+    elements (CNO nlte_cno primary indicator; Mn/Cu/V HFS synth; Sr II synth; Zr II;
+    Mg I 5528; RYA-680: Co I red HFS and Ba II 5853 in-window deblend).
+
+    Returns {(element, ion): (value, source_tag, reliability_basis)}. The basis is
+    carried, not discarded: `source_tag` used to be unpacked into a local and thrown
+    away, so the emitted record said nothing at all about where an Engine-B value came
+    from or what cleared it.
+
+    Every route here is LOUD (RYA-680/518). A route whose artifact is present but
+    unusable RAISES with the reason; it never returns empty and leaves the element to
+    vanish from the species set — which is precisely how Co and Ba came to read
+    UNEVALUABLE while their measurements sat committed in the tree.
+    """
     out = {}
     if CNO_PHASE_A.exists():
-        ca = json.loads(CNO_PHASE_A.read_text()).get('cross_arm', {})
+        cross_arm = json.loads(CNO_PHASE_A.read_text()).get('cross_arm', {})
         for el in ('C', 'O'):
-            prim = next((i for i in ca.get(el, {}).get('indicators', [])
-                         if i.get('role') == 'primary'), None)
-            if prim and prim.get('A') is not None:
-                out[(el, 'I')] = (float(prim['A']), f"nlte_cno synthesis {prim.get('key')} (RYA-491/237)")
+            ca = cross_arm.get(el, {})
+            prims = [i for i in ca.get('indicators', [])
+                     if i.get('role') == 'primary' and i.get('A') is not None]
+            if not prims:
+                raise DedicatedEngineBError(
+                    f"RYA-680: the CNO cross-arm artifact {CNO_PHASE_A.name} has no "
+                    f"primary indicator carrying a value for {el} — Engine B cannot be "
+                    f"formed. {el} is synthesis-required (RYA-520), so this is a broken "
+                    f"input, not an element to skip.")
+            prim = prims[0]
+            # RYA-691 §3A — C/O are NOT brought under the flag, and this is the reason.
+            # `role == 'primary'` is a SELECTION rule (which indicator speaks for the
+            # element), not a reliability rule, and the RYA-491/237 cross-arm artifact
+            # carries no `reliable` key on any indicator: it is a multi-indicator
+            # cross-arm reconciliation, not an in-window profile fit, so it has neither
+            # `dEW_dA` nor `railed` and the RYA-679 rule is not computable over it. Its
+            # own quality statement is the cross-arm verdict + primary spread, which is
+            # what gets recorded. Asserting a gate here would be asserting one that does
+            # not exist.
+            n_prim = len(prims)
+            basis = (f"{UNGATED} — selection rule role='primary' ({prim.get('key')}"
+                     + (f", FIRST of {n_prim} primary indicators in artifact order"
+                        if n_prim > 1 else "")
+                     + f"); the RYA-491/237 cross-arm artifact carries no RYA-679 "
+                       f"reliability flag (not a profile fit: no dEW_dA / railed). Its "
+                       f"own quality statement: verdict={ca.get('verdict')!r}, "
+                       f"primary spread {ca.get('spread')}")
+            out[(el, 'I')] = (float(prim['A']),
+                              f"nlte_cno synthesis {prim.get('key')} (RYA-491/237)", basis)
     if MN_JSON.exists():
         m = json.loads(MN_JSON.read_text()).get('Mn', {})
-        v = m.get('A_nlte') or m.get('A_lte_median')
-        if v is not None:
-            out[('Mn', 'I')] = (float(v), 'RYA-473 HFS synth')
+        v, tag = _nlte_or_lte(m, 'Mn I (RYA-473 HFS synth)', 'RYA-473 HFS synth')
+        n_ok = sum(1 for l in m.get('per_line', []) if str(l.get('status')) == 'ok')
+        out[('Mn', 'I')] = (v, tag, _reliability_basis(
+            m, 'Mn I (RYA-473 HFS synth)',
+            f"the RYA-473 HFS flux-fit artifact carries no RYA-679 reliability flag "
+            f"(not an in-window profile fit); its own quality statement is per-line "
+            f"status {n_ok}/{len(m.get('per_line', []))} ok, "
+            f"n_lines={m.get('n_lines')}, scatter={m.get('scatter')}"))
     if CUV_JSON.exists():
         d = json.loads(CUV_JSON.read_text())
         for el in ('Cu', 'V'):
             e = d.get(el, {})
-            v = e.get('A_nlte') or e.get('A_lte_median')
-            if v is not None:
-                out[(el, 'I')] = (float(v), 'RYA-466 HFS synth')
+            if not e:
+                raise DedicatedEngineBError(
+                    f"RYA-680: {CUV_JSON.name} has no '{el}' block — Engine B cannot be "
+                    f"formed for {el} from a route the preflight declared present.")
+            v, tag = _nlte_or_lte(e, f'{el} I (RYA-466 HFS synth)', 'RYA-466 HFS synth')
+            n_ok = sum(1 for l in e.get('per_line', []) if str(l.get('status')) == 'ok')
+            out[(el, 'I')] = (v, tag, _reliability_basis(
+                e, f'{el} I (RYA-466 HFS synth)',
+                f"the RYA-466 HFS flux-fit artifact carries no RYA-679 reliability flag "
+                f"(not an in-window profile fit); its own quality statement is per-line "
+                f"status {n_ok}/{len(e.get('per_line', []))} ok, "
+                f"n_lines={e.get('n_lines')}, scatter={e.get('scatter')}"))
     if SR2_JSON.exists():
-        v = json.loads(SR2_JSON.read_text()).get('4077.709', {}).get('harps', {}).get('A_NLTE')
-        if v is not None:
-            out[('Sr', 'II')] = (float(v), 'RYA-551 Sr II synth')
+        # RYA-691: Sr II is the ONE read of the eight that had a `reliable` flag sitting
+        # in the artifact and did not consult it — six lines above the Zr block that
+        # says "RELIABILITY-GATED throughout". 4077.709 is the RYA-551 primary line;
+        # its HARPS fit is reliable=True (dEW_dA 203.5, not railed), so gating it
+        # changes nothing today. Under any future demotion it now raises instead of
+        # carrying a value the artifact had already marked unusable.
+        sr = json.loads(SR2_JSON.read_text()).get('4077.709', {}).get('harps', {})
+        v = sr.get('A_NLTE')
+        if v is None:
+            raise DedicatedEngineBError(
+                f"RYA-680: {SR2_JSON.name} has no A_NLTE on the 4077.709 HARPS fit — "
+                f"the RYA-551 primary Sr II line. Sr II is synthesis-required; a "
+                f"missing primary is a broken artifact, not a silent skip.")
+        out[('Sr', 'II')] = (float(v), 'RYA-551 Sr II synth (4077.709 HARPS)',
+                             _reliability_basis(sr, 'Sr II 4077.709 HARPS (RYA-551)',
+                                                'no reliable key on the 4077.709 HARPS fit'))
+    if CO_JSON.exists():
+        # ── RYA-680: Co I — wired. Previously NO_HARNESS_INVOCATION (RYA-673) ──────
+        # RYA-564 measured A(Co) on clean RED Co I lines by HFS-resolved Turbospectrum
+        # flux fit with a PER-LINE Gerber TS-native 1D-NLTE delta, after demoting the
+        # untrusted blue-edge 3845 artifact (+1.188 dex, KP SNR~24) to diagnostic-only.
+        # The value emitted here is `_summary.A_Co` — the median over the lines that
+        # cleared the RYA-679 floor — which is the SAME field phase_c's `_co_reclassify`
+        # reads, so the floor and the verdict cannot drift onto different Co.
+        #
+        # NOTE the NLTE delta is already inside these numbers (per line, from the
+        # RYA-534-validated grid). GERBER_NLTE_DELTA['Co'] = +0.099 is the synth-v2
+        # leg's element-level delta and is deliberately NOT applied on top — that would
+        # double-count the same physics.
+        co = json.loads(CO_JSON.read_text())
+        s = co.get('_summary', {})
+        a, lines_ok = s.get('A_Co'), (s.get('reliable_lines') or {})
+        if a is None or not lines_ok:
+            raise DedicatedEngineBError(
+                f"RYA-680: Co I (RYA-564) produced no reportable value — "
+                f"A_Co={a!r}, n_reliable={s.get('n_reliable')!r}, "
+                f"reason={s.get('reason')!r}. RYA-564's ratified rule is that if no red "
+                f"line clears the reliability floor the element reports NO VALUE and the "
+                f"blue-edge 3845 artifact is NEVER a fall-back — so this raises rather "
+                f"than reaching for it. Co stays measurable-owed.")
+        # The summary's reliable set must agree with the per-line flags it was built
+        # from; two views of one fact that could disagree is the RYA-669 defect shape.
+        for w in lines_ok:
+            if not bool((co.get(w, {}).get('harps') or {}).get('reliable')):
+                raise DedicatedEngineBError(
+                    f"RYA-691: Co I {w} is listed in _summary.reliable_lines but its "
+                    f"HARPS fit is not marked reliable — {CO_JSON.name} contradicts "
+                    f"itself and the value it summarises cannot be trusted.")
+        out[('Co', 'I')] = (
+            float(a),
+            f"RYA-564 Co I red HFS synth (NLTE; median of {len(lines_ok)} reliable "
+            f"lines {', '.join(sorted(lines_ok))})",
+            f"RYA-679 reliability-gated: {len(lines_ok)} of "
+            f"{len([k for k in co if not k.startswith('_')])} fitted lines cleared "
+            f"(not railed AND dEW_dA >= 40.0)")
+    if BA_DEBLEND_JSON.exists():
+        # ── RYA-680: Ba II — wired to the RYA-581 DEBLEND. Read this before editing ──
+        # A(Ba) here is 2.237 (RYA-581 in-window blend-fit), NOT 2.410 (RYA-559
+        # EW->COG). RYA-673's audit map points `HARNESS_RESULTS['Ba']` at the RYA-559
+        # file; following that map would wire the superseded, blend-inflated value back
+        # in and silently undo a merged result. The ticket asserts the ticket: this
+        # route refuses any artifact that is not RYA-581.
+        ba = json.loads(BA_DEBLEND_JSON.read_text())
+        if str(ba.get('ticket')) != 'RYA-581':
+            raise DedicatedEngineBError(
+                f"RYA-680: {BA_DEBLEND_JSON.name} declares ticket "
+                f"{ba.get('ticket')!r}, not 'RYA-581'. The two-engine floor reads the "
+                f"in-window DEBLEND only — the RYA-559 EW->COG value 2.410 is "
+                f"superseded (an EW inversion cannot deblend: the blend_flag=True pool "
+                f"EW 74.62 mA vs the clean line ~64 mA was charged entirely to Ba) and "
+                f"must never be substituted for it.")
+        v = ba.get('A_nlte')
+        if v is None:
+            raise DedicatedEngineBError(
+                f"RYA-680: {BA_DEBLEND_JSON.name} carries no A_nlte — the RYA-581 "
+                f"profile fit produced no NLTE value. Ba II is synthesis-required; "
+                f"there is no second route and no fall-back.")
+        out[('Ba', 'II')] = (
+            float(v),
+            f"RYA-581 Ba II 5853.668 in-window deblend synth + Korotin2015 NLTE "
+            f"(delta {ba.get('engineA_korotin_delta')}; supersedes RYA-559 2.410)",
+            _reliability_basis(ba, 'Ba II 5853.668 (RYA-581 deblend)',
+                               'no reliable key on the RYA-581 deblend artifact'))
     # Zr II — the majority ion -> LTE-robust (registry 279/458, the Sr II/V II
     # precedent); A_LTE IS the value, no NLTE grid. RELIABILITY-GATED throughout:
     # emit only a line that cleared the dEW/dA floor and is not railed.
@@ -200,9 +442,22 @@ def _dedicated_engine_B():
                if isinstance(d, dict) and isinstance(d.get('harps'), dict)
                and d['harps'].get('reliable') and d['harps'].get('A_LTE') is not None]
         if rel:
-            out[('Zr', 'II')] = (float(np.mean(rel)),
-                                 f"{_tag} (n={len(rel)} reliable)")
+            out[('Zr', 'II')] = (float(np.mean(rel)), f"{_tag} (n={len(rel)} reliable)",
+                                 f"RYA-679 reliability-gated: {len(rel)} line(s) cleared "
+                                 f"(not railed AND dEW_dA >= 40.0)")
             break
+    if ('Zr', 'II') not in out:
+        # RYA-691: gated-shut is a legitimate outcome; gated-shut IN SILENCE is not.
+        # Mg prints its hold-out below and Zr did not, so the only trace of Zr's was a
+        # comment in this file. Zr then vanishes from the species set entirely — it is
+        # absent from the EW pool and from synth-v2 too — and RYA-525's loud-fail never
+        # sees it, because that guard iterates the union of the three coverage sources
+        # and a species in none of them never enters the loop (RYA-673 §2). That hole is
+        # NOT closed here (closing it aborts the run on six more species and is a
+        # science decision, not a refactor); it is made audible.
+        print(f"[two-engine] RYA-585/560 Zr II HELD OUT: no line cleared the RYA-679 "
+              f"floor (not railed AND dEW_dA >= 40.0) in either artifact -> Zr II "
+              f"emits NO Engine-B value and does not enter the species set")
     if MG5528_JSON.exists():
         # RYA-592: the SECOND clean Mg I line (5528.405), measured by in-window blend-fit
         # synthesis so Mg could stop being single-line. CONCORDANCE-GATED, and as of the
@@ -222,7 +477,9 @@ def _dedicated_engine_B():
         v = mg.get('_verdict', {})
         if v.get('lines_concordant') and v.get('target_reliable'):
             out[('Mg', 'I')] = (float(v['target_A_NLTE_engineB']),
-                                'RYA-592 Mg I 5528 in-window blend-fit synth (concordant)')
+                                'RYA-592 Mg I 5528 in-window blend-fit synth (concordant)',
+                                'RYA-679 reliability-gated: target_reliable=True, '
+                                'AND RYA-592 concordance-gated: lines_concordant=True')
         else:
             print(f"[two-engine] RYA-592 Mg I 5528 HELD OUT: reliable="
                   f"{v.get('target_reliable')}, concordant={v.get('lines_concordant')} "
@@ -261,6 +518,8 @@ def main():
         'Zr II synth (RYA-560)': ZR2_JSON,
         'Zr II deblend (RYA-585)': ZR2_DEBLEND_JSON,
         'Mg I 5528 synth (RYA-592)': MG5528_JSON,
+        'Co I red HFS synth (RYA-564)': CO_JSON,          # RYA-680
+        'Ba II 5853 deblend (RYA-581)': BA_DEBLEND_JSON,  # RYA-680 — NOT the RYA-559 file
     })
     eb = tei.assert_engine_b_artifact(args.star)
     print(f"[two-engine] preflight OK — Engine-B per-line {eb['path']} "
@@ -292,8 +551,12 @@ def main():
         # for the synthesis-required elements; else the fresh synth-v2 per-line.
         use_dedicated = (el, ion) in ded_b and (is_synth_req or (el, ion) not in b_pl)
         lines = []
+        b_source = b_reliability = None
         if use_dedicated:
-            bv, src = ded_b[(el, ion)]
+            # RYA-691: `src` used to be unpacked and dropped on the floor, so the record
+            # said nothing about which harness produced the Engine-B value or what (if
+            # anything) cleared it. Both now travel with the number.
+            bv, b_source, b_reliability = ded_b[(el, ion)]
             lines.append(LineEngines(wavelength=0.0, species=f"{el} {ion}",
                                      a_value=None, a_err=None, b_value=bv, b_err=0.05,
                                      b_chi2=None, ew_mA=None, blend_flag=False,
@@ -352,6 +615,10 @@ def main():
             engineA=(round(rec.engineA_value, 3) if rec.engineA_value is not None else None),
             engineB=(round(rec.engineB_value, 3) if rec.engineB_value is not None else None),
             selected_engines=list(rec.selected_engines),
+            # RYA-691: provenance of a DEDICATED Engine-B value — which harness, and
+            # what cleared it. None for the synth-v2 leg, whose provenance is the
+            # per-line artifact named in the preflight line.
+            engineB_source=b_source, engineB_reliability=b_reliability,
             cross_engine_mix=rec.cross_engine_mix, mix_flagged=rec.mix_flagged,
             mean_cross_engine_delta=(round(rec.mean_cross_engine_delta, 3)
                                      if rec.mean_cross_engine_delta is not None else None)))
