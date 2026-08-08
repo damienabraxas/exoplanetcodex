@@ -40,13 +40,42 @@ TWO DISTINCTIONS THIS REPORT REFUSES TO BLUR
    no cross-engine delta" points at the element. Reporting both as "failed"
    would hide which ones the re-run is about to fix.
 
-STALENESS IS DETECTED, NOT ASSUMED
-----------------------------------
-The two-engine artifact is a REVIEW artifact and is known to lag (RYA-592). This
-module does not guess: it cross-checks every value it reads against the live
-verdict channel and reports the concrete contradictions it finds (see
-``detect_stale_inputs``). Every input is stamped with its git provenance so the
-report says what it read and how old it was.
+TWO SIGNALS, TWO REMEDIES — NEVER ONE "STALE" STAMP (RYA-675)
+-------------------------------------------------------------
+The two-engine artifact is a REVIEW artifact and is known to lag (RYA-592), so this
+module has always cross-checked it. What it got wrong until RYA-675 is *what a
+disagreement proves*. ``detect_stale_inputs`` inferred "the artifact predates that
+measurement" from ANY value difference against the live channel — so RYA-669's Phase 2
+run, whose two-engine artifact was generated during that very run, was told its inputs
+were stale on six elements. All six differences were cross-CHANNEL: Fe's was the
+ratified diagnostic-above-anchor policy, Li's the RYA-563 upper-limit veto, O's 0.005 of
+rounding. A flag that a re-run cannot clear is not a staleness flag, and it is why Ca's
+promotion sat PROVISIONAL with no way out.
+
+So the one signal is now two, and they differ in scope as well as remedy:
+
+``artifact_age_stale``   GLOBAL. The artifact's git commit predates a live input it is
+                         being read against (``detect_artifact_age_stale``). Age is a
+                         property of the FILE, so it taints every gate-3 number read
+                         from it — including elements offering nothing to compare
+                         against, where silence is absence of evidence, not evidence of
+                         freshness.
+                         → **REGENERATE.** Re-running the emitter fixes it, by
+                         construction.
+
+``cross_channel_disagreement``
+                         PER-ELEMENT. The two-engine channel and the live phase_c
+                         channel report different A(X) for one element
+                         (``detect_cross_channel_disagreement``). This is evidence about
+                         THAT element only, and it is frequently the designed state of a
+                         two-engine floor — a diagnostic leg is *supposed* to be able to
+                         disagree with the ratified leg.
+                         → **ADJUDICATE.** Re-running changes nothing; a human decides
+                         which channel is the reported truth.
+
+``classify_disposition`` combines them per element. Both active → REGENERATE first, then
+ADJUDICATE if the disagreement survives. Every input is stamped with its git provenance
+so the report says what it read and how old it was.
 """
 
 from __future__ import annotations
@@ -55,7 +84,7 @@ import json
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Iterable, Optional
 
 import pandas as pd
 
@@ -149,6 +178,56 @@ GATE3_NA = "n/a"
 _BLOCKER_MAX = 240
 JSON_NAME = "element_disposition_rya663.json"
 
+# ── the two staleness signals and their two remedies (RYA-675) ───────────────
+#: The artifact is OLDER than an input it is read against. A property of the file, so
+#: it is global. Clearable by re-running the emitter — that is the whole test of a
+#: staleness flag, and the one the conflated detector failed.
+SIGNAL_ARTIFACT_AGE = "artifact_age_stale"
+#: The two-engine channel and the live phase_c channel disagree on ONE element's A(X).
+#: Evidence about that element only, and NOT clearable by re-running.
+SIGNAL_CROSS_CHANNEL = "cross_channel_disagreement"
+
+REMEDY_NONE = "none"
+REMEDY_REGENERATE = "REGENERATE"
+REMEDY_ADJUDICATE = "ADJUDICATE"
+REMEDY_REGENERATE_THEN_ADJUDICATE = "REGENERATE-then-ADJUDICATE"
+
+#: What a caller is supposed to DO about each remedy. Kept beside the constants so the
+#: report never explains a remedy in prose that has drifted from the classifier.
+REMEDY_PLAN = {
+    REMEDY_NONE: "nothing — this row read no number from the review artifact, or read a "
+                 "fresh one that the live channel agrees with",
+    REMEDY_REGENERATE: (
+        "re-run the two-engine emitter. The artifact predates a live input it is read "
+        "against; a fresh emission resolves it with no human decision required."),
+    REMEDY_ADJUDICATE: (
+        "Ryan picks which channel is the reported truth. Re-running changes NOTHING — "
+        "the two legs measure differently on purpose, so the difference survives any "
+        "number of fresh emissions."),
+    REMEDY_REGENERATE_THEN_ADJUDICATE: (
+        "regenerate first (the age signal may be the whole story), then adjudicate only "
+        "the disagreements that survive the fresh emission."),
+}
+
+
+@dataclass(frozen=True)
+class DispositionClassification:
+    """Which staleness signals bear on ONE element, and the single remedy that follows.
+
+    `provisional` is deliberately NOT the same question as "which remedy": both signals
+    make a gate-3 read provisional, but for different reasons and with different exits.
+    A caller that cannot tell REGENERATE from ADJUDICATE learns nothing from this module.
+    """
+    element: str
+    signals: tuple[str, ...]
+    remedy: str
+    provisional: bool
+    note: str
+
+    def as_dict(self) -> dict:
+        return {"element": self.element, "signals": list(self.signals),
+                "remedy": self.remedy, "provisional": self.provisional, "note": self.note}
+
 
 @dataclass
 class ElementDisposition:
@@ -168,10 +247,16 @@ class ElementDisposition:
     promoted: bool = False
     blocker: str = ""
     promotion_reason: str = ""
+    #: RYA-675 — which of the two signals bear on THIS row, and the one remedy that
+    #: follows. Empty signals means this row read nothing questionable from the artifact.
+    staleness_signals: list[str] = field(default_factory=list)
+    remedy: str = REMEDY_NONE
+    provisional: bool = False
 
     def as_dict(self) -> dict:
         d = dict(self.__dict__)
         d["plan"] = OWED_REASON_PLAN[self.owed_reason]
+        d["remedy_plan"] = REMEDY_PLAN[self.remedy]
         return d
 
 
@@ -337,26 +422,144 @@ def _value_for(row: dict, reason: str, held: dict[str, tuple[float, str]],
 
 
 # ── the report ───────────────────────────────────────────────────────────────
-def detect_stale_inputs(phase_c_rows: list[dict], two_engine: dict[str, dict]) -> list[str]:
-    """Concrete contradictions between the two-engine artifact and the live channel.
+def detect_artifact_age_stale(artifact: dict, live_inputs: list[dict]) -> list[dict]:
+    """Every live input committed AFTER `artifact` — the age signal, as evidence.
 
-    Not a heuristic and not a date comparison: where BOTH carry a value for an
-    element and they disagree beyond rounding, the artifact demonstrably predates
-    the live measurement. That is evidence, and it is what gets reported.
+    An empty list means the artifact is not age-stale. Each entry names both commits and
+    both dates, so the claim "this is older" can be checked rather than trusted.
+
+    This is the ONLY thing in this module entitled to say an artifact is old, and it says
+    it the one way that is checkable: by comparing **git commit times** (never mtimes — a
+    checkout or a `touch` rewrites those and would make a stale artifact look fresh; same
+    reasoning as RYA-659's freshness guard). The inputs are `git_provenance` dicts, taken
+    from the ones `build_report` already stamps, so there is no second git call path that
+    could disagree with the provenance block the report prints.
+
+    Scope note — which inputs count as "live":
+      * the phase_c verdict, canonical for status (RYA-654), and
+      * the gold reference the CURRENT pointer names.
+    Both are channels this report reads the artifact *against*, so either moving past it
+    means the artifact was produced against a world that has since changed — RYA-665's v3
+    freeze is exactly that event. Gold **v1** is deliberately excluded: it is a superseded
+    historical record kept only for the held values, so it can never legitimately be
+    "newer", and including it would make the signal noise.
+    """
+    ours = artifact.get("committed")
+    out = []
+    for other in live_inputs:
+        theirs = other.get("committed")
+        if not ours or not theirs or theirs <= ours:
+            continue
+        out.append({
+            "input": other["path"],
+            "input_commit": other["commit"],
+            "input_committed": theirs,
+            "artifact": artifact["path"],
+            "artifact_commit": artifact["commit"],
+            "artifact_committed": ours,
+            "note": (f"{other['path']} was committed {theirs} ({other['commit']}), AFTER "
+                     f"{artifact['path']} at {ours} ({artifact['commit']}) — the review "
+                     f"artifact was produced against an earlier state of that input"),
+        })
+    return out
+
+
+def detect_cross_channel_disagreement(phase_c_rows: list[dict],
+                                      two_engine: dict[str, dict],
+                                      tol: float = 0.001) -> list[dict]:
+    """Elements where the two-engine channel and the live phase_c channel differ.
+
+    This is a statement about MEASUREMENT, not about time. It says the two legs put the
+    element in different places; it says NOTHING about which was written first, and it
+    must never be read as an age claim — that conflation is the RYA-675 defect, and it is
+    what made Ca's gate-3 flag unclearable by the very re-run that was supposed to clear
+    it (RYA-669 §3).
+
+    Disagreement is frequently the DESIGNED state of a two-engine floor. Of the six this
+    detector reported in RYA-669's fresh run: Fe is the ratified diagnostic-above-anchor
+    policy, Li is the RYA-563 upper-limit veto, O is 0.005 of rounding, and Cr/Si/S are
+    different legs by construction. None of those is a defect and none regenerates away —
+    hence ADJUDICATE, not REGENERATE.
+
+    Scoped to the two channels gate 3 actually depends on. The broader pre-freeze cleanup
+    list, which also weighs frozen gold, is `value_disagreements` — a different question
+    (is the FROZEN record consistent?) with a different audience (the freeze).
     """
     live = {r["element"]: r.get("A_measured") for r in phase_c_rows}
-    stale = []
+    out = []
     for element, rec in sorted(two_engine.items()):
         reported, measured = rec.get("reported"), live.get(element)
         if reported is None or measured is None:
             continue
-        if abs(float(reported) - float(measured)) > 0.001:
-            stale.append(
-                f"{element}: two-engine reports {float(reported):.3f} but the live verdict "
-                f"channel measures {float(measured):.3f} "
-                f"(delta {float(reported) - float(measured):+.3f}) — the two-engine artifact "
-                f"predates that measurement")
-    return stale
+        reported, measured = float(reported), float(measured)
+        if abs(reported - measured) <= tol:
+            continue
+        out.append({
+            "element": element,
+            "two_engine": round(reported, 4),
+            "live_phase_c": round(measured, 4),
+            "delta": round(reported - measured, 4),
+            "note": (f"{element}: the two-engine channel reports {reported:.3f}, the live "
+                     f"verdict channel measures {measured:.3f} "
+                     f"(delta {reported - measured:+.3f}). A CHANNEL difference — this "
+                     f"says nothing about the artifact's age and will not regenerate away."),
+        })
+    return out
+
+
+def classify_disposition(element: str, artifact_age_stale: bool,
+                         disagreeing_elements: Iterable[str] = (),
+                         reads_artifact: bool = True) -> DispositionClassification:
+    """The two signals, combined into ONE remedy for ONE element.
+
+    `artifact_age_stale` is global (a property of the file). `disagreeing_elements` is
+    per-element (a property of the measurement). `reads_artifact` is False for an element
+    that took no number from the review artifact at all — gate 3 UNEVALUABLE — for which
+    neither signal can bear on anything, whatever the artifact's age.
+
+    The four cases, and the remedy each earns:
+
+        age only          REGENERATE                 re-running fixes it
+        disagreement only ADJUDICATE                 re-running changes nothing
+        both              REGENERATE-then-ADJUDICATE regenerate, then adjudicate what survives
+        neither           none                       nothing owed
+
+    A disagreement is reported even when `reads_artifact` is False — the two channels
+    still differ about that element and someone must reconcile them before a freeze — but
+    such a row is NOT `provisional`, because its own conclusion never touched the
+    artifact. Fe is the case in point: PASS on the ratified channel, and the two-engine
+    diagnostic sitting above the anchor is the ratified policy, not a doubt about Fe.
+    """
+    disagrees = element in set(disagreeing_elements)
+    # Age is a property of the FILE, so it can only bear on a row that read the file.
+    age = bool(artifact_age_stale) and reads_artifact
+    signals = tuple(s for s, on in ((SIGNAL_ARTIFACT_AGE, age),
+                                    (SIGNAL_CROSS_CHANNEL, disagrees)) if on)
+    if age and disagrees:
+        remedy = REMEDY_REGENERATE_THEN_ADJUDICATE
+        note = ("the artifact is older than a live input AND its value for this element "
+                "disagrees with the live channel — regenerate, then adjudicate only if "
+                "the disagreement survives")
+    elif age:
+        remedy = REMEDY_REGENERATE
+        note = ("the artifact is older than a live input, so this row's cross-engine "
+                "delta was computed against a superseded state — a fresh emission clears "
+                "this with no decision required")
+    elif disagrees:
+        remedy = REMEDY_ADJUDICATE
+        note = ("the two channels genuinely measure this element differently. Re-running "
+                "will reproduce the difference — someone must decide which channel is the "
+                "reported truth"
+                + ("" if reads_artifact else
+                   "; this row's own disposition does not rest on the review artifact, so "
+                   "it is not provisional — the reconciliation is owed to the freeze"))
+    else:
+        remedy = REMEDY_NONE
+        note = ("read no number from the two-engine review artifact, and the live channel "
+                "raises no disagreement about this element" if not reads_artifact else
+                "fresh artifact, and the live channel agrees with it on this element")
+    return DispositionClassification(element, signals, remedy,
+                                     bool(reads_artifact and signals), note)
 
 
 def value_disagreements(phase_c_rows: list[dict], two_engine: dict[str, dict],
@@ -458,21 +661,42 @@ def build_report(phase_c_path: Optional[Path] = None,
         d.blocker = _blocker_for(d, reason)
         dispositions.append(d)
 
-    stale = detect_stale_inputs(phase_c_rows, two_engine)
+    # ── the two signals (RYA-675) ────────────────────────────────────────────
+    # Computed separately, carried separately, remedied separately. Provenance is stamped
+    # once and shared, so the age comparison can never disagree with the `inputs` block
+    # the report prints.
+    input_paths = [phase_c_path or PHASE_C_PATH, two_engine_path or TWO_ENGINE_PATH,
+                   GOLD_HELD_PATH, gold_current_path()]
+    provenance = [git_provenance(p) for p in input_paths]
+    prov_by_path = {p["path"]: p for p in provenance}
+    artifact_prov = prov_by_path[str((two_engine_path or TWO_ENGINE_PATH)
+                                     .relative_to(REPO_ROOT))]
+    live_prov = [prov_by_path[str(p.relative_to(REPO_ROOT))]
+                 for p in (phase_c_path or PHASE_C_PATH, gold_current_path())]
 
-    # If the two-engine artifact is demonstrably behind the live channel ANYWHERE, then
-    # every gate-3 number read from it is provisional — including on elements where no
-    # contradiction could be detected, because an element whose live value is null (every
-    # owed-HELD row) offers nothing to compare against. Silence there is absence of
-    # evidence, not evidence of freshness. Any promotion resting on that delta is
-    # therefore PROVISIONAL-on-the-re-run, and says so on its own row.
-    provisional = bool(stale)
+    age_evidence = detect_artifact_age_stale(artifact_prov, live_prov)
+    age_stale = bool(age_evidence)
+    disagreements = detect_cross_channel_disagreement(phase_c_rows, two_engine)
+    disagreeing = [d["element"] for d in disagreements]
+
+    # Age is GLOBAL — it taints every gate-3 number read from the artifact, including on
+    # elements offering nothing to compare against (every owed-HELD row has a null live
+    # value), because silence there is absence of evidence, not evidence of freshness.
+    # Disagreement is PER-ELEMENT — it is evidence about the element it names and no
+    # other, which is precisely what the pre-RYA-675 blanket stamp got wrong.
     for d in dispositions:
-        if d.promoted and d.cross_engine_delta is not None and provisional:
-            d.promotion_reason += (
-                "  [PROVISIONAL: gate 3 read a cross-engine delta from the two-engine "
-                "REVIEW artifact, which is demonstrably behind the live channel on "
-                f"{len(stale)} element(s). Confirm on the RYA-527 re-run before freezing.]")
+        # "Read the artifact" means this row's own conclusion consumed it: gate 3 actually
+        # consulted a record (OK/FAILED — never n/a, where a veto or an existing PASS
+        # short-circuited the gates), or the row adopted the artifact's value. A PASS row
+        # that never ran a gate is not made provisional by the artifact's age.
+        reads = (d.gate3_state in (GATE3_OK, GATE3_FAILED)
+                 or "two-engine" in d.value_source)
+        c = classify_disposition(d.element, age_stale, disagreeing, reads_artifact=reads)
+        d.staleness_signals, d.remedy, d.provisional = list(c.signals), c.remedy, c.provisional
+        if d.promoted and d.cross_engine_delta is not None and c.provisional:
+            # Names the remedy, not just the doubt: "PROVISIONAL" with no exit is what
+            # left Ca stuck. The full remedy prose rides on the row's `remedy_plan`.
+            d.promotion_reason += f"  [PROVISIONAL — remedy {c.remedy}: {c.note}.]"
 
     # RYA-674 §2C: this report ADOPTS a value per element (`_value_for` will take the
     # two-engine reported number when phase_c has none), so it is an emission path even
@@ -485,11 +709,19 @@ def build_report(phase_c_path: Optional[Path] = None,
         "ticket": ticket,
         "thresholds": dict(FLOOR_PROMOTION),
         "phase_c_summary": summary,
-        "inputs": [git_provenance(p) for p in
-                   (phase_c_path or PHASE_C_PATH, two_engine_path or TWO_ENGINE_PATH,
-                    GOLD_HELD_PATH, gold_current_path())],
-        "stale_input_evidence": stale,
-        "gate3_provisional": provisional,
+        "inputs": provenance,
+        # RYA-675: two signals, two keys. There is deliberately no combined "stale" key —
+        # a consumer that wants one is asking the question this ticket removed.
+        "artifact_age_stale": age_stale,
+        "artifact_age_evidence": age_evidence,
+        "cross_channel_disagreement": disagreements,
+        "elements_needing_adjudication": disagreeing,
+        # Global, and driven by the GLOBAL signal only: "every gate-3 number in this
+        # report was read from an artifact older than its inputs". Per-element doubt
+        # lives on the element's own `remedy`, where it can be acted on.
+        "gate3_provisional": age_stale,
+        "gate3_provisional_signal": SIGNAL_ARTIFACT_AGE if age_stale else None,
+        "remedy_plan": REMEDY_PLAN,
         "value_disagreements": value_disagreements(phase_c_rows, two_engine),
         "can_flip_now": [d.element for d in dispositions if d.promoted],
         "dispositions": [d.as_dict() for d in dispositions],
@@ -514,8 +746,8 @@ def render_markdown(report: dict) -> str:
     flip = report["can_flip_now"]
     L.append("## Can flip to PASS now\n")
     L.append(f"**{', '.join(flip) if flip else 'none'}**"
-             + ("  — and this rests on a stale input; see below."
-                if report["gate3_provisional"] and flip else ""))
+             + ("  — provisional on the artifact's AGE; remedy REGENERATE (see below)."
+                if report["artifact_age_stale"] and flip else ""))
 
     L.append("\n## Inputs read\n")
     L.append("| artifact | commit | committed |")
@@ -523,13 +755,37 @@ def render_markdown(report: dict) -> str:
     for i in report["inputs"]:
         L.append(f"| `{i['path']}` | `{i['commit']}` | {i['committed']} |")
 
-    if report["stale_input_evidence"]:
-        L.append("\n## ⚠ Stale-input evidence\n")
-        L.append("The two-engine record disagrees with the live verdict channel on these "
-                 "elements, so it demonstrably predates them. **Every gate-3 number in this "
-                 "report is read from that artifact.**\n")
-        for e in report["stale_input_evidence"]:
-            L.append(f"- {e}")
+    # The two signals, in two sections, with two remedies. RYA-675: printing them under
+    # one "stale" heading is what made a flag that no re-run could clear.
+    L.append(f"\n## Signal 1 — `{SIGNAL_ARTIFACT_AGE}` (global) → remedy "
+             f"**{REMEDY_REGENERATE}**\n")
+    if report["artifact_age_evidence"]:
+        L.append("The two-engine review artifact was committed BEFORE a live input it is "
+                 "read against, so every gate-3 number in this report was computed against "
+                 "a superseded state. This is clearable by re-running the emitter — no "
+                 "decision required.\n")
+        for e in report["artifact_age_evidence"]:
+            L.append(f"- {e['note']}")
+    else:
+        L.append("✅ **Not age-stale.** The two-engine artifact is at least as new as every "
+                 "live input it is read against.")
+
+    L.append(f"\n## Signal 2 — `{SIGNAL_CROSS_CHANNEL}` (per element) → remedy "
+             f"**{REMEDY_ADJUDICATE}**\n")
+    if report["cross_channel_disagreement"]:
+        L.append("The two-engine channel and the live phase_c channel put these elements in "
+                 "different places. **This is not an age claim and will not regenerate "
+                 "away** — a two-engine floor's diagnostic leg is designed to be able to "
+                 "disagree with the ratified leg. Each needs a human call on which channel "
+                 "is the reported truth.\n")
+        L.append("| element | two-engine | live phase_c | delta |")
+        L.append("|---|---|---|---|")
+        for e in report["cross_channel_disagreement"]:
+            L.append(f"| {e['element']} | {e['two_engine']:.3f} | {e['live_phase_c']:.3f} | "
+                     f"{e['delta']:+.3f} |")
+    else:
+        L.append("✅ **No cross-channel disagreement.** Both channels agree wherever both "
+                 "carry a value.")
 
     if report["value_disagreements"]:
         L.append("\n## Value disagreements across artifacts (the cleanup list)\n")
@@ -542,8 +798,8 @@ def render_markdown(report: dict) -> str:
             L.append(f"| {v['element']} | {v['spread']:.3f} | {vals} |")
 
     L.append("\n## Per-element\n")
-    L.append("| El | verdict | bucket | A(X) | ref | dCE | g1 | g2 | g3 | blocker |")
-    L.append("|---|---|---|---|---|---|---|---|---|---|")
+    L.append("| El | verdict | bucket | A(X) | ref | dCE | g1 | g2 | g3 | remedy | blocker |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|")
     for d in report["dispositions"]:
         fmt = lambda x: "—" if x is None else f"{x:.3f}"      # noqa: E731
         tick = lambda b: "—" if b is None else ("✓" if b else "✗")   # noqa: E731
@@ -552,15 +808,21 @@ def render_markdown(report: dict) -> str:
         blocker = d["blocker"].replace("\n", " ")
         if len(blocker) > _BLOCKER_MAX:
             blocker = blocker[:_BLOCKER_MAX].rstrip() + f"… *(full text in {JSON_NAME})*"
+        remedy = d["remedy"] if d["remedy"] != REMEDY_NONE else "—"
         L.append(f"| {d['element']} | {d['verdict']} | {d['owed_reason']} | "
                  f"{fmt(d['value'])} | {fmt(d['reference'])} | {fmt(d['cross_engine_delta'])} | "
                  f"{tick(d['gate1'])} | {tick(d['gate2'])} | {d['gate3_state']} | "
-                 f"{blocker} |")
+                 f"{remedy} | {blocker} |")
 
     L.append("\n## What each bucket means\n")
     for reason, plan in OWED_REASON_PLAN.items():
         members = [d["element"] for d in report["dispositions"] if d["owed_reason"] == reason]
         L.append(f"- **{reason}** ({', '.join(members) if members else 'none'}) — {plan}")
+
+    L.append("\n## What each remedy means\n")
+    for remedy, plan in REMEDY_PLAN.items():
+        members = [d["element"] for d in report["dispositions"] if d["remedy"] == remedy]
+        L.append(f"- **{remedy}** ({', '.join(members) if members else 'none'}) — {plan}")
     return "\n".join(L) + "\n"
 
 
