@@ -187,11 +187,26 @@ def test_explicit_scale_state_beats_the_prose_label():
 
 def test_explicit_column_contradicting_the_value_also_RAISES():
     """The explicit column is authoritative but NOT unchecked — a mis-stamped
-    scale_state is caught by the same value cross-check."""
-    bad = {'element': 'Fe', 'A_X': A_CORRECT, 'method_scale': '3D-NLTE',
+    scale_state is caught by the same value cross-check.
+
+    RYA-674: the row's declarations are made to agree with each other here (both say
+    1D) so that it is unambiguously the VALUE cross-check that fires. A row whose own
+    declarations disagree is now caught one step earlier — see the test below.
+    """
+    bad = {'element': 'Fe', 'A_X': A_CORRECT, 'method_scale': '1D-NLTE (Fe I)',
            SCALE_STATE_COLUMN: SCALE_1D_NLTE}
     with pytest.raises(ScaleProvenanceError, match=r'CONTRADICTS ITSELF'):
         resolve_gold_scale('Fe', bad, A_CORRECT)
+
+
+def test_a_row_whose_own_declarations_disagree_RAISES():
+    """RYA-674. `corrections_applied` is authoritative and `scale_state` / the prose
+    are views of it, so they cannot legitimately differ. A row carrying two answers
+    states none — resolving it by reader preference is how RYA-669 happened."""
+    bad = {'element': 'Fe', 'A_X': A_CORRECT, 'method_scale': '3D-NLTE (Fe I, Magic 2013)',
+           SCALE_STATE_COLUMN: SCALE_1D_NLTE}
+    with pytest.raises(ScaleProvenanceError, match=r'DISAGREE'):
+        declared_scale(bad)
 
 
 # ── the classifier's own properties (no tuned tolerance) ─────────────────────
