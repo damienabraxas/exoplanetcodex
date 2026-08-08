@@ -131,7 +131,8 @@ _GRID_FILENAME = {
 }
 _REPO = Path(__file__).resolve().parents[1]
 # repo root is already on sys.path (the `from pipeline import _runtime` above requires it)
-from config.constants import sirius_grid_path, assert_on_sirius  # noqa: E402  (RYA-567)
+from config.constants import (sirius_grid_path, assert_on_sirius,  # noqa: E402  (RYA-567)
+                              require_sirius_grid_dir)             # RYA-695
 
 # RYA-567: the PySME `.grd` source departure grids are a COMPUTE INPUT single-sourced
 # from the Sirius data root (/mnt/codex-data/grids/nlte/amarsi_galah) — NEVER a repo-
@@ -170,6 +171,11 @@ def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
 def _spacefree_grid(element: str) -> str:
     """PySME resolves the NLTE grid via a file URI, which breaks on a path with
     spaces. Symlink the vendored grid into a space-free temp dir and return that."""
+    # RYA-695: check the STORE before the file. An empty/absent amarsi_galah makes
+    # every element look un-intaken one at a time; the store-level guard names the
+    # staging fault once, instead of 15 identical per-element mysteries.
+    require_sirius_grid_dir('grids', 'nlte', 'amarsi_galah',
+                            context=f'PySME departure grid for {element}')
     src = _GRID_DIR / _GRID_FILENAME[element]
     if not src.exists():
         raise FileNotFoundError(f"PySME grid for {element} not intaken: {src}")
