@@ -101,6 +101,8 @@
   "A_lte": 2.266,
   "A_nlte": 2.237,
   "sigma": 0.016,
+  "sigma_basis": "inter-arm scatter of the fitted A_NLTE (HARPS vs IAG) at the headline fit window ONLY \u2014 a precision floor, NOT a total uncertainty budget: it excludes the canonical gf uncertainty, the Korotin2015 delta uncertainty, 1D-MARCS model error, and the single-line risk. Do not quote it as the error on A(Ba).",
+  "window_choice_spread_dex": 0.003,
   "reliable": true,
   "control_no_blend_A_nlte": 2.257,
   "deblend_shift_dex": -0.02,
