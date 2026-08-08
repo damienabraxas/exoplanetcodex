@@ -118,6 +118,42 @@ def _records_by_element(path: Path):
 
 
 # ── STOP conditions (RYA-669 §4) ─────────────────────────────────────────────
+def check_fe_3d_idempotency(vbase: dict, gold_df) -> list[str]:
+    """Will the NEXT phase_c regeneration double-apply the RYA-553 Fe 1D→3D offset?
+
+    Asked of COMMITTED state, so it does not need a regeneration to answer — which
+    matters, because the failure is silent: the double-corrected 7.416 sits INSIDE
+    FE_GATE [7.410, 7.510] and the RYA-166 gate returns 9/9 green on it.
+
+    The mechanism is one desynchronised cell. `phase_c_verdict_rya371.py` reads its Fe
+    anchor from the frozen gold and skips the correction iff the gold row's
+    ``method_scale`` contains '3D'. If a freeze writes the POST-correction value under
+    the PRE-correction label — which is what gold v3 does (A_X 7.466, method_scale
+    '1D-NLTE (Fe I)') — the guard sees no '3D', re-applies −0.05, and the anchor lands
+    at 7.416 with every gate still green.
+    """
+    fe_gold = gold_df[gold_df['element'] == 'Fe']
+    if fe_gold.empty:
+        return ['gold CURRENT carries no Fe row — cannot check 1D→3D idempotency']
+    row = fe_gold.iloc[0]
+    a_x, scale = _f(row.get('A_X')), str(row.get('method_scale') or '')
+    corr = (vbase.get('Fe') or {}).get('fe_1d3d_correction') or {}
+    post = _f(corr.get('a_3dnlte_post'))
+    if a_x is None or post is None:
+        return []
+    if a_x == post and '3D' not in scale.upper():
+        return [
+            f"Fe 1D→3D correction WILL DOUBLE-APPLY on the next phase_c regeneration: "
+            f"gold CURRENT holds A_X={a_x} (the POST-correction 3D value) but labels it "
+            f"method_scale={scale!r}, which carries no '3D'. The idempotency guard in "
+            f"phase_c_verdict_rya371.py keys on that label, so it re-applies "
+            f"{corr.get('correction_dex')} and the anchor lands at "
+            f"{round(a_x + float(corr.get('correction_dex', 0)), 3)} — INSIDE FE_GATE "
+            f"[7.410, 7.510], so no gate catches it. See "
+            f"BLOCKING_FINDING_fe_double_correction.md."]
+    return []
+
+
 def check_stop_conditions(vbase: dict) -> list[str]:
     """Every §4 STOP condition, evaluated against the fresh verdict.
 
@@ -474,7 +510,8 @@ def main() -> int:
     vbase = {v['element']: v for v in verdict['verdicts']}
 
     # 2. STOP conditions BEFORE anything is interpreted
-    stops = check_stop_conditions(vbase)
+    gold_df, gold_version = ns.read_solar_reference('CURRENT')
+    stops = check_stop_conditions(vbase) + check_fe_3d_idempotency(vbase, gold_df)
 
     # 3. the disposition report on the FRESH two-engine record
     report = ed.build_report(
@@ -484,7 +521,6 @@ def main() -> int:
         json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8')
 
     # 4. the v4 diff table against FROZEN v3
-    gold_df, gold_version = ns.read_solar_reference('CURRENT')
     gold_v3 = {str(r['element']): r for _, r in gold_df.iterrows()}
     gold_ions = {str(r['element']): str(r['ion']) for _, r in gold_df.iterrows()
                  if pd.notna(r.get('ion'))}
