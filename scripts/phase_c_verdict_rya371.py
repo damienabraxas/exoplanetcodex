@@ -43,11 +43,12 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from config.constants import (SOLAR_ASPLUND2021,  # noqa: E402
                               NLTE_CORRECTION_ELEMENTS,
-                              THREED_CORRECTION_ELEMENTS,
-                              CORRECTIONS_3D)      # RYA-553 tabulated 1D→3D corrections
+                              THREED_CORRECTION_ELEMENTS)
 from pipeline import data_namespace as ns  # noqa: E402  RYA-469 gold solar reference
 from pipeline.provenance_honesty import (  # noqa: E402  RYA-596 tripwire, shared (RYA-653)
     ZERO_SURVIVOR_CHANNEL, assert_blank_cause_is_honest)
+from pipeline.solar_scale_provenance import (  # noqa: E402  RYA-681 value-keyed idempotency
+    apply_reported_scale_correction)
 
 PROC = ROOT / 'data' / 'processed'
 AUDIT = ROOT / 'data' / 'audit' / 'cno_synthesis'
@@ -203,28 +204,31 @@ def build_verdicts(ab, ew, phase_a):
         # The reported Fe I anchor is the value the RYA-166 gate and the RYA-527
         # gold-v3 freeze both read. Our NLTE grids emit on the 1D-NLTE scale
         # (~+0.05 above 3D-true); add the NEGATIVE tabulated offset, AFTER NLTE, to
-        # move the reported anchor onto the true 7.46 scale. Idempotent on the gold
-        # row's method_scale: applied to a 1D-NLTE anchor, SKIPPED if the anchor is
-        # already 3D-NLTE (so a re-frozen v3 gold is never double-corrected — the
-        # fine-grained analogue of the RYA-334 gross double-add tripwire). SOLAR ONLY
-        # (off-solar per-Teff/[Fe/H] generalisation is owed, RYA-550). Never silent:
-        # logged + recorded pre/post on the row.
+        # move the reported anchor onto the true 7.46 scale. SOLAR ONLY (off-solar
+        # per-Teff/[Fe/H] generalisation is owed, RYA-550). Never silent: logged +
+        # recorded pre/post on the row.
+        #
+        # RYA-681 — idempotency is keyed on the VALUE, not on a prose label. The old
+        # guard was `if '3D' not in mrow['method_scale'].upper()`, i.e. idempotent
+        # with respect to a string that the gold BUILDER writes (and hardcoded to
+        # '1D-NLTE (Fe I)'), not with respect to the number it labels. RYA-665 froze
+        # the post-correction 7.466 under that pre-correction label and the guard
+        # re-armed → RYA-669 measured 7.416, with every gate green. The decision now
+        # lives in pipeline.solar_scale_provenance, which reads the gold row's
+        # explicit `scale_state` declaration, CROSS-CHECKS it against where the value
+        # actually sits between the two published scale centres, and RAISES on
+        # contradiction instead of guessing. A desynchronised freeze is now a loud
+        # load failure, not a silent second subtraction.
         fe_1d3d = None
         if el == 'Fe' and np.isfinite(a_meas):
-            scale = str(mrow['method_scale']) if (mrow is not None and 'method_scale' in mrow) else ''
-            dex = float(CORRECTIONS_3D['Fe_1D3D_solar_dex'])
-            a_pre = a_meas
-            if '3D' not in scale.upper():
-                a_meas = round(a_meas + dex, 3)
-                print(f"  RYA-553 Fe 1D→3D: A(Fe I) {a_pre:.3f} (1D-NLTE) {dex:+.3f} "
-                      f"-> {a_meas:.3f} (3D-NLTE, Magic 2013)")
-                fe_1d3d = {'applied': True, 'source': 'Magic et al. 2013 (Stagger 3D, A&A 557 A26)',
-                           'correction_dex': dex, 'a_1dnlte_pre': round(a_pre, 3),
-                           'a_3dnlte_post': a_meas, 'scale': '3D-NLTE'}
+            a_meas, fe_1d3d = apply_reported_scale_correction(el, a_meas, mrow)
+            if fe_1d3d['applied']:
+                print(f"  RYA-553 Fe 1D→3D: A(Fe I) {fe_1d3d['a_1dnlte_pre']:.3f} (1D-NLTE) "
+                      f"{fe_1d3d['correction_dex']:+.3f} -> {a_meas:.3f} (3D-NLTE, Magic 2013)"
+                      f"  [scale from {fe_1d3d['gold_scale_source']}, value-corroborated]")
             else:
-                fe_1d3d = {'applied': False, 'reason': f'anchor already 3D ({scale})',
-                           'correction_dex': 0.0, 'a_1dnlte_pre': round(a_pre, 3),
-                           'a_3dnlte_post': round(a_pre, 3), 'scale': scale}
+                print(f"  RYA-553 Fe 1D→3D: SKIPPED — {fe_1d3d['reason']}; "
+                      f"A(Fe I) stays {a_meas:.3f}")
             # RYA-407/446: the frozen gold has no per-line Fe scatter — restore it.
             if not np.isfinite(sigma):
                 sigma = _fe1_raw_scatter()
