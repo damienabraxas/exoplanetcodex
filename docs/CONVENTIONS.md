@@ -209,6 +209,74 @@ Three corollaries:
 The file carries the same rule as `#` comment lines in its own header, so it travels with
 the data. Read it with `pandas.read_csv(path, comment='#')`.
 
+## An owed row names the ticket that would fix it (RYA-676)
+
+`data/audit/element_refinement_registry.csv` is the SSOT for **"this row is owed" →
+"this ticket resolves it"**. It exists because that sentence had no home: the tracker
+said an element was `owed`, Linear said a ticket to fix it was `Backlog`, and nothing
+joined them — which is how RYA-524's refinement children (RYA-581 Ba deblend, RYA-585 Zr
+rescue, RYA-565 Eu adjudication) sat unfired through eight architecture tickets and were
+found only when RYA-672 went looking. The pattern is a **class**, not a one-off: an
+umbrella audit spawns children, the architectural ones get executed, the
+science-refinement ones get lost.
+
+The registry is **hand-maintained**; the tracker's `refinement_debt` column is
+**generated from it** (`pipeline/refinement_debt_join.py`). Same split as the editorial
+sidecar: the judgement is human, the rendering is not, so the column can never be
+hand-patched into agreement with a stale registry.
+
+**The admission rule** (full text in the registry's own header): a row exists only where
+a **landed artifact or a filed ticket** names the specific refinement. `provenance_ticket`
+is mandatory and is checked at load. A registry that overstates debt is as useless as no
+registry — "someone might want this someday" is not a row.
+
+Three readings that are easy to get wrong:
+
+- **`TBD - no resolving ticket` is not a placeholder.** It is the loudest row type in the
+  file: the debt is established and *nobody has filed a ticket*. Those rows are the
+  signal to file one, and the CI report counts them separately from `Backlog:` precisely
+  because firing something cannot clear them.
+- **An empty cell means "no known refinement path", not "nothing owed".** Si, Ni and Na
+  are owed today and carry no row, because no landed artifact or filed ticket names a
+  specific refinement for them. Blank is the honest answer there.
+- **"Not wired" is not "not measured well".** K I is `neither` in the RYA-673 two-engine
+  wiring audit and is simultaneously gold PASS at 5.099 via Kitt Peak synthesis. Every
+  `engine-B-*` row records the *absent second engine*, never a bad measurement.
+
+```
+python -m pipeline.refinement_debt_join --report        # informational, always exit 0
+python -m pipeline.refinement_debt_join --phase-close   # freeze/phase-close: exit 1 on open debt
+python pipeline/ledger_consistency_guard.py --json      # same counts, machine-readable
+```
+
+The report is **informational by construction** and must stay that way — see LEDGERS.md.
+
+### Pre-brief refinement debt check — OWED, not yet installed (RYA-386 blocks it)
+
+The fourth piece of RYA-676 is a mandatory pre-brief check inside the
+**codex-mr-code-brief** skill. That skill has **no reachable home in this repo or on this
+machine** — `skills/` carries only `codex-state-register` and `codex-vald-extraction`, and
+RYA-386 ("package the codex skills into a permanent single-source home", still Todo) is
+the ticket that would give it one. The text is parked here verbatim rather than written to
+a guessed path, because a skill file at an address nothing loads would look done while
+being unreachable. **Install it into the skill when RYA-386 lands.**
+
+> ## Pre-brief refinement debt check (mandatory)
+>
+> Before drafting any pre-freeze, verification-gate, or phase-close Mr. Code brief:
+>
+> 1. Read `data/audit/element_status_tracker.csv` `refinement_debt` column
+> 2. If any element in the current phase has `Backlog:` in that column, list those tickets
+>    in the brief's Context section as "orphaned refinement work to consider firing first"
+> 3. If parent ticket is Done and sibling Backlog tickets exist under it (check the
+>    parent's related-issues in Linear), flag them explicitly
+> 4. If the brief is for a phase-close or freeze ticket AND any refinement debt is Backlog
+>    for the current phase, add a section "Refinement debt not yet resolved" listing the
+>    tickets and the impact
+>
+> This check is not optional. Every brief must document either "no refinement debt in
+> current phase" (with the tracker read confirming) or list the debt.
+
 ## Isotope fractions live in the ENGINE or in the gf — never both (RYA-684)
 
 Turbospectrum multiplies an isotope-coded species' population by `isotopfrac(Z, A)`

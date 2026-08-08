@@ -140,3 +140,18 @@ jobs:
         continue-on-error: true
         run: |
           "$PYTHON" -m pipeline.ledger_consistency_guard
+
+      - name: Refinement-debt report (RYA-676) - INFORMATIONAL, never blocking
+        # Which owed rows have a ticket that has not fired, and which have no ticket at
+        # all. RYA-524's refinement children sat in Backlog through eight architecture
+        # tickets because no surface anywhere printed that sentence; this step is the
+        # surface. It runs on every PR, since any PR is a chance for a reader to notice.
+        #
+        # NOTE there is no `continue-on-error` here and that is deliberate: --report
+        # always exits 0 BY CONSTRUCTION (pipeline/refinement_debt_join.report), so the
+        # informational contract is a property of the code, not of this file. Seven of
+        # the registry's rows need a model atom ACQUIRED; a guard that blocks on those
+        # would be red for months and read as noise. Phase-close tickets escalate by
+        # running `--phase-close`, which does exit 1 -- see LEDGERS.md.
+        run: |
+          "$PYTHON" -m pipeline.refinement_debt_join --report

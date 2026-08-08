@@ -1,0 +1,100 @@
+# ELEMENT REFINEMENT REGISTRY — the SSOT for "this row is owed" -> "this ticket resolves it"
+# =========================================================================================
+# RYA-676. HAND-MAINTAINED, append-and-amend. This is the ONE place that answers, for an
+# element the Codex reports as owed, WHICH TICKET WOULD FIX IT — the question RYA-524's
+# family could not answer, which is how RYA-581 / RYA-585 / RYA-565 sat in Backlog through
+# eight architecture tickets and were caught only post-hoc by RYA-672.
+#
+# THE ADMISSION RULE (read before adding a row)
+# --------------------------------------------
+# A row exists only where a LANDED ARTIFACT or a FILED TICKET names the specific
+# refinement. "Someone might want this someday" is not a row. A registry that overstates
+# debt is as useless as no registry, so `provenance_ticket` is mandatory and must be the
+# ticket (or the ticket whose artifact) that ESTABLISHED the debt.
+#
+# `resolving_ticket = TBD` is NOT a placeholder to pad the file — it is the loudest row
+# type here. It means: this debt is real and established, and NOBODY HAS FILED A TICKET.
+# Those rows are the signal to Ryan; the CI guard counts them separately from Backlog.
+#
+# WHAT IS DELIBERATELY *NOT* A ROW
+# --------------------------------
+#   * Li I — ratified UPPER_LIMIT disposition (RYA-563). Structurally never a PASS point
+#     value, so there is nothing owed. A row here would misread as unfinished work.
+#   * Zr II on BOTH engines and C I / O I / Mg I / Cu I / Mn I / Sr II on Engine A —
+#     `DELIBERATELY_SKIPPED` in the RYA-673 audit. A ratified exclusion is not a debt.
+#   * Si / Ni / Na — owed, but no landed artifact or filed ticket names a specific
+#     refinement for them today. Blank is the honest answer; inventing one is not.
+#
+# "NOT WIRED" IS NOT "NOT MEASURED WELL"
+# -------------------------------------
+# K I reads `neither` in the RYA-673 wiring audit and is nonetheless gold PASS at 5.099
+# via Kitt Peak synthesis. The debt on that row is the ABSENT SECOND ENGINE, not the
+# measurement. Every `engine-B-*` row means the same thing: one engine, zero independent
+# cross-check — which is exactly what the ratified STRICT gate 3 (RYA-561) fails on.
+#
+# COLUMNS
+# -------
+#   element, ion       the species the DEBT is about. May differ from the ion the tracker
+#                      reports (Y: RYA-475 is about Y I lines, the Codex reports Y II) —
+#                      that mismatch is real and its own ticket is RYA-683, so the join
+#                      onto the tracker is by ELEMENT and the ion is carried in the label.
+#   situation          short controlled label, see the vocabulary below
+#   resolving_ticket   RYA-# that would clear it, or TBD (see the admission rule)
+#   ticket_state       Linear state of resolving_ticket, READ 2026-08-08. A hand snapshot:
+#                      it can go stale, and only the RENDERED PREFIX depends on it, never
+#                      whether the debt exists.
+#   provenance_ticket  RYA-# that ESTABLISHED the debt. Mandatory.
+#   phase              the Codex phase whose gate this debt blocks. Every row is solar
+#                      today, so every row is `Solar Beta` except the one RYA-672 §2
+#                      explicitly deferred post-Beta (Sr II). The CI guard's escalation
+#                      is scoped by this column.
+#   short_label        what renders inside the tracker cell's parentheses
+#   notes              one paragraph of cited context; no value from memory
+#
+# SITUATION VOCABULARY (extend deliberately, do not invent per row)
+#   engine-B-unwired          a route EXISTS and is not invoked  -> code work
+#   engine-B-no-model-atom    no Engine-B model atom exists      -> atom/grid acquisition
+#   engine-B-atom-vintage     an atom exists but is superseded
+#   single-line-unconfirmed   measured, but on one line with no confirming second
+#   single-line-blue-edge     as above, and the one line is blue-edge/low-confidence
+#   line-set-exhausted        the known line set cannot clear the floor at any S/N
+#   noise-floor-limited       the line is on the linear COG; sensitivity, not S/N
+#   line-discordance          two clean lines disagree beyond the budget
+#   gf-scale-floor            residual ratified as a gf zero-point, not a physics debt
+#   gf-zero-point             as above, plus a data-acquisition half
+#   gf-disposition            a per-line gf adjudication is open
+#   grid-provenance-blocked   the cited primary grid is not the file on disk
+#   promotion-adjudication    the gates pass; the ratification has not been made
+#   precision-limited         held + flagged; retiring the correction is not certifiable
+#   nlte-void                 no model atom exists anywhere for the reported species
+#
+# CONSUMERS
+#   pipeline/refinement_debt_join.py     joins this onto the tracker's `refinement_debt`
+#   scripts/generate_element_status_tracker_rya654.py   emits that column
+#   pipeline/ledger_consistency_guard.py --json         informational open-debt report
+# Read with pandas.read_csv(path, comment='#').
+element,ion,situation,resolving_ticket,ticket_state,provenance_ticket,phase,short_label,notes
+Ba,II,engine-B-unwired,RYA-680,Backlog,RYA-673,Solar Beta,Ba engine-B harness,"RYA-673 wiring audit: engine_b_reason=NO_HARNESS_INVOCATION, blocks_beta=True. The RYA-559/581 Ba II 5853 synthesis route exists but is never called from _dedicated_engine_B(), so Ba produces NO two-engine record and the ratified STRICT gate 3 is UNEVALUABLE — no measurement can move it. Pure code work."
+Co,I,engine-B-unwired,RYA-680,Backlog,RYA-673,Solar Beta,Co engine-B harness,"RYA-673 wiring audit: engine_b_reason=NO_HARNESS_INVOCATION, blocks_beta=True. The RYA-564 red-line HFS synthesis route is not invoked from _dedicated_engine_B(). Co reads PASS at 4.965 on ONE engine with zero independent confirmation. Pure code work, same fix as Ba II."
+N,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,N engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM, blocks_beta=True. The Amarsi-2020 N I grid (RYA-526/556) feeds Engine A only; the TS-native Gerber deck carries no N I atom. Needs an atom or a grid, not code — no ticket filed."
+Sc,II,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Sc engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM, blocks_beta=True. No ticket filed. Distinct from Sc's line-quality debt on the row below."
+Eu,II,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Eu engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM, blocks_beta=True. No ticket filed. Eu also carries the noise-floor debt on the row below; they are different fixes and neither substitutes for the other."
+P,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,P engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL). blocks_beta=False. RYA-654 separately recorded 'no P I NLTE grid' as one of P's two remaining blockers, so this is the same gap seen from both sides. No ticket filed."
+Al,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Al engine-B model atom,RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL). blocks_beta=False. Al is owed-HELD at 7.406 in gold v1 on ONE survivor. No ticket filed.
+K,I,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,K engine-B model atom,"RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL — the resonance doublet sits in the O2 A-band, RYA-380-blocked). blocks_beta=False. READ THIS ROW CAREFULLY: K is gold PASS at 5.099 via Kitt Peak 7699 synthesis + NLTE. The debt is the absent SECOND ENGINE, not the measurement. No ticket filed."
+Y,II,engine-B-no-model-atom,TBD,none,RYA-673,Solar Beta,Y engine-B model atom,RYA-673 wiring audit: engine_b_reason=NO_MODEL_ATOM (Engine A is NO_EW_POOL). blocks_beta=False. No ticket filed.
+Ba,II,single-line-unconfirmed,TBD,none,RYA-581,Solar Beta,second clean Ba II line,"THE BLEND DEBT IS CLOSED. RYA-581 (merged, PR #190) replaced the EW inversion with an in-window blend fit: A(Ba) 2.410 -> 2.237, verdict PASS (|-0.033| <= TOL_PASS); only -0.020 of the -0.173 shift was the blend model, -0.153 was abandoning the inversion. What REMAINS is that 2.237 is HELD not frozen — it rests on ONE line and sigma 0.016 is inter-arm precision only. The register names Ba II 6141.713 / 6496.897 as the confirming line. No ticket filed."
+Zr,II,line-set-exhausted,TBD,none,RYA-585,Solar Beta,cleaner blue Zr II lines,"THE BLEND DEBT IS CLOSED, AND THE SITUATION IS NOT 'reliability-floor'. RYA-585 (merged, PR #189) fixed the MODEL — rchi2 83 -> 0.39 — and the lines still fail: 4208.98 / 4258.04 / 4442.99 are intrinsically insensitive, below the ratified dEW/dA >= 40 mA/dex floor, so Zr stays owed with no value. RYA-585 declared this line set EXHAUSTED: re-running or re-tuning it buys nothing. The debt is ACQUIRING cleaner blue Zr II lines. No ticket filed."
+Eu,II,noise-floor-limited,TBD,none,RYA-565,Solar Beta,higher-SNR blue Eu II line,"RYA-565 (merged, PR #188) did the HFS-resolved in-window blend fit the registry had called the finished treatment; result is owed-no-value. The profile is GOOD (rchi2 0.16, not railed, 61-sigma detection) but Eu II 6645 returns dEW/dA 13.9 against the 40.0 floor and cog_linearity 0.953 puts it on the LINEAR curve of growth — so NO S/N can ever clear the floor on this line. Needs Eu II 4129/4205 on a higher-SNR blue arm. The red HFS set is exhausted. No ticket filed."
+Sr,II,grid-provenance-blocked,TBD,none,RYA-433,Post-Beta,INASAN Sr II primary pull,"RYA-433 closed (PR #65) with the named-primary Mashonkina-2022 / INASAN pull BLOCKED 403 and a MANUAL pull flagged, so the cited primary is still not the file on disk (Bergemann-2012a / INSPECT is). RYA-672 §2 explicitly DEFERS the follow-up post-Beta and no follow-on ticket has been filed — this is the row the RYA-676 brief predicted would need one."
+Mg,I,line-discordance,TBD,none,RYA-592,Solar Beta,Mg 5528-vs-5711 0.21 dex discordance,"RYA-592 measured the second clean line (5528.405, 7.18) and it is DISCORDANT with 5711 (7.40) by 0.21 dex, so the de-single-lining it was fired for did not land. Mg stays owed-BLANK on the EW side (RYA-596 verified 0 of 5 survivors) with 7.614 a ratified HOLD (RYA-561). The tracker names resolving the discordance as the precondition for ANY Mg promotion. No ticket carries it."
+Y,I,gf-disposition,RYA-475,Backlog,RYA-475,Solar Beta,Y I 4348/6191/6435 gf disposition,"RYA-475: check saturation FIRST (the Batch-3 lesson), then a manual pull to Hannaford+1982 only if unsaturated. NOTE THE ION: RYA-475 is about Y I lines while the Codex reports Y as Y II with a verified data-gap pool (0 of 3 survivors). That artifact-vs-measurement ion mismatch is its own ticket, RYA-683; it is carried here rather than silently harmonised."
+Ti,I,engine-B-atom-vintage,RYA-548,Backlog,RYA-534,Solar Beta,Ti Engine-B ab-initio atom swap,"Engine B still carries the scaled-Drawin atom.ti503b. RYA-534 recorded it CHECK-not-PASS (|median-anchor| 0.114 > tol 0.06) and that is precisely the gate-1 failure the RYA-663 disposition report reports for Ti. Engine A already moved to Mallinson-2024 ab-initio (RYA-545), so the two engines are on different vintages. RYA-548 is the swap; RYA-544 separately owes the reported-atmosphere decision."
+Ca,I,promotion-adjudication,RYA-562,Backlog,RYA-663,Solar Beta,Ca PASS promotion,"RYA-663's disposition report has Ca as the ONE element that promotes under the ratified STRICT three gates (dCE 0.016, both tolerances met) — and flags in the same breath that its gate-3 input is the STALE two-engine artifact, so the flip is PROVISIONAL. RYA-562 is the open adjudication. This is a ratification debt, not a measurement debt."
+V,I,nlte-void,RYA-470,Backlog,RYA-466,Solar Beta,V II majority-ion anchor,V I has no NLTE model atom anywhere — the tracker classifies it NLTE-VOID and RYA-673 confirms Engine A is NO_EW_POOL. RYA-470 proposes measuring AROUND the unsolved atom via the V II majority-ion anchor (the Strontium move); the tracker records it as the only NLTE lever on the element.
+Cr,I,precision-limited,TBD,none,RYA-546,Solar Beta,clean weak Cr II lines,"RYA-546's vintage audit found the Cr NLTE correction scaled-Drawin-inflated, and the tracker records the outcome as STOP-PRECISION-LIMITED: hold + flag, because RETIRING the correction is not certifiable on the present pool. It names clean weak Cr II lines as what would settle it. Note RYA-240/558 ratified EXCLUDING Cr II from gold, so this is a DIAGNOSTIC line-pool debt, not a gold proposal. No ticket filed."
+Sc,II,single-line-blue-edge,TBD,none,RYA-654,Solar Beta,cleaner Sc II line,"The only Sc value anywhere is the RYA-460 Kitt Peak Sc II 4246 blue-edge HFS SINGLE line (3.203), which phase_c itself holds LOW_CONFIDENCE — 'HFS-resolved synthesis + a cleaner Sc II line owed before any PASS'. Sc is the element the RYA-632 guard keeps deliberately RED via _OWED_NOT_LAUNDERED precisely because there is nothing to reconcile to until it is measured. No ticket filed."
+S,I,gf-scale-floor,TBD,none,RYA-557,Solar Beta,S gf zero-point,"A(S) 7.486 sits +0.366 vs Asplund and the register RATIFIES that residual as a gf-SCALE floor rather than a physics debt: adopting the RYA-492 Costa-Silva gf moved it only about -0.03 (7.516 -> 7.486), confirming the audit prediction. Do NOT tune. The historical escalation target RYA-161 is CLOSED, so this floor has no open owner."
+N,I,gf-scale-floor,TBD,none,RYA-556,Solar Beta,N gf/data-channel floor,"A(N) 8.188 is +0.358 vs Asplund on 3 independent Kitt Peak red multiplets that AGREE (1D-LTE mean 8.202, spread 0.033). The wired per-line NLTE delta is -0.0138, which REFUTES the old audit's predicted -0.37, so the register ratifies the survivor as a gf/data-channel floor, not an NLTE debt. Do NOT tune. The escalation target RYA-161 is CLOSED. Off-Sun Teff bracket separately owed (RYA-369)."
+P,I,gf-scale-floor,TBD,none,RYA-654,Solar Beta,P gf-scale residual,"RYA-654 fixed P's regime row from GET-DATA to HARD-carry-forward — the near-IR multiplet IS ground-reachable and A(P) is 6.61 on real EW-pool lines (6034.04 / 6043.12) — and recorded the two REMAINING blockers explicitly: no P I NLTE grid, and a +1.20 gf-scale residual. Neither has a ticket."
+Cu,I,gf-zero-point,TBD,none,RYA-466,Solar Beta,Cu gf zero-point + fuller NLTE grid,"A(Cu) 4.345 is measured by HFS synthesis; the two EW-pool lines are junk (4767 at EW 197.8 mA is unphysical, 4704 is high-Rydberg) and the five standard lines are HFS. The tracker records both halves of the debt — a gf zero-point residual, and a fragile partial NLTE .grd that needs a fuller acquisition. No ticket filed."
