@@ -59,7 +59,7 @@ from typing import Optional
 
 import pandas as pd
 
-from pipeline import state_surfaces
+from pipeline import data_namespace, state_surfaces
 from pipeline.engine_selection import (
     FLOOR_PROMOTION,
     TwoEngineError,
@@ -78,7 +78,18 @@ REPO_ROOT = state_surfaces.REPO_ROOT
 PHASE_C_PATH = REPO_ROOT / state_surfaces.PHASE_C_VERDICT_JSON
 TWO_ENGINE_PATH = REPO_ROOT / "data" / "audit" / "rya527_two_engine" / "solar_two_engine_records.json"
 GOLD_HELD_PATH = REPO_ROOT / "data" / "reference" / "solar" / "solar_abundances_v1.csv"
-GOLD_CURRENT_PATH = REPO_ROOT / "data" / "reference" / "solar" / "solar_abundances_v2.csv"
+
+
+def gold_current_path() -> Path:
+    """The gold reference the CURRENT pointer names — resolved, never hardcoded.
+
+    RYA-663 pinned this to ``solar_abundances_v2.csv``. RYA-665 then froze **v3** and
+    moved CURRENT, which silently left this report reading a superseded reference: the
+    ion column and the frozen values it compares against were one freeze behind, and
+    nothing failed. A report whose whole job is to catch stale inputs must not itself
+    be pinned to a version that a freeze can retire (RYA-669).
+    """
+    return data_namespace.reference_path(data_namespace.current_version())
 
 #: Gold v2 BLANKS A_X on every owed row (the ratified RYA-522 tier holds the value
 #: rather than freezing it). The held numbers therefore live in v1, and reading v2
@@ -269,9 +280,9 @@ def load_held_values(path: Path = GOLD_HELD_PATH) -> dict[str, tuple[float, str]
     return out
 
 
-def load_gold_ions(path: Path = GOLD_CURRENT_PATH) -> dict[str, str]:
+def load_gold_ions(path: Optional[Path] = None) -> dict[str, str]:
     """element -> reported ion numeral, as the CURRENT gold reference records it."""
-    df = pd.read_csv(path, comment="#")
+    df = pd.read_csv(path or gold_current_path(), comment="#")
     return {str(r["element"]): str(r["ion"]) for _, r in df.iterrows() if pd.notna(r.get("ion"))}
 
 
@@ -346,7 +357,7 @@ def detect_stale_inputs(phase_c_rows: list[dict], two_engine: dict[str, dict]) -
 
 
 def value_disagreements(phase_c_rows: list[dict], two_engine: dict[str, dict],
-                        gold_path: Path = GOLD_CURRENT_PATH,
+                        gold_path: Optional[Path] = None,
                         tol: float = 0.001) -> list[dict]:
     """Every element whose A(X) differs across the artifacts that carry one.
 
@@ -358,7 +369,7 @@ def value_disagreements(phase_c_rows: list[dict], two_engine: dict[str, dict],
     them must be either explained or corrected before the v3 freeze, which is exactly
     what this list is for.
     """
-    gold = pd.read_csv(gold_path, comment="#")
+    gold = pd.read_csv(gold_path or gold_current_path(), comment="#")
     gold_values = {str(r["element"]): r.get("A_X") for _, r in gold.iterrows()}
     out = []
     for row in sorted(phase_c_rows, key=lambda r: r["element"]):
@@ -380,11 +391,21 @@ def value_disagreements(phase_c_rows: list[dict], two_engine: dict[str, dict],
     return out
 
 
-def build_report() -> dict:
-    """Assemble the full per-element disposition. Pure read; changes nothing."""
-    phase_c_rows, summary = load_phase_c()
+def build_report(phase_c_path: Optional[Path] = None,
+                 two_engine_path: Optional[Path] = None,
+                 ticket: str = "RYA-663 per-element disposition (pre-527 straggler sweep)",
+                 ) -> dict:
+    """Assemble the full per-element disposition. Pure read; changes nothing.
+
+    The two inputs are arguments rather than fixed module state because RYA-669 runs
+    this report TWICE and the difference between the two runs is the finding: once on
+    the 2026-07-18 two-engine record (what RYA-663 saw, gate 3 provisional) and once on
+    the fresh Phase 2 record. A second copy of the classifier would let those two
+    answers drift apart, which is the failure this module was written to end.
+    """
+    phase_c_rows, summary = load_phase_c(phase_c_path or PHASE_C_PATH)
     gold_ions = load_gold_ions()
-    two_engine = load_two_engine(gold_ions=gold_ions)
+    two_engine = load_two_engine(two_engine_path or TWO_ENGINE_PATH, gold_ions=gold_ions)
     held = load_held_values()
 
     dispositions: list[ElementDisposition] = []
@@ -451,11 +472,12 @@ def build_report() -> dict:
                 f"{len(stale)} element(s). Confirm on the RYA-527 re-run before freezing.]")
 
     return {
-        "ticket": "RYA-663 per-element disposition (pre-527 straggler sweep)",
+        "ticket": ticket,
         "thresholds": dict(FLOOR_PROMOTION),
         "phase_c_summary": summary,
         "inputs": [git_provenance(p) for p in
-                   (PHASE_C_PATH, TWO_ENGINE_PATH, GOLD_HELD_PATH, GOLD_CURRENT_PATH)],
+                   (phase_c_path or PHASE_C_PATH, two_engine_path or TWO_ENGINE_PATH,
+                    GOLD_HELD_PATH, gold_current_path())],
         "stale_input_evidence": stale,
         "gate3_provisional": provisional,
         "value_disagreements": value_disagreements(phase_c_rows, two_engine),
