@@ -26,7 +26,8 @@ SHARED = SCRIPTS / 'solar_profile_fit.py'
 # Every harness that fits an in-window solar profile. Adding one? It imports the
 # shared module — that is the whole point.
 HARNESSES = ['rya551_sr2_synth_sirius.py', 'rya560_zr2_synth_sirius.py',
-             'rya564_co1_synth_sirius.py', 'rya592_mg_5528_synth_sirius.py']
+             'rya564_co1_synth_sirius.py', 'rya565_eu2_synth_sirius.py',
+             'rya581_ba2_deblend_sirius.py', 'rya592_mg_5528_synth_sirius.py']
 
 # The functions that must exist in exactly ONE place.
 # fit_profile_deblend/_cont_ratio (RYA-585) join the list for the same reason: the
