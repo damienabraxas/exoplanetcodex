@@ -45,6 +45,14 @@ TRACKER = "data/audit/element_status_tracker.csv"
 TRACKER_EDITORIAL = "data/audit/element_status_tracker_editorial.yaml"
 PHASE_C_VERDICT_JSON = "data/audit/cno_synthesis/solar_phase_c_verdict.json"
 PHYSICS_REGIME = "config/physics_regime_rya400.yaml"
+#: RYA-676. The SSOT for "this row is owed -> this ticket resolves it". Hand-maintained,
+#: joined onto the tracker's `refinement_debt` column by pipeline/refinement_debt_join.py.
+REFINEMENT_REGISTRY = "data/audit/element_refinement_registry.csv"
+#: RYA-663's per-element disposition report, in both its forms. The markdown is the
+#: read-set member (a human reads it at session start); the JSON is its machine twin,
+#: the same pairing phase_c already has.
+DISPOSITION_REPORT_MD = "docs/audit/element_disposition_rya663.md"
+DISPOSITION_REPORT_JSON = "data/audit/element_disposition_rya663.json"
 
 
 class StateSurface(NamedTuple):
@@ -94,6 +102,27 @@ STATE_SURFACES: tuple[StateSurface, ...] = (
         # changes what the Codex claims about an element, so it is a state surface.
         TRACKER_EDITORIAL,
         "analyst half of the tracker: classification / action / vintages (RYA-654)",
+        False,
+    ),
+    StateSurface(
+        # A state surface but NOT a read-set member: you read the debt through the
+        # tracker column it generates, not the registry itself. Editing it changes what
+        # the Codex claims is OWED, which is a state claim like any other.
+        REFINEMENT_REGISTRY,
+        "which owed rows have a resolving ticket, and which have none (RYA-676)",
+        False,
+    ),
+    StateSurface(
+        # READ-SET MEMBER (RYA-676 §2C). RYA-663's report is what answers "can this
+        # element flip, and if not what exactly is holding it" — the question RYA-672
+        # had to reconstruct by hand because nothing routed a reader to this file.
+        DISPOSITION_REPORT_MD,
+        "per-element disposition: flip-or-blocked, with the three gates shown (RYA-663)",
+        True,
+    ),
+    StateSurface(
+        DISPOSITION_REPORT_JSON,
+        "the machine-readable twin of the disposition report above",
         False,
     ),
     StateSurface(
