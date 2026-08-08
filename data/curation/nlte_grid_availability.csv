@@ -38,5 +38,5 @@ P,coverage-program,(none exists),False,False,synth-covered,"No NLTE grid; DATA_G
 Co,coverage-program,(none exists),False,False,synth-covered,"No NLTE grid; continuum-limited blue-edge lines. Owner: Ryan.","extract cleaner red Co I lines + HFS synthesis (RYA-460); LTE-synth covers"
 Sc,coverage-program,(none exists),False,False,synth-covered,"No NLTE grid; HFS single blue line (4246), LOW_CONFIDENCE. Owner: Ryan.","HFS-resolved synthesis + cleaner line (RYA-460); LTE-synth covers"
 Y,coverage-program,(none exists),False,False,synth-covered,"No NLTE grid; Y II (dominant ion) absent from pool (DATA_GAP). Owner: Ryan.","acquire blue/UV Y II arm (RYA-458); LTE-synth covers"
-Eu,coverage-program,(none exists),False,False,synth-covered,"No NLTE grid; Eu II 6645 HFS_SUMMING. Owner: Ryan.","HFS-resolved synthesis (RYA-102/458); LTE-synth covers"
+Eu,coverage-program,(none exists),False,False,synth-attempted-owed,"No NLTE grid; Eu II 6645 HFS_SUMMING. Owner: Ryan.","HFS-resolved synthesis (RYA-102/458) DONE in RYA-565; LTE-synth does NOT cover — noise-floor-limited, owed pending a cleaner line / higher-SNR blue arm"
 Zr,coverage-program,(none needed),False,False,synth-covered,"NO NLTE grid NEEDED: Zr II is the majority ion (LTE-robust, the Sr II/V II logic).","route = synthesis of the strong Zr II lines (RYA-279/458); measurable-owed, NOT a void"
