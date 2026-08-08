@@ -8,6 +8,13 @@ obligation "bump the register" lived only in prose: RYA-643 changed element stat
 (data/audit/element_status_tracker.csv) and did not touch CODEX_STATE_REGISTER.md.
 These tests pin the guard that makes that drift loud.
 
+RYA-690 note: the disposable-repo fixtures below now write a `## Changelog` row
+alongside the `**Version:` header. They previously wrote a header with no changelog
+at all — which is exactly the orphan state RYA-690's structural check exists to
+catch, so the stub was not a valid register. Since `check_register_freshness.py`
+now runs that structural check in every mode, the fixtures had to become valid
+registers. Nothing about the freshness assertions changed.
+
 The teeth are proved on a DISPOSABLE git repo built in a tmp dir, not on this
 checkout — the guard reads git history, so proving it fails requires a real commit
 touching a state surface without the register. Note that `touch`-ing a file does
@@ -88,7 +95,8 @@ def fake_repo(tmp_path: Path) -> Path:
     surface = ss.LEDGER_PATHS[0]          # the element tracker
     (repo / Path(surface).parent).mkdir(parents=True)
     (repo / surface).write_text("element,status\nFe,PASS\n")
-    (repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v1**\n")
+    (repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v1**\n\n"
+        "## Changelog\n- **v1** (2026-08-08) — fixture landing.\n")
 
     _git(repo, "init", "-q", "-b", "main")
     _git(repo, "config", "user.email", "test@example.com")
@@ -144,7 +152,8 @@ def test_recovers_once_the_register_is_bumped(fake_repo):
     _git(fake_repo, "commit", "-q", "-a", "-m", "change element state only",
          when="2026-07-10T12:00:00")
 
-    (fake_repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v2**\n")
+    (fake_repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v2**\n\n"
+        "## Changelog\n- **v2** (2026-08-08) — fixture landing.\n")
     _git(fake_repo, "commit", "-q", "-a", "-m", "bump register to v2",
          when="2026-07-11T12:00:00")
 
@@ -178,7 +187,8 @@ def test_pr_mode_fails_when_state_changes_without_the_register(fake_repo):
 def test_pr_mode_passes_when_the_register_moves_too(fake_repo):
     _git(fake_repo, "branch", "-q", "base")
     (fake_repo / ss.LEDGER_PATHS[0]).write_text("element,status\nFe,PASS\nCo,PASS\n")
-    (fake_repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v2**\n")
+    (fake_repo / ss.REGISTER).write_text("# Codex State Register\n\n**Version: v2**\n\n"
+        "## Changelog\n- **v2** (2026-08-08) — fixture landing.\n")
     _git(fake_repo, "commit", "-q", "-a", "-m", "PR: element state + register bump",
          when="2026-07-10T12:00:00")
 
