@@ -67,6 +67,7 @@ MN_JSON  = ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' / 'solar_mn_hfs_synthesi
 CUV_JSON = ROOT / 'data' / 'audit' / 'cu_v_hfs_synthesis' / 'solar_cu_v_hfs_synthesis_rya466.json'
 SR2_JSON = ROOT / 'data' / 'results' / 'sr2_synthesis_rya551.json'
 ZR2_JSON = ROOT / 'data' / 'results' / 'zr2_synthesis_rya560.json'   # RYA-560 Zr II LTE synth
+ZR2_DEBLEND_JSON = ROOT / 'data' / 'results' / 'zr2_deblend_rya585.json'  # RYA-585 deblend refit
 MG5528_JSON = ROOT / 'data' / 'results' / 'mg_5528_synthesis_rya592.json'  # RYA-592 Mg 2nd line
 
 
@@ -163,20 +164,36 @@ def _dedicated_engine_B():
         v = json.loads(SR2_JSON.read_text()).get('4077.709', {}).get('harps', {}).get('A_NLTE')
         if v is not None:
             out[('Sr', 'II')] = (float(v), 'RYA-551 Sr II synth')
-    if ZR2_JSON.exists():
-        # RYA-560: Zr II is the majority ion -> LTE-robust (registry 279/458, the
-        # Sr II/V II precedent); A_LTE IS the value, no NLTE grid. RELIABILITY-GATED:
-        # emit only a line that cleared the dEW/dA floor and is not railed. As of the
-        # RYA-560 Sirius run NO Zr II line clears the floor (best dEW/dA 36.8 < 40),
-        # so this contributes nothing and Zr stays MEASURABLE-OWED — never a silent
-        # weak/railed value. When a reliable Zr II line lands, it flows through here.
-        zr = json.loads(ZR2_JSON.read_text())
+    # Zr II — the majority ion -> LTE-robust (registry 279/458, the Sr II/V II
+    # precedent); A_LTE IS the value, no NLTE grid. RELIABILITY-GATED throughout:
+    # emit only a line that cleared the dEW/dA floor and is not railed.
+    #
+    # Two sources, tried best-first. RYA-585 (deblend) supersedes RYA-560 for the
+    # three strong lines because it re-fits the SAME syntheses with the blends
+    # modelled in-window and a blend-pixel continuum, and additionally gates on a
+    # sane red_chi2. RYA-560 remains the fallback so the original measurement stays
+    # reproducible and wired if the deblend artifact is absent.
+    #
+    # As of the RYA-585 Sirius run BOTH are silent and Zr stays MEASURABLE-OWED.
+    # The deblend fixed what it set out to fix — red_chi2 collapsed from 41-91 to
+    # <=1.7, confirming the blend/continuum systematic was real — but every line
+    # still sits below the sensitivity floor (best dEW/dA 36.5 < 40) because these
+    # three cores are saturated (sat_index 0.36-0.69). That is an intrinsic property
+    # of the line set, not a modelling defect, so refitting cannot rescue it; the
+    # next lever is cleaner blue Zr II lines (RYA-458). Never a silent sub-floor
+    # value. When a reliable Zr II line lands, it flows through here unchanged.
+    for _src, _path, _tag in ((585, ZR2_DEBLEND_JSON, 'RYA-585 Zr II deblend LTE'),
+                              (560, ZR2_JSON, 'RYA-560 Zr II synth LTE')):
+        if not _path.exists():
+            continue
+        zr = json.loads(_path.read_text())
         rel = [d['harps']['A_LTE'] for w, d in zr.items()
                if isinstance(d, dict) and isinstance(d.get('harps'), dict)
                and d['harps'].get('reliable') and d['harps'].get('A_LTE') is not None]
         if rel:
             out[('Zr', 'II')] = (float(np.mean(rel)),
-                                 f"RYA-560 Zr II synth LTE (n={len(rel)} reliable)")
+                                 f"{_tag} (n={len(rel)} reliable)")
+            break
     if MG5528_JSON.exists():
         # RYA-592: the SECOND clean Mg I line (5528.405), measured by in-window blend-fit
         # synthesis so Mg could stop being single-line. CONCORDANCE-GATED, and as of the
@@ -208,7 +225,13 @@ def _dedicated_engine_B():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--star', default='solar')
-    ap.parse_args()
+    # RYA-669: Phase 2 re-emits into its OWN directory so the 2026-07-18 record stays
+    # readable beside the fresh one. Overwriting it would destroy the only evidence of
+    # what the pre-v3 floor actually produced, which is what the diff is read against.
+    ap.add_argument('--out-dir', default=None,
+                    help='repo-relative output dir (default data/audit/rya527_two_engine)')
+    args = ap.parse_args()
+    out_dir = OUT_DIR if args.out_dir is None else (ROOT / args.out_dir)
     p = _solar_params()
     print(f"[two-engine] solar params {p}")
 
@@ -281,8 +304,8 @@ def main():
         raise SystemExit("RYA-525 TWO-ENGINE LOUD-FAIL (synthesis-required missing Engine-B):\n  - "
                          + "\n  - ".join(loud))
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / 'solar_two_engine_records.json').write_text(json.dumps(
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'solar_two_engine_records.json').write_text(json.dumps(
         dict(ticket='RYA-527 real two-engine run (RYA-525 floor)',
              gerber_nlte_delta=GERBER_NLTE_DELTA, gerber_xfail=sorted(GERBER_XFAIL),
              records=records), indent=2))
@@ -293,7 +316,7 @@ def main():
               f"{','.join(e.replace('engine','') for e in r['selected_engines']):<16s} "
               f"{str(r['engineA']):>6s}  {str(r['engineB']):>6s}  "
               f"{'MIX*' if r['mix_flagged'] else ('mix' if r['cross_engine_mix'] else '')}")
-    print(f"\n  wrote {OUT_DIR.relative_to(ROOT)}/solar_two_engine_records.json "
+    print(f"\n  wrote {out_dir.relative_to(ROOT)}/solar_two_engine_records.json "
           f"({len(records)} species)")
     return 0
 

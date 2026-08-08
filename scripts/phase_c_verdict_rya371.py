@@ -59,6 +59,7 @@ MN_SYNTH_JSON = (ROOT / 'data' / 'audit' / 'mn_hfs_synthesis' /
                  'solar_mn_hfs_synthesis_rya473.json')       # RYA-473 HFS-synthesis Mn
 S_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_s_costasilva_rya492.json'  # RYA-492 CS-gf S
 BA_SYNTH_JSON = ROOT / 'data' / 'results' / 'solar_ba_synthesis_rya559.json'  # RYA-559 Ba II 5853 synth
+BA_DEBLEND_JSON = ROOT / 'data' / 'results' / 'solar_ba_deblend_rya581.json'  # RYA-581 in-window deblend
 CO_SYNTH_JSON = ROOT / 'data' / 'results' / 'co_synthesis_rya564.json'   # RYA-564 Co I red-line synth
 
 # Prior Phase C verdict counts — the immediate baseline this run diffs against.
@@ -868,10 +869,93 @@ def _apply_s_synthesis(rows, data):
 
 
 def _load_ba_synthesis():
-    """RYA-559: the Ba II 5853 HFS-synthesis measurement, or None if it hasn't run."""
+    """The Ba II 5853 measurement, or None if it hasn't run.
+
+    RYA-581 SUPERSEDES RYA-559: prefer the in-window deblend (profile fit with the
+    blends modelled) over the EW->COG inversion whenever it is present. The 559 record
+    stays as the fallback so the fold still works on a checkout that predates the
+    deblend. Both are routed through _ba_reclassify, which branches on `ticket`."""
+    if BA_DEBLEND_JSON.exists():
+        return json.loads(BA_DEBLEND_JSON.read_text())
     if not BA_SYNTH_JSON.exists():
         return None
     return json.loads(BA_SYNTH_JSON.read_text())
+
+
+def _ba_reclassify_deblend(data):
+    """RYA-581 — fold the Ba II 5853 IN-WINDOW DEBLEND into the verdict, superseding the
+    RYA-559 EW->COG value.
+
+    RYA-559 landed A(Ba)_NLTE 2.410 by inverting the OBSERVED pool EW (74.62 mA) through
+    an HFS-resolved curve of growth. That EW carries blend_flag=True — ~10 mA over the
+    clean solar Ba II 5853 (~64 mA) — and an EW inversion cannot deblend: one scalar
+    cannot separate barium from the rest of the absorption in the integration window, so
+    the neighbours were charged to Ba. RYA-559 said so and routed the debt here.
+
+    RYA-581 fits the PROFILE instead (RYA-551 Sr II pattern): the full VALD3 in-window
+    block is synthesised alongside the Ba II HFS/isotope components and A(Ba) is fitted
+    by chi2, with the Engine-A Korotin2015 delta read at the solar node as before.
+
+    Validate-don't-tune: the profile, the canonical gf and the Korotin delta are all
+    READ; A is whatever chi2 returns. Nothing is fitted toward Asplund 2.27. The verdict
+    follows the measured reconciliation — if the deblended A lands inside TOL_PASS then
+    Ba PASSes, and RYA-581 says explicitly to report that honestly rather than force-hold
+    it owed. The single-line caveat rides in the note, flagged for the RYA-527 freeze."""
+    a = float(data['A_nlte'])
+    asp = float(data.get('asplund2021', SOLAR_ASPLUND2021.get('Ba', 2.27)))
+    d = a - asp
+    dk = data.get('engineA_korotin_delta')
+    bm = data.get('blend_model', {}) or {}
+    ev = data.get('deblend_evidence', {}) or {}
+    cb = data.get('correction_budget_dex', {}) or {}
+    hfs = data.get('hfs', {}) or {}
+    top = ', '.join(f"{k} {v} mA" for k, v in
+                    list((bm.get('per_species_core_EW_mA') or {}).items())[:4])
+    reconciled = abs(d) <= TOL_PASS
+    # A profile fit that railed, ran away in chi2, or lost its sensitivity to A is not
+    # allowed to buy a PASS on arithmetic alone.
+    reliable = bool(data.get('reliable'))
+    verdict = 'PASS' if (reconciled and reliable) else 'CURATION-OWED'
+    return {'Ba': {
+        'verdict': verdict,
+        'A_measured': a, 'sigma': data.get('sigma'),
+        'n_lines': 1, 'provenance': 'synthesis: Ba II 5853 in-window deblend (RYA-581)',
+        'channel': 'synthesis: Ba II 5853.668 in-window blend fit (Turbospectrum, HFS + '
+                   'full VALD3 in-window block, chi2 profile fit) + Engine-A Korotin2015 '
+                   '1D-NLTE delta',
+        'owed': (
+            f"MEASURED by in-window blend fit — SUPERSEDES the RYA-559 EW->COG value 2.410. "
+            f"RYA-559 inverted the blend_flag=True pool EW (74.62 mA vs the clean solar line "
+            f"~64 mA); an EW inversion cannot deblend, so the neighbours were charged to Ba. "
+            f"RYA-581 synthesises the full VALD3 in-window block ({bm.get('n_rows')} rows, "
+            f"{bm.get('n_species')} species over {bm.get('window_A')} A) alongside the "
+            f"{hfs.get('n_components')} Ba II HFS/isotope components and fits A(Ba) to the "
+            f"observed profile by chi2 (RYA-551 pattern). Modelled blend in the core "
+            f"+/-{bm.get('core_hw_A')} A = {bm.get('blend_core_EW_mA')} mA, dominated by "
+            f"{top}. A(Ba)_LTE {data.get('A_lte')} + Engine-A Korotin2015 delta "
+            f"{dk:+.4f} = A(Ba) {a:.3f} ({d:+.3f} vs Asplund {asp:.2f}). Deblend is "
+            f"demonstrated, not assumed: red_chi2 {ev.get('red_chi2_ba_alone')} (Ba alone) "
+            f"-> {ev.get('red_chi2_blends_modelled')} (blends modelled), "
+            f"{ev.get('chi2_improvement_factor')}x better. Correction budget vs 2.410: "
+            f"{cb.get('from_dropping_the_EW_inversion')} dex from abandoning the EW "
+            f"inversion + {cb.get('from_modelling_the_in_window_blend')} dex from the "
+            f"in-window blend model; the fitted synthetic core EW "
+            f"{cb.get('fitted_core_EW_mA')} mA reproduces the RYA-559 calibration "
+            f"(A=2.27 -> 66.5 mA) and the literature clean line (~64-66 mA), confirming the "
+            f"CLEAN Ba II 5853 was recovered. Validate-don't-tune: profile, canonical gf and "
+            f"Korotin delta all READ, never fitted toward Asplund; do NOT tune. "
+            f"sigma {data.get('sigma')} is the HARPS-vs-IAG arm scatter — a precision "
+            f"floor, NOT a total error budget (no gf / Korotin-delta / 1D-MARCS / "
+            f"single-line terms). "
+            + (f"RECONCILED within TOL_PASS {TOL_PASS} -> PASS, but it rests on ONE line: "
+               f"flagged for the RYA-527 freeze review, and a second clean Ba II line "
+               f"(6141.713 / 6496.897) is the confirming follow-up. Note the two-engine "
+               f"record is still UNEVALUABLE for Ba — the synthesis route is not wired into "
+               f"_dedicated_engine_B(), so gate 3 cannot see this value (RYA-669)."
+               if verdict == 'PASS' else
+               f"NOT PASS: |{d:+.3f}| exceeds TOL_PASS {TOL_PASS}"
+               + ("" if reliable else " / the profile fit did not meet the reliability floor")
+               + "."))}}
 
 
 def _ba_reclassify(data):
@@ -894,6 +978,8 @@ def _ba_reclassify(data):
     a = data.get('A_nlte')
     if a is None:
         return {}
+    if data.get('ticket') == 'RYA-581':
+        return _ba_reclassify_deblend(data)
     a = float(a)
     asp = float(data.get('asplund2021', SOLAR_ASPLUND2021.get('Ba', 2.27)))
     d = a - asp
