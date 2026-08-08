@@ -43,6 +43,8 @@ from config.constants import (ACCEPTANCE_PROFILES, FE_IONISATION_GATE,          
                               FE_IONIZATION_SYNTH_ARBITER, FE_REW_SLOPE_GATE,
                               FE_GATE_LOWER, FE_GATE_UPPER, CORRECTIONS_3D,
                               TARGET_ELEMENTS)
+from pipeline.solar_scale_provenance import (  # noqa: E402  RYA-681 scale identity
+    SCALE_1D_NLTE, SCALE_3D_NLTE, scale_discrimination_halfwidth, scale_from_value)
 
 # ── committed artifacts (guard these, never re-run the pipeline in the gate) ──
 VERDICT = ROOT / 'data' / 'audit' / 'cno_synthesis' / 'solar_phase_c_verdict.json'
@@ -91,16 +93,59 @@ def _uncertainty_fe():
 def test_A1_a_fe_in_fe_gate():
     """The reported Fe I anchor is the 3D-corrected value (Magic-2013 1D→3D applied,
     RYA-553); it must sit inside the real FE_GATE [7.41,7.51]. A gross zero-point error
-    (e.g. a loggf slip ~+0.3 → 7.76) still falls outside, so the gate keeps its teeth."""
+    (e.g. a loggf slip ~+0.3 → 7.76) still falls outside, so the gate keeps its teeth.
+
+    RYA-681 — FE_GATE ALONE IS NOT ENOUGH, and narrowing it is not the answer.
+    FE_GATE is a symmetric ±0.05 window on the 3D-true reference: a *physical*
+    acceptance tolerance. The 1D→3D correction is also 0.05, i.e. exactly the gate's
+    half-width, so a DOUBLED correction lands at `A_correct − 0.05`, which is inside
+    the window for any correct anchor at or above 7.46. That is structural, not a
+    coincidence of today's numbers — and it is why RYA-669's 7.416 passed all nine of
+    these assertions. Narrowing the window to h < 0.044 would catch today's instance
+    while leaving the correct anchor only 0.038 dex of headroom, and would still miss
+    a smaller doubled correction: it fits the coincidence, not the defect.
+
+    The defect is a PROVENANCE error, so the added check is a provenance check. The
+    two scale states are separated by a known, tabulated distance, so "which scale is
+    this number on" is decidable without any tuned tolerance (see
+    pipeline.solar_scale_provenance). The reported anchor must be identifiably on the
+    3D scale: 7.466 → 3D ✓, 7.416 → NEITHER ✗, 7.516 → 1D ✗. FE_GATE is unchanged.
+    """
     fe = _fe_verdict()
     a_fe = float(fe['A_measured'])
-    # guard that the value under test is genuinely the 3D-corrected anchor, not a
-    # coincidental 1D value — a silent regression that drops the correction must FAIL.
     corr = fe.get('fe_1d3d_correction')
-    assert corr is not None and corr.get('applied') is True, (
-        "Fe verdict is not on the applied-3D scale (RYA-553 correction missing/not applied)")
-    assert corr.get('correction_dex') == CORRECTIONS_3D['Fe_1D3D_solar_dex'], (
+    assert corr is not None, (
+        "Fe verdict carries no fe_1d3d_correction record — the reported anchor's scale "
+        "is undeclared (RYA-553/681)")
+    assert corr.get('correction_dex') in (CORRECTIONS_3D['Fe_1D3D_solar_dex'], 0.0), (
         "Fe 1D→3D correction magnitude drifted from CORRECTIONS_3D (single-source broken)")
+    assert corr.get('scale') == SCALE_3D_NLTE, (
+        f"Fe verdict declares scale {corr.get('scale')!r}, not {SCALE_3D_NLTE} — the "
+        f"reported anchor is not on the 3D scale (RYA-553)")
+
+    # RYA-681 scale-identity: the NUMBER itself must land on the 3D scale.
+    on_scale = scale_from_value('Fe', a_fe)
+    assert on_scale == SCALE_3D_NLTE, (
+        f"reported A(Fe I)={a_fe} is not on the 3D-NLTE scale (classified {on_scale!r}; "
+        f"3D centre {ASPLUND_FE}, 1D centre {ASPLUND_FE + abs(CORRECTIONS_3D['Fe_1D3D_solar_dex']):.3f}, "
+        f"discrimination ±{scale_discrimination_halfwidth('Fe'):.3f}). A doubled RYA-553 "
+        f"correction lands here (7.416, RYA-669) and FE_GATE cannot see it.")
+
+    # …and the correction record must be arithmetically self-consistent: the value it
+    # was applied TO must itself be on the 1D scale. With a doubled correction the
+    # recorded pre-value is 7.466, which is a 3D-scale number — caught here too.
+    if corr.get('applied') is True:
+        pre, post = float(corr['a_1dnlte_pre']), float(corr['a_3dnlte_post'])
+        assert round(pre + CORRECTIONS_3D['Fe_1D3D_solar_dex'], 3) == post, (
+            f"fe_1d3d_correction is not self-consistent: {pre} {CORRECTIONS_3D['Fe_1D3D_solar_dex']:+} "
+            f"!= {post}")
+        assert scale_from_value('Fe', pre) == SCALE_1D_NLTE, (
+            f"the RYA-553 correction was applied to {pre}, which is NOT on the 1D-NLTE "
+            f"scale (classified {scale_from_value('Fe', pre)!r}) — the correction has been "
+            f"applied to an already-corrected anchor (RYA-669/681)")
+        assert post == pytest.approx(a_fe, abs=1e-9), (
+            f"the verdict's reported A(Fe I)={a_fe} is not the correction's own post-value {post}")
+
     assert FE_GATE_LO <= a_fe <= FE_GATE_HI, (
         f"3D-corrected A(Fe I)={a_fe} outside FE_GATE [{FE_GATE_LO:.2f},{FE_GATE_HI:.2f}]")
 
