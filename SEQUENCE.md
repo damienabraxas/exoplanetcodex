@@ -17,8 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-07 — gold v3 freeze + pre-527 cleanup
 
-- **RYA-669** — RYA-527 Phase 2 fresh two-engine re-emit; **STOPPED**: the RYA-553 Fe 1D→3D offset double-applies against gold v3 (7.466→7.416, inside FE_GATE, every gate green). No freeze
-- **RYA-666** — SEQUENCE.md added at repo root + wired as LEDGERS.md read-set member #6 (logged late, by RYA-669)
+- **RYA-668** — Science Product Package (SPP) framework doc landed at docs/SCIENCE_PRODUCT_PACKAGE.md; peer of Glossary/Method/Science-Architecture; unblocks per-star SPP tickets
 - **RYA-664** — Na Gerber prov gate block populated (writeback of RYA-533 result); Engine-B gate 1 clears for Na
 - **RYA-665** — gold v3 FROZEN (Fe I 7.466 / Mn I 5.466 gold; Co PASS at owed-HELD; N off NLTE-OWED; Ba phantom killed); CURRENT→v3; Phase 1 of split RYA-527 complete
 - **RYA-663** — pre-527 per-element disposition report generated; Ca = provisional flip, Na = candidate second flip pending RYA-664
