@@ -279,7 +279,9 @@ def species_decisions(vbase: dict, te: dict, report: dict) -> list[dict]:
             'cross_engine_delta': d.get('cross_engine_delta'),
             'promoted_by_ratified_rule': d.get('promoted'),
             'blocker': d.get('blocker'),
-            'gate3_still_provisional': report['gate3_provisional'],
+            'gate3_provisional_on_artifact_age': report['artifact_age_stale'],
+            'staleness_signals': d.get('staleness_signals'),
+            'remedy': d.get('remedy'),
             'recommendation': (
                 f"PROMOTE {el} — clears all three ratified gates on a FRESH cross-engine "
                 f"delta ({d.get('cross_engine_delta')}) computed this run from both "
@@ -287,7 +289,7 @@ def species_decisions(vbase: dict, te: dict, report: dict) -> list[dict]:
                 f"is spurious here (see the gate-3 section): it comes from "
                 f"cross-CHANNEL disagreements on other elements, not from anything about "
                 f"{el}'s delta or the artifact's age."
-                if d.get('promoted') and report['gate3_provisional'] else
+                if d.get('promoted') and report['artifact_age_stale'] else
                 f"PROMOTE {el} — clears all three ratified gates on the FRESH "
                 f"cross-engine delta." if d.get('promoted') else
                 f"DO NOT promote {el} — {d.get('blocker')}. This is a FRESH answer: "
@@ -479,44 +481,48 @@ def render_summary_md(rows, counts, decisions, moved, report, stops, gold_versio
         L += ['**None.**']
     L += ['']
 
-    L += ['## Gate 3 — and why the PROVISIONAL flag cannot clear itself', '']
-    if report['gate3_provisional']:
-        L += [f"`gate3_provisional` still reads **True**, on "
-              f"{len(report['stale_input_evidence'])} element(s):", '']
-        L += [f"- {e}" for e in report['stale_input_evidence']]
-        L += ['',
-              '**That verdict is now demonstrably wrong, and this run is what proves '
-              'it.** `detect_stale_inputs` infers "the two-engine artifact predates that '
-              'measurement" from *any* value disagreement with the live channel. The '
-              'artifact it just read was generated on current main during this run, so '
-              'it predates nothing. Every one of the disagreements above is a '
-              'CROSS-CHANNEL difference, not an age difference:', '',
-              '| element | two-engine leg | live channel leg | why they differ |',
-              '|---|---|---|---|',
-              '| Fe | per-line winner-combine | EW ionization-gated + 3D | the RATIFIED '
-              'Fe policy — the two-engine number is a diagnostic that sits above the '
-              'anchor BY CONSTRUCTION (Ryan, 2026-07-16) |',
-              '| Cr | Cr I synthesis floor | gf_floor EW value | different legs |',
-              '| Si | synthesis floor | gf_floor EW value | different legs |',
-              '| S | EW leg | RYA-492 Costa-Silva dedicated synthesis | different legs |',
-              '| Li | synthesis point value | ratified UPPER_LIMIT | the RYA-563 veto |',
-              '| O | 8.730 | 8.735 | 0.005 — rounding |', '',
-              'The detector conflates *"this artifact is old"* with *"the diagnostic '
-              'legitimately disagrees with the ratified channel"*. The second is the '
-              'normal, designed state of a two-engine floor. So the flag is **not '
-              'clearable by re-running** — RYA-663 deferred Ca\'s promotion to "confirm '
-              'on the RYA-527 re-run", the re-run has now happened, and the flag reads '
-              'exactly the same.', '',
-              '**Ca\'s cross-engine delta is nevertheless genuinely fresh: −0.003**, '
-              'computed this run from both engines over real solar data. The number gate '
-              '3 needs is sound; only the blanket provisional stamp on top of it is not.',
-              '', 'Recommendation (a decision, so not taken here): narrow '
-              '`detect_stale_inputs` to compare like-for-like legs, or bound it by the '
-              'artifact\'s git commit date against the verdict\'s, so a same-day artifact '
-              'cannot be reported as predating anything.', '']
+    # RYA-675 narrowed the detector this section was written to indict: the one "stale"
+    # signal is now `artifact_age_stale` (global, remedy REGENERATE) and
+    # `cross_channel_disagreement` (per element, remedy ADJUDICATE). This section reports
+    # each on its own terms rather than re-arguing the conflation, which no longer exists.
+    L += ['## Gate 3 — the two signals, separately (RYA-675)', '']
+    if report['artifact_age_stale']:
+        L += [f"**Age: STALE.** The two-engine artifact predates "
+              f"{len(report['artifact_age_evidence'])} live input(s) it is read against, "
+              f"so every gate-3 number here was computed against a superseded state. "
+              f"Remedy **REGENERATE** — clearable by re-running the emitter, no decision "
+              f"required.", '']
+        L += [f"- {e['note']}" for e in report['artifact_age_evidence']]
+        L += ['']
     else:
-        L += ['✅ **Cleared.** The fresh two-engine record carries no contradiction '
-              'against the live verdict channel.', '']
+        L += ['✅ **Age: fresh.** The two-engine artifact is at least as new as every live '
+              'input it is read against, so nothing here is provisional on age. This is '
+              'the state a fresh re-emit produces, and the state the pre-RYA-675 detector '
+              'could not report because any value difference read as age.', '']
+
+    if report['cross_channel_disagreement']:
+        L += [f"**Cross-channel disagreement: {len(report['cross_channel_disagreement'])} "
+              f"element(s).** Remedy **ADJUDICATE** — these do NOT regenerate away; a "
+              f"two-engine floor's diagnostic leg is designed to be able to disagree with "
+              f"the ratified leg, and someone must pick which channel is the reported "
+              f"truth.", '',
+              '| element | two-engine | live phase_c | delta | why they differ |',
+              '|---|---|---|---|---|']
+        why = {
+            'Fe': 'the RATIFIED Fe policy — the two-engine number is a diagnostic that '
+                  'sits above the anchor BY CONSTRUCTION (Ryan, 2026-07-16)',
+            'Cr': 'different legs — Cr I synthesis floor vs the gf_floor EW value',
+            'Si': 'different legs — synthesis floor vs the gf_floor EW value',
+            'S': 'different legs — EW vs the RYA-492 Costa-Silva dedicated synthesis',
+            'Li': 'the RYA-563 veto — synthesis point value vs the ratified UPPER_LIMIT',
+            'O': 'rounding',
+        }
+        L += [f"| {e['element']} | {e['two_engine']:.3f} | {e['live_phase_c']:.3f} | "
+              f"{e['delta']:+.3f} | {why.get(e['element'], 'unclassified — adjudicate')} |"
+              for e in report['cross_channel_disagreement']]
+        L += ['']
+    else:
+        L += ['✅ **No cross-channel disagreement.**', '']
     L += [f"Promotes under the ratified three gates: "
           f"**{', '.join(report['can_flip_now']) or 'none'}**", '']
 
@@ -599,8 +605,9 @@ def main() -> int:
         'counts': counts,
         'elements_moved_gt_0.01_dex': moved,
         'species_adoption_decisions': decisions,
-        'gate3_provisional': report['gate3_provisional'],
-        'stale_input_evidence': report['stale_input_evidence'],
+        'artifact_age_stale': report['artifact_age_stale'],
+        'artifact_age_evidence': report['artifact_age_evidence'],
+        'cross_channel_disagreement': report['cross_channel_disagreement'],
         'can_flip_now': report['can_flip_now'],
         'gerber_nlte_delta': gerber_delta, 'gerber_xfail': sorted(gerber_xfail),
         'diff_table': rows}
@@ -619,7 +626,8 @@ def main() -> int:
     print(f"counts                : {counts}")
     print(f"moved > 0.01 dex      : {[m['element'] for m in moved] or 'none'}")
     print(f"can flip now          : {report['can_flip_now'] or 'none'}"
-          + ('  (gate 3 PROVISIONAL)' if report['gate3_provisional'] else '  (gate 3 fresh)'))
+          + ('  (gate 3 PROVISIONAL on artifact AGE -> REGENERATE)'
+             if report['artifact_age_stale'] else '  (gate 3 fresh)'))
     if stops:
         print('\nSTOP CONDITIONS TRIPPED (RYA-669 §4):')
         for s in stops:

@@ -65,11 +65,17 @@ def main() -> int:
     JSON_OUT.write_text(js, encoding="utf-8")
     MD_OUT.write_text(md, encoding="utf-8")
     flip = report["can_flip_now"]
+    adjudicate = report["elements_needing_adjudication"]
     print(f"Wrote {JSON_OUT.relative_to(REPO_ROOT)} and {MD_OUT.relative_to(REPO_ROOT)}")
     print(f"  can flip now : {', '.join(flip) if flip else 'none'}"
-          + ("  (PROVISIONAL — gate 3 read a stale input)" if report["gate3_provisional"]
-             and flip else ""))
-    print(f"  stale inputs : {len(report['stale_input_evidence'])} contradiction(s)")
+          + ("  (PROVISIONAL on artifact AGE — remedy REGENERATE)"
+             if report["artifact_age_stale"] and flip else ""))
+    # RYA-675: two signals, printed as two lines with their two remedies. One "stale"
+    # line is what let an unclearable flag masquerade as a re-runnable one.
+    print(f"  artifact age : {'STALE' if report['artifact_age_stale'] else 'fresh'} "
+          f"({len(report['artifact_age_evidence'])} newer input(s)) -> REGENERATE")
+    print(f"  cross-channel: {len(report['cross_channel_disagreement'])} element(s) "
+          f"[{', '.join(adjudicate) if adjudicate else 'none'}] -> ADJUDICATE")
     print(f"  value splits : {len(report['value_disagreements'])} element(s)")
     return 0
 
