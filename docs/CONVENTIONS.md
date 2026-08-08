@@ -208,3 +208,101 @@ Three corollaries:
 
 The file carries the same rule as `#` comment lines in its own header, so it travels with
 the data. Read it with `pandas.read_csv(path, comment='#')`.
+
+## A result artifact must not land without its generating harness (RYA-686)
+
+**Every file committed under `data/results/` must be accompanied by the committed code
+that generates it, and the two must be linked in `data/results/GENERATORS.yaml`.**
+
+**The recurring failure this prevents:** Sirius computes, only the result JSON comes
+back, and the harness that produced it stays in a scratch directory and is never
+committed. RYA-567 makes compute-on-Sirius the rule; this is the missing preservation
+half. Two verified instances, both of which cost real time in the RYA-672 batch:
+
+- **The harness that never existed.** RYA-559's merge commit `564824a` shipped
+  `data/results/solar_ba_synthesis_rya559.json`, a phase_c hook and a test — but not the
+  synthesis harness. `scripts/rya559_ba2_synth_sirius.py` has never been committed on any
+  branch, and is not on Sirius either. **A(Ba) = 2.410 is not independently checkable**,
+  and RYA-581 had to rebuild the harness from scratch off the RYA-551 pattern plus a
+  commit message.
+- **The harness that shipped incomplete.** `scripts/rya560_zr2_synth_sirius.py` *is*
+  committed, but declares no `argparse` at all — so the `--deblend` entrypoint RYA-585's
+  brief called for did not exist and had to be added.
+
+The cost compounds: every re-measurement of the same species pays the rebuild again, and
+an unreproducible measurement cannot be independently checked at all.
+
+### The standing rule
+
+> **A result artifact and the code that produced it land in the same PR. If a
+> measurement genuinely cannot be reproduced, say so — never point an artifact at a
+> script that did not produce it.**
+
+### The linkage: a manifest, and why not the alternatives
+
+`data/results/GENERATORS.yaml` maps each artifact to its generator. Three mechanisms were
+weighed; the manifest wins on four counts the others cannot cover.
+
+| | naming convention | `_meta.generator` in the JSON | **manifest** |
+|---|---|---|---|
+| covers `.csv` / `.txt` (14 of 32 artifacts) | yes | **no** | yes |
+| mutates historical artifacts | no | **yes** | no |
+| can record "no generator exists" | **no** | yes | yes |
+| carries the *invocation* | **no** | awkward | yes |
+| can drift | no | yes | yes — **but the guard makes drift a build break** |
+
+- **A naming convention** (`*_ryaNNN.*` → `scripts/*ryaNNN*.py`) is the simplest, and it
+  *would* have caught the Ba case. It was rejected because it **proves the wrong thing**:
+  RYA-485 shipped two artifacts and two scripts, so a shared ticket token cannot say which
+  script generates which artifact — it would report green if either one went missing. It
+  also cannot classify the seven artifacts carrying no ticket token at all
+  (`procyon_co_*.csv`, `procyon_fe_spread*.csv`, `procyon_uves_oi777_phase2.*`), nor
+  `rejection_ledger_solar_rya429.json`, whose real generator is `pipeline/lines_fit.py`.
+  It would need an exemption file for eight of thirty-two — i.e. a manifest, arrived at by
+  a longer road.
+- **A `_meta.generator` field** is genuinely self-describing and only three result JSONs
+  carry a `_meta` block today, so it is not the established shape the count suggests. It
+  cannot serve the 14 CSV/TXT artifacts without a second mechanism, and adding a top-level
+  key to a bare wavelength-keyed dict like `sr2_synthesis_rya551.json` changes what every
+  `for w, d in obj.items()` consumer iterates over.
+- **The manifest's** one real cost is the "another thing to keep in sync" objection. That
+  is answered by making the guard **bidirectional**: an artifact with no entry fails, an
+  entry naming a missing artifact fails, and an entry naming a missing generator fails.
+  Sync is not a discipline anyone has to remember — it is a build break, the same shape as
+  RYA-654's `--check` on the element status tracker.
+
+### The three statuses
+
+The audit found three genuinely different things sitting in `data/results/`. Collapsing
+them would lie, so the manifest names all three:
+
+| status | means | requires |
+|---|---|---|
+| `COMMITTED` (default) | machine output, harness in the repo | `generator:` that exists |
+| `HAND_AUTHORED` | a human wrote it — a decision record, not a program's output | `generator: null`, `sources:`, `note:` |
+| `UNREPRODUCIBLE` | machine output whose harness was **never committed** | `generator: null`, `note:` |
+
+`UNREPRODUCIBLE` is **the honest record of a defect, not an escape hatch.** Its membership
+is frozen in `tests/test_result_generators_rya686.py`, so adding one is a deliberate,
+reviewed edit rather than a quiet green.
+
+### Running the guard
+
+```
+python scripts/check_result_generators.py                      # the landing gate
+python scripts/check_result_generators.py --check-invocations  # + the RYA-560 check
+```
+
+Both run in CI inside the `test` job.
+
+### What the invocation check does and does not catch
+
+Recording `invocation:` lets the guard AST-read the generator's `argparse` and verify every
+long flag in the recorded command is actually declared. That **does** catch the RYA-560
+class — "committed, but not invocable as documented" — at the point where it matters, which
+is when a brief names a flag.
+
+It does **not** catch a flag that is declared but does nothing, a harness that runs and
+produces different numbers, or a harness that no longer matches the artifact it once wrote.
+Those remain review's job. The check is deliberately static: it never imports or executes a
+harness, so it cannot be defeated by an import-time failure and cannot itself run compute.
