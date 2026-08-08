@@ -50,6 +50,8 @@ sys.path.insert(0, str(ROOT))
 from config.constants import SOLAR_ASPLUND2021              # noqa: E402
 from pipeline import data_namespace as ns                   # noqa: E402
 from pipeline import element_disposition as ed              # noqa: E402
+from pipeline.ratified_constraints import (                 # noqa: E402  RYA-674
+    assert_ratified_constraints_satisfied)
 from pipeline.engine_selection import (                     # noqa: E402
     exclusion_reason, is_ratified_excluded_species, is_upper_limit_disposition,
     ratified_reported_ion)
@@ -602,6 +604,10 @@ def main() -> int:
         'can_flip_now': report['can_flip_now'],
         'gerber_nlte_delta': gerber_delta, 'gerber_xfail': sorted(gerber_xfail),
         'diff_table': rows}
+    # RYA-674 §2C: the proposed gold v4 table is the highest-stakes emission in the
+    # repo — it is what a freeze would immortalise. Gated before it is written.
+    assert_ratified_constraints_satisfied(
+        rows, 'RYA-669 Phase 2 re-emit / proposed gold v4 ladder')
     (OUT_DIR / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
     (OUT_DIR / 'proposed_gold_v4_diff.md').write_text(
         render_diff_md(rows, counts, decisions, moved))

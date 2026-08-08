@@ -113,7 +113,8 @@ class ConstraintType:
 # job. So the checks read a normalised VIEW, and each field names every schema's
 # spelling of it in one place — rather than every check learning all four.
 
-_VALUE_KEYS = ('A_measured', 'A_X_nlte', 'A_X', 'reported', 'value', 'v3')
+_VALUE_KEYS = ('A_measured', 'A_X_nlte', 'A_X', 'v3_proposed', 'v4_proposed',
+               'reported', 'value', 'v3')
 _SOURCE_KEYS = ('source', 'value_source', 'channel', 'provenance', 'selected_engines',
                 'method_scale', 'note', 'owed', 'promotion_reason')
 #: Substrings that mark a value as having come from the two-engine synthesis floor.

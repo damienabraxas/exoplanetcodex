@@ -36,6 +36,7 @@ EXPECTED_IDS = {'Li_6707_veto_1_409', 'Cr_II_species_exclusion',
 TWO_ENGINE = ROOT / 'data' / 'audit' / 'rya527_two_engine' / 'solar_two_engine_records.json'
 VERDICT = ROOT / 'data' / 'audit' / 'cno_synthesis' / 'solar_phase_c_verdict.json'
 DISPOSITION = ROOT / 'data' / 'audit' / 'element_disposition_rya663.json'
+PROPOSED_V3 = ROOT / 'data' / 'audit' / 'rya527_reemit' / 'proposed_gold_v3_diff.json'
 
 
 # ── the registry itself ──────────────────────────────────────────────────────
@@ -279,6 +280,20 @@ def test_the_committed_two_engine_artifact_still_carries_both_known_leaks():
     assert len(found) == 2, found
 
 
+@pytest.mark.skipif(not PROPOSED_V3.exists(), reason='RYA-527 re-emit artifact absent')
+def test_the_historical_proposed_gold_v3_table_is_caught_at_element_level():
+    """THE artifact the ticket was written about. `data/audit/rya527_reemit/
+    proposed_gold_v3_diff.json` proposed A(Li) 1.409 "from the two-engine synthesis
+    floor" and A(Cr II) 5.676 as element-level gold values. Both are now caught by the
+    gate that `scripts/rya527_reemit_verdict.py` calls before writing that table."""
+    rows = json.loads(PROPOSED_V3.read_text(encoding='utf-8'))['diff_table']
+    found = check_ratified_constraints(rows, 'RYA-527 proposed gold v3')
+    ids = {cid for cid in EXPECTED_IDS if any(cid in v for v in found)}
+    assert ids == {'Li_6707_veto_1_409', 'Cr_II_species_exclusion'}, found
+    with pytest.raises(RatifiedConstraintViolation):
+        assert_ratified_constraints_satisfied(rows, 'RYA-527 proposed gold v3')
+
+
 # ── the gate's own contract ──────────────────────────────────────────────────
 
 def test_a_row_the_gate_cannot_understand_is_never_silently_skipped():
@@ -301,7 +316,9 @@ def test_every_emission_path_calls_the_gate():
     paths = ('scripts/phase_c_verdict_rya371.py',
              'scripts/build_solar_reference_v2_rya522.py',
              'pipeline/element_disposition.py',
-             'scripts/rya527_two_engine_run.py')
+             'scripts/rya527_two_engine_run.py',
+             'scripts/rya527_reemit_verdict.py',
+             'scripts/rya669_phase2_reemit.py')
     for rel in paths:
         src = (ROOT / rel).read_text(encoding='utf-8')
         assert 'assert_ratified_constraints_satisfied(' in src, (
