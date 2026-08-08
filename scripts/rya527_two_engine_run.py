@@ -42,7 +42,10 @@ import pandas as pd
 import pipeline.abundances_derive as ad
 from pipeline import nlte_corrections as nc
 from pipeline.engine_selection import (LineEngines, select_element, ENGINE_A, ENGINE_B,
-                                       TwoEngineError)
+                                       TwoEngineError, RATIFIED_EXCLUDED_SPECIES,
+                                       exclusion_reason, is_upper_limit_disposition)
+from pipeline.ratified_constraints import (  # RYA-674 emission-time gate
+    RowKind, assert_ratified_constraints_satisfied)
 from config.constants import (get_star_params, TARGET_ELEMENTS, NLTE_CORRECTION_ELEMENTS,
                               SOLAR_ASPLUND2021)
 import pipeline.problem_children as pc
@@ -321,9 +324,30 @@ def main():
             loud.append(f"{el} {ion}: select_element raised: {e}")
             continue
         asp = SOLAR_ASPLUND2021.get(el)
+        # ── RYA-674 §2C: the ratified DEMOTION, applied where the record is made ──
+        # RYA-558 (Cr II) and RYA-563 (Li / upper_limit) both ratified the same
+        # treatment: the floor may compute such a species, but it must be carried as a
+        # cross-engine DIAGNOSTIC, never as a reported value. The July artifact recorded
+        # Cr II 5.676 and Li I 1.409 in `reported`, and the RYA-527 re-emit adopted both
+        # (RYA-669). Demoting here rather than at each consumer is the point of the
+        # ticket: the next consumer does not have to remember.
+        # Scope is the EXPLICIT, cited exclusion list, not the registry-ion rule that
+        # `is_ratified_excluded_species` additionally applies — Ti II / Si II are real
+        # exclusions in the SELECTOR but Ryan has ratified no emission-time constraint
+        # on them, and RYA-674 adds the three known ones with no interpretation.
+        veto = None
+        if f"{el} {ion}" in RATIFIED_EXCLUDED_SPECIES:
+            veto = f"ratified-excluded species — {exclusion_reason(f'{el} {ion}')} (RYA-240/558)"
+        elif is_upper_limit_disposition(el):
+            veto = (f"{el} carries the registry upper_limit disposition — the floor may "
+                    f"not emit a synthesis point value for it (RYA-563/103/458)")
         records.append(dict(
             element=el, ion=ion, asplund2021=asp,
-            reported=round(rec.value, 3), err=round(rec.err, 3), n_lines=rec.n_lines,
+            reported=(None if veto else round(rec.value, 3)),
+            diagnostic_only=bool(veto),
+            diagnostic_value=(round(rec.value, 3) if veto else None),
+            diagnostic_reason=veto,
+            err=round(rec.err, 3), n_lines=rec.n_lines,
             delta_vs_asplund=(round(rec.value - asp, 3) if asp is not None else None),
             engineA=(round(rec.engineA_value, 3) if rec.engineA_value is not None else None),
             engineB=(round(rec.engineB_value, 3) if rec.engineB_value is not None else None),
@@ -336,6 +360,13 @@ def main():
         raise SystemExit("RYA-525 TWO-ENGINE LOUD-FAIL (synthesis-required missing Engine-B):\n  - "
                          + "\n  - ".join(loud))
 
+    # RYA-674 §2C: gate the per-species records before writing. These are
+    # SPECIES_RECORD rows — a diagnostic table may legitimately carry species we would
+    # never report — so what is checked is that every vetoed one is marked
+    # `diagnostic_only` rather than sitting in `reported` for a consumer to adopt.
+    assert_ratified_constraints_satisfied(
+        records, 'two-engine floor record emitter (RYA-527/525)', RowKind.SPECIES_RECORD)
+
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / 'solar_two_engine_records.json').write_text(json.dumps(
         dict(ticket='RYA-527 real two-engine run (RYA-525 floor)',
@@ -343,8 +374,10 @@ def main():
              records=records), indent=2))
     print(f"\n  el  ion  Asplund  reported  d      engines            engineA engineB  mix")
     for r in records:
+        shown = (f"{r['reported']:7.3f}" if r['reported'] is not None
+                 else f"[{r['diagnostic_value']:.3f}]")   # RYA-674 demoted to diagnostic
         print(f"  {r['element']:>3s} {r['ion']:<3s} {str(r['asplund2021']):>6s}  "
-              f"{r['reported']:>7.3f}  {str(r['delta_vs_asplund']):>6s}  "
+              f"{shown:>7s}  {str(r['delta_vs_asplund']):>6s}  "
               f"{','.join(e.replace('engine','') for e in r['selected_engines']):<16s} "
               f"{str(r['engineA']):>6s}  {str(r['engineB']):>6s}  "
               f"{'MIX*' if r['mix_flagged'] else ('mix' if r['cross_engine_mix'] else '')}")

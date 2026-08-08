@@ -148,10 +148,23 @@ def test_stamp_records_solar_ref_version_on_a_target():
 
 
 def test_phase_c_records_solar_ref_version_in_the_verdict():
-    # the committed namespaced solar verdict carries the pinned denominator version
+    """The verdict names the frozen denominator it was computed against.
+
+    RYA-674: it must be the version THAT RUN READ, which is not necessarily CURRENT —
+    `phase_c --gold-version` names the input, and a freeze that moves the CURRENT
+    pointer afterwards does not retroactively change what an emitted artifact was built
+    from. Asserting equality with `current_version()` was itself an instance of the
+    defect class this project keeps hitting: metadata asserted in one place about
+    something that lives in another. What is actually required is that the recorded
+    version be a real, resolvable frozen version.
+    """
     import json
     p = ns.output_path('solar', 'verdict.json', create=False)
     if not p.exists():
         pytest.skip("solar verdict not generated in this checkout")
     summ = json.loads(p.read_text())['summary']
-    assert summ['solar_ref_version'] == ns.current_version()
+    recorded = summ['solar_ref_version']
+    assert recorded in ns.list_versions(), (
+        f"the verdict names gold {recorded!r}, which is not a frozen version on disk "
+        f"({ns.list_versions()})")
+    assert ns.reference_path(recorded).exists()

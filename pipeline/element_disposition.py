@@ -60,6 +60,9 @@ from typing import Optional
 import pandas as pd
 
 from pipeline import data_namespace, state_surfaces
+from pipeline.ratified_constraints import (    # RYA-674 emission-time gate
+    assert_ratified_constraints_satisfied,
+)
 from pipeline.engine_selection import (
     FLOOR_PROMOTION,
     TwoEngineError,
@@ -470,6 +473,13 @@ def build_report(phase_c_path: Optional[Path] = None,
                 "  [PROVISIONAL: gate 3 read a cross-engine delta from the two-engine "
                 "REVIEW artifact, which is demonstrably behind the live channel on "
                 f"{len(stale)} element(s). Confirm on the RYA-527 re-run before freezing.]")
+
+    # RYA-674 §2C: this report ADOPTS a value per element (`_value_for` will take the
+    # two-engine reported number when phase_c has none), so it is an emission path even
+    # though it changes nothing. That adoption is exactly where the Li 1.409 and Cr II
+    # 5.676 leaks would re-enter.
+    assert_ratified_constraints_satisfied(
+        dispositions, "per-element disposition report (RYA-663)")
 
     return {
         "ticket": ticket,
