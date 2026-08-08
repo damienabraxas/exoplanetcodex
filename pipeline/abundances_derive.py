@@ -66,6 +66,9 @@ from config.constants import (
 from pipeline.species import species_key, species_note
 from pipeline.gf_resolver import apply_to_synth_array, apply_to_regions  # RYA-353 single-source gf
 from pipeline import data_namespace as ns                               # RYA-469 per-star namespacing
+from pipeline.solar_scale_provenance import (                           # RYA-681 scale identity
+    SCALE_1D_NLTE as _SCALE_1D_NLTE, SCALE_3D_NLTE as _SCALE_3D_NLTE,
+    scale_from_value as _scale_from_value)
 
 
 def _star_linelist(star_id: str):
@@ -2977,6 +2980,20 @@ def run(star_id: str = 'solar',
                 print(f"  A(Fe I) 3D-NLTE     = {_fe_3d:.3f}  (1D-NLTE {a_nlte:.3f} "
                       f"{CORRECTIONS_3D['Fe_1D3D_solar_dex']:+.3f}, Magic 2013) -> "
                       f"{'PASS' if _gate_ok else 'FAIL'} (FE_GATE [{_gate_lo:.2f},{_gate_hi:.2f}], RYA-553)")
+                # RYA-681: FE_GATE's half-width EQUALS the correction, so a doubled
+                # correction sits inside it (RYA-669's 7.416 cleared it by 0.006).
+                # Narrowing a physical acceptance window to catch a provenance error
+                # fits the coincidence, not the defect — so report the orthogonal
+                # SCALE-IDENTITY of the anchor instead: which of the two known,
+                # tabulated-distance-apart scales this number is actually on. Also
+                # confirms the value being corrected was itself a 1D-scale number.
+                _pre_scale = _scale_from_value('Fe', a_nlte)
+                _post_scale = _scale_from_value('Fe', _fe_3d)
+                _scale_ok = (_pre_scale == _SCALE_1D_NLTE and _post_scale == _SCALE_3D_NLTE)
+                print(f"  Fe I scale identity   = 1D-NLTE input {a_nlte:.3f} -> {_pre_scale}, "
+                      f"reported {_fe_3d:.3f} -> {_post_scale}  -> "
+                      f"{'PASS' if _scale_ok else 'FAIL'} (RYA-681 provenance check; "
+                      f"a doubled RYA-553 correction lands on NEITHER scale)")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
             n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))

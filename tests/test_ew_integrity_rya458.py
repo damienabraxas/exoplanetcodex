@@ -31,6 +31,8 @@ PROC = ROOT / 'data' / 'processed'
 _GOLD_SOLAR = ns.reference_path(ns.current_version())
 
 
+from tests.gold_scale_blocker import xfail_if_regeneration_blocked  # noqa: E402  RYA-681/669
+
 def _frame(rows):
     return pd.DataFrame(rows, columns=['element', 'ion', 'wavelength_air_A', 'ew_mA',
                                        'ew_err_mA', 'chi2', 'a_lte'])
@@ -160,6 +162,7 @@ def test_reference_table_is_cited():
 @pytest.mark.skipif(not _GOLD_SOLAR.exists(),
                     reason="needs a solar run (solar_abundances.csv is gitignored)")
 def test_charter_c_still_pass_after_5380_exclusion():
+    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
     import phase_c_verdict_rya371 as P
     ab, ew, phase_a = P._load()
     rows = {r['element']: r for r in P.build_verdicts(ab, ew, phase_a)}
@@ -172,6 +175,7 @@ def test_charter_c_still_pass_after_5380_exclusion():
 @pytest.mark.skipif(not _GOLD_SOLAR.exists(),
                     reason="needs a solar run (gitignored output)")
 def test_charter_li_reported_upper_limit_in_verdict():
+    xfail_if_regeneration_blocked()   # RYA-681/669 — gold v3's Fe row contradicts itself
     import phase_c_verdict_rya371 as P
     ab, ew, phase_a = P._load()
     rows = {r['element']: r for r in P.build_verdicts(ab, ew, phase_a)}
