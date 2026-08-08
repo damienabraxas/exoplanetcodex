@@ -242,11 +242,14 @@ def audit(mod) -> list[dict]:
             b_note = ('no synth-v2 lines and no dedicated harness result on record — '
                       'cause not determinable from the code; needs Ryan review')
 
-        # Zr/Mg are wired AND gated: the harness is called and deliberately returns
-        # nothing until a reliability/concordance condition is met. That is a wired
-        # leg producing a null, not an unwired one — the distinction the report must
-        # not blur, because "wire it" is the wrong follow-on for these.
-        if el in ('Zr', 'Mg') and harness_referenced and not b_ded:
+        # A harness that is wired AND gated shut (Zr's reliability floor, Mg's
+        # concordance band) is a wired leg producing a null, not an unwired one —
+        # "wire it" is the wrong follow-on for those. But this may only downgrade a
+        # species that has NO other Engine-B route: Mg is covered by synth-v2
+        # independently of its gated 5528 harness, and an earlier version of this
+        # check reported Mg as `neither` on the strength of the gated harness alone,
+        # hiding a working Engine-B leg.
+        if (el in ('Zr', 'Mg') and harness_referenced and not b_ded and not b_synth):
             b_wired, b_reason = False, DELIBERATELY_SKIPPED
             b_note = (f'harness IS wired ({harness_ticket}) and is gated shut: it '
                       f'returns nothing until its reliability/concordance condition '
