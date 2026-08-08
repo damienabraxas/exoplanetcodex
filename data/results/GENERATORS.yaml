@@ -1,0 +1,281 @@
+# Result-artifact generator manifest (RYA-686).
+#
+# THE RULE: a result artifact must not land in data/results/ without the committed
+# script that generates it. This file is the link between the two, and
+# `scripts/check_result_generators.py` enforces it in CI, in BOTH directions --
+# an artifact with no entry fails, and an entry naming a missing artifact or a
+# missing generator fails. Drift is a build break, never a silent divergence.
+#
+# WHY IT EXISTS: RYA-559's merge (564824a) shipped solar_ba_synthesis_rya559.json,
+# a phase_c hook and a test, but NOT the synthesis harness -- which has never existed
+# in this repo on any branch and is not on Sirius either. Ba landed on the board at
+# 2.410 from a measurement nobody can re-run, and RYA-581 had to rebuild the harness
+# from scratch. See docs/CONVENTIONS.md for the full convention and the reasoning
+# behind choosing a manifest over a naming convention or an in-artifact `_meta` field.
+#
+# ENTRY SCHEMA
+#   artifact:   REQUIRED. Path relative to data/results/.
+#   status:     COMMITTED (default) | HAND_AUTHORED | UNREPRODUCIBLE.
+#   generator:  repo-relative path to the code that WRITES the artifact. Required for
+#               COMMITTED; must be `null` for the other two.
+#   invocation: optional but strongly preferred -- the command that regenerates it.
+#               `--check-invocations` verifies every long flag here is actually declared
+#               by the generator's argparse, which is what catches the RYA-560 class
+#               (committed, but not invocable as documented).
+#   ticket:     REQUIRED. No entry without a ticket.
+#   note:       REQUIRED for HAND_AUTHORED and UNREPRODUCIBLE.
+#   sources:    REQUIRED for HAND_AUTHORED -- where the numbers came from.
+#
+# WHAT MUST NEVER BE ADDED HERE: a `generator:` naming a script that was written after
+# the fact and presented as the original. If a measurement is not reproducible, the
+# honest entry is `status: UNREPRODUCIBLE` with a note. A re-measurement gets its own
+# artifact and its own entry (RYA-581 -> solar_ba_deblend_rya581.json); it does not
+# retroactively become the provenance of the old one.
+
+artifacts:
+
+  # ── Solar synthesis measurements (the Sirius class this ticket is about) ──────────
+
+  - artifact: co_synthesis_rya564.json
+    generator: scripts/rya564_co1_synth_sirius.py
+    invocation: python scripts/rya564_co1_synth_sirius.py
+    ticket: RYA-564
+
+  - artifact: mg_5528_synthesis_rya592.json
+    generator: scripts/rya592_mg_5528_synth_sirius.py
+    invocation: python scripts/rya592_mg_5528_synth_sirius.py
+    ticket: RYA-592
+
+  - artifact: sr2_synthesis_rya551.json
+    generator: scripts/rya551_sr2_synth_sirius.py
+    invocation: python scripts/rya551_sr2_synth_sirius.py
+    ticket: RYA-551
+
+  - artifact: zr2_synthesis_rya560.json
+    generator: scripts/rya560_zr2_synth_sirius.py
+    invocation: python scripts/rya560_zr2_synth_sirius.py
+    ticket: RYA-560
+    note: >-
+      CASE 2 of RYA-686, now resolved. As shipped by RYA-560 this harness declared NO
+      argparse at all, so the `--deblend` entrypoint RYA-585's brief called for did not
+      exist and had to be added. RYA-585 added it, and the flagless invocation above is
+      still the one that produces THIS artifact (`main()`); `--deblend` produces
+      zr2_deblend_rya585.json instead. Had the manifest existed in June, recording
+      `--deblend` here would have failed `--check-invocations` -- which is precisely the
+      signal the guard is meant to give.
+
+  - artifact: zr2_deblend_rya585.json
+    generator: scripts/rya560_zr2_synth_sirius.py
+    invocation: python scripts/rya560_zr2_synth_sirius.py --deblend
+    ticket: RYA-585
+    note: >-
+      Same harness as zr2_synthesis_rya560.json, different entrypoint: `--deblend` runs
+      `main_deblend()`, which refits the three strong Zr II lines with blends modelled
+      in-window. This is the entry whose flag `--check-invocations` verifies against the
+      source, so a future removal of `--deblend` becomes a build break rather than a
+      brief that no longer works.
+
+  - artifact: solar_ba_deblend_rya581.json
+    generator: scripts/rya581_ba2_deblend_sirius.py
+    invocation: python scripts/rya581_ba2_deblend_sirius.py
+    ticket: RYA-581
+    note: >-
+      The harness RYA-581 had to REBUILD from scratch (off the RYA-551 pattern plus
+      RYA-559's commit message) because RYA-559's original was never committed. It
+      generates this re-measurement -- A(Ba) 2.410 -> 2.237 -- and NOT
+      solar_ba_synthesis_rya559.json, whose entry stays UNREPRODUCIBLE. A rebuild is a
+      new measurement, not retroactive provenance for the old one.
+
+  - artifact: eu2_synthesis_rya565.json
+    generator: scripts/rya565_eu2_synth_sirius.py
+    invocation: python scripts/rya565_eu2_synth_sirius.py
+    ticket: RYA-565
+    note: >-
+      LTE in-window HFS synthesis of 5 Eu II lines x 2 arms. Emits NO abundance --
+      the disposition is owed-no-value (Eu II 6645 returns dEW/dA 13.9 against the
+      40.0 floor). The artifact records the fit and the reason, which is exactly why
+      it must stay reproducible: the owed verdict rests on it. Optional flags
+      `--lines` and `--skip-sensitivity` both default to the full run recorded here.
+
+  - artifact: solar_s_costasilva_rya492.json
+    generator: scripts/measure_solar_s_costasilva_rya492.py
+    invocation: python scripts/measure_solar_s_costasilva_rya492.py
+    ticket: RYA-492
+
+  - artifact: solar_ba_synthesis_rya559.json
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-559
+    note: >-
+      CASE 1 of RYA-686, and the reason this manifest exists. RYA-559's merge commit
+      564824a shipped this JSON, a phase_c hook and tests/test_solar_ba_synthesis_rya559.py,
+      but not the synthesis harness. `scripts/rya559_ba2_synth_sirius.py` has never been
+      committed on ANY branch (verified with `git log --all --diff-filter=A -- 'scripts/*559*'`)
+      and a filesystem-wide search of Sirius found only this result JSON. A(Ba) = 2.410 is
+      therefore NOT INDEPENDENTLY CHECKABLE. It is deliberately NOT back-filled with a
+      reconstructed script: RYA-581 rebuilt a harness off the RYA-551 pattern, and that
+      harness generates RYA-581's own re-measurement, not this file. This entry is the
+      honest record and should be retired only by superseding the artifact, never by
+      pointing it at a script that did not produce it.
+
+  # ── Solar CNO / finish-solar legs ─────────────────────────────────────────────────
+
+  - artifact: finish_solar_rya491.json
+    generator: scripts/finish_solar_rya491.py
+    invocation: python scripts/finish_solar_rya491.py
+    ticket: RYA-491
+
+  - artifact: solar_cno_redo_rya485.json
+    generator: scripts/solar_cno_redo_rya485.py
+    invocation: python scripts/solar_cno_redo_rya485.py
+    ticket: RYA-485
+
+  - artifact: solar_o_modeling_verification_rya485.json
+    generator: scripts/verify_solar_o_modeling_rya485.py
+    invocation: python scripts/verify_solar_o_modeling_rya485.py
+    ticket: RYA-485
+
+  - artifact: n_grid_loadtest_rya369.json
+    generator: scripts/n_grid_loadtest_rya369.py
+    invocation: python scripts/n_grid_loadtest_rya369.py
+    ticket: RYA-369
+
+  # ── Pipeline-run outputs (no standalone harness -- they fall out of the EW leg) ────
+
+  - artifact: rejection_ledger_solar_rya429.json
+    generator: pipeline/lines_fit.py
+    ticket: RYA-429
+    note: >-
+      Written by `_finalize_rejection_ledger()` in pipeline/lines_fit.py (ledger machinery
+      in pipeline/rejection_ledger.py) to the PATHS key `solar_ew_rejection_audit`. No
+      `invocation` is recorded because it is not produced by a standalone harness -- it is
+      a by-product of the solar EW leg. Regenerating it means re-running that leg.
+
+  # ── Procyon legs ──────────────────────────────────────────────────────────────────
+
+  - artifact: procyon_O_hardbank_rya483.json
+    generator: scripts/hard_bank_procyon_o_rya483.py
+    invocation: python scripts/hard_bank_procyon_o_rya483.py
+    ticket: RYA-483
+
+  - artifact: procyon_cno_redo_rya493.json
+    generator: scripts/procyon_cno_redo_rya493.py
+    invocation: python scripts/procyon_cno_redo_rya493.py
+    ticket: RYA-493
+
+  - artifact: procyon_oi777_relfit_rya478.json
+    generator: scripts/procyon_oi777_continuum_localize_rya478.py
+    invocation: python scripts/procyon_oi777_continuum_localize_rya478.py
+    ticket: RYA-478
+
+  - artifact: procyon_uves_oi777_phase2.json
+    generator: scripts/procyon_uves_oi_phase2_rya348.py
+    invocation: python scripts/procyon_uves_oi_phase2_rya348.py
+    ticket: RYA-348
+
+  - artifact: procyon_uves_oi777_phase2.csv
+    generator: scripts/procyon_uves_oi_phase2_rya348.py
+    invocation: python scripts/procyon_uves_oi_phase2_rya348.py
+    ticket: RYA-348
+
+  - artifact: procyon_co_per_indicator.csv
+    generator: scripts/procyon_co_shakedown.py
+    invocation: python scripts/procyon_co_shakedown.py
+    ticket: RYA-237
+
+  - artifact: procyon_co_differential.csv
+    generator: scripts/procyon_co_shakedown.py
+    invocation: python scripts/procyon_co_shakedown.py
+    ticket: RYA-237
+
+  - artifact: procyon_co_gap_table.csv
+    generator: scripts/procyon_co_shakedown.py
+    invocation: python scripts/procyon_co_shakedown.py
+    ticket: RYA-237
+
+  - artifact: procyon_fe_spread.csv
+    generator: scripts/procyon_fe_2x2.py
+    invocation: python scripts/procyon_fe_2x2.py
+    ticket: RYA-349
+
+  - artifact: procyon_fe_spread_common.csv
+    generator: scripts/procyon_fe_2x2.py
+    invocation: python scripts/procyon_fe_2x2.py
+    ticket: RYA-349
+
+  - artifact: nlte_fstar_ceiling_rya505.csv
+    generator: scripts/nlte_fstar_ceiling_rya505.py
+    invocation: python scripts/nlte_fstar_ceiling_rya505.py
+    ticket: RYA-505
+
+  # ── Fe II diagnostic series (RYA-344/346/347) ─────────────────────────────────────
+
+  - artifact: rya344_candidates.csv
+    generator: scripts/rya344_recover_fe2_blends.py
+    invocation: python scripts/rya344_recover_fe2_blends.py --identify
+    ticket: RYA-344
+
+  - artifact: rya344_verify.csv
+    generator: scripts/rya344_recover_fe2_blends.py
+    invocation: python scripts/rya344_recover_fe2_blends.py --verify
+    ticket: RYA-344
+
+  - artifact: rya346_intake.csv
+    generator: scripts/rya346_fe2_core_absorber_diag.py
+    invocation: python scripts/rya346_fe2_core_absorber_diag.py
+    ticket: RYA-346
+
+  - artifact: rya346_diag.csv
+    generator: scripts/rya346_fe2_core_absorber_diag.py
+    invocation: python scripts/rya346_fe2_core_absorber_diag.py
+    ticket: RYA-346
+
+  - artifact: rya347_step0.csv
+    generator: scripts/rya347_fe2_atomic_data_audit.py
+    invocation: python scripts/rya347_fe2_atomic_data_audit.py
+    ticket: RYA-347
+
+  - artifact: rya347_step1_gf.csv
+    generator: scripts/rya347_fe2_atomic_data_audit.py
+    invocation: python scripts/rya347_fe2_atomic_data_audit.py
+    ticket: RYA-347
+
+  - artifact: rya347_step3_scratch.csv
+    generator: scripts/rya347_fe2_atomic_data_audit.py
+    invocation: python scripts/rya347_fe2_atomic_data_audit.py
+    ticket: RYA-347
+
+  - artifact: rya347_step4_fork.csv
+    generator: scripts/rya347_fe2_atomic_data_audit.py
+    invocation: python scripts/rya347_fe2_atomic_data_audit.py
+    ticket: RYA-347
+
+  # ── Hand-authored decision records (no program wrote these) ───────────────────────
+
+  - artifact: sr2_line_selection_rya430.json
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-430
+    sources:
+      - data/results/sr2_synthesis_rya551.json
+      - scripts/rya551_sr2_synth_sirius.py
+    note: >-
+      A line-SELECTION decision record ("RYA-430 delivered by RYA-551"), not a program's
+      output: it assigns PRIMARY / CROSS-CHECK / EXCLUDED roles and states why. Its numeric
+      content (A_LTE/A_NLTE, dEW/dA, red_chi2 per line) is the RYA-551 synthesis run, which
+      IS reproducible via the generator listed under sources. Landed in RYA-551's commit
+      503d572; no rya430 script has ever existed on any branch.
+
+  - artifact: rya342_corrected_solar_fe.txt
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-342
+    sources:
+      - pipeline/abundances_derive.py
+    note: >-
+      A six-line plain-text summary of the RYA-342 result (Fe I 7.485 n=23, Fe II 7.500
+      n=5, ionization gap -0.015), written by hand into the same commit (afe858f) that
+      decoupled flux-space synthesis from the EW saturation ceiling in
+      pipeline/abundances_derive.py. It is a note about a run, not the run's output, and
+      no rya342 script has ever existed. Superseded for state purposes by the phase_c
+      verdict channel and CODEX_STATE_REGISTER.md; retained as history.

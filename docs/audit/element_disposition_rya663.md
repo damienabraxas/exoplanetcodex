@@ -17,7 +17,7 @@ Gates (ratified RYA-561, applied via `engine_selection.evaluate_floor_promotion`
 | `data/audit/cno_synthesis/solar_phase_c_verdict.json` | `5c1e92d` | 2026-07-27T00:13:37-06:00 |
 | `data/audit/rya527_two_engine/solar_two_engine_records.json` | `ae518e8` | 2026-07-27T00:50:37-06:00 |
 | `data/reference/solar/solar_abundances_v1.csv` | `583cb46` | 2026-06-28T22:43:33-06:00 |
-| `data/reference/solar/solar_abundances_v2.csv` | `a9dd958` | 2026-07-05T01:38:42-06:00 |
+| `data/reference/solar/solar_abundances_v3.csv` | `1f0b13b` | 2026-08-07T17:11:53-06:00 |
 
 ## ⚠ Stale-input evidence
 
@@ -37,9 +37,8 @@ Invisible to the RYA-632 ledger guard, which compares verdicts and counts but ne
 | element | spread | values |
 |---|---|---|
 | Cr | 0.368 | phase_c (live) **6.022**; gold (frozen) **6.022**; two-engine (review) **5.654** |
-| Fe | 0.114 | phase_c (live) **7.466**; gold (frozen) **7.516**; two-engine (review) **7.580** |
+| Fe | 0.114 | phase_c (live) **7.466**; gold (frozen) **7.466**; two-engine (review) **7.580** |
 | Li | 0.682 | phase_c (live) **0.727**; gold (frozen) **0.727**; two-engine (review) **1.409** |
-| Mn | 0.004 | phase_c (live) **5.466**; gold (frozen) **5.470**; two-engine (review) **5.466** |
 | O | 0.005 | phase_c (live) **8.735**; gold (frozen) **8.735**; two-engine (review) **8.730** |
 | S | 0.117 | phase_c (live) **7.486**; two-engine (review) **7.369** |
 | Si | 0.249 | phase_c (live) **7.888**; gold (frozen) **7.888**; two-engine (review) **7.639** |
