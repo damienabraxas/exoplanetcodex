@@ -18,6 +18,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-08-08
 
 - **RYA-679** — ONE reliability rule; red_chi2 ceiling RETIRED (60.0's sigma_flux rationale refuted); 80 records re-adjudicated, 0 flips; Sr II 4077 kept
+- **RYA-682** — two-engine driver inputs preflighted; numpy>=2.3 silently emptied the Engine-B artifact (generate on venv312, not venv_ci)
 - **RYA-681** — Fe 1D→3D guard re-keyed on the VALUE + scale-identity gate check; 7.416 now fails; phase_c LOUD-FAILS on gold v3 pending a v4 (RYA-669)
 - **RYA-684** — isotope fraction double-applied on 5 VALD-list species (Eu +0.3002); NO live value exposed; convention guarded
 - **RYA-686** — a result cannot land without its generator (GENERATORS.yaml + CI guard); RYA-559's Ba harness recorded UNREPRODUCIBLE

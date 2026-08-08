@@ -343,3 +343,53 @@ It does **not** catch a flag that is declared but does nothing, a harness that r
 produces different numbers, or a harness that no longer matches the artifact it once wrote.
 Those remain review's job. The check is deliberately static: it never imports or executes a
 harness, so it cannot be defeated by an import-time failure and cannot itself run compute.
+
+## Two-engine driver inputs: one generated, seven committed (RYA-682)
+
+`scripts/rya527_two_engine_run.py` is the Beta gate's driver. Its inputs split cleanly,
+and the split decides how a missing one is repaired:
+
+* **GENERATED — one.** `data/outputs/{star}/{star}_per_line_synth_v2.csv`, the Engine-B
+  synthesis-v2 per-line table. `data/outputs/` is **gitignored**, so this is regenerable
+  by design and never committed. A clean checkout will not have it, and that is correct.
+  Regenerate on Sirius (RYA-567 — computation is Sirius-only):
+
+  ```
+  python -m pipeline.abundances_derive solar ATLAS9.Castelli synthesis-v2 --pin
+  ```
+
+* **COMMITTED — seven.** The dedicated Engine-B synthesis-harness measurements for the
+  synthesis-required elements (CNO cross-arm, Mn RYA-473, Cu/V RYA-466, Sr II RYA-551,
+  Zr II RYA-560 + RYA-585, Mg 5528 RYA-592). These are tracked; a missing one is a broken
+  checkout, so the repair is `git checkout -- <path>`, never re-running a harness.
+
+**Generate synthesis products on `venv312`, not `venv_ci`.** These are different
+environments on purpose: `venv312` is the RYA-517 **reference** venv (py3.12.13 / numpy
+**2.2.6**, exact pins, do not install into it), while `venv_ci` is built from
+`requirements.txt`, which floors `numpy>=1.26.0` with **no ceiling** and has floated to
+numpy **2.5.1**. The standing "use `venv_ci`, never `venv312`" rule is about running the
+**test suite** — it does not apply to generating science products, and following it there
+silently produces an empty artifact:
+
+> `ispec/abundances.py:132` assigns a size-1 array into a scalar recarray slot. NumPy
+> deprecated that in 1.25 and made it an **error in 2.3**. On numpy ≥ 2.3 every element
+> loses its atom code, every line is written `status='failed'`, and the run **exits 0**
+> with a full-length per-line table in which no row is usable. The frame is not empty, so
+> the RYA-342 empty-set guard does not fire.
+
+This is the same class as the RYA-313 `np.trapz` finding: an unpinned dependency floating
+past what a vendored engine tolerates, invisible until something runs on the declared
+stack. Three guards now make it loud instead of silent, all in
+`pipeline/two_engine_inputs.py`:
+
+1. `assert_engine_b_artifact()` — the generated input exists **and has ≥1 usable row**.
+2. `assert_committed_inputs()` — every tracked input is present, so the driver can never
+   emit a quietly smaller record set.
+3. `assert_synthesis_stack()` — the running interpreter can actually build iSpec atom
+   codes, naming the numpy cause and the RYA-517 remedy.
+
+The driver runs (1) and (2) **before any compute**. Previously the check sat after the
+whole Engine-A leg, so a clean checkout paid minutes of GES-linelist load, EW triage and
+MOOG baseline to be told its input was missing; it now fails in ~2 s.
+`_run_synthesis_v2_mode` additionally **refuses to write** a per-line table with zero
+usable rows — never emit a canonical input that looks like a successful run.

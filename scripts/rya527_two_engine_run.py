@@ -46,9 +46,13 @@ from pipeline.engine_selection import (LineEngines, select_element, ENGINE_A, EN
 from config.constants import (get_star_params, TARGET_ELEMENTS, NLTE_CORRECTION_ELEMENTS,
                               SOLAR_ASPLUND2021)
 import pipeline.problem_children as pc
+from pipeline import two_engine_inputs as tei
 
 ROOT = Path(__file__).resolve().parent.parent
-ENGINE_B_PL = ROOT / 'data' / 'outputs' / 'solar' / 'solar_per_line_synth_v2.csv'
+# RYA-682: the canonical (RYA-469 namespaced) location comes from data_namespace via
+# two_engine_inputs — never hand-built here, so the driver and the generator cannot
+# drift apart. data/outputs/ is gitignored: this input is GENERATED, not committed.
+ENGINE_B_PL = tei.engine_b_per_line_path('solar')
 OUT_DIR = ROOT / 'data' / 'audit' / 'rya527_two_engine'
 
 # Gerber TS-native NLTE delta per element (Engine-B NLTE), RYA-534 anchor-validated;
@@ -113,10 +117,12 @@ def _engine_A_perline(p):
 
 
 def _engine_B_perline():
-    """Fresh Engine-B (synthesis-v2) per line + Gerber TS-native NLTE delta."""
-    if not ENGINE_B_PL.exists():
-        raise SystemExit(f"Engine-B per-line missing ({ENGINE_B_PL}); run "
-                         "`python -m pipeline.abundances_derive solar ATLAS9.Castelli synthesis-v2 --pin`")
+    """Fresh Engine-B (synthesis-v2) per line + Gerber TS-native NLTE delta.
+
+    The artifact is validated by the preflight (RYA-682) before any compute runs;
+    this re-assert keeps the function safe to call on its own.
+    """
+    tei.assert_engine_b_artifact('solar')
     df = pd.read_csv(ENGINE_B_PL)
     out = {}
     for _, r in df.iterrows():
@@ -231,6 +237,32 @@ def main():
     ap.add_argument('--out-dir', default=None,
                     help='repo-relative output dir (default data/audit/rya527_two_engine)')
     args = ap.parse_args()
+
+    # ── RYA-682 preflight: every input, checked BEFORE any compute ───────────
+    # The Engine-A leg below costs minutes (GES linelist load, EW triage, MOOG
+    # baseline). Discovering a missing input after paying for that is a defect in
+    # its own right, and an input that is present-but-unusable never surfaced at
+    # all. Both are settled here, first, in one place.
+    if args.star != 'solar':
+        raise SystemExit(
+            f"RYA-682: --star={args.star!r} is not supported. Every dedicated Engine-B "
+            f"input this driver reads is solar-specific (CNO cross-arm, Mn/Cu/V HFS, "
+            f"Sr II, Zr II, Mg 5528), and the Engine-B per-line path was hardwired to "
+            f"solar regardless of this flag — so a non-solar run would silently have "
+            f"produced a SOLAR result under another star's name. Use 'solar'.")
+    tei.assert_committed_inputs({
+        'CNO cross-arm (RYA-491/237)': CNO_PHASE_A,
+        'Mn HFS synth (RYA-473)': MN_JSON,
+        'Cu/V HFS synth (RYA-466)': CUV_JSON,
+        'Sr II synth (RYA-551)': SR2_JSON,
+        'Zr II synth (RYA-560)': ZR2_JSON,
+        'Zr II deblend (RYA-585)': ZR2_DEBLEND_JSON,
+        'Mg I 5528 synth (RYA-592)': MG5528_JSON,
+    })
+    eb = tei.assert_engine_b_artifact(args.star)
+    print(f"[two-engine] preflight OK — Engine-B per-line {eb['path']} "
+          f"({eb['usable_rows']} usable lines); {tei.env_summary()}")
+
     out_dir = OUT_DIR if args.out_dir is None else (ROOT / args.out_dir)
     p = _solar_params()
     print(f"[two-engine] solar params {p}")
