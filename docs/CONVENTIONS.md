@@ -209,6 +209,41 @@ Three corollaries:
 The file carries the same rule as `#` comment lines in its own header, so it travels with
 the data. Read it with `pandas.read_csv(path, comment='#')`.
 
+## Isotope fractions live in the ENGINE or in the gf — never both (RYA-684)
+
+Turbospectrum multiplies an isotope-coded species' population by `isotopfrac(Z, A)`
+before forming the line opacity (`bsyn.f:1350`), and `makeabund.f` sets
+`isotopfrac(Z, 0) == 1.0` precisely so a list can opt out — its own comment says the
+zero code is "used in the case of no isotopes wanted in calculation … if for example
+isotopic factors were included in gf-values".
+
+So a Turbospectrum line list must commit to exactly one of two forms:
+
+* **(A) isotope-coded `Z.AAA` + fraction-free log gf.** Each isotope block carries the
+  FULL oscillator strength and the engine applies the fraction. The GES v6 HFS/ISO list
+  (`GESv6_atom_hfs_iso.420_920nm`) and the Gerber NLTE deck are form (A).
+* **(B) uncoded `Z.000` + folded log gf.** The split is already in the gf and the engine
+  applies 1.0. `scripts/rya581_ba2_deblend_sirius.py` is form (B) — it writes its own
+  Ba II 5853 HFS block as `56.000`.
+
+**Isotope-coded AND folded is the error.** The fraction lands twice, the feature comes out
+`sum_i f_i^2` too weak, and the fitted abundance absorbs `-log10(sum_i f_i^2)`: +0.3002 dex
+for Eu II, +0.2694 for Ba II, +0.2415 for Cu I. The shipped TSFitPy `linelist_vald`
+"for-grid" lists are form-(B) gf values written with form-(A) headers, which is what
+RYA-684 measured and RYA-565 saw as a +0.300 VALD-vs-GES leg offset.
+
+Two things follow, and both are guarded:
+
+1. **HFS is not isotope structure.** Mn, Co, Sc and V are hyperfine-split but effectively
+   mono-isotopic, so `sum f^2 == 1` and they are structurally immune. Do not reason from
+   "this element has HFS" to "this element is exposed".
+2. **A harness must never fit a TARGET species against a folded, isotope-coded block.**
+   Call `pipeline.isotope_gf_convention.assert_target_convention(linelist, Z, ion)`
+   immediately before `bsyn`. It reads which species are folded from the committed
+   RYA-684 audit record rather than a hardcoded list, so re-vendoring a line list and
+   re-running `scripts/rya684_isotope_gf_audit.py` keeps the guard honest. Exposed blocks
+   in the BLEND model are recorded, not fatal — RYA-684 measured those at <0.01 % of window
+   absorption in every window feeding a live value.
 ## A result artifact must not land without its generating harness (RYA-686)
 
 **Every file committed under `data/results/` must be accompanied by the committed code
