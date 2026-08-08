@@ -29,7 +29,11 @@ HARNESSES = ['rya551_sr2_synth_sirius.py', 'rya560_zr2_synth_sirius.py',
              'rya564_co1_synth_sirius.py', 'rya592_mg_5528_synth_sirius.py']
 
 # The functions that must exist in exactly ONE place.
-SHARED_FUNCS = {'rot_kernel', 'broaden', 'local_renorm', 'measure_arm_rv', 'fit_profile'}
+# fit_profile_deblend/_cont_ratio (RYA-585) join the list for the same reason: the
+# deblend path is the SECOND fitter in this codebase, and it is exactly the kind of
+# thing the next harness would copy rather than import.
+SHARED_FUNCS = {'rot_kernel', 'broaden', 'local_renorm', 'measure_arm_rv', 'fit_profile',
+                'fit_profile_deblend', '_cont_ratio'}
 
 
 def _defined_functions(path):
@@ -116,6 +120,7 @@ def test_require_arm_rv_loud_fails_when_unsourced():
 
 ARTEFACTS = {'sr2_synthesis_rya551.json': 'Sr II',
              'zr2_synthesis_rya560.json': 'Zr II',
+             'zr2_deblend_rya585.json': 'Zr II (deblend)',
              'co_synthesis_rya564.json': 'Co I'}
 
 
