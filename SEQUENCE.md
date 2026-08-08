@@ -18,6 +18,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-08-08
 
 - **RYA-690** — register header collapsed 8 lines → 1, three orphaned landings rehomed (v33/v37/v38); structure guard + SEQUENCE merge=union
+- **RYA-680 + RYA-691** — Co I (4.960) and Ba II (2.237, the RYA-581 deblend, NOT 559's 2.410) wired into _dedicated_engine_B(); `reliable` honoured at every read, silent NLTE→LTE `or` killed (was live for V); no value moved
 - **RYA-692** — LTE_ONLY_BY_DESIGN split from NO_MODEL_ATOM: the wiring audit no longer reports P/Sc/Eu's ratified LTE-only disposition as missing atoms; 3 phantom debt rows retired
 - **RYA-676** — refinement debt architecture: element_refinement_registry.csv (SSOT) + refinement_debt tracker column + LEDGERS.md + CI guard extension + codex-mr-code-brief skill pre-check; structurally prevents the RYA-524 → 581/585/565 orphan class recurring
 - **RYA-585** (backfill; landed PR#189 2026-08-08, no SEQUENCE line at the time) — Zr II deblend fixed the MODEL (rchi2 83→0.39); lines intrinsically insensitive, Zr stays owed, line set declared EXHAUSTED
