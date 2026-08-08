@@ -106,12 +106,19 @@ def _scale_state_from_verdict(el, vrow):
     # Cross-check the declaration against the number it describes, so this builder can
     # never WRITE the contradiction it now refuses to read (gold v3's shape).
     a_rep = rec.get("a_3dnlte_post") if rec.get("applied") else rec.get("a_1dnlte_pre")
-    from_value = scale_from_value(el, a_rep) if a_rep is not None else None
-    if from_value is not None and from_value != state:
+    if a_rep is not None and scale_from_value(el, a_rep) != state:
         raise ScaleProvenanceError(
             f"the {el} verdict contradicts itself: fe_1d3d_correction declares scale "
-            f"{state!r} but its reported value {a_rep} sits on the {from_value!r} scale "
-            f"(RYA-681/669). Refusing to freeze it.")
+            f"{state!r} but its reported value {a_rep} sits on the "
+            f"{scale_from_value(el, a_rep)!r} scale (RYA-681/669). Refusing to freeze it.")
+    # If the correction was APPLIED, the value it was applied to must itself have been
+    # on the 1D scale — a doubled correction records a 3D-scale number as its "pre".
+    a_pre = rec.get("a_1dnlte_pre")
+    if rec.get("applied") and a_pre is not None and scale_from_value(el, a_pre) != SCALE_1D_NLTE:
+        raise ScaleProvenanceError(
+            f"the {el} verdict applied the 1D→3D correction to {a_pre}, which is not on the "
+            f"1D-NLTE scale (classified {scale_from_value(el, a_pre)!r}) — the correction has "
+            f"been applied to an already-corrected anchor (RYA-681/669). Refusing to freeze it.")
     return state
 
 
