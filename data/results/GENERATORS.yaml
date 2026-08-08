@@ -56,11 +56,35 @@ artifacts:
     invocation: python scripts/rya560_zr2_synth_sirius.py
     ticket: RYA-560
     note: >-
-      CASE 2 of RYA-686. The harness IS committed but declares no argparse arguments at
-      all, so the `--deblend` entrypoint RYA-585's brief called for did not exist and had
-      to be added. The invocation recorded above is therefore FLAGLESS on purpose -- it is
-      what this script actually supports. Recording `--deblend` here today would fail
-      `--check-invocations`, which is exactly the signal the guard is meant to give.
+      CASE 2 of RYA-686, now resolved. As shipped by RYA-560 this harness declared NO
+      argparse at all, so the `--deblend` entrypoint RYA-585's brief called for did not
+      exist and had to be added. RYA-585 added it, and the flagless invocation above is
+      still the one that produces THIS artifact (`main()`); `--deblend` produces
+      zr2_deblend_rya585.json instead. Had the manifest existed in June, recording
+      `--deblend` here would have failed `--check-invocations` -- which is precisely the
+      signal the guard is meant to give.
+
+  - artifact: zr2_deblend_rya585.json
+    generator: scripts/rya560_zr2_synth_sirius.py
+    invocation: python scripts/rya560_zr2_synth_sirius.py --deblend
+    ticket: RYA-585
+    note: >-
+      Same harness as zr2_synthesis_rya560.json, different entrypoint: `--deblend` runs
+      `main_deblend()`, which refits the three strong Zr II lines with blends modelled
+      in-window. This is the entry whose flag `--check-invocations` verifies against the
+      source, so a future removal of `--deblend` becomes a build break rather than a
+      brief that no longer works.
+
+  - artifact: solar_ba_deblend_rya581.json
+    generator: scripts/rya581_ba2_deblend_sirius.py
+    invocation: python scripts/rya581_ba2_deblend_sirius.py
+    ticket: RYA-581
+    note: >-
+      The harness RYA-581 had to REBUILD from scratch (off the RYA-551 pattern plus
+      RYA-559's commit message) because RYA-559's original was never committed. It
+      generates this re-measurement -- A(Ba) 2.410 -> 2.237 -- and NOT
+      solar_ba_synthesis_rya559.json, whose entry stays UNREPRODUCIBLE. A rebuild is a
+      new measurement, not retroactive provenance for the old one.
 
   - artifact: solar_s_costasilva_rya492.json
     generator: scripts/measure_solar_s_costasilva_rya492.py
