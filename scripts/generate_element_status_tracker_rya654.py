@@ -29,6 +29,13 @@ WHERE EACH COLUMN COMES FROM (one source per column, no exceptions)
   tier
       -> scripts/build_solar_reference_v2_rya522.confidence_of(), the RYA-522 ratified
          freeze tiers (gold / gf_floor / upper_limit / owed). NOT re-implemented here.
+  refinement_debt
+      -> data/audit/element_refinement_registry.csv via pipeline/refinement_debt_join.py
+         (RYA-676). The tracker already said an element was owed; it never said whether
+         a ticket to fix it existed, which is how RYA-581/585/565 sat in Backlog through
+         eight architecture tickets. Registry membership is a human judgement against
+         that file's admission rule; the RENDERING is generated, so it cannot be
+         hand-patched into agreement.
   engine_a/b_model_vintage, classification, action_needed, source_tickets,
   editorial_updated, notes
       -> data/audit/element_status_tracker_editorial.yaml, hand-authored. These have no
@@ -101,7 +108,7 @@ FE_II_KEY = "Fe_II"
 COLUMNS = [
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
-    "two_engine_wiring_status",
+    "two_engine_wiring_status", "refinement_debt",
     "engine_a_model_vintage", "engine_b_model_vintage", "classification",
     "action_needed", "source_tickets", "editorial_updated", "notes",
 ]
@@ -109,7 +116,7 @@ COLUMNS = [
 GENERATED_COLUMNS = frozenset({
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
-    "two_engine_wiring_status",
+    "two_engine_wiring_status", "refinement_debt",
 })
 
 #: RYA-673. The tracker already says what each element's verdict IS; it never said how
@@ -119,6 +126,14 @@ GENERATED_COLUMNS = frozenset({
 #: confirmed on both.
 WIRING_REL = "data/audit/two_engine_wiring_audit.csv"
 WIRING_PATH = ROOT / WIRING_REL
+
+#: RYA-676. The tracker said an element was `owed`; Linear said a ticket to fix it was
+#: `Backlog`; nothing joined the two, so RYA-581/585/565 sat unfired through eight
+#: architecture tickets. `refinement_debt` is that join, generated from
+#: `data/audit/element_refinement_registry.csv` — hand-maintained, because whether a debt
+#: EXISTS is a judgement against that file's admission rule, not something derivable.
+#: It is a GENERATED column here for the same reason every other one is: so it cannot be
+#: hand-patched into agreement.
 
 
 class SourceError(RuntimeError):
@@ -267,11 +282,25 @@ def _editorial_row(editorial: dict, key: str, element: str) -> dict:
     return row
 
 
+def load_refinement_debt() -> dict:
+    """element -> rendered `refinement_debt` cell (RYA-676).
+
+    Loud on absence, like every other source here: a blank column would read as
+    "nothing owed" on precisely the rows the registry exists to make visible.
+    """
+    from pipeline import refinement_debt_join
+    try:
+        return refinement_debt_join.by_element()
+    except refinement_debt_join.RegistryError as exc:
+        raise SourceError(str(exc)) from exc
+
+
 def build_rows() -> list[dict]:
     phase_c = load_phase_c()
     regime = load_regime()
     editorial = load_editorial()
     wiring = load_wiring()
+    debt = load_refinement_debt()
 
     rows = []
     for rec in phase_c["verdicts"]:
@@ -295,16 +324,31 @@ def build_rows() -> list[dict]:
             "method": _fmt(rec.get("channel")),
             "regime_verdict": str(spec.get("verdict", "")).strip(),
             "two_engine_wiring_status": _wiring_for(wiring, element, ion),
+            "refinement_debt": _debt_cell(debt, element),
             **{k: str(ed[k]) for k in (
                 "engine_a_model_vintage", "engine_b_model_vintage", "classification",
                 "action_needed", "source_tickets", "editorial_updated", "notes")},
         })
 
-    rows.append(_fe_ii_row(editorial, wiring))
+    rows.append(_fe_ii_row(editorial, wiring, debt))
+
+    # A registry row naming an element no tracker row carries would render nowhere --
+    # the same silent drop this column exists to stop, one level up. Checked against the
+    # rows actually emitted, so it cannot pass on a stale element set.
+    from pipeline import refinement_debt_join
+    try:
+        refinement_debt_join.assert_elements_known({r["element"] for r in rows})
+    except refinement_debt_join.RegistryError as exc:
+        raise SourceError(str(exc)) from exc
     return rows
 
 
-def _fe_ii_row(editorial: dict, wiring: dict) -> dict:
+def _debt_cell(debt: dict, element: str) -> str:
+    from pipeline import refinement_debt_join
+    return refinement_debt_join.debt_cell(element, debt)
+
+
+def _fe_ii_row(editorial: dict, wiring: dict, debt: dict) -> dict:
     """The Fe II ionization-arbiter row, from the ratified arbiter constant (RYA-305/341/405).
 
     It asserts no element verdict -- it is the diagnostic the Fe I anchor is gated on --
@@ -331,6 +375,9 @@ def _fe_ii_row(editorial: dict, wiring: dict) -> dict:
                   f" (dFe {_fmt(solar.get('dFe'), '+.3f')})",
         "regime_verdict": "",
         "two_engine_wiring_status": _wiring_for(wiring, "Fe", "II"),
+        # Fe carries no registry row; this resolves to "" and says so honestly rather
+        # than being special-cased blank.
+        "refinement_debt": _debt_cell(debt, "Fe"),
         **{k: str(ed[k]) for k in (
             "engine_a_model_vintage", "engine_b_model_vintage", "classification",
             "action_needed", "source_tickets", "editorial_updated", "notes")},
@@ -371,6 +418,12 @@ def render(rows: list[dict], prov: dict, phase_c_summary: dict) -> str:
 #   ion regime_verdict                   <- config/physics_regime_rya400.yaml (RYA-400)
 #   tier                                 <- RYA-522 ratified freeze tiers, read from
 #                                           scripts/build_solar_reference_v2_rya522.confidence_of
+#   refinement_debt                      <- data/audit/element_refinement_registry.csv
+#                                           (RYA-676) — which owed rows have a resolving
+#                                           ticket, and which have NONE. A cell reading
+#                                           "TBD - no resolving ticket" means a ticket is
+#                                           owed; an EMPTY cell means no known refinement
+#                                           path, which is not the same as "nothing owed".
 #   engine_a/b_model_vintage classification action_needed source_tickets
 #   editorial_updated notes              <- data/audit/element_status_tracker_editorial.yaml (hand)
 #
