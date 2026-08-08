@@ -53,8 +53,9 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solar_profile_fit import (CLIGHT, GSIG_GRID, broaden,  # noqa: E402,F401
-                               fit_profile, local_renorm, measure_arm_rv)
+from solar_profile_fit import (CLIGHT, GSIG_GRID,  # noqa: E402,F401
+                               RCHI2_REVIEW, RELIABLE_DEWDA, assess_reliability,
+                               broaden, fit_profile, local_renorm, measure_arm_rv)
 
 EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
@@ -91,7 +92,6 @@ LMARGIN = 8.0                                       # synth half-window (A) for 
 A_GRID = np.round(np.arange(7.00, 8.16, 0.05), 3)   # A(Mg) trial grid (brackets Asplund 7.55)
 A_LO, A_HI = float(A_GRID.min()), float(A_GRID.max())
 
-RELIABLE_DEWDA = 40.0     # mA/dex core-EW sensitivity floor (as RYA-551/560)
 
 # Line-to-line concordance band. Same 0.10 dex "agree within ~0.1 dex" convention the
 # ratified two-engine floor uses for cross-engine agreement (TWO_ENGINE
@@ -497,6 +497,7 @@ def main():
                 'isolated-line EW inversion'),
         target_line=TARGET, concordance_reference_line=REFLINE,
         reliable_dEW_dA_floor=RELIABLE_DEWDA,
+        red_chi2_review_trigger=RCHI2_REVIEW, red_chi2_gates_reliable=False,
         saturation_knee_mA=knee,
         saturation_knee_source="config.constants.TWO_ENGINE['saturation_knee_mA'] (RYA-525 clause-3)",
         engine_a=dict(name='Mg_Amarsi2020_PySME', grid='nlte_Mg_scatt_pysme.grd',
@@ -542,7 +543,8 @@ def main():
                 print(f"  {arm:6s}: no coverage")
                 continue
             a_lte = fit['A']
-            reliable = bool((not fit['railed']) and fit['dEW_dA'] >= RELIABLE_DEWDA)
+            rel_f = assess_reliability(fit)
+            reliable = rel_f['reliable']
             rec[arm] = dict(
                 A_LTE=round(a_lte, 3),
                 A_NLTE_engineA=round(a_lte + delta_a[center], 3),
@@ -552,7 +554,7 @@ def main():
                 dv_measured_kms=arm_rv.get(arm, {}).get('v_kms'),
                 red_chi2=round(fit['red_chi2'], 2),
                 npix=fit['npix'], obs_ew_mA=round(fit['obs_ew_mA'], 1),
-                dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'], reliable=reliable,
+                dEW_dA_mA_dex=fit['dEW_dA'], railed=fit['railed'], **rel_f,
                 ew_route_admissible=bool(fit['obs_ew_mA'] <= knee))
             print(f"  {arm:6s}: A_LTE={a_lte:.3f}  A_NLTE(A)={a_lte+delta_a[center]:.3f}  "
                   f"A_NLTE(B)={a_lte+delta_b[center]:.3f}")
