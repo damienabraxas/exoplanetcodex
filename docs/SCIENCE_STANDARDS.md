@@ -313,6 +313,26 @@ registry is append-only + revoked (with a revocation ticket), never silent-delet
 | `Cr_II_species_exclusion` | `EXCLUDED_SPECIES` | RYA-240 / RYA-558 | A species in `engine_selection.RATIFIED_EXCLUDED_SPECIES` (today: Cr II) may never carry a value in an emission unless the row is marked `diagnostic_only`. Cr is reported as Cr I. Scope is the **explicit, cited** list, not the registry-ion rule that additionally excludes Ti II / Si II from the selector — those are not ratified emission-time constraints. |
 | `Fe_1D_3D_correction_required_on_solar_report` | `REQUIRED_CORRECTION` | RYA-553 (hardened RYA-681/674) | For every element with a reported-layer 1D→3D correction registered in `config/corrections_registry.yaml` (today: solar Fe), an element-level emission must (a) sit on one of the two recognised scales — a value on neither is the doubled-correction signature (7.416); (b) agree with its own declaration — a 3D value under a 1D declaration is gold v3's shape and re-arms the correction; and (c) sit on the **post**-correction scale, since a reported solar anchor carries the correction. Species-level diagnostic records are exempt: the floor's raw Fe I leg is not a claim about the reported anchor. |
 
+| `unreliable_value_must_not_be_emitted` | `FORBIDDEN_VALUE` | RYA-679 / RYA-691 (ratified as a constraint RYA-699) | A row that DECLARES a reliability basis (`engineB_reliability` / `reliability_basis` / `reliability`) must declare a readable one: either RYA-679-gated, or `UNGATED — <why this artifact has no flag>`. A raw `reliable=False`, an `UNGATED` with no reason, and any string from outside the vocabulary are all refused — an unreadable basis cannot be told apart from an emitter that never looked, which is the RYA-691 defect restated. A row that declares **nothing** is out of scope: reliability is not computable over every artifact shape (the RYA-491/237 CNO cross-arm is a multi-indicator reconciliation, not a profile fit, so it has neither `dEW_dA` nor `railed`), and RYA-691 §3A forbids fabricating a uniform check over artifacts with genuinely different semantics. `diagnostic_only` is the ratified demotion here as elsewhere. The vocabulary is single-sourced in `pipeline/reliability_contract.py`, which both builds the basis and classifies it, so the producer cannot write a string the gate would refuse. |
+
+### The scope line is the constraint (RYA-699)
+
+`unreliable_value_must_not_be_emitted` is scoped to rows that *declare* a basis, not to all
+rows, and that is the whole design rather than a weakening of it. Two failure modes sit on
+either side. Scoped to every row, the check becomes a schema change — the verdict and gold
+rows carry no reliability key, so the gate would fail everything until every emitter grew a
+field it has no way to populate honestly, and the pressure would be to populate it
+dishonestly. Scoped to nothing, RYA-691's six ungated reads come back the moment a seventh
+consumer is written by someone who has not read that ticket.
+
+What makes the narrow scope hold is that **silence and a false claim are different
+failures, and only one of them is this constraint's**. A row that says nothing about
+reliability is caught upstream, at the read, by the loud-fail RYA-691 installed in the
+loader. A row that says something unreadable is caught here, at emission, in any module.
+Neither check subsumes the other, and the reason the pair works is that both now speak one
+vocabulary — before RYA-699 the basis strings were private f-strings inside a single
+script, so a second emitter could produce a basis the gate had no way to read.
+
 ### Two row kinds, and why the distinction is load-bearing
 
 `RowKind.ELEMENT_VALUE` is an element-level assertion ("element X's reported / frozen / proposed value

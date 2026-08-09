@@ -352,6 +352,58 @@ def _check_fe_reported_scale(row: EmissionRow) -> Optional[str]:
     return None
 
 
+def _check_reliability_declared(row: EmissionRow) -> Optional[str]:
+    """`unreliable_value_must_not_be_emitted` — RYA-679/691, ratified RYA-699.
+
+    Ratified: a measurement the RYA-679 rule demoted (`reliable=False`: railed, or
+    dEW_dA below the floor) must not reach a consumer — and an artifact that carries no
+    flag at all is legitimate ONLY when the record says which artifact and why.
+
+    RYA-691 made `scripts/rya527_two_engine_run.py` honour that at all eight of its
+    dedicated Engine-B reads, six of which had ignored the flag entirely, three of those
+    feeding gold-PASS elements (Mn I 5.466, C I 8.491, O I 8.735). That fix raises at
+    READ time, in one script. This is the same rule at EMISSION time, in every module —
+    which is what Ryan ratified on 2026-08-08 in answer to RYA-691 §3D.
+
+    Scope is rows that carry a reliability declaration. A row with no such key asserts
+    nothing about reliability and is not failed for silence: forcing a declaration onto
+    the verdict and gold schemas would be a schema change, not a constraint, and RYA-691
+    §3A is explicit that a uniform check must not be fabricated over artifacts with
+    genuinely different semantics. What this refuses is a row that HAS a basis and whose
+    basis is unreadable, absent-without-reason, or a demotion.
+    """
+    from pipeline.reliability_contract import (
+        RELIABILITY_BASIS_KEYS, ReliabilityState, classify_reliability_basis)
+    if row.diagnostic_only:
+        return None                       # a demoted measurement kept as a diagnostic
+    if row.value is None:
+        return None                       # no value asserted, nothing to gate
+    declared = None
+    for k in RELIABILITY_BASIS_KEYS:
+        if k in row.raw and row.raw.get(k) is not None:
+            declared = row.raw.get(k)
+            break
+    if declared is None:
+        return None
+    if isinstance(declared, bool):        # a raw flag rather than a basis string
+        if declared:
+            return None
+        return (f"{row.species or row.element} is emitted with A = {row.value:.3f} while "
+                f"carrying reliable=False. The RYA-679 rule (not railed AND dEW_dA >= "
+                f"floor) demoted this measurement; emitting it anyway carries a demotion "
+                f"the artifact recorded and the record hid (RYA-691).")
+    state = classify_reliability_basis(declared)
+    if state in (ReliabilityState.GATED, ReliabilityState.UNGATED):
+        return None
+    return (f"{row.species or row.element} is emitted with A = {row.value:.3f} under an "
+            f"unreadable reliability basis {str(declared)[:120]!r}. A basis is either "
+            f"'{ReliabilityState.GATED}' (the artifact's reliable=True) or 'UNGATED — "
+            f"<why this artifact has no flag>'; an UNGATED with no reason, or a string "
+            f"from outside that vocabulary, cannot be told apart from an emitter that "
+            f"never looked — which is the RYA-691 defect restated. Record the basis via "
+            f"`pipeline.reliability_contract.reliability_basis`.")
+
+
 @dataclass(frozen=True)
 class RatifiedConstraint:
     constraint_id: str
@@ -397,6 +449,16 @@ RATIFIED_CONSTRAINTS: tuple[RatifiedConstraint, ...] = (
         check_fn=_check_fe_reported_scale,
         provenance_ticket='RYA-553 (hardened RYA-681 / RYA-674)',
         applies_to=(RowKind.ELEMENT_VALUE,),
+    ),
+    RatifiedConstraint(
+        constraint_id='unreliable_value_must_not_be_emitted',
+        scope="any row that DECLARES a reliability basis (`engineB_reliability` / "
+              "`reliability_basis` / `reliability`) — the basis must be readable and "
+              "must not be a demotion; a row that declares nothing is out of scope, "
+              "because reliability is not defined for every artifact shape",
+        constraint_type=ConstraintType.FORBIDDEN_VALUE,
+        check_fn=_check_reliability_declared,
+        provenance_ticket='RYA-679 / RYA-691 (ratified as a constraint RYA-699)',
     ),
 )
 

@@ -323,3 +323,85 @@ def test_every_emission_path_calls_the_gate():
         src = (ROOT / rel).read_text(encoding='utf-8')
         assert 'assert_ratified_constraints_satisfied(' in src, (
             f"{rel} emits per-element results but never invokes the RYA-674 gate")
+
+
+# ── RYA-691 / RYA-699: an unreliable value must not be emitted ────────────────
+# The rule is RYA-679's (`not railed AND dEW_dA >= floor`). RYA-691 made the
+# two-engine loader honour it at read time; Ryan ratified it as a RYA-674 constraint
+# on 2026-08-08 so it also holds at EMISSION time, in any module.
+
+from pipeline.reliability_contract import (                          # noqa: E402
+    GATED_PREFIX, ReliabilityState, classify_reliability_basis, reliability_basis)
+
+
+def _sr_record(basis):
+    """Sr II 4077 as the floor emits it — the species RYA-679 nearly demoted, and the
+    one RYA-691 found reading a `reliable` flag that was sitting right there unused."""
+    return dict(element='Sr', ion='II', species='Sr II', reported=2.759,
+                engineB_source='RYA-551 Sr II 4077.709 synth',
+                engineB_reliability=basis)
+
+
+def test_a_demoted_measurement_cannot_be_emitted():
+    with pytest.raises(RatifiedConstraintViolation, match=r'reliable=False'):
+        assert_ratified_constraints_satisfied(
+            [dict(_sr_record(None), engineB_reliability=False)],
+            'test emitter', RowKind.SPECIES_RECORD)
+
+
+def test_a_gated_measurement_passes():
+    assert_ratified_constraints_satisfied(
+        [_sr_record(reliability_basis(True))], 'test emitter', RowKind.SPECIES_RECORD)
+
+
+def test_an_ungated_measurement_passes_only_with_its_reason():
+    """'No flag' is legitimate — the CNO cross-arm artifact genuinely has none. It is
+    legitimate only when the record says which artifact and why (RYA-691 §3A)."""
+    ok = reliability_basis(None, absent_reason='RYA-491/237 cross-arm artifact is not a '
+                                               'profile fit: no dEW_dA / railed')
+    assert_ratified_constraints_satisfied(
+        [_sr_record(ok)], 'test emitter', RowKind.SPECIES_RECORD)
+    with pytest.raises(RatifiedConstraintViolation, match=r'unreadable reliability basis'):
+        assert_ratified_constraints_satisfied(
+            [_sr_record('UNGATED')], 'test emitter', RowKind.SPECIES_RECORD)
+
+
+def test_a_basis_outside_the_vocabulary_is_refused_not_assumed_good():
+    """Assuming good is the entire RYA-691 defect."""
+    with pytest.raises(RatifiedConstraintViolation, match=r'unreadable reliability basis'):
+        assert_ratified_constraints_satisfied(
+            [_sr_record('looked fine to me')], 'test emitter', RowKind.SPECIES_RECORD)
+
+
+def test_a_row_declaring_nothing_is_out_of_scope():
+    """Verdict and gold rows carry no reliability key. Failing them would be a schema
+    change dressed as a constraint — and RYA-691 §3A forbids fabricating a uniform
+    check over artifacts with genuinely different semantics."""
+    assert_ratified_constraints_satisfied(
+        [dict(element='Mn', ion='I', A_X=5.466)], 'test emitter')
+
+
+def test_a_demoted_measurement_may_still_be_kept_as_a_diagnostic():
+    assert_ratified_constraints_satisfied(
+        [dict(_sr_record(None), engineB_reliability=False, diagnostic_only=True)],
+        'test emitter', RowKind.SPECIES_RECORD)
+
+
+def test_the_producer_cannot_write_a_basis_the_gate_would_refuse():
+    """The round trip is the point: builder and classifier are one module, so the
+    string the loader writes is by construction the string the gate can read."""
+    assert classify_reliability_basis(reliability_basis(True)) == ReliabilityState.GATED
+    assert classify_reliability_basis(
+        reliability_basis(None, absent_reason='why')) == ReliabilityState.UNGATED
+    with pytest.raises(ValueError, match=r'requires an absent_reason'):
+        reliability_basis(None)
+    with pytest.raises(ValueError, match=r'must not be emitted at all'):
+        reliability_basis(False)
+
+
+def test_the_loader_writes_its_basis_through_the_shared_vocabulary():
+    """RYA-699's actual change: the two basis strings stopped being private to one
+    script. If they drift back into f-strings there, the gate silently stops matching."""
+    src = (ROOT / 'scripts' / 'rya527_two_engine_run.py').read_text(encoding='utf-8')
+    assert 'from pipeline.reliability_contract import reliability_basis' in src
+    assert f'"{GATED_PREFIX}' not in src and f"'{GATED_PREFIX}" not in src
