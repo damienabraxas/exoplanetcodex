@@ -38,6 +38,12 @@ KP_DIR = (Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/"
 
 # Regions where the terrestrial atmosphere, not the Sun, sets the flux. A line here is
 # not measurable from the ground without a telluric correction we have not applied.
+# Which instruments arrive ALREADY continuum-normalised. This is a property of the data
+# product, not a preference: Kitt Peak column 1 is residual flux (Kurucz divided by his
+# continuum); HARPS arrives un-normalised and our pipeline sets the continuum. Two
+# normalisation histories is a reason two instruments can disagree methodologically.
+PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False, "iag_fts_solar_atlas": True}
+
 TELLURIC = [(7600, 7640, "O2 A-band"), (9280, 9600, "H2O"), (11120, 11560, "H2O")]
 
 
@@ -189,7 +195,10 @@ def main() -> None:
         hw = window_half_width(allw, float(r.wave_air_A))
         try:
             w, f, src = load_kp_window(segs, float(r.wave_air_A), pad=hw * 3.0)
-            ew, method = equivalent_width(w, f, float(r.wave_air_A), hw)
+            # Kitt Peak ships residual flux -- already normalised. Say so explicitly
+            # rather than re-normalising on top of it (see band_products docstring).
+            ew, method, concern = equivalent_width(
+                w, f, float(r.wave_air_A), hw, pre_normalised=PRE_NORMALISED[a.instrument])
             ok, why = verify_feature(w, f, float(r.wave_air_A), hw,
                                      float(r.predicted_depth))
         except Exception as e:
@@ -199,6 +208,8 @@ def main() -> None:
             element=a.element, ion=a.ion, wavelength_air_A=float(r.wave_air_A),
             instrument=a.instrument, ew_mA=ew,
             ew_method=f"{method}; segment(s) {src}; half-width {hw:.3f} A from line separation")
+        if concern:
+            lm.ew_method += f" | CONCERN: {concern}"
         if not ok:
             # Measured, kept, reported -- and barred from the aggregate with its reason.
             # Quarantine, not a cull (RYA-711).

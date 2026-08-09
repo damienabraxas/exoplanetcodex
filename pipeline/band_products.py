@@ -142,18 +142,52 @@ def local_continuum(w: np.ndarray, f: np.ndarray, centre: float, half_width: flo
     return float(np.percentile(f[band], pct))
 
 
+# A side-band pseudo-continuum this far below the atlas continuum is itself absorbed.
+# Dividing by it removes REAL line flux and biases EW low. Measured on Fe I 6910-9199:
+# lines whose side-bands sat at 0.90/0.94 lost 71% and 60% of their EW to re-normalisation.
+SIDEBAND_CLEAN_MIN = 0.99
+
+
 def equivalent_width(w: np.ndarray, f: np.ndarray, centre: float, half_width: float,
-                     **kw) -> tuple[float, str]:
-    """EW in mA over +/-half_width, normalised to a local continuum. Returns the method
-    string too, because how the continuum was set IS part of the measurement."""
-    cont = local_continuum(w, f, centre, half_width, **kw)
+                     *, pre_normalised: bool = False, **kw) -> tuple[float, str, str]:
+    """EW in mA over +/-half_width. Returns (ew, method, concern).
+
+    `pre_normalised` matters and is not cosmetic. The Kitt Peak atlas ships column 1 as
+    RESIDUAL FLUX -- Kurucz already divided by his continuum. Applying our own local
+    continuum on top is a SECOND normalisation, and across 4600-9000 A the atlas
+    continuum is already excellent (95th pct 0.986-0.997), so that second pass is not
+    correcting an error, it is introducing one.
+
+    HARPS is different: it arrives un-normalised and our pipeline sets its continuum.
+    Two instruments, two normalisation histories -- which is exactly why a cross-
+    instrument abundance difference can be methodological rather than physical.
+
+    So: on pre-normalised data we trust the atlas continuum, and we MEASURE whether the
+    side-bands support that. If the side-bands are themselves absorbed, we say so rather
+    than silently re-normalising into a pseudo-continuum.
+    """
     m = np.abs(w - centre) <= half_width
     if m.sum() < 3:
         raise ValueError(f"too few points inside the window at {centre:.3f}")
+
+    sideband = local_continuum(w, f, centre, half_width, **kw)
+    concern = ""
+    if pre_normalised:
+        cont = 1.0
+        how = "atlas continuum trusted (data ship pre-normalised as residual flux)"
+        if sideband < SIDEBAND_CLEAN_MIN:
+            concern = (f"side-band {pct_label(kw)} is {sideband:.4f}, below "
+                       f"{SIDEBAND_CLEAN_MIN} — the local pseudo-continuum is itself "
+                       f"absorbed. The atlas continuum is used, but this window sits in "
+                       f"crowded spectrum and the EW may include unresolved neighbours.")
+    else:
+        cont = sideband
+        how = (f"local continuum = {pct_label(kw)} of flanking side-bands "
+               f"(cont={cont:.5f})")
+
     depth = 1.0 - (f[m] / cont)
     ew = float(_trapezoid(depth, w[m]) * 1000.0)
-    return ew, (f"integrated over +/-{half_width:.3f} A, local continuum = "
-                f"{pct_label(kw)} of flanking side-bands (cont={cont:.5f})")
+    return ew, f"integrated over +/-{half_width:.3f} A, {how}", concern
 
 
 def pct_label(kw) -> str:

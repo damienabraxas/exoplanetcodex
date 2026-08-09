@@ -67,3 +67,83 @@ what a product is.
    9112.95, placeholder zero at 7711.72).
 3. Then, and only then: three products — 1D-LTE, Engine A, Engine B — each with its own
    value, σ, line count and plot. Never merged (RYA-712).
+
+---
+
+# Continuum normalisation — yes, completely different, and it was biasing the EWs
+
+Ryan: *"I presume we are doing a completely different normalization of the continuum for
+KITT data correct?"* — Yes, and checking it found a real error in my own harness.
+
+## Two instruments, two normalisation histories
+
+| instrument | arrives as | who set the continuum |
+|---|---|---|
+| **Kitt Peak FTS** | column 1 is **residual flux** | Kurucz, upstream — already normalised |
+| **HARPS** | un-normalised | our pipeline |
+| IAG FTS | residual flux | upstream |
+
+So any continuum *we* fit on Kitt Peak is a **second** normalisation stacked on Kurucz's.
+
+## How good is the atlas continuum? Measured, not assumed
+
+95th percentile of the flux over ±8 Å:
+
+| band | 95th pct | median | reading |
+|---|---|---|---|
+| 3200 Å | 0.894 | 0.541 | **depressed** — line blanketing |
+| 3900 Å | 0.885 | 0.610 | **depressed** — line blanketing |
+| 4600–9000 Å | 0.986–0.997 | — | atlas continuum is **excellent** |
+| 11500 Å | 0.894 | 0.661 | **telluric**, not blanketing — inside the 11120–11560 H₂O band |
+
+*(I first labelled the 11500 Å depression as blanketing. It is the H₂O band already in
+the telluric list.)*
+
+## The error this found
+
+My first pass re-normalised every window to a local 95th-percentile side-band continuum.
+Across 6910–9199 Å that changed EWs by a **median of −11.7 %, worst −71.4 %** — roughly
+0.05 dex, the entire size of the NLTE effect being measured.
+
+The cause is not the continuum *level* (median 0.9947) but **which side-bands were used**.
+The two worst-shifted lines had side-bands at **0.902** and **0.936** — the side-bands
+were themselves absorbed, so dividing by them removed real line flux:
+
+| line | side-band p95 | EW shift from re-normalising |
+|---|---|---|
+| 7363.922 | 0.9022 | −71.4 % |
+| 9013.977 | 0.9364 | −60.2 % |
+| 7093.080 | 0.9776 | −30.7 % |
+| 7751.108 | 0.9919 | −3.2 % |
+| 8075.149 | 0.9953 | −6.1 % |
+
+Where the atlas continuum is already good, a second local normalisation **is not
+correcting an error — it is introducing one.**
+
+## Fixed
+
+`equivalent_width()` now takes `pre_normalised`, set per instrument from a declared map
+rather than guessed. On pre-normalised data the atlas continuum is trusted, and the
+side-bands are still *measured*: if they sit below 0.99 the line carries a **CONCERN**
+noting the window is crowded and the EW may include unresolved neighbours. **13 of 29**
+Fe I IR windows carry that concern.
+
+Correlation of intrinsic strength against log EW, as the method improved:
+
+| method | r |
+|---|---|
+| raw window EW, local re-norm | +0.399 |
+| + feature verification | +0.562 |
+| + atlas continuum trusted | **+0.587** |
+
+## Why this matters beyond Fe
+
+**This is a live candidate for the Mg 5711 disagreement.** Mg I 5528 agrees across
+instruments to 2.9 % while 5711 disagrees by 24 %, and continuum methodology was the
+untested suspicion. Two instruments with two normalisation histories, compared line by
+line, is exactly the mechanism — and at 5711 Å the Kitt Peak atlas continuum measures
+0.9862, i.e. good, so a second re-normalisation there would have biased one arm only.
+Worth testing directly now that the policy is explicit.
+
+**The gf blocker above is unchanged.** Better EWs do not fix ungraded oscillator
+strengths, and no Fe IR product is defensible until the 17 verified lines are graded.
