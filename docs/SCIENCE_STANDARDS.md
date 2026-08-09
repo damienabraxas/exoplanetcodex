@@ -755,3 +755,49 @@ method on `(star × element × ion)`; regime is independent of all three, becaus
 modes are local in *wavelength* as well as in stellar parameters. The two compose: RYA-306
 says which method suits this element in this star, band policy says which methods the regime
 can support at all, and the intersection is what may run.
+
+### Handlers are keyed on METHOD; the band selects the method — RYA-713
+
+Ryan, 2026-08-09: *"If I was architecting the code, I would have a handler class for each
+case, UV, VIS, and IR. Different tools for different work. Am I wrong?"*
+
+Right instinct, one refinement on where the seam goes. Keying handlers on **band** would
+give near-UV and NIR each their own copy of synthesis, and VIS and red-optical each their
+own copy of profile fitting — four handlers, two pairs of near-duplicates, which is exactly
+the drift the Ba→Al copy produced. So:
+
+* **`pipeline/band_policy.py`** routes: band → permitted method + band parameters.
+* **`pipeline/measure/`** implements: one handler per **method**.
+* Everything that differs *by band rather than by method* — telluric requirement, continuum
+  treatment, systematic floor — is already in the policy and is passed to the handler.
+
+| band | handler | telluric | continuum |
+|---|---|---|---|
+| near-UV | `SynthesisHandler` | — | pseudo-continuum only |
+| VIS | `ProfileFitHandler` | — | true |
+| red-optical | `ProfileFitHandler` | required | true |
+| NIR | `SynthesisHandler` | required | post-correction |
+
+Two handlers, four bands; a fifth band routes to an existing handler.
+
+### The control is per-HANDLER and does not transfer
+
+A **control run** takes a method to the band where the answer is already known — A(Fe) =
+7.46 (Asplund 2021), 7.466 banked (RYA-553) — and requires it to reproduce that. It tests
+the *method*, not the star, and the optical is the only band where any method can be
+falsified.
+
+**It is earned per method.** `ProfileFitHandler` passing at −0.0129 dex licenses nothing for
+`SynthesisHandler`, which fails in entirely different ways: incomplete line lists, wrong
+blend abundances, broadening, pseudo-continuum placement. `assert_controlled()` enforces
+this — a handler may run un-controlled **only** in the control band (that *is* the control),
+and is refused anywhere else until it has passed.
+
+Two consequences that are easy to lose:
+
+* **`systematic_dex()` raises for an uncontrolled handler** rather than returning zero.
+  Assuming a zero systematic would understate every frontier error bar, and a handler that
+  has never been checked has not measured its systematic — it has only avoided measuring it.
+* **`CONTROL_TOLERANCE_DEX = 0.05`** is not a target to tune toward. RYA-561's ratification
+  gate is ±0.10 dex; a harness that consumes half of that before any physics has not earned
+  a frontier run.
