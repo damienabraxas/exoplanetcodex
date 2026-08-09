@@ -563,6 +563,36 @@ how results get reported.
 2. **The ledger reaches no appendix.** Its only consumers are its own writer and one
    adjudication script. The per-element quarantine table is owed by Appendix A.
 
+### Quarantine is the TOP tier, not the only one — three states, not two
+
+Ryan: *"for the really super bad problem children lol."* Quarantine is reserved for the worst
+offenders. The code already implements three tiers via `_gf_tier()`; only the middle one was
+never named, which is why it looked like a binary keep/cull:
+
+| tier | NIST | dex on gf | what happens |
+|---|---|---|---|
+| **clean** | AAA–B | ≤ 0.0414 | enters the reported product |
+| **caveated** | C+ / C | 0.0719 / 0.0969 | **reported, with the caveat stated** — carries `GF_UNVERIFIED`, appears in the appendix. Falls through `_gf_tier` to MED/LOW by `loggf_reference` |
+| **QUARANTINED** | D+ / D / E | > 0.0969 | the really super bad problem children — measured, derived, logged, tabled in the appendix, **never in the aggregate** |
+
+The quarantine line sits where a line's *atomic data alone* could consume the entire ±0.10 dex
+ratification gate (RYA-561). That is the derivation, and it is why the boundary is principled
+rather than a round number. A C-grade line at 0.097 dex is *at* the gate, not past it — so it
+is caveated, not quarantined. That distinction was already the code's behaviour and is now its
+stated intent.
+
+### The quarantine ledger and the problem-children registry are the same subject
+
+`data/registry/problem_children.csv` (RYA-463) already holds **25** entries with `problem_class`,
+`severity`, `status`, and `governing_tickets`. It is the appendix table Ryan is describing, and
+**5 of its 25 are already `resolved`** — Mn 6013/16/21, Sr II 4077, Mg b-triplet, K I 7665/99,
+Co I 3845 — which is the reversibility claim demonstrated rather than asserted.
+
+**Open defect: two parallel vocabularies for one phenomenon, with no join.** `cull_reason` emits
+`SAT / HIERR / BLEND / BADGF / GRADE`; the registry emits `SATURATION_COG / MOLECULAR_BLEND /
+BAD_GF / …`. Same physics, different spellings, nothing links a quarantined line to its registry
+entry. Single-source it on the registry's vocabulary — RYA-711.
+
 ### Naming
 
 `cull` survives in identifiers and filenames until RYA-711 renames them together with their
