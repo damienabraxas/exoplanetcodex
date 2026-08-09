@@ -384,6 +384,11 @@ def main() -> None:
 
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.max_lines:
+        # A SUBSET run never writes over a full one. A --max-lines smoke test
+        # silently clobbered a documented 445-line result; the fixed output path
+        # made a partial run indistinguishable from a complete one on disk.
+        stem += f"_SUBSET{a.max_lines}"
     df = pd.DataFrame([{k: v for k, v in vars(l).items()} for l in rows])
     df.to_csv(out / f"{stem}_ew.csv", index=False)
     (out / f"{stem}_skipped.json").write_text(json.dumps(skipped, indent=2))
