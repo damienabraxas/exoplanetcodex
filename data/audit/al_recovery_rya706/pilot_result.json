@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-706",
   "pilot": "Al recovery \u2014 EW -> 1D-LTE -> NLTE ladder, executed",
-  "status": "PILOT RESULT \u2014 NOT a ratified value, nothing written to any pool or reference",
+  "status": "PILOT \u2014 PROVISIONAL. See gf_caveat: the per-line A values are not yet trustworthy.",
   "selection_basis": "lines chosen BEFORE any abundance was computed: unexplained stage-2 drop, zero contaminants above 10% of own depth, observed depth >= 2%, chi2 <= 0.01, REW below the -4.9 linear ceiling. Agreement with literature is corroboration, NEVER the criterion (validate-don't-tune).",
   "lines": [
     {
@@ -64,5 +64,35 @@
     "detail": "EW errors of 4.2% and 4.7% account for ~0.02-0.04 dex. The 0.339 dex line-to-line spread is NOT measurement noise. It is LARGER than the Mg 5528-vs-5711 discordance of 0.21 dex that keeps Mg owed, so Al faces the same question and must not be promoted on the mean alone.",
     "likely_cause": "relative gf. Both lines share EP 3.1427 and differ only in log gf (-1.886 vs -2.249), both ungraded (nist_grade absent, K75 provenance). A relative gf error maps directly onto the spread.",
     "next_rung": "synthesis (3 further Al candidates incl. 6696.020 deblend) + a graded Al gf pull"
+  },
+  "gf_caveat": {
+    "problem": "The A(Al) values were computed through the pipeline's EW path, and I have NOT verified which log gf that path consumed. Three different values exist per line and they are 0.11-0.49 dex apart.",
+    "per_line": {
+      "6696.023": {
+        "linelist_strongest_component": -1.886,
+        "linelist_hfs_summed": -1.46,
+        "canonical_gf": -1.347,
+        "canonical_status": "pending",
+        "canonical_source": "VALD3",
+        "A_overstated_if_single_component_used": 0.426
+      },
+      "6698.673": {
+        "linelist_strongest_component": -2.249,
+        "linelist_hfs_summed": -1.76,
+        "canonical_gf": -1.647,
+        "canonical_status": "pending",
+        "canonical_source": "VALD3",
+        "A_overstated_if_single_component_used": 0.489
+      }
+    },
+    "systematic": "linelist-summed minus canonical_gf is -0.113 dex for BOTH lines -- a consistent offset, so the two tables disagree systematically rather than randomly. That is a single-source violation worth its own finding regardless of Al.",
+    "consequence": "A 0.426/0.489 dex error would move the mean far off 6.43, so the fact that it landed there is weak evidence the path summed HFS correctly -- but agreement with literature is exactly the reasoning this project forbids, so it is NOT accepted as proof. The gf actually consumed must be read out of the EW path directly before the pilot number means anything.",
+    "status_of_both_lines": "adjudication_status = 'pending' in canonical_gf -- neither has ever been adjudicated"
+  },
+  "gf_pull_blocked": {
+    "source": "NIST ASD lines1.pl",
+    "evidence": "HTTP 500 on every query including a control 'Fe I 5000-5010' minimal request; physics.nist.gov root returns 301, so the host is up and the CGI endpoint is failing. Error: \"Can't use an undefined value as an ARRAY reference at ... lines1.pl line 701\". Memory attributed this signature to bibrefs=1; it now fires without it, so the endpoint behaviour has changed since 2026-07-27.",
+    "repo_alternative": "data/linelists/nist_reference.csv holds 40 graded rows and ZERO for Al. Al has never been graded in this repo.",
+    "known_primary": "Kelleher & Podobedova 2008 JPCRD 37 p709 (Al/Si) -- already cited in canonical_gf for Al I 6696.185 at grade C+, so the source covers Al but was only ever applied to that one line."
   }
 }
