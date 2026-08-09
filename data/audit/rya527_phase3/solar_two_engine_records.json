@@ -37,7 +37,20 @@
       "engineB_reliability": "UNGATED \u2014 selection rule role='primary' (OI_6300, FIRST of 2 primary indicators in artifact order); the RYA-491/237 cross-arm artifact carries no RYA-679 reliability flag (not a profile fit: no dEW_dA / railed). Its own quality statement: verdict='AGREE (\u22640.10)', primary spread 0.01",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "C",
@@ -59,7 +72,20 @@
       "engineB_reliability": "UNGATED \u2014 selection rule role='primary' (CH_Gband); the RYA-491/237 cross-arm artifact carries no RYA-679 reliability flag (not a profile fit: no dEW_dA / railed). Its own quality statement: verdict='FLAGGED-DISAGREEMENT (reported, not averaged)', primary spread 0.149",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "N",
@@ -81,7 +107,20 @@
       "engineB_reliability": "UNGATED \u2014 the RYA-460 Kitt Peak artifact carries no RYA-679 reliability flag (an atlas-window flux fit: no dEW_dA / railed). Its own quality statement: 3 window(s) status=ok, red_chi2 [59.0, 207.5, 47.1], continuum SNR [1941.0, 687.0, 1813.0]; RYA-460 leg VALIDATED by the [O I]6300 / O I 777 overlap cross-check vs HARPS/ESPRESSO",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Mg",
@@ -103,7 +142,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 2
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 2
+        }
+      ]
     },
     {
       "element": "Si",
@@ -125,7 +177,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -0.369
+      "mean_cross_engine_delta": -0.369,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Si",
@@ -147,29 +212,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -0.756
-    },
-    {
-      "element": "Fe",
-      "ion": "II",
-      "asplund2021": 7.46,
-      "reported": 7.526,
-      "diagnostic_only": false,
-      "diagnostic_value": null,
-      "diagnostic_reason": null,
-      "err": 0.029,
-      "n_lines": 3,
-      "delta_vs_asplund": 0.066,
-      "engineA": 7.657,
-      "engineB": 7.525,
-      "selected_engines": [
-        "engineB_synth"
+      "mean_cross_engine_delta": -0.756,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 15
+        }
       ],
-      "engineB_source": null,
-      "engineB_reliability": null,
-      "cross_engine_mix": false,
-      "mix_flagged": false,
-      "mean_cross_engine_delta": -0.188
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 15
+        }
+      ]
     },
     {
       "element": "Fe",
@@ -192,7 +248,60 @@
       "engineB_reliability": null,
       "cross_engine_mix": true,
       "mix_flagged": false,
-      "mean_cross_engine_delta": 0.088
+      "mean_cross_engine_delta": 0.088,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 79
+        },
+        {
+          "reason": "only Engine-A eligible",
+          "engine": "engineA_1dnlte",
+          "n_lines": 2
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 81
+        }
+      ]
+    },
+    {
+      "element": "Fe",
+      "ion": "II",
+      "asplund2021": 7.46,
+      "reported": 7.526,
+      "diagnostic_only": false,
+      "diagnostic_value": null,
+      "diagnostic_reason": null,
+      "err": 0.029,
+      "n_lines": 3,
+      "delta_vs_asplund": 0.066,
+      "engineA": 7.657,
+      "engineB": 7.525,
+      "selected_engines": [
+        "engineB_synth"
+      ],
+      "engineB_source": null,
+      "engineB_reliability": null,
+      "cross_engine_mix": false,
+      "mix_flagged": false,
+      "mean_cross_engine_delta": -0.188,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 3
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 3
+        }
+      ]
     },
     {
       "element": "S",
@@ -214,7 +323,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": 0.058
+      "mean_cross_engine_delta": 0.058,
+      "selection_reasons": [
+        {
+          "reason": "clean-weak line \u2192 1D-NLTE (cleanest for weak lines)",
+          "engine": "engineA_1dnlte",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "clean-weak",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Ca",
@@ -237,7 +359,29 @@
       "engineB_reliability": null,
       "cross_engine_mix": true,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -0.003
+      "mean_cross_engine_delta": -0.003,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 3
+        },
+        {
+          "reason": "clean-weak line \u2192 1D-NLTE (cleanest for weak lines)",
+          "engine": "engineA_1dnlte",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 3
+        },
+        {
+          "regime": "clean-weak",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Na",
@@ -259,7 +403,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -0.124
+      "mean_cross_engine_delta": -0.124,
+      "selection_reasons": [
+        {
+          "reason": "clean-weak line \u2192 1D-NLTE (cleanest for weak lines)",
+          "engine": "engineA_1dnlte",
+          "n_lines": 2
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "clean-weak",
+          "n_lines": 2
+        }
+      ]
     },
     {
       "element": "Ni",
@@ -281,29 +438,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -1.254
-    },
-    {
-      "element": "Cr",
-      "ion": "II",
-      "asplund2021": 5.62,
-      "reported": null,
-      "diagnostic_only": true,
-      "diagnostic_value": 5.678,
-      "diagnostic_reason": "ratified-excluded species \u2014 RYA-240 \u2014 COG/damping-wing saturation artifact (the RYA-232 \u22120.777 dex was 2 saturated lines); Cr is reported as Cr I. Bergemann & Cescutti 2010. (RYA-240/558)",
-      "err": 0.035,
-      "n_lines": 2,
-      "delta_vs_asplund": 0.058,
-      "engineA": 8.354,
-      "engineB": 5.678,
-      "selected_engines": [
-        "engineB_synth"
+      "mean_cross_engine_delta": -1.254,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 3
+        }
       ],
-      "engineB_source": null,
-      "engineB_reliability": null,
-      "cross_engine_mix": false,
-      "mix_flagged": false,
-      "mean_cross_engine_delta": -2.676
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 3
+        }
+      ]
     },
     {
       "element": "Cr",
@@ -325,7 +473,55 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -1.051
+      "mean_cross_engine_delta": -1.051,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 3
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 3
+        }
+      ]
+    },
+    {
+      "element": "Cr",
+      "ion": "II",
+      "asplund2021": 5.62,
+      "reported": null,
+      "diagnostic_only": true,
+      "diagnostic_value": 5.678,
+      "diagnostic_reason": "ratified-excluded species \u2014 RYA-240 \u2014 COG/damping-wing saturation artifact (the RYA-232 \u22120.777 dex was 2 saturated lines); Cr is reported as Cr I. Bergemann & Cescutti 2010. (RYA-240/558)",
+      "err": 0.035,
+      "n_lines": 2,
+      "delta_vs_asplund": 0.058,
+      "engineA": 8.354,
+      "engineB": 5.678,
+      "selected_engines": [
+        "engineB_synth"
+      ],
+      "engineB_source": null,
+      "engineB_reliability": null,
+      "cross_engine_mix": false,
+      "mix_flagged": false,
+      "mean_cross_engine_delta": -2.676,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 2
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 2
+        }
+      ]
     },
     {
       "element": "Mn",
@@ -347,7 +543,20 @@
       "engineB_reliability": "UNGATED \u2014 the RYA-473 HFS flux-fit artifact carries no RYA-679 reliability flag (not an in-window profile fit); its own quality statement is per-line status 3/3 ok, n_lines=3, scatter=0.154",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "K",
@@ -369,7 +578,20 @@
       "engineB_reliability": "UNGATED \u2014 the RYA-460 Kitt Peak artifact carries no RYA-679 reliability flag (an atlas-window flux fit: no dEW_dA / railed). Its own quality statement: 1 window(s) status=ok, red_chi2 [124.7], continuum SNR [1407.0]; RYA-460 leg VALIDATED by the [O I]6300 / O I 777 overlap cross-check vs HARPS/ESPRESSO",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Ti",
@@ -391,7 +613,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -1.326
+      "mean_cross_engine_delta": -1.326,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 6
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 6
+        }
+      ]
     },
     {
       "element": "Ti",
@@ -413,7 +648,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": -1.107
+      "mean_cross_engine_delta": -1.107,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 5
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 5
+        }
+      ]
     },
     {
       "element": "Co",
@@ -435,7 +683,20 @@
       "engineB_reliability": "RYA-679 reliability-gated: 5 of 14 fitted lines cleared (not railed AND dEW_dA >= 40.0)",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Cu",
@@ -457,7 +718,20 @@
       "engineB_reliability": "UNGATED \u2014 the RYA-466 HFS flux-fit artifact carries no RYA-679 reliability flag (not an in-window profile fit); its own quality statement is per-line status 5/5 ok, n_lines=5, scatter=0.139",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "V",
@@ -479,7 +753,20 @@
       "engineB_reliability": "UNGATED \u2014 the RYA-466 HFS flux-fit artifact carries no RYA-679 reliability flag (not an in-window profile fit); its own quality statement is per-line status 6/6 ok, n_lines=6, scatter=0.029",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Sc",
@@ -501,7 +788,20 @@
       "engineB_reliability": "UNGATED \u2014 the RYA-460 Kitt Peak artifact carries no RYA-679 reliability flag (an atlas-window flux fit: no dEW_dA / railed). Its own quality statement: 1 window(s) status=ok, red_chi2 [92.4], continuum SNR [180.0]; RYA-460 leg VALIDATED by the [O I]6300 / O I 777 overlap cross-check vs HARPS/ESPRESSO",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Sr",
@@ -523,7 +823,20 @@
       "engineB_reliability": "RYA-679 reliability-gated: reliable=True",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Ba",
@@ -545,7 +858,20 @@
       "engineB_reliability": "RYA-679 reliability-gated: reliable=True",
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": null
+      "mean_cross_engine_delta": null,
+      "selection_reasons": [
+        {
+          "reason": "only Engine-B eligible",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     },
     {
       "element": "Li",
@@ -567,7 +893,20 @@
       "engineB_reliability": null,
       "cross_engine_mix": false,
       "mix_flagged": false,
-      "mean_cross_engine_delta": 0.428
+      "mean_cross_engine_delta": 0.428,
+      "selection_reasons": [
+        {
+          "reason": "hard line (blend/saturation/HFS) \u2192 synthesis",
+          "engine": "engineB_synth",
+          "n_lines": 1
+        }
+      ],
+      "line_regimes": [
+        {
+          "regime": "hard",
+          "n_lines": 1
+        }
+      ]
     }
   ]
 }
