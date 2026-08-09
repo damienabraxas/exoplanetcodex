@@ -2,7 +2,7 @@
 """
 RYA-706 — Aluminium (Al I 6696.023) DEBLEND re-measure by in-window blend fit (SIRIUS).
 
-Adapted from scripts/rya706_ba2_deblend_sirius.py. The MACHINERY is unchanged and
+Adapted from scripts/rya581_ba2_deblend_sirius.py. The MACHINERY is unchanged and
 deliberately so: the control run, the deblend-shift stop condition, the shared RYA-643
 fitter, the arm-RV handling and the reliability reporting all carry over. Only the
 species, the line, the window and the gf source differ. A second copy of a fitter is
@@ -347,7 +347,46 @@ def _pack(fit, delta, arm_rv):
 
 
 # ────────────────────────────── main ──────────────────────────────
+def _assert_no_ba_residue():
+    """RYA-706: this file was ADAPTED from the Ba II harness and that produced defects at
+    a rate that made copying the wrong choice. Six were found by reading and by the
+    runtime guards; a further sweep found the emitted record still carried
+    element='Ba', a correction budget referenced to Ba's 2.410, and delta_vs_asplund
+    computed against Ba's A_sun of 2.27. Had the fit converged, that JSON would have
+    been a BARIUM-shaped record holding aluminium numbers -- and a downstream consumer
+    keys on `element`.
+
+    So the file now checks itself. This is a stopgap: the real fix is to parameterise
+    the shared harness rather than copy it per species, which is a toolkit task."""
+    import re as _re
+    src = open(os.path.abspath(__file__)).read()
+    # Ignore this function's own body: it necessarily NAMES the tokens it hunts for, and
+    # a checker that trips on its own patterns is a checker nobody keeps.
+    # Anchor on the NEWLINE-prefixed definitions. Searching for the bare string finds
+    # this very line first, which truncated the exclusion range to nothing and made the
+    # checker flag its own pattern list. A self-check that cannot survive reading itself
+    # is worse than none, because the first thing it teaches you is to ignore it.
+    _lo = src.index("\ndef _assert_no_ba_residue")
+    _hi = src.index("\ndef main(", _lo)
+    # Prose ABOUT the adaptation is legitimate; a live Ba token in code is not.
+    bad = []
+    for pat in (r"SOLAR_ASPLUND2021\['Ba'\]", r"'element':\s*'Ba'", r"2\.410", r"5853",
+                r"_mpia_element_delta\('Ba'", r"element_grid_in_bounds\('Ba'"):
+        for m in _re.finditer(pat, src):
+            line = src[:m.start()].count("\n") + 1
+            txt = src.splitlines()[line-1]
+            if _lo <= m.start() < _hi:
+                continue                      # the checker's own patterns and docstring
+            if txt.lstrip().startswith("#") or '"""' in txt:
+                continue                      # documentation of the adaptation itself
+            bad.append(f"line {line}: {txt.strip()[:80]}")
+    if bad:
+        raise SystemExit("RYA-706 Ba-residue check FAILED — this harness still carries "
+                         "barium-specific code:\n  " + "\n  ".join(bad))
+
+
 def main():
+    _assert_no_ba_residue()
     ap = argparse.ArgumentParser(description="RYA-706 Al I 6696 in-window deblend (Sirius)")
     ap.add_argument('--out', default=None, help="output JSON path")
     ap.add_argument('--skip-sensitivity', action='store_true',
@@ -363,7 +402,7 @@ def main():
                      require_subdirs=("engines", "grids"))
     sp = STAR_PARAMS['solar']
     teff, logg, feh, xi = sp['teff'], sp['logg'], sp.get('feh_ref', 0.0), sp['xi']
-    a_sun = float(SOLAR_ASPLUND2021['Ba'])
+    a_sun = float(SOLAR_ASPLUND2021['Al'])
 
     print(f"RYA-706 Al I {LINE} in-window deblend — solar node (STAR_PARAMS): "
           f"Teff={teff} logg={logg} [Fe/H]={feh} xi={xi}")
@@ -374,7 +413,7 @@ def main():
         os.symlink("/mnt/codex-data/engines/Turbospectrum_NLTE/DATA", f"{W}/DATA")
 
     # ── (1) line lists ────────────────────────────────────────────────────────────
-    ba_list, hfs = build_al_hfs_list(root, f"{W}/ba5853_hfs.list", FDAMP_PRIMARY)
+    al_list, hfs = build_al_hfs_list(root, f"{W}/al6696_hfs.list", FDAMP_PRIMARY)
     print(f"Al I HFS list: {hfs['n_components']} components, span {hfs['span_mA']} mA, "
           f"linelist_full sum {hfs['linelist_full_sum_loggf']:+.4f} -> canonical "
           f"{hfs['canonical_loggf']:+.3f} ({hfs['canonical_line_id']}, "
@@ -386,11 +425,11 @@ def main():
     blocks = read_vald_blocks(lmin, lmax)
     al_blocks = [b for b in blocks if _species(b).startswith('Al I')]
     blend_blocks = [b for b in blocks if not _species(b).startswith('Al I')]
-    n_ba_dropped = sum(len(b['rows']) for b in al_blocks)
+    n_al_dropped = sum(len(b['rows']) for b in al_blocks)
     n_blend_rows = sum(len(b['rows']) for b in blend_blocks)
     blend_list = write_blocks(blend_blocks, f"{W}/blend_6696.list")
     print(f"Blend list: VALD window {lmin:.1f}-{lmax:.1f} A -> {len(blend_blocks)} species, "
-          f"{n_blend_rows} rows ({n_ba_dropped} Al I rows removed; Al comes from the HFS list)")
+          f"{n_blend_rows} rows ({n_al_dropped} Al I rows removed; Al comes from the HFS list)")
 
     # THE RYA-706 STOP CONDITION, enforced up front: no blends in the window means the
     # deblend never happened. Refuse rather than emit a value that silently repeats 559.
@@ -412,9 +451,9 @@ def main():
     synth_blend, synth_noblend = {}, {}
     for a in A_GRID:
         a = float(a)
-        synth_blend[a] = bsyn(a, [blend_list, ba_list], opac, lmin, lmax, f"bl_{a:.2f}", feh)
-        synth_noblend[a] = bsyn(a, [ba_list], opac, lmin, lmax, f"nb_{a:.2f}", feh)
-    print(f"  {len(A_GRID)} points x 2 configurations (with blends / Ba-only control)")
+        synth_blend[a] = bsyn(a, [blend_list, al_list], opac, lmin, lmax, f"bl_{a:.2f}", feh)
+        synth_noblend[a] = bsyn(a, [al_list], opac, lmin, lmax, f"nb_{a:.2f}", feh)
+    print(f"  {len(A_GRID)} points x 2 configurations (with blends / Al-only control)")
 
     # ── (3) blend accounting: what the window actually contains ───────────────────
     # A(Al) = -99 switches aluminium off without touching anything else, so the residual is
@@ -488,7 +527,7 @@ def main():
               f"{delta:+.4f} -> A_NLTE={db['A_NLTE']:.3f}  "
               f"(rchi2={db['red_chi2']}, dEW/dA={db['dEW_dA_mA_dex']}, "
               f"gsig={db['gsig_kms']}, dv={db['dv_fitted_kms']}, reliable={db['reliable']})")
-        print(f"    control   (Ba alone, no blend): A_LTE={ct['A_LTE']:.3f} "
+        print(f"    control   (Al alone, no blend): A_LTE={ct['A_LTE']:.3f} "
               f"-> A_NLTE={ct['A_NLTE']:.3f}  (rchi2={ct['red_chi2']})")
         print(f"    deblend shift = {db['A_NLTE'] - ct['A_NLTE']:+.3f} dex")
         print(f"    fit-window sweep (A_NLTE): " + "  ".join(
@@ -531,17 +570,17 @@ def main():
                          + ". Investigate the VALD in-window block; do NOT ship this value.")
 
     print(f"\nDeblend evidence: blend core EW {blend_core_ew:.2f} mA; red_chi2 "
-          f"{ctrl['red_chi2']} (Ba alone) -> {prim['red_chi2']} (blends modelled), "
+          f"{ctrl['red_chi2']} (Al alone) -> {prim['red_chi2']} (blends modelled), "
           f"{chi2_gain}x better; A shift {shift:+.3f} dex")
 
     # ── (7) damping sensitivity (declared, not silent) ────────────────────────────
     sens = None
     if not args.skip_sensitivity:
-        ba_v, _ = build_al_hfs_list(root, f"{W}/ba5853_hfs_vald.list", FDAMP_VALD)
+        al_v, _ = build_al_hfs_list(root, f"{W}/al6696_hfs_vald.list", FDAMP_VALD)
         sv = {}
         for a in A_GRID:
             a = float(a)
-            sv[a] = bsyn(a, [blend_list, ba_v], opac, lmin, lmax, f"vd_{a:.2f}", feh)
+            sv[a] = bsyn(a, [blend_list, al_v], opac, lmin, lmax, f"vd_{a:.2f}", feh)
         fv = fit_profile(LINE, *arms['harps'], sv, hw=FIT_HW, vsini=VSINI,
                          a_lo=A_LO, a_hi=A_HI, core_hw=CORE_HW)
         sens = dict(fdamp=FDAMP_VALD, source='linelist_full.csv damping_vdW',
@@ -556,7 +595,7 @@ def main():
     out = {
         'ticket': 'RYA-706',
         'supersedes': 'RYA-706 EW-path value 6.823 (Fe I 6696.315 charged to Al)',
-        'element': 'Ba', 'ion': 'II', 'line_A': LINE,
+        'element': 'Al', 'ion': 'I', 'line_A': LINE,
         'method': ('in-window blend-fit: full VALD3 in-window block MODELLED alongside the '
                    'Al I 6696 HFS/isotope components, A(Al) fitted to the observed solar '
                    'PROFILE by chi2 (RYA-551 pattern, shared RYA-643 fitter) + Engine-A '
@@ -572,7 +611,7 @@ def main():
         'blend_model': {
             'vald_block': VALD_BLOCK, 'window_A': [round(lmin, 3), round(lmax, 3)],
             'n_species': len(blend_blocks), 'n_rows': n_blend_rows,
-            'al_i_rows_removed': n_ba_dropped,
+            'al_i_rows_removed': n_al_dropped,
             'core_hw_A': CORE_HW,
             'blend_core_EW_mA': round(blend_core_ew, 3),
             'per_species_core_EW_mA': per_species,
@@ -593,12 +632,12 @@ def main():
                                      is not None], ddof=0)), 3) if len(results) > 1 else None,
         # Say what that number IS, so nobody reads it as a total error budget. It is the
         # HARPS-vs-IAG arm scatter and nothing else: it does not carry the canonical gf
-        # uncertainty, the Korotin delta uncertainty, the 1D-MARCS model error, or the
+        # uncertainty, the Amarsi2020 delta uncertainty, the 1D-MARCS model error, or the
         # fact that this is a SINGLE line. The honest read is a floor, not a sigma.
         'sigma_basis': ('inter-arm scatter of the fitted A_NLTE (HARPS vs IAG) at the '
                         'headline fit window ONLY — a precision floor, NOT a total '
                         'uncertainty budget: it excludes the canonical gf uncertainty, '
-                        'the Korotin2015 delta uncertainty, 1D-MARCS model error, and the '
+                        'the Amarsi2020 delta uncertainty, 1D-MARCS model error, and the '
                         'single-line risk. Do not quote it as the error on A(Al).'),
         'window_choice_spread_dex': round(
             max(v['A_NLTE'] for v in results['harps']['deblended'].values())
@@ -606,32 +645,28 @@ def main():
         'reliable': prim['reliable'],
         'control_no_blend_A_nlte': ctrl['A_NLTE'],
         'deblend_shift_dex': shift,
-        'rya559_ew_cog_A_nlte': 2.410,
+        'ew_path_A_nlte_blended': 6.823,
         'deblend_evidence': {
             'blend_core_EW_mA': round(blend_core_ew, 3),
-            'red_chi2_ba_alone': ctrl['red_chi2'],
+            'red_chi2_al_alone': ctrl['red_chi2'],
             'red_chi2_blends_modelled': prim['red_chi2'],
             'chi2_improvement_factor': chi2_gain,
             'note': ('the blend is demonstrably MODELLED, not culled: it deposits '
                      f'{blend_core_ew:.2f} mA in the core and modelling it improves the '
                      f'profile fit {chi2_gain}x. The A-shift it produces ({shift:+.3f} dex) '
                      'is small because the blend sits largely in the WINGS of the fit '
-                     'window rather than under the Ba core.'),
+                     'window rather than under the Al core.'),
         },
-        # The honest decomposition of 2.410 -> this value. Most of the correction is NOT
-        # the in-window blend model: it is abandoning the EW inversion. RYA-559 inverted a
-        # pool EW of 74.62 mA integrated over a window that swallowed the neighbouring
-        # absorption; the profile fit charges that absorption to its own species instead.
-        # The check that this is right: the synthetic CORE EW at the fitted A is
-        # ~66 mA, which is exactly the RYA-559 calibration point (A=2.27 -> 66.5 mA) and
-        # the literature clean-line EW (~64-66 mA). We reproduce the clean line.
+        # Decomposition against the EW-path value this run exists to test, 6.823 dex on
+        # the NIST gf scale. RYA-581's version of this block was written against Ba's
+        # 2.410 and its "66.5 mA calibration point" -- none of which means anything here.
         'correction_budget_dex': {
-            'rya559_ew_cog': 2.410,
-            'profile_fit_ba_alone': ctrl['A_NLTE'],
+            'ew_path_blended': 6.823,
+            'profile_fit_al_alone': ctrl['A_NLTE'],
             'profile_fit_deblended': a_nlte,
-            'from_dropping_the_EW_inversion': round(ctrl['A_NLTE'] - 2.410, 3),
+            'from_dropping_the_EW_inversion': round(ctrl['A_NLTE'] - 6.823, 3),
             'from_modelling_the_in_window_blend': shift,
-            'total': round(a_nlte - 2.410, 3),
+            'total': round(a_nlte - 6.823, 3),
             'fitted_core_EW_mA': prim['core_EW_mA'],
             'rya559_calibration_A227_EW_mA': 66.5,
             'note': ('the fitted synthetic core EW reproduces the RYA-559 calibration and '
@@ -643,18 +678,16 @@ def main():
         'per_arm': results,
         'asplund2021': a_sun,
         'delta_vs_asplund': round(a_nlte - a_sun, 3),
-        'engineB_gerber_status': (
-            'Al I 6696 is ABSENT from the GES NLTE level-ID block, so TS-native in-synthesis '
-            'NLTE is not runnable at this line (RYA-534/559 finding); Engine-A Korotin drives '
-            'the delta. Engine-B corroborates at the departure level (Ba II 4554 delta -0.018 '
-            'vs Korotin -0.05), and both agree Ba II NLTE is small-negative, so A(Al) is '
-            'insensitive to the engine choice.'),
-        'validate_dont_tune': ('profile, canonical gf and Korotin delta all READ; A(Al) is '
-                               'whatever chi2 returns. Never fitted toward Asplund 2.27.'),
-        'single_line_caveat': ('this rests on ONE line. A second clean Ba II line (6141.713 / '
-                               '6496.897) is the confirming follow-up flagged for the RYA-527 '
-                               'freeze review.'),
-    }
+        'engineB_status': (
+            'NOT ASSESSED for Al I 6696 by this run. RYA-581 asserted a Gerber/GES level-ID '
+            'finding and an Engine-B departure cross-check for Ba II 4554 -- both are Barium '
+            'claims and neither transfers, so they are removed rather than reworded. Whether '
+            'TS-native NLTE is runnable at this line is an open question for the Al two-engine '
+            'record, not something this harness established.'),
+        'single_line_caveat': ('this rests on ONE line, Al I 6696.023. The confirming line '
+                               'is Al I 6698.673, which the RYA-706 EW path puts at 6.485 and '
+                               'which is CLEAN -- it needs no deblend, so it is a separate '
+                               'measurement rather than a second run of this harness.'),    }
 
     out_path = args.out or os.path.join(root, "data", "results", "solar_ba_deblend_rya706.json")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
@@ -663,8 +696,8 @@ def main():
 
     print("\n" + "=" * 76)
     print(f"RYA-706 Al I {LINE} DEBLEND RESULT")
-    print(f"  RYA-559 EW->COG (blend-inflated) : A(Al)_NLTE = 2.410")
-    print(f"  control, Ba alone (this harness) : A(Al)_NLTE = {ctrl['A_NLTE']:.3f}")
+    print(f"  EW path, blend-inflated          : A(Al)_NLTE = 6.823")
+    print(f"  control, Al alone (this harness) : A(Al)_NLTE = {ctrl['A_NLTE']:.3f}")
     print(f"  DEBLENDED, blends modelled       : A(Al)_NLTE = {a_nlte:.3f}  "
           f"(A_LTE {a_lte:.3f} {delta:+.4f})")
     print(f"  deblend shift                    : {shift:+.3f} dex")
