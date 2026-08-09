@@ -1,0 +1,57 @@
+{
+  "ticket": "RYA-706",
+  "stage": "fit -> committed pool",
+  "staging": "/Users/ryanschmitt/Documents/Exoplanet Codex/data/solar_ew.csv",
+  "staging_rows": 8951,
+  "pool_rows": 808,
+  "dropped": 8149,
+  "n_unexplained": 913,
+  "n_recovery_candidates": 229,
+  "n_synthesis_candidates": 425,
+  "synthesis_by_element": {
+    "Fe": 168,
+    "Ni": 54,
+    "Ti": 53,
+    "V": 42,
+    "Cr": 41,
+    "Si": 36,
+    "Ca": 16,
+    "S": 6,
+    "Y": 6,
+    "Al": 3
+  },
+  "reason_counts": {
+    "SATURATED_REW": 4420,
+    "EW_ERR_EXCESS": 998,
+    "SYNTH_ROUTED": 1802,
+    "SATURATED_CORE": 15,
+    "UNEXPLAINED": 913,
+    "EW_BELOW_MIN": 1
+  },
+  "unexplained_by_element": {
+    "Fe": 409,
+    "Ti": 104,
+    "Ni": 104,
+    "V": 91,
+    "Cr": 85,
+    "Si": 64,
+    "Ca": 29,
+    "S": 12,
+    "Y": 8,
+    "Al": 5,
+    "Na": 2
+  },
+  "recovery_by_element": {
+    "Fe": 132,
+    "Ni": 31,
+    "V": 20,
+    "Si": 19,
+    "Ti": 13,
+    "Ca": 4,
+    "S": 4,
+    "Al": 2,
+    "Cr": 2,
+    "Y": 2
+  },
+  "invariant_note": "every dropped line carries a classified reason; UNEXPLAINED is itself a classification and counts as an unrecorded drop, not as accounted-for"
+}

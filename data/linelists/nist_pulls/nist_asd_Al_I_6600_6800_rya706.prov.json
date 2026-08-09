@@ -1,0 +1,52 @@
+{
+  "ticket": "RYA-706",
+  "source": "NIST Atomic Spectra Database, lines_form.html",
+  "pulled_by": "Ryan Schmitt",
+  "pulled_date": "2026-08-08",
+  "query": {
+    "spectrum": "Al I",
+    "range_A": [
+      6600,
+      6800
+    ],
+    "units": "Angstrom (air)",
+    "columns": "obs_wl, ritz_wl, intens, Aki, fik, S, log_gf, Acc, Ei, Ek, conf, term, J, g"
+  },
+  "why_manual": "scripts cannot pull it: physics.nist.gov/cgi-bin/ASD/lines1.pl returns HTTP 500 on every query including a minimal 'Fe I 5000-5010' control. Host root returns 301, so the CGI endpoint is down, not the site. Error: \"Can't use an undefined value as an ARRAY reference ... line 701\".",
+  "md5": "00d1f6e09740746144d159ced0b6ae18",
+  "bytes": 594,
+  "self_check": "log gf = log10(g_i * f_ik) reproduces the stated log_gf to 4 dp for both graded rows",
+  "rows_of_interest": [
+    {
+      "obs_wl_air": 6696.015,
+      "ritz": 6696.018,
+      "log_gf": -1.569,
+      "acc": "C+",
+      "g_i": 2,
+      "f_ik": 0.0135,
+      "Ei_cm1": 25347.756,
+      "Ei_eV": 3.1427,
+      "conf": "3s2.4s -> 3s2.5p",
+      "line_ref": "L4737"
+    },
+    {
+      "obs_wl_air": 6698.673,
+      "ritz": 6698.667,
+      "log_gf": -1.87,
+      "acc": "C+",
+      "g_i": 2,
+      "f_ik": 0.00675,
+      "Ei_cm1": 25347.756,
+      "Ei_eV": 3.1427,
+      "conf": "3s2.4s -> 3s2.5p",
+      "line_ref": "L4737"
+    },
+    {
+      "obs_wl_air": 6785.2,
+      "ritz": 6784.242,
+      "log_gf": null,
+      "acc": null,
+      "note": "no oscillator strength published; our 6784.256 recovery candidate is UNGRADEABLE from ASD"
+    }
+  ]
+}
