@@ -280,6 +280,45 @@ gate — so it is **deliberately left on the local iSpec install** here. Whether
 measurement leg's atmospheres to the Sirius root is an explicit architecture question for a follow-up
 ticket, not silently decided inside this one.
 
+## Engines are separate data products and are NEVER combined — RYA-711
+
+Ryan, 2026-08-09: *"the two engines should never be added together and presented, they are seperate data products… this model says this in VIS, this is what we got in IR, this is the Uncertainty for each product. It breaks down scientifically better. No Ambiguity."*
+
+### The law
+
+The reported product key is **(instrument × band × engine)**. LTE and each NLTE engine are **separate products**, each carrying its own uncertainty. A general combined abundance may be published alongside as a convenience, clearly labelled derived — it is never the primary record, and no per-product value may be discarded once it exists.
+
+**Engines are never averaged.** Not across lines, not within an element, not "because they mostly agree".
+
+### What this supersedes
+
+This **narrows RYA-525's element aggregation**. The two-engine floor computes the reported value as an inverse-variance combine of the per-LINE winners, so one number could be part Engine A and part Engine B. That is exactly the mixing this rule forbids at the reporting layer.
+
+The floor's machinery is not repealed and stays valuable: **reference-blind per-line selection remains a quality diagnostic**, and `CROSS_ENGINE_MIX_GATE` — which already flags an element whose winners span both engines with a large cross-engine Δ — was an early recognition of this same problem. What changes is that a mixed aggregate is no longer a reportable product. Where the floor previously emitted one blended value, it now emits one value **per engine**, and the cross-engine Δ becomes a published comparison rather than a threshold to be silenced.
+
+### The infrared makes this concrete rather than theoretical
+
+The floor was designed and ratified where two engines exist — the optical. In the infrared that assumption fails, and the failure is the normal case:
+
+| IR capability | elements |
+|---|---|
+| both engines | Ti · Mn · Si · Ca · Mg · Na · Ba · O |
+| Engine-B (Gerber TS-native) only | **Fe** · Ni · Co · Sr |
+| Engine-A (b-factor grid) only | Al · C · Cu · K · Li · N |
+| no NLTE model at all — LTE only | Cr · V · Zr · Sc · Y · S · Eu · P |
+
+**Eight of twenty-six** support a two-engine comparison in the IR. **Eight have no NLTE at all** there, and their infrared lines are LTE however well measured. **Fe — the anchor — is Engine-B only**, on 4000 unmeasured lines, and its sole optical cross-check returned CHECK.
+
+Under the old framing that reads as a degradation. Under this rule it is simply the honest product list: an element with one engine publishes one NLTE product, an element with none publishes LTE, and each says which it is. Ryan: *"That is ok! We show LTE and TS as the products."*
+
+### Standing rules
+
+1. **Never average engines.** A value is produced by one engine, or it is a labelled derived combination.
+2. **Every product carries its own uncertainty.** A shared error bar across engines implies a shared systematic that has not been demonstrated.
+3. **One engine is a complete answer**, provided the product says which engine and which band.
+4. **LTE is a product, not a failure state.** For eight elements it is the only honest infrared answer available today.
+5. **The cross-engine delta is published, not resolved away.** Where two engines exist, their disagreement is a measurement about the models and belongs in the record.
+
 ## Abundances are reported PER INSTRUMENT and PER BAND — RYA-708
 
 Ryan, 2026-08-09: *"we will keep everything separate for now, so a KITT abundance, a HARPS abundance etc. We can do a general abundance with everything as a showcase, with uncertainty, but I think the cool science will be per instrument and Band."*

@@ -59,6 +59,23 @@ ELEMENTS = {
                grid='NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin',
                waves=[5689.460, 5648.565, 5662.150], anchor=+0.107, tol=0.06,
                ref='Ti I 5689/5648/5662 (stronger, GES-identified, overlap the MPIA grid lines); anchor = our banked Ti_Bergemann2011_MPIA solar median +0.107 (range +0.10..+0.13). NOTE: first-pass weak lines 5702/5703 (0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess = CHECK; re-gate with these stronger MPIA-overlap lines against the correct +0.107 anchor'),
+    # Fe — RYA-710. THE ANCHOR ELEMENT, and the reason this gate matters most here.
+    # a_sun 7.46 is Asplund 2021; our reported A(Fe I) is 7.466 on the 3D scale (RYA-553).
+    # ANCHOR +0.010 is DERIVED, not guessed: the median delta_nlte of the 252 Fe I lines in
+    # our banked Fe_Bergemann_MPIA grid at its solar node (Teff 5800 / logg 4.5 / [Fe/H] 0),
+    # range +0.000..+0.036. Fe II at the same node is +0.000, i.e. effectively LTE, which is
+    # why the ionisation balance is usable at all.
+    # tol 0.05 matches Ni/Ca (small-correction elements); a wider tol would make a PASS
+    # meaningless when the anchor itself is only +0.01.
+    # Lines: mid-optical, present in the MPIA grid so the anchor genuinely applies to THEM
+    # rather than to Fe in general. If any lacks a GES level identification the deck RAISES
+    # (RYA-533's silent-departure=1 trap) — that is the designed check, not a failure to avoid.
+    'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
+               grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
+               waves=[5194.949, 5202.270, 5217.389], anchor=+0.010, tol=0.05,
+               ref='Fe I 5194.9/5202.3/5217.4, all present in Fe_Bergemann_MPIA at the solar '
+                   'node (delta +0.012/+0.020/+0.011). Anchor = the MPIA solar Fe I median '
+                   '+0.010 over 252 lines. Solar Fe I NLTE is small and POSITIVE; Fe II ~0.'),
     'Mn': dict(Z=25, a_sun=5.42, atom='atom.mn281kbc', aux='auxData_MN_MARCS_Mar-15-2023.dat',
                grid='NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin',
                waves=[6013.510, 6021.800], anchor=+0.10, tol=0.06,
