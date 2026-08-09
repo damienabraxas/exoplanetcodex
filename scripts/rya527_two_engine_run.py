@@ -57,6 +57,7 @@ import argparse
 import json
 import sys
 import warnings
+from collections import Counter
 from pathlib import Path
 
 warnings.filterwarnings('ignore')
@@ -650,7 +651,32 @@ def main():
             engineB_source=b_source, engineB_reliability=b_reliability,
             cross_engine_mix=rec.cross_engine_mix, mix_flagged=rec.mix_flagged,
             mean_cross_engine_delta=(round(rec.mean_cross_engine_delta, 3)
-                                     if rec.mean_cross_engine_delta is not None else None)))
+                                     if rec.mean_cross_engine_delta is not None else None),
+            # RYA-695: WHY each engine won, not just which one did.
+            #
+            # `engine_selection.select_line` has always attached a `reason` and a
+            # `regime` to every LineWinner — "clean-weak line -> 1D-NLTE", "hard line
+            # (blend/saturation/HFS) -> synthesis", "only Engine-B eligible",
+            # "indeterminate regime -> lower line-scatter sigma" — and this emitter
+            # dropped all of it, keeping only the engine names. So the artifact could
+            # say Fe I mixed both engines but not that 62 lines went to A as clean-weak
+            # while 19 went to B as blends, which is the actual selection story and the
+            # thing a reader needs to judge whether the mix is sound.
+            #
+            # Emitted as a COUNT per distinct reason (and per regime) rather than a
+            # per-line list: the per-line detail is already reconstructible from the
+            # inputs, and an 81-entry array per element would bury the summary that
+            # makes the table readable. Sorted by descending count, then text, so the
+            # artifact is diffable across runs.
+            selection_reasons=[
+                {'reason': r, 'engine': e, 'n_lines': n}
+                for (r, e), n in sorted(
+                    Counter((w.reason, w.engine) for w in rec.per_line).items(),
+                    key=lambda kv: (-kv[1], kv[0]))],
+            line_regimes=[
+                {'regime': g, 'n_lines': n}
+                for g, n in sorted(Counter(w.regime for w in rec.per_line).items(),
+                                   key=lambda kv: (-kv[1], kv[0]))]))
 
     if loud:
         raise SystemExit("RYA-525 TWO-ENGINE LOUD-FAIL (synthesis-required missing Engine-B):\n  - "
