@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+import textwrap
 from pathlib import Path
 
 import numpy as np
@@ -56,11 +57,23 @@ OUT = ROOT / "data" / "plots" / "band_appendix"
 PANELS_PER_FIG = 12
 
 
+def _text(v) -> str:
+    """NaN-safe string. `float('nan') or ""` returns the NaN, not the empty string, so
+    `str(x or "")` yields the literal 'nan' -- which is truthy and made three PASSING
+    lines render as QUARANTINED in the prototype. Guard on isna, not on truthiness."""
+    return "" if v is None or (isinstance(v, float) and pd.isna(v)) or pd.isna(v) else str(v)
+
+
+def wrap(text: str, width: int = 62) -> str:
+    """Wrap a title so a long root cause cannot overrun into the next panel."""
+    return "\n".join(textwrap.wrap(text, width)) if text else ""
+
+
 def short_reason(row) -> str:
     """One compact line of WHY, for the panel title."""
-    r = str(row.excluded_reason or "")
+    r = _text(row.excluded_reason)
     if not r.strip():
-        return "IN AGGREGATE"
+        return "IN AGGREGATE — passed every check"
     if "FEATURE-VERIFICATION" in r:
         # Named for Ryan's four questions, so the panel title says WHICH check failed.
         if "GF-GHOST-ABSENT" in r:
@@ -128,12 +141,12 @@ def draw_panel(ax, w, f, row, hw, predicted_depth, pre_norm: bool) -> None:
     ax.set_xlim(c - hw * 2.2, c + hw * 2.2)
     lo = min(f.min(), cont - 0.02)
     ax.set_ylim(lo - 0.04 * (cont - lo + 0.05), cont + 0.035)
-    dom = str(getattr(row, "fault_domain", "") or "")
-    mech = str(getattr(row, "mechanism", "") or "")
-    cause = f"\nROOT CAUSE [{dom}] {mech}" if dom and dom != "nan" else ""
-    ax.set_title(f"{row.element} {row.ion} {c:.3f}  ·  EW {row.ew_mA:.1f} mA\n"
-                 f"{short_reason(row)}{cause}",
-                 fontsize=6.8, pad=3,
+    dom = _text(getattr(row, "fault_domain", ""))
+    mech = _text(getattr(row, "mechanism", ""))
+    cause = wrap(f"ROOT CAUSE [{dom}] {mech}") if dom else ""
+    title = f"{row.element} {row.ion} {c:.3f}  ·  EW {row.ew_mA:.1f} mA\n" \
+            f"{wrap(short_reason(row))}" + (f"\n{cause}" if cause else "")
+    ax.set_title(title, fontsize=6.4, pad=4,
                  color=("#2b8a3e" if row.in_aggregate else "#c92a2a"))
     ax.tick_params(labelsize=6)
     # Absolute wavelengths -- an offset like "+7.296e3" hides the number that matters.
@@ -149,6 +162,10 @@ def main() -> None:
     ap.add_argument("--hi", type=float, required=True)
     ap.add_argument("--instrument", default="kpno_solar_atlas")
     ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--waves", default=None,
+                    help="comma-separated wavelengths for a focused figure (a PROTOTYPE "
+                         "showing one example per failure mode). Omit for the full appendix.")
+    ap.add_argument("--tag", default="", help="filename suffix for a focused figure")
     a = ap.parse_args()
 
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
@@ -170,13 +187,21 @@ def main() -> None:
 
     # Quarantined FIRST -- the failures are what the appendix exists to prove.
     df = df.sort_values(["in_aggregate", "wavelength_air_A"]).reset_index(drop=True)
+    if a.waves:
+        want = [float(x) for x in a.waves.split(",")]
+        keep = [df.index[(df.wavelength_air_A - x).abs().argsort()[:1]][0] for x in want]
+        missing = [x for x, k in zip(want, keep)
+                   if abs(float(df.loc[k, "wavelength_air_A"]) - x) > 0.05]
+        if missing:
+            raise SystemExit(f"requested wavelengths not in this band's measurements: {missing}")
+        df = df.loc[keep].reset_index(drop=True)
 
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     written = []
     for start in range(0, len(df), PANELS_PER_FIG):
         chunk = df.iloc[start:start + PANELS_PER_FIG]
         nrow = int(np.ceil(len(chunk) / 3))
-        fig, axes = plt.subplots(nrow, 3, figsize=(13, 2.7 * nrow), squeeze=False)
+        fig, axes = plt.subplots(nrow, 3, figsize=(13, 3.35 * nrow), squeeze=False)
         for ax in axes.ravel():
             ax.axis("off")
         for k, (_, row) in enumerate(chunk.iterrows()):
@@ -196,8 +221,9 @@ def main() -> None:
             f"red dash = catalogued position · purple = deepest feature · yellow = integration "
             f"window · teal = continuum used · dotted orange = side-band 95th pct · green bar = predicted depth",
             fontsize=8.5)
-        fig.tight_layout(rect=(0, 0, 1, 0.94))
-        p = out / f"{stem}_appendix_{start // PANELS_PER_FIG + 1}.png"
+        fig.tight_layout(rect=(0, 0, 1, 0.95), h_pad=2.4, w_pad=1.4)
+        suffix = a.tag or f"appendix_{start // PANELS_PER_FIG + 1}"
+        p = out / f"{stem}_{suffix}.png"
         fig.savefig(p, dpi=145); plt.close(fig)
         written.append(p)
 

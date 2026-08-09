@@ -164,6 +164,31 @@ def attribute_root_cause(w, f, centre, half_width, predicted_depth, symptom,
             fix="re-adjudicate log gf against a NIST-graded source; if it survives, the "
                 "species assignment is suspect")
 
+    if symptom.startswith("GF-GHOST"):
+        # Present, correctly positioned, wrong STRENGTH. The direction discriminates:
+        # too deep means our gf is too weak OR an unrecognised blend is adding depth --
+        # both possible, so both are named rather than guessing. Too shallow has no
+        # blend explanation (a blend cannot REMOVE absorption), so it is unambiguously
+        # our atomic data.
+        ratio_txt = f"{depth_at:.3f} observed vs {predicted_depth:.3f} predicted"
+        if predicted_depth and depth_at > predicted_depth:
+            return dict(
+                fault_domain="ATOMIC-DATA",
+                mechanism="log gf too weak, or an uncatalogued blend adds depth at this position",
+                discriminator=(f"{ratio_txt} — the line is present and correctly placed, "
+                               f"so this is not a positional error. Deeper than predicted "
+                               f"has TWO explanations and this test does not separate "
+                               f"them; a synthesis fit would"),
+                fix="re-adjudicate log gf against NIST; if it holds, look for an "
+                    "uncatalogued blend by fitting the profile")
+        return dict(
+            fault_domain="ATOMIC-DATA",
+            mechanism="log gf too strong",
+            discriminator=(f"{ratio_txt} — correctly placed and present, and SHALLOWER "
+                           f"than predicted. A blend can only add absorption, never "
+                           f"remove it, so a blend cannot explain this; the gf is wrong"),
+            fix="re-adjudicate log gf against a NIST-graded source")
+
     if symptom.startswith("BLEND-DOMINATED"):
         # Discriminator: is the interloper in OUR catalogue? If yes, we knew about it and
         # our window was simply too wide -- a METHOD fault we own. If no, our line list is
@@ -343,8 +368,8 @@ def main() -> None:
     if len(df):
         sat = df[df.in_aggregate == False]  # noqa: E712
         print(f"  EW range {df.ew_mA.min():.1f} - {df.ew_mA.max():.1f} mA")
-        print(f"  quarantined by saturation ceiling: {len(sat)} "
-              f"(measured and kept, excluded from aggregate only)")
+        print(f"  quarantined (ALL causes, not only saturation): {len(sat)} "
+              f"— measured and kept, excluded from the aggregate only")
     for s in skipped[:6]:
         print(f"    skip {s['wave']:.3f}: {s['reason'][:88]}")
     if causes:
