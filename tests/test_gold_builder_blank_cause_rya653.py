@@ -148,15 +148,27 @@ def test_rebuild_from_the_live_verdict_is_honest(tmp_path):
                 f"{r['element']}: cull claim on a row carrying a value"
 
 
-def test_ba_row_is_sourced_from_rya559(tmp_path):
-    """B. The corrected Ba row states RYA-559's measurement and cites it — and the
+#: The ticket whose Ba measurement the gold row must cite. RYA-653 wrote RYA-559 (the
+#: EW->COG value 2.410). RYA-581 then re-measured Ba II 5853 with an in-window blend fit
+#: and got 2.237, because the pool EW carries blend_flag=True and an EW inversion cannot
+#: deblend — it charged ~10 mA of neighbouring absorption to Ba. RYA-680 pointed both the
+#: two-engine floor and phase_c at the deblend, so the gold row follows.
+#:
+#: Pinned as a constant rather than relaxed to "cites some ticket": the point of this
+#: test is that the row names the measurement it actually came from, and that property
+#: survives the supersession. If Ba is re-measured again this constant moves again.
+BA_MEASUREMENT_TICKET = 'RYA-581'
+
+
+def test_ba_row_is_sourced_from_its_measurement_ticket(tmp_path):
+    """B. The corrected Ba row states its measurement and cites it — and the
     value is READ from the verdict artifact, never typed in."""
     a_ba = {r['element']: r for r in _verdict_doc()['verdicts']}['Ba']['A_measured']
     _build(tmp_path, VERDICT)
     row = pd.read_csv(tmp_path / 'cand.csv').set_index('element').loc['Ba']
     note = str(row['note'])
     assert not H.claims_zero_survivors(note), "Ba still blames the graded cull"
-    assert 'RYA-559' in note, f"Ba row does not cite its measurement: {note!r}"
+    assert BA_MEASUREMENT_TICKET in note, f"Ba row does not cite its measurement: {note!r}"
     assert f"{a_ba:.3f}" in note, f"Ba row does not carry the measured value: {note!r}"
     # The ratified `owed` tier still freezes NO value (RYA-522) — held, not
     # immortalised. Promoting it is a re-ratification, not this ticket's call.
