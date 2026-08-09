@@ -92,6 +92,20 @@ _STATE_PREFIX = {
 }
 _RENDER_ORDER = ("In Progress", "Backlog", "TBD", "Done")
 
+#: RYA-705 — the render classes that are OPEN DEBT.
+#:
+#: `In Progress` used to fall through. `open_debt` selected on
+#: ``rendered.startswith("Backlog:")``, so a row whose ticket someone was actively
+#: working on landed in neither bucket, vanished from the report, and was invisible to
+#: the `--phase-close` gate. That inverts the intent: `_RENDER_ORDER` puts `In Progress`
+#: FIRST because it is the most actionable class, and the selector then dropped exactly
+#: that class. A phase could have closed over debt that was mid-flight.
+#:
+#: `Done` is deliberately NOT here — a discharged debt is not open — but it is no longer
+#: silent either: `report()` prints the discharged rows, because "this debt went away"
+#: is a claim that should be auditable rather than a row quietly leaving the file.
+_OPEN_CLASSES = frozenset({"In Progress", "Backlog"})
+
 #: The literal a consumer greps for. RYA-676 §2B fixes this string; the short label is
 #: appended so an element with two unticketed debts does not render two identical cells.
 TBD_TEXT = "TBD - no resolving ticket"
@@ -235,7 +249,8 @@ def open_debt(tracker_tier_by_element: dict[str, str],
     rows = load_registry() if rows is None else rows
     owed_tiers = {"owed", "nlte_owed", "curation_owed"}
     out: dict[str, list[dict]] = {"refinement_debt_open": [],
-                                  "refinement_debt_unticketed": []}
+                                  "refinement_debt_unticketed": [],
+                                  "refinement_debt_discharged": []}
     for row in rows:
         if row.phase != phase:
             continue
@@ -248,8 +263,10 @@ def open_debt(tracker_tier_by_element: dict[str, str],
                   "provenance_ticket": row.provenance_ticket}
         if row.is_unticketed:
             out["refinement_debt_unticketed"].append(record)
-        elif rendered.startswith("Backlog:"):
+        elif row.render_class in _OPEN_CLASSES:
             out["refinement_debt_open"].append(record)
+        else:                                  # "Done" — discharged, kept for provenance
+            out["refinement_debt_discharged"].append(record)
     return out
 
 
@@ -294,6 +311,18 @@ def report(phase: str = ACTIVE_PHASE) -> int:
           "   <- these need a ticket, not a run")
     for r in unticketed:
         print(f"    - {r['element']} {r['ion']}: {r['refinement_debt']}")
+    # RYA-705: discharged rows are NOT debt and are not counted — but they are printed,
+    # because a row silently leaving the report is how a debt gets lost, and "the ticket
+    # closed" is a claim worth being able to audit against the element's actual state.
+    # `.get` rather than `[]`: `open_debt` always populates all three keys, but this
+    # report must survive a substituted bucket source — the one thing it may never do is
+    # raise, since RYA-676 §2C makes exit 0 a property of the report, not of its content.
+    discharged = buckets.get("refinement_debt_discharged", [])
+    if discharged:
+        print(f"  discharged (ticket Done, kept for provenance): {len(discharged)}"
+              "   <- NOT counted as debt")
+        for r in discharged:
+            print(f"    - {r['element']} {r['ion']}: {r['refinement_debt']}")
     return 0
 
 

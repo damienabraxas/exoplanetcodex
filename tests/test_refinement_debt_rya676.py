@@ -111,10 +111,17 @@ def test_unticketed_row_renders_the_fixed_literal():
 
 def test_an_element_with_two_debts_renders_both_most_actionable_first():
     """Ba is the worked example: an unwired Engine B and an unconfirmed single line
-    are different fixes, and neither substitutes for the other."""
+    are different fixes, and neither substitutes for the other.
+
+    The expected ORDER moved when RYA-680 landed (RYA-705): Ba's engine-B row is now
+    `Done`, and `Done` sits last in `_RENDER_ORDER` precisely because a discharged debt
+    is the least actionable thing in the cell. So the unticketed row leads. Both rows
+    are still present and still distinct, which is what this test is for -- discharging
+    one debt must not swallow the other."""
     cell = rdj.debt_cell("Ba", rdj.by_element())
-    assert cell.startswith("Backlog: RYA-680"), cell
-    assert rdj.TBD_TEXT in cell, cell
+    assert cell.startswith(rdj.TBD_TEXT), cell
+    assert "Done: RYA-680" in cell, cell
+    assert cell.index(rdj.TBD_TEXT) < cell.index("Done: RYA-680"), cell
 
 
 # ── the join ─────────────────────────────────────────────────────────────────
@@ -189,12 +196,39 @@ def test_the_two_buckets_stay_separate():
     rows = rdj.load_registry()
     tiers = rdj.tracker_tiers()
     buckets = rdj.open_debt(tiers, rows)
-    assert all(r["refinement_debt"].startswith("Backlog:")
+    assert all(r["refinement_debt"].split(":")[0] in rdj._OPEN_CLASSES
                for r in buckets["refinement_debt_open"])
     assert all(r["refinement_debt"].startswith(rdj.TBD_TEXT)
                for r in buckets["refinement_debt_unticketed"])
-    assert not (set(map(str, buckets["refinement_debt_open"]))
-                & set(map(str, buckets["refinement_debt_unticketed"])))
+    assert all(r["refinement_debt"].startswith("Done:")
+               for r in buckets["refinement_debt_discharged"])
+    seen = [set(map(str, buckets[k])) for k in
+            ("refinement_debt_open", "refinement_debt_unticketed",
+             "refinement_debt_discharged")]
+    assert not (seen[0] & seen[1]) and not (seen[0] & seen[2]) and not (seen[1] & seen[2])
+
+
+def test_in_progress_debt_is_OPEN_debt(monkeypatch):
+    """RYA-705: the selector was `rendered.startswith("Backlog:")`, so an `In Progress`
+    row landed in NO bucket -- invisible to the report and to the phase-close gate. That
+    inverts the intent: `_RENDER_ORDER` ranks `In Progress` FIRST as the most actionable
+    class. A phase could have closed over debt that was mid-flight. Ca is the live case
+    (RYA-561, promotion ratified but not applied)."""
+    row = _row(ticket_state="In Progress", resolving_ticket="RYA-561")
+    buckets = rdj.open_debt({row.element: "owed"}, [row], row.phase)
+    assert len(buckets["refinement_debt_open"]) == 1, buckets
+    assert not buckets["refinement_debt_discharged"]
+
+
+def test_a_discharged_row_is_reported_even_though_it_is_not_counted(capsys):
+    """RYA-705: `Done` rows used to fall out of every bucket and vanish. A debt leaving
+    the report in silence is how a debt gets lost -- 'the ticket closed' is a claim that
+    should be auditable against the element's actual state."""
+    rdj.report()
+    out = capsys.readouterr().out
+    assert "discharged (ticket Done, kept for provenance)" in out
+    assert "NOT counted as debt" in out
+    assert "Done: RYA-680" in out
 
 
 def test_phase_scoping_excludes_a_deferred_row():

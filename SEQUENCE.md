@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-08
 
+- **RYA-705** — refinement-debt gate made true: `In Progress` rows were counted NOWHERE (a phase could close over mid-flight debt); Ca re-homed 562→561; discharged rows now printed, 17→15
 - **RYA-694 CORRECTION** — RYA-694 was auto-closed by PR #205's branch name with none of its work done; reopened. Real tickets: RYA-700/701/702 (see register v46)
 - **RYA-699** — RYA-691's reliability rule ratified as the 4th RYA-674 constraint (vocabulary single-sourced so the gate can read what the loader writes); codex-mr-code-brief skill homed in `skills/`, narrowing RYA-386
 - **RYA-702** — run order ratified: Sun → Alpha Cen A → Alpha Cen B → Procyon → 55 Cnc A; the second star measures the infrastructure, so it adds the least new physics
