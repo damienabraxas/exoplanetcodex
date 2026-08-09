@@ -887,3 +887,20 @@ silently and a silent drop is the defect (RYA-429).
 
 **Not yet controlled.** `assert_controlled()` refuses to let it run in the near-UV or NIR
 until it reproduces the known optical answer in the VIS.
+
+### Spectra live on both machines; the path is resolved, never hardcoded — RYA-713/567
+
+Ryan, 2026-08-09: *"the spectra should be on Sirius as well."*
+
+Compute runs on Sirius (RYA-567) and grids are Sirius-only, but **spectra are held on both**.
+A path hardcoded to one host is a latent failure that surfaces as the wrong error message:
+the first synthesis control reported *"no Kitt Peak segment covers 4065.381 Å"* for every
+line — a coverage-shaped message for what was really a missing directory on the remote host.
+
+`scripts/measure_band_ew.py` now resolves the atlas in order: `CODEX_KP_ATLAS` env var, the
+Mac path, the Sirius path (`/mnt/codex-data/spectra/…`), and **raises naming every location
+it tried** if none has segments. Kitt Peak is 44 MB / 252 segments — staged.
+
+The window-extraction path (`--extract-windows` / `--windows`, ~0.05 MB for 20 lines)
+remains available as a transport optimisation, but it is no longer the way a remote run gets
+its data.

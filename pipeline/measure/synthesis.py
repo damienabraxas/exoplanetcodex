@@ -94,6 +94,7 @@ class SynthesisHandler(MeasurementHandler):
     def __init__(self) -> None:
         super().__init__()
         self._synth = None
+        self._tmp_dir = '/tmp/ispec_codex_synth'
 
     def prepare(self, policy: BandPolicy, context: dict[str, Any]) -> None:
         super().prepare(policy, context)
@@ -112,6 +113,13 @@ class SynthesisHandler(MeasurementHandler):
                 f"not declare `telluric_corrected`. Before correction the observed flux is "
                 f"not a stellar spectrum, so a fit to it does not measure the star.")
         from pipeline.abundances_derive import _synth_flux_at_abund
+        # iSpec writes intermediate atmosphere/linelist files here and does NOT create the
+        # directory; without it every synthesis dies with a FileNotFoundError naming a
+        # random temp file, which reads like a corrupt install rather than a missing dir.
+        import os
+        tmp = context.get("tmp_dir", "/tmp/ispec_codex_synth")
+        os.makedirs(tmp, exist_ok=True)
+        self._tmp_dir = tmp
         self._synth = _synth_flux_at_abund
 
     # ── the fit ───────────────────────────────────────────────────────────────
@@ -122,7 +130,8 @@ class SynthesisHandler(MeasurementHandler):
             ctx["atom_code"], float(trial_A),
             R=float(ctx["resolving_power"]),
             macroturbulence=float(ctx.get("macroturbulence", 0.0)),
-            vsini=float(ctx.get("vsini", 0.0)))
+            vsini=float(ctx.get("vsini", 0.0)),
+            tmp_dir=self._tmp_dir)
         if pseudo:
             # Same operation on both sides. The observed spectrum reaching us has already
             # been divided by an envelope; dividing the synthetic by ITS envelope puts

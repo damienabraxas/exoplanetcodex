@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -34,8 +35,32 @@ OUT = ROOT / "data" / "measured" / "band_ew"
 
 # Kitt Peak FTS: lm#### files, NNNN = segment start wavelength in NM. Three whitespace
 # columns (nm air, residual flux, irradiance) -- same reader as RYA-459's intake.
-KP_DIR = (Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/"
-               "exoplanetcodex-data/Solar Calibration/Kitt Peak Flux Atlas"))
+#
+# The atlas lives on BOTH machines (Ryan, 2026-08-09: "the spectra should be on Sirius as
+# well"), so the path is resolved rather than hardcoded to one host. Compute runs on
+# Sirius; hardcoding the Mac path is what made the first synthesis control fail with
+# "no Kitt Peak segment covers 4065.381 A" -- a coverage-shaped error message for what
+# was really a missing directory.
+_KP_CANDIDATES = (
+    os.environ.get("CODEX_KP_ATLAS", ""),
+    "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/"
+    "Solar Calibration/Kitt Peak Flux Atlas",
+    "/mnt/codex-data/spectra/Solar Calibration/Kitt Peak Flux Atlas",
+)
+
+
+def _resolve_kp_dir() -> Path:
+    for c in _KP_CANDIDATES:
+        if c and Path(c).is_dir() and any(Path(c).glob("lm[0-9]*")):
+            return Path(c)
+    raise SystemExit(
+        "Kitt Peak atlas not found. Looked in:\n  " + "\n  ".join(x for x in _KP_CANDIDATES if x)
+        + "\nSet CODEX_KP_ATLAS, or stage the atlas. Failing here rather than reporting "
+          "every line as 'no segment covers' -- that message described coverage when the "
+          "real fault was a missing directory.")
+
+
+KP_DIR = _resolve_kp_dir()
 
 # Regions where the terrestrial atmosphere, not the Sun, sets the flux. A line here is
 # not measurable from the ground without a telluric correction we have not applied.
