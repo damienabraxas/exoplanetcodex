@@ -801,3 +801,44 @@ Two consequences that are easy to lose:
 * **`CONTROL_TOLERANCE_DEX = 0.05`** is not a target to tune toward. RYA-561's ratification
   gate is ±0.10 dex; a harness that consumes half of that before any physics has not earned
   a frontier run.
+
+### Method control vs cross-band science — two different comparisons — RYA-713
+
+Ryan, 2026-08-09: *"It should not be forced to require the same exact value as VIS. We want
+to audit what is known in IR… We want to compare to VIS, sure, and hopefully within error
+bars it fits, but also check against what is found from other sources in the IR. And we
+document regardless."*
+
+These are different questions and only one of them may gate.
+
+| | **method control** | **cross-band / external comparison** |
+|---|---|---|
+| compares | our EW vs a banked EW | our abundance vs another determination |
+| same lines? | **yes** | no — different lines, sometimes different work |
+| same band? | **yes** (optical) | no |
+| asks | *does this tool measure what a validated tool measured?* | *does the Sun look the same from a different band or a different group?* |
+| about | the **instrument + method** | the **star and the physics** |
+| **gates?** | **yes** — `assert_controlled()` | **never** — `BandComparison` has no verdict field |
+
+**Why the second must never gate.** Requiring the IR to reproduce the optical value is
+circular: it tunes the frontier to the control and erases precisely what we are trying to
+observe. Lines in different bands form at different atmospheric depths, carry different NLTE
+departures, and sit on different gf scales. **A cross-band difference is a result.** If IR
+Fe comes back 0.08 dex above optical Fe, that is either physics or a systematic we have not
+yet named — and both are worth publishing. What is *not* acceptable is quietly forcing them
+to agree and reporting the agreement as validation.
+
+**Three comparands, all reported, none adjudicating:**
+
+* `internal-cross-band` — our IR against our own optical
+* `cross-instrument` — our Kitt Peak against our IAG on the *same* lines (all 103
+  in-aggregate IR lines have IAG coverage; not yet run)
+* `external-literature` — independent published IR determinations
+
+Enforced structurally: `assert_not_a_science_gate()` raises if `BandComparison` ever gains a
+`passed`, `verdict`, `tolerance` or `gate` field — verified by test. The moment one appears,
+someone will gate a frontier band on reproducing the optical value and the pipeline will
+begin filing real astrophysics as failures.
+
+**And we document regardless of the outcome** — agreement and disagreement are both results,
+and the appendix carries whichever occurs.
