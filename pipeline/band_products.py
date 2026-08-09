@@ -145,7 +145,8 @@ def local_continuum(w: np.ndarray, f: np.ndarray, centre: float, half_width: flo
 # A side-band pseudo-continuum this far below the atlas continuum is itself absorbed.
 # Dividing by it removes REAL line flux and biases EW low. Measured on Fe I 6910-9199:
 # lines whose side-bands sat at 0.90/0.94 lost 71% and 60% of their EW to re-normalisation.
-SIDEBAND_CLEAN_MIN = 0.99
+SIDEBAND_CLEAN_MIN = 0.97   # 0.99 fired on ordinary IR continuum (0.98) and diluted
+                            # itself; the real offenders measured 0.902/0.936/0.949
 
 
 def equivalent_width(w: np.ndarray, f: np.ndarray, centre: float, half_width: float,

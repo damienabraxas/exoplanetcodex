@@ -107,6 +107,98 @@ def window_half_width(waves: np.ndarray, centre: float,
     return float(np.clip(gap / 2.0, floor, cap))
 
 
+# ── Root-cause attribution ───────────────────────────────────────────────────
+# Ryan, 2026-08-09: "In QA, we want to find root causes. Why did it fail? What is the
+# mechanism? Is it our model? the data? Something wonky?"
+#
+# A symptom is not a cause. "GF ghost" says what we SEE; it does not say whether the
+# fault lives in the atomic data, the observation, our physics, or our method -- and
+# those four have different owners and different fixes. Every failure therefore carries
+# a FAULT DOMAIN, the MECHANISM that produces the symptom, the DISCRIMINATOR that
+# distinguished it from the alternatives, and the FIX that would resolve it.
+#
+# When the evidence does not separate two candidates we say UNKNOWN and name both.
+# A confidently wrong root cause is worse than an honest undetermined one.
+FAULT_DOMAINS = (
+    "ATOMIC-DATA",   # our line list: wrong gf, wrong wavelength, wrong species
+    "OBSERVATION",   # the spectrum: telluric, coverage gap, S/N, upstream normalisation
+    "MODEL",         # our physics: predicted depth from the wrong atmosphere/abundance
+    "METHOD",        # our measurement: window, continuum policy, EW-inversion regime
+    "UNKNOWN",
+)
+
+
+def attribute_root_cause(w, f, centre, half_width, predicted_depth, symptom,
+                         catalogue_waves) -> dict:
+    """Given a failed line, work out WHERE the fault lives and HOW it produces the symptom."""
+    cont = 1.0
+    j = int(np.argmin(np.abs(w - centre)))
+    depth_at = 1.0 - float(f[j]) / cont
+    # The caller passes the stored reason, which carries a "FEATURE-VERIFICATION: "
+    # prefix. Match on the tag itself rather than the start of the string.
+    symptom = symptom.replace("FEATURE-VERIFICATION: ", "", 1)
+
+    if symptom.startswith("GF-GHOST-ABSENT"):
+        # Discriminator: is there a feature of ABOUT THE RIGHT DEPTH nearby? If yes, the
+        # line is real and our WAVELENGTH is wrong. If nothing of that depth exists
+        # anywhere near, the gf is wrong or the species is misassigned. These are both
+        # ATOMIC-DATA faults but they have completely different fixes.
+        near = np.abs(w - centre) <= 0.6
+        if near.sum() and predicted_depth:
+            depths = 1.0 - f[near] / cont
+            k = int(np.argmax(depths))
+            best_d, best_w = float(depths[k]), float(w[near][k])
+            if 0.5 <= best_d / predicted_depth <= 2.0:
+                return dict(
+                    fault_domain="ATOMIC-DATA", mechanism="wavelength error in our line list",
+                    discriminator=(f"a feature of depth {best_d:.3f} (predicted "
+                                   f"{predicted_depth:.3f}) sits at {best_w:.3f}, "
+                                   f"{best_w - centre:+.3f} A away — the line is REAL, "
+                                   f"our position is wrong"),
+                    fix="re-source this line's wavelength from a graded reference (NIST)")
+        return dict(
+            fault_domain="ATOMIC-DATA",
+            mechanism="log gf far too strong, or the transition is assigned to the wrong species",
+            discriminator=(f"nothing within 0.6 A has a depth resembling the predicted "
+                           f"{predicted_depth:.3f}; observed at the position is {depth_at:.3f}"),
+            fix="re-adjudicate log gf against a NIST-graded source; if it survives, the "
+                "species assignment is suspect")
+
+    if symptom.startswith("BLEND-DOMINATED"):
+        # Discriminator: is the interloper in OUR catalogue? If yes, we knew about it and
+        # our window was simply too wide -- a METHOD fault we own. If no, our line list is
+        # missing a real solar line -- an ATOMIC-DATA/coverage fault.
+        m = np.abs(w - centre) <= half_width
+        i = int(np.argmin(f[m]))
+        peak = float(w[m][i])
+        known = catalogue_waves[np.abs(catalogue_waves - peak) < 0.05]
+        if len(known):
+            return dict(
+                fault_domain="METHOD",
+                mechanism="integration window wide enough to swallow a KNOWN neighbour",
+                discriminator=(f"the dominant feature at {peak:.3f} IS in our catalogue "
+                               f"({len(known)} entry/entries within 0.05 A)"),
+                fix="narrow the window, or measure by profile fitting/synthesis which "
+                    "models the neighbour instead of integrating over it")
+        return dict(
+            fault_domain="ATOMIC-DATA",
+            mechanism="a real solar line missing from our list dominates the window",
+            discriminator=(f"the dominant feature at {peak:.3f} (depth "
+                           f"{1.0 - float(f[m][i]):.3f}) has NO catalogue entry within "
+                           f"0.05 A — absence of a neighbour in our list is not absence "
+                           f"in the spectrum"),
+            fix="extend the IR line list from a graded source before measuring this region")
+
+    if "saturation ceiling" in symptom:
+        return dict(
+            fault_domain="METHOD",
+            mechanism="EW->abundance inversion runs on the flat part of the curve of growth",
+            discriminator=f"REW above {-4.9}; the line itself is real and well measured",
+            fix="measure by synthesis, which uses the profile shape rather than inverting EW")
+
+    return dict(fault_domain="UNKNOWN", mechanism="", discriminator="", fix="")
+
+
 def verify_feature(w: np.ndarray, f: np.ndarray, centre: float, half_width: float,
                    predicted_depth: float) -> tuple[bool, str]:
     """Is the thing we just integrated actually the line we asked for?
@@ -125,29 +217,44 @@ def verify_feature(w: np.ndarray, f: np.ndarray, centre: float, half_width: floa
     if m.sum() < 3:
         return False, "too few points in the window to verify"
 
-    # (a) is the deepest thing in this window AT the catalogued position?
     i = int(np.argmin(f[m]))
     peak_at = float(w[m][i])
     offset = peak_at - centre
     depth = 1.0 - f[m][i] / cont
-    if abs(offset) > max(0.05, half_width * 0.25):
-        return False, (f"deepest feature sits {offset:+.3f} A from the catalogued "
-                       f"position (depth {depth:.3f}) — the window is dominated by a "
-                       f"DIFFERENT feature, so this EW is an upper bound on a blend, "
-                       f"not this line's EW")
+    misplaced = abs(offset) > max(0.05, half_width * 0.25)
 
-    # (b) is there anything there at all?
-    if depth < 0.02:
-        return False, (f"no absorption at the catalogued position (depth {depth:.3f}) — "
-                       f"the line is absent from the spectrum or misplaced in the list")
+    # Depth AT the catalogued position, which is a different question from the depth of
+    # whatever happens to be deepest in the window. A ghost is diagnosed here.
+    j = int(np.argmin(np.abs(w - centre)))
+    depth_at = 1.0 - f[j] / cont
+    ratio = (depth_at / predicted_depth) if (predicted_depth and predicted_depth > 0) else None
 
-    # (c) does the observed depth resemble what the line parameters predict?
-    if predicted_depth and predicted_depth > 0:
-        ratio = depth / predicted_depth
-        if not (0.25 <= ratio <= 4.0):
-            return False, (f"observed depth {depth:.3f} vs predicted {predicted_depth:.3f} "
-                           f"(x{ratio:.1f}) — the line parameters and the spectrum "
-                           f"disagree; gf or identification is suspect")
+    # GF-GHOST-ABSENT: the catalogue promises a line and the Sun shows nothing there.
+    # Checked BEFORE the position test -- otherwise an absent line gets blamed on
+    # whatever neighbour happened to be deepest, which mislabels the real fault.
+    if depth_at < 0.02:
+        return False, (f"GF-GHOST-ABSENT: no absorption at the catalogued position "
+                       f"(depth {depth_at:.3f}, predicted {predicted_depth:.3f}) — the "
+                       f"line is absent from the spectrum or misplaced in the list")
+
+    # GF-GHOST: the line IS there, at the right place, but nothing like the strength the
+    # line parameters claim. That is an atomic-data fault, not a measurement fault.
+    if ratio is not None and not (0.25 <= ratio <= 4.0) and not misplaced:
+        return False, (f"GF-GHOST: observed depth {depth_at:.3f} vs predicted "
+                       f"{predicted_depth:.3f} (x{ratio:.1f}) at the correct position — "
+                       f"the spectrum and the line parameters disagree; gf or "
+                       f"identification is suspect, not the measurement")
+
+    # BLEND-DOMINATED: something else owns this window.
+    if misplaced:
+        return False, (f"BLEND-DOMINATED: deepest feature sits {offset:+.3f} A from the "
+                       f"catalogued position (depth {depth:.3f} vs {depth_at:.3f} at the "
+                       f"line) — the EW is an upper bound on a blend, not this line")
+
+    # Position right, present, but strength still off -- report it as a ghost too.
+    if ratio is not None and not (0.25 <= ratio <= 4.0):
+        return False, (f"GF-GHOST: observed depth {depth_at:.3f} vs predicted "
+                       f"{predicted_depth:.3f} (x{ratio:.1f})")
     return True, ""
 
 
@@ -187,7 +294,7 @@ def main() -> None:
     print(f"  atlas segments inventoried: {len(segs)}")
     allw = acc[(acc.element.notna())].wave_air_A.values
 
-    rows, skipped = [], []
+    rows, skipped, causes = [], [], []
     for _, r in sel.iterrows():
         why = telluric_reason(r.wave_air_A)
         if why:
@@ -215,6 +322,12 @@ def main() -> None:
             # Quarantine, not a cull (RYA-711).
             lm.in_aggregate = False
             lm.excluded_reason = f"FEATURE-VERIFICATION: {why}"
+        # Root-cause every quarantine, including the saturation ones set in __post_init__.
+        if not lm.in_aggregate:
+            rc = attribute_root_cause(w, f, float(r.wave_air_A), hw,
+                                      float(r.predicted_depth or 0.0),
+                                      lm.excluded_reason, allw)
+            causes.append(dict(wave=float(r.wave_air_A), symptom=lm.excluded_reason[:90], **rc))
         rows.append(lm)
 
     assert_single_element(rows, a.element)
@@ -224,6 +337,7 @@ def main() -> None:
     df = pd.DataFrame([{k: v for k, v in vars(l).items()} for l in rows])
     df.to_csv(out / f"{stem}_ew.csv", index=False)
     (out / f"{stem}_skipped.json").write_text(json.dumps(skipped, indent=2))
+    pd.DataFrame(causes).to_csv(out / f"{stem}_root_causes.csv", index=False)
 
     print(f"\n  measured {len(rows)}, skipped {len(skipped)}")
     if len(df):
@@ -233,6 +347,13 @@ def main() -> None:
               f"(measured and kept, excluded from aggregate only)")
     for s in skipped[:6]:
         print(f"    skip {s['wave']:.3f}: {s['reason'][:88]}")
+    if causes:
+        cf = pd.DataFrame(causes)
+        print("\n  ROOT CAUSE — where the fault actually lives:")
+        for dom, g in cf.groupby("fault_domain"):
+            print(f"    {dom:12s} {len(g):2d}")
+            for mech, gg in g.groupby("mechanism"):
+                print(f"        {len(gg):2d} x {mech}")
     print(f"\n  wrote {out / (stem + '_ew.csv')}")
 
 
