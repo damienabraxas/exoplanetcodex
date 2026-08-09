@@ -8,7 +8,7 @@ The SPP has two audiences at once: astronomers who need to see the methods, the 
 
 ## What an SPP contains
 
-Every SPP has the same twelve sections. The order does not change; a reader who knows one SPP can navigate any other.
+Every SPP has the same twelve sections plus a mandatory appendix. The order does not change; a reader who knows one SPP can navigate any other.
 
 1. **Star identity** — HD/HIP/common name, coordinates (RA/Dec, J2000), spectral type, distance, notable planets or features.
 2. **Provenance header** — Underlying frozen reference artifact (path + sha256), register version, SPP version, generator commit, release date. Every value in the report traces to a specific version of a specific artifact.
@@ -23,6 +23,37 @@ Every SPP has the same twelve sections. The order does not change; a reader who 
 11. **Data provenance** — Instruments, dates, archive IDs (ESO / MAST / KOA / CADC / TNG). Telluric correction status for any IR arm.
 12. **Method provenance** — Full engine + NLTE grid + atom + line list stack, per element. Every choice is discoverable in one table.
 
+### Appendix A — unresolved elements: the evidence (MANDATORY)
+
+Ryan, 2026-08-08: *"the SPP should either include a section for each element, or at least an appendix which explains why an element was not resolved. With plots and evidence. Just the same way we show what did work."*
+
+**Every element carrying no reported value gets an entry here, and the entry is held to the same evidential standard as a measured one.** §7 already gives anomalies equal billing and §8 plots the problem lines — but both are written from the perspective of elements that produced something. An element that produced nothing could still leave the package as a blank cell and a one-word tier, which is the one place the SPP was allowed to assert without showing.
+
+That asymmetry is not a presentational gap. A null result is a claim about the star and about our instrument, and an unexamined one hides defects: solar Al was labelled `NO_EW_POOL` and then `saturation-artifact`, and both were wrong — the actual cause was two mis-fits claiming 1.8× and 4.7× more absorbed light than the spectrum is missing. Nothing in the package would have surfaced that, because nothing required the blank to be defended.
+
+**Each entry carries, per canonical line:**
+
+- **Coverage** — is the line inside the observed range at all. State the range. An element can be unresolved simply because we never observed its best lines; solar Al 7835/7836 and 8772/8773 have zero pixels.
+- **Observed depth**, measured from the spectrum, not predicted from the line list.
+- **Integrated absorption** in the window — the light actually missing. This bounds any equivalent width claimed inside it.
+- **What each tool returned, in order** — see the ladder below.
+- **A plot of the line**, from the observed spectrum, with those numbers on it.
+
+**The tool ladder is the narrative spine.** Ryan: *"Check first tool, does it do the job? Nope, onto the next tool, did that do it? And so on."* So the entry reads as a sequence of attempts, and each rung states its own outcome:
+
+1. **EW / 1D-LTE** — always attempted, always reported, for every line. Nothing is skipped and nothing is hidden; where synthesis reports the value, the EW remains a diagnostic and is still shown.
+2. **NLTE** — the grid, its vintage, its H-collision recipe, and whether the line was inside the grid hull.
+3. **Synthesis** — the harness, the blend treatment, the fit statistic.
+
+An element is unresolved only when the ladder is exhausted, and the appendix must say **which rung it stopped on and why**. Two states are called out by name because they are the ones that hide:
+
+- **stopped early** — a rung failed and the next was never attempted;
+- **escalated without cause** — a later tool was used while an earlier one was working, which usually means nobody checked.
+
+**Generated, not written by hand.** `scripts/plot_unmeasured_lines_rya706.py` produces the figures and the per-line facts from the committed spectrum, line list, fit output and pool. Prose in this appendix interprets those numbers; it never restates them from memory, and it never sources a number from a label.
+
+**Honest about its own limits.** Where a screening heuristic flags a line rather than convicting it, the appendix says so and says what would confirm it. A triage flag presented as a verdict is the same failure as a blank cell presented as a fact.
+
 ## Voice — the standing rules
 
 The voice guide applies to every SPP, every mission log, every newsletter, every outreach post.
@@ -31,7 +62,7 @@ The voice guide applies to every SPP, every mission log, every newsletter, every
 
 **Lead with what changed and why.** Not "recent advancements in the field of stellar spectroscopy have enabled..." — instead "We measured 27 elements in the Sun. Here is what we got, where we agree with the literature, and where we don't."
 
-**Show the mess.** Discrepancies, held values, blend inflations, and elements we do not yet trust get equal billing with the wins. A report that hides the trouble spots is not science, it is marketing.
+**Show the mess.** Discrepancies, held values, blend inflations, and elements we do not yet trust get equal billing with the wins. A report that hides the trouble spots is not science, it is marketing. **A blank cell is a claim and carries the same burden of proof as a number** — Appendix A is where it is discharged.
 
 **No hedging as decoration.** "May be" and "could potentially" only when the uncertainty is real. If we are confident, say so.
 
