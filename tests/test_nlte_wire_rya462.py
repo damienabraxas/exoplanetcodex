@@ -113,8 +113,22 @@ def test_committed_verdict_counts_and_invariants():
     assert abs(by['Mn']['A_measured'] - 5.470) < 0.01
     assert by['N']['verdict'] == 'CURATION-OWED'       # RYA-556: N I NLTE grid now applied
     # RYA-564: Co moves off the untrusted blue-edge 3845 (+1.188) onto the red-line HFS
-    # synthesis (4.965, +0.025) and certifies PASS — earned by the measurement, not tuned.
+    # synthesis and certifies PASS — earned by the measurement, not tuned.
+    #
+    # RYA-695: the expected value is 4.960, not the 4.965 this test carried. The two
+    # numbers are the RYA-669 D.2 discrepancy: 4.965 was in the committed verdict, the
+    # tracker and the RYA-673 audit table, while data/results/co_synthesis_rya564.json —
+    # the harness those all describe — holds 4.960. Regenerating the verdict resolved it
+    # toward the artifact, which is the correct direction: the harness is the
+    # measurement and the verdict is a reader of it. Recorded as an observation for
+    # Ryan, not a re-derivation; nothing here re-fits Co.
     assert by['Co']['verdict'] == 'PASS'
-    assert abs(by['Co']['A_measured'] - 4.965) < 0.01
+    assert abs(by['Co']['A_measured'] - 4.960) < 0.01
+    # RYA-695: Ba II joins the PASS set at 2.237 (RYA-581 in-window deblend, wired into
+    # both phase_c and the two-engine floor by RYA-680). It supersedes the RYA-559
+    # EW->COG 2.410, which was inflated ~+0.15 by a blend_flag=True pool EW that an EW
+    # inversion cannot deblend. Ba's TIER is still `owed`, so gold freezes no Ba value.
+    assert by['Ba']['verdict'] == 'PASS'
+    assert abs(by['Ba']['A_measured'] - 2.237) < 0.01
     counts = d['summary']['counts']
-    assert counts == {'PASS': 6, 'CURATION-OWED': 20}  # NLTE-OWED emptied (556); Co PASS (564)
+    assert counts == {'PASS': 7, 'CURATION-OWED': 19}  # NLTE-OWED emptied (556); +Ba (695)

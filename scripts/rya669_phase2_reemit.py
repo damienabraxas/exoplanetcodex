@@ -50,6 +50,7 @@ sys.path.insert(0, str(ROOT))
 from config.constants import SOLAR_ASPLUND2021              # noqa: E402
 from pipeline import data_namespace as ns                   # noqa: E402
 from pipeline import element_disposition as ed              # noqa: E402
+from pipeline import ratified_constraints as rc            # noqa: E402  RYA-674/695
 from pipeline.ratified_constraints import (                 # noqa: E402  RYA-674
     assert_ratified_constraints_satisfied)
 from pipeline.engine_selection import (                     # noqa: E402
@@ -333,19 +334,28 @@ def build_diff_rows(vbase, recs_by_el, gold_v3, gerber_delta, gerber_xfail, gold
         elif species and is_ratified_excluded_species(species):
             veto = f'RYA-558/240 ratified-excluded species: {exclusion_reason(species)}'
 
+        # RYA-695: every branch declares WHERE the value came from as a structured token
+        # alongside the prose. The RYA-674 gate reads the token (see
+        # ratified_constraints.VALUE_PROVENANCE_KEY) instead of sniffing these sentences
+        # for the word "two-engine" — which the `veto` branch legitimately contains while
+        # saying the floor value was REJECTED, and which failed the whole emission.
         if el in RATIFIED:
             v4, source = phase_c_val, 'ratified/dedicated channel (phase_c); two-engine = diagnostic'
+            provenance = rc.PROVENANCE_RATIFIED
         elif veto:
             # Carry the frozen/held value through; the two-engine number stays in the
             # record as a DIAGNOSTIC and never becomes the proposal.
             v4 = _f(g['A_X']) if (g is not None and pd.notna(g.get('A_X'))) else phase_c_val
             source = f'HELD — {veto}; two-engine value recorded as diagnostic only'
+            provenance = rc.PROVENANCE_HELD
         elif te_record is not None and te_record['reported'] is not None:
             v4 = te_record['reported']
             source = (f"two-engine synthesis floor ({te_record['ion']}, "
                       f"{','.join(e.replace('engine', '') for e in (te_record['selected_engines'] or []))})")
+            provenance = rc.PROVENANCE_FLOOR
         else:
             v4, source = phase_c_val, 'phase_c (owed)'
+            provenance = rc.PROVENANCE_RATIFIED
 
         # v3 FREEZES no value on an `owed` tier (RYA-522/665): a blank A_X there is the
         # tier working, not a missing number. Reporting it as "changed" would invent a
@@ -364,6 +374,7 @@ def build_diff_rows(vbase, recs_by_el, gold_v3, gerber_delta, gerber_xfail, gold
             'delta_v4_minus_v3': (_f(v4 - v3_val) if (v4 is not None and v3_val is not None) else None),
             'verdict': vb.get('verdict', 'CURATION-OWED'),
             'source': source,
+            rc.VALUE_PROVENANCE_KEY: provenance,
             'changed_vs_v3': (v3_val is not None and v4 is not None and abs(v4 - v3_val) > 1e-9),
             'two_engine_record': te_record})
     rows.sort(key=lambda r: (TIER.get(r['verdict'], 9), -r['asplund2021']))
@@ -552,7 +563,15 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--two-engine', default=None,
                     help='fresh two-engine records (default data/audit/rya527_phase2/...)')
+    # RYA-695: Phase 3 re-emits into its OWN directory for the same reason Phase 2 did
+    # (RYA-669) — overwriting the previous emission destroys the only evidence of what
+    # the earlier floor produced, which is exactly what the diff is read against.
+    ap.add_argument('--out-dir', default=None,
+                    help='repo-relative output dir (default data/audit/rya527_phase2)')
     args = ap.parse_args()
+    out_dir = Path(args.out_dir) if args.out_dir else OUT_DIR
+    if not out_dir.is_absolute():
+        out_dir = ROOT / out_dir
     # Resolved against the repo root so a repo-relative argument and an absolute one
     # both land on the same file — git_provenance reports paths relative to the root.
     te_path = (Path(args.two_engine) if args.two_engine else TWO_ENGINE_PHASE2)
@@ -562,10 +581,10 @@ def main() -> int:
         raise SystemExit(f"fresh two-engine record not found at {te_path} — run "
                          f"scripts/rya527_two_engine_run.py --out-dir data/audit/rya527_phase2 first")
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. the fresh phase_c verdict, captured beside the run it belongs to
-    shutil.copy2(PHASE_C_LIVE, OUT_DIR / 'solar_phase_c_verdict.json')
+    shutil.copy2(PHASE_C_LIVE, out_dir / 'solar_phase_c_verdict.json')
     verdict = json.loads(PHASE_C_LIVE.read_text())
     vbase = {v['element']: v for v in verdict['verdicts']}
 
@@ -577,7 +596,7 @@ def main() -> int:
     report = ed.build_report(
         two_engine_path=te_path,
         ticket='RYA-669 per-element disposition — RYA-527 Phase 2 (fresh two-engine record)')
-    (OUT_DIR / 'element_disposition_report.json').write_text(
+    (out_dir / 'element_disposition_report.json').write_text(
         json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8')
 
     # 4. the v4 diff table against FROZEN v3
@@ -615,10 +634,14 @@ def main() -> int:
     # repo — it is what a freeze would immortalise. Gated before it is written.
     assert_ratified_constraints_satisfied(
         rows, 'RYA-669 Phase 2 re-emit / proposed gold v4 ladder')
-    (OUT_DIR / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
-    (OUT_DIR / 'proposed_gold_v4_diff.md').write_text(
+    (out_dir / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
+    (out_dir / 'proposed_gold_v4_diff.md').write_text(
         render_diff_md(rows, counts, decisions, moved))
-    (OUT_DIR / 'phase2_run_summary.md').write_text(
+    # RYA-695: the summary is named for the emission, not for RYA-669's phase. With
+    # --out-dir the same driver produces Phase 3, and a file called phase2_run_summary
+    # sitting in rya527_phase3/ is the kind of small mislabel that later gets read as
+    # evidence the directory holds Phase 2 output.
+    (out_dir / f'{out_dir.name.split("_")[-1]}_run_summary.md').write_text(
         render_summary_md(rows, counts, decisions, moved, report, stops,
                           gold_version, te_path))
 
