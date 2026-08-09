@@ -1,14 +1,20 @@
 system_name,star_params_key,hd_id,hip_id,simbad_id,spectral_type,role,is_gbs,run_order,n_known_planets,pipeline_status,linear_parent,website_slug,data_archives,source_refs,notes
-Sun,solar,,,,,calibration_anchor,false,1,,running,,sun,,,Solar Beta gate RYA-527; params pinned not solved
+Sun,solar,,,,G2V,calibration_anchor,false,1,8,running,,sun,,exoplanetcodex.org/systems (RYA-694 reconciliation),Solar Beta gate RYA-527; params pinned not solved. Public site #000.
 Procyon,procyon,,,,,benchmark,true,2,,vald_done,,procyon,,,Gaia FGK Benchmark; warm F check; run pending RYA-404
-Alpha Cen A,alpha_cen_a,,,,,science_target,true,3,,vald_done,,alpha-cen-a,,,First science target; Aug 2026 JWST deadline RYA-116
+Alpha Cen A,alpha_cen_a,128620,,,G2V,science_target,true,3,,vald_done,,alpha-cen-a,,exoplanetcodex.org/systems (RYA-694 reconciliation),First science target; Aug 2026 JWST deadline RYA-116. Public site #002.
 Alpha Cen B,alpha_cen_b,,,,,science_target,true,4,,vald_done,,alpha-cen-b,,,Cool-K dress rehearsal for 55 Cnc
-55 Cnc A,55cnc_a,,,,,science_target,false,5,,queued,,55-cnc-a,,,Flagship C/O target; pinned last per run-order rule
+55 Cnc A,55cnc_a,75732,43587,,K0IV-V,science_target,false,5,5,queued,,55-cnc-a,,exoplanetcodex.org/systems (RYA-694 reconciliation),Flagship C/O target; pinned last per run-order rule. Public site #001. IAU proper name: Copernicus; public site lists it as 'Copernicus (55 Cancri A)'.
 tau Boo,,,,,,benchmark_candidate,false,,,data_audit,,tau-boo,,,Metal-rich multi-wavelength candidate; audit RYA-415
 HD 77338,,,,,,benchmark_candidate,false,,,queued,RYA-595,hd-77338,,,55 Cnc cool-bracket; scope pending RYA-595
-HD 209458,,,,,,future_target,false,,,queued,,hd-209458,,,Future C/O campaign RYA-111
-HD 189733,,,,,,future_target,false,,,queued,,hd-189733,,,Future C/O campaign RYA-111
-tau Ceti,,,,,,future_target,false,,,queued,,tau-ceti,,,Future target; confirm GBS flag in identity pass
+HD 209458,,,108859,,G0V,future_target,false,,,queued,,hd-209458,,exoplanetcodex.org/systems (RYA-694 reconciliation),Future C/O campaign RYA-111. Public site #004.
+HD 189733,,,98505,,K2V,future_target,false,,,queued,,hd-189733,,exoplanetcodex.org/systems (RYA-694 reconciliation),Future C/O campaign RYA-111. Public site #005.
+tau Ceti,,10700,,,G8V,future_target,false,,4-5,queued,,tau-ceti,,exoplanetcodex.org/systems (RYA-694 reconciliation),Future target; confirm GBS flag in identity pass. Public site #003.
+eps Eri,,22049,16537,* eps Eri,K2V,benchmark_candidate,false,,,queued,,eps-eri,,exoplanetcodex.org/systems (RYA-694 reconciliation),"Second-K candidate for the FGK benchmark ladder (RYA-621); nearby K2V with a debris disk and a long-debated planet. is_gbs and n_known_planets are NOT asserted here - confirm against Heiter+2015/Jofre+2014 and a planet catalogue in the RYA-605 identity pass, same as tau Ceti. Public site #008."
 WASP-107,,,,,,future_target,false,,,queued,,wasp-107,,,Future C/O campaign RYA-111
 LHS 3844,,,,,,future_target,false,,,queued,,lhs-3844,,,M dwarf target RYA-163
 Barnards Star,,,,,,future_target,false,,,queued,,barnards-star,,,M dwarf target RYA-163
+Gliese 581,,,74995,GJ 581,M3V,future_target,false,,3-4,queued,,gliese-581,,exoplanetcodex.org/systems (RYA-694 reconciliation),Published on the public site but ABSENT from this catalog until RYA-694. M dwarf; not GBS. Public site #006. is_gbs NOT asserted - confirm in the RYA-605 identity pass.
+HD 89307,,89307,50473,,G0V,future_target,false,,,queued,,hd-89307,,exoplanetcodex.org/systems (RYA-694 reconciliation),Published on the public site but ABSENT from this catalog until RYA-694. Solar-analogue G0V. Public site #007. is_gbs NOT asserted - confirm in the RYA-605 identity pass.
+Proxima Centauri,,,,GJ 551,M5.5Ve,future_target,false,,3,queued,,proxima-centauri,,exoplanetcodex.org/systems (RYA-694 reconciliation),Published on the public site but ABSENT from this catalog until RYA-694. M dwarf; Alpha Cen tertiary. Public site #009. is_gbs NOT asserted - confirm in the RYA-605 identity pass.
+61 Virginis,,115617,,,G5V,future_target,false,,3,queued,,61-virginis,,exoplanetcodex.org/systems (RYA-694 reconciliation),Published on the public site but ABSENT from this catalog until RYA-694. Solar-analogue G5V. Public site #010. is_gbs NOT asserted - confirm in the RYA-605 identity pass.
+51 Pegasi,,217014,,,G2IV,future_target,false,,,queued,,51-pegasi,,exoplanetcodex.org/systems (RYA-694 reconciliation),Published on the public site but ABSENT from this catalog until RYA-694. First confirmed exoplanet around a Sun-like star. Public site #011. is_gbs NOT asserted - confirm in the RYA-605 identity pass.
