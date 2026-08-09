@@ -24,9 +24,26 @@ we own.
 
 What this module is
 -------------------
-The single source for that question. It reads `data/catalog/instrument_coverage.csv`
-and answers, for a star and a wavelength, WHICH instruments cover it — never whether
-one particular file does.
+The single source for that question. It answers, for a star and a wavelength, WHICH
+instruments cover it — never whether one particular file does.
+
+IT OWNS NO INSTRUMENT DATA. Ryan, 2026-08-09: *"we also have an instruments.csv that is
+also our source for the instruments and the wavelengths they cover."* He was right, and
+the first version of this module shipped a three-row registry of its own — duplicating a
+25-instrument, 32-column catalog that already had a loader, a validator and a test.
+`kpno_solar_atlas` was already in it at 296-1300 nm, which is exactly the 2960-13000 A
+this module then went and measured. Building a second source while fixing a
+single-source bug is the joke writing itself, so the duplicate is deleted.
+
+The division of labour, which is the catalog's own and not invented here:
+
+  * `data/catalog/instrument_catalog.csv` — WHICH INSTRUMENTS EXIST and what they cover.
+  * `data/catalog/instrument_modes.csv`   — per-mode coverage where it differs.
+  * `data/catalog/holdings_manifest_registry.csv` — WHAT WE HOLD, per system.
+
+This module joins them. Where it needs something the catalog genuinely does not carry —
+the path to a solar spectrum on this machine and how to read it — that goes in the
+HOLDINGS registry, because that is what holdings means.
 
 Three distinctions it refuses to collapse, because collapsing them is how the wrong
 answer got out:
@@ -56,44 +73,48 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
-REGISTRY = ROOT / "data" / "catalog" / "instrument_coverage.csv"
+CATALOG  = ROOT / "data" / "catalog" / "instrument_catalog.csv"
+MODES    = ROOT / "data" / "catalog" / "instrument_modes.csv"
+HOLDINGS = ROOT / "data" / "catalog" / "holdings_manifest_registry.csv"
 
-REQUIRED_COLUMNS = ("star", "instrument", "role", "host", "path", "loader",
-                    "wave_min_A", "wave_max_A", "span_status", "resolving_power",
-                    "provenance_ticket", "notes")
 VALID_HOSTS = frozenset({"mac", "sirius", "both"})
 VALID_STATUS = frozenset({"VERIFIED", "DECLARED"})
 
 
 class CoverageError(RuntimeError):
-    """The registry is missing or malformed. Never degraded to 'no coverage' — an
-    unreadable registry must not be indistinguishable from a genuine data gap, which is
-    exactly the confusion RYA-708 exists to end."""
+    """A catalog or holdings file is missing or malformed. Never degraded to 'no
+    coverage' — an unreadable registry must not be indistinguishable from a genuine
+    data gap, which is exactly the confusion this module exists to end."""
 
 
 @dataclass(frozen=True)
 class Instrument:
+    """One instrument WE HOLD DATA FOR, for one star: the catalog row joined to the
+    holdings row. Spans come from the holdings side because that is the file we would
+    actually open; the catalog span is carried alongside so the two can disagree
+    visibly rather than silently."""
     star: str
     instrument: str
-    role: str
+    instrument_id: str
     host: str
     path: str
     loader: str
     wave_min_A: float
     wave_max_A: float
     span_status: str
+    catalog_min_A: float
+    catalog_max_A: float
     resolving_power: float
     provenance_ticket: str
     notes: str
 
     @property
     def abs_path(self) -> Path:
-        p = Path(self.path)
-        return p if p.is_absolute() else ROOT / p
+        q = Path(self.path)
+        return q if q.is_absolute() else ROOT / q
 
     @property
     def reachable(self) -> bool:
-        """Present on THIS machine right now."""
         return self.abs_path.exists()
 
     def covers(self, wave_A: float) -> bool:
@@ -119,8 +140,8 @@ class CoverageAnswer:
 
     def why(self) -> str:
         if not self.covering:
-            return (f"{self.wave_A:.3f} A is outside every instrument registered for "
-                    f"{self.star} — a real data gap")
+            return (f"{self.wave_A:.3f} A is outside every instrument we hold data for "
+                    f"on {self.star} — a real data gap")
         names = ", ".join(i.instrument for i in self.covering)
         if self.reachable_here:
             here = ", ".join(i.instrument for i in self.reachable_here)
@@ -129,46 +150,54 @@ class CoverageAnswer:
                 f"present on this machine — covered, not reachable. NOT a data gap.")
 
 
-def load_registry(path: Path = REGISTRY) -> list[Instrument]:
-    if not path.exists():
-        raise CoverageError(
-            f"instrument registry not found at {path}. It is the single source for what "
-            f"spectra we own; without it a coverage question has no honest answer and "
-            f"must not be guessed (RYA-708).")
-    df = pd.read_csv(path, comment="#")
-    missing = set(REQUIRED_COLUMNS) - set(df.columns)
-    if missing:
-        raise CoverageError(f"instrument registry missing columns: {sorted(missing)}")
+def load_registry(star: str | None = None) -> list[Instrument]:
+    """Join the instrument catalog to the holdings registry. Neither file is owned here."""
+    for q in (CATALOG, HOLDINGS):
+        if not q.exists():
+            raise CoverageError(
+                f"{q} not found — it is the project's single source and this module "
+                f"deliberately keeps no copy of it (RYA-708).")
+    cat = {r["instrument_id"]: r for r in
+           pd.read_csv(CATALOG, comment="#").to_dict("records")}
+    hold = pd.read_csv(HOLDINGS, comment="#").to_dict("records")
     out: list[Instrument] = []
-    for _, r in df.iterrows():
-        host = str(r.host).strip().lower()
-        if host not in VALID_HOSTS:
-            raise CoverageError(
-                f"{r.star}/{r.instrument}: host {host!r} is not one of {sorted(VALID_HOSTS)}")
-        status = str(r.span_status).strip().upper()
-        if status not in VALID_STATUS:
-            raise CoverageError(
-                f"{r.star}/{r.instrument}: span_status {status!r} is not one of "
-                f"{sorted(VALID_STATUS)}")
-        if float(r.wave_min_A) >= float(r.wave_max_A):
-            raise CoverageError(
-                f"{r.star}/{r.instrument}: wave_min_A {r.wave_min_A} is not below "
-                f"wave_max_A {r.wave_max_A}")
-        out.append(Instrument(
-            star=str(r.star).strip(), instrument=str(r.instrument).strip(),
-            role=str(r.role).strip(), host=host, path=str(r.path).strip(),
-            loader=str(r.loader).strip(), wave_min_A=float(r.wave_min_A),
-            wave_max_A=float(r.wave_max_A), span_status=status,
-            resolving_power=float(r.resolving_power),
-            provenance_ticket=str(r.provenance_ticket).strip(),
-            notes=str(r.notes or "").strip()))
+    for h in hold:
+        if star is not None and str(h["system_id"]).strip() != star:
+            continue
+        man = ROOT / str(h["manifest_path"]).strip()
+        if not man.exists():
+            continue                      # holdings whose manifest is a per-target audit
+        rows = pd.read_csv(man, comment="#")
+        if "loader" not in rows.columns:
+            continue                      # not a spectrum-location manifest
+        iid = str(h["instrument_id"]).strip()
+        for _, r in rows[rows.instrument_id == iid].iterrows():
+            c = cat.get(iid)
+            if c is None:
+                raise CoverageError(
+                    f"holdings names instrument_id {iid!r} which is not in the catalog. "
+                    f"Register it there first — the catalog is the source for what an "
+                    f"instrument IS.")
+            host = str(r.host).strip().lower()
+            if host not in VALID_HOSTS:
+                raise CoverageError(f"{iid}: host {host!r} not in {sorted(VALID_HOSTS)}")
+            out.append(Instrument(
+                star=str(h["system_id"]).strip(), instrument=str(c["instrument_name"]).strip(),
+                instrument_id=iid, host=host, path=str(r.path).strip(),
+                loader=str(r.loader).strip(), wave_min_A=float(r.wave_min_A),
+                wave_max_A=float(r.wave_max_A), span_status=str(r.span_status).strip().upper(),
+                catalog_min_A=float(c["wavelength_min_nm"]) * 10.0,
+                catalog_max_A=float(c["wavelength_max_nm"]) * 10.0,
+                resolving_power=float(c["resolving_power_max"]),
+                provenance_ticket=str(h["source_issue_ids"]).strip(),
+                notes=str(r.get("notes") or "").strip()))
     if not out:
-        raise CoverageError(f"instrument registry at {path} has no rows")
+        raise CoverageError("no instrument holdings resolved — check the manifests")
     return out
 
 
 def instruments_for(star: str, registry: list[Instrument] | None = None) -> list[Instrument]:
-    reg = registry if registry is not None else load_registry()
+    reg = registry if registry is not None else load_registry(star)
     hits = [i for i in reg if i.star == star]
     if not hits:
         raise CoverageError(
@@ -189,8 +218,7 @@ def coverage_at(wave_A: float, star: str = "solar",
 def verify(star: str | None = None) -> int:
     """Measure the span of every reachable file and REPORT disagreement with the
     registry. Never rewrites — see the module docstring."""
-    reg = load_registry()
-    rows = [i for i in reg if star is None or i.star == star]
+    rows = load_registry(star)
     bad = 0
     print(f"{'star':7s}{'instrument':12s}{'host':8s}{'status':10s}"
           f"{'declared span':>24s}   measured")
@@ -206,20 +234,27 @@ def verify(star: str | None = None) -> int:
                        else f"MISSING at {i.path} though host={i.host} claims this machine")
             if not elsewhere:
                 bad += 1
-            print(f"{i.star:7s}{i.instrument:12s}{i.host:8s}{i.span_status:10s}"
+            print(f"{i.star:7s}{i.instrument[:26]:28s}{i.host:8s}{i.span_status:10s}"
                   f"{i.wave_min_A:10.1f}-{i.wave_max_A:.1f}   {verdict}")
             continue
         try:
             lo, hi, n = measure_span(i)
         except Exception as exc:                       # noqa: BLE001 — reported, not raised
             bad += 1
-            print(f"{i.star:7s}{i.instrument:12s}{i.host:8s}{i.span_status:10s}"
+            print(f"{i.star:7s}{i.instrument[:26]:28s}{i.host:8s}{i.span_status:10s}"
                   f"{i.wave_min_A:10.1f}-{i.wave_max_A:.1f}   UNREADABLE: {exc}")
             continue
         agree = abs(lo - i.wave_min_A) < 1.0 and abs(hi - i.wave_max_A) < 1.0
+        # The catalog and the holdings manifest are two independent statements about the
+        # same instrument. They agreed here (kpno 296-1300 nm vs a measured 2960-13000 A),
+        # but nothing was checking, and an unchecked agreement is a coincidence.
+        cat_ok = (i.catalog_min_A - 1.0) <= lo and hi <= (i.catalog_max_A + 1.0)
+        if not cat_ok:
+            print(f"{'':7s}{'':28s}{'':8s}{'':10s}{'':24s}   note: measured span falls "
+                  f"outside the CATALOG span {i.catalog_min_A:.0f}-{i.catalog_max_A:.0f} A")
         if not agree:
             bad += 1
-        print(f"{i.star:7s}{i.instrument:12s}{i.host:8s}{i.span_status:10s}"
+        print(f"{i.star:7s}{i.instrument[:26]:28s}{i.host:8s}{i.span_status:10s}"
               f"{i.wave_min_A:10.1f}-{i.wave_max_A:.1f}   {lo:.1f}-{hi:.1f} "
               f"({n} pts) {'OK' if agree else '<-- DISAGREES with the registry'}")
     if bad:
@@ -298,7 +333,7 @@ def main(argv=None) -> int:
     if args.list or not args.at:
         for i in instruments_for(args.star):
             mark = "loadable" if i.reachable else f"on {i.host} only"
-            print(f"  {i.instrument:12s} {i.wave_min_A:8.1f}-{i.wave_max_A:.1f} A  "
+            print(f"  {i.instrument[:26]:28s} {i.wave_min_A:8.1f}-{i.wave_max_A:.1f} A  "
                   f"{i.span_status:9s} R~{i.resolving_power:,.0f}  [{mark}]  {i.provenance_ticket}")
         return 0
     for w in args.at:
