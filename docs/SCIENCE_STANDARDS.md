@@ -599,3 +599,63 @@ entry. Single-source it on the registry's vocabulary — RYA-711.
 consumers — a filename change breaks readers, so it lands as one deliberate change, not
 opportunistically. **New code says `quarantine`.** No new artifact, column, or message may
 introduce the word `cull`.
+
+---
+
+## A larger error bar is a result; a hidden one is a defect — RYA-713
+
+Ryan, 2026-08-09: *"I am ok with IR having bigger Error Bars if the science backs it. we
+will be entering new science territory with our measurements and finds of host stars."*
+
+### The law
+
+**Ungraded atomic data does not disqualify a measurement. It enlarges its uncertainty, and
+that uncertainty must be stated, propagated, and attributed to its source.** Refusing to
+publish a well-measured line because its oscillator strength is ungraded is not caution —
+it discards a real observation and hides the fact that we made it.
+
+What is forbidden is the *unstated* error bar, not the large one.
+
+### The distinction that must not blur
+
+There are two different things and only one of them is an error bar:
+
+| | |
+|---|---|
+| **ungraded gf** | the central value is plausible, the uncertainty is large and quantifiable → **report with the wider bar** |
+| **wrong gf (a ghost)** | the central value is wrong — the Sun disagrees with the line list by 5× in depth → **quarantine; no error bar rescues a wrong number** |
+
+The Fe I IR pass already separates these: ghosts are quarantined with a named root cause;
+the 271 survivors are lines whose gf is merely *unverified*. Those are publishable under a
+stated budget.
+
+### How the budget must be built
+
+The gf contribution has two parts that behave completely differently, and collapsing them
+is the way an honest-looking number goes wrong:
+
+* **Random component** — line-to-line gf scatter. Averages down as `σ/√N`. With 271 lines
+  and σ_gf ≈ 0.2 dex, this contributes ≈ 0.012 dex to the mean.
+* **Systematic component** — a shared offset in the source's gf scale. **Does not average
+  down at any N.** Kurucz semi-empirical values carry known systematics (RYA-161), so this
+  is a floor, and reporting only `σ/√N` would understate the truth by an order of magnitude.
+
+So an IR product reports **both**: the observed line-to-line scatter (which is measured, and
+which also *tests* the random assumption), and the irreducible systematic floor from the gf
+source (which is asserted from the source's own literature and cannot be beaten by more
+lines).
+
+If the observed scatter is far *smaller* than the assumed random gf error, that is a finding
+in itself — either the gf values are better than their grade suggests, or something is
+suppressing the scatter, and it must be investigated rather than pocketed.
+
+### Why this matters for the mission
+
+Host stars are new territory. A measurement with a wide, honest, attributed uncertainty
+extends the record; a measurement withheld because its uncertainty is unfashionable
+extends nothing. The IR and near-UV will carry wider bars than the optical for some time,
+and saying so plainly is the science, not an apology for it.
+
+**This does not weaken the ratification gates.** A promotion to a frozen value still needs
+its evidence. What changes is that a *reported product* may carry a large stated
+uncertainty, where previously the absence of a gf grade stopped it from existing at all.
