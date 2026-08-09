@@ -842,3 +842,48 @@ begin filing real astrophysics as failures.
 
 **And we document regardless of the outcome** — agreement and disagreement are both results,
 and the appendix carries whichever occurs.
+
+### The synthesis handler and the near-UV pseudo-continuum — RYA-713
+
+`pipeline/measure/synthesis.py`. Measures an abundance by **fitting the observed flux** in a
+window at a grid of trial A(X), taking the χ² minimum — the target element's abundance is
+the only free parameter and every other species stays at the converged composition, so
+blends are **modelled rather than avoided**. It wraps `abundances_derive._synth_flux_at_abund`
+(the shared synth-v2 generator, RYA-287) rather than building a second synthesiser.
+
+**The pseudo-continuum is the near-UV's real problem, and it is not small.** Measured on the
+Kitt Peak atlas over a ±1 Å window:
+
+| band | flux median | flux p95 | envelope median |
+|---|---|---|---|
+| **near-UV 3100** | **0.193** | 0.602 | **0.287** |
+| near-UV 3400 | 0.868 | 0.991 | 0.991 |
+| near-UV 3700 | 0.854 | 0.927 | 0.926 |
+| VIS 5200 | 0.981 | 0.994 | 0.990 |
+| red-optical 8000 | 0.971 | 0.990 | 0.984 |
+
+At 3100 Å the flux never exceeds **0.70** anywhere in the window — the true continuum is
+simply not present in the data. A synthetic spectrum, by contrast, arrives on the true
+continuum. Comparing them directly compares two normalisations, and the fitted abundance
+silently absorbs the difference.
+
+**Treatment: apply the same envelope operation to both sides.** A percentile-based,
+piecewise curve through the least-absorbed pixels, so it follows real curvature rather than
+imposing a constant (at 3100 Å the envelope spans 0.194–0.680 where a flat 95th percentile
+would have used 0.602 everywhere). The definition then divides out of the comparison.
+
+**What does not divide out, and is therefore recorded on every near-UV measurement:** the
+envelope depends on the synthetic spectrum, so a residual pseudo-continuum systematic
+remains, and it **does not average down with more lines**. `PSEUDO_CONTINUUM_SYSTEMATIC_NOTE`
+travels with each result rather than being folded into the scatter.
+
+**Guards, all verified by test:** `prepare()` names every missing context key rather than
+defaulting one (an invented atmosphere or line list silently changes what is being
+measured); the NIR refuses to run unless the context declares `telluric_corrected`, because
+before correction the observed flux is not a stellar spectrum; a χ² minimum landing on the
+edge of the trial range is quarantined `FIT-RAILED` rather than reported; and every failure
+**quarantines with a reason instead of raising**, since a raised exception loses the line
+silently and a silent drop is the defect (RYA-429).
+
+**Not yet controlled.** `assert_controlled()` refuses to let it run in the near-UV or NIR
+until it reproduces the known optical answer in the VIS.
