@@ -18,6 +18,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-08-08
 
 - **RYA-699** — Al→RYA-523 (saturation, not gf), Y→RYA-683+523 (ion label + saturation), S/N/P/Cu gf rows→RYA-697 (they escalated to closed RYA-161)
+- **RYA-694** — systems catalog reconciled with the public site: 19 systems, 5 published-but-untracked added, spectral types backfilled, Copernicus recorded
 - **RYA-695** — Kitt Peak wired as Engine B (N/K/Sc); P I refused as a RAILED fit; `none-published` splits impossible tasks from unpulled grids; tracker gains chosen_engine/selection_reason/models_tried; Phase 3 re-emit, Ba 2.237
 - **RYA-690** — register header collapsed 8 lines → 1, three orphaned landings rehomed (v33/v37/v38); structure guard + SEQUENCE merge=union
 - **RYA-680 + RYA-691** — Co I (4.960) and Ba II (2.237, the RYA-581 deblend, NOT 559's 2.410) wired into _dedicated_engine_B(); `reliable` honoured at every read, silent NLTE→LTE `or` killed (was live for V); no value moved
