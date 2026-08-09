@@ -70,6 +70,19 @@ ELEMENTS = {
     # Lines: mid-optical, present in the MPIA grid so the anchor genuinely applies to THEM
     # rather than to Fe in general. If any lacks a GES level identification the deck RAISES
     # (RYA-533's silent-departure=1 trap) — that is the designed check, not a failure to avoid.
+    'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
+               grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
+               # WEAK-LINE re-gate (RYA-710). The first pass used 5194.9/5202.3/5217.4 at
+               # 155/78/130 mA -- above the 100 mA knee -- and returned CHECK at +0.0734
+               # against +0.010. Saturation could not be excluded, and the two STRONGEST
+               # lines gave the worst ratios. Ti's ratified gate used 8.6/9.7/18.6 mA, so
+               # these three (8.8/9.5/9.8 mA measured in our own pool, all present in the
+               # MPIA grid) put Fe in the SAME regime and make the two CHECKs comparable.
+               waves=[6745.100, 5491.832, 6105.127], anchor=+0.010, tol=0.05,
+
+               ref='Fe I 5194.9/5202.3/5217.4, all present in Fe_Bergemann_MPIA at the solar '
+                   'node (delta +0.012/+0.020/+0.011). Anchor = the MPIA solar Fe I median '
+                   '+0.010 over 252 lines. Solar Fe I NLTE is small and POSITIVE; Fe II ~0.'),
     # ---- Fe IR: a PRODUCT PAIR, not a gate (RYA-712/713) ----------------------
     # Fe's Engine A (Bergemann MPIA per-line table) stops at 6843.7 A, and MPIA serves
     # corrections per LINE from upstream -- so there is no anchor out here and nothing
@@ -84,19 +97,19 @@ ELEMENTS = {
                ref='Fe I IR product pair. Unmeasured, usable depth, outside O2 A-band '
                    '(7600-7640) and the 9280-9600 H2O band. 454 such lines exist in '
                    '6910-9199 A; these 4 span it. NO Engine-A comparand past 6844 A.'),
-    'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
+    # ---- Fe IR, LINE-MATCHED to Engine A (RYA-713) ----------------------------
+    # The first line-matched two-engine comparison for Fe outside the optical. These
+    # four are served by BOTH: they are in MPIA's felines[] array AND under the GES
+    # 9199.9 A level-identification limit, so Engine A and Engine B can be run on the
+    # SAME transitions rather than on two different ensembles. Engine A (live query,
+    # solar node): +0.0120 / -0.0010 / +0.0160 / +0.0120, median +0.0120.
+    'Fe_IR_matched': dict(Z=26, a_sun=7.46, atom='atom.fe607a',
+               aux='auxData_Fe_MARCS_May-07-2021.dat',
                grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
-               # WEAK-LINE re-gate (RYA-710). The first pass used 5194.9/5202.3/5217.4 at
-               # 155/78/130 mA -- above the 100 mA knee -- and returned CHECK at +0.0734
-               # against +0.010. Saturation could not be excluded, and the two STRONGEST
-               # lines gave the worst ratios. Ti's ratified gate used 8.6/9.7/18.6 mA, so
-               # these three (8.8/9.5/9.8 mA measured in our own pool, all present in the
-               # MPIA grid) put Fe in the SAME regime and make the two CHECKs comparable.
-               waves=[6745.100, 5491.832, 6105.127], anchor=+0.010, tol=0.05,
-
-               ref='Fe I 5194.9/5202.3/5217.4, all present in Fe_Bergemann_MPIA at the solar '
-                   'node (delta +0.012/+0.020/+0.011). Anchor = the MPIA solar Fe I median '
-                   '+0.010 over 252 lines. Solar Fe I NLTE is small and POSITIVE; Fe II ~0.'),
+               waves=[7491.650, 8046.070, 8293.530, 8576.500],
+               anchor=+0.0120, tol=0.05,
+               ref='Engine-A median from a LIVE MPIA query on these exact four IR lines '
+                   '(not the optical anchor transplanted). Fe I 26.01, solar node.'),
     'Mn': dict(Z=25, a_sun=5.42, atom='atom.mn281kbc', aux='auxData_MN_MARCS_Mar-15-2023.dat',
                grid='NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin',
                waves=[6013.510, 6021.800], anchor=+0.10, tol=0.06,
@@ -134,7 +147,10 @@ def sh(cmd, **kw):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True, **kw)
 
 
-def ges_lines(Z, ion, waves, tol=0.02):
+AMBIG_FACTOR = 2.0  # runner-up must be >=2x further than the match
+
+
+def ges_lines(Z, ion, waves, tol=0.05):
     """Extract the GES NLTE lines for element Z at ionisation `ion` (0=I, 1=II)
     nearest each requested wave, VERBATIM (keeps the level-identification fields).
     NOTE: the GES header encodes the species as `'  Z.000  '  STAGE  NLINES`, where
@@ -161,16 +177,28 @@ def ges_lines(Z, ion, waves, tol=0.02):
             break
         body.append(ln)
     for w in waves:
-        best, bestd = None, 1e9
+        # Two catalogues quoting the SAME transition routinely differ by 0.02-0.03 A in
+        # air wavelength (MPIA 8046.070 vs GES 8046.046). A 0.02 A window rejects real
+        # matches. But simply widening it is the RYA-704 mistake -- a coarse key silently
+        # merges distinct lines. So widen AND require the match be UNAMBIGUOUS: the
+        # runner-up must be at least AMBIG_FACTOR times further away, or absent.
+        cands = []
         for ln in body:
             try:
                 wl = float(ln.split()[0])
             except (ValueError, IndexError):
                 continue
-            if abs(wl - w) < bestd:
-                bestd, best = abs(wl - w), ln.rstrip("\n")
-        if best is None or bestd > tol:
-            raise SystemExit(f"Z={Z}: no GES line within {tol} A of {w} (nearest d={bestd:.3f})")
+            cands.append((abs(wl - w), ln.rstrip("\n")))
+        cands.sort(key=lambda t: t[0])
+        if not cands or cands[0][0] > tol:
+            nd = cands[0][0] if cands else float('nan')
+            raise SystemExit(f"Z={Z}: no GES line within {tol} A of {w} (nearest d={nd:.3f})")
+        bestd, best = cands[0]
+        if len(cands) > 1 and cands[1][0] < AMBIG_FACTOR * max(bestd, 1e-4):
+            raise SystemExit(
+                f"Z={Z}: AMBIGUOUS GES match for {w} -- nearest d={bestd:.3f} but "
+                f"runner-up d={cands[1][0]:.3f} is within {AMBIG_FACTOR}x. Refusing to "
+                f"guess which transition this is; identify it by level, not wavelength.")
         rows.append(best)
     return hdr_species, rows
 
