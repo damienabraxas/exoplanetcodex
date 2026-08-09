@@ -1,0 +1,259 @@
+{
+  "ticket": "RYA-708",
+  "question": "Ryan: 'have we done full IR where we can... Was it only Al that was lacking?'",
+  "answer": "NO. Al was not special. The committed EW pool is HARPS-ONLY.",
+  "decisive_test": {
+    "pool_lines": 808,
+    "beyond_6910A": 0,
+    "pool_span_A": [
+      3924.4,
+      6905.3
+    ],
+    "harps_span_A": [
+      3782.6,
+      6910.0
+    ],
+    "note": "every one of the 808 committed EW lines falls inside HARPS. Not one is in the IR."
+  },
+  "opportunity": {
+    "usable_IR_lines": 1466,
+    "elements": 23,
+    "definition": "predicted central depth 0.05-0.60 \u2014 deep enough to carry signal, shallow enough to stay off the flat part of the curve of growth. Al's four winners sat at 0.21-0.37, inside this window."
+  },
+  "per_element": {
+    "Al": {
+      "tier": "owed",
+      "n_pool": 2,
+      "n_optical_usable": 11,
+      "n_IR_usable": 13,
+      "best_IR": {
+        "wave": 11254.91,
+        "depth": 0.361,
+        "log_gf": 0.33
+      }
+    },
+    "C": {
+      "tier": "gold",
+      "n_pool": 4,
+      "n_optical_usable": 5,
+      "n_IR_usable": 41,
+      "best_IR": {
+        "wave": 10691.25,
+        "depth": 0.325,
+        "log_gf": 0.34
+      }
+    },
+    "Ca": {
+      "tier": "owed",
+      "n_pool": 29,
+      "n_optical_usable": 83,
+      "n_IR_usable": 61,
+      "best_IR": {
+        "wave": 7148.15,
+        "depth": 0.58,
+        "log_gf": 0.14
+      }
+    },
+    "Co": {
+      "tier": "owed",
+      "n_pool": 0,
+      "n_optical_usable": 339,
+      "n_IR_usable": 36,
+      "best_IR": {
+        "wave": 7085.0,
+        "depth": 0.427,
+        "log_gf": -1.75
+      }
+    },
+    "Cr": {
+      "tier": "gf_floor",
+      "n_pool": 80,
+      "n_optical_usable": 850,
+      "n_IR_usable": 52,
+      "best_IR": {
+        "wave": 7462.31,
+        "depth": 0.459,
+        "log_gf": 0.05
+      }
+    },
+    "Cu": {
+      "tier": "owed",
+      "n_pool": 2,
+      "n_optical_usable": 11,
+      "n_IR_usable": 2,
+      "best_IR": {
+        "wave": 8092.63,
+        "depth": 0.22,
+        "log_gf": -0.65
+      }
+    },
+    "Fe": {
+      "tier": "diagnostic",
+      "n_pool": 444,
+      "n_optical_usable": 2453,
+      "n_IR_usable": 716,
+      "best_IR": {
+        "wave": 7511.03,
+        "depth": 0.583,
+        "log_gf": 0.1
+      }
+    },
+    "K": {
+      "tier": "gold",
+      "n_pool": 0,
+      "n_optical_usable": 2,
+      "n_IR_usable": 7,
+      "best_IR": {
+        "wave": 7664.9,
+        "depth": 0.584,
+        "log_gf": -0.21
+      }
+    },
+    "Mg": {
+      "tier": "owed",
+      "n_pool": 5,
+      "n_optical_usable": 40,
+      "n_IR_usable": 81,
+      "best_IR": {
+        "wave": 8806.76,
+        "depth": 0.599,
+        "log_gf": -0.13
+      }
+    },
+    "Mn": {
+      "tier": "gold",
+      "n_pool": 9,
+      "n_optical_usable": 212,
+      "n_IR_usable": 35,
+      "best_IR": {
+        "wave": 12899.51,
+        "depth": 0.441,
+        "log_gf": -3.75
+      }
+    },
+    "Na": {
+      "tier": "owed",
+      "n_pool": 4,
+      "n_optical_usable": 26,
+      "n_IR_usable": 10,
+      "best_IR": {
+        "wave": 8194.81,
+        "depth": 0.553,
+        "log_gf": 0.07
+      }
+    },
+    "Ni": {
+      "tier": "owed",
+      "n_pool": 26,
+      "n_optical_usable": 499,
+      "n_IR_usable": 93,
+      "best_IR": {
+        "wave": 7122.19,
+        "depth": 0.536,
+        "log_gf": -0.13
+      }
+    },
+    "O": {
+      "tier": "gold",
+      "n_pool": 2,
+      "n_optical_usable": 0,
+      "n_IR_usable": 5,
+      "best_IR": {
+        "wave": 7771.94,
+        "depth": 0.166,
+        "log_gf": 0.37
+      }
+    },
+    "P": {
+      "tier": "owed",
+      "n_pool": 2,
+      "n_optical_usable": 0,
+      "n_IR_usable": 1,
+      "best_IR": {
+        "wave": 10581.58,
+        "depth": 0.062,
+        "log_gf": 0.45
+      }
+    },
+    "S": {
+      "tier": "owed",
+      "n_pool": 7,
+      "n_optical_usable": 11,
+      "n_IR_usable": 19,
+      "best_IR": {
+        "wave": 9212.86,
+        "depth": 0.373,
+        "log_gf": 0.47
+      }
+    },
+    "Si": {
+      "tier": "gf_floor",
+      "n_pool": 80,
+      "n_optical_usable": 182,
+      "n_IR_usable": 206,
+      "best_IR": {
+        "wave": 12031.5,
+        "depth": 0.531,
+        "log_gf": 0.48
+      }
+    },
+    "Sr": {
+      "tier": "owed",
+      "n_pool": 1,
+      "n_optical_usable": 4,
+      "n_IR_usable": 3,
+      "best_IR": {
+        "wave": 10327.31,
+        "depth": 0.494,
+        "log_gf": -0.25
+      }
+    },
+    "Ti": {
+      "tier": "owed",
+      "n_pool": 91,
+      "n_optical_usable": 641,
+      "n_IR_usable": 81,
+      "best_IR": {
+        "wave": 9638.3,
+        "depth": 0.438,
+        "log_gf": -0.61
+      }
+    },
+    "V": {
+      "tier": "owed",
+      "n_pool": 7,
+      "n_optical_usable": 309,
+      "n_IR_usable": 3,
+      "best_IR": {
+        "wave": 8116.6,
+        "depth": 0.063,
+        "log_gf": -1.75
+      }
+    },
+    "Y": {
+      "tier": "owed",
+      "n_pool": 3,
+      "n_optical_usable": 43,
+      "n_IR_usable": 1,
+      "best_IR": {
+        "wave": 7881.88,
+        "depth": 0.12,
+        "log_gf": -0.79
+      }
+    }
+  },
+  "IMPORTANT_CAVEATS": [
+    "'the pool has no IR' is NOT 'we have never used IR'. K I is gold via the Kitt Peak SYNTHESIS channel (RYA-695) with zero pool lines, and C/N/O run a multi-arm synthesis that already includes IR arms (RYA-491 is literally 'IR O I 844/926 + C confirm'). The finding is about the EW POOL, which is one channel of several.",
+    "1466 is a count of linelist-PREDICTED depths, not measurements. Al yielded 4 usable lines from 13 candidates, so expect a fraction, not all of them.",
+    "each line needs what Al's four needed: a line region authored from a graded source, a NIST pull for the gf, and a measurement. This is not a switch to flip.",
+    "no NLTE grid covers ANY of these wavelengths for any element, so everything recovered this way is 1D-LTE until grids exist."
+  ],
+  "highest_leverage_owed": [
+    "O  \u2014 ZERO usable optical lines, 5 in the IR (7771.94 triplet, the classic indicator)",
+    "P  \u2014 ZERO usable optical lines, 1 in the IR",
+    "Sr \u2014 only 4 usable optical against 3 IR, and the pool holds ONE line",
+    "Na \u2014 10 IR incl. 8194.81 at depth 0.553",
+    "S  \u2014 19 IR incl. 9212.86 at log gf +0.47",
+    "Ni 93 \u00b7 Mg 81 \u00b7 Ti 81 \u00b7 Ca 61 \u2014 all owed, all with large untouched IR sets"
+  ]
+}
