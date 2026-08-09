@@ -552,7 +552,15 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--two-engine', default=None,
                     help='fresh two-engine records (default data/audit/rya527_phase2/...)')
+    # RYA-695: Phase 3 re-emits into its OWN directory for the same reason Phase 2 did
+    # (RYA-669) — overwriting the previous emission destroys the only evidence of what
+    # the earlier floor produced, which is exactly what the diff is read against.
+    ap.add_argument('--out-dir', default=None,
+                    help='repo-relative output dir (default data/audit/rya527_phase2)')
     args = ap.parse_args()
+    out_dir = Path(args.out_dir) if args.out_dir else OUT_DIR
+    if not out_dir.is_absolute():
+        out_dir = ROOT / out_dir
     # Resolved against the repo root so a repo-relative argument and an absolute one
     # both land on the same file — git_provenance reports paths relative to the root.
     te_path = (Path(args.two_engine) if args.two_engine else TWO_ENGINE_PHASE2)
@@ -562,10 +570,10 @@ def main() -> int:
         raise SystemExit(f"fresh two-engine record not found at {te_path} — run "
                          f"scripts/rya527_two_engine_run.py --out-dir data/audit/rya527_phase2 first")
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. the fresh phase_c verdict, captured beside the run it belongs to
-    shutil.copy2(PHASE_C_LIVE, OUT_DIR / 'solar_phase_c_verdict.json')
+    shutil.copy2(PHASE_C_LIVE, out_dir / 'solar_phase_c_verdict.json')
     verdict = json.loads(PHASE_C_LIVE.read_text())
     vbase = {v['element']: v for v in verdict['verdicts']}
 
@@ -577,7 +585,7 @@ def main() -> int:
     report = ed.build_report(
         two_engine_path=te_path,
         ticket='RYA-669 per-element disposition — RYA-527 Phase 2 (fresh two-engine record)')
-    (OUT_DIR / 'element_disposition_report.json').write_text(
+    (out_dir / 'element_disposition_report.json').write_text(
         json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8')
 
     # 4. the v4 diff table against FROZEN v3
@@ -615,10 +623,10 @@ def main() -> int:
     # repo — it is what a freeze would immortalise. Gated before it is written.
     assert_ratified_constraints_satisfied(
         rows, 'RYA-669 Phase 2 re-emit / proposed gold v4 ladder')
-    (OUT_DIR / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
-    (OUT_DIR / 'proposed_gold_v4_diff.md').write_text(
+    (out_dir / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
+    (out_dir / 'proposed_gold_v4_diff.md').write_text(
         render_diff_md(rows, counts, decisions, moved))
-    (OUT_DIR / 'phase2_run_summary.md').write_text(
+    (out_dir / 'phase2_run_summary.md').write_text(
         render_summary_md(rows, counts, decisions, moved, report, stops,
                           gold_version, te_path))
 
