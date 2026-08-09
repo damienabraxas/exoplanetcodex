@@ -1,0 +1,67 @@
+{
+  "ticket": "RYA-708",
+  "result": "Al I \u2014 four IR lines, 1D-LTE, on repo-owned regions",
+  "status": "A REAL MEASUREMENT, and still NOT promotable: it is 1D-LTE only, because the Al_Amarsi2020 grid carries no IR wavelength. Reported as 1D-LTE, not as a final A(Al).",
+  "lines": {
+    "7835.309": {
+      "ew_mA": 45.94,
+      "ew_source": "Kitt Peak lm0780, local continuum from the 95th percentile of clean side-bands",
+      "A_1D_LTE": 6.426,
+      "log_gf": -0.689,
+      "nist_acc": "B",
+      "rew": -5.232,
+      "saturation": "unsaturated"
+    },
+    "7836.134": {
+      "ew_mA": 59.24,
+      "ew_source": "Kitt Peak lm0780, same method",
+      "A_1D_LTE": 6.429,
+      "log_gf": -0.513,
+      "nist_acc": "B+",
+      "rew": -5.121,
+      "saturation": "unsaturated"
+    },
+    "8772.866": {
+      "ew_mA": 90.0,
+      "ew_source": "INTEGRATED ABSORPTION (Kitt Peak lm0876) \u2014 an UPPER BOUND, it includes any blend",
+      "A_1D_LTE": 6.457,
+      "log_gf": -0.349,
+      "nist_acc": "B+",
+      "rew": -4.997,
+      "saturation": "just inside the -4.9 ceiling"
+    },
+    "8773.896": {
+      "ew_mA": 104.5,
+      "ew_source": "INTEGRATED ABSORPTION \u2014 upper bound",
+      "A_1D_LTE": 6.458,
+      "log_gf": -0.171,
+      "nist_acc": "B+",
+      "rew": -4.93,
+      "saturation": "AT the ceiling"
+    }
+  },
+  "aggregate": {
+    "mean_1D_LTE": 6.443,
+    "spread_dex": 0.032,
+    "n_lines": 4,
+    "within_pair_7835_7836": 0.003,
+    "within_pair_8772_8773": 0.001,
+    "between_pairs": 0.03
+  },
+  "the_comparison": "the optical pair gave 6.601 and 6.262 \u2014 spread 0.339 dex. The IR set spreads 0.032. A factor of TEN, and the within-pair agreement is 0.003 and 0.001 dex.",
+  "why_it_is_credible_and_asplund_is_not_the_reason": [
+    "FOUR independent lines, not two",
+    "TWO separate wavelength regions, 783 nm and 877 nm \u2014 a shared systematic would have to act identically 90 nm apart",
+    "TWO instruments (IAG and Kitt Peak) corroborate the depths to 1-2%",
+    "gf from a NIST pull at B (<=10%) and B+ (<=7%), against C+ (<=18%) on the optical pair",
+    "all four cleared the pipeline's own EW sanity filter, 4 in and 4 out",
+    "agreement with Asplund 2021 is CORROBORATION and is deliberately not the criterion; the lines were selected, measured and graded before any abundance was computed"
+  ],
+  "honest_caveats": [
+    "1D-LTE ONLY. No NLTE correction exists for any IR Al line. The optical NLTE deltas were -0.028 and -0.017, so an IR correction of similar size would move the mean by ~0.02 dex, but that is an ASSUMPTION about unmeasured lines and is not applied.",
+    "8772/8773 EWs are integrated absorption, i.e. UPPER bounds that include any blend. They are also the two HIGHER values (+0.027, +0.028). That is internally consistent with slight over-measurement, and a proper profile fit would likely tighten the spread further.",
+    "8773.896 sits AT the -4.9 REW ceiling, so its A is the most sensitive to saturation treatment of the four.",
+    "the region file's damping constants are INHERITED from the Al 6696 template, not derived for these transitions. Stated because it is the least-defended number in the chain."
+  ],
+  "what_changed": "the blocker was never the data. Building four line regions from the NIST pull turned a 'no region, no abundance' dead end into a four-line measurement in one step."
+}

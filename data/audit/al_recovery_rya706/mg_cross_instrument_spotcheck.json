@@ -1,0 +1,36 @@
+{
+  "ticket": "RYA-708",
+  "test": "cross-instrument spot check, Mg I 5528 vs 5711, HARPS vs Kitt Peak",
+  "scope": "SPOT CHECK ONLY \u2014 two of Mg's 317 usable lines. Not the full test.",
+  "result": {
+    "5528.405": {
+      "kp_ew": 349.58,
+      "harps_ew": 339.8,
+      "ratio": 1.029,
+      "delta_pct": 2.9,
+      "kp_depth": 0.811,
+      "kp_rew": -4.199,
+      "verdict": "instruments AGREE to 2.9%"
+    },
+    "5711.088": {
+      "kp_ew": 112.76,
+      "harps_ew": 90.94,
+      "ratio": 1.24,
+      "delta_pct": 24.0,
+      "kp_depth": 0.62,
+      "kp_rew": -4.705,
+      "verdict": "instruments DISAGREE by 24%"
+    }
+  },
+  "ruled_out": {
+    "window": "EW vs integration half-width: 0.20->106.47, 0.25->108.80, 0.30->110.39, 0.35->111.69, 0.45->112.76, 0.60->113.37 mA. Even the tightest window is +17% over HARPS, so the disagreement is not a truncation artifact.",
+    "blends": "within +/-0.6 A the only non-Mg neighbours are Ce II 5711.44 (depth 0.006) and a Pr II comb at depth 0.002. Negligible against a 0.620-deep line."
+  },
+  "the_surprise": "this is the OPPOSITE of the Al pattern. There the CLEAN line agreed across instruments (0.019 dex) and the BLENDED one disagreed (0.092). Here the strong saturated line agrees to 2.9% and the weaker cleaner one disagrees by 24%. Whatever drives it is not blending.",
+  "leading_suspect": "continuum placement / normalisation methodology. My Kitt Peak continuum for 5711 came out at 0.9809 \u2014 the neighbourhood is crowded \u2014 while the HARPS EW came from the pipeline's own normalisation. A systematically different continuum is the obvious candidate and it is NOT tested here.",
+  "what_it_does_and_does_not_settle": {
+    "does_not": "resolve the 0.234 dex discordance. 5528 is saturated (EW 339.8 mA, above the 100 mA knee) so its 7.176 comes from a SYNTHESIS fit, not the EW path \u2014 the discordance is between two METHODS on two very different lines, and an EW comparison cannot arbitrate it.",
+    "does": "show that the two instruments do NOT see Mg 5711 the same way, at 24% in equivalent width. That was unknown, and it means any Mg conclusion resting on 5711's HARPS EW rests on a number a second instrument does not reproduce."
+  },
+  "the_real_test_is_still_owed": "Mg has 317 usable lines: 40 VIS, 226 NIR/IR, 51 sub-optical. The discordance is an argument between TWO of the 40 optical ones. Mg I 8806.757 (depth 0.599, log gf -0.134) is covered by both atlases and has never been consulted. The H-band pair 15025.0/15040.2 has the best oscillator strengths in the element and lies beyond every solar arm we hold \u2014 an acquisition target, not a measurement task."
+}
