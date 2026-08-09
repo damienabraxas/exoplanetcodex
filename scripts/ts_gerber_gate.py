@@ -70,6 +70,20 @@ ELEMENTS = {
     # Lines: mid-optical, present in the MPIA grid so the anchor genuinely applies to THEM
     # rather than to Fe in general. If any lacks a GES level identification the deck RAISES
     # (RYA-533's silent-departure=1 trap) — that is the designed check, not a failure to avoid.
+    # ---- Fe IR: a PRODUCT PAIR, not a gate (RYA-712/713) ----------------------
+    # Fe's Engine A (Bergemann MPIA per-line table) stops at 6843.7 A, and MPIA serves
+    # corrections per LINE from upstream -- so there is no anchor out here and nothing
+    # to validate against. anchor=None makes that explicit rather than inventing a
+    # target. What this measures is the SIZE of the NLTE correction in the IR, not its
+    # correctness: if TS is wrong here, LTE-vs-TS shows a delta and cannot say which
+    # side is right. Window capped at 9199 A -- the GES level-identified linelist ends
+    # at 9199.9, and past it a line has no level ID so NLTE silently falls back to LTE.
+    'Fe_IR': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
+               grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
+               waves=[7212.435, 7751.108, 8526.669, 9024.369], anchor=None, tol=None,
+               ref='Fe I IR product pair. Unmeasured, usable depth, outside O2 A-band '
+                   '(7600-7640) and the 9280-9600 H2O band. 454 such lines exist in '
+                   '6910-9199 A; these 4 span it. NO Engine-A comparand past 6844 A.'),
     'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
                grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
                # WEAK-LINE re-gate (RYA-710). The first pass used 5194.9/5202.3/5217.4 at
@@ -79,6 +93,7 @@ ELEMENTS = {
                # these three (8.8/9.5/9.8 mA measured in our own pool, all present in the
                # MPIA grid) put Fe in the SAME regime and make the two CHECKs comparable.
                waves=[6745.100, 5491.832, 6105.127], anchor=+0.010, tol=0.05,
+
                ref='Fe I 5194.9/5202.3/5217.4, all present in Fe_Bergemann_MPIA at the solar '
                    'node (delta +0.012/+0.020/+0.011). Anchor = the MPIA solar Fe I median '
                    '+0.010 over 252 lines. Solar Fe I NLTE is small and POSITIVE; Fe II ~0.'),
@@ -290,10 +305,19 @@ def main():
         deltas[c] = cfg['a_sun'] - a_star
         print(f"  {el} {c:.3f}: EW_NLTE={ewn[c]:.2f} mA  A*={a_star:.4f}  delta={deltas[c]:+.4f}")
     med = float(np.median(list(deltas.values())))
-    passed = abs(med - cfg['anchor']) <= cfg['tol']
     print(f"  median delta = {med:+.4f}")
-    print(f"  anchor {cfg['anchor']:+.3f} +/- {cfg['tol']} ({cfg['ref']})")
-    print(f"  VERDICT: {'PASS' if passed else 'CHECK'}")
+    if cfg['anchor'] is None:
+        # No Engine-A comparand exists here, so there is nothing to gate against.
+        # Say so instead of manufacturing a target -- a PASS against an invented
+        # anchor would be worse than no verdict. RYA-712: LTE and TS are separate
+        # products, and the delta between them IS the reportable quantity.
+        print(f"  NO ANCHOR ({cfg['ref']})")
+        print(f"  PRODUCT PAIR: 1D-LTE vs TS-NLTE differ by {med:+.4f} dex (median)")
+        print(f"  VERDICT: REPORTED (not gated -- no Engine-A comparand in this band)")
+    else:
+        passed = abs(med - cfg['anchor']) <= cfg['tol']
+        print(f"  anchor {cfg['anchor']:+.3f} +/- {cfg['tol']} ({cfg['ref']})")
+        print(f"  VERDICT: {'PASS' if passed else 'CHECK'}")
 
 
 def _solar_node():
