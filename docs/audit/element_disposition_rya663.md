@@ -2,7 +2,7 @@
 
 **GENERATED — do not hand-edit.** Regenerate with `python scripts/gen_element_disposition.py`.
 
-Live channel: PASS **6** · CURATION-OWED **20** over 26 elements, phase_c generated 2026-07-27.
+Live channel: PASS **7** · CURATION-OWED **19** over 26 elements, phase_c generated 2026-08-08.
 
 Gates (ratified RYA-561, applied via `engine_selection.evaluate_floor_promotion`): tolerance **0.1** dex, cross-engine **0.1** dex. Gate 3 is STRICT — a missing delta fails.
 
@@ -14,7 +14,7 @@ Gates (ratified RYA-561, applied via `engine_selection.evaluate_floor_promotion`
 
 | artifact | commit | committed |
 |---|---|---|
-| `data/audit/cno_synthesis/solar_phase_c_verdict.json` | `5c1e92d` | 2026-07-27T00:13:37-06:00 |
+| `data/audit/cno_synthesis/solar_phase_c_verdict.json` | `8a8fbd6` | 2026-08-08T18:58:59-06:00 |
 | `data/audit/rya527_two_engine/solar_two_engine_records.json` | `ae518e8` | 2026-07-27T00:50:37-06:00 |
 | `data/reference/solar/solar_abundances_v1.csv` | `583cb46` | 2026-06-28T22:43:33-06:00 |
 | `data/reference/solar/solar_abundances_v3.csv` | `1f0b13b` | 2026-08-07T17:11:53-06:00 |
@@ -23,6 +23,7 @@ Gates (ratified RYA-561, applied via `engine_selection.evaluate_floor_promotion`
 
 The two-engine review artifact was committed BEFORE a live input it is read against, so every gate-3 number in this report was computed against a superseded state. This is clearable by re-running the emitter — no decision required.
 
+- data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-08T18:58:59-06:00 (8a8fbd6), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) — the review artifact was produced against an earlier state of that input
 - data/reference/solar/solar_abundances_v3.csv was committed 2026-08-07T17:11:53-06:00 (1f0b13b), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) — the review artifact was produced against an earlier state of that input
 
 ## Signal 2 — `cross_channel_disagreement` (per element) → remedy **ADJUDICATE**
@@ -56,10 +57,10 @@ Invisible to the RYA-632 ledger guard, which compares verdicts and counts but ne
 | El | verdict | bucket | A(X) | ref | dCE | g1 | g2 | g3 | remedy | blocker |
 |---|---|---|---|---|---|---|---|---|---|---|
 | Al | CURATION-OWED | owed-HELD | 7.406 | 6.430 | — | ✗ | ✗ | UNEVALUABLE | — | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Al); gate 2: |A - ref| = 0.976 > 0.1; gate 3: UNEVALUABLE — no two-engine record (the RYA-527 re-run is what produces one) |
-| Ba | CURATION-OWED | measured-awaiting-freeze | 2.410 | 2.270 | — | ✓ | ✗ | UNEVALUABLE | — | gate 2: |A - ref| = 0.140 > 0.1; gate 3: UNEVALUABLE — no two-engine record (the RYA-527 re-run is what produces one) |
+| Ba | PASS | PASS | 2.237 | 2.270 | — | — | — | n/a | — | already PASS — nothing owed |
 | C | PASS | PASS | 8.491 | 8.460 | — | — | — | n/a | — | already PASS — nothing owed |
 | Ca | CURATION-OWED | owed-HELD | 6.324 | 6.300 | 0.016 | ✓ | ✓ | OK | REGENERATE | none — promotes under the ratified three gates |
-| Co | PASS | PASS | 4.965 | 4.940 | — | — | — | n/a | — | already PASS — nothing owed |
+| Co | PASS | PASS | 4.960 | 4.940 | — | — | — | n/a | — | already PASS — nothing owed |
 | Cr | CURATION-OWED | EW-pool | 6.022 | 5.620 | -1.058 | ✗ | ✗ | FAILED | REGENERATE-then-ADJUDICATE | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Cr); gate 2: |A - ref| = 0.402 > 0.1; gate 3: |dCE| = 1.058 > 0.1 |
 | Cu | CURATION-OWED | measured-awaiting-freeze | 4.345 | 4.180 | — | ✗ | ✗ | FAILED | REGENERATE | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Cu); gate 2: |A - ref| = 0.165 > 0.1; gate 3: single-engine record — zero independent confirmation |
 | Eu | CURATION-OWED | owed-BLANK | — | 0.520 | — | ✗ | ✗ | UNEVALUABLE | — | no value exists (zero graded survivors) — needs a real line, not a decision |
@@ -84,10 +85,10 @@ Invisible to the RYA-632 ledger guard, which compares verdicts and counts but ne
 
 ## What each bucket means
 
-- **PASS** (C, Co, Fe, K, Mn, O) — already PASS — nothing owed
+- **PASS** (Ba, C, Co, Fe, K, Mn, O) — already PASS — nothing owed
 - **owed-HELD** (Al, Ca, Na, Ni, Sr, Ti) — pool survived and a value exists in gold v1, held unfrozen by the ratified RYA-522 tier. This is a PROMOTION DECISION: run the three gates.
 - **owed-BLANK** (Eu, Mg, Y, Zr) — the graded cull left ZERO survivors — there is no value to promote. Needs line-pool / gf work (a real second line), not a ratification.
-- **measured-awaiting-freeze** (Ba, Cu, N, P, S, Sc, V) — measured on a dedicated synthesis / Kitt Peak channel; the value exists but is not frozen. Clears at the RYA-527 v3 re-freeze.
+- **measured-awaiting-freeze** (Cu, N, P, S, Sc, V) — measured on a dedicated synthesis / Kitt Peak channel; the value exists but is not frozen. Clears at the RYA-527 v3 re-freeze.
 - **EW-pool** (Cr, Si) — a plain EW pool sitting at the gf floor — a TIER question (owed vs gf_floor), adjudicated against Ti/Cr/Si, not a measurement gap.
 - **upper-limit** (Li) — ratified UPPER_LIMIT disposition (RYA-563) — structurally never a PASS point value. Excluded from the flip denominator.
 

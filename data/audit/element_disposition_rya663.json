@@ -4,6 +4,15 @@
       "artifact": "data/audit/rya527_two_engine/solar_two_engine_records.json",
       "artifact_commit": "ae518e8",
       "artifact_committed": "2026-07-27T00:50:37-06:00",
+      "input": "data/audit/cno_synthesis/solar_phase_c_verdict.json",
+      "input_commit": "8a8fbd6",
+      "input_committed": "2026-08-08T18:58:59-06:00",
+      "note": "data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-08T18:58:59-06:00 (8a8fbd6), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
+    },
+    {
+      "artifact": "data/audit/rya527_two_engine/solar_two_engine_records.json",
+      "artifact_commit": "ae518e8",
+      "artifact_committed": "2026-07-27T00:50:37-06:00",
       "input": "data/reference/solar/solar_abundances_v3.csv",
       "input_commit": "1f0b13b",
       "input_committed": "2026-08-07T17:11:53-06:00",
@@ -83,27 +92,27 @@
       "verdict": "CURATION-OWED"
     },
     {
-      "atom_citation": "Ba_gerber2023.prov.json: PASS (|median-anchor|=0.032<=0.10); departures engaged.",
-      "blocker": "gate 2: |A - ref| = 0.140 > 0.1; gate 3: UNEVALUABLE \u2014 no two-engine record (the RYA-527 re-run is what produces one)",
-      "channel": "synthesis: Ba II 5853.668 HFS-resolved LTE COG (Turbospectrum, VALD3 gf loggf -1.000) + Engine-A Korotin2015 1D-NLTE delta",
+      "atom_citation": "",
+      "blocker": "already PASS \u2014 nothing owed",
+      "channel": "synthesis: Ba II 5853.668 in-window blend fit (Turbospectrum, HFS + full VALD3 in-window block, chi2 profile fit) + Engine-A Korotin2015 1D-NLTE delta",
       "cross_engine_delta": null,
       "element": "Ba",
-      "gate1": true,
-      "gate2": false,
-      "gate3_state": "UNEVALUABLE",
+      "gate1": null,
+      "gate2": null,
+      "gate3_state": "n/a",
       "n_lines": 1,
-      "owed_reason": "measured-awaiting-freeze",
-      "plan": "measured on a dedicated synthesis / Kitt Peak channel; the value exists but is not frozen. Clears at the RYA-527 v3 re-freeze.",
+      "owed_reason": "PASS",
+      "plan": "already PASS \u2014 nothing owed",
       "promoted": false,
-      "promotion_reason": "HELD: gate2 |d_ref|=0.140 > 0.1; gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
+      "promotion_reason": "",
       "provisional": false,
       "reference": 2.27,
       "remedy": "none",
       "remedy_plan": "nothing \u2014 this row read no number from the review artifact, or read a fresh one that the live channel agrees with",
       "staleness_signals": [],
-      "value": 2.41,
+      "value": 2.237,
       "value_source": "phase_c A_measured (live verdict channel)",
-      "verdict": "CURATION-OWED"
+      "verdict": "PASS"
     },
     {
       "atom_citation": "",
@@ -172,7 +181,7 @@
       "remedy": "none",
       "remedy_plan": "nothing \u2014 this row read no number from the review artifact, or read a fresh one that the live channel agrees with",
       "staleness_signals": [],
-      "value": 4.965,
+      "value": 4.96,
       "value_source": "phase_c A_measured (live verdict channel)",
       "verdict": "PASS"
     },
@@ -701,8 +710,8 @@
   "gate3_provisional_signal": "artifact_age_stale",
   "inputs": [
     {
-      "commit": "5c1e92d",
-      "committed": "2026-07-27T00:13:37-06:00",
+      "commit": "8a8fbd6",
+      "committed": "2026-08-08T18:58:59-06:00",
       "path": "data/audit/cno_synthesis/solar_phase_c_verdict.json"
     },
     {
@@ -731,8 +740,8 @@
     ],
     "co_synthesis_wired": true,
     "counts": {
-      "CURATION-OWED": 20,
-      "PASS": 6
+      "CURATION-OWED": 19,
+      "PASS": 7
     },
     "cu_v_synthesis_elements": [
       "Cu",
@@ -743,12 +752,12 @@
       "Co I 3845 (blue-edge artifact, RYA-564)"
     ],
     "diff_vs_prior": {
-      "CURATION-OWED": -1,
+      "CURATION-OWED": -2,
       "DATA-GAP": 0,
       "NLTE-OWED": -2,
-      "PASS": 3
+      "PASS": 4
     },
-    "generated": "2026-07-27",
+    "generated": "2026-08-08",
     "kittpeak_elements": [
       "Co",
       "K",
@@ -773,7 +782,7 @@
       "S"
     ],
     "s_synthesis_wired": true,
-    "solar_ref_version": "v2",
+    "solar_ref_version": "candidate:solar_abundances_corrected_candidate_rya653.csv",
     "star": "solar",
     "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "tol_pass_dex": 0.1
