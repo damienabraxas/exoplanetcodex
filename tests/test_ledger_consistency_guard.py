@@ -294,13 +294,16 @@ def test_live_gold_never_freezes_a_value_at_an_owed_tier():
 
 
 @pytest.mark.xfail(strict=True, reason=(
-    "PRE-DECLARED RED, now down to ONE documented-owed element (was six un-ratified "
-    "divergences plus two count mismatches at RYA-632). RYA-654 cleared Co/N/K/Cu by "
-    "ratification, P by fixing the stale yaml row, and both count mismatches by "
-    "generating the tracker; RYA-665's gold v3 freeze cleared Ba, whose red was the "
-    "phantom blank cause frozen into gold v2. What remains is red ON PURPOSE: Sc "
-    "(measurement-not-trusted — cleared by measuring Sc, never by an exceptions entry). "
-    "When Sc clears, this strict marker fires and must be removed deliberately."))
+    "PRE-DECLARED RED, TWO documented-owed elements (was six un-ratified divergences "
+    "plus two count mismatches at RYA-632). RYA-654 cleared Co/N/K/Cu by ratification, "
+    "P by fixing the stale yaml row, and both count mismatches by generating the "
+    "tracker. Red ON PURPOSE today: Sc (measurement-not-trusted — cleared by measuring "
+    "Sc, never by an exceptions entry) and Ba (RYA-695 GOLD-LAG — every live artifact "
+    "reads the RYA-581 deblend 2.237/PASS while frozen v3 still carries the superseded "
+    "RYA-559 2.410, because gold is write-once and v3 predates the re-measurement; "
+    "cleared by the v4 freeze, RYA-677). Ba was cleared once before, by RYA-665's v3 "
+    "freeze, and earned a NEW entry when it moved again — same shape, different "
+    "instance. When both clear, this strict marker fires and must be removed."))
 def test_live_ledger_is_consistent():
     assert run_check() == 0
 
@@ -312,13 +315,15 @@ def test_the_live_reds_are_exactly_the_documented_ones():
     The triple equality is the load-bearing part: the live offender set must equal the
     documented-owed table, so an element cannot be red without an explanation NOR carry a
     stale explanation without being red. RYA-665's v3 freeze cleared Ba on both sides at
-    once — it left the offender set and its _OWED_NOT_LAUNDERED entry was removed."""
+    once — it left the offender set and its _OWED_NOT_LAUNDERED entry was removed; RYA-695
+    re-added it, on both sides at once again, when the RYA-581 deblend moved Ba past the
+    frozen table. The triple equality is what makes that safe to do twice."""
     from pipeline.ledger_consistency_guard import _OWED_NOT_LAUNDERED
     states_by_element, tracker_counts, tallied_counts = collect_element_states()
     allowed = load_allowed_divergences()
     offenders = {e for e in states_by_element
                  if check_element(states_by_element[e], allowed)}
-    assert offenders == set(_OWED_NOT_LAUNDERED) == {"Sc"}
+    assert offenders == set(_OWED_NOT_LAUNDERED) == {"Ba", "Sc"}
     # the RYA-632 count mismatches (PASS 5 vs 6, NLTE_OWED 1 vs 0) are gone for good:
     # the tracker is generated from the same phase_c the tally is taken over.
     assert check_counts(tracker_counts, tallied_counts) == []
@@ -333,6 +338,7 @@ def test_guard_is_runnable_as_a_module():
     assert "RESULTS-LEDGER CONSISTENCY GUARD FAILED" in r.stderr
     assert "Traceback" not in r.stderr
     assert "Sc:" in r.stderr
+    assert "Ba:" in r.stderr
     # a documented red still prints its explanation AND still counts as a failure
     assert "DOCUMENTED-OWED, still failing" in r.stderr
     assert "0 undocumented" in r.stderr
