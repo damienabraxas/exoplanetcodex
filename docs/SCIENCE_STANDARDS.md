@@ -280,6 +280,50 @@ gate — so it is **deliberately left on the local iSpec install** here. Whether
 measurement leg's atmospheres to the Sirius root is an explicit architecture question for a follow-up
 ticket, not silently decided inside this one.
 
+## Abundances are reported PER INSTRUMENT and PER BAND — RYA-708
+
+Ryan, 2026-08-09: *"we will keep everything separate for now, so a KITT abundance, a HARPS abundance etc. We can do a general abundance with everything as a showcase, with uncertainty, but I think the cool science will be per instrument and Band."*
+
+### The law
+
+An element's value is carried as **(instrument × band)**, not as a single number. A combined value may be published alongside, with its uncertainty, but it is a **derived showcase** and never the primary record. Nothing may collapse the per-instrument values into the combined one and discard them.
+
+### Why — the combined number destroys the diagnostic
+
+Solar Al I, 1D-LTE, same lines and the same measurement method throughout:
+
+| line | state | HARPS (R~115k) | Kitt Peak (R~500k) | Δ |
+|---|---|---|---|---|
+| 6698.673 | clean | 6.279 | 6.260 | **−0.019** |
+| 6696.023 | Fe I 6696.315 in-window | 6.629 | 6.537 | **−0.092** |
+
+The two instruments agree to **0.019 dex** on the clean line and disagree by **0.092 dex** on the blended one — and the higher-resolution atlas returns the *lower* value, which is the direction resolving power predicts, because it charges less foreign flux to aluminium. Kitt Peak's equivalent width is 5.87 mÅ lower on the blended line and 0.82 mÅ lower on the clean one.
+
+**So the cross-instrument delta is a blend diagnostic**, arrived at with no model, no synthesis and no line list — and it independently confirms the 12.775 mÅ of Fe I the synthesis blend census found. A single averaged A(Al) contains none of that.
+
+The band split carries its own signal. Same element, same instrument:
+
+| instrument | band | lines | mean | spread |
+|---|---|---|---|---|
+| HARPS | VIS | 2 | 6.454 | 0.350 |
+| Kitt Peak | VIS | 2 | 6.399 | 0.277 |
+| Kitt Peak | NIR | 4 | **6.415** | **0.075** |
+
+The near-infrared band is roughly four times tighter than either optical set. Reporting one number hides which band earned the precision.
+
+### Why HARPS-first was right, and what actually went wrong
+
+Building against a single well-characterised instrument first is correct method: it keeps instrument systematics from being confounded with method bugs while the method is still being built. That was not the error.
+
+The error is that **the scope decision was never recorded**. "We start with HARPS" silently stopped being a starting point and became an invisible boundary — and was then reported as a property of the sky, when the unresolved-element appendix printed "NO DATA, zero pixels" for lines two atlases on disk could see. **A scope choice nobody wrote down became a physical claim.**
+
+### Standing rules
+
+1. **Per-(instrument × band) is the primary record.** A combined value is derived, labelled as such, and carries its uncertainty.
+2. **Cross-instrument agreement on a line is evidence about that line**, not noise to be averaged away. Disagreement concentrated on blended or problem lines is the system working.
+3. **Never report a scope limit as a data limit.** If a wavelength was not measured because a run used one arm, say that; "no data" means no instrument we hold reaches it.
+4. **Problem lines and problem children get the cross-instrument test first.** It costs one more measurement and needs no model, and it is the cheapest independent check the project has.
+
 ## All wavelengths, all data, all instruments, all models — RYA-708
 
 Ryan, 2026-08-09: *"all wavelengths, all data, all instruments, all the models — that is the codex way."*
