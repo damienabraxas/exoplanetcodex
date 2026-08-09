@@ -1,6 +1,6 @@
 # The Element Protocol — what "we have done this element" means
 
-**RYA-711.** Ryan, 2026-08-09: *"we create 27 tickets, for each element, and we go through
+**RYA-709.** Ryan, 2026-08-09: *"we create 27 tickets, for each element, and we go through
 each one, and verify, rerun, give it the Al treatment. If it fails, why, and document."*
 
 This is that protocol. It exists because "the Al treatment" is ambiguous, and the
