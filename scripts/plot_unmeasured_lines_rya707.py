@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-scripts/plot_unmeasured_lines_rya706.py — RYA-706
+scripts/plot_unmeasured_lines_rya707.py — RYA-707
 =================================================
 A CANONICAL LINE THAT PRODUCES NO MEASUREMENT MUST BE ABLE TO SHOW WHY.
 
