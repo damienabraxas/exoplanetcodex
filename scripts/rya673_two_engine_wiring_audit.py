@@ -68,6 +68,7 @@ from config.constants import NLTE_CORRECTION_ELEMENTS, TARGET_ELEMENTS  # noqa: 
 import pipeline.problem_children as pc                                  # noqa: E402
 from pipeline.engine_selection import (                                 # noqa: E402
     is_upper_limit_disposition, nlte_atom_validation, ratified_reported_ion)
+from pipeline.kittpeak_engine_b import SINGLE_ENGINE_REASON          # noqa: E402
 
 CSV_OUT = ROOT / 'data' / 'audit' / 'two_engine_wiring_audit.csv'
 MD_OUT = ROOT / 'docs' / 'audit' / 'two_engine_wiring_report.md'
@@ -162,7 +163,25 @@ HARNESS_RESULTS = {
     'Co': ('data/results/co_synthesis_rya564.json', 'RYA-564'),
     'Ba': ('data/results/solar_ba_synthesis_rya559.json', 'RYA-559'),
     'S':  ('data/results/solar_s_costasilva_rya492.json', 'RYA-492'),
+    # RYA-695: the Kitt Peak channel IS an Engine-B synthesis harness — every window is
+    # fitted by `cno_synthesis._fit_element`, the same Turbospectrum flux-fit engine
+    # already accepted as Engine B for C/O. RYA-673 missed this and filed four elements
+    # as `neither`. Wired via pipeline/kittpeak_engine_b.py (see WIRING_SOURCES).
+    'N':  ('data/audit/cno_synthesis/solar_kittpeak_rya460.json', 'RYA-460/556'),
+    'K':  ('data/audit/cno_synthesis/solar_kittpeak_rya460.json', 'RYA-460/462'),
+    'P':  ('data/audit/cno_synthesis/solar_kittpeak_rya460.json', 'RYA-460'),
+    'Sc': ('data/audit/cno_synthesis/solar_kittpeak_rya460.json', 'RYA-460'),
 }
+
+#: Sources searched for a harness-result reference. The orchestrator delegates some
+#: routes to pipeline modules (RYA-695 moved the Kitt Peak route into
+#: `pipeline/kittpeak_engine_b.py`), so "the orchestrator never reads it" must be
+#: judged over the wiring the orchestrator ACTUALLY executes, not one file's text.
+#: Reading only the driver would report a live, invoked route as an unwired one.
+WIRING_SOURCES = (
+    ROOT / 'scripts' / 'rya527_two_engine_run.py',
+    ROOT / 'pipeline' / 'kittpeak_engine_b.py',
+)
 
 
 def _load_orchestrator():
@@ -213,7 +232,7 @@ def synthesis_required(mod) -> set[str]:
 
 
 def audit(mod) -> list[dict]:
-    src = ORCHESTRATOR.read_text(encoding='utf-8')
+    src = '\n'.join(p.read_text(encoding='utf-8') for p in WIRING_SOURCES if p.exists())
     params = mod._solar_params()
     a_cov = mod._engine_A_perline(params)      # {(el, ion): {...lines}}
     b_cov = mod._engine_B_perline()            # {(el, ion): {...lines}}
@@ -324,8 +343,19 @@ def audit(mod) -> list[dict]:
                        f'sees, so this value has NO cross-engine confirmation and '
                        f'never can until it is wired')
 
+        # RYA-695: a species with exactly one engine is not automatically unfinished.
+        # Where the missing engine is impossible on cited evidence (line out of the
+        # instrument's range; no model atom published for either engine), that is the
+        # RATIFIED single-engine answer and belongs in the record as such — the
+        # difference between "we chose this engine and here is why" and an open
+        # acquisition ticket nobody can ever close.
+        single_engine_reason = ''
+        if status in (A_ONLY, B_ONLY) and el in SINGLE_ENGINE_REASON:
+            single_engine_reason = SINGLE_ENGINE_REASON[el]
+
         rows.append({
             'element': el, 'ion': ion,
+            'single_engine_reason': single_engine_reason,
             'engine_a_wired': a_wired, 'engine_a_reason': a_reason,
             'engine_b_wired': b_wired, 'engine_b_reason': b_reason,
             'wiring_status': status,

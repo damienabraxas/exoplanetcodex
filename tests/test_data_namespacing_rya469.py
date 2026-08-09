@@ -164,6 +164,18 @@ def test_phase_c_records_solar_ref_version_in_the_verdict():
         pytest.skip("solar verdict not generated in this checkout")
     summ = json.loads(p.read_text())['summary']
     recorded = summ['solar_ref_version']
+    # RYA-695: a run may legitimately have read a CANDIDATE rather than a frozen
+    # version — `phase_c --gold-version candidate:<file>.csv`. That exists because the
+    # RYA-681 scale guard refuses to load gold v3 (its Fe row is labelled 1D-NLTE while
+    # carrying the 3D value), so until v4 is frozen the re-emit that DECIDES the freeze
+    # has no frozen table it is allowed to read. The requirement is unchanged in spirit:
+    # the recorded token must name a real, resolvable table on disk — and a candidate
+    # must still be visibly a candidate, never laundered into looking like a version.
+    if str(recorded).startswith(ns.CANDIDATE_PREFIX):
+        cand = ns.candidate_path(str(recorded)[len(ns.CANDIDATE_PREFIX):])
+        assert cand.exists(), (
+            f"the verdict names candidate {recorded!r}, which is not on disk at {cand}")
+        return
     assert recorded in ns.list_versions(), (
         f"the verdict names gold {recorded!r}, which is not a frozen version on disk "
         f"({ns.list_versions()})")

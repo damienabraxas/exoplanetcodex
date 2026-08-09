@@ -57,6 +57,7 @@ import argparse
 import json
 import sys
 import warnings
+from collections import Counter
 from pathlib import Path
 
 warnings.filterwarnings('ignore')
@@ -77,6 +78,7 @@ from config.constants import (get_star_params, TARGET_ELEMENTS, NLTE_CORRECTION_
                               SOLAR_ASPLUND2021)
 import pipeline.problem_children as pc
 from pipeline import two_engine_inputs as tei
+from pipeline import kittpeak_engine_b as keb   # RYA-695 Engine-B route for N/K/P/Sc
 
 ROOT = Path(__file__).resolve().parent.parent
 # RYA-682: the canonical (RYA-469 namespaced) location comes from data_namespace via
@@ -485,6 +487,34 @@ def _dedicated_engine_B():
                   f"{v.get('target_reliable')}, concordant={v.get('lines_concordant')} "
                   f"(|d| {v.get('concordance_worst_abs_dex')} vs band "
                   f"{v.get('concordance_band')}) -> Mg stays single-line")
+    # ── RYA-695: N I / K I / P I / Sc II — the Kitt Peak synthesis channel ────────
+    # These four read `neither`-wired in RYA-673 and MEASURED OFF-ORCHESTRATOR: each
+    # carries a real number in the verdict produced by a channel this floor could not
+    # see. The audit's framing was wrong in a way that mattered — the Kitt Peak channel
+    # is ALREADY an Engine-B synthesis measurement. `wire_reference_atlases_rya460.py`
+    # fits every window with `cno_synthesis._fit_element`, the same Turbospectrum
+    # flux-fit engine this driver already accepts as Engine B for C and O. So these
+    # were never missing an engine, only an INVOCATION — the NO_HARNESS_INVOCATION
+    # class RYA-680 closed for Co I and Ba II.
+    #
+    # They become B_only, not both, and that is the honest outcome: their lines lie
+    # redward of HARPS-VIS (which is why RYA-459 acquired the atlas), so Engine A is
+    # out of spectral range rather than unwired, and the Gerber-2023 deck ships no N,
+    # K, P or Sc atom. See pipeline/kittpeak_engine_b.SINGLE_ENGINE_REASON.
+    kp_records = keb.kittpeak_engine_B()
+    if kp_records:
+        # One measurement, two consumers: the floor's value must equal the verdict's
+        # (RYA-680's "the floor and the verdict read the SAME barium", generalised).
+        keb.assert_matches_phase_c(kp_records)
+        for _k, _v in kp_records.items():
+            if _k in out:
+                raise DedicatedEngineBError(
+                    f"RYA-695: the Kitt Peak route and an existing dedicated route both "
+                    f"claim {_k[0]} {_k[1]}. Two Engine-B values for one species must be "
+                    f"adjudicated, never silently overwritten by dict order.")
+            out[_k] = _v
+        print(f"[two-engine] RYA-695 Kitt Peak Engine-B wired: "
+              f"{', '.join(f'{e} {i}' for e, i in sorted(kp_records))}")
     return out
 
 
@@ -621,7 +651,32 @@ def main():
             engineB_source=b_source, engineB_reliability=b_reliability,
             cross_engine_mix=rec.cross_engine_mix, mix_flagged=rec.mix_flagged,
             mean_cross_engine_delta=(round(rec.mean_cross_engine_delta, 3)
-                                     if rec.mean_cross_engine_delta is not None else None)))
+                                     if rec.mean_cross_engine_delta is not None else None),
+            # RYA-695: WHY each engine won, not just which one did.
+            #
+            # `engine_selection.select_line` has always attached a `reason` and a
+            # `regime` to every LineWinner — "clean-weak line -> 1D-NLTE", "hard line
+            # (blend/saturation/HFS) -> synthesis", "only Engine-B eligible",
+            # "indeterminate regime -> lower line-scatter sigma" — and this emitter
+            # dropped all of it, keeping only the engine names. So the artifact could
+            # say Fe I mixed both engines but not that 62 lines went to A as clean-weak
+            # while 19 went to B as blends, which is the actual selection story and the
+            # thing a reader needs to judge whether the mix is sound.
+            #
+            # Emitted as a COUNT per distinct reason (and per regime) rather than a
+            # per-line list: the per-line detail is already reconstructible from the
+            # inputs, and an 81-entry array per element would bury the summary that
+            # makes the table readable. Sorted by descending count, then text, so the
+            # artifact is diffable across runs.
+            selection_reasons=[
+                {'reason': r, 'engine': e, 'n_lines': n}
+                for (r, e), n in sorted(
+                    Counter((w.reason, w.engine) for w in rec.per_line).items(),
+                    key=lambda kv: (-kv[1], kv[0]))],
+            line_regimes=[
+                {'regime': g, 'n_lines': n}
+                for g, n in sorted(Counter(w.regime for w in rec.per_line).items(),
+                                   key=lambda kv: (-kv[1], kv[0]))]))
 
     if loud:
         raise SystemExit("RYA-525 TWO-ENGINE LOUD-FAIL (synthesis-required missing Engine-B):\n  - "
