@@ -109,7 +109,9 @@ SINGLE_ENGINE_REASON = {
            'Gerber-2023 TS deck ships no K atom.'),
     'P':  ('P I 10581/10596 is a near-IR multiplet, far redward of HARPS-VIS. Ratified '
            'LTE-only-by-design (RYA-460): no P I NLTE grid is published for either '
-           'engine and P I is near-LTE at the Sun.'),
+           'engine and P I is near-LTE at the Sun. NOTE (RYA-695): P currently emits NO '
+           'Engine-B value at all — its KP fit is status=edge_pinned and its 6.61 is the '
+           'Asplund+1.2 search bound, not a converged measurement.'),
     'Sc': ('Sc II 4246 is in range but Sc is HFS_sum treatment, so RYA-520 suppresses '
            'the raw-EW leg by design. Ratified LTE-only-by-design (RYA-460): no Sc NLTE '
            'grid exists for either engine.'),
@@ -181,6 +183,30 @@ def kittpeak_engine_B(kp=None):
                 f"Engine-B route that produced nothing must say so, not emit a partial "
                 f"mean over the windows that happened to fit.")
 
+        # ── quality gate: every window must have CONVERGED ───────────────────────
+        # Not a broken artifact (which raises) but a gated-shut route (which prints and
+        # stays silent) — the RYA-560 Zr / RYA-592 Mg pattern: wired, gated, currently
+        # producing nothing. The distinction matters because "wire it" is the wrong
+        # follow-on for a route that is already wired and correctly refusing.
+        #
+        # THIS FIRES TODAY, FOR P I, AND IT MATTERS BEYOND THIS MODULE.
+        # `wire_reference_atlases_rya460.py` fits each window over [Asplund-1.2,
+        # Asplund+1.2]. P I 10581/10596 returns status='edge_pinned' at a_1dlte = 6.61,
+        # and 5.41 + 1.2 = 6.61 EXACTLY: the fit did not measure 6.61, it RAILED against
+        # its upper search bound and stopped there. phase_c reports that number as a
+        # MEASURED value and explains the offset as "a gf-scale residual (P I near-IR gf
+        # are uncertain)" — but +1.20 is not a residual, it is the bound, and the true
+        # abundance is only bounded below by it. A railed fit is exactly what RYA-679's
+        # `railed` flag exists to refuse, so it is refused here.
+        bad = [(r.get('key'), str(r.get('status'))) for r in rows
+               if str(r.get('status')) != 'ok']
+        if bad:
+            print(f"[two-engine] RYA-695 Kitt Peak {el} HELD OUT: window(s) "
+                  f"{', '.join(f'{k}={s}' for k, s in bad)} did not converge "
+                  f"(a_1dlte {vals}; the RYA-460 fit bound is Asplund±1.2) -> {el} "
+                  f"emits NO Engine-B value and does not enter the species set")
+            continue
+
         # N is the one multi-window element, and phase_c averages the three multiplets
         # BEFORE applying NLTE (`n_cross_indicator.atomic_NI_mean`). Reproduced exactly:
         # averaging after correction would differ in the last decimal and trip the
@@ -218,12 +244,6 @@ def kittpeak_engine_B(kp=None):
 
         chi2 = [r.get('red_chi2') for r in rows]
         snr = [r.get('cont_snr') for r in rows]
-        statuses = {str(r.get('status')) for r in rows}
-        if statuses != {'ok'}:
-            raise KittPeakEngineBError(
-                f"RYA-695: {el} Kitt Peak window(s) {list(keys)} report status "
-                f"{sorted(statuses)}, not all 'ok'. A failed flux fit must not be "
-                f"averaged into an Engine-B value.")
 
         out[(el, ion)] = (
             float(value),
