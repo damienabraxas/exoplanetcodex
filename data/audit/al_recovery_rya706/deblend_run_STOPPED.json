@@ -1,0 +1,39 @@
+{
+  "ticket": "RYA-706",
+  "run": "Al I 6696.023 in-window deblend (Sirius)",
+  "outcome": "STOPPED \u2014 no result",
+  "critical_reading": "This is NOT a null result on the blend hypothesis. The fit never converged, so the hypothesis was never tested. Reporting it as 'the blend was not the cause' would be false.",
+  "evidence_the_fit_is_broken": [
+    "A_LTE railed at 6.000 \u2014 the FLOOR of the trial grid \u2014 in all 8 configurations (2 arms x 2 blend configs x 4 fit half-windows). A railed parameter is not a measurement.",
+    "deblend_shift = +0.000 dex EXACTLY, because both configurations railed to the same floor. The shift is an artifact of the railing, not a finding.",
+    "gsig = 8.0 in every fit \u2014 also railed (inherited RYA-581 Ba bound).",
+    "dv = 2.3-2.5 km/s, against MEASURED arm RVs of +0.756 (HARPS) and +0.278 (IAG) km/s. The fitter is displacing the synthetic ~2 km/s beyond the measured residual velocity.",
+    "red_chi2 226-248. Per RYA-679 red_chi2 is a rescaled residual RMS, so this is ~15% of the continuum \u2014 the synthetic and the observation do not match at all."
+  ],
+  "what_stopped_it": "the RYA-581 control-run guard: modelling the blend did not improve the fit (226.0 -> 248.04, gain 0.91). Correct behaviour \u2014 it refused to write a value.",
+  "the_real_contradiction": "the EW path says A(Al)=6.823 reproduces a 60.30 mA line; the profile fit wants BELOW 6.00 and still cannot match. Two engines disagreeing by >0.8 dex on the same line means the synthesis setup is wrong, not that Al is.",
+  "suspected_cause": "fit bounds and initialisation inherited from RYA-581, tuned for Ba II 5853 and not transferable: three parameters railed at once (A at the grid floor, gsig at 8.0, dv near 2.5). Needs the bounds re-derived for this line before the run means anything.",
+  "what_still_stands": {
+    "recovery": "Al I 6696.023 and 6698.673 are real, clean, outside the pool \u2014 unchanged",
+    "grading": "both C+ from the NIST pull \u2014 unchanged",
+    "zero_point": "canonical_gf is +0.222 dex high on both \u2014 unchanged",
+    "misassigned_grade": "the C+ on 6696.185 belongs to 6696.023 \u2014 unchanged",
+    "best_available": "A(Al) 6.823 / 6.485 from the EW path, mean 6.654, spread 0.339 \u2014 still unpromotable"
+  },
+  "blend_census_note": "the census DID run and is independent of the fit: Fe I contributes 12.775 mA of 12.82 mA total in-window blend, on a 60.30 mA line. The contaminant is real and is Fe I 6696.315. That supports the hypothesis; it does not test it.",
+  "adaptation_bugs": {
+    "found_by_reading": [
+      "HFS components: 9 rows in window, only 6 share EP 3.1427",
+      "gf rescale pointed at the known-wrong canonical_gf",
+      "stale Ba stop condition (the 2.410 test)"
+    ],
+    "found_by_guards": [
+      "Ba Korotin2015 NLTE grid applied to Al -> NaN -> STOP (no silent LTE)",
+      "control-run chi2 guard -> STOP (blend not improving the fit)"
+    ],
+    "unresolved": [
+      "fit bounds/initialisation not transferable from Ba"
+    ],
+    "lesson": "mechanically adapting a species-specific harness looked cheap and produced six defects. Two were caught only because the guards existed. The next one should parameterise the shared parts rather than copy them."
+  }
+}
