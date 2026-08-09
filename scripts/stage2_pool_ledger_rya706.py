@@ -180,15 +180,31 @@ def main(argv=None) -> int:
               & (led.chi2.astype(float) <= 0.01)].copy()
     rec = rec.sort_values(["element", "wavelength_air_A"])
 
+    # SYNTHESIS CANDIDATES -- and this class is LARGER than the recovery class, which is
+    # the answer to "does anything else need Al's treatment". A line that fits well and
+    # is deep enough, whose ONLY disqualifier is a contaminant, is not a bad measurement:
+    # it is a measurement the EW rung cannot finish and the synthesis rung can. Al I
+    # 6696.020 is the worked example -- Fe I 6696.315 at depth 0.105 against its own
+    # 0.228. Counting these separately is what stops "clean recovery" from being read as
+    # the whole opportunity.
+    syn = led[(led.drop_reason == "UNEXPLAINED")
+              & (led.n_contaminants > 0)
+              & (led.observed_depth.astype(float) >= 0.02)
+              & (led.chi2.astype(float) <= 0.01)].copy()
+    syn = syn.sort_values(["element", "wavelength_air_A"])
+
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
     led.to_csv(out / "stage2_drops.csv", index=False)
     rec.to_csv(out / "recovery_candidates.csv", index=False)
+    syn.to_csv(out / "synthesis_candidates.csv", index=False)
     summary = dict(
         ticket="RYA-706", stage="fit -> committed pool",
         staging=str(staging), staging_rows=int(len(fit)),
         pool_rows=int(len(pool)), dropped=int(len(led)),
         n_unexplained=n_unexplained,
         n_recovery_candidates=int(len(rec)),
+        n_synthesis_candidates=int(len(syn)),
+        synthesis_by_element=dict(Counter(syn.element).most_common()),
         reason_counts=dict(Counter(led.drop_reason)),
         unexplained_by_element=dict(Counter(
             led.loc[led.drop_reason == "UNEXPLAINED", "element"]).most_common()),
@@ -204,8 +220,11 @@ def main(argv=None) -> int:
     print(f"\nUNEXPLAINED: {n_unexplained}")
     for e, n in list(summary["unexplained_by_element"].items())[:12]:
         print(f"    {e:4s} {n}")
-    print(f"\nRECOVERY CANDIDATES: {len(rec)}")
+    print(f"\nRECOVERY CANDIDATES (clean, straight EW recovery): {len(rec)}")
     for e, n in summary["recovery_by_element"].items():
+        print(f"    {e:4s} {n}")
+    print(f"\nSYNTHESIS CANDIDATES (good fit, blocked ONLY by a blend): {len(syn)}")
+    for e, n in summary["synthesis_by_element"].items():
         print(f"    {e:4s} {n}")
     return 0
 
