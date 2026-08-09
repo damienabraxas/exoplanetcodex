@@ -207,6 +207,11 @@ def main() -> None:
     assert_single_element(rows, a.element)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_PROFILEFIT"
+    if a.max_lines:
+        # A SUBSET run never writes over a full one. A --max-lines smoke test
+        # silently clobbered a documented 445-line result; the fixed output path
+        # made a partial run indistinguishable from a complete one on disk.
+        stem += f"_SUBSET{a.max_lines}"
     pd.DataFrame([vars(l) for l in rows]).to_csv(out / f"{stem}_ew.csv", index=False)
     (out / f"{stem}_skipped.json").write_text(json.dumps(skipped, indent=2))
     pd.DataFrame(causes).to_csv(out / f"{stem}_root_causes.csv", index=False)
