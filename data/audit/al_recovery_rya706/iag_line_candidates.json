@@ -1,0 +1,40 @@
+{
+  "ticket": "RYA-708",
+  "measurement": "Al I candidates on the IAG arm (4047.4-10649.9 A)",
+  "arm": "IAG Reiners+2016 FTS solar flux atlas",
+  "lines": [
+    {
+      "wave_air_A": 7835.309,
+      "observed_depth": 0.211,
+      "absorbed_mA": 50.0,
+      "log_gf_linelist": -0.649,
+      "rew_upper_bound": -5.1951
+    },
+    {
+      "wave_air_A": 7836.134,
+      "observed_depth": 0.265,
+      "absorbed_mA": 65.7,
+      "log_gf_linelist": -0.494,
+      "rew_upper_bound": -5.0765
+    },
+    {
+      "wave_air_A": 8772.865,
+      "observed_depth": 0.322,
+      "absorbed_mA": 88.3,
+      "log_gf_linelist": -0.316,
+      "rew_upper_bound": -4.9972
+    },
+    {
+      "wave_air_A": 8773.896,
+      "observed_depth": 0.367,
+      "absorbed_mA": 103.1,
+      "log_gf_linelist": -0.161,
+      "rew_upper_bound": -4.9299
+    }
+  ],
+  "clean": "7835.309, 7836.134 and 8773.896 carry NO non-Al neighbour deeper than 10% of their own core within +/-0.35 A. 8772.865 has one at depth 0.089 against its own 0.322 (28%).",
+  "comparison": "the current pair is 6696.023 (depth 0.228, log gf -1.569) and 6698.673 (0.135, -1.870). Every new line is deeper AND has a stronger oscillator strength.",
+  "caution": "8773.896 sits AT the -4.9 REW linear ceiling and 8772.865 just inside it. The 7835/7836 pair is comfortably unsaturated and is the better abundance pair despite being shallower \u2014 depth is not the criterion, position on the curve of growth is.",
+  "blocked_on": "gf grades. All four carry linelist values with no NIST grade. A NIST ASD pull over 7800-8800 A would grade all four at once, the same way Ryan's 6600-6800 pull graded 6696 and 6698 at C+.",
+  "not_done": "no A(Al) computed for these. The EW->abundance path matches to iSpec GES line regions and whether those extend past 6900 A is unverified \u2014 asserting a value before checking that would repeat the gf-table mistake."
+}
