@@ -112,6 +112,19 @@ _LINE_REGIONS_ALL = str(
     ISPEC_DIR / 'input' / 'regions' / '42000_VALD' /
     'limited_but_with_missing_elements_turbospectrum_synth_good_for_abundances_all_extended.txt'
 )
+#: RYA-708 — repo-owned regions for lines the iSpec GES file does not reach.
+#:
+#: The base file above spans 4800.6-6793.3 A. Al I 7835/7836 and 8772/8773 sit 1042 and
+#: 1980 A outside it, so the EW->abundance path could not touch them however good the
+#: measurement was — a MACHINERY gap that read as a data gap.
+#:
+#: This extension is REPO-OWNED and merged at load time. It is deliberately NOT appended
+#: to the base file: that file lives in the iSpec install tree, outside the repo, and a
+#: reinstall silently wipes anything added there. That is the RYA-360 lesson (the CO
+#: molecular list lived only in the install tree and an iSpec rebuild would have erased
+#: it), and it applies identically here.
+_LINE_REGIONS_EXT = str(Path(__file__).resolve().parent.parent / 'data' / 'linelists' / 'line_regions_ir_extension_rya708.tsv')
+
 _LINE_REGIONS_FE = str(
     ISPEC_DIR / 'input' / 'regions' / '42000_VALD' /
     'turbospectrum_synth_good_for_params_codex_extended.txt'
@@ -187,6 +200,33 @@ def _ours_to_ispec_note(element: str, ion: str) -> str:
     return species_note(element, ion)
 
 
+def _merge_region_extension(regions, line_regions_path: str):
+    """Append the RYA-708 repo-owned regions to the iSpec GES set.
+
+    Only for the ALL-element file: the Fe params file is a different, deliberately
+    narrower selection and must not silently grow.
+
+    Loud on a schema mismatch. A column the base file does not have would be dropped by
+    the concatenate and the line would carry a default nobody chose — which is exactly
+    the class of silent-wrong this ticket exists to stop.
+    """
+    import os
+    if line_regions_path != _LINE_REGIONS_ALL or not os.path.exists(_LINE_REGIONS_EXT):
+        return regions
+    ext = ispec.read_line_regions(_LINE_REGIONS_EXT)
+    if set(ext.dtype.names) != set(regions.dtype.names):
+        missing = set(regions.dtype.names) - set(ext.dtype.names)
+        extra = set(ext.dtype.names) - set(regions.dtype.names)
+        raise RuntimeError(
+            f"RYA-708 region extension schema mismatch — missing {sorted(missing)}, "
+            f"extra {sorted(extra)}. Regenerate it from the base file's header; a "
+            f"silently dropped column becomes atomic data nobody chose.")
+    merged = np.hstack([regions, ext[list(regions.dtype.names)]])
+    print(f"  RYA-708: +{len(ext)} repo-owned line region(s) merged "
+          f"({', '.join(f'{float(w):.3f}' for w in ext['wave_A'])} A)")
+    return merged
+
+
 def _build_ispec_line_regions(ew_df: pd.DataFrame,
                                line_regions_path: str = _LINE_REGIONS_ALL,
                                wave_tol: float = 0.15) -> np.ndarray:
@@ -207,6 +247,7 @@ def _build_ispec_line_regions(ew_df: pd.DataFrame,
                 (wave_A in Å — note iSpec wave_peak is in nm, wave_A is in Å)
     """
     regions = ispec.read_line_regions(line_regions_path)
+    regions = _merge_region_extension(regions, line_regions_path)
     # RYA-353 single-source gf: this is the live EW→abundance gf route (store #3).
     # Overwrite each region's loggf from canonical so EW and synth read one value.
     regions = apply_to_regions(regions)
