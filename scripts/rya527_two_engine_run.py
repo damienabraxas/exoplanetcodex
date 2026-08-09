@@ -74,7 +74,7 @@ from pipeline.engine_selection import (LineEngines, select_element, ENGINE_A, EN
                                        exclusion_reason, is_upper_limit_disposition)
 from pipeline.ratified_constraints import (  # RYA-674 emission-time gate
     RowKind, assert_ratified_constraints_satisfied)
-from pipeline.reliability_contract import reliability_basis  # RYA-691, ratified RYA-701
+from pipeline.reliability_contract import reliability_basis  # RYA-691, ratified RYA-699
 from config.constants import (get_star_params, TARGET_ELEMENTS, NLTE_CORRECTION_ELEMENTS,
                               SOLAR_ASPLUND2021)
 import pipeline.problem_children as pc
@@ -142,7 +142,7 @@ def _reliability_basis(obj, what, absent_reason, key='reliable'):
     `absent_reason` is required, not optional: an artifact with no flag is a real
     and legitimate state, but only if the record says so in words.
 
-    RYA-701 moved the two basis strings into `pipeline.reliability_contract` so the
+    RYA-699 moved the two basis strings into `pipeline.reliability_contract` so the
     emission-time gate can READ back what this WRITES. The behaviour here is
     unchanged; what changed is that a module which never calls this helper can no
     longer emit an unreadable basis quietly.
