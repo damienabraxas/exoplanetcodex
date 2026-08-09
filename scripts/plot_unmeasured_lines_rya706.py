@@ -169,12 +169,15 @@ def canonical_lines(ll: pd.DataFrame, element: str) -> pd.DataFrame:
 def synthesis_required() -> dict[str, str]:
     """Elements whose value comes from SYNTHESIS, not from an equivalent width.
 
-    Ryan, 2026-08-08: *"remember we have to use synth on some of these as well."*
-    Without this the sweep is actively misleading. RYA-520 SUPPRESSES the raw-EW channel
-    for these elements on purpose — a blended, saturated or HFS-split feature cannot be
-    inverted from an EW, so the pipeline measures it by fitting the flux instead. An
-    absent EW there is the DESIGN, not a failure, and reporting it as "never fitted"
-    would manufacture 19 defects that do not exist.
+    Ryan, 2026-08-08: *"remember we have to use synth on some of these as well"* and
+    *"nothing should be suppressed."* Both are right, and the second is a correction to
+    how this was first written.
+
+    Nothing is suppressed. The EW is still measured for every line and still shown here.
+    What RYA-520 changes for these elements is which channel REPORTS the value: a
+    blended, saturated or HFS-split feature cannot be inverted from an equivalent width,
+    so the synthesis fit supersedes the EW as the reported number. The EW remains a
+    diagnostic, which is exactly why the ladder below computes it either way.
 
     Membership is read from the problem-children registry (`required_treatment`) plus the
     CNO set, exactly as `rya527_two_engine_run` computes it — never a hardcoded list here,
@@ -220,14 +223,20 @@ def fate(row, W, F, fitted: pd.DataFrame, pool_waves: set,
     out["window_n"] = int(len(win))
     out["window_absorbed"] = _integrated_absorption(W, F, w0 - ABSORB_A, w0 + ABSORB_A)
 
-    # A synthesis-required element is measured by fitting flux, not by inverting an EW.
-    # Coverage and saturation still matter — you cannot synthesise a line you did not
-    # observe — but "no EW" is the design and is reported as such.
-    if synth_note and out["depth"] < 0.90:
-        out.update(verdict="SYNTH ROUTE", colour=C_OK,
-                   why=f"EW channel suppressed by design (RYA-520): {synth_note}. "
-                       f"This line's value, if any, comes from the synthesis harness.")
-        return out
+    # THE LADDER (Ryan, 2026-08-08): "check EW / 1D / LTE, if something wonky /
+    # special / etc, then move onto our other models."
+    #
+    # So the EW verdict is computed for EVERY line, including synthesis-required ones.
+    # The earlier version returned early on `synth_note` and that was wrong in a way
+    # that matters before a freeze: it ASSUMED the escalation was warranted instead of
+    # showing it. Escalation is a consequence of the EW check, not a substitute for it,
+    # and the two cases worth catching are only visible when both are computed:
+    #
+    #   escalated, EW clean   -> why is this element on synthesis? possibly unnecessary
+    #   not escalated, EW wonky -> it should have been escalated and was not
+    #
+    # `escalation` therefore rides ALONGSIDE the verdict and never replaces it.
+    out["escalation"] = synth_note
 
     if out["depth"] >= 0.90:
         out.update(verdict="SATURATED", colour=C_SAT,
@@ -256,6 +265,17 @@ def fate(row, W, F, fitted: pd.DataFrame, pool_waves: set,
     else:
         out.update(verdict="IN POOL", colour=C_OK,
                    why=f"fitted {out['fitted_ew']:.1f} mA, kept")
+
+    ew_wonky = out["verdict"] in ("SATURATED", "OVER-SUBSCRIBED", "OVER-MEASURED")
+    if out["escalation"] and ew_wonky:
+        out["ladder"] = "ESCALATED, warranted"          # the system working
+    elif out["escalation"]:
+        out["ladder"] = "ESCALATED, EW looked usable"   # check the escalation is needed
+    elif ew_wonky:
+        out["ladder"] = "NOT ESCALATED, EW is wonky"    # the gap that matters pre-freeze
+        out["colour"] = C_BAD
+    else:
+        out["ladder"] = "EW route, clean"
     return out
 
 
@@ -270,7 +290,8 @@ def plot_element(element: str, W, F, ll, fitted, pool_waves, out_dir: Path,
     # "IN POOL" is the only verdict that means the line is fine. OVER-MEASURED and
     # OVER-SUBSCRIBED lines may well BE in the pool -- that is worse than absence,
     # not better, so they stay in the figure.
-    unmeasured = [f for f in facts if f["verdict"] not in ("IN POOL", "SYNTH ROUTE")]
+    unmeasured = [f for f in facts
+                  if f["verdict"] != "IN POOL" or f.get("ladder", "").startswith("NOT ESC")]
     # Rank IN-COVERAGE first. Sorting on predicted depth alone fills the figure with
     # far-UV lines we have never observed and never will from the ground — they are
     # the deepest entries in a VALD pull and the least informative panels here.
@@ -309,6 +330,8 @@ def plot_element(element: str, W, F, ll, fitted, pool_waves, out_dir: Path,
         lo = min(F[m].min() - 0.04, 0.96)
         ax.set_ylim(lo, 1.06); ax.set_xlim(w0 - 1.2, w0 + 1.2)
         hdr = f"{element} {f['ion']} {w0:.3f}  —  {f['verdict']}"
+        if f.get("ladder") and f["ladder"] != "EW route, clean":
+            hdr += f"   [{f['ladder']}]"
         ax.set_title(hdr, fontsize=8.5, color=f["colour"], fontweight="bold", loc="left")
         bits = [f"observed depth {f['depth']*100:.1f}%",
                 f"absorbed {f['absorbed']:.1f} mÅ in ±{WINDOW_A} Å"]
@@ -323,7 +346,7 @@ def plot_element(element: str, W, F, ll, fitted, pool_waves, out_dir: Path,
         ax.axis("off")
     head = f"{element} — canonical lines that produce no measurement"
     if synth_note:
-        head += "   [SYNTHESIS element: EW path suppressed by design]"
+        head += "   [SYNTHESIS element: EW measured, synthesis reports]"
     fig.suptitle(head,
                  fontsize=12, fontweight="bold", color=INK, x=0.01, ha="left")
     fig.text(0.01, 0.005,
@@ -373,7 +396,7 @@ def main(argv=None) -> int:
     synth = synthesis_required()
     els = args.element or owed_elements()
     ssel = sorted(set(els) & set(synth))
-    print(f"synthesis-required (EW suppressed by design, RYA-520): {ssel or 'none'}")
+    print(f"synthesis-reported (EW still measured, RYA-520): {ssel or 'none'}")
     print(f"spectrum {W.min():.1f}–{W.max():.1f} Å; {len(els)} element(s)")
     out_dir, made = Path(args.out), []
     for el in els:
