@@ -17,7 +17,9 @@
 # OWED — Kitt Peak. RYA-459/460 acquired the Tier-1 KPNO flux atlas and RYA-695 runs a
 # synthesis channel off it, but only the DERIVED artifact is findable
 # (data/audit/cno_synthesis/solar_kittpeak_rya460.json). The raw atlas is not in the repo
-# and not on Sirius under any name searched. It is therefore NOT registered: a row with a
+# and not on Sirius under any name searched. Ryan 2026-08-09: "probably got deleted but
+# should have been moved, I will check" — so this is an OPEN question, not a settled absence.
+# RYA-461 save-before-clean exists for exactly this. It is therefore NOT registered: a row with a
 # path that does not resolve is worse than an absent row, because the service would answer
 # "covered" on a file nobody can open. Locate it and add the row.
 #
@@ -26,3 +28,9 @@
 star,instrument,role,host,path,loader,wave_min_A,wave_max_A,span_status,resolving_power,provenance_ticket,notes
 solar,HARPS,primary-optical,mac,data/processed/solar_normalized.csv,csv_normalized,3782.6,6910.0,VERIFIED,115000,RYA-459/460,"the EW pool's source; normalised, air"
 solar,IAG,extended-optical-to-NIR,sirius,/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz,iag_wavenumber_gz,4047.4,10649.9,VERIFIED,700000,RYA-551,"Reiners+2016 FTS flux atlas; col0 = VACUUM WAVENUMBER cm-1, convert then vac_to_air"
+solar,KittPeak,reference-atlas-widest,mac,/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Solar Calibration/Kitt Peak Flux Atlas,kittpeak_lm_nm_dir,2960.0,13000.0,VERIFIED,400000,RYA-459/460,"251 lmNNNN files; NNNN = start wavelength in NM, col0 nm col1 norm flux. Widest solar coverage we hold"
+#
+# OWED ROWS — recorded here so they are not lost again, not registered until a loader exists:
+#   UV Composite   .../Solar Calibration/UV Composite/sun_reference_stis_002.fits  (HST/STIS)
+#   ACE-FTS IR     .../Solar Calibration/IR Reference Atlases/ACE-FTS/ace-solar-spectrum.txt
+#   Wallace telluric .../IR Reference Atlases/Wallace_telluric/  (telluric reference, not a solar arm)

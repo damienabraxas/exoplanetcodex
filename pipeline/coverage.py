@@ -48,6 +48,7 @@ module is that its answers are checkable.
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -255,6 +256,28 @@ def measure_span(inst: Instrument) -> tuple[float, float, int]:
                 except ValueError:
                     continue
         w = vac_to_air(1e8 / np.asarray(wn))
+    elif inst.loader == "kittpeak_lm_nm_dir":
+        # 251 files named lmNNNN, NNNN = START WAVELENGTH IN NM. Column 0 is nm, not A.
+        # The span is read from the file names and the first/last file's contents rather
+        # than by loading 250 MB, because this runs on every --verify.
+        import re
+        import numpy as np
+        d = inst.abs_path
+        names = sorted(f for f in os.listdir(d) if re.match(r"^lm\d+$", f))
+        if not names:
+            raise ValueError(f"no lmNNNN files under {d}")
+        def _edge(fname, last=False):
+            vals = []
+            for ln in open(d / fname):
+                q = ln.split()
+                if q:
+                    try:
+                        vals.append(float(q[0]) * 10.0)
+                    except ValueError:
+                        pass
+            return (max(vals) if last else min(vals))
+        w = np.array([_edge(names[0]), _edge(names[-1], last=True)])
+        return float(w.min()), float(w.max()), len(names)
     else:
         raise ValueError(f"unknown loader {inst.loader!r} for {inst.instrument}")
     return float(w.min()), float(w.max()), int(len(w))
