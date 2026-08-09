@@ -2109,6 +2109,48 @@ def _apply_fe2_ew_quality_cull(ew_df: pd.DataFrame) -> pd.DataFrame:
     return ew_df[keep].reset_index(drop=True)
 
 
+def _assert_instrument_stamped(df: pd.DataFrame, path) -> None:
+    """RYA-710: every measured EW names the instrument that produced it.
+
+    Ryan, 2026-08-09: *"we need to filter which instrument produced which results."*
+
+    Loud, never defaulted. Before this column existed all 808 rows were HARPS and
+    nothing said so — and the file therefore could not distinguish "we only ever used
+    one instrument" from "this is what the sky offers". That ambiguity is exactly how a
+    single-instrument pool stayed invisible while two atlases sat unused on disk, and how
+    a scope limit got reported as a data limit. Defaulting a blank to 'harps' here would
+    rebuild the same blind spot with a friendlier face.
+
+    The instrument_id is checked against the catalog, so a typo cannot invent an arm.
+    """
+    if 'instrument' not in df.columns:
+        raise ValueError(
+            f"{path} has no `instrument` column. Every measurement must name the "
+            f"instrument that produced it (RYA-710) — an unstamped pool cannot be split "
+            f"per instrument, and per-(instrument x band) reporting is ratified. Add the "
+            f"column; do not assume the historical single instrument.")
+    blank = df['instrument'].isna() | (df['instrument'].astype(str).str.strip() == '')
+    if blank.any():
+        rows = df.loc[blank, 'wavelength_air_A'].head(5).tolist()
+        raise ValueError(
+            f"{path}: {int(blank.sum())} row(s) have a blank `instrument` (e.g. {rows}). "
+            f"This is a loud failure by design — a defaulted instrument is the silent "
+            f"assumption RYA-710 exists to end.")
+    try:
+        import csv as _csv
+        cat = {r['instrument_id'] for r in _csv.DictReader(
+            open(Path(__file__).resolve().parent.parent /
+                 'data' / 'catalog' / 'instrument_catalog.csv'))}
+    except Exception:                      # catalog unreadable is a different failure
+        return
+    unknown = sorted(set(df['instrument'].astype(str).str.strip()) - cat)
+    if unknown:
+        raise ValueError(
+            f"{path}: instrument id(s) {unknown} are not in "
+            f"data/catalog/instrument_catalog.csv. Register the instrument there first — "
+            f"the catalog is the single source for what an instrument is (RYA-708).")
+
+
 def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
     """
     Load solar EWs for abundance derivation using a hybrid approach:
@@ -2153,9 +2195,12 @@ def _load_solar_ews(ew_override: str = None) -> pd.DataFrame:
             f"back to the gitignored staging file data/processed/solar_ew.csv. Restore the "
             f"canonical or run scripts/promote_solar_ew.py to promote a reviewed staging set."
         )
-    solar_ew = pd.read_csv(str(canon_path))
+    solar_ew = pd.read_csv(str(canon_path), comment='#')
+    _assert_instrument_stamped(solar_ew, canon_path)
     solar_ew = solar_ew[(solar_ew['ew_mA'] > 0) & solar_ew['ew_mA'].notna()].copy()
-    print(f"  canonical sol_ew_results_v1.csv: {len(solar_ew)} lines total")
+    by_inst = solar_ew.groupby('instrument').size().to_dict()
+    print(f"  canonical sol_ew_results_v1.csv: {len(solar_ew)} lines total "
+          f"({', '.join(f'{k}={v}' for k, v in sorted(by_inst.items()))})")
 
     # GES Fe I reference is committed in data/processed (force-added past the gitignore).
     ges_ref_path = Path(str(PATHS['solar_ew'])).parent / 'solar_ew_ges_reference.csv'
