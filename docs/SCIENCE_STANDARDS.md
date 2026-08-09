@@ -659,3 +659,36 @@ and saying so plainly is the science, not an apology for it.
 **This does not weaken the ratification gates.** A promotion to a frozen value still needs
 its evidence. What changes is that a *reported product* may carry a large stated
 uncertainty, where previously the absence of a gf grade stopped it from existing at all.
+
+### The optical is the control; the IR and near-UV are the frontier — and they need each other
+
+Ryan, 2026-08-09: *"we want what we know to be close right? Fe in Visible should be pretty
+dang close to Asplund."* And: *"but in IR and UV it is the wild wild west."*
+
+Both statements are load-bearing, and together they define how a wide error bar earns trust:
+
+**The optical can falsify the method.** A(Fe) is known there — Asplund 2021 gives 7.46, our
+own banked 1D-NLTE anchor is 7.466 (RYA-553), and 808 HARPS lines stand behind it. So when a
+new harness runs on optical Fe, **it must reproduce that**. There is no wide-error-bar
+defence available: a method that cannot recover a known answer in the band where the answer
+is known has not earned the right to report an unknown one anywhere else.
+
+**The IR and near-UV cannot falsify it.** There is no reference value to miss. Whatever we
+report is, for many of these lines, the first number anyone has published — which means the
+uncertainty is doing all the work, and nothing external will catch us if it is wrong.
+
+**Therefore the optical control is a precondition, not a courtesy.** Before any frontier band
+is reported, the *same harness, same code path, same continuum policy* must be shown to
+reproduce the known optical answer. That agreement is what licenses the frontier number; the
+error bar alone does not.
+
+Practically this makes every element's protocol two-legged:
+
+| leg | band | test | what failure means |
+|---|---|---|---|
+| **control** | optical | reproduce the known A(X) | **the method is broken** — fix before proceeding |
+| **frontier** | IR / near-UV | report with a stated, attributed budget | a wide bar is a result, not a failure |
+
+The control leg also *calibrates* the frontier budget: the optical residual against a known
+answer is a direct measurement of the harness's own systematic, and that term belongs in the
+frontier error budget rather than being assumed to be zero.
