@@ -187,7 +187,40 @@ def _normalise(row: Any, kind: str) -> EmissionRow:
         raw=row)
 
 
+#: RYA-695 — an emitter may declare value provenance STRUCTURALLY instead of leaving
+#: it to substring detection over prose.
+#:
+#: WHY. `_FLOOR_SOURCE_MARKERS` matches substrings in free text assembled from
+#: `source`/`note`/`channel`/…. That is fragile in one specific way, now observed: a row
+#: whose source text EXPLAINS that it did *not* adopt the floor value still contains the
+#: phrase "two-engine". The RYA-527 ladder's upper-limit branch emits
+#:
+#:     "HELD — RYA-563 UPPER_LIMIT disposition …; two-engine value recorded as
+#:      diagnostic only"
+#:
+#: — a correct row, held at gold's frozen 0.727, saying in words that the floor value
+#: was rejected — and the detector read the word "two-engine" and failed it. RYA-674's
+#: gate and RYA-669's ladder had never run together before RYA-695, so nothing caught
+#: it. Rewording the sentence would fix this instance and leave the trap armed for the
+#: next person who mentions the floor while declining it.
+#:
+#: A declared token is AUTHORITATIVE; prose sniffing remains the default for emitters
+#: that declare nothing, so no existing call site loses coverage. This narrows the check
+#: to what it always meant — where did this value COME FROM — without weakening it: a
+#: row that declares `two_engine_floor` is still refused, and a row that lies about its
+#: provenance is a different (and louder) defect than a row that is merely descriptive.
+VALUE_PROVENANCE_KEY = 'value_provenance'
+PROVENANCE_FLOOR = 'two_engine_floor'        # adopted FROM the reference-blind floor
+PROVENANCE_HELD = 'held_ratified_channel'    # carried from a frozen/held ratified value
+PROVENANCE_RATIFIED = 'ratified_channel'     # from phase_c / a dedicated harness
+_PROVENANCE_TOKENS = frozenset(
+    {PROVENANCE_FLOOR, PROVENANCE_HELD, PROVENANCE_RATIFIED})
+
+
 def _looks_floor_sourced(row: EmissionRow) -> bool:
+    declared = str(row.raw.get(VALUE_PROVENANCE_KEY) or '').strip().lower()
+    if declared in _PROVENANCE_TOKENS:
+        return declared == PROVENANCE_FLOOR
     return any(m in row.source_text for m in _FLOOR_SOURCE_MARKERS)
 
 
