@@ -294,6 +294,25 @@ The reported product key is **(instrument × band × engine)**. LTE and each NLT
 
 This **narrows RYA-525's element aggregation**. The two-engine floor computes the reported value as an inverse-variance combine of the per-LINE winners, so one number could be part Engine A and part Engine B. That is exactly the mixing this rule forbids at the reporting layer.
 
+### Where this rule came from — it is older than it looks
+
+This was not invented on 2026-08-09. **RYA-489** (2026-06-30) already required per-arm σ reported by wavelength rather than collapsed, and carried the arm-boundary table that RYA-708 independently re-derived from `data/catalog/instrument_catalog.csv` two months later. **RYA-307** (2026-06-14) already made regime a first-class provenance layer. The conventions existed; the *EW pool* never honoured them — 808 lines, one instrument, nothing past 6910 Å.
+
+What 2026-08-09 actually changed is narrower than a new rule, and it is worth stating precisely because all three prior issues share one defect: **they key the product on fewer axes than reality has.**
+
+| issue | keys the product on | missing |
+| --- | --- | --- |
+| RYA-307 | star, with regime beneath | **engine** (postdates it — RYA-525) |
+| RYA-306 | star × element × ion | **arm** and **engine** |
+| RYA-489 | arm | **engine** |
+
+Two substantive amendments follow, both recorded on the issues themselves:
+
+1. **RYA-489 §3.2 is inverted.** It made the inverse-variance combined number the headline with the per-arm breakdown beneath. The per-(arm × engine) products *are* the product; a combined number is subordinate and derived. Combination stays legal **across arms within one engine** (RYA-237) and is illegal **across engines**.
+2. **RYA-307 §2's premise is false as an operating assumption.** It reasoned from *"done right, UV and optical return the same number."* Measured: Mg 5711 disagrees across instruments by 24% while 5528 agrees to 2.9%; Al 6696 disagrees by 0.092 dex with the higher-resolution instrument reading lower; Gerber and Bergemann-MPIA differ by +0.044 dex on Fe and +0.11 on Ti. §2's own better instinct — *"the agreement IS the product"* — is the part that survives, once **disagreement is also treated as a product** rather than as residual to be absorbed by a recommended value.
+
+The headline is therefore a **selection, not a blend**: the showcased (arm × engine) determination per element, named with its instrument, carrying the grade that justifies the pick. Every other determination is still shown. Nothing is suppressed.
+
 The floor's machinery is not repealed and stays valuable: **reference-blind per-line selection remains a quality diagnostic**, and `CROSS_ENGINE_MIX_GATE` — which already flags an element whose winners span both engines with a large cross-engine Δ — was an early recognition of this same problem. What changes is that a mixed aggregate is no longer a reportable product. Where the floor previously emitted one blended value, it now emits one value **per engine**, and the cross-engine Δ becomes a published comparison rather than a threshold to be silenced.
 
 ### The infrared makes this concrete rather than theoretical

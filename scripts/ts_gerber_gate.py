@@ -72,7 +72,13 @@ ELEMENTS = {
     # (RYA-533's silent-departure=1 trap) — that is the designed check, not a failure to avoid.
     'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
                grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
-               waves=[5194.949, 5202.270, 5217.389], anchor=+0.010, tol=0.05,
+               # WEAK-LINE re-gate (RYA-710). The first pass used 5194.9/5202.3/5217.4 at
+               # 155/78/130 mA -- above the 100 mA knee -- and returned CHECK at +0.0734
+               # against +0.010. Saturation could not be excluded, and the two STRONGEST
+               # lines gave the worst ratios. Ti's ratified gate used 8.6/9.7/18.6 mA, so
+               # these three (8.8/9.5/9.8 mA measured in our own pool, all present in the
+               # MPIA grid) put Fe in the SAME regime and make the two CHECKs comparable.
+               waves=[6745.100, 5491.832, 6105.127], anchor=+0.010, tol=0.05,
                ref='Fe I 5194.9/5202.3/5217.4, all present in Fe_Bergemann_MPIA at the solar '
                    'node (delta +0.012/+0.020/+0.011). Anchor = the MPIA solar Fe I median '
                    '+0.010 over 252 lines. Solar Fe I NLTE is small and POSITIVE; Fe II ~0.'),
