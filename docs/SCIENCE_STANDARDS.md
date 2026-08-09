@@ -519,3 +519,53 @@ so an artifact always says which frozen input produced it — and the guards run
 against whatever is named. This is the sanctioned way to regenerate while `CURRENT` carries a row the
 scale guard refuses to load. **A flag that skips a guard, or an in-memory repair of a frozen row, is
 not.** A named input file is auditable; a silent correction is the pattern RYA-681 removed.
+
+---
+
+## Lines are QUARANTINED, never culled — RYA-711
+
+Ryan, 2026-08-09: *"I dont like cull persay, every line still gets measured within its
+ability, and logged if it is a C grade or lower basically. That way it doesnt saturate our
+product measurement, but is still defined in a table in each elements appendix."* And:
+*"Maybe Quarantined?"*
+
+Same objection as *"nothing should be suppressed. i dont like that word"* — and the same
+answer. The word has to describe what actually happens.
+
+### The law
+
+A line that fails a quality threshold is **QUARANTINED**: held out of the reported
+aggregate, and otherwise fully retained — measured, derived, logged, and **printed in that
+element's appendix table with its reason**. It is never deleted, never omitted from the
+record, and never silently absent.
+
+**Quarantine is reversible by evidence.** That is the whole reason the word fits. Aluminium
+is the worked example: the RYA-398 graded-gf firewall held both solar Al lines, which was
+recorded as the reason Engine B could not help Al — *"a departure correction with nothing to
+correct."* Correct on its evidence. Then RYA-708 measured Al on Kitt Peak at 6.443 ± 0.068
+over 6 lines and the premise died. A cull cannot be lifted; a quarantine can.
+
+### What the code already gets right
+
+`pipeline/curate_nonfe_pools.py::apply_cull` **deletes nothing.** It adds `cull_reason` and
+`kept` and returns every row, and the per-element ledger `{element}_cull_rya395.csv` carries
+KEEP/HOLD with reason. All **219** currently-held lines retain their measured EW. The
+behaviour was always right; only the vocabulary overstated it — and vocabulary leaks into
+how results get reported.
+
+### Two gaps this exposes (RYA-711)
+
+1. **17 of 219 held lines carry an EW but no derived abundance** (Ca 6/16, Cr 8/55, Mn 3/6).
+   "Measured within its ability" means a held line still gets an A(X) **with its inflated
+   uncertainty stated** — a NIST D at 50% is ±0.176 dex, which is a number, not a blank. A
+   blank cell is indistinguishable from "never attempted", which is the defect condition in
+   `docs/ELEMENT_PROTOCOL.md`.
+2. **The ledger reaches no appendix.** Its only consumers are its own writer and one
+   adjudication script. The per-element quarantine table is owed by Appendix A.
+
+### Naming
+
+`cull` survives in identifiers and filenames until RYA-711 renames them together with their
+consumers — a filename change breaks readers, so it lands as one deliberate change, not
+opportunistically. **New code says `quarantine`.** No new artifact, column, or message may
+introduce the word `cull`.
