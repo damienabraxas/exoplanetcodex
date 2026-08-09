@@ -280,6 +280,38 @@ gate — so it is **deliberately left on the local iSpec install** here. Whether
 measurement leg's atmospheres to the Sirius root is an explicit architecture question for a follow-up
 ticket, not silently decided inside this one.
 
+## All wavelengths, all data, all instruments, all models — RYA-708
+
+Ryan, 2026-08-09: *"all wavelengths, all data, all instruments, all the models — that is the codex way."*
+
+### The law
+
+A measurement uses **every instrument that covers the line**, and a line is attempted on **every model that can reach it**. An element is not limited by the first instrument someone happened to build a pool from, and a line is not written off before every applicable rung has actually been executed.
+
+Absence is a claim, and it carries the same burden of proof as a number. Three states are distinct and must never be collapsed:
+
+- **not covered** — no instrument we hold reaches this wavelength. The only state that justifies "no data".
+- **covered, not reachable here** — an instrument covers it but the file is on the other machine.
+- **covered and loadable**.
+
+`pipeline/coverage.py` is the single source for that question; `data/catalog/instrument_coverage.csv` is the registry. Asking whether *one file* reaches a wavelength, and printing the answer as though it were about the Codex, is the specific error this rule exists to prevent.
+
+### Why it is a standard and not a preference
+
+It was violated silently and at scale, and nothing in the repo could see it.
+
+**The committed solar EW pool holds 808 lines and not one of them falls beyond 6910 Å.** The pool spans 3924.4–6905.3 Å; HARPS spans 3782.6–6910.0. Every measured equivalent width in the Codex came from a single instrument, while the **IAG** atlas (4047–10650 Å) and the **Kitt Peak** flux atlas (2960–13000 Å) sat on disk unused by that channel. Filtered to a usable depth window, **1466 IR lines across 23 elements** had never been touched. **Oxygen and phosphorus have zero usable optical lines** — their entire usable line set lies outside the instrument the pool was built from.
+
+Aluminium is the worked case. It reported no value at all; its two pool lines over-claimed absorption by 1.8× and 4.7×; and its best lines — 7835/7836 and 8772/8773, graded **B/B+** against the optical pair's **C+** — were reported as "NO DATA, zero pixels" by an appendix that had asked one file. Measured across two atlases agreeing to 1–2%, they give **A(Al) = 6.415 ± 0.037** in 1D-LTE, against the **0.339 dex** spread of the optical pair.
+
+### Standing rules
+
+1. **Coverage is asked of the registry, never of a loaded array.** `W.min() <= x <= W.max()` is a statement about one file.
+2. **A line reaches the appendix as unresolved only after every applicable rung has been executed** — EW/1D-LTE, then NLTE, then synthesis — with each rung's own outcome recorded. See Appendix A of the Science Product Package.
+3. **Reaching a new wavelength is authoring, not guessing.** A line region needs `loggf`, `Ei`, `Ek` and `J` from a graded source; `nlte` set honestly; fit columns zeroed rather than inherited; and any inherited constant (damping above all) named as inherited.
+4. **Two instruments covering one line is corroboration a single arm cannot give**, and it is worth the extra measurement.
+5. **A model is skipped only for a recorded, citable reason** — no grid, no coverage, saturated core. "Nobody built the pool that way" is not such a reason.
+
 ## Ratified Constraints — structural re-check on every emission — RYA-674
 
 Any element value, species selection, line inclusion, correction application, or gate result that has
