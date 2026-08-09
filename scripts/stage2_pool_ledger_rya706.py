@@ -111,6 +111,57 @@ def classify(row, W, F, ll, synth: dict) -> tuple[str, str]:
     return "UNEXPLAINED", "no pipeline rule accounts for this drop"
 
 
+# ── PROMOTION GATE: if lines get promoted, CHECK gf (ratified 2026-08-08) ───────
+# Ryan: "the gf thang has popped up before in NLTE. So I propose a decision node in our
+# arch logic here, where if Lines get promoted, check gf."
+#
+# It is the fourth time gf has turned out to be the real answer, after three different
+# framings pointed elsewhere first: Ti's inflated NLTE traced to the model-atom vintage
+# (RYA-542/545/546), the RYA-398 graded cull, the RYA-161/697 zero-point cluster, and now
+# Al. The pattern is that a line-set change is where a latent gf error becomes visible --
+# promotion adds or swaps lines, and a RELATIVE gf error between them shows up instantly
+# as line-to-line scatter that measurement error cannot explain.
+#
+# So promotion is a decision node, not a write. Two things are computed here and reported
+# with every candidate, because a promotion decision made without them is the Al mistake
+# repeated: the gf GRADE of each line, and whether the set's scatter exceeds what its EW
+# errors can account for.
+#
+# Al is the worked case. Its two recovered lines share EP 3.1427 exactly -- same lower
+# level -- and differ only in log gf (-1.886 vs -2.249), both ungraded with K75
+# provenance. They give 6.601 and 6.262: a 0.339 dex spread against EW errors of 4.2% and
+# 4.7% worth ~0.02-0.04 dex. The mean lands on the literature and means nothing, because
+# the spread is larger than the Mg 5528-vs-5711 discordance (0.21 dex) that keeps Mg owed.
+GF_UNGRADED = frozenset({"", "nan", "none", "?"})
+
+
+#: THE adjudicated gf source (RYA-354). `linelist_solar` also carries a `nist_grade`
+#: column and reading it here would UNDER-report: the linelist is a VALD pull, and the
+#: adjudication that attaches a graded value lives in canonical_gf with its
+#: `adjudication_status`. Matching is nearest-within-tolerance, never a rounded key --
+#: RYA-703/704, and I made that exact mistake in this ticket's sibling script.
+CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
+GF_MATCH_A = 0.03
+_gf_cache: dict = {}
+
+
+def gf_status(ll, el, ion, lam) -> tuple[str, float]:
+    """(grade, log_gf) from the adjudicated gf table. Grade absent -> UNGRADED, which
+    HOLDS a promotion until adjudicated. It does not block the MEASUREMENT; it blocks
+    the claim that the measurement sits on a trusted scale."""
+    if "df" not in _gf_cache:
+        g = pd.read_csv(CANONICAL_GF, low_memory=False)
+        g["_el"] = g.species.astype(str).str.split().str[0]
+        _gf_cache["df"] = g
+    g = _gf_cache["df"]
+    r = g[(g._el == el) & ((g.wavelength_air_A - lam).abs() <= GF_MATCH_A)]
+    if r.empty:
+        return "NOT_IN_CANONICAL_GF", float("nan")
+    best = r.loc[(r.wavelength_air_A - lam).abs().idxmin()]
+    grade = str(best.get("nist_grade") or "").strip()
+    return ("UNGRADED" if grade.lower() in GF_UNGRADED else grade), float(best.log_gf)
+
+
 def contaminants(ll, el, lam, own_depth):
     """Neighbours of a DIFFERENT species within the clean window, deeper than the
     stated fraction of the line's own observed depth."""
@@ -161,7 +212,9 @@ def main(argv=None) -> int:
         code, detail = classify(r, W, F, ll, synth)
         d = _depth(W, F, float(r.wavelength_air_A))
         n_bad, worst = contaminants(ll, str(r.element), float(r.wavelength_air_A), d)
-        rows.append(dict(element=r.element, ion=r.ion,
+        grade, lgf = gf_status(ll, str(r.element), str(r.ion), float(r.wavelength_air_A))
+        rows.append(dict(gf_grade=grade, log_gf=lgf,
+                         element=r.element, ion=r.ion,
                          wavelength_air_A=round(float(r.wavelength_air_A), 4),
                          ew_mA=r.ew_mA, ew_err_mA=r.ew_err_mA, chi2=r.get("chi2"),
                          observed_depth=round(d, 4) if np.isfinite(d) else None,
@@ -226,6 +279,16 @@ def main(argv=None) -> int:
     print(f"\nSYNTHESIS CANDIDATES (good fit, blocked ONLY by a blend): {len(syn)}")
     for e, n in summary["synthesis_by_element"].items():
         print(f"    {e:4s} {n}")
+
+    # The promotion gate, reported per element over BOTH candidate classes.
+    both = pd.concat([rec, syn])
+    print("\nPROMOTION GATE — gf grade of every candidate (ratified 2026-08-08):")
+    print(f"  {'el':4s}{'cands':>6s}{'ungraded':>10s}{'graded':>8s}   gate")
+    for e in sorted(set(both.element)):
+        b = both[both.element == e]
+        ung = int((b.gf_grade == "UNGRADED").sum())
+        print(f"  {e:4s}{len(b):6d}{ung:10d}{len(b)-ung:8d}   "
+              + ("HOLD — adjudicate gf before promoting" if ung else "gf graded, clear"))
     return 0
 
 

@@ -52,6 +52,19 @@ An element is unresolved only when the ladder is exhausted, and the appendix mus
 
 **Generated, not written by hand.** `scripts/plot_unmeasured_lines_rya707.py` produces the figures and the per-line facts from the committed spectrum, line list, fit output and pool. Prose in this appendix interprets those numbers; it never restates them from memory, and it never sources a number from a label.
 
+**Promotion is a decision node, and the decision is gf.** Ryan, 2026-08-08: *"the gf thang has popped up before in NLTE. So I propose a decision node in our arch logic here, where if Lines get promoted, check gf."*
+
+Ratified. **Whenever a line or line set is promoted into an element's measurement, its oscillator strengths are checked before the value is claimed.** An ungraded gf does not block the *measurement* — it blocks the claim that the measurement sits on a trusted scale, and the element is HELD until the gf is adjudicated.
+
+This is the fourth time gf has turned out to be the real answer after other framings pointed elsewhere first: Ti's inflated NLTE traced to model-atom vintage rather than atmosphere; the graded cull; the zero-point cluster; and now Al. The reason promotion is where it surfaces is mechanical — **promotion changes the line set, and a RELATIVE gf error between lines becomes visible the instant there is more than one of them**, as line-to-line scatter that measurement error cannot account for.
+
+So two quantities are computed at every promotion and reported with it:
+
+- **the gf grade of each promoted line**, from the adjudicated gf table — not from the raw line-list pull, which under-reports because adjudication is what attaches a graded value;
+- **whether the set's scatter exceeds what its equivalent-width errors can explain.** If it does, the excess is a gf signal until something else is shown to cause it.
+
+Al is the worked case and it is why this rule exists rather than being a precaution. Its two recovered lines share excitation potential 3.1427 exactly — the same lower level — and differ only in log gf, −1.886 against −2.249, both ungraded. They return 6.601 and 6.262: a **0.339 dex** spread against equivalent-width errors of 4.2% and 4.7%, worth perhaps 0.02–0.04 dex. The mean lands on the literature value and that is worth nothing, because the spread is larger than the 0.21 dex discordance that keeps magnesium owed. **A mean cannot be promoted over a scatter it does not explain.**
+
 **This appendix is an AUDIT, and audits find solutions.** Ryan, 2026-08-08: *"our appendix search for problem children may be an audit that finds solutions, so lets make sure every line you think is not working, we double check, we prove, and use all models to prove it."*
 
 An entry is not a place to write a line off. Before any line is reported as unresolved it must be **double-checked, proven, and run through every applicable model** — the ladder is executed, not merely narrated. A line reaches the appendix as *unresolved* only after every rung has actually been tried and has actually failed, each with its own recorded outcome.
