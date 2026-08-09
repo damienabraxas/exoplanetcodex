@@ -692,3 +692,66 @@ Practically this makes every element's protocol two-legged:
 The control leg also *calibrates* the frontier budget: the optical residual against a known
 answer is a direct measurement of the harness's own systematic, and that term belongs in the
 frontier error budget rather than being assumed to be zero.
+
+---
+
+## Band policy: each regime gets its own analytical approach, checked at intake — RYA-713
+
+Ryan, 2026-08-09: *"we should have a check on intake maybe. Check instrument and check band.
+UV gets treated different than Vis or IR due to crowding. IR has more errors, telluric lines
+etc. That way the products are filtered differently. **Not tuned, but a different scientific
+and analytical approach for each band.**"*
+
+`pipeline/band_policy.py` declares, per regime, which method is physically valid and why.
+`check_intake(wavelength, method)` resolves it and **fails loud** — a wrong-for-the-regime
+method does not produce a worse number, it produces a **different quantity**, so silently
+allowing it and widening the error bar afterwards would misrepresent what was measured.
+
+### The measured basis (Kitt Peak + our line inventory, 2026-08-09)
+
+| band | lines/Å | median gap | continuum p95 | continuum median |
+|---|---|---|---|---|
+| near-UV 3000–3800 | 4.62 | **0.146 Å** | 0.916 | **0.607** |
+| VIS 3800–6910 | 1.87 | 0.277 Å | 0.963 | 0.811 |
+| red-optical 6910–10000 | 0.34 | **1.872 Å** | **0.997** | 0.991 |
+| NIR 10000–24000 | 0.14 | 3.989 Å | 0.956 | 0.862 |
+
+### What each band gets, and the property that forces it
+
+| band | synthesis | profile-fit | interval | telluric | forcing property |
+|---|---|---|---|---|---|
+| **near-UV** | ✓ | ✗ | ✗ | — | median gap **0.146 Å is smaller than a strong line's wings** — no interval contains one profile and excludes its neighbours, and there is no isolated profile to fit. Only simultaneous modelling is valid. |
+| **VIS** | ✓ | ✓ | ✗ | — | gap 0.277 Å leaves lines resolvable. **The control band** — ground truth exists. |
+| **red-optical** | ✓ | ✓ | ✗ | **required** | cleanest regime, and therefore the most dangerous: a broken method looks *healthier* here with no reference to catch it. O₂ A-band and H₂O are terrestrial. |
+| **NIR** | ✓ | ✗ | ✗ | **required** | continuum p95 0.956 vs median 0.862 is telluric, not stellar — before correction the flux is not a stellar spectrum at all. |
+
+**Interval integration is forbidden everywhere**, on evidence rather than principle: against
+the HARPS pool over 146 optical lines it returned a median EW ratio of **0.773 (−0.112 dex)**
+with a 5× spread, because a separation-derived window clips wings on crowded strong lines and
+over-reaches on isolated weak ones.
+
+### Why this is not tuning
+
+Tuning is choosing a treatment for the answer it produces. Every field in `BandPolicy` is
+keyed on **observable properties of the regime** — line density, separation, continuum
+level, terrestrial contribution — all measurable without knowing any abundance, and all
+measured before the policy was written.
+
+Two structural guards, not just a convention:
+
+1. `BandPolicy` has **no field capable of holding an abundance, target, reference value or
+   tolerance**. It cannot express "use method X to get answer Y" because there is nowhere to
+   put Y.
+2. `assert_not_tuned()` runs **at import** and fails if such a field is ever added — verified
+   by test: injecting `target_abundance` raises immediately.
+
+The policy may be revised by re-measuring the regime and recording what changed. It may
+never be revised because a different method gives a nicer number.
+
+### Relationship to RYA-306
+
+This is the **`arm` axis** RYA-306's method-selection matrix was missing. That matrix keys
+method on `(star × element × ion)`; regime is independent of all three, because the failure
+modes are local in *wavelength* as well as in stellar parameters. The two compose: RYA-306
+says which method suits this element in this star, band policy says which methods the regime
+can support at all, and the intersection is what may run.

@@ -27,6 +27,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.band_products import (  # noqa: E402
     LineMeasurement, equivalent_width, assert_single_element)
+from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
 OUT = ROOT / "data" / "measured" / "band_ew"
@@ -295,11 +296,35 @@ def main() -> None:
     ap.add_argument("--depth-min", type=float, default=0.05)
     ap.add_argument("--depth-max", type=float, default=0.60)
     ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--diagnostic-only", action="store_true",
+                    help="acknowledge that the EWs are interval-integrated absorption, "
+                         "not equivalent widths, and are for verification/root-cause only")
     a = ap.parse_args()
 
     if a.instrument != "kpno_solar_atlas":
         raise SystemExit(f"instrument {a.instrument!r} has no reader wired here yet. "
                          f"Add it to this driver rather than copying this file.")
+
+    # INTAKE CHECK (RYA-713). This driver measures by interval integration, which the
+    # optical control proved is not an equivalent width -- median EW ratio 0.773 against
+    # the HARPS pool, 5x spread. The band policy now refuses it everywhere, which is the
+    # correct outcome: this script is a DIAGNOSTIC harness (is the line there? is it a
+    # ghost? is it blended?) and must not be mistaken for a measurement harness again.
+    for edge in (a.lo, a.hi - 1e-6):
+        try:
+            check_intake(edge, "interval-integration", instrument=a.instrument)
+        except BandPolicyError as e:
+            if not a.diagnostic_only:
+                raise SystemExit(
+                    f"{e}\n\n  This driver only produces interval-integrated absorption. "
+                    f"Re-run with --diagnostic-only to use it for feature verification and "
+                    f"root-cause work, where the EW value is not the product.")
+    if a.diagnostic_only:
+        pol = resolve((a.lo + a.hi) / 2.0)
+        print(f"  DIAGNOSTIC ONLY — band {pol.name}: interval integration is forbidden here")
+        print(f"  for measurement. EW values are absorption-in-window, NOT equivalent widths.")
+        print(f"  permitted for measurement: {pol.permitted_methods}"
+              + (f" · telluric correction REQUIRED" if pol.telluric_required else ""))
 
     acc = pd.read_csv(ACCOUNTING)
     sel = acc[(acc.element == a.element) & (acc.ion == a.ion) &
