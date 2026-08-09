@@ -1,0 +1,35 @@
+{
+  "ticket": "RYA-706/707",
+  "finding": "Al is NOT a data gap \u2014 the IAG atlas covers its best lines",
+  "prompt": "Ryan, 2026-08-09: 'Perhaps some other instruments will help us with Aluminum.'",
+  "what_was_claimed": "RYA-707's appendix reported Al I 7835/7836 and 8772/8773 as NO DATA, 'outside our wavelength coverage', with ZERO pixels. Register v48 carries that claim.",
+  "what_is_true": "That was true for HARPS (3783-6910 A) and FALSE for the project. The IAG Reiners+2016 FTS solar flux atlas covers 4047.4-10649.9 A in air and has been loaded as a SECOND ARM by the deblend harnesses since RYA-551. We have had these lines the whole time.",
+  "measured_from_the_atlas": {
+    "Al I 7835/7836": {
+      "points": 778,
+      "deepest_core_pct": 26.5,
+      "log_gf": -0.494,
+      "EP": 4.0215
+    },
+    "Al I 8772/8773": {
+      "points": 724,
+      "deepest_core_pct": 36.7,
+      "log_gf": -0.161,
+      "EP": 4.0216
+    },
+    "Al I 6696/6698": {
+      "points": 2190,
+      "deepest_core_pct": 25.2,
+      "note": "also in HARPS"
+    }
+  },
+  "why_it_matters": "8772/8773 is the strongest Al I line available: log gf -0.161 against the -1.569 of 6696 and -1.870 of 6698, and 36.7% deep against 22.8% and 13.5%. Al goes from TWO marginal lines to FOUR, two of them far better than anything used so far \u2014 and four lines can actually diagnose the 0.339 dex scatter that two cannot.",
+  "the_generator_defect": "scripts/plot_unmeasured_lines_rya707.py defines 'our coverage' as data/processed/solar_normalized.csv \u2014 ONE instrument. Every NO DATA verdict it has ever emitted is therefore a claim about HARPS, printed as a claim about the Codex. The appendix is meant to prove a blank and it has been proving the wrong thing. This is the same shape as every other defect this week: a label asserted in one place about something living in another. It must take an INSTRUMENT SET, not a file.",
+  "corrections_owed": [
+    "register v48's Al NO-DATA claim",
+    "RYA-707 appendix generator: multi-instrument coverage",
+    "the Al entry in the SPP Appendix A prototype artifact",
+    "the stage-2 ledger's OUT_OF_COVERAGE class, same single-instrument assumption"
+  ],
+  "next": "re-run the Al ladder on the IAG arm for 7835/7836 and 8772/8773. Both need a NIST gf pull like the one Ryan did for 6696/6698 \u2014 the 8772 pull is the higher-value one, since it is the strongest line in the element."
+}
