@@ -50,7 +50,20 @@ An element is unresolved only when the ladder is exhausted, and the appendix mus
 - **stopped early** — a rung failed and the next was never attempted;
 - **escalated without cause** — a later tool was used while an earlier one was working, which usually means nobody checked.
 
-**Generated, not written by hand.** `scripts/plot_unmeasured_lines_rya706.py` produces the figures and the per-line facts from the committed spectrum, line list, fit output and pool. Prose in this appendix interprets those numbers; it never restates them from memory, and it never sources a number from a label.
+**Generated, not written by hand.** `scripts/plot_unmeasured_lines_rya707.py` produces the figures and the per-line facts from the committed spectrum, line list, fit output and pool. Prose in this appendix interprets those numbers; it never restates them from memory, and it never sources a number from a label.
+
+**This appendix is an AUDIT, and audits find solutions.** Ryan, 2026-08-08: *"our appendix search for problem children may be an audit that finds solutions, so lets make sure every line you think is not working, we double check, we prove, and use all models to prove it."*
+
+An entry is not a place to write a line off. Before any line is reported as unresolved it must be **double-checked, proven, and run through every applicable model** — the ladder is executed, not merely narrated. A line reaches the appendix as *unresolved* only after every rung has actually been tried and has actually failed, each with its own recorded outcome.
+
+This is not hypothetical carefulness. Solar **Al I 6698.671** was on its way into this appendix as unresolved. Checked against the line list, everything non-Al within ±0.35 Å is 0.1–0.3% deep against a 16.7% feature, and the four Al entries share one excitation potential — they are hyperfine components of a single clean line, fitting at a statistic of 0.0001. It is not blended, not saturated, and not a bad measurement. **It is a recovery**, and the appendix found it by refusing to accept the label.
+
+So the appendix has two possible outcomes per line, and the recovery is the better one:
+
+- **RECOVERED** — a model produced a usable value. The line leaves the appendix and enters the element's measurement, with the rung that recovered it recorded.
+- **UNRESOLVED** — every applicable rung was executed and failed. The entry states which, with the evidence above.
+
+A third state is a defect, not an outcome: a line reported unresolved where a rung was **never attempted**. That is the "stopped early" case, and it is a finding against the pipeline rather than against the star.
 
 **Honest about its own limits.** Where a screening heuristic flags a line rather than convicting it, the appendix says so and says what would confirm it. A triage flag presented as a verdict is the same failure as a blank cell presented as a fact.
 
