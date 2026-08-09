@@ -24,7 +24,24 @@ GERBER = ROOT / 'data' / 'nlte_grids' / 'gerber_ts'          # Engine-B provenan
 GRIDS = ROOT / 'data' / 'nlte_grids'
 
 ENGINE_A_STATES = {'wired', 'task', 'LTE-only-by-design'}
-ENGINE_B_STATES = {'wired', 'task', 'LTE-only-by-design'}
+#: RYA-695 adds `none-published`. The vocabulary previously had one word, `task`, for
+#: two situations the Codex kept confusing:
+#:
+#:   * the Engine-B model atom EXISTS upstream and was never pulled  -> `task`
+#:   * NO Engine-B model atom is published at all                    -> `none-published`
+#:
+#: Collapsing them cost real time. The registry said "Gerber-2023 includes Al —
+#: gettable via RYA-540" and the RYA-673 audit said Al is NO_MODEL_ATOM; both were
+#: `task`-shaped and nobody could tell which was true without re-deriving it. RYA-695
+#: settled it against the upstream Gerber/TSFitPy catalog
+#: (`utilities/nlte_grids_links.cfg`, the file the RYA-534 provenance JSONs cite as
+#: `url_source`): SEVENTEEN elements are published — Al, Ba, Ca, Co, Cr, Eu, Fe, H, Mg,
+#: Mn, Na, Ni, O, Si, Sr, Ti, Y — and ELEVEN are staged. C, N, K, P, S, Sc, Li, V, Zr
+#: and Cu are simply not in it, so their Engine-B TS-NLTE "task" can never be completed
+#: and must not be filed as though it could.
+#:
+#: See `data/curation/engine_b_deck_availability.csv` (generated, Sirius-only).
+ENGINE_B_STATES = {'wired', 'task', 'LTE-only-by-design', 'none-published'}
 DISPOSITIONS = {'wired-both', 'wired-one', 'acquire-task', 'build-task', 'LTE-only-by-design'}
 
 # Engine-A production coverage = the NLTE correction registry + the Fe leg + C/O (nlte_cno).
@@ -69,6 +86,33 @@ def test_disposition_is_consistent_with_engine_states():
             # neither engine wired: grid gettable -> acquire-task; genuine void -> build-task
             assert disp in {'acquire-task', 'build-task'}, (
                 f"{el}: neither wired/by-design but disposition={disp}")
+
+
+def test_none_published_is_backed_by_the_upstream_catalog_ledger():
+    """RYA-695 — `none-published` is a factual claim about the upstream catalog, so it
+    is checked against the generated deck ledger rather than trusted as prose.
+
+    The ledger enumerates every element the Gerber/TSFitPy catalog publishes. An
+    element claiming `none-published` must be ABSENT from it; an element claiming
+    `task` must be PRESENT (otherwise the task can never be completed, which is the
+    conflation this state was added to end).
+    """
+    ledger = ROOT / 'data' / 'curation' / 'engine_b_deck_availability.csv'
+    if not ledger.exists():
+        pytest.skip('engine_b_deck_availability.csv not generated (Sirius-only)')
+    with open(ledger, newline='') as fh:
+        upstream = {r['element'] for r in csv.DictReader(fh)}
+    for r in _rows():
+        el, b = r['element'], r['engineB_synth_grid']
+        if b == 'none-published':
+            assert el not in upstream, (
+                f"{el}: registry says engineB=none-published but the upstream Gerber "
+                f"catalog DOES publish it — that makes it an acquisition `task`")
+        if b == 'task':
+            assert el in upstream, (
+                f"{el}: registry says engineB=task (an acquisition owed) but the "
+                f"upstream Gerber catalog does not publish it — the task can never be "
+                f"completed; it is `none-published`")
 
 
 def test_engineA_wired_matches_registry_truth():

@@ -67,8 +67,10 @@ def _source_without_comments(path):
     return '\n'.join(out)
 
 #: Every dedicated Engine-B value the map emitted BEFORE RYA-680/691, verbatim, plus the
-#: two species RYA-680 adds. Read as: the contract fix moved nothing, and the wiring fix
-#: added exactly Co and Ba.
+#: species each later wiring ticket adds. Read as: no contract or wiring fix has ever
+#: MOVED a value here — each has only ever ADDED species. That is the whole point of the
+#: table, and why additions are listed with their ticket rather than the table being
+#: regenerated wholesale.
 EXPECTED_MAP = {
     ('C', 'I'): 8.491,     # unchanged — nlte_cno cross-arm primary (RYA-491/237)
     ('O', 'I'): 8.730,     # unchanged
@@ -78,10 +80,24 @@ EXPECTED_MAP = {
     ('Sr', 'II'): 2.759,   # unchanged — the one flagged artifact that was ungated
     ('Co', 'I'): 4.960,    # RYA-680 NEW — RYA-564 median of 5 reliable red HFS lines
     ('Ba', 'II'): 2.237,   # RYA-680 NEW — RYA-581 deblend, NOT RYA-559's 2.410
+    # RYA-695 NEW — the RYA-460 Kitt Peak channel, which was always an Engine-B
+    # Turbospectrum flux fit (cno_synthesis._fit_element, the same engine as C/O) and
+    # was simply never invoked. Each equals the phase_c verdict it has always fed, so
+    # these ADD cross-engine visibility without moving any reported number; K 5.099 is
+    # a gold v3 PASS anchor and is unchanged.
+    ('N', 'I'): 8.188,     # RYA-695 NEW — KP N I 7468/8216/8683 + Amarsi N grid delta
+    ('K', 'I'): 5.099,     # RYA-695 NEW — KP K I 7699 + Amarsi K grid delta -0.312
+    ('Sc', 'II'): 3.203,   # RYA-695 NEW — KP Sc II 4246, LTE-only-by-design (RYA-458/460)
 }
 
 #: Species deliberately absent: their reliability/concordance gate is shut today.
-EXPECTED_ABSENT = {('Zr', 'II'), ('Mg', 'I')}
+#:
+#: RYA-695 adds P I. Its Kitt Peak window returns status='edge_pinned' at a_1dlte 6.61,
+#: and the RYA-460 fit bound is Asplund±1.2 = 5.41+1.2 = 6.61 exactly — the fit railed
+#: against its own search bound rather than converging, so the number is a lower bound
+#: wearing a measurement's clothes. Refused for the same reason RYA-679 refuses a railed
+#: line.
+EXPECTED_ABSENT = {('Zr', 'II'), ('Mg', 'I'), ('P', 'I')}
 
 
 @pytest.fixture(scope='module')
