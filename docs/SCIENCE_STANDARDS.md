@@ -280,7 +280,7 @@ gate — so it is **deliberately left on the local iSpec install** here. Whether
 measurement leg's atmospheres to the Sirius root is an explicit architecture question for a follow-up
 ticket, not silently decided inside this one.
 
-## Engines are separate data products and are NEVER combined — RYA-711
+## Engines are separate data products and are NEVER combined — RYA-712
 
 Ryan, 2026-08-09: *"the two engines should never be added together and presented, they are seperate data products… this model says this in VIS, this is what we got in IR, this is the Uncertainty for each product. It breaks down scientifically better. No Ambiguity."*
 
