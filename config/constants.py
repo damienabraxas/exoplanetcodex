@@ -1155,6 +1155,95 @@ def require_sirius_grid(*relparts, context: str = "") -> Path:
     return p
 
 
+#: RYA-695 — the canonical Sirius grid-store layout, and which store holds what.
+#:
+#: WHY THIS IS DECLARED RATHER THAN DISCOVERED. The RYA-540 SSD->M.2 migration left
+#: three EMPTY directories behind under /mnt/codex-data/grids/nlte —
+#: `amarsi2019_cno`, `mpia_inspect` and `pysme` — while the real departure grids sit
+#: in `amarsi_galah` (82 GB) and `gerber_ts` (226 GB), with loose per-ticket copies
+#: scattered through codex/rya519/ and codex/rya545/. Nothing in the pipeline resolves
+#: to the three empty ones today (the CNO tables are a COMMITTED artifact read via
+#: committed_grid_artifact('nlte_grids','amarsi2019_cno'); MPIA/INSPECT deltas ship as
+#: committed CSVs), so they break no run — they advertise a layout that does not
+#: exist, which is exactly what makes a fresh clone unable to find the models and what
+#: makes coverage keep reading as absent to anyone inspecting the tree.
+#:
+#: The Codex is meant to be portable: someone should be able to clone it and start
+#: working. That requires the convention and the disk to agree, and requires a
+#: newcomer to be TOLD what to stage and where when they do not.
+SIRIUS_GRID_STORES = {
+    'grids/nlte/amarsi_galah': (
+        'Amarsi GALAH DR3 PySME departure grids (Amarsi et al. 2020, A&A 642 A62; '
+        'Zenodo 3982506) + Cu Caliskan-2024 (Zenodo 15062813) + Ti Mallinson-2024. '
+        'Elements: Al, Ba, C, Ca, Cu, H, K, Li, Mg, Mn, N, Na, O, Si, Ti. '
+        'Engine-A re-derivation input for pipeline.pysme_nlte ONLY — the production '
+        'values are the committed CSVs under data/nlte_grids/.'),
+    'grids/nlte/gerber_ts': (
+        'Gerber et al. 2023 Turbospectrum-native NLTE deck (Engine B), md5-pinned by '
+        'scripts/grid_cache.py. Model atoms: Ba, Ca, Co, Mg, Mn, Na, Ni, O, Si, Sr, Ti '
+        '(ELEVEN — there is no Al, K, N, P, Sc, Y, Eu, Zr, Cu, V or Li atom in this '
+        'deck, which is why those species cannot have an Engine-B NLTE leg).'),
+    'grids/model_atmospheres': 'MARCS / ATLAS9 model-atmosphere grids.',
+}
+
+#: Directories that exist on the Sirius store but hold nothing, with the reason. Named
+#: so `require_sirius_grid_dir()` can explain an empty hit instead of reporting it as a
+#: mysteriously missing grid, and so nobody re-stages into a path the code never reads.
+SIRIUS_GRID_STORES_VESTIGIAL = {
+    'grids/nlte/amarsi2019_cno': (
+        'EMPTY and VESTIGIAL. The Amarsi-2019 3D-NLTE C/N/O tables are a COMMITTED '
+        'artifact at data/nlte_grids/amarsi2019_cno/ (read via committed_grid_artifact, '
+        'RYA-567) — nothing resolves to this Sirius path.'),
+    'grids/nlte/mpia_inspect': (
+        'EMPTY and VESTIGIAL. The MPIA/INSPECT per-element delta grids ship as committed '
+        'CSVs at data/nlte_grids/*.csv — nothing resolves to this Sirius path.'),
+    'grids/nlte/pysme': (
+        'EMPTY and VESTIGIAL. The PySME departure grids live at grids/nlte/amarsi_galah; '
+        'this path is a RYA-540 migration leftover — nothing resolves to it.'),
+}
+
+
+def require_sirius_grid_dir(*relparts, context: str = "") -> Path:
+    """Resolve a REQUIRED grid *directory* and loud-fail if it is absent OR EMPTY.
+
+    `require_sirius_grid()` calls `Path.exists()`, and an empty directory passes that
+    check. A grid store that exists but holds nothing is the worse failure of the two:
+    the caller gets a valid path, walks it, finds no grid, and reports the ELEMENT as
+    uncovered — a staging problem wearing a science problem's clothes. That is the
+    RYA-540 leftover this guard exists for (see SIRIUS_GRID_STORES_VESTIGIAL).
+
+    The message tells a newcomer what belongs at the path and how to stage it, because
+    a fresh clone has none of this and the grids are deliberately never in git.
+    """
+    rel = '/'.join(str(x) for x in relparts)
+    p = SIRIUS_DATA_ROOT.joinpath(*[str(x) for x in relparts])
+    what = SIRIUS_GRID_STORES.get(rel)
+    vestigial = SIRIUS_GRID_STORES_VESTIGIAL.get(rel)
+    if vestigial:
+        raise FileNotFoundError(
+            f"Grid store {rel} is not a usable path: {vestigial}"
+            + (f"  [{context}]" if context else "")
+            + "\n  Do NOT stage grids here — no code reads it. See "
+              "config.constants.SIRIUS_GRID_STORES for the store that does.")
+    if not p.is_dir() or not any(p.iterdir()):
+        state = ('does not exist' if not p.exists()
+                 else 'is not a directory' if not p.is_dir() else 'is EMPTY')
+        raise FileNotFoundError(
+            f"Required grid store {p} {state}."
+            + (f"  [{context}]" if context else "")
+            + f"\n  Expected contents: {what or 'see config.constants.SIRIUS_GRID_STORES'}"
+            + f"\n  SIRIUS_DATA_ROOT = {SIRIUS_DATA_ROOT} "
+            + ("(present on this machine)" if sirius_root_present()
+               else "(NOT a directory on this machine — you are not on Sirius)")
+            + "\n  Grids are multi-GB and deliberately NEVER committed (RYA-567), so a "
+              "fresh clone will not have them. Run this leg on Sirius (`ssh sirius`), "
+              "or stage the store above at that exact path. An EMPTY store is treated "
+              "as missing on purpose: it otherwise reads downstream as 'this element "
+              "has no model', which is a staging fault reported as a science fault."
+        )
+    return p
+
+
 def assert_on_sirius(context: str = "", *, require_subdirs=("grids",)) -> Path:
     """Refuse a heavy-compute leg unless the Sirius data root (and any required
     sub-directories) are present. Fails LOUD with a 'run this on Sirius' message
