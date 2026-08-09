@@ -251,31 +251,23 @@ python pipeline/ledger_consistency_guard.py --json      # same counts, machine-r
 
 The report is **informational by construction** and must stay that way — see LEDGERS.md.
 
-### Pre-brief refinement debt check — OWED, not yet installed (RYA-386 blocks it)
+### Pre-brief refinement debt check — INSTALLED at `skills/codex-mr-code-brief/` (RYA-701)
 
-The fourth piece of RYA-676 is a mandatory pre-brief check inside the
-**codex-mr-code-brief** skill. That skill has **no reachable home in this repo or on this
-machine** — `skills/` carries only `codex-state-register` and `codex-vald-extraction`, and
-RYA-386 ("package the codex skills into a permanent single-source home", still Todo) is
-the ticket that would give it one. The text is parked here verbatim rather than written to
-a guessed path, because a skill file at an address nothing loads would look done while
-being unreachable. **Install it into the skill when RYA-386 lands.**
+The fourth piece of RYA-676 is a mandatory pre-brief check: before any pre-freeze,
+verification-gate or phase-close brief, read the tracker's `refinement_debt` column and
+either list the `Backlog:` debt or record that there is none.
 
-> ## Pre-brief refinement debt check (mandatory)
->
-> Before drafting any pre-freeze, verification-gate, or phase-close Mr. Code brief:
->
-> 1. Read `data/audit/element_status_tracker.csv` `refinement_debt` column
-> 2. If any element in the current phase has `Backlog:` in that column, list those tickets
->    in the brief's Context section as "orphaned refinement work to consider firing first"
-> 3. If parent ticket is Done and sibling Backlog tickets exist under it (check the
->    parent's related-issues in Linear), flag them explicitly
-> 4. If the brief is for a phase-close or freeze ticket AND any refinement debt is Backlog
->    for the current phase, add a section "Refinement debt not yet resolved" listing the
->    tickets and the impact
->
-> This check is not optional. Every brief must document either "no refinement debt in
-> current phase" (with the tracker read confirming) or list the debt.
+It was parked here in prose because the **codex-mr-code-brief** skill had no reachable
+address — `skills/` carried only `codex-state-register` and `codex-vald-extraction`, and
+RYA-386 ("package the codex skills into a permanent single-source home") is still Todo.
+Ryan ratified 2026-08-08 that the repo is the clever home, so the skill now lives at
+[`skills/codex-mr-code-brief/SKILL.md`](../skills/codex-mr-code-brief/SKILL.md) next to
+its two siblings, and **the check is normative there, not here.**
+
+That narrows RYA-386 rather than waiting on it: 386 is now "make `skills/` the single
+loaded source", not "invent an address for three orphans". Three skills, one directory,
+one convention — a fourth skill goes in the same place without a decision.
+
 
 ## Isotope fractions live in the ENGINE or in the gf — never both (RYA-684)
 
