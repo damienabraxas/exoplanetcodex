@@ -1,10 +1,2 @@
-element,ion,N_total,N_clean,N_culled,A_lte_precull,A_lte_curated,scatter,rew_slope,asplund,nlte_delta_solar,target_lte,down_correction,residual_vs_target,low_gf_frac,verdict
-Mg,I,5,0,5,9.264,,,,7.55,0.012,7.538,,,0.4,LOW_CONFIDENCE
-Si,I,79,27,52,8.769,8.116,0.698,1.071,7.51,-0.004,7.514,0.653,0.602,0.81,GF_SCALE_RYA161
-Ca,I,28,4,15,6.56,6.556,0.592,,6.3,0.011,6.289,0.003,0.268,0.57,LOW_CONFIDENCE
-Ni,I,26,9,17,7.771,7.422,0.538,1.084,6.2,,6.2,0.349,1.222,0.77,GF_SCALE_RYA161
-Ti,I,81,22,59,6.846,6.463,0.868,1.308,4.97,0.107,4.863,0.383,1.601,0.43,GF_SCALE_RYA161
-Cr,I,75,20,51,7.812,6.722,0.763,1.702,5.62,0.072,5.548,1.09,1.174,0.6,GF_SCALE_RYA161
-Na,I,2,0,2,6.581,,,,6.24,-0.1055,6.346,,,0.0,LOW_CONFIDENCE
-Al,I,2,2,0,7.329,7.329,0.085,,6.43,,6.43,0.0,0.899,1.0,LOW_CONFIDENCE
-Mn,I,9,2,6,6.807,6.755,0.052,,5.42,0.106,5.314,0.052,1.441,0.89,LOW_CONFIDENCE
+element,ion,N_total,N_clean,N_culled,A_lte_precull,A_lte_curated,A_nlte_curated,scatter,rew_slope,asplund,asplund_sigma,nlte_delta_solar,target_lte,down_correction,residual_vs_target,residual_nlte_vs_asplund,low_gf_frac,verdict
+Al,I,2,2,0,7.325,7.325,7.325,0.081,,6.43,0.04,,6.43,0.0,0.895,0.895,0.5,LOW_CONFIDENCE
