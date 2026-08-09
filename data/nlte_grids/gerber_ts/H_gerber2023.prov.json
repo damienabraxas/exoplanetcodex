@@ -1,0 +1,32 @@
+{
+  "ticket": "RYA-710",
+  "element": "H",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg (fetched 2026-08-09)",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned. Re-fetch is reproducible from the urls + md5s below; the .bin.zip archives were deleted after extraction precisely because this record makes them recoverable.",
+  "sirius_only": "Sirius only. Model atom + aux live at /srv/codex/grids/nlte/gerber_ts/ (OS drive); the .bin lives at /mnt/codex-data/gerber_overflow/ (DATA drive) and is symlinked in. That split is deliberate: RYA-660 was an OS-drive incident, and grid payloads must not grow the root filesystem.",
+  "why": "Not one of the 26 reported elements: A(H) = 12.00 BY DEFINITION, it is the zero point of the abundance scale and is not measured. Fetched because H NLTE matters as background opacity and as an electron donor in other elements' departure calculations, and because Balmer profiles are a Teff diagnostic. Cheap at 153 MB.",
+  "files": {
+    "model_atom": {
+      "name": "atom.h20",
+      "url": "https://keeper.mpdl.mpg.de/f/12d1913cff844c70866d/?dl=1",
+      "md5": "912ce2d16dd2827a68a2fb6422e10baf"
+    },
+    "1d_bin": {
+      "name": "NLTEgrid_H_MARCS_May-10-2021.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/c70a87b91e384847b1f8/?dl=1",
+      "md5": "970bb5db7dcab8f891ef4a6615ff0a8d"
+    },
+    "1d_aux": {
+      "name": "auxData_H_MARCS_May-10-2021.txt",
+      "url": "https://keeper.mpdl.mpg.de/f/fb1424922f424aa980ce/?dl=1",
+      "md5": "833f283f5551df20f54fabfc3f9e51be"
+    }
+  },
+  "gate": {
+    "status": "NOT YET VALIDATED",
+    "required": "RYA-534 anchor gate must pass before this element is marked `wired` in data/curation/nlte_two_engine_coverage.csv. A grid that lands is not a grid that is trusted."
+  }
+}
