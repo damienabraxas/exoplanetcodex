@@ -423,13 +423,37 @@ _OWED_NOT_LAUNDERED = {
            "holds LOW_CONFIDENCE -- 'HFS-resolved synthesis + a cleaner Sc II line owed "
            "before any PASS'. physics_regime's GET-DATA is CORRECT; there is nothing to "
            "reconcile to. Cleared by measuring Sc, NOT by an exceptions entry."),
+    # RYA-695 RE-ADDS Ba, for a DIFFERENT cause than the entry RYA-665 retired. Read the
+    # note below before touching this: the previous removal was correct, and so is this
+    # re-addition, and confusing the two would be the hiding place the guard exists to
+    # close.
+    "Ba": ("RYA-695 GOLD-LAG (not a measurement dispute): every LIVE artifact agrees "
+           "Ba II is 2.237 / PASS -- phase_c, the tracker and the two-engine floor all "
+           "read the SAME RYA-581 in-window deblend (wired by RYA-680). FROZEN gold v3 "
+           "still carries the superseded RYA-559 EW->COG state (2.410, CURATION-OWED) "
+           "because it was frozen by RYA-665 before that re-measurement landed, and gold "
+           "is write-once (RYA-469). The artifacts do not contradict each other about "
+           "the science; the frozen table is simply older than the measurement. "
+           "RETIREMENT TRIGGER: the gold v4 freeze (RYA-677). If Ba is still red after "
+           "v4 freezes, this entry is STALE and the red is real -- delete it and "
+           "investigate rather than re-dating it."),
 }
-# Ba's entry is GONE, and its removal is the point. It read "Cleared by the RYA-527 gold
-# v3 re-freeze, NOT by this guard" -- RYA-665 performed exactly that freeze, so gold v3
-# now carries Ba n_lines=1 + the honest RYA-559 synthesis cause and Ba is no longer an
-# offender. Leaving the entry behind would be worse than dead code: it would annotate a
-# FUTURE genuine Ba contradiction as "documented-owed" and drop it out of the
-# undocumented count, which is the exact hiding place this guard exists to close.
+# WHY Ba APPEARS HERE TWICE IN HISTORY, and why that is not a pattern to copy.
+#
+# RYA-665 DELETED Ba's original entry, and that deletion was the point: the entry read
+# "Cleared by the RYA-527 gold v3 re-freeze, NOT by this guard", RYA-665 performed
+# exactly that freeze, and a retired trigger must take its entry with it. Leaving it
+# would have been worse than dead code -- it would annotate a FUTURE genuine Ba
+# contradiction as "documented-owed" and drop it out of the undocumented count.
+#
+# RYA-695 re-adds Ba because Ba MOVED AGAIN (RYA-581 deblend 2.410 -> 2.237, wired by
+# RYA-680) and frozen v3 lags it again. That is the same SHAPE of red as before and a
+# different INSTANCE, with its own trigger.
+#
+# The rule this illustrates: an entry here is licensed by a NAMED, CHECKABLE trigger,
+# never by "this element is usually red". Every entry must state the event that retires
+# it, and when that event happens the entry goes -- even if the element promptly earns a
+# new one.
 
 
 def _annotate_documented(message: str) -> str:
