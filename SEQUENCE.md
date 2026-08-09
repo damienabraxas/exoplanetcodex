@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-08
 
+- **RYA-709** — full per-element line accounting: **11,220 reachable, 368 measured, 10,852 unmeasured**; gold elements included (Fe 4000 unmeasured)
 - **RYA-708** — per-(instrument × band) abundances ratified; the cross-instrument delta is a **blend diagnostic** (Al: clean line agrees to 0.019, blended disagrees by 0.092)
 - **RYA-708** — coverage service rebased onto the EXISTING instrument catalog (my duplicate deleted); IAG + solar holdings registered; near-UV sweep adds 3633 lines → **5099 untouched**
 - **RYA-708** — "all wavelengths, all instruments, all models" written into SCIENCE_STANDARDS; the EW pool is **HARPS-only**, 0 of 808 lines beyond 6910 Å
