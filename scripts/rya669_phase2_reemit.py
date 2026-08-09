@@ -637,7 +637,11 @@ def main() -> int:
     (out_dir / 'proposed_gold_v4_diff.json').write_text(json.dumps(payload, indent=2))
     (out_dir / 'proposed_gold_v4_diff.md').write_text(
         render_diff_md(rows, counts, decisions, moved))
-    (out_dir / 'phase2_run_summary.md').write_text(
+    # RYA-695: the summary is named for the emission, not for RYA-669's phase. With
+    # --out-dir the same driver produces Phase 3, and a file called phase2_run_summary
+    # sitting in rya527_phase3/ is the kind of small mislabel that later gets read as
+    # evidence the directory holds Phase 2 output.
+    (out_dir / f'{out_dir.name.split("_")[-1]}_run_summary.md').write_text(
         render_summary_md(rows, counts, decisions, moved, report, stops,
                           gold_version, te_path))
 
