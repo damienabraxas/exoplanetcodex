@@ -1,0 +1,47 @@
+{
+  "source": "NIST Atomic Spectra Database (lines_form.html)",
+  "pulled_by": "Ryan Schmitt",
+  "pulled_date": "2026-08-09",
+  "md5": "eab5477d5ee056e7f70ef1dff266a3bb",
+  "bytes": 1834,
+  "ticket": "RYA-708",
+  "query": {
+    "spectrum": "Al I",
+    "range": "7800-8800 A",
+    "units": "Angstrom, AIR"
+  },
+  "self_check": "log gf = log10(g_i * f_ik) reproduces every stated log_gf to 4 dp",
+  "unresolved_components": "7836.134 and 8773.896 each return TWO rows -- same Ei, different J_k. They are unresolved components of one feature and MUST be summed, exactly as HFS is. Taking the strongest row alone understates 7836 by 0.019 dex and 8773 by 0.010.",
+  "result": {
+    "7835.309": {
+      "log_gf": -0.689,
+      "acc": "B",
+      "n_rows": 1,
+      "linelist": -0.649,
+      "delta": -0.04
+    },
+    "7836.134": {
+      "log_gf_summed": -0.513,
+      "acc": "B+",
+      "n_rows": 2,
+      "linelist": -0.494,
+      "delta": -0.019
+    },
+    "8772.866": {
+      "log_gf": -0.349,
+      "acc": "B+",
+      "n_rows": 1,
+      "linelist": -0.316,
+      "delta": -0.033
+    },
+    "8773.896": {
+      "log_gf_summed": -0.171,
+      "acc": "B+",
+      "n_rows": 2,
+      "linelist": -0.161,
+      "delta": -0.01
+    }
+  },
+  "headline": "the linelist gf for all four IR lines is ALREADY within 0.010-0.040 dex of NIST. The 0.222 dex offset found on 6696/6698 is SPECIFIC TO THAT PAIR, not a systemic scale error -- which is a materially different diagnosis than the one v50 recorded.",
+  "bonus_graded_lines": "8065.968 C+ -1.763, 8075.353 C+ -1.509, 8076.289 C -2.462"
+}
