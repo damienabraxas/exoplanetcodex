@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-08
 
+- **RYA-708** — Kitt Peak found + registered (2960–13000 Å, widest arm); Al now has THREE arms, KP corroborates IAG to 1–2%
 - **RYA-708** — coverage service + instrument registry; **corrects v48's false Al NO-DATA** (IAG covers 7835/8772; 8772 is the element's strongest line)
 - **RYA-706** — promotion gate ratified: promoted lines get a gf check. Al pilot reaches 6.431 (Asplund 6.43) but **STOPS on 0.339 dex scatter**; all 654 candidates HOLD ungraded
 - **RYA-706** — stage-2 (fit→pool) ledger built: 8149 drops classified, **913 UNEXPLAINED**, **229 recovery candidates** incl. 2 clean Al lines for an element reporting nothing
