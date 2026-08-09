@@ -197,14 +197,32 @@ def fate(row, W, F, fitted: pd.DataFrame, pool_waves: set,
          synth_note: str | None = None) -> dict:
     """The four measured facts, plus what the pipeline did."""
     w0 = float(row.wavelength_air_A)
-    in_cov = bool(W.min() <= w0 <= W.max())
+    # RYA-708: coverage is a question about the CODEX, not about the one spectrum this
+    # script happens to load. Asking `W.min() <= w0 <= W.max()` is what produced the
+    # false "NO DATA" verdict on Al I 7835/8772 -- lines the IAG atlas has covered all
+    # along -- and put it into the state register and a published artifact.
+    from pipeline.coverage import coverage_at
+    ans = coverage_at(w0, "solar")
+    in_cov = bool(W.min() <= w0 <= W.max())          # loadable by THIS script, right now
     out = {"wave": w0, "ion": row.ion, "in_coverage": in_cov,
            "predicted_depth": float(row.predicted_depth),
            "n_components": int(row.n_components)}
+    out["covering_instruments"] = tuple(i.instrument for i in ans.covering)
     if not in_cov:
-        out.update(depth=float("nan"), absorbed=float("nan"), fitted_ew=None,
-                   in_pool=False, verdict="NO DATA", colour=C_NODATA,
-                   why="outside our wavelength coverage")
+        if ans.is_data_gap:
+            out.update(depth=float("nan"), absorbed=float("nan"), fitted_ew=None,
+                       in_pool=False, verdict="NO DATA", colour=C_NODATA,
+                       why=("no instrument registered for the Sun reaches this wavelength "
+                            "— a real data gap"))
+        else:
+            # COVERED BY ANOTHER ARM. Emphatically not a data gap, and the distinction is
+            # the whole of RYA-708: Al I 8772/8773 is 36.7% deep in IAG and carries the
+            # strongest oscillator strength in the element.
+            names = ", ".join(out["covering_instruments"])
+            out.update(depth=float("nan"), absorbed=float("nan"), fitted_ew=None,
+                       in_pool=False, verdict="OTHER ARM", colour=C_SAT,
+                       why=(f"covered by {names}, which this run did not load. NOT a data "
+                            f"gap — measure it on that arm before calling it unresolved"))
         return out
     out["depth"] = _depth(W, F, w0)
     out["absorbed"] = _integrated_absorption(W, F, w0 - WINDOW_A, w0 + WINDOW_A)
@@ -314,10 +332,14 @@ def plot_element(element: str, W, F, ll, fitted, pool_waves, out_dir: Path,
     for ax, f in zip(axes.ravel(), show):
         w0 = f["wave"]
         if not f["in_coverage"]:
-            ax.text(0.5, 0.5, f"{element} {f['ion']}  {w0:.3f} Å\n\nNO DATA\n"
-                              f"outside {W.min():.0f}–{W.max():.0f} Å",
-                    ha="center", va="center", fontsize=10, color=C_NODATA,
-                    fontweight="bold", transform=ax.transAxes)
+            gap = f["verdict"] == "NO DATA"
+            msg = (f"{element} {f['ion']}  {w0:.3f} Å\n\nNO DATA\n"
+                   f"no registered instrument reaches this" if gap else
+                   f"{element} {f['ion']}  {w0:.3f} Å\n\nCOVERED BY "
+                   f"{', '.join(f['covering_instruments'])}\nnot loaded by this run")
+            ax.text(0.5, 0.5, msg, ha="center", va="center", fontsize=10,
+                    color=C_NODATA if gap else C_SAT, fontweight="bold",
+                    transform=ax.transAxes)
             ax.set_xticks([]); ax.set_yticks([])
             for s in ax.spines.values():
                 s.set_color(C_NODATA); s.set_linestyle(":")
