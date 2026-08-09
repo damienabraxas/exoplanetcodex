@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-08
 
+- **RYA-711** — engines ratified as SEPARATE products, never combined (narrows RYA-525 aggregation); Fe's first-ever engine gate returns CHECK, matching Ti's pattern
 - **RYA-710** — Gerber Fe (607 levels, 12,635 transitions) + H fetched, md5-pinned, symlinked to the data drive; 4 more exist but need 146 GB
 - **RYA-711** — element protocol: DONE = every reachable line has an outcome. **Al scored 4/26 → IN PROGRESS, not done.** 10,852 lines scoped across 26 elements
 - **RYA-710** — EW pool gains required `instrument` + `instrument_provenance`; all 808 rows verified `harps`; guard never defaults
