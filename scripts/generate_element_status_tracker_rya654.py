@@ -85,6 +85,7 @@ if str(ROOT) not in sys.path:
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
+from pipeline import model_attempt_ledger as mal   # RYA-695 `models_tried`
 from pipeline import state_surfaces  # noqa: E402
 
 # Every file this generator reads or writes is a registered state surface (RYA-659).
@@ -108,7 +109,8 @@ FE_II_KEY = "Fe_II"
 COLUMNS = [
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
-    "two_engine_wiring_status", "refinement_debt",
+    "two_engine_wiring_status", "chosen_engine", "selection_reason", "models_tried",
+    "refinement_debt",
     "engine_a_model_vintage", "engine_b_model_vintage", "classification",
     "action_needed", "source_tickets", "editorial_updated", "notes",
 ]
@@ -116,8 +118,25 @@ COLUMNS = [
 GENERATED_COLUMNS = frozenset({
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
-    "two_engine_wiring_status", "refinement_debt",
+    "two_engine_wiring_status", "chosen_engine", "selection_reason", "models_tried",
+    "refinement_debt",
 })
+
+#: RYA-695. The tracker said which engines COVER an element
+#: (`two_engine_wiring_status`) and never which one was CHOSEN, why, or what else had
+#: been tried. Ryan: "it should show which element was chosen, where we got the damn
+#: thing and why we chose it. But it should also reference any model we tried. ... we
+#: keep repeating work."
+#:
+#: `chosen_engine` / `selection_reason` come from the two-engine record, which since
+#: RYA-695 carries the per-line `reason` and `regime` the RYA-525 selector always
+#: computed and the emitter always discarded. `models_tried` is a JOIN over records
+#: that already exist (grid provenance `supersedes` chains, the Engine-B deck ledger,
+#: the availability table) — see pipeline/model_attempt_ledger.py. No column here is
+#: hand-filled; an element with nothing on record says "none on record" rather than
+#: emitting a blank that reads as "never investigated".
+TWO_ENGINE_REL = "data/audit/rya527_phase3/solar_two_engine_records.json"
+TWO_ENGINE_PATH = ROOT / TWO_ENGINE_REL
 
 #: RYA-673. The tracker already says what each element's verdict IS; it never said how
 #: many engines that verdict rests on. Those are different facts, and the second one is
@@ -220,6 +239,22 @@ def load_wiring() -> dict:
                 for r in _csv.DictReader(fh)}
 
 
+def load_wiring_rows() -> dict:
+    """(element, ion) -> the FULL audit row (RYA-695).
+
+    `load_wiring` returns only the status string, which is all the
+    `two_engine_wiring_status` column needs. `selection_reason` additionally needs the
+    audit's `single_engine_reason` — the cited evidence that a missing engine is
+    impossible rather than unfinished — so the whole row is read here rather than
+    widening the existing loader's contract.
+    """
+    if not WIRING_PATH.exists():
+        raise SourceError(f"two-engine wiring audit not found at {WIRING_REL}")
+    import csv as _csv
+    with WIRING_PATH.open(encoding="utf-8") as fh:
+        return {(r["element"], r["ion"]): r for r in _csv.DictReader(fh)}
+
+
 def tier_of(element: str) -> str:
     """RYA-522 ratified freeze tier, read from the gold builder -- not re-implemented."""
     from build_solar_reference_v2_rya522 import confidence_of
@@ -295,12 +330,77 @@ def load_refinement_debt() -> dict:
         raise SourceError(str(exc)) from exc
 
 
+def load_two_engine() -> dict:
+    """element -> the two-engine record for its REPORTED ion (RYA-695).
+
+    Loud on absence, like every other source: a blank `chosen_engine` column would
+    read as "no engine was chosen", which is a much stronger claim than "the record
+    was not regenerated".
+    """
+    if not TWO_ENGINE_PATH.exists():
+        raise SourceError(
+            f"two-engine record not found at {TWO_ENGINE_REL} -- it holds the columns "
+            f"`chosen_engine` / `selection_reason`. Regenerate it on Sirius with "
+            f"scripts/rya527_two_engine_run.py --out-dir data/audit/rya527_phase3")
+    doc = json.loads(TWO_ENGINE_PATH.read_text(encoding="utf-8"))
+    by: dict[str, list[dict]] = {}
+    for r in doc.get("records", []):
+        by.setdefault(str(r["element"]), []).append(r)
+    return by
+
+
+_ENGINE_LABEL = {"engineA_1dnlte": "A", "engineB_synth": "B"}
+
+
+def _engine_cells(two_engine: dict, wiring: dict, element: str, ion: str) -> tuple:
+    """(chosen_engine, selection_reason) for one species.
+
+    Four outcomes, all of them meaningful and none of them blank:
+      * both engines won lines        -> "both (aggregated)" + the per-reason split
+      * one engine won every line     -> that engine + why it won
+      * no two-engine record           -> the wiring audit's ratified single-engine
+                                          reason, or an explicit "not in the record"
+    """
+    recs = [r for r in two_engine.get(element, []) if str(r.get("ion")) == ion] \
+        or two_engine.get(element, [])
+    if not recs:
+        w = wiring.get((element, ion)) or {}
+        single = str(w.get("single_engine_reason") or "").strip()
+        if single:
+            return "single-engine (ratified)", single
+        return "none", ("element produces no two-engine record -- it is absent from "
+                        "both engines' coverage; see two_engine_wiring_audit.csv")
+    rec = max(recs, key=lambda r: r.get("n_lines") or 0)
+    engines = [_ENGINE_LABEL.get(e, e) for e in (rec.get("selected_engines") or [])]
+    if not engines:
+        return "none", "two-engine record carries no selected engine"
+    chosen = "both (aggregated)" if len(engines) > 1 else engines[0]
+    bits = []
+    for sr in (rec.get("selection_reasons") or []):
+        bits.append(f"{_ENGINE_LABEL.get(sr.get('engine'), sr.get('engine'))}"
+                    f" x{sr.get('n_lines')}: {sr.get('reason')}")
+    reason = " | ".join(bits) if bits else "no per-line reason recorded"
+    if rec.get("mix_flagged"):
+        reason = (f"MIX FLAGGED (mean cross-engine delta "
+                  f"{rec.get('mean_cross_engine_delta')} exceeds the gate -- adjudicate, "
+                  f"do not trust the mean): " + reason)
+    elif rec.get("cross_engine_mix"):
+        reason = (f"cross-engine mix, within gate (mean delta "
+                  f"{rec.get('mean_cross_engine_delta')}): " + reason)
+    if rec.get("engineB_source"):
+        reason += f" || Engine-B source: {rec['engineB_source']}"
+    return chosen, reason
+
+
 def build_rows() -> list[dict]:
     phase_c = load_phase_c()
     regime = load_regime()
     editorial = load_editorial()
     wiring = load_wiring()
     debt = load_refinement_debt()
+    two_engine = load_two_engine()
+    wiring_rows = load_wiring_rows()
+    attempts = mal.attempts_by_element()
 
     rows = []
     for rec in phase_c["verdicts"]:
@@ -324,13 +424,16 @@ def build_rows() -> list[dict]:
             "method": _fmt(rec.get("channel")),
             "regime_verdict": str(spec.get("verdict", "")).strip(),
             "two_engine_wiring_status": _wiring_for(wiring, element, ion),
+            **dict(zip(("chosen_engine", "selection_reason"),
+                       _engine_cells(two_engine, wiring_rows, element, ion))),
+            "models_tried": mal.render_cell(element, attempts),
             "refinement_debt": _debt_cell(debt, element),
             **{k: str(ed[k]) for k in (
                 "engine_a_model_vintage", "engine_b_model_vintage", "classification",
                 "action_needed", "source_tickets", "editorial_updated", "notes")},
         })
 
-    rows.append(_fe_ii_row(editorial, wiring, debt))
+    rows.append(_fe_ii_row(editorial, wiring, debt, two_engine, wiring_rows))
 
     # A registry row naming an element no tracker row carries would render nowhere --
     # the same silent drop this column exists to stop, one level up. Checked against the
@@ -348,7 +451,8 @@ def _debt_cell(debt: dict, element: str) -> str:
     return refinement_debt_join.debt_cell(element, debt)
 
 
-def _fe_ii_row(editorial: dict, wiring: dict, debt: dict) -> dict:
+def _fe_ii_row(editorial: dict, wiring: dict, debt: dict,
+               two_engine: dict, wiring_rows: dict) -> dict:
     """The Fe II ionization-arbiter row, from the ratified arbiter constant (RYA-305/341/405).
 
     It asserts no element verdict -- it is the diagnostic the Fe I anchor is gated on --
@@ -375,6 +479,9 @@ def _fe_ii_row(editorial: dict, wiring: dict, debt: dict) -> dict:
                   f" (dFe {_fmt(solar.get('dFe'), '+.3f')})",
         "regime_verdict": "",
         "two_engine_wiring_status": _wiring_for(wiring, "Fe", "II"),
+        **dict(zip(("chosen_engine", "selection_reason"),
+                   _engine_cells(two_engine, wiring_rows, "Fe", "II"))),
+        "models_tried": mal.render_cell("Fe"),
         # Fe carries no registry row; this resolves to "" and says so honestly rather
         # than being special-cased blank.
         "refinement_debt": _debt_cell(debt, "Fe"),
