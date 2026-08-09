@@ -325,7 +325,7 @@ def test_every_emission_path_calls_the_gate():
             f"{rel} emits per-element results but never invokes the RYA-674 gate")
 
 
-# ── RYA-691 / RYA-701: an unreliable value must not be emitted ────────────────
+# ── RYA-691 / RYA-699: an unreliable value must not be emitted ────────────────
 # The rule is RYA-679's (`not railed AND dEW_dA >= floor`). RYA-691 made the
 # two-engine loader honour it at read time; Ryan ratified it as a RYA-674 constraint
 # on 2026-08-08 so it also holds at EMISSION time, in any module.
@@ -400,7 +400,7 @@ def test_the_producer_cannot_write_a_basis_the_gate_would_refuse():
 
 
 def test_the_loader_writes_its_basis_through_the_shared_vocabulary():
-    """RYA-701's actual change: the two basis strings stopped being private to one
+    """RYA-699's actual change: the two basis strings stopped being private to one
     script. If they drift back into f-strings there, the gate silently stops matching."""
     src = (ROOT / 'scripts' / 'rya527_two_engine_run.py').read_text(encoding='utf-8')
     assert 'from pipeline.reliability_contract import reliability_basis' in src

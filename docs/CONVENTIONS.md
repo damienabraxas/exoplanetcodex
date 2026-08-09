@@ -251,7 +251,7 @@ python pipeline/ledger_consistency_guard.py --json      # same counts, machine-r
 
 The report is **informational by construction** and must stay that way — see LEDGERS.md.
 
-### Pre-brief refinement debt check — INSTALLED at `skills/codex-mr-code-brief/` (RYA-701)
+### Pre-brief refinement debt check — INSTALLED at `skills/codex-mr-code-brief/` (RYA-699)
 
 The fourth piece of RYA-676 is a mandatory pre-brief check: before any pre-freeze,
 verification-gate or phase-close brief, read the tracker's `refinement_debt` column and

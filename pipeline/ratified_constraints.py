@@ -353,7 +353,7 @@ def _check_fe_reported_scale(row: EmissionRow) -> Optional[str]:
 
 
 def _check_reliability_declared(row: EmissionRow) -> Optional[str]:
-    """`unreliable_value_must_not_be_emitted` — RYA-679/691, ratified RYA-701.
+    """`unreliable_value_must_not_be_emitted` — RYA-679/691, ratified RYA-699.
 
     Ratified: a measurement the RYA-679 rule demoted (`reliable=False`: railed, or
     dEW_dA below the floor) must not reach a consumer — and an artifact that carries no
@@ -458,7 +458,7 @@ RATIFIED_CONSTRAINTS: tuple[RatifiedConstraint, ...] = (
               "because reliability is not defined for every artifact shape",
         constraint_type=ConstraintType.FORBIDDEN_VALUE,
         check_fn=_check_reliability_declared,
-        provenance_ticket='RYA-679 / RYA-691 (ratified as a constraint RYA-701)',
+        provenance_ticket='RYA-679 / RYA-691 (ratified as a constraint RYA-699)',
     ),
 )
 

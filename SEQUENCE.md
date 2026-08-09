@@ -17,7 +17,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-08
 
-- **RYA-701** — RYA-691's reliability rule ratified as the 4th RYA-674 constraint (vocabulary single-sourced so the gate can read what the loader writes); codex-mr-code-brief skill homed in `skills/`, narrowing RYA-386
+- **RYA-694 CORRECTION** — RYA-694 was auto-closed by PR #205's branch name with none of its work done; reopened. Real tickets: RYA-700/701/702 (see register v46)
+- **RYA-699** — RYA-691's reliability rule ratified as the 4th RYA-674 constraint (vocabulary single-sourced so the gate can read what the loader writes); codex-mr-code-brief skill homed in `skills/`, narrowing RYA-386
 - **RYA-694** — systems catalog reconciled with the public site: 19 systems, 5 published-but-untracked added, spectral types backfilled, Copernicus recorded
 - **RYA-695** — Kitt Peak wired as Engine B (N/K/Sc); P I refused as a RAILED fit; `none-published` splits impossible tasks from unpulled grids; tracker gains chosen_engine/selection_reason/models_tried; Phase 3 re-emit, Ba 2.237
 - **RYA-690** — register header collapsed 8 lines → 1, three orphaned landings rehomed (v33/v37/v38); structure guard + SEQUENCE merge=union

@@ -2,7 +2,7 @@
 """
 pipeline/reliability_contract.py — the `reliable` flag's CONSUMER-side vocabulary
 ================================================================================
-RYA-691 (rule ratified RYA-679; emission-time enforcement ratified RYA-701).
+RYA-691 (rule ratified RYA-679; emission-time enforcement ratified RYA-699).
 
 The rule itself lives in `scripts/solar_profile_fit.assess_reliability`:
 
