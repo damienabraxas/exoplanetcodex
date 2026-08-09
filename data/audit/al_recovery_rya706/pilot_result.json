@@ -1,0 +1,68 @@
+{
+  "ticket": "RYA-706",
+  "pilot": "Al recovery \u2014 EW -> 1D-LTE -> NLTE ladder, executed",
+  "status": "PILOT RESULT \u2014 NOT a ratified value, nothing written to any pool or reference",
+  "selection_basis": "lines chosen BEFORE any abundance was computed: unexplained stage-2 drop, zero contaminants above 10% of own depth, observed depth >= 2%, chi2 <= 0.01, REW below the -4.9 linear ceiling. Agreement with literature is corroboration, NEVER the criterion (validate-don't-tune).",
+  "lines": [
+    {
+      "species": "Al I",
+      "wave_air_A": 6696.023,
+      "ew_mA": 60.3,
+      "ew_err_mA": 2.51,
+      "ew_err_frac": 0.042,
+      "chi2": 0.0003,
+      "observed_depth": 0.228,
+      "rew": -5.045,
+      "log_gf": -1.886,
+      "nist_grade": null,
+      "A_1D_LTE": 6.629,
+      "delta_nlte": -0.0275,
+      "A_1D_NLTE": 6.601,
+      "in_committed_pool": false
+    },
+    {
+      "species": "Al I",
+      "wave_air_A": 6698.673,
+      "ew_mA": 24.15,
+      "ew_err_mA": 1.13,
+      "ew_err_frac": 0.047,
+      "chi2": 0.0001,
+      "observed_depth": 0.135,
+      "rew": -5.443,
+      "log_gf": -2.249,
+      "nist_grade": null,
+      "A_1D_LTE": 6.279,
+      "delta_nlte": -0.0171,
+      "A_1D_NLTE": 6.262,
+      "in_committed_pool": false
+    }
+  ],
+  "result": {
+    "A_Al_1D_NLTE_mean": 6.431,
+    "n_lines": 2,
+    "line_spread_dex": 0.339,
+    "half_range_dex": 0.17,
+    "asplund2021": 6.43,
+    "delta_vs_asplund": 0.001
+  },
+  "corroboration": "the Al_Amarsi2020_PySME NLTE grid contains EXACTLY two wavelengths, 6696.02 and 6698.67 \u2014 the two recovered lines and no others. The grid was built for these lines; the committed pool never carried either.",
+  "what_the_pool_holds_instead": {
+    "lines": [
+      {
+        "wave": 6631.218,
+        "A_lte": 7.244
+      },
+      {
+        "wave": 6696.185,
+        "A_lte": 7.406
+      }
+    ],
+    "note": "both over-claim absorption (34.53 mA fitted vs 7.41 absorbed; and 119.95 mA across the 6696 pair vs 66.48 absorbed) and BOTH are rejected by the pipeline's own EW sanity filter when re-run \u2014 5 lines in, 2 out, and the 2 it keeps are the recovered pair"
+  },
+  "STOP": {
+    "reason": "two-line scatter 0.339 dex",
+    "detail": "EW errors of 4.2% and 4.7% account for ~0.02-0.04 dex. The 0.339 dex line-to-line spread is NOT measurement noise. It is LARGER than the Mg 5528-vs-5711 discordance of 0.21 dex that keeps Mg owed, so Al faces the same question and must not be promoted on the mean alone.",
+    "likely_cause": "relative gf. Both lines share EP 3.1427 and differ only in log gf (-1.886 vs -2.249), both ungraded (nist_grade absent, K75 provenance). A relative gf error maps directly onto the spread.",
+    "next_rung": "synthesis (3 further Al candidates incl. 6696.020 deblend) + a graded Al gf pull"
+  }
+}
