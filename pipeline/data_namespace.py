@@ -142,13 +142,66 @@ def resolve_version(version: str = 'CURRENT') -> str:
 
 
 # ── reading the differential denominator (Deliverable D) ─────────────────────
+#: RYA-695 — the prefix that reads a CANDIDATE reference instead of a frozen version.
+#:
+#: WHY A CANDIDATE NEEDS A DOOR OF ITS OWN. RYA-681 made the scale-provenance guard a
+#: hard refusal, and gold v3 trips it: it carries A(Fe) 7.466 (the POST 1D->3D value)
+#: under method_scale '1D-NLTE (Fe I)', so `resolve_gold_scale` sees a row that
+#: contradicts itself and declines to load. That is the guard working — the fix is a
+#: re-freeze, never a code exemption — but it also means NO re-emit can run against
+#: CURRENT until v4 is frozen, and the re-emit is the evidence the freeze is decided
+#: on. RYA-653 already produced the corrected table
+#: (`solar_abundances_corrected_candidate_rya653.csv`: same values, `scale_state`
+#: 3D-NLTE, `corrections_applied` populated); it simply had no way to be read.
+#:
+#: Deliberately NOT a version. `reference_path()` still accepts only 'v<N>', the
+#: CURRENT pointer is untouched, and the returned provenance token keeps the
+#: `candidate:` prefix — so anything that stamps a version records, permanently and
+#: visibly, that it was differenced against a candidate and not against frozen gold.
+#: Gold stays write-once (RYA-469).
+CANDIDATE_PREFIX = 'candidate:'
+
+
+def candidate_path(name: str) -> Path:
+    """Path to a CANDIDATE (unfrozen) solar reference table under the reference dir.
+
+    Refuses anything that is not plainly a candidate: a bare filename, living in the
+    reference directory, whose stem contains 'candidate'. Without that last check this
+    function is a second way to open a FROZEN version — one that bypasses the version
+    resolver and the CURRENT pointer, which is exactly the ambiguity the RYA-469
+    write-once rule exists to prevent.
+    """
+    p = Path(name)
+    if p.name != str(name) or p.is_absolute():
+        raise ValueError(
+            f"candidate reference must be a bare filename inside {SOLAR_REFERENCE_DIR}, "
+            f"got {name!r}")
+    if 'candidate' not in p.stem:
+        raise ValueError(
+            f"{name!r} is not a candidate table (its name has no 'candidate'). Frozen "
+            f"versions are read through read_solar_reference('v<N>'), never this path — "
+            f"one file must not have two doors (RYA-469 write-once).")
+    return SOLAR_REFERENCE_DIR / p.name
+
+
 def read_solar_reference(version: str = 'CURRENT') -> tuple[pd.DataFrame, str]:
     """Read a frozen gold solar reference. Returns (DataFrame, resolved_version).
 
     Default reads CURRENT. The resolved version string is returned so callers can
     STAMP it into a target's provenance — re-baselining the Sun later never silently
     changes a target's already-derived numbers.
+
+    RYA-695: `version='candidate:<file>.csv'` reads an UNFROZEN candidate table from
+    the reference directory and returns the same `candidate:` token as its version, so
+    the distinction survives into every artifact downstream. See CANDIDATE_PREFIX.
     """
+    if str(version).startswith(CANDIDATE_PREFIX):
+        name = str(version)[len(CANDIDATE_PREFIX):]
+        path = candidate_path(name)
+        if not path.exists():
+            raise ImmutableReferenceError(
+                f"candidate solar reference missing at {path}")
+        return pd.read_csv(path, comment=_COMMENT), f'{CANDIDATE_PREFIX}{path.name}'
     v = resolve_version(version)
     path = reference_path(v)
     if not path.exists():

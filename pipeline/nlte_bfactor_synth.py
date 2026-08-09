@@ -58,7 +58,8 @@ _REPO = Path(__file__).resolve().parents[1]
 if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
-from config.constants import sirius_grid_path, assert_on_sirius  # noqa: E402  (RYA-567)
+from config.constants import (sirius_grid_path, assert_on_sirius,  # noqa: E402  (RYA-567)
+                              require_sirius_grid_dir)             # RYA-695
 
 # RYA-567: the Amarsi-2020 PySME `.grd` departure grids are a COMPUTE INPUT and live
 # ONLY on the Sirius data root (/mnt/codex-data/grids/nlte/amarsi_galah) — never a
@@ -218,6 +219,12 @@ class PySMEGrid:
 def read_amarsi_grid(element: str, base_dir: Path = _AMARSI_DIR) -> PySMEGrid:
     """Load the vendored PySME departure grid for `element` (the nlte_{El}*.grd in
     `base_dir`). Loud FileNotFoundError if not intaken."""
+    # RYA-695: when the store itself is absent or EMPTY, say THAT — a per-element
+    # "not intaken" message for a store that was never staged sends the reader
+    # hunting for a grid that is not the problem.
+    if base_dir == _AMARSI_DIR:
+        require_sirius_grid_dir('grids', 'nlte', 'amarsi_galah',
+                                context=f'Amarsi departure grid for {element}')
     matches = sorted(base_dir.glob(f'nlte_{element}_*.grd'))
     if not matches:
         raise FileNotFoundError(
