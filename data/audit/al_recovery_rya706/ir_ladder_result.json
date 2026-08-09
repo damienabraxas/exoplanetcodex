@@ -1,0 +1,57 @@
+{
+  "ticket": "RYA-708",
+  "request": "Ryan: 'run the ladder on 7835/7836, and whatever else we need on Al'",
+  "outcome": "LADDER RUN \u2014 rung 1 and rung 2 are BLOCKED by machinery, not by the data",
+  "rung_1_EW_1D_LTE": {
+    "status": "MEASURED, but ABUNDANCE BLOCKED",
+    "measured_on": "Kitt Peak lm0780 (7800-7841 A, 4714 pts, 8.6 mA sampling)",
+    "lines": {
+      "7835.309": {
+        "continuum": 0.9941,
+        "depth": 0.21,
+        "ew_mA": 45.94,
+        "fwhm_mA": 174.6,
+        "rew": -5.232
+      },
+      "7836.134": {
+        "continuum": 0.9921,
+        "depth": 0.262,
+        "ew_mA": 59.24,
+        "fwhm_mA": 183.1,
+        "rew": -5.121
+      }
+    },
+    "both_unsaturated": "REW -5.23 and -5.12, comfortably below the -4.9 linear ceiling",
+    "blocker": "the EW->abundance path matches measured EWs to iSpec GES line regions, and that file spans 4800.6-6793.3 A. The nearest region to 7835.31 is 1042 A away. No region, no atomic data, no abundance. This is a MACHINERY gap, not a data gap."
+  },
+  "rung_2_NLTE": {
+    "status": "BLOCKED",
+    "blocker": "Al_Amarsi2020_PySME.csv contains EXACTLY two wavelengths, 6696.023 and 6698.673. There is no NLTE correction available for any IR Al line. Even with rung 1 unblocked, the IR lines would yield 1D-LTE ONLY.",
+    "note": "the grid was built for the two optical lines the committed pool never carried"
+  },
+  "rung_3_synthesis": {
+    "status": "AVAILABLE",
+    "why": "Turbospectrum needs a line list and an atmosphere, not a GES region, so the synthesis rung can reach these lines today on Sirius. It would still be LTE synthesis unless the NLTE grid is extended."
+  },
+  "differential_check": {
+    "method": "linear-COG differential; same method both pairs so they compare to each other",
+    "IR_7835_7836": {
+      "dlog_gf": 0.176,
+      "dlog_EW": 0.11,
+      "implied_dA": -0.066
+    },
+    "OPT_6696_6698": {
+      "dlog_gf": -0.301,
+      "dlog_EW": -0.397,
+      "implied_dA": -0.096
+    },
+    "caution": "the +0.339 dex figure for the optical pair came from the pipeline's FULL curve of growth, where the two lines take different saturation corrections. These linear numbers are NOT the same quantity and do not supersede it. Suggestive only."
+  },
+  "what_al_still_needs": [
+    "line regions for 7835.309 / 7836.134 / 8772.866 / 8773.896 \u2014 83 columns of atomic data; the NIST pull supplies loggf, Ei, Ek, J, and the grades, so this is authoring, not guessing",
+    "an NLTE grid extension to the IR lines, or an explicit ratified statement that they are reported 1D-LTE and why that is acceptable for high-excitation subordinate lines",
+    "the RYA-354 surgical correction of canonical_gf 6696.023 (-1.347 -> -1.569) and the misassigned C+ grade sitting on 6696.185",
+    "a synthesis run on Sirius for the IR lines, which is the only rung open today"
+  ],
+  "standing": "Al has FOUR lines on TWO corroborating instruments with B/B+ grades and gf already within 0.01-0.04 dex of NIST. What it does not have is a way to turn any of that into an abundance. The blockers are ours, not the sky's."
+}

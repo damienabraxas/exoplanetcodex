@@ -1,0 +1,8 @@
+# RYA-708 — solar reference-atlas holdings: where each solar arm LIVES and how to read it.
+# The instrument catalog says what an instrument covers; this says which file on which
+# machine holds our copy. host: mac | sirius | both. Spans are VERIFIED by
+# `python -m pipeline.coverage --verify`, which reports disagreement and never rewrites.
+instrument_id,host,path,loader,wave_min_A,wave_max_A,span_status,notes
+harps,mac,data/processed/solar_normalized.csv,csv_normalized,3782.6,6910.0,VERIFIED,normalised air wavelengths
+kpno_solar_atlas,mac,/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Solar Calibration/Kitt Peak Flux Atlas,kittpeak_lm_nm_dir,2960.0,13000.0,VERIFIED,col0 nm col1 norm flux
+iag_fts_solar_atlas,sirius,/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz,iag_wavenumber_gz,4047.4,10649.9,VERIFIED,col0 VACUUM WAVENUMBER cm-1
