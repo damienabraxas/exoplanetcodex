@@ -1,7 +1,7 @@
 {
   "ticket": "RYA-706",
   "pilot": "Al recovery \u2014 EW -> 1D-LTE -> NLTE ladder, executed",
-  "status": "PILOT \u2014 PROVISIONAL. See gf_caveat: the per-line A values are not yet trustworthy.",
+  "status": "PILOT \u2014 the ABUNDANCE is verified; the gf GRADE is not. Not a ratified value; nothing written to any pool or reference.",
   "selection_basis": "lines chosen BEFORE any abundance was computed: unexplained stage-2 drop, zero contaminants above 10% of own depth, observed depth >= 2%, chi2 <= 0.01, REW below the -4.9 linear ceiling. Agreement with literature is corroboration, NEVER the criterion (validate-don't-tune).",
   "lines": [
     {
@@ -66,33 +66,21 @@
     "next_rung": "synthesis (3 further Al candidates incl. 6696.020 deblend) + a graded Al gf pull"
   },
   "gf_caveat": {
-    "problem": "The A(Al) values were computed through the pipeline's EW path, and I have NOT verified which log gf that path consumed. Three different values exist per line and they are 0.11-0.49 dex apart.",
-    "per_line": {
-      "6696.023": {
-        "linelist_strongest_component": -1.886,
-        "linelist_hfs_summed": -1.46,
-        "canonical_gf": -1.347,
-        "canonical_status": "pending",
-        "canonical_source": "VALD3",
-        "A_overstated_if_single_component_used": 0.426
-      },
-      "6698.673": {
-        "linelist_strongest_component": -2.249,
-        "linelist_hfs_summed": -1.76,
-        "canonical_gf": -1.647,
-        "canonical_status": "pending",
-        "canonical_source": "VALD3",
-        "A_overstated_if_single_component_used": 0.489
-      }
-    },
-    "systematic": "linelist-summed minus canonical_gf is -0.113 dex for BOTH lines -- a consistent offset, so the two tables disagree systematically rather than randomly. That is a single-source violation worth its own finding regardless of Al.",
-    "consequence": "A 0.426/0.489 dex error would move the mean far off 6.43, so the fact that it landed there is weak evidence the path summed HFS correctly -- but agreement with literature is exactly the reasoning this project forbids, so it is NOT accepted as proof. The gf actually consumed must be read out of the EW path directly before the pilot number means anything.",
-    "status_of_both_lines": "adjudication_status = 'pending' in canonical_gf -- neither has ever been adjudicated"
+    "resolved": true,
+    "what_i_got_wrong": "I reported gf provenance from data/linelists/linelist_solar.csv (-1.886 / -2.249, the strongest HFS component) and warned the abundance might be overstated by 0.43-0.49 dex. That warning was unfounded: I quoted the wrong table.",
+    "verified": "RYA-353 single-sources gf for the live EW->abundance route. abundances_derive._build_ispec_line_regions calls apply_to_regions(), which overwrites every region's loggf from canonical_gf. Read back off the built linemasks directly: Al I 6696.0230 loggf -1.3470, Al I 6698.6730 loggf -1.6470 -- the canonical values.",
+    "consequence": "The pilot A(Al) values were computed on the adjudicated gf and STAND as computed.",
+    "still_open": "Both lines carry adjudication_status='pending' in canonical_gf with source VALD3 and no NIST grade. The VALUE is right for the gf we hold; whether that gf is right has never been decided."
   },
   "gf_pull_blocked": {
     "source": "NIST ASD lines1.pl",
     "evidence": "HTTP 500 on every query including a control 'Fe I 5000-5010' minimal request; physics.nist.gov root returns 301, so the host is up and the CGI endpoint is failing. Error: \"Can't use an undefined value as an ARRAY reference at ... lines1.pl line 701\". Memory attributed this signature to bibrefs=1; it now fires without it, so the endpoint behaviour has changed since 2026-07-27.",
     "repo_alternative": "data/linelists/nist_reference.csv holds 40 graded rows and ZERO for Al. Al has never been graded in this repo.",
     "known_primary": "Kelleher & Podobedova 2008 JPCRD 37 p709 (Al/Si) -- already cited in canonical_gf for Al I 6696.185 at grade C+, so the source covers Al but was only ever applied to that one line."
+  },
+  "single_source_finding": {
+    "finding": "linelist_solar.csv and canonical_gf.csv disagree on Al gf by a consistent -0.113 dex (HFS-summed linelist vs canonical, both lines).",
+    "impact": "NOT an abundance error -- the EW path reads canonical (RYA-353). It is a reporting hazard: any audit or plotting tool that reads linelist_solar for gf will state a different number than the one the pipeline used. I hit this myself twice today, in the RYA-707 promotion gate (repointed) and in the caveat above (retracted).",
+    "rule": "gf for reporting comes from canonical_gf, same as gf for computing. linelist_solar is not a gf source."
   }
 }
