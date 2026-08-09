@@ -72,6 +72,13 @@ def _engine_a_attempts() -> dict[str, list[dict]]:
     from config.constants import NLTE_CORRECTION_ELEMENTS
     production = {el: str(spec.get('grid') or '')
                   for el, spec in NLTE_CORRECTION_ELEMENTS.items()}
+    # Fe is production but is NOT in NLTE_CORRECTION_ELEMENTS: its leg is
+    # ionization-balance-gated and resolves through `nlte_corrections._MPIA_FE_GRID`
+    # instead of the per-element registry. Reading only the registry labels the Fe
+    # anchor grid BUILT-NOT-REGISTERED, which is exactly the kind of wrong-but-
+    # plausible line that sends someone to re-acquire a grid already in production.
+    from pipeline import nlte_corrections as _nc
+    production.setdefault('Fe', Path(_nc._MPIA_FE_GRID).name)
 
     grids, superseded_by = {}, {}
     for p in sorted(GRID_DIR.glob('*.csv')):
@@ -103,12 +110,23 @@ def _engine_a_attempts() -> dict[str, list[dict]]:
                 by, tick = superseded_by[name]
                 status = 'SUPERSEDED'
                 detail = f'replaced by {by}' + (f' ({tick})' if tick else '')
+            elif production.get(el):
+                # A different grid IS registered for this element, so this one was
+                # replaced — but nothing recorded WHEN or WHY (no `supersedes` key
+                # anywhere names it). Mg_Bergemann_MPIA, Si_Bergemann_MPIA and
+                # Na_Lind2011_INSPECT are all in this state. The displacement is a fact
+                # (read from the registry); the reason is genuinely not on record, and
+                # saying so is the point — that missing rationale is what gets
+                # re-litigated. Never inferred from file dates.
+                status = 'REPLACED-IN-PRACTICE'
+                detail = (f"not the registered grid for {el} ({production[el]} is); no "
+                          f"`supersedes` key anywhere names it, so the REASON for the "
+                          f"replacement is not on record — provenance gap, RYA-686 class")
             else:
-                # Present, not registered, and nothing claims to have replaced it. Say
-                # exactly that rather than guessing at a reason nobody wrote down.
+                # Present, and the element has no registered production grid at all.
                 status = 'BUILT-NOT-REGISTERED'
-                detail = 'on disk but not the registered production grid; no other '\
-                         'grid names it in `supersedes`'
+                detail = (f'on disk but {el} has no registered production grid in '
+                          f'NLTE_CORRECTION_ELEMENTS; nothing names it in `supersedes`')
             out.setdefault(el, []).append({
                 'engine': 'A', 'model': name, 'status': status, 'detail': detail,
                 'ticket': str(prov.get('ticket') or ''),
