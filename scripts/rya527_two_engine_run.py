@@ -74,6 +74,7 @@ from pipeline.engine_selection import (LineEngines, select_element, ENGINE_A, EN
                                        exclusion_reason, is_upper_limit_disposition)
 from pipeline.ratified_constraints import (  # RYA-674 emission-time gate
     RowKind, assert_ratified_constraints_satisfied)
+from pipeline.reliability_contract import reliability_basis  # RYA-691, ratified RYA-699
 from config.constants import (get_star_params, TARGET_ELEMENTS, NLTE_CORRECTION_ELEMENTS,
                               SOLAR_ASPLUND2021)
 import pipeline.problem_children as pc
@@ -128,10 +129,6 @@ class DedicatedEngineBError(RuntimeError):
     """
 
 
-#: RYA-691 — the recorded reliability basis when an artifact carries no RYA-679 flag.
-UNGATED = 'UNGATED'
-
-
 def _reliability_basis(obj, what, absent_reason, key='reliable'):
     """RYA-691: THE `reliable` contract for one dedicated Engine-B read.
 
@@ -144,11 +141,16 @@ def _reliability_basis(obj, what, absent_reason, key='reliable'):
 
     `absent_reason` is required, not optional: an artifact with no flag is a real
     and legitimate state, but only if the record says so in words.
+
+    RYA-699 moved the two basis strings into `pipeline.reliability_contract` so the
+    emission-time gate can READ back what this WRITES. The behaviour here is
+    unchanged; what changed is that a module which never calls this helper can no
+    longer emit an unreadable basis quietly.
     """
     if key not in obj:
-        return f"{UNGATED} — {absent_reason}"
+        return reliability_basis(None, key=key, absent_reason=absent_reason)
     if bool(obj.get(key)):
-        return f"RYA-679 reliability-gated: {key}=True"
+        return reliability_basis(True, key=key)
     raise DedicatedEngineBError(
         f"RYA-691: {what} is marked {key}=False and MUST NOT be emitted. The RYA-679 "
         f"rule (not railed AND dEW_dA >= 40.0) demoted this measurement; a consumer "
@@ -298,13 +300,14 @@ def _dedicated_engine_B():
             # what gets recorded. Asserting a gate here would be asserting one that does
             # not exist.
             n_prim = len(prims)
-            basis = (f"{UNGATED} — selection rule role='primary' ({prim.get('key')}"
-                     + (f", FIRST of {n_prim} primary indicators in artifact order"
-                        if n_prim > 1 else "")
-                     + f"); the RYA-491/237 cross-arm artifact carries no RYA-679 "
-                       f"reliability flag (not a profile fit: no dEW_dA / railed). Its "
-                       f"own quality statement: verdict={ca.get('verdict')!r}, "
-                       f"primary spread {ca.get('spread')}")
+            basis = reliability_basis(None, absent_reason=(
+                f"selection rule role='primary' ({prim.get('key')}"
+                + (f", FIRST of {n_prim} primary indicators in artifact order"
+                   if n_prim > 1 else "")
+                + f"); the RYA-491/237 cross-arm artifact carries no RYA-679 "
+                  f"reliability flag (not a profile fit: no dEW_dA / railed). Its "
+                  f"own quality statement: verdict={ca.get('verdict')!r}, "
+                  f"primary spread {ca.get('spread')}"))
             out[(el, 'I')] = (float(prim['A']),
                               f"nlte_cno synthesis {prim.get('key')} (RYA-491/237)", basis)
     if MN_JSON.exists():
@@ -386,9 +389,10 @@ def _dedicated_engine_B():
             float(a),
             f"RYA-564 Co I red HFS synth (NLTE; median of {len(lines_ok)} reliable "
             f"lines {', '.join(sorted(lines_ok))})",
-            f"RYA-679 reliability-gated: {len(lines_ok)} of "
-            f"{len([k for k in co if not k.startswith('_')])} fitted lines cleared "
-            f"(not railed AND dEW_dA >= 40.0)")
+            reliability_basis(True, detail=(
+                f"{len(lines_ok)} of "
+                f"{len([k for k in co if not k.startswith('_')])} fitted lines cleared "
+                f"(not railed AND dEW_dA >= 40.0)")))
     if BA_DEBLEND_JSON.exists():
         # ── RYA-680: Ba II — wired to the RYA-581 DEBLEND. Read this before editing ──
         # A(Ba) here is 2.237 (RYA-581 in-window blend-fit), NOT 2.410 (RYA-559
@@ -445,8 +449,9 @@ def _dedicated_engine_B():
                and d['harps'].get('reliable') and d['harps'].get('A_LTE') is not None]
         if rel:
             out[('Zr', 'II')] = (float(np.mean(rel)), f"{_tag} (n={len(rel)} reliable)",
-                                 f"RYA-679 reliability-gated: {len(rel)} line(s) cleared "
-                                 f"(not railed AND dEW_dA >= 40.0)")
+                                 reliability_basis(True, detail=(
+                                     f"{len(rel)} line(s) cleared "
+                                     f"(not railed AND dEW_dA >= 40.0)")))
             break
     if ('Zr', 'II') not in out:
         # RYA-691: gated-shut is a legitimate outcome; gated-shut IN SILENCE is not.
@@ -480,8 +485,9 @@ def _dedicated_engine_B():
         if v.get('lines_concordant') and v.get('target_reliable'):
             out[('Mg', 'I')] = (float(v['target_A_NLTE_engineB']),
                                 'RYA-592 Mg I 5528 in-window blend-fit synth (concordant)',
-                                'RYA-679 reliability-gated: target_reliable=True, '
-                                'AND RYA-592 concordance-gated: lines_concordant=True')
+                                reliability_basis(True, detail=(
+                                    'target_reliable=True, AND RYA-592 '
+                                    'concordance-gated: lines_concordant=True')))
         else:
             print(f"[two-engine] RYA-592 Mg I 5528 HELD OUT: reliable="
                   f"{v.get('target_reliable')}, concordant={v.get('lines_concordant')} "
