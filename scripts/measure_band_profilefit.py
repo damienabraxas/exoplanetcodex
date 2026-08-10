@@ -112,10 +112,17 @@ def main() -> None:
     ap.add_argument("--out", default=str(OUT))
     a = ap.parse_args()
 
-    # Band policy decides whether a profile fit is even valid here (RYA-713).
-    for edge in (a.lo, a.hi - 1e-6):
-        check_intake(edge, "profile-fit", instrument=a.instrument)
+    # Band policy decides whether a profile fit is valid here (RYA-713). Where the band
+    # bans it on its MEDIAN gap, individual lines may still escape -- isolation is a
+    # per-line property, and ~306 of 1612 near-UV Fe lines are isolated enough to fit.
+    from pipeline.band_policy import permits_profile_fit_for_line, BandPolicyError as _BPE
     pol = resolve_band((a.lo + a.hi) / 2.0)
+    band_permits = "profile-fit" in pol.permitted_methods
+    if not band_permits:
+        print(f"  {pol.name} bans profile fitting by default (median gap "
+              f"{pol.median_gap_A:.3f} A). Running PER-LINE: only lines whose nearest "
+              f"neighbour is >= {__import__('pipeline.band_policy', fromlist=['x']).PROFILE_FIT_MIN_GAP_A} A "
+              f"are measured; the rest are quarantined with that reason.")
     print(f"{a.element} {a.ion}  {a.lo:.0f}-{a.hi:.0f} A  {a.instrument}  band={pol.name}")
     if pol.telluric_required:
         print("  NOTE: this band requires telluric correction; telluric windows are skipped, "
@@ -141,6 +148,19 @@ def main() -> None:
         why = telluric_reason(c)
         if why:
             skipped.append(dict(wave=c, reason=why)); continue
+
+        # Per-line isolation: nearest catalogued neighbour, either side.
+        _d = np.abs(allw - c); _d = _d[_d > 1e-4]
+        gap = float(_d.min()) if len(_d) else 99.0
+        allowed, gap_reason = permits_profile_fit_for_line(c, gap)
+        if not allowed:
+            lm = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
+                                 instrument=a.instrument, ew_mA=float("nan"),
+                                 ew_method=f"profile fit not attempted in {pol.name}")
+            lm.in_aggregate = False
+            lm.excluded_reason = f"BAND-POLICY: {gap_reason}"
+            rows.append(lm)
+            continue
         try:
             w, f, src = load_kp_window(segs, c, pad=CONT_HALF_A * 1.3)
             m = np.abs(w - c) <= CONT_HALF_A
@@ -183,7 +203,9 @@ def main() -> None:
         lm = LineMeasurement(
             element=a.element, ion=a.ion, wavelength_air_A=c, instrument=a.instrument,
             ew_mA=float(ew),
-            ew_method=(f"PROFILE-FIT ({ptype}), model integrated; chi2_red={chi2:.4g}; "
+            ew_method=(f"PROFILE-FIT ({ptype}); gap {gap:.3f} A"
+                       + ("" if band_permits else f" [PER-LINE ESCAPE from {pol.name} ban]")
+                       + f"; model integrated; chi2_red={chi2:.4g}; "
                        f"sigma_fit={popt[2]:.4f} A (init {s_init:.4f}, floor {s_min:.4f}); "
                        f"ew_err={err:.2f} mA; continuum linear anchors at +/-{CONT_HALF_A} A; "
                        f"segment(s) {src}"))

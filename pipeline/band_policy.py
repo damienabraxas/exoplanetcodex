@@ -259,6 +259,29 @@ assert_not_tuned()
 # wings matter to ~0.15 A; 0.30 A of separation gives the window somewhere to sit.
 PROFILE_FIT_MIN_GAP_A = 0.30
 
+# TESTED ON near-UV Fe I AND IT YIELDS NOTHING (RYA-713, 2026-08-09).
+#
+# The escape is sound in principle and was worth testing. It was tested, on all 901
+# near-UV Fe I lines at usable depth, and the result is a clean negative:
+#
+#     845 refused by the gap test itself
+#      56 PASSED the isolation test
+#         -> their measured EW ran 107-922 mA, REW -4.51 to -3.59, EVERY ONE above the
+#            -4.90 saturation ceiling. A single solar Fe line is 10-150 mA; 922 mA is a
+#            blended complex, not a line.
+#      0  usable lines
+#
+# WHY the gap test passes lines that are not actually isolated: it measures the distance
+# to the nearest CATALOGUED neighbour, and near-UV catalogue completeness is ~77%. Roughly
+# a quarter of the features present are not in our list, so a 0.30 A "gap" routinely
+# contains an uncatalogued line. Absence of a neighbour in the catalogue is not absence in
+# the spectrum -- the same lesson the IR root-cause split produced from the other side.
+#
+# CONCLUSION: the near-UV band-wide ban was CORRECT. Synthesis really is the only valid
+# route there, and it stays blocked on a line list below 4200 A. The escape mechanism is
+# retained because it is the right shape for a band whose crowding is genuinely marginal,
+# but it must not be read as a near-UV workaround -- it was tried and it does not work.
+
 
 def permits_profile_fit_for_line(wavelength_A: float, nearest_neighbour_gap_A: float) -> tuple[bool, str]:
     """May THIS line be profile-fitted, even where the band bans it by default?
