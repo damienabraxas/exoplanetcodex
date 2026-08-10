@@ -54,7 +54,13 @@ from pipeline.measure.base import ControlResult, CONTROL_TOLERANCE_DEX  # noqa: 
 from scripts.measure_band_ew import kp_segments, load_kp_window  # noqa: E402
 
 OUT = ROOT / "data" / "audit" / "synthesis_control"
-CONTROL_LO, CONTROL_HI = 3924.0, 6905.0
+# The control band is the overlap of THREE things, not just the optical:
+#   the VIS policy band, the banked HARPS pool, and the SYNTHESIS LINE LIST.
+# GES v6 spans 4200-9200 A. Running the control from 3924 A included lines the
+# synthesiser cannot see at all -- 4065.381 A synthesised to EW 0.00 against a pool
+# value of 73.59 and counted as a failure of the METHOD when it was a coverage gap.
+GES_LO, GES_HI = 4200.0, 9200.0
+CONTROL_LO, CONTROL_HI = max(3924.0, GES_LO), min(6905.0, GES_HI)
 
 
 # iSpec is a source tree on Sirius, not a pip install.
@@ -160,7 +166,11 @@ def main() -> None:
     ap.add_argument("--element", default="Fe")
     ap.add_argument("--ion", default="I")
     ap.add_argument("--n", type=int, default=20, help="lines to control on")
-    ap.add_argument("--instrument", default="kpno_solar_atlas")
+    ap.add_argument("--instrument", default="kpno_solar_atlas",
+                    choices=["kpno_solar_atlas", "harps"],
+                    help="harps uses the pipeline's normalised solar spectrum -- the SAME "
+                         "spectrum synth-v2 measured A(Fe I)=7.520 on, so the comparison "
+                         "isolates the handler rather than the instrument.")
     ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--extract-windows", metavar="NPZ",
                     help="MAC SIDE: cut the spectral windows and write them here, then exit. "
@@ -181,6 +191,18 @@ def main() -> None:
 
     cat = pd.read_csv(ROOT / "data" / "catalog" / "instrument_catalog.csv")
     R = float(cat[cat.iloc[:, 0].astype(str) == a.instrument].iloc[0]["resolving_power_max"])
+
+    # Which reference are we testing against? They are different quantities and must not
+    # be conflated: 7.466 is the banked EW-path value (1D-NLTE on the 3D scale); 7.520 is
+    # what synth-v2 -- THIS engine, on THIS spectrum -- produced. Controlling the handler
+    # against synth-v2 asks "does my driver reproduce the project's validated synthesis?",
+    # which is the question. Comparing to 7.466 would fold in NLTE and 3D corrections the
+    # synthesis never applied.
+    if a.instrument == "harps":
+        SOLAR_REFERENCE["Fe"] = 7.520
+        REFERENCE_SOURCE["Fe"] = ("banked synth-v2 A(Fe I) = 7.520 (23 lines, HARPS, "
+                                  "1D-LTE, nlte_applied=False) -- same engine, same "
+                                  "spectrum, so this isolates the handler")
 
     if a.extract_windows:
         segs = kp_segments()
@@ -210,7 +232,18 @@ def main() -> None:
     ctx = build_context(a.element, a.ion, R)
     handler.prepare(policy, ctx)
 
-    if a.windows:
+    if a.instrument == "harps":
+        from pipeline.abundances_derive import _load_observed_spectrum
+        ow_nm, oflux = _load_observed_spectrum("solar")
+        ow = ow_nm * 10.0
+        print(f"  HARPS normalised solar: {ow.size} pts, {ow.min():.1f}-{ow.max():.1f} A")
+
+        def get_window(c):
+            m = np.abs(ow - c) <= 1.4
+            if m.sum() < 12:
+                raise LookupError(f"only {int(m.sum())} HARPS pixels near {c:.3f} A")
+            return ow[m], oflux[m]
+    elif a.windows:
         z = np.load(a.windows)
         index = z["index"]
         ref = pd.DataFrame({"wavelength_air_A": index[:, 0], "ew_mA": index[:, 1]})
@@ -231,9 +264,16 @@ def main() -> None:
         except Exception as e:
             rows.append(dict(wave=c, ew_ref=float(r.ew_mA), ew_synth=float("nan"),
                              abundance=float("nan"), status=f"load: {e}")); continue
+        # The window is wing-wide from the line's own strength, so the handler needs to
+        # know roughly how strong it is. The banked EW is the honest hint -- it sets the
+        # WINDOW, never the answer.
         lm = handler.measure_line(w, f, element=a.element, ion=a.ion, wavelength_A=c,
                                   instrument=a.instrument, policy=policy,
-                                  pre_normalised=True, context=ctx)
+                                  # HARPS arrives globally normalised by our pipeline;
+                                  # Kitt Peak arrives as atlas residual flux. Both are
+                                  # already on a continuum, so neither wants a second one.
+                                  pre_normalised=True,
+                                  context={**ctx, "ew_hint_mA": float(r.ew_mA)})
         rows.append(dict(wave=c, ew_ref=float(r.ew_mA), ew_synth=float(lm.ew_mA),
                          abundance=lm.abundance,
                          status="ok" if lm.in_aggregate else lm.excluded_reason[:70]))
