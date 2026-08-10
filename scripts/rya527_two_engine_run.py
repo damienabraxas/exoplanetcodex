@@ -73,7 +73,8 @@ import pipeline.abundances_derive as ad
 from pipeline import nlte_corrections as nc
 from pipeline.engine_selection import (LineEngines, select_element, ENGINE_A, ENGINE_B,
                                        TwoEngineError, RATIFIED_EXCLUDED_SPECIES,
-                                       exclusion_reason, is_upper_limit_disposition)
+                                       exclusion_reason, is_upper_limit_disposition,
+                                       species_row_sort_key)   # RYA-768 total row order
 from pipeline.ratified_constraints import (  # RYA-674 emission-time gate
     RowKind, assert_ratified_constraints_satisfied)
 from pipeline.reliability_contract import reliability_basis  # RYA-691, ratified RYA-699
@@ -686,8 +687,13 @@ def _run(args):
         el for el in TARGET_ELEMENTS
         if (dd := pc.disposition_for(el)) and dd.get('required_treatment') in ('synthesis', 'HFS_sum')}
 
+    # RYA-768: a TOTAL order, so the emitted row order cannot depend on the iteration
+    # order of the set being sorted. The old key `(-A_asplund, element)` tied on every
+    # two-ion element (Fe I/Fe II, Cr I/Cr II, Ti I/Ti II), and a stable sort resolves a
+    # tie by input order — which for a set of tuples varies per process. The key lives in
+    # engine_selection so this emitter and any future one cannot drift apart.
     species = sorted(set(a_pl) | set(b_pl) | set(ded_b),
-                     key=lambda k: (-SOLAR_ASPLUND2021.get(k[0], -9), k[0]))
+                     key=lambda k: species_row_sort_key(k[0], k[1]))
     # RYA-673 §2: the species set is the UNION of the three coverage sources, so an
     # element present in NONE of them never enters the loop and RYA-525's loud-fail
     # cannot see it. That hole is not closed here (closing it is a science decision,

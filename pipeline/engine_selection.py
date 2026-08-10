@@ -47,10 +47,50 @@ from typing import Optional
 
 import numpy as np
 
-from config.constants import TWO_ENGINE, NLTE_CORRECTION_ELEMENTS
+from config.constants import TWO_ENGINE, NLTE_CORRECTION_ELEMENTS, SOLAR_ASPLUND2021
+from pipeline.species import parse_ion   # RYA-345 canonical ion encoding
 
 _REGISTRY_CSV = _Path(__file__).resolve().parents[1] / 'data' / 'registry' / 'problem_children.csv'
 _GERBER_PROV_DIR = _Path(__file__).resolve().parents[1] / 'data' / 'nlte_grids' / 'gerber_ts'
+
+# Sentinel abundance for an element absent from SOLAR_ASPLUND2021. Negated by the sort
+# key below, so an unknown element sorts LAST — the behaviour the emitter already had.
+_NO_ASPLUND = -9.0
+
+
+def species_row_sort_key(element, ion) -> tuple:
+    """RYA-768 — the ONE canonical row order for a per-SPECIES artifact.
+
+    A TOTAL ORDER. The previous key was ``(-A_asplund, element)``, which is not one:
+    ``A_asplund`` is per-ELEMENT, so Fe I and Fe II tie on both components (likewise
+    Cr I/Cr II and Ti I/Ti II). Python's sort is stable, so a tie fell through to the
+    iteration order of the upstream ``set`` of ``(element, ion)`` tuples — and that
+    varies per process with hash randomisation. The artifact therefore never
+    byte-diffed clean, which is how a real change hides in the noise. Appending `ion`
+    closes it: ``(element, ion)`` is unique per row of this artifact, so no two rows
+    can tie.
+
+    ORDER-ONLY. The primary intent (abundance-descending) and the missing-element
+    sentinel are preserved exactly, so only the resolution of a former TIE changes.
+    No value moves.
+
+    `ion` is normalised through the RYA-345 encoder rather than compared as a raw
+    string, because this project carries 'I' / '1' / 1 for the same stage and sorting
+    those as text would reintroduce the very nondeterminism being removed ('II' < 'I'
+    is False, but '10' < '2' is True).
+
+    An ion the encoder cannot parse does NOT raise here: this is an ordering helper on
+    an emit path, and a sort is the wrong place to discover bad data (it would convert
+    a data defect into a crash at write time, after the science is done). Unparseable
+    ions are ranked after every parseable one, deterministically, by their text. The
+    two-element rank tuple keeps int and str out of the same comparison.
+    """
+    try:
+        ion_rank = (0, parse_ion(ion))
+    except (ValueError, TypeError):
+        ion_rank = (1, str(ion))
+    return (-float(SOLAR_ASPLUND2021.get(str(element), _NO_ASPLUND)),
+            str(element), ion_rank)
 
 # ── engine + regime labels ────────────────────────────────────────────────────
 ENGINE_A = 'engineA_1dnlte'   # 1D-NLTE = EW + grid delta
