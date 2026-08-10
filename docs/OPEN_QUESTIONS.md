@@ -139,3 +139,83 @@ pipeline import (`pipeline/abundances_derive.py`), plus a loud all-zero-batch gu
 all-zero synthesis result is indistinguishable from "every line is a null line" and corrupts
 any downstream quarantine/abundance step. Ideally iSpec should also let the caller select the
 start method / use a `fork` context explicitly for the synthesizer child on macOS.
+
+---
+
+## F NLTE grid availability — RYA-758
+
+**Question.** Does any post-Lodders-2025 NLTE model atom or departure grid exist for
+F I, or for the HF vibration–rotation lines used to measure solar fluorine?
+
+**Why it matters.** F is the halogen extension of the CHNOPS story, it has a real
+CRIRES+ IR diagnostic window at 2.3 µm, and Lodders, Bergemann & Palme 2025 punted on
+it — their Table 2 carries A(F) = 4.4 ± 0.2 flagged "sunspot", quality index D, with
+the substance deferred to Lodders & Fegley 2023 (Geochemistry 83, 125957).
+
+**What the RYA-758 audit found (2026-08-09) — the question is answered, and the
+premise was wrong.** The blocker is not the grid, it is the diagnostic. **No F line
+is detectable in the quiet-Sun photospheric spectrum at all.** The accepted solar
+value comes from HF features in *sunspot umbrae*: HF has a dissociation energy of
+5.87 eV, so the molecule only survives in the cool umbral gas, and the measurement
+line is the (1–0) R9 feature at 23358.3 Å (Maiorca et al. 2014, ApJ 788, 149,
+DOI `10.1088/0004-637X/788/2/149`). Separately, the fluorine literature reports no
+NLTE corrections for that feature and expects LTE to hold for a ground-electronic-
+state vibration–rotation transition. So F is recorded `not_measurable` /
+`blocked_spectroscopy` in `data/audit/nlte_grid_inventory_beyond28.csv`: **F is not a
+deferred element, it is an out-of-scope one** for a pipeline that measures FGK dwarf
+photospheres. Our targets have no umbrae to observe.
+
+**What would answer it (i.e. reopen it).** Not an NLTE paper. Only one of:
+(a) identification of a genuine F I or HF feature in a *quiet* solar/FGK photospheric
+spectrum, or (b) a decision to extend the codex to cool giants/M dwarfs where the
+2.3 µm HF band is measurable — at which point an HF NLTE treatment would become the
+next question rather than the first one.
+
+**Watch triggers.** Any Amarsi / Bergemann / Sitnova paper naming F; any CRIRES+ or
+IGRINS solar-atlas work claiming a photospheric HF detection; an updated
+Lodders & Fegley halogen review; a codex scope change to giants.
+
+---
+
+## Mo NLTE model atom watch — RYA-758
+
+**Question.** Has anyone published an ab-initio Mo+H collisional data set and an
+NLTE model atom for Mo I?
+
+**Why it matters.** Molybdenum is the metal at the active site of nitrogenase (the
+FeMo-cofactor) and of the molybdopterin enzyme family — biological N₂ fixation
+happens on a Mo atom. In the RYA-758 audit Mo is the **only** outside-28 element
+that clears two of the four science gates (bio-significant + neutron-capture tracer),
+and its two diagnostic lines, Mo I 5506.49 Å and 5533.03 Å, are optical and sit
+inside the HARPS arm that already carries our measured EW pool. Mo is blocked purely
+by atomic physics: the day a model atom exists, Mo is immediately workable.
+
+**State as of the RYA-758 audit (2026-08-09): still blocked, confirmed by the most
+recent dedicated study.** Mishenina, Kurtukian-Nieto, Gorbaneva, Amarsi, Psaltis &
+Pignatari 2026 (A&A 705, A38, arXiv:2511.21190, submitted 2025-11-26) derive Mo and
+Ru for 154 disk giants **in LTE**, and close with: *"we emphasize that defining NLTE
+corrections for Mo and Ru abundance measurements is essential, as these remain
+currently unknown."* Amarsi is a co-author, so this is the grid-building community
+itself recording the gap.
+
+**One trap, recorded so it is not re-imported.** That paper quotes an MPIA NLTE
+correction of ≈**+0.15 dex** in the same paragraph as Mo I 5506.49/5533.03. It is a
+correction for the **analogous Cr I lines at 5208.41/5206.02** (matching
+3d⁵(⁶S)4s a⁵S₂–3d⁵(⁶S)4p z⁵P°₃,₂ configurations), used as a qualitative proxy — **not
+a Mo correction**. Secondary sources misreport it as one. MPIA Spectrum Tools was
+enumerated live on 2026-08-09 and serves H, O, Mg, Si, Ca I/II, Ti I/II, Cr, Mn,
+Fe I/II and Co only; there is no Mo grid there or anywhere else public.
+
+**What would answer it.** A published Mo I model atom with quantum-mechanical Mo+H
+inelastic collision rates, plus a departure grid or a per-line correction table whose
+(Teff, log g, [Fe/H]) hull contains the Sun.
+
+**Watch triggers.** Barklem / Belyaev / Yakovleva inelastic-collision output naming
+Mo; any Amarsi-group Zenodo `Grid/NLTE` version (concept DOI
+`10.5281/zenodo.3888393`) adding a Mo file — that family gained Cu in 2025-03, S in
+2025-09 and Ag in 2026-05, so it is the live channel to watch; any paper titled
+"Mo NLTE" or "molybdenum stellar abundance NLTE"; a follow-up from the Mishenina
+group acting on their own closing sentence. Interim fallback if Mo were ever needed
+before a model atom exists: the Cr I analogue systematic above must be propagated as
+a named uncertainty term, per the draft clause (c) in
+`docs/proposals/science_standards_grid_availability_amendment.md`.
