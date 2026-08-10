@@ -166,9 +166,11 @@ def main() -> None:
                     help="comma-separated wavelengths for a focused figure (a PROTOTYPE "
                          "showing one example per failure mode). Omit for the full appendix.")
     ap.add_argument("--tag", default="", help="filename suffix for a focused figure")
+    ap.add_argument("--suffix", default="",
+                    help="measurement-file suffix, e.g. _PROFILEFIT")
     a = ap.parse_args()
 
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}{a.suffix}"
     df = pd.read_csv(EW_DIR / f"{stem}_ew.csv")
     acc = pd.read_csv(ROOT / "data" / "audit" / "line_accounting" / "per_line.csv")
     df = df.merge(acc[["wave_air_A", "predicted_depth", "log_gf"]],
