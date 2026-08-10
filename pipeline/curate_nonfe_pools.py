@@ -88,6 +88,10 @@ from config.constants import (              # noqa: E402
     PATHS, PIPELINE, SOLAR_ASPLUND2021, get_star_params, EW_BASELINE_CODE,
     committed_grid_artifact,
 )
+# RYA-765/318: intake debug tracer — no-op unless a trace is active, reads nothing the
+# cull logic reads, writes nothing it writes. It is NOT a _CULL_INPUT_COLS consumer, so
+# the abundance-blind invariant (and its --verify shuffle test) is untouched.
+from pipeline import intake_debug as dbg     # noqa: E402
 
 # ── Scope (the Tier-1/2 metals, phased) ──────────────────────────────────────
 PHASE1 = ['Mg', 'Si', 'Ca', 'Ni']            # gate 55 Cnc
@@ -276,12 +280,26 @@ def solar_nlte_delta(element: str) -> float:
 def _gf_tier(nist_grade, loggf_reference) -> str:
     """HIGH / MED / LOW provenance tier for one line's gf, from its NIST grade and
     loggf source. Kurucz semi-empirical loggf (K03–K10, KP) carry ~0.1–0.3 dex
-    uncertainty and known systematics → LOW (RYA-161 territory)."""
+    uncertainty and known systematics → LOW (RYA-161 territory).
+
+    RYA-765/318: a grade string in NEITHER ladder set falls through to the
+    reference-based branches and is tiered as if it were ungraded — the line's stated
+    accuracy silently becomes no accuracy at all. That is exactly the RYA-592 defect
+    ('+' tiers missing from NIST_GRADE_HIGH silently demoted B+ out of HIGH), and it
+    is invisible in the output because the demoted line just looks like an ordinary
+    LOW/MED one. The tracer records it; the tier returned is unchanged.
+    """
     g = str(nist_grade).strip() if nist_grade == nist_grade else ''
     if g in NIST_GRADE_HIGH:
         return 'HIGH'
     if g in NIST_GRADE_CULL:
         return 'CULL'
+    if g not in ('', 'nan'):
+        dbg.trace_fallback('gf_accuracy_nan',
+                           f'source {g!r} has no accuracy mapping', tag=str(g),
+                           loggf_reference=str(loggf_reference),
+                           ladder_high=sorted(NIST_GRADE_HIGH),
+                           ladder_cull=sorted(NIST_GRADE_CULL))
     ref = str(loggf_reference).strip() if loggf_reference == loggf_reference else ''
     if _KURUCZ_REF.match(ref):
         return 'LOW'
@@ -326,8 +344,24 @@ def load_pool(elements) -> pd.DataFrame:
                 loggf, ep = float(m['log_gf']), float(m['excitation_potential_eV'])
                 grade, ref = m['nist_grade'], m['loggf_reference']
             else:
+                # RYA-765: a measured line with NO canonical atomic data. gf/EP/grade
+                # all go NaN, _gf_tier then reads the NaN grade as "ungraded" -> LOW,
+                # and under grade_restrict the line is culled — for missing metadata,
+                # not for a graded-bad gf. Indistinguishable in the output from a real
+                # Kurucz-tier line; recorded here instead.
+                dbg.trace_fallback('gf_no_canonical_match',
+                                   f'{el} {ion} {w:.3f}: nearest canonical line '
+                                   f'{float(cc.iloc[j]["wavelength_air_A"]):.3f} is >0.05 A '
+                                   f'away -> gf/EP/grade all NaN',
+                                   species=f'{el} {ion}', wavelength=float(w),
+                                   nearest_A=float(cc.iloc[j]['wavelength_air_A']))
                 loggf = ep = np.nan; grade = ref = np.nan
         else:
+            dbg.trace_fallback('gf_no_canonical_match',
+                               f'{el} {ion} {w:.3f}: species absent from the canonical gf '
+                               f'table -> gf/EP/grade all NaN',
+                               species=f'{el} {ion}', wavelength=float(w),
+                               miss='species_absent')
             loggf = ep = np.nan; grade = ref = np.nan
         rows.append({
             'element': el, 'ion': ion, 'wavelength_air_A': w,

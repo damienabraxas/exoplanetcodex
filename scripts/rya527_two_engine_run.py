@@ -54,7 +54,9 @@ in-window profile fits and predate the RYA-679 rule, so they have no `dEW_dA` an
 gate that does not exist. What is forbidden is SILENCE about which state applies.
 """
 import argparse
+import contextlib
 import json
+import os
 import sys
 import warnings
 from collections import Counter
@@ -80,6 +82,7 @@ from config.constants import (get_star_params, TARGET_ELEMENTS, NLTE_CORRECTION_
 import pipeline.problem_children as pc
 from pipeline import two_engine_inputs as tei
 from pipeline import kittpeak_engine_b as keb   # RYA-695 Engine-B route for N/K/P/Sc
+from pipeline import intake_debug as dbg        # RYA-765/318 intake tracer (opt-in)
 
 ROOT = Path(__file__).resolve().parent.parent
 # RYA-682: the canonical (RYA-469 namespaced) location comes from data_namespace via
@@ -465,6 +468,11 @@ def _dedicated_engine_B():
         print(f"[two-engine] RYA-585/560 Zr II HELD OUT: no line cleared the RYA-679 "
               f"floor (not railed AND dEW_dA >= 40.0) in either artifact -> Zr II "
               f"emits NO Engine-B value and does not enter the species set")
+        dbg.trace_fallback('engine_b_held_out',
+                           'Zr II: no line cleared the RYA-679 floor (not railed AND '
+                           'dEW_dA >= 40.0) in either RYA-585/560 artifact -> no '
+                           'Engine-B value; Zr II never enters the species set',
+                           severity='ERROR', species='Zr II', ticket='RYA-585/560')
     if MG5528_JSON.exists():
         # RYA-592: the SECOND clean Mg I line (5528.405), measured by in-window blend-fit
         # synthesis so Mg could stop being single-line. CONCORDANCE-GATED, and as of the
@@ -493,6 +501,15 @@ def _dedicated_engine_B():
                   f"{v.get('target_reliable')}, concordant={v.get('lines_concordant')} "
                   f"(|d| {v.get('concordance_worst_abs_dex')} vs band "
                   f"{v.get('concordance_band')}) -> Mg stays single-line")
+            dbg.trace_fallback('engine_b_held_out',
+                               f"Mg I 5528 gated shut: reliable="
+                               f"{v.get('target_reliable')}, concordant="
+                               f"{v.get('lines_concordant')} (|d| "
+                               f"{v.get('concordance_worst_abs_dex')} vs band "
+                               f"{v.get('concordance_band')}) -> Mg stays single-line",
+                               species='Mg I', ticket='RYA-592',
+                               target_reliable=v.get('target_reliable'),
+                               lines_concordant=v.get('lines_concordant'))
     # ── RYA-695: N I / K I / P I / Sc II — the Kitt Peak synthesis channel ────────
     # These four read `neither`-wired in RYA-673 and MEASURED OFF-ORCHESTRATOR: each
     # carries a real number in the verdict produced by a channel this floor could not
@@ -524,6 +541,61 @@ def _dedicated_engine_B():
     return out
 
 
+@contextlib.contextmanager
+def _stage(name):
+    """`trace.stage(name)` when a trace is active, a plain pass-through when not.
+
+    The tracer's own _Stage re-raises everything (`__exit__` returns False), so this
+    changes control flow in neither branch — it only puts stage_enter/stage_exit (and,
+    on a raise, the exception type) on the timeline.
+    """
+    tr = dbg.current()
+    if tr is None:
+        yield
+    else:
+        with tr.stage(name):
+            yield
+
+
+def _trace_preflight_assets(star, committed):
+    """RYA-765 §2c.5 — one asset() per expected input, BEFORE the run.
+
+    Emitted from the same dict the RYA-682 preflight asserts on, so the trace and the
+    guard can never disagree about what this driver expects; the guard still raises,
+    this only makes the timeline say WHICH one was missing before it did.
+
+    A missing asset is an ERROR in the trace and turns the health block RED — the
+    RYA-713 shape where 14 of 15 Engine-A label files had simply never been extracted
+    and every affected line quietly fell back to LTE.
+
+    No-ops entirely when no trace is active.
+    """
+    if not dbg.active():
+        return
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    from pipeline import gf_resolver as gfr
+
+    # Engine A — the per-element MPIA/INSPECT/Korotin delta grids (committed artifacts).
+    for el, spec in sorted(NLTE_CORRECTION_ELEMENTS.items()):
+        p = nc._MPIA_ELEMENT_DIR / spec['grid']
+        dbg.trace_asset(f'engine_a_grid[{el}]', p.exists(), path=str(p))
+
+    # Engine A — the EW pool and the canonical atomic data the 1D-LTE leg inverts.
+    for name, p in (('ew_pool_canonical', Path(str(ad.PATHS['solar_ew_canonical']))),
+                    ('ew_pool_ges_fe1', Path(str(ad.PATHS['solar_ew'])).parent
+                     / 'solar_ew_ges_reference.csv'),
+                    ('linelist_canonical_gf', gfr._CANON)):
+        dbg.trace_asset(name, p.exists(), path=str(p))
+
+    # Engine B — the generated per-line table, plus every dedicated committed harness
+    # output. `usable_rows` is what the driver actually consumes: a present-but-empty
+    # artifact is the RYA-682 trap, so presence alone is not the check.
+    ebp = tei.engine_b_per_line_path(star)
+    dbg.trace_asset('engine_b_per_line', ebp.exists(), path=str(ebp))
+    for label, p in sorted(committed.items()):
+        dbg.trace_asset(f'engine_b_dedicated[{label}]', Path(p).exists(), path=str(p))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--star', default='solar')
@@ -532,8 +604,33 @@ def main():
     # what the pre-v3 floor actually produced, which is what the diff is read against.
     ap.add_argument('--out-dir', default=None,
                     help='repo-relative output dir (default data/audit/rya527_two_engine)')
+    # ── RYA-765/318: the intake debug trace. OPT-IN, and LABEL-ONLY ──────────────
+    # `--trace-element` names the trace; it does NOT filter the species set. That is
+    # deliberate and is what makes invariant #1 (numerical inertness) checkable rather
+    # than merely asserted: there is no code path by which enabling the tracer can
+    # change which lines, species or engines this driver computes.
+    ap.add_argument('--trace', action='store_true',
+                    help='write a local, git-ignored intake trace to debug/intake/ '
+                         '(same as CODEX_INTAKE_TRACE=1). Off by default.')
+    ap.add_argument('--trace-element', default='ALL', metavar='EL',
+                    help="label for the trace file only — this driver runs the whole "
+                         "species set regardless (default: ALL)")
     args = ap.parse_args()
 
+    tracing = args.trace or os.environ.get('CODEX_INTAKE_TRACE') == '1'
+    if tracing:
+        dbg.start_trace(args.trace_element, 'two_engine_floor', args.star,
+                        extra={'ticket': 'RYA-527/525 two-engine floor',
+                               'driver': 'scripts/rya527_two_engine_run.py',
+                               'out_dir': args.out_dir})
+    try:
+        return _run(args)
+    finally:
+        if tracing:
+            dbg.end_trace()
+
+
+def _run(args):
     # ── RYA-682 preflight: every input, checked BEFORE any compute ───────────
     # The Engine-A leg below costs minutes (GES linelist load, EW triage, MOOG
     # baseline). Discovering a missing input after paying for that is a defect in
@@ -546,7 +643,7 @@ def main():
             f"Sr II, Zr II, Mg 5528), and the Engine-B per-line path was hardwired to "
             f"solar regardless of this flag — so a non-solar run would silently have "
             f"produced a SOLAR result under another star's name. Use 'solar'.")
-    tei.assert_committed_inputs({
+    committed = {
         'CNO cross-arm (RYA-491/237)': CNO_PHASE_A,
         'Mn HFS synth (RYA-473)': MN_JSON,
         'Cu/V HFS synth (RYA-466)': CUV_JSON,
@@ -556,18 +653,31 @@ def main():
         'Mg I 5528 synth (RYA-592)': MG5528_JSON,
         'Co I red HFS synth (RYA-564)': CO_JSON,          # RYA-680
         'Ba II 5853 deblend (RYA-581)': BA_DEBLEND_JSON,  # RYA-680 — NOT the RYA-559 file
-    })
+    }
+    # RYA-765: record what we expect BEFORE the guards fire, so a run that stops on a
+    # missing input still leaves a timeline naming it. The guards below are unchanged.
+    _trace_preflight_assets(args.star, committed)
+    tei.assert_committed_inputs(committed)
     eb = tei.assert_engine_b_artifact(args.star)
     print(f"[two-engine] preflight OK — Engine-B per-line {eb['path']} "
           f"({eb['usable_rows']} usable lines); {tei.env_summary()}")
+    # Presence is not usability (the RYA-682 trap: a full-length table in which every
+    # row is status='failed' parses fine and exits 0). Record the count, not the file.
+    dbg.trace_decision('engine_b_per_line_usable', eb['usable_rows'],
+                       detail=f"{eb['usable_rows']} usable (status=='ok') rows in "
+                              f"{eb['path']}", path=eb['path'])
 
     out_dir = OUT_DIR if args.out_dir is None else (ROOT / args.out_dir)
     p = _solar_params()
     print(f"[two-engine] solar params {p}")
+    dbg.trace_decision('stellar_params', args.star, detail=str(p), **p)
 
-    a_pl = _engine_A_perline(p)
-    b_pl = _engine_B_perline()
-    ded_b = _dedicated_engine_B()
+    with _stage('engine_A_perline'):
+        a_pl = _engine_A_perline(p)
+    with _stage('engine_B_perline'):
+        b_pl = _engine_B_perline()
+    with _stage('dedicated_engine_B'):
+        ded_b = _dedicated_engine_B()
     print(f"[two-engine] Engine-A species {sorted(a_pl)}")
     print(f"[two-engine] Engine-B(synth-v2) species {sorted(b_pl)}; dedicated Engine-B {sorted(ded_b)}")
 
@@ -578,6 +688,16 @@ def main():
 
     species = sorted(set(a_pl) | set(b_pl) | set(ded_b),
                      key=lambda k: (-SOLAR_ASPLUND2021.get(k[0], -9), k[0]))
+    # RYA-673 §2: the species set is the UNION of the three coverage sources, so an
+    # element present in NONE of them never enters the loop and RYA-525's loud-fail
+    # cannot see it. That hole is not closed here (closing it is a science decision,
+    # per the Zr comment above) — it is made visible: the trace names who came in and,
+    # by difference against TARGET_ELEMENTS, who silently did not.
+    _absent = sorted(set(TARGET_ELEMENTS) - {e for e, _ in species})
+    dbg.trace_check('species_entered_loop', not _absent, severity_if_fail='WARN',
+                    detail=f"{len(species)} species entered; {len(_absent)} target "
+                           f"element(s) in NONE of the three coverage sources",
+                    entered=[f'{e} {i}' for e, i in species], absent=_absent)
     records, loud = [], []
     for (el, ion) in species:
         disp = pc.disposition_for(el)
@@ -685,8 +805,15 @@ def main():
                                    key=lambda kv: (-kv[1], kv[0]))]))
 
     if loud:
+        dbg.trace_check('two_engine_loud_fail', False,
+                        detail='RYA-525: synthesis-required species with no Engine-B '
+                               'value — the run stops here',
+                        failures=list(loud))
         raise SystemExit("RYA-525 TWO-ENGINE LOUD-FAIL (synthesis-required missing Engine-B):\n  - "
                          + "\n  - ".join(loud))
+    dbg.trace_check('two_engine_loud_fail', True,
+                    detail='RYA-525: every synthesis-required species carries an '
+                           'Engine-B value')
 
     # RYA-674 §2C: gate the per-species records before writing. These are
     # SPECIES_RECORD rows — a diagnostic table may legitimately carry species we would
