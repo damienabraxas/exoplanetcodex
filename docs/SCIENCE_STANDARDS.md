@@ -904,3 +904,51 @@ it tried** if none has segments. Kitt Peak is 44 MB / 252 segments — staged.
 The window-extraction path (`--extract-windows` / `--windows`, ~0.05 MB for 20 lines)
 remains available as a transport optimisation, but it is no longer the way a remote run gets
 its data.
+
+### The uncertainty budget is per band, and random is never merged with systematic — RYA-713
+
+Ryan, 2026-08-09: *"ratify the uncertainty if it is legit. Gotta keep track of all that. We
+said diff error bars for diff bands, so all good in the hood."*
+
+`pipeline/error_budget.py`. Every reported product carries a budget, not a number, because
+the terms behave differently under more lines:
+
+* **random** — averages down as `σ/√N`. Line-to-line scatter is the honest one.
+* **systematic** — **does not average down at any N**. A gf scale offset, a pseudo-continuum
+  that is never observed, a measured harness residual. Another thousand lines shrinks none
+  of them.
+
+`total()` returns a **pair** and there is deliberately no `combined()`. Collapsing them is
+how a frontier number comes to look like an optical one — the reader infers that more
+observing would help, when the limiting term is one more observing cannot touch.
+
+**The bands differ because the physics differs**, not by choice:
+
+| term | VIS | red-optical | near-UV | NIR | kind |
+|---|---|---|---|---|---|
+| line-to-line scatter | ✓ | ✓ | ✓ | ✓ | random |
+| gf scale | ✓ | ✓ | ✓ | ✓ | systematic |
+| harness residual | ✓ | ✓ | ✓ | ✓ | systematic |
+| pseudo-continuum | — | — | **✓** | — | systematic |
+| telluric residual | — | **✓** | — | **✓** | systematic |
+
+Worked, with real numbers:
+
+| product | n | statistical | systematic | dominant term |
+|---|---|---|---|---|
+| VIS control (graded gf) | 444 | 0.0010 | **0.0430** | gf scale, graded |
+| red-optical Fe IR | 103 | 0.0148 | **0.1731** | gf scale, **ungraded** |
+| near-UV Fe | 59 | 0.0260 | **0.1977** | gf scale, **ungraded** |
+
+**Every term is sourced — `add()` refuses a term with a blank source**, because an unsourced
+uncertainty is indistinguishable from a guess, and the entire point of the ratified "bigger
+error bars where the science backs it" rule is that a large bar must be *defensible*.
+
+Two things this makes visible that a single σ hides:
+
+1. **The VIS has 444 lines and the near-UV 59, yet the near-UV bar is dominated by a term
+   more lines cannot touch.** Collecting near-UV lines is not what improves it.
+2. **`dominant()` names what to fix first** and says whether more lines would help. For every
+   frontier band right now the answer is the same: *ungraded gf — more lines will NOT help;
+   fix the source.* That is the same conclusion the IR root-cause split reached from the
+   other direction (123 of 174 failures were atomic-data faults).
