@@ -89,11 +89,21 @@ def _guard_environment() -> None:
         raise SystemExit(f"iSpec not importable even with {ISPEC_SRC} on sys.path: {e}")
 
 
-def build_context(element: str, ion: str, resolving_power: float) -> dict:
-    """Assemble the synth context from the pipeline's own loaders — never invented."""
+def build_context(element: str, ion: str, resolving_power: float, *,
+                  linelist_file: str | None = None,
+                  apply_canonical_gf: bool = True) -> dict:
+    """Assemble the synth context from the pipeline's own loaders — never invented.
+
+    RYA-759: the two linelist arguments are pass-through to `_load_synth_resources`
+    so the near-UV run and this optical control are assembled by the SAME function.
+    Everything that makes this builder trustworthy — solar params from STAR_PARAMS,
+    the refusal to default `xi`, broadening from `_resolve_broadening`, the
+    circularity guard on `a_start` — then applies to the near-UV unchanged, instead
+    of being re-typed (and eventually re-broken) in a second builder.
+    """
     _guard_environment()
     from pipeline.abundances_derive import (
-        _load_atmosphere, _load_synth_resources, _ISPEC_SOLAR_ABUND_FILE)
+        _load_atmosphere, _load_synth_resources, _ISPEC_SOLAR_ABUND_FILE, _ATLAS9)
     # _atom_codes lives in cno_synthesis, not abundances_derive -- import it from where
     # it actually is rather than duplicating six lines that call iSpec.
     from pipeline.cno_synthesis import _atom_codes, _solar_A as _ispec_solar_A_map
@@ -132,9 +142,14 @@ def build_context(element: str, ion: str, resolving_power: float) -> dict:
             "chi2 rails to the upper bound at high SNR (RYA-309), so this control will "
             "not do it -- set a fixed solar vmac or adopt a literature RT value.")
 
-    linelist, isotopes, chem = _load_synth_resources()
+    linelist, isotopes, chem = _load_synth_resources(
+        linelist_file=linelist_file, apply_canonical_gf=apply_canonical_gf)
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
-    atm = _load_atmosphere(teff, logg, feh, vturb)
+    # ATLAS9.Castelli is `_load_atmosphere`'s default and is the ratified model
+    # atmosphere for solar/FGK synthesis (RYA-759 Move 2). Named here rather than
+    # left implicit, because Move 1's whole failure was a model silently mismatched
+    # to its flag.
+    atm = _load_atmosphere(teff, logg, feh, vturb, model_grid=_ATLAS9)
     codes = _atom_codes([element], chem, solar_abund)
 
     return dict(atmosphere=atm, teff=teff, logg=logg, feh=feh, vturb=vturb,

@@ -658,18 +658,44 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
 # are loaded once and cached. No silent fallback — failed lines are logged and
 # marked as such in the per-line output (RYA-167 Bug 1 prevention).
 
-def _load_synth_resources() -> tuple:
-    """Load GES linelist, isotopes, chemical elements (cached per process)."""
+def _load_synth_resources(linelist_file: str = None,
+                          apply_canonical_gf: bool = True) -> tuple:
+    """Load the synthesis linelist, isotopes, chemical elements (cached per process).
+
+    Defaults are the optical production path and are unchanged: the GES v6 list with
+    canonical gf single-sourcing applied (RYA-353).
+
+    RYA-759 parameterises the linelist instead of forking this function, because the
+    near-UV needs a DIFFERENT list for the same synthesis: GES v6 spans 420–920 nm, so
+    below 4200 Å it contains nothing and every abundance synthesises the same flat
+    spectrum (RYA-713 measured exactly that at 4065.381 Å). Isotopes and chemical
+    elements are engine data and are shared.
+
+    `apply_canonical_gf=False` is REQUIRED, not optional, outside 3780.0–9199.9 Å:
+    `canonical_gf.csv` does not extend there and `apply_to_synth_array` raises rather
+    than defaulting. Turning it off is a real loss of gf single-sourcing, so the caller
+    must ask for it explicitly and say so in its provenance — it is never inferred here.
+    """
+    key = (str(linelist_file or _SYNTH_LINELIST_FILE), bool(apply_canonical_gf))
     global _synth_cache
-    if not _synth_cache:
-        print("  [synth] Loading GES linelist (first call — cached)...")
-        _synth_cache['linelist']      = ispec.read_atomic_linelist(_SYNTH_LINELIST_FILE)
-        # RYA-353 single-source gf: overwrite GES loggf from canonical (the shared
-        # ispec/ tsv is read-only, so we rescale after read — branching preserved).
-        _synth_cache['linelist']      = apply_to_synth_array(_synth_cache['linelist'])
+    if _synth_cache.get('key') != key:
+        path = linelist_file or _SYNTH_LINELIST_FILE
+        label = 'GES' if linelist_file is None else Path(str(path)).parent.name
+        print(f"  [synth] Loading {label} linelist (first call — cached)...")
+        ll = ispec.read_atomic_linelist(str(path))
+        if apply_canonical_gf:
+            # RYA-353 single-source gf: overwrite GES loggf from canonical (the shared
+            # ispec/ tsv is read-only, so we rescale after read — branching preserved).
+            ll = apply_to_synth_array(ll)
+        else:
+            print(f"  [synth] canonical gf single-sourcing OFF for {label} — the "
+                  f"list's own log gf is used as delivered")
+        _synth_cache.clear()
+        _synth_cache['key']           = key
+        _synth_cache['linelist']      = ll
         _synth_cache['isotopes']      = ispec.read_isotope_data(_SYNTH_ISOTOPE_FILE)
         _synth_cache['chem_elements'] = ispec.read_chemical_elements(_SYNTH_CHEM_FILE)
-        print(f"  [synth] GES linelist: {len(_synth_cache['linelist'])} lines loaded")
+        print(f"  [synth] {label} linelist: {len(_synth_cache['linelist'])} lines loaded")
     return (
         _synth_cache['linelist'],
         _synth_cache['isotopes'],
