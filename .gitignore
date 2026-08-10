@@ -68,3 +68,6 @@ data/nlte_grids/**/*.grd
 data/nlte_grids/**/*.tar.gz
 # RYA-426: UV conditioning manifests (per-star working artifacts, regenerable)
 data/conditioning/
+
+# Local, per-run intake debug traces (RYA-318) -- never committed.
+debug/intake/

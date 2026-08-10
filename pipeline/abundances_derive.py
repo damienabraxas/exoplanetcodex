@@ -45,6 +45,9 @@ import warnings
 from pipeline import _runtime as _rt   # RYA-514: force-fork + single-thread BLAS pins; import BEFORE numpy/scipy so the pins land before the BLAS backend spins up. Supersedes the RYA-506 inline fork block.
 import numpy as np
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
+# RYA-765/318: intake debug tracer. READ-AND-RECORD ONLY — it touches no numeric here
+# (the ticket forbids that explicitly); every call is a no-op unless a trace is active.
+from pipeline import intake_debug as dbg
 import pandas as pd
 from pathlib import Path
 from scipy.optimize import minimize_scalar
@@ -394,6 +397,13 @@ def _fe2_theoretical_ew(fe2_linemasks, stellar_params, atmosphere) -> np.ndarray
         microturbulence_vel=vturb, verbose=0, tmp_dir=_TMP_DIR)
     theo = np.asarray(out['theoretical_ew'], dtype=float)
     if not np.any(theo > 0):               # all-zero batch → failed synthesis, not physics
+        # RYA-765/318: the guard already RAISES, so nothing is silent here — but the
+        # traceback dies with the process and the timeline is where a reader looks for
+        # "what did this run hit". Recorded before the raise; the raise is unchanged.
+        dbg.trace_fallback('ispec_all_zero',
+                           'synthesis returned all-zero array (RYA-506 guard)',
+                           severity='ERROR', n_lines=int(n_lines), teff=float(teff),
+                           logg=float(logg), feh=float(feh))
         raise RuntimeError(
             f"[RYA-506] theoretical-EW synthesis returned an all-zero batch for {n_lines} "
             f"Fe lines at teff={teff} logg={logg} feh={feh}. An all-zero theoretical EW is "
