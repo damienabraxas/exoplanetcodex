@@ -91,6 +91,17 @@ ELEMENTS = {
     # correctness: if TS is wrong here, LTE-vs-TS shows a delta and cannot say which
     # side is right. Window capped at 9199 A -- the GES level-identified linelist ends
     # at 9199.9, and past it a line has no level ID so NLTE silently falls back to LTE.
+    # ---- Fe IR LABORATORY subset: Engine-B deltas for the RYA-712 product ----------
+    # The 29 laboratory-gf Fe I lines that carry the IR 1D-LTE product, restricted to the
+    # GES level-identification limit of 9199.9 A. This produces the Engine-B leg of the
+    # IR product; it is NOT a gate -- there is no anchor out here, so anchor=None and the
+    # runner reports rather than adjudicating.
+    'Fe_IR_lab': dict(Z=26, a_sun=7.46, atom='atom.fe607a',
+               aux='auxData_Fe_MARCS_May-07-2021.dat',
+               grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
+               waves=[6916.68, 6999.883, 7071.86, 7107.459, 7112.167, 7132.986, 7306.562, 7307.931, 7320.668, 7401.683, 7418.666, 7491.647, 7568.898, 7583.788], anchor=None, tol=None,
+               ref='Fe I IR laboratory-gf subset (BWL/Ruffoni/Bard&Kock). Engine-B leg of '
+                   'the RYA-712 product set; reported, not gated.'),
     'Fe_IR': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
                grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
                waves=[7212.435, 7751.108, 8526.669, 9024.369], anchor=None, tol=None,
