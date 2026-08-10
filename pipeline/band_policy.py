@@ -230,3 +230,54 @@ def assert_not_tuned() -> None:
 
 
 assert_not_tuned()
+
+
+# ── Per-line escape from a band-level ban ────────────────────────────────────
+# Ryan, 2026-08-09: "Engine A for UV it is."
+#
+# The band rules above are keyed on the MEDIAN line separation, which is the right basis
+# for a default and the wrong basis for a verdict on an individual line. The near-UV median
+# gap is 0.146 A, so profile fitting is banned there -- correctly, for a typical line. But
+# isolation is a PER-LINE property, and measured across near-UV Fe at usable depth:
+#
+#     nearest-neighbour gap      Fe I   Fe II
+#     < 0.10 A  (hopeless)        794      79
+#     0.10-0.20 A                 403      30
+#     0.20-0.40 A                 219      28
+#     > 0.40 A  (isolated)         52       7
+#
+# ~306 of 1612 near-UV Fe lines are isolated enough to fit. Banning them because their
+# neighbours are crowded discards real, measurable lines -- the same "average decides for
+# the individual" error as reporting a band median instead of a per-line ledger.
+#
+# This is NOT a relaxation of the policy. The physical requirement is unchanged: a profile
+# fit needs a profile that is actually isolated. What changes is that the test is applied
+# to the line rather than inferred from its neighbourhood.
+
+# A profile fit needs the neighbour far enough out that the fitting window can contain this
+# line's wings and exclude the neighbour's core. Solar metal lines run sigma ~0.03 A, so
+# wings matter to ~0.15 A; 0.30 A of separation gives the window somewhere to sit.
+PROFILE_FIT_MIN_GAP_A = 0.30
+
+
+def permits_profile_fit_for_line(wavelength_A: float, nearest_neighbour_gap_A: float) -> tuple[bool, str]:
+    """May THIS line be profile-fitted, even where the band bans it by default?
+
+    Returns (allowed, reason). The reason is recorded on the measurement either way, so a
+    per-line escape is always visible as one and never silently widens the policy.
+    """
+    pol = resolve(wavelength_A)
+    if "profile-fit" in pol.permitted_methods:
+        return True, f"{pol.name} permits profile fitting by default"
+    if nearest_neighbour_gap_A >= PROFILE_FIT_MIN_GAP_A:
+        return True, (
+            f"PER-LINE ESCAPE: the {pol.name} band bans profile fitting on its median gap "
+            f"({pol.median_gap_A:.3f} A), but THIS line's nearest neighbour is "
+            f"{nearest_neighbour_gap_A:.3f} A away, at or beyond the "
+            f"{PROFILE_FIT_MIN_GAP_A} A a fitting window needs. Isolation is a property of "
+            f"the line, not of the band.")
+    return False, (
+        f"{pol.name} bans profile fitting (median gap {pol.median_gap_A:.3f} A) and this "
+        f"line does not escape it: nearest neighbour {nearest_neighbour_gap_A:.3f} A < "
+        f"{PROFILE_FIT_MIN_GAP_A} A, so no window contains this profile and excludes the "
+        f"neighbour's core.")
