@@ -1,0 +1,17 @@
+Fe · red-optical · n=101
+  statistical  0.0355 dex   (averages down as 1/sqrt(N))
+  systematic   0.1731 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0355  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+
+Fe · red-optical · n=44
+  statistical  0.0494 dex   (averages down as 1/sqrt(N))
+  systematic   0.1731 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0494  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
