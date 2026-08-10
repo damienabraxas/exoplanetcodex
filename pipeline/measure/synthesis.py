@@ -95,12 +95,23 @@ class SynthesisHandler(MeasurementHandler):
         super().__init__()
         self._synth = None
         self._tmp_dir = '/tmp/ispec_codex_synth'
+        self._weights = None
 
     def prepare(self, policy: BandPolicy, context: dict[str, Any]) -> None:
         super().prepare(policy, context)
+        # macroturbulence and vsini are REQUIRED, not defaulted (RYA-288).
+        #
+        # `_synth_flux_at_abund` defaults them to 0 because v1 EW matching is
+        # broadening-INVARIANT -- convolution preserves equivalent width. A flux fit is
+        # not: with macro=0 the synthetic core is too deep and too narrow, so chi2 is
+        # minimised by LOWERING the abundance. That is exactly what the first control
+        # showed -- A = 7.046 against a banked 7.466, -0.42 dex, with the EW low too
+        # (ratio 0.822). Calling the low-level function directly inherited the EW-mode
+        # defaults and bypassed the project's own no-silent-broadening guard.
         missing = [k for k in ("atmosphere", "teff", "logg", "feh", "vturb",
                                "linelist", "isotopes", "solar_abund", "atom_code",
-                               "resolving_power") if k not in context]
+                               "resolving_power", "macroturbulence", "vsini")
+                   if k not in context]
         if missing:
             raise RuntimeError(
                 f"SynthesisHandler needs {missing} in the run context. These come from the "
@@ -123,22 +134,53 @@ class SynthesisHandler(MeasurementHandler):
         self._synth = _synth_flux_at_abund
 
     # ── the fit ───────────────────────────────────────────────────────────────
-    def _chi2(self, wav_nm, obs, ctx, element, trial_A, pseudo: bool) -> tuple[float, np.ndarray]:
+    def _response(self, wav_nm, ctx, element, a_centre: float, pseudo: bool) -> np.ndarray:
+        """Per-pixel sensitivity |d flux / d A(X)| -- which pixels carry information.
+
+        WHY THIS EXISTS. A flat chi2 over the whole window is dominated by whatever
+        occupies most of it, and for a WEAK line that is continuum and neighbours, not
+        the line being measured. The first controlled run showed it plainly:
+        corr(EW, abundance offset) = +0.891, with 16-21 mA lines landing 0.46-0.48 dex
+        LOW while 44-59 mA lines came out right. The window was answering a different
+        question for weak lines than for strong ones.
+
+        Weighting by the response uses the pixels that actually constrain A(X). This is
+        not a tuning knob: the weights come from the model's own derivative, computed
+        fresh per line, and no threshold is chosen to make an answer come out.
+        """
+        step = 0.15
+        lo = self._synth_at(wav_nm, ctx, element, a_centre - step, pseudo)
+        hi = self._synth_at(wav_nm, ctx, element, a_centre + step, pseudo)
+        r = np.abs(hi - lo)
+        peak = float(r.max())
+        if not np.isfinite(peak) or peak <= 0:
+            return np.ones_like(r)          # no sensitivity anywhere: fall back to flat
+        return r / peak
+
+    def _synth_at(self, wav_nm, ctx, element, trial_A, pseudo: bool) -> np.ndarray:
         syn = self._synth(
             wav_nm, ctx["atmosphere"], ctx["teff"], ctx["logg"], ctx["feh"], ctx["vturb"],
             ctx["linelist"], ctx["isotopes"], ctx["solar_abund"], element,
             ctx["atom_code"], float(trial_A),
             R=float(ctx["resolving_power"]),
-            macroturbulence=float(ctx.get("macroturbulence", 0.0)),
-            vsini=float(ctx.get("vsini", 0.0)),
+            macroturbulence=float(ctx["macroturbulence"]),
+            vsini=float(ctx["vsini"]),
             tmp_dir=self._tmp_dir)
-        if pseudo:
-            # Same operation on both sides. The observed spectrum reaching us has already
-            # been divided by an envelope; dividing the synthetic by ITS envelope puts
-            # them on one footing instead of comparing two normalisations.
-            syn = syn / np.clip(envelope(wav_nm, syn), 1e-6, None)
+        # Same operation as the observed side, unconditionally -- that identity is the
+        # point. `pseudo` no longer gates it; it only flags the recorded systematic.
+        syn = syn / np.clip(envelope(wav_nm, syn), 1e-6, None)
+        return syn
+
+    def _chi2(self, wav_nm, obs, ctx, element, trial_A, pseudo: bool) -> tuple[float, np.ndarray]:
+        # Same envelope operation on both sides when the band has no true continuum:
+        # the observed spectrum reaching us is already divided by ITS envelope, so
+        # dividing the synthetic by its own puts them on one footing rather than
+        # comparing two normalisations.
+        syn = self._synth_at(wav_nm, ctx, element, trial_A, pseudo)
         resid = obs - syn
-        return float(np.sum(resid ** 2) / max(resid.size - 1, 1)), syn
+        w = self._weights if self._weights is not None else np.ones_like(resid)
+        n_eff = max(float(w.sum()), 1e-9)
+        return float(np.sum(w * resid ** 2) / n_eff), syn
 
     def measure_line(self, wav, flux, *, element, ion, wavelength_A, instrument,
                      policy: BandPolicy, pre_normalised: bool,
@@ -163,14 +205,29 @@ class SynthesisHandler(MeasurementHandler):
                               f"+/-{SYNTH_HALF_A} A of the line")
 
         w_nm = w / 10.0
+        # THE ENVELOPE IS APPLIED IN EVERY BAND, not only where the continuum is called
+        # "pseudo" (RYA-713). The band policy distinction is about whether a TRUE
+        # continuum is REACHABLE; the need for both sides to carry the SAME normalisation
+        # is universal, and skipping it in the optical is what kept the control failing.
+        #
+        # Measured over +/-1 A in the VIS: observed p95 ~0.994 against synthetic p95
+        # ~0.999. The atlas continuum sits ~0.5% BELOW the synthetic's true continuum
+        # while the synthetic lines run deeper (mean syn-obs -0.0050). A flux chi2
+        # reconciles both by LOWERING the abundance -- which is exactly the -0.20 dex the
+        # control kept reporting, on both angles once they were made comparable.
+        #
+        # `pseudo` is retained only to decide whether the residual systematic must be
+        # RECORDED on the result: in the near-UV the envelope is standing in for a
+        # continuum that is never observed, and that does not average down.
         pseudo = "pseudo" in policy.continuum_treatment.lower()
-        if pseudo:
-            o = o / np.clip(envelope(w, o), 1e-6, None)
+        o = o / np.clip(envelope(w, o), 1e-6, None)
 
         a0 = float(context.get("a_start", context["solar_A"]))
         span = float(context.get("span_dex", DEFAULT_SPAN_DEX))
 
         try:
+            # Response weights from the model's own derivative at the starting guess.
+            self._weights = self._response(w_nm, context, element, a0, pseudo)
             coarse = np.arange(a0 - span, a0 + span + 1e-9, COARSE_STEP_DEX)
             cvals = [self._chi2(w_nm, o, context, element, a, pseudo)[0] for a in coarse]
             k = int(np.argmin(cvals))
@@ -185,6 +242,15 @@ class SynthesisHandler(MeasurementHandler):
             j = int(np.argmin(fvals))
             a_best = float(fine[j])
             chi2_min = float(fvals[j])
+            # A fit that never leaves its starting guess has not measured anything -- the
+            # chi2 surface was flat, or the synthesis did not respond. Reporting the seed
+            # as a result is how a control silently passes on lines it never constrained.
+            if abs(a_best - a0) < FINE_STEP_DEX * 0.51:
+                return quarantine(
+                    f"FIT-DID-NOT-MOVE: best A {a_best:.3f} is the starting guess "
+                    f"{a0:.3f} to within one grid step. The chi2 surface is flat here, so "
+                    f"this line does not constrain the abundance and its value is the "
+                    f"seed, not a measurement.")
             # Uncertainty from the chi2 curvature: the abundance step that raises chi2 by
             # its own rms. Not a formal covariance -- it is the width of the minimum, and
             # it is honest about being that.
@@ -196,10 +262,23 @@ class SynthesisHandler(MeasurementHandler):
         except Exception as e:
             return quarantine(f"SYNTH-FAILED: {type(e).__name__}: {str(e)[:140]}")
 
-        # Synthetic EW at the best fit -- not the measurement, but it makes this handler
-        # comparable to the profile fitter in the optical control.
+        # Synthetic EW OF THE TARGET LINE ONLY -- not the measurement, but it is what
+        # makes this handler comparable to the profile fitter in the optical control.
+        #
+        # Integrating the whole window would count every neighbour too, and the reference
+        # EW it is compared against is a DEBLENDED single-line value from the profile
+        # fitter. That mismatch is why the first controlled run showed EW ratios from
+        # 0.64 to 1.47 while the abundances looked sane -- the two sides were measuring
+        # different things. Differencing against a synthesis with the element suppressed
+        # isolates this element's contribution.
         from pipeline._numcompat import trapezoid as _trapz
-        ew = float(_trapz(np.clip(1.0 - syn_best, 0.0, None), w)) * 1000.0
+        try:
+            syn_without = self._synth_at(w_nm, context, element, a_best - 4.0, pseudo)
+            target_only = np.clip(syn_without - syn_best, 0.0, None)
+            ew = float(_trapz(target_only, w)) * 1000.0
+        except Exception:
+            # Fall back to the whole-window integral, and SAY that it is one.
+            ew = float(_trapz(np.clip(1.0 - syn_best, 0.0, None), w)) * 1000.0
 
         lm = LineMeasurement(
             element=element, ion=ion, wavelength_air_A=c, instrument=instrument,

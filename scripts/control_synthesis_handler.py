@@ -90,14 +90,41 @@ def build_context(element: str, ion: str, resolving_power: float) -> dict:
         _load_atmosphere, _load_synth_resources, _ISPEC_SOLAR_ABUND_FILE)
     # _atom_codes lives in cno_synthesis, not abundances_derive -- import it from where
     # it actually is rather than duplicating six lines that call iSpec.
-    from pipeline.cno_synthesis import _atom_codes
+    from pipeline.cno_synthesis import _atom_codes, _solar_A as _ispec_solar_A_map
+
+
+    def _ispec_solar_A(el, chem, sab):
+        """A(X) on iSpec's internal scale -- independent of our banked reference."""
+        return _ispec_solar_A_map([el], chem, sab)[el]
     import ispec
     from config.constants import STAR_PARAMS
 
     p = STAR_PARAMS["solar"]
     teff, logg = float(p["teff"]), float(p["logg"])
-    feh = float(p.get("feh", 0.0))
-    vturb = float(p.get("vmic", p.get("microturbulence", 1.0)))
+    # Microturbulence is `xi` in stars.yaml, not `vmic`. My first pass used
+    # p.get("vmic", p.get("microturbulence", 1.0)) and fell through to a HARDCODED 1.0.
+    # It happens to equal the true solar xi, so this run was not biased -- but the next
+    # star would have silently inherited the Sun's value, which is the exact failure
+    # RYA-288 forbids for broadening and which applies identically here: microturbulence
+    # changes the curve of growth and therefore biases A(X), not just its error bar.
+    if "xi" not in p:
+        raise SystemExit(
+            "no microturbulence (`xi`) in STAR_PARAMS for the Sun. Refusing to default "
+            "it -- xi sets the saturation regime and biases the fitted abundance.")
+    vturb = float(p["xi"])
+    feh = float(p.get("feh", p.get("feh_ref", 0.0)))
+
+    # Broadening from the project's own resolver -- never invented, never fitted here.
+    # RYA-288: "Wrong broadening biases the fitted A(X) itself, not just its error bar,
+    # so there is NO default." The resolver returns HARPS_R for R, which we DISCARD:
+    # resolution is an INSTRUMENT constant and this control runs on Kitt Peak.
+    from pipeline.abundances_derive import _resolve_broadening
+    _r_unused, vmac, vsini, fit_vmac = _resolve_broadening("solar")
+    if fit_vmac:
+        raise SystemExit(
+            "STAR_PARAMS asks for vmac='fit' on the Sun. Fitting vmac by full-profile "
+            "chi2 rails to the upper bound at high SNR (RYA-309), so this control will "
+            "not do it -- set a fixed solar vmac or adopt a literature RT value.")
 
     linelist, isotopes, chem = _load_synth_resources()
     solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
@@ -107,7 +134,18 @@ def build_context(element: str, ion: str, resolving_power: float) -> dict:
     return dict(atmosphere=atm, teff=teff, logg=logg, feh=feh, vturb=vturb,
                 linelist=linelist, isotopes=isotopes, solar_abund=solar_abund,
                 atom_code=int(codes[element]), resolving_power=float(resolving_power),
-                solar_A=float(SOLAR_REFERENCE[element]), span_dex=1.0)
+                macroturbulence=float(vmac), vsini=float(vsini),
+                # CIRCULARITY GUARD (RYA-713). The starting guess must NOT be the value
+                # the control is testing. It was: a_start defaulted to solar_A, which I
+                # had set to SOLAR_REFERENCE -- so any line whose chi2 was flat returned
+                # the reference EXACTLY and counted as a perfect result. Three of eight
+                # lines did precisely that (dA = -3.6e-15), silently pulling the median
+                # toward a pass.
+                #
+                # Seed from iSpec's own internal solar composition instead: an
+                # independent starting point that knows nothing about our banked answer.
+                solar_A=float(_ispec_solar_A(element, chem, solar_abund)),
+                span_dex=1.5)
 
 
 # Banked reference values. These are the ANSWER the control must recover -- they are NOT

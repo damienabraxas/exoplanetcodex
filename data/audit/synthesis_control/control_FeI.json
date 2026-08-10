@@ -1,0 +1,11 @@
+{
+  "handler": "SynthesisHandler",
+  "element": "Fe",
+  "n_lines": 8,
+  "median_ratio": 0.6129811189909482,
+  "mad_ratio": 0.3071231122660131,
+  "dex_offset": -0.12000000000000366,
+  "passed": false,
+  "tolerance_dex": 0.05,
+  "evidence": "ANGLE 1 EW: median synth/banked 0.613 (-0.2126 dex), MAD 0.307. ANGLE 2 abundance: median A=7.346 vs 7.466 (-0.1200 dex), scatter 0.285. NEITHER AGREES \u2014 a plain failure, and the easiest to diagnose"
+}
