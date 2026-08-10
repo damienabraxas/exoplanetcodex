@@ -32,6 +32,9 @@ import numpy as np
 import pandas as pd
 
 from pipeline.species import species_key, MOLECULE
+# RYA-765/318: intake debug tracer — no-op unless a trace is active, never changes a
+# returned value. Safe to leave here permanently (intake_debug invariants #1/#2).
+from pipeline import intake_debug as dbg
 
 # Match tolerances — must equal the canonical build (audit_gf_duplication).
 WTOL = 0.02   # Å
@@ -155,9 +158,19 @@ def resolve_df_gf(df: pd.DataFrame, *, element_col: str = 'element',
         try:
             key = species_key(str(el), str(ion))
             c = resolve(key, float(wl), float(ep))
-        except (GfResolutionError, ValueError):
+        except (GfResolutionError, ValueError) as exc:
             if not keep_unresolved:
                 raise
+            # RYA-765/318: `keep_unresolved` is this module's ONE tolerated fallback
+            # (the docstring above says why a CONSUMER may legitimately carry a line
+            # outside canonical). It is still a fallback: the row keeps a gf from an
+            # unnamed source while every neighbour carries the canonical one, and only
+            # the aggregate `n_unresolved` count records it. Named per line here.
+            dbg.trace_fallback('gf_unresolved_kept',
+                               f'{el} {ion} {float(wl):.3f}: {exc} -> keeping the '
+                               f"consumer's own log_gf (not canonical)",
+                               species=f'{el} {ion}', wavelength=float(wl),
+                               excitation_potential_eV=float(ep))
             n_unres += 1
             continue
         n_res += 1
@@ -167,6 +180,11 @@ def resolve_df_gf(df: pd.DataFrame, *, element_col: str = 'element',
         is_canon[j] = True
     out[gf_col] = gf
     out['gf_canonical'] = is_canon
+    dbg.trace_check('gf_canonical_fraction', n_unres == 0, severity_if_fail='WARN',
+                    detail=f'{n_res}/{len(out)} rows resolved to canonical gf '
+                           f'({n_unres} kept their own)',
+                    n=len(out), n_resolved=n_res, n_unresolved=n_unres,
+                    n_changed=n_changed)
     return out, {'n': len(out), 'n_resolved': n_res,
                  'n_unresolved': n_unres, 'n_changed': n_changed}
 

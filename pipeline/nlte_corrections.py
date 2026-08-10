@@ -41,6 +41,11 @@ import numpy as np
 import pandas as pd
 
 from pipeline.species import parse_ion   # RYA-345 canonical ion normalizer
+# RYA-765/318: the intake debug tracer. Every dbg.* call below is a no-op unless a
+# trace is active, reads nothing the science path writes, and returns None — so this
+# import can live here permanently at zero production cost (intake_debug invariants
+# #1 numerically inert, #2 opt-in).
+from pipeline import intake_debug as dbg
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
@@ -293,13 +298,32 @@ def _mpia_fe_delta(ion: str, wave_A: float, teff: float, logg: float,
     c = _load_mpia_fe_grid()
     ion_i = parse_ion(ion)                       # RYA-345 canonical ion
     w = c['waves'].get(ion_i, np.array([]))
+    # RYA-765: this is RYA-317's exact shape — the grid matched 0 lines and the run
+    # went on in LTE without saying so. Recorded on the intake timeline; no-op when
+    # no trace is active, and the returned value is unchanged either way.
     if len(w) == 0:
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'Fe {ion} {wave_A:.3f}: grid carries no node for this ion '
+                           f'-> LTE', severity='ERROR', species=f'Fe {ion}',
+                           wavelength=float(wave_A), miss='empty_grid')
         return np.nan
     j = int(np.abs(w - wave_A).argmin())
     if abs(float(w[j]) - wave_A) > tol:
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'Fe {ion} {wave_A:.3f}: no grid/level match within {tol} A '
+                           f'(nearest {float(w[j]):.3f}) -> LTE', severity='ERROR',
+                           species=f'Fe {ion}', wavelength=float(wave_A),
+                           miss='wave_tol', nearest_A=float(w[j]))
         return np.nan
     f = c['interp'].get((ion_i, float(w[j])))
-    return float(f([[teff, logg, feh]])[0]) if f is not None else np.nan
+    if f is None:
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'Fe {ion} {wave_A:.3f}: matched node {float(w[j]):.3f} has '
+                           f'no interpolator -> LTE', severity='ERROR',
+                           species=f'Fe {ion}', wavelength=float(wave_A),
+                           miss='no_interpolator')
+        return np.nan
+    return float(f([[teff, logg, feh]])[0])
 
 
 def fe_grid_in_bounds(teff: float, logg: float, feh: float) -> bool:
@@ -373,6 +397,10 @@ def apply_fe_nlte_corrections(
             ].copy().reset_index(drop=True)
 
             if fe_lines.empty:
+                dbg.trace_fallback('nlte_lte_fallback',
+                                   f'Fe {ion}: no measured line of this ion in the '
+                                   f'per-line table -> 1D LTE retained', severity='ERROR',
+                                   species=f'Fe {ion}', miss='no_species_lines')
                 result.at[idx, 'A_X_nlte']  = a_1dlte
                 result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
                 continue
@@ -391,8 +419,20 @@ def apply_fe_nlte_corrections(
                     fe_lines.at[i, 'a_nlte'] = float(lrow['a_1dlte']) + ab
 
             n_corrected = int(fe_lines['aberr'].notna().sum())
+            # RYA-318/317 — THE check that named this ticket: "NLTE matched 0 / 11,275
+            # Fe lines", caught in 317 only because a guard happened to fire.
+            dbg.trace_check('nlte_matched_fraction', n_corrected > 0,
+                            detail=f'Fe {ion}: {n_corrected}/{len(fe_lines)} lines '
+                                   f'matched the NLTE grid',
+                            species=f'Fe {ion}', matched=int(n_corrected),
+                            total=int(len(fe_lines)))
             if n_corrected == 0:
                 print(f"  Fe {ion}: no lines in NLTE grid — 1D LTE retained")
+                dbg.trace_fallback('nlte_lte_fallback',
+                                   f'Fe {ion}: 0/{len(fe_lines)} lines matched the NLTE '
+                                   f'grid -> 1D LTE retained', severity='ERROR',
+                                   species=f'Fe {ion}', miss='zero_matched',
+                                   total=int(len(fe_lines)))
                 result.at[idx, 'A_X_nlte']  = a_1dlte
                 result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
                 continue
@@ -564,16 +604,51 @@ def _mpia_element_delta(element: str, wave_A: float, teff: float, logg: float,
                         feh: float, tol: float = 0.15) -> float:
     """delta_nlte for one line of `element`, interpolated from its MPIA grid over
     (teff,logg,feh) at the line wavelength. NaN if no wave match within `tol` or the
-    star sits outside the (teff,logg,feh) convex hull."""
+    star sits outside the (teff,logg,feh) convex hull.
+
+    RYA-765: every NaN return here is a line that will proceed in LTE. The caller
+    decides what to do with it (drop it, or add 0.0 — the two-engine driver does the
+    latter), and neither choice leaves a trace in the science output, which is how
+    RYA-317 stayed invisible until a number looked wrong. The `dbg.trace_fallback`
+    calls record the miss on the intake timeline instead; they are no-ops unless a
+    trace is active and they change nothing this function returns.
+    """
     c = _load_mpia_element_grid(element)
     w = c['waves']
     if len(w) == 0:
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'{element} {wave_A:.3f}: grid carries no usable wavelength '
+                           f'node -> LTE', severity='ERROR', species=str(element),
+                           wavelength=float(wave_A), miss='empty_grid')
         return np.nan
     j = int(np.abs(w - wave_A).argmin())
     if abs(float(w[j]) - wave_A) > tol:
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'{element} {wave_A:.3f}: no grid/level match within '
+                           f'{tol} A (nearest {float(w[j]):.3f}) -> LTE',
+                           severity='ERROR', species=str(element),
+                           wavelength=float(wave_A), miss='wave_tol',
+                           nearest_A=float(w[j]))
         return np.nan
     f = c['interp'].get(float(w[j]))
-    return float(f([[teff, logg, feh]])[0]) if f is not None else np.nan
+    if f is None:
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'{element} {wave_A:.3f}: matched node {float(w[j]):.3f} has '
+                           f'no interpolator -> LTE', severity='ERROR',
+                           species=str(element), wavelength=float(wave_A),
+                           miss='no_interpolator')
+        return np.nan
+    d = float(f([[teff, logg, feh]])[0])
+    if not np.isfinite(d):
+        # LinearND returns NaN outside the (Teff,logg,[Fe/H]) hull. The element-level
+        # RYA-409 guard catches the whole-element case; this is the per-line remainder.
+        dbg.trace_fallback('nlte_lte_fallback',
+                           f'{element} {wave_A:.3f}: node {float(w[j]):.3f} interpolated '
+                           f'to NaN at (Teff={teff:.0f}, logg={logg:.2f}, '
+                           f'[Fe/H]={feh:+.2f}) -> LTE', severity='ERROR',
+                           species=str(element), wavelength=float(wave_A),
+                           miss='out_of_hull')
+    return d
 
 
 def element_grid_in_bounds(element: str, teff: float, logg: float, feh: float) -> bool:
@@ -641,6 +716,10 @@ def apply_element_nlte_corrections(
 
         if per_line_df is None or per_line_df.empty:
             print(f"  {element} {ion_label}: no per-line table — element NLTE skipped (1D LTE retained)")
+            dbg.trace_fallback('nlte_lte_fallback',
+                               f'{element} {ion_label}: no per-line table -> whole '
+                               f'element retained at 1D LTE', severity='ERROR',
+                               species=f'{element} {ion_label}', miss='no_per_line_table')
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
             continue
@@ -650,6 +729,11 @@ def apply_element_nlte_corrections(
             & (per_line_df['ion'].apply(parse_ion) == int(reg[element]['ion']))
         ].copy().reset_index(drop=True)
         if lines.empty:
+            dbg.trace_fallback('nlte_lte_fallback',
+                               f'{element} {ion_label}: no measured line of this species '
+                               f'in the per-line table -> 1D LTE retained',
+                               severity='ERROR', species=f'{element} {ion_label}',
+                               miss='no_species_lines')
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
             continue
@@ -671,6 +755,14 @@ def apply_element_nlte_corrections(
                    f"substitution (RYA-409). Re-source the grid past this [Fe/H] (Part B).")
             warnings.warn(msg, RuntimeWarning, stacklevel=2)
             print(f"  LOUD [NLTE_OUT_OF_HULL]: {msg}")
+            dbg.trace_fallback('nlte_out_of_hull',
+                               f'{element} {ion_label}: (Teff={teff:.0f}, logg={logg:.2f}, '
+                               f'[Fe/H]={feh:+.2f}) outside the grid hull -> 1D LTE '
+                               f'retained with NLTE_OUT_OF_HULL', severity='ERROR',
+                               species=f'{element} {ion_label}', teff=float(teff),
+                               logg=float(logg), feh=float(feh),
+                               hull_teff=list(b['teff']), hull_logg=list(b['logg']),
+                               hull_feh=list(b['feh']))
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_OUT_OF_HULL'
             if strict:
@@ -687,8 +779,20 @@ def apply_element_nlte_corrections(
                 lines.at[i, 'a_nlte'] = float(lrow['a_1dlte']) + ab
 
         n_corrected = int(lines['aberr'].notna().sum())
+        # RYA-318/317: the matched-line fraction, finally landing in the diagnostics
+        # layer as 318 asked. 0 matched = ERROR; the run continues exactly as before.
+        dbg.trace_check('nlte_matched_fraction', n_corrected > 0,
+                        detail=f'{element} {ion_label}: {n_corrected}/{len(lines)} lines '
+                               f'matched the NLTE grid',
+                        species=f'{element} {ion_label}',
+                        matched=int(n_corrected), total=int(len(lines)))
         if n_corrected == 0:
             print(f"  {element} {ion_label}: no lines in NLTE grid (Δ all NaN) — 1D LTE retained")
+            dbg.trace_fallback('nlte_lte_fallback',
+                               f'{element} {ion_label}: 0/{len(lines)} lines matched the '
+                               f'NLTE grid -> 1D LTE retained', severity='ERROR',
+                               species=f'{element} {ion_label}', miss='zero_matched',
+                               total=int(len(lines)))
             result.at[idx, 'A_X_nlte']  = a_1dlte
             result.at[idx, 'nlte_flag'] = 'NLTE_unavailable'
             continue
