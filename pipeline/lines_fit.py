@@ -293,40 +293,161 @@ def _fit_profile(wav: np.ndarray, flux: np.ndarray,
     pinned against the constraint and report a width it never measured. Pass the resolved
     values rather than copying this function for a second instrument.
     """
+    # RYA-761: this is the one-component case of `_fit_blend` and is delegated to it
+    # rather than kept as a second copy of the same optimiser call (RYA-701). The
+    # parameter vector, p0, bounds, chi2 definition and Voigt->Gaussian ladder are
+    # identical at n = 1 BY CONSTRUCTION, and tests/test_blend_fit_rya761.py pins the
+    # historical outputs numerically so the delegation cannot drift silently.
+    return _fit_blend(wav, flux, [line_wav],
+                      sigma_init=sigma_init, gamma_init=gamma_init,
+                      sigma_min=sigma_min, sigma_max=sigma_max,
+                      core_half_A=core_half_A)
+
+
+# ── N-component blend fitting (RYA-761) ──────────────────────────────────────
+#
+# THE PROBLEM THIS SOLVES. Of 447 measured Fe I lines in 6910-9199 A, 290 were
+# quarantined as FIT-PINNED (185) or BLEND-DOMINATED (105). Both failures have one
+# shape: the window contains more than one line and a one-component model is being
+# asked to describe it. FIT-PINNED is that failure being honest -- no profile of
+# plausible width fits, so the optimiser drove sigma onto its bound and the line was
+# excluded. The fix is a model with the right number of components, NOT a looser pin
+# (RYA-761: "the pin is the detector working. Fix the model, not the threshold.").
+#
+# WHY THE INTERLOPER CENTRES ARE FIXED. A two-component fit with both centres free
+# will happily place both components on the same line and report an excellent chi2.
+# The catalogue wavelength is the information that makes the fit identifiable, so
+# interloper centres are held at their catalogued values and only their DEPTHS are
+# free. The target keeps its +/-0.30 A freedom, exactly as in the single-component fit.
+#
+# WHY THE WIDTH IS SHARED. Every line in a narrow window is observed through the same
+# instrumental profile and the same stellar macroturbulence; they differ in intrinsic
+# width only through thermal broadening (a sqrt(mass) effect, small between metals).
+# Sharing one (sigma, gamma) across components is therefore physically motivated AND
+# is what keeps the fit identifiable at small separations -- N free widths on a
+# marginally-resolved blend is precisely how a fitter invents structure. Independent
+# widths remain available via share_width=False; the injection-recovery study
+# (scripts/rya761_separability.py) measures what that choice costs.
+#
+# EXACT REDUCTION TO THE SINGLE-COMPONENT CASE. The parameter vector is
+#
+#     [x0_target, depth_0, sigma, (gamma)]  +  [depth_1, ..., depth_{n-1}]
+#
+# so at n = 1 it is *identically* [x0, depth, sigma, (gamma)] -- the same vector, the
+# same p0, and the same bounds the single-component fitter has always used. That is
+# deliberate: `_fit_profile` delegates here rather than keeping a second copy of the
+# same optimiser call (RYA-701, the no-copy-paste standard), and
+# tests/test_blend_fit_rya761.py asserts the n=1 path reproduces the pre-existing
+# single-component result BIT-FOR-BIT rather than merely closely.
+
+
+def _blend_model(centres: np.ndarray, free_centre: bool = True,
+                 profile: str = 'voigt', share_width: bool = True):
+    """Build the curve_fit callable for an n-component absorption blend.
+
+    `centres[0]` is the target; `centres[1:]` are catalogued interlopers whose
+    wavelengths are FIXED. Returns a function f(x, *params) with the parameter layout
+    documented above.
+    """
+    centres = np.asarray(centres, dtype=float)
+    n = len(centres)
+    voigt = (profile == 'voigt')
+
+    def f(x, *params):
+        i = 0
+        x0 = params[i]; i += 1                    # target centre (free)
+        d0 = params[i]; i += 1
+        if share_width:
+            sig = params[i]; i += 1
+            gam = params[i] if voigt else 0.0
+            i += 1 if voigt else 0
+            sigmas = [sig] * n
+            gammas = [gam] * n
+        else:
+            sigmas = [params[i]]; i += 1
+            gammas = [params[i]] if voigt else [0.0]
+            i += 1 if voigt else 0
+        depths = [d0]
+        for k in range(1, n):
+            depths.append(params[i]); i += 1
+            if not share_width:
+                sigmas.append(params[i]); i += 1
+                if voigt:
+                    gammas.append(params[i]); i += 1
+
+        out = np.ones_like(np.asarray(x, dtype=float))
+        for k in range(n):
+            ck = x0 if k == 0 else centres[k]
+            if voigt:
+                peak = voigt_profile(0.0, sigmas[k], gammas[k])
+                if peak == 0:
+                    continue
+                out = out - depths[k] * voigt_profile(x - ck, sigmas[k], gammas[k]) / peak
+            else:
+                out = out - depths[k] * np.exp(-0.5 * ((x - ck) / sigmas[k]) ** 2)
+        return out
+
+    return f
+
+
+def _fit_blend(wav: np.ndarray, flux: np.ndarray, centres,
+               *, sigma_init: float = _S0, gamma_init: float = _G0,
+               sigma_min: float = 0.005, sigma_max: float = 0.40,
+               core_half_A: float = 0.10, share_width: bool = True) -> tuple:
+    """Fit an n-component blend; `centres[0]` is the target, the rest are fixed.
+
+    Tries Voigt, falls back to Gaussian on failure or chi2_red > 0.05 -- the same
+    ladder, the same thresholds and the same bounds as the single-component fit, so
+    n=1 is bit-identical to it.
+
+    Returns (popt, pcov, profile_type, chi2_red). `popt[0:3or4]` is the target's
+    [x0, depth, sigma, (gamma)]; trailing entries are the interloper depths.
+    """
+    centres = np.asarray(centres, dtype=float)
+    n = len(centres)
+    line_wav = float(centres[0])
+
     core = np.abs(wav - line_wav) < core_half_A
     flux_for_depth = flux[core] if core.sum() > 0 else flux
     depth0 = float(np.clip(1.0 - np.nanmin(flux_for_depth), 0.005, 0.995))
 
-    # ── Voigt ─────────────────────────────────────────────────────────────────
-    try:
-        pv, cv = curve_fit(
-            _voigt_abs, wav, flux,
-            p0=[line_wav, depth0, sigma_init, gamma_init],
-            bounds=([line_wav - 0.30, 0.001, sigma_min, 0.0],
-                    [line_wav + 0.30, 1.000, sigma_max, 0.40]),
-            maxfev=2000, method='trf',
-        )
-        res = flux - _voigt_abs(wav, *pv)
-        chi2v = float(np.sum(res ** 2) / max(len(wav) - 4, 1))
-        if chi2v < 0.05 and np.all(np.isfinite(cv)):
-            return pv, cv, 'voigt', chi2v
-    except Exception:
-        pass
+    # Interlopers start shallow: the target is the line we believe is there, and
+    # seeding a neighbour deep invites the optimiser to swap their roles.
+    d_extra = [float(np.clip(depth0 * 0.30, 0.001, 0.995)) for _ in range(n - 1)]
 
-    # ── Gaussian fallback ─────────────────────────────────────────────────────
-    try:
-        pg, cg = curve_fit(
-            _gauss_abs, wav, flux,
-            p0=[line_wav, depth0, sigma_init],
-            bounds=([line_wav - 0.30, 0.001, sigma_min],
-                    [line_wav + 0.30, 1.000, sigma_max]),
-            maxfev=2000, method='trf',
-        )
-        res = flux - _gauss_abs(wav, *pg)
-        chi2g = float(np.sum(res ** 2) / max(len(wav) - 3, 1))
-        return pg, cg, 'gaussian', chi2g
-    except Exception:
-        return None, None, 'failed', np.nan
+    for kind, base_p0, base_lo, base_hi, npar_base in (
+        ('voigt',
+         [line_wav, depth0, sigma_init, gamma_init],
+         [line_wav - 0.30, 0.001, sigma_min, 0.0],
+         [line_wav + 0.30, 1.000, sigma_max, 0.40], 4),
+        ('gaussian',
+         [line_wav, depth0, sigma_init],
+         [line_wav - 0.30, 0.001, sigma_min],
+         [line_wav + 0.30, 1.000, sigma_max], 3),
+    ):
+        if not share_width and n > 1:
+            p0 = list(base_p0); lo = list(base_lo); hi = list(base_hi)
+            for d in d_extra:
+                p0 += [d] + base_p0[2:]
+                lo += [0.001] + base_lo[2:]
+                hi += [1.000] + base_hi[2:]
+        else:
+            p0 = list(base_p0) + list(d_extra)
+            lo = list(base_lo) + [0.001] * (n - 1)
+            hi = list(base_hi) + [1.000] * (n - 1)
+
+        model = _blend_model(centres, profile=kind, share_width=share_width)
+        try:
+            popt, pcov = curve_fit(model, wav, flux, p0=p0, bounds=(lo, hi),
+                                   maxfev=2000 if n == 1 else 4000, method='trf')
+            res = flux - model(wav, *popt)
+            chi2 = float(np.sum(res ** 2) / max(len(wav) - len(p0), 1))
+            if kind == 'gaussian' or (chi2 < 0.05 and np.all(np.isfinite(pcov))):
+                return popt, pcov, kind, chi2
+        except Exception:
+            continue
+
+    return None, None, 'failed', np.nan
 
 
 def _fit_two_component(wav: np.ndarray, flux: np.ndarray) -> tuple:

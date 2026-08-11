@@ -308,3 +308,18 @@ artifacts:
       at the RYA-771 0.01 dex quantiser tread — the three experimental-gf lines return
       byte-identical A, so the raw line-to-line sd is exactly 0 and quoting it would claim
       precision the pinned engine cannot express.
+
+  # ── RYA-761 two-component blend recovery ──────────────────────────────────────────
+
+  - artifact: rya761/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_blend_recovery.csv
+    generator: scripts/rya761_recover_blends.py
+    invocation: python scripts/rya761_recover_blends.py --element Al --ion I --lo 6910 --hi 9199
+    ticket: RYA-761
+    note: >-
+      Per-line outcome of the two-component recovery on Al's quarantined red-optical lines,
+      used as the ground-truth validation before Fe. Each row keeps BOTH facts (RYA-711): its
+      original quarantine reason and what the richer model did with it. The separability tier
+      is set by the MEASURED floor from scripts/rya761_separability.py, not an assumed one.
+      The equivalent Fe artifact is deliberately NOT landed here: its input measurement
+      (FeI_6910_9199_..._ew.csv) is not on main, so it could not be regenerated from this
+      repo. It lands with RYA-713's Fe measurement, not before.
