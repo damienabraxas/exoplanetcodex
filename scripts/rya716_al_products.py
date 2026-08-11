@@ -6,12 +6,22 @@
 
 WHY THIS DRIVER AND NOT `derive_band_products.py`
 --------------------------------------------------
-That driver is NOT on main — it rides the unmerged RYA-759 branch, which is being
-worked in parallel, so using it here would couple Al to 759. The FINISH-Al brief is
-explicit about where Al's number comes from: *"the validated core (`_fit_synth_flux` /
-bisection), NOT the SynthesisHandler adapter (that is RYA-770's problem)."* So this
-calls main's own `pipeline.abundances_derive._bisect_synth_abundance` and main's own
-`pipeline.nlte_corrections._mpia_element_delta` directly, and invents no physics.
+It was written when `derive_band_products.py` was NOT on main — it rode the unmerged
+RYA-759 branch, and using it would have coupled Al to a ticket being worked in parallel.
+**RYA-774 has since landed the shared band harness on main (PR #219), so that is no
+longer true** and the constraint that produced this driver is gone.
+
+It is kept for what it adds over that driver, not to avoid it. The FINISH-Al brief pins
+Al's number to *"the validated core (`_fit_synth_flux` / bisection), NOT the
+SynthesisHandler adapter (that is RYA-770's problem)"* — which is what this calls
+(`abundances_derive._bisect_synth_abundance`) — and it carries the two behaviours the Al
+result turned on: the per-line Engine-A disposition via
+`nlte_corrections._mpia_element_delta`, so no line is ever carried as silent LTE, and the
+gf-provenance split that isolates the 7836.134 outlier. It invents no physics.
+
+Folding those two behaviours back into `derive_band_products.py` and retiring this driver
+is the right follow-up now that the harness is shared. It is deliberately NOT done at
+merge time.
 
 WHAT IT EMITS — two products, never combined (RYA-712)
 ------------------------------------------------------
