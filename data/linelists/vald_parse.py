@@ -113,11 +113,19 @@ def parse_vald_long(path, max_examples=5):
 
     Returns (records, failures):
       records  — list of dicts: species, element, ion (Roman), wavelength,
-                 log_gf, e_low_eV, damping_rad, damping_stark, damping_vdW,
-                 central_depth
+                 log_gf, e_low_eV, j_low, e_up_eV, j_up, lande_lower,
+                 lande_upper, lande_mean, damping_rad, damping_stark,
+                 damping_vdW, central_depth
       failures — list of (line_number, line_text, error) up to max_examples,
                  plus n_failures total as the last element's count; callers
                  must treat a non-empty list as reportable (no silent drops).
+
+    RYA-759: the upper-level and Landé fields are carried through rather than
+    skipped. They were always read off the same data line and thrown away; a
+    synthesis line list needs them (upper_g = 2*J_up + 1 is a Turbospectrum
+    input), and the alternative — a second VALD parser that keeps them — is
+    exactly the copy-paste this project has ratified against. Existing keys are
+    untouched, so every current caller is unaffected.
     """
     records = []
     failures = []
@@ -143,6 +151,12 @@ def parse_vald_long(path, max_examples=5):
                     'wavelength'    : float(fields[1]),
                     'log_gf'        : float(fields[2]),
                     'e_low_eV'      : float(fields[3]),
+                    'j_low'         : float(fields[4]),
+                    'e_up_eV'       : float(fields[5]),
+                    'j_up'          : float(fields[6]),
+                    'lande_lower'   : float(fields[7]),
+                    'lande_upper'   : float(fields[8]),
+                    'lande_mean'    : float(fields[9]),
                     'damping_rad'   : float(fields[10]),
                     'damping_stark' : float(fields[11]),
                     'damping_vdW'   : float(fields[12]),
