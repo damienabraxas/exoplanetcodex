@@ -64,11 +64,30 @@ class LineMeasurement:
     treatment: str = ""
     in_aggregate: bool = True
     excluded_reason: str = ""
+    #: Did this line's abundance come from an EW -> abundance INVERSION?
+    #:
+    #: RYA-770/342. The REW saturation ceiling below is a property of that inversion —
+    #: on the flat part of the curve of growth EW barely responds to abundance, so
+    #: inverting it is ill-conditioned. It is NOT a property of the line, and it does
+    #: not apply to a flux-space synthesis fit, which measures the profile directly and
+    #: exists precisely to recover the strong/blended lines EW saturation kills
+    #: (`_run_synthesis_v2_mode` says so in as many words: "the flux-space path does
+    #: NOT gate on the EW saturation ceiling — that is an EW-path concept").
+    #:
+    #: Applying it regardless is how RYA-342 came back. Measured: on the banked
+    #: synth-v2 lines the synthesis handler fitted 5 of 6 at red_chi2 1.7-8.8 with a
+    #: median A(Fe I) = 7.529 against a banked 7.520 — and this gate quarantined all
+    #: but one of them as "saturated", so the control reported "1 line, +0.181 dex".
+    #:
+    #: Defaults True so every EW-domain caller is unchanged; only the synthesis
+    #: handler opts out, and it says why at the call site.
+    ew_inversion: bool = True
 
     def __post_init__(self) -> None:
         if self.rew is None and self.ew_mA and self.wavelength_air_A:
             self.rew = float(np.log10(self.ew_mA * 1e-3 / self.wavelength_air_A))
-        if self.rew is not None and self.rew > REW_SATURATION_CEILING:
+        if (self.ew_inversion and self.rew is not None
+                and self.rew > REW_SATURATION_CEILING):
             self.in_aggregate = False
             self.excluded_reason = (
                 f"REW {self.rew:.3f} above the {REW_SATURATION_CEILING} saturation "
