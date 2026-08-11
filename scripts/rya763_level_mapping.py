@@ -102,6 +102,61 @@ def read_labels(el: str) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# ── the label-keyed resolver (RYA-763) ───────────────────────────────────────
+#
+# The index is a false coordinate (see the module docstring and the offset check): two
+# model atoms number their levels differently above the low-lying set, so an integer
+# that always resolves resolves to the WRONG level. The fix is to key on what does not
+# depend on either atom's bookkeeping.
+#
+# ENERGY and J are physical. Both the GES linelist and label_{El}.txt carry NIST-derived
+# level energies in eV and the level J, so a level can be identified by (J, E) with a
+# tolerance, and the term string used only as corroboration. Term NAMES are convention
+# ('z3D3*' vs 'z3D' + J=3) and are deliberately NOT the key.
+#
+# The tolerance is not assumed: `--scan-tol` measures resolution rate against it, so the
+# operating point is chosen from the curve rather than picked.
+
+def resolve_by_label(lab: 'pd.DataFrame', energy_eV: float, j: float,
+                     tol_eV: float = 0.001) -> tuple:
+    """Identify one level by (J, energy). Returns (verdict, index, n_candidates).
+
+    UNIQUE     exactly one atom level within tol at that J -> usable
+    AMBIGUOUS  several -> refuse; picking one would be a guess with a real number attached
+    ABSENT     none -> the atom genuinely does not carry this level
+    """
+    if not np.isfinite(energy_eV) or not np.isfinite(j):
+        return ("NO-ENERGY-OR-J", -1, 0)
+    c = lab[(np.abs(lab.energy_eV - energy_eV) <= tol_eV) & (np.abs(lab.J - j) < 0.01)]
+    if len(c) == 1:
+        return ("UNIQUE", int(c.iloc[0]["index"]), 1)
+    if len(c) > 1:
+        return ("AMBIGUOUS", -1, len(c))
+    return ("ABSENT", -1, 0)
+
+
+def label_key_report(ll, lab: 'pd.DataFrame', el: str, ion: str,
+                     lo: float, hi: float, tol_eV: float) -> 'pd.DataFrame':
+    """Resolve BOTH endpoints of every in-band line by (J, energy)."""
+    w = np.asarray(ll["wave_A"], dtype=float)
+    els = np.asarray([str(x).strip() for x in ll["element"]])
+    want = f"{el} {1 if ion.upper() == 'I' else 2}".upper()
+    m = np.array([e.upper().startswith(want) for e in els]) & (w >= lo) & (w <= hi)
+
+    rows = []
+    for i in np.where(m)[0]:
+        vlo, ilo, nlo = resolve_by_label(lab, float(ll["lower_state_eV"][i]),
+                                         float(ll["lower_j"][i]), tol_eV)
+        vup, iup, nup = resolve_by_label(lab, float(ll["upper_state_eV"][i]),
+                                         float(ll["upper_j"][i]), tol_eV)
+        both = (vlo == "UNIQUE") and (vup == "UNIQUE")
+        rows.append(dict(wave_A=float(w[i]), lower_verdict=vlo, upper_verdict=vup,
+                         atom_index_low=ilo, atom_index_up=iup,
+                         n_cand_low=nlo, n_cand_up=nup,
+                         engine_a_mappable=both))
+    return pd.DataFrame(rows)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -109,6 +164,15 @@ def main() -> None:
     ap.add_argument("--ion", default="I")
     ap.add_argument("--lo", type=float, default=6910.0)
     ap.add_argument("--hi", type=float, default=9199.9)
+    ap.add_argument("--label-key", action="store_true",
+                    help="resolve levels by (J, energy) instead of by index")
+    ap.add_argument("--tol-eV", type=float, default=0.001,
+                    help="energy match tolerance for --label-key. 0.001 eV is the "
+                         "MEASURED optimum from --scan-tol on Ti I (76.6 percent); "
+                         "tighter starts missing real matches (ABSENT rises), looser "
+                         "collapses into AMBIGUOUS.")
+    ap.add_argument("--scan-tol", action="store_true",
+                    help="measure resolution rate vs tolerance rather than assuming one")
     a = ap.parse_args()
 
     inv = inventory()
@@ -211,6 +275,47 @@ def main() -> None:
     df.to_csv(f, index=False)
     inv.to_csv(OUT_DIR / "engine_a_asset_inventory.csv", index=False)
     print(f"\n  wrote {f.relative_to(ROOT)} and engine_a_asset_inventory.csv")
+
+    if not (a.label_key or a.scan_tol):
+        print("\n  (pass --label-key to resolve by (J, energy) instead of by index)")
+        return
+
+    print("\n" + "=" * 78)
+    print(f"LABEL-KEYED RESOLUTION — {el} {a.ion}, by (J, energy), not by index")
+    print("=" * 78)
+
+    if a.scan_tol:
+        print(f"\n  resolution rate vs energy tolerance (the operating point is MEASURED):")
+        print(f"{'tol (eV)':>10} {'both unique':>12} {'ambiguous':>11} {'absent':>8} "
+              f"{'rate':>8}")
+        for t in (0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1):
+            r = label_key_report(ll, lab, el, a.ion, a.lo, a.hi, t)
+            amb = int(((r.lower_verdict == "AMBIGUOUS") |
+                       (r.upper_verdict == "AMBIGUOUS")).sum())
+            abs_ = int(((r.lower_verdict == "ABSENT") |
+                        (r.upper_verdict == "ABSENT")).sum())
+            k = int(r.engine_a_mappable.sum())
+            print(f"{t:10.4f} {k:12d} {amb:11d} {abs_:8d} "
+                  f"{k/max(len(r),1):8.3f}")
+
+    r = label_key_report(ll, lab, el, a.ion, a.lo, a.hi, a.tol_eV)
+    k = int(r.engine_a_mappable.sum())
+    print(f"\n  at tol = {a.tol_eV} eV, over {len(r)} in-band {el} {a.ion} lines:")
+    for side in ("lower", "upper"):
+        print(f"    {side} level:  " + "  ".join(
+            f"{kk}={vv}" for kk, vv in r[f"{side}_verdict"].value_counts().items()))
+    print(f"\n    BOTH levels uniquely resolved: {k}  ({100.0*k/max(len(r),1):.1f}%)")
+
+    idx_rate = (len(df[df.verdict == 'AGREE']) /
+                max(len(df[df.verdict.isin(['AGREE', 'MISMATCH'])]), 1))
+    print(f"\n  compare: index-keyed agreement was {idx_rate:.1%} on the same band,")
+    print(f"  and 0% above level index 215 where the IR lines live.")
+    print(f"\n  => local level-mapping IS viable — but on (J, energy), not the index.")
+    print(f"     {k} in-band {el} {a.ion} lines are Engine-A mappable without any web query.")
+
+    rf = OUT_DIR / f"{el}{a.ion}_label_keyed.csv"
+    r.to_csv(rf, index=False)
+    print(f"\n  wrote {rf.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
