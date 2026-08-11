@@ -1,0 +1,4 @@
+product,A,sigma_stat,sd_lines,sd_quoted,n_lines,sigma_is_floor,note
+Al 1D-LTE,6.35546875,0.005773502691896258,0.0,0.01,3,True,measured EW -> Turbospectrum COG (_bisect_synth_abundance); experimental-gf lines only
+Al ENGINE-A,6.338330568181818,0.01,,0.01,1,True,1D-LTE + Al_Amarsi2020_PySME.csv per-line delta (NLTE_Amarsi2020_PySME_1D)
+Al 1D-LTE (all),6.38623046875,0.03076171875,0.0615234375,0.0615234375,4,False,all in-aggregate lines incl. semi-empirical gf — DIAGNOSTIC ONLY
