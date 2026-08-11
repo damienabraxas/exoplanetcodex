@@ -22,6 +22,7 @@ artifact, which is produced on Sirius and is not present in a Mac checkout.
 
 from __future__ import annotations
 
+import subprocess
 import sys
 from pathlib import Path
 
@@ -273,6 +274,20 @@ def test_render_is_byte_stable_across_calls():
                  n_lines_reachable=1, n_lines_catalogued=2, level_asset="l",
                  grid_asset="g", note="")]
     assert gen.render(rows) == gen.render(rows)
+
+
+def test_provenance_does_not_pin_the_working_tree():
+    """Stamping HEAD made the table unstable BY CONSTRUCTION: committing it moves HEAD,
+    so the next --check reported DIFFERS on a byte-identical file. The provenance must
+    move only when the INPUTS move."""
+    gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    assert not hasattr(gen, "_git_head")
+    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
+                          cwd=Path(__file__).resolve().parents[1],
+                          capture_output=True, text=True).stdout.strip()
+    stamp = gen._inputs_commit()
+    assert stamp and stamp not in ("unknown", "none")
+    assert stamp != head, "provenance still tracks the checkout, not the extracts"
 
 
 def test_ion_normalisation_joins_the_two_conventions():
