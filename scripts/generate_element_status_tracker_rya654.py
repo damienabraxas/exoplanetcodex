@@ -110,7 +110,7 @@ COLUMNS = [
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
     "two_engine_wiring_status", "chosen_engine", "selection_reason", "models_tried",
-    "refinement_debt",
+    "refinement_debt", "engine_reach",
     "engine_a_model_vintage", "engine_b_model_vintage", "classification",
     "action_needed", "source_tickets", "editorial_updated", "notes",
 ]
@@ -119,7 +119,7 @@ GENERATED_COLUMNS = frozenset({
     "element", "ion", "verdict", "verdict_value", "sigma", "n_lines",
     "delta_vs_asplund", "tier", "method", "regime_verdict",
     "two_engine_wiring_status", "chosen_engine", "selection_reason", "models_tried",
-    "refinement_debt",
+    "refinement_debt", "engine_reach",
 })
 
 #: RYA-695. The tracker said which engines COVER an element
@@ -401,6 +401,7 @@ def build_rows() -> list[dict]:
     two_engine = load_two_engine()
     wiring_rows = load_wiring_rows()
     attempts = mal.attempts_by_element()
+    reach = _engine_reach_table()
 
     rows = []
     for rec in phase_c["verdicts"]:
@@ -428,6 +429,7 @@ def build_rows() -> list[dict]:
                        _engine_cells(two_engine, wiring_rows, element, ion))),
             "models_tried": mal.render_cell(element, attempts),
             "refinement_debt": _debt_cell(debt, element),
+            "engine_reach": _engine_reach_cell(reach, element, ion),
             **{k: str(ed[k]) for k in (
                 "engine_a_model_vintage", "engine_b_model_vintage", "classification",
                 "action_needed", "source_tickets", "editorial_updated", "notes")},
@@ -449,6 +451,38 @@ def build_rows() -> list[dict]:
 def _debt_cell(debt: dict, element: str) -> str:
     from pipeline import refinement_debt_join
     return refinement_debt_join.debt_cell(element, debt)
+
+
+#: RYA-776. The tracker names WHICH grid and WHAT STATE per engine and has never carried
+#: the WAVELENGTH REACH, so "do we have Engine A on Fe in the IR?" was unanswerable here
+#: and got re-derived by hand every time it came up (RYA-763 was that re-derivation).
+#:
+#: This is a JOIN, not an absorption. The keyed (element, ion, engine, grid, band) table
+#: is the SIBLING file `data/catalog/engine_coverage.csv`; the tracker carries one compact
+#: cell pointing into it -- bands the engine SERVES, then bands it only REACHES marked
+#: `?`. Putting the full table in a tracker row would bloat it and, worse, fork the
+#: coverage answer into two places that drift apart.
+def _engine_reach_table():
+    """The generated engine-coverage rows, or None where the reference is not built.
+
+    Returns None rather than raising. The reach table is generated on SIRIUS (the grids
+    are never on the Mac), so a Mac regeneration of the tracker must not fail on its
+    absence -- the tracker's own sources are all committed and its verdict logic does not
+    depend on this column. A missing table prints as "(not generated)", which is visibly
+    different from an engine that genuinely reaches nothing.
+    """
+    from pipeline import coverage
+    try:
+        return coverage.load_engine_coverage()
+    except coverage.CoverageError:
+        return None
+
+
+def _engine_reach_cell(table, element: str, ion: str) -> str:
+    if table is None:
+        return "(not generated — run scripts/generate_engine_coverage_rya776.py on Sirius)"
+    from pipeline import coverage
+    return coverage.engine_summary(element, ion, table)
 
 
 def _fe_ii_row(editorial: dict, wiring: dict, debt: dict,
@@ -485,6 +519,7 @@ def _fe_ii_row(editorial: dict, wiring: dict, debt: dict,
         # Fe carries no registry row; this resolves to "" and says so honestly rather
         # than being special-cased blank.
         "refinement_debt": _debt_cell(debt, "Fe"),
+        "engine_reach": _engine_reach_cell(_engine_reach_table(), "Fe", "II"),
         **{k: str(ed[k]) for k in (
             "engine_a_model_vintage", "engine_b_model_vintage", "classification",
             "action_needed", "source_tickets", "editorial_updated", "notes")},
@@ -531,6 +566,16 @@ def render(rows: list[dict], prov: dict, phase_c_summary: dict) -> str:
 #                                           "TBD - no resolving ticket" means a ticket is
 #                                           owed; an EMPTY cell means no known refinement
 #                                           path, which is not the same as "nothing owed".
+#   engine_reach                         <- data/catalog/engine_coverage.csv (RYA-776) —
+#                                           a JOIN, not a copy. `A:VIS · B:VIS,red-optical?`
+#                                           reads "Engine A serves the optical; Engine B
+#                                           serves the optical and REACHES the red without
+#                                           an extract (`?`)". The keyed per-band table is
+#                                           the sibling file; read it via
+#                                           pipeline.coverage.engine_reach(). A cell
+#                                           reading "(not generated)" means the reference
+#                                           has not been built on Sirius — it is NOT a
+#                                           statement that an engine reaches nothing.
 #   engine_a/b_model_vintage classification action_needed source_tickets
 #   editorial_updated notes              <- data/audit/element_status_tracker_editorial.yaml (hand)
 #
