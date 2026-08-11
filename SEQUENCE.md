@@ -15,6 +15,11 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-11
+
+- **RYA-776** — generated `data/catalog/engine_coverage.csv`: engine × wavelength reach as a LOOKUP, not a re-derivation; unblocks RYA-306/775 and gives RYA-773 its answer (Al doublets are reachable-not-extracted)
+- **RYA-776** — 4 decoding traps each faked an absence (38 UNCOVERED → 2): super-levels, cumulative atom energies, continuum stage, missing `ion` column dropping Ca+Cr
+
 ## 2026-08-08
 
 - **RYA-708** — per-(instrument × band) abundances ratified; the cross-instrument delta is a **blend diagnostic** (Al: clean line agrees to 0.019, blended disagrees by 0.092)
