@@ -226,22 +226,53 @@ def levels_for(element: str, engine: str) -> tuple[pd.DataFrame | None, str]:
     return None, f"no Gerber model atom for {element}"
 
 
-def _ion_filter(lab: pd.DataFrame, ion: str) -> pd.DataFrame:
-    """Restrict a level table to one ion.
+#: Sanity bound on a per-stage energy zero point, in eV. NOT a tuned parameter: the
+#: first ionisation potentials of every element in these decks fall inside it (K 4.34 at
+#: the bottom, O 13.62 at the top), so an offset outside it means the stage's ground
+#: state is missing from the atom and the rebase below would be inventing a coordinate.
+_IP_PLAUSIBLE_EV = (3.0, 30.0)
+
+
+def _ion_filter(lab: pd.DataFrame, ion: str) -> tuple[pd.DataFrame, float]:
+    """Restrict a level table to one ion, on that ion's OWN energy zero point.
+
+    Returns (levels, offset_applied_eV).
 
     Both decks carry the ionisation stage, in different columns: the Gerber atom reader
     emits an integer `ion`, `label_{El}.txt` an `Fe 1`-style `species` string. Filtering
     matters -- resolve_by_label keys on (J, energy) alone, so an unfiltered table lets a
     neutral line pick up a singly-ionised level of coincidentally similar energy and
     report a reach that does not exist.
+
+    THE ZERO POINT IS NOT SHARED, AND THAT COST A FALSE ABSENCE. A Gerber model atom
+    numbers every stage's energies CUMULATIVELY from the NEUTRAL ground state -- the
+    Mn II levels start at 7.434 eV, which is Mn I's ionisation potential exactly -- while
+    the GES linelist measures each ion's levels from THAT ION's ground state. Compared
+    raw, not one of 3386 Mn II endpoints resolved, and this generator wrote UNCOVERED
+    over 1693 catalogued optical lines. Rebased, 171 lines resolve both endpoints. The
+    gap was a coordinate mismatch wearing the costume of absent physics.
+
+    The rebase reads the atom's own convention rather than fitting anything: a model
+    atom's lowest level in a stage IS that stage's ground state. The one way that can be
+    false is a stage whose ground state was omitted, which would silently shift every
+    energy and manufacture matches -- so the offset is bounds-checked against the range
+    real ionisation potentials occupy, and a stage that fails the check is left on the
+    raw scale, where it will read as REACH-UNKNOWN rather than as a confident answer.
     """
-    want = {"I": 1, "II": 2, "III": 3}[ion]
+    want = _ARABIC[ion]
     if "ion" in lab.columns:
-        return lab[lab["ion"].astype(int) == want]
-    if "species" in lab.columns:
+        sub = lab[lab["ion"].astype(int) == want]
+    elif "species" in lab.columns:
         tail = lab["species"].astype(str).str.strip().str.split().str[-1]
-        return lab[tail == str(want)]
-    return lab
+        sub = lab[tail == str(want)]
+    else:
+        return lab, 0.0
+    if want == 1 or sub.empty:
+        return sub, 0.0                 # the neutral stage already starts at zero
+    off = float(sub["energy_eV"].min())
+    if not (_IP_PLAUSIBLE_EV[0] <= off <= _IP_PLAUSIBLE_EV[1]):
+        return sub, 0.0
+    return sub.assign(energy_eV=sub["energy_eV"] - off), off
 
 
 def reach_in_band(ll, lab: pd.DataFrame, element: str, ion: str,
@@ -343,7 +374,7 @@ def build_rows(ll) -> list[dict]:
         role = roles.get((element, grid_id), "")
         for ion in sorted(set(ext["_ion"])):
             sub = ext[ext["_ion"] == ion]
-            lab = _ion_filter(lab_all, ion) if has_levels else None
+            lab, _off = _ion_filter(lab_all, ion) if has_levels else (None, 0.0)
             for b in bands:
                 served = sub[(sub["_w"] >= b.lo_A) & (sub["_w"] < b.hi_A)]
                 waves = {round(float(x), 3) for x in served["_w"].dropna().unique()}
@@ -375,7 +406,7 @@ def build_rows(ll) -> list[dict]:
         if lab_all.empty:
             continue
         for ion in sorted({_norm_ion(v) for v in lab_all["ion"]}):
-            lab = _ion_filter(lab_all, ion)
+            lab, off = _ion_filter(lab_all, ion)
             # A stage carrying fewer than two levels is the atom's IONISATION CONTINUUM
             # reservoir, not a modelled ion -- every one of these atoms ends in a single
             # top-stage level (atom.fe607a: 548 Fe I + 58 Fe II + 1 Fe III). A line needs
@@ -397,6 +428,12 @@ def build_rows(ll) -> list[dict]:
                 if grid_bin is None and state == REACHABLE_NOT_EXTRACTED:
                     note = ("model atom carries the levels but the departure grid .bin "
                             "is NOT provisioned — a pull away, not a data gap")
+                if off:
+                    # Said out loud, per row: an energy shift applied silently would be
+                    # unauditable, and this one decides SERVED vs UNCOVERED for Mn II.
+                    note = (f"levels rebased to this ion's ground state (-{off:.3f} eV; "
+                            f"the atom counts from the NEUTRAL ground state)"
+                            + (f"; {note}" if note else ""))
                 rows.append(dict(
                     element=element, ion=ion, engine="B", grid_id=atom.name,
                     band=b.name, band_lo_A=b.lo_A, band_hi_A=b.hi_A, state=state,

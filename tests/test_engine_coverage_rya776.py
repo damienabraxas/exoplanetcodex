@@ -102,6 +102,34 @@ def test_a_key_that_addresses_nothing_is_not_an_absence():
     assert "resolve one endpoint" in note
 
 
+def test_higher_stages_are_rebased_to_their_own_ground_state():
+    """The Mn II false absence: a Gerber atom counts EVERY stage's energies from the
+    NEUTRAL ground state, GES counts each ion's from its own. Compared raw, not one of
+    3386 Mn II endpoints resolved and the generator wrote UNCOVERED over 1693 catalogued
+    optical lines; rebased, 171 resolve both."""
+    import pandas as pd
+    gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    atom = pd.DataFrame({"ion": [1, 1, 2, 2], "J": [0.5, 1.5, 0.5, 1.5],
+                         "energy_eV": [0.0, 2.1, 7.434, 9.534]})
+    neutral, off0 = gen._ion_filter(atom, "I")
+    assert off0 == 0.0 and list(neutral.energy_eV) == [0.0, 2.1]
+    ionised, off = gen._ion_filter(atom, "II")
+    assert off == pytest.approx(7.434)
+    assert list(ionised.energy_eV) == pytest.approx([0.0, 2.1])
+
+
+def test_an_implausible_offset_is_refused_not_applied():
+    """The rebase's one failure mode is a stage whose GROUND STATE is missing -- then the
+    minimum is an excited level and shifting by it invents a coordinate. Bounds-checked
+    against the range real ionisation potentials occupy, and refused outside it."""
+    import pandas as pd
+    gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    atom = pd.DataFrame({"ion": [2, 2], "J": [0.5, 1.5], "energy_eV": [0.4, 1.4]})
+    sub, off = gen._ion_filter(atom, "II")
+    assert off == 0.0                       # 0.4 eV is no ionisation potential
+    assert list(sub.energy_eV) == [0.4, 1.4]
+
+
 def test_ion_code_does_not_fold_every_stage_onto_two():
     """`1 if ion == 'I' else 2` mapped Fe III onto Fe 2, so the Fe III rows carried
     Fe II's catalogued count. Caught on the first real run."""
