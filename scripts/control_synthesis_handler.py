@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -50,6 +51,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.measure import resolve_handler  # noqa: E402
+from pipeline import intake_debug as dbg  # noqa: E402  RYA-770/765 per-line visibility
 from pipeline.measure.base import ControlResult, CONTROL_TOLERANCE_DEX  # noqa: E402
 from scripts.measure_band_ew import kp_segments, load_kp_window  # noqa: E402
 
@@ -179,15 +181,80 @@ def main() -> None:
                          "staging a 2.3 GB atlas.")
     ap.add_argument("--windows", metavar="NPZ",
                     help="SIRIUS SIDE: read windows from this file instead of the atlas.")
+    ap.add_argument("--lines-from-banked", action="store_true",
+                    help="draw the control lines from the banked synth-v2 per-line "
+                         "table instead of by EW range, so the handler is compared "
+                         "against the reference on the SAME lines (RYA-770)")
+    ap.add_argument("--star", default="solar",
+                    help="star namespace for the banked per-line table")
+    ap.add_argument("--trace", action="store_true",
+                    help="write a local, git-ignored intake trace of every per-line "
+                         "accept/reject to debug/intake/ (same as CODEX_INTAKE_TRACE=1)")
     a = ap.parse_args()
 
+    # RYA-770: the handler emits a tracer event for every accepted and rejected line,
+    # but those are no-ops unless a trace is actually started -- the env var alone does
+    # nothing here, because the gate lives in each driver. Without this the control
+    # could run with CODEX_INTAKE_TRACE=1 set and still record nothing, which is the
+    # silent-instrumentation trap the tracer exists to prevent.
+    tracing = a.trace or os.environ.get("CODEX_INTAKE_TRACE") == "1"
+    if tracing:
+        dbg.start_trace(a.element, f"synthesis_control_{a.instrument}", "solar",
+                        extra={"ticket": "RYA-770", "n_lines": a.n,
+                               "driver": "scripts/control_synthesis_handler.py"})
+    try:
+        _run(a)
+    finally:
+        if tracing:
+            dbg.end_trace()
+
+
+def _run(a) -> None:
     pool = pd.read_csv(ROOT / "data" / "measured" / "sol_ew_results_v1.csv")
-    ref = pool[(pool.element == a.element) & (pool.ion == a.ion) &
-               pool.wavelength_air_A.between(CONTROL_LO, CONTROL_HI) &
-               pool.ew_mA.between(10, 90)].copy()          # unsaturated, well measured
-    ref = ref.sort_values("wavelength_air_A").reset_index(drop=True)
-    idx = np.unique(np.linspace(0, len(ref) - 1, a.n).astype(int))
-    ref = ref.iloc[idx].reset_index(drop=True)
+    if a.lines_from_banked:
+        # RYA-770: control on the lines the VALIDATED path actually fitted.
+        #
+        # Selecting by EW range instead (the default below) draws from the measured
+        # pool, and those lines share NOTHING with the banked synth-v2 set -- measured:
+        # 0 of 12 in common. So "the adapter got 7.306 where synth-v2 got 7.520" was
+        # comparing two different line samples and attributing the difference to the
+        # handler. Same engine and same spectrum are not enough; the control has to
+        # hold the LINES fixed too, or it is not isolating the handler.
+        #
+        # This takes every line synth-v2 ATTEMPTED, not the ones it accepted, so no
+        # selection on the answer enters: the adapter applies its own gate and the
+        # comparison is of what survives, not of a set pre-filtered by the reference.
+        bank = pd.read_csv(ROOT / "data" / "outputs" / a.star / f"{a.star}_per_line_synth_v2.csv")
+        bank = bank[(bank.element == a.element) & (bank.ion == a.ion)].copy()
+        if not len(bank):
+            raise SystemExit(
+                f"--lines-from-banked: no {a.element} {a.ion} rows in the banked "
+                f"synth-v2 per-line table. It is a GENERATED artifact (gitignored); "
+                f"regenerate it on Sirius before controlling against it.")
+        bank = bank.sort_values("wavelength_air_A").reset_index(drop=True)
+        idx = np.unique(np.linspace(0, len(bank) - 1, a.n).astype(int))
+        bank = bank.iloc[idx]
+        # The banked table carries the EW production used for the window, so take it
+        # from there rather than re-joining to the measured pool: the join lost 18 of
+        # 24 lines to a 0.05 A tolerance, and any line it did match could have been
+        # matched to a DIFFERENT pool row than the one production used -- which would
+        # silently change the window and therefore what is being compared.
+        ref = pd.DataFrame({
+            "wavelength_air_A": bank.wavelength_air_A.astype(float).to_numpy(),
+            "ew_mA": bank.ew_mA.astype(float).to_numpy(),
+            "banked_a_synth": bank.a_synth.astype(float).to_numpy(),
+            "banked_red_chi2": bank.red_chi2.astype(float).to_numpy(),
+        }).reset_index(drop=True)
+        print(f"  controlling on {len(ref)} lines drawn from the BANKED synth-v2 set "
+              f"({len(bank)} sampled of {len(bank)}); banked median A = "
+              f"{ref.banked_a_synth.median():.3f}")
+    else:
+        ref = pool[(pool.element == a.element) & (pool.ion == a.ion) &
+                   pool.wavelength_air_A.between(CONTROL_LO, CONTROL_HI) &
+                   pool.ew_mA.between(10, 90)].copy()      # unsaturated, well measured
+        ref = ref.sort_values("wavelength_air_A").reset_index(drop=True)
+        idx = np.unique(np.linspace(0, len(ref) - 1, a.n).astype(int))
+        ref = ref.iloc[idx].reset_index(drop=True)
 
     cat = pd.read_csv(ROOT / "data" / "catalog" / "instrument_catalog.csv")
     R = float(cat[cat.iloc[:, 0].astype(str) == a.instrument].iloc[0]["resolving_power_max"])
