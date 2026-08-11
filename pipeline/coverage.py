@@ -547,10 +547,16 @@ def engine_summary(element: str, ion: str,
     not absorb it.
     """
     tab = table if table is not None else load_engine_coverage()
-    el, io = str(element).strip(), str(ion).strip()
+    el = str(element).strip()
+    # The tracker writes Fe's row as the composite ion `I+II` (it is one element record
+    # over two measured species). Matched literally it hit no row and printed
+    # "(no engine rows)" for THE anchor element -- a blank that reads as "no engine",
+    # which is the failure this whole table exists to prevent, on the worst possible row.
+    wanted = {p.strip() for p in str(ion).replace("/", "+").split("+") if p.strip()}
     out = []
     for eng in sorted(VALID_ENGINES):
-        rows = [r for r in tab if r.element == el and r.ion == io and r.engine == eng]
+        rows = [r for r in tab
+                if r.element == el and r.ion in wanted and r.engine == eng]
         if not rows:
             continue
         by_band: dict[str, str] = {}
@@ -561,8 +567,16 @@ def engine_summary(element: str, ion: str,
         served = [b for b, s in by_band.items() if s == SERVED]
         reach = [b for b, s in by_band.items() if s == REACHABLE_NOT_EXTRACTED]
         bits = served + [f"{b}?" for b in reach]
-        out.append(f"{eng}:{','.join(bits) if bits else 'none'}")
-    return " · ".join(out) if out else "(no engine rows)"
+        # An engine with rows but no served or reachable band has NOT been shown to reach
+        # nothing -- every one of its bands is REACH-UNKNOWN or UNCOVERED, and printing
+        # "none" would state an absence the table does not carry.
+        if bits:
+            out.append(f"{eng}:{','.join(bits)}")
+        elif any(r.state == UNCOVERED for r in rows):
+            out.append(f"{eng}:no-reach")
+        else:
+            out.append(f"{eng}:not-established")
+    return " · ".join(out) if out else "(no grid for either engine)"
 
 
 def main(argv=None) -> int:
