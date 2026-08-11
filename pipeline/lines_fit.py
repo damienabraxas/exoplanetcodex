@@ -274,15 +274,26 @@ _G0 = 0.010   # initial Lorentzian gamma [Å]
 
 
 def _fit_profile(wav: np.ndarray, flux: np.ndarray,
-                 line_wav: float) -> tuple:
+                 line_wav: float, *,
+                 sigma_init: float = _S0, gamma_init: float = _G0,
+                 sigma_min: float = 0.005, sigma_max: float = 0.40,
+                 core_half_A: float = 0.10) -> tuple:
     """
     Attempt Voigt fit; fall back to Gaussian if Voigt fails or chi²_red > 0.05.
     Returns (popt, pcov, profile_type, chi2_red).
     popt indices: [x0, depth, sigma, (gamma for Voigt)].
-    Depth is estimated from the ±0.1 Å core, not the window global min, so that
+    Depth is estimated from the ±core_half_A Å core, not the window global min, so that
     strong nearby contaminants do not corrupt the initial guess.
+
+    RESOLUTION PARAMETERS (RYA-713). The defaults are the HARPS values this function was
+    written against (_S0 = 0.025 Å for FWHM ≈ 0.06 Å) and are unchanged, so the production
+    HARPS path behaves exactly as before. They are now arguments because the instrumental
+    profile width is a property of the INSTRUMENT, not of the code: the Kitt Peak FTS at
+    R ≈ 500 000 has σ ≈ 0.005 Å, which sits ON the old lower bound — a fit there would be
+    pinned against the constraint and report a width it never measured. Pass the resolved
+    values rather than copying this function for a second instrument.
     """
-    core = np.abs(wav - line_wav) < 0.10
+    core = np.abs(wav - line_wav) < core_half_A
     flux_for_depth = flux[core] if core.sum() > 0 else flux
     depth0 = float(np.clip(1.0 - np.nanmin(flux_for_depth), 0.005, 0.995))
 
@@ -290,9 +301,9 @@ def _fit_profile(wav: np.ndarray, flux: np.ndarray,
     try:
         pv, cv = curve_fit(
             _voigt_abs, wav, flux,
-            p0=[line_wav, depth0, _S0, _G0],
-            bounds=([line_wav - 0.30, 0.001, 0.005, 0.0],
-                    [line_wav + 0.30, 1.000, 0.40,  0.40]),
+            p0=[line_wav, depth0, sigma_init, gamma_init],
+            bounds=([line_wav - 0.30, 0.001, sigma_min, 0.0],
+                    [line_wav + 0.30, 1.000, sigma_max, 0.40]),
             maxfev=2000, method='trf',
         )
         res = flux - _voigt_abs(wav, *pv)
@@ -306,9 +317,9 @@ def _fit_profile(wav: np.ndarray, flux: np.ndarray,
     try:
         pg, cg = curve_fit(
             _gauss_abs, wav, flux,
-            p0=[line_wav, depth0, _S0],
-            bounds=([line_wav - 0.30, 0.001, 0.005],
-                    [line_wav + 0.30, 1.000, 0.40]),
+            p0=[line_wav, depth0, sigma_init],
+            bounds=([line_wav - 0.30, 0.001, sigma_min],
+                    [line_wav + 0.30, 1.000, sigma_max]),
             maxfev=2000, method='trf',
         )
         res = flux - _gauss_abs(wav, *pg)
