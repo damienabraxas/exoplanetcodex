@@ -279,3 +279,32 @@ artifacts:
       pipeline/abundances_derive.py. It is a note about a run, not the run's output, and
       no rya342 script has ever existed. Superseded for state purposes by the phase_c
       verdict channel and CODEX_STATE_REGISTER.md; retained as history.
+
+  # ── RYA-716 Al solar band products (Kitt Peak) ────────────────────────────────────
+
+  - artifact: band_products/AlI_kpno_solar_atlas_per_line.csv
+    generator: scripts/rya716_al_products.py
+    invocation: python scripts/rya716_al_products.py
+    ticket: RYA-716
+    note: >-
+      Per-line record behind the Al products: measured EW, 1D-LTE A(Al) from
+      pipeline.abundances_derive._bisect_synth_abundance, the Engine-A departure delta from
+      pipeline.nlte_corrections._mpia_element_delta, the gf reference_code read from the GES
+      list, and the disposition for every line. Three of the four lines carry an explicit
+      ENGINE-A UNCOVERED disposition (the Amarsi-2020 grid serves only 6696/6698) rather than
+      a silent LTE value. The driver also accepts --aggregate-only (re-derive the products
+      from this file without re-running the ~10 min synthesis) and --no-trace (the tracer
+      inertness check); the invocation above is the full pass that WRITES the artifact.
+
+  - artifact: band_products/AlI_kpno_solar_atlas_products.csv
+    generator: scripts/rya716_al_products.py
+    invocation: python scripts/rya716_al_products.py
+    ticket: RYA-716
+    note: >-
+      The RYA-712 separate products — Al 1D-LTE (6.3555, n=3) and Al ENGINE-A (6.3383, n=1),
+      never combined; Engine B is deferred to RYA-710 and is NOT derived here. The primary
+      aggregate is gf-homogeneous: 7836.134 is the pool's only Kurucz-1975 (K75)
+      semi-empirical gf and is reported beside the product, not averaged in. sigma is FLOORED
+      at the RYA-771 0.01 dex quantiser tread — the three experimental-gf lines return
+      byte-identical A, so the raw line-to-line sd is exactly 0 and quoting it would claim
+      precision the pinned engine cannot express.
