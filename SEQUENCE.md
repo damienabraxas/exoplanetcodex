@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-11
 
+- **RYA-776/773** — coverage reference REFRESHED post-773: Al I red-optical REACHABLE-NOT-EXTRACTED → **SERVED** (4 lines); it went stale within one merge and no CI guard caught it
 - **RYA-776** — generated `data/catalog/engine_coverage.csv`: engine × wavelength reach as a LOOKUP, not a re-derivation; unblocks RYA-306/775 and gives RYA-773 its answer (Al doublets are reachable-not-extracted)
 - **RYA-776** — 4 decoding traps each faked an absence (38 UNCOVERED → 2): super-levels, cumulative atom energies, continuum stage, missing `ion` column dropping Ca+Cr
 
