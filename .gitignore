@@ -71,3 +71,18 @@ data/conditioning/
 
 # Local, per-run intake debug traces (RYA-318) -- never committed.
 debug/intake/
+
+# RYA-774: regenerable band-measurement OUTPUTS. The generators are now on main
+# (scripts/measure_band_profilefit.py, scripts/derive_band_products.py), so these are
+# reproducible from the atlas and do not belong in git — the same move as debug/intake/
+# (RYA-765) and the near-UV line list (RYA-759). This exists to stop a broad `git add`
+# sweeping a local run's artifacts onto an unrelated branch, which is what stranded
+# RYA-716 and contaminated RYA-759.
+#
+# NOT a policy that band products may never be committed: an intended DELIVERABLE is
+# still `git add -f`-able and must then be registered in data/results/GENERATORS.yaml
+# against its generator (RYA-686). Ignoring only changes the default from
+# accidentally-tracked to deliberately-tracked.
+data/measured/band_ew/
+data/results/band_products/
+data/results/fe_ir/
