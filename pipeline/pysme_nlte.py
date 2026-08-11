@@ -56,9 +56,40 @@ NLTE_LINES = {
     ],
     # Al I subordinate doublet 4s 2S -> 5p 2P* (the clean Na-analog: subordinate,
     # weak, not the saturated resonance regime). gamvw=0 -> Unsold (GES waals=0).
+    # RYA-773 extends this from the 6696/6698 pair to Al's CLEAN doublet — 7835/7836
+    # (3d 2D -> 6f 2F*) and 8772/8773 (3d 2D -> 5f 2F*). Those are the lines the pipeline
+    # actually measures and agrees on; 6696/6698 were the lines the extract happened to
+    # serve. Level-reach verdict (scripts/rya773_al_level_reach.py): the atom already
+    # carries every level involved — 3d 2D at index 7/8, 5f 2F* at 23/24, 6f 2F* at 32/33
+    # — to within 54 ueV, so no new/enlarged model atom is needed.
+    #
+    # The upper term is resolved by the E1 SELECTION RULE, not by the energy alone: the
+    # atom puts 5g 2G only 5.5 meV above 5f 2F* and 6g 2G 3.4 meV above 6f 2F*, but a 2G
+    # (l=4) upper is dipole-forbidden from a 2D (l=2) lower, so 2F* is the only candidate.
+    #
+    # Two-component features (RYA-716 established these are genuine distinct J-components
+    # from one lower level, NOT catalogue duplicates): 7836.134 carries 2.5->3.5 at
+    # loggf -0.494 plus 2.5->2.5 at -1.795, and 8773.9 carries 2.5->3.5 at -0.161 plus
+    # 2.5->2.5 at -1.462. Both are emitted through the HFS-component channel so the
+    # feature desaturates on the true summed opacity instead of one over-strong line —
+    # legitimate here because the two upper J levels are the SAME term at the same energy
+    # (the atom lists 6f 2F* J=2.5 and J=3.5 both at 5.6034263 eV), so they share a
+    # departure coefficient; scripts/rya773_extend_al_grid.py --check-levels measures that
+    # agreement against the grid rather than assuming it.
+    #
+    # gamvw is read from the project line list, never invented: VALD gives 0 (Unsold) for
+    # 6696/6698/7835/7836 and log gamma = -6.675 for the 8772/8773 pair.
     'Al': [
         (6696.023, -1.569, 3.143, 0.5, 4.994, 1.5, '3s2.4s 2S', '3s2.5p 2P*', 0.0),
         (6698.673, -1.870, 3.143, 0.5, 4.993, 0.5, '3s2.4s 2S', '3s2.5p 2P*', 0.0),
+        (7835.309, -0.649, 4.0215, 1.5, 5.6034, 2.5, '3s2.3d 2D', '3s2.6f 2F*', 0.0),
+        (7836.134, -0.494, 4.0216, 2.5, 5.6034, 3.5, '3s2.3d 2D', '3s2.6f 2F*', 0.0,
+         [(7836.134, -0.494, '3s2.6f 2F*', 3.5),
+          (7836.134, -1.795, '3s2.6f 2F*', 2.5)]),
+        (8772.865, -0.316, 4.0215, 1.5, 5.4344, 2.5, '3s2.3d 2D', '3s2.5f 2F*', -6.675),
+        (8773.897, -0.161, 4.0216, 2.5, 5.4344, 3.5, '3s2.3d 2D', '3s2.5f 2F*', -6.675,
+         [(8773.896, -0.161, '3s2.5f 2F*', 3.5),
+          (8773.899, -1.462, '3s2.5f 2F*', 2.5)]),
     ],
     # Cu I 5782 (3d9.4s2 2D -> 3d10.4p 2P*), the standard NLTE-studied line, used to
     # validate the machinery + the HFS x NLTE interaction. RYA-402 finding: Cu NLTE is
@@ -142,6 +173,32 @@ from config.constants import (sirius_grid_path, assert_on_sirius,  # noqa: E402 
 _GRID_DIR = sirius_grid_path('grids', 'nlte', 'amarsi_galah')
 
 
+def decode_grid_label(raw) -> str:
+    """Decode one fixed-width level-label field from a PySME `.grd`.
+
+    RYA-773. The grid stores `conf` / `term` / `spec` as fixed-width **NUL-padded** byte
+    fields, and `str.strip()` does NOT remove NUL — it is not whitespace. Decoding with
+    `.strip()` alone therefore yielded labels like `'3s2.5f\\x00 2F*\\x00'`.
+
+    HOW MUCH THAT MATTERED: nothing, measured. Because PySME matches a line to a grid
+    level on (species, configuration, term, 2J+1) — and an unmatched level is not an
+    error, it just synthesises the line in LTE — the obvious worry was that every delta
+    derived through `auto_labels` had silently run in LTE. That was tested rather than
+    assumed, deriving Al 6696/6698 both ways at solar
+    (`scripts/rya773_extend_al_grid.py --prove-nul-bug`):
+
+        6696.023  clean -0.0275   NUL-padded -0.0275
+        6698.673  clean -0.0171   NUL-padded -0.0171
+
+    Identical to four decimals, so PySME normalises the padding on its side and no
+    previously derived correction is affected. This function is therefore HYGIENE, not
+    a fix: it exists so the labels a caller inspects, logs or compares are the strings
+    the atom actually uses, and so the next reader does not have to re-run that test.
+    """
+    b = bytes(raw) if not isinstance(raw, (bytes, bytearray)) else bytes(raw)
+    return b.decode('latin1').strip('\x00 \t\r\n')
+
+
 def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
     """Resolve the grid level labels for a line by NEAREST ENERGY — so Family-A
     re-derivations (Mg/Si/Ca/Mn) don't need hand-mapping like Al/S did. Returns
@@ -154,7 +211,7 @@ def auto_labels(element: str, elow_eV: float, eup_eV: float, tol: float = 0.06):
     conf = g.get('conf'); term = g.get('term')
 
     def _dec(arr, i):
-        return bytes(arr[i]).decode('latin1').strip()
+        return decode_grid_label(arr[i])
 
     def _match(e):
         i = int(np.argmin(np.abs(E - e)))
@@ -216,11 +273,26 @@ def _linelist_rows(element, lines):
     for line in lines:
         wl, gf, elo, jlo, eup, jup, tl, tu, vw = line[:9]
         comps = line[9] if len(line) > 9 and line[9] else [(wl, gf)]
-        for cwl, cgf in comps:
+        for comp in comps:
+            # A component is (wl, gflog) — hyperfine structure, which splits a level by
+            # ~ueV so the departures are shared — or (wl, gflog, term_upper, j_up) for a
+            # component that is a genuinely DIFFERENT upper level.
+            #
+            # RYA-773 added the second form. Al's 7836.134 and 8773.9 are each two
+            # J-components from one lower level (RYA-716: real transitions, not catalogue
+            # duplicates), and the grid says their upper levels do NOT share departures:
+            # 6f 2F* J=2.5 vs J=3.5 differ by up to 0.9% in b over depth, 5f 2F* by 1.8%
+            # (measured, scripts/rya773_extend_al_grid.py --check-levels). Small, but
+            # there is no reason to approximate it when the label is known — and had it
+            # been large, the HFS channel would have quietly averaged it away.
+            cwl, cgf = comp[0], comp[1]
+            ctu = comp[2] if len(comp) > 2 else tu
+            cjup = comp[3] if len(comp) > 3 else jup
             rows.append(dict(species=f'{element} 1', wlcent=cwl, excit=elo, gflog=cgf,
                              gamrad=7.8, gamqst=0.0, gamvw=vw, atom_number=_Z(element),
                              ionization=1, lande_lower=0.0, lande_upper=0.0, lande=0.0,
-                             j_lo=jlo, j_up=jup, e_upp=eup, term_lower=tl, term_upper=tu,
+                             j_lo=jlo, j_up=cjup, e_upp=eup, term_lower=tl,
+                             term_upper=ctu,
                              error=0.0, depth=0.6, reference='RYA-411'))
     return rows
 
@@ -290,11 +362,50 @@ def assert_in_grid_hull(element: str, star: dict) -> dict:
     return axes
 
 
-def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
+def _select_lines(element: str, lines=None) -> list:
+    """Resolve the `lines` argument of `nlte_delta` to rows of NLTE_LINES[element].
+
+    Accepts None (all of them), already-resolved rows, or wavelengths. A wavelength that
+    matches no registered diagnostic RAISES rather than silently narrowing the run — a
+    typo'd wavelength that quietly derived a subset would look exactly like a successful
+    derivation of the lines you asked for.
+    """
+    registered = NLTE_LINES[element]
+    if lines is None:
+        return list(registered)
+    by_wl = {row[0]: row for row in registered}
+    out, missing = [], []
+    for item in lines:
+        if isinstance(item, (tuple, list)):
+            out.append(item)
+            continue
+        hit = [w for w in by_wl if abs(float(w) - float(item)) <= 0.01]
+        if not hit:
+            missing.append(float(item))
+        else:
+            out.append(by_wl[hit[0]])
+    if missing:
+        raise KeyError(
+            f"{element}: no registered NLTE diagnostic within 0.01 A of {missing}. "
+            f"Registered: {sorted(by_wl)}. Add the line to NLTE_LINES with its grid "
+            f"level labels rather than deriving a silently smaller set.")
+    return out
+
+
+def nlte_delta(element: str, star: dict = None, offs=None, lines=None) -> dict:
     """Per-line NLTE abundance correction delta = A(NLTE) - A(LTE) via PySME, plus
     the median. Uses per-element derivation options (_DERIV_OPTS) — wide EW window +
     bracket for saturated lines (K). Raises if the element has no diagnostic lines.
-    RYA-546 Addition B: hard-fails if the star node is outside the grid hull."""
+    RYA-546 Addition B: hard-fails if the star node is outside the grid hull.
+
+    `lines` restricts the run to a SUBSET of the element's registered diagnostics,
+    given either as rows from NLTE_LINES[element] or as wavelengths. It exists because
+    the synthesis window spans min(line) to max(line): once Al gained the 8772/8773 pair
+    (RYA-773), one call over all six lines would synthesise 6694-8776 A — ~2000 A at 220
+    points/A — to measure six features. Deriving doublet by doublet keeps each window a
+    few A wide and changes no number, since the features are far apart and independent.
+    Subsetting, not a second derivation function: one code path stays authoritative.
+    """
     if element not in NLTE_LINES:
         raise KeyError(f"No NLTE diagnostic lines registered for {element} "
                        f"(have {list(NLTE_LINES)}). Add them from the grid level labels.")
@@ -308,7 +419,7 @@ def nlte_delta(element: str, star: dict = None, offs=None) -> dict:
     _bounds = assert_in_grid_hull(element, star)   # RYA-546 Addition B — no silent extrapolation
     print(f"  [in-hull guard {element}] star ok; grid coverage Teff{_bounds['teff']} "
           f"logg{_bounds['logg']} [Fe/H]{_bounds['feh']}")
-    lines = NLTE_LINES[element]
+    lines = _select_lines(element, lines)
     grid = _spacefree_grid(element)
     ew_nlte = _synth_ew(element, 0.0, True, star, lines, grid, ew_hw=ew_hw)
     cog = {l[0]: [] for l in lines}
