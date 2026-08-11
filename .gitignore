@@ -71,3 +71,6 @@ data/conditioning/
 
 # Local, per-run intake debug traces (RYA-318) -- never committed.
 debug/intake/
+
+# RYA-759: generated near-UV synthesis line list (12 MB, regenerable in ~10s)
+data/linelists/ispec_nearuv_*/atomic_lines.tsv

@@ -44,15 +44,20 @@ sys.path.insert(0, str(ROOT))
 LO_A, HI_A = 3000.0, 3780.0
 OUT = ROOT / "data" / "audit" / "nearuv_synth"
 
-# Windows for the first real run and the physics check. Chosen as near-UV Fe I lines
-# with laboratory-grade VALD gf sources and the largest neighbour gaps available in a
-# band whose MEDIAN gap is 0.146 A -- "isolated" here is relative, and that is the
-# point: the pseudo-continuum systematic (0.10 dex, error_budget.py) exists because
-# nothing in this band is truly isolated.
+# Windows for the first real run and the physics check. The three deepest Fe I lines
+# with the largest neighbour gaps in the band -- 0.27-0.30 A against a band MEDIAN of
+# 0.146 A. "Isolated" here is relative, and that is the point: the pseudo-continuum
+# systematic (0.10 dex, error_budget.py) exists because nothing in this band is
+# truly isolated.
+#
+# All three sit BELOW 3640 A, deliberately. Between the Balmer limit (3646 A) and
+# ~3771 A the merging high-n Balmer series is a real opacity source that this
+# synthesis cannot reproduce (see ENGINE_REJECTED_SPECIES in pipeline/nearuv_linelist),
+# so a probe there would be measuring a continuum we know is wrong.
 PROBE_WINDOWS = [
-    (3705.57, "Fe I 3705.566"),
-    (3737.13, "Fe I 3737.131"),
-    (3749.49, "Fe I 3749.485"),
+    (3562.593, "Fe I 3562.593"),
+    (3486.551, "Fe I 3486.551"),
+    (3355.517, "Fe I 3355.517"),
 ]
 PROBE_HALFWIDTH_A = 1.0
 
@@ -89,6 +94,18 @@ def step_linelist(args) -> dict:
     print(f"  gamma_rad=0 (VALD supplied none):               {rep['n_rad_zero']:,}")
     print(f"  gf source tags matched from VALD refs:          {rep['gf_sources_matched']:,}")
     print("  top species: " + ", ".join(f"{e} {n}" for e, n in rep["top_species"]))
+    mol = rep.get("molecules_excluded") or {}
+    if mol.get("n_lines"):
+        print(f"\n  MOLECULES EXCLUDED: {mol['n_lines']:,} lines "
+              f"({', '.join(f'{k} {v}' for k, v in sorted(mol['per_species'].items()))})")
+        print("  VALD does not say which isotopologue a molecular line belongs to, and "
+              "Turbospectrum's\n  molecular row needs one. Not guessed. NOTE the "
+              "consequence: iSpec's vendored molecular\n  lists start at 400 nm, so this "
+              "band currently has NO molecular opacity from either\n  source — a stated "
+              "limitation of the near-UV synthesis, not a silent omission.")
+    for sp, d in (mol.get("engine_rejected") or {}).items():
+        print(f"\n  ENGINE-REJECTED: {sp} I, {d['n_lines']} lines "
+              f"({d['lo_A']:.2f}-{d['hi_A']:.2f} A)\n  {d['reason']}")
     return rep
 
 
@@ -116,9 +133,13 @@ def step_reach(args) -> dict:
     from pipeline.nearuv_synth import synthesize_band, NearUVSynthesisError
     _ispec_guard()
     ctx = _context(args, linelist_file=args.linelist)
-    probes = [3000.0, 3100.0, 3200.0, 3400.0, 3600.0, 3750.0, 3900.0, 4500.0]
+    # The last two sit BEYOND this list's own red edge (3780 A) on purpose: they show
+    # the coverage guard firing where there is nothing to synthesise. Expected, and
+    # marked as such so a reader does not read them as a reach failure.
+    probes = [(3000.0, True), (3100.0, True), (3200.0, True), (3400.0, True),
+              (3600.0, True), (3750.0, True), (3900.0, False), (4500.0, False)]
     rows = []
-    for lo in probes:
+    for lo, in_range in probes:
         hi = lo + 1.0
         try:
             r = synthesize_band(ctx, lo, hi, element="Fe",
@@ -132,10 +153,15 @@ def step_reach(args) -> dict:
             print(f"  {lo:7.1f} A  OK   {f.size:5d} pts  flux {np.nanmin(f):.4f}-"
                   f"{np.nanmax(f):.4f}  ({r['n_lines_in_band']} lines in band)")
         except (NearUVSynthesisError, Exception) as e:          # noqa: B014
-            rows.append(dict(lo_A=lo, ok=False, error=f"{type(e).__name__}: {e}"))
-            print(f"  {lo:7.1f} A  FAIL {type(e).__name__}: {str(e)[:150]}")
+            rows.append(dict(lo_A=lo, ok=False, expected=not in_range,
+                              error=f"{type(e).__name__}: {e}"))
+            tag = "GUARD (expected, beyond this list)" if not in_range else "FAIL"
+            print(f"  {lo:7.1f} A  {tag} {type(e).__name__}: {str(e)[:110]}")
     ok = [r["lo_A"] for r in rows if r.get("ok")]
-    verdict = (f"clean from {min(ok):.0f} A" if ok else "NO probe succeeded")
+    bad = [r["lo_A"] for r in rows if not r.get("ok") and not r.get("expected")]
+    verdict = (f"clean {min(ok):.0f}-{max(ok):.0f} A"
+               + (f"; UNEXPECTED failures at {bad}" if bad else
+                  "; no unexpected failure in band")) if ok else "NO probe succeeded"
     print(f"\n[reach] {verdict}")
     return {"probes": rows, "verdict": verdict}
 
@@ -151,17 +177,42 @@ def step_nearuv(args) -> dict:
         r = synthesize_band(ctx, lo, hi, element="Fe",
                             trial_A=float(ctx["solar_A"]), step_A=0.005)
         f, w = r["flux"], r["wave_A"]
+        cw, cf, coff = _local_min(w, f, centre)
         i = int(np.nanargmin(f))
         out.append(dict(label=label, centre_A=centre, n_pts=int(f.size),
                         n_lines_in_band=r["n_lines_in_band"],
                         sensitivity=r["sensitivity"],
-                        flux_min=float(np.nanmin(f)), flux_median=float(np.nanmedian(f)),
-                        deepest_A=float(w[i]), offset_mA=float((w[i] - centre) * 1000)))
+                        target_core_A=cw, target_core_flux=cf, target_offset_mA=coff,
+                        window_min_flux=float(np.nanmin(f)),
+                        window_min_A=float(w[i]),
+                        flux_median=float(np.nanmedian(f))))
         print(f"  {label:>16s}  {f.size} pts  {r['n_lines_in_band']} lines in +/-1 A  "
-              f"flux min {np.nanmin(f):.4f} med {np.nanmedian(f):.4f}  "
-              f"deepest at {w[i]:.3f} A ({(w[i]-centre)*1000:+.0f} mA)  "
               f"sens {r['sensitivity']:.4f}")
+        print(f"{'':>18s}  TARGET core at {cw:.3f} A ({coff:+.0f} mA), depth "
+              f"{1-cf:.3f}   |   window min {np.nanmin(f):.4f} at {w[i]:.3f} A, "
+              f"median {np.nanmedian(f):.4f}")
     return {"windows": out}
+
+
+#: Half-width for locating a line's own core. The band's MEDIAN neighbour gap is
+#: 0.146 A, so anything wider risks locking onto the neighbour instead of the target.
+CORE_SEARCH_A = 0.06
+
+
+def _local_min(wave_A, flux, centre_A, hw: float = CORE_SEARCH_A):
+    """The line's OWN core: deepest point within +/-hw of the catalogue wavelength.
+
+    Not the window minimum. In a band this crowded the deepest feature within +/-1 A is
+    routinely a different, stronger line -- reporting that as "the line" would confirm a
+    position agreement that was never tested.
+    """
+    w = np.asarray(wave_A, dtype=float)
+    f = np.asarray(flux, dtype=float)
+    m = np.abs(w - centre_A) <= hw
+    if not m.any():
+        return float("nan"), float("nan"), float("nan")
+    i = int(np.nanargmin(f[m]))
+    return float(w[m][i]), float(f[m][i]), float((w[m][i] - centre_A) * 1000.0)
 
 
 def step_windows(args) -> dict:
@@ -208,21 +259,27 @@ def step_physics(args) -> dict:
         if ow.size < 5:
             print(f"  {label}: {ow.size} observed px in band — skipped")
             continue
-        # Position: nearest observed minimum to the synthetic minimum.
-        si = int(np.nanargmin(sf))
-        oi = int(np.nanargmin(of))
-        # Depth: 1 - flux at the line core, both sides.
-        sd, od = 1.0 - float(sf[si]), 1.0 - float(of[oi])
-        rows.append(dict(label=label, synth_min_A=float(sw[si]), obs_min_A=float(ow[oi]),
-                         dlambda_mA=float((sw[si] - ow[oi]) * 1000),
+        # POSITION + DEPTH at the line's OWN core on each side, located independently
+        # (+/-0.06 A of the catalogue wavelength). Comparing window minima would compare
+        # whichever neighbour happens to be deepest, on both sides, and call the
+        # agreement a validation.
+        s_w, s_f, s_off = _local_min(sw, sf, centre)
+        o_w, o_f, o_off = _local_min(ow, of, centre)
+        sd, od = 1.0 - s_f, 1.0 - o_f
+        rows.append(dict(label=label, centre_A=centre,
+                         synth_core_A=s_w, obs_core_A=o_w,
+                         synth_offset_mA=s_off, obs_offset_mA=o_off,
+                         dlambda_mA=float((s_w - o_w) * 1000),
                          synth_depth=sd, obs_depth=od,
                          depth_ratio=float(sd / od) if od else float("nan"),
                          obs_median_flux=float(np.nanmedian(of)),
-                         synth_median_flux=float(np.nanmedian(sf))))
-        print(f"  {label:>16s}  synth min {sw[si]:.3f} A vs obs {ow[oi]:.3f} A "
-              f"(d={((sw[si]-ow[oi])*1000):+.0f} mA)   depth synth {sd:.3f} / obs {od:.3f} "
-              f"= {sd/od if od else float('nan'):.2f}   "
-              f"median flux synth {np.nanmedian(sf):.3f} / obs {np.nanmedian(of):.3f}")
+                         synth_median_flux=float(np.nanmedian(sf)),
+                         n_obs_px=int(ow.size)))
+        print(f"  {label:>16s}  core: synth {s_w:.3f} A vs obs {o_w:.3f} A  "
+              f"(delta = {(s_w-o_w)*1000:+.0f} mA)")
+        print(f"{'':>18s}  depth: synth {sd:.3f} / obs {od:.3f} = "
+              f"{sd/od if od else float('nan'):.2f}   |   median flux over +/-1 A: "
+              f"synth {np.nanmedian(sf):.3f} / obs {np.nanmedian(of):.3f}")
     return {"windows": rows}
 
 

@@ -66,6 +66,28 @@ EV_TO_CM1 = 8065.543937
 DEFAULT_RAW = ROOT / 'data' / 'linelists' / 'vald_solar_nearuv_2000_3780_hfson_raw.txt'
 DEFAULT_LO_A, DEFAULT_HI_A = 3000.0, 3780.0
 
+#: Species Turbospectrum will not accept from a line list in this band, and why.
+#: MEASURED, not assumed: with H I present, bsyn prints
+#:     Will use Stehle's tables for Hydrogen line profiles
+#:     ... wrong H line data file!
+#: and stops, for EVERY window in 3700-3780 Å. Removing H I alone makes those windows
+#: synthesise cleanly (RYA-759, one-variable test). Every H I line our near-UV extract
+#: carries lies between 3652.06 and 3770.66 Å — i.e. they are all high-order Balmer
+#: members crowding the 3646 Å limit, which Stehle's tables do not cover. Hydrogen is
+#: NOT generally excluded from synthesis: Hα/Hβ/Hγ come through the optical GES list
+#: and Turbospectrum synthesises them normally.
+#:
+#: CONSEQUENCE, stated because it is a real loss: between the Balmer limit and ~3771 Å
+#: the merging high-n Balmer series is a genuine opacity source, and this synthesis
+#: does not reproduce it. That makes the band's ratified pseudo-continuum systematic
+#: (0.10 dex, pipeline/error_budget.py) more necessary, not less.
+ENGINE_REJECTED_SPECIES = {
+    'H': ("Turbospectrum computes hydrogen profiles from Stehle's tables and rejects "
+          "the near-limit Balmer members (3652-3771 A) this extract carries: "
+          "'wrong H line data file!', synthesis aborts. Excluding H I is what makes "
+          "3700-3780 A synthesise at all."),
+}
+
 #: Roman → integer ionization stage. iSpec's `ion` column is 1 for neutral.
 _ION_INT = {'I': 1, 'II': 2, 'III': 3, 'IV': 4, 'V': 5, 'VI': 6,
             'VII': 7, 'VIII': 8, 'IX': 9, 'X': 10}
@@ -115,6 +137,26 @@ def _element_z_map(chem_elements=None) -> dict[str, int]:
     return {str(r['symbol']): int(r['atomic_num']) for r in chem_elements}
 
 
+def classify_species(symbol: str, zmap: dict[str, int]) -> str:
+    """'atom' | 'molecule' | 'unknown'.
+
+    A VALD species token that is not an element but decomposes into two or more
+    element symbols is a diatomic (CH, CN, NH, OH in this band). Anything that is
+    neither is genuinely unknown and must not be quietly dropped.
+    """
+    if symbol in zmap:
+        return 'atom'
+    rest, parts = symbol, 0
+    while rest:
+        for n in (2, 1):                       # 'Fe' before 'F'
+            if rest[:n] in zmap:
+                rest, parts = rest[n:], parts + 1
+                break
+        else:
+            return 'unknown'
+    return 'molecule' if parts >= 2 else 'unknown'
+
+
 def read_band(raw_path=DEFAULT_RAW, lo_A: float = DEFAULT_LO_A,
               hi_A: float = DEFAULT_HI_A) -> tuple[list[dict], dict]:
     """Parse the VALD extract and keep [lo_A, hi_A). Returns (records, report).
@@ -140,27 +182,61 @@ def read_band(raw_path=DEFAULT_RAW, lo_A: float = DEFAULT_LO_A,
 
 def to_ispec_array(records: list[dict], *, chem_elements=None,
                    gf_sources: dict[tuple[str, int, float], str] | None = None,
-                   reference_code: str = 'VALD3') -> np.ndarray:
-    """VALD records → an iSpec atomic-linelist structured array.
+                   reference_code: str = 'VALD3',
+                   molecules: dict | None = None) -> np.ndarray:
+    """VALD records → an iSpec ATOMIC-linelist structured array.
 
     `gf_sources` optionally maps (element, ion_int, wavelength_A) → the VALD gf tag
     (e.g. 'K14', 'BWL'), as produced by `scripts/ingest_vald_references.py`. It is
     recorded in `reference_code` so the gf provenance travels with the line; it never
     changes a `loggf`.
+
+    MOLECULES ARE EXCLUDED, AND THAT IS A REPORTED FACT, NOT A SILENT FILTER.
+    The extract carries CH/CN/NH/OH. Turbospectrum's molecular row needs a species
+    code that names the ISOTOPOLOGUE (e.g. '0108.000016' for 16OH), and VALD's
+    extraction does not say which isotopologue a line belongs to. Guessing the
+    dominant one is exactly the class of assumption RYA-684 caught doing real damage,
+    so molecular lines are counted, named, and left out. Pass a dict as `molecules`
+    to receive the tally; the caller is expected to surface it, because near-UV
+    molecular opacity is real (OH A-X, NH) and its absence is a limitation of the
+    resulting synthesis, not a detail.
     """
     dtype = _ispec_atomic_dtype()
     zmap = _element_z_map(chem_elements)
 
-    unknown = sorted({r['element'] for r in records if r['element'] not in zmap})
+    kinds = {s: classify_species(s, zmap)
+             for s in {r['element'] for r in records}}
+    unknown = sorted(s for s, k in kinds.items() if k == 'unknown')
     if unknown:
         raise NearUVLinelistError(
             f"{len(unknown)} species in the extract are absent from iSpec's "
-            f"chemical-elements table and cannot be given an atomic number: "
+            f"chemical-elements table and are not decomposable into elements, so they "
+            f"can be given neither an atomic number nor a molecular code: "
             f"{', '.join(unknown[:10])}. Dropping them would silently thin the "
             f"blend forest the near-UV synthesis depends on.")
 
-    arr = np.zeros(len(records), dtype=dtype)
-    for i, r in enumerate(records):
+    mol_names = sorted(s for s, k in kinds.items() if k == 'molecule')
+    kept = [r for r in records
+            if kinds[r['element']] == 'atom'
+            and r['element'] not in ENGINE_REJECTED_SPECIES]
+    if molecules is not None:
+        molecules.clear()
+        rej = {s: [r for r in records if r['element'] == s]
+               for s in ENGINE_REJECTED_SPECIES}
+        molecules.update({
+            'species': mol_names,
+            'n_lines': sum(1 for r in records if kinds[r['element']] == 'molecule'),
+            'per_species': {s: sum(1 for r in records if r['element'] == s)
+                            for s in mol_names},
+            'engine_rejected': {
+                s: {'n_lines': len(v), 'reason': ENGINE_REJECTED_SPECIES[s],
+                    'lo_A': round(min(x['wavelength'] for x in v), 3),
+                    'hi_A': round(max(x['wavelength'] for x in v), 3)}
+                for s, v in rej.items() if v},
+        })
+
+    arr = np.zeros(len(kept), dtype=dtype)
+    for i, r in enumerate(kept):
         z = zmap[r['element']]
         ion_i = _ION_INT.get(r['ion'])
         if ion_i is None:
@@ -286,7 +362,10 @@ def build(raw_path=DEFAULT_RAW, lo_A: float = DEFAULT_LO_A, hi_A: float = DEFAUL
     """Parse → convert → write → verify. Returns (path, report)."""
     records, report = read_band(raw_path, lo_A, hi_A)
     gf = load_gf_sources(gf_sources_csv) if gf_sources_csv else {}
-    arr = to_ispec_array(records, chem_elements=chem_elements, gf_sources=gf or None)
+    molecules: dict = {}
+    arr = to_ispec_array(records, chem_elements=chem_elements, gf_sources=gf or None,
+                         molecules=molecules)
+    report['molecules_excluded'] = molecules
     if out_path is None:
         out_path = (ROOT / 'data' / 'linelists' /
                     f'ispec_nearuv_{int(lo_A)}_{int(hi_A)}' / 'atomic_lines.tsv')

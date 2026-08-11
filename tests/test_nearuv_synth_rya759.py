@@ -12,6 +12,7 @@ import pytest
 from data.linelists.vald_parse import parse_vald_long
 from pipeline import nearuv_synth as ns
 from pipeline.nearuv_linelist import (EV_TO_CM1, NearUVLinelistError, band_stats,
+                                      classify_species,
                                       read_band, to_ispec_array)
 
 # One VALD3 long-format record, verbatim in shape: data line + 2 config lines + ref.
@@ -112,6 +113,33 @@ def test_unknown_species_raises_rather_than_thinning_the_blend_forest(extract):
     recs, _ = parse_vald_long(str(extract))
     with pytest.raises(NearUVLinelistError, match="chemical-elements"):
         to_ispec_array(recs, chem_elements=CHEM[:1])   # Ti missing
+
+
+# ── molecules: excluded, but counted and named ───────────────────────────────
+
+MOL_CHEM = np.array([("Fe", 26), ("O", 8), ("H", 1), ("C", 6), ("N", 7)],
+                    dtype=[("symbol", "U4"), ("atomic_num", "i4")])
+
+
+def test_classify_species_separates_molecule_from_unknown():
+    z = {s: i for s, i in ((r["symbol"], r["atomic_num"]) for r in MOL_CHEM)}
+    assert classify_species("Fe", z) == "atom"
+    assert classify_species("OH", z) == "molecule"
+    assert classify_species("CN", z) == "molecule"
+    assert classify_species("Zz", z) == "unknown"
+
+
+def test_molecules_are_excluded_counted_and_named(tmp_path):
+    """The near-UV extract carries OH/NH/CH/CN. They must not enter the ATOMIC list,
+    and they must not vanish quietly either."""
+    p = tmp_path / "mol.txt"
+    p.write_text(VALD_HEADER + VALD_RECORD + VALD_RECORD.replace("'Fe 1'", "'OH 1'"))
+    recs, _ = parse_vald_long(str(p))
+    tally: dict = {}
+    arr = to_ispec_array(recs, chem_elements=MOL_CHEM, molecules=tally)
+    assert len(arr) == 1 and arr[0]["element"] == "Fe 1"
+    assert tally["n_lines"] == 1 and tally["species"] == ["OH"]
+    assert tally["per_species"] == {"OH": 1}
 
 
 def test_gf_source_tag_travels_into_reference_code(extract):
@@ -215,3 +243,34 @@ def test_optical_keeps_canonical_gf():
     p = ns.gf_provenance(4200.0, 6900.0)
     assert p["apply_canonical_gf"] is True
     assert "RYA-353" in p["detail"]
+
+
+# ── iSpec's boundary sentinel ────────────────────────────────────────────────
+
+def test_edge_sentinels_are_trimmed_and_counted():
+    """iSpec returns exactly 1e-10 at the first and last pixel of EVERY window --
+    optical included. Left in, the deepest point of every window is its own edge."""
+    w = np.arange(3560.0, 3562.0, 0.005)
+    f = np.full(w.size, 0.9)
+    f[0] = f[-1] = 1e-10
+    f[40] = 0.2
+    tw, tf, n = ns.trim_edge_sentinels(w, f)
+    assert n == 2
+    assert tw[0] == pytest.approx(w[1]) and tw[-1] == pytest.approx(w[-2])
+    assert float(np.min(tf)) == pytest.approx(0.2)
+    assert float(tw[np.argmin(tf)]) == pytest.approx(w[40])
+
+
+def test_trim_leaves_a_clean_window_untouched():
+    w = np.arange(10.0, 20.0, 1.0)
+    f = np.linspace(0.5, 1.0, w.size)
+    tw, tf, n = ns.trim_edge_sentinels(w, f)
+    assert n == 0 and tw.size == w.size
+
+
+def test_trim_does_not_eat_a_saturated_core():
+    """A real saturated core is not a sentinel -- only the BOUNDARY is trimmed."""
+    f = np.full(9, 0.8)
+    f[4] = 0.0        # black core, interior
+    tw, tf, n = ns.trim_edge_sentinels(np.arange(9.0), f)
+    assert n == 0 and tf.size == 9

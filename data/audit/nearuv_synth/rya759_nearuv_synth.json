@@ -1,0 +1,283 @@
+{
+  "linelist": {
+    "n_failures": 0,
+    "examples": [],
+    "n_parsed": 161526,
+    "n_in_band": 62072,
+    "lo_A": 3000.00258,
+    "hi_A": 3779.99542,
+    "source": "/mnt/codex-data/codex/rya759_repo/data/linelists/vald_solar_nearuv_2000_3780_hfson_raw.txt",
+    "molecules_excluded": {
+      "species": [
+        "CH",
+        "CN",
+        "NH",
+        "OH"
+      ],
+      "n_lines": 6223,
+      "per_species": {
+        "CH": 653,
+        "CN": 1205,
+        "NH": 2271,
+        "OH": 2094
+      },
+      "engine_rejected": {
+        "H": {
+          "n_lines": 51,
+          "reason": "Turbospectrum computes hydrogen profiles from Stehle's tables and rejects the near-limit Balmer members (3652-3771 A) this extract carries: 'wrong H line data file!', synthesis aborts. Excluding H I is what makes 3700-3780 A synthesise at all.",
+          "lo_A": 3652.064,
+          "hi_A": 3770.655
+        }
+      }
+    },
+    "n_lines": 55798,
+    "n_species": 102,
+    "n_vdw_zero": 13029,
+    "n_vdw_positive": 0,
+    "n_rad_zero": 13065,
+    "top_species": [
+      [
+        "Co 1",
+        15779
+      ],
+      [
+        "V 1",
+        4813
+      ],
+      [
+        "Fe 1",
+        4364
+      ],
+      [
+        "Mn 1",
+        3277
+      ],
+      [
+        "Nb 2",
+        2898
+      ],
+      [
+        "V 2",
+        2340
+      ],
+      [
+        "Ce 2",
+        2085
+      ],
+      [
+        "Cr 1",
+        1703
+      ]
+    ],
+    "gf_sources_matched": 4462,
+    "path": "/mnt/codex-data/codex/rya759_repo/data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv"
+  },
+  "reach": {
+    "probes": [
+      {
+        "lo_A": 3000.0,
+        "ok": true,
+        "n_pts": 49,
+        "flux_min": 0.011972894654293655,
+        "flux_max": 0.6153507563559151,
+        "n_lines": 95
+      },
+      {
+        "lo_A": 3100.0,
+        "ok": true,
+        "n_pts": 49,
+        "flux_min": 0.01891497522009555,
+        "flux_max": 0.30473154904969846,
+        "n_lines": 119
+      },
+      {
+        "lo_A": 3200.0,
+        "ok": true,
+        "n_pts": 49,
+        "flux_min": 0.032749349944817575,
+        "flux_max": 0.9205585967499716,
+        "n_lines": 29
+      },
+      {
+        "lo_A": 3400.0,
+        "ok": true,
+        "n_pts": 49,
+        "flux_min": 0.8183383971011214,
+        "flux_max": 0.9929325758630823,
+        "n_lines": 70
+      },
+      {
+        "lo_A": 3600.0,
+        "ok": true,
+        "n_pts": 49,
+        "flux_min": 0.2045284907918798,
+        "flux_max": 0.9960515740127573,
+        "n_lines": 62
+      },
+      {
+        "lo_A": 3750.0,
+        "ok": true,
+        "n_pts": 49,
+        "flux_min": 0.27483382663627526,
+        "flux_max": 0.7523282090520386,
+        "n_lines": 99
+      },
+      {
+        "lo_A": 3900.0,
+        "ok": false,
+        "expected": true,
+        "error": "NearUVSynthesisError: the synthesis line list contains 0 lines in 3900.0-3901.0 A. Every trial abundance would synthesise an IDENTICAL spectrum, so a fit here returns noise shaped like a measurement (RYA-713 measured exactly this at 4065.381 A, below the GES list's 4200 A blue limit). Coverage gap."
+      },
+      {
+        "lo_A": 4500.0,
+        "ok": false,
+        "expected": true,
+        "error": "NearUVSynthesisError: the synthesis line list contains 0 lines in 4500.0-4501.0 A. Every trial abundance would synthesise an IDENTICAL spectrum, so a fit here returns noise shaped like a measurement (RYA-713 measured exactly this at 4065.381 A, below the GES list's 4200 A blue limit). Coverage gap."
+      }
+    ],
+    "verdict": "clean 3000-3750 A; no unexpected failure in band"
+  },
+  "nearuv": {
+    "windows": [
+      {
+        "label": "Fe I 3562.593",
+        "centre_A": 3562.593,
+        "n_pts": 399,
+        "n_lines_in_band": 118,
+        "sensitivity": 0.43181598336451976,
+        "target_core_A": 3562.5930000000217,
+        "target_core_flux": 0.3446478573188155,
+        "target_offset_mA": 2.1827872842550278e-08,
+        "window_min_flux": 0.1020728168695575,
+        "window_min_A": 3561.7530000000033,
+        "flux_median": 0.8877567632769412
+      },
+      {
+        "label": "Fe I 3486.551",
+        "centre_A": 3486.551,
+        "n_pts": 399,
+        "n_lines_in_band": 126,
+        "sensitivity": 0.20082276031254165,
+        "target_core_A": 3486.5510000000218,
+        "target_core_flux": 0.2872465572691155,
+        "target_offset_mA": 2.1827872842550278e-08,
+        "window_min_flux": 0.08602587094846713,
+        "window_min_A": 3485.8910000000074,
+        "flux_median": 0.9720862479138296
+      },
+      {
+        "label": "Fe I 3355.517",
+        "centre_A": 3355.517,
+        "n_pts": 399,
+        "n_lines_in_band": 73,
+        "sensitivity": 0.4374960629753467,
+        "target_core_A": 3355.5170000000217,
+        "target_core_flux": 0.41459174026312784,
+        "target_offset_mA": 2.1827872842550278e-08,
+        "window_min_flux": 0.10669916706267012,
+        "window_min_A": 3354.6320000000023,
+        "flux_median": 0.8474461225463329
+      }
+    ]
+  },
+  "physics": {
+    "windows": [
+      {
+        "label": "Fe I 3562.593",
+        "centre_A": 3562.593,
+        "synth_core_A": 3562.5930000000217,
+        "obs_core_A": 3562.594482421875,
+        "synth_offset_mA": 2.1827872842550278e-08,
+        "obs_offset_mA": 1.482421875152795,
+        "dlambda_mA": -1.4824218533249223,
+        "synth_depth": 0.6553521426811846,
+        "obs_depth": 0.27469998598098755,
+        "depth_ratio": 2.3857014056292765,
+        "obs_median_flux": 0.7645550072193146,
+        "synth_median_flux": 0.8877567632769412,
+        "n_obs_px": 446
+      },
+      {
+        "label": "Fe I 3486.551",
+        "centre_A": 3486.551,
+        "synth_core_A": 3486.5510000000218,
+        "obs_core_A": 3486.55322265625,
+        "synth_offset_mA": 2.1827872842550278e-08,
+        "obs_offset_mA": 2.2226562500691216,
+        "dlambda_mA": -2.2226562282412488,
+        "synth_depth": 0.7127534427308845,
+        "obs_depth": 0.7660199999809265,
+        "depth_ratio": 0.9304632290914489,
+        "obs_median_flux": 0.7264249920845032,
+        "synth_median_flux": 0.9720862479138296,
+        "n_obs_px": 466
+      },
+      {
+        "label": "Fe I 3355.517",
+        "centre_A": 3355.517,
+        "synth_core_A": 3355.5170000000217,
+        "obs_core_A": 3355.52001953125,
+        "synth_offset_mA": 2.1827872842550278e-08,
+        "obs_offset_mA": 3.019531250174623,
+        "dlambda_mA": -3.01953122834675,
+        "synth_depth": 0.5854082597368722,
+        "obs_depth": 0.5999700129032135,
+        "depth_ratio": 0.9757291983713019,
+        "obs_median_flux": 0.8057699799537659,
+        "synth_median_flux": 0.8474461225463329,
+        "n_obs_px": 503
+      }
+    ]
+  },
+  "loudfail": {
+    "cases": [
+      {
+        "case": "empty linelist",
+        "raised": true,
+        "error": "the synthesis line list contains 0 lines in 3000.0-3780.0 A. Every trial abundance would synthesise an IDENTICAL spectrum, so a fit here returns noise shaped like a measurement (RYA-713 measured exactly this at 4065.381 A, below the GES list's 4200 A blue limit). Coverage gap."
+      },
+      {
+        "case": "linelist misses band",
+        "raised": true,
+        "error": "the synthesis line list contains 0 lines in 3000.0-3780.0 A. Every trial abundance would synthesise an IDENTICAL spectrum, so a fit here returns noise shaped like a measurement (RYA-713 measured exactly this at 4065.381 A, below the GES list's 4200 A blue limit). Coverage gap."
+      },
+      {
+        "case": "bogus model (None)",
+        "raised": true,
+        "error": "model atmosphere interpolation returned nothing for BOGUS at Teff=5772, logg=4.438, [Fe/H]=0.00. Synthesising against an empty atmosphere is the Move 1 failure in a different costume."
+      },
+      {
+        "case": "all-zero flux",
+        "raised": true,
+        "error": "loud-fail probe: the synthesis returned an ALL-ZERO spectrum over 500 points. RYA-506/682: iSpec writes a zero artifact and exits 0, so this is checked rather than trusted."
+      },
+      {
+        "case": "empty flux",
+        "raised": true,
+        "error": "loud-fail probe: the synthesis returned an EMPTY spectrum. This is the 0-byte failure shape \u2014 it must raise, never be averaged."
+      },
+      {
+        "case": "flat (insensitive)",
+        "raised": true,
+        "error": "loud-fail probe: a +/-0.5 dex abundance swing moves the synthetic flux by at most 0.00000 (floor 0.002). The band is present in the list but not synthesised from it \u2014 a flat chi2, which fits to noise."
+      },
+      {
+        "case": "real model out-of-grid",
+        "raised": true,
+        "unexpected": "ValueError",
+        "error": "Stellar params {'teff': 2000.0, 'logg': 4.438, 'MH': 0.0, 'alpha': 0.0} outside ATLAS9.Castelli grid bounds."
+      }
+    ]
+  },
+  "control": {
+    "handler": "SynthesisHandler",
+    "element": "Fe",
+    "n_lines": 3,
+    "median_ratio": 0.16951638060366492,
+    "mad_ratio": 0.024508333334873067,
+    "dex_offset": 0.10600000000000076,
+    "passed": false,
+    "tolerance_dex": 0.05,
+    "evidence": "ANGLE 1 EW: median synth/banked 0.170 (-0.7708 dex), MAD 0.025. ANGLE 2 abundance: median A=7.626 vs 7.520 (+0.1060 dex), scatter 0.479. NEITHER AGREES \u2014 a plain failure, and the easiest to diagnose"
+  }
+}
