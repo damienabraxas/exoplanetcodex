@@ -54,6 +54,10 @@ import numpy as np
 from pipeline.band_policy import BandPolicy
 from pipeline.band_products import LineMeasurement
 from pipeline.measure.base import MeasurementHandler, register
+# RYA-770/765: every per-line accept/reject is recorded on the intake timeline. A
+# no-op unless a trace is active, so this costs nothing in production (RYA-429
+# discipline: a dropped line must never be silent).
+from pipeline import intake_debug as dbg
 
 # Bracket for the bounded minimiser. Wide enough that a real solar value is never at the
 # edge; `edge_pinned` is reported rather than quietly accepted.
@@ -61,6 +65,67 @@ A_LO, A_HI = 4.0, 10.0
 
 # Peak |Δflux| across a ±0.5 dex swing below which the line is not usably in the list.
 MIN_SENSITIVITY = 0.002
+
+# ── RYA-770: iSpec's edge-zeroing, and why the adapter must route around it ────
+# `ispec.generate_spectrum` returns EXACTLY 0.0 for the first synthesis pixel and the
+# last 3-4, on every window (measured: index 0, plus indices n-4..n-1 or n-3..n-1). It
+# is a property of the synthesiser's output grid, not of the spectrum.
+#
+# `_fit_synth_flux` builds a 0.0002 nm grid over the fit window, synthesises on it, and
+# interpolates onto the observed pixels. Any observed pixel inside a zeroed span is
+# therefore compared against ~0 flux instead of ~1, contributing (1/0.01)^2 = 1e4 to
+# chi2 by itself. With sigma = 0.01 and a few dozen pixels in a wing-wide window, ONE
+# such pixel dominates the sum.
+#
+# Measured over the 12 optical control lines: median red_chi2 92.17 as-is, 2.77 with
+# only those pixels removed -- against a banked med red_chi2 of 2.976. Individual
+# lines moved 301.59 -> 0.84, 162.71 -> 2.72, 16.58 -> 1.80. That is the whole of the
+# adapter's CHI2-GATE failure.
+#
+# The fix lives HERE and not in `_fit_synth_flux` deliberately (RYA-770 §5/§6): the
+# core is the validated path banked at A(Fe I) = 7.520 and must not move in this
+# ticket. The adapter owns the observed arrays it hands over, so it drops the observed
+# pixels that would land on a zeroed synthetic pixel and passes the rest. The core is
+# called unchanged and never sees them.
+#
+# The span is MEASURED per line, never hardcoded: the trailing count varies with the
+# window, and a constant would silently rot the day iSpec changes it.
+EDGE_ZERO_FLUX = 1e-6      # below this is the ~0.0 sentinel, not a real flux
+
+
+def clean_span(sw, *flux_arrays, zero_flux: float = EDGE_ZERO_FLUX):
+    """(clean_lo, clean_hi, n_zeroed) — the span of `sw` carrying real synthetic flux.
+
+    A pixel counts as clean only if EVERY supplied flux array is above the sentinel
+    there, so a span that is real at one trial abundance and zeroed at another is
+    treated as zeroed. Returns (None, None, n) when nothing is clean.
+
+    Pure geometry, no iSpec: this is the part of the RYA-770 edge trim that can be
+    tested without a synthesiser, which is why it is a module function rather than
+    inline in `measure_line`.
+    """
+    sw = np.asarray(sw, dtype=float)
+    good = np.ones(sw.shape, dtype=bool)
+    for f in flux_arrays:
+        good &= np.asarray(f, dtype=float) > zero_flux
+    n_zeroed = int((~good).sum())
+    if not good.any():
+        return None, None, n_zeroed
+    first = int(np.argmax(good))
+    last = len(good) - 1 - int(np.argmax(good[::-1]))
+    return float(sw[first]), float(sw[last]), n_zeroed
+
+
+def edge_pixels_to_drop(obs_w, wave_base: float, wave_top: float,
+                        clean_lo: float, clean_hi: float):
+    """Mask of observed pixels inside the fit window but OUTSIDE the clean span.
+
+    Only in-window pixels can matter: `_fit_synth_flux` masks the rest away itself, so
+    dropping an out-of-window pixel would change nothing and would misreport the count.
+    """
+    obs_w = np.asarray(obs_w, dtype=float)
+    in_window = (obs_w >= wave_base) & (obs_w <= wave_top)
+    return in_window & ((obs_w < clean_lo) | (obs_w > clean_hi))
 
 PSEUDO_CONTINUUM_SYSTEMATIC_NOTE = (
     "near-UV: the true continuum is not observed (median flux 0.283-0.805), so the "
@@ -76,6 +141,7 @@ class SynthesisHandler(MeasurementHandler):
         self._fit = None
         self._synth = None
         self._window = None
+        self._wstep = None
         self._tmp_dir = "/tmp/ispec_codex_synth"
 
     def prepare(self, policy: BandPolicy, context: dict[str, Any]) -> None:
@@ -100,7 +166,11 @@ class SynthesisHandler(MeasurementHandler):
 
         import os
         from pipeline.abundances_derive import (
-            _fit_synth_flux, _synth_flux_at_abund, _wingwide_window_nm)
+            _fit_synth_flux, _synth_flux_at_abund, _wingwide_window_nm,
+            SYNTH_FIT_WSTEP_NM)
+        # Imported, never re-typed: the edge trim below is only correct if it rebuilds
+        # the grid the FIT actually uses (RYA-770).
+        self._wstep = float(SYNTH_FIT_WSTEP_NM)
         self._tmp_dir = context.get("tmp_dir", self._tmp_dir)
         os.makedirs(self._tmp_dir, exist_ok=True)   # iSpec does not create it
         self._fit = _fit_synth_flux
@@ -122,9 +192,22 @@ class SynthesisHandler(MeasurementHandler):
         c = float(wavelength_A)
 
         def quarantine(reason: str, ew=float("nan")) -> LineMeasurement:
+            # RYA-770: THE single choke point for every rejection this handler makes,
+            # so one tracer call covers all of them and none can be added later that
+            # escapes the timeline. The tag is the reason's leading token
+            # (COVERAGE / CHI2-GATE / NOT-IN-SYNTH-LINELIST / ...), which is what makes
+            # the rejections countable per class rather than just readable.
+            dbg.trace_fallback(
+                'synth_line_rejected', f'{element} {ion} {c:.3f}: {reason}',
+                severity='WARN', species=f'{element} {ion}', wavelength=c,
+                reject_class=str(reason).split(':', 1)[0].strip(),
+                band=policy.name, instrument=str(instrument))
             lm = LineMeasurement(element=element, ion=ion, wavelength_air_A=c,
                                  instrument=instrument, ew_mA=ew,
-                                 ew_method=f"SYNTHESIS ({policy.name}) via _fit_synth_flux")
+                                 ew_method=f"SYNTHESIS ({policy.name}) via _fit_synth_flux",
+                                 # RYA-770/342: no EW->A inversion happened here, so the
+                                 # REW saturation ceiling does not apply (see the field).
+                                 ew_inversion=False)
             lm.in_aggregate = False
             lm.excluded_reason = reason
             return lm
@@ -146,12 +229,41 @@ class SynthesisHandler(MeasurementHandler):
 
         kw = self._synth_kw(context, element)
         a0 = float(context.get("a_start", context.get("solar_A", 7.5)))
+        # Probe on the CORE's own synthesis grid, not the observed one. Two reasons:
+        # the sensitivity being tested is a property of the line, which the fine grid
+        # resolves and the observed sampling may straddle; and the same two syntheses
+        # then reveal the zeroed edge span for free (see EDGE_ZERO_FLUX above), so the
+        # trim costs no extra Turbospectrum call.
+        sw = np.arange(wave_base, wave_top + self._wstep * 0.5, self._wstep)
         try:
-            lo = self._synth(obs_w_nm[m], trial_A=a0 - 0.5, **kw)
-            hi = self._synth(obs_w_nm[m], trial_A=a0 + 0.5, **kw)
+            lo = self._synth(sw, trial_A=a0 - 0.5, **kw)
+            hi = self._synth(sw, trial_A=a0 + 0.5, **kw)
             sens = float(np.max(np.abs(hi - lo)))
         except Exception as e:
             return quarantine(f"SYNTH-FAILED probing sensitivity: {type(e).__name__}: {e}")
+
+        # ── drop observed pixels that would be compared against a zeroed synthetic ──
+        clean_lo, clean_hi, n_zero = clean_span(sw, lo, hi)
+        if clean_lo is None:
+            return quarantine(
+                f"SYNTH-ALL-ZERO: every one of the {sw.size} synthesis pixels came back "
+                f"at the ~0 sentinel, so there is no spectrum to fit against.")
+        drop = edge_pixels_to_drop(obs_w_nm, wave_base, wave_top, clean_lo, clean_hi)
+        n_dropped = int(drop.sum())
+        if n_dropped:
+            dbg.trace_fallback(
+                'synth_edge_pixels_trimmed',
+                f'{element} {ion} {c:.3f}: dropped {n_dropped} observed pixel(s) that '
+                f'fall on iSpec-zeroed synthesis edges ({n_zero} zeroed of {sw.size})',
+                severity='INFO', species=f'{element} {ion}', wavelength=c,
+                n_obs_dropped=n_dropped, n_synth_zeroed=n_zero, n_synth=int(sw.size))
+            obs_w_nm, obs_f = obs_w_nm[~drop], obs_f[~drop]
+            m = (obs_w_nm >= wave_base) & (obs_w_nm <= wave_top)
+            if m.sum() < 5:
+                return quarantine(
+                    f"COVERAGE: only {int(m.sum())} observed pixels survive after "
+                    f"removing {n_dropped} that sit on zeroed synthesis edges")
+
         if sens < MIN_SENSITIVITY:
             return quarantine(
                 f"NOT-IN-SYNTH-LINELIST: a +/-0.5 dex abundance swing moves the synthetic "
@@ -220,9 +332,24 @@ class SynthesisHandler(MeasurementHandler):
                 f"edge, so the true minimum lies outside it. Reported, never substituted.",
                 ew=ew)
 
+        # RYA-770: the accepted lines are recorded too. A rejection ledger that only
+        # lists rejections cannot tell you 3-of-12 from 3-of-3 — the accept count is
+        # half the diagnosis.
+        dbg.trace_decision('synth_line_accepted', f'{element} {ion} {c:.3f}',
+                           detail=f'A={a_best:.3f}, red_chi2={res["red_chi2"]}, '
+                                  f'n_pix={res["n_pix"]}, window +/-{hw_A:.3f} A',
+                           species=f'{element} {ion}', wavelength=c, abundance=a_best,
+                           red_chi2=res['red_chi2'], n_pix=res['n_pix'],
+                           half_window_A=round(hw_A, 4), ew_hint_mA=ew_hint)
         return LineMeasurement(element=element, ion=ion, wavelength_air_A=c,
                                instrument=instrument, ew_mA=ew, abundance=a_best,
-                               ew_method=method)
+                               ew_method=method,
+                               # RYA-770/342: this abundance came from a flux-space chi2
+                               # fit, NOT an EW inversion. Flux-space synthesis exists to
+                               # measure exactly the strong lines the REW ceiling culls,
+                               # so gating it on that ceiling discards the result the
+                               # method was built to produce.
+                               ew_inversion=False)
 
 
 register(SynthesisHandler())
