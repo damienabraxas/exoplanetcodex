@@ -18,7 +18,7 @@
 # n_lines_catalogued is the GES in-band denominator; a 0 there is OUR linelist's
 # limit, not the grid's (the 9199.9 A wall is GES, atom.fe607a reaches 20000 A).
 # bands: pipeline.band_policy · reach reader: scripts/rya763_level_mapping.py
-# generated at 3a5d8f0 on Sirius
+# extracts @ c2f1d6b · decks on Sirius: amarsi_galah + gerber_ts
 element,ion,engine,grid_id,band,band_lo_A,band_hi_A,state,n_lines_served,n_lines_reachable,n_lines_catalogued,level_asset,grid_asset,note
 Al,I,A,Al_Amarsi2020_PySME,near-UV,3000.0,3800.0,REACH-UNKNOWN,0,0,0,label_Al.txt,Al_Amarsi2020_PySME.csv,"no catalogued line in band — a zero here measures the LINELIST's span, not the grid's, so absence cannot be asserted from it; registry role=production"
 Al,I,A,Al_Amarsi2020_PySME,VIS,3800.0,6910.0,SERVED,2,14,27,label_Al.txt,Al_Amarsi2020_PySME.csv,registry role=production
