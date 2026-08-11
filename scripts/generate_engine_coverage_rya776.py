@@ -33,9 +33,9 @@ THE STATE MACHINE
 Per (element, ion, engine, grid, band), with `n_served` from the per-line extract and
 `n_reach` from the model atom's levels against the in-band catalogued lines:
 
-    n_served > 0                        -> SERVED
-    n_served = 0, n_reach > 0           -> REACHABLE-NOT-EXTRACTED
-    n_served = 0, n_reach = 0, decidable-> UNCOVERED
+    n_served > 0                         -> SERVED
+    n_served = 0, n_reach > 0            -> REACHABLE-NOT-EXTRACTED
+    n_served = 0, n_reach = 0, decidable -> UNCOVERED
     reach not locally decidable          -> REACH-UNKNOWN
 
 "Decidable" is the load-bearing word and it is why there are four states and not three.
@@ -50,6 +50,13 @@ manufacture exactly the false "no coverage" this ticket exists to kill:
   * NO CATALOGUED LINE IN BAND. Where the GES linelist carries no line, there is nothing
     to resolve, so a zero reach measures OUR LINELIST's span, not the grid's. The
     9199.9 A wall is a linelist limit; `atom.fe607a` reaches 20000 A.
+  * THE KEY DOES NOT ADDRESS THE TABLE. The Gerber atoms pack their higher ionisation
+    stages into SUPER-LEVELS, whose statistical weight is the sum of the merged levels'
+    -- so the reader's J = (G-1)/2 is not a J (Fe II comes out at J = 14.5, 27.5) and
+    NOTHING resolves. Measured, not assumed: this generator's first run was about to
+    write UNCOVERED against 8870 catalogued Fe II optical lines, a species we measure in
+    production as the ionisation arbiter. `classify` separates it from a real absence by
+    whether ANY endpoint resolved at all.
 
 DETERMINISM (RYA-768 discipline)
 --------------------------------
@@ -100,7 +107,9 @@ TOL_EV = 0.001
 # themselves about it -- Al_Amarsi2020_PySME.csv writes `1` where every other extract
 # writes `I` -- so it is normalised on read. Left alone it would split Al into two
 # species that never join, which is a silent half-empty answer rather than a loud one.
-_ROMAN = {"1": "I", "2": "II", "3": "III", "I": "I", "II": "II", "III": "III"}
+_ROMAN = {"1": "I", "2": "II", "3": "III", "4": "IV", "5": "V",
+          "I": "I", "II": "II", "III": "III", "IV": "IV", "V": "V"}
+_ARABIC = {v: i + 1 for i, v in enumerate(("I", "II", "III", "IV", "V"))}
 
 
 def _norm_ion(raw) -> str:
@@ -110,6 +119,17 @@ def _norm_ion(raw) -> str:
     if k not in _ROMAN:
         raise SystemExit(f"unrecognised ion {raw!r} — extend _ROMAN deliberately")
     return _ROMAN[k]
+
+
+def ges_ion_code(ion: str) -> int:
+    """Roman ion -> the GES linelist's arabic stage.
+
+    Written as a lookup because the obvious inline shortcut (`1 if ion == 'I' else 2`)
+    silently maps EVERY higher stage onto Fe 2 — it made the Fe III rows duplicates of
+    the Fe II ones, with Fe II's catalogued count attached to a species that does not
+    have it.
+    """
+    return _ARABIC[_norm_ion(ion)]
 
 
 def _git_head() -> str:
@@ -225,37 +245,59 @@ def _ion_filter(lab: pd.DataFrame, ion: str) -> pd.DataFrame:
 
 
 def reach_in_band(ll, lab: pd.DataFrame, element: str, ion: str,
-                  lo: float, hi: float) -> tuple[int, int]:
-    """(n_catalogued, n_reachable) for one species in one band.
+                  lo: float, hi: float) -> tuple[int, int, int]:
+    """(n_catalogued, n_both_endpoints, n_either_endpoint) for one species in one band.
 
-    n_reachable counts lines whose BOTH endpoints resolve UNIQUEly in the level table --
-    the same both-ends test RYA-763 used, because a departure coefficient needs the lower
-    AND the upper level and half a mapping is not a partial answer, it is no answer.
+    n_both is the reach proper: a departure coefficient needs the lower AND the upper
+    level, so half a mapping is not a partial answer, it is no answer. That is the
+    both-ends test RYA-763 used and this reproduces.
+
+    n_either exists to tell two very different zeroes apart, and it is load-bearing --
+    see `classify`. A level table where SOME endpoints resolve and some do not is
+    answering the question and reporting real absences (RYA-763's Fe I IR result was
+    exactly this: 4189 upper levels genuinely missing from the 607-level atom). A table
+    where NOTHING resolves, over thousands of attempts, is not reporting absence -- it is
+    telling you the key does not address it at all.
     """
     w = np.asarray(ll["wave_A"], dtype=float)
     els = np.asarray([str(x).strip() for x in ll["element"]])
-    want = f"{element} {1 if ion == 'I' else 2}".upper()
-    m = np.array([e.upper().startswith(want) for e in els]) & (w >= lo) & (w < hi)
+    want = f"{element} {ges_ion_code(ion)}".upper()
+    m = np.array([e.upper() == want for e in els]) & (w >= lo) & (w < hi)
     n_cat = int(m.sum())
     if not n_cat or lab is None or lab.empty:
-        return n_cat, 0
-    n_ok = 0
+        return n_cat, 0, 0
+    n_both = n_either = 0
     for i in np.where(m)[0]:
         vlo, _, _ = resolve_by_label(lab, float(ll["lower_state_eV"][i]),
                                      float(ll["lower_j"][i]), TOL_EV)
-        if vlo != "UNIQUE":
-            continue
         vup, _, _ = resolve_by_label(lab, float(ll["upper_state_eV"][i]),
                                      float(ll["upper_j"][i]), TOL_EV)
-        n_ok += int(vup == "UNIQUE")
-    return n_cat, n_ok
+        n_either += int(vlo == "UNIQUE" or vup == "UNIQUE")
+        n_both += int(vlo == "UNIQUE" and vup == "UNIQUE")
+    return n_cat, n_both, n_either
 
 
 # ── the state machine ────────────────────────────────────────────────────────
 
 def classify(n_served: int, n_reach: int, n_cat: int,
-             level_asset: str, why_no_levels: str) -> tuple[str, str]:
-    """(state, note). The four outcomes, and never a fifth dressed as UNCOVERED."""
+             level_asset: str, why_no_levels: str, n_either: int = 0) -> tuple[str, str]:
+    """(state, note). The four outcomes, and never a fifth dressed as UNCOVERED.
+
+    The last guard is the one that had to be MEASURED into existence. The Gerber model
+    atoms pack their higher ionisation stages into SUPER-LEVELS -- composites whose
+    statistical weight is the sum of the merged levels', so the reader's J = (G-1)/2 is
+    not a J at all (Fe II comes out with J = 14.5, 27.5). The (J, energy) key therefore
+    does not address those rows, and the first run of this generator was about to write
+    UNCOVERED against 8870 catalogued Fe II optical lines -- a species we measure in
+    production, as the ionisation arbiter. That is precisely the false "no coverage" this
+    table exists to end, so a zero that comes with ZERO partial matches is treated as the
+    key failing, not as the physics being absent.
+
+    The distinction is measured, not thresholded: `n_either > 0` means the table answered
+    for some endpoints and really lacks the others (RYA-763's Fe I IR result, 4189 upper
+    levels genuinely missing); `n_either == 0` over thousands of attempts means nothing
+    in this table is addressable by the key at all.
+    """
     if n_served > 0:
         return SERVED, ""
     if not level_asset:
@@ -267,7 +309,14 @@ def classify(n_served: int, n_reach: int, n_cat: int,
     if n_reach > 0:
         return REACHABLE_NOT_EXTRACTED, ("levels present in the model; no per-line "
                                          "extract exposes this band")
-    return UNCOVERED, f"{n_cat} catalogued line(s) in band, none resolvable in {level_asset}"
+    if n_either == 0:
+        return REACH_UNKNOWN, (
+            f"not one endpoint of {n_cat} catalogued line(s) resolves in {level_asset} — "
+            f"the (J, energy) key does not address this table (super-levels carry a "
+            f"summed statistical weight, so G is not 2J+1), so absence cannot be "
+            f"asserted from it")
+    return UNCOVERED, (f"{n_cat} catalogued line(s) in band; {n_either} resolve one "
+                       f"endpoint, none resolve both in {level_asset}")
 
 
 # ── the sweep ────────────────────────────────────────────────────────────────
@@ -300,10 +349,11 @@ def build_rows(ll) -> list[dict]:
                 waves = {round(float(x), 3) for x in served["_w"].dropna().unique()}
                 n_zero = len(waves & zeros)
                 n_served = len(waves) - n_zero
-                n_cat, n_reach = reach_in_band(ll, lab, element, ion, b.lo_A, b.hi_A)
+                n_cat, n_reach, n_either = reach_in_band(ll, lab, element, ion,
+                                                         b.lo_A, b.hi_A)
                 state, note = classify(n_served, n_reach, n_cat,
                                        level_asset_or_why if has_levels else "",
-                                       level_asset_or_why)
+                                       level_asset_or_why, n_either)
                 if n_zero:
                     note = (f"{n_zero} placeholder-zero line(s) in band excluded from "
                             f"served (RYA-413)" + (f"; {note}" if note else ""))
@@ -326,16 +376,24 @@ def build_rows(ll) -> list[dict]:
             continue
         for ion in sorted({_norm_ion(v) for v in lab_all["ion"]}):
             lab = _ion_filter(lab_all, ion)
-            if lab.empty:
+            # A stage carrying fewer than two levels is the atom's IONISATION CONTINUUM
+            # reservoir, not a modelled ion -- every one of these atoms ends in a single
+            # top-stage level (atom.fe607a: 548 Fe I + 58 Fe II + 1 Fe III). A line needs
+            # two levels of the same stage, so such a stage can never serve one BY
+            # CONSTRUCTION, and emitting a measured verdict against it is a category
+            # error: the first run wrote 8 spurious UNCOVERED rows for Fe III, Ba III,
+            # Ti III and friends, each of which reads as a real modelling gap.
+            if len(lab) < 2:
                 continue
             for b in bands:
-                n_cat, n_reach = reach_in_band(ll, lab, element, ion, b.lo_A, b.hi_A)
+                n_cat, n_reach, n_either = reach_in_band(ll, lab, element, ion,
+                                                         b.lo_A, b.hi_A)
                 # Engine B has no extract layer: a line is SERVED when the atom resolves
                 # it AND the departure grid is actually provisioned. An atom without its
                 # .bin is the cheap-to-unlock class, not a gap -- which is exactly Fe's
                 # Engine-B history (grid gettable, not yet pulled).
                 n_served = n_reach if grid_bin is not None else 0
-                state, note = classify(n_served, n_reach, n_cat, atom.name, "")
+                state, note = classify(n_served, n_reach, n_cat, atom.name, "", n_either)
                 if grid_bin is None and state == REACHABLE_NOT_EXTRACTED:
                     note = ("model atom carries the levels but the departure grid .bin "
                             "is NOT provisioned — a pull away, not a data gap")
