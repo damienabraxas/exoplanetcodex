@@ -1,0 +1,88 @@
+#
+#   VizieR Astronomical Server vizier.cds.unistra.fr
+#    Date: 2026-08-11T23:26:57 [V7.5.8]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	service_protocol=ASU	  IVOID of the protocol through which the data was retrieved
+#INFO	request_date=2026-08-11T23:26:57	  Query execution date
+#INFO	request=https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJS/215/23/table4&-out.max=unlimited&-out.all&lamAir=6900..9250	  Full request URL
+#INFO	contact=cds-question@unistra.fr	  Email or URL to contact publisher
+#INFO	server_software=VizieR/7.5.8	  Software version
+#INFO	publisher=CDS	  Data centre that produced the VOTable
+
+#RESOURCE=yCat_22150023
+#Name: J/ApJS/215/23
+#Title: FeI radiative lifetime and branching fractions (Den Hartog+, 2014)
+#INFO	ivoid=ivo://cds.vizier/j/apjs/215/23	    IVOID of underlying data collection
+#INFO	data_ivoid=ivo://cds.vizier/j/apjs/215/23	    IVOID of underlying data collection
+#INFO	creator=Den Hartog E.A.	    First author or institution
+#INFO	cites=bibcode:2014ApJS..215...23D	    Article or Data origin sources
+#INFO	journal=ApJS	    Journal name
+#INFO	original_date=2014	    Year of the article publication
+#INFO	reference_url=https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJS/215/23	    Dataset landing page
+#INFO	citation=doi:10.26093/cds/vizier.22150023	    Dataset identifier that can be used for citation
+#INFO	publication_date=2015-03-25	    Date of first publication in the data centre
+#INFO	rights_uri=https://cds.unistra.fr/vizier-org/licences_vizier.html	    Licence URI
+#Table	J_ApJS_215_23_table4:
+#Name: J/ApJS/215/23/table4
+#Title: Experimental branching fractions, transition probabilities, and log(gf)s for 227 lines of Fe I organized by increasing wavelength
+#Column	recno	(I8)	Record number assigned by the VizieR team. Should Not be used for identification.	[ucd=meta.record]
+#Column	lamAir	(F10.4)	[3211/22381] Wavelength in air; Angstroms (1)	[ucd=em.wl;phys.atmol.transition]
+#Column	E1	(F9.3)	[45061.3/53169.2] Upper energy level (1)	[ucd=phys.energy;phys.atmol.level]
+#Column	J1	(I1)	[0/7] Upper level J value (1)	[ucd=phys.atmol.qn]
+#Column	E0	(F9.3)	[19350.8/43499.6] Lower energy level (1)	[ucd=phys.energy;phys.atmol.level]
+#Column	J0	(I1)	[0/6] Lower level J value (1)	[ucd=phys.atmol.qn]
+#Column	BF	(F6.3)	[0.001/1]? Branching Fraction	[ucd=phys.atmol.branchingRatio]
+#Column	e_BF	(F4.1)	[0/40]? Uncertainty in BF in %	[ucd=stat.error]
+#Column	A	(F7.3)	[0.04/156.3]? Transition probability	[ucd=phys.atmol.transProb]
+#Column	log(gf)	(F5.2)	[-3.4/0.7]? Log of degeneracy times oscillator strength	[ucd=phys.atmol.oscStrength]
+#Column	e_log(gf)	(F5.2)	? Uncertainty in log(gf)	[ucd=stat.error]
+#Column	log(gf)P	(F5.2)	? Previously published log(gf) (2)	[ucd=phys.atmol.oscStrength]
+#Column	e_log(gf)P	(F5.2)	? Uncertainty in log(gf)P (2)	[ucd=stat.error]
+#Column	r_log(gf)P	(A4)	Reference for log(gf)P (3)	[ucd=meta.ref;pos.frame]
+#Column	Cal	(A1)	[ALP] Calibration method for log(gf)P (4)	[ucd=meta.note]
+recno	lamAir	E1	J1	E0	J0	BF	e_BF	A	log(gf)	e_log(gf)	log(gf)P	e_log(gf)P	r_log(gf)P	Cal
+ 	0.1nm	cm-1	 	cm-1	 	 	%	10+6/s	[-]	[-]	[-]	[-]	 	
+--------	----------	---------	-	---------	-	------	----	-------	-----	-----	-----	-----	----	-
+     157	 7016.3920	47755.534	3	33507.121	3	 0.030	 4.0	  1.632	-1.07	 0.03	-1.21	 0.18	Ma74	A
+     158	 7022.9539	48036.670	2	33801.570	2	 0.044	 5.3	  2.422	-1.05	 0.03	-1.20	 0.18	Ma74	A
+     159	 7130.9221	48036.670	2	34017.101	1	 0.099	 2.9	  5.387	-0.69	 0.02	-0.80	 0.18	Ma74	A
+     160	 7164.4486	47755.534	3	33801.570	2	 0.099	 2.4	  5.345	-0.54	 0.02	     	     	    	
+     161	 7175.9251	50698.617	2	36766.964	3	 0.013	16.6	  1.400	-1.27	 0.07	     	     	    	
+     162	 7187.3180	47005.503	5	33095.939	4	 0.174	 1.0	  9.502	-0.09	 0.02	-0.15	 0.05	OB91	P
+     163	 7239.8676	47755.534	3	33946.931	2	 0.015	28.2	  0.829	-1.34	 0.11	     	     	    	
+     164	 7261.5140	50534.394	3	36766.964	3	 0.006	18.9	  0.778	-1.37	 0.08	     	     	    	
+     165	 7288.7385	47755.534	3	34039.514	4	 0.019	 5.6	  1.043	-1.24	 0.03	     	     	    	
+     166	 7292.8294	50475.285	4	36766.964	3	 0.008	14.0	  0.955	-1.16	 0.06	-1.10	 0.07	OB91	P
+     167	 7293.0454	48036.670	2	34328.750	3	 0.051	 3.6	  2.761	-0.96	 0.03	     	     	    	
+     168	 7320.6826	50423.134	4	36766.964	3	      	    	       	     	     	-1.16	 0.08	OB91	P
+     169	 7411.1544	48036.670	2	34547.209	2	 0.165	 2.4	  9.039	-0.43	 0.02	     	     	    	
+     170	 7445.7508	47755.534	3	34328.750	3	 0.186	 2.0	 10.043	-0.23	 0.02	     	     	    	
+     171	 7491.6486	48036.670	2	34692.146	1	 0.038	 5.0	  2.088	-1.06	 0.03	     	     	    	
+     172	 7511.0205	47005.503	5	33695.395	5	 0.257	 0.8	 14.022	 0.12	 0.02	 0.10	 0.04	OB91	P
+     173	 7568.8999	47755.534	3	34547.209	2	 0.041	 3.3	  2.205	-0.88	 0.03	     	     	    	
+     174	 7653.7596	51739.917	2	38678.036	2	 0.040	 6.3	  3.852	-0.77	 0.03	-0.89	 0.07	OB91	P
+     175	 7710.3645	47005.503	5	34039.514	4	 0.016	 4.7	  0.865	-1.07	 0.03	-1.11	 0.06	OB91	P
+     176	 7998.9458	47755.534	3	35257.322	4	 0.263	 1.7	 14.193	-0.02	 0.02	     	     	    	
+     177	 8046.0479	48036.670	2	35611.623	3	 0.300	 1.9	 16.401	-0.10	 0.02	     	     	    	
+     178	 8207.7429	48036.670	2	35856.400	2	 0.040	 3.9	  2.170	-0.96	 0.03	     	     	    	
+     179	 8220.3790	47005.503	5	34843.955	6	 0.327	 0.7	 17.893	 0.30	 0.02	 0.28	 0.05	OB91	P
+     180	 8232.3178	47755.534	3	35611.623	3	 0.037	 2.9	  1.971	-0.85	 0.02	     	     	    	
+     181	 8339.4039	47755.534	3	35767.562	4	 0.073	 3.7	  3.931	-0.54	 0.03	     	     	    	
+     182	 8360.7956	48036.670	2	36079.370	3	 0.028	 6.8	  1.524	-1.10	 0.04	     	     	    	
+     183	 8526.6690	51350.489	4	39625.801	4	 0.029	 5.5	  2.639	-0.59	 0.03	-0.76	 0.09	OB91	P
+     184	 8598.8302	47005.503	5	35379.206	5	 0.009	 3.7	  0.515	-1.20	 0.03	-1.09	 0.04	OB91	P
+     185	 8713.2034	51705.011	2	40231.333	2	 0.050	 7.9	  3.116	-0.75	 0.04	     	     	    	
+     186	 8784.4405	51350.489	4	39969.850	3	 0.008	31.5	  0.704	-1.14	 0.12	     	     	    	
+     187	 8808.1710	51754.494	1	40404.515	1	 0.058	14.4	  3.480	-0.92	 0.06	     	     	    	
+     188	 8846.7407	51705.011	2	40404.515	1	 0.075	 7.6	  4.659	-0.56	 0.04	     	     	    	
+     189	 8876.0241	51754.494	1	40491.281	0	 0.042	12.3	  2.510	-1.05	 0.05	     	     	    	
+     190	 9012.0745	51350.489	4	40257.311	5	 0.090	 2.5	  8.090	-0.05	 0.02	-0.31	 0.09	OB91	P
+     191	 9070.4342	45061.326	3	34039.514	4	 0.003	 6.5	  0.202	-1.76	 0.03	     	     	    	
+     192	 9119.9705	45509.149	1	34547.209	2	 0.001	31.0	  0.064	-2.62	 0.12	     	     	    	
+     193	 9164.5715	50534.394	3	39625.801	4	 0.006	 7.6	  0.748	-1.18	 0.04	     	     	    	
+     194	 9173.6758	51739.917	2	40842.151	3	 0.013	 4.1	  1.236	-1.11	 0.03	     	     	    	
+     195	 9214.4977	50475.285	4	39625.801	4	 0.013	 3.1	  1.518	-0.76	 0.03	     	     	    	
+
