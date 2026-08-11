@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""RYA-763 — can Engine A be pointed at a line LOCALLY, without the MPIA web query?
+
+    python3 scripts/rya763_level_mapping.py                 # asset inventory
+    python3 scripts/rya763_level_mapping.py --element Ti    # + the mapping test
+
+TWO THINGS THE TICKET ASSUMES THAT ARE NOT TRUE ANY MORE
+--------------------------------------------------------
+1. *"RYA-713 found 14 of 15 staged Engine-A grids have no label_*.txt extracted -- Ti is
+   the only one that does."* **Inverted.** RYA-713 then went and recovered them
+   (`_label_recovery_rya713.log`, md5-verified, archives deleted): 14 of 15 now HAVE a
+   label file and only **Cu** lacks one. The precondition this ticket calls blocking is
+   already met.
+
+2. *"Look those levels up directly in the staged .grd plus label_Fe.txt."* **There is no
+   Fe asset at all** in the Engine-A grid directory -- no `nlte_Fe_*.grd`, no
+   `label_Fe.txt`, no `atmos_Fe.txt`. Fe was never one of the staged Amarsi/PySME grids,
+   because Fe's Engine A is the **Bergemann/MPIA** route: a different supplier, reachable
+   only through the web service plus a committed per-line CSV extract (which RYA-764
+   measured as stopping at 6843.7 A). So step 2 of this ticket **cannot be executed for
+   Fe**: there is no local Fe departure grid to interrogate, and the "grid vs our query"
+   question is not locally decidable for Fe.
+
+WHAT IS STILL DECIDABLE, AND WHY IT MATTERS MORE
+------------------------------------------------
+The ticket's own reason for caring is general: *"If local level-mapping works, it applies
+to all 15 staged elements."* That question CAN be settled, on any element that has both a
+grid and a label file. This does that.
+
+THE TEST, AND THE FAILURE MODE IT IS LOOKING FOR
+-------------------------------------------------
+GES carries BOTH a numeric `nlte_level_low/up` and a string `nlte_label_low/up` per line.
+If the numeric index addresses the same level that `label_{El}.txt` lists at that index,
+local mapping is trivial -- the linelist already hands us the grid coordinate.
+
+The dangerous outcome is not "no match". It is a **silent mismatch**: two different model
+atoms, each with its own level ordering, indexed by the same integer. Mapping by index
+across them would return a real departure coefficient for the WRONG level -- a wrong
+number rather than an honest LTE fallback, and invisible. The vendor warns explicitly of
+"significant differences" between VALD/GES labels and the NIST labels the grids carry.
+
+So this compares, per line, the GES label string against the label file's entry AT THE
+GES INDEX, and reports agreement / disagreement / out-of-range rather than a bare count.
+"""
+from __future__ import annotations
+
+import argparse
+import os
+import re
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+
+GRID_DIR = Path(os.environ.get("CODEX_NLTE_GRID_DIR",
+                               "/srv/codex/grids/nlte/amarsi_galah"))
+OUT_DIR = ROOT / "data" / "audit" / "rya763"
+UNSET = {"", "0", "-1", "nan", "none", "None", "NONE"}
+
+
+def inventory() -> pd.DataFrame:
+    """grid x label x atmos, per element. Replaces the ticket's stale claim."""
+    rows = []
+    for g in sorted(GRID_DIR.glob("nlte_*.grd")):
+        m = re.match(r"nlte_([A-Za-z]+)_", g.name)
+        if not m:
+            continue
+        el = m.group(1)
+        rows.append(dict(element=el, grd=g.name,
+                         grd_GB=round(g.stat().st_size / 1e9, 2),
+                         label=(GRID_DIR / f"label_{el}.txt").exists(),
+                         atmos=(GRID_DIR / f"atmos_{el}.txt").exists()))
+    return pd.DataFrame(rows).sort_values("element").reset_index(drop=True)
+
+
+def read_labels(el: str) -> pd.DataFrame:
+    """label_{El}.txt -> index, species, config, term, J, energy_eV."""
+    p = GRID_DIR / f"label_{el}.txt"
+    if not p.exists():
+        raise SystemExit(f"no label file for {el}: {p}")
+    rows = []
+    for line in p.read_text().splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        parts = line.split()
+        if len(parts) < 6:
+            continue
+        try:
+            idx = int(parts[0])
+            energy = float(parts[-1])
+            j = float(parts[-2])
+        except ValueError:
+            continue
+        term = parts[-3]
+        rows.append(dict(index=idx, species=" ".join(parts[1:3]),
+                         term=term, J=j, energy_eV=energy))
+    return pd.DataFrame(rows)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--element", help="run the mapping test for this element")
+    ap.add_argument("--ion", default="I")
+    ap.add_argument("--lo", type=float, default=6910.0)
+    ap.add_argument("--hi", type=float, default=9199.9)
+    a = ap.parse_args()
+
+    inv = inventory()
+    print("\n" + "=" * 78)
+    print("ENGINE-A LOCAL ASSET INVENTORY  (" + str(GRID_DIR) + ")")
+    print("=" * 78)
+    print(inv.to_string(index=False))
+    n_lab = int(inv.label.sum())
+    print(f"\n  {n_lab} of {len(inv)} staged grids have a label file"
+          f"{'' if n_lab == len(inv) else '; missing: ' + ', '.join(inv[~inv.label].element)}")
+    print(f"  Fe present? {'YES' if 'Fe' in set(inv.element) else 'NO — Fe is NOT a staged Amarsi grid'}")
+    if "Fe" not in set(inv.element):
+        print("     => RYA-763 step 2 is not executable for Fe: there is no local Fe")
+        print("        departure grid. Fe's Engine A is MPIA (web service + the committed")
+        print("        per-line CSV extract, which RYA-764 measured stopping at 6843.7 A).")
+
+    if not a.element:
+        print("\n  (pass --element <El> to run the level-mapping test)")
+        return
+
+    el = a.element
+    lab = read_labels(el)
+    print("\n" + "=" * 78)
+    print(f"LEVEL-MAPPING TEST — {el} {a.ion}, GES index vs label_{el}.txt")
+    print("=" * 78)
+    print(f"  label file: {len(lab)} levels, index {lab['index'].min()}-{lab['index'].max()}, "
+          f"energy {lab.energy_eV.min():.3f}-{lab.energy_eV.max():.3f} eV")
+
+    from pipeline.abundances_derive import _load_synth_resources
+    ll, _, _ = _load_synth_resources()
+    w = np.asarray(ll["wave_A"], dtype=float)
+    els = np.asarray([str(x).strip() for x in ll["element"]])
+    want = f"{el} {1 if a.ion.upper() == 'I' else 2}".upper()
+    m = np.array([e.upper().startswith(want) for e in els]) & (w >= a.lo) & (w <= a.hi)
+    print(f"  GES {el} {a.ion} in {a.lo:.0f}-{a.hi:.0f} A: {int(m.sum())} lines")
+    if not m.sum():
+        print("  no lines in band — nothing to test")
+        return
+
+    by_index = lab.set_index("index")
+    rows = []
+    for i in np.where(m)[0]:
+        for side in ("low", "up"):
+            raw_idx = str(ll[f"nlte_level_{side}"][i]).strip()
+            ges_lab = str(ll[f"nlte_label_{side}"][i]).strip()
+            if raw_idx in UNSET or ges_lab in UNSET:
+                rows.append(dict(side=side, verdict="NO-LEVEL-ID"))
+                continue
+            try:
+                k = int(float(raw_idx))
+            except ValueError:
+                rows.append(dict(side=side, verdict="INDEX-UNPARSEABLE"))
+                continue
+            if k not in by_index.index:
+                rows.append(dict(side=side, verdict="INDEX-OUT-OF-RANGE",
+                                 ges_index=k, ges_label=ges_lab))
+                continue
+            r = by_index.loc[k]
+            # The GES label is a term+J string like 'z3D3*' / 'e7D4'; the label file
+            # holds term ('a3F') and J separately. Compare on the TERM core, which is
+            # the part both spell the same way when they mean the same level.
+            term = str(r["term"]).strip()
+            core = re.sub(r"[^A-Za-z0-9]", "", term).lower()
+            gcore = re.sub(r"[^A-Za-z0-9]", "", ges_lab).lower()
+            agree = gcore.startswith(core) or core.startswith(gcore[:len(core)])
+            rows.append(dict(side=side, verdict="AGREE" if agree else "MISMATCH",
+                             ges_index=k, ges_label=ges_lab,
+                             atom_term=term, atom_J=r["J"],
+                             atom_energy_eV=r["energy_eV"]))
+
+    df = pd.DataFrame(rows)
+    print(f"\n  per-level-endpoint outcomes ({len(df)} endpoints = "
+          f"{int(m.sum())} lines x 2):")
+    for k, v in df.verdict.value_counts().items():
+        print(f"    {k:<20} {v:6d}   ({100.0*v/len(df):.1f}%)")
+
+    mm = df[df.verdict == "MISMATCH"]
+    ag = df[df.verdict == "AGREE"]
+    print("\n" + "-" * 78)
+    print("  VERDICT")
+    if len(mm) == 0 and len(ag):
+        print("  GES indices address the SAME levels as the Engine-A atom. Local")
+        print("  level-mapping is sound for this element — the linelist already carries")
+        print("  the grid coordinate, and no web query is needed to point Engine A.")
+    elif len(ag) == 0:
+        print("  NO endpoint agrees. The GES index does NOT address this atom's levels;")
+        print("  index-based local mapping would be wrong, not merely unavailable.")
+    else:
+        print(f"  MIXED: {len(ag)} agree, {len(mm)} disagree. That is the DANGEROUS case —")
+        print("  index-based mapping would silently return a real departure coefficient")
+        print("  for the wrong level on the disagreeing fraction. Local mapping must key")
+        print("  on the LABEL (term+J+energy), never on the bare index.")
+        print(f"\n  examples of disagreement:")
+        for _, r in mm.head(5).iterrows():
+            print(f"    index {int(r.ges_index):4d}  GES '{r.ges_label}'  vs  atom "
+                  f"'{r.atom_term}' J={r.atom_J} ({r.atom_energy_eV:.3f} eV)")
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    f = OUT_DIR / f"{el}{a.ion}_level_mapping.csv"
+    df.to_csv(f, index=False)
+    inv.to_csv(OUT_DIR / "engine_a_asset_inventory.csv", index=False)
+    print(f"\n  wrote {f.relative_to(ROOT)} and engine_a_asset_inventory.csv")
+
+
+if __name__ == "__main__":
+    main()
