@@ -362,6 +362,12 @@ _fe1_quarantine_state: dict = {'written': False}   # RYA-309: Fe I triage parity
 # neighbours, so `np.any(theo > 0)` separates "synthesis failed" from "one line quarantined".
 _TMP_DIR = '/tmp/ispec_codex'
 
+# Synthesis step (nm) of the flux-fit's internal grid in `_fit_synth_flux`. Named here
+# so the synthesis handler can rebuild the SAME grid to locate iSpec's zeroed edge
+# pixels (RYA-770) rather than duplicating the literal in a second file, where the two
+# would drift silently and the trim would be computed against a grid the fit never used.
+SYNTH_FIT_WSTEP_NM = 0.0002
+
 
 def ensure_ispec_tmp_dir(tmp_dir: str = _TMP_DIR) -> str:
     """Create the iSpec/MOOG scratch dir and return it. Never silently skipped.
@@ -1190,7 +1196,10 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
     sig_scalar = 0.01
 
     # Synthesis grid: fine, wing-wide window (0.002 Å). Generated once-per-eval.
-    wstep = 0.0002  # nm
+    # RYA-770: the step is a module constant so a consumer that must reconstruct THIS
+    # grid (the synthesis handler, to find iSpec's zeroed edge pixels) imports it
+    # instead of re-typing the literal. Same value, same grid — a rename, not a change.
+    wstep = SYNTH_FIT_WSTEP_NM
     sw = np.arange(wave_base, wave_top + wstep * 0.5, wstep)
 
     _kw = dict(atmosphere=atmosphere, teff=teff, logg=logg, feh=feh, vturb=vturb,
