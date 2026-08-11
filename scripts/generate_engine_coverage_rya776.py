@@ -188,6 +188,28 @@ def engine_b_atoms() -> list[tuple[str, Path, Path | None]]:
     return out
 
 
+def _registered_ion(element: str, fname: str) -> int:
+    """The ion a per-line extract applies to, for the extracts that do not say.
+
+    Read from `config.constants.NLTE_CORRECTION_ELEMENTS`, which is already the project's
+    single source for which ion each element's departure grid corrects (Ba 2, Sr 2, the
+    rest 1). Not re-declared here -- a second copy of this mapping is exactly the kind of
+    duplicate that drifts. Where an element registers a NEWER grid than the file in hand
+    (Ti registers Mallinson-2024, and Ti_Bergemann2011_MPIA.csv is the superseded
+    vintage), the ION is still the element's and is what we want: same species, older
+    model.
+    """
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    rec = NLTE_CORRECTION_ELEMENTS.get(element)
+    if not rec or rec.get("ion") is None:
+        raise SystemExit(
+            f"{fname} carries no `ion` column and {element} is not in "
+            f"NLTE_CORRECTION_ELEMENTS, so the species this extract corrects cannot be "
+            f"resolved. Register it there rather than letting the row vanish — a coverage "
+            f"table that silently omits a grid is worse than one that fails loudly.")
+    return int(rec["ion"])
+
+
 def availability_roles() -> dict[tuple[str, str], str]:
     """(element, grid_stem) -> role, from the curation registry. Annotation only."""
     if not AVAILABILITY.exists():
@@ -360,9 +382,20 @@ def build_rows(ll) -> list[dict]:
     # ---- Engine A: the per-line departure extracts --------------------------
     for element, grid_id, path in engine_a_extracts():
         ext = pd.read_csv(path)
-        if not {"ion", "wave_A"} <= set(ext.columns):
-            continue
-        ext = ext.assign(_ion=[_norm_ion(v) for v in ext["ion"]],
+        if "wave_A" not in ext.columns:
+            raise SystemExit(f"{path.name} has no wave_A column — it is not a per-line "
+                             f"extract; exclude it deliberately rather than by accident")
+        # SIX of the committed extracts carry no `ion` column at all (the Bergemann/MPIA
+        # vintage: Ca, Cr, Mg, Mn, Si, Ti). An earlier pass `continue`d past them, which
+        # silently dropped Ca and Cr -- both in PRODUCTION -- out of the table entirely,
+        # and the tracker then read "(no engine rows)" for them. A silent drop is the one
+        # outcome a coverage reference may never produce, so the ion is resolved from the
+        # project's own registry instead, and an element missing from BOTH is loud.
+        if "ion" in ext.columns:
+            ions = [_norm_ion(v) for v in ext["ion"]]
+        else:
+            ions = [_norm_ion(_registered_ion(element, path.name))] * len(ext)
+        ext = ext.assign(_ion=ions,
                          _w=pd.to_numeric(ext["wave_A"], errors="coerce"))
         # RYA-413/417: a line that is identically 0.000 across EVERY node of the extract
         # is a placeholder, not a correction -- MPIA offers it in its dropdown and returns
