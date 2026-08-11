@@ -14,12 +14,16 @@
       "url": "https://keeper.mpdl.mpg.de/f/12d1913cff844c70866d/?dl=1",
       "md5": "912ce2d16dd2827a68a2fb6422e10baf"
     },
-    "1d_bin": {
+    "grid_1d_bin_zip": {
       "name": "NLTEgrid_H_MARCS_May-10-2021.bin.zip",
       "url": "https://keeper.mpdl.mpg.de/f/c70a87b91e384847b1f8/?dl=1",
-      "md5": "970bb5db7dcab8f891ef4a6615ff0a8d"
+      "md5": "970bb5db7dcab8f891ef4a6615ff0a8d",
+      "bytes": 115397776,
+      "unzipped_bytes": 152905720,
+      "unzipped_md5": "c8a7cac12da9ea786f5f589eb75f577a",
+      "verified": "RYA-759: zip re-downloaded and RETAINED at /mnt/codex-data/grids/nlte/gerber_ts/_source_zips/; its unzipped stream md5 matches the staged .bin exactly, so this pin is the provenance of the grid in production, not a fresh assertion about a mutable host."
     },
-    "1d_aux": {
+    "grid_1d_aux": {
       "name": "auxData_H_MARCS_May-10-2021.txt",
       "url": "https://keeper.mpdl.mpg.de/f/fb1424922f424aa980ce/?dl=1",
       "md5": "833f283f5551df20f54fabfc3f9e51be"
