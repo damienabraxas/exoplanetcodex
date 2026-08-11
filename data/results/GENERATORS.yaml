@@ -279,3 +279,30 @@ artifacts:
       pipeline/abundances_derive.py. It is a note about a run, not the run's output, and
       no rya342 script has ever existed. Superseded for state purposes by the phase_c
       verdict channel and CODEX_STATE_REGISTER.md; retained as history.
+
+  # ── RYA-712/713 band products (registered by RYA-759 to unblock CI) ───────────────
+  # These four are a CODE-LEVEL match, not a judgement: scripts/derive_band_products.py
+  # writes `{stem}_{treatment}_lines.csv` (line 205), `{stem}_products.csv` (208) and
+  # `{stem}_budgets.txt` (209) into data/results/band_products, with
+  # stem = f"{element}{ion}_{lo}_{hi}_{instrument}_PROFILEFIT". The four artifacts below
+  # are exactly that stem for Fe I 6910-9199 on kpno_solar_atlas.
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199
+    ticket: RYA-713
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199
+    ticket: RYA-713
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199
+    ticket: RYA-713
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 6910 --hi 9199
+    ticket: RYA-713
