@@ -301,8 +301,34 @@ def test_engine_summary_marks_reach_only_bands(tmp_path):
         _row(engine="B", grid_id="atom.fe607a", band="red-optical", lo=6910.0,
              hi=10000.0, state=REACHABLE_NOT_EXTRACTED, served=0, reach=1620),
     )
-    s = engine_summary("Fe", "I", load_engine_coverage(p))
-    assert s == "A:VIS · B:VIS,red-optical?"
+    tab = load_engine_coverage(p)
+    assert engine_summary("Fe", "I", tab) == "A:VIS · B:VIS,red-optical?"
+    # The tracker writes Fe's row as the COMPOSITE ion `I+II` -- one element record over
+    # two measured species. Matched literally it hit no row and printed "(no engine
+    # rows)" for the anchor element: a blank that reads as "no engine".
+    assert engine_summary("Fe", "I+II", tab) == engine_summary("Fe", "I", tab)
+
+
+def test_no_reach_and_not_established_are_different_cells(tmp_path):
+    """An engine whose every band is REACH-UNKNOWN has not been shown to reach nothing.
+
+    Fe II Engine B is exactly this (super-levels), and printing `B:none` would state an
+    absence the table does not carry.
+    """
+    undecided = _table(tmp_path,
+                       _row(engine="B", grid_id="atom.fe607a", state=REACH_UNKNOWN,
+                            served=0, reach=0))
+    assert engine_summary("Fe", "I", load_engine_coverage(undecided)) == "B:not-established"
+    real = _table(tmp_path, _row(engine="B", grid_id="atom.x", state=UNCOVERED,
+                                 served=0, reach=0))
+    assert engine_summary("Fe", "I", load_engine_coverage(real)) == "B:no-reach"
+
+
+def test_summary_says_no_grid_when_there_is_none(tmp_path):
+    """V has no Engine-A extract and no Gerber atom. That is a real 'no grid', and must
+    read differently from a grid whose reach is merely unestablished."""
+    tab = load_engine_coverage(_table(tmp_path, _row()))
+    assert engine_summary("V", "I", tab) == "(no grid for either engine)"
 
 
 def test_tracker_join_degrades_visibly_not_silently():
