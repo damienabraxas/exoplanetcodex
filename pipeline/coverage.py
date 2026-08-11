@@ -61,6 +61,19 @@ A registry row carries a span and a `span_status`. `--verify` measures the file 
 is reachable and REPORTS disagreement; it never rewrites a declared span with a measured
 one. A registry that silently self-corrects cannot be audited, and the point of this
 module is that its answers are checkable.
+
+Two coverage questions, one discipline (RYA-776)
+------------------------------------------------
+"What covers this wavelength" has two independent halves, and this module now answers
+both with the same refusal to collapse states:
+
+  * WHICH INSTRUMENT sees it   — the first half, above (RYA-708).
+  * WHICH ENGINE/GRID models it — the second half, at the bottom of this file, reading
+    the generated `data/catalog/engine_coverage.csv` (RYA-776).
+
+They are complementary and neither substitutes for the other: an instrument can see a
+line no departure grid reaches, and a grid can reach a line no instrument we hold
+observes. See the ENGINE LAYER banner below for its states.
 """
 from __future__ import annotations
 
@@ -318,6 +331,240 @@ def measure_span(inst: Instrument) -> tuple[float, float, int]:
     return float(w.min()), float(w.max()), int(len(w))
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# THE ENGINE LAYER — RYA-776
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Everything above answers "WHICH INSTRUMENT sees this wavelength". That is half the
+# question. The other half — "which ENGINE/GRID can model this wavelength" — was being
+# re-derived from scratch every time it came up (RYA-763 existed to answer it for Fe I
+# once; the answer then had no durable home). `element_status_tracker.csv` names WHICH
+# grid and WHAT STATE per engine, but carries no WAVELENGTH REACH, so
+# "do we have Engine A on Fe in the IR?" is not answerable from it.
+#
+# This half reads `data/catalog/engine_coverage.csv`, which is GENERATED from the grids
+# and model atoms by scripts/generate_engine_coverage_rya776.py. It is never hand-edited:
+# a hand-maintained coverage map that drifts is worse than no map at all, because a
+# reader trusts it and gets more lost than they started.
+#
+# THE STATES IT REFUSES TO COLLAPSE
+# ---------------------------------
+# The instrument half above refuses to collapse "no instrument reaches this" into
+# "this file does not have it". The engine half refuses the analogous collapse, which
+# has bitten repeatedly as one blurry "no coverage":
+#
+#   * SERVED                    the per-line extract resolves the wavelength. Usable now.
+#   * REACHABLE-NOT-EXTRACTED   the .grd / model atom LEVELS cover it, but the per-line
+#                               extract does not expose it. The cheap-to-unlock class —
+#                               a derivation away, not a data gap. This is what RYA-763
+#                               found for Fe in the IR.
+#   * UNCOVERED                 no atom/grid carries the levels at this wavelength.
+#                               Genuinely absent. The ONLY state that justifies saying
+#                               we cannot model here.
+#
+#   * REACH-UNKNOWN             (RYA-776, added on measurement — see below)
+#
+# WHY THERE IS A FOURTH STATE
+# ---------------------------
+# The three above presume reach is LOCALLY DECIDABLE — that some file on disk states
+# which levels the engine carries. For a large part of the deck it is not:
+#
+#   * Fe's Engine A is the Bergemann/MPIA WEB SERVICE. There is no local Fe departure
+#     grid to interrogate, so no local file can say whether MPIA reaches 8000 A. The
+#     committed extract stops at 6843.7 A, but RYA-763 measured the live service still
+#     answering at 46.7% in 6910-9199 A — so recording UNCOVERED there would be FALSE,
+#     and it is exactly the false "no coverage" this table exists to end.
+#   * Where the GES linelist itself carries no line in a band, there is nothing to
+#     resolve, so a zero reach measures OUR CATALOGUE's span and not the grid's. The
+#     9199.9 A wall is a linelist limit, not physics (atom.fe607a reaches 20000 A).
+#
+# Collapsing either case into UNCOVERED would manufacture the precise wrong answer this
+# module was built to prevent, so it gets its own state and says which of the two it is.
+# REACH-UNKNOWN is not a hedge: it is the difference between "we know there is nothing"
+# and "we have not got a local file that could tell us".
+
+ENGINE_COVERAGE = ROOT / "data" / "catalog" / "engine_coverage.csv"
+
+SERVED = "SERVED"
+REACHABLE_NOT_EXTRACTED = "REACHABLE-NOT-EXTRACTED"
+UNCOVERED = "UNCOVERED"
+REACH_UNKNOWN = "REACH-UNKNOWN"
+
+VALID_ENGINE_STATES = (SERVED, REACHABLE_NOT_EXTRACTED, REACH_UNKNOWN, UNCOVERED)
+
+# Strength order for reducing several grids to one answer for a species. SERVED beats
+# everything; UNCOVERED is LAST on purpose — asserting "genuinely absent" requires every
+# grid to have been decidable, so a single REACH-UNKNOWN outranks it and the species
+# answer degrades to "not established" rather than to a false absence.
+_STATE_RANK = {s: i for i, s in enumerate(VALID_ENGINE_STATES)}
+
+VALID_ENGINES = frozenset({"A", "B"})
+
+
+@dataclass(frozen=True)
+class EngineCoverage:
+    """One (element, ion, engine, grid, band) cell of the generated reference."""
+    element: str
+    ion: str
+    engine: str
+    grid_id: str
+    band: str
+    band_lo_A: float
+    band_hi_A: float
+    state: str
+    n_lines_served: int
+    n_lines_reachable: int
+    n_lines_catalogued: int
+    level_asset: str
+    grid_asset: str
+    note: str
+
+    @property
+    def species(self) -> str:
+        return f"{self.element} {self.ion}"
+
+    def covers(self, wave_A: float) -> bool:
+        return bool(self.band_lo_A <= float(wave_A) < self.band_hi_A)
+
+
+@dataclass(frozen=True)
+class EngineReachAnswer:
+    """Deliberately not a bare string, for the same reason CoverageAnswer is not a bool.
+
+    An element can hold SEVERAL grids for one engine (Mg and Si each have both a
+    Bergemann/MPIA and an Amarsi/PySME extract), and they do not have the same reach.
+    `.state` reduces them for the common lookup; `.rows` keeps the grid-by-grid detail
+    so the reduction is never the only thing on offer.
+    """
+    element: str
+    ion: str
+    engine: str
+    wave_A: float
+    rows: tuple[EngineCoverage, ...]
+
+    @property
+    def state(self) -> str:
+        if not self.rows:
+            return REACH_UNKNOWN
+        return min((r.state for r in self.rows), key=lambda s: _STATE_RANK[s])
+
+    @property
+    def band(self) -> str:
+        return self.rows[0].band if self.rows else ""
+
+    @property
+    def is_data_gap(self) -> bool:
+        """True only when EVERY grid for this species/engine is decidably UNCOVERED."""
+        return bool(self.rows) and all(r.state == UNCOVERED for r in self.rows)
+
+    def why(self) -> str:
+        head = (f"{self.element} {self.ion}, Engine {self.engine}, "
+                f"{self.wave_A:.3f} A ({self.band or 'no declared band'})")
+        if not self.rows:
+            return (f"{head}: NO ROW in {ENGINE_COVERAGE.name} — this species/engine pair "
+                    f"was never generated. That is an unbuilt reference, NOT a coverage "
+                    f"verdict; regenerate before reading anything into it.")
+        best = self.state
+        det = "; ".join(f"{r.grid_id} [{r.state}]"
+                        f"{f' {r.n_lines_served} served' if r.n_lines_served else ''}"
+                        for r in self.rows)
+        if best == SERVED:
+            n = sum(r.n_lines_served for r in self.rows)
+            return f"{head}: SERVED — {n} line(s) in band across {det}"
+        if best == REACHABLE_NOT_EXTRACTED:
+            n = sum(r.n_lines_reachable for r in self.rows)
+            return (f"{head}: REACHABLE-NOT-EXTRACTED — the levels cover it "
+                    f"({n} line(s) resolvable) but no per-line extract exposes it. "
+                    f"A derivation away, NOT a data gap. {det}")
+        if best == REACH_UNKNOWN:
+            return (f"{head}: REACH-UNKNOWN — no local asset can decide this engine's "
+                    f"reach here (service-only supplier, or no catalogued line in band). "
+                    f"NOT a claim of absence. {det}")
+        return (f"{head}: UNCOVERED — no atom or grid carries the levels here. "
+                f"A real modelling gap. {det}")
+
+
+def load_engine_coverage(path: Path | None = None) -> list[EngineCoverage]:
+    """Read the generated engine x wavelength reference. Owns no data of its own."""
+    p = path or ENGINE_COVERAGE
+    if not p.exists():
+        raise CoverageError(
+            f"{p} not found. It is GENERATED — run "
+            f"scripts/generate_engine_coverage_rya776.py on Sirius (the grids and model "
+            f"atoms live there only). Never hand-write it: a stale coverage map is worse "
+            f"than none, because it is trusted (RYA-776).")
+    rows: list[EngineCoverage] = []
+    for r in pd.read_csv(p, comment="#").to_dict("records"):
+        state = str(r["state"]).strip().upper()
+        if state not in _STATE_RANK:
+            raise CoverageError(
+                f"{p}: state {state!r} is not one of {list(VALID_ENGINE_STATES)}. An "
+                f"unrecognised state must not be silently read as a coverage verdict.")
+        engine = str(r["engine"]).strip().upper()
+        if engine not in VALID_ENGINES:
+            raise CoverageError(f"{p}: engine {engine!r} not in {sorted(VALID_ENGINES)}")
+        rows.append(EngineCoverage(
+            element=str(r["element"]).strip(), ion=str(r["ion"]).strip(),
+            engine=engine, grid_id=str(r["grid_id"]).strip(),
+            band=str(r["band"]).strip(), band_lo_A=float(r["band_lo_A"]),
+            band_hi_A=float(r["band_hi_A"]), state=state,
+            n_lines_served=int(r["n_lines_served"]),
+            n_lines_reachable=int(r["n_lines_reachable"]),
+            n_lines_catalogued=int(r["n_lines_catalogued"]),
+            level_asset=str(r["level_asset"]).strip(),
+            grid_asset=str(r["grid_asset"]).strip(),
+            note=str(r.get("note") or "").strip()))
+    if not rows:
+        raise CoverageError(f"{p} has no rows — an empty reference is not 'no coverage'")
+    return rows
+
+
+def engine_reach(element: str, ion: str, engine: str, wave_A: float,
+                 table: list[EngineCoverage] | None = None) -> EngineReachAnswer:
+    """THE engine question: can `engine` model this species at this wavelength?
+
+    A LOOKUP, not a re-derivation — that is the whole point of RYA-776. Returns the
+    answer object; `.state` is the one-word reduction and `.why()` explains it.
+    """
+    eng = str(engine).strip().upper()
+    if eng not in VALID_ENGINES:
+        raise CoverageError(f"engine {engine!r} not in {sorted(VALID_ENGINES)}")
+    tab = table if table is not None else load_engine_coverage()
+    el, io = str(element).strip(), str(ion).strip()
+    hits = tuple(r for r in tab
+                 if r.element == el and r.ion == io and r.engine == eng
+                 and r.covers(wave_A))
+    return EngineReachAnswer(element=el, ion=io, engine=eng,
+                             wave_A=float(wave_A), rows=hits)
+
+
+def engine_summary(element: str, ion: str,
+                   table: list[EngineCoverage] | None = None) -> str:
+    """Compact per-species reach line for surfacing in the element status tracker.
+
+    e.g. `A:VIS · B:VIS,red-optical?` — bands the engine SERVES, then bands it only
+    REACHES marked `?`. Deliberately short: the tracker references this table, it does
+    not absorb it.
+    """
+    tab = table if table is not None else load_engine_coverage()
+    el, io = str(element).strip(), str(ion).strip()
+    out = []
+    for eng in sorted(VALID_ENGINES):
+        rows = [r for r in tab if r.element == el and r.ion == io and r.engine == eng]
+        if not rows:
+            continue
+        by_band: dict[str, str] = {}
+        for r in sorted(rows, key=lambda r: r.band_lo_A):
+            cur = by_band.get(r.band)
+            if cur is None or _STATE_RANK[r.state] < _STATE_RANK[cur]:
+                by_band[r.band] = r.state
+        served = [b for b, s in by_band.items() if s == SERVED]
+        reach = [b for b, s in by_band.items() if s == REACHABLE_NOT_EXTRACTED]
+        bits = served + [f"{b}?" for b in reach]
+        out.append(f"{eng}:{','.join(bits) if bits else 'none'}")
+    return " · ".join(out) if out else "(no engine rows)"
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
     ap.add_argument("--star", default="solar")
@@ -326,8 +573,20 @@ def main(argv=None) -> int:
     ap.add_argument("--verify", action="store_true",
                     help="measure every reachable file and report registry disagreement")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--engine", choices=sorted(VALID_ENGINES),
+                    help="ask the ENGINE question instead: does this engine reach --at? "
+                         "Requires --element (and --ion).")
+    ap.add_argument("--element")
+    ap.add_argument("--ion", default="I")
     args = ap.parse_args(argv)
 
+    if args.engine:
+        if not (args.element and args.at):
+            ap.error("--engine needs --element and at least one --at")
+        tab = load_engine_coverage()
+        for w in args.at:
+            print(engine_reach(args.element, args.ion, args.engine, w, tab).why())
+        return 0
     if args.verify:
         return verify(args.star)
     if args.list or not args.at:
