@@ -59,8 +59,28 @@ from pipeline.measure.synthesis import MIN_SENSITIVITY  # noqa: E402
 CANONICAL_GF_LO_A = 3780.0
 
 
+#: iSpec returns exactly 1e-10 at the FIRST and LAST pixel of every synthesis window.
+#: Measured, and not a near-UV quirk: the optical GES path at 5500-5502 A does the same
+#: (RYA-759). It is a boundary sentinel, not flux. Left in, it makes the deepest point of
+#: every window the window's own edge, and any integration over the full window carries
+#: two spurious zero-flux pixels. Trimmed here, counted, and reported.
+EDGE_SENTINEL = 1e-8
+
+
 class NearUVSynthesisError(RuntimeError):
     """A near-UV synthesis that cannot be believed. Never returns a quiet zero."""
+
+
+def trim_edge_sentinels(wave_A, flux):
+    """Drop iSpec's leading/trailing 1e-10 boundary pixels. Returns (wave, flux, n)."""
+    f = np.asarray(flux, dtype=float)
+    w = np.asarray(wave_A, dtype=float)
+    lo, hi = 0, len(f)
+    while lo < hi and (not np.isfinite(f[lo]) or abs(f[lo]) <= EDGE_SENTINEL):
+        lo += 1
+    while hi > lo and (not np.isfinite(f[hi - 1]) or abs(f[hi - 1]) <= EDGE_SENTINEL):
+        hi -= 1
+    return w[lo:hi], f[lo:hi], int(lo + (len(f) - hi))
 
 
 def assert_atmosphere(atmosphere, *, teff: float, logg: float, feh: float,
@@ -222,16 +242,27 @@ def synthesize_band(context: dict, lo_A: float, hi_A: float, *, element: str,
               vsini=float(context['vsini']),
               tmp_dir=context.get('tmp_dir', '/tmp/ispec_codex_synth'))
 
-    flux = assert_usable_flux(
+    raw = assert_usable_flux(
         _synth_flux_at_abund(wave_A / 10.0, trial_A=float(trial_A), **kw),
         where=f"{element} {lo_A:.1f}-{hi_A:.1f} A @ A={trial_A:.3f}")
+    wave_A, flux, n_trim = trim_edge_sentinels(wave_A, raw)
+    trace_check('edge_sentinels_trimmed', True,
+                detail=f"dropped {n_trim} boundary pixel(s) at iSpec's {EDGE_SENTINEL:g} "
+                       f"sentinel", n_trimmed=n_trim)
+    if flux.size == 0:
+        raise NearUVSynthesisError(
+            f"{element} {lo_A:.1f}-{hi_A:.1f} A: every pixel was a boundary sentinel — "
+            f"nothing was synthesised.")
 
     sens = float('nan')
     if check_sensitivity:
-        f_lo = _synth_flux_at_abund(wave_A / 10.0, trial_A=float(trial_A) - 0.5, **kw)
-        f_hi = _synth_flux_at_abund(wave_A / 10.0, trial_A=float(trial_A) + 0.5, **kw)
-        sens = assert_sensitive(f_lo, f_hi,
+        w_nm = wave_A / 10.0
+        f_lo = _synth_flux_at_abund(w_nm, trial_A=float(trial_A) - 0.5, **kw)
+        f_hi = _synth_flux_at_abund(w_nm, trial_A=float(trial_A) + 0.5, **kw)
+        # Trim by INDEX, not by value: a genuinely saturated core can sit near zero, and
+        # comparing differently-trimmed arrays would compare different wavelengths.
+        sens = assert_sensitive(f_lo[1:-1], f_hi[1:-1],
                                 where=f"{element} {lo_A:.1f}-{hi_A:.1f} A")
 
     return {'wave_A': wave_A, 'flux': flux, 'n_lines_in_band': n_band,
-            'sensitivity': sens}
+            'sensitivity': sens, 'n_edge_trimmed': n_trim}
