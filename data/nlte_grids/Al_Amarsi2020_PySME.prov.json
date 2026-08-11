@@ -2,7 +2,7 @@
   "ticket": "RYA-402",
   "element": "Al",
   "ion": 1,
-  "what": "Al I 1D non-LTE abundance corrections (delta_nlte = A_NLTE - A_LTE) for the subordinate doublet 6696.023 / 6698.673, derived by synthesising NLTE vs LTE in PySME from the Amarsi-2020 departure grid (pipeline/pysme_nlte.py). Family-B element (Option 2, PySME).",
+  "what": "Al I 1D non-LTE abundance corrections (delta_nlte = A_NLTE - A_LTE) for the subordinate doublet 6696.023 / 6698.673 (RYA-402) and, added by RYA-773, the clean doublet 7835.309 / 7836.134 (3d 2D -> 6f 2F*) and 8772.865 / 8773.897 (3d 2D -> 5f 2F*), derived by synthesising NLTE vs LTE in PySME from the Amarsi-2020 departure grid (pipeline/pysme_nlte.py). Family-B element (Option 2, PySME).",
   "model_atom": "Nordlander & Lind 2017 (A&A 607, A75) Al I model atom, as used in the Amarsi et al. 2020 (A&A 642, A62) GALAH departure grid (Zenodo v3, record 3982506).",
   "derivation": "PySME 1.0.1 + SME backend 6.13, MARCS marcs2012 grid. delta = A_used - A* where EW_LTE(A*) = EW_NLTE (NLTE strengthens these lines slightly -> small negative correction).",
   "validation": {
@@ -13,10 +13,51 @@
   "grid": {
     "file": "Al_Amarsi2020_PySME.csv",
     "schema": "element, ion, wave_A, teff_K, logg, feh, delta_nlte",
-    "nodes": "9 (Teff 5300-6200, logg 4.0-4.7, [Fe/H] -0.3..+0.3) spanning the FGK-dwarf range incl. solar + 55 Cnc; LinearND-interpolated per wave by the registry.",
-    "delta_range": {"6696.023": [-0.036, -0.010], "6698.673": [-0.025, -0.006]},
-    "trend": "more negative at cooler Teff, less at hotter — consistent with Nordlander & Lind 2017."
+    "nodes": "11 (Teff 5100-6200, logg 4.0-4.7, [Fe/H] -0.3..0.4) spanning the FGK-dwarf range incl. solar + 55 Cnc; LinearND-interpolated per wave by the registry.",
+    "delta_range": {
+      "6696.023": [
+        -0.0394,
+        -0.0096
+      ],
+      "6698.673": [
+        -0.0264,
+        -0.0061
+      ],
+      "7835.309": [
+        -0.0309,
+        -0.0094
+      ],
+      "7836.134": [
+        -0.0363,
+        -0.0116
+      ],
+      "8772.865": [
+        -0.0517,
+        -0.0156
+      ],
+      "8773.897": [
+        -0.0655,
+        -0.0259
+      ]
+    },
+    "trend": "more negative at cooler Teff, less at hotter \u2014 consistent with Nordlander & Lind 2017."
   },
   "registered": "config.constants.NLTE_CORRECTION_ELEMENTS['Al'] (flag NLTE_Amarsi2020_PySME_1D); Beast YAML physics_regime_rya400.yaml Al verdict flipped GET-GRID -> LOCKED.",
-  "derived": "2026-06-21"
+  "derived": "2026-06-21",
+  "extensions": [
+    {
+      "ticket": "RYA-773",
+      "added_waves": [
+        7835.309,
+        7836.134,
+        8772.865,
+        8773.897
+      ],
+      "why": "The extract served 6696/6698 while the pipeline's clean, multi-arm corroborated lines are 7835/7836 + 8772/8773 (RYA-708/716) -- Al's best data and Al's NLTE coverage did not overlap, so 3 of 4 in-aggregate lines were dispositioned ENGINE-A UNCOVERED and the Engine-A product rested on one line.",
+      "level_reach": "scripts/rya773_al_level_reach.py: every level involved is already in the Nordlander & Lind 2017 atom -- 3d 2D (idx 7/8), 5f 2F* (23/24), 6f 2F* (32/33) -- to within 54 ueV. The upper TERM is fixed by the E1 selection rule, not by energy: 5g/6g 2G sit 3.4-5.5 meV away but are dipole-forbidden from a 2D lower. No new or enlarged model atom was needed.",
+      "non_regression": "The 22 pre-existing rows are carried through unchanged. 6696/6698 were re-derived at solar and compared against the banked -0.0275 / -0.0171.",
+      "generator": "scripts/rya773_extend_al_grid.py --write",
+      "derived": "2026-08-11"
+    }
+  ]
 }
