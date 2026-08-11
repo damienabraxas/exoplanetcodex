@@ -132,10 +132,24 @@ def ges_ion_code(ion: str) -> int:
     return _ARABIC[_norm_ion(ion)]
 
 
-def _git_head() -> str:
+#: Committed paths this table is derived FROM. The provenance line pins these, not HEAD.
+_INPUT_PATHS = ("data/nlte_grids", "data/curation/nlte_grid_availability.csv")
+
+
+def _inputs_commit() -> str:
+    """The commit that last changed the INPUTS, not the current checkout.
+
+    Stamping `git rev-parse HEAD` here was self-defeating: committing the artifact moves
+    HEAD, so the very next `--check` reported DIFFERS on a byte-identical table and the
+    determinism contract could never be satisfied. The tracker generator already models
+    the right answer -- it records the provenance of its SOURCE artifact rather than of
+    the working tree -- so this pins the extract set instead. It moves when the thing
+    being described moves, which is the only time this table should change.
+    """
     try:
-        return subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
-                              capture_output=True, text=True, check=True).stdout.strip()
+        return subprocess.run(
+            ["git", "log", "-1", "--format=%h", "--", *_INPUT_PATHS],
+            cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip() or "none"
     except Exception:                                   # noqa: BLE001
         return "unknown"
 
@@ -505,7 +519,8 @@ def render(rows: list[dict]) -> str:
         "# n_lines_catalogued is the GES in-band denominator; a 0 there is OUR linelist's\n"
         "# limit, not the grid's (the 9199.9 A wall is GES, atom.fe607a reaches 20000 A).\n"
         f"# bands: pipeline.band_policy · reach reader: scripts/rya763_level_mapping.py\n"
-        f"# generated at {_git_head()} on {platform.node()}\n")
+        f"# extracts @ {_inputs_commit()} · decks on {platform.node()}: "
+        f"{GRID_DIR.name} + {GERBER_DIR.name}\n")
     body = pd.DataFrame(rows, columns=list(COLUMNS)).to_csv(index=False,
                                                             lineterminator="\n")
     return head + body
