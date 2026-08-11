@@ -62,14 +62,15 @@ def test_classify_keeps_the_four_states_apart():
     assert gen.classify(3, 0, 10, "label_Fe.txt", "")[0] == SERVED
     # reachable but not extracted: the levels cover it, no extract does
     assert gen.classify(0, 7, 10, "label_Fe.txt", "")[0] == REACHABLE_NOT_EXTRACTED
-    # uncovered: catalogued lines exist, the model carries none of them
-    assert gen.classify(0, 0, 10, "label_Fe.txt", "")[0] == UNCOVERED
+    # uncovered: catalogued lines exist, the table answers for some endpoints (so the
+    # key works) and carries neither level of any line
+    assert gen.classify(0, 0, 10, "label_Fe.txt", "", 4)[0] == UNCOVERED
     # NOT decidable -- no local level asset. This is Fe/MPIA, and calling it UNCOVERED
     # would be the false "no coverage" the ticket exists to end.
-    assert gen.classify(0, 0, 10, "", "web-service supplier")[0] == REACH_UNKNOWN
+    assert gen.classify(0, 0, 10, "", "web-service supplier", 0)[0] == REACH_UNKNOWN
     # NOT decidable -- no catalogued line in band. A zero here measures the LINELIST's
     # span, not the grid's (the 9199.9 A wall is GES; atom.fe607a reaches 20000 A).
-    state, note = gen.classify(0, 0, 0, "atom.fe607a", "")
+    state, note = gen.classify(0, 0, 0, "atom.fe607a", "", 0)
     assert state == REACH_UNKNOWN
     assert "LINELIST" in note
 
@@ -78,7 +79,37 @@ def test_uncovered_requires_a_decidable_reach():
     """UNCOVERED must never be reachable without a level asset AND a live denominator."""
     gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
     for level, cat in (("", 10), ("", 0), ("atom.fe607a", 0)):
-        assert gen.classify(0, 0, cat, level, "why")[0] != UNCOVERED
+        assert gen.classify(0, 0, cat, level, "why", 0)[0] != UNCOVERED
+
+
+def test_a_key_that_addresses_nothing_is_not_an_absence():
+    """The Fe II super-level defect, caught on the first real run.
+
+    The Gerber atoms pack higher ionisation stages into super-levels whose statistical
+    weight is the sum of the merged levels', so J = (G-1)/2 is not a J (Fe II reads
+    14.5, 27.5) and not one endpoint resolves. Writing UNCOVERED there would have
+    claimed we cannot model Fe II in the optical -- the ionisation arbiter, measured in
+    production. Zero partial matches means the key failed, not that the physics is gone.
+    """
+    gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    state, note = gen.classify(0, 0, 8870, "atom.fe607a", "", 0)
+    assert state == REACH_UNKNOWN
+    assert "super-level" in note
+    # ...but a table that answers for SOME endpoints and lacks the others IS reporting a
+    # real absence, and must still say so. This is RYA-763's Fe I IR result.
+    state, note = gen.classify(0, 0, 5871, "atom.fe607a", "", 4189)
+    assert state == UNCOVERED
+    assert "resolve one endpoint" in note
+
+
+def test_ion_code_does_not_fold_every_stage_onto_two():
+    """`1 if ion == 'I' else 2` mapped Fe III onto Fe 2, so the Fe III rows carried
+    Fe II's catalogued count. Caught on the first real run."""
+    gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    assert gen.ges_ion_code("I") == 1
+    assert gen.ges_ion_code("II") == 2
+    assert gen.ges_ion_code("III") == 3
+    assert gen.ges_ion_code("III") != gen.ges_ion_code("II")
 
 
 # ── the reader helper ────────────────────────────────────────────────────────
