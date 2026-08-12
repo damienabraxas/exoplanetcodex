@@ -85,7 +85,17 @@ ENGINE_REJECTED_SPECIES = {
     'H': ("Turbospectrum computes hydrogen profiles from Stehle's tables and rejects "
           "the near-limit Balmer members (3652-3771 A) this extract carries: "
           "'wrong H line data file!', synthesis aborts. Excluding H I is what makes "
-          "3700-3780 A synthesise at all."),
+          "3700-3780 A synthesise at all. CONFIRMED FOR THE PASCHEN SERIES TOO "
+          "(RYA-762, measured): the same abort fires on the IR members (E_low 12.088 eV "
+          "-- Pa-gamma 10938, Pa-beta 12818). Tested head-to-head in 12800-12830 A -- "
+          "without H I the window synthesises clean (1499 points, flux 0.666-0.980); "
+          "with H I bsyn prints 'wrong H line data file!' and dies. So the exclusion is "
+          "an ENGINE property, not a near-UV one, and the rule generalises even though "
+          "the evidence above was gathered in one band. "
+          "CONSEQUENCE THAT MUST TRAVEL WITH IT: the excluded lines are REAL solar "
+          "features, so any metal line close enough to sit in their wings has an "
+          "unmodelled neighbour -- Fe I 12807.15/12808.24 are 11 A from Pa-beta. That is "
+          "a stated systematic for those lines, not a reason to put H I back."),
 }
 
 #: Roman → integer ionization stage. iSpec's `ion` column is 1 for neutral.
