@@ -70,14 +70,17 @@ KP_DIR = _resolve_kp_dir()
 # normalisation histories is a reason two instruments can disagree methodologically.
 PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False, "iag_fts_solar_atlas": True}
 
-TELLURIC = [(7600, 7640, "O2 A-band"), (9280, 9600, "H2O"), (11120, 11560, "H2O")]
+# RYA-786: the band set lives in pipeline/telluric_policy.py and is imported, never
+# re-typed. The list that used to sit here was both incomplete and too narrow — it had
+# the O2 A-band at 7600-7640 (it runs to ~7685), no O2 B-band at all, and was missing the
+# ~7160-7340 and ~8100-8400 H2O complexes. A line in an unlisted band gets measured as if
+# it were clean, which is the silent version of this bug.
+from pipeline.telluric_policy import (TELLURIC_BANDS as TELLURIC,  # noqa: E402
+                                      exclusion as _telluric_exclusion)
 
 
 def telluric_reason(wave: float) -> str:
-    for lo, hi, name in TELLURIC:
-        if lo <= wave <= hi:
-            return f"inside the {name} telluric band ({lo}-{hi} A); not measurable here"
-    return ""
+    return _telluric_exclusion(wave)
 
 
 def kp_segments() -> list[tuple[float, float, Path]]:
