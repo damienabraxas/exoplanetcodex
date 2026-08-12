@@ -353,3 +353,31 @@ artifacts:
       (14 of 14 disputed lines read high, p = 6.1e-05), and the Fe IR 1D-LTE median before and
       after quarantining. Kept beside the CSV so the headline numbers are not re-derived by
       hand from it.
+
+  - artifact: rya782/FeI_IR_rew_trend.csv
+    generator: scripts/rya782_rew_trend.py
+    invocation: python scripts/rya782_rew_trend.py --lines-csv <FeI_6910_9199 1D-LTE per-line artifact>
+    ticket: RYA-782
+    note: >-
+      Per-line table behind the RYA-782 adjudication of the "+0.384 REW slope". Every row
+      carries the measured abundance and REW, the gf source and its published accuracy, the
+      distance from the measured centroid to the transition the pool credits (mismatch_mA --
+      a misidentification signal), a Boltzmann-weighted strongest-neighbour blend ratio, and
+      a robust z against the pool median. The verdict rests on this table: the slope is not a
+      curve-of-growth systematic but leverage from seven catastrophic lines concentrated in
+      the K07 (+/-0.20 dex) tier, which the delivered laboratory-tier product excludes.
+      The `--lines-csv` input is passed in, not hardcoded -- the Fe IR band product is not on
+      main (RYA-783 owns emitting it), so this artifact records the analysis, not the band
+      product. Same pattern as scripts/rya760_source_adjudication.py and rya780.
+
+  - artifact: rya782/FeI_IR_rew_trend_summary.json
+    generator: scripts/rya782_rew_trend.py
+    invocation: python scripts/rya782_rew_trend.py --lines-csv <FeI_6910_9199 1D-LTE per-line artifact>
+    ticket: RYA-782
+    note: >-
+      Machine-readable summary of the same run: the reproduced filed coefficient, the
+      refit with per-source dummies in place of the binary is_loose, the univariate slope
+      per gf population, slope survival under clipping and K07 removal, the three proposed
+      remedies as falsifiable tests (strong-line cut, blend regressor, microturbulence
+      locality), and the stated error-budget term with its 95% upper bound on a hidden
+      slope. Kept beside the CSV so the headline numbers are not re-derived by hand.

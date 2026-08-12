@@ -1,0 +1,495 @@
+{
+  "band_A": [
+    6910.0,
+    9199.9
+  ],
+  "error_budget": {
+    "best_estimate_swing_dex": 0.1213,
+    "laboratory_rew_slope": 0.231562,
+    "rew_span_dex": 0.5237,
+    "scatter_contribution_dex": 0.0341,
+    "se": 0.199293,
+    "t": 1.1619,
+    "upper95_slope": 0.6222,
+    "upper95_swing_dex": 0.3258
+  },
+  "filed_regression": {
+    "excitation_potential_eV": {
+      "coef": 0.016699,
+      "se": 0.035409,
+      "t": 0.4716
+    },
+    "intercept": {
+      "coef": 9.441449,
+      "se": 0.770738,
+      "t": 12.2499
+    },
+    "is_loose": {
+      "coef": 0.293817,
+      "se": 0.074069,
+      "t": 3.9668
+    },
+    "n": 99,
+    "r2": 0.156262,
+    "resid_sd": 0.311027,
+    "rew": {
+      "coef": 0.383794,
+      "se": 0.150715,
+      "t": 2.5465
+    }
+  },
+  "inputs": {
+    "canonical_gf": "/Users/ryanschmitt/Documents/Exoplanet Codex/exoplanetcodex-rya782/data/linelists/canonical_gf.csv",
+    "lines_csv": "/private/tmp/claude-501/-Users-ryanschmitt/263fb141-a4f2-46ca-a88f-486577ba93d8/scratchpad/in/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv"
+  },
+  "n_catastrophic": 7,
+  "n_laboratory": 35,
+  "n_pool": 99,
+  "per_source_regression": {
+    "excitation_potential_eV": {
+      "coef": 0.02836,
+      "se": 0.038032,
+      "t": 0.7457
+    },
+    "intercept": {
+      "coef": 9.771533,
+      "se": 0.800957,
+      "t": 12.1998
+    },
+    "is_FMW": {
+      "coef": 0.427514,
+      "se": 0.113126,
+      "t": 3.7791
+    },
+    "is_GESB82c": {
+      "coef": 0.387153,
+      "se": 0.233457,
+      "t": 1.6583
+    },
+    "is_K07": {
+      "coef": 0.288938,
+      "se": 0.079802,
+      "t": 3.6207
+    },
+    "is_MRW": {
+      "coef": 0.012629,
+      "se": 0.18593,
+      "t": 0.0679
+    },
+    "n": 99,
+    "r2": 0.195817,
+    "resid_sd": 0.30856,
+    "rew": {
+      "coef": 0.457681,
+      "se": 0.155557,
+      "t": 2.9422
+    }
+  },
+  "pool_rew_range": [
+    -5.9419,
+    -4.9002
+  ],
+  "remedy_a_vmic_locality": {
+    "all sources / clearly linear (<=-5.2)": {
+      "boot95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false,
+      "n": 49,
+      "se": 0.292397,
+      "slope": 0.624066,
+      "t": 2.1343
+    },
+    "all sources / mid  (-5.2..-5.0)": {
+      "boot95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false,
+      "n": 35,
+      "se": 0.750289,
+      "slope": 0.733664,
+      "t": 0.9778
+    },
+    "all sources / near knee (-5.1..-4.9)": {
+      "boot95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false,
+      "n": 32,
+      "se": 0.93161,
+      "slope": -0.282581,
+      "t": -0.3033
+    },
+    "laboratory only / clearly linear (<=-5.2)": {
+      "boot95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false,
+      "n": 8,
+      "se": 1.425711,
+      "slope": -0.144391,
+      "t": -0.1013
+    },
+    "laboratory only / mid  (-5.2..-5.0)": {
+      "boot95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false,
+      "n": 16,
+      "se": 0.433726,
+      "slope": 0.976774,
+      "t": 2.2521
+    },
+    "laboratory only / near knee (-5.1..-4.9)": {
+      "boot95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false,
+      "n": 20,
+      "se": 0.46171,
+      "slope": 0.62092,
+      "t": 1.3448
+    }
+  },
+  "remedy_b_strong_line_cut": {
+    "EW<100mA": {
+      "excitation_potential_eV": {
+        "coef": 0.018824,
+        "se": 0.036338,
+        "t": 0.518
+      },
+      "intercept": {
+        "coef": 9.398485,
+        "se": 0.789206,
+        "t": 11.9088
+      },
+      "is_loose": {
+        "coef": 0.296074,
+        "se": 0.075129,
+        "t": 3.9409
+      },
+      "n": 97,
+      "r2": 0.157193,
+      "resid_sd": 0.31416,
+      "rew": {
+        "coef": 0.377887,
+        "se": 0.153269,
+        "t": 2.4655
+      }
+    },
+    "EW<60mA": {
+      "excitation_potential_eV": {
+        "coef": 0.018101,
+        "se": 0.051149,
+        "t": 0.3539
+      },
+      "intercept": {
+        "coef": 9.908345,
+        "se": 1.211785,
+        "t": 8.1767
+      },
+      "is_loose": {
+        "coef": 0.305334,
+        "se": 0.107938,
+        "t": 2.8288
+      },
+      "n": 64,
+      "r2": 0.145167,
+      "resid_sd": 0.336183,
+      "rew": {
+        "coef": 0.472484,
+        "se": 0.226161,
+        "t": 2.0892
+      }
+    },
+    "EW<80mA": {
+      "excitation_potential_eV": {
+        "coef": 0.025372,
+        "se": 0.03997,
+        "t": 0.6348
+      },
+      "intercept": {
+        "coef": 9.499604,
+        "se": 0.883764,
+        "t": 10.749
+      },
+      "is_loose": {
+        "coef": 0.298103,
+        "se": 0.083684,
+        "t": 3.5622
+      },
+      "n": 87,
+      "r2": 0.154397,
+      "resid_sd": 0.328658,
+      "rew": {
+        "coef": 0.402157,
+        "se": 0.169514,
+        "t": 2.3724
+      }
+    }
+  },
+  "remedy_c_blend": {
+    "with_blend": {
+      "blend_ratio_dex": {
+        "coef": -0.007094,
+        "se": 0.01077,
+        "t": -0.6587
+      },
+      "excitation_potential_eV": {
+        "coef": 0.002385,
+        "se": 0.042369,
+        "t": 0.0563
+      },
+      "intercept": {
+        "coef": 9.279685,
+        "se": 0.913559,
+        "t": 10.1577
+      },
+      "is_loose": {
+        "coef": 0.22055,
+        "se": 0.095553,
+        "t": 2.3081
+      },
+      "n": 73,
+      "r2": 0.084964,
+      "resid_sd": 0.332794,
+      "rew": {
+        "coef": 0.333969,
+        "se": 0.17944,
+        "t": 1.8612
+      }
+    },
+    "without": {
+      "excitation_potential_eV": {
+        "coef": 0.004101,
+        "se": 0.042115,
+        "t": 0.0974
+      },
+      "intercept": {
+        "coef": 9.206519,
+        "se": 0.903053,
+        "t": 10.1949
+      },
+      "is_loose": {
+        "coef": 0.206401,
+        "se": 0.092724,
+        "t": 2.226
+      },
+      "n": 73,
+      "r2": 0.079126,
+      "resid_sd": 0.331426,
+      "rew": {
+        "coef": 0.316867,
+        "se": 0.176822,
+        "t": 1.792
+      }
+    }
+  },
+  "rew_saturation_ceiling": -4.9,
+  "slope_by_population": {
+    "ALL sources (mixed scales)": {
+      "boot95": [
+        -0.075467,
+        0.284979
+      ],
+      "excludes_zero": false,
+      "n": 99,
+      "se": 0.144372,
+      "slope": 0.102837,
+      "t": 0.7123
+    },
+    "FMW+GESB82c (0.08)": {
+      "boot95": [
+        -0.109672,
+        0.854814
+      ],
+      "excludes_zero": false,
+      "n": 14,
+      "se": 0.288747,
+      "slope": 0.37449,
+      "t": 1.2969
+    },
+    "K07 only (0.20)": {
+      "boot95": [
+        0.220781,
+        0.966307
+      ],
+      "excludes_zero": true,
+      "n": 47,
+      "se": 0.242959,
+      "slope": 0.541773,
+      "t": 2.2299
+    },
+    "LABORATORY only (<=0.04)": {
+      "boot95": [
+        -0.245504,
+        0.849558
+      ],
+      "excludes_zero": false,
+      "n": 35,
+      "se": 0.186725,
+      "slope": 0.23906,
+      "t": 1.2803
+    },
+    "LOOSE only (>0.04)": {
+      "boot95": [
+        0.144294,
+        0.738182
+      ],
+      "excludes_zero": true,
+      "n": 64,
+      "se": 0.19466,
+      "slope": 0.406557,
+      "t": 2.0885
+    }
+  },
+  "slope_survival": {
+    "3-sigma clipped": {
+      "excitation_potential_eV": {
+        "coef": -0.036854,
+        "se": 0.021393,
+        "t": -1.7227
+      },
+      "intercept": {
+        "coef": 8.359965,
+        "se": 0.462716,
+        "t": 18.0672
+      },
+      "is_loose": {
+        "coef": 0.156563,
+        "se": 0.045145,
+        "t": 3.468
+      },
+      "n": 92,
+      "r2": 0.134603,
+      "resid_sd": 0.181229,
+      "rew": {
+        "coef": 0.12667,
+        "se": 0.091148,
+        "t": 1.3897
+      }
+    },
+    "K07 removed": {
+      "excitation_potential_eV": {
+        "coef": -0.007176,
+        "se": 0.033543,
+        "t": -0.2139
+      },
+      "intercept": {
+        "coef": 7.992652,
+        "se": 0.782557,
+        "t": 10.2135
+      },
+      "is_loose": {
+        "coef": 0.268706,
+        "se": 0.065744,
+        "t": 4.0872
+      },
+      "n": 52,
+      "r2": 0.296708,
+      "resid_sd": 0.1917,
+      "rew": {
+        "coef": 0.08079,
+        "se": 0.157534,
+        "t": 0.5128
+      }
+    },
+    "K07 removed + 3-sigma clipped": {
+      "excitation_potential_eV": {
+        "coef": -0.007526,
+        "se": 0.026637,
+        "t": -0.2825
+      },
+      "intercept": {
+        "coef": 7.338261,
+        "se": 0.626023,
+        "t": 11.722
+      },
+      "is_loose": {
+        "coef": 0.166393,
+        "se": 0.05436,
+        "t": 3.061
+      },
+      "n": 49,
+      "r2": 0.24953,
+      "resid_sd": 0.149697,
+      "rew": {
+        "coef": -0.051309,
+        "se": 0.126113,
+        "t": -0.4068
+      }
+    },
+    "LABORATORY pool (the delivered product)": {
+      "excitation_potential_eV": {
+        "coef": -0.004556,
+        "se": 0.03735,
+        "t": -0.122
+      },
+      "intercept": {
+        "coef": 8.75036,
+        "se": 0.980147,
+        "t": 8.9276
+      },
+      "n": 35,
+      "r2": 0.047763,
+      "resid_sd": 0.162557,
+      "rew": {
+        "coef": 0.231562,
+        "se": 0.199293,
+        "t": 1.1619
+      }
+    },
+    "LABORATORY pool, 3-sigma clipped": {
+      "excitation_potential_eV": {
+        "coef": -0.011561,
+        "se": 0.030566,
+        "t": -0.3782
+      },
+      "intercept": {
+        "coef": 7.655705,
+        "se": 0.843912,
+        "t": 9.0717
+      },
+      "n": 34,
+      "r2": 0.005537,
+      "resid_sd": 0.132826,
+      "rew": {
+        "coef": 0.00795,
+        "se": 0.171672,
+        "t": 0.0463
+      }
+    },
+    "as filed": {
+      "excitation_potential_eV": {
+        "coef": 0.016699,
+        "se": 0.035409,
+        "t": 0.4716
+      },
+      "intercept": {
+        "coef": 9.441449,
+        "se": 0.770738,
+        "t": 12.2499
+      },
+      "is_loose": {
+        "coef": 0.293817,
+        "se": 0.074069,
+        "t": 3.9668
+      },
+      "n": 99,
+      "r2": 0.156262,
+      "resid_sd": 0.311027,
+      "rew": {
+        "coef": 0.383794,
+        "se": 0.150715,
+        "t": 2.5465
+      }
+    }
+  },
+  "ticket": "RYA-782"
+}
