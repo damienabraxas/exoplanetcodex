@@ -234,7 +234,7 @@ class SynthesisHandler(MeasurementHandler):
         # an enumerated O2/H2O band is quarantined as a stated physics exclusion (RYA-777),
         # never measured and never silently corrected. Lines outside them run.
         from pipeline.telluric_policy import exclusion as _telluric_exclusion
-        _why = _telluric_exclusion(c)
+        _why = _telluric_exclusion(c, instrument)
         if _why:
             return self._quarantine_telluric(element, ion, c, instrument, _why)
 

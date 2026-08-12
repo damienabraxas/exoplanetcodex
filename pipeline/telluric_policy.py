@@ -68,18 +68,59 @@ TELLURIC_BANDS: tuple[tuple[float, float, str], ...] = (
 QUARANTINE_TAG = "QUARANTINED-TELLURIC"
 
 
-def exclusion(wave_A: float) -> str:
-    """Reason string if `wave_A` sits inside a telluric band, else ''."""
+def basis(instrument: str) -> str:
+    """`telluric_basis` for this instrument, from the catalog. Loud on unknown."""
+    if "df" not in _catalog_cache:
+        _catalog_cache["df"] = pd.read_csv(CATALOG)
+    df = _catalog_cache["df"]
+    hit = df[df.instrument_id.astype(str) == str(instrument)]
+    if not len(hit):
+        raise KeyError(
+            f"instrument {instrument!r} is not in {CATALOG.name}; its telluric basis is "
+            f"unknown and must not be assumed (RYA-786).")
+    return str(hit.iloc[0].get("telluric_basis", "unspecified")).strip().lower()
+
+
+def exclusion(wave_A: float, instrument: str | None = None) -> str:
+    """Reason string if this line must be excluded for tellurics, else ''.
+
+    ⚠️ THE BASIS DECIDES, NOT THE WAVELENGTH. `telluric_required = no` was carrying two
+    states that behave OPPOSITELY at the line level, and treating them alike threw away
+    real data:
+
+        corrected        the tellurics are REMOVED in the data product, so a line inside
+                         an O2/H2O band is ordinary solar spectrum and IS measurable
+        line_selection   the tellurics are PRESENT and we exclude the affected lines
+
+    Measured on our own two solar atlases, same windows:
+
+        region            KP min  KP mean  KP<0.5    IAG min  IAG mean  IAG<0.5
+        O2 A-band core    -0.003    0.453   51.3%      0.458     0.988     0.1%
+        H2O 9280-9600     -0.001    0.663   23.1%      0.547     0.971     0.0%
+        clean continuum    0.396    0.954    0.2%      0.462     0.971     0.1%
+
+    Kitt Peak flux is driven to ZERO inside the bands — saturated telluric absorption, not
+    a stellar spectrum — so excluding there is correct. IAG sits at continuum in the same
+    bands while showing the SAME solar line depths in clean regions, so its correction
+    removed tellurics without erasing solar structure and those lines are usable.
+
+    An instrument whose basis we do not positively know is treated as `line_selection`:
+    excluding a good line costs coverage, measuring a telluric one costs the number.
+    """
     for lo, hi, name in TELLURIC_BANDS:
         if lo <= float(wave_A) <= hi:
-            return (f"{QUARANTINE_TAG}: inside the {name} ({lo:.0f}-{hi:.0f} A). The "
-                    f"observed flux there is not stellar, so the line is excluded by "
-                    f"per-line selection (RYA-460/786), not corrected.")
+            b = basis(instrument) if instrument else "unspecified"
+            if b in ("corrected", "not_applicable"):
+                return ""
+            return (f"{QUARANTINE_TAG}: inside the {name} ({lo:.0f}-{hi:.0f} A) and "
+                    f"{instrument or 'this instrument'} is telluric_basis={b}, so the "
+                    f"observed flux there is not stellar. Excluded by per-line selection "
+                    f"(RYA-460/786), not corrected.")
     return ""
 
 
-def in_telluric_band(wave_A: float) -> bool:
-    return bool(exclusion(wave_A))
+def in_telluric_band(wave_A: float, instrument: str | None = None) -> bool:
+    return bool(exclusion(wave_A, instrument))
 
 
 _catalog_cache: dict = {}
