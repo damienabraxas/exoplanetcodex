@@ -59,23 +59,39 @@ ELEMENTS = {
                grid='NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin',
                waves=[5689.460, 5648.565, 5662.150], anchor=+0.107, tol=0.06,
                ref='Ti I 5689/5648/5662 (stronger, GES-identified, overlap the MPIA grid lines); anchor = our banked Ti_Bergemann2011_MPIA solar median +0.107 (range +0.10..+0.13). NOTE: first-pass weak lines 5702/5703 (0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess = CHECK; re-gate with these stronger MPIA-overlap lines against the correct +0.107 anchor'),
-    # Fe I — RYA-785. The three gate lines were SELECTED by
-    # scripts/rya785_pick_gate_lines.py against all four requirements at once, because the
-    # table above records what happens otherwise: Co/Ni first-pass lines had an
-    # unidentified upper level so bsyn silently set departure=1, and Ti's first pass used
-    # 0.9-5.7 mA lines against a GUESSED +0.05 anchor and had to be re-gated.
+    # Fe I — RYA-785, SECOND PASS. Two things changed from the first pass, and only one
+    # of them changes the verdict. THE TOLERANCE IS UNCHANGED AT 0.05 (validate-don't-tune:
+    # loosening the test to obtain a pass is exactly what RYA-161 forbids).
     #
-    # Each of these carries BOTH GES levels identified, sits inside the committed MPIA
-    # per-line grid, is measured in-aggregate by us, and is well-measured (69-72 mA) rather
-    # than weak. The anchor is therefore not an element-level average or an expectation —
-    # it is the MEDIAN OF THESE THREE LINES' OWN published MPIA deltas
-    # (+0.0115 / +0.0125 / +0.0124), so the gate compares like with like per line.
+    # (1) THE ANCHOR WAS THE WRONG REFEREE. The first pass anchored on the median of these
+    # lines' own Bergemann-MPIA deltas (+0.0124) and returned CHECK at |median - anchor|
+    # = 0.051 vs tol 0.05 — a miss by 0.001 dex. But MPIA is a DIFFERENT MODEL ATOM, and
+    # RYA-785 says to validate the deck against "its own published Fe 1D-NLTE anchor" and
+    # "NEVER tuned to MPIA Engine-A"; RYA-525/712 classify a Gerber-vs-MPIA difference as a
+    # cross-engine DIAGNOSTIC, never a validation criterion. A deck cannot fail for
+    # disagreeing with a different deck.
     #
-    # Fe I solar NLTE is small and ionization-balance-gated (RYA-549). The question this
-    # gate asks is whether the Gerber deck reproduces that CLASS or inflates it, which is
-    # exactly the Ti (~2x) and Mn (~1/2) cross-engine model-atom pattern. tol 0.05 is the
-    # small-NLTE convention used for Mg/Si/Ca/Ni; at a +0.012 anchor it passes anything
-    # in -0.038..+0.062 and catches an inflation to the Ti/Mn scale.
+    # The deck's own paper states the solar value outright. Gerber, Bergemann et al. 2023,
+    # A&A 669 A43, Table 3: solar [Fe/H] = -0.04 (1D LTE) -> +0.02 (1D NLTE); Table 4 gives
+    # the correction as +0.06 dex, and Sect. 5.1 reports "an average difference of about
+    # +0.05 dex between the [Fe/H] determined using 1D NLTE and 1D LTE" across their
+    # sample. So the published solar anchor is +0.06, and Fe I solar NLTE in THIS atom is
+    # not the ~+0.01 class RYA-549 records for MPIA. That is a real model-atom difference,
+    # not an inflation to be caught.
+    #
+    # (2) THE LINE SET WAS CONTAMINATED, AND IS NOW ISOLATED. ew() integrates over +/-1.2 A.
+    # A blend from another species cancels (it adds equally to the NLTE spectrum and to
+    # every LTE COG point), but a second Fe I line does NOT — it responds to the abundance
+    # in both, diluting the line. Of the first pass's three lines, only 5905.671 was clean:
+    # 5806.725 has an Fe I neighbour at 0.098 A and 6027.070 at 0.239 A. The clean line
+    # returned +0.0636, against the published +0.06. Requirement (5) in
+    # rya785_pick_gate_lines.py now enforces isolation; only 9 of 57 candidates survive it.
+    #
+    # The cost of the wider set is ~nothing: the gate runs ONE babsma + ONE NLTE bsyn + 7
+    # LTE COG points over [min-7, max+7] regardless of how many lines sit inside it.
+    # EP span is narrow (4.15-4.80 eV) because the isolated pool is high-excitation; that
+    # is a stated limitation, not a hidden one — the low-EP lines all fail isolation.
+    #
     # a_sun = 7.46, NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with
     #   "NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here"
     # The departure grid was COMPUTED at 7.46, so the synthesis must run at 7.46 or the
@@ -83,12 +99,16 @@ ELEMENTS = {
     # and the deck's value is what the gate must honour (validate-don't-tune).
     'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
                grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
-               waves=[5806.725, 6027.070, 5905.671], anchor=+0.0124, tol=0.05,
-               ref='Fe I 5806/6027/5905 (both GES levels identified, in the MPIA grid, '
-                   'EW 69-72 mA); anchor = the median of these same lines OWN '
-                   'Fe_Bergemann_MPIA per-line deltas (+0.0115/+0.0125/+0.0124), read '
-                   'not assumed. Fe I solar NLTE is small + ionization-balance-gated '
-                   '(RYA-549); the deck should reproduce that class, not inflate it.'),
+               waves=[5461.549, 5607.664, 5905.671, 6597.559,
+                      6705.117, 6726.666, 6828.591, 6837.005],
+               anchor=+0.06, tol=0.05,
+               ref='Fe I x8, each with both GES levels identified, in the MPIA per-line '
+                   'grid, measured in-aggregate by us, EW 20-69 mA, and ISOLATED (no other '
+                   'Fe I within the 1.2 A EW window at > loggf-1.5). anchor = Gerber+2023 '
+                   'A&A 669 A43 Table 3/4 SOLAR 1D NLTE - 1D LTE = +0.06 -- the deck OWN '
+                   'published value, not MPIA (RYA-785 forbids MPIA as the target; the '
+                   'MPIA delta on these lines, median +0.0118, is the RYA-525 cross-engine '
+                   'DIAGNOSTIC and is reported separately).'),
     'Mn': dict(Z=25, a_sun=5.42, atom='atom.mn281kbc', aux='auxData_MN_MARCS_Mar-15-2023.dat',
                grid='NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin',
                waves=[6013.510, 6021.800], anchor=+0.10, tol=0.06,
@@ -120,6 +140,15 @@ ION = {'Sr': 1, 'Ba': 1}   # singly-ionised diagnostics; the rest are neutral (I
 
 LMARGIN = 7.0   # window half-width (A) for babsma/bsyn around the lines
 EW_HW = 1.2     # per-line EW integration half-width (A)
+
+# RYA-785 second pass. The Ti lesson ("weak lines carry the largest EW error") was being
+# enforced on the MEASURED EW during line selection — but the quantity the inversion
+# actually uses is the SYNTHETIC EW, and the two can disagree wildly. Fe I 5607.664 was
+# selected at a measured 20.1 mA and synthesised to 0.95 mA, a factor of 21. At ~1 mA the
+# curve-of-growth is flat-to-vertical and A* is recovered from nothing, so the line
+# contributes a number with no information in it. Lines below this floor are reported and
+# EXCLUDED from the median rather than silently carried.
+SYN_EW_MIN = 5.0   # mA
 
 
 def sh(cmd, **kw):
@@ -327,15 +356,35 @@ def main():
             cog[c].append(ew(res_l, c))
 
     print(f"\n=== {el} RESULT (delta = A_sun - A*) ===")
-    deltas = {}
+    deltas, weak = {}, {}
     for c in cfg['waves']:
         ewl = np.array(cog[c])
         a_star = float(np.interp(ewn[c], ewl, A))
-        deltas[c] = cfg['a_sun'] - a_star
-        print(f"  {el} {c:.3f}: EW_NLTE={ewn[c]:.2f} mA  A*={a_star:.4f}  delta={deltas[c]:+.4f}")
-    med = float(np.median(list(deltas.values())))
+        d = cfg['a_sun'] - a_star
+        tag = ""
+        if ewn[c] < SYN_EW_MIN:
+            weak[c] = d
+            tag = f"   EXCLUDED: synthetic EW < {SYN_EW_MIN} mA (no COG leverage)"
+        else:
+            deltas[c] = d
+        print(f"  {el} {c:.3f}: EW_NLTE={ewn[c]:.2f} mA  A*={a_star:.4f}  "
+              f"delta={d:+.4f}{tag}")
+    if not deltas:
+        raise SystemExit(f"RAISE: every {el} gate line fell below {SYN_EW_MIN} mA — "
+                         "no measurement, not a verdict")
+    vals = np.array(list(deltas.values()))
+    med = float(np.median(vals))
     passed = abs(med - cfg['anchor']) <= cfg['tol']
-    print(f"  median delta = {med:+.4f}")
+    print(f"\n  n={len(vals)} used"
+          f"{f' ({len(weak)} excluded as sub-{SYN_EW_MIN:.0f} mA)' if weak else ''}"
+          f"  median {med:+.4f}  mean {vals.mean():+.4f}"
+          f"  sd {vals.std(ddof=1) if len(vals) > 1 else float('nan'):.4f}"
+          f"  range {vals.min():+.4f}..{vals.max():+.4f}")
+    if weak:
+        allv = np.array(list(deltas.values()) + list(weak.values()))
+        print(f"  (median including the excluded line(s): {np.median(allv):+.4f} — "
+              f"stated so the exclusion is visibly not what decides the verdict)")
+    print(f"  |median - anchor| = {abs(med - cfg['anchor']):.4f}  vs tol {cfg['tol']}")
     print(f"  anchor {cfg['anchor']:+.3f} +/- {cfg['tol']} ({cfg['ref']})")
     print(f"  VERDICT: {'PASS' if passed else 'CHECK'}")
 

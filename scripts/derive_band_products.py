@@ -225,11 +225,37 @@ def main() -> None:
     if a.skip_engine_b:
         print("\n[3] ENGINE-B — skipped (--skip-engine-b)")
     elif a.engine_b_deck == "gerber-nlte":
+        # RYA-785. The reason this refuses has CHANGED, and the old message is now false:
+        # the Fe deck IS provisioned and, as of the second pass, VALIDATED — it reproduces
+        # Gerber+2023's own published solar anchor (+0.06) to 0.0011 dex on 8 isolated
+        # lines. So "not provisioned" would be a wrong statement, and a wrong reason is
+        # worth as much as a wrong number.
+        #
+        # What is still missing is PLUMBING, named precisely so nobody re-derives it:
+        #   * iSpec's Turbospectrum wrapper DOES accept NLTE — `generate_spectrum(...,
+        #     nlte_departure_coefficients=...)` writes the departure + nlteinfo files;
+        #   * but `_fit_synth_flux`, which this driver's handler calls, has no NLTE
+        #     parameter at all, so there is nowhere to hand them in;
+        #   * and iSpec's own interpolator reads `input/dep-grid/{El}_nlte_grid_data.h5`,
+        #     which is EMPTY on Sirius — our deck is TS-native (atom.* + auxData + .bin),
+        #     a different format, currently consumed only by the gate's direct
+        #     interpol_modeles_nlte + bsyn calls.
+        #
+        # ⚠️ And iSpec fails SOFT here: an element whose linelist rows carry no NLTE label
+        # lands in `nlte_ignored` and the synthesis proceeds in LTE without raising. That is
+        # the RYA-764 trap (2,644 in-band Fe I lines with nlte_label_up='none' running
+        # silently in LTE). So the wiring owes a hard check on `nlte_available`, not just a
+        # successful call — which is exactly why this stays a refusal rather than a
+        # best-effort attempt. Returning the LTE synthesis under an NLTE label is still the
+        # single worst outcome available here.
         raise SystemExit(
-            "ENGINE-B deck 'gerber-nlte' is not provisioned: the TS-native Gerber "
-            "departure deck for this element has not been pulled (RYA-785 does it for Fe). "
-            "Refusing to run — returning the LTE synthesis under an NLTE label is the "
-            "single worst outcome available here. Use --engine-b-deck ts-lte, or wait.")
+            "ENGINE-B deck 'gerber-nlte' is VALIDATED but NOT WIRED. The Gerber deck "
+            "passed its RYA-785 gate (median +0.0589 vs the published Gerber+2023 solar "
+            "anchor +0.06, n=8 isolated lines), so the physics is cleared — but "
+            "`_fit_synth_flux` has no NLTE parameter and iSpec's dep-grid store is empty, "
+            "so there is no path from this driver to a real NLTE synthesis. Refusing: "
+            "returning the LTE synthesis under an NLTE label is the single worst outcome "
+            "available here. Use --engine-b-deck ts-lte. See RYA-785 for the wiring ticket.")
     else:
         print(f"\n[3] ENGINE-B — Turbospectrum LTE flux-fit "
               f"(deck={a.engine_b_deck}; NOT the Gerber NLTE deck)...")
