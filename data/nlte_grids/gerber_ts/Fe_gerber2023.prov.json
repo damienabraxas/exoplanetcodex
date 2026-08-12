@@ -1,0 +1,46 @@
+{
+  "ticket": "RYA-785",
+  "element": "Fe",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540). The payload was ALREADY STAGED on Sirius before this ticket: RYA-785 was filed saying atom.fe607a was 'AVAILABLE-NEVER-PULLED', but all three files were on disk. What was missing was this provenance record — the element status tracker reads the REGISTRATION, not the disk, so an unregistered-but-present deck reads as never fetched. Nothing was re-downloaded; the staged bytes were md5'd in place.",
+  "sirius_only": "Sirius /srv/codex/grids/nlte/gerber_ts/ only (RYA-526/567). The 3.9 GB .bin is symlinked out to /mnt/codex-data/gerber_overflow/ (the RYA-710 spill-over plan).",
+  "files": {
+    "model_atom": {
+      "name": "atom.fe607a",
+      "url": "https://keeper.mpdl.mpg.de/f/8bc18d80b2754d029aaa/?dl=1",
+      "md5": "d08dc8232ed68eec65f9bb6631e82ea8",
+      "note": "607 levels (548 Fe I, 58 Fe II, 1 Fe III), 12635 transitions; cut at log gf > -5 and lambda < 20000 A. Fe I levels from Kurucz, Fe II from Bertrand Plez."
+    },
+    "grid_1d_aux": {
+      "name": "auxData_Fe_MARCS_May-07-2021.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/fe366a514c9a4daf8f65/?dl=1",
+      "md5": "08c4284e3b69ce92208e5acaf9eb60fc",
+      "note": "15230 atmosphere nodes"
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid4TS_Fe_MARCS_May-07-2021.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/e7c115fa632d4c42a8b3/?dl=1",
+      "md5": "0766aac66cce0b7d797232cdfb31daf0",
+      "bytes": 1730747069,
+      "note": "unpacked .bin is 3.9 GB. Key name is grid_1d_bin_zip, NOT 1d_bin — the loader reads this key (RYA-772)."
+    }
+  },
+  "deck_abundance": {
+    "a_sun": 7.46,
+    "why": "NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here' — the departure coefficients were computed at 7.46, so the synthesis must run at 7.46 or they do not apply. A property of the deck, not a fitted value."
+  },
+  "gate": {
+    "ticket": "RYA-534 element-general gate",
+    "lines": "Fe I 5806.725 / 6027.070 / 5905.671 — selected by scripts/rya785_pick_gate_lines.py against four requirements at once: BOTH GES NLTE levels identified (the Co/Ni silent-departure=1 trap), inside the committed MPIA per-line grid (so the anchor is per-line), measured in-aggregate by us, and well-measured at 69-72 mA rather than weak (the Ti weak-line trap).",
+    "anchor": "+0.0124 (median of these same three lines' OWN Fe_Bergemann_MPIA per-line deltas: +0.0115 / +0.0125 / +0.0124). Read from the grid, not assumed or averaged at element level.",
+    "tol": 0.05,
+    "result": "per-line +0.0856 / +0.0590 / +0.0636 (EW_NLTE 49.50 / 65.75 / 63.86 mA); median +0.0636",
+    "verdict": "CHECK (not PASS): |median - anchor| = 0.051 > tol 0.05, marginally. FINDING — not a deck failure: departures engaged, all three lines return a consistent positive delta, and the Gerber deck runs ~5x the Bergemann-MPIA value on the same lines. This is the THIRD instance of the Gerber-vs-MPIA model-atom systematic already recorded for Ti (~2x) and Mn (~1/2), so it is a cross-engine model-atom difference for RYA-525 to carry as a DIAGNOSTIC, never folded into the error bar. Not tuned toward MPIA or Asplund (RYA-785 forbids it).",
+    "departures_engaged": true,
+    "harness_defect_found": "The first run of this gate reported a plausible +0.300 from a TWO-DAY-OLD Fe_nlte.spec: bsyn had failed, and the gate's `os.path.exists()` success check could not tell 'this run wrote it' from 'a previous run left it' in the shared, never-cleaned {W}/work directory. Fixed in the same commit by a mtime-based stale guard on the interpolator, babsma and bsyn outputs. Same family as RYA-759's 0-byte spectrum and RYA-716's smoke-test overwrite."
+  },
+  "provisioned": "2026-08-11"
+}
