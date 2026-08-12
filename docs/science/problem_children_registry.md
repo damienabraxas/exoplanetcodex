@@ -1,8 +1,8 @@
 # RYA-463 — Master problem-children line registry
 
-_Generated 2026-07-26 by pipeline/problem_children.py. A CATALOG (never mutates a measured value); the cross-star feed for every per-star pre-run audit (RYA-205) and the line-level companion to the RYA-277 acceptance profiles._
+_Generated 2026-08-11 by pipeline/problem_children.py. A CATALOG (never mutates a measured value); the cross-star feed for every per-star pre-run audit (RYA-205) and the line-level companion to the RYA-277 acceptance profiles._
 
-**Rows:** 25 (25 curated, 0 auto-aggregated from RYA-458 EW-integrity).
+**Rows:** 29 (29 curated, 0 auto-aggregated from RYA-458 EW-integrity).
 
 ## Schema
 
@@ -41,6 +41,10 @@ _Generated 2026-07-26 by pipeline/problem_children.py. A CATALOG (never mutates 
 | Zr II | 4629/5350/5372 (strong) | SATURATION_COG | synthesis | Sun | all | low | 279,458 | owed | curated |
 | Y II | dominant ion absent from pool | DATA_GAP | per_region_source | Sun | blue/UV | medium | 458 | active | curated |
 | Mg I | b-triplet 5167/72/83 + 5528 (strong) | SATURATION_COG | synthesis | Sun | all | medium | 410,235,534,561,592 | resolved | curated |
+| Fe I | 8024.543 (IR) | ATOMIC_BLEND | exclude | Sun | all | critical | 782,760,523 | active | curated |
+| Fe I | 7052.715 / 7120.021 (IR) | ATOMIC_BLEND | exclude | Sun | all | high | 782,523 | active | curated |
+| Fe I | 7810.814 (IR) | BAD_GF | exclude | Sun | all | high | 782,523 | active | curated |
+| Fe I | 7107.459 (IR) | BAD_GF | exclude | Sun | all | medium | 782,712,523 | owed | curated |
 
 ## Auto-aggregated layer (RYA-458 EW-integrity)
 
@@ -52,26 +56,26 @@ _Generated 2026-07-26 by pipeline/problem_children.py. A CATALOG (never mutates 
 ```
 Problem-children heads-up for (5777 K, [Fe/H]=+0.00, Sun):
   - [O I] 6300 OK at this [Fe/H] but WATCH it for metal-rich targets (amplifies [Fe/H]↑↑) -> O I 777 is the safe primary.
-  -> 25 entries: 0 amplified, 20 always-on, 0 watch. Top:
+  -> 29 entries: 0 amplified, 24 always-on, 0 watch. Top:
+     [critical|expected ] Fe I 8024.543 (IR) -> ATOMIC_BLEND (exclude)
      [high  |expected ] O I [O I] 6300 -> CONTINUUM_LIMITED (cited_substitution)
      [high  |expected ] C I 5380.34 -> SATURATION_COG (exclude)
      [high  |expected ] NH ~3360 (band head) -> CONTINUUM_LIMITED (synthesis)
      [high  |expected ] N I 7442-8718 (red multiplets) -> DATA_GAP (per_region_source)
      [high  |expected ] Cr I gf pool -> BAD_GF (astrophysical_gf_differential)
-     [high  |expected ] Ti I gf pool -> BAD_GF (astrophysical_gf_differential)
 ```
 
 ```
 Problem-children heads-up for (6554 K, [Fe/H]=+0.01, Procyon):
   - F-star (Teff↑): COG saturation knee shifts up to ~114 mA (est); watch strong-line saturation + bad-gf Fe outliers (RYA-281).
   - [O I] 6300 OK at this [Fe/H] but WATCH it for metal-rich targets (amplifies [Fe/H]↑↑) -> O I 777 is the safe primary.
-  -> 24 entries: 10 amplified, 4 always-on, 5 watch. Top:
+  -> 28 entries: 14 amplified, 4 always-on, 5 watch. Top:
+     [critical|amplified] Fe I 8024.543 (IR) -> ATOMIC_BLEND (exclude)
      [high  |amplified] C I 5380.34 -> SATURATION_COG (exclude)
      [high  |amplified] N I 7442-8718 (red multiplets) -> DATA_GAP (per_region_source)
      [high  |amplified] Cr I gf pool -> BAD_GF (astrophysical_gf_differential)
      [high  |amplified] Ti I gf pool -> BAD_GF (astrophysical_gf_differential)
      [high  |amplified] Ni I gf pool -> BAD_GF (astrophysical_gf_differential)
-     [high  |amplified] Si I gf pool -> BAD_GF (astrophysical_gf_differential)
 ```
 
 ```
@@ -79,13 +83,13 @@ Problem-children heads-up for (5196 K, [Fe/H]=+0.32, 55 Cnc):
   - cool (Teff↓): molecular bands (CH/CN/C2/NH/OH/CO) strengthen — synthesis-only handling amplified.
   - very metal-rich ([Fe/H]↑↑): [O I] 6300 unreliable -> O I 777 primary; blends + saturation amplified.
   - [O I] 6300 UNRELIABLE at this metallicity -> use O I 777 (primary).
-  -> 22 entries: 12 amplified, 3 always-on, 2 watch. Top:
+  -> 26 entries: 16 amplified, 3 always-on, 2 watch. Top:
+     [critical|amplified] Fe I 8024.543 (IR) -> ATOMIC_BLEND (exclude)
      [high  |amplified] O I [O I] 6300 -> CONTINUUM_LIMITED (cited_substitution)
      [high  |amplified] Cr I gf pool -> BAD_GF (astrophysical_gf_differential)
      [high  |amplified] Ti I gf pool -> BAD_GF (astrophysical_gf_differential)
      [high  |amplified] Ni I gf pool -> BAD_GF (astrophysical_gf_differential)
      [high  |amplified] Si I gf pool -> BAD_GF (astrophysical_gf_differential)
-     [high  |amplified] CH/CN/C2/NH/OH/CO bands -> MOLECULAR_SYNTH_ONLY (synthesis)
 ```
 
 _Predictions for Procyon / 55 Cnc come straight from the curated `amplifies_with` axes — they work BEFORE those stars run (walk in knowing the landmines). The auto-layer folds in `procyon_ew_integrity.csv` the moment RYA-281/348/349 land._
