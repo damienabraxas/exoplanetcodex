@@ -17,6 +17,9 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-12
 
+- **RYA-784** — ENGINE-B wired into `derive_band_products.py`; the driver reserved it and produced no value ⇒ unblocks the RYA-783 Engine-B leg
+- **RYA-786** — `telluric_basis` added to `instrument_catalog.csv` + `telluric_policy.py` is the single source; splits "corrected" from "line_selection"
+- **RYA-783** — IAG arm added: the telluric split recovers 94 Fe I IR lines (89 KP vs 183 IAG in-aggregate, 2.1x)
 - **RYA-789** — acquired Elgueta 2026 `J/A+A/710/A111`; **sp/ holds the Vesta-derived solar spectrum** ⇒ RYA-787 takes the reduced-spectrum route
 - **RYA-789** — fetch trap: the mirror links subdirs with no trailing slash, so sp/ saved as an HTML page and reported VESTA=False with every guard green
 

@@ -70,14 +70,87 @@ KP_DIR = _resolve_kp_dir()
 # normalisation histories is a reason two instruments can disagree methodologically.
 PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False, "iag_fts_solar_atlas": True}
 
-TELLURIC = [(7600, 7640, "O2 A-band"), (9280, 9600, "H2O"), (11120, 11560, "H2O")]
+# RYA-786: the band set lives in pipeline/telluric_policy.py and is imported, never
+# re-typed. The list that used to sit here was both incomplete and too narrow — it had
+# the O2 A-band at 7600-7640 (it runs to ~7685), no O2 B-band at all, and was missing the
+# ~7160-7340 and ~8100-8400 H2O complexes. A line in an unlisted band gets measured as if
+# it were clean, which is the silent version of this bug.
+from pipeline.telluric_policy import (TELLURIC_BANDS as TELLURIC,  # noqa: E402
+                                      exclusion as _telluric_exclusion)
 
 
-def telluric_reason(wave: float) -> str:
-    for lo, hi, name in TELLURIC:
-        if lo <= wave <= hi:
-            return f"inside the {name} telluric band ({lo}-{hi} A); not measurable here"
-    return ""
+def telluric_reason(wave: float, instrument: str | None = None) -> str:
+    """RYA-786: the INSTRUMENT decides, not just the wavelength — a telluric-corrected
+    atlas (IAG) keeps lines that an uncorrected one (KPNO) must drop."""
+    return _telluric_exclusion(wave, instrument)
+
+
+# ── the IAG arm (RYA-783) ────────────────────────────────────────────────────
+#
+# The second instrument. Every Fe band product so far is Kitt Peak ONLY, so the product
+# key (instrument x band x engine, RYA-712) has had a single instrument in it and there
+# has been no cross-instrument check anywhere — the very test that settled Al 6696 vs 6698.
+#
+# IAG is a genuinely independent arm, not a second copy of the same thing:
+#
+#   * different telescope and spectrograph — Goettingen VVT FTS at R ~ 700 000 against
+#     Kitt Peak's ~300-500 k;
+#   * different TELLURIC BASIS — Baker, Blake & Reiners 2020 (ApJS 247, 24;
+#     Zenodo 10.5281/zenodo.3598136) is telluric-CORRECTED, where the Kitt Peak atlas
+#     carries its tellurics and we exclude lines per-line (RYA-786). So IAG can reach
+#     lines KPNO must quarantine, and disagreement between the arms inside a telluric
+#     band is diagnostic rather than noise.
+#
+# THE TRAP, RECORDED IN THE CATALOG BEFORE I GOT HERE: column 0 is VACUUM WAVENUMBER in
+# cm^-1, not a wavelength. `instrument_catalog.reduction_requirements` says it outright —
+# "convert 1e8/wn then vac_to_air. Reading col0 as a wavelength returns 9387-24700 and a
+# confident wrong answer." Our line lists are AIR wavelengths, so both steps are required
+# and `vac_to_air` is imported from pipeline.uv_conditioning rather than re-typed here.
+
+IAG_FITS = Path("/srv/codex/solar_reference/iag_baker2020/iag_telfree_solaratlas.fits")
+_iag_cache: dict = {}
+
+
+def iag_atlas() -> tuple[np.ndarray, np.ndarray]:
+    """The IAG telluric-corrected atlas as (wave_air_A, flux), ascending. Cached."""
+    if "wf" in _iag_cache:
+        return _iag_cache["wf"]
+    from astropy.io import fits
+    from pipeline.uv_conditioning import vac_to_air
+    if not IAG_FITS.exists():
+        raise LookupError(f"IAG atlas not staged at {IAG_FITS} (Sirius-only, RYA-485)")
+    with fits.open(IAG_FITS) as h:
+        d = h[1].data
+        wn = np.asarray(d["v"], dtype=float)      # VACUUM WAVENUMBER, cm^-1
+        fl = np.asarray(d["s"], dtype=float)
+    w_air = vac_to_air(1.0e8 / wn)                # -> vacuum A -> air A
+    o = np.argsort(w_air)
+    _iag_cache["wf"] = (w_air[o], fl[o])
+    return _iag_cache["wf"]
+
+
+def load_iag_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
+    w, f = iag_atlas()
+    m = (w >= centre - pad) & (w <= centre + pad)
+    if m.sum() < 12:
+        raise LookupError(f"IAG holds only {int(m.sum())} points near {centre:.3f} A "
+                          f"(atlas spans {w.min():.1f}-{w.max():.1f})")
+    return w[m], f[m], IAG_FITS.name
+
+
+def load_window(instrument: str, centre: float, pad: float, segs=None):
+    """One entry point per instrument, so a driver does not hardcode an arm.
+
+    Loud on an unknown instrument: silently defaulting to Kitt Peak is how a product gets
+    labelled with an instrument it was not measured on.
+    """
+    if instrument == "kpno_solar_atlas":
+        return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
+    if instrument == "iag_fts_solar_atlas":
+        return load_iag_window(centre, pad)
+    raise LookupError(
+        f"no window loader for instrument {instrument!r}. Add one here rather than "
+        f"letting a driver fall back to another arm's data.")
 
 
 def kp_segments() -> list[tuple[float, float, Path]]:

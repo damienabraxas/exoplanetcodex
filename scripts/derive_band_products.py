@@ -13,8 +13,20 @@ One row per **treatment**, never merged:
 
   * **1D-LTE**   — the measured EW inverted through a curve of growth.
   * **ENGINE-A** — 1D-LTE plus the Bergemann/MPIA per-line departure correction.
-  * **ENGINE-B** — reserved; the Gerber TS-native path is not wired into this driver yet
-                   and is reported as absent rather than silently skipped.
+  * **ENGINE-B** — the spectrum fitted directly by `pipeline.measure.SynthesisHandler`.
+                   NO equivalent width is inverted anywhere on this path: 1D-LTE and
+                   ENGINE-A invert a measured EW, ENGINE-B fits flux. The EW table supplies
+                   only the LINE SET and a per-line strength hint that sets each fitting
+                   window; it never supplies the answer.
+
+                   WHICH synthesis is selected by `--engine-b-deck` (RYA-784):
+                     `ts-lte`       Turbospectrum LTE flux-fit. What the register calls
+                                    Engine B in production for all 27 species. Default.
+                     `gerber-nlte`  the TS-native Gerber departure deck (RYA-533). NOT yet
+                                    provisioned for Fe — RYA-785 pulls atom.fe607a. Selecting
+                                    it today fails LOUDLY rather than silently returning the
+                                    LTE number under an NLTE label, which is the one
+                                    confusion this flag exists to prevent.
 
 Each carries its own value, line count, and a full `ErrorBudget` with statistical and
 systematic kept apart. There is no combined product: `pipeline.band_products` has no
@@ -108,6 +120,13 @@ def main() -> None:
     ap.add_argument("--instrument", default="kpno_solar_atlas")
     ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--mpia-cache", help="pre-computed per-line delta_nlte JSON")
+    ap.add_argument("--engine-b-deck", choices=["ts-lte", "gerber-nlte"], default="ts-lte",
+                    help="which synthesis is Engine B. 'ts-lte' is the production "
+                         "Turbospectrum LTE flux-fit; 'gerber-nlte' is the TS-native "
+                         "departure deck and is not provisioned for Fe until RYA-785.")
+    ap.add_argument("--skip-engine-b", action="store_true",
+                    help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
+                         "per line and is much slower than the EW inversion.")
     a = ap.parse_args()
 
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_PROFILEFIT"
@@ -184,16 +203,104 @@ def main() -> None:
                         provenance="Bergemann MPIA per-line delta_nlte, live query, solar node")
     print(f"    ENGINE-A: A={p_a.value}  n={p_a.n_lines}  not-served={p_a.n_excluded}")
 
+    # ── ENGINE-B ──────────────────────────────────────────────────────────────
+    #
+    # RYA-784. This block did not exist: the driver reserved Engine B and produced no
+    # value, so RYA-783's Engine-B column could not resolve. The flux-fit engine itself
+    # has been Done since RYA-287/338 and its adapter was fixed by RYA-770 (24/30 lines,
+    # -0.026 dex against the banked optical answer); nothing had connected the two.
+    #
+    # It is a DIFFERENT MEASUREMENT, not a correction applied to the previous one:
+    # 1D-LTE inverts an EW and ENGINE-A adds a departure term to that same inversion,
+    # while this fits the observed flux. So it re-derives from the spectrum and shares
+    # only the line set — which is exactly what makes the per-engine spread meaningful
+    # rather than tautological (RYA-712).
+    #
+    # RYA-342: the gate here is FIT QUALITY, not the EW saturation ceiling. That ceiling
+    # is an EW-path concept and the handler must never inherit it — flux-space synthesis
+    # exists precisely to measure the lines EW filtering kills.
+    # RYA-288: broadening comes from `build_context` (per-star, refuses a vmac='fit' rail),
+    # so no solar default leaks in.
+    p_b = None
+    if a.skip_engine_b:
+        print("\n[3] ENGINE-B — skipped (--skip-engine-b)")
+    elif a.engine_b_deck == "gerber-nlte":
+        raise SystemExit(
+            "ENGINE-B deck 'gerber-nlte' is not provisioned: the TS-native Gerber "
+            "departure deck for this element has not been pulled (RYA-785 does it for Fe). "
+            "Refusing to run — returning the LTE synthesis under an NLTE label is the "
+            "single worst outcome available here. Use --engine-b-deck ts-lte, or wait.")
+    else:
+        print(f"\n[3] ENGINE-B — Turbospectrum LTE flux-fit "
+              f"(deck={a.engine_b_deck}; NOT the Gerber NLTE deck)...")
+        from pipeline.measure import resolve_handler
+        from scripts.measure_band_ew import kp_segments, load_kp_window
+
+        # TELLURIC — RYA-786. An earlier version of this block DECLARED
+        # `telluric_corrected: True` from the instrument catalog to get past the handler's
+        # gate. That was wrong in kind and is removed: `telluric_required = no` for a
+        # reference atlas means the tellurics are handled by per-line clean-line SELECTION,
+        # NOT that the atlas has been telluric-divided. The KPNO atlas HAS tellurics in it,
+        # so declaring it corrected asserted something that never happened.
+        #
+        # The determination now lives in `pipeline.telluric_policy` and the handler
+        # consumes it: the instrument decides whether a CORRECTION STAGE is required, and
+        # the enumerated O2/H2O bands quarantine individual lines inside them. Passing the
+        # instrument through the context is all this driver has to do.
+        handler = resolve_handler(3400.0)      # the synthesis handler
+        handler.prepare(pol, {**ctx, "instrument": a.instrument})
+        segs = kp_segments()
+        rows_b: list[LineMeasurement] = []
+        for _, r in ok.iterrows():
+            c = float(r.wavelength_air_A)
+            try:
+                w_obs, f_obs, _ = load_kp_window(segs, c, pad=1.4)
+            except Exception as e:
+                lb = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
+                                     instrument=a.instrument, ew_mA=float("nan"),
+                                     ew_method="synthesis flux-fit", treatment="ENGINE-B")
+                lb.in_aggregate = False
+                lb.excluded_reason = f"WINDOW-LOAD: {type(e).__name__}: {str(e)[:60]}"
+                rows_b.append(lb)
+                continue
+            lb = handler.measure_line(
+                w_obs, f_obs, element=a.element, ion=a.ion, wavelength_A=c,
+                instrument=a.instrument, policy=pol,
+                # Kitt Peak is atlas residual flux; HARPS arrives normalised by our own
+                # pipeline. Both are already on a continuum and neither wants a second.
+                pre_normalised=True,
+                context={**ctx, "ew_hint_mA": float(r.ew_mA)})
+            lb.treatment = "ENGINE-B"
+            rows_b.append(lb)
+
+        # RYA-768: deterministic row order, so the artifact byte-diffs clean.
+        rows_b.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+        p_b = build_product(
+            a.element, a.ion, a.instrument, pol.name, "ENGINE-B", rows_b,
+            provenance=(f"{handler.name} flux-fit against the {a.instrument} spectrum; "
+                        f"line set + window hint from {src.name}; deck={a.engine_b_deck} "
+                        f"(Turbospectrum LTE, NOT the Gerber TS-native NLTE deck)"))
+        print(f"    ENGINE-B: A={p_b.value}  n={p_b.n_lines}  excluded={p_b.n_excluded}")
+        if p_b.n_excluded:
+            why = pd.Series([l.excluded_reason.split(":")[0]
+                             for l in rows_b if not l.in_aggregate]).value_counts()
+            for k, v in why.items():
+                print(f"      {k:<30} {v}")
+
     # ── budgets, per product ──────────────────────────────────────────────────
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     summary, budgets = [], {}
-    for prod in (p_lte, p_a):
-        if prod.value is None:
+    for prod in (p_lte, p_a, p_b):
+        if prod is None or prod.value is None:
             continue
+        # The harness residual is a property of the HANDLER that produced the number.
+        # Engine B never touches the profile fitter, so charging it the profile fitter's
+        # measured residual would be attributing someone else's systematic to it.
+        is_b = prod.treatment == "ENGINE-B"
         b = build_budget(a.element, 0.5 * (a.lo + a.hi), prod.n_lines,
                          scatter_dex=(prod.sigma or 0.0), gf_graded=False,
-                         harness_residual_dex=PROFILE_FIT_RESIDUAL_DEX,
-                         handler="ProfileFitHandler")
+                         harness_residual_dex=(0.0 if is_b else PROFILE_FIT_RESIDUAL_DEX),
+                         handler=("SynthesisHandler" if is_b else "ProfileFitHandler"))
         stat, syst = b.total()
         summary.append(dict(element=a.element, ion=a.ion, band=pol.name,
                             instrument=a.instrument, treatment=prod.treatment,
