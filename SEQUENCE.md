@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-12
 
+- **RYA-785** — Fe Gerber Engine-B NLTE deck PASSES (+0.0579 vs published +0.06); the CHECK was an MPIA anchor + 2 blended lines ⇒ unblocks RYA-798
 - **RYA-794** — the 18 CRIRES+ Vesta IDPs re-pulled from ESO (lost from us, not the archive); Y certifies ZERO solar Fe I, but J+H certify 74 ⇒ unblocks RYA-797
 - **RYA-784** — ENGINE-B wired into `derive_band_products.py`; the driver reserved it and produced no value ⇒ unblocks the RYA-783 Engine-B leg
 - **RYA-786** — `telluric_basis` added to `instrument_catalog.csv` + `telluric_policy.py` is the single source; splits "corrected" from "line_selection"
