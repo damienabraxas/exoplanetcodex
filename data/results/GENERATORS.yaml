@@ -381,3 +381,41 @@ artifacts:
       remedies as falsifiable tests (strong-line cut, blend regressor, microturbulence
       locality), and the stated error-budget term with its 95% upper bound on a hidden
       slope. Kept beside the CSV so the headline numbers are not re-derived by hand.
+
+  - artifact: rya794/vesta_crires_plus_Y_10280_10680_normalized.csv
+    generator: scripts/normalize_vesta_ir.py
+    invocation: python scripts/normalize_vesta_ir.py --lo 10280 --hi 10680
+    ticket: RYA-794
+    note: >-
+      CRIRES+ Vesta solar spectrum, Y band, science-ready over Elgueta's near-telluric-free
+      10280-10680 A window (13707 rows). Source A only: our own CRIRES+ Vesta IDPs do not
+      exist on Sirius, so the molecfit leg had nothing to run on and is BLOCKED, not
+      skipped. Two traps are pinned in the generator and in tests: sp/ wavelength is
+      labelled 0.1nm in the VizieR ReadMe but is NANOMETRES, while atomicy.dat carries the
+      same label and really is Angstrom; and the telluric state is MEASURED (0.10% of
+      window points below 0.5, against 51.3% for the Kitt Peak O2 A-band) rather than
+      inherited from a catalog flag.
+
+  - artifact: rya794/vesta_crires_plus_Y_FeI_lines.csv
+    generator: scripts/normalize_vesta_ir.py
+    invocation: python scripts/normalize_vesta_ir.py --lo 10280 --hi 10680
+    ticket: RYA-794
+    note: >-
+      Fe I line selection for the window, carrying Elgueta's own G-dwarf flags rather than a
+      cut of ours. THE RESULT IS THAT GDRob CERTIFIES ZERO Fe I LINES for a solar-type
+      star: 42 lines are robust and every one is another species, and no Fe I line anywhere
+      in atomicy.dat carries GDSat=Y. The 5 rows here are tier "candidate" - they pass
+      depth, purity and goodness-of-fit but not saturation - and each matches our VALD
+      solar list to +/-0.000 A and reproduces Elgueta's published depth to ~1%. NO ABUNDANCE
+      IS DERIVED FROM THEM; single exposure, 5 lines, EP 3.3-6.2 eV.
+
+  - artifact: rya794/vesta_crires_plus_Y_qa.png
+    generator: scripts/normalize_vesta_ir.py
+    invocation: python scripts/normalize_vesta_ir.py --lo 10280 --hi 10680
+    ticket: RYA-794
+    note: >-
+      QA plot: raw with the fitted reflectance upper-envelope continuum above, normalised
+      with the 5 Fe I candidates ticked below. The lower panel is deliberately clipped to
+      0.80-1.03 and marks each line at its own depth - these lines are 0.06-0.13 deep next
+      to 0.5-deep neighbours, and a full-height marker made a correct identification look
+      like a miss.
