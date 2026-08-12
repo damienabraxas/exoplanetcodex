@@ -1,0 +1,525 @@
+J/A+A/710/A111      CRIRES+ lines study for six GBS stars       (Elgueta+, 2026)
+================================================================================
+Gaia FGK benchmark stars: Selecting infrared lines for abundance determination.
+    Elgueta S., Jofre P., Aguilera-Gomez C., Slumstrup D., Rojas Arriagada A.,
+    Heiter U., Casamiquela L., Zoccali M., Worley C., Soubiran C.
+    <Astron. Astrophys. 710, A111 (2026)>
+    =2026A&A...710A.111E        (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Stars, F-type ; Stars, G-type ; Stars, K-type ; Stars, giant ;
+              Stars, dwarfs ; Spectroscopy ; Spectra, infrared ;
+              Effective temperatures ; Abundances, [Fe/H] ; Atomic physics ;
+              Excitation rates ; Infrared ; MK spectral classification
+Keywords: line: identification - methods: laboratory: atomic -
+          techniques: spectroscopic - stars: abundances - stars: atmospheres -
+          infrared: stars -
+
+Abstract:
+    The advent of new and more powerful infrared spectrographs has
+    significantly motivated the advancement of the study of atomic and
+    molecular line lists and stellar atmosphere models. While optical
+    abundance determinations rely on extensively validated line lists and
+    modeling frameworks, infrared measurements still face larger
+    uncertainties, largely driven by the choice of atmospheric models and
+    the quality of the available atomic data. In this work, we aim to
+    deliver a homogeneous and reproducible set of atomic absorption lines
+    in the Y, J, and H bands (9800-18000 {AA}), based exclusively on
+    laboratory atomic data. We analyse CRIRES spectra of six Gaia FGK
+    Benchmark Stars spanning a wide range in effective temperature,
+    surface gravity, and chemical composition. Synthetic spectra are
+    computed using the benchmark stellar parameters, and each transition
+    is evaluated independently in every star through a quantitative
+    sequence that examines line depth, saturation, blending (purity), and
+    the agreement between observed and synthetic line profiles. We
+    identify a set of robust atomic transitions in these bands that remain
+    consistent across the full range of stellar parameters represented in
+    our sample. Lines of {alpha}-elements such as MgI, SiI, and CaI,
+    together with several FeI transitions, satisfy all robustness
+    criteria. Among the neutron-capture species explored, only SrII
+    provides lines that consistently meet our requirements. Beyond the
+    specific list of accepted transitions, this study demonstrates that a
+    fully quantitative, multi-criteria framework provides a transparent
+    and reproducible foundation for near-infrared line validation as
+    laboratory data, stellar atmosphere models, and instrumentation
+    continue to improve.
+
+Description:
+    Infrared spectroscopic observations offer a significant advantage over
+    optical observations when studying heavily obscured by interstellar
+    extinction. In this work, we will explore the IR extension of the Gaia
+    FGK Benchmark Stars (GBS), which represent a thoughtfully curated
+    collection of reference stars crucial for calibrating and validating
+    spectroscopic techniques. These stars cover a wide range of spectral
+    types, including F, G, K, and M at varying luminosities and
+    metallicities. From studies (see section Introduction), we get a
+    comprehensive observational data that allow independent determination
+    of their stellar parameters. Using the high resolution of CRIRES we
+    analyze six spectra from GBSOur primary goal is to identify a global
+    set of reliable absorption lines that provide consistent abundance
+    measurements across a wide range of stellar parameters in the CRIRES
+    Y, J, and H bands. To achieve this, we provide line recommendations
+    for each spectral type individually. All selections are based on a
+    series of quantitative criteria using VALD3 database. More, we aim to
+    work with a line list anchored to laboratory atomic data. We have
+    illustrated a method tracing the journey of two absorption lines:
+    SiI (10786.849{AA}) and SrII (10036.653{AA}) in the Y band
+    across different spectral types in order to show method's performance
+    on two distinct cases: a standard {alpha}-element widely used in
+    abundance studies, and a key n-capture element. At each step, using
+    depth evaluation, saturation checking, purity assessment, and fit
+    quality, we show how these spectral features are progressively
+    filtered, accepted, flagged as uncertain, or ultimately rejected.
+
+    We used the CRIRES+ instrument with ESO's VLT at Paranal Observatory,
+    Chile. This upgraded version of the CRIRES instrument (CRyogenic
+    InfraRed Echelle Spectrograph) is a cross-dispersed echelle
+    spectrograph operating in the mid- and near-infrared (YJHKLM bands) at
+    a nominal spectral resolution of ~100000 with the 0.2 arcsecond slit.
+    We analyzed spectra for a representative sample of six GBS, including
+    a solar spectrum obtained from observations of Vesta. Our sample spans
+    a wide range in stellar parameter space (Teff, logg, and [Fe/H]),
+    ensuring broad coverage for this study. The tables table1-10.dat
+    regroup respectively observational data and synthetic spectra results,
+    lines selected details (as number of lines peer species and bands)
+    with criteria including threshold and quality flags in each spectral
+    types defined across sections 2, 3 and 4.
+
+    Next, separately for the three IR bands and the six different spectral
+    types, we present for each transitions and chemical elements in
+    atomich/j/y.dat, spectral analysis and extractions results as commom
+    quantities for all SpTypes (Wave,El,LEP,loggf,C6) and specific
+    quantities as synthetic/observed spectra : line depths, wavelength
+    offsets, selection lines/depths flags (Yes/No), saturations flags, EW
+    purity estimators and flags, observed vs synthetic spectra statistics
+    as RMS, MAD, Chi2, GoF and finally the robust line selection flags.
+    Finally, spectroscopic observed normalized fluxes are available in
+    folder sp/ for the six stars in the three IR bands.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName      Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe            80        .   This file
+table1.dat        88        6  *Stellar parameters, observational times and
+                                spectral types for the Gaia GBS stars
+table2.dat        76       12  *Summary of depth, saturation, purity, and GoF
+                                diagnostics for SiI and SrII features in Y band
+table3.dat        11       10   Number of selected infrared transitions for the
+                                Sun compared to optical diagnostics adopted in
+                                previous Gaia benchmark studies
+table4.dat        16       73   Robust (YYYY) transitions for alf CMi F dwarf
+                                in the Y, J, and H bands
+table5.dat        16      117   Robust (YYYY) transitions for the Sun G dwarf
+                                in the Y, J, and H bands
+table6.dat        16      140   Robust (YYYY) transitions for eps Eri K dwarf
+                                in the Y, J, and H bands
+table7.dat        16       73   Robust (YYYY) transitions for alf Boo FGK giant
+                                in the Y, J, and H bands
+table8.dat        16      135   Robust (YYYY) transitions for bet Hyi FGK
+                                sbgiant in the Y, J, and H bands
+table9.dat        16       70   Robust (YYYY) transitions for gam Sge M giant
+                                in the Y, J, and H bands
+table10.dat       29       35   In and out selected line counts per species in
+                                the Y, J, and H bands
+atomich.dat      805     1085  *Atomic data and line-selection diagnostics
+                                for the H-band transitions
+atomicj.dat      805      292  *Atomic data and line-selection diagnostics
+                                for the J-band transitions
+atomicy.dat      805      323  *Atomic data and line-selection diagnostics
+                                for the Y-band transitions
+sp/*               .       18   Spectroscopic observed normalized fluxes in
+                                H,J,Y infrared CRIRES bands for our 6 stars
+--------------------------------------------------------------------------------
+Note on table1.dat: The evolutionary/spectral classes correspond to the
+ categories adopted throughout this work. Signal-to-noise ratios are given for
+ the Y, J, and H bands. The entry labelled Sun corresponds to the solar
+ reference spectrum.
+Note on table2.dat: For the SiI 10786.849A and SrII 10036.653A features
+ in the Y band across the representative stars used in this work. The entry
+ labelled Sun corresponds to the solar reference spectrum.
+Note on atomich.dat and atomicj.dat and atomicy.dat: Blank entries indicate
+ that the corresponding quantity was not available or was not measured for
+ that transition in that spectral type.
+--------------------------------------------------------------------------------
+
+See also:
+ J/A+A/705/A167 : Gaia FGK benchmark stars. Abundances (Casamiquela+, 2026)
+ J/A+A/682/A145 : Gaia FGK benchmark stars v3 (Soubiran+, 2024)
+ J/A+A/645/A106 : Atomic data for the Gaia-ESO Survey (Heiter+, 2021)
+ J/A+A/638/A76  : StarHorse data for 5 surveys (Queiroz+, 2020)
+ J/A+A/592/A70  : Gaia FGK stars: low-metallicities candidates (Hawkins+, 2016)
+ J/A+A/582/A81  : Gaia FGK benchmark stars: abundances (Jofre+, 2015)
+ J/A+A/564/A133 : Gaia FGK benchmark stars: metallicity (Jofre+, 2014)
+ J/ApJ/976/175  : HD 76151 and Sun near-infrared spectroscopy (Senturk+, 2024)
+ J/ApJ/875/129  : FeI lines in NIR spectra of Arcturus & mu Leo (Kondo+, 2019)
+ J/ApJ/819/103  : Abundances of two very metal-poor stars (Afsar+, 2016)
+ J/ApJ/751/156  : Ti and Fe lines in red supergiants (Bergemann+, 2012)
+ J/ApJS/221/24  : SDSS-III APOGEE H-band spectral line lists (Shetrone+, 2015)
+ J/AJ/151/144   : ASPCAP weights for the 15 APOGEE chemical elements
+                                                               (Garcia+, 2016)
+ III/284        : APOGEE-2 data from DR16 (Johnsson+, 2020)
+
+
+Byte-by-byte Description of file: table1.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units     Label    Explanations
+--------------------------------------------------------------------------------
+   1- 10 A10    ---       Star     Star identifier (Object)
+  12- 24 A13    ---       SpType   Evolutionary/spectral class used in this
+                                   work (Stage)
+  26- 29 I4     K         Teff     Effective temperature (Teff)
+  31- 32 I2     K       e_Teff     Uncertainty on Teff (e_Teff)
+  34- 37 F4.2   [cm/s2]   logg     Surface gravity (logg)
+  39- 42 F4.2   [cm/s2] e_logg     Uncertainty on logg (e_logg)
+  44- 48 F5.2   [Sun]     [Fe/H]   Metallicity [Fe/H] (Fe_H)
+  50- 53 F4.2   [Sun]   e_[Fe/H]   Uncertainty on [Fe/H] (e_Fe_H)
+  55- 64 A10    "Y:M:D"   ObsDate  Observation date (YYYY-MM-DD) (ObsDate)
+  66- 70 A5     "h:m"     Time     Observation UT time (hh:mm) (UT)
+  72- 74 I3     ---       SNRY     Signal-to-noise ratio in the Y band (SNR_Y)
+  76- 78 I3     ---       SNRJ     Signal-to-noise ratio in the J band (SNR_J)
+  80- 82 I3     ---       SNRH     Signal-to-noise ratio in the H band (SNR_H)
+  84- 88 F5.1   s         ExpTime  Exposure time (ExpTime)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table2.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label    Explanations
+--------------------------------------------------------------------------------
+   1-  4 A4     ---     Species  Species identifier (Species)
+   7- 15 F9.3   0.1nm   Lambda   Central wavelength (lambda)
+  17- 26 A10    ---     Star     Star identifier (Object)
+  28- 32 F5.3   ---     DepS     Synthetic line depth (Dsyn)
+  34- 38 F5.3   ---     DepO     Observed line depth (Dobs)
+      40 A1     ---     Depth    Depth flag (f_Depth)
+      42 A1     ---     Sat      Saturation flag (Y=unsaturated) (f_Unsat)
+  44- 48 F5.3   ---     Purity   Purity parameter P (Purity)
+      50 A1     ---   f_Purity   Purity flag (f_Purity)
+  52- 56 F5.3   ---     RMSE     Root mean square error (RMSE)
+  58- 62 F5.3   ---     MAD      Mean absolute deviation (MAD)
+  64- 68 F5.3   ---     Chi2nu   Reduced chi-square (chi2nu)
+  70- 74 F5.3   ---     Chi2ref  Reference reduced chi-square threshold
+                                 (chi2ref)
+      76 A1     ---     GoF      Goodness-of-fit flag (f_GoF)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table3.dat
+--------------------------------------------------------------------------------
+   Bytes  Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  2  A2     ---     El        Chemical element (Elem)
+   4-  5  I2     ---     nIR       Number of selected IR transitions (N_IR)
+   7-  8  I2     ---     Nopt15    Number of optical diagnostics adopted in
+                                   Jofre et al. (2015A&A...582A..81J,
+                                   Cat. J/A+A/582/A81) (Nopt15)
+  10- 11  I2     ---     Nopt21    Number of optical diagnostics adopted in
+                                   Heiter et al. (2021A&A...645A.106H,
+                                   Cat. J/A+A/645/A106) (Nopt21)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table[456789].dat
+--------------------------------------------------------------------------------
+   Bytes  Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+       1  A1     ---     Band      Spectral band (Band)
+   3-  6  A4     ---     Species   Species identifier labels with a compact
+                                   ASCII notation (Species)
+   8- 16  F9.3   0.1nm   Lambda    Central wavelength (Lambda)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table10.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label    Explanations
+--------------------------------------------------------------------------------
+       1 A1     ---     Band     Spectral band (Band)
+   3-  6 A4     ---     Species  Species identifier (Species)
+   8- 11 I4     ---     Total    Total number of lines (Total)
+  13- 14 I2     ---     NFD      Number of lines in the F dwarf (N_Fd)
+  16- 17 I2     ---     NGD      Number of lines in the G dwarf (N_Gd)
+  19- 20 I2     ---     NKD      Number of lines in the K dwarf (N_Kd)
+  22- 23 I2     ---     NFGKg    Number of lines in the FGK giant (N_FGKg)
+  25- 26 I2     ---     NFGKsg   Number of lines in the FGK subgiant (N_FGKs)
+  28- 29 I2     ---     NMG      Number of lines in the M giant (N_Mg)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: atomich.dat atomicj.dat atomicy.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label       Explanations
+--------------------------------------------------------------------------------
+   1- 12 F12.6  0.1nm   Wave        Wavelength of the transition (wavelength)
+  14- 17 A4     ---     El          Chemical element (element)
+  19- 27 F9.6   eV      LEP         ? Lower excitation potential (EP)
+  29- 37 F9.6   [-]     loggf       ? Oscillator strength (loggf)
+  39- 47 F9.6   ---     C6          ? Van der Waals broadening constant (C6)
+  49- 56 F8.6   ---     FDDepS      ? Line depth measured in the synthetic
+                                    spectrum for F dwarf (F_Dwarf_depth_syn)
+  58- 66 F9.6   0.1nm   FDWoffS     ? Wavelength offset of the synthetic line
+                                    center relative to the nominal line
+                                    wavelength for F dwarf (F_Dwarf_del_wav_syn)
+  68- 75 F8.6   ---   e_FDDepS      ? Uncertainty in the synthetic line depth
+                                    of FDDepS (F_Dwarf_depth_err_syn)
+  77- 84 F8.6   ---   f_FDDepS      ? Warning flag associated with the
+                                    synthetic-spectrum line measurement for F
+                                    dwarf (F_Dwarf_warn_synth)
+  86- 93 F8.6   ---     FDDepO      ? Line depth measured in the observed
+                                    spectrum for F dwarf (F_Dwarf_depth_obs)
+  95-105 F11.6  0.1nm   FDWoffO     ? Wavelength offset of the observed line
+                                    center relative to the nominal line
+                                    wavelength for F dwarf (F_Dwarf_del_wav_obs)
+ 107-114 F8.6   ---   e_FDDepO      ? Uncertainty in the observed line depth of
+                                    FDDepO (F_Dwarf_depth_err_obs)
+ 116-124 F9.6   ---   f_FDDepO      ? Warning flag associated with the
+                                    observed-spectrum line measurement for F
+                                    dwarf (F_Dwarf_warn_obs)
+     126 A1     ---     FDDepth     Depth-selection flag (Y/N) for F dwarf
+                                    (F_Dwarf_Flag_depth)
+     128 A1     ---     FDSat       Unsaturated-line flag (Y/N) for F dwarf
+                                    (F_Dwarf_Flag_Unsaturated)
+ 130-137 F8.6   ---     FDPurEW     ? Purity estimator based on equivalent
+                                    width for F dwarf (F_Dwarf_Purity_EW)
+     139 A1     ---     FDPur       Purity-selection flag (Y/N) for F dwarf
+                                    (F_Dwarf_Flag_Purity)
+ 141-148 F8.6   ---     FDRMSE      ? Root-mean-square error of the observed vs
+                                    synthetic comparison for F dwarf
+                                    (F_Dwarf_RMSE)
+ 150-157 F8.6   ---     FDMAD       ? Median absolute deviation of the
+                                    residuals for F dwarf (F_Dwarf_MAD)
+ 159-168 F10.6  ---     FDChi2      ? Reduced chi-square of the observed vs
+                                    synthetic comparison for F dwarf
+                                    (F_Dwarf_Chi2_Red)
+     170 A1     ---     FDGoF       Goodness-of-fit flag (Y/N) for F dwarf
+                                    (F_Dwarf_Flag_GoF)
+     172 A1     ---     FDRob       Final robust-line flag (Y/N), obtained by
+                                    combining the selection criteria for F
+                                    dwarf (F_Dwarf_Robust)
+ 174-181 F8.6   ---     GDDepS      ? Line depth measured in the synthetic
+                                    spectrum for G dwarf (G_Dwarf_depth_syn)
+ 183-191 F9.6   0.1nm   GDWoffS     ? Wavelength offset of the synthetic line
+                                    center relative to the nominal line
+                                    wavelength for G dwarf (G_Dwarf_del_wav_syn)
+ 193-200 F8.6   ---   e_GDDepS      ? Uncertainty in the synthetic line depth
+                                    of GDDepS (G_Dwarf_depth_err_syn)
+ 202-209 F8.6   ---   f_GDDepS      ? Warning flag associated with the
+                                    synthetic-spectrum line measurement for G
+                                    dwarf (G_Dwarf_warn_synth)
+ 211-219 F9.6   ---     GDDepO      ? Line depth measured in the observed
+                                    spectrum for G dwarf (G_Dwarf_depth_obs)
+ 221-229 F9.6   0.1nm   GDWoffO     ? Wavelength offset of the observed line
+                                    center relative to the nominal line
+                                    wavelength for G dwarf (G_Dwarf_del_wav_obs)
+ 231-238 F8.6   ---   e_GDDepO      ? Uncertainty in the observed line depth of
+                                    GDDepO (G_Dwarf_depth_err_obs)
+ 240-248 F9.6   ---   f_GDDepO      ? Warning flag associated with the
+                                    observed-spectrum line measurement for G
+                                    dwarf (G_Dwarf_warn_obs)
+     250 A1     ---     GDDepth     Depth-selection flag (Y/N) for G dwarf
+                                    (G_Dwarf_Flag_depth)
+     252 A1     ---     GDSat       Unsaturated-line flag (Y/N) for G dwarf
+                                    (G_Dwarf_Flag_Unsaturated)
+ 254-261 F8.6   ---     GDPurEW     ? Purity estimator based on equivalent
+                                    width for G dwarf (G_Dwarf_Purity_EW)
+     263 A1     ---     GDPur       Purity-selection flag (Y/N) for G dwarf
+                                    (G_Dwarf_Flag_Purity)
+ 265-272 F8.6   ---     GDRMSE      ? Root-mean-square error of the observed vs
+                                    synthetic comparison for G dwarf
+                                    (G_Dwarf_RMSE)
+ 274-281 F8.6   ---     GDMAD       ? Median absolute deviation of the
+                                    residuals for G dwarf (G_Dwarf_MAD)
+ 283-292 F10.6  ---     GDChi2      ? Reduced chi-square of the observed vs
+                                    synthetic comparison for G dwarf
+                                    (G_Dwarf_Chi2_Red)
+     294 A1     ---     GDGoF       Goodness-of-fit flag (Y/N) for G dwarf
+                                    (G_Dwarf_Flag_GoF)
+     296 A1     ---     GDRob       Final robust-line flag (Y/N), obtained by
+                                    combining the selection criteria for G
+                                    dwarf (G_Dwarf_Robust)
+ 298-305 F8.6   ---     KDDepS      ? Line depth measured in the synthetic
+                                    spectrum for K dwarf (K_Dwarf_depth_syn)
+ 307-315 F9.6   0.1nm   KDWoffS     ? Wavelength offset of the synthetic line
+                                    center relative to the nominal line
+                                    wavelength for K dwarf (K_Dwarf_del_wav_syn)
+ 317-324 F8.6   ---   e_KDDepS      ? Uncertainty in the synthetic line depth
+                                    of KDDepS (K_Dwarf_depth_err_syn)
+ 326-333 F8.6   ---   f_KDDepS      ? Warning flag associated with the
+                                    synthetic-spectrum line measurement for K
+                                    dwarf (K_Dwarf_warn_synth)
+ 335-343 F9.6   ---     KDDepO      ? Line depth measured in the observed
+                                    spectrum for K dwarf (K_Dwarf_depth_obs)
+ 345-355 F11.6  0.1nm   KDWoffO     ? Wavelength offset of the observed line
+                                    center relative to the nominal line
+                                    wavelength for K dwarf (K_Dwarf_del_wav_obs)
+ 357-364 F8.6   ---   e_KDDepO      ? Uncertainty in the observed line depth of
+                                    KDDepO (K_Dwarf_depth_err_obs)
+ 366-374 F9.6   ---   f_KDDepO      ? Warning flag associated with the
+                                    observed-spectrum line measurement for K
+                                    dwarf (K_Dwarf_warn_obs)
+     376 A1     ---     KDDepth     Depth-selection flag (Y/N) for K dwarf
+                                    (K_Dwarf_Flag_depth)
+     378 A1     ---     KDSat       Unsaturated-line flag (Y/N) for K dwarf
+                                    (K_Dwarf_Flag_Unsaturated)
+ 380-387 F8.6   ---     KDPurEW     ? Purity estimator based on equivalent
+                                    width for K dwarf (K_Dwarf_Purity_EW)
+     389 A1     ---     KDPur       Purity-selection flag (Y/N) for K dwarf
+                                    (K_Dwarf_Flag_Purity)
+ 391-398 F8.6   ---     KDRMSE      ? Root-mean-square error of the observed vs
+                                    synthetic comparison for K dwarf
+                                    (K_Dwarf_RMSE)
+ 400-407 F8.6   ---     KDMAD       ? Median absolute deviation of the
+                                    residuals for K dwarf (K_Dwarf_MAD)
+ 409-419 F11.6  ---     KDChi2      ? Reduced chi-square of the observed vs
+                                    synthetic comparison for K dwarf
+                                    (K_Dwarf_Chi2_Red)
+     421 A1     ---     KDGoF       Goodness-of-fit flag (Y/N) for K dwarf
+                                    (K_Dwarf_Flag_GoF)
+     423 A1     ---     KDRob       Final robust-line flag (Y/N), obtained by
+                                    combining the selection criteria for K
+                                    dwarf (K_Dwarf_Robust)
+ 425-432 F8.6   ---     FGKsgDepS   ? Line depth measured in the synthetic
+                                    spectrum for FGK subgiant
+                                    (FGK_Subgiant_depth_syn)
+ 434-442 F9.6   0.1nm   FGKsgWoffS  ? Wavelength offset of the synthetic line
+                                    center relative to the nominal line
+                                    wavelength for FGK subgiant
+                                    (FGK_Subgiant_del_wav_syn)
+ 444-451 F8.6   ---   e_FGKsgDepS   ? Uncertainty in the synthetic line depth
+                                    of FGKsgDepS (FGK_Subgiant_depth_err_syn)
+ 453-460 F8.6   ---   f_FGKsgDepS   ? Warning flag associated with the
+                                    synthetic-spectrum line measurement for FGK
+                                    subgiant (FGK_Subgiant_warn_synth)
+ 462-469 F8.6   ---     FGKsgDepO   ? Line depth measured in the observed
+                                    spectrum for FGK subgiant
+                                    (FGK_Subgiant_depth_obs)
+ 471-479 F9.6   0.1nm   FGKsgWoffO  ? Wavelength offset of the observed line
+                                    center relative to the nominal line
+                                    wavelength for FGK subgiant
+                                    (FGK_Subgiant_del_wav_obs)
+ 481-488 F8.6   ---   e_FGKsgDepO   ? Uncertainty in the observed line depth of
+                                    FGKsgDepO (FGK_Subgiant_depth_err_obs)
+ 490-498 F9.6   ---   f_FGKsgDepO   ? Warning flag associated with the
+                                    observed-spectrum line measurement for FGK
+                                    subgiant (FGK_Subgiant_warn_obs)
+     500 A1     ---     FGKsgDepth  Depth-selection flag (Y/N) for FGK subgiant
+                                    (FGK_Subgiant_Flag_depth)
+     502 A1     ---     FGKsgSat    Unsaturated-line flag (Y/N) for FGK
+                                    subgiant (FGK_Subgiant_Flag_Unsaturated)
+ 504-511 F8.6   ---     FGKsgPurEW  ? Purity estimator based on equivalent
+                                    width for FGK subgiant
+                                    (FGK_Subgiant_Purity_EW)
+     513 A1     ---     FGKsgPur    Purity-selection flag (Y/N) for FGK
+                                    subgiant (FGK_Subgiant_Flag_Purity)
+ 515-522 F8.6   ---     FGKsgRMSE   ? Root-mean-square error of the observed vs
+                                    synthetic comparison for FGK subgiant
+                                    (FGK_Subgiant_RMSE)
+ 524-531 F8.6   ---     FGKsgMAD    ? Median absolute deviation of the
+                                    residuals for FGK subgiant
+                                    (FGK_Subgiant_MAD)
+ 533-542 F10.6  ---     FGKsgChi2   ? Reduced chi-square of the observed vs
+                                    synthetic comparison for FGK subgiant
+                                    (FGK_Subgiant_Chi2_Red)
+     544 A1     ---     FGKsgGoF    Goodness-of-fit flag (Y/N) for FGK subgiant
+                                    (FGK_Subgiant_Flag_GoF)
+     546 A1     ---     FGKsgRob    Final robust-line flag (Y/N), obtained by
+                                    combining the selection criteria for FGK
+                                    subgiant (FGK_Subgiant_Robust)
+ 548-555 F8.6   ---     FGKgDepS    ? Line depth measured in the synthetic
+                                    spectrum for FGK giant (FGK_Giant_depth_syn)
+ 557-567 F11.6  0.1nm   FGKgWoffS   ? Wavelength offset of the synthetic line
+                                    center relative to the nominal line
+                                    wavelength for FGK giant
+                                    (FGK_Giant_del_wav_syn)
+ 569-576 F8.6   ---   e_FGKgDepS    ? Uncertainty in the synthetic line depth
+                                    of FGKgDepS (FGK_Giant_depth_err_syn)
+ 578-585 F8.6   ---   f_FGKgDepS    ? Warning flag associated with the
+                                    synthetic-spectrum line measurement for FGK
+                                    giant (FGK_Giant_warn_synth)
+ 587-595 F9.6   ---     FGKgDepO    ? Line depth measured in the observed
+                                    spectrum for FGK giant (FGK_Giant_depth_obs)
+ 597-608 F12.6  0.1nm   FGKgWoffO   ? Wavelength offset of the observed line
+                                    center relative to the nominal line
+                                    wavelength for FGK giant
+                                    (FGK_Giant_del_wav_obs)
+ 610-617 F8.6   ---   e_FGKgDepO    ? Uncertainty in the observed line depth of
+                                    FGKgDepO (FGK_Giant_depth_err_obs)
+ 619-627 F9.6   ---   f_FGKgDepO    ? Warning flag associated with the
+                                    observed-spectrum line measurement for FGK
+                                    giant (FGK_Giant_warn_obs)
+     629 A1     ---     FGKgDepth   Depth-selection flag (Y/N) for FGK giant
+                                    (FGK_Giant_Flag_depth)
+     631 A1     ---     FGKgSat     Unsaturated-line flag (Y/N) for FGK giant
+                                    (FGK_Giant_Flag_Unsaturated)
+ 633-641 F9.6   ---     FGKgPurEW   ? Purity estimator based on equivalent
+                                    width for FGK giant (FGK_Giant_Purity_EW)
+     643 A1     ---     FGKgPur     Purity-selection flag (Y/N) for FGK giant
+                                    (FGK_Giant_Flag_Purity)
+ 645-653 F9.6   ---     FGKgRMSE    ? Root-mean-square error of the observed vs
+                                    synthetic comparison for FGK giant
+                                    (FGK_Giant_RMSE)
+ 655-663 F9.6   ---     FGKgMAD     ? Median absolute deviation of the
+                                    residuals for FGK giant (FGK_Giant_MAD)
+ 665-674 F10.6  ---     FGKgChi2    ? Reduced chi-square of the observed vs
+                                    synthetic comparison for FGK giant
+                                    (FGK_Giant_Chi2_Red)
+     676 A1     ---     FGKgGoF     Goodness-of-fit flag (Y/N) for FGK giant
+                                    (FGK_Giant_Flag_GoF)
+     678 A1     ---     FGKgRob     Final robust-line flag (Y/N), obtained by
+                                    combining the selection criteria for FGK
+                                    giant (FGK_Giant_Robust)
+ 680-687 F8.6   ---     MGDepS      ? Line depth measured in the synthetic
+                                    spectrum for M giant (M_Giant_depth_syn)
+ 689-697 F9.6   0.1nm   MGWoffS     ? Wavelength offset of the synthetic line
+                                    center relative to the nominal line
+                                    wavelength for M giant (M_Giant_del_wav_syn)
+ 699-706 F8.6   ---   e_MGDepS      ? Uncertainty in the synthetic line depth
+                                    of MGDepS (M_Giant_depth_err_syn)
+ 708-715 F8.6   ---   f_MGDepS      ? Warning flag associated with the
+                                    synthetic-spectrum line measurement for M
+                                    giant (M_Giant_warn_synth)
+ 717-725 F9.6   ---     MGDepO      ? Line depth measured in the observed
+                                    spectrum for M giant (M_Giant_depth_obs)
+ 727-737 F11.6  0.1nm   MGWoffO     ? Wavelength offset of the observed line
+                                    center relative to the nominal line
+                                    wavelength for M giant (M_Giant_del_wav_obs)
+ 739-746 F8.6   ---   e_MGDepO      ? Uncertainty in the observed line depth of
+                                    MGDepO (M_Giant_depth_err_obs)
+ 748-756 F9.6   ---   f_MGDepO      ? Warning flag associated with the
+                                    observed-spectrum line measurement for M
+                                    giant (M_Giant_warn_obs)
+     758 A1     ---     MGDepth     Depth-selection flag (Y/N) for M giant
+                                    (M_Giant_Flag_depth)
+     760 A1     ---     MGSat       Unsaturated-line flag (Y/N) for M giant
+                                    (M_Giant_Flag_Unsaturated)
+ 762-769 F8.6   ---     MGPurEW     ? Purity estimator based on equivalent
+                                    width for M giant (M_Giant_Purity_EW)
+     771 A1     ---     MGPur       Purity-selection flag (Y/N) for M giant
+                                    (M_Giant_Flag_Purity)
+ 773-780 F8.6   ---     MGRMSE      ? Root-mean-square error of the observed vs
+                                    synthetic comparison for M giant
+                                    (M_Giant_RMSE)
+ 782-789 F8.6   ---     MGMAD       ? Median absolute deviation of the
+                                    residuals for M giant (M_Giant_MAD)
+ 791-801 F11.6  ---     MGChi2      ? Reduced chi-square of the observed vs
+                                    synthetic comparison for M giant
+                                    (M_Giant_Chi2_Red)
+     803 A1     ---     MGGoF       Goodness-of-fit flag (Y/N) for M giant
+                                    (M_Giant_Flag_GoF)
+     805 A1     ---     MGRob       Final robust-line flag (Y/N), obtained by
+                                    combining the selection criteria for M
+                                    giant (M_Giant_Robust)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: sp/*
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label Explanations
+--------------------------------------------------------------------------------
+   1- 19 F19.13 0.1nm   Wave  Observed wavelength (waveobs)
+  21- 42 F22.18 ---     Flux  Normalized observed flux in either H/J/Y band
+                              (flux)
+  44- 46 F3.1   ---   e_Flux  Uncertainty of Flux (err)
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+     Scarlet Elgueta, sselgueta(at)gmail.com
+
+License: CC-BY-4.0
+
+================================================================================
+(End)                                          Luc Trabelsi [CDS]    23-Apr-2026

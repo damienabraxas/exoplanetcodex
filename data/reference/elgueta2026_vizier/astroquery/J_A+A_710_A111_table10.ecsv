@@ -1,0 +1,98 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: Band
+#   datatype: string
+#   description: Spectral band (Band)
+#   meta: !!omap
+#   - {ucd: OBS_BAND}
+#   - {_votable_string_dtype: char}
+# - name: Species
+#   datatype: string
+#   description: Species identifier (Species)
+#   meta: !!omap
+#   - {ucd: ID_MAIN}
+#   - {_votable_string_dtype: char}
+# - name: Total
+#   datatype: int16
+#   description: Total number of lines (Total)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 4}
+# - name: NFD
+#   datatype: int16
+#   description: Number of lines in the F dwarf (N_Fd)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: NGD
+#   datatype: int16
+#   description: Number of lines in the G dwarf (N_Gd)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: NKD
+#   datatype: int16
+#   description: Number of lines in the K dwarf (N_Kd)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: NFGKg
+#   datatype: int16
+#   description: Number of lines in the FGK giant (N_FGKg)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: NFGKsg
+#   datatype: int16
+#   description: Number of lines in the FGK subgiant (N_FGKs)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: NMG
+#   datatype: int16
+#   description: Number of lines in the M giant (N_Mg)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# meta: !!omap
+# - {ID: J_A_A_710_A111_table10}
+# - {name: J/A+A/710/A111/table10}
+# - {description: 'In and out selected line counts per species in the Y, J, and H bands'}
+# schema: astropy-2.0
+Band Species Total NFD NGD NKD NFGKg NFGKsg NMG
+Y CI 67 3 8 0 4 0 0
+Y NI 92 2 0 0 0 0 0
+Y MgI 9 0 0 0 1 3 0
+Y SiI 117 7 19 12 4 16 0
+Y PI 37 1 2 0 0 3 0
+Y SI 183 2 2 3 2 3 0
+Y CaI 480 0 1 3 2 2 0
+Y CaII 58 0 0 0 0 1 0
+Y TiI 1189 0 2 13 17 1 9
+Y CrI 1281 0 5 3 0 1 0
+Y FeI 3403 1 2 24 9 11 28
+Y FeII 4176 0 1 0 0 0 0
+Y NiI 404 1 3 2 2 2 1
+Y SrII 17 1 1 1 1 1 1
+J CI 87 8 11 1 0 8 0
+J MgI 31 0 1 2 1 2 3
+J SiI 173 6 11 6 10 6 8
+J CaI 373 0 1 1 5 1 5
+J CaII 63 2 0 0 1 1 0
+J TiI 1032 0 0 4 4 0 5
+J CrI 1149 0 2 2 0 0 0
+J FeI 4003 0 3 7 1 5 4
+J NiI 530 0 2 0 0 2 2
+J ZnI 5 0 0 3 0 0 0
+H CI 100 3 5 0 3 4 0
+H MgI 156 3 4 3 0 1 4
+H SiI 408 6 16 11 6 10 1
+H PI 45 0 0 0 0 0 0
+H SI 308 0 1 0 1 0 2
+H KI 60 1 0 2 0 3 0
+H CaI 283 0 2 1 1 1 0
+H TiI 2157 0 0 0 1 0 0
+H CrI 1212 1 1 5 0 1 0
+H FeI 5151 2 4 18 28 24 0
+H NiI 601 0 2 10 0 5 0
