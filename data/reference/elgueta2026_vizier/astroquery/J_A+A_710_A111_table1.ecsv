@@ -1,0 +1,160 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: Star
+#   datatype: string
+#   description: Star identifier (Object)
+#   meta: !!omap
+#   - {ucd: ID_MAIN}
+#   - {_votable_string_dtype: char}
+#   - {_votable_arraysize: 10*}
+# - name: SpType
+#   datatype: string
+#   description: Evolutionary/spectral class used in this work (Stage)
+#   meta: !!omap
+#   - {ucd: SPECT_TYPE_GENERAL}
+#   - {_votable_string_dtype: char}
+#   - {_votable_arraysize: 13*}
+# - name: Teff
+#   unit: K
+#   datatype: int16
+#   description: Effective temperature (Teff)
+#   meta: !!omap
+#   - {ucd: PHYS_TEMP_EFFEC}
+#   - {width: 4}
+# - name: e_Teff
+#   unit: K
+#   datatype: int16
+#   description: Uncertainty on Teff (e_Teff)
+#   meta: !!omap
+#   - {ucd: ERROR}
+#   - {width: 2}
+# - name: logg
+#   unit: log(cm.s**-2)
+#   datatype: float32
+#   format: '{:5.2f}'
+#   description: Surface gravity (logg)
+#   meta: !!omap
+#   - {ucd: PHYS_GRAVITY_SURFACE}
+#   - {width: 5}
+#   - {precision: '2'}
+# - name: e_logg
+#   unit: log(cm.s**-2)
+#   datatype: float32
+#   format: '{:5.2f}'
+#   description: Uncertainty on logg (e_logg)
+#   meta: !!omap
+#   - {ucd: ERROR}
+#   - {width: 5}
+#   - {precision: '2'}
+# - name: '[Fe/H]'
+#   unit: log(Sun)
+#   datatype: float32
+#   format: '{:5.2f}'
+#   description: Metallicity [Fe/H] (Fe_H)
+#   meta: !!omap
+#   - {ucd: PHYS_ABUND_FE/H}
+#   - {width: 5}
+#   - {precision: '2'}
+# - name: e_[Fe/H]
+#   unit: log(Sun)
+#   datatype: float32
+#   format: '{:5.2f}'
+#   description: Uncertainty on [Fe/H] (e_Fe_H)
+#   meta: !!omap
+#   - {ucd: ERROR}
+#   - {width: 5}
+#   - {precision: '2'}
+# - name: ObsDate
+#   datatype: string
+#   description: Observation date (YYYY-MM-DD) (ObsDate)
+#   meta: !!omap
+#   - {ucd: TIME_DATE}
+#   - {xtype: timestamp}
+#   - values: {'null': ' '}
+#   - {_votable_string_dtype: char}
+# - name: Time
+#   datatype: string
+#   description: Observation UT time (hh:mm) (UT)
+#   meta: !!omap
+#   - {ucd: TIME_DATE}
+#   - {xtype: hms}
+#   - values: {'null': ' '}
+#   - {_votable_string_dtype: char}
+# - name: SNRY
+#   datatype: int16
+#   description: Signal-to-noise ratio in the Y band (SNR_Y)
+#   meta: !!omap
+#   - {ucd: INST_S/N}
+#   - {width: 3}
+# - name: SNRJ
+#   datatype: int16
+#   description: Signal-to-noise ratio in the J band (SNR_J)
+#   meta: !!omap
+#   - {ucd: INST_S/N}
+#   - {width: 3}
+# - name: SNRH
+#   datatype: int16
+#   description: Signal-to-noise ratio in the H band (SNR_H)
+#   meta: !!omap
+#   - {ucd: INST_S/N}
+#   - {width: 3}
+# - name: ExpTime
+#   unit: s
+#   datatype: float32
+#   format: '{:5.1f}'
+#   description: Exposure time (ExpTime)
+#   meta: !!omap
+#   - {ucd: TIME_EXPTIME}
+#   - {width: 5}
+#   - {precision: '1'}
+# - name: Jofre15
+#   datatype: string
+#   description: 'Display the Gaia FGK benchmark stars: abundances of Jofre et al. (2015A&A...582A..81J, Cat. J/A+A/582/A81)'
+#   meta: !!omap
+#   - {ucd: DATA_LINK}
+#   - {_votable_string_dtype: char}
+#   - {_votable_arraysize: 7*}
+# - name: SP
+#   datatype: string
+#   description: Normalized spectrum fluxes from CRIRES+ spectropgraph
+#   meta: !!omap
+#   - {ucd: DATA_LINK}
+#   - {_votable_string_dtype: char}
+# - name: SimbadName
+#   datatype: string
+#   description: Simbad column added by the CDS
+#   meta: !!omap
+#   - {ucd: ID_ALTERNATIVE}
+#   - values: {'null': ' '}
+#   - {_votable_string_dtype: char}
+# - name: _RA
+#   unit: deg
+#   datatype: float64
+#   format: '{:9.5f}'
+#   description: Right Ascension (J2000) from SIMBAD (not part of the original data)
+#   meta: !!omap
+#   - {ucd: POS_EQ_RA_MAIN}
+#   - {width: 9}
+#   - {precision: '5'}
+# - name: _DE
+#   unit: deg
+#   datatype: float64
+#   format: '{:9.5f}'
+#   description: Declination (J2000) from SIMBAD (not part of the original data)
+#   meta: !!omap
+#   - {ucd: POS_EQ_DEC_MAIN}
+#   - {width: 9}
+#   - {precision: '5'}
+# meta: !!omap
+# - {ID: J_A_A_710_A111_table1}
+# - {name: J/A+A/710/A111/table1}
+# - {description: '*Stellar parameters, observational times and spectral types for the Gaia GBS stars'}
+# schema: astropy-2.0
+Star SpType Teff e_Teff logg e_logg [Fe/H] e_[Fe/H] ObsDate Time SNRY SNRJ SNRH ExpTime Jofre15 SP SimbadName _RA _DE
+alfCMi F_Dwarf 6582 5 3.98 0.02 -0.02 0.02 2022-04-06 02:11:00 660 447 360 12.9 Jofre15 SP "alf CMi" 114.82546 5.22497
+Sun G_Dwarf 5778 1 4.44 0.0 0.02 0.01 2022-11-22 00:23:00 221 155 152 362.9 Jofre15 SP "" 31.59583 12.79389
+epsEri K_Dwarf 5130 30 4.63 0.01 -0.09 0.01 2021-11-16 01:30:00 263 263 192 51.5 Jofre15 SP "eps Eri" 53.23267 -9.45825
+betHyi FGK_Subgiant 5917 25 3.97 0.04 -0.12 0.02 2021-10-28 03:05:00 309 261 249 51.5 Jofre15 SP "bet Hyi" 6.43779 -77.25422
+alfBoo FGK_Giant 4277 23 1.58 0.07 -0.55 0.01 2021-10-28 02:11:00 470 547 382 2.9 Jofre15 SP "alf Boo" 213.91529 19.18239
+gamSge M_Giant 3904 30 1.06 0.04 -0.26 0.06 2022-05-16 07:50:00 104 104 38 35.5 Jofre15 SP "gam Sge" 299.68925 19.49214
