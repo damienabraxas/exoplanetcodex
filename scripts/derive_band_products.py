@@ -64,7 +64,6 @@ from pipeline.band_products import build_product, LineMeasurement, products_fram
 from pipeline.error_budget import build as build_budget  # noqa: E402
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
-CATALOG = ROOT / "data" / "catalog" / "instrument_catalog.csv"
 OUT = ROOT / "data" / "results" / "band_products"
 
 # Measured optical residual of the profile fitter against the banked HARPS pool (RYA-713).
@@ -237,35 +236,19 @@ def main() -> None:
         from pipeline.measure import resolve_handler
         from scripts.measure_band_ew import kp_segments, load_kp_window
 
-        # TELLURIC. The handler refuses a telluric-required band unless the context
-        # DECLARES the spectrum is corrected — correctly, since before correction the
-        # observed flux is not a stellar spectrum. The declaration is read from the
-        # instrument catalog (`telluric_required`), which is the project's single source
-        # for what an instrument needs; asserting it here by hand would be exactly the
-        # unbacked claim the guard exists to stop.
+        # TELLURIC — RYA-786. An earlier version of this block DECLARED
+        # `telluric_corrected: True` from the instrument catalog to get past the handler's
+        # gate. That was wrong in kind and is removed: `telluric_required = no` for a
+        # reference atlas means the tellurics are handled by per-line clean-line SELECTION,
+        # NOT that the atlas has been telluric-divided. The KPNO atlas HAS tellurics in it,
+        # so declaring it corrected asserted something that never happened.
         #
-        # For `kpno_solar_atlas` the catalog records `telluric_required: no` — it is a
-        # reduced disk-integrated flux atlas, not raw observed flux. Independently, the
-        # EW measurement SKIPS lines inside telluric windows rather than correcting them
-        # (`telluric_reason`), so the line set reaching this block never sat in one.
-        cat = pd.read_csv(CATALOG)
-        hit = cat[cat.instrument_id.astype(str) == a.instrument]
-        if not len(hit):
-            raise SystemExit(
-                f"instrument {a.instrument!r} is not in {CATALOG.name}. The telluric "
-                f"state cannot be asserted for an instrument the catalog does not know.")
-        needs = str(hit.iloc[0].get("telluric_required", "")).strip().lower()
-        tell_ok = needs in ("no", "false", "0", "nan", "")
-        if not tell_ok:
-            raise SystemExit(
-                f"{a.instrument} is registered `telluric_required={needs}` and no verified "
-                f"correction is wired into this driver. RYA-783's telluric rule: no IR "
-                f"abundance without verified telluric correction. Refusing to synthesise.")
-
+        # The determination now lives in `pipeline.telluric_policy` and the handler
+        # consumes it: the instrument decides whether a CORRECTION STAGE is required, and
+        # the enumerated O2/H2O bands quarantine individual lines inside them. Passing the
+        # instrument through the context is all this driver has to do.
         handler = resolve_handler(3400.0)      # the synthesis handler
-        handler.prepare(pol, {**ctx, "telluric_corrected": True,
-                              "telluric_basis": f"instrument_catalog: {a.instrument} "
-                                                f"telluric_required={needs}"})
+        handler.prepare(pol, {**ctx, "instrument": a.instrument})
         segs = kp_segments()
         rows_b: list[LineMeasurement] = []
         for _, r in ok.iterrows():
