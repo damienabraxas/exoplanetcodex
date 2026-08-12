@@ -42,7 +42,8 @@ from pipeline.lines_fit import (  # noqa: E402
 from pipeline.band_products import LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
-    kp_segments, load_kp_window, telluric_reason, PRE_NORMALISED, verify_feature,
+    kp_segments, load_kp_window, load_window, telluric_reason, PRE_NORMALISED,
+    verify_feature,
     attribute_root_cause)
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
@@ -138,14 +139,14 @@ def main() -> None:
         sel = sel.iloc[idx].reset_index(drop=True)
     print(f"  candidates {len(sel)}")
 
-    segs = kp_segments()
+    segs = kp_segments() if a.instrument == "kpno_solar_atlas" else None
     allw = acc.wave_air_A.values
     pre = PRE_NORMALISED[a.instrument]
 
     rows, skipped, causes = [], [], []
     for _, r in sel.iterrows():
         c = float(r.wave_air_A)
-        why = telluric_reason(c)
+        why = telluric_reason(c, a.instrument)
         if why:
             skipped.append(dict(wave=c, reason=why)); continue
 
@@ -162,7 +163,9 @@ def main() -> None:
             rows.append(lm)
             continue
         try:
-            w, f, src = load_kp_window(segs, c, pad=CONT_HALF_A * 1.3)
+            # RYA-783: dispatched by instrument so the IAG arm runs through the
+            # same harness rather than a parallel copy of it.
+            w, f, src = load_window(a.instrument, c, CONT_HALF_A * 1.3, segs)
             m = np.abs(w - c) <= CONT_HALF_A
             wf, ff = w[m], f[m]
             if wf.size < 40:
