@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-12
 
+- **RYA-794** — the 18 CRIRES+ Vesta IDPs re-pulled from ESO (lost from us, not the archive); Y certifies ZERO solar Fe I, but J+H certify 74 ⇒ unblocks RYA-797
 - **RYA-784** — ENGINE-B wired into `derive_band_products.py`; the driver reserved it and produced no value ⇒ unblocks the RYA-783 Engine-B leg
 - **RYA-786** — `telluric_basis` added to `instrument_catalog.csv` + `telluric_policy.py` is the single source; splits "corrected" from "line_selection"
 - **RYA-783** — IAG arm added: the telluric split recovers 94 Fe I IR lines (89 KP vs 183 IAG in-aggregate, 2.1x)
