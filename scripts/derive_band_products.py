@@ -22,8 +22,9 @@ One row per **treatment**, never merged:
                    WHICH synthesis is selected by `--engine-b-deck` (RYA-784):
                      `ts-lte`       Turbospectrum LTE flux-fit. What the register calls
                                     Engine B in production for all 27 species. Default.
-                     `gerber-nlte`  the TS-native Gerber departure deck (RYA-533). NOT yet
-                                    provisioned for Fe — RYA-785 pulls atom.fe607a. Selecting
+                     `gerber-nlte`  the TS-native Gerber departure deck (RYA-533/785), wired by
+                                    RYA-798. Runs on MARCS.GES and emits a SEPARATE
+                                    ENGINE-B-NLTE product (RYA-712).
                                     it today fails LOUDLY rather than silently returning the
                                     LTE number under an NLTE label, which is the one
                                     confusion this flag exists to prevent.
@@ -123,7 +124,9 @@ def main() -> None:
     ap.add_argument("--engine-b-deck", choices=["ts-lte", "gerber-nlte"], default="ts-lte",
                     help="which synthesis is Engine B. 'ts-lte' is the production "
                          "Turbospectrum LTE flux-fit; 'gerber-nlte' is the TS-native "
-                         "departure deck and is not provisioned for Fe until RYA-785.")
+                         "Gerber departure deck (validated RYA-785, wired RYA-798). "
+                         "It runs on MARCS.GES to match the deck and emits a SEPARATE "
+                         "ENGINE-B-NLTE product -- never a correction to Engine-B-LTE.")
     ap.add_argument("--skip-engine-b", action="store_true",
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
@@ -225,42 +228,77 @@ def main() -> None:
     if a.skip_engine_b:
         print("\n[3] ENGINE-B — skipped (--skip-engine-b)")
     elif a.engine_b_deck == "gerber-nlte":
-        # RYA-785. The reason this refuses has CHANGED, and the old message is now false:
-        # the Fe deck IS provisioned and, as of the second pass, VALIDATED — it reproduces
-        # Gerber+2023's own published solar anchor (+0.06) to 0.0011 dex on 8 isolated
-        # lines. So "not provisioned" would be a wrong statement, and a wrong reason is
-        # worth as much as a wrong number.
+        # RYA-798 — WIRED. This branch used to refuse, and its stated reason changed twice
+        # as the truth did: first "not provisioned" (wrong once RYA-785 registered the
+        # deck), then "validated but not wired" (right until now). What was actually
+        # missing was never the physics:
         #
-        # What is still missing is PLUMBING, named precisely so nobody re-derives it:
-        #   * iSpec's Turbospectrum wrapper DOES accept NLTE — `generate_spectrum(...,
-        #     nlte_departure_coefficients=...)` writes the departure + nlteinfo files;
-        #   * but `_fit_synth_flux`, which this driver's handler calls, has no NLTE
-        #     parameter at all, so there is nowhere to hand them in;
+        #   * iSpec's Turbospectrum wrapper has always accepted NLTE — `generate_spectrum(
+        #     ..., nlte_departure_coefficients=...)` writes the departure + nlteinfo files;
+        #   * but `_synth_flux_at_abund`, the ONE generator the v1 EW path and the v2 flux
+        #     fit both call, had no NLTE parameter, so there was nowhere to hand them in;
         #   * and iSpec's own interpolator reads `input/dep-grid/{El}_nlte_grid_data.h5`,
-        #     which is EMPTY on Sirius — our deck is TS-native (atom.* + auxData + .bin),
-        #     a different format, currently consumed only by the gate's direct
-        #     interpol_modeles_nlte + bsyn calls.
+        #     which is EMPTY on Sirius, while our deck is TS-native (atom.* + auxData +
+        #     .bin). `pipeline/gerber_nlte.py` is the adapter between the two.
         #
-        # ⚠️ And iSpec fails SOFT here: an element whose linelist rows carry no NLTE label
-        # lands in `nlte_ignored` and the synthesis proceeds in LTE without raising. That is
-        # the RYA-764 trap (2,644 in-band Fe I lines with nlte_label_up='none' running
-        # silently in LTE). So the wiring owes a hard check on `nlte_available`, not just a
-        # successful call — which is exactly why this stays a refusal rather than a
-        # best-effort attempt. Returning the LTE synthesis under an NLTE label is still the
-        # single worst outcome available here.
-        raise SystemExit(
-            "ENGINE-B deck 'gerber-nlte' is VALIDATED but NOT WIRED. The Gerber deck "
-            "passed its RYA-785 gate (median +0.0589 vs the published Gerber+2023 solar "
-            "anchor +0.06, n=8 isolated lines), so the physics is cleared — but "
-            "`_fit_synth_flux` has no NLTE parameter and iSpec's dep-grid store is empty, "
-            "so there is no path from this driver to a real NLTE synthesis. Refusing: "
-            "returning the LTE synthesis under an NLTE label is the single worst outcome "
-            "available here. Use --engine-b-deck ts-lte. See RYA-785 for the wiring ticket.")
-    else:
-        print(f"\n[3] ENGINE-B — Turbospectrum LTE flux-fit "
-              f"(deck={a.engine_b_deck}; NOT the Gerber NLTE deck)...")
+        # ⚠️ iSpec fails SOFT: an element whose linelist rows carry no NLTE label lands in
+        # `nlte_ignored` and the synthesis proceeds in LTE WITHOUT RAISING — the RYA-764
+        # trap (2,644 in-band Fe I lines at nlte_label_up='none'). iSpec never reports
+        # `nlte_available` back, so the check cannot be made after the call: it is made
+        # before, by `assert_linelist_supports_nlte`, which raises instead.
+        #
+        # ⚠️ The departures do NOT track the fitted abundance. Measured, not assumed: the
+        # interpolator run at A = 7.36 / 7.46 / 7.56 returns byte-identical files apart
+        # from the abundance stamp on line 8, and the Gerber aux table has no abundance
+        # axis at all (A(X) is exactly 7.50 + [Fe/H] across all 15229 nodes). So the
+        # coefficients are computed ONCE per node and held fixed across the chi2 loop while
+        # only the stamp follows each trial value — which is what the deck does anyway. It
+        # remains an approximation of the physics, second-order over the ~0.3 dex a fit
+        # explores, and it is stated on the product rather than buried in a comment.
+        #
+        # This is a SEPARATE PRODUCT from Engine-B-LTE, never a correction applied to it
+        # (RYA-712). The Gerber-vs-MPIA spread stays an RYA-525 diagnostic.
+        pass    # RYA-798 wired it; the run is below, sharing the LTE block.
+    if not a.skip_engine_b:
+        nlte = a.engine_b_deck == "gerber-nlte"
+        treatment = "ENGINE-B-NLTE" if nlte else "ENGINE-B"
+        print(f"\n[3] {treatment} — Turbospectrum flux-fit (deck={a.engine_b_deck})...")
         from pipeline.measure import resolve_handler
         from scripts.measure_band_ew import kp_segments, load_kp_window
+
+        # ── RYA-798: the Gerber deck is MARCS, and the production default is not ────
+        # NLTEgrid4TS_Fe_MARCS was computed on MARCS atmospheres. `_load_atmosphere`
+        # defaults to ATLAS9.Castelli: 72 layers and only 10 columns, so index 7 — the
+        # column iSpec writes into the departure file as tau — is not a tau at all and
+        # reads as zeros. iSpec OVERWRITES the departure tau with that column, so ATLAS9
+        # would pair MARCS departures with a degenerate depth scale and still return a
+        # spectrum. MARCS.GES matches the deck exactly: 56 layers, tau -4.9154..1.7709
+        # against the departure grid's -4.9177..1.7744.
+        #
+        # ⚠️ THIS ALSO MEANS THE LTE COMPARAND MUST BE MARCS. Comparing a MARCS Engine-B
+        # NLTE against an ATLAS9 Engine-B LTE would fold an ATMOSPHERE difference into the
+        # reported NLTE effect — the exact confound RYA-542 had to disentangle for Ti
+        # (MARCS +0.203 reproducing deck +0.221 => ATMOSPHERE). So the atmosphere is
+        # swapped for the whole Engine-B leg whenever the NLTE deck is selected, and the
+        # product records which atmosphere it ran on.
+        ctx_b = dict(ctx)
+        if nlte:
+            from pipeline.abundances_derive import _load_atmosphere
+            from pipeline import gerber_nlte as gnlte
+            ctx_b["atmosphere"] = _load_atmosphere(
+                float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
+                float(ctx["vturb"]), model_grid="MARCS.GES")
+            ctx_b["nlte_deck"] = "gerber"
+            dep = gnlte.for_node("Fe" if a.element == "Fe" else a.element,
+                                 float(ctx["teff"]), float(ctx["logg"]),
+                                 float(ctx["feh"]))
+            gnlte.assert_depth_match(dep, ctx_b["atmosphere"])
+            n_lab = gnlte.assert_linelist_supports_nlte(
+                ctx["linelist"], int(ctx["atom_code"]), a.element)
+            print(f"    deck atom={dep['atom_path'].split('/')[-1]} "
+                  f"ndep={dep['ndep']} nk={dep['nk']} A_deck={dep['deck_abundance']}")
+            print(f"    atmosphere MARCS.GES ({len(ctx_b['atmosphere'])} layers), "
+                  f"{n_lab} NLTE-labelled {a.element} lines in the list")
 
         # TELLURIC — RYA-786. An earlier version of this block DECLARED
         # `telluric_corrected: True` from the instrument catalog to get past the handler's
@@ -274,7 +312,7 @@ def main() -> None:
         # the enumerated O2/H2O bands quarantine individual lines inside them. Passing the
         # instrument through the context is all this driver has to do.
         handler = resolve_handler(3400.0)      # the synthesis handler
-        handler.prepare(pol, {**ctx, "instrument": a.instrument})
+        handler.prepare(pol, {**ctx_b, "instrument": a.instrument})
         segs = kp_segments()
         rows_b: list[LineMeasurement] = []
         for _, r in ok.iterrows():
@@ -284,7 +322,8 @@ def main() -> None:
             except Exception as e:
                 lb = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                                      instrument=a.instrument, ew_mA=float("nan"),
-                                     ew_method="synthesis flux-fit", treatment="ENGINE-B")
+                                     ew_method="synthesis flux-fit",
+                                     treatment=treatment)
                 lb.in_aggregate = False
                 lb.excluded_reason = f"WINDOW-LOAD: {type(e).__name__}: {str(e)[:60]}"
                 rows_b.append(lb)
@@ -295,8 +334,8 @@ def main() -> None:
                 # Kitt Peak is atlas residual flux; HARPS arrives normalised by our own
                 # pipeline. Both are already on a continuum and neither wants a second.
                 pre_normalised=True,
-                context={**ctx, "ew_hint_mA": float(r.ew_mA)})
-            lb.treatment = "ENGINE-B"
+                context={**ctx_b, "ew_hint_mA": float(r.ew_mA)})
+            lb.treatment = treatment
             rows_b.append(lb)
 
         # RYA-768: deterministic row order, so the artifact byte-diffs clean.
