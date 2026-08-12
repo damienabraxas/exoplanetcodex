@@ -1,0 +1,36 @@
+{
+  "ticket": "RYA-780",
+  "n_measured": 100,
+  "n_primary": 33,
+  "n_disputed": 14,
+  "dispositions": {
+    "QUARANTINED-SCALE-EVIDENCE": 7,
+    "NO-PRIMARY-NO-EVIDENCE-AGAINST": 7
+  },
+  "primary_scale": {
+    "intercept": 9.119192,
+    "ep": -0.011528,
+    "rew": 0.299748,
+    "rms": 0.161736,
+    "n": 33
+  },
+  "scale_validation": {
+    "DenHartog2014": {
+      "n": 8,
+      "median_delta": 0.0
+    },
+    "Ruffoni2014": {
+      "n": 4,
+      "median_delta": 0.0
+    }
+  },
+  "median_A_before": 7.629883,
+  "median_A_after": 7.621094,
+  "median_A_primary_only": 7.550781,
+  "n_with_primary_measurement": 0,
+  "population_sign_test": {
+    "n_positive": 14,
+    "n": 14,
+    "p": 6.1035156e-05
+  }
+}

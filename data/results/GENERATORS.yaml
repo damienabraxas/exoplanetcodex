@@ -323,3 +323,33 @@ artifacts:
       The equivalent Fe artifact is deliberately NOT landed here: its input measurement
       (FeI_6910_9199_..._ew.csv) is not on main, so it could not be regenerated from this
       repo. It lands with RYA-713's Fe measurement, not before.
+
+  # ── RYA-780 Fe IR gf-source adjudication ──────────────────────────────────────────
+
+  - artifact: fe_ir_gf/FeI_IR_gf_disposition.csv
+    generator: scripts/rya780_fe_ir_gf_adjudication.py
+    invocation: python scripts/rya780_fe_ir_gf_adjudication.py --lines-csv <FeI_6910_9199 1D-LTE per-line artifact>
+    ticket: RYA-780
+    note: >-
+      Per-line disposition of the 14 disputed Fe I IR lines (GES source FMW or GESB82c),
+      adjudicated against PRIMARY laboratory measurements rather than against another
+      catalogue -- RYA-760 established that neither GES, VALD nor NIST ASD is independent of
+      FMW. Every row carries its pool gf, VALD's own source attribution, whether a primary
+      measurement of that transition exists, its residual against a reference scale fitted to
+      the pool's primary-sourced lines at matched EP and REW, and the provenance reason.
+      The reason NEVER cites delta-vs-anchor (the RYA-161 firewall); the reference is the
+      primary-source population and is itself validated against Den Hartog 2014.
+      The `--lines-csv` input is passed in, not hardcoded: the Fe IR band product is not on
+      main (it rides RYA-759, and RYA-783 owns emitting it), so this artifact records the
+      adjudication, not the band product. Same pattern as scripts/rya760_source_adjudication.py.
+
+  - artifact: fe_ir_gf/FeI_IR_gf_disposition_summary.json
+    generator: scripts/rya780_fe_ir_gf_adjudication.py
+    invocation: python scripts/rya780_fe_ir_gf_adjudication.py --lines-csv <FeI_6910_9199 1D-LTE per-line artifact>
+    ticket: RYA-780
+    note: >-
+      Machine-readable summary of the same run: disposition counts, the fitted primary scale
+      and its rms, the Den Hartog / Ruffoni validation of that scale, the population sign test
+      (14 of 14 disputed lines read high, p = 6.1e-05), and the Fe IR 1D-LTE median before and
+      after quarantining. Kept beside the CSV so the headline numbers are not re-derived by
+      hand from it.

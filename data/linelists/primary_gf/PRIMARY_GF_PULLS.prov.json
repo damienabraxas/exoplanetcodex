@@ -1,0 +1,42 @@
+{
+  "ticket": "RYA-780",
+  "what": "PRIMARY LABORATORY Fe I oscillator strengths, vendored so the RYA-780 adjudication reproduces without the network. These are the independent referee: RYA-760 established that neither GES nor VALD can adjudicate FMW (VALD carries FMW's own numbers, 96.6% byte-identical) and that NIST ASD cannot either, because FMW = Fuhr, Martin & Wiese IS a NIST compilation. Only a primary measurement can referee a compilation's scale.",
+  "pulled_by": "Claude Code (Mr Code) for Ryan Schmitt",
+  "pulled_date": "2026-08-11",
+  "files": [
+    {
+      "file": "denhartog2014_FeI_6900_9250.tsv",
+      "md5": "b874f345c32c7a008cf6061bd1b71ead",
+      "bytes": 6952,
+      "source": "Den Hartog, Ruffoni, Lawler, Pickering, Lind & Brewer 2014, ApJS 215, 23 -- 'Fe I radiative lifetime and branching fractions'",
+      "via": "VizieR J/ApJS/215/23/table4",
+      "query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJS/215/23/table4&-out.max=unlimited&-out.all&lamAir=6900..9250",
+      "method": "FTS branching fractions normalised on laser-induced-fluorescence radiative lifetimes -- a primary measurement, independent of every compilation.",
+      "rows_in_band": 38,
+      "columns_used": "lamAir, E0 (lower level, cm-1), J0, E1, J1, log(gf), e_log(gf), log(gf)P + r_log(gf)P (the previously published value and its reference)"
+    },
+    {
+      "file": "ruffoni2014_FeI_table5.tsv",
+      "md5": "c53c2316db730f4924c6e445fddfb0e5",
+      "bytes": 5847,
+      "source": "Ruffoni, Den Hartog, Lawler, Ryde, Pickering & Nave 2014, MNRAS 441, 3127 -- 'Fe I oscillator strengths for Gaia-ESO'",
+      "via": "VizieR J/MNRAS/441/3127/table5",
+      "query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/MNRAS/441/3127/table5&-out.max=unlimited&-out.all",
+      "method": "FTS branching fractions on LIF lifetimes. This is the SAME work the pool already cites as GESHRL14 / 2014MNRAS. -- vendored here so its BAND COVERAGE is checkable rather than assumed.",
+      "rows_total": 36,
+      "rows_in_band": 12
+    }
+  ],
+  "coverage_of_the_disputed_set": {
+    "disputed_transitions": 14,
+    "covered_by_den_hartog_2014": 0,
+    "covered_by_ruffoni_2014_table5": 0,
+    "meaning": "NO primary laboratory measurement exists for ANY of the 14 disputed Fe I IR transitions. This is a coverage fact about the literature, not a judgement -- so no line can be RE-SOURCED (RYA-354 RECOVERED) today. Den Hartog measured branching fractions out of a different set of upper levels; Ruffoni's Gaia-ESO set targets different multiplets."
+  },
+  "what_they_DO_referee": {
+    "finding": "Den Hartog 2014 CORROBORATES the pool's primary-sourced gf values on the 8 lines where they overlap: median (Den Hartog - catalogue) = +0.000 dex, max |delta| 0.10 (BWL+GESHRL n=2 median -0.007; GESHRL14 n=6 median +0.000).",
+    "why_it_matters": "The adjudication compares each disputed line against a reference scale built from the pool's primary-sourced lines. That reference is therefore INDEPENDENTLY VALIDATED rather than assumed -- which is the difference between a controlled comparison and a circular one."
+  },
+  "matching_rule": "Wavelength AND lower-level energy. Wavelength alone at a 0.06 A tolerance produced a FALSE pair: our K07 line at 8876.0059 (EP 4.584 eV) against Den Hartog's 8876.0241 (E0 40491.281 cm-1 = 5.020 eV) -- a different transition, and it would have manufactured a 2.85 dex 'discrepancy'. The EP filter is load-bearing.",
+  "nist_asd_status": "STILL DOWN as of 2026-08-11 23:25 UTC -- every query returns 'Can't use an undefined value as an ARRAY reference at .../ASD/lines1.pl line 701' (HTTP 500). Re-verified this session, one day after RYA-760 recorded it. Secondary in any case: ASD carries the FMW compilation for Fe I, so agreement would prove only the absence of a transcription error."
+}
