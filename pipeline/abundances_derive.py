@@ -773,6 +773,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
                          trial_A: float,
                          R: float = 500000, macroturbulence: float = 0.0,
                          vsini: float = 0.0,
+                         nlte_departures=None,
                          tmp_dir: str = '/tmp/ispec_codex_synth') -> np.ndarray:
     """
     Normalized Turbospectrum synthetic flux over `waveobs_nm` with ONLY the target
@@ -786,6 +787,25 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
     v1 behaviour is byte-for-byte unchanged; v2 passes the observed broadening.
     """
     fixed_ab = _build_fixed_ab(element, atom_code, trial_A)
+    # RYA-798. `nlte_departures` is the dict iSpec's Turbospectrum wrapper expects,
+    # {element: (departures, tau, ndep, nk, Z, abundance, atom_path)}, built by
+    # pipeline.gerber_nlte from the TS-native Gerber deck. It defaults to None and the
+    # LTE call below is then character-for-character the pre-RYA-798 call — RYA-770
+    # stabilised this path at -0.026 dex against the banked optical answer and it must
+    # not move. `pipeline.gerber_nlte.assert_linelist_supports_nlte` is the caller's
+    # obligation before passing a non-None value: iSpec drops an unlabelled element into
+    # `nlte_ignored` and synthesises it in LTE WITHOUT RAISING (RYA-764).
+    if nlte_departures is not None:
+        return ispec.generate_spectrum(
+            waveobs_nm, atmosphere,
+            teff, logg, feh, 0.0,
+            linelist, isotopes, solar_abund, fixed_ab,
+            microturbulence_vel=vturb,
+            macroturbulence=macroturbulence, vsini=vsini, R=R,
+            verbose=0, code='turbospectrum',
+            nlte_departure_coefficients=nlte_departures,
+            tmp_dir=tmp_dir,
+        )
     return ispec.generate_spectrum(
         waveobs_nm, atmosphere,
         teff, logg, feh, 0.0,
@@ -1169,6 +1189,7 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                     wave_base: float, wave_top: float,
                     a_lo: float, a_hi: float,
                     R: float, vmac: float, vsini: float,
+                    nlte_deck: str | None = None,
                     tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
     """
     v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
@@ -1207,13 +1228,36 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                element=element, atom_code=atom_code, R=R, macroturbulence=vmac,
                vsini=vsini, tmp_dir=tmp_dir)
 
+    # RYA-798. NLTE departures, when a deck is named. Two facts decide the shape of this,
+    # both MEASURED (see pipeline/gerber_nlte):
+    #   * the deck has NO abundance axis — running the interpolator at 7.36/7.46/7.56
+    #     gives byte-identical files except the stamp on line 8 — so the coefficients are
+    #     a property of the atmosphere node and are computed ONCE, outside the chi2 loop,
+    #     rather than per evaluation;
+    #   * bsyn compares the synthesis abundance against that stamp and STOPs on a
+    #     mismatch, so the STAMP must follow each trial value. That is the stamp following
+    #     the synthesis, not the physics following the abundance — the departures are held
+    #     fixed across the fit, and the product says so.
+    _dep = None
+    if nlte_deck is not None:
+        from pipeline import gerber_nlte as _gn
+        if nlte_deck != 'gerber':
+            raise ValueError(f"unknown NLTE deck {nlte_deck!r} (only 'gerber' is wired)")
+        _gn.assert_linelist_supports_nlte(linelist, atom_code, element)
+        _dep = _gn.for_node(element, teff, logg, feh)
+
     n_eval = [0]
     fail   = [None]
 
     def chi2(a_x):
         n_eval[0] += 1
         try:
-            sf = _synth_flux_at_abund(sw, trial_A=float(a_x), **_kw)
+            _nd = None
+            if _dep is not None:
+                _nd = {element: (_dep['departures'], _dep['tau'], _dep['ndep'],
+                                 _dep['nk'], _dep['Z'], float(a_x), _dep['atom_path'])}
+            sf = _synth_flux_at_abund(sw, trial_A=float(a_x),
+                                      nlte_departures=_nd, **_kw)
         except Exception as exc:
             fail[0] = str(exc)
             return 1e30
