@@ -158,11 +158,33 @@ class SynthesisHandler(MeasurementHandler):
                 f"SynthesisHandler needs {missing} in the run context. These come from the "
                 f"converged composition and the iSpec setup; inventing any of them would "
                 f"silently change what the fit measures.")
-        if policy.telluric_required and not context.get("telluric_corrected"):
-            raise RuntimeError(
-                f"the {policy.name} band requires telluric correction and the context does "
-                f"not declare `telluric_corrected`. Before correction the observed flux is "
-                f"not a stellar spectrum.")
+        # TELLURIC (RYA-786). This used to gate on the BAND's telluric_required plus a
+        # `telluric_corrected` key in the context, which re-asked a question already
+        # answered in three places (RYA-424 routing, the instrument catalog, the RYA-460
+        # per-line regime decision) and made every new band run re-collide with it.
+        #
+        # It also invited the wrong fix: declaring `telluric_corrected` to get past the
+        # gate asserts a correction that was never applied. For a reference atlas the
+        # honest basis is the instrument flag PLUS per-line clean-line selection, and the
+        # per-line part is enforced where it belongs — on the LINE, in measure_line —
+        # not by refusing the whole band here.
+        from pipeline.telluric_policy import gate as _telluric_gate
+        _inst = context.get("instrument") or context.get("instrument_id")
+        if _inst:
+            ok, basis = _telluric_gate(_inst, bool(context.get("analysis_ready")))
+            if not ok:
+                raise RuntimeError(basis)
+            self._telluric_basis = basis
+        else:
+            # No instrument in the context: fall back to the band flag rather than
+            # assuming. An unnamed instrument cannot be looked up, and guessing is the
+            # failure this ticket closes.
+            if policy.telluric_required and not context.get("telluric_corrected"):
+                raise RuntimeError(
+                    f"the {policy.name} band requires telluric correction and the run "
+                    f"context names no instrument, so the RYA-786 policy cannot resolve "
+                    f"it. Pass `instrument` in the context.")
+            self._telluric_basis = "band flag (no instrument in context)"
 
         import os
         from pipeline.abundances_derive import (
@@ -186,10 +208,35 @@ class SynthesisHandler(MeasurementHandler):
                     macroturbulence=float(ctx["macroturbulence"]),
                     vsini=float(ctx["vsini"]), tmp_dir=self._tmp_dir)
 
+    def _quarantine_telluric(self, element, ion, c, instrument, why) -> LineMeasurement:
+        """A telluric-band line, refused with its reason (RYA-786/711)."""
+        dbg.trace_fallback('synth_line_rejected', f'{element} {ion} {c:.3f}: {why}',
+                           severity='INFO', species=f'{element} {ion}', wavelength=c,
+                           tag='QUARANTINED-TELLURIC')
+        # Opts out of the EW-inversion path like every other row this handler builds:
+        # it fits flux and inverts no equivalent width. The RYA-770 guard asserts every
+        # construction site does so, and it caught this one when it did not.
+        # (The guard counts literal occurrences, so do not name the flag in prose here.)
+        lm = LineMeasurement(element=element, ion=ion, wavelength_air_A=c,
+                             instrument=instrument, ew_mA=float("nan"),
+                             ew_method="not measured — telluric band",
+                             treatment="ENGINE-B", ew_inversion=False)
+        lm.in_aggregate = False
+        lm.excluded_reason = why
+        return lm
+
     def measure_line(self, wav, flux, *, element, ion, wavelength_A, instrument,
                      policy: BandPolicy, pre_normalised: bool,
                      context: dict[str, Any]) -> LineMeasurement:
         c = float(wavelength_A)
+
+        # RYA-786: the telluric decision is PER LINE for a reference atlas. A line inside
+        # an enumerated O2/H2O band is quarantined as a stated physics exclusion (RYA-777),
+        # never measured and never silently corrected. Lines outside them run.
+        from pipeline.telluric_policy import exclusion as _telluric_exclusion
+        _why = _telluric_exclusion(c)
+        if _why:
+            return self._quarantine_telluric(element, ion, c, instrument, _why)
 
         def quarantine(reason: str, ew=float("nan")) -> LineMeasurement:
             # RYA-770: THE single choke point for every rejection this handler makes,
