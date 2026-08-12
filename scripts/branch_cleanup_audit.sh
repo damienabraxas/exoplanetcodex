@@ -36,10 +36,33 @@ set -euo pipefail
 
 MAIN_LOCAL="main"
 MAIN="origin/main"                            # the authority; see correction 2
-PROTECT_PATTERNS='rya-784|rya-785|rya-762'    # current in-flight work; extend as needed
+
+# Protected in-flight TICKET NUMBERS. Add numbers here, not regexes.
+PROTECT_TICKETS='784 785 762'
+
+# The pattern is BUILT from those numbers and must tolerate every way this repo spells a
+# ticket in a branch name. This is not hypothetical: the spec's literal 'rya-784|rya-785|
+# rya-762' let `rya785-rebased` through into DELETE -- no hyphen, so no match -- while
+# RYA-785 was named as protected in-flight work. `rya784-rebase`, `rya784-tip`, `rya768`,
+# `rya760-vald` and `rya763-probe` are all the same shape, and they escaped only because
+# they happened to be unmerged. Matching a bare number with an optional separator, case
+# insensitively, closes that; the trailing (^|[^0-9]) guards stop 78 matching 785.
+sep='[-_]?'
+PROTECT_PATTERNS=""
+for t in $PROTECT_TICKETS; do
+  PROTECT_PATTERNS="${PROTECT_PATTERNS}${PROTECT_PATTERNS:+|}[Rr][Yy][Aa]${sep}${t}([^0-9]|$)"
+done
 LOG="branch_cleanup_$(date +%Y%m%d_%H%M%S).log"
 EXECUTE=0
-[[ "${1:-}" == "--execute" ]] && EXECUTE=1
+APPROVED=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --execute)  EXECUTE=1 ;;
+    --approved) APPROVED="${2:?--approved needs a file}"; shift ;;
+    *) echo "unknown argument: $1" >&2; exit 2 ;;
+  esac
+  shift
+done
 
 git fetch --prune --quiet
 CUR=$(git rev-parse --abbrev-ref HEAD)
@@ -127,8 +150,49 @@ print_bucket "MERGED but BLOCKED -- checked out in a worktree, cannot delete" \
 print_bucket "DELETE CANDIDATES" ${DELETE[@]+"${DELETE[@]}"}
 
 if [[ "$EXECUTE" -eq 0 ]]; then
-  printf '\nDRY RUN -- nothing deleted. Review the candidates, then re-run with --execute.\n'
+  printf '\nDRY RUN -- nothing deleted.\n'
+  printf 'To have the approved set honoured exactly, save it and pass it back:\n'
+  printf '  bash %s > audit.txt          # this run\n' "$0"
+  printf "  awk '/^== DELETE CANDIDATES/,0' audit.txt | grep '^  ' | sed 's/^  //' \\\\\n"
+  printf "      | grep -v '^<none>' | cut -d'|' -f1 > approved.txt\n"
+  printf '  bash %s --execute --approved approved.txt\n' "$0"
   exit 0
+fi
+
+# --------------------------------------------------------------------------------
+# THE APPROVED-LIST GATE. --execute RE-CLASSIFIES from scratch rather than trusting a
+# list printed earlier, which is the safe direction: a branch that gained new commits
+# since the dry run is re-tested and drops out on its own.
+#
+# But it means the set deleted can DIFFER from the set approved, and that gap is real,
+# not theoretical -- it opened during this very ticket. Between two dry runs minutes
+# apart, another session merged PR #236, which released a worktree and moved
+# rya-782-fe-ir-rew-trend from BLOCKED into DELETE. Nothing was wrong; the repo simply
+# moved. With --approved, deletion is the INTERSECTION of "still provably merged now"
+# and "on the list a human signed off", so concurrent activity can only ever shrink the
+# set, never smuggle a branch into it.
+# --------------------------------------------------------------------------------
+if [[ -n "$APPROVED" ]]; then
+  [[ -f "$APPROVED" ]] || { echo "FATAL: approved list '$APPROVED' not found."; exit 1; }
+  declare -a GATED=()
+  for entry in ${DELETE[@]+"${DELETE[@]}"}; do
+    b="${entry%%|*}"
+    if grep -qxF "$b" "$APPROVED"; then
+      GATED+=("$entry")
+    else
+      echo "SKIP (newly qualified, NOT on the approved list): $b"
+    fi
+  done
+  while IFS= read -r a; do
+    [[ -z "$a" ]] && continue
+    printf '%s\n' ${DELETE[@]+"${DELETE[@]}"} | grep -q "^$a|" \
+      || echo "NOTE (approved but no longer a candidate -- left alone): $a"
+  done < "$APPROVED"
+  DELETE=(${GATED[@]+"${GATED[@]}"})
+  printf 'Approved-list gate: %d branch(es) will be deleted.\n' "${#DELETE[@]}"
+else
+  echo "WARNING: --execute without --approved. Deleting the freshly classified set,"
+  echo "         which may differ from any list reviewed earlier."
 fi
 
 printf '\nDeleting (tip SHAs -> %s for recovery)...\n' "$LOG"
