@@ -1,0 +1,103 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: Band
+#   datatype: string
+#   description: Spectral band (Band)
+#   meta: !!omap
+#   - {ucd: OBS_BAND}
+#   - {_votable_string_dtype: char}
+# - name: Species
+#   datatype: string
+#   description: Species identifier labels with a compact ASCII notation (Species)
+#   meta: !!omap
+#   - {ucd: ID_MAIN}
+#   - {_votable_string_dtype: char}
+# - name: Lambda
+#   unit: 0.1 nm
+#   datatype: float64
+#   format: '{:9.3f}'
+#   description: Central wavelength (Lambda)
+#   meta: !!omap
+#   - {ucd: SPECT_WAVELENGTH_CENTRAL}
+#   - {width: 9}
+#   - {precision: '3'}
+# meta: !!omap
+# - {ID: J_A_A_710_A111_table7}
+# - {name: J/A+A/710/A111/table7}
+# - {description: 'Robust (YYYY) transitions for alf Boo FGK giant in the Y, J, and H bands'}
+# schema: astropy-2.0
+Band Species Lambda
+Y CI 10123.87
+Y CI 10685.34
+Y CI 10707.32
+Y CI 10729.53
+Y MgI 9828.132
+Y MgI 10312.531
+Y SiI 10313.197
+Y SiI 10371.263
+Y SiI 10407.037
+Y SiI 10582.16
+Y SiI 10689.716
+Y SiI 10694.251
+Y SI 10459.46
+Y TiI 9879.582
+Y TiI 9997.959
+Y TiI 10003.088
+Y TiI 10005.661
+Y TiI 10066.512
+Y TiI 10189.138
+Y TiI 10551.756
+Y TiI 10552.965
+Y TiI 10565.953
+Y CrI 10083.18
+Y FeI 9811.504
+Y FeI 9820.241
+Y FeI 9937.09
+Y FeI 10041.472
+Y FeI 10227.994
+Y FeI 10230.795
+Y FeI 10388.745
+J MgI 12039.822
+J MgI 12417.937
+J MgI 12423.029
+J MgI 12433.452
+J SiI 11863.92
+J SiI 11991.568
+J SiI 12103.534
+J SiI 12270.692
+J SiI 12390.154
+J SiI 12583.924
+J SiI 12627.674
+J SiI 13102.058
+J SiI 13152.743
+J SiI 13154.531
+J SiI 13176.888
+J CaI 11955.955
+J CaI 12105.841
+J CaI 12827.059
+J TiI 12950.896
+J TiI 12987.567
+J FeI 11990.386
+J FeI 12267.888
+J FeI 12340.481
+J FeI 12648.741
+H CI 17455.99
+H TiI 17383.097
+H FeI 15112.331
+H FeI 15246.394
+H FeI 15566.725
+H FeI 16312.904
+H FeI 16865.513
+H FeI 16892.384
+H FeI 17052.181
+H FeI 17130.952
+H FeI 17166.201
+H FeI 17221.395
+H FeI 17277.479
+H FeI 17332.758
+H FeI 17418.506
+H FeI 17453.839
+H FeI 17459.119
+H FeI 17461.0
+H NiI 16818.745
