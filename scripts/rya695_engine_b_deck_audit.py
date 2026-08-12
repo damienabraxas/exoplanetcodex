@@ -64,6 +64,14 @@ OUT = ROOT / 'data' / 'curation' / 'engine_b_deck_availability.csv'
 #:
 #: An NLTE departure grid corrects a line. It cannot create one.
 NOT_UNBLOCKED_BY_STAGING = {
+    'Fe': ('RYA-785: the deck is staged AND RATIFIED -- it reproduces Gerber+2023 A&A '
+           '669 A43 Table 4 solar +0.06 to 0.0021 dex on 8 isolated lines -- but '
+           'NOTHING CAN REACH IT. _fit_synth_flux, the function SynthesisHandler is a '
+           'thin adapter over, has no NLTE parameter; and iSpec input/dep-grid/ is '
+           'EMPTY while our deck is TS-native, so the only consumer today is the '
+           'ts_gerber_gate direct interpol_modeles_nlte + bsyn path. '
+           'derive_band_products --engine-b-deck gerber-nlte therefore still REFUSES. '
+           'Ratification clears the physics, not the plumbing -- RYA-798.'),
     'Al': ('Engine A has 2 solar EW lines (6631.218, 6696.185) and the RYA-398 graded-gf '
            'firewall culls BOTH: gf source Kurucz-1975, grade LOW, GF_UNVERIFIED, '
            'low_gf_frac 1.0 -> N_clean 0 (data/curation/nonfe_pools/Al_cull_graded_'
