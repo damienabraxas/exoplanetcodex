@@ -231,6 +231,45 @@ CURATED_SEED = [
                '(validate-don\'t-tune, RYA-161). Owed by ratified CHOICE, not omission; promotion '
                'path = the real Mg I 5528 second-line measurement (RYA-592). '
                '(Surfaced by the RYA-519 Part-C guard as a routed non-emitter.)'),
+    # ── RYA-782: the Fe I IR lines behind the apparent "+0.384 REW slope" ──────
+    # These are the RYA-523 disease (a catastrophic line, not a gentle systematic) found
+    # in the Fe I IR pool. They are NOT in the delivered 1D-LTE product, which is
+    # laboratory-tier only -- they are in the MEASURED pool, where they silently
+    # dominated a pool-level regression. Quarantined, never culled (ratified).
+    dict(species='Fe I', lambda_or_scope='8024.543 (IR)', problem_class='ATOMIC_BLEND',
+         required_treatment='exclude', observed_in='Sun', amplifies_with='all',
+         severity='critical', governing_tickets='782,760,523', status='active',
+         notes='MISIDENTIFIED, not merely blended: the measured feature sits 46.6 mA from the '
+               'nearest catalogued Fe I, and the transition it is credited to (K07, log gf '
+               '-4.746, EP 5.879 eV) cannot produce the measured 49.3 mA in the Sun -- the '
+               'inversion returns A=9.678, +2.06 dex above the pool median and the single '
+               'largest outlier in the band. The absorber is another species. This one line '
+               'alone moves the RYA-760 pool regression; excluded from any pool-level fit.'),
+    dict(species='Fe I', lambda_or_scope='7052.715 / 7120.021 (IR)', problem_class='ATOMIC_BLEND',
+         required_treatment='exclude', observed_in='Sun', amplifies_with='all',
+         severity='high', governing_tickets='782,523', status='active',
+         notes='K07 (+/-0.20 dex) IR lines returning A=8.711 and 8.254, +6.0 and +3.5 robust '
+               'sd above the pool median. Both sit in crowded neighbourhoods (18 and 15 '
+               'catalogued transitions within 0.15 A). Excluded from pool-level fits; not in '
+               'the delivered laboratory-tier product.'),
+    dict(species='Fe I', lambda_or_scope='7810.814 (IR)', problem_class='BAD_GF',
+         required_treatment='exclude', observed_in='Sun', amplifies_with='all',
+         severity='high', governing_tickets='782,523', status='active',
+         notes='K07 (+/-0.20 dex) line returning A=8.641, +5.6 robust sd high, with NO blend '
+               'and NO identification problem -- the only catalogued neighbour within 0.15 A '
+               'is a weak Ti I 73 mA away. A clean line reading 1.1 dex high is a gf failure, '
+               'which is inside the K07 accuracy class taken at face value. Excluded from '
+               'pool-level fits; not in the delivered laboratory-tier product.'),
+    dict(species='Fe I', lambda_or_scope='7107.459 (IR)', problem_class='BAD_GF',
+         required_treatment='exclude', observed_in='Sun', amplifies_with='all',
+         severity='medium', governing_tickets='782,712,523', status='owed',
+         notes='The one LABORATORY-tier casualty and the only negative outlier: BWL (+/-0.02 '
+               'dex) yet A=6.979, -3.5 robust sd LOW, in a neighbourhood with no catalogued '
+               'transition at all within 0.15 A. Independently flagged by RYA-712 for the only '
+               'negative Gerber NLTE delta of 14 lines (-0.1063 against +0.043..+0.104). Two '
+               'independent anomalies on one clean line point at the atomic model / level '
+               'identification rather than the EW or the blend. Cause NOT established -- '
+               'status owed, pending a re-measure; do not re-source the gf on this evidence.'),
 ]
 
 
