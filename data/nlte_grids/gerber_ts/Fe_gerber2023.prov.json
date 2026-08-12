@@ -1,11 +1,11 @@
 {
   "ticket": "RYA-785",
   "element": "Fe",
-  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
   "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
   "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
   "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
-  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540). The payload was ALREADY STAGED on Sirius before this ticket: RYA-785 was filed saying atom.fe607a was 'AVAILABLE-NEVER-PULLED', but all three files were on disk. What was missing was this provenance record — the element status tracker reads the REGISTRATION, not the disk, so an unregistered-but-present deck reads as never fetched. Nothing was re-downloaded; the staged bytes were md5'd in place.",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540). The payload was ALREADY STAGED on Sirius before this ticket: RYA-785 was filed saying atom.fe607a was 'AVAILABLE-NEVER-PULLED', but all three files were on disk. What was missing was this provenance record \u2014 the element status tracker reads the REGISTRATION, not the disk, so an unregistered-but-present deck reads as never fetched. Nothing was re-downloaded; the staged bytes were md5'd in place.",
   "sirius_only": "Sirius /srv/codex/grids/nlte/gerber_ts/ only (RYA-526/567). The 3.9 GB .bin is symlinked out to /mnt/codex-data/gerber_overflow/ (the RYA-710 spill-over plan).",
   "files": {
     "model_atom": {
@@ -25,22 +25,31 @@
       "url": "https://keeper.mpdl.mpg.de/f/e7c115fa632d4c42a8b3/?dl=1",
       "md5": "0766aac66cce0b7d797232cdfb31daf0",
       "bytes": 1730747069,
-      "note": "unpacked .bin is 3.9 GB. Key name is grid_1d_bin_zip, NOT 1d_bin — the loader reads this key (RYA-772)."
+      "note": "unpacked .bin is 3.9 GB. Key name is grid_1d_bin_zip, NOT 1d_bin \u2014 the loader reads this key (RYA-772)."
     }
   },
   "deck_abundance": {
     "a_sun": 7.46,
-    "why": "NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here' — the departure coefficients were computed at 7.46, so the synthesis must run at 7.46 or they do not apply. A property of the deck, not a fitted value."
+    "why": "NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here' \u2014 the departure coefficients were computed at 7.46, so the synthesis must run at 7.46 or they do not apply. A property of the deck, not a fitted value."
   },
   "gate": {
-    "ticket": "RYA-534 element-general gate",
-    "lines": "Fe I 5806.725 / 6027.070 / 5905.671 — selected by scripts/rya785_pick_gate_lines.py against four requirements at once: BOTH GES NLTE levels identified (the Co/Ni silent-departure=1 trap), inside the committed MPIA per-line grid (so the anchor is per-line), measured in-aggregate by us, and well-measured at 69-72 mA rather than weak (the Ti weak-line trap).",
-    "anchor": "+0.0124 (median of these same three lines' OWN Fe_Bergemann_MPIA per-line deltas: +0.0115 / +0.0125 / +0.0124). Read from the grid, not assumed or averaged at element level.",
+    "ticket": "RYA-534 element-general gate; adjudicated in the RYA-785 second pass",
+    "lines": "Fe I 5461.549 / 5607.664 / 5905.671 / 6597.559 / 6705.117 / 6726.666 / 6828.591 / 6837.005 -- eight lines, selected by scripts/rya785_pick_gate_lines.py against FIVE requirements: both GES NLTE levels identified (the Co/Ni silent-departure=1 trap), present in the committed MPIA per-line grid (so a cross-engine diagnostic exists), measured in-aggregate by us, not weak (the Ti trap), and ISOLATED -- no other Fe I inside the gate's own 1.2 A EW integration window at > loggf-1.5. Only 9 of 57 candidates survive isolation.",
+    "anchor": "+0.06 -- Gerber, Bergemann et al. 2023, A&A 669 A43, THE DECK'S OWN PAPER. Table 3 gives the solar [Fe/H] as -0.04 (1D LTE) -> +0.02 (1D NLTE); Table 4 states the correction as +0.06 dex; Sect. 5.1 reports 'an average difference of about +0.05 dex between the [Fe/H] determined using 1D NLTE and 1D LTE' across their sample.",
     "tol": 0.05,
-    "result": "per-line +0.0856 / +0.0590 / +0.0636 (EW_NLTE 49.50 / 65.75 / 63.86 mA); median +0.0636",
-    "verdict": "CHECK (not PASS): |median - anchor| = 0.051 > tol 0.05, marginally. FINDING — not a deck failure: departures engaged, all three lines return a consistent positive delta, and the Gerber deck runs ~5x the Bergemann-MPIA value on the same lines. This is the THIRD instance of the Gerber-vs-MPIA model-atom systematic already recorded for Ti (~2x) and Mn (~1/2), so it is a cross-engine model-atom difference for RYA-525 to carry as a DIAGNOSTIC, never folded into the error bar. Not tuned toward MPIA or Asplund (RYA-785 forbids it).",
+    "result": "per-line +0.0500 / +0.0636 / +0.0524 / +0.0747 / +0.0686 / +0.0501 / +0.0579 (n=7 used); median +0.0579, mean +0.0596, sd 0.0097. Fe I 5607.664 EXCLUDED by the SYN_EW_MIN=5 mA guard (synthetic EW 0.95 mA). Including it the median is +0.0589, so the exclusion is not what decides the verdict. Reproduced bit-for-bit across two runs.",
+    "verdict": "PASS -- |median - anchor| = 0.0021 <= tol 0.05. The deck reproduces its own published solar Fe NLTE correction to ~0.002 dex on eight independent isolated lines, and every line returns a positive delta in a tight +0.050..+0.075 band.",
+    "first_pass_was_CHECK_and_why": "The first pass returned CHECK at |median - anchor| = 0.051 vs tol 0.05 -- a miss by 0.001 dex -- because it anchored on the median of the gate lines' own Bergemann-MPIA deltas (+0.0124). THAT IS THE WRONG REFEREE. MPIA is a different model atom; RYA-785 requires validation against the deck's own published anchor and forbids MPIA as the target, and RYA-525/712 classify a Gerber-vs-MPIA difference as a cross-engine DIAGNOSTIC, never a validation criterion -- a deck cannot fail for disagreeing with a different deck. The first pass also had a contaminated line set: of its three lines only 5905.671 was isolated (5806.725 has an Fe I neighbour at 0.098 A, 6027.070 at 0.239 A, both inside the 1.2 A EW window, where a SAME-SPECIES blend does not cancel in the EW->A* inversion the way a different-species blend does). The one clean line returned +0.0636, against the published +0.06. THE TOLERANCE WAS NOT CHANGED (0.05 in both passes) -- only the anchor and the line set, both on stated evidence.",
+    "cross_engine_diagnostic": "RYA-525, never folded into the error bar: these eight lines' own Bergemann-MPIA deltas have median +0.0118, so the Gerber deck runs ~5x MPIA on the same transitions. That is the THIRD instance of the Gerber-vs-MPIA model-atom systematic already on record -- Ti (~2x) and Mn (~1/2, where the Mn prov note records TS-Gerber +0.043 vs Bergemann +0.107). It is a FINDING about the two model atoms, not a defect in either.",
     "departures_engaged": true,
-    "harness_defect_found": "The first run of this gate reported a plausible +0.300 from a TWO-DAY-OLD Fe_nlte.spec: bsyn had failed, and the gate's `os.path.exists()` success check could not tell 'this run wrote it' from 'a previous run left it' in the shared, never-cleaned {W}/work directory. Fixed in the same commit by a mtime-based stale guard on the interpolator, babsma and bsyn outputs. Same family as RYA-759's 0-byte spectrum and RYA-716's smoke-test overwrite."
+    "harness_defects_found": [
+      "First pass: the gate reported a plausible +0.300 from a TWO-DAY-OLD Fe_nlte.spec, because `os.path.exists()` cannot tell 'this run wrote it' from 'a previous run left it' in the shared, never-cleaned {W}/work directory. Fixed by an mtime stale guard on the interpolator, babsma and bsyn outputs.",
+      "Second pass: the Ti 'weak lines' rule was being enforced on the MEASURED EW, but the COG inversion consumes the SYNTHETIC EW, and the two can disagree by 21x (Fe I 5607.664: measured 20.1 mA, synthesised 0.95 mA). Added SYN_EW_MIN = 5 mA, applied to the quantity that actually matters. 5607.664 is registered in problem_children.csv as the RYA-713 ATOMIC-DATA pattern.",
+      "Second pass: line selection had no ISOLATION requirement, so it could pick a blended pair and report it as one line. Now requirement (5)."
+    ],
+    "wiring_status": "VALIDATED BUT NOT WIRED. derive_band_products.py --engine-b-deck gerber-nlte still refuses, and the refusal message was corrected: the old text said 'not provisioned', which is now false. The real blocker is plumbing -- iSpec's TS wrapper does accept `nlte_departure_coefficients`, but `_fit_synth_flux` has no NLTE parameter and iSpec's own dep-grid store (input/dep-grid/) is EMPTY, while our deck is TS-native (atom.* + auxData + .bin), consumed today only by this gate's direct interpol_modeles_nlte + bsyn calls. \u26a0\ufe0f iSpec also fails SOFT: an element whose linelist rows carry no NLTE label lands in `nlte_ignored` and synthesis proceeds in LTE without raising (the RYA-764 trap), so the wiring owes a hard check on `nlte_available`.",
+    "provisioned": "2026-08-11",
+    "validated": "2026-08-12"
   },
   "provisioned": "2026-08-11"
 }
