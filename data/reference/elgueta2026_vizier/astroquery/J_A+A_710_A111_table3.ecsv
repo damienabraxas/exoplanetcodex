@@ -1,0 +1,44 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: El
+#   datatype: string
+#   description: Chemical element (Elem)
+#   meta: !!omap
+#   - {ucd: AT_ELEMENT}
+#   - {_votable_string_dtype: char}
+# - name: nIR
+#   datatype: int16
+#   description: Number of selected IR transitions (N_IR)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: Nopt15
+#   datatype: int16
+#   description: Number of optical diagnostics adopted in Jofre et al. (2015A&A...582A..81J, Cat. J/A+A/582/A81) (Nopt15)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# - name: Nopt21
+#   datatype: int16
+#   description: Number of optical diagnostics adopted in Heiter et al. (2021A&A...645A.106H, Cat. J/A+A/645/A106) (Nopt21)
+#   meta: !!omap
+#   - {ucd: NUMBER}
+#   - {width: 2}
+# meta: !!omap
+# - {ID: J_A_A_710_A111_table3}
+# - {name: J/A+A/710/A111/table3}
+# - {description: Number of selected infrared transitions for the Sun compared to optical diagnostics adopted in previous Gaia benchmark
+#     studies}
+# schema: astropy-2.0
+El nIR Nopt15 Nopt21
+Fe 29 59 42
+Si 30 15 16
+Mg 8 8 6
+Ni 6 18 19
+C 25 5 3
+Ca 3 12 14
+Ti 3 25 28
+S 2 4 3
+Cr 5 10 12
+K 1 2 1

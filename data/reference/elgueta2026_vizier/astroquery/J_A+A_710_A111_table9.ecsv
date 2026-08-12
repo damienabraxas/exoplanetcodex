@@ -1,0 +1,100 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: Band
+#   datatype: string
+#   description: Spectral band (Band)
+#   meta: !!omap
+#   - {ucd: OBS_BAND}
+#   - {_votable_string_dtype: char}
+# - name: Species
+#   datatype: string
+#   description: Species identifier labels with a compact ASCII notation (Species)
+#   meta: !!omap
+#   - {ucd: ID_MAIN}
+#   - {_votable_string_dtype: char}
+# - name: Lambda
+#   unit: 0.1 nm
+#   datatype: float64
+#   format: '{:9.3f}'
+#   description: Central wavelength (Lambda)
+#   meta: !!omap
+#   - {ucd: SPECT_WAVELENGTH_CENTRAL}
+#   - {width: 9}
+#   - {precision: '3'}
+# meta: !!omap
+# - {ID: J_A_A_710_A111_table9}
+# - {name: J/A+A/710/A111/table9}
+# - {description: 'Robust (YYYY) transitions for gam Sge M giant in the Y, J, and H bands'}
+# schema: astropy-2.0
+Band Species Lambda
+Y TiI 9879.582
+Y TiI 9981.275
+Y TiI 10170.486
+Y TiI 10189.138
+Y FeI 9811.504
+Y FeI 9889.035
+Y FeI 9937.09
+Y FeI 9951.157
+Y FeI 9953.47
+Y FeI 10230.795
+Y FeI 10283.775
+Y FeI 10364.062
+Y FeI 10388.745
+Y FeI 10435.355
+Y FeI 10555.649
+Y FeI 10622.592
+Y FeI 10721.655
+Y FeI 10735.519
+Y FeI 10742.55
+Y FeI 10754.753
+Y FeI 10771.228
+Y NiI 10302.611
+Y SrII 10036.653
+J MgI 11828.171
+J MgI 12039.822
+J MgI 12417.937
+J SiI 11984.198
+J SiI 11991.568
+J SiI 12031.504
+J SiI 12081.972
+J SiI 12270.692
+J SiI 12390.154
+J SiI 12583.924
+J SiI 13102.058
+J SiI 13154.531
+J SiI 13176.888
+J TiI 12071.707
+J TiI 12167.245
+J TiI 12264.257
+J TiI 12321.872
+J TiI 12388.373
+J TiI 13002.195
+J TiI 13112.673
+J CrI 12000.97
+J CrI 13192.91
+J FeI 11989.546
+J FeI 11990.386
+J FeI 12005.397
+J FeI 12131.178
+J FeI 12267.888
+J FeI 12321.203
+J FeI 12340.481
+H MgI 15024.997
+H MgI 15040.246
+H MgI 15740.706
+H MgI 16163.699
+H SiI 16060.008
+H SiI 16094.787
+H SiI 16163.691
+H SiI 16241.833
+H SiI 16380.176
+H VI 15774.06
+H FeI 16008.075
+H FeI 16039.853
+H FeI 16040.654
+H FeI 16072.242
+H FeI 16231.646
+H FeI 16316.32
+H FeI 16486.666
+H FeI 16753.065
