@@ -59,6 +59,36 @@ ELEMENTS = {
                grid='NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin',
                waves=[5689.460, 5648.565, 5662.150], anchor=+0.107, tol=0.06,
                ref='Ti I 5689/5648/5662 (stronger, GES-identified, overlap the MPIA grid lines); anchor = our banked Ti_Bergemann2011_MPIA solar median +0.107 (range +0.10..+0.13). NOTE: first-pass weak lines 5702/5703 (0.9-5.7 mA) gave +0.228 vs a wrong +0.05 guess = CHECK; re-gate with these stronger MPIA-overlap lines against the correct +0.107 anchor'),
+    # Fe I — RYA-785. The three gate lines were SELECTED by
+    # scripts/rya785_pick_gate_lines.py against all four requirements at once, because the
+    # table above records what happens otherwise: Co/Ni first-pass lines had an
+    # unidentified upper level so bsyn silently set departure=1, and Ti's first pass used
+    # 0.9-5.7 mA lines against a GUESSED +0.05 anchor and had to be re-gated.
+    #
+    # Each of these carries BOTH GES levels identified, sits inside the committed MPIA
+    # per-line grid, is measured in-aggregate by us, and is well-measured (69-72 mA) rather
+    # than weak. The anchor is therefore not an element-level average or an expectation —
+    # it is the MEDIAN OF THESE THREE LINES' OWN published MPIA deltas
+    # (+0.0115 / +0.0125 / +0.0124), so the gate compares like with like per line.
+    #
+    # Fe I solar NLTE is small and ionization-balance-gated (RYA-549). The question this
+    # gate asks is whether the Gerber deck reproduces that CLASS or inflates it, which is
+    # exactly the Ti (~2x) and Mn (~1/2) cross-engine model-atom pattern. tol 0.05 is the
+    # small-NLTE convention used for Mg/Si/Ca/Ni; at a +0.012 anchor it passes anything
+    # in -0.038..+0.062 and catches an inflation to the Ti/Mn scale.
+    # a_sun = 7.46, NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with
+    #   "NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here"
+    # The departure grid was COMPUTED at 7.46, so the synthesis must run at 7.46 or the
+    # coefficients do not apply. That is a property of the deck, not a fitted choice --
+    # and the deck's value is what the gate must honour (validate-don't-tune).
+    'Fe': dict(Z=26, a_sun=7.46, atom='atom.fe607a', aux='auxData_Fe_MARCS_May-07-2021.dat',
+               grid='NLTEgrid4TS_Fe_MARCS_May-07-2021.bin',
+               waves=[5806.725, 6027.070, 5905.671], anchor=+0.0124, tol=0.05,
+               ref='Fe I 5806/6027/5905 (both GES levels identified, in the MPIA grid, '
+                   'EW 69-72 mA); anchor = the median of these same lines OWN '
+                   'Fe_Bergemann_MPIA per-line deltas (+0.0115/+0.0125/+0.0124), read '
+                   'not assumed. Fe I solar NLTE is small + ionization-balance-gated '
+                   '(RYA-549); the deck should reproduce that class, not inflate it.'),
     'Mn': dict(Z=25, a_sun=5.42, atom='atom.mn281kbc', aux='auxData_MN_MARCS_Mar-15-2023.dat',
                grid='NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin',
                waves=[6013.510, 6021.800], anchor=+0.10, tol=0.06,
@@ -94,6 +124,34 @@ EW_HW = 1.2     # per-line EW integration half-width (A)
 
 def sh(cmd, **kw):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True, **kw)
+
+
+def _stale_guard(path, started_at, what):
+    """Fail unless `path` was written by THIS run.
+
+    RYA-785. The checks here used to be `if not os.path.exists(path): raise`. That cannot
+    tell "this run wrote it" from "a run two days ago wrote it", because {W}/work is
+    shared between elements and sessions and is never cleaned. Fe hit exactly that: bsyn's
+    NLTE step failed to write, a two-day-old Fe_nlte.spec from an unrelated run satisfied
+    the existence check, and the gate computed a +0.300 "NLTE delta" from a spectrum that
+    covered a different wavelength range and contained none of the gate lines. Every
+    surface check passed and the number looked like a result.
+
+    Same family as RYA-759's 0-byte spectrum (bsyn exits 0, writes nothing) and RYA-716's
+    smoke test overwriting a real artifact: the failure is silent and the output is
+    plausible. A mtime older than the run start is the cheapest thing that separates them.
+    """
+    if not os.path.exists(path):
+        raise SystemExit(f"{what}: {path} was not written at all")
+    age = os.path.getmtime(path)
+    if age < started_at:
+        import datetime as _dt
+        raise SystemExit(
+            f"{what}: {path} is STALE — last written "
+            f"{_dt.datetime.fromtimestamp(age):%Y-%m-%d %H:%M}, before this run started "
+            f"{_dt.datetime.fromtimestamp(started_at):%Y-%m-%d %H:%M}. The step failed and "
+            f"left an earlier run's file behind. Refusing to measure it: that is how a "
+            f"failed synthesis becomes a plausible number (RYA-785).")
 
 
 def ges_lines(Z, ion, waves, tol=0.02):
@@ -162,8 +220,9 @@ def make_departure(el, cfg):
         TREF, LOGGREF, ZREF, f"{cfg['a_sun']:.2f}", ".false.", ".false.", "'none'", ""])
     r = subprocess.run([INTERP], input=stdin, capture_output=True, text=True,
                        cwd=f"{W}/work")
-    if not os.path.exists(dep):
-        raise SystemExit(f"interpolator failed for {el}:\n{r.stdout[-1500:]}\n{r.stderr[-500:]}")
+    if not os.path.exists(dep) or (RUN_STARTED_AT and os.path.getmtime(dep) < RUN_STARTED_AT):
+        raise SystemExit(f"interpolator failed for {el} (or left a stale departure file):\n"
+                         f"{r.stdout[-1500:]}\n{r.stderr[-500:]}")
     return dep
 
 
@@ -173,8 +232,7 @@ def babsma(el, model, opac, lmin, lmax):
            f"'METALLICITY:'    '0.00'\n'ALPHA/Fe   :'    '0.00'\n'HELIUM     :'    '0.00'\n"
            f"'R-PROCESS  :'    '0.00'\n'S-PROCESS  :'    '0.00'\n'XIFIX:' 'T'\n1.0\n")
     subprocess.run([f"{EXE}/babsma_lu"], input=ctl, capture_output=True, text=True, cwd=f"{W}/work")
-    if not os.path.exists(opac):
-        raise SystemExit(f"babsma failed for {el}")
+    _stale_guard(opac, RUN_STARTED_AT or 0, f"babsma failed for {el}")
 
 
 def bsyn(el, cfg, a_x, nlte, tag, nlteinfo, linelist, opac, lmin, lmax):
@@ -194,8 +252,11 @@ def bsyn(el, cfg, a_x, nlte, tag, nlteinfo, linelist, opac, lmin, lmax):
                    and "continuing with departure coefficient = 1. for that level" not in so)
     else:
         engaged = True
-    if not os.path.exists(res):
-        raise SystemExit(f"bsyn failed {el} {tag}:\n{r.stdout[-1500:]}")
+    if not os.path.exists(res) or (RUN_STARTED_AT and
+                                   os.path.getmtime(res) < RUN_STARTED_AT):
+        raise SystemExit(f"bsyn failed {el} {tag} (or left a stale spectrum):\n"
+                         f"--- stdout tail ---\n{r.stdout[-2500:]}\n"
+                         f"--- stderr tail ---\n{r.stderr[-1000:]}")
     return res, engaged
 
 
@@ -206,7 +267,13 @@ def ew(specfile, c, hw=EW_HW):
     return float(_trapezoid(1.0 - fl[m], w[m]) * 1000.0)
 
 
+RUN_STARTED_AT = None
+
+
 def main():
+    global RUN_STARTED_AT
+    import time as _t
+    RUN_STARTED_AT = _t.time()
     # RYA-567: this is a Sirius-only heavy-compute leg (TS engine + Gerber grids +
     # MARCS). Refuse to run it off Sirius — loud-fail, never against local-Mac copies.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
