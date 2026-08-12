@@ -88,3 +88,10 @@ data/results/band_products/
 data/results/fe_ir/
 # RYA-759: generated near-UV synthesis line list (12 MB, regenerable in ~10s)
 data/linelists/ispec_nearuv_*/atomic_lines.tsv
+
+# RYA-789 — Elgueta 2026 (J/A+A/710/A111) reduced CRIRES+ spectra: 18 files, ~33 MB of
+# bulk observational data. Sirius-only (RYA-567), md5-pinned in the committed MD5SUMS.txt
+# (RYA-540) and re-fetchable with scripts/fetch_elgueta2026_vizier.py. The ReadMe, the
+# three atomic line lists and the paper tables ARE committed (~1.6 MB) — they are the
+# reference RYA-787 maps Fe lines from, and data/reference/ is a committed surface.
+data/reference/elgueta2026_vizier/sp/

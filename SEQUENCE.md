@@ -15,6 +15,11 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-12
+
+- **RYA-789** — acquired Elgueta 2026 `J/A+A/710/A111`; **sp/ holds the Vesta-derived solar spectrum** ⇒ RYA-787 takes the reduced-spectrum route
+- **RYA-789** — fetch trap: the mirror links subdirs with no trailing slash, so sp/ saved as an HTML page and reported VESTA=False with every guard green
+
 ## 2026-08-11
 
 - **RYA-776/773** — coverage reference REFRESHED post-773: Al I red-optical REACHABLE-NOT-EXTRACTED → **SERVED** (4 lines); it went stale within one merge and no CI guard caught it
