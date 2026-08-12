@@ -325,7 +325,14 @@ class SynthesisHandler(MeasurementHandler):
             context["solar_abund"], element, context["atom_code"],
             wave_base, wave_top, A_LO, A_HI,
             float(context["resolving_power"]), float(context["macroturbulence"]),
-            float(context["vsini"]), tmp_dir=self._tmp_dir)
+            float(context["vsini"]),
+            # RYA-798. None keeps this the LTE call RYA-770 stabilised, byte for byte.
+            # 'gerber' turns on the TS-native departure deck; `_fit_synth_flux` then
+            # asserts the linelist actually carries NLTE labels for this element, because
+            # iSpec would otherwise drop it into `nlte_ignored` and synthesise LTE without
+            # raising (RYA-764).
+            nlte_deck=context.get("nlte_deck"),
+            tmp_dir=self._tmp_dir)
 
         if res["status"] == "failed":
             return quarantine(f"FIT-FAILED: {res.get('reason', 'unknown')}")

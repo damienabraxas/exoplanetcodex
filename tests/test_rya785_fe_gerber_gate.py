@@ -83,12 +83,26 @@ def test_prov_records_pass_and_keeps_the_cross_engine_delta_as_a_diagnostic():
     assert d["deck_abundance"]["a_sun"] == pytest.approx(7.46)
 
 
-def test_gerber_nlte_still_refuses_and_for_the_RIGHT_reason():
-    """Passing the gate clears the PHYSICS, not the plumbing. The driver must still refuse
-    — but the old message said 'not provisioned', which is now false, and a wrong reason is
-    worth as much as a wrong number."""
+def test_gerber_nlte_is_wired_and_cannot_silently_fall_back_to_lte():
+    """RYA-798 SUPERSEDES the refusal this test used to pin.
+
+    RYA-785 left the driver refusing `gerber-nlte` because the deck was validated but had
+    no route to a synthesis. RYA-798 built that route, so "it must refuse" is no longer the
+    invariant — but the reason the refusal existed still is: **an LTE spectrum must never
+    ship under an NLTE label**. iSpec drops an unlabelled element into `nlte_ignored` and
+    synthesises LTE without raising (RYA-764), and it never reports `nlte_available` back,
+    so the check has to happen before the call. That guard is what this now pins.
+    """
     src = (ROOT / "scripts" / "derive_band_products.py").read_text()
     assert "gerber-nlte" in src
-    assert "VALIDATED but NOT WIRED" in src, "the refusal must state the real blocker"
-    assert "is not provisioned: the TS-native Gerber" not in src, "stale reason still shipped"
-    assert "single worst outcome" in src, "the refusal itself must stay"
+    # the two stale refusal reasons must both be gone
+    assert "is not provisioned: the TS-native Gerber" not in src
+    assert "VALIDATED but NOT WIRED" not in src
+    # the product is SEPARATE, never a correction to Engine-B-LTE (RYA-712)
+    assert "ENGINE-B-NLTE" in src
+    # and the deck must run on the atmosphere family it was computed on
+    assert "MARCS.GES" in src, "the Gerber deck is MARCS; ATLAS9 has no usable tau column"
+
+    gn = (ROOT / "pipeline" / "gerber_nlte.py").read_text()
+    assert "def assert_linelist_supports_nlte" in gn, "the RYA-764 silent-LTE guard"
+    assert "def assert_depth_match" in gn, "iSpec overwrites the departure tau"
