@@ -1,0 +1,103 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: Band
+#   datatype: string
+#   description: Spectral band (Band)
+#   meta: !!omap
+#   - {ucd: OBS_BAND}
+#   - {_votable_string_dtype: char}
+# - name: Species
+#   datatype: string
+#   description: Species identifier labels with a compact ASCII notation (Species)
+#   meta: !!omap
+#   - {ucd: ID_MAIN}
+#   - {_votable_string_dtype: char}
+# - name: Lambda
+#   unit: 0.1 nm
+#   datatype: float64
+#   format: '{:9.3f}'
+#   description: Central wavelength (Lambda)
+#   meta: !!omap
+#   - {ucd: SPECT_WAVELENGTH_CENTRAL}
+#   - {width: 9}
+#   - {precision: '3'}
+# meta: !!omap
+# - {ID: J_A_A_710_A111_table4}
+# - {name: J/A+A/710/A111/table4}
+# - {description: 'Robust (YYYY) transitions for alf CMi F dwarf in the Y, J, and H bands'}
+# schema: astropy-2.0
+Band Species Lambda
+Y CI 10123.87
+Y CI 10541.24
+Y CI 10729.53
+Y CI 10753.98
+Y NI 10112.481
+Y NI 10114.64
+Y MgI 9986.475
+Y SiI 9839.328
+Y SiI 9872.207
+Y SiI 9887.047
+Y SiI 10025.743
+Y SiI 10582.16
+Y SiI 10585.141
+Y SiI 10660.973
+Y SiI 10727.406
+Y SiI 10741.728
+Y SiI 10749.378
+Y SiI 10786.849
+Y PI 10084.277
+Y PI 10529.524
+Y PI 10581.577
+Y PI 10596.903
+Y PI 10681.406
+Y SI 10455.47
+Y SI 10459.46
+Y CrI 10486.25
+Y FeI 9834.185
+Y FeI 9868.186
+Y FeI 9944.207
+Y FeI 9980.463
+Y FeI 10057.64
+Y FeI 10230.795
+Y FeI 10753.004
+Y FeII 10173.515
+Y NiI 9898.928
+Y SrII 10327.311
+J CI 11801.08
+J CI 11819.04
+J CI 11863.01
+J CI 11879.58
+J CI 11892.91
+J CI 11895.75
+J CI 12581.59
+J CI 12601.49
+J CI 12614.1
+J MgI 11828.171
+J MgI 12417.937
+J SiI 11863.92
+J SiI 11984.198
+J SiI 11991.568
+J SiI 12080.391
+J SiI 13152.743
+J CaI 11955.955
+J CaII 11949.744
+J NiI 13048.181
+J ZnI 13053.627
+H CI 15852.58
+H CI 16415.82
+H CI 16855.08
+H CI 16862.9
+H CI 16890.38
+H CI 16978.16
+H MgI 15024.997
+H MgI 15040.246
+H MgI 17108.631
+H SiI 15361.161
+H SiI 15376.831
+H SiI 15888.409
+H SiI 15960.063
+H KI 15168.376
+H CrI 15860.21
+H FeI 17166.201
+H FeI 17282.291
