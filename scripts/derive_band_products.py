@@ -340,12 +340,23 @@ def main() -> None:
 
         # RYA-768: deterministic row order, so the artifact byte-diffs clean.
         rows_b.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+        # The product's declared treatment MUST match the treatment on its lines, or
+        # assert_no_cross_treatment_mix refuses it (RYA-712). Declaring "ENGINE-B" while
+        # the lines carry ENGINE-B-NLTE is not a cosmetic mismatch: it is a mislabelled
+        # engine, which is the exact failure that guard exists to catch.
+        prov_deck = (
+            "the TS-native Gerber departure deck (atom.fe607a, validated RYA-785, wired "
+            "RYA-798), on MARCS.GES to match the atmosphere family the departures were "
+            "computed on; departures are node-fixed because the deck has no abundance "
+            "axis, so only the bsyn abundance stamp follows each trial value"
+            if nlte else
+            "Turbospectrum LTE, NOT the Gerber TS-native NLTE deck")
         p_b = build_product(
-            a.element, a.ion, a.instrument, pol.name, "ENGINE-B", rows_b,
+            a.element, a.ion, a.instrument, pol.name, treatment, rows_b,
             provenance=(f"{handler.name} flux-fit against the {a.instrument} spectrum; "
                         f"line set + window hint from {src.name}; deck={a.engine_b_deck} "
-                        f"(Turbospectrum LTE, NOT the Gerber TS-native NLTE deck)"))
-        print(f"    ENGINE-B: A={p_b.value}  n={p_b.n_lines}  excluded={p_b.n_excluded}")
+                        f"({prov_deck})"))
+        print(f"    {treatment}: A={p_b.value}  n={p_b.n_lines}  excluded={p_b.n_excluded}")
         if p_b.n_excluded:
             why = pd.Series([l.excluded_reason.split(":")[0]
                              for l in rows_b if not l.in_aggregate]).value_counts()

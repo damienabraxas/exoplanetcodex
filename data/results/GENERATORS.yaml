@@ -419,3 +419,25 @@ artifacts:
       0.80-1.03 and marks each line at its own depth - these lines are 0.06-0.13 deep next
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
+
+  - artifact: rya783/fe_product_matrix.csv
+    generator: scripts/rya783_fe_matrix_report.py
+    invocation: python scripts/rya783_fe_matrix_report.py
+    ticket: RYA-783
+    note: >-
+      The Fe product matrix -- RYA-713 'Owed before Fe closes' item 4. Four SEPARATE
+      products per (instrument x band x engine): 1D-LTE, ENGINE-A, ENGINE-B (Turbospectrum
+      LTE flux fit) and ENGINE-B-NLTE (TS-native Gerber deck, validated RYA-785, wired
+      RYA-798). Never combined, never ranked, no primary (RYA-712). Assembled from the
+      per-deck runs of scripts/rya783_run_matrix.sh; the deck subdirectories exist because
+      both decks emit the same products.csv filename and a shared directory would let the
+      second run silently overwrite the first.
+  - artifact: rya783/fe_product_matrix.png
+    generator: scripts/rya783_fe_matrix_report.py
+    invocation: python scripts/rya783_fe_matrix_report.py
+    ticket: RYA-783
+    note: >-
+      The matrix plotted, bars = the STATED systematic budget (dominated by the K07
+      ungraded-gf 0.17-0.20 dex floor, RYA-161). The optical anchor 7.466 is drawn as a
+      dashed CONTEXT line and labelled as such -- it is not a target and no gate is applied
+      to the frontier cells.

@@ -39,7 +39,13 @@ from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.t
 
 # Treatments are separate products. This is the whole vocabulary; there is deliberately
 # no 'combined' member, because a combined value is not a product (RYA-712).
-TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B")
+#
+# ENGINE-B-NLTE is its own member and NOT a variant of ENGINE-B: it is a different
+# measurement (TS-native Gerber departures, and a MARCS atmosphere rather than ATLAS9),
+# so folding it into ENGINE-B would combine two engines under one label — the exact thing
+# this tuple exists to prevent. RYA-785 validated the deck, RYA-798 wired it, and the
+# cross-engine spread against ENGINE-A stays an RYA-525 DIAGNOSTIC, never an error bar.
+TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE")
 
 # Saturation: above this REW the EW->abundance inversion runs along the flat part of the
 # curve of growth and is ill-conditioned in BOTH directions. Lines past it are measured
