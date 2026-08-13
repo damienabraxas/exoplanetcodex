@@ -1155,6 +1155,98 @@ def require_sirius_grid(*relparts, context: str = "") -> Path:
     return p
 
 
+# ── Path register (RYA-800) ──────────────────────────────────────────────────
+# THE place to look up where anything lives. `config/path_register.yaml` maps a
+# LOGICAL KEY to (root, relative path); only the ROOTS are machine-specific, and
+# they come from the environment, never from a commit.
+#
+# Written because the repo carried 113 hardcoded absolute path literals against 10
+# resolver calls — despite the rule stated below it. That is brittle (moving the
+# grids to another drive meant auditing every literal by hand) and it LEAKS machine
+# layout — mount points, drive names, usernames — into a git history that outlives
+# the machine.
+#
+#     codex_path('grids.gerber_ts')          -> Path, no existence check
+#     require_codex_path('grids.gerber_ts')  -> Path, LOUD-FAIL if absent
+#
+# Prefer these over literals. Migration of the remaining literals is incremental;
+# `scripts/audit_path_literals_rya800.py` reports what is left.
+_PATH_REGISTER_FILE = Path(__file__).resolve().parent / 'path_register.yaml'
+_PATH_REGISTER_CACHE = None   # dict once loaded; no PEP 604 annotation --
+# constants.py has no `from __future__ import annotations`, so a module-level
+# `dict | None` is EVALUATED at import and breaks on the Mac's python 3.9.
+
+
+def _path_register():
+    global _PATH_REGISTER_CACHE
+    if _PATH_REGISTER_CACHE is None:
+        # module already imports yaml as _yaml (PyYAML is a declared dep, RYA-315)
+        with open(_PATH_REGISTER_FILE) as fh:
+            _PATH_REGISTER_CACHE = _yaml.safe_load(fh)
+    return _PATH_REGISTER_CACHE
+
+
+def codex_root(name: str) -> Path:
+    """Resolve a logical ROOT: env var if set, else the register's default."""
+    reg = _path_register()
+    if name not in reg['roots']:
+        raise KeyError(f"unknown root {name!r}; known: {sorted(reg['roots'])}")
+    r = reg['roots'][name]
+    return Path(_os.environ.get(r['env'], r['default']))
+
+
+def codex_path(key: str) -> Path:
+    """Resolve a logical KEY to a Path. No existence check (see require_codex_path)."""
+    reg = _path_register()
+    if key not in reg['entries']:
+        raise KeyError(f"unknown path key {key!r}; known: {sorted(reg['entries'])}")
+    e = reg['entries'][key]
+    return codex_root(e['root']) / e['rel']
+
+
+def require_codex_path(key: str, context: str = "") -> Path:
+    """
+    Resolve a logical KEY and LOUD-FAIL if it is not really there.
+
+    For a root marked `removable`, the mount and its sentinel are checked FIRST.
+    That ordering matters: a stale NTFS mount does not raise — it presents as an
+    EMPTY DIRECTORY — so an unplugged grid drive would otherwise surface as
+    "grid missing" or, worse, as a glob returning zero files and the caller
+    proceeding happily. Same silent-fallback class as RYA-409/567.
+    """
+    reg = _path_register()
+    if key not in reg['entries']:
+        raise KeyError(f"unknown path key {key!r}; known: {sorted(reg['entries'])}")
+    e = reg['entries'][key]
+    root_cfg = reg['roots'][e['root']]
+
+    if root_cfg.get('removable'):
+        mount, sentinel = root_cfg.get('mount'), root_cfg.get('sentinel')
+        if mount and not _os.path.ismount(mount):
+            raise FileNotFoundError(
+                f"REMOVABLE STORE NOT MOUNTED: {mount} (root {e['root']!r})\n"
+                f"  Wanted: {key} -> {codex_path(key)}"
+                + (f"  [{context}]" if context else "") + "\n"
+                f"  This is NOT 'data missing' — the volume holding it is absent.\n"
+                f"  Fix: sudo mount {mount}\n"
+                f"  If it was unplugged uncleanly the NTFS volume may be dirty: "
+                f"sudo ntfsfix -d <device>, then mount.")
+        if sentinel and not Path(sentinel).exists():
+            raise FileNotFoundError(
+                f"WRONG VOLUME at {mount}: sentinel {sentinel} is missing.\n"
+                f"  Something is mounted there, but it is not the Codex store. "
+                f"Refusing to read {key}.")
+
+    p = codex_path(key)
+    if not p.exists():
+        raise FileNotFoundError(
+            f"Required Codex path not found: {p}  (key {key!r})"
+            + (f"  [{context}]" if context else "") + "\n"
+            f"  root {e['root']!r} = {codex_root(e['root'])} "
+            f"(env {reg['roots'][e['root']]['env']})\n"
+            f"  There is NO local fallback (RYA-567): stage it, or run on Sirius.")
+    return p
+
 #: RYA-695 — the canonical Sirius grid-store layout, and which store holds what.
 #:
 #: WHY THIS IS DECLARED RATHER THAN DISCOVERED. The RYA-540 SSD->M.2 migration left
