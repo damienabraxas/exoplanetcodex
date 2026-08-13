@@ -1311,12 +1311,37 @@ LINE_SCORE_WEIGHTS = {
     'nlte':       0.10,
 }
 
-# Grade boundaries for line_score (0.0–1.0).
+# ── Grade boundaries for line_score (0.0–1.0) — the MQ ladder (RYA-711 item 1) ──
+#
+# THE LETTERS ARE PREFIXED `MQ-` BECAUSE THEY USED TO COLLIDE WITH NIST'S.
+#
+# This project carries TWO grading systems that both used the glyphs A–D and grade
+# DIFFERENT OBJECTS:
+#
+#   nist_grade  grades the ATOMIC DATA  — % uncertainty on the transition probability,
+#               external, 11 tiers AAA→E, independent of our spectrum. A NIST `B`
+#               asserts "log gf good to <=10 %".
+#   MQ grade    grades OUR MEASUREMENT of the line — an internal composite of the six
+#               LINE_SCORE_WEIGHTS sub-scores, and it moves if we re-observe. An `MQ-B`
+#               asserts "composite line_score 0.60-0.80".
+#
+# Same glyph, unrelated claim. That is not hypothetical: `data/audit/
+# procyon_outlier_loggf_rya281.csv` carries `nist_grade` and the old bare `line_grade`
+# as ADJACENT COLUMNS, so a reader of that table cannot tell which letter grades what.
+# Prefixing ours makes every value self-describing wherever it travels — including into
+# a table it was not designed for, which is where the collision actually bites.
+#
+# `MQ-` rather than the alternative `Q1-Q4` the ticket floated: `Q` is about to mean
+# QUARANTINE in this codebase (RYA-711 item 0, ratified 2026-08-09), and buying our way
+# out of one collision by starting another is not a fix.
+#
+# NIST's letters stay NIST's and are never prefixed — they are someone else's scale and
+# renaming them here would misquote the source.
 LINE_GRADE_THRESHOLDS = {
-    'A': 0.80,   # Clean, NLTE corrected. Enters weighted abundance mean.
-    'B': 0.60,   # Minor issues. Enters weighted mean with footnote.
-    'C': 0.35,   # Significant issues. Measured and reported with caveats.
-    'D': 0.00,   # Unusable. Archived only.
+    'MQ-A': 0.80,   # Clean, NLTE corrected. Enters weighted abundance mean.
+    'MQ-B': 0.60,   # Minor issues. Enters weighted mean with footnote.
+    'MQ-C': 0.35,   # Significant issues. Measured and reported with caveats.
+    'MQ-D': 0.00,   # Unusable. Archived only.
 }
 
 # Sub-score normalisation parameters. No hardcoded values elsewhere in scoring code.
