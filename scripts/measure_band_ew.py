@@ -68,7 +68,12 @@ KP_DIR = _resolve_kp_dir()
 # product, not a preference: Kitt Peak column 1 is residual flux (Kurucz divided by his
 # continuum); HARPS arrives un-normalised and our pipeline sets the continuum. Two
 # normalisation histories is a reason two instruments can disagree methodologically.
-PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False, "iag_fts_solar_atlas": True}
+# crires_plus: FALSE and it matters. These are reduced but UN-normalised IDPs in adu
+# (TUNIT2 = "adu", flux runs to ~1.9e5), unlike Kitt Peak residual flux or Elgueta's
+# sp/. Treating them as pre-normalised is the RYA-713 continuum defect, which measured
+# EWs low by a median 11.7 % and up to 71.4 %.
+PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False, "iag_fts_solar_atlas": True,
+                  "crires_plus": False}
 
 # RYA-786: the band set lives in pipeline/telluric_policy.py and is imported, never
 # re-typed. The list that used to sit here was both incomplete and too narrow — it had
@@ -129,13 +134,259 @@ def iag_atlas() -> tuple[np.ndarray, np.ndarray]:
     return _iag_cache["wf"]
 
 
+MIN_WINDOW_POINTS = 12
+
+
+def _slice_window(w: np.ndarray, f: np.ndarray, centre: float, pad: float,
+                  what: str, min_points: int = MIN_WINDOW_POINTS):
+    """Mask an ascending (wave, flux) pair to a window, or say why it cannot.
+
+    Shared rather than re-typed per arm (RYA-701: one Ba->Al copy produced 13 defects).
+    The failure message carries the arm's own span, because "0 points near 21000 A" and
+    "this arm stops at 6910 A" are different diagnoses and only the second is actionable.
+    """
+    m = (w >= centre - pad) & (w <= centre + pad)
+    n = int(m.sum())
+    if n < min_points:
+        raise LookupError(f"{what} holds only {n} points near {centre:.3f} A "
+                          f"(spans {w.min():.1f}-{w.max():.1f} A)")
+    return w[m], f[m]
+
+
 def load_iag_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
     w, f = iag_atlas()
-    m = (w >= centre - pad) & (w <= centre + pad)
-    if m.sum() < 12:
-        raise LookupError(f"IAG holds only {int(m.sum())} points near {centre:.3f} A "
-                          f"(atlas spans {w.min():.1f}-{w.max():.1f})")
-    return w[m], f[m], IAG_FITS.name
+    w, f = _slice_window(w, f, centre, pad, "IAG")
+    return w, f, IAG_FITS.name
+
+
+# ── the CRIRES+ arm (RYA-796) ────────────────────────────────────────────────
+#
+# 18 Vesta solar IDPs, 13 grating settings, 9479-24855 A. Our OWN IR spectrum of the Sun,
+# as opposed to a published atlas -- which is the point: it is the same instrument class
+# the science targets are observed with.
+#
+# FOUR PROPERTIES OF THESE FILES THAT A NAIVE READER GETS WRONG, all measured, not assumed:
+#
+#  1. WAVE IS NANOMETRES (TUNIT1 = 'nm'). Read as Angstrom it returns 949-2485 and a
+#     confident wrong answer -- the same shape of trap as IAG's vacuum wavenumber column.
+#     Converted once, here, and asserted against the catalog span rather than trusted.
+#
+#  2. SPECSYS = 'TOPOCENT', and `ESO TEL TARG RADVEL` is 0.0 -- a placeholder, not a
+#     measurement. Vesta is a MOVING REFLECTOR, so the shift to remove is the two-leg
+#     Sun->Vesta->observer rate (RYA-372), which no stellar BERV keyword can supply. A
+#     wavelength measured off these frames as delivered is wrong by tens of km/s. This
+#     loader therefore REFUSES raw frames by default (see the rest-frame gate below) --
+#     RYA-643's defect class was exactly a rest-frame slip reaching a line fit, in four
+#     copies.
+#
+#  3. DETECTOR GAPS ARE REAL. A setting is a comb of echelle orders across three
+#     detectors, not a filled band: selection is on the actual WAVE array with QUAL == 0
+#     and finite non-zero flux, never on WAVELMIN/WAVELMAX (RYA-377's warning). Measured:
+#     807 488 good pixels of 830 000, and two genuine inter-band gaps at 1349-1439 nm and
+#     1796-1946 nm that no setting covers.
+#
+#  4. CO-ADDING EPOCHS IS A ROTATION QUESTION, NOT AN SNR ONE. Five settings have two
+#     epochs, and RYA-372 wrote its conditioned frames "per-frame only -- never coadded
+#     (Vesta 5.3 h rotation)". Measured against the 5.342 h period, the two kinds are not
+#     alike: Y1029 / J1232 / H1575 pairs are 28 / 32 / 4 minutes apart, so the sub-observer
+#     longitude moves 32 / 36 / 5 degrees -- the same face. H1559 and H1582 are ~23.8 h
+#     apart: 166 and 163 degrees, the OPPOSITE face. Co-adding the second kind averages
+#     two different hemispheres of a reflecting body and calls it signal-to-noise.
+#     So co-adding is gated on rotation phase, and never spans settings (their continua
+#     and blaze differ -- RYA-794 Step 2).
+
+CRIRES_ROTATION_H = 5.342          # Vesta sidereal rotation period
+CRIRES_COADD_MAX_LON_DEG = 45.0    # co-add only within this sub-observer longitude change
+
+_CRIRES_CANDIDATES = (
+    os.environ.get("CODEX_CRIRES_VESTA", ""),
+    "/mnt/codex-data/spectra/vesta/CRIRESPlus",
+)
+#: Rest-frame conditioned output of pipeline/reflected_solar_rv.py `write_set`.
+_CRIRES_REST_CANDIDATES = (
+    os.environ.get("CODEX_CRIRES_VESTA_REST", ""),
+    "/mnt/codex-data/spectra/vesta/CRIRESPlus_rest/vesta_crires",
+)
+_crires_cache: dict = {}
+
+
+class RestFrameNotConditioned(LookupError):
+    """Raised when a topocentric frame is asked for as if it were science-ready.
+
+    A LookupError subclass so a driver's existing "this arm cannot serve this line"
+    handling still catches it -- but a distinct type, because "we do not hold this
+    wavelength" and "we hold it in the wrong velocity frame" are different problems with
+    different fixes, and collapsing them is how the second one gets ignored.
+    """
+
+
+def _resolve_dir(candidates, pattern: str):
+    for c in candidates:
+        if c and Path(c).is_dir() and any(Path(c).glob(pattern)):
+            return Path(c)
+    return None
+
+
+def crires_frames() -> list[dict]:
+    """Inventory the staged IDPs: one record per FRAME, with its measured good-pixel span.
+
+    Cached. Reads the actual arrays rather than the span keywords, because the keywords
+    describe the grating setting and the arrays describe the data (property 3).
+    """
+    if "frames" in _crires_cache:
+        return _crires_cache["frames"]
+    from astropy.io import fits
+    d = _resolve_dir(_CRIRES_CANDIDATES, "*.fits")
+    if d is None:
+        raise LookupError(
+            "CRIRES+ Vesta IDPs not staged. Looked in:\n  "
+            + "\n  ".join(x for x in _CRIRES_CANDIDATES if x)
+            + "\nSet CODEX_CRIRES_VESTA. Sirius-only (RYA-567).")
+    out = []
+    for p in sorted(d.glob("*.fits")):
+        with fits.open(p) as h:
+            ph, t = h[0].header, h[1].data
+            unit = str(h[1].header.get("TUNIT1", "")).strip().lower()
+            wave = np.asarray(t["WAVE"][0], dtype=float)
+            flux = np.asarray(t["FLUX"][0], dtype=float)
+            qual = np.asarray(t["QUAL"][0])
+            # Property 1: convert ONCE, from the unit the file declares. An unexpected
+            # unit is a loud stop, not a guess -- guessing is what produced RYA-794's
+            # inverted nm/Angstrom confusion in the first place.
+            if unit == "nm":
+                wave_A = wave * 10.0
+            elif unit in ("angstrom", "a", "0.1nm"):
+                wave_A = wave
+            else:
+                raise LookupError(f"{p.name}: unexpected TUNIT1 {unit!r}; refusing to "
+                                  f"guess the wavelength unit.")
+            good = (qual == 0) & np.isfinite(flux) & (flux != 0)
+            if not good.any():
+                continue
+            out.append(dict(path=p, name=p.name, setting=str(ph.get("ESO INS WLEN ID")),
+                            mjd=float(ph.get("MJD-OBS", np.nan)),
+                            snr=float(ph.get("SNR", np.nan)),
+                            specsys=str(ph.get("SPECSYS", "")).strip().upper(),
+                            wave_A=wave_A[good], flux=flux[good],
+                            lo=float(wave_A[good].min()), hi=float(wave_A[good].max())))
+    if not out:
+        raise LookupError(f"no usable CRIRES+ frames under {d}")
+    # Property 1, asserted rather than trusted: the catalog says 950-5300 nm.
+    lo = min(r["lo"] for r in out); hi = max(r["hi"] for r in out)
+    if not (9000.0 < lo < 30000.0 and 9000.0 < hi < 60000.0):
+        raise LookupError(
+            f"CRIRES+ wavelengths land at {lo:.0f}-{hi:.0f} A after unit conversion, "
+            f"outside the instrument's catalogued 9500-53000 A. The unit handling is "
+            f"wrong -- refusing to measure off it.")
+    _crires_cache["frames"] = out
+    return out
+
+
+def crires_rest_frames() -> dict:
+    """Rest-frame conditioned frames keyed by source stem, if RYA-372/373 has produced
+    them. Empty dict when the conditioning leg has not been run."""
+    if "rest" in _crires_cache:
+        return _crires_cache["rest"]
+    d = _resolve_dir(_CRIRES_REST_CANDIDATES, "*_rest.csv")
+    rest = {}
+    if d is not None:
+        for p in sorted(d.glob("*_rest.csv")):
+            rest[p.name.replace("_rest.csv", "")] = p
+    _crires_cache["rest"] = rest
+    return rest
+
+
+def _coaddable(group: list[dict]) -> list[list[dict]]:
+    """Split one setting's frames into rotation-safe co-add clusters (property 4)."""
+    clusters: list[list[dict]] = []
+    for fr in sorted(group, key=lambda r: r["mjd"]):
+        placed = False
+        for cl in clusters:
+            dt_h = abs(fr["mjd"] - cl[0]["mjd"]) * 24.0
+            if (360.0 * dt_h / CRIRES_ROTATION_H) % 360.0 <= CRIRES_COADD_MAX_LON_DEG:
+                cl.append(fr); placed = True; break
+        if not placed:
+            clusters.append([fr])
+    return clusters
+
+
+def load_crires_window(centre: float, pad: float, *, allow_topocentric: bool = False
+                       ) -> tuple[np.ndarray, np.ndarray, str]:
+    """One CRIRES+ Vesta window as (wave_air_A, flux, provenance).
+
+    `allow_topocentric` exists for the CONDITIONING leg itself (RYA-372/373), which must
+    read raw frames to measure the shift it is going to remove. It is not a convenience
+    flag for measurement, and the provenance string says so when it is used.
+    """
+    frames = crires_frames()
+    hits = [r for r in frames if not (r["hi"] < centre - pad or r["lo"] > centre + pad)]
+    if not hits:
+        raise LookupError(
+            f"no CRIRES+ setting covers {centre:.3f} A (arm spans "
+            f"{min(f['lo'] for f in frames):.1f}-{max(f['hi'] for f in frames):.1f} A, "
+            f"with real inter-band gaps -- coverage is a comb of settings, not a span)")
+
+    # ── the rest-frame gate ──────────────────────────────────────────────────
+    # These are TOPOCENT and Vesta is a moving reflector. Refuse unless the frame has
+    # been conditioned, or the caller is the conditioning leg saying so explicitly.
+    rest = crires_rest_frames()
+    conditioned = [r for r in hits if Path(r["name"]).stem in rest]
+    if not conditioned and not allow_topocentric:
+        raise RestFrameNotConditioned(
+            f"CRIRES+ frames covering {centre:.3f} A are SPECSYS="
+            f"{sorted({r['specsys'] for r in hits})} and have not been rest-frame "
+            f"conditioned. Vesta is a moving reflector: the shift to remove is the "
+            f"two-leg Sun->Vesta->observer rate, which no BERV keyword carries "
+            f"(ESO TEL TARG RADVEL is 0.0 in every one of these files). Condition them "
+            f"with pipeline/reflected_solar_rv.py (write_set) and stage the output at "
+            f"{_CRIRES_REST_CANDIDATES[-1]}, or pass allow_topocentric=True if you ARE "
+            f"the conditioning leg. Measuring a wavelength off an unconditioned frame is "
+            f"the RYA-643 defect.")
+
+    # ── choose ONE setting, then co-add only within a rotation-safe cluster ──
+    # Never across settings: their continua and blaze differ and none of this is
+    # normalised (RYA-794 Step 2), so a cross-setting co-add manufactures a continuum.
+    by_setting: dict[str, list[dict]] = {}
+    for r in hits:
+        by_setting.setdefault(r["setting"], []).append(r)
+
+    def in_window(r):
+        m = (r["wave_A"] >= centre - pad) & (r["wave_A"] <= centre + pad)
+        return int(m.sum())
+
+    best_setting = max(by_setting,
+                       key=lambda s: (max(in_window(r) for r in by_setting[s]),
+                                      max(r["snr"] for r in by_setting[s])))
+    group = by_setting[best_setting]
+    cluster = max(_coaddable(group),
+                  key=lambda cl: (sum(in_window(r) for r in cl),
+                                  sum(r["snr"] for r in cl)))
+
+    ws, fs = [], []
+    for r in cluster:
+        w, f = _slice_window(r["wave_A"], r["flux"], centre, pad, f"CRIRES+ {r['name']}")
+        ws.append(w); fs.append(f)
+    if len(cluster) == 1:
+        w, f = ws[0], fs[0]
+    else:
+        # SNR-weighted co-add onto the highest-SNR frame's grid. Same setting, same
+        # rotation phase, so this is the same spectrum measured twice.
+        ref = int(np.argmax([r["snr"] for r in cluster]))
+        w = ws[ref]
+        stack, wts = [], []
+        for i, (wi, fi) in enumerate(zip(ws, fs)):
+            stack.append(np.interp(w, wi, fi)); wts.append(max(cluster[i]["snr"], 1e-6))
+        f = np.average(np.vstack(stack), axis=0, weights=np.asarray(wts))
+
+    o = np.argsort(w)
+    dropped = sorted(set(by_setting) - {best_setting})
+    prov = (f"crires_plus {best_setting} "
+            + "+".join(r["name"] for r in cluster)
+            + (f" [co-added {len(cluster)} epochs within "
+               f"{CRIRES_COADD_MAX_LON_DEG:.0f} deg rotation]" if len(cluster) > 1 else "")
+            + (f" [also covered by {','.join(dropped)}, not merged]" if dropped else "")
+            + ("" if conditioned else " [RAW TOPOCENTRIC -- conditioning leg only]"))
+    return w[o], f[o], prov
 
 
 def load_window(instrument: str, centre: float, pad: float, segs=None):
@@ -148,6 +399,8 @@ def load_window(instrument: str, centre: float, pad: float, segs=None):
         return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
     if instrument == "iag_fts_solar_atlas":
         return load_iag_window(centre, pad)
+    if instrument == "crires_plus":
+        return load_crires_window(centre, pad)
     raise LookupError(
         f"no window loader for instrument {instrument!r}. Add one here rather than "
         f"letting a driver fall back to another arm's data.")
