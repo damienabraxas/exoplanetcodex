@@ -23,6 +23,7 @@ never re-derives an abundance. The prediction layer is the payoff: predict(Teff,
 
 Outputs (RYA-463): data/registry/problem_children.csv + docs/science/problem_children_registry.md
 """
+import re
 import sys
 from pathlib import Path
 
@@ -469,6 +470,112 @@ def disposition_for(species, registry=None):
         'population_source': r.get('population_source', ''),
         'notes': r.get('notes', ''),
     }
+
+
+# ── PER-LINE disposition, for the band-product path (RYA-807) ────────────────
+# RYA-463 built this registry; RYA-774 landed the band-measurement harness; the two were
+# never connected, so `derive_band_products.py` re-derived Fe with quarantined lines still
+# in the pool -- Fe I 8024.543, registered ATOMIC_BLEND/exclude/critical/active as
+# "MISIDENTIFIED, the absorber is another species", entered the merged product at
+# A = 9.678 (~150x solar). That is the RYA-786 class: a decision recorded in one place and
+# not consumed in another.
+#
+# `disposition_for()` above answers at the ELEMENT level, which the verdict layer needs.
+# The band path needs it per LINE, so that lives here rather than in the driver -- one
+# reader, so any element's band-product run consumes the same registry.
+_WAVE_TOKEN = re.compile(r"\d{3,5}\.\d+")
+
+#: Match to the CATALOGUED wavelength, not a fitted centroid. Both sides are catalogue
+#: values, so this is bookkeeping rather than line identification: the largest offset
+#: measured across the registered Fe lines is 0.0004 A.
+LINE_MATCH_TOL_A = 0.02
+
+
+def line_dispositions(registry=None, observed_in=("Sun", "all")):
+    """Explode the registry into ONE ROW PER (species, catalogued wavelength).
+
+    `lambda_or_scope` is free text and holds three different kinds of value: a single
+    wavelength ("8024.543 (IR)"), several ("7052.715 / 7120.021 (IR)"), and non-numeric
+    scopes ("Procyon gf outliers") that are element-level and cannot match a line. Only
+    the numeric ones produce rows here; the rest stay the business of `disposition_for`.
+    """
+    if registry is None:
+        registry = load_registry()
+    rows = []
+    for _, r in registry.iterrows():
+        if observed_in is not None:
+            seen = str(r.get("observed_in", ""))
+            if not any(o.lower() in seen.lower() for o in observed_in):
+                continue
+        for tok in _WAVE_TOKEN.findall(str(r.get("lambda_or_scope", ""))):
+            sp = str(r.get("species", "")).split()
+            rows.append(dict(
+                element=sp[0] if sp else "", ion=(sp[1] if len(sp) > 1 else ""),
+                wavelength_air_A=float(tok),
+                problem_class=str(r.get("problem_class", "")),
+                required_treatment=str(r.get("required_treatment", "")),
+                status=str(r.get("status", "")),
+                severity=str(r.get("severity", "")),
+                governing_tickets=str(r.get("governing_tickets", "")),
+                notes=str(r.get("notes", "")),
+            ))
+    return pd.DataFrame(rows)
+
+
+def aggregate_action(disp):
+    """What the AGGREGATE should do with a registered line: 'exclude' | 'flag' | 'none'.
+
+    ⚠️ THE DISCRIMINATOR IS `status`, NOT `required_treatment`, and the distinction is the
+    whole point of this function.
+
+    `required_treatment` says what SHOULD be done once the cause is known. `status` says
+    whether it IS known. The registry currently holds rows that are BOTH
+    `required_treatment=exclude` AND `status=owed` -- Fe I 7107.459, 5607.664 and the eight
+    RYA-764 ABUNDANCE_OUTLIER rows -- because "this line is wrong and should come out" and
+    "we have not established why" are independent facts.
+
+    Excluding on an UNDIAGNOSED cause is tuning: it removes the lines that disagree while
+    the reason is still a hypothesis, which is exactly what the RYA-161 firewall forbids.
+    So:
+
+      * `exclude` + `active`  -> EXCLUDE from the aggregate. Diagnosed and actionable
+        (8024.543 ATOMIC_BLEND critical: the absorber is another species).
+      * anything + `owed`     -> KEEP and FLAG. Visible, counted, never quietly removed.
+      * `resolved`/`predicted`-> no action. Already fixed, or not observed here.
+      * a non-`exclude` treatment (synthesis, HFS_sum, NLTE_grid, ...) -> FLAG, never
+        exclude. Those say "measure it differently", not "drop it", and deciding that an
+        EW measurement of a synthesis-required line is invalid is a separate call that
+        this function must not make silently.
+    """
+    if disp is None:
+        return "none"
+    status = str(disp.get("status", "")).strip().lower()
+    treat = str(disp.get("required_treatment", "")).strip().lower()
+    if status in ("resolved", "predicted"):
+        return "none"
+    if treat == "exclude" and status == "active":
+        return "exclude"
+    return "flag"
+
+
+def disposition_for_line(element, ion, wavelength_A, table=None,
+                         tol=LINE_MATCH_TOL_A):
+    """The registry row governing one line, or None. Ion-agnostic when the registry row
+    carries no ion; otherwise the ion must match, because Fe I and Fe II at neighbouring
+    wavelengths are different transitions."""
+    if table is None:
+        table = line_dispositions()
+    if not len(table):
+        return None
+    m = table[table.element.astype(str) == str(element)]
+    if ion:
+        m = m[(m.ion.astype(str) == str(ion)) | (m.ion.astype(str) == "")]
+    if not len(m):
+        return None
+    d = (m.wavelength_air_A - float(wavelength_A)).abs()
+    if d.min() > tol:
+        return None
+    return m.loc[d.idxmin()].to_dict()
 
 
 # ── prediction layer (the payoff) ─────────────────────────────────────────────

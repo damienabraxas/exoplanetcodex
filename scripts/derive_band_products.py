@@ -141,6 +141,55 @@ def main() -> None:
     ok = ew[ew.in_aggregate].copy()
     print(f"{a.element} {a.ion}  {a.lo:.0f}-{a.hi:.0f} A  band={pol.name}  "
           f"{len(ok)} in-aggregate of {len(ew)} measured")
+
+    # ── RYA-807: consume the curated problem-children registry ───────────────
+    # RYA-463 built the registry, RYA-774 landed this harness, and nothing connected
+    # them: Fe I 8024.543 — registered ATOMIC_BLEND / exclude / critical / active,
+    # "MISIDENTIFIED, the absorber is another species" — entered the merged RYA-783
+    # product at A = 9.678, ~150x solar. The docstring at the top of this file already
+    # PROMISED that quarantined lines are "carried into the output with their reason and
+    # excluded from the aggregate, never dropped (RYA-711)"; until now that was true only
+    # of the in-harness quarantine (REW ceiling, tellurics, RYA-342 fit quality), never of
+    # the curated registry.
+    #
+    # The exclude-vs-flag decision lives in `problem_children.aggregate_action`, NOT here,
+    # so every consumer gets the same answer. Its discriminator is `status`: a row that is
+    # `exclude` but `owed` has an undiagnosed cause, and dropping it would be tuning
+    # (RYA-161) rather than provenance.
+    from pipeline import problem_children as _pc
+    _pc_table = _pc.line_dispositions()
+    _pc_hits = {}
+    for _w in ok.wavelength_air_A.astype(float):
+        _d = _pc.disposition_for_line(a.element, a.ion, _w, table=_pc_table)
+        if _d is not None:
+            _pc_hits[round(_w, 4)] = (_d, _pc.aggregate_action(_d))
+    _n_excl = sum(1 for _, act in _pc_hits.values() if act == "exclude")
+    _n_flag = sum(1 for _, act in _pc_hits.values() if act == "flag")
+    print(f"    registry: {len(_pc_hits)} of {len(ok)} pool lines are registered "
+          f"({_n_excl} excluded from the aggregate, {_n_flag} flagged and KEPT)")
+    for _w, (_d, _act) in sorted(_pc_hits.items()):
+        if _act == "exclude":
+            print(f"      EXCLUDE {_w:9.3f}  {_d['problem_class']}/{_d['status']} "
+                  f"[{_d['governing_tickets']}]")
+
+    def _stamp(lm):
+        """Carry the registry verdict onto a measurement, and honour it."""
+        hit = _pc_hits.get(round(float(lm.wavelength_air_A), 4))
+        if hit is None:
+            return lm
+        d, act = hit
+        lm.problem_class = str(d.get("problem_class", ""))
+        lm.problem_status = str(d.get("status", ""))
+        lm.problem_tickets = str(d.get("governing_tickets", ""))
+        lm.problem_action = act
+        if act == "exclude":
+            lm.in_aggregate = False
+            # Prepend, so an in-harness reason already set is not lost.
+            why = (f"REGISTRY-{d.get('problem_class', '')}: {d.get('required_treatment', '')}"
+                   f"/{d.get('status', '')} per data/registry/problem_children.csv "
+                   f"[{d.get('governing_tickets', '')}] — carried, not dropped (RYA-711)")
+            lm.excluded_reason = why if not lm.excluded_reason else f"{why} | {lm.excluded_reason}"
+        return lm
     if not len(ok):
         raise SystemExit("no lines survived measurement -- nothing to derive")
 
@@ -170,7 +219,7 @@ def main() -> None:
             lm.in_aggregate = False
             lm.excluded_reason = ("COG-INVERSION: bisection did not converge, so this EW "
                                   "does not map to an abundance here")
-        rows.append(lm)
+        rows.append(_stamp(lm))       # RYA-807
 
     p_lte = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE", rows,
                           provenance=f"EWs from {src.name}; COG via _bisect_synth_abundance")
@@ -201,7 +250,7 @@ def main() -> None:
             la.excluded_reason = ("ENGINE-A-NOT-SERVED: MPIA returns no usable delta_nlte "
                                  "for this line (absent, nan, or a placeholder zero). "
                                  "Reduced coverage, not a failed correction.")
-        rows_a.append(la)
+        rows_a.append(_stamp(la))     # RYA-807
     p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
                         provenance="Bergemann MPIA per-line delta_nlte, live query, solar node")
     print(f"    ENGINE-A: A={p_a.value}  n={p_a.n_lines}  not-served={p_a.n_excluded}")
@@ -326,7 +375,8 @@ def main() -> None:
                                      treatment=treatment)
                 lb.in_aggregate = False
                 lb.excluded_reason = f"WINDOW-LOAD: {type(e).__name__}: {str(e)[:60]}"
-                rows_b.append(lb)
+                rows_b.append(_stamp(lb))
+
                 continue
             lb = handler.measure_line(
                 w_obs, f_obs, element=a.element, ion=a.ion, wavelength_A=c,
@@ -336,7 +386,7 @@ def main() -> None:
                 pre_normalised=True,
                 context={**ctx_b, "ew_hint_mA": float(r.ew_mA)})
             lb.treatment = treatment
-            rows_b.append(lb)
+            rows_b.append(_stamp(lb))   # RYA-807
 
         # RYA-768: deterministic row order, so the artifact byte-diffs clean.
         rows_b.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
