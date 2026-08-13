@@ -13,7 +13,7 @@ reason and the numeric value that tripped the gate.
 Motivated by the Sr II silent-drop RCA: all four canonical Sr II lines
 (4077 / 4161 / 4215 / 4305) sat inside coverage yet none reached the EW pool,
 and the two MODERATE subordinate lines (4161 / 4305) vanished with no record.
-Same failure family as RYA-329 (line_grade computed-but-never-applied leak).
+Same failure family as RYA-329 (mq_grade computed-but-never-applied leak).
 
 Scope of "input linelist": the priority>0 set that lines_fit.run() constructs
 and literally calls "the line list" (05.._runtime prints "N priority>0 lines").
