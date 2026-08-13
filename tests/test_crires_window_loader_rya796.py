@@ -205,8 +205,17 @@ def test_unknown_instrument_still_raises(staged):
 
 def test_load_window_routes_crires_and_returns_the_common_shape(staged):
     _write_idp(staged / "a.fits", lo_nm=1000.0, hi_nm=1010.0)
-    with pytest.raises(M.RestFrameNotConditioned):
+    # TWO gates now stand in front of this arm, and the ORDER is the physics (RYA-806).
+    # Tellurics are stationary in the topocentric frame, so the correction happens there
+    # and the RV shift comes after (RYA-373) -- telluric is the earlier blocker, so it is
+    # what a caller is told about first. Before RYA-806 this raised
+    # RestFrameNotConditioned, because the telluric defect was not being checked at all.
+    with pytest.raises(M.TelluricNotCorrected):
         M.load_window("crires_plus", 10050.0, 1.0)      # gated, by design
+    # Clear the telluric gate the way the correction leg does, and the rest-frame gate
+    # is still there underneath it -- neither refusal masks the other.
+    with pytest.raises(M.RestFrameNotConditioned):
+        M.load_window("crires_plus", 10050.0, 1.0, allow_uncorrected=True)
     w, f, prov = M.load_crires_window(10050.0, 1.0, allow_topocentric=True)
     assert isinstance(w, np.ndarray) and isinstance(f, np.ndarray)
     assert w.shape == f.shape and isinstance(prov, str)
