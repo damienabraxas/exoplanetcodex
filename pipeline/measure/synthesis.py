@@ -168,9 +168,23 @@ class SynthesisHandler(MeasurementHandler):
         # honest basis is the instrument flag PLUS per-line clean-line selection, and the
         # per-line part is enforced where it belongs — on the LINE, in measure_line —
         # not by refusing the whole band here.
+        # RYA-806 adds the SECOND axis. `telluric_basis` says whether the BAND needs
+        # correction; `telluric_applied` says whether THIS PRODUCT already got one, and
+        # the second is not derivable from the first. When the context names the holding
+        # we ask the question that consumes both; otherwise we fall back to the
+        # instrument-only gate, which is all the older callers can answer.
         from pipeline.telluric_policy import gate as _telluric_gate
+        from pipeline.telluric_policy import gate_holding as _telluric_gate_holding
         _inst = context.get("instrument") or context.get("instrument_id")
-        if _inst:
+        _holding = context.get("holding") or context.get("holding_id")
+        if _holding:
+            # TelluricStateUnknown propagates: an unverified telluric state is its own
+            # refusal and must not be flattened into the generic RuntimeError below.
+            ok, basis = _telluric_gate_holding(_holding, _inst)
+            if not ok:
+                raise RuntimeError(basis)
+            self._telluric_basis = basis
+        elif _inst:
             ok, basis = _telluric_gate(_inst, bool(context.get("analysis_ready")))
             if not ok:
                 raise RuntimeError(basis)
