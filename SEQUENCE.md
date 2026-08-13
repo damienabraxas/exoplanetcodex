@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-13
 
+- **RYA-805** — the 18 Vesta IDPs are NOT telluric-corrected (headers + O₂ band + r=0.996 vs water vapour); no corrected variant exists; RYA-373 shrinks to a run in RYA-797
 - **RYA-796** — `crires_plus` arm for `load_window`; it REFUSES the staged IDPs (TOPOCENT + moving reflector) — unblocks RYA-797 once RYA-372/373 conditioning runs
 - **RYA-796** — co-add is a ROTATION question: 2 of 5 duplicate settings sit 166°/163° apart in sub-observer longitude, the opposite face of Vesta
 
