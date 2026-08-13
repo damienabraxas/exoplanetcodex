@@ -461,3 +461,65 @@ so an artifact always says which frozen input produced it — and the guards run
 against whatever is named. This is the sanctioned way to regenerate while `CURRENT` carries a row the
 scale guard refuses to load. **A flag that skips a guard, or an in-memory repair of a frozen row, is
 not.** A named input file is auditable; a silent correction is the pattern RYA-681 removed.
+
+## A grade must name its subject — NIST grades gf, `MQ-` grades our measurement — RYA-711
+
+Two grading systems in this project used the glyphs A–D, and they grade **different objects**:
+
+| | `nist_grade` | our grade, now `MQ-*` |
+|---|---|---|
+| grades | the **atomic data** — % uncertainty on the transition probability | **our measurement** of the line |
+| source | external lab/theory, 11 tiers AAA→E | internal composite of six weighted sub-scores → `line_score` 0–1 |
+| depends on our spectrum? | no | yes — it moves if we re-observe |
+| a `B` asserts | "log gf good to ≤10 %" | "composite `line_score` 0.60–0.80" |
+
+Same glyph, unrelated claim. Ours therefore carries an explicit `MQ-` (measurement quality)
+prefix — `MQ-A` / `MQ-B` / `MQ-C` / `MQ-D` — in the values themselves, not merely in the column
+name, because a value gets copied into tables its column header does not travel with. **NIST's
+letters stay NIST's and are never prefixed**: it is someone else's published scale and renaming it
+here would misquote the source. Any table showing both must label each column with the object
+graded, never a bare "grade".
+
+`MQ-` rather than the `Q1–Q4` alternative because `Q` is spoken for: lines are **quarantined**, never
+culled (below), and escaping one collision by starting another is not a fix.
+
+Two pre-existing audit artifacts still carry the old bare letters —
+`data/audit/procyon_outlier_loggf_rya281.csv` (which puts `nist_grade` and the old `line_grade` in
+**adjacent columns**, the collision in the wild) and
+`data/audit/fe1_scatter/fe1_per_line_residuals_rya407.csv`. Their generators now emit `mq_grade`;
+the artifacts are historical snapshots and are corrected when their own tickets next regenerate them.
+
+### Why the graded-gf firewall cuts at >25 % — the %→dex derivation
+
+NIST grades are **percent** uncertainties on the transition probability; our gates are **dex**. They
+meet only through `dex = log10(1 + ε)`. Against the ±0.10 dex RYA-561 ratification gate:
+
+| NIST | ≤ % | dex | share of the ±0.10 dex gate | handling |
+|---|---:|---:|---:|---|
+| AAA | 0.3 | 0.0013 | 1 % | HIGH |
+| AA | 1 | 0.0043 | 4 % | HIGH |
+| A+ | 2 | 0.0086 | 9 % | HIGH |
+| A | 3 | 0.0128 | 13 % | HIGH |
+| B+ | 7 | 0.0294 | 29 % | HIGH |
+| B | 10 | 0.0414 | 41 % | HIGH |
+| C+ | 18 | 0.0719 | 72 % | falls through → MED/LOW |
+| C | 25 | **0.0969** | **97 %** | falls through → MED/LOW |
+| D+ | 40 | 0.1461 | 146 % | quarantined |
+| D | 50 | 0.1761 | 176 % | quarantined |
+| E | >50 | 0.2430 (at 75 %) | 243 % | quarantined |
+
+The cut is **not** "25 % is a lot". It is the last rung whose gf uncertainty still fits inside the
+gate: a NIST C is 0.0969 dex against a 0.10 dex tolerance — 97 % of it, **at** the gate but not past
+it — while D+ is the first rung that exceeds the entire tolerance on atomic data alone. A line whose
+gf could move the answer further than the gate allows cannot contribute to a value that gate is
+meant to judge. Recorded because the code previously said only `# >25 % — cull`, which reads as an
+arbitrary round number.
+
+**C+ and C are in neither membership set, deliberately.** They fall through to reference-based
+tiering, so a NIST C line can still land MED on a non-Kurucz reference. At 0.0719–0.0969 dex they
+are at the gate, not past it, so they are reported **with the caveat stated** rather than excluded.
+The consequence worth knowing: this is the one boundary where the tier is decided by
+`loggf_reference` rather than by the NIST grade.
+
+This cut is a correspondence between two published numbers — the NIST ASD accuracy ladder and the
+RYA-561 gate. **It is not tunable**; it moves only if one of those moves.

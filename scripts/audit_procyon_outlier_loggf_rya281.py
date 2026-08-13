@@ -73,7 +73,7 @@ def main():
                  (pln['wavelength_air_A'].sub(wl).abs() < 0.05)]
         a_1dlte = float(pl['a_1dlte'].iloc[0]) if not pl.empty else np.nan
         vpf = float(pl['vald_proximity_flag'].iloc[0]) if not pl.empty and 'vald_proximity_flag' in pl else np.nan
-        grade = pl['line_grade'].iloc[0] if not pl.empty and 'line_grade' in pl else ''
+        grade = pl['mq_grade'].iloc[0] if not pl.empty and 'mq_grade' in pl else ''
         dA = a_1dlte - med.get(ion, np.nan)        # abundance excess vs pool median
 
         g = _gf_row(gf, species, wl)
@@ -108,7 +108,7 @@ def main():
                          ges_log_gf=round(ges_gf, 3) if np.isfinite(ges_gf) else np.nan,
                          delta_log_gf=round(dgf, 3) if np.isfinite(dgf) else np.nan,
                          ges_ref=ref, nist_grade=grade_gf, vald_proximity=round(vpf, 3),
-                         line_grade=grade, loggf_flag=flag))
+                         mq_grade=grade, loggf_flag=flag))
 
     df = pd.DataFrame(rows).sort_values('delta_A', ascending=False).reset_index(drop=True)
     OUT.parent.mkdir(parents=True, exist_ok=True)

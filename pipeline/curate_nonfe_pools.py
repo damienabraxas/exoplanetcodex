@@ -138,8 +138,50 @@ BLEND_FRAC_MAX = 0.50        # cull if Σ contaminant opacity / target opacity >
 # RYA-592: the '+' tiers were MISSING here. That silently demoted a line graded B+
 # (<=7%, i.e. BETTER than B) out of HIGH — an inversion of the ladder, not a policy.
 # Enumerated from the source so a faithful grade can never cost a line its tier.
-NIST_GRADE_HIGH = {'AAA', 'AA', 'A+', 'A', 'B+', 'B'}   # lab, <=10 % — trusted
-NIST_GRADE_CULL = {'D+', 'D', 'E', 'F'}                 # >25 % — cull ('F' = local legacy code)
+# ── WHY THE CUT SITS AT >25 %, DERIVED (RYA-711 item 2) ──────────────────────
+#
+# `# >25 % — cull` reads as a round number somebody liked. It is not. NIST grades are
+# PERCENT uncertainties on the transition probability and our gates are DEX, so the two
+# only meet through
+#
+#       dex = log10(1 + eps)
+#
+# and against the RYA-561 ratification gate of +-0.10 dex the ladder lands like this —
+# the right-hand column is the fraction of the ENTIRE abundance tolerance that a line's
+# atomic data could consume on its own, before we have measured anything:
+#
+#   NIST   <= %      dex      share of the +-0.10 dex gate     handling here
+#   AAA     0.3   0.0013                 1 %                   HIGH
+#   AA      1     0.0043                 4 %                   HIGH
+#   A+      2     0.0086                 9 %                   HIGH
+#   A       3     0.0128                13 %                   HIGH
+#   B+      7     0.0294                29 %                   HIGH
+#   B      10     0.0414                41 %                   HIGH
+#   C+     18     0.0719                72 %                   falls through -> MED/LOW
+#   C      25     0.0969                97 %                   falls through -> MED/LOW
+#   D+     40     0.1461               146 %                   CULL
+#   D      50     0.1761               176 %                   CULL
+#   E     >50     0.2430 (at 75 %)     243 %                   CULL
+#
+# So the cut is not "25 % is a lot". It is the LAST RUNG WHOSE gf UNCERTAINTY STILL FITS
+# INSIDE THE GATE: C is 0.0969 dex against a 0.10 dex tolerance — 97 % of it, at the gate
+# but not past it — while D+ is the first rung that exceeds the whole tolerance on atomic
+# data alone (146 %). A line whose gf could move the answer further than the gate allows
+# cannot contribute to a value the gate is meant to judge; that is the firewall.
+#
+# C+ AND C ARE IN NEITHER SET, AND THAT IS DELIBERATE. They fall through to reference-
+# based tiering below, so a NIST C line can still land MED on a non-Kurucz reference.
+# At 0.0719-0.0969 dex they are AT the gate, not past it, so they are reported WITH the
+# caveat stated rather than excluded — the "caveated" middle tier. The consequence to be
+# aware of: this is the one boundary where the tier is decided by `loggf_reference` and
+# not by the NIST grade, which is why it is written down rather than left to be inferred
+# from the absence of a membership test.
+#
+# Do not "tune" this cut. It is a correspondence between two published numbers (the NIST
+# ASD ladder and the RYA-561 gate), so it moves only if one of those moves.
+NIST_GRADE_HIGH = {'AAA', 'AA', 'A+', 'A', 'B+', 'B'}   # lab, <=10 % (<=0.0414 dex) — trusted
+NIST_GRADE_CULL = {'D+', 'D', 'E', 'F'}                 # >25 % (>0.0969 dex, i.e. past the
+                                                        # +-0.10 gate) ('F' = local legacy code)
 _KURUCZ_REF = re.compile(r'^K(\d+|P)$', re.I)  # K03/K07/K08/K09/K10/KP — semi-empirical
 
 N_CLEAN_FLOOR = 5            # fewer clean lines → element flagged low-confidence
