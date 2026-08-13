@@ -389,12 +389,76 @@ def load_crires_window(centre: float, pad: float, *, allow_topocentric: bool = F
     return w[o], f[o], prov
 
 
-def load_window(instrument: str, centre: float, pad: float, segs=None):
+#: instrument -> the holding each arm actually serves (RYA-806). The telluric gate is a
+#: per-HOLDING question and this loader dispatches per INSTRUMENT, so the two are joined
+#: here, once, rather than by every caller. An instrument absent from this map is gated
+#: on its instrument axis alone.
+_LOADER_HOLDING = {
+    "kpno_solar_atlas": "solar_kpno",
+    "iag_fts_solar_atlas": "solar_iag",
+    # load_crires_window serves the staged Vesta IDPs specifically -- not the Elgueta
+    # reduced spectra, which are a different holding at a different product level.
+    "crires_plus": "solar_vesta_crires_plus_idp",
+}
+
+
+def _assert_telluric_state(instrument: str, allow_uncorrected: bool = False) -> None:
+    """Refuse a window whose telluric state forbids it (RYA-806).
+
+    THE GAP THIS CLOSES. RYA-805 found this module consuming only `TELLURIC_BANDS` and
+    `exclusion()` while never calling the policy gate — and `exclusion()` returns '' for
+    every CRIRES+ wavelength because the enumerated band set stops at 11560 A, so the
+    whole J/H/K arm fell off the end of the list and every IR line read as clean. The
+    only thing refusing the arm was the REST-FRAME gate, which would stop refusing the
+    moment RYA-372/373 conditioning ran, leaving telluric-uncorrected H-band flux to be
+    measured with no telluric objection at all.
+
+    ⚠️ THIS FIRES BEFORE THE REST-FRAME GATE, and the order is the physics, not an
+    accident: tellurics are stationary in the TOPOCENTRIC frame, so the correction must
+    happen there and the RV shift comes after (RYA-373). Telluric is the earlier blocker,
+    so it is the one a caller is told about first. This does change what RYA-796's
+    `load_window` raises for the staged IDPs — `TelluricNotCorrected` now, where it was
+    `RestFrameNotConditioned` — because a second, earlier defect was found in the same
+    data. Both refusals remain reachable and both are still tested.
+
+    `allow_uncorrected=True` is for the CORRECTION LEG ITSELF. RYA-373's molecfit driver
+    has to read uncorrected flux in order to correct it, so a gate with no door would
+    lock out the only thing that can clear it. Exactly mirrors `allow_topocentric` on the
+    rest-frame gate, and is equally not a general escape hatch.
+    """
+    if allow_uncorrected:
+        return
+    holding = _LOADER_HOLDING.get(instrument)
+    if holding is None:
+        return
+    from pipeline.telluric_policy import gate_holding
+    ok, why = gate_holding(holding, instrument)
+    if not ok:
+        raise TelluricNotCorrected(
+            f"{why} If you ARE the telluric correction leg and need the uncorrected "
+            f"flux in order to correct it, pass allow_uncorrected=True.")
+
+
+class TelluricNotCorrected(LookupError):
+    """We hold this window, but not in a telluric state that may be measured.
+
+    A LookupError subclass so a driver's existing "this arm cannot serve this line"
+    handling still catches it -- but a distinct type, because "we do not hold this
+    wavelength", "we hold it in the wrong velocity frame" (`RestFrameNotConditioned`) and
+    "we hold it uncorrected" are three different problems with three different fixes.
+    """
+
+
+def load_window(instrument: str, centre: float, pad: float, segs=None,
+                allow_uncorrected: bool = False):
     """One entry point per instrument, so a driver does not hardcode an arm.
 
     Loud on an unknown instrument: silently defaulting to Kitt Peak is how a product gets
-    labelled with an instrument it was not measured on.
+    labelled with an instrument it was not measured on. Loud, too, on a telluric state
+    that forbids measurement (RYA-806) -- checked BEFORE any data is read, so a refusal
+    costs nothing and cannot be half-completed.
     """
+    _assert_telluric_state(instrument, allow_uncorrected)
     if instrument == "kpno_solar_atlas":
         return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
     if instrument == "iag_fts_solar_atlas":
