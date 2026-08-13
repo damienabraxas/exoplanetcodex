@@ -257,7 +257,9 @@ def assert_depth_match(parsed: dict, atmosphere) -> None:
             f"wrong depths.")
 
 
-def assert_linelist_supports_nlte(linelist, Z: int, element: str) -> int:
+def assert_linelist_supports_nlte(linelist, Z: int, element: str,
+                                  wave_lo_A: float | None = None,
+                                  wave_hi_A: float | None = None) -> int:
     """iSpec fails SOFT — replicate its skip test and RAISE instead.
 
     `generate_spectrum` appends an element to `nlte_ignored` and continues **in LTE without
@@ -269,7 +271,23 @@ def assert_linelist_supports_nlte(linelist, Z: int, element: str) -> int:
     """
     try:
         species = np.floor(np.asarray(linelist["turbospectrum_species"], dtype=float))
-        rows = linelist[species == Z]
+        sel = species == Z
+        # ⚠️ WINDOW-LOCAL, NOT ELEMENT-GLOBAL. bsyn applies departures per LINE and falls
+        # back to departure = 1 for any line whose levels are unidentified, so "Fe is
+        # labelled somewhere in the list" says nothing about the lines actually being
+        # synthesised here. Fe answers the global question yes 15706 times while every
+        # line in the Fe II 6910-9199 window is unlabelled.
+        if wave_lo_A is not None and wave_hi_A is not None:
+            names = linelist.dtype.names or ()
+            if "wave_A" in names:
+                w = np.asarray(linelist["wave_A"], dtype=float)
+            elif "wave_nm" in names:
+                w = np.asarray(linelist["wave_nm"], dtype=float) * 10.0
+            else:
+                w = None
+            if w is not None:
+                sel = sel & (w >= wave_lo_A) & (w <= wave_hi_A)
+        rows = linelist[sel]
         if len(rows) == 0:
             raise GerberDeckError(
                 f"no {element} lines in this window's linelist — NLTE cannot engage")
@@ -281,9 +299,14 @@ def assert_linelist_supports_nlte(linelist, Z: int, element: str) -> int:
     except Exception as e:
         raise GerberDeckError(f"cannot read NLTE labels from the linelist: {e}") from e
     if n == 0:
+        where = (f" in {wave_lo_A:.1f}-{wave_hi_A:.1f} A"
+                 if wave_lo_A is not None and wave_hi_A is not None else "")
         raise GerberDeckError(
-            f"{element}: {len(rows)} lines in window but NONE carry NLTE level labels, so "
-            f"iSpec would place this element in `nlte_ignored` and synthesise it in LTE "
-            f"WITHOUT RAISING (RYA-764). Refusing: an LTE spectrum under an NLTE label is "
-            f"worse than no product.")
+            f"{element}: {len(rows)} lines{where} but NONE carry NLTE level labels. bsyn "
+            f"sets departure = 1 for an unidentified level and iSpec drops an unlabelled "
+            f"element into `nlte_ignored` — either way the synthesis runs in LTE WITHOUT "
+            f"RAISING (RYA-534 Co/Ni, RYA-764). Refusing: an LTE spectrum under an NLTE "
+            f"label is worse than no product. This is a LINE-LIST coverage gap, not a "
+            f"deck failure — the deck is fine, these transitions have no level "
+            f"identification.")
     return n
