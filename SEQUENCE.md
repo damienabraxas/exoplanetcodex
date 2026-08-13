@@ -15,6 +15,11 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-13
+
+- **RYA-796** — `crires_plus` arm for `load_window`; it REFUSES the staged IDPs (TOPOCENT + moving reflector) — unblocks RYA-797 once RYA-372/373 conditioning runs
+- **RYA-796** — co-add is a ROTATION question: 2 of 5 duplicate settings sit 166°/163° apart in sub-observer longitude, the opposite face of Vesta
+
 ## 2026-08-12
 
 - **RYA-785** — Fe Gerber Engine-B NLTE deck PASSES (+0.0579 vs published +0.06); the CHECK was an MPIA anchor + 2 blended lines ⇒ unblocks RYA-798
