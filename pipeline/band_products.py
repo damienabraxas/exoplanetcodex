@@ -70,6 +70,16 @@ class LineMeasurement:
     treatment: str = ""
     in_aggregate: bool = True
     excluded_reason: str = ""
+    #: RYA-807 — the curated registry's verdict on this line, carried so the per-line
+    #: output shows WHY, not merely that it was excluded (RYA-711 quarantine-not-cull,
+    #: RYA-429 reported-never-dropped). `problem_action` is 'exclude' | 'flag' | ''.
+    #: A FLAGGED line stays in the aggregate: its cause is not established, and removing
+    #: it on a hypothesis would be tuning (RYA-161). These default empty, so every
+    #: existing caller and artifact is unchanged until the registry actually matches.
+    problem_class: str = ""
+    problem_status: str = ""
+    problem_tickets: str = ""
+    problem_action: str = ""
     #: Did this line's abundance come from an EW -> abundance INVERSION?
     #:
     #: RYA-770/342. The REW saturation ceiling below is a property of that inversion —
