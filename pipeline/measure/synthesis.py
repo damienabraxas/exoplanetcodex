@@ -319,20 +319,31 @@ class SynthesisHandler(MeasurementHandler):
                 f"fitted from it. Coverage gap, not a measurement failure.")
 
         # ── delegate to the validated fit ─────────────────────────────────────
-        res = self._fit(
-            obs_w_nm, obs_f, context["atmosphere"], context["teff"], context["logg"],
-            context["feh"], context["vturb"], context["linelist"], context["isotopes"],
-            context["solar_abund"], element, context["atom_code"],
-            wave_base, wave_top, A_LO, A_HI,
-            float(context["resolving_power"]), float(context["macroturbulence"]),
-            float(context["vsini"]),
+        # RYA-783: the NLTE path REFUSES a line whose levels are unidentified — bsyn
+        # would set departure = 1 and return LTE under an NLTE label. That is per-LINE
+        # coverage, not a run-level fault, so it is quarantined with its own reason
+        # rather than aborting the whole band (RYA-429 no silent drops, RYA-711 never
+        # cull). A band where EVERY line is unlabelled then yields an honest n=0 product.
+        try:
+            res = self._fit(
+                obs_w_nm, obs_f, context["atmosphere"], context["teff"], context["logg"],
+                context["feh"], context["vturb"], context["linelist"], context["isotopes"],
+                context["solar_abund"], element, context["atom_code"],
+                wave_base, wave_top, A_LO, A_HI,
+                float(context["resolving_power"]), float(context["macroturbulence"]),
+                float(context["vsini"]),
             # RYA-798. None keeps this the LTE call RYA-770 stabilised, byte for byte.
             # 'gerber' turns on the TS-native departure deck; `_fit_synth_flux` then
             # asserts the linelist actually carries NLTE labels for this element, because
             # iSpec would otherwise drop it into `nlte_ignored` and synthesise LTE without
             # raising (RYA-764).
-            nlte_deck=context.get("nlte_deck"),
-            tmp_dir=self._tmp_dir)
+                nlte_deck=context.get("nlte_deck"),
+                tmp_dir=self._tmp_dir)
+        except Exception as _e:
+            from pipeline.gerber_nlte import GerberDeckError as _GDE
+            if isinstance(_e, _GDE):
+                return quarantine(f"NLTE-UNLABELLED: {str(_e)[:220]}")
+            raise
 
         if res["status"] == "failed":
             return quarantine(f"FIT-FAILED: {res.get('reason', 'unknown')}")

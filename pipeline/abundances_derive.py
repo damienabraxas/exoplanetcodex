@@ -1243,7 +1243,8 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         from pipeline import gerber_nlte as _gn
         if nlte_deck != 'gerber':
             raise ValueError(f"unknown NLTE deck {nlte_deck!r} (only 'gerber' is wired)")
-        _gn.assert_linelist_supports_nlte(linelist, atom_code, element)
+        _gn.assert_linelist_supports_nlte(linelist, atom_code, element,
+                                          wave_base * 10.0, wave_top * 10.0)
         _dep = _gn.for_node(element, teff, logg, feh)
 
     n_eval = [0]
@@ -1254,8 +1255,11 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         try:
             _nd = None
             if _dep is not None:
-                _nd = {element: (_dep['departures'], _dep['tau'], _dep['ndep'],
-                                 _dep['nk'], _dep['Z'], float(a_x), _dep['atom_path'])}
+                # MUST go through as_ispec_tuple: it owns the (ndep,nk) -> (nk,ndep)
+                # transpose iSpec requires. Hand-building this tuple here is what broke
+                # every production NLTE fit while the RYA-798 control — which called
+                # as_ispec_tuple — passed.
+                _nd = {element: _gn.as_ispec_tuple(_dep, float(a_x))}
             sf = _synth_flux_at_abund(sw, trial_A=float(a_x),
                                       nlte_departures=_nd, **_kw)
         except Exception as exc:
