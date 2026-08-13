@@ -29,7 +29,7 @@ def test_weighted_median_matches_plain_when_weights_equal():
 
 def _pool(a, line_score, subscores):
     df = pd.DataFrame({'a_1dlte': a, 'line_score': line_score,
-                       'line_grade': ['B'] * len(a)})
+                       'mq_grade': ['MQ-B'] * len(a)})
     for k, vals in subscores.items():
         df[k] = vals
     return df

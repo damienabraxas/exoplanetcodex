@@ -67,7 +67,7 @@ def main():
     # Fe II sample quality
     print("\n--- Fe II line sample (sorted by abundance) ---")
     cols = ['wavelength_air_A', 'ew_mA', 'log_gf', 'excitation_potential_eV',
-            'a_1dlte', 'line_grade']
+            'a_1dlte', 'mq_grade']
     print(fe2.sort_values('a_1dlte')[cols].to_string(index=False))
     print(f"\nFe II within 7.4-7.6: {((a2 >= 7.4) & (a2 <= 7.6)).sum()}/{len(a2)}  |  "
           f">8.0: {(a2 > 8.0).sum()}  |  range={a2.max() - a2.min():.2f} dex")
