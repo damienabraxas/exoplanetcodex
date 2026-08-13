@@ -1849,7 +1849,7 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
 
     Adds columns to per_line_df:
         vald_proximity_flag, ew_snr_score, fit_chi2_score, saturation_score,
-        abundance_outlier_score, nlte_correction_score, line_score, line_grade
+        abundance_outlier_score, nlte_correction_score, line_score, mq_grade
     """
     W = LINE_SCORE_WEIGHTS
     P = LINE_SCORE_PARAMS
@@ -1963,13 +1963,14 @@ def _compute_line_scores(per_line_df: pd.DataFrame,
         4
     )
 
-    # line_grade
+    # mq_grade -- MEASUREMENT-QUALITY grade, prefixed so it can never be mistaken for
+    # a NIST atomic-data grade wherever the column travels (RYA-711 item 1).
     def _grade(s):
-        if s >= T['A']: return 'A'
-        if s >= T['B']: return 'B'
-        if s >= T['C']: return 'C'
-        return 'D'
-    df['line_grade'] = df['line_score'].apply(_grade)
+        if s >= T['MQ-A']: return 'MQ-A'
+        if s >= T['MQ-B']: return 'MQ-B'
+        if s >= T['MQ-C']: return 'MQ-C'
+        return 'MQ-D'
+    df['mq_grade'] = df['line_score'].apply(_grade)
 
     return df
 
@@ -2040,11 +2041,11 @@ def _aggregation_diagnostics(lines: pd.DataFrame, delta_nlte: float) -> dict:
     a = lines['a_1dlte'].astype(float).values
     w = lines['line_score'].astype(float).values
     d = float(delta_nlte) if np.isfinite(delta_nlte) else 0.0
-    gc = lines['line_grade'].value_counts()
+    gc = lines['mq_grade'].value_counts()
     umean = float(np.mean(a)); pmed = float(np.median(a))
     wmean = float(np.average(a, weights=w)) if w.sum() > 0 else float('nan')
     wmed = _weighted_median(a, w)
-    ab = lines[lines['line_grade'].isin(['A', 'B'])]
+    ab = lines[lines['mq_grade'].isin(['MQ-A', 'MQ-B'])]
     abcut = (float(np.average(ab['a_1dlte'], weights=ab['line_score']))
              if len(ab) and ab['line_score'].sum() > 0 else float('nan'))
     return {
@@ -2052,16 +2053,21 @@ def _aggregation_diagnostics(lines: pd.DataFrame, delta_nlte: float) -> dict:
         'weighted_mean': round(wmean, 4), 'weighted_median': round(wmed, 4),
         'ab_cut': round(abcut, 4) if np.isfinite(abcut) else None,
         'wmed_minus_median': round(wmed - pmed, 4),
-        'n_A': int(gc.get('A', 0)), 'n_B': int(gc.get('B', 0)),
-        'n_C': int(gc.get('C', 0)), 'n_D': int(gc.get('D', 0)),
+        'n_MQ_A': int(gc.get('MQ-A', 0)), 'n_MQ_B': int(gc.get('MQ-B', 0)),
+        'n_MQ_C': int(gc.get('MQ-C', 0)), 'n_MQ_D': int(gc.get('MQ-D', 0)),
         'plain_median_nlte': round(pmed + d, 4), 'weighted_median_nlte': round(wmed + d, 4),
     }
 
 
 def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Compute element_score, element_grade, n_lines_A/B/C/D and A+B weighted abundance.
-    Updates results_df in place and returns it.
+    Compute element_score, element_mq_grade, n_lines_MQ_A/B/C/D and the MQ-A+MQ-B
+    weighted abundance. Updates results_df in place and returns it.
+
+    The element grade is an aggregate of the per-line MEASUREMENT-quality grades, so it
+    carries the same `MQ-` prefix for the same reason (RYA-711 item 1): an unprefixed
+    element `B` beside a NIST `B` in any summary table is two different claims wearing
+    one glyph.
     """
     T = LINE_GRADE_THRESHOLDS
     results = results_df.copy()
@@ -2074,24 +2080,24 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
             continue
 
         idx = results.index[(results['element'] == elem) & (results['ion'] == ion)][0]
-        gc = lines['line_grade'].value_counts()
-        results.at[idx, 'n_lines_A'] = int(gc.get('A', 0))
-        results.at[idx, 'n_lines_B'] = int(gc.get('B', 0))
-        results.at[idx, 'n_lines_C'] = int(gc.get('C', 0))
-        results.at[idx, 'n_lines_D'] = int(gc.get('D', 0))
+        gc = lines['mq_grade'].value_counts()
+        results.at[idx, 'n_lines_MQ_A'] = int(gc.get('MQ-A', 0))
+        results.at[idx, 'n_lines_MQ_B'] = int(gc.get('MQ-B', 0))
+        results.at[idx, 'n_lines_MQ_C'] = int(gc.get('MQ-C', 0))
+        results.at[idx, 'n_lines_MQ_D'] = int(gc.get('MQ-D', 0))
 
-        ab_lines = lines[lines['line_grade'].isin(['A', 'B'])]
+        ab_lines = lines[lines['mq_grade'].isin(['MQ-A', 'MQ-B'])]
         if not ab_lines.empty and ab_lines['line_score'].sum() > 0:
             el_score = float(np.average(ab_lines['line_score'],
                                         weights=ab_lines['line_score']))
             results.at[idx, 'element_score'] = round(el_score, 4)
 
             def _grade(s):
-                if s >= T['A']: return 'A'
-                if s >= T['B']: return 'B'
-                if s >= T['C']: return 'C'
-                return 'D'
-            results.at[idx, 'element_grade'] = _grade(el_score)
+                if s >= T['MQ-A']: return 'MQ-A'
+                if s >= T['MQ-B']: return 'MQ-B'
+                if s >= T['MQ-C']: return 'MQ-C'
+                return 'MQ-D'
+            results.at[idx, 'element_mq_grade'] = _grade(el_score)
 
             # A+B weighted mean 1D LTE abundance — NLTE delta applied below
             a_ab = float(np.average(ab_lines['a_1dlte'], weights=ab_lines['line_score']))
@@ -2129,7 +2135,8 @@ def _element_grade_summary(scored_df: pd.DataFrame, results_df: pd.DataFrame) ->
         n_pass = 0
         for name, dg, gt in _gate_reports:
             n_pass += int(gt['discriminates'])
-            print(f"    {name:7s}  {dg['n_A']}/{dg['n_B']}/{dg['n_C']}/{dg['n_D']:<3}"
+            print(f"    {name:7s}  {dg['n_MQ_A']}/{dg['n_MQ_B']}/{dg['n_MQ_C']}"
+                  f"/{dg['n_MQ_D']:<3}"
                   f"  {dg['unweighted_mean']:.3f}  {dg['plain_median']:.3f}  {dg['weighted_mean']:.3f}"
                   f"  {dg['weighted_median']:.3f}  {str(dg['ab_cut'])[:5]:5s}  {dg['wmed_minus_median']:+.3f}"
                   f"    {gt['ls_spread']:.3f}   {str(gt['rho_noncircular']):>6s}   {gt['discriminates']}")
@@ -3125,11 +3132,12 @@ def run(star_id: str = 'solar',
                       f"a doubled RYA-553 correction lands on NEITHER scale)")
             print(f"  nlte_flag Fe {ion_lbl}   = {flag}")
             print(f"  Fe {ion_lbl} n_lines     = {n_lines}  -> {'PASS' if n_lines >= nl_min else 'FAIL'} (>={nl_min})")
-            n_A = int(fe_row.get('n_lines_A', 0)); n_B = int(fe_row.get('n_lines_B', 0))
-            n_C = int(fe_row.get('n_lines_C', 0)); n_D = int(fe_row.get('n_lines_D', 0))
-            el_grade = str(fe_row.get('element_grade', '?'))
+            n_A = int(fe_row.get('n_lines_MQ_A', 0)); n_B = int(fe_row.get('n_lines_MQ_B', 0))
+            n_C = int(fe_row.get('n_lines_MQ_C', 0)); n_D = int(fe_row.get('n_lines_MQ_D', 0))
+            el_grade = str(fe_row.get('element_mq_grade', '?'))
             a_ab_abs = float(fe_row.get('A_X_nlte_AB', np.nan))
-            print(f"  Fe {ion_lbl} grade dist  = A:{n_A}  B:{n_B}  C:{n_C}  D:{n_D}  element_grade={el_grade}")
+            print(f"  Fe {ion_lbl} MQ dist     = MQ-A:{n_A}  MQ-B:{n_B}  MQ-C:{n_C}  MQ-D:{n_D}"
+                  f"  element_mq_grade={el_grade}  (measurement quality, NOT NIST gf grade)")
             if np.isfinite(a_ab_abs):
                 ab_diag = _diag_lo <= a_ab_abs <= _diag_hi
                 print(f"  A(Fe {ion_lbl}) NLTE A+B = {a_ab_abs:.4f}  -> {'PASS' if ab_diag else 'FAIL'} (diagnostic [{_diag_lo:.2f},{_diag_hi:.2f}])")

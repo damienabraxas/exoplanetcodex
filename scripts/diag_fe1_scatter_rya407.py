@@ -76,7 +76,7 @@ def main():
     # ── ranked outlier table ──
     cols = ['wavelength_air_A', 'excitation_potential_eV', 'ew_mA', 'REW', 'log_gf',
             'ges_gf', 'gf_vs_ges', A, 'resid', 'vald_proximity_flag',
-            'saturation_score', 'ew_snr_score', 'line_grade']
+            'saturation_score', 'ew_snr_score', 'mq_grade']
     top = fe1.reindex(fe1['resid'].abs().sort_values(ascending=False).index).head(15)
     print("\n--- TOP 15 Fe I outliers by |residual| ---")
     print(top[cols].round(3).to_string(index=False))
