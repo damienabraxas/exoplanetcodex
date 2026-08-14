@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-13
 
+- **RYA-777** — Fe frontier matrix on the surfaces + frontier standard RATIFIED; tracker regen BLOCKED by RYA-669 (phase_c refuses) and the freshness guard blind spot instrumented
 - **RYA-810** — batch 4 FINAL: 97→**0** literals; the audit is now a HARD GATE, not a ratchet
 - **RYA-810** — batch 3: all 19 GRID literals onto the register (116→97); proven equivalent by inode, not by string
 - **RYA-810** — batch 2: `pipeline/` is now literal-free; +6 register entries and a `work` root for the Sirius drivers
