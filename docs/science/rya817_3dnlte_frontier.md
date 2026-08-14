@@ -202,6 +202,59 @@ artefact, chased through RYA-782/780, not through 3D-NLTE.
 
 ---
 
+## Reach — and the RYA-762 extended band
+
+Ryan, mid-run: *"the 3D-NLTE leg keys on Elo (VALD-supplied), NOT the GES level-ID wall
+that stops Engine B at 9199.9 Å — so 817's 3D can extend into 9199–13000 Å where Engine B
+can't."*
+
+**The premise is right and the conclusion does not follow.** The two legs genuinely have
+different walls: Engine B stops at 9199.9 Å because the GES linelist runs out of level
+IDs, and the 3D leg never touches a GES level ID — it takes Elo/Eup/log gf from VALD. But
+the 3D leg has a wall of its own, in transition energy, and it closes **earlier and
+harder**.
+
+Reach is a pure line-parameter question, so it can be answered with no measurement at all.
+`rya817_reach_survey.csv` domain-checks **every** Fe I/II transition in the VALD solar
+extractions, band by band:
+
+| band | ion | transitions | **in domain** | E_up − E_low (eV) | max E_low (eV) |
+|---|---|---|---|---|---|
+| optical overlap 4788–6810 Å | I | 3374 | **1549** | 1.820–2.589 | 6.401 |
+| optical overlap | II | 318 | 24 | 1.833–2.583 | 10.678 |
+| IR 6910–9199 Å (RYA-783) | I | 1839 | **0** | 1.348–1.793 | 7.017 |
+| IR 6910–9199 Å | II | 112 | **0** | 1.349–1.793 | 9.941 |
+| **extended IR 9199–13000 Å (RYA-762)** | I | **1971** | **0** | **0.954–1.347** | 7.076 |
+| **extended IR 9199–13000 Å** | II | 51 | **0** | 0.965–1.347 | 9.962 |
+
+The gap below the training floor (1.8200 eV) is **0.028 eV** for the 6910–9199 Å band and
+**0.473 eV** for the 9199–13000 Å extension — **17× larger**. Every additional Ångström of
+reach moves the band further from anything the network saw, because transition energy falls
+as 1/λ. There is no wavelength at which it comes back.
+
+Note the first row: 1549 of 3374 optical Fe I transitions **pass**. The survey is not a
+check that rejects everything — it accepts about half the optical band and none of the
+infrared, which is the shape a real domain check should have.
+
+### What this means for RYA-762, concretely
+
+1. **Do not plan a 3D-NLTE leg into 9199–13000 Å.** It is not gated on a linelist, on
+   Engine B's level IDs, or on our own wiring. It is gated on training data that does not
+   exist, and extending the band makes that worse rather than better.
+2. **Engine B's 9199.9 Å wall is still worth removing on its own merits** — that one really
+   is a linelist limit and RYA-762's framing of it is correct. The two are independent
+   pieces of work and neither unblocks the other.
+3. **The ask that WOULD unblock this is upstream:** 3D-NLTE Fe calculations on
+   near/far-IR transitions. Worth raising with Amarsi directly (see Owed, below); the
+   published grid covers 478.783–681.026 nm and the surveys that most need IR Fe — APOGEE,
+   CRIRES+, NIRPS — are all outside it.
+4. **High-EP is not the obstacle.** The extended band's Fe I lines reach E_low 7.08 eV
+   against a training ceiling of 5.10, so some do fail the feature box too — but that is
+   the smaller effect. Every single line fails on transition energy, and no amount of
+   EP-selective line picking changes that.
+
+---
+
 ## Deliverable B — the 3D-NLTE availability matrix
 
 `data/curation/threednlte_availability.csv`, verified by
@@ -269,7 +322,8 @@ exist.
 1. **An IR 3D-NLTE Fe product needs new 3D-NLTE calculations on IR lines** — an Amarsi-side
    ask, not a run we can do. Worth raising: the near-IR Fe I lines are exactly the ones
    large surveys (APOGEE, CRIRES+, NIRPS) depend on, and the published 3D-NLTE grid does
-   not cover them.
+   not cover them. **This is the single blocker for both the 6910–9199 Å band and the
+   RYA-762 extension**, and it is the same blocker for both.
 2. **Ti 3D-NLTE** is the single most valuable missing calculation for our board (see above).
 3. `pipeline/amarsi3d.py` is solar-agnostic but has only been exercised on the Sun. Procyon
    sits at Teff 6554 K, **above** the 6500 K grid ceiling, so the stellar box will refuse

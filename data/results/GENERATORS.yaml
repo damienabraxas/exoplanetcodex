@@ -490,3 +490,16 @@ artifacts:
       the measured sensitivity of the product across the whole axis), and the
       reactivation control -- Amarsi+2022 Table 6's solar row reproduced from Amarsi's
       own inputs to <=0.005 dex on both ions and both columns.
+  - artifact: rya817/rya817_reach_survey.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <RYA-783 band_products dir>
+    ticket: RYA-817
+    note: >-
+      REACH, answered before anything is measured (RYA-762 coordination). Reach is a
+      line-parameter question, so every Fe I/II transition in a band can be domain-checked
+      with no EW at all -- which says whether a measurement campaign in that band could
+      ever be served by this engine, instead of finding out afterwards. Result: 1549 of
+      3374 Fe I transitions in the optical overlap are in domain, 0 of 1839 in the
+      6910-9199 A band, and 0 of 1971 in the 9199-13000 A extension. The extension is
+      FURTHER out, not closer: the gap below the training floor in transition energy grows
+      from 0.028 eV to 0.473 eV.

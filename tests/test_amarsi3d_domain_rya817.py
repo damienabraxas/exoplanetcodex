@@ -166,6 +166,30 @@ def test_no_training_line_reaches_the_measured_ir_band():
     assert gap > 10 * amarsi3d.BOX_TOL
 
 
+def test_the_domain_gap_WIDENS_with_wavelength_rya762():
+    """RYA-762 asked whether the 3D leg can extend past Engine B's 9199.9 A wall.
+
+    It cannot, and the reason is worth pinning: transition energy falls as 1/lambda, so
+    every extra Angstrom of reach moves a band FURTHER from the training floor. The
+    9199-13000 A extension misses by ~17x what the 6910-9199 A band misses by. If this
+    ever inverts, someone has changed the training artifact.
+    """
+    df = pd.read_csv(TRAINING)
+    hc_ev_A = 12398.419843320026
+
+    def max_dE(lambda_blue_edge_A: float) -> float:
+        s2 = (1e4 / lambda_blue_edge_A) ** 2
+        n = 1.0 + (8342.13 + 2406030.0 / (130.0 - s2) + 15997.0 / (38.9 - s2)) * 1e-8
+        return hc_ev_A / (lambda_blue_edge_A * n)
+
+    floor = float(df.delta_E_eV.min())
+    gap_ir = floor - max_dE(6910.0)          # RYA-783 band
+    gap_far = floor - max_dE(9199.0)         # RYA-762 extension
+    assert gap_ir > 0 and gap_far > 0
+    assert gap_far > gap_ir                  # further out, not closer
+    assert gap_far / gap_ir > 10
+
+
 def test_out_of_domain_returns_nan_unless_explicitly_allowed():
     """No silent extrapolation, and the escape hatch has to be asked for by name."""
     _sklearn_or_skip()
