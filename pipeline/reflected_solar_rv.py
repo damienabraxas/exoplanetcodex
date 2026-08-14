@@ -54,7 +54,7 @@ from pathlib import Path
 import numpy as np
 from astropy.io import fits
 
-from config.constants import REFLECTED_SOLAR_BODIES   # RYA-394 single-source body registry
+from config.constants import REFLECTED_SOLAR_BODIES, codex_path   # RYA-394 single-source body registry
 
 warnings.simplefilter('ignore')
 
@@ -82,10 +82,8 @@ class RestFrameError(RuntimeError):
 PARANAL = '309'            # JPL Horizons observatory code for ESO Paranal (VLT)
 
 # Reflected-solar data root (outside the repo — RYA-370). Override with --root.
-DEFAULT_ROOT = Path(
-    '/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/'
-    'exoplanetcodex-data/Solar Calibration/Solar System Targets/Vesta'
-)
+DEFAULT_ROOT = (codex_path('data.spectra_local')
+                / 'Solar Calibration' / 'Solar System Targets' / 'Vesta')
 
 # Chromospheric reference lines (deep cores form high → carry a small velocity
 # offset vs the photosphere; reported, not used to anchor).
