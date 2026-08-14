@@ -22,13 +22,14 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+from config.constants import codex_path, codex_root  # noqa: E402 -- must precede the ISPEC_DIR line below, which USES it
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path("engines.ispec"))))
 
 from pipeline.abundances_derive import _load_synth_resources  # noqa: E402
 
 REC = ROOT / "data/results/rya761/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_blend_recovery.csv"
-EW = Path("/mnt/codex-data/codex/rya713/data/measured/band_ew/"
-          "FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_ew.csv")
+EW = (codex_root('work') / 'rya713' / 'data' / 'measured' / 'band_ew'
+      / 'FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_ew.csv')
 
 # Semi-empirical / theoretical source families. Anything else we treat as measured;
 # the point of the comparison is the MIX, not a grade letter (RYA-711 warns our grade

@@ -39,7 +39,7 @@ _RESULT = _REPO / 'data' / 'audit' / 'rya533_ts_gerber_build' / 'na_gate_result.
 _DECK = _REPO / 'scripts' / 'ts_gerber_na_gate_rya533.py'
 
 # Sirius provisioning (the live gate only runs where these exist).
-_TS_NLTE_BSYN = Path('/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf/bsyn_lu')
+_TS_NLTE_BSYN = Path(str(codex_path('engines.ts_bsyn')))
 _GERBER_NA_GRID = codex_path('grids.gerber_ts') / 'NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin'
 
 _ANCHOR = -0.107
@@ -76,7 +76,7 @@ def test_ts_gerber_na_gate_live():
     """Run the actual bsyn NLTE deck end-to-end and assert the Na anchor reproduces.
 
     RAISES inside the deck if departures do not engage (silent-LTE guard)."""
-    venv_py = '/mnt/codex-data/venv_pysme/bin/python'
+    venv_py = str(codex_path('engines.venv_pysme_python'))
     py = venv_py if os.path.exists(venv_py) else sys.executable
     r = subprocess.run([py, str(_DECK)], capture_output=True, text=True, timeout=1800)
     assert 'NLTE departure engaged: True' in r.stdout, (

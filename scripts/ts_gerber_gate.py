@@ -28,14 +28,14 @@ import os as _os_boot, sys as _sys_boot
 _sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
     _os_boot.path.abspath(__file__))))
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
-from config.constants import codex_path  # RYA-810 path register
-EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
-INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
-GES = "/mnt/codex-data/engines/Turbospectrum_NLTE/COM/linelists/nlte_ges_linelist_jmg17feb2022_I_II"
+from config.constants import codex_path, codex_root# RYA-810 path register
+EXE = str(codex_path('engines.ts_exec'))
+INTERP = str(codex_path('engines.ts_interpolator'))
+GES = str(codex_path('engines.ges_nlte_linelist'))
 GT = str(codex_path('grids.gerber_ts'))
 MARCS = str(codex_path('grids.marcs_standard')
            / "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
-W = "/mnt/codex-data/codex/rya534"
+W = str(codex_root('work') / 'rya534')
 TREF, LOGGREF, ZREF = "5750", "+4.50", "+0.00"
 
 # Asplund 2021 solar A(X); anchors = published solar 1D-NLTE corrections (sign+magnitude).
@@ -315,7 +315,7 @@ def main():
     # DATA/ symlink for babsma/bsyn
     dsl = f"{W}/work/DATA"
     if not os.path.lexists(dsl):
-        os.symlink("/mnt/codex-data/engines/Turbospectrum_NLTE/DATA", dsl)
+        os.symlink(str(codex_path('engines.ts_data')), dsl)
 
     ion = ION.get(el, 0)
     hdr, rows = ges_lines(cfg['Z'], ion, cfg['waves'])
@@ -401,7 +401,7 @@ def _solar_node():
     if os.environ.get('TSGERBER_REPO_ROOT'):
         cands.append(os.environ['TSGERBER_REPO_ROOT'])
     cands += [str(_P(__file__).resolve().parents[1]),
-              '/mnt/codex-data/codex/rya519', '/mnt/codex-data/codex/repo']
+              str(codex_root('work') / 'rya519'), str(codex_path('work.repo'))]
     for root in cands:
         if os.path.exists(os.path.join(root, 'config', 'constants.py')):
             if root not in _s.path:

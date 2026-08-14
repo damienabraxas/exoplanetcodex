@@ -50,9 +50,10 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+from config.constants import codex_path  # noqa: E402 -- must precede the ISPEC_DIR line below, which USES it
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path('engines.ispec'))))
 
-from config.constants import STAR_PARAMS                                  # noqa: E402
+from config.constants import STAR_PARAMS  # noqa: E402
 from pipeline.curate_nonfe_pools import ACCEPTED_GF_TIERS, _gf_tier       # noqa: E402
 from pipeline import nlte_corrections as nc                               # noqa: E402
 from scripts.rya764_engine_b_coverage import classify                     # noqa: E402
