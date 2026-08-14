@@ -34,8 +34,9 @@ from astropy.time import Time
 import astropy.units as u
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from pipeline.acen_orbit import predicted_rv, rv_bounds, consistent_with_orbit, GAMMA, K_A, K_B  # noqa
+from config.constants import codex_path  # RYA-810 path register
 
-DATA = "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data"
+DATA = str(codex_path('data.spectra_local'))
 VET = os.path.join(DATA, "Alpha Centauri (vetted)")
 MANIFEST = os.path.join(os.path.dirname(__file__), '..', 'data', 'audit',
                         'acen_holdings_rya384', 'ir_star_id_rya423_manifest.csv')

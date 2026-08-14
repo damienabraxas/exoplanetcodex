@@ -20,8 +20,14 @@ import warnings, glob, os, numpy as np; warnings.filterwarnings('ignore')
 from astropy.io import fits as pf
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+# Standalone-script bootstrap (RYA-313): put the REPO ROOT on sys.path BEFORE
+# importing config/pipeline, so this runs from any cwd. Derived from __file__.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
-ROOT = "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data"
+ROOT = str(codex_path('data.spectra_local'))
 OUT = os.path.join(os.path.dirname(__file__), '..', 'data', 'audit', 'acen_holdings_rya384', 'plots')
 os.makedirs(OUT, exist_ok=True)
 B13 = {'ADP.2014-09-24T09:43:50.693','ADP.2014-09-24T09:43:36.823','ADP.2014-09-24T09:43:38.363',

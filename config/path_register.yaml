@@ -58,6 +58,16 @@ roots:
       mount presents as an empty directory rather than an error -- hence the
       sentinel check. Legacy /mnt/codex-data/grids and /srv/codex/grids are
       symlinks here and continue to resolve.
+  local_data:
+    env: CODEX_LOCAL_DATA_ROOT
+    default: '{repo_parent}/data'
+    desc: >-
+      Workstation-side data that is NOT on Sirius: the raw spectra tree and a few
+      staging CSVs. Derived from the repo's own location ({repo_parent} = the
+      directory containing the checkout, where `data/` sits as a sibling of the
+      worktrees), so it needs NO configuration and, critically, NO username. The
+      15 literals this replaces each hardcoded an absolute /Users/<name>/... path
+      into git -- unrunnable by anyone else, and a disclosure in a shared repo.
   engines:
     env: CODEX_ENGINE_ROOT
     default: /mnt/codex-data/engines
@@ -150,3 +160,16 @@ entries:
     rel: linelists
     kind: dir
     desc: VALD / GES line-list extracts.
+  data.spectra_local:
+    root: local_data
+    rel: spectra/exoplanetcodex-data
+    kind: dir
+    desc: >-
+      Workstation raw-spectra tree, per target (Alpha Centauri A/B, Procyon,
+      Epsilon Eridani, Tau Bootis, ...). Distinct from data.spectra, which is the
+      Sirius-side staged copy.
+  data.solar_ew_staging:
+    root: local_data
+    rel: solar_ew.csv
+    kind: file
+    desc: Solar EW staging fallback (RYA-706 stage-2 pool ledger).

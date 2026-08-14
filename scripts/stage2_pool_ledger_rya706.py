@@ -55,13 +55,13 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from config import constants as const                      # noqa: E402
-from config.constants import PIPELINE                      # noqa: E402
+from config.constants import PIPELINE, codex_path          # noqa: E402
 import pipeline.curate_nonfe_pools as cn                   # noqa: E402
 
 OUT = ROOT / "data" / "audit" / "stage2_pool_ledger"
 #: The June fit output, preserved to the artifact store before the stale copy was
 #: cleared (RYA-461 save-before-clean). Without it stage 2 is unreconstructable.
-STAGING_FALLBACK = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/solar_ew.csv")
+STAGING_FALLBACK = codex_path('data.solar_ew_staging')
 
 #: Contaminant tolerance for the "is this line clean" test. A neighbour shallower than
 #: this fraction of the target's own depth cannot meaningfully corrupt its EW. 0.10 is a
