@@ -27,10 +27,16 @@ from pathlib import Path
 
 import numpy as np
 from astropy.io import fits
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path, codex_root  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parents[1]
-STAGE = Path("/mnt/codex-data/spectra/vesta/CRIRESPlus")
-VIZ = Path("/mnt/codex-data/codex/rya789/data/reference/elgueta2026_vizier")
+STAGE = Path(str(codex_path('data.spectra_vesta_crires')))
+VIZ = Path(str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier'))
 GD_ROB = 295                     # G dwarf robust flag; the Sun's type. See RYA-794.
 TOL_A = 0.3
 OUT = ROOT / "data" / "audit" / "vesta_crires_plus"

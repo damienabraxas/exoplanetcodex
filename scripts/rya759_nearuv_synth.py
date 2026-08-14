@@ -74,7 +74,7 @@ def _ispec_guard():
     """RYA-682: numpy >= 2.3 makes iSpec synthesis write a zero-row artifact and exit 0.
     A near-UV run that 'passes' on zero rows is the exact failure this ticket exists to
     stop, so this is checked first and loudly."""
-    for p in ("/srv/codex/engines/ispec_src", "/mnt/codex-data/engines/ispec_src"):
+    for p in (str(codex_path('engines.ispec')), str(codex_path('engines.ispec'))):
         if Path(p).exists() and p not in sys.path:
             sys.path.insert(0, p)
     import numpy
@@ -231,7 +231,7 @@ def _local_min(wave_A, flux, centre_A, hw: float = CORE_SEARCH_A):
 _KP_CANDIDATES = (
     os.environ.get("CODEX_KP_ATLAS", ""),
     str(codex_path('data.spectra_local') / 'Solar Calibration' / 'Kitt Peak Flux Atlas'),
-    "/mnt/codex-data/spectra/Solar Calibration/Kitt Peak Flux Atlas",
+    str(codex_path('data.spectra_kitt_peak')),
 )
 
 

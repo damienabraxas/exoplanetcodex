@@ -67,17 +67,16 @@ from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402,F401
                                require_arm_rv)
 from config.constants import codex_path  # RYA-810 path register
 
-EXE    = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
-INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
-GES    = ("/mnt/codex-data/engines/Turbospectrum_NLTE/COM/linelists/"
-          "nlte_ges_linelist_jmg17feb2022_I_II")
+EXE    = str(codex_path('engines.ts_exec'))
+INTERP = str(codex_path('engines.ts_interpolator'))
+GES    = str(codex_path('engines.ges_nlte_linelist'))
 GT     = str(codex_path('grids.gerber_ts'))
 MARCS  = str(codex_path('grids.marcs_standard')
            / "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
-VALD_DIR = "/mnt/codex-data/engines/TSFitPy/input_files/linelists/linelist_vald"
-W      = "/mnt/codex-data/codex/_solar_tmp/rya564_work"
-HARPS  = "/mnt/codex-data/codex/_solar_tmp/solar_normalized_harps.csv"
-IAG    = "/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz"
+VALD_DIR = str(codex_path('engines.vald_linelists'))
+W      = str(codex_path('work.solar_tmp') / 'rya564_work')
+HARPS  = str(codex_path('work.solar_harps_normalized'))
+IAG    = str(codex_path('data.solar_iag_atlas'))
 
 Z_CO  = 27
 ATOM  = 'atom.co247qm'                              # RYA-534 Co model atom (Gerber 2023)
@@ -488,7 +487,7 @@ def main():
 
     os.makedirs(W, exist_ok=True)
     if not os.path.lexists(f"{W}/DATA"):
-        os.symlink("/mnt/codex-data/engines/Turbospectrum_NLTE/DATA", f"{W}/DATA")
+        os.symlink(str(codex_path('engines.ts_data')), f"{W}/DATA")
 
     ges_hdr, ges_rows = _ges_co_rows()
     print(f"\nGES NLTE Co I block: {len(ges_rows)} rows ({ges_hdr.strip()})")

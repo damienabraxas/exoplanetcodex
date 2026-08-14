@@ -61,7 +61,7 @@ from config.constants import codex_path  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path('engines.ispec'))))
 
 GRID_DIR = Path(os.environ.get("CODEX_NLTE_GRID_DIR",
                                str(codex_path('grids.amarsi_galah'))))

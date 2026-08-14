@@ -19,7 +19,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+from config.constants import codex_path  # noqa: E402 -- must precede the ISPEC_DIR line below, which USES it
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path('engines.ispec'))))
 
 from pipeline._numcompat import trapezoid            # noqa: E402
 from pipeline import gerber_nlte as gn               # noqa: E402

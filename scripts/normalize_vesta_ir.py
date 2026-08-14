@@ -64,12 +64,18 @@ from pathlib import Path
 
 import numpy as np
 from scipy.interpolate import UnivariateSpline
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_root  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 # Sirius-only authoritative copy; sp/ is gitignored and md5-pinned (RYA-789).
-SP_Y = Path("/mnt/codex-data/codex/rya789/data/reference/elgueta2026_vizier/sp/Sun_Y_rv.dat")
+SP_Y = Path(str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier' / 'sp' / 'Sun_Y_rv.dat'))
 MD5_Y = "8428f7009e59c6073ba11242b83d48ff"
 NM_TO_A = 10.0                      # the ReadMe says 0.1nm; the data says nm. See above.
 WINDOW = (10280.0, 10680.0)         # Elgueta's near-telluric-free Y window
@@ -268,7 +274,7 @@ def _qa_plot(wx, fx, cont, norm, order, a) -> None:
           f"{len(fe)} Fe I lines marked)")
 
 
-ATOMICY = Path("/mnt/codex-data/codex/rya789/data/reference/elgueta2026_vizier/atomicy.dat")
+ATOMICY = Path(str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier' / 'atomicy.dat'))
 
 
 # atomicy.dat is FIXED-WIDTH, Lrecl 805, six per-spectral-type blocks. The ReadMe's byte

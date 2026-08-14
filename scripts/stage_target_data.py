@@ -26,6 +26,12 @@ import hashlib
 import subprocess
 import sys
 from pathlib import Path
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_root  # RYA-810 path register
 
 
 def sha256_file(p: Path) -> str:
@@ -58,7 +64,7 @@ def main():
     ap.add_argument("--source-root", required=True, type=Path)      # local data root for this target
     ap.add_argument("--keeper-manifest", required=True, type=Path)  # rel paths, one per line, # ok
     ap.add_argument("--dest-host", required=True)                   # e.g. sirius
-    ap.add_argument("--dest-root", default="/mnt/codex-data")
+    ap.add_argument("--dest-root", default=str(codex_root("data")))
     ap.add_argument("--dest-subdir", default=None,                  # default spectra/<target>
                     help="dest path under dest-root (default: spectra/<target>)")
     ap.add_argument("--mount-guard", default="scripts/check_data_mount.sh")

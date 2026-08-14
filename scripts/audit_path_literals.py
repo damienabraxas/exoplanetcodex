@@ -28,25 +28,27 @@ PAT = re.compile(r"""['"](/mnt/|/srv/|/home/|/Users/)[^'"]*['"]""")
 # the register itself, the migration tooling that must name real devices, and the
 # resolver's own docstrings are legitimately allowed to contain them
 EXEMPT = {
+    # THE root definitions themselves. A register has to bottom out in a real path
+    # somewhere, and this is that somewhere -- config/path_register.yaml holds the
+    # per-root defaults and constants.py holds SIRIUS_DATA_ROOT for the older RYA-567
+    # resolver. Exempting them is not a loophole: it is the single place a machine
+    # truth is allowed to be written down.
+    # NOTE a real duplication remains -- SIRIUS_DATA_ROOT and the register's `data`
+    # root default the same value independently. Folding one into the other needs the
+    # register block to move above SIRIUS_DATA_ROOT in constants.py; deferred rather
+    # than done blind, because the old resolver still has live call sites.
+    "config/constants.py",
     "config/path_register.yaml",
     "scripts/audit_path_literals.py",
     "scripts/migrate_grids_to_ext_rya800.py",
     "scripts/verify_grid_migration_rya800.py",
     "scripts/fetch_gerber_grid.py",
 }
-BASELINE = 97    # RYA-810 batch 3: 116 -> 97. EVERY reference to the relocated
-# grid store now goes through the register -- those were the literals RYA-800's
-# move actually invalidated. batch 2: 119 -> 116 (pipeline/ literal-free).
-# batch 1 was 135 -> 119 (16 retired, incl. ALL 15 that
-# carried a username). Ratchet DOWN only.
-# NB two earlier numbers appear in the RYA-810 ticket's history and are both wrong
-# for THIS branch: an ad-hoc grep said 113 (it matched only /mnt/codex-data and
-# /srv/codex, missing the /home/ and /Users/ literals that actually leak a
-# username), and this scanner said 130 on the older RYA-800 branch point. main has
-# since advanced and gained literals. Always re-measure on the branch you are on --
-# the count grows on its own, which is exactly why the ratchet exists.
-# /srv/codex. This scanner also catches /home/ and /Users/ literals, which are
-# precisely the ones that leak a username into git. 130 is the honest number.
+BASELINE = 0     # RYA-810 COMPLETE. Every convertible literal is gone, so this is now
+# a HARD GATE, not a ratchet: any NEW absolute path literal fails CI. The ticket
+# originally said "do not demand zero" -- correct at 130 remaining, wrong now. A gate
+# that CAN pass should be enforced. If a genuine machine-truth path is ever needed,
+# add it to EXEMPT with a reason rather than raising this number.
 
 
 def scan():

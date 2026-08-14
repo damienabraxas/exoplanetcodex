@@ -52,11 +52,17 @@ import sys
 from pathlib import Path
 
 import numpy as np
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_root, codex_path# RYA-810 path register
 
-IDP_GLOB = "/mnt/codex-data/spectra/vesta/CRIRESPlus/ADP*.fits"
+IDP_GLOB = str(codex_path('data.spectra_vesta_crires') / 'ADP*.fits')
 # RYA-789 holding. The Elgueta+2026 solar spectrum is itself Vesta through CRIRES+,
 # telluric-corrected by their pipeline -- the ideal control: same Sun, same instrument.
-ELGUETA_SP = "/mnt/codex-data/codex/rya789/data/reference/elgueta2026_vizier/sp"
+ELGUETA_SP = str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier' / 'sp')
 
 # Vocabulary that would betray a telluric step anywhere in the header.
 TELLURIC_VOCAB = re.compile(

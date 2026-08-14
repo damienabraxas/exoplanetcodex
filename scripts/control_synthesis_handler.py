@@ -54,6 +54,7 @@ from pipeline.measure import resolve_handler  # noqa: E402
 from pipeline import intake_debug as dbg  # noqa: E402  RYA-770/765 per-line visibility
 from pipeline.measure.base import ControlResult, CONTROL_TOLERANCE_DEX  # noqa: E402
 from scripts.measure_band_ew import kp_segments, load_kp_window  # noqa: E402
+from config.constants import codex_path  # RYA-810 path register
 
 OUT = ROOT / "data" / "audit" / "synthesis_control"
 # The control band is the overlap of THREE things, not just the optical:
@@ -66,7 +67,7 @@ CONTROL_LO, CONTROL_HI = max(3924.0, GES_LO), min(6905.0, GES_HI)
 
 
 # iSpec is a source tree on Sirius, not a pip install.
-ISPEC_SRC = "/srv/codex/engines/ispec_src"
+ISPEC_SRC = str(codex_path('engines.ispec'))
 # RYA-682: numpy >= 2.3 breaks ispec/abundances.py:132, and the failure is SILENT --
 # synthesis-v2 writes a 0-usable-row artifact and exits 0. A control that "passes" on
 # zero rows is worse than one that fails, so this is checked loudly and first.
