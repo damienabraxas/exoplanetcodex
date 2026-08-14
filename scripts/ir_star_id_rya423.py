@@ -27,8 +27,9 @@ import numpy as np, pandas as pd
 from astropy.io import fits as pf
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from pipeline.acen_orbit import predicted_rv, consistent_with_orbit, rv_bounds, SOURCE, GAMMA, K_A, K_B   # noqa: E402
+from config.constants import codex_path  # RYA-810 path register
 
-DATA = "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data"
+DATA = str(codex_path('data.spectra_local'))
 VET = os.path.join(DATA, "Alpha Centauri (vetted)")
 OUT = os.path.join(os.path.dirname(__file__), '..', 'data', 'audit', 'acen_holdings_rya384')
 RV_TOL = 2.5     # km/s; a frame "matches" a predicted star within this

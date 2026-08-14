@@ -1187,12 +1187,24 @@ def _path_register():
 
 
 def codex_root(name: str) -> Path:
-    """Resolve a logical ROOT: env var if set, else the register's default."""
+    """
+    Resolve a logical ROOT: env var if set, else the register's default.
+
+    The default is expanded so it never has to contain a username (RYA-810):
+      {repo_parent}  the directory CONTAINING the repo checkout. The Mac keeps
+                     `data/` as a sibling of the worktrees, so this derives the
+                     local data root with no config and no personal path.
+      {repo}         the repo checkout itself.
+      ~ and $VARS    expanded normally.
+    """
     reg = _path_register()
     if name not in reg['roots']:
         raise KeyError(f"unknown root {name!r}; known: {sorted(reg['roots'])}")
     r = reg['roots'][name]
-    return Path(_os.environ.get(r['env'], r['default']))
+    raw = _os.environ.get(r['env'], r['default'])
+    repo = Path(__file__).resolve().parents[1]
+    raw = str(raw).replace('{repo_parent}', str(repo.parent)).replace('{repo}', str(repo))
+    return Path(_os.path.expanduser(_os.path.expandvars(raw)))
 
 
 def codex_path(key: str) -> Path:

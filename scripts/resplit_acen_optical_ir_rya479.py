@@ -71,10 +71,15 @@ from pathlib import Path
 
 import numpy as np
 from astropy.io import fits
+# Standalone-script bootstrap (RYA-313): put the REPO ROOT on sys.path BEFORE
+# importing config/pipeline, so this runs from any cwd. Derived from __file__.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 # --- paths -------------------------------------------------------------------
-DATA_ROOT = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/"
-                 "exoplanetcodex-data/Alpha Centauri (vetted)")
+DATA_ROOT = codex_path('data.spectra_local') / 'Alpha Centauri (vetted)'
 STAR_FOLDERS = ["Alpha Cen A", "Alpha Cen B"]
 INSTRUMENTS = ["HARPS", "NIRPS", "ESPRESSO", "CRIRES"]
 OUTPUT_DIR = Path("data/audit/alpha_cen_optical_ir")

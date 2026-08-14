@@ -19,8 +19,14 @@ from pathlib import Path
 warnings.filterwarnings('ignore')
 import pandas as pd
 from astropy.io import fits as pf
+# Standalone-script bootstrap (RYA-313): put the REPO ROOT on sys.path BEFORE
+# importing config/pipeline, so this runs from any cwd. Derived from __file__.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
-DATA_ROOT = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data")
+DATA_ROOT = codex_path('data.spectra_local')
 OUT = Path(__file__).resolve().parents[1] / 'data' / 'audit' / 'acen_holdings_rya384'
 # HD128620 = alpha Cen A (G2V); HD128621 = alpha Cen B (K1V)
 A_IDS = ('HD128620', 'ALF_CEN_A', 'ALPHA-CEN-A', 'ALPHACENA')
