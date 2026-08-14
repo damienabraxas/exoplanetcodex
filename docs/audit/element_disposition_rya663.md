@@ -2,7 +2,7 @@
 
 **GENERATED — do not hand-edit.** Regenerate with `python scripts/gen_element_disposition.py`.
 
-Live channel: PASS **7** · CURATION-OWED **19** over 26 elements, phase_c generated 2026-08-08.
+Live channel: PASS **7** · CURATION-OWED **19** over 26 elements, phase_c generated 2026-08-13.
 
 Gates (ratified RYA-561, applied via `engine_selection.evaluate_floor_promotion`): tolerance **0.1** dex, cross-engine **0.1** dex. Gate 3 is STRICT — a missing delta fails.
 
@@ -14,17 +14,17 @@ Gates (ratified RYA-561, applied via `engine_selection.evaluate_floor_promotion`
 
 | artifact | commit | committed |
 |---|---|---|
-| `data/audit/cno_synthesis/solar_phase_c_verdict.json` | `8a8fbd6` | 2026-08-08T18:58:59-06:00 |
+| `data/audit/cno_synthesis/solar_phase_c_verdict.json` | `3d9ea82` | 2026-08-14T00:02:18-06:00 |
 | `data/audit/rya527_two_engine/solar_two_engine_records.json` | `ae518e8` | 2026-07-27T00:50:37-06:00 |
 | `data/reference/solar/solar_abundances_v1.csv` | `583cb46` | 2026-06-28T22:43:33-06:00 |
-| `data/reference/solar/solar_abundances_v3.csv` | `1f0b13b` | 2026-08-07T17:11:53-06:00 |
+| `data/reference/solar/solar_abundances_v4.csv` | `3d9ea82` | 2026-08-14T00:02:18-06:00 |
 
 ## Signal 1 — `artifact_age_stale` (global) → remedy **REGENERATE**
 
 The two-engine review artifact was committed BEFORE a live input it is read against, so every gate-3 number in this report was computed against a superseded state. This is clearable by re-running the emitter — no decision required.
 
-- data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-08T18:58:59-06:00 (8a8fbd6), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) — the review artifact was produced against an earlier state of that input
-- data/reference/solar/solar_abundances_v3.csv was committed 2026-08-07T17:11:53-06:00 (1f0b13b), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) — the review artifact was produced against an earlier state of that input
+- data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-14T00:02:18-06:00 (3d9ea82), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) — the review artifact was produced against an earlier state of that input
+- data/reference/solar/solar_abundances_v4.csv was committed 2026-08-14T00:02:18-06:00 (3d9ea82), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) — the review artifact was produced against an earlier state of that input
 
 ## Signal 2 — `cross_channel_disagreement` (per element) → remedy **ADJUDICATE**
 
