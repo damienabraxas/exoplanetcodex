@@ -34,6 +34,7 @@ import numpy as np
 import pandas as pd
 
 from pipeline import pysme_nlte as P
+from config.constants import codex_path  # RYA-810 path register
 
 # Benchmark node box (RYA-409 _NODES): solar + Procyon (~6200/4.0), alpha Cen A/B, 55 Cnc
 # (5172/4.43/+0.31), tau Boo, metal-rich to +0.6. All well inside the Mallinson Ti grid hull
@@ -45,7 +46,7 @@ _NODES = [(5772, 4.44, 0.0), (5100, 4.44, 0.0), (6200, 4.44, 0.0), (5772, 4.0, 0
 _SOLAR_DELTA_EXPECT = 0.0506       # RYA-544 derived, RYA-545 corroborated (ab-initio)
 _SOLAR_TOL = 0.003                 # numerical reproducibility band
 
-_GRID_SRC = Path('/srv/codex/grids/nlte/amarsi_galah/nlte_Ti_pysme.grd')
+_GRID_SRC = codex_path('grids.amarsi_galah') / 'nlte_Ti_pysme.grd'
 _OUT = REPO / 'data' / 'nlte_grids' / 'Ti_Mallinson2024_PySME.csv'
 
 
