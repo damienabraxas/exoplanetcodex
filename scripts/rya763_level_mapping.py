@@ -52,15 +52,21 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
 
 GRID_DIR = Path(os.environ.get("CODEX_NLTE_GRID_DIR",
-                               "/srv/codex/grids/nlte/amarsi_galah"))
+                               str(codex_path('grids.amarsi_galah'))))
 GERBER_DIR = Path(os.environ.get("CODEX_GERBER_GRID_DIR",
-                                 "/srv/codex/grids/nlte/gerber_ts"))
+                                 str(codex_path('grids.gerber_ts'))))
 OUT_DIR = ROOT / "data" / "audit" / "rya763"
 UNSET = {"", "0", "-1", "nan", "none", "None", "NONE"}
 
