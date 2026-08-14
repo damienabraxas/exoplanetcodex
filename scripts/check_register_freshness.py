@@ -238,11 +238,66 @@ def history_mode() -> int:
 
     skipped = len(STATE_SURFACES) - len(surfaces)
     note = f" ({skipped} not present on disk, skipped)" if skipped else ""
+    generated_source_check()
     print(
         f"Register freshness OK: {REGISTER} is at or ahead of all "
         f"{len(surfaces)} state surfaces{note}."
     )
     return 0
+
+
+#: The tracker records the phase_c commit it was generated from, in its first line.
+TRACKER_REL = "data/audit/element_status_tracker.csv"
+_GENERATED_AT = re.compile(r"GENERATED from phase_c @ ([0-9a-f]{7,40})")
+
+
+def generated_source_check() -> int:
+    """Report a GENERATED surface whose declared source predates the other surfaces.
+
+    Returns 0 always — see the module note. This is a detector, not yet a gate, because
+    the regeneration it would demand is blocked upstream by RYA-669 and cannot be
+    satisfied by anyone reading the message.
+    """
+    tracker = ROOT / TRACKER_REL
+    if not tracker.exists():
+        return 0
+    m = _GENERATED_AT.search(tracker.read_text(errors="replace").split("\n", 1)[0])
+    if not m:
+        return 0
+    declared = m.group(1)
+    src_epoch = _last_commit_epoch_of_rev(declared)
+    if not src_epoch:
+        return 0
+    newest, newest_path = 0, ""
+    for surf in existing_surfaces(ROOT):
+        if surf.path == TRACKER_REL:
+            continue
+        e = _last_commit_epoch(surf.path)
+        if e > newest:
+            newest, newest_path = e, surf.path
+    if newest > src_epoch:
+        print(
+            f"NOTICE — GENERATED SURFACE IS BEHIND ITS INPUTS (RYA-777):\n"
+            f"  {TRACKER_REL} declares it was generated from phase_c @ {declared[:12]},\n"
+            f"  but {newest_path} has moved {_fmt_gap(newest - src_epoch)} since then.\n"
+            f"  The register-vs-surface comparison cannot see this: a surface that AGES\n"
+            f"  without CHANGING is never 'newer than' anything. Re-run phase_c and\n"
+            f"  regenerate the tracker to clear it.\n"
+            f"  NOT FATAL: phase_c currently refuses to run — solar_scale_provenance\n"
+            f"  raises on gold v3's Fe row (3D value, 1D label; the RYA-669 defect), and\n"
+            f"  the fix is a gold re-freeze, not a code change. This becomes a hard\n"
+            f"  failure once phase_c can regenerate.",
+            file=sys.stderr,
+        )
+    return 0
+
+
+def _last_commit_epoch_of_rev(rev: str) -> int:
+    out = _run("log", "-1", "--format=%ct", rev)
+    try:
+        return int(out.strip())
+    except (TypeError, ValueError):
+        return 0
 
 
 def since_main_mode(base: str) -> int:
