@@ -29,11 +29,17 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parent.parent
 PROV_DIR = ROOT / 'data' / 'nlte_grids' / 'gerber_ts'
 SIRIUS = 'sirius'
-SIRIUS_GRID_DIR = '/mnt/codex-data/grids/nlte/gerber_ts'
+SIRIUS_GRID_DIR = str(codex_path('grids.gerber_ts'))
 
 
 def _load_pins():
