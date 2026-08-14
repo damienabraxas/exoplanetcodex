@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-13
 
+- **RYA-815** — a reference self-contradiction now withholds THAT element (INDETERMINATE, cell named) while the other 27 proceed; RYA-681's refusal preserved
 - **RYA-777** — Fe frontier matrix on the surfaces + frontier standard RATIFIED; tracker regen BLOCKED by RYA-669 (phase_c refuses) and the freshness guard blind spot instrumented
 - **RYA-811** — gold **v4** frozen: Fe I label 1D-NLTE → **3D-NLTE**, value 7.466 UNCHANGED; unblocks phase_c + RYA-777 A.1
 - **RYA-810** — batch 4 FINAL: 97→**0** literals; the audit is now a HARD GATE, not a ratchet
