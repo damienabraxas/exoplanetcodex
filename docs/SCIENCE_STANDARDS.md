@@ -523,3 +523,93 @@ The consequence worth knowing: this is the one boundary where the tier is decide
 
 This cut is a correspondence between two published numbers — the NIST ASD accuracy ladder and the
 RYA-561 gate. **It is not tunable**; it moves only if one of those moves.
+
+
+## Frontier-band uncertainty is a RESULT, not a defect — RYA-777
+
+Ratified by Ryan, 2026-08-11, and extended 2026-08-12. Append-only (RYA-674): the decision
+is given, the citation is this section, and the clauses below are load-bearing rather than
+advisory.
+
+### VIS is the validated baseline
+
+Solar elemental values in the visible are validated against the reference scale (Asplund
+et al. 2021). Anchoring the metallicity to a known value **is** the validation — it is what
+demonstrates that the atmosphere, the radiative transfer and the line physics are
+calibrated. That is the trusted backbone, and it is the only band where a reference number
+plays that role.
+
+### Beyond that validation we do NOT chase better uncertainty
+
+Larger error bars in the IR and near-UV are the honest measurement of a harder regime:
+line crowding, molecular opacity, thinner NLTE grids, a pseudo-continuum that is never
+directly observed. That uncertainty is captured, flagged and kept in the statistics. It is
+a **result** — the map of where the frontier actually is — not a defect to be minimised.
+
+A worked example of what this protects, from the Fe frontier chain: the near-UV median
+line gap is 0.146 Å, *smaller than a strong line's own wings*, and the median continuum
+sits at 0.607 — the true continuum is never observed there. A small error bar in that band
+would be a false claim, not an achievement.
+
+### Lines are excluded ONLY for physics or provenance
+
+Ghost, blend, saturation, gf-provenance — the RYA-161 firewall and the RYA-711 quarantine.
+**NEVER** to reduce a band's error bar, tighten its scatter, or move a band toward the
+anchor. Excluding a messy-but-real IR/UV measurement to make a band look cleaner is the
+prohibited move — "chasing the dragon".
+
+The operational form of this is the exclude-vs-flag rule that RYA-807 wired and RYA-808
+ratified: a line is removed from an aggregate only when its cause is **established**
+(`required_treatment=exclude` **and** `status=active`). A line whose cause is not
+established carries `investigate`/`owed`, stays in the aggregate, and is flagged. Removing
+a line while the reason is still a hypothesis is the same error as tuning, wearing
+different clothes.
+
+### IR / near-UV validate against SAME-REGIME literature, not the optical anchor
+
+Ratified 2026-08-12. When an abundance is derived in the IR or near-UV, its validation
+reference is **published same-regime measurements** — not the Codex optical anchor and not
+Asplund's optical-dominated recommended value. Two things, kept apart:
+
+1. **Pipeline validation** — *does the method work?* Compare like-to-like against IR
+   literature. That tests whether our IR pipeline reproduces what other IR studies get.
+2. **The IR-vs-optical difference** — a **reported result**: the systematic offset between
+   windows (IR NLTE, 3D, gf provenance, continuum). RYA-780 measured it for Fe:
+   primary-sourced IR 7.5508, **+0.085** against the 7.466 optical anchor. That offset is
+   the science, not a validation failure and not a tuning target.
+
+Compare-don't-tune (RYA-161) binds both directions: we characterise agreement or
+disagreement with the IR literature, and we tune toward it no more than we tune toward
+Asplund.
+
+**Code corollary, verified and enforced:** the optical `FE_GATE` [7.41, 7.51] must NOT be
+applied to IR / near-UV band products. An IR value of 7.55–7.63 is the frontier result, not
+a gate failure. Verified 2026-08-13: `FE_GATE` appears only in the phase_c / validation
+scripts and nowhere in the band-product path, whose only gate is fit quality (RYA-342), so
+a frontier cell cannot fail an optical gate by construction. This is the same gate-scoping
+class as RYA-786 — a gate correct for VIS being wrongly applied to the frontier.
+
+### Engines are presented, never ranked
+
+Per RYA-712 and Ryan's 2026-08-11 ratification — *"there is no Primary. All Engines, LTE
+and NLTE, are products that get presented."* A band cell carries every engine that reaches
+it, side by side, each with its own value, σ, line count and reach. The cross-engine spread
+is a diagnostic (RYA-525), never folded into an error bar, and a higher reach rate makes an
+engine broader, not better.
+
+### The solar model is a CHARACTERISED INSTRUMENT
+
+VIS validated; IR and near-UV characterised with honest bars. Its value is that it can be
+pointed at targets with no ground truth — Alpha Cen, 55 Cnc, eps Eri — and its per-band
+uncertainties propagated honestly. **The discipline on solar, where we CAN check against a
+reference, is exactly what lets us trust the number on a star where we cannot.** Shrinking
+a frontier bar on the Sun does not make the instrument better; it makes every downstream
+number on a ground-truth-free target quietly wrong.
+
+### NO NEW GATE
+
+This standard governs the **disposition philosophy**, not new machinery. The existing
+apparatus already enforces "exclude for physics, not for cleanliness": the RYA-161 firewall,
+the RYA-522 tiers, the RYA-711 quarantine, the RYA-586 per-element error-budget band, and
+the RYA-807 registry gate. Nothing here adds a threshold, and nothing here may be used to
+justify one.
