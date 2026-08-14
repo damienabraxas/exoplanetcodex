@@ -61,14 +61,19 @@ from pathlib import Path
 
 import numpy as np
 
+from config.constants import codex_path  # RYA-810 path register
+
 ROOT = Path(__file__).resolve().parents[1]
 
-INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
-GT = "/mnt/codex-data/grids/nlte/gerber_ts"
+# Resolved through the RYA-810 register, never a literal. These stay STRINGS: they are
+# interpolated into f-strings, passed to subprocess and fed to os.path.basename, so a Path
+# here would be a behaviour change rather than a refactor.
+INTERP = str(codex_path('engines.ts_interpolator'))
+GT = str(codex_path('grids.gerber_ts'))
 PROV_DIR = ROOT / "data" / "nlte_grids" / "gerber_ts"
-MARCS_SOLAR = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/"
-               "marcs_standard_comp/p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_"
-               "o+0.00_r+0.00_s+0.00.mod")
+MARCS_SOLAR = str(codex_path('grids.marcs_standard')
+                  / "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_"
+                    "o+0.00_r+0.00_s+0.00.mod")
 
 # element -> (Z, atom, aux, grid). Mirrors ts_gerber_gate.ELEMENTS but carries only what
 # the adapter needs; the GATE remains the authority on whether a deck may be used at all.
