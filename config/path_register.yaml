@@ -68,6 +68,13 @@ roots:
       worktrees), so it needs NO configuration and, critically, NO username. The
       15 literals this replaces each hardcoded an absolute /Users/<name>/... path
       into git -- unrunnable by anyone else, and a disclosure in a shared repo.
+  srv_solar:
+    env: CODEX_SRV_SOLAR_ROOT
+    default: /srv/codex/solar_reference
+    desc: >-
+      Solar reference atlases kept on the OS drive (distinct from
+      /mnt/codex-data/solar_reference, which is a different tree -- do not merge them
+      without checking, they are not the same directory).
   work:
     env: CODEX_WORK_ROOT
     default: /mnt/codex-data/codex
@@ -210,3 +217,52 @@ entries:
     rel: _solar_tmp/solar_normalized_harps.csv
     kind: file
     desc: Normalised HARPS solar spectrum consumed by the synthesis drivers.
+  engines.ts_source:
+    root: engines
+    rel: Turbospectrum_NLTE/source
+    kind: dir
+    desc: Turbospectrum source tree (build provenance checks).
+  engines.ts_bsyn:
+    root: engines
+    rel: Turbospectrum_NLTE/exec-gf/bsyn_lu
+    kind: file
+    desc: >-
+      bsyn_lu as BUILT. NOTE the RYA-567 caveat -- on Sirius the RUNTIME binaries are
+      invoked from bin/, and exec-gf/ is the build dir; assert the runtime path.
+  engines.ges_nlte_linelist:
+    root: engines
+    rel: Turbospectrum_NLTE/COM/linelists/nlte_ges_linelist_jmg17feb2022_I_II
+    kind: file
+    desc: >-
+      The bundled GES NLTE line list. ⚠️ Cr I/II are tagged LTE here (RYA-800), so a Cr
+      NLTE gate cannot be run from it -- bsyn would silently drop to LTE (RYA-533).
+  engines.venv_pysme_python:
+    root: data
+    rel: venv_pysme/bin/python
+    kind: file
+    desc: PySME virtualenv interpreter (drivers shell out to it).
+  work.repo:
+    root: work
+    rel: repo
+    kind: dir
+    desc: Sirius-side repo checkout used by the synthesis drivers.
+  work.sr_inspect_csv:
+    root: work
+    rel: _solar_tmp/Sr_Bergemann2012_INSPECT.csv
+    kind: file
+    desc: Sr II INSPECT departure table staged for the RYA-551 driver.
+  data.spectra_kitt_peak:
+    root: data
+    rel: spectra/Solar Calibration/Kitt Peak Flux Atlas
+    kind: dir
+    desc: Kitt Peak solar flux atlas, Sirius-side copy.
+  data.spectra_vesta_crires:
+    root: data
+    rel: spectra/vesta/CRIRESPlus
+    kind: dir
+    desc: Vesta CRIRES+ reflected-solar frames (Sirius-side).
+  data.solar_iag_baker2020:
+    root: srv_solar
+    rel: iag_baker2020/iag_telfree_solaratlas.fits
+    kind: file
+    desc: IAG telluric-free solar atlas, Baker et al. 2020.

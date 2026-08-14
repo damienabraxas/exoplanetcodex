@@ -48,11 +48,11 @@ from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.t
 # RYA-567: Sirius-only heavy-compute leg (TS engine + Gerber grids). Refuse to run it
 # off Sirius — loud-fail, never against local-Mac copies.
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config.constants import assert_on_sirius, codex_path
+from config.constants import assert_on_sirius, codex_path, codex_root
 assert_on_sirius("RYA-533 TS-Gerber Na gate", require_subdirs=("engines", "grids"))
 
-EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
-W   = "/mnt/codex-data/codex/rya533"
+EXE = str(codex_path('engines.ts_exec'))
+W   = str(codex_root('work') / 'rya533')
 GT  = str(codex_path('grids.gerber_ts'))
 os.makedirs(f"{W}/work", exist_ok=True)
 os.chdir(f"{W}/work")

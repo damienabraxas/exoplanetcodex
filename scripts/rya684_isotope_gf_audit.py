@@ -87,17 +87,23 @@ import math
 import os
 import re
 import sys
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 # ── Engine + line-list locations (Sirius) ────────────────────────────────────
-TS_SOURCE_DIR = "/mnt/codex-data/engines/Turbospectrum_NLTE/source"
+TS_SOURCE_DIR = str(codex_path('engines.ts_source'))
 MAKEABUND     = os.path.join(TS_SOURCE_DIR, "makeabund.f")
 BSYN          = os.path.join(TS_SOURCE_DIR, "bsyn.f")
-VALD_DIR      = "/mnt/codex-data/engines/TSFitPy/input_files/linelists/linelist_vald"
-ISPEC_DIR     = "/mnt/codex-data/engines/ispec_src"
+VALD_DIR      = str(codex_path('engines.vald_linelists'))
+ISPEC_DIR     = str(codex_path('engines.ispec'))
 GES_TSV       = os.path.join(ISPEC_DIR, "input", "linelists", "transitions",
                              "GESv6_atom_hfs_iso.420_920nm", "atomic_lines.tsv")
 SPECTRUM_LST  = os.path.join(ISPEC_DIR, "input", "isotopes", "SPECTRUM.lst")
-TS_NLTE_GES   = os.path.join("/mnt/codex-data/engines/Turbospectrum_NLTE", "COM",
+TS_NLTE_GES   = os.path.join(str(codex_path('engines.turbospectrum')), "COM",
                              "linelists", "nlte_ges_linelist_jmg17feb2022_I_II")
 
 # A species is "molecular" in the Turbospectrum encoding when the species code

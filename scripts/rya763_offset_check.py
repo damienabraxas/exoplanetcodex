@@ -20,7 +20,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+from config.constants import codex_path  # noqa: E402 -- must precede the ISPEC_DIR line below, which USES it
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path('engines.ispec'))))
 
 from scripts.rya763_level_mapping import read_labels, UNSET  # noqa: E402
 
