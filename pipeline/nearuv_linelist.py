@@ -77,15 +77,28 @@ DEFAULT_LO_A, DEFAULT_HI_A = 3000.0, 3780.0
 #: NOT generally excluded from synthesis: Hα/Hβ/Hγ come through the optical GES list
 #: and Turbospectrum synthesises them normally.
 #:
-#: CONSEQUENCE, stated because it is a real loss: between the Balmer limit and ~3771 Å
-#: the merging high-n Balmer series is a genuine opacity source, and this synthesis
-#: does not reproduce it. That makes the band's ratified pseudo-continuum systematic
-#: (0.10 dex, pipeline/error_budget.py) more necessary, not less.
+#: ⚠️ CONSEQUENCE — CORRECTED (RYA-759). This block used to say the exclusion left the
+#: merging high-n Balmer series unreproduced, "a real loss". IT IS NOT A LOSS AND THERE IS
+#: NO HOLE. iSpec appends Turbospectrum's own `DATA/Hlinedata` to bsyn's control script on
+#: EVERY call (ispec/synth/turbospectrum.py:283) and deliberately drops hydrogen from the
+#: atomic linelist it writes (line 133: "hydrogen is usually encoded into radiative
+#: transfer codes"). `Hlinedata` carries H 11-H 27 at 3666.095-3770.630 Å — the SAME
+#: members this extract carried. Our H I rows were REDUNDANT, and malformed for
+#: `hydropac`, which reads a dedicated H file whose first record must declare species
+#: '01.000' ion 1 and which needs the principal quantum numbers (nblo/nbup) that VALD's
+#: atomic rows do not carry. Excluding them costs nothing.
+#: PROVEN, not read off the source: measured H 13 / H 12 windows at synth/obs = 0.889 / 0.927 against a 1.050 control, with the OBSERVED atlas showing the same depression (0.36 vs 0.67). The control window has MORE atomic lines
+#: (392 vs 286/350) yet far less depression, so the effect is hydrogen, not crowding.
+#: The 0.10 dex pseudo-continuum systematic still stands on its own grounds.
 ENGINE_REJECTED_SPECIES = {
-    'H': ("Turbospectrum computes hydrogen profiles from Stehle's tables and rejects "
-          "the near-limit Balmer members (3652-3771 A) this extract carries: "
-          "'wrong H line data file!', synthesis aborts. Excluding H I is what makes "
-          "3700-3780 A synthesise at all."),
+    'H': ("Turbospectrum reads hydrogen from a DEDICATED file whose first record must "
+          "declare species '01.000' ion 1, with principal quantum numbers (nblo/nbup) "
+          "for its Stehle profiles — which VALD's atomic rows do not carry. Feeding H I "
+          "through the atomic list makes hydropac abort: 'wrong H line data file!', and "
+          "excluding it is what makes 3700-3780 A synthesise at all. NOTHING IS LOST: "
+          "iSpec supplies TS's own DATA/Hlinedata (H 11-H 27, 3666.095-3770.630 A) on "
+          "every call, so the merging Balmer series IS synthesised — verified against "
+          "the Kitt Peak atlas at synth/obs 0.889 (H 13) and 0.927 (H 12)."),
 }
 
 #: Roman → integer ionization stage. iSpec's `ion` column is 1 for neutral.
