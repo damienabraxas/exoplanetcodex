@@ -1,0 +1,23 @@
+{
+  "element": "Fe",
+  "version": "v4",
+  "frozen_utc": "2026-08-14T16:00:50Z",
+  "source_commit": "57eeb7224686",
+  "provenance": "exploded from solar_abundances_v4.csv (RYA-814 decoupling; representation only, no value moved)",
+  "sha256": "468c04fc8a3786a45c0c87778045ec5be2520be40f729ffb91a9c4e21f43d8b4",
+  "verbatim": "Fe,I,7.466,7.466,gold,PASS,3D-NLTE (Fe I),7.46,62,phase_c_verdict (RYA-521),\"3D-corrected value: the tabulated Magic-2013 1D→3D solar Fe offset IS APPLIED (RYA-553 ported 7.516 → 7.466), so this number sits on the 3D scale and reads +0.006 against Asplund 3D-true 7.46. The v3 label said 1D-NLTE beside this 3D value, which made phase_c re-arm the correction and double-apply it (RYA-669: A(Fe I) drifted to 7.416 with all nine gates green). RYA-811 fixes the LABEL only — the value is unchanged and was already correct, and RYA-681 had already re-keyed the idempotency guard on the value rather than the label.\"",
+  "fields": {
+    "element": "Fe",
+    "ion": "I",
+    "A_X": "7.466",
+    "A_X_nlte": "7.466",
+    "confidence": "gold",
+    "verdict": "PASS",
+    "method_scale": "3D-NLTE (Fe I)",
+    "asplund2021": "7.46",
+    "n_lines": "62",
+    "source": "phase_c_verdict (RYA-521)",
+    "note": "3D-corrected value: the tabulated Magic-2013 1D→3D solar Fe offset IS APPLIED (RYA-553 ported 7.516 → 7.466), so this number sits on the 3D scale and reads +0.006 against Asplund 3D-true 7.46. The v3 label said 1D-NLTE beside this 3D value, which made phase_c re-arm the correction and double-apply it (RYA-669: A(Fe I) drifted to 7.416 with all nine gates green). RYA-811 fixes the LABEL only — the value is unchanged and was already correct, and RYA-681 had already re-keyed the idempotency guard on the value rather than the label.",
+    "_row_index": 0
+  }
+}
