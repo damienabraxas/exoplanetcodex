@@ -66,7 +66,9 @@ def test_only_exclude_plus_active_removes_a_line():
 
 
 # ── §2 the four that nothing was tracking ────────────────────────────────────
-@pytest.mark.parametrize("lam", [7941.832, 7366.370, 8090.325, 8592.951])
+# RYA-809 diagnosed 7941.832 (ATOMIC_BLEND, established) so it is now exclude+active.
+# The three that remain undiagnosed still have to be tracked AND kept.
+@pytest.mark.parametrize("lam", [7366.370, 8090.325, 8592.951])
 def test_the_untracked_outliers_are_registered_and_kept(lam):
     """RYA-807 surfaced these above A = 8.0 with no registry row anywhere. Registered so
     they are TRACKED — and flagged, not excluded, because the cause is unknown."""

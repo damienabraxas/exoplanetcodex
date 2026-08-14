@@ -65,7 +65,11 @@ def test_rya764_outliers_are_kept_not_excluded(table):
     """The eight ABUNDANCE_OUTLIER rows are `exclude`+`owed`. They stay IN the aggregate
     with a flag: their cause is not established, and RYA-807 §2 is explicit that removing
     them would be tuning."""
-    for w in (8615.311, 6604.585, 5783.907, 4769.812):
+    # RYA-809 diagnosed 6604.585 / 5783.907 / 4769.812 and they are now correctly
+    # exclude+active -- diagnosis IS the legitimate route out of 'flag'. The invariant
+    # this test protects is that an UNDIAGNOSED line is never excluded, so it now names
+    # lines that remain undiagnosed.
+    for w in (8615.311, 5609.961, 8090.325, 8592.951):
         d = pc.disposition_for_line("Fe", "I", w, table=table)
         assert d is not None and d["problem_class"] == "ABUNDANCE_OUTLIER"
         assert pc.aggregate_action(d) == "flag"
