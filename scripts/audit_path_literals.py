@@ -34,7 +34,8 @@ EXEMPT = {
     "scripts/verify_grid_migration_rya800.py",
     "scripts/fetch_gerber_grid.py",
 }
-BASELINE = 119   # RYA-810 batch 1: 135 -> 119 (16 retired, incl. ALL 15 that
+BASELINE = 116   # RYA-810 batch 2: 119 -> 116 (pipeline/ is now literal-free).
+# batch 1 was 135 -> 119 (16 retired, incl. ALL 15 that
 # carried a username). Ratchet DOWN only.
 # NB two earlier numbers appear in the RYA-810 ticket's history and are both wrong
 # for THIS branch: an ad-hoc grep said 113 (it matched only /mnt/codex-data and
