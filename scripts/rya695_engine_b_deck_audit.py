@@ -51,9 +51,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from config.constants import sirius_grid_path, sirius_root_present  # noqa: E402
+from config.constants import sirius_grid_path, sirius_root_present, codex_path# noqa: E402
 
-TSFITPY_CFG = Path('/mnt/codex-data/engines/TSFitPy/utilities/nlte_grids_links.cfg')
+TSFITPY_CFG = Path(str(codex_path('engines.nlte_grid_links_cfg')))
 STAGED_DIR = sirius_grid_path('grids', 'nlte', 'gerber_ts')
 PROV_DIR = ROOT / 'data' / 'nlte_grids' / 'gerber_ts'
 OUT = ROOT / 'data' / 'curation' / 'engine_b_deck_availability.csv'

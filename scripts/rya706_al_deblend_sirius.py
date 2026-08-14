@@ -65,16 +65,16 @@ from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402,F401
                                RELIABLE_DEWDA, assess_reliability, broaden,
                                fit_profile, local_renorm, measure_arm_rv,
                                require_arm_rv)
-from config.constants import codex_path  # RYA-810 path register
+from config.constants import codex_path, codex_root# RYA-810 path register
 
-EXE      = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
+EXE      = str(codex_path('engines.ts_exec'))
 MARCS    = str(codex_path('grids.marcs_standard')
            / "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
-VALD_DIR = "/mnt/codex-data/engines/TSFitPy/input_files/linelists/linelist_vald"
+VALD_DIR = str(codex_path('engines.vald_linelists'))
 VALD_BLOCK = "vald-6300-6800-for-grid.list"
-W        = "/mnt/codex-data/codex/rya706/work"
-HARPS    = "/mnt/codex-data/codex/_solar_tmp/solar_normalized_harps.csv"
-IAG      = "/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz"
+W        = str(codex_root('work') / 'rya706' / 'work')
+HARPS    = str(codex_path('work.solar_harps_normalized'))
+IAG      = str(codex_path('data.solar_iag_atlas'))
 
 Z_AL  = 13
 LINE  = 6696.023            # Al I, NIST ASD obs 6696.015 / ritz 6696.018, grade C+ L4737
@@ -411,7 +411,7 @@ def main():
 
     os.makedirs(W, exist_ok=True)
     if not os.path.lexists(f"{W}/DATA"):
-        os.symlink("/mnt/codex-data/engines/Turbospectrum_NLTE/DATA", f"{W}/DATA")
+        os.symlink(str(codex_path('engines.ts_data')), f"{W}/DATA")
 
     # ── (1) line lists ────────────────────────────────────────────────────────────
     al_list, hfs = build_al_hfs_list(root, f"{W}/al6696_hfs.list", FDAMP_PRIMARY)

@@ -39,7 +39,7 @@ from pathlib import Path
 import os as _os_boot, sys as _sys_boot
 _sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
     _os_boot.path.abspath(__file__))))
-from config.constants import codex_path  # RYA-810 path register
+from config.constants import codex_path, codex_root# RYA-810 path register
 
 # Canonical gerber_ts store (deck path; symlink -> M.2 /srv/codex/grids/nlte/gerber_ts).
 GERBER_DIR = Path(os.environ.get(
@@ -49,7 +49,7 @@ CACHE_INDEX = GERBER_DIR / "_cache_index.json"
 _PROV_CANDIDATES = [
     os.environ.get("TSGERBER_REPO_ROOT", ""),
     str(Path(__file__).resolve().parents[1]),
-    "/mnt/codex-data/codex/rya519", "/mnt/codex-data/codex/repo",
+    str(codex_root('work') / 'rya519'), str(codex_path('work.repo')),
 ]
 
 

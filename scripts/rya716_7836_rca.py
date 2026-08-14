@@ -29,11 +29,12 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-ISPEC_SRC = os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src")
+from config.constants import codex_path  # noqa: E402 -- must precede the ISPEC_DIR line below, which USES it
+ISPEC_SRC = os.environ.get("ISPEC_DIR", str(codex_path('engines.ispec')))
 if ISPEC_SRC not in sys.path:
     sys.path.insert(0, ISPEC_SRC)
 
-from config.constants import STAR_PARAMS                       # noqa: E402
+from config.constants import STAR_PARAMS  # noqa: E402
 from pipeline.abundances_derive import (_load_atmosphere, _load_synth_resources,  # noqa: E402
                                         _ISPEC_SOLAR_ABUND_FILE,
                                         _bisect_synth_abundance)
