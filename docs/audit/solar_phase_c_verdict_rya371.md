@@ -1,6 +1,6 @@
 # RYA-371 Phase C — Solar 27-element verdict table (RYA-239 retry)
 
-_Generated 2026-08-08 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
+_Generated 2026-08-13 by scripts/phase_c_verdict_rya371.py. Validate-don't-tune: classification only, no correction fitted to the anchor._
 
 _RYA-460: Kitt Peak Solar Flux Atlas wired in (N + P/K/Co/Sc). Leg validated by overlap: PASS._
 
