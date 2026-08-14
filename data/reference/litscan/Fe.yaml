@@ -1,0 +1,155 @@
+# =============================================================================
+# LITSCAN — Fe I  (RYA-813 pilot; TRANSCRIBED FROM RYA-714)
+# =============================================================================
+# SOURCE OF TRUTH: RYA-714 "LITSCAN + FINDINGS: Fe I — solar photospheric
+# UV/VIS/IR audit", the living dossier filed under the RYA-709 26-element sweep.
+# This file is the MACHINE-READABLE PROJECTION of that ticket, not a new scan.
+# The dossier stays authoritative and human-editable; this is what code reads.
+#
+# ⚠️ The litscan lives in LINEAR, not the filesystem. A first pass at this file
+# searched the repo, found nothing named litscan, and built a band from the
+# ratified FE_GATE policy window (+/-0.05) instead. That was WRONG: it produced
+# [7.41, 7.51] where the dossier's own rule gives [7.42, 7.50], and it would have
+# validated Fe against a POLICY window while claiming to validate it against the
+# literature. Re-derived here from RYA-714 § 2.2 and § 4.
+#
+# THE BAND IS THE DOSSIER'S OWN RULE, NOT AN INVENTED ONE
+# -------------------------------------------------------
+# RYA-714 § 4 ratifies the verdict codes verbatim:
+#     PASS (|Δ| ≤ σ_ext) · DEVIATE (>2σ) · NEW (no external anchor)
+# and names the best external per regime. So the pass band is
+# best_external ± σ_ext, and "DEVIATE" is a 2σ outer bound — both encoded below.
+# =============================================================================
+
+element: Fe
+ion: I
+source_of_truth: RYA-714
+sweep_umbrella: RYA-709
+
+species_note: >-
+  Solar A(Fe I). Fe II is tracked separately (7.47 ± 0.04 Amarsi 2021; our arbiter
+  7.486–7.500, RYA-406) and is NOT folded into this range — the ionisation
+  difference is a finding, not an uncertainty.
+
+scale: 3D-NLTE
+scale_note: >-
+  Quoted on the 3D/3D-NLTE scale, which is the scale a REPORTED solar Fe anchor
+  must sit on (RYA-553, hardened RYA-681). Our 1D-NLTE measurement is 7.516; the
+  reported anchor 7.466 carries the Magic-2013 −0.05 correction exactly once.
+  A 1D value must be moved onto this scale BEFORE comparison.
+
+# ── § 2.2 VIS — the in-scale determinations the band is built from ───────────
+entries:
+  - source: Amarsi, Asplund, Grevesse & Sauval 2021
+    citation: A&A 653, A141
+    value: 7.46
+    sigma: 0.04
+    scale: 3D-NLTE
+    role: best external (VIS)
+    method: full 3D-NLTE, large model atom (100 Fe I + 76 Fe II levels), Barklem 2018 H-collisions
+    note: Unweighted mean 7.46. Named in RYA-714 § 4 as the VIS best external.
+
+  - source: Lind et al. 2017
+    citation: (large Fe atom, ab initio Fe I + H)
+    value: 7.47
+    sigma: 0.04
+    scale: 3D-NLTE
+    role: corroborating
+    method: fully consistent 3D-NLTE
+
+  - source: Scott et al. 2015a
+    citation: Scott et al. 2015a
+    value: 7.45
+    sigma: 0.04
+    scale: 3D-LTE + 1D-NLTE delta
+    role: corroborating
+    method: weak Fe I; 1D-NLTE delta ~ +0.01; weighted average 7.47 ± 0.04
+
+  - source: Asplund et al. 2009
+    citation: Grevesse compilation
+    value: 7.50
+    sigma: 0.04
+    scale: 3D
+    role: superseded predecessor
+    note: >-
+      The pre-2021 reference. Retained for span; NOT the band centre — Amarsi 2021
+      supersedes it and RYA-714 § 4 names 2021 as the best external.
+
+  - source: Caffau et al. 2011
+    citation: Caffau et al. 2011
+    value: 7.52
+    sigma: 0.06
+    scale: CO5BOLD 3D
+    role: corroborating (high end)
+    note: The widest of the in-scale determinations; sets the upper edge of the spread.
+
+  - source: Ramírez et al. (project file "Oxygen Abundances")
+    citation: Ramírez et al.
+    value: 7.46
+    sigma: null
+    scale: 1D-LTE + MARCS
+    role: out-of-scale reference
+    note: >-
+      EXCLUDED from the band: 1D-LTE, a different scale. Recorded because the
+      dossier carries it and its agreement at 7.46 is itself informative.
+
+# ── the band VIS validation passes against ───────────────────────────────────
+range:
+  central: 7.46
+  min: 7.42
+  max: 7.50
+  half_width: 0.04
+  best_external: Amarsi et al. 2021 (A&A 653, A141)
+  sigma_external: 0.04
+  deviate_beyond: 0.08          # 2 sigma_ext — RYA-714 § 4 "DEVIATE (>2σ)"
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+  basis: >-
+    RYA-714 § 4 ratifies PASS as |Δ| ≤ σ_ext against the named best external, so
+    the band is 7.46 ± 0.04 (Amarsi 2021). DEVIATE is |Δ| > 2σ_ext = 0.08.
+    NOTE this is NARROWER than the ratified FE_GATE policy window [7.41, 7.51]
+    (config.constants.FE_GATE_LOWER/UPPER, RYA-166): the gate is a physical
+    acceptance window on the anchor, the litscan band is agreement with the
+    literature. They answer different questions and must not be conflated.
+  entry_spread_context:
+    min_determination: 7.45
+    max_determination: 7.52
+    note: >-
+      The full in-scale spread is [7.45, 7.52], wider than the band. Recorded as
+      context, deliberately NOT used as the band — the dossier's ratified rule is
+      best-external ± σ, not the envelope of every determination.
+
+# ── per-band external anchors (§ 2.1 UV, § 2.3 IR) ───────────────────────────
+# Frontier bands REPORT (RYA-812 principle 2). These references exist, so an IR/UV
+# product can be COMPARED — but never gated, and never required to hit a number.
+band_references:
+  near-UV:
+    - source: Lawler et al. 2019
+      citation: ApJS — UV + blue Fe II transition probabilities for the Sun and HD 84937
+      note: Fe II. Our KP-NUV pool has 991 Fe near-UV lines (RYA-708), none measured yet.
+  NIR:
+    - source: Elgueta et al. 2026
+      citation: A&A 710, A111
+      note: CRIRES+ Y/J/H on 6 GBS incl. the solar spectrum via Vesta; robust-line selection.
+    - source: Şentürk et al. 2024
+      citation: arXiv 2410.08270
+      note: Sun + HD 76151 NIR Y/J/H/K line list; Fe II 15078.21 / 15792.03 / 16468.51 A agree EW vs synth.
+    - source: Grilo et al. 2024
+      citation: Grilo et al. 2024
+      note: 77 Fe I NIR lines in G-type stars, 1D-LTE EW.
+    - source: APOGEE DR17
+      citation: Abdurro'uf et al. 2022; methodology Smith et al. 2013
+      note: H-band 1.51–1.70 um, calibrated on solar analogs, R~22500.
+
+verification_owed:
+  - >-
+    RYA-714 § 3 (our findings matrix) is still PENDING for UV and IR — 991 Fe
+    near-UV lines and ~1466 IR lines are unmeasured (RYA-708). Until a product
+    exists in those bands, validate_element has nothing to report there.
+  - >-
+    § 4 lists IR and UV as GATE (awaiting our measurement), NOT as missing
+    references — the references exist. So Fe is anchorable in every band; only
+    the measurements are outstanding.
+  - >-
+    Keep this file in sync when RYA-714 § 2 gains entries. The dossier is the
+    source of truth; this projection must never drift ahead of it.
