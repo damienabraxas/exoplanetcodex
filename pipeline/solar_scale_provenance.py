@@ -88,7 +88,7 @@ and RAISES if any two of them disagree.
 from __future__ import annotations
 
 import json
-from typing import Any, Mapping
+from typing import Any, Mapping, NamedTuple
 
 import numpy as np
 
@@ -99,6 +99,12 @@ __all__ = [
     'SCALE_STATE_COLUMN',
     'CORRECTIONS_APPLIED_COLUMN',
     'FE_1D3D_CORRECTION_ID',
+    'classify_gold_scale',
+    'try_apply_reported_scale_correction',
+    'ScaleContradiction',
+    'SCALE_SELF_CONTRADICTION',
+    'SCALE_OFF_SCALE',
+    'SCALE_UNDECLARED',
     'SCALE_1D_NLTE',
     'SCALE_3D_NLTE',
     'REPORTED_SCALE_CORRECTED_ELEMENTS',
@@ -350,45 +356,119 @@ def declared_scale(row: Mapping[str, Any]) -> tuple[str | None, str]:
     return readings[0][0], readings[0][1]
 
 
-def resolve_gold_scale(element: str, row: Mapping[str, Any], a_x: float) -> str:
-    """THE authoritative scale state of a frozen gold row. Raises on contradiction.
+#: RYA-815 — the contradiction kinds, named so a caller can localise on them.
+SCALE_OFF_SCALE = "off-scale"
+SCALE_UNDECLARED = "undeclared"
+SCALE_SELF_CONTRADICTION = "self-contradiction"
 
-    Three ways this fails LOUDLY rather than guessing:
 
-      * the value is on neither recognised scale  → the anchor has drifted off-scale;
-      * nothing on the row declares a scale       → an undeclared frozen anchor;
-      * declaration and value DISAGREE            → gold v3's exact shape (RYA-669):
-        a 3D-scale number wearing a 1D-scale label. This is the case that used to
-        silently re-arm the RYA-553 correction and produce 7.416.
+class ScaleContradiction(NamedTuple):
+    """A reference self-contradiction, described rather than raised.
+
+    RYA-681 made these LOUD, which was right — a silent 0.05 dex/cycle ratchet is
+    far worse. RYA-815 makes the loudness LOCAL: the caller can turn ONE bad row
+    into ONE INDETERMINATE element instead of vetoing all 28. Nothing is softened;
+    `resolve_gold_scale` still raises, and this carries the same message verbatim.
+    """
+    kind: str
+    element: str
+    message: str
+    cell: str            # the offending cell, NAMED (e.g. "Fe.method_scale")
+    declared: str = ""
+    from_value: str = ""
+
+
+def classify_gold_scale(element: str, row: Mapping[str, Any], a_x: float):
+    """(state, None) when the row is self-consistent, else (None, ScaleContradiction).
+
+    The non-raising twin of `resolve_gold_scale`. Both share this one body so the
+    two can never drift apart — a second copy of the contradiction logic is exactly
+    how a guard comes to disagree with itself.
     """
     from_value = scale_from_value(element, a_x)
     centres = scale_centres(element)
     half = scale_discrimination_halfwidth(element)
     if from_value is None:
-        raise ScaleProvenanceError(
-            f"A({element}) = {a_x} is on NEITHER recognised abundance scale "
-            f"(1D-NLTE centre {centres[SCALE_1D_NLTE]:.3f}, 3D-NLTE centre "
-            f"{centres[SCALE_3D_NLTE]:.3f}, discrimination half-width ±{half:.3f}). "
-            f"Refusing to guess whether the RYA-553 1D→3D correction has been applied. "
-            f"Either the anchor has moved materially or the correction has been applied "
-            f"more than once (RYA-681/669).")
+        return None, ScaleContradiction(
+            kind=SCALE_OFF_SCALE, element=element, cell=f"{element}.A_X",
+            message=(
+                f"A({element}) = {a_x} is on NEITHER recognised abundance scale "
+                f"(1D-NLTE centre {centres[SCALE_1D_NLTE]:.3f}, 3D-NLTE centre "
+                f"{centres[SCALE_3D_NLTE]:.3f}, discrimination half-width ±{half:.3f}). "
+                f"Refusing to guess whether the RYA-553 1D→3D correction has been applied. "
+                f"Either the anchor has moved materially or the correction has been applied "
+                f"more than once (RYA-681/669)."))
     declared, source = declared_scale(row)
     if declared is None:
-        raise ScaleProvenanceError(
-            f"the frozen {element} row declares NO abundance scale: it carries neither a "
-            f"'{SCALE_STATE_COLUMN}' column nor a scale-bearing 'method_scale' label. "
-            f"A frozen anchor must state the scale it is on (RYA-681).")
+        return None, ScaleContradiction(
+            kind=SCALE_UNDECLARED, element=element,
+            cell=f"{element}.{SCALE_STATE_COLUMN}|method_scale",
+            from_value=from_value,
+            message=(
+                f"the frozen {element} row declares NO abundance scale: it carries neither a "
+                f"'{SCALE_STATE_COLUMN}' column nor a scale-bearing 'method_scale' label. "
+                f"A frozen anchor must state the scale it is on (RYA-681)."))
     if declared != from_value:
-        raise ScaleProvenanceError(
-            f"the frozen {element} row CONTRADICTS ITSELF: it is labelled '{declared}' "
-            f"(from {source}) but its value A({element}) = {a_x} sits on the "
-            f"'{from_value}' scale (centre {centres[from_value]:.3f}, ±{half:.3f}; the "
-            f"'{declared}' centre is {centres[declared]:.3f}). This is the RYA-669 "
-            f"defect: a post-correction value frozen under a pre-correction label, which "
-            f"re-arms the RYA-553 1D→3D correction and double-applies it. Refusing to "
-            f"load. Fixing the label requires a re-freeze (RYA-669 / RYA-527), NOT a "
-            f"code exemption — gold is write-once (RYA-469).")
-    return declared
+        return None, ScaleContradiction(
+            kind=SCALE_SELF_CONTRADICTION, element=element,
+            cell=f"{element}.{source}", declared=declared, from_value=from_value,
+            message=(
+                f"the frozen {element} row CONTRADICTS ITSELF: it is labelled '{declared}' "
+                f"(from {source}) but its value A({element}) = {a_x} sits on the "
+                f"'{from_value}' scale (centre {centres[from_value]:.3f}, ±{half:.3f}; the "
+                f"'{declared}' centre is {centres[declared]:.3f}). This is the RYA-669 "
+                f"defect: a post-correction value frozen under a pre-correction label, which "
+                f"re-arms the RYA-553 1D→3D correction and double-applies it. Refusing to "
+                f"load. Fixing the label requires a re-freeze (RYA-669 / RYA-527), NOT a "
+                f"code exemption — gold is write-once (RYA-469)."))
+    return declared, None
+
+
+def resolve_gold_scale(element: str, row: Mapping[str, Any], a_x: float) -> str:
+    """THE authoritative scale state of a frozen gold row. RAISES on contradiction.
+
+    Unchanged behaviour (RYA-681): three ways this fails LOUDLY rather than guessing —
+    the value on neither scale, nothing declaring a scale, or declaration and value
+    disagreeing (gold v3's exact shape, the state that used to silently re-arm the
+    RYA-553 correction and produce 7.416).
+
+    RYA-815 note: this now DELEGATES to `classify_gold_scale` and raises what it
+    reports. The refusal is identical; a caller that wants to localise the failure to
+    one element calls the classifier instead. Sharing one body is deliberate — two
+    copies of this logic would eventually disagree, and a guard that disagrees with
+    itself is worse than no guard.
+    """
+    state, contradiction = classify_gold_scale(element, row, a_x)
+    if contradiction is not None:
+        raise ScaleProvenanceError(contradiction.message)
+    return state
+
+
+def try_apply_reported_scale_correction(element: str, a_x: float,
+                                        row: Mapping[str, Any]):
+    """Non-raising twin. Returns `(a_out, record, contradiction_or_None)`.
+
+    RYA-815: lets a caller keep going for the other 27 elements when ONE reference
+    row is self-contradictory. On contradiction the value is returned UNCHANGED and
+    UNCORRECTED — deliberately: the whole point of RYA-681 is that we must not emit
+    a number we cannot vouch for, so the caller is expected to withhold the verdict
+    (INDETERMINATE), not to publish `a_x` as though it were fine.
+    """
+    state, contradiction = classify_gold_scale(element, a_x=a_x, row=row)
+    if contradiction is not None:
+        return round(float(a_x), 3), {
+            'applied': False,
+            'reason': f'reference self-contradiction ({contradiction.kind})',
+            'contradiction_kind': contradiction.kind,
+            'contradiction_cell': contradiction.cell,
+            'contradiction_message': contradiction.message,
+            'correction_dex': 0.0,
+            'scale': None,
+            'gold_scale_state': None,
+            'gold_scale_source': None,
+        }, contradiction
+    a_out, record = apply_reported_scale_correction(element, a_x, row)
+    return a_out, record, None
 
 
 def apply_reported_scale_correction(element: str, a_x: float,
