@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-14
+
+- **RYA-759** — CORRECTION: the near-UV route was merged 2026-08-11 (#218), not "unmerged" as v71 said; gate now OPEN but a COMPENSATING-ERROR pass
+
 ## 2026-08-13
 
 - **RYA-815** — a reference self-contradiction now withholds THAT element (INDETERMINATE, cell named) while the other 27 proceed; RYA-681's refusal preserved
