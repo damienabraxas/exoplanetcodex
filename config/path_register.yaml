@@ -68,6 +68,13 @@ roots:
       worktrees), so it needs NO configuration and, critically, NO username. The
       15 literals this replaces each hardcoded an absolute /Users/<name>/... path
       into git -- unrunnable by anyone else, and a disclosure in a shared repo.
+  work:
+    env: CODEX_WORK_ROOT
+    default: /mnt/codex-data/codex
+    desc: >-
+      Per-ticket scratch on Sirius (codex/ryaNNN/work, codex/_solar_tmp/...). Synthesis
+      drivers write here. Registered so a driver names a KEY plus its ticket id rather
+      than pasting an absolute path -- the pattern that made these ~60 literals.
   engines:
     env: CODEX_ENGINE_ROOT
     default: /mnt/codex-data/engines
@@ -173,3 +180,33 @@ entries:
     rel: solar_ew.csv
     kind: file
     desc: Solar EW staging fallback (RYA-706 stage-2 pool ledger).
+  engines.ts_data:
+    root: engines
+    rel: Turbospectrum_NLTE/DATA
+    kind: dir
+    desc: Turbospectrum DATA dir; the drivers symlink this into their work dir.
+  engines.vald_linelists:
+    root: engines
+    rel: TSFitPy/input_files/linelists/linelist_vald
+    kind: dir
+    desc: VALD line lists shipped with TSFitPy.
+  data.ges_v6_atomic_lines:
+    root: data
+    rel: linelists/ges_v6/atomic_lines.tsv
+    kind: file
+    desc: GES v6 atomic line table (TSV).
+  data.solar_iag_atlas:
+    root: data
+    rel: solar_reference/iag_reiners2016/spvis.dat.gz
+    kind: file
+    desc: IAG solar flux atlas, Reiners et al. 2016.
+  work.solar_tmp:
+    root: work
+    rel: _solar_tmp
+    kind: dir
+    desc: Shared solar scratch used across the synthesis drivers.
+  work.solar_harps_normalized:
+    root: work
+    rel: _solar_tmp/solar_normalized_harps.csv
+    kind: file
+    desc: Normalised HARPS solar spectrum consumed by the synthesis drivers.
