@@ -2,9 +2,9 @@
   "summary": {
     "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "star": "solar",
-    "generated": "2026-08-08",
+    "generated": "2026-08-13",
     "reference": "Asplund, Amarsi & Grevesse 2021 (A&A 653, A141)",
-    "solar_ref_version": "candidate:solar_abundances_corrected_candidate_rya653.csv",
+    "solar_ref_version": "v4",
     "tol_pass_dex": 0.1,
     "n_elements": 26,
     "counts": {
@@ -153,13 +153,13 @@
       "provenance": "harps-measured (EW)",
       "fe_1d3d_correction": {
         "applied": false,
-        "reason": "gold anchor already on the 3D-NLTE scale (declared via corrections_applied, corroborated by the value)",
+        "reason": "gold anchor already on the 3D-NLTE scale (declared via method_scale (legacy prose fallback), corroborated by the value)",
         "correction_dex": 0.0,
         "a_1dnlte_pre": 7.466,
         "a_3dnlte_post": 7.466,
         "scale": "3D-NLTE",
         "gold_scale_state": "3D-NLTE",
-        "gold_scale_source": "corrections_applied",
+        "gold_scale_source": "method_scale (legacy prose fallback)",
         "corrections_applied": [
           "1D_3D_solar_Fe_Magic2013"
         ]
