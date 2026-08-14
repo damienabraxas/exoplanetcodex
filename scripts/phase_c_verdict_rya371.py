@@ -48,7 +48,7 @@ from pipeline import data_namespace as ns  # noqa: E402  RYA-469 gold solar refe
 from pipeline.provenance_honesty import (  # noqa: E402  RYA-596 tripwire, shared (RYA-653)
     ZERO_SURVIVOR_CHANNEL, assert_blank_cause_is_honest)
 from pipeline.solar_scale_provenance import (  # noqa: E402  RYA-681 value-keyed idempotency
-    apply_reported_scale_correction)
+    apply_reported_scale_correction, try_apply_reported_scale_correction)
 from pipeline.ratified_constraints import (  # noqa: E402  RYA-674 emission-time gate
     assert_ratified_constraints_satisfied)
 
@@ -234,10 +234,27 @@ def build_verdicts(ab, ew, phase_a):
         # actually sits between the two published scale centres, and RAISES on
         # contradiction instead of guessing. A desynchronised freeze is now a loud
         # load failure, not a silent second subtraction.
+        # RYA-815 — LOCALIZE THE VETO. This used to call the RAISING form, so ONE
+        # self-contradictory reference row (gold v3's Fe label) aborted the whole
+        # run and, because the RYA-654 tracker generates from this artifact, froze
+        # the status of all 28 species behind one stale cell. The refusal itself was
+        # right (RYA-681 turned a silent 0.05 dex/cycle ratchet into a loud stop);
+        # only its BLAST RADIUS was wrong. Now the contradiction withholds THIS
+        # element's verdict and names the offending cell, and the rest proceed.
+        # NOTE the value is deliberately NOT published on contradiction — _classify
+        # sends the element to INDETERMINATE rather than emitting a number we cannot
+        # vouch for.
         fe_1d3d = None
+        scale_contradiction = None
         if el == 'Fe' and np.isfinite(a_meas):
-            a_meas, fe_1d3d = apply_reported_scale_correction(el, a_meas, mrow)
-            if fe_1d3d['applied']:
+            a_meas, fe_1d3d, scale_contradiction = try_apply_reported_scale_correction(
+                el, a_meas, mrow)
+            if scale_contradiction is not None:
+                print(f"  RYA-815 {el}: REFERENCE SELF-CONTRADICTION "
+                      f"[{scale_contradiction.kind}] at {scale_contradiction.cell} — "
+                      f"verdict WITHHELD for {el}; the other elements proceed.")
+                print(f"    {scale_contradiction.message}")
+            elif fe_1d3d['applied']:
                 print(f"  RYA-553 Fe 1D→3D: A(Fe I) {fe_1d3d['a_1dnlte_pre']:.3f} (1D-NLTE) "
                       f"{fe_1d3d['correction_dex']:+.3f} -> {a_meas:.3f} (3D-NLTE, Magic 2013)"
                       f"  [scale from {fe_1d3d['gold_scale_source']}, value-corroborated]")
@@ -284,10 +301,22 @@ def build_verdicts(ab, ew, phase_a):
                                      f"surviving indicators.")
         delta = round(a_meas - asp, 3) if np.isfinite(a_meas) else float('nan')
 
-        verdict, channel, owed = _classify(el, asp, a_meas, delta, sigma, n_lines,
-                                            grid, threed, nlte_flag,
-                                            el in pool_elems, el in produced, phase_a,
-                                            cverdict, charter, gold_tier, gold_note)
+        if scale_contradiction is not None:
+            # LOUD + NAMED + COUNTED. Never a silent skip and never dropped from the
+            # totals -- a quiet local failure is the RYA-786 class this repo keeps
+            # catching. The offending cell travels with the row.
+            verdict = 'INDETERMINATE'
+            channel = 'withheld (reference self-contradiction)'
+            owed = (f"reference self-contradiction, verdict withheld — "
+                    f"{scale_contradiction.kind} at {scale_contradiction.cell}. "
+                    f"{scale_contradiction.message}")
+            a_meas = float('nan')      # publish NO value we cannot vouch for
+            delta = float('nan')
+        else:
+            verdict, channel, owed = _classify(el, asp, a_meas, delta, sigma, n_lines,
+                                                grid, threed, nlte_flag,
+                                                el in pool_elems, el in produced, phase_a,
+                                                cverdict, charter, gold_tier, gold_note)
         if ew_integrity_note:
             owed = f"{owed} [{ew_integrity_note}]"
         _assert_blank_cause_is_honest(el, channel, n_lines, a_measured=a_meas,
