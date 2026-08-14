@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-13
 
+- **RYA-810** — batch 3: all 19 GRID literals onto the register (116→97); proven equivalent by inode, not by string
 - **RYA-810** — batch 2: `pipeline/` is now literal-free; +6 register entries and a `work` root for the Sirius drivers
 - **RYA-810** — batch 1: 16 path literals onto the register, retiring ALL 15 that carried a username; `{repo_parent}` derivation means no config and no personal path
 - **RYA-810** — path REGISTER (`config/path_register.yaml` + `codex_path`/`require_codex_path`); repo carries structure, roots come from env, not commits

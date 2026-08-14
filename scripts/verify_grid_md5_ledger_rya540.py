@@ -20,10 +20,16 @@ Writes data/audit/rya540_disk_layout/grid_inventory.md and exits non-zero on any
 from __future__ import annotations
 import os, re, json, hashlib, csv
 from pathlib import Path
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 _REPO = Path(__file__).resolve().parents[1]
-GERBER_DIR = Path(os.environ.get("GERBER_TS_DIR", "/mnt/codex-data/grids/nlte/gerber_ts"))
-AMARSI_DIR = Path(os.environ.get("AMARSI_GRD_DIR", "/mnt/codex-data/grids/nlte/amarsi_galah"))
+GERBER_DIR = Path(os.environ.get("GERBER_TS_DIR", str(codex_path('grids.gerber_ts'))))
+AMARSI_DIR = Path(os.environ.get("AMARSI_GRD_DIR", str(codex_path('grids.amarsi_galah'))))
 LEDGER_CSV = _REPO / "data" / "curation" / "nlte_grid_availability.csv"
 PROV_DIR = _REPO / "data" / "nlte_grids" / "gerber_ts"
 AMARSI_PROV_DIR = _REPO / "data" / "nlte_grids" / "amarsi_galah"
