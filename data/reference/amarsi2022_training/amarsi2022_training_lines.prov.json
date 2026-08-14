@@ -1,0 +1,45 @@
+{
+  "ticket": "RYA-817",
+  "artifact": "amarsi2022_training_lines.csv",
+  "what": "The line list the Amarsi 2022 3D-NLTE MLPs (vendor/1L-3NErrors) were TRAINED on: the Jofre et al. 2014 'golden' Fe I / Fe II set, 171 + 12 lines. Recovered so that the network's LINE-parameter domain can be checked, not just its stellar-parameter box.",
+  "why": "vendor/1L-3NErrors ships trained models with no training data and no feature bounds; main_aberr.py guards only Teff/logg/vmic/A(Fe). Running the network on the near-IR Fe band without this list would be silent extrapolation.",
+  "chain": [
+    "Amarsi, Liljegren & Nissen 2022, A&A 668, A68 (arXiv:2209.13449) Sect. 4 names the line list and quotes its wavelength range 478.783-681.026 nm",
+    "Jofre et al. 2014, A&A 564, A133 (arXiv:1309.1099), Tables 4 and 5 ships those tables as golden_Fe1.tex / golden_Fe2.tex in its arXiv source"
+  ],
+  "eup_convention": "Eup = Elo + hc/lambda_vac, hc = 12398.419843320026 eV.A, lambda_vac from Edlen (1966). VERIFIED against the vendored test_data.csv Eup column to 4.1e-06 eV. COROLLARY: (Eup - Elo) IS the transition energy, so WAVELENGTH enters the network as a derived feature -- the MLP is not wavelength-agnostic in its inputs.",
+  "controls": [
+    "COUNT Fe1: 171 (expected 171) PASS",
+    "COUNT Fe2: 12 (expected 12) PASS",
+    "WAVELENGTH: 4787.83-6810.26 A (paper states 4787.83-6810.26) PASS",
+    "EUP: 13 test_data rows reproduced from (Elo, lambda_air) via hc/lambda_vac, max err 4.13e-06 eV PASS",
+    "SCALER lt02 elo_eV  recovered: mean  +0.8846 vs trained  +0.8512 (d=0.0334 eV)  sd  0.5077 vs  0.5008 (d=0.0069)  PASS",
+    "SCALER lt02 loggf   recovered: mean  -4.0048 vs trained  -4.1206 (d=0.1158 dex)  sd  1.2939 vs  1.2599 (d=0.0339)  PASS",
+    "SCALER gt02 elo_eV  recovered: mean  +3.7135 vs trained  +3.7155 (d=0.0020 eV)  sd  0.8308 vs  0.8287 (d=0.0021)  PASS",
+    "SCALER gt02 loggf   recovered: mean  -1.5875 vs trained  -1.5933 (d=0.0058 dex)  sd  0.8387 vs  0.8353 (d=0.0034)  PASS",
+    "SCALER fe2  elo_eV  recovered: mean  +3.2377 vs trained  +3.2314 (d=0.0062 eV)  sd  0.3301 vs  0.3274 (d=0.0027)  PASS",
+    "SCALER fe2  loggf   recovered: mean  -3.0514 vs trained  -3.0614 (d=0.0099 dex)  sd  0.7310 vs  0.7333 (d=0.0023)  PASS"
+  ],
+  "not_from_cds": "VizieR J/A+A/564/A133 carries table6 (which lines each star used) but NOT Tables 4/5 (the atomic data), and there is no VizieR catalogue for J/A+A/668/A68 at all.",
+  "companion_artifact": {
+    "file": "amarsi2022_solar_control_lines.csv",
+    "what": "The SOLAR line list Amarsi 2022 used for its Table 6 solar row: Allende Prieto, Asplund, Garcia Lopez & Lambert 2002, ApJ 567, 544 (arXiv:astro-ph/0111055), Table 2. 50 Fe I + 15 Fe II lines with their published 1D LTE abundances and equivalent widths.",
+    "why": "The solar row of Table 6 is NOT computable from the training list -- Amarsi analysed the Sun with this list instead. Checking the reactivation against Table 6 requires it; using the training list misses Fe I by ~0.04 dex for a reason that has nothing to do with the network.",
+    "cut": "Amarsi restricted the solar analysis to weak lines with REW < -4.9; carried as the `weak_line_rew_lt_m49` column, not pre-applied."
+  },
+  "sources": {
+    "jofre2014_eprint": "https://arxiv.org/e-print/1309.1099",
+    "jofre2014_tarball_sha256": "b149c88ff6524081a9e3023c89f4e7178411291e8f22f626e6ddf1e5965120d5",
+    "member_sha256": {
+      "golden_Fe1.tex": "f0425000a56386dad6702c603eb4fbb233df7a19fb74f93f66a0544ce1a8ace8",
+      "golden_Fe2.tex": "c08ea0b295385a3ca300d9294a0e0b07f008a0a528ae33a79f52305b2874cfe9"
+    },
+    "ap2002_eprint": "https://arxiv.org/e-print/astro-ph/0111055",
+    "ap2002_tarball_sha256": "29b38aaddf455ee87e1080a537bfc653af90adf2415099bb49bc389d4d034392",
+    "ap2002_member_sha256": {
+      "procyon.tex": "719b2d4369bab8656d90a8efd1d88de19a6ebf8e2d77191d60b4ec2be285c3d8"
+    }
+  },
+  "retrieved": "2026-08-14",
+  "regenerate": "python3 scripts/rya817_recover_amarsi_training_set.py"
+}
