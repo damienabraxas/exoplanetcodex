@@ -1,0 +1,29 @@
+{
+  "comment_lines": [
+    "# solar gold-standard abundance reference — RYA-469 (write-once, immutable)",
+    "# version: v4",
+    "# frozen_utc: 2026-08-14T05:11:01Z",
+    "# source_commit: 17a08c474fbb",
+    "# source_file: data/reference/solar/solar_abundances_v4_candidate.csv",
+    "# fe_anchor_a_fe1: 7.466",
+    "# verdict: PASS=7 NLTE-OWED=? CURATION-OWED=19 DATA-GAP=0",
+    "# changelog: RYA-811 — LABEL-ONLY re-freeze: the Fe I row method_scale 1D-NLTE (Fe I) -> 3D-NLTE (Fe I). The VALUE 7.466 is UNCHANGED and was always correct — v3 froze a post-Magic-2013 3D value under a pre-correction 1D label (the RYA-669 defect), which made solar_scale_provenance.resolve_gold_scale refuse to load gold and blocked phase_c. Every other row byte-identical.",
+    "# supersedes: v3",
+    "# immutable: editing this file trips the RYA-469 immutability guard"
+  ],
+  "columns": [
+    "element",
+    "ion",
+    "A_X",
+    "A_X_nlte",
+    "confidence",
+    "verdict",
+    "method_scale",
+    "asplund2021",
+    "n_lines",
+    "source",
+    "note"
+  ],
+  "trailing_newline": true,
+  "exploded_from": "v4"
+}

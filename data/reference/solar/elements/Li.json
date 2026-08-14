@@ -1,0 +1,23 @@
+{
+  "element": "Li",
+  "version": "v4",
+  "frozen_utc": "2026-08-14T16:00:50Z",
+  "source_commit": "57eeb7224686",
+  "provenance": "exploded from solar_abundances_v4.csv (RYA-814 decoupling; representation only, no value moved)",
+  "sha256": "6088d1090c0ffc3176c8773820b35f8c9d09e194047c24593144cb686542148c",
+  "verbatim": "Li,I,0.727,0.727,upper_limit,CURATION-OWED,EW (upper limit),1.05,1,phase_c_verdict (RYA-521),\"CN-blended, carried as UPPER LIMIT (RYA-103) — a clean low value is a red flag\"",
+  "fields": {
+    "element": "Li",
+    "ion": "I",
+    "A_X": "0.727",
+    "A_X_nlte": "0.727",
+    "confidence": "upper_limit",
+    "verdict": "CURATION-OWED",
+    "method_scale": "EW (upper limit)",
+    "asplund2021": "1.05",
+    "n_lines": "1",
+    "source": "phase_c_verdict (RYA-521)",
+    "note": "CN-blended, carried as UPPER LIMIT (RYA-103) — a clean low value is a red flag",
+    "_row_index": 22
+  }
+}

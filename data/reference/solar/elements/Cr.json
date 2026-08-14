@@ -1,0 +1,23 @@
+{
+  "element": "Cr",
+  "version": "v4",
+  "frozen_utc": "2026-08-14T16:00:50Z",
+  "source_commit": "57eeb7224686",
+  "provenance": "exploded from solar_abundances_v4.csv (RYA-814 decoupling; representation only, no value moved)",
+  "sha256": "1fff35a127613ea5431946716e1c2bbe399435e3685325286a6d5ea82a8fcd03",
+  "verbatim": "Cr,I,6.022,6.022,gf_floor,CURATION-OWED,EW 1D-LTE/NLTE,5.62,7,phase_c_verdict (RYA-521),characterized gf-scale floor (+0.40); 3D not the lever (RYA-398/399)",
+  "fields": {
+    "element": "Cr",
+    "ion": "I",
+    "A_X": "6.022",
+    "A_X_nlte": "6.022",
+    "confidence": "gf_floor",
+    "verdict": "CURATION-OWED",
+    "method_scale": "EW 1D-LTE/NLTE",
+    "asplund2021": "5.62",
+    "n_lines": "7",
+    "source": "phase_c_verdict (RYA-521)",
+    "note": "characterized gf-scale floor (+0.40); 3D not the lever (RYA-398/399)",
+    "_row_index": 13
+  }
+}
