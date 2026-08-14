@@ -12,16 +12,20 @@ sys.path.insert(0, str(ROOT))
 from pipeline import data_namespace as ns  # noqa: E402
 
 
-def test_current_is_v3_and_v2_is_retained_immutable():
-    # RYA-665 froze v3 from the RYA-653 corrected candidate and repointed CURRENT off v2.
-    # v2 is NOT deleted or edited — it is retained-immutable-but-superseded, exactly as v1
-    # was at the v2 freeze. The RYA-522 invariants below are version-agnostic and keep
-    # reading CURRENT; only the pointer identity moved.
+def test_current_is_v4_and_prior_versions_are_retained_immutable():
+    # RYA-811 froze v4 from v3, changing ONE cell — the Fe I row's `method_scale` label,
+    # 1D-NLTE -> 3D-NLTE. The VALUE 7.466 is unchanged; v3 had frozen a post-Magic-2013 3D
+    # number under a pre-correction 1D label, which made `solar_scale_provenance` refuse to
+    # load gold at all (the RYA-669 defect, stored). v3 is NOT deleted or edited — it is
+    # retained-immutable-but-superseded, exactly as v1 was at the v2 freeze and v2 at v3.
+    # The RYA-522 invariants below are version-agnostic and keep reading CURRENT; only the
+    # pointer identity moved.
     _, ver = ns.read_solar_reference("CURRENT")
-    assert ver == "v3"
-    _, v2 = ns.read_solar_reference("v2")
-    assert v2 == "v2"
-    ns.assert_frozen_references()          # v1 + v2 + v3 all match the committed manifest
+    assert ver == "v4"
+    for prior in ("v2", "v3"):
+        _, got = ns.read_solar_reference(prior)
+        assert got == prior
+    ns.assert_frozen_references()          # v1..v4 all match the committed manifest
 
 
 def test_carbon_fixed_and_gold():
