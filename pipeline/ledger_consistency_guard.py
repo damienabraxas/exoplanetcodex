@@ -52,6 +52,17 @@ EXCEPTIONS_PATH = REPO_ROOT / "data" / "audit" / "known_verdict_divergences.yaml
 # frozen_value, which is exactly what RYA-596's tripwire keyed on.
 MEASURED_VERDICTS = {"PASS", "NLTE_OWED"}     # verdict alone asserts a real line pool
 NO_DATA_VERDICTS = {"DATA_GAP", "GET_DATA"}   # element claims zero usable data
+# RYA-815: a verdict WITHHELD because the reference contradicts itself. It asserts
+# NEITHER a line pool NOR an absence of data -- we simply declined to publish a number
+# we could not vouch for, and the underlying pool is untouched. It therefore belongs to
+# neither set above.
+#
+# It is declared HERE rather than left to fall through both `in` checks, because
+# falling through is only accidentally correct: the moment someone extends either set
+# without knowing this state exists, a withheld verdict silently becomes a claim about
+# data. Naming it makes the neutrality deliberate and greppable -- the RYA-786 lesson,
+# that a state nobody declared is a state something will eventually absorb.
+WITHHELD_VERDICTS = {"INDETERMINATE"}
 # Raw cause strings that assert "no usable line" -- used for the honesty check.
 # The canonical graded-cull claim is OWNED by pipeline/provenance_honesty.py
 # (RYA-596/653) and imported, never re-spelled here: that module is what both
