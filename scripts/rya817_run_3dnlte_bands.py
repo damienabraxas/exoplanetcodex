@@ -55,6 +55,7 @@ LINELISTS = ROOT / "data" / "linelists"
 VALD_SOURCES = (
     LINELISTS / "vald_solar_raw.txt",                            # 3780-6910 A
     LINELISTS / "vald_solar_redopt_6910_9500_hfson_raw.txt",     # 6910-9500 A
+    LINELISTS / "vald_solar_ir_9500_17000_hfson_raw.txt",        # 9500-17000 A (RYA-762)
 )
 OUT_DEFAULT = ROOT / "data" / "results" / "rya817"
 
@@ -145,6 +146,52 @@ def attach_atomic(lines: pd.DataFrame, trans: pd.DataFrame) -> pd.DataFrame:
         out.at[i, "loggf_vald"] = float(best["loggf"])
         out.at[i, "vald_source"] = str(best["source"])
     return out
+
+
+# ── reach survey: can this engine EVER serve a band? (RYA-762 coordination) ───
+
+#: Bands to survey for reach, independent of whether anything has been measured there.
+#: RYA-762 asks whether the 3D leg can extend past the 9199.9 A wall that stops Engine B.
+#: That wall is a GES level-ID limit in the LINELIST, and the 3D leg does not use GES
+#: level IDs — it keys on Elo/Eup/log gf from VALD — so the premise that the two legs
+#: have different walls is correct. It just does not follow that the 3D leg has none.
+SURVEY_BANDS = (("VIS (training overlap)", 4788, 6810),
+                ("IR (RYA-783)", 6910, 9199),
+                ("extended IR (RYA-762)", 9199, 13000))
+
+
+def reach_survey(trans: pd.DataFrame, star: dict) -> pd.DataFrame:
+    """Domain-check every Fe I/II transition in a band, with no measurement required.
+
+    Reach is a LINE-PARAMETER question, so it can be answered before a single EW is
+    measured — which is the point: it says whether a measurement campaign in a band
+    could ever be served by this engine, rather than finding out afterwards.
+    """
+    teff, logg, vmic = float(star["teff"]), float(star["logg"]), float(star["xi"])
+    rows = []
+    for label, lo, hi in SURVEY_BANDS:
+        sub = trans[(trans["wavelength_air_A"] >= lo) & (trans["wavelength_air_A"] < hi)]
+        for ion in IONS:
+            s = sub[sub["ion"] == ion]
+            if s.empty:
+                continue
+            verdicts = [amarsi3d.classify_line(ion, r.elo_eV, r.eup_eV, r.loggf,
+                                               teff=teff, logg=logg, vmic=vmic,
+                                               afe=ASPLUND21_FE)
+                        for r in s.itertuples()]
+            dE = s["eup_eV"].values - s["elo_eV"].values
+            rows.append({
+                "band": label, "lo_A": lo, "hi_A": hi, "ion": ion,
+                "n_transitions": len(s),
+                "n_in_domain": sum(v.in_domain for v in verdicts),
+                "n_fail_delta_E": sum(not v.delta_E_ok for v in verdicts),
+                "n_fail_feature": sum(not v.feature_ok for v in verdicts),
+                "n_fail_level": sum(not v.level_ok for v in verdicts),
+                "delta_E_min": round(float(dE.min()), 4),
+                "delta_E_max": round(float(dE.max()), 4),
+                "elo_max": round(float(s["elo_eV"].max()), 3),
+            })
+    return pd.DataFrame(rows)
 
 
 # ── the domain map ────────────────────────────────────────────────────────────
@@ -530,6 +577,19 @@ def main(argv=None) -> int:
                           f"(range {oo['aberr_if_extrapolated'].min():+.3f}.."
                           f"{oo['aberr_if_extrapolated'].max():+.3f}) — NOT a product.")
 
+    # RYA-762 coordination: does the engine reach past the 9199.9 A Engine-B wall?
+    survey = reach_survey(trans, star)
+    survey.to_csv(args.out / "rya817_reach_survey.csv", index=False)
+    print("\n" + "=" * 78)
+    print("REACH SURVEY — every Fe transition in the band, no measurement required")
+    print("=" * 78)
+    print(f"  {'band':<24s}{'ion':<4s}{'lines':>7s}{'in-domain':>11s}"
+          f"{'dE range (eV)':>20s}{'Elo max':>9s}")
+    for _, r in survey.iterrows():
+        print(f"  {r['band']:<24s}{r['ion']:<4s}{r['n_transitions']:7d}"
+              f"{r['n_in_domain']:11d}"
+              f"{r['delta_E_min']:>11.4f}-{r['delta_E_max']:<8.4f}{r['elo_max']:>9.3f}")
+
     lines_df = pd.concat(all_lines, ignore_index=True)
     lines_df.to_csv(args.out / "rya817_3dnlte_per_line.csv", index=False)
     prod_df = products_frame(products)
@@ -577,6 +637,7 @@ def main(argv=None) -> int:
     print(f"\nwrote {args.out}/rya817_3dnlte_per_line.csv")
     print(f"wrote {args.out}/rya817_3dnlte_products.csv")
     print(f"wrote {args.out}/rya817_domain_map.png")
+    print(f"wrote {args.out}/rya817_reach_survey.csv")
     print(f"wrote {args.out}/rya817_run_summary.json")
     return 0
 
