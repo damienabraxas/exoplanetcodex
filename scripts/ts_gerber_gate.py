@@ -28,12 +28,13 @@ import os as _os_boot, sys as _sys_boot
 _sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
     _os_boot.path.abspath(__file__))))
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz (RYA-313)
+from config.constants import codex_path  # RYA-810 path register
 EXE = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
 INTERP = "/mnt/codex-data/engines/Turbospectrum_NLTE/interpolator/interpol_modeles_nlte"
 GES = "/mnt/codex-data/engines/Turbospectrum_NLTE/COM/linelists/nlte_ges_linelist_jmg17feb2022_I_II"
-GT = "/mnt/codex-data/grids/nlte/gerber_ts"
-MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
-         "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
+GT = str(codex_path('grids.gerber_ts'))
+MARCS = str(codex_path('grids.marcs_standard')
+           / "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
 W = "/mnt/codex-data/codex/rya534"
 TREF, LOGGREF, ZREF = "5750", "+4.50", "+0.00"
 
