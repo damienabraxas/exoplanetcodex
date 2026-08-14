@@ -20,7 +20,9 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+# must precede the ISPEC_DIR line below, which USES codex_path
+from config.constants import codex_path  # noqa: E402
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path("engines.ispec"))))
 
 LINES = [5905.671, 6027.070, 6705.117]
 WSTEP_NM = 0.0002
