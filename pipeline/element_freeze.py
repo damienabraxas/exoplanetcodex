@@ -58,20 +58,26 @@ ELEMENTS_DIR = SOLAR_DIR / "elements"
 PREAMBLE_NAME = "_preamble.json"
 CURRENT_NAME = "_current.json"
 
-#: RYA-812 principle 6 — the gold-complete bar: "all 28 elements (Zn / RYA-757
-#: included) VIS-validated". Encoded as ratified.
+#: RYA-812 principle 6 — the gold-complete bar: all 28 species VIS-validated.
 #:
-#: ⚠️ DISCREPANCY, RECORDED NOT RESOLVED. The repo consistently carries TWENTY-SIX
-#: elements, not 27+Zn: gold v4 has 26 rows, and data/curation/
-#: nlte_two_engine_coverage.csv has 26 rows, the same 26. So reaching 28 needs Zn
-#: (the RYA-757 intake, definitely absent) AND one further element that this repo
-#: does not currently name anywhere I could find.
+#: THE 26/28 GAP IS RESOLVED AND IT IS NOT AN ELEMENT-COUNT QUIRK. RYA-109 ratifies
+#: the canonical 27 with **Fe I and Fe II COUNTED SEPARATELY** — Fe II is entry #2 at
+#: priority 1, because it constrains log g via ionisation equilibrium while Fe I
+#: constrains Teff ("must be tracked separately in the pipeline"). RYA-757 then adds
+#: Zn as the 28th. So:
 #:
-#: The bar is left at the ratified 28 rather than quietly lowered to 27 — moving a
-#: ratified completeness bar to match the data is exactly backwards. `assembly_
-#: status()` therefore reports 26/28 PARTIAL, which is the honest reading, and the
-#: second missing element is an open question for RYA-812 rather than an assumption
-#: made here.
+#:      27 canonical (incl. Fe II)  +  Zn  =  28
+#:      gold v4 carries 26          =  27 - Fe II
+#:      missing: Fe II  and  Zn
+#:
+#: Fe II is MEASURED and ADOPTED already (arbiter 7.486-7.500, RYA-406/714 §3.2); it
+#: simply has no frozen gold ROW yet.
+#:
+#: ⚠️ THEREFORE THE RECORD KEY IS (element, ion), NOT element. Keying by element
+#: alone cannot represent Fe I and Fe II as distinct frozen records — they would
+#: collide on one file and one would silently overwrite the other, which is the exact
+#: class of defect RYA-469 exists to prevent. This is not hypothetical: gold v4
+#: already carries **Sc II**, so the schema is ion-bearing today and Fe II is queued.
 GOLD_COMPLETE_COUNT = 28
 
 
@@ -95,13 +101,40 @@ class FrozenElement:
     provenance: str
 
     @property
+    def ion(self) -> str:
+        return str(self.fields.get("ion", "") or "")
+
+    @property
+    def key(self) -> str:
+        return record_key(self.element, self.ion)
+
+    @property
     def row_index(self) -> int:
         """Position in the assembled table. Preserved so assembly is byte-stable."""
         return int(self.fields.get("_row_index", -1))
 
 
-def element_path(element: str) -> Path:
-    return ELEMENTS_DIR / f"{element}.json"
+def record_key(element: str, ion: str = "") -> str:
+    """
+    The per-record key. (element, ion) — NEVER element alone.
+
+    RYA-109 counts Fe I and Fe II as separate canonical entries, and gold already
+    carries Sc II, so an element-only key would collide two distinct frozen species
+    onto one file. Ion is normalised and optional so records written before this fix
+    (element-only names) still resolve.
+    """
+    ion = (ion or "").strip()
+    return f"{element}_{ion}" if ion else element
+
+
+def split_key(key: str) -> tuple[str, str]:
+    """'Fe_II' -> ('Fe', 'II'). An un-suffixed legacy key returns ('Fe', '')."""
+    el, _, ion = key.partition("_")
+    return el, ion
+
+
+def element_path(element: str, ion: str = "") -> Path:
+    return ELEMENTS_DIR / f"{record_key(element, ion)}.json"
 
 
 def preamble_path() -> Path:
@@ -155,8 +188,19 @@ def read_preamble() -> dict[str, Any]:
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def read_element(element: str) -> Optional[FrozenElement]:
-    p = element_path(element)
+def read_element(element: str, ion: str = "") -> Optional[FrozenElement]:
+    p = element_path(element, ion)
+    if not p.exists() and not ion:
+        # tolerate pre-fix element-only records
+        cands = sorted(ELEMENTS_DIR.glob(f"{element}_*.json")) if ELEMENTS_DIR.is_dir() else []
+        if len(cands) == 1:
+            p = cands[0]
+        elif len(cands) > 1:
+            raise ElementFreezeError(
+                f"{element} has {len(cands)} ion records "
+                f"({', '.join(c.stem for c in cands)}) — read_element must be given "
+                f"an ion to disambiguate. Fe I and Fe II are different species "
+                f"(RYA-109), not one element read twice.")
     if not p.exists():
         return None
     d = json.loads(p.read_text(encoding="utf-8"))
@@ -166,7 +210,13 @@ def read_element(element: str) -> Optional[FrozenElement]:
         source_commit=d.get("source_commit", ""), provenance=d.get("provenance", ""))
 
 
+def read_record(key: str) -> Optional["FrozenElement"]:
+    """Read by the KEY that `frozen_elements()` returns (e.g. 'Fe_II')."""
+    return read_element(*split_key(key))
+
+
 def frozen_elements() -> list[str]:
+    """Record KEYS (element_ion), one per frozen species."""
     if not ELEMENTS_DIR.is_dir():
         return []
     return sorted(p.stem for p in ELEMENTS_DIR.glob("*.json")
@@ -184,7 +234,8 @@ def read_current_map() -> dict[str, str]:
 def freeze_element(element: str, fields: dict[str, Any], verbatim: str, *,
                    version: str, source_commit: str = "", provenance: str = "",
                    columns: Optional[list[str]] = None,
-                   allow_new_version: bool = False) -> FrozenElement:
+                   allow_new_version: bool = False,
+                   ion: Optional[str] = None) -> FrozenElement:
     """
     Freeze ONE element. Refuses to overwrite an existing record for the same
     version — RYA-469 immutability, decoupled to per-element granularity.
@@ -194,17 +245,27 @@ def freeze_element(element: str, fields: dict[str, Any], verbatim: str, *,
     always a refusal: that is the case where a value could silently change.
     """
     ELEMENTS_DIR.mkdir(parents=True, exist_ok=True)
-    existing = read_element(element)
+    # `frozen_elements()` returns KEYS ('Fe_II'); these take an ELEMENT ('Fe').
+    # Passing a key here silently produced 'Fe_II_II' -- a spurious extra record
+    # that inflated the species count. Refuse it instead of accepting both shapes.
+    if "_" in element:
+        raise ElementFreezeError(
+            f"freeze_element takes an ELEMENT ({element.split('_')[0]!r}) plus an "
+            f"ion, not a record key ({element!r}). Use split_key() first, or "
+            f"read_record() if you meant to read.")
+    ion = ion if ion is not None else str(fields.get("ion", "") or "")
+    key = record_key(element, ion)
+    existing = read_element(element, ion)
     if existing is not None:
         if existing.version == version:
             raise ElementFreezeError(
-                f"{element} is already frozen at {version} "
+                f"{key} is already frozen at {version} "
                 f"(sha256 {existing.sha256[:12]}). A frozen element record is "
                 f"WRITE-ONCE (RYA-469, decoupled per-element by RYA-814). To "
                 f"supersede it, freeze a NEW version.")
         if not allow_new_version:
             raise ElementFreezeError(
-                f"{element} is frozen at {existing.version}; refusing to write "
+                f"{key} is frozen at {existing.version}; refusing to write "
                 f"{version} without allow_new_version=True.")
 
     rec = FrozenElement(
@@ -215,7 +276,7 @@ def freeze_element(element: str, fields: dict[str, Any], verbatim: str, *,
     if columns:
         verify_consistency(rec, columns)
 
-    element_path(element).write_text(
+    element_path(element, ion).write_text(
         json.dumps({
             "element": rec.element, "version": rec.version,
             "frozen_utc": rec.frozen_utc, "source_commit": rec.source_commit,
@@ -224,7 +285,7 @@ def freeze_element(element: str, fields: dict[str, Any], verbatim: str, *,
         }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     cur = read_current_map()
-    cur[element] = version
+    cur[key] = version
     current_path().write_text(
         json.dumps(dict(sorted(cur.items())), indent=2) + "\n", encoding="utf-8")
     return rec
@@ -245,14 +306,18 @@ def assemble(version_label: Optional[str] = None) -> str:
         raise ElementFreezeError("no frozen element records to assemble")
 
     recs = []
-    for el in els:
-        r = read_element(el)
-        if r is None:
-            continue
+    for key in els:
+        p = ELEMENTS_DIR / f"{key}.json"
+        d = json.loads(p.read_text(encoding="utf-8"))
+        r = FrozenElement(
+            element=d["element"], version=d["version"], fields=d["fields"],
+            verbatim=d["verbatim"], sha256=d["sha256"], frozen_utc=d["frozen_utc"],
+            source_commit=d.get("source_commit", ""),
+            provenance=d.get("provenance", ""))
         verify_consistency(r, pre["columns"])
         if _sha256_text(r.verbatim) != r.sha256:
             raise ElementFreezeError(
-                f"{el}: verbatim line does not match its recorded sha256 — the "
+                f"{key}: verbatim line does not match its recorded sha256 — the "
                 f"frozen record has been altered on disk.")
         recs.append(r)
     recs.sort(key=lambda r: r.row_index)
@@ -272,12 +337,16 @@ def assembly_status() -> dict[str, Any]:
     n = len(els)
     return {
         "elements": n,
+        "note": ("count is of SPECIES (element x ion): RYA-109 counts Fe I and Fe II "
+                 "separately, and gold already carries Sc II."),
         "required_for_gold_complete": GOLD_COMPLETE_COUNT,
         "gold_complete": n >= GOLD_COMPLETE_COUNT,
         "missing_count": max(0, GOLD_COMPLETE_COUNT - n),
-        "label": ("gold (complete, 28 elements)" if n >= GOLD_COMPLETE_COUNT
-                  else f"PARTIAL assembly — {n}/{GOLD_COMPLETE_COUNT} elements. "
+        "label": ("gold (complete, 28 species)" if n >= GOLD_COMPLETE_COUNT
+                  else f"PARTIAL assembly — {n}/{GOLD_COMPLETE_COUNT} species. "
                        f"Below the RYA-812 principle-6 bar, so this is NOT 'gold'; "
-                       f"it is a labelled partial snapshot."),
+                       f"it is a labelled partial snapshot. Missing: Fe II (measured "
+                       f"and adopted as the RYA-406 arbiter but never frozen as a gold "
+                       f"row) and Zn (RYA-757 intake, not yet measured)."),
         "frozen": els,
     }
