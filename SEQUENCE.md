@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-13
 
+- **RYA-810** — batch 2: `pipeline/` is now literal-free; +6 register entries and a `work` root for the Sirius drivers
 - **RYA-810** — batch 1: 16 path literals onto the register, retiring ALL 15 that carried a username; `{repo_parent}` derivation means no config and no personal path
 - **RYA-810** — path REGISTER (`config/path_register.yaml` + `codex_path`/`require_codex_path`); repo carries structure, roots come from env, not commits
 - **RYA-806** — `telluric_applied` per holding, determined from headers and gating the arm; NIRPS is corrected where CRIRES+ is not, so the two axes cannot merge
