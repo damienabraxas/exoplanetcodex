@@ -34,10 +34,16 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 # Canonical gerber_ts store (deck path; symlink -> M.2 /srv/codex/grids/nlte/gerber_ts).
 GERBER_DIR = Path(os.environ.get(
-    "GERBER_TS_DIR", "/mnt/codex-data/grids/nlte/gerber_ts"))
+    "GERBER_TS_DIR", str(codex_path('grids.gerber_ts'))))
 CACHE_INDEX = GERBER_DIR / "_cache_index.json"
 # Provenance JSONs live in the repo (committed). Resolve from repo roots, like the deck.
 _PROV_CANDIDATES = [

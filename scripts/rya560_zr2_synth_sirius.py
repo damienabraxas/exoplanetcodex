@@ -44,10 +44,11 @@ from solar_profile_fit import (CLIGHT, RCHI2_REVIEW,  # noqa: E402,F401
                                RELIABLE_DEWDA, assess_reliability, broaden,
                                fit_profile, fit_profile_deblend, local_renorm,
                                measure_arm_rv, require_arm_rv)
+from config.constants import codex_path  # RYA-810 path register
 
 EXE   = "/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf"
-MARCS = ("/mnt/codex-data/grids/model_atmospheres/marcs_standard_comp/marcs_standard_comp/"
-         "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
+MARCS = str(codex_path('grids.marcs_standard')
+           / "p5750_g+4.5_m0.0_t01_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00.mod")
 VALD_DIR = "/mnt/codex-data/engines/TSFitPy/input_files/linelists/linelist_vald"
 W = "/mnt/codex-data/codex/_solar_tmp/rya560_work"
 HARPS = "/mnt/codex-data/codex/_solar_tmp/solar_normalized_harps.csv"

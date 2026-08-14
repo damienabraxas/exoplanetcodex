@@ -34,7 +34,9 @@ EXEMPT = {
     "scripts/verify_grid_migration_rya800.py",
     "scripts/fetch_gerber_grid.py",
 }
-BASELINE = 116   # RYA-810 batch 2: 119 -> 116 (pipeline/ is now literal-free).
+BASELINE = 97    # RYA-810 batch 3: 116 -> 97. EVERY reference to the relocated
+# grid store now goes through the register -- those were the literals RYA-800's
+# move actually invalidated. batch 2: 119 -> 116 (pipeline/ literal-free).
 # batch 1 was 135 -> 119 (16 retired, incl. ALL 15 that
 # carried a username). Ratchet DOWN only.
 # NB two earlier numbers appear in the RYA-810 ticket's history and are both wrong

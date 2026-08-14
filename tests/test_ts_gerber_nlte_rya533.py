@@ -27,6 +27,12 @@ import sys
 from pathlib import Path
 
 import pytest
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 _REPO = Path(__file__).resolve().parents[1]
 _RESULT = _REPO / 'data' / 'audit' / 'rya533_ts_gerber_build' / 'na_gate_result.txt'
@@ -34,7 +40,7 @@ _DECK = _REPO / 'scripts' / 'ts_gerber_na_gate_rya533.py'
 
 # Sirius provisioning (the live gate only runs where these exist).
 _TS_NLTE_BSYN = Path('/mnt/codex-data/engines/Turbospectrum_NLTE/exec-gf/bsyn_lu')
-_GERBER_NA_GRID = Path('/mnt/codex-data/grids/nlte/gerber_ts/NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin')
+_GERBER_NA_GRID = codex_path('grids.gerber_ts') / 'NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin'
 
 _ANCHOR = -0.107
 _MODEL_ATOM_TOL = 0.05
