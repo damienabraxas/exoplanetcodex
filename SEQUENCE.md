@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-13
 
+- **RYA-810** — path REGISTER (`config/path_register.yaml` + `codex_path`/`require_codex_path`); repo carries structure, roots come from env, not commits
 - **RYA-806** — `telluric_applied` per holding, determined from headers and gating the arm; NIRPS is corrected where CRIRES+ is not, so the two axes cannot merge
 - **RYA-805** — the 18 Vesta IDPs are NOT telluric-corrected (headers + O₂ band + r=0.996 vs water vapour); no corrected variant exists; RYA-373 shrinks to a run in RYA-797
 - **RYA-711 (1+2)** — our grade is now `MQ-A/B/C/D`, never NIST's bare letters; the >25 % gf cut is derived (C = 0.0969 dex vs the ±0.10 gate)

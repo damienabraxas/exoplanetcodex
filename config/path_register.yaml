@@ -1,0 +1,152 @@
+# =============================================================================
+# CODEX PATH REGISTER  (RYA-800)
+# =============================================================================
+# THE SINGLE SOURCE OF TRUTH for where things live on disk.
+#
+# WHY THIS EXISTS
+# ---------------
+# The repo carried 113 hardcoded absolute path literals against 10 calls to the
+# RYA-567 resolver -- despite constants.py stating the rule outright ("no ad-hoc
+# path literals"). That cost us twice in one day:
+#
+#   * A guard measured free space on a NOMINAL path while the bytes followed a
+#     symlink to a different drive, filling the one drive that must not fill.
+#   * Moving 512 GiB of grids to a new drive meant every one of those literals
+#     had to be audited by hand to find out whether it still resolved.
+#
+# It is also a LEAK: absolute paths bake machine layout -- mount points, drive
+# names, usernames -- into a git history that outlives the machine. The repo
+# should carry STRUCTURE (logical name -> relative location); only the ROOT is
+# machine-specific, and roots come from the environment, never from a commit.
+#
+# HOW IT WORKS
+# ------------
+#   roots:    logical root -> env var + default. THE ONLY machine-specific part.
+#   entries:  logical key  -> {root, rel, kind, desc}
+#
+# Resolve with config.constants:
+#     codex_path('grids.gerber_ts')            -> Path, no existence check
+#     require_codex_path('grids.gerber_ts')    -> Path, LOUD-FAIL if absent
+#
+# RULES
+#   * Add an entry here rather than writing a literal in Python.
+#   * Never commit a path containing a username or a personal directory.
+#   * `removable: true` marks a store that can physically vanish -- the resolver
+#     checks its mount sentinel, because a stale mount reads as an EMPTY
+#     DIRECTORY rather than raising, and empty silently looks like "no data".
+# =============================================================================
+
+version: 1
+
+roots:
+  data:
+    env: SIRIUS_DATA_ROOT
+    default: /mnt/codex-data
+    desc: >-
+      Primary Codex data drive (sda). Spectra, engines, per-ticket working dirs.
+      After the RYA-800 consolidation this no longer holds the grids.
+  grids:
+    env: CODEX_GRID_ROOT
+    default: /mnt/codex-ext/codex-grids
+    removable: true
+    mount: /mnt/codex-ext
+    sentinel: /mnt/codex-ext/.codex_ext_mounted
+    desc: >-
+      ALL NLTE departure grids and model atmospheres (512 GiB), consolidated
+      RYA-800. External USB volume, fstab UUID 10D4EB97D4EB7CFA, nofail.
+      REMOVABLE: an unplug takes every grid offline at once, and a stale NTFS
+      mount presents as an empty directory rather than an error -- hence the
+      sentinel check. Legacy /mnt/codex-data/grids and /srv/codex/grids are
+      symlinks here and continue to resolve.
+  engines:
+    env: CODEX_ENGINE_ROOT
+    default: /mnt/codex-data/engines
+    desc: Synthesis engines (Turbospectrum_NLTE, iSpec, PySME, TSFitPy).
+
+entries:
+  # ---- grid stores -------------------------------------------------------
+  grids.gerber_ts:
+    root: grids
+    rel: nlte/gerber_ts
+    kind: dir
+    desc: >-
+      Gerber+2023 Turbospectrum-native NLTE deck (Engine B), md5-pinned.
+      Atoms staged: Ba Ca Co Cr Fe Mg Mn Na Ni O Si Sr Ti. Not staged: Al Y Eu
+      (RYA-801/802/803 in flight); H present via RYA-804. STAGED != WIRED --
+      an element is `wired` only once its RYA-534 anchor gate passes.
+  grids.amarsi_galah:
+    root: grids
+    rel: nlte/amarsi_galah
+    kind: dir
+    desc: Amarsi GALAH DR3 PySME departure grids (+ Cu Caliskan-2024, Ti Mallinson-2024).
+  grids.model_atmospheres:
+    root: grids
+    rel: model_atmospheres
+    kind: dir
+    desc: MARCS / ATLAS9 model-atmosphere grids.
+  grids.marcs_standard:
+    root: grids
+    rel: model_atmospheres/marcs_standard_comp/marcs_standard_comp
+    kind: dir
+    desc: MARCS standard-composition models (the doubled path segment is upstream's).
+  grids.payload_pins:
+    root: grids
+    rel: PAYLOAD_PINS_rya800.md5
+    kind: file
+    desc: >-
+      md5 for all 15838 grid files / 512.15 GiB. Covers the UNPACKED payloads that
+      no prov JSON pins -- prov pins the transient .zip, so ~426 GiB previously had
+      no pin at all. Generated from the verified source-vs-destination comparison.
+
+  # ---- engines -----------------------------------------------------------
+  engines.turbospectrum:
+    root: engines
+    rel: Turbospectrum_NLTE
+    kind: dir
+    desc: Turbospectrum_NLTE, BSYN v20.1 with the NLTE path compiled in.
+  engines.ts_exec:
+    root: engines
+    rel: Turbospectrum_NLTE/exec-gf
+    kind: dir
+    desc: TS build dir. NOTE runtime binaries are invoked from bin/ on Sirius.
+  engines.ts_interpolator:
+    root: engines
+    rel: Turbospectrum_NLTE/interpolator/interpol_modeles_nlte
+    kind: file
+    desc: 4D departure-coefficient interpolator.
+  engines.ts_linelists:
+    root: engines
+    rel: Turbospectrum_NLTE/COM/linelists
+    kind: dir
+    desc: >-
+      GES NLTE line lists. ⚠️ Cr I/II are tagged LTE in BOTH bundled lists, so a
+      Cr NLTE gate cannot run from them (bsyn silently drops to LTE, RYA-533).
+  engines.ispec:
+    root: engines
+    rel: ispec_src
+    kind: dir
+    desc: iSpec. Honour ISPEC_DIR when set.
+  engines.tsfitpy:
+    root: engines
+    rel: TSFitPy
+    kind: dir
+    desc: TSFitPy. utilities/nlte_grids_links.cfg is the AUTHORITY for grid URLs.
+  engines.nlte_grid_links_cfg:
+    root: engines
+    rel: TSFitPy/utilities/nlte_grids_links.cfg
+    kind: file
+    desc: >-
+      Upstream grid URL catalogue, 17 elements. Authoritative over the Gerber 2023
+      abstract, which omits Cr and Eu.
+
+  # ---- data --------------------------------------------------------------
+  data.spectra:
+    root: data
+    rel: spectra
+    kind: dir
+    desc: Per-target staged spectra (alpha_cen_a/b, procyon, tau_boo, eps_eri, sol...).
+  data.linelists:
+    root: data
+    rel: linelists
+    kind: dir
+    desc: VALD / GES line-list extracts.
