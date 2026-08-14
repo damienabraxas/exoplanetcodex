@@ -24,9 +24,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from pipeline.telluric_intake import APPLIED, NOT_APPLIED, UNKNOWN, from_many  # noqa: E402
+from config.constants import codex_path  # RYA-810 path register
 
 HOLDINGS = ROOT / "data" / "catalog" / "holdings_manifest_registry.csv"
-DATA = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data")
+DATA = codex_path('data.spectra_local')
 ACEN = DATA / "Alpha Centauri (vetted)"
 
 # holding_id -> glob(s) of the product files. Determined from headers when they resolve.
