@@ -29,7 +29,7 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_products import (  # noqa: E402
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
-from config.constants import codex_path  # RYA-810 path register
+from config.constants import codex_path, codex_root# RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
 OUT = ROOT / "data" / "measured" / "band_ew"
@@ -45,7 +45,7 @@ OUT = ROOT / "data" / "measured" / "band_ew"
 _KP_CANDIDATES = (
     os.environ.get("CODEX_KP_ATLAS", ""),
     str(codex_path('data.spectra_local') / 'Solar Calibration' / 'Kitt Peak Flux Atlas'),
-    "/mnt/codex-data/spectra/Solar Calibration/Kitt Peak Flux Atlas",
+    str(codex_path('data.spectra_kitt_peak')),
 )
 
 
@@ -112,7 +112,7 @@ def telluric_reason(wave: float, instrument: str | None = None) -> str:
 # confident wrong answer." Our line lists are AIR wavelengths, so both steps are required
 # and `vac_to_air` is imported from pipeline.uv_conditioning rather than re-typed here.
 
-IAG_FITS = Path("/srv/codex/solar_reference/iag_baker2020/iag_telfree_solaratlas.fits")
+IAG_FITS = Path(str(codex_path('data.solar_iag_baker2020')))
 _iag_cache: dict = {}
 
 
@@ -200,12 +200,12 @@ CRIRES_COADD_MAX_LON_DEG = 45.0    # co-add only within this sub-observer longit
 
 _CRIRES_CANDIDATES = (
     os.environ.get("CODEX_CRIRES_VESTA", ""),
-    "/mnt/codex-data/spectra/vesta/CRIRESPlus",
+    str(codex_path('data.spectra_vesta_crires')),
 )
 #: Rest-frame conditioned output of pipeline/reflected_solar_rv.py `write_set`.
 _CRIRES_REST_CANDIDATES = (
     os.environ.get("CODEX_CRIRES_VESTA_REST", ""),
-    "/mnt/codex-data/spectra/vesta/CRIRESPlus_rest/vesta_crires",
+    str(codex_root('data') / 'spectra' / 'vesta' / 'CRIRESPlus_rest' / 'vesta_crires'),
 )
 _crires_cache: dict = {}
 

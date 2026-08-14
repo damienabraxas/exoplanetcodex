@@ -26,6 +26,12 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_root  # RYA-810 path register
 
 
 def _now():
@@ -98,7 +104,7 @@ def main(argv=None):
     ap.add_argument('--manifest', required=True)
     ap.add_argument('--manifest-dir', default=str(Path(__file__).resolve().parent.parent /
                                                   'data' / 'sirius_manifest'))
-    ap.add_argument('--data-root', default='/mnt/codex-data')
+    ap.add_argument('--data-root', default=str(codex_root('data')))
     ap.add_argument('--status-only', action='store_true')
     args = ap.parse_args(argv)
 

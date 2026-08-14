@@ -62,10 +62,16 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+# Standalone-script bootstrap (RYA-313): repo root on sys.path BEFORE importing
+# config/pipeline, so this runs from any cwd. Derived from __file__, never cwd.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, os.environ.get("ISPEC_DIR", "/srv/codex/engines/ispec_src"))
+sys.path.insert(0, os.environ.get("ISPEC_DIR", str(codex_path('engines.ispec'))))
 
 # Source accuracies as published, from the RYA-760 table. These are the ACCURACY of the
 # source, not a quality judgement, and the tier is a cut on this number.
