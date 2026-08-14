@@ -1,0 +1,11 @@
+{
+  "handler": "SynthesisHandler",
+  "element": "Fe",
+  "n_lines": 18,
+  "median_ratio": 1.432850005628167,
+  "mad_ratio": 0.3593994169903937,
+  "dex_offset": -0.009999999999999787,
+  "passed": true,
+  "tolerance_dex": 0.05,
+  "evidence": "ANGLE 1 EW: median synth/banked 1.433 (+0.1562 dex), MAD 0.359. ANGLE 2 abundance: median A=7.510 vs 7.520 (-0.0100 dex), scatter 0.065. ABUNDANCE AGREES, EW DOES NOT \u2014 compensating errors. Treat with MORE suspicion than a clean failure, because it looks like success"
+}
