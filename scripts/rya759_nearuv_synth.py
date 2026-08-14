@@ -402,21 +402,41 @@ def step_loudfail(args) -> dict:
 def step_control(args) -> dict:
     """Report the recorded optical-control verdict — the gate on any near-UV number.
 
-    RYA-772: the control harness and its recorded verdict belong to RYA-713 and are not
-    on main, so this reports ABSENT here rather than importing them. That is the honest
-    state: until that control lands and PASSES, no near-UV abundance may be quoted.
+    RYA-759: this used to report ABSENT unconditionally, on the grounds that the control
+    harness "belongs to RYA-713 and is not on main". That stopped being true when RYA-770
+    landed `scripts/control_synthesis_handler.py` and `pipeline/measure/synthesis.py`;
+    only the recorded VERDICT was missing, so the gate read as shut for a reason that had
+    already gone away. The verdict is now regenerated and committed.
+
+    ⚠️ IT PASSES ON ABUNDANCE WHILE FAILING ON EW, AND THAT IS NOT A CLEAN PASS. The
+    control's own words: "ABUNDANCE AGREES, EW DOES NOT — compensating errors. Treat with
+    MORE suspicion than a clean failure, because it looks like success." That sentence is
+    the most important thing this step reports, so it is surfaced separately below rather
+    than left inside the evidence blob where it reads as boilerplate.
     """
     p = ROOT / "data" / "audit" / "synthesis_control" / "control_FeI.json"
     if not p.exists():
-        print("  ABSENT on this branch — the optical control (SynthesisHandler) is "
-              "RYA-713's and is not on main.")
-        print("  GATE STANDS: no near-UV abundance may be quoted until it lands and passes.")
+        print("  ABSENT — no recorded verdict at "
+              f"{p.relative_to(ROOT)}. The harness IS on main "
+              "(scripts/control_synthesis_handler.py, RYA-770); regenerate the verdict "
+              "with:")
+        print("    python scripts/control_synthesis_handler.py --element Fe --ion I \\")
+        print("        --instrument harps --lines-from-banked")
+        print("  GATE STANDS: no near-UV abundance may be quoted without a verdict.")
         return {"present": False,
-                "note": "optical control is RYA-713's; not on main (RYA-772)"}
+                "note": "harness on main (RYA-770); verdict not recorded"}
     d = json.loads(p.read_text())
     print(f"  handler={d['handler']} n={d['n_lines']} dex_offset={d['dex_offset']:+.4f} "
           f"tol={d['tolerance_dex']}  PASSED={d['passed']}")
     print(f"  {d['evidence']}")
+    if d.get("passed") and "compensating errors" in str(d.get("evidence", "")):
+        print("  ⚠️ COMPENSATING ERRORS — this PASS is not clean. The abundance lands "
+              "inside tolerance\n"
+              f"     while the EW ratio sits at {d.get('median_ratio', float('nan')):.3f} "
+              f"(MAD {d.get('mad_ratio', float('nan')):.3f}). Two errors cancelling at the\n"
+              "     abundance layer is the RYA-506 shape: it looks like success. Any "
+              "near-UV\n"
+              "     number quoted on this basis must carry that caveat explicitly.")
     return d
 
 
