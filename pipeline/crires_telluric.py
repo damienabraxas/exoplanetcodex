@@ -44,11 +44,11 @@ from pathlib import Path
 
 import numpy as np
 
-from config.constants import PATHS   # RYA-373: canonical solar line-list path (RV anchors)
+from config.constants import PATHS, codex_path   # RYA-373: canonical solar line-list path (RV anchors)
 
 # ── Data location (the reflected-solar set lives OUTSIDE the repo, RYA-370) ────
-_DATA_ROOT = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/"
-                  "exoplanetcodex-data/Solar Calibration/Solar System Targets")
+_DATA_ROOT = (codex_path('data.spectra_local')
+              / 'Solar Calibration' / 'Solar System Targets')
 VESTA_CRIRES_DIR = _DATA_ROOT / "Vesta" / "CRIRES"
 
 # ── Physics constants ─────────────────────────────────────────────────────────

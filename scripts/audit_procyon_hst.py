@@ -45,11 +45,17 @@ from pathlib import Path
 from astropy.io import fits
 import pandas as pd
 import numpy as np
+# Standalone-script bootstrap (RYA-313): put the REPO ROOT on sys.path BEFORE
+# importing config/pipeline, so this runs from any cwd. Derived from __file__.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 # =============================================================================
 # CONFIGURATION — update DATA_DIR to match your local download path
 # =============================================================================
-DATA_DIR = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Procyon/Procyon HST")
+DATA_DIR = codex_path('data.spectra_local') / 'Procyon' / 'Procyon HST'
 OUTPUT_DIR = Path("data/audit/procyon_hst")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

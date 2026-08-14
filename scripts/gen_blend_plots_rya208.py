@@ -39,11 +39,9 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from scipy.optimize import curve_fit
 import warnings
+from config.constants import codex_path  # RYA-810 path register
 
-SPECTRA_DIR = Path(
-    '/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/'
-    'exoplanetcodex-data/Solar Calibration/archive'
-)
+SPECTRA_DIR = codex_path('data.spectra_local') / 'Solar Calibration' / 'archive'
 OUT_DIR = Path('plots/problem_lines/solar')
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

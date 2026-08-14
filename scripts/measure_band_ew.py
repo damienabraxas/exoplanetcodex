@@ -29,6 +29,7 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_products import (  # noqa: E402
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
+from config.constants import codex_path  # RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
 OUT = ROOT / "data" / "measured" / "band_ew"
@@ -43,8 +44,7 @@ OUT = ROOT / "data" / "measured" / "band_ew"
 # was really a missing directory.
 _KP_CANDIDATES = (
     os.environ.get("CODEX_KP_ATLAS", ""),
-    "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/"
-    "Solar Calibration/Kitt Peak Flux Atlas",
+    str(codex_path('data.spectra_local') / 'Solar Calibration' / 'Kitt Peak Flux Atlas'),
     "/mnt/codex-data/spectra/Solar Calibration/Kitt Peak Flux Atlas",
 )
 

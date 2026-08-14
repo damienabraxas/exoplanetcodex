@@ -39,6 +39,12 @@ import sys
 from pathlib import Path
 
 import numpy as np
+# Standalone-script bootstrap (RYA-313): put the REPO ROOT on sys.path BEFORE
+# importing config/pipeline, so this runs from any cwd. Derived from __file__.
+import os as _os_boot, sys as _sys_boot
+_sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
+    _os_boot.path.abspath(__file__))))
+from config.constants import codex_path  # RYA-810 path register
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -224,8 +230,7 @@ def _local_min(wave_A, flux, centre_A, hw: float = CORE_SEARCH_A):
 # resolved rather than hardcoded (compute is on Sirius, spectra on the Mac — RYA-567).
 _KP_CANDIDATES = (
     os.environ.get("CODEX_KP_ATLAS", ""),
-    "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/"
-    "Solar Calibration/Kitt Peak Flux Atlas",
+    str(codex_path('data.spectra_local') / 'Solar Calibration' / 'Kitt Peak Flux Atlas'),
     "/mnt/codex-data/spectra/Solar Calibration/Kitt Peak Flux Atlas",
 )
 
