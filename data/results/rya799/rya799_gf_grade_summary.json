@@ -1,0 +1,52 @@
+{
+  "ticket": "RYA-799",
+  "pool": "/private/tmp/claude-501/-Users-ryanschmitt/1f004751-5946-4704-b27e-0bd1e599f25c/scratchpad/pass271.csv",
+  "n_rows_in": 271,
+  "n_rows_out": 271,
+  "graded": 2,
+  "systematic_only": 269,
+  "systematic_plain": 221,
+  "systematic_scale_mismatch": 48,
+  "systematic_value_confirmed_but_ungraded": 66,
+  "systematic_no_tie_at_all": 155,
+  "attributed_reference_tags": {
+    "FMW": 37,
+    "BWL": 15,
+    "BK": 3,
+    "BK+BWL": 2,
+    "BKK": 2,
+    "GESB82c+BW": 2,
+    "BKK+BWL": 2,
+    "BKK+GESB82": 1,
+    "GESB82c": 1,
+    "GESB79b": 1
+  },
+  "blank_bars": 0,
+  "sigma_graded_dex": {
+    "n": 2,
+    "min": 0.02,
+    "median": 0.025,
+    "max": 0.03,
+    "mean": 0.025
+  },
+  "sigma_bounded_dex": 0.2,
+  "pool_rms_sigma_dex": 0.1992726626909496,
+  "graded_sources": {
+    "Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)": 2
+  },
+  "scale_mismatch_by_tag": {
+    "GESHRL14": 14,
+    "2014MNRAS.": 13,
+    "MRW": 6,
+    "BWL+GESHRL": 4,
+    "FMW": 3,
+    "BK+BWL": 2,
+    "BKK+BWL": 2,
+    "K07": 1,
+    "BWL": 1,
+    "GESB86": 1,
+    "BKK": 1
+  },
+  "graded_pool_written_to": "/private/tmp/claude-501/-Users-ryanschmitt/1f004751-5946-4704-b27e-0bd1e599f25c/scratchpad/pass271_GRADED.csv",
+  "run_date": "2026-08-15"
+}
