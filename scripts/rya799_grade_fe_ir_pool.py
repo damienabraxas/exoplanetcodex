@@ -109,8 +109,11 @@ def main(argv=None) -> int:
               f"IN-REPO but is\nnot the value the pool was measured with. Not a grade; "
               f"an actionable finding:")
         mm = graded[graded.gf_grade == GRADE_MISMATCH]
-        print(f"  by reference tag: "
-              f"{dict(mm.gf_reference_tag.value_counts().head(10))}")
+        # int() rather than the raw value_counts dict: numpy 2 prints np.int64(14),
+        # and this output is copied verbatim into the ticket.
+        tags = {str(k): int(v) for k, v in
+                mm.gf_reference_tag.value_counts().head(10).items()}
+        print(f"  by reference tag: {tags}")
         print(f"  |delta| median {mm.gf_delta_dex.abs().median():.3f} dex, "
               f"max {mm.gf_delta_dex.abs().max():.3f} dex")
 
