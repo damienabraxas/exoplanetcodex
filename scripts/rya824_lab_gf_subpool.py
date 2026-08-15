@@ -177,6 +177,9 @@ def main(argv=None) -> int:
     ap.add_argument("--tmp-dir", type=Path,
                     default=Path("/tmp/ispec_rya824_synth"),
                     help="private Turbospectrum scratch (never the shared default)")
+    ap.add_argument("--from-per-line", type=Path, default=None,
+                    help="rebuild the products/summary from a saved per-line CSV without "
+                         "re-inverting (the inversion is ~30 min of Turbospectrum)")
     ap.add_argument("--census-only", action="store_true",
                     help="emit the census and the first-order prediction; no synthesis")
     args = ap.parse_args(argv)
@@ -239,6 +242,10 @@ def main(argv=None) -> int:
             "run_date": str(date.today())}, indent=2) + "\n")
         return 0
 
+    if args.from_per_line is not None:
+        res = pd.read_csv(args.from_per_line)
+        return _report(res, usable, args)
+
     # ── the re-measurement ────────────────────────────────────────────────────
     # CREATE the private scratch. Turbospectrum writes into this directory and does not
     # make it; the shared default only works because earlier runs left it behind. The
@@ -299,7 +306,12 @@ def main(argv=None) -> int:
 
     res = pd.DataFrame(rows)
     res.to_csv(args.out / "rya824_lab_gf_per_line.csv", index=False)
+    return _report(res, usable, args)
 
+
+def _report(res: pd.DataFrame, usable: pd.DataFrame, args) -> int:
+    """Everything downstream of the inversion. Shared by the full run and --from-per-line
+    so a re-report can never drift from what the run itself printed."""
     # CONTROL: does the re-derivation reproduce production?
     ctrl = res[np.isfinite(res.a_control) & np.isfinite(res.a_banked)]
     resid = (ctrl.a_control - ctrl.a_banked).abs()
@@ -308,11 +320,29 @@ def main(argv=None) -> int:
           f"median {resid.median():.4f}")
     print(f"  {'PASS — this IS the production path' if resid.max() < 0.02 else 'FAIL — the harness is NOT reproducing production; the lab-gf number below is not interpretable'}")
 
+    zero = res[res.d_A.abs() < 1e-9]
+    changed = res[res.d_A.abs() >= 1e-9]
+    print("\nWHAT THE SUBSTITUTION ACTUALLY CHANGED")
+    print(f"  {len(zero)} of {len(res)} lines came back with dA EXACTLY 0.000 — not a failed")
+    print("  substitution but a NO-OP: the production synth line list ALREADY carries the")
+    print("  lab gf for those lines, because `_load_synth_resources` defaults to")
+    print("  apply_canonical_gf=True and canonical_gf.csv already holds the lab value.")
+    print("  The K14 numbers live in the pools' `log_gf` COLUMN, which does not describe")
+    print("  the gf the inversion used.")
+    if len(changed):
+        sens = (changed.d_A / changed.d_loggf).median()
+        print(f"  {len(changed)} lines genuinely changed: dA median {changed.d_A.median():+.4f}, "
+              f"range {changed.d_A.min():+.4f}..{changed.d_A.max():+.4f}")
+        print(f"  sensitivity dA/d(log gf) median {sens:.3f} — the WEAK-LINE limit is -1.000.")
+        print(f"  These are {changed.ew_mA.min():.0f}-{changed.ew_mA.max():.0f} mA lines, so they sit "
+              f"on the flat part of the curve of\n  growth and absorb roughly half the gf change. "
+              f"That is why the first-order\n  census estimate over-predicts the shift.")
+
     print("\nPRODUCTS — both pools, per band (RYA-712: presented side by side, never merged)")
     print(f"  {'band':<9}{'ion':<5}{'pool':<26}{'A(Fe)':>9}{'sigma':>9}{'n':>6}")
     products = []
     for (band, ion), g in res.groupby(["band", "ion"]):
-        for label, col, sig in (("KURUCZ K14 (sub-pool)", "a_control", None),
+        for label, col, sig in (("PRODUCTION (canonical_gf)", "a_control", None),
                                 ("PRIMARY-LAB-GF", "a_labgf", "lab")):
             v, sd, n = _aggregate(g[col].values)
             if v is None:
