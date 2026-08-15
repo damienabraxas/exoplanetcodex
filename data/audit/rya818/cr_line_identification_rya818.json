@@ -1,0 +1,236 @@
+{
+  "element": "Cr",
+  "model_atom": "atom.cr374",
+  "atom_resolution": "term-resolved",
+  "matching": "term-label join per ionisation stage (energy fallback disabled)",
+  "energy_fallback_used": false,
+  "energy_tolerance_cm-1": null,
+  "energy_fallback_note": "DISABLED by default. Controlled against the label route where both answer, the energy route names a DIFFERENT level 18% of the time for Cr I and 35% for Cr II, because this atom's energies are term averages and neighbouring terms sit closer together than the fine structure they average over. No tolerance/margin combination tested exceeded ~87% agreement (RYA-818).",
+  "wavelength_matching_used": false,
+  "multiplicity_matching_used": false,
+  "multiplicity_note": "match_multiplicity is DISABLED deliberately. For a term-resolved atom the line's 2J+1 is one fine-structure component's weight while the level's g is the whole term's sum; requiring equality would reject ~95% of correct matches (RYA-818).",
+  "approximation": "TERM-SHARED DEPARTURE COEFFICIENTS. This atom resolves LS terms, not fine-structure levels, so every component of a term is assigned that term's departure coefficient. This is the correct reading of a term-resolved atom, but it IS an approximation and it is not visible in the emitted linelist.",
+  "ticket": "RYA-818",
+  "generated_utc": "2026-08-14T22:50:43Z",
+  "atom_md5": "a3bc476deafdbd750d9065bb971d4f0d",
+  "linelist_md5": "9930e577524c3a01c7d2096a02f0ba60",
+  "ion_stage_histogram": {
+    "1": 148,
+    "2": 225,
+    "3": 1
+  },
+  "reach": {
+    "Cr I": {
+      "n_lines": 4736,
+      "n_nlte": 4182,
+      "reach_pct": 88.3,
+      "n_lte_despite_nlte_block": 554,
+      "lower_by_flag": {
+        "c": 4635,
+        "x": 101
+      },
+      "upper_by_flag": {
+        "c": 4182,
+        "x": 554
+      },
+      "n_label_both": 4182,
+      "n_energy_assisted": 0
+    },
+    "Cr II": {
+      "n_lines": 6648,
+      "n_nlte": 2562,
+      "reach_pct": 38.54,
+      "n_lte_despite_nlte_block": 4086,
+      "lower_by_flag": {
+        "c": 4643,
+        "x": 2005
+      },
+      "upper_by_flag": {
+        "x": 3960,
+        "c": 2688
+      },
+      "n_label_both": 2562,
+      "n_energy_assisted": 0
+    }
+  },
+  "energy_route_control": {
+    "Cr I": {
+      "controlled_endpoints": 8817,
+      "agree": 4012,
+      "disagree": 864,
+      "energy_route_silent": 3941,
+      "agreement_pct": 82.28,
+      "disagreement_examples": [
+        {
+          "wave_A": 4201.438,
+          "end": "up",
+          "term": "e7F",
+          "label_level": 116,
+          "energy_level": 112,
+          "label_E": 53610.375,
+          "energy_E": 53217.0,
+          "computed_E": 53217.77468805012
+        },
+        {
+          "wave_A": 4203.238,
+          "end": "low",
+          "term": "a3P",
+          "label_level": 7,
+          "energy_level": 8,
+          "label_E": 23796.119,
+          "energy_E": 24079.555,
+          "computed_E": 24091.779739819
+        },
+        {
+          "wave_A": 4203.238,
+          "end": "up",
+          "term": "u5F*",
+          "label_level": 78,
+          "energy_level": 77,
+          "label_E": 47971.913,
+          "energy_E": 47884.186,
+          "computed_E": 47876.26048180151
+        },
+        {
+          "wave_A": 4205.062,
+          "end": "up",
+          "term": "h7D",
+          "label_level": 113,
+          "energy_level": 112,
+          "label_E": 53414.06,
+          "energy_E": 53217.0,
+          "computed_E": 53197.26839653464
+        },
+        {
+          "wave_A": 4210.759,
+          "end": "up",
+          "term": "x5H*",
+          "label_level": 77,
+          "energy_level": 78,
+          "label_E": 47884.186,
+          "energy_E": 47971.913,
+          "computed_E": 47938.63098423647
+        },
+        {
+          "wave_A": 4211.527,
+          "end": "up",
+          "term": "x5H*",
+          "label_level": 77,
+          "energy_level": 76,
+          "label_E": 47884.186,
+          "energy_E": 47821.384,
+          "computed_E": 47797.187308563836
+        },
+        {
+          "wave_A": 4213.66,
+          "end": "up",
+          "term": "z5I*",
+          "label_level": 53,
+          "energy_level": 52,
+          "label_E": 44457.94,
+          "energy_E": 44208.521,
+          "computed_E": 44244.39748654256
+        },
+        {
+          "wave_A": 4214.145,
+          "end": "up",
+          "term": "z5I*",
+          "label_level": 53,
+          "energy_level": 52,
+          "label_E": 44457.94,
+          "energy_E": 44208.521,
+          "computed_E": 44249.73253071794
+        }
+      ]
+    },
+    "Cr II": {
+      "controlled_endpoints": 7331,
+      "agree": 1830,
+      "disagree": 996,
+      "energy_route_silent": 4505,
+      "agreement_pct": 64.76,
+      "disagreement_examples": [
+        {
+          "wave_A": 4209.601,
+          "end": "up",
+          "term": "x2F*",
+          "label_level": 218,
+          "energy_level": 219,
+          "label_E": 128832.904,
+          "energy_E": 128989.091,
+          "computed_E": 129016.05747582816
+        },
+        {
+          "wave_A": 4211.08,
+          "end": "up",
+          "term": "y4P*",
+          "label_level": 199,
+          "energy_level": 200,
+          "label_E": 121105.044,
+          "energy_E": 121304.181,
+          "computed_E": 121305.1223045993
+        },
+        {
+          "wave_A": 4274.715,
+          "end": "up",
+          "term": "y4D*",
+          "label_level": 193,
+          "energy_level": 192,
+          "label_E": 119077.602,
+          "energy_E": 118409.767,
+          "computed_E": 118378.81509473418
+        },
+        {
+          "wave_A": 4306.916,
+          "end": "up",
+          "term": "y2F*",
+          "label_level": 215,
+          "energy_level": 214,
+          "label_E": 125318.093,
+          "energy_E": 125210.253,
+          "computed_E": 125164.52951326268
+        },
+        {
+          "wave_A": 4314.986,
+          "end": "up",
+          "term": "e4F",
+          "label_level": 254,
+          "energy_level": 253,
+          "label_E": 145295.644,
+          "energy_E": 145062.902,
+          "computed_E": 145091.4055097795
+        },
+        {
+          "wave_A": 4316.897,
+          "end": "low",
+          "term": "y4P*",
+          "label_level": 199,
+          "energy_level": 200,
+          "label_E": 121105.044,
+          "energy_E": 121304.181,
+          "computed_E": 121301.82869595087
+        },
+        {
+          "wave_A": 4330.485,
+          "end": "low",
+          "term": "y4P*",
+          "label_level": 199,
+          "energy_level": 200,
+          "label_E": 121105.044,
+          "energy_E": 121304.181,
+          "computed_E": 121301.82869595087
+        },
+        {
+          "wave_A": 4332.925,
+          "end": "up",
+          "term": "x4G*",
+          "label_level": 214,
+          "energy_level": 213,
+          "label_E": 125210.253,
+          "energy_E": 124977.364,
+          "computed_E": 125001.00241347936
+        }
+      ]
+    }
+  }
+}
