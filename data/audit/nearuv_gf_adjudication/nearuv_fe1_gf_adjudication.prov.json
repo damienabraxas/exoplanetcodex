@@ -1,0 +1,25 @@
+{
+  "ticket": "RYA-822",
+  "n_added": 21279,
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "species": "Fe I",
+  "n_adjudicated_nist": 650,
+  "n_ambiguous_left_alone": 0,
+  "match_rate": 0.1520823584464202,
+  "randomised_null_rate": 0.00014038371548900328,
+  "match_tolerances": {
+    "wavelength_A": 0.006,
+    "excitation_potential_eV": 0.0005
+  },
+  "delta_nist_minus_vald_median": 0.00011441735887496307,
+  "delta_nist_minus_vald_absmax": 3.826213363879388,
+  "sources_checked_and_rejected": {
+    "ruffoni2014": "span 4423.84-10863.52 A \u2014 ZERO lines below 3780",
+    "denhartog2014": "span 7016.39-9214.50 A \u2014 ZERO lines below 3780",
+    "PK21_dgf": "reference-fit astrophysical offset \u2014 RYA-161 firewall, RYA-779 ratified NOT a graded gf source; used for line ID only"
+  },
+  "caveat": "NIST Fe I here is largely a COMPILATION; agreement proves only \"no transcription error\", DISagreement is the informative outcome. The per-line TP/Line reference codes are carried so the underlying measurement stays visible."
+}
