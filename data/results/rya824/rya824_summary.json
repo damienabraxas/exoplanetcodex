@@ -1,0 +1,48 @@
+{
+  "ticket": "RYA-824",
+  "stage": "re-measured",
+  "target_lines": 29,
+  "control_max_resid_dex": 0.0,
+  "control_pass": true,
+  "median_d_loggf": 0.16999999999999993,
+  "median_d_A": 0.0,
+  "products": [
+    {
+      "band": "IR",
+      "ion": "I",
+      "pool": "PRODUCTION (canonical_gf)",
+      "value": 7.5419921875,
+      "scatter": 0.10982256646881101,
+      "n": 20,
+      "gf_sigma_dex": 0.2
+    },
+    {
+      "band": "IR",
+      "ion": "I",
+      "pool": "PRIMARY-LAB-GF",
+      "value": 7.515625,
+      "scatter": 0.10073677491722516,
+      "n": 20,
+      "gf_sigma_dex": 0.05244044240850758
+    },
+    {
+      "band": "VIS",
+      "ion": "I",
+      "pool": "PRODUCTION (canonical_gf)",
+      "value": 7.4453125,
+      "scatter": 0.11144371055630997,
+      "n": 9,
+      "gf_sigma_dex": 0.2
+    },
+    {
+      "band": "VIS",
+      "ion": "I",
+      "pool": "PRIMARY-LAB-GF",
+      "value": 7.4453125,
+      "scatter": 0.11833544196457446,
+      "n": 9,
+      "gf_sigma_dex": 0.060000000000000005
+    }
+  ],
+  "run_date": "2026-08-15"
+}
