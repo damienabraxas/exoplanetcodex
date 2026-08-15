@@ -240,6 +240,13 @@ def main(argv=None) -> int:
         return 0
 
     # ── the re-measurement ────────────────────────────────────────────────────
+    # CREATE the private scratch. Turbospectrum writes into this directory and does not
+    # make it; the shared default only works because earlier runs left it behind. The
+    # first version of this script passed a private path without creating it and every
+    # single inversion failed with "No such file or directory" -- a guard against a
+    # stale-scratch defect that introduced a missing-scratch one.
+    args.tmp_dir.mkdir(parents=True, exist_ok=True)
+
     from pipeline.abundances_derive import _bisect_synth_abundance
     sys.path.insert(0, str(ROOT / "scripts"))
     from rya716_al_products import build_context           # the production context
