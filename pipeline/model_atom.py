@@ -214,13 +214,25 @@ def atom_resolution(levels: pd.DataFrame, *, term_threshold: float = 0.5
     should branch on the counts, not on the word.
     """
     n = len(levels)
-    if n == 0:
-        return AtomResolution(UNDECIDED, 0, 0, 0, 0, "")
+    if n == 0 or "kind" not in levels.columns:
+        # No `kind` means an Amarsi/PySME `label_*.txt` (Engine A), which carries no
+        # `g` and so cannot be classified by the (2S+1)(2L+1) identity at all.
+        # UNDECIDED is the honest answer and, crucially, is NOT term-resolved — so
+        # callers branching on `is_term_resolved` leave Engine A exactly as it was.
+        return AtomResolution(UNDECIDED, n, 0, 0, 0, "")
     kinds = levels["kind"].value_counts()
     n_term = int(kinds.get("term", 0))
     n_j = int(kinds.get("j-resolved", 0))
     n_un = int(kinds.get("unparsed", 0))
-    element = str(levels["element"].iloc[0])
+    # `element` is absent from the RYA-763-shaped frame (it carries `species`), and
+    # this is called from `resolvable_j` on exactly that frame. The verdict does not
+    # depend on the name, so a missing one is cosmetic, not a reason to fail.
+    if "element" in levels.columns:
+        element = str(levels["element"].iloc[0])
+    elif "species" in levels.columns:
+        element = str(levels["species"].iloc[0]).split()[0]
+    else:
+        element = ""
 
     if n_term / n > term_threshold:
         verdict = TERM_RESOLVED
@@ -241,3 +253,122 @@ def atom_resolution(levels: pd.DataFrame, *, term_threshold: float = 0.5
 def ion_stage_histogram(levels: pd.DataFrame) -> dict[int, int]:
     """{ion_stage: n_levels}. Guard this before any per-stage join."""
     return {int(k): int(v) for k, v in levels["ion"].value_counts().sort_index().items()}
+
+
+def resolvable_j(levels: pd.DataFrame) -> "pd.Series":
+    """J per level, NaN where J does not exist — RYA-823.
+
+    A fine-structure level has J = (g-1)/2. A SUPER-LEVEL does not have a J at all:
+    its g is the whole term's (2S+1)(2L+1), so (g-1)/2 returns a number
+    (`a5D` -> 12.0) that no line can ever carry. Handing that number to a
+    (J, energy) matcher does not merely fail to match — it occasionally matches
+    something by accident, and those accidents are worse than a clean miss:
+
+      * Cr I VIS  4 of 5353 lines "resolve" (0.1%)
+      * Cr II VIS 8 of 3660 (0.2%)
+
+    which is enough to defeat a `nothing resolved, so the key must be wrong` guard
+    and let a 0.1% figure be published as a measured reach. NaN here makes the
+    absence clean, so that guard can see it.
+
+    ⚠️ SUPPRESSION REQUIRES POSITIVE EVIDENCE, NOT MERE DOUBT. `kind == "unparsed"`
+    means the label is in a form this module cannot read (`3s2.3p2P*` config style,
+    `10p7P*` Rydberg series) — it does NOT mean super-level. A first cut nulled J for
+    everything that was not confirmed `j-resolved`, and the regenerated coverage
+    table showed what that costs: **Ca I VIS 55 -> 0 reach, Co I VIS 993 -> 0 and
+    reclassified UNCOVERED**, 106 rows changed. Most atoms label most levels in a
+    form the parser does not read, and for those `(g-1)/2` is both the best available
+    key and demonstrably a working one.
+
+    So J is withheld only in an atom that classifies as TERM-RESOLVED OVERALL — i.e.
+    where the fabricated J is the only thing on offer and cannot be right. Cr is that
+    atom (274 bare terms, 100 unreadable Rydberg labels, zero confirmed J-resolved
+    levels), and withholding lets it fall cleanly to nothing-resolves.
+
+    ⚠️ A MIXED atom keeps every J, including its super-levels', and that is
+    deliberate restraint rather than an oversight. Withholding there costs real
+    reach — Mn II VIS 171 -> 93, Mn I VIS 450 -> 421, Ti I VIS 1534 -> 1506 — and I
+    cannot show those lost matches were WRONG. A low-g super-level's (g-1)/2 can
+    coincide with a genuine J (`a6S` g=6 gives 2.5), the energy still had to agree
+    within 1 meV to match at all, and where it does agree the coefficient returned is
+    the term's, which is exactly what the label route would have returned anyway. So
+    the match may be arrived at by luck but still be serviceable.
+
+    Deciding that needs the raw-GES label route (RYA-818), because the iSpec frame's
+    `nlte_label_*` columns are populated only for NLTE-tagged species and disagree
+    with these atoms' own labels besides (Mn II label reach 0.5%). Until that is
+    measured, this change stays MONOTONE: the label union can only ADD matches, and
+    no element's reported reach is cut on a judgement call.
+    """
+    import numpy as np
+    j = (levels["g"].astype(float) - 1.0) / 2.0
+    if atom_resolution(levels).verdict == TERM_RESOLVED:
+        return j.where(levels["kind"] == "j-resolved", other=np.nan)
+    return j
+
+
+def resolve_level(levels: pd.DataFrame, *, energy_eV: float = float("nan"),
+                  j: float = float("nan"), term: str = "",
+                  tol_eV: float = 0.001) -> tuple[str, int, int]:
+    """Identify ONE level by whichever key its kind actually supports — RYA-823.
+
+    Returns (verdict, level_index, n_candidates) with verdict in
+    UNIQUE / AMBIGUOUS / ABSENT / NO-KEY, matching `rya763_level_mapping`'s
+    vocabulary so callers need not learn a second one.
+
+    THE UNION IS THE POINT, AND IT IS NOT A SWAP
+    --------------------------------------------
+    (J, energy) addresses fine-structure levels; the term label addresses
+    super-levels. Neither dominates, measured per species:
+
+        Ti I red-optical   (J,energy) 34.8%   label 56.2%   -> label wins
+        Mn II VIS          (J,energy) 10.1%   label  0.5%   -> J wins, 20x
+
+    So replacing one key with the other would have cost Mn II 95% of its reach
+    while claiming to fix it. Each level is matched by the key appropriate to its
+    OWN kind, and the results are unioned.
+
+    Ambiguity refuses. Two keys agreeing on one level is one answer; two keys
+    naming DIFFERENT levels is a contradiction, and picking either would attach a
+    real departure coefficient to a guess.
+    """
+    import numpy as np
+    hits: set[int] = set()
+    used_a_key = False
+
+    # A level table that carries no `kind` is an Amarsi/PySME `label_*.txt` (Engine A),
+    # which is fine-structure throughout and has no `g`. Its own J is authoritative
+    # there, so this falls back to it rather than demanding columns that deck never
+    # had -- the union must not change Engine A's answers at all.
+    if "kind" in levels.columns and "g" in levels.columns:
+        jj = resolvable_j(levels)
+        term_mask = levels["kind"] == "term"
+    else:
+        jj = levels["J"].astype(float)
+        term_mask = None
+
+    # NO-KEY must mean "this TABLE cannot be addressed", not "the caller passed
+    # nothing". A term-resolved atom has NaN for every J, so a (J, energy) query
+    # against it returns ABSENT -- which reads as a measured absence -- when the
+    # truth is that the key does not apply. Requiring the table to offer at least one
+    # real J is what turns that into an honest NO-KEY.
+    j_offered = bool(np.isfinite(jj).any())
+    if j_offered and np.isfinite(energy_eV) and np.isfinite(j):
+        used_a_key = True
+        c = levels[(np.abs(levels["energy_eV"].astype(float) - energy_eV) <= tol_eV)
+                   & (np.abs(jj - j) < 0.01)]
+        hits.update(int(x) for x in c["index"])
+
+    t = (term or "").strip()
+    if t and t.lower() != "none" and term_mask is not None:
+        used_a_key = True
+        c = levels[(levels["term"].astype(str).str.strip() == t) & term_mask]
+        hits.update(int(x) for x in c["index"])
+
+    if not used_a_key:
+        return ("NO-KEY", -1, 0)
+    if len(hits) == 1:
+        return ("UNIQUE", hits.pop(), 1)
+    if len(hits) > 1:
+        return ("AMBIGUOUS", -1, len(hits))
+    return ("ABSENT", -1, 0)

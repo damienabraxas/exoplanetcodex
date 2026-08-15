@@ -58,6 +58,7 @@ import os as _os_boot, sys as _sys_boot
 _sys_boot.path.insert(0, _os_boot.path.dirname(_os_boot.path.dirname(
     _os_boot.path.abspath(__file__))))
 from config.constants import codex_path  # RYA-810 path register
+import pipeline.model_atom as _model_atom  # RYA-823: one reader, kind-aware
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -116,39 +117,37 @@ CM1_PER_EV = 8065.543937
 
 
 def read_gerber_atom(path: 'Path') -> pd.DataFrame:
-    """Levels from a Gerber TS-native `atom.*` file -> the same frame as read_labels()."""
-    rows, seen_header = [], False
-    n_expect = None
-    for raw in Path(path).read_text(errors="replace").splitlines():
-        line = raw.rstrip()
-        if not line.strip() or line.lstrip().startswith(("*", "#")):
-            continue
-        parts = line.split()
-        if not seen_header:
-            # the 3rd non-comment line carries n_levels n_transitions ...
-            if n_expect is None and len(parts) >= 3 and all(
-                    x.lstrip("-").isdigit() for x in parts[:3]):
-                n_expect = int(parts[0])
-                seen_header = True
-            continue
-        m = re.match(r"\s*([-\d.Ee+]+)\s+([-\d.Ee+]+)\s+'([^']*)'\s+(\d+)", line)
-        if not m:
-            if len(rows) >= (n_expect or 0):
-                break
-            continue
-        energy_cm, g, label, ion = m.groups()
-        try:
-            e = float(energy_cm)
-            gg = float(g)
-        except ValueError:
-            continue
-        term = label.split("=")[-1].strip() if "=" in label else label.strip()
-        rows.append(dict(index=len(rows) + 1, species=f"Fe {ion}",
-                         term=term, J=(gg - 1.0) / 2.0,
-                         energy_eV=e / CM1_PER_EV, ion=int(ion)))
-        if n_expect and len(rows) >= n_expect:
-            break
-    return pd.DataFrame(rows)
+    """Levels from a Gerber TS-native `atom.*` file -> the same frame as read_labels().
+
+    DELEGATES to `pipeline.model_atom` (RYA-823). Two defects are fixed by doing so,
+    and this function is imported by RYA-776 for the WHOLE Engine-B deck, so both
+    were deck-wide:
+
+    1. `species` was hardcoded `f"Fe {ion}"` for every atom read. Nothing consumed
+       it, so nothing was wrong yet — but it labelled Cr, Ti, Mn, Co and the rest as
+       Fe, one `df["species"]` away from being a real bug. The element now comes
+       from the atom file's own first line.
+
+    2. `J` was `(g-1)/2` for EVERY level, including super-levels, where g is the
+       whole term's weight and no J exists. That fabricated J occasionally matches
+       by accident (Cr I VIS: 4 of 5353 lines), which is enough to defeat RYA-776's
+       `nothing resolved so the key must be wrong` guard and publish a 0.1% reach as
+       if it were measured. `J` is now NaN for super-levels, so the miss is clean and
+       that guard can see it.
+
+    `g` and `kind` are new columns; every previously-present column is preserved.
+    """
+    lv = _model_atom.read_gerber_atom(path)
+    return pd.DataFrame(dict(
+        index=lv["index"],
+        species=lv["element"].astype(str) + " " + lv["ion"].astype(str),
+        term=lv["term"],
+        J=_model_atom.resolvable_j(lv),
+        energy_eV=lv["energy_eV"],
+        ion=lv["ion"].astype(int),
+        g=lv["g"],
+        kind=lv["kind"],
+    ))
 
 
 def read_levels(el: str, deck: str = "auto") -> pd.DataFrame:
