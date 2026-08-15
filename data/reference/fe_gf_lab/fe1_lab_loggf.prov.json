@@ -1,0 +1,36 @@
+{
+  "ticket": "RYA-799",
+  "artifact": "fe1_lab_loggf.csv",
+  "what": "Primary laboratory Fe I log gf with PER-LINE uncertainties in dex.",
+  "why_primary": "RYA-760: FMW is itself a NIST compilation and VALD copies it, so an ASD check is not independent. Only a primary lab measurement can referee a gf, and only a primary paper publishes a per-line sigma.",
+  "sources": {
+    "Ruffoni2014": {
+      "cite": "Ruffoni, Den Hartog, Lawler, Brewer, Lind, Nave & Pickering 2014, MNRAS 441, 3127",
+      "doi": "10.1093/mnras/stu780",
+      "sha256": "a1178dec92bfe8a9a8fab0d5578dd834a6bc58aff53a5560e8ae59907cdcbb05"
+    },
+    "DenHartog2014": {
+      "cite": "Den Hartog, Ruffoni, Lawler, Pickering, Lind & Brewer 2014, ApJS 215, 23",
+      "doi": "10.1088/0067-0049/215/2/23",
+      "sha256": "b2314a179b3b1b15e510a4629bf772b20ea4acd40a7d6134fb9db25a159af624"
+    },
+    "Belmonte2017": {
+      "cite": "Belmonte, Pickering, Ruffoni, Den Hartog, Lawler, Guzman & Nave 2017, ApJ 848, 125",
+      "doi": "10.3847/1538-4357/aa8cd3",
+      "sha256": "7ae3122d644f634cafbf47abcd634da5dd8104de928d3ed83baa62138ebb2949"
+    }
+  },
+  "not_on_vizier": "Belmonte 2017 \u2014 J/ApJ/848/125 returns 404; parsed from arXiv source.",
+  "controls": [
+    "COUNT Ruffoni2014   :  142 usable rows (paper implies >= 120) PASS",
+    "COUNT DenHartog2014 :  203 usable rows (paper implies >= 180) PASS",
+    "COUNT Belmonte2017  :  120 usable rows (paper implies >= 118) PASS",
+    "UNCERTAINTY: 465/465 rows carry a finite dex uncertainty PASS",
+    "SIGMA RANGE: +0.020 .. +0.180 dex (must be >0 and <=0.5) PASS",
+    "LEVELS  Belmonte2017  : max |(Eup-Elo) - hc/lambda_vac| = 1.57e-06 eV PASS",
+    "LEVELS  DenHartog2014 : max |(Eup-Elo) - hc/lambda_vac| = 2.59e-06 eV PASS",
+    "LEVELS  Ruffoni2014   : max |(Eup-Elo) - hc/lambda_vac| = 8.32e-04 eV PASS"
+  ],
+  "retrieved": "2026-08-15",
+  "regenerate": "python3 scripts/rya799_fetch_fe_gf_lab.py"
+}
