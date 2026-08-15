@@ -441,3 +441,65 @@ artifacts:
       ungraded-gf 0.17-0.20 dex floor, RYA-161). The optical anchor 7.466 is drawn as a
       dashed CONTEXT line and labelled as such -- it is not a target and no gate is applied
       to the frontier cells.
+
+  # ── RYA-817 — the Amarsi 2022 3D-NLTE Fe engine, reactivated + domain-checked ──────
+  #
+  # The per-line file is the one that matters here: it carries EVERY measured line,
+  # in-domain or not, with the axis that rejected it and the correction the network
+  # WOULD have returned had it been allowed to extrapolate. An out-of-domain line is
+  # reported, never dropped (RYA-429/711), and the refused number is kept in a column
+  # no aggregate reads so the size of the declined extrapolation is on the record.
+
+  - artifact: rya817/rya817_3dnlte_per_line.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <RYA-783 band_products dir>
+    ticket: RYA-817
+    note: >-
+      Per-line 3D-NLTE for the solar VIS and IR Fe bands. Columns carry the four domain
+      axes separately (feature box / transition energy / level representation / stellar
+      box) rather than one boolean, because the IR band fails on exactly one of them:
+      the training set spans 1.820-2.589 eV of transition energy and the IR band spans
+      1.355-1.792 eV, with no overlap. The 1D-LTE base comes from the RYA-783 band
+      products, which live on Sirius -- hence the directory argument rather than a path
+      literal (RYA-810).
+  - artifact: rya817/rya817_3dnlte_products.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <RYA-783 band_products dir>
+    ticket: RYA-817
+    note: >-
+      The ENGINE-A-3DNLTE products (RYA-712): Fe I VIS 7.615 (n=110), Fe II VIS 7.601
+      (n=6). The two IR cells carry a null value and n=0 -- 0 of 96 Fe I and 0 of 4
+      Fe II IR lines are inside the network's training domain, so no IR product exists.
+      That is the result, not a missing run.
+  - artifact: rya817/rya817_domain_map.png
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <RYA-783 band_products dir>
+    ticket: RYA-817
+    note: >-
+      The measured lines against the training set on the two axes that decide the
+      verdict. The right panel is the finding: wavelength is not a network input, but
+      Eup - Elo is, and Eup = Elo + hc/lambda_vac, so the IR band sits in a strip of
+      transition energy the training set never occupies.
+  - artifact: rya817/rya817_run_summary.json
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <RYA-783 band_products dir>
+    ticket: RYA-817
+    note: >-
+      Run record: the recovered training domain, the per-band counts and axis failures,
+      the A(Fe;3N) axis (self-consistent value, whether it railed on the 7.5 ceiling, and
+      the measured sensitivity of the product across the whole axis), and the
+      reactivation control -- Amarsi+2022 Table 6's solar row reproduced from Amarsi's
+      own inputs to <=0.005 dex on both ions and both columns.
+  - artifact: rya817/rya817_reach_survey.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <RYA-783 band_products dir>
+    ticket: RYA-817
+    note: >-
+      REACH, answered before anything is measured (RYA-762 coordination). Reach is a
+      line-parameter question, so every Fe I/II transition in a band can be domain-checked
+      with no EW at all -- which says whether a measurement campaign in that band could
+      ever be served by this engine, instead of finding out afterwards. Result: 1549 of
+      3374 Fe I transitions in the optical overlap are in domain, 0 of 1839 in the
+      6910-9199 A band, and 0 of 1971 in the 9199-13000 A extension. The extension is
+      FURTHER out, not closer: the gap below the training floor in transition energy grows
+      from 0.028 eV to 0.473 eV.

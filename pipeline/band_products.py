@@ -45,7 +45,14 @@ from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.t
 # so folding it into ENGINE-B would combine two engines under one label — the exact thing
 # this tuple exists to prevent. RYA-785 validated the deck, RYA-798 wired it, and the
 # cross-engine spread against ENGINE-A stays an RYA-525 DIAGNOSTIC, never an error bar.
-TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE")
+#
+# ENGINE-A-3DNLTE (RYA-817) is likewise its own member, not an ENGINE-A variant. It runs
+# the same EW route, but the per-line departure comes from the Amarsi+2022 3D-NLTE MLP
+# instead of the MPIA/Bergemann 1D-NLTE grid — a different DIMENSIONALITY (3D vs 1D), so
+# the two cannot share a label or an aggregate. It is admitted here rather than being
+# invented at a call site because RYA-798 shipped ENGINE-B-NLTE without adding it to this
+# tuple and the product died at `build_product` after the synthesis had already run.
+TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE", "ENGINE-A-3DNLTE")
 
 # Saturation: above this REW the EW->abundance inversion runs along the flat part of the
 # curve of growth and is ill-conditioned in BOTH directions. Lines past it are measured

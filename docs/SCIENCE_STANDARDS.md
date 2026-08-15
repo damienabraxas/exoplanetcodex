@@ -613,3 +613,64 @@ apparatus already enforces "exclude for physics, not for cleanliness": the RYA-1
 the RYA-522 tiers, the RYA-711 quarantine, the RYA-586 per-element error-budget band, and
 the RYA-807 registry gate. Nothing here adds a threshold, and nothing here may be used to
 justify one.
+
+---
+
+## Use every tool we can — an archived model gets used where it adds value — RYA-817
+
+Ryan, 2026-08-14: *"we use every tool we can. A capable model archived for convenience gets used where it adds value."*
+
+### The law
+
+Archiving a model is a **routing** decision, not a verdict on the model. A model that was
+set aside for single-methodology consistency, pipeline simplicity, or any other
+convenience is still a capable model, and where it can say something the live path cannot,
+it gets run — as its **own data product**, beside the others, under RYA-712.
+
+This is the natural consequence of *"all wavelengths, all data, all instruments, all
+models"* (RYA-708) applied to our own shelf: a model we already hold and do not run is
+indistinguishable, in the output, from one we never had.
+
+### The reciprocal obligation, which is the whole of the discipline
+
+Reactivating a model imports its **limits** along with its capability, and those limits are
+usually undocumented in the code that wraps it. So a reactivation is not complete until:
+
+1. **The model's DOMAIN is established from its own provenance, not assumed.** Not the
+   parameter box its wrapper happens to check — the actual span of what it was built on.
+   For a trained model that means recovering the training set; for a grid, the node
+   coverage; for a fit, the data it was fitted to. RYA-817's worked case: the vendored
+   Amarsi+2022 Fe MLP guards Teff/log g/vmic/A(Fe) and **nothing about the line**, so its
+   171 + 12 training lines had to be recovered from the paper chain
+   (`scripts/rya817_recover_amarsi_training_set.py`) before a single prediction could be
+   trusted. They are optical, 4787.83–6810.26 Å, and nothing in the shipped code says so.
+
+2. **Out-of-domain input is refused LOUDLY and named by axis** — never extrapolated
+   silently, never quietly dropped. The size of the refused extrapolation is recorded as a
+   diagnostic so the reader can see what was declined, but it may not enter a product.
+
+3. **The reactivation is proved against a PUBLISHED result, on the author's own inputs.**
+   Not against our own pipeline — that is the RYA-785 wrong-referee failure. RYA-817
+   reproduces Amarsi+2022 Table 6's solar row (Fe I 7.47 → 7.46, Fe II 7.41 → 7.47) to
+   ≤ 0.005 dex, using the Allende Prieto+2002 line list Amarsi actually used. Running the
+   same control on the *training* list instead misses Fe I by 0.04 dex for reasons that
+   have nothing to do with the engine — which is exactly why the control has to name its
+   line list.
+
+4. **Whatever the reactivation contradicts gets corrected at the source.** RYA-817's run
+   showed the solar Fe I 3D-NLTE correction is ≈ 0.00 dex, not the −0.127 that
+   `pipeline/nlte_corrections.py` had asserted in a docstring for months — a number
+   reverse-engineered from a target rather than computed. The docstring was fixed in the
+   same change.
+
+### Standing rules
+
+1. **"Archived" is never a reason not to run something.** It is a reason to check its
+   domain first.
+2. **A reactivated model is a NEW product key** (RYA-712), with its own value, σ and line
+   count. It never merges into, replaces, or re-labels an existing engine's number.
+3. **A domain check that admits everything is not a domain check.** Show it can reject —
+   the RYA-805 rule, applied to model inputs rather than to spectra.
+4. **A capability claim needs its domain stated in the same breath.** "We have a 3D-NLTE
+   Fe engine" is true; "we have a 3D-NLTE Fe engine for the near-IR" is not, and the
+   difference is 0 of 94 lines.
