@@ -259,7 +259,9 @@ infrared, which is the shape a real domain check should have.
 
 `data/curation/threednlte_availability.csv`, verified by
 `scripts/rya817_check_3dnlte_availability.py` (coverage + Crossref DOI resolution;
-22/22 DOIs verified). The classification follows Asplund, Amarsi & Grevesse 2021 (A&A 653,
+22/22 DOIs verified). **A survey has a cutoff, and this one is dated** — see the correction
+below; the checker validates citations, not currency, and cannot tell you a newer paper
+exists. The classification follows Asplund, Amarsi & Grevesse 2021 (A&A 653,
 A141) Table 1, which is the current authority on what treatment each solar abundance rests
 on.
 
@@ -278,14 +280,35 @@ listing "28 elements" would be quietly wrong.
 
 ### Off-solar 3D-NLTE grid — where 3D is actually *usable* on other stars
 
-| status | n | elements |
-|---|---|---|
-| GRID_VENDORED | 3 | **C, Fe, O** |
-| GRID_PUBLIC | 1 | **Li** (Wang et al. 2021 — across the full STAGGER grid) |
-| GRID_PUBLIC (ion II only) | 1 | **Ca** (Lagae et al. 2025, Ca II, metal-poor FGK) |
-| GRID_MEAN3D | 1 | **Al** (Nordlander & Lind 2017 — ⟨3D⟩, not 3D) |
-| SOLAR_ONLY | 6 | Ba, K, Mg, N, Na, Si |
-| NONE | 15 | Co, Cr, Cu, Eu, Mn, Ni, P, S, Sc, Sr, Ti, V, Y, Zn, Zr |
+| status | n | elements | parameter coverage |
+|---|---|---|---|
+| GRID_VENDORED | 3 | **C, Fe, O** | Fe: Teff 5000–6500, log g 4.0–4.5, [Fe/H] −3…0, **optical lines only** |
+| GRID_PUBLIC | 3 | **Li, Mg, Na** | Li: full STAGGER grid · Mg: Teff 5000–6500, log g 4.0/4.5, [Fe/H] −3…0 · **Na: Teff 4000–6500, log g 1.5–5.0, [Fe/H] −4…+0.5** |
+| GRID_PUBLIC (ion II only) | 1 | **Ca** | Lagae et al. 2025, Ca II, metal-poor FGK |
+| GRID_MEAN3D | 1 | **Al** | Nordlander & Lind 2017 — ⟨3D⟩, not 3D |
+| SOLAR_ONLY | 4 | Ba, K, N, Si | |
+| NONE | 15 | Co, Cr, Cu, Eu, Mn, Ni, P, S, Sc, Sr, Ti, V, Y, Zn, Zr | |
+
+**Corrected 2026-08-15 (RYA-817 review, Ryan).** The first pass marked Mg and Na
+`SOLAR_ONLY`; both were wrong, because off-solar grids were published after this survey's
+literature cutoff. Verified at the primary source, not the citing paper:
+
+- **Mg** — Matsuno, Amarsi, Carlos & Nissen 2024, A&A 688, A72. The correction grid is a
+  real CDS catalogue: **VizieR J/A+A/688/A72 `table.dat`, 2646 rows** keyed
+  (Teff, log g, A(Mg), vmic, line). Its box is *the same* as the Amarsi+2022 Fe MLP, so it
+  inherits the same Teff ceiling — and, being an EW-correction grid, the same open question
+  about which LINES it covers. That question is now a known one: see the reach finding above.
+- **Na** — Canocchi, Wang, Amarsi, Lind & Racca **2026**, A&A 709, A90. **The review note
+  cited "Canocchi et al. 2024", and that is a different paper**: A&A 683, A242 is the solar
+  centre-to-limb-variation study (Na I D and K I *in the Sun*, transmission-spectroscopy
+  motivated) and carries no off-solar grid. The conclusion stands; the reference does not.
+  The correction was read off Lagae et al. 2025's citation list rather than the primary
+  papers, and this is exactly the slip that invites — which is why the Crossref check in
+  `scripts/rya817_check_3dnlte_availability.py` anchors on **volume and page**: fed the 2024
+  DOI against the 2026 reference, it rejects.
+
+**Na is now the widest-coverage 3D-NLTE product we have found anywhere** — log g down to 1.5
+reaches giants and [Fe/H] runs to +0.5, where Fe and Mg stop at turn-off dwarfs and [Fe/H] 0.
 
 ### Three rows worth reading
 
@@ -300,14 +323,21 @@ listing "28 elements" would be quietly wrong.
 - **⟨3D⟩ is not 3D.** Al and K have off-solar grids computed on temporally and spatially
   averaged 3D models. That keeps the mean stratification and discards the inhomogeneity
   term — the term that carries most of the 3D effect. They are recorded under their own
-  status for that reason.
+  status for that reason. **Ba belongs in the same caution**: the only off-solar work in the
+  pipeline is Steffen (in prep) and it is 1.5D-NLTE, not full 3D — reported in review, not
+  independently verifiable while unpublished, so the row stays `SOLAR_ONLY`.
 
 ### The map, in one line
 
-Outside Fe, C and O, **3D-NLTE is a solar-abundance technology, not a stellar-survey one.**
-Only Li has a full off-solar 3D-NLTE grid over the STAGGER parameter space. Any plan to
-"go 3D" across the canonical set is, today, a plan to commission calculations that do not
-exist.
+**Six of 27 canonical elements have an acquirable off-solar 3D-NLTE grid** — Fe, C and O
+vendored, Li, Mg and Na public — plus Ca in its second ion only and Al in ⟨3D⟩ rather than
+3D. For the other nineteen, 3D-NLTE is a solar-abundance technology and not a stellar-survey
+one, and any plan to "go 3D" across the canonical set is a plan to commission calculations
+that do not exist.
+
+That is a better position than the first pass reported, and worth saying plainly: the Mg and
+Na corrections moved this from "only Li" to a third of the way to a 3D-NLTE arm. The
+acquirable set is **Fe/C/O (held) + Li/Mg/Na (fetch) + Al ⟨3D⟩ + Ca II**.
 
 ---
 
