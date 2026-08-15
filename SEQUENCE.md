@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-15
+
+- **RYA-759** — near-UV Fe I **7.487 ± 0.120** (n=40, 3000–3780 Å, 1D-LTE); the Balmer "hole" was never there — TS's own `Hlinedata` covers it
+
 ## 2026-08-14
 
 - **RYA-759** — CORRECTION: the near-UV route was merged 2026-08-11 (#218), not "unmerged" as v71 said; gate now OPEN but a COMPENSATING-ERROR pass
