@@ -503,3 +503,35 @@ artifacts:
       6910-9199 A band, and 0 of 1971 in the 9199-13000 A extension. The extension is
       FURTHER out, not closer: the gap below the training floor in transition energy grows
       from 0.028 eV to 0.473 eV.
+
+  # ── RYA-799 — gf grade, or an honest bound, for the Fe I 6910-9199 A PASS pool ──────
+  #
+  # The GRADED POOL itself is deliberately NOT here: it lands in data/measured/band_ew/,
+  # which is gitignored (RYA-469), because the two columns are regenerable from the
+  # committed reference table plus the committed harness. What IS committed is the
+  # evidence: the per-line verdict and the summary, so the graded-vs-bounded split can be
+  # read and challenged without re-running anything.
+
+  - artifact: rya799/rya799_gf_grades_per_line.csv
+    generator: scripts/rya799_grade_fe_ir_pool.py
+    invocation: python3 scripts/rya799_grade_fe_ir_pool.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>
+    ticket: RYA-799
+    note: >-
+      Per-line gf verdict for all 271 PASS lines. Three terminal states, and the third is
+      the finding: GF-LAB (a primary lab measurement covers the line AND is the value the
+      pool used -- 2 lines); systematic:K07 (no graded tie -- 221); and
+      systematic:K07/SCALE-MISMATCH (48 lines where a better-referenced gf exists IN-REPO
+      but is NOT what the pool was measured with). The mismatch state exists because
+      attaching a good reference's pedigree to an abundance derived from a different gf
+      would manufacture a grade. Carries gf_ref_loggf and gf_delta_dex so the mismatch is
+      auditable per line rather than asserted.
+  - artifact: rya799/rya799_gf_grade_summary.json
+    generator: scripts/rya799_grade_fe_ir_pool.py
+    invocation: python3 scripts/rya799_grade_fe_ir_pool.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>
+    ticket: RYA-799
+    note: >-
+      The counts RYA-783's budget needs: graded 2 / systematic-only 269, pool RMS sigma
+      0.1993 dex against the blanket 0.20 assumption. Also records the split inside the
+      systematic bucket -- 66 lines whose gf VALUE is confirmed against a named non-K07
+      reference but which cannot be graded while NIST ASD is down (a recoverable debt),
+      versus 155 with no reference tie at all (a genuine measurement gap).
