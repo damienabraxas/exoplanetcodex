@@ -7,9 +7,14 @@ LIVE Fe NLTE source (RYA-319): MPIA Spectrum Tools / Bergemann mafags-os **1D
 NLTE** grid (data/nlte_grids/Fe_Bergemann_MPIA.csv) — covers the full benchmark
 box (Procyon Teff, α Cen A A(Fe), α Cen B logg, 55 Cnc), interpolated per Fe
 line over (teff,logg,feh) via _mpia_fe_delta / apply_fe_nlte_corrections.
-The Amarsi 3D-NLTE MLP below (Teff≤6500 ceiling) is ARCHIVED — kept only for the
-solar 3D-vs-1D cross-check (RYA-283). Trade: 3D→1D, ≲0.05 dex at metal-rich
-targets (Amarsi 2022 Fig 7), accepted for single-methodology coverage.
+The Amarsi 3D-NLTE MLP below (Teff≤6500 ceiling) is not the LIVE Fe correction.
+Trade: 3D→1D, ≲0.05 dex at metal-rich targets (Amarsi 2022 Fig 7), accepted for
+single-methodology coverage.
+
+RYA-817 (Ryan, 2026-08-14: "we use every tool we can") REACTIVATED it as a separate
+data product rather than leaving it archived — see `pipeline/amarsi3d.py`, which adds
+the LINE-parameter domain check this module never had and emits the
+`ENGINE-A-3DNLTE` treatment. Nothing on the live MPIA path below changed.
 
 Archived Amarsi reference (the MLP functions, no longer the live correction):
 Corrections from Amarsi, Liljegren & Nissen 2022 (A&A 668, A68).
@@ -22,10 +27,22 @@ Three multi-layer perceptrons trained on STAGGER-grid 3D NLTE models:
 Grid coverage: Teff 5000–6500 K, log g 4.0–4.5, [Fe/H] −3.0 to 0.0.
 171 Fe I + 12 Fe II optical lines.
 
-Sign convention (empirically confirmed for solar validation):
-  A(Fe;3D NLTE) = A(Fe;1D LTE) + aberr
-  aberr < 0 at solar metallicity (neural network output is A_3D − A_1D);
-  for the Sun: A(3D) = 7.58 + (−0.127) ≈ 7.45 matches Asplund 2021.
+Sign convention:
+  A(Fe;3D NLTE) = A(Fe;1D LTE) + aberr, where the network emits A_1D − A_3D and
+  `_compute_aberr` negates it (RYA-339).
+
+  RYA-817 CORRECTION. This block used to read "aberr < 0 at solar metallicity ... for
+  the Sun: A(3D) = 7.58 + (−0.127) ≈ 7.45". Both halves are wrong and the second is a
+  number reverse-engineered from a target rather than computed from the network. Run
+  against Amarsi's own solar inputs (Allende Prieto et al. 2002 Table 2, weak lines
+  REW < −4.9) the reactivated network gives, at Teff 5772 / logg 4.44 / vmic 1.0:
+      Fe I   A(1D LTE) 7.467 + (−0.002) = 7.465   [paper Table 6: 7.47 → 7.46]
+      Fe II  A(1D LTE) 7.405 + (+0.066) = 7.471   [paper Table 6: 7.41 → 7.47]
+  i.e. the SOLAR Fe I 3D-NLTE correction is ≈ 0.00 dex and the Fe II one is POSITIVE.
+  The correction is strongly Elo-dependent (r = +0.94) and only becomes large away from
+  the Sun. It cannot carry a 1D-LTE 7.58 to 7.46 and was never going to; that gap is a
+  gf zero-point matter (RYA-161), not a 3D-NLTE one. Reproduced by
+  `scripts/rya817_run_3dnlte_bands.py`, whose control asserts all four numbers.
 
 Ref: Amarsi et al. 2022, A&A 668, A68
      DOI: 10.1051/0004-6361/202244542
@@ -195,14 +212,26 @@ def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
 
 def _apply_aberr_to_line(ion: str, elo: float, eup: float, lggf: float,
                           a_1dlte_line: float,
-                          teff: float, logg: float, vmic: float) -> float:
+                          teff: float, logg: float, vmic: float,
+                          afe3n_axis: "float | None" = None) -> float:
     """
     Compute converged aberr for a single line using its own 1D LTE abundance
     as the A(Fe;3N) starting point.  Returns np.nan if out of grid.
+
+    RYA-817: `afe3n_axis` pins the grid's A(Fe;3N) axis to a value the caller has
+    already converged — the STAR's 3D non-LTE iron abundance — instead of iterating from
+    this line's own 1D LTE abundance. Both readings of the axis exist in the wild: the
+    vendor README describes a single stellar A(Fe;3N) iterated to convergence, while
+    this repo's per-line leg (RYA-207) starts each line from its own value. They differ
+    by however far a line's measured abundance sits from the star's, which for a
+    gf-limited line is a lot. The parameter is optional and defaults to None, so every
+    existing caller keeps the per-line behaviour exactly; RYA-817 reports both and says
+    which one each product used.
     """
-    afe3n = float(np.clip(a_1dlte_line, _GRID['afe'][0], _GRID['afe'][1]))
+    afe3n = float(np.clip(a_1dlte_line if afe3n_axis is None else afe3n_axis,
+                          _GRID['afe'][0], _GRID['afe'][1]))
     ab = np.nan
-    for _ in range(3):
+    for _ in range(1 if afe3n_axis is not None else 3):
         ab_new = _compute_aberr(ion, elo, eup, lggf, teff, logg, afe3n, vmic)
         if not np.isfinite(ab_new):
             break
