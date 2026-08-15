@@ -33,6 +33,14 @@ molecular opacity from either source.
 data file!` and aborts EVERY window in 3700–3780 Å; removing H I alone fixes it
 (one-variable test). All 51 are high-order Balmer members crowding the 3646 Å limit,
 which Stehle's tables do not cover. Hydrogen is not generally excluded — Hα/Hβ/Hγ come
-through the optical GES list and synthesise normally. **Consequence:** between the
-Balmer limit and ~3771 Å the merging Balmer series is a real opacity source this
-synthesis does not reproduce.
+through the optical GES list and synthesise normally.
+
+⚠️ **Consequence — CORRECTED.** This used to read "between the Balmer limit and ~3771 Å
+the merging Balmer series is a real opacity source this synthesis does not reproduce."
+**That is wrong and there is no hole.** iSpec appends Turbospectrum's own
+`DATA/Hlinedata` on every call and deliberately omits hydrogen from the atomic linelist;
+`Hlinedata` carries H 11–H 27 at 3666.095–3770.630 Å, the same members this extract
+carried. Our H I rows were redundant and malformed for `hydropac` (which needs the
+principal quantum numbers VALD does not give). Measured against Kitt Peak: H 13 and H 12
+windows at synth/obs **0.889** and **0.927** against a **1.050** control, with the
+observed atlas showing the same depression (0.36 vs 0.67). The band is fully usable.

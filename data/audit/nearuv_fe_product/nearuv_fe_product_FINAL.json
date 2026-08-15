@@ -1,0 +1,86 @@
+{
+  "ticket": "RYA-759",
+  "product": "Fe I near-UV 1D-LTE",
+  "value": 7.487,
+  "n_lines": 40,
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "instrument": "kpno_solar_atlas",
+  "engine": "Turbospectrum via iSpec",
+  "model_grid": "ATLAS9.Castelli",
+  "method": "flux-fit synthesis (_fit_synth_flux), blend-aware, LTE",
+  "resolving_power": 500000.0,
+  "reference_half_width_A": 0.4,
+  "uncertainty": {
+    "line_to_line_scatter_dex": 0.3543414000000005,
+    "statistical_sem_dex": 0.05602629466463946,
+    "systematic_window_dex": 0.03524999999999956,
+    "systematic_pseudo_continuum_dex": 0.1,
+    "systematic_total_dex": 0.10603095067007544,
+    "total_dex": 0.11992292605606727,
+    "note": "scatter is the SPREAD of per-line values and is the frontier result itself (RYA-777); the pseudo-continuum term does NOT average down."
+  },
+  "window_sweep": [
+    {
+      "half_width_A": 0.25,
+      "n": 40,
+      "median": 7.557499999999999,
+      "mad": 0.3765804
+    },
+    {
+      "half_width_A": 0.4,
+      "n": 40,
+      "median": 7.487,
+      "mad": 0.3543414000000005
+    },
+    {
+      "half_width_A": 0.6,
+      "n": 40,
+      "median": 7.5485,
+      "mad": 0.36620219999999915
+    }
+  ],
+  "window_sweep_spread_dex": 0.07049999999999912,
+  "window_sweep_note": "Non-monotonic across 0.25/0.40/0.60 A, so this is fit noise of amplitude 0.070 dex rather than a trend with window width. The production EW-keyed rule cannot run here: theoretical_ew is all zero in this list and no measured EW exists (profile fitting was falsified in this band), so the half-width is a forced choice and is reported as a systematic.",
+  "sub_bands": [
+    {
+      "lo_A": 3000,
+      "hi_A": 3300,
+      "n": 14,
+      "median": 7.508,
+      "mad": 0.755
+    },
+    {
+      "lo_A": 3300,
+      "hi_A": 3600,
+      "n": 13,
+      "median": 7.535,
+      "mad": 0.313
+    },
+    {
+      "lo_A": 3600,
+      "hi_A": 3780,
+      "n": 13,
+      "median": 7.406,
+      "mad": 0.236
+    }
+  ],
+  "gf_provenance": "canonical_gf.csv starts at 3780.0 A; this band starts at 3000.0 A, so canonical gf single-sourcing (RYA-353) is NOT available and the list's own VALD log gf is used as delivered. Per-line VALD gf SOURCES are recorded, but no canonical adjudication exists below 3780.0 A.",
+  "caveats": [
+    "GATE PASSES ON COMPENSATING ERRORS: the SynthesisHandler optical control is -0.0100 dex on abundance but 1.433 on EW ratio (MAD 0.359). Its own verdict: \"ABUNDANCE AGREES, EW DOES NOT ... Treat with MORE suspicion than a clean failure, because it looks like success.\" This number inherits that.",
+    "NO gf single-sourcing below 3780 A (canonical_gf.csv starts at 3780.04 A); VALD gf used as delivered, accuracy unadjudicated for 127 source tags.",
+    "NO molecular opacity in-band from either source (VALD has no isotopologue code; iSpec molecular lists start at 400 nm).",
+    "Pseudo-continuum systematic 0.1 dex does NOT average down and is NOT in the scatter above.",
+    "No measured EW exists in this band, so the production EW-keyed window rule cannot apply; half-width is fixed and must be swept.",
+    "LTE only. UV Fe I is heavily over-ionized, so the missing NLTE correction is large and POSITIVE -- a low value here is expected physics, not a bug."
+  ],
+  "validation_status": {
+    "same_regime_literature": "OWED \u2014 not compared",
+    "why": "RYA-777 ratified that IR/near-UV validate against SAME-REGIME published measurements, never the optical anchor. No near-UV solar Fe literature is staged in this repo, so that comparison is OWED and is recorded as owed rather than substituted with the optical value.",
+    "optical_1D_reference_A_Fe": 7.516,
+    "optical_comparison_is": "a REPORTED cross-band difference, NOT a validation. The gold 7.466 is on the 3D scale; the 1D reference is 7.516 (RYA-669 ratchet), and this product is 1D.",
+    "near_uv_minus_optical_1D_dex": -0.029
+  }
+}

@@ -58,10 +58,13 @@ OUT = ROOT / "data" / "audit" / "nearuv_synth"
 # systematic (0.10 dex, error_budget.py) exists because nothing in this band is
 # truly isolated.
 #
-# All three sit BELOW 3640 A, deliberately. Between the Balmer limit (3646 A) and
-# ~3771 A the merging high-n Balmer series is a real opacity source that this
-# synthesis cannot reproduce (see ENGINE_REJECTED_SPECIES in pipeline/nearuv_linelist),
-# so a probe there would be measuring a continuum we know is wrong.
+# All three sit BELOW 3640 A. That was originally done because the merging high-n Balmer
+# series was believed unreproduced between 3646 and ~3771 A. ⚠️ THAT BELIEF WAS WRONG
+# (RYA-759): iSpec supplies Turbospectrum's own DATA/Hlinedata on every call, so hydrogen
+# IS synthesised there — H 13 / H 12 windows come out at synth/obs 0.889 / 0.927 against a
+# 1.050 control, with the observed atlas showing the same depression. The probes stay
+# where they are (they are a fixed reference set), but the region above 3646 A is NOT
+# excluded from measurement: the near-UV Fe product runs the full 3000-3780 A.
 PROBE_WINDOWS = [
     (3562.593, "Fe I 3562.593"),
     (3486.551, "Fe I 3486.551"),
