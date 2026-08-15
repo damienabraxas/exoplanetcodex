@@ -535,3 +535,50 @@ artifacts:
       systematic bucket -- 66 lines whose gf VALUE is confirmed against a named non-K07
       reference but which cannot be graded while NIST ASD is down (a recoverable debt),
       versus 155 with no reference tie at all (a genuine measurement gap).
+
+  # ── RYA-824 — the primary-lab-gf Fe sub-pool ───────────────────────────────────────
+  #
+  # The finding these artifacts carry is not the sub-pool value. It is that 18 of the 29
+  # lab-covered lines were ALREADY on the lab gf: `_load_synth_resources` defaults to
+  # apply_canonical_gf=True (RYA-353), so the production synth list already holds whatever
+  # canonical_gf holds. The K14 numbers live in the pools' `log_gf` COLUMN, which does not
+  # describe the gf the inversion used -- which corrects RYA-799's diagnosis.
+
+  - artifact: rya824/rya824_lab_gf_census.csv
+    generator: scripts/rya824_lab_gf_subpool.py
+    invocation: python3 scripts/rya824_lab_gf_subpool.py --pool-dir <RYA-783 band_products> --census-only
+    ticket: RYA-824
+    note: >-
+      Every measured Fe line with a primary laboratory gf, per band, with the lab source
+      and its stated per-line sigma. 29 re-measurable Fe I lines (20 IR, 9 VIS). The zeros
+      are in here too and each was checked: Fe II has no primary-lab table (Melendez &
+      Barbuy 2009 is a DIFFERENT tier -- multiplets lab-normalised, branching from theory),
+      and the near-UV measured set is disjoint from the near-UV lab set (closest approach
+      0.0651 A against an IR positive control of 0.0000 A).
+  - artifact: rya824/rya824_lab_gf_per_line.csv
+    generator: scripts/rya824_lab_gf_subpool.py
+    invocation: python3 scripts/rya824_lab_gf_subpool.py --pool-dir <RYA-783 band_products>
+    ticket: RYA-824
+    note: >-
+      Each line inverted TWICE through the production core -- once with the line list
+      untouched, once with the lab gf substituted -- so the difference is attributable to
+      the gf and nothing else. The control column reproduces the banked RYA-783 abundance
+      to 0.0000 dex on all 29, which is what makes the second number readable. 18 rows
+      carry d_A exactly 0.000 (already on lab gf); the 11 that move have sensitivity
+      dA/d(log gf) = -0.549 against a weak-line limit of -1.000, because at 35-89 mA they
+      sit on the flat part of the curve of growth.
+  - artifact: rya824/rya824_lab_gf_products.csv
+    generator: scripts/rya824_lab_gf_subpool.py
+    invocation: python3 scripts/rya824_lab_gf_subpool.py --pool-dir <RYA-783 band_products>
+    ticket: RYA-824
+    note: >-
+      The PRIMARY-LAB-GF sub-pool beside the production pool, per band, never merged
+      (RYA-712). IR 7.542 -> 7.516 with the gf systematic 0.200 -> 0.052; VIS 7.445 ->
+      7.445 with 0.200 -> 0.060. The lever is the ERROR BAR (factor ~3.5), not the value.
+  - artifact: rya824/rya824_summary.json
+    generator: scripts/rya824_lab_gf_subpool.py
+    invocation: python3 scripts/rya824_lab_gf_subpool.py --pool-dir <RYA-783 band_products>
+    ticket: RYA-824
+    note: >-
+      Run record: the control residual, the already-lab vs genuinely-changed split, the
+      median d(log gf) and d(A), and both pools per band.
