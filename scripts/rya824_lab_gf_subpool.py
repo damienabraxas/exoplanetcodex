@@ -174,6 +174,9 @@ def main(argv=None) -> int:
     ap.add_argument("--pool-dir", type=Path, required=True,
                     help="directory holding the RYA-783 per-line pools (Sirius)")
     ap.add_argument("--out", type=Path, default=OUT_DEFAULT)
+    ap.add_argument("--tmp-dir", type=Path,
+                    default=Path("/tmp/ispec_rya824_synth"),
+                    help="private Turbospectrum scratch (never the shared default)")
     ap.add_argument("--census-only", action="store_true",
                     help="emit the census and the first-order prediction; no synthesis")
     args = ap.parse_args(argv)
@@ -196,7 +199,7 @@ def main(argv=None) -> int:
     print("\nCENSUS — measured Fe lines that have a primary lab gf.")
     print("  EVERY pool is listed, including the zeros: a band absent from this table "
           "would read\n  as 'not looked at' rather than 'looked at, nothing there'.")
-    print(f"  {"band":<9}{"ion":<5}{"lines":>7}{"usable":>8}{"derivable":>13}"
+    print(f"  {'band':<9}{'ion':<5}{'lines':>7}{'usable':>8}{'derivable':>13}"
           f"{'median d(log gf)':>18}{'lab sigma':>12}")
     for band, ion, fname, derivable in POOLS:
         g = c[(c.band == band) & (c.ion == ion)]
@@ -245,7 +248,13 @@ def main(argv=None) -> int:
     kw0 = dict(atmosphere=ctx["atmosphere"], teff=ctx["teff"], logg=ctx["logg"],
                feh=ctx["feh"], vturb=ctx["vturb"], isotopes=ctx["isotopes"],
                solar_abund=ctx["solar_abund"], element="Fe",
-               atom_code=ctx["atom_code"])
+               atom_code=ctx["atom_code"],
+               # PRIVATE scratch. `_bisect_synth_abundance` defaults to a SHARED
+               # /tmp/ispec_codex_synth, so two synthesis jobs at once read each other's
+               # Turbospectrum working files -- the RYA-785 stale-workdir class of
+               # defect, and this run inverts every line twice, which is exactly the
+               # shape that would silently reuse a neighbour's scratch.
+               tmp_dir=str(args.tmp_dir))
 
     print(f"\nRE-MEASURING {len(usable)} lines — each inverted TWICE "
           f"(control on K14, then on lab gf)")
