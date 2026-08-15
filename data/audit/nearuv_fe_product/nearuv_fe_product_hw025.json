@@ -1,0 +1,40 @@
+{
+  "ticket": "RYA-759",
+  "product": "Fe I near-UV 1D-LTE",
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "instrument": "kpno_solar_atlas",
+  "engine": "Turbospectrum via iSpec",
+  "model_grid": "ATLAS9.Castelli",
+  "method": "flux-fit synthesis (_fit_synth_flux), blend-aware, LTE",
+  "resolving_power": 500000.0,
+  "half_width_mode": "constant +/-0.25 A (no EW exists to key the production rule)",
+  "gf_provenance": "canonical_gf.csv starts at 3780.0 A; this band starts at 3000.0 A, so canonical gf single-sourcing (RYA-353) is NOT available and the list's own VALD log gf is used as delivered. Per-line VALD gf SOURCES are recorded, but no canonical adjudication exists below 3780.0 A.",
+  "pseudo_continuum_systematic_dex": 0.1,
+  "all_converged": {
+    "n": 40,
+    "median": 7.557499999999999,
+    "mad": 0.3765804,
+    "sem": 0.05954258930886361
+  },
+  "continuum_clean": {
+    "n": 37,
+    "median": 7.531,
+    "mad": 0.42402360000000067,
+    "sem": 0.069709050433572
+  },
+  "n_attempted": 40,
+  "status_counts": {
+    "ok": 40
+  },
+  "caveats": [
+    "GATE PASSES ON COMPENSATING ERRORS: the SynthesisHandler optical control is -0.0100 dex on abundance but 1.433 on EW ratio (MAD 0.359). Its own verdict: \"ABUNDANCE AGREES, EW DOES NOT ... Treat with MORE suspicion than a clean failure, because it looks like success.\" This number inherits that.",
+    "NO gf single-sourcing below 3780 A (canonical_gf.csv starts at 3780.04 A); VALD gf used as delivered, accuracy unadjudicated for 127 source tags.",
+    "NO molecular opacity in-band from either source (VALD has no isotopologue code; iSpec molecular lists start at 400 nm).",
+    "Pseudo-continuum systematic 0.1 dex does NOT average down and is NOT in the scatter above.",
+    "No measured EW exists in this band, so the production EW-keyed window rule cannot apply; half-width is fixed and must be swept.",
+    "LTE only. UV Fe I is heavily over-ionized, so the missing NLTE correction is large and POSITIVE -- a low value here is expected physics, not a bug."
+  ]
+}
