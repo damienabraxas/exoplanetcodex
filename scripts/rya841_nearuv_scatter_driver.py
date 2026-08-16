@@ -294,6 +294,51 @@ def saturation_split(d: pd.DataFrame, *, seed: int = 0, n_boot: int = 20000) -> 
     return out
 
 
+#: RYA-759's sub-band split, reused so the two analyses are directly comparable.
+SUB_BANDS = ((3000, 3300), (3300, 3600), (3600, 3780))
+
+
+def wavelength_profile(frames: dict[str, pd.DataFrame]) -> dict:
+    """Do the pools differ in WHERE their lines are, and do they scatter alike there?
+
+    RYA-759 found the near-UV scatter worsens steeply blueward, which makes an uneven
+    wavelength distribution the obvious candidate for the pool difference. It is checked
+    here rather than assumed, and the per-bin comparison is the part that matters: if the
+    pools scattered alike bin by bin, the difference would be distribution alone.
+    """
+    out = {'pools': {}, 'bins': []}
+    print('\n=== wavelength distribution ===')
+    print('  pool        n   median_A   frac<3300   scatter')
+    for name, d in frames.items():
+        d = d[np.isfinite(d.a_synth)]
+        out['pools'][name] = {
+            'n': int(len(d)), 'median_wave_A': float(d.wave_A.median()),
+            'frac_below_3300': float((d.wave_A < 3300).mean()),
+            'scatter': float(d.a_synth.std(ddof=1)),
+        }
+        print(f'  {name:10s} {len(d):3d}   {d.wave_A.median():7.1f}   '
+              f'{(d.wave_A < 3300).mean():8.2f}   {d.a_synth.std(ddof=1):.3f}')
+
+    print('\n  scatter in MATCHED wavelength bins:')
+    hdr = '  bin           ' + '  '.join(f'{n:>16s}' for n in frames)
+    print(hdr)
+    for lo, hi in SUB_BANDS:
+        rec = {'lo_A': lo, 'hi_A': hi}
+        cells = []
+        for name, d in frames.items():
+            sub = d[(d.wave_A >= lo) & (d.wave_A < hi) & np.isfinite(d.a_synth)]
+            if len(sub) > 2:
+                sc = float(sub.a_synth.std(ddof=1))
+                rec[name] = {'n': int(len(sub)), 'scatter': sc}
+                cells.append(f'n={len(sub):3d} s={sc:.3f}')
+            else:
+                rec[name] = {'n': int(len(sub)), 'scatter': None}
+                cells.append(f'n={len(sub):3d}   --   ')
+        out['bins'].append(rec)
+        print(f'  {lo}-{hi}  ' + '  '.join(f'{c:>16s}' for c in cells))
+    return out
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -358,6 +403,8 @@ def main() -> None:
             print(f'  too few to quote a scatter — which is itself the answer 836 '
                   f'predicted: the labs and the clean-line criterion barely overlap.')
 
+    wl = wavelength_profile({d.pool.iloc[0]: d for d in frames}) if frames else {}
+
     allrows = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
     allrows.to_csv(PER_LINE, index=False)
 
@@ -376,6 +423,7 @@ def main() -> None:
                      'clear the fit window of blends.'),
         },
         'pools': pools,
+        'wavelength_profile': wl,
         'lab_and_selected_overlap': overlap,
         'dominance_floor_declared': DOMINANCE_FLOOR,
         'note': ('depth_frac = own theoretical depth / total theoretical depth in the fit '
