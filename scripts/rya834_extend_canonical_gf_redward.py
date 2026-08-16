@@ -61,7 +61,13 @@ NIST = ROOT / 'data' / 'linelists' / 'primary_gf' / 'nist_asd_FeI_9199_12935.tsv
 OUT_AUDIT = ROOT / 'data' / 'audit' / 'rya834_redward_gf'
 
 BAND_LO_A = 9199.90
-BAND_HI_A = 12935.0
+#: The 762 BAND tops out at 12935 A, but the synthesis loads the whole LINELIST, which
+#: runs to 12976.14 A. `apply_to_synth_array` resolves every line it loads, so a table cut
+#: at the band edge dies on the first line past it -- measured, not predicted:
+#:     GfResolutionError: no canonical gf for (24, 1) at 12937.0190 EP=2.7099 -- 0-match
+#: 17 rows (Mn 15, Cr 1, Si 1) live in 12937.02-12976.14 A. This is RYA-822's "cover the
+#: BAND, not one element in it" lesson applied to WAVELENGTH rather than species (RYA-837).
+BAND_HI_A = 12977.0
 
 #: Tolerances. Reported by `--scan-tol` rather than asserted: the real matches cluster far
 #: tighter than the false ones, and these sit in the gap between the two populations.
@@ -211,6 +217,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--apply', action='store_true', help='write canonical_gf.csv')
     ap.add_argument('--null-trials', type=int, default=20)
+    ap.add_argument('--hi-A', type=float, default=None,
+                    help='override the redward extent (default: the linelist top, so the '
+                         'table covers everything the synthesis LOADS)')
     ap.add_argument('--scan-tol', action='store_true',
                     help='report match counts across tolerances instead of asserting one')
     a = ap.parse_args()

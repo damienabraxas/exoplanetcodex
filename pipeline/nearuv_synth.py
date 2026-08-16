@@ -71,8 +71,8 @@ _CANONICAL_GF_CSV = ROOT / 'data' / 'linelists' / 'canonical_gf.csv'
 _blue_edge_cache: dict = {}
 
 
-def canonical_gf_blue_edge_A() -> float:
-    """The bluest wavelength canonical_gf.csv actually covers. Cached; fails loud."""
+def _canonical_gf_edges_A() -> tuple[float, float]:
+    """(bluest, reddest) wavelength canonical_gf.csv actually covers. Cached; fails loud."""
     if 'v' not in _blue_edge_cache:
         if not _CANONICAL_GF_CSV.exists():
             raise NearUVSynthesisError(
@@ -80,8 +80,27 @@ def canonical_gf_blue_edge_A() -> float:
                 f"its coverage. gf single-sourcing status cannot be stated.")
         import pandas as _pd
         w = _pd.read_csv(_CANONICAL_GF_CSV, usecols=['wavelength_air_A'])
-        _blue_edge_cache['v'] = float(w['wavelength_air_A'].min())
+        _blue_edge_cache['v'] = (float(w['wavelength_air_A'].min()),
+                                 float(w['wavelength_air_A'].max()))
     return _blue_edge_cache['v']
+
+
+def canonical_gf_blue_edge_A() -> float:
+    """The bluest wavelength canonical_gf.csv actually covers."""
+    return _canonical_gf_edges_A()[0]
+
+
+def canonical_gf_red_edge_A() -> float:
+    """The reddest wavelength canonical_gf.csv actually covers — RYA-837.
+
+    The table has TWO edges and `gf_provenance` only ever tested one. That was safe
+    while every synthesis band lay blueward of the red edge, and stopped being safe the
+    moment RYA-834 opened the 9199.9-12934.67 A band: a band past the red edge would
+    have been told "canonical gf single-sourcing applied" while the resolver had nothing
+    to give it. An unchecked edge is not a missing feature, it is a false provenance
+    claim waiting for the first band that crosses it.
+    """
+    return _canonical_gf_edges_A()[1]
 
 
 #: iSpec returns exactly 1e-10 at the FIRST and LAST pixel of every synthesis window.
@@ -224,6 +243,7 @@ def gf_provenance(lo_A: float, hi_A: float) -> dict:
     so the reason travels into the run's provenance rather than living in a comment.
     """
     edge = canonical_gf_blue_edge_A()
+    red = canonical_gf_red_edge_A()
     # The band bound is NOMINAL (3000.0); the table's coverage is defined by the lines it
     # actually contains, whose bluest is 3000.003. Comparing the two exactly would report
     # "no canonical adjudication" for a 0.003 A gap that contains no lines at all. The
@@ -239,9 +259,19 @@ def gf_provenance(lo_A: float, hi_A: float) -> dict:
                   f"adjudication exists below {edge:.1f} A.")
         trace_fallback('canonical_gf_unavailable', detail, severity='WARN',
                        lo_A=lo_A, canonical_lo_A=edge)
-    else:
+    # RYA-837: the RED edge, which this function never tested. Symmetric to `below`, and
+    # it matters now that RYA-834 has opened a 9199.9-12934.67 A synthesis band.
+    above = hi_A > red + _NOMINAL_EDGE_TOL_A
+    if above:
+        detail = (f"canonical_gf.csv ends at {red:.1f} A; this band runs to "
+                  f"{hi_A:.1f} A, so canonical gf single-sourcing (RYA-353) is NOT "
+                  f"available across it and the list's own VALD log gf is used as "
+                  f"delivered above {red:.1f} A.")
+        trace_fallback('canonical_gf_unavailable', detail, severity='WARN',
+                       hi_A=hi_A, canonical_hi_A=red)
+    elif not below:
         detail = "canonical gf single-sourcing (RYA-353) applied"
-    return {'apply_canonical_gf': not below, 'detail': detail}
+    return {'apply_canonical_gf': not (below or above), 'detail': detail}
 
 
 def build_solar_context(element: str, resolving_power: float, *,
