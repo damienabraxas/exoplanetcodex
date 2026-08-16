@@ -129,8 +129,10 @@ def spearman(x: np.ndarray, y: np.ndarray) -> tuple[float, int]:
     m = np.isfinite(x) & np.isfinite(y)
     if m.sum() < 5:
         return np.nan, int(m.sum())
-    rx = pd.Series(x[m]).rank().to_numpy()
-    ry = pd.Series(y[m]).rank().to_numpy()
+    # .to_numpy() returns a READ-ONLY view under pandas 3, so the in-place centring below
+    # raises rather than silently doing nothing. Copy explicitly.
+    rx = np.array(pd.Series(x[m]).rank(), dtype=float)
+    ry = np.array(pd.Series(y[m]).rank(), dtype=float)
     rx -= rx.mean()
     ry -= ry.mean()
     den = np.sqrt((rx ** 2).sum() * (ry ** 2).sum())
