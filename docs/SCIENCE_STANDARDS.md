@@ -759,3 +759,174 @@ route, and the reason the previous route was believed dead).
 the narrative docs, and it accumulates there for the sync pass rather than being applied
 piecemeal — per RYA-777/817, which added their standards here and left the narrative
 propagation to 179.
+
+
+## Line selection dominates gf — gf buys a tighter BAR, not a different value — RYA-842
+
+Ratified by Ryan, 2026-08-16, after **five Fe/Al frontier tickets independently converged on
+the same shape**. Unlike most entries here this one is *descriptive of current evidence*
+rather than a rule, and it carries its own expiry — see the caveat at the end.
+
+### The finding, verbatim
+
+> **LINE SELECTION DOMINATES GF.** Across five Fe/Al frontier results, which lines enter the
+> pool is first-order on the abundance VALUE and its line-to-line SCATTER; oscillator-strength
+> work (grading, lab-gf re-pool) is first-order only on the reported error BAR. gf work buys a
+> defensible, tighter uncertainty — it does NOT change the value or the spread.
+> **Corollary for effort allocation:** when the goal is a different value or a smaller
+> scatter, scrutinize line selection FIRST (depth cuts, blend rejection, EP range,
+> saturation); reach for gf only to justify the error bar. Do not expect grading or lab-gf to
+> move a value it cannot move (RYA-799/822 null results). This is descriptive of the current
+> Fe/Al evidence — treat it as a prior to be re-checked per element, not an absolute
+> (absence-of-evidence rule, RYA-833).
+
+### The evidence base — five results, read from the committed artifacts
+
+| # | ticket | what was changed | effect on VALUE | effect on SCATTER | effect on the BAR |
+|---|---|---|---|---|---|
+| 1 | RYA-817 | Fe VIS 7.586→7.466 decomposed | line selection **−0.097 / −0.141** | — | gf only **−0.026 / 0.000** |
+| 2 | RYA-799 | graded the IR pool | **null** | **null** | grading alone, no σ gain |
+| 3 | RYA-824 | swapped in primary lab gf | −0.026 IR, **0.000 VIS** | −0.009 IR, +0.007 VIS | **σ 0.200 → 0.052 / 0.060** |
+| 4 | RYA-822 | graded the near-UV pool | 7.487 → **7.488** | 0.354 → **0.355** | — |
+| 5 | RYA-836 | swapped in primary lab gf | 7.594 → 7.577 | 0.6513 → **0.6523** | tighter systematic |
+
+**RYA-836 is the cleanest single demonstration**, because it varies both things in one run:
+
+* changing the **gf** on the same 60 lines moved the scatter by **+0.001** (0.6513 → 0.6523)
+  and the median per-line abundance by **exactly 0.000**, on a median Δlog gf of −0.026;
+* changing the **line set** — the 61-line lab sub-pool against RYA-832's 40-line full pool —
+  moved the scatter from **0.651 to 0.413**, a **0.238** difference.
+
+Two hundred times the effect, from the axis nobody was working on.
+
+RYA-824 shows the same asymmetry from the other side: a median Δlog gf of **+0.170** moved
+the IR value by **−0.026** and the VIS value by **0.000**, while the gf systematic collapsed
+from the blanket **0.200** to **0.052** (IR) and **0.060** (VIS). That is the entire return on
+lab-gf work, and it is a real return — it is simply not the one people expect.
+
+### Why this is worth writing down
+
+Because the intuition runs the other way. "Bad oscillator strengths" is the reflexive
+explanation for a discrepant abundance or a wide scatter, and it is a *plausible* mechanism —
+which is exactly why it needs measuring rather than assuming. Four separate tickets spent
+real effort on gf before the pattern was visible, and two of them (RYA-799, RYA-822) returned
+clean nulls that only read as *results* once this shape was named.
+
+The corollary is about **where to look first**, not about gf being unimportant:
+
+* a **different value** or a **smaller spread** → interrogate the pool. Depth cuts, blend
+  rejection, EP range, saturation, and which band the lines come from.
+* a **defensible error bar** → gf. It is the right tool, and RYA-824's 0.200 → 0.052 is what
+  winning looks like.
+
+### ⚠️ This is a PRIOR, not a law — and it expires
+
+Five results, on two elements, both in regimes where the pool is Kurucz-floored. That is
+enough to reorder effort; it is **not** enough to conclude gf can never move a value. A
+species whose lines are few, strong and gf-discordant could behave completely differently,
+and the honest expectation is that some will.
+
+So it is re-checked per element, not assumed — the same discipline as the absence-of-evidence
+rule (RYA-833), of which this is the empirical companion. Both are what this session learned
+about its own reasoning: RYA-833 about how we *state* things, this about where the error
+actually *lives*. Neither licenses skipping the measurement.
+
+### Propagation
+
+**Flagged for RYA-179** — specifically the **uncertainty-breakdown section** of the
+methodology doc, which this is the guide for: gf-floor vs lab-sub-pool vs line-selection vs
+continuum, and which of those is worth spending on for a given goal. It accumulates there for
+the sync pass rather than being applied piecemeal, per the RYA-777/817/833 precedent.
+
+
+## Non-physical lines are EXCLUDED, not averaged in — the appendix carries the proof — RYA-844
+
+Ratified by Ryan, 2026-08-16. This codifies a principle whose **mechanism already exists** —
+it builds nothing. The implementation is named below so the rule and the code cannot drift.
+
+### The standard, verbatim
+
+> **NON-PHYSICAL LINES ARE EXCLUDED, NOT AVERAGED IN.** A line that is a ghost, a bad blend,
+> a rail-fit (the fitter runs to the search bound), or otherwise non-physical is EXCLUDED
+> from the reported pool — a bad line must not drag down the good ones. REQUIREMENTS:
+> (1) Exclusion requires a STATED PHYSICAL REASON recorded per-line in
+> `problem_children.csv` (required_treatment=exclude, carry-with-reason; RYA-807/809/711).
+> (2) The APPENDIX CARRIES THE BURDEN OF PROOF: every excluded line is named in Appendix A
+> with its physical cause and measured evidence (RYA-707), so the exclusion is transparent
+> and peer-reviewable. (3) FIREWALL (RYA-161): exclude for a physical cause, NEVER because
+> the line disagrees with the expected value. THE TEST: could a skeptic re-run your
+> exclusions from your stated physical reasons alone and get the same set? If reproducing
+> the cut requires knowing the answer you wanted, it is tuning, not selection. Excluding for
+> inconvenience is the single most undetectable RYA-161 violation — the appendix is the
+> defense.
+
+### Why this needs a guardrail at all
+
+It is one word from tuning. "Exclude the non-physical lines" and "exclude the lines I don't
+like" produce the same diff, and **the second is undetectable in the output** — a cleaner
+pool with a tighter scatter looks like better work either way. Nothing downstream can tell
+them apart. Only the stated reason can, which is why the reason is mandatory and why the
+appendix exists.
+
+This matters more since RYA-842, not less: line selection is now known to be **first-order
+on the value and the scatter** while gf work moves only the error bar. The most powerful
+lever we have is therefore also the one most exposed to unfalsifiable judgement. **A
+dominant lever demands a reproducible rule.**
+
+### The implementation — already built, do not rebuild it
+
+| piece | where | what it does |
+|---|---|---|
+| the registry | `data/registry/problem_children.csv` | 44 rows; per-line `problem_class`, `required_treatment`, `status`, `governing_tickets`, `notes` |
+| the decision | `pipeline.problem_children.aggregate_action` | maps a registered line to `exclude` / `flag` / `none` |
+| the wiring | `derive_band_products` / `pipeline.band_products` (RYA-807) | carries `problem_class`/`status`/`tickets`/`action` onto every line |
+| the proof | Appendix A (RYA-707) | names each excluded line with cause and measured evidence |
+| the vocabulary | RYA-711 | a grade names its subject, so an exclusion reason cannot be mistaken for a quality score |
+| blend vetting | RYA-208 / RYA-395 | the upstream cull that catches most of it before this stage |
+
+### 🔴 The discriminator is `status`, NOT `required_treatment`
+
+This is the part that makes the firewall real, and it is easy to get backwards:
+
+* `exclude` **+ `active`** → **EXCLUDE** from the aggregate. Diagnosed and actionable.
+* anything **+ `owed`** → **KEEP and FLAG**. Visible, counted, never quietly removed.
+* `resolved` / `predicted` → no action.
+* a non-`exclude` treatment (`synthesis`, `HFS_sum`, `NLTE_grid`, …) → **FLAG, never
+  exclude** — those say *measure it differently*, not *drop it*.
+
+`required_treatment` says what should be done once the cause is known; `status` says whether
+it **is** known. A line can legitimately be both "should come out" and "we have not
+established why", and those are independent facts. **Excluding on an undiagnosed cause is
+tuning** — it removes the lines that disagree while the reason is still a hypothesis. As of
+2026-08-16 the registry holds 9 `exclude` rows and all 9 are `active`; the rule is what
+guarantees that an `owed` one could not silently join them.
+
+### The skeptic test, operationally
+
+Before an exclusion ships, ask what a reviewer would have to know to reproduce it:
+
+1. **Reason first, effect second.** The physical cause is established, written down, and
+   dated *before* the aggregate is recomputed. If the sequence ran the other way — saw the
+   outlier, then found a reason — say so explicitly; that is not automatically wrong, but it
+   is a different epistemic object and it belongs in the appendix as such.
+2. **Would the rule catch a line that agrees?** A cut that only ever removes discrepant
+   lines is a tuning rule wearing a physical costume. A genuine ghost/blend/rail criterion
+   is blind to the answer and will sometimes remove a line that was sitting comfortably on
+   the mean.
+3. **Count what you removed and publish it.** An exclusion that moves the value materially
+   and is not in the appendix is indistinguishable from tuning, whatever its reason was.
+
+### Relationship to the rest
+
+* **RYA-161** is the firewall this enforces; this is its most exposed surface.
+* **RYA-842** is why it matters: line selection dominates the value and the scatter, so *how*
+  we select must be beyond reproach.
+* **RYA-833** applies to the reasons themselves — "this line is a ghost" is a claim that
+  needs a dated check, not an assertion.
+* **RYA-777** bounds the ambition: exclude for physics or provenance, **never** to shrink a
+  bar. A frontier band is allowed to be wide.
+
+### Propagation
+
+**Flagged for RYA-179** — the line-selection and appendix sections of the methodology doc.
+Accumulates there for the sync pass rather than piecemeal, per RYA-777/817/833/842.
