@@ -606,3 +606,27 @@ artifacts:
     note: >-
       Run record: the control residual, the already-lab vs genuinely-changed split, the
       median d(log gf) and d(A), and both pools per band.
+
+  # ── RYA-825 — the log_gf column reports the gf the inversion actually used ─────────
+  - artifact: rya825/rya825_pool_gf_corrected.csv
+    generator: scripts/rya825_reverify_scale_mismatch.py
+    invocation: python3 scripts/rya825_reverify_scale_mismatch.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>
+    ticket: RYA-825
+    note: >-
+      The 271-line Fe I IR pool with the CORRECTED gf attached per line: log_gf_used (what
+      the inversion actually used, resolved via canonical_gf per RYA-353), log_gf_intake
+      (what the linelist said, preserved) and gf_canonical (whether the resolver reached
+      the line). Exists because the *_PASS.csv writer is NOT in this repo -- the pool is a
+      gitignored artifact no committed script produces -- so an existing pool has to be
+      corrected in place rather than regenerated.
+  - artifact: rya825/rya825_reverification.json
+    generator: scripts/rya825_reverify_scale_mismatch.py
+    invocation: python3 scripts/rya825_reverify_scale_mismatch.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>
+    ticket: RYA-825
+    note: >-
+      RYA-799's SCALE-MISMATCH set re-derived on the corrected column, by running the SAME
+      grading code twice and changing only the gf it is told the pool used. Of the 48: 11
+      GENUINE, 37 pure metadata artifacts. Graded lines go 2 -> 25 (Ruffoni 15, Den Hartog
+      10) and pool RMS sigma 0.1993 -> 0.1911 dex. No abundance moved: the accounting
+      log_gf is carried and never computed with, and the single consumer that reads it is
+      gf_grades.py, whose verdicts are exactly what this file re-derives.
