@@ -70,7 +70,11 @@ from rya759_nearuv_synth import _kp_segments, _load_kp_window  # noqa: E402
 LO_A, HI_A = 3000.0, 3780.0
 
 #: RYA-841, measured over 200 fits on a +/-4% grid. Quoted, never re-derived here.
-LEVER_DEX_PER_UNIT_DELTA = 2.42
+#: 🔴 The headline uses the LINEAR-ONLY lever. 12 of the 40 lines have no derivative at all
+#: (r^2 <= 0.98, several with the physically impossible sign), and averaging a slope over
+#: lines that have no slope is not a measurement. See rya846_nonlinear_responders.py.
+LEVER_ALL_LINES = 2.42
+LEVER_DEX_PER_UNIT_DELTA = 2.54          # the 28 lines where a derivative exists
 LEVER_P16, LEVER_P84 = 0.9076, 4.6776
 
 #: The value under test. Never used in a computation, only in the comparison.
