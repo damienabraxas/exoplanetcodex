@@ -64,6 +64,22 @@ SIGMA_MIN, SIGMA_MAX = 0.0, 0.5
 #: Below this the substituted gf IS the value already in the list — the "already on lab"
 #: case, which is a no-op fit and must be counted as such rather than as a change.
 LOGGF_SAME_TOL = 1e-3
+#: A LINE-IDENTIFICATION SCREEN, not a quality cut, and the distinction matters.
+#:
+#: A primary lab sigma in this band is <=0.12 dex and a Kurucz semi-empirical gf is good
+#: to perhaps 0.2-0.3. So lab and production disagreeing by a whole dex is far outside any
+#: combination of the two uncertainties: it is much more likely that the lab line and the
+#: line list line are DIFFERENT TRANSITIONS that happen to agree in wavelength and
+#: excitation potential to within the match tolerance. Substituting there would not be
+#: adopting a better oscillator strength, it would be putting one line's gf on another
+#: line -- the RYA-785 "a same-species neighbour does not cancel" failure.
+#:
+#: 1.0 dex is chosen as the smallest round number outside that combined-uncertainty
+#: envelope, BEFORE looking at what it excludes, and flagged lines are CARRIED and
+#: reported rather than dropped (RYA-711 quarantine-not-cull). The sub-pool is reported
+#: both ways so the leverage of the screen is visible instead of asserted.
+PROBABLE_MISID_DEX = 1.0
+
 #: RYA-759 / RYA-832: the near-UV product's route parameters. Imported in spirit; the
 #: functions themselves are imported literally below.
 HALF_WIDTH_A = 0.40
@@ -83,6 +99,11 @@ def census() -> pd.DataFrame:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--from-per-line", type=Path, default=None,
+                    help="rebuild the products/report from a saved per-line CSV without "
+                         "re-fitting (122 Turbospectrum fits is ~2 h). The screen is "
+                         "applied at AGGREGATION, so a re-report is exact, not an "
+                         "approximation of a rerun.")
     ap.add_argument("--census-only", action="store_true",
                     help="emit the census; no synthesis (runs anywhere)")
     ap.add_argument("--out", type=Path, default=OUT_DEFAULT)
@@ -116,6 +137,39 @@ def main(argv=None) -> int:
         print(f"\n[--census-only] no synthesis. wrote "
               f"{args.out}/rya836_nearuv_lab_census.csv")
         return 0
+
+    if args.from_per_line is not None:
+        res = pd.read_csv(args.from_per_line)
+        ctrl_lines, lab_lines_lm = [], []
+        for r in res.itertuples():
+            misid = bool(getattr(r, "probable_misid", False)) or (
+                np.isfinite(getattr(r, "d_loggf", np.nan))
+                and abs(float(r.d_loggf)) >= PROBABLE_MISID_DEX)
+            for col, bucket, treat in (("a_control", ctrl_lines, "1D-LTE"),
+                                       ("a_labgf", lab_lines_lm, "1D-LTE-LABGF")):
+                a_x = float(getattr(r, col, np.nan))
+                lm = LineMeasurement(
+                    element="Fe", ion="I", wavelength_air_A=float(r.wavelength_air_A),
+                    instrument=args.instrument, ew_mA=float("nan"),
+                    ew_method=f"synthesis flux-fit, fixed half-width "
+                              f"+/-{HALF_WIDTH_A} A (RYA-759 route)",
+                    abundance=(a_x if np.isfinite(a_x) else None),
+                    treatment=treat, ew_inversion=False)
+                if lm.abundance is None:
+                    lm.in_aggregate = False
+                    lm.excluded_reason = "SYNTHESIS: fit did not converge"
+                elif misid and treat == "1D-LTE-LABGF":
+                    lm.in_aggregate = False
+                    lm.excluded_reason = (
+                        f"PROBABLE-MISIDENTIFICATION: |d(log gf)| "
+                        f"{abs(float(r.d_loggf)):.3f} dex >= the "
+                        f"{PROBABLE_MISID_DEX} dex screen")
+                bucket.append(lm)
+        if "probable_misid" not in res.columns:
+            res["probable_misid"] = [
+                bool(np.isfinite(d) and abs(d) >= PROBABLE_MISID_DEX)
+                for d in res.get("d_loggf", pd.Series([np.nan] * len(res)))]
+        return _report(res, c, ctrl_lines, lab_lines_lm, args)
 
     # ── the re-inversion ──────────────────────────────────────────────────────
     from pipeline.nearuv_synth import build_solar_context, gf_provenance
@@ -168,10 +222,13 @@ def main(argv=None) -> int:
         a_l = float(res_l.get("a_synth", np.nan))
         dA = (a_l - a_c) if (np.isfinite(a_l) and np.isfinite(a_c)) else np.nan
         already = abs(float(r.loggf) - gf_prod) <= LOGGF_SAME_TOL
+        misid = (np.isfinite(gf_prod)
+                 and abs(float(r.loggf) - gf_prod) >= PROBABLE_MISID_DEX)
         rows.append(dict(wavelength_air_A=w, ep_eV=ep, lab_source=str(r.source),
                          lab_sigma_dex=float(r.e_loggf_dex), loggf_production=gf_prod,
                          loggf_lab=float(r.loggf), d_loggf=float(r.loggf) - gf_prod,
-                         already_on_lab=already, a_control=a_c, a_labgf=a_l, d_A=dA,
+                         already_on_lab=already, probable_misid=misid,
+                         a_control=a_c, a_labgf=a_l, d_A=dA,
                          status_control=res_c.get("status", ""),
                          status_lab=res_l.get("status", ""), note=""))
         print(f"  {w:11.4f}{str(r.source)[:14]:>15}{float(r.e_loggf_dex):9.3f}"
@@ -192,6 +249,16 @@ def main(argv=None) -> int:
             if lm.abundance is None:
                 lm.in_aggregate = False
                 lm.excluded_reason = "SYNTHESIS: fit did not converge"
+            elif misid and treat == "1D-LTE-LABGF":
+                # Carried, never dropped (RYA-711). Excluded from the aggregate with the
+                # reason stated: a gf that far from the production value is more likely a
+                # different transition than a better measurement.
+                lm.in_aggregate = False
+                lm.excluded_reason = (
+                    f"PROBABLE-MISIDENTIFICATION: lab gf {float(r.loggf):+.3f} differs "
+                    f"from the production gf {gf_prod:+.3f} by "
+                    f"{abs(float(r.loggf) - gf_prod):.3f} dex, beyond the "
+                    f"{PROBABLE_MISID_DEX} dex screen")
             bucket.append(lm)
 
     res = pd.DataFrame(rows)
@@ -255,6 +322,19 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
         s = f"{p.sigma:.3f}" if p.sigma is not None else "n/a"
         print(f"  {label:<32}{v:>9}{s:>9}{p.n_lines:5d}")
     print(f"  {'RYA-832 full Kurucz pool (n=40)':<32}{'7.488':>9}{'0.413':>9}{40:5d}")
+    mis = res[res.get("probable_misid", pd.Series(dtype=bool)).fillna(False)]
+    if len(mis):
+        print(f"\n  LINE-IDENTIFICATION SCREEN: {len(mis)} of {len(res)} lines carry a lab")
+        print(f"  gf >= {PROBABLE_MISID_DEX} dex from the production value. CARRIED, and")
+        print(f"  excluded from the aggregate with the reason stated (RYA-711). |d| "
+              f"{mis.d_loggf.abs().min():.2f}-{mis.d_loggf.abs().max():.2f} dex.")
+        vals = np.array([l.abundance for l in lab_lines_lm
+                         if l.abundance is not None], dtype=float)
+        if len(vals) > 1:
+            print(f"  WITHOUT the screen the sub-pool would read {np.median(vals):.3f} "
+                  f"+/- {np.std(vals, ddof=1):.3f} (n={len(vals)}) — shown so the")
+            print(f"  screen's leverage is VISIBLE rather than asserted.")
+
     print("\n  DOES IT BEAT +/-0.413?  ", end="")
     if p_lab.sigma is not None:
         beats = p_lab.sigma < 0.413
