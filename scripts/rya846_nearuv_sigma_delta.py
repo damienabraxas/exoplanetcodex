@@ -98,7 +98,7 @@ PER_BIN = OUT / "rya846_normalisation_per_bin.csv"
 
 def wallace_path(region: int) -> Path:
     """The Wallace 2011 atlas lives beside the other solar references (RYA-485)."""
-    return Path(codex_path("srv_solar")) / "wallace2011_kpno" / f"sptr.reg{region}"
+    return Path(codex_path("data.solar_wallace2011_kpno")) / f"sptr.reg{region}"
 
 
 def vac_to_air(lam_vac: np.ndarray) -> np.ndarray:
