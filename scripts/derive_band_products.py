@@ -229,8 +229,13 @@ def synthesis_route(a, pol) -> None:
         "missing NLTE correction is large and POSITIVE, and a low value here is expected "
         "physics rather than a defect. gf: " + str(prov_gf["detail"]) + ". "
         "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
-        "in the scatter reported here. Half-width is FIXED and must be swept. Never "
-        "coadded with another band (RYA-712).")
+        "in the scatter reported here. Half-width is FIXED and must be swept. "
+        "gf REMAINS THE DOMINANT SYSTEMATIC AND THE BAND IS UNGRADED: RYA-822 grades "
+        "only 6 of the 4,274 in-band Fe I lines as primary-lab, and its GF-NIST class "
+        "(604 lines) is a COMPILATION grade that 822 deliberately keeps outside "
+        "`is_graded` because FMW *is* NIST and VALD copies it (RYA-760). Of the lines "
+        "actually fitted here, 17 of 40 carry a citable NIST accuracy class and most of "
+        "those are poor (C/C+/D/D+/E). Never coadded with another band (RYA-712).")
     product = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE",
                             lines, provenance=prov)
 
