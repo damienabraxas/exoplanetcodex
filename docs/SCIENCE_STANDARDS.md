@@ -837,3 +837,96 @@ actually *lives*. Neither licenses skipping the measurement.
 methodology doc, which this is the guide for: gf-floor vs lab-sub-pool vs line-selection vs
 continuum, and which of those is worth spending on for a given goal. It accumulates there for
 the sync pass rather than being applied piecemeal, per the RYA-777/817/833 precedent.
+
+
+## Non-physical lines are EXCLUDED, not averaged in — the appendix carries the proof — RYA-844
+
+Ratified by Ryan, 2026-08-16. This codifies a principle whose **mechanism already exists** —
+it builds nothing. The implementation is named below so the rule and the code cannot drift.
+
+### The standard, verbatim
+
+> **NON-PHYSICAL LINES ARE EXCLUDED, NOT AVERAGED IN.** A line that is a ghost, a bad blend,
+> a rail-fit (the fitter runs to the search bound), or otherwise non-physical is EXCLUDED
+> from the reported pool — a bad line must not drag down the good ones. REQUIREMENTS:
+> (1) Exclusion requires a STATED PHYSICAL REASON recorded per-line in
+> `problem_children.csv` (required_treatment=exclude, carry-with-reason; RYA-807/809/711).
+> (2) The APPENDIX CARRIES THE BURDEN OF PROOF: every excluded line is named in Appendix A
+> with its physical cause and measured evidence (RYA-707), so the exclusion is transparent
+> and peer-reviewable. (3) FIREWALL (RYA-161): exclude for a physical cause, NEVER because
+> the line disagrees with the expected value. THE TEST: could a skeptic re-run your
+> exclusions from your stated physical reasons alone and get the same set? If reproducing
+> the cut requires knowing the answer you wanted, it is tuning, not selection. Excluding for
+> inconvenience is the single most undetectable RYA-161 violation — the appendix is the
+> defense.
+
+### Why this needs a guardrail at all
+
+It is one word from tuning. "Exclude the non-physical lines" and "exclude the lines I don't
+like" produce the same diff, and **the second is undetectable in the output** — a cleaner
+pool with a tighter scatter looks like better work either way. Nothing downstream can tell
+them apart. Only the stated reason can, which is why the reason is mandatory and why the
+appendix exists.
+
+This matters more since RYA-842, not less: line selection is now known to be **first-order
+on the value and the scatter** while gf work moves only the error bar. The most powerful
+lever we have is therefore also the one most exposed to unfalsifiable judgement. **A
+dominant lever demands a reproducible rule.**
+
+### The implementation — already built, do not rebuild it
+
+| piece | where | what it does |
+|---|---|---|
+| the registry | `data/registry/problem_children.csv` | 44 rows; per-line `problem_class`, `required_treatment`, `status`, `governing_tickets`, `notes` |
+| the decision | `pipeline.problem_children.aggregate_action` | maps a registered line to `exclude` / `flag` / `none` |
+| the wiring | `derive_band_products` / `pipeline.band_products` (RYA-807) | carries `problem_class`/`status`/`tickets`/`action` onto every line |
+| the proof | Appendix A (RYA-707) | names each excluded line with cause and measured evidence |
+| the vocabulary | RYA-711 | a grade names its subject, so an exclusion reason cannot be mistaken for a quality score |
+| blend vetting | RYA-208 / RYA-395 | the upstream cull that catches most of it before this stage |
+
+### 🔴 The discriminator is `status`, NOT `required_treatment`
+
+This is the part that makes the firewall real, and it is easy to get backwards:
+
+* `exclude` **+ `active`** → **EXCLUDE** from the aggregate. Diagnosed and actionable.
+* anything **+ `owed`** → **KEEP and FLAG**. Visible, counted, never quietly removed.
+* `resolved` / `predicted` → no action.
+* a non-`exclude` treatment (`synthesis`, `HFS_sum`, `NLTE_grid`, …) → **FLAG, never
+  exclude** — those say *measure it differently*, not *drop it*.
+
+`required_treatment` says what should be done once the cause is known; `status` says whether
+it **is** known. A line can legitimately be both "should come out" and "we have not
+established why", and those are independent facts. **Excluding on an undiagnosed cause is
+tuning** — it removes the lines that disagree while the reason is still a hypothesis. As of
+2026-08-16 the registry holds 9 `exclude` rows and all 9 are `active`; the rule is what
+guarantees that an `owed` one could not silently join them.
+
+### The skeptic test, operationally
+
+Before an exclusion ships, ask what a reviewer would have to know to reproduce it:
+
+1. **Reason first, effect second.** The physical cause is established, written down, and
+   dated *before* the aggregate is recomputed. If the sequence ran the other way — saw the
+   outlier, then found a reason — say so explicitly; that is not automatically wrong, but it
+   is a different epistemic object and it belongs in the appendix as such.
+2. **Would the rule catch a line that agrees?** A cut that only ever removes discrepant
+   lines is a tuning rule wearing a physical costume. A genuine ghost/blend/rail criterion
+   is blind to the answer and will sometimes remove a line that was sitting comfortably on
+   the mean.
+3. **Count what you removed and publish it.** An exclusion that moves the value materially
+   and is not in the appendix is indistinguishable from tuning, whatever its reason was.
+
+### Relationship to the rest
+
+* **RYA-161** is the firewall this enforces; this is its most exposed surface.
+* **RYA-842** is why it matters: line selection dominates the value and the scatter, so *how*
+  we select must be beyond reproach.
+* **RYA-833** applies to the reasons themselves — "this line is a ghost" is a claim that
+  needs a dated check, not an assertion.
+* **RYA-777** bounds the ambition: exclude for physics or provenance, **never** to shrink a
+  bar. A frontier band is allowed to be wide.
+
+### Propagation
+
+**Flagged for RYA-179** — the line-selection and appendix sections of the methodology doc.
+Accumulates there for the sync pass rather than piecemeal, per RYA-777/817/833/842.
