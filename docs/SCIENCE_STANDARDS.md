@@ -674,3 +674,88 @@ usually undocumented in the code that wraps it. So a reactivation is not complet
 4. **A capability claim needs its domain stated in the same breath.** "We have a 3D-NLTE
    Fe engine" is true; "we have a 3D-NLTE Fe engine for the near-IR" is not, and the
    difference is 0 of 94 lines.
+
+
+## The absence-of-evidence rule — an absence is a hypothesis, never a conclusion — RYA-833
+
+Ratified by Ryan, 2026-08-15, after **six absence-claim misses in a single session** — every
+one the same shape, every one falsified by measurement, and every correction *improving* the
+outcome rather than costing us one.
+
+### The law, verbatim
+
+> **THE ABSENCE-OF-EVIDENCE RULE.** A claim that something DOES NOT EXIST or CANNOT BE
+> REACHED — no lab data, no grid, no engine reach, no signal — is a hypothesis to be
+> checked, never a conclusion to be asserted. Absence claims require a **dated, cited
+> verification**, and they carry an **expiry**: the literature grows, our tables get
+> ingested, our tools get re-pointed, so "we checked and it was not there" is only true as
+> of when we checked. Before any absence claim GATES a decision (a product marked
+> un-gradeable, a band marked unreachable, an element marked no-grid), re-verify it. Prefer
+> specs that say "measure the reach" over specs that STATE the reach — the domain is
+> empirical. Two sources of false absence to watch: (1) **architectural inference** — "the
+> linelist ends, so the physics ends" (it does not); (2) **stale artifacts** — a
+> column/tracker/survey describing a past state as if current. Counterweight, so this is
+> discipline not paralysis: you cannot re-verify everything every turn — trust nothing
+> LOAD-BEARING without a dated check, and treat an absence claim as load-bearing the moment
+> it gates a decision.
+
+### The evidence base — the six, dated and ticketed
+
+| # | the claim, asserted | what measurement found | ticket |
+|---|---|---|---|
+| 1 | "Engine B can't follow past 9199.9 Å" | **187 of 239** followed | RYA-762 |
+| 2 | "3D-NLTE is VIS-only" | true for Fe; **O I 7771 reaches the near-IR** | RYA-817 |
+| 3 | "the Fe pool is 100 % Kurucz-floored" | a **lying column** — the values were fine | RYA-799 / 825 |
+| 4 | "no lab gf in the near-UV" | **Belmonte 2017 covers the whole band** | RYA-822 |
+| 5 | "only Fe/C/O/Li have off-solar 3D grids" | **Mg** (Matsuno 2024) and **Na** (Canocchi 2024) too | RYA-817 |
+| 6 | "+0.033 is a rail artifact" | a clean **Elo dependence, corr 0.955** | RYA-831 |
+
+**The tell, and it is consistent across all six.** Not one false absence came from a
+measurement. Every one came from either **architectural inference** — the line list stops at
+9199.9 Å, therefore the physics stops; the network splits on excitation potential, therefore
+it is wavelength-agnostic — or from a **stale artifact** describing a past state as if it
+were current: a `log_gf` column carrying intake metadata rather than the value the inversion
+used, a survey with a cutoff date, a tracker generated from a superseded run.
+
+The **positive** claims in the same session held up. It was specifically the negatives that
+fell, which is why this rule is asymmetric and not merely "check your work".
+
+### What it changes in practice
+
+1. **An absence claim carries its check.** Not "there is no lab gf below 3780 Å" but "on
+   2026-08-15, `fe1_lab_loggf.csv` (465 rows, 2132–11316 Å) carried 105 Fe I lines below
+   3780 Å" — a statement with a date, a source and a number, which the next reader can
+   re-run instead of inherit.
+2. **Specs measure the reach; they do not state it.** A brief that says "the MLP is
+   wavelength-agnostic" has decided the answer. A brief that says "domain-check each line
+   and report the in-domain fraction" gets 0 of 94 (RYA-817) — the same conclusion, but
+   earned, and with the *reason* attached.
+3. **Scope an absence to what was actually examined.** RYA-822 reported "Ruffoni and Den
+   Hartog have zero lines below 3780 Å". True of the two **partial VizieR extracts** in
+   `data/linelists/primary_gf/`; false of the **sources**. The fix is to name the artifact
+   inspected, never the source, unless the source itself was exhausted.
+4. **A refusal is a finding, not a dead end.** Every one of the six corrections opened
+   something: 187 recoverable lines, a near-IR 3D-NLTE line, two acquirable grids, a whole
+   band of lab gf. Treating absence as provisional is not bookkeeping hygiene — it is where
+   the results were.
+
+### Relationship to RYA-674 — the procedural twin
+
+RYA-674's ratified-constraint re-check catches **stale artifacts mechanically**: a boolean
+`corrections_applied` schema and a shared constraint registry, so a value cannot silently
+carry a correction it no longer describes. This rule catches **stale assumptions
+procedurally**.
+
+Same failure class — *something describing a state that reality has moved past* — attacked
+from the two ends it can be attacked from. Where 674 can be made to fail loudly in code, it
+should be; where it cannot, this rule governs. A guard is always preferable to a habit, so
+if an absence claim can be turned into a dated, checkable artifact, turn it into one
+(RYA-822's `nist_asd_FeI_3000_3780.prov.json` is the shape: the pull, its date, its access
+route, and the reason the previous route was believed dead).
+
+### Propagation
+
+**Flagged for RYA-179** (Glossary / Method page / Science-Architecture): this rule belongs in
+the narrative docs, and it accumulates there for the sync pass rather than being applied
+piecemeal — per RYA-777/817, which added their standards here and left the narrative
+propagation to 179.
