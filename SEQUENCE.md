@@ -19,6 +19,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 - **RYA-823** — model-atom levels keyed by the coordinate each level HAS; (J,energy) ∪ term-label union. Cr I/II → REACH-UNKNOWN (was about to land `SERVED, reach 3` of 5353); Fe/Ti/Mn gain 7 rows, all gains, zero Engine-A change
 
+- **RYA-822** — canonical_gf reaches **3000 Å**; near-UV Fe I gf graded — and it changes NOTHING (7.487→7.488): the 0.354 scatter is the Kurucz floor. 61 lab lines exist, **6** were used
 - **RYA-759** — near-UV Fe I **7.487 ± 0.120** (n=40, 3000–3780 Å, 1D-LTE); the Balmer "hole" was never there — TS's own `Hlinedata` covers it
 
 ## 2026-08-14
