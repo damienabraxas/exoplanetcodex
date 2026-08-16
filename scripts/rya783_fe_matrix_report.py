@@ -135,11 +135,26 @@ def main() -> None:
         line += f"   [vs 1D ref {v - (OPTICAL_ANCHOR + FE_1D3D):+.3f} — REPORTED, not a miss]"
         print(line)
 
-    print("\n  NEAR-UV 3000-3800 A: NOT derivable by this route. 845 of 901 measured Fe I")
-    print("  lines carry 'BAND-POLICY: near-UV bans profile fitting (median gap 0.146 A)',")
-    print("  so the EW-keyed driver has ZERO in-aggregate lines. That is structural, not a")
-    print("  failure — near-UV is synthesis-only (RYA-713 band policy), and the synthesis")
-    print("  route is RYA-759, which is not merged. Reported as blocked-by-route.")
+    # RYA-832. This block used to read "NEAR-UV: NOT derivable by this route ... the
+    # synthesis route is RYA-759, which is not merged. Reported as blocked-by-route."
+    # Every clause of that is now false: 759 merged, the synthesis route is wired into
+    # derive_band_products, and the near-UV is a first-class matrix cell above. Leaving
+    # the old text would have been the "accounting doesn't describe reality" class this
+    # project keeps paying for — a report describing a state the repo left behind.
+    nuv = d[d.band.astype(str).str.lower().str.startswith("near")]
+    if len(nuv):
+        print("\n  NEAR-UV 3000-3780 A is DERIVED and first-class (RYA-832): synthesis-only")
+        print("  by band policy — profile-fit and interval-integration are FORBIDDEN there")
+        print("  (median line gap 0.146 A leaves no interval containing one profile and")
+        print("  excluding its neighbours), and RYA-759 falsified profile fitting in band")
+        print("  (901 candidates -> 0 measurable). The cell is 1D-LTE ONLY: UV Fe I is")
+        print("  heavily over-ionised, so the missing NLTE correction is large and POSITIVE")
+        print("  and a low value is expected physics, not a defect. Never coadded (RYA-712).")
+    else:
+        print("\n  NEAR-UV 3000-3780 A: no product present in this input directory.")
+        print("  It is synthesis-only (band policy); derive it with")
+        print("  `derive_band_products.py --lo 3000 --hi 3780`, which takes the RYA-832")
+        print("  synthesis route automatically. Absent here means NOT RUN — not 'blocked'.")
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / "fe_product_matrix.csv"

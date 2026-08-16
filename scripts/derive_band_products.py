@@ -111,6 +111,184 @@ def mpia_delta(element: str, ion: str, waves: np.ndarray,
     return out
 
 
+# ── the synthesis route (RYA-832) ─────────────────────────────────────────────
+#
+# The rest of this driver is EW-keyed: it reads measured equivalent widths, inverts them
+# through a curve of growth, and keys every synthesis window on the measured EW. The
+# near-UV cannot be driven that way and `pipeline.band_policy` says so at intake — it
+# FORBIDS profile-fit and interval-integration in 3000-3800 A, because at a median line
+# gap of 0.146 A there is no interval that contains one profile and excludes its
+# neighbours. RYA-759 tested profile fitting there anyway and falsified it: 901 Fe I
+# candidates, 0 measurable.
+#
+# So the near-UV product came out on its own artifact and never entered the frontier
+# matrix — present, but not first-class. This route closes that.
+#
+# IT CALLS RYA-759's VALIDATED ROUTE RATHER THAN REIMPLEMENTING IT. `select_lines` and
+# `fit_one` are imported from that harness, not copied: a hand-adapted copy keeps its
+# source's identity in places nobody looks (RYA-701, where one Ba->Al copy produced 13
+# defects), and here it would also let the wired value drift from the published 7.487
+# silently. Reusing the functions makes drift impossible by construction.
+
+#: RYA-759's own defaults, named here so a reader can see they are NOT re-chosen.
+#: Changing any of these would move the product away from the published 7.487 and the
+#: ticket forbids that without a stated cause — so they are imported-in-spirit, and the
+#: functions below are imported literally.
+NEARUV_HALF_WIDTH_A = 0.40      # no EW exists to key the production wing-wide rule
+NEARUV_MIN_SEP_A = 4.0          # keeps the set spread instead of piling into one complex
+NEARUV_N_LINES = 40
+#: RYA-759: does not average down, and is NOT in the line scatter.
+NEARUV_PSEUDO_CONTINUUM_DEX = 0.100
+
+
+def synthesis_route(a, pol) -> None:
+    """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
+
+    This is a THIN WRAPPER over RYA-759's harness, not a reimplementation of it. Every
+    scientific choice — the line list, the gf-provenance decision, the solar context, the
+    atlas segments, the selection rule, the fit — is the function 759 validated, called
+    with 759's own defaults. The only thing added here is the wrapping of its per-line
+    results into `LineMeasurement`/`build_product` so the near-UV becomes a first-class
+    matrix cell (RYA-712) instead of a side artifact.
+
+    That structure is deliberate. A hand-adapted copy would keep its source's identity in
+    places nobody looks (RYA-701: one Ba->Al copy produced 13 defects), and here it would
+    additionally let the wired value drift from the published 7.487 without anyone
+    noticing. Calling the same functions makes that drift impossible by construction.
+    """
+    if "synthesis" not in pol.permitted_methods:
+        raise SystemExit(
+            f"band {pol.name!r} does not permit synthesis (permitted: "
+            f"{pol.permitted_methods}) — refusing to derive a product by a method the "
+            f"band policy forbids")
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from pipeline.nearuv_synth import build_solar_context, gf_provenance
+    from rya759_nearuv_fe_product import NEARUV_LINELIST, select_lines, fit_one
+    from rya759_nearuv_synth import _kp_segments
+
+    if not Path(NEARUV_LINELIST).exists():
+        # Loud-fail, never a silent default (RYA-832). A missing list would otherwise
+        # surface downstream as "0 lines measured", which reads like a physics result.
+        raise SystemExit(
+            f"near-UV line list missing at {NEARUV_LINELIST}\n"
+            f"build it with `pipeline.nearuv_linelist.build()`. Refusing to emit an "
+            f"empty near-UV product that would read as a measurement of nothing.")
+
+    cat = pd.read_csv(ROOT / "data" / "catalog" / "instrument_catalog.csv")
+    row = cat[cat.iloc[:, 0].astype(str) == a.instrument]
+    if row.empty:
+        raise SystemExit(f"{a.instrument!r} absent from data/catalog/instrument_catalog.csv")
+    R = float(row.iloc[0]["resolving_power_max"])
+
+    prov_gf = gf_provenance(a.lo, a.hi)
+    print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
+    print(f"  [gf] {prov_gf['detail']}")
+    ctx = build_solar_context(a.element, R, linelist_file=str(NEARUV_LINELIST),
+                              apply_canonical_gf=prov_gf["apply_canonical_gf"])
+    segs = _kp_segments()
+    cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=NEARUV_N_LINES,
+                        teff=float(ctx["teff"]), min_sep_A=NEARUV_MIN_SEP_A)
+    print(f"  {len(cand)} Fe I candidates by theoretical depth "
+          f"(half-width +/-{NEARUV_HALF_WIDTH_A} A, min separation {NEARUV_MIN_SEP_A} A)")
+
+    tmp = "/tmp/ispec_rya832_nearuv"
+    Path(tmp).mkdir(parents=True, exist_ok=True)
+    lines: list[LineMeasurement] = []
+    for r in cand.itertuples():
+        w = float(r.wave_A)
+        res = fit_one(ctx, segs, w, NEARUV_HALF_WIDTH_A, tmp)
+        a_x = float(res.get("a_synth", float("nan")))
+        lm = LineMeasurement(
+            element=a.element, ion=a.ion, wavelength_air_A=w,
+            instrument=a.instrument, ew_mA=float("nan"),
+            ew_method=(f"synthesis flux-fit, FIXED half-width +/-{NEARUV_HALF_WIDTH_A} A "
+                       f"(RYA-759 route; no EW exists in this band to key the "
+                       f"production wing-wide rule)"),
+            abundance=(a_x if np.isfinite(a_x) else None),
+            treatment="1D-LTE",
+            # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
+            # here at all. Inheriting it would quarantine lines on a quantity that does
+            # not exist (RYA-770/342).
+            ew_inversion=False)
+        if lm.abundance is None:
+            lm.in_aggregate = False
+            lm.excluded_reason = (f"SYNTHESIS: {res.get('status', 'failed')} "
+                                  f"{str(res.get('reason', ''))[:60]}")
+        lines.append(lm)
+    lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+
+    prov = (
+        "Fe I near-UV 1D-LTE by flux-fit synthesis (Turbospectrum via iSpec, "
+        "ATLAS9.Castelli) — the RYA-759 validated route called directly, same functions "
+        "and same defaults, so the value cannot drift from that ticket's. "
+        "SYNTHESIS-ONLY: band_policy forbids profile-fit and interval-integration here "
+        "(median line gap 0.146 A leaves no interval that contains one profile and "
+        "excludes its neighbours), and RYA-759 falsified profile fitting in band — 901 "
+        "candidates, 0 measurable. 1D-LTE ONLY: UV Fe I is heavily over-ionised, so the "
+        "missing NLTE correction is large and POSITIVE, and a low value here is expected "
+        "physics rather than a defect. gf: " + str(prov_gf["detail"]) + ". "
+        "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
+        "in the scatter reported here. Half-width is FIXED and must be swept. "
+        "gf REMAINS THE DOMINANT SYSTEMATIC AND THE BAND IS UNGRADED: RYA-822 grades "
+        "only 6 of the 4,274 in-band Fe I lines as primary-lab, and its GF-NIST class "
+        "(604 lines) is a COMPILATION grade that 822 deliberately keeps outside "
+        "`is_graded` because FMW *is* NIST and VALD copies it (RYA-760). Of the lines "
+        "actually fitted here, 17 of 40 carry a citable NIST accuracy class and most of "
+        "those are poor (C/C+/D/D+/E). Never coadded with another band (RYA-712).")
+    product = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE",
+                            lines, provenance=prov)
+
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_SYNTH"
+    pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
+        out / f"{stem}_1D-LTE_lines.csv", index=False)
+
+    # The products.csv SCHEMA is the matrix's input contract, not this function's choice.
+    # `products_frame` emits `value`; the matrix reads `A`, `stat_dex`, `syst_dex`. The
+    # first version of this route wrote the products_frame schema and the near-UV cell
+    # duly appeared in the matrix with n=40 and a NaN abundance — present, and empty.
+    # A row that arrives but carries no number is worse than one that does not arrive,
+    # because it looks like a measurement that failed rather than a wiring mismatch.
+    b = build_budget(a.element, 0.5 * (a.lo + a.hi), product.n_lines,
+                     scatter_dex=(product.sigma or 0.0), gf_graded=False,
+                     # There is no profile fitter anywhere on this route, so charging it
+                     # the profile fitter's measured residual would attribute someone
+                     # else's systematic to it.
+                     harness_residual_dex=0.0, handler="SynthesisHandler")
+    stat, syst = b.total()
+    # RYA-759's pseudo-continuum systematic. It does NOT average down and is NOT in the
+    # line scatter, so it is added in quadrature rather than left implicit in prose.
+    syst = float(np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX))
+    pd.DataFrame([dict(
+        element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
+        treatment="1D-LTE", A=round(product.value, 3) if product.value is not None else None,
+        n_lines=product.n_lines, n_excluded=product.n_excluded,
+        stat_dex=round(stat, 4), syst_dex=round(syst, 4),
+        dominant=(b.dominant().name if b.dominant() else ""),
+    )]).to_csv(out / f"{stem}_products.csv", index=False)
+    (out / f"{stem}_budgets.txt").write_text(
+        b.describe() + f"\n\nPSEUDO-CONTINUUM (RYA-759): {NEARUV_PSEUDO_CONTINUUM_DEX} "
+        f"dex, added in quadrature above. Does not average down; not in the scatter.\n")
+    v = f"{product.value:.3f}" if product.value is not None else "n/a"
+    s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
+    print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "
+          f"(n={product.n_lines}, excluded {product.n_excluded})")
+    print(f"  NOTE sigma here is the line SCATTER (std, ddof=1) that build_product "
+          f"reports for\n  every band; RYA-759 published a MAD. Same lines, different "
+          f"dispersion statistic —\n  the VALUE is the number to compare.")
+    print(f"  wrote {out}/{stem}_products.csv")
+
+
+def asdict_line(l: LineMeasurement) -> dict:
+    return dict(element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
+                instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
+                abundance=l.abundance, rew=l.rew, treatment=l.treatment,
+                in_aggregate=l.in_aggregate, excluded_reason=l.excluded_reason,
+                ew_inversion=l.ew_inversion)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -131,6 +309,13 @@ def main() -> None:
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
     a = ap.parse_args()
+
+    pol_early = resolve_band(0.5 * (a.lo + a.hi))
+    if "profile-fit" in getattr(pol_early, "forbidden_methods", ()):
+        # The band policy has already ruled that profile fitting is undefined here, so
+        # there is no EW file to read and there never will be. Take the synthesis route
+        # rather than failing on a missing input that is missing BY DESIGN (RYA-832).
+        return synthesis_route(a, pol_early)
 
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_PROFILEFIT"
     src = EW_DIR / f"{stem}_ew.csv"
