@@ -177,7 +177,12 @@ band.
   "pseudo-continuum", so `error_budget.build()` adds the term there and nowhere else;
   these two bands get only the 0.030 telluric residual. §4 is the evidence they need one.
   The honest size is not 0.100 inherited from the near-UV — it has to be derived for
-  these bands (RYA-161).
+  these bands (RYA-161). **RYA-846 supplies the recipe**: measure σ_δ against a second
+  reduction of the same atlas, measure the lever dA/dδ at the product's own lines, and
+  multiply (near-UV: σ_δ 2.79 %, lever 2.54, term 0.071 dex). It also supplies the
+  warning — average the lever only over lines that *have* a derivative. Note that
+  RYA-846 left `error_budget.build()` at the assumed 0.100, so the near-UV term is
+  still the underived one; neither band's number is settled.
 - **11119.795** sits 0.205 Å below the `TELLURIC_BANDS` H₂O edge at 11120.0, in a window
   at median flux 0.872, with no atlas able to referee it. RYA-847 item 7 excludes it
   conservatively.

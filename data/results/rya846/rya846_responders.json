@@ -1,0 +1,63 @@
+{
+  "ticket": "RYA-846",
+  "measurement": "diagnosis of the non-linear continuum responders",
+  "r2_threshold": 0.98,
+  "n_lines": 40,
+  "n_non_linear": 12,
+  "n_impossible_sign": 5,
+  "comparisons": {
+    "a_unperturbed": {
+      "non_linear_median": 7.880000000000001,
+      "linear_median": 7.4135,
+      "difference": 0.4665000000000008,
+      "permutation_p": 0.00295
+    },
+    "red_chi2": {
+      "non_linear_median": 136.594,
+      "linear_median": 81.63499999999999,
+      "difference": 54.959,
+      "permutation_p": 0.05825
+    },
+    "theo_depth": {
+      "non_linear_median": 0.899,
+      "linear_median": 0.898,
+      "difference": 0.0010000000000000009,
+      "permutation_p": 0.73675
+    },
+    "ep_eV": {
+      "non_linear_median": 2.92805,
+      "linear_median": 2.85465,
+      "difference": 0.07339999999999991,
+      "permutation_p": 0.83165
+    },
+    "depth_frac_core": {
+      "non_linear_median": 0.5288318610379682,
+      "linear_median": 0.7735880455312323,
+      "difference": -0.24475618449326408,
+      "permutation_p": 0.2623
+    }
+  },
+  "lever_all_lines": 2.4199999999999875,
+  "lever_linear_only": 2.539999999999983,
+  "if_dropped": {
+    "median_all": 7.487500000000001,
+    "median_linear_only": 7.4135,
+    "scatter_all": 0.4125586951247991,
+    "scatter_linear_only": 0.3465520166793873
+  },
+  "verdict": "NOT a continuum problem: the non-linear responders sit +0.467 dex high at p=0.003 with identical line strength, which a continuum misplacement cannot do selectively to 12 of 40 lines. The MECHANISM is not established \u2014 the blend metrics do not discriminate (core dominance p=0.26) \u2014 so these are candidate problem-children for RYA-844 adjudication, NOT dropped here, and NOT averaged into the continuum term.",
+  "non_linear_lines": [
+    3000.468,
+    3087.431,
+    3099.921,
+    3110.108,
+    3175.31,
+    3249.191,
+    3292.033,
+    3312.698,
+    3387.405,
+    3393.588,
+    3617.318,
+    3664.537
+  ]
+}

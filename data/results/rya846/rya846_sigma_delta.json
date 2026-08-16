@@ -1,0 +1,134 @@
+{
+  "ticket": "RYA-846",
+  "measurement": "sigma_delta, near-UV continuum-placement uncertainty",
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "method": "difference between two INDEPENDENT reductions of the same band \u2014 Kitt Peak (Kurucz/Brault) vs Wallace+2011 (NSO). This is an empirical LOWER BOUND on sigma_delta: it measures reduction-to-reduction disagreement, not distance from an unobservable true continuum.",
+  "dead_route": "the Kitt Peak segment overlaps (20 seams, ~1.0 A each, in band) are BYTE-IDENTICAL duplicates \u2014 same grid, flux difference exactly 0.0 \u2014 so they carry no independent information and would have returned sigma_delta ~ 0 and a continuum term of ~0.",
+  "controls": {
+    "centre_A": 3300.0,
+    "residual_shift_A": 0.010000000000001341,
+    "spectral_correlation": 0.998122749576136,
+    "wallace_internal": {
+      "available": true,
+      "n_bins": 32,
+      "range_A": [
+        3200.0,
+        3524.1993419455553
+      ],
+      "median_ratio": 0.9841799398414769,
+      "MAD": 0.01674192979532252,
+      "std": 0.03363517562670052,
+      "rms_dev_from_unity": 0.04071404004144703
+    }
+  },
+  "ratios": {
+    "median_ratio": {
+      "median": 1.0201044564670627,
+      "MAD": 0.02010085999186728,
+      "std": 0.047226390770763224,
+      "p16": 0.9954714929592161,
+      "p84": 1.0514136557335692,
+      "min": 0.86875331801589,
+      "max": 1.0907591836591286
+    },
+    "p90_ratio": {
+      "median": 1.0229150682306112,
+      "MAD": 0.02070105748779394,
+      "std": 0.04693486517896436,
+      "p16": 0.9993212057810953,
+      "p84": 1.0525088127689783,
+      "min": 0.8702508414755987,
+      "max": 1.0928854665769534
+    }
+  },
+  "sigma_delta": {
+    "offset": 0.02291506823061118,
+    "MAD": 0.02070105748779394,
+    "std": 0.04693486517896436
+  },
+  "lever": {
+    "value": 2.54,
+    "p16": 0.9076,
+    "p84": 4.6776,
+    "source": "RYA-841, 200 fits, measured on a +/-4% grid ONLY"
+  },
+  "terms_dex": {
+    "offset": {
+      "sigma_delta": 0.02291506823061118,
+      "term_dex": 0.058204273305752396,
+      "term_p16": 0.020797715926102706,
+      "term_p84": 0.10718752315550685
+    },
+    "MAD": {
+      "sigma_delta": 0.02070105748779394,
+      "term_dex": 0.052580686018996604,
+      "term_p16": 0.01878827977592178,
+      "term_p84": 0.09683126650490492
+    },
+    "std": {
+      "sigma_delta": 0.04693486517896436,
+      "term_dex": 0.11921455755456949,
+      "term_p16": 0.04259808363642805,
+      "term_p84": 0.2195425253611237
+    }
+  },
+  "decomposition": {
+    "raw_at_lines": 0.049380578903038624,
+    "wallace_internal": 0.04071404004144703,
+    "net_quadrature": 0.027942951102248863,
+    "term_raw_dex": 0.1254266704137181,
+    "term_net_dex": 0.07097509579971212
+  },
+  "revised_cells": [
+    {
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "1D-LTE",
+      "published_syst_dex": 0.1972,
+      "syst_with_assumed_0p100": 0.1972308292331602,
+      "syst_with_measured_net": 0.18422123716818947,
+      "syst_with_measured_raw": 0.21126251359640563
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "1D-LTE-LABGF",
+      "published_syst_dex": 0.1081,
+      "syst_with_assumed_0p100": 0.10807867504739314,
+      "syst_with_measured_net": 0.08196623831662835,
+      "syst_with_measured_raw": 0.1319577570704787
+    }
+  ],
+  "assumed_term_dex": 0.1,
+  "sigma_delta_at_product_lines": {
+    "available": true,
+    "n_lines": 40,
+    "n_lines_total": 40,
+    "n_lines_outside_wallace": 0,
+    "median_ratio": 1.0290239579144447,
+    "MAD": 0.018186496859032064,
+    "std": 0.04351316259536073,
+    "rms_dev_from_unity": 0.049380578903038624,
+    "max_dev": 0.1289265707607926,
+    "term_dex": 0.1254266704137181
+  },
+  "wallace_region": "auto",
+  "wallace_composition": {
+    "n_from_region6": 167936,
+    "n_from_region5": 227582,
+    "region6_overflow": 0,
+    "region5_overflow": 2227,
+    "region5_admitted_above_A": 3524.2
+  },
+  "wallace_overflow_markers": 2227,
+  "compared_A": [
+    3000.0,
+    3780.0
+  ],
+  "band_fraction_compared": 1.0,
+  "n_bins": 78,
+  "bin_width_A": 10.0
+}
