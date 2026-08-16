@@ -71,6 +71,11 @@ SUMMARY = OUT / 'rya841_scatter_driver.json'
 #: median gap, so it cannot silently pair a line with its neighbour (the RYA-785 failure).
 MATCH_TOL_A = 0.005
 
+#: One solar photospheric line width. Fe I cores in this band run ~0.05 A FWHM (thermal
+#: + microturbulent at 3000 A, well above the R=500,000 instrumental width of ~0.006 A),
+#: so this is "what actually overlaps the core" rather than "what is in the fit window".
+CORE_HALF_WIDTH_A = 0.05
+
 #: Fixed BEFORE looking at what it selects, and reported as a sweep either way so its
 #: leverage is visible rather than asserted. "The target line supplies at least half the
 #: window's absorption" is the weakest statement of dominance that means anything.
@@ -117,8 +122,17 @@ def window_blending(linelist, pool_waves: np.ndarray, hw_A: float) -> pd.DataFra
         else:
             nn_sep, nn_depth = np.nan, np.nan
 
+        # The window-wide sum over-weights distant wing lines, so the same quantity is
+        # also computed over a CORE region of one line width. If both say the target line
+        # is a minority of its own absorption, the conclusion does not rest on the choice.
+        core = np.abs(others_w - wv) <= CORE_HALF_WIDTH_A
+        core_blend = float(np.nansum(others[core])) if core.any() else 0.0
+        core_tot = own + core_blend
+
         rows.append({'wave_A': wv, 'own_depth': own, 'blend_depth': blend,
                      'depth_frac': own / tot if tot > 0 else np.nan,
+                     'depth_frac_core': own / core_tot if core_tot > 0 else np.nan,
+                     'n_in_core': int(core.sum()),
                      'n_in_window': int(len(win_w) - 1),
                      'nn_sep_A': nn_sep, 'nn_depth': nn_depth})
     return pd.DataFrame(rows)
@@ -151,17 +165,30 @@ def analyse(name: str, df: pd.DataFrame, blend: pd.DataFrame) -> dict:
 
     print(f'\n=== {name} — n={len(d)}, median {med:.3f}, scatter '
           f'{d.a_synth.std(ddof=1):.3f} ===')
-    for col in ('depth_frac', 'blend_depth', 'n_in_window', 'nn_sep_A', 'own_depth'):
+    for col in ('depth_frac', 'depth_frac_core', 'blend_depth', 'n_in_core',
+                'n_in_window', 'nn_sep_A', 'own_depth'):
         r, n = spearman(d[col].to_numpy(float), d.resid.to_numpy(float))
         out[f'spearman_resid_vs_{col}'] = r
         flag = '  <-- ' if (np.isfinite(r) and abs(r) >= 0.35) else ''
         print(f'  |A-med| vs {col:<13} rho = {r:+.3f}  (n={n}){flag}')
 
     # Dominance sweep. Reported at several thresholds so no single one is load-bearing.
-    print(f'  dominance sweep (depth_frac >= t):')
+    print(f'  window dominance: depth_frac  median {d.depth_frac.median():.3f}, '
+          f'max {d.depth_frac.max():.3f}')
+    print(f'  core   dominance: depth_frac_core median {d.depth_frac_core.median():.3f}, '
+          f'max {d.depth_frac_core.max():.3f}  '
+          f'(median {d.n_in_core.median():.0f} other lines within '
+          f'+/-{CORE_HALF_WIDTH_A} A)')
+    out['depth_frac_median'] = float(d.depth_frac.median())
+    out['depth_frac_max'] = float(d.depth_frac.max())
+    out['depth_frac_core_median'] = float(d.depth_frac_core.median())
+    out['depth_frac_core_max'] = float(d.depth_frac_core.max())
+    out['n_in_core_median'] = float(d.n_in_core.median())
+
+    print(f'  dominance sweep (depth_frac_core >= t):')
     sweep = []
     for t in (0.0, 0.25, 0.40, 0.50, 0.60, 0.75):
-        sub = d[d.depth_frac >= t]
+        sub = d[d.depth_frac_core >= t]
         if len(sub) < 5:
             sweep.append({'t': t, 'n': int(len(sub)), 'scatter': None, 'median': None})
             print(f'    t={t:.2f}  n={len(sub):3d}  (too few to quote)')
