@@ -379,6 +379,32 @@ def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
                      "term_p16": lo, "term_p84": hi}
         print(f"  sigma_delta = {sd:.4f} ({nm:6s}) -> term {t:.3f} dex "
               f"[{lo:.3f}-{hi:.3f} across the lever's 16-84 pct]")
+    # ── separate the reduction difference from Wallace's own inconsistency ─────────
+    # The Kurucz-vs-Wallace disagreement contains BOTH. Wallace's two regions overlap and
+    # disagree with each other by a measurable amount, and that part is not a statement
+    # about the Kitt Peak normalisation at all. Subtracting it in quadrature (assuming the
+    # two are independent, which is the standard treatment and is stated rather than
+    # hidden) gives the part that is genuinely reduction-to-reduction.
+    at_lines = meta.get("sigma_delta_at_product_lines") or {}
+    internal = (controls.get("wallace_internal") or {})
+    decomposed = None
+    if at_lines.get("available") and internal.get("available"):
+        raw = at_lines["rms_dev_from_unity"]
+        wint = internal["rms_dev_from_unity"]
+        resid2 = raw ** 2 - wint ** 2
+        net = float(np.sqrt(resid2)) if resid2 > 0 else 0.0
+        decomposed = {"raw_at_lines": raw, "wallace_internal": wint,
+                      "net_quadrature": net,
+                      "term_raw_dex": LEVER_DEX_PER_UNIT_DELTA * raw,
+                      "term_net_dex": LEVER_DEX_PER_UNIT_DELTA * net}
+        print(f"\n=== separating the reduction difference from Wallace's own scatter ===")
+        print(f"  Kurucz vs Wallace, at the lines : {raw:.4f}  ({raw*100:.2f}%)")
+        print(f"  Wallace reg5 vs reg6 (internal)  : {wint:.4f}  ({wint*100:.2f}%)")
+        print(f"  net, in quadrature               : {net:.4f}  ({net*100:.2f}%)")
+        print(f"  => term spans {LEVER_DEX_PER_UNIT_DELTA*net:.3f} dex (net) to "
+              f"{LEVER_DEX_PER_UNIT_DELTA*raw:.3f} dex (raw, an upper bound)")
+        summary_extra = decomposed
+
     print(f"\n  assumed by the budget today: {ASSUMED_TERM_DEX:.3f} dex")
 
     if max(sd_mad, sd_std, offset) > 0.04:
@@ -402,6 +428,7 @@ def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
         "lever": {"value": LEVER_DEX_PER_UNIT_DELTA, "p16": LEVER_P16, "p84": LEVER_P84,
                   "source": "RYA-841, 200 fits, measured on a +/-4% grid ONLY"},
         "terms_dex": terms,
+        "decomposition": decomposed,
         "assumed_term_dex": ASSUMED_TERM_DEX,
         **meta,
     }
