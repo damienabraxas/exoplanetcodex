@@ -1,0 +1,41 @@
+{
+  "ticket": "RYA-841",
+  "measurement": "continuum-placement systematic by method disagreement",
+  "medians": {
+    "atlas": 7.487,
+    "local": 7.2,
+    "synth": 7.366
+  },
+  "railed_excluded": {
+    "atlas": 0,
+    "local": 1,
+    "synth": 1
+  },
+  "credible_A_window": [
+    4.5,
+    11.0
+  ],
+  "pairwise": {
+    "atlas_vs_local": {
+      "n": 40,
+      "median_diff_dex": 0.26350000000000007,
+      "rms_diff_dex": 1.0680241570301676
+    },
+    "atlas_vs_synth": {
+      "n": 40,
+      "median_diff_dex": 0.020000000000000018,
+      "rms_diff_dex": 0.8808965461392161
+    },
+    "local_vs_synth": {
+      "n": 40,
+      "median_diff_dex": -0.10199999999999987,
+      "rms_diff_dex": 1.3356312271731297
+    }
+  },
+  "spread_atlas_vs_local_dex": 0.2869999999999999,
+  "spread_all_methods_dex": 0.2869999999999999,
+  "assumed_term_dex": 0.1,
+  "local_neighbourhood_A": 2.0,
+  "local_percentile": 95.0,
+  "caveat": "the `synth` placement normalises to the model and then fits the model, so it is partly circular; the headline is quoted without it as well"
+}
