@@ -801,3 +801,52 @@ artifacts:
       placement's 88, because there are no near-continuum pixels to find. The `synth`
       placement is partly circular (normalise to the model, then fit the model) and the
       headline is quoted without it as well.
+
+  # ── RYA-846 — sigma_delta, the near-UV continuum-placement uncertainty ─────────────
+  - artifact: rya846/rya846_sigma_delta.json
+    generator: scripts/rya846_nearuv_sigma_delta.py
+    invocation: python3 scripts/rya846_nearuv_sigma_delta.py
+    ticket: RYA-846
+    note: >-
+      THE SECOND HALF OF THE NEAR-UV CONTINUUM TERM. RYA-841 measured the lever (2.42 over
+      all lines, 2.54 over the 28 that have a derivative); this measures sigma_delta by
+      comparing the Kitt Peak reference atlas against Wallace+2011 (NSO), an INDEPENDENT
+      reduction of the same band. At the 40 product lines the two disagree by rms 4.94%,
+      of which 4.07% is Wallace disagreeing with ITSELF (its regions 5 and 6 overlap), so
+      the net reduction difference is 2.79% and the honest term spans 0.071 dex (net) to
+      0.125 dex (raw upper bound) against the 0.100 the budget assumes -- which lands
+      inside the measured range despite having been derived by equating percent flux with
+      dex. 🔴 THE OBVIOUS ROUTE IS DEAD: the atlas's own 20 in-band segment overlaps are
+      BYTE-IDENTICAL duplicates (same grid, flux difference exactly 0.0), so they would
+      have returned sigma_delta ~ 0 and a continuum term of ~0.
+  - artifact: rya846/rya846_normalisation_per_bin.csv
+    generator: scripts/rya846_nearuv_sigma_delta.py
+    invocation: python3 scripts/rya846_nearuv_sigma_delta.py
+    ticket: RYA-846
+    note: >-
+      Per-10-A normalisation ratio between the two reductions across 3000-3780 A. The
+      disagreement is STRUCTURED, not white: coherent blocks at 3125-3205 A (Wallace ~10%
+      low) and 3445-3485 A (~9% high) with the spectral correlation holding at 0.987-0.991
+      inside them, so the lines agree and the continuum LEVEL does not. Worst blueward
+      (MAD 3.5% over 3000-3200 A against 1.3% over 3200-3400), which is what heavier
+      blanketing should do and matches RYA-759's blueward degradation.
+  - artifact: rya846/rya846_responder_diagnosis.csv
+    generator: scripts/rya846_nonlinear_responders.py
+    invocation: python3 scripts/rya846_nonlinear_responders.py
+    ticket: RYA-846
+    note: >-
+      All 40 near-UV lines with their continuum-response slope, r^2 and fit quality. Every
+      line retained (RYA-711); the 12 non-linear responders are flagged, not removed.
+  - artifact: rya846/rya846_responders.json
+    generator: scripts/rya846_nonlinear_responders.py
+    invocation: python3 scripts/rya846_nonlinear_responders.py
+    ticket: RYA-846
+    note: >-
+      The 12 lines whose continuum response is not a derivative are NOT a continuum
+      artifact: they sit +0.467 dex high at permutation p=0.003 with IDENTICAL line
+      strength, which a continuum misplacement cannot do selectively to 12 of 40 lines.
+      ⚠️ The MECHANISM is not established -- the blend metrics do not discriminate (core
+      dominance p=0.26) -- so they are candidate problem-children for RYA-844 adjudication
+      and are carried, not dropped. Dropping them would move the product 7.488 -> 7.413
+      and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
+      per-line physical reason.
