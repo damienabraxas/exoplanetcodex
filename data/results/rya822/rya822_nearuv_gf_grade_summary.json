@@ -1,0 +1,29 @@
+{
+  "ticket": "RYA-822",
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "species": "Fe I",
+  "n_lines": 4274,
+  "grade_counts": {
+    "systematic:K07": 3609,
+    "GF-NIST": 604,
+    "systematic:K07/SCALE-MISMATCH": 55,
+    "GF-LAB": 6
+  },
+  "n_with_cited_sigma": 610,
+  "sigma_dex": {
+    "min": 0.012837224705172217,
+    "median": 0.04139268515822507,
+    "max": 0.3010299956639812
+  },
+  "blanket_systematic_dex": 0.2,
+  "vald_gf_source_recovered": {
+    "gf:K14": 3680,
+    "no_gf_tag": 684,
+    "primary_lab": 0,
+    "note": "recovered from VALD's 4th physical line; the built list had flattened it to 'VALD3'"
+  },
+  "caveat": "GF-NIST is a COMPILATION grade, not a primary laboratory measurement (RYA-760: FMW *is* NIST and VALD copies it). It carries a citable per-line sigma but is deliberately outside `is_graded`."
+}
