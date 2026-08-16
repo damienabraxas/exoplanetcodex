@@ -91,6 +91,13 @@ MIN_SPECTRAL_CORR = 0.90
 #: values to +9.98 and -1.00 in this band; they are excluded and COUNTED.
 SANE_FLUX = (-0.05, 1.20)
 
+#: The 40 lines the near-UV product is actually built from (RYA-759/832). sigma_delta
+#: averaged over the whole band is not what enters the budget — what enters is the
+#: continuum uncertainty AT THE LINES, and the disagreement is structured, so the two
+#: are not interchangeable.
+PRODUCT_LINES = (ROOT / "data" / "audit" / "nearuv_fe_product"
+                 / "nearuv_fe_per_line_main.csv")
+
 OUT = ROOT / "data" / "results" / "rya846"
 SUMMARY = OUT / "rya846_sigma_delta.json"
 PER_BIN = OUT / "rya846_normalisation_per_bin.csv"
@@ -197,6 +204,62 @@ def compare_normalisation(segs, lam_w, flux_w, *, lo: float, hi: float) -> pd.Da
     return pd.DataFrame(rows)
 
 
+def sigma_at_the_lines(segs, lam_w, flux_w, *, lo: float, hi: float) -> dict:
+    """sigma_delta evaluated where the product's lines actually are.
+
+    The band-wide number answers "how well is this atlas normalised"; this answers "how
+    well is it normalised where we measured iron", and because the disagreement between
+    the two reductions is STRUCTURED (coherent ~10% blocks, not white noise) those are
+    different questions with different answers.
+    """
+    if not PRODUCT_LINES.exists():
+        return {"available": False}
+    waves = pd.read_csv(PRODUCT_LINES).wave_A.to_numpy(dtype=float)
+    inb = waves[(waves >= lo) & (waves <= hi)]
+
+    rows = []
+    for wv in inb:
+        try:
+            kw, kf = _load_kp_window(segs, float(wv), BIN_HALF_A)
+        except LookupError:
+            continue
+        m = (lam_w >= kw.min()) & (lam_w <= kw.max()) & np.isfinite(flux_w)
+        if m.sum() < 50:
+            continue
+        fi = np.interp(kw, lam_w[m], flux_w[m])
+        ok = ((fi >= SANE_FLUX[0]) & (fi <= SANE_FLUX[1])
+              & (kf >= SANE_FLUX[0]) & (kf <= SANE_FLUX[1]) & (kf > 0.05) & (fi > 0.05))
+        if ok.sum() < 50:
+            continue
+        rows.append({"wave_A": float(wv),
+                     "p90_ratio": float(np.percentile(fi[ok], 90)
+                                        / np.percentile(kf[ok], 90))})
+    if not rows:
+        return {"available": False}
+
+    t = pd.DataFrame(rows)
+    dev = (t.p90_ratio - 1.0).abs()
+    out = {"available": True, "n_lines": int(len(t)),
+           "n_lines_total": int(len(waves)),
+           "n_lines_outside_wallace": int(len(waves) - len(inb)),
+           "median_ratio": float(t.p90_ratio.median()),
+           "MAD": float(np.median(np.abs(t.p90_ratio - t.p90_ratio.median()))),
+           "std": float(t.p90_ratio.std(ddof=1)),
+           "rms_dev_from_unity": float(np.sqrt((dev ** 2).mean())),
+           "max_dev": float(dev.max())}
+    print(f"\n=== sigma_delta AT THE {len(t)} PRODUCT LINES in range "
+          f"({len(waves) - len(inb)} of {len(waves)} fall outside Wallace) ===")
+    print(f"  median ratio {out['median_ratio']:.4f}   MAD {out['MAD']:.4f}   "
+          f"std {out['std']:.4f}")
+    print(f"  rms deviation from unity {out['rms_dev_from_unity']:.4f}  "
+          f"(max {out['max_dev']:.4f})")
+    print(f"  -> term = {LEVER_DEX_PER_UNIT_DELTA:.2f} x "
+          f"{out['rms_dev_from_unity']:.4f} = "
+          f"{LEVER_DEX_PER_UNIT_DELTA * out['rms_dev_from_unity']:.3f} dex")
+    out["term_dex"] = LEVER_DEX_PER_UNIT_DELTA * out["rms_dev_from_unity"]
+    return out
+
+
 def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
     print(f"\n=== normalisation comparison, {len(d)} bins of {BIN_A:.0f} A ===")
     print(f"  median per-bin spectral correlation: {d.spectral_corr.median():.4f}")
@@ -294,7 +357,10 @@ def main() -> None:
         raise SystemExit("no comparable bins — check coverage")
     d.to_csv(PER_BIN, index=False)
 
+    at_lines = sigma_at_the_lines(segs, lam_w, flux_w, lo=lo, hi=hi)
+
     summary = report(d, controls, {
+        "sigma_delta_at_product_lines": at_lines,
         "wallace_region": a.region,
         "wallace_overflow_markers": n_overflow,
         "compared_A": [lo, hi],
