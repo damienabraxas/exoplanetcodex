@@ -1,0 +1,69 @@
+{
+  "ticket": "RYA-819",
+  "line_set": "RYA-817 in-domain Fe I VIS (Amarsi training domain) with an MPIA node",
+  "n_common_in_domain": 51,
+  "n_on_amarsi_golden_list": 27,
+  "terms_in_domain": {
+    "A(1D-LTE)": {
+      "n": 51,
+      "median": 7.568359375,
+      "mad": 0.18242929687499998,
+      "sem": 0.02554521111572957
+    },
+    "A(1D-NLTE) = 1D-LTE + delta_NLTE": {
+      "n": 51,
+      "median": 7.579559375,
+      "mad": 0.18105047887500084,
+      "sem": 0.025352137977239758
+    },
+    "A(3D-NLTE) = 1D-LTE + aberr": {
+      "n": 51,
+      "median": 7.598207393402741,
+      "mad": 0.18059278504265228,
+      "sem": 0.02528804802143774
+    },
+    "delta_NLTE  (1D-NLTE - 1D-LTE)": {
+      "n": 51,
+      "median": 0.010270000000000001,
+      "mad": 0.002861417999999999,
+      "sem": 0.0004006786637479258
+    },
+    "NET 3D-NLTE (3D-NLTE - 1D-LTE)": {
+      "n": 51,
+      "median": 0.0407444562524772,
+      "mad": 0.013220811097327161,
+      "sem": 0.001851283847428372
+    },
+    "3D-ATMOSPHERE (3D-NLTE - 1D-NLTE)": {
+      "n": 51,
+      "median": 0.029707417855811435,
+      "mad": 0.01392917351455059,
+      "sem": 0.0019504744259395627
+    }
+  },
+  "terms_golden_lines": {
+    "delta_NLTE  (1D-NLTE - 1D-LTE)": {
+      "n": 27,
+      "median": 0.010580000000000003,
+      "mad": 0.0029652,
+      "sem": 0.0005706530060670261
+    },
+    "NET 3D-NLTE (3D-NLTE - 1D-LTE)": {
+      "n": 27,
+      "median": 0.0442025166785222,
+      "mad": 0.008179059674434474,
+      "sem": 0.0015740607682509188
+    },
+    "3D-ATMOSPHERE (3D-NLTE - 1D-NLTE)": {
+      "n": 27,
+      "median": 0.03277307122140183,
+      "mad": 0.009384035834726273,
+      "sem": 0.001805958538421436
+    }
+  },
+  "magic2013_as_applied_dex": -0.05,
+  "measured_3d_atmosphere_dex": 0.03277307122140183,
+  "discrepancy_dex": 0.08277307122140183,
+  "significance_sem": 45.83331757646699,
+  "caveat": "Magic-2013 is a <3D>-minus-1D shift computed in LTE; this term holds NLTE in BOTH sides. They are not identical quantities and the residual difference is named in the verdict, not glossed."
+}
