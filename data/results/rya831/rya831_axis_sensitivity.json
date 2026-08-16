@@ -1,0 +1,64 @@
+{
+  "ticket": "RYA-831",
+  "machine": "Mac, python 3.9.6, sklearn present (absent from all four Sirius venvs)",
+  "method": "pipeline.nlte_corrections._compute_aberr with the A(Fe;3N) axis PINNED \u2014 the same primitive RYA-817's reactivation control uses",
+  "reactivation_control": {
+    "n": 41,
+    "a_1dlte": 7.467073170731707,
+    "a_3dnlte": 7.464640692426367,
+    "net": -0.002432478305339991,
+    "mean_correction": -0.0024324783053400983,
+    "pass": true
+  },
+  "grid_afe_axis": [
+    4.5,
+    7.5
+  ],
+  "n_lines": 51,
+  "n_railed_above_ceiling": 33,
+  "our_median_a1dlte": 7.568359375,
+  "amarsi_a1dlte": 7.4671,
+  "gf_zero_point_offset_dex": 0.10125937499999971,
+  "delta_nlte_median": 0.01027,
+  "curve": [
+    {
+      "axis_afe": 7.1,
+      "net_3dnlte": 0.04251840457831624,
+      "term_3d_atmosphere": 0.03506993036058266
+    },
+    {
+      "axis_afe": 7.2,
+      "net_3dnlte": 0.04051277290723666,
+      "term_3d_atmosphere": 0.033300741528428046
+    },
+    {
+      "axis_afe": 7.3,
+      "net_3dnlte": 0.040902597533190865,
+      "term_3d_atmosphere": 0.03178293148592515
+    },
+    {
+      "axis_afe": 7.4,
+      "net_3dnlte": 0.04151528782387218,
+      "term_3d_atmosphere": 0.03128922170658705
+    },
+    {
+      "axis_afe": 7.46,
+      "net_3dnlte": 0.04082149170412169,
+      "term_3d_atmosphere": 0.0305314408779207
+    },
+    {
+      "axis_afe": 7.4671,
+      "net_3dnlte": 0.04069515292800385,
+      "term_3d_atmosphere": 0.030388031859818615
+    },
+    {
+      "axis_afe": 7.5,
+      "net_3dnlte": 0.040744456252477274,
+      "term_3d_atmosphere": 0.029707417855811075
+    }
+  ],
+  "term_at_rail": 0.029707417855811075,
+  "term_at_matched_axis": 0.0305314408779207,
+  "amarsi_in_domain_term": -0.01270247830533999,
+  "magic_as_applied": -0.05
+}
