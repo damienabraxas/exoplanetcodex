@@ -36,7 +36,8 @@ LOWER BOUND on sigma_delta: it captures reduction-to-reduction disagreement, not
 from an unobservable truth. That distinction is stated in the output, not buried here.
 
 TWO CONTROLS, BOTH OF WHICH CAN FAIL LOUDLY
-  1. WAVELENGTH CONVENTION. Wallace ships WAVENUMBERS, so 1e8/nu is a VACUUM wavelength,
+  1. WAVELENGTH CONVENTION (converted with `pipeline.wavelength_util.vac_to_air`, the
+     repo's single source for it). Wallace ships WAVENUMBERS, so 1e8/nu is VACUUM,
      while the Kitt Peak `lm` files are AIR. At 3300 A that is a 0.94 A error -- far wider
      than a line -- and it would masquerade as a normalisation difference. The conversion
      is verified by cross-correlation, and the run ABORTS if the residual shift is large.
@@ -65,6 +66,10 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from config.constants import codex_path  # noqa: E402
+# RYA-264/501: the vac<->air refractive index is defined in ONE place and CI enforces it.
+# Re-deriving Birch & Downs here (which the first cut of this script did) is exactly the
+# duplicate-declaration failure RYA-845 was about, and the guard caught it.
+from pipeline.wavelength_util import vac_to_air  # noqa: E402
 from rya759_nearuv_synth import _kp_segments, _load_kp_window  # noqa: E402
 
 LO_A, HI_A = 3000.0, 3780.0
@@ -118,17 +123,6 @@ PER_BIN = OUT / "rya846_normalisation_per_bin.csv"
 def wallace_path(region: int) -> Path:
     """The Wallace 2011 atlas lives beside the other solar references (RYA-485)."""
     return Path(codex_path("data.solar_wallace2011_kpno")) / f"sptr.reg{region}"
-
-
-def vac_to_air(lam_vac: np.ndarray) -> np.ndarray:
-    """Edlen/IAU standard. Wallace ships wavenumbers => 1e8/nu is VACUUM; Kitt Peak is AIR.
-
-    Skipping this puts the two atlases 0.94 A apart at 3300 A, which is wider than a line
-    and would be read as a normalisation difference rather than a unit error.
-    """
-    s2 = (1e4 / lam_vac) ** 2
-    n = 1.0 + 8.34254e-5 + 2.406147e-2 / (130.0 - s2) + 1.5998e-4 / (38.9 - s2)
-    return lam_vac / n
 
 
 def load_wallace_composite() -> tuple[np.ndarray, np.ndarray, dict]:
