@@ -733,3 +733,71 @@ artifacts:
       lab-covered set scatters 0.651 on the production gf against the RYA-832 depth-
       selected pool's 0.413. What DID improve is the systematic (0.221 -> 0.147) and the
       dominant term flipped from gf to the pseudo-continuum, which is the actionable half.
+
+  # ── RYA-841 — the near-UV pseudo-continuum, measured ───────────────────────────────
+  - artifact: rya841/rya841_scatter_driver_per_line.csv
+    generator: scripts/rya841_nearuv_scatter_driver.py
+    invocation: python3 scripts/rya841_nearuv_scatter_driver.py
+    ticket: RYA-841
+    note: >-
+      Blend geometry for both near-UV pools, joined to the per-line abundances they
+      already have on disk -- no new synthesis. Carries own/blend depth over the +/-0.40 A
+      fit window and over a +/-0.05 A core, the nearest ANY-species neighbour, and window
+      occupancy. Every line of both pools is retained (RYA-711); subsets are reported as
+      sweeps, never applied.
+  - artifact: rya841/rya841_scatter_driver.json
+    generator: scripts/rya841_nearuv_scatter_driver.py
+    invocation: python3 scripts/rya841_nearuv_scatter_driver.py
+    ticket: RYA-841
+    note: >-
+      THE NEGATIVE RESULT, which is the finding. select_lines(min_sep_A=4.0) is a SAMPLING
+      rule and not a blend rejection -- it compares a candidate only against lines already
+      selected -- so the nearest ACTUAL neighbour is 0.0095 A and the median fit window
+      holds 53 other lines. No window is dominated by its own line (median 8% of the
+      window's absorption), seven metrics correlate with the per-line residual at
+      |rho| <= 0.24 in BOTH pools, and the one cut that appears to tighten the 832 pool
+      (0.412 -> 0.321, 1.4 sigma) makes the lab pool WORSE (0.651 -> 0.744). A real
+      physical criterion cannot do both, so there is no defensible clean subset and the
+      honest tightening ceiling from line selection is ZERO (RYA-161, RYA-777).
+  - artifact: rya841/rya841_continuum_sensitivity_per_line.csv
+    generator: scripts/rya841_nearuv_continuum_sensitivity.py
+    invocation: python3 scripts/rya841_nearuv_continuum_sensitivity.py
+    ticket: RYA-841
+    note: >-
+      Each near-UV line re-fitted on a symmetric grid of deliberate continuum
+      misplacements (f_used = f_atlas / (1 + delta)), everything else held fixed. The
+      delta=0 column is a positive control and reproduces RYA-759's published per-line
+      values line for line. Sirius only (Turbospectrum through iSpec).
+  - artifact: rya841/rya841_summary.json
+    generator: scripts/rya841_nearuv_continuum_sensitivity.py
+    invocation: python3 scripts/rya841_nearuv_continuum_sensitivity.py
+    ticket: RYA-841
+    note: >-
+      dA/d(delta), the conversion the 0.100 dex pseudo-continuum term assumes and which
+      appears nowhere else in the repo. error_budget.py:170-176 turns "~10% uncertain
+      normalisation" into "0.10 dex" one-to-one, silently asserting dA/ddelta = 1.0; the
+      measured lever is well above that for lines that respond linearly, and a
+      substantial fraction of lines respond non-linearly or in the physically impossible
+      direction. Reports the lever and its implication across a range of sigma_delta; it
+      does NOT set a new budget term, because sigma_delta is a separate measurement.
+  - artifact: rya841/rya841_continuum_methods_per_line.csv
+    generator: scripts/rya841_nearuv_continuum_methods.py
+    invocation: python3 scripts/rya841_nearuv_continuum_methods.py
+    ticket: RYA-841
+    note: >-
+      The same lines under three continuum placements (atlas as delivered, the window's
+      own upper envelope, and the model's own continuum), each expressed as a per-line
+      delta so all three go through the same tested fitter. chi2 travels with every
+      placement because a placement can sit far outside the regime where a fit means
+      anything and the abundance alone will not say so.
+  - artifact: rya841/rya841_continuum_methods.json
+    generator: scripts/rya841_nearuv_continuum_methods.py
+    invocation: python3 scripts/rya841_nearuv_continuum_methods.py
+    ticket: RYA-841
+    note: >-
+      How far apart defensible continuum placements put the answer. The local-envelope
+      placement is REFUTED rather than merely less accurate: at 3000 A the envelope sits
+      at 0.56 (delta = -0.44) and the fit degrades to chi2_r 229 against the atlas
+      placement's 88, because there are no near-continuum pixels to find. The `synth`
+      placement is partly circular (normalise to the model, then fit the model) and the
+      headline is quoted without it as well.
