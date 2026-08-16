@@ -44,13 +44,13 @@ measurable in a crowded band.
 |---|---|---|
 | line scatter | **0.413** | 0.652 |
 | stat | 0.0652 | 0.0849 |
-| **syst** | **0.2211** | **0.1472** |
+| **syst** | **0.1972** ~~0.2211~~ | **0.1081** ~~0.1472~~ |
 | **dominant term** | **gf scale (UNGRADED)** | **pseudo-continuum** |
-| total (stat ⊕ syst) | 0.231 | **0.170** |
+| total (stat ⊕ syst) | 0.208 ~~0.231~~ | **0.137** ~~0.170~~ |
 
 Two things happened that are worth separating:
 
-1. **The systematic fell 0.221 → 0.147**, because the pool is now on gf with a cited
+1. **The systematic fell 0.197 → 0.108** (corrected — see below), because the pool is now on gf with a cited
    per-line σ (0.020–0.120 dex) instead of an ungraded 0.20 blanket.
 2. **The dominant term flipped from gf to the pseudo-continuum.** That is the actionable
    result: *once the near-UV is on primary laboratory gf, gf stops being the limiting
@@ -66,7 +66,7 @@ opposite directions, and both answers are above.
 ## Relationship to RYA-824 — same operation, different outcome, same lesson
 
 RYA-824 did this in the IR/VIS and the gf systematic fell 0.20 → 0.05. That is the same
-effect seen here (0.221 → 0.147): **attaching a citable per-line σ**. What RYA-824 did *not*
+effect seen here (0.197 → 0.108): **attaching a citable per-line σ**. What RYA-824 did *not*
 do, and this ticket makes explicit, is reduce line-to-line scatter — 824's value moved
 ≤0.026 dex and its scatter was essentially unchanged too.
 
@@ -162,3 +162,29 @@ line-identification screen be added mid-flight without discarding the fits.
    which is itself the point — the labs and the clean-line criterion barely overlap here.
 3. **Fe I 3026.056 wants adjudication** — either VALD's gf is badly wrong or the lines are
    misidentified. It is carried and flagged, not resolved.
+
+---
+
+## ⚠️ CORRECTED BY RYA-845 — the systematic figures were double-counted
+
+The `syst` values this document originally published were **inflated**. `error_budget.build()`
+already carries the 0.100 dex pseudo-continuum term for the near-UV — the band's policy says
+"pseudo-continuum only", which fires the branch in `error_budget.py` — and both product
+routes then added it **again** in quadrature.
+
+| cell | published here | correct |
+|---|---|---|
+| RYA-832 near-UV (product of record) | 0.2211 | **0.1972** |
+| RYA-836 lab-gf sub-pool | 0.1472 | **0.1081** |
+
+**Nothing about the conclusion changes, and the direction of the finding is unchanged.** The
+fall on moving to primary laboratory gf is **larger** than was claimed here (0.197 → 0.108,
+not 0.221 → 0.147), and the "dominant term flipped from gf to pseudo-continuum" statement is
+untouched — `dominant` is computed from the budget's own terms, before the stray addition.
+
+The abundances, line counts, scatters and `stat` values in this document are all unaffected;
+only the systematic — and the totals derived from it — were wrong.
+
+Found by RYA-841 while asking where the 0.147 came from. The defect originated in RYA-832's
+route and was inherited here, and RYA-832's unit test asserted the constant *equals* 0.100,
+which pinned the double-count rather than catching it.

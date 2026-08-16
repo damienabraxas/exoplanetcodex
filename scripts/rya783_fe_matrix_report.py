@@ -60,7 +60,12 @@ def load(indir: Path) -> pd.DataFrame:
     rows = []
     for f in sorted(glob.glob(str(indir / "**" / "*_products.csv"), recursive=True)):
         d = pd.read_csv(f)
-        d["_src"] = f
+        # RELATIVE to the input dir, not the absolute glob path (RYA-845). The committed
+        # matrix used to carry the generating worktree's absolute path on every row, so
+        # regenerating it anywhere else rewrote all 18 rows and buried the one cell that
+        # actually moved. Provenance that changes with WHERE you ran it is not provenance
+        # — it is noise that hides diffs, which is how a wrong number survives a review.
+        d["_src"] = str(Path(f).relative_to(indir))
         rows.append(d)
     if not rows:
         raise SystemExit(f"no products under {indir} — run scripts/rya783_run_matrix.sh")
