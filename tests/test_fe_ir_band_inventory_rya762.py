@@ -92,24 +92,52 @@ def test_the_denominator_is_named_not_a_bare_percentage():
 
 
 # ── the products are gated, and the gate is measurable ───────────────────────
-def test_the_whole_band_lies_outside_canonical_gf_so_products_are_rya379_gated():
-    """Not prose: zero canonical gf rows exist above 9199.9 A.
+def test_the_gf_gate_on_this_band_is_CLEARED():
+    """This test used to assert the OPPOSITE, and its failure is what retired it.
 
-    `apply_to_synth_array` raises rather than defaulting there, so no product leg
-    (1D-LTE, Engine A, Engine B) can be derived for this band until RYA-379 extends
-    the table and the RYA-355 guard. If this test ever fails, RYA-379 has landed and
-    RYA-762's products became buildable — which is a reason to celebrate and finish
-    the ticket, not to delete the test.
+    It was written to pin an absence: zero canonical gf rows above 9199.9 A, so no
+    product leg could be derived until RYA-379 extended the table. Its failure message
+    said that a failure would mean the gate had opened, not that something had broken.
+
+    RYA-834 opened it — canonical_gf now runs to 12934.67 A and covers all 571 of this
+    band's physical lines — so the assertion is inverted here rather than deleted. The
+    band's history stays legible: the gf gate existed, and this is the commit where it
+    stopped existing.
     """
     with open(CANONICAL_GF, encoding="utf-8") as fh:
         gf = [float(r["wavelength_air_A"]) for r in csv.DictReader(fh)
               if r.get("wavelength_air_A")]
     assert gf, "canonical_gf.csv did not parse"
-    assert max(gf) <= BAND_LO_A + 0.01, (
-        f"canonical_gf now reaches {max(gf):.2f} A — RYA-379 may have landed; "
-        f"RYA-762's product legs are no longer gf-gated")
     band = [float(r["wave_air_A"]) for r in _rows()]
-    assert min(band) > max(gf), "the band and the canonical gf table do not overlap"
+    assert max(gf) >= max(band), (
+        f"canonical_gf reaches {max(gf):.2f} A but the band runs to {max(band):.2f} A — "
+        f"RYA-834's redward extension has regressed and the products are gf-gated again")
+    assert sum(1 for x in gf if BAND_LO_A < x <= 12935.0) == 571
+
+
+def test_the_REMAINING_gate_is_the_synthesis_linelist_not_the_gf_table():
+    """Which gate is binding is itself a fact worth pinning.
+
+    RYA-834 ran the products after extending canonical_gf and all three legs still
+    returned n=0 — `NOT-IN-SYNTH-LINELIST`. canonical_gf says what gf to USE for a line;
+    the synthesis linelist decides which lines EXIST for the engines. Only the first has
+    moved, so this band's blocker is now RYA-837, not RYA-379.
+    """
+    from config.constants import codex_path
+    ges = codex_path('engines.ges_nlte_linelist')
+    if not ges.exists():
+        pytest.skip("GES linelist not mounted (engine volume offline)")
+    top = 0.0
+    for raw in ges.read_text(errors="replace").splitlines():
+        if raw.startswith("'") or not raw.startswith(" "):
+            continue
+        try:
+            top = max(top, float(raw.split()[0]))
+        except (ValueError, IndexError):
+            continue
+    assert top < 9200.0, (
+        f"the synthesis linelist now reaches {top:.2f} A — RYA-837 has landed and this "
+        f"band's products are derivable; go finish RYA-762")
 
 
 # ── the H I exclusion, and the retraction ────────────────────────────────────
