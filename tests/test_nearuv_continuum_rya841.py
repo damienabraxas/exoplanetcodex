@@ -206,62 +206,61 @@ def test_scatter_is_never_quoted_without_a_sampling_error(driver):
                 assert row.get("scatter_err", 0) > 0
 
 
-# ── the defect this ticket found in two merged products ───────────────────────
+# ── the defect this ticket found, and which RYA-845 then fixed ────────────────
 
-def test_the_pseudo_continuum_term_is_double_counted_in_both_nearuv_routes():
-    """🔴 THE 0.100 dex TERM IS ADDED TWICE TO EVERY NEAR-UV CELL.
+def test_the_double_count_this_ticket_found_is_gone():
+    """🔴 WHAT THIS TICKET FOUND, kept as the record of a fixed defect (RYA-845).
 
-    `error_budget.build()` already adds it: the near-UV `BandPolicy.continuum_treatment`
-    says "pseudo-continuum only", which fires the `if "pseudo" in ...` branch at
-    error_budget.py:170. Both near-UV routes then add it AGAIN in quadrature:
+    The 0.100 dex pseudo-continuum term was added TWICE to every near-UV cell.
+    `error_budget.build()` already adds it — the near-UV `BandPolicy.continuum_treatment`
+    says "pseudo-continuum only", which fires the branch at error_budget.py:170 — and both
+    near-UV routes then added it again in quadrature:
 
-        derive_band_products.py:263      syst = hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)
-        rya836_nearuv_lab_gf_subpool.py  syst = hypot(syst, PSEUDO_CONTINUUM_DEX)
+        derive_band_products.py         syst = hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)
+        rya836_nearuv_lab_gf_subpool.py syst = hypot(syst, PSEUDO_CONTINUUM_DEX)
 
-    Reconstructed exactly from the published cells:
+        RYA-832 cell   build() syst 0.1972 -> published 0.2211
+        RYA-836 cell   build() syst 0.1081 -> published 0.1472
 
-        RYA-832 cell   build() syst 0.1972 -> reported 0.2211
-        RYA-836 cell   build() syst 0.1081 -> reported 0.1472
+    Mine, from RYA-832, and inherited by RYA-836. The comment at each call site said the
+    term "is NOT in the line scatter" — true, and not the question. It was already in the
+    BUDGET.
 
-    Mine, from RYA-832, and inherited by RYA-836. The comment at the call site says the
-    term "is NOT in the line scatter" -- which is true, and not the question. It was
-    already in the BUDGET.
-
-    The direction matters: correcting it makes the lab-gf improvement LARGER
-    (0.197 -> 0.108, not 0.221 -> 0.147), so RYA-836's qualitative conclusion survives
-    and its numbers do not. This test pins the defect so it cannot be silently changed;
-    when the two call sites are fixed, update this test in the same commit.
+    This test USED to assert the defect was present, to pin it. RYA-845 removed it, so the
+    assertion is inverted: the arithmetic that produced the wrong numbers is kept here as
+    documentation, and what is asserted is that no route performs it any more.
     """
     import numpy as np
     from pipeline.error_budget import build
 
-    # the term is already inside build() for this band
+    # The budget still owns the term — removing the double-add must not have removed it.
     b = build("Fe", 3390.0, 40, scatter_dex=0.413, gf_graded=False,
               harness_residual_dex=0.0, handler="SynthesisHandler")
-    names = [t.name for t in b.terms]
-    assert "pseudo-continuum" in names, (
-        "the near-UV budget no longer includes the pseudo-continuum term — the "
-        "double-count may have been fixed from the other side")
+    assert [t for t in b.terms if "pseudo" in t.name.lower()], (
+        "the near-UV budget no longer includes the pseudo-continuum term — the fix went "
+        "too far and deleted the systematic instead of the duplicate")
 
+    # The budget's own answers, which are what the cells must now publish.
     _, syst = b.total()
     assert round(float(syst), 4) == 0.1972
-    assert round(float(np.hypot(syst, 0.100)), 4) == 0.2211, (
-        "the published RYA-832 near-UV cell no longer reconstructs as a double-count")
 
     b2 = build("Fe", 3390.0, 59, scatter_dex=0.6523, gf_graded=True,
                harness_residual_dex=0.0, handler="SynthesisHandler")
     _, syst2 = b2.total()
     assert round(float(syst2), 4) == 0.1081
-    assert round(float(np.hypot(syst2, 0.100)), 4) == 0.1472, (
-        "the published RYA-836 lab-gf cell no longer reconstructs as a double-count")
+
+    # and the values the double-add used to produce, which must no longer appear
+    assert round(float(np.hypot(syst, 0.100)), 4) == 0.2211
+    assert round(float(np.hypot(syst2, 0.100)), 4) == 0.1472
 
 
-def test_both_call_sites_still_add_the_term_by_hand():
-    """The two lines that do it, named so the fix is a two-line change and not a hunt."""
+def test_no_route_adds_the_term_by_hand_any_more():
+    """The two lines that did it. Inverted from "still present" to "gone" by RYA-845;
+    kept because a re-add is the natural regression and it would be silent."""
     dbp = (ROOT / "scripts" / "derive_band_products.py").read_text()
-    assert "np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)" in dbp
+    assert "np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)" not in dbp
     r836 = (ROOT / "scripts" / "rya836_nearuv_lab_gf_subpool.py").read_text()
-    assert "np.hypot(syst, PSEUDO_CONTINUUM_DEX)" in r836
+    assert "np.hypot(syst, PSEUDO_CONTINUUM_DEX)" not in r836
 
 
 # ── the measured lever and the placement spread ───────────────────────────────
