@@ -187,6 +187,46 @@ def test_the_adopted_values_carry_a_real_per_line_sigma():
         "the point of a primary source is a sigma tighter than the 0.20 blanket")
 
 
+def test_the_synthesis_linelist_is_the_SECOND_wall_and_it_has_not_moved():
+    """Step 4's blocker, pinned — extending canonical_gf was necessary, not sufficient.
+
+    `canonical_gf` says what gf to USE for a line. The synthesis linelist decides which
+    lines EXIST for the engines at all. Both stopped at 9199.9 A and only one has moved,
+    so all three product legs return `NOT-IN-SYNTH-LINELIST` and n=0.
+
+    Asserted on the COMMITTED GES linelist rather than on a live `_load_synth_resources()`
+    call, so it runs without iSpec. When this test starts failing, the synthesis input has
+    been extended redward and RYA-834 step 4 became runnable — that is the signal to go
+    derive the products, not to delete the test.
+    """
+    from config.constants import codex_path
+    ges = codex_path('engines.ges_nlte_linelist')
+    if not ges.exists():
+        pytest.skip("GES linelist not mounted (engine volume offline)")
+    top = 0.0
+    for raw in ges.read_text(errors="replace").splitlines():
+        if raw.startswith("'") or not raw.startswith(" "):
+            continue
+        try:
+            top = max(top, float(raw.split()[0]))
+        except (ValueError, IndexError):
+            continue
+    assert top < 9200.0, (
+        f"the synthesis linelist now reaches {top:.2f} A — RYA-834 step 4 is unblocked; "
+        f"derive the 762 band products (two of them: red-optical 9203-10000 and NIR "
+        f"10000-12935, per RYA-712)")
+
+
+def test_canonical_gf_reaches_past_the_synthesis_linelist_on_purpose():
+    """The two spans are ALLOWED to differ, and the direction matters.
+
+    canonical_gf leading is harmless — a gf nobody asks for is inert. The reverse would
+    be the failure: a synthesis line with no canonical gf raises GfResolutionError.
+    """
+    w = [float(r["wavelength_air_A"]) for r in _canon() if r.get("wavelength_air_A")]
+    assert max(w) > 12934.0 > 9200.0
+
+
 def test_adjudication_moved_gf_for_exactly_the_adopted_lines():
     """28 changed, and only those — an extension must not perturb untouched lines."""
     changed = [r for r in _adj()
