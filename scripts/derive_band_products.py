@@ -271,6 +271,29 @@ def synthesis_route(a, pol) -> None:
     hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
     cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
                         teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A)
+    # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
+    # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
+    # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
+    # the first NIR run fitted lines sitting inside the H2O 11120-11560 A band, where the
+    # atlas flux is not stellar at all -- measured observed depths of 0.99, 1.00, and one
+    # at 1.001, i.e. FLUX AT OR BELOW ZERO. There is no Fe profile to fit there, so the
+    # optimizer ran the abundance to its bound and returned ~12.49.
+    #
+    # That is a LINE-SELECTION failure, not a fitter one (RYA-842: line selection
+    # dominates). Fixing it here makes the rail-detector tolerance moot for these lines
+    # instead of tuning a threshold to hide them. RYA-762's own atlas survey already said
+    # the two H2O bands are severe and masked; the mask simply never reached this path.
+    from measure_band_ew import telluric_reason
+    _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
+             for r in cand.itertuples()]
+    _bad = [(w, why) for w, why in _tell if why]
+    if _bad:
+        print(f"  {len(_bad)} candidate(s) QUARANTINED-TELLURIC before fitting "
+              f"(flux there is not stellar; excluded, never corrected):")
+        for w, why in _bad:
+            print(f"      {w:10.3f}  {why.split(' and ')[0]}")
+        keep = {w for w, why in _tell if not why}
+        cand = cand[cand.wave_A.astype(float).isin(keep)].reset_index(drop=True)
     print(f"  {len(cand)} Fe I candidates by theoretical depth "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
