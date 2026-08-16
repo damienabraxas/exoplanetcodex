@@ -79,6 +79,13 @@ POOL_832 = ROOT / 'data' / 'audit' / 'nearuv_fe_product' / 'nearuv_fe_per_line_m
 LOCAL_NEIGHBOURHOOD_A = 2.0
 LOCAL_PERCENTILE = 95.0
 
+#: A fit that walks to its own bound has not measured anything. `_fit_synth_flux` is given
+#: [a_solar-3, a_solar+5], so a returned A near 12.5 is the optimiser leaving the room, not
+#: an iron abundance -- seen at 3617.318 under the `synth` placement (A = 12.445). Anything
+#: outside this window is counted and reported separately rather than being allowed to sit
+#: in a median as though it were a measurement.
+CREDIBLE_A = (4.5, 11.0)
+
 
 def local_envelope_delta(segs, wave_A: float) -> float:
     """delta implied by placing the continuum at the window's own upper envelope."""
@@ -182,17 +189,21 @@ def report(d: pd.DataFrame) -> None:
             print(f'  local is WORSE than atlas on {worse} of {len(both)} lines '
                   f'-- a placement is rejected by the pool, not by one line')
     print('\n=== per-method medians ===')
-    med = {}
+    med, railed = {}, {}
     for name, c in cols.items():
         if c not in d.columns:
             continue
         v = d[c].dropna()
         if not len(v):
             continue
-        med[name] = float(v.median())
-        print(f'  {name:6s} n={len(v):3d}  median={v.median():.3f}  '
-              f'scatter={v.std(ddof=1):.3f}  '
-              f'median delta={d.get(f"delta_{name}", pd.Series([0.0])).median():+.4f}')
+        bad = v[(v < CREDIBLE_A[0]) | (v > CREDIBLE_A[1])]
+        keep = v[(v >= CREDIBLE_A[0]) & (v <= CREDIBLE_A[1])]
+        railed[name] = int(len(bad))
+        med[name] = float(keep.median()) if len(keep) else float('nan')
+        flag = f'   [{len(bad)} railed, excluded]' if len(bad) else ''
+        print(f'  {name:6s} n={len(keep):3d}  median={med[name]:.3f}  '
+              f'scatter={keep.std(ddof=1):.3f}  '
+              f'median delta={d.get(f"delta_{name}", pd.Series([0.0])).median():+.4f}{flag}')
 
     print('\n=== pairwise disagreement (the systematic) ===')
     pairs = {}
@@ -227,6 +238,8 @@ def report(d: pd.DataFrame) -> None:
         'ticket': 'RYA-841',
         'measurement': 'continuum-placement systematic by method disagreement',
         'medians': med,
+        'railed_excluded': railed,
+        'credible_A_window': list(CREDIBLE_A),
         'pairwise': pairs,
         'spread_atlas_vs_local_dex': spread_honest,
         'spread_all_methods_dex': spread_all,
