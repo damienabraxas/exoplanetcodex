@@ -46,7 +46,8 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from pipeline import state_surfaces                       # noqa: E402
+from pipeline import state_surfaces
+from pipeline.gf_resolver import annotate_used_gf                       # noqa: E402
 from pipeline.coverage import coverage_at                 # noqa: E402
 
 #: Usable-depth window. A plotting/triage cutoff, never a science threshold — nothing
@@ -98,6 +99,9 @@ def audit(star: str = "solar") -> dict:
                                  log_gf=round(float(r.gf), 3), ep_eV=round(float(r.ep), 4),
                                  predicted_depth=round(float(r.d), 4),
                                  instruments="|".join(ins), measured_in_pool=measured))
+            # `log_gf` here is still the INTAKE value (max over the cluster). It is
+            # corrected to the gf the inversion actually uses, once, below — doing it
+            # per row would re-read the canonical index 21,828 times.
         n_reach = sum(1 for _, r in use.iterrows() if reach(r.w))
         n_meas = sum(1 for _, r in use.iterrows()
                      if len(pw) and np.min(np.abs(pw - r.w)) <= POOL_TOL_A)
@@ -106,7 +110,24 @@ def audit(star: str = "solar") -> dict:
                          reachable=n_reach, measured=n_meas,
                          unmeasured_reachable=n_reach - n_meas,
                          no_instrument=len(use) - n_reach))
-    return dict(summary=pd.DataFrame(rows), per_line=pd.DataFrame(per_line))
+    # RYA-825 — make `log_gf` report the gf the INVERSION uses, not the intake value.
+    #
+    # `_load_synth_resources` defaults `apply_canonical_gf=True`, so the production
+    # synthesis path resolves each line's gf out of canonical_gf.csv (RYA-353) BEFORE
+    # inverting. This table was reporting the linelist's intake value instead, and the
+    # two differ on 3,197 of 21,828 rows across twelve elements. RYA-799 read this column
+    # and concluded the Fe pool was "100 % Kurucz K14"; RYA-824 re-inverted and found 18
+    # of 29 lab-covered lines were already on the canonical value. The intake value is
+    # preserved in `log_gf_intake` — nothing is lost, the primary column just stops lying.
+    pl = pd.DataFrame(per_line)
+    if len(pl):
+        pl, gf_stats = annotate_used_gf(
+            pl, wl_col="wave_air_A", ep_col="ep_eV", gf_col="log_gf",
+            intake_source="linelist_solar.csv (VALD intake, max over the HFS cluster)")
+        print(f"  gf column: {gf_stats['n_resolved']}/{gf_stats['n']} rows resolved to "
+              f"canonical, {gf_stats['n_changed']} corrected, "
+              f"{gf_stats['n_unresolved']} outside canonical (intake retained)")
+    return dict(summary=pd.DataFrame(rows), per_line=pl)
 
 
 def main(argv=None) -> int:
