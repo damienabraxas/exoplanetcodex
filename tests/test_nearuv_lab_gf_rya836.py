@@ -7,9 +7,15 @@ to remember only the half that sounds like progress:
 
   * switching 60 lines to a primary laboratory gf changed their scatter by +0.002 dex, so
     the near-UV scatter is NOT the Kurucz floor — it is line selection;
-  * the systematic still fell 0.221 -> 0.147 and the dominant term flipped from gf to the
+  * the systematic still fell and the dominant term flipped from gf to the
     pseudo-continuum, which is what makes the next lever a normalisation problem rather
     than an atomic-data one.
+
+⚠️ The systematic figures this file originally quoted (0.221 -> 0.147) were INFLATED by
+the RYA-845 double-count: the near-UV budget already carried the 0.100 dex
+pseudo-continuum term and both routes added it again. Corrected, the fall is
+0.197 -> 0.108 -- LARGER than was claimed. The conclusion is unchanged and the
+direction is unchanged; only the magnitudes were wrong.
 
 Also pinned: the admission rule (primary lab only — a compilation cannot referee a pool
 whose claim is independence), and the line-identification screen that keeps one 2.96-dex
