@@ -1,11 +1,11 @@
 {
   "element": "Fe",
-  "version": "v4",
-  "frozen_utc": "2026-08-14T16:00:50Z",
-  "source_commit": "57eeb7224686",
-  "provenance": "exploded from solar_abundances_v4.csv (RYA-814 decoupling; representation only, no value moved)",
-  "sha256": "468c04fc8a3786a45c0c87778045ec5be2520be40f729ffb91a9c4e21f43d8b4",
-  "verbatim": "Fe,I,7.466,7.466,gold,PASS,3D-NLTE (Fe I),7.46,62,phase_c_verdict (RYA-521),\"3D-corrected value: the tabulated Magic-2013 1D→3D solar Fe offset IS APPLIED (RYA-553 ported 7.516 → 7.466), so this number sits on the 3D scale and reads +0.006 against Asplund 3D-true 7.46. The v3 label said 1D-NLTE beside this 3D value, which made phase_c re-arm the correction and double-apply it (RYA-669: A(Fe I) drifted to 7.416 with all nine gates green). RYA-811 fixes the LABEL only — the value is unchanged and was already correct, and RYA-681 had already re-keyed the idempotency guard on the value rather than the label.\"",
+  "version": "v5",
+  "frozen_utc": "2026-08-16T05:46:38Z",
+  "source_commit": "8ec448ab1e17",
+  "provenance": "exploded from solar_abundances_v5.csv (RYA-814 decoupling; representation only, no value moved)",
+  "sha256": "59353e893597161d8ddb46b13338d8850b288bc711b4e88fe43efe7fc20192ed",
+  "verbatim": "Fe,I,7.466,7.466,gold,PASS,3D-NLTE (Fe I),7.46,62,phase_c_verdict (RYA-521),\"VALUE VALIDATED, ROUTE CORRECTED (RYA-819/831, ratified 2026-08-16). A(Fe I) = 7.466 stands on its agreement with Asplund, Amarsi & Grevesse 2021 (7.46, +0.006) and is UNCHANGED from v3/v4. What v4 asserted about HOW it was reached is withdrawn: the chain was stated as 1D-NLTE 7.516 minus a Magic-2013 1D→3D offset of 0.05, and that offset is NOT the 3D-atmosphere term. Measured per line against the Amarsi-2022 3D-NLTE MLP, A(3D-NLTE) − A(1D-NLTE) runs −0.013 to +0.018 dex by line sample — no part of that range contains −0.05 — and the correction is LINEAR IN EXCITATION POTENTIAL (+0.0287 per eV, corr 0.955, +0.143 dex across 5 eV), so NO tabulated scalar can represent it. The −0.05 landed the right answer by absorbing the RYA-161 ungraded-gf zero point, measured at +0.1013 dex. Same shape as the −0.127 RYA-817 found reverse-engineered from a target. SCALE UNCHANGED: 7.466 does sit on the 3D scale, so method_scale stays 3D-NLTE (Fe I); it was the ROUTE that was wrong, never the scale. STILL OWED (RYA-811, restated): this row declares its scale only via the legacy method_scale prose. scale_state/corrections_applied are NOT added here because corrections_applied=[] is a POSITIVE claim (RYA-674) that cannot be made truthfully for the other 25 elements without auditing each.\"",
   "fields": {
     "element": "Fe",
     "ion": "I",
@@ -17,7 +17,7 @@
     "asplund2021": "7.46",
     "n_lines": "62",
     "source": "phase_c_verdict (RYA-521)",
-    "note": "3D-corrected value: the tabulated Magic-2013 1D→3D solar Fe offset IS APPLIED (RYA-553 ported 7.516 → 7.466), so this number sits on the 3D scale and reads +0.006 against Asplund 3D-true 7.46. The v3 label said 1D-NLTE beside this 3D value, which made phase_c re-arm the correction and double-apply it (RYA-669: A(Fe I) drifted to 7.416 with all nine gates green). RYA-811 fixes the LABEL only — the value is unchanged and was already correct, and RYA-681 had already re-keyed the idempotency guard on the value rather than the label.",
+    "note": "VALUE VALIDATED, ROUTE CORRECTED (RYA-819/831, ratified 2026-08-16). A(Fe I) = 7.466 stands on its agreement with Asplund, Amarsi & Grevesse 2021 (7.46, +0.006) and is UNCHANGED from v3/v4. What v4 asserted about HOW it was reached is withdrawn: the chain was stated as 1D-NLTE 7.516 minus a Magic-2013 1D→3D offset of 0.05, and that offset is NOT the 3D-atmosphere term. Measured per line against the Amarsi-2022 3D-NLTE MLP, A(3D-NLTE) − A(1D-NLTE) runs −0.013 to +0.018 dex by line sample — no part of that range contains −0.05 — and the correction is LINEAR IN EXCITATION POTENTIAL (+0.0287 per eV, corr 0.955, +0.143 dex across 5 eV), so NO tabulated scalar can represent it. The −0.05 landed the right answer by absorbing the RYA-161 ungraded-gf zero point, measured at +0.1013 dex. Same shape as the −0.127 RYA-817 found reverse-engineered from a target. SCALE UNCHANGED: 7.466 does sit on the 3D scale, so method_scale stays 3D-NLTE (Fe I); it was the ROUTE that was wrong, never the scale. STILL OWED (RYA-811, restated): this row declares its scale only via the legacy method_scale prose. scale_state/corrections_applied are NOT added here because corrections_applied=[] is a POSITIVE claim (RYA-674) that cannot be made truthfully for the other 25 elements without auditing each.",
     "_row_index": 0
   }
 }

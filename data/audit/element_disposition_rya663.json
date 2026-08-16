@@ -5,18 +5,18 @@
       "artifact_commit": "ae518e8",
       "artifact_committed": "2026-07-27T00:50:37-06:00",
       "input": "data/audit/cno_synthesis/solar_phase_c_verdict.json",
-      "input_commit": "3d9ea82",
-      "input_committed": "2026-08-14T00:02:18-06:00",
-      "note": "data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-14T00:02:18-06:00 (3d9ea82), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
+      "input_commit": "0d6166b",
+      "input_committed": "2026-08-15T23:33:05-06:00",
+      "note": "data/audit/cno_synthesis/solar_phase_c_verdict.json was committed 2026-08-15T23:33:05-06:00 (0d6166b), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
     },
     {
       "artifact": "data/audit/rya527_two_engine/solar_two_engine_records.json",
       "artifact_commit": "ae518e8",
       "artifact_committed": "2026-07-27T00:50:37-06:00",
-      "input": "data/reference/solar/solar_abundances_v4.csv",
-      "input_commit": "3d9ea82",
-      "input_committed": "2026-08-14T00:02:18-06:00",
-      "note": "data/reference/solar/solar_abundances_v4.csv was committed 2026-08-14T00:02:18-06:00 (3d9ea82), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
+      "input": "data/reference/solar/solar_abundances_v5.csv",
+      "input_commit": "0d6166b",
+      "input_committed": "2026-08-15T23:33:05-06:00",
+      "note": "data/reference/solar/solar_abundances_v5.csv was committed 2026-08-15T23:33:05-06:00 (0d6166b), AFTER data/audit/rya527_two_engine/solar_two_engine_records.json at 2026-07-27T00:50:37-06:00 (ae518e8) \u2014 the review artifact was produced against an earlier state of that input"
     }
   ],
   "artifact_age_stale": true,
@@ -710,8 +710,8 @@
   "gate3_provisional_signal": "artifact_age_stale",
   "inputs": [
     {
-      "commit": "3d9ea82",
-      "committed": "2026-08-14T00:02:18-06:00",
+      "commit": "0d6166b",
+      "committed": "2026-08-15T23:33:05-06:00",
       "path": "data/audit/cno_synthesis/solar_phase_c_verdict.json"
     },
     {
@@ -725,9 +725,9 @@
       "path": "data/reference/solar/solar_abundances_v1.csv"
     },
     {
-      "commit": "3d9ea82",
-      "committed": "2026-08-14T00:02:18-06:00",
-      "path": "data/reference/solar/solar_abundances_v4.csv"
+      "commit": "0d6166b",
+      "committed": "2026-08-15T23:33:05-06:00",
+      "path": "data/reference/solar/solar_abundances_v5.csv"
     }
   ],
   "phase_c_summary": {
@@ -757,7 +757,7 @@
       "NLTE-OWED": -2,
       "PASS": 4
     },
-    "generated": "2026-08-13",
+    "generated": "2026-08-15",
     "kittpeak_elements": [
       "Co",
       "K",
@@ -782,7 +782,7 @@
       "S"
     ],
     "s_synthesis_wired": true,
-    "solar_ref_version": "v4",
+    "solar_ref_version": "v5",
     "star": "solar",
     "ticket": "RYA-371 Phase C (RYA-462 NLTE-grid-wired: K)",
     "tol_pass_dex": 0.1
