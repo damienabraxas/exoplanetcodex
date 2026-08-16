@@ -1,7 +1,8 @@
 # RYA-841 — the near-UV pseudo-continuum, and what actually limits the band
 
 **Star:** Sun, Kitt Peak flux atlas. **Band:** 3000–3780 Å, synthesis-only.
-**Status:** investigation. Nothing here changes a product. **Not merged — Ryan reviews.**
+**Status:** investigation. Nothing here changes a product; the defect it found is fixed
+separately by RYA-845 (`118ed93`).
 
 ```
 python3 scripts/rya841_nearuv_continuum_sensitivity.py     # the lever, dA/d(delta)
@@ -13,17 +14,19 @@ python3 scripts/rya841_nearuv_scatter_driver.py            # what drives the sca
 
 ## The headline
 
-RYA-836 made the pseudo-continuum the dominant near-UV systematic. **It has never been
-measured, the arithmetic that produced it contains a unit error, and it is added twice.**
+RYA-836 made the pseudo-continuum the dominant near-UV systematic. **It had never been
+measured, the arithmetic that produced it contains a unit error, and it was added twice.**
+The double-add is fixed by RYA-845; the unit error and the missing σ_δ are not, and §1–§2
+are what this ticket measured.
 
 ---
 
-## 0. 🔴 Where the 0.147 comes from: the term is counted twice
+## 0. 🔴 Where the 0.147 comes from: the term was counted twice
 
 `error_budget.build()` **already adds** the pseudo-continuum term for this band — the
 near-UV `BandPolicy.continuum_treatment` reads *"pseudo-continuum only"*, which fires the
-`if "pseudo" in ...` branch at `error_budget.py:170`. Both near-UV routes then add it again
-in quadrature:
+`if "pseudo" in ...` branch at `error_budget.py:170`. Both near-UV routes then added it
+again in quadrature:
 
 ```
 scripts/derive_band_products.py:263        syst = np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)
