@@ -153,6 +153,15 @@ def spearman(x: np.ndarray, y: np.ndarray) -> tuple[float, int]:
     return (float((rx * ry).sum() / den) if den > 0 else np.nan), int(m.sum())
 
 
+def scatter_err(s: float, n: int) -> float:
+    """Sampling uncertainty on a standard deviation, ~ s / sqrt(2(n-1)).
+
+    Without this, every subset that happens to scatter less looks like a discovery. It is
+    the difference between "this cut tightens the pool" and "this cut removed 16 lines".
+    """
+    return float(s / np.sqrt(2.0 * (n - 1))) if n > 1 else float('nan')
+
+
 def analyse(name: str, df: pd.DataFrame, blend: pd.DataFrame) -> dict:
     """Per-pool: does |A - median| track window dominance?"""
     d = df.merge(blend, on='wave_A', how='left')
@@ -194,9 +203,36 @@ def analyse(name: str, df: pd.DataFrame, blend: pd.DataFrame) -> dict:
             print(f'    t={t:.2f}  n={len(sub):3d}  (too few to quote)')
             continue
         sc, mn = float(sub.a_synth.std(ddof=1)), float(sub.a_synth.median())
-        sweep.append({'t': t, 'n': int(len(sub)), 'scatter': sc, 'median': mn})
-        print(f'    t={t:.2f}  n={len(sub):3d}  scatter={sc:.3f}  median={mn:.3f}')
+        se = scatter_err(sc, len(sub))
+        base = float(d.a_synth.std(ddof=1))
+        nsig = abs(sc - base) / np.hypot(se, scatter_err(base, len(d))) if se else np.nan
+        sweep.append({'t': t, 'n': int(len(sub)), 'scatter': sc, 'median': mn,
+                      'scatter_err': se, 'n_sigma_vs_full': float(nsig)})
+        print(f'    t={t:.2f}  n={len(sub):3d}  scatter={sc:.3f}+/-{se:.3f}  '
+              f'median={mn:.3f}   ({nsig:.1f} sigma vs full pool)')
     out['dominance_sweep'] = sweep
+
+    # own_depth is the ONLY metric whose correlation with the residual has the same sign
+    # in both pools, and it is the axis the 832 selector actually sorts on -- so it is the
+    # candidate cause. A criterion that is real must tighten BOTH pools, not one.
+    print(f'  own_depth: median {d.own_depth.median():.3f}, '
+          f'range {d.own_depth.min():.3f}-{d.own_depth.max():.3f}')
+    out['own_depth_median'] = float(d.own_depth.median())
+    print(f'  depth sweep (own_depth >= t):')
+    dsweep = []
+    for t in (0.0, 0.2, 0.4, 0.6, 0.8):
+        sub = d[d.own_depth >= t]
+        if len(sub) < 5:
+            dsweep.append({'t': t, 'n': int(len(sub)), 'scatter': None})
+            print(f'    t={t:.2f}  n={len(sub):3d}  (too few to quote)')
+            continue
+        sc = float(sub.a_synth.std(ddof=1))
+        se = scatter_err(sc, len(sub))
+        dsweep.append({'t': t, 'n': int(len(sub)), 'scatter': sc,
+                       'scatter_err': se, 'median': float(sub.a_synth.median())})
+        print(f'    t={t:.2f}  n={len(sub):3d}  scatter={sc:.3f}+/-{se:.3f}  '
+              f'median={sub.a_synth.median():.3f}')
+    out['depth_sweep'] = dsweep
     return out, d
 
 
