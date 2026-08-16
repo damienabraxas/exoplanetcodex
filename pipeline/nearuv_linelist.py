@@ -96,9 +96,20 @@ ENGINE_REJECTED_SPECIES = {
           "for its Stehle profiles — which VALD's atomic rows do not carry. Feeding H I "
           "through the atomic list makes hydropac abort: 'wrong H line data file!', and "
           "excluding it is what makes 3700-3780 A synthesise at all. NOTHING IS LOST: "
-          "iSpec supplies TS's own DATA/Hlinedata (H 11-H 27, 3666.095-3770.630 A) on "
-          "every call, so the merging Balmer series IS synthesised — verified against "
-          "the Kitt Peak atlas at synth/obs 0.889 (H 13) and 0.927 (H 12)."),
+          "iSpec supplies TS's own DATA/Hlinedata on every call, so the hydrogen lines "
+          "ARE synthesised — verified against the Kitt Peak atlas at synth/obs 0.889 "
+          "(H 13) and 0.927 (H 12). "
+          "THE EXCLUSION IS AN ENGINE PROPERTY, NOT A NEAR-UV ONE (RYA-762, measured): "
+          "the same abort fires on the IR PASCHEN members (E_low 12.088 eV). Tested "
+          "head-to-head in 12800-12830 A — without H I the window synthesises clean "
+          "(1499 points, flux 0.666-0.980); with H I bsyn dies. So the rule generalises "
+          "beyond the band its first evidence came from. "
+          "⚠️ AND THE 'UNMODELLED NEIGHBOUR' CAVEAT THAT ONCE RODE WITH THIS IS "
+          "RETRACTED: Hlinedata carries 133 records spanning Lyman through Humphreys "
+          "(nblo 1-6), INCLUDING Pa-beta 12818.077 (nblo 3, nbup 5), Pa-gamma 10938.093 "
+          "and Pa-delta 10049.373. So Fe I 12807.15/12808.24 do NOT sit beside an "
+          "unmodelled Pa-beta — it is synthesised, exactly as the Balmer members are. "
+          "Excluding H I from the ATOMIC list never meant the hydrogen line was absent."),
 }
 
 #: Roman → integer ionization stage. iSpec's `ion` column is 1 for neutral.

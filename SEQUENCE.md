@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-16
+
+- **RYA-762** — Fe 9199–13000 Å inventory banked: Engine B **187/239** (the ticket said zero); unmodelled-Pa-beta systematic RETRACTED (Hlinedata carries it); products parked on RYA-379
+
 ## 2026-08-15
 
 - **RYA-823** — model-atom levels keyed by the coordinate each level HAS; (J,energy) ∪ term-label union. Cr I/II → REACH-UNKNOWN (was about to land `SERVED, reach 3` of 5353); Fe/Ti/Mn gain 7 rows, all gains, zero Engine-A change
