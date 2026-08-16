@@ -189,6 +189,83 @@ def resolve_df_gf(df: pd.DataFrame, *, element_col: str = 'element',
                  'n_unresolved': n_unres, 'n_changed': n_changed}
 
 
+def annotate_used_gf(df: pd.DataFrame, *, element_col: str = 'element',
+                     ion_col: str = 'ion', wl_col: str = 'wavelength_air_A',
+                     ep_col: str = 'excitation_potential_eV', gf_col: str = 'log_gf',
+                     intake_source: str = 'linelist intake (VALD)') -> tuple:
+    """Make a per-line table report THE gf THAT WAS USED, without losing the intake one.
+
+    RYA-825. The defect this exists to close: a pool or inventory carried a `log_gf`
+    copied from the linelist at intake, while the production synthesis path resolved a
+    DIFFERENT value out of `canonical_gf.csv` before inverting (`_load_synth_resources`
+    defaults `apply_canonical_gf=True`, which runs `apply_to_synth_array`). The column
+    therefore described an input nobody used. RYA-799 read that column, concluded the Fe
+    pool was "100 % Kurucz K14", and built a whole SCALE-MISMATCH finding on it; RYA-824
+    re-inverted and found 18 of 29 lines were already on the canonical value. A column
+    that does not describe the computation is not documentation, it is a trap.
+
+    Emits four columns and changes no value that anything computes with:
+
+      `log_gf`            the gf the inversion used — canonical where the resolver
+                          reaches, otherwise the intake value unchanged.
+      `log_gf_intake`     what the linelist said at intake. Never dropped (RYA-825).
+      `gf_source_intake`  where that intake value came from.
+      `gf_canonical`      True where the resolver supplied it. This is the column that
+                          makes the other three readable: `log_gf == log_gf_intake` means
+                          "they agree" only if you also know whether the resolver ran, and
+                          outside canonical's 3780-9199.9 A range it does not run at all.
+
+    NOTE ON MEANING. Where `gf_canonical` is True the value becomes the PHYSICAL LINE
+    TOTAL that canonical stores, which is not always what a caller's intake column held —
+    `scripts/line_accounting_rya709.py`, for instance, aggregated HFS components with
+    `max`. That is a semantic change and it is the intended one: the total is what the
+    synthesis integrates. The intake convention survives in `log_gf_intake`.
+    """
+    out, stats = resolve_df_gf(df, element_col=element_col, ion_col=ion_col,
+                               wl_col=wl_col, ep_col=ep_col, gf_col=gf_col,
+                               keep_unresolved=True)
+    out['log_gf_intake'] = df[gf_col].to_numpy(dtype=float, copy=True)
+    if 'gf_source_intake' not in out.columns:
+        out['gf_source_intake'] = intake_source
+    return out, stats
+
+
+def assert_gf_column_is_honest(df: pd.DataFrame, *, element_col: str = 'element',
+                               ion_col: str = 'ion', wl_col: str = 'wavelength_air_A',
+                               ep_col: str = 'excitation_potential_eV',
+                               gf_col: str = 'log_gf', tol: float = 1e-6) -> dict:
+    """The drift guard (RYA-825 spec item 3).
+
+    Re-derives the resolver's answer for every row the table claims is canonical and
+    checks the reported column still matches. Raises on the first disagreement, because
+    a gf column that has drifted from the resolver is the exact condition that produced
+    RYA-799's misdiagnosis, and it is invisible by inspection.
+    """
+    if 'gf_canonical' not in df.columns:
+        raise GfResolutionError(
+            f"{gf_col!r} carries no `gf_canonical` flag — cannot tell which rows claim to "
+            f"be resolver-sourced, so the column cannot be checked at all (RYA-825)")
+    bad, n_checked = [], 0
+    for j in range(len(df)):
+        if not bool(df.iloc[j]['gf_canonical']):
+            continue
+        row = df.iloc[j]
+        key = species_key(str(row[element_col]), str(row[ion_col]))
+        expected = resolve(key, float(row[wl_col]), float(row[ep_col]))
+        n_checked += 1
+        if abs(float(row[gf_col]) - expected) > tol:
+            bad.append((row[element_col], row[ion_col], float(row[wl_col]),
+                        float(row[gf_col]), expected))
+    if bad:
+        head = "; ".join(f"{e} {i} {w:.4f}: reported {g:.4f} vs resolver {x:.4f}"
+                         for e, i, w, g, x in bad[:5])
+        raise GfResolutionError(
+            f"{len(bad)} of {n_checked} rows flagged gf_canonical report a log_gf that "
+            f"is NOT the resolver's value — the column has drifted from the gf the "
+            f"inversion uses (RYA-825). {head}")
+    return {'n_checked': n_checked, 'n_bad': 0}
+
+
 # ── synth consumer (#1) — branching-preserved rescale ─────────────────────────
 
 EP_CLUSTER_TOL = 0.005  # eV — HFS components share a lower level (identical EP)

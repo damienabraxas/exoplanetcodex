@@ -1,0 +1,40 @@
+{
+  "ticket": "RYA-825",
+  "pool": "/private/tmp/claude-501/-Users-ryanschmitt/1f004751-5946-4704-b27e-0bd1e599f25c/scratchpad/pass271.csv",
+  "n_pool": 271,
+  "n_tied_to_accounting": 271,
+  "n_gf_corrected": 185,
+  "before": {
+    "label": "stale column (RYA-799 as published)",
+    "n": 271,
+    "GF-LAB": 2,
+    "systematic:K07": 221,
+    "systematic:K07/SCALE-MISMATCH": 48
+  },
+  "after": {
+    "label": "corrected column",
+    "n": 271,
+    "GF-LAB": 25,
+    "systematic:K07": 235,
+    "systematic:K07/SCALE-MISMATCH": 11
+  },
+  "scale_mismatch_before": 48,
+  "scale_mismatch_genuine": 11,
+  "scale_mismatch_metadata_artifact": 37,
+  "scale_mismatch_new": 0,
+  "genuine_wavelengths": [
+    6977.4283,
+    7219.6816,
+    7261.5181,
+    7288.7357,
+    7307.9306,
+    7443.0217,
+    8232.3156,
+    8526.6689,
+    8784.4404,
+    8808.1701,
+    8846.7398
+  ],
+  "abundance_changed": false,
+  "run_date": "2026-08-15"
+}
