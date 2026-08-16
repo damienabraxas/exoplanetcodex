@@ -91,6 +91,14 @@ MIN_SPECTRAL_CORR = 0.90
 #: values to +9.98 and -1.00 in this band; they are excluded and COUNTED.
 SANE_FLUX = (-0.05, 1.20)
 
+#: MEASURED, not assumed: region 5's artifacts are confined ENTIRELY to 3000-3200 A
+#: (2,227 overflow markers + 7,460 out-of-range pixels there, 6.4% of the sub-band), and
+#: above 3200 A it is clean -- 0 NaN, 0 out-of-range, max flux <= 1.02 in every sub-band.
+#: So region 5 is admissible only redward of this, which is where region 6 stops anyway.
+REG5_CLEAN_ABOVE_A = 3200.0
+#: Region 6 ends here; beyond it only region 5 covers the band.
+REG6_MAX_A = 3524.2
+
 #: The 40 lines the near-UV product is actually built from (RYA-759/832). sigma_delta
 #: averaged over the whole band is not what enters the budget — what enters is the
 #: continuum uncertainty AT THE LINES, and the disagreement is structured, so the two
@@ -117,6 +125,77 @@ def vac_to_air(lam_vac: np.ndarray) -> np.ndarray:
     s2 = (1e4 / lam_vac) ** 2
     n = 1.0 + 8.34254e-5 + 2.406147e-2 / (130.0 - s2) + 1.5998e-4 / (38.9 - s2)
     return lam_vac / n
+
+
+def load_wallace_composite() -> tuple[np.ndarray, np.ndarray, dict]:
+    """Region 6 where it exists, region 5 beyond it — with region 5 admitted ONLY where it
+    was measured to be clean.
+
+    Region 6 alone covers 23 of the product's 40 lines; the other 17 sit redward of
+    3524 A. Region 5 reaches 4106 A and is artifact-free above 3200 A, so the composite
+    covers the whole band without ever using region 5 where it is broken.
+    """
+    l6, f6, n6 = load_wallace(6)
+    l5, f5, n5 = load_wallace(5)
+
+    m6 = np.isfinite(f6)
+    m5 = np.isfinite(f5) & (l5 > REG6_MAX_A) & (l5 >= REG5_CLEAN_ABOVE_A)
+
+    lam = np.concatenate([l6[m6], l5[m5]])
+    flux = np.concatenate([f6[m6], f5[m5]])
+    src = np.concatenate([np.full(int(m6.sum()), 6), np.full(int(m5.sum()), 5)])
+    order = np.argsort(lam)
+    meta = {"n_from_region6": int(m6.sum()), "n_from_region5": int(m5.sum()),
+            "region6_overflow": n6, "region5_overflow": n5,
+            "region5_admitted_above_A": max(REG6_MAX_A, REG5_CLEAN_ABOVE_A)}
+    return lam[order], flux[order], meta | {"source": src[order]}
+
+
+def wallace_internal_control() -> dict:
+    """CONTROL 3: do Wallace's OWN two regions agree with each other?
+
+    Regions 5 and 6 overlap, and in the overlap they are two renderings from the same
+    programme. If THEY disagree at the few-percent level, then part of what this ticket
+    measures as "Kurucz vs Wallace" is really Wallace-internal, and the Kurucz-vs-Wallace
+    number is an upper bound rather than a clean reduction difference. Without this the
+    measurement cannot tell those apart.
+
+    Restricted to where region 5 is clean, because comparing against its artifacts would
+    manufacture a disagreement.
+    """
+    l6, f6, _ = load_wallace(6)
+    l5, f5, _ = load_wallace(5)
+    lo, hi = REG5_CLEAN_ABOVE_A, min(l6.max(), l5.max())
+    m6 = (l6 >= lo) & (l6 <= hi) & np.isfinite(f6)
+    m5 = (l5 >= lo) & (l5 <= hi) & np.isfinite(f5)
+    if m6.sum() < 500 or m5.sum() < 500:
+        return {"available": False}
+
+    rows = []
+    for c in np.arange(lo + BIN_HALF_A, hi - BIN_HALF_A, BIN_A):
+        a = (l6 >= c - BIN_HALF_A) & (l6 <= c + BIN_HALF_A) & np.isfinite(f6)
+        if a.sum() < 50:
+            continue
+        fi = np.interp(l6[a], l5[m5], f5[m5])
+        ok = (f6[a] > 0.05) & (fi > 0.05)
+        if ok.sum() < 50:
+            continue
+        rows.append(float(np.percentile(fi[ok], 90) / np.percentile(f6[a][ok], 90)))
+    if not rows:
+        return {"available": False}
+
+    r = np.array(rows)
+    out = {"available": True, "n_bins": len(r), "range_A": [float(lo), float(hi)],
+           "median_ratio": float(np.median(r)),
+           "MAD": float(np.median(np.abs(r - np.median(r)))),
+           "std": float(r.std(ddof=1)),
+           "rms_dev_from_unity": float(np.sqrt(((r - 1.0) ** 2).mean()))}
+    print(f"\n[control] Wallace reg5 vs reg6 over {lo:.0f}-{hi:.0f} A, {len(r)} bins: "
+          f"median {out['median_ratio']:.4f}, MAD {out['MAD']:.4f}, "
+          f"rms dev {out['rms_dev_from_unity']:.4f}")
+    print(f"          (this much of the Kurucz-vs-Wallace disagreement is "
+          f"Wallace-internal, not a reduction difference)")
+    return out
 
 
 def load_wallace(region: int) -> tuple[np.ndarray, np.ndarray, int]:
@@ -332,15 +411,25 @@ def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--region", type=int, default=6,
-                    help="Wallace region: 6 is clean over 2899-3525 A (default); "
-                         "5 spans 2995-4106 A but carries overflow markers")
+    ap.add_argument("--region", default="auto",
+                    help="'auto' (default) = region 6 below 3524 A + region 5 above, "
+                         "region 5 admitted only where it was measured clean; or 5/6 to "
+                         "force a single region")
     ap.add_argument("--lo", type=float, default=None)
     ap.add_argument("--hi", type=float, default=None)
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
 
-    lam_w, flux_w, n_overflow = load_wallace(a.region)
+    if str(a.region) == "auto":
+        lam_w, flux_w, wmeta = load_wallace_composite()
+        wmeta.pop("source", None)
+        n_overflow = wmeta["region6_overflow"] + wmeta["region5_overflow"]
+        print(f"[wallace] composite: {wmeta['n_from_region6']} px from region 6, "
+              f"{wmeta['n_from_region5']} px from region 5 "
+              f"(admitted above {wmeta['region5_admitted_above_A']:.0f} A only)")
+    else:
+        lam_w, flux_w, n_overflow = load_wallace(int(a.region))
+        wmeta = {"single_region": int(a.region)}
     lo = a.lo if a.lo is not None else max(LO_A, float(np.nanmin(lam_w)))
     hi = a.hi if a.hi is not None else min(HI_A, float(np.nanmax(lam_w)))
     print(f"[wallace] region {a.region}: {lam_w.min():.1f}-{lam_w.max():.1f} A (air), "
@@ -351,6 +440,7 @@ def main() -> None:
     segs = _kp_segments()
     print(f"[kp]      {len(segs)} atlas segments")
     controls = verify_alignment(segs, lam_w, flux_w)
+    controls["wallace_internal"] = wallace_internal_control()
 
     d = compare_normalisation(segs, lam_w, flux_w, lo=lo, hi=hi)
     if d.empty:
@@ -361,7 +451,8 @@ def main() -> None:
 
     summary = report(d, controls, {
         "sigma_delta_at_product_lines": at_lines,
-        "wallace_region": a.region,
+        "wallace_region": str(a.region),
+        "wallace_composition": wmeta,
         "wallace_overflow_markers": n_overflow,
         "compared_A": [lo, hi],
         "band_fraction_compared": (hi - lo) / (HI_A - LO_A),
