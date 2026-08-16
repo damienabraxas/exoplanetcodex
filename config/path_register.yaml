@@ -266,3 +266,14 @@ entries:
     rel: iag_baker2020/iag_telfree_solaratlas.fits
     kind: file
     desc: IAG telluric-free solar atlas, Baker et al. 2020.
+  data.solar_wallace2011_kpno:
+    root: srv_solar
+    rel: wallace2011_kpno
+    kind: dir
+    desc: >-
+      Wallace, Hinkle, Livingston & Davis 2011 (NSO) telluric-removed KPNO solar flux
+      atlas, as sptr.reg1-6 in WAVENUMBER. A SECOND, independent reduction of the same
+      KPNO data the Kurucz/Brault reference atlas comes from, which is what makes it
+      usable as a normalisation cross-check (RYA-485, RYA-846). Region 6 (2899-3525 A)
+      is clean; region 5 (2995-4106 A) carries Fortran overflow markers and normalised
+      fluxes to +9.98 in the near-UV.
