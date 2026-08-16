@@ -90,6 +90,19 @@ from pipeline.nlte_corrections import detect_placeholder_zero_lines   # noqa: E4
 from scripts.rya763_level_mapping import (                            # noqa: E402
     GERBER_DIR, GRID_DIR, read_gerber_atom, read_labels, resolve_by_label,
 )
+import pipeline.model_atom as model_atom                              # noqa: E402
+
+
+def _ll_fields(ll) -> set:
+    """Column names of the linelist, whichever container it arrives in.
+
+    `_load_synth_resources` hands back a numpy recarray, not a DataFrame, so
+    `"x" in ll.columns` would raise rather than answer.
+    """
+    names = getattr(getattr(ll, "dtype", None), "names", None)
+    if names:
+        return set(names)
+    return set(getattr(ll, "columns", []))
 
 EXTRACT_DIR = ROOT / "data" / "nlte_grids"
 AVAILABILITY = ROOT / "data" / "curation" / "nlte_grid_availability.csv"
@@ -333,14 +346,42 @@ def reach_in_band(ll, lab: pd.DataFrame, element: str, ion: str,
     n_cat = int(m.sum())
     if not n_cat or lab is None or lab.empty:
         return n_cat, 0, 0
-    n_both = n_either = 0
+    # RYA-823: resolve each level by the key its KIND supports, and union the two.
+    # (J, energy) addresses fine-structure levels; the term label addresses
+    # super-levels, which have no J at all. Measured per species, neither key
+    # dominates -- Ti I red-optical is 34.8% by J and 56.2% by label, while Mn II VIS
+    # is 10.1% by J and 0.5% by label -- so swapping one for the other would have
+    # cost Mn II 95% of its reach while claiming to fix it.
+    has_labels = ("nlte_label_low" in _ll_fields(ll)
+                  and "nlte_label_up" in _ll_fields(ll))
+    # In a TERM-RESOLVED atom the label is the ONLY valid key -- (J, energy) has
+    # nothing to address, because no level carries a J. So if any in-band line
+    # arrives without a label, this band's reach is not decidable HERE, and the
+    # handful of lines that do carry one cannot stand for the rest.
+    term_resolved = model_atom.atom_resolution(lab).is_term_resolved
+    n_both = n_either = n_undecidable = 0
     for i in np.where(m)[0]:
-        vlo, _, _ = resolve_by_label(lab, float(ll["lower_state_eV"][i]),
-                                     float(ll["lower_j"][i]), TOL_EV)
-        vup, _, _ = resolve_by_label(lab, float(ll["upper_state_eV"][i]),
-                                     float(ll["upper_j"][i]), TOL_EV)
+        tlo = str(ll["nlte_label_low"][i]).strip() if has_labels else ""
+        tup = str(ll["nlte_label_up"][i]).strip() if has_labels else ""
+        vlo, _, _ = model_atom.resolve_level(
+            lab, energy_eV=float(ll["lower_state_eV"][i]),
+            j=float(ll["lower_j"][i]), term=tlo, tol_eV=TOL_EV)
+        vup, _, _ = model_atom.resolve_level(
+            lab, energy_eV=float(ll["upper_state_eV"][i]),
+            j=float(ll["upper_j"][i]), term=tup, tol_eV=TOL_EV)
         n_either += int(vlo == "UNIQUE" or vup == "UNIQUE")
         n_both += int(vlo == "UNIQUE" and vup == "UNIQUE")
+        n_undecidable += int(vlo == "NO-KEY" or vup == "NO-KEY")
+
+    if term_resolved and n_undecidable:
+        # Cr is the live case: `atom.cr374` is term-resolved throughout, and Cr is
+        # LTE-tagged in the GES list, so the iSpec frame's `nlte_label_*` columns are
+        # empty for nearly every Cr line. Three of 5353 happened to carry one and
+        # resolved -- which was enough to publish `SERVED, reach 3` for a species
+        # RYA-818 measures at 88.3% by parsing the RAW label string. Collapsing to
+        # zero here lets the existing `nothing resolved` guard report REACH-UNKNOWN,
+        # which is the true state of this table's knowledge.
+        return n_cat, 0, 0
     return n_cat, n_both, n_either
 
 
