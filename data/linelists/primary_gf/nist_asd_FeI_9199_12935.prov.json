@@ -1,0 +1,25 @@
+{
+  "ticket": "RYA-822",
+  "source": "NIST Atomic Spectra Database (ASD), lines",
+  "access": "astroquery.nist 0.4.11 (Nist.query)",
+  "why_not_curl": "the project recipe uses lines1.pl with unit=0; bisected 2026-08-15, the `unit` parameter crashes the CGI server-side for EVERY valid value (0=A, 1=nm, 2=um -> \"Software error ... line 701\") and omitting it returns an input-error page with an empty message. The fault is in the unit path, not the query. astroquery reaches the same database and additionally returns the TP/Line bibliographic codes the curl route never exposed.",
+  "species": "Fe I",
+  "band_A": [
+    9199.9,
+    12935.0
+  ],
+  "chunk_A": 50.0,
+  "n_rows_raw": 604,
+  "n_rows_tidy": 604,
+  "n_with_log_gf": 56,
+  "n_graded": 56,
+  "grade_counts": {
+    "E": 22,
+    "C+": 11,
+    "D+": 10,
+    "B": 9,
+    "C": 4
+  },
+  "caveat": "NIST Fe I in this band is largely a COMPILATION. Agreement with a compilation proves only \"no transcription error\"; DISagreement is the informative outcome. Per-line TP/Line reference codes are kept so a reader can see which measurement is actually cited.",
+  "pulled_utc": "2026-08-16T02:55:31Z"
+}

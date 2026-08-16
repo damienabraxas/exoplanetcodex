@@ -1,0 +1,32 @@
+{
+  "ticket": "RYA-834",
+  "band_A": [
+    9199.9,
+    12935.0
+  ],
+  "physical_lines": 571,
+  "fe1_lines": 235,
+  "lab_in_band": 33,
+  "lab_span_A": [
+    9214.4977,
+    11316.0637
+  ],
+  "lab_by_source": {
+    "DenHartog2014": 24,
+    "Ruffoni2014": 8,
+    "Belmonte2017": 1
+  },
+  "adjudicated_on_lab": 28,
+  "ambiguous": 0,
+  "match_rate": 0.1191,
+  "randomised_null_rate": 0.0,
+  "lines_above_last_lab_line": 70,
+  "nist_rows_above_last_lab_line": 16,
+  "nist_adopted": false,
+  "nist_note": "NIST ASD Fe I in this band agrees with the linelist to a median 0.0003 dex (max 0.0016) over 34 matched lines \u2014 the same number arriving twice, not corroboration. RYA-760: FMW is a NIST compilation and VALD copies it.",
+  "ticket_span_correction": "The ticket states Ruffoni 2014 covers 3526-10864 A. Our vendored RYA-799 pull reaches 11316.06 A, and Den Hartog 2014 reaches 11013.24 A, so the claimed 10864-12935 A gap actually opens at 11316.06 A.",
+  "tolerances": {
+    "wavelength_A": 0.02,
+    "excitation_eV": 0.002
+  }
+}
