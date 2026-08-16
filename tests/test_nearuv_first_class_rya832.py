@@ -70,11 +70,56 @@ def test_the_products_schema_matches_what_the_matrix_reads():
         "the route writes products_frame's schema again — the matrix cannot read it")
 
 
-def test_the_route_carries_the_759_pseudo_continuum_systematic():
-    """RYA-759's 0.100 dex does NOT average down and is NOT in the line scatter, so it
-    has to be in the budget rather than in prose."""
+def test_the_route_does_not_re_add_the_pseudo_continuum_term():
+    """🔴 THE TEST THAT USED TO LIVE HERE ASSERTED `NEARUV_PSEUDO_CONTINUUM_DEX == 0.100`
+    AND SO PINNED A BUG (RYA-845).
+
+    Asserting a magic constant locks the value. It does not check that the value is
+    correct, and — the failure here — it does not check that the value is applied ONCE.
+    The near-UV systematic was counted twice for as long as that test was green:
+    `error_budget.build()` already adds the term for any band whose policy calls for a
+    pseudo-continuum, and this route added it again in quadrature, publishing 0.2211
+    where the budget's own answer is 0.1972.
+
+    The replacement asserts the RELATIONSHIP instead: the budget owns the term, and the
+    route must not touch `syst` after asking for it. That is a property a double-add
+    cannot satisfy.
+    """
     import derive_band_products as dbp
-    assert dbp.NEARUV_PSEUDO_CONTINUUM_DEX == 0.100
+    src = Path(dbp.__file__).read_text()
+    route = src[src.index("def synthesis_route"):src.index("def asdict_line")]
+    assert "np.hypot(syst" not in route, (
+        "the synthesis route is modifying `syst` after build_budget returned it — that "
+        "is how the pseudo-continuum term came to be counted twice (RYA-845)")
+    assert "PSEUDO_CONTINUUM_DEX" not in route, (
+        "the route re-declares the pseudo-continuum systematic; it belongs to "
+        "pipeline/error_budget.py alone, so that no caller can add what the budget "
+        "already holds")
+
+
+def test_the_budget_carries_the_pseudo_continuum_term_exactly_once():
+    """The other half: the term must still be THERE. Removing the double-add must not
+    quietly remove the term, which would be the opposite error and just as invisible."""
+    from pipeline.error_budget import build
+
+    b = build("Fe", 3390.0, 40, scatter_dex=0.413, gf_graded=False,
+              harness_residual_dex=0.0, handler="SynthesisHandler")
+    hits = [t for t in b.terms if "pseudo" in t.name.lower()]
+    assert len(hits) == 1, f"expected exactly one pseudo-continuum term, found {len(hits)}"
+
+
+def test_the_pseudo_continuum_term_is_near_uv_only():
+    """RYA-841/845: the branch fires on the band POLICY, so it must not reach any band
+    whose continuum is actually observed. If it ever did, every VIS and IR cell would
+    silently inflate."""
+    from pipeline.error_budget import build
+
+    for wave_A in (5500.0, 8000.0, 15000.0):
+        b = build("Fe", wave_A, 40, scatter_dex=0.10, gf_graded=False,
+                  harness_residual_dex=0.0, handler="ProfileFitHandler")
+        assert not [t for t in b.terms if "pseudo" in t.name.lower()], (
+            f"a pseudo-continuum term appeared at {wave_A} A — that band observes its "
+            f"continuum and must not carry this systematic")
 
 
 def test_the_route_still_uses_759s_own_configuration():
@@ -132,3 +177,44 @@ def test_the_near_uv_cell_is_never_coadded_with_another_band():
     assert not hasattr(bp, "combine")
     src = Path(bp.__file__).read_text()
     assert "def combine(" not in src
+
+
+def test_the_published_nearuv_cells_reconstruct_with_the_term_applied_once():
+    """REGENERATE-AND-DIFF, as a test: the matrix's own near-UV systematics must equal
+    what `error_budget.build()` produces — no more, no less.
+
+    This is the check the constant-assertion could never be. `syst` does not depend on
+    the line scatter at all (the scatter term averages down and lands in `stat`), so the
+    budget's systematic is fully determined by the band and whether the pool is on graded
+    gf. That makes the published number exactly reconstructible, and a re-added
+    pseudo-continuum term shows up as a mismatch rather than as a green test.
+    """
+    import numpy as np
+    import pandas as pd
+    from pipeline.error_budget import build
+
+    matrix = ROOT / "data" / "results" / "rya783" / "fe_product_matrix.csv"
+    if not matrix.exists():
+        pytest.skip("Fe product matrix absent")
+    df = pd.read_csv(matrix)
+    near = df[df.band == "near-UV"]
+    assert len(near) >= 2, "expected both near-UV cells (1D-LTE and 1D-LTE-LABGF)"
+
+    for _, row in near.iterrows():
+        # The LABGF pool is the one on primary laboratory gf; the Kurucz pool is not.
+        graded = row.treatment.endswith("LABGF")
+        b = build("Fe", 3390.0, int(row.n_lines), scatter_dex=0.4,
+                  gf_graded=graded, harness_residual_dex=0.0,
+                  handler="SynthesisHandler")
+        _, syst = b.total()
+
+        assert round(float(syst), 4) == pytest.approx(float(row.syst_dex), abs=5e-4), (
+            f"{row.treatment}: published syst {row.syst_dex} does not reconstruct from "
+            f"the budget ({syst:.4f}). If the difference is a factor of the "
+            f"pseudo-continuum term, something is adding it twice again (RYA-845)")
+
+        # and state the failure mode explicitly, so the test names the bug it guards
+        doubled = float(np.hypot(syst, 0.10))
+        assert not np.isclose(float(row.syst_dex), doubled, atol=5e-4), (
+            f"{row.treatment}: published syst equals the DOUBLE-ADDED value {doubled:.4f} "
+            f"— the RYA-845 defect has returned")

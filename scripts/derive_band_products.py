@@ -138,8 +138,11 @@ def mpia_delta(element: str, ion: str, waves: np.ndarray,
 NEARUV_HALF_WIDTH_A = 0.40      # no EW exists to key the production wing-wide rule
 NEARUV_MIN_SEP_A = 4.0          # keeps the set spread instead of piling into one complex
 NEARUV_N_LINES = 40
-#: RYA-759: does not average down, and is NOT in the line scatter.
-NEARUV_PSEUDO_CONTINUUM_DEX = 0.100
+#: 🔴 THE PSEUDO-CONTINUUM SYSTEMATIC IS DELIBERATELY NOT DECLARED HERE (RYA-845).
+#: It lives in exactly one place, `pipeline/error_budget.py`, which adds it for any band
+#: whose policy says "pseudo-continuum". A second declaration next to a route is what let
+#: the term be applied twice: the route could not see what the budget already held, and
+#: the number agreed with itself in both places while the product was wrong.
 
 
 @dataclass(frozen=True)
@@ -377,9 +380,15 @@ def synthesis_route(a, pol) -> None:
                      # else's systematic to it.
                      harness_residual_dex=0.0, handler="SynthesisHandler")
     stat, syst = b.total()
-    # RYA-759's pseudo-continuum systematic. It does NOT average down and is NOT in the
-    # line scatter, so it is added in quadrature rather than left implicit in prose.
-    syst = float(np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX))
+    # 🔴 RYA-845: the pseudo-continuum term is NOT added here, and adding it was a bug.
+    # `error_budget.build()` already carries it for this band — the near-UV BandPolicy's
+    # `continuum_treatment` says "pseudo-continuum only", which fires the branch in
+    # error_budget.py. Adding it again here counted it TWICE and inflated the published
+    # near-UV systematic 0.1972 -> 0.2211.
+    #
+    # The comment that used to sit here said the term "is NOT in the line scatter" —
+    # which is true, and is not the question. It was already in the BUDGET. The budget
+    # owns its terms; a route that hand-adds one cannot know what the budget already has.
     pd.DataFrame([dict(
         element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
         treatment="1D-LTE", A=round(product.value, 3) if product.value is not None else None,
@@ -387,9 +396,11 @@ def synthesis_route(a, pol) -> None:
         stat_dex=round(stat, 4), syst_dex=round(syst, 4),
         dominant=(b.dominant().name if b.dominant() else ""),
     )]).to_csv(out / f"{stem}_products.csv", index=False)
-    (out / f"{stem}_budgets.txt").write_text(
-        b.describe() + f"\n\nPSEUDO-CONTINUUM (RYA-759): {NEARUV_PSEUDO_CONTINUUM_DEX} "
-        f"dex, added in quadrature above. Does not average down; not in the scatter.\n")
+    # `describe()` already lists every term the budget holds, pseudo-continuum included.
+    # The epilogue that used to be appended here announced the term as "added in
+    # quadrature above" — which is exactly the double-add RYA-845 removed, and it made
+    # the artifact assert the bug in prose as well as in arithmetic.
+    (out / f"{stem}_budgets.txt").write_text(b.describe() + "\n")
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "

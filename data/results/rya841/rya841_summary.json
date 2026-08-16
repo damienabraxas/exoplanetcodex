@@ -1,0 +1,40 @@
+{
+  "control_vs_rya759": {
+    "available": true,
+    "n_matched": 40,
+    "max_abs_diff_dex": 0.051000000000000156,
+    "median_abs_diff_dex": 0.0,
+    "n_differing_gt_0p01": 4
+  },
+  "ticket": "RYA-841",
+  "measurement": "dA/d(fractional continuum error), controlled perturbation",
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "deltas": [
+    -0.04,
+    -0.02,
+    0.0,
+    0.02,
+    0.04
+  ],
+  "n_lines": 40,
+  "n_lines_with_slope": 40,
+  "lever_dex_per_unit_delta": {
+    "median_abs": 2.4199999999999804,
+    "p16": 0.9075999999999845,
+    "p84": 4.677600000000042,
+    "assumed_by_budget": 1.0
+  },
+  "implied_term_by_sigma_delta": {
+    "0.005": 0.0121,
+    "0.010": 0.0242,
+    "0.020": 0.0484,
+    "0.050": 0.121,
+    "0.100": 0.242
+  },
+  "n_nonlinear": 12,
+  "assumed_term_dex": 0.1,
+  "note": "The 0.100 dex pseudo-continuum term was never measured: error_budget.py converts \"~10% uncertain normalisation\" into \"0.10 dex\" one-to-one, which silently assumes dA/ddelta = 1. This is that derivative, measured. It does NOT by itself set a new budget term -- sigma_delta is a separate measurement and is owed."
+}
