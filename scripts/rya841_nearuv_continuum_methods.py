@@ -157,6 +157,30 @@ def main() -> None:
 
 def report(d: pd.DataFrame) -> None:
     cols = {'atlas': 'a_atlas', 'local': 'a_local', 'synth': 'a_synth'}
+
+    # chi2 for the ATLAS placement lives in RYA-759's per-line file, not here, and without
+    # it the other placements' chi2 cannot be judged. An early read of ONE line (3000.468:
+    # atlas 88 -> local 229) suggested the local placement was simply refuted by fit
+    # quality; across more lines it is often BETTER (3087.4: 891 -> 676). Whether a
+    # placement is rejected by the data is a claim about the whole pool, so the comparison
+    # is assembled here rather than inferred from whichever line ran first.
+    if POOL_832.exists() and 'chi2_atlas' not in d.columns:
+        ref = pd.read_csv(POOL_832)[['wave_A', 'red_chi2']].rename(
+            columns={'red_chi2': 'chi2_atlas'})
+        d = d.merge(ref, on='wave_A', how='left')
+
+    print('\n=== fit quality by placement (median reduced chi2) ===')
+    for name in ('atlas', 'local', 'synth'):
+        c = f'chi2_{name}'
+        if c in d.columns and d[c].notna().any():
+            v = d[c].dropna()
+            print(f'  {name:6s} median chi2r = {v.median():8.1f}   n={len(v)}')
+    if {'chi2_atlas', 'chi2_local'} <= set(d.columns):
+        both = d[['chi2_atlas', 'chi2_local']].dropna()
+        if len(both):
+            worse = int((both.chi2_local > both.chi2_atlas).sum())
+            print(f'  local is WORSE than atlas on {worse} of {len(both)} lines '
+                  f'-- a placement is rejected by the pool, not by one line')
     print('\n=== per-method medians ===')
     med = {}
     for name, c in cols.items():
