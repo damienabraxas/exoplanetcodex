@@ -343,6 +343,47 @@ def sigma_at_the_lines(segs, lam_w, flux_w, *, lo: float, hi: float) -> dict:
     return out
 
 
+#: The two near-UV cells, as they stand after RYA-845 removed the double-count.
+#: (element, ion, treatment, gf_graded, published_syst)
+NEARUV_CELLS = (
+    ("Fe", "I", "1D-LTE", False, 0.1972),
+    ("Fe", "I", "1D-LTE-LABGF", True, 0.1081),
+)
+
+
+def revised_cells(term_net: float, term_raw: float) -> list[dict]:
+    """What the near-UV cells become once the continuum term is MEASURED.
+
+    The budget's own terms are reused and only the pseudo-continuum one is swapped, so the
+    revision cannot silently change anything else. `syst` is the quadrature sum of the
+    terms that do NOT average down, which is why it is exactly reconstructible (RYA-845).
+    """
+    from pipeline.error_budget import build
+
+    out = []
+    for el, ion, treat, graded, published in NEARUV_CELLS:
+        b = build(el, 3390.0, 40, scatter_dex=0.4, gf_graded=graded,
+                  harness_residual_dex=0.0, handler="SynthesisHandler")
+        others = [t.dex for t in b.terms
+                  if not t.averages_down and "pseudo" not in t.name.lower()]
+        base2 = float(np.sum(np.square(others)))
+        rec = {
+            "element": el, "ion": ion, "treatment": treat,
+            "published_syst_dex": published,
+            "syst_with_assumed_0p100": float(np.sqrt(base2 + ASSUMED_TERM_DEX ** 2)),
+            "syst_with_measured_net": float(np.sqrt(base2 + term_net ** 2)),
+            "syst_with_measured_raw": float(np.sqrt(base2 + term_raw ** 2)),
+        }
+        out.append(rec)
+    print("\n=== the near-UV cells, with the continuum term MEASURED ===")
+    print(f"  {'treatment':<16}{'published':>11}{'net':>10}{'raw':>10}")
+    for r in out:
+        print(f"  {r['treatment']:<16}{r['published_syst_dex']:>11.4f}"
+              f"{r['syst_with_measured_net']:>10.4f}{r['syst_with_measured_raw']:>10.4f}")
+    print(f"  (published = RYA-845's corrected cells, which use the ASSUMED 0.100)")
+    return out
+
+
 def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
     print(f"\n=== normalisation comparison, {len(d)} bins of {BIN_A:.0f} A ===")
     print(f"  median per-bin spectral correlation: {d.spectral_corr.median():.4f}")
@@ -411,6 +452,10 @@ def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
 
     print(f"\n  assumed by the budget today: {ASSUMED_TERM_DEX:.3f} dex")
 
+    cells = None
+    if decomposed is not None:
+        cells = revised_cells(decomposed["term_net_dex"], decomposed["term_raw_dex"])
+
     if max(sd_mad, sd_std, offset) > 0.04:
         print("  ⚠️ sigma_delta exceeds the ~4.1% the 0.100 dex term implicitly asserts.")
 
@@ -433,6 +478,7 @@ def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
                   "source": "RYA-841, 200 fits, measured on a +/-4% grid ONLY"},
         "terms_dex": terms,
         "decomposition": decomposed,
+        "revised_cells": cells,
         "assumed_term_dex": ASSUMED_TERM_DEX,
         **meta,
     }
