@@ -147,6 +147,54 @@ def slope_for_line(sub: pd.DataFrame) -> dict:
             'n_delta': int(len(ok))}
 
 
+#: RYA-759's unperturbed run, used as a positive control on this harness.
+RYA759_PER_LINE = (ROOT / 'data' / 'audit' / 'nearuv_fe_product'
+                   / 'nearuv_fe_per_line_main.csv')
+
+
+def control_against_759(per_line: pd.DataFrame) -> dict:
+    """The delta=0 column must reproduce RYA-759, and it tests TWO things at once.
+
+    1. THE HARNESS. If delta=0 does not reproduce 759 line for line, the perturbation is
+       not the only thing that changed and no slope from it means anything. A sensitivity
+       measured with a drifted baseline would look like a result.
+    2. RYA-822's blueward extension. 759 ran with `apply_canonical_gf=False` because
+       `canonical_gf.csv` then started at 3780 A. RYA-822 (`7a84c77`) extended it to
+       3000.003 A, so THIS run applies canonical gf where 759 did not — 759's recorded
+       provenance string is now stale. If the values still agree, 822's adjudication left
+       the near-UV gf where VALD had it, which is 822's own "grading buys nothing"
+       finding showing up as a null in a different place.
+
+    A disagreement is not a failure to hide -- it is reported, because it would mean the
+    near-UV product of record moved when the gf table was extended under it.
+    """
+    if not RYA759_PER_LINE.exists():
+        return {'available': False}
+
+    ref = pd.read_csv(RYA759_PER_LINE)[['wave_A', 'a_synth']].rename(
+        columns={'a_synth': 'a_759'})
+    mine = per_line[per_line.delta == 0.0][['wave_A', 'a_synth']].rename(
+        columns={'a_synth': 'a_841'})
+    m = ref.merge(mine, on='wave_A', how='inner')
+    m = m[np.isfinite(m.a_759) & np.isfinite(m.a_841)]
+    if not len(m):
+        return {'available': False}
+
+    d = (m.a_841 - m.a_759).abs()
+    out = {'available': True, 'n_matched': int(len(m)),
+           'max_abs_diff_dex': float(d.max()),
+           'median_abs_diff_dex': float(d.median()),
+           'n_differing_gt_0p01': int((d > 0.01).sum())}
+    print(f'\n=== control: delta=0 vs RYA-759 (n={len(m)}) ===')
+    print(f'  max |diff| = {d.max():.4f} dex, median = {d.median():.4f}, '
+          f'{int((d > 0.01).sum())} lines differ by >0.01')
+    print('  (759 ran pre-RYA-822 without canonical gf; this run applies it)')
+    if d.max() > 0.01:
+        print('  ⚠️  BASELINE MOVED — the near-UV product of record shifted when RYA-822 '
+              'extended canonical_gf under it. Report this, do not absorb it.')
+    return out
+
+
 def report(per_line: pd.DataFrame) -> dict:
     rows = []
     for wv, sub in per_line.groupby('wave_A'):
@@ -183,7 +231,10 @@ def report(per_line: pd.DataFrame) -> dict:
     nonlin = int((good.r2 <= 0.98).sum())
     print(f'\n  non-linear lines (r2<=0.98): {nonlin} of {len(good)}')
 
+    ctrl = control_against_759(per_line)
+
     return {
+        'control_vs_rya759': ctrl,
         'ticket': 'RYA-841',
         'measurement': 'dA/d(fractional continuum error), controlled perturbation',
         'band_A': [LO_A, HI_A],
