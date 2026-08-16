@@ -285,8 +285,14 @@ def _current_total(linelist, wave_A: float, ep_eV: float) -> float:
 
 def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
     ok = res[np.isfinite(res.a_labgf) & np.isfinite(res.a_control)]
-    already = res[res.get("already_on_lab", pd.Series(dtype=bool)).fillna(False)]
-    changed = ok[~ok.already_on_lab.fillna(False)]
+    # `.map(bool)`, not `~ ... .fillna(False)`. These columns come back from a CSV as
+    # OBJECT dtype, where `~` is bitwise negation on ints: it turns True into -1 and the
+    # result is then used as a column key. That is what crashed the first run AFTER all
+    # 122 Turbospectrum fits had completed — the per-line CSV is written before the
+    # report precisely so a reporting bug cannot cost the fits.
+    already_mask = res.get("already_on_lab", pd.Series([False] * len(res))).map(bool)
+    already = res[already_mask]
+    changed = ok[~ok.get("already_on_lab", pd.Series([False] * len(ok))).map(bool)]
 
     print(f"\n{'-' * 78}")
     print(f"CONVERGED {len(ok)} of {len(res)}   |   already on lab gf (no-op) "
@@ -322,7 +328,7 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
         s = f"{p.sigma:.3f}" if p.sigma is not None else "n/a"
         print(f"  {label:<32}{v:>9}{s:>9}{p.n_lines:5d}")
     print(f"  {'RYA-832 full Kurucz pool (n=40)':<32}{'7.488':>9}{'0.413':>9}{40:5d}")
-    mis = res[res.get("probable_misid", pd.Series(dtype=bool)).fillna(False)]
+    mis = res[res.get("probable_misid", pd.Series([False] * len(res))).map(bool)]
     if len(mis):
         print(f"\n  LINE-IDENTIFICATION SCREEN: {len(mis)} of {len(res)} lines carry a lab")
         print(f"  gf >= {PROBABLE_MISID_DEX} dex from the production value. CARRIED, and")
