@@ -34,6 +34,48 @@ residual after modelling it. The 0.10 uses the first as if it were the second.
 
 ---
 
+## 0. 🔴 Where the 0.147 comes from: the term is counted twice
+
+The ticket asks where the 0.147 comes from. It comes from **adding the 0.100 dex
+pseudo-continuum term twice**, and the same defect is in the near-UV product of record.
+
+`error_budget.build()` already adds the term for this band — the near-UV
+`BandPolicy.continuum_treatment` reads *"pseudo-continuum only"*, which fires the
+`if "pseudo" in ...` branch at `error_budget.py:170`. Both near-UV routes then add it
+again in quadrature:
+
+```
+scripts/derive_band_products.py:263        syst = np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)
+scripts/rya836_nearuv_lab_gf_subpool.py    syst = np.hypot(syst, PSEUDO_CONTINUUM_DEX)
+```
+
+Reconstructed exactly from the published cells:
+
+| cell | `build()` syst | reported | correct |
+|---|---|---|---|
+| **RYA-832 near-UV (product of record)** | 0.1972 | **0.2211** | **0.1972** |
+| **RYA-836 lab-gf sub-pool** | 0.1081 | **0.1472** | **0.1081** |
+
+Both reconstruct to the fourth decimal, and the `stat` values (0.0653, 0.0849) match the
+published cells too, so this is the arithmetic that ran and not a lookalike.
+
+**This is mine, from RYA-832, and RYA-836 inherited it.** The comment at the call site
+says the term *"is NOT in the line scatter, so it is added in quadrature"* — which is true,
+and is not the question. It was already in the **budget**. Worse, the RYA-832 test I wrote
+(`test_the_route_carries_the_759_pseudo_continuum_systematic`) asserts the constant is
+0.100 and so **pinned the double-count instead of catching it**.
+
+**Direction of the correction:** RYA-836 claimed the systematic fell 0.221 → 0.147 when the
+pool moved to primary lab gf. Corrected, it fell **0.197 → 0.108**. The improvement is
+*larger* than reported, and the "dominant term flipped from gf to pseudo-continuum" claim
+is unaffected (`dominant` is computed from the budget's own terms, before the stray
+`hypot`). **RYA-836's qualitative conclusion survives; its numbers do not.**
+
+The fix is a two-line deletion, but it changes published product uncertainties, so it is
+flagged here rather than applied — that call is Ryan's.
+
+---
+
 ## 1. The lever, measured
 
 The only way to get dA/dδ is a controlled perturbation, so each line is re-fit with the
