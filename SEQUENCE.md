@@ -18,6 +18,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-08-16
 
 - **RYA-819/831** — gold **v5**: Fe I provenance corrected (Magic −0.05 is wrong in magnitude AND shape); **value 7.466 unchanged**
+- **RYA-834** — `canonical_gf` red edge 9199.90 → **12934.67 Å**; 28 Fe I lines adjudicated on PRIMARY LAB (NIST disqualified — agrees to 0.0003 dex, a compilation echo). 762 unblocked; products owed
+
 - **RYA-762** — Fe 9199–13000 Å inventory banked: Engine B **187/239** (the ticket said zero); unmodelled-Pa-beta systematic RETRACTED (Hlinedata carries it); products parked on RYA-379
 
 ## 2026-08-15
