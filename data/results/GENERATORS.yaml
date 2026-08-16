@@ -512,6 +512,30 @@ artifacts:
   # evidence: the per-line verdict and the summary, so the graded-vs-bounded split can be
   # read and challenged without re-running anything.
 
+  - artifact: rya822/rya822_nearuv_gf_grades_per_line.csv
+    generator: scripts/rya822_grade_nearuv_gf.py
+    invocation: python3 scripts/rya822_grade_nearuv_gf.py
+    ticket: RYA-822
+    note: >-
+      Per-line gf verdict for all 4,274 near-UV Fe I lines (3000-3780 A), on RYA-799's
+      GF-/systematic: scale. systematic:K07 3609 (84.4%), GF-NIST 604 (14.1%),
+      systematic:K07/SCALE-MISMATCH 55 (1.3%), GF-LAB 6 (0.1%). The 84.4% systematic is
+      corroborated independently: recovering the per-line gf source from VALD's fourth
+      physical line gives 84.3% gf:K14 and ZERO primary lab sources, so the Kurucz floor
+      is measured twice by different routes. GF-NIST is a COMPILATION grade, deliberately
+      outside is_graded (RYA-760: FMW *is* NIST and VALD copies it), carrying a citable
+      per-line sigma from the ASD accuracy ladder.
+  - artifact: rya822/rya822_nearuv_gf_grade_summary.json
+    generator: scripts/rya822_grade_nearuv_gf.py
+    invocation: python3 scripts/rya822_grade_nearuv_gf.py
+    ticket: RYA-822
+    note: >-
+      The near-UV twin of RYA-799's IR finding: 61 near-UV Fe I lines have a PRIMARY
+      LABORATORY gf and our list was measured on that value for 6 of them; the other 55
+      are SCALE-MISMATCH, |delta| median 0.092 dex, max 2.961. 610 lines carry a citable
+      per-line sigma (min 0.0128, median 0.0414, max 0.3010 dex) against the blanket 0.20
+      K07 systematic. Re-inverting the 55 is a POOL REBUILD, not a grading job, and wants
+      its own ticket under RYA-161/398 -- the same conclusion RYA-799 reached for the IR.
   - artifact: rya799/rya799_gf_grades_per_line.csv
     generator: scripts/rya799_grade_fe_ir_pool.py
     invocation: python3 scripts/rya799_grade_fe_ir_pool.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>

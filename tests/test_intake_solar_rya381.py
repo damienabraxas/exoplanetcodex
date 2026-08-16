@@ -66,6 +66,25 @@ def test_nonoptical_orphans_tracked_to_rya379():
     vs = cs.check_all_stores_resolve()
     orphan_vs = [v for v in vs if v.value == 'absent from canonical_gf.csv']
     assert orphan_vs, "expected non-optical orphan violations to be reported"
-    assert all(v.ticket == 'RYA-379' for v in orphan_vs), \
-        "non-optical orphans must be tracked to RYA-379"
+    # RYA-822: attribution is DIRECTION-AWARE now. It used to send every non-optical
+    # orphan to RYA-379 — the REDWARD ticket — so a line at 1150 A was told its
+    # remediation lay "past 9199 A". Each region must name the ticket that actually
+    # owns it, and 3000-3780 A is now COVERED, so an orphan there is a real break.
+    for v in orphan_vs:
+        assert v.ticket in ('RYA-379', 'RYA-822'), \
+            f"orphan tracked to an unexpected ticket: {v.ticket}"
+        if v.ticket == 'RYA-379':
+            assert '9199' in v.detail, "redward orphans must cite the redward edge"
+        else:
+            assert '3000' in v.detail, "blueward orphans must cite the blueward edge"
     assert all(v.tracked for v in cs.check_all_stores_resolve())
+
+
+def test_an_orphan_inside_the_rya822_window_is_a_real_break_not_a_tracked_gap():
+    """Once a band is COVERED, continuing to track its orphans would hide a regression."""
+    import scripts.check_stewardship as cs
+    vs = [v for v in cs.check_all_stores_resolve()
+          if v.value == 'absent from canonical_gf.csv']
+    inside = [v for v in vs if 'RYA-822 near-UV window' in v.detail]
+    assert all(v.ticket is None for v in inside), \
+        "an orphan inside the covered near-UV window must be UNtracked (a real break)"
