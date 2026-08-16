@@ -34,7 +34,17 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_IN = ROOT / "data" / "results" / "band_products"
 OUT_DIR = ROOT / "data" / "results" / "rya783"
 
-TREATMENTS = ["1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE"]
+# SINGLE-SOURCED from pipeline.band_products (RYA-836). This was a local hardcoded copy
+# and it silently dropped every treatment added after it was written: the RYA-836 lab-gf
+# cell reached the CSV but never the printed table or the plot, so the figure came out
+# BYTE-IDENTICAL while the data underneath had gained a row. The cross-engine spread
+# below does not use this list, so the report even contradicted itself — quoting a spread
+# "over 2 engines" for a band whose table showed one.
+#
+# A products vocabulary with two definitions has the same shape as the gf column with two
+# sources (RYA-353/825): the copy that is not the source drifts, and drifts quietly.
+from pipeline.band_products import TREATMENTS as _CANON_TREATMENTS  # noqa: E402
+TREATMENTS = list(_CANON_TREATMENTS)
 
 # Context only — never a target, never a gate (RYA-161 / RYA-777).
 OPTICAL_ANCHOR = 7.466          # RYA-553 banked, VIS — on the 3D-NLTE scale
