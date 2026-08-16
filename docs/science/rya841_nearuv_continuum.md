@@ -93,6 +93,11 @@ is what makes the response attributable to the continuum alone.
 exactly (8.307, 6.837, 7.458, … line for line). The harness differs from the product of
 record only by the perturbation.
 
+⚠️ **The lever is measured on a ±4% grid and is quoted only there.** That brackets the ~6%
+misplacement the 0.100 dex term implies, which is what it is for. It does **not** licence
+extrapolation to the ~16% gap between the atlas and local-envelope placements (§3) — those
+are compared by re-fitting, not by multiplying a slope.
+
 *(Final lever numbers are filled in when the 200-fit run completes; the partial result at
 7 lines is a median |dA/dδ| of ~1.2, and ~1.6 restricted to lines that respond linearly.)*
 
