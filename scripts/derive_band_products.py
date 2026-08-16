@@ -137,6 +137,8 @@ def mpia_delta(element: str, ion: str, waves: np.ndarray,
 NEARUV_HALF_WIDTH_A = 0.40      # no EW exists to key the production wing-wide rule
 NEARUV_MIN_SEP_A = 4.0          # keeps the set spread instead of piling into one complex
 NEARUV_N_LINES = 40
+#: RYA-759: does not average down, and is NOT in the line scatter.
+NEARUV_PSEUDO_CONTINUUM_DEX = 0.100
 
 
 def synthesis_route(a, pol) -> None:
@@ -237,7 +239,33 @@ def synthesis_route(a, pol) -> None:
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_SYNTH"
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
-    products_frame([product]).to_csv(out / f"{stem}_products.csv", index=False)
+
+    # The products.csv SCHEMA is the matrix's input contract, not this function's choice.
+    # `products_frame` emits `value`; the matrix reads `A`, `stat_dex`, `syst_dex`. The
+    # first version of this route wrote the products_frame schema and the near-UV cell
+    # duly appeared in the matrix with n=40 and a NaN abundance — present, and empty.
+    # A row that arrives but carries no number is worse than one that does not arrive,
+    # because it looks like a measurement that failed rather than a wiring mismatch.
+    b = build_budget(a.element, 0.5 * (a.lo + a.hi), product.n_lines,
+                     scatter_dex=(product.sigma or 0.0), gf_graded=False,
+                     # There is no profile fitter anywhere on this route, so charging it
+                     # the profile fitter's measured residual would attribute someone
+                     # else's systematic to it.
+                     harness_residual_dex=0.0, handler="SynthesisHandler")
+    stat, syst = b.total()
+    # RYA-759's pseudo-continuum systematic. It does NOT average down and is NOT in the
+    # line scatter, so it is added in quadrature rather than left implicit in prose.
+    syst = float(np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX))
+    pd.DataFrame([dict(
+        element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
+        treatment="1D-LTE", A=round(product.value, 3) if product.value is not None else None,
+        n_lines=product.n_lines, n_excluded=product.n_excluded,
+        stat_dex=round(stat, 4), syst_dex=round(syst, 4),
+        dominant=(b.dominant().name if b.dominant() else ""),
+    )]).to_csv(out / f"{stem}_products.csv", index=False)
+    (out / f"{stem}_budgets.txt").write_text(
+        b.describe() + f"\n\nPSEUDO-CONTINUUM (RYA-759): {NEARUV_PSEUDO_CONTINUUM_DEX} "
+        f"dex, added in quadrature above. Does not average down; not in the scatter.\n")
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "
