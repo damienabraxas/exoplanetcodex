@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -43,6 +44,7 @@ OUT_DIR = ROOT / "data" / "results" / "rya783"
 #
 # A products vocabulary with two definitions has the same shape as the gf column with two
 # sources (RYA-353/825): the copy that is not the source drifts, and drifts quietly.
+sys.path.insert(0, str(ROOT))   # this script had no repo-root path setup at all
 from pipeline.band_products import TREATMENTS as _CANON_TREATMENTS  # noqa: E402
 TREATMENTS = list(_CANON_TREATMENTS)
 
