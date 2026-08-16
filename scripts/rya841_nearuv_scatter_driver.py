@@ -76,6 +76,13 @@ MATCH_TOL_A = 0.005
 #: so this is "what actually overlaps the core" rather than "what is in the fit window".
 CORE_HALF_WIDTH_A = 0.05
 
+#: The 832 selector's own saturation ceiling (rya759_nearuv_fe_product.py:86). Lines
+#: deeper than this sit on the flat part of the curve of growth, where abundance is
+#: weakly determined and strongly coupled to microturbulence and damping. The lab pool
+#: is mostly ABOVE it, which is the most obvious candidate difference between the pools
+#: -- so it gets tested rather than assumed.
+DEPTH_CEIL = 0.90
+
 #: Fixed BEFORE looking at what it selects, and reported as a sweep either way so its
 #: leverage is visible rather than asserted. "The target line supplies at least half the
 #: window's absorption" is the weakest statement of dominance that means anything.
@@ -233,7 +240,58 @@ def analyse(name: str, df: pd.DataFrame, blend: pd.DataFrame) -> dict:
         print(f'    t={t:.2f}  n={len(sub):3d}  scatter={sc:.3f}+/-{se:.3f}  '
               f'median={sub.a_synth.median():.3f}')
     out['depth_sweep'] = dsweep
+    out['saturation'] = saturation_split(d)
     return out, d
+
+
+def saturation_split(d: pd.DataFrame, *, seed: int = 0, n_boot: int = 20000) -> dict:
+    """Does the 832 selector's saturation ceiling explain the pool difference?
+
+    Tested, not asserted. A median offset between two subsets of a pool that scatters
+    0.65 dex is very easily noise, and quoting one without a significance test is how a
+    coincidence becomes a finding. Both a bootstrap CI and a permutation p are reported.
+    """
+    rng = np.random.default_rng(seed)
+    ok = d[np.isfinite(d.a_synth) & np.isfinite(d.own_depth)]
+    lo = ok[ok.own_depth <= DEPTH_CEIL].a_synth.to_numpy(float)
+    hi = ok[ok.own_depth > DEPTH_CEIL].a_synth.to_numpy(float)
+    out = {'n_unsaturated': int(len(lo)), 'n_saturated': int(len(hi)),
+           'ceiling': DEPTH_CEIL}
+    if len(lo) < 5 or len(hi) < 5:
+        out['verdict'] = 'one side too small to test'
+        print(f'  saturation split: n<=ceil {len(lo)}, n>ceil {len(hi)} — not testable')
+        return out
+
+    obs = float(np.median(hi) - np.median(lo))
+    boot = np.array([np.median(rng.choice(hi, len(hi))) - np.median(rng.choice(lo, len(lo)))
+                     for _ in range(n_boot)])
+    comb, nlo = np.concatenate([lo, hi]), len(lo)
+    perm = np.empty(n_boot)
+    for i in range(n_boot):
+        rng.shuffle(comb)
+        perm[i] = np.median(comb[nlo:]) - np.median(comb[:nlo])
+    pval = float((np.abs(perm) >= abs(obs)).mean())
+
+    out.update({
+        'median_unsaturated': float(np.median(lo)),
+        'median_saturated': float(np.median(hi)),
+        'offset_dex': obs,
+        'ci95': [float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))],
+        'permutation_p': pval,
+        'scatter_unsaturated': float(np.std(lo, ddof=1)),
+        'scatter_saturated': float(np.std(hi, ddof=1)),
+        'verdict': ('NOT significant — saturation does not explain the pool difference'
+                    if pval > 0.05 else 'significant'),
+    })
+    print(f'  saturation split at depth {DEPTH_CEIL}:')
+    print(f'    unsaturated n={len(lo):3d}  median={np.median(lo):.3f}  '
+          f'scatter={np.std(lo, ddof=1):.3f}')
+    print(f'    saturated   n={len(hi):3d}  median={np.median(hi):.3f}  '
+          f'scatter={np.std(hi, ddof=1):.3f}')
+    print(f'    offset {obs:+.3f} dex, 95% CI [{np.percentile(boot,2.5):+.3f}, '
+          f'{np.percentile(boot,97.5):+.3f}], permutation p={pval:.3f}')
+    print(f'    => {out["verdict"]}')
+    return out
 
 
 def main() -> None:
