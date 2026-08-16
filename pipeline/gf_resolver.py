@@ -263,7 +263,31 @@ def assert_gf_column_is_honest(df: pd.DataFrame, *, element_col: str = 'element'
             f"{len(bad)} of {n_checked} rows flagged gf_canonical report a log_gf that "
             f"is NOT the resolver's value — the column has drifted from the gf the "
             f"inversion uses (RYA-825). {head}")
-    return {'n_checked': n_checked, 'n_bad': 0}
+
+    # THE OTHER HALF, and the half the first version was missing. Checking only the rows
+    # that CLAIM to be canonical validates the positive claims and is blind to coverage
+    # GROWTH: when canonical_gf gains lines, rows correctly flagged False go stale and
+    # nothing notices. That is not hypothetical — RYA-822 extended canonical_gf blueward
+    # the same day RYA-825 landed, and 3,413 accounting rows became resolvable while the
+    # committed table still reported them as outside coverage. A one-sided guard let a
+    # freshly-corrected table go stale within hours.
+    n_should = 0
+    for j in range(len(df)):
+        if bool(df.iloc[j]['gf_canonical']):
+            continue
+        row = df.iloc[j]
+        try:
+            resolve(species_key(str(row[element_col]), str(row[ion_col])),
+                    float(row[wl_col]), float(row[ep_col]))
+        except (GfResolutionError, ValueError):
+            continue
+        n_should += 1
+    if n_should:
+        raise GfResolutionError(
+            f"{n_should} rows are flagged gf_canonical=False but DO resolve against the "
+            f"current canonical gf table — the table has gained coverage since this "
+            f"column was built and it is now stale (RYA-825). Regenerate it.")
+    return {'n_checked': n_checked, 'n_bad': 0, 'n_newly_resolvable': 0}
 
 
 # ── synth consumer (#1) — branching-preserved rescale ─────────────────────────

@@ -98,6 +98,32 @@ def test_the_guard_refuses_a_table_with_no_canonical_flag(acc):
         assert_gf_column_is_honest(acc.drop(columns=["gf_canonical"]), **KW)
 
 
+def test_the_guard_catches_COVERAGE_GROWTH_not_just_drift(acc):
+    """The half the first version of this guard was missing.
+
+    Validating only the rows that CLAIM canonical is blind to canonical GAINING lines:
+    rows correctly flagged False go stale and nothing notices. That is not hypothetical.
+    RYA-822 extended canonical_gf blueward the same day RYA-825 landed, and 3,413
+    accounting rows became resolvable while the freshly-corrected table still reported
+    them as outside coverage — a one-sided guard let a just-fixed table rot within hours.
+
+    Simulated by flipping a resolvable row's flag to False, which is exactly the state
+    coverage growth produces.
+    """
+    stale = acc.copy()
+    j = stale.index[stale.gf_canonical.astype(bool)][0]
+    stale.loc[j, "gf_canonical"] = False
+    with pytest.raises(GfResolutionError, match="gained coverage"):
+        assert_gf_column_is_honest(stale, **KW)
+
+
+def test_the_live_table_is_current_with_todays_canonical(acc):
+    """Not just self-consistent — CURRENT. This is the assertion that would have failed
+    the moment RYA-822 landed, and it is the point of the two-sided guard."""
+    stats = assert_gf_column_is_honest(acc, **KW)
+    assert stats["n_newly_resolvable"] == 0
+
+
 # ── the annotator ─────────────────────────────────────────────────────────────
 
 def test_annotate_used_gf_round_trips_a_known_line(acc):
