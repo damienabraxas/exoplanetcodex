@@ -147,14 +147,28 @@ Three placements applied to the same lines:
 | `local` | E − 1 | the window's own upper envelope (95th pct over ±2 Å) |
 | `synth` | 1/cont_ratio − 1 | put the continuum where the model says it is |
 
-**The local-envelope placement is not a competing method here — the data reject it.** At
-3000 Å its envelope sits at 0.56, i.e. **δ = −0.44**, and the resulting fit has χ²_r = 229
-against the atlas placement's 88. There are no near-continuum pixels to find.
+**The placements disagree by a measured amount, and it brackets the assumed 0.100:**
 
-This is the quantitative form of what `band_policy.py` says qualitatively ("the true
-continuum is never observed"). It also shows the atlas's true-continuum normalisation is
-**load-bearing**, not a refinement: without it, this band's abundances move by tenths of a
-dex in the wrong direction.
+| pair | median difference |
+|---|---|
+| atlas − local | **+0.132 dex** |
+| atlas − synth | **+0.075 dex** |
+
+The local envelope sits a median **16% below** the atlas continuum (range 4%–44%), which is
+the quantitative form of what `band_policy.py` says qualitatively — the true continuum is
+never observed, and how far the envelope falls short varies by a factor of ten across the
+band.
+
+⚠️ **A correction to my own first read.** From the first line to complete (3000.468: atlas
+χ²_r 88 → local 229) I concluded the local placement was simply *refuted* by fit quality.
+Across more lines that is **wrong** — it is often *better* (3087.4: 891 → 676; 3123.2:
+999 → 883). Whether a placement is rejected is a claim about the pool, not about whichever
+line ran first, so the report now joins the atlas χ² in and counts how many lines each
+placement is worse on.
+
+That the two placements differ by 0.13 dex while neither is clearly rejected by fit quality
+is the honest statement of the problem: **the near-UV continuum is genuinely ambiguous at
+the tenth-dex level, and the fit cannot referee it.**
 
 ⚠️ `synth` is partly circular — normalise to the model, then fit the model — and is
 reported for distance only, never as a recommended placement.
