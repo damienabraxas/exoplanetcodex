@@ -1,0 +1,37 @@
+# solar gold-standard abundance reference — RYA-469 (write-once, immutable)
+# version: v4
+# frozen_utc: 2026-08-14T05:11:01Z
+# source_commit: 17a08c474fbb
+# source_file: data/reference/solar/solar_abundances_v4_candidate.csv
+# fe_anchor_a_fe1: 7.466
+# verdict: PASS=7 NLTE-OWED=? CURATION-OWED=19 DATA-GAP=0
+# changelog: RYA-811 — LABEL-ONLY re-freeze: the Fe I row method_scale 1D-NLTE (Fe I) -> 3D-NLTE (Fe I). The VALUE 7.466 is UNCHANGED and was always correct — v3 froze a post-Magic-2013 3D value under a pre-correction 1D label (the RYA-669 defect), which made solar_scale_provenance.resolve_gold_scale refuse to load gold and blocked phase_c. Every other row byte-identical.
+# supersedes: v3
+# immutable: editing this file trips the RYA-469 immutability guard
+element,ion,A_X,A_X_nlte,confidence,verdict,method_scale,asplund2021,n_lines,source,note
+Fe,I,7.466,7.466,gold,PASS,3D-NLTE (Fe I),7.46,62,phase_c_verdict (RYA-521),"VALUE VALIDATED, ROUTE CORRECTED (RYA-819/831, ratified 2026-08-16). A(Fe I) = 7.466 stands on its agreement with Asplund, Amarsi & Grevesse 2021 (7.46, +0.006) and is UNCHANGED from v3/v4. What v4 asserted about HOW it was reached is withdrawn: the chain was stated as 1D-NLTE 7.516 minus a Magic-2013 1D→3D offset of 0.05, and that offset is NOT the 3D-atmosphere term. Measured per line against the Amarsi-2022 3D-NLTE MLP, A(3D-NLTE) − A(1D-NLTE) runs −0.013 to +0.018 dex by line sample — no part of that range contains −0.05 — and the correction is LINEAR IN EXCITATION POTENTIAL (+0.0287 per eV, corr 0.955, +0.143 dex across 5 eV), so NO tabulated scalar can represent it. The −0.05 landed the right answer by absorbing the RYA-161 ungraded-gf zero point, measured at +0.1013 dex. Same shape as the −0.127 RYA-817 found reverse-engineered from a target. SCALE UNCHANGED: 7.466 does sit on the 3D scale, so method_scale stays 3D-NLTE (Fe I); it was the ROUTE that was wrong, never the scale. STILL OWED (RYA-811, restated): this row declares its scale only via the legacy method_scale prose. scale_state/corrections_applied are NOT added here because corrections_applied=[] is a POSITIVE claim (RYA-674) that cannot be made truthfully for the other 25 elements without auditing each."
+C,I,8.491,8.491,gold,PASS,synthesis,8.46,5,phase_c_verdict (RYA-521),CH G-band + C I (RYA-237)
+O,I,8.735,8.735,gold,PASS,synthesis,8.69,3,phase_c_verdict (RYA-521),O I 777 + [O I] 6300 (RYA-237)
+Mg,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,7.55,0,phase_c_verdict (RYA-521),EW present; no independent-gf line survives the graded cull
+Si,I,7.888,7.888,gf_floor,CURATION-OWED,EW 1D-LTE/NLTE,7.51,7,phase_c_verdict (RYA-521),characterized gf-scale floor (+0.38); 3D not the lever (RYA-398/399)
+Ca,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.3,2,phase_c_verdict (RYA-521),EW: 2 curated line(s); value HELD at gold tier 'owed' (RYA-522) — not a graded-cull blank
+Ti,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,4.97,10,phase_c_verdict (RYA-521),EW: 10 curated line(s); value HELD at gold tier 'owed' (RYA-522) — not a graded-cull blank
+Ni,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.2,2,phase_c_verdict (RYA-521),EW: 2 curated line(s); value HELD at gold tier 'owed' (RYA-522) — not a graded-cull blank
+Na,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.24,2,phase_c_verdict (RYA-521),EW: 2 curated line(s); value HELD at gold tier 'owed' (RYA-522) — not a graded-cull blank
+P,I,,,owed,CURATION-OWED,atlas 1D,5.41,2,phase_c_verdict (RYA-521),"near-IR multiplet, gf-limited (RYA-460) — A(X) 6.610 HELD at tier 'owed' (RYA-522), not frozen"
+S,I,,,owed,CURATION-OWED,synthesis,7.12,2,phase_c_verdict (RYA-521),"synthesis: Costa-Silva gf (RYA-492) — A(X) 7.486 HELD at tier 'owed' (RYA-522), not frozen"
+N,I,,,owed,CURATION-OWED,atlas 1D,7.83,3,phase_c_verdict (RYA-521),"N I red multiplets; +0.37 owed NLTE (RYA-369) — A(X) 8.188 HELD at tier 'owed' (RYA-522), not frozen"
+Co,I,,,owed,PASS,synthesis,4.94,5,phase_c_verdict (RYA-521),"synthesis: Co I red HFS (RYA-564) — A(X) 4.965 HELD at tier 'owed' (RYA-522), not frozen"
+Cr,I,6.022,6.022,gf_floor,CURATION-OWED,EW 1D-LTE/NLTE,5.62,7,phase_c_verdict (RYA-521),characterized gf-scale floor (+0.40); 3D not the lever (RYA-398/399)
+Al,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,6.43,1,phase_c_verdict (RYA-521),EW: 1 curated line(s); value HELD at gold tier 'owed' (RYA-522) — not a graded-cull blank
+K,I,5.099,5.099,gold,PASS,atlas 1D,5.07,1,phase_c_verdict (RYA-521),K I 7699 + K NLTE grid (RYA-462)
+Ba,I,,,owed,CURATION-OWED,synthesis,2.27,1,phase_c_verdict (RYA-521),"synthesis: Ba II 5853 HFS (RYA-559) — A(X) 2.410 HELD at tier 'owed' (RYA-522), not frozen"
+Y,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,2.21,0,phase_c_verdict (RYA-521),EW present; no independent-gf line survives the graded cull
+V,I,,,owed,CURATION-OWED,synthesis,3.9,6,phase_c_verdict (RYA-521),"HFS-resolved synthesis (RYA-411/466/473) — A(X) 3.917 HELD at tier 'owed' (RYA-522), not frozen"
+Cu,I,,,owed,CURATION-OWED,synthesis,4.18,5,phase_c_verdict (RYA-521),"HFS-resolved synthesis (RYA-411/466/473) — A(X) 4.345 HELD at tier 'owed' (RYA-522), not frozen"
+Mn,I,5.466,5.466,gold,PASS,synthesis,5.42,3,phase_c_verdict (RYA-521),HFS-resolved synthesis (RYA-411/466/473)
+Sc,II,3.203,3.203,gold,CURATION-OWED,atlas 1D,3.14,1,phase_c_verdict (RYA-521),blue-edge HFS single line (RYA-460)
+Li,I,0.727,0.727,upper_limit,CURATION-OWED,EW (upper limit),1.05,1,phase_c_verdict (RYA-521),"CN-blended, carried as UPPER LIMIT (RYA-103) — a clean low value is a red flag"
+Eu,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,0.52,0,phase_c_verdict (RYA-521),EW present; no independent-gf line survives the graded cull
+Zr,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,2.59,0,phase_c_verdict (RYA-521),EW present; no independent-gf line survives the graded cull
+Sr,I,,,owed,CURATION-OWED,EW 1D-LTE/NLTE,2.83,1,phase_c_verdict (RYA-521),EW: 1 curated line(s); value HELD at gold tier 'owed' (RYA-522) — not a graded-cull blank
