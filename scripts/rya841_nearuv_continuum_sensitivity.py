@@ -232,7 +232,7 @@ def main() -> None:
                               apply_canonical_gf=prov['apply_canonical_gf'])
     segs = _kp_segments()
     print(f'[kp]  {len(segs)} atlas segments')
-    print(f'[gf]  {prov["note"]}')
+    print(f'[gf]  {prov["detail"]}')
 
     cand = select_lines(ctx['linelist'], lo_A=LO_A, hi_A=HI_A, n=a.limit,
                         teff=ctx['teff'], min_sep_A=a.min_sep_A)
