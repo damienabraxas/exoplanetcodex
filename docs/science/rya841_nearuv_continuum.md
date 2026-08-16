@@ -52,8 +52,10 @@ pool moved to primary lab gf. Corrected, it fell **0.197 → 0.108**. The improv
 unaffected (`dominant` is computed from the budget's own terms, before the stray `hypot`).
 **RYA-836's qualitative conclusion survives; its numbers do not.**
 
-The fix is a two-line deletion, but it changes published product uncertainties, so it is
-flagged here rather than applied.
+**FIXED by RYA-845** (`118ed93`), which removed both hand-adds, deleted the duplicate
+constants so the value lives only in `pipeline/error_budget.py`, replaced the RYA-832
+constant-assertion with tests that can catch a re-add, and regenerated the matrix: exactly
+two of eighteen rows moved, both near-UV, both `syst_dex` only.
 
 ---
 
@@ -271,14 +273,14 @@ no defensible subset exists, and the one cut that appears to tighten is contradi
 control. Any near-UV number that looks tighter because lines were dropped is an artifact of
 the dropping.
 
-**From the continuum: the term is wrong in construction, and its size is unknown.** It is
-double-counted (§0), its lever is understated 2.4× (§1), and σ_δ has never been measured
-(§2). Correcting only the double-count moves the product of record's systematic
-0.2211 → 0.1972; correcting the lever needs σ_δ first.
+**From the continuum: the term is wrong in construction, and its size is unknown.** It was
+double-counted (§0 — fixed by RYA-845, which moved the product of record's systematic
+0.2211 → 0.1972), its lever is understated 2.4× (§1), and σ_δ has never been measured
+(§2). Correcting the lever needs σ_δ first.
 
 **What would actually move the band**, in order:
 
-1. **Remove the double-count.** Two lines, no new physics, and it is simply wrong today.
+1. ~~**Remove the double-count.**~~ **DONE — RYA-845 (`118ed93`).**
 2. **Measure σ_δ** — the Kitt Peak atlas's own normalisation uncertainty in 3000–3780 Å.
    This is the single missing number; with the lever now known, the term follows from it.
 3. **Treat the non-linear responders separately.** A term applied per line to lines that do
