@@ -701,3 +701,35 @@ artifacts:
       10) and pool RMS sigma 0.1993 -> 0.1911 dex. No abundance moved: the accounting
       log_gf is carried and never computed with, and the single consumer that reads it is
       gf_grades.py, whose verdicts are exactly what this file re-derives.
+
+  # ── RYA-836 — the near-UV primary-lab-gf sub-pool ──────────────────────────────────
+  - artifact: rya836/rya836_nearuv_lab_census.csv
+    generator: scripts/rya836_nearuv_lab_gf_subpool.py
+    invocation: python3 scripts/rya836_nearuv_lab_gf_subpool.py --census-only
+    ticket: RYA-836
+    note: >-
+      The 61 near-UV Fe I lines with a PRIMARY laboratory gf (Den Hartog 31, Belmonte 26,
+      Ruffoni 4), cited sigma 0.020-0.120 dex. GF-NIST is excluded by construction: FMW
+      *is* a NIST compilation and VALD copies it (RYA-760), so it cannot referee a pool
+      whose claim is independence.
+  - artifact: rya836/rya836_nearuv_lab_gf_per_line.csv
+    generator: scripts/rya836_nearuv_lab_gf_subpool.py
+    invocation: python3 scripts/rya836_nearuv_lab_gf_subpool.py
+    ticket: RYA-836
+    note: >-
+      Each line fitted TWICE through the RYA-759 synthesis route -- once on the production
+      gf, once on the lab gf -- so the difference is attributable to the oscillator
+      strength and nothing else. Written BEFORE the report, which is what let a reporting
+      crash after all 122 Turbospectrum fits cost nothing. Carries the 2.961-dex
+      probable-misidentification line (Fe I 3026.056) rather than dropping it (RYA-711).
+  - artifact: rya836/rya836_summary.json
+    generator: scripts/rya836_nearuv_lab_gf_subpool.py
+    invocation: python3 scripts/rya836_nearuv_lab_gf_subpool.py
+    ticket: RYA-836
+    note: >-
+      THE RESULT, and it refutes the ticket's premise: switching 60 near-UV lines to a
+      primary lab gf changes their SCATTER by +0.002 dex (0.651 -> 0.654) and their median
+      by +0.000. The near-UV scatter is line SELECTION, not the Kurucz floor -- the
+      lab-covered set scatters 0.651 on the production gf against the RYA-832 depth-
+      selected pool's 0.413. What DID improve is the systematic (0.221 -> 0.147) and the
+      dominant term flipped from gf to the pseudo-continuum, which is the actionable half.
