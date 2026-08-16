@@ -1,14 +1,14 @@
 {
   "comment_lines": [
     "# solar gold-standard abundance reference — RYA-469 (write-once, immutable)",
-    "# version: v4",
-    "# frozen_utc: 2026-08-14T05:11:01Z",
-    "# source_commit: 17a08c474fbb",
-    "# source_file: data/reference/solar/solar_abundances_v4_candidate.csv",
+    "# version: v5",
+    "# frozen_utc: 2026-08-16T03:23:08Z",
+    "# source_commit: 4c432f17dbc3",
+    "# source_file: data/reference/solar/solar_abundances_v5_candidate.csv",
     "# fe_anchor_a_fe1: 7.466",
     "# verdict: PASS=7 NLTE-OWED=? CURATION-OWED=19 DATA-GAP=0",
-    "# changelog: RYA-811 — LABEL-ONLY re-freeze: the Fe I row method_scale 1D-NLTE (Fe I) -> 3D-NLTE (Fe I). The VALUE 7.466 is UNCHANGED and was always correct — v3 froze a post-Magic-2013 3D value under a pre-correction 1D label (the RYA-669 defect), which made solar_scale_provenance.resolve_gold_scale refuse to load gold and blocked phase_c. Every other row byte-identical.",
-    "# supersedes: v3",
+    "# changelog: RYA-819/831 (ratified 2026-08-16) — PROVENANCE re-freeze: the Fe I derivation chain stated in v4 (1D-NLTE 7.516 minus a Magic-2013 1D->3D offset of 0.05) is withdrawn. The measured 3D-atmosphere term runs -0.013..+0.018 by line sample and is LINEAR IN EXCITATION POTENTIAL (+0.143 dex across 5 eV), so no scalar can represent it; the -0.05 landed the right answer by absorbing the RYA-161 gf zero point (+0.1013 dex). The VALUE 7.466 is UNCHANGED and still stands on Asplund 2021 (7.46). Scale label unchanged. Every other row byte-identical.",
+    "# supersedes: v4",
     "# immutable: editing this file trips the RYA-469 immutability guard"
   ],
   "columns": [
@@ -25,5 +25,5 @@
     "note"
   ],
   "trailing_newline": true,
-  "exploded_from": "v4"
+  "exploded_from": "v5"
 }
