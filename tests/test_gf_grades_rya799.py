@@ -67,7 +67,8 @@ def test_our_grade_values_never_wear_nists_letters():
     """RYA-711: the prefix is in the VALUES, not just the column, because a value
     outlives the header it was emitted under."""
     nist_letters = {"AAA", "AA", "A+", "A", "B+", "B", "C+", "C", "D+", "D", "E"}
-    for value in (gg.GRADE_LAB, gg.GRADE_SYSTEMATIC, gg.GRADE_MISMATCH):
+    for value in (gg.GRADE_LAB, gg.GRADE_SYSTEMATIC, gg.GRADE_MISMATCH,
+                  gg.GRADE_NIST):
         assert value not in nist_letters
         assert value.startswith(("GF-", "systematic:"))
 
@@ -77,7 +78,8 @@ def test_the_gf_grade_is_a_different_vocabulary_from_the_measurement_grade():
     Reusing MQ- here would be a category error dressed as single-sourcing."""
     mq = set(LINE_GRADE_THRESHOLDS)
     assert all(v.startswith("MQ-") for v in mq)
-    for value in (gg.GRADE_LAB, gg.GRADE_SYSTEMATIC, gg.GRADE_MISMATCH):
+    for value in (gg.GRADE_LAB, gg.GRADE_SYSTEMATIC, gg.GRADE_MISMATCH,
+                  gg.GRADE_NIST):
         assert value not in mq
         assert not value.startswith("MQ-")
 
@@ -141,3 +143,40 @@ def test_every_bounded_line_carries_exactly_the_ratified_systematic():
                          "log_gf": [-9.99]})
     out = gg.grade_pool(pool)
     assert float(out.gf_sigma_dex.iloc[0]) == 0.20
+
+
+# ── RYA-822: the NIST accuracy class as a citable sigma ──────────────────────
+
+def test_the_nist_ladder_is_monotonic_and_includes_the_plus_tiers():
+    """RYA-592: omitting the '+' tiers once put B+ (<=7%) BELOW B (<=10%) — an inverted
+    ladder that silently DEMOTED the better measurement. Assert the order, not the keys.
+    """
+    order = ["AAA", "AA", "A+", "A", "B+", "B", "C+", "C", "D+", "D", "E"]
+    assert list(gg.NIST_ACC_PCT) == order
+    pct = [gg.NIST_ACC_PCT[g] for g in order]
+    assert pct == sorted(pct), "the ladder must widen monotonically, best to worst"
+    sig = [gg.nist_sigma_dex(g) for g in order]
+    assert sig == sorted(sig), "sigma must widen with the grade, or a B+ outranks an A"
+
+
+def test_nist_sigma_is_the_percent_to_dex_bridge_and_never_guesses():
+    import numpy as np
+    # grade B = 10% on A_ki = log10(1.10) dex, exactly as error_budget documents
+    assert gg.nist_sigma_dex("B") == pytest.approx(np.log10(1.10), abs=1e-12)
+    assert gg.nist_sigma_dex("A") < gg.nist_sigma_dex("B") < gg.nist_sigma_dex("E")
+    # an unmapped class must NOT become an accuracy
+    assert np.isnan(gg.nist_sigma_dex("Z"))
+    assert np.isnan(gg.nist_sigma_dex(""))
+
+
+def test_gf_nist_is_not_gf_lab_because_a_compilation_is_not_a_measurement():
+    """RYA-760: FMW *is* NIST and VALD copies it. A compiled value must not inherit a
+    measured value's pedigree, so GF-NIST stays outside `is_graded`."""
+    assert gg.GRADE_NIST != gg.GRADE_LAB
+    v = gg.GradeVerdict(gg.GRADE_NIST, "src", 0.04, "tag", -1.0, 0.0, "note")
+    assert not v.is_graded          # not a primary lab measurement
+    assert v.has_cited_sigma        # but it does carry a citable per-line sigma
+    lab = gg.GradeVerdict(gg.GRADE_LAB, "src", 0.02, "tag", -1.0, 0.0, "note")
+    assert lab.is_graded and lab.has_cited_sigma
+    sysm = gg.GradeVerdict(gg.GRADE_SYSTEMATIC, "src", 0.20, "tag", -1.0, 0.0, "note")
+    assert not sysm.is_graded and not sysm.has_cited_sigma

@@ -61,7 +61,27 @@ MIN_SENSITIVITY = 0.002
 #: canonical entry to single-source against, and `apply_to_synth_array` raises rather
 #: than defaulting (RYA-353). Measured from the file, stated here so the near-UV path
 #: can refuse to *pretend* it had canonical gf.
-CANONICAL_GF_LO_A = 3780.0
+#: ⚠️ DERIVED FROM THE FILE, NEVER HARDCODED (RYA-822). This was `3780.0`, and when
+#: RYA-822 extended canonical_gf.csv blueward to 3000 A that literal would have kept
+#: reporting "no canonical adjudication exists" for a band that now HAS one — the band
+#: would have silently gone on using raw VALD gf while the provenance string claimed a
+#: reason that had stopped being true. The table is the single source of truth for its
+#: own coverage, so ask it.
+_CANONICAL_GF_CSV = ROOT / 'data' / 'linelists' / 'canonical_gf.csv'
+_blue_edge_cache: dict = {}
+
+
+def canonical_gf_blue_edge_A() -> float:
+    """The bluest wavelength canonical_gf.csv actually covers. Cached; fails loud."""
+    if 'v' not in _blue_edge_cache:
+        if not _CANONICAL_GF_CSV.exists():
+            raise NearUVSynthesisError(
+                f"canonical_gf.csv absent at {_CANONICAL_GF_CSV} — refusing to guess "
+                f"its coverage. gf single-sourcing status cannot be stated.")
+        import pandas as _pd
+        w = _pd.read_csv(_CANONICAL_GF_CSV, usecols=['wavelength_air_A'])
+        _blue_edge_cache['v'] = float(w['wavelength_air_A'].min())
+    return _blue_edge_cache['v']
 
 
 #: iSpec returns exactly 1e-10 at the FIRST and LAST pixel of every synthesis window.
@@ -203,15 +223,22 @@ def gf_provenance(lo_A: float, hi_A: float) -> dict:
     Returns the flag `_load_synth_resources` must be called with, and the reason —
     so the reason travels into the run's provenance rather than living in a comment.
     """
-    below = lo_A < CANONICAL_GF_LO_A
+    edge = canonical_gf_blue_edge_A()
+    # The band bound is NOMINAL (3000.0); the table's coverage is defined by the lines it
+    # actually contains, whose bluest is 3000.003. Comparing the two exactly would report
+    # "no canonical adjudication" for a 0.003 A gap that contains no lines at all. The
+    # tolerance is one hundredth of an Angstrom — far below this band's ~0.18 A Fe I
+    # spacing, so it can never mask a real uncovered region.
+    _NOMINAL_EDGE_TOL_A = 0.01
+    below = lo_A < edge - _NOMINAL_EDGE_TOL_A
     if below:
-        detail = (f"canonical_gf.csv starts at {CANONICAL_GF_LO_A:.1f} A; this band "
+        detail = (f"canonical_gf.csv starts at {edge:.1f} A; this band "
                   f"starts at {lo_A:.1f} A, so canonical gf single-sourcing (RYA-353) "
                   f"is NOT available and the list's own VALD log gf is used as "
                   f"delivered. Per-line VALD gf SOURCES are recorded, but no canonical "
-                  f"adjudication exists below {CANONICAL_GF_LO_A:.1f} A.")
+                  f"adjudication exists below {edge:.1f} A.")
         trace_fallback('canonical_gf_unavailable', detail, severity='WARN',
-                       lo_A=lo_A, canonical_lo_A=CANONICAL_GF_LO_A)
+                       lo_A=lo_A, canonical_lo_A=edge)
     else:
         detail = "canonical gf single-sourcing (RYA-353) applied"
     return {'apply_canonical_gf': not below, 'detail': detail}

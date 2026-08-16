@@ -68,6 +68,31 @@ K07_TAG = "K07"
 GRADE_LAB = "GF-LAB"
 GRADE_SYSTEMATIC = "systematic:K07"
 GRADE_MISMATCH = "systematic:K07/SCALE-MISMATCH"
+#: RYA-822. A value carrying a NIST ASD accuracy class — a citable per-line sigma, but from
+#: a COMPILATION, not a primary laboratory measurement. Kept distinct from GF-LAB for that
+#: reason (see this module's RYA-822 note).
+GRADE_NIST = "GF-NIST"
+
+#: NIST's accuracy ladder, worst-case percentage on the transition probability.
+#: ⚠️ ENUMERATED IN FULL, '+' TIERS INCLUDED. Omitting them once put a B+ line (<=7%)
+#: BELOW a B line (<=10%) — an inverted ladder that silently demoted the better
+#: measurement (RYA-592, found in `curate_nonfe_pools.NIST_GRADE_HIGH`).
+NIST_ACC_PCT = {
+    "AAA": 0.3, "AA": 1.0, "A+": 2.0, "A": 3.0, "B+": 7.0, "B": 10.0,
+    "C+": 18.0, "C": 25.0, "D+": 40.0, "D": 50.0, "E": 100.0,
+}
+
+
+def nist_sigma_dex(grade: str) -> float:
+    """A NIST accuracy class as a log-space sigma: dex = log10(1 + pct/100).
+
+    The same percent->dex bridge `error_budget.gf_term` already documents ("NIST grade
+    B = 10% on the transition probability = log10(1.10) dex") and the one Belmonte 2017
+    Eq. 1 states independently. Returns NaN for a class not in the ladder rather than
+    guessing — an unmapped grade must not silently become an accuracy.
+    """
+    pct = NIST_ACC_PCT.get(str(grade).strip())
+    return float(np.log10(1.0 + pct / 100.0)) if pct is not None else float("nan")
 
 #: Match windows. Wavelength is a rounding tolerance, not a search radius — the pool is
 #: measured AT the line list's own wavelength. The EP window is the second key: RYA-780
@@ -100,7 +125,15 @@ class GradeVerdict:
 
     @property
     def is_graded(self) -> bool:
+        """Primary LABORATORY measurement. Unchanged by RYA-822 on purpose — widening it
+        to include compilations would restate 799's headline without saying so."""
         return self.gf_grade == GRADE_LAB
+
+    @property
+    def has_cited_sigma(self) -> bool:
+        """Carries a citable per-line sigma — a lab measurement OR a NIST accuracy class.
+        This is what an error budget can consume instead of the blanket systematic."""
+        return self.gf_grade in (GRADE_LAB, GRADE_NIST)
 
 
 _cache: dict = {}
@@ -159,6 +192,28 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float) -> Gra
             f"used by {d_lab:+.3f} dex — the lab accuracy does NOT describe this "
             f"measurement, so the systematic stands")
 
+    # RYA-822: a NIST accuracy class on the canonical row IS a citable per-line sigma —
+    # but only for the value it describes, so the value the pool used must match it.
+    if cgf is not None:
+        ngrade = str(cgf.get("nist_grade", "") or "").strip()
+        nsig = nist_sigma_dex(ngrade) if ngrade else float("nan")
+        if ngrade and np.isfinite(nsig) and np.isfinite(ref_loggf):
+            d_nist = ref_loggf - float(log_gf_used)
+            if abs(d_nist) <= LOGGF_MATCH_TOL:
+                return GradeVerdict(
+                    GRADE_NIST, f"NIST ASD accuracy class {ngrade} "
+                                f"(<={NIST_ACC_PCT[ngrade]:.1f}% on A_ki)",
+                    nsig, tag, ref_loggf, d_nist,
+                    "graded against NIST ASD, which for Fe I in this regime is largely a "
+                    "COMPILATION — agreement proves no transcription error, not "
+                    "independence (RYA-760: FMW *is* NIST and VALD copies it)")
+            return GradeVerdict(
+                GRADE_MISMATCH, NO_TIE_SOURCE, K07_SYSTEMATIC_DEX, tag, ref_loggf,
+                d_nist,
+                f"canonical_gf carries a NIST-graded ({ngrade}) gf for this line but it "
+                f"differs from the value used by {d_nist:+.3f} dex — the NIST accuracy "
+                f"does NOT describe this measurement, so the systematic stands")
+
     if cgf is not None and tag and tag != K07_TAG:
         d_ref = ref_loggf - float(log_gf_used)
         if abs(d_ref) <= LOGGF_MATCH_TOL:
@@ -166,8 +221,10 @@ def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float) -> Gra
                 GRADE_SYSTEMATIC, NO_TIE_SOURCE, K07_SYSTEMATIC_DEX, tag,
                 ref_loggf, d_ref,
                 f"value confirmed against canonical_gf reference {tag!r}, but that "
-                f"reference publishes no per-line uncertainty we can cite (NIST ASD is "
-                f"externally down) — attributed, not graded")
+                f"reference publishes no per-line uncertainty we can cite and the line "
+                f"carries no NIST accuracy class — attributed, not graded. (NIST "
+                f"ASD itself is reachable again via astroquery; the lines1.pl CGI is "
+                f"broken only in its `unit` path — RYA-822.)")
         return GradeVerdict(
             GRADE_MISMATCH, NO_TIE_SOURCE, K07_SYSTEMATIC_DEX, tag, ref_loggf, d_ref,
             f"canonical_gf carries a {tag!r}-referenced gf for this line but it differs "

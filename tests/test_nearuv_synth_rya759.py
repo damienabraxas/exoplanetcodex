@@ -233,10 +233,36 @@ def test_responsive_band_passes():
 
 # ── gf provenance is stated, never inferred ──────────────────────────────────
 
-def test_near_uv_turns_canonical_gf_off_and_says_why():
+def test_near_uv_now_HAS_canonical_gf_because_rya822_extended_the_table():
+    """RYA-822 extended canonical_gf blueward to 3000.003 A, so this band is covered.
+
+    This test previously asserted the OPPOSITE — that the near-UV turns canonical gf off
+    and says why. That was correct when canonical_gf started at 3780.04 A. The assertion
+    is inverted rather than deleted because the interesting property is unchanged: the
+    band must STATE its gf single-sourcing status, and the status must follow the TABLE
+    rather than a literal. `gf_provenance` derives the edge from canonical_gf.csv itself,
+    so this flips automatically if the table's coverage ever changes again.
+    """
     p = ns.gf_provenance(3000.0, 3780.0)
+    assert p["apply_canonical_gf"] is True
+    assert "RYA-353" in p["detail"]
+
+
+def test_a_band_bluer_than_the_table_still_turns_canonical_gf_off_and_says_why():
+    """The refusal must still work where the table genuinely does not reach."""
+    p = ns.gf_provenance(1200.0, 2000.0)
     assert p["apply_canonical_gf"] is False
     assert "canonical_gf.csv starts at" in p["detail"]
+
+
+def test_the_canonical_blue_edge_is_read_from_the_table_not_hardcoded():
+    """RYA-822: a literal here would keep claiming 'no canonical adjudication exists' for
+    a band that has one — the synthesis would use raw VALD gf while the provenance string
+    gave a reason that had stopped being true."""
+    import pandas as pd
+    edge = ns.canonical_gf_blue_edge_A()
+    w = pd.read_csv(ns._CANONICAL_GF_CSV, usecols=["wavelength_air_A"])
+    assert edge == float(w["wavelength_air_A"].min())
 
 
 def test_optical_keeps_canonical_gf():
