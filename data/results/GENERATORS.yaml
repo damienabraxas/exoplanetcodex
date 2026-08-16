@@ -801,3 +801,54 @@ artifacts:
       placement's 88, because there are no near-continuum pixels to find. The `synth`
       placement is partly circular (normalise to the model, then fit the model) and the
       headline is quoted without it as well.
+  - artifact: rya843/rya843_line_context.csv
+    generator: scripts/rya843_rail_rca.py
+    invocation: python3 scripts/rya843_rail_rca.py --step atlas
+    ticket: RYA-843
+    note: >-
+      The cheap half of the rail RCA -- line list, canonical gf and Kitt Peak atlas only,
+      no synthesis -- and it answers most of the question. Closes the gf branch outright:
+      loggf == canonical_gf.log_gf to 0.000 for all five railers AND all four controls,
+      every one VALD3/single_source, so RYA-834's redward extension substituted nothing
+      here. Carries the window continuum level that first looked like the discriminator
+      and is not one: 11119.795 (median 0.872) and 11572.523 (0.866) are MORE depressed
+      than three of the five railers and fit to plausible values.
+  - artifact: rya843/rya843_chi2_curves.csv
+    generator: scripts/rya843_rail_rca.py
+    invocation: ISPEC_DIR=... python3 scripts/rya843_rail_rca.py --step curves
+    ticket: RYA-843
+    note: >-
+      chi2 and synthetic core depth at 13 abundances per line, evaluated with THE
+      FITTER'S OWN OBJECTIVE -- captured by spying on minimize_scalar inside
+      _fit_synth_flux rather than rebuilt, because a rebuilt chi2 agrees with itself
+      while the product does something else (RYA-845). REFUTES SATURATION, which was the
+      standing hypothesis: the synthetic core reaches the observed depth at a sane
+      abundance (11593.588, observed 0.588, synthetic 0.595 at A=8.996) and chi2 keeps
+      falling past it. The core is not what the fitter is looking at -- the +/-1.4 A
+      window baseline is. Needs venv312; venv_ci's numpy breaks iSpec.
+  - artifact: rya843/rya843_constraint.csv
+    generator: scripts/rya843_rail_rca.py
+    invocation: python3 scripts/rya843_rail_rca.py --step report
+    ticket: RYA-843
+    note: >-
+      Three candidate constraint metrics per line and DELIBERATELY NO THRESHOLD. Shows
+      the defect is bigger than the rail: 11119.795 (-> 7.833) and 11572.523 (-> 7.979)
+      entered the aggregate with chi2 moving 2.2% and 1.4% across EIGHT DEX of iron, so
+      unconstrained fits are accepted and only the ones landing implausibly are visible.
+      The metrics disagree -- fractional rise is caller-dependent and smuggles a
+      plausibility prior in through the bracket, sigma_A is bracket-free and in dex but
+      measures precision not accuracy, absolute red_chi2 does not transfer (the good line
+      10145.561 fits at 72). Nine lines cannot settle it; RYA-847 sets the cut from a
+      sweep across every synthesis band (RYA-161).
+  - artifact: rya843/rya843_nir_run_per_line.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 10000 --hi 12935
+      --instrument kpno_solar_atlas --method synthesis
+    ticket: RYA-843
+    note: >-
+      EVIDENCE, NOT A PRODUCT -- the NIR run this ticket diagnoses, kept outside
+      data/results/band_products/ so nothing downstream can mistake it for one. RYA-837
+      and RYA-843 both publish nothing, because the acceptance defect it exposes is
+      unfixed until RYA-847. A(Fe I) 7.496, n=32, sigma 1.139: the sigma is railed and
+      unconstrained fits, not line-to-line scatter.
