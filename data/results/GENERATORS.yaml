@@ -844,7 +844,7 @@ artifacts:
     generator: scripts/derive_band_products.py
     invocation: >-
       python3 scripts/derive_band_products.py --element Fe --ion I --lo 10000 --hi 12935
-      --instrument kpno_solar_atlas --method synthesis
+      --instrument kpno_solar_atlas --force-synthesis
     ticket: RYA-843
     note: >-
       EVIDENCE, NOT A PRODUCT -- the NIR run this ticket diagnoses, kept outside
