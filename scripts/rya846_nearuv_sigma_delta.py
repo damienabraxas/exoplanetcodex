@@ -191,14 +191,15 @@ def compare_normalisation(segs, lam_w, flux_w, *, lo: float, hi: float) -> pd.Da
             p90_ratio=float(np.percentile(fi[ok], 90) / np.percentile(kf[ok], 90)),
             kp_p90=float(np.percentile(kf[ok], 90)),
             wallace_p90=float(np.percentile(fi[ok], 90)),
-            corr=float(np.corrcoef(kf[ok], fi[ok])[0, 1]),
+            # NOT named `corr`: that shadows DataFrame.corr and reads as a method.
+            spectral_corr=float(np.corrcoef(kf[ok], fi[ok])[0, 1]),
         ))
     return pd.DataFrame(rows)
 
 
 def report(d: pd.DataFrame, controls: dict, meta: dict) -> dict:
     print(f"\n=== normalisation comparison, {len(d)} bins of {BIN_A:.0f} A ===")
-    print(f"  median per-bin spectral correlation: {d.corr.median():.4f}")
+    print(f"  median per-bin spectral correlation: {d.spectral_corr.median():.4f}")
 
     out = {}
     for key, label in (("median_ratio", "pixel-wise median ratio"),
