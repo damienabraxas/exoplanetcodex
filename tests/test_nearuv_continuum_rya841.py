@@ -262,3 +262,91 @@ def test_both_call_sites_still_add_the_term_by_hand():
     assert "np.hypot(syst, NEARUV_PSEUDO_CONTINUUM_DEX)" in dbp
     r836 = (ROOT / "scripts" / "rya836_nearuv_lab_gf_subpool.py").read_text()
     assert "np.hypot(syst, PSEUDO_CONTINUUM_DEX)" in r836
+
+
+# ── the measured lever and the placement spread ───────────────────────────────
+
+LEVER_JSON = RES / "rya841_summary.json"
+METHODS_JSON = RES / "rya841_continuum_methods.json"
+
+
+@pytest.fixture(scope="module")
+def lever():
+    if not LEVER_JSON.exists():
+        pytest.skip("lever summary absent (Sirius artifact)")
+    return json.loads(LEVER_JSON.read_text())
+
+
+@pytest.fixture(scope="module")
+def methods():
+    if not METHODS_JSON.exists():
+        pytest.skip("methods summary absent (Sirius artifact)")
+    return json.loads(METHODS_JSON.read_text())
+
+
+def test_the_measured_lever_is_not_the_assumed_one(lever):
+    """dA/d(delta) = 2.42 dex per unit fractional continuum error, against the 1.0 the
+    budget silently assumes. This is the number whose absence made the 0.100 dex term
+    unfalsifiable, so it is pinned rather than left in prose."""
+    lv = lever["lever_dex_per_unit_delta"]
+    assert lv["assumed_by_budget"] == 1.0
+    assert lv["median_abs"] == pytest.approx(2.42, abs=0.05)
+    assert lv["p16"] < lv["median_abs"] < lv["p84"]
+    assert lv["median_abs"] > 2 * lv["assumed_by_budget"], (
+        "the measured lever no longer contradicts the budget's implicit 1.0 — RYA-841's "
+        "central claim has changed")
+
+
+def test_what_sigma_delta_the_0p100_implies(lever):
+    """Inverted: 0.100 dex asserts the continuum is misplaced by ~4%. That is a checkable
+    claim about the Kitt Peak normalisation and it has not been checked."""
+    lv = lever["lever_dex_per_unit_delta"]["median_abs"]
+    implied = 0.100 / lv
+    assert 0.03 < implied < 0.05
+
+
+def test_a_third_of_the_band_has_no_well_defined_continuum_response(lever):
+    """12 of 40 lines are non-linear, several responding in the physically impossible
+    direction. A single continuum systematic applied uniformly describes neither group."""
+    assert lever["n_nonlinear"] >= 10
+    assert lever["n_lines_with_slope"] == 40
+
+
+def test_the_delta_zero_column_reproduces_759_except_where_rya822_moved_it(lever):
+    """THE CONTROL, and it caught something. 36 of 40 lines reproduce RYA-759 exactly; 4
+    moved by up to 0.051 dex because this run applies the canonical gf that RYA-822
+    extended to 3000.003 A after 759 ran. The MEDIAN is unchanged, so the product did not
+    move -- but 759's recorded 'not available below 3780 A' provenance is now false."""
+    c = lever["control_vs_rya759"]
+    if not c.get("available"):
+        pytest.skip("759 comparison unavailable")
+    assert c["n_matched"] == 40
+    assert c["median_abs_diff_dex"] == pytest.approx(0.0, abs=0.001)
+    assert c["n_differing_gt_0p01"] == 4
+    assert c["max_abs_diff_dex"] < 0.06
+
+
+def test_chi2_does_not_choose_between_continuum_placements(methods):
+    """My first read said the local placement was refuted by fit quality, from ONE line.
+    Across the pool it is better on 24 of 40. A placement is judged by the pool."""
+    med = methods["medians"]
+    assert set(med) >= {"atlas", "local", "synth"}
+    # the atlas placement is the tightest pool, which is the non-circular discriminator
+    # (scatter does not know which normalisation is correct)
+    assert methods["spread_atlas_vs_local_dex"] > 0.2
+
+
+def test_the_placement_spread_dwarfs_the_assumed_term(methods):
+    """0.287 dex across placements against an assumed 0.100. Whether that IS the
+    systematic depends on whether the envelope method is defensible here -- it is not
+    obviously so -- but the 0.100 is not demonstrably conservative either."""
+    assert methods["assumed_term_dex"] == 0.10
+    assert methods["spread_all_methods_dex"] > 2 * methods["assumed_term_dex"]
+
+
+def test_railed_fits_are_counted_not_medianed(methods):
+    """A(Fe) = 12.445 at the optimiser's own bound is not an iron abundance."""
+    assert "railed_excluded" in methods
+    assert sum(methods["railed_excluded"].values()) >= 1
+    lo, hi = methods["credible_A_window"]
+    assert lo < 7.5 < hi
