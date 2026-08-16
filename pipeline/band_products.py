@@ -52,7 +52,15 @@ from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.t
 # the two cannot share a label or an aggregate. It is admitted here rather than being
 # invented at a call site because RYA-798 shipped ENGINE-B-NLTE without adding it to this
 # tuple and the product died at `build_product` after the synthesis had already run.
-TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE", "ENGINE-A-3DNLTE")
+# 1D-LTE-LABGF (RYA-836) is the same engine and the same route as 1D-LTE, differing
+# in ONE input: the oscillator strength comes from a primary laboratory measurement
+# instead of the Kurucz semi-empirical value. It is a separate member rather than a
+# variant because RYA-712 keys a product on what produced it, and because the two
+# must be reportable side by side — the Kurucz pool is the BROAD number over every
+# measurable line, the lab-gf pool is the TIGHT number over the few with an
+# independent gf. Averaging them would destroy exactly the comparison they exist for.
+TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE", "ENGINE-A-3DNLTE",
+              "1D-LTE-LABGF")
 
 # Saturation: above this REW the EW->abundance inversion runs along the flat part of the
 # curve of growth and is ill-conditioned in BOTH directions. Lines past it are measured
