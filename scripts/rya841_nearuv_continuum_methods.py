@@ -143,8 +143,12 @@ def main() -> None:
                 continue
             out = fit_at_delta(ctx, segs, wv, HALF_WIDTH_A, dl, tmp_dir)
             row[f'a_{name}'] = out['a_synth']
+            # Recorded because a placement can be far outside the regime where a fit
+            # means anything, and the abundance alone will not say so.
+            row[f'chi2_{name}'] = out['red_chi2']
+            row[f'status_{name}'] = out['status']
             print(f'[{i:3d}/{len(cand)}] {wv:9.3f}  {name:5s}  d={dl:+.4f}  '
-                  f'A={out["a_synth"]:.3f}', flush=True)
+                  f'A={out["a_synth"]:.3f}  chi2r={out["red_chi2"]:.1f}', flush=True)
         rows.append(row)
         pd.DataFrame(rows).to_csv(PER_LINE, index=False)
 
