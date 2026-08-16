@@ -1,0 +1,310 @@
+{
+  "ticket": "RYA-841",
+  "measurement": "what drives the near-UV line-to-line scatter",
+  "band_A": [
+    3000.0,
+    3780.0
+  ],
+  "fit_half_width_A": 0.4,
+  "selector_is_a_sampling_rule_not_a_blend_rejection": {
+    "min_sep_between_selected_A": 4.167999999999665,
+    "median_nn_sep_full_list_A": 0.009499999999889042,
+    "median_other_lines_in_window": 53.0,
+    "note": "select_lines applies min_sep only between lines it has already selected, so it spreads the sample across the band and does not clear the fit window of blends."
+  },
+  "pools": {
+    "rya832": {
+      "pool": "RYA-832 pool (depth-selected, n=40)",
+      "n": 40,
+      "median_A": 7.487,
+      "scatter": 0.411659860059996,
+      "spearman_resid_vs_depth_frac": -0.0030958300141942538,
+      "spearman_resid_vs_depth_frac_core": -0.11464490102261,
+      "spearman_resid_vs_blend_depth": 0.11360758021785579,
+      "spearman_resid_vs_n_in_core": 0.0779590235735711,
+      "spearman_resid_vs_n_in_window": -0.030591658515549246,
+      "spearman_resid_vs_nn_sep_A": -0.15982728429274726,
+      "spearman_resid_vs_own_depth": -0.1546649522376004,
+      "depth_frac_median": 0.08147059224847555,
+      "depth_frac_max": 0.314026517794836,
+      "depth_frac_core_median": 0.6730847251050878,
+      "depth_frac_core_max": 1.0,
+      "n_in_core_median": 4.0,
+      "dominance_sweep": [
+        {
+          "t": 0.0,
+          "n": 40,
+          "scatter": 0.411659860059996,
+          "median": 7.487,
+          "scatter_err": 0.046611300542511155,
+          "n_sigma_vs_full": 0.0
+        },
+        {
+          "t": 0.25,
+          "n": 34,
+          "scatter": 0.4009054057817465,
+          "median": 7.491,
+          "scatter_err": 0.049348044139349574,
+          "n_sigma_vs_full": 0.1584307763653066
+        },
+        {
+          "t": 0.4,
+          "n": 27,
+          "scatter": 0.37615228473391116,
+          "median": 7.506,
+          "scatter_err": 0.0521629365381172,
+          "n_sigma_vs_full": 0.5075834300242108
+        },
+        {
+          "t": 0.5,
+          "n": 24,
+          "scatter": 0.32086932416235403,
+          "median": 7.4725,
+          "scatter_err": 0.04730960082459728,
+          "n_sigma_vs_full": 1.367040314213428
+        },
+        {
+          "t": 0.6,
+          "n": 22,
+          "scatter": 0.3325096912951483,
+          "median": 7.4725,
+          "scatter_err": 0.051307359261702414,
+          "n_sigma_vs_full": 1.1418327825107477
+        },
+        {
+          "t": 0.75,
+          "n": 18,
+          "scatter": 0.3331205840674091,
+          "median": 7.433,
+          "scatter_err": 0.057129708849406824,
+          "n_sigma_vs_full": 1.0651984201738622
+        }
+      ],
+      "own_depth_median": 0.898,
+      "depth_sweep": [
+        {
+          "t": 0.0,
+          "n": 40,
+          "scatter": 0.411659860059996,
+          "scatter_err": 0.046611300542511155,
+          "median": 7.487
+        },
+        {
+          "t": 0.2,
+          "n": 39,
+          "scatter": 0.41694540042620964,
+          "scatter_err": 0.047826917511367056,
+          "median": 7.476
+        },
+        {
+          "t": 0.4,
+          "n": 39,
+          "scatter": 0.41694540042620964,
+          "scatter_err": 0.047826917511367056,
+          "median": 7.476
+        },
+        {
+          "t": 0.6,
+          "n": 39,
+          "scatter": 0.41694540042620964,
+          "scatter_err": 0.047826917511367056,
+          "median": 7.476
+        },
+        {
+          "t": 0.8,
+          "n": 39,
+          "scatter": 0.41694540042620964,
+          "scatter_err": 0.047826917511367056,
+          "median": 7.476
+        }
+      ],
+      "saturation": {
+        "n_unsaturated": 40,
+        "n_saturated": 0,
+        "ceiling": 0.9,
+        "verdict": "one side too small to test"
+      }
+    },
+    "rya836": {
+      "pool": "RYA-836 pool (lab-covered, n=60, production gf)",
+      "n": 60,
+      "median_A": 7.594,
+      "scatter": 0.6513045273051121,
+      "spearman_resid_vs_depth_frac": 0.07630109202978859,
+      "spearman_resid_vs_depth_frac_core": -0.13837046861574695,
+      "spearman_resid_vs_blend_depth": -0.1266498097129557,
+      "spearman_resid_vs_n_in_core": 0.23605079872455262,
+      "spearman_resid_vs_n_in_window": -0.012106303001156256,
+      "spearman_resid_vs_nn_sep_A": -0.07111889376847412,
+      "spearman_resid_vs_own_depth": -0.17180965614718355,
+      "depth_frac_median": 0.07119526806770593,
+      "depth_frac_max": 0.2768996960486322,
+      "depth_frac_core_median": 0.6544115992891049,
+      "depth_frac_core_max": 1.0,
+      "n_in_core_median": 2.0,
+      "dominance_sweep": [
+        {
+          "t": 0.0,
+          "n": 60,
+          "scatter": 0.6513045273051121,
+          "median": 7.594,
+          "scatter_err": 0.05995744163593517,
+          "n_sigma_vs_full": 0.0
+        },
+        {
+          "t": 0.25,
+          "n": 49,
+          "scatter": 0.6844280390561586,
+          "median": 7.567,
+          "scatter_err": 0.0698541442225527,
+          "n_sigma_vs_full": 0.35981513555092237
+        },
+        {
+          "t": 0.4,
+          "n": 44,
+          "scatter": 0.7036061100783129,
+          "median": 7.558,
+          "scatter_err": 0.07587179809262823,
+          "n_sigma_vs_full": 0.5408488924524566
+        },
+        {
+          "t": 0.5,
+          "n": 36,
+          "scatter": 0.7442274016702325,
+          "median": 7.571,
+          "scatter_err": 0.08895218823268612,
+          "n_sigma_vs_full": 0.8662321200141213
+        },
+        {
+          "t": 0.6,
+          "n": 31,
+          "scatter": 0.709391784013465,
+          "median": 7.586,
+          "scatter_err": 0.0915820855140173,
+          "n_sigma_vs_full": 0.5306559890868423
+        },
+        {
+          "t": 0.75,
+          "n": 28,
+          "scatter": 0.7373531097551624,
+          "median": 7.571,
+          "scatter_err": 0.1003410488419194,
+          "n_sigma_vs_full": 0.73615145611277
+        }
+      ],
+      "own_depth_median": 0.9435,
+      "depth_sweep": [
+        {
+          "t": 0.0,
+          "n": 60,
+          "scatter": 0.6513045273051121,
+          "scatter_err": 0.05995744163593517,
+          "median": 7.594
+        },
+        {
+          "t": 0.2,
+          "n": 58,
+          "scatter": 0.6488861021964598,
+          "scatter_err": 0.06077375166497533,
+          "median": 7.594
+        },
+        {
+          "t": 0.4,
+          "n": 58,
+          "scatter": 0.6488861021964598,
+          "scatter_err": 0.06077375166497533,
+          "median": 7.594
+        },
+        {
+          "t": 0.6,
+          "n": 58,
+          "scatter": 0.6488861021964598,
+          "scatter_err": 0.06077375166497533,
+          "median": 7.594
+        },
+        {
+          "t": 0.8,
+          "n": 57,
+          "scatter": 0.6532148280074651,
+          "scatter_err": 0.06172299955741364,
+          "median": 7.602
+        }
+      ],
+      "saturation": {
+        "n_unsaturated": 15,
+        "n_saturated": 45,
+        "ceiling": 0.9,
+        "median_unsaturated": 7.485,
+        "median_saturated": 7.602,
+        "offset_dex": 0.11699999999999999,
+        "ci95": [
+          -0.7110000000000003,
+          0.43900000000000006
+        ],
+        "permutation_p": 0.2825,
+        "scatter_unsaturated": 0.6353294608386453,
+        "scatter_saturated": 0.6630669268595363,
+        "verdict": "NOT significant \u2014 saturation does not explain the pool difference"
+      }
+    }
+  },
+  "wavelength_profile": {
+    "pools": {
+      "rya832": {
+        "n": 40,
+        "median_wave_A": 3463.4579999999996,
+        "frac_below_3300": 0.35,
+        "scatter": 0.411659860059996
+      },
+      "rya836": {
+        "n": 60,
+        "median_wave_A": 3451.4915,
+        "frac_below_3300": 0.38333333333333336,
+        "scatter": 0.6513045273051121
+      }
+    },
+    "bins": [
+      {
+        "lo_A": 3000,
+        "hi_A": 3300,
+        "rya832": {
+          "n": 14,
+          "scatter": 0.5314109200365252
+        },
+        "rya836": {
+          "n": 23,
+          "scatter": 0.4591434627298845
+        }
+      },
+      {
+        "lo_A": 3300,
+        "hi_A": 3600,
+        "rya832": {
+          "n": 13,
+          "scatter": 0.3902290911627983
+        },
+        "rya836": {
+          "n": 18,
+          "scatter": 0.6875720188065769
+        }
+      },
+      {
+        "lo_A": 3600,
+        "hi_A": 3780,
+        "rya832": {
+          "n": 13,
+          "scatter": 0.247083189561942
+        },
+        "rya836": {
+          "n": 19,
+          "scatter": 0.817213139755764
+        }
+      }
+    ]
+  },
+  "lab_and_selected_overlap": {
+    "n": 1
+  },
+  "dominance_floor_declared": 0.5,
+  "note": "depth_frac = own theoretical depth / total theoretical depth in the fit window. A subset cut on it has a physical cause; it is reported as a sweep and NOT installed as a product."
+}
