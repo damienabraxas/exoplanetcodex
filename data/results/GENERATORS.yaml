@@ -536,6 +536,51 @@ artifacts:
       per-line sigma (min 0.0128, median 0.0414, max 0.3010 dex) against the blanket 0.20
       K07 systematic. Re-inverting the 55 is a POOL REBUILD, not a grading job, and wants
       its own ticket under RYA-161/398 -- the same conclusion RYA-799 reached for the IR.
+  - artifact: rya819/rya819_decomposition_per_line.csv
+    generator: scripts/rya819_decompose_fe_3d.py
+    invocation: python3 scripts/rya819_decompose_fe_3d.py
+    ticket: RYA-819
+    note: >-
+      Per-line decomposition of solar Fe I into 1D-LTE / 1D-NLTE / 3D-atmosphere /
+      3D-NLTE on a common line set. Every term is PAIRED per line: the published band
+      products are computed over different subsets (1D-LTE n=148, ENGINE-A n=105,
+      ENGINE-A-3DNLTE n=114), so differencing their medians would measure the subsets as
+      much as the physics. delta_NLTE comes from the same MPIA grid Engine-A uses, not a
+      global constant, and reproduces the register's ~+0.010 independently.
+  - artifact: rya819/rya819_decomposition_summary.json
+    generator: scripts/rya819_decompose_fe_3d.py
+    invocation: python3 scripts/rya819_decompose_fe_3d.py
+    ticket: RYA-819
+    note: >-
+      The comparison the ticket asks for: the measured 3D-atmosphere term
+      (A(3D-NLTE) - A(1D-NLTE)) against the Magic-2013 -0.05 that gold applies. Reported
+      on both the in-domain set and Amarsi's own golden lines, because restricting to his
+      list is what removes line selection as an explanation. Magic is a <3D>-minus-1D
+      shift computed in LTE while this term holds NLTE in both sides -- not identical
+      quantities, and the residual difference is named rather than glossed.
+  - artifact: rya831/rya831_axis_sensitivity.csv
+    generator: scripts/rya831_matched_abundance_run.py
+    invocation: "MAC ONLY: python3 scripts/rya831_matched_abundance_run.py (needs sklearn,
+      absent from all four Sirius venvs; do NOT install it on the production runner)"
+    ticket: RYA-831
+    note: >-
+      The 3D-atmosphere term as a function of where on the Amarsi grid's A(Fe) axis the
+      network is queried, 7.10 to the 7.50 ceiling. Answers whether RYA-819's +0.033 was
+      a domain-rail artifact. It was NOT: 33 of 51 lines sit above the ceiling and
+      de-railing moves the term +0.0008 dex, flat to 0.005 dex across the whole axis.
+  - artifact: rya831/rya831_axis_sensitivity.json
+    generator: scripts/rya831_matched_abundance_run.py
+    invocation: "MAC ONLY: python3 scripts/rya831_matched_abundance_run.py"
+    ticket: RYA-831
+    note: >-
+      Carries the reactivation control (Amarsi+2022 Table 6 reproduced on the Mac at
+      7.4671 / 7.4646) without which no number here is meaningful, plus the finding that
+      replaced the rail hypothesis: the correction is LINEAR IN EXCITATION POTENTIAL,
+      aberr = +0.0287*Elo - 0.0826, corr 0.955, +0.143 dex across 5 eV. The two line sets
+      differ by 1.6 eV in median Elo, which accounts for the whole +0.046 dex gap between
+      our term and Amarsi's. Consequence for RYA-819: there is no single scalar
+      3D-atmosphere term for Fe I (-0.013 to +0.018 by line sample), and no part of that
+      range contains -0.05.
   - artifact: rya799/rya799_gf_grades_per_line.csv
     generator: scripts/rya799_grade_fe_ir_pool.py
     invocation: python3 scripts/rya799_grade_fe_ir_pool.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>
