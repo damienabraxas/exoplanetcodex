@@ -154,12 +154,24 @@ class SynthBand:
     CONSTANTS were near-UV, sitting as module globals. Adding the IR band by copying
     the route would have duplicated 100 lines to change four numbers — the RYA-701
     failure mode (one Ba->Al copy, 13 defects). They are a lookup instead.
+
+    ⚠️ THERE IS DELIBERATELY NO `pseudo_continuum_dex` FIELD (RYA-845, merge of main).
+    An earlier cut of this dataclass carried one and set it to 0.100 for all three
+    bands. Nothing ever read it — the route used the module global directly — so it
+    stated an intent the code did not honour, which is the same second-declaration
+    shape that let the term be added twice. `pipeline/error_budget.build()` owns it and
+    adds it for any band whose policy says "pseudo-continuum".
+
+    That is the near-UV only. red-optical and NIR get NO continuum systematic, and
+    RYA-843 measured the evidence that they should: their fit windows sit at median
+    flux 0.73-0.95 against a synthesis normalised to unity, and the fitter spends
+    A(Fe) closing that gap. Wiring the field would have hidden the gap behind a
+    number nobody derived; it is left OWED and visible instead.
     """
     linelist: Path
     half_width_A: float
     min_sep_A: float
     n_lines: int
-    pseudo_continuum_dex: float
     half_width_note: str
     build_hint: str
 
@@ -179,7 +191,6 @@ SYNTH_BANDS: dict[str, SynthBand] = {
         half_width_A=NEARUV_HALF_WIDTH_A,
         min_sep_A=NEARUV_MIN_SEP_A,
         n_lines=NEARUV_N_LINES,
-        pseudo_continuum_dex=NEARUV_PSEUDO_CONTINUUM_DEX,
         half_width_note="RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex)",
         build_hint="build it with `pipeline.nearuv_linelist.build()`",
     ),
@@ -188,7 +199,6 @@ SYNTH_BANDS: dict[str, SynthBand] = {
         half_width_A=1.10,          # 0.40 * (9600/3400), rounded
         min_sep_A=4.0,
         n_lines=40,
-        pseudo_continuum_dex=NEARUV_PSEUDO_CONTINUUM_DEX,
         half_width_note="0.40 A scaled by lambda from the near-UV anchor (9600/3400)",
         build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
     ),
@@ -197,7 +207,6 @@ SYNTH_BANDS: dict[str, SynthBand] = {
         half_width_A=1.40,          # 0.40 * (12000/3400), rounded
         min_sep_A=4.0,
         n_lines=40,
-        pseudo_continuum_dex=NEARUV_PSEUDO_CONTINUUM_DEX,
         half_width_note="0.40 A scaled by lambda from the near-UV anchor (12000/3400)",
         build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
     ),
