@@ -581,6 +581,32 @@ artifacts:
       our term and Amarsi's. Consequence for RYA-819: there is no single scalar
       3D-atmosphere term for Fe I (-0.013 to +0.018 by line sample), and no part of that
       range contains -0.05.
+  - artifact: rya835/rya835_al_gf_per_line.csv
+    generator: scripts/rya835_al_gf_resolution.py
+    invocation: python3 scripts/rya835_al_gf_resolution.py
+    ticket: RYA-835
+    note: >-
+      Per-line gf resolution for Al's VIS pool (6631/6696) and IR doublets (7835/36,
+      8772/73): NIST ASD graded value, canonical_gf incumbent, the delta, the Nordlander &
+      Lind 2017 adopted value, and an explicit Burheim-2023 coverage verdict per line with
+      the wavelength gap recorded. The NIST wavelength and its gap are columns because a
+      near-miss match is otherwise indistinguishable from "NIST has no value" -- 6696.185
+      matched only at 6696.015, 0.170 A away, and a 0.15 A window silently dropped it.
+  - artifact: rya835/rya835_al_gf_summary.json
+    generator: scripts/rya835_al_gf_resolution.py
+    invocation: python3 scripts/rya835_al_gf_resolution.py
+    ticket: RYA-835
+    note: >-
+      Three results that revise the ticket's premise. (1) The cull recovery count is ZERO:
+      6696.185 was never culled -- NIST C+ gives tier MED and ACCEPTED_GF_TIERS is
+      {HIGH, MED} -- and the VIS pool is 1 line, matching phase_c's "1 curated line(s)"
+      rather than being emptied. (2) 7835/7836 ARE gradeable, NIST B and C+, both 0.040 dex
+      below the incumbent K75. (3) 8772/8773 do NOT confirm: NIST is 0.179 and 0.148 dex
+      below a `1995JPhB..` value that is a TRUNCATED bibcode seeded from synth(GES), and
+      0.179 is six times NIST's own stated B+ accuracy. Nordlander & Lind 2017 agrees with
+      NIST to <=0.0004 dex on all five overlapping lines, but is NOT independent -- its
+      uncertainties come from Kelleher & Podobedova 2008, the NIST Al compilation, so this
+      is the RYA-760 "FMW *is* NIST" caution one element over. Nothing here adopts a gf.
   - artifact: rya799/rya799_gf_grades_per_line.csv
     generator: scripts/rya799_grade_fe_ir_pool.py
     invocation: python3 scripts/rya799_grade_fe_ir_pool.py --pool <FeI_6910_9199_kpno_solar_atlas_PASS.csv>
