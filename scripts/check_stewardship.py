@@ -579,6 +579,11 @@ _GFSTORE_SUMMARY: dict = {}
 # RYA-379 (their named remediation). An orphan INSIDE the optical core would be a real
 # break (a curated optical line lost its canonical home) and stays UNTRACKED → FAIL.
 _OPTICAL_CORE_LO, _OPTICAL_CORE_HI = 3780.0, 6910.0
+#: RYA-822 extended canonical_gf blueward to 3000 A. Inside this window the table now has
+#: coverage, so an orphan is a real break rather than the expected non-optical gap.
+_NEARUV_COVERED_LO, _NEARUV_COVERED_HI = 3000.0, 3780.0
+#: The redward edge canonical_gf still stops at; beyond it RYA-379 owns the extension.
+_CANONICAL_RED_EDGE = 9199.0
 
 
 def check_all_stores_resolve() -> list[Violation]:
@@ -593,10 +598,25 @@ def check_all_stores_resolve() -> list[Violation]:
         # orphans — a line outside the single canonical source (no authoritative gf)
         for (key, wl, ep, gf) in rep['orphans']:
             non_optical = wl < _OPTICAL_CORE_LO or wl >= _OPTICAL_CORE_HI
-            if non_optical:
+            if _NEARUV_COVERED_LO <= wl < _NEARUV_COVERED_HI:
+                # RYA-822 covers this band. An orphan here is NOT an expected gap.
+                detail = ("inside the RYA-822 near-UV window (3000–3780 Å), which "
+                          "canonical_gf.csv now covers — so this is a real break, not "
+                          "the tracked non-optical extension")
+                ticket = None
+            elif wl >= _CANONICAL_RED_EDGE:
+                detail = ("RYA-381 non-optical extension line absent from "
+                          "canonical_gf.csv — ingest + guard extension past "
+                          f"{_CANONICAL_RED_EDGE:.0f} Å is RYA-379")
+                ticket = 'RYA-379'
+            elif wl < _NEARUV_COVERED_LO:
+                detail = (f"line blueward of {_NEARUV_COVERED_LO:.0f} Å, below the edge "
+                          f"RYA-822 extended canonical_gf to — the table does not reach "
+                          f"here yet and no ticket currently extends it further blue")
+                ticket = 'RYA-822'
+            elif non_optical:
                 detail = ("RYA-381 non-optical extension line absent from the "
-                          "optical-only canonical_gf.csv — ingest + guard extension "
-                          "past 9199 Å is RYA-379")
+                          "canonical gf table")
                 ticket = 'RYA-379'
             else:
                 detail = ("store line has no entry in the single canonical gf table "
