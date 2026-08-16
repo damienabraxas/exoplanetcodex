@@ -83,7 +83,8 @@ PROBABLE_MISID_DEX = 1.0
 #: RYA-759 / RYA-832: the near-UV product's route parameters. Imported in spirit; the
 #: functions themselves are imported literally below.
 HALF_WIDTH_A = 0.40
-PSEUDO_CONTINUUM_DEX = 0.100
+#: The pseudo-continuum systematic is NOT declared here (RYA-845) — it lives only in
+#: `pipeline/error_budget.py`, which adds it for any band whose policy calls for one.
 
 
 def census() -> pd.DataFrame:
@@ -358,7 +359,10 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
                          scatter_dex=(p_lab.sigma or 0.0), gf_graded=True,
                          harness_residual_dex=0.0, handler="SynthesisHandler")
         stat, syst = b.total()
-        syst = float(np.hypot(syst, PSEUDO_CONTINUUM_DEX))
+        # 🔴 RYA-845: no pseudo-continuum term is added here. `build_budget` already
+        # carries it for the near-UV, and adding it again counted it twice — this cell's
+        # published systematic was 0.1472 when the budget's own answer is 0.1081.
+        # Inherited from the RYA-832 route, which had the same line.
         pd.DataFrame([dict(
             element="Fe", ion="I", band="near-UV", instrument=args.instrument,
             treatment="1D-LTE-LABGF", A=round(p_lab.value, 3), n_lines=p_lab.n_lines,
