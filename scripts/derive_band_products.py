@@ -52,6 +52,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -144,6 +145,74 @@ NEARUV_N_LINES = 40
 #: the number agreed with itself in both places while the product was wrong.
 
 
+@dataclass(frozen=True)
+class SynthBand:
+    """Everything the synthesis route needs that is a property of the BAND — RYA-837.
+
+    The route itself is band-agnostic: `select_lines`, `fit_one` and
+    `build_solar_context` were already fully parameterised by RYA-759. Only the
+    CONSTANTS were near-UV, sitting as module globals. Adding the IR band by copying
+    the route would have duplicated 100 lines to change four numbers — the RYA-701
+    failure mode (one Ba->Al copy, 13 defects). They are a lookup instead.
+
+    ⚠️ THERE IS DELIBERATELY NO `pseudo_continuum_dex` FIELD (RYA-845, merge of main).
+    An earlier cut of this dataclass carried one and set it to 0.100 for all three
+    bands. Nothing ever read it — the route used the module global directly — so it
+    stated an intent the code did not honour, which is the same second-declaration
+    shape that let the term be added twice. `pipeline/error_budget.build()` owns it and
+    adds it for any band whose policy says "pseudo-continuum".
+
+    That is the near-UV only. red-optical and NIR get NO continuum systematic, and
+    RYA-843 measured the evidence that they should: their fit windows sit at median
+    flux 0.73-0.95 against a synthesis normalised to unity, and the fitter spends
+    A(Fe) closing that gap. Wiring the field would have hidden the gap behind a
+    number nobody derived; it is left OWED and visible instead.
+    """
+    linelist: Path
+    half_width_A: float
+    min_sep_A: float
+    n_lines: int
+    half_width_note: str
+    build_hint: str
+
+
+#: A fixed synthesis half-width has to contain the PROFILE, so it scales with wavelength:
+#: the Doppler width is lambda*v/c, and 0.40 A at 3400 A is ~17 Doppler widths while the
+#: same 0.40 A at 12000 A is only ~5. Holding the ANGSTROM value fixed across a 3.5x
+#: wavelength lever would quietly clip the IR wings and bias A(Fe) low. The IR values
+#: below are 0.40 A scaled by lambda, rounded — and swept at runtime (`--sweep-half-width`)
+#: rather than asserted, exactly as RYA-759 swept 0.25/0.40/0.60 in the near-UV.
+#:
+#: The band's own line density says the wider window is affordable: median gap 0.146 A in
+#: the near-UV, but 1.872 A (red-optical) and 3.989 A (NIR) per `pipeline.band_policy`.
+SYNTH_BANDS: dict[str, SynthBand] = {
+    "near-UV": SynthBand(
+        linelist=ROOT / "data" / "linelists" / "ispec_nearuv_3000_3780" / "atomic_lines.tsv",
+        half_width_A=NEARUV_HALF_WIDTH_A,
+        min_sep_A=NEARUV_MIN_SEP_A,
+        n_lines=NEARUV_N_LINES,
+        half_width_note="RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex)",
+        build_hint="build it with `pipeline.nearuv_linelist.build()`",
+    ),
+    "red-optical": SynthBand(
+        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
+        half_width_A=1.10,          # 0.40 * (9600/3400), rounded
+        min_sep_A=4.0,
+        n_lines=40,
+        half_width_note="0.40 A scaled by lambda from the near-UV anchor (9600/3400)",
+        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
+    ),
+    "NIR": SynthBand(
+        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
+        half_width_A=1.40,          # 0.40 * (12000/3400), rounded
+        min_sep_A=4.0,
+        n_lines=40,
+        half_width_note="0.40 A scaled by lambda from the near-UV anchor (12000/3400)",
+        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
+    ),
+}
+
+
 def synthesis_route(a, pol) -> None:
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
@@ -165,18 +234,25 @@ def synthesis_route(a, pol) -> None:
             f"{pol.permitted_methods}) — refusing to derive a product by a method the "
             f"band policy forbids")
 
+    cfg = SYNTH_BANDS.get(pol.name)
+    if cfg is None:
+        raise SystemExit(
+            f"no synthesis configuration for band {pol.name!r} — refusing to invent a "
+            f"half-width and line-selection rule for a regime nobody has characterised. "
+            f"Add an entry to SYNTH_BANDS with its reasoning.")
+
     sys.path.insert(0, str(ROOT / "scripts"))
     from pipeline.nearuv_synth import build_solar_context, gf_provenance
-    from rya759_nearuv_fe_product import NEARUV_LINELIST, select_lines, fit_one
+    from rya759_nearuv_fe_product import select_lines, fit_one
     from rya759_nearuv_synth import _kp_segments
 
-    if not Path(NEARUV_LINELIST).exists():
+    if not cfg.linelist.exists():
         # Loud-fail, never a silent default (RYA-832). A missing list would otherwise
         # surface downstream as "0 lines measured", which reads like a physics result.
         raise SystemExit(
-            f"near-UV line list missing at {NEARUV_LINELIST}\n"
-            f"build it with `pipeline.nearuv_linelist.build()`. Refusing to emit an "
-            f"empty near-UV product that would read as a measurement of nothing.")
+            f"{pol.name} line list missing at {cfg.linelist}\n"
+            f"{cfg.build_hint}. Refusing to emit an empty {pol.name} product that "
+            f"would read as a measurement of nothing.")
 
     cat = pd.read_csv(ROOT / "data" / "catalog" / "instrument_catalog.csv")
     row = cat[cat.iloc[:, 0].astype(str) == a.instrument]
@@ -184,28 +260,67 @@ def synthesis_route(a, pol) -> None:
         raise SystemExit(f"{a.instrument!r} absent from data/catalog/instrument_catalog.csv")
     R = float(row.iloc[0]["resolving_power_max"])
 
-    prov_gf = gf_provenance(a.lo, a.hi)
+    # Ask about the lines that will actually be SYNTHESISED, not about the nominal band
+    # bound (RYA-837). `--hi 12935` is a request; this band's reddest real line is
+    # 12934.67. Passing the nominal 12935.0 put it 0.33 A past canonical_gf's last entry
+    # and switched single-sourcing OFF for the WHOLE band over a sliver containing no
+    # lines — discarding RYA-834's 28 lab-adjudicated gf in the process. The blueward
+    # side has the same shape and absorbs it with a 0.01 A tolerance justified against a
+    # ~0.18 A line spacing; that constant cannot be reused here, where the NIR spacing is
+    # 3.99 A. Using the real extent needs no tolerance at all.
+    _ll = pd.read_csv(cfg.linelist, sep="\t", usecols=["wave_A"], low_memory=False)
+    _w = _ll.wave_A[(_ll.wave_A >= a.lo) & (_ll.wave_A <= a.hi)]
+    if _w.empty:
+        raise SystemExit(
+            f"no line in {cfg.linelist.name} lies within {a.lo}-{a.hi} A — refusing to "
+            f"state gf provenance for a band this list does not cover.")
+    prov_gf = gf_provenance(float(_w.min()), float(_w.max()))
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
-    ctx = build_solar_context(a.element, R, linelist_file=str(NEARUV_LINELIST),
+    ctx = build_solar_context(a.element, R, linelist_file=str(cfg.linelist),
                               apply_canonical_gf=prov_gf["apply_canonical_gf"])
     segs = _kp_segments()
-    cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=NEARUV_N_LINES,
-                        teff=float(ctx["teff"]), min_sep_A=NEARUV_MIN_SEP_A)
+    hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
+    cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
+                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A)
+    # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
+    # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
+    # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
+    # the first NIR run fitted lines sitting inside the H2O 11120-11560 A band, where the
+    # atlas flux is not stellar at all -- measured observed depths of 0.99, 1.00, and one
+    # at 1.001, i.e. FLUX AT OR BELOW ZERO. There is no Fe profile to fit there, so the
+    # optimizer ran the abundance to its bound and returned ~12.49.
+    #
+    # That is a LINE-SELECTION failure, not a fitter one (RYA-842: line selection
+    # dominates). Fixing it here makes the rail-detector tolerance moot for these lines
+    # instead of tuning a threshold to hide them. RYA-762's own atlas survey already said
+    # the two H2O bands are severe and masked; the mask simply never reached this path.
+    from measure_band_ew import telluric_reason
+    _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
+             for r in cand.itertuples()]
+    _bad = [(w, why) for w, why in _tell if why]
+    if _bad:
+        print(f"  {len(_bad)} candidate(s) QUARANTINED-TELLURIC before fitting "
+              f"(flux there is not stellar; excluded, never corrected):")
+        for w, why in _bad:
+            print(f"      {w:10.3f}  {why.split(' and ')[0]}")
+        keep = {w for w, why in _tell if not why}
+        cand = cand[cand.wave_A.astype(float).isin(keep)].reset_index(drop=True)
     print(f"  {len(cand)} Fe I candidates by theoretical depth "
-          f"(half-width +/-{NEARUV_HALF_WIDTH_A} A, min separation {NEARUV_MIN_SEP_A} A)")
+          f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
+    print(f"  [half-width] {cfg.half_width_note}")
 
-    tmp = "/tmp/ispec_rya832_nearuv"
+    tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}"
     Path(tmp).mkdir(parents=True, exist_ok=True)
     lines: list[LineMeasurement] = []
     for r in cand.itertuples():
         w = float(r.wave_A)
-        res = fit_one(ctx, segs, w, NEARUV_HALF_WIDTH_A, tmp)
+        res = fit_one(ctx, segs, w, hw, tmp)
         a_x = float(res.get("a_synth", float("nan")))
         lm = LineMeasurement(
             element=a.element, ion=a.ion, wavelength_air_A=w,
             instrument=a.instrument, ew_mA=float("nan"),
-            ew_method=(f"synthesis flux-fit, FIXED half-width +/-{NEARUV_HALF_WIDTH_A} A "
+            ew_method=(f"synthesis flux-fit, FIXED half-width +/-{hw} A "
                        f"(RYA-759 route; no EW exists in this band to key the "
                        f"production wing-wide rule)"),
             abundance=(a_x if np.isfinite(a_x) else None),
@@ -214,10 +329,23 @@ def synthesis_route(a, pol) -> None:
             # here at all. Inheriting it would quarantine lines on a quantity that does
             # not exist (RYA-770/342).
             ew_inversion=False)
-        if lm.abundance is None:
+        # 🔴 A NON-'ok' FIT IS NOT A MEASUREMENT — RYA-837.
+        # RYA-759's own harness aggregates `status == 'ok'` only, and this route dropped
+        # that filter when it lifted the functions. The near-UV happened not to notice;
+        # the IR did, loudly. `_fit_synth_flux` bounds the search at a_hi = A_solar + 5
+        # and returns THE EDGE VALUE for a line that runs to it, flagged `edge_pinned`
+        # — "carry the edge value and are marked, never substituted", per its docstring.
+        # Aggregated anyway, those pile up at ~12.49 and wreck the dispersion: the first
+        # NIR run reported 7.588 +/- 1.977 dex, where the 1.977 was SEVEN railed lines
+        # and the honest MAD over the real ones was 0.416.
+        #
+        # A railed fit means the window could not constrain the abundance from BELOW —
+        # it is an absence of information, and averaging it in states the opposite.
+        status = str(res.get("status", "failed"))
+        if lm.abundance is None or status != "ok":
             lm.in_aggregate = False
-            lm.excluded_reason = (f"SYNTHESIS: {res.get('status', 'failed')} "
-                                  f"{str(res.get('reason', ''))[:60]}")
+            lm.excluded_reason = (f"SYNTHESIS: {status} "
+                                  f"{str(res.get('reason', ''))[:60]}").strip()
         lines.append(lm)
     lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
 
@@ -308,6 +436,18 @@ def main() -> None:
     ap.add_argument("--lo", type=float, required=True)
     ap.add_argument("--hi", type=float, required=True)
     ap.add_argument("--instrument", default="kpno_solar_atlas")
+    ap.add_argument("--force-synthesis", action="store_true",
+                    help="drive a band through the SYNTHESIS route even where its policy "
+                         "also permits profile-fit (RYA-837). Needed for red-optical "
+                         "9199.9-10000 A: the EW route's curve-of-growth inversion reads "
+                         "the 4200-9199.99 A GES synth linelist and returns "
+                         "NOT-IN-SYNTH-LINELIST for every line above 9199.9. Explicit, so "
+                         "the method a product used is never a silent consequence of "
+                         "which input happened to be missing.")
+    ap.add_argument("--half-width-A", type=float, default=None,
+                    help="override the band's synthesis half-width (RYA-837). Used to "
+                         "SWEEP it and report sensitivity rather than assert one value, "
+                         "as RYA-759 swept 0.25/0.40/0.60 in the near-UV.")
     ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--mpia-cache", help="pre-computed per-line delta_nlte JSON")
     ap.add_argument("--engine-b-deck", choices=["ts-lte", "gerber-nlte"], default="ts-lte",
@@ -322,6 +462,13 @@ def main() -> None:
     a = ap.parse_args()
 
     pol_early = resolve_band(0.5 * (a.lo + a.hi))
+    if a.force_synthesis:
+        if "synthesis" not in pol_early.permitted_methods:
+            raise SystemExit(
+                f"--force-synthesis refused: band {pol_early.name!r} does not permit "
+                f"synthesis ({pol_early.permitted_methods}). The flag chooses BETWEEN "
+                f"permitted methods; it does not overrule the policy.")
+        return synthesis_route(a, pol_early)
     if "profile-fit" in getattr(pol_early, "forbidden_methods", ()):
         # The band policy has already ruled that profile fitting is undefined here, so
         # there is no EW file to read and there never will be. Take the synthesis route
