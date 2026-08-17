@@ -2,6 +2,13 @@
 
 **Status:** wiring + reporting. No new measurement. **Not merged — Ryan reviews.**
 
+> **Updated after RYA-853 (`eb02eb4`).** The graded pool this ticket promotes is now
+> **refereed against the source papers and CLEAR** — Ruffoni 142/142 and Den Hartog 203/203
+> perfect, 455 of 463 lines (98.3%) exact. The one genuine bad row RYA-853 found
+> (Belmonte 3935.307) is **not in any cell here** — it is absent from RYA-824's pool and
+> lies outside RYA-836's 3000–3780 Å band. The 70%-wrong NIST extracts are a *different*
+> pool and do not touch these cells.
+
 ```
 python3 scripts/rya850_graded_products.py
 ```
@@ -92,17 +99,24 @@ number over every measurable line (RYA-712).
 
 ## Three things the spec asked for that need a decision
 
-**1. The generic 0.041 understates these pools.** RYA-824 recorded what its lines' *cited*
-laboratory σ actually are:
+**1. The generic 0.041 understates these pools — and RYA-853 has now AUDITED the alternative.**
 
-| band | generic term | cited (RYA-824) | total, generic → cited |
-|---|---|---|---|
-| red-optical | 0.041 | **0.0524** | 0.0570 → 0.0657 (**+15%**) |
-| VIS | 0.041 | **0.0600** | 0.0583 → 0.0729 (**+25%**) |
+The cited σ is derived from the lines each pool actually contains (RMS, which reproduces
+RYA-824's published 0.0524 / 0.0600 exactly), not hardcoded:
 
-The spec asks for the generic term, so that is what is wired — but the measured figure is
-the more defensible one, and using the generic value publishes a bar 15–25% tighter than
-the pool's own gf uncertainty supports.
+| band | n | cited σ | vs generic | total, generic → cited |
+|---|---|---|---|---|
+| VIS | 9 | **0.0600** | 1.5× | 0.0583 → 0.0729 (**+25.0%**) |
+| red-optical | 20 | **0.0524** | 1.3× | 0.0570 → 0.0657 (**+15.3%**) |
+| near-UV | 60 | **0.0518** | 1.3× | 0.1375 → 0.1410 (**+2.6%**) |
+
+✅ **RYA-853 refereed the lab table against the source papers and found Ruffoni 142/142 and
+Den Hartog 203/203 perfect on value *and* cited σ.** So the cited figure is audited data,
+not a plausible-looking alternative — and the generic term publishes a bar up to 25% tighter
+than the pool's own oscillator-strength uncertainty supports.
+
+The near-UV barely moves (+2.6%) because its 0.100 dex continuum term dominates; the two
+EW-route bands are where the choice matters.
 
 **2. No combined headline is computed.** The ticket asks for a "combined/headline Fe value".
 **RYA-712 forbids a cross-band combined product** and `pipeline.band_products` deliberately
@@ -112,7 +126,8 @@ consistent bands into one number is a reporting decision for a human — the nat
 candidate is the red-optical cell (tightest bar, largest lab-gf pool of the two EW-route
 bands, and on the 1D reference).
 
-**3. ⚠️ The line sets are pre-RYA-847.** RYA-847 removes unconstrained synthesis fits, after
+**3. ⚠️ The line sets are still pre-RYA-847** (checked after RYA-853 merged: `fit_constraint.py`
+is not on main). RYA-847 removes unconstrained synthesis fits, after
 which the graded pool is lab-gf **∩** constrained. It is unmerged and actively in flight, so
 **every number here is provisional**. The near-UV cells are the exposed ones (synthesis
 route); the VIS/red-optical lab-gf pools are EW-route and outside 847's scope, so those two

@@ -41,10 +41,55 @@
       "graded_beats_ungraded": true
     }
   ],
-  "cited_gf_sigma_rya824": {
-    "red-optical": 0.0524,
-    "VIS": 0.06
+  "cited_gf_sigma_by_band": {
+    "red-optical": {
+      "n": 20,
+      "cited_sigma": 0.05244044240850758
+    },
+    "VIS": {
+      "n": 9,
+      "cited_sigma": 0.060000000000000005
+    },
+    "near-UV": {
+      "n": 60,
+      "cited_sigma": 0.05183306537980044
+    }
   },
+  "cells_with_cited_sigma": [
+    {
+      "band": "VIS",
+      "engine": "1D-LTE",
+      "A": 7.445,
+      "cited_sigma": 0.060000000000000005,
+      "syst_generic": 0.043,
+      "syst_cited": 0.061371084396481056,
+      "total_generic": 0.058321179686285494,
+      "total_cited": 0.07292989784717925,
+      "pct": 25.04873570712265
+    },
+    {
+      "band": "near-UV",
+      "engine": "1D-LTE",
+      "A": 7.577,
+      "cited_sigma": 0.05183306537980044,
+      "syst_generic": 0.1081,
+      "syst_cited": 0.11263510406026475,
+      "total_generic": 0.13745406505447555,
+      "total_cited": 0.14104849047992918,
+      "pct": 2.6150011816886476
+    },
+    {
+      "band": "red-optical",
+      "engine": "1D-LTE",
+      "A": 7.516,
+      "cited_sigma": 0.05244044240850758,
+      "syst_generic": 0.0524,
+      "syst_cited": 0.06177709931681804,
+      "total_generic": 0.05702639739629359,
+      "total_cited": 0.06574693909224977,
+      "pct": 15.29211399302417
+    }
+  ],
   "graded_consistency": [
     {
       "a": "VIS",

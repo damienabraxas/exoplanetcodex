@@ -66,9 +66,34 @@ OUT = ROOT / "data" / "results" / "rya850"
 #: Kept identical so a graded cell differs from its ungraded twin in the gf term ALONE.
 PROFILE_FIT_RESIDUAL_DEX = 0.0129
 
-#: RYA-824's own per-pool cited laboratory sigma, for the comparison against the generic
-#: graded term. NOT used to build the published cells — the spec asks for the generic one.
-RYA824_CITED_GF_SIGMA = {"red-optical": 0.0524, "VIS": 0.0600}
+#: The pool's OWN cited laboratory sigma, derived from the lines it actually contains
+#: rather than hardcoded. RYA-853 refereed this table against the source papers and found
+#: Ruffoni 142/142 and Den Hartog 203/203 PERFECT on both value and cited sigma, so these
+#: numbers are audited data now, not a plausible-looking alternative.
+LAB_CSV = ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv"
+RYA836_PER_LINE = (ROOT / "data" / "results" / "rya836"
+                   / "rya836_nearuv_lab_gf_per_line.csv")
+CITED_MATCH_TOL_A = 0.05
+
+
+def cited_sigma(waves) -> tuple[int, float]:
+    """RMS of the per-line cited laboratory sigma over a pool.
+
+    RMS rather than the median because these combine in quadrature into the budget, and
+    the median throws away exactly the tail that a quadrature sum is sensitive to: the
+    IR pool's median is 0.030 while its RMS is 0.0524. Reproduces RYA-824's published
+    0.0524 / 0.0600 exactly, which is the check that this is the same quantity 824 meant.
+    """
+    lab = pd.read_csv(LAB_CSV)
+    got = []
+    for w in waves:
+        m = lab[np.abs(lab.wavelength_air_A - float(w)) <= CITED_MATCH_TOL_A]
+        if len(m):
+            got.append(float(m.iloc[0].e_loggf_dex))
+    if not got:
+        return 0, float("nan")
+    a = np.asarray(got, dtype=float)
+    return len(a), float(np.sqrt((a ** 2).mean()))
 
 #: 824 named its bands by instrument regime; the matrix names them by band policy.
 BAND_FROM_824 = {"IR": "red-optical", "VIS": "VIS"}
@@ -160,24 +185,60 @@ def main() -> None:
               f"[stat {r.stat_dex:.3f}, sys {r.syst_dex:.3f}, n={int(r.n_lines)}]")
 
     # ── the generic term vs what RYA-824 actually cited ───────────────────────────
+    # ── the generic term against the pools' own AUDITED cited sigma ───────────────
+    per_line_waves = {}
+    d824 = pd.read_csv(RYA824)
+    per_line_waves["red-optical"] = d824[d824.band == "IR"].wavelength_air_A.tolist()
+    per_line_waves["VIS"] = d824[d824.band == "VIS"].wavelength_air_A.tolist()
+    if RYA836_PER_LINE.exists():
+        d836 = pd.read_csv(RYA836_PER_LINE)
+        per_line_waves["near-UV"] = d836[np.isfinite(
+            d836.a_labgf)].wavelength_air_A.tolist()
+
+    cited_by_band = {}
+    for band, waves in per_line_waves.items():
+        n, sig = cited_sigma(waves)
+        if n:
+            cited_by_band[band] = {"n": n, "cited_sigma": sig}
+
     print(f"\n=== ⚠️ the generic graded term vs the pools' OWN cited lab sigma ===")
-    for _, r in new.iterrows():
-        cited = RYA824_CITED_GF_SIGMA.get(r.band)
-        if cited is None:
+    print(f"  (RYA-853 refereed this table against the source papers: Ruffoni 142/142 and")
+    print(f"   Den Hartog 203/203 PERFECT on value AND cited sigma — this is audited data)")
+    for band, c in sorted(cited_by_band.items()):
+        print(f"  {band:<12} n={c['n']:3d}  cited sigma {c['cited_sigma']:.4f}  "
+              f"vs generic {GRADED_GF_TERM if False else 0.041:.3f}  "
+              f"({c['cited_sigma']/0.041:.1f}x)")
+
+    # Every graded cell, not just the two wired from RYA-824 — the near-UV cell comes
+    # from the matrix and is entitled to the same treatment.
+    cited_cells = []
+    for pr in pairs:
+        if not pr.primary_is_graded:
             continue
-        b = build_budget("Fe", 5000.0 if r.band == "VIS" else 8000.0, int(r.n_lines),
-                         scatter_dex=float(r.scatter_dex), gf_graded=True,
-                         harness_residual_dex=PROFILE_FIT_RESIDUAL_DEX,
-                         handler="ProfileFitHandler")
+        c = cited_by_band.get(pr.band, {}).get("cited_sigma")
+        if c is None:
+            continue
+        g = pr.graded
+        b = build_budget("Fe", {"VIS": 5000.0, "red-optical": 8000.0,
+                                "near-UV": 3390.0}.get(pr.band, 5000.0),
+                         int(g["n_lines"]), scatter_dex=0.4, gf_graded=True,
+                         harness_residual_dex=(0.0 if pr.band == "near-UV"
+                                               else PROFILE_FIT_RESIDUAL_DEX),
+                         handler="SynthesisHandler")
         others = [t.dex for t in b.terms
                   if not t.averages_down and "gf" not in t.name.lower()]
-        syst_cited = float(np.sqrt(np.sum(np.square(others)) + cited ** 2))
-        tot_generic = float(r.stat_dex) and total_sigma(float(r.stat_dex),
-                                                        float(r.syst_dex))
-        tot_cited = total_sigma(float(r.stat_dex), syst_cited)
-        print(f"  {r.band:<12} generic 0.041 -> total {tot_generic:.4f}   |   "
-              f"cited {cited:.4f} -> total {tot_cited:.4f}   "
-              f"({100*(tot_cited/tot_generic - 1):+.1f}%)")
+        syst_cited = float(np.sqrt(np.sum(np.square(others)) + c ** 2))
+        tot_generic = float(g["total_dex"])
+        tot_cited = total_sigma(float(g["stat_dex"]), syst_cited)
+        cited_cells.append({
+            "band": pr.band, "engine": pr.base, "A": g["A"],
+            "cited_sigma": c,
+            "syst_generic": float(g["syst_dex"]), "syst_cited": syst_cited,
+            "total_generic": tot_generic, "total_cited": tot_cited,
+            "pct": 100.0 * (tot_cited / tot_generic - 1.0),
+        })
+        print(f"  {pr.band:<12} generic 0.041 -> total {tot_generic:.4f}   |   "
+              f"cited {c:.4f} -> total {tot_cited:.4f}   ({tot_cited/tot_generic-1:+.1%})")
 
     # ── do the graded bands agree? ────────────────────────────────────────────────
     # If they disagree by more than their bars, "the graded value" is not well defined and
@@ -217,7 +278,8 @@ def main() -> None:
              "ungraded_total_dex": (p.ungraded or {}).get("total_dex"),
              "graded_beats_ungraded": p.graded_beats_ungraded}
             for p in pairs if p.primary_is_graded],
-        "cited_gf_sigma_rya824": RYA824_CITED_GF_SIGMA,
+        "cited_gf_sigma_by_band": cited_by_band,
+        "cells_with_cited_sigma": cited_cells,
         "graded_consistency": consistency,
         "graded_band_spread_dex": spread,
         "caveats": [
