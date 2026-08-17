@@ -262,6 +262,22 @@ def main() -> None:
     print(f"  => they stay UNGRADED, with the reason stated (RYA-852 'do not fabricate "
           f"coverage'), and the stored grade B is a DEFECT to correct.")
 
+    # ── the pool-wide scale offset ────────────────────────────────────────────────
+    # Not just the two mislabelled lines: nearly the whole Fe II pool sits ABOVE NIST by a
+    # similar amount, including its plain-VALD3 members. A coherent offset across an entire
+    # pool is a SCALE difference, not eleven independent errors — and since a gf that is
+    # too high yields an abundance that is too low, it lands directly on the Fe I / Fe II
+    # ionization balance (RYA-407).
+    off = d[np.isfinite(d.delta_canonical_minus_nist)]
+    med_off = float(off.delta_canonical_minus_nist.median())
+    n_above = int((off.delta_canonical_minus_nist > 0).sum())
+    print(f"\n=== pool-wide: canonical_gf vs NIST across all {len(off)} matched lines ===")
+    print(f"  median offset {med_off:+.3f} dex, {n_above} of {len(off)} ABOVE NIST "
+          f"(range {off.delta_canonical_minus_nist.min():+.3f} .. "
+          f"{off.delta_canonical_minus_nist.max():+.3f})")
+    print(f"  a gf too HIGH by {med_off:+.3f} yields an abundance too LOW by about the "
+          f"same, so this bears on the Fe I/Fe II ionization balance (RYA-407)")
+
     d.to_csv(OUT / "rya852_fe2_gf_audit.csv", index=False)
     summary = {
         "ticket": "RYA-852",
@@ -280,6 +296,13 @@ def main() -> None:
         "arbiter_nist_accuracy_dex": {
             f"{r.wavelength_air_A:.3f}": float(r.nist_accuracy_dex)
             for _, r in arb.iterrows()},
+        "pool_scale_offset": {
+            "median_dex": med_off, "n_above_nist": n_above, "n_matched": int(len(off)),
+            "note": ("a coherent offset across the whole pool including its plain-VALD3 "
+                     "members is a SCALE difference, not independent errors; a gf too high "
+                     "gives an abundance too low, so it bears on RYA-407's ionization "
+                     "balance"),
+        },
         "verdict": ("NO arbiter line has a confirmed primary-lab gf. Their cited NIST "
                     "accuracies are D/E (0.176-0.301 dex), worse than the ~0.1 dex floor "
                     "the ticket anticipated and 4-7x the 0.041 the stored grade B would "
