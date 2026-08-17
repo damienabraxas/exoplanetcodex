@@ -985,24 +985,6 @@ artifacts:
     invocation: python3 scripts/rya853_fe1_labpool_referee.py
     ticket: RYA-853
     note: >-
-      ✅ THE RESULT THAT CLEARS RYA-850's POOL: 207 of 217 refereed lines (95.4%) reproduce
-      their source paper's log gf within 0.02 dex -- the OPPOSITE of the NIST extracts' 70%
-      failure. 🔴 One real outlier: Belmonte 3935.307, ours -2.199 against the paper's
-      -1.820 (delta +0.379), with its sigma wrong too (0.070 vs 0.180) -- both axes on one
-      line, i.e. a bad row. 44 cited-sigma mismatches sit at the +-0.01 rounding level and
-      Den Hartog's run consistently ours = paper + 0.01, i.e. CONSERVATIVE. ⚠️ Coverage is
-      217 of 465 (46.7%): Ruffoni's and Den Hartog's full line lists are ONLINE-ONLY
-      ("Only the first upper level is shown here"), so the remainder is UNVERIFIED, not
-      clean (RYA-833). 🔴 THREE ENCODING TRAPS, each of which produced a confident wrong
-      answer: U+2212 MINUS (not ASCII) flipped every negative log gf positive and reported
-      95 of 99 lines as mismatched by exactly twice their value; U+F0A0 PRIVATE-USE padding
-      around Belmonte's "±" made the paper look like it covered NONE of our 120 lines; and
-      pdftotext -layout is required because pypdf collapses the columns.
-  - artifact: rya853/rya853_fe1_labpool_referee.json
-    generator: scripts/rya853_fe1_labpool_referee.py
-    invocation: python3 scripts/rya853_fe1_labpool_referee.py
-    ticket: RYA-853
-    note: >-
       SUPERSEDES the earlier PDF-only pass. Refereed against the CDS MACHINE-READABLE
       tables (J/MNRAS/441/3127 table3, J/ApJS/215/23 table4) vendored into
       data/reference/fe_gf_lab/cds/ so it reproduces offline -- the full line lists the
