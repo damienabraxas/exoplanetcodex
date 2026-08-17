@@ -114,25 +114,60 @@ number above is from a *uniquely* matched row.
 
 ---
 
-## What is NOT done
+## Scope 3 — the DH19 referee: INCONCLUSIVE, and the question was malformed
 
-**Scope 3 — the +0.106 dex Fe II scale-offset referee — is OWED.** It is the scientifically
-decisive part: whether the Fe I − Fe II ionization balance (which gates log g) is an
-independent check or a circular one.
+Ryan supplied Den Hartog 2019's ten optical Fe II lines (BF × LIF lifetimes, pure lab, no
+solar normalisation) — the referee RYA-852 needed.
 
-The test needs Den Hartog 2019's pure-lab Fe II gf over the 4173–4584 Å overlap. I could not
-obtain it: `Vizier.find_catalogs` returned nothing for three phrasings, and three guessed
-catalog IDs (`J/ApJS/243/33`, `J/ApJS/248/10`, `J/ApJS/241/21`) returned empty. **That is an
-absence in my search, not in the source** (RYA-833) — DH19 exists and the ticket cites it.
-It needs a direct fetch with a known URL or DOI.
+| comparison | median | 95% CI | sd | n |
+|---|---|---|---|---|
+| **ours − DH** | **+0.020** | **[−0.070, +0.160]** | 0.179 | 10 |
+| NIST − DH | +0.124 | [−0.019, +0.213] | 0.145 | 10 |
+| ours − NIST *(same 10 lines)* | **−0.066** | [−0.190, +0.080] | 0.220 | 10 |
+| ours − NIST *(RYA-852, red pool)* | +0.106 | — | — | 9 |
 
-Ryan's counter-evidence stands unrefuted and un-confirmed: if NIST's Fe II gf really are
-~0.1 dex below modern pure lab (DH19: NIST 7.31 vs DH-lab 7.46), then **our +0.106 above
-NIST may be correct and NIST the outlier** — and the solar-fitting hypothesis I raised in
-RYA-852 dies. I have not tested it either way, and the RYA-852 hypothesis should be treated
-as unresolved rather than supported.
+**The counter-evidence is confirmed in direction.** NIST − DH = **+0.124**: NIST's Fe II gf
+sit *above* pure lab, which gives the *lower* abundance Ryan quoted (NIST 7.31 vs DH 7.46).
+Higher gf → lower abundance, so the signs are consistent.
 
----
+### But the test cannot choose, and saying so is the result
+
+`ours − DH = +0.020` looks like a clean "our scale is the lab scale". It is not: the 95% CI
+**[−0.070, +0.160] covers both the pure-lab prediction (~0) and the solar-fitted one
+(~+0.13)**. Ten lines spanning −0.360…+0.260 dex cannot separate them.
+
+⚠️ My first pass thresholded on `|median| ≤ 0.05` and returned **"LEGITIMATE — hypothesis
+REFUTED"**. That was overreading a median with an uncertainty three times its size. The CI
+is what caught it, and it is now the verdict rule.
+
+### 🔴 And the premise itself does not hold: the offset is band-dependent
+
+| band | ours − NIST |
+|---|---|
+| blue overlap 4173–4584 Å | **−0.066** |
+| red pool 5256–6456 Å (RYA-852) | **+0.106** |
+
+**Swing +0.172 dex, and the sign flips.** So *"the Fe II pool sits +0.106 above NIST"* is
+not a scale property — RYA-852 measured it on the **red pool alone**, and the blue lines
+carry different provenance (`T83av`/`PGHcor`/`BSScor`/`KK` against `VALD3`/`RU`/MB09).
+There is no single "our Fe II scale" to referee, which is why a ten-line overlap in one band
+was never going to settle a claim made in another.
+
+### What would settle it
+
+The **full DH19 Table 6 — 131 lines**, VizieR `J/ApJS/243/33`. ⚠️ That ID returns **0 tables**
+from Sirius via astroquery (tried both `find_catalogs` and `Vizier(catalog=…).get_catalogs`),
+so the ten values here are **transcribed from the PDF** and this run is not network-
+reproducible. A direct CDS fetch would give 131 lines and a per-band offset with real
+statistics.
+
+⚠️ **The arbiter lines are not refereed by this.** DH19's optical set stops at 4584 Å; the
+three Fe II arbiter lines (6147.734 / 6238.386 / 6247.557) are redward of it. This tests the
+*scale* on the blue overlap, not those lines.
+
+**Status of the two hypotheses: both still open.** RYA-852's solar-fitting reading is neither
+supported nor refuted, and the NIST-is-the-outlier reading is confirmed in *direction*
+(NIST − DH > 0) but not in magnitude against our own pool.
 
 ## Recommended order
 
