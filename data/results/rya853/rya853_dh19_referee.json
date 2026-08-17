@@ -1,0 +1,61 @@
+{
+  "ticket": "RYA-853 scope 3",
+  "referee": "Den Hartog et al. 2019, ApJS 243, 33 (BF x LIF lifetimes; pure lab)",
+  "vizier_id": "J/ApJS/243/33",
+  "vizier_reachable_from_this_machine": false,
+  "data_provenance": "transcribed from the DH19 PDF (supplied on the ticket)",
+  "n_overlap_lines": 10,
+  "overlap_A": [
+    4173.451,
+    4583.829
+  ],
+  "ours_minus_dh": {
+    "n": 10,
+    "median": 0.019999999999999907,
+    "mean": 0.017999999999999926,
+    "std": 0.17868656605601027,
+    "sem": 0.05650565360111227,
+    "ci95": [
+      -0.07000000000000006,
+      0.1599999999999997
+    ],
+    "min": -0.3600000000000003,
+    "max": 0.26000000000000023
+  },
+  "nist_minus_dh": {
+    "n": 10,
+    "median": 0.12413524974786183,
+    "mean": 0.10042917055499871,
+    "std": 0.14496033524874874,
+    "sem": 0.0458404829767637,
+    "ci95": [
+      -0.018818412845226007,
+      0.21312459835446163
+    ],
+    "min": -0.12572071393811846,
+    "max": 0.29860017176191755
+  },
+  "ours_minus_nist_pool": 0.106,
+  "verdict": "INCONCLUSIVE \u2014 the overlap cannot separate the two readings",
+  "reasoning": "ours - DH is +0.020 with a 95% CI of [-0.070, +0.160], which covers BOTH the pure-lab prediction (~0) and the solar-fitted one (~+0.13). Ten lines spanning -0.360..+0.260 dex is not enough to choose. The full DH19 Table 6 (131 lines, VizieR J/ApJS/243/33) would settle it.",
+  "band_dependence": {
+    "blue_overlap_4173_4584": -0.06586238505818942,
+    "red_pool_5256_6456": 0.106,
+    "swing_dex": 0.1718623850581894,
+    "sign_flips": true
+  },
+  "ours_minus_nist_same_lines": {
+    "n": 10,
+    "median": -0.06586238505818942,
+    "mean": -0.08242917055499879,
+    "std": 0.21961268059896322,
+    "sem": 0.0694476273747795,
+    "ci95": [
+      -0.18989558549017738,
+      0.07957874858754144
+    ],
+    "min": -0.5826092396105622,
+    "max": 0.17502665202918166
+  },
+  "caveat": "the overlap does NOT contain the three Fe II arbiter lines, which are redward of DH19's 4584 A optical ceiling; this refs the pool SCALE, not those lines"
+}

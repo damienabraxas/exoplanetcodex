@@ -113,6 +113,22 @@ class LineMeasurement:
     #: Defaults True so every EW-domain caller is unchanged; only the synthesis
     #: handler opts out, and it says why at the call site.
     ew_inversion: bool = True
+    #: RYA-847 — WAS THE ABUNDANCE ACTUALLY CONSTRAINED BY THE DATA?
+    #:
+    #: These are carried because the alternative was measured and it fails silently.
+    #: `_fit_synth_flux` has always returned `red_chi2`, and the band-product synthesis
+    #: route dropped it on the floor — there was no field here to put it in — which is
+    #: how two NIR lines whose chi2 moves 2.2% and 1.4% across EIGHT DEX of iron reached
+    #: a published aggregate at 7.833 and 7.979 (RYA-843). A quantity with nowhere to
+    #: live is a quantity nobody can gate on.
+    #:
+    #: None on every EW-route line, and that is correct rather than missing: there is no
+    #: chi2 surface behind an EW inversion, so the question does not apply. A consumer
+    #: must treat None as "not applicable", never as "unconstrained".
+    sigma_A: float | None = None
+    frac_rise_weaker: float | None = None
+    edge_distance_dex: float | None = None
+    red_chi2: float | None = None
 
     def __post_init__(self) -> None:
         if self.rew is None and self.ew_mA and self.wavelength_air_A:

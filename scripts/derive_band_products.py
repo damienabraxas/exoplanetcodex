@@ -64,6 +64,9 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
+from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
+from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
+from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
@@ -328,7 +331,14 @@ def synthesis_route(a, pol) -> None:
             # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
             # here at all. Inheriting it would quarantine lines on a quantity that does
             # not exist (RYA-770/342).
-            ew_inversion=False)
+            ew_inversion=False,
+            # RYA-847 — carried, not yet gated on. The sweep chooses the metric and the
+            # threshold across every synthesis band; this route must not pick either
+            # from its own product (RYA-161).
+            sigma_A=_f(res.get("sigma_A")),
+            frac_rise_weaker=_f(res.get("frac_rise_weaker")),
+            edge_distance_dex=_f(res.get("edge_distance_dex")),
+            red_chi2=_f(res.get("red_chi2")))
         # 🔴 A NON-'ok' FIT IS NOT A MEASUREMENT — RYA-837.
         # RYA-759's own harness aggregates `status == 'ok'` only, and this route dropped
         # that filter when it lifted the functions. The near-UV happened not to notice;
@@ -346,6 +356,21 @@ def synthesis_route(a, pol) -> None:
             lm.in_aggregate = False
             lm.excluded_reason = (f"SYNTHESIS: {status} "
                                   f"{str(res.get('reason', ''))[:60]}").strip()
+        else:
+            # RYA-847 — THE BYPASS, CLOSED. This route's entire accept/reject was the
+            # `status != "ok"` above: it never consulted `red_chi2` and never asked
+            # whether the fit constrained anything, which is how two lines whose chi2
+            # moves 2.2% and 1.4% across EIGHT DEX of iron entered the published
+            # aggregate at 7.833 and 7.979 (RYA-843).
+            #
+            # It now calls the SAME decider the Engine-B handler calls. While
+            # `SYNTH_CONSTRAINT` is None this changes nothing numerically — deliberately,
+            # and provably: the near-UV product reproduces 7.488 with the call in place.
+            # The cut comes from a cross-band sweep, not from this band (RYA-161).
+            _cv = constraint_verdict(res)
+            if not _cv.ok:
+                lm.in_aggregate = False
+                lm.excluded_reason = _cv.reason
         lines.append(lm)
     lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
 
@@ -361,6 +386,7 @@ def synthesis_route(a, pol) -> None:
         "physics rather than a defect. gf: " + str(prov_gf["detail"]) + ". "
         "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
         "in the scatter reported here. Half-width is FIXED and must be swept. "
+        + constraint_describe() + " " +
         "gf REMAINS THE DOMINANT SYSTEMATIC AND THE BAND IS UNGRADED: RYA-822 grades "
         "only 6 of the 4,274 in-band Fe I lines as primary-lab, and its GF-NIST class "
         "(604 lines) is a COMPILATION grade that 822 deliberately keeps outside "
@@ -410,6 +436,15 @@ def synthesis_route(a, pol) -> None:
     # quadrature above" — which is exactly the double-add RYA-845 removed, and it made
     # the artifact assert the bug in prose as well as in arithmetic.
     (out / f"{stem}_budgets.txt").write_text(b.describe() + "\n")
+    # RYA-847 — WRITE THE PROVENANCE. `build_product` has always accepted it and
+    # `products_frame` emits it, but this route writes the MATRIX schema instead
+    # (element/ion/band/.../dominant, RYA-832) and that schema has no provenance column —
+    # so every word of reasoning assembled above, including whether a constraint cut was
+    # applied at all, reached no artifact. Found by grepping the control run's output for
+    # "CONSTRAINT GATE" and getting nothing, after a commit message had already claimed
+    # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
+    # nowhere to live is a quantity nobody can check.
+    (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "
@@ -420,12 +455,35 @@ def synthesis_route(a, pol) -> None:
     print(f"  wrote {out}/{stem}_products.csv")
 
 
+#: Fields of `LineMeasurement` that `asdict_line` deliberately does NOT write, with the
+#: reason. Anything not listed here and not emitted makes `test_asdict_line_emits_every_
+#: field_or_declares_why` fail — see RYA-847.
+#:
+#: This list exists because a hand-written projection is a second declaration of the
+#: schema, and the first one already cost us: `red_chi2` was returned by the fitter for
+#: its whole life and never reached the per-line CSV, because there was no field for it
+#: and no check that would notice (RYA-843). Adding a field to the dataclass must not
+#: silently fail to reach the artifact.
+ASDICT_LINE_OMITTED = {
+    # RYA-807's registry verdict. Carried on the object for the aggregation decision;
+    # the per-line CSV records the OUTCOME (`in_aggregate` + `excluded_reason`), and
+    # duplicating the registry's own columns here would give them a second home that can
+    # disagree with the registry.
+    "problem_class", "problem_status", "problem_tickets", "problem_action",
+}
+
+
 def asdict_line(l: LineMeasurement) -> dict:
     return dict(element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
                 instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
                 abundance=l.abundance, rew=l.rew, treatment=l.treatment,
                 in_aggregate=l.in_aggregate, excluded_reason=l.excluded_reason,
-                ew_inversion=l.ew_inversion)
+                ew_inversion=l.ew_inversion,
+                # RYA-847: the constraint metrics. None on EW-route lines — no chi2
+                # surface exists behind an EW inversion, so the question does not apply,
+                # and a consumer must read None as "not applicable", not "unconstrained".
+                sigma_A=l.sigma_A, frac_rise_weaker=l.frac_rise_weaker,
+                edge_distance_dex=l.edge_distance_dex, red_chi2=l.red_chi2)
 
 
 def main() -> None:

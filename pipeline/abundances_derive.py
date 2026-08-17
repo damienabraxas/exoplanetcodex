@@ -72,6 +72,7 @@ from pipeline import data_namespace as ns                               # RYA-46
 from pipeline.solar_scale_provenance import (                           # RYA-681 scale identity
     SCALE_1D_NLTE as _SCALE_1D_NLTE, SCALE_3D_NLTE as _SCALE_3D_NLTE,
     scale_from_value as _scale_from_value)
+from pipeline.fit_constraint import measure_constraint  # RYA-847 single-source constraint metrics
 
 
 def _star_linelist(star_id: str):
@@ -1278,11 +1279,35 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
 
     a_best   = float(res.x)
     dof      = max(of.size - 1, 1)
-    red_chi2 = chi2(a_best) / dof
-    edge_pinned = min(abs(a_best - a_lo), abs(a_best - a_hi)) < 1e-2
+    chi2_min = chi2(a_best)
+    red_chi2 = chi2_min / dof
+
+    # RYA-847 — MEASURE whether the objective actually pinned A(X), and carry it.
+    #
+    # `edge_pinned` alone cannot express the defect RYA-843 found. It asks "is the answer
+    # near a bound", a question about the BRACKET; the real question is whether the data
+    # determined anything. Two NIR lines entered a published aggregate at 7.833 and 7.979
+    # — plausible numbers — with chi2 moving 2.2% and 1.4% across EIGHT DEX of iron. The
+    # rail is the same defect, just loud enough to notice.
+    #
+    # The metrics are computed HERE, in the one function every synthesis path bottoms out
+    # in, so no caller has to re-derive them and none can disagree about them. Costs four
+    # extra chi2 evaluations. No THRESHOLD is applied at this layer: `measure_constraint`
+    # reports, callers decide, and the cut itself is set from a sweep across every band
+    # rather than from whichever product is in front of us (RYA-161).
+    cm = measure_constraint(chi2, a_best=a_best, chi2_min=float(chi2_min),
+                            red_chi2=float(red_chi2), a_lo=a_lo, a_hi=a_hi)
+    edge_pinned = cm.edge_distance_dex < 1e-2
     return {'status': 'edge_pinned' if edge_pinned else 'ok',
             'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
-            'n_pix': int(of.size), 'n_eval': int(n_eval[0])}
+            'n_pix': int(of.size), 'n_eval': int(n_eval[0]),
+            'constraint': cm.as_dict(),
+            # Promoted to top level because every consumer wants them and a dict-in-dict
+            # is the kind of shape that quietly gets dropped when a row is flattened to
+            # CSV — which is how `red_chi2` came to be thrown away in the first place.
+            'sigma_A': cm.sigma_A,
+            'frac_rise_weaker': cm.frac_rise_weaker,
+            'edge_distance_dex': cm.edge_distance_dex}
 
 
 def _wingwide_window_nm(wave_nm: float, ew_mA: float) -> tuple:

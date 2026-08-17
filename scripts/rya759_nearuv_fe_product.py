@@ -173,7 +173,15 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str) -> dict:
     return {'status': r['status'], 'reason': r.get('reason', ''),
             'a_synth': float(r.get('A_X', np.nan)),
             'red_chi2': float(r.get('red_chi2', np.nan)),
-            'n_pix': int(r.get('n_pix', 0)), 'cont_ratio': cont}
+            'n_pix': int(r.get('n_pix', 0)), 'cont_ratio': cont,
+            # RYA-847: pass the constraint metrics straight through. `_fit_synth_flux`
+            # measures them; this harness is the only thing between the fitter and the
+            # band product, and anything it does not forward is a quantity nobody
+            # downstream can gate on -- which is exactly what happened to `red_chi2`
+            # before RYA-843 went looking for it.
+            'sigma_A': float(r.get('sigma_A', np.nan)),
+            'frac_rise_weaker': float(r.get('frac_rise_weaker', np.nan)),
+            'edge_distance_dex': float(r.get('edge_distance_dex', np.nan))}
 
 
 def main() -> None:
