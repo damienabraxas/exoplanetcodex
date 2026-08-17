@@ -7,6 +7,7 @@ RYA-854 -- generate the public /sources page from `data/refs/bibliography.csv`.
     python3 scripts/generate_sources_page.py            # write the page
     python3 scripts/generate_sources_page.py --check     # regenerate + diff, exit 1 on drift
     python3 scripts/generate_sources_page.py --site-root ../exoplanetcodex-site
+    python3 scripts/generate_sources_page.py --audit-library "<reference library dir>"
 
 WHY GENERATED, NEVER HAND-AUTHORED (the RYA-775 pattern). A hand-written reference
 page rots: it drifts from the line lists, from the tickets, and from the papers it
@@ -451,6 +452,68 @@ def render(rows: list[dict[str, str]], digest: str) -> str:
     return "\n".join(L) + "\n"
 
 
+# ─────────────────────────────────────────────────────────── library auditing ──
+#: files in the reference library that are not documents and are not expected to be
+#: cited. Extensions only -- never a filename allow-list, which would rot silently.
+NON_DOCUMENT_SUFFIXES = {".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp", ".tiff",
+                         ".mov", ".mp4", ".zip", ".ds_store"}
+
+
+def audit_library(rows: list[dict[str, str]], library: Path) -> int:
+    """Every DOCUMENT in the reference library must be named by some row.
+
+    Ryan's standing rule (RYA-854): an unlisted document is an uncited one. This is
+    the executable form of it -- run it whenever a paper lands in the library.
+
+    The library path is an ARGUMENT, never a literal: it lives outside the repo on a
+    per-machine path, and baking one in would both break on Sirius and trip the
+    RYA-810 path-literal gate.
+
+    Duplicates are handled by the rows themselves: a row's `local_file` names ONE
+    file, and its `license_note` records any byte-identical twin. That is deliberate --
+    deduping by filename would have missed that '2602.14294v1.pdf' and 'aa59148-26.pdf'
+    are the SAME PAPER in two genuinely different files, while '1002.4268v1.pdf' and
+    'BRUNTT2010.pdf' are the same bytes twice. Only content tells those apart.
+    """
+    if not library.is_dir():
+        sys.exit(f"::error::reference library not found: {library}")
+
+    cited: dict[str, str] = {}
+    for r in rows:
+        if r["local_file"]:
+            cited[Path(r["local_file"]).name] = r["key"]
+    # a note may name a duplicate or companion file; that counts as accounted-for
+    noted = " ".join(r["license_note"] for r in rows)
+
+    docs, images, unaccounted = [], [], []
+    for f in sorted(p.name for p in library.iterdir() if p.is_file()):
+        if f.startswith("."):
+            continue
+        if Path(f).suffix.lower() in NON_DOCUMENT_SUFFIXES:
+            images.append(f)
+            continue
+        docs.append(f)
+        if f not in cited and f not in noted:
+            unaccounted.append(f)
+
+    print(f"library: {library}")
+    print(f"  {len(docs)} documents, {len(images)} non-documents (images/media)")
+    print(f"  {len(docs) - len(unaccounted)} documents accounted for by a row")
+    for f in unaccounted:
+        print(f"::error::not in the bibliography: {f}")
+    if images:
+        print("  non-documents skipped (extension-based, not a name list):")
+        for f in images:
+            print(f"    - {f}")
+    if unaccounted:
+        print(f"::error::{len(unaccounted)} document(s) in the reference library have "
+              f"no bibliography row. An unlisted document is an uncited one.",
+              file=sys.stderr)
+        return 1
+    print("  OK: every document in the library is named by a bibliography row.")
+    return 0
+
+
 # ────────────────────────────────────────────────────────────── link checking ──
 def verify_links(rows: list[dict[str, str]]) -> int:
     """Opt-in, NETWORKED: resolve every non-blank url and report the status.
@@ -508,6 +571,10 @@ def main(argv: list[str] | None = None) -> int:
                     help=f"page to write (default {PAGE.relative_to(ROOT)})")
     ap.add_argument("--csv", type=Path, default=BIB_CSV,
                     help=f"bibliography (default {BIB_CSV.relative_to(ROOT)})")
+    ap.add_argument("--audit-library", type=Path, default=None, metavar="DIR",
+                    help="check that every DOCUMENT in the given reference-library "
+                         "directory is named by some bibliography row; exit 1 if any "
+                         "is not. Pass the path -- it is never hardcoded.")
     ap.add_argument("--verify-links", action="store_true",
                     help="NETWORKED: resolve every url in the bibliography and report "
                          "its status. Not part of --check, on purpose.")
@@ -520,6 +587,9 @@ def main(argv: list[str] | None = None) -> int:
     if not args.csv.exists():
         sys.exit(f"::error::bibliography not found: {args.csv}")
     rows = load_rows(args.csv)
+
+    if args.audit_library is not None:
+        return audit_library(rows, args.audit_library)
 
     if args.verify_links:
         return verify_links(rows)
