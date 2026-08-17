@@ -94,12 +94,25 @@ def pdf_text(path: Path) -> str:
         raise SystemExit(f"cannot read {path.name}: {e}")
 
 
+# 🔴 THE MINUS SIGN IS NOT AN ASCII HYPHEN. These journals typeset negatives with U+2212
+# MINUS SIGN, and an ASCII `-?` silently fails to match it — the capture then starts at the
+# digit and every negative log gf comes back POSITIVE. That turned 95 of 99 lines into
+# "mismatches" of exactly twice the value (ours -0.31 vs "paper" +0.31) on the first run.
+# A defect rate that high with a suspiciously regular signature is a parser bug, not a data
+# finding; en/em dashes are accepted too because typesetters use those as well.
+_MINUS = r"[-\u2212\u2013\u2014]"
+
 # λair(Å)  ... log(gf)  ±unc     — Ruffoni Table 5 and Den Hartog Table 5
 _ANGSTROM_ROW = re.compile(
-    r"^\s*(\d{4}\.\d{3,4})\s+.*?(-?\d\.\d{2})\s*(?:±\s*)?(\d\.\d{2})\b")
+    rf"^\s*(\d{{4}}\.\d{{3,4}})\s+.*?({_MINUS}?\d\.\d{{2}})\s*(?:±\s*)?(\d\.\d{{2}})\b")
 # λ(nm)  ... log(gf)±unc         — Belmonte Table 4
 _NM_ROW = re.compile(
-    r"^\s*(\d{3}\.\d{3,4})\s+.*?(-?\d\.\d{2})\s*±\s*(\d\.\d{2,3})")
+    rf"^\s*(\d{{3}}\.\d{{3,4}})\s+.*?({_MINUS}?\d\.\d{{2}})\s*±\s*(\d\.\d{{2,3}})")
+
+
+def _num(tok: str) -> float:
+    """Normalise the unicode minus before float() — float('\u22120.31') raises."""
+    return float(tok.replace("\u2212", "-").replace("\u2013", "-").replace("\u2014", "-"))
 
 
 def parse_paper(key: str, text: str) -> pd.DataFrame:
@@ -110,13 +123,13 @@ def parse_paper(key: str, text: str) -> pd.DataFrame:
         m = pat.match(line)
         if not m:
             continue
-        w = float(m.group(1))
+        w = _num(m.group(1))
         if nm:
             w *= 10.0                      # ⚠️ nm -> Angstrom
         if not (2000.0 <= w <= 13000.0):
             continue
-        rows.append({"paper_wave_A": w, "paper_loggf": float(m.group(2)),
-                     "paper_unc_dex": float(m.group(3)), "source": key})
+        rows.append({"paper_wave_A": w, "paper_loggf": _num(m.group(2)),
+                     "paper_unc_dex": _num(m.group(3)), "source": key})
     cols = ["paper_wave_A", "paper_loggf", "paper_unc_dex", "source"]
     d = pd.DataFrame(rows, columns=cols)
     # a paper can list the same line more than once across tables; keep the first
