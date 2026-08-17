@@ -114,6 +114,63 @@ number above is from a *uniquely* matched row.
 
 ---
 
+## Scope 2 — the Fe I lab pool: materially CLEAN, and that is the important result
+
+The NIST pass covered ~60 rows of two hand-maintained extracts. It did **not** touch the
+pool RYA-850 actually promotes: the 465 Fe I lines graded on primary lab sources. Those
+grades come from the lab papers, not NIST, so a NIST cross-check could never have cleared
+them — and after a 70% failure next door there was no basis for assuming they were exempt.
+
+The papers are on the Mac (`Reference documents/`), read off disk. Refereed against the
+tables **present in the PDFs**:
+
+| source | refereed | of pool | coverage |
+|---|---|---|---|
+| Belmonte 2017 | 118 | 120 | **98.3%** |
+| Den Hartog 2014 | 64 | 203 | 31.5% |
+| Ruffoni 2014 | 35 | 142 | 24.6% |
+| **total** | **217** | **465** | **46.7%** |
+
+### The verdict
+
+**207 of 217 refereed lines (95.4%) reproduce their source paper's log gf within 0.02 dex.**
+
+That is the opposite of the NIST extracts. The pool RYA-850 promotes is sound where it can
+be checked.
+
+**10 value mismatches**, nine of them ≤0.10 dex. One real outlier:
+
+> 🔴 **Belmonte 3935.307 — ours −2.199, paper −1.820 (Δ +0.379)**, and its stored σ is wrong
+> too (0.070 against the paper's 0.180). Both axes disagree on the same line, which is the
+> signature of a bad row rather than rounding.
+
+**44 cited-σ mismatches**, almost all at the ±0.01 rounding level. Den Hartog's run
+consistently **ours = paper + 0.01** (0.030 vs 0.020, 0.040 vs 0.030) — our bar is
+*conservative* there, not understated. Belmonte's go both ways.
+
+⚠️ **53% of the pool is unverified, not clean.** Ruffoni's full line list is Table 3, whose
+caption reads *"Only the first upper level is shown here. The full [table is online]"*, and
+Den Hartog 2014 is the same. The unrefereed remainder is absent from this check, **not shown
+to be correct** (RYA-833).
+
+### 🔴 Three encoding traps, each of which produced a confident wrong answer
+
+1. **U+2212 MINUS SIGN, not ASCII `-`.** An ASCII `-?` silently fails, the capture starts at
+   the digit, and every negative log gf comes back **positive**. First run: **95 of 99 lines
+   "mismatched" by exactly twice their value.** A defect rate that high with a regular
+   signature is a parser bug, not a finding.
+2. **U+F0A0 (Private Use Area) padding around Belmonte's `±`** — `0.43\uf0a0±\uf0a00.02`. A
+   `\s*±\s*` pattern matches nothing, and Belmonte looked like it covered **none** of our
+   120 lines. A manufactured absence caused by a font quirk.
+3. **`pdftotext -layout` is required.** pypdf's `extract_text` collapses the columns and the
+   tables become unparseable — which is why the Mac run found 0 Belmonte rows.
+
+Belmonte's wavelengths are also in **nanometres** while the Wisconsin tables are in air
+Ångströms; the conversion is explicit and coverage is reported so a wrong convention shows
+up as zero matches rather than a clean pass.
+
+---
+
 ## Scope 3 — the DH19 referee: INCONCLUSIVE, and the question was malformed
 
 Ryan supplied Den Hartog 2019's ten optical Fe II lines (BF × LIF lifetimes, pure lab, no
