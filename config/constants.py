@@ -440,6 +440,28 @@ def fe1_scatter_threshold(spectral_type):
 # them robustly without being delicate. Rejected lines are logged with their χ²ᵣ.
 SYNTH_CHI2_GATE       = 10.0   # max reduced-χ² for a synth-v2 line to enter the median
 
+# ── Synthesis CONSTRAINT gate (RYA-847) ───────────────────────────────────────
+# "Did the objective actually pin A(X)?" — a different question from SYNTH_CHI2_GATE
+# above, which asks "does the model describe the flux?". A fit can describe the flux
+# poorly and still pin the abundance sharply, or describe it well and not pin it at all;
+# RYA-843 found two NIR lines that entered a published aggregate at 7.833 and 7.979 whose
+# chi2 moves 2.2% and 1.4% across EIGHT DEX of iron.
+#
+# 🔴 None MEANS NO CUT IS RATIFIED, AND THAT IS DELIBERATE, NOT AN OMISSION.
+# `pipeline.constraint_gate` carries every metric onto every line, gates nothing, and says
+# so in the product provenance. RYA-847 item 3 sets the metric SHAPE and the value from a
+# sweep across ALL synthesis bands; RYA-161 forbids choosing either from one product.
+#
+# Set to a (metric, maximum) pair once the sweep has ratified one, e.g.
+#     SYNTH_CONSTRAINT = ("sigma_A", 0.5)
+# and regenerate the affected bands. The metric must be one `constraint_gate` knows.
+#
+# ⚠️ DO NOT DEFAULT THIS TO SYNTH_CHI2_GATE. Measured, that constant does not transfer:
+# ratified against a bimodal solar Fe II distribution (clean <= 3.0, blends >= 128), it
+# would refuse a well-behaved NIR line at red_chi2 = 72 and ALL 40 near-UV lines, which
+# sit between 27.7 and 999.5 while being otherwise perfectly constrained.
+SYNTH_CONSTRAINT = None
+
 # ── Ni I 6300.34 COG line data ────────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
 # The Ni I 6300.34 log gf is NOT stored here — it is single-sourced to the
