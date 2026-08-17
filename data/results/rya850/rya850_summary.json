@@ -1,0 +1,78 @@
+{
+  "ticket": "RYA-850",
+  "n_cells": 17,
+  "n_graded_primary": 3,
+  "n_ungraded_fallback": 14,
+  "graded_cells": [
+    {
+      "band": "VIS",
+      "ion": "I",
+      "engine": "1D-LTE",
+      "A": 7.445,
+      "n_lines": 9,
+      "stat_dex": 0.0394,
+      "syst_dex": 0.043,
+      "total_dex": 0.058321179686285494,
+      "ungraded_total_dex": 0.17320652412654672,
+      "graded_beats_ungraded": true
+    },
+    {
+      "band": "near-UV",
+      "ion": "I",
+      "engine": "1D-LTE",
+      "A": 7.577,
+      "n_lines": 59,
+      "stat_dex": 0.0849,
+      "syst_dex": 0.1081,
+      "total_dex": 0.13745406505447555,
+      "ungraded_total_dex": 0.20769901299717336,
+      "graded_beats_ungraded": true
+    },
+    {
+      "band": "red-optical",
+      "ion": "I",
+      "engine": "1D-LTE",
+      "A": 7.516,
+      "n_lines": 20,
+      "stat_dex": 0.0225,
+      "syst_dex": 0.0524,
+      "total_dex": 0.05702639739629359,
+      "ungraded_total_dex": 0.1767027447438211,
+      "graded_beats_ungraded": true
+    }
+  ],
+  "cited_gf_sigma_rya824": {
+    "red-optical": 0.0524,
+    "VIS": 0.06
+  },
+  "graded_consistency": [
+    {
+      "a": "VIS",
+      "b": "near-UV",
+      "delta": -0.13199999999999967,
+      "combined_sigma": 0.1493150360814342,
+      "n_sigma": 0.8840368891449675
+    },
+    {
+      "a": "VIS",
+      "b": "red-optical",
+      "delta": -0.07099999999999973,
+      "combined_sigma": 0.08156819233009888,
+      "n_sigma": 0.8704373355813666
+    },
+    {
+      "a": "near-UV",
+      "b": "red-optical",
+      "delta": 0.06099999999999994,
+      "combined_sigma": 0.14881407863505386,
+      "n_sigma": 0.4099074533774058
+    }
+  ],
+  "graded_band_spread_dex": 0.13199999999999967,
+  "caveats": [
+    "line sets are PRE-RYA-847; the graded pool is lab-gf INTERSECT constrained once 847 lands, so these numbers are provisional",
+    "no combined cross-band headline is computed \u2014 RYA-712 forbids it and band_products has no combine(); the headline is a SELECTED cell",
+    "the generic graded term 0.041 understates RYA-824's own cited lab sigma (0.0524 IR / 0.0600 VIS)",
+    "15 of 18 cells have NO lab-gf pool measured and fall back to ungraded"
+  ]
+}
