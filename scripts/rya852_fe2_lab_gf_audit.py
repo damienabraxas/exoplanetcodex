@@ -163,8 +163,21 @@ def nist_rows(lo_A: float, hi_A: float) -> pd.DataFrame:
             gi = float(str(r[gcol]).split("-")[0].strip())
         except Exception:
             continue
+        # ⚠️ EP is parsed and matched on, because wavelength alone picks the wrong
+        # physical line here too: a +-0.05 A window around 6432.676 returns a NIST row
+        # 2.298 dex away. I hit this on the canonical_gf side, flagged it, and then made
+        # the same mistake on the NIST side — the guard has to be on BOTH.
+        ei = float("nan")
+        for col in t.colnames:
+            if col.startswith("Ei"):
+                try:
+                    ei = float(str(r[col]).split("-")[0].strip())
+                except Exception:
+                    ei = float("nan")
+                break
         acc = str(r["Acc."]).strip()
-        rows.append({"nist_wave_air_A": obs, "nist_fik": f, "nist_gi": gi,
+        rows.append({"nist_wave_air_A": obs, "nist_ep_eV": ei,
+                     "nist_fik": f, "nist_gi": gi,
                      "nist_loggf": float(np.log10(gi * f)),
                      "nist_accuracy": acc,
                      "nist_accuracy_dex": accuracy_to_dex(acc),
@@ -200,7 +213,9 @@ def main() -> None:
 
     merged = []
     for _, r in can.iterrows():
-        m = nist[np.abs(nist.nist_wave_air_A - r.wavelength_air_A) <= WAVE_TOL_A]
+        m = nist[(np.abs(nist.nist_wave_air_A - r.wavelength_air_A) <= WAVE_TOL_A)
+                 & (np.abs(nist.nist_ep_eV - (r.ep_eV if r.ep_eV is not None
+                                              else np.nan)) <= EP_TOL_EV)]
         rec = r.to_dict()
         if len(m):
             rec.update(m.iloc[0].to_dict())
