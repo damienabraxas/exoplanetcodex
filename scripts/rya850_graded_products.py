@@ -19,11 +19,15 @@ pool for Fe II in any band, nor for any ENGINE-A/ENGINE-B product — nobody has
 one. Those cells fall back to UNGRADED and say so, rather than being relabelled graded on
 the strength of a term they are not entitled to.
 
-⚠️ THE 0.041 TERM UNDERSTATES THESE POOLS. `GRADED_GF_SYSTEMATIC_DEX` is a generic NIST
-grade-B bound. RYA-824 recorded what its lines' CITED laboratory sigmas actually are:
-0.0524 dex (IR) and 0.0600 dex (VIS) — 28% and 46% larger. The spec asks for the generic
-term, so that is what is wired; both are reported side by side so the choice is visible,
-and the measured figure is the more defensible one.
+THE PUBLISHED BAR IS THE POOL'S OWN CITED LAB SIGMA (Ryan, 2026-08-17; RYA-850 amended).
+`GRADED_GF_SYSTEMATIC_DEX` is a BOUND — the worst grade we accept — and a bound is the
+right answer only while the actual sigmas are unknown. These pools publish per-line
+uncertainties, which MEASURE the same quantity, and RYA-853 refereed them line-by-line
+against the source papers (Ruffoni 142/142, Den Hartog 203/203 perfect on value AND cited
+sigma) before they were allowed near a published bar. They are larger, not smaller:
+0.0600 (VIS), 0.0524 (red-optical), 0.0522 (near-UV) against the generic 0.041, so the
+bound was optimistic by 15-25% on the two EW-route bands. Both are printed side by side so
+the widening is visible rather than quietly absorbed.
 
 ⚠️ NO COMBINED HEADLINE IS COMPUTED. The ticket asks for a "combined/headline Fe value".
 RYA-712 forbids a cross-band combined product and `pipeline.band_products` deliberately has
@@ -31,11 +35,13 @@ no `combine()` — the per-band values are separate measurements whose spread IS
 So this emits the per-band graded table and names the candidate headline cell; collapsing
 them into one number is a reporting decision for a human, not arithmetic to do quietly here.
 
-⚠️ THE LINE SETS ARE PRE-RYA-847. RYA-847 will remove unconstrained synthesis fits, and the
-graded pool is then lab-gf lines INTERSECT constrained lines. It is unmerged and in flight,
-so every number here is provisional and must be regenerated once it lands. The near-UV
-cells are the exposed ones (synthesis route); the VIS/IR lab-gf pools are EW-route and are
-outside 847's scope.
+⚠️ THE LINE SETS ARE PRE-RYA-847, and that is survivable rather than blocking. 847 is 6/7
+done but a deliberate NUMERICAL NO-OP today — `SYNTH_CONSTRAINT = None`, its near-UV
+control excludes 0 lines — because the threshold is set by a sweep that is still running.
+So nothing here contradicts it. When the sweep ratifies a cut, the near-UV cell is the
+exposed one (synthesis route) and must be regenerated; 847's own scope note puts the
+EW-route products, `1D-LTE-LABGF in VIS/IR` among them BY NAME, outside its remit, so the
+VIS and red-optical cells stand.
 
 Usage:
     python3 scripts/rya850_graded_products.py

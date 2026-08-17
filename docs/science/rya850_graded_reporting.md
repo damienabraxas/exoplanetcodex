@@ -35,16 +35,16 @@ and RYA-824's two pools were never emitted as cells at all.
 
 | band | ion | ungraded total | **graded total** | |
 |---|---|---|---|---|
-| VIS | I | 0.1732 | **0.0583** | ✅ |
-| red-optical | I | 0.1767 | **0.0570** | ✅ |
-| near-UV | I | 0.2077 | **0.1375** | ✅ |
+| VIS | I | 0.1732 | **0.0730** | ✅ |
+| red-optical | I | 0.1767 | **0.0658** | ✅ |
+| near-UV | I | 0.2077 | **0.1412** | ✅ |
 
 **Main-table view (± visible, per spec item 4):**
 
 ```
-A(Fe I; VIS,         1D-LTE) = 7.445 +/- 0.058   [stat 0.039, sys 0.043, n=9]
-A(Fe I; red-optical, 1D-LTE) = 7.516 +/- 0.057   [stat 0.022, sys 0.052, n=20]
-A(Fe I; near-UV,     1D-LTE) = 7.577 +/- 0.137   [stat 0.085, sys 0.108, n=59]
+A(Fe I; VIS,         1D-LTE) = 7.445 +/- 0.073   [stat 0.039, sys 0.061, n=9]
+A(Fe I; red-optical, 1D-LTE) = 7.516 +/- 0.066   [stat 0.022, sys 0.062, n=20]
+A(Fe I; near-UV,     1D-LTE) = 7.577 +/- 0.141   [stat 0.085, sys 0.113, n=59]
 ```
 
 ### This is not in tension with RYA-836 or RYA-842, and the reason is arithmetic
@@ -71,9 +71,9 @@ picking one would be a choice dressed as a measurement.
 
 | pair | Δ | combined σ | |
 |---|---|---|---|
-| VIS vs near-UV | −0.132 | 0.149 | **0.9σ** |
-| VIS vs red-optical | −0.071 | 0.082 | **0.9σ** |
-| near-UV vs red-optical | +0.061 | 0.149 | **0.4σ** |
+| VIS vs near-UV | −0.132 | 0.159 | **0.8σ** |
+| VIS vs red-optical | −0.071 | 0.098 | **0.7σ** |
+| near-UV vs red-optical | +0.061 | 0.156 | **0.4σ** |
 
 Band-to-band spread **0.132 dex**, all pairs consistent. Notably the red-optical graded
 value, **7.516**, lands exactly on the 1D reference (RYA-669/783); gold's 7.466 is on the
@@ -99,24 +99,43 @@ number over every measurable line (RYA-712).
 
 ## Three things the spec asked for that need a decision
 
-**1. The generic 0.041 understates these pools — and RYA-853 has now AUDITED the alternative.**
+**1. ✅ DECIDED (Ryan, 2026-08-17): the pool's own CITED laboratory σ sets the published
+bar.** RYA-850's spec text named `graded_gf_term` (0.041) twice, so this is a deliberate
+deviation and the ticket description is amended to match — code that contradicts its own
+ticket is how a reader loses the ability to tell a decision from a drift.
 
-The cited σ is derived from the lines each pool actually contains (RMS, which reproduces
-RYA-824's published 0.0524 / 0.0600 exactly), not hardcoded:
+**Why the bound loses.** `GRADED_GF_SYSTEMATIC_DEX` is the worst grade we *accept*, and a
+bound is the right answer only while the actual σ are unknown. These pools publish per-line
+uncertainties — a measurement of the same quantity — and RYA-853 refereed them line-by-line
+against the source papers before they were allowed near a bar.
 
-| band | n | cited σ | vs generic | total, generic → cited |
+| band | n | cited σ | vs generic | total, bound → **published** |
 |---|---|---|---|---|
-| VIS | 9 | **0.0600** | 1.5× | 0.0583 → 0.0729 (**+25.0%**) |
-| red-optical | 20 | **0.0524** | 1.3× | 0.0570 → 0.0657 (**+15.3%**) |
-| near-UV | 60 | **0.0518** | 1.3× | 0.1375 → 0.1410 (**+2.6%**) |
+| VIS | 9/9 | **0.0600** | 1.5× | 0.0583 → **0.0730** (+25.1%) |
+| red-optical | 20/20 | **0.0524** | 1.3× | 0.0570 → **0.0658** (+15.3%) |
+| near-UV | 58/60 | **0.0522** | 1.3× | 0.1375 → **0.1412** (+2.7%) |
 
-✅ **RYA-853 refereed the lab table against the source papers and found Ruffoni 142/142 and
-Den Hartog 203/203 perfect on value *and* cited σ.** So the cited figure is audited data,
-not a plausible-looking alternative — and the generic term publishes a bar up to 25% tighter
-than the pool's own oscillator-strength uncertainty supports.
+The near-UV barely moves because RYA-841's 0.100 dex pseudo-continuum term swamps any gf
+term there — so the choice only bites on the two EW-route bands.
 
-The near-UV barely moves (+2.6%) because its 0.100 dex continuum term dominates; the two
-EW-route bands are where the choice matters.
+**Two guards changed the numbers, and both were worth having:**
+
+🔴 **The near-UV σ is 0.0522, not the 0.0518 I first reported.** A wavelength window is not
+a unique line ID (RYA-853), and 2 of the 60 lines match two lab rows each. Resolving them
+with `iloc[0]` is precisely how RYA-853 manufactured 12-dex "defects", so they are counted
+**unmatched** — n=58/60.
+
+⚠️ **A partly-covered pool refuses the cited term.** The RMS describes the pool only if it
+covers the pool; otherwise the unmatched lines silently inherit the matched ones'
+uncertainty. Below 90% coverage the term is refused and the bound stands, which is the
+honest fallback rather than a tighter number.
+
+`cited_gf_term` lives in `error_budget`, not in this script, because any element that
+acquires a lab-gf pool inherits it. It **replaces** the generic term rather than joining it
+(both describe the oscillator strengths, so carrying both double-counts), refuses an
+ungraded pool, refuses an unsourced σ, and is **not clamped** to the bound — a grade-A pool
+would legitimately fall below 0.041, and clamping would turn the measurement back into the
+assumption it supersedes.
 
 **2. No combined headline is computed.** The ticket asks for a "combined/headline Fe value".
 **RYA-712 forbids a cross-band combined product** and `pipeline.band_products` deliberately
@@ -126,12 +145,17 @@ consistent bands into one number is a reporting decision for a human — the nat
 candidate is the red-optical cell (tightest bar, largest lab-gf pool of the two EW-route
 bands, and on the 1D reference).
 
-**3. ⚠️ The line sets are still pre-RYA-847** (checked after RYA-853 merged: `fit_constraint.py`
-is not on main). RYA-847 removes unconstrained synthesis fits, after
-which the graded pool is lab-gf **∩** constrained. It is unmerged and actively in flight, so
-**every number here is provisional**. The near-UV cells are the exposed ones (synthesis
-route); the VIS/red-optical lab-gf pools are EW-route and outside 847's scope, so those two
-should survive unchanged.
+**3. ⚠️ Still pre-RYA-847 — survivable, not blocking.** 847 is 6 of 7 items done but a
+deliberate **numerical no-op today**: `SYNTH_CONSTRAINT = None`, and its own near-UV control
+run excludes **0 lines**, because the threshold is set by a sweep still in progress. So
+nothing here contradicts it.
+
+When the sweep ratifies a cut, the **near-UV cell is the exposed one** (synthesis route) and
+must be regenerated. 847's scope note puts the EW-route products — naming `1D-LTE-LABGF in
+VIS/IR` explicitly — outside its remit, so the VIS and red-optical cells stand.
+
+⚠️ One file, `scripts/derive_band_products.py`, is in both tickets' scope. 847 has not
+touched it, so landing this first means 847 rebases onto it rather than the reverse.
 
 ---
 
