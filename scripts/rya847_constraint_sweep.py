@@ -80,12 +80,26 @@ def synthesis_rows(d: pd.DataFrame) -> pd.DataFrame:
     return d[d.red_chi2.notna()].copy()
 
 
+#: A gap only counts as a POPULATION boundary if both sides hold at least this fraction
+#: of the band's lines. Without it the widest-gap search returns the distance between the
+#: single most extreme line and the rest — which is an outlier, not a threshold.
+MIN_SIDE_FRACTION = 0.05
+
+
 def gap_report(v: pd.Series, higher_is_worse: bool) -> dict:
-    """The largest RELATIVE gap in the sorted values, and where it sits.
+    """The largest RELATIVE gap that separates two POPULATIONS, and where it sits.
 
     A gate wants a threshold in a region the data does not populate. The widest
-    multiplicative gap is the honest way to find one without choosing it: it makes no
-    assumption about how many lines should fail, which is what a quantile would smuggle in.
+    multiplicative gap finds one without assuming how many lines should fail, which is
+    what a quantile would smuggle in.
+
+    🔴 BUT AN UNCONSTRAINED WIDEST-GAP SEARCH MEASURES OUTLIERS, NOT BOUNDARIES, and the
+    first run of this script proved it: on the near-UV it returned a "cut" with 39 of 40
+    lines on the failing side, and on Fe I VIS ENGINE-B one with 1 of 154 — in both cases
+    simply the distance from the most extreme line to its neighbour. Two such gaps landing
+    near each other then reads as "the metric TRANSFERS", which is a coincidence of
+    outlier positions and nothing more. Both sides must therefore hold a real share of the
+    band before a gap is allowed to be a candidate cut.
     """
     s = v.dropna().sort_values().to_numpy()
     if s.size < 4:
@@ -94,7 +108,14 @@ def gap_report(v: pd.Series, higher_is_worse: bool) -> dict:
     if s.size < 4:
         return {}
     ratios = s[1:] / s[:-1]
-    i = int(np.argmax(ratios))
+    edge = max(1, int(np.ceil(MIN_SIDE_FRACTION * s.size)))
+    if s.size <= 2 * edge:
+        return {}
+    # only gaps with `edge` values on each side may be a population boundary
+    inner = ratios[edge - 1:s.size - edge]
+    if inner.size == 0:
+        return {}
+    i = int(np.argmax(inner)) + (edge - 1)
     return {"n": int(s.size), "min": float(s[0]), "max": float(s[-1]),
             "median": float(np.median(s)),
             "gap_lo": float(s[i]), "gap_hi": float(s[i + 1]),
