@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import sys
 from dataclasses import dataclass, field, asdict
+from pathlib import Path as _Path
 from typing import Any, Optional
 
 from pipeline.litscan import LiteratureRange, literature_range
@@ -61,6 +62,14 @@ REPORT = "report"
 DEVIATE = "deviate"
 UN_ANCHORABLE = "un-anchorable"
 NO_PRODUCT = "no-product"
+
+#: The curated exclusion registry (RYA-807). Named with a leading underscore and read
+#: lazily inside the appendix so this module's global namespace stays as small as
+#: `assert_no_gold_read` expects -- it inspects the bound globals, and a module that
+#: accumulates imports is one where that check gets harder to trust. The registry is not
+#: gold: it records which LINES are excluded, never an abundance.
+_PROBLEM_CHILDREN = (_Path(__file__).resolve().parents[1]
+                     / "data" / "registry" / "problem_children.csv")
 
 #: Modules/paths this stage must never touch. Gold is output-only (principle 5).
 FORBIDDEN_GOLD_SURFACES = (
@@ -336,6 +345,70 @@ def _judge(band: str, tier: str, p: BandProduct, lit: Optional[LiteratureRange],
 
 
 # ── appendix (the burden of proof) ───────────────────────────────────────────
+def excluded_lines_section(element: str) -> list[str]:
+    """Name every line this element currently excludes, with its stated cause.
+
+    RYA-844 puts the burden of proof on the appendix, and RYA-847 items 5 and 7 require
+    each excluded line to be NAMED here with its physical cause. Until now the appendix
+    reported band verdicts and never said which lines had been removed to reach them — so
+    a reader could see A(Fe) and its bars without seeing that a line had been dropped, and
+    an exclusion and a tuning look identical in the output. Only the stated reason
+    separates them, which is exactly why the reason has to be printed where the number is.
+
+    SOURCED FROM THE REGISTRY, not from a list kept here. `data/registry/
+    problem_children.csv` is the single declaration (RYA-807); a second copy beside the
+    report is how the two come to disagree (RYA-845).
+
+    The discriminator is `status`, NOT `required_treatment` (RYA-807): only `exclude` +
+    `active` is actually excluded. A row that is `owed` is KEPT AND FLAGGED, because its
+    cause is not established and removing it on a hypothesis would be tuning (RYA-161).
+    Both are listed, under headings that say which is which -- a flagged line the reader
+    cannot see is the same defect one step removed.
+    """
+    reg = _PROBLEM_CHILDREN
+    if not reg.exists():
+        return ["## Excluded and flagged lines", "",
+                f"> ⚠️ `{reg.name}` is absent, so this section can make NO claim about "
+                f"exclusions. That is a missing input, not an empty exclusion set.", ""]
+    import pandas as _pd
+    d = _pd.read_csv(reg, dtype=str).fillna("")
+    sp = d.species.astype(str).str.strip()
+    mine = d[(sp == element) | sp.str.startswith(f"{element} ")]
+    if mine.empty:
+        return ["## Excluded and flagged lines", "",
+                f"None registered for {element}.", ""]
+
+    _NO_REASON = ("⚠️ NO REASON RECORDED — an exclusion without a stated cause cannot "
+                  "be distinguished from tuning (RYA-844).")
+
+    def _rows(sub, kind):
+        out = []
+        for _, r in sub.iterrows():
+            out += [f"- **{r['species']} {r['lambda_or_scope']}** — "
+                    f"`{r['problem_class']}` / {kind}, severity {r['severity'] or 'n/a'} "
+                    f"[{r['governing_tickets']}]",
+                    f"  - {r['notes'] or _NO_REASON}"]
+        return out
+
+    excluded = mine[(mine.required_treatment.str.strip() == "exclude")
+                    & (mine.status.str.strip() == "active")]
+    flagged = mine[mine.status.str.strip() == "owed"]
+    L = ["## Excluded and flagged lines", "",
+         "Sourced from `data/registry/problem_children.csv`. The discriminator is "
+         "`status`, not `required_treatment` (RYA-807).", ""]
+    if len(excluded):
+        L += [f"### Excluded from the aggregate ({len(excluded)})", ""] + \
+             _rows(excluded, "EXCLUDED") + [""]
+    else:
+        L += ["### Excluded from the aggregate (0)", "", "None.", ""]
+    if len(flagged):
+        L += [f"### Kept and flagged — cause not established ({len(flagged)})", "",
+              "Retained in the aggregate deliberately: removing a line on an "
+              "undiagnosed cause is tuning (RYA-161/844).", ""] + \
+             _rows(flagged, "KEPT+FLAGGED") + [""]
+    return L
+
+
 def appendix(ev: ElementVerdict) -> str:
     """Per element, per band: measured vs literature, the call, and every reason."""
     L = [f"# Validation appendix — {ev.element}",
@@ -381,6 +454,7 @@ def appendix(ev: ElementVerdict) -> str:
         if b.scale_mismatch:
             L += ["", f"  **⚠️ SCALE MISMATCH.** {b.scale_mismatch}"]
         L += [""]
+    L += excluded_lines_section(ev.element)
     if ev.references_used:
         L += ["## References used", ""] + [f"- {r}" for r in ev.references_used] + [""]
     if ev.verification_owed:

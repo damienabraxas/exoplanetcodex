@@ -15,6 +15,12 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-17
+
+- **RYA-837 + RYA-843** — IR synthesis-context wiring lands; the NIR rail RCA finds a NORMALISATION failure, not a fitter one, and the real defect is that UNCONSTRAINED fits are accepted (two lines at 7.833/7.979 with chi2 flat across 8 dex). No product published.
+- **RYA-848** — the CNO curvature sigma IS the published C/N/O sigma_stat; rescaled by sqrt(red_chi2) and the railed-fit sigma=0.000 arithmetic fixed. **sigma-only, proved by a same-inputs control**; solar O sigma_stat 0.041 → 0.416. CNO product set flagged STALE (banked 2026-06-27, 11 gf commits since).
+- **RYA-847** *(in progress)* — three copies of the synthesis accept/reject collapsed into `pipeline/fit_constraint.py`; measure and decide split (`constraint_gate.py`); `SYNTH_CONSTRAINT` left **deliberately None** until a cross-band sweep sets the metric and the cut (RYA-161). Appendix now names excluded lines with their physical cause.
+
 ## 2026-08-16
 
 - **RYA-819/831** — gold **v5**: Fe I provenance corrected (Magic −0.05 is wrong in magnitude AND shape); **value 7.466 unchanged**
