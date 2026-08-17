@@ -8,6 +8,7 @@ python3 scripts/generate_sources_page.py            # write docs/site/sources/in
 python3 scripts/generate_sources_page.py --check     # regenerate + diff; exit 1 on drift
 python3 scripts/generate_sources_page.py --verify-links   # NETWORKED, opt-in
 python3 scripts/generate_sources_page.py --site-root ../exoplanetcodex-site
+python3 scripts/generate_sources_page.py --audit-library "<library dir>"   # coverage
 ```
 
 **Never hand-edit `docs/site/sources/index.html`.** `--check` regenerates the page and
@@ -98,17 +99,43 @@ A fabricated DOI is a fabricated provenance record, and it is worse than an abse
 because it *looks* checkable. The page renders these rows without a link and shows the
 reason. That is the data-stewardship position, not an unfinished task.
 
+## Every document in the reference library must have a row
+
+Ryan's standing rule: **an unlisted document is an uncited one.** That is checkable, not
+just asserted:
+
+```bash
+python3 scripts/generate_sources_page.py --audit-library "<reference library dir>"
+```
+
+It fails if any *document* in the library is not named by some row's `local_file` or
+mentioned in some row's `license_note`. Run it whenever a paper lands in the library.
+The path is an argument, never hardcoded — the library lives outside the repo on a
+per-machine path, and a literal would both break on Sirius and trip the RYA-810 gate.
+
+Non-documents (`.jpg`, `.png`, `.heic`, …) are skipped **by extension**, never by a
+filename allow-list — an allow-list would rot silently the moment a file is renamed.
+
+**Duplicates are settled by content, never by name.** A row's `local_file` names one
+file and its `license_note` records any twin. This matters: `1002.4268v1.pdf` and
+`BRUNTT2010.pdf` are the *same bytes twice* (md5 match), while `2602.14294v1.pdf` and
+`aa59148-26.pdf` are the *same paper in two genuinely different files* (arXiv preprint
+vs published A&A). Only a content check tells those apart, and they need opposite
+treatment.
+
 ## Verification state as of RYA-854 (2026-08-17)
 
-* 99 rows; 0 in a `verify_*` state.
-* 81 DOIs, **all 81 present in the Crossref registry** (excluding the NIST `10.18434`
+* **101 rows**; 0 in a `verify_*` state.
+* 82 DOIs, **all present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* **95 of 99 rows carry a verified link**; 4 carry none, for the reasons above.
+* **97 of 101 rows carry a verified link**; 4 carry none, for the reasons above.
 * `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
   this reason.
+* `--audit-library`: **54 documents in the library, 54 accounted for**; 7 images
+  skipped.
 
 ## Relationship to `docs/references.md`
 
