@@ -9,28 +9,46 @@ never re-examined.
     fit_constraint.py    measures sigma_A / frac_rise / edge_distance. No verdict.
     constraint_gate.py   applies the RATIFIED cut, or refuses to invent one.
 
-THE CUT IS NOT RATIFIED YET, AND THAT IS AN EXPLICIT STATE
-----------------------------------------------------------
-`SYNTH_CONSTRAINT` in `config/constants.py` is `None` until RYA-847's sweep across every
-synthesis band chooses both the metric SHAPE and its value. While it is None this gate
-carries the metrics onto every line and gates NOTHING, and `describe()` says so in the
-product provenance.
+WHAT THE GATE IS: A CORRECTNESS CHECK, AND NO THRESHOLD AT ALL
+--------------------------------------------------------------
+    frac_rise <= 0   the objective did not rise away from the point the optimizer
+                     reported as its minimum. A minimum that is not a minimum is not a
+                     measurement, whatever value it carries.
 
-That is the whole point of making it a state rather than a missing feature. The defect
-RYA-843 found was not a wrong threshold, it was that nobody could see there was no
-threshold: the band-product route reimplemented accept/reject as `status != 'ok'`, threw
-`red_chi2` away, and quietly accepted fits whose chi2 moved 2.2% across eight dex of iron.
-A gate that announces "no cut is ratified, N lines carry unexamined constraint metrics" is
-honest. A gate that silently defaults to a plausible number is how the first one happened.
+There is no number to choose. Zero is the boundary between "chi2 rose" and "it did not",
+so the criterion has nothing to tune and no A_solar back-door.
 
-WHY THERE IS NO DEFAULT
------------------------
-The obvious default would be RYA-342's `SYNTH_CHI2_GATE = 10.0`, which is already applied
-on the Engine-B path. Measured, it does not transfer: it was ratified against a bimodal
-solar Fe II distribution (clean <= 3.0, blends >= 128, wide empty gap), while a
-well-behaved NIR line sits at red_chi2 = 72 and all 40 near-UV lines sit between 27.7 and
-999.5 on fits that are otherwise perfectly constrained. Inheriting it here would refuse
-good lines in three bands to tidy one.
+🔴 AND THERE IS NO METRIC THRESHOLD, WHICH IS A MEASURED CONCLUSION, NOT AN OMISSION.
+RYA-847 swept 9 cells and 581 synthesis lines looking for the universal gap item 3 asked
+for. It does not exist:
+
+    metric               per-band cut spread
+    sigma_A                    x39.5
+    frac_rise_weaker          x130.7
+    edge_distance_dex          x24.4
+    red_chi2                  x489.4
+
+and the widest gap WITHIN almost every band is x1.02-2.88 — the distributions are
+CONTINUOUS, not bimodal, so there is no separable population of unconstrained lines to
+threshold against. RYA-342's clean-gap method (solar Fe II: clean <= 3.0, blends >= 128)
+reproduces nowhere. RYA-843's 8%->47% gap in nine NIR lines was noise, exactly as that
+ticket feared when it forbade setting the cut from that set.
+
+"No defensible cut, measured" is a stronger statement than picking the least-bad number,
+so `SYNTH_CONSTRAINT` stays None PERMANENTLY rather than pending. The machinery to apply
+one remains, because a future band might genuinely be bimodal — but it must be earned the
+same way, and the sweep is the standing evidence that today it cannot be.
+
+WHAT THIS GATE DOES NOT CATCH, AND WHY THAT IS NOT FIXED HERE
+--------------------------------------------------------------
+A fit can find a genuine, sharp minimum of a model that cannot reproduce the data —
+Fe I 11593.588 sits at A = 10.559 with red_chi2 = 1226 and a real minimum, so the sign
+test passes it. Those are MODEL-INADEQUATE, equally non-measurements, and equally must not
+be aggregated. But catching them needs a red_chi2 criterion, and red_chi2 is the metric
+whose per-band cut spans x489 — the least transferable of the four. So they are routed to
+`problem_children.csv` case by case under RYA-844 with a stated reason ("model inadequate,
+red_chi2 >> band"), where a human names each one and a skeptic can reproduce the cut from
+the reason. Auto-gating them would mean inventing exactly the threshold the sweep refuted.
 """
 from __future__ import annotations
 
@@ -75,11 +93,18 @@ def _cut():
 def describe() -> str:
     """One sentence for the product provenance. Never silent about an unratified gate."""
     c = _cut()
+    base = ("CONSTRAINT GATE: the NON-MINIMUM check is applied — a line whose chi2 does "
+            "not rise away from its reported minimum (frac_rise <= 0) did not determine "
+            "A(X) and is excluded from the aggregate, measured and retained (RYA-711). "
+            "This is a correctness check with no threshold to choose.")
     if not c:
-        return ("CONSTRAINT GATE: NOT RATIFIED. Every line carries sigma_A, "
-                "frac_rise_weaker, edge_distance_dex and red_chi2, and NONE of them is "
-                "gated on — RYA-847's sweep sets the metric and the cut across all "
-                "synthesis bands, and RYA-161 forbids choosing either from one product.")
+        return base + (
+            " NO METRIC THRESHOLD IS APPLIED, and that is a measured conclusion rather "
+            "than an omission: RYA-847 swept 9 cells and 581 synthesis lines and found "
+            "no transferable cut for sigma_A, frac_rise, edge distance or red_chi2 — "
+            "per-band cuts span x24 to x489 and every within-band distribution is "
+            "continuous (widest gap x1.02-2.88). Model-inadequate fits that ARE real "
+            "minima are routed to problem_children case by case under RYA-844 instead.")
     metric, maximum = c
     return (f"CONSTRAINT GATE: {metric} {_DIRECTION[metric]} {maximum} excludes the line "
             f"from the aggregate (measured and retained, never dropped — RYA-711).")
@@ -92,6 +117,34 @@ def verdict(metrics) -> GateVerdict:
     mapping — the band-product route flattens them onto a `LineMeasurement` and the
     handler keeps the dataclass, and neither should have to convert for the other.
     """
+    # ── 1. THE NON-MINIMUM CHECK — ALWAYS ON, AND NOT A THRESHOLD ────────────
+    # This runs before, and independently of, any ratified cut, because it is a
+    # CORRECTNESS check rather than a quality one: `frac_rise <= 0` means chi2 at a
+    # bracket end is at or BELOW chi2 at the point the optimizer reported as the
+    # minimum. A minimum that is not a minimum is not a measurement, whatever its value.
+    #
+    # There is no number to choose here. Zero is the boundary between "the objective rose
+    # away from the answer" and "it did not", so the criterion cannot be tuned and has no
+    # A_solar back-door — which is exactly why it survived the sweep that refuted every
+    # threshold (RYA-847, 9 cells, 581 synthesis lines).
+    #
+    # `<= 0` and not `< 0`: a perfectly FLAT objective rises by exactly zero and is just
+    # as unconstrained as one that dips. Measured on the sweep, no line ties at zero, so
+    # the two agree on today's data — but the semantics are "chi2 did not rise", and that
+    # is the form that stays correct when a tie eventually appears.
+    fr = (metrics.get("frac_rise_weaker") if hasattr(metrics, "get")
+          else getattr(metrics, "frac_rise_weaker", None))
+    if fr is not None and np.isfinite(float(fr)) and float(fr) <= 0.0:
+        return GateVerdict(
+            False,
+            f"NON-MINIMUM: chi2 at a bracket end is not above the reported minimum "
+            f"(frac_rise = {float(fr):.3g} <= 0), so the optimizer returned a point that "
+            f"is not a minimum and the fit did not determine A(X). A correctness "
+            f"failure, not a quality threshold. Measured and retained; excluded from the "
+            f"aggregate only (RYA-711).",
+            ratified=True)
+
+    # ── 2. the ratified cut, if one exists ────────────────────────────────────
     c = _cut()
     if not c:
         return GateVerdict(True, "", ratified=False)
