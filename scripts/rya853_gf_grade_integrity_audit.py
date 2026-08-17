@@ -196,11 +196,22 @@ def main() -> None:
             if len(live):
                 m = live[(np.abs(live.nist_wave_A - rec["wavelength_air_A"]) <= WAVE_TOL_A)
                          & (np.abs(live.nist_ep_eV - rec["ep_eV"]) <= EP_TOL_EV)]
-                if len(m):
+                # 🔴 A wavelength+EP window is NOT a unique line identifier. Several
+                # transitions can share a wavelength AND a lower level while differing in
+                # the UPPER level -- forbidden lines and multiplet components especially.
+                # Taking iloc[0] there silently compares the stored row against a DIFFERENT
+                # transition, which manufactures 12-dex "defects" (Mg I 5183.604 stored
+                # +0.180 against a NIST row at -11.908). The stored files carry no upper
+                # level, so those cases cannot be adjudicated here and are reported
+                # AMBIGUOUS rather than judged.
+                rec["n_nist_candidates"] = int(len(m))
+                if len(m) == 1:
                     mm = m.iloc[0]
                     rec.update(nist_loggf=float(mm.nist_loggf),
                                nist_accuracy=str(mm.nist_accuracy),
                                nist_accuracy_dex=accuracy_to_dex(mm.nist_accuracy))
+                elif len(m) > 1:
+                    rec["ambiguous"] = True
             rows.append(rec)
 
     d = pd.DataFrame(rows)
@@ -208,7 +219,18 @@ def main() -> None:
     d["delta_loggf"] = d.stored_loggf - d.get("nist_loggf")
     d["value_matches"] = d.delta_loggf.abs() <= VALUE_TOL_DEX
 
-    matched = d[d.get("nist_accuracy").notna()] if "nist_accuracy" in d else d.iloc[0:0]
+    if "ambiguous" not in d:
+        d["ambiguous"] = False
+    d["ambiguous"] = d.ambiguous.fillna(False)
+    matched = (d[d.nist_accuracy.notna() & ~d.ambiguous]
+               if "nist_accuracy" in d else d.iloc[0:0])
+    amb = d[d.ambiguous]
+    unmatched = d[d.get("n_nist_candidates", pd.Series(0, index=d.index)).fillna(0) == 0]
+    print(f"\n=== match quality ===")
+    print(f"  uniquely matched : {len(matched)}")
+    print(f"  AMBIGUOUS (>1 NIST row on wavelength+EP; no upper level stored): {len(amb)}")
+    print(f"  no NIST row / query failed: {len(unmatched)}")
+    print(f"  ⚠️ only the uniquely-matched rows are judged below.")
     print(f"\n=== stored vs live NIST ASD ({len(matched)} of {len(d)} rows matched) ===")
     bad_grade = matched[~matched.grade_matches]
     bad_value = matched[~matched.value_matches]
@@ -238,7 +260,14 @@ def main() -> None:
     summary = {
         "ticket": "RYA-853",
         "n_stored_rows": int(len(d)),
-        "n_matched_to_nist": int(len(matched)),
+        "n_uniquely_matched": int(len(matched)),
+        "n_ambiguous": int(len(amb)),
+        "n_unmatched": int(len(unmatched)),
+        "ambiguous_lines": [
+            {"element": f"{r.element} {r.ion}",
+             "wavelength_air_A": float(r.wavelength_air_A),
+             "n_nist_candidates": int(r.n_nist_candidates)}
+            for _, r in amb.iterrows()],
         "n_grade_mismatch": int(len(bad_grade)),
         "n_value_mismatch": int(len(bad_value)),
         "grade_mismatches": [
