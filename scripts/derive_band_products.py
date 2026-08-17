@@ -328,7 +328,14 @@ def synthesis_route(a, pol) -> None:
             # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
             # here at all. Inheriting it would quarantine lines on a quantity that does
             # not exist (RYA-770/342).
-            ew_inversion=False)
+            ew_inversion=False,
+            # RYA-847 — carried, not yet gated on. The sweep chooses the metric and the
+            # threshold across every synthesis band; this route must not pick either
+            # from its own product (RYA-161).
+            sigma_A=_f(res.get("sigma_A")),
+            frac_rise_weaker=_f(res.get("frac_rise_weaker")),
+            edge_distance_dex=_f(res.get("edge_distance_dex")),
+            red_chi2=_f(res.get("red_chi2")))
         # 🔴 A NON-'ok' FIT IS NOT A MEASUREMENT — RYA-837.
         # RYA-759's own harness aggregates `status == 'ok'` only, and this route dropped
         # that filter when it lifted the functions. The near-UV happened not to notice;
@@ -420,12 +427,45 @@ def synthesis_route(a, pol) -> None:
     print(f"  wrote {out}/{stem}_products.csv")
 
 
+#: Fields of `LineMeasurement` that `asdict_line` deliberately does NOT write, with the
+#: reason. Anything not listed here and not emitted makes `test_asdict_line_emits_every_
+#: field_or_declares_why` fail — see RYA-847.
+#:
+#: This list exists because a hand-written projection is a second declaration of the
+#: schema, and the first one already cost us: `red_chi2` was returned by the fitter for
+#: its whole life and never reached the per-line CSV, because there was no field for it
+#: and no check that would notice (RYA-843). Adding a field to the dataclass must not
+#: silently fail to reach the artifact.
+ASDICT_LINE_OMITTED = {
+    # RYA-807's registry verdict. Carried on the object for the aggregation decision;
+    # the per-line CSV records the OUTCOME (`in_aggregate` + `excluded_reason`), and
+    # duplicating the registry's own columns here would give them a second home that can
+    # disagree with the registry.
+    "problem_class", "problem_status", "problem_tickets", "problem_action",
+}
+
+
+def _f(v):
+    """float or None. A NaN in a CSV column reads like a measured value that failed;
+    None reads like "not applicable", which is what a missing metric means."""
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return f if np.isfinite(f) else None
+
+
 def asdict_line(l: LineMeasurement) -> dict:
     return dict(element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
                 instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
                 abundance=l.abundance, rew=l.rew, treatment=l.treatment,
                 in_aggregate=l.in_aggregate, excluded_reason=l.excluded_reason,
-                ew_inversion=l.ew_inversion)
+                ew_inversion=l.ew_inversion,
+                # RYA-847: the constraint metrics. None on EW-route lines — no chi2
+                # surface exists behind an EW inversion, so the question does not apply,
+                # and a consumer must read None as "not applicable", not "unconstrained".
+                sigma_A=l.sigma_A, frac_rise_weaker=l.frac_rise_weaker,
+                edge_distance_dex=l.edge_distance_dex, red_chi2=l.red_chi2)
 
 
 def main() -> None:
