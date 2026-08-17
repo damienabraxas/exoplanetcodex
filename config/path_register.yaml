@@ -62,8 +62,9 @@ roots:
     env: CODEX_LOCAL_DATA_ROOT
     default: '{repo_parent}/data'
     desc: >-
-      Workstation-side data that is NOT on Sirius: the raw spectra tree and a few
-      staging CSVs. Derived from the repo's own location ({repo_parent} = the
+      Workstation-side data that is NOT on Sirius: a few staging CSVs. (The raw
+      spectra tree used to live here too; it moved to Sirius on 2026-08-16 -- see
+      data.spectra_local.) Derived from the repo's own location ({repo_parent} = the
       directory containing the checkout, where `data/` sits as a sibling of the
       worktrees), so it needs NO configuration and, critically, NO username. The
       15 literals this replaces each hardcoded an absolute /Users/<name>/... path
@@ -175,13 +176,22 @@ entries:
     kind: dir
     desc: VALD / GES line-list extracts.
   data.spectra_local:
-    root: local_data
-    rel: spectra/exoplanetcodex-data
+    root: data
+    rel: spectra/_mac_import_20260816
     kind: dir
     desc: >-
-      Workstation raw-spectra tree, per target (Alpha Centauri A/B, Procyon,
-      Epsilon Eridani, Tau Bootis, ...). Distinct from data.spectra, which is the
-      Sirius-side staged copy.
+      The per-target raw-spectra tree (Alpha Centauri A/B, 55 Cancri, Procyon, Tau
+      Bootis, Solar Calibration, ...). ⚠️ NO LONGER WORKSTATION-LOCAL despite the key
+      name: on 2026-08-16 this tree was moved off the Mac to Sirius and deleted from
+      the Mac, after verifying 4,817 files / 43,345,884,770 B identical on both sides
+      plus a 20-file MD5 sample. It was NOT already on Sirius -- the counterpart dirs
+      there (55cnc_a, alpha_cen_a, alpha_cen_b) were EMPTY STUBS and ~35.6 GB existed
+      only on the Mac, so this is the sole surviving copy. Landed in a dated import
+      dir rather than merged into the curated per-star names because the two hosts
+      disagreed on both naming (55-cancri vs 55cnc_a) and content (Mac
+      'Solar Calibration' 483 files/4.26 GB vs Sirius's 505 files/44 MB -- raw vs
+      reduced). Merging it into the curated layout is a separate, reviewable step.
+      Distinct from data.spectra, which is the curated Sirius tree.
   data.solar_ew_staging:
     root: local_data
     rel: solar_ew.csv
