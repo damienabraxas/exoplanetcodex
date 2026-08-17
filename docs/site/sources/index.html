@@ -66,8 +66,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : 7eb1580aa1f3d44dccfdb056ee08152c8f2161d57c4cb074aca5238ac5b1c69b
-     rows      : 102
+     sha256    : c751ea00327f50f087f526b4e1b0331eb5f84fb75019bfeded992bf82d6058a2
+     rows      : 104
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -98,15 +98,15 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>102</b><span>references</span></div>
-    <div class="src-stat"><b>101</b><span>with verified link</span></div>
+    <div class="src-stat"><b>104</b><span>references</span></div>
+    <div class="src-stat"><b>103</b><span>with verified link</span></div>
     <div class="src-stat"><b>1</b><span>unconfirmed link</span></div>
     <div class="src-stat"><b>58</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
   </div>
   <div class="src-toc">
     <a href="#solar_reference">Solar reference scales &amp; atlases (10)</a>
-    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (46)</a>
+    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (48)</a>
     <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (1)</a>
     <a href="#nlte">Non-LTE departures (10)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
@@ -223,7 +223,7 @@
     </ul>
   </section>
   <section class="src-section" id="atomic_data_gf">
-    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">46</span></h2>
+    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">48</span></h2>
     <p class="src-blurb">Where each log gf comes from. The distinction that matters is PRIMARY LABORATORY (branching fractions from a Fourier-transform spectrometer times a measured radiative lifetime, with no reference to the solar spectrum) versus semi-empirical or solar-fitted values, which cannot referee a solar abundance without restating their own input.</p>
     <ul class="src-list">
       <li class="src-entry" id="bard1991">
@@ -326,8 +326,8 @@
           <span class="src-verified src-v-unconfirmed" title="No DOI or stable URL could be confirmed &mdash; nothing is guessed. See the note.">UNCONFIRMED</span>
         </div>
         <div class="src-link src-nolink">no verified link &mdash; see note</div>
-        <p class="src-role">GES code FMW, 492 canonical_gf rows. SUPERSEDED FOR IRON ONLY by fuhr_wiese2006, in NIST&#x27;s own words -- but the supersession is PARTIAL, and the split matters: of the 492 rows, 306 are Fe (302 Fe I + 4 Fe II) and ARE superseded, while 186 (Ni I 102, Co I 84) are NOT, because the 2006 compilation covers Fe I and Fe II and nothing else. For Co and Ni this 1988 volume is still the live authority. Also a NIST compilation, so NIST ASD cannot referee it (RYA-760).</p>
-        <p class="src-note">TITLE AND VOLUME CONFIRMED TWICE OVER; the URL is the only thing missing, and this is the one row in this file with no link. Confirmation 1: the reference list of NIST&#x27;s 2006 Fe compilation (doi:10.1063/1.2218876). Confirmation 2, independent and about as primary as it gets -- Wiese &amp; Fuhr citing their OWN 1988 volume in the NASA LAW 2006 paper (see wiese2006_law) as &#x27;Atomic Transition Probabilities-Iron through Nickel, J. Phys. Chem. Ref. Data, 17, Suppl. 4&#x27;. No stable URL for the SUPPLEMENT ITSELF exists in any catalogue checked: Crossref (all 103 JPCRD items 1987-1990 enumerated -- absent, because JPCRD supplements are standalone monographs outside the article stream), DOE OSTI (which DOES hold the Sc-Mn companion as 6831545, so this is a hole in that catalogue rather than a search failure), NASA NTRS (a real zero-result query), OpenAlex, the NIST publications database, ADS bibcode probes, Library of Congress, HathiTrust, Google Books, AIP&#x27;s own JPCRD search, and the nist.gov/system/files/documents/srd/ tree that hosts the 2006 volume&#x27;s free full text. Left BLANK rather than pointed at a DIFFERENT document -- linking the 2006 compilation here would be convenient and would be a provenance lie.</p>
+        <p class="src-role">GES code FMW, 492 canonical_gf rows. SUPERSEDED ACROSS ITS WHOLE SPAN, but by THREE different papers, so the replacement is per-species and not one swap: Fe I 302 + Fe II 4 rows -&gt; fuhr_wiese2006 (NIST&#x27;s own words); Ni I 102 rows -&gt; wood2014; Co I 84 rows -&gt; lawler2015. Retained as the provenance record of what the pool currently carries, not as a live authority. Also a NIST compilation, so NIST ASD cannot referee it (RYA-760).</p>
+        <p class="src-note">TITLE AND VOLUME CONFIRMED TWICE OVER (the reference list of NIST&#x27;s 2006 Fe compilation, and Wiese &amp; Fuhr citing their own volume in wiese2006_law). NO URL, and this is the one row in the file without one. Absent from: Crossref (all 103 JPCRD items 1987-1990 enumerated -- JPCRD supplements are standalone monographs outside the article stream), DOE OSTI (which holds the Sc-Mn companion, so a hole in that catalogue), NASA NTRS (real zero-result query), OpenAlex, NIST&#x27;s publications database, ADS bibcode probes, Library of Congress, HathiTrust, Google Books, AIP&#x27;s JPCRD search, and the nist.gov/system/files/documents/srd/ tree that hosts the 2006 volume&#x27;s free full text. Ryan&#x27;s read is that it is PRINT-ONLY and may simply have no PDF anywhere -- consistent with everything above, and with the 503s on AIP&#x27;s legacy supplement links. If so, a blank url is the CORRECT permanent state for this row, not an open task. Never point it at the 2006 compilation: that is a different document.</p>
         <div class="src-meta"><span class="src-tickets">RYA-760; RYA-780; RYA-836; RYA-853; RYA-864</span> &middot; <span class="src-key">fuhr1988</span></div>
       </li>
       <li class="src-entry" id="fuhr_wiese2006">
@@ -444,6 +444,15 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/205/2/11" target="_blank" rel="noopener">10.1088/0067-0049/205/2/11 &#8599;</a></div>
         <p class="src-role">GES code LGWSC (504 canonical_gf rows). Laboratory Ti I gf.</p>
         <div class="src-meta"><span class="src-tickets">RYA-545; RYA-853</span> &middot; <span class="src-key">lawler2013</span></div>
+      </li>
+      <li class="src-entry" id="lawler2015">
+        <div class="src-head">
+          <span class="src-cite">Lawler, J. E.; Sneden, C.; Cowan, J. J. (2015). <em>Improved Co I log(gf) Values and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 220, 13.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/220/1/13" target="_blank" rel="noopener">10.1088/0067-0049/220/1/13 &#8599;</a></div>
+        <p class="src-role">PRIMARY laboratory Co I gf (Wisconsin FTS group). SUPERSEDES the Co I half of fuhr1988. canonical_gf does NOT cite it at all; 84 Co I lines still sit on the 1988 compilation -- flagged to RYA-853.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-853; RYA-864</span> &middot; <span class="src-key">lawler2015</span></div>
       </li>
       <li class="src-entry" id="lawler2009">
         <div class="src-head">
@@ -663,6 +672,15 @@
         <p class="src-role">The NIST authors&#x27; own account of the Fe I/Fe II re-assessment published as fuhr_wiese2006, plus their C and N updates. Also the second independent primary confirmation of the fuhr1988 citation -- its reference list carries the full title and Suppl. 4 number for the 1988 volume that has no link of its own.</p>
         <p class="src-note">Conference proceedings; no DOI. Link is the NASA NTRS permanent archive record (20060052476), which serves the PDF and is byte-identical to the copy in the reference library. Added 2026-08-17 from Ryan.</p>
         <div class="src-meta"><span class="src-tickets">RYA-760; RYA-864</span> &middot; <span class="src-local">local copy: Reference documents/20060052476.pdf</span> &middot; <span class="src-key">wiese2006_law</span></div>
+      </li>
+      <li class="src-entry" id="wood2014">
+        <div class="src-head">
+          <span class="src-cite">Wood, M. P.; Lawler, J. E.; Sneden, C.; Cowan, J. J. (2014). <em>Improved Ni I log(gf) Values and Abundance Determinations in the Photospheres of the Sun and Metal-poor Star HD 84937</em>. ApJS 211, 20.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0067-0049/211/2/20" target="_blank" rel="noopener">10.1088/0067-0049/211/2/20 &#8599;</a></div>
+        <p class="src-role">PRIMARY laboratory Ni I gf (Wisconsin FTS group). SUPERSEDES the Ni I half of fuhr1988. canonical_gf already cites it for 22 Ni I lines while 102 Ni I lines still sit on the 1988 compilation -- flagged to RYA-853.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-853; RYA-864</span> &middot; <span class="src-key">wood2014</span></div>
       </li>
     </ul>
   </section>
@@ -1168,7 +1186,7 @@
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 7eb1580aa1f3d44dccfdb056ee08152c8f2161d57c4cb074aca5238ac5b1c69b &middot; 102 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 c751ea00327f50f087f526b4e1b0331eb5f84fb75019bfeded992bf82d6058a2 &middot; 104 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">

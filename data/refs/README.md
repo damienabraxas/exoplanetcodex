@@ -89,10 +89,15 @@ through `doi.org`:
 ### Why ONE row still carries no link, and why that is not fixed by guessing
 
 `fuhr1988` — *Atomic Transition Probabilities: Iron through Nickel*, JPCRD 17 Suppl. 4.
-Title and volume are confirmed (NIST's own 2006 Fe compilation cites it verbatim), but
-no stable URL exists in any catalogue checked. Its companion `martin1988` (Suppl. 3)
-*was* found, in the DOE OSTI catalogue — so the gap here is a hole in OSTI's coverage,
-not a failed search.
+Title and volume are confirmed twice over, but no stable URL exists in any catalogue
+checked. Its companion `martin1988` (Suppl. 3) *was* found in DOE OSTI, so the gap here
+is a hole in that catalogue rather than a failed search.
+
+**A blank `url` here is probably the correct permanent state, not an open task.** The
+volume appears to be print-only — consistent with it being absent from every digital
+catalogue tried, and with AIP's legacy supplement links returning 503. A row that says
+"this exists in print and has no online copy" is complete; a row pointing at a *different*
+document to fill the field would not be.
 
 **JPCRD supplements are standalone monographs outside the article stream and were never
 Crossref-registered.** Proved by enumerating all 103 JPCRD items 1987–1990 from
@@ -154,11 +159,11 @@ treatment.
 
 ## Verification state as of RYA-854 (2026-08-17)
 
-* **102 rows**; 0 in a `verify_*` state.
+* **104 rows**; 0 in a `verify_*` state.
 * 82 DOIs, **all present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* **101 of 102 rows carry a verified link**; 1 carries none, for the reason above.
+* **103 of 104 rows carry a verified link**; 1 carries none, for the reason above.
 * `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
