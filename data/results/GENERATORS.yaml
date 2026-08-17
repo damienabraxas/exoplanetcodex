@@ -901,3 +901,45 @@ artifacts:
       and are carried, not dropped. Dropping them would move the product 7.488 -> 7.413
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
+
+  # ── RYA-853 — gf grade + value integrity ──────────────────────────────────────────
+  - artifact: rya853/rya853_grade_integrity.csv
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      Every row of the two hand-maintained NIST extracts verified against LIVE NIST ASD, in
+      air, matched on wavelength AND excitation potential. 🔴 31 of 44 uniquely-matched
+      rows (70%) carry a grade the source does not support, and 14 carry a log gf more than
+      0.02 dex from it -- in a file that calls itself the "Type B uncertainty anchor" and
+      that RYA-850 keys graded_gf_term on. Worst: Mg I 4571.096 / Fe I 5576.089 / Ca I
+      5857.451 / Ca I 6439.075 all stored A where NIST says D (0.013 vs 0.176 dex, 13.7x).
+      ⚠️ 8 rows are AMBIGUOUS and NOT judged: a wavelength+EP window is not a unique line
+      identifier (transitions share a wavelength and lower level while differing in the
+      upper), and taking the first match manufactured 12-dex "defects".
+  - artifact: rya853/rya853_corrections.csv
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      The 45 corrections (31 grade + 14 log gf) as a ready-to-apply table: element,
+      wavelength, which file, stored value, and what the cited source actually says. NOT
+      applied -- these rows feed published anchors (O I 6300, Li I 6707, Ba II 5853, Ni I
+      6300.336), so applying them shifts published values and is a reviewable change rather
+      than an audit side effect.
+  - artifact: rya853/rya853_summary.json
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      🔴 THE OFFLINE FINDING, which needs no network and would have caught this a month
+      earlier: the two extracts disagree with EACH OTHER on 13 lines they both carry. Mg I
+      5711.090 is the smoking gun -- RYA-592 corrected it in nist_reference and left
+      nist_crosscheck stale, so one line now carries two grades depending on which file you
+      read. S I 6052.670 differs by 0.92 dex between our own files; Ni I 6300.336 by 0.20,
+      and that is the Ni blend under [O I] 6300 which gates the solar oxygen abundance
+      (RYA-365). ⚠️ SCOPE 3 IS OWED: the +0.106 dex Fe II scale-offset referee needs Den
+      Hartog 2019 pure-lab gf, which could not be fetched (Vizier find_catalogs empty for 3
+      phrasings, 3 guessed catalog IDs empty) -- an absence in the SEARCH, not the source
+      (RYA-833). Until it runs, RYA-852's solar-fitting hypothesis is UNRESOLVED, not
+      supported, and Ryan's NIST-is-the-outlier counter-evidence is equally untested.
