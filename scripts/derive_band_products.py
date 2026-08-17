@@ -436,6 +436,15 @@ def synthesis_route(a, pol) -> None:
     # quadrature above" — which is exactly the double-add RYA-845 removed, and it made
     # the artifact assert the bug in prose as well as in arithmetic.
     (out / f"{stem}_budgets.txt").write_text(b.describe() + "\n")
+    # RYA-847 — WRITE THE PROVENANCE. `build_product` has always accepted it and
+    # `products_frame` emits it, but this route writes the MATRIX schema instead
+    # (element/ion/band/.../dominant, RYA-832) and that schema has no provenance column —
+    # so every word of reasoning assembled above, including whether a constraint cut was
+    # applied at all, reached no artifact. Found by grepping the control run's output for
+    # "CONSTRAINT GATE" and getting nothing, after a commit message had already claimed
+    # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
+    # nowhere to live is a quantity nobody can check.
+    (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "
