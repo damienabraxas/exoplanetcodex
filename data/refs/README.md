@@ -55,16 +55,48 @@ category not in that list **fails the build** — adding one is a deliberate edi
 RYA-854 spec: `verify_doi` / `verify_ref` are *pending* states and **must not appear**.
 The generator fails on them.
 
-### Why `unconfirmed` rows exist, and why they are not fixed by guessing
+### `verified` and `url` are two axes, not one
 
-Twelve rows carry no link. Most are pre-DOI literature — 1970s–1990s A&A volumes, NBS
-monographs, JPCRD supplements, SAO Special Reports — that no registry indexes. For
-seven of them the *title* is blank too: the Gaia-ESO v5 line-list report substantiates
-authors/year/journal/volume/page and nothing more, so a title would have been invented.
+`verified` records how the **metadata** was confirmed. `url`/`doi` record whether a
+**public link exists**. They are independent, and the generator's invariant runs one
+way only: `unconfirmed` ⇒ no doi and no url. The converse is *not* asserted, because an
+unpublished project document read straight off its PDF is `extracted` and legitimately
+has no link. (The first version of that check asserted both directions and forced a
+false `unconfirmed` badge onto exactly such a row.)
 
-A fabricated DOI is a fabricated provenance record, and it is worse than an absent
-one because it *looks* checkable. The page renders these rows without a link and shows
-the reason. That is the data-stewardship position, not an unfinished task.
+### Where a pre-DOI source does have a stable link
+
+Most pre-DOI literature *can* be linked without inventing an identifier — it just isn't
+through `doi.org`:
+
+* **ADS scanned articles** — `https://articles.adsabs.harvard.edu/pdf/<bibcode>`. Use
+  this, **not** `ui.adsabs.harvard.edu/abs/<bibcode>`: the abstract page is a
+  single-page app that returns HTTP 202 with an empty body for a *fabricated* bibcode
+  just as readily as for a real one, so it cannot verify anything. The scan route
+  returns 200 for a real bibcode and 404 for a fabricated one — it discriminates.
+* **SIMBAD** — `https://simbad.cds.unistra.fr/simbad/sim-ref?bibcode=<bibcode>` returns
+  server-rendered title/authors/pages. This is how the pre-DOI titles here were
+  confirmed, and it corrected two that had been drafted from memory.
+* **CDS VizieR** for the machine-readable table (e.g. `VI/10` for Kurucz &
+  Peytremann 1975), **Internet Archive** for NBS monographs, and the **proceedings
+  host** for workshop papers.
+
+### Why four rows still carry no link, and why that is not fixed by guessing
+
+`fuhr1988` and `martin1988` (JPCRD 1988 supplements) have no Crossref record and no
+stable publisher URL. `schmitt_beyond_metallicity` is unpublished. For
+`schmitt_science_architecture` the file named in the RYA-854 inventory **could not be
+located on this machine at all** — so `local_file` is blank too, rather than asserting
+a path nobody has opened.
+
+`martin1988` also still has a blank `title`: unlike its Fe–Ni companion, no primary
+source held here gives one. Secondary sources agree on "Atomic transition
+probabilities — Scandium through manganese", and the note says so, but that is not
+promoted into the `title` field.
+
+A fabricated DOI is a fabricated provenance record, and it is worse than an absent one
+because it *looks* checkable. The page renders these rows without a link and shows the
+reason. That is the data-stewardship position, not an unfinished task.
 
 ## Verification state as of RYA-854 (2026-08-17)
 
@@ -72,7 +104,8 @@ the reason. That is the data-stewardship position, not an unfinished task.
 * 81 DOIs, **all 81 present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* `--verify-links`: **0 unreachable**. 41 rows return HTTP 403 — the publisher's
+* **95 of 99 rows carry a verified link**; 4 carry none, for the reasons above.
+* `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
   this reason.
