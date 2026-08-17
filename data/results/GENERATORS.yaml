@@ -901,3 +901,35 @@ artifacts:
       and are carried, not dropped. Dropping them would move the product 7.488 -> 7.413
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
+
+  # ── RYA-852 — can the Fe II arbiter lines be graded? ───────────────────────────────
+  - artifact: rya852/rya852_fe2_gf_audit.csv
+    generator: scripts/rya852_fe2_lab_gf_audit.py
+    invocation: python3 scripts/rya852_fe2_lab_gf_audit.py
+    ticket: RYA-852
+    note: >-
+      The 11-line Fe II VIS pool with its canonical_gf provenance beside a live NIST ASD
+      v5.11 cross-check, matched on wavelength AND excitation potential on BOTH sides.
+      Every line is carried whether or not it can be graded (RYA-711). ⚠️ TWO TRAPS ARE
+      LOAD-BEARING HERE: astroquery.nist defaults to wavelength_type='vacuum', and queried
+      that way NONE of the arbiter lines appear (air->vac is +1.71 A at 6150 A) -- a
+      manufactured absence; and matching on wavelength alone returns EP 13.436 eV for
+      6149.246 and 10.930 eV for 6432.676, high-excitation neighbours of the real lines.
+  - artifact: rya852/rya852_summary.json
+    generator: scripts/rya852_fe2_lab_gf_audit.py
+    invocation: python3 scripts/rya852_fe2_lab_gf_audit.py
+    ticket: RYA-852
+    note: >-
+      THE VERDICT: no Fe II arbiter line has a confirmed primary-lab gf, so all three stay
+      UNGRADED with the reason stated. 🔴 Worse than a coverage gap -- the grade already
+      stored for 6149.246 and 6247.557 says 'NIST ASD v5.11 grade B' while NIST itself
+      grades them E and D (0.301 and 0.176 dex against B's 0.041, understated 7.3x and
+      4.3x), and their stored log gf is not NIST's either (+0.130 / +0.115). RYA-850 keys
+      its graded gf term on exactly this metadata. 🔴 The offset is POOL-WIDE: median
+      +0.106 dex above NIST, 7 of 9 matched lines high, plain-VALD3 members included -- a
+      SCALE difference. Since a gf too high gives an abundance too low, adopting NIST would
+      move Fe I - Fe II from +0.018 to -0.088 and break the solar ionization balance
+      (RYA-407) -- which is what a partly solar-fitted scale would look like (RYA-161), a
+      HYPOTHESIS needing MB09's S/L flags to test. ⚠️ Den Hartog 2019's optical subset could
+      NOT be reached (Vizier.find_catalogs returned nothing) -- an absence in the SEARCH,
+      not the source (RYA-833).

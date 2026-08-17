@@ -1,0 +1,54 @@
+{
+  "ticket": "RYA-852",
+  "arbiter_lines_air_A": [
+    6147.734,
+    6238.386,
+    6247.557
+  ],
+  "arbiter_source": "Fe II VIS ENGINE-A aggregate (n=3), read from the products",
+  "ticket_guess_was": [
+    6247.6,
+    6432.7,
+    6456.4
+  ],
+  "n_pool_lines": 11,
+  "stored_grade_disagrees_with_nist": [
+    {
+      "wavelength_air_A": 6149.246,
+      "stored": "B",
+      "nist_accuracy": "E",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.3010299956639812,
+      "delta_loggf": 0.12987196432176162
+    },
+    {
+      "wavelength_air_A": 6247.557,
+      "stored": "B",
+      "nist_accuracy": "D",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.17609125905568124,
+      "delta_loggf": 0.11469749923271255
+    }
+  ],
+  "arbiter_nist_accuracy_dex": {
+    "6147.734": 0.3010299956639812,
+    "6238.386": 0.17609125905568124,
+    "6247.557": 0.17609125905568124
+  },
+  "pool_scale_offset": {
+    "median_dex": 0.10605664769316325,
+    "n_above_nist": 7,
+    "n_matched": 9,
+    "note": "a coherent offset across the whole pool including its plain-VALD3 members is a SCALE difference, not independent errors; a gf too high gives an abundance too low, so it bears on RYA-407's ionization balance"
+  },
+  "verdict": "NO arbiter line has a confirmed primary-lab gf. Their cited NIST accuracies are D/E (0.176-0.301 dex), worse than the ~0.1 dex floor the ticket anticipated and 4-7x the 0.041 the stored grade B would have published. They stay UNGRADED with the reason stated, and the stored grade B is a defect.",
+  "not_established": [
+    "Den Hartog 2019's optical subset could not be reached (Vizier.find_catalogs returned nothing for three phrasings) \u2014 an absence in the SEARCH, not the source (RYA-833). Whether these lines are among its ten optical is UNVERIFIED.",
+    "MB09's own S/L flags were not obtained, so the RYA-161 firewall cannot be applied line by line; 6238.386 is MB09-labelled and is a firewall CANDIDATE, not a confirmed exclusion.",
+    "the consistent +0.115..+0.154 dex offset above NIST across the three non-RU lines looks like one common scale (plausibly MB09) \u2014 a hypothesis."
+  ],
+  "traps": [
+    "astroquery.nist defaults to wavelength_type='vacuum'; queried that way NONE of the arbiter lines appear (air->vac is +1.71 A at 6150 A) and the obvious conclusion is a manufactured absence.",
+    "matching canonical_gf on wavelength alone returns EP 13.436 eV for 6149.246 and 10.930 eV for 6432.676 \u2014 high-excitation neighbours. Match on EP too."
+  ]
+}
