@@ -82,13 +82,16 @@ through `doi.org`:
   Peytremann 1975), **Internet Archive** for NBS monographs, and the **proceedings
   host** for workshop papers.
 
-### Why four rows still carry no link, and why that is not fixed by guessing
+### Why three rows still carry no link, and why that is not fixed by guessing
 
 `fuhr1988` and `martin1988` (JPCRD 1988 supplements) have no Crossref record and no
-stable publisher URL. `schmitt_beyond_metallicity` is unpublished. For
-`schmitt_science_architecture` the file named in the RYA-854 inventory **could not be
-located on this machine at all** — so `local_file` is blank too, rather than asserting
-a path nobody has opened.
+stable publisher URL. `schmitt_beyond_metallicity` is unpublished.
+
+One cautionary note kept here on purpose: `schmitt_science_architecture` was recorded
+as *missing* in an earlier pass, because a search for the inventory's filename
+(`Exoplanet_Codex_Science_Architecture.docx`) came up empty. The document exists — it
+is published on the site as v3.0. **The absence was scoped to a filename, not to the
+document**, which is the failure mode `feedback_absence_is_a_hypothesis` describes.
 
 `martin1988` also still has a blank `title`: unlike its Fe–Ni companion, no primary
 source held here gives one. Secondary sources agree on "Atomic transition
@@ -129,7 +132,7 @@ treatment.
 * 82 DOIs, **all present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* **97 of 101 rows carry a verified link**; 4 carry none, for the reasons above.
+* **98 of 101 rows carry a verified link**; 3 carry none, for the reasons above.
 * `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
