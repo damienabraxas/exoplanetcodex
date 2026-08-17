@@ -1,0 +1,595 @@
+{
+  "ticket": "RYA-853",
+  "n_stored_rows": 60,
+  "n_uniquely_matched": 44,
+  "n_ambiguous": 8,
+  "n_unmatched": 8,
+  "ambiguous_lines": [
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 5172.684,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 5183.604,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "Na I",
+      "wavelength_air_A": 5688.205,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "Na I",
+      "wavelength_air_A": 5688.21,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "O I",
+      "wavelength_air_A": 6300.304,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "O I",
+      "wavelength_air_A": 6300.304,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "S I",
+      "wavelength_air_A": 6052.674,
+      "n_nist_candidates": 2
+    },
+    {
+      "element": "S I",
+      "wavelength_air_A": 6052.67,
+      "n_nist_candidates": 2
+    }
+  ],
+  "n_grade_mismatch": 31,
+  "n_value_mismatch": 14,
+  "grade_mismatches": [
+    {
+      "element": "Ba II",
+      "wavelength_air_A": 5853.67,
+      "stored": "A",
+      "nist": "B",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.04139268515822507,
+      "understated_by": 3.224426315568632,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 5857.451,
+      "stored": "A",
+      "nist": "D",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 13.717237416957632,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 6102.723,
+      "stored": "A",
+      "nist": "C",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.09691001300805642,
+      "understated_by": 7.549140506125957,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 6122.217,
+      "stored": "A",
+      "nist": "C",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.09691001300805642,
+      "understated_by": 7.549140506125957,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 6162.173,
+      "stored": "A",
+      "nist": "C",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.09691001300805642,
+      "understated_by": 7.549140506125957,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 6439.075,
+      "stored": "A",
+      "nist": "D",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 13.717237416957632,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 6122.22,
+      "stored": "A",
+      "nist": "C",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.09691001300805642,
+      "understated_by": 7.549140506125957,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 5956.694,
+      "stored": "A",
+      "nist": "B+",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.029383777685209667,
+      "understated_by": 2.2889509500733998,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 6574.228,
+      "stored": "A",
+      "nist": "B+",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.029383777685209667,
+      "understated_by": 2.2889509500733998,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 6648.079,
+      "stored": "A",
+      "nist": "B+",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.029383777685209667,
+      "understated_by": 2.2889509500733998,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 5576.089,
+      "stored": "A",
+      "nist": "D",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 13.717237416957632,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 6065.482,
+      "stored": "A",
+      "nist": "B",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.04139268515822507,
+      "understated_by": 3.224426315568632,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 6136.615,
+      "stored": "A",
+      "nist": "B",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.04139268515822507,
+      "understated_by": 3.224426315568632,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 5576.09,
+      "stored": "B",
+      "nist": "D",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 4.25416370990589,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6149.258,
+      "stored": "B",
+      "nist": "E",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.3010299956639812,
+      "understated_by": 7.272540897341714,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6247.557,
+      "stored": "B",
+      "nist": "D",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 4.25416370990589,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6149.25,
+      "stored": "B",
+      "nist": "E",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.3010299956639812,
+      "understated_by": 7.272540897341714,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6247.56,
+      "stored": "B",
+      "nist": "D",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 4.25416370990589,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.761,
+      "stored": "A+",
+      "nist": "AAA",
+      "stored_dex": 0.008600171761917567,
+      "nist_dex": 0.001300933020418072,
+      "understated_by": 0.1512682602664676,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.914,
+      "stored": "A+",
+      "nist": "AAA",
+      "stored_dex": 0.008600171761917567,
+      "nist_dex": 0.001300933020418072,
+      "understated_by": 0.1512682602664676,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.76,
+      "stored": "A",
+      "nist": "AAA",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.001300933020418072,
+      "understated_by": 0.10134067528582841,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 4571.096,
+      "stored": "A",
+      "nist": "D",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.17609125905568124,
+      "understated_by": 13.717237416957632,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 5167.322,
+      "stored": "A",
+      "nist": "B+",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.029383777685209667,
+      "understated_by": 2.2889509500733998,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 5711.09,
+      "stored": "A",
+      "nist": "B",
+      "stored_dex": 0.012837224705172217,
+      "nist_dex": 0.04139268515822507,
+      "understated_by": 3.224426315568632,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "O I",
+      "wavelength_air_A": 7771.944,
+      "stored": "A+",
+      "nist": "A",
+      "stored_dex": 0.008600171761917567,
+      "nist_dex": 0.012837224705172217,
+      "understated_by": 1.4926707350214503,
+      "file": "nist_reference"
+    },
+    {
+      "element": "O I",
+      "wavelength_air_A": 7774.166,
+      "stored": "A+",
+      "nist": "A",
+      "stored_dex": 0.008600171761917567,
+      "nist_dex": 0.012837224705172217,
+      "understated_by": 1.4926707350214503,
+      "file": "nist_reference"
+    },
+    {
+      "element": "O I",
+      "wavelength_air_A": 7775.388,
+      "stored": "A+",
+      "nist": "A",
+      "stored_dex": 0.008600171761917567,
+      "nist_dex": 0.012837224705172217,
+      "understated_by": 1.4926707350214503,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Si I",
+      "wavelength_air_A": 5793.073,
+      "stored": "B",
+      "nist": "E",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.3010299956639812,
+      "understated_by": 7.272540897341714,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Si I",
+      "wavelength_air_A": 5793.07,
+      "stored": "B",
+      "nist": "E",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.3010299956639812,
+      "understated_by": 7.272540897341714,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Ti I",
+      "wavelength_air_A": 5866.452,
+      "stored": "B",
+      "nist": "C+",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.07188200730612536,
+      "understated_by": 1.7365872020950979,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ti I",
+      "wavelength_air_A": 5866.46,
+      "stored": "B",
+      "nist": "C+",
+      "stored_dex": 0.04139268515822507,
+      "nist_dex": 0.07188200730612536,
+      "understated_by": 1.7365872020950979,
+      "file": "nist_crosscheck"
+    }
+  ],
+  "value_mismatches": [
+    {
+      "element": "Ba II",
+      "wavelength_air_A": 5853.688,
+      "stored_loggf": -1.0,
+      "nist_loggf": -0.9093892921715934,
+      "delta": -0.09061070782840663,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Ba II",
+      "wavelength_air_A": 5853.67,
+      "stored_loggf": -1.01,
+      "nist_loggf": -0.9093892921715934,
+      "delta": -0.10061070782840664,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Ca I",
+      "wavelength_air_A": 6439.075,
+      "stored_loggf": 0.39,
+      "nist_loggf": 0.46834733041215726,
+      "delta": -0.07834733041215725,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 5576.089,
+      "stored_loggf": -1.0,
+      "nist_loggf": -0.9430951486635274,
+      "delta": -0.056904851336472606,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 5576.09,
+      "stored_loggf": -1.0,
+      "nist_loggf": -0.9430951486635274,
+      "delta": -0.056904851336472606,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6149.258,
+      "stored_loggf": -2.724,
+      "nist_loggf": -2.853871964321762,
+      "delta": 0.12987196432176162,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6247.557,
+      "stored_loggf": -2.329,
+      "nist_loggf": -2.4436974992327127,
+      "delta": 0.11469749923271255,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6149.25,
+      "stored_loggf": -2.724,
+      "nist_loggf": -2.853871964321762,
+      "delta": 0.12987196432176162,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Fe II",
+      "wavelength_air_A": 6247.56,
+      "stored_loggf": -2.329,
+      "nist_loggf": -2.4436974992327127,
+      "delta": 0.11469749923271255,
+      "file": "nist_crosscheck"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.761,
+      "stored_loggf": 0.177,
+      "nist_loggf": -0.0017668246825414716,
+      "delta": 0.17876682468254146,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.914,
+      "stored_loggf": -0.123,
+      "nist_loggf": -0.30278809913598165,
+      "delta": 0.17978809913598165,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 5167.322,
+      "stored_loggf": -1.031,
+      "nist_loggf": -0.8696662315049939,
+      "delta": -0.16133376849500602,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Si I",
+      "wavelength_air_A": 5793.073,
+      "stored_loggf": -1.963,
+      "nist_loggf": -2.0163737128754655,
+      "delta": 0.05337371287546544,
+      "file": "nist_reference"
+    },
+    {
+      "element": "Si I",
+      "wavelength_air_A": 5793.07,
+      "stored_loggf": -1.963,
+      "nist_loggf": -2.0163737128754655,
+      "delta": 0.05337371287546544,
+      "file": "nist_crosscheck"
+    }
+  ],
+  "cross_match_guards": {
+    "sites": [
+      {
+        "file": "rya822_pull_nist_nearuv.py",
+        "air_guard": true,
+        "ep_guard": true
+      },
+      {
+        "file": "rya853_gf_grade_integrity_audit.py",
+        "air_guard": true,
+        "ep_guard": true
+      },
+      {
+        "file": "rya347_fe2_atomic_data_audit.py",
+        "air_guard": null,
+        "ep_guard": false,
+        "wavelength_only_window_A": [
+          0.1,
+          0.1
+        ]
+      }
+    ]
+  },
+  "internal_disagreements": [
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 5576.09,
+      "crosscheck_grade": "B",
+      "reference_grade": "A",
+      "kind": "grade"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 6065.49,
+      "crosscheck_grade": "B",
+      "reference_grade": "A",
+      "kind": "grade"
+    },
+    {
+      "element": "Fe I",
+      "wavelength_air_A": 6136.62,
+      "crosscheck_grade": "B",
+      "reference_grade": "A",
+      "kind": "grade"
+    },
+    {
+      "element": "O I",
+      "wavelength_air_A": 6300.304,
+      "crosscheck_grade": "A+",
+      "reference_grade": "A",
+      "kind": "grade"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.76,
+      "crosscheck_grade": "A",
+      "reference_grade": "A+",
+      "kind": "grade"
+    },
+    {
+      "element": "Li I",
+      "wavelength_air_A": 6707.76,
+      "crosscheck_loggf": -0.002,
+      "reference_loggf": 0.177,
+      "kind": "value"
+    },
+    {
+      "element": "P I",
+      "wavelength_air_A": 6034.04,
+      "crosscheck_loggf": -0.38,
+      "reference_loggf": -0.31,
+      "kind": "value"
+    },
+    {
+      "element": "P I",
+      "wavelength_air_A": 6043.12,
+      "crosscheck_loggf": -0.52,
+      "reference_loggf": -0.46,
+      "kind": "value"
+    },
+    {
+      "element": "Mg I",
+      "wavelength_air_A": 5711.09,
+      "crosscheck_grade": "A",
+      "reference_grade": "B",
+      "kind": "grade"
+    },
+    {
+      "element": "S I",
+      "wavelength_air_A": 6052.67,
+      "crosscheck_grade": "C",
+      "reference_grade": "B",
+      "kind": "grade"
+    },
+    {
+      "element": "S I",
+      "wavelength_air_A": 6052.67,
+      "crosscheck_loggf": -0.55,
+      "reference_loggf": 0.37,
+      "kind": "value"
+    },
+    {
+      "element": "Ni I",
+      "wavelength_air_A": 6300.336,
+      "crosscheck_loggf": -2.31,
+      "reference_loggf": -2.11,
+      "kind": "value"
+    },
+    {
+      "element": "Ba II",
+      "wavelength_air_A": 5853.67,
+      "crosscheck_grade": "A",
+      "reference_grade": "B",
+      "kind": "grade"
+    }
+  ],
+  "known_precedent": "nist_reference.csv's own header records that RYA-592 re-verified the Mg I rows ONLY and found the accuracy CODE wrong there too (stored A, ASD says B+ and B), and warns that the other rows 'should not be assumed current'. This audit is what that warning asked for.",
+  "corrected_diagnosis": "rya347_fe2_atomic_data_audit.py matches NIST on wavelength alone within 0.1 A with no EP guard, which looks like the cause and is NOT: the EP in these files is correct and the right line was matched. The stored grade and value are simply not what NIST says. The loose match is a latent risk worth fixing separately."
+}
