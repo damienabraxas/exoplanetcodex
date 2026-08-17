@@ -198,29 +198,60 @@ def main() -> None:
               f"{r.get('nist_minus_dh', np.nan):+11.3f}  "
               f"{str(r.get('our_ref',''))[:22]}")
 
-    def _stat(col):
+    # ours - NIST on the SAME ten lines, so all three legs sit on identical footing.
+    # RYA-852's +0.106 was measured on the REDWARD pool (5256-6456 A); comparing it to a
+    # blue-overlap number without recomputing it here would be comparing two different
+    # line sets and calling the difference a result.
+    if "nist_loggf" in o:
+        o["ours_minus_nist"] = o.get("our_loggf") - o.nist_loggf
+
+    def _stat(col, seed: int = 0, n_boot: int = 20000):
+        """Median WITH its uncertainty. A median of ten values spanning 0.6 dex is not a
+        number you can compare against a 0.05 threshold without saying how well it is
+        determined — that is how a test that cannot discriminate gets read as a verdict."""
         v = o[col].dropna() if col in o else pd.Series(dtype=float)
         if not len(v):
             return None
-        return {"n": int(len(v)), "median": float(v.median()),
-                "mean": float(v.mean()), "std": float(v.std(ddof=1)) if len(v) > 1 else 0.0,
-                "min": float(v.min()), "max": float(v.max())}
+        a = v.to_numpy(float)
+        rng = np.random.default_rng(seed)
+        boot = np.array([np.median(rng.choice(a, len(a))) for _ in range(n_boot)])
+        return {"n": int(len(a)), "median": float(np.median(a)),
+                "mean": float(a.mean()),
+                "std": float(a.std(ddof=1)) if len(a) > 1 else 0.0,
+                "sem": float(a.std(ddof=1) / np.sqrt(len(a))) if len(a) > 1 else 0.0,
+                "ci95": [float(np.percentile(boot, 2.5)),
+                         float(np.percentile(boot, 97.5))],
+                "min": float(a.min()), "max": float(a.max())}
 
     s_ours = _stat("ours_minus_dh")
     s_nist = _stat("nist_minus_dh")
-    print(f"\n=== the referee ===")
-    if s_ours:
-        print(f"  ours - DH  : median {s_ours['median']:+.3f} dex  "
-              f"(n={s_ours['n']}, spread {s_ours['min']:+.3f}..{s_ours['max']:+.3f})")
-    if s_nist:
-        print(f"  NIST - DH  : median {s_nist['median']:+.3f} dex  "
-              f"(n={s_nist['n']}, spread {s_nist['min']:+.3f}..{s_nist['max']:+.3f})")
-    print(f"  ours - NIST (RYA-852, whole pool): {POOL_OFFSET_VS_NIST:+.3f} dex")
+    s_on = _stat("ours_minus_nist")
+    print(f"\n=== the referee (median, 95% bootstrap CI) ===")
+    for lab, st in (("ours - DH", s_ours), ("NIST - DH", s_nist),
+                    ("ours - NIST (same 10 lines)", s_on)):
+        if st:
+            print(f"  {lab:<28} {st['median']:+.3f}  CI [{st['ci95'][0]:+.3f}, "
+                  f"{st['ci95'][1]:+.3f}]  sd {st['std']:.3f}  n={st['n']}")
+    print(f"  ours - NIST (RYA-852, REDWARD pool 5256-6456 A): "
+          f"{POOL_OFFSET_VS_NIST:+.3f} dex")
 
     verdict, reasoning = "INCONCLUSIVE", ""
     if s_ours:
         med = s_ours["median"]
-        if abs(med) <= 0.05:
+        lo, hi = s_ours["ci95"]
+        # The two readings predict ~0.0 and ~+0.1..0.2. If the CI covers both, the test
+        # does not discriminate and saying so is the result.
+        covers_zero = lo <= 0.0 <= hi
+        covers_offset = lo <= 0.13 <= hi
+        if covers_zero and covers_offset:
+            verdict = "INCONCLUSIVE — the overlap cannot separate the two readings"
+            reasoning = (f"ours - DH is {med:+.3f} with a 95% CI of [{lo:+.3f}, {hi:+.3f}], "
+                         f"which covers BOTH the pure-lab prediction (~0) and the "
+                         f"solar-fitted one (~+0.13). Ten lines spanning "
+                         f"{s_ours['min']:+.3f}..{s_ours['max']:+.3f} dex is not enough to "
+                         f"choose. The full DH19 Table 6 (131 lines, VizieR "
+                         f"{DH19_VIZIER}) would settle it.")
+        elif abs(med) <= 0.05:
             verdict = "LEGITIMATE — our scale IS the pure-lab scale"
             reasoning = (f"ours sits {med:+.3f} from Den Hartog's pure-lab values, i.e. on "
                          f"the laboratory scale. The +0.106 against NIST is then NIST "
