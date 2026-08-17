@@ -53,6 +53,7 @@ import numpy as np
 
 from pipeline.band_policy import BandPolicy
 from pipeline.band_products import LineMeasurement
+from pipeline.fit_constraint import as_float_or_none as _as_f  # RYA-847
 from pipeline.measure.base import MeasurementHandler, register
 # RYA-770/765: every per-line accept/reject is recorded on the intake timeline. A
 # no-op unless a trace is active, so this costs nothing in production (RYA-429
@@ -252,6 +253,35 @@ class SynthesisHandler(MeasurementHandler):
         if _why:
             return self._quarantine_telluric(element, ion, c, instrument, _why)
 
+        # RYA-847 — the constraint metrics for THIS line, filled in once the fit has run.
+        # A dict rather than locals because `quarantine` is a closure defined before the
+        # fit exists and must be able to emit metrics for post-fit rejections while
+        # correctly emitting None for the pre-fit ones (SETUP / COVERAGE), where no chi2
+        # surface was ever built.
+        _fit_metrics: dict = {}
+
+        def _mk_line(**kw) -> LineMeasurement:
+            """THE single constructor for every line this handler emits.
+
+            Both exits used to build a `LineMeasurement` independently, so a field added
+            to one arrived on accepted lines and not on rejected ones -- and a rejected
+            line with no chi2 is indistinguishable from one whose chi2 was never carried.
+            One constructor makes that impossible (RYA-845).
+            """
+            return LineMeasurement(
+                element=element, ion=ion, wavelength_air_A=c, instrument=instrument,
+                # RYA-770/342 — set HERE, not at the call sites. Every line this handler
+                # emits comes from a flux-space chi2 fit and inverts no equivalent width,
+                # so the REW saturation ceiling never applies to any of them. Leaving it
+                # to each caller meant the invariant held only by everyone remembering;
+                # owning it here makes forgetting impossible.
+                ew_inversion=False,
+                sigma_A=_fit_metrics.get("sigma_A"),
+                frac_rise_weaker=_fit_metrics.get("frac_rise_weaker"),
+                edge_distance_dex=_fit_metrics.get("edge_distance_dex"),
+                red_chi2=_fit_metrics.get("red_chi2"),
+                **kw)
+
         def quarantine(reason: str, ew=float("nan")) -> LineMeasurement:
             # RYA-770: THE single choke point for every rejection this handler makes,
             # so one tracer call covers all of them and none can be added later that
@@ -263,12 +293,8 @@ class SynthesisHandler(MeasurementHandler):
                 severity='WARN', species=f'{element} {ion}', wavelength=c,
                 reject_class=str(reason).split(':', 1)[0].strip(),
                 band=policy.name, instrument=str(instrument))
-            lm = LineMeasurement(element=element, ion=ion, wavelength_air_A=c,
-                                 instrument=instrument, ew_mA=ew,
-                                 ew_method=f"SYNTHESIS ({policy.name}) via _fit_synth_flux",
-                                 # RYA-770/342: no EW->A inversion happened here, so the
-                                 # REW saturation ceiling does not apply (see the field).
-                                 ew_inversion=False)
+            lm = _mk_line(ew_mA=ew,
+                          ew_method=f"SYNTHESIS ({policy.name}) via _fit_synth_flux")
             lm.in_aggregate = False
             lm.excluded_reason = reason
             return lm
@@ -353,6 +379,15 @@ class SynthesisHandler(MeasurementHandler):
             # raising (RYA-764).
                 nlte_deck=context.get("nlte_deck"),
                 tmp_dir=self._tmp_dir)
+            # RYA-847 — carry what the fitter measured about whether A(X) was pinned.
+            # Placed immediately after the fit and BEFORE any gate, so a rejected line
+            # keeps the numbers that justify its rejection: RYA-711 requires a quarantined
+            # line to be reported with its evidence, not merely dropped.
+            _fit_metrics.update(
+                sigma_A=_as_f(res.get("sigma_A")),
+                frac_rise_weaker=_as_f(res.get("frac_rise_weaker")),
+                edge_distance_dex=_as_f(res.get("edge_distance_dex")),
+                red_chi2=_as_f(res.get("red_chi2")))
         except Exception as _e:
             from pipeline.gerber_nlte import GerberDeckError as _GDE
             if isinstance(_e, _GDE):
@@ -420,15 +455,7 @@ class SynthesisHandler(MeasurementHandler):
                            species=f'{element} {ion}', wavelength=c, abundance=a_best,
                            red_chi2=res['red_chi2'], n_pix=res['n_pix'],
                            half_window_A=round(hw_A, 4), ew_hint_mA=ew_hint)
-        return LineMeasurement(element=element, ion=ion, wavelength_air_A=c,
-                               instrument=instrument, ew_mA=ew, abundance=a_best,
-                               ew_method=method,
-                               # RYA-770/342: this abundance came from a flux-space chi2
-                               # fit, NOT an EW inversion. Flux-space synthesis exists to
-                               # measure exactly the strong lines the REW ceiling culls,
-                               # so gating it on that ceiling discards the result the
-                               # method was built to produce.
-                               ew_inversion=False)
+        return _mk_line(ew_mA=ew, abundance=a_best, ew_method=method)
 
 
 register(SynthesisHandler())

@@ -180,3 +180,26 @@ def test_cno_uses_the_shared_definition_not_its_own():
     import inspect
     src = inspect.getsource(cno_synthesis)
     assert "def curvature_sigma" not in src, "cno_synthesis redefines it again"
+
+
+def test_the_handler_has_one_line_constructor_that_owns_the_ew_optout():
+    """RYA-847 — structural, not remembered.
+
+    Both handler exits used to build a `LineMeasurement` independently and each had to
+    remember `ew_inversion=False`; RYA-770's guard checks that by COUNTING literal
+    occurrences, which is a proxy that a refactor can satisfy or break without the
+    property changing. `_mk_line` now owns the flag, so no call site can forget it, and
+    the metrics reach rejected and accepted lines alike.
+    """
+    import inspect
+    import re
+
+    from pipeline.measure import synthesis as syn
+    src = inspect.getsource(syn)
+    mk = src[src.index("def _mk_line("):]
+    mk = mk[:mk.index("\n        def quarantine(")]
+    assert "ew_inversion=False" in mk, "_mk_line must own the EW opt-out"
+    for metric in ("sigma_A", "frac_rise_weaker", "edge_distance_dex", "red_chi2"):
+        assert metric in mk, f"_mk_line must carry {metric}"
+    # no exit may hand ew_inversion in itself any more -- that would be a second owner
+    assert not re.search(r"_mk_line\([^)]*ew_inversion", src, re.S)
