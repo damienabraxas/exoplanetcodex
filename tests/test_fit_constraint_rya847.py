@@ -203,3 +203,56 @@ def test_the_handler_has_one_line_constructor_that_owns_the_ew_optout():
         assert metric in mk, f"_mk_line must carry {metric}"
     # no exit may hand ew_inversion in itself any more -- that would be a second owner
     assert not re.search(r"_mk_line\([^)]*ew_inversion", src, re.S)
+
+
+# ── the appendix must name what was removed (RYA-844 / 847 items 5 and 7) ──────
+
+def test_the_appendix_names_excluded_lines_with_their_reason():
+    """🔴 RYA-844 puts the burden of proof on the appendix, and it was not carrying it.
+
+    The appendix reported band verdicts and never said which lines had been removed to
+    reach them, so a reader could see A(Fe) and its bars with no indication that a line
+    had been dropped. An exclusion and a tuning are INDISTINGUISHABLE in the output —
+    only the stated reason separates them — which is exactly why the reason has to be
+    printed where the number is.
+    """
+    from pipeline.validate_element import excluded_lines_section
+    text = "\n".join(excluded_lines_section("Fe"))
+    assert "11119.795" in text, "the RYA-847 item 7 exclusion is not named"
+    assert "TELLURIC_ADJACENT" in text
+    # the physical evidence, not the consequence
+    assert "0.872" in text and "11083.4" in text
+    assert "inflated" not in text.lower() and "scatter" not in text.lower(), (
+        "an exclusion reason must be physical, never 'it moved the dispersion'")
+
+
+def test_the_appendix_separates_excluded_from_kept_and_flagged():
+    """RYA-807: the discriminator is `status`, not `required_treatment`. A row that is
+    `owed` is KEPT and FLAGGED — removing it on an undiagnosed cause would be tuning."""
+    from pipeline.validate_element import excluded_lines_section
+    text = "\n".join(excluded_lines_section("Fe"))
+    assert "Excluded from the aggregate" in text
+    assert "Kept and flagged" in text
+    assert text.index("Excluded from the aggregate") < text.index("Kept and flagged")
+
+
+def test_a_missing_registry_makes_no_claim_rather_than_claiming_none():
+    """An absent input must not render as an empty exclusion set — that would turn a
+    missing file into the confident statement "nothing was excluded" (RYA-833)."""
+    import pipeline.validate_element as ve
+    from pathlib import Path
+    orig = ve._PROBLEM_CHILDREN
+    try:
+        ve._PROBLEM_CHILDREN = Path("/nonexistent/problem_children.csv")
+        text = "\n".join(ve.excluded_lines_section("Fe"))
+        assert "NO claim" in text and "missing input" in text
+    finally:
+        ve._PROBLEM_CHILDREN = orig
+
+
+def test_an_exclusion_without_a_reason_is_called_out():
+    """A registry row with an empty `notes` must render loudly, not silently."""
+    import pipeline.validate_element as ve
+    import inspect
+    src = inspect.getsource(ve.excluded_lines_section)
+    assert "NO REASON RECORDED" in src
