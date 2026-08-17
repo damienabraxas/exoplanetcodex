@@ -64,6 +64,7 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
+from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
@@ -443,16 +444,6 @@ ASDICT_LINE_OMITTED = {
     # disagree with the registry.
     "problem_class", "problem_status", "problem_tickets", "problem_action",
 }
-
-
-def _f(v):
-    """float or None. A NaN in a CSV column reads like a measured value that failed;
-    None reads like "not applicable", which is what a missing metric means."""
-    try:
-        f = float(v)
-    except (TypeError, ValueError):
-        return None
-    return f if np.isfinite(f) else None
 
 
 def asdict_line(l: LineMeasurement) -> dict:

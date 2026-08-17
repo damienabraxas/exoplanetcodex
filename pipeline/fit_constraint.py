@@ -65,6 +65,22 @@ import numpy as np
 CURVATURE_PROBE_STEP_DEX = 0.05
 
 
+def as_float_or_none(v) -> float | None:
+    """float, or None for anything unmeasurable. Shared so callers cannot disagree.
+
+    None and NaN are NOT interchangeable in an artifact. None reads as "not applicable" —
+    an EW inversion has no chi2 surface, so the constraint question does not apply to it.
+    NaN reads as "a measurement that failed", which would put every EW-route line under
+    permanent suspicion. Both of this module's consumers had started writing their own
+    version of this, which is how two columns come to mean slightly different things.
+    """
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return f if np.isfinite(f) else None
+
+
 @dataclass(frozen=True)
 class ConstraintMetrics:
     """Everything measured about whether the fit determined the abundance.
