@@ -54,6 +54,7 @@ import numpy as np
 from pipeline.band_policy import BandPolicy
 from pipeline.band_products import LineMeasurement
 from pipeline.fit_constraint import as_float_or_none as _as_f  # RYA-847
+from pipeline.constraint_gate import verdict as _constraint_verdict  # RYA-847
 from pipeline.measure.base import MeasurementHandler, register
 # RYA-770/765: every per-line accept/reject is recorded on the intake timeline. A
 # no-op unless a trace is active, so this costs nothing in production (RYA-429
@@ -445,6 +446,21 @@ class SynthesisHandler(MeasurementHandler):
                 f"FIT-EDGE-PINNED: A={a_best:.3f} sits on the [{A_LO}, {A_HI}] bracket "
                 f"edge, so the true minimum lies outside it. Reported, never substituted.",
                 ew=ew)
+
+        # RYA-847 — THE CONSTRAINT GATE. Applied AFTER the chi2 merit gate and the edge
+        # check so the three reasons stay distinguishable in the artifact instead of
+        # collapsing into one "rejected": "the model does not describe the flux",
+        # "the answer sits on a search bound", and "the data did not pin A(X)" are
+        # different findings and a reader needs to know which one fired.
+        #
+        # While `SYNTH_CONSTRAINT` is None this is a no-op by construction, and that is
+        # the state today — the cut is set from a sweep across all synthesis bands, never
+        # from one product (RYA-161). Wiring it now rather than later is the point: the
+        # defect RYA-843 found was a MISSING CALL, not a wrong number, and a gate that
+        # exists but is never invoked is the same defect with better documentation.
+        _cv = _constraint_verdict(res.get("constraint") or {})
+        if not _cv.ok:
+            return quarantine(_cv.reason, ew=ew)
 
         # RYA-770: the accepted lines are recorded too. A rejection ledger that only
         # lists rejections cannot tell you 3-of-12 from 3-of-3 — the accept count is
