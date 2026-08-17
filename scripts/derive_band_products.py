@@ -65,6 +65,8 @@ from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
+from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
+from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
@@ -354,6 +356,21 @@ def synthesis_route(a, pol) -> None:
             lm.in_aggregate = False
             lm.excluded_reason = (f"SYNTHESIS: {status} "
                                   f"{str(res.get('reason', ''))[:60]}").strip()
+        else:
+            # RYA-847 — THE BYPASS, CLOSED. This route's entire accept/reject was the
+            # `status != "ok"` above: it never consulted `red_chi2` and never asked
+            # whether the fit constrained anything, which is how two lines whose chi2
+            # moves 2.2% and 1.4% across EIGHT DEX of iron entered the published
+            # aggregate at 7.833 and 7.979 (RYA-843).
+            #
+            # It now calls the SAME decider the Engine-B handler calls. While
+            # `SYNTH_CONSTRAINT` is None this changes nothing numerically — deliberately,
+            # and provably: the near-UV product reproduces 7.488 with the call in place.
+            # The cut comes from a cross-band sweep, not from this band (RYA-161).
+            _cv = constraint_verdict(res)
+            if not _cv.ok:
+                lm.in_aggregate = False
+                lm.excluded_reason = _cv.reason
         lines.append(lm)
     lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
 
@@ -369,6 +386,7 @@ def synthesis_route(a, pol) -> None:
         "physics rather than a defect. gf: " + str(prov_gf["detail"]) + ". "
         "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
         "in the scatter reported here. Half-width is FIXED and must be swept. "
+        + constraint_describe() + " " +
         "gf REMAINS THE DOMINANT SYSTEMATIC AND THE BAND IS UNGRADED: RYA-822 grades "
         "only 6 of the 4,274 in-band Fe I lines as primary-lab, and its GF-NIST class "
         "(604 lines) is a COMPILATION grade that 822 deliberately keeps outside "
