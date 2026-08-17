@@ -998,3 +998,23 @@ artifacts:
       95 of 99 lines as mismatched by exactly twice their value; U+F0A0 PRIVATE-USE padding
       around Belmonte's "±" made the paper look like it covered NONE of our 120 lines; and
       pdftotext -layout is required because pypdf collapses the columns.
+  - artifact: rya853/rya853_fe1_labpool_referee.json
+    generator: scripts/rya853_fe1_labpool_referee.py
+    invocation: python3 scripts/rya853_fe1_labpool_referee.py
+    ticket: RYA-853
+    note: >-
+      SUPERSEDES the earlier PDF-only pass. Refereed against the CDS MACHINE-READABLE
+      tables (J/MNRAS/441/3127 table3, J/ApJS/215/23 table4) vendored into
+      data/reference/fe_gf_lab/cds/ so it reproduces offline -- the full line lists the
+      PDFs only excerpt. ✅ COVERAGE 463 of 465 (99.6%), and 455 (98.3%) reproduce their
+      source paper's log gf exactly. RUFFONI 142/142 AND DEN HARTOG 203/203 ARE PERFECT on
+      both value and cited sigma -- 345 lines, zero defects -- which CLEARS the pool
+      RYA-850 promotes. Every surviving mismatch is Belmonte, the one source refereed from
+      a typeset PDF (J/ApJ/848/125 is a CDS 404); its table prints 2 decimals against our
+      3, so the small deltas may be extraction artifacts. 🔴 One genuine bad row:
+      Belmonte 3935.307, ours -2.199 vs -1.820 (delta +0.379) with sigma 0.070 vs 0.180.
+      🔴 FOUR PARSER BUGS were caught here, each of which produced a confident wrong
+      answer: U+2212 minus (95 of 99 "mismatches"), U+F0A0 padding around Belmonte's ±
+      (paper looked like it covered NOTHING), pdftotext -layout required, and a Den Hartog
+      column off-by-one reading A_ul as log gf (211 of 463 "mismatches"). A defect rate
+      that is suddenly enormous with a regular signature is a parser bug, not a finding.

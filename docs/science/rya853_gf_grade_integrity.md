@@ -114,62 +114,55 @@ number above is from a *uniquely* matched row.
 
 ---
 
-## Scope 2 — the Fe I lab pool: materially CLEAN, and that is the important result
+## Scope 2 — the Fe I lab pool: CLEAR. This is what unblocks RYA-850.
 
-The NIST pass covered ~60 rows of two hand-maintained extracts. It did **not** touch the
-pool RYA-850 actually promotes: the 465 Fe I lines graded on primary lab sources. Those
-grades come from the lab papers, not NIST, so a NIST cross-check could never have cleared
-them — and after a 70% failure next door there was no basis for assuming they were exempt.
+The NIST pass never touched the pool RYA-850 promotes. Refereed against the **machine-
+readable CDS tables** (the full lists the PDFs only excerpt), vendored into
+`data/reference/fe_gf_lab/cds/` so the audit reproduces offline:
 
-The papers are on the Mac (`Reference documents/`), read off disk. Refereed against the
-tables **present in the PDFs**:
+| source | refereed | of pool | coverage | value mismatches | σ mismatches |
+|---|---|---|---|---|---|
+| **Ruffoni 2014** *(CDS `J/MNRAS/441/3127` table3)* | 142 | 142 | **100%** | **0** | **0** |
+| **Den Hartog 2014** *(CDS `J/ApJS/215/23` table4)* | 203 | 203 | **100%** | **0** | **0** |
+| Belmonte 2017 *(PDF excerpt — no CDS table)* | 118 | 120 | 98.3% | 8 | 9 |
+| **total** | **463** | **465** | **99.6%** | **8** | **9** |
 
-| source | refereed | of pool | coverage |
-|---|---|---|---|
-| Belmonte 2017 | 118 | 120 | **98.3%** |
-| Den Hartog 2014 | 64 | 203 | 31.5% |
-| Ruffoni 2014 | 35 | 142 | 24.6% |
-| **total** | **217** | **465** | **46.7%** |
+### 455 of 463 lines (98.3%) reproduce their source paper exactly
 
-### The verdict
+**Ruffoni and Den Hartog are perfect — 345 lines, zero defects on either value or cited σ.**
+That is the opposite of the NIST extracts (70% wrong) and it clears the pool RYA-850
+promotes.
 
-**207 of 217 refereed lines (95.4%) reproduce their source paper's log gf within 0.02 dex.**
+**Every mismatch is Belmonte**, and Belmonte is the only source refereed from a *typeset
+PDF table* rather than a machine-readable one (`J/ApJ/848/125` is a 404 on CDS). Its table
+prints 2 decimals while our stored values carry 3, so the small deltas may be extraction or
+rounding artifacts rather than defects. One is not:
 
-That is the opposite of the NIST extracts. The pool RYA-850 promotes is sound where it can
-be checked.
+> 🔴 **Belmonte 3935.307 — ours −2.199, paper −1.820 (Δ +0.379)**, with its σ wrong too
+> (0.070 vs 0.180). Too large for rounding, and wrong on both axes — a genuine bad row.
 
-**10 value mismatches**, nine of them ≤0.10 dex. One real outlier:
+⚠️ The other seven (≤0.10 dex) and the nine σ differences (±0.01–0.02) **cannot be
+adjudicated without Belmonte's machine-readable table.** They are flagged, not condemned.
 
-> 🔴 **Belmonte 3935.307 — ours −2.199, paper −1.820 (Δ +0.379)**, and its stored σ is wrong
-> too (0.070 against the paper's 0.180). Both axes disagree on the same line, which is the
-> signature of a bad row rather than rounding.
+### 🔴 Four parser bugs, every one of which produced a confident wrong answer
 
-**44 cited-σ mismatches**, almost all at the ±0.01 rounding level. Den Hartog's run
-consistently **ours = paper + 0.01** (0.030 vs 0.020, 0.040 vs 0.030) — our bar is
-*conservative* there, not understated. Belmonte's go both ways.
+Each was caught only by checking a value that was already known:
 
-⚠️ **53% of the pool is unverified, not clean.** Ruffoni's full line list is Table 3, whose
-caption reads *"Only the first upper level is shown here. The full [table is online]"*, and
-Den Hartog 2014 is the same. The unrefereed remainder is absent from this check, **not shown
-to be correct** (RYA-833).
+1. **U+2212 MINUS SIGN, not ASCII `-`.** An ASCII `-?` fails silently, the capture starts at
+   the digit, and every negative log gf returns **positive** — first run: **95 of 99 lines
+   "mismatched" by exactly twice their value.**
+2. **U+F0A0 (Private Use Area) padding around Belmonte's `±`** — `0.43␣±␣0.02`. A `\s*±\s*`
+   pattern matched nothing and Belmonte looked like it covered **none** of our 120 lines.
+3. **`pdftotext -layout` is mandatory** — pypdf collapses the columns, which is why the Mac
+   run found zero Belmonte rows.
+4. **Den Hartog column off-by-one.** Field 7 is `A_ul`, not `log gf`. Reading it as log gf
+   reported "paper +35.503" against our −0.310 and turned **211 of 463 lines** into
+   mismatches. Caught by spot-checking one line whose value was already known from the PDF.
 
-### 🔴 Three encoding traps, each of which produced a confident wrong answer
+A defect rate that is suddenly enormous, with a regular signature, is a parser bug — not a
+finding. Three of these four would have condemned a clean pool.
 
-1. **U+2212 MINUS SIGN, not ASCII `-`.** An ASCII `-?` silently fails, the capture starts at
-   the digit, and every negative log gf comes back **positive**. First run: **95 of 99 lines
-   "mismatched" by exactly twice their value.** A defect rate that high with a regular
-   signature is a parser bug, not a finding.
-2. **U+F0A0 (Private Use Area) padding around Belmonte's `±`** — `0.43\uf0a0±\uf0a00.02`. A
-   `\s*±\s*` pattern matches nothing, and Belmonte looked like it covered **none** of our
-   120 lines. A manufactured absence caused by a font quirk.
-3. **`pdftotext -layout` is required.** pypdf's `extract_text` collapses the columns and the
-   tables become unparseable — which is why the Mac run found 0 Belmonte rows.
-
-Belmonte's wavelengths are also in **nanometres** while the Wisconsin tables are in air
-Ångströms; the conversion is explicit and coverage is reported so a wrong convention shows
-up as zero matches rather than a clean pass.
-
----
+⚠️ Belmonte's wavelengths are in **nanometres**; the Wisconsin tables are in air Ångströms.
 
 ## Scope 3 — the DH19 referee: INCONCLUSIVE, and the question was malformed
 

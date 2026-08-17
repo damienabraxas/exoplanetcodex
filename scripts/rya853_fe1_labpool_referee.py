@@ -63,6 +63,20 @@ OUT = ROOT / "data" / "results" / "rya853"
 #: The papers live beside the repo, not in it — they are copyrighted PDFs.
 PAPERS_DIR = Path(codex_root("local_data")).parent / "Reference documents"
 
+#: The machine-readable tables from CDS, vendored so the audit reproduces offline.
+#: These are the FULL line lists the PDFs only excerpt — Ruffoni's Table 3 caption says
+#: "Only the first upper level is shown here", and Den Hartog 2014 is the same. Fetched
+#: from https://cdsarc.cds.unistra.fr/ftp/<id>/, byte specs from each ReadMe.
+#: ⚠️ Den Hartog 2019 (J/ApJS/243/33) is a genuine 404 at that path — astroquery returns
+#: 0 tables AND the CDS FTP tree has no such directory. That is a real absence at the ID
+#: given, not a search failure, and Fe II is refereed from the PDF instead (RYA-852).
+CDS_DIR = ROOT / "data" / "reference" / "fe_gf_lab" / "cds"
+CDS_TABLES = {
+    # key: (file, wavelength slice, loggf slice, sigma slice)  — 0-based, per the ReadMe
+    "Ruffoni2014": ("J_MNRAS_441_3127_table3.dat", (13, 23), (53, 58), (59, 63)),
+    "DenHartog2014": ("J_ApJS_215_23_table4.dat", None, None, None),   # whitespace-split
+}
+
 PAPERS = {
     "Ruffoni2014": ("stu780.pdf", "Ruffoni et al. 2014, MNRAS 441, 3127"),
     "DenHartog2014": ("Den_Hartog_2014_ApJS_215_23.pdf",
@@ -130,6 +144,46 @@ def _normalise(text: str) -> str:
     return "".join(" " if "\ue000" <= ch <= "\uf8ff" else ch for ch in text)
 
 
+def parse_cds(key: str) -> pd.DataFrame:
+    """The full line list from the vendored CDS table, which the PDF only excerpts."""
+    spec = CDS_TABLES.get(key)
+    cols = ["paper_wave_A", "paper_loggf", "paper_unc_dex", "source"]
+    if spec is None:
+        return pd.DataFrame(columns=cols)
+    fname, w_s, g_s, u_s = spec
+    path = CDS_DIR / fname
+    if not path.exists():
+        return pd.DataFrame(columns=cols)
+
+    rows = []
+    for line in path.read_text(errors="ignore").splitlines():
+        if line.startswith("#") or not line.strip():
+            continue
+        try:
+            if w_s is None:
+                # Den Hartog table4, whitespace columns:
+                #   0 lam.Air | 1 E_up | 2 J_up | 3 E_low | 4 J_low | 5 BF | 6 e_BF%
+                #   7 Aul | 8 loggf | 9 e_loggf | 10 loggf0 | 11 e_loggf0 | 12 ref
+                # ⚠️ Index 7 is A_ul, NOT log gf. Reading it as log gf gave "paper
+                # +35.503" against our -0.310 and turned 211 of 463 lines into
+                # "mismatches". Caught by spot-checking one line whose value was already
+                # known from the PDF — which is the only reason it did not ship.
+                f = line.split()
+                w, g, u = float(f[0]), float(f[8]), float(f[9])
+            else:                                # Ruffoni: fixed byte fields
+                w = float(line[w_s[0]:w_s[1]])
+                g = float(line[g_s[0]:g_s[1]])
+                u = float(line[u_s[0]:u_s[1]])
+        except (ValueError, IndexError):
+            continue                             # blank field = no measurement for the line
+        if not (2000.0 <= w <= 13000.0):
+            continue
+        rows.append({"paper_wave_A": w, "paper_loggf": g,
+                     "paper_unc_dex": u, "source": key})
+    d = pd.DataFrame(rows, columns=cols)
+    return d.drop_duplicates(subset=["paper_wave_A"]).reset_index(drop=True)
+
+
 def parse_paper(key: str, text: str) -> pd.DataFrame:
     text = _normalise(text)
     rows = []
@@ -163,15 +217,23 @@ def main() -> None:
     if not PAPERS_DIR.is_dir():
         raise SystemExit(f"reference papers not found at {PAPERS_DIR}")
 
-    parsed = {}
+    parsed, origins = {}, {}
     for key, (fname, cite) in PAPERS.items():
         p = PAPERS_DIR / fname
         if not p.exists():
             print(f"  [{key}] MISSING: {fname}")
             continue
-        d = parse_paper(key, pdf_text(p))
+        # Prefer the CDS machine-readable table (the FULL list); fall back to the PDF
+        # excerpt. Which one answered is reported, because "refereed against Table 5"
+        # and "refereed against the whole line list" are different claims.
+        d = parse_cds(key)
+        origin = "CDS full table"
+        if not len(d):
+            d = parse_paper(key, pdf_text(p))
+            origin = "PDF excerpt"
         parsed[key] = d
-        flag = ""
+        origins[key] = origin
+        flag = f"   [{origin}]"
         if not len(d):
             # 0 rows is a PARSE failure until shown otherwise, never "the paper lacks
             # these lines" (RYA-833). pypdf collapses the columns; pdftotext -layout
@@ -239,7 +301,8 @@ def main() -> None:
         "pool_size": int(len(lab)),
         "by_source": {k: int(v) for k, v in lab.source.value_counts().items()},
         "papers": {k: {"file": v[0], "cite": v[1],
-                       "rows_parsed": int(len(parsed.get(k, [])))}
+                       "rows_parsed": int(len(parsed.get(k, []))),
+                       "refereed_from": origins.get(k)}
                    for k, v in PAPERS.items()},
         "n_refereed": int(len(matched)), "n_pool_rows": int(len(t)),
         "coverage_frac": float(len(matched) / max(len(t), 1)),
