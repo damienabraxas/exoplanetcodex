@@ -338,3 +338,40 @@ def test_measure_and_decide_stay_in_separate_modules():
     from pipeline import constraint_gate, fit_constraint
     assert "SYNTH_CONSTRAINT" not in inspect.getsource(fit_constraint)
     assert "SYNTH_CONSTRAINT" in inspect.getsource(constraint_gate)
+
+
+def test_both_serialisers_of_a_line_carry_the_metrics():
+    """🔴 THE SAME OBJECT HAS TWO SERIALISERS AND ONLY ONE IS SAFE.
+
+    `Product.to_frame()` uses `dataclasses.asdict`, so it cannot drop a field. The
+    band-product route's `asdict_line` is HAND-WRITTEN and drops whatever it does not
+    mention — that is the one that lost `red_chi2` for the entire life of the fitter.
+
+    The Engine-B cells (eight of the ten synthesis products) serialise through
+    `to_frame`, the near-UV/NIR route through `asdict_line`. If either drops the metrics
+    the sweep produces a band that looks like it measured nothing, so both are pinned.
+    """
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from derive_band_products import asdict_line
+
+    from pipeline.band_products import LineMeasurement, build_product
+
+    lm = LineMeasurement(element="Fe", ion="I", wavelength_air_A=5000.0,
+                         instrument="kpno_solar_atlas", ew_mA=40.0,
+                         ew_method="SYNTHESIS", abundance=7.5, ew_inversion=False,
+                         sigma_A=0.0731, frac_rise_weaker=12.5,
+                         edge_distance_dex=3.02, red_chi2=48.6)
+    wanted = {"sigma_A": 0.0731, "frac_rise_weaker": 12.5,
+              "edge_distance_dex": 3.02, "red_chi2": 48.6}
+
+    row = asdict_line(lm)
+    for k, v in wanted.items():
+        assert row.get(k) == v, f"asdict_line dropped {k}"
+
+    frame = build_product("Fe", "I", "kpno_solar_atlas", "VIS", "ENGINE-B",
+                          [lm]).to_frame()
+    for k, v in wanted.items():
+        assert k in frame.columns, f"Product.to_frame dropped {k}"
+        assert float(frame.iloc[0][k]) == v
