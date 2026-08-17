@@ -1,0 +1,109 @@
+{
+  "ticket": "RYA-853 scope 2 (Fe I lab pool)",
+  "pool_size": 465,
+  "by_source": {
+    "DenHartog2014": 203,
+    "Ruffoni2014": 142,
+    "Belmonte2017": 120
+  },
+  "papers": {
+    "Ruffoni2014": {
+      "file": "stu780.pdf",
+      "cite": "Ruffoni et al. 2014, MNRAS 441, 3127",
+      "rows_parsed": 35
+    },
+    "DenHartog2014": {
+      "file": "Den_Hartog_2014_ApJS_215_23.pdf",
+      "cite": "Den Hartog et al. 2014, ApJS 215, 23",
+      "rows_parsed": 64
+    },
+    "Belmonte2017": {
+      "file": "Belmonte_2017_ApJ_848_125.pdf",
+      "cite": "Belmonte et al. 2017, ApJ 848, 125",
+      "rows_parsed": 118
+    }
+  },
+  "n_refereed": 217,
+  "n_pool_rows": 465,
+  "coverage_frac": 0.4666666666666667,
+  "n_loggf_mismatch": 10,
+  "n_sigma_mismatch": 44,
+  "loggf_mismatches": [
+    {
+      "source": "DenHartog2014",
+      "wavelength_air_A": 4150.2491,
+      "ours": -1.19,
+      "paper": -1.26,
+      "delta": -0.07000000000000006
+    },
+    {
+      "source": "DenHartog2014",
+      "wavelength_air_A": 8876.0241,
+      "ours": -1.05,
+      "paper": -1.1,
+      "delta": -0.050000000000000044
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 2527.435,
+      "ours": 0.09,
+      "paper": 0.11,
+      "delta": 0.020000000000000004
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 2560.557,
+      "ours": -2.061,
+      "paper": -2.11,
+      "delta": -0.04899999999999993
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 2886.317,
+      "ours": -2.039,
+      "paper": -2.09,
+      "delta": -0.05099999999999971
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 3383.979,
+      "ours": -1.006,
+      "paper": -1.11,
+      "delta": -0.10400000000000009
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 3427.12,
+      "ours": -0.067,
+      "paper": -0.1,
+      "delta": -0.033
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 3779.416,
+      "ours": -2.036,
+      "paper": -1.99,
+      "delta": 0.04600000000000004
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 3821.835,
+      "ours": -1.044,
+      "paper": -1.1,
+      "delta": -0.05600000000000005
+    },
+    {
+      "source": "Belmonte2017",
+      "wavelength_air_A": 3935.307,
+      "ours": -2.199,
+      "paper": -1.82,
+      "delta": 0.3789999999999998
+    }
+  ],
+  "verdict": "DEFECTS FOUND",
+  "caveat": "refereed against the tables PRESENT IN THE PDFs. Ruffoni's full Table 3 is online-only ('Only the first upper level is shown here'), so the unrefereed remainder is UNVERIFIED rather than clean (RYA-833).",
+  "traps": [
+    "Belmonte's table is in NANOMETRES while the Wisconsin tables are in air Angstroms; mixing them matches nothing and reads as 'Belmonte does not cover our lines'",
+    "pdftotext -layout is required \u2014 pypdf's extract_text collapses the columns and the tables become unparseable"
+  ]
+}

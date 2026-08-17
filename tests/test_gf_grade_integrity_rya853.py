@@ -216,3 +216,59 @@ def test_the_transcription_limitation_travels_with_the_numbers(referee):
     this machine. That is a limitation of this run and must not be forgotten."""
     assert referee["vizier_reachable_from_this_machine"] is False
     assert "transcribed" in referee["data_provenance"].lower()
+
+
+# ── scope 2: the Fe I lab pool (the pool RYA-850 promotes) ────────────────────
+
+LABPOOL = ROOT / "data" / "results" / "rya853" / "rya853_fe1_labpool_referee.json"
+
+
+@pytest.fixture(scope="module")
+def labpool():
+    if not LABPOOL.exists():
+        pytest.skip("Fe I lab-pool referee artifact absent")
+    return json.loads(LABPOOL.read_text())
+
+
+def test_the_fe1_lab_pool_is_materially_clean(labpool):
+    """THE RESULT THAT CLEARS RYA-850's POOL. 207 of 217 refereed lines reproduce their
+    source paper's log gf — the opposite of the NIST extracts' 70% failure. If this rate
+    ever drops, 850's graded bars are back in question."""
+    clean = labpool["n_refereed"] - labpool["n_loggf_mismatch"]
+    frac = clean / max(labpool["n_refereed"], 1)
+    assert frac > 0.90, (
+        f"only {frac:.1%} of refereed lab lines reproduce their source — the pool "
+        f"RYA-850 promotes is no longer clean")
+
+
+def test_the_one_real_outlier_is_named(labpool):
+    """Belmonte 3935.307: ours -2.199 vs the paper's -1.820, and its sigma is wrong too
+    (0.070 vs 0.180). Both axes disagree on one line — a bad row, not rounding."""
+    big = [m for m in labpool["loggf_mismatches"] if abs(m["delta"]) > 0.15]
+    assert len(big) == 1
+    assert abs(big[0]["wavelength_air_A"] - 3935.307) < 0.01
+
+
+def test_the_unrefereed_remainder_is_not_called_clean(labpool):
+    """53% of the pool sits in the papers' online-only tables. Absent from the check is
+    not the same as verified (RYA-833)."""
+    assert labpool["coverage_frac"] < 0.6
+    assert "UNVERIFIED" in labpool["caveat"] or "unverified" in labpool["caveat"].lower()
+
+
+def test_the_encoding_traps_are_recorded(labpool):
+    """Each produced a confident wrong answer: the unicode minus turned 95 of 99 lines into
+    'mismatches' of exactly twice their value, and PUA padding made Belmonte look like it
+    covered none of our lines."""
+    traps = " ".join(labpool["traps"]).lower()
+    assert "nanometre" in traps or "nanometres" in traps
+    assert "pdftotext" in traps
+    src = (ROOT / "scripts" / "rya853_fe1_labpool_referee.py").read_text()
+    assert "u2212" in src.lower(), "the unicode-minus guard is gone"
+    assert "uf8ff" in src.lower(), "the private-use-area guard is gone"
+
+
+def test_belmonte_coverage_did_not_silently_collapse(labpool):
+    """Belmonte covers 98.3% of its own pool lines. A drop to zero means the PUA/± parse
+    broke again, not that the paper stopped covering them."""
+    assert labpool["papers"]["Belmonte2017"]["rows_parsed"] > 100
