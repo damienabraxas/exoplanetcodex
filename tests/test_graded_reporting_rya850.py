@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from pipeline import error_budget                              # noqa: E402
 from pipeline.error_budget import (GRADED_GF_SYSTEMATIC_DEX,  # noqa: E402
                                    UNGRADED_GF_SYSTEMATIC_DEX, build)
 from pipeline.graded_reporting import (base_treatment, element_table,  # noqa: E402
@@ -141,35 +142,60 @@ def test_no_combined_cross_band_value_is_computed(summary):
         "the band-to-band spread must be REPORTED rather than collapsed")
 
 
-def test_the_generic_graded_term_understates_the_measured_lab_sigma(summary):
-    """The cited laboratory sigma of EVERY graded pool exceeds the generic NIST grade-B
-    bound, so wiring the generic term publishes a bar tighter than the pool's own
-    oscillator-strength uncertainty supports.
+def test_the_published_bar_uses_the_cited_lab_sigma_not_the_generic_bound(summary):
+    """Ryan's decision (2026-08-17, recorded on RYA-850): the pool's OWN cited laboratory
+    sigma sets the published bar. The generic 0.041 is a BOUND -- the worst grade we
+    accept -- and a bound is the right answer only while the actual sigmas are unknown.
 
-    RYA-853 refereed this table against the source papers — Ruffoni 142/142 and Den Hartog
-    203/203 perfect on value AND cited sigma — so the cited figure is audited data rather
-    than a plausible-looking alternative. It is derived from each pool's own lines here,
-    not hardcoded, and reproduces RYA-824's published 0.0524 / 0.0600."""
+    RYA-853 refereed this table against the source papers (Ruffoni 142/142, Den Hartog
+    203/203 perfect on value AND cited sigma), so the term is audited data. It is derived
+    from each pool's own lines rather than hardcoded, and reproduces RYA-824's published
+    0.0524 / 0.0600 -- the check that it is the same quantity 824 meant."""
+    assert summary["gf_term_published"] == "cited"
     cited = summary["cited_gf_sigma_by_band"]
     assert set(cited) >= {"VIS", "red-optical", "near-UV"}, (
         "a graded band lost its cited-sigma derivation")
     for band, c in cited.items():
+        assert c["usable"], f"{band}: cited sigma refused — pool coverage dropped"
         assert c["cited_sigma"] > GRADED_GF_SYSTEMATIC_DEX, (
-            f"{band}: the cited lab sigma no longer exceeds the generic term")
+            f"{band}: the cited lab sigma no longer exceeds the generic bound")
     assert cited["red-optical"]["cited_sigma"] == pytest.approx(0.0524, abs=5e-4)
     assert cited["VIS"]["cited_sigma"] == pytest.approx(0.0600, abs=5e-4)
 
 
-def test_the_cited_sigma_variant_is_reported_for_every_graded_cell(summary):
-    """All three graded cells get the comparison, not just the two wired from RYA-824.
-    The near-UV moves only +2.6% because its 0.100 dex continuum term dominates — which is
-    itself worth seeing, since it says where the choice actually matters."""
-    cells = {c["band"]: c for c in summary["cells_with_cited_sigma"]}
+def test_every_graded_cell_travels_the_same_gf_convention(summary):
+    """All three graded cells are recharged, not just the one that arrived from the
+    matrix. If the near-UV kept the bound while the other two moved, the band-to-band
+    spread would be comparing two different definitions of the bar."""
+    cells = {c["band"]: c for c in summary["cells_recharged_to_cited"]}
     assert set(cells) == {"VIS", "red-optical", "near-UV"}
     for c in cells.values():
         assert c["total_cited"] > c["total_generic"], (
             f"{c['band']}: the cited sigma no longer widens the bar — re-derive")
-    assert cells["near-UV"]["pct"] < 5.0 < cells["VIS"]["pct"]
+
+
+def test_the_near_uv_barely_moves_because_its_continuum_term_dominates(summary):
+    """Where the choice of gf term actually matters is a result, not a detail: the two
+    EW-route bands move 15-25% while the near-UV moves under 5%, because RYA-841's 0.100
+    dex pseudo-continuum term swamps any gf term there."""
+    cells = {c["band"]: c for c in summary["cells_recharged_to_cited"]}
+    pct = {b: 100.0 * (c["total_cited"] / c["total_generic"] - 1.0)
+           for b, c in cells.items()}
+    assert pct["near-UV"] < 5.0 < pct["VIS"]
+
+
+def test_a_partly_covered_pool_refuses_the_cited_term(summary):
+    """The RMS of a pool's cited sigmas describes the pool only if it covers the pool --
+    otherwise the unmatched lines silently inherit the matched ones' uncertainty. And a
+    wavelength window is not a unique line ID (RYA-853): ambiguous matches are counted as
+    UNMATCHED rather than resolved by iloc[0], which is how RYA-853 manufactured 12-dex
+    'defects'. The near-UV pool is the live case -- 2 of its 60 lines are ambiguous."""
+    cited = summary["cited_gf_sigma_by_band"]
+    assert cited["near-UV"]["ambiguous"] == 2, (
+        "the near-UV ambiguity count moved — re-check the lab table before trusting sigma")
+    assert cited["near-UV"]["n"] == 58
+    for band, c in cited.items():
+        assert c["usable"] == (c["coverage"] >= 0.90)
 
 
 def test_the_pre_847_caveat_travels_with_the_numbers(summary):
@@ -185,3 +211,55 @@ def test_the_plus_minus_is_visible_in_the_reported_string():
     """Spec item 4: the main table shows the value WITH its uncertainty."""
     assert format_value(7.577, 0.1375) == "7.577 +/- 0.138"
     assert format_value(7.577, float("nan")).endswith("n/a")
+
+
+# ── the cited gf term itself, as a pipeline primitive ────────────────────────────────
+# Tested at the error_budget level rather than only through the script, because the term
+# is general: any element that acquires a lab-gf pool inherits it, and a defect here would
+# reach a published bar for an element nobody was looking at.
+
+def test_the_cited_term_replaces_the_generic_one_rather_than_joining_it():
+    """Both terms describe the SAME quantity — the oscillator strengths' contribution —
+    so a budget carrying both would double-count it."""
+    b = error_budget.build("Fe", 8000.0, 20, scatter_dex=0.10, gf_graded=True,
+                           harness_residual_dex=0.0129, handler="ProfileFitHandler",
+                           cited_gf_sigma_dex=0.0524, cited_gf_source="Ruffoni+2014")
+    gf = [t for t in b.terms if "gf" in t.name.lower()]
+    assert len(gf) == 1, f"expected exactly one gf term, got {[t.name for t in gf]}"
+    assert gf[0].dex == pytest.approx(0.0524)
+
+
+def test_the_cited_term_is_refused_on_an_ungraded_pool():
+    """An ungraded Kurucz line has no published per-line sigma to average, so a cited
+    sigma arriving with gf_graded=False is a caller error — not a silent preference for
+    whichever term happens to be tighter."""
+    with pytest.raises(ValueError, match="graded"):
+        error_budget.build("Fe", 8000.0, 20, scatter_dex=0.10, gf_graded=False,
+                           harness_residual_dex=0.0129, handler="ProfileFitHandler",
+                           cited_gf_sigma_dex=0.0524, cited_gf_source="Ruffoni+2014")
+
+
+def test_the_cited_term_must_name_its_papers():
+    """RYA-799: a budget term's source is never 'assumed'. A number that sets a published
+    bar has to say where it came from, and an unsourced one is refused at construction."""
+    with pytest.raises(ValueError, match="source"):
+        error_budget.build("Fe", 8000.0, 20, scatter_dex=0.10, gf_graded=True,
+                           harness_residual_dex=0.0129, handler="ProfileFitHandler",
+                           cited_gf_sigma_dex=0.0524)
+
+
+def test_the_cited_term_is_not_clamped_to_the_generic_bound():
+    """A pool of grade-A lines would legitimately come out BELOW 0.041, and clamping to
+    the bound would turn a measurement back into the assumption it supersedes. Here the
+    Fe pools happen to land above it; the primitive must not depend on that."""
+    t = error_budget.cited_gf_term(0.013, n_lines=12, source="hypothetical grade-A pool")
+    assert t.dex == pytest.approx(0.013)
+    assert not t.averages_down, "a gf scale offset does not average down with more lines"
+
+
+def test_a_nonsense_cited_sigma_is_refused_not_absorbed():
+    """A NaN would propagate silently through the quadrature sum and surface as a NaN bar
+    on a published value; a zero would claim perfectly known oscillator strengths."""
+    for bad in (float("nan"), 0.0, -0.05):
+        with pytest.raises(ValueError):
+            error_budget.cited_gf_term(bad, n_lines=12, source="x")
