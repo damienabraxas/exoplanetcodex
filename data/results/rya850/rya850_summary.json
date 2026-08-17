@@ -11,8 +11,8 @@
       "A": 7.445,
       "n_lines": 9,
       "stat_dex": 0.0394,
-      "syst_dex": 0.043,
-      "total_dex": 0.058321179686285494,
+      "syst_dex": 0.0614,
+      "total_dex": 0.07295423222815794,
       "ungraded_total_dex": 0.17320652412654672,
       "graded_beats_ungraded": true
     },
@@ -23,8 +23,8 @@
       "A": 7.577,
       "n_lines": 59,
       "stat_dex": 0.0849,
-      "syst_dex": 0.1081,
-      "total_dex": 0.13745406505447555,
+      "syst_dex": 0.1128,
+      "total_dex": 0.14118020399475276,
       "ungraded_total_dex": 0.20769901299717336,
       "graded_beats_ungraded": true
     },
@@ -35,59 +35,63 @@
       "A": 7.516,
       "n_lines": 20,
       "stat_dex": 0.0225,
-      "syst_dex": 0.0524,
-      "total_dex": 0.05702639739629359,
+      "syst_dex": 0.0618,
+      "total_dex": 0.0657684574853326,
       "ungraded_total_dex": 0.1767027447438211,
       "graded_beats_ungraded": true
     }
   ],
+  "gf_term_published": "cited",
   "cited_gf_sigma_by_band": {
     "red-optical": {
       "n": 20,
-      "cited_sigma": 0.05244044240850758
+      "n_pool": 20,
+      "coverage": 1.0,
+      "ambiguous": 0,
+      "cited_sigma": 0.05244044240850758,
+      "usable": true
     },
     "VIS": {
       "n": 9,
-      "cited_sigma": 0.060000000000000005
+      "n_pool": 9,
+      "coverage": 1.0,
+      "ambiguous": 0,
+      "cited_sigma": 0.060000000000000005,
+      "usable": true
     },
     "near-UV": {
-      "n": 60,
-      "cited_sigma": 0.05183306537980044
+      "n": 58,
+      "n_pool": 60,
+      "coverage": 0.9666666666666667,
+      "ambiguous": 2,
+      "cited_sigma": 0.05219327476825422,
+      "usable": true
     }
   },
-  "cells_with_cited_sigma": [
-    {
-      "band": "VIS",
-      "engine": "1D-LTE",
-      "A": 7.445,
-      "cited_sigma": 0.060000000000000005,
-      "syst_generic": 0.043,
-      "syst_cited": 0.061371084396481056,
-      "total_generic": 0.058321179686285494,
-      "total_cited": 0.07292989784717925,
-      "pct": 25.04873570712265
-    },
+  "cells_recharged_to_cited": [
     {
       "band": "near-UV",
-      "engine": "1D-LTE",
-      "A": 7.577,
-      "cited_sigma": 0.05183306537980044,
+      "engine": "1D-LTE-LABGF",
       "syst_generic": 0.1081,
-      "syst_cited": 0.11263510406026475,
+      "syst_cited": 0.1128,
       "total_generic": 0.13745406505447555,
-      "total_cited": 0.14104849047992918,
-      "pct": 2.6150011816886476
+      "total_cited": 0.14118020399475276
     },
     {
       "band": "red-optical",
-      "engine": "1D-LTE",
-      "A": 7.516,
-      "cited_sigma": 0.05244044240850758,
+      "engine": "1D-LTE-LABGF",
       "syst_generic": 0.0524,
-      "syst_cited": 0.06177709931681804,
+      "syst_cited": 0.0618,
       "total_generic": 0.05702639739629359,
-      "total_cited": 0.06574693909224977,
-      "pct": 15.29211399302417
+      "total_cited": 0.0657684574853326
+    },
+    {
+      "band": "VIS",
+      "engine": "1D-LTE-LABGF",
+      "syst_generic": 0.043,
+      "syst_cited": 0.0614,
+      "total_generic": 0.058321179686285494,
+      "total_cited": 0.07295423222815794
     }
   ],
   "graded_consistency": [
@@ -95,22 +99,22 @@
       "a": "VIS",
       "b": "near-UV",
       "delta": -0.13199999999999967,
-      "combined_sigma": 0.1493150360814342,
-      "n_sigma": 0.8840368891449675
+      "combined_sigma": 0.1589156065337826,
+      "n_sigma": 0.8306295579090205
     },
     {
       "a": "VIS",
       "b": "red-optical",
       "delta": -0.07099999999999973,
-      "combined_sigma": 0.08156819233009888,
-      "n_sigma": 0.8704373355813666
+      "combined_sigma": 0.09822326608293984,
+      "n_sigma": 0.7228429966892697
     },
     {
       "a": "near-UV",
       "b": "red-optical",
       "delta": 0.06099999999999994,
-      "combined_sigma": 0.14881407863505386,
-      "n_sigma": 0.4099074533774058
+      "combined_sigma": 0.1557476805605785,
+      "n_sigma": 0.3916591231435631
     }
   ],
   "graded_band_spread_dex": 0.13199999999999967,
