@@ -162,6 +162,42 @@ def main() -> None:
     print(f"[stored] {len(stored)} rows across "
           f"{stored.stored_file.nunique()} hand-maintained NIST extracts")
 
+    # ── the offline guard: the two extracts must agree with EACH OTHER ───────────
+    # This needs no network and no NIST. The two files are meant to describe the same
+    # lines, so where they disagree at least one is wrong -- and that is detectable on a
+    # laptop, every CI run, long after any particular ASD version has moved on.
+    ref = stored[stored.stored_file == "nist_reference"]
+    xc = stored[stored.stored_file == "nist_crosscheck"]
+    disagree = []
+    for _, a in xc.iterrows():
+        m = ref[(ref.element == a.element) & (ref.ion == a.ion)
+                & (np.abs(ref.wavelength_air_A - a.wavelength_air_A) <= 0.05)]
+        if not len(m):
+            continue
+        b = m.iloc[0]
+        if str(a.nist_grade).strip() != str(b.nist_grade).strip():
+            disagree.append({"element": f"{a.element} {a.ion}",
+                             "wavelength_air_A": float(a.wavelength_air_A),
+                             "crosscheck_grade": str(a.nist_grade).strip(),
+                             "reference_grade": str(b.nist_grade).strip(),
+                             "kind": "grade"})
+        if abs(float(a.log_gf) - float(b.log_gf)) > VALUE_TOL_DEX:
+            disagree.append({"element": f"{a.element} {a.ion}",
+                             "wavelength_air_A": float(a.wavelength_air_A),
+                             "crosscheck_loggf": float(a.log_gf),
+                             "reference_loggf": float(b.log_gf),
+                             "kind": "value"})
+    print(f"\n=== the two extracts against EACH OTHER (offline, no NIST needed) ===")
+    print(f"  {len(disagree)} disagreements on lines both files carry")
+    for x in disagree:
+        if x["kind"] == "grade":
+            print(f"  {x['element']:<7}{x['wavelength_air_A']:9.3f}  grade "
+                  f"{x['reference_grade']} (reference) vs {x['crosscheck_grade']} "
+                  f"(crosscheck)")
+        else:
+            print(f"  {x['element']:<7}{x['wavelength_air_A']:9.3f}  log gf "
+                  f"{x['reference_loggf']:+.3f} vs {x['crosscheck_loggf']:+.3f}")
+
     guards = audit_cross_match_guards()
     print(f"\n=== scope 4: cross-match guards ===")
     for s in guards["sites"]:
@@ -288,6 +324,7 @@ def main() -> None:
              "delta": float(r.delta_loggf), "file": r.stored_file}
             for _, r in bad_value.iterrows()],
         "cross_match_guards": guards,
+        "internal_disagreements": disagree,
         "known_precedent": ("nist_reference.csv's own header records that RYA-592 "
                             "re-verified the Mg I rows ONLY and found the accuracy CODE "
                             "wrong there too (stored A, ASD says B+ and B), and warns "
