@@ -165,6 +165,20 @@ def load_rows(csv_path: Path) -> list[dict[str, str]]:
         if not r["url"] and not r["license_note"]:
             problems.append(f"{r['key']}: no url AND no note explaining why "
                             f"-- an absent link must say why it is absent")
+        # `unconfirmed` claims "no stable public identifier for this source could be
+        # found", so a row wearing that badge must not also be showing a link. The
+        # implication runs ONE way only, and the converse is deliberately NOT asserted:
+        # `verified` records how the METADATA was confirmed, while url/doi record
+        # whether a PUBLIC LINK exists, and those are two independent axes. An
+        # unpublished project document read straight off the PDF is `extracted` with no
+        # url and is not "unconfirmed" -- conflating the axes would force a false badge
+        # onto it. (The first version of this check asserted both directions and did
+        # exactly that.)
+        if r["verified"] == "unconfirmed" and (r["url"] or r["doi"]):
+            problems.append(
+                f"{r['key']}: verified='unconfirmed' but carries doi={r['doi']!r} / "
+                f"url={r['url']!r} -- a row claiming nothing could be found must not "
+                f"display a link")
     if problems:
         for p in problems:
             print(f"::error::bibliography: {p}", file=sys.stderr)
@@ -322,9 +336,12 @@ def render(rows: list[dict[str, str]], digest: str) -> str:
     a('  <link rel="icon" href="/favicon.ico" sizes="any">')
     a('  <link rel="apple-touch-icon" href="/apple-touch-icon.png">')
     a('  <link rel="preconnect" href="https://fonts.googleapis.com">')
+    # The other 22 site pages write these separators as a raw '&', which browsers
+    # tolerate but which is not valid HTML. Emitting '&amp;' renders identically and
+    # parses cleanly -- the only ampersand on the page that had to be escaped.
     a('  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,'
-      '400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400'
-      '&display=swap" rel="stylesheet">')
+      '400;0,700;1,400&amp;family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400'
+      '&amp;display=swap" rel="stylesheet">')
     a('  <link rel="stylesheet" href="/assets/css/codex.css">')
     a("  <style>")
     a(STYLE)
