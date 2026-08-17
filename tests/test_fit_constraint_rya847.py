@@ -256,3 +256,85 @@ def test_an_exclusion_without_a_reason_is_called_out():
     import inspect
     src = inspect.getsource(ve.excluded_lines_section)
     assert "NO REASON RECORDED" in src
+
+
+# ── the decider (pipeline/constraint_gate.py) ─────────────────────────────────
+
+def _metrics(**kw):
+    from pipeline.fit_constraint import ConstraintMetrics
+    base = dict(sigma_A=0.05, frac_rise_lo=10.0, frac_rise_hi=20.0,
+                frac_rise_weaker=10.0, edge_distance_dex=3.0, red_chi2=50.0,
+                n_probe_evals=4)
+    base.update(kw)
+    return ConstraintMetrics(**base)
+
+
+def test_no_ratified_cut_gates_nothing_and_says_so():
+    """🔴 THE STATE THAT MATTERS. RYA-843's defect was not a wrong threshold — it was
+    that nobody could see there was no threshold. Unratified must be LOUD, not silent."""
+    from pipeline import constraint_gate as g
+    v = g.verdict(_metrics(sigma_A=999.0))
+    assert v.ok is True and v.ratified is False
+    d = g.describe()
+    assert "NOT RATIFIED" in d and "RYA-161" in d
+
+
+def test_a_cut_is_never_defaulted_from_the_chi2_gate():
+    """SYNTH_CHI2_GATE exists and is tempting and does NOT transfer. Inheriting it would
+    refuse a good NIR line at red_chi2 = 72 and all 40 near-UV lines."""
+    from config import constants
+    assert getattr(constants, "SYNTH_CONSTRAINT", "missing") is None
+    assert constants.SYNTH_CHI2_GATE == 10.0, "unchanged; a different question"
+
+
+def test_a_ratified_cut_excludes_and_explains(monkeypatch):
+    from config import constants
+    from pipeline import constraint_gate as g
+    monkeypatch.setattr(constants, "SYNTH_CONSTRAINT", ("sigma_A", 0.5), raising=False)
+    ok = g.verdict(_metrics(sigma_A=0.05))
+    bad = g.verdict(_metrics(sigma_A=0.90))
+    assert ok.ok and ok.ratified and ok.reason == ""
+    assert not bad.ok and bad.ratified
+    assert "UNCONSTRAINED FIT" in bad.reason and "0.9" in bad.reason
+    assert "RYA-711" in bad.reason, "a quarantined line is retained, never dropped"
+    assert "NOT RATIFIED" not in g.describe()
+
+
+def test_not_measurable_is_the_STRONGEST_failure_not_a_pass(monkeypatch):
+    """🔴 NaN sigma_A means the curvature could not be inverted — railed, or flat. Letting
+    it through as 'no data' would admit exactly the fits this gate exists to catch."""
+    from config import constants
+    from pipeline import constraint_gate as g
+    monkeypatch.setattr(constants, "SYNTH_CONSTRAINT", ("sigma_A", 0.5), raising=False)
+    for v in (float("nan"), None):
+        r = g.verdict(_metrics(sigma_A=v) if v is not None else {"sigma_A": None})
+        assert not r.ok, f"{v!r} must fail the gate"
+        assert "not measurable" in r.reason
+
+
+def test_a_lower_is_worse_metric_is_applied_in_the_right_direction(monkeypatch):
+    """frac_rise fails LOW (flat chi2), sigma_A fails HIGH. Getting this backwards would
+    exclude precisely the well-constrained lines."""
+    from config import constants
+    from pipeline import constraint_gate as g
+    monkeypatch.setattr(constants, "SYNTH_CONSTRAINT",
+                        ("frac_rise_weaker", 1.0), raising=False)
+    assert g.verdict(_metrics(frac_rise_weaker=10.0)).ok
+    assert not g.verdict(_metrics(frac_rise_weaker=0.02)).ok
+
+
+def test_an_unknown_metric_fails_loudly_rather_than_passing_everything(monkeypatch):
+    from config import constants
+    from pipeline import constraint_gate as g
+    monkeypatch.setattr(constants, "SYNTH_CONSTRAINT", ("wibble", 1.0), raising=False)
+    with pytest.raises(g.ConstraintGateError):
+        g.verdict(_metrics())
+
+
+def test_measure_and_decide_stay_in_separate_modules():
+    """The firewall. A threshold in the measurer is how the cut gets chosen from whatever
+    product is in front of whoever is editing (RYA-161)."""
+    import inspect
+    from pipeline import constraint_gate, fit_constraint
+    assert "SYNTH_CONSTRAINT" not in inspect.getsource(fit_constraint)
+    assert "SYNTH_CONSTRAINT" in inspect.getsource(constraint_gate)
