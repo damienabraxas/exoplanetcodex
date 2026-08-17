@@ -720,6 +720,64 @@ def _synth_window(sw_nm, atm, params, ll, iso, sab, fixed_ab,
 _SIGMA_FLUX = 0.01
 _WSTEP_NM = 0.0002          # fine synthesis grid (0.002 Angstrom)
 
+#: Curvature-probe step, in dex. Small enough to stay in the parabolic neighbourhood of
+#: the minimum, large enough that Delta-chi2 clears numerical noise.
+CURVATURE_PROBE_STEP_DEX = 0.05
+
+
+def curvature_sigma(chi2_fn, *, a_best: float, chi2_min: float, red_chi2: float,
+                    a_lo: float, a_hi: float, edge: bool,
+                    step: float = CURVATURE_PROBE_STEP_DEX) -> float:
+    """1σ on the abundance from the local χ² curvature. NaN when it is not measurable.
+
+    Pulled out of `_fit_element` as a pure function so it can be tested without
+    Turbospectrum — the two defects below lived here for as long as they did partly
+    because reaching them required a full synthesis run. RYA-847 will hoist this to
+    cover `abundances_derive._fit_synth_flux` too; today those are separate copies.
+
+    🔴 THIS IS THE PUBLISHED σ_stat FOR N AND O. `_uncertainty_budget` reads it straight
+    into `stat['N']` / `stat['O']`, which land in `{solar,procyon}_vis_cno_product.csv`.
+    Two defects in it were two defects in the C/O flagship's error bar (RYA-848).
+
+    (a) Δχ² = 1 MEANS ONE σ ONLY IF χ² IS CALIBRATED, AND IT IS NOT.
+        `_SIGMA_FLUX` is a 0.01 model-adequacy placeholder, not a per-pixel error, so the
+        raw Δχ² scale is arbitrary. Every committed CNO band runs red_chi2 = 16-67, and an
+        uncalibrated χ² that is N times too large makes Δχ² N times too large and σ
+        sqrt(N) times too SMALL — the published solar O σ_stat was understated ~8x. So χ²
+        is rescaled here so red_chi2 == 1. Δχ² is a DIFFERENCE, so any constant offset
+        (model-inadequacy floor, unmodelled blanketing) cancels and only the curvature
+        survives — which is why this form compares across bands where an absolute
+        red_chi2 does not (RYA-843).
+
+    (b) THE OLD PROBE COULD NOT STEP, AND REPORTED PERFECTION INSTEAD OF SAYING SO.
+        It was `a_hi_probe = min(a_best + step, a_hi)`: one-sided, and clamped at the
+        upper bound. A fit sitting ON that bound got a ZERO-LENGTH step, `dchi` floored at
+        1e-6, and σ = 0/1e-3 = **0.000** — the tightest possible error bar for the least
+        constrained possible fit. Probing both sides fixes the arithmetic; and a railed
+        fit now reports NOT MEASURABLE rather than a number, because on the rail side the
+        abundance is not bounded at all and there is no curvature to invert. `status`
+        already says `edge_pinned`; σ agrees with it now instead of contradicting it.
+
+    The worse-constrained side is taken rather than the average: for a true parabola the
+    two agree, and where they do not, the honest σ is the larger one.
+
+    Costs one extra χ² evaluation per band versus the one-sided probe.
+    """
+    if edge:
+        return float('nan')
+    sig = []
+    for probe in (a_best - step, a_best + step):
+        if not (a_lo <= probe <= a_hi):
+            continue                          # never step outside the bracket
+        d_raw = chi2_fn(probe) - chi2_min
+        if d_raw <= 0.0:
+            continue                          # not a minimum in this direction
+        if red_chi2 <= 0.0 or not np.isfinite(red_chi2):
+            continue
+        d_rescaled = d_raw / red_chi2         # (a)
+        sig.append(abs(probe - a_best) / np.sqrt(d_rescaled))
+    return float(max(sig)) if sig else float('nan')
+
 
 def _fit_element(obs_w_nm, obs_f, atm, params, free_el, state, codes,
                  windows_A, use_molecules, broadening, a_lo, a_hi,
@@ -776,14 +834,32 @@ def _fit_element(obs_w_nm, obs_f, atm, params, free_el, state, codes,
     dof = max(n_pix - 1, 1)
     chi2_min = chi2(a_best)
     red_chi2 = chi2_min / dof
-    # 1σ fit uncertainty from the χ² parabola: Δχ² = 1 above the minimum. Probe a
-    # small step and invert the local curvature (σ_A = step / sqrt(Δχ²_step)).
-    step = 0.05
-    a_hi_probe = min(a_best + step, a_hi)
-    dchi = max(chi2(a_hi_probe) - chi2_min, 1e-6)
-    sigma_fit = float(abs(a_hi_probe - a_best) / np.sqrt(dchi))
-    sigma_fit = float(np.clip(sigma_fit, 0.0, 1.0))
     edge = min(abs(a_best - a_lo), abs(a_best - a_hi)) < 1e-2
+    # σ from the χ² curvature. The rationale lives in `curvature_sigma`'s docstring and
+    # is deliberately NOT restated here: this value is the published σ_stat for N and O,
+    # and a second copy of the reasoning beside the call is how a number drifts from its
+    # own justification (RYA-845).
+    #
+    # 🔴 THE np.clip BELOW IS LEFT IN PLACE ON PURPOSE, AND IT NOW BITES A PUBLISHED
+    # NUMBER. The clip is the third defect and it belongs to RYA-847, which needs its
+    # sweep's constraint metric to define "unconstrained"; fixing it here would back-fit
+    # that criterion from CNO.
+    #
+    # But the rescale makes the clip MORE binding, not less — σ grows by sqrt(red_chi2)
+    # — and MEASURED on the solar re-run, CN_red lands ON the clip. So solar N publishes
+    # sigma_stat = 1.000, a clipped sentinel wearing the shape of a measured 1 dex, in
+    # `solar_vis_cno_product.csv`. (An earlier draft of this comment predicted N would
+    # land at 0.554 and be safe. The run refuted it; the prediction was arithmetic on the
+    # OLD one-sided σ, and the two-sided probe finds the shallow side that the clamped
+    # probe never looked at.) Named in RYA-848's End-of-Session as a hand-off, not
+    # silently shipped.
+    #
+    # The same fix UNCLIPS CI_5380 (1.000 -> 0.057): its old one-sided probe was clamped
+    # and failed, and the lower side had real curvature all along.
+    sigma_fit = curvature_sigma(chi2, a_best=a_best, chi2_min=chi2_min,
+                                red_chi2=red_chi2, a_lo=a_lo, a_hi=a_hi, edge=edge)
+    if np.isfinite(sigma_fit):
+        sigma_fit = float(np.clip(sigma_fit, 0.0, 1.0))   # RYA-847 owns removing this
     return {'A_X': round(a_best, 3), 'red_chi2': round(float(red_chi2), 3),
             'sigma_fit': round(sigma_fit, 3), 'n_pix': n_pix,
             'n_eval': int(n_eval[0]),
