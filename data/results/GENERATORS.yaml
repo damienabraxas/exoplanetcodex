@@ -943,3 +943,31 @@ artifacts:
       phrasings, 3 guessed catalog IDs empty) -- an absence in the SEARCH, not the source
       (RYA-833). Until it runs, RYA-852's solar-fitting hypothesis is UNRESOLVED, not
       supported, and Ryan's NIST-is-the-outlier counter-evidence is equally untested.
+  - artifact: rya853/rya853_dh19_referee.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      Scope 3. Our Fe II log gf against Den Hartog 2019's ten optical PURE-LAB values
+      (BF x LIF lifetimes, no solar normalisation) and against live NIST, all EP-matched on
+      both sides. The referee has to be solar-free because the question is whether our
+      scale is solar-fitted.
+  - artifact: rya853/rya853_dh19_referee.json
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      VERDICT INCONCLUSIVE, and that is the result. ours - DH = +0.020 with a 95% CI of
+      [-0.070, +0.160], which covers BOTH the pure-lab prediction (~0) and the solar-fitted
+      one (~+0.13) -- ten lines spanning 0.6 dex cannot choose. ⚠️ A first pass thresholded
+      on |median| <= 0.05 and returned "LEGITIMATE, hypothesis REFUTED", which was
+      overreading a median whose uncertainty is 3x its size; the CI is now the verdict rule.
+      ✅ The counter-evidence is confirmed in DIRECTION: NIST - DH = +0.124, i.e. NIST sits
+      ABOVE pure lab and therefore yields the LOWER abundance Den Hartog reports (7.31 vs
+      7.46). 🔴 AND THE PREMISE DOES NOT HOLD: ours - NIST is -0.066 on the blue overlap
+      (4173-4584 A) against +0.106 on the red pool (5256-6456 A) -- swing 0.172 dex, SIGN
+      FLIPS -- so RYA-852's "+0.106 pool-wide" is not a scale property, and there is no
+      single "our Fe II scale" to referee. ⚠️ The three arbiter lines are REDWARD of DH19's
+      4584 A ceiling and are NOT refereed here. ⚠️ VizieR J/ApJS/243/33 returns 0 tables
+      from Sirius, so the ten values are TRANSCRIBED from the PDF and this run is not
+      network-reproducible; the full Table 6 (131 lines) would settle it.

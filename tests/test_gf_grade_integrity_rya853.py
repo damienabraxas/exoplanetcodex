@@ -153,3 +153,66 @@ def test_the_dh19_referee_is_marked_owed_not_answered(summary):
     assert "n_grade_mismatch" in summary
     # the audit must not claim the scale offset was characterised
     assert "scale_offset_verdict" not in summary
+
+
+# ── scope 3: the DH19 referee ─────────────────────────────────────────────────
+
+REFEREE = ROOT / "data" / "results" / "rya853" / "rya853_dh19_referee.json"
+
+
+@pytest.fixture(scope="module")
+def referee():
+    if not REFEREE.exists():
+        pytest.skip("DH19 referee artifact absent")
+    return json.loads(REFEREE.read_text())
+
+
+def test_the_referee_is_pure_lab(referee):
+    """A referee that touched the solar spectrum could not settle a question about solar
+    fitting. DH19 is branching fractions x LIF lifetimes — no solar normalisation."""
+    assert "pure lab" in referee["referee"].lower()
+    assert "BF" in referee["referee"] or "LIF" in referee["referee"]
+
+
+def test_the_referee_does_not_claim_to_have_settled_it(referee):
+    """THE POINT. ours - DH is +0.020 with a CI of [-0.070, +0.160], which covers BOTH the
+    pure-lab prediction (~0) and the solar-fitted one (~+0.13). My first pass thresholded
+    on |median| <= 0.05 and returned 'LEGITIMATE — hypothesis REFUTED', which was
+    overreading a median whose uncertainty is three times its size."""
+    lo, hi = referee["ours_minus_dh"]["ci95"]
+    assert lo <= 0.0 <= hi, "the CI no longer covers the pure-lab prediction"
+    assert lo <= 0.13 <= hi, "the CI no longer covers the solar-fitted prediction"
+    assert "INCONCLUSIVE" in referee["verdict"], (
+        "the referee now claims a verdict — check that the CI actually separates the two "
+        "readings before believing it")
+
+
+def test_the_counter_evidence_is_confirmed_in_direction(referee):
+    """NIST - DH > 0: NIST's Fe II gf sit ABOVE pure lab, which yields the LOWER abundance
+    Den Hartog 2019 reports (NIST 7.31 vs DH 7.46). Higher gf, lower abundance."""
+    assert referee["nist_minus_dh"]["median"] > 0.05
+
+
+def test_the_offset_against_nist_is_band_dependent(referee):
+    """🔴 The premise of the question does not hold. RYA-852's '+0.106 pool-wide' was
+    measured on the RED pool alone; on the blue overlap the offset is negative. There is no
+    single 'our Fe II scale' to referee."""
+    b = referee["band_dependence"]
+    assert b is not None
+    assert b["sign_flips"] is True, (
+        "the offset no longer flips sign between bands — RYA-852's pool-wide framing may "
+        "be recoverable, so re-derive")
+    assert abs(b["swing_dex"]) > 0.1
+
+
+def test_the_arbiter_lines_are_not_claimed_to_be_refereed(referee):
+    """DH19's optical set stops at 4584 A; the three arbiter lines are redward of it."""
+    assert "arbiter" in referee["caveat"].lower()
+    assert referee["overlap_A"][1] < 6000.0
+
+
+def test_the_transcription_limitation_travels_with_the_numbers(referee):
+    """The values came from a PDF because VizieR returns 0 tables for the catalog ID from
+    this machine. That is a limitation of this run and must not be forgotten."""
+    assert referee["vizier_reachable_from_this_machine"] is False
+    assert "transcribed" in referee["data_provenance"].lower()
