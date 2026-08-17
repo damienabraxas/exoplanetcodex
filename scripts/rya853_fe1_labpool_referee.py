@@ -115,7 +115,23 @@ def _num(tok: str) -> float:
     return float(tok.replace("\u2212", "-").replace("\u2013", "-").replace("\u2014", "-"))
 
 
+def _normalise(text: str) -> str:
+    """Strip the typography that silently defeats naive parsing.
+
+    🔴 Journal PDFs are not ASCII. Two traps hit this script, each of which produced a
+    confident wrong answer before being found:
+      * U+2212 MINUS SIGN instead of '-', which made every negative log gf come back
+        POSITIVE and reported 95 of 99 lines as mismatched by exactly twice their value;
+      * U+F0A0 (PRIVATE USE AREA) padding around Belmonte's '±' — `0.43\uf0a0±\uf0a00.02` —
+        so a `\s*±\s*` pattern matched nothing and the paper looked like it covered NONE
+        of our 120 lines. That is a manufactured absence (RYA-833) caused by a font quirk.
+    PUA characters carry no text meaning, so they are replaced with a space.
+    """
+    return "".join(" " if "\ue000" <= ch <= "\uf8ff" else ch for ch in text)
+
+
 def parse_paper(key: str, text: str) -> pd.DataFrame:
+    text = _normalise(text)
     rows = []
     nm = key == "Belmonte2017"
     pat = _NM_ROW if nm else _ANGSTROM_ROW
