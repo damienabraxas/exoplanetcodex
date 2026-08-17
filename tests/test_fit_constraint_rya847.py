@@ -1,0 +1,182 @@
+"""RYA-847 — the constraint metrics, and the plumbing that must carry them.
+
+The metric tests assert RELATIONSHIPS and closed forms, never magic constants (RYA-845).
+
+The plumbing tests are the ones that would have caught the original defect. `red_chi2`
+was returned by `_fit_synth_flux` for its entire life and never reached the per-line CSV,
+because `LineMeasurement` had no field for it and `asdict_line` is a hand-written
+projection that silently drops whatever it does not mention. Nothing failed. A quantity
+with nowhere to live is a quantity nobody can gate on, and that is how two unconstrained
+NIR lines reached a published aggregate (RYA-843).
+"""
+from __future__ import annotations
+
+import math
+from dataclasses import fields
+
+import numpy as np
+import pytest
+
+from pipeline.fit_constraint import (CURVATURE_PROBE_STEP_DEX as STEP,
+                                     ConstraintMetrics, curvature_sigma,
+                                     measure_constraint)
+
+
+def _parabola(a0, curv, floor=0.0):
+    return lambda a: floor + curv * (a - a0) ** 2
+
+
+# ── sigma_A: the bracket-free metric ──────────────────────────────────────────
+
+@pytest.mark.parametrize("red_chi2", [1.0, 4.0, 25.0, 66.553, 1226.1])
+def test_sigma_A_scales_as_sqrt_red_chi2(red_chi2):
+    """THE RELATIONSHIP. The same curvature against a chi2 N times too large must give a
+    sigma sqrt(N) times larger — rescaling to red_chi2 == 1 is the entire correction."""
+    f = _parabola(7.5, 1000.0)
+    kw = dict(a_best=7.5, chi2_min=0.0, a_lo=4.5, a_hi=12.5, edge=False)
+    unit = curvature_sigma(f, red_chi2=1.0, **kw)
+    got = curvature_sigma(f, red_chi2=red_chi2, **kw)
+    assert got == pytest.approx(unit * math.sqrt(red_chi2), rel=1e-12)
+
+
+def test_sigma_A_is_independent_of_the_bracket():
+    """🔴 THE PROPERTY THAT MAKES IT UNIVERSAL, and the one `frac_rise` lacks.
+
+    847 item 3 wants a criterion that transfers across bands. Handlers bracket
+    differently, so any metric that moves when only the bracket moves cannot be compared
+    between them. sigma_A must not.
+    """
+    f = _parabola(7.5, 800.0, floor=250.0)
+    wide = measure_constraint(f, a_best=7.5, chi2_min=250.0, red_chi2=9.0,
+                              a_lo=1.0, a_hi=20.0)
+    narrow = measure_constraint(f, a_best=7.5, chi2_min=250.0, red_chi2=9.0,
+                                a_lo=7.0, a_hi=8.0)
+    assert wide.sigma_A == pytest.approx(narrow.sigma_A, rel=1e-12)
+    # and the contrast: frac_rise moves by orders of magnitude on the same fit
+    assert not (wide.frac_rise_weaker ==
+                pytest.approx(narrow.frac_rise_weaker, rel=0.1))
+
+
+def test_sigma_A_is_independent_of_an_additive_baseline():
+    """Delta-chi2 is a DIFFERENCE, so the depressed-baseline offset that makes an
+    ABSOLUTE red_chi2 untransferable cancels exactly. Measured on RYA-843's own numbers:
+    a good NIR line sits at red_chi2 = 72 and another good one at 2.6."""
+    curv, a0 = 500.0, 7.5
+    bare = curvature_sigma(_parabola(a0, curv), a_best=a0, chi2_min=0.0, red_chi2=4.0,
+                           a_lo=4.5, a_hi=12.5, edge=False)
+    OFF = 1.0e6
+    shifted = curvature_sigma(_parabola(a0, curv, floor=OFF), a_best=a0, chi2_min=OFF,
+                              red_chi2=4.0, a_lo=4.5, a_hi=12.5, edge=False)
+    assert shifted == pytest.approx(bare, rel=1e-12)
+
+
+def test_a_railed_fit_is_not_measurable_never_a_number():
+    """RYA-848: the old arithmetic returned 0.000 here — the tightest possible bar for
+    the least constrained possible fit."""
+    a_hi = 12.496
+    got = curvature_sigma(lambda a: 1000.0 - 10.0 * a, a_best=a_hi,
+                          chi2_min=1000.0 - 10.0 * a_hi, red_chi2=50.0,
+                          a_lo=4.496, a_hi=a_hi, edge=True)
+    assert math.isnan(got)
+
+
+def test_a_flat_objective_is_not_measurable():
+    """No curvature to invert. NaN says so; 1.000 would read as a measured 1 dex."""
+    got = curvature_sigma(lambda a: 4242.0, a_best=7.5, chi2_min=4242.0, red_chi2=10.0,
+                          a_lo=4.5, a_hi=12.5, edge=False)
+    assert math.isnan(got)
+
+
+# ── the full metric bundle ────────────────────────────────────────────────────
+
+def test_measure_constraint_matches_closed_form_and_costs_four_evals():
+    f = _parabola(7.5, 1000.0, floor=500.0)
+    m = measure_constraint(f, a_best=7.5, chi2_min=500.0, red_chi2=25.0,
+                           a_lo=4.5, a_hi=12.5)
+    assert m.sigma_A == pytest.approx(STEP / math.sqrt(1000.0 * STEP ** 2 / 25.0), rel=1e-12)
+    assert m.frac_rise_lo == pytest.approx(1000.0 * 9.0 / 500.0, rel=1e-12)
+    assert m.frac_rise_hi == pytest.approx(1000.0 * 25.0 / 500.0, rel=1e-12)
+    assert m.frac_rise_weaker == pytest.approx(m.frac_rise_lo, rel=1e-12)
+    assert m.n_probe_evals == 4, "two curvature probes and two bracket ends"
+
+
+def test_no_threshold_is_applied_anywhere_in_this_module():
+    """🔴 THE FIREWALL (847 item 1 as refined, RYA-161). This module MEASURES. The metric
+    shape and the cut are chosen from a sweep across every synthesis band, and a
+    threshold appearing here would be a cut chosen from whatever product came first."""
+    import inspect
+
+    from pipeline import fit_constraint
+    src = inspect.getsource(fit_constraint)
+    for banned in ("MAX_SIGMA", "SIGMA_GATE", "CONSTRAINT_GATE", "THRESHOLD"):
+        assert banned not in src, f"{banned} — a cut does not belong in the measurer"
+    assert not any(f.name in ("passed", "accepted", "verdict")
+                   for f in fields(ConstraintMetrics)), "no verdict field"
+
+
+# ── the plumbing that dropped red_chi2 for its whole life ─────────────────────
+
+def test_asdict_line_emits_every_field_or_declares_why():
+    """🔴 THE DEFECT THAT LET THIS HAPPEN, now caught.
+
+    `asdict_line` is a hand-written projection — a SECOND declaration of the per-line
+    schema. Adding a field to `LineMeasurement` and forgetting it here produces an
+    artifact that is silently missing the column, which is exactly how `red_chi2` never
+    reached a CSV. Any new field must be emitted or explicitly declared as omitted.
+    """
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from derive_band_products import ASDICT_LINE_OMITTED, asdict_line
+
+    from pipeline.band_products import LineMeasurement
+
+    emitted = set(asdict_line(LineMeasurement(
+        element="Fe", ion="I", wavelength_air_A=5000.0, instrument="x",
+        ew_mA=float("nan"), ew_method="m")).keys())
+    declared = {f.name for f in fields(LineMeasurement)}
+    missing = declared - emitted - ASDICT_LINE_OMITTED
+    assert not missing, (
+        f"LineMeasurement fields reach no artifact and are not declared omitted: "
+        f"{sorted(missing)}. Add them to asdict_line or to ASDICT_LINE_OMITTED "
+        f"with a reason.")
+
+
+def test_the_constraint_metrics_are_carried_on_the_line():
+    """They must exist as fields, and default to None rather than NaN.
+
+    None means "not applicable" — an EW inversion has no chi2 surface, so the question
+    does not apply to it. NaN in a CSV column reads like a measurement that failed, which
+    would put every EW-route line under permanent suspicion.
+    """
+    from pipeline.band_products import LineMeasurement
+    lm = LineMeasurement(element="Fe", ion="I", wavelength_air_A=5000.0,
+                         instrument="x", ew_mA=10.0, ew_method="EW")
+    for name in ("sigma_A", "frac_rise_weaker", "edge_distance_dex", "red_chi2"):
+        assert hasattr(lm, name)
+        assert getattr(lm, name) is None
+
+
+def test_the_759_harness_forwards_every_metric_the_fitter_returns():
+    """The harness sits between `_fit_synth_flux` and the band product, and anything it
+    does not forward is invisible downstream — `red_chi2`'s original fate."""
+    import inspect
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import rya759_nearuv_fe_product as h
+
+    src = inspect.getsource(h.fit_one)
+    for k in ("sigma_A", "frac_rise_weaker", "edge_distance_dex", "red_chi2"):
+        assert k in src, f"fit_one drops {k}"
+
+
+def test_cno_uses_the_shared_definition_not_its_own():
+    """RYA-847 hoisted `curvature_sigma`; three copies of an accept/reject rule is how
+    the three paths drifted into disagreeing."""
+    from pipeline import cno_synthesis
+    assert cno_synthesis.curvature_sigma is curvature_sigma
+    assert cno_synthesis.CURVATURE_PROBE_STEP_DEX == STEP
+    import inspect
+    src = inspect.getsource(cno_synthesis)
+    assert "def curvature_sigma" not in src, "cno_synthesis redefines it again"
