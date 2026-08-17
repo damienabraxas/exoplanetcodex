@@ -142,12 +142,34 @@ def test_no_combined_cross_band_value_is_computed(summary):
 
 
 def test_the_generic_graded_term_understates_the_measured_lab_sigma(summary):
-    """RYA-824 recorded what its lines' cited laboratory sigmas actually are, and they are
-    larger than the generic NIST grade-B bound. Wiring the generic term is what the spec
-    asks for; hiding that it is optimistic is not."""
-    cited = summary["cited_gf_sigma_rya824"]
-    assert min(cited.values()) > GRADED_GF_SYSTEMATIC_DEX, (
-        "the cited lab sigmas no longer exceed the generic term — re-check RYA-824")
+    """The cited laboratory sigma of EVERY graded pool exceeds the generic NIST grade-B
+    bound, so wiring the generic term publishes a bar tighter than the pool's own
+    oscillator-strength uncertainty supports.
+
+    RYA-853 refereed this table against the source papers — Ruffoni 142/142 and Den Hartog
+    203/203 perfect on value AND cited sigma — so the cited figure is audited data rather
+    than a plausible-looking alternative. It is derived from each pool's own lines here,
+    not hardcoded, and reproduces RYA-824's published 0.0524 / 0.0600."""
+    cited = summary["cited_gf_sigma_by_band"]
+    assert set(cited) >= {"VIS", "red-optical", "near-UV"}, (
+        "a graded band lost its cited-sigma derivation")
+    for band, c in cited.items():
+        assert c["cited_sigma"] > GRADED_GF_SYSTEMATIC_DEX, (
+            f"{band}: the cited lab sigma no longer exceeds the generic term")
+    assert cited["red-optical"]["cited_sigma"] == pytest.approx(0.0524, abs=5e-4)
+    assert cited["VIS"]["cited_sigma"] == pytest.approx(0.0600, abs=5e-4)
+
+
+def test_the_cited_sigma_variant_is_reported_for_every_graded_cell(summary):
+    """All three graded cells get the comparison, not just the two wired from RYA-824.
+    The near-UV moves only +2.6% because its 0.100 dex continuum term dominates — which is
+    itself worth seeing, since it says where the choice actually matters."""
+    cells = {c["band"]: c for c in summary["cells_with_cited_sigma"]}
+    assert set(cells) == {"VIS", "red-optical", "near-UV"}
+    for c in cells.values():
+        assert c["total_cited"] > c["total_generic"], (
+            f"{c['band']}: the cited sigma no longer widens the bar — re-derive")
+    assert cells["near-UV"]["pct"] < 5.0 < cells["VIS"]["pct"]
 
 
 def test_the_pre_847_caveat_travels_with_the_numbers(summary):
