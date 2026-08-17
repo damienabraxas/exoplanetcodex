@@ -66,8 +66,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : e20319e741e6cc1fc67591458f7d09012c9ae7b139fa571e868cd9a958a47031
-     rows      : 100
+     sha256    : 5a71986fa8ea9f0e72816f53cb3885f3f450038ad619d50b9c3225aeeb200d74
+     rows      : 102
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -98,15 +98,15 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>100</b><span>references</span></div>
-    <div class="src-stat"><b>99</b><span>with verified link</span></div>
+    <div class="src-stat"><b>102</b><span>references</span></div>
+    <div class="src-stat"><b>101</b><span>with verified link</span></div>
     <div class="src-stat"><b>1</b><span>unconfirmed link</span></div>
-    <div class="src-stat"><b>55</b><span>held locally</span></div>
+    <div class="src-stat"><b>58</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
   </div>
   <div class="src-toc">
     <a href="#solar_reference">Solar reference scales &amp; atlases (10)</a>
-    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (44)</a>
+    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (46)</a>
     <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (1)</a>
     <a href="#nlte">Non-LTE departures (10)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
@@ -223,7 +223,7 @@
     </ul>
   </section>
   <section class="src-section" id="atomic_data_gf">
-    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">44</span></h2>
+    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">46</span></h2>
     <p class="src-blurb">Where each log gf comes from. The distinction that matters is PRIMARY LABORATORY (branching fractions from a Fourier-transform spectrometer times a measured radiative lifetime, with no reference to the solar spectrum) versus semi-empirical or solar-fitted values, which cannot referee a solar abundance without restating their own input.</p>
     <ul class="src-list">
       <li class="src-entry" id="bard1991">
@@ -292,6 +292,16 @@
         <p class="src-role">Pure laboratory Fe II gf in the UV/blue — the independent referee for the Fe II scale-offset investigation.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/Den_Hartog_2019_ApJS_243_33.pdf</span> &middot; <span class="src-key">denhartog2019</span></div>
       </li>
+      <li class="src-entry" id="denhartog2023">
+        <div class="src-head">
+          <span class="src-cite">Den Hartog, E. A.; Lawler, J. E.; Sneden, C.; Roederer, I. U.; Cowan, J. J. (2023). <em>Atomic Transition Probabilities for Transitions of Si I and Si II and the Silicon Abundances of Several Very Metal-poor Stars</em>. ApJS 265, 42.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/acb642" target="_blank" rel="noopener">10.3847/1538-4365/acb642 &#8599;</a></div>
+        <p class="src-role">PRIMARY laboratory Si I / Si II gf from the same Wisconsin FTS group as the Fe papers (Ruffoni 2014, Den Hartog 2014/2019, Belmonte 2017). Si currently leans on Kelleher &amp; Podobedova&#x27;s compilation and on GARZ (1973); this is a modern measured alternative and is worth checking against the Si pool.</p>
+        <p class="src-note">On-disk copy is the arXiv v1 preprint (arXiv:2301.11391); the DOI resolves to the published ApJS version. Added 2026-08-17 when Ryan dropped it into the reference library -- caught by --audit-library, not by anyone remembering.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-853; RYA-864</span> &middot; <span class="src-local">local copy: Reference documents/2301.11391v1.pdf</span> &middot; <span class="src-key">denhartog2023</span></div>
+      </li>
       <li class="src-entry" id="denhartog2011">
         <div class="src-head">
           <span class="src-cite">Den Hartog, E. A.; Lawler, J. E.; Sobeck, J. S.; Sneden, C.; Cowan, J. J. (2011). <em>Improved log(gf) Values of Selected Lines in Mn I and Mn II for Abundance Determinations in FGK Dwarfs and Giants</em>. ApJS 194, 35.</span>
@@ -317,17 +327,18 @@
         </div>
         <div class="src-link src-nolink">no verified link &mdash; see note</div>
         <p class="src-role">GES code FMW (492 canonical_gf rows). A NIST compilation -- checking it against NIST ASD is circular, which is why RYA-760 could not use ASD as referee.</p>
-        <p class="src-note">TITLE AND VOLUME CONFIRMED, URL STILL MISSING -- the one row in this file with no link. The reference list of NIST&#x27;s own 2006 Fe compilation (doi:10.1063/1.2218876) cites it verbatim as &#x27;Atomic transition probabilities -- Iron through nickel&#x27;, J. Phys. Chem. Ref. Data 17, Suppl. 4 (1988). No stable URL or DOI was found after checking: Crossref (all 103 JPCRD items 1987-1990 enumerated -- absent), OpenAlex, DOE OSTI (which DOES hold the Sc-Mn companion as 6831545, so its absence here is a real gap in that catalogue and not a search failure), the NIST publications database, ADS bibcode probes, Library of Congress, HathiTrust, Google Books and AIP&#x27;s own JPCRD search. It is a physical monograph; a university library or interlibrary loan is the likely route. Left BLANK rather than guessed.</p>
+        <p class="src-note">TITLE AND VOLUME CONFIRMED TWICE OVER; the URL is the only thing missing, and this is the one row in this file with no link. Confirmation 1: the reference list of NIST&#x27;s 2006 Fe compilation (doi:10.1063/1.2218876). Confirmation 2, independent and about as primary as a citation gets -- Wiese &amp; Fuhr citing their OWN 1988 volume in &#x27;New Critical Compilations of Atomic Transition Probabilities for Neutral and Singly Ionized Carbon, Nitrogen, and Iron&#x27; (NASA LAW 2006), archived at https://ntrs.nasa.gov/api/citations/20060052476 : &#x27;Fuhr, J. R., Martin, G. A., and Wiese, W. L. 1988, Atomic Transition Probabilities-Iron through Nickel, J. Phys. Chem. Ref. Data, 17, Suppl. 4&#x27;. No stable URL for the SUPPLEMENT ITSELF exists in any catalogue checked: Crossref (all 103 JPCRD items 1987-1990 enumerated -- absent, because supplements are standalone monographs outside the article stream), DOE OSTI (which DOES hold the Sc-Mn companion as 6831545, so this is a hole in that catalogue rather than a search failure), NASA NTRS (a real zero-result query, not a failed one), OpenAlex, the NIST publications database, ADS bibcode probes, Library of Congress, HathiTrust, Google Books and AIP&#x27;s own JPCRD search. It is a physical monograph; library or interlibrary loan is the route. Left BLANK rather than pointed at a DIFFERENT document -- linking the 2006 paper here would be a provenance lie, however convenient.</p>
         <div class="src-meta"><span class="src-tickets">RYA-760; RYA-780; RYA-836; RYA-853; RYA-864</span> &middot; <span class="src-key">fuhr1988</span></div>
       </li>
       <li class="src-entry" id="fuhr_wiese2006">
         <div class="src-head">
           <span class="src-cite">Fuhr, J. R.; Wiese, W. L. (2006). <em>A Critical Compilation of Atomic Transition Probabilities for Neutral and Singly Ionized Iron</em>. J. Phys. Chem. Ref. Data 35, 1669.</span>
-          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1063/1.2218876" target="_blank" rel="noopener">10.1063/1.2218876 &#8599;</a></div>
-        <p class="src-role">Cited in canonical_gf by bibcode 2006JPCRD..35.1669F. The modern NIST Fe compilation; supersedes FMW for Fe but carries the same non-independence.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-760; RYA-853</span> &middot; <span class="src-key">fuhr_wiese2006</span></div>
+        <p class="src-role">Cited in canonical_gf by bibcode 2006JPCRD..35.1669F. The modern NIST Fe compilation; supersedes FMW for Fe but carries the same non-independence. Its reference list is also the primary source confirming the fuhr1988 title.</p>
+        <p class="src-note">Now held locally: the NIST-hosted copy Ryan added on 2026-08-17 is byte-identical to the file fetched from nist.gov during the RYA-864 dig. Verified against the PDF as well as Crossref.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-760; RYA-853; RYA-864</span> &middot; <span class="src-local">local copy: Reference documents/jpcrd3520061669.pdf</span> &middot; <span class="src-key">fuhr_wiese2006</span></div>
       </li>
       <li class="src-entry" id="garz1973">
         <div class="src-head">
@@ -642,6 +653,16 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0031-8949/38/5/010" target="_blank" rel="noopener">10.1088/0031-8949/38/5/010 &#8599;</a></div>
         <p class="src-role">GES code WBb (854 canonical_gf rows).</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">whaling_brault1988</span></div>
+      </li>
+      <li class="src-entry" id="wiese2006_law">
+        <div class="src-head">
+          <span class="src-cite">Wiese, W. L.; Fuhr, J. R. (2006). <em>New Critical Compilations of Atomic Transition Probabilities for Neutral and Singly Ionized Carbon, Nitrogen, and Iron</em>. NASA Laboratory Astrophysics Workshop (LAW), UNLV, Las Vegas, 14-16 Feb 2006.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link"><a href="https://ntrs.nasa.gov/citations/20060052476" target="_blank" rel="noopener">https://ntrs.nasa.gov/citations/20060052476 &#8599;</a></div>
+        <p class="src-role">The NIST authors&#x27; own account of the Fe I/Fe II re-assessment published as fuhr_wiese2006, plus their C and N updates. Also the second independent primary confirmation of the fuhr1988 citation -- its reference list carries the full title and Suppl. 4 number for the 1988 volume that has no link of its own.</p>
+        <p class="src-note">Conference proceedings; no DOI. Link is the NASA NTRS permanent archive record (20060052476), which serves the PDF and is byte-identical to the copy in the reference library. Added 2026-08-17 from Ryan.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-760; RYA-864</span> &middot; <span class="src-local">local copy: Reference documents/20060052476.pdf</span> &middot; <span class="src-key">wiese2006_law</span></div>
       </li>
     </ul>
   </section>
@@ -1147,7 +1168,7 @@
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 e20319e741e6cc1fc67591458f7d09012c9ae7b139fa571e868cd9a958a47031 &middot; 100 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 5a71986fa8ea9f0e72816f53cb3885f3f450038ad619d50b9c3225aeeb200d74 &middot; 102 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">
