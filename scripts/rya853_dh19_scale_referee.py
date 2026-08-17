@@ -267,6 +267,25 @@ def main() -> None:
         else:
             reasoning = (f"ours sits {med:+.3f} from pure lab — between the two "
                          f"predictions, so neither reading is clean.")
+    # 🔴 A second finding, and it undercuts the premise of the question.
+    band_flip = None
+    if s_on:
+        blue = s_on["median"]
+        band_flip = {"blue_overlap_4173_4584": blue,
+                     "red_pool_5256_6456": POOL_OFFSET_VS_NIST,
+                     "swing_dex": POOL_OFFSET_VS_NIST - blue,
+                     "sign_flips": bool(blue * POOL_OFFSET_VS_NIST < 0)}
+        print(f"\n=== 🔴 the offset against NIST is BAND-DEPENDENT ===")
+        print(f"  blue overlap 4173-4584 A : ours - NIST = {blue:+.3f}")
+        print(f"  red pool     5256-6456 A : ours - NIST = {POOL_OFFSET_VS_NIST:+.3f}"
+              f"   (RYA-852)")
+        print(f"  swing {POOL_OFFSET_VS_NIST - blue:+.3f} dex"
+              f"{', SIGN FLIPS' if band_flip['sign_flips'] else ''}")
+        print(f"  => '+0.106 pool-wide' is not one scale offset. RYA-852 measured it on the "
+              f"RED pool\n     alone, and the blue lines carry different sources "
+              f"(T83av/PGHcor/BSScor/KK vs\n     VALD3/RU/MB09), so 'our Fe II scale' is "
+              f"not a single thing to referee.")
+
     print(f"\n=== VERDICT: {verdict} ===")
     print(f"  {reasoning}")
     print(f"\n  ⚠️ This refs the SCALE via the 4173-4584 A overlap. The three arbiter "
@@ -284,6 +303,8 @@ def main() -> None:
         "ours_minus_dh": s_ours, "nist_minus_dh": s_nist,
         "ours_minus_nist_pool": POOL_OFFSET_VS_NIST,
         "verdict": verdict, "reasoning": reasoning,
+        "band_dependence": band_flip,
+        "ours_minus_nist_same_lines": s_on,
         "caveat": ("the overlap does NOT contain the three Fe II arbiter lines, which are "
                    "redward of DH19's 4584 A optical ceiling; this refs the pool SCALE, "
                    "not those lines"),
