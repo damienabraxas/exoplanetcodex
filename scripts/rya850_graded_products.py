@@ -55,8 +55,8 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band          # noqa: E402
 from pipeline.error_budget import build as build_budget           # noqa: E402
 from pipeline.graded_reporting import (                           # noqa: E402
-    annotate, element_table, format_value, pair_products, stat_from_scatter,
-    total_sigma)
+    GRADED_SUFFIX, annotate, element_table, format_value, pair_products,
+    stat_from_scatter, total_sigma)
 
 MATRIX = ROOT / "data" / "results" / "rya783" / "fe_product_matrix.csv"
 RYA824 = ROOT / "data" / "results" / "rya824" / "rya824_lab_gf_per_line.csv"
@@ -76,27 +76,114 @@ RYA836_PER_LINE = (ROOT / "data" / "results" / "rya836"
 CITED_MATCH_TOL_A = 0.05
 
 
-def cited_sigma(waves) -> tuple[int, float]:
+#: A pool whose cited sigmas cover only part of it is not described by their RMS -- the
+#: unmatched lines would silently inherit the matched ones' uncertainty. Below this the
+#: cited term is REFUSED and the generic bound stands, which is the honest fallback.
+CITED_COVERAGE_MIN = 0.90
+
+
+def cited_sigma(waves) -> dict:
     """RMS of the per-line cited laboratory sigma over a pool.
 
     RMS rather than the median because these combine in quadrature into the budget, and
     the median throws away exactly the tail that a quadrature sum is sensitive to: the
     IR pool's median is 0.030 while its RMS is 0.0524. Reproduces RYA-824's published
     0.0524 / 0.0600 exactly, which is the check that this is the same quantity 824 meant.
+
+    A wavelength window is not a unique line ID (RYA-853): where it catches more than one
+    lab row the line is counted as UNMATCHED rather than resolved by `iloc[0]`, because
+    picking the first match is how RYA-853 manufactured 12-dex "defects". Ambiguity is
+    reported so it can never be mistaken for coverage.
     """
     lab = pd.read_csv(LAB_CSV)
-    got = []
+    got, ambiguous = [], 0
     for w in waves:
         m = lab[np.abs(lab.wavelength_air_A - float(w)) <= CITED_MATCH_TOL_A]
-        if len(m):
+        if len(m) == 1:
             got.append(float(m.iloc[0].e_loggf_dex))
+        elif len(m) > 1:
+            ambiguous += 1
+    n_pool = len(list(waves))
     if not got:
-        return 0, float("nan")
+        return {"n": 0, "n_pool": n_pool, "coverage": 0.0, "ambiguous": ambiguous,
+                "cited_sigma": float("nan"), "usable": False}
     a = np.asarray(got, dtype=float)
-    return len(a), float(np.sqrt((a ** 2).mean()))
+    cov = len(a) / n_pool if n_pool else 0.0
+    return {"n": len(a), "n_pool": n_pool, "coverage": cov, "ambiguous": ambiguous,
+            "cited_sigma": float(np.sqrt((a ** 2).mean())),
+            "usable": cov >= CITED_COVERAGE_MIN}
+
+
+#: Named, because a budget term is never unsourced -- and RYA-853 refereed every one of
+#: these against the source papers before this term was allowed to set a published bar.
+CITED_SOURCE = ("Ruffoni+2014 MNRAS 441 3127; Den Hartog+2014 ApJS 215 23; "
+                "Belmonte+2017 ApJ 848 125; Den Hartog+2019 ApJS 243 33 "
+                "-- refereed line-by-line by RYA-853")
+
+
+def cited_by_band_map() -> dict:
+    """The cited sigma of each graded pool, keyed by the matrix's band names."""
+    per_line_waves = {}
+    d824 = pd.read_csv(RYA824)
+    per_line_waves["red-optical"] = d824[d824.band == "IR"].wavelength_air_A.tolist()
+    per_line_waves["VIS"] = d824[d824.band == "VIS"].wavelength_air_A.tolist()
+    if RYA836_PER_LINE.exists():
+        d836 = pd.read_csv(RYA836_PER_LINE)
+        per_line_waves["near-UV"] = d836[
+            np.isfinite(d836.a_labgf)].wavelength_air_A.tolist()
+    return {band: cited_sigma(waves) for band, waves in per_line_waves.items()}
+
+
+def apply_cited_gf(combined: pd.DataFrame, cited: dict) -> tuple[pd.DataFrame, list]:
+    """Recharge every GRADED cell already in the matrix onto its pool's cited gf sigma.
+
+    The cells built here take the cited term at construction; the near-UV graded cell
+    arrives from the matrix carrying the generic bound, and is entitled to the same
+    treatment. Doing it in one pass over the combined frame is what keeps the three
+    graded cells on ONE gf convention -- if the near-UV kept the bound while the other
+    two moved, the band-to-band spread would mix two definitions of the bar.
+
+    The scatter is recovered EXACTLY as `stat * sqrt(N)` (the definition of the stat term)
+    rather than re-read, so this cannot drift from the value the cell was built with.
+    """
+    out = combined.copy()
+    recharged = []
+    for i, r in out.iterrows():
+        if not str(r.get("treatment", "")).endswith(GRADED_SUFFIX):
+            continue
+        c = cited.get(str(r["band"]))
+        if not c or not c["usable"]:
+            continue
+        n = int(r["n_lines"])
+        scatter = float(r["stat_dex"]) * np.sqrt(n)
+        near_uv = str(r["band"]) == "near-UV"
+        b = build_budget("Fe", BAND_PIVOT_A[str(r["band"])], n,
+                         scatter_dex=scatter, gf_graded=True,
+                         harness_residual_dex=(0.0 if near_uv
+                                               else PROFILE_FIT_RESIDUAL_DEX),
+                         handler=("SynthesisHandler" if near_uv
+                                  else "ProfileFitHandler"),
+                         cited_gf_sigma_dex=c["cited_sigma"],
+                         cited_gf_source=CITED_SOURCE)
+        _, syst = b.total()
+        before = float(r["syst_dex"])
+        after = round(float(syst), 4)
+        if abs(after - before) > 5e-5:
+            recharged.append({"band": str(r["band"]), "engine": str(r["treatment"]),
+                              "syst_generic": before, "syst_cited": after,
+                              "total_generic": total_sigma(float(r["stat_dex"]), before),
+                              "total_cited": total_sigma(float(r["stat_dex"]), after)})
+        out.at[i, "syst_dex"] = after
+        out.at[i, "dominant"] = b.dominant().name if b.dominant() else ""
+    return out, recharged
+
 
 #: 824 named its bands by instrument regime; the matrix names them by band policy.
 BAND_FROM_824 = {"IR": "red-optical", "VIS": "VIS"}
+
+#: One representative wavelength per band, only ever used to resolve the BAND POLICY
+#: (which continuum/telluric terms apply) -- never as a measurement.
+BAND_PIVOT_A = {"VIS": 5000.0, "red-optical": 8000.0, "near-UV": 3390.0}
 
 
 def graded_cells_from_824() -> pd.DataFrame:
@@ -105,6 +192,11 @@ def graded_cells_from_824() -> pd.DataFrame:
     The pools were measured and published in RYA-824 and then never became cells. This
     re-aggregates the SAME per-line abundances — no re-inversion — and charges the budget
     the graded term, which is the entire difference from the ungraded twin.
+
+    Built on the GENERIC bound deliberately: `apply_cited_gf` is the single place the
+    cited sigma is applied, so all three graded cells travel the same code path and the
+    published-vs-bound comparison covers every one of them rather than only the cell that
+    happened to arrive from the matrix.
     """
     d = pd.read_csv(RYA824)
     rows = []
@@ -143,6 +235,17 @@ def main() -> None:
         raise SystemExit(f"Fe matrix absent: {MATRIX}")
 
     matrix = pd.read_csv(MATRIX)
+
+    # The pools' own cited laboratory sigma SETS the published bar (Ryan, 2026-08-17);
+    # the generic 0.041 is a bound and is kept only as the documented comparison.
+    cited = cited_by_band_map()
+    print("=== the gf term each graded pool is entitled to ===")
+    for band, c in sorted(cited.items()):
+        mark = "USED" if c["usable"] else "REFUSED (coverage)"
+        print(f"  {band:<12} n={c['n']:3d}/{c['n_pool']:<3d} "
+              f"coverage {c['coverage']:.0%}  ambiguous {c['ambiguous']}  "
+              f"cited {c['cited_sigma']:.4f} ({c['cited_sigma']/0.041:.1f}x generic)  {mark}")
+
     new = graded_cells_from_824()
     print(f"[wire] RYA-824 lab-gf pools -> {len(new)} new graded cells")
     for _, r in new.iterrows():
@@ -151,6 +254,7 @@ def main() -> None:
               f"(scatter {r.scatter_dex:.4f})")
 
     combined = pd.concat([matrix, new.drop(columns=["scatter_dex"])], ignore_index=True)
+    combined, recharged = apply_cited_gf(combined, cited)
     d = annotate(combined)
 
     # ── the pairing ───────────────────────────────────────────────────────────────
@@ -184,61 +288,18 @@ def main() -> None:
               f"{format_value(r.A, r.total_dex)}   "
               f"[stat {r.stat_dex:.3f}, sys {r.syst_dex:.3f}, n={int(r.n_lines)}]")
 
-    # ── the generic term vs what RYA-824 actually cited ───────────────────────────
-    # ── the generic term against the pools' own AUDITED cited sigma ───────────────
-    per_line_waves = {}
-    d824 = pd.read_csv(RYA824)
-    per_line_waves["red-optical"] = d824[d824.band == "IR"].wavelength_air_A.tolist()
-    per_line_waves["VIS"] = d824[d824.band == "VIS"].wavelength_air_A.tolist()
-    if RYA836_PER_LINE.exists():
-        d836 = pd.read_csv(RYA836_PER_LINE)
-        per_line_waves["near-UV"] = d836[np.isfinite(
-            d836.a_labgf)].wavelength_air_A.tolist()
-
-    cited_by_band = {}
-    for band, waves in per_line_waves.items():
-        n, sig = cited_sigma(waves)
-        if n:
-            cited_by_band[band] = {"n": n, "cited_sigma": sig}
-
-    print(f"\n=== ⚠️ the generic graded term vs the pools' OWN cited lab sigma ===")
-    print(f"  (RYA-853 refereed this table against the source papers: Ruffoni 142/142 and")
-    print(f"   Den Hartog 203/203 PERFECT on value AND cited sigma — this is audited data)")
-    for band, c in sorted(cited_by_band.items()):
-        print(f"  {band:<12} n={c['n']:3d}  cited sigma {c['cited_sigma']:.4f}  "
-              f"vs generic {GRADED_GF_TERM if False else 0.041:.3f}  "
-              f"({c['cited_sigma']/0.041:.1f}x)")
-
-    # Every graded cell, not just the two wired from RYA-824 — the near-UV cell comes
-    # from the matrix and is entitled to the same treatment.
-    cited_cells = []
-    for pr in pairs:
-        if not pr.primary_is_graded:
-            continue
-        c = cited_by_band.get(pr.band, {}).get("cited_sigma")
-        if c is None:
-            continue
-        g = pr.graded
-        b = build_budget("Fe", {"VIS": 5000.0, "red-optical": 8000.0,
-                                "near-UV": 3390.0}.get(pr.band, 5000.0),
-                         int(g["n_lines"]), scatter_dex=0.4, gf_graded=True,
-                         harness_residual_dex=(0.0 if pr.band == "near-UV"
-                                               else PROFILE_FIT_RESIDUAL_DEX),
-                         handler="SynthesisHandler")
-        others = [t.dex for t in b.terms
-                  if not t.averages_down and "gf" not in t.name.lower()]
-        syst_cited = float(np.sqrt(np.sum(np.square(others)) + c ** 2))
-        tot_generic = float(g["total_dex"])
-        tot_cited = total_sigma(float(g["stat_dex"]), syst_cited)
-        cited_cells.append({
-            "band": pr.band, "engine": pr.base, "A": g["A"],
-            "cited_sigma": c,
-            "syst_generic": float(g["syst_dex"]), "syst_cited": syst_cited,
-            "total_generic": tot_generic, "total_cited": tot_cited,
-            "pct": 100.0 * (tot_cited / tot_generic - 1.0),
-        })
-        print(f"  {pr.band:<12} generic 0.041 -> total {tot_generic:.4f}   |   "
-              f"cited {c:.4f} -> total {tot_cited:.4f}   ({tot_cited/tot_generic-1:+.1%})")
+    # ── what the cited term cost, against the bound it replaced ──────────────────
+    # Reported the way round it is now DECIDED: the cited sigma sets the bar, and the
+    # generic 0.041 is shown as the comparison so the widening is visible rather than
+    # quietly absorbed. Every graded cell appears -- a cell that did NOT move would mean
+    # the recharge missed it, so the empty case is as informative as the populated one.
+    print(f"\n=== the published bar is the CITED lab sigma; the generic 0.041 for scale ===")
+    for r in recharged:
+        print(f"  {r['band']:<12} generic 0.041 -> total {r['total_generic']:.4f}   |   "
+              f"cited -> total {r['total_cited']:.4f}   "
+              f"({r['total_cited']/r['total_generic']-1:+.1%})")
+    if not recharged:
+        print("  (none moved — the cited term did not reach any graded cell; investigate)")
 
     # ── do the graded bands agree? ────────────────────────────────────────────────
     # If they disagree by more than their bars, "the graded value" is not well defined and
@@ -278,8 +339,9 @@ def main() -> None:
              "ungraded_total_dex": (p.ungraded or {}).get("total_dex"),
              "graded_beats_ungraded": p.graded_beats_ungraded}
             for p in pairs if p.primary_is_graded],
-        "cited_gf_sigma_by_band": cited_by_band,
-        "cells_with_cited_sigma": cited_cells,
+        "gf_term_published": "cited",
+        "cited_gf_sigma_by_band": cited,
+        "cells_recharged_to_cited": recharged,
         "graded_consistency": consistency,
         "graded_band_spread_dex": spread,
         "caveats": [
