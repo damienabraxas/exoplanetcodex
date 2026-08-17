@@ -81,11 +81,22 @@ through `doi.org`:
 * **CDS VizieR** for the machine-readable table (e.g. `VI/10` for Kurucz &
   Peytremann 1975), **Internet Archive** for NBS monographs, and the **proceedings
   host** for workshop papers.
+* **DOE OSTI** (`osti.gov/biblio/<id>`, JSON at `osti.gov/api/v1/records/<id>`) for US
+  government-funded reports and monographs. This is what finally supplied the title,
+  the Suppl. 3 number and a link for `martin1988` after Crossref, OpenAlex, NIST's own
+  publications database, ADS, LoC, HathiTrust and Google Books all came up empty.
 
-### Why two rows still carry no link, and why that is not fixed by guessing
+### Why ONE row still carries no link, and why that is not fixed by guessing
 
-`fuhr1988` and `martin1988` (JPCRD 1988 supplements) have no Crossref record and no
-stable publisher URL. That is the whole list.
+`fuhr1988` — *Atomic Transition Probabilities: Iron through Nickel*, JPCRD 17 Suppl. 4.
+Title and volume are confirmed (NIST's own 2006 Fe compilation cites it verbatim), but
+no stable URL exists in any catalogue checked. Its companion `martin1988` (Suppl. 3)
+*was* found, in the DOE OSTI catalogue — so the gap here is a hole in OSTI's coverage,
+not a failed search.
+
+**JPCRD supplements are standalone monographs outside the article stream and were never
+Crossref-registered.** Proved by enumerating all 103 JPCRD items 1987–1990 from
+Crossref: neither 1988 supplement is among them. Don't re-derive that.
 
 Two cautionary notes kept here on purpose, because both were **my** errors and both are
 the same shape — trusting a *name* instead of opening the *document*:
@@ -141,7 +152,7 @@ treatment.
 * 82 DOIs, **all present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* **98 of 100 rows carry a verified link**; 2 carry none, for the reasons above.
+* **99 of 100 rows carry a verified link**; 1 carries none, for the reason above.
 * `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
