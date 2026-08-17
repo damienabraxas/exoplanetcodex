@@ -116,7 +116,7 @@ def _num(tok: str) -> float:
 
 
 def _normalise(text: str) -> str:
-    """Strip the typography that silently defeats naive parsing.
+    r"""Strip the typography that silently defeats naive parsing.
 
     🔴 Journal PDFs are not ASCII. Two traps hit this script, each of which produced a
     confident wrong answer before being found:
