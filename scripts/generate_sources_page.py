@@ -505,12 +505,47 @@ def audit_library(rows: list[dict[str, str]], library: Path) -> int:
         print("  non-documents skipped (extension-based, not a name list):")
         for f in images:
             print(f"    - {f}")
-    if unaccounted:
-        print(f"::error::{len(unaccounted)} document(s) in the reference library have "
-              f"no bibliography row. An unlisted document is an uncited one.",
-              file=sys.stderr)
+    # ── the other direction: TWO ROWS, ONE DOCUMENT ──────────────────────────
+    # RYA-854 shipped the senior thesis TWICE -- once as `schmitt_beyond_metallicity`
+    # and once as `schmitt2010_thesis` -- because the same file sits on disk under
+    # three different names. A filename check cannot see that; only content can. So
+    # hash every local_file and fail when two rows point at identical bytes.
+    #
+    # `local_file` is stored relative to the Codex root, one level above the reference
+    # library ("Reference documents/x.pdf", "Archive docs/y.pdf", ...), so that root is
+    # library.parent. Rows whose file is absent are counted, not fatal: the library is
+    # a working directory, not a repo artifact, and it differs per machine.
+    codex_root = library.parent
+    by_hash: dict[str, list[str]] = {}
+    unresolved = 0
+    for r in rows:
+        if not r["local_file"]:
+            continue
+        f = codex_root / r["local_file"]
+        if not f.is_file():
+            unresolved += 1
+            continue
+        by_hash.setdefault(hashlib.sha256(f.read_bytes()).hexdigest(),
+                           []).append(r["key"])
+    collisions = {h: k for h, k in by_hash.items() if len(k) > 1}
+    if unresolved:
+        print(f"  ({unresolved} local_file path(s) not present on this machine, "
+              f"not checked)")
+    for h, keys in collisions.items():
+        print(f"::error::rows {', '.join(sorted(keys))} name BYTE-IDENTICAL files "
+              f"(sha256 {h[:16]}...) -- one document, one row")
+
+    if unaccounted or collisions:
+        if unaccounted:
+            print(f"::error::{len(unaccounted)} document(s) in the reference library "
+                  f"have no bibliography row. An unlisted document is an uncited one.",
+                  file=sys.stderr)
+        if collisions:
+            print(f"::error::{len(collisions)} document(s) are claimed by more than "
+                  f"one row.", file=sys.stderr)
         return 1
-    print("  OK: every document in the library is named by a bibliography row.")
+    print("  OK: every document in the library is named by a bibliography row, "
+          "and no two rows name the same document.")
     return 0
 
 

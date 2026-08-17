@@ -82,16 +82,23 @@ through `doi.org`:
   Peytremann 1975), **Internet Archive** for NBS monographs, and the **proceedings
   host** for workshop papers.
 
-### Why three rows still carry no link, and why that is not fixed by guessing
+### Why two rows still carry no link, and why that is not fixed by guessing
 
 `fuhr1988` and `martin1988` (JPCRD 1988 supplements) have no Crossref record and no
-stable publisher URL. `schmitt_beyond_metallicity` is unpublished.
+stable publisher URL. That is the whole list.
 
-One cautionary note kept here on purpose: `schmitt_science_architecture` was recorded
-as *missing* in an earlier pass, because a search for the inventory's filename
-(`Exoplanet_Codex_Science_Architecture.docx`) came up empty. The document exists — it
-is published on the site as v3.0. **The absence was scoped to a filename, not to the
-document**, which is the failure mode `feedback_absence_is_a_hypothesis` describes.
+Two cautionary notes kept here on purpose, because both were **my** errors and both are
+the same shape — trusting a *name* instead of opening the *document*:
+
+* `schmitt_science_architecture` was recorded as *missing* because a search for the
+  inventory's filename (`Exoplanet_Codex_Science_Architecture.docx`) came up empty. The
+  document exists, published on the site as v3.0. **The absence was scoped to a
+  filename, not to the document** — `feedback_absence_is_a_hypothesis`.
+* The 2010 senior thesis was carried as **two rows**, `schmitt_beyond_metallicity` and
+  `schmitt2010_thesis`, because the same file sits on disk under three names. The
+  thesis row also carried a title I had paraphrased from the About page's prose rather
+  than read off the PDF. `--audit-library` now hashes every `local_file` and fails when
+  two rows name byte-identical content.
 
 `martin1988` also still has a blank `title`: unlike its Fe–Ni companion, no primary
 source held here gives one. Secondary sources agree on "Atomic transition
@@ -111,8 +118,10 @@ just asserted:
 python3 scripts/generate_sources_page.py --audit-library "<reference library dir>"
 ```
 
-It fails if any *document* in the library is not named by some row's `local_file` or
-mentioned in some row's `license_note`. Run it whenever a paper lands in the library.
+It fails **in both directions**: if any *document* in the library is not named by some
+row, and if any two rows name **byte-identical** files. Run it whenever a paper lands in
+the library. The second direction exists because a filename check cannot see that one
+document is sitting on disk under three different names — only content can.
 The path is an argument, never hardcoded — the library lives outside the repo on a
 per-machine path, and a literal would both break on Sirius and trip the RYA-810 gate.
 
@@ -128,11 +137,11 @@ treatment.
 
 ## Verification state as of RYA-854 (2026-08-17)
 
-* **101 rows**; 0 in a `verify_*` state.
+* **100 rows**; 0 in a `verify_*` state.
 * 82 DOIs, **all present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* **98 of 101 rows carry a verified link**; 3 carry none, for the reasons above.
+* **98 of 100 rows carry a verified link**; 2 carry none, for the reasons above.
 * `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
