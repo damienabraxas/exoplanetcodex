@@ -229,8 +229,14 @@ def _local_min(wave_A, flux, centre_A, hw: float = CORE_SEARCH_A):
     return float(w[m][i]), float(f[m][i]), float((w[m][i] - centre_A) * 1000.0)
 
 
-# The Kitt Peak flux atlas lives OUTSIDE the repo and on both hosts, so the directory is
-# resolved rather than hardcoded (compute is on Sirius, spectra on the Mac — RYA-567).
+# The Kitt Peak flux atlas lives OUTSIDE the repo, so the directory is resolved rather
+# than hardcoded. ⚠️ The spectra are NO LONGER on the Mac: they moved to Sirius on
+# 2026-08-16 and the Mac copy was deleted, so on Sirius the second candidate below now
+# misses and the THIRD (data.spectra_kitt_peak) is the one that answers. Verified after
+# the move: 250 atlas segments found, controls green, numbers unchanged. The ordered
+# fallback is what made that a non-event -- and it raises loudly below rather than
+# reporting an empty band, which is the difference between a broken path and a silent
+# wrong answer.
 _KP_CANDIDATES = (
     os.environ.get("CODEX_KP_ATLAS", ""),
     str(codex_path('data.spectra_local') / 'Solar Calibration' / 'Kitt Peak Flux Atlas'),
