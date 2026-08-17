@@ -234,9 +234,11 @@ def test_the_fe1_lab_pool_is_materially_clean(labpool):
     """THE RESULT THAT CLEARS RYA-850's POOL. 207 of 217 refereed lines reproduce their
     source paper's log gf — the opposite of the NIST extracts' 70% failure. If this rate
     ever drops, 850's graded bars are back in question."""
+    assert labpool["coverage_frac"] > 0.95, (
+        "coverage collapsed — the CDS machine-readable tables may have stopped parsing")
     clean = labpool["n_refereed"] - labpool["n_loggf_mismatch"]
     frac = clean / max(labpool["n_refereed"], 1)
-    assert frac > 0.90, (
+    assert frac > 0.95, (
         f"only {frac:.1%} of refereed lab lines reproduce their source — the pool "
         f"RYA-850 promotes is no longer clean")
 
@@ -250,9 +252,12 @@ def test_the_one_real_outlier_is_named(labpool):
 
 
 def test_the_unrefereed_remainder_is_not_called_clean(labpool):
-    """53% of the pool sits in the papers' online-only tables. Absent from the check is
-    not the same as verified (RYA-833)."""
-    assert labpool["coverage_frac"] < 0.6
+    """Coverage was 47% while only the PDF excerpts were available; vendoring the CDS
+    machine-readable tables took it to 99.6%. What remains unrefereed is 2 Belmonte lines,
+    and absent from the check is still not the same as verified (RYA-833)."""
+    unrefereed = labpool["n_pool_rows"] - labpool["n_refereed"]
+    assert unrefereed >= 0
+    assert labpool["coverage_frac"] > 0.95, "coverage regressed — did the CDS tables move?"
     assert "UNVERIFIED" in labpool["caveat"] or "unverified" in labpool["caveat"].lower()
 
 
@@ -266,6 +271,16 @@ def test_the_encoding_traps_are_recorded(labpool):
     src = (ROOT / "scripts" / "rya853_fe1_labpool_referee.py").read_text()
     assert "u2212" in src.lower(), "the unicode-minus guard is gone"
     assert "uf8ff" in src.lower(), "the private-use-area guard is gone"
+
+
+def test_ruffoni_and_denhartog_are_perfect(labpool):
+    """345 lines across the two Wisconsin sources, refereed against their CDS machine-
+    readable tables, with ZERO defects on value or cited sigma. Every surviving mismatch
+    is Belmonte, which is the one source refereed from a typeset PDF."""
+    bad_sources = {m["source"] for m in labpool["loggf_mismatches"]}
+    assert bad_sources <= {"Belmonte2017"}, (
+        f"a Wisconsin source now has mismatches ({bad_sources}) — that would be a real "
+        f"defect in the pool RYA-850 promotes, not a PDF-extraction artifact")
 
 
 def test_belmonte_coverage_did_not_silently_collapse(labpool):
