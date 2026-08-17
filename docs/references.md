@@ -1,5 +1,18 @@
 # Scientific references
 
+> **The machine-readable authority is [`data/refs/bibliography.csv`](../data/refs/bibliography.csv)
+> (RYA-854)** — 99 verified rows with DOIs, links to the originals, per-source roles,
+> and the `verified` state of each. It also generates the public `/sources` page. This
+> file stays as the **narrative** reading guide; where the two disagree on an
+> author/year/venue/DOI, **the CSV wins and the prose is the bug**. See
+> [`data/refs/README.md`](../data/refs/README.md) for the schema.
+>
+> Known prose-vs-CSV discrepancies found while building the CSV, left here rather than
+> silently overwritten: "Sousa et al. (2011), A&A 533, A141" is a *different* paper from
+> the `Sousa et al 2011.pdf` on disk, which is **Adibekyan et al. 2011, A&A 535, L11**;
+> and the Magic et al. (2013) paper the Codex actually uses is **A&A 560, A8** (paper
+> II), not A&A 557, A26.
+
 This bibliography was reconciled against the project's local reference library
 and live code/provenance records. It is grouped by role so a reproduction cites
 only resources actually used. Local PDFs are working papers—not redistributable
