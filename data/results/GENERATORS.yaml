@@ -901,3 +901,144 @@ artifacts:
       and are carried, not dropped. Dropping them would move the product 7.488 -> 7.413
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
+
+  # ── RYA-850 — the graded (lab-gf) pool as the reported value ───────────────────────
+  - artifact: rya850/rya850_two_product_matrix.csv
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      The Fe matrix with RYA-824's two lab-gf pools wired in as cells, so every
+      (element, ion, band, engine) carries whichever of its GRADED and UNGRADED pools
+      exist. No new measurement: the pools were built by RYA-824/836 and the gf terms
+      already existed in error_budget (0.041 graded vs 0.170 ungraded); what was missing
+      is that derive_band_products.py:770 passes gf_graded=False UNCONDITIONALLY, so
+      every EW-route cell was charged the Kurucz term regardless of its lines. 🔴 ONLY 3
+      OF 18 CELLS CAN HAVE A GRADED TWIN — no primary-lab-gf pool exists for Fe II in
+      any band, nor for any ENGINE-A/ENGINE-B product; those fall back to UNGRADED and
+      say so rather than claiming a term they are not entitled to. The ungraded product
+      is KEPT and labelled (RYA-712), never dropped.
+  - artifact: rya850/rya850_element_table.csv
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      The main Solar-page view: one row per cell, graded where a lab-gf pool exists, with
+      value and +/- total VISIBLE. Uncertainty is the standard construction and nothing
+      more -- stat = scatter/sqrt(N), sys = quadrature(gf, continuum, harness, telluric),
+      total = sqrt(stat^2 + sys^2). ⚠️ It does NOT average across bands or engines:
+      RYA-712 forbids a combined product and band_products has no combine(), so the
+      per-band spread is REPORTED, never collapsed.
+  - artifact: rya850/rya850_summary.json
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      THE RESULT. All three graded cells tighten their bar -- VIS 0.1732 -> 0.0583,
+      red-optical 0.1767 -> 0.0570, near-UV 0.2077 -> 0.1375 -- which is NOT in tension
+      with RYA-836 (the lab pool scatters WORSE, 0.652 vs 0.413) or RYA-842 (gf buys a
+      bar, not a spread): scatter enters only through stat = scatter/sqrt(N), which
+      averages down, while the gf term enters sys, which does not. Checked per cell, not
+      assumed. The three graded bands AGREE (<=0.9 sigma pairwise, spread 0.132 dex), so
+      a graded headline is well defined. ⚠️ The generic 0.041 UNDERSTATES RYA-824's own
+      cited lab sigma (0.0524 IR / 0.0600 VIS) by 15-25% on the total. ⚠️ Line sets are
+      PRE-RYA-847 and provisional -- once 847 lands the graded pool is lab-gf INTERSECT
+      constrained and the near-UV cells must be regenerated.
+  # ── RYA-853 — gf grade + value integrity ──────────────────────────────────────────
+  - artifact: rya853/rya853_grade_integrity.csv
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      Every row of the two hand-maintained NIST extracts verified against LIVE NIST ASD, in
+      air, matched on wavelength AND excitation potential. 🔴 31 of 44 uniquely-matched
+      rows (70%) carry a grade the source does not support, and 14 carry a log gf more than
+      0.02 dex from it -- in a file that calls itself the "Type B uncertainty anchor" and
+      that RYA-850 keys graded_gf_term on. Worst: Mg I 4571.096 / Fe I 5576.089 / Ca I
+      5857.451 / Ca I 6439.075 all stored A where NIST says D (0.013 vs 0.176 dex, 13.7x).
+      ⚠️ 8 rows are AMBIGUOUS and NOT judged: a wavelength+EP window is not a unique line
+      identifier (transitions share a wavelength and lower level while differing in the
+      upper), and taking the first match manufactured 12-dex "defects".
+  - artifact: rya853/rya853_corrections.csv
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      The 45 corrections (31 grade + 14 log gf) as a ready-to-apply table: element,
+      wavelength, which file, stored value, and what the cited source actually says. NOT
+      applied -- these rows feed published anchors (O I 6300, Li I 6707, Ba II 5853, Ni I
+      6300.336), so applying them shifts published values and is a reviewable change rather
+      than an audit side effect.
+  - artifact: rya853/rya853_summary.json
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      🔴 THE OFFLINE FINDING, which needs no network and would have caught this a month
+      earlier: the two extracts disagree with EACH OTHER on 13 lines they both carry. Mg I
+      5711.090 is the smoking gun -- RYA-592 corrected it in nist_reference and left
+      nist_crosscheck stale, so one line now carries two grades depending on which file you
+      read. S I 6052.670 differs by 0.92 dex between our own files; Ni I 6300.336 by 0.20,
+      and that is the Ni blend under [O I] 6300 which gates the solar oxygen abundance
+      (RYA-365). ⚠️ SCOPE 3 IS OWED: the +0.106 dex Fe II scale-offset referee needs Den
+      Hartog 2019 pure-lab gf, which could not be fetched (Vizier find_catalogs empty for 3
+      phrasings, 3 guessed catalog IDs empty) -- an absence in the SEARCH, not the source
+      (RYA-833). Until it runs, RYA-852's solar-fitting hypothesis is UNRESOLVED, not
+      supported, and Ryan's NIST-is-the-outlier counter-evidence is equally untested.
+  - artifact: rya853/rya853_dh19_referee.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      Scope 3. Our Fe II log gf against Den Hartog 2019's ten optical PURE-LAB values
+      (BF x LIF lifetimes, no solar normalisation) and against live NIST, all EP-matched on
+      both sides. The referee has to be solar-free because the question is whether our
+      scale is solar-fitted.
+  - artifact: rya853/rya853_dh19_referee.json
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      VERDICT INCONCLUSIVE, and that is the result. ours - DH = +0.020 with a 95% CI of
+      [-0.070, +0.160], which covers BOTH the pure-lab prediction (~0) and the solar-fitted
+      one (~+0.13) -- ten lines spanning 0.6 dex cannot choose. ⚠️ A first pass thresholded
+      on |median| <= 0.05 and returned "LEGITIMATE, hypothesis REFUTED", which was
+      overreading a median whose uncertainty is 3x its size; the CI is now the verdict rule.
+      ✅ The counter-evidence is confirmed in DIRECTION: NIST - DH = +0.124, i.e. NIST sits
+      ABOVE pure lab and therefore yields the LOWER abundance Den Hartog reports (7.31 vs
+      7.46). 🔴 AND THE PREMISE DOES NOT HOLD: ours - NIST is -0.066 on the blue overlap
+      (4173-4584 A) against +0.106 on the red pool (5256-6456 A) -- swing 0.172 dex, SIGN
+      FLIPS -- so RYA-852's "+0.106 pool-wide" is not a scale property, and there is no
+      single "our Fe II scale" to referee. ⚠️ The three arbiter lines are REDWARD of DH19's
+      4584 A ceiling and are NOT refereed here. ⚠️ VizieR J/ApJS/243/33 returns 0 tables
+      from Sirius, so the ten values are TRANSCRIBED from the PDF and this run is not
+      network-reproducible; the full Table 6 (131 lines) would settle it.
+  - artifact: rya853/rya853_fe1_labpool_referee.csv
+    generator: scripts/rya853_fe1_labpool_referee.py
+    invocation: python3 scripts/rya853_fe1_labpool_referee.py
+    ticket: RYA-853
+    note: >-
+      Scope 2. The 465 Fe I lab-graded lines refereed against the SOURCE PAPERS' own tables
+      (Ruffoni 2014 stu780.pdf, Den Hartog 2014 ApJS 215/23, Belmonte 2017 ApJ 848/125),
+      read off the local Reference documents/ folder -- not VizieR. This is the pool
+      RYA-850 promotes, and the NIST pass never touched it.
+  - artifact: rya853/rya853_fe1_labpool_referee.json
+    generator: scripts/rya853_fe1_labpool_referee.py
+    invocation: python3 scripts/rya853_fe1_labpool_referee.py
+    ticket: RYA-853
+    note: >-
+      SUPERSEDES the earlier PDF-only pass. Refereed against the CDS MACHINE-READABLE
+      tables (J/MNRAS/441/3127 table3, J/ApJS/215/23 table4) vendored into
+      data/reference/fe_gf_lab/cds/ so it reproduces offline -- the full line lists the
+      PDFs only excerpt. ✅ COVERAGE 463 of 465 (99.6%), and 455 (98.3%) reproduce their
+      source paper's log gf exactly. RUFFONI 142/142 AND DEN HARTOG 203/203 ARE PERFECT on
+      both value and cited sigma -- 345 lines, zero defects -- which CLEARS the pool
+      RYA-850 promotes. Every surviving mismatch is Belmonte, the one source refereed from
+      a typeset PDF (J/ApJ/848/125 is a CDS 404); its table prints 2 decimals against our
+      3, so the small deltas may be extraction artifacts. 🔴 One genuine bad row:
+      Belmonte 3935.307, ours -2.199 vs -1.820 (delta +0.379) with sigma 0.070 vs 0.180.
+      🔴 FOUR PARSER BUGS were caught here, each of which produced a confident wrong
+      answer: U+2212 minus (95 of 99 "mismatches"), U+F0A0 padding around Belmonte's ±
+      (paper looked like it covered NOTHING), pdftotext -layout required, and a Den Hartog
+      column off-by-one reading A_ul as log gf (211 of 463 "mismatches"). A defect rate
+      that is suddenly enormous with a regular signature is a parser bug, not a finding.
