@@ -902,6 +902,48 @@ artifacts:
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
 
+  # ── RYA-850 — the graded (lab-gf) pool as the reported value ───────────────────────
+  - artifact: rya850/rya850_two_product_matrix.csv
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      The Fe matrix with RYA-824's two lab-gf pools wired in as cells, so every
+      (element, ion, band, engine) carries whichever of its GRADED and UNGRADED pools
+      exist. No new measurement: the pools were built by RYA-824/836 and the gf terms
+      already existed in error_budget (0.041 graded vs 0.170 ungraded); what was missing
+      is that derive_band_products.py:770 passes gf_graded=False UNCONDITIONALLY, so
+      every EW-route cell was charged the Kurucz term regardless of its lines. 🔴 ONLY 3
+      OF 18 CELLS CAN HAVE A GRADED TWIN — no primary-lab-gf pool exists for Fe II in
+      any band, nor for any ENGINE-A/ENGINE-B product; those fall back to UNGRADED and
+      say so rather than claiming a term they are not entitled to. The ungraded product
+      is KEPT and labelled (RYA-712), never dropped.
+  - artifact: rya850/rya850_element_table.csv
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      The main Solar-page view: one row per cell, graded where a lab-gf pool exists, with
+      value and +/- total VISIBLE. Uncertainty is the standard construction and nothing
+      more -- stat = scatter/sqrt(N), sys = quadrature(gf, continuum, harness, telluric),
+      total = sqrt(stat^2 + sys^2). ⚠️ It does NOT average across bands or engines:
+      RYA-712 forbids a combined product and band_products has no combine(), so the
+      per-band spread is REPORTED, never collapsed.
+  - artifact: rya850/rya850_summary.json
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      THE RESULT. All three graded cells tighten their bar -- VIS 0.1732 -> 0.0583,
+      red-optical 0.1767 -> 0.0570, near-UV 0.2077 -> 0.1375 -- which is NOT in tension
+      with RYA-836 (the lab pool scatters WORSE, 0.652 vs 0.413) or RYA-842 (gf buys a
+      bar, not a spread): scatter enters only through stat = scatter/sqrt(N), which
+      averages down, while the gf term enters sys, which does not. Checked per cell, not
+      assumed. The three graded bands AGREE (<=0.9 sigma pairwise, spread 0.132 dex), so
+      a graded headline is well defined. ⚠️ The generic 0.041 UNDERSTATES RYA-824's own
+      cited lab sigma (0.0524 IR / 0.0600 VIS) by 15-25% on the total. ⚠️ Line sets are
+      PRE-RYA-847 and provisional -- once 847 lands the graded pool is lab-gf INTERSECT
+      constrained and the near-UV cells must be regenerated.
   # ── RYA-853 — gf grade + value integrity ──────────────────────────────────────────
   - artifact: rya853/rya853_grade_integrity.csv
     generator: scripts/rya853_gf_grade_integrity_audit.py
