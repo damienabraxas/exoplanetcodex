@@ -661,6 +661,110 @@ artifacts:
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
 
+  # ── RYA-871 — a wavelength does not identify a line; carry the excitation potential ──
+  - artifact: rya871/rya871_ep_resolution_probe.csv
+    generator: scripts/rya871_ep_resolution_probe.py
+    invocation: ISPEC_DIR=... python3 scripts/rya871_ep_resolution_probe.py --band-products <band-products tree>
+    ticket: RYA-871
+    note: >-
+      Every (wavelength tolerance x EP key) variant, scored on all 35 banked EW-route
+      cells, measured BEFORE the fix was written. It answers two things the ticket did not
+      anticipate. 🔴 EP BREAKS TIES, SO IT REACHES 2 OF THE 16 ON ITS OWN --
+      RYA-855's split was 14 ABSENT / 2 AMBIGUOUS, and a tie-breaker cannot reach a line
+      with no row inside the window at all. The 0.006-
+      0.02 A offset is not measurement error: `measure_band_profilefit` draws candidates
+      from the line-accounting table, whose rows are FEATURES (line_accounting_rya709
+      groups list rows within 0.05 A and reports the group MEAN), so a blended feature
+      sits BETWEEN its components by construction. The fix is a PAIR -- widen to reach the
+      row, use the EP to keep the widening honest. ✅ MEASURED: 0.005/no (today) 1601
+      unique / 163 absent / 40 ambiguous; 0.020/yes 1764 / 23 / 17; 0.030/yes IDENTICAL, so
+      the tolerance sits on a PLATEAU and is not a tuned knob; 0.050/yes regresses. 🔴
+      WIDENING ALONE BREAKS IT: at 0.010 with no EP, 8 cells re-identify a line they had
+      already identified, and 25 do at 0.020. The control is by WHICH ROW a line lands on,
+      not whether it landed -- swapping one identification for another scores as a tie on
+      a count (RYA-818: a rule that only fires where the primary failed is unfalsifiable).
+      ✅ CRITICAL CHECKS: 0 of 35 cells change rung, 0 change syst, no A moves -- every Fe
+      pool is MIXED several times over, so a newly identified line cannot lift a rung. What
+      DID change is the thing the ticket is about: lines correctly PRICED, 107 -> 130.
+  - artifact: rya871/rya871_probe_summary.json
+    generator: scripts/rya871_ep_resolution_probe.py
+    invocation: ISPEC_DIR=... python3 scripts/rya871_ep_resolution_probe.py --band-products <band-products tree>
+    ticket: RYA-871
+    note: >-
+      The machine twin of the table above, carrying the chosen tolerances alongside the
+      variants they were chosen from, so the plateau is auditable rather than asserted.
+  - artifact: rya871/rya871_carry_control.json
+    generator: scripts/rya871_carry_control.py
+    invocation: python3 scripts/rya871_carry_control.py --new <fresh band_ew dir> --banked <pre-871 band_ew dir>
+    ticket: RYA-871
+    note: >-
+      SAME-INPUTS CONTROL (RYA-848). The claim this ticket rests on -- that carrying the EP
+      changes line IDENTITY and nothing else -- is proved against a baseline produced by
+      the SAME emitter on the SAME accounting table at the pre-RYA-871 commit, not against
+      a months-old banked artifact that carries its own input drift. Compared per row and
+      per column: the ROW SET must match on wavelength (two 152-row files can disagree
+      about which lines they are), every pre-existing column must be byte-identical
+      including the `ew_method` prose, and the only permitted difference is the ADDITION of
+      a non-null `ep_eV`. ✅ RESULT on VIS Fe I 3800-6910: 2339 rows, same line set, every
+      pre-existing column BYTE-IDENTICAL, ep_eV non-null on all 2339, range 0.0-6.1654 eV.
+
+  # ── RYA-869 — the harness residual follows the HANDLER, not the treatment label ────
+  - artifact: rya869/rya869_harness_by_cell.csv
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      One row per per-line file under a band-products tree: which handler was CHARGED for
+      the harness residual, which handler actually produced the cell, and what the
+      systematic is under each. `derive_band_products` decided it with
+      `is_b = prod.treatment == "ENGINE-B"` -- an equality against a treatment NAME, under
+      a comment stating the HANDLER rule correctly -- and RYA-798 added the variant
+      ENGINE-B-NLTE, the same SynthesisHandler flux fit on a different departure deck. ✅
+      RESULT: 6 of 36 cells (4 published matrix cells) were charged the profile fitter's
+      0.0129 dex and LABELLED ProfileFitHandler in their own budget files. VIS Fe I/II
+      ENGINE-B-NLTE 0.1705 -> 0.1700, red-optical Fe I/II ENGINE-B-NLTE 0.1731 -> 0.1726.
+      NO abundance moves -- the harness term does not enter the median, asserted per cell.
+      TWO CONTROLS, one at each end (RYA-855): the pre-fix rule reproduces all 35 published
+      cells exactly, and of the 30 cells whose handler the old rule already got right, 30
+      come out BYTE-IDENTICAL. The 6 that move change the harness term line and the
+      `systematic` total that sums it, and 0 other budget lines. ⚠️ The direction is that
+      the bar was too LARGE, so nothing was ever going to make it look wrong.
+  - artifact: rya869/rya869_summary.json
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      The machine twin of the table above, with the controls stated as counts rather than
+      narrated. 🔴 It also carries `synthesis_control_divergence`, a SECOND finding
+      reported and NOT fixed here: SynthesisHandler is charged 0.0000 dex while its own
+      banked control measured |dex_offset| = 0.0100 and PASSED
+      (data/audit/synthesis_control/control_FeI.json, n=18, RYA-770/759) -- and
+      `error_budget.harness_term` prints "MEASURED against the known optical answer, not
+      assumed zero" beside that 0.0000. Charging the measured value moves the near-UV cell
+      and every ENGINE-B cell, a different diff from this one, so it is quantified and
+      left alone. Declared in `pipeline.harness_residual.UNCHARGED_CONTROL_RESIDUAL_DEX`
+      and asserted against the artifact by tests/test_harness_residual_rya869.py, so it
+      cannot quietly stop being true. Filed as RYA-873.
+  - artifact: rya869/rya869_budget_diff.txt
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      Unified diff of every moved cell's FULL budget text, as published against as
+      RYA-869 charges it. It is the evidence for the "nothing else moved" control in a
+      form a reader can check by eye: two changed lines per cell, the harness term and
+      the systematic total.
+  - artifact: rya869/rya869_budgets_after.txt
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      The six moved cells' budgets REGENERATED under the fixed rule -- ticket item 4. One
+      file rather than one per cell, matching how the deriver writes a stem's treatments
+      into a single `*_budgets.txt`. Each block now reads `SynthesisHandler` beside
+      0.0000 where the published artifact read `ProfileFitHandler` beside 0.0129 for the
+      same handler's output.
+
   - artifact: rya783/fe_product_matrix.csv
     generator: scripts/rya783_fe_matrix_report.py
     invocation: python scripts/rya783_fe_matrix_report.py
@@ -1283,3 +1387,54 @@ artifacts:
       (paper looked like it covered NOTHING), pdftotext -layout required, and a Den Hartog
       column off-by-one reading A_ul as log gf (211 of 463 "mismatches"). A defect rate
       that is suddenly enormous with a regular signature is a parser bug, not a finding.
+  - artifact: rya855/rya855_rung_by_cell.csv
+    generator: scripts/rya855_rung_audit.py
+    invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
+    ticket: RYA-855
+    note: >-
+      One row per per-line file under a band-products tree: the gf rung that cell's own
+      lines entitle it to, and what its systematic would be on that rung. It re-derives the
+      budget from the per-line file rather than re-fitting -- the budget is a pure function
+      of (band, n_lines, scatter, gf rung, harness residual), so a re-fit could not change
+      any of the other four and WOULD fold two months of input drift into a diff meant to
+      isolate one term (RYA-848). It therefore CHECKS ITSELF FIRST: 35 of 35 cells with a
+      published row reproduce A, stat_dex AND the rung-1 syst_dex exactly, which is what
+      makes the diff attributable to the gf term and nothing else. ✅ RESULT: 0 of 36 cells
+      move. Every published Fe cell is a MIXED pool -- the VIS 1D-LTE pool is 5 GF-LAB of
+      152, red-optical 12 of 101, and Fe II has no primary-lab pool in any band -- so all
+      36 were already entitled to rung 1 only. The hardcode agreed with the data cell by
+      cell; the reason is now stated per cell instead of assumed. ⚠️ The near-UV pool is 15
+      GF-NIST + 23 K07 + 2 ambiguous and ZERO primary-lab, corroborating the provenance
+      prose this ticket replaced. 🔴 The SEPARATE FINDING this audit surfaced --
+      `derive_band_products` tested `treatment == "ENGINE-B"`, an equality against a name
+      that gained the ENGINE-B-NLTE variant in RYA-798 -- is FIXED by RYA-869. The two
+      mirrored harness rules this audit carried went with it, and the columns
+      harness_by_handler_dex / harness_misattributed / syst_if_harness_correct are
+      replaced by `harness_handler`: with one rule there is no gap left to measure.
+      ⚠️ THE SIX CORRECTED CELLS NO LONGER REPRODUCE THE PUBLISHED syst_dex, and that is
+      not drift -- their published bar was built under the defect. The audit tells the
+      two apart per cell (`syst_published_rule_pre_rya869` /
+      `syst_diff_is_rya869_correction`), because drift invalidates a diff and a known
+      correction does not: 35/35 still reproduce A and stat_dex, 29/35 reproduce syst on
+      the published rule and the remaining 6 reproduce it under the pre-RYA-869 harness
+      rule EXACTLY, so their inputs are intact and all 36 cells are still diffed.
+  - artifact: rya855/rya855_summary.json
+    generator: scripts/rya855_rung_audit.py
+    invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
+    ticket: RYA-855
+    note: >-
+      The machine twin of the table above, plus the two things a table cannot carry.
+      POSITIVE CONTROL (`graded_pool_control`): every audited cell lands on rung 1, and a
+      decider that returned rung 1 unconditionally would produce exactly that table -- so
+      the decider is run against RYA-836's near-UV lab-gf sub-pool, the one pool in the repo
+      that IS entirely primary-lab, priced on `loggf_lab` because that is the value that
+      pool was inverted on. It returns rung 3, n=60/60, which CONFIRMS the `gf_graded=True`
+      RYA-836 asserts by hand. ⚠️ AND IT DISAGREES WITH RYA-850 ON THE SIGMA: 0.0517 over 60
+      against RYA-850's published 0.0522 over 58. The two lines 850 refused are 3125.651 /
+      3125.683 A -- real, distinct Fe I transitions 0.032 A apart at EP 0.990 and 2.404 eV.
+      Its wavelength-only 0.05 A window catches both for each and refusing them was correct
+      under that rule; the wavelength+EP+value key separates them. The ambiguity was in the
+      MATCH RULE, not the data. FLAGGED, NOT CHANGED -- it is RYA-850's published bar.
+      `caveats` records the EW route's identification ceiling: its per-line artifact carries
+      no excitation potential, so lines are resolved on wavelength alone and 16 of 152 VIS
+      lines do not resolve uniquely.

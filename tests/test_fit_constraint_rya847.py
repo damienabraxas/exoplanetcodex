@@ -421,7 +421,7 @@ def test_both_serialisers_of_a_line_carry_the_metrics():
         assert row.get(k) == v, f"asdict_line dropped {k}"
 
     frame = build_product("Fe", "I", "kpno_solar_atlas", "VIS", "ENGINE-B",
-                          [lm]).to_frame()
+                          [lm], handler="SynthesisHandler").to_frame()
     for k, v in wanted.items():
         assert k in frame.columns, f"Product.to_frame dropped {k}"
         assert float(frame.iloc[0][k]) == v
