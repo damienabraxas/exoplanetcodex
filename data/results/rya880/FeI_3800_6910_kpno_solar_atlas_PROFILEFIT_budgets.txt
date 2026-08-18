@@ -1,0 +1,26 @@
+Fe · VIS · n=148
+  statistical  0.0261 dex   (averages down as 1/sqrt(N))
+  systematic   0.1705 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0261  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 6 of 148 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x1, UNRESOLVED x4, systematic:K07 x134, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
+
+Fe · VIS · n=105
+  statistical  0.0279 dex   (averages down as 1/sqrt(N))
+  systematic   0.1705 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0279  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 5 of 105 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x1, UNRESOLVED x1, systematic:K07 x95, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
+
+Fe · VIS · n=129
+  statistical  0.0193 dex   (averages down as 1/sqrt(N))
+  systematic   0.1700 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0193  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 5 of 129 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x1, UNRESOLVED x2, systematic:K07 x118, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
