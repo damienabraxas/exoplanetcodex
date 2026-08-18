@@ -250,6 +250,40 @@ artifacts:
     invocation: python scripts/rya347_fe2_atomic_data_audit.py
     ticket: RYA-347
 
+  # ── RYA-847 — the non-minimum gate, and what it cost per cell ─────────────────────
+  - artifact: rya847/README.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-847
+    sources:
+      - scripts/rya847_gate_diff.py
+      - data/results/rya847/rya847_pregate_control.csv
+    note: >-
+      Reading instructions for this directory, and one warning worth the file: these
+      cells must NOT be diffed against data/results/rya783/fe_product_matrix.csv. That
+      matrix came from the rya845 run, and its line counts differ by four ATOMIC_BLEND
+      registry exclusions, 11119.795 and the RYA-807 gate — so diffing against it
+      measures this gate PLUS months of pool drift, which is the confound RYA-848 hit and
+      settled with a same-inputs control.
+
+  - artifact: rya847/rya847_pregate_control.csv
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-847
+    sources:
+      - pipeline/constraint_gate.py
+      - scripts/rya847_regen_gated_cells.sh
+    note: >-
+      The PRE-GATE numbers, carried as data because they can no longer be recomputed: they
+      come from RYA-847's own nine-cell sweep — the SAME tree and SAME code as the gated
+      run, with the gate not yet applied — and the sweep's per-line CSVs were destroyed
+      when the working tree was re-synced afterwards (the RYA-461 save-before-clean
+      convention exists for exactly this and was not followed). 🔴 A hand-carried number
+      must be FALSIFIABLE by the artifact it describes, so scripts/rya847_gate_diff.py
+      asserts `n_post + n_caught == n_pre` per cell and fails if a control row finds no
+      product — the check that would have caught the deck-overwrite that lost the VIS
+      ENGINE-B row.
+
   # ── Hand-authored decision records (no program wrote these) ───────────────────────
 
   - artifact: sr2_line_selection_rya430.json
