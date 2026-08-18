@@ -202,15 +202,17 @@ def main() -> int:
     if not len(safe):
         print("  none — every widening moves at least one existing identification")
     else:
+        # NB: `n_unique` etc keep their `n_` prefix here — `df.unique` is a DataFrame
+        # METHOD, so an aggregate named `unique` silently resolves to it on itertuples.
         best = (safe.groupby(["tol_A", "use_ep"])
-                    .agg(unique=("n_unique", "sum"), absent=("n_absent", "sum"),
-                         ambiguous=("n_ambiguous", "sum"), cells=("n_unique", "size"))
-                    .reset_index().sort_values(["unique", "tol_A"],
+                    .agg(n_unique=("n_unique", "sum"), n_absent=("n_absent", "sum"),
+                         n_ambiguous=("n_ambiguous", "sum"), n_cells=("n_unique", "size"))
+                    .reset_index().sort_values(["n_unique", "tol_A"],
                                                ascending=[False, True]))
         print(f"{'tol_A':>8}{'EP':>5}{'unique':>9}{'absent':>8}{'ambig':>7}   (summed over cells)")
         for _, r in best.iterrows():
             print(f"{r.tol_A:>8.3f}{('yes' if r.use_ep else 'no'):>5}"
-                  f"{int(r.unique):>9}{int(r.absent):>8}{int(r.ambiguous):>7}")
+                  f"{int(r.n_unique):>9}{int(r.n_absent):>8}{int(r.n_ambiguous):>7}")
 
     (a.out / "rya871_probe_summary.json").write_text(json.dumps({
         "ticket": "RYA-871",
