@@ -205,7 +205,9 @@ def synthesis_control_divergence() -> dict:
                  "prints 'MEASURED against the known optical answer, not assumed zero'; "
                  "the handler's own banked control measured |dex_offset| = 0.0100 and "
                  "PASSED. The prose and the arithmetic disagree."),
-        "status": "REPORTED, NOT FIXED IN RYA-869 — " + note["why_not_charged"],
+        "ticket": note.get("ticket", ""),
+        "status": ("REPORTED, NOT FIXED IN RYA-869; filed as "
+                   f"{note.get('ticket', 'a follow-up')} — " + note["why_not_charged"]),
     }
 
 

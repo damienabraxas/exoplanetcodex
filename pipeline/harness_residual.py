@@ -46,8 +46,8 @@ This module owns the number, ONCE. It was written out at `derive_band_products.p
 and again at `rya850_graded_products.py:73` -- two homes for one constant, the RYA-845
 shape -- and both now import it.
 
-⚠️ `SynthesisHandler` IS CHARGED 0.0 AND ITS BANKED CONTROL SAYS 0.0100 (RYA-870-adjacent
-finding; see `UNCHARGED_CONTROL_RESIDUAL_DEX` below). That divergence is REPORTED, not
+⚠️ `SynthesisHandler` IS CHARGED 0.0 AND ITS BANKED CONTROL SAYS 0.0100 — filed as **RYA-873**;
+see `UNCHARGED_CONTROL_RESIDUAL_DEX` below. That divergence is REPORTED, not
 silently absorbed, and `tests/test_harness_residual_rya869.py` fails if it stops being
 declared. It is deliberately NOT fixed here: this ticket moves four bars by 0.0005 dex
 and folding a second bar-moving term into the same diff would make neither attributable
@@ -91,6 +91,11 @@ UNCHARGED_CONTROL_RESIDUAL_DEX: dict[str, dict] = {
     "SynthesisHandler": {
         "control_dex": 0.0100,
         "control_artifact": "data/audit/synthesis_control/control_FeI.json",
+        #: The ticket that owes the adjudication. ⚠️ It is NOT a constant swap: the
+        #: control PASSES on abundance (−0.0100) and FAILS on EW (+0.1562) and says so —
+        #: "compensating errors, treat with MORE suspicion than a clean failure, because
+        #: it looks like success". Which number a compensating pass earns is the ticket.
+        "ticket": "RYA-873",
         "why_not_charged": (
             "published band products charge 0.0; charging the measured 0.0100 moves the "
             "near-UV 1D-LTE cell and every ENGINE-B / ENGINE-B-NLTE cell, so it is a "

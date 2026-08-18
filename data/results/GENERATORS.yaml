@@ -456,7 +456,7 @@ artifacts:
       and every ENGINE-B cell, a different diff from this one, so it is quantified and
       left alone. Declared in `pipeline.harness_residual.UNCHARGED_CONTROL_RESIDUAL_DEX`
       and asserted against the artifact by tests/test_harness_residual_rya869.py, so it
-      cannot quietly stop being true.
+      cannot quietly stop being true. Filed as RYA-873.
   - artifact: rya869/rya869_budget_diff.txt
     generator: scripts/rya869_harness_attribution.py
     invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
