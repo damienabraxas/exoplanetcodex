@@ -103,19 +103,29 @@ def main() -> int:
     results = []
     for _, r in sample.iterrows():
         wl_nm = float(r["wavelength_air_A"]) / 10.0
-        # one-line linelist: iSpec's STRUCTURE, the product's VALUES
-        sel = linelist[np.abs(linelist["wave_A"] - float(r["wavelength_air_A"])) < 0.05]
-        if len(sel) == 0:
-            results.append({"wavelength_air_A": float(r["wavelength_air_A"]),
+        wl_A = float(r["wavelength_air_A"])
+        # 🔴 THE WINDOW, NOT THE LINE ALONE. A first cut isolated the target line and
+        # inverted the observed EW against it by itself. That fails, and it fails in a
+        # diagnostic direction: three of five bisections ran out of bracket and one landed
+        # +0.49 dex HIGH, which is what happens when one line is charged the EW that its
+        # blends helped produce. RYA-489 §6.1 says "someone with THE SAME STACK (... VALD3)"
+        # — the line list is part of the stack the replicator already has, so the row is
+        # not required to carry its neighbours. What the row must supply is ITS OWN
+        # constants, and that is what is overridden below.
+        win = linelist[np.abs(linelist["wave_A"] - wl_A) <= 1.5]
+        tgt = np.abs(win["wave_A"] - wl_A) < 0.05
+        if not tgt.any():
+            results.append({"wavelength_air_A": wl_A,
                             "outcome": "LINE-NOT-IN-SYNTH-LINELIST"})
             continue
-        one = sel[:1].copy()
-        one["loggf"] = float(r["log_gf"])
-        one["lower_state_eV"] = float(r["excitation_potential_eV"])
+        one = win.copy()
+        idx = int(np.argmax(tgt))
+        one["loggf"][idx] = float(r["log_gf"])
+        one["lower_state_eV"][idx] = float(r["excitation_potential_eV"])
         for col, key in (("rad", "damping_rad"), ("stark", "damping_stark"),
                          ("waals", "damping_vdW")):
             if col in one.dtype.names and pd.notna(r.get(key)):
-                one[col] = float(r[key])
+                one[col][idx] = float(r[key])
 
         wave_nm = np.arange(wl_nm - 0.15, wl_nm + 0.15, 0.0005)
         a_repro, converged, _ = ad._bisect_synth_abundance(
