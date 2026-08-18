@@ -1,0 +1,72 @@
+{
+  "ticket": "RYA-877",
+  "line_air_A": 5991.371,
+  "products": {
+    "1D-LTE": {
+      "carries_the_line": true,
+      "before": {
+        "n": 11,
+        "median": 7.568359375,
+        "scatter": 0.1870571107644518,
+        "stat_dex": 0.05639984097942152
+      },
+      "line_own_abundance": 7.5859375,
+      "after": {
+        "n": 10,
+        "median": 7.5419921875,
+        "scatter": 0.19717471605746958,
+        "stat_dex": 0.06235211997385794
+      },
+      "delta": {
+        "value": -0.0263671875,
+        "scatter": 0.010117605293017778,
+        "stat_dex": 0.0059522789944364204
+      }
+    },
+    "ENGINE-A": {
+      "carries_the_line": false,
+      "before": {
+        "n": 3,
+        "median": 7.516625,
+        "scatter": 0.14636714058746245,
+        "stat_dex": 0.08450510801868724
+      }
+    },
+    "ENGINE-B": {
+      "carries_the_line": true,
+      "before": {
+        "n": 10,
+        "median": 7.4775,
+        "scatter": 0.03754168054013811,
+        "stat_dex": 0.01187172176972567
+      },
+      "line_own_abundance": 7.457,
+      "after": {
+        "n": 9,
+        "median": 7.486,
+        "scatter": 0.03867744102761261,
+        "stat_dex": 0.012892480342537536
+      },
+      "delta": {
+        "value": 0.00849999999999973,
+        "scatter": 0.0011357604874744978,
+        "stat_dex": 0.0010207585728118657
+      }
+    }
+  },
+  "ionization_arbiter": {
+    "treatment": "ENGINE-A",
+    "lines_air_A": [
+      6147.7341,
+      6238.3859,
+      6247.557
+    ],
+    "expected_trio": [
+      6147.734,
+      6238.386,
+      6247.557
+    ],
+    "carries_the_dispositioned_line": false,
+    "value_unchanged": true
+  }
+}
