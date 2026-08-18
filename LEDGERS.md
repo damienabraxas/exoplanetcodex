@@ -21,6 +21,29 @@ noticing. It is now a file.
 **Read #5 BEFORE proposing any download.** The holdings registry exists so we
 stop re-acquiring data we already have.
 
+## Standing session step — refresh the bibliography (RYA-854)
+
+**The reference library gains documents between sessions, so check it every session:**
+
+```bash
+python3 scripts/generate_sources_page.py --audit-library "<reference library dir>"
+```
+
+It exits non-zero if any document in the library has no row in
+[`data/refs/bibliography.csv`](data/refs/bibliography.csv), or if two rows name
+byte-identical files. **An unlisted document is an uncited one.** Add the missing rows
+(verify each against the document itself, never against its filename), then
+regenerate the public page:
+
+```bash
+python3 scripts/generate_sources_page.py --site-root ../exoplanetcodex-site
+```
+
+This is *not* an eighth ledger — the bibliography is a citation catalogue, not mutable
+project state, and it carries no register-bump obligation. It is on this page because
+this page is what gets read first, and the check is worthless if nobody runs it. It
+already caught three documents added mid-session on 2026-08-17.
+
 **Read #7 BEFORE answering "why is element X still owed".** #2 tells you an
 element's status; #7 tells you what is *holding* it, gate by gate. RYA-672 had to
 reconstruct that by hand across three tickets because nothing routed a reader

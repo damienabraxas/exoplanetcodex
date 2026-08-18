@@ -17,6 +17,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-18
 
+- **RYA-878** — ANGLE 1 made a MEASURED angle: the production path banks a synthetic EW and one definition serves both sides. Adapter reproduces the engine **1.000**; the **engine** carries the +0.1523. Mostly definitional (range explains 70–88%), residual + per-line spread OPEN.
+- **RYA-875** — the SynthesisHandler residual was a LINE-SET artifact: an 18-line median vs a scalar from a different 23-line set. Paired, the offset is **0.0000** (17/18 within ±0.009). RYA-873's declaration deleted because the numbers agree; no bar moves. ANGLE 1 still open.
 - **RYA-873** — the harness term's prose is derived from PROVENANCE, so an uncharged residual stops printing "MEASURED". Contamination refuted (15/18 uncontaminated lines still span 0.50–2.07) ⇒ 0.0100 unestablished; nothing charged, no bar moves. RCA = RYA-875.
 - **RYA-847** *(part 2)* — the sweep found NO transferable threshold, so the gate is the zero-parameter non-minimum check; near-UV 7.488 → 7.498.
 - **RYA-869** — the harness residual follows the HANDLER, not the treatment label; `ENGINE-B-NLTE` was charged the profile fitter's 0.0129 and labelled `ProfileFitHandler` in its own budget. 4 published Fe bars 0.1705→0.1700 / 0.1731→0.1726; no value moves.
