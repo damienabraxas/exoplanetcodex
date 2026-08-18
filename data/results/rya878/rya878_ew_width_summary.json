@@ -1,0 +1,86 @@
+{
+  "ticket": "RYA-878",
+  "profile_fit_half_width_A": 0.6,
+  "production_half_width_A": ">= 1.0 (synth_ew.ew_half_width_A)",
+  "sweep": [
+    {
+      "half_width_A": 0.3,
+      "n": 18,
+      "median_ratio": 1.0419,
+      "dex": 0.0178,
+      "mad": 0.1121,
+      "min": 0.491,
+      "max": 1.542,
+      "within_10pct": 9
+    },
+    {
+      "half_width_A": 0.45,
+      "n": 18,
+      "median_ratio": 1.0475,
+      "dex": 0.0201,
+      "mad": 0.1188,
+      "min": 0.493,
+      "max": 2.221,
+      "within_10pct": 6
+    },
+    {
+      "half_width_A": 0.6,
+      "n": 18,
+      "median_ratio": 1.1101,
+      "dex": 0.0454,
+      "mad": 0.2094,
+      "min": 0.494,
+      "max": 3.432,
+      "within_10pct": 5
+    },
+    {
+      "half_width_A": 0.8,
+      "n": 18,
+      "median_ratio": 1.2149,
+      "dex": 0.0845,
+      "mad": 0.2744,
+      "min": 0.495,
+      "max": 6.907,
+      "within_10pct": 4
+    },
+    {
+      "half_width_A": 1.0,
+      "n": 18,
+      "median_ratio": 1.4201,
+      "dex": 0.1523,
+      "mad": 0.3738,
+      "min": 0.496,
+      "max": 8.385,
+      "within_10pct": 2
+    },
+    {
+      "half_width_A": 1.4,
+      "n": 18,
+      "median_ratio": 1.8647,
+      "dex": 0.2706,
+      "mad": 0.8215,
+      "min": 0.963,
+      "max": 9.684,
+      "within_10pct": 4
+    }
+  ],
+  "baseline_paired_offset_dex": 0.1523,
+  "dex_at_profile_fit_extent": 0.0454,
+  "fraction_explained_at_profile_fit_extent": 0.702,
+  "fraction_explained_at_narrowest": 0.883,
+  "range_dominates": true,
+  "fully_explained": false,
+  "residual": "The ratio is monotonic in the integration range and never reaches 1.0 \u2014 it asymptotes near 1.042 at +/-0.30 A. So the range DOMINATES the offset but does not fully account for it: a few-percent residual survives at matched extent, and the per-line SPREAD survives at every width (one line, 6085.258, sits at ratio ~0.49 from +/-0.30 to +/-1.40 A \u2014 the synthesis produces half the observed absorption there regardless of range, which the definitional explanation does not touch). Reported as open rather than closed.",
+  "refuted_by_measurement_873_875": [
+    "same-species contamination",
+    "uniform continuum offset (log10 std 0.247)",
+    "saturation (-0.047 vs reduced EW)",
+    "line strength (-0.100)",
+    "red_chi2 (+0.059)",
+    "sigma_A (-0.169)"
+  ],
+  "refuted_by_structure_878": {
+    "RYA-771 %.2f abundance quantisation": "0.01 dex is ~2.3% in EW; cannot produce a factor of 1.42 (MAGNITUDE)",
+    "RYA-770 residual edge pixels": "synth_ew builds its own grid and never receives the observed spectrum, so a zeroed observed pixel cannot reach it (STRUCTURAL)"
+  }
+}

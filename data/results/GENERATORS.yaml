@@ -686,6 +686,58 @@ artifacts:
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
 
+  # ── RYA-878 — ANGLE 1 was an inference wearing an angle; make it a measurement ──────
+  - artifact: rya878/rya878_angle1_by_line.csv
+    generator: scripts/rya878_angle1_like_for_like.py
+    invocation: ISPEC_DIR=... python3 scripts/rya878_angle1_like_for_like.py
+    ticket: RYA-878
+    note: >-
+      The SynthesisHandler control's ANGLE 1 (synthetic vs observed EW, +0.1562 dex) had
+      no engine-side counterpart: the production synth-v2 path banks A_X, red_chi2 and
+      status and NO synthetic EW, so "the engine shares the offset" could only be INFERRED
+      (RYA-875). This measures it, without a refit -- the EW is a pure function of the
+      abundance, so the engine side is evaluated at the BANKED a_synth through the same
+      `pipeline.synth_ew` definition the handler now calls. ✅ RESULT: (a) handler/engine
+      = 1.000 (+0.0000 dex), MAD 0.004, 18/18 within 10% -- the ADAPTER REPRODUCES THE
+      ENGINE; (b) engine/observed = 1.420 (+0.1523 dex), 1/18 within 10% -- THE ENGINE
+      CARRIES THE OFFSET TOO. So it is a MODEL-vs-OBSERVATION property, not an adapter
+      defect, and unlike ANGLE 2 it SURVIVES pairing rather than dissolving into a
+      line-set artifact.
+  - artifact: rya878/rya878_angle1_summary.json
+    generator: scripts/rya878_angle1_like_for_like.py
+    invocation: ISPEC_DIR=... python3 scripts/rya878_angle1_like_for_like.py
+    ticket: RYA-878
+    note: >-
+      The machine twin, carrying the three comparisons and the six roots RYA-873/875
+      already refuted so they are recorded rather than re-tested.
+  - artifact: rya878/rya878_ew_width_sweep.csv
+    generator: scripts/rya878_ew_definition_sweep.py
+    invocation: ISPEC_DIR=... python3 scripts/rya878_ew_definition_sweep.py
+    ticket: RYA-878
+    note: >-
+      The synthetic/observed EW ratio against the INTEGRATION HALF-WIDTH, because the two
+      quantities are not the same thing: the observed EW is one fitted Voigt over +/-0.60 A
+      (profile_fit.FIT_HALF_A) and the synthetic one is ALL of the element's absorption
+      over >=1.0 A. ✅ MONOTONIC: 1.042 (+0.0178) at +/-0.30 A, 1.110 (+0.0454) at the
+      profile fitter's own +/-0.60, 1.420 (+0.1523) at today's +/-1.00, 1.865 (+0.2706) at
+      +/-1.40. ⚠️ MOSTLY DEFINITIONAL AND NOT ENTIRELY -- the range accounts for 70% of the
+      offset at matched extent and 88% at the narrowest, but the ratio NEVER REACHES 1.0
+      (it asymptotes near 1.042) and the per-line spread survives at every width. One line,
+      6085.258, sits at ratio ~0.49 from +/-0.30 to +/-1.40 A: the synthesis produces half
+      the observed absorption there regardless of range, which the definitional explanation
+      does not touch. Reported OPEN, not closed.
+  - artifact: rya878/rya878_ew_width_summary.json
+    generator: scripts/rya878_ew_definition_sweep.py
+    invocation: python3 scripts/rya878_ew_definition_sweep.py --from-csv
+    ticket: RYA-878
+    note: >-
+      The machine twin, plus the two roots RYA-878 refuted by STRUCTURE rather than by
+      measurement: RYA-771's %.2f abundance staircase is 0.01 dex ~ 2.3% in EW and cannot
+      produce a factor of 1.42 (MAGNITUDE), and RYA-770's residual edge pixels cannot reach
+      a quantity that synthesises its own grid and never receives the observed spectrum
+      (STRUCTURAL). `--from-csv` re-derives the verdict from the banked sweep without
+      re-synthesising -- the summary is a pure function of the CSV.
+
   # ── RYA-873 — a budget must not print MEASURED beside a number nobody measured ──────
   - artifact: rya873/rya873_crowding_by_line.csv
     generator: scripts/rya873_control_rca.py
@@ -1320,6 +1372,88 @@ artifacts:
       constant that made the number, so the row is not yet replication-grade. ⚠️ 332
       synthesis_fit rows are NOT COVERED -- they need the observed spectrum, and an
       untested row is never counted as passing.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for 1D-LTE in the BEFORE half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-A in the BEFORE half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-B in the BEFORE half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for 1D-LTE in the AFTER half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-A in the AFTER half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-B in the AFTER half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The BEFORE half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The BEFORE half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The AFTER half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The AFTER half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
 
   # ── RYA-877 — dispositioning the circular Fe II line, and what it costs ───────────
   - artifact: rya877/rya877_disposition_impact.json
