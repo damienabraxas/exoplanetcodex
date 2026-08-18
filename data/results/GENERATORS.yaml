@@ -686,6 +686,58 @@ artifacts:
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
 
+  # ── RYA-878 — ANGLE 1 was an inference wearing an angle; make it a measurement ──────
+  - artifact: rya878/rya878_angle1_by_line.csv
+    generator: scripts/rya878_angle1_like_for_like.py
+    invocation: ISPEC_DIR=... python3 scripts/rya878_angle1_like_for_like.py
+    ticket: RYA-878
+    note: >-
+      The SynthesisHandler control's ANGLE 1 (synthetic vs observed EW, +0.1562 dex) had
+      no engine-side counterpart: the production synth-v2 path banks A_X, red_chi2 and
+      status and NO synthetic EW, so "the engine shares the offset" could only be INFERRED
+      (RYA-875). This measures it, without a refit -- the EW is a pure function of the
+      abundance, so the engine side is evaluated at the BANKED a_synth through the same
+      `pipeline.synth_ew` definition the handler now calls. ✅ RESULT: (a) handler/engine
+      = 1.000 (+0.0000 dex), MAD 0.004, 18/18 within 10% -- the ADAPTER REPRODUCES THE
+      ENGINE; (b) engine/observed = 1.420 (+0.1523 dex), 1/18 within 10% -- THE ENGINE
+      CARRIES THE OFFSET TOO. So it is a MODEL-vs-OBSERVATION property, not an adapter
+      defect, and unlike ANGLE 2 it SURVIVES pairing rather than dissolving into a
+      line-set artifact.
+  - artifact: rya878/rya878_angle1_summary.json
+    generator: scripts/rya878_angle1_like_for_like.py
+    invocation: ISPEC_DIR=... python3 scripts/rya878_angle1_like_for_like.py
+    ticket: RYA-878
+    note: >-
+      The machine twin, carrying the three comparisons and the six roots RYA-873/875
+      already refuted so they are recorded rather than re-tested.
+  - artifact: rya878/rya878_ew_width_sweep.csv
+    generator: scripts/rya878_ew_definition_sweep.py
+    invocation: ISPEC_DIR=... python3 scripts/rya878_ew_definition_sweep.py
+    ticket: RYA-878
+    note: >-
+      The synthetic/observed EW ratio against the INTEGRATION HALF-WIDTH, because the two
+      quantities are not the same thing: the observed EW is one fitted Voigt over +/-0.60 A
+      (profile_fit.FIT_HALF_A) and the synthetic one is ALL of the element's absorption
+      over >=1.0 A. ✅ MONOTONIC: 1.042 (+0.0178) at +/-0.30 A, 1.110 (+0.0454) at the
+      profile fitter's own +/-0.60, 1.420 (+0.1523) at today's +/-1.00, 1.865 (+0.2706) at
+      +/-1.40. ⚠️ MOSTLY DEFINITIONAL AND NOT ENTIRELY -- the range accounts for 70% of the
+      offset at matched extent and 88% at the narrowest, but the ratio NEVER REACHES 1.0
+      (it asymptotes near 1.042) and the per-line spread survives at every width. One line,
+      6085.258, sits at ratio ~0.49 from +/-0.30 to +/-1.40 A: the synthesis produces half
+      the observed absorption there regardless of range, which the definitional explanation
+      does not touch. Reported OPEN, not closed.
+  - artifact: rya878/rya878_ew_width_summary.json
+    generator: scripts/rya878_ew_definition_sweep.py
+    invocation: python3 scripts/rya878_ew_definition_sweep.py --from-csv
+    ticket: RYA-878
+    note: >-
+      The machine twin, plus the two roots RYA-878 refuted by STRUCTURE rather than by
+      measurement: RYA-771's %.2f abundance staircase is 0.01 dex ~ 2.3% in EW and cannot
+      produce a factor of 1.42 (MAGNITUDE), and RYA-770's residual edge pixels cannot reach
+      a quantity that synthesises its own grid and never receives the observed spectrum
+      (STRUCTURAL). `--from-csv` re-derives the verdict from the banked sweep without
+      re-synthesising -- the summary is a pure function of the CSV.
+
   # ── RYA-873 — a budget must not print MEASURED beside a number nobody measured ──────
   - artifact: rya873/rya873_crowding_by_line.csv
     generator: scripts/rya873_control_rca.py
