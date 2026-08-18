@@ -1318,5 +1318,19 @@
       "reason": "MIXED POOL: 7 of 77 Fe I lines are GF-LAB (primary laboratory gf); the rest are UNRESOLVED x9, systematic:K07 x58, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is \u2014 inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one",
       "src": "ts-lte/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv"
     }
-  ]
+  ],
+  "end_to_end_control": {
+    "what": "the near-UV cell re-derived through the ACTUAL deriver with the wiring live, not reconstructed offline \u2014 40 flux fits on Sirius (venv312/iSpec)",
+    "invocation": "ISPEC_DIR=... python3 scripts/derive_band_products.py --element Fe --ion I --lo 3000 --hi 3780 --out <dir>",
+    "banked": "/mnt/codex-data/codex/rya845/data/results/band_products",
+    "products_csv": "BYTE-IDENTICAL to the banked one: A=7.488, n=40, n_excluded=0, stat_dex=0.0652, syst_dex=0.1972, dominant='gf scale (UNGRADED)'",
+    "per_line_csv": "columns 1-12 byte-identical over all 40 lines (wavelength, abundance, in_aggregate, excluded_reason)",
+    "rung_reported_by_the_deriver": "rung 1 \u2014 MIXED POOL: 0 of 40 Fe I lines are GF-LAB; the rest are GF-NIST x15, UNRESOLVED x2, systematic:K07 x23",
+    "agrees_with_offline_audit": true,
+    "artifact_diffs_and_their_cause": [
+      "budgets.txt: ONE line ADDED \u2014 the gf rung and its reason (RYA-855). Every budget term is byte-identical.",
+      "1D-LTE_lines.csv: FOUR columns ADDED \u2014 sigma_A / frac_rise_weaker / edge_distance_dex / red_chi2. NOT RYA-855: those are RYA-847's constraint metrics, merged to main at 5b4e31a after the banked run.",
+      "provenance.txt: NEW FILE. Also RYA-847."
+    ]
+  }
 }
