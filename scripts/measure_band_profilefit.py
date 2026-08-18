@@ -39,7 +39,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.lines_fit import (  # noqa: E402
     _local_renorm, _fit_profile, _integrate_profile, _ew_error)
-from pipeline.band_products import LineMeasurement, assert_single_element  # noqa: E402
+from pipeline.band_products import carried_ep, LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
     kp_segments, load_kp_window, load_window, telluric_reason, PRE_NORMALISED,
@@ -47,6 +47,7 @@ from scripts.measure_band_ew import (  # noqa: E402
     attribute_root_cause)
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
+
 CATALOG = ROOT / "data" / "catalog" / "instrument_catalog.csv"
 OUT = ROOT / "data" / "measured" / "band_ew"
 
@@ -157,6 +158,8 @@ def main() -> None:
         if not allowed:
             lm = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                                  instrument=a.instrument, ew_mA=float("nan"),
+                                 ep_eV=carried_ep(r, wavelength_A=c, element=a.element,
+                                                  ion=a.ion),
                                  ew_method=f"profile fit not attempted in {pol.name}")
             lm.in_aggregate = False
             lm.excluded_reason = f"BAND-POLICY: {gap_reason}"
@@ -206,6 +209,9 @@ def main() -> None:
         lm = LineMeasurement(
             element=a.element, ion=a.ion, wavelength_air_A=c, instrument=a.instrument,
             ew_mA=float(ew),
+            # RYA-871 — carried from the SAME accounting row `c` came from, so the
+            # wavelength and the EP describe one transition by construction.
+            ep_eV=carried_ep(r, wavelength_A=c, element=a.element, ion=a.ion),
             ew_method=(f"PROFILE-FIT ({ptype}); gap {gap:.3f} A"
                        + ("" if band_permits else f" [PER-LINE ESCAPE from {pol.name} ban]")
                        + f"; model integrated; chi2_red={chi2:.4g}; "

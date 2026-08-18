@@ -149,9 +149,15 @@ def audit(band_products: Path, lists: dict) -> pd.DataFrame:
         before = _budget(gf_graded=False)
         stat_before, syst_before = before.total()
 
+        # RYA-871 — the per-line artifact carries `ep_eV` now, so a measured line is
+        # matched back to the list on wavelength AND EP. A file written before RYA-871
+        # has no such column, and `.get` returning None keeps THAT file on the narrow
+        # wavelength-only rule rather than widening it blind — which is the whole point
+        # of the two tolerances travelling with the key.
         lines_gf = gf_rung.resolve_lines(
             cell["element"], cell["ion"], used.wavelength_air_A,
-            _linelist_for(cell["route"], pol.name, lists))
+            _linelist_for(cell["route"], pol.name, lists),
+            measured_ep_eV=(used["ep_eV"] if "ep_eV" in used.columns else None))
         rung = gf_rung.decide(cell["element"], cell["ion"], lines_gf)
         # WHY a line could not be priced, split: absent from the list is a coverage fact,
         # two rows inside the tolerance is an identification one. Collapsing them would

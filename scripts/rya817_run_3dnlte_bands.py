@@ -441,6 +441,12 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
             instrument=INSTRUMENT,
             ew_mA=float(r["ew_mA"]) if np.isfinite(r["ew_mA"]) else 0.0,
             ew_method="RYA-783 PROFILE-FIT (inherited)",
+            # RYA-871 — `elo_eV` here is the VALD lower-level energy this leg matched the
+            # line to, i.e. the same quantity `ep_eV` names elsewhere. Carried under the
+            # shared name so one consumer reads one column; NaN stays None rather than
+            # becoming 0 eV, which would key the line on a level it does not have.
+            ep_eV=(float(r["elo_eV"]) if np.isfinite(r.get("elo_eV", np.nan))
+                   else None),
             abundance=float(r["a_3dnlte"]) if usable else None,
             rew=float(r["rew"]) if np.isfinite(r["rew"]) else None,
             treatment=amarsi3d.TREATMENT,
