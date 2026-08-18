@@ -251,6 +251,46 @@ artifacts:
     ticket: RYA-347
 
   # ── RYA-847 — the non-minimum gate, and what it cost per cell ─────────────────────
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_provenance.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the run provenance for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
   - artifact: rya847/README.md
     status: HAND_AUTHORED
     generator: null
