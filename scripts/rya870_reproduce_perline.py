@@ -97,10 +97,29 @@ def main() -> int:
     feh = float(header["Fe_H"])
     xi = float(header["xi_microturb"])
 
+    # 🔴 COMPARE LIKE WITH LIKE. This guard re-inverts an equivalent width, which is an
+    # LTE operation. Comparing that against an ENGINE-A number — the same inversion PLUS
+    # the MPIA departure — charges the row for a correction the reproduction never
+    # applied, and it is exactly how RYA-880 was found: a stubborn 0.011 dex on 6094.372
+    # that turned out to BE the departure. Two ways to be honest about it, in order of
+    # preference:
+    #   1. the product records the correction (RYA-880) -> ADD it back, and the comparison
+    #      is exact on every engine;
+    #   2. the product predates that column -> restrict to rows that are LTE by
+    #      construction, and SAY the coverage is narrower rather than quietly widening a
+    #      threshold to swallow the difference.
     ew_rows = rows[(rows["status"] == "in_aggregate")
                    & (rows["method"] == "ew_integration")
                    & rows["ew_mA"].notna() & rows["A_X_line"].notna()
                    & rows["log_gf"].notna() & rows["excitation_potential_eV"].notna()]
+    has_delta = ("nlte_delta_dex" in rows.columns
+                 and rows["nlte_delta_dex"].notna().any())
+    if not has_delta:
+        n_before = len(ew_rows)
+        ew_rows = ew_rows[ew_rows["engine"].astype(str).str.startswith("1D-LTE")]
+        print(f"  [coverage] the product carries no recorded NLTE correction, so this run "
+              f"is restricted to the {len(ew_rows)} rows that are LTE by construction "
+              f"(of {n_before} EW-route rows). RYA-880 removes this restriction.")
     not_covered = int(((rows["status"] == "in_aggregate")
                        & (rows["method"] == "synthesis_fit")).sum())
 
@@ -163,6 +182,11 @@ def main() -> int:
             one, isotopes, solar_abund, str(r["element"]), 26)
 
         published = float(r["A_X_line"])
+        # RYA-880: put the recorded departure back, so an NLTE-corrected published value
+        # is compared against an LTE re-inversion on equal terms.
+        applied = r.get("nlte_delta_dex")
+        if applied is not None and not pd.isna(applied) and float(applied) != 0.0:
+            published = published - float(applied)
         delta = (float("nan") if not np.isfinite(a_repro)
                  else abs(a_repro - published))
 
