@@ -95,6 +95,32 @@ class LineMeasurement:
     problem_status: str = ""
     problem_tickets: str = ""
     problem_action: str = ""
+    #: RYA-871 — THE EXCITATION POTENTIAL OF THE TRANSITION THAT WAS MEASURED.
+    #:
+    #: A wavelength does not identify a line. `gf_rung.resolve_lines` matched a measured
+    #: line back to the loaded line list on wavelength ALONE because this column did not
+    #: exist, and 16 of 152 VIS Fe I lines did not resolve — 14 with no row inside the
+    #: 0.005 A window at all and 2 with two rows inside it. Both halves are the same
+    #: missing key: the measured wavelength comes from
+    #: `data/audit/line_accounting/per_line.csv`, whose rows are FEATURES rather than
+    #: lines (`line_accounting_rya709.features()` groups list rows within 0.05 A and
+    #: reports the group MEAN), so a blended feature sits BETWEEN its components by
+    #: construction. Widening the window to reach the component then buys a CHOICE rather
+    #: than an identification — measured: at 0.020 A with no EP key, 7 of the 136 lines
+    #: that already resolved change which row they resolve to. The EP is what makes the
+    #: widening legitimate.
+    #:
+    #: The emitter always had it: the accounting row carries `ep_eV` and
+    #: `measure_band_profilefit` copied the wavelength off that same row and dropped this.
+    #:
+    #: ⚠️ ON A CLUSTERED FEATURE THIS IS THE MINIMUM EP OVER THE CLUSTER, which is what
+    #: the accounting table reports. That is a real transition's EP, not an average — and
+    #: it is the key that resolved 13 of the 16 with ZERO re-identifications, measured in
+    #: `data/results/rya871/`.
+    #:
+    #: None means "this route does not carry it", never "0 eV" — `gf_rung` falls back to
+    #: the narrow wavelength-only rule for such a line rather than widening blind.
+    ep_eV: float | None = None
     #: Did this line's abundance come from an EW -> abundance INVERSION?
     #:
     #: RYA-770/342. The REW saturation ceiling below is a property of that inversion —
@@ -156,6 +182,22 @@ class Product:
     n_excluded: int
     lines: list[LineMeasurement] = field(default_factory=list)
     provenance: str = ""
+    #: RYA-869 — WHICH MEASUREMENT HANDLER PRODUCED THIS NUMBER (`MeasurementHandler.name`,
+    #: i.e. "ProfileFitHandler" or "SynthesisHandler").
+    #:
+    #: The harness residual in the error budget is that handler's own measured optical
+    #: systematic, so the budget has to know which handler ran. It used to be inferred
+    #: from `treatment`, which is not a function of it: `ENGINE-B-NLTE` is the same flux
+    #: fit as `ENGINE-B` and an equality test missed it (four published bars charged the
+    #: profile fitter's residual), and in the other direction the near-UV `1D-LTE`
+    #: product is a flux fit while the VIS `1D-LTE` product of the same treatment name is
+    #: an EW inversion. No mapping from the label exists, so the producing route declares
+    #: it here and `pipeline.harness_residual` reads it.
+    #:
+    #: Defaults empty so a Product can still be constructed directly in a test that is
+    #: not about the budget; `build_product` REQUIRES it, and `harness_residual.
+    #: for_product` refuses an empty one rather than choosing a default.
+    handler: str = ""
 
     def to_frame(self) -> pd.DataFrame:
         return pd.DataFrame([asdict(l) for l in self.lines])
@@ -257,15 +299,56 @@ def equivalent_width(w: np.ndarray, f: np.ndarray, centre: float, half_width: fl
     return ew, f"integrated over +/-{half_width:.3f} A, {how}", concern
 
 
+def carried_ep(row, *, wavelength_A: float, element: str, ion: str) -> float:
+    """The excitation potential of the line-accounting row a candidate came from.
+
+    RYA-871 — the EW emitters always HAD this and dropped it, so a measured line could
+    only be identified downstream by its wavelength, and 16 of 152 VIS Fe I lines could
+    not be identified at all. It is read off the SAME row the wavelength is read off, so
+    the two describe one transition by construction.
+
+    🔴 NO SILENT FALLBACK. A candidate with no stateable EP RAISES with the line named.
+    Emitting a null EP would put the line back on the wavelength-only rule while looking
+    like it carried a key, and once the column exists but is empty a consumer cannot tell
+    "this route carries no EP" from "the EP is missing for this line".
+
+    Lives here rather than in either emitter because BOTH drivers
+    (`measure_band_profilefit`, `measure_band_ew`) need it and a rule written at two call
+    sites drifts between them — the RYA-845/855/869 shape, three tickets deep now.
+    """
+    ep = getattr(row, "ep_eV", None)
+    if ep is None or not np.isfinite(float(ep)):
+        raise ValueError(
+            f"{element} {ion} {wavelength_A:.4f} A: the line-accounting row carries no "
+            f"ep_eV, so the transition cannot be identified downstream on anything but "
+            f"its wavelength (RYA-871). Regenerate "
+            f"data/audit/line_accounting/per_line.csv "
+            f"(scripts/line_accounting_rya709.py) rather than emitting a null EP.")
+    return float(ep)
+
+
 def pct_label(kw) -> str:
     return f"{kw.get('pct', 95.0):.0f}th pct"
 
 
 def build_product(element: str, ion: str, instrument: str, band: str, treatment: str,
-                  lines: list[LineMeasurement], *, provenance: str = "") -> Product:
-    """Aggregate ONE treatment into ONE product. Never touches another treatment."""
+                  lines: list[LineMeasurement], *, handler: str,
+                  provenance: str = "") -> Product:
+    """Aggregate ONE treatment into ONE product. Never touches another treatment.
+
+    `handler` names the measurement handler that produced these lines and is REQUIRED
+    (RYA-869). It is not derivable from `treatment` -- see `Product.handler` -- and the
+    route that ran the handler is the only caller that knows it, so it is asked for here
+    rather than guessed downstream in the error budget.
+    """
     if treatment not in TREATMENTS:
         raise ValueError(f"unknown treatment {treatment!r}; expected one of {TREATMENTS}")
+    # Checked against the residual registry rather than against a local list: a handler
+    # this product could be built under but whose harness systematic nobody has declared
+    # is a product whose error bar cannot be assembled, and finding that out here names
+    # the route instead of failing three calls later inside `error_budget.build`.
+    from pipeline.harness_residual import for_handler
+    for_handler(handler)
     assert_single_element(lines, element)
     assert_no_cross_treatment_mix(lines, treatment)
 
@@ -285,7 +368,7 @@ def build_product(element: str, ion: str, instrument: str, band: str, treatment:
     return Product(element=element, ion=ion, instrument=instrument, band=band,
                    treatment=treatment, value=value, sigma=sigma,
                    n_lines=len(used), n_excluded=len(excluded),
-                   lines=lines, provenance=provenance)
+                   lines=lines, provenance=provenance, handler=handler)
 
 
 def products_frame(products: list[Product]) -> pd.DataFrame:
@@ -297,5 +380,6 @@ def products_frame(products: list[Product]) -> pd.DataFrame:
     return pd.DataFrame([
         dict(element=p.element, ion=p.ion, instrument=p.instrument, band=p.band,
              treatment=p.treatment, value=p.value, sigma=p.sigma,
-             n_lines=p.n_lines, n_excluded=p.n_excluded, provenance=p.provenance)
+             n_lines=p.n_lines, n_excluded=p.n_excluded, handler=p.handler,
+             provenance=p.provenance)
         for p in products])
