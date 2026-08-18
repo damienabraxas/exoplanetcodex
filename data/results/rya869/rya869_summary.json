@@ -1,0 +1,162 @@
+{
+  "ticket": "RYA-869",
+  "band_products": "/mnt/codex-data/codex/rya845/data/results/band_products",
+  "band_products_fingerprint_sha256": "1e18d7b1eca5583d1f15c86cf0d1b76c15efa3821765d7fcac1fb5cde089725a",
+  "n_cells": 36,
+  "n_reproducing_published": 35,
+  "n_not_reproducing": 0,
+  "n_misattributed": 6,
+  "misattributed_cells": [
+    {
+      "band": "red-optical",
+      "element": "Fe",
+      "ion": "II",
+      "treatment": "ENGINE-B-NLTE",
+      "deck": "",
+      "n_lines": 2,
+      "handler_published": "ProfileFitHandler",
+      "handler_correct": "SynthesisHandler",
+      "harness_published_dex": 0.0129,
+      "harness_correct_dex": 0.0,
+      "syst_before": 0.1731,
+      "syst_after": 0.1726,
+      "d_syst": -0.0005
+    },
+    {
+      "band": "red-optical",
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "ENGINE-B-NLTE",
+      "deck": "",
+      "n_lines": 77,
+      "handler_published": "ProfileFitHandler",
+      "handler_correct": "SynthesisHandler",
+      "harness_published_dex": 0.0129,
+      "harness_correct_dex": 0.0,
+      "syst_before": 0.1731,
+      "syst_after": 0.1726,
+      "d_syst": -0.0005
+    },
+    {
+      "band": "VIS",
+      "element": "Fe",
+      "ion": "II",
+      "treatment": "ENGINE-B-NLTE",
+      "deck": "gerber-nlte",
+      "n_lines": 8,
+      "handler_published": "ProfileFitHandler",
+      "handler_correct": "SynthesisHandler",
+      "harness_published_dex": 0.0129,
+      "harness_correct_dex": 0.0,
+      "syst_before": 0.1705,
+      "syst_after": 0.17,
+      "d_syst": -0.0005
+    },
+    {
+      "band": "red-optical",
+      "element": "Fe",
+      "ion": "II",
+      "treatment": "ENGINE-B-NLTE",
+      "deck": "gerber-nlte",
+      "n_lines": 2,
+      "handler_published": "ProfileFitHandler",
+      "handler_correct": "SynthesisHandler",
+      "harness_published_dex": 0.0129,
+      "harness_correct_dex": 0.0,
+      "syst_before": 0.1731,
+      "syst_after": 0.1726,
+      "d_syst": -0.0005
+    },
+    {
+      "band": "VIS",
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "ENGINE-B-NLTE",
+      "deck": "gerber-nlte",
+      "n_lines": 136,
+      "handler_published": "ProfileFitHandler",
+      "handler_correct": "SynthesisHandler",
+      "harness_published_dex": 0.0129,
+      "harness_correct_dex": 0.0,
+      "syst_before": 0.1705,
+      "syst_after": 0.17,
+      "d_syst": -0.0005
+    },
+    {
+      "band": "red-optical",
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "ENGINE-B-NLTE",
+      "deck": "gerber-nlte",
+      "n_lines": 77,
+      "handler_published": "ProfileFitHandler",
+      "handler_correct": "SynthesisHandler",
+      "harness_published_dex": 0.0129,
+      "harness_correct_dex": 0.0,
+      "syst_before": 0.1731,
+      "syst_after": 0.1726,
+      "d_syst": -0.0005
+    }
+  ],
+  "published_matrix_cells_moved": [
+    {
+      "band": "red-optical",
+      "element": "Fe",
+      "ion": "II",
+      "treatment": "ENGINE-B-NLTE",
+      "syst_published": 0.1731,
+      "syst_rya869": 0.1726,
+      "A_unchanged": 7.461
+    },
+    {
+      "band": "red-optical",
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "ENGINE-B-NLTE",
+      "syst_published": 0.1731,
+      "syst_rya869": 0.1726,
+      "A_unchanged": 7.549
+    },
+    {
+      "band": "VIS",
+      "element": "Fe",
+      "ion": "II",
+      "treatment": "ENGINE-B-NLTE",
+      "syst_published": 0.1705,
+      "syst_rya869": 0.17,
+      "A_unchanged": 7.47
+    },
+    {
+      "band": "VIS",
+      "element": "Fe",
+      "ion": "I",
+      "treatment": "ENGINE-B-NLTE",
+      "syst_published": 0.1705,
+      "syst_rya869": 0.17,
+      "A_unchanged": 7.572
+    }
+  ],
+  "controls": {
+    "pre_fix_rule_reproduces_published": 35,
+    "unmoved_cells_byte_identical": 30,
+    "moved_cells_changing_only_the_harness_term_and_its_total": 6,
+    "abundances_moved": 0,
+    "stat_bars_moved": 0
+  },
+  "harness_residual_divergences": {
+    "n_declared": 0,
+    "declared": {},
+    "agreeing": {
+      "SynthesisHandler": {
+        "charged_dex": 0.0,
+        "control_artifact": "data/audit/synthesis_control/control_FeI.json",
+        "control_present": true,
+        "control_dex_offset": 0.0,
+        "control_passed": true,
+        "control_n_lines": 18,
+        "agrees": true
+      }
+    },
+    "status": "no charged harness residual disagrees with its banked control. The SynthesisHandler divergence RYA-869 filed and RYA-873 declined to charge was resolved by RYA-875: its -0.0100 was a LINE-SET artifact (18-line median vs a scalar that is the median of a different 23-line set), and paired per line the offset is 0.0000 with 17 of 18 lines inside 0.01 dex. Deleted because the numbers agree."
+  }
+}
