@@ -1,0 +1,30 @@
+{
+  "ticket": "RYA-871",
+  "additive_everywhere": true,
+  "files": [
+    {
+      "banked": "/mnt/codex-data/codex/rya869/_out_baseline/band_ew/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ew.csv",
+      "new": "/mnt/codex-data/codex/rya871/_out/band_ew/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ew.csv",
+      "n_banked": 2339,
+      "n_new": 2339,
+      "columns_added": [
+        "ep_eV"
+      ],
+      "columns_removed": [],
+      "columns_as_expected": true,
+      "same_line_set": true,
+      "only_in_banked": [],
+      "only_in_new": [],
+      "columns_that_drifted": {},
+      "carry_is_additive": true,
+      "ep_present": true,
+      "ep_non_null": 2339,
+      "ep_null": 0,
+      "ep_range_eV": [
+        0.0,
+        6.1654
+      ],
+      "verdict": "ADDITIVE \u2014 identity carried, nothing else moved"
+    }
+  ]
+}
