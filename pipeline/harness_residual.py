@@ -218,3 +218,33 @@ def handler_of_banked_cell(*, route: str, treatment: str) -> str:
             f"added to pipeline.band_products.TREATMENTS must state which handler "
             f"produces it (RYA-869) — inheriting one by default is the defect.")
     return _BANKED_PROFILEFIT_HANDLER[t]
+
+
+def charged_in_banked_cell(*, route: str, treatment: str) -> HarnessResidual:
+    """What a band-product cell banked BEFORE RYA-869 was actually CHARGED and LABELLED.
+
+    ⚠️ THIS IS THE DEFECT, QUOTED. It exists so that a consumer reading a pre-RYA-869
+    artifact can tell the difference between *"this cell does not reproduce because its
+    inputs drifted"* and *"this cell does not reproduce because RYA-869 corrected its
+    harness term"*. Those need opposite handling: the first invalidates a diff, the
+    second is the diff.
+
+    🔴 DO NOT CALL IT FROM ANYTHING THAT PRODUCES A NUMBER, and do not "fix" it to agree
+    with `handler_of_banked_cell` — the day the two agree, every banked artifact has been
+    re-derived and both this function and its caller can go.
+
+    The rule, verbatim from `scripts/derive_band_products.py` as of `10016d5`::
+
+        is_b = prod.treatment == "ENGINE-B"
+        harness_residual_dex = 0.0 if is_b else PROFILE_FIT_RESIDUAL_DEX
+        handler = "SynthesisHandler" if is_b else "ProfileFitHandler"
+
+    with the synthesis route (`SYNTH`/`LABGF`) hardcoding its own 0.0 / SynthesisHandler
+    pair at a separate call site — which is why it was right there and wrong here.
+    """
+    if str(route).strip().upper() in _BANKED_FLUX_FIT_ROUTES:
+        return HarnessResidual("SynthesisHandler", 0.0)
+    is_b = str(treatment).strip() == "ENGINE-B"          # ← the defect
+    return HarnessResidual(
+        "SynthesisHandler" if is_b else "ProfileFitHandler",
+        0.0 if is_b else HANDLER_RESIDUAL_DEX["ProfileFitHandler"])
