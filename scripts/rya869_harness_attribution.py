@@ -44,7 +44,9 @@ while its own banked control measured a −0.0100 dex offset and PASSED
 `error_budget.harness_term` prints the words "MEASURED against the known optical answer,
 not assumed zero" beside that 0.0000. The prose and the arithmetic disagree. Charging the
 measured value moves the near-UV cell and every ENGINE-B cell, which is a different diff
-from this one, so it is quantified below (`synthesis_control_divergence`) and left alone.
+from this one, so it is quantified below and left alone. (RYA-875 later resolved it: the
+0.0100 was a LINE-SET artifact and the real offset is 0.0000, so nothing is charged
+differently and `harness_residual_divergences` now reports agreement rather than a gap.)
 """
 from __future__ import annotations
 
@@ -195,27 +197,50 @@ def tree_fingerprint(band_products: Path) -> str:
     return h.hexdigest()
 
 
-def synthesis_control_divergence() -> dict:
-    """The second finding, quantified: SynthesisHandler is charged 0.0, measured 0.0100."""
-    note = harness_residual.UNCHARGED_CONTROL_RESIDUAL_DEX["SynthesisHandler"]
-    p = ROOT / note["control_artifact"]
-    d = json.loads(p.read_text()) if p.exists() else {}
-    return {
-        "handler": "SynthesisHandler",
-        "charged_dex": harness_residual.HANDLER_RESIDUAL_DEX["SynthesisHandler"],
-        "control_artifact": note["control_artifact"],
-        "control_present": p.exists(),
-        "control_dex_offset": d.get("dex_offset"),
-        "control_passed": d.get("passed"),
-        "control_n_lines": d.get("n_lines"),
-        "what": ("every synthesis-route budget charges 0.0000 while harness_term() "
-                 "prints 'MEASURED against the known optical answer, not assumed zero'; "
-                 "the handler's own banked control measured |dex_offset| = 0.0100 and "
-                 "PASSED. The prose and the arithmetic disagree."),
-        "ticket": note.get("ticket", ""),
-        "status": ("REPORTED, NOT FIXED IN RYA-869; filed as "
-                   f"{note.get('ticket', 'a follow-up')} — " + note["why_not_charged"]),
-    }
+def harness_residual_divergences() -> dict:
+    """Do any charged harness residuals disagree with their own banked control?
+
+    🔴 THIS USED TO HARDCODE `UNCHARGED_CONTROL_RESIDUAL_DEX["SynthesisHandler"]`, which
+    is a lookup that only works while the finding is unresolved — and it KeyError'd the
+    moment RYA-875 resolved it. A reporter that cannot survive its own subject being
+    fixed makes fixing the subject look like breaking the tool. So it reads the
+    declaration generically and says what it finds, including nothing.
+
+    RYA-869 filed the SynthesisHandler divergence; RYA-873 refused to charge either
+    candidate number; RYA-875 found the -0.0100 was a LINE-SET artifact (a median over 18
+    lines compared to a hardcoded scalar that is the median of a different 23-line set)
+    and established the real offset at 0.0000, paired per line. The entry left the
+    declaration BECAUSE THE NUMBERS AGREE.
+    """
+    declared = harness_residual.UNCHARGED_CONTROL_RESIDUAL_DEX
+    out: dict = {"n_declared": len(declared), "declared": {}, "agreeing": {}}
+    for handler, charged in harness_residual.HANDLER_RESIDUAL_DEX.items():
+        art = (declared.get(handler, {}).get("control_artifact")
+               or harness_residual.HANDLER_CONTROL_ARTIFACT.get(handler))
+        d = {}
+        if art and (ROOT / art).exists():
+            d = json.loads((ROOT / art).read_text())
+        rec = {"charged_dex": charged, "control_artifact": art,
+               "control_present": bool(d), "control_dex_offset": d.get("dex_offset"),
+               "control_passed": d.get("passed"), "control_n_lines": d.get("n_lines")}
+        if handler in declared:
+            rec["ticket"] = declared[handler].get("ticket", "")
+            rec["why_not_charged"] = declared[handler].get("why_not_charged", "")
+            out["declared"][handler] = rec
+        elif art:
+            rec["agrees"] = bool(d) and abs(charged - abs(float(
+                d.get("dex_offset", float("nan"))))) < 5e-5
+            out["agreeing"][handler] = rec
+    out["status"] = (
+        "no charged harness residual disagrees with its banked control. The "
+        "SynthesisHandler divergence RYA-869 filed and RYA-873 declined to charge was "
+        "resolved by RYA-875: its -0.0100 was a LINE-SET artifact (18-line median vs a "
+        "scalar that is the median of a different 23-line set), and paired per line the "
+        "offset is 0.0000 with 17 of 18 lines inside 0.01 dex. Deleted because the "
+        "numbers agree."
+        if not declared else
+        f"{len(declared)} declared divergence(s) stand; see `declared`.")
+    return out
 
 
 def main() -> None:
@@ -321,11 +346,17 @@ def main() -> None:
               f"syst {r['syst_published']:.4f} -> {r['syst_rya869']:.4f}   "
               f"A {r['A_unchanged']:.3f} UNCHANGED")
 
-    scd = synthesis_control_divergence()
-    print(f"\n=== SEPARATE FINDING (reported, not fixed here) ===")
-    print(f"  {scd['handler']} is charged {scd['charged_dex']:.4f} dex; its banked "
-          f"control measured {abs(scd['control_dex_offset'] or 0):.4f} and PASSED "
-          f"({scd['control_n_lines']} lines).")
+    scd = harness_residual_divergences()
+    print(f"\n=== do any charged harness residuals disagree with their control? ===")
+    if scd["n_declared"]:
+        for h, r in scd["declared"].items():
+            print(f"  ⚠️ {h}: charged {r['charged_dex']:.4f}, control "
+                  f"{r['control_dex_offset']} — {r.get('ticket', '')}")
+    else:
+        for h, r in scd["agreeing"].items():
+            print(f"  {h}: charged {r['charged_dex']:.4f}, control "
+                  f"{r['control_dex_offset']} over {r['control_n_lines']} lines — "
+                  f"{'AGREE' if r.get('agrees') else '⚠️ DISAGREE'}")
     print(f"  {scd['status']}")
 
     d.to_csv(out / "rya869_harness_by_cell.csv", index=False)
@@ -351,7 +382,7 @@ def main() -> None:
             "abundances_moved": 0,
             "stat_bars_moved": 0,
         },
-        "synthesis_control_divergence": scd,
+        "harness_residual_divergences": scd,
     }
     (out / "rya869_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(f"\n  wrote {out.relative_to(ROOT)}")

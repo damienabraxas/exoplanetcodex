@@ -216,18 +216,36 @@ def test_banked_recovery_is_by_route_not_by_engine():
 # ── 6. a charged residual is never quietly different from its own control ────────────
 
 def test_every_charged_residual_matches_its_control_or_is_a_declared_divergence():
-    """`harness_term()` prints "MEASURED against the known optical answer, not assumed
-    zero" beside whatever number it is handed. So a charged value that disagrees with the
-    handler's banked control has to be DECLARED, with the artifact named — otherwise the
-    prose is an assertion nobody can check.
+    """`harness_term()` describes a MEASURED residual as measured, so a charged value that
+    disagrees with the handler's banked control has to be DECLARED, with the artifact
+    named — otherwise the prose is an assertion nobody can check.
 
-    🔴 This currently passes BECAUSE of the declaration, not because the numbers agree:
-    `SynthesisHandler` is charged 0.0 and its control measured 0.0100 (RYA-770/759).
+    🔴 BOTH BRANCHES ARE REAL NOW (RYA-875). This test used to `continue` for any handler
+    absent from `UNCHARGED_CONTROL_RESIDUAL_DEX`, so DELETING a declaration also deleted
+    the check on it — the "relax the test to close the ticket" move RYA-873 forbade,
+    available by accident. A handler that is not declared as a divergence must now MATCH
+    its banked control.
     """
+    import json
+    checked = 0
     for handler, charged in hr.HANDLER_RESIDUAL_DEX.items():
         note = hr.UNCHARGED_CONTROL_RESIDUAL_DEX.get(handler)
+        artifact = hr.HANDLER_CONTROL_ARTIFACT.get(handler)
         if note is None:
+            # NOT declared as a divergence -> the charged number must BE the control's.
+            if artifact is None:
+                continue                     # no banked control to check against
+            p = ROOT / artifact
+            assert p.exists(), f"{handler} names {artifact}, which is absent"
+            d = json.loads(p.read_text())
+            assert d["handler"] == handler
+            assert abs(charged - abs(float(d["dex_offset"]))) < 5e-5, (
+                f"{handler} is charged {charged} but its control measured "
+                f"{abs(float(d['dex_offset']))}. Either charge the control's number or "
+                f"declare the divergence — do not let them drift silently.")
+            checked += 1
             continue
+        # DECLARED as a divergence -> the declaration must be honest and still true.
         p = ROOT / note["control_artifact"]
         assert p.exists(), (
             f"{handler}'s divergence names {note['control_artifact']}, which is absent; "
@@ -239,8 +257,10 @@ def test_every_charged_residual_matches_its_control_or_is_a_declared_divergence(
             f"declared {note['control_dex']}, banked {abs(float(d['dex_offset']))}")
         assert abs(charged - float(note["control_dex"])) > 1e-9, (
             f"{handler} is declared as a DIVERGENCE but the charged value now equals "
-            f"its control. Charge it and delete the declaration.")
+            f"its control. Charge it and DELETE the declaration.")
         assert note["why_not_charged"].strip(), "a divergence must state why"
+        checked += 1
+    assert checked, "no handler was checked — the guard has stopped discriminating"
 
 
 # ── 7. no caller decides this for itself any more ────────────────────────────────────
