@@ -1304,6 +1304,23 @@ artifacts:
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
 
+  # ── RYA-870 — the replication-grade per-line product, and its teeth ───────────────
+  - artifact: rya870/rya870_reproducibility.json
+    generator: scripts/rya870_reproduce_perline.py
+    invocation: python3 scripts/rya870_reproduce_perline.py --star solar --element Fe
+    ticket: RYA-870
+    note: >-
+      THE GUARD (RYA-489 §6.1). Re-inverts sampled in-aggregate rows from the constants the
+      PRODUCT publishes -- not from the pipeline -- and asserts they reproduce their own
+      A(X) within the RYA-771 quantiser floor of 0.01 dex. 🔴 CURRENT VERDICT IS FAIL, and
+      that is the guard working: 5 of 6 reproduce (three of them exactly), and 6094.372
+      misses by 0.011 dex because the product publishes `damping_vdW` as a classical log
+      gamma from linelist_<star>.csv while the synthesis that produced the number used the
+      GES list's ABO packed sigma.alpha (914.276). The published constant is not the
+      constant that made the number, so the row is not yet replication-grade. ⚠️ 332
+      synthesis_fit rows are NOT COVERED -- they need the observed spectrum, and an
+      untested row is never counted as passing.
+
   # ── RYA-877 — dispositioning the circular Fe II line, and what it costs ───────────
   - artifact: rya877/rya877_disposition_impact.json
     generator: scripts/rya877_disposition_impact.py

@@ -1,0 +1,71 @@
+{
+  "ticket": "RYA-870",
+  "product": "data/products/solar/Fe_perline.csv",
+  "product_commit_sha": "7de988e0e56e9029eaf4f364deb956d4733a98dc",
+  "quantiser_floor_dex": 0.01,
+  "n_rows_in_product": 1039,
+  "n_ew_route_in_aggregate": 505,
+  "n_sampled": 6,
+  "n_tested": 6,
+  "n_passed": 5,
+  "n_failed": 1,
+  "n_synthesis_rows_NOT_COVERED": 332,
+  "coverage_note": "synthesis_fit rows are not reproducible from the row alone \u2014 they need the observed spectrum. Reported as not-covered, never counted as passing.",
+  "results": [
+    {
+      "wavelength_air_A": 5852.218,
+      "engine": "ENGINE-A (ts-lte)",
+      "published_A": 7.5899375,
+      "reproduced_A": 7.5859375,
+      "delta_dex": 0.0039999999999995595,
+      "converged": true,
+      "outcome": "PASS"
+    },
+    {
+      "wavelength_air_A": 6094.3724,
+      "engine": "ENGINE-A (ts-lte)",
+      "published_A": 7.807875,
+      "reproduced_A": 7.796875,
+      "delta_dex": 0.01100000000000012,
+      "converged": true,
+      "outcome": "FAIL"
+    },
+    {
+      "wavelength_air_A": 5635.8039,
+      "engine": "ENGINE-A (ts-lte)",
+      "published_A": 7.70140625,
+      "reproduced_A": 7.69140625,
+      "delta_dex": 0.009999999999999787,
+      "converged": true,
+      "outcome": "PASS"
+    },
+    {
+      "wavelength_air_A": 6495.7409,
+      "engine": "1D-LTE (gerber-nlte)",
+      "published_A": 7.5859375,
+      "reproduced_A": 7.5859375,
+      "delta_dex": 0.0,
+      "converged": true,
+      "outcome": "PASS"
+    },
+    {
+      "wavelength_air_A": 6597.5588,
+      "engine": "1D-LTE (ts-lte)",
+      "published_A": 7.69140625,
+      "reproduced_A": 7.69140625,
+      "delta_dex": 0.0,
+      "converged": true,
+      "outcome": "PASS"
+    },
+    {
+      "wavelength_air_A": 5054.6423,
+      "engine": "1D-LTE (ts-lte)",
+      "published_A": 7.638671875,
+      "reproduced_A": 7.638671875,
+      "delta_dex": 0.0,
+      "converged": true,
+      "outcome": "PASS"
+    }
+  ],
+  "verdict": "FAIL"
+}
