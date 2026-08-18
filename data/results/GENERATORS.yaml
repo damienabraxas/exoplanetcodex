@@ -420,6 +420,53 @@ artifacts:
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
 
+  # ── RYA-871 — a wavelength does not identify a line; carry the excitation potential ──
+  - artifact: rya871/rya871_ep_resolution_probe.csv
+    generator: scripts/rya871_ep_resolution_probe.py
+    invocation: ISPEC_DIR=... python3 scripts/rya871_ep_resolution_probe.py --band-products <band-products tree>
+    ticket: RYA-871
+    note: >-
+      Every (wavelength tolerance x EP key) variant, scored on all 35 banked EW-route
+      cells, measured BEFORE the fix was written. It answers two things the ticket did not
+      anticipate. 🔴 EP BREAKS TIES, SO IT REACHES 2 OF THE 16 ON ITS OWN --
+      RYA-855's split was 14 ABSENT / 2 AMBIGUOUS, and a tie-breaker cannot reach a line
+      with no row inside the window at all. The 0.006-
+      0.02 A offset is not measurement error: `measure_band_profilefit` draws candidates
+      from the line-accounting table, whose rows are FEATURES (line_accounting_rya709
+      groups list rows within 0.05 A and reports the group MEAN), so a blended feature
+      sits BETWEEN its components by construction. The fix is a PAIR -- widen to reach the
+      row, use the EP to keep the widening honest. ✅ MEASURED: 0.005/no (today) 1601
+      unique / 163 absent / 40 ambiguous; 0.020/yes 1764 / 23 / 17; 0.030/yes IDENTICAL, so
+      the tolerance sits on a PLATEAU and is not a tuned knob; 0.050/yes regresses. 🔴
+      WIDENING ALONE BREAKS IT: at 0.010 with no EP, 8 cells re-identify a line they had
+      already identified, and 25 do at 0.020. The control is by WHICH ROW a line lands on,
+      not whether it landed -- swapping one identification for another scores as a tie on
+      a count (RYA-818: a rule that only fires where the primary failed is unfalsifiable).
+      ✅ CRITICAL CHECKS: 0 of 35 cells change rung, 0 change syst, no A moves -- every Fe
+      pool is MIXED several times over, so a newly identified line cannot lift a rung. What
+      DID change is the thing the ticket is about: lines correctly PRICED, 107 -> 130.
+  - artifact: rya871/rya871_probe_summary.json
+    generator: scripts/rya871_ep_resolution_probe.py
+    invocation: ISPEC_DIR=... python3 scripts/rya871_ep_resolution_probe.py --band-products <band-products tree>
+    ticket: RYA-871
+    note: >-
+      The machine twin of the table above, carrying the chosen tolerances alongside the
+      variants they were chosen from, so the plateau is auditable rather than asserted.
+  - artifact: rya871/rya871_carry_control.json
+    generator: scripts/rya871_carry_control.py
+    invocation: python3 scripts/rya871_carry_control.py --new <fresh band_ew dir> --banked <pre-871 band_ew dir>
+    ticket: RYA-871
+    note: >-
+      SAME-INPUTS CONTROL (RYA-848). The claim this ticket rests on -- that carrying the EP
+      changes line IDENTITY and nothing else -- is proved against a baseline produced by
+      the SAME emitter on the SAME accounting table at the pre-RYA-871 commit, not against
+      a months-old banked artifact that carries its own input drift. Compared per row and
+      per column: the ROW SET must match on wavelength (two 152-row files can disagree
+      about which lines they are), every pre-existing column must be byte-identical
+      including the `ew_method` prose, and the only permitted difference is the ADDITION of
+      a non-null `ep_eV`. ✅ RESULT on VIS Fe I 3800-6910: 2339 rows, same line set, every
+      pre-existing column BYTE-IDENTICAL, ep_eV non-null on all 2339, range 0.0-6.1654 eV.
+
   # ── RYA-869 — the harness residual follows the HANDLER, not the treatment label ────
   - artifact: rya869/rya869_harness_by_cell.csv
     generator: scripts/rya869_harness_attribution.py
