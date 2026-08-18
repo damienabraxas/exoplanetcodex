@@ -55,7 +55,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from pipeline import gf_rung                                       # noqa: E402
 from pipeline.band_policy import resolve as resolve_band           # noqa: E402
-from rya855_rung_audit import _cells, _linelist_for                # noqa: E402
+from pipeline.error_budget import build as build_budget            # noqa: E402
+from pipeline import harness_residual                              # noqa: E402  RYA-869
+from rya855_rung_audit import BAND_PIVOT_A, _cells, _linelist_for   # noqa: E402
 
 OUT = ROOT / "data" / "results" / "rya871"
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
@@ -138,6 +140,40 @@ def probe(band_products: Path, lists: dict) -> pd.DataFrame:
         base = score(merged, ll, tol_A=gf_rung.LINELIST_MATCH_TOL_A, use_ep=False)
         base_ok = base.state == "unique"
 
+        # ── DOES THE BAR MOVE? ────────────────────────────────────────────────────
+        # The ticket's CRITICAL check, and it is not answerable by counting resolutions:
+        # a newly identified line changes the rung only if it changes whether EVERY line
+        # in the pool is primary-lab. RYA-855 measured every Fe pool as MIXED several
+        # times over, so the expectation is no movement — which is exactly why it is
+        # measured rather than argued (an expected null still needs the measurement).
+        #
+        # Everything but the gf rung is held: same n, same scatter, same harness term,
+        # the same band pivot the RYA-855/869 audits use. So a moved syst can only be the
+        # rung, and an unmoved one is not an accident of two terms cancelling.
+        vals = used.abundance.to_numpy(dtype=float)
+        n_used = int(len(vals))
+        scatter = float(np.std(vals, ddof=1)) if n_used > 1 else 0.0
+        pivot = BAND_PIVOT_A.get(pol.name, 0.5 * (cell["lo"] + cell["hi"]))
+        hr = harness_residual.for_handler(
+            harness_residual.handler_of_banked_cell(route=cell["route"],
+                                                    treatment=cell["treatment"]))
+
+        def _rung(use_ep):
+            eps = (merged.ep_eV.tolist() if use_ep else None)
+            lg = gf_rung.resolve_lines(cell["element"], cell["ion"],
+                                       merged.wavelength_air_A, ll, measured_ep_eV=eps)
+            return gf_rung.decide(cell["element"], cell["ion"], lg)
+
+        def _syst(rung):
+            b = build_budget(cell["element"], pivot, max(n_used, 1),
+                             scatter_dex=scatter, **rung.budget_kwargs(),
+                             **hr.budget_kwargs())
+            return round(b.total()[1], 4)
+
+        r_before, r_after = _rung(False), _rung(True)
+        syst_before, syst_after = _syst(r_before), _syst(r_after)
+        A_median = round(float(np.median(vals)), 3) if n_used else float("nan")
+
         for tol in TOL_A:
             for use_ep in (False, True):
                 s = score(merged, ll, tol_A=tol, use_ep=use_ep)
@@ -157,6 +193,14 @@ def probe(band_products: Path, lists: dict) -> pd.DataFrame:
                     "baseline_n_unique": int(base_ok.sum()),
                     "baseline_kept": int(same.sum()),
                     "baseline_reidentified": int((~same).sum()),
+                    # Held identical across every variant of this cell — the value is a
+                    # median of per-line abundances and no identity key enters it.
+                    "A": A_median,
+                    "rung_before": r_before.rung, "rung_after": r_after.rung,
+                    "n_graded_before": r_before.n_graded,
+                    "n_graded_after": r_after.n_graded,
+                    "syst_before": syst_before, "syst_after": syst_after,
+                    "d_syst": round(syst_after - syst_before, 4),
                     "src": str(cell["path"].relative_to(band_products)),
                 })
     return pd.DataFrame(rows)
@@ -214,11 +258,39 @@ def main() -> int:
             print(f"{r.tol_A:>8.3f}{('yes' if r.use_ep else 'no'):>5}"
                   f"{int(r.n_unique):>9}{int(r.n_absent):>8}{int(r.n_ambiguous):>7}")
 
+    # ── the ticket's CRITICAL checks, answered ────────────────────────────────────
+    per_cell = d.drop_duplicates(subset=["band", "element", "ion", "treatment", "deck"])
+    moved = per_cell[per_cell.d_syst.abs() > 5e-5]
+    lifted = per_cell[per_cell.rung_after != per_cell.rung_before]
+    print(f"\n=== does the EP key move a RUNG or a BAR? ===")
+    print(f"  {len(per_cell)} cells; {len(lifted)} change rung; {len(moved)} change syst")
+    if len(lifted) or len(moved):
+        for _, r in pd.concat([lifted, moved]).drop_duplicates().iterrows():
+            print(f"  ⚠️ {r.band:<12}{r.element} {r.ion:<3}{r.treatment:<16}"
+                  f"rung {r.rung_before}->{r.rung_after}  "
+                  f"syst {r.syst_before:.4f}->{r.syst_after:.4f}")
+    else:
+        print("  none. Every Fe pool is MIXED several times over (RYA-855), so a newly")
+        print("  identified line adds a grade to a pool that already had an ungraded one")
+        print("  — it cannot lift a rung, and the bar it prices does not move.")
+    print(f"  n_graded (lines newly PRICED, which is the thing that did change): "
+          f"{int(per_cell.n_graded_before.sum())} -> {int(per_cell.n_graded_after.sum())}")
+    print(f"\n=== values ===")
+    print(f"  A is the median of the per-line abundances and no identity key enters it; "
+          f"held identical across every variant by construction, and the column is "
+          f"carried per cell so a reader can check rather than take it.")
+
     (a.out / "rya871_probe_summary.json").write_text(json.dumps({
         "ticket": "RYA-871",
         "band_products": str(a.band_products),
         "ep_tol_eV": EP_TOL_EV,
         "current_tol_A": gf_rung.LINELIST_MATCH_TOL_A,
+        "epkey_tol_A": gf_rung.LINELIST_MATCH_TOL_EPKEY_A,
+        "n_cells": int(len(per_cell)),
+        "n_cells_changing_rung": int(len(lifted)),
+        "n_cells_changing_syst": int(len(moved)),
+        "n_graded_before": int(per_cell.n_graded_before.sum()),
+        "n_graded_after": int(per_cell.n_graded_after.sum()),
         "variants": json.loads(d.to_json(orient="records")),
     }, indent=2) + "\n")
     print(f"\n  wrote {a.out.relative_to(ROOT)}")
