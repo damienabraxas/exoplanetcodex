@@ -37,11 +37,18 @@ def main() -> int:
     ap.add_argument("--band-products", action="append", type=Path, default=None,
                     help="root(s) holding *_lines.csv; repeatable")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--damping-source", choices=["synthesis", "linelist"],
+                    default="synthesis",
+                    help="where the damping constants come from. 'synthesis' (default) is "
+                         "the GES list the abundance was actually derived with and needs "
+                         "iSpec, so it is Sirius-only; 'linelist' emits from "
+                         "linelist_<star>.csv and marks the file NOT replication-grade.")
     a = ap.parse_args()
 
     roots = a.band_products or DEFAULT_BAND_PRODUCTS
     try:
-        product = build_perline_product(a.star, a.element, roots)
+        product = build_perline_product(a.star, a.element, roots,
+                                        damping_source=a.damping_source)
     except PerLineProductError as e:
         print(f"REFUSED: {e}", file=sys.stderr)
         return 1
