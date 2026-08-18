@@ -26,9 +26,26 @@ observed spectrum, which needs the spectrum as well as the row, and the row alon
 carry it. Those rows are reported as NOT-COVERED rather than quietly counted as passing —
 an untested row must never look like a tested one.
 
-⚠️ THE FLOOR IS 0.01 dex, and it is not a tolerance anyone chose: iSpec quantises trial
-abundances to 0.01 dex in bsyn (RYA-771), so a smaller threshold would be measuring the
-quantiser rather than the product.
+⚠️ THE FLOOR IS MEASURED PER LINE, NOT ASSUMED. Two bounds apply and the larger wins:
+
+  * the RYA-771 QUANTISER floor, 0.01 dex — iSpec rounds trial abundances in bsyn, so a
+    tighter threshold would be measuring the quantiser rather than the product; and
+  * the INVERSION's own convergence. `_bisect_synth_abundance` stops when the synthetic
+    EW is within `tol` (relative) of its target — it converges on EQUIVALENT WIDTH, not on
+    abundance. Near saturation dEW/dA flattens, so the same 1% in EW buys a much larger
+    interval in A, and demanding 0.01 dex there asks the reproduction to be tighter than
+    the number it is reproducing ever was.
+
+🔴 That second bound is MEASURED for each row — synthesise either side of the reproduced
+abundance, read the local dEW/dA off the result, and convert the EW tolerance into dex:
+
+        dA_tol = tol * max(ew_target, 1) / |dEW/dA|
+
+which is why a weak line is held to 0.01 dex and a saturated one is held to what its own
+slope permits. The alternative — one global threshold loose enough for the worst line —
+would hide a real defect on every other line, and picking it by eye would be tuning.
+`tol` and the bracket floor are read from the deriver's own signature so the number is
+declared once (RYA-845).
 """
 from __future__ import annotations
 
@@ -100,6 +117,12 @@ def main() -> int:
     solar_abund = ispec.read_solar_abundances(ad._ISPEC_SOLAR_ABUND_FILE)
     atmosphere = ad._load_atmosphere(teff, logg, feh, xi)
 
+    # the deriver's own convergence parameters — read, never re-typed (RYA-845)
+    import inspect
+    _sig = inspect.signature(ad._bisect_synth_abundance).parameters
+    BISECT_TOL = float(_sig["tol"].default)
+    BISECT_A_LO = float(_sig["a_lo"].default)
+
     results = []
     for _, r in sample.iterrows():
         wl_A = float(r["wavelength_air_A"])
@@ -142,6 +165,26 @@ def main() -> int:
         published = float(r["A_X_line"])
         delta = (float("nan") if not np.isfinite(a_repro)
                  else abs(a_repro - published))
+
+        # ── the per-row bound, MEASURED ──────────────────────────────────────────
+        kw = dict(atmosphere=atmosphere, teff=teff, logg=logg, feh=feh, vturb=xi,
+                  linelist=one, isotopes=isotopes, solar_abund=solar_abund,
+                  element=str(r["element"]), atom_code=26)
+        dA_tol = float("nan")
+        if np.isfinite(a_repro):
+            try:
+                h = 0.02
+                ew_floor = ad._synth_ew_at_abund(wave_nm, trial_A=BISECT_A_LO, **kw)
+                ew_target = ew_floor + float(r["ew_mA"])
+                ew_hi = ad._synth_ew_at_abund(wave_nm, trial_A=a_repro + h, **kw)
+                ew_lo_ = ad._synth_ew_at_abund(wave_nm, trial_A=a_repro - h, **kw)
+                slope = abs(ew_hi - ew_lo_) / (2 * h)      # mA per dex
+                if slope > 0:
+                    dA_tol = BISECT_TOL * max(ew_target, 1.0) / slope
+            except Exception:
+                dA_tol = float("nan")
+        bound = (QUANTISER_FLOOR_DEX if not np.isfinite(dA_tol)
+                 else max(QUANTISER_FLOOR_DEX, dA_tol))
         results.append({
             "wavelength_air_A": float(r["wavelength_air_A"]),
             "engine": str(r["engine"]),
@@ -149,11 +192,17 @@ def main() -> int:
             "reproduced_A": (None if not np.isfinite(a_repro) else float(a_repro)),
             "delta_dex": (None if not np.isfinite(delta) else float(delta)),
             "converged": bool(converged),
-            "outcome": ("PASS" if np.isfinite(delta) and delta <= QUANTISER_FLOOR_DEX
-                        else "FAIL"),
+            "reduced_ew": (None if pd.isna(r.get("reduced_ew"))
+                           else float(r["reduced_ew"])),
+            "ew_tolerance_bound_dex": (None if not np.isfinite(dA_tol) else float(dA_tol)),
+            "bound_applied_dex": float(bound),
+            "bound_set_by": ("inversion EW tolerance" if np.isfinite(dA_tol)
+                             and dA_tol > QUANTISER_FLOOR_DEX else "RYA-771 quantiser"),
+            "outcome": ("PASS" if np.isfinite(delta) and delta <= bound else "FAIL"),
         })
         print(f"  {r['wavelength_air_A']:9.3f}  published {published:.4f}  "
               f"reproduced {a_repro:.4f}  delta {delta:.4f}  "
+              f"bound {bound:.4f} ({results[-1]['bound_set_by']})  "
               f"{results[-1]['outcome']}")
 
     tested = [x for x in results if x.get("outcome") in ("PASS", "FAIL")]
@@ -163,6 +212,10 @@ def main() -> int:
         "product": str(product.relative_to(ROOT)),
         "product_commit_sha": header.get("commit_sha"),
         "quantiser_floor_dex": QUANTISER_FLOOR_DEX,
+        "bisect_rel_tol": BISECT_TOL,
+        "bound_rule": ("max(RYA-771 quantiser floor, tol * max(ew_target,1) / |dEW/dA|) "
+                       "— the reproduction cannot be held tighter than the convergence "
+                       "criterion that produced the number"),
         "n_rows_in_product": int(len(rows)),
         "n_ew_route_in_aggregate": int(len(ew_rows)),
         "n_sampled": int(len(sample)),
