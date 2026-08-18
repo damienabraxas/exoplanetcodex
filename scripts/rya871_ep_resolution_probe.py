@@ -125,7 +125,13 @@ def probe(band_products: Path, lists: dict) -> pd.DataFrame:
             continue
         pol = resolve_band(0.5 * (cell["lo"] + cell["hi"]))
         try:
-            ll = gf_rung.linelist_frame(_linelist_for(cell["route"], pol.name, lists))
+            # `raw` is the loaded iSpec list; `ll` is its species-filtered FRAME. Both are
+            # kept because they are consumed differently: `score` below works on the frame
+            # directly, while `gf_rung.resolve_lines` takes the raw list and does its own
+            # framing and filtering — handing it the frame calls `linelist_frame` on an
+            # already-framed object and looks for a `wave_nm` column that is long gone.
+            raw = _linelist_for(cell["route"], pol.name, lists)
+            ll = gf_rung.linelist_frame(raw)
         except KeyError as e:
             print(f"  SKIP {cell['path'].name}: {e}")
             continue
@@ -161,7 +167,7 @@ def probe(band_products: Path, lists: dict) -> pd.DataFrame:
         def _rung(use_ep):
             eps = (merged.ep_eV.tolist() if use_ep else None)
             lg = gf_rung.resolve_lines(cell["element"], cell["ion"],
-                                       merged.wavelength_air_A, ll, measured_ep_eV=eps)
+                                       merged.wavelength_air_A, raw, measured_ep_eV=eps)
             return gf_rung.decide(cell["element"], cell["ion"], lg)
 
         def _syst(rung):
