@@ -65,7 +65,8 @@ def ew_half_width_A(fit_half_width_A: float) -> float:
 
 
 def synthetic_ew_mA(synth, *, centre_A: float, abundance: float,
-                    fit_half_width_A: float, synth_kwargs: dict) -> float:
+                    fit_half_width_A: float, synth_kwargs: dict,
+                    integration_half_width_A: float | None = None) -> float:
     """Synthetic EW of the target element's absorption around `centre_A`, in mÅ.
 
     `synth(wave_nm, trial_A=..., **synth_kwargs)` is the project's ONE flux generator
@@ -79,7 +80,13 @@ def synthetic_ew_mA(synth, *, centre_A: float, abundance: float,
     would look like a measurement.
     """
     from pipeline._numcompat import trapezoid as _trapz
-    hw = ew_half_width_A(fit_half_width_A)
+    # `integration_half_width_A` overrides the derived range. It exists for RYA-878's
+    # definitional test — the profile fitter integrates ONE fitted Voigt over +/-0.60 A
+    # while this integrates every bit of the element's absorption over +/->=1.0 A, and
+    # sweeping the range is how you find out whether that difference IS the offset.
+    # Production never passes it; the derived range is the definition.
+    hw = (ew_half_width_A(fit_half_width_A) if integration_half_width_A is None
+          else float(integration_half_width_A))
     n = max(int(2 * hw / EW_STEP_A), EW_MIN_POINTS)
     w_A = np.linspace(centre_A - hw, centre_A + hw, n)
     try:
