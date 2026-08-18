@@ -64,6 +64,7 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
+from pipeline import gf_rung  # noqa: E402  RYA-855
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
 from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
 from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
@@ -374,6 +375,17 @@ def synthesis_route(a, pol) -> None:
         lines.append(lm)
     lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
 
+    # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
+    # This route passed `gf_graded=False` to `build_budget` unconditionally, so the
+    # product charged the ungraded Kurucz 0.17 whatever its lines actually were. The
+    # decision now comes from `pipeline.gf_rung`, which the EW route below calls too:
+    # one implementation, so the two routes cannot disagree (RYA-845/847 defect shape).
+    # It is computed HERE, before the provenance, because the provenance used to STATE
+    # the rung in prose — "THE BAND IS UNGRADED" — as a second, hand-maintained
+    # declaration of the same fact the budget was charging. It now quotes the decision.
+    rung = gf_rung.for_lines(a.element, a.ion, lines, linelist=ctx["linelist"])
+    print(f"  [gf rung] {rung.describe()}")
+
     prov = (
         "Fe I near-UV 1D-LTE by flux-fit synthesis (Turbospectrum via iSpec, "
         "ATLAS9.Castelli) — the RYA-759 validated route called directly, same functions "
@@ -387,12 +399,15 @@ def synthesis_route(a, pol) -> None:
         "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
         "in the scatter reported here. Half-width is FIXED and must be swept. "
         + constraint_describe() + " " +
-        "gf REMAINS THE DOMINANT SYSTEMATIC AND THE BAND IS UNGRADED: RYA-822 grades "
-        "only 6 of the 4,274 in-band Fe I lines as primary-lab, and its GF-NIST class "
-        "(604 lines) is a COMPILATION grade that 822 deliberately keeps outside "
-        "`is_graded` because FMW *is* NIST and VALD copies it (RYA-760). Of the lines "
-        "actually fitted here, 17 of 40 carry a citable NIST accuracy class and most of "
-        "those are poor (C/C+/D/D+/E). Never coadded with another band (RYA-712).")
+        # RYA-855 — the rung is QUOTED from the decider, never restated. The sentence
+        # that stood here asserted "THE BAND IS UNGRADED" in prose while the budget
+        # asserted it in arithmetic; two declarations of one fact is how RYA-845's
+        # double-count survived, and a hand-written one would go stale the first time a
+        # pool's lines changed. Context on WHY Fe I in this band is largely ungraded:
+        # RYA-822 grades only 6 of the 4,274 in-band Fe I lines as primary-lab, and its
+        # GF-NIST class (604 lines) is a COMPILATION grade 822 deliberately keeps
+        # outside `is_graded` because FMW *is* NIST and VALD copies it (RYA-760).
+        "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712).")
     product = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE",
                             lines, provenance=prov)
 
@@ -409,7 +424,11 @@ def synthesis_route(a, pol) -> None:
     # A row that arrives but carries no number is worse than one that does not arrive,
     # because it looks like a measurement that failed rather than a wiring mismatch.
     b = build_budget(a.element, 0.5 * (a.lo + a.hi), product.n_lines,
-                     scatter_dex=(product.sigma or 0.0), gf_graded=False,
+                     scatter_dex=(product.sigma or 0.0),
+                     # RYA-855 — the gf rung, decided above from this product's own
+                     # lines. `budget_kwargs()` carries the graded flag and the cited
+                     # sigma TOGETHER so a caller cannot pass one and forget the other.
+                     **rung.budget_kwargs(),
                      # There is no profile fitter anywhere on this route, so charging it
                      # the profile fitter's measured residual would attribute someone
                      # else's systematic to it.
@@ -435,7 +454,11 @@ def synthesis_route(a, pol) -> None:
     # The epilogue that used to be appended here announced the term as "added in
     # quadrature above" — which is exactly the double-add RYA-845 removed, and it made
     # the artifact assert the bug in prose as well as in arithmetic.
-    (out / f"{stem}_budgets.txt").write_text(b.describe() + "\n")
+    # RYA-855 — the budget names the TERM; this names the DECISION that chose it. A
+    # reader must be able to see not only that the cell was charged 0.17 but why this
+    # pool was not entitled to anything better, without re-running the deriver.
+    (out / f"{stem}_budgets.txt").write_text(
+        b.describe() + f"\n  gf rung: {rung.describe()}\n")
     # RYA-847 — WRITE THE PROVENANCE. `build_product` has always accepted it and
     # `products_frame` emits it, but this route writes the MATRIX schema instead
     # (element/ion/band/.../dominant, RYA-832) and that schema has no provenance column —
@@ -824,8 +847,17 @@ def main() -> None:
         # Engine B never touches the profile fitter, so charging it the profile fitter's
         # measured residual would be attributing someone else's systematic to it.
         is_b = prod.treatment == "ENGINE-B"
+        # 🔴 RYA-855 — PER PRODUCT, not per band and not per element. This call passed
+        # `gf_graded=False` unconditionally, the mirror of the synthesis route above, so
+        # every EW-route cell charged the ungraded 0.17 no matter what its lines were.
+        # It matters that this is per PRODUCT: 1D-LTE, ENGINE-A and ENGINE-B share a
+        # band and an element but NOT a line set — Engine A drops every line MPIA does
+        # not serve — so the three can legitimately land on different rungs, and a
+        # band-level or element-level answer would be wrong for at least one of them.
+        rung = gf_rung.for_product(prod, linelist=ctx["linelist"])
+        print(f"    [gf rung] {prod.treatment}: {rung.describe()}")
         b = build_budget(a.element, 0.5 * (a.lo + a.hi), prod.n_lines,
-                         scatter_dex=(prod.sigma or 0.0), gf_graded=False,
+                         scatter_dex=(prod.sigma or 0.0), **rung.budget_kwargs(),
                          harness_residual_dex=(0.0 if is_b else PROFILE_FIT_RESIDUAL_DEX),
                          handler=("SynthesisHandler" if is_b else "ProfileFitHandler"))
         stat, syst = b.total()
@@ -835,7 +867,7 @@ def main() -> None:
                             n_excluded=prod.n_excluded,
                             stat_dex=round(stat, 4), syst_dex=round(syst, 4),
                             dominant=b.dominant().name if b.dominant() else ""))
-        budgets[prod.treatment] = b.describe()
+        budgets[prod.treatment] = b.describe() + f"\n  gf rung: {rung.describe()}"
         prod.to_frame().to_csv(out / f"{stem}_{prod.treatment}_lines.csv", index=False)
 
     df = pd.DataFrame(summary)
