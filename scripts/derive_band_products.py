@@ -346,9 +346,11 @@ def synthesis_route(a, pol) -> None:
             # here at all. Inheriting it would quarantine lines on a quantity that does
             # not exist (RYA-770/342).
             ew_inversion=False,
-            # RYA-847 — carried, not yet gated on. The sweep chooses the metric and the
-            # threshold across every synthesis band; this route must not pick either
-            # from its own product (RYA-161).
+            # RYA-847 — carried on every line, and now GATED on one of them. The sweep
+            # across nine cells found no transferable threshold for any of these four
+            # (per-band cuts span x24-x489), so no metric carries a cut; what does gate
+            # is the sign of `frac_rise_weaker` (see below). They stay on the line
+            # because the sweep is only reproducible from per-line metrics.
             sigma_A=_f(res.get("sigma_A")),
             frac_rise_weaker=_f(res.get("frac_rise_weaker")),
             edge_distance_dex=_f(res.get("edge_distance_dex")),
@@ -377,10 +379,12 @@ def synthesis_route(a, pol) -> None:
             # moves 2.2% and 1.4% across EIGHT DEX of iron entered the published
             # aggregate at 7.833 and 7.979 (RYA-843).
             #
-            # It now calls the SAME decider the Engine-B handler calls. While
-            # `SYNTH_CONSTRAINT` is None this changes nothing numerically — deliberately,
-            # and provably: the near-UV product reproduces 7.488 with the call in place.
-            # The cut comes from a cross-band sweep, not from this band (RYA-161).
+            # It now calls the SAME decider the Engine-B handler calls. ⚠️ THIS IS NO
+            # LONGER NUMERICALLY INERT and the comment here used to say it was: with the
+            # non-minimum check adopted, this route drops 3617.318 and the near-UV
+            # product moves 7.488 -> 7.498 (n 40 -> 39). `SYNTH_CONSTRAINT` is still None
+            # and always will be — no threshold survived the sweep — but `frac_rise <= 0`
+            # is a correctness test, not a threshold, and it fires here.
             _cv = constraint_verdict(res)
             if not _cv.ok:
                 lm.in_aggregate = False
