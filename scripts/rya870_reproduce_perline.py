@@ -113,13 +113,20 @@ def main() -> int:
         # difference from the production call is that the target line's constants are
         # taken from the PUBLISHED ROW instead of from the pipeline's linelist. That
         # difference is the entire claim under test.
-        tgt = np.abs(linelist["wave_A"] - wl_A) < 0.05
-        if not tgt.any():
-            results.append({"wavelength_air_A": wl_A,
-                            "outcome": "LINE-NOT-IN-SYNTH-LINELIST"})
+        # 🔴 WAVELENGTH *AND* EP. This guard documented the trap in the generator and then
+        # walked into it here: a 0.05 A window alone selected a high-excitation neighbour
+        # (5852.218 came back at EP 8.548 / log gf -5.965 against the published 4.549 /
+        # -1.23), so the override was applied to the wrong transition and the row was
+        # blamed for it. RYA-780/852.
+        near = np.abs(linelist["wave_A"] - wl_A) < 0.05
+        ep_pub = float(r["excitation_potential_eV"])
+        cand = np.where(near & (np.abs(linelist["lower_state_eV"] - ep_pub) < 0.05))[0]
+        if cand.size == 0:
+            results.append({"wavelength_air_A": wl_A, "published_ep_eV": ep_pub,
+                            "outcome": "LINE-NOT-IN-SYNTH-LINELIST-AT-THIS-EP"})
             continue
         one = linelist.copy()
-        idx = int(np.argmax(tgt))
+        idx = int(cand[np.argmin(np.abs(linelist["wave_A"][cand] - wl_A))])
         one["loggf"][idx] = float(r["log_gf"])
         one["lower_state_eV"][idx] = float(r["excitation_potential_eV"])
         for col, key in (("rad", "damping_rad"), ("stark", "damping_stark"),
