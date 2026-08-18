@@ -250,6 +250,272 @@ artifacts:
     invocation: python scripts/rya347_fe2_atomic_data_audit.py
     ticket: RYA-347
 
+  # ── RYA-855 re-audit on the POST-GATE line set (RYA-847) ──────────────────────────
+  - artifact: rya855/postgate/rya855_rung_by_cell.csv
+    generator: scripts/rya855_rung_audit.py
+    invocation: python3 scripts/rya855_rung_audit.py --band-products data/results/rya847/gated --out data/results/rya855/postgate
+    ticket: RYA-855
+    note: >-
+      The rung audit re-run on the line set RYA-847's non-minimum check leaves behind. The
+      original audit priced the rya845-era band products, whose near-UV cell still carried
+      3617.318; this one prices the gated cells (near-UV n=40 -> 39, VIS ENGINE-B 130 ->
+      129, ENGINE-B-NLTE 132 -> 131, NIR 32 -> 31). RESULT: 0 of 8 cells change rung and 0
+      change their bar — every pool is MIXED several times over, so removing a line cannot
+      lift a rung, and 855's conclusion survives the gate unchanged.
+  - artifact: rya855/postgate/rya855_summary.json
+    generator: scripts/rya855_rung_audit.py
+    invocation: python3 scripts/rya855_rung_audit.py --band-products data/results/rya847/gated --out data/results/rya855/postgate
+    ticket: RYA-855
+    note: >-
+      🔴 The re-audit's real finding is in its own CONTROL, not in the rung: 7 of 8 cells
+      reproduce their published syst_dex, and the eighth — VIS Fe I ENGINE-B-NLTE — only
+      reproduces under the PRE-RYA-869 harness rule (published 0.1705; charged by handler
+      0.1700). That cell was regenerated hours before RYA-869 landed, so the artifact
+      merged in ce31080 carries a stale harness term. Tracked as RYA-874; the values are
+      untouched (8/8 reproduce A exactly) and it cannot be regenerated until RYA-871's EW
+      tables carry ep_eV.
+
+  # ── RYA-847 — the non-minimum gate, and what it cost per cell ─────────────────────
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_provenance.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the run provenance for the near-UV cell with the NON-MINIMUM check
+      applied. The synthesis route; the cell whose PUBLISHED value moves, 7.488 -> 7.498, because 3617.318 is a non-minimum. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_provenance.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the run provenance for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/rya847_gate_diff.csv
+    generator: scripts/rya847_gate_diff.py
+    invocation: python3 scripts/rya847_gate_diff.py
+    ticket: RYA-847
+    note: >-
+      ITEM 6. What the non-minimum check cost, per product: before and after, the lines it
+      caught, and the change in value and scatter. The "before" side is RYA-847's own
+      nine-cell sweep — the same tree and the same code with the gate not yet applied —
+      NOT the published matrix, which came from the rya845 run and differs by registry
+      drift that has nothing to do with this gate (the confound RYA-848 settled with a
+      same-inputs control). 🔴 The generator REFUSES to report a clean diff it cannot
+      justify: `n_post + n_caught == n_pre` must hold in every changed cell, the deck-free
+      products must agree across both Engine-B decks, and a control row that finds no
+      product is a hard failure — the guard for the deck-overwrite that silently lost the
+      ENGINE-B row from the first run of this regeneration.
+
+  - artifact: rya847/rya847_gate_caught_lines.csv
+    generator: scripts/rya847_gate_diff.py
+    invocation: python3 scripts/rya847_gate_diff.py
+    ticket: RYA-847
+    note: >-
+      Every line the gate excluded, with the four constraint metrics and the verbatim
+      reason. Three lines across three bands and four products. 🔴 3617.318 is the one
+      that matters: it fitted at A = 7.477, indistinguishable from solar, sitting quietly
+      in the published near-UV aggregate on a chi2 curve that never rose — no
+      plausibility-based check could ever have found it.
+
+  - artifact: rya847/README.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-847
+    sources:
+      - scripts/rya847_gate_diff.py
+      - data/results/rya847/rya847_pregate_control.csv
+    note: >-
+      Reading instructions for this directory, and one warning worth the file: these
+      cells must NOT be diffed against data/results/rya783/fe_product_matrix.csv. That
+      matrix came from the rya845 run, and its line counts differ by four ATOMIC_BLEND
+      registry exclusions, 11119.795 and the RYA-807 gate — so diffing against it
+      measures this gate PLUS months of pool drift, which is the confound RYA-848 hit and
+      settled with a same-inputs control.
+
+  - artifact: rya847/rya847_pregate_control.csv
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-847
+    sources:
+      - pipeline/constraint_gate.py
+      - scripts/rya847_regen_gated_cells.sh
+    note: >-
+      The PRE-GATE numbers, carried as data because they can no longer be recomputed: they
+      come from RYA-847's own nine-cell sweep — the SAME tree and SAME code as the gated
+      run, with the gate not yet applied — and the sweep's per-line CSVs were destroyed
+      when the working tree was re-synced afterwards (the RYA-461 save-before-clean
+      convention exists for exactly this and was not followed). 🔴 A hand-carried number
+      must be FALSIFIABLE by the artifact it describes, so scripts/rya847_gate_diff.py
+      asserts `n_post + n_caught == n_pre` per cell and fails if a control row finds no
+      product — the check that would have caught the deck-overwrite that lost the VIS
+      ENGINE-B row.
+
   # ── Hand-authored decision records (no program wrote these) ───────────────────────
 
   - artifact: sr2_line_selection_rya430.json
@@ -419,6 +685,142 @@ artifacts:
       0.80-1.03 and marks each line at its own depth - these lines are 0.06-0.13 deep next
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
+
+  # ── RYA-873 — a budget must not print MEASURED beside a number nobody measured ──────
+  - artifact: rya873/rya873_crowding_by_line.csv
+    generator: scripts/rya873_control_rca.py
+    invocation: ISPEC_DIR=... python3 scripts/rya873_control_rca.py
+    ticket: RYA-873
+    note: >-
+      The test that decided RYA-873, per control line and per candidate EW window. The
+      SynthesisHandler's optical control is a COMPENSATING-ERROR PASS -- abundance agrees
+      (dex_offset -0.0100) while EW is off +0.1562 dex -- and the control says so itself.
+      The leading explanation was that `measure_line` builds its EW as a DIFFERENCE OF TWO
+      SYNTHESES, which cancels other species but NOT another Fe I line in the same window
+      (the RYA-785 shape). 🔴 RESULT: REFUTED. Of the 18 accepted lines, the 15 the
+      strength proxy calls essentially uncontaminated (<=1.46x, mostly ~1.00x) still span
+      observed synth/banked ratios 0.50-2.07 with median 1.295, and dividing the predicted
+      contamination out moves their MAD only 0.246 -> 0.217. The global log-log
+      correlation of 0.813 is carried entirely by three lines predicting 8.9x, 14.1x and
+      258x -- exactly the failure mode the test pre-declared before seeing the data
+      (RYA-818). ⚠️ The proxy 10^(loggf - ep*theta) is an ORDERING, not an EW, which is
+      why it can return 258x; the refutation rests on the 15 lines where it says the
+      neighbours are much WEAKER than the target, a relative claim it handles well.
+  - artifact: rya873/rya873_crowding_summary.json
+    generator: scripts/rya873_control_rca.py
+    invocation: ISPEC_DIR=... python3 scripts/rya873_control_rca.py
+    ticket: RYA-873
+    note: >-
+      The machine twin, carrying the verdict and its caveat as fields rather than as
+      stdout. CONSEQUENCE: the compensating-error caveat STANDS, 0.0100 is the abundance
+      angle of an unexplained pass and is NOT established, 0.0000 is an assumed zero, so
+      RYA-873 charges NOTHING and makes the budget say so instead of printing "MEASURED"
+      over it. RYA-875 is the RCA that resolves the split; the
+      `UNCHARGED_CONTROL_RESIDUAL_DEX` declaration and its test stay until it does.
+
+  # ── RYA-871 — a wavelength does not identify a line; carry the excitation potential ──
+  - artifact: rya871/rya871_ep_resolution_probe.csv
+    generator: scripts/rya871_ep_resolution_probe.py
+    invocation: ISPEC_DIR=... python3 scripts/rya871_ep_resolution_probe.py --band-products <band-products tree>
+    ticket: RYA-871
+    note: >-
+      Every (wavelength tolerance x EP key) variant, scored on all 35 banked EW-route
+      cells, measured BEFORE the fix was written. It answers two things the ticket did not
+      anticipate. 🔴 EP BREAKS TIES, SO IT REACHES 2 OF THE 16 ON ITS OWN --
+      RYA-855's split was 14 ABSENT / 2 AMBIGUOUS, and a tie-breaker cannot reach a line
+      with no row inside the window at all. The 0.006-
+      0.02 A offset is not measurement error: `measure_band_profilefit` draws candidates
+      from the line-accounting table, whose rows are FEATURES (line_accounting_rya709
+      groups list rows within 0.05 A and reports the group MEAN), so a blended feature
+      sits BETWEEN its components by construction. The fix is a PAIR -- widen to reach the
+      row, use the EP to keep the widening honest. ✅ MEASURED: 0.005/no (today) 1601
+      unique / 163 absent / 40 ambiguous; 0.020/yes 1764 / 23 / 17; 0.030/yes IDENTICAL, so
+      the tolerance sits on a PLATEAU and is not a tuned knob; 0.050/yes regresses. 🔴
+      WIDENING ALONE BREAKS IT: at 0.010 with no EP, 8 cells re-identify a line they had
+      already identified, and 25 do at 0.020. The control is by WHICH ROW a line lands on,
+      not whether it landed -- swapping one identification for another scores as a tie on
+      a count (RYA-818: a rule that only fires where the primary failed is unfalsifiable).
+      ✅ CRITICAL CHECKS: 0 of 35 cells change rung, 0 change syst, no A moves -- every Fe
+      pool is MIXED several times over, so a newly identified line cannot lift a rung. What
+      DID change is the thing the ticket is about: lines correctly PRICED, 107 -> 130.
+  - artifact: rya871/rya871_probe_summary.json
+    generator: scripts/rya871_ep_resolution_probe.py
+    invocation: ISPEC_DIR=... python3 scripts/rya871_ep_resolution_probe.py --band-products <band-products tree>
+    ticket: RYA-871
+    note: >-
+      The machine twin of the table above, carrying the chosen tolerances alongside the
+      variants they were chosen from, so the plateau is auditable rather than asserted.
+  - artifact: rya871/rya871_carry_control.json
+    generator: scripts/rya871_carry_control.py
+    invocation: python3 scripts/rya871_carry_control.py --new <fresh band_ew dir> --banked <pre-871 band_ew dir>
+    ticket: RYA-871
+    note: >-
+      SAME-INPUTS CONTROL (RYA-848). The claim this ticket rests on -- that carrying the EP
+      changes line IDENTITY and nothing else -- is proved against a baseline produced by
+      the SAME emitter on the SAME accounting table at the pre-RYA-871 commit, not against
+      a months-old banked artifact that carries its own input drift. Compared per row and
+      per column: the ROW SET must match on wavelength (two 152-row files can disagree
+      about which lines they are), every pre-existing column must be byte-identical
+      including the `ew_method` prose, and the only permitted difference is the ADDITION of
+      a non-null `ep_eV`. ✅ RESULT on VIS Fe I 3800-6910: 2339 rows, same line set, every
+      pre-existing column BYTE-IDENTICAL, ep_eV non-null on all 2339, range 0.0-6.1654 eV.
+
+  # ── RYA-869 — the harness residual follows the HANDLER, not the treatment label ────
+  - artifact: rya869/rya869_harness_by_cell.csv
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      One row per per-line file under a band-products tree: which handler was CHARGED for
+      the harness residual, which handler actually produced the cell, and what the
+      systematic is under each. `derive_band_products` decided it with
+      `is_b = prod.treatment == "ENGINE-B"` -- an equality against a treatment NAME, under
+      a comment stating the HANDLER rule correctly -- and RYA-798 added the variant
+      ENGINE-B-NLTE, the same SynthesisHandler flux fit on a different departure deck. ✅
+      RESULT: 6 of 36 cells (4 published matrix cells) were charged the profile fitter's
+      0.0129 dex and LABELLED ProfileFitHandler in their own budget files. VIS Fe I/II
+      ENGINE-B-NLTE 0.1705 -> 0.1700, red-optical Fe I/II ENGINE-B-NLTE 0.1731 -> 0.1726.
+      NO abundance moves -- the harness term does not enter the median, asserted per cell.
+      TWO CONTROLS, one at each end (RYA-855): the pre-fix rule reproduces all 35 published
+      cells exactly, and of the 30 cells whose handler the old rule already got right, 30
+      come out BYTE-IDENTICAL. The 6 that move change the harness term line and the
+      `systematic` total that sums it, and 0 other budget lines. ⚠️ The direction is that
+      the bar was too LARGE, so nothing was ever going to make it look wrong.
+  - artifact: rya869/rya869_summary.json
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      The machine twin of the table above, with the controls stated as counts rather than
+      narrated. 🔴 It also carries `synthesis_control_divergence`, a SECOND finding
+      reported and NOT fixed here: SynthesisHandler is charged 0.0000 dex while its own
+      banked control measured |dex_offset| = 0.0100 and PASSED
+      (data/audit/synthesis_control/control_FeI.json, n=18, RYA-770/759) -- and
+      `error_budget.harness_term` prints "MEASURED against the known optical answer, not
+      assumed zero" beside that 0.0000. Charging the measured value moves the near-UV cell
+      and every ENGINE-B cell, a different diff from this one, so it is quantified and
+      left alone. Declared in `pipeline.harness_residual.UNCHARGED_CONTROL_RESIDUAL_DEX`
+      and asserted against the artifact by tests/test_harness_residual_rya869.py, so it
+      cannot quietly stop being true. Filed as RYA-873.
+  - artifact: rya869/rya869_budget_diff.txt
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      Unified diff of every moved cell's FULL budget text, as published against as
+      RYA-869 charges it. It is the evidence for the "nothing else moved" control in a
+      form a reader can check by eye: two changed lines per cell, the harness term and
+      the systematic total.
+  - artifact: rya869/rya869_budgets_after.txt
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      The six moved cells' budgets REGENERATED under the fixed rule -- ticket item 4. One
+      file rather than one per cell, matching how the deriver writes a stem's treatments
+      into a single `*_budgets.txt`. Each block now reads `SynthesisHandler` beside
+      0.0000 where the published artifact read `ProfileFitHandler` beside 0.0129 for the
+      same handler's output.
 
   - artifact: rya783/fe_product_matrix.csv
     generator: scripts/rya783_fe_matrix_report.py
@@ -933,3 +1335,194 @@ artifacts:
       HYPOTHESIS needing MB09's S/L flags to test. ⚠️ Den Hartog 2019's optical subset could
       NOT be reached (Vizier.find_catalogs returned nothing) -- an absence in the SEARCH,
       not the source (RYA-833).
+  # ── RYA-850 — the graded (lab-gf) pool as the reported value ───────────────────────
+  - artifact: rya850/rya850_two_product_matrix.csv
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      The Fe matrix with RYA-824's two lab-gf pools wired in as cells, so every
+      (element, ion, band, engine) carries whichever of its GRADED and UNGRADED pools
+      exist. No new measurement: the pools were built by RYA-824/836 and the gf terms
+      already existed in error_budget (0.041 graded vs 0.170 ungraded); what was missing
+      is that derive_band_products.py:770 passes gf_graded=False UNCONDITIONALLY, so
+      every EW-route cell was charged the Kurucz term regardless of its lines. 🔴 ONLY 3
+      OF 18 CELLS CAN HAVE A GRADED TWIN — no primary-lab-gf pool exists for Fe II in
+      any band, nor for any ENGINE-A/ENGINE-B product; those fall back to UNGRADED and
+      say so rather than claiming a term they are not entitled to. The ungraded product
+      is KEPT and labelled (RYA-712), never dropped.
+  - artifact: rya850/rya850_element_table.csv
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      The main Solar-page view: one row per cell, graded where a lab-gf pool exists, with
+      value and +/- total VISIBLE. Uncertainty is the standard construction and nothing
+      more -- stat = scatter/sqrt(N), sys = quadrature(gf, continuum, harness, telluric),
+      total = sqrt(stat^2 + sys^2). ⚠️ It does NOT average across bands or engines:
+      RYA-712 forbids a combined product and band_products has no combine(), so the
+      per-band spread is REPORTED, never collapsed.
+  - artifact: rya850/rya850_summary.json
+    generator: scripts/rya850_graded_products.py
+    invocation: python3 scripts/rya850_graded_products.py
+    ticket: RYA-850
+    note: >-
+      THE RESULT. All three graded cells tighten their bar -- VIS 0.1732 -> 0.0583,
+      red-optical 0.1767 -> 0.0570, near-UV 0.2077 -> 0.1375 -- which is NOT in tension
+      with RYA-836 (the lab pool scatters WORSE, 0.652 vs 0.413) or RYA-842 (gf buys a
+      bar, not a spread): scatter enters only through stat = scatter/sqrt(N), which
+      averages down, while the gf term enters sys, which does not. Checked per cell, not
+      assumed. The three graded bands AGREE (<=0.9 sigma pairwise, spread 0.132 dex), so
+      a graded headline is well defined. ⚠️ The generic 0.041 UNDERSTATES RYA-824's own
+      cited lab sigma (0.0524 IR / 0.0600 VIS) by 15-25% on the total. ⚠️ Line sets are
+      PRE-RYA-847 and provisional -- once 847 lands the graded pool is lab-gf INTERSECT
+      constrained and the near-UV cells must be regenerated.
+  # ── RYA-853 — gf grade + value integrity ──────────────────────────────────────────
+  - artifact: rya853/rya853_grade_integrity.csv
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      Every row of the two hand-maintained NIST extracts verified against LIVE NIST ASD, in
+      air, matched on wavelength AND excitation potential. 🔴 31 of 44 uniquely-matched
+      rows (70%) carry a grade the source does not support, and 14 carry a log gf more than
+      0.02 dex from it -- in a file that calls itself the "Type B uncertainty anchor" and
+      that RYA-850 keys graded_gf_term on. Worst: Mg I 4571.096 / Fe I 5576.089 / Ca I
+      5857.451 / Ca I 6439.075 all stored A where NIST says D (0.013 vs 0.176 dex, 13.7x).
+      ⚠️ 8 rows are AMBIGUOUS and NOT judged: a wavelength+EP window is not a unique line
+      identifier (transitions share a wavelength and lower level while differing in the
+      upper), and taking the first match manufactured 12-dex "defects".
+  - artifact: rya853/rya853_corrections.csv
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      The 45 corrections (31 grade + 14 log gf) as a ready-to-apply table: element,
+      wavelength, which file, stored value, and what the cited source actually says. NOT
+      applied -- these rows feed published anchors (O I 6300, Li I 6707, Ba II 5853, Ni I
+      6300.336), so applying them shifts published values and is a reviewable change rather
+      than an audit side effect.
+  - artifact: rya853/rya853_summary.json
+    generator: scripts/rya853_gf_grade_integrity_audit.py
+    invocation: python3 scripts/rya853_gf_grade_integrity_audit.py
+    ticket: RYA-853
+    note: >-
+      🔴 THE OFFLINE FINDING, which needs no network and would have caught this a month
+      earlier: the two extracts disagree with EACH OTHER on 13 lines they both carry. Mg I
+      5711.090 is the smoking gun -- RYA-592 corrected it in nist_reference and left
+      nist_crosscheck stale, so one line now carries two grades depending on which file you
+      read. S I 6052.670 differs by 0.92 dex between our own files; Ni I 6300.336 by 0.20,
+      and that is the Ni blend under [O I] 6300 which gates the solar oxygen abundance
+      (RYA-365). ⚠️ SCOPE 3 IS OWED: the +0.106 dex Fe II scale-offset referee needs Den
+      Hartog 2019 pure-lab gf, which could not be fetched (Vizier find_catalogs empty for 3
+      phrasings, 3 guessed catalog IDs empty) -- an absence in the SEARCH, not the source
+      (RYA-833). Until it runs, RYA-852's solar-fitting hypothesis is UNRESOLVED, not
+      supported, and Ryan's NIST-is-the-outlier counter-evidence is equally untested.
+  - artifact: rya853/rya853_dh19_referee.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      Scope 3. Our Fe II log gf against Den Hartog 2019's ten optical PURE-LAB values
+      (BF x LIF lifetimes, no solar normalisation) and against live NIST, all EP-matched on
+      both sides. The referee has to be solar-free because the question is whether our
+      scale is solar-fitted.
+  - artifact: rya853/rya853_dh19_referee.json
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      VERDICT INCONCLUSIVE, and that is the result. ours - DH = +0.020 with a 95% CI of
+      [-0.070, +0.160], which covers BOTH the pure-lab prediction (~0) and the solar-fitted
+      one (~+0.13) -- ten lines spanning 0.6 dex cannot choose. ⚠️ A first pass thresholded
+      on |median| <= 0.05 and returned "LEGITIMATE, hypothesis REFUTED", which was
+      overreading a median whose uncertainty is 3x its size; the CI is now the verdict rule.
+      ✅ The counter-evidence is confirmed in DIRECTION: NIST - DH = +0.124, i.e. NIST sits
+      ABOVE pure lab and therefore yields the LOWER abundance Den Hartog reports (7.31 vs
+      7.46). 🔴 AND THE PREMISE DOES NOT HOLD: ours - NIST is -0.066 on the blue overlap
+      (4173-4584 A) against +0.106 on the red pool (5256-6456 A) -- swing 0.172 dex, SIGN
+      FLIPS -- so RYA-852's "+0.106 pool-wide" is not a scale property, and there is no
+      single "our Fe II scale" to referee. ⚠️ The three arbiter lines are REDWARD of DH19's
+      4584 A ceiling and are NOT refereed here. ⚠️ VizieR J/ApJS/243/33 returns 0 tables
+      from Sirius, so the ten values are TRANSCRIBED from the PDF and this run is not
+      network-reproducible; the full Table 6 (131 lines) would settle it.
+  - artifact: rya853/rya853_fe1_labpool_referee.csv
+    generator: scripts/rya853_fe1_labpool_referee.py
+    invocation: python3 scripts/rya853_fe1_labpool_referee.py
+    ticket: RYA-853
+    note: >-
+      Scope 2. The 465 Fe I lab-graded lines refereed against the SOURCE PAPERS' own tables
+      (Ruffoni 2014 stu780.pdf, Den Hartog 2014 ApJS 215/23, Belmonte 2017 ApJ 848/125),
+      read off the local Reference documents/ folder -- not VizieR. This is the pool
+      RYA-850 promotes, and the NIST pass never touched it.
+  - artifact: rya853/rya853_fe1_labpool_referee.json
+    generator: scripts/rya853_fe1_labpool_referee.py
+    invocation: python3 scripts/rya853_fe1_labpool_referee.py
+    ticket: RYA-853
+    note: >-
+      SUPERSEDES the earlier PDF-only pass. Refereed against the CDS MACHINE-READABLE
+      tables (J/MNRAS/441/3127 table3, J/ApJS/215/23 table4) vendored into
+      data/reference/fe_gf_lab/cds/ so it reproduces offline -- the full line lists the
+      PDFs only excerpt. ✅ COVERAGE 463 of 465 (99.6%), and 455 (98.3%) reproduce their
+      source paper's log gf exactly. RUFFONI 142/142 AND DEN HARTOG 203/203 ARE PERFECT on
+      both value and cited sigma -- 345 lines, zero defects -- which CLEARS the pool
+      RYA-850 promotes. Every surviving mismatch is Belmonte, the one source refereed from
+      a typeset PDF (J/ApJ/848/125 is a CDS 404); its table prints 2 decimals against our
+      3, so the small deltas may be extraction artifacts. 🔴 One genuine bad row:
+      Belmonte 3935.307, ours -2.199 vs -1.820 (delta +0.379) with sigma 0.070 vs 0.180.
+      🔴 FOUR PARSER BUGS were caught here, each of which produced a confident wrong
+      answer: U+2212 minus (95 of 99 "mismatches"), U+F0A0 padding around Belmonte's ±
+      (paper looked like it covered NOTHING), pdftotext -layout required, and a Den Hartog
+      column off-by-one reading A_ul as log gf (211 of 463 "mismatches"). A defect rate
+      that is suddenly enormous with a regular signature is a parser bug, not a finding.
+  - artifact: rya855/rya855_rung_by_cell.csv
+    generator: scripts/rya855_rung_audit.py
+    invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
+    ticket: RYA-855
+    note: >-
+      One row per per-line file under a band-products tree: the gf rung that cell's own
+      lines entitle it to, and what its systematic would be on that rung. It re-derives the
+      budget from the per-line file rather than re-fitting -- the budget is a pure function
+      of (band, n_lines, scatter, gf rung, harness residual), so a re-fit could not change
+      any of the other four and WOULD fold two months of input drift into a diff meant to
+      isolate one term (RYA-848). It therefore CHECKS ITSELF FIRST: 35 of 35 cells with a
+      published row reproduce A, stat_dex AND the rung-1 syst_dex exactly, which is what
+      makes the diff attributable to the gf term and nothing else. ✅ RESULT: 0 of 36 cells
+      move. Every published Fe cell is a MIXED pool -- the VIS 1D-LTE pool is 5 GF-LAB of
+      152, red-optical 12 of 101, and Fe II has no primary-lab pool in any band -- so all
+      36 were already entitled to rung 1 only. The hardcode agreed with the data cell by
+      cell; the reason is now stated per cell instead of assumed. ⚠️ The near-UV pool is 15
+      GF-NIST + 23 K07 + 2 ambiguous and ZERO primary-lab, corroborating the provenance
+      prose this ticket replaced. 🔴 The SEPARATE FINDING this audit surfaced --
+      `derive_band_products` tested `treatment == "ENGINE-B"`, an equality against a name
+      that gained the ENGINE-B-NLTE variant in RYA-798 -- is FIXED by RYA-869. The two
+      mirrored harness rules this audit carried went with it, and the columns
+      harness_by_handler_dex / harness_misattributed / syst_if_harness_correct are
+      replaced by `harness_handler`: with one rule there is no gap left to measure.
+      ⚠️ THE SIX CORRECTED CELLS NO LONGER REPRODUCE THE PUBLISHED syst_dex, and that is
+      not drift -- their published bar was built under the defect. The audit tells the
+      two apart per cell (`syst_published_rule_pre_rya869` /
+      `syst_diff_is_rya869_correction`), because drift invalidates a diff and a known
+      correction does not: 35/35 still reproduce A and stat_dex, 29/35 reproduce syst on
+      the published rule and the remaining 6 reproduce it under the pre-RYA-869 harness
+      rule EXACTLY, so their inputs are intact and all 36 cells are still diffed.
+  - artifact: rya855/rya855_summary.json
+    generator: scripts/rya855_rung_audit.py
+    invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
+    ticket: RYA-855
+    note: >-
+      The machine twin of the table above, plus the two things a table cannot carry.
+      POSITIVE CONTROL (`graded_pool_control`): every audited cell lands on rung 1, and a
+      decider that returned rung 1 unconditionally would produce exactly that table -- so
+      the decider is run against RYA-836's near-UV lab-gf sub-pool, the one pool in the repo
+      that IS entirely primary-lab, priced on `loggf_lab` because that is the value that
+      pool was inverted on. It returns rung 3, n=60/60, which CONFIRMS the `gf_graded=True`
+      RYA-836 asserts by hand. ⚠️ AND IT DISAGREES WITH RYA-850 ON THE SIGMA: 0.0517 over 60
+      against RYA-850's published 0.0522 over 58. The two lines 850 refused are 3125.651 /
+      3125.683 A -- real, distinct Fe I transitions 0.032 A apart at EP 0.990 and 2.404 eV.
+      Its wavelength-only 0.05 A window catches both for each and refusing them was correct
+      under that rule; the wavelength+EP+value key separates them. The ambiguity was in the
+      MATCH RULE, not the data. FLAGGED, NOT CHANGED -- it is RYA-850's published bar.
+      `caveats` records the EW route's identification ceiling: its per-line artifact carries
+      no excitation potential, so lines are resolved on wavelength alone and 16 of 152 VIS
+      lines do not resolve uniquely.

@@ -342,8 +342,17 @@ def _run(a) -> None:
                                   # already on a continuum, so neither wants a second one.
                                   pre_normalised=True,
                                   context={**ctx, "ew_hint_mA": float(r.ew_mA)})
+        # RYA-873 — CARRY THE CONSTRAINT METRICS. `measure_line` has returned them per
+        # line since RYA-847 part 1 and this control dropped them on the floor, which is
+        # the RYA-843 shape: a quantity with nowhere to live is a quantity nobody can
+        # check. They are needed here for a specific question — RYA-847 part 2's
+        # non-minimum check is ALWAYS ON now, so whether a control line is a real
+        # minimum decides whether it is in the accepted set at all, and therefore
+        # decides both of the numbers this control publishes.
         rows.append(dict(wave=c, ew_ref=float(r.ew_mA), ew_synth=float(lm.ew_mA),
                          abundance=lm.abundance,
+                         frac_rise_weaker=lm.frac_rise_weaker, sigma_A=lm.sigma_A,
+                         edge_distance_dex=lm.edge_distance_dex, red_chi2=lm.red_chi2,
                          status="ok" if lm.in_aggregate else lm.excluded_reason[:70]))
 
     d = pd.DataFrame(rows)

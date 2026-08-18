@@ -64,13 +64,22 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
+from pipeline import gf_rung  # noqa: E402  RYA-855
+from pipeline import harness_residual  # noqa: E402  RYA-869
+from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
+from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
+from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
 
-# Measured optical residual of the profile fitter against the banked HARPS pool (RYA-713).
-# Carried as the harness systematic in every frontier band rather than assumed zero.
-PROFILE_FIT_RESIDUAL_DEX = 0.0129
+#: RYA-869 — re-exported, NOT restated. The measured optical residual of the profile
+#: fitter against the banked HARPS pool (RYA-713) was written out here AND at
+#: `rya850_graded_products.py:73` — two homes for one number, the RYA-845 shape — while
+#: `scripts/rya855_rung_audit.py` imports it from this module. It is now declared once in
+#: `pipeline.harness_residual`, keyed by the HANDLER that earned it rather than by the
+#: script that happened to need it first; this name is kept so that import still resolves.
+PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHandler"]
 
 
 def mpia_delta(element: str, ion: str, waves: np.ndarray,
@@ -325,10 +334,27 @@ def synthesis_route(a, pol) -> None:
                        f"production wing-wide rule)"),
             abundance=(a_x if np.isfinite(a_x) else None),
             treatment="1D-LTE",
+            # RYA-871 — `select_lines` already returns the EP of the row it picked, and
+            # this route picks AT the list's own wavelength, so the identity is exact
+            # rather than recovered. Carried anyway, for two reasons: the near-UV pool
+            # still had 2 lines with two same-species rows inside 0.005 A, which only an
+            # EP key separates; and a per-line artifact whose identity column is
+            # populated on one route and blank on another is a schema a consumer has to
+            # special-case.
+            ep_eV=float(r.ep_eV),
             # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
             # here at all. Inheriting it would quarantine lines on a quantity that does
             # not exist (RYA-770/342).
-            ew_inversion=False)
+            ew_inversion=False,
+            # RYA-847 — carried on every line, and now GATED on one of them. The sweep
+            # across nine cells found no transferable threshold for any of these four
+            # (per-band cuts span x24-x489), so no metric carries a cut; what does gate
+            # is the sign of `frac_rise_weaker` (see below). They stay on the line
+            # because the sweep is only reproducible from per-line metrics.
+            sigma_A=_f(res.get("sigma_A")),
+            frac_rise_weaker=_f(res.get("frac_rise_weaker")),
+            edge_distance_dex=_f(res.get("edge_distance_dex")),
+            red_chi2=_f(res.get("red_chi2")))
         # 🔴 A NON-'ok' FIT IS NOT A MEASUREMENT — RYA-837.
         # RYA-759's own harness aggregates `status == 'ok'` only, and this route dropped
         # that filter when it lifted the functions. The near-UV happened not to notice;
@@ -346,8 +372,36 @@ def synthesis_route(a, pol) -> None:
             lm.in_aggregate = False
             lm.excluded_reason = (f"SYNTHESIS: {status} "
                                   f"{str(res.get('reason', ''))[:60]}").strip()
+        else:
+            # RYA-847 — THE BYPASS, CLOSED. This route's entire accept/reject was the
+            # `status != "ok"` above: it never consulted `red_chi2` and never asked
+            # whether the fit constrained anything, which is how two lines whose chi2
+            # moves 2.2% and 1.4% across EIGHT DEX of iron entered the published
+            # aggregate at 7.833 and 7.979 (RYA-843).
+            #
+            # It now calls the SAME decider the Engine-B handler calls. ⚠️ THIS IS NO
+            # LONGER NUMERICALLY INERT and the comment here used to say it was: with the
+            # non-minimum check adopted, this route drops 3617.318 and the near-UV
+            # product moves 7.488 -> 7.498 (n 40 -> 39). `SYNTH_CONSTRAINT` is still None
+            # and always will be — no threshold survived the sweep — but `frac_rise <= 0`
+            # is a correctness test, not a threshold, and it fires here.
+            _cv = constraint_verdict(res)
+            if not _cv.ok:
+                lm.in_aggregate = False
+                lm.excluded_reason = _cv.reason
         lines.append(lm)
     lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+
+    # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
+    # This route passed `gf_graded=False` to `build_budget` unconditionally, so the
+    # product charged the ungraded Kurucz 0.17 whatever its lines actually were. The
+    # decision now comes from `pipeline.gf_rung`, which the EW route below calls too:
+    # one implementation, so the two routes cannot disagree (RYA-845/847 defect shape).
+    # It is computed HERE, before the provenance, because the provenance used to STATE
+    # the rung in prose — "THE BAND IS UNGRADED" — as a second, hand-maintained
+    # declaration of the same fact the budget was charging. It now quotes the decision.
+    rung = gf_rung.for_lines(a.element, a.ion, lines, linelist=ctx["linelist"])
+    print(f"  [gf rung] {rung.describe()}")
 
     prov = (
         "Fe I near-UV 1D-LTE by flux-fit synthesis (Turbospectrum via iSpec, "
@@ -361,14 +415,23 @@ def synthesis_route(a, pol) -> None:
         "physics rather than a defect. gf: " + str(prov_gf["detail"]) + ". "
         "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
         "in the scatter reported here. Half-width is FIXED and must be swept. "
-        "gf REMAINS THE DOMINANT SYSTEMATIC AND THE BAND IS UNGRADED: RYA-822 grades "
-        "only 6 of the 4,274 in-band Fe I lines as primary-lab, and its GF-NIST class "
-        "(604 lines) is a COMPILATION grade that 822 deliberately keeps outside "
-        "`is_graded` because FMW *is* NIST and VALD copies it (RYA-760). Of the lines "
-        "actually fitted here, 17 of 40 carry a citable NIST accuracy class and most of "
-        "those are poor (C/C+/D/D+/E). Never coadded with another band (RYA-712).")
+        + constraint_describe() + " " +
+        # RYA-855 — the rung is QUOTED from the decider, never restated. The sentence
+        # that stood here asserted "THE BAND IS UNGRADED" in prose while the budget
+        # asserted it in arithmetic; two declarations of one fact is how RYA-845's
+        # double-count survived, and a hand-written one would go stale the first time a
+        # pool's lines changed. Context on WHY Fe I in this band is largely ungraded:
+        # RYA-822 grades only 6 of the 4,274 in-band Fe I lines as primary-lab, and its
+        # GF-NIST class (604 lines) is a COMPILATION grade 822 deliberately keeps
+        # outside `is_graded` because FMW *is* NIST and VALD copies it (RYA-760).
+        "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712).")
+    # RYA-869 — the handler is DECLARED by the route that ran it. This route fits flux
+    # (`fit_one` -> `_fit_synth_flux`); no profile fitter is on it. Note that its
+    # treatment is `1D-LTE`, the same label the VIS EW route wears — that pair is the
+    # proof that the handler is not a function of the treatment name, and no wider set
+    # of treatment names could have got both right.
     product = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE",
-                            lines, provenance=prov)
+                            lines, handler="SynthesisHandler", provenance=prov)
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -383,11 +446,18 @@ def synthesis_route(a, pol) -> None:
     # A row that arrives but carries no number is worse than one that does not arrive,
     # because it looks like a measurement that failed rather than a wiring mismatch.
     b = build_budget(a.element, 0.5 * (a.lo + a.hi), product.n_lines,
-                     scatter_dex=(product.sigma or 0.0), gf_graded=False,
-                     # There is no profile fitter anywhere on this route, so charging it
-                     # the profile fitter's measured residual would attribute someone
-                     # else's systematic to it.
-                     harness_residual_dex=0.0, handler="SynthesisHandler")
+                     scatter_dex=(product.sigma or 0.0),
+                     # RYA-855 — the gf rung, decided above from this product's own
+                     # lines. `budget_kwargs()` carries the graded flag and the cited
+                     # sigma TOGETHER so a caller cannot pass one and forget the other.
+                     **rung.budget_kwargs(),
+                     # RYA-869 — the harness term, decided from THIS PRODUCT'S OWN
+                     # handler rather than restated here. Charging the profile fitter's
+                     # measured residual to a route it never touched would attribute
+                     # someone else's systematic to it; value and LABEL travel together
+                     # so the budget file's prose cannot name a different handler than
+                     # its arithmetic does.
+                     **harness_residual.for_product(product).budget_kwargs())
     stat, syst = b.total()
     # 🔴 RYA-845: the pseudo-continuum term is NOT added here, and adding it was a bug.
     # `error_budget.build()` already carries it for this band — the near-UV BandPolicy's
@@ -400,7 +470,8 @@ def synthesis_route(a, pol) -> None:
     # owns its terms; a route that hand-adds one cannot know what the budget already has.
     pd.DataFrame([dict(
         element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
-        treatment="1D-LTE", A=round(product.value, 3) if product.value is not None else None,
+        treatment="1D-LTE", handler=product.handler,
+        A=round(product.value, 3) if product.value is not None else None,
         n_lines=product.n_lines, n_excluded=product.n_excluded,
         stat_dex=round(stat, 4), syst_dex=round(syst, 4),
         dominant=(b.dominant().name if b.dominant() else ""),
@@ -409,7 +480,20 @@ def synthesis_route(a, pol) -> None:
     # The epilogue that used to be appended here announced the term as "added in
     # quadrature above" — which is exactly the double-add RYA-845 removed, and it made
     # the artifact assert the bug in prose as well as in arithmetic.
-    (out / f"{stem}_budgets.txt").write_text(b.describe() + "\n")
+    # RYA-855 — the budget names the TERM; this names the DECISION that chose it. A
+    # reader must be able to see not only that the cell was charged 0.17 but why this
+    # pool was not entitled to anything better, without re-running the deriver.
+    (out / f"{stem}_budgets.txt").write_text(
+        b.describe() + f"\n  gf rung: {rung.describe()}\n")
+    # RYA-847 — WRITE THE PROVENANCE. `build_product` has always accepted it and
+    # `products_frame` emits it, but this route writes the MATRIX schema instead
+    # (element/ion/band/.../dominant, RYA-832) and that schema has no provenance column —
+    # so every word of reasoning assembled above, including whether a constraint cut was
+    # applied at all, reached no artifact. Found by grepping the control run's output for
+    # "CONSTRAINT GATE" and getting nothing, after a commit message had already claimed
+    # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
+    # nowhere to live is a quantity nobody can check.
+    (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "
@@ -420,12 +504,63 @@ def synthesis_route(a, pol) -> None:
     print(f"  wrote {out}/{stem}_products.csv")
 
 
+#: Fields of `LineMeasurement` that `asdict_line` deliberately does NOT write, with the
+#: reason. Anything not listed here and not emitted makes `test_asdict_line_emits_every_
+#: field_or_declares_why` fail — see RYA-847.
+#:
+#: This list exists because a hand-written projection is a second declaration of the
+#: schema, and the first one already cost us: `red_chi2` was returned by the fitter for
+#: its whole life and never reached the per-line CSV, because there was no field for it
+#: and no check that would notice (RYA-843). Adding a field to the dataclass must not
+#: silently fail to reach the artifact.
+ASDICT_LINE_OMITTED = {
+    # RYA-807's registry verdict. Carried on the object for the aggregation decision;
+    # the per-line CSV records the OUTCOME (`in_aggregate` + `excluded_reason`), and
+    # duplicating the registry's own columns here would give them a second home that can
+    # disagree with the registry.
+    "problem_class", "problem_status", "problem_tickets", "problem_action",
+}
+
+
+def _intake_ep(row, wavelength_A: float, element: str, ion: str) -> float:
+    """The EP the EW artifact carries for this line — RYA-871.
+
+    🔴 LOUD ON AN OLD ARTIFACT. An EW file written before RYA-871 has no `ep_eV` column,
+    and silently emitting None would put every line of that band back on the
+    wavelength-only rule while the products.csv showed an `ep_eV` column full of blanks.
+    A consumer cannot tell "this route does not carry an EP" from "the EP is missing here"
+    once the column exists but is empty — so the missing column is named and refused, and
+    the fix is to re-measure the band, not to widen blind.
+    """
+    ep = getattr(row, "ep_eV", None)
+    if ep is None:
+        raise SystemExit(
+            f"the EW artifact for {element} {ion} carries no `ep_eV` column, so its lines "
+            f"cannot be identified by anything but their wavelength (RYA-871). It predates "
+            f"RYA-871; re-run scripts/measure_band_profilefit.py for this band.")
+    if not np.isfinite(float(ep)):
+        raise SystemExit(
+            f"{element} {ion} {wavelength_A:.4f} A: the EW artifact carries a null ep_eV. "
+            f"A blank identity key is not a key — re-measure rather than emit it.")
+    return float(ep)
+
+
 def asdict_line(l: LineMeasurement) -> dict:
     return dict(element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
                 instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
                 abundance=l.abundance, rew=l.rew, treatment=l.treatment,
                 in_aggregate=l.in_aggregate, excluded_reason=l.excluded_reason,
-                ew_inversion=l.ew_inversion)
+                # RYA-871 — the excitation potential of the transition measured. Without
+                # it a per-line row can only be identified by its wavelength, which does
+                # not identify a line: 16 of 152 VIS Fe I lines could not be resolved
+                # back to the list at all.
+                ep_eV=l.ep_eV,
+                ew_inversion=l.ew_inversion,
+                # RYA-847: the constraint metrics. None on EW-route lines — no chi2
+                # surface exists behind an EW inversion, so the question does not apply,
+                # and a consumer must read None as "not applicable", not "unconstrained".
+                sigma_A=l.sigma_A, frac_rise_weaker=l.frac_rise_weaker,
+                edge_distance_dex=l.edge_distance_dex, red_chi2=l.red_chi2)
 
 
 def main() -> None:
@@ -557,6 +692,11 @@ def main() -> None:
         lm = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                              instrument=a.instrument, ew_mA=float(r.ew_mA),
                              ew_method=str(r.ew_method), abundance=(A if conv else None),
+                             # RYA-871 — carried through from the EW artifact, which now
+                             # carries it from the accounting row its wavelength came
+                             # from. `_intake_ep` is loud about an EW file written before
+                             # RYA-871 rather than emitting a null and widening blind.
+                             ep_eV=_intake_ep(r, c, a.element, a.ion),
                              treatment="1D-LTE")
         if not conv or not np.isfinite(A):
             lm.in_aggregate = False
@@ -564,7 +704,12 @@ def main() -> None:
                                   "does not map to an abundance here")
         rows.append(_stamp(lm))       # RYA-807
 
+    # RYA-869 — these EWs came out of the profile fitter (`*_PROFILEFIT_ew.csv`, written
+    # by `measure_band_ew`). The COG inversion below turns them into abundances but does
+    # not re-measure the spectrum, so the systematic this pool carries is still the
+    # profile fitter's.
     p_lte = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE", rows,
+                          handler="ProfileFitHandler",
                           provenance=f"EWs from {src.name}; COG via _bisect_synth_abundance")
     print(f"    1D-LTE: A={p_lte.value}  n={p_lte.n_lines}  excluded={p_lte.n_excluded}")
 
@@ -587,6 +732,10 @@ def main() -> None:
                              wavelength_air_A=l.wavelength_air_A,
                              instrument=l.instrument, ew_mA=l.ew_mA,
                              ew_method=l.ew_method, treatment="ENGINE-A",
+                             # Same transition, same identity (RYA-871): ENGINE-A adds a
+                             # departure term to THIS line's inversion, it does not
+                             # re-measure anything.
+                             ep_eV=l.ep_eV,
                              abundance=(l.abundance + d) if d is not None else None)
         if d is None:
             la.in_aggregate = False
@@ -594,7 +743,10 @@ def main() -> None:
                                  "for this line (absent, nan, or a placeholder zero). "
                                  "Reduced coverage, not a failed correction.")
         rows_a.append(_stamp(la))     # RYA-807
+    # A departure term added to the SAME inversion — the same profile-fit EWs, so the
+    # same handler and the same measured residual (RYA-869).
     p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
+                        handler="ProfileFitHandler",
                         provenance="Bergemann MPIA per-line delta_nlte, live query, solar node")
     print(f"    ENGINE-A: A={p_a.value}  n={p_a.n_lines}  not-served={p_a.n_excluded}")
 
@@ -715,6 +867,7 @@ def main() -> None:
                 lb = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                                      instrument=a.instrument, ew_mA=float("nan"),
                                      ew_method="synthesis flux-fit",
+                                     ep_eV=_intake_ep(r, c, a.element, a.ion),
                                      treatment=treatment)
                 lb.in_aggregate = False
                 lb.excluded_reason = f"WINDOW-LOAD: {type(e).__name__}: {str(e)[:60]}"
@@ -729,6 +882,10 @@ def main() -> None:
                 pre_normalised=True,
                 context={**ctx_b, "ew_hint_mA": float(r.ew_mA)})
             lb.treatment = treatment
+            # RYA-871 — the flux fit re-measures the same TRANSITION from the same line
+            # set, so it carries the same identity. The handler cannot know it: it is
+            # handed a wavelength and a window, not an accounting row.
+            lb.ep_eV = _intake_ep(r, c, a.element, a.ion)
             rows_b.append(_stamp(lb))   # RYA-807
 
         # RYA-768: deterministic row order, so the artifact byte-diffs clean.
@@ -746,6 +903,11 @@ def main() -> None:
             "Turbospectrum LTE, NOT the Gerber TS-native NLTE deck")
         p_b = build_product(
             a.element, a.ion, a.instrument, pol.name, treatment, rows_b,
+            # RYA-869 — read off the handler OBJECT that actually ran, not asserted.
+            # `treatment` here is ENGINE-B or ENGINE-B-NLTE depending only on the deck,
+            # and BOTH are this one handler; the budget loop below used to tell them
+            # apart by name and charge the NLTE one the profile fitter's residual.
+            handler=handler.name,
             provenance=(f"{handler.name} flux-fit against the {a.instrument} spectrum; "
                         f"line set + window hint from {src.name}; deck={a.engine_b_deck} "
                         f"({prov_deck})"))
@@ -762,22 +924,46 @@ def main() -> None:
     for prod in (p_lte, p_a, p_b):
         if prod is None or prod.value is None:
             continue
-        # The harness residual is a property of the HANDLER that produced the number.
-        # Engine B never touches the profile fitter, so charging it the profile fitter's
-        # measured residual would be attributing someone else's systematic to it.
-        is_b = prod.treatment == "ENGINE-B"
+        # 🔴 RYA-869 — the harness residual is a property of the HANDLER that produced
+        # the number, and it is READ FROM THE PRODUCT now instead of inferred here.
+        # What stood here was `is_b = prod.treatment == "ENGINE-B"`, under a comment
+        # stating the handler rule correctly. The comment was right; the code was an
+        # equality against a treatment NAME, and that name gained the variant
+        # `ENGINE-B-NLTE` in RYA-798 — the same SynthesisHandler flux fit on a different
+        # departure deck. Every NLTE product was therefore charged the profile fitter's
+        # 0.0129 dex AND labelled `ProfileFitHandler` in its own budget file, beside the
+        # LTE product of the same handler charged 0.0000 and labelled correctly. Four
+        # published Fe matrix bars carried it (RYA-783/807/832).
+        # A WIDER SET WOULD NOT HAVE FIXED IT: the near-UV route above wears the
+        # treatment `1D-LTE` and is a flux fit, so no mapping from the label exists.
+        harness = harness_residual.for_product(prod)
+        print(f"    [harness] {prod.treatment}: {harness.describe()}")
+        # 🔴 RYA-855 — PER PRODUCT, not per band and not per element. This call passed
+        # `gf_graded=False` unconditionally, the mirror of the synthesis route above, so
+        # every EW-route cell charged the ungraded 0.17 no matter what its lines were.
+        # It matters that this is per PRODUCT: 1D-LTE, ENGINE-A and ENGINE-B share a
+        # band and an element but NOT a line set — Engine A drops every line MPIA does
+        # not serve — so the three can legitimately land on different rungs, and a
+        # band-level or element-level answer would be wrong for at least one of them.
+        rung = gf_rung.for_product(prod, linelist=ctx["linelist"])
+        print(f"    [gf rung] {prod.treatment}: {rung.describe()}")
         b = build_budget(a.element, 0.5 * (a.lo + a.hi), prod.n_lines,
-                         scatter_dex=(prod.sigma or 0.0), gf_graded=False,
-                         harness_residual_dex=(0.0 if is_b else PROFILE_FIT_RESIDUAL_DEX),
-                         handler=("SynthesisHandler" if is_b else "ProfileFitHandler"))
+                         scatter_dex=(prod.sigma or 0.0), **rung.budget_kwargs(),
+                         **harness.budget_kwargs())
         stat, syst = b.total()
         summary.append(dict(element=a.element, ion=a.ion, band=pol.name,
                             instrument=a.instrument, treatment=prod.treatment,
+                            # RYA-869 — the artifact RECORDS which handler produced the
+                            # cell. The budget file named it in prose and the products
+                            # table did not carry it at all, so a downstream consumer
+                            # (the RYA-783 matrix, RYA-850's recharge) had to guess it
+                            # back from the treatment — which is the defect, one layer out.
+                            handler=prod.handler,
                             A=round(prod.value, 3), n_lines=prod.n_lines,
                             n_excluded=prod.n_excluded,
                             stat_dex=round(stat, 4), syst_dex=round(syst, 4),
                             dominant=b.dominant().name if b.dominant() else ""))
-        budgets[prod.treatment] = b.describe()
+        budgets[prod.treatment] = b.describe() + f"\n  gf rung: {rung.describe()}"
         prod.to_frame().to_csv(out / f"{stem}_{prod.treatment}_lines.csv", index=False)
 
     df = pd.DataFrame(summary)
