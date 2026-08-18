@@ -46,11 +46,33 @@ CURATED_CLASSES = {
     'CONTINUUM_LIMITED', 'ATOMIC_BLEND', 'MOLECULAR_BLEND', 'MOLECULAR_SYNTH_ONLY',
     'HFS_SUMMING', 'NLTE_OWED', 'NLTE_VOID', 'BAD_GF', 'SATURATION_COG', 'DATA_GAP',
     'CITED_NOT_MEASURED', 'UPPER_LIMIT',
+    # RYA-877. The gf was not measured — it was obtained by INVERSE ANALYSIS of a stellar
+    # spectrum ("astrophysical gf"), so using it to measure that same star is circular
+    # (RYA-161). Distinct from BAD_GF, which says a measured value is wrong: here the value
+    # may reproduce the spectrum beautifully, and that is precisely the problem — it was
+    # fitted to do so. The class names the PROVENANCE; whether it is circular depends on
+    # the star, which `observed_in` already carries. First use: Fe II 5991.371, whose log
+    # gf is Melendez & Barbuy 2009's, flagged S in their Table 1 — "the absolute gf-values
+    # of the multiplet were obtained from an inverse analysis based on the NSO FTS solar
+    # flux spectrum". Expected to recur: astrophysical gf are common across elements.
+    'ASTROPHYSICAL_GF',
+    # 🔴 RYA-877 found these three ALREADY IN THE COMMITTED REGISTRY but absent from this
+    # "closed" vocabulary, because the vocabulary test builds from CURATED_SEED below and
+    # never reads data/registry/problem_children.csv. A closed set nothing checks is not
+    # closed. They are real classes in real use, so they are declared here and the test now
+    # validates the artifact itself.
+    'ABUNDANCE_OUTLIER',   # RYA-808/809 — implausible A on a line no registry tracked
+    'NON_MINIMUM',         # RYA-847 — the optimizer returned a point that is not a minimum
+    'TELLURIC_ADJACENT',   # RYA-843/847 — telluric-edge contamination no atlas can referee
 }
 AUTO_CLASSES = {'SATURATION_COG', 'BAD_FIT', 'ABUND_OUTLIER', 'LIT_DEVIATION'}
 TREATMENTS = {
     'synthesis', '3D', 'NLTE_grid', 'HFS_sum', 'deblend', 'upper_limit', 'exclude',
     'cited_substitution', 'per_region_source', 'astrophysical_gf_differential', 'none',
+    # RYA-877, same story as the classes above: already in the committed registry and never
+    # declared. It is the RYA-161 middle state — the line is FLAGGED and KEPT because no
+    # cause is established, and excluding on an undiagnosed cause would be tuning.
+    'investigate',
 }
 STATUSES = {'active', 'owed', 'resolved', 'predicted', 'monitoring'}
 SEVERITIES = {'critical', 'high', 'medium', 'low'}
