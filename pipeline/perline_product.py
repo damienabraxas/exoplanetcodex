@@ -157,6 +157,8 @@ def _build_header(star: str, element: str, sources: dict, input_commit: str) -> 
         "xi_microturb": p["xi"],
         "params_source": p["source"],
         "reference_stack": "py3.12 + numpy 2.x (RYA-517 reference stack)",
+        "damping_source": sources.get("damping_source", "synthesis"),
+        "replication_grade": sources.get("replication_grade", "yes"),
         "gold_version": ", ".join(f"{k}={gold[k]}" for k in gold_keys) or "none frozen",
         "commit_sha": input_commit,
         "input_commit": input_commit,
@@ -206,6 +208,45 @@ def _grade_label(nist_letter, gf_source: str) -> str:
     if "kurucz" in src or src.startswith("k") and src[1:3].isdigit():
         return "ungraded_kurucz"
     return "ungraded"
+
+
+def load_synthesis_damping():
+    """The damping constants the SYNTHESIS actually used, from the GES list itself.
+
+    🔴 WHY THIS EXISTS. The first cut of this product published damping from
+    `linelist_<star>.csv` because that is what the ticket's source binding named. The
+    RYA-870 guard then caught the consequence: for 6094.372 the product published a
+    classical log gamma of -7.179 while the synthesis that produced its A(X) used the GES
+    list's ABO packed sigma.alpha of 914.276 — a DIFFERENT PHYSICAL QUANTITY in a
+    different form — and re-inverting on the published value missed by 0.011 dex.
+
+    A replication-grade row must carry the constants that produced ITS OWN number. So the
+    binding moves to the synthesis linelist, and the ticket's own instruction covers it:
+    "bind each source-column name to the actual artifact at implementation time".
+
+    ⚠️ THIS MAKES THE GENERATOR SIRIUS-ONLY. The GES list is an iSpec resource, and iSpec
+    lives on Sirius. That is a real cost and it is taken deliberately rather than papered
+    over with a fallback: a `damping_vdW` whose meaning depended on which machine ran the
+    generator would be the silent-fallback defect this module refuses everywhere else.
+    """
+    from pipeline.abundances_derive import _load_synth_resources   # iSpec import
+    ll, _, _ = _load_synth_resources()
+    return ll
+
+
+def _damping_form(value) -> str:
+    """ABO packed sigma.alpha, or a classical log gamma — stated, per RYA-489 §6.4.
+
+    The convention is the sign: a packed ABO value is a positive sigma.alpha composite
+    (914.276 = sigma 914, alpha 0.276); a classical broadening constant is a negative log
+    gamma. Publishing the number without the form makes it unusable, which is why the
+    schema asks for the form explicitly.
+    """
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return "unknown"
+    return "ABO packed sigma.alpha" if v > 0 else "classical log gamma"
 
 
 def _load_lab_sigma() -> pd.DataFrame:
@@ -288,6 +329,21 @@ def _lab_sigma(lab: pd.DataFrame, wl: float, ep: float | None):
     return "" if hit.empty else float(hit.iloc[0]["e_loggf_dex"])
 
 
+def _damp(synth_ll, ll, wl: float, ep, synth_col: str, list_col: str):
+    """The damping the SYNTHESIS used, falling back to the linelist ONLY in the
+    explicitly-labelled non-replication-grade mode."""
+    if synth_ll is not None:
+        import numpy as _np
+        near = _np.abs(synth_ll["wave_A"] - wl) < WAVE_TOL_A
+        if ep is not None:
+            near = near & (_np.abs(synth_ll["lower_state_eV"] - ep) < EP_TOL_EV)
+        idx = _np.where(near)[0]
+        if idx.size and synth_col in synth_ll.dtype.names:
+            return float(synth_ll[synth_col][idx[0]])
+        return None
+    return (ll[list_col] if ll is not None else None)
+
+
 def _arm_of(wl_A: float) -> str:
     """RYA-489 Section 2 boundaries, as used by the band products."""
     if wl_A < 3780:
@@ -299,7 +355,8 @@ def _arm_of(wl_A: float) -> str:
     return "NIR"
 
 
-def build_perline_product(star: str, element: str, band_products) -> PerLineProduct:
+def build_perline_product(star: str, element: str, band_products,
+                          damping_source: str = "synthesis") -> PerLineProduct:
     band_products = [Path(p) for p in band_products]
     line_files = sorted(f for root in band_products for f in root.rglob("*_lines.csv"))
     if not line_files:
@@ -311,6 +368,19 @@ def build_perline_product(star: str, element: str, band_products) -> PerLineProd
     canonical = _load_canonical_gf()
     pc = _load_problem_children()
     lab = _load_lab_sigma()
+
+    synth_ll = None
+    if damping_source == "synthesis":
+        try:
+            synth_ll = load_synthesis_damping()
+        except Exception as e:                                   # pragma: no cover
+            raise PerLineProductError(
+                f"cannot read the synthesis linelist ({type(e).__name__}: {e}). The "
+                f"damping constants a replication-grade row must publish are the ones the "
+                f"SYNTHESIS used, and those live in the GES list, which needs iSpec — run "
+                f"this on Sirius under venv312. To emit anyway, pass "
+                f"--damping-source linelist, which produces a file that is explicitly NOT "
+                f"replication-grade and says so in its header.")
 
     inputs = [LINELIST_DIR / f"linelist_{star}.csv", CANONICAL_GF, REGISTRY_CSV, *line_files]
     input_commit = _assert_inputs_committed(inputs)
@@ -358,19 +428,13 @@ def build_perline_product(star: str, element: str, band_products) -> PerLineProd
                 # RYA-850: the cited lab sigma where the line is in a primary-lab pool.
                 # Blank is the honest value for a line nobody measured — never a default.
                 "gf_sigma_dex": _lab_sigma(lab, wl, ep),
-                "damping_rad": (ll["damping_rad"] if ll is not None else None),
-                "damping_stark": (ll["damping_stark"] if ll is not None else None),
-                "damping_vdW": (ll["damping_vdW"] if ll is not None else None),
-                # 🔴 STATE THE FORM (RYA-489 §6.4) — and it is not the whole story.
-                # These are linelist_<star>.csv's classical log-gamma constants. The GES
-                # synthesis linelist that actually produced A_X_line carries ABO packed
-                # sigma.alpha for some lines (6094.372 -> 914.276, 6495.741 -> 972.285),
-                # so for those the published number is NOT the constant the fit used. The
-                # RYA-870 guard measures the consequence: 0.011 dex on 6094.372, which is
-                # why that row misses the 0.01 floor while five others reproduce exactly.
-                # Re-binding to the synthesis linelist is owed and makes the generator
-                # Sirius-only (the GES list is an iSpec resource); flagged, not papered.
-                "damping_form": "classical log gamma (linelist_<star>.csv); see note",
+                "damping_rad": _damp(synth_ll, ll, wl, ep, "rad", "damping_rad"),
+                "damping_stark": _damp(synth_ll, ll, wl, ep, "stark", "damping_stark"),
+                "damping_vdW": _damp(synth_ll, ll, wl, ep, "waals", "damping_vdW"),
+                # STATE THE FORM (RYA-489 §6.4) — per line, because the GES list mixes
+                # them: some vdW entries are ABO packed sigma.alpha, others classical.
+                "damping_form": _damping_form(
+                    _damp(synth_ll, ll, wl, ep, "waals", "damping_vdW")),
                 "hfs_isotope_note": ("HFS components in canonical_gf: "
                                      f"{gf.get('hfs_n_components')}" if gf is not None
                                      and "hfs_n_components" in canonical.columns else ""),
@@ -396,7 +460,11 @@ def build_perline_product(star: str, element: str, band_products) -> PerLineProd
             f"A per-line product must account for every measured line, never filter one.")
 
     header = _build_header(star, element,
-                           {"band_products": ", ".join(str(p) for p in band_products),
+                           {"damping_source": damping_source,
+                            "replication_grade": ("yes" if damping_source == "synthesis"
+                                                  else "NO — damping is NOT the constant "
+                                                       "the synthesis used"),
+                            "band_products": ", ".join(str(p) for p in band_products),
                             "linelist": f"linelist_{star}.csv",
                             "canonical_gf": CANONICAL_GF.name,
                             "problem_children": REGISTRY_CSV.name},
