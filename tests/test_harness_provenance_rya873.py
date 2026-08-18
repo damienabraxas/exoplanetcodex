@@ -43,6 +43,25 @@ from pipeline import harness_residual as hr                        # noqa: E402
 from pipeline.error_budget import build, harness_term              # noqa: E402
 
 
+#: RYA-875 — `SynthesisHandler` left `UNCHARGED_CONTROL_RESIDUAL_DEX` because its numbers
+#: agreed, so no real handler is uncharged today. The MECHANISM still has to be tested, and
+#: deleting these tests because the fixture went away is how a guard quietly stops guarding.
+#: So the uncharged path is exercised against an INJECTED declaration instead.
+_FAKE = "AHandlerNobodyControlled"
+
+
+@pytest.fixture
+def uncharged(monkeypatch):
+    monkeypatch.setitem(hr.HANDLER_RESIDUAL_DEX, _FAKE, 0.0)
+    monkeypatch.setitem(hr.UNCHARGED_CONTROL_RESIDUAL_DEX, _FAKE, {
+        "control_dex": 0.0250,
+        "control_artifact": "data/audit/synthesis_control/control_FeI.json",
+        "ticket": "RYA-999",
+        "why_not_charged": "a test fixture standing in for a real divergence",
+    })
+    return hr.for_handler(_FAKE)
+
+
 def _harness_line(**kw) -> str:
     b = build("Fe", 5000.0, 40, scatter_dex=0.10, gf_graded=False, **kw)
     lines = [x for x in b.describe().splitlines() if "harness residual" in x]
@@ -52,11 +71,11 @@ def _harness_line(**kw) -> str:
 
 # ── 1/2. the claim is made only where it is true ─────────────────────────────────────
 
-def test_an_uncharged_residual_is_never_described_as_measured():
+def test_an_uncharged_residual_is_never_described_as_measured(uncharged):
     """THE DEFECT, in one assertion. RED on the pre-RYA-873 code by construction: the
     sentence was a constant, so this line read 'MEASURED ... not assumed zero' beside a
     zero that was exactly that."""
-    line = _harness_line(**hr.for_handler("SynthesisHandler").budget_kwargs())
+    line = _harness_line(**uncharged.budget_kwargs())
     assert "MEASURED" not in line, line
     assert "NO RESIDUAL IS CHARGED" in line
     assert "ABSENCE, not a measured zero" in line
@@ -81,25 +100,29 @@ def test_an_unstated_provenance_does_not_inherit_the_claim():
 
 # ── 3. the absence is auditable, not merely stated ───────────────────────────────────
 
-def test_the_uncharged_prose_names_its_reason_its_ticket_and_its_artifact():
+def test_the_uncharged_prose_names_its_reason_its_ticket_and_its_artifact(uncharged):
     """An absence with no reason is indistinguishable from an omission (RYA-833). The
     budget is an artifact a reader may see without the code, so the reason travels IN it.
     """
-    line = _harness_line(**hr.for_handler("SynthesisHandler").budget_kwargs())
-    note = hr.UNCHARGED_CONTROL_RESIDUAL_DEX["SynthesisHandler"]
+    line = _harness_line(**uncharged.budget_kwargs())
+    note = hr.UNCHARGED_CONTROL_RESIDUAL_DEX[_FAKE]
     assert note["ticket"] in line, "the budget must name the ticket that owes the RCA"
     assert note["control_artifact"] in line, "and the artifact a reader can go check"
-    for token in ("compensating", "refuted"):
-        assert token in line.lower(), f"the budget must say WHY: missing {token!r}"
+    assert note["why_not_charged"] in line, "and the stated reason, verbatim"
 
 
-def test_the_refuted_hypothesis_is_recorded_where_the_number_lives():
-    """RYA-873's whole content is a NEGATIVE result. A negative result that is not
-    written down next to the decision it justifies gets re-derived by the next person —
-    or worse, the 0.0100 gets charged on the strength of the abundance angle alone."""
-    src = (ROOT / "pipeline" / "harness_residual.py").read_text()
-    for token in ("REFUTED", "0.50", "2.07", "RYA-875", "data/results/rya873/"):
-        assert token in src, f"the refutation is not recorded: missing {token!r}"
+def test_the_refuted_contamination_hypothesis_is_still_recorded():
+    """RYA-873's content is a NEGATIVE result, and a negative result nobody wrote down
+    gets re-derived. It no longer belongs in `harness_residual.py` — RYA-875 showed the
+    number it was doubting (−0.0100) was a line-set artifact, so the contamination
+    refutation is now a finding about the control's EW ANGLE, which is still unexplained.
+    It has to survive somewhere checkable, and that somewhere is its own artifact."""
+    import json
+    p = ROOT / "data" / "results" / "rya873" / "rya873_crowding_summary.json"
+    assert p.exists(), "the refutation artifact is gone"
+    bulk = json.loads(p.read_text())["bulk_test"]
+    assert bulk["verdict"].startswith("REFUTED")
+    assert bulk["n_bulk"] == 15 and bulk["bulk_observed_ratio_max"] > 2.0
 
 
 # ── 4. provenance travels with the pair ──────────────────────────────────────────────
@@ -123,17 +146,23 @@ def test_a_declared_divergence_is_exactly_the_uncharged_set():
 
 # ── 5. the interim is an interim ─────────────────────────────────────────────────────
 
-def test_nothing_is_charged_for_the_synthesis_handler():
-    """RYA-873 lands 'charge nothing'. If a later ticket charges a number, THIS test is
-    the one that should be updated deliberately — together with deleting the divergence
-    declaration BECAUSE the numbers agree, never because the test was relaxed (RYA-875)."""
+def test_the_synthesis_handler_is_now_charged_a_MEASURED_zero():
+    """RYA-873 landed 'charge nothing' and said this test was the one to update
+    deliberately if a later ticket charged a number. RYA-875 did: the −0.0100 it was
+    waiting on turned out to be a LINE-SET artifact, and paired per line the offset is
+    0.0000. So the charged VALUE is unchanged and its provenance flipped from assumed to
+    measured — and the declaration went with it, **because the numbers agree**."""
     assert hr.HANDLER_RESIDUAL_DEX["SynthesisHandler"] == 0.0
-    assert "SynthesisHandler" in hr.UNCHARGED_CONTROL_RESIDUAL_DEX
+    assert "SynthesisHandler" not in hr.UNCHARGED_CONTROL_RESIDUAL_DEX
+    assert hr.for_handler("SynthesisHandler").provenance == hr.PROV_MEASURED
+    line = _harness_line(**hr.for_handler("SynthesisHandler").budget_kwargs())
+    assert "MEASURED against the known optical answer" in line
 
 
-def test_the_uncharged_note_is_empty_for_a_handler_that_is_charged():
+def test_the_uncharged_note_is_empty_for_a_handler_that_is_charged(uncharged):
     assert hr.uncharged_note("ProfileFitHandler") == ""
-    assert hr.uncharged_note("SynthesisHandler")
+    assert hr.uncharged_note("SynthesisHandler") == ""      # charged since RYA-875
+    assert hr.uncharged_note(_FAKE)                          # and the machinery still works
 
 
 def test_one_function_owns_the_harness_term():

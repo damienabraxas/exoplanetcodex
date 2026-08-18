@@ -69,6 +69,7 @@ from config.constants import (
 from pipeline.species import species_key, species_note
 from pipeline.gf_resolver import apply_to_synth_array, apply_to_regions  # RYA-353 single-source gf
 from pipeline import data_namespace as ns                               # RYA-469 per-star namespacing
+from pipeline import synth_ew                                          # RYA-878 one synthetic-EW definition
 from pipeline.solar_scale_provenance import (                           # RYA-681 scale identity
     SCALE_1D_NLTE as _SCALE_1D_NLTE, SCALE_3D_NLTE as _SCALE_3D_NLTE,
     scale_from_value as _scale_from_value)
@@ -1459,8 +1460,29 @@ def _run_synthesis_v2_mode(last_linemasks: np.ndarray,
             n_fail += 1
             print(f"→ FAILED ({r.get('reason','?')})")
 
+        # RYA-878 — BANK THE SYNTHETIC EW. This path recorded A_X, red_chi2 and status
+        # and no EW, so the SynthesisHandler control's ANGLE 1 (synthetic EW vs the
+        # measured profile-fit EW) had no engine-side counterpart at all: whether the
+        # production engine shares the handler's +0.1562 dex offset could only be
+        # INFERRED (RYA-875). A comparison is an angle only if both sides are measured
+        # the same way.
+        #
+        # It is computed only for a line that produced an abundance — an EW at a failed
+        # or edge-pinned fit would be the EW of a number the fit did not determine.
+        # `pipeline.synth_ew` owns the definition; the handler calls the same function.
+        ew_synth_mA = float('nan')
+        if status == 'ok':
+            ew_synth_mA = synth_ew.synthetic_ew_mA(
+                _synth_flux_at_abund, centre_A=wave_A, abundance=r['A_X'],
+                fit_half_width_A=(wtop - wave_nm) * 10.0,
+                synth_kwargs=dict(atmosphere=atmosphere, teff=teff, logg=logg, feh=feh,
+                                  vturb=vturb, linelist=linelist, isotopes=isotopes,
+                                  solar_abund=solar_abund, element=element,
+                                  atom_code=a_code, R=R_inst, macroturbulence=vmac,
+                                  vsini=vsini, tmp_dir=_synth_tmp))
         per_line_rows.append({**base_row,
                               'a_synth': r['A_X'], 'red_chi2': r['red_chi2'],
+                              'ew_synth_mA': ew_synth_mA,
                               'status': status, 'saturated': False})
 
     wall = time.time() - t0
