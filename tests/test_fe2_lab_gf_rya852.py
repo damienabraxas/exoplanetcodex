@@ -132,12 +132,59 @@ def test_both_sides_of_the_cross_match_use_ep():
         "an EP tolerance disappeared from one side of the cross-match")
 
 
-def test_the_unverified_claims_are_labelled_unverified(summary):
-    """RYA-833: an absence in the SEARCH is not an absence in the SOURCE. Den Hartog 2019
-    could not be reached, and that must not harden into 'DH19 does not cover these lines'."""
-    ne = " ".join(summary["not_established"]).lower()
-    assert "den hartog" in ne and ("unverified" in ne or "not the source" in ne)
-    assert "s/l" in ne or "firewall" in ne
+def test_den_hartog_2019_is_ruled_out_BY_ITS_STATED_COVERAGE(summary):
+    """RYA-833, the other half: an absence in the SEARCH is not an absence in the SOURCE —
+    but a range the paper states IS a finding about the source.
+
+    The first pass could not reach DH19 and correctly recorded that as UNVERIFIED. It is
+    now settled the only way it legitimately can be: the paper's own coverage stops at
+    4584 A, and the arbiter trio sits past it. This test pins the RANGES, so 'DH19 does
+    not cover these lines' can never drift back into an unevidenced assertion.
+    """
+    dh = summary["den_hartog_2019_coverage"]
+    assert dh["covers_the_arbiter_trio"] is False
+    ranges = [tuple(r) for r in dh["ranges_A"]]
+    assert ranges == [(2250, 3280), (4173, 4584)]
+    top = max(hi for _, hi in ranges)
+    assert all(w > top for w in summary["arbiter_lines_air_A"]), (
+        "the exclusion must follow from the stated range, not from a failed search")
+    assert dh["doi"] == "10.3847/1538-4365/ab322e"
+
+
+def test_the_firewall_needs_agreement_not_just_a_flag(summary):
+    """🔴 MB09's flag describes MB09's value. It rules on OUR product only where the value
+    we use IS MB09's — otherwise a line could be excluded for the provenance of a number
+    nobody here uses."""
+    per = summary["mb09_firewall"]["per_line"]
+    flagged_s_but_not_ours = [r for r in per
+                              if r["mb09_flag"] == "S" and not r["our_value_is_mb09"]]
+    assert flagged_s_but_not_ours, "the discriminating case must exist in the pool"
+    for r in flagged_s_but_not_ours:
+        assert r["verdict"] == "MB09-NOT-THE-SOURCE", (
+            "an S flag on a value we do not use is not a firewall exclusion")
+    firewalled = [r for r in per if r["verdict"] == "FIREWALLED-SOLAR"]
+    for r in firewalled:
+        assert r["mb09_flag"] == "S" and r["our_value_is_mb09"], (
+            "a firewall exclusion requires BOTH the solar flag and our use of that value")
+
+
+def test_the_mb09_extraction_reproduces_the_papers_own_line_count(summary):
+    """The table was parsed out of a PDF, so it needs a control the paper itself supplies:
+    MB09's abstract says 142 lines, and the parse must land on exactly that."""
+    fw = summary["mb09_firewall"]
+    assert fw["n_L"] + fw["n_S"] == 142
+    assert fw["n_L"] == 74 and fw["n_S"] == 68
+
+
+def test_grading_this_cell_would_widen_the_bar(summary):
+    """RYA-850's rule cuts both ways: a cited sigma REPLACES the generic bound and is not
+    clamped to it — including when the cited value is WORSE. Assert the relationship, not
+    the number, so this stays true if either term is later revised."""
+    g = summary["grading_decision"]
+    assert g["n_arbiter_clearing_firewall"] >= 1, "at least one line clears the firewall"
+    assert g["cited_bar_dex"] >= g["ungraded_term_dex"], (
+        "the finding is that the only cited accuracy is no better than the generic term")
+    assert "WIDEN" in g["verdict"]
 
 
 def test_the_audit_table_keeps_every_pool_line(summary):
