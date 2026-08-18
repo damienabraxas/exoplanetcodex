@@ -376,6 +376,10 @@ def test_the_rung_and_the_budget_count_the_same_lines(lab_pool):
     ms[1].in_aggregate = False                  # quarantined but converged
     ms[1].excluded_reason = "quarantined for this test"
 
-    p = build_product("Fe", "I", "kpno_solar_atlas", "VIS", "1D-LTE", ms)
+    # RYA-869 — the producing handler is declared, not inferred. This pool is the
+    # near-UV-style synthesis route (`ew_inversion=False`); which one it is does not
+    # affect the rung, but `build_product` refuses a product that will not say.
+    p = build_product("Fe", "I", "kpno_solar_atlas", "VIS", "1D-LTE", ms,
+                      handler="SynthesisHandler")
     r = gf_rung.for_product(p, linelist=_linelist(lab_pool))
     assert r.n_lines == p.n_lines == len(lab_pool) - 2

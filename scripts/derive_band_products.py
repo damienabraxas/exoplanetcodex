@@ -65,6 +65,7 @@ from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline import gf_rung  # noqa: E402  RYA-855
+from pipeline import harness_residual  # noqa: E402  RYA-869
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
 from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
 from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
@@ -72,9 +73,13 @@ from pipeline.constraint_gate import describe as constraint_describe  # noqa: E4
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
 
-# Measured optical residual of the profile fitter against the banked HARPS pool (RYA-713).
-# Carried as the harness systematic in every frontier band rather than assumed zero.
-PROFILE_FIT_RESIDUAL_DEX = 0.0129
+#: RYA-869 — re-exported, NOT restated. The measured optical residual of the profile
+#: fitter against the banked HARPS pool (RYA-713) was written out here AND at
+#: `rya850_graded_products.py:73` — two homes for one number, the RYA-845 shape — while
+#: `scripts/rya855_rung_audit.py` imports it from this module. It is now declared once in
+#: `pipeline.harness_residual`, keyed by the HANDLER that earned it rather than by the
+#: script that happened to need it first; this name is kept so that import still resolves.
+PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHandler"]
 
 
 def mpia_delta(element: str, ion: str, waves: np.ndarray,
@@ -408,8 +413,13 @@ def synthesis_route(a, pol) -> None:
         # GF-NIST class (604 lines) is a COMPILATION grade 822 deliberately keeps
         # outside `is_graded` because FMW *is* NIST and VALD copies it (RYA-760).
         "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712).")
+    # RYA-869 — the handler is DECLARED by the route that ran it. This route fits flux
+    # (`fit_one` -> `_fit_synth_flux`); no profile fitter is on it. Note that its
+    # treatment is `1D-LTE`, the same label the VIS EW route wears — that pair is the
+    # proof that the handler is not a function of the treatment name, and no wider set
+    # of treatment names could have got both right.
     product = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE",
-                            lines, provenance=prov)
+                            lines, handler="SynthesisHandler", provenance=prov)
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -429,10 +439,13 @@ def synthesis_route(a, pol) -> None:
                      # lines. `budget_kwargs()` carries the graded flag and the cited
                      # sigma TOGETHER so a caller cannot pass one and forget the other.
                      **rung.budget_kwargs(),
-                     # There is no profile fitter anywhere on this route, so charging it
-                     # the profile fitter's measured residual would attribute someone
-                     # else's systematic to it.
-                     harness_residual_dex=0.0, handler="SynthesisHandler")
+                     # RYA-869 — the harness term, decided from THIS PRODUCT'S OWN
+                     # handler rather than restated here. Charging the profile fitter's
+                     # measured residual to a route it never touched would attribute
+                     # someone else's systematic to it; value and LABEL travel together
+                     # so the budget file's prose cannot name a different handler than
+                     # its arithmetic does.
+                     **harness_residual.for_product(product).budget_kwargs())
     stat, syst = b.total()
     # 🔴 RYA-845: the pseudo-continuum term is NOT added here, and adding it was a bug.
     # `error_budget.build()` already carries it for this band — the near-UV BandPolicy's
@@ -445,7 +458,8 @@ def synthesis_route(a, pol) -> None:
     # owns its terms; a route that hand-adds one cannot know what the budget already has.
     pd.DataFrame([dict(
         element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
-        treatment="1D-LTE", A=round(product.value, 3) if product.value is not None else None,
+        treatment="1D-LTE", handler=product.handler,
+        A=round(product.value, 3) if product.value is not None else None,
         n_lines=product.n_lines, n_excluded=product.n_excluded,
         stat_dex=round(stat, 4), syst_dex=round(syst, 4),
         dominant=(b.dominant().name if b.dominant() else ""),
@@ -645,7 +659,12 @@ def main() -> None:
                                   "does not map to an abundance here")
         rows.append(_stamp(lm))       # RYA-807
 
+    # RYA-869 — these EWs came out of the profile fitter (`*_PROFILEFIT_ew.csv`, written
+    # by `measure_band_ew`). The COG inversion below turns them into abundances but does
+    # not re-measure the spectrum, so the systematic this pool carries is still the
+    # profile fitter's.
     p_lte = build_product(a.element, a.ion, a.instrument, pol.name, "1D-LTE", rows,
+                          handler="ProfileFitHandler",
                           provenance=f"EWs from {src.name}; COG via _bisect_synth_abundance")
     print(f"    1D-LTE: A={p_lte.value}  n={p_lte.n_lines}  excluded={p_lte.n_excluded}")
 
@@ -675,7 +694,10 @@ def main() -> None:
                                  "for this line (absent, nan, or a placeholder zero). "
                                  "Reduced coverage, not a failed correction.")
         rows_a.append(_stamp(la))     # RYA-807
+    # A departure term added to the SAME inversion — the same profile-fit EWs, so the
+    # same handler and the same measured residual (RYA-869).
     p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
+                        handler="ProfileFitHandler",
                         provenance="Bergemann MPIA per-line delta_nlte, live query, solar node")
     print(f"    ENGINE-A: A={p_a.value}  n={p_a.n_lines}  not-served={p_a.n_excluded}")
 
@@ -827,6 +849,11 @@ def main() -> None:
             "Turbospectrum LTE, NOT the Gerber TS-native NLTE deck")
         p_b = build_product(
             a.element, a.ion, a.instrument, pol.name, treatment, rows_b,
+            # RYA-869 — read off the handler OBJECT that actually ran, not asserted.
+            # `treatment` here is ENGINE-B or ENGINE-B-NLTE depending only on the deck,
+            # and BOTH are this one handler; the budget loop below used to tell them
+            # apart by name and charge the NLTE one the profile fitter's residual.
+            handler=handler.name,
             provenance=(f"{handler.name} flux-fit against the {a.instrument} spectrum; "
                         f"line set + window hint from {src.name}; deck={a.engine_b_deck} "
                         f"({prov_deck})"))
@@ -843,10 +870,20 @@ def main() -> None:
     for prod in (p_lte, p_a, p_b):
         if prod is None or prod.value is None:
             continue
-        # The harness residual is a property of the HANDLER that produced the number.
-        # Engine B never touches the profile fitter, so charging it the profile fitter's
-        # measured residual would be attributing someone else's systematic to it.
-        is_b = prod.treatment == "ENGINE-B"
+        # 🔴 RYA-869 — the harness residual is a property of the HANDLER that produced
+        # the number, and it is READ FROM THE PRODUCT now instead of inferred here.
+        # What stood here was `is_b = prod.treatment == "ENGINE-B"`, under a comment
+        # stating the handler rule correctly. The comment was right; the code was an
+        # equality against a treatment NAME, and that name gained the variant
+        # `ENGINE-B-NLTE` in RYA-798 — the same SynthesisHandler flux fit on a different
+        # departure deck. Every NLTE product was therefore charged the profile fitter's
+        # 0.0129 dex AND labelled `ProfileFitHandler` in its own budget file, beside the
+        # LTE product of the same handler charged 0.0000 and labelled correctly. Four
+        # published Fe matrix bars carried it (RYA-783/807/832).
+        # A WIDER SET WOULD NOT HAVE FIXED IT: the near-UV route above wears the
+        # treatment `1D-LTE` and is a flux fit, so no mapping from the label exists.
+        harness = harness_residual.for_product(prod)
+        print(f"    [harness] {prod.treatment}: {harness.describe()}")
         # 🔴 RYA-855 — PER PRODUCT, not per band and not per element. This call passed
         # `gf_graded=False` unconditionally, the mirror of the synthesis route above, so
         # every EW-route cell charged the ungraded 0.17 no matter what its lines were.
@@ -858,11 +895,16 @@ def main() -> None:
         print(f"    [gf rung] {prod.treatment}: {rung.describe()}")
         b = build_budget(a.element, 0.5 * (a.lo + a.hi), prod.n_lines,
                          scatter_dex=(prod.sigma or 0.0), **rung.budget_kwargs(),
-                         harness_residual_dex=(0.0 if is_b else PROFILE_FIT_RESIDUAL_DEX),
-                         handler=("SynthesisHandler" if is_b else "ProfileFitHandler"))
+                         **harness.budget_kwargs())
         stat, syst = b.total()
         summary.append(dict(element=a.element, ion=a.ion, band=pol.name,
                             instrument=a.instrument, treatment=prod.treatment,
+                            # RYA-869 — the artifact RECORDS which handler produced the
+                            # cell. The budget file named it in prose and the products
+                            # table did not carry it at all, so a downstream consumer
+                            # (the RYA-783 matrix, RYA-850's recharge) had to guess it
+                            # back from the treatment — which is the defect, one layer out.
+                            handler=prod.handler,
                             A=round(prod.value, 3), n_lines=prod.n_lines,
                             n_excluded=prod.n_excluded,
                             stat_dex=round(stat, 4), syst_dex=round(syst, 4),

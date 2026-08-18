@@ -304,12 +304,17 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
         print(f"  dA: median {changed.d_A.median():+.3f}, "
               f"range {changed.d_A.min():+.3f}..{changed.d_A.max():+.3f}")
 
+    # RYA-869 — both pools are the RYA-759 near-UV SYNTHESIS route (flux fit, no EW
+    # anywhere), so the handler is declared here rather than left for a consumer to infer
+    # from the treatment. `1D-LTE-LABGF` is a `X-VARIANT` name of exactly the shape that
+    # broke the deriver's `== "ENGINE-B"` test.
     p_ctrl = build_product("Fe", "I", args.instrument, "near-UV", "1D-LTE", ctrl_lines,
+                           handler="SynthesisHandler",
                            provenance="near-UV control: the SAME lines, on the "
                                       "production gf. Exists so the lab-gf difference is "
                                       "attributable to the gf and nothing else.")
     p_lab = build_product("Fe", "I", args.instrument, "near-UV", "1D-LTE-LABGF",
-                          lab_lines_lm,
+                          lab_lines_lm, handler="SynthesisHandler",
                           provenance=(
                               "near-UV Fe I on PRIMARY LABORATORY gf only (Ruffoni 2014 / "
                               "Den Hartog 2014 / Belmonte 2017 — branching fractions x "
@@ -355,9 +360,12 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
     stem = f"FeI_{int(LO_A)}_{int(HI_A)}_{args.instrument}_LABGF"
     if p_lab.value is not None:
         from pipeline.error_budget import build as build_budget
+        from pipeline import harness_residual                    # RYA-869
         b = build_budget("Fe", 0.5 * (LO_A + HI_A), p_lab.n_lines,
                          scatter_dex=(p_lab.sigma or 0.0), gf_graded=True,
-                         harness_residual_dex=0.0, handler="SynthesisHandler")
+                         # RYA-869 — from the product's OWN handler; the value and the
+                         # label are one decision and travel together.
+                         **harness_residual.for_product(p_lab).budget_kwargs())
         stat, syst = b.total()
         # 🔴 RYA-845: no pseudo-continuum term is added here. `build_budget` already
         # carries it for the near-UV, and adding it again counted it twice — this cell's
@@ -365,7 +373,8 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
         # Inherited from the RYA-832 route, which had the same line.
         pd.DataFrame([dict(
             element="Fe", ion="I", band="near-UV", instrument=args.instrument,
-            treatment="1D-LTE-LABGF", A=round(p_lab.value, 3), n_lines=p_lab.n_lines,
+            treatment="1D-LTE-LABGF", handler=p_lab.handler,
+            A=round(p_lab.value, 3), n_lines=p_lab.n_lines,
             n_excluded=p_lab.n_excluded, stat_dex=round(stat, 4),
             syst_dex=round(syst, 4),
             dominant=(b.dominant().name if b.dominant() else ""))]
