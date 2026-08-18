@@ -1,0 +1,26 @@
+Fe · VIS · n=11
+  statistical  0.0564 dex   (averages down as 1/sqrt(N))
+  systematic   0.1705 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0564  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): no primary-laboratory gf table exists for Fe II — the graded ladder is Fe I only (RYA-799/824/836), and grading Fe II through it would referee it against Fe I lab rows on wavelength and EP alone
+
+Fe · VIS · n=3
+  statistical  0.0845 dex   (averages down as 1/sqrt(N))
+  systematic   0.1705 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0845  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): no primary-laboratory gf table exists for Fe II — the graded ladder is Fe I only (RYA-799/824/836), and grading Fe II through it would referee it against Fe I lab rows on wavelength and EP alone
+
+Fe · VIS · n=10
+  statistical  0.0119 dex   (averages down as 1/sqrt(N))
+  systematic   0.1700 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.0119  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): no primary-laboratory gf table exists for Fe II — the graded ladder is Fe I only (RYA-799/824/836), and grading Fe II through it would referee it against Fe I lab rows on wavelength and EP alone
