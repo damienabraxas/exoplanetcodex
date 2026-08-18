@@ -143,16 +143,20 @@
     "abundances_moved": 0,
     "stat_bars_moved": 0
   },
-  "synthesis_control_divergence": {
-    "handler": "SynthesisHandler",
-    "charged_dex": 0.0,
-    "control_artifact": "data/audit/synthesis_control/control_FeI.json",
-    "control_present": true,
-    "control_dex_offset": -0.009999999999999787,
-    "control_passed": true,
-    "control_n_lines": 18,
-    "what": "every synthesis-route budget charges 0.0000 while harness_term() prints 'MEASURED against the known optical answer, not assumed zero'; the handler's own banked control measured |dex_offset| = 0.0100 and PASSED. The prose and the arithmetic disagree.",
-    "ticket": "RYA-875",
-    "status": "REPORTED, NOT FIXED IN RYA-869; filed as RYA-875 \u2014 the control is a compensating-error pass \u2014 abundance agrees (-0.0100) while EW is off +0.1562 dex \u2014 and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split"
+  "harness_residual_divergences": {
+    "n_declared": 0,
+    "declared": {},
+    "agreeing": {
+      "SynthesisHandler": {
+        "charged_dex": 0.0,
+        "control_artifact": "data/audit/synthesis_control/control_FeI.json",
+        "control_present": true,
+        "control_dex_offset": 0.0,
+        "control_passed": true,
+        "control_n_lines": 18,
+        "agrees": true
+      }
+    },
+    "status": "no charged harness residual disagrees with its banked control. The SynthesisHandler divergence RYA-869 filed and RYA-873 declined to charge was resolved by RYA-875: its -0.0100 was a LINE-SET artifact (18-line median vs a scalar that is the median of a different 23-line set), and paired per line the offset is 0.0000 with 17 of 18 lines inside 0.01 dex. Deleted because the numbers agree."
   }
 }

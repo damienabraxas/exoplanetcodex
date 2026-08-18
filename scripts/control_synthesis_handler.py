@@ -210,6 +210,44 @@ def main() -> None:
             dbg.end_trace()
 
 
+def _abundance_agrees_ew_does_not(n_paired: int, n_tight: int, mad: float) -> str:
+    """The verdict when ANGLE 2 passes and ANGLE 1 does not — RYA-875.
+
+    🔴 IT USED TO SAY "compensating errors. Treat with MORE suspicion than a clean
+    failure, because it looks like success." That diagnosis was right to be suspicious and
+    wrong about the cause, and it was reached WITHOUT the pairing: ANGLE 2 could only
+    compare a median of fitted lines to a scalar from a different line sample, so
+    "abundance agrees" meant "two medians happen to land together" — which really can be
+    cancellation.
+
+    With the pairing it does not mean that. The handler reproduces the banked engine LINE
+    BY LINE, so there is no handler error left for the EW angle to be compensating FOR.
+    Saying "compensating errors" anyway would keep a resolved suspicion alive in every
+    artifact that quotes this field.
+
+    What ANGLE 1 then is: a MODEL EW (difference of two syntheses, damping wings included,
+    integrated over >=+/-1 A) against a MEASURED profile-fit EW. Those are different
+    quantities. ⚠️ And the banked engine shares the property rather than escaping it —
+    INFERRED, not measured: the fitted abundance matches the banked one to <=0.009 dex and
+    EW is monotonic in A, so the banked engine at its own answer would produce the same
+    model EW to within a couple of percent, nowhere near the factor observed. The banked
+    run recorded no synthetic EW, which is why this is an inference and why a like-for-like
+    ANGLE 1 needs that column banked first.
+    """
+    if not n_paired:
+        return ("ABUNDANCE AGREES, EW DOES NOT — compensating errors. Treat with MORE "
+                "suspicion than a clean failure, because it looks like success. "
+                "(UNPAIRED: the abundance agreement is between medians of different line "
+                "samples, so cancellation cannot be ruled out — RYA-875)")
+    return (f"ABUNDANCE AGREES PER LINE, EW DOES NOT — and this is NOT compensating "
+            f"errors: {n_tight} of {n_paired} lines reproduce the banked engine within "
+            f"0.01 dex (MAD {mad:.4f}), so there is no handler error for the EW angle to "
+            f"compensate. ANGLE 1 compares a MODEL EW (difference of two syntheses, "
+            f"wings included) against a MEASURED profile-fit EW; they are different "
+            f"quantities and the banked engine shares the property. The handler is "
+            f"controlled on what it produces. RYA-875")
+
+
 def _run(a) -> None:
     pool = pd.read_csv(ROOT / "data" / "measured" / "sol_ew_results_v1.csv")
     if a.lines_from_banked:
@@ -351,6 +389,11 @@ def _run(a) -> None:
         # decides both of the numbers this control publishes.
         rows.append(dict(wave=c, ew_ref=float(r.ew_mA), ew_synth=float(lm.ew_mA),
                          abundance=lm.abundance,
+                         # RYA-875 — the BANKED engine's own answer for THIS line, so the
+                         # comparison can be paired. Without it ANGLE 2 could only compare
+                         # medians over different line sets, which is what it was doing.
+                         a_banked=(float(r.banked_a_synth)
+                                   if "banked_a_synth" in ref.columns else float("nan")),
                          frac_rise_weaker=lm.frac_rise_weaker, sigma_A=lm.sigma_A,
                          edge_distance_dex=lm.edge_distance_dex, red_chi2=lm.red_chi2,
                          status="ok" if lm.in_aggregate else lm.excluded_reason[:70]))
@@ -380,10 +423,40 @@ def _run(a) -> None:
     dex_ew = float(np.log10(med)) if med > 0 else float("nan")
 
     # ── ANGLE 2: abundance level ─────────────────────────────────────────────
+    #
+    # 🔴 RYA-875 — PAIRED, PER LINE. This compared `median(fitted A)` against a hardcoded
+    # SCALAR, `SOLAR_REFERENCE["Fe"] = 7.520`, which is the median of a DIFFERENT
+    # 23-line set. So the reported "handler residual" folded a LINE-SET DIFFERENCE into
+    # itself: measured, the −0.0100 dex it published is almost entirely that, because the
+    # handler reproduces the banked engine LINE BY LINE to a median offset of 0.000 with
+    # 17 of 18 lines inside ±0.009 dex.
+    #
+    # ⚠️ THIS IS THE DEFECT RYA-770 ALREADY FIXED, ON THE OTHER HALF OF THE COMPARISON.
+    # That ticket added `--lines-from-banked` for exactly this reason — its own comment
+    # says selecting lines separately "was comparing two different line samples and
+    # attributing the difference to the handler", 0 of 12 in common. It held the lines
+    # fixed for the MEASUREMENT and left the REFERENCE a scalar from another sample.
+    #
+    # So when the banked per-line answer is available the offset is the MEDIAN OF THE
+    # PAIRED DIFFERENCES, which is what "does my driver reproduce the validated engine?"
+    # actually asks. The scalar comparison is still printed, labelled as the cross-sample
+    # number it is, because it is what the earlier artifact reported.
     A_ref = SOLAR_REFERENCE[a.element]
     a_med = float(ok.abundance.median())
     a_sc = float(np.std(ok.abundance, ddof=1)) if len(ok) > 1 else float("nan")
-    dex_ab = a_med - A_ref
+    dex_scalar = a_med - A_ref
+    paired = ok[ok.a_banked.notna()] if "a_banked" in ok.columns else ok.iloc[0:0]
+    if len(paired):
+        dA = paired.abundance.astype(float) - paired.a_banked.astype(float)
+        dex_ab = float(dA.median())
+        dA_mad = float(np.median(np.abs(dA - dA.median())))
+        n_tight = int((dA.abs() <= 0.01).sum())
+        ref_kind = (f"PAIRED against the banked engine's own per-line answer, "
+                    f"{len(paired)} lines")
+    else:
+        dex_ab, dA_mad, n_tight = dex_scalar, float("nan"), 0
+        ref_kind = (f"cross-sample: median of {len(ok)} fitted lines vs the scalar "
+                    f"{A_ref}, which is a median over a DIFFERENT line set (RYA-875)")
 
     print(f"{'':30s}{'result':>12s}{'vs reference':>15s}")
     print(f"{'ANGLE 1 — EW level':30s}")
@@ -393,7 +466,12 @@ def _run(a) -> None:
     print(f"{'ANGLE 2 — abundance level':30s}")
     print(f"{'  median fitted A(X)':30s}{a_med:12.3f}{dex_ab:+15.4f} dex")
     print(f"{'  line-to-line scatter':30s}{a_sc:12.3f}")
-    print(f"{'  reference A(X)':30s}{A_ref:12.3f}")
+    print(f"  reference: {ref_kind}")
+    if len(paired):
+        print(f"{'  MAD of paired dA':30s}{dA_mad:12.4f}")
+        print(f"{'  lines within 0.01 dex':30s}{n_tight:9d}/{len(paired)}")
+        print(f"  cross-sample number for comparison (what the pre-RYA-875 control "
+              f"reported): {dex_scalar:+.4f} dex vs the scalar {A_ref}")
     print()
     print(f"  profile fitter, for comparison: EW ratio 0.971, -0.0129 dex, MAD 0.060")
 
@@ -404,8 +482,7 @@ def _run(a) -> None:
         (True, False):  "EW AGREES, ABUNDANCE DOES NOT — the spectrum is matched but "
                         "converted wrongly: suspect the gf scale, the atmosphere, or the "
                         "curve-of-growth regime",
-        (False, True):  "ABUNDANCE AGREES, EW DOES NOT — compensating errors. Treat with "
-                        "MORE suspicion than a clean failure, because it looks like success",
+        (False, True):  _abundance_agrees_ew_does_not(len(paired), n_tight, dA_mad),
         (False, False): "NEITHER AGREES — a plain failure, and the easiest to diagnose",
     }[(pass_ew, pass_ab)]
     print(f"\n  {verdict}")
@@ -417,8 +494,12 @@ def _run(a) -> None:
         median_ratio=med, mad_ratio=mad, dex_offset=dex_ab, passed=pass_ab,
         tolerance_dex=CONTROL_TOLERANCE_DEX,
         evidence=(f"ANGLE 1 EW: median synth/banked {med:.3f} ({dex_ew:+.4f} dex), "
-                  f"MAD {mad:.3f}. ANGLE 2 abundance: median A={a_med:.3f} vs "
-                  f"{A_ref:.3f} ({dex_ab:+.4f} dex), scatter {a_sc:.3f}. {verdict}"))
+                  f"MAD {mad:.3f}. ANGLE 2 abundance ({ref_kind}): median A={a_med:.3f}, "
+                  f"offset {dex_ab:+.4f} dex, scatter {a_sc:.3f}"
+                  + (f", paired MAD {dA_mad:.4f}, {n_tight}/{len(paired)} within 0.01 dex"
+                     if len(paired) else "")
+                  + f". Cross-sample number vs the scalar {A_ref}: {dex_scalar:+.4f} dex "
+                    f"(what the pre-RYA-875 control reported as the residual). {verdict}"))
     (out / f"control_{a.element}{a.ion}.json").write_text(
         json.dumps(result.__dict__, indent=2))
     print(f"  {result.summary()}")
