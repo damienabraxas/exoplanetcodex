@@ -50,11 +50,6 @@ OUT = ROOT / "data" / "results" / "rya855"
 
 from pipeline import harness_residual                             # noqa: E402  RYA-869
 
-#: `derive_band_products.PROFILE_FIT_RESIDUAL_DEX`, kept as a name because this audit's
-#: prose quotes it. It is `pipeline.harness_residual`'s single declaration now (RYA-869).
-from derive_band_products import PROFILE_FIT_RESIDUAL_DEX          # noqa: E402
-
-
 def _harness(treatment: str, route: str) -> harness_residual.HarnessResidual:
     """The residual and label this banked cell's HANDLER earns. ONE rule, not two.
 
