@@ -50,6 +50,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -167,6 +168,24 @@ def audit(band_products: Path) -> tuple[pd.DataFrame, dict]:
             "src": str(cell["path"].relative_to(band_products)),
         })
     return pd.DataFrame(rows), texts
+
+
+def tree_fingerprint(band_products: Path) -> str:
+    """SHA-256 over every per-line file's RELATIVE name and its bytes.
+
+    The absolute path this ran against is provenance of the RUN, not of the DATA, and it
+    changes with the machine — the RYA-845 lesson, where a generating worktree's absolute
+    path on every matrix row buried the one cell that actually moved. So the tree is also
+    identified by what is IN it. Two runs on different hosts that agree here saw the same
+    inputs; two that do not, did not, whatever their paths say (compare FILES + BYTES,
+    never names).
+    """
+    h = hashlib.sha256()
+    for f in sorted(band_products.rglob("*_lines.csv"),
+                    key=lambda x: str(x.relative_to(band_products))):
+        h.update(str(f.relative_to(band_products)).encode())
+        h.update(f.read_bytes())
+    return h.hexdigest()
 
 
 def synthesis_control_divergence() -> dict:
@@ -304,6 +323,7 @@ def main() -> None:
     summary = {
         "ticket": "RYA-869",
         "band_products": str(bp),
+        "band_products_fingerprint_sha256": tree_fingerprint(bp),
         "n_cells": int(len(d)),
         "n_reproducing_published": int(len(have) - len(bad)),
         "n_not_reproducing": int(len(bad)),
