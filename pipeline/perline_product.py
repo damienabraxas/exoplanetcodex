@@ -72,7 +72,7 @@ ROW_COLUMNS = [
     "element", "ion", "wavelength_air_A", "excitation_potential_eV",
     # atomic constants — the replication payload
     "log_gf", "gf_source", "gf_grade", "gf_sigma_dex",
-    "damping_rad", "damping_stark", "damping_vdW", "hfs_isotope_note",
+    "damping_rad", "damping_stark", "damping_vdW", "damping_form", "hfs_isotope_note",
     # measurement
     "instrument", "arm", "method", "ew_mA", "reduced_ew", "red_chi2",
     # engine / model context
@@ -361,6 +361,16 @@ def build_perline_product(star: str, element: str, band_products) -> PerLineProd
                 "damping_rad": (ll["damping_rad"] if ll is not None else None),
                 "damping_stark": (ll["damping_stark"] if ll is not None else None),
                 "damping_vdW": (ll["damping_vdW"] if ll is not None else None),
+                # 🔴 STATE THE FORM (RYA-489 §6.4) — and it is not the whole story.
+                # These are linelist_<star>.csv's classical log-gamma constants. The GES
+                # synthesis linelist that actually produced A_X_line carries ABO packed
+                # sigma.alpha for some lines (6094.372 -> 914.276, 6495.741 -> 972.285),
+                # so for those the published number is NOT the constant the fit used. The
+                # RYA-870 guard measures the consequence: 0.011 dex on 6094.372, which is
+                # why that row misses the 0.01 floor while five others reproduce exactly.
+                # Re-binding to the synthesis linelist is owed and makes the generator
+                # Sirius-only (the GES list is an iSpec resource); flagged, not papered.
+                "damping_form": "classical log gamma (linelist_<star>.csv); see note",
                 "hfs_isotope_note": ("HFS components in canonical_gf: "
                                      f"{gf.get('hfs_n_components')}" if gf is not None
                                      and "hfs_n_components" in canonical.columns else ""),
