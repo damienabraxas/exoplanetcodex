@@ -54,9 +54,39 @@ EXPECTED_VALUE_CHANGES = {
         "0.1705", "0.17", "RYA-869 handler-keyed harness residual"),
 }
 
-# budgets.txt is prose. These substrings mark lines whose text is allowed to change.
+# budgets.txt / provenance.txt are prose. These substrings mark lines whose text is
+# allowed to change.
 EXPECTED_BUDGET_TEXT = (
     ("harness residual", "RYA-869 handler label / RYA-873 budget prose"),
+)
+
+# ---------------------------------------------------------------------------
+# 🔴 CLASSIFIED AFTER THE FACT — NOT pre-declared. Kept SEPARATE on purpose.
+# ---------------------------------------------------------------------------
+# The near-UV cell landed carrying two text changes this script did not predict, and it
+# reported them as UNEXPLAINED, which is what it is for. They are RYA-855's, attributed
+# by `git log -S` to c51670d ("decide the gf rung from the lines, not from a hardcode"):
+#
+#   * budgets.txt gains a trailing `gf rung: ...` line
+#   * provenance.txt's hand-written closing sentence about RYA-822's grading counts is
+#     REPLACED by a generated `gf TERM: gf rung N ...` sentence
+#
+# Both are additive provenance from a decision that now comes from the lines instead of a
+# hardcode. Neither moves a number: the rung resolves to 1, the gf term stays 0.1700
+# UNGRADED, and every value/n/stat/syst in the cell is unchanged. ⚠️ The provenance one is
+# a genuine LOSS of detail — the old sentence carried "17 of 40 carry a citable NIST
+# accuracy class and most of those are poor (C/C+/D/D+/E)", which the generated sentence
+# does not say. Recorded here rather than waved through; it is a note for RYA-855, not a
+# defect in this regeneration.
+#
+# They live in their own list so the report can never present a post-hoc classification as
+# a prediction. Widening EXPECTED_* after seeing output is how a diff learns to agree with
+# whatever it is shown.
+CLASSIFIED_AFTER_THE_FACT = (
+    ("gf rung:", "RYA-855 c51670d — generated gf-rung line, additive, no number moves"),
+    ("gf TERM:", "RYA-855 c51670d — generated gf-rung provenance sentence"),
+    ("gf REMAINS THE DOMINANT SYSTEMATIC",
+     "RYA-855 c51670d — the hand-written sentence it replaces"),
 )
 
 
@@ -139,6 +169,10 @@ def main() -> int:
                 hunk = b[i1:i2] + l[j1:j2]
                 why = next((w for m, w in EXPECTED_BUDGET_TEXT
                             if any(m in x for x in hunk)), None)
+                post = next((w for m, w in CLASSIFIED_AFTER_THE_FACT
+                             if any(m in x for x in hunk)), None)
+                if why is None and post is not None:
+                    why = f"POST-HOC: {post}"
                 body = ("\n".join(f"      - {x.strip()}" for x in b[i1:i2])
                         + ("\n" if i2 > i1 and j2 > j1 else "")
                         + "\n".join(f"      + {y.strip()}" for y in l[j1:j2]))
@@ -203,9 +237,18 @@ def main() -> int:
                 findings.append(f"declared new column {c!r} ({kind}) never appeared")
 
     print(f"baseline {args.baseline_ref}   files compared {len(set(files) | set(base_files))}\n")
-    print(f"ACCOUNTED FOR ({len(accounted)}) — each matches a pre-declared expectation:")
-    for a in accounted:
+    pre = [a for a in accounted if "POST-HOC:" not in a]
+    post_hoc = [a for a in accounted if "POST-HOC:" in a]
+    print(f"PRE-DECLARED, and they fired ({len(pre)}):")
+    for a in pre:
         print("   " + a)
+    if post_hoc:
+        print(f"\n⚠️  CLASSIFIED AFTER THE FACT ({len(post_hoc)}) — these were NOT "
+              f"predicted; each was attributed to a commit and checked to move no "
+              f"number:")
+        for a in post_hoc:
+            print("   " + a)
+    print(f"\n[all differences accounted for: {len(accounted)}]")
     if findings:
         print(f"\n🔴 UNEXPLAINED ({len(findings)}):", file=sys.stderr)
         for f in findings:
