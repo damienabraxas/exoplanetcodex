@@ -66,8 +66,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : 4d724042e82ad57b6ba565b142f1ce939efdbbb351ce12ae6186eac734282820
-     rows      : 100
+     sha256    : 59a6d8f1a491c3ad3ef38eed115f865bd13ea525204f2052fa82b57cca7371f1
+     rows      : 102
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -98,15 +98,15 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>100</b><span>references</span></div>
-    <div class="src-stat"><b>98</b><span>with verified link</span></div>
+    <div class="src-stat"><b>102</b><span>references</span></div>
+    <div class="src-stat"><b>100</b><span>with verified link</span></div>
     <div class="src-stat"><b>2</b><span>unconfirmed link</span></div>
-    <div class="src-stat"><b>55</b><span>held locally</span></div>
+    <div class="src-stat"><b>58</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
   </div>
   <div class="src-toc">
     <a href="#solar_reference">Solar reference scales &amp; atlases (10)</a>
-    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (44)</a>
+    <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (46)</a>
     <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (1)</a>
     <a href="#nlte">Non-LTE departures (10)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
@@ -223,7 +223,7 @@
     </ul>
   </section>
   <section class="src-section" id="atomic_data_gf">
-    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">44</span></h2>
+    <h2>Atomic data &mdash; oscillator strengths<span class="src-count">46</span></h2>
     <p class="src-blurb">Where each log gf comes from. The distinction that matters is PRIMARY LABORATORY (branching fractions from a Fourier-transform spectrometer times a measured radiative lifetime, with no reference to the solar spectrum) versus semi-empirical or solar-fitted values, which cannot referee a solar abundance without restating their own input.</p>
     <ul class="src-list">
       <li class="src-entry" id="bard1991">
@@ -292,6 +292,16 @@
         <p class="src-role">Pure laboratory Fe II gf in the UV/blue — the independent referee for the Fe II scale-offset investigation.</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/Den_Hartog_2019_ApJS_243_33.pdf</span> &middot; <span class="src-key">denhartog2019</span></div>
       </li>
+      <li class="src-entry" id="denhartog2023">
+        <div class="src-head">
+          <span class="src-cite">Den Hartog, E. A.; Lawler, J. E.; Sneden, C.; Roederer, I. U.; Cowan, J. J. (2023). <em>Atomic Transition Probabilities for Transitions of Si I and Si II and the Silicon Abundances of Several Very Metal-poor Stars</em>. ApJS 265, 42.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/acb642" target="_blank" rel="noopener">10.3847/1538-4365/acb642 &#8599;</a></div>
+        <p class="src-role">PRIMARY laboratory Si I / Si II gf — branching fractions x radiative lifetimes, the same method as this group&#x27;s Fe I and Mn sets already held here. Si is a canonical element with no lab-gf sub-pool yet; this is the source that would make one possible.</p>
+        <p class="src-note">The local copy is the arXiv v1 preprint (arXiv:2301.11391); the row describes the PUBLISHED version, whose DOI record Crossref returns with these authors, this title and ApJS 265, 42. Title normalised to the published capitalisation; the Crossref string carries an inline footnote marker which is not part of it.</p>
+        <div class="src-meta"><span class="src-local">local copy: Reference documents/2301.11391v1.pdf</span> &middot; <span class="src-key">denhartog2023</span></div>
+      </li>
       <li class="src-entry" id="denhartog2011">
         <div class="src-head">
           <span class="src-cite">Den Hartog, E. A.; Lawler, J. E.; Sobeck, J. S.; Sneden, C.; Cowan, J. J. (2011). <em>Improved log(gf) Values of Selected Lines in Mn I and Mn II for Abundance Determinations in FGK Dwarfs and Giants</em>. ApJS 194, 35.</span>
@@ -327,7 +337,8 @@
         </div>
         <div class="src-link"><a href="https://doi.org/10.1063/1.2218876" target="_blank" rel="noopener">10.1063/1.2218876 &#8599;</a></div>
         <p class="src-role">Cited in canonical_gf by bibcode 2006JPCRD..35.1669F. The modern NIST Fe compilation; supersedes FMW for Fe but carries the same non-independence.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-760; RYA-853</span> &middot; <span class="src-key">fuhr_wiese2006</span></div>
+        <p class="src-note">The local PDF is the published JPCRD article (141 pp.), matched to this row by CONTENT rather than by filename: its first page carries this title, these authors, &#x27;J. Phys. Chem. Ref. Data 35, 1669&#x27; and DOI 10.1063/1.2218876 verbatim. Added to the library after the row was written (RYA-869 session bibliography refresh).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-760; RYA-853</span> &middot; <span class="src-local">local copy: Reference documents/jpcrd3520061669.pdf</span> &middot; <span class="src-key">fuhr_wiese2006</span></div>
       </li>
       <li class="src-entry" id="garz1973">
         <div class="src-head">
@@ -642,6 +653,16 @@
         <div class="src-link"><a href="https://doi.org/10.1088/0031-8949/38/5/010" target="_blank" rel="noopener">10.1088/0031-8949/38/5/010 &#8599;</a></div>
         <p class="src-role">GES code WBb (854 canonical_gf rows).</p>
         <div class="src-meta"><span class="src-tickets">RYA-853</span> &middot; <span class="src-key">whaling_brault1988</span></div>
+      </li>
+      <li class="src-entry" id="wiese_fuhr2006">
+        <div class="src-head">
+          <span class="src-cite">Wiese, W. L.; Fuhr, J. R. (2006). <em>New Critical Compilations of Atomic Transition Probabilities for Neutral and Singly Ionized Carbon, Nitrogen, and Iron</em>. Proceedings of the NASA Laboratory Astrophysics Workshop (14-16 February 2006, UNLV, Las Vegas).</span>
+          <span class="src-verified src-v-publisher" title="Publisher or database landing page resolved and matched.">SITE</span>
+        </div>
+        <div class="src-link"><a href="https://ntrs.nasa.gov/citations/20060052476" target="_blank" rel="noopener">https://ntrs.nasa.gov/citations/20060052476 &#8599;</a></div>
+        <p class="src-role">The NIST authors&#x27; own summary of what went into the 2006 Fe I/Fe II compilation (fuhr_wiese2006) and the C/N updates, stating which literature it rests on. Useful as the provenance statement behind the NIST/FMW circularity RYA-760 turns on: NIST ASD IS this compilation, so ASD cannot referee a value taken from it.</p>
+        <p class="src-note">Conference proceedings; no DOI is registered. The link is the NASA Technical Reports Server record, which is the DEFINITIVE identification: NTRS returns this exact title and these authors for document 20060052476, and the local filename is NTRS&#x27;s own download name for it. US Government work.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-760</span> &middot; <span class="src-local">local copy: Reference documents/20060052476.pdf</span> &middot; <span class="src-key">wiese_fuhr2006</span></div>
       </li>
     </ul>
   </section>
@@ -1147,7 +1168,7 @@
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 4d724042e82ad57b6ba565b142f1ce939efdbbb351ce12ae6186eac734282820 &middot; 100 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 59a6d8f1a491c3ad3ef38eed115f865bd13ea525204f2052fa82b57cca7371f1 &middot; 102 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">
