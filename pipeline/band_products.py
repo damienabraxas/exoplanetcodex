@@ -121,6 +121,28 @@ class LineMeasurement:
     #: None means "this route does not carry it", never "0 eV" — `gf_rung` falls back to
     #: the narrow wavelength-only rule for such a line rather than widening blind.
     ep_eV: float | None = None
+    #: RYA-880 — THE NLTE CORRECTION, RECORDED WHERE IT IS APPLIED.
+    #:
+    #: RYA-489 §6.4 requires the correction be SHOWN, "not folded silently", and until now
+    #: nothing carried it. RYA-870's reproduce-or-fail guard found the hole by failing: it
+    #: re-inverted an EW (an LTE operation) and compared the result against an ENGINE-A
+    #: number, and the 0.011 dex gap on 6094.372 WAS the departure — invisible in every
+    #: artifact.
+    #:
+    #: 🔴 RECORDED, NEVER RECONSTRUCTED. Differencing ENGINE-A against 1D-LTE downstream
+    #: would assume NLTE is the only thing separating those two rows, and the pools are not
+    #: even the same lines (ts-lte deck: ENGINE-A 148 vs 1D-LTE 159), so a line served by
+    #: one and not the other would have no delta at all. The deriver knows the number at
+    #: the moment it adds it; that is the only honest place to write it down.
+    #:
+    #: ⚠️ `nlte_delta_dex is None` DOES NOT MEAN ZERO. It means "no additive per-line
+    #: correction exists on this route" — which is the truth for ENGINE-B-NLTE, where the
+    #: departures enter the radiative transfer itself and the product is a SEPARATE fit,
+    #: never a corrected LTE value (RYA-712). An LTE row carries 0.0 and says so.
+    nlte_delta_dex: float | None = None
+    #: The deck/grid that supplied the departure, or an explicit LTE marker. NEVER blank:
+    #: a blank cannot distinguish "LTE" from "nobody recorded it" (RYA-833).
+    nlte_source: str = ""
     #: Did this line's abundance come from an EW -> abundance INVERSION?
     #:
     #: RYA-770/342. The REW saturation ceiling below is a property of that inversion —
