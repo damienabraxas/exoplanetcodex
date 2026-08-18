@@ -291,6 +291,46 @@ artifacts:
       filename carries band + instrument + route and NOT the deck, so a shared directory
       loses a row.
 
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_provenance.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the run provenance for the NIR cell with the NON-MINIMUM check
+      applied. The synthesis route; 12638.703 fitted at A = 12.486 on a chi2 curve that never rose. Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
   - artifact: rya847/README.md
     status: HAND_AUTHORED
     generator: null
