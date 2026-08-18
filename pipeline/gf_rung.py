@@ -31,9 +31,11 @@ of the element, and not of the best line in the pool:
 1. **A MIXED POOL IS UNGRADED.** A pool is graded only if EVERY line in it is graded.
    Letting a pool claim rung 2/3 on the strength of a subset would attribute a
    laboratory pedigree to lines that do not have one, and the resulting bar would
-   describe a pool nobody measured. This is the rule that decides almost every real
-   case: the near-UV synthesis pool has 40 lines of which a minority are lab-measured,
-   so it lands on rung 1 -- correctly, and for a stated reason instead of by hardcode.
+   describe a pool nobody measured. This is the rule that decides every real case in
+   the Fe matrix: the VIS 1D-LTE pool has 5 primary-lab lines out of 152 and the
+   red-optical one 12 out of 101, so both land on rung 1 -- correctly, and for a stated
+   reason instead of by hardcode. Measured, not assumed: see
+   `data/results/rya855/rya855_rung_by_cell.csv`.
 
 2. **A SPECIES WITH NO PRIMARY-LAB TABLE IS UNGRADED, AND IS NEVER ASKED.**
    `pipeline.gf_grades` is Fe I: its lab table is Fe I and `canonical_fe1()` filters to
