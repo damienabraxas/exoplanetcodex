@@ -1304,6 +1304,48 @@ artifacts:
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
 
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for 1D-LTE in the BEFORE half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-A in the BEFORE half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-B in the BEFORE half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for 1D-LTE in the AFTER half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-A in the AFTER half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      Per-line record for ENGINE-B in the AFTER half of the same-inputs control. Kept so
+      the delta can be recomputed from the run itself rather than trusted from a summary.
   - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
     generator: scripts/rya877_disposition_impact.py
     invocation: bash rya877_impact.sh
