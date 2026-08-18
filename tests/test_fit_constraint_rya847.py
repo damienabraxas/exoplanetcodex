@@ -205,6 +205,38 @@ def test_the_handler_has_one_line_constructor_that_owns_the_ew_optout():
     assert not re.search(r"_mk_line\([^)]*ew_inversion", src, re.S)
 
 
+def test_every_post_fit_rejection_states_the_value_the_fit_returned():
+    """RYA-847 item 6 — the reason string is the ONLY place the value survives.
+
+    `quarantine` builds its line through `_mk_line`, which sets no abundance, so EVERY
+    line this handler rejects lands in the artifact with `abundance` blank. That is fine
+    for a fit that never converged and wrong for one that did: the reader of a
+    NON-MINIMUM exclusion has to be able to check that a plausible-looking number was cut
+    on the shape of chi2 rather than on being implausible — 3617.318 fitted at a
+    perfectly solar 7.477, and no plausibility check could ever have found it.
+
+    CHI2-GATE and FIT-EDGE-PINNED already stated their value; the constraint gate did not,
+    so the VIS artifact recorded an exclusion with no number anywhere on the row. This
+    asserts the PROPERTY over the region rather than one reason's wording: every
+    rejection that happens after the fit has produced `a_best` must report it.
+    """
+    import inspect
+
+    from pipeline.measure import synthesis as syn
+    src = inspect.getsource(syn)
+    start = src.index("# FIT-QUALITY GATE (RYA-713)")
+    end = src.index("synth_line_accepted", start)
+    region = src[start:end]
+
+    calls = [i for i in range(len(region)) if region.startswith("return quarantine(", i)]
+    assert len(calls) >= 3, "expected the post-fit rejections to still live here"
+    for i in calls:
+        stmt = region[i:region.index("\n", region.index(")", i))]
+        assert "a_best" in stmt, (
+            "a rejection after a converged fit must state the value it returned — "
+            "`quarantine` blanks `abundance`, so this string is the only record: " + stmt)
+
+
 # ── the appendix must name what was removed (RYA-844 / 847 items 5 and 7) ──────
 
 def test_the_appendix_names_excluded_lines_with_their_reason():
