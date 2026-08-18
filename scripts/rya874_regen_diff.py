@@ -120,6 +120,46 @@ def _key(kind: str, row: dict) -> tuple:
     return (row.get("treatment", ""), row.get("wavelength_air_A", ""))
 
 
+def _declared_value_rendered(rel, removed, added):
+    """Is this text hunk a PRE-DECLARED value change, rendered in a second artifact?
+
+    🔴 THE CORRECTION APPEARS TWICE. EXPECTED_VALUE_CHANGES names it as a products.csv
+    column, and budgets.txt renders the SAME fact in its `systematic` total. The first
+    run reported that second rendering as UNEXPLAINED, because the budget-prose rule
+    keys on "harness residual" and the total line does not contain it.
+
+    That was a matcher gap, NOT an unpredicted change: the fact — this cell's systematic
+    goes 0.1705 -> 0.1700 — was declared, with its cell, its value and its ticket, before
+    any result existed. So this is DERIVED FROM the declaration rather than hand-added
+    beside it. If the only difference between the removed and added lines is exactly the
+    declared old -> new substitution for a cell in this file, it is the same fact.
+    Hand-writing a new exception here would let the two drift apart, which is how a
+    prediction quietly becomes a description.
+    """
+    deck = _deck(rel)
+    for (d, _band, _treat, _col), (old, new, ticket) in EXPECTED_VALUE_CHANGES.items():
+        if d != deck or len(removed) != len(added):
+            continue
+        ok = True
+        for x, y in zip(removed, added):
+            xt, yt = x.split(), y.split()
+            if len(xt) != len(yt):
+                ok = False; break
+            diffs = [(a, b) for a, b in zip(xt, yt) if a != b]
+            # ⚠️ COMPARE AS NUMBERS. products.csv writes 0.17, budgets.txt writes
+            # 0.1700 — the same value, and a string compare calls them different.
+            if len(diffs) != 1:
+                ok = False; break
+            try:
+                if not (float(diffs[0][0]) == float(old) and float(diffs[0][1]) == float(new)):
+                    ok = False; break
+            except ValueError:
+                ok = False; break
+        if ok and removed:
+            return f"{ticket} — the SAME pre-declared correction, rendered in the budget total"
+    return None
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--baseline-ref", default="origin/main",
@@ -173,6 +213,8 @@ def main() -> int:
                              if any(m in x for x in hunk)), None)
                 if why is None and post is not None:
                     why = f"POST-HOC: {post}"
+                if why is None:
+                    why = _declared_value_rendered(rel, b[i1:i2], l[j1:j2])
                 body = ("\n".join(f"      - {x.strip()}" for x in b[i1:i2])
                         + ("\n" if i2 > i1 and j2 > j1 else "")
                         + "\n".join(f"      + {y.strip()}" for y in l[j1:j2]))

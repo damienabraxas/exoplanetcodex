@@ -1,4 +1,4 @@
-element,ion,band,instrument,treatment,A,n_lines,n_excluded,stat_dex,syst_dex,dominant
-Fe,I,VIS,kpno_solar_atlas,1D-LTE,7.586,148,11,0.0261,0.1705,gf scale (UNGRADED)
-Fe,I,VIS,kpno_solar_atlas,ENGINE-A,7.597,105,43,0.0279,0.1705,gf scale (UNGRADED)
-Fe,I,VIS,kpno_solar_atlas,ENGINE-B,7.515,129,30,0.0193,0.17,gf scale (UNGRADED)
+element,ion,band,instrument,treatment,handler,A,n_lines,n_excluded,stat_dex,syst_dex,dominant
+Fe,I,VIS,kpno_solar_atlas,1D-LTE,ProfileFitHandler,7.586,148,11,0.0261,0.1705,gf scale (UNGRADED)
+Fe,I,VIS,kpno_solar_atlas,ENGINE-A,ProfileFitHandler,7.597,105,43,0.0279,0.1705,gf scale (UNGRADED)
+Fe,I,VIS,kpno_solar_atlas,ENGINE-B,SynthesisHandler,7.515,129,30,0.0193,0.17,gf scale (UNGRADED)
