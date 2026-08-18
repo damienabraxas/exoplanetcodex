@@ -1,0 +1,26 @@
+{
+  "ticket": "RYA-852",
+  "artifact": "mb09_table1.csv",
+  "what": "Melendez & Barbuy 2009 Table 1 \u2014 142 Fe II lines, 4087-7712 A, with the paper's own L/S provenance flag per line.",
+  "why_this_table": "RYA-161's firewall needs to know, LINE BY LINE, whether a gf came from laboratory data or from an inverse solar analysis. MB09 states it in Table 1 and nowhere else, so the flag column IS the firewall input. Without it the firewall cannot be applied and every MB09 line is only a CANDIDATE for exclusion.",
+  "flag_meaning": {
+    "L": "the multiplet's absolute gf scale was normalised on LABORATORY data (Schnabel & Kock 2001, Guo et al. 1992, Hannaford et al. 1992, Biemont et al. 1991; branching fractions from Heise & Kock 1990, Pauls/Grevesse/Huber 1990, Kroll & Kock 1987). Relative values within the multiplet are theoretical.",
+    "S": "no laboratory measurement existed for ANY line of the multiplet, so its absolute scale came from an INVERSE ANALYSIS of the NSO FTS solar flux atlas (Hinkle et al. 2000). Using such a gf to measure the solar abundance is circular \u2014 RYA-161."
+  },
+  "verbatim": "\"When no laboratory measurement for any line of a multiplet was available, the relative oscillator strengths were derived from theoretical calculations, but the absolute gf-values of the multiplet were obtained from an inverse analysis based on the National Solar Observatory FTS solar flux spectrum by Hinkle et al. (2000)\" ... \"The complete line list of 142 Fe ii lines is given in Table 1, where gf-values based on laboratory or solar measurements are labelled L or S, respectively.\"",
+  "caveat": "Even an L line can carry a solar-driven adjustment: \"When the relative line ratios predicted by the theoretical calculations fail to reproduce the observed solar line ratios within a given multiplet, we preferred to adopt gf-values based entirely on laboratory measurements or to make slight corrections (usually no larger than 0.1 dex) to reproduce the solar spectrum better.\" So L means lab-NORMALISED, not lab-MEASURED, and the paper's own stated size for those corrections is ~0.1 dex \u2014 which is the honest floor this ticket anticipated.",
+  "source": {
+    "cite": "Melendez & Barbuy 2009, A&A 497, 611-617, \"Both accurate and precise gf-values for Fe II lines\"",
+    "doi": "10.1051/0004-6361/200811508",
+    "doi_verified_via": "Crossref, 2026-08-18",
+    "arxiv": "0901.4451",
+    "pdf_sha256": "2b6eef11ef23cbc6159d69aee05f8424c2c36eda17058036e7316775b3812911",
+    "extracted_from": "arXiv PDF -> pdftotext -layout -> regex over the three-column Table 1"
+  },
+  "extraction_control": "142 unique rows parsed, which is exactly the line count the paper's own abstract states, spanning 4087.284-7711.724 A against its stated 4000-8000 A range. 74 L, 68 S.",
+  "counts": {
+    "n_lines": 142,
+    "n_L": 74,
+    "n_S": 68
+  }
+}
