@@ -73,12 +73,19 @@ def main() -> int:
     ap.add_argument("--element", default="Fe")
     ap.add_argument("--ion", default="I")
     ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--from-csv", action="store_true",
+                    help="re-derive the verdict from the banked sweep instead of "
+                         "re-synthesising — the summary is a pure function of the CSV")
     a = ap.parse_args()
 
     per_line = a.out / "rya878_angle1_by_line.csv"
     if not per_line.exists():
         raise SystemExit(f"run rya878_angle1_like_for_like.py first: {per_line} absent")
     m = pd.read_csv(per_line)
+
+    if a.from_csv:
+        d = pd.read_csv(a.out / "rya878_ew_width_sweep.csv")
+        return _report(d, a)
 
     from control_synthesis_handler import build_context
     from pipeline.measure import resolve_handler
@@ -101,7 +108,12 @@ def main() -> int:
                          "ew_obs": float(r.ew_obs), "ratio": ew / float(r.ew_obs)})
         print(f"  {c:10.3f} done")
     d = pd.DataFrame(rows)
+    d.to_csv(a.out / "rya878_ew_width_sweep.csv", index=False)
+    return _report(d, a)
 
+
+def _report(d, a) -> int:
+    a.out.mkdir(parents=True, exist_ok=True)
     print(f"\n=== synthetic/observed EW vs INTEGRATION HALF-WIDTH ===")
     print(f"{'half_A':>8}{'median':>10}{'dex':>10}{'MAD':>9}{'min':>8}{'max':>9}"
           f"{'within10%':>11}")
@@ -120,29 +132,61 @@ def main() -> int:
               f"{s['min']:>8.2f}{s['max']:>9.2f}{s['within_10pct']:>8}/{s['n']}{mark}")
 
     at_fit = next(s for s in summ if s["half_width_A"] == PROFILE_FIT_HALF_A)
-    definitional = abs(at_fit["dex"]) <= 0.05
+    narrowest = min(summ, key=lambda s: s["half_width_A"])
+    baseline = 0.1523                       # the paired engine-vs-observed offset
+    explained_at_fit = 1.0 - at_fit["dex"] / baseline
+    explained_narrow = 1.0 - narrowest["dex"] / baseline
+    # The floor is the residual the range CANNOT explain: the ratio does not reach 1.0
+    # anywhere in the sweep, it asymptotes.
+    dominated = explained_at_fit >= 0.5
+    fully = abs(narrowest["dex"]) <= 0.01
     print(f"\n=== verdict ===")
-    if definitional:
-        print(f"  DEFINITIONAL. At the profile fitter's own +/-{PROFILE_FIT_HALF_A} A the")
-        print(f"  ratio is {at_fit['median_ratio']:.3f} ({at_fit['dex']:+.4f} dex) — the two")
-        print(f"  EWs agree once they cover the same extent, so the +0.152 is what the")
-        print(f"  wider synthetic range includes and the Voigt fit does not. ANGLE 1 is")
-        print(f"  comparing two different definitions; it is not a model defect.")
+    print(f"  the offset is MONOTONIC in the integration range: {narrowest['dex']:+.4f} dex "
+          f"at +/-{narrowest['half_width_A']:.2f} A rising to "
+          f"{summ[-1]['dex']:+.4f} at +/-{summ[-1]['half_width_A']:.2f} A.")
+    print(f"  at the profile fitter's own +/-{PROFILE_FIT_HALF_A} A it is "
+          f"{at_fit['dex']:+.4f} dex ({at_fit['median_ratio']:.3f}), which accounts for "
+          f"{100*explained_at_fit:.0f}% of the +{baseline} dex;")
+    print(f"  at the narrowest swept range {narrowest['dex']:+.4f} dex, "
+          f"{100*explained_narrow:.0f}%.")
+    if dominated and not fully:
+        print(f"\n  MOSTLY DEFINITIONAL, AND NOT ENTIRELY. The range DOMINATES — the two")
+        print(f"  EWs are not the same quantity, one being a single fitted Voigt and the")
+        print(f"  other every bit of the element's absorption in a wider window. But the")
+        print(f"  ratio never reaches 1.0: it asymptotes near "
+              f"{narrowest['median_ratio']:.3f}, so a few-percent residual survives at")
+        print(f"  matched extent, and the PER-LINE SPREAD survives at every width")
+        print(f"  (MAD {at_fit['mad']:.3f} at the fitter's extent, min "
+              f"{at_fit['min']:.2f}). Calling this closed would overstate it.")
+    elif fully:
+        print(f"\n  DEFINITIONAL. Matched in extent the two EWs agree to "
+              f"{narrowest['dex']:+.4f} dex; ANGLE 1 was comparing two definitions.")
     else:
-        print(f"  🔴 NOT DEFINITIONAL. Even at the profile fitter's own extent the model")
-        print(f"  is {at_fit['dex']:+.4f} dex above the observed EW ({at_fit['median_ratio']:.3f}).")
-        print(f"  The range is not the cause, so the model genuinely over-absorbs at the")
-        print(f"  fitted abundance. That is a real finding about the synthesis and the")
-        print(f"  remaining live root — it needs its own investigation.")
+        print(f"\n  🔴 NOT DEFINITIONAL. The range accounts for only "
+              f"{100*explained_at_fit:.0f}% of the offset, so the model genuinely")
+        print(f"  over-absorbs at the fitted abundance — a real synthesis finding.")
 
-    a.out.mkdir(parents=True, exist_ok=True)
-    d.to_csv(a.out / "rya878_ew_width_sweep.csv", index=False)
     (a.out / "rya878_ew_width_summary.json").write_text(json.dumps({
         "ticket": "RYA-878",
         "profile_fit_half_width_A": PROFILE_FIT_HALF_A,
         "production_half_width_A": ">= 1.0 (synth_ew.ew_half_width_A)",
         "sweep": summ,
-        "definitional": bool(definitional),
+        "baseline_paired_offset_dex": baseline,
+        "dex_at_profile_fit_extent": at_fit["dex"],
+        "fraction_explained_at_profile_fit_extent": round(explained_at_fit, 3),
+        "fraction_explained_at_narrowest": round(explained_narrow, 3),
+        "range_dominates": bool(dominated),
+        "fully_explained": bool(fully),
+        "residual": (
+            "The ratio is monotonic in the integration range and never reaches 1.0 — it "
+            "asymptotes near "
+            f"{narrowest['median_ratio']:.3f} at +/-{narrowest['half_width_A']:.2f} A. So "
+            "the range DOMINATES the offset but does not fully account for it: a "
+            "few-percent residual survives at matched extent, and the per-line SPREAD "
+            "survives at every width (one line, 6085.258, sits at ratio ~0.49 from "
+            "+/-0.30 to +/-1.40 A — the synthesis produces half the observed absorption "
+            "there regardless of range, which the definitional explanation does not "
+            "touch). Reported as open rather than closed."),
         "refuted_by_measurement_873_875": [
             "same-species contamination", "uniform continuum offset (log10 std 0.247)",
             "saturation (-0.047 vs reduced EW)", "line strength (-0.100)",
