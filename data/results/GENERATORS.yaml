@@ -1304,6 +1304,50 @@ artifacts:
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
 
+  # ── RYA-877 — dispositioning the circular Fe II line, and what it costs ───────────
+  - artifact: rya877/rya877_disposition_impact.json
+    generator: scripts/rya877_disposition_impact.py
+    invocation: python3 scripts/rya877_disposition_impact.py
+    ticket: RYA-877
+    note: >-
+      THE PRE-RYA-876 GATE ANSWER. Removing Fe II 5991.371 (circular: its log gf is MB09's
+      and MB09 flags the multiplet S, an inverse SOLAR analysis) moves the VIS Fe II
+      1D-LTE value 7.5684 -> 7.5420, a shift of -0.0264 dex, and widens the statistical bar
+      0.0564 -> 0.0624. It ALSO sits in ENGINE-B (7.4775 -> 7.4860). The ionization arbiter
+      is ENGINE-A and does NOT carry it, asserted per-line with a hard stop if it ever
+      does. 🔴 The DELTA is exact -- removing one line from a fixed set of per-line
+      abundances is arithmetic over that set -- but the ABSOLUTE values are the last
+      successful derivation's, because RYA-871's ep_eV requirement now refuses the band
+      (the same blocker as RYA-874). "Does the number move" is answered; "what is the
+      number" is owed a fresh run after the EW migration.
+  - artifact: rya877/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya847_constraint_sweep_run.sh
+    invocation: bash scripts/rya847_constraint_sweep_run.sh
+    ticket: RYA-877
+    note: >-
+      The per-line input the impact calculation reads for the 1D-LTE product -- committed
+      beside its consumer so the delta can be recomputed without Turbospectrum. Produced by
+      the RYA-847 sweep's FeII_vis_ts-lte cell, the last derivation of this band that ran
+      before RYA-871's ep_eV requirement began refusing it.
+  - artifact: rya877/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya847_constraint_sweep_run.sh
+    invocation: bash scripts/rya847_constraint_sweep_run.sh
+    ticket: RYA-877
+    note: >-
+      The per-line input the impact calculation reads for the ENGINE-A product -- committed
+      beside its consumer so the delta can be recomputed without Turbospectrum. Produced by
+      the RYA-847 sweep's FeII_vis_ts-lte cell, the last derivation of this band that ran
+      before RYA-871's ep_eV requirement began refusing it.
+  - artifact: rya877/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya847_constraint_sweep_run.sh
+    invocation: bash scripts/rya847_constraint_sweep_run.sh
+    ticket: RYA-877
+    note: >-
+      The per-line input the impact calculation reads for the ENGINE-B product -- committed
+      beside its consumer so the delta can be recomputed without Turbospectrum. Produced by
+      the RYA-847 sweep's FeII_vis_ts-lte cell, the last derivation of this band that ran
+      before RYA-871's ep_eV requirement began refusing it.
+
   # ── RYA-852 — can the Fe II arbiter lines be graded? ───────────────────────────────
   - artifact: rya852/rya852_fe2_gf_audit.csv
     generator: scripts/rya852_fe2_lab_gf_audit.py
