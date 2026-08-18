@@ -48,6 +48,17 @@ If instead the isolated lines are ALSO scattered, the mechanism is refuted, the 
 disagreement is real, and the compensating-error caveat stands. Both outcomes are useful
 and the script states which one it found rather than arguing for either.
 
+⚠️ PREDICTION (1) MAY HAVE NO SAMPLE. Solar Fe I is dense, so at the handler's +/-1.0 A
+window there may be NO isolated line among the 18 — and a test with an empty population
+does not refute anything, it just says nothing. That is a weakness of the design, visible
+before the data, so a third check is included that needs no isolated line at all:
+
+3. DIVIDING THE PREDICTED CONTAMINATION OUT SHOULD COLLAPSE THE SCATTER. If the neighbour
+   absorption is what makes the ratios span 0.50-7.60, then `ratio / predicted_ratio`
+   should sit near 1 with a much smaller MAD than `ratio` itself. If the scatter does NOT
+   collapse, the contamination is not what is driving it, whatever the correlation says —
+   a correlation can be carried by two or three crowded outliers, and a MAD cannot.
+
 ⚠️ THE STRENGTH PROXY IS A PROXY. `10^(loggf - ep*theta)` is the curve-of-growth strength
 ordering, not an EW: it is monotonic in line strength but not linear in it, and it ignores
 saturation, damping and the fact that overlapping lines do not add linearly. So the
@@ -153,6 +164,15 @@ def main() -> int:
         v = t[t.predicted_ratio.notna() & np.isfinite(t.predicted_ratio)]
         rho = (float(np.corrcoef(np.log10(v.predicted_ratio), np.log10(v.ratio))[0, 1])
                if len(v) > 2 else np.nan)
+        # Check 3 — does dividing the predicted contamination out COLLAPSE the scatter?
+        # This is the one that survives having no isolated lines, and the one a couple of
+        # crowded outliers cannot carry on their own.
+        t["corrected_ratio"] = t.ratio / t.predicted_ratio
+        cv = t[t.corrected_ratio.notna() & np.isfinite(t.corrected_ratio)]
+        def _mad(x):
+            x = np.asarray(x, dtype=float)
+            return float(np.median(np.abs(x - np.median(x)))) if len(x) else np.nan
+        mad_raw, mad_corr = _mad(v.ratio), _mad(cv.corrected_ratio)
         results.append({
             "half_A": half, "n": len(t),
             "n_isolated": len(isolated), "n_crowded": len(crowded),
@@ -162,6 +182,13 @@ def main() -> int:
                                      if len(crowded) else None),
             "corr_log_predicted_vs_log_observed": (None if not np.isfinite(rho)
                                                    else round(rho, 3)),
+            "ratio_mad": (None if not np.isfinite(mad_raw) else round(mad_raw, 4)),
+            "corrected_ratio_median": (round(float(cv.corrected_ratio.median()), 4)
+                                       if len(cv) else None),
+            "corrected_ratio_mad": (None if not np.isfinite(mad_corr)
+                                    else round(mad_corr, 4)),
+            "scatter_collapsed": (bool(np.isfinite(mad_raw) and np.isfinite(mad_corr)
+                                       and mad_corr < 0.5 * mad_raw)),
         })
         tables[half] = t
 
@@ -169,14 +196,16 @@ def main() -> int:
     print(f"\n=== the prediction, at a ladder of EW windows ===")
     print(f"  (1) isolated lines should sit at ratio ~1   "
           f"(2) log-log correlation should STRENGTHEN with window")
-    print(f"{'half_A':>8}{'n_iso':>7}{'iso median':>12}{'n_crowd':>9}"
-          f"{'crowd median':>14}{'corr':>8}")
+    print(f"  (3) dividing the contamination out should COLLAPSE the MAD "
+          f"(this one needs no isolated line)")
+    print(f"{'half_A':>8}{'n_iso':>7}{'iso med':>9}{'n_crowd':>9}{'corr':>7}"
+          f"{'MAD raw':>9}{'MAD corr':>10}{'corr med':>10}")
+    _f = lambda v: float("nan") if v is None else v          # noqa: E731
     for _, x in r.iterrows():
-        print(f"{x.half_A:>8.2f}{x.n_isolated:>7}"
-              f"{(x.isolated_ratio_median if x.isolated_ratio_median is not None else float('nan')):>12}"
-              f"{x.n_crowded:>9}"
-              f"{(x.crowded_ratio_median if x.crowded_ratio_median is not None else float('nan')):>14}"
-              f"{(x.corr_log_predicted_vs_log_observed if x.corr_log_predicted_vs_log_observed is not None else float('nan')):>8}")
+        print(f"{x.half_A:>8.2f}{x.n_isolated:>7}{_f(x.isolated_ratio_median):>9}"
+              f"{x.n_crowded:>9}{_f(x.corr_log_predicted_vs_log_observed):>7}"
+              f"{_f(x.ratio_mad):>9}{_f(x.corrected_ratio_mad):>10}"
+              f"{_f(x.corrected_ratio_median):>10}")
 
     # ── the verdict, stated as the thing that would refute it ────────────────────
     best = max((x for x in results
@@ -190,14 +219,25 @@ def main() -> int:
               f"corr(log predicted, log observed) = "
               f"{best['corr_log_predicted_vs_log_observed']}")
         iso = best["isolated_ratio_median"]
-        print(f"  isolated-line median ratio there: {iso} "
-              f"({best['n_isolated']} lines)")
-        print("  A ratio near 1 on isolated lines AND a positive correlation on the rest")
-        print("  supports: ew_synth counts SAME-SPECIES neighbours the difference cannot")
-        print("  cancel, so ANGLE 1 is not comparing like with like and its +0.1562 dex")
-        print("  is an artifact of the comparison, not a property of the handler.")
-        print("  Scattered isolated lines, or no correlation, REFUTES that and leaves the")
-        print("  compensating-error caveat standing.")
+        if best["n_isolated"] == 0:
+            print(f"  isolated lines: NONE at this window — check (1) has no sample and")
+            print(f"  says nothing either way. The verdict rests on (2) and (3).")
+        else:
+            print(f"  isolated-line median ratio there: {iso} "
+                  f"({best['n_isolated']} lines)")
+        print(f"  MAD {best['ratio_mad']} raw -> {best['corrected_ratio_mad']} corrected "
+              f"(median {best['corrected_ratio_median']}); "
+              f"collapsed = {best['scatter_collapsed']}")
+        print()
+        print("  SUPPORTS the mechanism: isolated lines near 1 (where sampled), a positive")
+        print("  correlation, AND the MAD collapsing once the contamination is divided")
+        print("  out. Then ew_synth counts SAME-SPECIES neighbours the difference cannot")
+        print("  cancel, ANGLE 1 is not comparing like with like, and its +0.1562 dex is")
+        print("  an artifact of the comparison rather than a property of the handler.")
+        print("  REFUTES it: scattered isolated lines, no correlation, or a MAD that does")
+        print("  not collapse — a correlation two crowded outliers can carry is not")
+        print("  evidence. Then the EW disagreement is real, the compensating-error")
+        print("  caveat stands, and the answer to RYA-873 is NOT 0.0100.")
 
     a.out.mkdir(parents=True, exist_ok=True)
     pd.concat(tables.values(), ignore_index=True).to_csv(
