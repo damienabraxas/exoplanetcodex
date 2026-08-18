@@ -250,6 +250,31 @@ artifacts:
     invocation: python scripts/rya347_fe2_atomic_data_audit.py
     ticket: RYA-347
 
+  # ── RYA-855 re-audit on the POST-GATE line set (RYA-847) ──────────────────────────
+  - artifact: rya855/postgate/rya855_rung_by_cell.csv
+    generator: scripts/rya855_rung_audit.py
+    invocation: python3 scripts/rya855_rung_audit.py --band-products data/results/rya847/gated --out data/results/rya855/postgate
+    ticket: RYA-855
+    note: >-
+      The rung audit re-run on the line set RYA-847's non-minimum check leaves behind. The
+      original audit priced the rya845-era band products, whose near-UV cell still carried
+      3617.318; this one prices the gated cells (near-UV n=40 -> 39, VIS ENGINE-B 130 ->
+      129, ENGINE-B-NLTE 132 -> 131, NIR 32 -> 31). RESULT: 0 of 8 cells change rung and 0
+      change their bar — every pool is MIXED several times over, so removing a line cannot
+      lift a rung, and 855's conclusion survives the gate unchanged.
+  - artifact: rya855/postgate/rya855_summary.json
+    generator: scripts/rya855_rung_audit.py
+    invocation: python3 scripts/rya855_rung_audit.py --band-products data/results/rya847/gated --out data/results/rya855/postgate
+    ticket: RYA-855
+    note: >-
+      🔴 The re-audit's real finding is in its own CONTROL, not in the rung: 7 of 8 cells
+      reproduce their published syst_dex, and the eighth — VIS Fe I ENGINE-B-NLTE — only
+      reproduces under the PRE-RYA-869 harness rule (published 0.1705; charged by handler
+      0.1700). That cell was regenerated hours before RYA-869 landed, so the artifact
+      merged in ce31080 carries a stale harness term. Tracked as RYA-874; the values are
+      untouched (8/8 reproduce A exactly) and it cannot be regenerated until RYA-871's EW
+      tables carry ep_eV.
+
   # ── RYA-847 — the non-minimum gate, and what it cost per cell ─────────────────────
   - artifact: rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
     generator: scripts/rya847_regen_gated_cells.sh
