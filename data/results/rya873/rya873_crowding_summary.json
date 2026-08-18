@@ -72,5 +72,24 @@
       "corrected_ratio_mad": 0.459,
       "scatter_collapsed": false
     }
-  ]
+  ],
+  "bulk_test": {
+    "window_half_A": 1.0,
+    "predicted_ratio_cut": 2.0,
+    "n_bulk": 15,
+    "n_outliers": 3,
+    "bulk_predicted_ratio_max": 1.456,
+    "bulk_observed_ratio_min": 0.496,
+    "bulk_observed_ratio_max": 2.072,
+    "bulk_observed_ratio_median": 1.295,
+    "bulk_mad_raw": 0.2457,
+    "bulk_mad_corrected": 0.2168,
+    "outlier_predicted_ratios": [
+      8.87,
+      14.13,
+      258.16
+    ],
+    "verdict": "REFUTED. Same-species neighbour contamination does not explain the EW disagreement. The 15 lines the proxy says are essentially uncontaminated (predicted <= 1.46x, mostly ~1.00x) still span observed ratios 0.50-2.07 with median 1.295, and dividing the predicted contamination out moves their MAD only 0.246 -> 0.217. The global log-log correlation of 0.813 is carried entirely by three lines whose proxy prediction is 8.9x, 14.1x and 258x -- the failure mode this test pre-declared (RYA-818: a rule that only fires where the primary failed is unfalsifiable). CONSEQUENCE: the control's compensating-error caveat STANDS, 0.0100 is the abundance angle of an unexplained pass and is NOT established, and RYA-873 charges nothing. RYA-875 is the RCA that resolves the split.",
+    "caveat": "The strength proxy 10^(loggf - ep*theta) is a curve-of-growth ORDERING, not an EW: it ignores saturation, damping and the fact that overlapping lines do not add linearly, which is why it can return 258x. The refutation does NOT rest on it at the top end -- it rests on the 15 lines where the proxy says the neighbours are much WEAKER than the target, a relative statement the proxy handles well, and where the observed scatter survives anyway."
+  }
 }
