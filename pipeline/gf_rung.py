@@ -105,6 +105,45 @@ LAB_GRADED_SPECIES: frozenset[tuple[str, str]] = frozenset({("Fe", "I")})
 #: rung 1 by lines nobody can identify. Recorded in `rya855_summary.json` under `caveats`.
 LINELIST_MATCH_TOL_A = 0.005
 
+#: RYA-871 — the tolerance used WHEN THE MEASURED LINE CARRIES ITS EXCITATION POTENTIAL,
+#: and the reason it is four times wider without being four times looser.
+#:
+#: The paragraph above is still true of a wavelength-only match and is why this constant
+#: is a SEPARATE one rather than a widening of it. What changed is that the EW route now
+#: carries `ep_eV` (RYA-871), so a wider window can be disambiguated instead of guessed:
+#: two REAL transitions at one wavelength differ by whole eV (RYA-855's 3125.651/3125.683
+#: pair sits at 0.990 and 2.404 eV), so the EP separates exactly the cases the wider
+#: window creates.
+#:
+#: 🔴 MEASURED, NOT CHOSEN — `data/results/rya871/rya871_ep_resolution_probe.csv`, scored
+#: on all 35 banked EW-route cells against the control that matters: does a variant
+#: re-identify a line the current rule ALREADY identified? Compared by which ROW it lands
+#: on, because swapping one identification for another scores as a tie on a count.
+#:
+#:     tol    EP   unique  absent  ambiguous   cells that RE-IDENTIFY something
+#:     0.005  no     1601     163         40   0     <- today
+#:     0.005  yes    1641     163          0   0
+#:     0.010  no     1619     115         70   8     <- widening ALONE already breaks it
+#:     0.010  yes    1679     125          0   0
+#:     0.020  yes    1764      23         17   0     <- here
+#:     0.030  yes    1764      23         17   0     <- IDENTICAL: a plateau, not a knob
+#:     0.050  yes    1755      23         26   9     <- and it ends
+#:     0.020  no     1556      12        236  25
+#:
+#: The answer is FLAT across 0.020-0.030 and regresses on both sides, so this is not a
+#: tuned threshold: any value inside the plateau gives the same identifications, and
+#: nothing downstream changes if it moves within it (RYA-161/847). On the ticket's own
+#: cell — VIS Fe I 1D-LTE, 152 lines — it takes 136 resolved to **148**, leaving 3 absent
+#: and 1 genuinely (wavelength AND EP) degenerate, with 136 of 136 prior identifications
+#: unchanged.
+LINELIST_MATCH_TOL_EPKEY_A = 0.020
+
+#: How closely the carried EP must agree with the line list's. The accounting table
+#: rounds to 4 dp and the list carries full precision, so this is a ROUNDING tolerance,
+#: not a physical one. Nothing depends on where inside it the cut sits: distinct
+#: transitions at one wavelength differ by ~1 eV, which is 200x this.
+EP_MATCH_TOL_EV = 0.005
+
 _ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6}
 
 
@@ -178,21 +217,52 @@ def linelist_frame(linelist) -> pd.DataFrame:
         "log_gf": col("loggf").astype(float)})
 
 
-def resolve_lines(element: str, ion: str, wavelengths, linelist) -> pd.DataFrame:
+def resolve_lines(element: str, ion: str, wavelengths, linelist,
+                  measured_ep_eV=None) -> pd.DataFrame:
     """Attach the EP and the log gf THE POOL USED to each measured wavelength.
 
     A wavelength that resolves to more than one row of the SAME species inside the
     tolerance is returned unresolved rather than settled by `iloc[0]`: picking the first
     match is exactly how RYA-853 manufactured 12-dex "defects", and here it would let a
     pool inherit a pedigree from the wrong transition.
+
+    RYA-871 — `measured_ep_eV`, when supplied, is the excitation potential the MEASURED
+    line carries (`LineMeasurement.ep_eV`). A line that has one is matched on wavelength
+    AND EP inside `LINELIST_MATCH_TOL_EPKEY_A`; a line that has none keeps the narrow
+    wavelength-only rule at `LINELIST_MATCH_TOL_A`.
+
+    🔴 THE TWO TOLERANCES ARE NOT A PREFERENCE, THEY ARE THE SAME RULE. The window may be
+    wide only because the EP can settle what falls into it; widening it for a line with
+    no EP would buy a choice rather than an identification, which is precisely what
+    RYA-855 refused and what the RYA-871 probe measured breaking (7 of 136 already-
+    identified lines change row at 0.020 A with no EP key). So the tolerance travels with
+    the key, per line, and a route that does not carry an EP is not silently widened.
     """
     ll = linelist_frame(linelist)
     ll = ll[ll.species == _species_label(element, ion)]
     lw = ll.wavelength_air_A.to_numpy()
+    lep = ll.ep_eV.to_numpy()
+    # Materialised once: `wavelengths` may be a generator, and consuming it to size the
+    # EP list would leave the loop below with nothing to iterate.
+    ws = [float(x) for x in wavelengths]
+    eps = ([None] * len(ws) if measured_ep_eV is None
+           else [None if x is None or not np.isfinite(float(x)) else float(x)
+                 for x in measured_ep_eV])
+    if len(eps) != len(ws):
+        raise ValueError(
+            f"{len(ws)} wavelengths but {len(eps)} excitation potentials — these are "
+            f"per-line parallel arrays and a length mismatch would silently key a line "
+            f"on its neighbour's EP (RYA-871)")
     rows = []
-    for w in (float(x) for x in wavelengths):
-        m = np.abs(lw - w) <= LINELIST_MATCH_TOL_A
+    for i, w in enumerate(ws):
+        ep = eps[i]
+        tol = LINELIST_MATCH_TOL_A if ep is None else LINELIST_MATCH_TOL_EPKEY_A
+        m = np.abs(lw - w) <= tol
+        if ep is not None:
+            m = m & (np.abs(lep - ep) <= EP_MATCH_TOL_EV)
         n = int(m.sum())
+        key = ("wavelength alone" if ep is None
+               else f"wavelength+EP ({ep:.4f} eV)")
         if n == 1:
             r = ll.iloc[int(np.flatnonzero(m)[0])]
             rows.append({"wavelength_air_A": w, "ep_eV": float(r.ep_eV),
@@ -201,9 +271,10 @@ def resolve_lines(element: str, ion: str, wavelengths, linelist) -> pd.DataFrame
         else:
             rows.append({"wavelength_air_A": w, "ep_eV": np.nan, "log_gf": np.nan,
                          "resolved": False,
-                         "unresolved_why": ("absent from the loaded line list" if n == 0
-                                            else f"{n} same-species rows within "
-                                                 f"{LINELIST_MATCH_TOL_A} A")})
+                         "unresolved_why": (
+                             f"absent: no same-species row within {tol} A on {key}"
+                             if n == 0 else
+                             f"ambiguous: {n} same-species rows within {tol} A on {key}")})
     return pd.DataFrame(rows)
 
 
@@ -287,7 +358,11 @@ def for_lines(element: str, ion: str, measurements, *, linelist) -> GfRung:
     measurement's uncertainty either.
     """
     used = [l for l in measurements if l.in_aggregate and l.abundance is not None]
-    lines = resolve_lines(element, ion, [l.wavelength_air_A for l in used], linelist)
+    # RYA-871 — hand the resolver the EP each measurement carries. `getattr` rather than
+    # attribute access so a caller passing some other line-like object still works, and
+    # None (the default) keeps the narrow wavelength-only rule for it.
+    lines = resolve_lines(element, ion, [l.wavelength_air_A for l in used], linelist,
+                          measured_ep_eV=[getattr(l, "ep_eV", None) for l in used])
     return decide(element, ion, lines)
 
 

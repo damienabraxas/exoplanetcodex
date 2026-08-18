@@ -334,6 +334,14 @@ def synthesis_route(a, pol) -> None:
                        f"production wing-wide rule)"),
             abundance=(a_x if np.isfinite(a_x) else None),
             treatment="1D-LTE",
+            # RYA-871 — `select_lines` already returns the EP of the row it picked, and
+            # this route picks AT the list's own wavelength, so the identity is exact
+            # rather than recovered. Carried anyway, for two reasons: the near-UV pool
+            # still had 2 lines with two same-species rows inside 0.005 A, which only an
+            # EP key separates; and a per-line artifact whose identity column is
+            # populated on one route and blank on another is a schema a consumer has to
+            # special-case.
+            ep_eV=float(r.ep_eV),
             # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
             # here at all. Inheriting it would quarantine lines on a quantity that does
             # not exist (RYA-770/342).
@@ -510,11 +518,39 @@ ASDICT_LINE_OMITTED = {
 }
 
 
+def _intake_ep(row, wavelength_A: float, element: str, ion: str) -> float:
+    """The EP the EW artifact carries for this line — RYA-871.
+
+    🔴 LOUD ON AN OLD ARTIFACT. An EW file written before RYA-871 has no `ep_eV` column,
+    and silently emitting None would put every line of that band back on the
+    wavelength-only rule while the products.csv showed an `ep_eV` column full of blanks.
+    A consumer cannot tell "this route does not carry an EP" from "the EP is missing here"
+    once the column exists but is empty — so the missing column is named and refused, and
+    the fix is to re-measure the band, not to widen blind.
+    """
+    ep = getattr(row, "ep_eV", None)
+    if ep is None:
+        raise SystemExit(
+            f"the EW artifact for {element} {ion} carries no `ep_eV` column, so its lines "
+            f"cannot be identified by anything but their wavelength (RYA-871). It predates "
+            f"RYA-871; re-run scripts/measure_band_profilefit.py for this band.")
+    if not np.isfinite(float(ep)):
+        raise SystemExit(
+            f"{element} {ion} {wavelength_A:.4f} A: the EW artifact carries a null ep_eV. "
+            f"A blank identity key is not a key — re-measure rather than emit it.")
+    return float(ep)
+
+
 def asdict_line(l: LineMeasurement) -> dict:
     return dict(element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
                 instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
                 abundance=l.abundance, rew=l.rew, treatment=l.treatment,
                 in_aggregate=l.in_aggregate, excluded_reason=l.excluded_reason,
+                # RYA-871 — the excitation potential of the transition measured. Without
+                # it a per-line row can only be identified by its wavelength, which does
+                # not identify a line: 16 of 152 VIS Fe I lines could not be resolved
+                # back to the list at all.
+                ep_eV=l.ep_eV,
                 ew_inversion=l.ew_inversion,
                 # RYA-847: the constraint metrics. None on EW-route lines — no chi2
                 # surface exists behind an EW inversion, so the question does not apply,
@@ -652,6 +688,11 @@ def main() -> None:
         lm = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                              instrument=a.instrument, ew_mA=float(r.ew_mA),
                              ew_method=str(r.ew_method), abundance=(A if conv else None),
+                             # RYA-871 — carried through from the EW artifact, which now
+                             # carries it from the accounting row its wavelength came
+                             # from. `_intake_ep` is loud about an EW file written before
+                             # RYA-871 rather than emitting a null and widening blind.
+                             ep_eV=_intake_ep(r, c, a.element, a.ion),
                              treatment="1D-LTE")
         if not conv or not np.isfinite(A):
             lm.in_aggregate = False
@@ -687,6 +728,10 @@ def main() -> None:
                              wavelength_air_A=l.wavelength_air_A,
                              instrument=l.instrument, ew_mA=l.ew_mA,
                              ew_method=l.ew_method, treatment="ENGINE-A",
+                             # Same transition, same identity (RYA-871): ENGINE-A adds a
+                             # departure term to THIS line's inversion, it does not
+                             # re-measure anything.
+                             ep_eV=l.ep_eV,
                              abundance=(l.abundance + d) if d is not None else None)
         if d is None:
             la.in_aggregate = False
@@ -818,6 +863,7 @@ def main() -> None:
                 lb = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                                      instrument=a.instrument, ew_mA=float("nan"),
                                      ew_method="synthesis flux-fit",
+                                     ep_eV=_intake_ep(r, c, a.element, a.ion),
                                      treatment=treatment)
                 lb.in_aggregate = False
                 lb.excluded_reason = f"WINDOW-LOAD: {type(e).__name__}: {str(e)[:60]}"
@@ -832,6 +878,10 @@ def main() -> None:
                 pre_normalised=True,
                 context={**ctx_b, "ew_hint_mA": float(r.ew_mA)})
             lb.treatment = treatment
+            # RYA-871 — the flux fit re-measures the same TRANSITION from the same line
+            # set, so it carries the same identity. The handler cannot know it: it is
+            # handed a wavelength and a window, not an accounting row.
+            lb.ep_eV = _intake_ep(r, c, a.element, a.ion)
             rows_b.append(_stamp(lb))   # RYA-807
 
         # RYA-768: deterministic row order, so the artifact byte-diffs clean.
