@@ -85,9 +85,24 @@ CITED_COVERAGE_MIN = 0.90
 LAB_GRADED_SPECIES: frozenset[tuple[str, str]] = frozenset({("Fe", "I")})
 
 #: Wavelength tolerance when resolving a measured line back to its row in the loaded
-#: line list. This is a ROUNDING tolerance, not a search radius: the pool is measured AT
-#: the list's own wavelength, and both sides here are that same list. Deliberately
-#: tighter than `gf_grades.WAVE_TOL_A` (0.02 A), which spans two CATALOGUES.
+#: line list, and the reason it is TIGHT.
+#:
+#: On the synthesis route the pool is keyed at the list's own wavelength, so this is a
+#: rounding tolerance and nothing more. On the EW route it is not: those wavelengths come
+#: from the MEASUREMENT, and two catalogues quoting one transition differ by up to ~0.03 A
+#: (RYA-704). Measured on the VIS 1D-LTE pool: 16 of 152 lines do not resolve here, and
+#: for most of them the nearest Fe I row sits 0.006-0.02 A away.
+#:
+#: ⚠️ WIDENING IT DOES NOT FIX THAT — it converts "absent" into "ambiguous". At 0.02 A
+#: several of those lines have TWO Fe I rows straddling them (5620.3945 has rows at
+#: +0.0055 and -0.0175), so a wider window buys a choice, not an identification. The
+#: second key that would settle it is the excitation potential, which `gf_grades` uses and
+#: which the EW route's per-line artifact does not carry.
+#:
+#: So an unresolvable line stays UNGRADEABLE and forces rung 1. That is the conservative
+#: direction and it flips no answer today — every EW pool is mixed several times over —
+#: but it is a real ceiling: a pool that was otherwise entirely lab-gf would be held at
+#: rung 1 by lines nobody can identify. Recorded in `rya855_summary.json` under `caveats`.
 LINELIST_MATCH_TOL_A = 0.005
 
 _ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6}

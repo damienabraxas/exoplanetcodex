@@ -416,6 +416,24 @@ def main() -> int:
             "status": "FILED SEPARATELY — not fixed in RYA-855, whose diff must isolate "
                       "the gf term",
         },
+        "caveats": [
+            "The EW route's per-line artifact carries no excitation potential, so a "
+            "measured line is resolved back to the loaded line list on WAVELENGTH ALONE. "
+            "16 of 152 VIS lines and 13 of 101 red-optical lines do not resolve uniquely "
+            "at 0.005 A; widening the window converts 'absent' into 'ambiguous' rather "
+            "than resolving it, because several have two Fe I rows straddling them. Those "
+            "lines stay UNGRADEABLE and force rung 1 — conservative, and it flips no "
+            "answer here because every EW pool is mixed several times over. It IS a "
+            "ceiling: a pool that was otherwise entirely lab-gf would be held at rung 1 "
+            "by lines nobody can identify. The fix is to carry ep_eV on the EW artifact.",
+            "The near-UV synthesis pool is 15 GF-NIST + 23 systematic:K07 + 2 ambiguous "
+            "and ZERO primary-lab, which corroborates the provenance prose this ticket "
+            "replaced ('17 of 40 carry a citable NIST accuracy class'). RYA-822 keeps "
+            "GF-NIST outside `is_graded` because FMW *is* NIST and VALD copies it "
+            "(RYA-760), so those 15 do not buy the band a rung.",
+            "The harness-residual misattribution reported above is FILED, NOT FIXED — "
+            "see the separate finding. This audit mirrors it on purpose.",
+        ],
         "cells": json.loads(d.to_json(orient="records")),
     }
     (a.out / "rya855_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
