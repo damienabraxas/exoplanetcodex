@@ -453,14 +453,21 @@ class SynthesisHandler(MeasurementHandler):
         # "the answer sits on a search bound", and "the data did not pin A(X)" are
         # different findings and a reader needs to know which one fired.
         #
-        # While `SYNTH_CONSTRAINT` is None this is a no-op by construction, and that is
-        # the state today — the cut is set from a sweep across all synthesis bands, never
-        # from one product (RYA-161). Wiring it now rather than later is the point: the
-        # defect RYA-843 found was a MISSING CALL, not a wrong number, and a gate that
-        # exists but is never invoked is the same defect with better documentation.
+        # ⚠️ THIS IS NOT A NO-OP, and the comment that used to say so was stale by the
+        # time the sweep landed. `SYNTH_CONSTRAINT` is None — permanently, because the
+        # nine-cell sweep found no transferable threshold — but the gate still applies
+        # the NON-MINIMUM check unconditionally: `frac_rise <= 0` is a correctness test
+        # with no number to choose, and it excludes lines here today (5333.768 in both
+        # VIS decks, 3617.318 in the near-UV, 12638.703 in the NIR).
         _cv = _constraint_verdict(res.get("constraint") or {})
         if not _cv.ok:
-            return quarantine(_cv.reason, ew=ew)
+            # State the fitted value, as CHI2-GATE and FIT-EDGE-PINNED above both do:
+            # `quarantine` blanks `abundance` for every line it rejects, so the reason
+            # string is the ONLY place a reader can see what the fit returned. It matters
+            # most exactly here — the cut turns on the SHAPE of chi2 and never on the
+            # value, so a reader must be able to check that a plausible-looking number
+            # was cut on evidence (3617.318 fitted at a perfectly solar 7.477).
+            return quarantine(f"{_cv.reason} Fit reported A={a_best:.3f}.", ew=ew)
 
         # RYA-770: the accepted lines are recorded too. A rejection ledger that only
         # lists rejections cannot tell you 3-of-12 from 3-of-3 — the accept count is
