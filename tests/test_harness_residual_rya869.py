@@ -246,6 +246,7 @@ _HARNESS_CALLERS = [
     ROOT / "scripts" / "derive_band_products.py",
     ROOT / "scripts" / "rya850_graded_products.py",
     ROOT / "scripts" / "rya836_nearuv_lab_gf_subpool.py",
+    ROOT / "scripts" / "rya846_nearuv_sigma_delta.py",
 ]
 
 
