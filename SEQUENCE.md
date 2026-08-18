@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-18
 
+- **RYA-847** *(part 2)* — the sweep found NO transferable threshold, so the gate is the zero-parameter non-minimum check; near-UV 7.488 → 7.498.
 - **RYA-869** — the harness residual follows the HANDLER, not the treatment label; `ENGINE-B-NLTE` was charged the profile fitter's 0.0129 and labelled `ProfileFitHandler` in its own budget. 4 published Fe bars 0.1705→0.1700 / 0.1731→0.1726; no value moves.
 - **RYA-855** *(follow-up)* — the two mirrored harness rules in the rung audit are deleted; one rule now, in `pipeline/harness_residual.py`.
 - **RYA-873** *(filed)* — `SynthesisHandler` is charged 0.0000 while its own banked control measured 0.0100 and PASSED, under prose reading "MEASURED ... not assumed zero".
