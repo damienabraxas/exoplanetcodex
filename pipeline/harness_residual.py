@@ -46,12 +46,16 @@ This module owns the number, ONCE. It was written out at `derive_band_products.p
 and again at `rya850_graded_products.py:73` -- two homes for one constant, the RYA-845
 shape -- and both now import it.
 
-⚠️ `SynthesisHandler` IS CHARGED 0.0 AND ITS BANKED CONTROL SAYS 0.0100 — filed as **RYA-873**;
-see `UNCHARGED_CONTROL_RESIDUAL_DEX` below. That divergence is REPORTED, not
-silently absorbed, and `tests/test_harness_residual_rya869.py` fails if it stops being
-declared. It is deliberately NOT fixed here: this ticket moves four bars by 0.0005 dex
-and folding a second bar-moving term into the same diff would make neither attributable
-(RYA-848 -- prove a change with a same-inputs control).
+✅ `SynthesisHandler`'S 0.0 IS NOW MEASURED, NOT ASSUMED (RYA-875). It stood here as a
+declared divergence — charged 0.0 while its banked control reported −0.0100 — until that
+control was found to be comparing `median(fitted A)` over 18 lines against a HARDCODED
+SCALAR that is the median of a DIFFERENT 23-line set. Paired against the banked engine's
+own per-line answers the offset is **0.0000**, with 17 of 18 lines inside ±0.009 dex and a
+MAD of 0.0060. The charged value never changed; what changed is that somebody measured it.
+The divergence declaration was deleted BECAUSE THE NUMBERS AGREE, and
+`tests/test_harness_residual_rya869.py` now enforces that undeclared handlers MATCH their
+banked control — so the deletion is checked rather than merely permitted.
+
 """
 from __future__ import annotations
 
@@ -84,48 +88,36 @@ HANDLER_RESIDUAL_DEX: dict[str, float] = {
     "SynthesisHandler": 0.0,
 }
 
-#: Handlers whose CHARGED residual above disagrees with their own banked control, with
-#: the control's value and the reason the charged number still stands. Declared so the
-#: disagreement is a fact in the repo rather than an omission, and asserted in
-#: `tests/test_harness_residual_rya869.py` so it cannot quietly stop being true.
+#: Where each handler's control result is banked, so a charged number can be checked
+#: against the thing that established it — RYA-875.
 #:
-#: 🔴 `SynthesisHandler`'s control PASSED at dex_offset −0.0100
-#: (`data/audit/synthesis_control/control_FeI.json`, n=18, tol 0.05, RYA-770/759) — and
-#: every synthesis-route budget in the repo charges 0.0000 while `harness_term()` prints
-#: the words "MEASURED against the known optical answer, not assumed zero". The prose and
-#: the arithmetic disagree, which is the RYA-845 shape in a new place. Not fixed in
-#: RYA-869: it moves the near-UV and every ENGINE-B cell, which is a different diff.
-UNCHARGED_CONTROL_RESIDUAL_DEX: dict[str, dict] = {
-    "SynthesisHandler": {
-        "control_dex": 0.0100,
-        "control_artifact": "data/audit/synthesis_control/control_FeI.json",
-        #: 🔴 THE ADJUDICATION WAS RUN (RYA-873) AND NEITHER NUMBER SURVIVED IT.
-        #:
-        #: The control PASSES on abundance (−0.0100) and FAILS on EW (+0.1562) and says
-        #: so itself — "compensating errors, treat with MORE suspicion than a clean
-        #: failure, because it looks like success". The leading explanation for the EW
-        #: half was that `measure_line` builds its EW as a DIFFERENCE OF TWO SYNTHESES,
-        #: which cancels other species but NOT another Fe I line in the same ±1 Å window
-        #: (the RYA-785 shape). Tested and REFUTED: of the 18 accepted lines, 15 carry
-        #: essentially no predicted contamination (≤1.46x, mostly ~1.00x) and their
-        #: observed synth/banked ratios still span 0.50–2.07; dividing the prediction out
-        #: moves the MAD only 0.246 -> 0.217. The apparent global correlation (0.813) is
-        #: carried entirely by three outliers — the failure mode the test pre-declared.
-        #: Measured in `data/results/rya873/`.
-        #:
-        #: So 0.0100 is the abundance angle of an UNEXPLAINED compensating-error control,
-        #: and charging it would launder "looks like success" into a published systematic
-        #: (the RYA-506 shape); 0.0000 is an assumed zero. NOTHING is charged, and the
-        #: budget now SAYS so instead of printing "MEASURED" over it.
-        "ticket": "RYA-875",
-        "why_not_charged": (
-            "the control is a compensating-error pass — abundance agrees (-0.0100) while "
-            "EW is off +0.1562 dex — and the contamination explanation for the EW half "
-            "was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor "
-            "0.0000 is established, so no residual is asserted and the absence is stated "
-            "in the budget. RYA-875 is the RCA that resolves the split"),
-    },
+#: 🔴 THIS EXISTS SO THAT DELETING A DIVERGENCE DECLARATION IS NOT A WAY TO STOP
+#: CHECKING. `UNCHARGED_CONTROL_RESIDUAL_DEX` records handlers whose charged value
+#: disagrees with their control, and the test that holds it only ever looked at handlers
+#: IN that mapping — so removing an entry removed the check with it. That is precisely
+#: the "relax the test to close the ticket" move RYA-873 forbade, available by accident.
+#: With this map the other branch is real: a handler NOT declared as a divergence must
+#: MATCH its artifact.
+#:
+#: A handler with no entry here has no banked control file to check against (the profile
+#: fitter's 0.0129 is recorded in `pipeline/measure/profile_fit.py`'s module docstring,
+#: not as JSON). That is a gap, not a pass, and it is named rather than hidden.
+HANDLER_CONTROL_ARTIFACT: dict[str, str] = {
+    "SynthesisHandler": "data/audit/synthesis_control/control_FeI.json",
 }
+
+#: Handlers whose CHARGED residual disagrees with their own banked control, each with the
+#: control's value, the artifact, the ticket that owes the resolution, and why the number
+#: is not simply charged. EMPTY, and that is a result rather than a default.
+#:
+#: 🔴 IT IS NOT A PLACE TO PARK A NUMBER NOBODY LIKES. `SynthesisHandler` lived here from
+#: RYA-873 until RYA-875, and it left the only way an entry may: **the numbers agreed.**
+#: Its control had reported −0.0100 by comparing a median over 18 lines to a scalar that
+#: was the median of a different 23-line set; paired per line, the offset is 0.0000.
+#: An entry is deleted when the disagreement is RESOLVED, never when the test that
+#: surfaces it is relaxed — and `tests/test_harness_residual_rya869.py` now checks the
+#: other branch too, so removing an entry re-arms a real assertion instead of dropping one.
+UNCHARGED_CONTROL_RESIDUAL_DEX: dict[str, dict] = {}
 
 
 @dataclass(frozen=True)
