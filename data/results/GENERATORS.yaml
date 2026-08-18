@@ -420,6 +420,63 @@ artifacts:
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
 
+  # ── RYA-869 — the harness residual follows the HANDLER, not the treatment label ────
+  - artifact: rya869/rya869_harness_by_cell.csv
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      One row per per-line file under a band-products tree: which handler was CHARGED for
+      the harness residual, which handler actually produced the cell, and what the
+      systematic is under each. `derive_band_products` decided it with
+      `is_b = prod.treatment == "ENGINE-B"` -- an equality against a treatment NAME, under
+      a comment stating the HANDLER rule correctly -- and RYA-798 added the variant
+      ENGINE-B-NLTE, the same SynthesisHandler flux fit on a different departure deck. ✅
+      RESULT: 6 of 36 cells (4 published matrix cells) were charged the profile fitter's
+      0.0129 dex and LABELLED ProfileFitHandler in their own budget files. VIS Fe I/II
+      ENGINE-B-NLTE 0.1705 -> 0.1700, red-optical Fe I/II ENGINE-B-NLTE 0.1731 -> 0.1726.
+      NO abundance moves -- the harness term does not enter the median, asserted per cell.
+      TWO CONTROLS, one at each end (RYA-855): the pre-fix rule reproduces all 35 published
+      cells exactly, and of the 30 cells whose handler the old rule already got right, 30
+      come out BYTE-IDENTICAL. The 6 that move change the harness term line and the
+      `systematic` total that sums it, and 0 other budget lines. ⚠️ The direction is that
+      the bar was too LARGE, so nothing was ever going to make it look wrong.
+  - artifact: rya869/rya869_summary.json
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      The machine twin of the table above, with the controls stated as counts rather than
+      narrated. 🔴 It also carries `synthesis_control_divergence`, a SECOND finding
+      reported and NOT fixed here: SynthesisHandler is charged 0.0000 dex while its own
+      banked control measured |dex_offset| = 0.0100 and PASSED
+      (data/audit/synthesis_control/control_FeI.json, n=18, RYA-770/759) -- and
+      `error_budget.harness_term` prints "MEASURED against the known optical answer, not
+      assumed zero" beside that 0.0000. Charging the measured value moves the near-UV cell
+      and every ENGINE-B cell, a different diff from this one, so it is quantified and
+      left alone. Declared in `pipeline.harness_residual.UNCHARGED_CONTROL_RESIDUAL_DEX`
+      and asserted against the artifact by tests/test_harness_residual_rya869.py, so it
+      cannot quietly stop being true.
+  - artifact: rya869/rya869_budget_diff.txt
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      Unified diff of every moved cell's FULL budget text, as published against as
+      RYA-869 charges it. It is the evidence for the "nothing else moved" control in a
+      form a reader can check by eye: two changed lines per cell, the harness term and
+      the systematic total.
+  - artifact: rya869/rya869_budgets_after.txt
+    generator: scripts/rya869_harness_attribution.py
+    invocation: python3 scripts/rya869_harness_attribution.py --band-products <band-products tree>
+    ticket: RYA-869
+    note: >-
+      The six moved cells' budgets REGENERATED under the fixed rule -- ticket item 4. One
+      file rather than one per cell, matching how the deriver writes a stem's treatments
+      into a single `*_budgets.txt`. Each block now reads `SynthesisHandler` beside
+      0.0000 where the published artifact read `ProfileFitHandler` beside 0.0129 for the
+      same handler's output.
+
   - artifact: rya783/fe_product_matrix.csv
     generator: scripts/rya783_fe_matrix_report.py
     invocation: python scripts/rya783_fe_matrix_report.py
@@ -1060,12 +1117,12 @@ artifacts:
       36 were already entitled to rung 1 only. The hardcode agreed with the data cell by
       cell; the reason is now stated per cell instead of assumed. ⚠️ The near-UV pool is 15
       GF-NIST + 23 K07 + 2 ambiguous and ZERO primary-lab, corroborating the provenance
-      prose this ticket replaced. 🔴 SEPARATE FINDING carried in the columns
-      harness_charged_dex / harness_by_handler_dex / syst_if_harness_correct and FILED as
-      RYA-869, not fixed here: `derive_band_products` tests `treatment == "ENGINE-B"`, an
-      equality against a name that gained the ENGINE-B-NLTE variant in RYA-798, so 4
-      published NLTE cells are charged the profile fitter's 0.0129 dex and labelled
-      ProfileFitHandler in their own budget files.
+      prose this ticket replaced. 🔴 The SEPARATE FINDING this audit surfaced --
+      `derive_band_products` tested `treatment == "ENGINE-B"`, an equality against a name
+      that gained the ENGINE-B-NLTE variant in RYA-798 -- is FIXED by RYA-869. The two
+      mirrored harness rules this audit carried went with it, and the columns
+      harness_by_handler_dex / harness_misattributed / syst_if_harness_correct are
+      replaced by `harness_handler`: with one rule there is no gap left to measure.
   - artifact: rya855/rya855_summary.json
     generator: scripts/rya855_rung_audit.py
     invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
