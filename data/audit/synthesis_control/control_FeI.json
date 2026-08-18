@@ -4,8 +4,8 @@
   "n_lines": 18,
   "median_ratio": 1.432850005628167,
   "mad_ratio": 0.3593994169903937,
-  "dex_offset": -0.009999999999999787,
+  "dex_offset": 0.0,
   "passed": true,
   "tolerance_dex": 0.05,
-  "evidence": "ANGLE 1 EW: median synth/banked 1.433 (+0.1562 dex), MAD 0.359. ANGLE 2 abundance: median A=7.510 vs 7.520 (-0.0100 dex), scatter 0.065. ABUNDANCE AGREES, EW DOES NOT \u2014 compensating errors. Treat with MORE suspicion than a clean failure, because it looks like success"
+  "evidence": "ANGLE 1 EW: median synth/banked 1.433 (+0.1562 dex), MAD 0.359. ANGLE 2 abundance (PAIRED against the banked engine's own per-line answer, 18 lines): median A=7.510, offset +0.0000 dex, scatter 0.065, paired MAD 0.0060, 17/18 within 0.01 dex. Cross-sample number vs the scalar 7.52: -0.0100 dex (what the pre-RYA-875 control reported as the residual). ABUNDANCE AGREES PER LINE, EW DOES NOT \u2014 and this is NOT compensating errors: 17 of 18 lines reproduce the banked engine within 0.01 dex (MAD 0.0060), so there is no handler error for the EW angle to compensate. ANGLE 1 compares a MODEL EW (difference of two syntheses, wings included) against a MEASURED profile-fit EW; they are different quantities and the banked engine shares the property. The handler is controlled on what it produces. RYA-875"
 }

@@ -43,6 +43,31 @@ def test_curated_classes_and_treatments_are_in_vocab():
         assert r['severity'] in P.SEVERITIES
 
 
+
+def test_the_COMMITTED_registry_obeys_the_closed_vocabulary():
+    """🔴 RYA-877. The test above validates `build_registry()` — rows built from
+    CURATED_SEED in this module. It never reads the artifact, so a row written straight
+    into data/registry/problem_children.csv could carry any class at all, and three did
+    (ABUNDANCE_OUTLIER, NON_MINIMUM, TELLURIC_ADJACENT) before anyone noticed.
+
+    A closed vocabulary that nothing checks against the shipped file is not closed. This
+    reads the committed CSV.
+    """
+    import csv as _csv
+    with open(P.REGISTRY_CSV, newline="") as fh:
+        rows = list(_csv.DictReader(fh))
+    assert rows, "the committed registry must not be empty"
+    known = P.CURATED_CLASSES | P.AUTO_CLASSES
+    for r in rows:
+        for part in str(r["problem_class"]).split("+"):
+            assert part in known, (
+                f"{r['species']} {r['lambda_or_scope']} carries problem_class {part!r}, "
+                f"which is in no vocabulary — declare it in problem_children.py or fix "
+                f"the row")
+        assert r["required_treatment"] in P.TREATMENTS
+        assert r["status"] in P.STATUSES
+        assert r["severity"] in P.SEVERITIES
+
 # ── auto-aggregate + idempotency ──────────────────────────────────────────────
 def _fake_ew_integrity(tmp_path):
     df = pd.DataFrame([

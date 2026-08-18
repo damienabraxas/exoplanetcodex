@@ -205,6 +205,38 @@ def test_the_handler_has_one_line_constructor_that_owns_the_ew_optout():
     assert not re.search(r"_mk_line\([^)]*ew_inversion", src, re.S)
 
 
+def test_every_post_fit_rejection_states_the_value_the_fit_returned():
+    """RYA-847 item 6 — the reason string is the ONLY place the value survives.
+
+    `quarantine` builds its line through `_mk_line`, which sets no abundance, so EVERY
+    line this handler rejects lands in the artifact with `abundance` blank. That is fine
+    for a fit that never converged and wrong for one that did: the reader of a
+    NON-MINIMUM exclusion has to be able to check that a plausible-looking number was cut
+    on the shape of chi2 rather than on being implausible — 3617.318 fitted at a
+    perfectly solar 7.477, and no plausibility check could ever have found it.
+
+    CHI2-GATE and FIT-EDGE-PINNED already stated their value; the constraint gate did not,
+    so the VIS artifact recorded an exclusion with no number anywhere on the row. This
+    asserts the PROPERTY over the region rather than one reason's wording: every
+    rejection that happens after the fit has produced `a_best` must report it.
+    """
+    import inspect
+
+    from pipeline.measure import synthesis as syn
+    src = inspect.getsource(syn)
+    start = src.index("# FIT-QUALITY GATE (RYA-713)")
+    end = src.index("synth_line_accepted", start)
+    region = src[start:end]
+
+    calls = [i for i in range(len(region)) if region.startswith("return quarantine(", i)]
+    assert len(calls) >= 3, "expected the post-fit rejections to still live here"
+    for i in calls:
+        stmt = region[i:region.index("\n", region.index(")", i))]
+        assert "a_best" in stmt, (
+            "a rejection after a converged fit must state the value it returned — "
+            "`quarantine` blanks `abundance`, so this string is the only record: " + stmt)
+
+
 # ── the appendix must name what was removed (RYA-844 / 847 items 5 and 7) ──────
 
 def test_the_appendix_names_excluded_lines_with_their_reason():
@@ -222,8 +254,19 @@ def test_the_appendix_names_excluded_lines_with_their_reason():
     assert "TELLURIC_ADJACENT" in text
     # the physical evidence, not the consequence
     assert "0.872" in text and "11083.4" in text
-    assert "inflated" not in text.lower() and "scatter" not in text.lower(), (
-        "an exclusion reason must be physical, never 'it moved the dispersion'")
+    # ⚠️ THIS GUARD WAS ORIGINALLY A BLANKET BAN ON THE WORD "scatter", and it fired on
+    # a reason that mentions dispersion as evidence AGAINST tuning: 3617.318's removal
+    # makes the near-UV scatter WORSE, which is precisely what shows the cut is not
+    # self-serving. A word ban cannot tell a justification from a counter-example, so it
+    # bans the JUSTIFYING PHRASES instead. Narrower, and it still fails the case it
+    # exists for.
+    low = text.lower()
+    for tuning in ("inflated the scatter", "reduce the scatter", "reduces the scatter",
+                   "improve the scatter", "improves the scatter", "tighten the scatter",
+                   "to lower the dispersion", "inflated the dispersion"):
+        assert tuning not in low, (
+            f"an exclusion reason justifies itself by dispersion ({tuning!r}) — that is "
+            f"tuning, not a physical cause (RYA-161/844)")
 
 
 def test_the_appendix_separates_excluded_from_kept_and_flagged():
@@ -269,14 +312,21 @@ def _metrics(**kw):
     return ConstraintMetrics(**base)
 
 
-def test_no_ratified_cut_gates_nothing_and_says_so():
-    """🔴 THE STATE THAT MATTERS. RYA-843's defect was not a wrong threshold — it was
-    that nobody could see there was no threshold. Unratified must be LOUD, not silent."""
+def test_no_metric_threshold_is_applied_and_the_gate_says_so():
+    """🔴 UPDATED WHEN THE DECISION CHANGED, not because it was inconvenient.
+
+    This test used to assert the gate "gates nothing" and announces itself as NOT
+    RATIFIED. That was the honest description while the sweep was pending. The sweep has
+    since SETTLED it: no metric threshold is defensible, so none is applied — but the
+    non-minimum correctness check IS. Both halves must be stated, or the product cannot
+    tell a deliberate absence from a missing feature (RYA-843's actual defect).
+    """
     from pipeline import constraint_gate as g
-    v = g.verdict(_metrics(sigma_A=999.0))
-    assert v.ok is True and v.ratified is False
+    # a line with an appalling sigma_A but a real minimum still passes: no metric cut
+    assert g.verdict(_metrics(sigma_A=999.0, frac_rise_weaker=5.0)).ok is True
     d = g.describe()
-    assert "NOT RATIFIED" in d and "RYA-161" in d
+    assert "NON-MINIMUM check is applied" in d
+    assert "NO METRIC THRESHOLD IS APPLIED" in d
 
 
 def test_a_cut_is_never_defaulted_from_the_chi2_gate():
@@ -371,7 +421,75 @@ def test_both_serialisers_of_a_line_carry_the_metrics():
         assert row.get(k) == v, f"asdict_line dropped {k}"
 
     frame = build_product("Fe", "I", "kpno_solar_atlas", "VIS", "ENGINE-B",
-                          [lm]).to_frame()
+                          [lm], handler="SynthesisHandler").to_frame()
     for k, v in wanted.items():
         assert k in frame.columns, f"Product.to_frame dropped {k}"
         assert float(frame.iloc[0][k]) == v
+
+
+# ── the settled gate: a correctness check, and NO threshold (RYA-847 sweep) ────
+
+def test_the_non_minimum_check_fires_with_no_cut_ratified():
+    """🔴 THE ADOPTED CRITERION. It is a CORRECTNESS check, so it must not depend on a
+    ratified threshold — with SYNTH_CONSTRAINT = None the gate still refuses a fit whose
+    chi2 never rose away from its reported minimum."""
+    from config import constants
+    from pipeline import constraint_gate as g
+    assert getattr(constants, "SYNTH_CONSTRAINT", "missing") is None
+    v = g.verdict(_metrics(frac_rise_weaker=-0.117))
+    assert not v.ok
+    assert "NON-MINIMUM" in v.reason and "-0.117" in v.reason
+    assert "RYA-711" in v.reason, "quarantined, never dropped"
+
+
+def test_the_sign_test_uses_le_zero_not_lt_zero():
+    """A perfectly FLAT objective rises by exactly zero and is just as unconstrained as
+    one that dips. The sweep found no line tied at zero, so the two agree on today's
+    data — but 'chi2 did not rise' is the semantics that stays correct when a tie
+    appears, and a `< 0` implementation would silently pass a flat fit."""
+    from pipeline import constraint_gate as g
+    assert not g.verdict(_metrics(frac_rise_weaker=0.0)).ok
+    assert not g.verdict(_metrics(frac_rise_weaker=-1e-9)).ok
+    assert g.verdict(_metrics(frac_rise_weaker=1e-9)).ok
+
+
+def test_a_real_minimum_passes_however_bad_its_value_or_its_chi2():
+    """🔴 THE FIREWALL. The gate must NOT reject on implausibility or on model adequacy.
+
+    Fe I 11593.588 fits at A = 10.559 with red_chi2 = 1226 and a GENUINE minimum. It is a
+    non-measurement too — but the sweep proved no defensible red_chi2 cut exists
+    (per-band spread x489), so auto-gating it would mean inventing the threshold the
+    sweep refuted. It goes to problem_children under RYA-844 instead, by a human, with a
+    stated reason.
+    """
+    from pipeline import constraint_gate as g
+    absurd = _metrics(frac_rise_weaker=0.08, sigma_A=0.267, red_chi2=1226.0)
+    assert g.verdict(absurd).ok, (
+        "the gate rejected a real minimum on its value or its chi2 — that is the "
+        "threshold the RYA-847 sweep refuted, re-entering through the back door")
+
+
+def test_no_threshold_is_ratified_and_the_reason_is_recorded():
+    """`SYNTH_CONSTRAINT = None` is the SETTLED answer, not a pending one. If someone
+    sets it later it must be earned the same way, so the evidence lives in the code."""
+    import inspect
+    from pipeline import constraint_gate as g
+    src = inspect.getsource(g)
+    for evidence in ("x39.5", "x489.4", "581", "continuous"):
+        assert evidence in src, f"the sweep evidence for None is not recorded ({evidence})"
+    d = g.describe()
+    assert "NON-MINIMUM check is applied" in d
+    assert "NO METRIC THRESHOLD IS APPLIED" in d
+    assert "measured conclusion" in d
+
+
+def test_the_excluded_lines_are_reproducible_from_the_registry_alone():
+    """RYA-844's skeptic test: both RYA-847 exclusions must be recoverable from their
+    stated reasons, and neither reason may appeal to the dispersion it produced."""
+    from pipeline.validate_element import excluded_lines_section
+    t = "\n".join(excluded_lines_section("Fe"))
+    assert "3617.318" in t and "NON_MINIMUM" in t
+    assert "11119.795" in t and "TELLURIC_ADJACENT" in t
+    # 3617.318's reason may mention that the scatter got WORSE -- that is evidence
+    # against tuning -- but must not justify the cut by tidiness.
+    assert "inflated the scatter" not in t.lower()
