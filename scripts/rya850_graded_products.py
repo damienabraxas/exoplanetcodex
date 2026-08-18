@@ -49,6 +49,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -60,6 +61,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.band_policy import resolve as resolve_band          # noqa: E402
 from pipeline.error_budget import build as build_budget           # noqa: E402
+from pipeline import harness_residual                            # noqa: E402  RYA-869
 from pipeline.graded_reporting import (                           # noqa: E402
     GRADED_SUFFIX, annotate, element_table, format_value, pair_products,
     stat_from_scatter, total_sigma)
@@ -70,7 +72,10 @@ OUT = ROOT / "data" / "results" / "rya850"
 
 #: The EW/profile-fit handler's MEASURED residual, as `derive_band_products` charges it.
 #: Kept identical so a graded cell differs from its ungraded twin in the gf term ALONE.
-PROFILE_FIT_RESIDUAL_DEX = 0.0129
+#: RYA-869 — IMPORTED, not restated. This was the second of two hand-written copies of
+#: one number (the other was `derive_band_products.py:77`); they agreed, which is what a
+#: duplicated constant does right up until it does not (RYA-845).
+PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHandler"]
 
 #: The pool's OWN cited laboratory sigma, derived from the lines it actually contains
 #: rather than hardcoded. RYA-853 refereed this table against the source papers and found
@@ -85,7 +90,9 @@ CITED_MATCH_TOL_A = 0.05
 #: A pool whose cited sigmas cover only part of it is not described by their RMS -- the
 #: unmatched lines would silently inherit the matched ones' uncertainty. Below this the
 #: cited term is REFUSED and the generic bound stands, which is the honest fallback.
-CITED_COVERAGE_MIN = 0.90
+#: IMPORTED, not restated (RYA-855): `pipeline.gf_rung` applies the same threshold inside
+#: `derive_band_products`, and a number declared in two places is the RYA-845 defect.
+from pipeline.gf_rung import CITED_COVERAGE_MIN                    # noqa: E402
 
 
 def cited_sigma(waves) -> dict:
@@ -162,13 +169,18 @@ def apply_cited_gf(combined: pd.DataFrame, cited: dict) -> tuple[pd.DataFrame, l
             continue
         n = int(r["n_lines"])
         scatter = float(r["stat_dex"]) * np.sqrt(n)
-        near_uv = str(r["band"]) == "near-UV"
+        # 🔴 RYA-869 — the harness term follows the HANDLER THE CELL DECLARES. What stood
+        # here was `near_uv = str(r["band"]) == "near-UV"`, an equality against a BAND
+        # name used to pick a handler: right today only because the one near-UV graded
+        # cell happens to be the synthesis route and the two RYA-824 cells happen to be
+        # the profile fitter. It is the same shape as the deriver's
+        # `treatment == "ENGINE-B"` — a handler property derived from a label — and it
+        # would have been wrong the first time a VIS cell arrived from a flux fit, which
+        # `ENGINE-B` already is.
         b = build_budget("Fe", BAND_PIVOT_A[str(r["band"])], n,
                          scatter_dex=scatter, gf_graded=True,
-                         harness_residual_dex=(0.0 if near_uv
-                                               else PROFILE_FIT_RESIDUAL_DEX),
-                         handler=("SynthesisHandler" if near_uv
-                                  else "ProfileFitHandler"),
+                         **harness_residual.for_handler(
+                             str(r["handler"])).budget_kwargs(),
                          cited_gf_sigma_dex=c["cited_sigma"],
                          cited_gf_source=CITED_SOURCE)
         _, syst = b.total()
@@ -218,14 +230,16 @@ def graded_cells_from_824() -> pd.DataFrame:
         n = int(len(ok))
 
         pol = resolve_band(float(ok.wavelength_air_A.median()))
+        # RYA-824's pools are profile-fit EW inversions re-aggregated on the laboratory
+        # gf — no re-measurement, so the same handler and the same residual (RYA-869).
+        hr = harness_residual.for_handler("ProfileFitHandler")
         b = build_budget("Fe", float(ok.wavelength_air_A.median()), n,
-                         scatter_dex=scatter, gf_graded=True,
-                         harness_residual_dex=PROFILE_FIT_RESIDUAL_DEX,
-                         handler="ProfileFitHandler")
+                         scatter_dex=scatter, gf_graded=True, **hr.budget_kwargs())
         stat, syst = b.total()
         rows.append({
             "element": "Fe", "ion": str(ok.ion.iloc[0]), "band": pol.name,
             "instrument": "kpno_solar_atlas", "treatment": "1D-LTE-LABGF",
+            "handler": hr.handler,
             "A": round(value, 3), "n_lines": n, "n_excluded": int(len(grp) - len(ok)),
             "stat_dex": round(float(stat), 4), "syst_dex": round(float(syst), 4),
             "dominant": (b.dominant().name if b.dominant() else ""),
@@ -235,12 +249,50 @@ def graded_cells_from_824() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+#: The route token in a band-product file stem, e.g.
+#: `.../FeI_3000_3780_kpno_solar_atlas_SYNTH_products.csv` -> `SYNTH`. Same stem grammar
+#: as `scripts/rya855_rung_audit.py::_STEM`.
+_SRC_ROUTE = re.compile(r"_(PROFILEFIT|SYNTH|LABGF)_products\.csv$")
+
+
+def _route_from_src(src: str) -> str:
+    """Which deriver route wrote this matrix row, read off its `_src` file name.
+
+    🔴 THE ROUTE, NOT THE ENGINE. An `ENGINE-B` cell lives in a `*_PROFILEFIT_*` stem
+    because that stem names where the LINE SET came from; the treatment is what tells
+    `handler_of_banked_cell` that this particular cell re-fitted the flux.
+    """
+    m = _SRC_ROUTE.search(str(src))
+    if m:
+        return m.group(1)
+    if "rya824 lab-gf pool" in str(src):
+        return "PROFILEFIT"      # emitted by graded_cells_from_824, an EW re-aggregation
+    raise ValueError(
+        f"cannot tell which route produced matrix row {src!r}, so the handler that "
+        f"earned its harness residual is unknown. Re-derive the matrix (the products "
+        f"table carries a `handler` column since RYA-869) rather than guessing.")
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     if not MATRIX.exists():
         raise SystemExit(f"Fe matrix absent: {MATRIX}")
 
     matrix = pd.read_csv(MATRIX)
+    # RYA-869 — the matrix must carry the handler that produced each cell, because the
+    # recharge below charges that handler's measured residual. `derive_band_products`
+    # writes a `handler` column now and `rya783_fe_matrix_report` concatenates it
+    # straight through, so a freshly derived matrix arrives with it. A matrix banked
+    # BEFORE that column existed is recovered once, here, from the route recorded in
+    # `_src` — never per call site, and never from the treatment name.
+    if "handler" not in matrix.columns or matrix["handler"].isna().any():
+        matrix["handler"] = [
+            harness_residual.handler_of_banked_cell(
+                route=_route_from_src(str(src)), treatment=str(t))
+            for src, t in zip(matrix["_src"], matrix["treatment"])]
+        print(f"[RYA-869] matrix predates the handler column — recovered from the route "
+              f"in _src for {len(matrix)} rows: "
+              f"{dict(matrix.handler.value_counts())}")
 
     # The pools' own cited laboratory sigma SETS the published bar (Ryan, 2026-08-17);
     # the generic 0.041 is a bound and is kept only as the documented comparison.
