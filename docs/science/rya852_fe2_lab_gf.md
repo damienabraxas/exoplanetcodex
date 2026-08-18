@@ -123,3 +123,72 @@ cross-match.
 3. **Get MB09's S/L flags** to settle the firewall question and test the scale hypothesis.
 4. Treat the **+0.106 dex pool-wide offset** as a finding in its own right — it is larger
    than the Fe I − Fe II balance it underwrites.
+
+## The RYA-161 firewall, applied line by line (2026-08-18)
+
+The two things the first pass could not establish are now settled, and one of them changes
+the answer.
+
+### Melendez & Barbuy 2009 carries the flag, and the paper says what it means
+
+> *"When no laboratory measurement for any line of a multiplet was available, the relative
+> oscillator strengths were derived from theoretical calculations, but the absolute
+> gf-values of the multiplet were obtained from an inverse analysis based on the National
+> Solar Observatory FTS solar flux spectrum by Hinkle et al. (2000)"* … *"The complete line
+> list of 142 Fe ii lines is given in Table 1, where gf-values based on laboratory or solar
+> measurements are labelled **L** or **S**, respectively."*
+
+So `S` **is** the reverse-solar-analysis this ticket's firewall exists to catch, stated by
+the source itself. Table 1 is ingested at `data/reference/fe2_gf_mb09/mb09_table1.csv` —
+142 rows, which is exactly the count the abstract states, spanning 4087–7712 Å against its
+stated 4000–8000 Å. 74 `L`, 68 `S`.
+
+⚠️ **A flag describes MB09's value, not ours.** It can only rule on our product where the
+value we actually use *is* MB09's, so agreement is tested before the flag is allowed to
+decide. That distinction does real work: two of the three arbiters sit in MB09-`S`
+multiplets whose numbers we do not use, so they are **not** firewall exclusions — they are
+simply not MB09.
+
+| line | MB09 | flag | ours = MB09? | verdict |
+|---|---|---|---|---|
+| 6147.734 *(arbiter)* | −2.69 | S | no | MB09-NOT-THE-SOURCE |
+| **6238.386** *(arbiter)* | **−2.60** | **L** | **yes** | **LAB-NORMALISED — clears the firewall** |
+| 6247.557 *(arbiter)* | −2.30 | S | no | MB09-NOT-THE-SOURCE |
+| **5991.371** | **−3.54** | **S** | **yes** | 🔴 **FIREWALLED-SOLAR** |
+| 5337.722 | −3.72 | L | yes | LAB-NORMALISED |
+| 5256.932 · 6084.102 · 6149.246 · 6369.459 · 6432.676 · 6456.380 | — | — | no | MB09-NOT-THE-SOURCE |
+
+### 🔴 One pool line is circular today
+
+**5991.371 is in the 11-line Fe II VIS pool and its log gf came from MB09's inverse solar
+analysis.** Deriving a solar Fe abundance from it is the RYA-161 circularity in its purest
+form: the gf was set by the solar spectrum, and we then measure the Sun with it. It is not
+one of the three arbiters, so the ionization arbiter itself is unaffected — but the wider
+pool product carries it, and it needs a RYA-844 disposition with the reason stated.
+
+### Den Hartog 2019 cannot reach these lines
+
+Settled from the paper, not from another failed search (RYA-833). DH19's coverage is
+**2250–3280 Å (121 UV lines) plus ten blue lines at 4173–4584 Å**. The arbiter trio sits at
+6147–6248 Å, past the end of both. The ticket named DH19 as the preferred primary source;
+it is structurally unavailable here.
+
+### 🔴 And grading would make the bar WORSE
+
+One arbiter line clears the firewall — but MB09 publishes **no per-line sigma**, so the
+only quoted accuracy for that transition remains NIST's letter grade, **0.176 dex**. The
+generic UNGRADED term is **0.170 dex**.
+
+> **0.176 ≥ 0.170 — a graded Fe II arbiter cell would WIDEN the published bar, not tighten
+> it.**
+
+RYA-850's rule that a cited sigma *replaces* the generic bound rather than being clamped to
+it cuts both ways, and this is the direction nobody hopes for. So the ticket's item 4 is
+answered by **emitting the ungraded cell only, with the reason recorded** — not by
+manufacturing a graded twin that would be worse and look better.
+
+### What is still open
+
+The +0.115…+0.154 dex offset above NIST on the two lines whose values are *not* MB09's. The
+earlier "plausibly MB09" hypothesis is now **refuted for them** — MB09's numbers disagree
+with ours — so their true origin is unidentified.
