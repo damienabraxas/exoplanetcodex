@@ -1304,6 +1304,47 @@ artifacts:
       and the scatter 0.413 -> 0.347, which is the RYA-777 shape and needs a stated
       per-line physical reason.
 
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The BEFORE half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+  - artifact: rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The BEFORE half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The AFTER half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+  - artifact: rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya877_disposition_impact.py
+    invocation: bash rya877_impact.sh
+    ticket: RYA-877
+    note: >-
+      The AFTER half of the same-inputs control for the Fe II 5991.371 disposition:
+      one tree, one commit, and the ONLY difference between the two runs is whether the
+      registry row exists. The discriminator is logged -- BEFORE read "registry: 0 of 11
+      registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
+      per-line arithmetic to the digit.
+
   # ── RYA-877 — dispositioning the circular Fe II line, and what it costs ───────────
   - artifact: rya877/rya877_disposition_impact.json
     generator: scripts/rya877_disposition_impact.py
