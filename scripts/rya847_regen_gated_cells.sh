@@ -56,9 +56,23 @@ run () {  # tag outdir [args...]
   local tag=$1 dir=$2; shift 2
   if [ -f "$OUT/.done_$tag" ]; then echo "[skip] $tag"; return; fi
   echo "=== [$(date +%H:%M:%S)] $tag -> $dir ==="
-  $PY -u scripts/derive_band_products.py --out "$dir" "$@" >> "regen_${tag}.log" 2>&1 \
-    && { touch "$OUT/.done_$tag"; echo "[ok] $tag"; bank "$dir"; } \
-    || { echo "[FAIL] $tag"; tail -5 "regen_${tag}.log"; }
+  # 🔴 RECORD THE EXIT STATUS, AND RECORD IT IN THE CELL'S OWN LOG (RYA-874).
+  # A cell killed by a signal used to leave NO trace here: bash prints "Terminated" to
+  # the DRIVER's log, while regen_<tag>.log simply stops mid-sentence, so `tail -5` shows
+  # an ordinary-looking last line. A kill was indistinguishable from a hang unless you
+  # read both logs together — which is exactly what happened when a bare
+  # `pkill -f derive_band_products` from another ticket's session killed this cell 55
+  # minutes into an ENGINE-B fit. 128+N means signal N (143 = SIGTERM, 137 = SIGKILL).
+  if $PY -u scripts/derive_band_products.py --out "$dir" "$@" >> "regen_${tag}.log" 2>&1
+  then touch "$OUT/.done_$tag"; echo "[ok] $tag"; bank "$dir"
+  else
+    local rc=$?
+    local how="exit $rc"
+    [ "$rc" -gt 128 ] && how="KILLED by signal $((rc - 128))"
+    echo "[FAIL] $tag ($how)"
+    echo "*** cell FAILED: $how at $(date +%H:%M:%S) ***" >> "regen_${tag}.log"
+    tail -5 "regen_${tag}.log"
+  fi
 }
 
 run "FeI_vis_ts-lte"      "$OUT/ts-lte"      --element Fe --ion I --lo 3800 --hi 6910 \
