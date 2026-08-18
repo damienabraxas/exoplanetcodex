@@ -52,10 +52,37 @@ OUT = ROOT / "data" / "results" / "rya855"
 #: audit cannot differ from the deriver in the one term it is holding fixed.
 from derive_band_products import PROFILE_FIT_RESIDUAL_DEX          # noqa: E402
 
-#: Which handler produced a treatment, and therefore whose measured residual it is
-#: charged. Same rule the deriver applies: Engine B never touches the profile fitter,
-#: and neither does the near-UV synthesis route.
-_SYNTH_TREATMENTS = {"ENGINE-B", "ENGINE-B-NLTE"}
+#: Treatments produced by a FLUX FIT, which never touches the profile fitter and so is
+#: not charged its measured residual. This is the rule by HANDLER — the correct one.
+_FLUX_FIT_TREATMENTS = {"ENGINE-B", "ENGINE-B-NLTE"}
+
+
+def _deriver_harness(treatment: str, route: str) -> float:
+    """The residual `derive_band_products` ACTUALLY charges. Mirrored, defect included.
+
+    🔴 DO NOT "FIX" THIS TO MATCH `_FLUX_FIT_TREATMENTS`. This audit exists to isolate
+    ONE term, so every other term must be held at whatever the deriver produced; a
+    baseline that silently corrects a second term would attribute that correction to the
+    gf change (RYA-848: prove a change with a SAME-INPUTS control).
+
+    ⚠️ AND THE MIRROR IS WHAT SURFACED A SECOND DEFECT, reported separately below and
+    filed rather than folded in. The deriver's test is `prod.treatment == "ENGINE-B"`,
+    an equality against a treatment name that GAINED A VARIANT in RYA-798: every
+    ENGINE-B-NLTE product is therefore charged the profile fitter's 0.0129 dex and
+    labelled `ProfileFitHandler` in its own budget file, while the ENGINE-B product of
+    the same handler is charged 0.0000 and labelled `SynthesisHandler`. Not this
+    ticket's subject and not folded into its diff.
+    """
+    if route in ("SYNTH", "LABGF"):
+        return 0.0
+    return 0.0 if treatment == "ENGINE-B" else PROFILE_FIT_RESIDUAL_DEX
+
+
+def _handler_harness(treatment: str, route: str) -> float:
+    """The residual the treatment's HANDLER earns. Differs from the above on NLTE."""
+    if route in ("SYNTH", "LABGF") or treatment in _FLUX_FIT_TREATMENTS:
+        return 0.0
+    return PROFILE_FIT_RESIDUAL_DEX
 
 #: One representative wavelength per band, used ONLY to resolve the band policy (which
 #: continuum/telluric terms apply) — never as a measurement. Same convention and same
@@ -107,15 +134,14 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
         scatter = float(np.std(vals, ddof=1)) if n > 1 else 0.0
 
         pol = resolve_band(0.5 * (cell["lo"] + cell["hi"]))
-        is_synth = (cell["treatment"] in _SYNTH_TREATMENTS
-                    or cell["route"] in ("SYNTH", "LABGF"))
-        harness = 0.0 if is_synth else PROFILE_FIT_RESIDUAL_DEX
-        handler = "SynthesisHandler" if is_synth else "ProfileFitHandler"
+        harness = _deriver_harness(cell["treatment"], cell["route"])
+        correct = _handler_harness(cell["treatment"], cell["route"])
+        handler = ("SynthesisHandler" if harness == 0.0 else "ProfileFitHandler")
         pivot = BAND_PIVOT_A.get(pol.name, 0.5 * (cell["lo"] + cell["hi"]))
 
-        def _budget(**gf):
+        def _budget(_h=harness, **gf):
             return build_budget(cell["element"], pivot, max(n, 1), scatter_dex=scatter,
-                                harness_residual_dex=harness, handler=handler, **gf)
+                                harness_residual_dex=_h, handler=handler, **gf)
 
         before = _budget(gf_graded=False)
         stat_before, syst_before = before.total()
@@ -128,7 +154,7 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
 
         pub = _published(band_products, cell)
         repro_stat = repro_syst = repro_A = None
-        if pub is not None:
+        if pub is not None:  # noqa: E501
             repro_stat = abs(round(stat_before, 4) - float(pub["stat_dex"])) <= 5e-5
             repro_syst = abs(round(syst_before, 4) - float(pub["syst_dex"])) <= 5e-5
             repro_A = abs(round(value, 3) - float(pub["A"])) <= 5e-4
@@ -136,7 +162,7 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
         rows.append({
             "band": pol.name, "element": cell["element"], "ion": cell["ion"],
             "treatment": cell["treatment"], "deck": cell["deck"],
-            "n_lines": n, "A": round(value, 3),
+            "n_lines": n, "A": round(value, 3), "has_published_row": pub is not None,
             "A_published": (None if pub is None else float(pub["A"])),
             "reproduces_A": repro_A,
             "stat_dex": round(stat_before, 4),
@@ -150,11 +176,58 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
             "syst_after": round(syst_after, 4),
             "d_syst": round(syst_after - syst_before, 4),
             "dominant_after": (after.dominant().name if after.dominant() else ""),
+            # RYA-855's own finding, carried per cell rather than only narrated: what
+            # this cell's systematic would be if the harness residual followed its
+            # HANDLER instead of an equality test on the treatment name.
+            "harness_charged_dex": harness,
+            "harness_by_handler_dex": correct,
+            "harness_misattributed": bool(abs(harness - correct) > 1e-12),
+            "syst_if_harness_correct": round(
+                _budget(_h=correct, **rung.budget_kwargs()).systematic(), 4),
             "grade_counts": json.dumps(rung.grade_counts),
             "reason": rung.reason,
             "src": str(cell["path"].relative_to(band_products)),
         })
     return pd.DataFrame(rows)
+
+
+#: RYA-836's near-UV lab-gf sub-pool, per line. The ONE graded cell in the Fe matrix.
+RYA836_PER_LINE = (ROOT / "data" / "results" / "rya836"
+                   / "rya836_nearuv_lab_gf_per_line.csv")
+
+
+def graded_pool_control() -> dict | None:
+    """POSITIVE CONTROL — does the decider find a graded pool where one demonstrably is?
+
+    Everything else in this audit lands on rung 1, and a decider that returned rung 1
+    unconditionally would produce exactly that table. An absence needs a positive
+    control (RYA-833/805), so the decider is run against the one pool in the repo that
+    IS entirely primary-lab: RYA-836's near-UV sub-pool, which `rya836_nearuv_lab_gf_
+    subpool.py` charges `gf_graded=True` by hand. If the decider agrees, that hand
+    assertion is confirmed rather than merely repeated.
+
+    🔴 IT IS PRICED ON `loggf_lab`, NOT ON THE PRODUCTION LIST. This pool was re-inverted
+    ON the laboratory value; a grade describes the log gf the pool ACTUALLY used
+    (RYA-799), so resolving these lines against the production line list would grade them
+    SCALE-MISMATCH and report rung 1 for a pool that is entirely laboratory-measured.
+    That is the same trap in the opposite direction, and it is why `decide` takes the gf
+    as data rather than looking it up.
+    """
+    if not RYA836_PER_LINE.exists():
+        return None
+    d = pd.read_csv(RYA836_PER_LINE)
+    used = d[d.a_labgf.notna()]
+    lines = pd.DataFrame({"wavelength_air_A": used.wavelength_air_A.astype(float),
+                          "ep_eV": used.ep_eV.astype(float),
+                          "log_gf": used.loggf_lab.astype(float)})
+    r = gf_rung.decide("Fe", "I", lines)
+    return {"n_lines": int(len(lines)), "rung": r.rung, "gf_graded": r.gf_graded,
+            "n_graded": r.n_graded, "cited_sigma_dex": r.cited_sigma_dex,
+            "cited_source": r.cited_source, "grade_counts": r.grade_counts,
+            "reason": r.reason,
+            # RYA-836 asserts this by hand at its own `build_budget` call.
+            "rya836_asserts_graded": True,
+            "decider_agrees_with_rya836": bool(r.gf_graded)}
 
 
 def main() -> int:
@@ -176,17 +249,25 @@ def main() -> int:
     a.out.mkdir(parents=True, exist_ok=True)
     d.to_csv(a.out / "rya855_rung_by_cell.csv", index=False)
 
-    bad = d[(d.reproduces_stat == False) | (d.reproduces_syst == False)      # noqa: E712
-            | (d.reproduces_A == False)]
+    have = d[d.has_published_row]
+    bad = have[(have.reproduces_stat == False) | (have.reproduces_syst == False)  # noqa: E712
+               | (have.reproduces_A == False)]
     print(f"\n=== CONTROL: does each cell rebuild from its own per-line file? ===")
-    print(f"  {int((d.reproduces_A == True).sum())}/{len(d)} reproduce the published A")
-    print(f"  {int((d.reproduces_stat == True).sum())}/{len(d)} reproduce stat_dex")
-    print(f"  {int((d.reproduces_syst == True).sum())}/{len(d)} reproduce syst_dex on "
-          f"rung 1 (the hardcode)")
+    print(f"  {len(have)} of {len(d)} per-line files have a published row to check "
+          f"against; {len(d) - len(have)} do not and are reported, never assumed")
+    print(f"  {int((have.reproduces_A == True).sum())}/{len(have)} reproduce the "
+          f"published A")
+    print(f"  {int((have.reproduces_stat == True).sum())}/{len(have)} reproduce stat_dex")
+    print(f"  {int((have.reproduces_syst == True).sum())}/{len(have)} reproduce syst_dex "
+          f"on rung 1 (the hardcode)")
     for _, r in bad.iterrows():
         print(f"  ⚠️ {r.band:<12}{r.element}{r.ion:<3}{r.treatment:<15} "
-              f"A {r.A} vs {r.A_published}  stat {r.stat_dex} vs -  "
+              f"A {r.A} vs {r.A_published}   "
               f"syst {r.syst_before} vs {r.syst_published} — NOT diffed")
+    for _, r in d[~d.has_published_row].iterrows():
+        print(f"  (no published row) {r.band} {r.element} {r.ion} {r.treatment} "
+              f"[{r.deck or 'top level'}] — per-line file present, products.csv has no "
+              f"such treatment")
 
     print(f"\n=== the rung each cell is entitled to ===")
     print(f"{'band':<13}{'sp':<7}{'treatment':<16}{'n':>4}{'rung':>6}"
@@ -208,8 +289,37 @@ def main() -> int:
         print("  is now stated per cell instead of assumed. See the `reason` column.")
 
     print(f"\n=== values ===")
-    print(f"  {int((d.reproduces_A == True).sum())}/{len(d)} cells reproduce A exactly; "
-          f"no term of the budget enters the median, and none did.")
+    print(f"  {int((have.reproduces_A == True).sum())}/{len(have)} cells reproduce A "
+          f"exactly; no term of the budget enters the median, and none did.")
+
+    ctrl = graded_pool_control()
+    print(f"\n=== POSITIVE CONTROL: a pool that IS entirely primary-lab ===")
+    if ctrl is None:
+        print(f"  ⚠️ {RYA836_PER_LINE} absent — the table above is an unproven absence")
+    else:
+        print(f"  RYA-836 near-UV lab-gf sub-pool, n={ctrl['n_lines']}, priced on "
+              f"loggf_lab: rung {ctrl['rung']}, graded={ctrl['gf_graded']}, "
+              f"cited sigma {ctrl['cited_sigma_dex']}")
+        print(f"  RYA-836 asserts gf_graded=True by hand; decider "
+              f"{'AGREES' if ctrl['decider_agrees_with_rya836'] else '⚠️ DISAGREES'}")
+        print(f"  {ctrl['reason']}")
+
+    # ── the second defect, found by mirroring and NOT fixed here ──────────────────
+    mis = d[d.harness_misattributed]
+    print(f"\n=== SEPARATE FINDING (not this ticket's subject, not fixed here) ===")
+    if not len(mis):
+        print("  none")
+    else:
+        print(f"  {len(mis)} cells are charged the PROFILE FITTER's measured residual "
+              f"({PROFILE_FIT_RESIDUAL_DEX} dex) by a flux-fit engine that never touches "
+              f"it.\n  `derive_band_products` tests `prod.treatment == \"ENGINE-B\"`, an "
+              f"equality against a\n  treatment name that gained the ENGINE-B-NLTE "
+              f"variant in RYA-798, so every NLTE\n  cell is also LABELLED "
+              f"`ProfileFitHandler` in its own budget file.")
+        for _, r in mis.iterrows():
+            print(f"    {r.band:<12}{r.element} {r.ion:<3}{r.treatment:<16}"
+                  f"syst {r.syst_after:.4f} -> {r.syst_if_harness_correct:.4f} "
+                  f"if the residual followed the handler")
 
     summary = {
         "ticket": "RYA-855",
@@ -219,6 +329,18 @@ def main() -> int:
         "n_cells_by_rung": {int(k): int(v) for k, v in
                             d.rung.value_counts().sort_index().items()},
         "n_cells_moved": int(len(moved)),
+        "graded_pool_control": ctrl,
+        "separate_finding_harness_misattributed": {
+            "what": "derive_band_products charges the ProfileFitHandler residual to "
+                    "ENGINE-B-NLTE because it tests `treatment == \"ENGINE-B\"`; the "
+                    "NLTE variant arrived in RYA-798 and the equality never followed",
+            "n_cells": int(len(mis)),
+            "cells": json.loads(mis[["band", "element", "ion", "treatment", "deck",
+                                     "syst_after", "syst_if_harness_correct"]]
+                                .to_json(orient="records")),
+            "status": "FILED SEPARATELY — not fixed in RYA-855, whose diff must isolate "
+                      "the gf term",
+        },
         "cells": json.loads(d.to_json(orient="records")),
     }
     (a.out / "rya855_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
