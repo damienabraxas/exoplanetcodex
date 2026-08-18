@@ -358,7 +358,17 @@ def _arm_of(wl_A: float) -> str:
 def build_perline_product(star: str, element: str, band_products,
                           damping_source: str = "synthesis") -> PerLineProduct:
     band_products = [Path(p) for p in band_products]
-    line_files = sorted(f for root in band_products for f in root.rglob("*_lines.csv"))
+    # 🔴 A CONTROL EXPERIMENT IS NOT A PRODUCT. RYA-877 committed before/after per-line
+    # files under data/results/rya877/control/ to evidence a same-inputs diff; a plain
+    # rglob swept them in and the Fe II lines were counted THREE times (1039 -> 1104 rows).
+    # The row-accounting check could not see it — it compares emitted against what was
+    # READ, and both were inflated together. Directories that hold a deliberate re-run of
+    # the same measurement are excluded by name, and the duplicate guard below is the
+    # backstop for the ones I have not thought of.
+    EXPERIMENT_DIRS = {"control", "before", "after", "sweep", "_regen"}
+    line_files = sorted(
+        f for root in band_products for f in root.rglob("*_lines.csv")
+        if not (EXPERIMENT_DIRS & set(f.relative_to(root).parts[:-1])))
     if not line_files:
         raise PerLineProductError(
             f"no *_lines.csv under {[str(p) for p in band_products]} — this product is a "
@@ -452,6 +462,17 @@ def build_perline_product(star: str, element: str, band_products,
             })
 
     out = pd.DataFrame(rows, columns=ROW_COLUMNS)
+    # 🔴 ONE ROW PER (line x instrument x engine) — RYA-489 §6.4 and RYA-712. A repeated
+    # key means the same physical measurement entered twice, which silently doubles its
+    # weight for any consumer that groups by engine. Loud, with the offenders named.
+    key = ["element", "ion", "wavelength_air_A", "instrument", "engine"]
+    dup = out[out.duplicated(subset=key, keep=False)]
+    if not dup.empty:
+        show = (dup.groupby(key).size().sort_values(ascending=False).head(5).to_dict())
+        raise PerLineProductError(
+            f"{len(dup)} rows share a (line x instrument x engine) key — the same "
+            f"measurement was read more than once, probably from a control or re-run "
+            f"directory. Worst offenders: {show}")
     # 🔴 THE ACCOUNTING. Emitted must equal measured — a projection that filters is not a
     # projection (RYA-844).
     if len(out) != n_measured:
