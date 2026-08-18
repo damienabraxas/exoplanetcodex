@@ -1439,6 +1439,108 @@ artifacts:
       registered", AFTER read "1 of 11 registered (1 excluded)". Confirms the banked
       per-line arithmetic to the digit.
 
+  # ── RYA-880 — the NLTE correction, recorded where it is applied ───────────────────
+  - artifact: rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion II --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe II VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion II --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe II VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion II --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe II VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion II --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe II VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion II --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe II VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe I VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe I VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe I VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe I VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+  - artifact: rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 3800 --hi 6910 --instrument kpno_solar_atlas --engine-b-deck ts-lte --out data/results/rya880
+    ticket: RYA-880
+    note: >-
+      Fe I VIS re-derived with `nlte_delta_dex` + `nlte_source` recorded AT THE POINT OF
+      APPLICATION. Zero blank sources; 1D-LTE rows carry 0.0 with an explicit LTE marker,
+      ENGINE-A carries the MPIA departure for each line it served and NOT SERVED for the
+      rest. 🔴 No abundance moved -- the values reproduce the pre-change run exactly, which
+      is the point: this records a quantity that was always applied and never written down.
+
   # ── RYA-877 — dispositioning the circular Fe II line, and what it costs ───────────
   - artifact: rya877/rya877_disposition_impact.json
     generator: scripts/rya877_disposition_impact.py
