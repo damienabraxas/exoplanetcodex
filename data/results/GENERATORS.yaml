@@ -1042,3 +1042,47 @@ artifacts:
       (paper looked like it covered NOTHING), pdftotext -layout required, and a Den Hartog
       column off-by-one reading A_ul as log gf (211 of 463 "mismatches"). A defect rate
       that is suddenly enormous with a regular signature is a parser bug, not a finding.
+  - artifact: rya855/rya855_rung_by_cell.csv
+    generator: scripts/rya855_rung_audit.py
+    invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
+    ticket: RYA-855
+    note: >-
+      One row per per-line file under a band-products tree: the gf rung that cell's own
+      lines entitle it to, and what its systematic would be on that rung. It re-derives the
+      budget from the per-line file rather than re-fitting -- the budget is a pure function
+      of (band, n_lines, scatter, gf rung, harness residual), so a re-fit could not change
+      any of the other four and WOULD fold two months of input drift into a diff meant to
+      isolate one term (RYA-848). It therefore CHECKS ITSELF FIRST: 35 of 35 cells with a
+      published row reproduce A, stat_dex AND the rung-1 syst_dex exactly, which is what
+      makes the diff attributable to the gf term and nothing else. ✅ RESULT: 0 of 36 cells
+      move. Every published Fe cell is a MIXED pool -- the VIS 1D-LTE pool is 5 GF-LAB of
+      152, red-optical 12 of 101, and Fe II has no primary-lab pool in any band -- so all
+      36 were already entitled to rung 1 only. The hardcode agreed with the data cell by
+      cell; the reason is now stated per cell instead of assumed. ⚠️ The near-UV pool is 15
+      GF-NIST + 23 K07 + 2 ambiguous and ZERO primary-lab, corroborating the provenance
+      prose this ticket replaced. 🔴 SEPARATE FINDING carried in the columns
+      harness_charged_dex / harness_by_handler_dex / syst_if_harness_correct and FILED as
+      RYA-869, not fixed here: `derive_band_products` tests `treatment == "ENGINE-B"`, an
+      equality against a name that gained the ENGINE-B-NLTE variant in RYA-798, so 4
+      published NLTE cells are charged the profile fitter's 0.0129 dex and labelled
+      ProfileFitHandler in their own budget files.
+  - artifact: rya855/rya855_summary.json
+    generator: scripts/rya855_rung_audit.py
+    invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
+    ticket: RYA-855
+    note: >-
+      The machine twin of the table above, plus the two things a table cannot carry.
+      POSITIVE CONTROL (`graded_pool_control`): every audited cell lands on rung 1, and a
+      decider that returned rung 1 unconditionally would produce exactly that table -- so
+      the decider is run against RYA-836's near-UV lab-gf sub-pool, the one pool in the repo
+      that IS entirely primary-lab, priced on `loggf_lab` because that is the value that
+      pool was inverted on. It returns rung 3, n=60/60, which CONFIRMS the `gf_graded=True`
+      RYA-836 asserts by hand. ⚠️ AND IT DISAGREES WITH RYA-850 ON THE SIGMA: 0.0517 over 60
+      against RYA-850's published 0.0522 over 58. The two lines 850 refused are 3125.651 /
+      3125.683 A -- real, distinct Fe I transitions 0.032 A apart at EP 0.990 and 2.404 eV.
+      Its wavelength-only 0.05 A window catches both for each and refusing them was correct
+      under that rule; the wavelength+EP+value key separates them. The ambiguity was in the
+      MATCH RULE, not the data. FLAGGED, NOT CHANGED -- it is RYA-850's published bar.
+      `caveats` records the EW route's identification ceiling: its per-line artifact carries
+      no excitation potential, so lines are resolved on wavelength alone and 16 of 152 VIS
+      lines do not resolve uniquely.
