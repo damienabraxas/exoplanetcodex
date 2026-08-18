@@ -194,6 +194,8 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
 #: RYA-836's near-UV lab-gf sub-pool, per line. The ONE graded cell in the Fe matrix.
 RYA836_PER_LINE = (ROOT / "data" / "results" / "rya836"
                    / "rya836_nearuv_lab_gf_per_line.csv")
+#: RYA-850's published cited-sigma table, for the comparison in `graded_pool_control`.
+RYA850_SUMMARY = ROOT / "data" / "results" / "rya850" / "rya850_summary.json"
 
 
 def graded_pool_control() -> dict | None:
@@ -221,13 +223,32 @@ def graded_pool_control() -> dict | None:
                           "ep_eV": used.ep_eV.astype(float),
                           "log_gf": used.loggf_lab.astype(float)})
     r = gf_rung.decide("Fe", "I", lines)
-    return {"n_lines": int(len(lines)), "rung": r.rung, "gf_graded": r.gf_graded,
-            "n_graded": r.n_graded, "cited_sigma_dex": r.cited_sigma_dex,
-            "cited_source": r.cited_source, "grade_counts": r.grade_counts,
-            "reason": r.reason,
-            # RYA-836 asserts this by hand at its own `build_budget` call.
-            "rya836_asserts_graded": True,
-            "decider_agrees_with_rya836": bool(r.gf_graded)}
+    out = {"n_lines": int(len(lines)), "rung": r.rung, "gf_graded": r.gf_graded,
+           "n_graded": r.n_graded, "cited_sigma_dex": r.cited_sigma_dex,
+           "cited_source": r.cited_source, "grade_counts": r.grade_counts,
+           "reason": r.reason,
+           # RYA-836 asserts this by hand at its own `build_budget` call.
+           "rya836_asserts_graded": True,
+           "decider_agrees_with_rya836": bool(r.gf_graded)}
+
+    # ⚠️ AND IT DISAGREES WITH RYA-850 ON THE SIGMA, for a reason worth stating.
+    # RYA-850 matched the lab table on WAVELENGTH ALONE inside 0.05 A, caught two rows
+    # for two of the sixty lines, and counted those UNMATCHED — the right call under that
+    # rule, since `iloc[0]` there is how RYA-853 manufactured 12-dex defects. The pair is
+    # 3125.651 / 3125.683 A: two REAL Fe I transitions 0.032 A apart whose excitation
+    # potentials are 0.990 and 2.404 eV. `gf_grades` keys on wavelength AND EP AND
+    # agreement with the log gf the pool used, so it separates them and each line matches
+    # its own row. The ambiguity was in the MATCH RULE, not in the data.
+    #
+    # NOT CHANGED HERE. It moves a published bar (RYA-850's near-UV graded cell) and that
+    # is that ticket's number to move.
+    if RYA850_SUMMARY.exists():
+        j = json.loads(RYA850_SUMMARY.read_text())
+        c = (j.get("cited_gf_sigma_by_band") or {}).get("near-UV") or {}
+        out["rya850_published"] = {"cited_sigma": c.get("cited_sigma"),
+                                   "n": c.get("n"), "n_pool": c.get("n_pool"),
+                                   "ambiguous": c.get("ambiguous")}
+    return out
 
 
 def main() -> int:
@@ -303,6 +324,16 @@ def main() -> int:
         print(f"  RYA-836 asserts gf_graded=True by hand; decider "
               f"{'AGREES' if ctrl['decider_agrees_with_rya836'] else '⚠️ DISAGREES'}")
         print(f"  {ctrl['reason']}")
+        pub = ctrl.get("rya850_published") or {}
+        if pub.get("cited_sigma") is not None:
+            print(f"  ⚠️ RYA-850 PUBLISHED {pub['cited_sigma']:.4f} over n={pub['n']}/"
+                  f"{pub['n_pool']} ({pub['ambiguous']} refused as ambiguous under its "
+                  f"wavelength-only\n     0.05 A match). The two are 3125.651 / 3125.683 "
+                  f"A — REAL, distinct Fe I transitions\n     0.032 A apart at EP 0.990 "
+                  f"and 2.404 eV, which the wavelength+EP key separates cleanly.\n"
+                  f"     So the near-UV cited sigma is defensibly "
+                  f"{ctrl['cited_sigma_dex']:.4f} over all {ctrl['n_lines']}. FLAGGED, "
+                  f"NOT CHANGED — it is RYA-850's published bar.")
 
     # ── the second defect, found by mirroring and NOT fixed here ──────────────────
     mis = d[d.harness_misattributed]
