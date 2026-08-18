@@ -331,6 +331,56 @@ artifacts:
       filename carries band + instrument + route and NOT the deck, so a shared directory
       loses a row.
 
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the VIS cell (gerber-nlte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
   - artifact: rya847/README.md
     status: HAND_AUTHORED
     generator: null
