@@ -231,8 +231,11 @@ def main() -> int:
     }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "rya870_reproducibility.json").write_text(json.dumps(report, indent=2) + "\n")
+    bounds = [x["bound_applied_dex"] for x in tested if x.get("bound_applied_dex")]
     print(f"\n{report['verdict']}: {report['n_passed']}/{report['n_tested']} reproduced "
-          f"within {QUANTISER_FLOOR_DEX} dex; {not_covered} synthesis rows not covered")
+          f"within their own measured bound "
+          f"({min(bounds):.4f}-{max(bounds):.4f} dex); "
+          f"{not_covered} synthesis rows not covered")
     print(f"[out] {OUT}/rya870_reproducibility.json")
     return 0 if report["verdict"] == "PASS" else 1
 
