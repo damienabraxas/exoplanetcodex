@@ -8,7 +8,8 @@ _Generated 2026-08-11 by pipeline/problem_children.py. A CATALOG (never mutates 
 
 `species | lambda_or_scope | problem_class | required_treatment | observed_in | amplifies_with | severity | governing_tickets | status | population_source | notes`
 
-- **problem_class** (curated): ATOMIC_BLEND, BAD_GF, CITED_NOT_MEASURED, CONTINUUM_LIMITED, DATA_GAP, HFS_SUMMING, MOLECULAR_BLEND, MOLECULAR_SYNTH_ONLY, NLTE_OWED, NLTE_VOID, SATURATION_COG, UPPER_LIMIT
+- **problem_class** (curated): ASTROPHYSICAL_GF, ATOMIC_BLEND, BAD_GF, CITED_NOT_MEASURED, CONTINUUM_LIMITED, DATA_GAP, HFS_SUMMING, MOLECULAR_BLEND, MOLECULAR_SYNTH_ONLY, NLTE_OWED, NLTE_VOID, SATURATION_COG, UPPER_LIMIT
+  - **ASTROPHYSICAL_GF** (RYA-877) — the log gf was not measured but obtained by INVERSE ANALYSIS of a stellar spectrum, so measuring that same star with it is circular (RYA-161). Distinct from BAD_GF: the value may reproduce the spectrum perfectly, and that is the problem. The class names the provenance; `observed_in` says which star it is circular for.
 - **required_treatment**: 3D, HFS_sum, NLTE_grid, astrophysical_gf_differential, cited_substitution, deblend, exclude, none, per_region_source, synthesis, upper_limit
 - **amplifies_with**: the Teff / [Fe/H] axis where it worsens — the prediction key.
 
