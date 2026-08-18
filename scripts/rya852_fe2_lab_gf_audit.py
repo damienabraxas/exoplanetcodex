@@ -46,13 +46,34 @@ here passes `wavelength_type='vac+air'` and matches on wavelength AND excitation
 `canonical_gf`: 6149.246 comes back at EP 13.436 eV and 6432.676 at 10.930 eV, when the
 measured lines are at 3.889 and 2.891. Both are high-excitation neighbours. (RYA-780.)
 
-WHAT THIS DOES NOT ESTABLISH
-  * Den Hartog 2019's optical subset (10 lines) could not be reached — `Vizier.find_catalogs`
-    returned nothing for three phrasings. That is an absence in THE SEARCH, not in the
-    source (RYA-833): whether these three lines are among DH19's ten is UNVERIFIED.
-  * MB09's own S/L flags (lab-normalised vs solar-fitted) were likewise not obtained, so the
-    RYA-161 firewall cannot yet be applied line by line. 6238.386 is MB09-labelled and is
-    therefore a firewall CANDIDATE, not a confirmed exclusion.
+🔴 THE RYA-161 FIREWALL, NOW APPLIED LINE BY LINE
+
+MB09's Table 1 carries the flag the ticket asked for, and the paper says what it means:
+
+    "When no laboratory measurement for any line of a multiplet was available, the relative
+     oscillator strengths were derived from theoretical calculations, but the absolute
+     gf-values of the multiplet were obtained from an inverse analysis based on the National
+     Solar Observatory FTS solar flux spectrum" ... "gf-values based on laboratory or solar
+     measurements are labelled L or S, respectively."
+
+So S IS the reverse-solar-analysis the firewall exists to catch, in the source's own words.
+The flags are ingested at `data/reference/fe2_gf_mb09/mb09_table1.csv` (142 rows — the count
+the abstract states — 74 L, 68 S).
+
+⚠️ A FLAG DESCRIBES MB09's VALUE, NOT OURS. It bears on our product only where the value we
+actually use IS MB09's, so agreement is tested before the flag is allowed to decide. That
+distinction does real work here: two of the three arbiters carry MB09-S multiplets whose
+numbers we do NOT use, so they are not firewall exclusions — they are simply not MB09.
+
+⚠️ DEN HARTOG 2019 CANNOT REACH THESE LINES, and this is now settled from the paper rather
+than from a failed search (RYA-833). Its coverage is 2250-3280 A (121 UV lines) plus ten
+blue lines at 4173-4584 A. The arbiter trio sits at 6147-6248 A, past the end of both.
+
+🔴 AND GRADING WOULD MAKE THE BAR WORSE. One arbiter line clears the firewall, but MB09
+publishes no per-line sigma, so its only quoted accuracy is still NIST's letter grade —
+larger than the generic UNGRADED term. A graded Fe II arbiter cell would therefore WIDEN
+the published bar. RYA-850's rule that a cited sigma REPLACES the bound rather than being
+clamped to it cuts both ways, and this is the direction nobody hopes for.
 
 Usage (Sirius — needs astroquery in venv_ci):
     python3 scripts/rya852_fe2_lab_gf_audit.py
@@ -72,6 +93,14 @@ sys.path.insert(0, str(ROOT))
 CANONICAL_GF = ROOT / "data" / "linelists" / "canonical_gf.csv"
 MASTER = ROOT / "data" / "linelists" / "linelist_master.csv"
 OUT = ROOT / "data" / "results" / "rya852"
+MB09_CSV = ROOT / "data" / "reference" / "fe2_gf_mb09" / "mb09_table1.csv"
+
+#: Melendez & Barbuy 2009 publishes NO per-line sigma. Its only quantified statement about
+#: how far a value can sit from laboratory truth is the size of the solar corrections it
+#: allows itself: "slight corrections (usually no larger than 0.1 dex) to reproduce the
+#: solar spectrum better". That is a correction SCALE, not an uncertainty, and it is
+#: recorded here so nothing downstream mistakes it for a cited sigma (RYA-850).
+MB09_STATED_CORRECTION_SCALE_DEX = 0.10
 
 #: The Fe II VIS ENGINE-A aggregate — the three-line arbiter set, read off the products
 #: rather than taken from the ticket's guess.
@@ -88,9 +117,12 @@ NIST_ACCURACY_FRACTION = {
     "C+": 0.18, "C": 0.25, "D+": 0.40, "D": 0.50, "E": 1.00,
 }
 
-#: RYA-850 wires this for a graded pool. Recorded here only to show what the stored (wrong)
-#: grade B would have published.
-GRADED_GF_TERM_DEX = 0.041
+#: Declared ONCE, in pipeline.error_budget, and imported rather than re-typed — a number
+#: written down twice is a number that can disagree with itself (RYA-845).
+from pipeline.error_budget import (                                    # noqa: E402
+    GRADED_GF_SYSTEMATIC_DEX as GRADED_GF_TERM_DEX,
+    UNGRADED_GF_SYSTEMATIC_DEX as UNGRADED_GF_TERM_DEX,
+)
 
 #: Matching tolerances. EP is required — wavelength alone pulls high-excitation neighbours.
 WAVE_TOL_A = 0.05
@@ -278,6 +310,75 @@ def main() -> None:
     print(f"  a gf too HIGH by {med_off:+.3f} yields an abundance too LOW by about the "
           f"same, so this bears on the Fe I/Fe II ionization balance (RYA-407)")
 
+    # ── RYA-161 FIREWALL: MB09's own L/S flag, line by line ───────────────────────
+    # The ticket's premise, confirmed from the paper: an S multiplet's absolute scale came
+    # from "an inverse analysis based on the National Solar Observatory FTS solar flux
+    # spectrum". Measuring the solar abundance with such a gf is circular. An L multiplet
+    # was normalised on laboratory data and is acceptable.
+    #
+    # 🔴 THE FLAG ALONE IS NOT THE VERDICT. It describes MB09's value. It only bears on OUR
+    # product if the value we actually use IS MB09's, so every line is also checked for
+    # agreement with the MB09 number before the flag is allowed to decide anything.
+    mb = pd.read_csv(MB09_CSV)
+    fw = []
+    for _, r in d.iterrows():
+        m = mb[(np.abs(mb.wavelength_air_A - r.wavelength_air_A) <= WAVE_TOL_A)
+               & (np.abs(mb.ep_eV - r.ep_eV) <= EP_TOL_EV)]
+        if not len(m):
+            fw.append({"mb09_loggf": np.nan, "mb09_flag": "", "mb09_agrees": False,
+                       "firewall": "NOT-IN-MB09"})
+            continue
+        mrow = m.iloc[0]
+        agrees = abs(float(mrow.loggf) - float(r.canonical_loggf)) <= 0.005
+        if not agrees:
+            verdict = "MB09-NOT-THE-SOURCE"
+        elif mrow.flag == "S":
+            verdict = "FIREWALLED-SOLAR"
+        else:
+            verdict = "LAB-NORMALISED"
+        fw.append({"mb09_loggf": float(mrow.loggf), "mb09_flag": str(mrow.flag),
+                   "mb09_agrees": bool(agrees), "firewall": verdict})
+    d = pd.concat([d.reset_index(drop=True), pd.DataFrame(fw)], axis=1)
+
+    print("\n=== RYA-161 firewall — MB09 Table 1's own L/S flag ===")
+    print(f"{'wave':>9} {'arb':>4} {'MB09':>8} {'flag':>5} {'ours=MB09':>10}  verdict")
+    for _, r in d.iterrows():
+        print(f"{r.wavelength_air_A:9.3f} {'YES' if r.is_arbiter else '':>4} "
+              f"{r.mb09_loggf:>8.2f} {r.mb09_flag:>5} "
+              f"{'yes' if r.mb09_agrees else 'no':>10}  {r.firewall}")
+
+    # ── can any arbiter line be graded, and would it help? ────────────────────────
+    arb = d[d.is_arbiter]
+    lab = arb[arb.firewall == "LAB-NORMALISED"]
+    print("\n=== can the trio be graded? ===")
+    for _, r in arb.iterrows():
+        if r.firewall == "LAB-NORMALISED":
+            print(f"  {r.wavelength_air_A:9.3f}  PASSES the firewall — MB09 flag L, "
+                  f"lab-normalised multiplet, and our value IS MB09's")
+        elif r.firewall == "FIREWALLED-SOLAR":
+            print(f"  {r.wavelength_air_A:9.3f}  FIREWALLED — MB09 flag S: the multiplet "
+                  f"scale came from an inverse SOLAR analysis (RYA-161 circular)")
+        else:
+            print(f"  {r.wavelength_air_A:9.3f}  {r.firewall} — the value we use is not "
+                  f"MB09's, so MB09's flag decides nothing here")
+
+    # 🔴 Passing the firewall is NOT the same as having a bar. MB09 publishes no per-line
+    # sigma, so the only QUOTED accuracy for these transitions remains NIST's letter grade.
+    # Publishing the ticket's anticipated ~0.1 dex would be tighter than anything the
+    # sources actually state.
+    graded_bar = float(lab.nist_accuracy_dex.max()) if len(lab) else float("nan")
+    print("\n=== what a graded Fe II arbiter cell would actually buy ===")
+    if len(lab):
+        print(f"  {len(lab)} of 3 lines clear the firewall, but MB09 quotes NO per-line "
+              f"sigma, so their only cited accuracy is still NIST's: {graded_bar:.3f} dex.")
+        print(f"  The UNGRADED generic term is {UNGRADED_GF_TERM_DEX:.3f} dex. "
+              f"{graded_bar:.3f} >= {UNGRADED_GF_TERM_DEX:.3f}, so grading this cell "
+              f"would WIDEN the bar, not tighten it.")
+        print(f"  => emit the ungraded cell only, and say why (RYA-850: the cited sigma "
+              f"REPLACES the bound and is not clamped to it — including when it is worse).")
+    else:
+        print("  none of the three clears the firewall.")
+
     d.to_csv(OUT / "rya852_fe2_gf_audit.csv", index=False)
     summary = {
         "ticket": "RYA-852",
@@ -308,15 +409,53 @@ def main() -> None:
                     "the ticket anticipated and 4-7x the 0.041 the stored grade B would "
                     "have published. They stay UNGRADED with the reason stated, and the "
                     "stored grade B is a defect."),
+        "den_hartog_2019_coverage": {
+            "cite": ("Den Hartog, Lawler, Sneden, Cowan & Brukhovesky 2019, ApJS 243, 33, "
+                     "\"Atomic transition probabilities for UV and blue lines of Fe II and "
+                     "abundance determinations in the photospheres of the Sun and "
+                     "metal-poor star HD 84937\""),
+            "doi": "10.3847/1538-4365/ab322e",
+            "arxiv": "1907.11760",
+            "ranges_A": [[2250, 3280], [4173, 4584]],
+            "n_lines": {"uv": 121, "blue": 10},
+            "covers_the_arbiter_trio": False,
+            "resolution": ("SETTLED, and not by another failed search: the paper's own "
+                           "stated coverage stops at 4584 A, so it cannot reach 6147-6248 "
+                           "A. The ticket named DH19 as the preferred primary source; it "
+                           "is structurally unavailable for these lines (RYA-833: an "
+                           "absence scoped to the artifact inspected)."),
+        },
+        "mb09_firewall": {
+            "flags_source": "data/reference/fe2_gf_mb09/mb09_table1.csv (MB09 Table 1)",
+            "n_L": int((mb.flag == "L").sum()), "n_S": int((mb.flag == "S").sum()),
+            "per_line": [
+                {"wavelength_air_A": float(r.wavelength_air_A),
+                 "is_arbiter": bool(r.is_arbiter),
+                 "mb09_loggf": (None if not np.isfinite(r.mb09_loggf)
+                                else float(r.mb09_loggf)),
+                 "mb09_flag": str(r.mb09_flag),
+                 "our_value_is_mb09": bool(r.mb09_agrees),
+                 "verdict": str(r.firewall)}
+                for _, r in d.iterrows()],
+            "note": ("MB09's flag describes MB09's value. It decides something about OUR "
+                     "product only where the value we use IS MB09's, so agreement is "
+                     "checked before the flag is allowed to rule."),
+        },
+        "grading_decision": {
+            "n_arbiter_clearing_firewall": int(len(lab)),
+            "cited_bar_dex": (None if not np.isfinite(graded_bar) else graded_bar),
+            "ungraded_term_dex": UNGRADED_GF_TERM_DEX,
+            "verdict": ("Grading the Fe II arbiter cell would WIDEN its bar, not tighten "
+                        "it. The line that clears the firewall carries no published "
+                        "per-line sigma from MB09, so its only cited accuracy is NIST's "
+                        "letter grade — which is worse than the generic ungraded term. "
+                        "Emit the ungraded cell only, with the reason stated."),
+        },
         "not_established": [
-            "Den Hartog 2019's optical subset could not be reached (Vizier.find_catalogs "
-            "returned nothing for three phrasings) — an absence in the SEARCH, not the "
-            "source (RYA-833). Whether these lines are among its ten optical is UNVERIFIED.",
-            "MB09's own S/L flags were not obtained, so the RYA-161 firewall cannot be "
-            "applied line by line; 6238.386 is MB09-labelled and is a firewall CANDIDATE, "
-            "not a confirmed exclusion.",
-            "the consistent +0.115..+0.154 dex offset above NIST across the three "
-            "non-RU lines looks like one common scale (plausibly MB09) — a hypothesis.",
+            "whether the +0.115..+0.154 dex offset above NIST on the two lines whose "
+            "values are NOT MB09's comes from one common scale — MB09 is now ruled out as "
+            "their source (the values disagree), so the earlier 'plausibly MB09' "
+            "hypothesis is REFUTED for them and their true origin is still open.",
         ],
         "traps": [
             "astroquery.nist defaults to wavelength_type='vacuum'; queried that way NONE "
