@@ -1123,6 +1123,13 @@ artifacts:
       mirrored harness rules this audit carried went with it, and the columns
       harness_by_handler_dex / harness_misattributed / syst_if_harness_correct are
       replaced by `harness_handler`: with one rule there is no gap left to measure.
+      ⚠️ THE SIX CORRECTED CELLS NO LONGER REPRODUCE THE PUBLISHED syst_dex, and that is
+      not drift -- their published bar was built under the defect. The audit tells the
+      two apart per cell (`syst_published_rule_pre_rya869` /
+      `syst_diff_is_rya869_correction`), because drift invalidates a diff and a known
+      correction does not: 35/35 still reproduce A and stat_dex, 29/35 reproduce syst on
+      the published rule and the remaining 6 reproduce it under the pre-RYA-869 harness
+      rule EXACTLY, so their inputs are intact and all 36 cells are still diffed.
   - artifact: rya855/rya855_summary.json
     generator: scripts/rya855_rung_audit.py
     invocation: ISPEC_DIR=... python3 scripts/rya855_rung_audit.py --band-products <band-products tree>
