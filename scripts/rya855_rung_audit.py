@@ -142,9 +142,13 @@ def audit(band_products: Path, lists: dict) -> pd.DataFrame:
         harness, handler = hr.residual_dex, hr.handler
         pivot = BAND_PIVOT_A.get(pol.name, 0.5 * (cell["lo"] + cell["hi"]))
 
-        def _budget(_h=harness, **gf):
+        def _budget(_h=harness, _p=hr.provenance, **gf):
             return build_budget(cell["element"], pivot, max(n, 1), scatter_dex=scatter,
-                                harness_residual_dex=_h, handler=handler, **gf)
+                                harness_residual_dex=_h, handler=handler,
+                                # RYA-873 — carry the provenance too, or the budget text
+                                # this audit rebuilds would describe an uncharged zero as
+                                # MEASURED and stop matching the artifact it checks.
+                                harness_provenance=_p, **gf)
 
         before = _budget(gf_graded=False)
         stat_before, syst_before = before.total()

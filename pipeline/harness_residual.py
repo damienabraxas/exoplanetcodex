@@ -57,6 +57,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+#: How a charged harness residual came to be the number it is. The budget PRINTS this,
+#: because the alternative was printing a claim: `harness_term` asserted "MEASURED
+#: against the known optical answer, not assumed zero" beside whatever value it was
+#: handed, including a zero nobody measured (RYA-873).
+PROV_MEASURED = "measured"      # a control established this number
+PROV_UNCHARGED = "uncharged"    # no residual is charged, and the reason is named
+PROV_UNSTATED = "unstated"      # the caller did not say — printed as such, never assumed
+
 #: The MEASURED optical residual of each measurement handler, keyed by
 #: `MeasurementHandler.name` (which is the class name).
 #:
@@ -91,24 +99,44 @@ UNCHARGED_CONTROL_RESIDUAL_DEX: dict[str, dict] = {
     "SynthesisHandler": {
         "control_dex": 0.0100,
         "control_artifact": "data/audit/synthesis_control/control_FeI.json",
-        #: The ticket that owes the adjudication. ⚠️ It is NOT a constant swap: the
-        #: control PASSES on abundance (−0.0100) and FAILS on EW (+0.1562) and says so —
-        #: "compensating errors, treat with MORE suspicion than a clean failure, because
-        #: it looks like success". Which number a compensating pass earns is the ticket.
-        "ticket": "RYA-873",
+        #: 🔴 THE ADJUDICATION WAS RUN (RYA-873) AND NEITHER NUMBER SURVIVED IT.
+        #:
+        #: The control PASSES on abundance (−0.0100) and FAILS on EW (+0.1562) and says
+        #: so itself — "compensating errors, treat with MORE suspicion than a clean
+        #: failure, because it looks like success". The leading explanation for the EW
+        #: half was that `measure_line` builds its EW as a DIFFERENCE OF TWO SYNTHESES,
+        #: which cancels other species but NOT another Fe I line in the same ±1 Å window
+        #: (the RYA-785 shape). Tested and REFUTED: of the 18 accepted lines, 15 carry
+        #: essentially no predicted contamination (≤1.46x, mostly ~1.00x) and their
+        #: observed synth/banked ratios still span 0.50–2.07; dividing the prediction out
+        #: moves the MAD only 0.246 -> 0.217. The apparent global correlation (0.813) is
+        #: carried entirely by three outliers — the failure mode the test pre-declared.
+        #: Measured in `data/results/rya873/`.
+        #:
+        #: So 0.0100 is the abundance angle of an UNEXPLAINED compensating-error control,
+        #: and charging it would launder "looks like success" into a published systematic
+        #: (the RYA-506 shape); 0.0000 is an assumed zero. NOTHING is charged, and the
+        #: budget now SAYS so instead of printing "MEASURED" over it.
+        "ticket": "RYA-875",
         "why_not_charged": (
-            "published band products charge 0.0; charging the measured 0.0100 moves the "
-            "near-UV 1D-LTE cell and every ENGINE-B / ENGINE-B-NLTE cell, so it is a "
-            "separate diff from RYA-869's four-cell handler-attribution fix"),
+            "the control is a compensating-error pass — abundance agrees (-0.0100) while "
+            "EW is off +0.1562 dex — and the contamination explanation for the EW half "
+            "was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor "
+            "0.0000 is established, so no residual is asserted and the absence is stated "
+            "in the budget. RYA-875 is the RCA that resolves the split"),
     },
 }
 
 
 @dataclass(frozen=True)
 class HarnessResidual:
-    """One handler's harness term, and the pair of budget arguments that state it."""
+    """One handler's harness term, and the budget arguments that state it."""
     handler: str
     residual_dex: float
+    #: RYA-873 — HOW this number was arrived at, carried so the budget prints the truth
+    #: rather than a fixed claim. It travels with the value and the label for the same
+    #: reason they travel with each other (RYA-869): they are one decision.
+    provenance: str = PROV_MEASURED
 
     def budget_kwargs(self) -> dict:
         """Exactly the harness arguments `error_budget.build()` must be handed.
@@ -119,14 +147,17 @@ class HarnessResidual:
         to the wrong handler in both. A caller cannot pass one and forget the other.
         """
         return {"harness_residual_dex": float(self.residual_dex),
-                "handler": self.handler}
+                "handler": self.handler,
+                "harness_provenance": self.provenance}
 
     def describe(self) -> str:
         note = UNCHARGED_CONTROL_RESIDUAL_DEX.get(self.handler)
         extra = ("" if note is None else
-                 f" [⚠️ its control measured {note['control_dex']:.4f} dex; "
-                 f"{note['control_artifact']}]")
-        return f"{self.handler} harness residual {self.residual_dex:.4f} dex{extra}"
+                 f" [⚠️ NOT CHARGED — its control is unresolved; abundance angle "
+                 f"{note['control_dex']:.4f} dex, {note['control_artifact']}, "
+                 f"{note.get('ticket', '')}]")
+        return (f"{self.handler} harness residual {self.residual_dex:.4f} dex "
+                f"({self.provenance}){extra}")
 
 
 def for_handler(handler: str) -> HarnessResidual:
@@ -138,7 +169,12 @@ def for_handler(handler: str) -> HarnessResidual:
             f"handlers are {sorted(HANDLER_RESIDUAL_DEX)}. A handler with no control has "
             f"no measured systematic and must not be charged zero (RYA-869) — control it "
             f"and declare the number in pipeline.harness_residual, do not default it.")
-    return HarnessResidual(handler=name, residual_dex=HANDLER_RESIDUAL_DEX[name])
+    return HarnessResidual(
+        handler=name, residual_dex=HANDLER_RESIDUAL_DEX[name],
+        # A handler listed as a known divergence has NOT had a residual established, and
+        # the budget must not describe its number as measured (RYA-873).
+        provenance=(PROV_UNCHARGED if name in UNCHARGED_CONTROL_RESIDUAL_DEX
+                    else PROV_MEASURED))
 
 
 def for_product(product) -> HarnessResidual:
@@ -157,6 +193,16 @@ def for_product(product) -> HarnessResidual:
             f"is what RYA-869 removed — the producing route knows its handler and must "
             f"say so at build_product().")
     return for_handler(handler)
+
+
+def uncharged_note(handler: str) -> str:
+    """One sentence for the budget: why this handler carries no residual. '' if it does."""
+    note = UNCHARGED_CONTROL_RESIDUAL_DEX.get(str(handler).strip())
+    if not note:
+        return ""
+    return (f"{note['why_not_charged']}. See "
+            f"{note.get('ticket', 'the divergence declaration')} and "
+            f"{note['control_artifact']}")
 
 
 # ── archaeology: cells written before `Product.handler` existed ───────────────────────

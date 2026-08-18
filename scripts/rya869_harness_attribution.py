@@ -109,17 +109,24 @@ def audit(band_products: Path) -> tuple[pd.DataFrame, dict]:
         # gf term), and rung 1 is what the deriver hardcoded, so holding gf_graded=False
         # here is not a simplification: it is the published gf term, and the reproduction
         # control below is what proves it.
-        def _budget(residual, handler):
+        def _budget(residual, handler, provenance):
             return build_budget(cell["element"], pivot, max(n, 1), scatter_dex=scatter,
                                 gf_graded=False, harness_residual_dex=residual,
-                                handler=handler)
+                                handler=handler, harness_provenance=provenance)
 
         h_pub, l_pub = published_rule_harness(cell["treatment"], cell["route"])
         fixed = harness_residual.for_handler(
             harness_residual.handler_of_banked_cell(route=cell["route"],
                                                     treatment=cell["treatment"]))
-        before = _budget(h_pub, l_pub)
-        after = _budget(fixed.residual_dex, fixed.handler)
+        # RYA-873 — BOTH sides are priced with TODAY's provenance for the handler each
+        # side names. This audit isolates the ATTRIBUTION change (which handler), so
+        # every other input is held, prose included (RYA-848). Giving the "before" side
+        # the old fixed MEASURED string instead would make RYA-873's prose fix show up
+        # here as if it were part of RYA-869's diff, and the two must stay separable —
+        # measured: it turned 30 byte-identical budgets into 24.
+        before = _budget(h_pub, l_pub,
+                         harness_residual.for_handler(l_pub).provenance)
+        after = _budget(fixed.residual_dex, fixed.handler, fixed.provenance)
         stat_b, syst_b = before.total()
         stat_a, syst_a = after.total()
 

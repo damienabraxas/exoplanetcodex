@@ -172,10 +172,34 @@ def gf_term(*, graded: bool) -> Term:
                 "does not")
 
 
-def harness_term(measured_residual_dex: float, handler: str) -> Term:
-    return Term("harness residual", measured_residual_dex, False,
-                f"{handler} MEASURED against the known optical answer, not assumed zero "
-                f"(control/frontier rule)")
+def harness_term(measured_residual_dex: float, handler: str,
+                 provenance: str = "") -> Term:
+    """The handler's own systematic, described BY HOW IT WAS OBTAINED — RYA-873.
+
+    🔴 THIS FUNCTION USED TO ASSERT. It printed "{handler} MEASURED against the known
+    optical answer, not assumed zero (control/frontier rule)" beside WHATEVER value it
+    was handed — including `SynthesisHandler`'s 0.0000, which no control established and
+    which that sentence explicitly disclaims. Every synthesis-route budget in the repo
+    carried that contradiction: the prose said measured, the arithmetic was an assumption.
+
+    So the sentence is now a function of the provenance rather than a constant. An
+    unstated provenance says it is unstated; it does not inherit the claim.
+    """
+    from pipeline.harness_residual import (
+        PROV_MEASURED, PROV_UNCHARGED, PROV_UNSTATED, uncharged_note)
+    prov = (provenance or PROV_UNSTATED).strip()
+    if prov == PROV_UNCHARGED:
+        why = uncharged_note(handler) or "no residual has been established for it"
+        src = (f"{handler}: NO RESIDUAL IS CHARGED — {why}. This is an ABSENCE, not a "
+               f"measured zero, and it is carried at 0.0 so the bar is not inflated by "
+               f"a number nobody has")
+    elif prov == PROV_MEASURED:
+        src = (f"{handler} MEASURED against the known optical answer, not assumed zero "
+               f"(control/frontier rule)")
+    else:
+        src = (f"{handler}: the provenance of this residual is NOT STATED by the caller, "
+               f"so it is not described as measured (RYA-873)")
+    return Term("harness residual", measured_residual_dex, False, src)
 
 
 def scatter_term(observed_scatter_dex: float) -> Term:
@@ -185,7 +209,8 @@ def scatter_term(observed_scatter_dex: float) -> Term:
 
 def build(element: str, wavelength_A: float, n_lines: int, *,
           scatter_dex: float, gf_graded: bool, harness_residual_dex: float,
-          handler: str, cited_gf_sigma_dex: float | None = None,
+          handler: str, harness_provenance: str = "",
+          cited_gf_sigma_dex: float | None = None,
           cited_gf_source: str = "") -> ErrorBudget:
     """Assemble the budget for a band, adding the terms that band actually has.
 
@@ -209,7 +234,7 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
                             source=cited_gf_source))
     else:
         b.add(gf_term(graded=gf_graded))
-    b.add(harness_term(harness_residual_dex, handler))
+    b.add(harness_term(harness_residual_dex, handler, harness_provenance))
 
     if "pseudo" in pol.continuum_treatment.lower():
         # The size is set by how far the reachable envelope sits below unity: near-UV
