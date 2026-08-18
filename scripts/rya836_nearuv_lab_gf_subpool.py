@@ -155,6 +155,9 @@ def main(argv=None) -> int:
                     ew_method=f"synthesis flux-fit, fixed half-width "
                               f"+/-{HALF_WIDTH_A} A (RYA-759 route)",
                     abundance=(a_x if np.isfinite(a_x) else None),
+                    # RYA-871 — this pool's own per-line table carries the EP, and both
+                    # buckets are the SAME transition re-inverted on a different gf.
+                    ep_eV=float(r.ep_eV),
                     treatment=treat, ew_inversion=False)
                 if lm.abundance is None:
                     lm.in_aggregate = False
@@ -246,6 +249,7 @@ def main(argv=None) -> int:
                 ew_method=f"synthesis flux-fit, fixed half-width +/-{HALF_WIDTH_A} A "
                           f"(RYA-759 route)",
                 abundance=(a_x if np.isfinite(a_x) else None),
+                ep_eV=float(ep),          # RYA-871 — same transition, both buckets
                 treatment=treat, ew_inversion=False)
             if lm.abundance is None:
                 lm.in_aggregate = False

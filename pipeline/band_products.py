@@ -95,6 +95,32 @@ class LineMeasurement:
     problem_status: str = ""
     problem_tickets: str = ""
     problem_action: str = ""
+    #: RYA-871 — THE EXCITATION POTENTIAL OF THE TRANSITION THAT WAS MEASURED.
+    #:
+    #: A wavelength does not identify a line. `gf_rung.resolve_lines` matched a measured
+    #: line back to the loaded line list on wavelength ALONE because this column did not
+    #: exist, and 16 of 152 VIS Fe I lines did not resolve — 14 with no row inside the
+    #: 0.005 A window at all and 2 with two rows inside it. Both halves are the same
+    #: missing key: the measured wavelength comes from
+    #: `data/audit/line_accounting/per_line.csv`, whose rows are FEATURES rather than
+    #: lines (`line_accounting_rya709.features()` groups list rows within 0.05 A and
+    #: reports the group MEAN), so a blended feature sits BETWEEN its components by
+    #: construction. Widening the window to reach the component then buys a CHOICE rather
+    #: than an identification — measured: at 0.020 A with no EP key, 7 of the 136 lines
+    #: that already resolved change which row they resolve to. The EP is what makes the
+    #: widening legitimate.
+    #:
+    #: The emitter always had it: the accounting row carries `ep_eV` and
+    #: `measure_band_profilefit` copied the wavelength off that same row and dropped this.
+    #:
+    #: ⚠️ ON A CLUSTERED FEATURE THIS IS THE MINIMUM EP OVER THE CLUSTER, which is what
+    #: the accounting table reports. That is a real transition's EP, not an average — and
+    #: it is the key that resolved 13 of the 16 with ZERO re-identifications, measured in
+    #: `data/results/rya871/`.
+    #:
+    #: None means "this route does not carry it", never "0 eV" — `gf_rung` falls back to
+    #: the narrow wavelength-only rule for such a line rather than widening blind.
+    ep_eV: float | None = None
     #: Did this line's abundance come from an EW -> abundance INVERSION?
     #:
     #: RYA-770/342. The REW saturation ceiling below is a property of that inversion —
@@ -271,6 +297,34 @@ def equivalent_width(w: np.ndarray, f: np.ndarray, centre: float, half_width: fl
     depth = 1.0 - (f[m] / cont)
     ew = float(_trapezoid(depth, w[m]) * 1000.0)
     return ew, f"integrated over +/-{half_width:.3f} A, {how}", concern
+
+
+def carried_ep(row, *, wavelength_A: float, element: str, ion: str) -> float:
+    """The excitation potential of the line-accounting row a candidate came from.
+
+    RYA-871 — the EW emitters always HAD this and dropped it, so a measured line could
+    only be identified downstream by its wavelength, and 16 of 152 VIS Fe I lines could
+    not be identified at all. It is read off the SAME row the wavelength is read off, so
+    the two describe one transition by construction.
+
+    🔴 NO SILENT FALLBACK. A candidate with no stateable EP RAISES with the line named.
+    Emitting a null EP would put the line back on the wavelength-only rule while looking
+    like it carried a key, and once the column exists but is empty a consumer cannot tell
+    "this route carries no EP" from "the EP is missing for this line".
+
+    Lives here rather than in either emitter because BOTH drivers
+    (`measure_band_profilefit`, `measure_band_ew`) need it and a rule written at two call
+    sites drifts between them — the RYA-845/855/869 shape, three tickets deep now.
+    """
+    ep = getattr(row, "ep_eV", None)
+    if ep is None or not np.isfinite(float(ep)):
+        raise ValueError(
+            f"{element} {ion} {wavelength_A:.4f} A: the line-accounting row carries no "
+            f"ep_eV, so the transition cannot be identified downstream on anything but "
+            f"its wavelength (RYA-871). Regenerate "
+            f"data/audit/line_accounting/per_line.csv "
+            f"(scripts/line_accounting_rya709.py) rather than emitting a null EP.")
+    return float(ep)
 
 
 def pct_label(kw) -> str:
