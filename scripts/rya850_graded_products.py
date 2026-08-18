@@ -85,7 +85,9 @@ CITED_MATCH_TOL_A = 0.05
 #: A pool whose cited sigmas cover only part of it is not described by their RMS -- the
 #: unmatched lines would silently inherit the matched ones' uncertainty. Below this the
 #: cited term is REFUSED and the generic bound stands, which is the honest fallback.
-CITED_COVERAGE_MIN = 0.90
+#: IMPORTED, not restated (RYA-855): `pipeline.gf_rung` applies the same threshold inside
+#: `derive_band_products`, and a number declared in two places is the RYA-845 defect.
+from pipeline.gf_rung import CITED_COVERAGE_MIN                    # noqa: E402
 
 
 def cited_sigma(waves) -> dict:
