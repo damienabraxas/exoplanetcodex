@@ -39,7 +39,23 @@ ROOT = repo_root()
 # RYA-686. Every entry is a defect or a deliberate hand-authored record, never a
 # convenience. To add one you must edit this test AND say why in the manifest note.
 FROZEN_UNREPRODUCIBLE = {"solar_ba_synthesis_rya559.json"}
-FROZEN_HAND_AUTHORED = {"sr2_line_selection_rya430.json", "rya342_corrected_solar_fe.txt"}
+FROZEN_HAND_AUTHORED = {
+    "sr2_line_selection_rya430.json",
+    "rya342_corrected_solar_fe.txt",
+    # RYA-847, added deliberately. Neither is a program's output and neither can be:
+    #   README.md          reading instructions for the directory, including the warning
+    #                      that these cells must not be diffed against the rya845-era
+    #                      published matrix.
+    #   pregate_control    the sweep's PRE-GATE numbers. Its generator existed and its
+    #                      output was destroyed by a tree re-sync, so the numbers are
+    #                      carried as data with their source named rather than invented a
+    #                      harness for after the fact. They are not merely asserted:
+    #                      scripts/rya847_gate_diff.py checks every row against the
+    #                      artifact it describes (n_post + n_caught == n_pre) and fails if
+    #                      a control row finds no product.
+    "rya847/README.md",
+    "rya847/rya847_pregate_control.csv",
+}
 
 
 # ── Hermetic both-directions demonstration ────────────────────────────────────────────
