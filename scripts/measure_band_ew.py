@@ -27,11 +27,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from pipeline.band_products import (  # noqa: E402
+    carried_ep,
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
 from config.constants import codex_path, codex_root# RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
+
 OUT = ROOT / "data" / "measured" / "band_ew"
 
 # Kitt Peak FTS: lm#### files, NNNN = segment start wavelength in NM. Three whitespace
@@ -779,6 +781,11 @@ def main() -> None:
         lm = LineMeasurement(
             element=a.element, ion=a.ion, wavelength_air_A=float(r.wave_air_A),
             instrument=a.instrument, ew_mA=ew,
+            # RYA-871 — the same carry as the profile-fit driver. This harness is
+            # diagnostic-only for the EW VALUE, but the line IDENTITY it writes is read
+            # by the same consumers, so it must be identifiable too.
+            ep_eV=carried_ep(r, wavelength_A=float(r.wave_air_A), element=a.element,
+                             ion=a.ion),
             ew_method=f"{method}; segment(s) {src}; half-width {hw:.3f} A from line separation")
         if concern:
             lm.ew_method += f" | CONCERN: {concern}"

@@ -353,11 +353,19 @@ def revised_cells(term_net: float, term_raw: float) -> list[dict]:
     terms that do NOT average down, which is why it is exactly reconstructible (RYA-845).
     """
     from pipeline.error_budget import build
+    from pipeline import harness_residual                    # RYA-869
+
+    # RYA-869 — the near-UV cells are the RYA-759 SYNTHESIS route, and the harness term
+    # comes from that handler's declaration rather than being restated here. It was
+    # `harness_residual_dex=0.0, handler="SynthesisHandler"` written out at this call
+    # site: right for this band, and the same shape that charged four published
+    # ENGINE-B-NLTE bars the profile fitter's residual once a variant appeared.
+    hr = harness_residual.for_handler("SynthesisHandler")
 
     out = []
     for el, ion, treat, graded, published in NEARUV_CELLS:
         b = build(el, 3390.0, 40, scatter_dex=0.4, gf_graded=graded,
-                  harness_residual_dex=0.0, handler="SynthesisHandler")
+                  **hr.budget_kwargs())
         others = [t.dex for t in b.terms
                   if not t.averages_down and "pseudo" not in t.name.lower()]
         base2 = float(np.sum(np.square(others)))
