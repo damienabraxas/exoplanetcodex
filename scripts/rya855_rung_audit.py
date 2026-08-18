@@ -166,12 +166,30 @@ def audit(band_products: Path, lists: dict) -> pd.DataFrame:
         after = _budget(**rung.budget_kwargs())
         stat_after, syst_after = after.total()
 
+        # 🔴 RYA-869 — WHY THE PUBLISHED syst MAY NOT REPRODUCE, AND IT IS NOT DRIFT.
+        # Six banked cells were charged the profile fitter's residual by a flux fit
+        # (`treatment == "ENGINE-B"` never followed RYA-798's `ENGINE-B-NLTE` variant),
+        # and RYA-869 fixed it. So a pre-RYA-869 artifact's `syst_dex` legitimately
+        # differs from what this audit now rebuilds — and that has to be told apart from
+        # the input drift the reproduction control exists to catch, because the two need
+        # OPPOSITE handling: drift invalidates a diff, a known correction does not.
+        # `charged_in_banked_cell` is the pre-fix rule, quoted in one place.
+        was = harness_residual.charged_in_banked_cell(route=cell["route"],
+                                                      treatment=cell["treatment"])
+        syst_pre869 = _budget(_h=was.residual_dex, gf_graded=False).systematic() \
+            if was.residual_dex != harness else syst_before
+
         pub = _published(band_products, cell)
         repro_stat = repro_syst = repro_A = None
+        explained = None
         if pub is not None:  # noqa: E501
             repro_stat = abs(round(stat_before, 4) - float(pub["stat_dex"])) <= 5e-5
             repro_syst = abs(round(syst_before, 4) - float(pub["syst_dex"])) <= 5e-5
             repro_A = abs(round(value, 3) - float(pub["A"])) <= 5e-4
+            # Does the PRE-RYA-869 harness rule reproduce it? If so the only difference
+            # is the correction, the cell's inputs are intact, and it is safe to diff.
+            explained = (not repro_syst
+                         and abs(round(syst_pre869, 4) - float(pub["syst_dex"])) <= 5e-5)
 
         rows.append({
             "band": pol.name, "element": cell["element"], "ion": cell["ion"],
@@ -184,6 +202,11 @@ def audit(band_products: Path, lists: dict) -> pd.DataFrame:
             "syst_before": round(syst_before, 4),
             "syst_published": (None if pub is None else float(pub["syst_dex"])),
             "reproduces_syst": repro_syst,
+            # RYA-869 — a False `reproduces_syst` explained ENTIRELY by the harness
+            # correction. Carried per cell so "not reproduced" never has to be taken on
+            # trust as "probably the known fix".
+            "syst_published_rule_pre_rya869": round(syst_pre869, 4),
+            "syst_diff_is_rya869_correction": explained,
             "rung": rung.rung, "gf_graded": rung.gf_graded,
             "n_graded": rung.n_graded, "n_unresolved": rung.n_unresolved,
             "n_absent_from_linelist": n_absent,
@@ -303,8 +326,12 @@ def main() -> int:
     d.to_csv(a.out / "rya855_rung_by_cell.csv", index=False)
 
     have = d[d.has_published_row]
-    bad = have[(have.reproduces_stat == False) | (have.reproduces_syst == False)  # noqa: E712
-               | (have.reproduces_A == False)]
+    # RYA-869 — a syst mismatch the harness correction fully explains is NOT a failed
+    # reproduction: the cell's inputs are intact and its diff is still attributable.
+    fixed = have[have.syst_diff_is_rya869_correction == True]                   # noqa: E712
+    bad = have[(have.reproduces_stat == False) | (have.reproduces_A == False)   # noqa: E712
+               | ((have.reproduces_syst == False)                               # noqa: E712
+                  & (have.syst_diff_is_rya869_correction != True))]             # noqa: E712
     print(f"\n=== CONTROL: does each cell rebuild from its own per-line file? ===")
     print(f"  {len(have)} of {len(d)} per-line files have a published row to check "
           f"against; {len(d) - len(have)} do not and are reported, never assumed")
@@ -313,6 +340,14 @@ def main() -> int:
     print(f"  {int((have.reproduces_stat == True).sum())}/{len(have)} reproduce stat_dex")
     print(f"  {int((have.reproduces_syst == True).sum())}/{len(have)} reproduce syst_dex "
           f"on rung 1 (the hardcode)")
+    if len(fixed):
+        print(f"  + {len(fixed)} reproduce it under the PRE-RYA-869 harness rule and "
+              f"differ ONLY by that correction — inputs intact, still diffed:")
+        for _, r in fixed.iterrows():
+            print(f"      {r.band:<12}{r.element}{r.ion:<3}{r.treatment:<15} "
+                  f"published {r.syst_published:.4f} = pre-869 rule "
+                  f"{r.syst_published_rule_pre_rya869:.4f}; charged by handler "
+                  f"{r.syst_before:.4f}")
     for _, r in bad.iterrows():
         print(f"  ⚠️ {r.band:<12}{r.element}{r.ion:<3}{r.treatment:<15} "
               f"A {r.A} vs {r.A_published}   "
@@ -386,6 +421,8 @@ def main() -> int:
         "band_products": str(a.band_products),
         "n_cells": int(len(d)),
         "n_reproducing_published_syst": int((d.reproduces_syst == True).sum()),
+        "n_reproducing_published_syst_under_pre_rya869_rule":
+            int((d.syst_diff_is_rya869_correction == True).sum()),
         "n_cells_by_rung": {int(k): int(v) for k, v in
                             d.rung.value_counts().sort_index().items()},
         "n_cells_moved": int(len(moved)),

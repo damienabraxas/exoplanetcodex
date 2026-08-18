@@ -82,21 +82,13 @@ DEFAULT_BP = codex_root("work") / "rya845" / "data" / "results" / "band_products
 def published_rule_harness(treatment: str, route: str) -> tuple[float, str]:
     """The residual and label `derive_band_products` charged BEFORE RYA-869.
 
-    🔴 QUOTED, NOT PARAPHRASED — this is the defect, and it exists here for exactly one
-    purpose: to reproduce the published bar so the fix can be diffed against it. It is
-    the only copy left in the repo; `scripts/rya855_rung_audit.py` carried a twin of it
-    (`_deriver_harness`) and RYA-869 deleted that one, because an audit that mirrors a
-    defect after the defect is fixed is mirroring nothing.
-
-    Do NOT call it from anything that produces a number. The live rule is
-    `pipeline.harness_residual.for_product`.
+    Thin wrapper over `harness_residual.charged_in_banked_cell`, which is the ONE home
+    for the pre-fix rule — `scripts/rya855_rung_audit.py` needs the same answer, to tell
+    "this published cell does not reproduce because its inputs drifted" apart from "this
+    published cell does not reproduce because RYA-869 corrected it".
     """
-    if route in ("SYNTH", "LABGF"):
-        # the near-UV synthesis route hardcoded its own 0.0 / SynthesisHandler pair
-        return 0.0, "SynthesisHandler"
-    is_b = treatment == "ENGINE-B"                       # ← the defect, verbatim
-    return ((0.0 if is_b else harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHandler"]),
-            ("SynthesisHandler" if is_b else "ProfileFitHandler"))
+    h = harness_residual.charged_in_banked_cell(route=route, treatment=treatment)
+    return h.residual_dex, h.handler
 
 
 def audit(band_products: Path) -> tuple[pd.DataFrame, dict]:
