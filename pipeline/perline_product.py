@@ -75,6 +75,8 @@ ROW_COLUMNS = [
     "damping_rad", "damping_stark", "damping_vdW", "damping_form", "hfs_isotope_note",
     # measurement
     "instrument", "arm", "method", "ew_mA", "reduced_ew", "red_chi2",
+    # the per-line STATISTICAL uncertainty (see the note on _sigma_A below)
+    "sigma_A_dex", "sigma_A_basis",
     # engine / model context
     "engine", "scale",
     # result
@@ -329,6 +331,36 @@ def _lab_sigma(lab: pd.DataFrame, wl: float, ep: float | None):
     return "" if hit.empty else float(hit.iloc[0]["e_loggf_dex"])
 
 
+#: RYA-870 — THE TWO PER-LINE UNCERTAINTIES ARE DIFFERENT AXES AND ARE NEVER SUMMED HERE.
+#:
+#:   sigma_A_dex    STATISTICAL. 1 sigma on THIS line's abundance from the local curvature
+#:                  of its own chi2 (`fit_constraint.curvature_sigma`) — the published
+#:                  sigma_stat for CNO's N and O (RYA-848), hoisted by RYA-847 so one
+#:                  definition serves every synthesis path. It already carries two
+#:                  corrections worth not re-learning: chi2 is rescaled to red_chi2 == 1
+#:                  first, because Delta-chi2 = 1 is one sigma only for a CALIBRATED chi2
+#:                  and ours runs 2.6-1226 (unrescaled, solar O was understated 7.7x); and
+#:                  the probe is two-sided and unclamped, because the old one-sided clamped
+#:                  probe reported sigma = 0.000 for a fit sitting ON the bracket — the
+#:                  tightest possible bar on the worst possible fit.
+#:   gf_sigma_dex   SYSTEMATIC. How well this line's oscillator strength is known, from the
+#:                  pool's own cited laboratory sigma where one exists (RYA-850).
+#:
+#: A reader may combine them; this file will not. They answer different questions, the
+#: budget combines them at PRODUCT level, and RYA-850 established that a cited sigma
+#: REPLACES the generic bound rather than joining it.
+#:
+#: ⚠️ BLANK ON THE EW ROUTE, AND THAT IS A STATEMENT. Curvature sigma needs a chi2 surface;
+#: an EW inversion does not produce one. `sigma_A_basis` says so per row rather than
+#: leaving a bare blank nobody can distinguish from "nobody computed it" (RYA-833).
+def _sigma_A(row):
+    v = row.get("sigma_A")
+    if v is None or (isinstance(v, float) and pd.isna(v)) or str(v).strip() in ("", "nan"):
+        return "", ("no chi2 surface on this route — EW inversion, "
+                    "see ew_mA for the measured quantity")
+    return float(v), "chi2 curvature at the minimum, rescaled to red_chi2==1 (RYA-847/848)"
+
+
 def _damp(synth_ll, ll, wl: float, ep, synth_col: str, list_col: str):
     """The damping the SYNTHESIS used, falling back to the linelist ONLY in the
     explicitly-labelled non-replication-grade mode."""
@@ -455,6 +487,8 @@ def build_perline_product(star: str, element: str, band_products,
                 "ew_mA": r.get("ew_mA"),
                 "reduced_ew": r.get("rew"),
                 "red_chi2": r.get("red_chi2"),
+                "sigma_A_dex": _sigma_A(r)[0],
+                "sigma_A_basis": _sigma_A(r)[1],
                 "engine": engine + (f" ({deck})" if deck else ""),
                 "scale": ("1D-NLTE" if "NLTE" in engine.upper() else "1D-LTE"),
                 "A_X_line": r.get("abundance"),
@@ -500,5 +534,6 @@ def build_perline_product(star: str, element: str, band_products,
             ["UNRESOLVED", "linelist (not in canonical_gf)"])).sum()),
         "by_gf_grade": out["gf_grade"].value_counts().to_dict(),
         "n_with_cited_lab_sigma": int((out["gf_sigma_dex"].astype(str) != "").sum()),
+        "n_with_statistical_sigma": int((out["sigma_A_dex"].astype(str) != "").sum()),
     }
     return PerLineProduct(header=header, rows=out, accounting=accounting)
