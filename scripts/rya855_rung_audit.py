@@ -123,7 +123,27 @@ def _published(band_products: Path, cell: dict) -> dict | None:
     return None if r.empty else r.iloc[0].to_dict()
 
 
-def audit(band_products: Path, linelist) -> pd.DataFrame:
+def _linelist_for(route: str, band: str, lists: dict):
+    """The line list THAT CELL WAS MEASURED ON — never a single default.
+
+    🔴 THE FIRST CUT OF THIS AUDIT USED ONE LIST FOR EVERY CELL and reported the near-UV
+    pool as 40 of 40 lines UNRESOLVED. That is not a property of the pool: the near-UV
+    route runs on `data/linelists/ispec_nearuv_3000_3780`, and the default GES list spans
+    4200-9200 A, so not one 3000-3780 A line could be in it. A MANUFACTURED ABSENCE
+    (RYA-833) — it happened to fall on the safe side, because an unresolvable line forces
+    rung 1 anyway, but the stated REASON was wrong and would have read as a finding about
+    the lines. The deriver itself was always right here: its synthesis route passes the
+    band's own list through `ctx["linelist"]`.
+    """
+    key = band if route in ("SYNTH", "LABGF") else "__ew__"
+    if key not in lists:
+        raise KeyError(
+            f"no line list loaded for {route}/{band} — refusing to grade a pool against "
+            f"a list it was not measured on")
+    return lists[key]
+
+
+def audit(band_products: Path, lists: dict) -> pd.DataFrame:
     rows = []
     for cell in _cells(band_products):
         lines = pd.read_csv(cell["path"])
@@ -146,9 +166,15 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
         before = _budget(gf_graded=False)
         stat_before, syst_before = before.total()
 
-        lines_gf = gf_rung.resolve_lines(cell["element"], cell["ion"],
-                                         used.wavelength_air_A, linelist)
+        lines_gf = gf_rung.resolve_lines(
+            cell["element"], cell["ion"], used.wavelength_air_A,
+            _linelist_for(cell["route"], pol.name, lists))
         rung = gf_rung.decide(cell["element"], cell["ion"], lines_gf)
+        # WHY a line could not be priced, split: absent from the list is a coverage fact,
+        # two rows inside the tolerance is an identification one. Collapsing them would
+        # hide which is which, and they have different fixes.
+        _unres = lines_gf[~lines_gf.resolved] if len(lines_gf) else lines_gf
+        n_absent = int(_unres.unresolved_why.str.startswith("absent").sum()) if len(_unres) else 0
         after = _budget(**rung.budget_kwargs())
         stat_after, syst_after = after.total()
 
@@ -172,6 +198,8 @@ def audit(band_products: Path, linelist) -> pd.DataFrame:
             "reproduces_syst": repro_syst,
             "rung": rung.rung, "gf_graded": rung.gf_graded,
             "n_graded": rung.n_graded, "n_unresolved": rung.n_unresolved,
+            "n_absent_from_linelist": n_absent,
+            "n_ambiguous_in_linelist": int(rung.n_unresolved - n_absent),
             "cited_sigma_dex": rung.cited_sigma_dex,
             "syst_after": round(syst_after, 4),
             "d_syst": round(syst_after - syst_before, 4),
@@ -263,10 +291,26 @@ def main() -> int:
     # its production default `apply_canonical_gf=True` — so `loggf` is the value the
     # pools actually used (RYA-799/824), not the best value available.
     from pipeline.abundances_derive import _load_synth_resources
-    linelist, _iso, _chem = _load_synth_resources()
-    print(f"[linelist] {len(linelist)} rows, production loader, canonical gf applied")
+    from derive_band_products import SYNTH_BANDS
+    from pipeline.nearuv_synth import gf_provenance
 
-    d = audit(a.band_products, linelist)
+    lists = {}
+    lists["__ew__"], _iso, _chem = _load_synth_resources()
+    print(f"[linelist] EW route: {len(lists['__ew__'])} rows (GES, canonical gf applied)")
+    for band, cfg in SYNTH_BANDS.items():
+        if not cfg.linelist.exists():
+            print(f"[linelist] {band}: {cfg.linelist} ABSENT — cells on this band will "
+                  f"refuse rather than be graded against another band's list")
+            continue
+        _w = pd.read_csv(cfg.linelist, sep="\t", usecols=["wave_A"], low_memory=False)
+        prov = gf_provenance(float(_w.wave_A.min()), float(_w.wave_A.max()))
+        lists[band], _, _ = _load_synth_resources(
+            linelist_file=str(cfg.linelist),
+            apply_canonical_gf=prov["apply_canonical_gf"])
+        print(f"[linelist] {band}: {len(lists[band])} rows from {cfg.linelist.name}, "
+              f"canonical gf {'applied' if prov['apply_canonical_gf'] else 'NOT applied'}")
+
+    d = audit(a.band_products, lists)
     a.out.mkdir(parents=True, exist_ok=True)
     d.to_csv(a.out / "rya855_rung_by_cell.csv", index=False)
 
