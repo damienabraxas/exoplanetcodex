@@ -448,8 +448,14 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
             ew_inversion=False,   # the REW ceiling was already applied by the 1D-LTE leg
         ))
 
+    # RYA-869 — the abundances are RYA-783's profile-fit EW inversions with a 3D-NLTE
+    # departure added per line (`ew_method` says so on every measurement), so the harness
+    # systematic this product carries is the profile fitter's. `ENGINE-A-3DNLTE` is the
+    # other `X-VARIANT` treatment name the ticket named: it must follow `ENGINE-A`, and
+    # it does so here by declaring the handler instead of by matching a prefix.
     product = build_product(
         "Fe", ion, INSTRUMENT, band, amarsi3d.TREATMENT, measurements,
+        handler="ProfileFitHandler",
         provenance=(f"{amarsi3d.CITATION}; training domain from "
                     f"{amarsi3d.TRAINING_CITATION}; 1D-LTE base from {src.name}"))
 

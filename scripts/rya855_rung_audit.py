@@ -48,41 +48,30 @@ from pipeline.error_budget import build as build_budget            # noqa: E402
 
 OUT = ROOT / "data" / "results" / "rya855"
 
-#: `derive_band_products.PROFILE_FIT_RESIDUAL_DEX`, imported rather than restated so this
-#: audit cannot differ from the deriver in the one term it is holding fixed.
+from pipeline import harness_residual                             # noqa: E402  RYA-869
+
+#: `derive_band_products.PROFILE_FIT_RESIDUAL_DEX`, kept as a name because this audit's
+#: prose quotes it. It is `pipeline.harness_residual`'s single declaration now (RYA-869).
 from derive_band_products import PROFILE_FIT_RESIDUAL_DEX          # noqa: E402
 
-#: Treatments produced by a FLUX FIT, which never touches the profile fitter and so is
-#: not charged its measured residual. This is the rule by HANDLER — the correct one.
-_FLUX_FIT_TREATMENTS = {"ENGINE-B", "ENGINE-B-NLTE"}
 
+def _harness(treatment: str, route: str) -> harness_residual.HarnessResidual:
+    """The residual and label this banked cell's HANDLER earns. ONE rule, not two.
 
-def _deriver_harness(treatment: str, route: str) -> float:
-    """The residual `derive_band_products` ACTUALLY charges. Mirrored, defect included.
+    🔴 THIS AUDIT USED TO CARRY TWO. `_deriver_harness` mirrored the deriver's defect on
+    purpose — `prod.treatment == "ENGINE-B"`, which missed RYA-798's `ENGINE-B-NLTE`
+    variant — so that RYA-855's baseline reproduced the PUBLISHED numbers exactly and
+    every moved bar was attributable to the gf term alone (RYA-848). `_handler_harness`
+    stood beside it holding the correct answer, and the gap between the two was RYA-855's
+    separate finding: four published bars charged another handler's systematic.
 
-    🔴 DO NOT "FIX" THIS TO MATCH `_FLUX_FIT_TREATMENTS`. This audit exists to isolate
-    ONE term, so every other term must be held at whatever the deriver produced; a
-    baseline that silently corrects a second term would attribute that correction to the
-    gf change (RYA-848: prove a change with a SAME-INPUTS control).
-
-    ⚠️ AND THE MIRROR IS WHAT SURFACED A SECOND DEFECT, reported separately below and
-    filed rather than folded in. The deriver's test is `prod.treatment == "ENGINE-B"`,
-    an equality against a treatment name that GAINED A VARIANT in RYA-798: every
-    ENGINE-B-NLTE product is therefore charged the profile fitter's 0.0129 dex and
-    labelled `ProfileFitHandler` in its own budget file, while the ENGINE-B product of
-    the same handler is charged 0.0000 and labelled `SynthesisHandler`. Not this
-    ticket's subject and not folded into its diff.
+    RYA-869 fixed the deriver, so the mirror has nothing left to mirror and both are
+    gone. What remains is the shared decider, asked by ROUTE + TREATMENT because these
+    are banked per-line files that predate the `handler` column — see
+    `harness_residual.handler_of_banked_cell`.
     """
-    if route in ("SYNTH", "LABGF"):
-        return 0.0
-    return 0.0 if treatment == "ENGINE-B" else PROFILE_FIT_RESIDUAL_DEX
-
-
-def _handler_harness(treatment: str, route: str) -> float:
-    """The residual the treatment's HANDLER earns. Differs from the above on NLTE."""
-    if route in ("SYNTH", "LABGF") or treatment in _FLUX_FIT_TREATMENTS:
-        return 0.0
-    return PROFILE_FIT_RESIDUAL_DEX
+    return harness_residual.for_handler(
+        harness_residual.handler_of_banked_cell(route=route, treatment=treatment))
 
 #: One representative wavelength per band, used ONLY to resolve the band policy (which
 #: continuum/telluric terms apply) — never as a measurement. Same convention and same
@@ -154,9 +143,8 @@ def audit(band_products: Path, lists: dict) -> pd.DataFrame:
         scatter = float(np.std(vals, ddof=1)) if n > 1 else 0.0
 
         pol = resolve_band(0.5 * (cell["lo"] + cell["hi"]))
-        harness = _deriver_harness(cell["treatment"], cell["route"])
-        correct = _handler_harness(cell["treatment"], cell["route"])
-        handler = ("SynthesisHandler" if harness == 0.0 else "ProfileFitHandler")
+        hr = _harness(cell["treatment"], cell["route"])
+        harness, handler = hr.residual_dex, hr.handler
         pivot = BAND_PIVOT_A.get(pol.name, 0.5 * (cell["lo"] + cell["hi"]))
 
         def _budget(_h=harness, **gf):
@@ -204,14 +192,14 @@ def audit(band_products: Path, lists: dict) -> pd.DataFrame:
             "syst_after": round(syst_after, 4),
             "d_syst": round(syst_after - syst_before, 4),
             "dominant_after": (after.dominant().name if after.dominant() else ""),
-            # RYA-855's own finding, carried per cell rather than only narrated: what
-            # this cell's systematic would be if the harness residual followed its
-            # HANDLER instead of an equality test on the treatment name.
+            # RYA-855's finding, now FIXED by RYA-869: the harness residual follows the
+            # handler that produced the cell. The `harness_by_handler_dex` /
+            # `harness_misattributed` / `syst_if_harness_correct` columns that stood here
+            # measured the gap between the deriver's rule and the correct one; there is
+            # one rule now, so the gap has no definition and reporting a column of zeros
+            # would imply an ongoing check that no longer exists.
             "harness_charged_dex": harness,
-            "harness_by_handler_dex": correct,
-            "harness_misattributed": bool(abs(harness - correct) > 1e-12),
-            "syst_if_harness_correct": round(
-                _budget(_h=correct, **rung.budget_kwargs()).systematic(), 4),
+            "harness_handler": handler,
             "grade_counts": json.dumps(rung.grade_counts),
             "reason": rung.reason,
             "src": str(cell["path"].relative_to(band_products)),
@@ -379,22 +367,19 @@ def main() -> int:
                   f"{ctrl['cited_sigma_dex']:.4f} over all {ctrl['n_lines']}. FLAGGED, "
                   f"NOT CHANGED — it is RYA-850's published bar.")
 
-    # ── the second defect, found by mirroring and NOT fixed here ──────────────────
-    mis = d[d.harness_misattributed]
-    print(f"\n=== SEPARATE FINDING (not this ticket's subject, not fixed here) ===")
-    if not len(mis):
-        print("  none")
-    else:
-        print(f"  {len(mis)} cells are charged the PROFILE FITTER's measured residual "
-              f"({PROFILE_FIT_RESIDUAL_DEX} dex) by a flux-fit engine that never touches "
-              f"it.\n  `derive_band_products` tests `prod.treatment == \"ENGINE-B\"`, an "
-              f"equality against a\n  treatment name that gained the ENGINE-B-NLTE "
-              f"variant in RYA-798, so every NLTE\n  cell is also LABELLED "
-              f"`ProfileFitHandler` in its own budget file.")
-        for _, r in mis.iterrows():
-            print(f"    {r.band:<12}{r.element} {r.ion:<3}{r.treatment:<16}"
-                  f"syst {r.syst_after:.4f} -> {r.syst_if_harness_correct:.4f} "
-                  f"if the residual followed the handler")
+    # ── what each cell's harness term is now charged, and under whose name ────────
+    # RYA-855 reported this block as a SEPARATE FINDING and did not fix it: the deriver
+    # tested `prod.treatment == "ENGINE-B"`, which never followed RYA-798's
+    # `ENGINE-B-NLTE` variant, so six banked cells were charged the profile fitter's
+    # residual by a flux fit that never touches it. RYA-869 fixed the deriver, and this
+    # audit now asks the same decider the deriver asks, so there is no gap left to
+    # report. It is printed anyway rather than deleted — the whole table on ONE rule is
+    # the evidence that the two answers merged, and a silent removal would read as the
+    # finding having gone away by itself.
+    print(f"\n=== harness residual per cell, charged BY HANDLER (RYA-869) ===")
+    for (h, t), grp in d.groupby(["harness_handler", "treatment"]):
+        print(f"  {t:<16}{h:<20}{grp.harness_charged_dex.iloc[0]:.4f} dex   "
+              f"({len(grp)} cell{'s' if len(grp) != 1 else ''})")
 
     summary = {
         "ticket": "RYA-855",
@@ -406,15 +391,16 @@ def main() -> int:
         "n_cells_moved": int(len(moved)),
         "graded_pool_control": ctrl,
         "separate_finding_harness_misattributed": {
-            "what": "derive_band_products charges the ProfileFitHandler residual to "
-                    "ENGINE-B-NLTE because it tests `treatment == \"ENGINE-B\"`; the "
+            "what": "derive_band_products charged the ProfileFitHandler residual to "
+                    "ENGINE-B-NLTE because it tested `treatment == \"ENGINE-B\"`; the "
                     "NLTE variant arrived in RYA-798 and the equality never followed",
-            "n_cells": int(len(mis)),
-            "cells": json.loads(mis[["band", "element", "ion", "treatment", "deck",
-                                     "syst_after", "syst_if_harness_correct"]]
-                                .to_json(orient="records")),
-            "status": "FILED SEPARATELY — not fixed in RYA-855, whose diff must isolate "
-                      "the gf term",
+            "status": "FIXED in RYA-869 — the residual and the handler label now come "
+                      "from pipeline.harness_residual, keyed on the handler the product "
+                      "declares. This audit's two mirrored harness rules were deleted "
+                      "with it; the numbers below are on the ONE surviving rule.",
+            "harness_by_handler_dex": {
+                str(h): float(g.harness_charged_dex.iloc[0])
+                for h, g in d.groupby("harness_handler")},
         },
         "caveats": [
             "The EW route's per-line artifact carries no excitation potential, so a "
@@ -431,8 +417,14 @@ def main() -> int:
             "replaced ('17 of 40 carry a citable NIST accuracy class'). RYA-822 keeps "
             "GF-NIST outside `is_graded` because FMW *is* NIST and VALD copies it "
             "(RYA-760), so those 15 do not buy the band a rung.",
-            "The harness-residual misattribution reported above is FILED, NOT FIXED — "
-            "see the separate finding. This audit mirrors it on purpose.",
+            "The harness-residual misattribution this audit surfaced is FIXED "
+            "(RYA-869): the residual and its handler label now come from "
+            "pipeline.harness_residual, keyed on the handler the product declares. The "
+            "two mirrored rules this audit carried — one reproducing the defect so the "
+            "gf baseline matched the published bars, one holding the correct answer — "
+            "are gone with it, and the numbers here are on the one surviving rule. Six "
+            "cells (four published matrix cells) moved by 0.0005 dex; see "
+            "data/results/rya869/.",
         ],
         "cells": json.loads(d.to_json(orient="records")),
     }
