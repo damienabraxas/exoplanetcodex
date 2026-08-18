@@ -686,6 +686,38 @@ artifacts:
       to 0.5-deep neighbours, and a full-height marker made a correct identification look
       like a miss.
 
+  # ── RYA-873 — a budget must not print MEASURED beside a number nobody measured ──────
+  - artifact: rya873/rya873_crowding_by_line.csv
+    generator: scripts/rya873_control_rca.py
+    invocation: ISPEC_DIR=... python3 scripts/rya873_control_rca.py
+    ticket: RYA-873
+    note: >-
+      The test that decided RYA-873, per control line and per candidate EW window. The
+      SynthesisHandler's optical control is a COMPENSATING-ERROR PASS -- abundance agrees
+      (dex_offset -0.0100) while EW is off +0.1562 dex -- and the control says so itself.
+      The leading explanation was that `measure_line` builds its EW as a DIFFERENCE OF TWO
+      SYNTHESES, which cancels other species but NOT another Fe I line in the same window
+      (the RYA-785 shape). 🔴 RESULT: REFUTED. Of the 18 accepted lines, the 15 the
+      strength proxy calls essentially uncontaminated (<=1.46x, mostly ~1.00x) still span
+      observed synth/banked ratios 0.50-2.07 with median 1.295, and dividing the predicted
+      contamination out moves their MAD only 0.246 -> 0.217. The global log-log
+      correlation of 0.813 is carried entirely by three lines predicting 8.9x, 14.1x and
+      258x -- exactly the failure mode the test pre-declared before seeing the data
+      (RYA-818). ⚠️ The proxy 10^(loggf - ep*theta) is an ORDERING, not an EW, which is
+      why it can return 258x; the refutation rests on the 15 lines where it says the
+      neighbours are much WEAKER than the target, a relative claim it handles well.
+  - artifact: rya873/rya873_crowding_summary.json
+    generator: scripts/rya873_control_rca.py
+    invocation: ISPEC_DIR=... python3 scripts/rya873_control_rca.py
+    ticket: RYA-873
+    note: >-
+      The machine twin, carrying the verdict and its caveat as fields rather than as
+      stdout. CONSEQUENCE: the compensating-error caveat STANDS, 0.0100 is the abundance
+      angle of an unexplained pass and is NOT established, 0.0000 is an assumed zero, so
+      RYA-873 charges NOTHING and makes the budget say so instead of printing "MEASURED"
+      over it. RYA-875 is the RCA that resolves the split; the
+      `UNCHARGED_CONTROL_RESIDUAL_DEX` declaration and its test stay until it does.
+
   # ── RYA-871 — a wavelength does not identify a line; carry the excitation potential ──
   - artifact: rya871/rya871_ep_resolution_probe.csv
     generator: scripts/rya871_ep_resolution_probe.py
