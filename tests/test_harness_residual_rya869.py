@@ -118,9 +118,12 @@ def test_budget_prose_and_arithmetic_name_the_same_handler():
     with the number rather than being passed separately."""
     for handler in hr.HANDLER_RESIDUAL_DEX:
         kw = hr.for_handler(handler).budget_kwargs()
-        assert set(kw) == {"harness_residual_dex", "handler"}, (
-            "budget_kwargs must carry the residual AND its label together; splitting "
-            "them is how one call site drifts from the other (RYA-845/855)")
+        assert set(kw) == {"harness_residual_dex", "handler", "harness_provenance"}, (
+            "budget_kwargs must carry the residual, its label AND its provenance "
+            "together; splitting them is how one call site drifts from the other "
+            "(RYA-845/855), and RYA-873 added the provenance for the same reason — a "
+            "budget that prints MEASURED beside an unmeasured number is the same defect "
+            "one layer out")
         text = build_budget("Fe", 5000.0, 40, scatter_dex=0.10, gf_graded=False,
                             **kw).describe()
         harness_line = [x for x in text.splitlines() if "harness residual" in x]

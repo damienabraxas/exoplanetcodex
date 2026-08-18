@@ -1,6 +1,6 @@
 {
   "ticket": "RYA-869",
-  "band_products": "/mnt/codex-data/codex/rya845/data/results/band_products",
+  "band_products": "/private/tmp/claude-501/-Users-ryanschmitt/90426a9d-16de-4dee-9f3e-c1f4673024f8/scratchpad/band_products",
   "band_products_fingerprint_sha256": "1e18d7b1eca5583d1f15c86cf0d1b76c15efa3821765d7fcac1fb5cde089725a",
   "n_cells": 36,
   "n_reproducing_published": 35,
@@ -152,7 +152,7 @@
     "control_passed": true,
     "control_n_lines": 18,
     "what": "every synthesis-route budget charges 0.0000 while harness_term() prints 'MEASURED against the known optical answer, not assumed zero'; the handler's own banked control measured |dex_offset| = 0.0100 and PASSED. The prose and the arithmetic disagree.",
-    "ticket": "RYA-873",
-    "status": "REPORTED, NOT FIXED IN RYA-869; filed as RYA-873 \u2014 published band products charge 0.0; charging the measured 0.0100 moves the near-UV 1D-LTE cell and every ENGINE-B / ENGINE-B-NLTE cell, so it is a separate diff from RYA-869's four-cell handler-attribution fix"
+    "ticket": "RYA-875",
+    "status": "REPORTED, NOT FIXED IN RYA-869; filed as RYA-875 \u2014 the control is a compensating-error pass \u2014 abundance agrees (-0.0100) while EW is off +0.1562 dex \u2014 and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split"
   }
 }

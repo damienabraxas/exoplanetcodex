@@ -239,6 +239,61 @@ def main() -> int:
         print("  evidence. Then the EW disagreement is real, the compensating-error")
         print("  caveat stands, and the answer to RYA-873 is NOT 0.0100.")
 
+    # ── THE BULK TEST, banked rather than printed ────────────────────────────────
+    # A global correlation can be carried by a few extreme-proxy lines, so the finding
+    # is what happens to the lines the proxy says are essentially UNCONTAMINATED. If the
+    # mechanism explained the scatter, those would be tight around 1. Stored, because a
+    # verdict that lives only in stdout is a verdict nobody can check later (RYA-843).
+    BULK_MAX_PREDICTED = 2.0
+    t1 = tables[1.0]
+    bulk = t1[t1.predicted_ratio < BULK_MAX_PREDICTED]
+    outl = t1[t1.predicted_ratio >= BULK_MAX_PREDICTED]
+    def _mad2(x):
+        x = np.asarray(x, dtype=float)
+        return float(np.median(np.abs(x - np.median(x)))) if len(x) else float("nan")
+    bulk_block = {
+        "window_half_A": 1.0,
+        "predicted_ratio_cut": BULK_MAX_PREDICTED,
+        "n_bulk": int(len(bulk)), "n_outliers": int(len(outl)),
+        "bulk_predicted_ratio_max": round(float(bulk.predicted_ratio.max()), 3),
+        "bulk_observed_ratio_min": round(float(bulk.ratio.min()), 3),
+        "bulk_observed_ratio_max": round(float(bulk.ratio.max()), 3),
+        "bulk_observed_ratio_median": round(float(bulk.ratio.median()), 3),
+        "bulk_mad_raw": round(_mad2(bulk.ratio), 4),
+        "bulk_mad_corrected": round(_mad2(bulk.corrected_ratio), 4),
+        "outlier_predicted_ratios": [round(float(x), 2)
+                                     for x in sorted(outl.predicted_ratio)],
+        "verdict": (
+            "REFUTED. Same-species neighbour contamination does not explain the EW "
+            "disagreement. The 15 lines the proxy says are essentially uncontaminated "
+            "(predicted <= 1.46x, mostly ~1.00x) still span observed ratios 0.50-2.07 "
+            "with median 1.295, and dividing the predicted contamination out moves their "
+            "MAD only 0.246 -> 0.217. The global log-log correlation of 0.813 is carried "
+            "entirely by three lines whose proxy prediction is 8.9x, 14.1x and 258x -- "
+            "the failure mode this test pre-declared (RYA-818: a rule that only fires "
+            "where the primary failed is unfalsifiable). CONSEQUENCE: the control's "
+            "compensating-error caveat STANDS, 0.0100 is the abundance angle of an "
+            "unexplained pass and is NOT established, and RYA-873 charges nothing. "
+            "RYA-875 is the RCA that resolves the split."),
+        "caveat": (
+            "The strength proxy 10^(loggf - ep*theta) is a curve-of-growth ORDERING, not "
+            "an EW: it ignores saturation, damping and the fact that overlapping lines "
+            "do not add linearly, which is why it can return 258x. The refutation does "
+            "NOT rest on it at the top end -- it rests on the 15 lines where the proxy "
+            "says the neighbours are much WEAKER than the target, a relative statement "
+            "the proxy handles well, and where the observed scatter survives anyway."),
+    }
+    print(f"\n=== the bulk test (the one a few outliers cannot carry) ===")
+    print(f"  {bulk_block['n_bulk']} lines with predicted contamination < "
+          f"{BULK_MAX_PREDICTED}x: observed ratio "
+          f"{bulk_block['bulk_observed_ratio_min']}-"
+          f"{bulk_block['bulk_observed_ratio_max']}, "
+          f"MAD {bulk_block['bulk_mad_raw']} -> {bulk_block['bulk_mad_corrected']} "
+          f"corrected")
+    print(f"  the {bulk_block['n_outliers']} carrying the global correlation predict "
+          f"{bulk_block['outlier_predicted_ratios']}x")
+    print(f"  => {bulk_block['verdict'].split('.')[0]}.")
+
     a.out.mkdir(parents=True, exist_ok=True)
     pd.concat(tables.values(), ignore_index=True).to_csv(
         a.out / "rya873_crowding_by_line.csv", index=False)
@@ -251,6 +306,7 @@ def main() -> int:
         "ratio_max": round(float(ok.ratio.max()), 4),
         "theta_solar": round(THETA_SOLAR, 5),
         "windows": results,
+        "bulk_test": bulk_block,
     }, indent=2) + "\n")
     print(f"\n  wrote {a.out.relative_to(ROOT)}")
     return 0
