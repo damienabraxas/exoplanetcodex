@@ -5,6 +5,7 @@ Fe · VIS · n=148
     0.0261  line-to-line scatter     [random] observed spread of the accepted lines
     0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 6 of 148 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x1, UNRESOLVED x4, systematic:K07 x134, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
 
 Fe · VIS · n=105
   statistical  0.0279 dex   (averages down as 1/sqrt(N))
@@ -13,11 +14,13 @@ Fe · VIS · n=105
     0.0279  line-to-line scatter     [random] observed spread of the accepted lines
     0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 5 of 105 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x1, UNRESOLVED x1, systematic:K07 x95, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
 
 Fe · VIS · n=131
   statistical  0.0205 dex   (averages down as 1/sqrt(N))
-  systematic   0.1705 dex   (does NOT average down)
+  systematic   0.1700 dex   (does NOT average down)
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0205  line-to-line scatter     [random] observed spread of the accepted lines
-    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): MIXED POOL: 5 of 131 Fe I lines are GF-LAB (primary laboratory gf); the rest are GF-NIST x1, UNRESOLVED x2, systematic:K07 x120, systematic:K07/SCALE-MISMATCH x3. A pool is graded only if every line in it is — inheriting the best rung a subset carries would attribute a laboratory pedigree to lines that do not have one
