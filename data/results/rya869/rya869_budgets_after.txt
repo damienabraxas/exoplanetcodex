@@ -4,7 +4,7 @@ Fe · VIS · n=136
   systematic   0.1700 dex   (does NOT average down)
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0332  line-to-line scatter     [random] observed spread of the accepted lines
-    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
 
 # gerber-nlte/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv  (gerber-nlte)
@@ -13,7 +13,7 @@ Fe · VIS · n=8
   systematic   0.1700 dex   (does NOT average down)
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0174  line-to-line scatter     [random] observed spread of the accepted lines
-    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
 
 # FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv  (root)
@@ -23,7 +23,7 @@ Fe · red-optical · n=77
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
     0.0243  line-to-line scatter     [random] observed spread of the accepted lines
-    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
 
 # gerber-nlte/FeI_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv  (gerber-nlte)
@@ -33,7 +33,7 @@ Fe · red-optical · n=77
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
     0.0243  line-to-line scatter     [random] observed spread of the accepted lines
-    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
 
 # FeII_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv  (root)
@@ -43,7 +43,7 @@ Fe · red-optical · n=2
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0450  line-to-line scatter     [random] observed spread of the accepted lines
     0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
-    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
 
 # gerber-nlte/FeII_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv  (gerber-nlte)
@@ -53,5 +53,5 @@ Fe · red-optical · n=2
     0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
     0.0450  line-to-line scatter     [random] observed spread of the accepted lines
     0.0300  telluric residual        [SYSTEMATIC] red-optical: telluric correction residuals are epoch- and airmass-dependent, so they vary between observations of the SAME star and cannot be calibrated once
-    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler: NO RESIDUAL IS CHARGED — the control is a compensating-error pass — abundance agrees (-0.0100) while EW is off +0.1562 dex — and the contamination explanation for the EW half was tested and refuted (RYA-873, data/results/rya873/). Neither 0.0100 nor 0.0000 is established, so no residual is asserted and the absence is stated in the budget. RYA-875 is the RCA that resolves the split. See RYA-875 and data/audit/synthesis_control/control_FeI.json. This is an ABSENCE, not a measured zero, and it is carried at 0.0 so the bar is not inflated by a number nobody has
   dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
