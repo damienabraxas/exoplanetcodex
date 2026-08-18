@@ -156,6 +156,22 @@ class Product:
     n_excluded: int
     lines: list[LineMeasurement] = field(default_factory=list)
     provenance: str = ""
+    #: RYA-869 — WHICH MEASUREMENT HANDLER PRODUCED THIS NUMBER (`MeasurementHandler.name`,
+    #: i.e. "ProfileFitHandler" or "SynthesisHandler").
+    #:
+    #: The harness residual in the error budget is that handler's own measured optical
+    #: systematic, so the budget has to know which handler ran. It used to be inferred
+    #: from `treatment`, which is not a function of it: `ENGINE-B-NLTE` is the same flux
+    #: fit as `ENGINE-B` and an equality test missed it (four published bars charged the
+    #: profile fitter's residual), and in the other direction the near-UV `1D-LTE`
+    #: product is a flux fit while the VIS `1D-LTE` product of the same treatment name is
+    #: an EW inversion. No mapping from the label exists, so the producing route declares
+    #: it here and `pipeline.harness_residual` reads it.
+    #:
+    #: Defaults empty so a Product can still be constructed directly in a test that is
+    #: not about the budget; `build_product` REQUIRES it, and `harness_residual.
+    #: for_product` refuses an empty one rather than choosing a default.
+    handler: str = ""
 
     def to_frame(self) -> pd.DataFrame:
         return pd.DataFrame([asdict(l) for l in self.lines])
@@ -262,10 +278,23 @@ def pct_label(kw) -> str:
 
 
 def build_product(element: str, ion: str, instrument: str, band: str, treatment: str,
-                  lines: list[LineMeasurement], *, provenance: str = "") -> Product:
-    """Aggregate ONE treatment into ONE product. Never touches another treatment."""
+                  lines: list[LineMeasurement], *, handler: str,
+                  provenance: str = "") -> Product:
+    """Aggregate ONE treatment into ONE product. Never touches another treatment.
+
+    `handler` names the measurement handler that produced these lines and is REQUIRED
+    (RYA-869). It is not derivable from `treatment` -- see `Product.handler` -- and the
+    route that ran the handler is the only caller that knows it, so it is asked for here
+    rather than guessed downstream in the error budget.
+    """
     if treatment not in TREATMENTS:
         raise ValueError(f"unknown treatment {treatment!r}; expected one of {TREATMENTS}")
+    # Checked against the residual registry rather than against a local list: a handler
+    # this product could be built under but whose harness systematic nobody has declared
+    # is a product whose error bar cannot be assembled, and finding that out here names
+    # the route instead of failing three calls later inside `error_budget.build`.
+    from pipeline.harness_residual import for_handler
+    for_handler(handler)
     assert_single_element(lines, element)
     assert_no_cross_treatment_mix(lines, treatment)
 
@@ -285,7 +314,7 @@ def build_product(element: str, ion: str, instrument: str, band: str, treatment:
     return Product(element=element, ion=ion, instrument=instrument, band=band,
                    treatment=treatment, value=value, sigma=sigma,
                    n_lines=len(used), n_excluded=len(excluded),
-                   lines=lines, provenance=provenance)
+                   lines=lines, provenance=provenance, handler=handler)
 
 
 def products_frame(products: list[Product]) -> pd.DataFrame:
@@ -297,5 +326,6 @@ def products_frame(products: list[Product]) -> pd.DataFrame:
     return pd.DataFrame([
         dict(element=p.element, ion=p.ion, instrument=p.instrument, band=p.band,
              treatment=p.treatment, value=p.value, sigma=p.sigma,
-             n_lines=p.n_lines, n_excluded=p.n_excluded, provenance=p.provenance)
+             n_lines=p.n_lines, n_excluded=p.n_excluded, handler=p.handler,
+             provenance=p.provenance)
         for p in products])
