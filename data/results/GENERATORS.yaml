@@ -1332,9 +1332,12 @@ artifacts:
       SCALE difference. Since a gf too high gives an abundance too low, adopting NIST would
       move Fe I - Fe II from +0.018 to -0.088 and break the solar ionization balance
       (RYA-407) -- which is what a partly solar-fitted scale would look like (RYA-161), a
-      HYPOTHESIS needing MB09's S/L flags to test. ⚠️ Den Hartog 2019's optical subset could
-      NOT be reached (Vizier.find_catalogs returned nothing) -- an absence in the SEARCH,
-      not the source (RYA-833).
+      HYPOTHESIS is now REFUTED for two of the three: MB09's numbers disagree with ours,
+      so MB09 is not their source and their origin is still open. 🔴 The RYA-161 firewall
+      IS now applied line by line from MB09 Table 1's own L/S flag, and it finds one pool
+      line (5991.371) whose log gf came from MB09's inverse SOLAR analysis -- circular for
+      solar work, and owed a RYA-844 disposition. Den Hartog 2019 is ruled out BY ITS
+      STATED COVERAGE (2250-3280 + 4173-4584 A), not by a failed search.
   # ── RYA-850 — the graded (lab-gf) pool as the reported value ───────────────────────
   - artifact: rya850/rya850_two_product_matrix.csv
     generator: scripts/rya850_graded_products.py
