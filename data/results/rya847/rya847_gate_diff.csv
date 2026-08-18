@@ -1,0 +1,9 @@
+cell,deck,treatment,A_pre,n_pre,scatter_pre,A_post,n_post,stat_post,scatter_post,n_caught,lines_caught,dA,d_scatter,control_source
+NIR,,1D-LTE,7.4960,32,1.1390,7.4920,31,0.1391,0.7745,1,12638.703,-0.0040,-0.3645,"RYA-847 nine-cell sweep, cell FeI_nir, 2026-08-17 — SAME tree and SAME code as the gated run, gate not yet applied"
+VIS,gerber-nlte,1D-LTE,,,,7.5860,148,0.0261,0.3175,0,,,,n/a — gate excluded 0 lines here
+VIS,gerber-nlte,ENGINE-A,,,,7.5970,105,0.0279,0.2859,0,,,,n/a — gate excluded 0 lines here
+VIS,gerber-nlte,ENGINE-B-NLTE,7.5680,132,0.3850,7.5700,131,0.0205,0.2346,1,5333.7683,+0.0020,-0.1504,"RYA-847 nine-cell sweep, cell FeI_vis_gerber-nlte, 2026-08-17 — SAME tree and SAME code as the gated run, gate not yet applied"
+VIS,ts-lte,1D-LTE,,,,7.5860,148,0.0261,0.3175,0,,,,n/a — gate excluded 0 lines here
+VIS,ts-lte,ENGINE-A,,,,7.5970,105,0.0279,0.2859,0,,,,n/a — gate excluded 0 lines here
+VIS,ts-lte,ENGINE-B,7.5140,130,0.3683,7.5150,129,0.0193,0.2192,1,5333.7683,+0.0010,-0.1491,"RYA-847 nine-cell sweep, cell FeI_vis_ts-lte, 2026-08-17 — SAME tree and SAME code as the gated run, gate not yet applied"
+near-UV,,1D-LTE,7.4875,40,0.4126,7.4980,39,0.0669,0.4178,1,3617.318,+0.0105,+0.0052,"RYA-847 nine-cell sweep, cell FeI_nearuv, 2026-08-17 — SAME tree and SAME code as the gated run, gate not yet applied"

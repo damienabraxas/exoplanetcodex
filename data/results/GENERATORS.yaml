@@ -381,6 +381,83 @@ artifacts:
       filename carries band + instrument + route and NOT the deck, so a shared directory
       loses a row.
 
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the per-line record for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the uncertainty budget for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/rya847_regen_gated_cells.sh
+    ticket: RYA-847
+    invocation: bash scripts/rya847_regen_gated_cells.sh
+    note: >-
+      RYA-847 item 6 — the product row for the VIS cell (ts-lte deck) with the NON-MINIMUM check
+      applied. The flagship band; 5333.768 is a non-minimum in BOTH decks and no existing gate saw it (red_chi2 6.09 under the 10.0 gate, edge distance 0.108 outside edge_pinned's 1e-2). Each deck writes its OWN directory: the products
+      filename carries band + instrument + route and NOT the deck, so a shared directory
+      loses a row.
+
+  - artifact: rya847/rya847_gate_diff.csv
+    generator: scripts/rya847_gate_diff.py
+    invocation: python3 scripts/rya847_gate_diff.py
+    ticket: RYA-847
+    note: >-
+      ITEM 6. What the non-minimum check cost, per product: before and after, the lines it
+      caught, and the change in value and scatter. The "before" side is RYA-847's own
+      nine-cell sweep — the same tree and the same code with the gate not yet applied —
+      NOT the published matrix, which came from the rya845 run and differs by registry
+      drift that has nothing to do with this gate (the confound RYA-848 settled with a
+      same-inputs control). 🔴 The generator REFUSES to report a clean diff it cannot
+      justify: `n_post + n_caught == n_pre` must hold in every changed cell, the deck-free
+      products must agree across both Engine-B decks, and a control row that finds no
+      product is a hard failure — the guard for the deck-overwrite that silently lost the
+      ENGINE-B row from the first run of this regeneration.
+
+  - artifact: rya847/rya847_gate_caught_lines.csv
+    generator: scripts/rya847_gate_diff.py
+    invocation: python3 scripts/rya847_gate_diff.py
+    ticket: RYA-847
+    note: >-
+      Every line the gate excluded, with the four constraint metrics and the verbatim
+      reason. Three lines across three bands and four products. 🔴 3617.318 is the one
+      that matters: it fitted at A = 7.477, indistinguishable from solar, sitting quietly
+      in the published near-UV aggregate on a chi2 curve that never rose — no
+      plausibility-based check could ever have found it.
+
   - artifact: rya847/README.md
     status: HAND_AUTHORED
     generator: null
