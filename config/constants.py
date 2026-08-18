@@ -440,6 +440,30 @@ def fe1_scatter_threshold(spectral_type):
 # them robustly without being delicate. Rejected lines are logged with their χ²ᵣ.
 SYNTH_CHI2_GATE       = 10.0   # max reduced-χ² for a synth-v2 line to enter the median
 
+# ── Synthesis CONSTRAINT gate (RYA-847) ───────────────────────────────────────
+# "Did the objective actually pin A(X)?" — a different question from SYNTH_CHI2_GATE
+# above, which asks "does the model describe the flux?".
+#
+# 🔴 None IS THE SETTLED ANSWER, NOT A PENDING ONE. RYA-847 swept 9 cells and 581
+# synthesis lines looking for a transferable threshold and found none: per-band cuts span
+# x39.5 (sigma_A), x130.7 (frac_rise), x24.4 (edge distance) and x489.4 (red_chi2), and
+# the widest gap WITHIN almost every band is x1.02-2.88 — continuous distributions, no
+# separable population to threshold against. RYA-342's clean-gap method reproduces
+# nowhere. "No defensible cut, measured" beats picking the least-bad number (RYA-161).
+#
+# The gate is NOT thereby empty: `pipeline.constraint_gate` always applies the
+# NON-MINIMUM check (frac_rise <= 0), which is a correctness test with no threshold to
+# choose. Model-inadequate fits that ARE real minima go to problem_children case by case
+# under RYA-844, because auto-gating them needs precisely the red_chi2 cut the sweep
+# refuted.
+#
+# Setting this to a (metric, maximum) pair remains possible and must clear the same bar:
+# a demonstrated, transferable gap across every synthesis band. Do NOT default it to
+# SYNTH_CHI2_GATE = 10.0 — measured, that would refuse a well-behaved NIR line at
+# red_chi2 = 72 and ALL 40 near-UV lines, which sit between 27.7 and 999.5 while being
+# otherwise perfectly constrained.
+SYNTH_CONSTRAINT = None
+
 # ── Ni I 6300.34 COG line data ────────────────────────────────────────────────
 # Used in _predict_ni6300_ew() to model the O I 6300 blend contamination.
 # The Ni I 6300.34 log gf is NOT stored here — it is single-sourced to the

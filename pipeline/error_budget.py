@@ -136,20 +136,70 @@ UNGRADED_GF_SYSTEMATIC_DEX = 0.17
 GRADED_GF_SYSTEMATIC_DEX = 0.041
 
 
+def cited_gf_term(sigma_dex: float, *, n_lines: int, source: str) -> Term:
+    """The gf term from the pool's OWN cited laboratory sigmas (RYA-850).
+
+    `GRADED_GF_SYSTEMATIC_DEX` is a BOUND -- the worst grade we accept -- and a bound is
+    the right answer only while the actual sigmas are unknown. When the pool's lines carry
+    published per-line uncertainties, those are a MEASUREMENT of the same quantity and
+    supersede the bound. For the Fe I pools this is larger, not smaller (0.052-0.060 vs
+    0.041), so the bound was optimistic; a pool of grade-A lines would legitimately come
+    out below it, which is why nothing here clamps to the generic value.
+
+    Combined as an RMS by the caller rather than a median: these enter the budget in
+    quadrature, and the median discards exactly the tail a quadrature sum is sensitive to.
+
+    `source` must name the papers, never "assumed" -- and per RYA-853 the Fe I table it
+    reads was refereed line-by-line against those papers before this term was wired.
+    """
+    if not math.isfinite(sigma_dex) or sigma_dex <= 0:
+        raise ValueError(f"cited gf sigma must be finite and positive, got {sigma_dex!r}")
+    if n_lines < 1:
+        raise ValueError(f"cited gf sigma needs at least one line, got n_lines={n_lines}")
+    return Term("gf scale (cited lab)", sigma_dex, False,
+                f"RMS of the published per-line laboratory sigma over {n_lines} lines "
+                f"({source}); measured, so it supersedes the generic graded bound")
+
+
 def gf_term(*, graded: bool) -> Term:
     if graded:
         return Term("gf scale (NIST-graded)", GRADED_GF_SYSTEMATIC_DEX, False,
-                    "NIST grade B = 10% on the transition probability = log10(1.10) dex")
+                    "NIST grade B = 10% on the transition probability = log10(1.10) dex; "
+                    "a BOUND -- superseded by cited_gf_term where per-line sigmas exist")
     return Term("gf scale (UNGRADED)", UNGRADED_GF_SYSTEMATIC_DEX, False,
                 "ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random "
                 "part shows up in the line-to-line scatter, this is the scale offset that "
                 "does not")
 
 
-def harness_term(measured_residual_dex: float, handler: str) -> Term:
-    return Term("harness residual", measured_residual_dex, False,
-                f"{handler} MEASURED against the known optical answer, not assumed zero "
-                f"(control/frontier rule)")
+def harness_term(measured_residual_dex: float, handler: str,
+                 provenance: str = "") -> Term:
+    """The handler's own systematic, described BY HOW IT WAS OBTAINED — RYA-873.
+
+    🔴 THIS FUNCTION USED TO ASSERT. It printed "{handler} MEASURED against the known
+    optical answer, not assumed zero (control/frontier rule)" beside WHATEVER value it
+    was handed — including `SynthesisHandler`'s 0.0000, which no control established and
+    which that sentence explicitly disclaims. Every synthesis-route budget in the repo
+    carried that contradiction: the prose said measured, the arithmetic was an assumption.
+
+    So the sentence is now a function of the provenance rather than a constant. An
+    unstated provenance says it is unstated; it does not inherit the claim.
+    """
+    from pipeline.harness_residual import (
+        PROV_MEASURED, PROV_UNCHARGED, PROV_UNSTATED, uncharged_note)
+    prov = (provenance or PROV_UNSTATED).strip()
+    if prov == PROV_UNCHARGED:
+        why = uncharged_note(handler) or "no residual has been established for it"
+        src = (f"{handler}: NO RESIDUAL IS CHARGED — {why}. This is an ABSENCE, not a "
+               f"measured zero, and it is carried at 0.0 so the bar is not inflated by "
+               f"a number nobody has")
+    elif prov == PROV_MEASURED:
+        src = (f"{handler} MEASURED against the known optical answer, not assumed zero "
+               f"(control/frontier rule)")
+    else:
+        src = (f"{handler}: the provenance of this residual is NOT STATED by the caller, "
+               f"so it is not described as measured (RYA-873)")
+    return Term("harness residual", measured_residual_dex, False, src)
 
 
 def scatter_term(observed_scatter_dex: float) -> Term:
@@ -159,13 +209,32 @@ def scatter_term(observed_scatter_dex: float) -> Term:
 
 def build(element: str, wavelength_A: float, n_lines: int, *,
           scatter_dex: float, gf_graded: bool, harness_residual_dex: float,
-          handler: str) -> ErrorBudget:
-    """Assemble the budget for a band, adding the terms that band actually has."""
+          handler: str, harness_provenance: str = "",
+          cited_gf_sigma_dex: float | None = None,
+          cited_gf_source: str = "") -> ErrorBudget:
+    """Assemble the budget for a band, adding the terms that band actually has.
+
+    `cited_gf_sigma_dex` supplies the pool's own published per-line gf uncertainty and
+    REPLACES the generic graded bound when present (RYA-850). It is only meaningful for a
+    graded pool -- an ungraded Kurucz line has no cited sigma to average -- so passing it
+    with `gf_graded=False` is a caller error rather than a silent preference.
+    """
     pol = resolve(wavelength_A)
     b = ErrorBudget(element=element, band=pol.name, n_lines=n_lines)
     b.add(scatter_term(scatter_dex))
-    b.add(gf_term(graded=gf_graded))
-    b.add(harness_term(harness_residual_dex, handler))
+    if cited_gf_sigma_dex is not None:
+        if not gf_graded:
+            raise ValueError(
+                "cited_gf_sigma_dex is only defined for a graded pool; an ungraded "
+                "Kurucz line has no published per-line sigma (RYA-850)")
+        if not cited_gf_source:
+            raise ValueError("cited_gf_sigma_dex requires cited_gf_source naming the "
+                             "papers -- a budget term is never unsourced")
+        b.add(cited_gf_term(cited_gf_sigma_dex, n_lines=n_lines,
+                            source=cited_gf_source))
+    else:
+        b.add(gf_term(graded=gf_graded))
+    b.add(harness_term(harness_residual_dex, handler, harness_provenance))
 
     if "pseudo" in pol.continuum_treatment.lower():
         # The size is set by how far the reachable envelope sits below unity: near-UV
