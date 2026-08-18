@@ -334,6 +334,9 @@ def synthesis_route(a, pol) -> None:
                        f"production wing-wide rule)"),
             abundance=(a_x if np.isfinite(a_x) else None),
             treatment="1D-LTE",
+            # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
+            # "no departure applied" from "nobody recorded one" (RYA-833).
+            nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
             # RYA-871 — `select_lines` already returns the EP of the row it picked, and
             # this route picks AT the list's own wavelength, so the identity is exact
             # rather than recovered. Carried anyway, for two reasons: the near-UV pool
@@ -545,6 +548,22 @@ def _intake_ep(row, wavelength_A: float, element: str, ion: str) -> float:
     return float(ep)
 
 
+#: RYA-880 — the NLTE provenance strings, declared ONCE (RYA-845). Each says what was
+#: applied AND how, because RYA-207 left "per-line vs mean-field" as a live architectural
+#: question and a reader cannot tell which they are looking at from a number alone.
+MPIA_NLTE_SOURCE = ("Bergemann MPIA per-line delta_nlte (live query, solar node); "
+                    "PER-LINE additive correction")
+LTE_NLTE_SOURCE = "none — LTE, no departure applied"
+#: ⚠️ ENGINE-B-NLTE has NO additive per-line delta to record. The Gerber departures enter
+#: the radiative transfer, and RYA-712 makes this a SEPARATE PRODUCT rather than a
+#: correction applied to Engine-B-LTE. Reporting a number here would require differencing
+#: the two products, which is precisely what RYA-880 forbids and what RYA-712 forbids
+#: conceptually. So the delta is None and the source says why.
+GERBER_NLTE_SOURCE_FMT = ("gerber:{atom} (TS-native departure deck, RYA-798); departures "
+                          "applied INSIDE the synthesis — no additive per-line delta "
+                          "exists, this is a separate product, not a corrected LTE value")
+
+
 def asdict_line(l: LineMeasurement) -> dict:
     return dict(element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
                 instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
@@ -560,7 +579,11 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # surface exists behind an EW inversion, so the question does not apply,
                 # and a consumer must read None as "not applicable", not "unconstrained".
                 sigma_A=l.sigma_A, frac_rise_weaker=l.frac_rise_weaker,
-                edge_distance_dex=l.edge_distance_dex, red_chi2=l.red_chi2)
+                edge_distance_dex=l.edge_distance_dex, red_chi2=l.red_chi2,
+                # RYA-880 — and it must be added HERE too: this hand-written
+                # projection is the lossy one of the object's two serialisers, and
+                # RYA-847 already lost `red_chi2` to exactly this omission.
+                nlte_delta_dex=l.nlte_delta_dex, nlte_source=l.nlte_source)
 
 
 def main() -> None:
@@ -651,7 +674,19 @@ def main() -> None:
                   f"[{_d['governing_tickets']}]")
 
     def _stamp(lm):
-        """Carry the registry verdict onto a measurement, and honour it."""
+        """Carry the registry verdict onto a measurement, and honour it.
+
+        🔴 RYA-880 also makes this the choke point for NLTE provenance. Every row in this
+        driver passes through here, so a route that forgets to record what it applied
+        fails LOUDLY at the point of omission rather than shipping a blank column that
+        nobody can tell from "LTE".
+        """
+        if not lm.nlte_source:
+            raise SystemExit(
+                f"RYA-880: {lm.element} {lm.ion} {lm.wavelength_air_A} "
+                f"({lm.treatment or 'no treatment'}) has no `nlte_source`. Every row must "
+                f"state what departure was applied, and an LTE row must say so explicitly "
+                f"— a blank cannot be told apart from an unrecorded correction (RYA-833).")
         hit = _pc_hits.get(round(float(lm.wavelength_air_A), 4))
         if hit is None:
             return lm
@@ -697,6 +732,7 @@ def main() -> None:
                              # from. `_intake_ep` is loud about an EW file written before
                              # RYA-871 rather than emitting a null and widening blind.
                              ep_eV=_intake_ep(r, c, a.element, a.ion),
+                             nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
                              treatment="1D-LTE")
         if not conv or not np.isfinite(A):
             lm.in_aggregate = False
@@ -736,6 +772,11 @@ def main() -> None:
                              # departure term to THIS line's inversion, it does not
                              # re-measure anything.
                              ep_eV=l.ep_eV,
+                             # RYA-880 — `d` IS the correction, recorded in the same
+                             # expression that applies it, so the two can never drift.
+                             nlte_delta_dex=(float(d) if d is not None else None),
+                             nlte_source=(MPIA_NLTE_SOURCE if d is not None
+                                          else "MPIA per-line delta_nlte (NOT SERVED)"),
                              abundance=(l.abundance + d) if d is not None else None)
         if d is None:
             la.in_aggregate = False
@@ -806,6 +847,12 @@ def main() -> None:
     if not a.skip_engine_b:
         nlte = a.engine_b_deck == "gerber-nlte"
         treatment = "ENGINE-B-NLTE" if nlte else "ENGINE-B"
+        # RYA-880. ⚠️ The NLTE deck has NO additive per-line delta: the departures enter
+        # the radiative transfer and RYA-712 makes this a separate product, not a
+        # corrected LTE value. None means "no additive correction exists on this route",
+        # which is a different statement from 0.0, and `nlte_source` says which.
+        _b_delta = None if nlte else 0.0
+        _b_source = None if nlte else LTE_NLTE_SOURCE
         print(f"\n[3] {treatment} — Turbospectrum flux-fit (deck={a.engine_b_deck})...")
         from pipeline.measure import resolve_handler
         from scripts.measure_band_ew import kp_segments, load_kp_window
@@ -839,6 +886,8 @@ def main() -> None:
             gnlte.assert_depth_match(dep, ctx_b["atmosphere"])
             n_lab = gnlte.assert_linelist_supports_nlte(
                 ctx["linelist"], int(ctx["atom_code"]), a.element)
+            _b_source = GERBER_NLTE_SOURCE_FMT.format(
+                atom=dep['atom_path'].split('/')[-1])
             print(f"    deck atom={dep['atom_path'].split('/')[-1]} "
                   f"ndep={dep['ndep']} nk={dep['nk']} A_deck={dep['deck_abundance']}")
             print(f"    atmosphere MARCS.GES ({len(ctx_b['atmosphere'])} layers), "
@@ -868,6 +917,7 @@ def main() -> None:
                                      instrument=a.instrument, ew_mA=float("nan"),
                                      ew_method="synthesis flux-fit",
                                      ep_eV=_intake_ep(r, c, a.element, a.ion),
+                                     nlte_delta_dex=_b_delta, nlte_source=_b_source,
                                      treatment=treatment)
                 lb.in_aggregate = False
                 lb.excluded_reason = f"WINDOW-LOAD: {type(e).__name__}: {str(e)[:60]}"
@@ -886,6 +936,9 @@ def main() -> None:
             # set, so it carries the same identity. The handler cannot know it: it is
             # handed a wavelength and a window, not an accounting row.
             lb.ep_eV = _intake_ep(r, c, a.element, a.ion)
+            # RYA-880 — the handler builds this row and cannot know the deck, so the
+            # driver that CHOSE the deck records it.
+            lb.nlte_delta_dex, lb.nlte_source = _b_delta, _b_source
             rows_b.append(_stamp(lb))   # RYA-807
 
         # RYA-768: deterministic row order, so the artifact byte-diffs clean.

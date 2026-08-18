@@ -81,11 +81,27 @@ through `doi.org`:
 * **CDS VizieR** for the machine-readable table (e.g. `VI/10` for Kurucz &
   Peytremann 1975), **Internet Archive** for NBS monographs, and the **proceedings
   host** for workshop papers.
+* **DOE OSTI** (`osti.gov/biblio/<id>`, JSON at `osti.gov/api/v1/records/<id>`) for US
+  government-funded reports and monographs. This is what finally supplied the title,
+  the Suppl. 3 number and a link for `martin1988` after Crossref, OpenAlex, NIST's own
+  publications database, ADS, LoC, HathiTrust and Google Books all came up empty.
 
-### Why two rows still carry no link, and why that is not fixed by guessing
+### Why ONE row still carries no link, and why that is not fixed by guessing
 
-`fuhr1988` and `martin1988` (JPCRD 1988 supplements) have no Crossref record and no
-stable publisher URL. That is the whole list.
+`fuhr1988` — *Atomic Transition Probabilities: Iron through Nickel*, JPCRD 17 Suppl. 4.
+Title and volume are confirmed twice over, but no stable URL exists in any catalogue
+checked. Its companion `martin1988` (Suppl. 3) *was* found in DOE OSTI, so the gap here
+is a hole in that catalogue rather than a failed search.
+
+**A blank `url` here is probably the correct permanent state, not an open task.** The
+volume appears to be print-only — consistent with it being absent from every digital
+catalogue tried, and with AIP's legacy supplement links returning 503. A row that says
+"this exists in print and has no online copy" is complete; a row pointing at a *different*
+document to fill the field would not be.
+
+**JPCRD supplements are standalone monographs outside the article stream and were never
+Crossref-registered.** Proved by enumerating all 103 JPCRD items 1987–1990 from
+Crossref: neither 1988 supplement is among them. Don't re-derive that.
 
 Two cautionary notes kept here on purpose, because both were **my** errors and both are
 the same shape — trusting a *name* instead of opening the *document*:
@@ -119,8 +135,14 @@ python3 scripts/generate_sources_page.py --audit-library "<reference library dir
 ```
 
 It fails **in both directions**: if any *document* in the library is not named by some
-row, and if any two rows name **byte-identical** files. Run it whenever a paper lands in
-the library. The second direction exists because a filename check cannot see that one
+row, and if any two rows name **byte-identical** files.
+
+🔴 **Run it EVERY SESSION.** The library gains documents between sessions — three
+arrived mid-session on 2026-08-17 while this file was being written, and the audit is
+the only reason they were noticed. The step is listed at the top of
+[`LEDGERS.md`](../../LEDGERS.md) (session start) and in `DEV_CYCLE.md` §7 (session
+close). There is no CI guard, because the library lives outside the repo and differs
+per machine — so this is discipline, and the audit is what makes the discipline cheap. The second direction exists because a filename check cannot see that one
 document is sitting on disk under three different names — only content can.
 The path is an argument, never hardcoded — the library lives outside the repo on a
 per-machine path, and a literal would both break on Sirius and trip the RYA-810 gate.
@@ -137,16 +159,16 @@ treatment.
 
 ## Verification state as of RYA-854 (2026-08-17)
 
-* **100 rows**; 0 in a `verify_*` state.
+* **104 rows**; 0 in a `verify_*` state.
 * 82 DOIs, **all present in the Crossref registry** (excluding the NIST `10.18434`
   and arXiv `10.48550` DOIs, which are not Crossref-registered and were confirmed
   against their own resolvers).
-* **98 of 100 rows carry a verified link**; 2 carry none, for the reasons above.
+* **103 of 104 rows carry a verified link**; 1 carries none, for the reason above.
 * `--verify-links`: **0 unreachable**. ~41 rows return HTTP 403 — the publisher's
   anti-bot response (aanda.org, OUP, Wiley), not a dead link; the DOI is registered,
   which is what the row claims. A 403 and a 404 are reported separately for exactly
   this reason.
-* `--audit-library`: **54 documents in the library, 54 accounted for**; 7 images
+* `--audit-library`: **57 documents in the library, 57 accounted for**; 7 images
   skipped.
 
 ## Relationship to `docs/references.md`
