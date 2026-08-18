@@ -355,3 +355,27 @@ def test_only_lines_in_the_aggregate_decide_the_rung(lab_pool):
     ll2 = _linelist(lab_pool.iloc[1:])
     r = gf_rung.for_lines("Fe", "I", ms, linelist=ll2)
     assert r.n_lines == len(lab_pool) - 1 and r.n_unresolved == 0 and r.rung == 3
+
+
+def test_the_rung_and_the_budget_count_the_same_lines(lab_pool):
+    """The budget's N and the rung's N must be the SAME set. They are computed in two
+    places — `build_product` and `for_lines` — from a rule written once here, and a
+    divergence would price a bar on lines the product did not use. Asserted as a
+    relationship rather than pinned to a number, so it holds for any pool."""
+    from pipeline.band_products import LineMeasurement, build_product
+
+    ms = [LineMeasurement(element="Fe", ion="I",
+                          wavelength_air_A=float(r.wavelength_air_A),
+                          instrument="kpno_solar_atlas", ew_mA=float("nan"),
+                          ew_method="synthesis flux-fit", abundance=7.5,
+                          treatment="1D-LTE", ew_inversion=False)
+          for _, r in lab_pool.iterrows()]
+    ms[0].abundance = None                      # a failed fit
+    ms[0].in_aggregate = False
+    ms[0].excluded_reason = "failed for this test"
+    ms[1].in_aggregate = False                  # quarantined but converged
+    ms[1].excluded_reason = "quarantined for this test"
+
+    p = build_product("Fe", "I", "kpno_solar_atlas", "VIS", "1D-LTE", ms)
+    r = gf_rung.for_product(p, linelist=_linelist(lab_pool))
+    assert r.n_lines == p.n_lines == len(lab_pool) - 2
