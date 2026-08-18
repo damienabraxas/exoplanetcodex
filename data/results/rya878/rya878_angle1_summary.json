@@ -1,0 +1,51 @@
+{
+  "ticket": "RYA-878",
+  "control": "/mnt/codex-data/codex/rya878/data/audit/synthesis_control/synthesis_control_FeI.csv",
+  "banked": "/mnt/codex-data/codex/rya878/data/outputs/solar/solar_per_line_synth_v2.csv",
+  "n_lines": 18,
+  "engine_ew_source": "evaluated at the banked a_synth (no refit)",
+  "comparisons": [
+    {
+      "comparison": "(a) handler EW / engine EW \u2014 does the ADAPTER reproduce the ENGINE?",
+      "n": 18,
+      "median_ratio": 1.0,
+      "dex": 0.0,
+      "mad_ratio": 0.0038,
+      "log10_std": 0.0109,
+      "min": 0.9059,
+      "max": 1.0196,
+      "within_10pct": 18
+    },
+    {
+      "comparison": "(b) engine EW / observed EW \u2014 is the offset the MODEL's?",
+      "n": 18,
+      "median_ratio": 1.4201,
+      "dex": 0.1523,
+      "mad_ratio": 0.3738,
+      "log10_std": 0.2541,
+      "min": 0.4956,
+      "max": 8.3853,
+      "within_10pct": 1
+    },
+    {
+      "comparison": "(c) handler EW / observed EW \u2014 ANGLE 1 as it stands",
+      "n": 18,
+      "median_ratio": 1.4329,
+      "dex": 0.1562,
+      "mad_ratio": 0.3594,
+      "log10_std": 0.2466,
+      "min": 0.4956,
+      "max": 7.5964,
+      "within_10pct": 2
+    }
+  ],
+  "adapter_reproduces_engine": true,
+  "already_refuted_do_not_retest": [
+    "same-species neighbour contamination (RYA-873)",
+    "uniform continuum/normalisation offset (log10 std 0.247)",
+    "curve-of-growth saturation (corr -0.047 vs reduced EW)",
+    "line strength (-0.100)",
+    "red_chi2 (+0.059)",
+    "sigma_A (-0.169)"
+  ]
+}

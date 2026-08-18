@@ -52,6 +52,7 @@ from typing import Any
 import numpy as np
 
 from pipeline.band_policy import BandPolicy
+from pipeline import synth_ew                       # RYA-878
 from pipeline.band_products import LineMeasurement
 from pipeline.fit_constraint import as_float_or_none as _as_f  # RYA-847
 from pipeline.constraint_gate import verdict as _constraint_verdict  # RYA-847
@@ -405,16 +406,13 @@ class SynthesisHandler(MeasurementHandler):
         # wherever this element does not absorb, so a wide range adds the damping wings and
         # nothing else -- blends cancel. Integrating over the fit window instead truncated
         # the wings and drove the EW angle to a median ratio of 0.250 by construction.
-        ew = float("nan")
-        try:
-            from pipeline._numcompat import trapezoid as _trapz
-            ew_hw = max(3.0 * hw_A, 1.0)
-            ew_w = np.linspace(c - ew_hw, c + ew_hw, max(int(2 * ew_hw / 0.004), 200))
-            with_el = self._synth(ew_w / 10.0, trial_A=a_best, **kw)
-            without = self._synth(ew_w / 10.0, trial_A=a_best - 4.0, **kw)
-            ew = float(_trapz(np.clip(without - with_el, 0.0, None), ew_w)) * 1000.0
-        except Exception:
-            pass
+        # RYA-878 — ONE definition, in `pipeline.synth_ew`. It was written out here and
+        # the production synth-v2 path computed no synthetic EW at all, which is why the
+        # control's ANGLE 1 could never be measured like-for-like: there was nothing on
+        # the engine side to compare against. Both sides call this now.
+        ew_hw = synth_ew.ew_half_width_A(hw_A)
+        ew = synth_ew.synthetic_ew_mA(self._synth, centre_A=c, abundance=a_best,
+                                      fit_half_width_A=hw_A, synth_kwargs=kw)
 
         pseudo = "pseudo" in policy.continuum_treatment.lower()
         method = (f"SYNTHESIS via _fit_synth_flux (synth-v2, RYA-287); A={a_best:.3f}; "
