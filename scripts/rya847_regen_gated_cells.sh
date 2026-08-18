@@ -29,12 +29,35 @@ PY="${PY:-/mnt/codex-data/venv312/bin/python}"
 OUT="${OUT:-data/results/rya847/gated}"
 mkdir -p "$OUT" "$OUT/ts-lte" "$OUT/gerber-nlte"
 
+# 🔴 PRESERVE AS PART OF THE RUN, NOT AFTERWARDS (RYA-461). The RYA-847 sweep's per-line
+# CSVs — 6 h 50 m of compute — were destroyed by a routine tree re-sync because they sat
+# untracked in the working tree and nothing had copied them anywhere. The convention says
+# a gitignored artifact is preserved AS PART OF THE RUN; leaving it to a later step is the
+# same as not doing it, because "later" is exactly when the tree gets cleaned. Each cell
+# banks its own output the moment it finishes, so a cell that completed is safe even if
+# the next one dies and someone cleans the tree.
+bank () {  # outdir
+  local dir=$1
+  $PY - "$dir" <<'PYEOF'
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path.cwd()))
+from pipeline.artifact_store import save_artifact
+saved = 0
+for p in sorted(Path(sys.argv[1]).iterdir()):
+    if p.is_file() and not p.name.startswith("."):
+        save_artifact(p, "data")
+        saved += 1
+print(f"    [banked] {saved} file(s) from {sys.argv[1]} into the artifact store")
+PYEOF
+}
+
 run () {  # tag outdir [args...]
   local tag=$1 dir=$2; shift 2
   if [ -f "$OUT/.done_$tag" ]; then echo "[skip] $tag"; return; fi
   echo "=== [$(date +%H:%M:%S)] $tag -> $dir ==="
   $PY -u scripts/derive_band_products.py --out "$dir" "$@" >> "regen_${tag}.log" 2>&1 \
-    && { touch "$OUT/.done_$tag"; echo "[ok] $tag"; } \
+    && { touch "$OUT/.done_$tag"; echo "[ok] $tag"; bank "$dir"; } \
     || { echo "[FAIL] $tag"; tail -5 "regen_${tag}.log"; }
 }
 
