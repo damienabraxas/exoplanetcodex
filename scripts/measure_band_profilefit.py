@@ -59,6 +59,13 @@ FWHM_TO_SIGMA = 1.0 / 2.35482
 FIT_HALF_A = 0.60
 CONT_HALF_A = 1.20
 
+#: 🔴 RYA-911 — how far above its own continuum the observed flux may sit before the
+#: continuum is disqualified. NOT a tuned threshold: 1.0 is the physical bound and this
+#: is the bound plus a noise allowance. HARPS's local re-fit reached 1.204 and the
+#: product's own column never exceeds 1.007, so the decision is nowhere near this number
+#: -- which is the property a threshold needs when no sweep can be run on it (RYA-847).
+CONTINUUM_MAX_OVER = 1.02
+
 
 # Stellar broadening scale for solar-type Fe lines: thermal + micro + macroturbulence,
 # expressed as a velocity sigma. ~1.7 km/s reproduces the observed solar Fe I widths
@@ -213,6 +220,25 @@ def main() -> None:
             _j = int(np.argmin(np.abs(wf - c)))
             cont_level = float(cont[_j])
             cont_ref = reference_continuum(win.holding, c)
+            # 🔴 RYA-911 — THE ONE-SIDED PHYSICAL TEST, APPLIED TO EVERY ARM.
+            #
+            # A continuum-normalised stellar spectrum cannot exceed 1.0 by any real
+            # margin: flux above the continuum is not a small error, it is impossible.
+            # So `max(F/C) > 1` CONVICTS a continuum outright, with no reference, no
+            # reconstruction and no second opinion needed.
+            #
+            # This is what was missing. The HARPS arm re-fit its continuum through 0.3 A
+            # anchor strips of the crowded solar optical, landed BELOW the flux on half
+            # the pool, and shrank every EW on it -- and nothing objected, because a
+            # coherent deficit looks exactly like a smaller line. RYA-897 could only see
+            # it as a 0.34 dex hole at the far end of the pipeline.
+            #
+            # ⚠️ ONE-SIDED ON PURPOSE. The converse is NOT a defect: in the blanketed
+            # blue there may be no unabsorbed pixel in the window at all, so a correct
+            # continuum SHOULD sit above every observed point. Testing that direction too
+            # would quarantine correct continua in exactly the bands that need them most.
+            _over = float(np.max(fn)) if fn.size else float("nan")
+            cont_unphysical = (np.isfinite(_over) and _over > CONTINUUM_MAX_OVER)
 
             fit_m = np.abs(wf - c) <= FIT_HALF_A
             s_init, s_min, s_max = instrument_sigma(a.instrument, c)
@@ -246,7 +272,19 @@ def main() -> None:
             # reconstruct instead.
             continuum_level=cont_level, continuum_method=cont_method,
             continuum_ref=cont_ref)
-        if abs(float(popt[2]) - s_min) < 1e-4:
+        if cont_unphysical:
+            # Quarantined, never culled (RYA-711): measured, kept, reported with its
+            # number. The EW is still written down -- it is the CONTINUUM that is
+            # disqualified, and a reader needs to see how far off it was.
+            lm.in_aggregate = False
+            lm.excluded_reason = (
+                f"CONTINUUM-UNPHYSICAL: {_over:.4f} of the continuum is exceeded by the "
+                f"observed flux inside the fit window (limit {CONTINUUM_MAX_OVER:.3f}). "
+                f"Flux above the continuum is impossible, so this continuum sits BELOW "
+                f"the spectrum and every EW measured on it is too small. Method was: "
+                f"{cont_method}. This is the RYA-911 defect that cost HARPS Fe II a "
+                f"median 23.8% of its EW.")
+        elif abs(float(popt[2]) - s_min) < 1e-4:
             lm.in_aggregate = False
             lm.excluded_reason = (
                 f"FIT-PINNED: fitted sigma {popt[2]:.4f} A sits on the instrumental floor "
