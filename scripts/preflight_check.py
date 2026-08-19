@@ -667,6 +667,7 @@ def check_line_coverage(st: State) -> CheckResult:
                  "reason": str(r.get("excluded_reason", "") or "").strip()})
 
     ledger = _line_accounting(st)
+    catalogued = _star_linelist_waves(st)
     silent_drops, unreasoned, accounted, expected = [], [], 0, 0
     on_ledger = 0
     for w in st.best_lines.wavelength_air_A.astype(float):
@@ -691,7 +692,10 @@ def check_line_coverage(st: State) -> CheckResult:
             continue
         covering = [r for r in st.ew_runs if r["lo_A"] <= w <= r["hi_A"]]
         if covering:
-            silent_drops.append((w, ", ".join(Path(r["path"]).name for r in covering)))
+            near_ll, dll = _nearest(w, catalogued)
+            where = ("catalogued in the star line list" if near_ll is not None
+                     and dll <= WAVE_TOL_A else "not in the star line list either")
+            silent_drops.append((w, ", ".join(Path(r["path"]).name for r in covering), where))
         else:
             expected += 1
 
@@ -717,18 +721,20 @@ def check_line_coverage(st: State) -> CheckResult:
             f"({spans} A)",
             "no run covered the wavelength, so no run could have dropped it"))
     if silent_drops:
-        shown = "; ".join(f"{w:.3f} A (run {n})" for w, n in silent_drops[:8])
+        in_list = sum(1 for _, _, where in silent_drops if where.startswith("catalogued"))
+        shown = "; ".join(f"{w:.3f} A ({where}; run {n})" for w, n, where in silent_drops[:6])
         res.findings.append(Finding(
             "2", WARN, st.species,
             f"{len(silent_drops)} best line(s) sit INSIDE a band that was run, appear "
             f"nowhere in that run's output, AND are absent from the line-accounting "
-            f"ledger: {shown}" + (" ..." if len(silent_drops) > 8 else ""),
+            f"ledger — {in_list} of them ARE catalogued in the star line list. "
+            f"{shown}" + (" ..." if len(silent_drops) > 6 else ""),
             "the band was measured and the ledger that counts unmeasured lines does not "
-            "hold these either — they are on no list at all, which is the one state "
-            "nobody can notice (RYA-429 class)",
+            "hold these either — a filter upstream of both removed them, and the lines "
+            "it removed are recorded nowhere (RYA-429 class)",
             f"AUDIT: {len(silent_drops)} {st.species} best line(s) fall inside a measured "
             f"band but appear in neither its EW artifact nor the RYA-709 line-accounting "
-            f"ledger — silent drop"))
+            f"ledger — name the filter that drops them and ledger its rejections"))
     if unreasoned:
         shown = "; ".join(f"{w:.3f} A ({n})" for w, n in unreasoned[:8])
         res.findings.append(Finding(
@@ -1100,6 +1106,25 @@ def _line_accounting(st: State) -> list:
                  & (df.ion.astype(str) == st.ion)]
         waves.extend(float(w) for w in sel.wave_air_A)
     return sorted(set(waves))
+
+
+def _star_linelist_waves(st: State) -> list:
+    """This species' wavelengths in the star's own line list.
+
+    The third tier of "where does this line exist". A best line missing from the run AND
+    from the ledger reads very differently depending on whether the star's line list has
+    it at all: catalogued-and-dropped names a filter, absent-everywhere names a line-list
+    coverage gap. Saying which is the difference between a finding and a guess.
+    """
+    p = ROOT / "data" / "linelists" / f"linelist_{st.star}.csv"
+    if not p.exists():
+        return []
+    try:
+        df = pd.read_csv(p, usecols=["element", "ion", "wavelength_air_A"])
+    except Exception:
+        return []
+    sel = df[(df.element.astype(str) == st.element) & (df.ion.astype(str) == st.ion)]
+    return sorted(set(float(w) for w in sel.wavelength_air_A))
 
 
 def _stated_engine_a_coverage(st: State) -> str | None:
