@@ -255,6 +255,7 @@ def synthesis_route(a, pol) -> None:
     from rya759_nearuv_fe_product import select_lines, fit_one
     from rya759_nearuv_synth import _kp_segments
     from measure_band_ew import load_window_ex, select_holding
+    from pipeline.telluric_policy import applied_state as _applied_state
 
     if not cfg.linelist.exists():
         # Loud-fail, never a silent default (RYA-832). A missing list would otherwise
@@ -493,7 +494,25 @@ def synthesis_route(a, pol) -> None:
             "NOT in the scatter reported here. "),
     }.get(pol.name,
           f"SYNTHESIS-ONLY: band_policy forbids {'/'.join(pol.forbidden_methods)} in "
-          f"{pol.name} — {pol.justification} NO pseudo-continuum systematic is charged "
+          f"{pol.name} — {pol.justification} "
+          # RYA-904 — READ THE POLICY AGAINST THE HOLDING. The NIR justification is
+          # written about UNCORRECTED data ("until a telluric correction is applied the
+          # observed flux is not a stellar spectrum"), which is precisely the condition
+          # a telluric_applied=applied holding satisfies. Quoting it beside a corrected
+          # product without saying so reads as if the product were uncorrected. The
+          # policy is NOT relaxed here — its route choice (synthesis) still stands, and
+          # changing a band policy on the strength of one holding is a separate decision
+          # nobody has taken.
+          + ("The clause about correction is SATISFIED by this product rather than "
+             "waived: every holding that served it is registered "
+             "telluric_applied=applied. The band's ROUTE choice is unchanged — "
+             "synthesis — because a band policy is not re-decided by one holding. "
+             if pol.telluric_required and _served and all(
+                 _applied_state(k) == "applied" for k in _served)
+             else ("Note that the holding(s) serving this product are NOT registered "
+                   "telluric-corrected, so the clause above applies to them literally. "
+                   if pol.telluric_required else ""))
+          + f"NO pseudo-continuum systematic is charged "
           f"in this band and none is claimed here. RYA-843 measured the reason one is "
           f"OWED — fit windows sitting at median flux 0.73-0.95 against a synthesis "
           f"normalised to unity — but it measured that on the telluric-UNCORRECTED Kitt "
