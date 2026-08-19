@@ -63,7 +63,8 @@ from pipeline.band_policy import resolve as resolve_band          # noqa: E402
 from pipeline.error_budget import build as build_budget           # noqa: E402
 from pipeline import harness_residual                            # noqa: E402  RYA-869
 from pipeline.graded_reporting import (                           # noqa: E402
-    GRADED_SUFFIX, annotate, element_table, format_value, pair_products,
+    GRADED_SUFFIX, annotate, element_table, format_value, is_graded,
+    pair_products,
     stat_from_scatter, total_sigma)
 
 MATRIX = ROOT / "data" / "results" / "rya783" / "fe_product_matrix.csv"
@@ -162,7 +163,12 @@ def apply_cited_gf(combined: pd.DataFrame, cited: dict) -> tuple[pd.DataFrame, l
     out = combined.copy()
     recharged = []
     for i, r in out.iterrows():
-        if not str(r.get("treatment", "")).endswith(GRADED_SUFFIX):
+        # RYA-906 — ask the `gf` AXIS, falling back to the suffix for rows that predate
+        # the axis columns. A raw `.endswith` on a label is the RYA-869 shape: it is a
+        # string test standing in for a property of the product, and it stops being true
+        # the moment the naming grows a variant. `is_graded` owns that decision now, so
+        # there is one place to change when the naming moves again.
+        if not is_graded(r.get("treatment", ""), gf=r.get("gf")):
             continue
         c = cited.get(str(r["band"]))
         if not c or not c["usable"]:

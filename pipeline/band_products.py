@@ -446,6 +446,9 @@ def build_product(element: str, ion: str, instrument: str, band: str, treatment:
                    lines=lines, provenance=provenance, handler=handler)
 
 
+from pipeline.treatment_axes import axes_for  # noqa: E402  (RYA-906)
+
+
 def products_frame(products: list[Product]) -> pd.DataFrame:
     """Side-by-side table of products. One row per product — NOT a merge.
 
@@ -456,5 +459,11 @@ def products_frame(products: list[Product]) -> pd.DataFrame:
         dict(element=p.element, ion=p.ion, instrument=p.instrument, band=p.band,
              treatment=p.treatment, value=p.value, sigma=p.sigma,
              n_lines=p.n_lines, n_excluded=p.n_excluded, handler=p.handler,
-             provenance=p.provenance)
+             provenance=p.provenance,
+             # RYA-906 — the axes, ADDED ALONGSIDE `treatment`, which is never rewritten.
+             # `route` is resolved from the HANDLER, never from the label: `1D-LTE` names
+             # both an EW inversion and a synthesis flux fit, so on that label the legacy
+             # string is not merely lossy, it is false. `route_basis` records which
+             # witness settled it, so an inference and a reading never look alike.
+             **axes_for(p.treatment, handler=p.handler or None).as_columns())
         for p in products])
