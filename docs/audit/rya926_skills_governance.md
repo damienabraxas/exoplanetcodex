@@ -38,6 +38,17 @@ over newer committed state.
 | General scientific-method review | No new skill | `SCIENCE_STANDARDS.md`, `ELEMENT_PROTOCOL.md`, and the SPP evidence rules already own it; another skill would duplicate law. |
 | Scientific-software QA / code review | **New skill** | `codex-scientific-code-review` owns reusable wrong-data, provenance, cache-contamination, silent-fallback, and two-fixture review procedure. Existing science docs state law but do not provide this code-review method. |
 
+## Committed defect-history result
+
+No existing canonical committed bug/failure ledger was found. The nearest surfaces are
+science-specific rejection/model-attempt ledgers and the local `debug/intake/*.jsonl`
+trace; neither owns curated cross-ticket engineering/science defects. Therefore
+`data/audit/run_bug_ledger.csv` is the single global ledger, with ownership/schema and
+append/amend rules in `data/audit/RUN_BUG_LEDGER.md`. Session-close and brief workflows
+require an explicit row disposition. The Kitt Peak→HARPS wrong-holding defect is seeded
+from committed RYA-911/913 evidence; unrecoverable run/base/artifact facts are left
+blank or `UNKNOWN`, not fabricated.
+
 ## Reference-library governance result
 
 The existing manifest is `data/refs/bibliography.csv`; no parallel registry was created.
@@ -78,6 +89,9 @@ not prove cross-run cache/state isolation. Until that canary exists and passes, 
 HARPS phase could regress to Kitt Peak data without the precise acceptance test RYA-926
 now requires. File that implementation guard before executing RYA-925 or add it as a
 bounded prerequisite; do not run Al science in this refactor.
+
+RYA-925's eventual end-of-session report must also list every bug-ledger row created or
+amended, or state `none discovered`, so the Al pilot's defects do not remain chat memory.
 
 If later reconciliation finds conflicting model-domain evidence or an unratified
 scientific choice, the authority protocol also makes it an `AMBIGUOUS-STOP` rather than
