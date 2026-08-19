@@ -87,6 +87,7 @@ if str(ROOT / "scripts") not in sys.path:
 
 from pipeline import model_attempt_ledger as mal   # RYA-695 `models_tried`
 from pipeline import state_surfaces  # noqa: E402
+from pipeline.treatment_axes import display_for  # RYA-906
 
 # Every file this generator reads or writes is a registered state surface (RYA-659).
 # Taken from the registry's named handles, never re-spelled here, so a rename there is
@@ -349,7 +350,20 @@ def load_two_engine() -> dict:
     return by
 
 
-_ENGINE_LABEL = {"engineA_1dnlte": "A", "engineB_synth": "B"}
+#: RYA-906 — the two-engine record's own keys, rendered as PHYSICS rather than letters.
+#:
+#: 🔴 This column is where RYA-896's label-vs-artifact disagreement surfaced: the tracker's
+#: Fe II row read "arbiter synthesis ... B x3" while the artifact's n=3 arbiter is
+#: ENGINE-A / ProfileFitHandler — an EW product. A bare "B" cannot be checked against
+#: anything, which is exactly why the disagreement survived: the letter names no route, no
+#: scale and no model, so nothing downstream could notice it was describing a different
+#: engine than the one that produced the number.
+#:
+#: The names are DERIVED from `pipeline.treatment_axes`, never typed here, so this file
+#: cannot drift from the one module that owns the mapping (RYA-825/353: the copy that is
+#: not the source drifts silently).
+_ENGINE_TREATMENT = {"engineA_1dnlte": "ENGINE-A", "engineB_synth": "ENGINE-B"}
+_ENGINE_LABEL = {k: display_for(v) for k, v in _ENGINE_TREATMENT.items()}
 
 
 def _engine_cells(two_engine: dict, wiring: dict, element: str, ion: str) -> tuple:
