@@ -90,16 +90,42 @@ def _findings(results, number):
     return [f for r in results if r.number == number for f in r.findings]
 
 
-def test_check1_warns_on_a_verified_holding_the_harness_cannot_load(solar_fe):
-    """THE ACCEPTANCE PROOF. `solar_harps` is verified in the holdings registry and
-    `load_window` has no branch for it — the RYA-897 defect, live on main. Pre-flight
-    must surface it as a WARN, in one line, before any measurement runs."""
-    st, results = solar_fe
+def test_check1_warns_on_a_verified_holding_the_harness_cannot_load(solar_fe, monkeypatch,
+                                                                   tmp_path):
+    """Check 1 must WARN when a verified holding is unreachable.
+
+    🔴 POLARITY INVERTED BY RYA-897, and the reason matters. This test used to read the
+    LIVE dispatch and assert `solar_harps` warned — true only while HARPS was unwired,
+    which was always a temporary condition and is the exact thing RYA-897 fixes. Coupled
+    that way the test could only ever expire: the day the loader landed it would fail
+    while the check underneath it was working perfectly.
+
+    Now the unreachable holding is FABRICATED — a harness with `harps` removed from its
+    dispatch — so the assertion is about the CHECK, not about which arm happens to be
+    wired this week. See the companion test for HARPS's real, current state.
+    """
+    st, _ = solar_fe
+    patched = tmp_path / "harness_without_harps.py"
+    patched.write_text(_harness_with(
+        [i for i in st.dispatch.instruments if i != "harps"]))
+    monkeypatch.setattr(pf, "HARNESS_PY", patched)
+
+    _, results = pf.run("sun", "Fe", "I", [pf.ROOT])
     warns = [f for f in _findings(results, 1) if f.severity == pf.WARN]
     harps = [f for f in warns if f.subject == "solar_harps"]
-    assert harps, "check 1 did not WARN on the unreachable verified HARPS holding"
+    assert harps, "check 1 did not WARN on a verified holding the harness cannot load"
     assert "harps" in harps[0].message
     assert harps[0].suggested_ticket, "a WARN must carry a suggested-ticket stub"
+
+
+def test_check1_no_longer_warns_on_harps_because_rya897_wired_it(solar_fe):
+    """RYA-897's acceptance proof, stated positively against the LIVE dispatch."""
+    _, results = solar_fe
+    warns = [f for f in _findings(results, 1)
+             if f.severity == pf.WARN and f.subject == "solar_harps"]
+    assert not warns, (
+        "check 1 still reports solar_harps as unreachable, but RYA-897 wired the arm. "
+        "Either the loader regressed or the check is not reading the dispatch.")
 
 
 def test_check1_control_the_warning_goes_away_when_the_loader_exists(solar_fe, monkeypatch,
@@ -219,14 +245,23 @@ def test_check3_reports_the_join_delta_it_used():
 # ── One gap is counted once ──────────────────────────────────────────────────
 
 def test_a_single_gap_is_not_counted_by_two_checks(solar_fe):
-    """`solar_harps` is unreachable (check 1) AND absent from the product (check 5) AND
-    telluric-clear (check 6). That is ONE defect; it must yield ONE WARN, or the
-    suggested-ticket list becomes three tickets for one fix."""
+    """One defect yields ONE WARN, or the suggested-ticket list becomes three tickets
+    for one fix.
+
+    The INVARIANT is the count, and it is unchanged. What moved is the OWNER: before
+    RYA-897 `solar_harps` was unreachable and check 1 owned it; now the arm is wired and
+    what remains is that no committed product has been derived from it, which check 5
+    owns. Asserting the owner is still worth doing — it is how double-counting would
+    show up — but it is asserted as "whichever check owns it, exactly one does".
+    """
     _, results = solar_fe
     warns = [(r.number, f) for r in results for f in r.findings
              if f.severity == pf.WARN and f.subject == "solar_harps"]
-    assert len(warns) == 1, f"solar_harps WARNed in checks {[n for n, _ in warns]}"
-    assert warns[0][0] == 1, "the HARPS gap should be owned by check 1 (reachability)"
+    assert len(warns) <= 1, f"solar_harps WARNed in checks {[n for n, _ in warns]}"
+    if warns:
+        assert warns[0][0] == 5, (
+            f"solar_harps is wired (RYA-897), so its remaining gap is 'no product' and "
+            f"check 5 owns it; check {warns[0][0]} claimed it instead.")
 
 
 def test_check5_names_the_check_that_owns_each_accounted_absence(solar_fe):
