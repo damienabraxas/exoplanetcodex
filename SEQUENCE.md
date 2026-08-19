@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-19
+
+- **RYA-925** — Al Kitt Peak matrix banked across EW/synth LTE + Amarsi; non-Fe identity defects fixed; VIS fails literature validation, no tuning.
+
 ## 2026-08-18
 
 - **RYA-878** — ANGLE 1 made a MEASURED angle: the production path banks a synthetic EW and one definition serves both sides. Adapter reproduces the engine **1.000**; the **engine** carries the +0.1523. Mostly definitional (range explains 70–88%), residual + per-line spread OPEN.
@@ -171,4 +175,3 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-517** — reference stack ratified as py3.12+numpy 2.2; null cross-machine drift confirmed
 - **RYA-711** — the ELEMENT PROTOCOL lands (authored, never merged; RYA-709 cited a file that did not exist). **+Step 3a: an element's curation travels with the element, not the route** — Fe II uncurated 7.656 vs curated 7.466
 - **RYA-906** — physics-axis naming: store `route/scale/model/atmos/gf`, derive the display name, keep `treatment` as a permanent dual label. **Route from the HANDLER, never the label** — `1D-LTE` is used by both routes
-

@@ -1,0 +1,34 @@
+band,wavelength_air_A,treatment,route,abundance,in_aggregate,excluded_reason,nlte_delta_dex
+VIS,5557.062,1D-LTE,ew,6.671875,True,,0.0
+VIS,6696.0137,1D-LTE,ew,6.390625,True,,0.0
+VIS,6698.6715,1D-LTE,ew,6.35546875,True,,0.0
+VIS,6783.638,1D-LTE,ew,6.8564453125,True,,0.0
+VIS,5557.062,ENGINE-A,ew,,False,"ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction.",
+VIS,6696.0137,ENGINE-A,ew,6.363085909090909,True,,-0.0275390909090909
+VIS,6698.6715,ENGINE-A,ew,6.338330568181818,True,,-0.0171381818181818
+VIS,6783.638,ENGINE-A,ew,,False,"ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction.",
+VIS,5557.062,ENGINE-B,synth,6.339,True,,0.0
+VIS,6696.0137,ENGINE-B,synth,6.266,True,,0.0
+VIS,6698.6715,ENGINE-B,synth,6.245,True,,0.0
+VIS,6783.638,ENGINE-B,synth,6.277,True,,0.0
+red-optical,7361.568,1D-LTE,ew,6.63671875,True,,0.0
+red-optical,7362.296,1D-LTE,ew,6.63671875,True,,0.0
+red-optical,7835.309,1D-LTE,ew,6.4609375,True,,0.0
+red-optical,7836.134,1D-LTE,ew,6.478515625,True,,0.0
+red-optical,8772.865,1D-LTE,ew,6.35546875,True,,0.0
+red-optical,8773.8975,1D-LTE,ew,6.35546875,True,,0.0
+red-optical,7361.568,ENGINE-A,ew,,False,"ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction.",
+red-optical,7362.296,ENGINE-A,ew,,False,"ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte for this line (absent, nan, or a placeholder zero). Reduced coverage, not a failed correction.",
+red-optical,7835.309,ENGINE-A,ew,6.438598409090909,True,,-0.0223390909090909
+red-optical,7836.134,ENGINE-A,ew,6.452667897727273,True,,-0.0258477272727272
+red-optical,8772.865,ENGINE-A,ew,6.321388295454545,True,,-0.0340804545454545
+red-optical,8773.8975,ENGINE-A,ew,6.311570113636364,True,,-0.0438986363636364
+red-optical,7361.568,ENGINE-B,synth,6.503,True,,0.0
+red-optical,7362.296,ENGINE-B,synth,6.355,True,,0.0
+red-optical,7835.309,ENGINE-B,synth,6.419,True,,0.0
+red-optical,7836.134,ENGINE-B,synth,6.438,True,,0.0
+red-optical,8772.865,ENGINE-B,synth,6.316,True,,0.0
+red-optical,8773.8975,ENGINE-B,synth,6.345,True,,0.0
+near-UV,3050.072,1D-LTE,synth,4.062,False,"NON-MINIMUM: chi2 at a bracket end is not above the reported minimum (frac_rise = -1.34e-05 <= 0), so the optimizer returned a point that is not a minimum and the fit did not determine A(X). A correctness failure, not a quality threshold. Measured and retained; excluded from the aggregate only (RYA-711).",0.0
+near-UV,3057.144,1D-LTE,synth,4.198,True,,0.0
+near-UV,3066.144,1D-LTE,synth,3.504,False,"NON-MINIMUM: chi2 at a bracket end is not above the reported minimum (frac_rise = -6.07e-06 <= 0), so the optimizer returned a point that is not a minimum and the fit did not determine A(X). A correctness failure, not a quality threshold. Measured and retained; excluded from the aggregate only (RYA-711).",0.0

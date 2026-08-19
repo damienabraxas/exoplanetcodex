@@ -1,0 +1,10 @@
+Al · near-UV · n=1
+  statistical  0.0100 dex   (averages down as 1/sqrt(N))
+    basis: quantiser-floor 0.01 dex (RYA-771) — UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one
+  systematic   0.1972 dex   (does NOT average down)
+    0.1700  gf scale (UNGRADED)      [SYSTEMATIC] ungraded Kurucz semi-empirical loggf, 0.1-0.3 dex (RYA-161); the random part shows up in the line-to-line scatter, this is the scale offset that does not
+    0.1000  pseudo-continuum         [SYSTEMATIC] near-UV: the true continuum is never observed (median flux 0.283-0.805); the envelope stands in for it and the residual does not average down
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    UNMEASURED  line-to-line scatter     [random] NOT MEASURABLE (n_lines=1): the spread of a single accepted line is undefined, not small. `band_products.build_product` returns None here and that None is carried, never spent as a zero (RYA-907)
+  dominant: gf scale (UNGRADED) -- more lines will NOT help; fix the source
+  gf rung: gf rung 1 (gf scale (UNGRADED)): no primary-laboratory gf table exists for Al I — the graded ladder is Fe I only (RYA-799/824/836), and grading Al I through it would referee it against Fe I lab rows on wavelength and EP alone

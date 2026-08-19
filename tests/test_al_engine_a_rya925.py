@@ -1,0 +1,73 @@
+"""RYA-925 — non-Fe Engine-A products consult their registered grid."""
+
+import numpy as np
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+
+def test_al_engine_a_uses_the_registered_per_line_resolver(monkeypatch):
+    import derive_band_products as dbp
+    import pipeline.nlte_corrections as nc
+
+    seen = []
+
+    def fake_delta(element, wave, teff, logg, feh, tol):
+        seen.append((element, wave, teff, logg, feh, tol))
+        return -0.025 if abs(wave - 7836.134) < 0.01 else np.nan
+
+    monkeypatch.setattr(nc, "_mpia_element_delta", fake_delta)
+    got = dbp.engine_a_delta("Al", "I", np.array([7836.134, 7361.568]))
+
+    assert got == {7836.134: -0.025}
+    assert [row[0] for row in seen] == ["Al", "Al"]
+    assert all(row[-1] == 0.06 for row in seen)
+
+
+def test_al_engine_a_provenance_names_amarsi_not_mpia():
+    import derive_band_products as dbp
+
+    source = dbp.engine_a_source("Al")
+    assert "Al_Amarsi2020_PySME.csv" in source
+    assert "Nordlander & Lind 2017" in source
+    assert "MPIA" not in source
+    assert dbp.engine_a_model("Al") == "amarsi"
+
+
+def test_axes_allow_a_live_emitter_to_override_the_legacy_engine_a_family():
+    from pipeline.treatment_axes import axes_for
+
+    axes = axes_for("ENGINE-A", handler="ProfileFitHandler", model="amarsi")
+    assert axes.model == "amarsi"
+    assert axes.display == "EW · 1D-NLTE · Amarsi"
+
+
+def test_al_litscan_and_validation_contract():
+    from pipeline.litscan import literature_range
+    from pipeline.validate_element import BandProduct, validate_element
+
+    lit = literature_range("Al")
+    assert lit is not None
+    assert (lit.central, lit.min, lit.max, lit.scale) == (6.43, 6.39, 6.47, "1D-NLTE")
+    verdict = validate_element("Al", [
+        BandProduct("VIS", "EW · 1D-NLTE · Amarsi", 6.43,
+                    sigma_statistical=0.03, sigma_systematic=0.05,
+                    n_lines=2, scale="1D-NLTE"),
+        BandProduct("red-optical", "EW · 1D-LTE", 6.50,
+                    sigma_statistical=0.04, sigma_systematic=0.17,
+                    n_lines=4, scale="1D-LTE"),
+    ], asplund=6.43)
+    assert verdict.validating[0].verdict == "pass"
+    assert next(b for b in verdict.bands if b.band == "red-optical").verdict == "report"
+
+
+def test_frontier_fit_uses_context_element_not_fe_source():
+    import inspect
+    from scripts import rya759_nearuv_fe_product as frontier
+
+    source = inspect.getsource(frontier.fit_one)
+    assert "ctx.get('element', 'Fe')" in source
+    assert "ctx['solar_abund'], 'Fe'" not in source

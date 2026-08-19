@@ -1,0 +1,52 @@
+# Machine-readable projection of the living RYA-716 Al dossier for RYA-925.
+element: Al
+ion: I
+source_of_truth: RYA-716
+sweep_umbrella: RYA-709
+scale: 1D-NLTE
+scale_note: >-
+  The dossier's adopted VIS comparator is the 1D-NLTE solar abundance. LTE and
+  mean-3D products remain visible but are explicitly scale-mismatched.
+entries:
+  - source: Asplund et al. 2021
+    citation: A&A 653, A141
+    value: 6.43
+    sigma: 0.04
+    scale: 1D-NLTE
+    role: adopted VIS anchor in RYA-716
+  - source: Andrievsky et al. 2020
+    citation: arXiv:2006.10998
+    value: 6.43
+    sigma: 0.04
+    scale: 1D-NLTE
+    role: optical/IR corroboration
+    note: RYA-716 records optical-to-IR agreement within 0.04 dex.
+range:
+  central: 6.43
+  min: 6.39
+  max: 6.47
+  best_external: Asplund et al. 2021 (A&A 653, A141)
+  sigma_external: 0.04
+  deviate_beyond: 0.08
+  derivation: best-external-plus-sigma
+  is_statistical_spread: false
+  basis: >-
+    RYA-716 names 6.43 +/- 0.04 as the adopted external Al comparator. This is a
+    validation band, not a statistical spread of Codex products.
+band_references:
+  near-UV:
+    - source: Mashonkina 2016
+      citation: arXiv:1605.02957
+      note: Al I 3961 resonance line near 6.26; report-and-note only.
+  red-optical:
+    - source: Andrievsky et al. 2020
+      citation: arXiv:2006.10998
+      note: 7835/7836 and 8772/8773 subordinate lines; report-and-note only.
+  NIR:
+    - source: Andrievsky et al. 2020
+      citation: arXiv:2006.10998
+      note: Seven IR Al I lines agree with the optical result within 0.04 dex.
+verification_owed:
+  - >-
+    This is the minimum Al-only RYA-813 precursor requested by RYA-925. RYA-716
+    remains authoritative and should be re-projected when its range is revised.

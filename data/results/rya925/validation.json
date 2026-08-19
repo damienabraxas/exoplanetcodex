@@ -1,0 +1,194 @@
+{
+  "element": "Al",
+  "asplund2021": 6.43,
+  "un_anchorable": false,
+  "bands": [
+    {
+      "band": "VIS",
+      "tier": "validate",
+      "engine": "EW \u00b7 1D-LTE",
+      "value": 6.531,
+      "verdict": "fail-with-reason",
+      "reason": "EW \u00b7 1D-LTE: 6.531 is +0.061 dex outside the literature range [6.390, 6.470] and beyond 2*sigma_ext \u2014 RYA-714 \u00a74 codes this DEVIATE, a stronger claim than a near miss (best external: Asplund et al. 2021 (A&A 653, A141)). NO exception was documented. A VIS miss is a fail-with-reason, never a silent miss (RYA-812 principle 1).",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": true,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": 0.101,
+      "excess_beyond_band": 0.061,
+      "bars": "stat 0.119 / sys 0.171",
+      "scale": "1D-LTE",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    },
+    {
+      "band": "VIS",
+      "tier": "validate",
+      "engine": "EW \u00b7 1D-NLTE \u00b7 Amarsi",
+      "value": 6.351,
+      "verdict": "fail-with-reason",
+      "reason": "EW \u00b7 1D-NLTE \u00b7 Amarsi: 6.351 is +0.039 dex outside the literature range [6.390, 6.470] (best external: Asplund et al. 2021 (A&A 653, A141)). NO exception was documented. A VIS miss is a fail-with-reason, never a silent miss (RYA-812 principle 1).",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": false,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": -0.079,
+      "excess_beyond_band": 0.039,
+      "bars": "stat 0.012 / sys 0.171",
+      "scale": "1D-NLTE",
+      "scale_mismatch": "",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    },
+    {
+      "band": "VIS",
+      "tier": "validate",
+      "engine": "Synth \u00b7 1D-LTE",
+      "value": 6.271,
+      "verdict": "fail-with-reason",
+      "reason": "Synth \u00b7 1D-LTE: 6.271 is +0.119 dex outside the literature range [6.390, 6.470] and beyond 2*sigma_ext \u2014 RYA-714 \u00a74 codes this DEVIATE, a stronger claim than a near miss (best external: Asplund et al. 2021 (A&A 653, A141)). NO exception was documented. A VIS miss is a fail-with-reason, never a silent miss (RYA-812 principle 1).",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": true,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": -0.159,
+      "excess_beyond_band": 0.119,
+      "bars": "stat 0.020 / sys 0.170",
+      "scale": "1D-LTE",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    },
+    {
+      "band": "near-UV",
+      "tier": "report",
+      "engine": "Synth \u00b7 1D-LTE",
+      "value": 4.198,
+      "verdict": "report",
+      "reason": "Synth \u00b7 1D-LTE: frontier band \u2014 REPORTED, not gated (RYA-777). 4.198 (stat 0.010 / sys 0.197); literature 6.430 [6.390, 6.470] \u2014 sits +2.192 dex outside it and beyond 2-sigma (RYA-714 DEVIATE), NOTED as a gap and NOT a failure.",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": true,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": -2.232,
+      "excess_beyond_band": 2.192,
+      "bars": "stat 0.010 / sys 0.197",
+      "scale": "1D-LTE",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    },
+    {
+      "band": "red-optical",
+      "tier": "report",
+      "engine": "EW \u00b7 1D-LTE",
+      "value": 6.47,
+      "verdict": "report",
+      "reason": "EW \u00b7 1D-LTE: frontier band \u2014 REPORTED, not gated (RYA-777). 6.470 (stat 0.052 / sys 0.173); literature 6.430 [6.390, 6.470] \u2014 agrees with the reference range.",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": false,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": 0.04,
+      "excess_beyond_band": 0.0,
+      "bars": "stat 0.052 / sys 0.173",
+      "scale": "1D-LTE",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    },
+    {
+      "band": "red-optical",
+      "tier": "report",
+      "engine": "EW \u00b7 1D-NLTE \u00b7 Amarsi",
+      "value": 6.38,
+      "verdict": "report",
+      "reason": "EW \u00b7 1D-NLTE \u00b7 Amarsi: frontier band \u2014 REPORTED, not gated (RYA-777). 6.380 (stat 0.037 / sys 0.173); literature 6.430 [6.390, 6.470] \u2014 sits +0.010 dex outside it, NOTED as a gap and NOT a failure.",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": false,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": -0.05,
+      "excess_beyond_band": 0.01,
+      "bars": "stat 0.037 / sys 0.173",
+      "scale": "1D-NLTE",
+      "scale_mismatch": "",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    },
+    {
+      "band": "red-optical",
+      "tier": "report",
+      "engine": "Synth \u00b7 1D-LTE",
+      "value": 6.387,
+      "verdict": "report",
+      "reason": "Synth \u00b7 1D-LTE: frontier band \u2014 REPORTED, not gated (RYA-777). 6.387 (stat 0.029 / sys 0.173); literature 6.430 [6.390, 6.470] \u2014 sits +0.003 dex outside it, NOTED as a gap and NOT a failure.",
+      "exception_reason": "",
+      "literature_central": 6.43,
+      "deviate": false,
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "literature_range": [
+        6.39,
+        6.47
+      ],
+      "offset_vs_literature": -0.043,
+      "excess_beyond_band": 0.003,
+      "bars": "stat 0.029 / sys 0.173",
+      "scale": "1D-LTE",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "references_used": [
+        "Asplund et al. 2021 (A&A 653, A141)",
+        "Andrievsky et al. 2020 (arXiv:2006.10998)"
+      ]
+    }
+  ],
+  "litscan_present": true,
+  "litscan_derivation": "best-external-plus-sigma",
+  "litscan_is_statistical": false,
+  "verification_owed": [
+    "This is the minimum Al-only RYA-813 precursor requested by RYA-925. RYA-716 remains authoritative and should be re-projected when its range is revised."
+  ],
+  "references_used": [
+    "Asplund et al. 2021 (A&A 653, A141)",
+    "Andrievsky et al. 2020 (arXiv:2006.10998)"
+  ],
+  "exception_count": 0,
+  "failure_count": 3
+}
