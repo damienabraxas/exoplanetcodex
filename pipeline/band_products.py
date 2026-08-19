@@ -121,6 +121,33 @@ class LineMeasurement:
     #: None means "this route does not carry it", never "0 eV" — `gf_rung` falls back to
     #: the narrow wavelength-only rule for such a line rather than widening blind.
     ep_eV: float | None = None
+    #: 🔴 RYA-911 — THE CONTINUUM THE HARNESS ACTUALLY PLACED. Read, never reconstructed.
+    #:
+    #: RYA-897's RCA had to REFIT the window edges to approximate what the profile-fit
+    #: harness does, in order to ask whether the HARPS continuum was sitting low. It said
+    #: so, and it was right to: an inference about what code does is not a measurement of
+    #: what it did (the RYA-869/875 lesson, and the decorative-flag lesson of RYA-904 —
+    #: three flags in one file that nothing downstream read).
+    #:
+    #: The harness has always HAD this number: `_local_renorm` returns `(flux/cont, cont)`
+    #: and the driver bound `cont` and threw it away. So the -0.34 dex HARPS Fe II deficit
+    #: was diagnosable from the artifact all along, and was not diagnosed, because the one
+    #: quantity that decides it never reached a file.
+    #:
+    #: UNITS ARE THE SOURCE SPECTRUM'S OWN. Kitt Peak residual flux gives 1.0 by
+    #: construction; HARPS raw counts give ~1e5. A ratio against `continuum_ref` is the
+    #: comparable quantity, and it is deliberately NOT stored — it is two stored readings
+    #: divided, and storing a derived number beside its inputs is how RYA-845's
+    #: double-count survived.
+    continuum_level: float | None = None
+    #: HOW that continuum was arrived at, in the harness's own words. `pre_normalised`
+    #: and `local-linear-refit` are not two settings of one method: one asserts the
+    #: product's continuum IS unity, the other fits a new one and divides.
+    continuum_method: str = ""
+    #: The SOURCE PRODUCT's own continuum at this wavelength, where it ships one (HARPS
+    #: does; the atlases do not). None means "no second opinion exists here", never
+    #: "they agree".
+    continuum_ref: float | None = None
     #: RYA-880 — THE NLTE CORRECTION, RECORDED WHERE IT IS APPLIED.
     #:
     #: RYA-489 §6.4 requires the correction be SHOWN, "not folded silently", and until now
@@ -173,6 +200,32 @@ class LineMeasurement:
     #: None on every EW-route line, and that is correct rather than missing: there is no
     #: chi2 surface behind an EW inversion, so the question does not apply. A consumer
     #: must treat None as "not applicable", never as "unconstrained".
+    #: RYA-911 — THE FITTED PROFILE WIDTH, AND THE FLOOR IT WAS JUDGED AGAINST.
+    #:
+    #: 🔴 These are NOT `sigma_A`. `sigma_A` above is one sigma on **A**, in **dex**,
+    #: from the chi2 curvature — an abundance uncertainty. These two are widths in
+    #: **Angstrom**, in wavelength space. The names are one character apart and the
+    #: quantities share no units, so the profile width gets its own field rather than
+    #: riding in a slot that means something else (the RYA-799 scale-mismatch lesson:
+    #: a value in the wrong-meaning column is a LABELLING defect that reads as data).
+    #:
+    #: Why they exist: FIT-PINNED — `abs(sigma_fit - floor) < 1e-4` — decides whether a
+    #: line is measurable, and both of its operands used to survive only inside the
+    #: `ew_method` PROSE. So the verdict was in the file and the evidence for it was
+    #: not: the three rejected lines carried their sigma in a sentence, and the
+    #: survivors carried no sigma at all. That makes "is the surviving pool biased
+    #: toward lines that do not pin?" unanswerable — the correlation has no second
+    #: column (RYA-911). Same defect class as the continuum one field up: computed,
+    #: used to decide, thrown away.
+    #:
+    #: The floor is stored, not recomputed, because it is the floor THIS measurement was
+    #: judged against. `instrument_sigma()` remains the single place it is DERIVED; this
+    #: is provenance of the comparison, so the FIT-PINNED verdict is reproducible from
+    #: the row alone.
+    #:
+    #: None on any route that does not fit a profile — correct rather than missing.
+    profile_sigma_A: float | None = None
+    profile_sigma_floor_A: float | None = None
     sigma_A: float | None = None
     frac_rise_weaker: float | None = None
     edge_distance_dex: float | None = None

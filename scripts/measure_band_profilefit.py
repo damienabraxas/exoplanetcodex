@@ -39,6 +39,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.lines_fit import (  # noqa: E402
     _local_renorm, _fit_profile, _integrate_profile, _ew_error)
+from config.constants import PIPELINE as _PIPE  # noqa: E402  (RYA-911: quote the params)
 from pipeline.band_products import carried_ep, LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
@@ -46,8 +47,10 @@ from scripts.measure_band_ew import (  # noqa: E402
     # Kitt-Peak-specific flux reader sitting in the import line of a route that
     # correctly dispatches. An unused import of the thing the rule forbids is how
     # the next instance starts.
+    # RYA-911 rebase: UNION, not swap -- 913 drops load_kp_window, 911 adds
+    # reference_continuum. Both changes are kept.
     kp_segments, load_window, load_window_ex, telluric_reason,
-    verify_feature,
+    reference_continuum, verify_feature,
     attribute_root_cause)
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
@@ -61,6 +64,13 @@ FWHM_TO_SIGMA = 1.0 / 2.35482
 # that broke the interval method -- a fit models the neighbour, it does not exclude it.
 FIT_HALF_A = 0.60
 CONT_HALF_A = 1.20
+
+#: 🔴 RYA-911 — how far above its own continuum the observed flux may sit before the
+#: continuum is disqualified. NOT a tuned threshold: 1.0 is the physical bound and this
+#: is the bound plus a noise allowance. HARPS's local re-fit reached 1.204 and the
+#: product's own column never exceeds 1.007, so the decision is nowhere near this number
+#: -- which is the property a threshold needs when no sweep can be run on it (RYA-847).
+CONTINUUM_MAX_OVER = 1.02
 
 
 # Stellar broadening scale for solar-type Fe lines: thermal + micro + macroturbulence,
@@ -199,8 +209,42 @@ def main() -> None:
             # un-normalised data (HARPS) the local renorm is required and is applied.
             if pre:
                 fn, cont = ff, np.ones_like(ff)
+                cont_method = (f"pre-normalised: {win.holding.holding_id} ships its own "
+                               f"continuum and unity IS it, by construction — no local "
+                               f"fit is made")
             else:
                 fn, cont = _local_renorm(wf, ff, c, window=CONT_HALF_A)
+                cont_method = (
+                    f"local-linear-refit: polyfit deg 1 through the top "
+                    f"{100 - _PIPE['cont_anchor_percentile']:.0f}% of pixels in the outer "
+                    f"{_PIPE['cont_edge_frac']:.0%} of each +/-{CONT_HALF_A} A edge strip")
+            # 🔴 RYA-911 — RECORD IT. `_local_renorm` has always returned the continuum
+            # it placed and this driver has always bound it and thrown it away, which is
+            # why the HARPS Fe II -0.34 dex deficit had to be diagnosed by REFITTING an
+            # approximation of this code rather than by reading it. Taken AT THE LINE
+            # CENTRE, because that is the divisor that sets this line's depth.
+            _j = int(np.argmin(np.abs(wf - c)))
+            cont_level = float(cont[_j])
+            cont_ref = reference_continuum(win.holding, c)
+            # 🔴 RYA-911 — THE ONE-SIDED PHYSICAL TEST, APPLIED TO EVERY ARM.
+            #
+            # A continuum-normalised stellar spectrum cannot exceed 1.0 by any real
+            # margin: flux above the continuum is not a small error, it is impossible.
+            # So `max(F/C) > 1` CONVICTS a continuum outright, with no reference, no
+            # reconstruction and no second opinion needed.
+            #
+            # This is what was missing. The HARPS arm re-fit its continuum through 0.3 A
+            # anchor strips of the crowded solar optical, landed BELOW the flux on half
+            # the pool, and shrank every EW on it -- and nothing objected, because a
+            # coherent deficit looks exactly like a smaller line. RYA-897 could only see
+            # it as a 0.34 dex hole at the far end of the pipeline.
+            #
+            # ⚠️ ONE-SIDED ON PURPOSE. The converse is NOT a defect: in the blanketed
+            # blue there may be no unabsorbed pixel in the window at all, so a correct
+            # continuum SHOULD sit above every observed point. Testing that direction too
+            # would quarantine correct continua in exactly the bands that need them most.
+            _over = float(np.max(fn)) if fn.size else float("nan")
+            cont_unphysical = (np.isfinite(_over) and _over > CONTINUUM_MAX_OVER)
 
             fit_m = np.abs(wf - c) <= FIT_HALF_A
             s_init, s_min, s_max = instrument_sigma(a.instrument, c)
@@ -228,8 +272,31 @@ def main() -> None:
                        + f"; model integrated; chi2_red={chi2:.4g}; "
                        f"sigma_fit={popt[2]:.4f} A (init {s_init:.4f}, floor {s_min:.4f}); "
                        f"ew_err={err:.2f} mA; continuum linear anchors at +/-{CONT_HALF_A} A; "
-                       f"source {src}"))   # RYA-904: names the HOLDING
-        if abs(float(popt[2]) - s_min) < 1e-4:
+                       f"source {src}"),   # RYA-904: names the HOLDING
+            # RYA-911 — the continuum is a first-class column, not prose. A number a
+            # downstream RCA has to parse out of a sentence is a number it will
+            # reconstruct instead.
+            continuum_level=cont_level, continuum_method=cont_method,
+            continuum_ref=cont_ref,
+            # RYA-911 — the fit's own numbers, as COLUMNS. `chi2` and `popt[2]` were
+            # computed here, used to decide FIT-PINNED, and then written only into the
+            # `ew_method` sentence. `sigma_A` is deliberately NOT used: it means one
+            # sigma on A in DEX, and this is a width in ANGSTROM.
+            profile_sigma_A=float(popt[2]), profile_sigma_floor_A=float(s_min),
+            red_chi2=float(chi2))
+        if cont_unphysical:
+            # Quarantined, never culled (RYA-711): measured, kept, reported with its
+            # number. The EW is still written down -- it is the CONTINUUM that is
+            # disqualified, and a reader needs to see how far off it was.
+            lm.in_aggregate = False
+            lm.excluded_reason = (
+                f"CONTINUUM-UNPHYSICAL: {_over:.4f} of the continuum is exceeded by the "
+                f"observed flux inside the fit window (limit {CONTINUUM_MAX_OVER:.3f}). "
+                f"Flux above the continuum is impossible, so this continuum sits BELOW "
+                f"the spectrum and every EW measured on it is too small. Method was: "
+                f"{cont_method}. This is the RYA-911 defect that cost HARPS Fe II a "
+                f"median 23.8% of its EW.")
+        elif abs(float(popt[2]) - s_min) < 1e-4:
             lm.in_aggregate = False
             lm.excluded_reason = (
                 f"FIT-PINNED: fitted sigma {popt[2]:.4f} A sits on the instrumental floor "
