@@ -23,6 +23,9 @@ Standing duty: when a register-worthy moment lands in conversation, proactively 
 - **NATIVE vs MIRROR.** NATIVE rows (verdicts, statuses, gate states, grid/model/instrument selections, reopen triggers) are hand-maintained here — the register IS their source of truth. MIRROR rows (stellar params ← `config/constants.py`; abundances ← results tables) are **script-generated, never hand-typed** — regenerate, do not edit in place.
 - **Cite every value.** No value from memory. A row without its establishing ticket / source file is `[confirm]` and is NOT settled until the citation is attached.
 - **Correct loudly.** If a ticket-of-record or `constants.py` contradicts a row, fix the row and call it out in the close comment — never silently overwrite.
+- **Do not adjudicate science here.** The register records current ratified state; it
+  does not compete with `SCIENCE_STANDARDS.md` or decision records. Preserve an
+  unresolved conflict as `OPEN`/`PENDING`, cite both claims, and stop for disposition.
 - **Status vocab only:** `SETTLED` · `SETTLED-WITH-CAVEAT` · `REGRESSED` · `STALE` · `OPEN` · `NOT-SELF-SUFFICIENT` · `PENDING`.
 - **Column contract (verdict tables):** `component | verdict | value | established by | status | reopen-only-if`. Do not drop or reorder columns.
 - **`reopen-only-if` is the anti-archaeology rule:** a SETTLED row is not re-litigated unless its named trigger fires.

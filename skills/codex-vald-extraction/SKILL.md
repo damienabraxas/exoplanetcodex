@@ -5,11 +5,19 @@ description: The complete VALD3 line-list extraction and intake procedure for th
 
 # Codex VALD Extraction & Intake Skill
 
+## Authority boundary
+
+This skill owns only VALD extraction and raw-delivery intake. Resolve element execution
+from `docs/ELEMENT_PROTOCOL.md`, scientific rules from `docs/SCIENCE_STANDARDS.md`, naming
+and schemas from `docs/CONVENTIONS.md`, and current state from `LEDGERS.md`. Those sources
+override stale examples here. Never turn a VALD delivery or a plausible `log_gf` into a
+scientific decision, and never silently reconcile divergent oscillator strengths.
+
 ## Why this skill exists
 
 The VALD procedure was previously scattered across Linear comments (RYA-64 how-to, RYA-269 HFS ruling, the intake check). That fragmentation is exactly how the **HFS-splitting setting went unnoticed for months** — the standard recipe never mentioned the field, so it was never checked, and mixed HFS-ON/OFF extractions could not be merged (RYA-269, 204 cross-extraction log_gf conflicts). This skill is the single source of truth. If the recipe changes, it changes here.
 
-**Hard rule reminder:** VALD extraction is **always manual** via the web interface. There is no API path. Mr. Code never downloads from VALD — Ryan submits, Ryan drops the raw files, Mr. Code verifies and processes.
+**Hard rule reminder:** VALD extraction is **always manual** via the web interface. There is no API path. The implementing agent never downloads from VALD — Ryan submits, Ryan drops the raw files, and the agent verifies and processes them.
 
 ---
 
@@ -98,7 +106,7 @@ The HFS box state has historically varied across sessions for reasons never pinn
 
 ---
 
-## Part C — Intake verification (Mr. Code, on every raw delivery)
+## Part C — Intake verification (implementing agent, on every raw delivery)
 
 Run this on each file **as it is unpacked, BEFORE any merge or build consumes it.** The merge conflict gate is the backstop; intake is where wrong files get caught and bounced. No partial merges — a merge runs only when all required files for that star are ACCEPT.
 
