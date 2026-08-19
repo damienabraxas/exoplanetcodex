@@ -42,7 +42,7 @@ from pipeline.lines_fit import (  # noqa: E402
 from pipeline.band_products import carried_ep, LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
-    kp_segments, load_kp_window, load_window, telluric_reason, PRE_NORMALISED,
+    kp_segments, load_kp_window, load_window, load_window_ex, telluric_reason,
     verify_feature,
     attribute_root_cause)
 
@@ -142,7 +142,13 @@ def main() -> None:
 
     segs = kp_segments() if a.instrument == "kpno_solar_atlas" else None
     allw = acc.wave_air_A.values
-    pre = PRE_NORMALISED[a.instrument]
+    # 🔴 RYA-904 — `pre` USED TO BE READ ONCE, FROM AN INSTRUMENT-KEYED DICT. It is a
+    # property of the HOLDING, and one instrument can serve holdings that disagree:
+    # CRIRES+'s raw Vesta IDPs are un-normalised adu while its RYA-794 corrected Y arm
+    # arrives normalised. A single per-run answer is therefore wrong for one of them, and
+    # being wrong in the "already normalised, renormalise anyway" direction is the
+    # RYA-713 double-normalisation defect (EWs low by a median 11.7 %, up to 71.4 %). It
+    # now comes off the window that was actually loaded, per line.
 
     rows, skipped, causes = [], [], []
     for _, r in sel.iterrows():
@@ -168,7 +174,8 @@ def main() -> None:
         try:
             # RYA-783: dispatched by instrument so the IAG arm runs through the
             # same harness rather than a parallel copy of it.
-            w, f, src = load_window(a.instrument, c, CONT_HALF_A * 1.3, segs)
+            win = load_window_ex(a.instrument, c, CONT_HALF_A * 1.3, segs)
+            w, f, src, pre = win.wave, win.flux, win.provenance, win.pre_normalised
             m = np.abs(w - c) <= CONT_HALF_A
             wf, ff = w[m], f[m]
             if wf.size < 40:
@@ -217,7 +224,7 @@ def main() -> None:
                        + f"; model integrated; chi2_red={chi2:.4g}; "
                        f"sigma_fit={popt[2]:.4f} A (init {s_init:.4f}, floor {s_min:.4f}); "
                        f"ew_err={err:.2f} mA; continuum linear anchors at +/-{CONT_HALF_A} A; "
-                       f"segment(s) {src}"))
+                       f"source {src}"))   # RYA-904: names the HOLDING
         if abs(float(popt[2]) - s_min) < 1e-4:
             lm.in_aggregate = False
             lm.excluded_reason = (
