@@ -90,16 +90,49 @@ def _findings(results, number):
     return [f for r in results if r.number == number for f in r.findings]
 
 
-def test_check1_warns_on_a_verified_holding_the_harness_cannot_load(solar_fe):
-    """THE ACCEPTANCE PROOF. `solar_harps` is verified in the holdings registry and
-    `load_window` has no branch for it — the RYA-897 defect, live on main. Pre-flight
-    must surface it as a WARN, in one line, before any measurement runs."""
+def test_check1_no_longer_warns_on_harps_because_the_loader_now_EXISTS(solar_fe):
+    """🔴 THIS TEST WAS INVERTED BY RYA-911, and that is the correct outcome.
+
+    It was RYA-905's acceptance proof: `solar_harps` is verified and `load_window` has no
+    branch for it — the RYA-897 defect, LIVE ON MAIN at the time. RYA-911 wires the HARPS
+    loader (porting RYA-897's build onto the RYA-904 holding table), so the premise is
+    now false and the original assertion would be pinning a defect in place.
+
+    An acceptance proof for a defect is TIME-LIMITED BY CONSTRUCTION. Keeping it green by
+    keeping the defect is the failure mode; the honest move is to invert it and say why.
+    Its counterpart, `test_check1_control_the_warning_goes_away_when_the_loader_exists`,
+    always tested this end synthetically — this now tests it for real.
+    """
     st, results = solar_fe
-    warns = [f for f in _findings(results, 1) if f.severity == pf.WARN]
-    harps = [f for f in warns if f.subject == "solar_harps"]
-    assert harps, "check 1 did not WARN on the unreachable verified HARPS holding"
-    assert "harps" in harps[0].message
-    assert harps[0].suggested_ticket, "a WARN must carry a suggested-ticket stub"
+    warns = [f for f in _findings(results, 1)
+             if f.severity == pf.WARN and f.subject == "solar_harps"]
+    assert not warns, (
+        "check 1 still WARNs that the harness cannot load solar_harps, but RYA-911 "
+        f"wired it: {[f.message for f in warns]}")
+    oks = [f for f in _findings(results, 1)
+           if f.severity == pf.OK and f.subject == "solar_harps"]
+    assert oks, "solar_harps is wired but check 1 reports it neither as OK nor as a WARN"
+    assert "harps" in oks[0].message
+
+
+def test_check1_still_discriminates_on_a_harness_that_LACKS_the_loader(monkeypatch,
+                                                                      tmp_path):
+    """THE OTHER END, kept. Inverting the test above would be worthless if check 1 had
+    simply stopped WARNing about anything. Point it at a harness with no harps branch and
+    the WARN must come back."""
+    patched = tmp_path / "no_harps_harness.py"
+    patched.write_text(
+        'PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False}\n'
+        '_LOADER_HOLDING = {"kpno_solar_atlas": "solar_kpno"}\n'
+        "def load_window(instrument, centre, pad):\n"
+        '    if instrument == "kpno_solar_atlas":\n        return 1, 2, 3\n'
+        "    raise LookupError('no window loader')\n")
+    monkeypatch.setattr(pf, "HARNESS_PY", patched)
+    _, results = pf.run("sun", "Fe", "I", [pf.ROOT])
+    warns = [f for f in _findings(results, 1)
+             if f.severity == pf.WARN and f.subject == "solar_harps"]
+    assert warns, "check 1 stopped detecting an unreachable holding altogether"
+    assert warns[0].suggested_ticket, "a WARN must carry a suggested-ticket stub"
 
 
 def test_check1_control_the_warning_goes_away_when_the_loader_exists(solar_fe, monkeypatch,
@@ -219,14 +252,23 @@ def test_check3_reports_the_join_delta_it_used():
 # ── One gap is counted once ──────────────────────────────────────────────────
 
 def test_a_single_gap_is_not_counted_by_two_checks(solar_fe):
-    """`solar_harps` is unreachable (check 1) AND absent from the product (check 5) AND
-    telluric-clear (check 6). That is ONE defect; it must yield ONE WARN, or the
-    suggested-ticket list becomes three tickets for one fix."""
+    """One defect, one WARN — or the suggested-ticket list becomes three tickets per fix.
+
+    ⚠️ RE-SUBJECTED BY RYA-911. This was written on `solar_harps`, which was unreachable
+    (check 1) AND absent from the product (check 5) AND telluric-clear (check 6). RYA-911
+    wired HARPS, so that holding is no longer an example of anything. The RULE is
+    unchanged and still worth pinning, so it is asserted over EVERY holding that WARNs
+    rather than over one name that happened to be broken on the day — which is the more
+    durable form of the same check, and does not go stale the next time a gap closes.
+    """
     _, results = solar_fe
-    warns = [(r.number, f) for r in results for f in r.findings
-             if f.severity == pf.WARN and f.subject == "solar_harps"]
-    assert len(warns) == 1, f"solar_harps WARNed in checks {[n for n, _ in warns]}"
-    assert warns[0][0] == 1, "the HARPS gap should be owned by check 1 (reachability)"
+    by_subject: dict[str, list[int]] = {}
+    for r in results:
+        for f in r.findings:
+            if f.severity == pf.WARN:
+                by_subject.setdefault(f.subject, []).append(r.number)
+    doubled = {s: n for s, n in by_subject.items() if len(n) > 1}
+    assert not doubled, f"one gap counted by several checks: {doubled}"
 
 
 def test_check5_names_the_check_that_owns_each_accounted_absence(solar_fe):
