@@ -254,21 +254,35 @@ def test_check3_reports_the_join_delta_it_used():
 def test_a_single_gap_is_not_counted_by_two_checks(solar_fe):
     """One defect, one WARN — or the suggested-ticket list becomes three tickets per fix.
 
-    ⚠️ RE-SUBJECTED BY RYA-911. This was written on `solar_harps`, which was unreachable
-    (check 1) AND absent from the product (check 5) AND telluric-clear (check 6). RYA-911
-    wired HARPS, so that holding is no longer an example of anything. The RULE is
-    unchanged and still worth pinning, so it is asserted over EVERY holding that WARNs
-    rather than over one name that happened to be broken on the day — which is the more
-    durable form of the same check, and does not go stale the next time a gap closes.
+    ⚠️ RE-SUBJECTED BY RYA-911, and then CORRECTED. This was written on `solar_harps`,
+    which was unreachable (check 1) AND absent from the product (check 5). RYA-911 wired
+    HARPS, so that holding stopped being an example of anything.
+
+    🔴 My first re-subjecting asserted the rule over EVERY holding that WARNs — "no
+    subject appears under two check numbers" — and that is a DIFFERENT, FALSE rule. CI
+    caught it: `solar_crires_plus_y_rya794` is WARNed by check 5 (it is reachable,
+    telluric-clear, in wavelength reach, and still appears in no rendered product) and by
+    check 6 (its `telluric_applied=applied` disagrees with what the catalogue says the
+    arm's basis is). Those are TWO DEFECTS about one holding, not one defect counted
+    twice, and fixing either leaves the other standing. Generalising from "subject" to
+    "defect" was the error — a subject is not a defect.
+
+    The real invariant, and the one the original was reaching for: **check 5 must never
+    fire on a holding check 1 has already declared unreachable.** "It appears in no
+    product" is not an independent finding about something nothing can read — that is one
+    gap wearing two tickets. Checks 5 and 6 report genuinely separate properties and may
+    co-fire; checks 1 and 5 may not.
     """
     _, results = solar_fe
-    by_subject: dict[str, list[int]] = {}
-    for r in results:
-        for f in r.findings:
-            if f.severity == pf.WARN:
-                by_subject.setdefault(f.subject, []).append(r.number)
-    doubled = {s: n for s, n in by_subject.items() if len(n) > 1}
-    assert not doubled, f"one gap counted by several checks: {doubled}"
+    def _warned_by(number: int) -> set[str]:
+        return {f.subject for r in results if r.number == number
+                for f in r.findings if f.severity == pf.WARN}
+    unreachable, absent = _warned_by(1), _warned_by(5)
+    both = unreachable & absent
+    assert not both, (
+        f"one gap counted twice: {sorted(both)} are WARNed as unreachable (check 1) AND "
+        f"as absent from the product (check 5). An unreachable holding cannot also owe a "
+        f"product — that is one defect billed to two checks.")
 
 
 def test_check5_names_the_check_that_owns_each_accounted_absence(solar_fe):
