@@ -14,6 +14,7 @@ Read the seven ledgers below in order, then resolve task-specific sources before
 | `docs/SCIENCE_PRODUCT_PACKAGE.md` | Required scientific product and evidence package | Pipeline implementation state |
 | `docs/CONVENTIONS.md` | Naming, schema, repository, and generated/native conventions | Scientific verdicts |
 | Specialized model, instrument, design, NLTE, and audit docs | Conditional detail for the domain they state | Automatic authority outside their scope or vintage |
+| `data/audit/run_bug_ledger.csv` | Curated historical defects keyed by ticket; linked fixes/tests/provenance | Raw trace events, current scientific state, or replacement for Linear |
 | `data/refs/bibliography.csv` and local reference documents | Inspected evidence and citation provenance | Project law merely because a paper is held locally |
 | Linear description and comments in chronological order | Mission, acceptance criteria, holds/corrections, decisions, and history | Current repo state or authority to override ratified science |
 | Current committed code, tests, and config | Executable implementation truth | Permission to contradict ratified science requirements |

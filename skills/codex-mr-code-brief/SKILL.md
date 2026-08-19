@@ -85,7 +85,8 @@ Number the sections; implementing agents reference them (`§3B`, `§4`).
 6. **End-of-Session Requirements** — branch/worktree, base SHA, final SHA/commit(s),
    every file changed, exact commands/results, errors, unresolved questions,
    collision/state checks, resume point, generated scientific artifacts where
-   applicable, and PR link if authorized. State explicitly: no merge unless instructed.
+   applicable, and PR link if authorized. Require a run-bug-ledger disposition: rows
+   appended/amended, or `none discovered`. State explicitly: no merge unless instructed.
 
 Open the description with an agent-neutral launch instruction:
 

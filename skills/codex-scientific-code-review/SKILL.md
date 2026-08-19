@@ -68,3 +68,9 @@ For every finding include severity, affected path/line, failure mechanism, scien
 impact, existing or missing test, and the smallest safe remediation. Explicitly state
 which controls were checked and whether they discriminate. A review passes only when no
 scientifically material wrong-data or provenance ambiguity remains.
+
+At session close answer whether the ticket discovered a bug, silent fallback,
+data/provenance defect, or reproducibility hazard. If yes, append or amend the canonical
+`data/audit/run_bug_ledger.csv` per `data/audit/RUN_BUG_LEDGER.md` and link follow-up
+Linear work where needed. If no, report `none discovered`; do not add a fake row. Raw
+`debug/intake/*.jsonl` traces remain local evidence and are never bulk-promoted.
