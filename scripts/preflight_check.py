@@ -112,6 +112,11 @@ LITSCAN_DIR = ROOT / "data" / "reference" / "litscan"
 ANCHOR_VERDICT_JSON = ROOT / "data" / "audit" / "cno_synthesis" / "solar_phase_c_verdict.json"
 ANCHOR_ELEMENT_DIR = ROOT / "data" / "reference" / "solar" / "elements"
 CANONICAL_GF_CSV = ROOT / "data" / "linelists" / "canonical_gf.csv"
+#: RYA-709's per-line accounting ledger — every usable line, which arms reach it, and
+#: whether it made the measured pool. A line ON this ledger is not invisible: it is
+#: counted, and `summary.csv` carries the per-element totals. That is what separates
+#: "not measured" from "nobody knows this line exists".
+LINE_ACCOUNTING_CSV = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
 
 #: Star aliases. The registries key on `system_id` / `star_params_key`; a human types
 #: "sun". Resolved here rather than in six places.
@@ -661,7 +666,9 @@ def check_line_coverage(st: State) -> CheckResult:
                 {"run": run, "in_aggregate": str(r.get("in_aggregate", "")).lower() == "true",
                  "reason": str(r.get("excluded_reason", "") or "").strip()})
 
+    ledger = _line_accounting(st)
     silent_drops, unreasoned, accounted, expected = [], [], 0, 0
+    on_ledger = 0
     for w in st.best_lines.wavelength_air_A.astype(float):
         hit, delta = _nearest(w, measured.keys())
         if hit is not None and delta <= WAVE_TOL_A:
@@ -672,6 +679,15 @@ def check_line_coverage(st: State) -> CheckResult:
                     accounted += 1
                 else:
                     unreasoned.append((w, Path(m["run"]["path"]).name))
+            continue
+        # NOT IN THE RUN'S OUTPUT — but is it on the accounting ledger? RYA-709 records
+        # every usable line and whether it made the measured pool, and `summary.csv`
+        # totals them per element. A line ON that ledger has been counted and can be
+        # found; that is an unmeasured line, which is the survey's normal state. A line
+        # on NEITHER the run nor the ledger is the one nothing knows about.
+        near_ledger, dl = _nearest(w, ledger)
+        if near_ledger is not None and dl <= WAVE_TOL_A:
+            on_ledger += 1
             continue
         covering = [r for r in st.ew_runs if r["lo_A"] <= w <= r["hi_A"]]
         if covering:
@@ -685,6 +701,14 @@ def check_line_coverage(st: State) -> CheckResult:
             f"{accounted} best line(s) measured and accounted — in the aggregate, or "
             f"excluded WITH a stated reason",
             "an exclusion that states its reason is not a silent gap"))
+    if on_ledger:
+        res.findings.append(Finding(
+            "2", INFO, st.species,
+            f"{on_ledger} best line(s) are not in any run's output but ARE on the RYA-709 "
+            f"line-accounting ledger ({LINE_ACCOUNTING_CSV.relative_to(ROOT)}) as usable "
+            f"and unmeasured — counted, not lost",
+            "the project's own ledger holds these lines with their reaching instruments; "
+            "an unmeasured line that is counted is the survey's normal state"))
     if expected:
         spans = ", ".join("{:.0f}-{:.0f}".format(r["lo_A"], r["hi_A"]) for r in st.ew_runs)
         res.findings.append(Finding(
@@ -696,13 +720,15 @@ def check_line_coverage(st: State) -> CheckResult:
         shown = "; ".join(f"{w:.3f} A (run {n})" for w, n in silent_drops[:8])
         res.findings.append(Finding(
             "2", WARN, st.species,
-            f"{len(silent_drops)} best line(s) sit INSIDE a band that was run and appear "
-            f"nowhere in that run's output: {shown}"
-            + (" ..." if len(silent_drops) > 8 else ""),
-            "the band was measured, so this is not 'we have not looked there' — the "
-            "line was dropped before the output was written, with no row and no reason",
+            f"{len(silent_drops)} best line(s) sit INSIDE a band that was run, appear "
+            f"nowhere in that run's output, AND are absent from the line-accounting "
+            f"ledger: {shown}" + (" ..." if len(silent_drops) > 8 else ""),
+            "the band was measured and the ledger that counts unmeasured lines does not "
+            "hold these either — they are on no list at all, which is the one state "
+            "nobody can notice (RYA-429 class)",
             f"AUDIT: {len(silent_drops)} {st.species} best line(s) fall inside a measured "
-            f"band but carry no row in its EW artifact — silent drop (RYA-429 class)"))
+            f"band but appear in neither its EW artifact nor the RYA-709 line-accounting "
+            f"ledger — silent drop"))
     if unreasoned:
         shown = "; ".join(f"{w:.3f} A ({n})" for w, n in unreasoned[:8])
         res.findings.append(Finding(
@@ -822,12 +848,27 @@ def check_grid_reach(st: State) -> CheckResult:
                 "reports the join delta so the match is auditable, not asserted"))
         if miss:
             shown = _by_band(miss)
+            stated = _stated_engine_a_coverage(st) if sev == WARN else None
+            if stated:
+                # ALREADY STATED IS NOT SILENT. The product does not quietly serve these
+                # lines as LTE under an NLTE label — it drops them from the Engine-A
+                # aggregate and prints the count. Re-raising that as a WARN would report
+                # a working guard as a defect.
+                res.findings.append(Finding(
+                    "3", INFO, st.species,
+                    f"{len(miss)} of {len(subject)} {label} are not grid-served — "
+                    f"{shown}. Not silent: {stated}",
+                    "the reduced coverage is declared by the product itself, so the gap "
+                    "is visible to anyone reading it — which is the whole difference "
+                    "from the RYA-773 Al shape"))
+                continue
             res.findings.append(Finding(
                 "3", sev, st.species,
                 f"{len(miss)} of {len(subject)} {label} are NOT covered by the "
                 f"{st.element} grid and fall back to LTE — {shown}",
-                "a grid for this element EXISTS and is consumed for other lines, so the "
-                "product reads as NLTE while these lines are not — the RYA-773 Al shape"
+                "a grid for this element EXISTS and is consumed for other lines, and no "
+                "product row declares the reduced coverage — so the product reads as "
+                "NLTE while these lines are not (the RYA-773 Al shape)"
                 if sev == WARN else
                 "no product depends on these yet; recorded so the gap is known before "
                 "they are measured, not after",
@@ -1038,6 +1079,55 @@ def check_rendered_output(st: State) -> CheckResult:
                     f"covers it either",
                     "unmeasured, not dropped"))
     return res
+
+
+def _line_accounting(st: State) -> list:
+    """Wavelengths this element has on the RYA-709 accounting ledger, across every root.
+
+    Read across the SAME roots as the products, because the ledger is regenerated by the
+    harness and a checkout that has never run one carries the committed copy only.
+    """
+    waves = []
+    for root in st.roots:
+        p = Path(root) / LINE_ACCOUNTING_CSV.relative_to(ROOT)
+        if not p.exists():
+            continue
+        try:
+            df = pd.read_csv(p, usecols=["element", "ion", "wave_air_A"])
+        except Exception:
+            continue
+        sel = df[(df.element.astype(str) == st.element)
+                 & (df.ion.astype(str) == st.ion)]
+        waves.extend(float(w) for w in sel.wave_air_A)
+    return sorted(set(waves))
+
+
+def _stated_engine_a_coverage(st: State) -> str | None:
+    """What the ENGINE-A product already says about lines the grid does not serve.
+
+    `derive_band_products` REFUSES to average an Engine-A product over lines MPIA does not
+    serve — it reports reduced coverage with the count instead (RYA-783). So the grid gap
+    is, for those lines, already stated in the product. Returning that statement is what
+    keeps check 3 from re-reporting a documented behaviour as a silent one; returning None
+    means nothing states it, and then it IS silent.
+    """
+    df = st.products
+    if not len(df):
+        return None
+    label = None
+    for col in ("treatment", "product"):
+        if col in df.columns:
+            label = df[col].astype(str)
+            break
+    if label is None:
+        return None
+    rows = df[label.str.upper().str.contains("ENGINE-A", na=False)]
+    if not len(rows):
+        return None
+    n_lines = pd.to_numeric(rows.get("n_lines"), errors="coerce").sum()
+    n_excl = pd.to_numeric(rows.get("n_excluded"), errors="coerce").sum()
+    return (f"the ENGINE-A product reports its own reduced coverage across "
+            f"{len(rows)} band row(s): n_lines={n_lines:.0f}, n_excluded={n_excl:.0f}")
 
 
 def _by_band(miss) -> str:
