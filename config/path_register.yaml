@@ -87,6 +87,18 @@ roots:
     env: CODEX_ENGINE_ROOT
     default: /mnt/codex-data/engines
     desc: Synthesis engines (Turbospectrum_NLTE, iSpec, PySME, TSFitPy).
+  repo:
+    env: CODEX_REPO_ROOT
+    default: '{repo}'
+    desc: >-
+      The repo checkout itself, for artifacts that are GIT-TRACKED rather than
+      staged on a data drive (RYA-904). Most register entries point at machine
+      storage; a derived science product committed under data/results/ is a
+      different kind of thing -- it travels with the checkout, so its only
+      machine-specific part is where the checkout is, which `{repo}` already
+      knows. Registering them here rather than writing `ROOT / "data" / ...` in
+      a loader means a product's location is declared in ONE place that the
+      loader, the tests and the guard all read (RYA-810).
 
 entries:
   # ---- grid stores -------------------------------------------------------
@@ -271,6 +283,20 @@ entries:
     rel: spectra/vesta/CRIRESPlus
     kind: dir
     desc: Vesta CRIRES+ reflected-solar frames (Sirius-side).
+  repo.crires_plus_solar_y_rya794:
+    root: repo
+    rel: data/results/rya794/vesta_crires_plus_Y_10280_10680_normalized.csv
+    kind: file
+    desc: >-
+      CRIRES+ Vesta solar Y arm, 10280-10680 A, TELLURIC-CORRECTED and already
+      continuum-normalised (RYA-794). Built by scripts/normalize_vesta_ir.py from
+      Elgueta+2026's sp/Sun_Y_rv.dat; registered as holding
+      `solar_crires_plus_y_rya794` with telluric_applied=applied. Two columns,
+      wavelength_air_A and flux_normalized, 13707 rows, flux median 0.9985 --
+      PRE-NORMALISED IS TRUE FOR THIS HOLDING and false for the raw
+      solar_vesta_crires_plus_idp frames of the same instrument, which is why
+      normalisation is a per-holding fact and not a per-instrument one (RYA-904).
+      It had no register key until RYA-904 and so could not be named by a loader.
   data.solar_iag_baker2020:
     root: srv_solar
     rel: iag_baker2020/iag_telfree_solaratlas.fits
