@@ -197,7 +197,7 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
     r = _fit_synth_flux(
         ow_A / 10.0, np.asarray(of, dtype=float), ctx['atmosphere'],
         ctx['teff'], ctx['logg'], ctx['feh'], ctx['vturb'],
-        ctx['linelist'], ctx['isotopes'], ctx['solar_abund'], 'Fe',
+        ctx['linelist'], ctx['isotopes'], ctx['solar_abund'], ctx.get('element', 'Fe'),
         int(ctx['atom_code']), lo_A / 10.0, hi_A / 10.0,
         max(a_solar - 3.0, 1.0), a_solar + 5.0,
         float(ctx['resolving_power']), float(ctx['macroturbulence']),

@@ -195,7 +195,7 @@ def resolve_route(treatment: str, *, handler=None, ew_inversion=None) -> tuple[s
 
 
 def axes_for(treatment: str, *, handler=None, ew_inversion=None,
-             atmos=None, gf=None) -> Axes:
+             model=None, atmos=None, gf=None) -> Axes:
     """Legacy label (+ whatever route evidence the product carries) -> stored axes.
 
     `atmos` should be PASSED by any live emitter that knows it. It is only inferred for
@@ -210,7 +210,9 @@ def axes_for(treatment: str, *, handler=None, ew_inversion=None,
             f"default is how RYA-869 published four wrong systematics.")
     spec = LEGACY[key]
     route, basis = resolve_route(key, handler=handler, ew_inversion=ew_inversion)
-    model = spec["model"]
+    model = model or spec["model"]
+    if model not in MODELS:
+        raise ValueError(f"unknown model axis {model!r}; expected one of {MODELS}")
     return Axes(
         route=route, scale=spec["scale"], model=model,
         atmos=(atmos or _LEGACY_ATMOS.get(model, _LEGACY_ATMOS_DEFAULT)),
