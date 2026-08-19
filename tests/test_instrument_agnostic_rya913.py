@@ -147,3 +147,50 @@ def test_dispatch_alone_does_not_trip_the_guard(tmp_path):
     called, imported = _calls_and_imports(good)
     assert not ((called | imported) & INSTRUMENT_SPECIFIC)
     assert (called | imported) & DISPATCH
+
+
+def test_window_attributes_used_by_routes_actually_exist():
+    """The AST ban is static, and static guards cannot see a wrong attribute NAME.
+
+    I shipped `_win.spec.holding_id` into the ENGINE-B provenance code when the field is
+    `Window.holding`. Nothing caught it: the AST guard only looks at which functions are
+    called, the unit tests never execute that branch, and exercising it needs a full
+    Turbospectrum derive. It would have raised AttributeError on the first line measured
+    -- after the synthesis had already run.
+
+    So: every attribute a route reads off a `load_window_ex(...)` result must be a real
+    field of `Window`. Cheap, and it closes the gap the other guard leaves open.
+    """
+    import ast
+    import sys
+    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from measure_band_ew import Window
+
+    fields = set(Window._fields) | {
+        n for n in dir(Window) if not n.startswith("_")}
+    bad = []
+    for rel in MEASUREMENT_MODULES:
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        tree = ast.parse(path.read_text())
+        # names bound from a load_window_ex call, then every attribute read off them
+        bound = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign) and isinstance(node.value, ast.Call):
+                fn = getattr(node.value.func, "id", None) or getattr(
+                    node.value.func, "attr", None)
+                if fn == "load_window_ex":
+                    for t in node.targets:
+                        if isinstance(t, ast.Name):
+                            bound.add(t.id)
+        for node in ast.walk(tree):
+            if (isinstance(node, ast.Attribute)
+                    and isinstance(node.value, ast.Name)
+                    and node.value.id in bound
+                    and node.attr not in fields):
+                bad.append(f"{rel}: {node.value.id}.{node.attr}")
+    assert not bad, (
+        f"route(s) read attribute(s) off a Window that do not exist: {bad}. "
+        f"Window fields are {sorted(fields)}.")
