@@ -301,3 +301,47 @@ def test_the_corrected_product_is_not_re_normalised_and_the_test_discriminates()
     d_raw = 1.0 - float(ff.min())
     d_renorm = 1.0 - float(renormed.min())
     assert abs(d_renorm / d_raw - 1.0) > 0.02
+
+
+# ── the RYA-905 preflight reader must see the new shape ──────────────────────
+
+def test_preflight_dispatch_reader_reads_the_holding_table():
+    """RYA-905's `read_dispatch` text-parses the harness. RYA-904 changed what it parses.
+
+    🔴 IT RETURNED AN EMPTY DISPATCH AND CI CAUGHT IT. `_INSTRUMENT_HOLDINGS` is an
+    ANNOTATED assignment (`ast.AnnAssign`), and the reader walked `ast.Assign` only — so
+    it saw no instruments at all, which reads as "nothing is wired". The only reason that
+    surfaced as a failure instead of a page of confident false WARNs is that RYA-905's
+    positive control refuses to report absences it cannot corroborate (RYA-833).
+
+    This pins the shape so the next change to that table cannot empty the reader silently.
+    """
+    import preflight_check as pf
+    d = pf.read_dispatch()
+    assert d.controls_ok, d.control_note
+    assert "crires_plus" in d.instruments
+    # the point of the ticket: ONE instrument, SEVERAL holdings, in preference order
+    assert d.served_holdings["crires_plus"] == (Y_HOLDING, IDP_HOLDING)
+    # and the reader agrees with the harness rather than restating it
+    assert {i: tuple(h.holding_id for h in M.holdings_for(i))
+            for i in d.instruments} == d.served_holdings
+
+
+def test_preflight_reader_still_reads_the_legacy_single_valued_map(tmp_path):
+    """CONTROL AT THE OTHER END. The reader must keep working against a harness that
+    predates RYA-904, or 'it parses the new shape' is compatible with 'it parses only
+    the new shape' and the synthetic fixtures the controls rely on stop meaning anything.
+    """
+    import preflight_check as pf
+    legacy = tmp_path / "legacy_harness.py"
+    legacy.write_text(
+        'PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False}\n'
+        '_LOADER_HOLDING = {"kpno_solar_atlas": "solar_kpno"}\n'
+        "def load_window(instrument, centre, pad):\n"
+        '    if instrument == "kpno_solar_atlas":\n        return 1, 2, 3\n'
+        "    raise LookupError('no window loader')\n")
+    d = pf.read_dispatch(legacy)
+    assert d.controls_ok, d.control_note
+    assert d.instruments == ("kpno_solar_atlas",)
+    assert d.served_holdings == {"kpno_solar_atlas": ("solar_kpno",)}
+    assert "harps" in d.configured        # configured but not dispatched: RYA-897's shape
