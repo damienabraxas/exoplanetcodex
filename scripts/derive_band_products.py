@@ -770,7 +770,11 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # FIT-PINNED has to reach the product, or the selection-bias question
                 # can only ever be asked of the intermediate file.
                 profile_sigma_A=l.profile_sigma_A,
-                profile_sigma_floor_A=l.profile_sigma_floor_A)
+                profile_sigma_floor_A=l.profile_sigma_floor_A,
+                # RYA-906 — emitted BESIDE sigma, never without it. On its own
+                # `profile_sigma_A` cannot be read: the two are degenerate in a Voigt
+                # fit, and judging a line by sigma alone is the defect this replaced.
+                profile_gamma_A=l.profile_gamma_A)
 
 
 def main() -> None:
