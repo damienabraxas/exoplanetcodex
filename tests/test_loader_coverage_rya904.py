@@ -225,3 +225,33 @@ def test_a_gap_that_is_actually_wired_is_itself_a_failure():
     with pytest.raises(LC.LoaderCoverageError, match="are in fact WIRED"):
         LC.reconcile_loader_coverage(
             addressable={**LC.addressable_holdings(), "solar_harps": "harps"})
+
+
+# ── the same defect shape, one and two levels deeper ─────────────────────────
+
+def test_species_token_spells_the_ion_the_way_the_linelist_does():
+    """`--ion II` was DECORATIVE on the synthesis route. `select_lines` was pinned to
+    Fe I, so `--ion II` selected Fe I lines and labelled every one of them Fe II — a
+    plausible NUMBER for an ion nobody measured, which is worse than a refusal."""
+    from rya759_nearuv_fe_product import species_token, FE_I
+    assert species_token("Fe", "I") == FE_I == "Fe 1"
+    assert species_token("Fe", "II") == "Fe 2"
+    assert species_token("Sr", "II") == "Sr 2"
+    with pytest.raises(SystemExit):
+        species_token("Fe", "one")
+
+
+def test_select_lines_refuses_a_species_the_band_does_not_hold():
+    """An empty selection must RAISE, not return an empty frame that becomes a product
+    with n=0 (RYA-832: a row that arrives carrying no number is worse than no row)."""
+    from rya759_nearuv_fe_product import select_lines
+    import pandas as pd
+    ll = pd.read_csv(ROOT / "data" / "linelists" / "ispec_ir_9200_13000" /
+                     "atomic_lines.tsv", sep="\t", low_memory=False)
+    rec = ll.to_records(index=False)
+    with pytest.raises(SystemExit, match="no 'Fe 3' rows"):
+        select_lines(rec, lo_A=10280, hi_A=10680, n=40, teff=5772.0, min_sep_A=4.0,
+                     species="Fe 3")
+    # ... and the default is still Fe I, so RYA-759's near-UV selection is untouched
+    import inspect
+    assert inspect.signature(select_lines).parameters["species"].default == "Fe 1"

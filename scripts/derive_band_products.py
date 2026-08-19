@@ -252,7 +252,7 @@ def synthesis_route(a, pol) -> None:
 
     sys.path.insert(0, str(ROOT / "scripts"))
     from pipeline.nearuv_synth import build_solar_context, gf_provenance
-    from rya759_nearuv_fe_product import select_lines, fit_one
+    from rya759_nearuv_fe_product import select_lines, fit_one, species_token
     from rya759_nearuv_synth import _kp_segments
     from measure_band_ew import load_window_ex, select_holding
     from pipeline.telluric_policy import applied_state as _applied_state
@@ -351,8 +351,14 @@ def synthesis_route(a, pol) -> None:
           f"(pre_normalised={_probe.pre_normalised})")
     if _probe.note:
         print(f"            {_probe.note}")
+    # RYA-904 — the SPECIES, not just the element. `--ion` was decorative on this
+    # route: `select_lines` was pinned to Fe I, so `--ion II` returned Fe I lines and
+    # every one was labelled Fe II. `species_token` spells the ion the way the linelist
+    # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
+    # none of that species — which is the honest answer where it holds none.
     cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
-                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A)
+                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
+                        species=species_token(a.element, a.ion))
     # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
     # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
     # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
