@@ -255,3 +255,49 @@ def test_select_lines_refuses_a_species_the_band_does_not_hold():
     # ... and the default is still Fe I, so RYA-759's near-UV selection is untouched
     import inspect
     assert inspect.signature(select_lines).parameters["species"].default == "Fe 1"
+
+
+# ── the RYA-713 half: the corrected product must NOT be re-normalised ────────
+
+def test_the_corrected_product_is_not_re_normalised_and_the_test_discriminates():
+    """RYA-904 spec: assert the harness TREATS this holding as pre-normalised.
+
+    The flag alone is not the property — what matters is which branch it selects. So
+    this runs both branches on the real product and shows they differ: the pre-normalised
+    branch is a no-op, the un-normalised branch divides by a fitted local continuum and
+    moves the flux. If they were the same the test would prove nothing, which is the
+    RYA-805 failure mode.
+
+    On the synthesis route there is no renormalisation step at all — `fit_one` hands the
+    observed flux straight to `_fit_synth_flux` — so this is the EW/profile-fit route's
+    branch, exercised directly. Both routes read the same per-holding flag, and that is
+    the thing that could not have been right when it was per-instrument.
+    """
+    from pipeline.lines_fit import _local_renorm
+
+    win = M.load_window_ex("crires_plus", 10535.709, 1.56)   # RYA-794's Fe I 10535.709
+    assert win.pre_normalised is True
+    c = 10535.709
+    m = np.abs(win.wave - c) <= 1.20
+    wf, ff = win.wave[m], win.flux[m]
+
+    # the branch the flag selects: flux untouched, continuum is unity by construction
+    kept, cont = ff, np.ones_like(ff)
+    assert np.array_equal(kept, ff)
+    assert np.all(cont == 1.0)
+
+    # THE DISCRIMINATOR: the other branch is not a no-op on this data
+    renormed, _ = _local_renorm(wf, ff, c, window=1.20)
+    assert not np.allclose(renormed, ff, atol=1e-6), (
+        "the two branches are indistinguishable on this window, so this test cannot "
+        "detect a double-normalisation — widen the window or pick a line with structure")
+    # and it MOVES A LINE DEPTH, which is what an EW is made of. Measured on this
+    # window: median flux 0.9973 -> 0.9872 and Fe I 10535.709's depth 0.1025 -> 0.1118,
+    # +9.0%. That is the cost of getting the flag wrong for this holding, and it is the
+    # same magnitude class as RYA-713's 11.7% median (opposite sign here, because the
+    # direction depends on where the fitted continuum lands relative to unity — which is
+    # exactly why "it would probably be small" is not an argument).
+    assert abs(float(np.median(renormed)) - float(np.median(ff))) > 1e-4
+    d_raw = 1.0 - float(ff.min())
+    d_renorm = 1.0 - float(renormed.min())
+    assert abs(d_renorm / d_raw - 1.0) > 0.02
