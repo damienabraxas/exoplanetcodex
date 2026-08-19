@@ -93,7 +93,12 @@ _LEGACY_ATMOS = {"gerber": "marcs-ges"}
 _LEGACY_ATMOS_DEFAULT = "atlas9"
 
 DISPLAY_MODEL = {"bergemann": "Bergemann", "amarsi": "Amarsi", "gerber": "Gerber"}
-DISPLAY_ROUTE = {"ew": "EW", "synth": "Synth", None: "route?"}
+DISPLAY_ROUTE = {"ew": "EW", "synth": "Synth"}
+#: 🔴 There is deliberately NO entry for an unknown route. A display name is the NAME OF A
+#: PRODUCT, not a status report about it: a placeholder like "route?" is not the name of
+#: anything, it reads as a rendering bug to anyone who sees it, and it duplicates a fact
+#: that already has a proper home in `route_basis`. When the route is unknown the segment
+#: is OMITTED and the name states exactly what is known and no more.
 
 
 class UnknownTreatment(ValueError):
@@ -131,11 +136,20 @@ class Axes:
     def display(self) -> str:
         """`route · scale · model` (+ `· lab-gf`). DERIVED — never typed, never parsed.
 
+        An UNKNOWN route contributes NOTHING: the name becomes `1D-LTE` rather than
+        `route? · 1D-LTE`. That is deliberately indistinguishable from the legacy label,
+        because for those rows the legacy label is exactly how much is known — and
+        `route_basis` says `unknown` beside it, which is where the caveat belongs. A name
+        carrying a question mark is a rendering bug wearing a product's clothes.
+
         Atmosphere is stored but summarised OUT: it is currently redundant with `model`,
         so it clutters the label without adding a decision. It lives in the product detail
         and the download, for provenance and for the day that correlation breaks.
         """
-        parts = [DISPLAY_ROUTE.get(self.route, "route?"), self.scale]
+        parts = []
+        if self.route in DISPLAY_ROUTE:
+            parts.append(DISPLAY_ROUTE[self.route])
+        parts.append(self.scale)
         if self.model != "none":
             parts.append(DISPLAY_MODEL.get(self.model, self.model))
         if self.gf == "lab":
