@@ -130,6 +130,40 @@ The banked v1 anchor ran on **py3.9.6 + numpy 1.26.4 — *below* iSpec's own dec
 Oct 2025). py3.12+numpy2.2 is the newest stack with a **proven iSpec C-extension build** and is
 the FIRST anchor-validated stack that meets iSpec's floor.
 
+### Addendum — scikit-learn, the 3D-NLTE model library (RYA-923/924, 2026-08-19)
+`scikit-learn>=1.6,<2.0` joins the reference stack. It is not a convenience dependency:
+the Amarsi+2022 3D-NLTE engine ships as three **pickled** networks in
+`vendor/1L-3NErrors/`, and scikit-learn is what reads them. Without it the entire
+`ENGINE-A-3DNLTE` leg produces nothing.
+
+🔴 **It produced nothing SILENTLY, and that is the part worth remembering.** The library
+was absent from Sirius; a bare `except Exception: return np.nan` swallowed the
+`ModuleNotFoundError`; and the caller reported the NaN as *"the vendored network returned
+no value for this line"* — a **domain verdict about the physics**. 114 in-domain lines came
+back `n=0`. Meanwhile the test suite had been taught to `importorskip` the gap, so it
+stayed green, and the leg was run on a Mac from a `/tmp` directory instead (RYA-924).
+
+⚠️ **The pickles were written with 1.0.2 and are read by a much newer release.** sklearn
+warns that cross-version unpickling *"might lead to breaking code or invalid results"*.
+The warning is real and is no longer suppressed. What settles the question is not that the
+files load but that the leg's **reactivation control reproduces Amarsi+2022 Table 6 from
+the paper's own inputs**. Measured on Sirius with 1.9.0:
+
+| check | computed | published |
+|---|---|---|
+| solar A(Fe I) 3D non-LTE | **+7.4646** | +7.460 |
+| solar A(Fe II) 3D non-LTE | **+7.4710** | +7.470 |
+| Fe I d(Δ₁ₗ₃ₙ) over Eₗₒ 0→5 eV | **−0.0905** | −0.10..−0.05 |
+
+and it reproduced the two committed cells to full precision (7.6043208764762245 /
+7.641611575964107), which retrospectively validates the Mac-produced numbers that had no
+recoverable provenance.
+
+**So the constraint is "a version whose control passes", not a guess. Changing it re-opens
+that question — run the control before moving the pin.** Every run now records
+`sklearn_saved` and `sklearn_loaded` in its provenance, so the skew is visible in the
+artifact rather than inferred later.
+
 ### Validation (the science event, done — RYA-517 steps 2–4)
 Solar FULL re-run reproduces banked v1 **to 0.000 dex on all 27 verdict elements**, Fe scatter
 gate PASS (0.1390 ≤ 0.1398), RYA-371 verdict PASS=5/NLTE-OWED=1/CURATION-OWED=20/DATA-GAP=0 —
