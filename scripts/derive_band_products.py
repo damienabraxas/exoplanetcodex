@@ -64,6 +64,7 @@ sys.path.insert(0, str(ROOT))
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
+from pipeline.error_budget import assert_stat_publishable  # noqa: E402  RYA-907
 from pipeline import gf_rung  # noqa: E402  RYA-855
 from pipeline import harness_residual  # noqa: E402  RYA-869
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
@@ -599,7 +600,14 @@ def synthesis_route(a, pol) -> None:
     # A row that arrives but carries no number is worse than one that does not arrive,
     # because it looks like a measurement that failed rather than a wiring mismatch.
     b = build_budget(a.element, 0.5 * (a.lo + a.hi), product.n_lines,
-                     scatter_dex=(product.sigma or 0.0),
+                     # 🔴 RYA-907 — this read `(product.sigma or 0.0)`. `build_product`
+                     # returns None for n=1 on purpose (the spread of one line is
+                     # undefined, not small) and `or 0.0` converted that refusal into a
+                     # measured zero. Two published Fe II red-optical cells then carried
+                     # stat_dex=0.0 — the tightest statistical bar in the matrix on its
+                     # least constrained products. The None is now carried as a None and
+                     # the budget records the term UNMEASURED.
+                     scatter_dex=product.sigma,
                      # RYA-855 — the gf rung, decided above from this product's own
                      # lines. `budget_kwargs()` carries the graded flag and the cited
                      # sigma TOGETHER so a caller cannot pass one and forget the other.
@@ -612,6 +620,9 @@ def synthesis_route(a, pol) -> None:
                      # its arithmetic does.
                      **harness_residual.for_product(product).budget_kwargs())
     stat, syst = b.total()
+    assert_stat_publishable(
+        stat, cell=f"{a.element} {a.ion} {pol.name} 1D-LTE "
+                   f"({a.instrument}, n={product.n_lines})")
     # 🔴 RYA-845: the pseudo-continuum term is NOT added here, and adding it was a bug.
     # `error_budget.build()` already carries it for this band — the near-UV BandPolicy's
     # `continuum_treatment` says "pseudo-continuum only", which fires the branch in
@@ -627,6 +638,10 @@ def synthesis_route(a, pol) -> None:
         A=round(product.value, 3) if product.value is not None else None,
         n_lines=product.n_lines, n_excluded=product.n_excluded,
         stat_dex=round(stat, 4), syst_dex=round(syst, 4),
+        # RYA-907 — the bar NAMES ITS OWN ORIGIN. A reader of the matrix could not
+        # previously tell a measured scatter from the quantiser floor from a stand-in
+        # for a scatter nobody measured, and those three are different claims.
+        stat_basis=b.stat_basis(),
         dominant=(b.dominant().name if b.dominant() else ""),
     )]).to_csv(out / f"{stem}_products.csv", index=False)
     # `describe()` already lists every term the budget holds, pseudo-continuum included.
@@ -1150,10 +1165,17 @@ def main() -> None:
         # band-level or element-level answer would be wrong for at least one of them.
         rung = gf_rung.for_product(prod, linelist=ctx["linelist"])
         print(f"    [gf rung] {prod.treatment}: {rung.describe()}")
+        # 🔴 RYA-907 — the SECOND home of the identical idiom. Fixing only the synthesis
+        # route above would have left the bug live on the EW route, which is exactly
+        # where both offending Fe II cells were produced. Same shape as RYA-855 and
+        # RYA-845: one wrong expression, two call sites, and only one of them read.
         b = build_budget(a.element, 0.5 * (a.lo + a.hi), prod.n_lines,
-                         scatter_dex=(prod.sigma or 0.0), **rung.budget_kwargs(),
+                         scatter_dex=prod.sigma, **rung.budget_kwargs(),
                          **harness.budget_kwargs())
         stat, syst = b.total()
+        assert_stat_publishable(
+            stat, cell=f"{a.element} {a.ion} {pol.name} {prod.treatment} "
+                       f"({a.instrument}, n={prod.n_lines})")
         summary.append(dict(element=a.element, ion=a.ion, band=pol.name,
                             instrument=a.instrument, treatment=prod.treatment,
                             # RYA-869 — the artifact RECORDS which handler produced the
@@ -1165,6 +1187,7 @@ def main() -> None:
                             A=round(prod.value, 3), n_lines=prod.n_lines,
                             n_excluded=prod.n_excluded,
                             stat_dex=round(stat, 4), syst_dex=round(syst, 4),
+                            stat_basis=b.stat_basis(),   # RYA-907
                             dominant=b.dominant().name if b.dominant() else ""))
         budgets[prod.treatment] = b.describe() + f"\n  gf rung: {rung.describe()}"
         prod.to_frame().to_csv(out / f"{stem}_{prod.treatment}_lines.csv", index=False)
