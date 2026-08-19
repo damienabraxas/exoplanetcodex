@@ -39,11 +39,12 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.lines_fit import (  # noqa: E402
     _local_renorm, _fit_profile, _integrate_profile, _ew_error)
+from config.constants import PIPELINE as _PIPE  # noqa: E402  (RYA-911: quote the params)
 from pipeline.band_products import carried_ep, LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
     kp_segments, load_kp_window, load_window, load_window_ex, telluric_reason,
-    verify_feature,
+    reference_continuum, verify_feature,
     attribute_root_cause)
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
@@ -195,8 +196,23 @@ def main() -> None:
             # un-normalised data (HARPS) the local renorm is required and is applied.
             if pre:
                 fn, cont = ff, np.ones_like(ff)
+                cont_method = (f"pre-normalised: {win.holding.holding_id} ships its own "
+                               f"continuum and unity IS it, by construction — no local "
+                               f"fit is made")
             else:
                 fn, cont = _local_renorm(wf, ff, c, window=CONT_HALF_A)
+                cont_method = (
+                    f"local-linear-refit: polyfit deg 1 through the top "
+                    f"{100 - _PIPE['cont_anchor_percentile']:.0f}% of pixels in the outer "
+                    f"{_PIPE['cont_edge_frac']:.0%} of each +/-{CONT_HALF_A} A edge strip")
+            # 🔴 RYA-911 — RECORD IT. `_local_renorm` has always returned the continuum
+            # it placed and this driver has always bound it and thrown it away, which is
+            # why the HARPS Fe II -0.34 dex deficit had to be diagnosed by REFITTING an
+            # approximation of this code rather than by reading it. Taken AT THE LINE
+            # CENTRE, because that is the divisor that sets this line's depth.
+            _j = int(np.argmin(np.abs(wf - c)))
+            cont_level = float(cont[_j])
+            cont_ref = reference_continuum(win.holding, c)
 
             fit_m = np.abs(wf - c) <= FIT_HALF_A
             s_init, s_min, s_max = instrument_sigma(a.instrument, c)
@@ -224,7 +240,12 @@ def main() -> None:
                        + f"; model integrated; chi2_red={chi2:.4g}; "
                        f"sigma_fit={popt[2]:.4f} A (init {s_init:.4f}, floor {s_min:.4f}); "
                        f"ew_err={err:.2f} mA; continuum linear anchors at +/-{CONT_HALF_A} A; "
-                       f"source {src}"))   # RYA-904: names the HOLDING
+                       f"source {src}"),   # RYA-904: names the HOLDING
+            # RYA-911 — the continuum is a first-class column, not prose. A number a
+            # downstream RCA has to parse out of a sentence is a number it will
+            # reconstruct instead.
+            continuum_level=cont_level, continuum_method=cont_method,
+            continuum_ref=cont_ref)
         if abs(float(popt[2]) - s_min) < 1e-4:
             lm.in_aggregate = False
             lm.excluded_reason = (
