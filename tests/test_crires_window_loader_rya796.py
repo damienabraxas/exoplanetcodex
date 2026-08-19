@@ -193,9 +193,20 @@ def test_rotation_clustering_is_pure_and_uses_the_real_period():
 
 # ── registration ─────────────────────────────────────────────────────────────
 
-def test_crires_is_not_pre_normalised():
-    """adu, not residual flux. Getting this wrong is the RYA-713 continuum defect."""
-    assert M.PRE_NORMALISED["crires_plus"] is False
+def test_crires_idp_is_not_pre_normalised():
+    """adu, not residual flux. Getting this wrong is the RYA-713 continuum defect.
+
+    RE-KEYED BY RYA-904. This asserted `PRE_NORMALISED["crires_plus"]`, and the
+    instrument-level answer was the bug: the SAME instrument also serves the RYA-794
+    corrected Y arm, which IS normalised. One key could only ever be right about one of
+    them. The property being pinned is unchanged — the raw IDPs are adu — but it is now
+    stated about the holding that has it.
+    """
+    assert M.PRE_NORMALISED["solar_vesta_crires_plus_idp"] is False
+    assert M.PRE_NORMALISED["solar_crires_plus_y_rya794"] is True
+    assert "crires_plus" not in M.PRE_NORMALISED, (
+        "PRE_NORMALISED is holding-keyed now; an instrument key here would be a "
+        "silent, always-wrong answer for one of the two CRIRES+ holdings (RYA-904)")
 
 
 def test_unknown_instrument_still_raises(staged):

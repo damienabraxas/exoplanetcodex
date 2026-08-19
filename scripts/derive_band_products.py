@@ -253,8 +253,10 @@ def synthesis_route(a, pol) -> None:
 
     sys.path.insert(0, str(ROOT / "scripts"))
     from pipeline.nearuv_synth import build_solar_context, gf_provenance
-    from rya759_nearuv_fe_product import select_lines, fit_one
+    from rya759_nearuv_fe_product import select_lines, fit_one, species_token
     from rya759_nearuv_synth import _kp_segments
+    from measure_band_ew import load_window_ex, select_holding
+    from pipeline.telluric_policy import applied_state as _applied_state
 
     if not cfg.linelist.exists():
         # Loud-fail, never a silent default (RYA-832). A missing list would otherwise
@@ -291,8 +293,73 @@ def synthesis_route(a, pol) -> None:
                               apply_canonical_gf=prov_gf["apply_canonical_gf"])
     segs = _kp_segments()
     hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
+
+    # ── 🔴 WHICH SPECTRUM DOES `--instrument` ACTUALLY MEAN? — RYA-904 ────────
+    # It meant NOTHING until now. This route tagged the product with `a.instrument` and
+    # then called `fit_one`, which read Kitt Peak unconditionally. `--instrument
+    # crires_plus` would have emitted a CRIRES+-labelled product measured on the KPNO
+    # atlas — and converged, because KPNO covers these windows perfectly well. Same
+    # defect class as the loader dispatch this ticket fixes: a product naming a source it
+    # was not measured from.
+    #
+    # The window now comes from the HOLDING dispatch, which selects per line, refuses
+    # rather than falling back, and names what it served. Two properties are asserted
+    # here rather than hoped for:
+    #
+    #  1. PRE-NORMALISED. `_fit_synth_flux` compares observed flux against a synthesis
+    #     normalised to unity, so an un-normalised holding (the raw CRIRES+ Vesta IDPs,
+    #     adu to ~1.9e5) is not merely inaccurate on this route, it is undefined. Refused
+    #     by name rather than fitted — the RYA-713 direction that matters here.
+    #  2. ONE HOLDING FOR THE WHOLE BAND. Per-line selection could in principle serve
+    #     line 1 from one holding and line 2 from another; the product would then be an
+    #     average over two normalisation histories with one label. Recorded and refused.
+    _served: dict[str, int] = {}
+    _served_specs: dict[str, object] = {}
+    #: median observed flux per fit window. MEASURED, because the alternative was to
+    #: quote RYA-843's 0.73-0.95 — which it measured on the telluric-UNCORRECTED Kitt
+    #: Peak NIR windows. Transplanting that number onto a corrected holding is exactly
+    #: the kind of borrowed claim this ticket exists to stop.
+    _window_median: list[float] = []
+
+    def _observed(centre: float, pad: float):
+        win = load_window_ex(a.instrument, centre, pad)
+        h = win.holding
+        if not h.pre_normalised:
+            raise LookupError(
+                f"holding {h.holding_id} is NOT continuum-normalised, and the synthesis "
+                f"route fits observed flux against a synthesis normalised to unity. "
+                f"Fitting it would spend A({a.element}) closing a continuum offset "
+                f"(RYA-713/843). Normalise the product first.")
+        _served[h.holding_id] = _served.get(h.holding_id, 0) + 1
+        _served_specs[h.holding_id] = h
+        _window_median.append(float(np.median(win.flux)))
+        return win.wave, win.flux, win.provenance
+
+    _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4)
+    # Asked at band centre so the refusal costs nothing and arrives BEFORE any synthesis.
+    # `_observed` checks it too, per line, because a band can in principle select a
+    # different holding line by line -- but a per-line failure there surfaces as
+    # `status: no_atlas` on each line, which describes coverage rather than the real
+    # fault. The loud version comes first (RYA-832).
+    if not _probe.pre_normalised:
+        raise SystemExit(
+            f"{a.instrument} -> {_probe.holding_id} is NOT continuum-normalised, and "
+            f"this route fits observed flux against a synthesis normalised to unity. "
+            f"The fit would spend A({a.element}) closing a continuum offset rather than "
+            f"measuring an abundance (RYA-713/843). Normalise the product first, or "
+            f"derive this band through a route that sets its own continuum.")
+    print(f"  [holding] {a.instrument} -> {_probe.holding_id} "
+          f"(pre_normalised={_probe.pre_normalised})")
+    if _probe.note:
+        print(f"            {_probe.note}")
+    # RYA-904 — the SPECIES, not just the element. `--ion` was decorative on this
+    # route: `select_lines` was pinned to Fe I, so `--ion II` returned Fe I lines and
+    # every one was labelled Fe II. `species_token` spells the ion the way the linelist
+    # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
+    # none of that species — which is the honest answer where it holds none.
     cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
-                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A)
+                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
+                        species=species_token(a.element, a.ion))
     # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
     # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
     # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
@@ -316,7 +383,7 @@ def synthesis_route(a, pol) -> None:
             print(f"      {w:10.3f}  {why.split(' and ')[0]}")
         keep = {w for w, why in _tell if not why}
         cand = cand[cand.wave_A.astype(float).isin(keep)].reset_index(drop=True)
-    print(f"  {len(cand)} Fe I candidates by theoretical depth "
+    print(f"  {len(cand)} {a.element} {a.ion} candidates by theoretical depth "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
 
@@ -325,14 +392,18 @@ def synthesis_route(a, pol) -> None:
     lines: list[LineMeasurement] = []
     for r in cand.itertuples():
         w = float(r.wave_A)
-        res = fit_one(ctx, segs, w, hw, tmp)
+        res = fit_one(ctx, segs, w, hw, tmp, load=_observed)
         a_x = float(res.get("a_synth", float("nan")))
         lm = LineMeasurement(
             element=a.element, ion=a.ion, wavelength_air_A=w,
             instrument=a.instrument, ew_mA=float("nan"),
             ew_method=(f"synthesis flux-fit, FIXED half-width +/-{hw} A "
                        f"(RYA-759 route; no EW exists in this band to key the "
-                       f"production wing-wide rule)"),
+                       f"production wing-wide rule); observed from "
+                       # RYA-904 — the per-line record names the HOLDING it was fitted
+                       # against, not just the instrument. `crires_plus` alone does not
+                       # distinguish the corrected Y arm from the raw Vesta IDPs.
+                       f"{res.get('obs_source', 'UNRECORDED')}"),
             abundance=(a_x if np.isfinite(a_x) else None),
             treatment="1D-LTE",
             # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
@@ -407,18 +478,79 @@ def synthesis_route(a, pol) -> None:
     rung = gf_rung.for_lines(a.element, a.ion, lines, linelist=ctx["linelist"])
     print(f"  [gf rung] {rung.describe()}")
 
+    # 🔴 THE PROSE SAID "near-UV" FOR EVERY BAND — RYA-904.
+    # This string is `Product.provenance`, and it is what a reader gets. Written for
+    # RYA-759 and never re-read when RYA-837 made the route band-agnostic, it told a NIR
+    # product that its median line gap was 0.146 A (it is 3.989), that RYA-759 had
+    # falsified profile fitting "in band" (a different band), that its Fe I was UV
+    # over-ionised, and — worst, because it is arithmetic and not colour — that it
+    # carried a 0.100 dex PSEUDO-CONTINUUM SYSTEMATIC. `error_budget.build()` charges
+    # that term only where the BandPolicy says "pseudo-continuum", which is the near-UV
+    # alone; the NIR budget does not carry it. So the provenance asserted a term the
+    # product was not charged, which is the RYA-845 shape (two declarations of one fact)
+    # pointing the other way. Band-specific claims are now sourced from the band.
+    _band_specific = {
+        "near-UV": (
+            "SYNTHESIS-ONLY: band_policy forbids profile-fit and interval-integration "
+            "here (median line gap 0.146 A leaves no interval that contains one profile "
+            "and excludes its neighbours), and RYA-759 falsified profile fitting in band "
+            "— 901 candidates, 0 measurable. 1D-LTE ONLY: UV Fe I is heavily "
+            "over-ionised, so the missing NLTE correction is large and POSITIVE, and a "
+            "low value here is expected physics rather than a defect. "
+            "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is "
+            "NOT in the scatter reported here. "),
+    }.get(pol.name,
+          f"SYNTHESIS-ONLY: band_policy forbids {'/'.join(pol.forbidden_methods)} in "
+          f"{pol.name} — {pol.justification} "
+          # RYA-904 — READ THE POLICY AGAINST THE HOLDING. The NIR justification is
+          # written about UNCORRECTED data ("until a telluric correction is applied the
+          # observed flux is not a stellar spectrum"), which is precisely the condition
+          # a telluric_applied=applied holding satisfies. Quoting it beside a corrected
+          # product without saying so reads as if the product were uncorrected. The
+          # policy is NOT relaxed here — its route choice (synthesis) still stands, and
+          # changing a band policy on the strength of one holding is a separate decision
+          # nobody has taken.
+          + ("The clause about correction is SATISFIED by this product rather than "
+             "waived: every holding that served it is registered "
+             "telluric_applied=applied. The band's ROUTE choice is unchanged — "
+             "synthesis — because a band policy is not re-decided by one holding. "
+             if pol.telluric_required and _served and all(
+                 _applied_state(k) == "applied" for k in _served)
+             else ("Note that the holding(s) serving this product are NOT registered "
+                   "telluric-corrected, so the clause above applies to them literally. "
+                   if pol.telluric_required else ""))
+          + f"NO pseudo-continuum systematic is charged "
+          f"in this band and none is claimed here. RYA-843 measured the reason one is "
+          f"OWED — fit windows sitting at median flux 0.73-0.95 against a synthesis "
+          f"normalised to unity — but it measured that on the telluric-UNCORRECTED Kitt "
+          f"Peak NIR, so it is NOT quoted for another holding. THIS pool's own windows "
+          f"have median observed flux "
+          + (f"{np.median(_window_median):.4f} (range {min(_window_median):.4f}-"
+             f"{max(_window_median):.4f}, n={len(_window_median)}), measured here. "
+             if _window_median else "UNMEASURED (no window loaded). ")
+          + "The term stays owed and visible rather than invented. ")
     prov = (
-        "Fe I near-UV 1D-LTE by flux-fit synthesis (Turbospectrum via iSpec, "
-        "ATLAS9.Castelli) — the RYA-759 validated route called directly, same functions "
-        "and same defaults, so the value cannot drift from that ticket's. "
-        "SYNTHESIS-ONLY: band_policy forbids profile-fit and interval-integration here "
-        "(median line gap 0.146 A leaves no interval that contains one profile and "
-        "excludes its neighbours), and RYA-759 falsified profile fitting in band — 901 "
-        "candidates, 0 measurable. 1D-LTE ONLY: UV Fe I is heavily over-ionised, so the "
-        "missing NLTE correction is large and POSITIVE, and a low value here is expected "
-        "physics rather than a defect. gf: " + str(prov_gf["detail"]) + ". "
-        "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is NOT "
-        "in the scatter reported here. Half-width is FIXED and must be swept. "
+        f"{a.element} {a.ion} {pol.name} 1D-LTE by flux-fit synthesis (Turbospectrum via "
+        "iSpec, ATLAS9.Castelli) — the RYA-759 validated route called directly, same "
+        "functions and same defaults, so the value cannot drift from that ticket's. "
+        # RYA-904 — WHICH HOLDING. `instrument` does not identify the spectrum: CRIRES+
+        # has a telluric-corrected Y arm and raw uncorrected Vesta IDPs, and a product
+        # measured from either would carry the same instrument tag. The holding is
+        # reported from what the loader actually served, per line, not from an intention.
+        + "OBSERVED FROM: "
+        + ", ".join(f"{k} (n={v})" for k, v in sorted(_served.items()))
+        + (" [holding names its telluric state in "
+           "data/catalog/holdings_manifest_registry.csv; the gate consumes it and this "
+           "route never asserts one of its own, RYA-786/904]. ")
+        + _band_specific
+        # RYA-904 spec 6 — the holding's own caveat, carried into the product's reason
+        # field so it reaches the page. Taken from the holding that ACTUALLY SERVED the
+        # lines, not from the probe at band centre: a caveat attached to a holding the
+        # product did not use would be worse than none.
+        + "".join(getattr(_served_specs[k], "caveat", "") + " "
+                  for k in sorted(_served) if getattr(_served_specs[k], "caveat", ""))
+        + "gf: " + str(prov_gf["detail"]) + ". "
+        + "Half-width is FIXED and must be swept. "
         + constraint_describe() + " " +
         # RYA-855 — the rung is QUOTED from the decider, never restated. The sentence
         # that stood here asserted "THE BAND IS UNGRADED" in prose while the budget
@@ -429,6 +561,24 @@ def synthesis_route(a, pol) -> None:
         # GF-NIST class (604 lines) is a COMPILATION grade 822 deliberately keeps
         # outside `is_graded` because FMW *is* NIST and VALD copies it (RYA-760).
         "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712).")
+    # RYA-904 — ONE PRODUCT, ONE HOLDING. Per-line dispatch could legitimately serve
+    # two holdings inside one band (a fixed-span product covering part of it, another
+    # covering the rest). The aggregate would then average two normalisation and telluric
+    # histories under a single instrument label, and no reader could unpick which line
+    # came from which. RYA-712's rule is that different products are never combined; two
+    # holdings are two products. Refused rather than reported, because the number would
+    # already have been computed by the time anyone read the note.
+    if len(_served) > 1:
+        raise SystemExit(
+            f"this band was served by {len(_served)} holdings — "
+            + ", ".join(f"{k} (n={v})" for k, v in sorted(_served.items()))
+            + f". One product may not average two holdings (RYA-712/904). Narrow --lo/--hi "
+              f"to a range one holding covers, or derive them as separate products.")
+    if not _served:
+        raise SystemExit(
+            "no line in this band was served by any holding, so nothing was measured "
+            "against an observed spectrum. Refusing to emit a product (RYA-832).")
+
     # RYA-869 — the handler is DECLARED by the route that ran it. This route fits flux
     # (`fit_one` -> `_fit_synth_flux`); no profile fitter is on it. Note that its
     # treatment is `1D-LTE`, the same label the VIS EW route wears — that pair is the

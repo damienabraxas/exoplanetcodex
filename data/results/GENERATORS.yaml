@@ -1826,3 +1826,84 @@ artifacts:
       `caveats` records the EW route's identification ceiling: its per-line artifact carries
       no excitation potential, so lines are resolved on wavelength alone and 16 of 152 VIS
       lines do not resolve uniquely.
+
+  # ── RYA-904 — the CRIRES+ telluric-CORRECTED Y arm, once anything could name it ────
+  - artifact: rya904/FeI_10280_10680_crires_plus_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 10280 --hi 10680
+      --instrument crires_plus
+    ticket: RYA-904
+    note: >-
+      THE FIRST PRODUCT MEASURED FROM A CRIRES+ HOLDING. Until RYA-904 the band harness
+      mapped one INSTRUMENT to one HOLDING and `crires_plus` named the raw Vesta IDPs --
+      the one holding the telluric gate correctly REFUSES -- so both telluric-CORRECTED
+      holdings were unreachable, not by any decision but because nothing could name them.
+      A(Fe I) = 7.352, stat 0.0223, syst 0.1726, n=8, 0 excluded, measured off
+      `solar_crires_plus_y_rya794` (telluric_applied=applied, already continuum-normalised,
+      air, solar rest frame), which the provenance and every per-line row name explicitly.
+      🔴 NOT COMPARED WITH AND NOT VALIDATED BY the Kitt Peak / IAG / HARPS cells:
+      different instrument = different product (RYA-712).
+      🔴 CARRIES RYA-794's ROBUSTNESS CAVEAT IN THE PROVENANCE, not only on the ticket --
+      Elgueta+2026's G-dwarf saturation flag GDSat=Y is set on NO Fe I line anywhere in
+      atomicy.dat, and RYA-794 deliberately quoted no abundance from this arm. Reaching
+      and measuring a pool does not pre-decide that it is publishable, and this ticket
+      does not take that decision.
+  - artifact: rya904/FeI_10280_10680_crires_plus_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 10280 --hi 10680
+      --instrument crires_plus
+    ticket: RYA-904
+    note: >-
+      Per-line record. `ew_method` names the HOLDING each window came from, not just the
+      instrument -- `crires_plus` does not distinguish the corrected Y arm from the raw
+      IDPs, and before this ticket that string could not have been WRONG only because a
+      single holding was reachable. ⚠️ READ THE RYA-847 CONSTRAINT METRICS: red_chi2 spans
+      0.37 to 243.6 across these 8 lines and two lines carry sigma_A of 0.29 and 0.44 dex.
+      All 8 pass the ratified gate because that gate is the zero-parameter non-minimum
+      check (frac_rise <= 0) and RYA-847's sweep found NO transferable threshold for any
+      of these metrics. They are reported rather than tuned away; a cut invented here
+      would be RYA-161 tuning.
+  - artifact: rya904/FeI_10280_10680_crires_plus_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 10280 --hi 10680
+      --instrument crires_plus
+    ticket: RYA-904
+    note: >-
+      Error budget, syst 0.1726. Dominated by the UNGRADED gf scale (0.17): `pipeline.gf_rung`
+      finds a MIXED POOL with 0 of 8 lines carrying a primary laboratory gf (all
+      systematic:K07). NIR also charges 0.03 for telluric residual, which is the right
+      term for a CORRECTED product -- residuals are epoch- and airmass-dependent and do
+      not calibrate once. NO pseudo-continuum term, and none is claimed: RYA-843 measured
+      why one is owed, but it measured it on the telluric-UNCORRECTED Kitt Peak NIR, so
+      the route measures THIS pool's own windows instead of reprinting that number --
+      median observed flux 0.9981 (range 0.9943-1.0002), which is also an independent
+      confirmation that the product arrives normalised.
+  - artifact: rya904/FeI_10280_10680_crires_plus_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion I --lo 10280 --hi 10680
+      --instrument crires_plus
+    ticket: RYA-904
+    note: >-
+      The product's own reason field: the holding it was observed from, the GDSat
+      robustness caveat, the gf rung, the constraint gate, and the measured window
+      continuum. It is a file because the matrix schema has no provenance column
+      (RYA-847) -- a quantity with nowhere to live is a quantity nobody can check.
+  - artifact: rya904/FeII_10280_10680_crires_plus_NO_CELL.md
+    generator: scripts/derive_band_products.py
+    invocation: >-
+      python3 scripts/derive_band_products.py --element Fe --ion II --lo 10280 --hi 10680
+      --instrument crires_plus
+    ticket: RYA-904
+    note: >-
+      AN ABSENCE, STATED (RYA-833). The ticket asked for the Fe II cell "if the 2 lines
+      survive"; they do not. The command reached the corrected holding and then refused
+      loudly -- our NIR synthesis list holds ONE Fe 2 row in this window (10501.503) at
+      theoretical depth 0.057, about 2.6x below RYA-759's 0.15 selection floor. The
+      ticket's "2 Fe II" is from Elgueta's atomicy.dat, a different list. Lowering the
+      floor to report an n=1 abundance would be tuning a ratified rule to manufacture a
+      cell. This file records the reason so a missing product cannot be mistaken for one
+      nobody attempted.

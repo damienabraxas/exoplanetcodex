@@ -86,9 +86,34 @@ FE_I = 'Fe 1'
 DEPTH_FLOOR, DEPTH_CEIL = 0.15, 0.90
 
 
+def species_token(element: str, ion: str) -> str:
+    """('Fe', 'I') -> 'Fe 1', as iSpec's linelist actually spells it — RYA-904.
+
+    Roman numerals are what the CLI, the accounting file and every ticket use; 'Fe 1'
+    (space, arabic) is what the list uses. Matching the roman form selects NOTHING, which
+    RYA-759 hit and caught only because it fails loudly.
+    """
+    roman = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6}
+    ion = str(ion).strip()
+    if ion in roman:
+        return f"{element} {roman[ion]}"
+    if ion.isdigit():
+        return f"{element} {int(ion)}"
+    raise SystemExit(f"cannot spell ion {ion!r} as a linelist species token; add it to "
+                     f"`species_token` rather than guessing.")
+
+
 def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
-                 teff: float, min_sep_A: float) -> pd.DataFrame:
-    """Fe I candidates, strongest-first by the list's own THEORETICAL CENTRAL DEPTH.
+                 teff: float, min_sep_A: float, species: str = FE_I) -> pd.DataFrame:
+    """Candidates for ONE species, strongest-first by the list's THEORETICAL CENTRAL DEPTH.
+
+    🔴 `species` — RYA-904. THIS WAS PINNED TO Fe I AND `--ion` WAS DECORATIVE.
+    `derive_band_products.py --ion II` built a Fe context, called this, got Fe I lines,
+    and labelled every one of them `Fe II`. Nothing downstream could tell: the
+    wavelengths are real, the fits converge, and the product carries an ion it did not
+    measure. That is worse than the loader defect this ticket is about, because it
+    produces a plausible NUMBER rather than a refusal. The default is unchanged, so
+    RYA-759's near-UV selection is bit-for-bit what it was.
 
     ⚠️ `theoretical_ew` IS ALL ZERO in this list -- checked, not assumed: 4,364 Fe I rows,
     every one 0.0, because our VALD converter does not populate it. `theoretical_depth` IS
@@ -106,10 +131,10 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
     w_A = np.asarray(linelist['wave_A'] if 'wave_A' in names
                      else linelist['wave_nm'] * 10.0, dtype=float)
     el = np.asarray([str(x).strip() for x in linelist['element']])
-    m = (w_A >= lo_A) & (w_A <= hi_A) & (el == FE_I)
+    m = (w_A >= lo_A) & (w_A <= hi_A) & (el == species)
     if not m.any():                      # never guess a column value silently
-        raise SystemExit(f"no {FE_I!r} rows in {lo_A}-{hi_A} A; element values look like "
-                         f"{sorted(set(el))[:8]}")
+        raise SystemExit(f"no {species!r} rows in {lo_A}-{hi_A} A; element values look "
+                         f"like {sorted(set(el))[:8]}")
     df = pd.DataFrame({
         'wave_A': w_A[m],
         'loggf': np.asarray(linelist['loggf'], dtype=float)[m],
@@ -120,7 +145,7 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
     df['strength'] = df['loggf'] - df['ep_eV'] * theta
     df = df[df['theo_depth'].between(DEPTH_FLOOR, DEPTH_CEIL)]
     if df.empty:
-        raise SystemExit(f'no Fe I line has theoretical depth in '
+        raise SystemExit(f'no {species} line in {lo_A}-{hi_A} A has theoretical depth in '
                          f'[{DEPTH_FLOOR}, {DEPTH_CEIL}] — check the column')
     df = df.sort_values('theo_depth', ascending=False).reset_index(drop=True)
 
@@ -135,16 +160,38 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
     return df.iloc[kept].sort_values('wave_A').reset_index(drop=True)
 
 
-def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str) -> dict:
-    """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window."""
+def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
+            load=None) -> dict:
+    """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
+
+    🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
+    `derive_band_products.synthesis_route` takes an `--instrument` argument, tags the
+    product with it, and then called this function, which read the Kitt Peak atlas
+    whatever the argument said. So `--instrument crires_plus` would have produced a
+    product LABELLED CRIRES+ and MEASURED ON KITT PEAK — the same defect the ticket
+    exists to fix, one level deeper, and silent because the KPNO atlas does cover the
+    IR windows and the fit would have converged perfectly happily.
+
+    `load(centre, pad) -> (wave_A, flux, provenance)` supplies the observed window
+    instead. The DEFAULT IS UNCHANGED: `None` reads Kitt Peak through this module's own
+    reader exactly as before, so RYA-759's published near-UV values cannot move by way
+    of this argument. (Measured, not assumed: over 30 probes spanning the near-UV,
+    red-optical and NIR, including six segment seams, this reader and
+    `measure_band_ew.load_kp_window` return bit-identical arrays — so the holding
+    dispatch that now supplies `load` is the same data by a different door.)
+    """
     from pipeline.abundances_derive import _fit_synth_flux
 
     lo_A, hi_A = wave_A - hw_A, wave_A + hw_A
+    obs_source = "kitt peak atlas segments (default reader)"
     try:
-        ow_A, of = _load_kp_window(segs, wave_A, hw_A + 0.4)
+        if load is None:
+            ow_A, of = _load_kp_window(segs, wave_A, hw_A + 0.4)
+        else:
+            ow_A, of, obs_source = load(wave_A, hw_A + 0.4)
     except LookupError as e:
         return {'status': 'no_atlas', 'reason': str(e), 'a_synth': np.nan,
-                'red_chi2': np.nan, 'cont_ratio': np.nan}
+                'red_chi2': np.nan, 'cont_ratio': np.nan, 'obs_source': obs_source}
 
     a_solar = float(ctx['solar_A'])
     r = _fit_synth_flux(
@@ -171,6 +218,11 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str) -> dict:
         pass
 
     return {'status': r['status'], 'reason': r.get('reason', ''),
+            # RYA-904 — WHICH SPECTRUM this abundance was fitted against. It travels out
+            # of the fitter because the fitter is the only thing that knows it, and a
+            # product that cannot name its own observed source is exactly what the
+            # instrument-decorative bug above looked like from the outside.
+            'obs_source': obs_source,
             'a_synth': float(r.get('A_X', np.nan)),
             'red_chi2': float(r.get('red_chi2', np.nan)),
             'n_pix': int(r.get('n_pix', 0)), 'cont_ratio': cont,
