@@ -364,13 +364,20 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
     stem = f"FeI_{int(LO_A)}_{int(HI_A)}_{args.instrument}_LABGF"
     if p_lab.value is not None:
         from pipeline.error_budget import build as build_budget
+        from pipeline.error_budget import assert_stat_publishable   # RYA-907
         from pipeline import harness_residual                    # RYA-869
+        # 🔴 RYA-907 — a THIRD home of `(sigma or 0.0)`, outside the two the ticket
+        # named. This route can emit an n=1 lab-gf sub-pool the same way, so leaving
+        # it would have left the identical defect live on a path nobody was looking at.
         b = build_budget("Fe", 0.5 * (LO_A + HI_A), p_lab.n_lines,
-                         scatter_dex=(p_lab.sigma or 0.0), gf_graded=True,
+                         scatter_dex=p_lab.sigma, gf_graded=True,
                          # RYA-869 — from the product's OWN handler; the value and the
                          # label are one decision and travel together.
                          **harness_residual.for_product(p_lab).budget_kwargs())
         stat, syst = b.total()
+        assert_stat_publishable(
+            stat, cell=f"Fe I near-UV 1D-LTE-LABGF ({args.instrument}, "
+                       f"n={p_lab.n_lines})")
         # 🔴 RYA-845: no pseudo-continuum term is added here. `build_budget` already
         # carries it for the near-UV, and adding it again counted it twice — this cell's
         # published systematic was 0.1472 when the budget's own answer is 0.1081.
@@ -380,7 +387,7 @@ def _report(res, c, ctrl_lines, lab_lines_lm, args) -> int:
             treatment="1D-LTE-LABGF", handler=p_lab.handler,
             A=round(p_lab.value, 3), n_lines=p_lab.n_lines,
             n_excluded=p_lab.n_excluded, stat_dex=round(stat, 4),
-            syst_dex=round(syst, 4),
+            syst_dex=round(syst, 4), stat_basis=b.stat_basis(),   # RYA-907
             dominant=(b.dominant().name if b.dominant() else ""))]
         ).to_csv(out_bp / f"{stem}_products.csv", index=False)
         print(f"\n  wrote {out_bp}/{stem}_products.csv  "
