@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -39,7 +40,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.lines_fit import (  # noqa: E402
     _local_renorm, _fit_profile, _integrate_profile, _ew_error)
-from config.constants import PIPELINE as _PIPE  # noqa: E402  (RYA-911: quote the params)
+from config.constants import PIPELINE as _PIPE, STAR_PARAMS  # noqa: E402  (RYA-911: quote the params)
 from pipeline.band_products import carried_ep, LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
@@ -79,6 +80,58 @@ CONTINUUM_MAX_OVER = 1.02
 # the fit is free to move away from it between the bounds below.
 STELLAR_SIGMA_KMS = 1.7
 C_KMS = 299792.458
+
+
+#: RYA-906/911 — THE IRREDUCIBLE WIDTH OF A SOLAR IRON LINE.
+#:
+#: Thermal Doppler + microturbulence, from the star's own ratified parameters. This is a
+#: LOWER BOUND, not an expectation: MACROturbulence (vmac 3.8 km/s) is deliberately left
+#: out, so a line narrower than this is narrower than physics permits regardless of how
+#: much macroturbulent broadening the star actually has.
+#:
+#: Doppler core width Delta_v_D = sqrt(2kT/m + xi^2); the Gaussian sigma is Delta_v_D/sqrt(2).
+_K_B, _AMU, _M_FE = 1.380649e-23, 1.66054e-27, 55.845 * 1.66054e-27
+
+
+def _irreducible_sigma_kms() -> float:
+    """Thermal+microturbulent sigma for Fe, in km/s, from config (never a literal here).
+
+    ⚠️ Reads the SOLAR row because this harness is solar-only today. When it gains a
+    `--star`, this must follow it — a floor derived from the wrong star's temperature is
+    exactly the kind of silent stand-in this codebase keeps finding.
+    """
+    sun = STAR_PARAMS["solar"]
+    return math.sqrt(_K_B * float(sun["teff"]) / _M_FE
+                     + (float(sun["xi"]) * 1000.0) ** 2 / 2.0) / 1000.0
+
+
+def voigt_fwhm(sigma_A: float, gamma_A: float | None) -> float:
+    """Total FWHM of a Voigt profile. Olivero & Longbothum (1977), ~0.02% accurate.
+
+    🔴 THIS IS THE QUANTITY THAT MEANS SOMETHING, AND `sigma` ALONE IS NOT.
+    In a Voigt fit the Gaussian sigma and the Lorentzian gamma are DEGENERATE: both
+    broaden the line and the optimiser can trade one against the other at fixed total
+    width. Judging a Voigt fit by its sigma alone therefore measures where the
+    degeneracy happened to land, not how wide the line is.
+    """
+    f_G = 2.0 * sigma_A * math.sqrt(2.0 * math.log(2.0))
+    if not gamma_A:
+        return f_G
+    f_L = 2.0 * float(gamma_A)
+    return 0.5346 * f_L + math.sqrt(0.2166 * f_L * f_L + f_G * f_G)
+
+
+def _physical_floor_fwhm(wavelength_A: float, sigma_inst_A: float) -> float:
+    """The narrowest TOTAL width physics allows here: instrumental (+) thermal (+) micro."""
+    sig_phys = wavelength_A * _irreducible_sigma_kms() / C_KMS
+    return voigt_fwhm(math.hypot(sigma_inst_A, sig_phys), None)
+
+
+def _total_width_below_physical_floor(popt, ptype: str, wavelength_A: float,
+                                      sigma_inst_A: float) -> bool:
+    gamma = float(popt[3]) if ptype == "voigt" and len(popt) > 3 else None
+    return voigt_fwhm(float(popt[2]), gamma) <= _physical_floor_fwhm(wavelength_A,
+                                                                     sigma_inst_A)
 
 
 def instrument_sigma(instrument: str, wavelength_A: float) -> tuple[float, float, float]:
@@ -283,6 +336,9 @@ def main() -> None:
             # `ew_method` sentence. `sigma_A` is deliberately NOT used: it means one
             # sigma on A in DEX, and this is a width in ANGSTROM.
             profile_sigma_A=float(popt[2]), profile_sigma_floor_A=float(s_min),
+            # RYA-906 — the Lorentzian half-width, WITHOUT which `profile_sigma_A` cannot
+            # be interpreted: the two are degenerate in a Voigt fit.
+            profile_gamma_A=(float(popt[3]) if ptype == "voigt" and len(popt) > 3 else None),
             red_chi2=float(chi2))
         if cont_unphysical:
             # Quarantined, never culled (RYA-711): measured, kept, reported with its
@@ -296,13 +352,35 @@ def main() -> None:
                 f"the spectrum and every EW measured on it is too small. Method was: "
                 f"{cont_method}. This is the RYA-911 defect that cost HARPS Fe II a "
                 f"median 23.8% of its EW.")
-        elif abs(float(popt[2]) - s_min) < 1e-4:
+        elif _total_width_below_physical_floor(popt, ptype, c, s_min):
+            # 🔴 RYA-906 — THIS TEST WAS WRONG AND IS CORRECTED HERE.
+            #
+            # It used to read `abs(popt[2] - s_min) < 1e-4` and reject on the Gaussian
+            # sigma alone, arguing "no observed feature can be narrower than the
+            # instrument profile". Measured: the guard fired on 25 HARPS Fe II lines and
+            # EVERY ONE of them was a VOIGT fit — it never once fired on a Gaussian.
+            #
+            # In a Voigt profile sigma and gamma are DEGENERATE. A railed sigma means the
+            # optimiser put the width into the LORENTZIAN, which is a statement about
+            # where a degeneracy landed, not about how wide the line is. The total width
+            # can be entirely physical while sigma sits on its bound, and the EW — which
+            # is the integral of the WHOLE profile — is then fine.
+            #
+            # So the test now asks the question it always meant to ask: is the TOTAL
+            # width below what physics permits? The floor is instrumental (+) thermal (+)
+            # microturbulent, from the star's ratified parameters, with macroturbulence
+            # deliberately excluded so it stays a true lower bound.
             lm.in_aggregate = False
+            _fwhm = voigt_fwhm(float(popt[2]),
+                               float(popt[3]) if ptype == "voigt" and len(popt) > 3 else None)
+            _floor = _physical_floor_fwhm(c, s_min)
             lm.excluded_reason = (
-                f"FIT-PINNED: fitted sigma {popt[2]:.4f} A sits on the instrumental floor "
-                f"{s_min:.4f} A. No observed feature can be narrower than the instrument "
-                f"profile, so the optimiser hit a bound rather than a minimum and the "
-                f"integrated EW is not trustworthy.")
+                f"UNDER-PHYSICAL-WIDTH: the fitted {ptype} profile has total FWHM "
+                f"{_fwhm:.4f} A, at or below the {_floor:.4f} A that thermal + "
+                f"microturbulent broadening alone impose at this wavelength "
+                f"(instrumental sigma {s_min:.4f} A; macroturbulence excluded, so this "
+                f"is a floor and not an expectation). A line cannot be this narrow, so "
+                f"the integrated EW is not trustworthy.")
         elif not ok:
             lm.in_aggregate = False
             lm.excluded_reason = f"FEATURE-VERIFICATION: {vwhy}"

@@ -226,6 +226,10 @@ class LineMeasurement:
     #: None on any route that does not fit a profile — correct rather than missing.
     profile_sigma_A: float | None = None
     profile_sigma_floor_A: float | None = None
+    #: RYA-906 — the Lorentzian half-width of a Voigt fit (None for a Gaussian).
+    #: Carried because `profile_sigma_A` is UNINTERPRETABLE without it: the two are
+    #: degenerate, and a sigma at its bound usually means the width went into gamma.
+    profile_gamma_A: float | None = None
     sigma_A: float | None = None
     frac_rise_weaker: float | None = None
     edge_distance_dex: float | None = None
