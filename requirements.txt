@@ -16,6 +16,32 @@ scipy>=1.12.0
 matplotlib>=3.8.0
 pandas>=2.2.0
 
+# ── 3D-NLTE model library (RYA-923/924) ──────────────────────────────────────
+# The Amarsi, Liljegren & Nissen 2022 3D-NLTE engine is not code — it is three trained
+# networks published as PICKLES in vendor/1L-3NErrors/. scikit-learn is what reads them,
+# so without it the whole ENGINE-A-3DNLTE leg produces nothing.
+#
+# 🔴 IT PRODUCED NOTHING SILENTLY. The library was absent from Sirius, a bare
+# `except Exception: return np.nan` in nlte_corrections._compute_aberr swallowed the
+# ModuleNotFoundError, and the caller reported the resulting NaN as "the vendored network
+# returned no value for this line" — a DOMAIN VERDICT ABOUT THE PHYSICS. 114 in-domain
+# lines came back n=0 that way, and the leg was run on a Mac instead (RYA-924).
+#
+# ⚠️ THE PICKLES WERE WRITTEN WITH 1.0.2 AND ARE READ HERE BY A MUCH NEWER RELEASE.
+# sklearn warns that cross-version unpickling "might lead to breaking code or invalid
+# results", and that warning is real. What settles it is not that the files load, but
+# that the leg's own reactivation control reproduces Amarsi+2022 Table 6 from the paper's
+# own inputs. Measured on Sirius with 1.9.0:
+#
+#     Fe I  3D non-LTE  +7.4646  vs published +7.460   PASS
+#     Fe II 3D non-LTE  +7.4710  vs published +7.470   PASS
+#     Fe I  d(Delta_1L3N) -0.0905 vs published -0.10..-0.05  PASS
+#
+# and it reproduced the committed cells to full precision (7.6043208764762245 /
+# 7.641611575964107). So the floor is "a version whose control passes", not a guess.
+# RAISING OR LOWERING THIS RE-OPENS THAT QUESTION: run the control before changing it.
+scikit-learn>=1.6,<2.0
+
 # Astronomy
 astropy>=6.0.0
 specutils>=1.12.0
