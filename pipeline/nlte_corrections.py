@@ -89,6 +89,12 @@ except Exception:
 _model_cache: dict = {}
 
 
+#: RYA-923 — failures that mean THE ENVIRONMENT IS BROKEN, never "this line is out of
+#: domain". These must reach the caller; everything else may degrade to NaN.
+_ENVIRONMENT_FAULTS = (ModuleNotFoundError, ImportError, FileNotFoundError,
+                       AttributeError, EOFError)
+
+
 def _load_models():
     """Load sklearn MLP regressors from vendor pickle files."""
     if not _MODEL_LT02.exists():
@@ -204,7 +210,29 @@ def _compute_aberr(ion: str, elo: float, eup: float, loggf: float,
                 s, m = models['gt02']
             aberr_raw = float(m.predict(s.transform(X))[0])   # network: A(1D) − A(3D)
         return -aberr_raw   # RYA-339: adapt to correction-to-add A(3D) − A(1D)
+    except _ENVIRONMENT_FAULTS as exc:
+        # 🔴 RYA-923 — AN ENVIRONMENT FAULT IS NOT A SCIENCE RESULT.
+        #
+        # What stood here was a bare `except Exception: return np.nan`. `sklearn` is not
+        # installed in either venv on this box, so `_load_models()` raised
+        # ModuleNotFoundError, this swallowed it, and every line came back NaN. The
+        # caller reads NaN as "the network returned no value for this line" and reports
+        # it as a DOMAIN verdict — so a missing dependency was presented as a statement
+        # about the physics, and the RYA-817 reactivation control FAILED with `n/a`
+        # against published values while looking like a coverage result.
+        #
+        # 114 in-domain lines produced n=0 that way. NaN is the right answer for a line
+        # the network legitimately refuses; it is never the right answer for a network
+        # that could not be loaded.
+        raise RuntimeError(
+            f"the Amarsi 2022 3D-NLTE network could not be evaluated: {exc}. This is an "
+            f"ENVIRONMENT fault, not an out-of-domain line — refusing to return NaN, "
+            f"which the caller would report as a domain verdict. The models are sklearn "
+            f"pickles; install scikit-learn in the venv running this leg, or route the "
+            f"element to a different NLTE source and say so in its provenance."
+        ) from exc
     except Exception:
+        # A genuine per-line prediction failure. NaN here IS a domain statement.
         return np.nan
 
 
