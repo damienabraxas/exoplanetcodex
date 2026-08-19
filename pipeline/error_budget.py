@@ -41,6 +41,26 @@ WHAT THIS REFUSES TO DO
 ``total()`` returns a *pair*. There is deliberately no method that collapses statistical
 and systematic into one number, because doing so is how a frontier measurement comes to
 look like an optical one.
+
+UNMEASURED IS NOT ZERO — RYA-907
+--------------------------------
+A term whose value **could not be measured from this product** carries ``dex=None``, and
+``None`` never becomes ``0.0`` anywhere below. The distinction is not pedantry: two
+published Fe II red-optical cells reported ``stat_dex = 0.0`` at ``n = 1``, because
+``build_product`` correctly returned ``sigma=None`` (*one line has no line-to-line
+scatter*) and the driver then wrote ``(product.sigma or 0.0)``. One character turned
+*"we could not measure this"* into *"we measured this and it is zero"* — different
+claims, and only one of them was true. Those cells then advertised the **tightest**
+statistical bar in the whole matrix while being its **least** constrained measurement.
+
+This is the same shape RYA-873 fixed for the harness residual, in the other half of the
+budget. So the rule is now structural rather than remembered:
+
+* ``Term.contribution()`` **raises** on an unmeasured term. It cannot silently
+  contribute zero, because there is no code path where it returns a number.
+* ``statistical()`` never returns a value below the RYA-771 quantiser floor, and
+  ``stat_basis()`` says which of *measured* / *floored* / *unmeasured* produced it.
+* ``assert_stat_publishable()`` refuses to let a zero reach an artifact, naming the cell.
 """
 from __future__ import annotations
 
@@ -50,15 +70,51 @@ from dataclasses import dataclass, field
 from pipeline.band_policy import resolve
 
 
+#: The floor beneath which no published sigma is honest, whatever the line count —
+#: RYA-771. iSpec writes the trial abundance with `%.2f` in both `bsyn` and `babsma`, so
+#: EW(A) is a STAIRCASE with 0.01 dex treads: two abundances closer together than one
+#: tread produce byte-identical synthetic spectra, and no amount of averaging can resolve
+#: below the step. Declared HERE and imported, never re-typed at a call site — a number
+#: written down twice drifts (RYA-845).
+QUANTISER_FLOOR_DEX = 0.01
+
+
+class UnmeasuredTerm(ValueError):
+    """Asked for the numeric contribution of a term that was never measured.
+
+    Deliberately an exception rather than a zero. A zero is a MEASUREMENT — it asserts
+    that the quantity was determined and found negligible — and the whole RYA-907 defect
+    was a `None` being spent as if it were one.
+    """
+
+
+class UnpublishableStat(ValueError):
+    """A statistical uncertainty that must not reach an artifact."""
+
+
 @dataclass(frozen=True)
 class Term:
-    """One contribution to the budget, and how it behaves under more lines."""
+    """One contribution to the budget, and how it behaves under more lines.
+
+    `dex is None` means NOT MEASURABLE FROM THIS PRODUCT. It is a third state, distinct
+    from both a measured value and a measured zero, and `contribution()` refuses to
+    collapse it into either.
+    """
     name: str
-    dex: float
+    dex: float | None
     averages_down: bool     # True => random, scales as 1/sqrt(N); False => systematic floor
     source: str             # where the number comes from -- never "assumed"
 
+    @property
+    def measured(self) -> bool:
+        return self.dex is not None
+
     def contribution(self, n_lines: int) -> float:
+        if self.dex is None:
+            raise UnmeasuredTerm(
+                f"{self.name}: this term was NOT MEASURED for this product ({self.source}). "
+                f"It has no numeric contribution. Treating it as 0.0 would publish "
+                f"'measured and negligible' for a quantity nobody determined (RYA-907).")
         if not self.averages_down:
             return abs(self.dex)
         if n_lines < 1:
@@ -84,12 +140,61 @@ class ErrorBudget:
         return self
 
     # ── the two halves, kept apart on purpose ────────────────────────────────
+    def unmeasured_terms(self) -> list[Term]:
+        """Terms this product could not determine. Never silently worth zero."""
+        return [t for t in self.terms if not t.measured]
+
+    def measured_statistical(self) -> float | None:
+        """The RMS of the random terms that WERE measured — None if none were.
+
+        Separate from `statistical()` so the floor is applied in exactly one place and
+        the raw arithmetic stays inspectable underneath it.
+        """
+        rs = [t.contribution(self.n_lines) for t in self.terms
+              if t.averages_down and t.measured]
+        return math.sqrt(sum(r * r for r in rs)) if rs else None
+
     def statistical(self) -> float:
-        rs = [t.contribution(self.n_lines) for t in self.terms if t.averages_down]
-        return math.sqrt(sum(r * r for r in rs)) if rs else 0.0
+        """The PUBLISHED statistical bar. Never below the RYA-771 quantiser floor.
+
+        Two ways to land on the floor, and `stat_basis()` distinguishes them:
+
+        * every random term was measured, and their RMS is genuinely below one tread of
+          the 0.01 dex staircase — the arithmetic is finer than the engine's resolution,
+          so the floor is the honest number;
+        * a random term could not be measured at all (n=1 has no line-to-line scatter),
+          so there is no arithmetic to be below anything — the floor is a STAND-IN and
+          must be reported as one.
+
+        What this can never return is 0.0. That value is now unreachable by construction,
+        which is the point: the defect it replaces was not a wrong formula, it was a
+        `None` spent as a zero one layer up.
+        """
+        m = self.measured_statistical()
+        return QUANTISER_FLOOR_DEX if m is None else max(m, QUANTISER_FLOOR_DEX)
+
+    def stat_basis(self) -> str:
+        """Where the published statistical bar came from — a field, not a footnote.
+
+        Written into the product artifact so a page can never render a number whose
+        origin is unstated (RYA-907 §4.3, option (a)).
+        """
+        unmeasured = [t.name for t in self.unmeasured_terms() if t.averages_down]
+        m = self.measured_statistical()
+        if m is None:
+            return (f"quantiser-floor {QUANTISER_FLOOR_DEX} dex (RYA-771) — "
+                    f"UNMEASURED: {', '.join(unmeasured) or 'no random term'} at "
+                    f"n_lines={self.n_lines}; the floor STANDS IN for a scatter that was "
+                    f"never determined, it is not a measurement of one")
+        if m < QUANTISER_FLOOR_DEX:
+            return (f"quantiser-floor {QUANTISER_FLOOR_DEX} dex (RYA-771) — measured "
+                    f"random RMS {m:.5f} dex sits below one 0.01 dex synthesis tread, "
+                    f"so the engine cannot resolve it")
+        return f"measured — RMS of the random terms, {m:.5f} dex at n_lines={self.n_lines}"
 
     def systematic(self) -> float:
-        ss = [t.contribution(self.n_lines) for t in self.terms if not t.averages_down]
+        ss = [t.contribution(self.n_lines) for t in self.terms
+              if not t.averages_down and t.measured]
         return math.sqrt(sum(s * s for s in ss)) if ss else 0.0
 
     def total(self) -> tuple[float, float]:
@@ -103,20 +208,33 @@ class ErrorBudget:
         return self.statistical(), self.systematic()
 
     def dominant(self) -> Term | None:
-        """The term that actually limits this measurement -- what to fix first."""
-        if not self.terms:
+        """The term that actually limits this measurement -- what to fix first.
+
+        Ranks the MEASURED terms only. An unmeasured term has no size to compare, and
+        calling it dominant-or-not would be the same guess this module refuses to make.
+        """
+        measured = [t for t in self.terms if t.measured]
+        if not measured:
             return None
-        return max(self.terms, key=lambda t: t.contribution(self.n_lines))
+        return max(measured, key=lambda t: t.contribution(self.n_lines))
 
     def describe(self) -> str:
         stat, sys_ = self.total()
         lines = [f"{self.element} · {self.band} · n={self.n_lines}",
                  f"  statistical  {stat:.4f} dex   (averages down as 1/sqrt(N))",
+                 f"    basis: {self.stat_basis()}",
                  f"  systematic   {sys_:.4f} dex   (does NOT average down)"]
-        for t in sorted(self.terms, key=lambda t: -t.contribution(self.n_lines)):
+        measured = [t for t in self.terms if t.measured]
+        for t in sorted(measured, key=lambda t: -t.contribution(self.n_lines)):
             kind = "random" if t.averages_down else "SYSTEMATIC"
             lines.append(f"    {t.contribution(self.n_lines):.4f}  {t.name:<24s} "
                          f"[{kind}] {t.source}")
+        # UNMEASURED TERMS ARE LISTED, IN WORDS, NOT OMITTED. A term dropped from the
+        # printout reads as a term the budget does not have; this budget HAS it and
+        # could not measure it, which is a different and more useful thing to know.
+        for t in self.unmeasured_terms():
+            kind = "random" if t.averages_down else "SYSTEMATIC"
+            lines.append(f"    UNMEASURED  {t.name:<24s} [{kind}] {t.source}")
         d = self.dominant()
         if d is not None:
             lines.append(f"  dominant: {d.name} -- "
@@ -202,13 +320,56 @@ def harness_term(measured_residual_dex: float, handler: str,
     return Term("harness residual", measured_residual_dex, False, src)
 
 
-def scatter_term(observed_scatter_dex: float) -> Term:
+def scatter_term(observed_scatter_dex: float | None, n_lines: int | None = None) -> Term:
+    """The line-to-line scatter — or the honest statement that there is none to measure.
+
+    `None` is what `band_products.build_product` returns when fewer than two lines entered
+    the aggregate, and it is CORRECT: the spread of one number is not a small spread, it
+    is an undefined quantity. Passing that `None` through as `None` is the entire RYA-907
+    fix; the bug was one call site writing `(product.sigma or 0.0)`.
+    """
+    if observed_scatter_dex is None:
+        n = "" if n_lines is None else f" (n_lines={n_lines})"
+        return Term("line-to-line scatter", None, True,
+                    f"NOT MEASURABLE{n}: the spread of a single accepted line is "
+                    f"undefined, not small. `band_products.build_product` returns None "
+                    f"here and that None is carried, never spent as a zero (RYA-907)")
     return Term("line-to-line scatter", observed_scatter_dex, True,
                 "observed spread of the accepted lines")
 
 
+def assert_stat_publishable(stat_dex: float, *, cell: str) -> float:
+    """Refuse to let a statistical bar reach an artifact unless it can be defended.
+
+    THE GUARD THE DEFECT NEEDED. Two Fe II red-optical ENGINE-A cells shipped
+    `stat_dex = 0.0` and nothing objected — the CSV simply carried it, the published
+    total became `hypot(0.0, 0.1731)`, and the systematic alone was presented as though
+    the statistical half had been measured and found negligible.
+
+    Called at every emit site with the value ACTUALLY ABOUT TO BE WRITTEN, not with the
+    budget it came from: a guard that re-derives its own subject cannot catch a driver
+    that writes something else. Returns the value so it can wrap an assignment.
+    """
+    if stat_dex is None or not math.isfinite(stat_dex):
+        raise UnpublishableStat(
+            f"{cell}: statistical uncertainty is {stat_dex!r}. A product may not be "
+            f"emitted without one (RYA-907).")
+    if stat_dex <= 0.0:
+        raise UnpublishableStat(
+            f"{cell}: statistical uncertainty is {stat_dex}. A published 0.0 claims the "
+            f"quantity was measured and found negligible; for an n=1 product nobody "
+            f"measured it at all. Carry the term as UNMEASURED and publish the "
+            f"{QUANTISER_FLOOR_DEX} dex quantiser floor (RYA-771/907).")
+    if stat_dex < QUANTISER_FLOOR_DEX:
+        raise UnpublishableStat(
+            f"{cell}: statistical uncertainty {stat_dex} is below the {QUANTISER_FLOOR_DEX} "
+            f"dex quantiser floor. iSpec writes trial abundances with %.2f, so EW(A) is a "
+            f"staircase and no bar can honestly be finer than one tread (RYA-771).")
+    return stat_dex
+
+
 def build(element: str, wavelength_A: float, n_lines: int, *,
-          scatter_dex: float, gf_graded: bool, harness_residual_dex: float,
+          scatter_dex: float | None, gf_graded: bool, harness_residual_dex: float,
           handler: str, harness_provenance: str = "",
           cited_gf_sigma_dex: float | None = None,
           cited_gf_source: str = "") -> ErrorBudget:
@@ -221,7 +382,7 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
     """
     pol = resolve(wavelength_A)
     b = ErrorBudget(element=element, band=pol.name, n_lines=n_lines)
-    b.add(scatter_term(scatter_dex))
+    b.add(scatter_term(scatter_dex, n_lines))
     if cited_gf_sigma_dex is not None:
         if not gf_graded:
             raise ValueError(
