@@ -48,14 +48,6 @@ class LoaderCoverageError(AssertionError):
 #: STATED gap with an owner. Deleting an entry without wiring the holding makes the guard
 #: fail, which is the point: this table can only shrink by building something.
 DECLARED_GAPS: dict[str, str] = {
-    "solar_harps": (
-        "OPEN — RYA-897. `config` lists harps as a solar arm and the direct-solar HARPS "
-        "pool is used elsewhere, but `measure_band_ew` never got a harps branch: the "
-        "instrument is half-wired and has been since RYA-713. This is a real gap, "
-        "declared here rather than hidden, and RYA-897 is the ticket that closes it. "
-        "RYA-904 did not wire it: a second arm's loader is a different product with a "
-        "different normalisation history, and bundling it into this change would have "
-        "made the CRIRES+ result unattributable."),
     "elgueta2026_vizier": (
         "BY DESIGN — this is the UPSTREAM VizieR delivery (RYA-789), not a science-ready "
         "spectrum: sp/*.dat across several bands, Sirius-only, gitignored, md5-pinned, "

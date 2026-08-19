@@ -32,7 +32,7 @@ from pipeline.band_products import (  # noqa: E402
     carried_ep,
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
-from config.constants import codex_path, codex_root# RYA-810 path register
+from config.constants import codex_path, codex_root, PATHS# RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
 
@@ -144,6 +144,71 @@ def iag_atlas() -> tuple[np.ndarray, np.ndarray]:
     o = np.argsort(w_air)
     _iag_cache["wf"] = (w_air[o], fl[o])
     return _iag_cache["wf"]
+
+
+# ── the direct-solar HARPS arm (RYA-897) ─────────────────────────────────────
+#
+# THE ARM THE WHOLE SCALE IS DIFFERENTIAL TO, and it was half-wired from day one: the
+# harness has carried a "harps" entry in its normalisation config since RYA-713 while
+# `load_window` had no branch for it, so the config declared an instrument the loader
+# could not reach. Nothing scientific excluded HARPS; the path was never written.
+#
+# Why it matters more than a fourth data point: every Codex number is
+# [X/H] = A(X)star - A(X)sun, and program stars are observed with HARPS. A solar cell
+# measured on THIS instrument is the only anchor whose instrumental systematics cancel
+# against the program stars.
+#
+# 🔴 pre_normalised=True, AND THAT IS A CHANGE OF POSITION. RYA-897 first served
+# `flux_raw` with pre_normalised=False, reasoning that HARPS arrives un-normalised from
+# the archive so the harness should set the continuum. RYA-911 measured what that
+# produced: EWs ~16% low and abundances 0.34 dex low on lines the old path also kept.
+# This product is NOT the archive product -- it is the pipeline's own output, and it
+# carries the continuum the pipeline already fitted. Serving `flux_normalized` and
+# declaring it normalised uses that continuum instead of placing a second one.
+#
+# ⚠️ THIS IS NOT YET VALIDATED. RYA-911 attributed the deficit downstream of the loader
+# on the strength of ENGINE-B agreeing with the atlases -- and RYA-913 then found
+# ENGINE-B was reading Kitt Peak, so that agreement said nothing about this loader. The
+# only legs that ever used it are the ones that came out low. Treat every HARPS EW-route
+# number as HELD until RYA-911 re-derives on a continuum it has actually read.
+HARPS_CSV = Path(str(PATHS['solar_normalized']))
+_harps_cache: dict = {}
+
+
+def harps_spectrum() -> tuple[np.ndarray, np.ndarray]:
+    """Direct-solar HARPS as (wave_air_A, flux_NORMALISED), ascending. Cached.
+
+    Air wavelengths already (the column says so; RYA-643 conditioned this product to the
+    solar rest frame), so no vacuum conversion, unlike IAG.
+    """
+    if "wf" in _harps_cache:
+        return _harps_cache["wf"]
+    if not HARPS_CSV.exists():
+        raise LookupError(
+            f"HARPS solar spectrum not staged at {HARPS_CSV}. This is the direct-solar "
+            f"arm (Dumusque ESO 1102.D-0954); stage it rather than falling back to an "
+            f"atlas, which would label an atlas measurement 'harps'.")
+    d = pd.read_csv(HARPS_CSV)
+    need = {"wavelength_air_A", "flux_normalized"}
+    missing = need - set(d.columns)
+    if missing:
+        raise LookupError(
+            f"{HARPS_CSV.name} lacks {sorted(missing)}; got {list(d.columns)}. The "
+            f"holding declares pre_normalised=True, so the normalised column is the "
+            f"contract -- see the RYA-911 note above before switching to flux_raw.")
+    w = np.asarray(d["wavelength_air_A"], dtype=float)
+    f = np.asarray(d["flux_normalized"], dtype=float)
+    ok = np.isfinite(w) & np.isfinite(f)
+    w, f = w[ok], f[ok]
+    o = np.argsort(w)
+    _harps_cache["wf"] = (w[o], f[o])
+    return _harps_cache["wf"]
+
+
+def load_harps_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
+    w, f = harps_spectrum()
+    w, f = _slice_window(w, f, centre, pad, "HARPS")
+    return w, f, HARPS_CSV.name
 
 
 MIN_WINDOW_POINTS = 12
@@ -560,6 +625,16 @@ GDSAT_CAVEAT = (
 #: refused holding: a refusal is reported with every candidate's reason, so "we hold this
 #: window in no state that may be measured" is distinguishable from "we do not hold it".
 _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
+    "harps": (
+        HoldingSpec("solar_harps", reader="harps", pre_normalised=True,
+                    span_A=(3782.6, 6910.0),
+                    note="Direct solar feed, ESO 1102.D-0954 (Dumusque). The pipeline's "
+                         "own normalised product, not the archive S1D -- it carries the "
+                         "continuum the pipeline fitted, which is why it is declared "
+                         "normalised (RYA-911). EW-route outputs are HELD pending "
+                         "RYA-911; the loader is unvalidated (RYA-913 retracted the "
+                         "evidence that appeared to validate it)."),
+    ),
     "kpno_solar_atlas": (
         HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
                     note="Kurucz/Brault FTS residual flux -- unity IS the continuum."),
@@ -689,6 +764,8 @@ def select_holding(instrument: str, centre: float, pad: float, *,
 #: holding.reader -> the function that actually reads it. Split from the specs so the
 #: preference table stays readable and a reader can be shared by two holdings.
 def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
+    if spec.reader == "harps":
+        return load_harps_window(centre, pad)
     if spec.reader == "kpno":
         return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
     if spec.reader == "iag":

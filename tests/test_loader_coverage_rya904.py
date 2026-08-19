@@ -218,13 +218,22 @@ def test_declared_gaps_are_real_holdings_not_typos():
 
 
 def test_a_gap_that_is_actually_wired_is_itself_a_failure():
-    """The table rots BOTH ways. RYA-897 is wiring the HARPS solar arm as this ships;
-    the moment it lands, `solar_harps`'s entry becomes an untrue statement about the code
-    — and a stale exemption is how a guard quietly stops guarding, because it would wave
-    through the next holding to go unreachable."""
+    """The table rots BOTH ways: a stale exemption is how a guard quietly stops guarding,
+    because it would wave through the next holding to go unreachable.
+
+    🔴 THE CONTROL IS SYNTHETIC ON PURPOSE (RYA-897). It used to inject the real
+    `solar_harps`, which worked only while HARPS was unwired — and this test's own
+    docstring predicted that wiring would land. It did (RYA-897), the entry was removed
+    from DECLARED_GAPS, and this control silently stopped exercising anything: the
+    injected holding was no longer declared, so no stale gap could form and the raise it
+    asserts could never happen. A control coupled to live data expires with the data.
+    Both halves are now fabricated, so the detector is tested rather than the table."""
     with pytest.raises(LC.LoaderCoverageError, match="are in fact WIRED"):
         LC.reconcile_loader_coverage(
-            addressable={**LC.addressable_holdings(), "solar_harps": "harps"})
+            declared_gaps={"solar_kpno": "SYNTHETIC — a gap entry for a holding that is "
+                                         "in fact wired, so the detector has something "
+                                         "to catch. RYA-904/897 control."},
+            addressable={**LC.addressable_holdings(), "solar_kpno": "kpno"})
 
 
 # ── the same defect shape, one and two levels deeper ─────────────────────────
