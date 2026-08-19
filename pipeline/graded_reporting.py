@@ -48,7 +48,22 @@ import pandas as pd
 GRADED_SUFFIX = "-LABGF"
 
 
-def is_graded(treatment: str) -> bool:
+def is_graded(treatment: str, *, gf: str | None = None) -> bool:
+    """Is this product's pool restricted to primary-laboratory gf?
+
+    🔴 RYA-906 — ASK THE AXIS FIRST. `gf == "lab"` is a FIELD test; the `-LABGF` suffix is
+    a string test, and a string test against a label whose variant set can grow is the
+    RYA-869 bug class exactly. A caller that has the product's `gf` axis passes it and the
+    suffix is never consulted.
+
+    The suffix remains the fallback for the 2153 committed rows that predate the axis
+    columns — the legacy label is permanent and never rewritten (Ryan: dual-label
+    forever), so this must keep reading it. Fallback, not equal partner: when both are
+    present the axis wins, because the axis is what the emitter measured and the suffix is
+    what someone typed.
+    """
+    if gf is not None and str(gf).strip():
+        return str(gf).strip().lower() == "lab"
     return str(treatment).endswith(GRADED_SUFFIX)
 
 
