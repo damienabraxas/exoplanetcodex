@@ -42,7 +42,11 @@ from pipeline.lines_fit import (  # noqa: E402
 from pipeline.band_products import carried_ep, LineMeasurement, assert_single_element  # noqa: E402
 from pipeline.band_policy import check_intake, resolve as resolve_band  # noqa: E402
 from scripts.measure_band_ew import (  # noqa: E402
-    kp_segments, load_kp_window, load_window, load_window_ex, telluric_reason,
+    # RYA-913: load_kp_window removed -- it was imported and never called, a
+    # Kitt-Peak-specific flux reader sitting in the import line of a route that
+    # correctly dispatches. An unused import of the thing the rule forbids is how
+    # the next instance starts.
+    kp_segments, load_window, load_window_ex, telluric_reason,
     verify_feature,
     attribute_root_cause)
 

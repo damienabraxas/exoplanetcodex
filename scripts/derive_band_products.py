@@ -254,6 +254,9 @@ def synthesis_route(a, pol) -> None:
     sys.path.insert(0, str(ROOT / "scripts"))
     from pipeline.nearuv_synth import build_solar_context, gf_provenance
     from rya759_nearuv_fe_product import select_lines, fit_one, species_token
+    # RYA-913: `_kp_segments` is a PRIVATE alias of the same Kitt-Peak-specific
+    # helper. A guard that bans only the public names would have passed this by,
+    # which is why the Part B guard matches behaviour, not spelling.
     from rya759_nearuv_synth import _kp_segments
     from measure_band_ew import load_window_ex, select_holding
     from pipeline.telluric_policy import applied_state as _applied_state
@@ -1020,7 +1023,13 @@ def main() -> None:
         _b_source = None if nlte else LTE_NLTE_SOURCE
         print(f"\n[3] {treatment} — Turbospectrum flux-fit (deck={a.engine_b_deck})...")
         from pipeline.measure import resolve_handler
-        from scripts.measure_band_ew import kp_segments, load_kp_window
+        # RYA-913: the DISPATCH, never an instrument-specific loader. This block
+        # imported kp_segments/load_kp_window by name and called them
+        # unconditionally, so `--instrument harps` measured Kitt Peak and
+        # labelled it HARPS -- the retracted 7.486 (RYA-911). An engine is a
+        # function of (lines, instrument); it may not know one instrument's
+        # loader exists.
+        from scripts.measure_band_ew import load_window_ex, select_holding
 
         # ── RYA-798: the Gerber deck is MARCS, and the production default is not ────
         # NLTEgrid4TS_Fe_MARCS was computed on MARCS atmospheres. `_load_atmosphere`
@@ -1071,12 +1080,32 @@ def main() -> None:
         # instrument through the context is all this driver has to do.
         handler = resolve_handler(3400.0)      # the synthesis handler
         handler.prepare(pol, {**ctx_b, "instrument": a.instrument})
-        segs = kp_segments()
+        # Ask once, at band centre, so a refusal costs nothing and arrives before
+        # any synthesis runs (the synthesis_route pattern, RYA-904/832).
+        _b_probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4)
+        if not _b_probe.pre_normalised:
+            raise SystemExit(
+                f"{a.instrument} -> {_b_probe.holding_id} is NOT "
+                f"continuum-normalised, and this route fits observed flux "
+                f"against a synthesis normalised to unity. The fit would spend "
+                f"A({a.element}) closing a continuum offset rather than "
+                f"measuring an abundance (RYA-713/843). Normalise the product "
+                f"first, or derive this band through a route that sets its own "
+                f"continuum. REFUSING rather than falling back to another "
+                f"atlas -- that is how the RYA-911 mislabel happened.")
+        print(f"  [holding] {a.instrument} -> {_b_probe.holding_id} "
+              f"(pre_normalised={_b_probe.pre_normalised})")
+        _b_holdings: set[str] = set()
+        segs = None
         rows_b: list[LineMeasurement] = []
         for _, r in ok.iterrows():
             c = float(r.wavelength_air_A)
             try:
-                w_obs, f_obs, _ = load_kp_window(segs, c, pad=1.4)
+                _win = load_window_ex(a.instrument, c, pad=1.4, segs=segs)
+                w_obs, f_obs = _win.wave, _win.flux
+                # RYA-913: record WHICH holding served each line, so a consumer
+                # can verify the product was measured on what its label claims.
+                _b_holdings.add(_win.spec.holding_id)
             except Exception as e:
                 lb = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                                      instrument=a.instrument, ew_mA=float("nan"),
@@ -1119,6 +1148,25 @@ def main() -> None:
             "axis, so only the bsyn abundance stamp follows each trial value"
             if nlte else
             "Turbospectrum LTE, NOT the Gerber TS-native NLTE deck")
+        # 🔴 RYA-913 — PROVENANCE MUST MATCH INVOCATION. The defect this ticket exists
+        # for produced a product tagged `harps` whose every line was read off the Kitt
+        # Peak atlas, and nothing objected: the tag came from the CLI flag and the data
+        # came from a hardcoded loader, so the two could disagree indefinitely. Asserting
+        # the tag against the holdings that actually served the lines is the only check
+        # that would have failed. It is cheap and it runs on every product.
+        _b_expected = {h.holding_id for h in
+                       [select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4)]}
+        _b_unexpected = _b_holdings - _b_expected
+        if _b_unexpected:
+            raise SystemExit(
+                f"PROVENANCE MISMATCH: this product is tagged instrument "
+                f"{a.instrument!r} but its lines were measured on holding(s) "
+                f"{sorted(_b_unexpected)}, which {a.instrument!r} does not select. "
+                f"A number labelled with an instrument it was not measured on is the "
+                f"RYA-911/913 defect. Refusing to emit it.")
+        if _b_holdings:
+            print(f"  [provenance] {len(_b_holdings)} holding(s) served this product: "
+                  f"{sorted(_b_holdings)} — matches --instrument {a.instrument}")
         p_b = build_product(
             a.element, a.ion, a.instrument, pol.name, treatment, rows_b,
             # RYA-869 — read off the handler OBJECT that actually ran, not asserted.
