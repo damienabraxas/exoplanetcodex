@@ -190,7 +190,13 @@ class CheckResult:
 class Dispatch:
     """What `measure_band_ew.load_window` can actually serve, read from its source."""
     instruments: tuple[str, ...]
-    loader_holding: dict[str, str]      # instrument -> the ONE holding that arm serves
+    #: instrument -> the holdings that arm can serve, IN PREFERENCE ORDER.
+    #: 🔴 WAS `dict[str, str]` — one holding per instrument — until RYA-904 proved that
+    #: shape wrong in the harness itself. `crires_plus` has three solar holdings and the
+    #: single-valued map named the ONE the telluric gate refuses, so both corrected
+    #: holdings read as unreachable. A reader that mirrors a broken shape reproduces the
+    #: broken answer, so this is a tuple.
+    served_holdings: dict[str, tuple[str, ...]]
     configured: tuple[str, ...]         # instruments named by harness config tables
     controls_ok: bool
     control_note: str
@@ -202,10 +208,12 @@ def read_dispatch(harness_py: Path | None = None) -> Dispatch:
     Reads three things out of the harness's own AST:
 
       * the instrument literals `load_window` compares against — the dispatch itself;
-      * `_LOADER_HOLDING`, the harness's own declaration (RYA-806) of WHICH HOLDING each
-        arm serves, because "the instrument is wired" and "this holding is reachable" are
-        not the same claim: the CRIRES+ branch serves the staged Vesta IDPs specifically
-        and says so in that map;
+      * `_INSTRUMENT_HOLDINGS`, the harness's own declaration (RYA-806/904) of WHICH
+        HOLDINGS each arm serves, because "the instrument is wired" and "this holding is
+        reachable" are not the same claim. ⚠️ READ BOTH SHAPES: RYA-904 replaced the
+        single-valued `_LOADER_HOLDING` with a preference-ordered table of `HoldingSpec`
+        entries, and the legacy name is still parsed so this reader keeps working against
+        a harness that predates it (and against the synthetic fixtures the controls use);
       * the instrument keys of the harness's config tables (`PRE_NORMALISED` and friends).
         The RYA-897 signature is precisely an instrument that is CONFIGURED but NOT
         DISPATCHED, and naming that signature is more useful than "not wired".
@@ -218,7 +226,7 @@ def read_dispatch(harness_py: Path | None = None) -> Dispatch:
     tree = ast.parse(harness_py.read_text(), filename=str(harness_py))
 
     dispatch: list[str] = []
-    loader_holding: dict[str, str] = {}
+    served: dict[str, tuple[str, ...]] = {}
     configured: set[str] = set()
 
     for node in ast.walk(tree):
@@ -234,15 +242,45 @@ def read_dispatch(harness_py: Path | None = None) -> Dispatch:
                     for const in ast.walk(comp):
                         if isinstance(const, ast.Constant) and isinstance(const.value, str):
                             dispatch.append(const.value)
-        # the module-level tables
-        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
-            targets = [t.id for t in node.targets if isinstance(t, ast.Name)]
+        # the module-level tables.
+        # ⚠️ `ast.AnnAssign` TOO — RYA-904. `_INSTRUMENT_HOLDINGS: dict[...] = {...}` is
+        # an ANNOTATED assignment, which is a different node type, and an `ast.Assign`-only
+        # walk sees nothing at all. That is not a soft failure: the reader returned an
+        # EMPTY dispatch, which would have read as "no instrument is wired". The only
+        # reason it was caught is that RYA-905's positive control refuses to report
+        # absences when it cannot see kpno_solar_atlas — the absence would otherwise have
+        # been a page of confident false WARNs (RYA-833).
+        _is_assign = isinstance(node, (ast.Assign, ast.AnnAssign))
+        if _is_assign and isinstance(getattr(node, "value", None), ast.Dict):
+            _tgts = node.targets if isinstance(node, ast.Assign) else [node.target]
+            targets = [t.id for t in _tgts if isinstance(t, ast.Name)]
             keys = [k.value for k in node.value.keys
                     if isinstance(k, ast.Constant) and isinstance(k.value, str)]
-            if "_LOADER_HOLDING" in targets:
+            if "_INSTRUMENT_HOLDINGS" in targets:
+                # RYA-904 shape: instrument -> (HoldingSpec("id", ...), ...). The holding
+                # id is each spec's FIRST argument, positional or `holding_id=`. Read
+                # positionally rather than by evaluating the call, because this reader is
+                # deliberately static -- it must work against a harness it cannot import
+                # (measure_band_ew resolves the Kitt Peak atlas at module import).
+                for k, v in zip(keys, node.value.values):
+                    ids: list[str] = []
+                    for elt in getattr(v, "elts", []):
+                        if not isinstance(elt, ast.Call):
+                            continue
+                        first = (elt.args[0] if elt.args else next(
+                            (kw.value for kw in elt.keywords if kw.arg == "holding_id"),
+                            None))
+                        if isinstance(first, ast.Constant) and isinstance(first.value, str):
+                            ids.append(first.value)
+                    if ids:
+                        served[k] = tuple(ids)
+                        dispatch.append(k)
+            elif "_LOADER_HOLDING" in targets:
+                # LEGACY single-valued shape (pre-RYA-904). Widened to a 1-tuple here so
+                # everything downstream speaks one language.
                 vals = [v.value if isinstance(v, ast.Constant) else None
                         for v in node.value.values]
-                loader_holding = {k: v for k, v in zip(keys, vals) if isinstance(v, str)}
+                served.update({k: (v,) for k, v in zip(keys, vals) if isinstance(v, str)})
             elif targets:
                 configured.update(keys)
 
@@ -262,7 +300,7 @@ def read_dispatch(harness_py: Path | None = None) -> Dispatch:
         note = (f"CONTROL FAILED (positive={pos}, negative={neg}) — the dispatch reader "
                 f"parsed {instruments!r} out of {harness_py.name}. Its absences prove "
                 f"nothing until this is fixed.")
-    return Dispatch(instruments, loader_holding, tuple(sorted(configured)), pos and neg, note)
+    return Dispatch(instruments, served, tuple(sorted(configured)), pos and neg, note)
 
 
 # ── Loading the state this reconciles ─────────────────────────────────────────
@@ -566,15 +604,26 @@ def check_instrument_reachability(st: State) -> CheckResult:
             "load_window dispatch; repair the reader before trusting any preflight"))
         return res
 
-    served = st.dispatch.loader_holding
+    served = st.dispatch.served_holdings
+    # RYA-904 — a gap someone has already WRITTEN DOWN is still a gap, and still WARNs;
+    # what changes is that the reader can say who owns it instead of leaving the reader
+    # of the report to go and find out. `DECLARED_GAPS` is the existing declaration, not
+    # a second one made here.
+    try:
+        from pipeline.loader_coverage import DECLARED_GAPS as _declared
+    except Exception:
+        _declared = {}
     for _, h in st.holdings.iterrows():
         hid, inst, state = str(h.holding_id), str(h.instrument_id), str(h.evidence_state)
+        _decl = (f" DECLARED in pipeline.loader_coverage.DECLARED_GAPS: {_declared[hid]}"
+                 if hid in _declared else "")
         if inst not in st.dispatch.instruments:
             configured = inst in st.dispatch.configured
             sev = WARN if state in VERIFIED_STATES else INFO
             sig = (" It IS named by the harness's own config tables while the dispatch "
                    "has no branch for it — the exact RYA-897 signature." if configured
                    else "")
+            sig += _decl
             res.findings.append(Finding(
                 "1", sev, hid,
                 f"held on {inst} (evidence_state={state}) but "
@@ -587,23 +636,24 @@ def check_instrument_reachability(st: State) -> CheckResult:
                 if sev == WARN else None))
             continue
 
-        target = served.get(inst)
-        if target is not None and target != hid:
+        targets = served.get(inst)
+        if targets and hid not in targets:
             res.findings.append(Finding(
                 "1", WARN, hid,
-                f"{inst} IS dispatched, but the harness declares that arm serves holding "
-                f"{target!r} (its `_LOADER_HOLDING` entry) — so this holding is not the "
-                f"one `load_window` would return, and nothing reads it.",
+                f"{inst} IS dispatched, but the harness declares that arm serves "
+                f"{', '.join(targets)} — this holding is not among them, so nothing "
+                f"reads it.{_decl}",
                 f"the instrument is wired, so a per-instrument check would have called "
-                f"this reachable; it is the per-HOLDING join (RYA-806) that shows it is "
-                f"not",
+                f"this reachable; it is the per-HOLDING join (RYA-806/904) that shows it "
+                f"is not",
                 f"AUDIT: holding {hid} ({inst}) is verified but the {inst} band-harness "
-                f"branch is declared to serve {target} — confirm expected, or wire it"))
+                f"branch serves {', '.join(targets)} — confirm expected, or wire it"))
         else:
             res.findings.append(Finding(
                 "1", OK, hid,
                 f"{inst} dispatched by load_window"
-                + (f" and declared to serve this holding" if target == hid else ""),
+                + (" and declared to serve this holding" if targets and hid in targets
+                   else ""),
                 "held, verified, reachable"))
 
     held = set(st.holdings.instrument_id.astype(str))
@@ -1192,9 +1242,9 @@ def _stated_reason(st: State, holding_id: str, instrument: str, lines) -> str | 
     if instrument not in st.dispatch.instruments:
         return (f"the band harness has no loader for {instrument} (check 1 WARNs on it; "
                 f"not double-counted here)")
-    served = st.dispatch.loader_holding.get(instrument)
-    if served is not None and served != holding_id:
-        return (f"the {instrument} harness branch is declared to serve {served} "
+    served = st.dispatch.served_holdings.get(instrument)
+    if served and holding_id not in served:
+        return (f"the {instrument} harness branch serves {', '.join(served)} "
                 f"(check 1)")
     try:
         ok, why = telluric_policy.gate_holding(holding_id, instrument)
