@@ -86,9 +86,34 @@ FE_I = 'Fe 1'
 DEPTH_FLOOR, DEPTH_CEIL = 0.15, 0.90
 
 
+def species_token(element: str, ion: str) -> str:
+    """('Fe', 'I') -> 'Fe 1', as iSpec's linelist actually spells it — RYA-904.
+
+    Roman numerals are what the CLI, the accounting file and every ticket use; 'Fe 1'
+    (space, arabic) is what the list uses. Matching the roman form selects NOTHING, which
+    RYA-759 hit and caught only because it fails loudly.
+    """
+    roman = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6}
+    ion = str(ion).strip()
+    if ion in roman:
+        return f"{element} {roman[ion]}"
+    if ion.isdigit():
+        return f"{element} {int(ion)}"
+    raise SystemExit(f"cannot spell ion {ion!r} as a linelist species token; add it to "
+                     f"`species_token` rather than guessing.")
+
+
 def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
-                 teff: float, min_sep_A: float) -> pd.DataFrame:
-    """Fe I candidates, strongest-first by the list's own THEORETICAL CENTRAL DEPTH.
+                 teff: float, min_sep_A: float, species: str = FE_I) -> pd.DataFrame:
+    """Candidates for ONE species, strongest-first by the list's THEORETICAL CENTRAL DEPTH.
+
+    🔴 `species` — RYA-904. THIS WAS PINNED TO Fe I AND `--ion` WAS DECORATIVE.
+    `derive_band_products.py --ion II` built a Fe context, called this, got Fe I lines,
+    and labelled every one of them `Fe II`. Nothing downstream could tell: the
+    wavelengths are real, the fits converge, and the product carries an ion it did not
+    measure. That is worse than the loader defect this ticket is about, because it
+    produces a plausible NUMBER rather than a refusal. The default is unchanged, so
+    RYA-759's near-UV selection is bit-for-bit what it was.
 
     ⚠️ `theoretical_ew` IS ALL ZERO in this list -- checked, not assumed: 4,364 Fe I rows,
     every one 0.0, because our VALD converter does not populate it. `theoretical_depth` IS
@@ -106,10 +131,10 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
     w_A = np.asarray(linelist['wave_A'] if 'wave_A' in names
                      else linelist['wave_nm'] * 10.0, dtype=float)
     el = np.asarray([str(x).strip() for x in linelist['element']])
-    m = (w_A >= lo_A) & (w_A <= hi_A) & (el == FE_I)
+    m = (w_A >= lo_A) & (w_A <= hi_A) & (el == species)
     if not m.any():                      # never guess a column value silently
-        raise SystemExit(f"no {FE_I!r} rows in {lo_A}-{hi_A} A; element values look like "
-                         f"{sorted(set(el))[:8]}")
+        raise SystemExit(f"no {species!r} rows in {lo_A}-{hi_A} A; element values look "
+                         f"like {sorted(set(el))[:8]}")
     df = pd.DataFrame({
         'wave_A': w_A[m],
         'loggf': np.asarray(linelist['loggf'], dtype=float)[m],
@@ -120,7 +145,7 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
     df['strength'] = df['loggf'] - df['ep_eV'] * theta
     df = df[df['theo_depth'].between(DEPTH_FLOOR, DEPTH_CEIL)]
     if df.empty:
-        raise SystemExit(f'no Fe I line has theoretical depth in '
+        raise SystemExit(f'no {species} line in {lo_A}-{hi_A} A has theoretical depth in '
                          f'[{DEPTH_FLOOR}, {DEPTH_CEIL}] — check the column')
     df = df.sort_values('theo_depth', ascending=False).reset_index(drop=True)
 
