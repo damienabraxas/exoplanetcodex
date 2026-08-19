@@ -47,15 +47,13 @@ class LoaderCoverageError(AssertionError):
 #: holding_id -> why the band harness deliberately does not serve it. Every entry is a
 #: STATED gap with an owner. Deleting an entry without wiring the holding makes the guard
 #: fail, which is the point: this table can only shrink by building something.
+#: 🔴 `solar_harps` WAS HERE, AND RYA-911 REMOVED IT because the loader now exists.
+#: That removal was not optional and not tidy-up: `reconcile_loader_coverage` fails on a
+#: DECLARED gap that is in fact WIRED, and it duly failed the moment the HARPS holding
+#: was added -- which is the whole point of making the table rot loudly in both
+#: directions (RYA-904). A stale exemption is an untrue statement about the code that
+#: would wave through the next holding to go unreachable.
 DECLARED_GAPS: dict[str, str] = {
-    "solar_harps": (
-        "OPEN — RYA-897. `config` lists harps as a solar arm and the direct-solar HARPS "
-        "pool is used elsewhere, but `measure_band_ew` never got a harps branch: the "
-        "instrument is half-wired and has been since RYA-713. This is a real gap, "
-        "declared here rather than hidden, and RYA-897 is the ticket that closes it. "
-        "RYA-904 did not wire it: a second arm's loader is a different product with a "
-        "different normalisation history, and bundling it into this change would have "
-        "made the CRIRES+ result unattributable."),
     "elgueta2026_vizier": (
         "BY DESIGN — this is the UPSTREAM VizieR delivery (RYA-789), not a science-ready "
         "spectrum: sp/*.dat across several bands, Sirius-only, gitignored, md5-pinned, "

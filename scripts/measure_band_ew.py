@@ -32,7 +32,7 @@ from pipeline.band_products import (  # noqa: E402
     carried_ep,
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
-from config.constants import codex_path, codex_root# RYA-810 path register
+from config.constants import codex_path, codex_root, PATHS  # RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
 
@@ -169,6 +169,124 @@ def load_iag_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, 
     w, f = iag_atlas()
     w, f = _slice_window(w, f, centre, pad, "IAG")
     return w, f, IAG_FITS.name
+
+
+# ── the direct-solar HARPS arm (RYA-897, ported to the RYA-904 holding table) ─
+#
+# THE ARM THE WHOLE SCALE IS DIFFERENTIAL TO, and it was half-wired from day one.
+# `PRE_NORMALISED` carried a "harps" entry from RYA-713 while `load_window` never got the
+# dispatch branch, so the config declared an instrument the loader could not reach.
+# Nothing scientific excluded HARPS; the path was simply never written (RYA-896/897).
+#
+# Why it matters more than a fourth data point: every Codex number is
+# [X/H] = A(X)star - A(X)sun, and program stars are observed with HARPS. A solar cell
+# measured on THIS harness, on THIS instrument, is the only anchor whose instrumental and
+# methodological systematics cancel against the program stars.
+#
+# ⚠️ THE DOUBLE-NORMALISATION TRAP, avoided by construction. This file carries FOUR
+# columns -- wavelength_air_A, flux_raw, continuum, flux_normalized -- so it is possible
+# to hand the harness an already-normalised flux and have it set a continuum on top: the
+# RYA-713 defect. We read `flux_raw` and the holding declares pre_normalised=False, so the
+# harness sets the continuum ONCE, per window.
+#
+# 🔴 AND THAT CONTINUUM IS THE SUBJECT OF RYA-911. This product carries the pipeline's
+# OWN fitted `continuum` column, so for the first time the harness's per-window continuum
+# has a same-file reference to be read against -- see `reference_continuum()` below and
+# the instrumentation in `measure_band_profilefit`. It is a REFERENCE, not an authority:
+# which of the two is right is a question this module records the evidence for and does
+# not answer by itself.
+HARPS_CSV = Path(str(PATHS['solar_normalized']))
+_harps_cache: dict = {}
+
+
+def harps_spectrum() -> tuple[np.ndarray, np.ndarray]:
+    """The direct-solar HARPS spectrum as (wave_air_A, flux_NORMALISED), ascending.
+
+    Air wavelengths already (the column says so, and RYA-643 conditioned this product to
+    rest frame); no vacuum conversion, unlike IAG.
+
+    🔴 RYA-911 — THIS RETURNS `flux_normalized`, AND THAT IS THE FIX. RYA-897 wired it to
+    `flux_raw` with `pre_normalised=False`, which routed every window through
+    `pipeline.lines_fit._local_renorm` — a degree-1 fit through the top 20% of pixels in
+    the outer 25% of each +/-1.2 A edge strip, i.e. through 0.3 A strips of the crowded
+    solar optical. MEASURED, on the harness's OWN pixels with no extrapolation and no
+    reconstruction: that continuum sits BELOW THE OBSERVED FLUX on 8 of the 16
+    in-aggregate Fe II lines, worst case max(F/C) = 1.204. Flux above the continuum is
+    not a small error; it is impossible. The product's own column never exceeds 1.007.
+    Isolated in a same-inputs control (same fitter, same window, only the continuum
+    swapped) the local re-fit costs a MEDIAN 23.8% OF THE EQUIVALENT WIDTH -- which is
+    the -0.34 dex RYA-897 measured and could not explain.
+    
+    ⚠️ THE TEST IS ONE-SIDED, DELIBERATELY. `max(F/C) > 1` convicts a continuum outright.
+    `F/C < 1` everywhere does NOT convict one: in the blanketed blue there may be no
+    unabsorbed pixel in the window at all, so a correct continuum SHOULD sit above every
+    observed point. So this evidence rules the local re-fit out; it does not certify the
+    product's column, which the blue lines (max F/C 0.90-0.94 at 4138/4413/4620) suggest
+    may itself sit a little high there. That is recorded, not resolved.
+
+    This is NOT the RYA-713 double-normalisation trap in reverse: the holding declares
+    `pre_normalised=True` to match, so the harness uses unity as the continuum and sets
+    none of its own. Read one and declare the other and you get RYA-713 exactly.
+    """
+    if "wf" in _harps_cache:
+        return _harps_cache["wf"]
+    if not HARPS_CSV.exists():
+        raise LookupError(
+            f"HARPS solar spectrum not staged at {HARPS_CSV}. This is the direct-solar "
+            f"arm (Dumusque ESO 1102.D-0954); stage it rather than falling back to an "
+            f"atlas, which would label an atlas measurement 'harps'.")
+    d = pd.read_csv(HARPS_CSV)
+    missing = {"wavelength_air_A", "flux_normalized", "continuum"} - set(d.columns)
+    if missing:
+        raise LookupError(
+            f"{HARPS_CSV.name} lacks {sorted(missing)}; got {list(d.columns)}. The band "
+            f"harness consumes this product's OWN fitted continuum (RYA-911) and will "
+            f"not fall back to re-fitting one, because that re-fit is the defect.")
+    w = np.asarray(d["wavelength_air_A"], dtype=float)
+    f = np.asarray(d["flux_normalized"], dtype=float)
+    cont = np.asarray(d["continuum"], dtype=float)
+    ok = np.isfinite(w) & np.isfinite(f)
+    w, f, cont = w[ok], f[ok], cont[ok]
+    o = np.argsort(w)
+    _harps_cache["wf"] = (w[o], f[o])
+    #: kept for provenance: the ABSOLUTE continuum this normalisation divided by, so the
+    #: per-line record can name a number rather than only the word "unity".
+    _harps_cache["cont"] = (w[o], cont[o])
+    return _harps_cache["wf"]
+
+
+def load_harps_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
+    w, f = harps_spectrum()
+    w, f = _slice_window(w, f, centre, pad, "HARPS")
+    return w, f, HARPS_CSV.name
+
+
+def reference_continuum(spec: "HoldingSpec", centre: float) -> float | None:
+    """The SOURCE PRODUCT's own continuum at this wavelength, or None — RYA-911.
+
+    🔴 THE POINT OF THIS FUNCTION IS THAT IT IS A READING. RYA-897's RCA compared the
+    harness continuum against the pipeline's by REFITTING the window edges to approximate
+    what the harness does — an inference about the code, not a measurement of it, and it
+    said so. This module now hands the number out, and the harness hands out the one it
+    actually placed, so the comparison downstream is two readings.
+
+    ⚠️ NOT AN AUTHORITY. A holding whose product carries a continuum column gives us a
+    second opinion, nothing more. Disagreement is a finding to explain, and the direction
+    of the fix is decided by measuring which one sits at the unabsorbed flux level — not
+    by preferring whichever was written down first.
+    """
+    if not spec.reference_continuum:
+        return None
+    if spec.reader == "harps":
+        harps_spectrum()                       # populates the cache
+        cw, cc = _harps_cache.get("cont", (None, None))
+        if cw is None:
+            return None
+        j = int(np.argmin(np.abs(cw - centre)))
+        if abs(cw[j] - centre) > 0.05:
+            return None
+        return float(cc[j])
+    return None
 
 
 # ── the CRIRES+ arm (RYA-796) ────────────────────────────────────────────────
@@ -537,6 +655,11 @@ class HoldingSpec:
     span_A: tuple[float, float] | None = None
     caveat: str = ""
     note: str = ""
+    #: RYA-911 — does the SOURCE PRODUCT carry a continuum of its own that the harness's
+    #: placement can be read against? Only true where the product ships that column. It
+    #: is a REFERENCE, never an authority: two continua disagreeing is evidence, and
+    #: which one is right is decided by measurement, not by which is written down first.
+    reference_continuum: bool = False
 
     def covers(self, centre: float, pad: float) -> bool:
         if self.span_A is None:
@@ -560,6 +683,17 @@ GDSAT_CAVEAT = (
 #: refused holding: a refusal is reported with every candidate's reason, so "we hold this
 #: window in no state that may be measured" is distinguishable from "we do not hold it".
 _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
+    "harps": (
+        HoldingSpec("solar_harps", reader="harps", pre_normalised=True,
+                    reference_continuum=True,
+                    note="Direct-solar HARPS (Dumusque ESO 1102.D-0954), RYA-897, "
+                         "continuum contract FIXED by RYA-911. PRE-NORMALISED: the "
+                         "product ships its own fitted continuum and we consume it. "
+                         "🔴 It was pre_normalised=False and re-fitting locally, which "
+                         "put the continuum BELOW the observed flux on 8 of 16 lines "
+                         "(worst max(F/C) 1.204 -- impossible) and cost a median 23.8% "
+                         "of the EW in a same-inputs control. That was the -0.34 dex."),
+    ),
     "kpno_solar_atlas": (
         HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
                     note="Kurucz/Brault FTS residual flux -- unity IS the continuum."),
@@ -693,6 +827,8 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
         return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
     if spec.reader == "iag":
         return load_iag_window(centre, pad)
+    if spec.reader == "harps":
+        return load_harps_window(centre, pad)
     if spec.reader == "crires_y":
         return load_crires_y_window(centre, pad)
     if spec.reader == "crires_idp":
