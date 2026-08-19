@@ -313,6 +313,11 @@ def synthesis_route(a, pol) -> None:
     #     average over two normalisation histories with one label. Recorded and refused.
     _served: dict[str, int] = {}
     _served_specs: dict[str, object] = {}
+    #: median observed flux per fit window. MEASURED, because the alternative was to
+    #: quote RYA-843's 0.73-0.95 — which it measured on the telluric-UNCORRECTED Kitt
+    #: Peak NIR windows. Transplanting that number onto a corrected holding is exactly
+    #: the kind of borrowed claim this ticket exists to stop.
+    _window_median: list[float] = []
 
     def _observed(centre: float, pad: float):
         win = load_window_ex(a.instrument, centre, pad)
@@ -325,9 +330,22 @@ def synthesis_route(a, pol) -> None:
                 f"(RYA-713/843). Normalise the product first.")
         _served[h.holding_id] = _served.get(h.holding_id, 0) + 1
         _served_specs[h.holding_id] = h
+        _window_median.append(float(np.median(win.flux)))
         return win.wave, win.flux, win.provenance
 
     _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4)
+    # Asked at band centre so the refusal costs nothing and arrives BEFORE any synthesis.
+    # `_observed` checks it too, per line, because a band can in principle select a
+    # different holding line by line -- but a per-line failure there surfaces as
+    # `status: no_atlas` on each line, which describes coverage rather than the real
+    # fault. The loud version comes first (RYA-832).
+    if not _probe.pre_normalised:
+        raise SystemExit(
+            f"{a.instrument} -> {_probe.holding_id} is NOT continuum-normalised, and "
+            f"this route fits observed flux against a synthesis normalised to unity. "
+            f"The fit would spend A({a.element}) closing a continuum offset rather than "
+            f"measuring an abundance (RYA-713/843). Normalise the product first, or "
+            f"derive this band through a route that sets its own continuum.")
     print(f"  [holding] {a.instrument} -> {_probe.holding_id} "
           f"(pre_normalised={_probe.pre_normalised})")
     if _probe.note:
@@ -476,9 +494,15 @@ def synthesis_route(a, pol) -> None:
     }.get(pol.name,
           f"SYNTHESIS-ONLY: band_policy forbids {'/'.join(pol.forbidden_methods)} in "
           f"{pol.name} — {pol.justification} NO pseudo-continuum systematic is charged "
-          f"in this band and none is claimed here: RYA-843 measured that these fit "
-          f"windows sit at median flux 0.73-0.95 against a synthesis normalised to "
-          f"unity, and that term is OWED and visible rather than invented. ")
+          f"in this band and none is claimed here. RYA-843 measured the reason one is "
+          f"OWED — fit windows sitting at median flux 0.73-0.95 against a synthesis "
+          f"normalised to unity — but it measured that on the telluric-UNCORRECTED Kitt "
+          f"Peak NIR, so it is NOT quoted for another holding. THIS pool's own windows "
+          f"have median observed flux "
+          + (f"{np.median(_window_median):.4f} (range {min(_window_median):.4f}-"
+             f"{max(_window_median):.4f}, n={len(_window_median)}), measured here. "
+             if _window_median else "UNMEASURED (no window loaded). ")
+          + "The term stays owed and visible rather than invented. ")
     prov = (
         f"{a.element} {a.ion} {pol.name} 1D-LTE by flux-fit synthesis (Turbospectrum via "
         "iSpec, ATLAS9.Castelli) — the RYA-759 validated route called directly, same "
