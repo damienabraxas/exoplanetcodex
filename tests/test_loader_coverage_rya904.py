@@ -218,13 +218,26 @@ def test_declared_gaps_are_real_holdings_not_typos():
 
 
 def test_a_gap_that_is_actually_wired_is_itself_a_failure():
-    """The table rots BOTH ways. RYA-897 is wiring the HARPS solar arm as this ships;
-    the moment it lands, `solar_harps`'s entry becomes an untrue statement about the code
-    — and a stale exemption is how a guard quietly stops guarding, because it would wave
-    through the next holding to go unreachable."""
-    with pytest.raises(LC.LoaderCoverageError, match="are in fact WIRED"):
-        LC.reconcile_loader_coverage(
-            addressable={**LC.addressable_holdings(), "solar_harps": "harps"})
+    """The table rots BOTH ways. A stale exemption is how a guard quietly stops guarding:
+    it would wave through the next holding to go unreachable.
+
+    ⚠️ THIS TEST FIRED, AS DESIGNED, AND THEN NEEDED RE-SUBJECTING. It was written on
+    `solar_harps` while RYA-897 was wiring that arm, predicting that the entry would
+    become an untrue statement the moment the loader landed. RYA-911 landed it and removed
+    the now-false `solar_harps` exemption — at which point injecting `solar_harps` as
+    addressable conflicted with no declared gap and nothing raised. The prediction came
+    true; the hardcoded subject is what went stale.
+
+    So it is now asserted over whatever `DECLARED_GAPS` actually declares TODAY, which is
+    the form that cannot go stale again: every declared gap, in turn, must raise when the
+    code says it is wired after all."""
+    gaps = sorted(LC.DECLARED_GAPS)
+    assert gaps, ("DECLARED_GAPS is empty — this guard has nothing to check. That is not "
+                  "necessarily wrong, but it must be a decision, not a silent pass.")
+    for holding in gaps:
+        with pytest.raises(LC.LoaderCoverageError, match="are in fact WIRED"):
+            LC.reconcile_loader_coverage(
+                addressable={**LC.addressable_holdings(), holding: "any-arm"})
 
 
 # ── the same defect shape, one and two levels deeper ─────────────────────────
