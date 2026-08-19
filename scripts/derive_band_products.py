@@ -757,7 +757,13 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # it or the decisive quantity stops at the intermediate file and the next
                 # RCA reconstructs it again.
                 continuum_level=l.continuum_level, continuum_method=l.continuum_method,
-                continuum_ref=l.continuum_ref)
+                continuum_ref=l.continuum_ref,
+                # RYA-911 — the fit's width and the floor it was judged against, same
+                # reasoning as the continuum directly above: the quantity that DECIDED
+                # FIT-PINNED has to reach the product, or the selection-bias question
+                # can only ever be asked of the intermediate file.
+                profile_sigma_A=l.profile_sigma_A,
+                profile_sigma_floor_A=l.profile_sigma_floor_A)
 
 
 def main() -> None:
@@ -914,7 +920,12 @@ def main() -> None:
                              # instrumentation", never "the continuum was unity".
                              continuum_level=_f(getattr(r, "continuum_level", None)),
                              continuum_method=str(getattr(r, "continuum_method", "") or ""),
-                             continuum_ref=_f(getattr(r, "continuum_ref", None)))
+                             continuum_ref=_f(getattr(r, "continuum_ref", None)),
+                             # RYA-911 — same None-means-predates-instrumentation rule.
+                             profile_sigma_A=_f(getattr(r, "profile_sigma_A", None)),
+                             profile_sigma_floor_A=_f(
+                                 getattr(r, "profile_sigma_floor_A", None)),
+                             red_chi2=_f(getattr(r, "red_chi2", None)))
         if not conv or not np.isfinite(A):
             lm.in_aggregate = False
             lm.excluded_reason = ("COG-INVERSION: bisection did not converge, so this EW "
@@ -965,6 +976,11 @@ def main() -> None:
                              continuum_level=l.continuum_level,
                              continuum_method=l.continuum_method,
                              continuum_ref=l.continuum_ref,
+                             # RYA-911 — ENGINE-A rides THIS line's EW, so it rides the
+                             # fit that produced it too.
+                             profile_sigma_A=l.profile_sigma_A,
+                             profile_sigma_floor_A=l.profile_sigma_floor_A,
+                             red_chi2=l.red_chi2,
                              abundance=(l.abundance + d) if d is not None else None)
         if d is None:
             la.in_aggregate = False
