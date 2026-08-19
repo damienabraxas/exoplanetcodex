@@ -118,8 +118,32 @@ def unreachable_holdings(*, addressable: dict[str, str] | None = None,
     return out
 
 
+def stale_gaps(*, addressable: dict[str, str] | None = None,
+               declared_gaps: dict[str, str] | None = None) -> list[str]:
+    """Declared gaps that are no longer gaps — the table rotting the other way.
+
+    RYA-897 is wiring the HARPS solar arm as this ships. The moment it lands,
+    `solar_harps` becomes addressable and its entry here becomes a false statement about
+    the codebase that nothing would otherwise notice. A stale exemption is how a guard
+    quietly stops guarding: the next holding to go unreachable could be waved through by
+    an entry written for a problem that was already fixed.
+    """
+    addressable = addressable_holdings() if addressable is None else addressable
+    declared_gaps = DECLARED_GAPS if declared_gaps is None else declared_gaps
+    return sorted(set(declared_gaps) & set(addressable))
+
+
 def reconcile_loader_coverage(**kw) -> None:
     """Raise `LoaderCoverageError` naming every holding we may measure and cannot reach."""
+    stale = stale_gaps(**{k: v for k, v in kw.items()
+                          if k in ("addressable", "declared_gaps")})
+    if stale:
+        raise LoaderCoverageError(
+            f"{len(stale)} holding(s) are declared as GAPS in "
+            f"pipeline.loader_coverage.DECLARED_GAPS and are in fact WIRED: "
+            f"{', '.join(stale)}. Remove the entry — a stale exemption is an untrue "
+            f"statement about the code that would wave through the next holding to go "
+            f"unreachable.")
     bad = unreachable_holdings(**kw)
     if not bad:
         return
