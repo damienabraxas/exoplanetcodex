@@ -751,7 +751,13 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # RYA-880 — and it must be added HERE too: this hand-written
                 # projection is the lossy one of the object's two serialisers, and
                 # RYA-847 already lost `red_chi2` to exactly this omission.
-                nlte_delta_dex=l.nlte_delta_dex, nlte_source=l.nlte_source)
+                nlte_delta_dex=l.nlte_delta_dex, nlte_source=l.nlte_source,
+                # RYA-911 — the continuum the harness PLACED, carried to the product.
+                # The EW artifact records it; a product built from that EW has to carry
+                # it or the decisive quantity stops at the intermediate file and the next
+                # RCA reconstructs it again.
+                continuum_level=l.continuum_level, continuum_method=l.continuum_method,
+                continuum_ref=l.continuum_ref)
 
 
 def main() -> None:
@@ -901,7 +907,14 @@ def main() -> None:
                              # RYA-871 rather than emitting a null and widening blind.
                              ep_eV=_intake_ep(r, c, a.element, a.ion),
                              nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
-                             treatment="1D-LTE")
+                             treatment="1D-LTE",
+                             # RYA-911 — carried through from the EW artifact that
+                             # measured it. `_f` yields None for an EW file written
+                             # before RYA-911; None means "this artifact predates the
+                             # instrumentation", never "the continuum was unity".
+                             continuum_level=_f(getattr(r, "continuum_level", None)),
+                             continuum_method=str(getattr(r, "continuum_method", "") or ""),
+                             continuum_ref=_f(getattr(r, "continuum_ref", None)))
         if not conv or not np.isfinite(A):
             lm.in_aggregate = False
             lm.excluded_reason = ("COG-INVERSION: bisection did not converge, so this EW "
@@ -945,6 +958,13 @@ def main() -> None:
                              nlte_delta_dex=(float(d) if d is not None else None),
                              nlte_source=(MPIA_NLTE_SOURCE if d is not None
                                           else "MPIA per-line delta_nlte (NOT SERVED)"),
+                             # RYA-911 — ENGINE-A rides THIS line's EW, so it rides THIS
+                             # line's continuum. Carrying it makes that inheritance
+                             # visible in the artifact instead of something a reader has
+                             # to know about the route.
+                             continuum_level=l.continuum_level,
+                             continuum_method=l.continuum_method,
+                             continuum_ref=l.continuum_ref,
                              abundance=(l.abundance + d) if d is not None else None)
         if d is None:
             la.in_aggregate = False
