@@ -382,7 +382,7 @@ def synthesis_route(a, pol) -> None:
             print(f"      {w:10.3f}  {why.split(' and ')[0]}")
         keep = {w for w, why in _tell if not why}
         cand = cand[cand.wave_A.astype(float).isin(keep)].reset_index(drop=True)
-    print(f"  {len(cand)} Fe I candidates by theoretical depth "
+    print(f"  {len(cand)} {a.element} {a.ion} candidates by theoretical depth "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
 
