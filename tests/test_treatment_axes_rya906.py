@@ -199,8 +199,12 @@ def test_route_basis_records_which_witness_settled_it():
     assert axes_for("ENGINE-B").route_basis == "label-family"
     unknown = axes_for("1D-LTE")
     assert unknown.route is None and unknown.route_basis == "unknown"
-    # and an unknown route must not silently render as a real one
-    assert unknown.display.startswith("route?")
+    # 🔴 An unknown route must not silently render as a real one — AND must not render as
+    # a placeholder either. I first wrote this as `display.startswith("route?")`, pinning
+    # a sentinel INTO a product name. The name now simply omits what it does not know.
+    assert unknown.display == "1D-LTE"
+    assert not unknown.display.startswith("EW")
+    assert not unknown.display.startswith("Synth")
 
 
 def test_handler_outranks_ew_inversion_when_both_are_present():
@@ -252,3 +256,42 @@ def test_LABGF_really_does_appear_on_both_routes_in_the_committed_tree():
             routes.add(ROUTE_BY_HANDLER.get(handler, handler))
     assert routes == {"ew", "synth"}, (
         f"`1D-LTE-LABGF` was expected on BOTH routes; found {sorted(routes)}")
+
+
+# ── a display name is a NAME, and names do not carry diagnostics ─────────────
+
+def test_no_display_name_ever_contains_a_placeholder():
+    """🔴 A product name is an identifier, not a status report.
+
+    `route?` shipped in the first cut of this module and rendered as
+    `route? · 1D-LTE` on an audit page — it reads as a rendering bug, and it duplicates a
+    fact that already lives in `route_basis`. Storing one fact in two forms is how the
+    two copies drift.
+
+    Asserted over every combination the module can produce, not just the ones I thought
+    of: no name may contain a question mark, "unknown", "none", "n/a", or "TBD".
+    """
+    banned = ("?", "unknown", "n/a", "tbd", "none", "null", "todo")
+    seen = 0
+    for treatment in LEGACY:
+        for handler in (None, "ProfileFitHandler", "SynthesisHandler"):
+            name = display_for(treatment, handler=handler)
+            low = name.lower()
+            for bad in banned:
+                assert bad not in low, (
+                    f"display name {name!r} for {treatment}/{handler} contains {bad!r} — "
+                    f"a name states what is known; the caveat belongs in route_basis")
+            assert name and not name.startswith("·") and not name.endswith("·"), name
+            assert "  " not in name and " ·  " not in name, f"malformed separators: {name!r}"
+            seen += 1
+    assert seen == len(LEGACY) * 3
+
+
+def test_the_name_omits_the_route_rather_than_guessing_it():
+    """The three states, side by side: known-EW, known-synth, and not-known."""
+    assert display_for("1D-LTE", handler="ProfileFitHandler") == "EW · 1D-LTE"
+    assert display_for("1D-LTE", handler="SynthesisHandler") == "Synth · 1D-LTE"
+    assert display_for("1D-LTE") == "1D-LTE"
+    # the unknown case is deliberately identical to the legacy label: for those rows that
+    # IS how much is known, and `route_basis` carries the rest
+    assert axes_for("1D-LTE").route_basis == "unknown"
