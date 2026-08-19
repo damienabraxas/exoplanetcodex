@@ -135,16 +135,38 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
     return df.iloc[kept].sort_values('wave_A').reset_index(drop=True)
 
 
-def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str) -> dict:
-    """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window."""
+def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
+            load=None) -> dict:
+    """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
+
+    🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
+    `derive_band_products.synthesis_route` takes an `--instrument` argument, tags the
+    product with it, and then called this function, which read the Kitt Peak atlas
+    whatever the argument said. So `--instrument crires_plus` would have produced a
+    product LABELLED CRIRES+ and MEASURED ON KITT PEAK — the same defect the ticket
+    exists to fix, one level deeper, and silent because the KPNO atlas does cover the
+    IR windows and the fit would have converged perfectly happily.
+
+    `load(centre, pad) -> (wave_A, flux, provenance)` supplies the observed window
+    instead. The DEFAULT IS UNCHANGED: `None` reads Kitt Peak through this module's own
+    reader exactly as before, so RYA-759's published near-UV values cannot move by way
+    of this argument. (Measured, not assumed: over 30 probes spanning the near-UV,
+    red-optical and NIR, including six segment seams, this reader and
+    `measure_band_ew.load_kp_window` return bit-identical arrays — so the holding
+    dispatch that now supplies `load` is the same data by a different door.)
+    """
     from pipeline.abundances_derive import _fit_synth_flux
 
     lo_A, hi_A = wave_A - hw_A, wave_A + hw_A
+    obs_source = "kitt peak atlas segments (default reader)"
     try:
-        ow_A, of = _load_kp_window(segs, wave_A, hw_A + 0.4)
+        if load is None:
+            ow_A, of = _load_kp_window(segs, wave_A, hw_A + 0.4)
+        else:
+            ow_A, of, obs_source = load(wave_A, hw_A + 0.4)
     except LookupError as e:
         return {'status': 'no_atlas', 'reason': str(e), 'a_synth': np.nan,
-                'red_chi2': np.nan, 'cont_ratio': np.nan}
+                'red_chi2': np.nan, 'cont_ratio': np.nan, 'obs_source': obs_source}
 
     a_solar = float(ctx['solar_A'])
     r = _fit_synth_flux(
@@ -171,6 +193,11 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str) -> dict:
         pass
 
     return {'status': r['status'], 'reason': r.get('reason', ''),
+            # RYA-904 — WHICH SPECTRUM this abundance was fitted against. It travels out
+            # of the fitter because the fitter is the only thing that knows it, and a
+            # product that cannot name its own observed source is exactly what the
+            # instrument-decorative bug above looked like from the outside.
+            'obs_source': obs_source,
             'a_synth': float(r.get('A_X', np.nan)),
             'red_chi2': float(r.get('red_chi2', np.nan)),
             'n_pix': int(r.get('n_pix', 0)), 'cont_ratio': cont,
