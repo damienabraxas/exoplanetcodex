@@ -47,6 +47,7 @@ sys.path.insert(0, str(ROOT))
 
 from data.linelists.vald_parse import parse_vald_long          # noqa: E402
 from pipeline import amarsi3d                                   # noqa: E402
+from config.constants import assert_on_sirius, SIRIUS_DATA_ROOT  # noqa: E402  (RYA-924)
 from pipeline import band_policy                              # noqa: E402  (RYA-922)
 from pipeline.band_products import (                            # noqa: E402
     LineMeasurement, build_product, products_frame)
@@ -86,6 +87,83 @@ IONS = ("I", "II")
 _SRC_RE = re.compile(
     r"^Fe(?P<ion>I{1,2})_(?P<lo>\d+)_(?P<hi>\d+)_(?P<instrument>.+)"
     r"_PROFILEFIT_1D-LTE_lines\.csv$")
+
+
+def run_environment() -> dict:
+    """WHERE this ran and WHAT it ran against — recorded in the artifact (RYA-924).
+
+    The previous run's only environmental trace was an accidental one: a `/tmp` path in
+    `band_products_dir` that happened to reveal it had run on a Mac. Nothing recorded the
+    host, the interpreter, or the version of the library that loaded the models. So the
+    question "can this number be reproduced?" had no answer in the artifact at all.
+
+    `sklearn_saved` is the version the vendored pickles were WRITTEN with; `sklearn_loaded`
+    is what read them. When those differ the library warns that results may be invalid
+    (RYA-923) — that difference belongs beside the value, not in a suppressed warning.
+    """
+    import platform, socket
+    env = {
+        "host": socket.gethostname(),
+        "platform": platform.platform(),
+        "python": platform.python_version(),
+        "on_sirius_data_root": str(SIRIUS_DATA_ROOT),
+    }
+    loaded = None
+    try:
+        import sklearn
+        loaded = sklearn.__version__
+        env["sklearn_loaded"] = loaded
+    except Exception as exc:
+        env["sklearn_loaded"] = None
+        env["sklearn_status"] = (
+            f"ABSENT ({type(exc).__name__}) — the 3D-NLTE models cannot be read on this "
+            f"machine, so no correction can be produced here at all (RYA-923)")
+    env["sklearn_saved"] = _pickled_sklearn_version() or None
+    # Only a real-vs-real difference is SKEW. "loaded with ABSENT" is not a version
+    # comparison, and writing it as one would be prose that says something untrue.
+    if loaded and env["sklearn_saved"] and env["sklearn_saved"] != loaded:
+        env["sklearn_version_skew"] = (
+            f"models written with {env['sklearn_saved']}, loaded with {loaded} — "
+            f"cross-version unpickling. The library warns results may be invalid; the "
+            f"reactivation control is what says whether it is safe.")
+    return env
+
+
+def _pickled_sklearn_version() -> str:
+    """The sklearn version recorded inside the vendored model files themselves."""
+    import re
+    from pipeline import nlte_corrections as _N
+    try:
+        blob = Path(_N._MODEL_LT02).read_bytes()
+    except Exception:
+        return ""
+    hits = sorted(set(re.findall(rb"[0-9]+\.[0-9]+\.[0-9]+", blob)))
+    return hits[0].decode() if hits else ""
+
+
+def _require_auditable_input_dir(d: Path) -> None:
+    """Refuse inputs that live somewhere nobody can audit later (RYA-924).
+
+    A products directory under /tmp is a SESSION artifact: it is deleted, it is not in
+    git, and it is not reachable from another machine. A value derived from one cannot be
+    checked by anyone afterwards — which is how the committed 3D-NLTE cells became
+    unverifiable rather than wrong.
+
+    The failure has to happen at RUN time. Discovering it at review time months later is
+    exactly what happened.
+    """
+    d = Path(d).resolve()
+    bad = [pref for pref in ("/tmp", "/private/tmp", "/var/folders")
+           if str(d).startswith(pref)]
+    if bad:
+        raise SystemExit(
+            f"refusing to derive products from a temporary directory: {d}\n"
+            f"  That path is a per-session scratchpad — it will be deleted, it is not in\n"
+            f"  git, and no later reader can reach it. Every value derived from it is\n"
+            f"  unauditable by construction (RYA-924).\n"
+            f"  Point --band-products-dir at a path inside the repo.")
+    if not d.is_dir():
+        raise SystemExit(f"--band-products-dir does not exist: {d}")
 
 
 def discover_bands(bp_dir: Path, instrument: str, ion: str):
@@ -564,6 +642,22 @@ def main(argv=None) -> int:
     ap.add_argument("--star", default="solar")
     args = ap.parse_args(argv)
 
+    # 🔴 RYA-924 — THIS LEG RAN ON THE MAC, FROM A TEMP DIRECTORY, AND NOTHING STOPPED IT.
+    #
+    # `rya817_run_summary.json` records its own inputs as
+    #     band_products_dir = /private/tmp/claude-501/-Users-ryanschmitt/<session-uuid>/
+    # a macOS per-session scratchpad. So the two committed 3D-NLTE cells were computed
+    # off-Sirius against a directory that no longer exists and can never be audited.
+    #
+    # `assert_on_sirius` (RYA-567) exists for exactly this and was called by
+    # `nlte_bfactor_synth` and `pysme_nlte` — but by nothing on this route. The guard did
+    # not fail; it was never asked. A rule enforced on some legs is a convention.
+    assert_on_sirius("RYA-817 Amarsi 3D-NLTE band run")
+
+    # And the inputs must live somewhere a later reader can go and look at.
+    _require_auditable_input_dir(args.band_products_dir)
+
+
     star = get_star_params(args.star)
     trans = fe_transitions()
     doms = amarsi3d.domains()
@@ -702,6 +796,11 @@ def main(argv=None) -> int:
 
     (args.out / "rya817_run_summary.json").write_text(json.dumps({
         "ticket": "RYA-817",
+        # RYA-924 — WHERE this ran and WHAT read the models. The previous run's only
+        # environmental trace was accidental (a /tmp path that happened to reveal a Mac).
+        "run_environment": run_environment(),
+        "instrument": args.instrument,
+        "band_products_dir": str(Path(args.band_products_dir).resolve()),
         "star": args.star,
         "engine": amarsi3d.CITATION,
         "training_set": amarsi3d.TRAINING_CITATION,
