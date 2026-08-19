@@ -215,3 +215,13 @@ def test_declared_gaps_are_real_holdings_not_typos():
     import pandas as pd
     reg = set(pd.read_csv(LC.HOLDINGS).holding_id.astype(str))
     assert set(LC.DECLARED_GAPS) <= reg
+
+
+def test_a_gap_that_is_actually_wired_is_itself_a_failure():
+    """The table rots BOTH ways. RYA-897 is wiring the HARPS solar arm as this ships;
+    the moment it lands, `solar_harps`'s entry becomes an untrue statement about the code
+    — and a stale exemption is how a guard quietly stops guarding, because it would wave
+    through the next holding to go unreachable."""
+    with pytest.raises(LC.LoaderCoverageError, match="are in fact WIRED"):
+        LC.reconcile_loader_coverage(
+            addressable={**LC.addressable_holdings(), "solar_harps": "harps"})
