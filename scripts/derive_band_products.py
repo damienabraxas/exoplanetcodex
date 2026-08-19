@@ -62,6 +62,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
+from pipeline.treatment_axes import axes_for  # RYA-906
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline.error_budget import assert_stat_publishable  # noqa: E402  RYA-907
@@ -646,6 +647,12 @@ def synthesis_route(a, pol) -> None:
         # for a scatter nobody measured, and those three are different claims.
         stat_basis=b.stat_basis(),
         dominant=(b.dominant().name if b.dominant() else ""),
+        # 🔴 RYA-906 CANARY CELL. This route emits treatment="1D-LTE" and it is a
+        # SYNTHESIS flux fit — the same label the VIS EW cells use. The axes are resolved
+        # from `product.handler` (SynthesisHandler), so this row renders `Synth · 1D-LTE`.
+        # If it ever renders `EW`, something started reading route off the label and the
+        # migration is wrong.
+        **axes_for("1D-LTE", handler=product.handler or None).as_columns(),
     )]).to_csv(out / f"{stem}_products.csv", index=False)
     # `describe()` already lists every term the budget holds, pseudo-continuum included.
     # The epilogue that used to be appended here announced the term as "added in
@@ -1272,7 +1279,18 @@ def main() -> None:
                             n_excluded=prod.n_excluded,
                             stat_dex=round(stat, 4), syst_dex=round(syst, 4),
                             stat_basis=b.stat_basis(),   # RYA-907
-                            dominant=b.dominant().name if b.dominant() else ""))
+                            dominant=b.dominant().name if b.dominant() else "",
+                            # RYA-906 — the axes, ADDED ALONGSIDE `treatment`, which is never
+                            # rewritten. `route` comes from the HANDLER, never the label:
+                            # `1D-LTE` names both an EW inversion and a synthesis flux
+                            # fit, so on that label the legacy string is FALSE, not just
+                            # lossy. This is the same hand-written projection that lost
+                            # `red_chi2` in RYA-847 and had to be patched again in RYA-880:
+                            # it is the lossy one of the object's two serialisers, so a new
+                            # column must be added HERE as well as in `products_frame`.
+                            **axes_for(prod.treatment,
+                                       handler=prod.handler or None).as_columns(),
+                            ))
         budgets[prod.treatment] = b.describe() + f"\n  gf rung: {rung.describe()}"
         prod.to_frame().to_csv(out / f"{stem}_{prod.treatment}_lines.csv", index=False)
 

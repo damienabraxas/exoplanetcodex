@@ -56,6 +56,9 @@ IR_INREGIME = {
 }
 
 
+from pipeline.treatment_axes import Axes, axes_for  # RYA-906
+
+
 def load(indir: Path) -> pd.DataFrame:
     rows = []
     for f in sorted(glob.glob(str(indir / "**" / "*_products.csv"), recursive=True)):
@@ -70,6 +73,39 @@ def load(indir: Path) -> pd.DataFrame:
     if not rows:
         raise SystemExit(f"no products under {indir} — run scripts/rya783_run_matrix.sh")
     return pd.concat(rows, ignore_index=True)
+
+
+def _add_axes(d: "pd.DataFrame") -> "pd.DataFrame":
+    """RYA-906 — carry the physics axes onto every matrix row, new or legacy.
+
+    Products emitted after RYA-906 already carry `route/scale/model/atmos/gf`, so this is
+    a BACKFILL for rows that predate the columns — all 18 committed matrix rows come from
+    a worktree older than RYA-869 and carry no `handler` either.
+
+    🔴 It RESOLVES, it does not guess. `route` comes from the row's own handler where the
+    row has one; for the `1D-LTE` family with no handler it stays None and `route_basis`
+    says `unknown`, because that label is used by BOTH routes and reading route off it is
+    the defect RYA-906 exists to remove. A blank is an honest "this artifact predates the
+    evidence", never a default.
+    """
+    AXIS_COLS = ("route", "scale", "model", "atmos", "gf", "route_basis")
+
+    def _val(row, col):
+        v = row.get(col) if col in d.columns else None
+        return None if v is None or pd.isna(v) else v
+
+    axes = []
+    for _, row in d.iterrows():
+        if _val(row, "route_basis") is not None:
+            axes.append({c: _val(row, c) for c in AXIS_COLS})   # already carries its axes
+        else:
+            axes.append(axes_for(str(row["treatment"]),
+                                 handler=_val(row, "handler")).as_columns())
+
+    for col in AXIS_COLS:
+        d[col] = [a.get(col) for a in axes]
+    d["display_name"] = [Axes(**a).display for a in axes]
+    return d
 
 
 def main() -> None:
@@ -88,6 +124,7 @@ def main() -> None:
     # Engine-B under two decks lands in two directories with the SAME treatment label
     # 'ENGINE-B'; the deck is what distinguishes them, so keep the last-writer-free split.
     d["treatment"] = d["treatment"].astype(str)
+    d = _add_axes(d)
 
     print("=" * 100)
     print("RYA-783 — Fe PRODUCT MATRIX.  Separate products, never combined (RYA-712).")
