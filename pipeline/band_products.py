@@ -200,6 +200,32 @@ class LineMeasurement:
     #: None on every EW-route line, and that is correct rather than missing: there is no
     #: chi2 surface behind an EW inversion, so the question does not apply. A consumer
     #: must treat None as "not applicable", never as "unconstrained".
+    #: RYA-911 — THE FITTED PROFILE WIDTH, AND THE FLOOR IT WAS JUDGED AGAINST.
+    #:
+    #: 🔴 These are NOT `sigma_A`. `sigma_A` above is one sigma on **A**, in **dex**,
+    #: from the chi2 curvature — an abundance uncertainty. These two are widths in
+    #: **Angstrom**, in wavelength space. The names are one character apart and the
+    #: quantities share no units, so the profile width gets its own field rather than
+    #: riding in a slot that means something else (the RYA-799 scale-mismatch lesson:
+    #: a value in the wrong-meaning column is a LABELLING defect that reads as data).
+    #:
+    #: Why they exist: FIT-PINNED — `abs(sigma_fit - floor) < 1e-4` — decides whether a
+    #: line is measurable, and both of its operands used to survive only inside the
+    #: `ew_method` PROSE. So the verdict was in the file and the evidence for it was
+    #: not: the three rejected lines carried their sigma in a sentence, and the
+    #: survivors carried no sigma at all. That makes "is the surviving pool biased
+    #: toward lines that do not pin?" unanswerable — the correlation has no second
+    #: column (RYA-911). Same defect class as the continuum one field up: computed,
+    #: used to decide, thrown away.
+    #:
+    #: The floor is stored, not recomputed, because it is the floor THIS measurement was
+    #: judged against. `instrument_sigma()` remains the single place it is DERIVED; this
+    #: is provenance of the comparison, so the FIT-PINNED verdict is reproducible from
+    #: the row alone.
+    #:
+    #: None on any route that does not fit a profile — correct rather than missing.
+    profile_sigma_A: float | None = None
+    profile_sigma_floor_A: float | None = None
     sigma_A: float | None = None
     frac_rise_weaker: float | None = None
     edge_distance_dex: float | None = None
