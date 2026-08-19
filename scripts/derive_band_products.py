@@ -1105,7 +1105,7 @@ def main() -> None:
                 w_obs, f_obs = _win.wave, _win.flux
                 # RYA-913: record WHICH holding served each line, so a consumer
                 # can verify the product was measured on what its label claims.
-                _b_holdings.add(_win.spec.holding_id)
+                _b_holdings.add(_win.holding.holding_id)
             except Exception as e:
                 lb = LineMeasurement(element=a.element, ion=a.ion, wavelength_air_A=c,
                                      instrument=a.instrument, ew_mA=float("nan"),
