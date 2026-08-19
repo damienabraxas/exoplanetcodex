@@ -194,3 +194,113 @@ def test_window_attributes_used_by_routes_actually_exist():
     assert not bad, (
         f"route(s) read attribute(s) off a Window that do not exist: {bad}. "
         f"Window fields are {sorted(fields)}.")
+
+
+# ── RYA-922 — the guard banned a MECHANISM; the defect is a PATTERN ──────────
+
+def _python_sources():
+    """Every non-pycache .py under scripts/ and pipeline/."""
+    for d in ("scripts", "pipeline"):
+        for f in sorted((ROOT / d).rglob("*.py")):
+            if "__pycache__" in f.parts:
+                continue
+            yield f
+
+
+def _module_level_instrument_constants(tree, known: set[str]) -> list[tuple[str, str]]:
+    """Module-level `NAME = "<an instrument id>"` assignments."""
+    out = []
+    for node in tree.body:                      # module level ONLY, not inside functions
+        if not isinstance(node, ast.Assign):
+            continue
+        if not (isinstance(node.value, ast.Constant) and isinstance(node.value.value, str)):
+            continue
+        if node.value.value not in known:
+            continue
+        for t in node.targets:
+            if isinstance(t, ast.Name):
+                out.append((t.id, node.value.value))
+    return out
+
+
+def _known_instrument_ids() -> set[str]:
+    """From the catalog, so the guard cannot go stale as arms are added."""
+    import csv
+    cat = ROOT / "data" / "catalog" / "instrument_catalog.csv"
+    with cat.open(encoding="utf-8") as fh:
+        return {(r.get("instrument_id") or "").strip()
+                for r in csv.DictReader(fh) if (r.get("instrument_id") or "").strip()}
+
+
+def test_no_module_level_instrument_constant_anywhere():
+    """🔴 RYA-922. The RYA-913 guard bans instrument-specific FLUX READERS by name. That
+    caught ENGINE-B, which called `load_kp_window`. It did NOT catch
+    `rya817_run_3dnlte_bands.py`, which never reads flux — it pinned
+    `INSTRUMENT = "kpno_solar_atlas"` at module level and reached its input through a
+    FILENAME TEMPLATE, then tagged its output with the same constant.
+
+    Same root cause, opposite symptom: RYA-913's route LIED about which arm it measured;
+    this one told the truth and could not be pointed anywhere else. 3D-NLTE therefore
+    existed for one instrument and two bands, and nobody could tell from the outside
+    whether that was a coverage decision or an incapacity.
+
+    A route takes its instrument from its CALLER. An instrument that is inferred is an
+    instrument that can be wrong.
+    """
+    known = _known_instrument_ids()
+    assert known, "no instrument ids read from the catalog — this guard would pass vacuously"
+
+    #: A one-off RCA is a RECORD OF ONE INVESTIGATION, not a reusable route: it pins the
+    #: arm it investigated because that arm IS its subject. RYA-843 emitted no product
+    #: (that is stated on the ticket), so nothing downstream can inherit a wrong label
+    #: from it.
+    #: 🔴 The moment any of these emits a product, the exemption must go — a product
+    #: carries an instrument tag, and a tag from a constant is a tag that can be wrong.
+    RCA_EXEMPT = {"scripts/rya843_rail_rca.py"}
+
+    offenders = []
+    for path in _python_sources():
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+        except SyntaxError:
+            continue
+        rel = str(path.relative_to(ROOT))
+        if rel in RCA_EXEMPT:
+            continue
+        for name, value in _module_level_instrument_constants(tree, known):
+            offenders.append(f"{rel}: {name} = {value!r}")
+    assert not offenders, (
+        "module-level instrument constants — take the instrument from the caller:\n  "
+        + "\n  ".join(offenders))
+
+
+def test_the_instrument_constant_guard_ACTUALLY_CATCHES_THE_RYA817_SHAPE():
+    """Positive control. A guard that has never been shown to fail is not a guard.
+
+    This is the exact line RYA-922 removed from `rya817_run_3dnlte_bands.py`.
+    """
+    known = _known_instrument_ids()
+    guilty = ast.parse('INSTRUMENT = "kpno_solar_atlas"\n')
+    assert _module_level_instrument_constants(guilty, known) == [
+        ("INSTRUMENT", "kpno_solar_atlas")], "the guard does not catch the shape it exists for"
+
+    # ...and does NOT fire on an instrument-shaped string that is not a constant binding
+    innocent = ast.parse('def f(x):\n    return x == "kpno_solar_atlas"\n')
+    assert _module_level_instrument_constants(innocent, known) == [], "false positive"
+
+    # ...nor on a module-level string that is not an instrument id
+    unrelated = ast.parse('TREATMENT = "ENGINE-A-3DNLTE"\n')
+    assert _module_level_instrument_constants(unrelated, known) == [], "false positive"
+
+
+def test_the_rca_exemption_does_not_silently_cover_a_product_emitter():
+    """An exemption must be narrow and checkable. RYA-843's RCA emits no `*_products.csv`;
+    if it ever starts, the exemption is wrong and this says so."""
+    rca = ROOT / "scripts" / "rya843_rail_rca.py"
+    if not rca.exists():
+        return
+    src = rca.read_text(encoding="utf-8")
+    assert "_products.csv" not in src, (
+        "rya843_rail_rca.py now writes a products artifact — remove it from RCA_EXEMPT "
+        "and take its instrument from the caller, or the product carries a tag nobody "
+        "chose")
