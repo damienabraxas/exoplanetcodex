@@ -33,6 +33,7 @@ INPUTS
 from __future__ import annotations
 
 import argparse
+import re
 import json
 import sys
 from datetime import date
@@ -46,6 +47,7 @@ sys.path.insert(0, str(ROOT))
 
 from data.linelists.vald_parse import parse_vald_long          # noqa: E402
 from pipeline import amarsi3d                                   # noqa: E402
+from pipeline import band_policy                              # noqa: E402  (RYA-922)
 from pipeline.band_products import (                            # noqa: E402
     LineMeasurement, build_product, products_frame)
 from config.constants import get_star_params                    # noqa: E402
@@ -59,10 +61,53 @@ VALD_SOURCES = (
 )
 OUT_DEFAULT = ROOT / "data" / "results" / "rya817"
 
-# The bands RYA-783 measured, named as that ticket named them.
-BANDS = (("VIS", 3800, 6910), ("IR", 6910, 9199))
+# 🔴 RYA-922 — BANDS AND INSTRUMENT WERE BOTH HARDCODED HERE, and that is why 3D-NLTE
+# existed for exactly one arm and two bands.
+#
+#     BANDS = (("VIS", 3800, 6910), ("IR", 6910, 9199))
+#     INSTRUMENT = "kpno_solar_atlas"
+#
+# The instrument was a module-level constant used BOTH to find the input file and to tag
+# the output, and there was no `--instrument` flag at all — so this route could not be
+# pointed at HARPS, IAG or CRIRES+ even in principle. That is the RYA-913 defect class
+# with the opposite symptom: RYA-913's ENGINE-B loaded Kitt Peak while TAGGING
+# `a.instrument`, so it lied; this one tagged honestly and simply could not move.
+#
+# `IR` was not a band either (RYA-918): `band_policy` declares four contiguous,
+# non-overlapping bands and `IR` is not among them — 6910-9199 is INSIDE red-optical.
+#
+# Both are now DISCOVERED rather than declared. The instrument comes from the command
+# line; the bands come from whatever 1D-LTE per-line artifacts exist, with each one's
+# band NAME resolved through `band_policy` from its own measured span. Nothing about the
+# Amarsi MLP is instrument-specific: it consumes (wavelength, EP, abundance) per line.
 IONS = ("I", "II")
-INSTRUMENT = "kpno_solar_atlas"
+
+#: `Fe{ion}_{lo}_{hi}_{instrument}_PROFILEFIT_1D-LTE_lines.csv`
+_SRC_RE = re.compile(
+    r"^Fe(?P<ion>I{1,2})_(?P<lo>\d+)_(?P<hi>\d+)_(?P<instrument>.+)"
+    r"_PROFILEFIT_1D-LTE_lines\.csv$")
+
+
+def discover_bands(bp_dir: Path, instrument: str, ion: str):
+    """Every measured 1D-LTE span for this (ion, instrument), with its canonical band.
+
+    The band NAME is resolved from `band_policy` at the span's midpoint rather than
+    read off the filename, so an artifact measured over 6910-9199 is correctly named
+    `red-optical` and never invents a band of its own.
+
+    ⚠️ The span may be a SUBSET of the band it resolves to — 6910-9199 covers 74% of
+    red-optical (RYA-921). That is carried through to the caller as `(lo, hi)` so the
+    product records what was actually measured, not what the band name implies.
+    """
+    found = []
+    for f in sorted(bp_dir.glob(f"Fe{ion}_*_PROFILEFIT_1D-LTE_lines.csv")):
+        m = _SRC_RE.match(f.name)
+        if not m or m.group("instrument") != instrument or m.group("ion") != ion:
+            continue
+        lo, hi = int(m.group("lo")), int(m.group("hi"))
+        band = band_policy.resolve(0.5 * (lo + hi)).name
+        found.append((band, lo, hi, f))
+    return found
 
 # Wavelength match tolerance between the measured line and the VALD transition, in A.
 # The band harness measures at the line list's own wavelength, so this is a rounding
@@ -310,8 +355,9 @@ def reactivation_control(star: dict) -> dict:
 # ── the run ───────────────────────────────────────────────────────────────────
 
 def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
-             trans: pd.DataFrame, star: dict) -> tuple[pd.DataFrame, object, dict]:
-    src = bp_dir / f"Fe{ion}_{lo}_{hi}_{INSTRUMENT}_PROFILEFIT_1D-LTE_lines.csv"
+             trans: pd.DataFrame, star: dict, instrument: str
+             ) -> tuple[pd.DataFrame, object, dict]:
+    src = bp_dir / f"Fe{ion}_{lo}_{hi}_{instrument}_PROFILEFIT_1D-LTE_lines.csv"
     if not src.exists():
         raise SystemExit(f"per-line 1D-LTE product missing: {src}")
     lines = pd.read_csv(src)
@@ -438,7 +484,7 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
                       f"{r['domain_reason'] or 'no correction returned'}")
         measurements.append(LineMeasurement(
             element="Fe", ion=ion, wavelength_air_A=float(r["wavelength_air_A"]),
-            instrument=INSTRUMENT,
+            instrument=instrument,
             ew_mA=float(r["ew_mA"]) if np.isfinite(r["ew_mA"]) else 0.0,
             ew_method="RYA-783 PROFILE-FIT (inherited)",
             # RYA-871 — `elo_eV` here is the VALD lower-level energy this leg matched the
@@ -460,7 +506,7 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
     # other `X-VARIANT` treatment name the ticket named: it must follow `ENGINE-A`, and
     # it does so here by declaring the handler instead of by matching a prefix.
     product = build_product(
-        "Fe", ion, INSTRUMENT, band, amarsi3d.TREATMENT, measurements,
+        "Fe", ion, instrument, band, amarsi3d.TREATMENT, measurements,
         handler="ProfileFitHandler",
         provenance=(f"{amarsi3d.CITATION}; training domain from "
                     f"{amarsi3d.TRAINING_CITATION}; 1D-LTE base from {src.name}"))
@@ -508,6 +554,12 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--band-products-dir", type=Path, required=True,
                     help="directory holding the RYA-783 *_1D-LTE_lines.csv per-line files")
+    ap.add_argument("--instrument", required=True,
+                    help="the arm whose 1D-LTE per-line products to correct. RYA-922: "
+                         "REQUIRED, and deliberately has no default — this route used to "
+                         "hardcode kpno_solar_atlas, which is why 3D-NLTE existed for one "
+                         "arm only. An instrument that is inferred is an instrument that "
+                         "can be wrong.")
     ap.add_argument("--out", type=Path, default=OUT_DEFAULT)
     ap.add_argument("--star", default="solar")
     args = ap.parse_args(argv)
@@ -546,12 +598,30 @@ def main(argv=None) -> int:
     args.out.mkdir(parents=True, exist_ok=True)
     all_lines, products, summary = [], [], {}
 
-    # VIS first: it is the control for the reactivation, and a failed control
-    # invalidates the IR number that follows it.
-    for band, lo, hi in BANDS:
-        for ion in IONS:
+    # RYA-922 — DISCOVER what this arm has, rather than iterate a hardcoded tuple.
+    # Bluest first: the training-overlap band is the control for the reactivation, and a
+    # failed control invalidates anything redder that follows it.
+    plan = []
+    for ion in IONS:
+        for band, lo, hi, src in discover_bands(args.band_products_dir,
+                                                args.instrument, ion):
+            plan.append((band, lo, hi, ion, src))
+    if not plan:
+        raise SystemExit(
+            f"no Fe 1D-LTE per-line products for instrument {args.instrument!r} under "
+            f"{args.band_products_dir}. This route CORRECTS an existing 1D-LTE pool; it "
+            f"does not measure one. Run the band harness for that arm first.")
+    plan.sort(key=lambda t: (t[1], t[3]))
+    print(f"  {len(plan)} measured span(s) found for {args.instrument}:")
+    for band, lo, hi, ion, src in plan:
+        print(f"    Fe {ion:<2} {band:<12} {lo}-{hi} A   {src.name}")
+    print()
+
+    for band, lo, hi, ion, _src in plan:
+        if True:
             per_line, product, stats = run_band(ion, band, lo, hi,
-                                                args.band_products_dir, trans, star)
+                                                args.band_products_dir, trans, star,
+                                                args.instrument)
             all_lines.append(per_line)
             products.append(product)
             key = f"Fe {ion} {band}"
@@ -612,7 +682,8 @@ def main(argv=None) -> int:
     print("\n" + "=" * 78)
     print("COMPARISON (Asplund 2021 predicts NO band dependence in proper 3D-NLTE)")
     print("=" * 78)
-    fe1 = {b: summary.get(f"Fe I {b}", {}) for b, _, _ in BANDS}
+    _bands_run = sorted({k.split(" ", 2)[2] for k in summary})
+    fe1 = {b: summary.get(f"Fe I {b}", {}) for b in _bands_run}
     vis, ir = fe1.get("VIS", {}), fe1.get("IR", {})
 
     def _fmt(d):
