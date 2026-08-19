@@ -1,5 +1,48 @@
 # Codex Ledgers — canonical read-set (read at session start, in order)
 
+## Authority and read routing
+
+This file is the canonical entry point for any agent working in this repository.
+Read the seven ledgers below in order, then resolve task-specific sources before acting.
+
+| Source | Owns | Does not own |
+|---|---|---|
+| `skills/` | Durable reusable procedure: **how** an agent performs work | Current values, task state, or new scientific law |
+| Ledger/state chain below | Mutable current project, element, data, model, and workload state | Cross-cutting scientific method |
+| `docs/SCIENCE_STANDARDS.md` and ratified `docs/decisions/` | Cross-cutting scientific rules and ratified decisions | Per-task mission or transient state |
+| `docs/ELEMENT_PROTOCOL.md` | Element-analysis execution protocol and line-accounting ladder | Release-package format |
+| `docs/SCIENCE_PRODUCT_PACKAGE.md` | Required scientific product and evidence package | Pipeline implementation state |
+| `docs/CONVENTIONS.md` | Naming, schema, repository, and generated/native conventions | Scientific verdicts |
+| Specialized model, instrument, design, NLTE, and audit docs | Conditional detail for the domain they state | Automatic authority outside their scope or vintage |
+| `data/audit/run_bug_ledger.csv` | Curated historical defects keyed by ticket; linked fixes/tests/provenance | Raw trace events, current scientific state, or replacement for Linear |
+| `data/refs/bibliography.csv` and local reference documents | Inspected evidence and citation provenance | Project law merely because a paper is held locally |
+| Linear description and comments in chronological order | Mission, acceptance criteria, holds/corrections, decisions, and history | Current repo state or authority to override ratified science |
+| Current committed code, tests, and config | Executable implementation truth | Permission to contradict ratified science requirements |
+
+For a task, read only conditional deep sources required by its instruments, models,
+data, or products. A legacy agent instruction is contextual evidence, not authority;
+resolve mutable values and workflows against the current canonical source before reuse.
+
+### Contradictions: identify, preserve, and stop when necessary
+
+Never silently reconcile conflicting sources. Record the exact claims and citations,
+classify each source by the table above, check recency and committed/ratified status,
+and preserve both in the audit or Linear report. Use the source that owns the kind of
+fact only when the conflict is already dispositioned. If competing scientific rules,
+provenance, units/frames, model applicability, or state cannot be resolved from a
+ratified source, **STOP before measurement or publication and ask Ryan for a decision**.
+A skill never overrides `SCIENCE_STANDARDS.md`, a ratified decision, or current state.
+
+## Skills governance
+
+All Exoplanet Codex agent skills are version-controlled project artifacts under
+`skills/`. Review them like code/science infrastructure and check new or revised skills
+for overlap and conflict with the authority map. Skills contain durable procedure and
+safeguards. Resolve mutable project state, file counts, thresholds, paths, versions,
+and numeric configuration from their canonical source at runtime rather than copying
+them into a skill. Create a skill only for a reusable procedure, not as a second copy
+of a document.
+
 **If you are an agent, a Sirius-local model, or a collaborator opening this repo
 cold: these seven files are what you read first.** They are the mutable state of
 the project. Everything else in the repo is code, data, or history.
