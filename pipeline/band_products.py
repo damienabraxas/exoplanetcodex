@@ -121,6 +121,33 @@ class LineMeasurement:
     #: None means "this route does not carry it", never "0 eV" — `gf_rung` falls back to
     #: the narrow wavelength-only rule for such a line rather than widening blind.
     ep_eV: float | None = None
+    #: 🔴 RYA-911 — THE CONTINUUM THE HARNESS ACTUALLY PLACED. Read, never reconstructed.
+    #:
+    #: RYA-897's RCA had to REFIT the window edges to approximate what the profile-fit
+    #: harness does, in order to ask whether the HARPS continuum was sitting low. It said
+    #: so, and it was right to: an inference about what code does is not a measurement of
+    #: what it did (the RYA-869/875 lesson, and the decorative-flag lesson of RYA-904 —
+    #: three flags in one file that nothing downstream read).
+    #:
+    #: The harness has always HAD this number: `_local_renorm` returns `(flux/cont, cont)`
+    #: and the driver bound `cont` and threw it away. So the -0.34 dex HARPS Fe II deficit
+    #: was diagnosable from the artifact all along, and was not diagnosed, because the one
+    #: quantity that decides it never reached a file.
+    #:
+    #: UNITS ARE THE SOURCE SPECTRUM'S OWN. Kitt Peak residual flux gives 1.0 by
+    #: construction; HARPS raw counts give ~1e5. A ratio against `continuum_ref` is the
+    #: comparable quantity, and it is deliberately NOT stored — it is two stored readings
+    #: divided, and storing a derived number beside its inputs is how RYA-845's
+    #: double-count survived.
+    continuum_level: float | None = None
+    #: HOW that continuum was arrived at, in the harness's own words. `pre_normalised`
+    #: and `local-linear-refit` are not two settings of one method: one asserts the
+    #: product's continuum IS unity, the other fits a new one and divides.
+    continuum_method: str = ""
+    #: The SOURCE PRODUCT's own continuum at this wavelength, where it ships one (HARPS
+    #: does; the atlases do not). None means "no second opinion exists here", never
+    #: "they agree".
+    continuum_ref: float | None = None
     #: RYA-880 — THE NLTE CORRECTION, RECORDED WHERE IT IS APPLIED.
     #:
     #: RYA-489 §6.4 requires the correction be SHOWN, "not folded silently", and until now
