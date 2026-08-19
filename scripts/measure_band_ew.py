@@ -18,7 +18,9 @@ import argparse
 import json
 import os
 import sys
+from dataclasses import dataclass
 from pathlib import Path
+from typing import NamedTuple
 
 import numpy as np
 import pandas as pd
@@ -74,8 +76,16 @@ KP_DIR = _resolve_kp_dir()
 # (TUNIT2 = "adu", flux runs to ~1.9e5), unlike Kitt Peak residual flux or Elgueta's
 # sp/. Treating them as pre-normalised is the RYA-713 continuum defect, which measured
 # EWs low by a median 11.7 % and up to 71.4 %.
-PRE_NORMALISED = {"kpno_solar_atlas": True, "harps": False, "iag_fts_solar_atlas": True,
-                  "crires_plus": False}
+# crires_plus: BOTH, and that is the whole of RYA-904. The raw Vesta IDPs are reduced
+# but UN-normalised, in adu (TUNIT2 = "adu", flux runs to ~1.9e5); the RYA-794 corrected
+# Y arm arrives already continuum-normalised (median 0.9985). One instrument, two
+# holdings, opposite answers -- so this cannot be an instrument-keyed dict and stay true.
+# It is derived from `_INSTRUMENT_HOLDINGS` below, keyed by HOLDING, so the flag and the
+# loader that serves the data cannot drift apart. Treating a normalised product as
+# un-normalised (or the reverse) is the RYA-713 continuum defect, which measured EWs low
+# by a median 11.7 % and up to 71.4 %.
+#
+# Defined after `_INSTRUMENT_HOLDINGS`; see `PRE_NORMALISED` further down.
 
 # RYA-786: the band set lives in pipeline/telluric_policy.py and is imported, never
 # re-typed. The list that used to sit here was both incomplete and too narrow — it had
@@ -391,54 +401,191 @@ def load_crires_window(centre: float, pad: float, *, allow_topocentric: bool = F
     return w[o], f[o], prov
 
 
-#: instrument -> the holding each arm actually serves (RYA-806). The telluric gate is a
-#: per-HOLDING question and this loader dispatches per INSTRUMENT, so the two are joined
-#: here, once, rather than by every caller. An instrument absent from this map is gated
-#: on its instrument axis alone.
-_LOADER_HOLDING = {
-    "kpno_solar_atlas": "solar_kpno",
-    "iag_fts_solar_atlas": "solar_iag",
-    # load_crires_window serves the staged Vesta IDPs specifically -- not the Elgueta
-    # reduced spectra, which are a different holding at a different product level.
-    "crires_plus": "solar_vesta_crires_plus_idp",
+# ── the CRIRES+ TELLURIC-CORRECTED Y arm (RYA-794 product, wired RYA-904) ────
+#
+# A SECOND CRIRES+ holding, and a different KIND of thing from the IDPs above: not raw
+# frames we condition here, but the finished science-ready product RYA-794 built from
+# Elgueta+2026's telluric-corrected `sp/Sun_Y_rv.dat`. Two columns, air wavelength and
+# normalised flux, 13707 rows over 10280-10680 A.
+#
+# THREE PROPERTIES, EACH ALREADY MEASURED BY RYA-794 RATHER THAN ASSUMED:
+#
+#  1. TELLURIC-CORRECTED, measured: 0.10 % of window points below 0.5, against 51.3 %
+#     for the Kitt Peak O2 A-band. Registered `telluric_applied=applied` on holding
+#     `solar_crires_plus_y_rya794`, and it is the REGISTRY the gate reads -- this loader
+#     never asserts a telluric state of its own (RYA-786).
+#
+#  2. ALREADY CONTINUUM-NORMALISED (median 0.9985). `pre_normalised` is TRUE here and
+#     FALSE for the raw IDPs of the SAME INSTRUMENT. That disagreement is the reason
+#     RYA-904 had to move normalisation to the holding key at the same time as the
+#     loader key: wiring one without the other sets a continuum on an already-normalised
+#     spectrum, which is the RYA-713 defect.
+#
+#  3. AIR WAVELENGTHS, IN THE SOLAR REST FRAME -- and this is checked, not inherited
+#     from a column name. The instrument catalog says CRIRES+ delivers VACUUM and
+#     TOPOCENT, so `wavelength_air_A` in a derived product is a claim. RYA-794's own
+#     cross-match is the positive control: its 5 Fe I candidates sit within 0.001 A of
+#     the VALD AIR wavelengths and the observed features within 0.04 A, where the
+#     air-vacuum difference at 10500 A is ~2.9 A and Elgueta's `_rv` files are
+#     RV-corrected. `_assert_air_rest_frame` below re-runs that check on load rather
+#     than trusting the header, because a silently vacuum product would shift every line
+#     by ~100 pixels and still fit something.
+CRIRES_Y_CSV = Path(str(codex_path('repo.crires_plus_solar_y_rya794')))
+#: Air wavelengths of Fe I lines RYA-794 identified in this product, with the measured
+#: offset it found. Used as the load-time frame control (property 3). These are the
+#: ticket's own published numbers, not new ones.
+_CRIRES_Y_FRAME_CONTROL = (10535.709, 10577.139, 10611.686, 10616.721, 10674.070)
+_CRIRES_Y_FRAME_TOL_A = 0.10        # RYA-794 measured max |offset| 0.039 A
+
+
+def crires_y_spectrum() -> tuple[np.ndarray, np.ndarray]:
+    """The RYA-794 corrected Y product as (wave_air_A, flux_normalised), ascending."""
+    if "y" in _crires_cache:
+        return _crires_cache["y"]
+    if not CRIRES_Y_CSV.exists():
+        raise LookupError(
+            f"the RYA-794 corrected CRIRES+ Y product is not at {CRIRES_Y_CSV}. It is "
+            f"git-tracked under data/results/rya794/ and registered as path key "
+            f"'repo.crires_plus_solar_y_rya794'; rebuild it with "
+            f"scripts/normalize_vesta_ir.py rather than falling back to the raw IDPs, "
+            f"which are telluric-uncorrected and refused by the gate.")
+    d = pd.read_csv(CRIRES_Y_CSV)
+    missing = {"wavelength_air_A", "flux_normalized"} - set(d.columns)
+    if missing:
+        raise LookupError(f"{CRIRES_Y_CSV.name} is missing column(s) {sorted(missing)}; "
+                          f"refusing to guess which column is the wavelength.")
+    w = np.asarray(d["wavelength_air_A"], dtype=float)
+    f = np.asarray(d["flux_normalized"], dtype=float)
+    o = np.argsort(w)
+    w, f = w[o], f[o]
+    _assert_air_rest_frame(w, f)
+    _crires_cache["y"] = (w, f)
+    return _crires_cache["y"]
+
+
+def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray) -> None:
+    """Refuse the product if its wavelength solution is not the AIR, rest-frame one.
+
+    An ABSENCE-SHAPED failure otherwise (RYA-833): a vacuum or topocentric version of
+    this file has the same column name, the same row count and the same flux, and every
+    line simply fits at the wrong place. So the check is POSITIVE -- find the deepest
+    point near each of RYA-794's published Fe I positions and require it to be close.
+    ~2.9 A separates air from vacuum at 10500 A, and the tolerance here is 0.10 A, so the
+    test discriminates by a factor of ~29.
+    """
+    off = []
+    for c in _CRIRES_Y_FRAME_CONTROL:
+        m = np.abs(w - c) <= 0.25
+        if m.sum() < 5:
+            raise LookupError(
+                f"{CRIRES_Y_CSV.name}: the frame control line {c:.3f} A has only "
+                f"{int(m.sum())} points near it. The product does not span what RYA-794 "
+                f"says it spans ({w.min():.1f}-{w.max():.1f} A) -- refusing to measure.")
+        off.append(float(w[m][int(np.argmin(f[m]))] - c))
+    worst = max(abs(o) for o in off)
+    if worst > _CRIRES_Y_FRAME_TOL_A:
+        raise LookupError(
+            f"{CRIRES_Y_CSV.name}: RYA-794's Fe I features sit {worst:.3f} A from their "
+            f"AIR wavelengths (offsets {['%+.3f' % o for o in off]}), against a "
+            f"{_CRIRES_Y_FRAME_TOL_A:.2f} A tolerance. RYA-794 measured at most 0.039 A. "
+            f"CRIRES+ delivers VACUUM/TOPOCENT natively, so this is what a product that "
+            f"lost its air conversion or its RV correction looks like -- and it would "
+            f"still fit lines, at the wrong abundance. Refusing.")
+
+
+def load_crires_y_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
+    w, f = crires_y_spectrum()
+    w, f = _slice_window(w, f, centre, pad, "CRIRES+ Y (RYA-794 telluric-corrected)")
+    return w, f, CRIRES_Y_CSV.name
+
+
+# ── HOLDINGS, not instruments — RYA-904 ──────────────────────────────────────
+#
+# 🔴 THE DEFECT THIS REPLACES. Two dicts were keyed by INSTRUMENT: `_LOADER_HOLDING`
+# (which holding an arm serves) and `PRE_NORMALISED` (whether it arrives normalised).
+# One instrument therefore got one answer to each. `crires_plus` has THREE solar
+# holdings and they disagree on BOTH axes:
+#
+#   solar_crires_plus_y_rya794    telluric applied      normalised      MAY RUN
+#   elgueta2026_vizier            telluric applied      (upstream)      MAY RUN
+#   solar_vesta_crires_plus_idp   telluric not-applied  un-normalised   REFUSED
+#
+# The map named the third. So `load_window("crires_plus", ...)` asked for the one holding
+# that should be refused, got refused -- correctly -- and the two corrected holdings were
+# unreachable, not by any telluric decision but because NOTHING COULD NAME THEM. The gate
+# was right the whole time; the dispatch one level up was wrong.
+#
+# ⚠️ BOTH KEYS MOVE TOGETHER OR NEITHER DOES. Wiring the corrected Y arm while leaving
+# normalisation instrument-keyed would set a continuum on an already-normalised spectrum
+# -- the RYA-713 double-normalisation defect, EWs low by a median 11.7 %. `PRE_NORMALISED`
+# is now DERIVED from this table rather than written a second time, so the pair cannot
+# come apart again.
+@dataclass(frozen=True)
+class HoldingSpec:
+    """One HOLDING an instrument can serve a window from.
+
+    `span_A` is the holding's own extent where it is a fixed product (the RYA-794 Y arm
+    is exactly 10280-10680 A) and None where the reader inventories its own coverage
+    (the Kitt Peak segment list, the CRIRES+ IDP comb). Coverage is required to be TOTAL,
+    not overlapping: a window half inside the corrected product is a truncated window,
+    and quietly serving it would be worse than falling through to the next candidate and
+    saying so.
+    """
+    holding_id: str
+    reader: str
+    pre_normalised: bool
+    span_A: tuple[float, float] | None = None
+    caveat: str = ""
+    note: str = ""
+
+    def covers(self, centre: float, pad: float) -> bool:
+        if self.span_A is None:
+            return True
+        return self.span_A[0] <= centre - pad and centre + pad <= self.span_A[1]
+
+
+#: RYA-794's finding, carried to every product measured off that holding (RYA-904 spec 6).
+#: It is a property of the DATA, so it travels with the holding rather than being retyped
+#: by each consumer -- a caveat that lives only in a ticket does not reach the page.
+GDSAT_CAVEAT = (
+    "ROBUSTNESS CAVEAT (RYA-794): Elgueta+2026's own G-dwarf saturation flag GDSat=Y is "
+    "set on NO Fe I line anywhere in atomicy.dat -- 42 lines are certified robust for a "
+    "solar-type star and every one is another species. Fe I in the Y band is high-EP and "
+    "only strengthens in cooler stars, which is the physical reason. RYA-794 therefore "
+    "quoted NO ABUNDANCE from this arm. Reaching and measuring the pool does not "
+    "pre-decide that it is publishable.")
+
+#: Instrument -> its holdings IN PREFERENCE ORDER. Selection takes the first candidate
+#: that (a) covers the window and (b) PASSES `gate_holding()`. It never falls back to a
+#: refused holding: a refusal is reported with every candidate's reason, so "we hold this
+#: window in no state that may be measured" is distinguishable from "we do not hold it".
+_INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
+    "kpno_solar_atlas": (
+        HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
+                    note="Kurucz/Brault FTS residual flux -- unity IS the continuum."),
+    ),
+    "iag_fts_solar_atlas": (
+        HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
+                    note="Baker+2020 telluric-free atlas, normalised."),
+    ),
+    "crires_plus": (
+        HoldingSpec("solar_crires_plus_y_rya794", reader="crires_y", pre_normalised=True,
+                    span_A=(10280.0, 10680.0), caveat=GDSAT_CAVEAT,
+                    note="RYA-794 science-ready Y arm: telluric-corrected (measured), "
+                         "continuum-normalised, air, solar rest frame. PREFERRED over "
+                         "the raw IDPs wherever it covers the window."),
+        HoldingSpec("solar_vesta_crires_plus_idp", reader="crires_idp",
+                    pre_normalised=False,
+                    note="Raw Vesta IDPs: adu, un-normalised, TOPOCENT, telluric "
+                         "not-applied. Correctly refused by the gate for measurement; "
+                         "reachable only by the correction/conditioning legs."),
+    ),
 }
 
-
-def _assert_telluric_state(instrument: str, allow_uncorrected: bool = False) -> None:
-    """Refuse a window whose telluric state forbids it (RYA-806).
-
-    THE GAP THIS CLOSES. RYA-805 found this module consuming only `TELLURIC_BANDS` and
-    `exclusion()` while never calling the policy gate — and `exclusion()` returns '' for
-    every CRIRES+ wavelength because the enumerated band set stops at 11560 A, so the
-    whole J/H/K arm fell off the end of the list and every IR line read as clean. The
-    only thing refusing the arm was the REST-FRAME gate, which would stop refusing the
-    moment RYA-372/373 conditioning ran, leaving telluric-uncorrected H-band flux to be
-    measured with no telluric objection at all.
-
-    ⚠️ THIS FIRES BEFORE THE REST-FRAME GATE, and the order is the physics, not an
-    accident: tellurics are stationary in the TOPOCENTRIC frame, so the correction must
-    happen there and the RV shift comes after (RYA-373). Telluric is the earlier blocker,
-    so it is the one a caller is told about first. This does change what RYA-796's
-    `load_window` raises for the staged IDPs — `TelluricNotCorrected` now, where it was
-    `RestFrameNotConditioned` — because a second, earlier defect was found in the same
-    data. Both refusals remain reachable and both are still tested.
-
-    `allow_uncorrected=True` is for the CORRECTION LEG ITSELF. RYA-373's molecfit driver
-    has to read uncorrected flux in order to correct it, so a gate with no door would
-    lock out the only thing that can clear it. Exactly mirrors `allow_topocentric` on the
-    rest-frame gate, and is equally not a general escape hatch.
-    """
-    if allow_uncorrected:
-        return
-    holding = _LOADER_HOLDING.get(instrument)
-    if holding is None:
-        return
-    from pipeline.telluric_policy import gate_holding
-    ok, why = gate_holding(holding, instrument)
-    if not ok:
-        raise TelluricNotCorrected(
-            f"{why} If you ARE the telluric correction leg and need the uncorrected "
-            f"flux in order to correct it, pass allow_uncorrected=True.")
+#: DERIVED, never written twice (RYA-845's defect shape: two declarations of one fact).
+PRE_NORMALISED: dict[str, bool] = {
+    h.holding_id: h.pre_normalised
+    for specs in _INSTRUMENT_HOLDINGS.values() for h in specs}
 
 
 class TelluricNotCorrected(LookupError):
@@ -451,25 +598,137 @@ class TelluricNotCorrected(LookupError):
     """
 
 
-def load_window(instrument: str, centre: float, pad: float, segs=None,
-                allow_uncorrected: bool = False):
-    """One entry point per instrument, so a driver does not hardcode an arm.
+class Window(NamedTuple):
+    """A loaded window AND the holding it came from — RYA-904.
+
+    The holding travels WITH the data. Before this, a caller asked `load_window` for the
+    flux and a separate dict for the normalisation, which is how those two could describe
+    different products. Anything a caller needs to know about how this spectrum was made
+    is on `.holding`, which is the object selection actually used.
+    """
+    wave: np.ndarray
+    flux: np.ndarray
+    provenance: str
+    holding: HoldingSpec
+
+    @property
+    def pre_normalised(self) -> bool:
+        return self.holding.pre_normalised
+
+
+def holdings_for(instrument: str) -> tuple[HoldingSpec, ...]:
+    """Every holding wired for an instrument, in preference order. Loud on an unknown."""
+    try:
+        return _INSTRUMENT_HOLDINGS[instrument]
+    except KeyError:
+        raise LookupError(
+            f"no window loader for instrument {instrument!r}. Add its holdings to "
+            f"_INSTRUMENT_HOLDINGS here rather than letting a driver fall back to "
+            f"another arm's data.") from None
+
+
+def select_holding(instrument: str, centre: float, pad: float, *,
+                   allow_uncorrected: bool = False,
+                   holding: str | None = None) -> HoldingSpec:
+    """Which HOLDING serves this window — the dispatch RYA-904 exists to fix.
+
+    Order: cover the window, then pass `gate_holding()`, then first-wins. A candidate that
+    covers but is refused is REPORTED, never silently skipped past and never fallen back
+    to; if nothing passes, the raise carries every candidate's own reason so the caller
+    can tell a coverage answer from a telluric one.
+
+    `holding=` names one explicitly and is how a correction/conditioning leg asks for the
+    product it is about to correct -- and how the RYA-904 control points the instrument
+    back at only the raw IDPs. `allow_uncorrected=True` suspends the GATE, not the
+    preference order; it exists for the leg that must read uncorrected flux in order to
+    correct it (mirrors `allow_topocentric` on the rest-frame gate) and is not a general
+    escape hatch.
+    """
+    specs = holdings_for(instrument)
+    if holding is not None:
+        named = [h for h in specs if h.holding_id == holding]
+        if not named:
+            raise LookupError(
+                f"holding {holding!r} is not wired for {instrument!r}; wired: "
+                f"{[h.holding_id for h in specs]}")
+        specs = tuple(named)
+
+    covering = [h for h in specs if h.covers(centre, pad)]
+    if not covering:
+        spans = "; ".join(
+            f"{h.holding_id} {h.span_A[0]:.1f}-{h.span_A[1]:.1f} A" for h in specs
+            if h.span_A is not None)
+        raise LookupError(
+            f"no {instrument} holding covers {centre:.3f} +/- {pad:.3f} A ({spans}). "
+            f"Coverage must be TOTAL -- a window half inside a fixed product is a "
+            f"truncated window, not a measurement.")
+
+    from pipeline.telluric_policy import gate_holding
+    refusals, unknown = [], None
+    for h in covering:
+        if allow_uncorrected:
+            return h
+        try:
+            ok, why = gate_holding(h.holding_id, instrument)
+        except Exception as e:           # TelluricStateUnknown and friends
+            unknown = unknown or e
+            refusals.append(f"{h.holding_id}: {type(e).__name__}: {e}")
+            continue
+        if ok:
+            return h
+        refusals.append(why)
+    if unknown is not None:
+        raise unknown
+    raise TelluricNotCorrected(
+        f"{instrument} covers {centre:.3f} A but no holding may be measured there. "
+        + " | ".join(refusals)
+        + " If you ARE the telluric correction leg and need the uncorrected flux in "
+          "order to correct it, pass allow_uncorrected=True.")
+
+
+#: holding.reader -> the function that actually reads it. Split from the specs so the
+#: preference table stays readable and a reader can be shared by two holdings.
+def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
+    if spec.reader == "kpno":
+        return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
+    if spec.reader == "iag":
+        return load_iag_window(centre, pad)
+    if spec.reader == "crires_y":
+        return load_crires_y_window(centre, pad)
+    if spec.reader == "crires_idp":
+        return load_crires_window(centre, pad)
+    raise LookupError(f"holding {spec.holding_id} names reader {spec.reader!r}, which "
+                      f"is not implemented here.")
+
+
+def load_window_ex(instrument: str, centre: float, pad: float, segs=None,
+                   allow_uncorrected: bool = False,
+                   holding: str | None = None) -> Window:
+    """One window, WITH the holding that served it — RYA-904.
 
     Loud on an unknown instrument: silently defaulting to Kitt Peak is how a product gets
     labelled with an instrument it was not measured on. Loud, too, on a telluric state
     that forbids measurement (RYA-806) -- checked BEFORE any data is read, so a refusal
     costs nothing and cannot be half-completed.
+
+    ⚠️ THE PROVENANCE NAMES THE HOLDING, not just the instrument. A CRIRES+ product could
+    have come from either the corrected Y arm or the raw IDPs, and "crires_plus" does not
+    say which. That was true before this ticket too -- the string simply could not have
+    been wrong, because only one holding was reachable.
     """
-    _assert_telluric_state(instrument, allow_uncorrected)
-    if instrument == "kpno_solar_atlas":
-        return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
-    if instrument == "iag_fts_solar_atlas":
-        return load_iag_window(centre, pad)
-    if instrument == "crires_plus":
-        return load_crires_window(centre, pad)
-    raise LookupError(
-        f"no window loader for instrument {instrument!r}. Add one here rather than "
-        f"letting a driver fall back to another arm's data.")
+    spec = select_holding(instrument, centre, pad,
+                          allow_uncorrected=allow_uncorrected, holding=holding)
+    w, f, prov = _reader(spec, centre, pad, segs)
+    return Window(w, f, f"holding={spec.holding_id} · {prov}", spec)
+
+
+def load_window(instrument: str, centre: float, pad: float, segs=None,
+                allow_uncorrected: bool = False, holding: str | None = None):
+    """`load_window_ex` as the historical (wave, flux, provenance) triple."""
+    win = load_window_ex(instrument, centre, pad, segs,
+                         allow_uncorrected=allow_uncorrected, holding=holding)
+    return win.wave, win.flux, win.provenance
+
 
 
 def kp_segments() -> list[tuple[float, float, Path]]:
@@ -768,11 +1027,17 @@ def main() -> None:
             skipped.append(dict(wave=r.wave_air_A, reason=why)); continue
         hw = window_half_width(allw, float(r.wave_air_A))
         try:
-            w, f, src = load_kp_window(segs, float(r.wave_air_A), pad=hw * 3.0)
+            # RYA-904 — through the holding dispatch, so the normalisation flag comes
+            # from the SAME object that served the flux. Same reader, same data as the
+            # direct `load_kp_window` call this replaces; what changes is that `src` now
+            # names the holding and `pre_normalised` can no longer describe a different
+            # product from the one measured.
+            win = load_window_ex(a.instrument, float(r.wave_air_A), hw * 3.0, segs)
+            w, f, src = win.wave, win.flux, win.provenance
             # Kitt Peak ships residual flux -- already normalised. Say so explicitly
             # rather than re-normalising on top of it (see band_products docstring).
             ew, method, concern = equivalent_width(
-                w, f, float(r.wave_air_A), hw, pre_normalised=PRE_NORMALISED[a.instrument])
+                w, f, float(r.wave_air_A), hw, pre_normalised=win.pre_normalised)
             ok, why = verify_feature(w, f, float(r.wave_air_A), hw,
                                      float(r.predicted_depth))
         except Exception as e:
