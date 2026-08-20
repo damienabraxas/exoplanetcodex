@@ -13,13 +13,7 @@ import gzip
 from pathlib import Path
 
 import numpy as np
-
-def vac_to_air(w):
-    """Birch & Downs 1994 conversion used by the repo (Angstrom)."""
-    a = np.asarray(w, float)
-    s2 = (1.0e4 / a) ** 2
-    n = 1.0 + 8.34254e-5 + 2.406147e-2 / (130.0 - s2) + 1.5998e-4 / (38.9 - s2)
-    return np.where(a >= 2000.0, a / n, a)
+from pipeline.wavelength_util import vac_to_air
 
 
 WINDOWS = (
