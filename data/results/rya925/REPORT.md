@@ -53,6 +53,7 @@ The line-specific gf conflict remains visible: RYA-835 supports the 7835/7836 pa
 ## Continuation owed: all regions, data, and models
 
 - Repeat the matrix on the independent telluric-corrected IAG solar atlas (4047–10650 Å) wherever it covers the Al lines; do not mix it with Kitt Peak.
+- Run Al on the landed HARPS solar loader (`solar_harps`, RYA-911 / PR #313) across its full 3780–6910 Å VIS arm. The loader is ready; no HARPS Al value exists yet.
 - Build a telluric-safe IR solar arm for 10872/11254 Å. Kitt Peak retains tellurics; the held CRIRES+ Y product ends at 10680 Å and does not reach 10872 Å. An IR abundance cannot be manufactured from either gap.
 - Wire the Al abundance axis in the Gerber 1D-NLTE adapter and acquire/register the Nordlander–Lind mean-3D grid before emitting either model as a Codex product.
 - Run every supported route as a separate band × holding × model product. HARPS becomes the future stellar calibration arm; this solar Kitt Peak run is the reference-atlas calibration, not a HARPS proxy.

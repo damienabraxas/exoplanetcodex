@@ -77,6 +77,13 @@ def test_rya925_calibration_gate_uses_combined_uncertainty():
     assert set(got.holding) == {"solar_kpno"}
 
 
+def test_rya925_tracker_declares_harps_as_loader_ready():
+    source = (ROOT / "scripts/rya925_al_report.py").read_text()
+    assert '"id": "solar_harps"' in source
+    assert '"source": "RYA-911 / PR #313"' in source
+    assert '"readiness": "loader ready; Al run owed"' in source
+
+
 def test_frontier_fit_uses_context_element_not_fe_source():
     import inspect
     from scripts import rya759_nearuv_fe_product as frontier

@@ -9,17 +9,30 @@
     {
       "id": "solar_kpno",
       "label": "Kitt Peak FTS",
-      "coverage": "2960\u201313000 \u00c5"
+      "coverage": "2960\u201313000 \u00c5",
+      "readiness": "measured",
+      "source": "RYA-925"
+    },
+    {
+      "id": "solar_harps",
+      "label": "HARPS solar",
+      "coverage": "3780\u20136910 \u00c5 (full VIS)",
+      "readiness": "loader ready; Al run owed",
+      "source": "RYA-911 / PR #313"
     },
     {
       "id": "solar_iag",
       "label": "IAG FTS",
-      "coverage": "4047\u201310650 \u00c5"
+      "coverage": "4047\u201310650 \u00c5",
+      "readiness": "holding ready; Al run owed",
+      "source": "RYA-708"
     },
     {
       "id": "solar_crires_plus",
       "label": "CRIRES+ solar/Vesta",
-      "coverage": "held Y: 10280\u201310680 \u00c5"
+      "coverage": "held Y: 10280\u201310680 \u00c5",
+      "readiness": "holding ready; Al line coverage gap",
+      "source": "RYA-794/805"
     }
   ],
   "bands": [
