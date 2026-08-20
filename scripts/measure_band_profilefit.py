@@ -294,8 +294,8 @@ def main() -> None:
             continuum_level=cont_level, continuum_method=cont_method,
             continuum_ref=cont_ref,
             # RYA-911 — the fit's own numbers, as COLUMNS. `chi2` and `popt[2]` were
-            # computed here, used to decide FIT-PINNED, and then written only into the
-            # `ew_method` sentence. `sigma_A` is deliberately NOT used: it means one
+            # computed here, used to decide the width verdict, and then written only into
+            # the `ew_method` sentence. `sigma_A` is deliberately NOT used: it means one
             # sigma on A in DEX, and this is a width in ANGSTROM.
             profile_sigma_A=float(popt[2]), profile_sigma_floor_A=float(s_min),
             # RYA-906 — the Lorentzian half-width, WITHOUT which `profile_sigma_A` cannot
