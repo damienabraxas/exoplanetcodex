@@ -82,56 +82,18 @@ STELLAR_SIGMA_KMS = 1.7
 C_KMS = 299792.458
 
 
-#: RYA-906/911 — THE IRREDUCIBLE WIDTH OF A SOLAR IRON LINE.
-#:
-#: Thermal Doppler + microturbulence, from the star's own ratified parameters. This is a
-#: LOWER BOUND, not an expectation: MACROturbulence (vmac 3.8 km/s) is deliberately left
-#: out, so a line narrower than this is narrower than physics permits regardless of how
-#: much macroturbulent broadening the star actually has.
-#:
-#: Doppler core width Delta_v_D = sqrt(2kT/m + xi^2); the Gaussian sigma is Delta_v_D/sqrt(2).
-_K_B, _AMU, _M_FE = 1.380649e-23, 1.66054e-27, 55.845 * 1.66054e-27
-
-
-def _irreducible_sigma_kms() -> float:
-    """Thermal+microturbulent sigma for Fe, in km/s, from config (never a literal here).
-
-    ⚠️ Reads the SOLAR row because this harness is solar-only today. When it gains a
-    `--star`, this must follow it — a floor derived from the wrong star's temperature is
-    exactly the kind of silent stand-in this codebase keeps finding.
-    """
-    sun = STAR_PARAMS["solar"]
-    return math.sqrt(_K_B * float(sun["teff"]) / _M_FE
-                     + (float(sun["xi"]) * 1000.0) ** 2 / 2.0) / 1000.0
-
-
-def voigt_fwhm(sigma_A: float, gamma_A: float | None) -> float:
-    """Total FWHM of a Voigt profile. Olivero & Longbothum (1977), ~0.02% accurate.
-
-    🔴 THIS IS THE QUANTITY THAT MEANS SOMETHING, AND `sigma` ALONE IS NOT.
-    In a Voigt fit the Gaussian sigma and the Lorentzian gamma are DEGENERATE: both
-    broaden the line and the optimiser can trade one against the other at fixed total
-    width. Judging a Voigt fit by its sigma alone therefore measures where the
-    degeneracy happened to land, not how wide the line is.
-    """
-    f_G = 2.0 * sigma_A * math.sqrt(2.0 * math.log(2.0))
-    if not gamma_A:
-        return f_G
-    f_L = 2.0 * float(gamma_A)
-    return 0.5346 * f_L + math.sqrt(0.2166 * f_L * f_L + f_G * f_G)
-
-
-def _physical_floor_fwhm(wavelength_A: float, sigma_inst_A: float) -> float:
-    """The narrowest TOTAL width physics allows here: instrumental (+) thermal (+) micro."""
-    sig_phys = wavelength_A * _irreducible_sigma_kms() / C_KMS
-    return voigt_fwhm(math.hypot(sigma_inst_A, sig_phys), None)
-
-
-def _total_width_below_physical_floor(popt, ptype: str, wavelength_A: float,
-                                      sigma_inst_A: float) -> bool:
-    gamma = float(popt[3]) if ptype == "voigt" and len(popt) > 3 else None
-    return voigt_fwhm(float(popt[2]), gamma) <= _physical_floor_fwhm(wavelength_A,
-                                                                     sigma_inst_A)
+#: RYA-906/911 — the width physics moved to `pipeline/line_width.py` so the OTHER
+#: profile fitter (`pipeline/measure/profile_fit.py`) could import it. It could not:
+#: this module's import chain loads the Kitt Peak atlas, so the corrected guard was
+#: unreachable from the pipeline and that site kept the refuted sigma-only test.
+#: Re-exported under the old private names so this file's call sites read unchanged.
+from pipeline.line_width import (  # noqa: E402
+    voigt_fwhm,
+    irreducible_sigma_kms as _irreducible_sigma_kms,
+    physical_floor_fwhm as _physical_floor_fwhm,
+    total_width_below_physical_floor as _total_width_below_physical_floor,
+    under_physical_width_reason as _under_physical_width_reason,
+)
 
 
 def instrument_sigma(instrument: str, wavelength_A: float) -> tuple[float, float, float]:
@@ -371,16 +333,7 @@ def main() -> None:
             # microturbulent, from the star's ratified parameters, with macroturbulence
             # deliberately excluded so it stays a true lower bound.
             lm.in_aggregate = False
-            _fwhm = voigt_fwhm(float(popt[2]),
-                               float(popt[3]) if ptype == "voigt" and len(popt) > 3 else None)
-            _floor = _physical_floor_fwhm(c, s_min)
-            lm.excluded_reason = (
-                f"UNDER-PHYSICAL-WIDTH: the fitted {ptype} profile has total FWHM "
-                f"{_fwhm:.4f} A, at or below the {_floor:.4f} A that thermal + "
-                f"microturbulent broadening alone impose at this wavelength "
-                f"(instrumental sigma {s_min:.4f} A; macroturbulence excluded, so this "
-                f"is a floor and not an expectation). A line cannot be this narrow, so "
-                f"the integrated EW is not trustworthy.")
+            lm.excluded_reason = _under_physical_width_reason(popt, ptype, c, s_min)
         elif not ok:
             lm.in_aggregate = False
             lm.excluded_reason = f"FEATURE-VERIFICATION: {vwhy}"

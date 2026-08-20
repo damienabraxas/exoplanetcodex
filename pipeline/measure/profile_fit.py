@@ -18,6 +18,8 @@ import numpy as np
 from pipeline.band_policy import BandPolicy
 from pipeline.band_products import LineMeasurement
 from pipeline.lines_fit import _local_renorm, _fit_profile, _integrate_profile, _ew_error
+from pipeline.line_width import (gamma_of, total_width_below_physical_floor,
+                                 under_physical_width_reason)
 from pipeline.measure.base import MeasurementHandler, register
 
 FWHM_TO_SIGMA = 1.0 / 2.35482
@@ -42,9 +44,12 @@ class ProfileFitHandler(MeasurementHandler):
         the optimiser sat on the lower bound -- Fe I 4995 returned 20.6 mA against a pool
         value of 138.
 
-        The MINIMUM is the instrumental sigma and is a hard physical floor: nothing
-        observed can be narrower than the instrument's own profile. A fit landing on it is
-        reporting a width it never measured, and is quarantined rather than trusted.
+        The MINIMUM is the instrumental sigma. It is a legitimate BOUND on the optimiser —
+        no observed feature is narrower than the instrument profile — but 🔴 landing on it
+        is NOT grounds for quarantine, and this docstring used to say it was. In a Voigt
+        fit sigma and gamma are degenerate, so a railed sigma says where the optimiser
+        resolved the degeneracy, not how wide the line is. `pipeline.line_width` judges the
+        TOTAL width instead (RYA-906/911).
         """
         sigma_inst = (wavelength_A / resolving_power) * FWHM_TO_SIGMA
         sigma_star = wavelength_A * STELLAR_SIGMA_KMS / C_KMS
@@ -93,12 +98,31 @@ class ProfileFitHandler(MeasurementHandler):
                        f"sigma={popt[2]:.4f} A (init {s_init:.4f}, floor {s_min:.4f}); "
                        f"ew_err={err:.2f} mA; continuum="
                        f"{'atlas (pre-normalised)' if pre_normalised else 'local linear'}"))
-        if abs(float(popt[2]) - s_min) < 1e-4:
+        # The fit's own numbers become columns rather than prose. They were computed here,
+        # used to decide the verdict below, and thrown away — the defect RYA-911 closed on
+        # the band harness and left standing on this site. `profile_sigma_A` is an ANGSTROM
+        # and is NOT `sigma_A`, which is one sigma on A in DEX from the chi2 curvature
+        # (RYA-847). One character apart, no shared units.
+        lm.profile_sigma_A = float(popt[2])
+        lm.profile_gamma_A = gamma_of(popt, ptype)
+        lm.profile_sigma_floor_A = float(s_min)
+        lm.red_chi2 = float(chi2)
+
+        # 🔴 RYA-906/911 — THIS TEST WAS `abs(popt[2] - s_min) < 1e-4` AND IT WAS WRONG.
+        #
+        # PR #315 refuted it on the band harness and did not reach here, because the
+        # corrected physics lived in a script this module cannot import. Measured there:
+        # the sigma-only guard fired on 25 HARPS Fe II lines and EVERY ONE was a Voigt fit
+        # — never once a Gaussian. Fe II 6084.102 had sigma exactly on the bound and was
+        # rejected while gamma 0.0591 put its total FWHM at 0.1395 A, squarely among the
+        # lines that were KEPT.
+        #
+        # sigma and gamma are DEGENERATE: both broaden the line and the optimiser trades
+        # one against the other at fixed total width. So ask the question the guard always
+        # meant to ask — is the TOTAL width below what physics permits?
+        if total_width_below_physical_floor(popt, ptype, c, s_min):
             lm.in_aggregate = False
-            lm.excluded_reason = (
-                f"FIT-PINNED: fitted sigma {popt[2]:.4f} A sits on the instrumental floor "
-                f"{s_min:.4f} A. Nothing observed can be narrower than the instrument "
-                f"profile, so the optimiser hit a bound rather than a minimum.")
+            lm.excluded_reason = under_physical_width_reason(popt, ptype, c, s_min)
         return lm
 
 
