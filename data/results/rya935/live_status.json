@@ -1,6 +1,20 @@
 {
   "updated": "2026-08-20T22:10:00-06:00",
   "refresh_seconds": 5,
+  "literature": {"value": 6.43, "sigma": 0.04, "scale": "3D-NLTE"},
+  "products": [
+    {"instrument":"Kitt Peak 1984","band":"VIS","engine":"EW · 1D-LTE","value":6.531,"sigma":0.212},
+    {"instrument":"Kitt Peak 1984","band":"VIS","engine":"EW · 1D-NLTE · Amarsi","value":6.351,"sigma":0.176},
+    {"instrument":"Kitt Peak 1984","band":"VIS","engine":"Synth · 1D-LTE","value":6.271,"sigma":0.176},
+    {"instrument":"Kitt Peak 1984","band":"red-optical","engine":"EW · 1D-LTE","value":6.470,"sigma":0.185},
+    {"instrument":"Kitt Peak 1984","band":"red-optical","engine":"EW · 1D-NLTE · Amarsi","value":6.380,"sigma":0.182},
+    {"instrument":"Kitt Peak 1984","band":"red-optical","engine":"Synth · 1D-LTE","value":6.387,"sigma":0.179}
+  ],
+  "telluric_windows": [
+    {"name":"O2 B 6867–6884 Å","raw":0.1493,"corrected":0.0000,"reference":0.0000},
+    {"name":"O2 A 7594–7685 Å","raw":0.3354,"corrected":0.0029,"reference":0.0018},
+    {"name":"H2O 9280–9600 Å","raw":0.2927,"corrected":0.0003,"reference":0.0000}
+  ],
   "tickets": [
     {"id":"RYA-925","status":"OPEN_REVIEW","note":"CI green; merge awaits review"},
     {"id":"RYA-927","status":"DONE_FRAMEWORK","note":"routing live; corrected solar holding owed"},
