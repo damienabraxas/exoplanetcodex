@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RYA-925 Aluminium Calibration Tracker</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#151d32; --line:#2c3957; --text:#edf2ff; --muted:#9daccc; --good:#53d899; --bad:#ff7b72; --open:#f2cc60; --accent:#7db8ff; }
+    * { box-sizing:border-box } body { margin:0; font:15px/1.45 ui-sans-serif,system-ui,sans-serif; background:var(--bg); color:var(--text) }
+    main { max-width:1500px; margin:auto; padding:28px } h1 { margin:0 0 5px; font-size:28px } .sub { color:var(--muted); margin-bottom:22px }
+    .summary { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 20px } .pill { background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:7px 12px }
+    .matrix-wrap { overflow:auto; border:1px solid var(--line); border-radius:12px } table { width:100%; min-width:1080px; border-collapse:collapse; background:#10172a }
+    th,td { border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:12px; vertical-align:top } th { background:#18223a; text-align:left; position:sticky; top:0; z-index:2 } th:first-child { left:0; z-index:3 } td:first-child { background:#18223a; position:sticky; left:0; z-index:1; min-width:190px }
+    .coverage,.empty,.meta { color:var(--muted); font-size:12px } .cell { min-width:220px } .engine { border-left:3px solid var(--accent); padding:2px 0 8px 9px; margin:0 0 10px } .engine:last-child { margin-bottom:0 }
+    .name { font-weight:700 } .value { font-size:19px; font-variant-numeric:tabular-nums } .good { color:var(--good) } .bad { color:var(--bad) } .open { color:var(--open) }
+    section { margin-top:22px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px } h2 { margin:0 0 10px; font-size:17px } ul { margin:0; padding-left:20px }
+    .plot-wrap { overflow-x:auto; font-family:ui-monospace,SFMono-Regular,Menlo,monospace } .forest-axis,.forest-row { display:grid; grid-template-columns:minmax(190px,1.2fr) minmax(350px,3fr) minmax(118px,1fr); gap:14px; align-items:center; min-width:760px } .forest-axis { color:var(--muted); font-size:11px } .forest-axis span:nth-child(2) { display:flex; justify-content:space-between } .forest-band h3 { margin:18px 0 7px; color:var(--accent); font-size:12px; letter-spacing:.14em; text-transform:uppercase } .forest-row { min-height:42px } .forest-label { font-size:12px; line-height:1.25 } .forest-label span { display:block; color:var(--muted); font-size:10px; text-transform:uppercase } .forest-track { position:relative; height:23px; border-bottom:1px solid var(--line); background:linear-gradient(to right,transparent 49.8%,rgba(255,255,255,.07) 50%,transparent 50.2%) } .forest-lit-band { position:absolute; top:0; bottom:0; background:rgba(83,216,153,.14) } .forest-reference { position:absolute; top:0; bottom:0; border-left:2px dashed var(--good) } .forest-error { position:absolute; top:11px; height:2px; background:var(--accent) } .forest-error::before,.forest-error::after { content:''; position:absolute; top:-4px; height:10px; border-left:1px solid var(--accent) } .forest-error::before { left:0 } .forest-error::after { right:0 } .forest-point { position:absolute; top:7px; width:9px; height:9px; border-radius:50%; background:var(--accent); border:1px solid white; transform:translateX(-50%); z-index:2 } .forest-value { color:var(--muted); font-size:11px; text-align:right; white-space:nowrap } .plot-note { color:var(--muted); font-size:12px; margin-top:8px }
+    @media (max-width:700px) { main { padding:16px } h1 { font-size:23px } }
+  </style>
+</head>
+<body><main>
+  <h1>RYA-925 · Aluminium calibration</h1>
+  <div class="sub">Instrument × band matrix · each product remains independent · refreshes every 5 seconds</div>
+  <div class="summary" id="summary"><span class="pill">Loading…</span></div>
+  <section><h2>Codex measurements versus literature</h2><div class="plot-wrap" id="errorplot" role="img" aria-label="Band-sectioned aluminium abundance error-bar comparison"></div><div class="plot-note">RYA-851 forest-plot convention: one row per independent product, sectioned by band. Bars combine each Codex statistical and systematic term in quadrature. Green dashed line/band: literature 6.43 ± 0.04. No engines or instruments are averaged.</div></section>
+  <div class="matrix-wrap"><table id="matrix"></table></div>
+  <section><h2>Open model work</h2><ul id="models"></ul></section>
+  <section><h2>Reading the status</h2><div class="meta">Replication means |Codex − literature| divided by the quadrature-combined Codex statistical, Codex systematic, and literature uncertainties is ≤ 1. Current literature is 3D-NLTE, so present 1D products remain cross-scale diagnostics even when they replicate within uncertainty.</div></section>
+</main><script>
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function errorPlot(d){
+  const rows=d.products, intervals=rows.map(p=>{const e=Math.hypot(Number(p.sigma_stat),Number(p.sigma_syst));return [Number(p.A)-e,Number(p.A)+e]}), ref=d.literature;
+  const rawMin=Math.min(...intervals.map(v=>v[0]),ref.value-ref.sigma), rawMax=Math.max(...intervals.map(v=>v[1]),ref.value+ref.sigma), pad=Math.max(.03,(rawMax-rawMin)*.03), min=rawMin-pad, max=rawMax+pad, span=max-min, pct=v=>((v-min)/span*100).toFixed(2);
+  const bands=d.bands.filter(b=>rows.some(p=>p.band===b));
+  let html=`<div class="forest-axis"><span></span><span><b>${min.toFixed(2)}</b><b>A(Al)</b><b>${max.toFixed(2)}</b></span><span></span></div>`;
+  for(const band of bands){
+    html+=`<div class="forest-band"><h3>${esc(band)}</h3>`;
+    for(const p of rows.filter(x=>x.band===band)){
+      const e=Math.hypot(Number(p.sigma_stat),Number(p.sigma_syst)), left=pct(Number(p.A)-e), width=(2*e/span*100).toFixed(2), refLeft=pct(ref.value-ref.sigma), refWidth=(2*ref.sigma/span*100).toFixed(2);
+      html+=`<div class="forest-row"><div class="forest-label">${esc(p.display_name)}<span>${esc(p.holding)} · ${esc(p.scale)} · n=${p.n}</span></div><div class="forest-track"><i class="forest-lit-band" style="left:${refLeft}%;width:${refWidth}%"></i><i class="forest-reference" title="Literature ${ref.value.toFixed(2)} ± ${ref.sigma.toFixed(2)}" style="left:${pct(ref.value)}%"></i><i class="forest-error" style="left:${left}%;width:${width}%"></i><b class="forest-point" title="${Number(p.A).toFixed(3)} ± ${e.toFixed(3)}" style="left:${pct(Number(p.A))}%"></b></div><div class="forest-value">${Number(p.A).toFixed(3)} ± ${e.toFixed(3)}</div></div>`;
+    } html+='</div>';
+  }
+  document.querySelector('#errorplot').innerHTML=html;
+}
+async function draw(){
+  const d=await fetch('tracker_data.json?t='+Date.now()).then(r=>{if(!r.ok)throw Error(r.status);return r.json()});
+  const passed=d.products.filter(p=>p.calibration_verdict==='REPLICATED-WITHIN-1SIGMA').length;
+  document.querySelector('#summary').innerHTML=`<span class="pill">Literature <b>${d.literature.value.toFixed(2)} ± ${d.literature.sigma.toFixed(2)}</b> · ${esc(d.literature.scale)}</span><span class="pill good"><b>${passed}</b> products replicate within 1σ</span><span class="pill">Updated ${esc(d.updated)}</span>`;
+  errorPlot(d);
+  let h='<thead><tr><th>Instrument / holding</th>'+d.bands.map(b=>`<th>${esc(b)}</th>`).join('')+'</tr></thead><tbody>';
+  for(const inst of d.planned_instruments){
+    h+=`<tr><td><b>${esc(inst.label)}</b><div class="coverage">${esc(inst.id)}<br>${esc(inst.coverage)}<br><span class="open">${esc(inst.readiness||'')}</span><br>${esc(inst.source||'')}</div></td>`;
+    for(const band of d.bands){
+      const rows=d.products.filter(p=>p.holding===inst.id&&p.band===band);
+      h+='<td class="cell">'+(rows.length?rows.map(p=>{const ok=p.calibration_verdict==='REPLICATED-WITHIN-1SIGMA';return `<div class="engine"><div class="name">${esc(p.display_name)}</div><div class="value">A(Al) = ${Number(p.A).toFixed(3)}</div><div class="meta">stat ${Number(p.sigma_stat).toFixed(3)} · syst ${Number(p.sigma_syst).toFixed(3)} · n=${p.n}<br>|Δ|/σ = ${Number(p.z_combined).toFixed(2)} · <span class="${ok?'good':'bad'}">${ok?'replicated':'not replicated'}</span><br>${esc(p.scale)}</div></div>`}).join(''):'<span class="empty">No product yet</span>')+'</td>';
+    } h+='</tr>';
+  }
+  document.querySelector('#matrix').innerHTML=h+'</tbody>';
+  document.querySelector('#models').innerHTML=d.open_models.map(x=>`<li class="open">${esc(x)}</li>`).join('');
+}
+draw().catch(e=>document.querySelector('#summary').innerHTML='<span class="pill bad">Start the local server to load tracker_data.json</span>'); setInterval(draw,5000);
+</script></body></html>
