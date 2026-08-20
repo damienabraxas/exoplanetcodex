@@ -958,11 +958,13 @@ REFLECTED_SOLAR_BODIES = {
 # site id, encoded C{lon}{lat} (e.g. Paranal C-70.4-24.6 → lon -70.4, lat -24.6).
 # Site coords NEVER hardcoded in the driver — sourced here (RYA-388 de-hardcode rule).
 SITES = {
-    'paranal': {'lat': -24.6, 'lon': -70.4, 'gdas_loc': 'C-70.4-24.6'},  # VLT/CRIRES+/UVES/ESPRESSO
+    'paranal': {'lat': -24.6, 'lon': -70.4, 'elevation_m': 2635.0,
+                'gdas_loc': 'C-70.4-24.6'},  # VLT/CRIRES+/UVES/ESPRESSO
     # ESO 3.6 m / HARPS.  Keep this separate from Paranal: substituting the VLT
     # atmosphere for La Silla would be a provenance error even though both sites
     # are in northern Chile.
-    'la_silla': {'lat': -29.26, 'lon': -70.73, 'gdas_loc': 'C-70.7-29.3'},
+    'la_silla': {'lat': -29.26, 'lon': -70.73, 'elevation_m': 2400.0,
+                 'gdas_loc': 'C-70.7-29.3'},
 }
 
 
