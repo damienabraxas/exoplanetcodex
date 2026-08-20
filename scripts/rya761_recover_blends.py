@@ -6,15 +6,21 @@
 
 WHAT IS RECOVERED, AND WHAT IS NOT
 ----------------------------------
-Only **FIT-PINNED** and **BLEND-DOMINATED**. Both are one failure wearing two faces: the
-window holds more than one line and a one-component model was asked to describe it.
-Saturated lines, GF-GHOST and GF-GHOST-ABSENT are NOT touched -- a saturated line carries
-no EW information and a ghost is an atomic-data fault (RYA-354), neither of which a
-richer profile model can fix.
+Only the width class (**FIT-PINNED**, retired, and its successor **UNDER-PHYSICAL-WIDTH**)
+and **BLEND-DOMINATED**. Both are one failure wearing two faces: the window holds more
+than one line and a one-component model was asked to describe it. Saturated lines,
+GF-GHOST and GF-GHOST-ABSENT are NOT touched -- a saturated line carries no EW information
+and a ghost is an atomic-data fault (RYA-354), neither of which a richer profile model can
+fix.
 
 THE PIN IS NOT RELAXED. `permits_profile_fit_for_line` and the sigma floor are untouched.
 What changes is the number of components, not the threshold (RYA-761: *"the pin is the
 detector working. Fix the model, not the threshold."*).
+
+⚠️ RYA-906/911: the detector that produced the FIT-PINNED population was itself wrong --
+it read the Gaussian sigma of Voigt fits, one half of a degenerate pair -- and is retired.
+The lines it quarantined are still in the committed artifacts this script reads, so both
+verdict names are matched. See `RECOVERABLE` below.
 
 THE SEPARABILITY TIERS ARE MEASURED
 -----------------------------------
@@ -72,7 +78,18 @@ FLOOR_PERFECT_CATALOGUE_A = 0.06
 FLOOR_HARD_CASE_A = 0.08
 FLOOR_ROBUST_A = 0.30
 
-RECOVERABLE = ("FIT-PINNED", "BLEND-DOMINATED")
+# 🔴 THIS READS HISTORY, SO IT MUST SPEAK BOTH VOCABULARIES.
+# `FIT-PINNED` is a RETIRED verdict (RYA-906/911) — nothing emits it any more. It stays
+# here because this script matches against reasons stored in committed artifacts
+# (`data/audit/line_accounting/per_line.csv`, `data/results/rya761/*.csv`) that were
+# written while the guard was live. Dropping the string would silently stop recovering
+# every line quarantined before the fix, which is the failure mode this script exists to
+# undo. `UNDER-PHYSICAL-WIDTH` is its successor and is matched for runs made since.
+#
+# ⚠️ Expect FAR fewer width-class candidates going forward: the corrected guard fires on
+# zero lines in both pools checked in RYA-906. A crowded window now surfaces as
+# BLEND-DOMINATED or FEATURE-VERIFICATION rather than as a railed sigma.
+RECOVERABLE = ("FIT-PINNED", "UNDER-PHYSICAL-WIDTH", "BLEND-DOMINATED")
 
 
 def tier(sep_A: float) -> str:
