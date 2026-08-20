@@ -107,18 +107,27 @@ ionisation −0.144 → +0.050. That curation lives in
 only**.
 
 The band-product route never calls it. It re-derives membership from its own gates
-(`REW > −4.9`, FIT-PINNED on the instrumental sigma floor, FEATURE-VERIFICATION), which are
-reasonable gates and are **not the same gates**. On the six lines both pools contain they
-disagree on five:
+(`REW > −4.9`, UNDER-PHYSICAL-WIDTH on the total Voigt FWHM, FEATURE-VERIFICATION), which
+are reasonable gates and are **not the same gates**. On the six lines both pools contain
+they disagreed on five:
 
-| line | RYA-352 | band harness |
-|---|---|---|
-| 6084.102 | KEEP (clean) | FIT-PINNED → rejected |
-| 6456.380 | KEEP (clean) | FIT-PINNED → rejected |
-| 6432.676 | CULL (HIERR) | kept — and its EW is +40% vs the original measurement |
-| 6247.557 | CULL (BLEND) | kept |
-| 6149.258 | CULL (BLEND) | kept |
-| 6369.459 | KEEP | kept |
+| line | RYA-352 | band harness (as it stood) | after RYA-906/911 |
+|---|---|---|---|
+| 6084.102 | KEEP (clean) | ~~FIT-PINNED → rejected~~ | **KEPT** — the width was in the Lorentzian |
+| 6456.380 | KEEP (clean) | ~~FIT-PINNED → rejected~~ | **saturation**, REW −4.889 |
+| 6432.676 | CULL (HIERR) | kept — and its EW is +40% vs the original measurement | kept |
+| 6247.557 | CULL (BLEND) | kept | kept |
+| 6149.258 | CULL (BLEND) | kept | kept |
+| 6369.459 | KEEP | kept | kept |
+
+⚠️ **The third column is the correction, and it matters for how you read this section.**
+FIT-PINNED — `abs(sigma_fit − floor) < 1e-4` — is **retired** (RYA-906/911, PR #315). It
+rejected on the Gaussian sigma of fits that were measurably always Voigt, where sigma and
+gamma are degenerate, so it recorded where the optimiser resolved the degeneracy rather
+than how wide the line was. Its replacement tests the **total** Voigt FWHM against an
+instrumental ⊕ thermal ⊕ microturbulent floor and fires on zero lines in both pools
+checked. The disagreement in column two was therefore an artifact of the gate, and the
+three disputed lines now fall out — or stay in — on physics.
 
 The uncurated pool returned **7.656** where the curated one returns **7.466** — and a whole
 session was spent decomposing that gap as a continuum defect, a loader defect and an
@@ -133,7 +142,9 @@ session was spent decomposing that gap as a continuum defect, a loader defect an
   two pools and therefore two numbers.
 * **A gate that removes a line the element's curation KEEPS is a defect to investigate,
   not a stricter standard.** FIT-PINNED rejecting 6084/6456 — the two lines RYA-352
-  explicitly reinstated as clean — is the signal, and it was read as robustness.
+  explicitly reinstated as clean — was the signal, and it was read as robustness.
+  **This one was followed and it paid: the gate was wrong, not the lines** (RYA-906/911).
+  The disagreement is worth trusting as a defect report about the gate.
 * **Benchmark against the CURATED value.** Comparing a new pool to an uncurated historical
   number (Fe II EW-path ~7.700, which RYA-352 and RYA-715 both label blend/saturation
   inflated and diagnostic-only) makes a wrong answer look close and a right answer look
