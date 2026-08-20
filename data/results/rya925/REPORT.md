@@ -16,9 +16,12 @@ For the calibration question — can our engines recover the accepted abundance 
 | red-optical | EW · 1D-LTE | 6.470 | 6.430 ± 0.040 | 0.185 | 0.22 | replicated |
 | red-optical | EW · 1D-NLTE · Amarsi | 6.380 | 6.430 ± 0.040 | 0.182 | 0.28 | replicated |
 | red-optical | Synth · 1D-LTE | 6.387 | 6.430 ± 0.040 | 0.179 | 0.24 | replicated |
-| near-UV | Synth · 1D-LTE (1/3 lines) | 4.198 | 6.430 ± 0.040 | 0.201 | 11.08 | not replicated |
 
-The accepted 6.43 ± 0.04 is **3D+NLTE**, not 1D-NLTE. Current products are therefore diagnostic cross-scale comparisons; a scale-matched 3D-NLTE product remains owed. The near-UV one-line result is a genuine non-replication and cannot be used for calibration.
+The accepted 6.43 ± 0.04 is **3D+NLTE**, not 1D-NLTE. Current products are therefore diagnostic cross-scale comparisons; a scale-matched 3D-NLTE product remains owed. **No near-UV Al product exists.**
+
+### Near-UV appendix — attempted, not measurable
+
+Near-UV correctly used synthesis only; no EW or profile-fit route was attempted. The 3050 and 3066 Å candidates were non-minima. The remaining 3057.144 Å candidate is now rejected rather than reported as A(Al)=4.198: its ±0.72 Å window contains 146 catalogued transitions, the best-fit model misses the observed flux by RMS 0.046, and changing A(Al) from 1.43 to 6.43 changes peak synthetic flux by only 0.000027. The nominal minimum is numerical structure in a blended, model-inadequate window and does not measure aluminium. The attempted line, neighboring transitions, sampled spectra, and diagnostic plot remain in the appendix evidence.
 
 ### How the literature value was obtained
 
@@ -46,6 +49,7 @@ The non-Fe correction helper returned an empty map instead of consulting the reg
 - `per_line_matrix.csv`: every emitted per-line treatment result and failure reason.
 - `product_matrix.csv`: stored axes, display identity, bars, same-line LTE deltas, and domain status.
 - `calibration_matrix.csv`: Kitt Peak provenance, combined-uncertainty replication statistic, and calibration verdict.
+- `AlI_3057_nearuv_diagnostic.png`: observed spectrum, three Al-abundance syntheses, and residuals proving the rejected line is abundance-insensitive.
 - `validation.json`: legacy RYA-813 central-value classifier by product/band; not the calibration verdict.
 
 The line-specific gf conflict remains visible: RYA-835 supports the 7835/7836 pair, while 8772/8773 did not confirm into the same provenance class. No gf, continuum, or model parameter was adjusted toward 6.43. HARPS was not touched.

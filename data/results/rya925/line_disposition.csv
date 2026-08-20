@@ -1,4 +1,5 @@
 lambda_A,band,holding,gf_source_grade,permitted_routes,model_domain,disposition,reason
+3057.144,near-UV,solar_kpno,VALD3; ungraded,synth only,1D-LTE attempted; abundance-insensitive,rejected,146 transitions in +/-0.72 A; Al response 2.7e-5 vs 0.046 RMS residual; numerical minimum does not measure Al; diagnostic plot banked
 3944.006,VIS,solar_kpno,Nordlander-Lind/NIST context,synth,model line exists,skipped,known CH blend; RYA-716 says do not attempt
 3961.52,VIS,solar_kpno,Nordlander-Lind,synth,Gerber/mean3D level exists; production Al path not registered,skipped,resonance line requires dedicated blend-aware optical synthesis; generic VIS intake is EW-keyed
 5107.5191,VIS,solar_kpno,canonical/Kurucz; UNGRADED except RYA-835 line-specific evidence,ew|synth,LTE; Amarsi per-line gated,quarantined,"FEATURE-VERIFICATION: GF-GHOST: observed depth 0.376 vs predicted 0.064 (x5.9) at the correct position — the spectrum and the line parameters disagree; gf or identification is suspect, not the measurement"

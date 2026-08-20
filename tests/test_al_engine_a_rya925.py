@@ -71,9 +71,7 @@ def test_rya925_calibration_gate_uses_combined_uncertainty():
     vis = got[got.band.eq("VIS")]
     assert set(vis.calibration_verdict) == {"REPLICATED-WITHIN-1SIGMA"}
     assert vis.z_combined.max() < 1.0
-    near_uv = got[got.band.eq("near-UV")].iloc[0]
-    assert near_uv.calibration_verdict == "NOT-REPLICATED"
-    assert near_uv.z_combined > 10.0
+    assert not got.band.eq("near-UV").any()  # attempted line is appendix-only, no product
     assert set(got.holding) == {"solar_kpno"}
 
 
@@ -90,6 +88,18 @@ def test_rya925_tracker_uses_rya851_band_sectioned_forest_plot():
     assert "forest-band" in page and "forest-row" in page
     assert "forest-lit-band" in page and "forest-reference" in page
     assert "No engines or instruments are averaged" in page
+
+
+def test_rya925_3057_is_appendix_only_not_a_nearuv_product():
+    from scripts.rya925_al_report import disposition, per_line_matrix, product_matrix
+
+    assert not product_matrix().band.eq("near-UV").any()
+    line = per_line_matrix().query("abs(wavelength_air_A - 3057.144) < 0.01").iloc[0]
+    assert not bool(line.in_aggregate)
+    assert "ABUNDANCE-INSENSITIVE" in line.excluded_reason
+    disp = disposition().query("abs(lambda_A - 3057.144) < 0.01").iloc[0]
+    assert disp.disposition == "rejected"
+    assert disp.permitted_routes == "synth only"
 
 
 def test_frontier_fit_uses_context_element_not_fe_source():

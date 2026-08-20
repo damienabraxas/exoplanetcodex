@@ -79,31 +79,6 @@
       ]
     },
     {
-      "band": "near-UV",
-      "tier": "report",
-      "engine": "Synth \u00b7 1D-LTE",
-      "value": 4.198,
-      "verdict": "report",
-      "reason": "Synth \u00b7 1D-LTE: frontier band \u2014 REPORTED, not gated (RYA-777). 4.198 (stat 0.010 / sys 0.197); literature 6.430 [6.390, 6.470] \u2014 sits +2.192 dex outside it and beyond 2-sigma (RYA-714 DEVIATE), NOTED as a gap and NOT a failure.",
-      "exception_reason": "",
-      "literature_central": 6.43,
-      "deviate": true,
-      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
-      "literature_range": [
-        6.39,
-        6.47
-      ],
-      "offset_vs_literature": -2.232,
-      "excess_beyond_band": 2.192,
-      "bars": "stat 0.010 / sys 0.197",
-      "scale": "1D-LTE",
-      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
-      "references_used": [
-        "Asplund et al. 2021 (A&A 653, A141)",
-        "Andrievsky et al. 2020 (arXiv:2006.10998)"
-      ]
-    },
-    {
       "band": "red-optical",
       "tier": "report",
       "engine": "EW \u00b7 1D-LTE",
