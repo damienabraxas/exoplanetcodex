@@ -55,6 +55,10 @@ FROZEN_HAND_AUTHORED = {
     #                      a control row finds no product.
     "rya847/README.md",
     "rya847/rya847_pregate_control.csv",
+    # RYA-925: narrative/reporting surfaces, not machine-generated measurements.
+    # Their machine sources remain registered separately in GENERATORS.yaml.
+    "rya925/REPORT.md",
+    "rya925/tracker.html",
 }
 
 
