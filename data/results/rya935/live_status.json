@@ -1,0 +1,23 @@
+{
+  "updated": "2026-08-20T22:10:00-06:00",
+  "refresh_seconds": 5,
+  "tickets": [
+    {"id":"RYA-925","status":"OPEN_REVIEW","note":"CI green; merge awaits review"},
+    {"id":"RYA-927","status":"DONE_FRAMEWORK","note":"routing live; corrected solar holding owed"},
+    {"id":"RYA-929","status":"MERGED","note":"broad agreement; line caveats remain"},
+    {"id":"RYA-931","status":"BACKLOG","note":"Molecfit MIPAS ingest fix"},
+    {"id":"RYA-932","status":"BACKLOG","note":"Kitt Peak 1984 vs Kurucz 2005 Al"},
+    {"id":"RYA-933","status":"BACKLOG","note":"Kurucz 2005 Fe I rerun"},
+    {"id":"RYA-934","status":"BACKLOG","note":"Kurucz 2005 Fe II rerun"},
+    {"id":"RYA-935","status":"IN_PROGRESS","note":"this dashboard"},
+    {"id":"RYA-936","status":"BACKLOG","note":"HARPS Al full VIS run"},
+    {"id":"RYA-937","status":"BACKLOG","note":"IAG Al optical/IR run"}
+  ],
+  "instruments": [
+    {"instrument":"Kitt Peak 1984","holding":"solar_kpno","telluric":"RAW / CONTAMINATED","coverage":"2960–13000 Å","cells":{"near-UV":"APPENDIX ONLY","VIS":"EW LTE 6.531 ± 0.212; Amarsi 6.351 ± 0.176; Synth 6.271 ± 0.176","red-optical":"EW LTE 6.470 ± 0.185; Amarsi 6.380 ± 0.182; Synth 6.387 ± 0.179","NIR":"PENDING"}},
+    {"instrument":"Kurucz 2005","holding":"solar_kpno_kurucz2005_corrected","telluric":"CORRECTED REFERENCE / DIAGNOSTIC ONLY","coverage":"3000–10000 Å","cells":{"near-UV":"PENDING","VIS":"PENDING","red-optical":"PENDING","NIR":"PENDING"}},
+    {"instrument":"IAG/Baker 2020","holding":"solar_iag_baker2020","telluric":"TELLURIC-FREE REFERENCE","coverage":"4047–10650 Å","cells":{"near-UV":"OUT OF COVERAGE","VIS":"AL RUN OWED","red-optical":"AL RUN OWED","NIR":"AL RUN OWED"}},
+    {"instrument":"HARPS solar","holding":"solar_harps","telluric":"NOT APPLIED / CORRECTION OWED","coverage":"3780–6910 Å","cells":{"near-UV":"OUT OF COVERAGE","VIS":"AL RUN OWED","red-optical":"AL RUN OWED","NIR":"OUT OF COVERAGE"}},
+    {"instrument":"CRIRES+","holding":"solar_crires_plus / Vesta IDPs","telluric":"HOLDING-DEPENDENT","coverage":"10280–10680 Å held Y","cells":{"near-UV":"OUT OF COVERAGE","VIS":"OUT OF COVERAGE","red-optical":"OUT OF COVERAGE","NIR":"AL COVERAGE GAP"}}
+  ]
+}
