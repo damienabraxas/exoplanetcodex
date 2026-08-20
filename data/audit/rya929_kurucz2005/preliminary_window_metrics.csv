@@ -1,0 +1,5 @@
+region,lo_A,hi_A,kpno_1984_source,kurucz_2005_source,kpno1984_fraction_below_0p5,kurucz2005_fraction_below_0p5,kpno1984_min_flux,kurucz2005_min_flux,metric_status,notes
+O2_A,7594,7685,kpno_KI_7665_7699.csv,irradthu.dat.txt,0.055697,0.002826,-0.00682,0.16619,PRELIMINARY_SMOKE,Local 5-A maximum-filter continuum on Kurucz; old KPNO residual_flux is native normalized flux
+K_I_7665_core,7660,7670,kpno_KI_7665_7699.csv,irradthu.dat.txt,0.073145,0.020868,-0.00148,0.16619,PRELIMINARY_SMOKE,Telluric-affected line diagnostic; not an abundance result
+K_I_7699_control,7694,7704,kpno_KI_7665_7699.csv,irradthu.dat.txt,0.024211,0.015164,0.19224,0.19885,PRELIMINARY_SMOKE,Nearby clean control; similar corrected-vs-old line depth behavior
+N_I_H2O_window,8210,8223,kpno_NI_8216_8223.csv,irradthu.dat.txt,0.031000,0.008856,0.13490,0.38830,PRELIMINARY_SMOKE,Red H2O diagnostic; only a committed 8210-8223 segment is available for old KPNO
