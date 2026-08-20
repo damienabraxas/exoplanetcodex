@@ -32,7 +32,7 @@ async function draw(){
   document.querySelector('#summary').innerHTML=`<span class="pill">Literature <b>${d.literature.value.toFixed(2)} ± ${d.literature.sigma.toFixed(2)}</b> · ${esc(d.literature.scale)}</span><span class="pill good"><b>${passed}</b> products replicate within 1σ</span><span class="pill">Updated ${esc(d.updated)}</span>`;
   let h='<thead><tr><th>Instrument / holding</th>'+d.bands.map(b=>`<th>${esc(b)}</th>`).join('')+'</tr></thead><tbody>';
   for(const inst of d.planned_instruments){
-    h+=`<tr><td><b>${esc(inst.label)}</b><div class="coverage">${esc(inst.id)}<br>${esc(inst.coverage)}</div></td>`;
+    h+=`<tr><td><b>${esc(inst.label)}</b><div class="coverage">${esc(inst.id)}<br>${esc(inst.coverage)}<br><span class="open">${esc(inst.readiness||'')}</span><br>${esc(inst.source||'')}</div></td>`;
     for(const band of d.bands){
       const rows=d.products.filter(p=>p.holding===inst.id&&p.band===band);
       h+='<td class="cell">'+(rows.length?rows.map(p=>{const ok=p.calibration_verdict==='REPLICATED-WITHIN-1SIGMA';return `<div class="engine"><div class="name">${esc(p.display_name)}</div><div class="value">A(Al) = ${Number(p.A).toFixed(3)}</div><div class="meta">stat ${Number(p.sigma_stat).toFixed(3)} · syst ${Number(p.sigma_syst).toFixed(3)} · n=${p.n}<br>|Δ|/σ = ${Number(p.z_combined).toFixed(2)} · <span class="${ok?'good':'bad'}">${ok?'replicated':'not replicated'}</span><br>${esc(p.scale)}</div></div>`}).join(''):'<span class="empty">No product yet</span>')+'</td>';
