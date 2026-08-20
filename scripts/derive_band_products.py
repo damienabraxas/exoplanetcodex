@@ -84,14 +84,19 @@ OUT = ROOT / "data" / "results" / "band_products"
 PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHandler"]
 
 
-def mpia_delta(element: str, ion: str, waves: np.ndarray,
-               cache: str | None = None) -> dict[float, float]:
+def engine_a_delta(element: str, ion: str, waves: np.ndarray,
+                   cache: str | None = None) -> dict[float, float]:
     """Per-line Engine-A departure corrections. Missing = not served.
 
+    Fe is served by the live MPIA query.  Every other registered element is served by
+    its vendored per-line grid through the same resolver used by the production
+    abundance path.  The old implementation returned ``{}`` for every non-Fe element,
+    so an Al run labelled its registered Amarsi grid "not served" without consulting it.
+
     The MPIA scraper needs `bs4`, which is absent from the Sirius interpreter that has
-    iSpec. Rather than installing into a pinned environment mid-run, the query can be run
-    where bs4 lives and handed over as a cache -- the numbers are identical, and the file
-    records which lines MPIA actually served.
+    iSpec. Rather than installing into a pinned environment mid-run, the Fe query can be
+    run where bs4 lives and handed over as a cache -- the numbers are identical, and the
+    file records which lines MPIA actually served.
     """
     if cache:
         d = json.loads(Path(cache).read_text())
@@ -102,7 +107,24 @@ def mpia_delta(element: str, ion: str, waves: np.ndarray,
     p = STAR_PARAMS["solar"]
     node = [dict(name="sun", teff_K=int(round(float(p["teff"]))),
                  logg=float(p["logg"]), feh=0.0)]
-    code = {"I": "26.01", "II": "26.02"}.get(ion) if element == "Fe" else None
+    if element != "Fe":
+        from pipeline.nlte_corrections import _mpia_element_delta
+        from pipeline.species import parse_ion
+        from config.constants import NLTE_CORRECTION_ELEMENTS
+
+        spec = NLTE_CORRECTION_ELEMENTS.get(element)
+        if spec is None or parse_ion(ion) != int(spec["ion"]):
+            return {}
+        out = {}
+        for wave in waves:
+            delta = _mpia_element_delta(
+                element, float(wave), float(p["teff"]), float(p["logg"]), 0.0,
+                tol=0.06)
+            if delta is not None and np.isfinite(delta):
+                out[float(wave)] = float(delta)
+        return out
+
+    code = {"I": "26.01", "II": "26.02"}.get(ion)
     if code is None:
         return {}
     out: dict[float, float] = {}
@@ -498,9 +520,10 @@ def synthesis_route(a, pol) -> None:
             "SYNTHESIS-ONLY: band_policy forbids profile-fit and interval-integration "
             "here (median line gap 0.146 A leaves no interval that contains one profile "
             "and excludes its neighbours), and RYA-759 falsified profile fitting in band "
-            "— 901 candidates, 0 measurable. 1D-LTE ONLY: UV Fe I is heavily "
-            "over-ionised, so the missing NLTE correction is large and POSITIVE, and a "
-            "low value here is expected physics rather than a defect. "
+            "— 901 Fe I candidates, 0 measurable. 1D-LTE ONLY: this route has no "
+            f"in-synthesis NLTE deck registered for {a.element} {a.ion}; the LTE value "
+            "must therefore be reported as its own product and not interpreted as an "
+            "NLTE expectation. "
             "PSEUDO-CONTINUUM SYSTEMATIC 0.100 dex, which does NOT average down and is "
             "NOT in the scatter reported here. "),
     }.get(pol.name,
@@ -535,8 +558,8 @@ def synthesis_route(a, pol) -> None:
           + "The term stays owed and visible rather than invented. ")
     prov = (
         f"{a.element} {a.ion} {pol.name} 1D-LTE by flux-fit synthesis (Turbospectrum via "
-        "iSpec, ATLAS9.Castelli) — the RYA-759 validated route called directly, same "
-        "functions and same defaults, so the value cannot drift from that ticket's. "
+        "iSpec, ATLAS9.Castelli) — the RYA-759 validated route called directly, retaining "
+        "its measured window and constraint choices while fitting the requested element. "
         # RYA-904 — WHICH HOLDING. `instrument` does not identify the spectrum: CRIRES+
         # has a telluric-corrected Y arm and raw uncorrected Vesta IDPs, and a product
         # measured from either would carry the same instrument tag. The holding is
@@ -737,6 +760,31 @@ LTE_NLTE_SOURCE = "none — LTE, no departure applied"
 GERBER_NLTE_SOURCE_FMT = ("gerber:{atom} (TS-native departure deck, RYA-798); departures "
                           "applied INSIDE the synthesis — no additive per-line delta "
                           "exists, this is a separate product, not a corrected LTE value")
+
+
+def engine_a_source(element: str) -> str:
+    """Name the registered source actually consulted for an Engine-A product."""
+    if element == "Fe":
+        return MPIA_NLTE_SOURCE
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    spec = NLTE_CORRECTION_ELEMENTS.get(element)
+    if spec is None:
+        return "no registered Engine-A source"
+    return f"{spec['grid']} ({spec['ref']}); PER-LINE additive correction"
+
+
+def engine_a_model(element: str) -> str:
+    """Physics-model axis for the registered Engine-A source."""
+    if element == "Fe":
+        return "bergemann"
+    from config.constants import NLTE_CORRECTION_ELEMENTS
+    spec = NLTE_CORRECTION_ELEMENTS.get(element, {})
+    source = f"{spec.get('grid', '')} {spec.get('ref', '')}".lower()
+    if "amarsi" in source or "nordlander" in source:
+        return "amarsi"
+    if "bergemann" in source or "mpia" in source:
+        return "bergemann"
+    raise ValueError(f"no RYA-906 model-axis mapping for {element}: {source!r}")
 
 
 def asdict_line(l: LineMeasurement) -> dict:
@@ -953,11 +1001,11 @@ def main() -> None:
     print(f"    1D-LTE: A={p_lte.value}  n={p_lte.n_lines}  excluded={p_lte.n_excluded}")
 
     # ── ENGINE-A ──────────────────────────────────────────────────────────────
-    print("\n[2] ENGINE-A — live MPIA per-line departure corrections...")
+    print("\n[2] ENGINE-A — registered per-line departure corrections...")
     used = [l for l in rows if l.in_aggregate and l.abundance is not None]
-    deltas = mpia_delta(a.element, a.ion,
-                        np.array([l.wavelength_air_A for l in used]),
-                        cache=a.mpia_cache)
+    deltas = engine_a_delta(a.element, a.ion,
+                            np.array([l.wavelength_air_A for l in used]),
+                            cache=a.mpia_cache)
     rows_a: list[LineMeasurement] = []
     for l in used:
         # Tolerance match -- the cache keys are rounded, and two catalogues quoting the
@@ -978,8 +1026,8 @@ def main() -> None:
                              # RYA-880 — `d` IS the correction, recorded in the same
                              # expression that applies it, so the two can never drift.
                              nlte_delta_dex=(float(d) if d is not None else None),
-                             nlte_source=(MPIA_NLTE_SOURCE if d is not None
-                                          else "MPIA per-line delta_nlte (NOT SERVED)"),
+                             nlte_source=(engine_a_source(a.element) if d is not None
+                                          else "registered per-line delta_nlte (NOT SERVED)"),
                              # RYA-911 — ENGINE-A rides THIS line's EW, so it rides THIS
                              # line's continuum. Carrying it makes that inheritance
                              # visible in the artifact instead of something a reader has
@@ -995,7 +1043,7 @@ def main() -> None:
                              abundance=(l.abundance + d) if d is not None else None)
         if d is None:
             la.in_aggregate = False
-            la.excluded_reason = ("ENGINE-A-NOT-SERVED: MPIA returns no usable delta_nlte "
+            la.excluded_reason = ("ENGINE-A-NOT-SERVED: the registered source returns no usable delta_nlte "
                                  "for this line (absent, nan, or a placeholder zero). "
                                  "Reduced coverage, not a failed correction.")
         rows_a.append(_stamp(la))     # RYA-807
@@ -1003,7 +1051,7 @@ def main() -> None:
     # same handler and the same measured residual (RYA-869).
     p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
                         handler="ProfileFitHandler",
-                        provenance="Bergemann MPIA per-line delta_nlte, live query, solar node")
+                        provenance=engine_a_source(a.element))
     print(f"    ENGINE-A: A={p_a.value}  n={p_a.n_lines}  not-served={p_a.n_excluded}")
 
     # ── ENGINE-B ──────────────────────────────────────────────────────────────
@@ -1293,7 +1341,12 @@ def main() -> None:
                             # it is the lossy one of the object's two serialisers, so a new
                             # column must be added HERE as well as in `products_frame`.
                             **axes_for(prod.treatment,
-                                       handler=prod.handler or None).as_columns(),
+                                       handler=prod.handler or None,
+                                       model=(engine_a_model(a.element)
+                                              if prod.treatment == "ENGINE-A" else None),
+                                       atmos=("marcs-ges"
+                                              if prod.treatment == "ENGINE-B-NLTE"
+                                              else "atlas9")).as_columns(),
                             ))
         budgets[prod.treatment] = b.describe() + f"\n  gf rung: {rung.describe()}"
         prod.to_frame().to_csv(out / f"{stem}_{prod.treatment}_lines.csv", index=False)

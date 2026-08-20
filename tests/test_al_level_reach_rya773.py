@@ -109,14 +109,20 @@ def _served():
     return np.unique(pd.read_csv(EXTRACT).wave_A.to_numpy())
 
 
-def test_extract_serves_every_in_aggregate_measured_line():
-    """The point of the ticket: Al's measured, in-aggregate lines are all covered now.
-    Uses the same 0.15 A window the registry and rya716_al_products.py match on."""
+def test_extract_serves_the_rya773_pairs_and_names_new_uncovered_lines():
+    """RYA-925 expanded the LTE pool after RYA-773.
+
+    Coverage is a property of each model product, not a veto on the LTE measurement
+    pool.  Pin the newly exposed reduced coverage so later code cannot silently claim
+    Amarsi served those four lines or silently drop them from the LTE product.
+    """
     meas = LR.measured_lines()
     served = _served()
     uncovered = [float(w) for w in meas[meas.in_aggregate].wavelength_air_A
                  if np.min(np.abs(served - float(w))) > 0.15]
-    assert not uncovered, f"still ENGINE-A UNCOVERED: {uncovered}"
+    assert uncovered == [5557.062, 6783.638, 7361.568, 7362.296]
+    for wave in (6696.0137, 6698.6715, 7835.309, 7836.134, 8772.865, 8773.8975):
+        assert np.min(np.abs(served - wave)) <= 0.15
 
 
 def test_the_banked_pair_is_untouched():

@@ -332,7 +332,7 @@ def build_solar_context(element: str, resolving_power: float, *,
     atm = _load_atmosphere(teff, logg, feh, vturb, model_grid=_ATLAS9)
     codes = _atom_codes([element], chem, solar_abund)
 
-    return dict(atmosphere=atm, teff=teff, logg=logg, feh=feh, vturb=vturb,
+    return dict(element=element, atmosphere=atm, teff=teff, logg=logg, feh=feh, vturb=vturb,
                 linelist=linelist, isotopes=isotopes, solar_abund=solar_abund,
                 chem_elements=chem, atom_code=int(codes[element]),
                 resolving_power=float(resolving_power),
