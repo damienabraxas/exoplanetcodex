@@ -30,5 +30,5 @@ red-optical,7836.134,ENGINE-B,synth,6.438,True,,0.0
 red-optical,8772.865,ENGINE-B,synth,6.316,True,,0.0
 red-optical,8773.8975,ENGINE-B,synth,6.345,True,,0.0
 near-UV,3050.072,1D-LTE,synth,4.062,False,"NON-MINIMUM: chi2 at a bracket end is not above the reported minimum (frac_rise = -1.34e-05 <= 0), so the optimizer returned a point that is not a minimum and the fit did not determine A(X). A correctness failure, not a quality threshold. Measured and retained; excluded from the aggregate only (RYA-711).",0.0
-near-UV,3057.144,1D-LTE,synth,4.198,True,,0.0
+near-UV,3057.144,1D-LTE,synth,4.198,False,ABUNDANCE-INSENSITIVE / BLENDED MODEL FAILURE: 146 catalogue transitions in +/-0.72 A; changing A(Al)=1.43..6.43 moves peak synthetic flux only 2.7e-5 while best-window RMS residual is 0.046. Numerical minimum does not measure Al; appendix only.,0.0
 near-UV,3066.144,1D-LTE,synth,3.504,False,"NON-MINIMUM: chi2 at a bracket end is not above the reported minimum (frac_rise = -6.07e-06 <= 0), so the optimizer returned a point that is not a minimum and the fit did not determine A(X). A correctness failure, not a quality threshold. Measured and retained; excluded from the aggregate only (RYA-711).",0.0

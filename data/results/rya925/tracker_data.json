@@ -161,26 +161,6 @@
       "z_combined": 0.23961843211196604,
       "calibration_verdict": "REPLICATED-WITHIN-1SIGMA",
       "comparison_caveat": "diagnostic cross-scale comparison; 3D-NLTE route not yet executed"
-    },
-    {
-      "holding": "solar_kpno",
-      "instrument": "Kitt Peak Solar Flux Atlas (NSO/KPNO FTS)",
-      "coverage_A": "2960-13000",
-      "band": "near-UV",
-      "display_name": "Synth \u00b7 1D-LTE",
-      "scale": "1D-LTE",
-      "n": 1,
-      "A": 4.198,
-      "sigma_stat": 0.01,
-      "sigma_syst": 0.1972,
-      "literature_value": 6.43,
-      "literature_sigma": 0.04,
-      "literature_scale": "3D-NLTE",
-      "delta_dex": -2.2319999999999993,
-      "sigma_combined": 0.20146424000303378,
-      "z_combined": 11.078889235957648,
-      "calibration_verdict": "NOT-REPLICATED",
-      "comparison_caveat": "diagnostic cross-scale comparison; 3D-NLTE route not yet executed"
     }
   ],
   "open_models": [
