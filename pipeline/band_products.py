@@ -209,19 +209,23 @@ class LineMeasurement:
     #: riding in a slot that means something else (the RYA-799 scale-mismatch lesson:
     #: a value in the wrong-meaning column is a LABELLING defect that reads as data).
     #:
-    #: Why they exist: FIT-PINNED — `abs(sigma_fit - floor) < 1e-4` — decides whether a
-    #: line is measurable, and both of its operands used to survive only inside the
-    #: `ew_method` PROSE. So the verdict was in the file and the evidence for it was
-    #: not: the three rejected lines carried their sigma in a sentence, and the
-    #: survivors carried no sigma at all. That makes "is the surviving pool biased
-    #: toward lines that do not pin?" unanswerable — the correlation has no second
-    #: column (RYA-911). Same defect class as the continuum one field up: computed,
-    #: used to decide, thrown away.
+    #: Why they exist: the width verdict decides whether a line is measurable, and its
+    #: operands used to survive only inside the `ew_method` PROSE. So the verdict was in
+    #: the file and the evidence for it was not: the rejected lines carried their sigma
+    #: in a sentence, and the survivors carried no sigma at all. That makes "is the
+    #: surviving pool biased toward lines that do not pin?" unanswerable — the
+    #: correlation has no second column (RYA-911). Same defect class as the continuum one
+    #: field up: computed, used to decide, thrown away.
+    #:
+    #: ⚠️ The verdict this was written for — FIT-PINNED, `abs(sigma_fit - floor) < 1e-4` —
+    #: is RETIRED (RYA-906/911). It read `sigma` alone, which in a Voigt fit is half of a
+    #: degenerate pair. `pipeline/line_width.py` now judges the TOTAL width. That makes
+    #: `profile_gamma_A` below not optional decoration but the other half of the number.
     #:
     #: The floor is stored, not recomputed, because it is the floor THIS measurement was
     #: judged against. `instrument_sigma()` remains the single place it is DERIVED; this
-    #: is provenance of the comparison, so the FIT-PINNED verdict is reproducible from
-    #: the row alone.
+    #: is provenance of the comparison, so the width verdict is reproducible from the row
+    #: alone.
     #:
     #: None on any route that does not fit a profile — correct rather than missing.
     profile_sigma_A: float | None = None

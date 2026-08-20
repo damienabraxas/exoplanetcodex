@@ -309,10 +309,17 @@ def _fit_profile(wav: np.ndarray, flux: np.ndarray,
 # THE PROBLEM THIS SOLVES. Of 447 measured Fe I lines in 6910-9199 A, 290 were
 # quarantined as FIT-PINNED (185) or BLEND-DOMINATED (105). Both failures have one
 # shape: the window contains more than one line and a one-component model is being
-# asked to describe it. FIT-PINNED is that failure being honest -- no profile of
-# plausible width fits, so the optimiser drove sigma onto its bound and the line was
-# excluded. The fix is a model with the right number of components, NOT a looser pin
-# (RYA-761: "the pin is the detector working. Fix the model, not the threshold.").
+# asked to describe it. The fix is a model with the right number of components, NOT a
+# looser pin (RYA-761: "the pin is the detector working. Fix the model, not the
+# threshold.").
+#
+# ⚠️ THOSE 185 ARE A HISTORICAL COUNT AND THE VERDICT THAT PRODUCED THEM IS RETIRED.
+# FIT-PINNED rejected on the Gaussian sigma alone; RYA-906/911 measured that it fired
+# only on VOIGT fits, where sigma and gamma are degenerate, and replaced it with a test
+# on the TOTAL width (`pipeline/line_width.py`). The blend argument above survives
+# intact -- a crowded window really does defeat a one-component model -- but the
+# population it was derived from was selected by a guard that no longer exists, so
+# re-deriving these counts is owed before anyone quotes them as current.
 #
 # WHY THE INTERLOPER CENTRES ARE FIXED. A two-component fit with both centres free
 # will happily place both components on the same line and report an excellent chi2.
