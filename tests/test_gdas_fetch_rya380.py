@@ -45,6 +45,14 @@ def test_unknown_site_raises_not_silent():
         gf.fetch_gdas("atlantis", night=VESTA_NIGHT)
 
 
+def test_la_silla_is_distinct_from_paranal():
+    from config.constants import get_site
+    la_silla = get_site("la_silla")
+    paranal = get_site("paranal")
+    assert la_silla["gdas_loc"] == "C-70.7-29.3"
+    assert la_silla != paranal
+
+
 def test_unavailable_profile_raises_gdas_unavailable(tmp_path):
     # a fully-specified but nonexistent site (no tarball, no staged NOAA pull) must
     # RAISE — never quietly return a standard atmosphere.
