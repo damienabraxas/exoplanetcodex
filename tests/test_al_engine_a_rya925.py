@@ -84,6 +84,14 @@ def test_rya925_tracker_declares_harps_as_loader_ready():
     assert '"readiness": "loader ready; Al run owed"' in source
 
 
+def test_rya925_tracker_uses_rya851_band_sectioned_forest_plot():
+    page = (ROOT / "data/results/rya925/tracker.html").read_text()
+    assert "RYA-851 forest-plot convention" in page
+    assert "forest-band" in page and "forest-row" in page
+    assert "forest-lit-band" in page and "forest-reference" in page
+    assert "No engines or instruments are averaged" in page
+
+
 def test_frontier_fit_uses_context_element_not_fe_source():
     import inspect
     from scripts import rya759_nearuv_fe_product as frontier
