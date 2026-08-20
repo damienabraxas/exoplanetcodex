@@ -1,0 +1,54 @@
+{
+  "ticket": "RYA-905",
+  "holding_id": "solar_harps",
+  "instrument": "harps",
+  "source": "/mnt/codex-data/codex/rya905/data/processed/solar_normalized.csv",
+  "method": "flux depth in a terrestrial-only band against a clean control, same metric as RYA-805 (pct_below_0.5)",
+  "windows": {
+    "O2 A-band core": {
+      "n_px": 1700,
+      "median": 0.8505,
+      "min": 0.006,
+      "pct_below_0.7": 32.0,
+      "pct_below_0.5": 22.06,
+      "kind": "telluric"
+    },
+    "O2 A-band wing": {
+      "n_px": 2600,
+      "median": 0.9354,
+      "min": 0.0139,
+      "pct_below_0.7": 13.85,
+      "pct_below_0.5": 9.77,
+      "kind": "telluric"
+    },
+    "control 6800-6860": {
+      "n_px": 6000,
+      "median": 0.9514,
+      "min": 0.5666,
+      "pct_below_0.7": 0.98,
+      "pct_below_0.5": 0.0,
+      "kind": "control"
+    },
+    "control 5000-5100": {
+      "n_px": 10000,
+      "median": 0.9442,
+      "min": 0.1796,
+      "pct_below_0.7": 11.26,
+      "pct_below_0.5": 5.47,
+      "kind": "control"
+    }
+  },
+  "discriminator": {
+    "worst_telluric_pct_below_0.5": 22.06,
+    "min_flux_in_telluric_window": 0.006,
+    "min_flux_in_control_window": 0.1796,
+    "reads": "flux reaches 0.006 inside the O2 A-band while never dropping below 0.1796 in a clean window 60 A away"
+  },
+  "reference_scale_same_metric": {
+    "kpno_solar_atlas (Kurucz 1984), O2 A-band": 51.3,
+    "iag_fts_solar_atlas (Baker 2020), O2 A-band": 0.1,
+    "elgueta2026 Sun_Y_rv (corrected), O2 A-band": 0.1
+  },
+  "verdict_telluric_applied": "not-applied",
+  "consequence": "None for the HARPS band products. `harps` is registered telluric_required=no, so gate_holding() permits it and tellurics are handled by per-line clean-line selection over the enumerated bands (RYA-460/786) \u2014 which is what quarantined the 5 O2 B-band lines in the RYA-897 run, with the reason stated. This records the state; it does not change the method."
+}
