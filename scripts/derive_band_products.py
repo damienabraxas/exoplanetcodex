@@ -815,8 +815,8 @@ def asdict_line(l: LineMeasurement) -> dict:
                 continuum_ref=l.continuum_ref,
                 # RYA-911 — the fit's width and the floor it was judged against, same
                 # reasoning as the continuum directly above: the quantity that DECIDED
-                # FIT-PINNED has to reach the product, or the selection-bias question
-                # can only ever be asked of the intermediate file.
+                # the width verdict has to reach the product, or the selection-bias
+                # question can only ever be asked of the intermediate file.
                 profile_sigma_A=l.profile_sigma_A,
                 profile_sigma_floor_A=l.profile_sigma_floor_A,
                 # RYA-906 — emitted BESIDE sigma, never without it. On its own

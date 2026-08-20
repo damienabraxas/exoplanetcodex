@@ -1,0 +1,10 @@
+species,ion,wavelength_air_A,region,role,old_holding,new_holding,comparison_status,reason
+Al,I,6631.218,clean_visible,Al science control,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Outside canonical telluric bands; tests line preservation and continuum stability
+Al,I,6696.185,clean_visible,Al science control,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Outside canonical telluric bands; tests line preservation and continuum stability
+Fe,I,6872.1617,O2_B,affected diagnostic,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Inside O2 B; compare EW/profile change and residual telluric structure
+Fe,I,6875.44503,O2_B,affected diagnostic,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Inside O2 B; compare EW/profile change and residual telluric structure
+Si,I,6876.35917,O2_B,affected diagnostic,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Inside O2 B; strong line and likely blend sensitivity
+Fe,I,6881.44175,O2_B,affected diagnostic,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Inside O2 B; weaker-line residual test
+K,I,7665.0,O2_A,affected diagnostic,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Canonical Kitt Peak telluric stress test in O2 A
+K,I,7698.964,clean_nearby_control,clean control,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Paired clean control for the O2 A K I 7665 line
+N,I,8216.0,H2O,affected diagnostic,solar_kpno,solar_kpno_kurucz2005_corrected,PENDING_KURUCZ_AUTHENTICATION,Within red H2O region; compare local correction and line preservation

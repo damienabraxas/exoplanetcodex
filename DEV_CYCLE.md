@@ -68,6 +68,11 @@ All work on the Exoplanet Codex follows a formal development cycle. This applies
 - **`SEQUENCE.md` bumps alongside.** Every PR that touches the register must also add one line to `SEQUENCE.md` under a `## YYYY-MM-DD` heading. If the date section already exists, append to it. One line per landing, newest first, format `- **RYA-XXX** — one-sentence summary; what it unblocks`. Keep under ~140 chars. No CI guard on this — it is discipline, not machinery.
 - **Refresh the bibliography if the reference library grew (RYA-854).** `python3 scripts/generate_sources_page.py --audit-library "<library dir>"` fails on any document with no row in `data/refs/bibliography.csv`, and on any two rows naming byte-identical files. Add the rows, verifying each against the document itself rather than its filename, then regenerate `/sources` with `--site-root ../exoplanetcodex-site`. No CI guard — the library lives outside the repo, so this is discipline, like the `SEQUENCE.md` line above.
 - The end-of-session comment states which register rows changed (and flags any row a source contradicted).
+- **Curate encountered defects.** Answer whether the ticket discovered a bug, silent
+  fallback, data/provenance defect, or reproducibility hazard. Append/amend
+  `data/audit/run_bug_ledger.csv` under `data/audit/RUN_BUG_LEDGER.md` when yes; report
+  `none discovered` when no. `debug/intake/*.jsonl` remains local trace evidence and is
+  never copied wholesale into the committed ledger.
 
 ---
 

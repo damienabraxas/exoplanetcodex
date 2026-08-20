@@ -1,0 +1,18 @@
+{
+  "holding_id": "solar_kpno_kurucz2005_corrected",
+  "source_file": "irradthu.dat.txt",
+  "source_path_local": "/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/KITTS 2005/irradthu.dat.txt",
+  "source_path_sirius": "/mnt/codex-data/spectra/KITTS/irradthu.dat.txt",
+  "source_url_declared_in_file": "http://kurucz.harvard.edu/sun/irradiance2005/irradthu.dat",
+  "header_title": "Solar irradiance (Kurucz, R.L. 2005)",
+  "revision_in_file": "02jan2010",
+  "coverage_declared": "300-1000 nm",
+  "flux_units_declared": "W/m**2/nm",
+  "wavelength_units_declared": "nm",
+  "wavelength_medium": "UNRESOLVED_PENDING_METHOD_INTAKE",
+  "bytes": 19477305,
+  "sha256": "6013b1398718ed9488cdcbfd44ef93e8adcd7fd536a329d35252f5fdf7f330d0",
+  "telluric_basis": "corrected",
+  "intake_status": "PROVISIONAL_IDENTITY_VERIFIED_COMPARISON_PENDING",
+  "caveat": "Preserve as a provenance-distinct reference; do not overwrite the 1984 Kitt Peak atlas or treat this product as ground truth."
+}

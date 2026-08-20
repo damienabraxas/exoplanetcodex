@@ -20,6 +20,15 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-925** — Near-UV Al retracted: 3057 Å is abundance-insensitive in a 146-transition blend; appendix evidence retained, no product.
 - **RYA-925** — Calibration gate corrected: Kitt Peak VIS/red-optical replicate within combined 1σ; IR/model continuation remains open.
 - **RYA-925** — Al Kitt Peak matrix banked across EW/synth LTE + Amarsi; non-Fe identity defects fixed; VIS fails literature validation, no tuning.
+## 2026-08-20
+
+- **RYA-929** — full Kitt Peak/Kurucz/IAG sweep proves broad correction agreement; line-level caveats remain diagnostic-only and no abundance is promoted.
+
+## 2026-08-19
+
+- **RYA-929** — Kurucz 2005 Kitt Peak irradiance authenticated, checksum-pinned, staged on Sirius, and registered for independent telluric comparison.
+- **RYA-927** — shared telluric route contract covers all catalog instruments; HARPS/Kitt Peak clean-line paths coexist with molecfit/GDAS correction routes.
+- **RYA-926** — authority and skill governance settled; RYA-925 dry-read exposes a missing cross-instrument canary.
 
 ## 2026-08-18
 
@@ -177,3 +186,5 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-517** — reference stack ratified as py3.12+numpy 2.2; null cross-machine drift confirmed
 - **RYA-711** — the ELEMENT PROTOCOL lands (authored, never merged; RYA-709 cited a file that did not exist). **+Step 3a: an element's curation travels with the element, not the route** — Fe II uncurated 7.656 vs curated 7.466
 - **RYA-906** — physics-axis naming: store `route/scale/model/atmos/gf`, derive the display name, keep `treatment` as a permanent dual label. **Route from the HANDLER, never the label** — `1D-LTE` is used by both routes
+- **RYA-905** — solar_harps `telluric_applied` measured from flux: **not-applied**. 🔴 kpno_solar_atlas scores WORSE (51.3 vs 22.06) on the same metric — the atlases are not uniformly corrected; per-line clean-line selection is the method, not correction
+

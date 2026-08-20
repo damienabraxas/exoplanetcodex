@@ -455,7 +455,7 @@ def render(rows: list[dict[str, str]], digest: str) -> str:
 # ─────────────────────────────────────────────────────────── library auditing ──
 #: files in the reference library that are not documents and are not expected to be
 #: cited. Extensions only -- never a filename allow-list, which would rot silently.
-NON_DOCUMENT_SUFFIXES = {".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp", ".tiff",
+NON_DOCUMENT_SUFFIXES = {".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp", ".tiff", ".xml",
                          ".mov", ".mp4", ".zip", ".ds_store"}
 
 
