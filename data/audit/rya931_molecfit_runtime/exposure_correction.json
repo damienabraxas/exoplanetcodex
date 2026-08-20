@@ -1,0 +1,626 @@
+[
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.735.fits",
+    "source_md5": "a77ac63027dab57608c8703014329fe4",
+    "corrected_md5": "617ccf6c904ea5ce02b152dbea42629d",
+    "mjd_obs": 60158.58073576,
+    "airmass_start": 2.18256848821743,
+    "rel_mol_col_O2": 1.000791431810437,
+    "ppmv_O2": 212165.32138073712,
+    "reduced_chi2": 0.8064272629722467,
+    "rms_rel_to_mean": 0.009561865865638498,
+    "lsf_gauss_fwhm_pix": 6.765417665705936,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.347664072461034,
+        "rel_mol_col_O2": 1.0369002824525546,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 6.765417665705936,
+        "reduced_chi2": 0.8064272629722467,
+        "rel_mol_col_O2": 1.000791431810437,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.5,
+    "dt_transmission_sigma": 0.007341481508399112,
+    "t_min": 0.14682963016798223,
+    "n_corrected": 5134,
+    "n_quarantined": 267,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.005520537961954999,
+      "median": 0.8484585491191138,
+      "pct_below_0.5": 22.339800117577894,
+      "pct_below_0.95": 88.30099941211053
+    },
+    "o2b_after": {
+      "n": 1548,
+      "min": 0.7705468878118571,
+      "median": 0.9690917097021782,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.832041343669253
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5803661621214911,
+      "median": 1.0029446254332393,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.365439093484419
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5803661621214911,
+      "median": 1.0029446254332393,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.365439093484419
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.737.fits",
+    "source_md5": "8d674e3bc902409fc35ef2a794fb0500",
+    "corrected_md5": "34b9d16382ba8cd7e492b89e193ae294",
+    "mjd_obs": 60158.58154588,
+    "airmass_start": 2.16735546419835,
+    "rel_mol_col_O2": 1.0007075415079332,
+    "ppmv_O2": 212147.53681238717,
+    "reduced_chi2": 0.8012748521056846,
+    "rms_rel_to_mean": 0.00952882671124795,
+    "lsf_gauss_fwhm_pix": 6.762495931458691,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.336773507838146,
+        "rel_mol_col_O2": 1.0370230957515432,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 6.762495931458691,
+        "reduced_chi2": 0.8012748521056846,
+        "rel_mol_col_O2": 1.0007075415079332,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.5,
+    "dt_transmission_sigma": 0.006965575338589458,
+    "t_min": 0.13931150677178913,
+    "n_corrected": 5148,
+    "n_quarantined": 253,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.005421388103399714,
+      "median": 0.8503708135694121,
+      "pct_below_0.5": 22.281011169900058,
+      "pct_below_0.95": 88.53615520282186
+    },
+    "o2b_after": {
+      "n": 1555,
+      "min": 0.7706556744742153,
+      "median": 0.9693681816853408,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.871382636655948
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5775365332481964,
+      "median": 1.0026874331867444,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.398766872187969
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5775365332481964,
+      "median": 1.0026874331867444,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.398766872187969
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.739.fits",
+    "source_md5": "b251c450aad7c146dc0b9a982a62442d",
+    "corrected_md5": "898fb58191fa74d9460ab6eeb6a6cede",
+    "mjd_obs": 60158.58225182,
+    "airmass_start": 2.15438148161609,
+    "rel_mol_col_O2": 1.000712805635915,
+    "ppmv_O2": 212148.6527945683,
+    "reduced_chi2": 0.8146224535020961,
+    "rms_rel_to_mean": 0.009606667493797134,
+    "lsf_gauss_fwhm_pix": 6.773931642493287,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 6.773931642493287,
+        "reduced_chi2": 0.8146224535020961,
+        "rel_mol_col_O2": 1.000712805635915,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.773,
+    "dt_transmission_sigma": 0.00701249034678982,
+    "t_min": 0.1402498069357964,
+    "n_corrected": 5149,
+    "n_quarantined": 252,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.005427616644312698,
+      "median": 0.850266647572791,
+      "pct_below_0.5": 22.281011169900058,
+      "pct_below_0.95": 88.18342151675485
+    },
+    "o2b_after": {
+      "n": 1556,
+      "min": 0.7715343563902173,
+      "median": 0.9686250494448087,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.665809768637533
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5830751593345251,
+      "median": 1.0026991766566171,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.315447425429094
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5830751593345251,
+      "median": 1.0026991766566171,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.315447425429094
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.741.fits",
+    "source_md5": "9a67034e00f00a6f3f6552d9ff7085a9",
+    "corrected_md5": "67b8c169d7cffade33b06e095a79c993",
+    "mjd_obs": 60158.58320083,
+    "airmass_start": 2.13738812970456,
+    "rel_mol_col_O2": 1.000713683473257,
+    "ppmv_O2": 212148.83889392516,
+    "reduced_chi2": 0.8075252651066761,
+    "rms_rel_to_mean": 0.009562415155651574,
+    "lsf_gauss_fwhm_pix": 6.762115580607218,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 6.762115580607218,
+        "reduced_chi2": 0.8075252651066761,
+        "rel_mol_col_O2": 1.000713683473257,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.773,
+    "dt_transmission_sigma": 0.007200824787152459,
+    "t_min": 0.14401649574304917,
+    "n_corrected": 5145,
+    "n_quarantined": 256,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.006737872538978189,
+      "median": 0.851479920666088,
+      "pct_below_0.5": 22.10464432686655,
+      "pct_below_0.95": 88.24221046443269
+    },
+    "o2b_after": {
+      "n": 1553,
+      "min": 0.7694754127203765,
+      "median": 0.9696663289562054,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.317450096587248
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5803156356068181,
+      "median": 1.0030708740080636,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.348775204132645
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5803156356068181,
+      "median": 1.0030708740080636,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.348775204132645
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.743.fits",
+    "source_md5": "08a40257a669f7a05115246291958f0e",
+    "corrected_md5": "c8165ea28fc7d214eafca063b42cc8a4",
+    "mjd_obs": 60158.58442926,
+    "airmass_start": 2.11620070536329,
+    "rel_mol_col_O2": 1.001179015920268,
+    "ppmv_O2": 212247.48821613152,
+    "reduced_chi2": 0.8280126547054639,
+    "rms_rel_to_mean": 0.00967988809802645,
+    "lsf_gauss_fwhm_pix": 6.777510284824589,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.56610486485113,
+        "rel_mol_col_O2": 1.036665947060798,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 6.777510284824589,
+        "reduced_chi2": 0.8280126547054639,
+        "rel_mol_col_O2": 1.001179015920268,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.5,
+    "dt_transmission_sigma": 0.007335178735741743,
+    "t_min": 0.14670357471483486,
+    "n_corrected": 5144,
+    "n_quarantined": 257,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.005961870909899561,
+      "median": 0.8517961692055379,
+      "pct_below_0.5": 21.92827748383304,
+      "pct_below_0.95": 88.12463256907701
+    },
+    "o2b_after": {
+      "n": 1553,
+      "min": 0.7731095169725183,
+      "median": 0.9690975517687326,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.768190598840953
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5822525089810457,
+      "median": 1.002960829299818,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.365439093484419
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5822525089810457,
+      "median": 1.002960829299818,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.365439093484419
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.745.fits",
+    "source_md5": "f844a35d82ddc3ecf84f7aa6c139e90f",
+    "corrected_md5": "9140b7a6371d586e92c7fe4670817b29",
+    "mjd_obs": 60158.58566613,
+    "airmass_start": 2.09569788079186,
+    "rel_mol_col_O2": 1.0018124377412412,
+    "ppmv_O2": 212381.77208379647,
+    "reduced_chi2": 0.7953322356985729,
+    "rms_rel_to_mean": 0.009483671943905923,
+    "lsf_gauss_fwhm_pix": 6.778771505946098,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.635953414362458,
+        "rel_mol_col_O2": 1.0361412502035723,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.635953033206606,
+        "rel_mol_col_O2": 1.0360955616664478,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 7.0,
+        "gaussfwhm": 6.778771505946098,
+        "reduced_chi2": 0.7953322356985729,
+        "rel_mol_col_O2": 1.0018124377412412,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 7.0,
+    "dt_transmission_sigma": 0.007346740306734673,
+    "t_min": 0.14693480613469345,
+    "n_corrected": 5145,
+    "n_quarantined": 256,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.00566875271601271,
+      "median": 0.8513862899181308,
+      "pct_below_0.5": 21.92827748383304,
+      "pct_below_0.95": 88.30099941211053
+    },
+    "o2b_after": {
+      "n": 1553,
+      "min": 0.7703951688737559,
+      "median": 0.9689506071270135,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.768190598840953
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5768747443495176,
+      "median": 1.0028385648083418,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.415430761539743
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5768747443495176,
+      "median": 1.0028385648083418,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.415430761539743
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.747.fits",
+    "source_md5": "8cb74352f3f554310b9ba77e99a834fe",
+    "corrected_md5": "5763544a6d3af5297b20e6cf4d0b5974",
+    "mjd_obs": 60158.58661549,
+    "airmass_start": 2.08056014389165,
+    "rel_mol_col_O2": 1.0012213753609351,
+    "ppmv_O2": 212256.46832506565,
+    "reduced_chi2": 0.793197195018581,
+    "rms_rel_to_mean": 0.009468715082169791,
+    "lsf_gauss_fwhm_pix": 6.764450602169549,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.556261173539811,
+        "rel_mol_col_O2": 1.0360996241107965,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.556343142303405,
+        "rel_mol_col_O2": 1.0361141195827133,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 7.0,
+        "gaussfwhm": 1.4210854715202004e-14,
+        "reduced_chi2": 11.556361338372444,
+        "rel_mol_col_O2": 1.0357217373578858,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.25,
+        "gaussfwhm": 1.4210854715202004e-14,
+        "reduced_chi2": 11.55634314226138,
+        "rel_mol_col_O2": 1.036120550418865,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 7.25,
+        "gaussfwhm": 6.764450602169549,
+        "reduced_chi2": 0.793197195018581,
+        "rel_mol_col_O2": 1.0012213753609351,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 7.25,
+    "dt_transmission_sigma": 0.006926934959639063,
+    "t_min": 0.13853869919278125,
+    "n_corrected": 5156,
+    "n_quarantined": 245,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.006881784623262371,
+      "median": 0.8537704191859912,
+      "pct_below_0.5": 21.869488536155202,
+      "pct_below_0.95": 88.4185773074662
+    },
+    "o2b_after": {
+      "n": 1561,
+      "min": 0.7732061258389673,
+      "median": 0.9688234669632341,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 20.435618193465725
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5816854735764622,
+      "median": 1.0028051485755018,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.365439093484419
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5816854735764622,
+      "median": 1.0028051485755018,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.365439093484419
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.749.fits",
+    "source_md5": "54def9f5b0b4f4e75fd592c2c6763dae",
+    "corrected_md5": "94f135fef456c5f33dc87f4c0500cb36",
+    "mjd_obs": 60158.58732132,
+    "airmass_start": 2.06960980413046,
+    "rel_mol_col_O2": 1.001114946946111,
+    "ppmv_O2": 212233.90576296306,
+    "reduced_chi2": 0.8079956345895938,
+    "rms_rel_to_mean": 0.00955598258988911,
+    "lsf_gauss_fwhm_pix": 6.7682757367912725,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.592600839330085,
+        "rel_mol_col_O2": 1.0377581208594693,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 6.7682757367912725,
+        "reduced_chi2": 0.8079956345895938,
+        "rel_mol_col_O2": 1.001114946946111,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.5,
+    "dt_transmission_sigma": 0.007459969532985286,
+    "t_min": 0.1491993906597057,
+    "n_corrected": 5144,
+    "n_quarantined": 257,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.0058642998390304735,
+      "median": 0.8539583666488972,
+      "pct_below_0.5": 21.869488536155202,
+      "pct_below_0.95": 87.77189888301
+    },
+    "o2b_after": {
+      "n": 1553,
+      "min": 0.7711308960261447,
+      "median": 0.9691660374035901,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.961365099806823
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5812156741887613,
+      "median": 1.0032368050215805,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.26545575737377
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5812156741887613,
+      "median": 1.0032368050215805,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.26545575737377
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.751.fits",
+    "source_md5": "1e066dc0d51de7988aa752b142abd5b4",
+    "corrected_md5": "b65612e96977f2c20a54839895310640",
+    "mjd_obs": 60158.58813155,
+    "airmass_start": 2.05735905595636,
+    "rel_mol_col_O2": 1.001650965590479,
+    "ppmv_O2": 212347.54039683111,
+    "reduced_chi2": 0.8130564070245082,
+    "rms_rel_to_mean": 0.009583049652806618,
+    "lsf_gauss_fwhm_pix": 6.765216179233212,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.618936465572862,
+        "rel_mol_col_O2": 1.0392041355653525,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 6.5,
+        "gaussfwhm": 0.0,
+        "reduced_chi2": 11.618857628435084,
+        "rel_mol_col_O2": 1.0388894313766825,
+        "admissible": false
+      },
+      {
+        "lsf_start_pix": 7.0,
+        "gaussfwhm": 6.765216179233212,
+        "reduced_chi2": 0.8130564070245082,
+        "rel_mol_col_O2": 1.001650965590479,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 7.0,
+    "dt_transmission_sigma": 0.007279948728244129,
+    "t_min": 0.14559897456488258,
+    "n_corrected": 5149,
+    "n_quarantined": 252,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.005999929443255489,
+      "median": 0.8564331981900464,
+      "pct_below_0.5": 21.810699588477366,
+      "pct_below_0.95": 87.71310993533216
+    },
+    "o2b_after": {
+      "n": 1556,
+      "min": 0.7729801173838126,
+      "median": 0.9694660764536278,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.408740359897173
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5810029979185791,
+      "median": 1.0036918581832193,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.382102982836194
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5810029979185791,
+      "median": 1.0036918581832193,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.382102982836194
+    }
+  },
+  {
+    "exposure": "ADP.2023-08-04T01:04:29.753.fits",
+    "source_md5": "adc4d85016b8eeba394c4edf21da6c0e",
+    "corrected_md5": "670f358f931463f226fbae0c8dd51788",
+    "mjd_obs": 60158.58935824,
+    "airmass_start": 2.03942335620343,
+    "rel_mol_col_O2": 1.0002514798744682,
+    "ppmv_O2": 212050.85286811664,
+    "reduced_chi2": 0.8140768386522524,
+    "rms_rel_to_mean": 0.009586569049817912,
+    "lsf_gauss_fwhm_pix": 6.764636839986506,
+    "lsf_start_attempts": [
+      {
+        "lsf_start_pix": 6.773,
+        "gaussfwhm": 6.764636839986506,
+        "reduced_chi2": 0.8140768386522524,
+        "rel_mol_col_O2": 1.0002514798744682,
+        "admissible": true
+      }
+    ],
+    "lsf_start_accepted_pix": 6.773,
+    "dt_transmission_sigma": 0.007573088902065097,
+    "t_min": 0.15146177804130193,
+    "n_corrected": 5144,
+    "n_quarantined": 257,
+    "o2b_before": {
+      "n": 1701,
+      "min": 0.006785901714180123,
+      "median": 0.8559217425039081,
+      "pct_below_0.5": 21.693121693121693,
+      "pct_below_0.95": 87.47795414462081
+    },
+    "o2b_after": {
+      "n": 1553,
+      "min": 0.7706294795659762,
+      "median": 0.9692954961459085,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 19.89697359948487
+    },
+    "control_before": {
+      "n": 6001,
+      "min": 0.5802049426048445,
+      "median": 1.0030192499412611,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.2987835360773206
+    },
+    "control_after": {
+      "n": 6001,
+      "min": 0.5802049426048445,
+      "median": 1.0030192499412611,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 7.2987835360773206
+    }
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "ticket": "RYA-931",
+  "claim": "The MIPAS reference atmosphere was never the defect.",
+  "mechanism": "The HARPS Phase-3 ERR column is 100% NaN in all ten direct-solar exposures (0 of 313028 finite). Selecting pixels on finite ERR left a zero-row SCIENCE table. molecfit failed in molecfit_data_extract_spectrum_from_cpl_table with 'Access beyond boundaries' and 'Parse 1D spectrum from BINTABLE failed' (rc=13), and only afterwards printed the reference-atmosphere line off an already dirty CPL error state. The message names the last file touched, not the cause.",
+  "positive_control": "The passing run loads the SAME equ.fits, by path and md5, and reports no 'Unable to open rat data file'. The only changed input is the number of SCIENCE rows.",
+  "failing_run": {
+    "label": "RYA-927 trial: finite-ERR filter emptied SCIENCE",
+    "run_dir": "/Users/ryanschmitt/Documents/Exoplanet Codex/diagnostics/rya931/run/rya927_failing",
+    "returncode": 13,
+    "science_rows": 0,
+    "reference_atmosphere": "equ.fits",
+    "reference_atmosphere_path": "/opt/homebrew/Cellar/telluriccorr/4.3.3_4/share/molecfit/data/profiles/mipas/equ.fits",
+    "reference_atmosphere_md5": "cf98a77b2e849ba956aba78f7fe1f592",
+    "reference_atmosphere_opened": false,
+    "bintable_parse_failed": true,
+    "cpl_access_beyond_boundaries": 2
+  },
+  "passing_run": {
+    "label": "RYA-931: same equ.fits, non-empty SCIENCE",
+    "run_dir": "/Users/ryanschmitt/Documents/Exoplanet Codex/diagnostics/rya931/run/rep735_a",
+    "returncode": 0,
+    "science_rows": 7201,
+    "reference_atmosphere": "equ.fits",
+    "reference_atmosphere_path": "/opt/homebrew/Cellar/telluriccorr/4.3.3_4/share/molecfit/data/profiles/mipas/equ.fits",
+    "reference_atmosphere_md5": "cf98a77b2e849ba956aba78f7fe1f592",
+    "reference_atmosphere_opened": true,
+    "bintable_parse_failed": false,
+    "cpl_access_beyond_boundaries": 0
+  },
+  "control_holds": true
+}

@@ -172,7 +172,14 @@ def fit_continuum(wavelength: np.ndarray, flux: np.ndarray,
     print(f"  Continuum params [{star_id}]: "
           f"spacing={spacing} Å  pct={pct}  n_iter={n_iter}  sigma={sigma}")
 
-    mask     = np.ones(len(flux), dtype=bool)
+    # Seed from the finite pixels rather than from all of them (RYA-931).  A
+    # telluric-corrected product carries NaN where a saturated core was
+    # quarantined instead of forced into a corrected state; a single NaN in a
+    # 100 A knot window made its percentile anchor NaN and CubicSpline refused
+    # the whole fit.  On an all-finite spectrum this is `np.ones(...)` exactly,
+    # so the frozen solar/Procyon products are unchanged -- the reproduction
+    # control in scripts/rya931_normalize_corrected.py asserts that byte for byte.
+    mask     = np.isfinite(flux)
     continuum = np.ones_like(flux)
 
     for iteration in range(n_iter):
