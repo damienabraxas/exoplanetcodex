@@ -31,6 +31,9 @@ def product_matrix() -> pd.DataFrame:
         axes_for(r.treatment, handler=r.handler, model=r.model).display
         for r in d.itertuples()
     ]
+    d["holding"] = "solar_kpno"
+    d["instrument"] = "Kitt Peak Solar Flux Atlas (NSO/KPNO FTS)"
+    d["coverage_A"] = "2960-13000"
     d["delta_same_line_LTE"] = 0.0
     # Amarsi coverage is a subset; compare only with the LTE values for those same lines.
     same = {("VIS", "ENGINE-A"): -0.0223,
@@ -44,11 +47,36 @@ def product_matrix() -> pd.DataFrame:
     d["domain_status"] = "in-domain"
     d.loc[d.band.eq("near-UV"), "domain_status"] = (
         "in-domain LTE; n=1 constrained of 3; no registered NLTE synthesis deck")
-    cols = ["band", "route", "scale", "model", "atmos", "gf", "display_name",
+    cols = ["holding", "instrument", "coverage_A", "band", "route", "scale", "model", "atmos", "gf", "display_name",
             "n_lines", "A", "stat_dex", "syst_dex", "delta_same_line_LTE",
             "literature_comparison", "domain_status"]
     return d[cols].rename(columns={"n_lines": "n", "stat_dex": "sigma_stat",
                                    "syst_dex": "sigma_syst"})
+
+
+def calibration_matrix(products: pd.DataFrame) -> pd.DataFrame:
+    """Replication gate: agreement with the external value within combined 1-sigma.
+
+    Keep the two-part internal bars in product_matrix; this projection combines them
+    only for the explicitly named calibration comparison.
+    """
+    d = products.copy()
+    d["literature_value"] = 6.43
+    d["literature_sigma"] = 0.04
+    d["literature_scale"] = "3D-NLTE"
+    d["delta_dex"] = d["A"] - d["literature_value"]
+    d["sigma_combined"] = np.sqrt(
+        d["sigma_stat"] ** 2 + d["sigma_syst"] ** 2 + d["literature_sigma"] ** 2)
+    d["z_combined"] = d["delta_dex"].abs() / d["sigma_combined"]
+    d["calibration_verdict"] = np.where(
+        d["z_combined"] <= 1.0, "REPLICATED-WITHIN-1SIGMA", "NOT-REPLICATED")
+    d["comparison_caveat"] = np.where(
+        d["scale"].eq("3D-NLTE"), "scale-matched",
+        "diagnostic cross-scale comparison; 3D-NLTE route not yet executed")
+    return d[["holding", "instrument", "coverage_A", "band", "display_name", "scale",
+              "n", "A", "sigma_stat", "sigma_syst", "literature_value",
+              "literature_sigma", "literature_scale", "delta_dex", "sigma_combined",
+              "z_combined", "calibration_verdict", "comparison_caveat"]]
 
 
 def per_line_matrix() -> pd.DataFrame:
@@ -109,13 +137,45 @@ def disposition() -> pd.DataFrame:
 def validation(products: pd.DataFrame) -> dict:
     inputs = [BandProduct(r.band, r.display_name, r.A, r.sigma_stat, r.sigma_syst,
                           r.n, r.scale) for r in products.itertuples()]
-    return validate_element("Al", inputs, asplund=6.43).to_dict()
+    legacy = validate_element("Al", inputs, asplund=6.43).to_dict()
+    cal = calibration_matrix(products)
+    science = cal[cal.band.isin(["VIS", "red-optical"])]
+    legacy["classifier_scope"] = (
+        "legacy central-value interval diagnostic; not the calibration verdict")
+    legacy["calibration_verdict"] = (
+        "REPLICATED-WITHIN-1SIGMA" if science.calibration_verdict.eq(
+            "REPLICATED-WITHIN-1SIGMA").all() else "NOT-REPLICATED")
+    legacy["calibration_gate"] = (
+        "abs(Codex-literature) / sqrt(stat^2+syst^2+literature_sigma^2) <= 1")
+    legacy["calibration_products_passed"] = int(
+        science.calibration_verdict.eq("REPLICATED-WITHIN-1SIGMA").sum())
+    legacy["calibration_products_total"] = int(len(science))
+    return legacy
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     prod = product_matrix()
     prod.to_csv(OUT / "product_matrix.csv", index=False)
+    cal = calibration_matrix(prod)
+    cal.to_csv(OUT / "calibration_matrix.csv", index=False)
+    tracker_rows = cal.where(pd.notna(cal), None).to_dict(orient="records")
+    (OUT / "tracker_data.json").write_text(json.dumps({
+        "updated": "2026-08-19",
+        "literature": {"value": 6.43, "sigma": 0.04, "scale": "3D-NLTE"},
+        "planned_instruments": [
+            {"id": "solar_kpno", "label": "Kitt Peak FTS", "coverage": "2960–13000 Å"},
+            {"id": "solar_iag", "label": "IAG FTS", "coverage": "4047–10650 Å"},
+            {"id": "solar_crires_plus", "label": "CRIRES+ solar/Vesta", "coverage": "held Y: 10280–10680 Å"},
+        ],
+        "bands": ["near-UV", "VIS", "red-optical", "NIR"],
+        "products": tracker_rows,
+        "open_models": [
+            "Gerber 1D-NLTE — Al abundance-axis adapter not wired",
+            "Nordlander–Lind mean-3D NLTE — verified grid not held/registered",
+            "3D-NLTE — scale-matched production route owed",
+        ],
+    }, indent=2) + "\n")
     per_line_matrix().to_csv(OUT / "per_line_matrix.csv", index=False)
     disposition().to_csv(OUT / "line_disposition.csv", index=False)
     (OUT / "validation.json").write_text(json.dumps(validation(prod), indent=2) + "\n")

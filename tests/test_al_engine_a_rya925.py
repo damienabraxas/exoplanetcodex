@@ -51,7 +51,7 @@ def test_al_litscan_and_validation_contract():
 
     lit = literature_range("Al")
     assert lit is not None
-    assert (lit.central, lit.min, lit.max, lit.scale) == (6.43, 6.39, 6.47, "1D-NLTE")
+    assert (lit.central, lit.min, lit.max, lit.scale) == (6.43, 6.39, 6.47, "3D-NLTE")
     verdict = validate_element("Al", [
         BandProduct("VIS", "EW · 1D-NLTE · Amarsi", 6.43,
                     sigma_statistical=0.03, sigma_systematic=0.05,
@@ -62,6 +62,19 @@ def test_al_litscan_and_validation_contract():
     ], asplund=6.43)
     assert verdict.validating[0].verdict == "pass"
     assert next(b for b in verdict.bands if b.band == "red-optical").verdict == "report"
+
+
+def test_rya925_calibration_gate_uses_combined_uncertainty():
+    from scripts.rya925_al_report import calibration_matrix, product_matrix
+
+    got = calibration_matrix(product_matrix())
+    vis = got[got.band.eq("VIS")]
+    assert set(vis.calibration_verdict) == {"REPLICATED-WITHIN-1SIGMA"}
+    assert vis.z_combined.max() < 1.0
+    near_uv = got[got.band.eq("near-UV")].iloc[0]
+    assert near_uv.calibration_verdict == "NOT-REPLICATED"
+    assert near_uv.z_combined > 10.0
+    assert set(got.holding) == {"solar_kpno"}
 
 
 def test_frontier_fit_uses_context_element_not_fe_source():

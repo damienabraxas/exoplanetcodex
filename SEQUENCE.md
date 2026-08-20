@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-19
 
+- **RYA-925** — Calibration gate corrected: Kitt Peak VIS/red-optical replicate within combined 1σ; IR/model continuation remains open.
 - **RYA-925** — Al Kitt Peak matrix banked across EW/synth LTE + Amarsi; non-Fe identity defects fixed; VIS fails literature validation, no tuning.
 
 ## 2026-08-18
