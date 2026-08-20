@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-19
 
+- **RYA-927** — shared telluric route contract covers all catalog instruments; HARPS/Kitt Peak clean-line paths coexist with molecfit/GDAS correction routes.
 - **RYA-926** — authority and skill governance settled; RYA-925 dry-read exposes a missing cross-instrument canary.
 
 ## 2026-08-18
