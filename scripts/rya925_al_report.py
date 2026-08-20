@@ -27,6 +27,12 @@ def _product_inputs():
 def product_matrix() -> pd.DataFrame:
     frames = [pd.read_csv(p) for p in _product_inputs()]
     d = pd.concat(frames, ignore_index=True)
+    # RYA-925 follow-up: the sole near-UV candidate does not measure Al. Across
+    # A(Al)=1.43..6.43 the peak synthetic response is 2.7e-5 while the window RMS
+    # residual is 0.046; its apparent minimum is numerical structure in a blended,
+    # model-inadequate window. Keep the attempted line in the appendix, never emit a
+    # one-line abundance product from it.
+    d = d[~d["band"].eq("near-UV")].copy()
     d["display_name"] = [
         axes_for(r.treatment, handler=r.handler, model=r.model).display
         for r in d.itertuples()
@@ -45,8 +51,6 @@ def product_matrix() -> pd.DataFrame:
     d["literature_comparison"] = np.where(
         d.band.eq("VIS"), "validate against RYA-716 6.43 [6.39,6.47]", "report-and-note")
     d["domain_status"] = "in-domain"
-    d.loc[d.band.eq("near-UV"), "domain_status"] = (
-        "in-domain LTE; n=1 constrained of 3; no registered NLTE synthesis deck")
     cols = ["holding", "instrument", "coverage_A", "band", "route", "scale", "model", "atmos", "gf", "display_name",
             "n_lines", "A", "stat_dex", "syst_dex", "delta_same_line_LTE",
             "literature_comparison", "domain_status"]
@@ -94,9 +98,17 @@ def per_line_matrix() -> pd.DataFrame:
                     nlte_delta_dex=getattr(r, "nlte_delta_dex", np.nan)))
     p = next(OUT.glob("*3000_3800*1D-LTE_lines.csv"))
     for r in pd.read_csv(p).itertuples():
+        reason = r.excluded_reason
+        in_aggregate = r.in_aggregate
+        if abs(float(r.wavelength_air_A) - 3057.144) < 0.01:
+            in_aggregate = False
+            reason = ("ABUNDANCE-INSENSITIVE / BLENDED MODEL FAILURE: 146 catalogue "
+                      "transitions in +/-0.72 A; changing A(Al)=1.43..6.43 moves peak "
+                      "synthetic flux only 2.7e-5 while best-window RMS residual is "
+                      "0.046. Numerical minimum does not measure Al; appendix only.")
         rows.append(dict(band="near-UV", wavelength_air_A=r.wavelength_air_A,
                          treatment=r.treatment, route="synth", abundance=r.abundance,
-                         in_aggregate=r.in_aggregate, excluded_reason=r.excluded_reason,
+                         in_aggregate=in_aggregate, excluded_reason=reason,
                          nlte_delta_dex=0.0))
     return pd.DataFrame(rows)
 
@@ -113,6 +125,11 @@ def disposition() -> pd.DataFrame:
                 disposition="measured" if r.in_aggregate else "quarantined",
                 reason="accepted by current profile/feature gates" if r.in_aggregate else r.excluded_reason))
     rows += [
+        dict(lambda_A=3057.144, band="near-UV", holding="solar_kpno",
+             gf_source_grade="VALD3; ungraded", permitted_routes="synth only",
+             model_domain="1D-LTE attempted; abundance-insensitive",
+             disposition="rejected",
+             reason="146 transitions in +/-0.72 A; Al response 2.7e-5 vs 0.046 RMS residual; numerical minimum does not measure Al; diagnostic plot banked"),
         dict(lambda_A=3944.006, band="VIS", holding="solar_kpno",
              gf_source_grade="Nordlander-Lind/NIST context", permitted_routes="synth",
              model_domain="model line exists", disposition="skipped",
