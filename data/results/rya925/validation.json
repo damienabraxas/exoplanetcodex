@@ -22,7 +22,7 @@
       "excess_beyond_band": 0.061,
       "bars": "stat 0.119 / sys 0.171",
       "scale": "1D-LTE",
-      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -47,7 +47,7 @@
       "excess_beyond_band": 0.039,
       "bars": "stat 0.012 / sys 0.171",
       "scale": "1D-NLTE",
-      "scale_mismatch": "",
+      "scale_mismatch": "product is on '1D-NLTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -72,7 +72,7 @@
       "excess_beyond_band": 0.119,
       "bars": "stat 0.020 / sys 0.170",
       "scale": "1D-LTE",
-      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -97,7 +97,7 @@
       "excess_beyond_band": 2.192,
       "bars": "stat 0.010 / sys 0.197",
       "scale": "1D-LTE",
-      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -122,7 +122,7 @@
       "excess_beyond_band": 0.0,
       "bars": "stat 0.052 / sys 0.173",
       "scale": "1D-LTE",
-      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -147,7 +147,7 @@
       "excess_beyond_band": 0.01,
       "bars": "stat 0.037 / sys 0.173",
       "scale": "1D-NLTE",
-      "scale_mismatch": "",
+      "scale_mismatch": "product is on '1D-NLTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -172,7 +172,7 @@
       "excess_beyond_band": 0.003,
       "bars": "stat 0.029 / sys 0.173",
       "scale": "1D-LTE",
-      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '1D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '1D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
+      "scale_mismatch": "product is on '1D-LTE' but the literature range is quoted on '3D-NLTE'. The comparison below is NOT scale-consistent and must be corrected onto '3D-NLTE' before it means anything (pipeline.solar_scale_provenance owns that transform).",
       "references_used": [
         "Asplund et al. 2021 (A&A 653, A141)",
         "Andrievsky et al. 2020 (arXiv:2006.10998)"
@@ -190,5 +190,10 @@
     "Andrievsky et al. 2020 (arXiv:2006.10998)"
   ],
   "exception_count": 0,
-  "failure_count": 3
+  "failure_count": 3,
+  "classifier_scope": "legacy central-value interval diagnostic; not the calibration verdict",
+  "calibration_verdict": "REPLICATED-WITHIN-1SIGMA",
+  "calibration_gate": "abs(Codex-literature) / sqrt(stat^2+syst^2+literature_sigma^2) <= 1",
+  "calibration_products_passed": 6,
+  "calibration_products_total": 6
 }
