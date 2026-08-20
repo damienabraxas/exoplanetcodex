@@ -1,0 +1,350 @@
+{
+  "manifest_id": "rya931_solar_harps_molecfit_corrected",
+  "holding_id": "solar_harps_molecfit_corrected",
+  "ticket": "RYA-931",
+  "parent_ticket": "RYA-927",
+  "supersedes_nothing": "solar_harps is preserved unmodified; this is a provenance-distinct sibling holding, not a replacement.",
+  "source": {
+    "program_id": "1102.D-0954(A)",
+    "citation": "Dumusque et al. 2021, arXiv:2009.01945 \u2014 HARPS direct-Sun feed",
+    "product_class": "ESO Phase-3 HARPS S1D ADP",
+    "observation_date_utc": "2023-08-02 13:56:15 to 14:08:40",
+    "n_exposures": 10,
+    "exposures": [
+      {
+        "file": "ADP.2023-08-04T01:04:29.735.fits",
+        "md5": "a77ac63027dab57608c8703014329fe4",
+        "mjd_obs": 60158.58073576,
+        "airmass_start": 2.18256848821743
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.737.fits",
+        "md5": "8d674e3bc902409fc35ef2a794fb0500",
+        "mjd_obs": 60158.58154588,
+        "airmass_start": 2.16735546419835
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.739.fits",
+        "md5": "b251c450aad7c146dc0b9a982a62442d",
+        "mjd_obs": 60158.58225182,
+        "airmass_start": 2.15438148161609
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.741.fits",
+        "md5": "9a67034e00f00a6f3f6552d9ff7085a9",
+        "mjd_obs": 60158.58320083,
+        "airmass_start": 2.13738812970456
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.743.fits",
+        "md5": "08a40257a669f7a05115246291958f0e",
+        "mjd_obs": 60158.58442926,
+        "airmass_start": 2.11620070536329
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.745.fits",
+        "md5": "f844a35d82ddc3ecf84f7aa6c139e90f",
+        "mjd_obs": 60158.58566613,
+        "airmass_start": 2.09569788079186
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.747.fits",
+        "md5": "8cb74352f3f554310b9ba77e99a834fe",
+        "mjd_obs": 60158.58661549,
+        "airmass_start": 2.08056014389165
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.749.fits",
+        "md5": "54def9f5b0b4f4e75fd592c2c6763dae",
+        "mjd_obs": 60158.58732132,
+        "airmass_start": 2.06960980413046
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.751.fits",
+        "md5": "1e066dc0d51de7988aa752b142abd5b4",
+        "mjd_obs": 60158.58813155,
+        "airmass_start": 2.05735905595636
+      },
+      {
+        "file": "ADP.2023-08-04T01:04:29.753.fits",
+        "md5": "adc4d85016b8eeba394c4edf21da6c0e",
+        "mjd_obs": 60158.58935824,
+        "airmass_start": 2.03942335620343
+      }
+    ],
+    "wavelength_frame": "air, SPECSYS=BARYCENT",
+    "known_defect": "the ERR column is 100% NaN in all ten exposures; it is not usable as an uncertainty and is not used as one"
+  },
+  "lineage_proof": {
+    "claim": "these ten exposures ARE the source of the held solar_harps product, proven rather than assumed",
+    "method": "pipeline.spectra_normalize, the same functions that built the held product, re-run on the ten originals",
+    "regenerated_sha256": "6100681d530ffe59c7ea8ba6ee3055ce374d9bd77b73c84b413e1745c8302af4",
+    "committed_sha256": "6100681d530ffe59c7ea8ba6ee3055ce374d9bd77b73c84b413e1745c8302af4",
+    "byte_identical": true
+  },
+  "correction": {
+    "engine": "ESO Molecfit",
+    "recipe": "molecfit_model",
+    "esorex_version": "***** ESO Recipe Execution Tool, version 3.13.10  *****\n\nLibraries used: CPL = 7.3.2, CFITSIO = 4.6.3, WCSLIB = 8.4, FFTW (normal precision) = 3.3.10, FFTW (single precision) = 3.3.10\n\nCopyright 2003-2024, European Southern Observatory.\nReport bugs to <cpl-help@eso.org>.",
+    "stage": "per exposure, before co-addition and continuum normalisation",
+    "molecules": [
+      "O2"
+    ],
+    "band_A": [
+      6857.0,
+      6911.0
+    ],
+    "registered_telluric_bands_in_instrument_range": [
+      "O2 B 6867-6884"
+    ],
+    "wavelength_frame": "AIR_RV",
+    "obs_erf_rv_convention": "OBS_ERF_RV_VALUE = -BERV; molecfit's sign is positive when the target-Earth distance increases, the negative of the ESO DRS BERV. Determined empirically, not assumed: against AIR and AIR_RV(+BERV) this sign gives a 15x lower corrected-residual RMS (0.039 vs 0.59/0.62).",
+    "reference_atmosphere": "equ.fits",
+    "reference_atmosphere_md5": "cf98a77b2e849ba956aba78f7fe1f592",
+    "gdas_profile": "noaa gdas1.aug23.w1, La Silla column, 2023-08-02 15:00 UT",
+    "standard_atmosphere_fallback": false,
+    "line_spread_function": {
+      "form": "Gaussian, fitted; boxcar and Lorentzian disabled (HARPS is fibre-fed and has no slit)",
+      "fwhm_pix_per_exposure": [
+        6.765417665705936,
+        6.762495931458691,
+        6.773931642493287,
+        6.762115580607218,
+        6.777510284824589,
+        6.778771505946098,
+        6.764450602169549,
+        6.7682757367912725,
+        6.765216179233212,
+        6.764636839986506
+      ],
+      "implied_resolving_power": 101710
+    },
+    "solar_line_exclusion": "intrinsic solar absorption masked out of the atmospheric fit using the Baker+2020 telluric-free IAG atlas (md5 1a47d929df32778f72cc4080ff1f95ec); the atlas supplies a MASK only, never flux",
+    "per_exposure": [
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.735.fits",
+        "corrected_md5": "617ccf6c904ea5ce02b152dbea42629d",
+        "rel_mol_col_O2": 1.000791431810437,
+        "reduced_chi2": 0.8064272629722467,
+        "lsf_gauss_fwhm_pix": 6.765417665705936,
+        "dt_transmission_sigma": 0.007341481508399112,
+        "t_min": 0.14682963016798223,
+        "n_corrected": 5134,
+        "n_quarantined": 267,
+        "lsf_start_accepted_pix": 6.5
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.737.fits",
+        "corrected_md5": "34b9d16382ba8cd7e492b89e193ae294",
+        "rel_mol_col_O2": 1.0007075415079332,
+        "reduced_chi2": 0.8012748521056846,
+        "lsf_gauss_fwhm_pix": 6.762495931458691,
+        "dt_transmission_sigma": 0.006965575338589458,
+        "t_min": 0.13931150677178913,
+        "n_corrected": 5148,
+        "n_quarantined": 253,
+        "lsf_start_accepted_pix": 6.5
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.739.fits",
+        "corrected_md5": "898fb58191fa74d9460ab6eeb6a6cede",
+        "rel_mol_col_O2": 1.000712805635915,
+        "reduced_chi2": 0.8146224535020961,
+        "lsf_gauss_fwhm_pix": 6.773931642493287,
+        "dt_transmission_sigma": 0.00701249034678982,
+        "t_min": 0.1402498069357964,
+        "n_corrected": 5149,
+        "n_quarantined": 252,
+        "lsf_start_accepted_pix": 6.773
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.741.fits",
+        "corrected_md5": "67b8c169d7cffade33b06e095a79c993",
+        "rel_mol_col_O2": 1.000713683473257,
+        "reduced_chi2": 0.8075252651066761,
+        "lsf_gauss_fwhm_pix": 6.762115580607218,
+        "dt_transmission_sigma": 0.007200824787152459,
+        "t_min": 0.14401649574304917,
+        "n_corrected": 5145,
+        "n_quarantined": 256,
+        "lsf_start_accepted_pix": 6.773
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.743.fits",
+        "corrected_md5": "c8165ea28fc7d214eafca063b42cc8a4",
+        "rel_mol_col_O2": 1.001179015920268,
+        "reduced_chi2": 0.8280126547054639,
+        "lsf_gauss_fwhm_pix": 6.777510284824589,
+        "dt_transmission_sigma": 0.007335178735741743,
+        "t_min": 0.14670357471483486,
+        "n_corrected": 5144,
+        "n_quarantined": 257,
+        "lsf_start_accepted_pix": 6.5
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.745.fits",
+        "corrected_md5": "9140b7a6371d586e92c7fe4670817b29",
+        "rel_mol_col_O2": 1.0018124377412412,
+        "reduced_chi2": 0.7953322356985729,
+        "lsf_gauss_fwhm_pix": 6.778771505946098,
+        "dt_transmission_sigma": 0.007346740306734673,
+        "t_min": 0.14693480613469345,
+        "n_corrected": 5145,
+        "n_quarantined": 256,
+        "lsf_start_accepted_pix": 7.0
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.747.fits",
+        "corrected_md5": "5763544a6d3af5297b20e6cf4d0b5974",
+        "rel_mol_col_O2": 1.0012213753609351,
+        "reduced_chi2": 0.793197195018581,
+        "lsf_gauss_fwhm_pix": 6.764450602169549,
+        "dt_transmission_sigma": 0.006926934959639063,
+        "t_min": 0.13853869919278125,
+        "n_corrected": 5156,
+        "n_quarantined": 245,
+        "lsf_start_accepted_pix": 7.25
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.749.fits",
+        "corrected_md5": "94f135fef456c5f33dc87f4c0500cb36",
+        "rel_mol_col_O2": 1.001114946946111,
+        "reduced_chi2": 0.8079956345895938,
+        "lsf_gauss_fwhm_pix": 6.7682757367912725,
+        "dt_transmission_sigma": 0.007459969532985286,
+        "t_min": 0.1491993906597057,
+        "n_corrected": 5144,
+        "n_quarantined": 257,
+        "lsf_start_accepted_pix": 6.5
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.751.fits",
+        "corrected_md5": "b65612e96977f2c20a54839895310640",
+        "rel_mol_col_O2": 1.001650965590479,
+        "reduced_chi2": 0.8130564070245082,
+        "lsf_gauss_fwhm_pix": 6.765216179233212,
+        "dt_transmission_sigma": 0.007279948728244129,
+        "t_min": 0.14559897456488258,
+        "n_corrected": 5149,
+        "n_quarantined": 252,
+        "lsf_start_accepted_pix": 7.0
+      },
+      {
+        "exposure": "ADP.2023-08-04T01:04:29.753.fits",
+        "corrected_md5": "670f358f931463f226fbae0c8dd51788",
+        "rel_mol_col_O2": 1.0002514798744682,
+        "reduced_chi2": 0.8140768386522524,
+        "lsf_gauss_fwhm_pix": 6.764636839986506,
+        "dt_transmission_sigma": 0.007573088902065097,
+        "t_min": 0.15146177804130193,
+        "n_corrected": 5144,
+        "n_quarantined": 257,
+        "lsf_start_accepted_pix": 6.773
+      }
+    ]
+  },
+  "quarantine": {
+    "rule": "a pixel whose fitted transmission T is below T_min is set NaN, never divided. T_min = measured dT / 0.05, i.e. a corrected pixel may carry at most 5% relative flux error from the transmission model. T_min is derived per exposure, not hard-coded.",
+    "policy_basis": "RYA-927 ratified policy: saturated or badly modelled telluric regions are rejected, not forced into a corrected state",
+    "n_nan_in_product": 256
+  },
+  "product": {
+    "path": "data/processed/solar_normalized_tellcorr.csv",
+    "sha256": "7d7d5b109ceccb26809e984b153f377b5f75d5723058dfcd2b7b1ba2ff6de30f",
+    "n_samples": 312744,
+    "n_finite": 312488,
+    "wavelength_range_A": [
+      3782.555926781264,
+      6909.990827071684
+    ],
+    "built_by": "scripts/rya931_normalize_corrected.py, which calls pipeline.spectra_normalize \u2014 the canonical path"
+  },
+  "telluric_state": {
+    "value": "applied",
+    "derived_from": "the product's own MTRANS image extension, read by pipeline.telluric_intake; not asserted in the registry",
+    "evidence_class": "transmission extension present and NOT all-unity"
+  },
+  "verification": {
+    "o2b_gate": {
+      "o2b_before": {
+        "window_A": [
+          6867.0,
+          6884.0
+        ],
+        "n_pixels": 1700,
+        "n_finite": 1700,
+        "min": 0.0060057717868253,
+        "median": 0.8504787494699146,
+        "pct_below_0.5": 22.058823529411764,
+        "pct_below_0.95": 86.3529411764706
+      },
+      "o2b_after": {
+        "window_A": [
+          6867.0,
+          6884.0
+        ],
+        "n_pixels": 1700,
+        "n_finite": 1554,
+        "min": 0.7724900581656337,
+        "median": 0.9648135766467563,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 24.38867438867439
+      },
+      "control_before": {
+        "window_A": [
+          6800.0,
+          6860.0
+        ],
+        "n_pixels": 6000,
+        "n_finite": 6000,
+        "min": 0.5665678794739675,
+        "median": 0.9514035098010866,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 42.36666666666667
+      },
+      "control_after": {
+        "window_A": [
+          6800.0,
+          6860.0
+        ],
+        "n_pixels": 6000,
+        "n_finite": 6000,
+        "min": 0.5657529076326121,
+        "median": 0.9520858702660432,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 39.35
+      }
+    },
+    "solar_preservation": {
+      "raw_coadd_bit_identical_outside_fitted_region": true,
+      "max_normalised_flux_shift_outside": 0.0015974995856690155,
+      "max_fractional_continuum_shift_outside": 0.00388971876539014,
+      "continuum_shift_tolerance": 0.01,
+      "n_clean_solar_line_pixels": 67,
+      "max_abs_depth_shift": 0.005203881126258247,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    "iag_discriminator": {
+      "n_compared_before": 1700,
+      "n_compared_after": 1554,
+      "rms_vs_iag_before": 0.40211923774135977,
+      "rms_vs_iag_after": 0.035121902388747385,
+      "median_offset_before": -0.1339472774970621,
+      "median_offset_after": -0.026415266536971238
+    },
+    "verdict": {
+      "o2b_min_improved": true,
+      "o2b_saturation_cleared": true,
+      "control_shift_bounded": true,
+      "solar_preserved": true,
+      "iag_agreement_improved": true,
+      "pass": true
+    }
+  },
+  "caveats": [
+    "telluric_applied=applied is a product-level conditioning fact, not a line-level science verdict; every candidate line in 6857-6911 A still needs a local telluric disposition (RYA-927 ratified two-level policy).",
+    "Removing the O2 band raises the 95th-percentile continuum anchor of the knot window containing it, so the continuum solution shifts by up to 0.389% outside the fitted region. The raw co-add outside the fitted region is bit-identical; the normalised flux moves by at most 1.6e-3.",
+    "The ERR column is unusable, so molecfit was weighted with its documented DEFAULT_ERROR. That is fit weighting only and is not an EW uncertainty."
+  ]
+}
