@@ -1907,3 +1907,89 @@ artifacts:
       floor to report an n=1 abundance would be tuning a ratified rule to manufacture a
       cell. This file records the reason so a missing product cannot be mistaken for one
       nobody attempted.
+  # ── RYA-925 Kitt Peak Al calibration products ───────────────────────────────
+  - artifact: rya925/AlI_3000_3800_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/AlI_3000_3800_kpno_solar_atlas_SYNTH_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/AlI_3000_3800_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/AlI_3000_3800_kpno_solar_atlas_SYNTH_provenance.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/AlI_3057_nearuv_diagnostic.png
+    generator: scripts/rya925_al_nearuv_diagnostic.py
+    ticket: RYA-925
+  - artifact: rya925/AlI_3057_nearuv_diagnostic_spectra.csv
+    generator: scripts/rya925_al_nearuv_diagnostic.py
+    ticket: RYA-925
+  - artifact: rya925/AlI_3057_nearuv_neighbours.csv
+    generator: scripts/rya925_al_nearuv_diagnostic.py
+    ticket: RYA-925
+  - artifact: rya925/calibration_matrix.csv
+    generator: scripts/rya925_al_report.py
+    ticket: RYA-925
+  - artifact: rya925/line_disposition.csv
+    generator: scripts/rya925_al_report.py
+    ticket: RYA-925
+  - artifact: rya925/per_line_matrix.csv
+    generator: scripts/rya925_al_report.py
+    ticket: RYA-925
+  - artifact: rya925/product_matrix.csv
+    generator: scripts/rya925_al_report.py
+    ticket: RYA-925
+  - artifact: rya925/tracker_data.json
+    generator: scripts/rya925_al_report.py
+    ticket: RYA-925
+  - artifact: rya925/validation.json
+    generator: scripts/rya925_al_report.py
+    ticket: RYA-925
+  - artifact: rya925/REPORT.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-925
+    note: Narrative report assembled from the RYA-925 matrices and diagnostic artifacts.
+    sources:
+      - data/results/rya925/calibration_matrix.csv
+      - data/results/rya925/validation.json
+  - artifact: rya925/tracker.html
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-925
+    note: Static local presentation assembled from the RYA-925 tracker data and matrices.
+    sources:
+      - data/results/rya925/tracker_data.json
+      - data/results/rya925/calibration_matrix.csv
+  - artifact: rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_budgets.txt
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
+  - artifact: rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-925
