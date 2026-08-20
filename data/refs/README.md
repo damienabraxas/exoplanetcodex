@@ -147,8 +147,21 @@ document is sitting on disk under three different names — only content can.
 The path is an argument, never hardcoded — the library lives outside the repo on a
 per-machine path, and a literal would both break on Sirius and trip the RYA-810 gate.
 
-Non-documents (`.jpg`, `.png`, `.heic`, …) are skipped **by extension**, never by a
-filename allow-list — an allow-list would rot silently the moment a file is renamed.
+Non-reference assets (`.jpg`, `.png`, `.heic`, `.xml`, …), including project design
+diagrams, are skipped **by extension**, never by a filename allow-list. They remain
+project evidence but are not literature citations; an allow-list would rot silently
+the moment a file is renamed.
+
+## How agents use the local reference library
+
+The library is a durable evidence holding, not a source of project law. Check existing
+holdings before reacquiring a paper. For each scientific source record title, authors,
+year, DOI or equivalent stable identifier, local filename, and relevant Codex role where
+practical. Verify metadata and any page-specific interpretation by inspecting the source;
+never invent a citation, DOI, page number, or reading from a filename. Ratified method
+decisions belong in `docs/SCIENCE_STANDARDS.md` or a decision record and merely cite the
+paper. Project diagrams and legacy instructions are governed as design/context artifacts,
+not forced into the bibliography.
 
 **Duplicates are settled by content, never by name.** A row's `local_file` names one
 file and its `license_note` records any twin. This matters: `1002.4268v1.pdf` and

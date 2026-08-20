@@ -1,17 +1,16 @@
 ---
 name: codex-mr-code-brief
-description: How to write a Mr. Code brief — the Linear issue description an implementing agent reads and executes without further conversation. Use this skill whenever drafting or reviewing a ticket that an agent will implement, and ALWAYS before a pre-freeze, verification-gate, or phase-close brief. It carries the mandatory pre-brief refinement-debt check (RYA-676), the section contract, the "verified against origin/main" evidence rule, and the standing Do-NOTs (gold write-once, no merging, Sirius venv). A brief that omits the debt check is not ready to fire.
+description: Write or review a Linear implementation brief for a coding or science agent. Use for any agent-executed ticket and always for pre-freeze, verification-gate, or phase-close work. Reconciles mission, current repo state, science authority, code, and refinement debt without duplicating mutable rules into the ticket.
 ---
 
-# Mr. Code brief — authoring skill
+# Agent implementation brief
 
 ## Why this exists
 
-A Mr. Code brief is executed by an agent that starts **cold**: no session history, no
-memory of what was ratified last week, no ability to ask a clarifying question mid-run.
-Everything it needs must be in the description and its comments. Everything it must not
-do has to be written down, because "obviously don't do that" is not reachable from a cold
-start.
+A brief is the durable mission and implementation contract in Linear. It must be
+unambiguous enough for a cold agent, but it does **not** supersede current repository
+state, ratified science standards, or committed implementation truth. Link canonical
+sources instead of copying mutable values and instrument rules into every ticket.
 
 Two failure classes motivate the rules below, and both have been paid for:
 
@@ -27,7 +26,7 @@ Two failure classes motivate the rules below, and both have been paid for:
 
 ## Pre-brief refinement debt check (mandatory)
 
-Before drafting any pre-freeze, verification-gate, or phase-close Mr. Code brief:
+Before drafting any pre-freeze, verification-gate, or phase-close agent brief:
 
 1. Read `data/audit/element_status_tracker.csv` `refinement_debt` column.
 2. If any element in the current phase has `Backlog:` in that column, list those tickets
@@ -55,12 +54,13 @@ filed a ticket — firing something cannot clear it), and an **empty cell means 
 refinement path", not "nothing owed"**. Full discipline in `docs/CONVENTIONS.md`
 § "An owed row names the ticket that would fix it".
 
-## Verify the premises against origin/main before you write them
+## Cold-start and verify the premises
 
-Every factual claim in a brief — a file exists, a function does X, a value is Y, a ticket
-is Done — is checked against `origin/main` at authoring time, and the brief says so. Cite
-`path:line` where a claim is about code. If a claim rests on an unmerged branch, name the
-branch and the PR, and say what happens to the brief if that PR does not land.
+Start at `LEDGERS.md` and reconcile applicable ledger/state rows, skills,
+`SCIENCE_STANDARDS.md`, protocol/product/convention docs, current code/config/tests,
+the issue description, and **all comments chronologically**. Check every factual claim
+against fresh `origin/main` and record the base SHA. Cite `path:line` for code claims.
+If a premise rests on an unmerged branch, name the branch and PR and state the contingency.
 
 Grep **every** named precedent, not a subset. A partial sweep produces confident false
 negatives: "no rchi2 ceiling exists on main" was written after grepping two of the five
@@ -73,20 +73,31 @@ Number the sections; implementing agents reference them (`§3B`, `§4`).
 1. **Context** — what surfaced this, with evidence. Include the debt check result.
 2. **The defect / the goal** — stated as the *class*, not just the instance. If it is one
    of N, say so and enumerate.
-3. **Spec** — lettered sub-items. Each is a decision to make or a thing to build. Where a
+3. **Spec** — complete behavior, interfaces, scope, constraints, and acceptance tests.
+   Include code or pseudocode only when it materially constrains implementation. Each
+   lettered sub-item is a decision to make or a thing to build. Where a
    judgement call is genuinely open, say *"establish X and report it"* rather than
    prescribing an answer you have not verified. **"Do not fabricate a uniform rule over
    things with genuinely different semantics; report the difference instead."**
 4. **Do NOT** — the standing set, plus anything ticket-specific.
 5. **Verification** — what evidence must exist for this to be done. Prefer
    before/after tables and a test that fails before the fix.
-6. **End-of-Session Requirements** — the Linear comment contract: findings, files
-   changed, branch + SHA + PR link.
+6. **End-of-Session Requirements** — branch/worktree, base SHA, final SHA/commit(s),
+   every file changed, exact commands/results, errors, unresolved questions,
+   collision/state checks, resume point, generated scientific artifacts where
+   applicable, and PR link if authorized. Require a run-bug-ledger disposition: rows
+   appended/amended, or `none discovered`. State explicitly: no merge unless instructed.
 
-Open the description with the one-liner Ryan pastes:
+Open the description with an agent-neutral launch instruction:
 
-> **Mr. Code brief — one-liner to paste:** *"read THIS issue's description AND all
-> comments chronologically, then implement."* (correct RYA-# is in the URL of this issue)
+> **Agent brief — launch:** *"Read this issue's description and all comments
+> chronologically, perform the repository cold start, reconcile current authorities,
+> then implement."*
+
+Use a true `parentId` only for actual work hierarchy. Use `relatedTo` for dependencies,
+precedents, and history. Do not require a milestone when none applies. Instrument-specific
+rules (APERO, BERV, tellurics, product columns, and similar) are applicability-gated and
+linked from current instrument/science authority rather than pasted as universal rules.
 
 ## The standing Do NOTs
 
@@ -95,16 +106,20 @@ Copy these into every brief that touches results, and add ticket-specific ones:
 - **Do NOT change any element's value or disposition** as a side effect of a contract or
   refactor ticket. If the correct fix would change what is emitted for any species,
   **STOP and report** — that is a science decision for Ryan, not a refactor.
-- **Do NOT modify** `data/reference/solar/CURRENT`, `solar_abundances_v3.csv`, or
-  `hash_manifest.json`. Gold is write-once; v3 sha256
-  `47ad869efd06c046377d04a5b1bb1254edc4e6174d05aff4be7244a99a583421`.
+- **Do NOT modify an existing frozen gold version or its hash manifest.** Resolve
+  `data/reference/solar/CURRENT` and its current hash at authoring time. Gold is
+  write-once; a ratified change creates a new version rather than editing the old one.
 - **Do NOT tune toward literature.** Re-assessment is validate-don't-tune. A model
   changes because its physics or its provenance changed, never because the answer got
   closer to a reference value.
 - **Do NOT merge.** Open the PR; Ryan merges.
-- **Do NOT run grids on the Mac.** Grids live on Sirius only. Full suite runs on
-  `/mnt/codex-data/venv_ci` — never `venv312`.
+- **Do NOT run grids on the Mac.** Resolve current compute and environment policy from
+  the register and repo instructions; record the resolved runner and environment.
 - **Do NOT `git add -A` after a pytest run** — the suite dirties a tracked file.
+
+NaN behavior is semantic, never blanket masking: expected, scientifically valid missing
+values may be represented and masked with an explicit disposition; unexpected or invalid
+NaNs fail loudly with provenance. A brief identifies which class applies.
 
 ## Ratified constraints are not suggestions
 
