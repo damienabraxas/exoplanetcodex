@@ -1,0 +1,12 @@
+# RYA-927 predeclared comparison set
+# Source: exoplanetcodex-site assets/data/sol_ew_results_v1.csv, commit b65f2a9
+# Provenance: original ten-exposure direct-SUN HARPS normalized stack, before telluric correction
+# Selection rule: every published row with wavelength_air_A in the canonical O2 B interval [6867,6884] A
+element,ion,wavelength_air_A,ew_mA,ew_err_mA,profile_type,chi2,blend_flag
+Mn,I,6867.01357,276.35,143.23,gaussian,0.1113,False
+Fe,I,6872.16170,205.97,72.14,gaussian,0.1856,False
+Fe,I,6874.09531,188.30,66.83,gaussian,0.1370,False
+Fe,I,6875.44503,207.15,66.81,gaussian,0.1306,False
+Si,I,6876.35917,213.21,101.84,gaussian,0.1068,False
+Fe,I,6881.44175,59.22,32.32,voigt,0.0180,False
+Cr,I,6882.50674,50.06,20.00,voigt,0.0274,False
