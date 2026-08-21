@@ -1,0 +1,28 @@
+{
+  "ticket": "RYA-945",
+  "artifact": "fe2_lab_loggf_dh19.csv",
+  "source": "Den Hartog, Lawler, Sneden, Cowan & Brukhovesky 2019, ApJS 243, 33, Table 6",
+  "doi": "10.3847/1538-4365/ab322e",
+  "bibcode": "2019ApJS..243...33D",
+  "bibliography_key": "denhartog2019",
+  "method": "FTS branching fractions x radiative lifetimes \u2014 NO solar input",
+  "why_primary": "The Fe II referee that clears RYA-161. Melendez & Barbuy 2009 does not: its own paper labels lines S when the absolute gf came from an inverse analysis of the NSO solar flux spectrum, and allows ~0.1 dex solar tweaks even on its L lines (RYA-852).",
+  "not_on_vizier": "VERIFIED, not assumed: Vizier.get_catalogs(\"J/ApJS/243/33\") returns 0 tables and cdsarc.cds.unistra.fr/ftp/J/ApJS/243/33/ is a 404. arXiv:1907.11760 is a PDF-only submission, so there is no LaTeX source to parse either. Extracted from the published PDF with pypdf.",
+  "local_pdf": "/Users/ryanschmitt/Documents/Exoplanet Codex/Reference documents/Den_Hartog_2019_ApJS_243_33.pdf",
+  "pdf_sha256": "c930ed265c0865009f67a5f8296b354046127ac37a4cc70a1a08b1148975bbb9",
+  "controls": [
+    "COUNT: 131 rows parsed vs 131 stated by the table caption PASS",
+    "UNIQUE: 0 duplicate wavelengths PASS",
+    "ORDERING: 0 rows with E_upper <= E_lower PASS",
+    "LEVELS: max |(Eup-Elo) - hc/lambda_vac| = 1.65e-06 eV PASS",
+    "SIGMA: 131/131 rows carry a finite dex uncertainty, range +0.010..+0.100 PASS"
+  ],
+  "span_A": [
+    2249.178,
+    4583.829
+  ],
+  "n_below_3300A": 121,
+  "n_blue": 10,
+  "retrieved": "2026-08-21",
+  "regenerate": "python3 scripts/rya945_fetch_fe2_gf_dh19.py"
+}
