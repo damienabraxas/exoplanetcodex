@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-21
 
+- **RYA-940** — **the 1984 Kitt Peak atlas is telluric-corrected**, with NO observation metadata to work from. 🔴 **Three O2 bands 1300 Å apart agree on airmass to 4% (1.303/1.306/1.352)** — the referee that replaces 'column must be 1.0'. O2 A median 0.744→**0.991**, %<0.5 32.83→**0.55**, RMS vs Kurucz 2005 0.500→**0.092**. ⚠️ **H2O column is NOT an airmass.** 🔴 **H2O 7160–7340 is an honest NULL** — best fit rms of any band, zero-width LSF from every start. **11120–11560 has no external referee at all**
 - **RYA-939** — **molecfit built on Sirius** (4.4.4-5, matched to the Mac; no ESO Ubuntu repo exists); the telluric leg is no longer Mac-only. **Dual-machine agreement to 5e-5.** 🔴 **Product filenames came from `~/.esorex/esorex.rc`** — a fully successful run reported `failed (rc=0)`. Normalised solar spectra now TRACKED + generator-registered; the RYA-686 guard extended to `data/processed/`
 - **RYA-938** — RYA-929's Kurucz line table was a **VACUUM-vs-AIR** artifact: measured lag **+1.700 Å** vs predicted air–vacuum offset **+1.697 Å**, IAG control **−0.000 Å**; Al I 6696 recovers **0.008 → 0.248**. 🔴 **`lm0840` was a saved HTTP 500 page and `kp_segments()` reported it as "no segment covers 8420 Å"** — 251 files, 250 inventoried. Re-fetched; integrity guard added. **1984 is the only arm past 10000 Å, and it is uncorrected there**
 
