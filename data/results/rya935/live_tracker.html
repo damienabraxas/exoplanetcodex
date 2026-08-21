@@ -31,6 +31,15 @@ code{color:var(--link);font-size:.85em}
 .track{height:18px;position:relative;border-bottom:1px solid var(--rule)}
 .ref{position:absolute;top:0;height:100%;background:rgba(83,216,153,.16);border-left:2px dashed var(--good);border-right:2px dashed var(--good)}
 .refline{position:absolute;top:0;height:100%;width:0;border-left:2px solid var(--good)}
+.cmp{position:absolute;top:0;height:100%;width:0;border-left:2px dotted currentColor}
+.cmpband{position:absolute;top:0;height:100%;opacity:.18}
+.cmplab{position:absolute;top:12px;transform:translateX(-50%);font-size:.74em;
+        font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 12px;font-size:.85em}
+.bandhdr{margin:12px 0 3px;font-size:.82em;letter-spacing:.08em;text-transform:uppercase;
+          color:var(--mut);border-bottom:1px solid var(--rule);padding-bottom:2px}
+.legend i{display:inline-block;width:22px;height:0;border-top:2px solid currentColor;
+          vertical-align:middle;margin-right:5px}
 .bar{position:absolute;top:8px;height:3px;background:var(--link)}
 .dot{position:absolute;top:4px;width:10px;height:10px;border-radius:50%;background:var(--link);transform:translateX(-50%)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -69,54 +78,78 @@ function forest(d){
   let h='';
   for(const sp of d.elements){
     if(FILTER&&sp!==FILTER) continue;
-    const rows=d.products.filter(p=>p.element+p.ion===sp&&p.A!=null);
+    const all=d.products.filter(p=>p.element+p.ion===sp&&p.A!=null);
     const ref=d.reference[sp];
-    if(!rows.length){continue;}
-    const vals=rows.flatMap(r=>[r.A-(r.sigma_stat||0)-(r.sigma_syst||0),r.A+(r.sigma_stat||0)+(r.sigma_syst||0)]);
-    if(ref) vals.push(ref.asplund2021);
-    const lo=Math.min(...vals)-0.05, hi=Math.max(...vals)+0.05, span=hi-lo||1;
-    const x=v=>Math.max(0,Math.min(100,(v-lo)/span*100));
-    const hdr = ref
-      ? ' <span class="muted note">'+esc(ref.best_external||'literature')+' &mdash; <b class="good">'
+    if(!all.length) continue;
+    const cmps=(ref&&ref.comparators)||[];
+    h+='<h3>'+esc(sp)+(ref
+      ? ' <span class="muted note">'+esc(ref.best_external||'literature')+' <b class="good">'
         +fx(ref.asplund2021,2)+(ref.sigma_external!=null?' &plusmn; '+fx(ref.sigma_external,2):'')
         +'</b>'+(ref.scale?' ('+esc(ref.scale)+')':'')+' &middot; gold verdict '+esc(ref.verdict)+'</span>'
-      : ' <span class="warn note">no literature anchor recorded</span>';
-    h+='<h3>'+esc(sp)+hdr+'</h3>';
-    h+=rows.map(r=>{
-      const tot=(r.sigma_stat||0)+(r.sigma_syst||0);
-      const l=x(r.A-tot), w=x(r.A+tot)-l;
-      const pre=/^PRE/.test(r.telluric_basis||'');
-      const label=(r.holding||r.instrument)+' · '+r.band+' · '+(r.display||r.treatment)
-        +'<br><span class="muted">'+esc(r.run_context)+(r.committed?' · '+esc(r.committed):'')
-        +(r.is_variant?' · <span class="warn">variant</span>':'')
-        +' · <span class="'+(pre?'warn':'good')+'">'+esc(pre?'pre-telluric':(r.holding?'holding-attributed':'epoch unknown'))+'</span></span>';
-      let band='';
-      if(ref&&ref.band){const b0=x(ref.band[0]),b1=x(ref.band[1]);
-        band='<i class="ref" style="left:'+b0+'%;width:'+Math.max(0.4,b1-b0)+'%"></i>';}
-      return '<div class="forest"><span class="note">'+label+'</span>'
-        +'<span class="track">'+band+(ref?'<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>':'')
-        +'<i class="bar" style="left:'+l+'%;width:'+w+'%"></i>'
-        +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
-        +'<span class="val note">'+fx(r.A,3)+' &plusmn;'+fx(tot,3)+'</span></div>';
-    }).join('');
-    // x axis: ticks on a round step, plus the literature value called out by name
-    const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
-    let ticks='';
-    for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step)
-      ticks+='<span class="tick" style="left:'+x(v)+'%">'+v.toFixed(step<0.1?2:2)+'</span>';
-    if(ref) ticks+='<span class="reflab" style="left:'+x(ref.asplund2021)+'%">&#9660; '+fx(ref.asplund2021,2)+'</span>';
-    h+='<div class="axis"><span></span><span class="ticks">'+ticks+'</span><span class="muted note">A(X) dex</span></div>';
-    // Name the holdings that produced NOTHING for this species. A forest plot that
-    // simply omits them looks complete when it is not -- HARPS has no products at
-    // all, and the plot gave no sign of it.
-    const seen=new Set(rows.map(r=>r.holding||r.instrument));
+      : ' <span class="warn note">no literature anchor recorded</span>')+'</h3>';
+    if(cmps.length||ref) h+='<div class="legend">'
+      +(ref?'<span class="good"><i></i>'+esc(ref.best_external||'primary')+' '+fx(ref.asplund2021,2)
+        +(ref.sigma_external!=null?' &plusmn;'+fx(ref.sigma_external,2):'')+'</span>':'')
+      +cmps.map(c=>'<span style="color:'+c.colour+'"><i style="border-top-style:dotted"></i>'
+        +esc(c.name)+' '+fx(c.value,2)+(c.sigma?' &plusmn;'+fx(c.sigma,2):'')
+        +(c.bands?' <span class="muted">('+esc(c.bands.join(', '))+' only)</span>':'')+'</span>').join('')
+      +'</div>';
+
+    // ONE PLOT PER BAND. Bands sit at different abundance scales and carry different
+    // systematics; a shared axis compresses each of them to make room for the others,
+    // and a band-scoped comparator has nowhere honest to live.
+    for(const b of d.bands){
+      const rows=all.filter(r=>r.band===b);
+      if(!rows.length) continue;
+      const here=cmps.filter(c=>!c.bands||c.bands.includes(b));
+      const vals=rows.flatMap(r=>[r.A-(r.sigma_stat||0)-(r.sigma_syst||0),
+                                  r.A+(r.sigma_stat||0)+(r.sigma_syst||0)]);
+      if(ref) vals.push(ref.asplund2021);
+      for(const c of here) vals.push(c.value-(c.sigma||0),c.value+(c.sigma||0));
+      const lo=Math.min(...vals)-0.05, hi=Math.max(...vals)+0.05, span=(hi-lo)||1;
+      const x=v=>Math.max(0,Math.min(100,(v-lo)/span*100));
+      h+='<div class="bandhdr">'+esc(b)+' <span class="muted">&middot; '+rows.length+' product'
+        +(rows.length>1?'s':'')+'</span></div>';
+      h+=rows.map(r=>{
+        const tot=(r.sigma_stat||0)+(r.sigma_syst||0);
+        const l=x(r.A-tot), w=x(r.A+tot)-l;
+        const pre=/^PRE/.test(r.telluric_basis||'');
+        const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)
+          +'<br><span class="muted">'+esc(r.run_context)+(r.committed?' · '+esc(r.committed):'')
+          +(r.is_variant?' · <span class="warn">variant</span>':'')
+          +' · <span class="'+(pre?'warn':'good')+'">'
+          +esc(pre?'pre-telluric':(r.holding?'holding-attributed':'epoch unknown'))+'</span></span>';
+        let marks='';
+        if(ref&&ref.band){const b0=x(ref.band[0]),b1=x(ref.band[1]);
+          marks+='<i class="ref" style="left:'+b0+'%;width:'+Math.max(0.4,b1-b0)+'%"></i>';}
+        for(const c of here){
+          if(c.sigma){const c0=x(c.value-c.sigma),c1=x(c.value+c.sigma);
+            marks+='<i class="cmpband" style="color:'+c.colour+';background:'+c.colour
+                 +';left:'+c0+'%;width:'+Math.max(0.4,c1-c0)+'%"></i>';}
+          marks+='<i class="cmp" style="color:'+c.colour+';left:'+x(c.value)+'%"></i>';
+        }
+        if(ref) marks+='<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>';
+        return '<div class="forest"><span class="note">'+label+'</span>'
+          +'<span class="track">'+marks+'<i class="bar" style="left:'+l+'%;width:'+w+'%"></i>'
+          +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
+          +'<span class="val note">'+fx(r.A,3)+' &plusmn;'+fx(tot,3)+'</span></div>';
+      }).join('');
+      const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
+      let ticks='';
+      for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step)
+        ticks+='<span class="tick" style="left:'+x(v)+'%">'+v.toFixed(2)+'</span>';
+      if(ref) ticks+='<span class="reflab" style="left:'+x(ref.asplund2021)+'%">&#9660; '+fx(ref.asplund2021,2)+'</span>';
+      for(const c of here) ticks+='<span class="cmplab" style="color:'+c.colour+';left:'+x(c.value)+'%">&#9650; '+fx(c.value,2)+'</span>';
+      h+='<div class="axis"><span></span><span class="ticks">'+ticks+'</span><span class="muted note">A(X) dex</span></div>';
+    }
+    const seen=new Set(all.map(r=>r.holding||r.instrument));
     const missing=d.instruments.filter(i=>!seen.has(i.holding)&&!seen.has(i.instrument));
-    if(missing.length) h+='<div class="warn note" style="margin:4px 0 2px">No '+esc(sp)
+    if(missing.length) h+='<div class="warn note" style="margin:6px 0 2px">No '+esc(sp)
       +' product from: '+missing.map(i=>'<b>'+esc(i.holding)+'</b> <span class="muted">('
       +esc(((d.reachability||{})[i.holding+'|VIS'])||'no run yet')+')</span>').join(', ')+'</div>';
-    if(ref&&ref.band) h+='<div class="muted note" style="margin:2px 0 14px">Green band = '
+    if(ref&&ref.band) h+='<div class="muted note" style="margin:2px 0 18px">Green band = '
       +esc(ref.best_external)+' &plusmn; &sigma;<sub>ext</sub> ('+fx(ref.band[0],2)+'&ndash;'+fx(ref.band[1],2)
-      +'). This is <b>agreement with the literature</b>, not a pass/fail gate.</div>';
+      +'). <b>Agreement with the literature</b>, not a pass/fail gate.</div>';
   }
   document.querySelector('#forest').innerHTML=h
     ||'<span class="muted">'+(FILTER?'No products for '+esc(FILTER)+' yet.':'No products with values yet.')+'</span>';
