@@ -1,0 +1,96 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    6867.0,
+    6884.0
+  ],
+  "fit_window_A": [
+    6842.0,
+    6909.0
+  ],
+  "molecules": [
+    "O2"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0684",
+      "md5": "a131345370a94e76fc7304a7ea47c7a2",
+      "own_range_A": [
+        6840.0,
+        6880.0
+      ],
+      "n_kept": 4681
+    },
+    {
+      "segment": "lm0688",
+      "md5": "75cba832fe5779f12a47aa73972426e8",
+      "own_range_A": [
+        6880.0,
+        6920.0
+      ],
+      "n_kept": 4627
+    }
+  ],
+  "n_atlas_pixels": 7806,
+  "resample_step_A": 0.008500000000822183,
+  "n_fit_pixels": 7882,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": "/mnt/codex-data/spectra/KITTS/irradthu.dat.txt",
+  "solar_reference_kind": "kurucz2005",
+  "solar_reference_md5": "72606e101fa8822778a5606a6ec2fa27",
+  "externally_validated": true,
+  "solar_mask_intervals": 42,
+  "solar_mask_pixels": 1146,
+  "solar_mask_fraction": 0.1454,
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 2.5,
+      "gaussfwhm": 3.4546235765117843,
+      "reduced_chi2": 12.626278273643033,
+      "rms_rel_to_mean": 0.03553083706606942,
+      "implied_airmass": 1.3031,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_O2": 1.3031100453860232
+    }
+  ],
+  "accepted": "/mnt/codex-data/codex/rya940/o2b/start_2p50",
+  "correction": {
+    "dt_transmission_sigma": 0.011066139619820434,
+    "t_min": 0.22132279239640867,
+    "n_corrected": 7474,
+    "n_quarantined": 331,
+    "before": {
+      "n": 1981,
+      "min": -0.00647,
+      "median": 0.91321,
+      "pct_below_0.5": 15.80010095911156,
+      "pct_below_0.95": 71.47905098435133
+    },
+    "after": {
+      "n": 1784,
+      "min": 0.11247066556605538,
+      "median": 0.9903506425073194,
+      "pct_below_0.5": 1.0089686098654709,
+      "pct_below_0.95": 15.863228699551572
+    },
+    "vs_reference_before": {
+      "n": 1981,
+      "rms": 0.3592909255582959,
+      "median_offset": -0.07027783732429649
+    },
+    "vs_reference_after": {
+      "n": 1784,
+      "rms": 0.12096802511885889,
+      "median_offset": -0.0030208509089715285
+    },
+    "reference_kind": "kurucz2005"
+  }
+}

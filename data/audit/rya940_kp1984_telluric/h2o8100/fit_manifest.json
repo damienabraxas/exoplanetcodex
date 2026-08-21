@@ -1,0 +1,168 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    8100.0,
+    8400.0
+  ],
+  "fit_window_A": [
+    8075.0,
+    8425.0
+  ],
+  "molecules": [
+    "H2O"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0804",
+      "md5": "e08f57b434a42fa04a11299859e8aabf",
+      "own_range_A": [
+        8040.0,
+        8080.0
+      ],
+      "n_kept": 4330
+    },
+    {
+      "segment": "lm0808",
+      "md5": "f6df25b87183f3d80ee232cd24a7101c",
+      "own_range_A": [
+        8080.0,
+        8120.0
+      ],
+      "n_kept": 4288
+    },
+    {
+      "segment": "lm0812",
+      "md5": "952565ae0e0e588c2338774ba81eaceb",
+      "own_range_A": [
+        8120.0,
+        8160.0
+      ],
+      "n_kept": 4245
+    },
+    {
+      "segment": "lm0816",
+      "md5": "bc03a7470a1d706a11f8b1a1607501dd",
+      "own_range_A": [
+        8160.0,
+        8200.0
+      ],
+      "n_kept": 4204
+    },
+    {
+      "segment": "lm0820",
+      "md5": "d27a278395a0837007aa5fe3a4a0af3d",
+      "own_range_A": [
+        8200.0,
+        8240.0
+      ],
+      "n_kept": 4164
+    },
+    {
+      "segment": "lm0824",
+      "md5": "19585ba46c3491bcfd7e4c0e8f3440ac",
+      "own_range_A": [
+        8240.0,
+        8280.0
+      ],
+      "n_kept": 4123
+    },
+    {
+      "segment": "lm0828",
+      "md5": "4a7b05836c7e1667b1427a6d8d6630e3",
+      "own_range_A": [
+        8280.0,
+        8320.0
+      ],
+      "n_kept": 4083
+    },
+    {
+      "segment": "lm0832",
+      "md5": "d927c0fbdef629928a56039ef08ac7f4",
+      "own_range_A": [
+        8320.0,
+        8360.0
+      ],
+      "n_kept": 4044
+    },
+    {
+      "segment": "lm0836",
+      "md5": "579fc47707935066f35d8e494c95ce00",
+      "own_range_A": [
+        8360.0,
+        8400.0
+      ],
+      "n_kept": 4006
+    },
+    {
+      "segment": "lm0840",
+      "md5": "e04ef438109d11f505e6c82c98912187",
+      "own_range_A": [
+        8400.0,
+        8440.0
+      ],
+      "n_kept": 3968
+    }
+  ],
+  "n_atlas_pixels": 36179,
+  "resample_step_A": 0.009799999997994746,
+  "n_fit_pixels": 35713,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": "/mnt/codex-data/spectra/KITTS/irradthu.dat.txt",
+  "solar_reference_kind": "kurucz2005",
+  "solar_reference_md5": "72606e101fa8822778a5606a6ec2fa27",
+  "externally_validated": true,
+  "solar_mask_intervals": 232,
+  "solar_mask_pixels": 6862,
+  "solar_mask_fraction": 0.1921,
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 2.5,
+      "gaussfwhm": 5.6775993858648555,
+      "reduced_chi2": 7.217874815822369,
+      "rms_rel_to_mean": 0.02686563723083964,
+      "implied_airmass": 2.5912,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_H2O": 2.5911907895246085
+    }
+  ],
+  "accepted": "/mnt/codex-data/codex/rya940/h2o8100/start_2p50",
+  "correction": {
+    "dt_transmission_sigma": 0.007111626236020423,
+    "t_min": 0.14223252472040845,
+    "n_corrected": 35944,
+    "n_quarantined": 234,
+    "before": {
+      "n": 31007,
+      "min": 0.00081,
+      "median": 0.97252,
+      "pct_below_0.5": 3.5766117328345213,
+      "pct_below_0.95": 31.596091205211724
+    },
+    "after": {
+      "n": 30773,
+      "min": 0.19204374898966214,
+      "median": 0.9935681124434977,
+      "pct_below_0.5": 0.5199363078022943,
+      "pct_below_0.95": 9.94703148864264
+    },
+    "vs_reference_before": {
+      "n": 31007,
+      "rms": 0.15456183944368834,
+      "median_offset": -0.013373577755105504
+    },
+    "vs_reference_after": {
+      "n": 30773,
+      "rms": 0.06987702796342143,
+      "median_offset": -0.0001248494769869879
+    },
+    "reference_kind": "kurucz2005"
+  }
+}

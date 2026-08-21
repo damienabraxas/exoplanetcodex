@@ -1,0 +1,187 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    11120.0,
+    11560.0
+  ],
+  "fit_window_A": [
+    11095.0,
+    11585.0
+  ],
+  "molecules": [
+    "H2O"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm1108",
+      "md5": "4fa45cb46cb673fbc2b6edf75e851808",
+      "own_range_A": [
+        11080.0,
+        11120.0
+      ],
+      "n_kept": 2811
+    },
+    {
+      "segment": "lm1112",
+      "md5": "aa2e336d6fcb8700e4046dab837f8f61",
+      "own_range_A": [
+        11120.0,
+        11160.0
+      ],
+      "n_kept": 2792
+    },
+    {
+      "segment": "lm1116",
+      "md5": "7f6e360dbb8e2dce22706b83a938cf56",
+      "own_range_A": [
+        11160.0,
+        11200.0
+      ],
+      "n_kept": 2772
+    },
+    {
+      "segment": "lm1120",
+      "md5": "06c93fee1d251540161bc3f90ffd84dd",
+      "own_range_A": [
+        11200.0,
+        11240.0
+      ],
+      "n_kept": 2752
+    },
+    {
+      "segment": "lm1124",
+      "md5": "74b25a018177e756ca18f2d3c81ce92c",
+      "own_range_A": [
+        11240.0,
+        11280.0
+      ],
+      "n_kept": 2732
+    },
+    {
+      "segment": "lm1128",
+      "md5": "e53daf912cf6358b5d7c489092f1f7ea",
+      "own_range_A": [
+        11280.0,
+        11320.0
+      ],
+      "n_kept": 2714
+    },
+    {
+      "segment": "lm1132",
+      "md5": "814ce3e826b6eb6250b5a01a9e9d778f",
+      "own_range_A": [
+        11320.0,
+        11360.0
+      ],
+      "n_kept": 2694
+    },
+    {
+      "segment": "lm1136",
+      "md5": "7dc946447b50c5c2302d1808a46d9254",
+      "own_range_A": [
+        11360.0,
+        11400.0
+      ],
+      "n_kept": 2675
+    },
+    {
+      "segment": "lm1140",
+      "md5": "7b8dc4cdb7cb136fe91706a722801d20",
+      "own_range_A": [
+        11400.0,
+        11440.0
+      ],
+      "n_kept": 2656
+    },
+    {
+      "segment": "lm1144",
+      "md5": "972a26e69b6e1338d978ceaeb116bb3f",
+      "own_range_A": [
+        11440.0,
+        11480.0
+      ],
+      "n_kept": 2638
+    },
+    {
+      "segment": "lm1148",
+      "md5": "d1dafdcd3c0eddc68e36c8cf4f5942b7",
+      "own_range_A": [
+        11480.0,
+        11520.0
+      ],
+      "n_kept": 2620
+    },
+    {
+      "segment": "lm1152",
+      "md5": "ca894564e56e9d3bd785fe53d2a027db",
+      "own_range_A": [
+        11520.0,
+        11560.0
+      ],
+      "n_kept": 2601
+    },
+    {
+      "segment": "lm1156",
+      "md5": "1349d92f671e5d343d67ddb2088e5684",
+      "own_range_A": [
+        11560.0,
+        11600.0
+      ],
+      "n_kept": 2584
+    }
+  ],
+  "n_atlas_pixels": 33018,
+  "resample_step_A": 0.014699999999720603,
+  "n_fit_pixels": 33334,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": null,
+  "solar_reference_kind": "none",
+  "solar_reference_md5": null,
+  "externally_validated": false,
+  "solar_mask_intervals": 0,
+  "solar_mask_pixels": 0,
+  "solar_mask_fraction": 0.0,
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 2.5,
+      "gaussfwhm": 3.022454452135249,
+      "reduced_chi2": 21.89965039204334,
+      "rms_rel_to_mean": 0.04679636034529587,
+      "implied_airmass": 2.1631,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_H2O": 2.163063772487413
+    }
+  ],
+  "accepted": "/mnt/codex-data/codex/rya940/h2o11120/start_2p50",
+  "correction": {
+    "dt_transmission_sigma": 0.010789092992289475,
+    "t_min": 0.2157818598457895,
+    "n_corrected": 26318,
+    "n_quarantined": 6700,
+    "before": {
+      "n": 29646,
+      "min": -0.00413,
+      "median": 0.69879,
+      "pct_below_0.5": 33.86291573905417,
+      "pct_below_0.95": 98.36065573770492
+    },
+    "after": {
+      "n": 23169,
+      "min": 0.3629168361953942,
+      "median": 1.0038080744278508,
+      "pct_below_0.5": 0.08632224092537442,
+      "pct_below_0.95": 8.860978030989685
+    },
+    "vs_reference_before": null,
+    "vs_reference_after": null,
+    "reference_kind": "none"
+  }
+}
