@@ -22,6 +22,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 - **RYA-925** — Al Kitt Peak matrix banked across EW/synth LTE + Amarsi; non-Fe identity defects fixed; VIS fails literature validation, no tuning.
 ## 2026-08-20
 
+- **RYA-931** — the Molecfit "MIPAS" failure was an **empty SCIENCE table** (HARPS `ERR` is 100% NaN); the message named the last file touched, not the cause. Correction now runs on all ten exposures and `solar_harps_molecfit_corrected` is registered alongside an untouched `solar_harps`. **O₂ B min 0.0060 → 0.7725, pct_below_0.5 22.06 → 0.00.** 🔴 **The fit is BISTABLE — a zero-width LSF converges too; acceptance is physical (O₂ column ≈ 1), and only the STARTING POINT is retried**
 - **RYA-929** — full Kitt Peak/Kurucz/IAG sweep proves broad correction agreement; line-level caveats remain diagnostic-only and no abundance is promoted.
 
 ## 2026-08-19
