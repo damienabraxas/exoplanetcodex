@@ -137,6 +137,7 @@ def main() -> None:
     ap.add_argument("--lo", type=float, required=True)
     ap.add_argument("--hi", type=float, required=True)
     ap.add_argument("--instrument", default="kpno_solar_atlas")
+    ap.add_argument("--holding", default=None, help="Name ONE holding explicitly instead of taking the instrument's first covering candidate (RYA-933/934). An instrument that serves several products otherwise answers with whichever is listed first, which is how two telluric-corrected Kitt Peak holdings sat unmeasurable while `--instrument kpno_solar_atlas` looked like it covered them.")
     ap.add_argument("--max-lines", type=int, default=None)
     ap.add_argument("--depth-min", type=float, default=0.05)
     ap.add_argument("--depth-max", type=float, default=0.60)
@@ -203,7 +204,8 @@ def main() -> None:
         try:
             # RYA-783: dispatched by instrument so the IAG arm runs through the
             # same harness rather than a parallel copy of it.
-            win = load_window_ex(a.instrument, c, CONT_HALF_A * 1.3, segs)
+            win = load_window_ex(a.instrument, c, CONT_HALF_A * 1.3, segs,
+                                 holding=a.holding)
             w, f, src, pre = win.wave, win.flux, win.provenance, win.pre_normalised
             m = np.abs(w - c) <= CONT_HALF_A
             wf, ff = w[m], f[m]
@@ -346,7 +348,16 @@ def main() -> None:
 
     assert_single_element(rows, a.element)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_PROFILEFIT"
+    # RYA-933/934 -- the HOLDING goes in the stem whenever one was named. The stem
+    # carried only the INSTRUMENT, so `solar_harps` and `solar_harps_molecfit_corrected`
+    # both wrote FeII_3800_6910_harps_PROFILEFIT_ew.csv and the second silently
+    # overwrote the first. Two products of the same instrument differing precisely by
+    # whether tellurics were removed is the one pair this repo must never collapse
+    # (RYA-911, RYA-927 identity canary).
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_PROFILEFIT"
     if a.max_lines:
         # A SUBSET run never writes over a full one. A --max-lines smoke test
         # silently clobbered a documented 445-line result; the fixed output path
