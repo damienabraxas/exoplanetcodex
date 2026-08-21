@@ -32,6 +32,7 @@ from pipeline.band_products import (  # noqa: E402
     carried_ep,
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
+from pipeline import kp_atlas_integrity as kp_integrity  # noqa: E402  RYA-938
 from config.constants import codex_path, codex_root, PATHS  # RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
@@ -894,22 +895,26 @@ def load_window(instrument: str, centre: float, pad: float, segs=None,
 
 
 
-def kp_segments() -> list[tuple[float, float, Path]]:
+def kp_segments(allow_corrupt: bool = False) -> list[tuple[float, float, Path]]:
     """Inventory the atlas as (lo_A, hi_A, path). Reads each file's ACTUAL span rather
-    than trusting the filename -- the lm#### stem is a start hint, not a guarantee."""
-    segs = []
-    for p in sorted(KP_DIR.glob("lm[0-9]*")):
-        if not p.is_file():
-            continue
-        try:
-            head = np.loadtxt(p, max_rows=1)
-            tail = np.loadtxt(p, skiprows=max(0, sum(1 for _ in open(p)) - 2))
-        except Exception:
-            continue
-        lo = float(np.atleast_2d(head)[0, 0]) * 10.0
-        hi = float(np.atleast_2d(tail)[-1, 0]) * 10.0
-        segs.append((lo, hi, p))
-    return segs
+    than trusting the filename -- the lm#### stem is a start hint, not a guarantee.
+
+    RYA-938 -- THIS USED TO SWALLOW A PARSE FAILURE. The body was `except Exception:
+    continue`, so a segment that would not parse was dropped from the inventory and the
+    next question answered "no Kitt Peak segment covers 8420.000 A". A CORRUPT FILE
+    PRESENTED AS MISSING COVERAGE, which is the RYA-833 shape and exactly the failure
+    `_resolve_kp_dir` was written to prevent one level up. It was not hypothetical:
+    `lm0840` in both staged copies was a saved HTTP 500 page, hiding 8400-8441 A --
+    where the solar line list holds 33 Fe lines alone.
+
+    `allow_corrupt=True` is the deliberate escape for a caller that wants degraded
+    operation; it still returns only good segments, but the caller has SAID SO.
+    """
+    reports = [kp_integrity.inspect_segment(p)
+               for p in sorted(KP_DIR.glob("lm[0-9]*")) if p.is_file()]
+    if not allow_corrupt:
+        kp_integrity.require_parseable(reports)
+    return [(r.lo_A, r.hi_A, Path(r.path)) for r in reports if r.ok]
 
 
 def load_kp_window(segs, centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
