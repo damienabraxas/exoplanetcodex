@@ -144,7 +144,38 @@ def collect_reference(root: Path) -> dict:
             "codex_A_X": None if pd.isna(r.get("A_X")) else float(r["A_X"]),
             "verdict": str(r.get("verdict")),
             "source": f"data/reference/solar/solar_abundances_{version}.csv",
+            "sigma_external": None, "band": None, "best_external": None,
+            "scale": None, "deviate_beyond": None,
         }
+
+    # The gold table carries the literature VALUE but no uncertainty. litscan does,
+    # and it is the ratified comparator: best-external +/- sigma_external, with the
+    # source named. Take the band from there wherever an element has a litscan.
+    #
+    # NOTE the band is AGREEMENT WITH THE LITERATURE, not a pass/fail gate. litscan's
+    # own basis text warns against conflating it with the FE_GATE policy window
+    # ([7.41, 7.51], RYA-166) -- they answer different questions.
+    try:
+        from pipeline import litscan
+        for element in litscan.available_elements():
+            rng = litscan.literature_range(element)
+            if rng is None or rng.sigma_external is None:
+                continue
+            for key in [k for k in out if k.startswith(element)
+                        and k[len(element):].strip("IV") == ""]:
+                out[key].update({
+                    "asplund2021": rng.central,
+                    "sigma_external": rng.sigma_external,
+                    "band": [rng.min, rng.max],
+                    "deviate_beyond": rng.deviate_beyond,
+                    "best_external": rng.best_external,
+                    "scale": rng.scale,
+                    "band_meaning": ("agreement with the literature (best external +/- "
+                                     "sigma_ext) -- NOT a pass/fail gate"),
+                    "source": f"pipeline/litscan.py :: {element}.yaml",
+                })
+    except Exception:                                           # noqa: BLE001
+        pass
     return out
 
 

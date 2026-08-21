@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21T19:54:50+00:00",
+  "generated": "2026-08-21T20:00:15+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -689,157 +689,295 @@
       "asplund2021": 7.46,
       "codex_A_X": 7.466,
       "verdict": "PASS",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "pipeline/litscan.py :: Fe.yaml",
+      "sigma_external": 0.04,
+      "band": [
+        7.42,
+        7.5
+      ],
+      "best_external": "Amarsi et al. 2021 (A&A 653, A141)",
+      "scale": "3D-NLTE",
+      "deviate_beyond": 0.08,
+      "band_meaning": "agreement with the literature (best external +/- sigma_ext) -- NOT a pass/fail gate"
     },
     "CI": {
       "asplund2021": 8.46,
       "codex_A_X": 8.491,
       "verdict": "PASS",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "OI": {
       "asplund2021": 8.69,
       "codex_A_X": 8.735,
       "verdict": "PASS",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "MgI": {
       "asplund2021": 7.55,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "SiI": {
       "asplund2021": 7.51,
       "codex_A_X": 7.888,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "CaI": {
       "asplund2021": 6.3,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "TiI": {
       "asplund2021": 4.97,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "NiI": {
       "asplund2021": 6.2,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "NaI": {
       "asplund2021": 6.24,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "PI": {
       "asplund2021": 5.41,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "SI": {
       "asplund2021": 7.12,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "NI": {
       "asplund2021": 7.83,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "CoI": {
       "asplund2021": 4.94,
       "codex_A_X": null,
       "verdict": "PASS",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "CrI": {
       "asplund2021": 5.62,
       "codex_A_X": 6.022,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "AlI": {
       "asplund2021": 6.43,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "pipeline/litscan.py :: Al.yaml",
+      "sigma_external": 0.04,
+      "band": [
+        6.39,
+        6.47
+      ],
+      "best_external": "Asplund et al. 2021 (A&A 653, A141)",
+      "scale": "3D-NLTE",
+      "deviate_beyond": 0.08,
+      "band_meaning": "agreement with the literature (best external +/- sigma_ext) -- NOT a pass/fail gate"
     },
     "KI": {
       "asplund2021": 5.07,
       "codex_A_X": 5.099,
       "verdict": "PASS",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "BaI": {
       "asplund2021": 2.27,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "YI": {
       "asplund2021": 2.21,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "VI": {
       "asplund2021": 3.9,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "CuI": {
       "asplund2021": 4.18,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "MnI": {
       "asplund2021": 5.42,
       "codex_A_X": 5.466,
       "verdict": "PASS",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "ScII": {
       "asplund2021": 3.14,
       "codex_A_X": 3.203,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "LiI": {
       "asplund2021": 1.05,
       "codex_A_X": 0.727,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "EuI": {
       "asplund2021": 0.52,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "ZrI": {
       "asplund2021": 2.59,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     },
     "SrI": {
       "asplund2021": 2.83,
       "codex_A_X": null,
       "verdict": "CURATION-OWED",
-      "source": "data/reference/solar/solar_abundances_v5.csv"
+      "source": "data/reference/solar/solar_abundances_v5.csv",
+      "sigma_external": null,
+      "band": null,
+      "best_external": null,
+      "scale": null,
+      "deviate_beyond": null
     }
   },
   "system": "solar",
