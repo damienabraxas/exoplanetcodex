@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Codex live product tracker</title>
+<style>
+:root{--bg:#0b1020;--panel:#151d32;--rule:#2b3856;--head:#18223a;--fg:#edf2ff;--mut:#9daccc;
+      --good:#53d899;--warn:#f2cc60;--bad:#ff7b72;--link:#7db8ff}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
+main{max-width:1600px;margin:auto;padding:24px}
+h1{margin:0 0 4px}h2{font-size:1.05rem;margin:0 0 10px}
+.muted{color:var(--mut)}.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.pill{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:8px 10px}
+section{margin-top:16px;padding:14px;background:var(--panel);border:1px solid var(--rule);border-radius:10px}
+.grid{overflow:auto;border:1px solid var(--rule);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:1100px}
+th,td{padding:9px 11px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);vertical-align:top;text-align:left}
+th{background:var(--head);position:sticky;top:0}
+td:first-child,th:first-child{position:sticky;left:0;background:var(--head);min-width:250px}
+code{color:var(--link);font-size:.85em}
+.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.val{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tell{display:grid;grid-template-columns:190px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
+.note{font-size:.9em}
+</style></head><body><main>
+<h1>Codex live product tracker</h1>
+<p class="muted">Instrument &times; holding &times; band &times; engine. Every cell is derived from a product
+or a registry by <code>scripts/rya935_live_status.py</code> &mdash; nothing on this page is typed by hand.</p>
+<div id="pills" class="pills"></div>
+<section><h2>Product matrix</h2><div class="grid"><table id="matrix"></table></div>
+<p class="muted note" id="unattributed"></p></section>
+<section><h2>Telluric correction, before &rarr; after</h2><div id="tell"></div></section>
+<p class="muted note">The ticket pipeline is deliberately absent: that is Linear state, and a committed
+copy of it drifts. This page shows only what the repository can prove.</p>
+<p class="bad" id="err"></p></main>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fx=(v,n)=>v==null?'':Number(v).toFixed(n);
+function cell(rows){
+  if(!rows.length) return '<span class="muted">&mdash;</span>';
+  return rows.map(r=>'<div class="val">'+esc(r.display||r.treatment)+' <b>'+fx(r.A,3)+'</b>'
+    +' <span class="muted">&plusmn;'+fx(r.sigma_stat,3)+' stat &plusmn;'+fx(r.sigma_syst,3)+' syst'
+    +(r.n_lines!=null?', n='+r.n_lines:'')+'</span></div>').join('');
+}
+async function draw(){
+ const d=await fetch('live_status.json?t='+Date.now()).then(r=>r.json());
+ document.querySelector('#pills').innerHTML=
+   '<span class="pill">Generated <b>'+esc(d.generated)+'</b></span>'
+  +'<span class="pill">Species <b>'+(d.elements.join(', ')||'none')+'</b></span>'
+  +'<span class="pill">'+d.products.length+' product rows</span>'
+  +'<span class="pill muted">refresh '+d.refresh_seconds+'s</span>';
+ const bands=d.bands;
+ let h='<thead><tr><th>Holding</th>'+bands.map(b=>'<th>'+esc(b)+'</th>').join('')+'</tr></thead><tbody>';
+ for(const el of d.elements){
+   h+='<tr><td colspan="'+(bands.length+1)+'" style="background:#101830"><b>'+esc(el)+'</b></td></tr>';
+   for(const i of d.instruments){
+     const mine=d.products.filter(p=>p.element+p.ion===el&&p.holding===i.holding);
+     const any=d.products.filter(p=>p.element+p.ion===el&&p.instrument===i.instrument&&p.holding==null);
+     if(!mine.length&&!any.length) continue;
+     const cov=i.coverage_A?i.coverage_A[0]+'&ndash;'+i.coverage_A[1]+' &Aring;':'<span class="warn">not declarable</span>';
+     const tclass=i.telluric_applied==='applied'?'good':'warn';
+     h+='<tr><td><b>'+esc(i.holding)+'</b><br><code>'+esc(i.instrument)+'</code>'
+       +'<br><span class="'+tclass+'">telluric: '+esc(i.telluric_applied)+'</span>'
+       +'<br><span class="muted">'+cov+'</span></td>';
+     for(const b of bands){
+       const rows=mine.filter(p=>p.band===b);
+       const orphan=any.filter(p=>p.band===b);
+       h+='<td>'+cell(rows)
+         +(orphan.length?'<div class="warn note">'+orphan.length+' row(s) on this instrument name no holding</div>':'')
+         +'</td>';
+     }
+     h+='</tr>';
+   }
+ }
+ document.querySelector('#matrix').innerHTML=h+'</tbody>';
+ document.querySelector('#unattributed').innerHTML = d.unattributed_products
+   ? '<span class="warn">'+d.unattributed_products+'</span> product rows predate RYA-933/934 and carry no holding in their filename. '
+     +'They are attributable to an instrument only \u2014 an instrument can serve a corrected and an uncorrected holding, and guessing which would be the collapse the stem change prevents.'
+   : '';
+ document.querySelector('#tell').innerHTML='<div class="tell"><b>Window</b><b>Product</b><b>% below 0.5 before &rarr; after</b><b>External referee</b></div>'
+  +d.telluric.map(t=>'<div class="tell"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+    +'<span>'+(t['before_pct_below_0.5']==null?'<span class="warn">not corrected</span>':'<span class="bad">'+fx(t['before_pct_below_0.5'],2)+'%</span> &rarr; <span class="good">'+fx(t['after_pct_below_0.5'],2)+'%</span>')+'</span>'
+    +'<span class="'+(t.externally_validated?'good':'warn')+'">'+(t.externally_validated?'yes':'NONE \u2014 unvalidated')+'</span></div>').join('');
+ document.querySelector('#err').textContent='';
+}
+draw().catch(e=>document.querySelector('#err').textContent='Serve this directory over HTTP: '+e);
+setInterval(()=>draw().catch(()=>{}),5000);
+</script></body></html>
