@@ -70,6 +70,96 @@ def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | N
             "holding_source": source, "handler": m.group("handler")}
 
 
+#: Sub-paths that mark a DIAGNOSTIC variant rather than a headline product --
+#: RYA-877's before/after control pair, RYA-847's gated sweep. They are real
+#: products and must not be deleted from the page; they are also not what the
+#: matrix is asking about, so they are labelled and hidden behind a toggle.
+VARIANT_MARKERS = ("control", "gated")
+
+
+#: The dates the telluric-corrected holdings first existed in the repository.
+#: A product committed before its instrument had a corrected holding CANNOT have
+#: used one -- this is provenance, not inference, and it is the first question
+#: anyone asks of a number on this page.
+CORRECTED_HOLDING_BORN = {
+    "harps": "2026-08-20",              # RYA-931, commit 4d8abf8
+    "kpno_solar_atlas": "2026-08-21",   # RYA-940, commit c0465b1
+}
+
+
+def telluric_state_of(row: dict, committed: str | None) -> dict:
+    """Was this product made before or after its instrument had a corrected holding?
+
+    Where the row names a holding, the holding answers it outright. Where it does
+    not -- every product predating RYA-933/934 -- the date still answers it: the
+    corrected holdings did not exist, so nothing could have used them.
+    """
+    if row.get("holding"):
+        return {"telluric_basis": "named holding", "telluric_epoch": None}
+    born = CORRECTED_HOLDING_BORN.get(row["instrument"])
+    if born and committed and committed < born:
+        return {"telluric_basis": "PRE-correction (provenance)",
+                "telluric_epoch": f"committed {committed}; {row['instrument']} had no "
+                                  f"corrected holding until {born}"}
+    return {"telluric_basis": "unknown", "telluric_epoch": None}
+
+
+def run_context(path: Path) -> dict:
+    """WHICH RUN produced this row. Part of a product's identity, not decoration.
+
+    Six identities appear more than once across ticket output directories, and
+    they are NOT duplicates: rya877/control/before gives Fe II 7.568 where
+    rya877/control/after gives 7.542. That pair is the whole point of a control.
+    Deduplicating on (species, holding, band, engine) would silently keep one and
+    discard the other -- picking a winner between two numbers that were produced
+    to be compared.
+    """
+    import subprocess
+    rel = path.relative_to(ROOT / "data" / "results").parent
+    parts = rel.parts
+    try:
+        committed = subprocess.run(
+            ["git", "log", "--format=%ad", "--date=short", "-1", "--", str(path)],
+            cwd=ROOT, capture_output=True, text=True, timeout=20).stdout.strip() or None
+    except Exception:                                           # noqa: BLE001
+        committed = None
+    return {"run_context": str(rel) if parts else "(root)",
+            "ticket_dir": parts[0] if parts else None,
+            "committed": committed,
+            "is_variant": any(m in parts for m in VARIANT_MARKERS)}
+
+
+def display_name(row) -> str:
+    """The physics-axis name, DERIVED from the stored axes (RYA-906).
+
+    Not `treatment`. "ENGINE-A" / "ENGINE-B" are letters, not physics: they say
+    nothing about route, scale or model, and the same letter means different
+    things on different rows. RYA-906 stored the five axes precisely so the name
+    could be derived, and the tracker was still showing the legacy labels.
+
+    Route comes from the HANDLER where the row carries one -- never from the
+    label. RYA-906 measured this over 2153 committed rows: `1D-LTE` and
+    `1D-LTE-LABGF` each pair with BOTH ProfileFitHandler and SynthesisHandler, so
+    on those labels the legacy string is not merely lossy, it is FALSE.
+    """
+    from pipeline.treatment_axes import Axes
+    stored = {k: row.get(k) for k in ("route", "scale", "model", "atmos", "gf")}
+    if all(v is not None and not pd.isna(v) for v in stored.values()):
+        return Axes(route=str(stored["route"]), scale=str(stored["scale"]),
+                    model=str(stored["model"]), atmos=str(stored["atmos"]),
+                    gf=str(stored["gf"]),
+                    route_basis=str(row.get("route_basis") or "stored")).display
+    # No stored axes = a row that predates RYA-906. Derive from the legacy label
+    # plus whatever route evidence the row carries, and fail loudly on an unknown
+    # label rather than defaulting -- a silent default is how RYA-869 published
+    # four wrong systematics.
+    from pipeline.treatment_axes import display_for, UnknownTreatment
+    try:
+        return display_for(str(row.get("treatment")), handler=row.get("handler"))
+    except (UnknownTreatment, ValueError):
+        return f"{row.get('treatment')} (unresolved axes)"
+
+
 def collect_products(roots: list[Path], instruments: set[str],
                      holdings: set[str]) -> list[dict]:
     rows: list[dict] = []
@@ -84,16 +174,18 @@ def collect_products(roots: list[Path], instruments: set[str],
                 frame = pd.read_csv(path)
             except Exception:                                   # noqa: BLE001
                 continue
+            ctx = run_context(path)
             for _, r in frame.iterrows():
                 rows.append({
                     **meta,
                     "band": r.get("band"), "treatment": r.get("treatment"),
-                    "display": f"{r.get('route', '')} · {r.get('scale', '')}".strip(" ·"),
+                    "display": display_name(r),
                     "A": None if pd.isna(r.get("A")) else float(r["A"]),
                     "sigma_stat": None if pd.isna(r.get("stat_dex")) else float(r["stat_dex"]),
                     "sigma_syst": None if pd.isna(r.get("syst_dex")) else float(r["syst_dex"]),
                     "n_lines": None if pd.isna(r.get("n_lines")) else int(r["n_lines"]),
                     "source": str(path.relative_to(ROOT)),
+                    **ctx,
                 })
     return rows
 
@@ -287,6 +379,12 @@ def main() -> None:
           f"{len(status['elements'])} species tracked -> {args.out}")
     unattributed = sum(1 for p in products if p["holding"] is None)
     status["unattributed_products"] = unattributed
+    status["variant_products"] = sum(1 for p in products if p["is_variant"])
+    status["run_contexts"] = sorted({p["run_context"] for p in products})
+    for row in products:
+        row.update(telluric_state_of(row, row.get("committed")))
+    status["pre_correction_products"] = sum(
+        1 for p in products if p["telluric_basis"].startswith("PRE"))
     args.out.write_text(json.dumps(status, indent=2) + "\n")
     for i in status["instruments"]:
         have = {p["band"] for p in products if p["holding"] == i["holding"]}
