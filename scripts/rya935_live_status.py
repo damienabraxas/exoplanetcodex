@@ -317,6 +317,42 @@ def why_no_product(element: str, ion: str, holding: str, instrument: str,
     return "no run yet"
 
 
+def collect_graded(root: Path) -> list[dict]:
+    """The GRADED lab-gf cells -- RYA-850's primary reported value.
+
+    These were missing from the tracker entirely, which is why the page appeared to
+    show error bars that had grown. They had not: the page was showing only the
+    MIXED pools, which carry the blanket 0.17 dex ungraded-gf placeholder. A fully
+    graded cell carries its own CITED pool sigma instead, and the systematic drops
+    to 0.061-0.113.
+
+    They live in `rya850_summary.json`, not in a `*_products.csv`, so the product
+    glob never saw them.
+
+    RYA-851's reporting contract: GRADED is primary, UNGRADED is secondary, and the
+    ungraded value is never the headline. Both are shown -- more lines buy a wider
+    gf floor, which is a trade, not a defect.
+    """
+    summary = root / "data" / "results" / "rya850" / "rya850_summary.json"
+    if not summary.exists():
+        return []
+    doc = json.loads(summary.read_text())
+    out = []
+    for cell in doc.get("graded_cells", []):
+        out.append({
+            "element": "Fe", "ion": cell.get("ion", "I"), "band": cell["band"],
+            "engine": cell.get("engine"), "A": cell["A"], "n_lines": cell["n_lines"],
+            "sigma_stat": cell["stat_dex"], "sigma_syst": cell["syst_dex"],
+            "total_dex": cell.get("total_dex"),
+            "ungraded_total_dex": cell.get("ungraded_total_dex"),
+            "graded_beats_ungraded": cell.get("graded_beats_ungraded"),
+            "gf_term": doc.get("gf_term_published"),
+            "role": "PRIMARY (graded lab-gf)",
+            "source": "data/results/rya850/rya850_summary.json",
+        })
+    return out
+
+
 def collect_telluric(audit_root: Path) -> list[dict]:
     """Before/after residuals from the correction tickets' own evidence."""
     out = []
@@ -379,6 +415,14 @@ def main() -> None:
         "products": products,
         "telluric": collect_telluric(args.audit_root),
         "reference": collect_reference(ROOT),
+        "graded": collect_graded(ROOT),
+        "reporting_contract": {
+            "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
+            "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
+            "headline_rule": "the ungraded value is NEVER the headline (RYA-851)",
+            "bars": "statistical SOLID, systematic WIREFRAME -- never summed; "
+                    "error_budget.py deliberately provides no combined()",
+        },
     }
     status["elements"] = sorted(status["reference"])
     status["system"] = "solar"   # the framework is per-star; this build is the Sun
