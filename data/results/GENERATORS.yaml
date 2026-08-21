@@ -2045,3 +2045,78 @@ artifacts:
       and scripts/rya527_two_engine_run.py. It has no generator because no code here
       produced the numbers. Registered by RYA-939 when the guard was extended to
       data/processed/ — it had been tracked and unguarded since RYA-196.
+
+  # ── data/processed/kp1984_telluric_corrected/ (RYA-940) ──────────────────
+
+  - artifact: data/processed/kp1984_telluric_corrected/kp1984_corrected_11120_11560.txt
+    status: COMMITTED
+    generator: scripts/rya940_kp1984_correct.py
+    invocation: python scripts/rya940_kp1984_correct.py <atlas_dir> <out> --lo 11120 --hi 11560
+    ticket: RYA-940
+    note: >-
+      1984 Kitt Peak atlas, 11120-11560 A, telluric-corrected per band. Columns are
+      air wavelength, corrected pseudo-residual flux, transmission. NaN marks a
+      QUARANTINED pixel whose transmission fell below the per-band derived T_min --
+      never divided. Keeps the atlas's own uneven sampling; the even grid used for
+      fitting was a device, not a product change.
+
+  - artifact: data/processed/kp1984_telluric_corrected/kp1984_corrected_6270_6300.txt
+    status: COMMITTED
+    generator: scripts/rya940_kp1984_correct.py
+    invocation: python scripts/rya940_kp1984_correct.py <atlas_dir> <out> --lo 6270 --hi 6300
+    ticket: RYA-940
+    note: >-
+      1984 Kitt Peak atlas, 6270-6300 A, telluric-corrected per band. Columns are
+      air wavelength, corrected pseudo-residual flux, transmission. NaN marks a
+      QUARANTINED pixel whose transmission fell below the per-band derived T_min --
+      never divided. Keeps the atlas's own uneven sampling; the even grid used for
+      fitting was a device, not a product change.
+
+  - artifact: data/processed/kp1984_telluric_corrected/kp1984_corrected_6867_6884.txt
+    status: COMMITTED
+    generator: scripts/rya940_kp1984_correct.py
+    invocation: python scripts/rya940_kp1984_correct.py <atlas_dir> <out> --lo 6867 --hi 6884
+    ticket: RYA-940
+    note: >-
+      1984 Kitt Peak atlas, 6867-6884 A, telluric-corrected per band. Columns are
+      air wavelength, corrected pseudo-residual flux, transmission. NaN marks a
+      QUARANTINED pixel whose transmission fell below the per-band derived T_min --
+      never divided. Keeps the atlas's own uneven sampling; the even grid used for
+      fitting was a device, not a product change.
+
+  - artifact: data/processed/kp1984_telluric_corrected/kp1984_corrected_7594_7685.txt
+    status: COMMITTED
+    generator: scripts/rya940_kp1984_correct.py
+    invocation: python scripts/rya940_kp1984_correct.py <atlas_dir> <out> --lo 7594 --hi 7685
+    ticket: RYA-940
+    note: >-
+      1984 Kitt Peak atlas, 7594-7685 A, telluric-corrected per band. Columns are
+      air wavelength, corrected pseudo-residual flux, transmission. NaN marks a
+      QUARANTINED pixel whose transmission fell below the per-band derived T_min --
+      never divided. Keeps the atlas's own uneven sampling; the even grid used for
+      fitting was a device, not a product change.
+
+  - artifact: data/processed/kp1984_telluric_corrected/kp1984_corrected_8100_8400.txt
+    status: COMMITTED
+    generator: scripts/rya940_kp1984_correct.py
+    invocation: python scripts/rya940_kp1984_correct.py <atlas_dir> <out> --lo 8100 --hi 8400
+    ticket: RYA-940
+    note: >-
+      1984 Kitt Peak atlas, 8100-8400 A, telluric-corrected per band. Columns are
+      air wavelength, corrected pseudo-residual flux, transmission. NaN marks a
+      QUARANTINED pixel whose transmission fell below the per-band derived T_min --
+      never divided. Keeps the atlas's own uneven sampling; the even grid used for
+      fitting was a device, not a product change.
+
+  - artifact: data/processed/kp1984_telluric_corrected/kp1984_corrected_9280_9600.txt
+    status: COMMITTED
+    generator: scripts/rya940_kp1984_correct.py
+    invocation: python scripts/rya940_kp1984_correct.py <atlas_dir> <out> --lo 9280 --hi 9600
+    ticket: RYA-940
+    note: >-
+      1984 Kitt Peak atlas, 9280-9600 A, telluric-corrected per band. Columns are
+      air wavelength, corrected pseudo-residual flux, transmission. NaN marks a
+      QUARANTINED pixel whose transmission fell below the per-band derived T_min --
+      never divided. Keeps the atlas's own uneven sampling; the even grid used for
+      fitting was a device, not a product change.
+
