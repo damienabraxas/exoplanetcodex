@@ -6,3 +6,4 @@ instrument_id,host,path,loader,wave_min_A,wave_max_A,span_status,notes
 harps,mac,data/processed/solar_normalized.csv,csv_normalized,3782.6,6910.0,VERIFIED,normalised air wavelengths
 kpno_solar_atlas,mac,/Users/ryanschmitt/Documents/Exoplanet Codex/data/spectra/exoplanetcodex-data/Solar Calibration/Kitt Peak Flux Atlas,kittpeak_lm_nm_dir,2960.0,13000.0,VERIFIED,col0 nm col1 norm flux
 iag_fts_solar_atlas,sirius,/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz,iag_wavenumber_gz,4047.4,10649.9,VERIFIED,col0 VACUUM WAVENUMBER cm-1
+delbouille_liege_intensity,sirius,/mnt/codex-data/solar_reference/delbouille_bass2000/delbouille_bass2000_visible.csv.gz,csv_air_normalized_gz,3000.0,10000.0,VERIFIED,col0 AIR Angstrom col1 normalised disk-center intensity mu=1.0; gzip csv with header
