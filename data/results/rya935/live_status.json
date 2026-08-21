@@ -1,9 +1,37 @@
 {
-  "generated": "2026-08-21T19:28:09+00:00",
+  "generated": "2026-08-21T19:54:50+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
   "elements": [
+    "AlI",
+    "BaI",
+    "CI",
+    "CaI",
+    "CoI",
+    "CrI",
+    "CuI",
+    "EuI",
+    "FeI",
+    "KI",
+    "LiI",
+    "MgI",
+    "MnI",
+    "NI",
+    "NaI",
+    "NiI",
+    "OI",
+    "PI",
+    "SI",
+    "ScII",
+    "SiI",
+    "SrI",
+    "TiI",
+    "VI",
+    "YI",
+    "ZrI"
+  ],
+  "elements_with_products": [
     "AlI",
     "FeI",
     "FeII"
@@ -656,5 +684,198 @@
       "externally_validated": true
     }
   ],
+  "reference": {
+    "FeI": {
+      "asplund2021": 7.46,
+      "codex_A_X": 7.466,
+      "verdict": "PASS",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "CI": {
+      "asplund2021": 8.46,
+      "codex_A_X": 8.491,
+      "verdict": "PASS",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "OI": {
+      "asplund2021": 8.69,
+      "codex_A_X": 8.735,
+      "verdict": "PASS",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "MgI": {
+      "asplund2021": 7.55,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "SiI": {
+      "asplund2021": 7.51,
+      "codex_A_X": 7.888,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "CaI": {
+      "asplund2021": 6.3,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "TiI": {
+      "asplund2021": 4.97,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "NiI": {
+      "asplund2021": 6.2,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "NaI": {
+      "asplund2021": 6.24,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "PI": {
+      "asplund2021": 5.41,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "SI": {
+      "asplund2021": 7.12,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "NI": {
+      "asplund2021": 7.83,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "CoI": {
+      "asplund2021": 4.94,
+      "codex_A_X": null,
+      "verdict": "PASS",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "CrI": {
+      "asplund2021": 5.62,
+      "codex_A_X": 6.022,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "AlI": {
+      "asplund2021": 6.43,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "KI": {
+      "asplund2021": 5.07,
+      "codex_A_X": 5.099,
+      "verdict": "PASS",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "BaI": {
+      "asplund2021": 2.27,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "YI": {
+      "asplund2021": 2.21,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "VI": {
+      "asplund2021": 3.9,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "CuI": {
+      "asplund2021": 4.18,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "MnI": {
+      "asplund2021": 5.42,
+      "codex_A_X": 5.466,
+      "verdict": "PASS",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "ScII": {
+      "asplund2021": 3.14,
+      "codex_A_X": 3.203,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "LiI": {
+      "asplund2021": 1.05,
+      "codex_A_X": 0.727,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "EuI": {
+      "asplund2021": 0.52,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "ZrI": {
+      "asplund2021": 2.59,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    },
+    "SrI": {
+      "asplund2021": 2.83,
+      "codex_A_X": null,
+      "verdict": "CURATION-OWED",
+      "source": "data/reference/solar/solar_abundances_v5.csv"
+    }
+  },
+  "system": "solar",
+  "reachability": {
+    "solar_harps|near-UV": "solar_harps declares span (3782.6, 6910.0) and does not cover 3000.0-3800.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_harps|VIS": "no run yet",
+    "solar_harps|red-optical": "solar_harps declares span (3782.6, 6910.0) and does not cover 6910.0-10000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_harps|NIR": "solar_harps declares span (3782.6, 6910.0) and does not cover 10000.0-24000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_harps_molecfit_corrected|near-UV": "solar_harps_molecfit_corrected declares span (3782.6, 6910.0) and does not cover 3000.0-3800.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_harps_molecfit_corrected|VIS": "no run yet",
+    "solar_harps_molecfit_corrected|red-optical": "solar_harps_molecfit_corrected declares span (3782.6, 6910.0) and does not cover 6910.0-10000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_harps_molecfit_corrected|NIR": "solar_harps_molecfit_corrected declares span (3782.6, 6910.0) and does not cover 10000.0-24000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_kpno|near-UV": "no run yet",
+    "solar_kpno|VIS": "no run yet",
+    "solar_kpno|red-optical": "no run yet",
+    "solar_kpno|NIR": "no run yet",
+    "solar_kpno_molecfit_corrected|near-UV": "no run yet",
+    "solar_kpno_molecfit_corrected|VIS": "no run yet",
+    "solar_kpno_molecfit_corrected|red-optical": "no run yet",
+    "solar_kpno_molecfit_corrected|NIR": "no run yet",
+    "solar_kpno_kurucz2005_corrected|near-UV": "no run yet",
+    "solar_kpno_kurucz2005_corrected|VIS": "no run yet",
+    "solar_kpno_kurucz2005_corrected|red-optical": "no run yet",
+    "solar_kpno_kurucz2005_corrected|NIR": "solar_kpno_kurucz2005_corrected declares span (3000.0, 10000.0) and does not cover 10000.0-24000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_iag|near-UV": "no run yet",
+    "solar_iag|VIS": "no run yet",
+    "solar_iag|red-optical": "no run yet",
+    "solar_iag|NIR": "no run yet",
+    "solar_crires_plus_y_rya794|near-UV": "solar_crires_plus_y_rya794 declares span (10280.0, 10680.0) and does not cover 3000.0-3800.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_crires_plus_y_rya794|VIS": "solar_crires_plus_y_rya794 declares span (10280.0, 10680.0) and does not cover 3800.0-6910.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_crires_plus_y_rya794|red-optical": "solar_crires_plus_y_rya794 declares span (10280.0, 10680.0) and does not cover 6910.0-10000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_crires_plus_y_rya794|NIR": "solar_crires_plus_y_rya794 declares span (10280.0, 10680.0) and does not cover 10000.0-24000.0 A. NOT a failure -- we do not hold this window in this product.",
+    "solar_vesta_crires_plus_idp|near-UV": "telluric gate refuses solar_vesta_crires_plus_idp: solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2",
+    "solar_vesta_crires_plus_idp|VIS": "telluric gate refuses solar_vesta_crires_plus_idp: solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2",
+    "solar_vesta_crires_plus_idp|red-optical": "telluric gate refuses solar_vesta_crires_plus_idp: solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2",
+    "solar_vesta_crires_plus_idp|NIR": "telluric gate refuses solar_vesta_crires_plus_idp: solar_vesta_crires_plus_idp: telluric_applied=not-applied and crires_plus is registered telluric_required=yes (basis 'correction_required'). Route it through the RYA-424 telluric stage (molecfit / cr2"
+  },
   "unattributed_products": 28
 }
