@@ -196,10 +196,13 @@ def load_iag_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, 
 # which of the two is right is a question this module records the evidence for and does
 # not answer by itself.
 HARPS_CSV = Path(str(PATHS['solar_normalized']))
+#: RYA-931 — the telluric-corrected sibling product, same columns, same normaliser.
+#: A SECOND PATH, not a swap: `solar_harps` keeps serving what it always served.
+HARPS_TELLCORR_CSV = HARPS_CSV.with_name('solar_normalized_tellcorr.csv')
 _harps_cache: dict = {}
 
 
-def harps_spectrum() -> tuple[np.ndarray, np.ndarray]:
+def harps_spectrum(csv: Path | None = None) -> tuple[np.ndarray, np.ndarray]:
     """The direct-solar HARPS spectrum as (wave_air_A, flux_NORMALISED), ascending.
 
     Air wavelengths already (the column says so, and RYA-643 conditioned this product to
@@ -228,18 +231,24 @@ def harps_spectrum() -> tuple[np.ndarray, np.ndarray]:
     `pre_normalised=True` to match, so the harness uses unity as the continuum and sets
     none of its own. Read one and declare the other and you get RYA-713 exactly.
     """
-    if "wf" in _harps_cache:
-        return _harps_cache["wf"]
-    if not HARPS_CSV.exists():
+    # RYA-931 — keyed by PRODUCT, not by instrument. HARPS now serves two holdings
+    # (uncorrected and telluric-corrected) from the same reader, and a single-slot
+    # cache would hand the second caller the first caller's pixels. That is the
+    # RYA-904 defect shape exactly: one instrument silently standing for one holding.
+    csv = HARPS_CSV if csv is None else Path(csv)
+    key = str(csv)
+    if key in _harps_cache:
+        return _harps_cache[key]["wf"]
+    if not csv.exists():
         raise LookupError(
-            f"HARPS solar spectrum not staged at {HARPS_CSV}. This is the direct-solar "
+            f"HARPS solar spectrum not staged at {csv}. This is the direct-solar "
             f"arm (Dumusque ESO 1102.D-0954); stage it rather than falling back to an "
             f"atlas, which would label an atlas measurement 'harps'.")
-    d = pd.read_csv(HARPS_CSV)
+    d = pd.read_csv(csv)
     missing = {"wavelength_air_A", "flux_normalized", "continuum"} - set(d.columns)
     if missing:
         raise LookupError(
-            f"{HARPS_CSV.name} lacks {sorted(missing)}; got {list(d.columns)}. The band "
+            f"{csv.name} lacks {sorted(missing)}; got {list(d.columns)}. The band "
             f"harness consumes this product's OWN fitted continuum (RYA-911) and will "
             f"not fall back to re-fitting one, because that re-fit is the defect.")
     w = np.asarray(d["wavelength_air_A"], dtype=float)
@@ -248,17 +257,19 @@ def harps_spectrum() -> tuple[np.ndarray, np.ndarray]:
     ok = np.isfinite(w) & np.isfinite(f)
     w, f, cont = w[ok], f[ok], cont[ok]
     o = np.argsort(w)
-    _harps_cache["wf"] = (w[o], f[o])
+    _harps_cache[key] = {"wf": (w[o], f[o])}
     #: kept for provenance: the ABSOLUTE continuum this normalisation divided by, so the
     #: per-line record can name a number rather than only the word "unity".
-    _harps_cache["cont"] = (w[o], cont[o])
-    return _harps_cache["wf"]
+    _harps_cache[key]["cont"] = (w[o], cont[o])
+    return _harps_cache[key]["wf"]
 
 
-def load_harps_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
-    w, f = harps_spectrum()
+def load_harps_window(centre: float, pad: float,
+                      csv: Path | None = None) -> tuple[np.ndarray, np.ndarray, str]:
+    csv = HARPS_CSV if csv is None else Path(csv)
+    w, f = harps_spectrum(csv)
     w, f = _slice_window(w, f, centre, pad, "HARPS")
-    return w, f, HARPS_CSV.name
+    return w, f, csv.name
 
 
 def reference_continuum(spec: "HoldingSpec", centre: float) -> float | None:
@@ -277,9 +288,10 @@ def reference_continuum(spec: "HoldingSpec", centre: float) -> float | None:
     """
     if not spec.reference_continuum:
         return None
-    if spec.reader == "harps":
-        harps_spectrum()                       # populates the cache
-        cw, cc = _harps_cache.get("cont", (None, None))
+    if spec.reader in ("harps", "harps_tellcorr"):
+        csv = HARPS_TELLCORR_CSV if spec.reader == "harps_tellcorr" else HARPS_CSV
+        harps_spectrum(csv)                    # populates the cache
+        cw, cc = _harps_cache.get(str(csv), {}).get("cont", (None, None))
         if cw is None:
             return None
         j = int(np.argmin(np.abs(cw - centre)))
@@ -693,6 +705,19 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "put the continuum BELOW the observed flux on 8 of 16 lines "
                          "(worst max(F/C) 1.204 -- impossible) and cost a median 23.8% "
                          "of the EW in a same-inputs control. That was the -0.34 dex."),
+        HoldingSpec("solar_harps_molecfit_corrected", reader="harps_tellcorr",
+                    pre_normalised=True, reference_continuum=True,
+                    note="RYA-931 telluric-corrected sibling: the same ten exposures "
+                         "through the same normaliser, with the O2 B band divided out "
+                         "per exposure by its own molecfit/GDAS transmission. Listed "
+                         "SECOND ON PURPOSE -- it is reachable by name, but selection "
+                         "order is unchanged, so no existing measurement silently "
+                         "switches product. Choosing it for the affected red-edge "
+                         "windows is RYA-936's decision to make and record, not a "
+                         "side effect of this wiring. 256 saturated-core pixels are "
+                         "NaN (quarantined, not divided), so a window overlapping them "
+                         "loses those pixels rather than being served a fabricated "
+                         "flux."),
     ),
     "kpno_solar_atlas": (
         HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
@@ -829,6 +854,8 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
         return load_iag_window(centre, pad)
     if spec.reader == "harps":
         return load_harps_window(centre, pad)
+    if spec.reader == "harps_tellcorr":
+        return load_harps_window(centre, pad, HARPS_TELLCORR_CSV)
     if spec.reader == "crires_y":
         return load_crires_y_window(centre, pad)
     if spec.reader == "crires_idp":

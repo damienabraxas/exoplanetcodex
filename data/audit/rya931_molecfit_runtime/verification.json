@@ -1,0 +1,81 @@
+{
+  "ticket": "RYA-931",
+  "uncorrected": "/Users/ryanschmitt/Documents/Exoplanet Codex/diagnostics/rya931/products/solar_normalized_reproduction.csv",
+  "corrected": "/Users/ryanschmitt/Documents/Exoplanet Codex/diagnostics/rya931/products/solar_normalized_tellcorr.csv",
+  "o2b_gate": {
+    "o2b_before": {
+      "window_A": [
+        6867.0,
+        6884.0
+      ],
+      "n_pixels": 1700,
+      "n_finite": 1700,
+      "min": 0.0060057717868253,
+      "median": 0.8504787494699146,
+      "pct_below_0.5": 22.058823529411764,
+      "pct_below_0.95": 86.3529411764706
+    },
+    "o2b_after": {
+      "window_A": [
+        6867.0,
+        6884.0
+      ],
+      "n_pixels": 1700,
+      "n_finite": 1554,
+      "min": 0.7724900581656337,
+      "median": 0.9648135766467563,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 24.38867438867439
+    },
+    "control_before": {
+      "window_A": [
+        6800.0,
+        6860.0
+      ],
+      "n_pixels": 6000,
+      "n_finite": 6000,
+      "min": 0.5665678794739675,
+      "median": 0.9514035098010866,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 42.36666666666667
+    },
+    "control_after": {
+      "window_A": [
+        6800.0,
+        6860.0
+      ],
+      "n_pixels": 6000,
+      "n_finite": 6000,
+      "min": 0.5657529076326121,
+      "median": 0.9520858702660432,
+      "pct_below_0.5": 0.0,
+      "pct_below_0.95": 39.35
+    }
+  },
+  "solar_preservation": {
+    "raw_coadd_bit_identical_outside_fitted_region": true,
+    "max_normalised_flux_shift_outside": 0.0015974995856690155,
+    "max_fractional_continuum_shift_outside": 0.00388971876539014,
+    "continuum_shift_tolerance": 0.01,
+    "n_clean_solar_line_pixels": 67,
+    "max_abs_depth_shift": 0.005203881126258247,
+    "tolerance": 0.01,
+    "pass": true
+  },
+  "iag_discriminator": {
+    "n_compared_before": 1700,
+    "n_compared_after": 1554,
+    "rms_vs_iag_before": 0.40211923774135977,
+    "rms_vs_iag_after": 0.035121902388747385,
+    "median_offset_before": -0.1339472774970621,
+    "median_offset_after": -0.026415266536971238
+  },
+  "verdict": {
+    "o2b_min_improved": true,
+    "o2b_saturation_cleared": true,
+    "control_shift_bounded": true,
+    "solar_preserved": true,
+    "iag_agreement_improved": true,
+    "pass": true
+  }
+}
