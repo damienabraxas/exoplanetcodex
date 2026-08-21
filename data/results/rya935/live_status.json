@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21T20:06:29+00:00",
+  "generated": "2026-08-21T20:15:06+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -866,7 +866,18 @@
       "best_external": "Amarsi et al. 2021 (A&A 653, A141)",
       "scale": "3D-NLTE",
       "deviate_beyond": 0.08,
-      "band_meaning": "agreement with the literature (best external +/- sigma_ext) -- NOT a pass/fail gate"
+      "band_meaning": "agreement with the literature (best external +/- sigma_ext) -- NOT a pass/fail gate",
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 7.49,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 7.58, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "CI": {
       "asplund2021": 8.46,
@@ -877,7 +888,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 8.51,
+          "sigma": 0.09,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 8.60, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "OI": {
       "asplund2021": 8.69,
@@ -888,7 +910,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 8.76,
+          "sigma": 0.05,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 8.85, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "MgI": {
       "asplund2021": 7.55,
@@ -899,7 +932,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 7.57,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 7.66, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "SiI": {
       "asplund2021": 7.51,
@@ -910,7 +954,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 7.55,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 7.64, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "CaI": {
       "asplund2021": 6.3,
@@ -921,7 +976,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 6.33,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 6.42, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "TiI": {
       "asplund2021": 4.97,
@@ -932,7 +998,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 4.94,
+          "sigma": 0.03,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 5.03, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "NiI": {
       "asplund2021": 6.2,
@@ -943,7 +1020,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 6.25,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 6.34, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "NaI": {
       "asplund2021": 6.24,
@@ -954,7 +1042,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 6.3,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 6.39, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "PI": {
       "asplund2021": 5.41,
@@ -965,7 +1064,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 5.48,
+          "sigma": 0.04,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 5.56, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "SI": {
       "asplund2021": 7.12,
@@ -976,7 +1086,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 7.18,
+          "sigma": 0.04,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 7.27, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "NI": {
       "asplund2021": 7.83,
@@ -987,7 +1108,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 7.94,
+          "sigma": 0.11,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 8.03, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "CoI": {
       "asplund2021": 4.94,
@@ -998,7 +1130,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 4.91,
+          "sigma": 0.02,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 5.00, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "CrI": {
       "asplund2021": 5.62,
@@ -1009,7 +1152,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 5.67,
+          "sigma": 0.02,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 5.76, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "AlI": {
       "asplund2021": 6.43,
@@ -1024,7 +1178,18 @@
       "best_external": "Asplund et al. 2021 (A&A 653, A141)",
       "scale": "3D-NLTE",
       "deviate_beyond": 0.08,
-      "band_meaning": "agreement with the literature (best external +/- sigma_ext) -- NOT a pass/fail gate"
+      "band_meaning": "agreement with the literature (best external +/- sigma_ext) -- NOT a pass/fail gate",
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 6.46,
+          "sigma": 0.03,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 6.55, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "KI": {
       "asplund2021": 5.07,
@@ -1035,7 +1200,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 5.12,
+          "sigma": 0.03,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 5.20, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "BaI": {
       "asplund2021": 2.27,
@@ -1046,7 +1222,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 2.22,
+          "sigma": 0.02,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 2.30, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "YI": {
       "asplund2021": 2.21,
@@ -1057,7 +1244,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 2.2,
+          "sigma": 0.04,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 2.29, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "VI": {
       "asplund2021": 3.9,
@@ -1079,7 +1277,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 4.29,
+          "sigma": 0.05,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 4.38, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "MnI": {
       "asplund2021": 5.42,
@@ -1090,7 +1299,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 5.52,
+          "sigma": 0.0,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 5.61, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "ScII": {
       "asplund2021": 3.14,
@@ -1101,7 +1321,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 3.08,
+          "sigma": 0.03,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 3.17, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "LiI": {
       "asplund2021": 1.05,
@@ -1112,7 +1343,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 3.3,
+          "sigma": 0.02,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 3.39, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "EuI": {
       "asplund2021": 0.52,
@@ -1123,7 +1365,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 0.57,
+          "sigma": 0.02,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 0.66, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "ZrI": {
       "asplund2021": 2.59,
@@ -1134,7 +1387,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 2.57,
+          "sigma": 0.02,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 2.66, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     },
     "SrI": {
       "asplund2021": 2.83,
@@ -1145,7 +1409,18 @@
       "band": null,
       "best_external": null,
       "scale": null,
-      "deviate_beyond": null
+      "deviate_beyond": null,
+      "comparators": [
+        {
+          "name": "Lodders+ 2025",
+          "value": 2.93,
+          "sigma": 0.01,
+          "colour": "gold",
+          "bands": null,
+          "note": "Table 6, present-day Sun (proto-solar is 3.02, ~0.09 dex higher)",
+          "source": "data/reference/solar/lodders2025_table6.csv"
+        }
+      ]
     }
   },
   "system": "solar",
