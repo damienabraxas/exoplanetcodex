@@ -1,0 +1,177 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    7160.0,
+    7340.0
+  ],
+  "fit_window_A": [
+    7135.0,
+    7365.0
+  ],
+  "molecules": [
+    "H2O"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0712",
+      "md5": "81637302279f27d22a261a41600154e0",
+      "own_range_A": [
+        7120.0,
+        7160.0
+      ],
+      "n_kept": 4321
+    },
+    {
+      "segment": "lm0716",
+      "md5": "1ab9f42dc93fd99f8757a3a4b209516a",
+      "own_range_A": [
+        7160.0,
+        7200.0
+      ],
+      "n_kept": 4273
+    },
+    {
+      "segment": "lm0720",
+      "md5": "a59d38475d821aa1f973fa03929a45ca",
+      "own_range_A": [
+        7200.0,
+        7240.0
+      ],
+      "n_kept": 4226
+    },
+    {
+      "segment": "lm0724",
+      "md5": "0f583f3d8e2954ba83e90a9de66a8174",
+      "own_range_A": [
+        7240.0,
+        7280.0
+      ],
+      "n_kept": 4180
+    },
+    {
+      "segment": "lm0728",
+      "md5": "05f95761b8745b729bc68de982e80ea3",
+      "own_range_A": [
+        7280.0,
+        7320.0
+      ],
+      "n_kept": 4134
+    },
+    {
+      "segment": "lm0732",
+      "md5": "d7d1798b1a0077b8e9a3781ca08a1f16",
+      "own_range_A": [
+        7320.0,
+        7360.0
+      ],
+      "n_kept": 4089
+    },
+    {
+      "segment": "lm0736",
+      "md5": "872ba7b16631336f6638584a349b786a",
+      "own_range_A": [
+        7360.0,
+        7400.0
+      ],
+      "n_kept": 4045
+    }
+  ],
+  "n_atlas_pixels": 24105,
+  "resample_step_A": 0.009700000000520959,
+  "n_fit_pixels": 23711,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": "/mnt/codex-data/spectra/KITTS/irradthu.dat.txt",
+  "solar_reference_kind": "kurucz2005",
+  "solar_reference_md5": "72606e101fa8822778a5606a6ec2fa27",
+  "externally_validated": true,
+  "solar_mask_intervals": 137,
+  "solar_mask_pixels": 4447,
+  "solar_mask_fraction": 0.1876,
+  "atlas_resolving_power": 148000.0,
+  "expected_lsf_fwhm_pix": 5.050153245758306,
+  "lsf_start_ladder_pix": [
+    5.05,
+    4.04,
+    6.313,
+    3.283,
+    8.08,
+    2.525
+  ],
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 5.05,
+      "gaussfwhm": 0.0,
+      "reduced_chi2": 4.370805141362554,
+      "rms_rel_to_mean": 0.020905927990786576,
+      "column_scale": 1.9471,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": false,
+      "rel_mol_col_H2O": 1.9470995457522446
+    },
+    {
+      "lsf_start_pix": 4.04,
+      "gaussfwhm": 0.0,
+      "reduced_chi2": 4.370805141362554,
+      "rms_rel_to_mean": 0.020905927990786576,
+      "column_scale": 1.9471,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": false,
+      "rel_mol_col_H2O": 1.9470995457522446
+    },
+    {
+      "lsf_start_pix": 6.313,
+      "gaussfwhm": 0.0,
+      "reduced_chi2": 4.370805141362554,
+      "rms_rel_to_mean": 0.020905927990786576,
+      "column_scale": 1.9471,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": false,
+      "rel_mol_col_H2O": 1.9470995457522446
+    },
+    {
+      "lsf_start_pix": 3.283,
+      "gaussfwhm": 4.440892098500626e-16,
+      "reduced_chi2": 4.370805141362554,
+      "rms_rel_to_mean": 0.020905927990786576,
+      "column_scale": 1.9471,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": false,
+      "rel_mol_col_H2O": 1.9470995457522446
+    },
+    {
+      "lsf_start_pix": 8.08,
+      "gaussfwhm": 0.0,
+      "reduced_chi2": 4.370805141362554,
+      "rms_rel_to_mean": 0.020905927990786576,
+      "column_scale": 1.9471,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": false,
+      "rel_mol_col_H2O": 1.9470995457522446
+    },
+    {
+      "lsf_start_pix": 2.525,
+      "gaussfwhm": 0.0,
+      "reduced_chi2": 4.370805141362554,
+      "rms_rel_to_mean": 0.020905927990786576,
+      "column_scale": 1.9471,
+      "column_is_airmass_proxy": false,
+      "returncode": 0,
+      "admissible": false,
+      "rel_mol_col_H2O": 1.9470995457522446
+    }
+  ],
+  "accepted": null,
+  "correction": null
+}

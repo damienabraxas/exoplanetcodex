@@ -1,0 +1,113 @@
+{
+  "ticket": "RYA-940",
+  "band_A": [
+    7594.0,
+    7685.0
+  ],
+  "fit_window_A": [
+    7569.0,
+    7710.0
+  ],
+  "molecules": [
+    "O2"
+  ],
+  "reference_atmosphere": "std.fits",
+  "gdas": "none (bundled monthly average) - NO observation-night profile exists for this atlas; recorded deviation ratified 2026-08-21",
+  "site": {
+    "latitude_deg": 31.9584,
+    "longitude_deg": -111.5967,
+    "elevation_m": 2096.0
+  },
+  "segments": [
+    {
+      "segment": "lm0756",
+      "md5": "18f6f6fb3abca96e62802a7a012a1520",
+      "own_range_A": [
+        7560.0,
+        7600.0
+      ],
+      "n_kept": 4896
+    },
+    {
+      "segment": "lm0760",
+      "md5": "113e60ff46adbb02daa880947767c92c",
+      "own_range_A": [
+        7600.0,
+        7640.0
+      ],
+      "n_kept": 4845
+    },
+    {
+      "segment": "lm0764",
+      "md5": "8539740ceaa48545834334a471227705",
+      "own_range_A": [
+        7640.0,
+        7680.0
+      ],
+      "n_kept": 4794
+    },
+    {
+      "segment": "lm0768",
+      "md5": "b71c5b977dd6aeff5eb3e51fbca68c10",
+      "own_range_A": [
+        7680.0,
+        7720.0
+      ],
+      "n_kept": 4745
+    }
+  ],
+  "n_atlas_pixels": 16991,
+  "resample_step_A": 0.008499999999912689,
+  "n_fit_pixels": 16588,
+  "resampling_note": "fit runs on the even grid; transmission is applied back on the ORIGINAL atlas grid, which the product keeps",
+  "solar_reference": "/mnt/codex-data/spectra/KITTS/irradthu.dat.txt",
+  "solar_reference_kind": "kurucz2005",
+  "solar_reference_md5": "72606e101fa8822778a5606a6ec2fa27",
+  "solar_mask_intervals": 43,
+  "solar_mask_pixels": 2083,
+  "solar_mask_fraction": 0.1256,
+  "lsf_attempts": [
+    {
+      "lsf_start_pix": 2.5,
+      "gaussfwhm": 6.040380569209587,
+      "reduced_chi2": 24.725846362835668,
+      "rms_rel_to_mean": 0.049723376514341784,
+      "implied_airmass": 1.3517,
+      "returncode": 0,
+      "admissible": true,
+      "rel_mol_col_O2": 1.3516781299373655
+    }
+  ],
+  "accepted": "/mnt/codex-data/codex/rya940/o2a/start_2p50",
+  "correction": {
+    "dt_transmission_sigma": 0.012803267863169453,
+    "t_min": 0.256065357263389,
+    "n_corrected": 14687,
+    "n_quarantined": 2304,
+    "before": {
+      "n": 10966,
+      "min": -0.00682,
+      "median": 0.744005,
+      "pct_below_0.5": 32.828743388655845,
+      "pct_below_0.95": 77.92267007112895
+    },
+    "after": {
+      "n": 8677,
+      "min": -0.01268977133423495,
+      "median": 0.9907617884025471,
+      "pct_below_0.5": 0.5531865852253083,
+      "pct_below_0.95": 17.229457185663247
+    },
+    "vs_reference_before": {
+      "n": 10966,
+      "rms": 0.5002815288532169,
+      "median_offset": -0.2210606418229254
+    },
+    "vs_reference_after": {
+      "n": 8677,
+      "rms": 0.09154886843344033,
+      "median_offset": -0.0037934717572494225
+    },
+    "reference_kind": "kurucz2005"
+  }
+}
