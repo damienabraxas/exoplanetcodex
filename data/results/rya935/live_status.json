@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21T20:15:06+00:00",
+  "generated": "2026-08-21T20:45:45+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -1422,6 +1422,62 @@
         }
       ]
     }
+  },
+  "graded": [
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "engine": "1D-LTE",
+      "A": 7.445,
+      "n_lines": 9,
+      "sigma_stat": 0.0394,
+      "sigma_syst": 0.0614,
+      "total_dex": 0.07295423222815794,
+      "ungraded_total_dex": 0.17320652412654672,
+      "graded_beats_ungraded": true,
+      "gf_term": "cited",
+      "role": "PRIMARY (graded lab-gf)",
+      "source": "data/results/rya850/rya850_summary.json"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "near-UV",
+      "engine": "1D-LTE",
+      "A": 7.577,
+      "n_lines": 59,
+      "sigma_stat": 0.0849,
+      "sigma_syst": 0.1128,
+      "total_dex": 0.14118020399475276,
+      "ungraded_total_dex": 0.20769901299717336,
+      "graded_beats_ungraded": true,
+      "gf_term": "cited",
+      "role": "PRIMARY (graded lab-gf)",
+      "source": "data/results/rya850/rya850_summary.json"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "engine": "1D-LTE",
+      "A": 7.516,
+      "n_lines": 20,
+      "sigma_stat": 0.0225,
+      "sigma_syst": 0.0618,
+      "total_dex": 0.0657684574853326,
+      "ungraded_total_dex": 0.1767027447438211,
+      "graded_beats_ungraded": true,
+      "gf_term": "cited",
+      "role": "PRIMARY (graded lab-gf)",
+      "source": "data/results/rya850/rya850_summary.json"
+    }
+  ],
+  "reporting_contract": {
+    "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
+    "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
+    "headline_rule": "the ungraded value is NEVER the headline (RYA-851)",
+    "bars": "statistical SOLID, systematic WIREFRAME -- never summed; error_budget.py deliberately provides no combined()"
   },
   "system": "solar",
   "reachability": {
