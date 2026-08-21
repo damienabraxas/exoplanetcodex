@@ -87,6 +87,18 @@ roots:
     env: CODEX_ENGINE_ROOT
     default: /mnt/codex-data/engines
     desc: Synthesis engines (Turbospectrum_NLTE, iSpec, PySME, TSFitPy).
+  eso_pipelines:
+    env: CODEX_ESO_ROOT
+    default: /srv/codex/eso/molecfit
+    desc: >-
+      The ESO pipeline install prefix (esorex + molecfit recipes + telluriccorr
+      data). Machine-specific by nature: Sirius builds ESO's source kit under
+      /srv/codex/eso/molecfit, the Mac installs the Homebrew tap under
+      /opt/homebrew. RYA-939 registered it because the telluric runner had the
+      Mac's esorex path baked in, which made the whole correction leg Mac-only
+      for no reason -- and a missing engine must fail loudly, never read as an
+      uncorrected product. Resolution order in code is $ESOREX, then PATH, then
+      this root; the root is what makes the SIRIUS default declared in one place.
   repo:
     env: CODEX_REPO_ROOT
     default: '{repo}'
