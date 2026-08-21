@@ -40,7 +40,13 @@ code{color:var(--link);font-size:.85em}
           color:var(--mut);border-bottom:1px solid var(--rule);padding-bottom:2px}
 .legend i{display:inline-block;width:22px;height:0;border-top:2px solid currentColor;
           vertical-align:middle;margin-right:5px}
-.bar{position:absolute;top:8px;height:3px;background:var(--link)}
+.bar{position:absolute;top:8px;height:4px;background:var(--link);border-radius:2px}
+.sysbar{position:absolute;top:5px;height:10px;border:1px dashed var(--link);
+        border-radius:2px;background:none;opacity:.75}
+.gradedrow .bar{background:var(--good)}
+.gradedrow .sysbar{border-color:var(--good)}
+.roletag{display:inline-block;font-size:.72em;padding:.05em .4em;border-radius:3px;
+         border:1px solid currentColor;margin-left:5px}
 .dot{position:absolute;top:4px;width:10px;height:10px;border-radius:50%;background:var(--link);transform:translateX(-50%)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:1px solid var(--rule);border-radius:6px;padding:3px 7px;font-size:.85em;background:#101830}
@@ -87,6 +93,11 @@ function forest(d){
         +fx(ref.asplund2021,2)+(ref.sigma_external!=null?' &plusmn; '+fx(ref.sigma_external,2):'')
         +'</b>'+(ref.scale?' ('+esc(ref.scale)+')':'')+' &middot; gold verdict '+esc(ref.verdict)+'</span>'
       : ' <span class="warn note">no literature anchor recorded</span>')+'</h3>';
+    h+='<div class="legend"><span class="muted"><i style="border-top-width:4px;'
+      +'border-top-color:var(--link)"></i>statistical (solid)</span>'
+      +'<span class="muted"><i style="border-top-style:dashed"></i>systematic (wireframe) '
+      +'&mdash; never summed</span>'
+      +'<span class="good"><i style="border-top-width:4px"></i>PRIMARY graded lab-gf</span></div>';
     if(cmps.length||ref) h+='<div class="legend">'
       +(ref?'<span class="good"><i></i>'+esc(ref.best_external||'primary')+' '+fx(ref.asplund2021,2)
         +(ref.sigma_external!=null?' &plusmn;'+fx(ref.sigma_external,2):'')+'</span>':'')
@@ -102,17 +113,44 @@ function forest(d){
       const rows=all.filter(r=>r.band===b);
       if(!rows.length) continue;
       const here=cmps.filter(c=>!c.bands||c.bands.includes(b));
-      const vals=rows.flatMap(r=>[r.A-(r.sigma_stat||0)-(r.sigma_syst||0),
-                                  r.A+(r.sigma_stat||0)+(r.sigma_syst||0)]);
+      const vals=rows.flatMap(r=>{const m=Math.max(r.sigma_stat||0,r.sigma_syst||0);
+                                  return [r.A-m, r.A+m];});
       if(ref) vals.push(ref.asplund2021);
       for(const c of here) vals.push(c.value-(c.sigma||0),c.value+(c.sigma||0));
+      for(const g of (d.graded||[]).filter(g=>g.element+g.ion===sp&&g.band===b)){
+        const m=Math.max(g.sigma_stat||0,g.sigma_syst||0); vals.push(g.A-m,g.A+m);}
       const lo=Math.min(...vals)-0.05, hi=Math.max(...vals)+0.05, span=(hi-lo)||1;
       const x=v=>Math.max(0,Math.min(100,(v-lo)/span*100));
+      const gr=(d.graded||[]).filter(g=>g.element+g.ion===sp&&g.band===b);
       h+='<div class="bandhdr">'+esc(b)+' <span class="muted">&middot; '+rows.length+' product'
-        +(rows.length>1?'s':'')+'</span></div>';
+        +(rows.length>1?'s':'')+(gr.length?' + '+gr.length+' graded':'')+'</span></div>';
+      h+=gr.map(g=>{
+        const st=g.sigma_stat||0, sy=g.sigma_syst||0;
+        const l=x(g.A-st), w=x(g.A+st)-l, sl=x(g.A-sy), sw=x(g.A+sy)-sl;
+        return '<div class="forest gradedrow"><span class="note"><b>'+esc(g.engine||'')+'</b>'
+          +'<span class="roletag good">PRIMARY · graded lab-gf</span>'
+          +'<br><span class="muted">n='+g.n_lines+' · cited pool &sigma;, not the 0.17 placeholder'
+          +' · ungraded total would be '+fx(g.ungraded_total_dex,3)+'</span></span>'
+          +'<span class="track">'
+          +(ref&&ref.band?'<i class="ref" style="left:'+x(ref.band[0])+'%;width:'
+             +Math.max(0.4,x(ref.band[1])-x(ref.band[0]))+'%"></i>':'')
+          +here.map(c=>'<i class="cmp" style="color:'+c.colour+';left:'+x(c.value)+'%"></i>').join('')
+          +(ref?'<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>':'')
+          +'<i class="sysbar" style="left:'+sl+'%;width:'+Math.max(0.4,sw)+'%"></i>'
+          +'<i class="bar" style="left:'+l+'%;width:'+Math.max(0.4,w)+'%"></i>'
+          +'<i class="dot" style="left:'+x(g.A)+'%"></i></span>'
+          +'<span class="val note">'+fx(g.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
+          +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
+      }).join('');
       h+=rows.map(r=>{
-        const tot=(r.sigma_stat||0)+(r.sigma_syst||0);
-        const l=x(r.A-tot), w=x(r.A+tot)-l;
+        // RYA-851: statistical SOLID, systematic WIREFRAME. NEVER summed --
+        // error_budget.py:203 deliberately provides no combined(), because
+        // collapsing the two is how a frontier number gets misread. The previous
+        // version drew a LINEAR sum of both, which inflated every bar past any
+        // defensible combination and is what made the bars look like they had grown.
+        const st=(r.sigma_stat||0), sy=(r.sigma_syst||0);
+        const l=x(r.A-st), w=x(r.A+st)-l;
+        const sl=x(r.A-sy), sw=x(r.A+sy)-sl;
         const pre=/^PRE/.test(r.telluric_basis||'');
         const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)
           +'<br><span class="muted">'+esc(r.run_context)+(r.committed?' · '+esc(r.committed):'')
@@ -130,9 +168,12 @@ function forest(d){
         }
         if(ref) marks+='<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>';
         return '<div class="forest"><span class="note">'+label+'</span>'
-          +'<span class="track">'+marks+'<i class="bar" style="left:'+l+'%;width:'+w+'%"></i>'
+          +'<span class="track">'+marks
+          +'<i class="sysbar" style="left:'+sl+'%;width:'+Math.max(0.4,sw)+'%"></i>'
+          +'<i class="bar" style="left:'+l+'%;width:'+Math.max(0.4,w)+'%"></i>'
           +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
-          +'<span class="val note">'+fx(r.A,3)+' &plusmn;'+fx(tot,3)+'</span></div>';
+          +'<span class="val note">'+fx(r.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
+          +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
       }).join('');
       const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
       let ticks='';
