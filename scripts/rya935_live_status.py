@@ -268,6 +268,33 @@ def collect_reference(root: Path) -> dict:
                 })
     except Exception:                                           # noqa: BLE001
         pass
+
+    # A SECOND comparator, kept separate rather than averaged: Lodders, Bergemann &
+    # Palme 2025 Table 6. Its PRESENT column is the photospheric-era value; the
+    # proto-solar column runs ~0.09 dex higher and quoting it against a photospheric
+    # measurement would manufacture a discrepancy.
+    #
+    # Comparators are a LIST, and each may be scoped to particular bands. A source
+    # whose determination only covers the infrared must not be drawn across the
+    # optical as if it applied there.
+    lodders = root / "data" / "reference" / "solar" / "lodders2025_table6.csv"
+    if lodders.exists():
+        frame = pd.read_csv(lodders, comment="#")
+        by_element = {r["element"]: r for _, r in frame.iterrows()}
+        for key, entry in out.items():
+            element = "".join(c for c in key if not c.isupper() or c == key[0])
+            element = key.rstrip("IV") or key
+            row = by_element.get(element)
+            if row is None:
+                continue
+            entry.setdefault("comparators", []).append({
+                "name": "Lodders+ 2025", "value": float(row["A_present"]),
+                "sigma": float(row["sigma_present"]), "colour": "gold",
+                "bands": None,          # applies everywhere
+                "note": "Table 6, present-day Sun (proto-solar is "
+                        f"{float(row['A_protosolar']):.2f}, ~0.09 dex higher)",
+                "source": "data/reference/solar/lodders2025_table6.csv",
+            })
     return out
 
 
