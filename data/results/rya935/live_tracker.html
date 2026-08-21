@@ -21,6 +21,13 @@ code{color:var(--link);font-size:.85em}
 .val{font-variant-numeric:tabular-nums;white-space:nowrap}
 .tell{display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
 .forest{display:grid;grid-template-columns:250px 1fr 150px;gap:8px;align-items:center;padding:3px 0}
+.axis{display:grid;grid-template-columns:250px 1fr 150px;gap:8px;align-items:start}
+.ticks{position:relative;height:26px;border-top:1px solid var(--rule)}
+.tick{position:absolute;top:0;transform:translateX(-50%);font-size:.78em;color:var(--mut);
+      font-variant-numeric:tabular-nums;padding-top:3px;white-space:nowrap}
+.tick::before{content:'';position:absolute;left:50%;top:0;width:1px;height:5px;background:var(--rule)}
+.reflab{position:absolute;top:-2px;transform:translateX(-50%);font-size:.78em;color:var(--good);
+        font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
 .track{height:18px;position:relative;border-bottom:1px solid var(--rule)}
 .ref{position:absolute;top:0;height:100%;background:rgba(83,216,153,.16);border-left:2px dashed var(--good);border-right:2px dashed var(--good)}
 .refline{position:absolute;top:0;height:100%;width:0;border-left:2px solid var(--good)}
@@ -69,18 +76,35 @@ function forest(d){
     if(ref) vals.push(ref.asplund2021);
     const lo=Math.min(...vals)-0.05, hi=Math.max(...vals)+0.05, span=hi-lo||1;
     const x=v=>Math.max(0,Math.min(100,(v-lo)/span*100));
-    h+='<h3>'+esc(sp)+(ref?' <span class="muted note">literature (Asplund 2021) '+fx(ref.asplund2021,2)
-        +' &middot; gold verdict '+esc(ref.verdict)+'</span>':' <span class="warn note">no literature anchor in the gold reference</span>')+'</h3>';
+    const hdr = ref
+      ? ' <span class="muted note">'+esc(ref.best_external||'literature')+' &mdash; <b class="good">'
+        +fx(ref.asplund2021,2)+(ref.sigma_external!=null?' &plusmn; '+fx(ref.sigma_external,2):'')
+        +'</b>'+(ref.scale?' ('+esc(ref.scale)+')':'')+' &middot; gold verdict '+esc(ref.verdict)+'</span>'
+      : ' <span class="warn note">no literature anchor recorded</span>';
+    h+='<h3>'+esc(sp)+hdr+'</h3>';
     h+=rows.map(r=>{
       const tot=(r.sigma_stat||0)+(r.sigma_syst||0);
       const l=x(r.A-tot), w=x(r.A+tot)-l;
       const label=(r.holding||r.instrument)+' · '+r.band+' · '+(r.display||r.treatment);
+      let band='';
+      if(ref&&ref.band){const b0=x(ref.band[0]),b1=x(ref.band[1]);
+        band='<i class="ref" style="left:'+b0+'%;width:'+Math.max(0.4,b1-b0)+'%"></i>';}
       return '<div class="forest"><span class="note">'+esc(label)+'</span>'
-        +'<span class="track">'+(ref?'<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>':'')
+        +'<span class="track">'+band+(ref?'<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>':'')
         +'<i class="bar" style="left:'+l+'%;width:'+w+'%"></i>'
         +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
         +'<span class="val note">'+fx(r.A,3)+' &plusmn;'+fx(tot,3)+'</span></div>';
     }).join('');
+    // x axis: ticks on a round step, plus the literature value called out by name
+    const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
+    let ticks='';
+    for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step)
+      ticks+='<span class="tick" style="left:'+x(v)+'%">'+v.toFixed(step<0.1?2:2)+'</span>';
+    if(ref) ticks+='<span class="reflab" style="left:'+x(ref.asplund2021)+'%">&#9660; '+fx(ref.asplund2021,2)+'</span>';
+    h+='<div class="axis"><span></span><span class="ticks">'+ticks+'</span><span class="muted note">A(X) dex</span></div>';
+    if(ref&&ref.band) h+='<div class="muted note" style="margin:2px 0 14px">Green band = '
+      +esc(ref.best_external)+' &plusmn; &sigma;<sub>ext</sub> ('+fx(ref.band[0],2)+'&ndash;'+fx(ref.band[1],2)
+      +'). This is <b>agreement with the literature</b>, not a pass/fail gate.</div>';
   }
   document.querySelector('#forest').innerHTML=h
     ||'<span class="muted">'+(FILTER?'No products for '+esc(FILTER)+' yet.':'No products with values yet.')+'</span>';
