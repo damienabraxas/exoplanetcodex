@@ -617,7 +617,13 @@ def synthesis_route(a, pol) -> None:
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_SYNTH"
+    # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
+    # differing by whether tellurics were removed would otherwise write the same
+    # filename, and the second would silently overwrite the first.
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_SYNTH"
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
 
@@ -880,7 +886,13 @@ def main() -> None:
         # rather than failing on a missing input that is missing BY DESIGN (RYA-832).
         return synthesis_route(a, pol_early)
 
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_PROFILEFIT"
+    # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
+    # differing by whether tellurics were removed would otherwise write the same
+    # filename, and the second would silently overwrite the first.
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_PROFILEFIT"
     src = EW_DIR / f"{stem}_ew.csv"
     if not src.exists():
         raise SystemExit(f"no measured EWs at {src}. Run measure_band_profilefit.py first.")
