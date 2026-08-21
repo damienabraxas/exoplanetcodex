@@ -180,7 +180,21 @@ def load_registry(star: str | None = None) -> list[Instrument]:
         man = ROOT / str(h["manifest_path"]).strip()
         if not man.exists():
             continue                      # holdings whose manifest is a per-target audit
-        rows = pd.read_csv(man, comment="#")
+        # ⚠️ A HOLDING'S `manifest_path` IS NOT ALWAYS A CSV. RYA-929 and RYA-931 both
+        # registered a JSON intake manifest, and this loop fed them to `read_csv`, which
+        # died with `Expected 2 fields in line 7, saw 3` — a tokenizer message that names
+        # neither the file nor the registry, so it read as data corruption rather than a
+        # format assumption. It took out every caller of `load_registry`, including
+        # `scripts/line_accounting_rya709.py` (found on RYA-945).
+        #
+        # The "not a spectrum-location manifest" skip below was already the right idea;
+        # it simply never ran, because the parse raised first. Extending it by SUFFIX
+        # keeps the guard's teeth: a `.csv` that will not parse is still a loud failure,
+        # because that one really is corruption.
+        if man.suffix.lower() not in (".csv", ".tsv"):
+            continue                      # e.g. a JSON intake manifest (RYA-929/931)
+        rows = pd.read_csv(man, comment="#", sep="\t" if man.suffix.lower() == ".tsv"
+                           else ",")
         if "loader" not in rows.columns:
             continue                      # not a spectrum-location manifest
         iid = str(h["instrument_id"]).strip()
