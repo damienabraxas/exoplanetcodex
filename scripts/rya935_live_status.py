@@ -121,6 +121,52 @@ def collect_instruments() -> list[dict]:
     return out
 
 
+def collect_reference(root: Path) -> dict:
+    """Literature anchor per species, from the FROZEN gold reference.
+
+    Read, not typed. The previous hand-written page carried Al 6.43 as a literal;
+    it is right, but a literal cannot follow the reference when it is re-frozen,
+    and this project's whole discipline is that a value cites its source. The
+    pointer file `data/reference/solar/CURRENT` names the live version.
+    """
+    current = (root / "data" / "reference" / "solar" / "CURRENT")
+    version = current.read_text().strip() if current.exists() else "v5"
+    table = root / "data" / "reference" / "solar" / f"solar_abundances_{version}.csv"
+    if not table.exists():
+        return {}
+    frame = pd.read_csv(table, comment="#")
+    out = {}
+    for _, r in frame.iterrows():
+        if pd.isna(r.get("asplund2021")):
+            continue
+        out[f"{r['element']}{r['ion']}"] = {
+            "asplund2021": float(r["asplund2021"]),
+            "codex_A_X": None if pd.isna(r.get("A_X")) else float(r["A_X"]),
+            "verdict": str(r.get("verdict")),
+            "source": f"data/reference/solar/solar_abundances_{version}.csv",
+        }
+    return out
+
+
+def why_no_product(element: str, ion: str, holding: str, instrument: str,
+                   lo: float, hi: float) -> str:
+    """Why this cell is empty -- from the SAME resolver that plans the runs.
+
+    An empty cell with no explanation is the RYA-833 shape: "we do not hold this"
+    becomes indistinguishable from "nobody looked". Every blank on this grid has
+    to say which it is.
+    """
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element, ion, instrument, holding, lo, hi)
+    # Interpreter and engine dir are supplied so that only REAL blockers -- coverage,
+    # wiring, the telluric gate -- surface here. Whether a run host happens to have
+    # the right numpy is not a fact about the science and does not belong on the grid.
+    r = resolve(d, interpreter="(host)", ispec_dir="(host)")
+    if r.blocked_reason:
+        return r.blocked_reason
+    return "no run yet"
+
+
 def collect_telluric(audit_root: Path) -> list[dict]:
     """Before/after residuals from the correction tickets' own evidence."""
     out = []
@@ -172,16 +218,42 @@ def main() -> None:
         "derivation_note": ("Every value here is read from a product or a registry. "
                             "Nothing is typed. The ticket pipeline is deliberately "
                             "absent: it is Linear state, and a committed copy drifts."),
-        "elements": sorted({p["element"] + p["ion"] for p in products}),
+        # EVERY species in the frozen gold reference, not merely those with products.
+        # This page is the progress framework for the whole solar calibration and
+        # then for every star after it, so early on the absences ARE the content --
+        # listing only what is finished would hide the work that remains.
+        "elements": None,   # filled below, once the reference is read
+        "elements_with_products": sorted({p["element"] + p["ion"] for p in products}),
         "bands": ["near-UV", "VIS", "red-optical", "NIR"],
         "instruments": collect_instruments(),
         "products": products,
         "telluric": collect_telluric(args.audit_root),
+        "reference": collect_reference(ROOT),
     }
+    status["elements"] = sorted(status["reference"])
+    status["system"] = "solar"   # the framework is per-star; this build is the Sun
+
+    # WHY a cell is empty. Computed once per (holding, band) and NOT per element,
+    # because every blocker the resolver reports -- wiring, coverage, the telluric
+    # gate -- is a property of the holding and the band. Recomputing it per element
+    # would be 26x the work for identical answers, and would invite someone to read
+    # element-specific meaning into a reason that has none.
+    from pipeline import band_policy
+    reachability = {}
+    for inst in status["instruments"]:
+        for policy in band_policy.POLICIES:
+            try:
+                reason = why_no_product("Fe", "I", inst["holding"], inst["instrument"],
+                                        policy.lo_A, policy.hi_A)
+            except Exception as exc:                            # noqa: BLE001
+                reason = f"could not resolve: {exc}"
+            reachability[f"{inst['holding']}|{policy.name}"] = reason
+    status["reachability"] = reachability
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(status, indent=2) + "\n")
-    species = ", ".join(status["elements"]) or "(none)"
-    print(f"{len(products)} product rows across {species} -> {args.out}")
+    have = ", ".join(status["elements_with_products"]) or "(none)"
+    print(f"{len(products)} product rows across {have}; "
+          f"{len(status['elements'])} species tracked -> {args.out}")
     unattributed = sum(1 for p in products if p["holding"] is None)
     status["unattributed_products"] = unattributed
     args.out.write_text(json.dumps(status, indent=2) + "\n")
