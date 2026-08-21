@@ -2120,3 +2120,31 @@ artifacts:
       never divided. Keeps the atlas's own uneven sampling; the even grid used for
       fitting was a device, not a product change.
 
+  # ── RYA-935 live tracker ────────────────────────────────────────────────
+  #
+  # These two landed with NO generator, which is the RYA-559 hole this manifest
+  # exists to close, and CI said so. The JSON had also already gone stale: the
+  # committed copy listed RYA-931 as BACKLOG on the day RYA-931 merged. A typed
+  # dashboard is a dashboard that lies eventually, so it is derived now.
+
+  - artifact: rya935/live_status.json
+    status: COMMITTED
+    generator: scripts/rya935_live_status.py
+    invocation: python scripts/rya935_live_status.py
+    ticket: RYA-935
+    note: >-
+      Every value is read from a product CSV or a registry; nothing is typed. Element-
+      agnostic, so Fe appears the moment RYA-933/934's products land with no edit to the
+      generator. The ticket pipeline is deliberately NOT emitted: that is Linear state,
+      and a committed copy of it drifts.
+
+  - artifact: rya935/live_tracker.html
+    status: COMMITTED
+    generator: scripts/rya935_live_status.py
+    invocation: python scripts/rya935_live_status.py
+    ticket: RYA-935
+    note: >-
+      The page renders live_status.json and holds no data of its own. Serve the directory
+      over HTTP; it refreshes every 5 s. Registered against the same generator because the
+      page is meaningless without the JSON and the pair must not drift apart.
+
