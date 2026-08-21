@@ -1,0 +1,322 @@
+{
+  "ticket": "RYA-945",
+  "tolerances": {
+    "wavelength_A": 0.005,
+    "excitation_eV": 0.005
+  },
+  "sources": {
+    "Fe I": {
+      "matched": 402,
+      "ambiguous": 0,
+      "absent": 63,
+      "lab_lines": 465,
+      "randomised_null_rate": 0.0004
+    },
+    "Fe II": {
+      "matched": 22,
+      "ambiguous": 0,
+      "absent": 109,
+      "lab_lines": 131,
+      "randomised_null_rate": 0.0
+    }
+  },
+  "nist_files": {
+    "Fe I": [
+      "nist_asd_FeI_3000_3780.tsv",
+      "nist_asd_FeI_3780_9199.tsv",
+      "nist_asd_FeI_9199_12935.tsv"
+    ],
+    "Fe II": [
+      "nist_asd_FeII_3000_10502.tsv"
+    ]
+  },
+  "attribution_check": [
+    {
+      "canon_reference": "VALD3",
+      "n": 122,
+      "median_delta": 0.017,
+      "max_abs_delta": 2.961,
+      "n_agree_002": 24
+    },
+    {
+      "canon_reference": "2014MNRAS.",
+      "n": 81,
+      "median_delta": 0.0,
+      "max_abs_delta": 0.04,
+      "n_agree_002": 74
+    },
+    {
+      "canon_reference": "GESHRL14",
+      "n": 57,
+      "median_delta": 0.0,
+      "max_abs_delta": 0.25,
+      "n_agree_002": 39
+    },
+    {
+      "canon_reference": "NIST ASD (astroquery) T5720",
+      "n": 44,
+      "median_delta": -0.0254917032,
+      "max_abs_delta": 0.6348453616,
+      "n_agree_002": 6
+    },
+    {
+      "canon_reference": "BWL+GESHRL",
+      "n": 25,
+      "median_delta": 0.006,
+      "max_abs_delta": 0.086,
+      "n_agree_002": 15
+    },
+    {
+      "canon_reference": "PRIMARY LAB DenHartog2014",
+      "n": 22,
+      "median_delta": 0.0,
+      "max_abs_delta": 0.0,
+      "n_agree_002": 22
+    },
+    {
+      "canon_reference": "BWL",
+      "n": 14,
+      "median_delta": 0.0375,
+      "max_abs_delta": 0.381,
+      "n_agree_002": 3
+    },
+    {
+      "canon_reference": "BWL+2014MN",
+      "n": 8,
+      "median_delta": 0.005,
+      "max_abs_delta": 0.016,
+      "n_agree_002": 8
+    },
+    {
+      "canon_reference": "FMW",
+      "n": 8,
+      "median_delta": 0.055,
+      "max_abs_delta": 0.26,
+      "n_agree_002": 3
+    },
+    {
+      "canon_reference": "T83av",
+      "n": 6,
+      "median_delta": -0.02,
+      "max_abs_delta": 0.17,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "PRIMARY LAB Ruffoni2014",
+      "n": 6,
+      "median_delta": 0.0,
+      "max_abs_delta": 0.0,
+      "n_agree_002": 6
+    },
+    {
+      "canon_reference": "BKK+2014MN",
+      "n": 5,
+      "median_delta": 0.006,
+      "max_abs_delta": 0.073,
+      "n_agree_002": 3
+    },
+    {
+      "canon_reference": "K07",
+      "n": 5,
+      "median_delta": 0.14,
+      "max_abs_delta": 3.985,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "BKK+BWL+GE",
+      "n": 5,
+      "median_delta": 0.002,
+      "max_abs_delta": 0.016,
+      "n_agree_002": 5
+    },
+    {
+      "canon_reference": "BK+GESHRL1",
+      "n": 5,
+      "median_delta": -0.002,
+      "max_abs_delta": 0.004,
+      "n_agree_002": 5
+    },
+    {
+      "canon_reference": "BKK+GESHRL",
+      "n": 5,
+      "median_delta": 0.009,
+      "max_abs_delta": 0.01,
+      "n_agree_002": 5
+    },
+    {
+      "canon_reference": "MRW",
+      "n": 1,
+      "median_delta": 0.16,
+      "max_abs_delta": 0.16,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "NIST ASD (astroquery) T2491n",
+      "n": 1,
+      "median_delta": 0.0521181033,
+      "max_abs_delta": 0.0521181033,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "NIST ASD (astroquery) T3548",
+      "n": 1,
+      "median_delta": 0.02311933,
+      "max_abs_delta": 0.02311933,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "PGHcor",
+      "n": 1,
+      "median_delta": 0.04,
+      "max_abs_delta": 0.04,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "BSScor",
+      "n": 1,
+      "median_delta": -0.16,
+      "max_abs_delta": 0.16,
+      "n_agree_002": 0
+    },
+    {
+      "canon_reference": "KK",
+      "n": 1,
+      "median_delta": -0.26,
+      "max_abs_delta": 0.26,
+      "n_agree_002": 0
+    }
+  ],
+  "outliers_over_0.20_dex": 58,
+  "multi_lab_rows": 0,
+  "inter_source_spread_dex": {
+    "median": null,
+    "max": null
+  },
+  "canonical_rows": 167739,
+  "rewrites_kept": 1597,
+  "rewrites_refused_as_downgrade": 560,
+  "hfs_refused_lab_lines": 1,
+  "nist_rows_sharing_a_canonical_row": 6,
+  "diagnostic_before": 475,
+  "diagnostic_after": 1826,
+  "registry_excluded": 0,
+  "demoted_unverified_nist": 9,
+  "demoted_note": "Pre-existing rows that claimed a NIST grade this run could not stand behind: 5 sit on 2-component HFS clusters (RYA-822) and 4 carry a stored v5.11 letter with no verified sigma (RYA-354) \u2014 two of which RYA-852 already showed are stale by 4-7x. Demoted to OTHER: value and note kept, claim withdrawn.",
+  "lab_source_dois": {
+    "DenHartog2014": "10.1088/0067-0049/215/2/23",
+    "Ruffoni2014": "10.1093/mnras/stu780",
+    "Belmonte2017": "10.3847/1538-4357/aa8cd3",
+    "DenHartog2019": "10.3847/1538-4365/ab322e"
+  },
+  "lab_source_access": {
+    "DenHartog2014": "VizieR J/ApJS/215/23",
+    "Ruffoni2014": "VizieR J/MNRAS/441/3127",
+    "Belmonte2017": "arXiv:1710.07571 source (J/ApJ/848/125 is a 404)",
+    "DenHartog2019": "published PDF (not on VizieR \u2014 0 tables, CDS ftp 404)"
+  },
+  "nist_adopt_grades": [
+    "AAA",
+    "AA",
+    "A+",
+    "A",
+    "B+",
+    "B",
+    "C+",
+    "C"
+  ],
+  "nist_max_sigma_dex": 0.12,
+  "nist_recorded_not_adopted_rya834_band": 24,
+  "ru_code_correction": "The ticket calls the 5,113 `RU` rows a partial Ruffoni-2014 wiring. They are all Fe II, 4200-9199 A; Ruffoni 2014 is an Fe I paper. VALD's own reference block reads `Fe 2: Raassen & Uylings ... gf:RU`, so `RU` is Raassen & Uylings, a theoretical calculation. Ruffoni's Fe I values reach canonical_gf under the GES codes `GESHRL14` / `2014MNRAS.` instead.",
+  "blend_flag_note": "`blend_flag` is a column of the MEASURED EW table, set per observation and applied by abundances_derive._prefilter. A line list cannot carry it. The line-level criterion used here is the problem-children registry's standing `exclude` rows; the measurement-time filter still runs downstream.",
+  "coverage": [
+    {
+      "_species": "Fe I",
+      "band": "near-UV",
+      "LAB": 59,
+      "NIST-C+": 501,
+      "KURUCZ": 0,
+      "VALD3": 3610,
+      "OTHER": 104,
+      "total": 4274,
+      "diagnostic": 452
+    },
+    {
+      "_species": "Fe I",
+      "band": "VIS",
+      "LAB": 199,
+      "NIST-C+": 522,
+      "KURUCZ": 3418,
+      "VALD3": 1963,
+      "OTHER": 338,
+      "total": 6440,
+      "diagnostic": 630
+    },
+    {
+      "_species": "Fe I",
+      "band": "red",
+      "LAB": 115,
+      "NIST-C+": 128,
+      "KURUCZ": 8260,
+      "VALD3": 249,
+      "OTHER": 266,
+      "total": 9018,
+      "diagnostic": 228
+    },
+    {
+      "_species": "Fe I",
+      "band": "NIR",
+      "LAB": 28,
+      "NIST-C+": 0,
+      "KURUCZ": 0,
+      "VALD3": 207,
+      "OTHER": 0,
+      "total": 235,
+      "diagnostic": 28
+    },
+    {
+      "_species": "Fe II",
+      "band": "near-UV",
+      "LAB": 12,
+      "NIST-C+": 35,
+      "KURUCZ": 0,
+      "VALD3": 618,
+      "OTHER": 0,
+      "total": 665,
+      "diagnostic": 29
+    },
+    {
+      "_species": "Fe II",
+      "band": "VIS",
+      "LAB": 10,
+      "NIST-C+": 249,
+      "KURUCZ": 1979,
+      "VALD3": 143,
+      "OTHER": 1082,
+      "total": 3463,
+      "diagnostic": 203
+    },
+    {
+      "_species": "Fe II",
+      "band": "red",
+      "LAB": 0,
+      "NIST-C+": 275,
+      "KURUCZ": 7207,
+      "VALD3": 13,
+      "OTHER": 3655,
+      "total": 11150,
+      "diagnostic": 256
+    },
+    {
+      "_species": "Fe II",
+      "band": "NIR",
+      "LAB": 0,
+      "NIST-C+": 0,
+      "KURUCZ": 0,
+      "VALD3": 2,
+      "OTHER": 0,
+      "total": 2,
+      "diagnostic": 0
+    }
+  ],
+  "generated_utc": "2026-08-21T22:27:59Z"
+}
