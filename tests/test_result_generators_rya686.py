@@ -42,6 +42,12 @@ FROZEN_UNREPRODUCIBLE = {"solar_ba_synthesis_rya559.json"}
 FROZEN_HAND_AUTHORED = {
     "sr2_line_selection_rya430.json",
     "rya342_corrected_solar_fe.txt",
+    # RYA-939, added deliberately when the guard was extended to data/processed/.
+    # Gaia-ESO Survey pre-stored solar EWs, transcribed under RYA-196. It has no
+    # generator because no code in this repo produced the numbers -- inventing one
+    # would be the fabrication this manifest exists to prevent. It had been tracked
+    # and entirely unguarded since RYA-196; extending the scan is what surfaced it.
+    "data/processed/solar_ew_ges_reference.csv",
     # RYA-847, added deliberately. Neither is a program's output and neither can be:
     #   README.md          reading instructions for the directory, including the warning
     #                      that these cells must not be diffed against the rya845-era

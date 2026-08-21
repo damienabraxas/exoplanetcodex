@@ -73,12 +73,22 @@ except ImportError:  # pragma: no cover - yaml is a hard requirement of the repo
 #: Directory the convention governs, repo-relative and POSIX-style.
 RESULTS_DIR = "data/results"
 
+#: Every directory whose TRACKED contents this guard covers.
+#:
+#: RYA-939 added data/processed/. The convention was scoped to data/results/ while the
+#: single most consequential product in the repo -- the normalised HARPS solar spectrum
+#: that every committed EW derives from -- sat in data/processed/, gitignored, tracked
+#: nowhere and guarded by nothing. Deliberately committing it (RYA-939) without
+#: extending the guard would have recreated exactly the RYA-559 hole this file exists to
+#: close: an artifact on the board that nobody can re-run.
+SCANNED_DIRS = (RESULTS_DIR, "data/processed")
+
 #: The manifest itself, which lives beside the artifacts it describes (the same shape as
 #: ARTIFACT_MANIFEST.csv at the RYA-461 store root). Excluded from its own coverage check.
 MANIFEST = f"{RESULTS_DIR}/GENERATORS.yaml"
 
 #: Files under data/results/ that are not result artifacts and need no generator.
-NON_ARTIFACTS = frozenset({MANIFEST})
+NON_ARTIFACTS = frozenset({MANIFEST, "data/processed/.gitkeep"})
 
 #: Allowed values of an entry's `status`. Three, because the RYA-686 audit found three
 #: genuinely different things sitting in data/results/ and collapsing them would lie:
@@ -117,7 +127,7 @@ def tracked_artifacts(root: Path) -> list[str]:
     without its harness is.
     """
     out = subprocess.run(
-        ["git", "-C", str(root), "ls-files", "--", RESULTS_DIR],
+        ["git", "-C", str(root), "ls-files", "--", *SCANNED_DIRS],
         capture_output=True, text=True, check=True,
     ).stdout
     return sorted(p for p in out.splitlines() if p and p not in NON_ARTIFACTS)
@@ -183,11 +193,22 @@ def check(root: Path, check_invocations: bool = False) -> list[str]:
         by_artifact[name] = e
 
     tracked = tracked_artifacts(root)
-    tracked_rel = {p[len(RESULTS_DIR) + 1:]: p for p in tracked}
+    # An entry's `artifact:` is relative to data/results/ (the original convention) OR
+    # repo-relative when it names one of the other scanned dirs. Each tracked file gets
+    # ONE canonical key -- the form its entry is expected to use -- plus the alternates
+    # accepted on lookup. Registering both forms as separate keys would make every
+    # data/results artifact look unaccounted-for under its full path.
+    def _keys(path: str) -> list[str]:
+        if path.startswith(RESULTS_DIR + "/"):
+            return [path[len(RESULTS_DIR) + 1:], path]
+        return [path]
+
+    tracked_rel = {k: p for p in tracked for k in _keys(p)}
 
     # (1) THE CORE GATE -- every landed artifact is accounted for.
-    for rel, full in sorted(tracked_rel.items()):
-        if rel not in by_artifact:
+    for full in tracked:
+        rel = _keys(full)[0]
+        if not any(k in by_artifact for k in _keys(full)):
             problems.append(
                 f"{full}: result artifact has NO entry in {MANIFEST}. A result must not "
                 f"land without its generating harness (RYA-686). Commit the harness and "
@@ -200,7 +221,7 @@ def check(root: Path, check_invocations: bool = False) -> list[str]:
         if rel not in tracked_rel:
             problems.append(
                 f"{MANIFEST}: entry '{rel}' names an artifact that is not tracked under "
-                f"{RESULTS_DIR}/ (renamed or deleted?)"
+                f"{'/, '.join(SCANNED_DIRS)}/ (renamed or deleted?)"
             )
 
     # (3) Per-entry integrity.
@@ -294,7 +315,8 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     n = len(tracked_artifacts(root))
-    print(f"OK: all {n} tracked artifacts under {RESULTS_DIR}/ are accounted for in {MANIFEST}.")
+    print(f"OK: all {n} tracked artifacts under {', '.join(d + '/' for d in SCANNED_DIRS)} "
+          f"are accounted for in {MANIFEST}.")
     return 0
 
 
