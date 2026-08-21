@@ -1,0 +1,536 @@
+{
+  "ticket": "RYA-938",
+  "products": {
+    "kp1984": {
+      "path": "/mnt/codex-data/spectra/_mac_import_20260816/Solar Calibration/Kitt Peak Flux Atlas",
+      "wavelength_medium": "air",
+      "medium_basis": "NSO Atlas No. 1 README, recovered under RYA-938: 'the first column contains the wavelength in air'",
+      "flux": "pseudo-residual flux; unity IS the continuum",
+      "continuum_treatment": "none applied -- the product ships it"
+    },
+    "kurucz2005": {
+      "path": "/mnt/codex-data/spectra/KITTS/irradthu.dat.txt",
+      "wavelength_medium": "vacuum",
+      "medium_basis": "header states only 'nm'; measured below",
+      "flux": "absolute irradiance W/m^2/nm",
+      "continuum_treatment": "diagnostic 95th running envelope, 8.0 A"
+    },
+    "iag_baker2020": {
+      "path": "/srv/codex/solar_reference/iag_baker2020/iag_telfree_solaratlas.fits",
+      "wavelength_medium": "vacuum wavenumber -> air",
+      "flux": "normalised, telluric-free",
+      "continuum_treatment": "none applied"
+    }
+  },
+  "registration": [
+    {
+      "window_A": [
+        5160.0,
+        5200.0
+      ],
+      "kp1984_n": 6258,
+      "iag_vs_kp1984_lag_A": -6.394884621840902e-14,
+      "iag_vs_kp1984_corr": 0.9997723913332948,
+      "kurucz_as_read_nm_lag_A": 1.4449999999999052,
+      "kurucz_as_read_nm_corr": 0.9987118082267032,
+      "kurucz_as_read_nm_n": 6260,
+      "kurucz_vac_to_air_lag_A": -6.394884621840902e-14,
+      "kurucz_vac_to_air_corr": 0.9989749865580128,
+      "kurucz_vac_to_air_n": 6259,
+      "air_vac_offset_at_mid_A": 1.442757925227852
+    },
+    {
+      "window_A": [
+        6100.0,
+        6160.0
+      ],
+      "kp1984_n": 8794,
+      "iag_vs_kp1984_lag_A": -6.394884621840902e-14,
+      "iag_vs_kp1984_corr": 0.9999068073743731,
+      "kurucz_as_read_nm_lag_A": 1.6999999999998998,
+      "kurucz_as_read_nm_corr": 0.9989958486420406,
+      "kurucz_as_read_nm_n": 8796,
+      "kurucz_vac_to_air_lag_A": -6.394884621840902e-14,
+      "kurucz_vac_to_air_corr": 0.9996872934437977,
+      "kurucz_vac_to_air_n": 8794,
+      "air_vac_offset_at_mid_A": 1.6967615168659904
+    },
+    {
+      "window_A": [
+        6600.0,
+        6650.0
+      ],
+      "kp1984_n": 6274,
+      "iag_vs_kp1984_lag_A": -6.394884621840902e-14,
+      "iag_vs_kp1984_corr": 0.9986661839262408,
+      "kurucz_as_read_nm_lag_A": 1.834999999999897,
+      "kurucz_as_read_nm_corr": 0.9978276668900005,
+      "kurucz_as_read_nm_n": 6276,
+      "kurucz_vac_to_air_lag_A": -6.394884621840902e-14,
+      "kurucz_vac_to_air_corr": 0.9991548698023984,
+      "kurucz_vac_to_air_n": 6274,
+      "air_vac_offset_at_mid_A": 1.82971786183316
+    }
+  ],
+  "medium_verdict": {
+    "kurucz2005": "vacuum",
+    "median_lag_as_read_A": 1.6999999999998998,
+    "median_air_vac_offset_A": 1.6967615168659904,
+    "decision_threshold_A": 0.8483807584329952,
+    "rule": "lag ~ 0 => the column is already air; lag ~ +air-vac offset => the column is vacuum and must be converted. Threshold declared before measurement as half the offset."
+  },
+  "telluric_bands": [
+    {
+      "band": "O2 B-band",
+      "lo_A": 6867.0,
+      "hi_A": 6884.0,
+      "kp1984": {
+        "n": 1981,
+        "min": -0.00647,
+        "median": 0.91321,
+        "pct_below_0.5": 15.80010095911156,
+        "pct_below_0.95": 71.47905098435133
+      },
+      "kurucz2005": {
+        "n": 1981,
+        "min": 0.7643701204136267,
+        "median": 0.9935427775176021,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 7.521453811206462
+      },
+      "iag": {
+        "n": 2386,
+        "min": 0.7601599097251892,
+        "median": 0.995051771402359,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 6.621961441743504
+      }
+    },
+    {
+      "band": "H2O",
+      "lo_A": 7160.0,
+      "hi_A": 7340.0,
+      "kp1984": {
+        "n": 18863,
+        "min": 0.01333,
+        "median": 0.96804,
+        "pct_below_0.5": 2.7673222711127607,
+        "pct_below_0.95": 36.81810952658644
+      },
+      "kurucz2005": {
+        "n": 18863,
+        "min": 0.3775449373335446,
+        "median": 0.9915158847743636,
+        "pct_below_0.5": 0.23856226475110007,
+        "pct_below_0.95": 11.413879022424853
+      },
+      "iag": {
+        "n": 22727,
+        "min": 0.3693816363811493,
+        "median": 0.9929711222648621,
+        "pct_below_0.5": 0.1848022176266115,
+        "pct_below_0.95": 10.590927091125094
+      }
+    },
+    {
+      "band": "O2 A-band",
+      "lo_A": 7594.0,
+      "hi_A": 7685.0,
+      "kp1984": {
+        "n": 10966,
+        "min": -0.00682,
+        "median": 0.744005,
+        "pct_below_0.5": 32.828743388655845,
+        "pct_below_0.95": 77.92267007112895
+      },
+      "kurucz2005": {
+        "n": 10966,
+        "min": 0.1661606983623581,
+        "median": 0.995914919649378,
+        "pct_below_0.5": 0.2826919569578698,
+        "pct_below_0.95": 8.790807951851177
+      },
+      "iag": {
+        "n": 10347,
+        "min": 0.3574956953525543,
+        "median": 0.9960414171218872,
+        "pct_below_0.5": 0.1836281047646661,
+        "pct_below_0.95": 6.823233787571277
+      }
+    },
+    {
+      "band": "H2O",
+      "lo_A": 8100.0,
+      "hi_A": 8400.0,
+      "kp1984": {
+        "n": 31007,
+        "min": 0.00081,
+        "median": 0.97252,
+        "pct_below_0.5": 3.5766117328345213,
+        "pct_below_0.95": 31.596091205211724
+      },
+      "kurucz2005": {
+        "n": 31008,
+        "min": 0.19300269199992975,
+        "median": 0.9896151705176337,
+        "pct_below_0.5": 0.29024767801857587,
+        "pct_below_0.95": 7.920536635706914
+      },
+      "iag": {
+        "n": 29257,
+        "min": 0.1922525018453598,
+        "median": 0.9918647408485413,
+        "pct_below_0.5": 0.2905287623474724,
+        "pct_below_0.95": 6.777865126294562
+      }
+    },
+    {
+      "band": "H2O",
+      "lo_A": 9280.0,
+      "hi_A": 9600.0,
+      "kp1984": {
+        "n": 25261,
+        "min": -0.00161,
+        "median": 0.74976,
+        "pct_below_0.5": 29.11602866078144,
+        "pct_below_0.95": 95.23771822176478
+      },
+      "kurucz2005": {
+        "n": 25260,
+        "min": 0.46851103354864415,
+        "median": 0.9912300492014778,
+        "pct_below_0.5": 0.023752969121140142,
+        "pct_below_0.95": 13.88756927949327
+      },
+      "iag": {
+        "n": 23834,
+        "min": 0.5468056201934814,
+        "median": 0.9945084452629089,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 9.511622052529999
+      }
+    },
+    {
+      "band": "H2O",
+      "lo_A": 11120.0,
+      "hi_A": 11560.0,
+      "kp1984": {
+        "n": 29646,
+        "min": -0.00413,
+        "median": 0.69879,
+        "pct_below_0.5": 33.86291573905417,
+        "pct_below_0.95": 98.36065573770492
+      },
+      "kurucz2005": {
+        "n": 0,
+        "min": null,
+        "median": null,
+        "pct_below_0.5": null,
+        "pct_below_0.95": null
+      },
+      "iag": {
+        "n": 0,
+        "min": null,
+        "median": null,
+        "pct_below_0.5": null,
+        "pct_below_0.95": null
+      }
+    },
+    {
+      "band": "clean control",
+      "lo_A": 6600.0,
+      "hi_A": 6650.0,
+      "kp1984": {
+        "n": 6274,
+        "min": 0.41941,
+        "median": 0.99314,
+        "pct_below_0.5": 0.14344915524386356,
+        "pct_below_0.95": 6.726171501434491
+      },
+      "kurucz2005": {
+        "n": 6274,
+        "min": 0.4251523401652204,
+        "median": 0.9951073895246978,
+        "pct_below_0.5": 0.14344915524386356,
+        "pct_below_0.95": 6.710232706407396
+      },
+      "iag": {
+        "n": 7559,
+        "min": 0.4150960147380829,
+        "median": 0.9900431632995605,
+        "pct_below_0.5": 0.14552189443048022,
+        "pct_below_0.95": 7.170260616483662
+      }
+    },
+    {
+      "band": "clean control",
+      "lo_A": 6690.0,
+      "hi_A": 6702.0,
+      "kp1984": {
+        "n": 1474,
+        "min": 0.74564,
+        "median": 0.99342,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 5.359565807327002
+      },
+      "kurucz2005": {
+        "n": 1474,
+        "min": 0.7518004798971945,
+        "median": 0.9961889660876533,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 5.156037991858888
+      },
+      "iag": {
+        "n": 1776,
+        "min": 0.7428024411201477,
+        "median": 0.9883637428283691,
+        "pct_below_0.5": 0.0,
+        "pct_below_0.95": 5.743243243243244
+      }
+    },
+    {
+      "band": "clean control",
+      "lo_A": 5160.0,
+      "hi_A": 5200.0,
+      "kp1984": {
+        "n": 6258,
+        "min": 0.06818,
+        "median": 0.90222,
+        "pct_below_0.5": 12.032598274209013,
+        "pct_below_0.95": 71.47651006711409
+      },
+      "kurucz2005": {
+        "n": 6259,
+        "min": 0.07072163475511813,
+        "median": 0.9212556522446929,
+        "pct_below_0.5": 11.615274005432177,
+        "pct_below_0.95": 61.894871385205306
+      },
+      "iag": {
+        "n": 9892,
+        "min": 0.06482208520174026,
+        "median": 0.8975851833820343,
+        "pct_below_0.5": 12.161342498989082,
+        "pct_below_0.95": 72.99838253133845
+      }
+    }
+  ],
+  "diagnostic_lines": [
+    {
+      "line": "Al I 6631",
+      "air_A": 6631.218,
+      "kp1984": {
+        "n": 88,
+        "depth": 0.026900000000000035,
+        "min_wave_A": 6631.0626
+      },
+      "iag": {
+        "n": 106,
+        "depth": 0.031058669090270996,
+        "min_wave_A": 6631.0491006381035
+      },
+      "kurucz_as_read_nm": {
+        "n": 88,
+        "depth": 0.015147629529160045,
+        "min_wave_A": 6631.4909
+      },
+      "kurucz_vac_to_air": {
+        "n": 88,
+        "depth": 0.02482040611674996,
+        "min_wave_A": 6631.056766610166
+      }
+    },
+    {
+      "line": "Al I 6696",
+      "air_A": 6696.185,
+      "kp1984": {
+        "n": 86,
+        "depth": 0.25436000000000003,
+        "min_wave_A": 6696.0284
+      },
+      "iag": {
+        "n": 103,
+        "depth": 0.2571975588798523,
+        "min_wave_A": 6696.030585960887
+      },
+      "kurucz_as_read_nm": {
+        "n": 86,
+        "depth": 0.008144431629677262,
+        "min_wave_A": 6696.4869
+      },
+      "kurucz_vac_to_air": {
+        "n": 85,
+        "depth": 0.24825701835740044,
+        "min_wave_A": 6696.0302909084785
+      }
+    },
+    {
+      "line": "Fe I 6872",
+      "air_A": 6872.1617,
+      "kp1984": {
+        "n": 82,
+        "depth": 1.00101,
+        "min_wave_A": 6872.2278
+      },
+      "iag": {
+        "n": 99,
+        "depth": 0.09798657894134521,
+        "min_wave_A": 6872.332284933497
+      },
+      "kurucz_as_read_nm": {
+        "n": 81,
+        "depth": 0.031321681449300254,
+        "min_wave_A": 6872.0512
+      },
+      "kurucz_vac_to_air": {
+        "n": 81,
+        "depth": 0.08075868678776355,
+        "min_wave_A": 6872.435919682387
+      }
+    },
+    {
+      "line": "Fe I 6875",
+      "air_A": 6875.44503,
+      "kp1984": {
+        "n": 81,
+        "depth": 1.00093,
+        "min_wave_A": 6875.5737
+      },
+      "iag": {
+        "n": 99,
+        "depth": 0.05018371343612671,
+        "min_wave_A": 6875.444119017802
+      },
+      "kurucz_as_read_nm": {
+        "n": 82,
+        "depth": 0.013152783683316072,
+        "min_wave_A": 6875.7908
+      },
+      "kurucz_vac_to_air": {
+        "n": 82,
+        "depth": 0.07262098773402104,
+        "min_wave_A": 6875.447408989437
+      }
+    },
+    {
+      "line": "Si I 6876",
+      "air_A": 6876.35917,
+      "kp1984": {
+        "n": 82,
+        "depth": 1.0008,
+        "min_wave_A": 6876.7072
+      },
+      "iag": {
+        "n": 98,
+        "depth": 0.07282572984695435,
+        "min_wave_A": 6876.013988557638
+      },
+      "kurucz_as_read_nm": {
+        "n": 81,
+        "depth": 0.006385860334510718,
+        "min_wave_A": 6876.014
+      },
+      "kurucz_vac_to_air": {
+        "n": 81,
+        "depth": 0.06534634011032259,
+        "min_wave_A": 6876.013956473778
+      }
+    },
+    {
+      "line": "Fe I 6881",
+      "air_A": 6881.44175,
+      "kp1984": {
+        "n": 81,
+        "depth": 0.21372000000000002,
+        "min_wave_A": 6881.7083999999995
+      },
+      "iag": {
+        "n": 98,
+        "depth": 0.20164036750793457,
+        "min_wave_A": 6881.718809120517
+      },
+      "kurucz_as_read_nm": {
+        "n": 81,
+        "depth": 0.056455603501338714,
+        "min_wave_A": 6881.0985
+      },
+      "kurucz_vac_to_air": {
+        "n": 81,
+        "depth": 0.20034336751237158,
+        "min_wave_A": 6881.718920667765
+      }
+    },
+    {
+      "line": "K I 7665",
+      "air_A": 7664.899,
+      "kp1984": {
+        "n": 84,
+        "depth": 1.00148,
+        "min_wave_A": 7664.8267
+      },
+      "iag": {
+        "n": 79,
+        "depth": 0.6425043046474457,
+        "min_wave_A": 7664.951531241431
+      },
+      "kurucz_as_read_nm": {
+        "n": 84,
+        "depth": 0.02799812017596459,
+        "min_wave_A": 7664.5504
+      },
+      "kurucz_vac_to_air": {
+        "n": 84,
+        "depth": 0.8338385580699508,
+        "min_wave_A": 7664.921588873637
+      }
+    },
+    {
+      "line": "K I 7699",
+      "air_A": 7698.964,
+      "kp1984": {
+        "n": 83,
+        "depth": 0.80776,
+        "min_wave_A": 7698.9789
+      },
+      "iag": {
+        "n": 78,
+        "depth": 0.8073987811803818,
+        "min_wave_A": 7698.9778591990735
+      },
+      "kurucz_as_read_nm": {
+        "n": 83,
+        "depth": 0.0394058121050227,
+        "min_wave_A": 7698.876
+      },
+      "kurucz_vac_to_air": {
+        "n": 83,
+        "depth": 0.8011708927956057,
+        "min_wave_A": 7698.981995480958
+      }
+    },
+    {
+      "line": "N I 8216",
+      "air_A": 8216.336,
+      "kp1984": {
+        "n": 73,
+        "depth": 0.04239999999999999,
+        "min_wave_A": 8216.3348
+      },
+      "iag": {
+        "n": 68,
+        "depth": 0.035081326961517334,
+        "min_wave_A": 8216.32070394028
+      },
+      "kurucz_as_read_nm": {
+        "n": 72,
+        "depth": 0.05044469745148916,
+        "min_wave_A": 8216.206600000001
+      },
+      "kurucz_vac_to_air": {
+        "n": 73,
+        "depth": 0.03619772709801261,
+        "min_wave_A": 8216.328358140794
+      }
+    }
+  ]
+}
