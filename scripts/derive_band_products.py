@@ -348,7 +348,7 @@ def synthesis_route(a, pol) -> None:
     _window_median: list[float] = []
 
     def _observed(centre: float, pad: float):
-        win = load_window_ex(a.instrument, centre, pad)
+        win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
         h = win.holding
         if not h.pre_normalised:
             raise LookupError(
@@ -361,7 +361,8 @@ def synthesis_route(a, pol) -> None:
         _window_median.append(float(np.median(win.flux)))
         return win.wave, win.flux, win.provenance
 
-    _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4)
+    _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4,
+                            holding=a.holding)
     # Asked at band centre so the refusal costs nothing and arrives BEFORE any synthesis.
     # `_observed` checks it too, per line, because a band can in principle select a
     # different holding line by line -- but a per-line failure there surfaces as
@@ -833,6 +834,13 @@ def main() -> None:
     ap.add_argument("--lo", type=float, required=True)
     ap.add_argument("--hi", type=float, required=True)
     ap.add_argument("--instrument", default="kpno_solar_atlas")
+    ap.add_argument("--holding", default=None,
+                    help="Name ONE holding explicitly instead of taking the instrument's "
+                         "first covering candidate (RYA-933/934). Without it, an "
+                         "instrument that serves several products silently answers with "
+                         "whichever is listed first -- which is how two telluric-corrected "
+                         "Kitt Peak holdings sat unmeasurable while `--instrument "
+                         "kpno_solar_atlas` looked like it covered them.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
