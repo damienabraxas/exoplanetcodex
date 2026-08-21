@@ -1993,3 +1993,55 @@ artifacts:
   - artifact: rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv
     generator: scripts/derive_band_products.py
     ticket: RYA-925
+
+  # ── data/processed/ — the normalised solar spectra (RYA-939) ────────────────
+  #
+  # These three are the first entries whose `artifact:` is REPO-relative rather than
+  # relative to data/results/. They are here because RYA-939 deliberately committed the
+  # normalised HARPS solar spectra, and a tracked artifact without a registered generator
+  # is precisely the RYA-559 hole this manifest exists to close.
+
+  - artifact: data/processed/solar_normalized.csv
+    status: COMMITTED
+    generator: pipeline/spectra_normalize.py
+    invocation: python -c "from pipeline import spectra_normalize as sn; sn.run('solar')"
+    ticket: RYA-96; RYA-939
+    note: >-
+      The direct-solar HARPS spectrum (Dumusque ESO 1102.D-0954(A), ten Phase-3 S1D
+      exposures, 2023-08-02) — the source of every line in the committed EW pool. It had
+      never been tracked: the single most consequential product in the repo existed only
+      on disk and in the RYA-461 artifact store, and depended on the ten source ADPs
+      staying alive on Sirius. RYA-931 proved it is exactly reproducible — re-running
+      spectra_normalize on those ten originals returns SHA-256
+      6100681d530ffe59c7ea8ba6ee3055ce374d9bd77b73c84b413e1745c8302af4 byte for byte —
+      and that control is what makes committing it a record rather than a snapshot.
+      Source exposure checksums are pinned in
+      data/audit/rya931_molecfit_runtime/intake_manifest.json.
+
+  - artifact: data/processed/solar_normalized_tellcorr.csv
+    status: COMMITTED
+    generator: scripts/rya931_normalize_corrected.py
+    invocation: python scripts/rya931_normalize_corrected.py <corrected_exposures_dir> data/processed/solar_normalized_tellcorr.csv
+    ticket: RYA-931; RYA-939
+    note: >-
+      The telluric-CORRECTED sibling, holding solar_harps_molecfit_corrected. Same ten
+      exposures and the same normaliser, with O2 B divided out per exposure by its own
+      molecfit/GDAS transmission. 256 saturated-core pixels are NaN — quarantined, not
+      divided. Differs from solar_normalized.csv by the correction and nothing else, which
+      the byte-identical reproduction control above is what establishes. Do NOT diff the
+      two as if the difference were confined to the O2 band: continuum fitting is global,
+      so recovering the band moves the spline everywhere by up to 0.389% (measured, and
+      recorded in data/audit/rya931_molecfit_runtime/verification.json).
+
+  - artifact: data/processed/solar_ew_ges_reference.csv
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-196
+    sources:
+      - https://www.gaia-eso.eu/  # GES pre-stored solar equivalent widths
+    note: >-
+      External calibration reference, not our measurement: Gaia-ESO Survey pre-stored
+      solar EWs, transcribed under RYA-196 and consumed by pipeline/abundances_derive.py
+      and scripts/rya527_two_engine_run.py. It has no generator because no code here
+      produced the numbers. Registered by RYA-939 when the guard was extended to
+      data/processed/ — it had been tracked and unguarded since RYA-196.
