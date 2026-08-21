@@ -44,7 +44,37 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from pipeline.wavelength_util import vac_to_air  # noqa: E402
 
-ESOREX = "/opt/homebrew/bin/esorex"
+#: RYA-939 — resolve esorex, never hard-code it.  molecfit lives in different
+#: places on the two machines (Homebrew on the Mac, an ESO source-kit prefix on
+#: Sirius), and a Mac path baked into the runner made this whole leg
+#: Mac-only for no reason.  Order: $ESOREX, then PATH, then the two known
+#: install prefixes.  Loud on absence, naming what was tried -- a missing engine
+#: must not read as a failed correction.
+def _esorex_candidates() -> tuple[str, ...]:
+    from config.constants import codex_root
+    return (str(codex_root("eso_pipelines") / "bin" / "esorex"),   # Sirius kit
+            str(Path("/opt") / "homebrew" / "bin" / "esorex"))     # Mac brew tap
+
+
+def resolve_esorex() -> str:
+    from shutil import which
+    explicit = os.environ.get("ESOREX")
+    if explicit:
+        if not Path(explicit).is_file():
+            raise SystemExit(f"$ESOREX={explicit!r} is not a file")
+        return explicit
+    found = which("esorex")
+    if found:
+        return found
+    for candidate in _esorex_candidates():
+        if Path(candidate).is_file():
+            return candidate
+    raise SystemExit(
+        "esorex not found. Looked at $ESOREX, PATH, and "
+        + ", ".join(_esorex_candidates())
+        + ". Install the ESO molecfit kit or set $ESOREX. Failing here rather "
+          "than reporting an uncorrected product -- a missing engine is not a "
+          "correction result.")
 # Include the clean 6857-6866 shoulder so the continuum polynomial is anchored
 # on telluric-free pixels; the O2 B band itself runs 6866 A to beyond the S1D
 # red cutoff at 6912.8 A.
@@ -195,12 +225,23 @@ def main() -> None:
                          args.solar_atlas.resolve() if args.solar_atlas else None,
                          inputs.resolve())
 
+    esorex = resolve_esorex()
     obs_rv = args.rv_sign * built["berv_kms"] if args.frame == "AIR_RV" else 0.0
     band_centre_a = 0.5 * (INCLUDE_LO_A + INCLUDE_HI_A)
     gauss_fwhm_pix = (args.lsf_init_fwhm_pix if args.lsf_init_fwhm_pix else
                       (band_centre_a / args.resolving_power) / built["pixel_step_a"])
     cmd = [
-        ESOREX, f"--output-dir={products.resolve()}", "molecfit_model",
+        esorex, f"--output-dir={products.resolve()}",
+        # RYA-939 — name products by their PRO CATG, explicitly.  esorex takes this
+        # from ~/.esorex/esorex.rc when not given, and the two machines disagree: the
+        # Mac has no rc at all (compiled default), while a fresh ESO source-kit install
+        # writes suppress-prefix=FALSE.  Under FALSE the recipe still succeeds and
+        # still writes all ten products -- as out_0000.fits ... out_0009.fits -- so
+        # BEST_FIT_MODEL.fits is simply absent and the run reads as a failure with
+        # rc=0.  Passing it here makes the product names a property of this recipe
+        # invocation rather than of whoever's home directory it ran in.
+        "--suppress-prefix=TRUE",
+        "molecfit_model",
         "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux",
         f"--COLUMN_DFLUX={'dflux' if built['source_error_column_usable'] else 'NULL'}",
         "--DEFAULT_ERROR=0.01", "--WLG_TO_MICRON=1.0",
@@ -222,7 +263,11 @@ def main() -> None:
         "--LATITUDE_VALUE=-29.2584", f"--GDAS_PROFILE={args.gdas.resolve()}",
         built["sof"].name,
     ]
-    env = dict(os.environ, PATH=f"/opt/homebrew/bin:{os.environ.get('PATH', '')}")
+    bindir = str(Path(esorex).parent)
+    env = dict(os.environ, PATH=f"{bindir}:{os.environ.get('PATH', '')}")
+    libdir = Path(esorex).parent.parent / "lib"
+    if libdir.is_dir():                     # ESO source-kit installs need this
+        env["LD_LIBRARY_PATH"] = f"{libdir}:{os.environ.get('LD_LIBRARY_PATH', '')}"
     result = subprocess.run(cmd, cwd=inputs, env=env, text=True, capture_output=True)
     (args.output / "esorex.stdout.txt").write_text(result.stdout)
     (args.output / "esorex.stderr.txt").write_text(result.stderr)
@@ -234,6 +279,7 @@ def main() -> None:
         "standard_atmosphere_fallback": False,
         "solar_exclusion_atlas": str(args.solar_atlas.resolve()) if args.solar_atlas else None,
         "solar_exclusion_atlas_md5": md5(args.solar_atlas) if args.solar_atlas else None,
+        "esorex": esorex,
         "wavelength_frame": args.frame, "berv_kms": built["berv_kms"],
         "resolving_power": args.resolving_power,
         "pixel_step_a": built["pixel_step_a"],
@@ -252,8 +298,18 @@ def main() -> None:
     }
     (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     best = products / "BEST_FIT_MODEL.fits"
-    if result.returncode or not best.exists():
-        raise SystemExit(f"molecfit_model failed (rc={result.returncode}); see {args.output}")
+    if result.returncode:
+        raise SystemExit(f"molecfit_model FAILED (rc={result.returncode}); see {args.output}")
+    if not best.exists():
+        # Distinct from a failed recipe, and it used to be reported as one
+        # ("failed (rc=0)"), which sent RYA-939 hunting a fit problem that did not
+        # exist.  Name what is actually wrong: the recipe ran, the products are there,
+        # they are not called what we expected.
+        produced = sorted(f.name for f in products.glob("*.fits"))
+        raise SystemExit(
+            f"molecfit_model SUCCEEDED (rc=0) but {best.name} is missing from "
+            f"{products}. Produced: {produced or 'nothing'}. Generic out_NNNN.fits "
+            f"names mean --suppress-prefix did not take effect.")
     print(best)
 
 

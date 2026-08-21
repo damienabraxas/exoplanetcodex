@@ -34,7 +34,17 @@ LINES = (
 )
 
 
-def read_ascii_windows(path: Path, windows, scale=1.0, skip=0):
+def read_ascii_windows(path: Path, windows, scale=1.0, skip=0, vacuum=False):
+    """Read (wavelength, flux) inside `windows`, in AIR Angstrom.
+
+    RYA-938 — `vacuum=True` is REQUIRED for the Kurucz 2005 product, whose grid
+    is vacuum. Reading it as air displaces every line by ~1.7 A at 6600 A, which
+    is about 200 sampled pixels: enough to empty a +/-0.35 A line window while
+    barely moving a 17-300 A window statistic. That is exactly how RYA-929
+    produced a clean window-level verdict alongside a nonsense line table
+    (Al I 6696 depth 0.0081 against a true 0.2483). The window results stand;
+    the line table did not.
+    """
     out = {name: ([], []) for name, _, _ in windows}
     with path.open(errors="replace") as fh:
         for _ in range(skip): next(fh, "")
@@ -43,6 +53,7 @@ def read_ascii_windows(path: Path, windows, scale=1.0, skip=0):
             if len(q) < 2: continue
             try: w, f = float(q[0]) * scale, float(q[1])
             except ValueError: continue
+            if vacuum: w = float(vac_to_air(np.array([w]))[0])
             for name, lo, hi in windows:
                 if lo <= w <= hi: out[name][0].append(w); out[name][1].append(f)
     return {k: (np.asarray(v[0]), np.asarray(v[1])) for k, v in out.items()}
@@ -128,7 +139,8 @@ def main():
     ap.add_argument("--lines-out", type=Path, required=True)
     args = ap.parse_args()
     data = {"kpno_1984": read_kpno(args.kpno, WINDOWS),
-            "kurucz_2005": read_ascii_windows(args.kurucz, WINDOWS, scale=10.0, skip=9),
+            "kurucz_2005": read_ascii_windows(args.kurucz, WINDOWS, scale=10.0,
+                                              skip=9, vacuum=True),
             "iag": (read_iag_fits(args.iag, WINDOWS) if args.iag_fits
                     else read_iag(args.iag, WINDOWS))}
     rows = []

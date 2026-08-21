@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-21
 
+- **RYA-939** — **molecfit built on Sirius** (4.4.4-5, matched to the Mac; no ESO Ubuntu repo exists); the telluric leg is no longer Mac-only. **Dual-machine agreement to 5e-5.** 🔴 **Product filenames came from `~/.esorex/esorex.rc`** — a fully successful run reported `failed (rc=0)`. Normalised solar spectra now TRACKED + generator-registered; the RYA-686 guard extended to `data/processed/`
 - **RYA-938** — RYA-929's Kurucz line table was a **VACUUM-vs-AIR** artifact: measured lag **+1.700 Å** vs predicted air–vacuum offset **+1.697 Å**, IAG control **−0.000 Å**; Al I 6696 recovers **0.008 → 0.248**. 🔴 **`lm0840` was a saved HTTP 500 page and `kp_segments()` reported it as "no segment covers 8420 Å"** — 251 files, 250 inventoried. Re-fetched; integrity guard added. **1984 is the only arm past 10000 Å, and it is uncorrected there**
 
 ## 2026-08-19
