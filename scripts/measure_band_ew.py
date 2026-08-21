@@ -699,6 +699,15 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     "harps": (
         HoldingSpec("solar_harps", reader="harps", pre_normalised=True,
                     reference_continuum=True,
+                    # RYA-767 -- DECLARE the extent, do not leave it to be discovered.
+                    # The span is already VERIFIED in solar_reference_holdings_rya708.csv
+                    # (3782.6-6910.0) and was simply not carried here, so `covers()`
+                    # answered True for every window ever asked -- including the NIR.
+                    # A planner enumerating holdings x bands therefore proposed eight
+                    # HARPS runs above the 6912 A cutoff, each of which would have failed
+                    # one line at a time deep inside a run instead of being ruled out
+                    # before it started.
+                    span_A=(3782.6, 6910.0),
                     note="Direct-solar HARPS (Dumusque ESO 1102.D-0954), RYA-897, "
                          "continuum contract FIXED by RYA-911. PRE-NORMALISED: the "
                          "product ships its own fitted continuum and we consume it. "
@@ -708,6 +717,7 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "of the EW in a same-inputs control. That was the -0.34 dex."),
         HoldingSpec("solar_harps_molecfit_corrected", reader="harps_tellcorr",
                     pre_normalised=True, reference_continuum=True,
+                    span_A=(3782.6, 6910.0),
                     note="RYA-931 telluric-corrected sibling: the same ten exposures "
                          "through the same normaliser, with the O2 B band divided out "
                          "per exposure by its own molecfit/GDAS transmission. Listed "
