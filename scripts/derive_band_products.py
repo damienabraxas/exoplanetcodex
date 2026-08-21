@@ -348,7 +348,7 @@ def synthesis_route(a, pol) -> None:
     _window_median: list[float] = []
 
     def _observed(centre: float, pad: float):
-        win = load_window_ex(a.instrument, centre, pad)
+        win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
         h = win.holding
         if not h.pre_normalised:
             raise LookupError(
@@ -361,7 +361,8 @@ def synthesis_route(a, pol) -> None:
         _window_median.append(float(np.median(win.flux)))
         return win.wave, win.flux, win.provenance
 
-    _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4)
+    _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4,
+                            holding=a.holding)
     # Asked at band centre so the refusal costs nothing and arrives BEFORE any synthesis.
     # `_observed` checks it too, per line, because a band can in principle select a
     # different holding line by line -- but a per-line failure there surfaces as
@@ -616,7 +617,13 @@ def synthesis_route(a, pol) -> None:
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_SYNTH"
+    # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
+    # differing by whether tellurics were removed would otherwise write the same
+    # filename, and the second would silently overwrite the first.
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_SYNTH"
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
 
@@ -833,6 +840,13 @@ def main() -> None:
     ap.add_argument("--lo", type=float, required=True)
     ap.add_argument("--hi", type=float, required=True)
     ap.add_argument("--instrument", default="kpno_solar_atlas")
+    ap.add_argument("--holding", default=None,
+                    help="Name ONE holding explicitly instead of taking the instrument's "
+                         "first covering candidate (RYA-933/934). Without it, an "
+                         "instrument that serves several products silently answers with "
+                         "whichever is listed first -- which is how two telluric-corrected "
+                         "Kitt Peak holdings sat unmeasurable while `--instrument "
+                         "kpno_solar_atlas` looked like it covered them.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
@@ -872,7 +886,13 @@ def main() -> None:
         # rather than failing on a missing input that is missing BY DESIGN (RYA-832).
         return synthesis_route(a, pol_early)
 
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}_PROFILEFIT"
+    # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
+    # differing by whether tellurics were removed would otherwise write the same
+    # filename, and the second would silently overwrite the first.
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_PROFILEFIT"
     src = EW_DIR / f"{stem}_ew.csv"
     if not src.exists():
         raise SystemExit(f"no measured EWs at {src}. Run measure_band_profilefit.py first.")
