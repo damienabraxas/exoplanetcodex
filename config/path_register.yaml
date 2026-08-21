@@ -290,6 +290,17 @@ entries:
     rel: spectra/Solar Calibration/Kitt Peak Flux Atlas
     kind: dir
     desc: Kitt Peak solar flux atlas, Sirius-side copy.
+  data.kurucz2005_irradiance:
+    root: data
+    rel: spectra/KITTS/irradthu.dat.txt
+    kind: file
+    desc: >-
+      Kurucz 2005 solar irradiance (irradthu.dat, revised 02jan2010), the
+      telluric-CORRECTED Kitt Peak reference. Registered by RYA-933/934 so the two
+      properties that bite every naive reader are declared in one place rather than
+      rediscovered: the grid is VACUUM (RYA-938 measured it; reading it as air
+      displaces every line ~1.7 A at 6600 A) and the flux is ABSOLUTE irradiance in
+      W/m2/nm, so the holding ships no continuum. Spans 3000-10000 A.
   data.spectra_vesta_crires:
     root: data
     rel: spectra/vesta/CRIRESPlus

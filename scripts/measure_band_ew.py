@@ -723,6 +723,20 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     "kpno_solar_atlas": (
         HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
                     note="Kurucz/Brault FTS residual flux -- unity IS the continuum."),
+        HoldingSpec("solar_kpno_molecfit_corrected", reader="kpno_1984_corrected",
+                    pre_normalised=True,
+                    note="RYA-940 telluric-corrected 1984 atlas. Same conventions as "
+                         "solar_kpno -- air, residual flux, unity IS the continuum -- "
+                         "differing only by the six corrected telluric bands. Listed "
+                         "AFTER solar_kpno on purpose: reachable by name, selection "
+                         "order unchanged, so no existing measurement silently switches "
+                         "product. NaN marks a quarantined saturated core."),
+        HoldingSpec("solar_kpno_kurucz2005_corrected", reader="kurucz2005",
+                    pre_normalised=False, span_A=(3000.0, 10000.0),
+                    note="Kurucz 2005, telluric-corrected at source. VACUUM grid and "
+                         "ABSOLUTE irradiance -- hence pre_normalised=False, because it "
+                         "ships no continuum for the harness to consume. Spans "
+                         "3000-10000 A only; nothing telluric-free reaches the IR."),
     ),
     "iag_fts_solar_atlas": (
         HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
@@ -851,6 +865,10 @@ def select_holding(instrument: str, centre: float, pad: float, *,
 def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
     if spec.reader == "kpno":
         return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
+    if spec.reader == "kpno_1984_corrected":
+        return load_kp1984_corrected_window(centre, pad)
+    if spec.reader == "kurucz2005":
+        return load_kurucz2005_window(centre, pad)
     if spec.reader == "iag":
         return load_iag_window(centre, pad)
     if spec.reader == "harps":
@@ -915,6 +933,60 @@ def kp_segments(allow_corrupt: bool = False) -> list[tuple[float, float, Path]]:
     if not allow_corrupt:
         kp_integrity.require_parseable(reports)
     return [(r.lo_A, r.hi_A, Path(r.path)) for r in reports if r.ok]
+
+
+#: RYA-940's corrected 1984 products, and the Kurucz 2005 reference. Both are
+#: HOLDINGS of the kpno_solar_atlas instrument, and until now neither could be
+#: NAMED by the harness -- the RYA-904 shape, where a holding nobody can reach
+#: reads to every caller exactly like having no data.
+KP1984_CORRECTED_DIR = codex_root('repo') / 'data' / 'processed' / 'kp1984_telluric_corrected'
+
+
+def load_kp1984_corrected_window(centre: float, pad: float):
+    """RYA-940 telluric-corrected 1984 segments. Air, residual flux, NaN = quarantined.
+
+    Only the six corrected bands exist; everywhere else this holding simply does not
+    reach, and says so rather than falling back to the uncorrected atlas -- which would
+    label an uncorrected measurement 'corrected'.
+    """
+    lo, hi = centre - pad, centre + pad
+    W, F, used = [], [], []
+    for path in sorted(KP1984_CORRECTED_DIR.glob("kp1984_corrected_*.txt")):
+        a, b = (float(x) for x in path.stem.split("_")[-2:])
+        if b < lo or a > hi:
+            continue
+        arr = np.loadtxt(path)
+        m = (arr[:, 0] >= lo) & (arr[:, 0] <= hi) & np.isfinite(arr[:, 1])
+        if m.any():
+            W.append(arr[m, 0]); F.append(arr[m, 1]); used.append(path.name)
+    if not W:
+        raise LookupError(
+            f"no RYA-940 corrected 1984 band covers {centre:.3f} A. Only six telluric "
+            f"bands were corrected; this window is not one of them. Use solar_kpno for "
+            f"the uncorrected atlas -- do NOT relabel it corrected.")
+    w = np.concatenate(W); f = np.concatenate(F)
+    o = np.argsort(w)
+    return w[o], f[o], ",".join(used)
+
+
+def load_kurucz2005_window(centre: float, pad: float):
+    """Kurucz 2005 irradiance. VACUUM grid (RYA-938) and NO continuum of its own.
+
+    Two things a naive reader gets wrong here, both measured rather than assumed:
+    the grid is VACUUM -- reading it as air displaces every line ~1.7 A at 6600 A,
+    about 200 sampled pixels, which is how RYA-929 produced a clean window verdict
+    beside a nonsense line table -- and the flux is ABSOLUTE irradiance in W/m2/nm,
+    so this holding is `pre_normalised=False` and the harness must place its own
+    continuum. That is not the RYA-911 double-continuum trap: this product ships no
+    continuum to double.
+    """
+    from scripts.rya938_kp_crosscheck import read_kurucz2005
+    path = codex_path('data.kurucz2005_irradiance')
+    w, f = read_kurucz2005(Path(path), centre - pad, centre + pad, True)
+    if w.size < 5:
+        raise LookupError(f"Kurucz 2005 does not cover {centre:.3f} A (it spans "
+                          f"3000-10000 A); nothing beyond 10000 A is telluric-free here.")
+    return w, f, Path(path).name
 
 
 def load_kp_window(segs, centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
