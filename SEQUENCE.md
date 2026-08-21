@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-21
+
+- **RYA-938** — RYA-929's Kurucz line table was a **VACUUM-vs-AIR** artifact: measured lag **+1.700 Å** vs predicted air–vacuum offset **+1.697 Å**, IAG control **−0.000 Å**; Al I 6696 recovers **0.008 → 0.248**. 🔴 **`lm0840` was a saved HTTP 500 page and `kp_segments()` reported it as "no segment covers 8420 Å"** — 251 files, 250 inventoried. Re-fetched; integrity guard added. **1984 is the only arm past 10000 Å, and it is uncorrected there**
+
 ## 2026-08-19
 
 - **RYA-925** — Near-UV Al retracted: 3057 Å is abundance-insensitive in a 146-transition blend; appendix evidence retained, no product.
