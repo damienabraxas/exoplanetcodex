@@ -12,7 +12,19 @@ The clean-continuum window is the control that proves the metric discriminates a
 """
 from __future__ import annotations
 import csv, glob, gzip, os
+import sys
+from pathlib import Path
+
 import numpy as np
+
+# RYA-959: the Birch & Downs refractive index is imported, not re-derived. This script
+# carried its own copy of the constants, which is the RYA-264/501 defect the
+# `test_vac_air_single_source_rya501` guard exists to catch -- it has been failing on main
+# since RYA-944 landed. The shared converter is the SAME formula with the same constants,
+# so every number this script produces is unchanged; what changes is that it can no longer
+# drift from `pipeline/wavelength_util.py` on the next edit.
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+from pipeline.wavelength_util import air_to_vac, vac_to_air  # noqa: E402
 
 WINDOWS = [("O2 B-band",      6867.0, 6884.0),
            ("O2 A-band",      7594.0, 7685.0),
@@ -20,9 +32,6 @@ WINDOWS = [("O2 B-band",      6867.0, 6884.0),
            ("H2O 9280-9600",  9280.0, 9600.0),
            ("clean continuum",6425.0, 6525.0)]
 
-def n_air(l):
-    s2 = (1e4/l)**2
-    return 1 + (0.0000834254 + 0.02406147/(130-s2) + 0.00015998/(38.9-s2))
 
 def load_delbouille():
     w, f = [], []
@@ -50,7 +59,7 @@ def load_kp():
 def load_iag():
     d = np.loadtxt("/mnt/codex-data/solar_reference/iag_reiners2016/spvis.dat.gz")
     vac = 1e8 / d[:, 0]                                    # col0 VACUUM wavenumber cm-1
-    air = vac / n_air(vac)
+    air = vac_to_air(vac)
     o = np.argsort(air); return air[o], d[o, 1]
 
 def stats(w, f, lo, hi):
@@ -82,11 +91,12 @@ for lbl, lo, hi in WINDOWS:
 # ---- appended: the ACTUALLY telluric-corrected IAG (Baker+2020 "telfree") ----
 from astropy.io import fits
 
+
 def load_baker():
     d = fits.open("/mnt/codex-data/solar_reference/iag_baker2020/"
                   "iag_telfree_solaratlas.fits")[1].data
     vac = 1e8 / d["v"].astype(float)
-    air = vac / n_air(vac)
+    air = vac_to_air(vac)
     o = np.argsort(air)
     return air[o], d["s"].astype(float)[o]
 

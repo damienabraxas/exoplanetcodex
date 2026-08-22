@@ -5,8 +5,18 @@ travels if BASS2000 re-reduces the atlas.
 """
 from __future__ import annotations
 import csv, gzip, hashlib, json, sys
+import sys
 from pathlib import Path
 import numpy as np
+
+# RYA-959: the Birch & Downs refractive index is imported, not re-derived. This script
+# carried its own copy of the constants, which is the RYA-264/501 defect the
+# `test_vac_air_single_source_rya501` guard exists to catch -- it has been failing on main
+# since RYA-944 landed. The shared converter is the SAME formula with the same constants,
+# so every number this script produces is unchanged; what changes is that it can no longer
+# drift from `pipeline/wavelength_util.py` on the next edit.
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+from pipeline.wavelength_util import air_to_vac, vac_to_air  # noqa: E402
 
 SCRATCH = Path("/private/tmp/claude-501/-Users-ryanschmitt/07bd9c77-6066-4985-9818-751ff0c31e9c/scratchpad")
 CHUNKS = SCRATCH / "delb"
@@ -46,9 +56,6 @@ with gzip.open(OUT, "wt", newline="") as fh:
 sha = hashlib.sha256(OUT.read_bytes()).hexdigest()
 
 # ---------------------------------------------------------------- audit
-def n_air(l):
-    s2 = (1e4 / l) ** 2
-    return 1 + (0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2))
 
 def centroid(pos, halfwin=0.09):
     """Flux-weighted centroid of the absorption core -- sharper than argmin."""
@@ -68,7 +75,7 @@ for name, air in LINES:
     c = centroid(air)
     if c is None:
         continue
-    vac = air * n_air(air)
+    vac = float(air_to_vac(air))
     medium.append({"line": name, "air_rest_A": air, "vac_rest_A": round(vac, 3),
                    "measured_A": round(c, 4), "resid_vs_air_mA": round((c - air) * 1e3, 1),
                    "resid_vs_vac_mA": round((c - vac) * 1e3, 1),
