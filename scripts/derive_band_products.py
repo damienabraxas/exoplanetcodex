@@ -829,7 +829,15 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # RYA-906 — emitted BESIDE sigma, never without it. On its own
                 # `profile_sigma_A` cannot be read: the two are degenerate in a Voigt
                 # fit, and judging a line by sigma alone is the defect this replaced.
-                profile_gamma_A=l.profile_gamma_A)
+                profile_gamma_A=l.profile_gamma_A,
+                # RYA-959 — the observed core and the width the integrated EW implies
+                # against it, carried for the same reason as the two fields above and
+                # with a sharper one: RYA-958 diagnosed a contaminated pool by
+                # RECONSTRUCTING this quantity by hand, from a MODEL depth out of
+                # linelist_solar.csv, because no artifact in the chain recorded the
+                # observed one. Stopping it at the EW file would guarantee the next RCA
+                # reconstructs it again — the RYA-843 `red_chi2` omission exactly.
+                observed_depth=l.observed_depth, implied_width_A=l.implied_width_A)
 
 
 def main() -> None:
@@ -1197,7 +1205,15 @@ def main() -> None:
         handler.prepare(pol, {**ctx_b, "instrument": a.instrument})
         # Ask once, at band centre, so a refusal costs nothing and arrives before
         # any synthesis runs (the synthesis_route pattern, RYA-904/832).
-        _b_probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4)
+        # 🔴 RYA-959 — `holding=a.holding` WAS MISSING HERE, AND ON THE TWO SITES BELOW.
+        # RYA-933/934 added `--holding` so a caller can name ONE product instead of
+        # taking the instrument's first covering candidate; the synthesis route honours
+        # it (see `synthesis_route`) and this leg did not. Measured: a run launched with
+        # `--holding solar_harps_molecfit_corrected` printed
+        # `[holding] harps -> solar_harps` and derived Engine-B on the UNCORRECTED
+        # sibling — the one pair this repo must never collapse (RYA-911/927).
+        _b_probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4,
+                                  holding=a.holding)
         if not _b_probe.pre_normalised:
             raise SystemExit(
                 f"{a.instrument} -> {_b_probe.holding_id} is NOT "
@@ -1216,7 +1232,8 @@ def main() -> None:
         for _, r in ok.iterrows():
             c = float(r.wavelength_air_A)
             try:
-                _win = load_window_ex(a.instrument, c, pad=1.4, segs=segs)
+                _win = load_window_ex(a.instrument, c, pad=1.4, segs=segs,
+                                      holding=a.holding)
                 w_obs, f_obs = _win.wave, _win.flux
                 # RYA-913: record WHICH holding served each line, so a consumer
                 # can verify the product was measured on what its label claims.
@@ -1270,7 +1287,8 @@ def main() -> None:
         # the tag against the holdings that actually served the lines is the only check
         # that would have failed. It is cheap and it runs on every product.
         _b_expected = {h.holding_id for h in
-                       [select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4)]}
+                       [select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4,
+                                       holding=a.holding)]}
         _b_unexpected = _b_holdings - _b_expected
         if _b_unexpected:
             raise SystemExit(
@@ -1279,6 +1297,18 @@ def main() -> None:
                 f"{sorted(_b_unexpected)}, which {a.instrument!r} does not select. "
                 f"A number labelled with an instrument it was not measured on is the "
                 f"RYA-911/913 defect. Refusing to emit it.")
+        # 🔴 RYA-959 — AND THE GUARD COULD NOT HAVE CAUGHT IT. `_b_expected` above is
+        # resolved by the same call the lines were loaded with, so the check proved the
+        # leg was self-consistent, never that it honoured what the CALLER asked for. When
+        # `--holding` is given, the answer is not "whatever the instrument selects" — it
+        # is that holding, and nothing else may serve a single line.
+        if a.holding and _b_holdings and _b_holdings != {a.holding}:
+            raise SystemExit(
+                f"HOLDING IGNORED: --holding {a.holding!r} was requested but Engine-B's "
+                f"lines were measured on {sorted(_b_holdings)}. A run asked for one "
+                f"product and got another; for the HARPS pair that is the difference "
+                f"between the telluric-corrected sibling and the raw one (RYA-931/927). "
+                f"Refusing to emit it.")
         if _b_holdings:
             print(f"  [provenance] {len(_b_holdings)} holding(s) served this product: "
                   f"{sorted(_b_holdings)} — matches --instrument {a.instrument}")

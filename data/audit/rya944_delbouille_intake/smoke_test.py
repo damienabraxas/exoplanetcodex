@@ -4,8 +4,18 @@ The spec's medium assertion is reproduced verbatim AND replaced with one that ca
 actually fail -- see findings.md section 2 for why the original cannot.
 """
 import csv, gzip, hashlib, sys
+import sys
 from pathlib import Path
 import numpy as np
+
+# RYA-959: the Birch & Downs refractive index is imported, not re-derived. This script
+# carried its own copy of the constants, which is the RYA-264/501 defect the
+# `test_vac_air_single_source_rya501` guard exists to catch -- it has been failing on main
+# since RYA-944 landed. The shared converter is the SAME formula with the same constants,
+# so every number this script produces is unchanged; what changes is that it can no longer
+# drift from `pipeline/wavelength_util.py` on the next edit.
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+from pipeline.wavelength_util import air_to_vac, vac_to_air  # noqa: E402
 
 src = Path(sys.argv[1] if len(sys.argv) > 1 else
            "/mnt/codex-data/solar_reference/delbouille_bass2000/delbouille_bass2000_visible.csv.gz")
@@ -32,13 +42,10 @@ def centroid(pos, half=0.09):
     d = np.clip(ff.max() - ff, 0, None)
     return float((ww * d).sum() / d.sum())
 
-def n_air(l):
-    s2 = (1e4 / l) ** 2
-    return 1 + (0.0000834254 + 0.02406147 / (130 - s2) + 0.00015998 / (38.9 - s2))
 
 air = 6430.846
 c = centroid(air)
-vac = air * n_air(air)
+vac = float(air_to_vac(air))
 assert abs(c - air) < abs(c - vac), f"medium is NOT air: centroid {c:.4f}"
 assert abs(c - air) < 0.020, f"air centroid off by {(c-air)*1e3:.1f} mA"
 print(f"medium (centroid)   : AIR  ({c:.4f}, {(c-air)*1e3:+.1f} mA vs air, "
