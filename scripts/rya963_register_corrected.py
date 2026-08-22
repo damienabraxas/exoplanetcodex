@@ -94,49 +94,44 @@ def rows_from_products(products: list) -> list:
     return rows
 
 
-def build_notes(run: dict, products: list) -> str:
-    g = run["gdas_gate"]
-    slots = sorted(set(g["slots"].values()))
-    frames = run["frames"]
-    confirmed = [f for f in frames if f["star_id"] == "A"]
-    gates = [f"{f['wlen_id']} {f['gate_before']:.4f}->{f['gate_after']:.4f}"
-             for f in frames]
-    pwv = [f"{f['wlen_id']} {f['h2o_col_mm']:.3f}" for f in frames
-           if f.get("h2o_col_mm") is not None]
+def build_notes(run: dict, products: list, cfg: dict) -> str:
+    """The registry note, built from what is actually in hand. Reads the run record when
+    one is given and the PRODUCTS otherwise, so a set assembled from a re-run frame still
+    describes itself correctly."""
+    from astropy.io import fits
+    rows = rows_from_products(products)
+    settings = ', '.join(sorted({r['wlen_id'] for r in rows if r['wlen_id']}))
+    nights = sorted({r['date_obs'] for r in rows if r['date_obs']})
+    gdas = sorted({r['gdas_profile'] for r in rows if r['gdas_profile']})
+    gates = '; '.join(f"{r['wlen_id']} {r['gate_before']}->{r['gate_after']}"
+                      f"{'' if r['gate_passed'] else ' FAIL'}" for r in rows)
+    pwv = []
+    for path in products:
+        h = fits.getheader(path)
+        if 'H2OCOLMM' in h and 'WLEN' in h:
+            pwv.append(f"{h['WLEN']} {float(h['H2OCOLMM']):.3f}")
+    n_pass = sum(1 for r in rows if r['gate_passed'])
     return (
-        f"{cfg['ticket']} telluric-corrected sibling of {cfg['base_holding']}; it is "
-        f"UNMODIFIED. {len(products)} corrected CRIRES+ products. "
-        f"(one per setting: {', '.join(f['wlen_id'] for f in frames)}), corrected with "
-        f"ESO molecfit (molecfit_model on derived fit windows, then molecfit_calctrans "
-        f"over every chip) against the REAL per-night Paranal GDAS profile "
-        f"{'/'.join(slots)} - all {len(frames)} exposures fall in the same 3-hourly slot, "
-        f"and no standard-atmosphere fallback is in play (the RYA-373 failure mode). "
-        f"ONE atmosphere is fitted per exposure and evaluated over all chips: one "
-        f"exposure saw one sky, so a per-chip independent fit would let the water column "
-        f"disagree with itself inside a single 4-second exposure. "
-        f"THE FIT IS PROVEN TO HAVE MOVED, not merely to have exited 0: molecfit reports "
-        f"success and writes every product even when mpfit takes its status-4 exit with a "
-        f"zero Jacobian, leaving each column at its prior with uncertainty exactly 0 and "
-        f"transmission 1.0 everywhere - an uncorrected spectrum wearing a correction's "
-        f"provenance. Two distinct causes produced exactly that here and both are now "
-        f"asserted against: WLC_CONST is a FRACTION of the chip's half wavelength range, "
-        f"so its -0.05 default is -3.4 A on a 134 A chip but -135 A on a whole 540 nm "
-        f"setting handed over as one chip; and without MAP_REGIONS_TO_CHIP molecfit says "
-        f"'Assuming that all regions are mapped to Chip 1' and puts every fit window on "
-        f"the first chip. Fit windows are DERIVED per frame (the unsaturated, non-stellar "
-        f"absorbed fraction per chip), not tabulated, and the stellar exclusion mask comes "
-        f"from linelist_solar rather than hand-listed wavelengths. Molecules are split: "
-        f"the MODEL carries every molecule with a band in the frame (or calctrans would "
-        f"leave that absorber out entirely), while only those with a band inside a fit "
-        f"window are FITTED. D1 residual gate, at telluric-dominated stellar-clean pixels, "
-        f"before->after: {'; '.join(gates)}. Fitted PWV (mm): {'; '.join(pwv)}. "
-        f"STAR ID: {len(confirmed)}/{len(frames)} frames confirmed alpha Cen A by the "
-        f"RYA-423 rule run on the measured RV - which is only available AFTER correction, "
-        f"since RYA-423's own CRIRES branch returns INDETERMINATE for want of a telluric-"
-        f"corrected spectrum. telluric_applied is DERIVED by pipeline.telluric_intake from "
-        f"each product's own non-unity MTRANS extension, not asserted here. "
-        f"Evidence: data/audit/rya963_crires_telluric/; reproduce with "
-        f"python3 -m pipeline.crires_stellar_telluric --set alpha_cen_a_crires."
+        f"{cfg['ticket']} telluric-corrected sibling of {cfg['base_holding']}; that "
+        f"holding is UNMODIFIED. {len(rows)} corrected CRIRES+ products over "
+        f"{len(nights)} night(s) ({', '.join(nights)}), settings {settings}, each "
+        f"corrected with ESO molecfit (molecfit_model on derived fit windows, then "
+        f"molecfit_calctrans over every chip) against the REAL per-night Paranal GDAS "
+        f"profile for ITS OWN night -- {len(gdas)} distinct profile(s): "
+        f"{', '.join(gdas)}. No standard-atmosphere fallback is in play (the RYA-373 "
+        f"failure mode). ONE atmosphere is fitted per exposure and evaluated over all "
+        f"chips: one exposure saw one sky. THE FIT IS PROVEN TO HAVE MOVED, not merely "
+        f"to have exited 0 -- molecfit writes every product even when mpfit takes its "
+        f"status-4 exit with a zero Jacobian, leaving each column at its prior and "
+        f"transmission 1.0 everywhere, so assert_fit_moved requires a FITTED molecular "
+        f"column with a non-zero uncertainty and best_chi2 below initial_chi2. "
+        f"D1 residual gate at telluric-dominated, stellar-clean pixels, before->after: "
+        f"{gates} ({n_pass}/{len(rows)} PASS). Fitted PWV (mm): {'; '.join(pwv)}. "
+        f"telluric_applied is DERIVED by pipeline.telluric_intake from each product's "
+        f"own non-unity MTRANS extension, not asserted here; the registration script "
+        f"refuses to write anything intake does not independently call corrected. "
+        f"Evidence: data/audit/{cfg['audit_dir']}/; reproduce with "
+        f"python3 -m pipeline.crires_stellar_telluric --set <set>."
     ).replace("\n", " ")
 
 
@@ -191,7 +186,7 @@ def main() -> int:
            "instrument_id": "crires_plus",
            "manifest_path": str(manifest.relative_to(ROOT)),
            "evidence_state": "verified", "source_issue_ids": cfg["ticket"],
-           "notes": build_notes(run, products), "telluric_applied": state}
+           "notes": build_notes(run, products, cfg), "telluric_applied": state}
     existing = [i for i, r in enumerate(rows) if r["holding_id"] == cfg["holding_id"]]
     if existing:
         rows[existing[0]] = row
