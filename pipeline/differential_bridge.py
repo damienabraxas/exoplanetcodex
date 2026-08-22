@@ -46,6 +46,10 @@ JOFRE_FAIL_DTEFF_K = 2000.0
 JOFRE_FAIL_DFEH_DEX = 2.5
 
 
+class GateUnevaluable(RuntimeError):
+    """The gate could not be applied at all — a missing key, not a hop that is too large."""
+
+
 class HopTooLarge(RuntimeError):
     """A hop that cannot be bridged. Never silently crossed — RYA-969 requires a loud failure."""
 
@@ -101,6 +105,26 @@ def within_known_limits(a: dict, b: dict) -> tuple[bool, str]:
 
 
 # ── the line-sharing gate ────────────────────────────────────────────────────────────
+#: 🔴 THE SHARED-LINE MINIMUM IS DERIVED, NOT TYPED (RYA-981).
+#: A hop's delta is a MEAN, and a mean is only as trustworthy as the scatter estimate behind
+#: it. The relative uncertainty on a sample sd is `1/sqrt(2(n-1))`, so requiring the sd to be
+#: known to within `tol` fixes n:
+#:
+#:     n >= 1 + 1/(2 * tol**2)
+#:
+#: At the 25% default that is **9 lines**. The number is computed from the criterion rather
+#: than chosen, so changing it means changing a stated statistical requirement -- which is a
+#: reviewable act -- instead of editing a literal.
+SD_RELATIVE_TOLERANCE = 0.25
+
+
+def derive_min_shared_lines(sd_relative_tolerance: float = SD_RELATIVE_TOLERANCE) -> int:
+    """Minimum shared lines for a statistically sound hop mean. See SD_RELATIVE_TOLERANCE."""
+    if not (0 < sd_relative_tolerance < 1):
+        raise ValueError(f"sd tolerance must be in (0,1), got {sd_relative_tolerance!r}")
+    return int(math.ceil(1.0 + 1.0 / (2.0 * sd_relative_tolerance ** 2)))
+
+
 @dataclass
 class SharedSet:
     pairs: list                      # (target_row, reference_row)
@@ -108,10 +132,15 @@ class SharedSet:
     n_target: int
     n_reference: int
     reason: str = ""
+    #: 🔴 "cannot be evaluated" is a THIRD STATE, distinct from "too few shared lines".
+    #: Without it a product that simply does not carry REW reports as a hop that is too large,
+    #: which sends a reader looking for an intermediate benchmark that would not help. Found on
+    #: RYA-981: the RYA-967 SYNTH product carries no `rew`, `ew_mA` or `observed_depth` at all.
+    unevaluable: str = ""
 
     @property
     def ok(self) -> bool:
-        return self.reason == ""
+        return self.reason == "" and self.unevaluable == ""
 
 
 def line_sharing_gate(target_lines, reference_lines, th: BridgeThresholds) -> SharedSet:
@@ -126,6 +155,21 @@ def line_sharing_gate(target_lines, reference_lines, th: BridgeThresholds) -> Sh
     """
     need = th.require("min_shared_lines")
     lo, hi = th.require("rew_min"), th.require("rew_max")
+
+    # Diagnose a MISSING saturation key before diagnosing a short shared set. A synthesis
+    # product carries no REW; treating that as "too few shared lines" names the wrong remedy.
+    def _has_rew(rows):
+        return any(r.get("rew") is not None and np.isfinite(r.get("rew", np.nan))
+                   for r in rows)
+    t_all, r_all = list(target_lines), list(reference_lines)
+    if not _has_rew(t_all) or not _has_rew(r_all):
+        s = SharedSet(pairs=[], n_shared=0, n_target=len(t_all), n_reference=len(r_all))
+        s.unevaluable = (
+            "no usable REW on one or both sides, so the saturation gate cannot be applied. "
+            "This is NOT a hop that is too large — it is a product that does not carry the "
+            "key. A synthesis product has no equivalent width and therefore no REW; supply "
+            "an EW-route product, or declare a saturation proxy for the synthesis route.")
+        return s
 
     def usable(r):
         rew = r.get("rew")
@@ -180,6 +224,8 @@ def bridge_hop(target_lines, reference_lines, th: BridgeThresholds, *,
     it is applied later, once, in `chain_to_sun`.
     """
     s = line_sharing_gate(target_lines, reference_lines, th)
+    if s.unevaluable:
+        raise GateUnevaluable(f"{target} -> {reference}: {s.unevaluable}")
     if not s.ok:
         raise HopTooLarge(f"{target} -> {reference}: {s.reason}")
     d = np.array([t["abundance"] - r["abundance"] for t, r in s.pairs], float)
