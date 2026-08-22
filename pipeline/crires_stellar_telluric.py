@@ -419,6 +419,7 @@ class FrameCorrection:
     fit_molec: dict = field(default_factory=dict)
     moved: dict = field(default_factory=dict)
     well_mixed: dict = field(default_factory=dict)
+    held_at_prior: list = field(default_factory=list)
     err_usable: bool = False
     windows: list = field(default_factory=list)
     fit: dict = field(default_factory=dict)     # BEST_FIT_PARAMETERS, as a dict
@@ -610,7 +611,11 @@ def _best_fit_dict(out_dir: Path) -> dict:
 #: near 1. H2O is deliberately absent — precipitable water genuinely varies by an order of
 #: magnitude night to night (tau Ceti saw 1.93 mm and 13-23 mm ten days apart), which is
 #: exactly why it is the one column worth fitting freely.
-WELL_MIXED = ('CO2', 'CH4', 'CO')
+# O2 belongs here on the same physics as the other three: its mixing ratio is
+# 20.95% and constant through the troposphere and stratosphere, so a fitted O2
+# column far from 1 is an optimiser artefact, not weather. It matters in the
+# CRIRES+ Y setting, where the O2 A/B bands are the dominant non-water opacity.
+WELL_MIXED = ('CO2', 'CH4', 'CO', 'O2')
 #: RYA-931 refereed its solar HARPS fit with "|O2 column - 1| <= 0.10, because O2 is well
 #: mixed". This is that rule generalised, with a deliberately generous bound: real
 #: seasonal and altitude variation in CO2/CH4/CO is percent-level, so anything outside
@@ -813,6 +818,45 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     moved = assert_fit_moved(best, [m for m in molecules if fit_flags.get(m)])
     well_mixed = check_well_mixed_columns(best, molecules, fit_flags)
 
+    # ── HOLD a runaway well-mixed column at its physical prior, and re-fit ─────
+    #
+    # 🔴 THE OBVIOUS FIX DOES NOT WORK, AND THE NUMBERS SAY SO. It is tempting to stop
+    # this a priori by demanding a stronger fit window for a molecule. But the window
+    # score is the TOTAL non-stellar absorbed fraction, which at 1.5 um is overwhelmingly
+    # H2O: a window can be 17.5% absorbed and contain essentially no CH4. tau Ceti H1559
+    # proves it — its CH4 window scored 0.175 against a relative floor of 0.165, so it
+    # CLEARED every threshold we had and CH4 still ran to 22.7x. Only CO2's window (0.149)
+    # was there by the coverage exemption, and CO2 fitted fine at 1.100. There is no
+    # pre-fit measurement of how much of a window belongs to one molecule.
+    #
+    # So the runaway is caught AFTER the fit, where it is measurable, and answered with
+    # the physically correct prior: a well-mixed gas held at its profile column
+    # (FIT_MOLEC=0, REL_COL=1). That is not a fudge — it is the best estimate available
+    # for a gas whose mixing ratio is near-constant, and it is strictly better than a free
+    # parameter with nothing constraining it. The frame records WHICH molecules were held
+    # and why, so a reader never mistakes a held column for a measured one.
+    held = []
+    if not well_mixed['passed']:
+        held = [f['molecule'] for f in well_mixed['flagged']]
+        refit_flags = {m: (fit_flags.get(m, False) and m not in held) for m in molecules}
+        print(f"  [well-mixed] {frame.wlen_id}: holding {','.join(held)} at the profile "
+              f"column and re-fitting — "
+              + "; ".join(f"{f['molecule']}={f['rel_col']:.3f} ({f['direction']})"
+                          for f in well_mixed['flagged']), flush=True)
+        _write_molecules(in_dir / 'molecules.fits', molecules, refit_flags)
+        for stale in out_dir.glob('*.fits'):
+            stale.unlink()
+        proc = _run(cmd, in_dir, esorex, work_dir / 'molecfit_model_refit')
+        _require_product(proc, out_dir, 'BEST_FIT_MODEL.fits',
+                         f"{frame.path.name} model (refit, {','.join(held)} held)")
+        best = _best_fit_dict(out_dir)
+        fit_flags = refit_flags
+        moved = assert_fit_moved(best, [m for m in molecules if fit_flags.get(m)])
+        well_mixed = check_well_mixed_columns(best, molecules, fit_flags)
+        well_mixed['held_at_prior'] = held
+        # A molecule held at REL_COL=1 is MODELLED, so calctrans still removes its
+        # absorption; what it is not is measured. Both facts travel with the product.
+
     # ---- calctrans: the fitted atmosphere, evaluated over every pixel of the frame ----
     for name in ('ATM_PARAMETERS.fits', 'BEST_FIT_PARAMETERS.fits', 'MODEL_MOLECULES.fits'):
         (ct_dir / name).write_bytes((out_dir / name).read_bytes())
@@ -903,7 +947,7 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
         frame=frame, wave_A=wave_A, flux_raw=flux, err=err, mtrans=mt, flux_corr=corr,
         seg_index=seg_index, molecules=molecules, windows=windows, fit=best,
         fit_molec=dict(fit_flags), err_usable=err_usable, moved=moved,
-        well_mixed=well_mixed,
+        well_mixed=well_mixed, held_at_prior=held,
         gdas=Path(gdas).name, gdas_md5=_md5(gdas), rv_kms=rv_kms,
         berv_kms=barycentric_correction_kms(frame))
 
@@ -1353,6 +1397,11 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     for i, f in enumerate(gate.get('well_mixed_flagged', [])[:4], 1):
         h[f'WMFLAG{i}'] = (f"{f['molecule']} {f['rel_col']:.3f} {f['direction']}",
                            'a well-mixed column is not a free parameter')
+    # A HELD molecule is modelled but NOT measured. Say so in the product, so no reader
+    # ever reports its column as a measurement of this night's atmosphere.
+    if getattr(fc, 'held_at_prior', None):
+        h['WMHELD'] = (','.join(fc.held_at_prior)[:68],
+                       'held at profile column: MODELLED, not measured')
     _num(h, 'BERV', fc.berv_kms, 'km/s, add to topocentric RV', 5)
     _num(h, 'RVTOPO', rv.get('rv_topo_kms'), 'km/s, measured')
     _num(h, 'RVBARY', rv.get('rv_bary_kms'), 'km/s')
