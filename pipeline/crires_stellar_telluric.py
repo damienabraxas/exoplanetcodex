@@ -418,6 +418,8 @@ class FrameCorrection:
     molecules: tuple = ()
     fit_molec: dict = field(default_factory=dict)
     moved: dict = field(default_factory=dict)
+    well_mixed: dict = field(default_factory=dict)
+    held_at_prior: list = field(default_factory=list)
     err_usable: bool = False
     windows: list = field(default_factory=list)
     fit: dict = field(default_factory=dict)     # BEST_FIT_PARAMETERS, as a dict
@@ -604,6 +606,64 @@ def _best_fit_dict(out_dir: Path) -> dict:
     return out
 
 
+#: The WELL-MIXED gases. Their atmospheric mixing ratios are near-constant, so a fitted
+#: relative column is a measurement of the FIT's health, not of the sky: it must come back
+#: near 1. H2O is deliberately absent — precipitable water genuinely varies by an order of
+#: magnitude night to night (tau Ceti saw 1.93 mm and 13-23 mm ten days apart), which is
+#: exactly why it is the one column worth fitting freely.
+# O2 belongs here on the same physics as the other three: its mixing ratio is
+# 20.95% and constant through the troposphere and stratosphere, so a fitted O2
+# column far from 1 is an optimiser artefact, not weather. It matters in the
+# CRIRES+ Y setting, where the O2 A/B bands are the dominant non-water opacity.
+WELL_MIXED = ('CO2', 'CH4', 'CO', 'O2')
+#: RYA-931 refereed its solar HARPS fit with "|O2 column - 1| <= 0.10, because O2 is well
+#: mixed". This is that rule generalised, with a deliberately generous bound: real
+#: seasonal and altitude variation in CO2/CH4/CO is percent-level, so anything outside
+#: half-to-double is not a column, it is a runaway parameter.
+WELL_MIXED_LO, WELL_MIXED_HI = 0.5, 2.0
+
+
+def check_well_mixed_columns(best: dict, molecules, fit_flags=None) -> dict:
+    """Referee the FITTED columns of the well-mixed gases against physics.
+
+    🔴 THE D1 GATE CANNOT DO THIS, AND THE ASYMMETRY IS THE WHOLE POINT. A column that
+    runs HIGH paints absorption the spectrum does not have; dividing by it pushes flux
+    above the continuum and the residual gate catches it (tau Ceti H1559, CH4 = 22.7,
+    FAILED). A column that runs to ZERO does the opposite: the model simply omits that
+    molecule, its real absorption is left UNCORRECTED, and if H2O dominates the scored
+    pixels the D1 residual still looks fine. Six of seven such frames PASSED — registered
+    `applied` with a molecule silently not corrected at all.
+
+    So this is checked directly rather than inferred from the residual. Only FITTED
+    molecules are judged: one held at REL_COL=1 by design is not a measurement and has
+    nothing to run away with."""
+    flagged = []
+    for mol in molecules:
+        if fit_flags is not None and not fit_flags.get(mol):
+            continue
+        if mol not in WELL_MIXED:
+            continue
+        rec = best.get(f'rel_mol_col_{mol}')
+        if rec is None:
+            continue
+        val, err = float(rec[0]), float(rec[1])
+        if not (WELL_MIXED_LO <= val <= WELL_MIXED_HI):
+            flagged.append({
+                'molecule': mol, 'rel_col': val, 'uncertainty': err,
+                'direction': 'runaway-high' if val > WELL_MIXED_HI else
+                             ('pegged-at-floor' if val <= 1e-4 else 'runaway-low'),
+                'consequence': ('paints absorption the spectrum does not have; the '
+                                'correction pushes those pixels ABOVE continuum'
+                                if val > WELL_MIXED_HI else
+                                'the model omits this molecule, so its real absorption '
+                                'is left UNCORRECTED and the residual gate cannot see it'),
+            })
+    return {'checked': [m for m in molecules if m in WELL_MIXED
+                        and (fit_flags is None or fit_flags.get(m))],
+            'flagged': flagged, 'passed': not flagged,
+            'bounds': [WELL_MIXED_LO, WELL_MIXED_HI]}
+
+
 def assert_fit_moved(best: dict, molecules) -> dict:
     """Refuse a fit that reports success without having moved.
 
@@ -756,6 +816,46 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     _require_product(proc, out_dir, 'BEST_FIT_MODEL.fits', f"{frame.path.name} model")
     best = _best_fit_dict(out_dir)
     moved = assert_fit_moved(best, [m for m in molecules if fit_flags.get(m)])
+    well_mixed = check_well_mixed_columns(best, molecules, fit_flags)
+
+    # ── HOLD a runaway well-mixed column at its physical prior, and re-fit ─────
+    #
+    # 🔴 THE OBVIOUS FIX DOES NOT WORK, AND THE NUMBERS SAY SO. It is tempting to stop
+    # this a priori by demanding a stronger fit window for a molecule. But the window
+    # score is the TOTAL non-stellar absorbed fraction, which at 1.5 um is overwhelmingly
+    # H2O: a window can be 17.5% absorbed and contain essentially no CH4. tau Ceti H1559
+    # proves it — its CH4 window scored 0.175 against a relative floor of 0.165, so it
+    # CLEARED every threshold we had and CH4 still ran to 22.7x. Only CO2's window (0.149)
+    # was there by the coverage exemption, and CO2 fitted fine at 1.100. There is no
+    # pre-fit measurement of how much of a window belongs to one molecule.
+    #
+    # So the runaway is caught AFTER the fit, where it is measurable, and answered with
+    # the physically correct prior: a well-mixed gas held at its profile column
+    # (FIT_MOLEC=0, REL_COL=1). That is not a fudge — it is the best estimate available
+    # for a gas whose mixing ratio is near-constant, and it is strictly better than a free
+    # parameter with nothing constraining it. The frame records WHICH molecules were held
+    # and why, so a reader never mistakes a held column for a measured one.
+    held = []
+    if not well_mixed['passed']:
+        held = [f['molecule'] for f in well_mixed['flagged']]
+        refit_flags = {m: (fit_flags.get(m, False) and m not in held) for m in molecules}
+        print(f"  [well-mixed] {frame.wlen_id}: holding {','.join(held)} at the profile "
+              f"column and re-fitting — "
+              + "; ".join(f"{f['molecule']}={f['rel_col']:.3f} ({f['direction']})"
+                          for f in well_mixed['flagged']), flush=True)
+        _write_molecules(in_dir / 'molecules.fits', molecules, refit_flags)
+        for stale in out_dir.glob('*.fits'):
+            stale.unlink()
+        proc = _run(cmd, in_dir, esorex, work_dir / 'molecfit_model_refit')
+        _require_product(proc, out_dir, 'BEST_FIT_MODEL.fits',
+                         f"{frame.path.name} model (refit, {','.join(held)} held)")
+        best = _best_fit_dict(out_dir)
+        fit_flags = refit_flags
+        moved = assert_fit_moved(best, [m for m in molecules if fit_flags.get(m)])
+        well_mixed = check_well_mixed_columns(best, molecules, fit_flags)
+        well_mixed['held_at_prior'] = held
+        # A molecule held at REL_COL=1 is MODELLED, so calctrans still removes its
+        # absorption; what it is not is measured. Both facts travel with the product.
 
     # ---- calctrans: the fitted atmosphere, evaluated over every pixel of the frame ----
     for name in ('ATM_PARAMETERS.fits', 'BEST_FIT_PARAMETERS.fits', 'MODEL_MOLECULES.fits'):
@@ -847,6 +947,7 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
         frame=frame, wave_A=wave_A, flux_raw=flux, err=err, mtrans=mt, flux_corr=corr,
         seg_index=seg_index, molecules=molecules, windows=windows, fit=best,
         fit_molec=dict(fit_flags), err_usable=err_usable, moved=moved,
+        well_mixed=well_mixed, held_at_prior=held,
         gdas=Path(gdas).name, gdas_md5=_md5(gdas), rv_kms=rv_kms,
         berv_kms=barycentric_correction_kms(frame))
 
@@ -941,10 +1042,19 @@ def telluric_residual_gate(fc: FrameCorrection, tol: float = _GATE_TOL) -> dict:
                 'reason': 'no telluric-dominated, stellar-clean pixel in this frame'}
     before = float(np.nanmedian(np.abs(1.0 - raw_cont[sel])))
     after = float(np.nanmedian(np.abs(1.0 - cont[sel])))
+    # 🔴 THE RESIDUAL ALONE IS NOT THE VERDICT. A well-mixed column pegged at zero
+    # leaves that molecule's absorption entirely uncorrected while the D1 residual stays
+    # small, because H2O dominates the scored pixels. Six frames passed in exactly that
+    # state. The gate therefore reports BOTH, and `passed` requires both.
+    wm = getattr(fc, 'well_mixed', None) or {}
+    wm_ok = bool(wm.get('passed', True))
     return {'n_px': int(sel.sum()), 'n_chips': len(chips),
             'residual_before': before, 'residual_after': after,
             'improvement': (before - after) / before if before > 0 else float('nan'),
-            'tol': tol, 'passed': bool(after <= tol), 'chips': chips}
+            'tol': tol, 'residual_passed': bool(after <= tol),
+            'well_mixed_passed': wm_ok,
+            'well_mixed_flagged': wm.get('flagged', []),
+            'passed': bool(after <= tol) and wm_ok, 'chips': chips}
 
 
 # ── Radial velocity from the CORRECTED spectrum ───────────────────────────────
@@ -1282,6 +1392,17 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     _num(h, 'GATEAFT', gate['residual_after'], 'D1 residual AFTER correction', 5)
     h['GATENPX'] = gate['n_px']
     h['GATEPASS'] = (gate['passed'], f"tol={gate.get('tol')}")
+    h['GATERES'] = (gate.get('residual_passed', gate['passed']), 'D1 residual within tol')
+    h['GATEWM'] = (gate.get('well_mixed_passed', True),
+                   'well-mixed columns physically plausible')
+    for i, f in enumerate(gate.get('well_mixed_flagged', [])[:4], 1):
+        h[f'WMFLAG{i}'] = (f"{f['molecule']} {f['rel_col']:.3f} {f['direction']}",
+                           'a well-mixed column is not a free parameter')
+    # A HELD molecule is modelled but NOT measured. Say so in the product, so no reader
+    # ever reports its column as a measurement of this night's atmosphere.
+    if getattr(fc, 'held_at_prior', None):
+        h['WMHELD'] = (','.join(fc.held_at_prior)[:68],
+                       'held at profile column: MODELLED, not measured')
     _num(h, 'BERV', fc.berv_kms, 'km/s, add to topocentric RV', 5)
     _num(h, 'RVTOPO', rv.get('rv_topo_kms'), 'km/s, measured')
     _num(h, 'RVBARY', rv.get('rv_bary_kms'), 'km/s')
@@ -1363,7 +1484,8 @@ def gdas_gate(night=None, site: str = 'paranal', mjds=()) -> dict:
 
 
 def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
-            n_windows: int = 4, limit=None, one_per_setting: bool = False) -> dict:
+            n_windows: int = 4, limit=None, one_per_setting: bool = False,
+            only=None) -> dict:
     """The whole ticket for one declared set: GDAS gate → per-frame telluric correction
     → RV → star ID → residual gate → product. Frames the star-ID gate does not confirm
     are QUARANTINED: their correction is kept (it is real work and star-agnostic) but
@@ -1401,6 +1523,23 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
             if cur is None or (fr.snr or 0) > (cur.snr or 0):
                 best[fr.wlen_id] = fr
         frames = [best[k] for k in sorted(best)]
+    if only:
+        # RE-RUN mode: name the frames to redo, by any unambiguous substring of the IDP
+        # filename. Used after a code change that alters SOME frames -- re-running the
+        # whole set would spend hours re-deriving products that are provably identical.
+        # A pattern matching nothing is an ERROR, never a silent empty run: a typo must
+        # not read as "that frame is fine now".
+        picked, unmatched = [], []
+        for pat in only:
+            hit = [fr for fr in frames if pat in fr.path.name]
+            if not hit:
+                unmatched.append(pat)
+            picked.extend(fr for fr in hit if fr not in picked)
+        if unmatched:
+            raise ValueError(
+                f"{name}: --only matched nothing for {unmatched}. "
+                f"Available: {sorted(fr.path.name for fr in frames)}")
+        frames = picked
     frames = frames[:limit]
     gate0 = gdas_gate(mjds=[f.mjd for f in frames])
 
@@ -1523,6 +1662,9 @@ def main(argv=None):
     ap.add_argument('--one-per-setting', action='store_true',
                     help='band-coverage mode: the highest-SNR frame of each WLEN setting')
     ap.add_argument('--n-windows', type=int, default=4)
+    ap.add_argument('--only', action='append', default=None,
+                    help='re-run ONLY frames whose IDP filename contains this '
+                         '(repeatable); a pattern that matches nothing is an error')
     ap.add_argument('--work-root', default=None)
     ap.add_argument('--out-dir', default=None)
     ap.add_argument('--json', default=None, help='write the run record here')
@@ -1564,7 +1706,7 @@ def main(argv=None):
 
     out = run_set(a.set_name, work_root=a.work_root, out_dir=a.out_dir,
                   n_windows=a.n_windows, limit=a.limit,
-                  one_per_setting=a.one_per_setting)
+                  one_per_setting=a.one_per_setting, only=a.only)
     for r in out['frames']:
         print(f"{r['wlen_id']:6s} chi2 {r['initial_chi2']:.4g} -> {r['best_chi2']:.4g}  "
               f"PWV {r['h2o_col_mm']:.3f} mm  gate {r['gate_before']:.4f} -> "
