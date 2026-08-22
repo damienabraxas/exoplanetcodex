@@ -829,7 +829,15 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # RYA-906 — emitted BESIDE sigma, never without it. On its own
                 # `profile_sigma_A` cannot be read: the two are degenerate in a Voigt
                 # fit, and judging a line by sigma alone is the defect this replaced.
-                profile_gamma_A=l.profile_gamma_A)
+                profile_gamma_A=l.profile_gamma_A,
+                # RYA-959 — the observed core and the width the integrated EW implies
+                # against it, carried for the same reason as the two fields above and
+                # with a sharper one: RYA-958 diagnosed a contaminated pool by
+                # RECONSTRUCTING this quantity by hand, from a MODEL depth out of
+                # linelist_solar.csv, because no artifact in the chain recorded the
+                # observed one. Stopping it at the EW file would guarantee the next RCA
+                # reconstructs it again — the RYA-843 `red_chi2` omission exactly.
+                observed_depth=l.observed_depth, implied_width_A=l.implied_width_A)
 
 
 def main() -> None:
