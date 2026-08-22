@@ -515,7 +515,8 @@ def synthesis_route(a, pol) -> None:
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
     ctx = build_solar_context(a.element, R, linelist_file=str(cfg.linelist),
-                              apply_canonical_gf=prov_gf["apply_canonical_gf"])
+                              apply_canonical_gf=prov_gf["apply_canonical_gf"],
+                              star=a.star)
     segs = _kp_segments()
     hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
 
