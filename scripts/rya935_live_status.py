@@ -449,6 +449,19 @@ def collect_telluric(audit_root: Path) -> list[dict]:
 #: pixels molecfit calls telluric-DOMINATED and the star's own line list calls CLEAN.
 #: They answer different questions and are not comparable as numbers, so each row names
 #: the metric it carries (RYA-873: report a value under its DERIVED name).
+#: Which corrected holding each ticket's evidence directory belongs to. Keyed here
+#: because the manifest records products, and the HOLDING is what the registry and the
+#: reader think in.
+_AUDIT_DIR_HOLDING = {
+    'rya963_crires_telluric': 'alpha_cen_a_crires_plus_molecfit',
+    'rya973_crires_telluric': 'tau_cet_crires_plus_molecfit',
+}
+
+
+def _holding_for_audit_dir(name: str) -> str:
+    return _AUDIT_DIR_HOLDING.get(name, name)
+
+
 def _stellar_crires(audit_root: Path) -> list[dict]:
     """Per-frame D1 residuals from the CRIRES+ stellar corrections (RYA-963, RYA-973)."""
     import csv
@@ -462,6 +475,11 @@ def _stellar_crires(audit_root: Path) -> list[dict]:
                 continue
             rows.append({
                 "window": f"{r.get('wlen_id', '?')} ({r.get('band', '?')} band)",
+                # Name the INSTRUMENT and the HOLDING. The audit directory is where the
+                # evidence lives, not what was corrected, and a reader scanning for
+                # "CRIRES" found nothing because every row said rya963_crires_telluric.
+                "instrument": "crires_plus",
+                "holding": _holding_for_audit_dir(manifest.parent.name),
                 "product": manifest.parent.name, "ticket": ticket,
                 "star_id": r.get("star_id", ""), "date_obs": r.get("date_obs", ""),
                 # NOT-contested and NOBODY-RECORDED-IT are different states and the
@@ -500,6 +518,88 @@ def _harps_state(audit_root: Path) -> list[dict]:
     return rows
 
 
+def telluric_summary(rows: list[dict], instruments: list[dict]) -> dict:
+    """The narrative state of telluric work, DERIVED from the rows the collectors found.
+
+    The page needs prose, not just a table — a reader should be able to see at a glance
+    what is corrected, what is merely determined, and what is blocked and why. But prose
+    with numbers typed into it is the exact failure RYA-935 exists to prevent, so every
+    figure here is computed from the same evidence the tables render, and the page only
+    formats it."""
+    from collections import defaultdict
+    corrected = defaultdict(lambda: {'products': 0, 'pass': 0, 'fail': 0,
+                                     'bands': set(), 'settings': set(), 'tickets': set()})
+    for r in rows:
+        if r.get('metric') != 'd1_residual':
+            continue
+        k = (r.get('instrument', '?'), r.get('holding', '?'))
+        e = corrected[k]
+        e['products'] += 1
+        e['pass' if r.get('gate_passed') else 'fail'] += 1
+        w = str(r.get('window', ''))
+        if '(' in w:
+            e['bands'].add(w.split('(')[1].split()[0])
+        e['settings'].add(w.split(' (')[0])
+        if r.get('ticket'):
+            e['tickets'].add(r['ticket'])
+
+    solar = [r for r in rows if r.get('metric', 'pct_below_0.5') == 'pct_below_0.5']
+    solar_corrected = [r for r in solar if r.get('after_pct_below_0.5') is not None]
+    determined = [{'holding': r.get('product'), 'window': r.get('window'),
+                   'header_state': r.get('header_state'), 'flux_state': r.get('flux_state'),
+                   'excess_ratio': r.get('excess_ratio'), 'ticket': r.get('ticket')}
+                  for r in rows if str(r.get('metric', '')).startswith('state_only')]
+    uncorrected = [i for i in instruments if i.get('telluric_applied') == 'not-applied']
+
+    return {
+        'corrected_stellar': [
+            {'instrument': k[0], 'holding': k[1], 'products': v['products'],
+             'gates_pass': v['pass'], 'gates_fail': v['fail'],
+             'bands': sorted(v['bands']), 'settings': sorted(v['settings']),
+             'tickets': sorted(v['tickets'])}
+            for k, v in sorted(corrected.items())],
+        'corrected_solar_bands': len(solar_corrected),
+        'solar_bands_not_corrected': len(solar) - len(solar_corrected),
+        'determined_not_corrected': determined,
+        'holdings_still_not_applied': [i.get('holding') for i in uncorrected],
+        # Facts about the world, each carrying the ticket that established it. Declared
+        # rather than derived because no artifact in this repo can measure them.
+        'blockers': [
+            {'what': 'HARPS / any La Silla instrument',
+             'why': ('ESO ships a GDAS tarball for PARANAL ONLY, so a per-night La Silla '
+                     'profile had to be pulled by hand. RYA-983 automated the NOAA ARL '
+                     'archive (byte-range, 10.7 MB per night rather than 599 MB), so this '
+                     'is unblocked but not yet run.'),
+             'ticket': 'RYA-983'},
+            {'what': 'any night before 2004-12-01',
+             'why': ('the NOAA ARL GDAS1 archive begins there. Under the RYA-380 '
+                     'no-standard-atmosphere rule those frames can never be corrected by '
+                     'this route — a PERMANENT gap, not a backlog item. Three of tau '
+                     "Ceti's 32 HARPS nights sit below it."),
+             'ticket': 'RYA-983'},
+            {'what': 'scoring a corrected stellar spectrum',
+             'why': ('measure_band_ew._INSTRUMENT_HOLDINGS still contains no non-solar '
+                     'holding and HoldingSpec carries no star, so there is nothing to '
+                     'point the harness at. RYA-985 made the synthesis star-generic; the '
+                     'holding half is open.'),
+             'ticket': 'RYA-985'},
+        ],
+        'caveats': [
+            {'what': 'the K-band telluric anchor',
+             'note': ('Y/J/H close within 1.93 km/s on every frame; K2148 and K2192 rail '
+                      'on tau Ceti and K2148 failed on alpha Cen. The CORRECTION is '
+                      'unaffected (the fit is topocentric and never uses the zero-point) '
+                      'but an absolute RV from a K frame is not trustworthy.'),
+             'ticket': 'RYA-973'},
+            {'what': "alpha Cen's A/B star id",
+             'note': ('rests on the acen_orbit branch assignment RYA-963 left CONTESTED: '
+                      'the CRIRES pair says it is inverted, RYA-384\'s NIRPS anchor says '
+                      'it is not, and both cannot be right.'),
+             'ticket': 'RYA-963'},
+        ],
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--products-root", type=Path, action="append", default=None)
@@ -529,9 +629,10 @@ def main() -> None:
         "elements": None,   # filled below, once the reference is read
         "elements_with_products": sorted({p["element"] + p["ion"] for p in products}),
         "bands": ["near-UV", "VIS", "red-optical", "NIR"],
-        "instruments": collect_instruments(),
+        "instruments": (_inst := collect_instruments()),
         "products": products,
-        "telluric": collect_telluric(args.audit_root),
+        "telluric": (_tel := collect_telluric(args.audit_root)),
+        "telluric_summary": None,       # filled below; needs both lists
         "reference": collect_reference(ROOT),
         "graded": collect_graded(ROOT),
         "reporting_contract": {
@@ -543,6 +644,7 @@ def main() -> None:
         },
     }
     status["elements"] = sorted(status["reference"])
+    status["telluric_summary"] = telluric_summary(_tel, _inst)
     status["system"] = "solar"   # the framework is per-star; this build is the Sun
 
     # WHY a cell is empty. Computed once per (holding, band) and NOT per element,

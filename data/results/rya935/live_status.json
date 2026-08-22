@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T22:14:02+00:00",
+  "generated": "2026-08-22T22:19:33+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -949,6 +949,8 @@
     },
     {
       "window": "H1559 (H band)",
+      "instrument": "crires_plus",
+      "holding": "alpha_cen_a_crires_plus_molecfit",
       "product": "rya963_crires_telluric",
       "ticket": "RYA-963",
       "star_id": "B",
@@ -962,6 +964,8 @@
     },
     {
       "window": "H1582 (H band)",
+      "instrument": "crires_plus",
+      "holding": "alpha_cen_a_crires_plus_molecfit",
       "product": "rya963_crires_telluric",
       "ticket": "RYA-963",
       "star_id": "B",
@@ -975,6 +979,8 @@
     },
     {
       "window": "J1232 (J band)",
+      "instrument": "crires_plus",
+      "holding": "alpha_cen_a_crires_plus_molecfit",
       "product": "rya963_crires_telluric",
       "ticket": "RYA-963",
       "star_id": "B",
@@ -988,6 +994,8 @@
     },
     {
       "window": "K2148 (K band)",
+      "instrument": "crires_plus",
+      "holding": "alpha_cen_a_crires_plus_molecfit",
       "product": "rya963_crires_telluric",
       "ticket": "RYA-963",
       "star_id": "INDETERMINATE",
@@ -1001,6 +1009,8 @@
     },
     {
       "window": "K2192 (K band)",
+      "instrument": "crires_plus",
+      "holding": "alpha_cen_a_crires_plus_molecfit",
       "product": "rya963_crires_telluric",
       "ticket": "RYA-963",
       "star_id": "B",
@@ -1014,6 +1024,8 @@
     },
     {
       "window": "Y1029 (Y band)",
+      "instrument": "crires_plus",
+      "holding": "alpha_cen_a_crires_plus_molecfit",
       "product": "rya963_crires_telluric",
       "ticket": "RYA-963",
       "star_id": "B",
@@ -1027,6 +1039,8 @@
     },
     {
       "window": "H1559 (H band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1040,6 +1054,8 @@
     },
     {
       "window": "H1582 (H band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1053,6 +1069,8 @@
     },
     {
       "window": "J1232 (J band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1066,6 +1084,8 @@
     },
     {
       "window": "K2148 (K band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1079,6 +1099,8 @@
     },
     {
       "window": "K2148 (K band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1092,6 +1114,8 @@
     },
     {
       "window": "K2148 (K band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1105,6 +1129,8 @@
     },
     {
       "window": "K2148 (K band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1118,6 +1144,8 @@
     },
     {
       "window": "K2148 (K band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1131,6 +1159,8 @@
     },
     {
       "window": "K2192 (K band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1144,6 +1174,8 @@
     },
     {
       "window": "Y1029 (Y band)",
+      "instrument": "crires_plus",
+      "holding": "tau_cet_crires_plus_molecfit",
       "product": "rya973_crires_telluric",
       "ticket": "RYA-973",
       "star_id": "tau_ceti",
@@ -1177,6 +1209,104 @@
       "externally_validated": true
     }
   ],
+  "telluric_summary": {
+    "corrected_stellar": [
+      {
+        "instrument": "crires_plus",
+        "holding": "alpha_cen_a_crires_plus_molecfit",
+        "products": 6,
+        "gates_pass": 6,
+        "gates_fail": 0,
+        "bands": [
+          "H",
+          "J",
+          "K",
+          "Y"
+        ],
+        "settings": [
+          "H1559",
+          "H1582",
+          "J1232",
+          "K2148",
+          "K2192",
+          "Y1029"
+        ],
+        "tickets": [
+          "RYA-963"
+        ]
+      },
+      {
+        "instrument": "crires_plus",
+        "holding": "tau_cet_crires_plus_molecfit",
+        "products": 10,
+        "gates_pass": 9,
+        "gates_fail": 1,
+        "bands": [
+          "H",
+          "J",
+          "K",
+          "Y"
+        ],
+        "settings": [
+          "H1559",
+          "H1582",
+          "J1232",
+          "K2148",
+          "K2192",
+          "Y1029"
+        ],
+        "tickets": [
+          "RYA-973"
+        ]
+      }
+    ],
+    "corrected_solar_bands": 7,
+    "solar_bands_not_corrected": 1,
+    "determined_not_corrected": [
+      {
+        "holding": "tau_ceti_harps",
+        "window": "6867-6884 A",
+        "header_state": "unknown",
+        "flux_state": "not-applied",
+        "excess_ratio": 203.46061140505583,
+        "ticket": "RYA-973"
+      }
+    ],
+    "holdings_still_not_applied": [
+      "solar_harps",
+      "solar_kpno",
+      "solar_vesta_crires_plus_idp"
+    ],
+    "blockers": [
+      {
+        "what": "HARPS / any La Silla instrument",
+        "why": "ESO ships a GDAS tarball for PARANAL ONLY, so a per-night La Silla profile had to be pulled by hand. RYA-983 automated the NOAA ARL archive (byte-range, 10.7 MB per night rather than 599 MB), so this is unblocked but not yet run.",
+        "ticket": "RYA-983"
+      },
+      {
+        "what": "any night before 2004-12-01",
+        "why": "the NOAA ARL GDAS1 archive begins there. Under the RYA-380 no-standard-atmosphere rule those frames can never be corrected by this route \u2014 a PERMANENT gap, not a backlog item. Three of tau Ceti's 32 HARPS nights sit below it.",
+        "ticket": "RYA-983"
+      },
+      {
+        "what": "scoring a corrected stellar spectrum",
+        "why": "measure_band_ew._INSTRUMENT_HOLDINGS still contains no non-solar holding and HoldingSpec carries no star, so there is nothing to point the harness at. RYA-985 made the synthesis star-generic; the holding half is open.",
+        "ticket": "RYA-985"
+      }
+    ],
+    "caveats": [
+      {
+        "what": "the K-band telluric anchor",
+        "note": "Y/J/H close within 1.93 km/s on every frame; K2148 and K2192 rail on tau Ceti and K2148 failed on alpha Cen. The CORRECTION is unaffected (the fit is topocentric and never uses the zero-point) but an absolute RV from a K frame is not trustworthy.",
+        "ticket": "RYA-973"
+      },
+      {
+        "what": "alpha Cen's A/B star id",
+        "note": "rests on the acen_orbit branch assignment RYA-963 left CONTESTED: the CRIRES pair says it is inverted, RYA-384's NIRPS anchor says it is not, and both cannot be right.",
+        "ticket": "RYA-963"
+      }
+    ]
+  },
   "reference": {
     "FeI": {
       "asplund2021": 7.46,
