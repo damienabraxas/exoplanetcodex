@@ -30,14 +30,17 @@ WSTEP_NM = 0.0002
 
 def main() -> None:
     out = sys.argv[1]
+    # RYA-985: optional second argument, defaulting to solar so the existing invocation is
+    # unchanged. Same single source as the rest of the chain — no STAR_PARAMS["solar"] here.
+    star = sys.argv[2] if len(sys.argv) > 2 else "solar"
     from scripts.control_synthesis_handler import build_context
     from pipeline.abundances_derive import _synth_flux_at_abund, _fit_synth_flux
-    from config.constants import STAR_PARAMS
+    from config.constants import get_star_params
 
-    p = STAR_PARAMS["solar"]
+    p = get_star_params(star)
     teff, logg = float(p["teff"]), float(p["logg"])
     feh = float(p.get("feh", p.get("feh_ref", 0.0)))
-    ctx = build_context("Fe", "I", 500000.0)
+    ctx = build_context("Fe", "I", 500000.0, star=star)
 
     kw = dict(atmosphere=ctx["atmosphere"], teff=teff, logg=logg, feh=feh,
               vturb=ctx["vturb"], linelist=ctx["linelist"], isotopes=ctx["isotopes"],

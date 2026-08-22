@@ -85,7 +85,7 @@ PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHand
 
 
 def engine_a_delta(element: str, ion: str, waves: np.ndarray,
-                   cache: str | None = None) -> dict[float, float]:
+                   cache: str | None = None, star: str = "solar") -> dict[float, float]:
     """Per-line Engine-A departure corrections. Missing = not served.
 
     Fe is served by the live MPIA query.  Every other registered element is served by
@@ -103,10 +103,18 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
         return {float(k): float(v) for k, v in d.items()}
     sys.path.insert(0, str(ROOT))
     from scripts.build_nlte_grids_mpia import _submit_batch
-    from config.constants import STAR_PARAMS
-    p = STAR_PARAMS["solar"]
-    node = [dict(name="sun", teff_K=int(round(float(p["teff"]))),
-                 logg=float(p["logg"]), feh=0.0)]
+    from config.constants import get_star_params
+    p = get_star_params(star)          # RYA-985: loud-fails on an unknown star
+    is_sun = star == "solar"
+    # 🔴 THE GRID NODE MUST BE THIS STAR'S NODE. `feh` was pinned to 0.0 here, so every
+    # request fetched the SOLAR departure coefficients whatever star was being measured.
+    # For tau Ceti at [Fe/H] = -0.49 that is not a rounding difference — it is the NLTE
+    # correction of a different star, arriving as a plausible number. Mirrors the is_sun
+    # pattern already in `pipeline/nlte_cno.py`.
+    feh = 0.0 if is_sun else float(p["feh_ref"])
+    node = [dict(name=("sun" if is_sun else star),
+                 teff_K=int(round(float(p["teff"]))),
+                 logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
         from pipeline.nlte_corrections import _mpia_element_delta
         from pipeline.species import parse_ion
@@ -118,7 +126,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
         out = {}
         for wave in waves:
             delta = _mpia_element_delta(
-                element, float(wave), float(p["teff"]), float(p["logg"]), 0.0,
+                element, float(wave), float(p["teff"]), float(p["logg"]), feh,
                 tol=0.06)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
@@ -131,7 +139,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
     for i in range(0, len(waves), 40):          # MPIA dislikes very long batches
         chunk = [float(w) for w in waves[i:i + 40]]
         try:
-            r = _submit_batch(chunk, code, node).get("sun", {})
+            r = _submit_batch(chunk, code, node).get(node[0]["name"], {})
         except Exception as e:
             print(f"    MPIA batch {i//40} failed: {type(e).__name__}: {str(e)[:80]}")
             continue
@@ -214,6 +222,109 @@ NEARUV_N_LINES = _NEARUV.n_lines
 _EW_MATCH_TOL_A = 0.005
 
 
+def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
+                     idx_sorted: np.ndarray) -> tuple[list, list]:
+    """Wavelengths -> row indices in the synthesis list. Shared by every selector.
+
+    Nearest-within-tolerance, never a rounded key (RYA-703/704). Factored out rather than
+    copied into the second selector: RYA-701 measured that one Ba->Al copy produced 13
+    defects, and a matcher that drifts between two selectors would silently change which
+    lines a comparison is run on.
+    """
+    keep, missing = [], []
+    for w in want:
+        j = int(np.searchsorted(w_sorted, w))
+        best, bi = np.inf, -1
+        for k in (j - 1, j, j + 1):
+            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
+                best, bi = abs(w_sorted[k] - w), k
+        if bi >= 0 and best <= _EW_MATCH_TOL_A:
+            keep.append(idx_sorted[bi])
+        else:
+            missing.append((float(w), float(best)))
+    return keep, missing
+
+
+def _feature_depth(waves: np.ndarray) -> np.ndarray:
+    """Each line's FEATURE depth, grouped exactly as `line_accounting_rya709.features()`.
+
+    🔴 THE GROUPING IS THE POINT, NOT AN IMPLEMENTATION DETAIL. That script groups list
+    rows within `GROUP_A` and takes the MAX central_depth over the group, so "this line's
+    depth" is the depth of the blended FEATURE it belongs to. Recomputing it any other way
+    here would select a different population from the one the EW route gated on, and the
+    whole claim of this run — that these are the lines EW could never reach — rests on the
+    two agreeing. Thresholds are imported, never re-typed.
+    """
+    from line_accounting_rya709 import GROUP_A, DEPTH_HI            # noqa: F401
+    ls = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
+    a = ls[ls.element == "Fe"].sort_values("wavelength_air_A").copy()
+    a["_k"] = (a.wavelength_air_A.diff().fillna(9e9) > GROUP_A).cumsum()
+    f = a.groupby("_k").agg(w=("wavelength_air_A", "mean"),
+                            d=("central_depth", "max")).reset_index(drop=True)
+    fw, fd = f.w.values, f.d.values
+    return np.array([fd[int(np.argmin(np.abs(fw - w)))] for w in waves])
+
+
+def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
+    """The graded lines EW can NEVER reach: laboratory gf AND too deep to measure — RYA-984.
+
+    🔴 WHY A THIRD SELECTOR. `--lines-from-ew` reads the EW artifact, which is written
+    AFTER `line_accounting_rya709`'s [0.05, 0.60] depth triage, so the deep population is
+    invisible to it BY CONSTRUCTION (measured on RYA-967: the 55 it returned top out at
+    depth 0.595). `select_lines` would pick its own strongest-N and vary selection as well
+    as method (RYA-842). Neither can express "every graded line above the depth gate".
+
+    These are the anchor-grower. EW dies on them because the curve of growth goes flat;
+    synthesis fits flux-space chi2 and inverts no equivalent width, so the REW saturation
+    ceiling never applies to any of them (`pipeline/measure/synthesis.py:277`).
+    """
+    from line_accounting_rya709 import DEPTH_HI
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
+             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & cg.wavelength_air_A.between(lo_A, hi_A)]
+    if lab.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"to run a 'graded' product on a pool that is not graded.")
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    deep = lab[depth > DEPTH_HI]
+    print(f"  [deep-graded] {len(lab)} LAB-tier {species} lines in band; "
+          f"{len(deep)} above the {DEPTH_HI} depth gate that EW could never attempt "
+          f"({len(lab) - len(deep)} are in or below the EW window and belong to RYA-967)")
+    if deep.empty:
+        raise SystemExit("no graded line in this band sits above the EW depth gate")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    idx_all = np.flatnonzero(el == species)
+    if not idx_all.size:
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    order = np.argsort(w_A[idx_all])
+    idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+
+    keep, missing = _match_into_list(
+        np.sort(deep.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+    if missing:
+        # LOUD (RYA-711/833). A graded line the synthesis list does not carry is not
+        # "not recovered" — it was never a candidate, and the distinction is the whole
+        # reason RYA-977 exists.
+        print(f"  [deep-graded] {len(missing)} of {len(deep)} are NOT in the synthesis "
+              f"list (>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported "
+              f"rather than counted as failures (RYA-977 territory)")
+    if not keep:
+        raise SystemExit("no deep graded line matched the synthesis list")
+    keep = np.array(sorted(set(keep)))
+    return pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+
 def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
                            species: str, tier: str) -> pd.DataFrame:
     """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
@@ -250,17 +361,7 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     idx_sorted = idx_all[order]
     w_sorted = w_A[idx_sorted]
 
-    keep, missing = [], []
-    for w in want.values:
-        j = int(np.searchsorted(w_sorted, w))
-        best, bi = np.inf, -1
-        for k in (j - 1, j, j + 1):
-            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
-                best, bi = abs(w_sorted[k] - w), k
-        if bi >= 0 and best <= _EW_MATCH_TOL_A:
-            keep.append(idx_sorted[bi])
-        else:
-            missing.append((float(w), float(best)))
+    keep, missing = _match_into_list(want.values, w_sorted, idx_sorted)
     # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
     # does not contain cannot be compared, and the count is itself a result: it is the
     # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
@@ -303,6 +404,21 @@ def _graded_mask(waves: np.ndarray) -> np.ndarray:
         j = np.clip(i + off, 0, len(lw) - 1)
         best = np.minimum(best, np.abs(lw[j] - waves))
     return best <= _EW_MATCH_TOL_A
+
+
+def _selector_tag(a) -> str:
+    """How the lines were chosen, as part of the artifact name — RYA-984.
+
+    A product is identified by what it MEASURED, and the line set is part of that. Two
+    runs differing only in selector are two different products and must not collide.
+    The default selector is unlabelled so every pre-RYA-984 artifact keeps its name.
+    """
+    if getattr(a, "lines_deep_graded", False):
+        return "_DEEPGRADED"
+    if getattr(a, "lines_from_ew", None):
+        tier = getattr(a, "lines_tier", "all")
+        return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
+    return ""
 
 
 def synthesis_route(a, pol) -> None:
@@ -399,7 +515,8 @@ def synthesis_route(a, pol) -> None:
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
     ctx = build_solar_context(a.element, R, linelist_file=str(cfg.linelist),
-                              apply_canonical_gf=prov_gf["apply_canonical_gf"])
+                              apply_canonical_gf=prov_gf["apply_canonical_gf"],
+                              star=a.star)
     segs = _kp_segments()
     hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
 
@@ -467,7 +584,10 @@ def synthesis_route(a, pol) -> None:
     # every one was labelled Fe II. `species_token` spells the ion the way the linelist
     # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
     # none of that species — which is the honest answer where it holds none.
-    if getattr(a, "lines_from_ew", None):
+    if getattr(a, "lines_deep_graded", False):
+        cand = _cand_deep_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                                 species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_from_ew", None):
         cand = _cand_from_ew_artifact(ctx["linelist"], Path(a.lines_from_ew),
                                       lo_A=a.lo, hi_A=a.hi,
                                       species=species_token(a.element, a.ion),
@@ -709,10 +829,22 @@ def synthesis_route(a, pol) -> None:
     # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
     # differing by whether tellurics were removed would otherwise write the same
     # filename, and the second would silently overwrite the first.
+    # 🔴 RYA-984 — THE SELECTOR BELONGS IN THE STEM, and it did not used to be.
+    #
+    # This route now has three line-selection modes, and two of them produce a DIFFERENT
+    # SCIENTIFIC PRODUCT over the same element, band, instrument and holding: RYA-967's
+    # shallow graded set (55 lines, the EW-comparable ones) and RYA-984's deep graded set
+    # (109 lines, the ones EW can never attempt). Both wrote
+    # `FeI_4200_6910_kpno_solar_atlas_SYNTH_*`, so the second silently overwrote the first
+    # — the RYA-933/934 defect exactly, which that ticket fixed for the HOLDING axis and
+    # left open for the SELECTION axis.
+    #
+    # Caught 30 seconds into the first deep run, before it clobbered a committed product.
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
     if a.holding:
         stem += f"_{a.holding}"
     stem += "_SYNTH"
+    stem += _selector_tag(a)
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
 
@@ -932,6 +1064,10 @@ def asdict_line(l: LineMeasurement) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--star", default="solar",
+                    help="star id from config/stars.yaml (RYA-298 single source). Default "
+                         "'solar' keeps every existing invocation bit-identical; any other "
+                         "value drives BOTH the atmosphere and the NLTE grid node (RYA-985).")
     ap.add_argument("--element", required=True)
     ap.add_argument("--ion", default="I")
     ap.add_argument("--lo", type=float, required=True)
@@ -952,6 +1088,11 @@ def main() -> None:
                          "the synth leg picks its own (stronger) lines and any difference "
                          "in A(X) conflates method with selection — RYA-842, line "
                          "selection dominates.")
+    ap.add_argument("--lines-deep-graded", action="store_true",
+                    help="RYA-984: select the laboratory-graded lines that sit ABOVE the "
+                         "EW depth gate — the ones EW can never attempt because the curve "
+                         "of growth is flat there. Synthesis inverts no EW, so the "
+                         "saturation ceiling does not apply to them.")
     ap.add_argument("--lines-tier", choices=["all", "graded", "ungraded"], default="all",
                     help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
                          "as their own product, never merged with the ungraded ones.")
@@ -1076,7 +1217,7 @@ def main() -> None:
     # ── 1D-LTE ────────────────────────────────────────────────────────────────
     print("\n[1] 1D-LTE via the project's Turbospectrum curve-of-growth...")
     from scripts.control_synthesis_handler import build_context
-    ctx = build_context(a.element, a.ion, 500000.0)
+    ctx = build_context(a.element, a.ion, 500000.0, star=a.star)
     from pipeline.abundances_derive import _bisect_synth_abundance
     acc = pd.read_csv(ROOT / "data" / "audit" / "line_accounting" / "per_line.csv")
 
@@ -1133,7 +1274,8 @@ def main() -> None:
     used = [l for l in rows if l.in_aggregate and l.abundance is not None]
     deltas = engine_a_delta(a.element, a.ion,
                             np.array([l.wavelength_air_A for l in used]),
-                            cache=a.mpia_cache)
+                            cache=a.mpia_cache,
+                            star=a.star)
     rows_a: list[LineMeasurement] = []
     for l in used:
         # Tolerance match -- the cache keys are rounded, and two catalogues quoting the
