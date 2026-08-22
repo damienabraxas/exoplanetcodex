@@ -1,0 +1,187 @@
+"""RYA-963 — the CRIRES+ stellar telluric driver.
+
+These pin the invariants the ticket had to establish the hard way. Each one corresponds
+to a failure that reported SUCCESS: the run finished, wrote products, and returned 0
+while producing an uncorrected or unmodelled spectrum. That class is why the assertions
+are in the code and not only in a comment.
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+import numpy as np
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from pipeline import crires_stellar_telluric as cst   # noqa: E402
+from pipeline.crires_telluric import (                # noqa: E402
+    TELLURIC_MOLECULES_BY_BAND, molecules_for_band)
+from pipeline.telluric.esorex_runtime import (        # noqa: E402
+    SUPPRESS_PREFIX, esorex_env, gdas_dirs)
+
+
+# ── esorex runtime: one resolver, and the flag that must never be inherited ──
+def test_suppress_prefix_is_explicit_and_true():
+    """RYA-939: esorex takes --suppress-prefix from ~/.esorex/esorex.rc when not given,
+    and the two machines disagree (Mac: no rc; Sirius source kit: FALSE). Under FALSE the
+    recipe succeeds and writes out_0000.fits… so BEST_FIT_MODEL.fits is simply absent and
+    the run reads as 'failed (rc=0)'."""
+    assert SUPPRESS_PREFIX == "--suppress-prefix=TRUE"
+
+
+def test_gdas_dirs_include_the_registered_eso_prefix():
+    """The retriever globbed only Homebrew and /usr/share/esopipes, so on Sirius — where
+    the ESO source kit ships the same Paranal tarball — GDASUnavailable would have fired
+    on a profile sitting on the disk. Loud-failing for the wrong reason is still wrong."""
+    pats = gdas_dirs()
+    assert any('/srv/codex/eso' in p or 'CODEX_ESO' in p or 'molecfit' in p for p in pats)
+    assert any('homebrew' in p for p in pats), "the Mac install must stay reachable too"
+
+
+def test_esorex_env_adds_the_kit_lib_dir(tmp_path):
+    (tmp_path / 'bin').mkdir()
+    (tmp_path / 'lib').mkdir()
+    exe = tmp_path / 'bin' / 'esorex'
+    exe.write_text('#!/bin/sh\n')
+    env = esorex_env(str(exe), base={'PATH': '/usr/bin'})
+    assert str(tmp_path / 'bin') in env['PATH']
+    assert str(tmp_path / 'lib') in env['LD_LIBRARY_PATH']
+
+
+# ── molecule sets ────────────────────────────────────────────────────────────
+def test_every_crires_band_declares_its_molecules():
+    for band in 'YJHK':
+        assert molecules_for_band(band), band
+
+
+def test_unknown_band_is_loud_not_defaulted():
+    """The K-band set is not a safe default for a bluer band; fitting a molecule with no
+    band in the window is a free parameter with nothing to constrain it."""
+    with pytest.raises(ValueError):
+        molecules_for_band('Z')
+
+
+def test_declared_band_molecules_all_have_a_band_table_entry():
+    for band, mols in TELLURIC_MOLECULES_BY_BAND.items():
+        for m in mols:
+            assert m in cst.MOLECULE_BANDS_UM, f"{band}: {m} has no absorption bands listed"
+
+
+def test_o2_is_fitted_in_J_but_not_in_K():
+    """The 1.27 µm O2 band is in J and nowhere near K; the band sets must reflect that
+    rather than carrying one molecule list everywhere."""
+    assert 'O2' in molecules_for_band('J')
+    assert 'O2' not in molecules_for_band('K')
+
+
+# ── the fit-moved invariant ──────────────────────────────────────────────────
+def _frozen_fit():
+    """What molecfit actually returned when WLC_CONST put the model 135 Å off the data:
+    success, all products written, every column at its prior with uncertainty 0."""
+    return {'initial_chi2': (23229447.81, -1.0), 'best_chi2': (23229447.81, -1.0),
+            'rel_mol_col_H2O': (1.0, 0.0), 'rel_mol_col_CH4': (1.0, 0.0),
+            'rel_mol_col_CO2': (1.0, 0.0), 'rel_mol_col_CO': (1.0, 0.0)}
+
+
+def test_a_fit_that_never_moved_is_refused():
+    with pytest.raises(RuntimeError, match='no molecular column was actually fitted'):
+        cst.assert_fit_moved(_frozen_fit(), ['H2O', 'CH4', 'CO2', 'CO'])
+
+
+def test_chi2_that_did_not_improve_is_refused():
+    frozen = _frozen_fit()
+    frozen['rel_mol_col_H2O'] = (1.0, 0.02)      # a column moved…
+    with pytest.raises(RuntimeError, match='chi2 never improved'):
+        cst.assert_fit_moved(frozen, ['H2O'])    # …but the model still did not respond
+
+
+def test_a_real_fit_passes_and_reports_which_columns_moved():
+    good = {'initial_chi2': (1.9e7, -1.0), 'best_chi2': (15101.5, -1.0),
+            'rel_mol_col_H2O': (1.1058, 0.0169), 'rel_mol_col_CH4': (0.9013, 0.0162),
+            'rel_mol_col_CO2': (1e-05, 0.0)}
+    out = cst.assert_fit_moved(good, ['H2O', 'CH4', 'CO2'])
+    assert out['fitted_columns'] == ['H2O', 'CH4']   # CO2 pegged at its floor, unc 0
+
+
+# ── stellar mask + fit planning ──────────────────────────────────────────────
+def test_stellar_intervals_are_merged_and_rv_shifted():
+    lo, hi = 15000.0, 15100.0
+    at_rest = cst.stellar_line_intervals(lo, hi, rv_kms=0.0)
+    shifted = cst.stellar_line_intervals(lo, hi, rv_kms=-40.0)
+    assert at_rest, "the canonical solar list must reach the H band"
+    for a, b in at_rest:
+        assert b > a
+    for (a, b), (c, d) in zip(at_rest, at_rest[1:]):
+        assert c > b, "intervals must be disjoint after merging"
+    # -40 km/s at 1.5 µm is -0.20 Å: a real, sub-mask-width shift
+    assert not np.allclose([x[0] for x in at_rest][:5], [x[0] for x in shifted][:5])
+
+
+def test_stellar_mask_selects_only_inside_intervals():
+    w = np.array([100.0, 200.0, 300.0])
+    assert cst.stellar_mask(w, [(150.0, 250.0)]).tolist() == [False, True, False]
+
+
+def test_informative_fraction_ignores_saturated_cores():
+    """Scoring on 'below 0.97' alone picks the saturated chip, whose cores carry almost
+    no information about the column (dI/dN → 0) while dominating chi2."""
+    w = np.linspace(10000.0, 10060.0, 400)
+    flat = np.ones_like(w)
+    saturated = flat.copy(); saturated[100:300] = 1e-3
+    informative = flat.copy(); informative[100:300] = 0.5
+    stellar = np.zeros_like(w, dtype=bool)
+    assert (cst._absorbed_fraction(w, informative, stellar)
+            > cst._absorbed_fraction(w, saturated, stellar))
+
+
+def test_molecule_band_overlap():
+    assert cst._overlaps(2.29, 2.35, cst.MOLECULE_BANDS_UM['CO'])
+    assert not cst._overlaps(1.95, 2.05, cst.MOLECULE_BANDS_UM['CO'])
+
+
+# ── the sets registry ────────────────────────────────────────────────────────
+def test_unknown_set_is_loud():
+    with pytest.raises(ValueError):
+        cst.resolve_set('no_such_set')
+
+
+def test_alpha_cen_set_declares_its_claim_and_its_gate():
+    rec = cst.resolve_set('alpha_cen_a_crires')
+    assert rec['holding_id'] == 'alpha_cen_a_crires_plus'
+    assert rec['claimed_star'] == 'A'        # a CLAIM, tested by the ID gate
+    assert rec['id_gate'] == 'acen_ab'
+    assert rec['epoch'] == '2022-04-15'
+
+
+def test_singleton_id_gate_is_not_silently_the_acen_orbit():
+    """RYA-965 points this driver at tau Ceti / eps Eri / 55 Cnc, which are singletons.
+    An unimplemented gate must say so, not fall through to the AB orbit."""
+    with pytest.raises(NotImplementedError):
+        cst.identify_star(None, {}, id_gate='rya964_alias')
+
+
+# ── frame table ──────────────────────────────────────────────────────────────
+def test_frame_table_refuses_overlapping_orders():
+    from pipeline.crires_telluric import CriresFrame, CriresSegment
+
+    def seg(lo, hi, o, d):
+        w = np.linspace(lo, hi, 100)
+        return CriresSegment(order=o, detector=d, wave_A=w, flux=np.ones(100),
+                             err=np.ones(100), qual=np.zeros(100, int))
+
+    ok = CriresFrame(path=Path('x.fits'), wlen_id='K2192', band='K', mjd=0.0,
+                     date_obs='', ra=0.0, dec=0.0, snr=1.0, specsys='TOPOCENT',
+                     fluxcal='UNCALIBRATED', wmin_nm=0.0, wmax_nm=1.0,
+                     segments=[seg(2000, 2100, 1, 1), seg(2101, 2200, 1, 2)])
+    w, f, e, ix = cst._frame_table(ok)
+    assert np.all(np.diff(w) > 0)
+    assert set(ix.tolist()) == {0, 1}
+
+    bad = CriresFrame(path=Path('x.fits'), wlen_id='K2192', band='K', mjd=0.0,
+                      date_obs='', ra=0.0, dec=0.0, snr=1.0, specsys='TOPOCENT',
+                      fluxcal='UNCALIBRATED', wmin_nm=0.0, wmax_nm=1.0,
+                      segments=[seg(2000, 2100, 1, 1), seg(2050, 2150, 1, 2)])
+    with pytest.raises(RuntimeError, match='overlap'):
+        cst._frame_table(bad)
