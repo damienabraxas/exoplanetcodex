@@ -269,3 +269,41 @@ def test_the_two_orbit_branches_are_far_enough_apart_to_decide():
     assert abs(p['delta_AB']) > 2 * mod.RV_TOL, (
         f"A and B are only {p['delta_AB']:.2f} km/s apart at this epoch; the "
         f"{mod.RV_TOL} km/s match tolerance cannot separate them")
+
+
+# ── shared-box safety ────────────────────────────────────────────────────────
+def test_a_killed_recipe_is_not_reported_as_a_failed_fit():
+    """rc < 0 is a SIGNAL. Reporting it as 'esorex FAILED' sends the next reader hunting
+    a fit problem that does not exist — the process never got to finish. -9 on Sirius is
+    the OOM killer; dmesg confirmed it for the Y1029 model at 13.7 GB anon RSS."""
+    class P:
+        returncode = -9
+        stdout = ''
+    with pytest.raises(RuntimeError, match='KILLED by SIGKILL'):
+        cst._require_product(P(), Path('/nonexistent'), 'X.fits', 'y')
+
+
+def test_a_killed_recipe_names_the_memory_cap_as_the_likely_cause():
+    class P:
+        returncode = -9
+        stdout = ''
+    with pytest.raises(RuntimeError, match='OOM killer'):
+        cst._require_product(P(), Path('/nonexistent'), 'X.fits', 'y')
+
+
+def test_the_memory_cap_is_set_and_leaves_headroom_on_a_shared_box():
+    """Sirius has 15 GB and is shared. The cap exists so that a runaway of OURS fails
+    with our name on it, instead of the kernel choosing a victim — which on 2026-08-22
+    could as easily have been another session's 2.5-hour synthesis."""
+    assert 0 < cst._MEM_CAP_GIB <= 12
+
+
+def test_relative_window_floor_drops_windows_that_carry_little_information():
+    """An absolute floor alone kept Y1029 windows at f=0.058 and 0.062 beside a best of
+    0.267 — regions where the non-stellar absorption is mostly stellar residual, and
+    which cost the most per iteration precisely where they help least."""
+    assert cst._RELATIVE_TELLURIC_FLOOR > 0
+    best = 0.267
+    floor = max(cst._MIN_TELLURIC_FRAC, cst._RELATIVE_TELLURIC_FLOOR * best)
+    assert 0.062 < floor and 0.128 >= floor, (
+        "the floor must drop Y1029's two noise windows and keep its two real ones")
