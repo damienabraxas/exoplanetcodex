@@ -88,6 +88,24 @@ CRIRES_STELLAR_SETS = {
         'epoch': '2022-04-15',
         'product_dir': _SPECTRA / 'alpha_cen_b' / 'CRIRESPlus_molecfit',
     },
+    # RYA-973 — the METAL-POOR stress on RYA-965's cross-check. tau Ceti is G8V,
+    # [Fe/H] -0.49, so its lines are weaker and a telluric residual is a proportionally
+    # LARGER fraction of the line than on near-solar alpha Cen. Four K2148 frames across
+    # TWO nights whose precipitable water differs by an order of magnitude (header IWV
+    # 1.93 mm on 2022-01-06 against 12.96-23.06 mm on 2022-01-16) — which makes the
+    # fitted PWV an unusually sharp referee, not just a sanity check.
+    #
+    # SINGLETON: no close pair, so the alpha Cen orbit rule does not apply and the gate
+    # is astrometry + the RYA-964 alias lookup. The recipe itself is UNCHANGED from
+    # RYA-963 — RYA-965 is explicit that a star which fails is a finding, not a knob.
+    'tau_ceti_crires': {
+        'holding_id': 'tau_cet_crires_plus',
+        'dir': _SPECTRA / 'tau_cet' / 'CRIRESPlus',
+        'claimed_star': 'tau_ceti',
+        'id_gate': 'singleton_astrometry',
+        'epochs': ['2022-01-06', '2022-01-16'],
+        'product_dir': _SPECTRA / 'tau_cet' / 'CRIRESPlus_molecfit',
+    },
 }
 
 
@@ -1053,6 +1071,8 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
     with `CRIRES` misspelt. It has therefore always matched ZERO files, so the CRIRES
     branch has never executed on a frame at all. The INDETERMINATE rows it would have
     produced were never produced either."""
+    if id_gate == 'singleton_astrometry':
+        return identify_singleton(fc)
     if id_gate != 'acen_ab':
         # RYA-965 will point this same driver at tau Ceti / eps Eri / 55 Cnc, which are
         # singletons: there is no close pair to split, so the id gate there is RYA-964's
@@ -1114,6 +1134,77 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
                                'number.')}
 
 
+def identify_singleton(fc: FrameCorrection) -> dict:
+    """Identity for a SINGLETON target: RYA-952 astrometry AND the RYA-964 label lookup,
+    run together, with disagreement treated as the signal.
+
+    There is no close pair to split here, so the α Cen orbit rule does not apply. What
+    does apply is RYA-964's own conclusion: **`resolve_star` reads a LABEL; it does not
+    verify IDENTITY.** Two tau Ceti UVES files are labelled `HD18884`, which is the
+    CORRECT name of a DIFFERENT star (α Cet, 20° away) — no alias table can ever catch
+    that, and only astrometry did. So astrometry is the arbiter and the label is the
+    corroboration, never the other way round.
+
+    🔴 Both ids are normalised through `resolve_star` before they are compared, and that
+    is load-bearing rather than tidy. `pipeline/audit_crires` identifies this star as
+    **`tau_cet`** (from `data/reference/crires_target_astrometry.csv`) while
+    `system_catalog.csv`, `stars.yaml` and the holdings registry all call it
+    **`tau_ceti`**. Compared as raw strings the two routes DISAGREE on every single tau
+    Ceti frame — so the one check designed to catch a mislabelled star would cry wolf on
+    all four, which is the fastest way to get a real alarm ignored. `tau_cet` is itself a
+    registered alias, so routing both sides through the single alias lookup is the
+    intended design, not a workaround. (It is still a defect in that reference file;
+    renaming it touches RYA-952's committed inventory and tests, so it is reported, not
+    done here.)"""
+    from astropy.io import fits
+    from pathlib import Path as _P
+    from pipeline.audit_crires import (load_astrometry, identify as _identify,
+                                       read_frame, MATCH_RADIUS_ARCSEC)
+    from pipeline.star_id import resolve_star
+    from config.constants import codex_root
+
+    fr = _identify(read_frame(_P(fc.frame.path)), load_astrometry(_P(codex_root('repo'))))
+    astro_raw = fr.star_id or ''
+    astro = resolve_star(astro_raw) if astro_raw else 'UNRESOLVED'
+
+    hdr = fits.getheader(str(fc.frame.path))
+    obj = str(hdr.get('OBJECT', '') or '').strip()
+    targ = next((str(hdr[k]).strip() for k in hdr.keys() if 'OBS TARG NAME' in str(k)), '')
+    lab_obj, lab_targ = resolve_star(obj), resolve_star(targ)
+    labels = [x for x in (lab_obj, lab_targ) if x != 'UNRESOLVED']
+
+    if astro == 'UNRESOLVED' or fr.id_status != 'confirmed':
+        verdict = 'INDETERMINATE'
+        evidence = (f"astrometry did not confirm a target within "
+                    f"{MATCH_RADIUS_ARCSEC}arcsec (status={fr.id_status!r})")
+    elif labels and any(l != astro for l in labels):
+        # The HD18884 shape: a label that resolves CONFIDENTLY to the wrong star.
+        verdict = 'CONTRADICTION'
+        evidence = (f"astrometry says {astro} at {fr.id_sep_arcsec:.1f}arcsec but a "
+                    f"header label resolves elsewhere (OBJECT={obj!r}->{lab_obj}, "
+                    f"OBS TARG NAME={targ!r}->{lab_targ}). A label can be the correct "
+                    f"name of a DIFFERENT star; astrometry is the arbiter.")
+    else:
+        verdict = astro
+        unres = [n for n, r in (('OBJECT', lab_obj), ('OBS TARG NAME', lab_targ))
+                 if r == 'UNRESOLVED']
+        evidence = (f"astrometry: {fr.id_sep_arcsec:.1f}arcsec from {astro} "
+                    f"(next nearest {getattr(fr, 'id_evidence', '')[:0]}"
+                    f"{'' if not unres else ''}); labels agree or are unresolved"
+                    f"{' (' + ', '.join(unres) + ' carry a role/coordinate name)' if unres else ''}")
+    return {'verdict': verdict, 'evidence': evidence,
+            'astrometry_star_raw': astro_raw, 'astrometry_star': astro,
+            'astrometry_sep_arcsec': float(fr.id_sep_arcsec),
+            'astrometry_status': fr.id_status,
+            'label_object': obj, 'label_object_resolved': lab_obj,
+            'label_targ_name': targ, 'label_targ_resolved': lab_targ,
+            'id_namespace_mismatch': astro_raw != astro,
+            'secondary_available': True,
+            'rv_bary_kms': float('nan'), 'pred_A_kms': float('nan'),
+            'pred_B_kms': float('nan'), 'branch_contested': None,
+            'verdict_under_visual_convention': None}
+
+
 # ── Corrected-product output ──────────────────────────────────────────────────
 def _num(header, key, value, comment: str, nd: int = 4) -> None:
     """Write a numeric card, or the string UNMEASURED when the value is not finite.
@@ -1132,7 +1223,7 @@ def _num(header, key, value, comment: str, nd: int = 4) -> None:
 
 
 def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: dict,
-                    ticket: str = 'RYA-963') -> Path:
+                    ticket: str = 'RYA-963', set_name: str = 'alpha_cen_a_crires') -> Path:
     """Persist ONE telluric-corrected frame: per-chip wavelength, raw flux, corrected
     flux, error and the molecfit transmission model, plus the provenance that makes the
     correction auditable — which GDAS profile (name + md5), which molecules were fitted
@@ -1223,31 +1314,49 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     # holding corrected no matter what the header claims.
     mt = fits.ImageHDU(data=fc.mtrans.astype(np.float64), name='MTRANS')
     mt.header['COMMENT'] = 'molecfit model transmission, aligned row-for-row with SPECTRUM'
-    out = out_dir / f"alpha_cen_a_crires_{f.wlen_id}_{f.date_obs[:10]}_telluric.fits"
+    # Named for the SET and the BASE FRAME, not just the setting+date. The old name
+    # hardcoded "alpha_cen_a" (wrong for any other target) and, worse, collided whenever
+    # two frames of one setting shared a night — which is exactly tau Ceti's four K2148
+    # frames, two per night. A product that silently overwrites another is the same
+    # defect class as a work dir that does, with the science attached.
+    out = out_dir / (f"{set_name}_{f.wlen_id}_{f.date_obs[:10]}_"
+                     f"{f.path.stem}_telluric.fits")
     fits.HDUList([ph, tab, mt]).writeto(out, overwrite=True)
     return out
 
 
 # ── Orchestrator ──────────────────────────────────────────────────────────────
-def gdas_gate(night: str, site: str = 'paranal', mjds=()) -> dict:
+def gdas_gate(night=None, site: str = 'paranal', mjds=()) -> dict:
     """STEP 0. Resolve the REAL per-night GDAS profile for every exposure, or raise
     GDASUnavailable. Reported before any molecfit runs, because the one external
-    dependency of this whole leg is data availability, not compute."""
+    dependency of this whole leg is data availability, not compute.
+
+    A set may span SEVERAL nights (RYA-973: tau Ceti's four K2148 frames sit on
+    2022-01-06 and 2022-01-16, and those two nights had 1.93 mm and 13-23 mm of
+    precipitable water). Each exposure therefore resolves its OWN 3-hourly slot from its
+    OWN MJD, and the nights are DERIVED from the data rather than declared — a single
+    `night` argument covering frames from two nights would silently correct half of them
+    against the wrong night's atmosphere, which is the RYA-373 failure mode wearing a
+    different hat."""
     from pipeline.telluric.gdas_fetch import fetch_gdas, nearest_3hourly
-    slots, paths = {}, {}
+    slots, paths, nights = {}, {}, set()
     for mjd in (mjds or ()):
         slot = nearest_3hourly(night, float(mjd))
-        slots[float(mjd)] = f"{slot:%Y-%m-%dT%H}"
-        paths[f"{slot:%Y-%m-%dT%H}"] = fetch_gdas(site, night=night, mjd=float(mjd))
+        key = f"{slot:%Y-%m-%dT%H}"
+        slots[float(mjd)] = key
+        nights.add(f"{slot:%Y-%m-%d}")
+        paths[key] = fetch_gdas(site, night=night, mjd=float(mjd))
     if not mjds:
         slot = nearest_3hourly(night)
-        slots['night'] = f"{slot:%Y-%m-%dT%H}"
-        paths[f"{slot:%Y-%m-%dT%H}"] = fetch_gdas(site, night=night)
-    return {'site': site, 'night': night,
+        key = f"{slot:%Y-%m-%dT%H}"
+        slots['night'] = key
+        nights.add(f"{slot:%Y-%m-%d}")
+        paths[key] = fetch_gdas(site, night=night)
+    return {'site': site, 'nights': sorted(nights), 'night': sorted(nights)[0],
             'slots': slots,
             'profiles': {k: str(v) for k, v in paths.items()},
             'md5': {k: _md5(v) for k, v in paths.items()},
-            'n_distinct_profiles': len(paths),
+            'n_distinct_profiles': len(paths), 'n_nights': len(nights),
             'standard_atmosphere_fallback': False}
 
 
@@ -1267,16 +1376,21 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
     # night's atmosphere, which is the RYA-373 failure mode wearing a different hat. The
     # α Cen B directory holds two 2025-03-11 'Star S5' frames (RYA-423 quarantine) that
     # this excludes by date rather than by name.
+    # A set may declare SEVERAL epochs (tau Ceti spans two nights); each frame still
+    # gets its own GDAS profile from its own MJD. `epochs` absent means "take whatever
+    # nights the frames are on" — used by sets whose directory holds only that target.
+    epochs = rec.get('epochs') or ([rec['epoch']] if rec.get('epoch') else None)
     frames, other_epoch = [], []
     for fr in all_frames:
-        (frames if str(fr.date_obs)[:10] == rec['epoch'] else other_epoch).append(fr)
+        keep = epochs is None or str(fr.date_obs)[:10] in epochs
+        (frames if keep else other_epoch).append(fr)
     if not frames:
         raise RuntimeError(
             f"{name}: none of {len(all_frames)} frames under {rec['dir']} is from the "
-            f"declared epoch {rec['epoch']} "
+            f"declared epochs {epochs} "
             f"(found {sorted({str(f.date_obs)[:10] for f in all_frames})}).")
     frames = frames[:limit]
-    gate0 = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
+    gate0 = gdas_gate(mjds=[f.mjd for f in frames])
 
     from config.constants import codex_root
     work_root = Path(work_root) if work_root else Path(codex_root('work')) / 'rya963'
@@ -1291,13 +1405,14 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
         from pipeline.acen_orbit import predicted_rv
         berv = barycentric_correction_kms(fr)
         rv_expected_topo = predicted_rv(fr.mjd)['rv_A'] - berv
-        # Keyed by SET as well as setting: alpha Cen A and B were both observed in
-        # K2192 on this night, so a work dir named for the setting alone puts the two
-        # stars' molecfit runs in the same directory. The products are unaffected (they
-        # carry their own provenance) but the diagnostics of whichever ran first are
-        # silently replaced — and the star-ID control is exactly the case where those
-        # diagnostics are the evidence.
-        fc = correct_frame(fr, work_root / name / fr.wlen_id, rv_kms=rv_expected_topo,
+        # Keyed by SET **and by FRAME**, not by setting. Keying by set alone fixed the
+        # cross-set collision (alpha Cen A and B were both observed in K2192 that night)
+        # but not the within-set one: tau Ceti's four frames are ALL K2148, across two
+        # nights, so a setting-named directory puts four molecfit runs — including two
+        # fitted against DIFFERENT nights' atmospheres — in one place, and only the last
+        # survives. alpha Cen never exposed it because it had one frame per setting.
+        fc = correct_frame(fr, work_root / name / f"{fr.wlen_id}_{fr.path.stem}",
+                           rv_kms=rv_expected_topo,
                            n_windows=n_windows,
                            gdas_path=gate0['profiles'][gate0['slots'][fr.mjd]])
         zp = telluric_zero_point(fc)
@@ -1315,7 +1430,7 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                             f"withheld; the telluric correction is unaffected.")
         ident = identify_star(fc, rv, id_gate=rec['id_gate'])
         gate = telluric_residual_gate(fc)
-        product = write_corrected(fc, out_dir, gate, rv, ident)
+        product = write_corrected(fc, out_dir, gate, rv, ident, set_name=name)
         row = {'frame': fr.path.name, 'wlen_id': fr.wlen_id, 'band': fr.band,
                'mjd': fr.mjd, 'date_obs': fr.date_obs, 'snr_hdr': fr.snr,
                'molecules': fc.molecules, 'fitted': fc.moved.get('fitted_columns'),
@@ -1355,7 +1470,7 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                        'error': f"{type(exc).__name__}: {exc}"})
         print(f"  [FAIL] {fr.wlen_id}: {type(exc).__name__}: {exc}")
     return {'set': name, 'holding_id': rec['holding_id'], 'gdas_gate': gate0,
-            'epoch': rec['epoch'], 'claimed_star': rec['claimed_star'],
+            'epochs': gate0['nights'], 'claimed_star': rec['claimed_star'],
             'other_epoch_frames': [{'frame': f.path.name, 'date_obs': f.date_obs,
                                     'wlen_id': f.wlen_id} for f in other_epoch],
             'frames': results, 'n_confirmed': len(confirmed),
@@ -1402,8 +1517,8 @@ def main(argv=None):
             f"CODEX_SPECTRA_LOCAL at a reachable copy.")
     frames = [load_crires_idp(f) for f in files]
     if a.gdas_only:
-        g = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
-        print(f"STEP 0 GDAS gate: {rec['epoch']} @ {g['site']}")
+        g = gdas_gate(mjds=[f.mjd for f in frames])
+        print(f"STEP 0 GDAS gate: {', '.join(g['nights'])} @ {g['site']}")
         for slot, path in g['profiles'].items():
             print(f"  slot {slot}  {Path(path).name}  md5={g['md5'][slot]}")
         print(f"  {len(frames)} frames -> {g['n_distinct_profiles']} distinct profile(s); "
