@@ -64,13 +64,15 @@ class GDASUnavailable(RuntimeError):
     pull into the cache, or treat the dataset as GDAS-blocked."""
 
 
-# ESO telluriccorr GDAS tarballs (per-site, 3-hourly). Version-agnostic glob; override
-# the whole directory with MOLECFIT_GDAS_DIR for non-Homebrew installs.
-_ESO_GDAS_GLOBS = (
-    "/opt/homebrew/Cellar/telluriccorr/*/share/molecfit/data/profiles/gdas",
-    "/usr/local/Cellar/telluriccorr/*/share/molecfit/data/profiles/gdas",
-    "/usr/share/esopipes/datastatic/telluriccorr*/profiles/gdas",
-)
+# ESO telluriccorr GDAS tarballs (per-site, 3-hourly). The candidate directories come
+# from pipeline.telluric.esorex_runtime.gdas_dirs(), which puts the REGISTERED
+# `eso_pipelines` prefix first. RYA-963: this module used to glob only Homebrew and
+# /usr/share/esopipes, so on Sirius — where the ESO source kit lives under
+# /srv/codex/eso/molecfit and ships the same Paranal tarball — the per-night profile was
+# unreachable and GDASUnavailable would have fired on a profile sitting on the disk. That
+# is the worst kind of loud failure: correct behaviour for a wrong reason. Override the
+# whole directory with MOLECFIT_GDAS_DIR.
+from pipeline.telluric.esorex_runtime import gdas_dirs as _gdas_dirs
 
 _GDAS_3H = 3  # GDAS profiles are 3-hourly (00/03/06/…/21 UTC)
 
@@ -151,7 +153,7 @@ def _eso_gdas_dir() -> "Path | None":
     override = os.environ.get('MOLECFIT_GDAS_DIR')
     if override and Path(override).is_dir():
         return Path(override)
-    for pat in _ESO_GDAS_GLOBS:
+    for pat in _gdas_dirs():
         hits = sorted(glob.glob(pat))
         if hits:
             return Path(hits[-1])          # newest install version
