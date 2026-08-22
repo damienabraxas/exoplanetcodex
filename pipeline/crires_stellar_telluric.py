@@ -1220,11 +1220,12 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
     breaks the circle — and then RYA-423's PRIMARY becomes available, on this frame's own
     measured RV. Anything the rule does not confirm as A is quarantined, never registered.
 
-    Note also (RYA-423 defect, found here): that script's CRIRES loop globs
-    `Alpha Centauri A/CHIRES` — a directory that does not exist under any spectra root,
-    with `CRIRES` misspelt. It has therefore always matched ZERO files, so the CRIRES
-    branch has never executed on a frame at all. The INDETERMINATE rows it would have
-    produced were never produced either."""
+    Note also (RYA-423 defect, RESOLVED by RYA-972): that script's CRIRES loop globbed
+    `Alpha Centauri A/CHIRES`. The claim recorded here — "a directory that does not exist
+    under any spectra root" — was true only OFF Sirius. The staged directory carried the
+    same `CRIRES`->`CHIRES` typo, so on Sirius the glob matched it and the branch did run,
+    on 16 frames. Directory and reference are both spelt CRIRES now, and a missing spectra
+    root raises instead of matching zero files in silence."""
     if id_gate == 'singleton_astrometry':
         return identify_singleton(fc)
     if id_gate != 'acen_ab':
