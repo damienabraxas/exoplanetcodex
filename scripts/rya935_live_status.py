@@ -144,10 +144,72 @@ def collect_telluric(audit_root: Path) -> list[dict]:
     if verification.exists():
         v = json.loads(verification.read_text())["o2b_gate"]
         out.append({"window": "6867-6884 A", "product": "solar_harps_molecfit_corrected",
+                    "metric": "pct_below_0.5",
                     "before_pct_below_0.5": v["o2b_before"]["pct_below_0.5"],
                     "after_pct_below_0.5": v["o2b_after"]["pct_below_0.5"],
                     "externally_validated": True})
+    for row in _stellar_crires(audit_root):
+        out.append(row)
+    for row in _harps_state(audit_root):
+        out.append(row)
     return out
+
+
+#: The STELLAR telluric legs score with a DIFFERENT metric from the solar ones, and the
+#: two must never share a column. RYA-940/931 report `pct_below_0.5` in a registered
+#: telluric band; RYA-963/973 report the D1 residual — the median |1 - continuum| at
+#: pixels molecfit calls telluric-DOMINATED and the star's own line list calls CLEAN.
+#: They answer different questions and are not comparable as numbers, so each row names
+#: the metric it carries (RYA-873: report a value under its DERIVED name).
+def _stellar_crires(audit_root: Path) -> list[dict]:
+    """Per-frame D1 residuals from the CRIRES+ stellar corrections (RYA-963, RYA-973)."""
+    import csv
+    rows = []
+    for manifest in sorted(audit_root.glob("rya*_crires_telluric/corrected_manifest.csv")):
+        ticket = manifest.parent.name.split("_")[0].upper().replace("RYA", "RYA-")
+        for r in csv.DictReader(open(manifest, newline="")):
+            try:
+                before, after = float(r["gate_before"]), float(r["gate_after"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            rows.append({
+                "window": f"{r.get('wlen_id', '?')} ({r.get('band', '?')} band)",
+                "product": manifest.parent.name, "ticket": ticket,
+                "star_id": r.get("star_id", ""), "date_obs": r.get("date_obs", ""),
+                # NOT-contested and NOBODY-RECORDED-IT are different states and the
+                # dashboard must not collapse them: alpha Cen's A/B verdict rests on a
+                # branch assignment RYA-963 left contested, and a manifest written before
+                # that column existed says nothing about it either way.
+                "star_id_contested": (r["star_id_contested"].strip().lower() == "true"
+                                      if "star_id_contested" in r else "unrecorded"),
+                "metric": "d1_residual",
+                "before_d1_residual": before, "after_d1_residual": after,
+                "gate_passed": str(r.get("gate_passed", "")).lower() == "true",
+                "gdas_profile": r.get("gdas_profile", ""),
+            })
+    return rows
+
+
+def _harps_state(audit_root: Path) -> list[dict]:
+    """HARPS telluric STATE determinations (RYA-973). A determination is not a
+    correction, and the tracker must not let one read as the other: these rows carry
+    `state`, never a before/after, because nothing has been corrected."""
+    rows = []
+    for path in sorted(audit_root.glob("rya*_harps_telluric/*_harps_telluric_state.json")):
+        d = json.loads(path.read_text())
+        rows.append({
+            "window": f"{int(d['o2b_window_A'][0])}-{int(d['o2b_window_A'][1])} A",
+            "product": f"{d['star']}_harps", "ticket": d.get("ticket", ""),
+            "metric": "state_only__NOT_corrected",
+            "header_state": d.get("header_state"),
+            "flux_state": d.get("flux_state"),
+            "o2b_median_frac_below": d.get("o2b_median_frac_below"),
+            "control_median_frac_below": d.get("control_median_frac_below"),
+            "excess_ratio": d.get("excess_ratio"),
+            "n_products": d.get("n_products"),
+            "note": d.get("disposition", ""),
+        })
+    return rows
 
 
 def main() -> None:
