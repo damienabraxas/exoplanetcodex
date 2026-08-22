@@ -279,6 +279,54 @@ def cited_gf_term(sigma_dex: float, *, n_lines: int, source: str) -> Term:
                 f"({source}); measured, so it supersedes the generic graded bound")
 
 
+def empirical_gf_term(sigma_dex: float, *, n_lines: int, provenance: str) -> Term:
+    """The gf term from RYA-968's PER-LINE empirical sigmas.
+
+    `gf_term(graded=...)` is a two-branch switch and cannot express a mixed pool: it returns the
+    0.17 blanket the moment one line is ungraded, which is why RYA-855 moved 0 of 36 bars. This
+    takes the RMS of the per-line sigma over the lines that actually contribute, so a pool of 7
+    laboratory lines among 257 is charged for what its lines are, not for its worst member.
+
+    RMS rather than median, for the reason `cited_gf_term` already gives: these combine in
+    quadrature and a median discards the tail a quadrature sum is most sensitive to.
+
+    ⚠️ THIS IS NOT THE WHOLE ABSOLUTE ERROR. It is the gf term only. The absolute zero-point is
+    set by the laboratory anchor and does NOT shrink as ungraded lines are admitted -- see
+    `zero_point_term`. Reporting this one alone is the manufactured precision RYA-968 §3.2
+    measured (an admitted-pool sem of 0.005 dex against a 0.059 dex anchor).
+    """
+    if not math.isfinite(sigma_dex) or sigma_dex <= 0:
+        raise ValueError(f"empirical gf sigma must be finite and positive, got {sigma_dex!r}")
+    if n_lines < 1:
+        raise ValueError(f"empirical gf sigma needs at least one line, got n_lines={n_lines}")
+    if not provenance:
+        raise ValueError("empirical gf term must state how each line's sigma was obtained "
+                         "(cited / self-reported / inferred / fallback) -- never 'assumed'")
+    return Term("gf scale (empirical, per-line)", sigma_dex, False,
+                f"RMS of the per-line empirical gf sigma over {n_lines} contributing lines "
+                f"({provenance}); RYA-968")
+
+
+def zero_point_term(zero_point_dex: float, *, n_anchor: int) -> Term:
+    """The absolute scale's own floor, from the laboratory anchor alone.
+
+    🔴 IT DOES NOT AVERAGE DOWN, AND IT DOES NOT SHRINK WHEN UNGRADED LINES ARE ADMITTED.
+    Admitting lines because they behave like the anchor produces a pool whose scatter is smaller
+    than the anchor's own BY CONSTRUCTION -- but those lines carry no independent information
+    about the SCALE, which the anchor alone sets. On the RYA-959 VIS cell that is 0.157/sqrt(7)
+    = 0.059 dex against an admitted-pool sem of 0.005: a factor of twelve of precision that
+    would be manufactured rather than measured.
+    """
+    if not math.isfinite(zero_point_dex) or zero_point_dex <= 0:
+        raise ValueError(f"zero-point must be finite and positive, got {zero_point_dex!r}")
+    if n_anchor < 1:
+        raise ValueError(f"zero-point needs an anchor, got n_anchor={n_anchor}")
+    return Term("absolute zero-point (laboratory anchor)", zero_point_dex, False,
+                f"sigma/sqrt(n) over {n_anchor} laboratory-graded anchor lines; the absolute "
+                f"scale rests on these alone and admitting ungraded lines cannot improve it "
+                f"(RYA-968)")
+
+
 def gf_term(*, graded: bool) -> Term:
     if graded:
         return Term("gf scale (NIST-graded)", GRADED_GF_SYSTEMATIC_DEX, False,

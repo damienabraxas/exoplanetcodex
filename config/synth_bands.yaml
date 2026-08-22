@@ -1,0 +1,120 @@
+# config/synth_bands.yaml — the synthesis window per band. RYA-967.
+#
+# SINGLE SOURCE. These four entries were declared inside
+# `scripts/derive_band_products.py`, an executable script, and `scripts/rya855_rung_audit.py`
+# reached into that script to import them. A config constant living in a driver is the next
+# "second home" waiting to happen (RYA-350/353/954), so they live here and consumers import
+# `config.synth_bands`.
+#
+# ── THE INVARIANT, STATED AS A NUMBER FOR THE FIRST TIME ─────────────────────────────
+#
+# `derive_band_products` explained the half-width in prose — "a fixed synthesis half-width
+# has to contain the PROFILE, so it scales with wavelength" — and then wrote three numbers
+# that were never checked against each other. They agree:
+#
+#     band          anchor_A   half_width_A   sigma_Doppler_A   h / sigma_D
+#     near-UV          3400        0.40           0.0193           20.75
+#     red-optical      9600        1.10           0.0544           20.21
+#     NIR             12000        1.40           0.0680           20.57
+#
+# 20.51 Doppler sigma, spread 0.54 across a 3.5x wavelength lever. THAT is the rule, and
+# stating it is what let the VIS entry be derived rather than invented (RYA-870: pin the
+# invariant, not the example). sigma_Doppler = lambda * 1.7 km/s / c, the same
+# STELLAR_SIGMA_KMS seed both profile fitters use.
+#
+# ⚠️ The three original values are NOT recomputed from the invariant — they are carried
+# through byte-for-byte. Re-deriving them would move published products (near-UV 7.487)
+# for a rounding difference, and RYA-832 forbids that without a stated cause. The
+# invariant is how NEW bands are set; it is not a licence to restate old ones.
+
+# ⚠️ THE INVARIANT IS EVALUATED AT `anchor_A`, NOT THE BAND CENTRE. The original
+# docstrings name the anchors — near-UV 3400, red-optical 9600, NIR 12000 — and two of
+# them are NOT the band's midpoint (red-optical spans 6910-9199, centre 8055, anchor 9600).
+# Computing sigma_D from the centre instead reports 24.08 sigma_D for red-optical and makes
+# a consistent set look broken. The anchor is data, so it is written down.
+invariant:
+  half_width_in_doppler_sigma: 20.51
+  stellar_sigma_kms: 1.7
+  note: >-
+    Mean of the three pre-existing entries (20.75 / 20.21 / 20.57). Used to DERIVE new
+    band entries only; existing values are carried, never recomputed.
+
+bands:
+
+  near-UV:
+    lo_A: 3000.0
+    hi_A: 3780.0
+    anchor_A: 3400.0
+    linelist: data/linelists/ispec_nearuv_3000_3780/atomic_lines.tsv
+    half_width_A: 0.40
+    min_sep_A: 4.0
+    n_lines: 40
+    half_width_note: >-
+      RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex). Anchor 3400 A.
+    build_hint: build it with `pipeline.nearuv_linelist.build()`
+
+  VIS:
+    lo_A: 3780.0
+    hi_A: 6910.0
+    anchor_A: 5345.0
+    # 🔴 DERIVED FROM THE INVARIANT, THEN CHECKED AGAINST MEASURED PROFILES — RYA-967.
+    #
+    # `synthesis_route` refused to invent a half-width for an uncharacterised regime and
+    # that refusal was correct. This is the characterisation.
+    #
+    # DERIVED: band centre 5345 A -> sigma_D 0.0303 A; 20.51 * 0.0303 = 0.6216 -> 0.62.
+    #
+    # MEASURED, against RYA-959's fitted profiles for the 87 laboratory-graded VIS Fe I
+    # lines that returned a PHYSICAL width (railed fits excluded — a pinned sigma is an
+    # artifact, not a line width). 54 of the 87 are REW-saturated, i.e. exactly the
+    # population this route exists to reach:
+    #
+    #     arm     n   median FWHM   p95 FWHM   max FWHM   widest HALF-FWHM
+    #     KP     45     0.1300       0.2903     0.8001        0.4001
+    #     HARPS  42     0.1522       0.6370     0.8023        0.4011
+    #
+    # h = 0.62 A contains the FULL FWHM of 87 of 87 (100 %), clearing the widest by
+    # 1.55x. The two arms — different instrument, different resolving power — agree on
+    # the widest line to 0.001 A, so the bound is a property of the Sun, not of an atlas.
+    #
+    # ⚠️ A 99%-ENCLOSED-EW CRITERION WAS TRIED FIRST AND IS WRONG. Voigt damping wings
+    # fall as 1/x^2, so enclosed EW converges as 1 - 2*gamma/(pi*h): reaching 99 % needs
+    # h ~ 64*gamma, several Angstrom, for every damped line. The wings of a strong line
+    # never close, which is why the criterion is "contain the FWHM", not "contain the EW".
+    linelist: ispec_ges_v6
+    half_width_A: 0.62
+    min_sep_A: 4.0
+    n_lines: 40
+    half_width_note: >-
+      20.51 sigma_D at the 5345 A band centre (0.6216 -> 0.62); contains the full fitted
+      FWHM of all 87 graded VIS Fe I lines on both arms, margin 1.55x on the widest
+      (half-FWHM 0.401 A). RYA-967, from RYA-959's measured profiles.
+    build_hint: >-
+      the iSpec-vendored GES v6 list (`pipeline.abundances_derive._SYNTH_LINELIST_FILE`),
+      deliberately the SAME list the EW route inverts against so RYA-967 Part B varies
+      method alone. ⚠️ It starts at 4200 A, so 3780-4200 A has NO synthesis list and the
+      route must refuse there rather than silently return a short band.
+
+  red-optical:
+    lo_A: 6910.0
+    hi_A: 9199.0
+    anchor_A: 9600.0
+    linelist: data/linelists/ispec_ir_9200_13000/atomic_lines.tsv
+    half_width_A: 1.10
+    min_sep_A: 4.0
+    n_lines: 40
+    half_width_note: >-
+      0.40 A scaled by lambda from the near-UV anchor (9600/3400). Anchor 9600 A.
+    build_hint: RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/
+
+  NIR:
+    lo_A: 9199.0
+    hi_A: 13000.0
+    anchor_A: 12000.0
+    linelist: data/linelists/ispec_ir_9200_13000/atomic_lines.tsv
+    half_width_A: 1.40
+    min_sep_A: 4.0
+    n_lines: 40
+    half_width_note: >-
+      0.40 A scaled by lambda from the near-UV anchor (12000/3400). Anchor 12000 A.
+    build_hint: RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/
