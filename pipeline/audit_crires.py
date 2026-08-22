@@ -345,10 +345,27 @@ def coverage_table(df: pd.DataFrame) -> pd.DataFrame:
 #: difference between the four unit telescopes is metres, i.e. far below mm/s.
 PARANAL = dict(lat_deg=-24.6270, lon_deg=-70.4045, height_m=2635.0)
 
-#: Frames further apart than this are not co-added without a velocity argument being made.
-#: A star's barycentric RV is constant, so once BERV is removed the limit is astrophysical
-#: (activity, companions), not geometric.
-COADD_MAX_SPAN_DAYS = 60.0
+#: 🔴 THE CO-ADD GATE IS A MEASURED VELOCITY, NOT A CALENDAR SPAN.
+#: The first version of this refused any group spanning more than 60 days, which threw away
+#: every 55 Cnc and eps Eri pair on the drive. That gate was answering the wrong question.
+#: What must be true before adding two spectra is that their LINES LIE ON TOP OF EACH OTHER;
+#: elapsed time is only a proxy for that, and a poor one. For these stars the astrophysical
+#: RV variation is metres per second -- 55 Cnc's planets and eps Eri's activity jitter both
+#: sit near 10 m/s -- while ONE RESOLUTION ELEMENT AT R=86,000 IS 3.5 km/s. The astrophysics
+#: is three orders of magnitude below the thing that would smear a line. What is NOT
+#: negligible across a two-year baseline is the INSTRUMENT: wavelength-solution drift between
+#: observing runs.
+#: So the residual velocity is measured by cross-correlation after the BERV shift, reported,
+#: and corrected. A group is refused only when that residual is too large to be drift.
+RESOLVING_POWER = 86000.0
+C_KMS = 299792.458
+#: One resolution element. A residual larger than this is not drift being tidied up, it is
+#: two spectra that disagree about where the lines are -- a different star, a different
+#: setting mislabelled, or a broken wavelength solution.
+COADD_MAX_RESIDUAL_KMS = C_KMS / RESOLVING_POWER
+#: A sanity bound only. Nothing astrophysical here changes on this timescale; it exists so a
+#: catastrophically mis-grouped set cannot be silently stacked.
+COADD_MAX_SPAN_DAYS = 3650.0
 
 #: 🔴 VESTA IS NOT CO-ADDABLE BY THIS FUNCTION AND THAT IS DELIBERATE. It is a MOVING
 #: REFLECTOR: the shift is the two-leg Sun->Vesta->observer rate (RYA-372), which no stellar
@@ -405,6 +422,39 @@ def read_spectrum(path: str):
     return w[good], f[good], e[good]
 
 
+def _xcorr_kms(w_ref: np.ndarray, f_ref: np.ndarray, w: np.ndarray, f: np.ndarray,
+               *, span_kms: float = 30.0, step_kms: float = 0.10) -> float:
+    """Residual velocity of (w, f) against the reference, by cross-correlation.
+
+    Both spectra are continuum-flattened by division through their own median first: CRIRES+
+    IDPs are UN-normalised adu (RYA-796) with different blaze levels per frame, and an
+    un-normalised cross-correlation is dominated by the continuum ratio rather than by the
+    lines. Returns NaN when the two do not overlap in usable pixels.
+    """
+    lo = max(w_ref.min(), w.min())
+    hi = min(w_ref.max(), w.max())
+    if not np.isfinite(lo) or not np.isfinite(hi) or hi - lo < 1.0:
+        return float('nan')
+    grid = np.linspace(lo, hi, min(20000, max(1000, int((hi - lo) / 0.01))))
+    a = np.interp(grid, w_ref, f_ref)
+    a = a / np.nanmedian(a) - 1.0
+    shifts = np.arange(-span_kms, span_kms + step_kms, step_kms)
+    best, best_v = -np.inf, float('nan')
+    for v in shifts:
+        b = np.interp(grid, w * (1.0 + v / C_KMS), f)
+        b = b / np.nanmedian(b) - 1.0
+        m = np.isfinite(a) & np.isfinite(b)
+        if m.sum() < 100:
+            continue
+        sa, sb = a[m].std(), b[m].std()
+        if sa == 0 or sb == 0:
+            continue
+        c = float(np.dot(a[m], b[m]) / (sa * sb * m.sum()))
+        if c > best:
+            best, best_v = c, float(v)
+    return best_v
+
+
 def _snr(f: np.ndarray, e: np.ndarray) -> float:
     """Median flux/error where both are usable; else a robust continuum proxy."""
     m = np.isfinite(f) & np.isfinite(e) & (e > 0)
@@ -425,16 +475,35 @@ def coadd_group(frames: list[Frame]) -> dict:
     span = (max(f.mjd for f in frames) - min(f.mjd for f in frames))
     if span > COADD_MAX_SPAN_DAYS:
         return {'n': len(frames), 'status': f'REFUSED: {span:.0f} d span exceeds the '
-                                            f'{COADD_MAX_SPAN_DAYS:.0f} d co-add window'}
+                                            f'{COADD_MAX_SPAN_DAYS:.0f} d sanity bound'}
     spectra, bervs, snrs = [], [], []
     for fr in frames:
         w, f, e = read_spectrum(fr.path)
         v = berv_kms(fr)
         # to the barycentric frame: lambda_bary = lambda_obs * (1 + v/c)
-        spectra.append((w * (1.0 + v / 299792.458), f, e))
+        spectra.append((w * (1.0 + v / C_KMS), f, e))
         bervs.append(v)
         snrs.append(_snr(f, e))
 
+    grid = spectra[0][0]
+    # Residual velocity per frame, MEASURED against the first, after the BERV shift.
+    resid = [0.0]
+    for w, f, e in spectra[1:]:
+        v = _xcorr_kms(grid, spectra[0][1], w, f)
+        resid.append(v)
+    worst = max(abs(v) for v in resid)
+    if not np.isfinite(worst):
+        return {'n': len(frames), 'status': 'REFUSED: residual velocity not measurable '
+                                            '(no overlapping usable pixels)'}
+    if worst > COADD_MAX_RESIDUAL_KMS:
+        return {'n': len(frames), 'span_days': round(span, 3),
+                'residual_kms': [round(v, 3) for v in resid],
+                'status': (f'REFUSED: residual {worst:.2f} km/s exceeds one resolution '
+                           f'element ({COADD_MAX_RESIDUAL_KMS:.2f} km/s) — these spectra '
+                           f'disagree about where the lines are')}
+    # Align on the MEASURED residual before adding. Correcting a measured shift is strictly
+    # better than refusing on a proxy for it.
+    spectra = [(w * (1.0 - v / C_KMS), f, e) for (w, f, e), v in zip(spectra, resid)]
     grid = spectra[0][0]
     num = np.zeros_like(grid)
     den = np.zeros_like(grid)
@@ -459,6 +528,9 @@ def coadd_group(frames: list[Frame]) -> dict:
         'snr_per_frame': [round(s, 1) for s in snrs],
         'snr_before_median': round(float(np.nanmedian(snrs)), 1),
         'snr_after': round(_snr(co_f[good], co_e[good]), 1),
+        'residual_kms': [round(v, 3) for v in resid],
+        'residual_max_kms': round(worst, 3),
+        'resolution_element_kms': round(COADD_MAX_RESIDUAL_KMS, 3),
         'n_px': int(good.sum()),
         'wave': grid[good], 'flux': co_f[good], 'err': co_e[good],
     }
