@@ -309,7 +309,7 @@ def build_solar_context(element: str, resolving_power: float, *,
     from pipeline.cno_synthesis import _atom_codes, _solar_A as _ispec_solar_A_map
     import ispec
 
-    p = get_star_params('solar')
+    p = get_star_params(star)
     if 'xi' not in p:
         raise NearUVSynthesisError(
             f"no microturbulence ('xi') in STAR_PARAMS for {star!r}. Refusing to default "
@@ -320,10 +320,14 @@ def build_solar_context(element: str, resolving_power: float, *,
 
     # R is DISCARDED from the resolver on purpose: resolving power is an instrument
     # constant and the caller says which instrument this run is against.
-    _r_unused, vmac, vsini, fit_vmac = _resolve_broadening('solar')
+    # 🔴 THE SECOND HARDCODED SOLAR IN THIS FUNCTION. `_resolve_broadening` supplies
+    # vmac and vsini; pinned to 'solar' it put the Sun's macroturbulence into every
+    # star's synthesis. Broadening biases the fitted abundance, not merely its bar
+    # (RYA-288), so this follows the star like everything else.
+    _r_unused, vmac, vsini, fit_vmac = _resolve_broadening(star)
     if fit_vmac:
         raise NearUVSynthesisError(
-            "STAR_PARAMS asks for vmac='fit' on the Sun. Fitting vmac by full-profile "
+            f"STAR_PARAMS asks for vmac='fit' on {star!r}. Fitting vmac by full-profile "
             "chi2 rails to the upper bound at high SNR (RYA-309); this path will not "
             "do it. Set a fixed solar vmac or adopt a literature RT value.")
 
