@@ -347,39 +347,45 @@ class FrameCorrection:
 
 
 def _frame_table(frame: CriresFrame):
-    """The whole frame as one wavelength-sorted spectrum, plus the row→segment index that
-    puts it back. CRIRES+ orders tile without overlap, so a global sort is well-defined;
-    it is asserted rather than assumed."""
-    waves, fluxes, errs, idx = [], [], [], []
-    for i, s in enumerate(frame.segments):
-        ok = np.isfinite(s.wave_A) & np.isfinite(s.flux)
-        waves.append(s.wave_A[ok]); fluxes.append(s.flux[ok])
-        errs.append(s.err[ok] if len(s.err) == len(s.wave_A) else np.full(ok.sum(), np.nan))
-        idx.append(np.full(int(ok.sum()), i))
-    w = np.concatenate(waves); f = np.concatenate(fluxes)
-    e = np.concatenate(errs); ix = np.concatenate(idx)
-    # Overlap is tested on the chip SPANS, not on the sorted array: two overlapping
-    # chips interleave into a strictly increasing sequence, so a monotonicity check
-    # passes while each chip has stopped being one contiguous row block — which is
-    # exactly what the per-chip FITS extensions and the row slices assume.
-    spans = []
-    for i in range(len(frame.segments)):
-        m = ix == i
-        if m.any():
-            spans.append((float(w[m].min()), float(w[m].max()), i))
-    spans.sort()
-    for (lo_a, hi_a, ia), (lo_b, hi_b, ib) in zip(spans, spans[1:]):
-        if lo_b <= hi_a:
-            sa, sb = frame.segments[ia], frame.segments[ib]
-            raise RuntimeError(
-                f"{frame.path.name}: chip ord{sa.order}/det{sa.detector} "
-                f"[{lo_a:.2f},{hi_a:.2f}] and ord{sb.order}/det{sb.detector} "
-                f"[{lo_b:.2f},{hi_b:.2f}] overlap in wavelength, so the frame is not a "
-                f"set of disjoint chips and the per-chip split back to segments would "
-                f"not be single-valued.")
-    o = np.argsort(w)
-    return w[o], f[o], e[o], ix[o]
+    """The frame as one array of chips laid end to end in wavelength order, plus the
+    row→segment index that puts it back.
 
+    Chips are ordered by their starting wavelength and each keeps its own ascending
+    pixel order; the concatenation is NOT globally sorted, because **CRIRES+ echelle
+    orders overlap**. Y1029's ord9/det3 [9629.76, 9687.52] and ord8/det1 [9659.52,
+    9724.42] share 28 Å — normal cross-dispersed behaviour, increasing toward the blue,
+    and simply absent from the K band that RYA-373 worked in. A global sort would
+    interleave two chips' pixels, and the transmission model would then be mapped back
+    across the wrong chip boundary in the overlap.
+
+    What IS required, and asserted, is that each chip's own wavelengths increase
+    monotonically — that is what makes a chip one contiguous row block, which the FITS
+    extensions and the per-chip mtrans mapping both depend on."""
+    order = sorted(range(len(frame.segments)),
+                   key=lambda i: float(np.nanmin(frame.segments[i].wave_A)))
+    waves, fluxes, errs, idx = [], [], [], []
+    for i in order:
+        s = frame.segments[i]
+        ok = np.isfinite(s.wave_A) & np.isfinite(s.flux)
+        if ok.sum() < 2:
+            continue
+        w = s.wave_A[ok]
+        f = s.flux[ok]
+        e = (s.err[ok] if len(s.err) == len(s.wave_A) else np.full(int(ok.sum()), np.nan))
+        if np.any(np.diff(w) <= 0):
+            o = np.argsort(w)
+            w, f, e = w[o], f[o], e[o]
+            if np.any(np.diff(w) <= 0):
+                raise RuntimeError(
+                    f"{frame.path.name}: chip ord{s.order}/det{s.detector} has duplicate "
+                    f"or non-increasing wavelengths even after sorting — it is not a "
+                    f"single monotonic chip and cannot be one FITS extension.")
+        waves.append(w); fluxes.append(f); errs.append(e)
+        idx.append(np.full(len(w), i))
+    if not waves:
+        raise RuntimeError(f"{frame.path.name}: no chip has usable pixels")
+    return (np.concatenate(waves), np.concatenate(fluxes),
+            np.concatenate(errs), np.concatenate(idx))
 
 def _md5(path) -> str:
     h = hashlib.md5()
@@ -649,22 +655,36 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     # TELLURIC_DATA carries one extension per chip. Concatenate them and interpolate
     # onto the frame grid; chips do not overlap in wavelength (asserted in _frame_table),
     # so the concatenation is single-valued.
-    lam, mtr = [], []
+    # Map the transmission back PER CHIP, onto that chip's own row slice. A global
+    # interpolation over the concatenated model would be wrong wherever two echelle
+    # orders overlap: the two chips are independent measurements of the same wavelength,
+    # so 'the model at this wavelength' is ambiguous there and the answer must come from
+    # the chip the pixel actually belongs to.
+    chips = []
     with fits.open(ct_out / 'TELLURIC_DATA.fits') as h:
         for hdu in h[1:]:
             d = hdu.data
-            if d is None or not getattr(d, 'columns', None):
+            if d is None or getattr(d, 'columns', None) is None:
                 continue
             names = d.columns.names
             if 'mtrans' not in names:
                 continue
-            lam.append(np.asarray(d['mlambda' if 'mlambda' in names else 'lambda'], float))
-            mtr.append(np.asarray(d['mtrans'], float))
-    if not lam:
+            chips.append((np.asarray(d['mlambda' if 'mlambda' in names else 'lambda'],
+                                     float),
+                          np.asarray(d['mtrans'], float)))
+    if not chips:
         raise RuntimeError(f"{frame.path.name}: TELLURIC_DATA carries no mtrans column")
-    lam_um = np.concatenate(lam); mtrans = np.concatenate(mtr)
-    o = np.argsort(lam_um)
-    mt = np.interp(wave_A, lam_um[o] * 1.0e4, mtrans[o], left=np.nan, right=np.nan)
+    rows = sci['chip_rows']
+    if len(chips) != len(rows):
+        raise RuntimeError(
+            f"{frame.path.name}: calctrans returned {len(chips)} transmission extensions "
+            f"for {len(rows)} input chips. The per-chip mapping back to the frame is only "
+            f"defined when they correspond one to one.")
+    mt = np.full_like(wave_A, np.nan)
+    for (lam_um, mtrans), (a, b) in zip(chips, rows):
+        o = np.argsort(lam_um)
+        mt[a:b] = np.interp(wave_A[a:b], lam_um[o] * 1.0e4, mtrans[o],
+                            left=np.nan, right=np.nan)
     ok = np.isfinite(mt) & (mt > _MTRANS_FLOOR) & np.isfinite(flux)
     corr = np.full_like(flux, np.nan)
     corr[ok] = flux[ok] / mt[ok]

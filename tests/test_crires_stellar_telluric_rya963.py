@@ -167,25 +167,50 @@ def test_singleton_id_gate_is_not_silently_the_acen_orbit():
 
 
 # ── frame table ──────────────────────────────────────────────────────────────
-def test_frame_table_refuses_overlapping_orders():
+def test_frame_table_keeps_overlapping_orders_as_separate_chips():
+    """CRIRES+ echelle orders OVERLAP toward the blue — Y1029's ord9/det3 and ord8/det1
+    share 28 Å. The K band RYA-373 worked in has no such overlap, which is why the first
+    cut of this driver asserted that orders tile. Chips are therefore laid end to end in
+    starting-wavelength order, NOT globally sorted: a global sort interleaves the two
+    chips' pixels and the transmission model would be mapped back across the wrong chip
+    boundary in the overlap region."""
     from pipeline.crires_telluric import CriresFrame, CriresSegment
 
-    def seg(lo, hi, o, d):
-        w = np.linspace(lo, hi, 100)
-        return CriresSegment(order=o, detector=d, wave_A=w, flux=np.ones(100),
-                             err=np.ones(100), qual=np.zeros(100, int))
+    def seg(lo, hi, o, d, n=100):
+        w = np.linspace(lo, hi, n)
+        return CriresSegment(order=o, detector=d, wave_A=w, flux=np.ones(n),
+                             err=np.ones(n), qual=np.zeros(n, int))
 
-    ok = CriresFrame(path=Path('x.fits'), wlen_id='K2192', band='K', mjd=0.0,
-                     date_obs='', ra=0.0, dec=0.0, snr=1.0, specsys='TOPOCENT',
-                     fluxcal='UNCALIBRATED', wmin_nm=0.0, wmax_nm=1.0,
-                     segments=[seg(2000, 2100, 1, 1), seg(2101, 2200, 1, 2)])
-    w, f, e, ix = cst._frame_table(ok)
-    assert np.all(np.diff(w) > 0)
-    assert set(ix.tolist()) == {0, 1}
+    def frame(segments):
+        return CriresFrame(path=Path('x.fits'), wlen_id='Y1029', band='Y', mjd=0.0,
+                           date_obs='', ra=0.0, dec=0.0, snr=1.0, specsys='TOPOCENT',
+                           fluxcal='UNCALIBRATED', wmin_nm=0.0, wmax_nm=1.0,
+                           segments=segments)
 
+    # the real Y1029 overlap, in the order the loader emits them (order desc = wave asc)
+    overlapping = frame([seg(9659.52, 9724.42, 8, 1), seg(9629.76, 9687.52, 9, 3)])
+    w, f, e, ix = cst._frame_table(overlapping)
+    # chips are reordered by starting wavelength, and each stays ONE contiguous block
+    assert ix[0] == 1 and ix[-1] == 0, "chips must be laid out blue-first"
+    edges = np.flatnonzero(np.diff(ix) != 0)
+    assert len(edges) == 1, "each chip must remain a single contiguous row block"
+    # and each block is internally monotonic, which is what the FITS extensions need
+    for a, b in ((0, edges[0] + 1), (edges[0] + 1, len(w))):
+        assert np.all(np.diff(w[a:b]) > 0)
+    # the concatenation is deliberately NOT globally monotonic across the overlap
+    assert np.any(np.diff(w) < 0)
+
+
+def test_frame_table_refuses_a_chip_that_is_not_monotonic():
+    """A chip must be one monotonic block; that is what makes it one FITS extension and
+    what lets the per-chip transmission be mapped back by row slice."""
+    from pipeline.crires_telluric import CriresFrame, CriresSegment
+    w = np.array([100.0, 101.0, 101.0, 102.0])       # a duplicate wavelength
     bad = CriresFrame(path=Path('x.fits'), wlen_id='K2192', band='K', mjd=0.0,
                       date_obs='', ra=0.0, dec=0.0, snr=1.0, specsys='TOPOCENT',
                       fluxcal='UNCALIBRATED', wmin_nm=0.0, wmax_nm=1.0,
-                      segments=[seg(2000, 2100, 1, 1), seg(2050, 2150, 1, 2)])
-    with pytest.raises(RuntimeError, match='overlap'):
+                      segments=[CriresSegment(order=1, detector=1, wave_A=w,
+                                              flux=np.ones(4), err=np.ones(4),
+                                              qual=np.zeros(4, int))])
+    with pytest.raises(RuntimeError, match='non-increasing'):
         cst._frame_table(bad)
