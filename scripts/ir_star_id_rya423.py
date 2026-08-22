@@ -122,7 +122,32 @@ def main():
                              jdepth=round(jd, 3) if jd is not None else None,
                              verdict=v, evidence=ev))
     # ---- CRIRES (no pipeline RV; reduced spectra telluric-dominated) ----
-    for f in sorted(glob.glob(os.path.join(DATA, 'Alpha Centauri A/CHIRES', '*.fits'))):
+    #
+    # 🔴 RYA-972 — CRIRES WAS MISSPELT `CHIRES`, IN THE CODE *AND* ON DISK.
+    #
+    # The staged data directory carried the same typo, so the glob matched it on Sirius
+    # and the branch did run there — 16 frames. Off Sirius the whole spectra root is
+    # absent, so it matched nothing and said nothing, which is how RYA-972 came to be
+    # filed as "never executed" and RYA-971 repeated it as "the CRIRES branch is dead
+    # code". Both halves were true of a machine, not of the code.
+    #
+    # ⚠️ I FIRST ARGUED FOR KEEPING THE MISSPELLING because the code agreed with the disk.
+    # That is backwards: it makes the typo permanent and every future reader has to learn
+    # it. The directory is renamed to CRIRES and this reference follows it.
+    #
+    # The guard stays regardless. A missing spectra root must NAME itself rather than let
+    # every frame report as absent — the Kitt Peak atlas loader's principle, and RYA-833's
+    # (an absence is a hypothesis, never a conclusion).
+    _crires_dir = os.path.join(DATA, 'Alpha Centauri A/CRIRES')
+    if not os.path.isdir(_crires_dir):
+        raise SystemExit(
+            f"CRIRES frame directory not found: {_crires_dir}\n"
+            f"`data.spectra_local` resolves to {DATA!r}. On Sirius this holds 16 alpha Cen "
+            f"frames; off Sirius the root does not exist. Run this there, or stage the "
+            f"data. Refusing to emit a star-ID table with the CRIRES branch silently "
+            f"empty: that silence is what made RYA-972 look like a spelling bug in the "
+            f"CODE for a release.")
+    for f in sorted(glob.glob(os.path.join(_crires_dir, '*.fits'))):
         with pf.open(f) as hd:
             h = hd[0].header
             lab = str(hk(h, 'ESO OBS TARG NAME')); dt = str(hk(h, 'DATE-OBS'))[:10]
