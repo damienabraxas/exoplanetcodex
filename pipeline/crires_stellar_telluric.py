@@ -1097,6 +1097,16 @@ def main(argv=None):
 
     rec = resolve_set(a.set_name)
     files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))[:a.limit]
+    if not files:
+        # A set whose frames are not reachable must SAY so. Returning quietly here would
+        # report "nothing wrong" on a machine that simply cannot see the spectra — and
+        # the CRIRES+ holdings live on Sirius, so that is the normal case on the Mac.
+        raise SystemExit(
+            f"no CRIRES+ IDP FITS under {rec['dir']} — this set's frames are not "
+            f"reachable from here. The spectra root resolves to "
+            f"{codex_path('data.spectra_local')}; on the Mac that is a Sirius path "
+            f"(the holdings migrated 2026-08-16), so run this on Sirius or point "
+            f"CODEX_SPECTRA_LOCAL at a reachable copy.")
     frames = [load_crires_idp(f) for f in files]
     if a.gdas_only:
         g = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])

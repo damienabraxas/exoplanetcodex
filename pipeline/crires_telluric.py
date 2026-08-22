@@ -1121,7 +1121,8 @@ def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="RYA-373 Vesta CRIRES+ K-band telluric/RV")
     ap.add_argument('--set', default='vesta_crires_k',
-                    help="dataset (only vesta_crires_k implemented)")
+                    help="dataset: 'vesta_crires_k' (reflected solar, this module) or a "
+                         "direct-stellar set, which routes to crires_stellar_telluric")
     ap.add_argument('--verify', action='store_true', help="run the verification report")
     ap.add_argument('--telluric', action='store_true',
                     help="also run the real molecfit telluric pass (slow; needs esorex)")
@@ -1129,8 +1130,21 @@ def main(argv=None):
                     help="run the full #3-5 finish-out: telluric→gate→continuum→RV→coadd"
                          "→conditioned CO output (slow; needs esorex + RYA-372)")
     args = ap.parse_args(argv)
+    # RYA-963: the direct-stellar sets live in pipeline.crires_stellar_telluric (the
+    # velocity frame, the star-ID gate and the derived fit windows are what differ; the
+    # molecfit engine below is shared, not duplicated). Route rather than reimplement, so
+    # the ticket's own smoke command reaches the driver that serves it.
+    from pipeline.crires_stellar_telluric import CRIRES_STELLAR_SETS
+    from pipeline import crires_stellar_telluric as _stellar
+    if args.set in CRIRES_STELLAR_SETS:
+        rest = ['--set', args.set]
+        if not (args.telluric or args.condition):
+            rest.append('--plan-only')     # --verify alone must not start a molecfit run
+        return _stellar.main(rest)
     if args.set != 'vesta_crires_k':
-        raise SystemExit(f"unknown --set {args.set!r} (only 'vesta_crires_k')")
+        raise SystemExit(
+            f"unknown --set {args.set!r}; reflected-solar: 'vesta_crires_k'; "
+            f"direct-stellar: {sorted(CRIRES_STELLAR_SETS)}")
     if args.condition:
         import json
         res = condition_co_arm()
