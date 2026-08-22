@@ -123,15 +123,20 @@ def main() -> int:
     with open(manifest, "w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["product", "sha256", "base_frame", "wlen_id", "band", "date_obs",
-                    "gdas_profile", "gdas_md5", "star_id", "gate_before", "gate_after",
-                    "gate_passed"])
+                    "gdas_profile", "gdas_md5", "star_id", "star_id_contested",
+                    "gate_before", "gate_after", "gate_passed"])
         by_name = {Path(f["product"]).name: f for f in run["frames"]}
         for p in products:
             f = by_name.get(Path(p).name)
             if f is None:
                 continue
+            # A star-id whose underlying rule is contested must not be recorded as a
+            # bare letter. The products carry STARIDQ; the manifest -- which is what the
+            # live tracker reads -- carried nothing, so a reader of the dashboard saw a
+            # settled verdict where the header said "disputed".
             w.writerow([Path(p).name, sha256(p), f["frame"], f["wlen_id"], f["band"],
                         f["date_obs"], f["gdas"], f["gdas_md5"], f["star_id"],
+                        bool(f.get("star_id_branch_contested")),
                         f"{f['gate_before']:.5f}", f"{f['gate_after']:.5f}",
                         f["gate_passed"]])
     print(f"[manifest] {manifest}")
