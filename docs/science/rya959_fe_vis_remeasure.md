@@ -1,6 +1,6 @@
 # RYA-959 — Fe I VIS re-measured, and the width ceiling that was never there
 
-**Status:** measurement + Kitt Peak control landed; HARPS Engine-B re-deriving.
+**Status:** complete — both arms measured and derived.
 **Artifacts:** `data/measured/band_ew/FeI_3780_6910_*`.
 **Code:** `pipeline/line_width.py` (the ceiling), `scripts/measure_band_profilefit.py`,
 `pipeline/measure/profile_fit.py`, `pipeline/band_products.py` (two new columns).
@@ -140,8 +140,18 @@ Kitt Peak, fresh 304-line guarded pool, aggregated by the median as `build_produ
 | Engine-A (Bergemann NLTE) | 7.596 | 222 | 0.0235 | 0.1705 | **+0.130** |
 | Engine-B (Turbospectrum flux-fit) | 7.503 | 252 | 0.0236 | 0.1700 | +0.037 |
 
-HARPS `solar_harps_molecfit_corrected`: **7.656** (n=247) and **7.666** (n=181) on the same
-two EW legs — **+0.19 dex against gold, and ~0.07 dex above Kitt Peak**.
+HARPS `solar_harps_molecfit_corrected`, on the named holding (see the Engine-B fix below):
+
+| leg | A(Fe I) | n | stat | syst | vs gold 7.466 |
+|---|---|---|---|---|---|
+| 1D-LTE | 7.656 | 247 | 0.0265 | 0.1705 | **+0.190** |
+| Engine-A | 7.666 | 181 | 0.0294 | 0.1705 | **+0.200** |
+| Engine-B | 7.462 | 168 | 0.0252 | 0.1700 | −0.004 |
+
+⚠️ Engine-B's first run used the WRONG holding (`solar_harps`, the uncorrected sibling).
+Re-derived on the named one it moved **0.0005 dex and gained one line** — the defect was
+real and structural, its numerical effect on this band was nil. Say both: the number was
+right by luck, the provenance was wrong by construction.
 
 **These numbers are high, and the budget already names why**: `gf scale (UNGRADED)` is the
 dominant term on every product, at 0.170 dex, with the verdict *"more lines will NOT help;
@@ -175,6 +185,14 @@ never merged, per RYA-946:
 | 1D-LTE | **7.463** (n=13) | 7.604 (n=291) | **−0.141** |
 | Engine-A | **7.464** (n=12) | 7.608 (n=210) | **−0.145** |
 | Engine-B | **7.448** (n=9) | 7.505 (n=243) | −0.057 |
+
+and on HARPS:
+
+| leg | showcase (GF-LAB) | document (ungraded) | delta | showcase vs gold |
+|---|---|---|---|---|
+| 1D-LTE | 7.498 (n=6) | 7.656 (n=241) | −0.158 | +0.032 |
+| Engine-A | 7.433 (n=5) | 7.667 (n=176) | −0.234 | −0.033 |
+| Engine-B | 7.431 (n=5) | 7.462 (n=163) | −0.031 | −0.035 |
 
 All three showcase values sit within 0.02 dex of **Den Hartog 2014's 7.45** and of this
 project's own gold **7.466** — reached by three different treatments on pools they do not
