@@ -521,3 +521,25 @@ def test_a_code_fault_aborts_instead_of_becoming_a_per_frame_finding():
     # and the genuinely per-frame conditions must NOT be in there
     assert RuntimeError not in cst._CODE_FAULTS
     assert ValueError not in cst._CODE_FAULTS
+
+
+def test_sigabrt_and_sigkill_are_reported_as_different_things():
+    """They mean different things and the distinction is operational. SIGKILL = the
+    KERNEL chose this process, and on a shared box that choice could have fallen on
+    someone else's job. SIGABRT under our RLIMIT_AS cap = CPL failing an allocation
+    ('failed to allocate 16 bytes' — sixteen bytes means address space was exhausted,
+    not that the request was large), i.e. our runaway failing with our own name on it.
+    Neither is a fit failure."""
+    class P:
+        stdout = ''
+        def __init__(self, rc): self.returncode = rc
+    with pytest.raises(RuntimeError, match='kernel OOM killer'):
+        cst._require_product(P(-9), Path('/nonexistent'), 'X.fits', 'y')
+    with pytest.raises(RuntimeError, match='RLIMIT_AS cap'):
+        cst._require_product(P(-6), Path('/nonexistent'), 'X.fits', 'y')
+    # and both must steer toward a smaller problem, not a bigger ceiling
+    for rc in (-9, -6):
+        try:
+            cst._require_product(P(rc), Path('/nonexistent'), 'X.fits', 'y')
+        except RuntimeError as e:
+            assert 'FEWER fit windows' in str(e)
