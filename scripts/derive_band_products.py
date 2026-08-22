@@ -214,6 +214,109 @@ NEARUV_N_LINES = _NEARUV.n_lines
 _EW_MATCH_TOL_A = 0.005
 
 
+def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
+                     idx_sorted: np.ndarray) -> tuple[list, list]:
+    """Wavelengths -> row indices in the synthesis list. Shared by every selector.
+
+    Nearest-within-tolerance, never a rounded key (RYA-703/704). Factored out rather than
+    copied into the second selector: RYA-701 measured that one Ba->Al copy produced 13
+    defects, and a matcher that drifts between two selectors would silently change which
+    lines a comparison is run on.
+    """
+    keep, missing = [], []
+    for w in want:
+        j = int(np.searchsorted(w_sorted, w))
+        best, bi = np.inf, -1
+        for k in (j - 1, j, j + 1):
+            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
+                best, bi = abs(w_sorted[k] - w), k
+        if bi >= 0 and best <= _EW_MATCH_TOL_A:
+            keep.append(idx_sorted[bi])
+        else:
+            missing.append((float(w), float(best)))
+    return keep, missing
+
+
+def _feature_depth(waves: np.ndarray) -> np.ndarray:
+    """Each line's FEATURE depth, grouped exactly as `line_accounting_rya709.features()`.
+
+    🔴 THE GROUPING IS THE POINT, NOT AN IMPLEMENTATION DETAIL. That script groups list
+    rows within `GROUP_A` and takes the MAX central_depth over the group, so "this line's
+    depth" is the depth of the blended FEATURE it belongs to. Recomputing it any other way
+    here would select a different population from the one the EW route gated on, and the
+    whole claim of this run — that these are the lines EW could never reach — rests on the
+    two agreeing. Thresholds are imported, never re-typed.
+    """
+    from line_accounting_rya709 import GROUP_A, DEPTH_HI            # noqa: F401
+    ls = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
+    a = ls[ls.element == "Fe"].sort_values("wavelength_air_A").copy()
+    a["_k"] = (a.wavelength_air_A.diff().fillna(9e9) > GROUP_A).cumsum()
+    f = a.groupby("_k").agg(w=("wavelength_air_A", "mean"),
+                            d=("central_depth", "max")).reset_index(drop=True)
+    fw, fd = f.w.values, f.d.values
+    return np.array([fd[int(np.argmin(np.abs(fw - w)))] for w in waves])
+
+
+def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
+    """The graded lines EW can NEVER reach: laboratory gf AND too deep to measure — RYA-984.
+
+    🔴 WHY A THIRD SELECTOR. `--lines-from-ew` reads the EW artifact, which is written
+    AFTER `line_accounting_rya709`'s [0.05, 0.60] depth triage, so the deep population is
+    invisible to it BY CONSTRUCTION (measured on RYA-967: the 55 it returned top out at
+    depth 0.595). `select_lines` would pick its own strongest-N and vary selection as well
+    as method (RYA-842). Neither can express "every graded line above the depth gate".
+
+    These are the anchor-grower. EW dies on them because the curve of growth goes flat;
+    synthesis fits flux-space chi2 and inverts no equivalent width, so the REW saturation
+    ceiling never applies to any of them (`pipeline/measure/synthesis.py:277`).
+    """
+    from line_accounting_rya709 import DEPTH_HI
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
+             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & cg.wavelength_air_A.between(lo_A, hi_A)]
+    if lab.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"to run a 'graded' product on a pool that is not graded.")
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    deep = lab[depth > DEPTH_HI]
+    print(f"  [deep-graded] {len(lab)} LAB-tier {species} lines in band; "
+          f"{len(deep)} above the {DEPTH_HI} depth gate that EW could never attempt "
+          f"({len(lab) - len(deep)} are in or below the EW window and belong to RYA-967)")
+    if deep.empty:
+        raise SystemExit("no graded line in this band sits above the EW depth gate")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    idx_all = np.flatnonzero(el == species)
+    if not idx_all.size:
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    order = np.argsort(w_A[idx_all])
+    idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+
+    keep, missing = _match_into_list(
+        np.sort(deep.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+    if missing:
+        # LOUD (RYA-711/833). A graded line the synthesis list does not carry is not
+        # "not recovered" — it was never a candidate, and the distinction is the whole
+        # reason RYA-977 exists.
+        print(f"  [deep-graded] {len(missing)} of {len(deep)} are NOT in the synthesis "
+              f"list (>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported "
+              f"rather than counted as failures (RYA-977 territory)")
+    if not keep:
+        raise SystemExit("no deep graded line matched the synthesis list")
+    keep = np.array(sorted(set(keep)))
+    return pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+
 def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
                            species: str, tier: str) -> pd.DataFrame:
     """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
@@ -250,17 +353,7 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     idx_sorted = idx_all[order]
     w_sorted = w_A[idx_sorted]
 
-    keep, missing = [], []
-    for w in want.values:
-        j = int(np.searchsorted(w_sorted, w))
-        best, bi = np.inf, -1
-        for k in (j - 1, j, j + 1):
-            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
-                best, bi = abs(w_sorted[k] - w), k
-        if bi >= 0 and best <= _EW_MATCH_TOL_A:
-            keep.append(idx_sorted[bi])
-        else:
-            missing.append((float(w), float(best)))
+    keep, missing = _match_into_list(want.values, w_sorted, idx_sorted)
     # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
     # does not contain cannot be compared, and the count is itself a result: it is the
     # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
@@ -467,7 +560,10 @@ def synthesis_route(a, pol) -> None:
     # every one was labelled Fe II. `species_token` spells the ion the way the linelist
     # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
     # none of that species — which is the honest answer where it holds none.
-    if getattr(a, "lines_from_ew", None):
+    if getattr(a, "lines_deep_graded", False):
+        cand = _cand_deep_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                                 species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_from_ew", None):
         cand = _cand_from_ew_artifact(ctx["linelist"], Path(a.lines_from_ew),
                                       lo_A=a.lo, hi_A=a.hi,
                                       species=species_token(a.element, a.ion),
@@ -952,6 +1048,11 @@ def main() -> None:
                          "the synth leg picks its own (stronger) lines and any difference "
                          "in A(X) conflates method with selection — RYA-842, line "
                          "selection dominates.")
+    ap.add_argument("--lines-deep-graded", action="store_true",
+                    help="RYA-984: select the laboratory-graded lines that sit ABOVE the "
+                         "EW depth gate — the ones EW can never attempt because the curve "
+                         "of growth is flat there. Synthesis inverts no EW, so the "
+                         "saturation ceiling does not apply to them.")
     ap.add_argument("--lines-tier", choices=["all", "graded", "ungraded"], default="all",
                     help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
                          "as their own product, never merged with the ungraded ones.")
