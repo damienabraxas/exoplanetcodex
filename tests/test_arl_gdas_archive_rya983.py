@@ -77,7 +77,7 @@ def test_before_the_archive_is_a_PERMANENT_gap_not_a_retryable_miss(tmp_path):
     for night in (datetime(2004, 9, 19, 0), datetime(2004, 11, 30, 21)):
         with pytest.raises(ArlBeforeArchive, match='permanently un-correctable'):
             _try_noaa_arl_archive('C-70.7-29.3', -29.26, -70.73, night,
-                                  tmp_path, tmp_path / 'x.fits')
+                                  tmp_path, tmp_path / 'x.fits', site_registered=True)
 
 
 def test_the_first_night_of_the_archive_is_not_refused(tmp_path, monkeypatch):
@@ -85,14 +85,14 @@ def test_the_first_night_of_the_archive_is_not_refused(tmp_path, monkeypatch):
     monkeypatch.setenv('CODEX_NO_NETWORK', '1')
     assert _try_noaa_arl_archive('C-70.7-29.3', -29.26, -70.73,
                                  datetime(2004, 12, 1, 0), tmp_path,
-                                 tmp_path / 'x.fits') is None
+                                 tmp_path / 'x.fits', site_registered=True) is None
 
 
 def test_no_network_short_circuits_without_pretending_to_succeed(tmp_path, monkeypatch):
     monkeypatch.setenv('CODEX_NO_NETWORK', '1')
     assert _try_noaa_arl_archive('C-70.7-29.3', -29.26, -70.73,
                                  datetime(2023, 12, 3, 6), tmp_path,
-                                 tmp_path / 'x.fits') is None
+                                 tmp_path / 'x.fits', site_registered=True) is None
 
 
 # ── the docstring that cost two tickets a manual pull each ──────────────────
@@ -104,3 +104,38 @@ def test_the_docstring_no_longer_says_there_is_no_endpoint():
     doc = gdas_fetch.__doc__
     assert 'no clean unauthenticated REST endpoint' not in doc
     assert 'ready.noaa.gov/data/archives/gdas1' in doc
+
+
+# ── the safety property RYA-380's test caught ───────────────────────────────
+def test_the_arl_backend_refuses_an_UNREGISTERED_site(tmp_path):
+    """🔴 The ESO tarball backend is keyed by SITE, so an unknown site gets nothing and
+    RYA-380's 'unknown site must fail loud' guarantee holds. The ARL archive is keyed by
+    COORDINATE and is GLOBAL — it returns a real, correct profile for any lat/lon on
+    Earth, including lat 0 / lon 0 for a site that does not exist, which is the middle of
+    the Atlantic. The number is not fabricated; it is the atmosphere above the WRONG
+    PLACE, which is worse, because nothing about it looks wrong.
+
+    RYA-380's own test caught this the first time the backend ran. Registered sites only.
+    """
+    assert _try_noaa_arl_archive('C-999.9-99.9', 0.0, 0.0, datetime(2023, 12, 3, 6),
+                                 tmp_path, tmp_path / 'x.fits',
+                                 site_registered=False) is None
+
+
+def test_an_unregistered_site_still_raises_end_to_end(tmp_path):
+    """The whole point: fetch_gdas must still refuse a site nobody has, even though the
+    ARL archive could physically answer for its coordinates."""
+    from pipeline.telluric.gdas_fetch import fetch_gdas
+    with pytest.raises(GDASUnavailable):
+        fetch_gdas('nowhere', night='2023-12-03', cache_dir=tmp_path,
+                   lat=0.0, lon=0.0, gdas_loc='C-999.9-99.9')
+
+
+def test_registered_sites_are_the_ones_that_may_use_it():
+    """la_silla must be reachable — unblocking it is the whole ticket — and the check is
+    the registry, not a name allow-list here."""
+    from config.constants import SITES, get_site
+    assert 'la_silla' in SITES and 'paranal' in SITES
+    assert get_site('la_silla')['gdas_loc'] == 'C-70.7-29.3'
+    with pytest.raises(Exception):
+        get_site('nowhere')
