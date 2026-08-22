@@ -1,0 +1,507 @@
+{
+  "ticket": "RYA-973",
+  "star": "tau_ceti",
+  "dir": "/mnt/codex-data/spectra/tau_cet/HARPS",
+  "n_products": 60,
+  "header_state": "unknown",
+  "header_reason": "the headers carry no PRO REC chain, no transmission extension and no telluric column, so they do not speak to telluric state. UNKNOWN is refused by telluric_policy.gate_holding \u2014 it is never defaulted either way (RYA-806)",
+  "o2b_window_A": [
+    6867.0,
+    6884.0
+  ],
+  "control_window_A": [
+    6800.0,
+    6840.0
+  ],
+  "depth_threshold": 0.7,
+  "o2b_median_frac_below": 0.20340975896531452,
+  "control_median_frac_below": 0.000999750062484379,
+  "excess_ratio": 203.46061140505583,
+  "flux_state": "not-applied",
+  "n_frames_measured": 60,
+  "n_frames_control_usable": 57,
+  "calibration": "RYA-931 solar HARPS: 22.06% of O2 B pixels below 0.7 before correction, 0.00% after",
+  "disposition": "DETERMINE-AND-GATE (RYA-460): the optical is telluric-light, so the owed action is a red-edge disposition, NOT a molecfit run. Any line inside 6867-6884 A needs exclusion or correction; lines blueward of it are CLEAN_OUTSIDE_REGISTERED_BANDS.",
+  "per_frame": [
+    {
+      "file": "ADP.2014-09-17T11:19:51.007.fits",
+      "date_obs": "2007-11-17",
+      "o2b_frac_below_0.7": 0.2004703115814227,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-17T11:21:00.410.fits",
+      "date_obs": "2007-11-25",
+      "o2b_frac_below_0.7": 0.1987066431510876,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-17T11:22:11.140.fits",
+      "date_obs": "2007-11-25",
+      "o2b_frac_below_0.7": 0.18930041152263374,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:00:34.530.fits",
+      "date_obs": "2009-01-16",
+      "o2b_frac_below_0.7": 0.11052322163433274,
+      "control_frac_below_0.7": 0.5353661584603849,
+      "n_px_o2b": 1701,
+      "control_usable": false
+    },
+    {
+      "file": "ADP.2014-09-23T11:00:46.057.fits",
+      "date_obs": "2009-10-23",
+      "o2b_frac_below_0.7": 0.23339212228101117,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:01:07.443.fits",
+      "date_obs": "2009-11-02",
+      "o2b_frac_below_0.7": 0.2069370958259847,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:01:22.100.fits",
+      "date_obs": "2009-10-18",
+      "o2b_frac_below_0.7": 0.2022339800117578,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:01:50.417.fits",
+      "date_obs": "2009-01-16",
+      "o2b_frac_below_0.7": 0.1987066431510876,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:02:38.837.fits",
+      "date_obs": "2009-01-16",
+      "o2b_frac_below_0.7": 0.20458553791887124,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:03:51.997.fits",
+      "date_obs": "2009-10-09",
+      "o2b_frac_below_0.7": 0.20340975896531452,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:03:53.390.fits",
+      "date_obs": "2009-10-18",
+      "o2b_frac_below_0.7": 0.18636096413874192,
+      "control_frac_below_0.7": 0.021494626343414147,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:04:23.230.fits",
+      "date_obs": "2009-10-18",
+      "o2b_frac_below_0.7": 0.22457378012933568,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:04:52.367.fits",
+      "date_obs": "2009-10-09",
+      "o2b_frac_below_0.7": 0.20517342739564962,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:05:40.293.fits",
+      "date_obs": "2009-10-09",
+      "o2b_frac_below_0.7": 0.2022339800117578,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-23T11:06:04.720.fits",
+      "date_obs": "2009-10-09",
+      "o2b_frac_below_0.7": 0.20811287477954143,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:34:15.997.fits",
+      "date_obs": "2011-12-28",
+      "o2b_frac_below_0.7": 0.19106407995296884,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:34:46.583.fits",
+      "date_obs": "2011-12-28",
+      "o2b_frac_below_0.7": 0.19223985890652556,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:34:53.370.fits",
+      "date_obs": "2011-10-03",
+      "o2b_frac_below_0.7": 0.2039976484420929,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:34:58.043.fits",
+      "date_obs": "2011-12-28",
+      "o2b_frac_below_0.7": 0.21164021164021163,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:35:25.620.fits",
+      "date_obs": "2011-12-29",
+      "o2b_frac_below_0.7": 0.19223985890652556,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:35:53.110.fits",
+      "date_obs": "2011-10-07",
+      "o2b_frac_below_0.7": 0.21634332745443857,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:35:58.017.fits",
+      "date_obs": "2011-12-29",
+      "o2b_frac_below_0.7": 0.19223985890652556,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-25T15:36:37.983.fits",
+      "date_obs": "2011-12-29",
+      "o2b_frac_below_0.7": 0.19282774838330394,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-09-26T16:51:53.003.fits",
+      "date_obs": "2012-12-21",
+      "o2b_frac_below_0.7": 0.1934156378600823,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-01T10:19:07.070.fits",
+      "date_obs": "2004-09-19",
+      "o2b_frac_below_0.7": 0.205761316872428,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-01T10:19:17.807.fits",
+      "date_obs": "2004-10-02",
+      "o2b_frac_below_0.7": 0.17989417989417988,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-01T10:20:36.260.fits",
+      "date_obs": "2004-10-03",
+      "o2b_frac_below_0.7": 0.19753086419753085,
+      "control_frac_below_0.7": 0.21969507623094225,
+      "n_px_o2b": 1701,
+      "control_usable": false
+    },
+    {
+      "file": "ADP.2014-10-01T10:22:33.623.fits",
+      "date_obs": "2004-09-19",
+      "o2b_frac_below_0.7": 0.20458553791887124,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:04:14.553.fits",
+      "date_obs": "2013-11-26",
+      "o2b_frac_below_0.7": 0.19988242210464433,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:04:24.783.fits",
+      "date_obs": "2013-11-26",
+      "o2b_frac_below_0.7": 0.1969429747207525,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:05:33.690.fits",
+      "date_obs": "2013-09-29",
+      "o2b_frac_below_0.7": 0.19282774838330394,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:06:30.620.fits",
+      "date_obs": "2013-10-21",
+      "o2b_frac_below_0.7": 0.2069370958259847,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:06:48.790.fits",
+      "date_obs": "2013-11-26",
+      "o2b_frac_below_0.7": 0.21281599059376838,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:07:06.190.fits",
+      "date_obs": "2013-11-26",
+      "o2b_frac_below_0.7": 0.2104644326866549,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:07:45.770.fits",
+      "date_obs": "2013-10-21",
+      "o2b_frac_below_0.7": 0.20340975896531452,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-06T10:07:48.793.fits",
+      "date_obs": "2013-10-20",
+      "o2b_frac_below_0.7": 0.19047619047619047,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-07T08:34:05.483.fits",
+      "date_obs": "2014-08-26",
+      "o2b_frac_below_0.7": 0.2069370958259847,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-07T08:35:25.813.fits",
+      "date_obs": "2014-08-26",
+      "o2b_frac_below_0.7": 0.20164609053497942,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-10-07T08:35:35.740.fits",
+      "date_obs": "2014-08-26",
+      "o2b_frac_below_0.7": 0.21164021164021163,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-12-18T22:55:22.450.fits",
+      "date_obs": "2014-12-18",
+      "o2b_frac_below_0.7": 0.19223985890652556,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2014-12-18T22:55:22.530.fits",
+      "date_obs": "2014-12-18",
+      "o2b_frac_below_0.7": 0.19282774838330394,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2015-10-04T02:00:40.220.fits",
+      "date_obs": "2015-10-03",
+      "o2b_frac_below_0.7": 0.1951793062904174,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2015-10-04T02:00:40.427.fits",
+      "date_obs": "2015-10-03",
+      "o2b_frac_below_0.7": 0.22810111699000588,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2015-10-30T02:01:00.227.fits",
+      "date_obs": "2015-10-29",
+      "o2b_frac_below_0.7": 0.24221046443268665,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2017-07-09T01:02:20.381.fits",
+      "date_obs": "2017-07-08",
+      "o2b_frac_below_0.7": 0.21457965902410348,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2017-07-27T01:02:14.883.fits",
+      "date_obs": "2017-07-26",
+      "o2b_frac_below_0.7": 0.21516754850088182,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2017-07-27T01:02:14.891.fits",
+      "date_obs": "2017-07-26",
+      "o2b_frac_below_0.7": 0.2157554379776602,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2019-07-28T01:08:01.409.fits",
+      "date_obs": "2019-07-27",
+      "o2b_frac_below_0.7": 0.0,
+      "control_frac_below_0.7": 0.5333666583354162,
+      "n_px_o2b": 1701,
+      "control_usable": false
+    },
+    {
+      "file": "ADP.2019-07-28T01:08:01.413.fits",
+      "date_obs": "2019-07-27",
+      "o2b_frac_below_0.7": 0.19165196942974722,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2019-07-28T01:08:01.415.fits",
+      "date_obs": "2019-07-27",
+      "o2b_frac_below_0.7": 0.18871252204585537,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2019-07-28T01:08:01.417.fits",
+      "date_obs": "2019-07-27",
+      "o2b_frac_below_0.7": 0.19165196942974722,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2019-07-28T01:08:01.419.fits",
+      "date_obs": "2019-07-27",
+      "o2b_frac_below_0.7": 0.20105820105820105,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2019-07-28T01:08:01.421.fits",
+      "date_obs": "2019-07-27",
+      "o2b_frac_below_0.7": 0.18518518518518517,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2019-12-10T01:12:08.994.fits",
+      "date_obs": "2019-12-06",
+      "o2b_frac_below_0.7": 0.15343915343915343,
+      "control_frac_below_0.7": 0.015746063484128967,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2021-01-07T16:42:45.405.fits",
+      "date_obs": "2021-01-02",
+      "o2b_frac_below_0.7": 0.2104644326866549,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2021-01-10T01:14:15.133.fits",
+      "date_obs": "2021-01-09",
+      "o2b_frac_below_0.7": 0.2069370958259847,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2022-10-17T01:02:33.865.fits",
+      "date_obs": "2022-10-16",
+      "o2b_frac_below_0.7": 0.22986478542034097,
+      "control_frac_below_0.7": 0.0007498125468632841,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2022-10-17T01:02:33.867.fits",
+      "date_obs": "2022-10-16",
+      "o2b_frac_below_0.7": 0.23045267489711935,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2023-10-15T01:01:35.899.fits",
+      "date_obs": "2023-10-14",
+      "o2b_frac_below_0.7": 0.21987066431510877,
+      "control_frac_below_0.7": 0.0012496875781054736,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    },
+    {
+      "file": "ADP.2023-12-04T01:03:27.733.fits",
+      "date_obs": "2023-12-03",
+      "o2b_frac_below_0.7": 0.2157554379776602,
+      "control_frac_below_0.7": 0.000999750062484379,
+      "n_px_o2b": 1701,
+      "control_usable": true
+    }
+  ]
+}

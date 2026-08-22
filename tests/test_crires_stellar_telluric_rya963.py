@@ -358,3 +358,188 @@ def test_a_large_zero_point_is_a_failed_anchor_not_a_zero_point():
     assert abs(-12.782) > _TELLURIC_CLOSURE_MAX      # K2148: refused
     for zp in (-1.857, -0.945, -0.031, -0.013, 0.766):
         assert abs(zp) <= _TELLURIC_CLOSURE_MAX      # the five that closed
+
+
+# ── RYA-973: multi-night sets, and collisions the alpha Cen shape could not expose ──
+def test_tau_ceti_set_is_a_multi_directory_singleton_with_no_date_filter():
+    """tau Ceti's CRIRES+ frames are split across CRIRES/ and CRIRESPlus/ by how they
+    ARRIVED, not by what they are — 25 in the first (all cr2res_obs_nodding, including
+    the only Y1029/J1232/H1582/H1559/K2192 frames) and 4 in the second. A set keyed to
+    one directory sees a third of the star.
+
+    And no `epochs` filter: identity is verified PER FRAME by the intake gate, which is
+    what actually protects us. A date filter never did — it was only ever a proxy for
+    "is this the right target", and the gate answers that directly."""
+    rec = cst.resolve_set('tau_ceti_crires')
+    assert rec['claimed_star'] == 'tau_ceti'
+    assert rec['id_gate'] == 'singleton_astrometry', (
+        "a singleton has no close pair to split; the alpha Cen orbit rule must not apply")
+    assert len(rec['dirs']) == 2
+    assert 'epochs' not in rec, "identity is per-frame, not per-date"
+
+
+def test_the_astrometry_and_catalogue_ids_disagree_as_raw_strings():
+    """`audit_crires` identifies this star as `tau_cet` (from the CRIRES astrometry
+    reference) while system_catalog / stars.yaml / the holdings registry call it
+    `tau_ceti`. Compared raw, the two identity routes disagree on EVERY tau Ceti frame,
+    so the check meant to catch a mislabelled star would cry wolf on all of them. Both
+    sides must go through the one alias lookup."""
+    from pipeline.star_id import resolve_star
+    assert 'tau_cet' != 'tau_ceti'                       # the raw-string trap
+    assert resolve_star('tau_cet') == resolve_star('tau_ceti') == 'tau_ceti'
+
+
+def test_every_astrometry_reference_id_resolves_through_the_alias_lookup():
+    """Any id the astrometry reference can emit must be resolvable, or the identity
+    cross-check silently degrades to 'UNRESOLVED vs something' for that star."""
+    import csv
+    from pipeline.star_id import resolve_star
+    from config.constants import codex_root
+    path = Path(codex_root('repo')) / 'data' / 'reference' / 'crires_target_astrometry.csv'
+    unresolved = []
+    for row in csv.DictReader(open(path)):
+        sid = row['star_id']
+        if resolve_star(sid) == 'UNRESOLVED':
+            unresolved.append(sid)
+    # tau_boo is UNRESOLVED on purpose (no star_params_key yet, RYA-957)
+    assert set(unresolved) <= {'tau_boo'}, f"unresolvable astrometry ids: {unresolved}"
+
+
+def test_work_and_product_names_separate_frames_of_the_same_setting():
+    """tau Ceti's four frames are ALL K2148, two per night. A work dir or product named
+    for setting+date alone collides — two of them fitted against DIFFERENT nights'
+    atmospheres, with only the last surviving. alpha Cen could not expose this: it had
+    exactly one frame per setting."""
+    stems = ['ADP.2025-05-10T13:29:03.307', 'ADP.2025-05-10T13:29:03.310',
+             'ADP.2025-05-10T15:25:08.684', 'ADP.2025-05-10T15:25:08.687']
+    dates = ['2022-01-06', '2022-01-06', '2022-01-16', '2022-01-16']
+    setting_only = {f"K2148_{d}" for d in dates}
+    per_frame = {f"tau_ceti_crires_K2148_{d}_{s}" for d, s in zip(dates, stems)}
+    assert len(setting_only) == 2, "setting+date collapses four frames onto two names"
+    assert len(per_frame) == 4, "set+setting+date+frame keeps all four distinct"
+
+
+# ── RYA-973: the standing intake identity procedure ─────────────────────────
+def test_star_id_namespace_guard_passes_on_the_committed_tree():
+    from pipeline.intake_identity import assert_star_id_namespace
+    out = assert_star_id_namespace()
+    ids = out['sources']['data/reference/crires_target_astrometry.csv']
+    assert 'tau_ceti' in ids and 'tau_cet' not in ids, (
+        "the astrometry reference must use the canonical star_params_key")
+
+
+def test_star_id_namespace_guard_actually_fails_on_drift(tmp_path):
+    """Prove the tripwire RED before trusting it. A guard that cannot fail is not a
+    guard — and this exact drift sat undetected because nothing joined the two
+    registries until the first consumer compared them."""
+    import csv
+    from pipeline.intake_identity import assert_star_id_namespace
+    from config.constants import codex_root
+    src = Path(codex_root('repo')) / 'data' / 'reference' / 'crires_target_astrometry.csv'
+    dst = tmp_path / 'data' / 'reference'
+    dst.mkdir(parents=True)
+    rows = list(csv.DictReader(open(src, newline='')))
+    for r in rows:
+        if r['star_id'] == 'tau_ceti':
+            r['star_id'] = 'tau_cet'                      # re-introduce the drift
+    with open(dst / 'crires_target_astrometry.csv', 'w', newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), lineterminator='\n')
+        w.writeheader(); w.writerows(rows)
+    with pytest.raises(AssertionError, match='namespace drift'):
+        assert_star_id_namespace(repo_root=tmp_path)
+
+
+def test_exemptions_carry_a_stated_reason():
+    """An exemption list is where a defect hides if entries can be added silently."""
+    from pipeline.intake_identity import NAMESPACE_EXEMPT
+    assert set(NAMESPACE_EXEMPT) == {'tau_boo', 'vesta'}
+    for sid, why in NAMESPACE_EXEMPT.items():
+        assert len(why) > 30, f"{sid} exemption needs a stated reason, not a bare entry"
+
+
+def test_singleton_gate_delegates_rather_than_reimplementing():
+    """A second copy of the identity rule is how the two routes drifted apart. The
+    driver must call the standing procedure."""
+    import inspect
+    src = inspect.getsource(cst.identify_singleton)
+    assert 'identify_at_intake' in src
+    assert 'load_astrometry' not in src, "re-implementing the astrometry route here"
+
+
+# ── RYA-973: the cited radial velocity, and what it may referee ─────────────
+def _target_ref():
+    import csv
+    from config.constants import codex_root
+    path = Path(codex_root('repo')) / 'data' / 'reference' / 'crires_target_astrometry.csv'
+    return {r['star_id']: r for r in csv.DictReader(open(path))}
+
+
+def test_every_reference_rv_carries_its_own_bibcode():
+    """An RV quoted without a source is a number from memory. This file exists to be the
+    cited referee, so a value without a bibcode is not usable as one."""
+    for sid, row in _target_ref().items():
+        if row.get('rv_kms'):
+            assert row.get('rv_bibcode'), f"{sid} has an RV with no source"
+
+
+def test_tau_ceti_rv_reference_is_the_gaia_standard():
+    """tau Ceti is a Gaia RADIAL-VELOCITY STANDARD (Soubiran+2018, A&A 616 A7), quoted to
+    0.0002 km/s. That is what makes it a sharp external check on a K-band mask CCF —
+    and what makes the K2148 anchor failure unmistakable: applying the railed -20 km/s
+    'zero-point' would land ~20 km/s from a value known to four decimals."""
+    row = _target_ref()['tau_ceti']
+    assert row['rv_bibcode'] == '2018A&A...616A...7S'
+    assert abs(float(row['rv_kms']) - (-16.597)) < 1e-3
+    assert float(row['e_rv_kms']) < 0.01
+    assert row['rv_quality'] == 'A'
+
+
+def test_a_catalogue_rv_is_epoch_ambiguous_for_a_binary():
+    """alpha Cen A's catalogued RV lies OUTSIDE the Kervella orbit bounds, which is the
+    clearest possible demonstration that a single catalogue value cannot be compared to
+    an epoch measurement for a binary component without establishing its epoch. tau Ceti,
+    a singleton, has no such problem — which is why it referees cleanly and alpha Cen
+    does not."""
+    from pipeline.acen_orbit import rv_bounds
+    lo, hi = rv_bounds()
+    rv_a = float(_target_ref()['alpha_cen_a']['rv_kms'])
+    assert not (lo <= rv_a <= hi), (
+        f"alpha Cen A catalogue RV {rv_a} now sits inside the orbit bounds "
+        f"[{lo:.2f},{hi:.2f}] — re-examine whether it can referee the branch question")
+    rv_tau = float(_target_ref()['tau_ceti']['rv_kms'])
+    assert -20 < rv_tau < -13, "a singleton's catalogue RV is directly comparable"
+
+
+def test_a_code_fault_aborts_instead_of_becoming_a_per_frame_finding():
+    """RYA-973: a module refactored into existence locally but never synced to the
+    compute host made every frame run its full molecfit fit and THEN fail on the import.
+    80 minutes of compute, and a report reading 'failed 6' as if the DATA were at fault.
+    A code fault must abort on the first frame, where it is cheap and unambiguous."""
+    assert ImportError in cst._CODE_FAULTS
+    assert AttributeError in cst._CODE_FAULTS
+    assert NameError in cst._CODE_FAULTS
+    # and the genuinely per-frame conditions must NOT be in there
+    assert RuntimeError not in cst._CODE_FAULTS
+    assert ValueError not in cst._CODE_FAULTS
+
+
+def test_sigabrt_and_sigkill_are_reported_as_different_things():
+    """They mean different things and the distinction is operational. SIGKILL = the
+    KERNEL chose this process, and on a shared box that choice could have fallen on
+    someone else's job. SIGABRT under our RLIMIT_AS cap = CPL failing an allocation
+    ('failed to allocate 16 bytes' — sixteen bytes means address space was exhausted,
+    not that the request was large), i.e. our runaway failing with our own name on it.
+    Neither is a fit failure."""
+    class P:
+        stdout = ''
+        def __init__(self, rc): self.returncode = rc
+    with pytest.raises(RuntimeError, match='kernel OOM killer'):
+        cst._require_product(P(-9), Path('/nonexistent'), 'X.fits', 'y')
+    with pytest.raises(RuntimeError, match='RLIMIT_AS cap'):
+        cst._require_product(P(-6), Path('/nonexistent'), 'X.fits', 'y')
+    # and both must steer toward a smaller problem, not a bigger ceiling
+    for rc in (-9, -6):
+        try:
+            cst._require_product(P(rc), Path('/nonexistent'), 'X.fits', 'y')
+        except RuntimeError as e:
+            assert 'FEWER fit windows' in str(e)

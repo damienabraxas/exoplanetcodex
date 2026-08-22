@@ -29,7 +29,7 @@ OUT = ROOT / 'data' / 'reference' / 'crires_target_astrometry.csv'
 #: would plausibly land on. `alf Cen B` and the RYA-423 quarantine cases are here ON PURPOSE:
 #: a catalogue that only contains the answers you expect cannot produce a NEGATIVE result.
 TARGETS = {
-    'tau_cet': 'tau Cet', 'eps_eri': 'eps Eri', 'tau_boo': 'tau Boo',
+    'tau_ceti': 'tau Cet', 'eps_eri': 'eps Eri', 'tau_boo': 'tau Boo',
     '55cnc_a': '55 Cnc', 'alpha_cen_a': 'alf Cen A', 'alpha_cen_b': 'alf Cen B',
     'procyon': 'Procyon',
 }
@@ -61,7 +61,12 @@ def main() -> None:
     from astroquery.simbad import Simbad
 
     s = Simbad()
-    s.add_votable_fields('pmra', 'pmdec', 'V')
+    # RYA-973: RV comes with its OWN bibcode, which is the point — a radial velocity
+    # quoted without a source is a number from memory, and this file exists to be the
+    # cited referee. rvz_qual is SIMBAD's grade (A best).
+    s.add_votable_fields('pmra', 'pmdec', 'V',
+                         'rvz_radvel', 'rvz_err', 'rvz_bibcode', 'rvz_qual',
+                         'rvz_type', 'rvz_nature')
     names = list(TARGETS.values())
     t = s.query_objects(names)
     df = t.to_pandas()
@@ -83,6 +88,17 @@ def main() -> None:
             'ra_deg_j2000': float(r.ra), 'dec_deg_j2000': float(r.dec),
             'pm_ra_cosdec_mas_yr': float(r.pmra), 'pm_dec_mas_yr': float(r.pmdec),
             'v_mag': float(r.V) if pd.notna(r.V) else None,
+            # ── RYA-973: the cited radial velocity ────────────────────────────────
+            # ⚠️ A CATALOGUE RV IS EPOCH-AMBIGUOUS FOR A BINARY. For a singleton like
+            # tau Ceti it is a clean external referee; for alpha Cen A/B the components'
+            # velocities SWEEP by several km/s over the 79.9 yr orbit, so a single
+            # catalogue value cannot be compared to an epoch measurement without knowing
+            # which epoch it describes. Recorded for every target, trusted only where
+            # the target does not move on the orbit timescale.
+            'rv_kms': float(r.rvz_radvel) if pd.notna(r.rvz_radvel) else None,
+            'e_rv_kms': float(r.rvz_err) if pd.notna(r.rvz_err) else None,
+            'rv_quality': str(r.rvz_qual) if pd.notna(r.rvz_qual) else '',
+            'rv_bibcode': str(r.rvz_bibcode) if pd.notna(r.rvz_bibcode) else '',
             # Every catalogue designation SIMBAD knows for this star. Without it, a frame
             # honestly labelled `HD 22049` reads as "OBJECT does not name this star", and
             # the genuinely interesting mislabels -- a ROLE like `STD`, an observing-run
@@ -98,6 +114,12 @@ def main() -> None:
     prov = {
         'ticket': 'RYA-952', 'source': 'SIMBAD (CDS) via astroquery.simbad',
         'epoch': 'ICRS J2000; proper motions in mas/yr, pm_ra is mu_alpha* (cos-dec applied)',
+        'radial_velocity': ('RYA-973: rv_kms is SIMBAD rvz_radvel with its OWN bibcode in '
+                            'rv_bibcode, because an RV quoted without a source is a number '
+                            'from memory. CAVEAT: a catalogue RV is EPOCH-AMBIGUOUS for a '
+                            'binary — alpha Cen A/B sweep several km/s over the 79.9 yr '
+                            'orbit — so it referees a SINGLETON cleanly and a binary '
+                            'component only with its epoch established.'),
         'why_cached': ('target identity is what this ticket must not get wrong, so its '
                        'referee must be independent of the headers being judged AND '
                        'reproducible offline, including in CI with no network'),

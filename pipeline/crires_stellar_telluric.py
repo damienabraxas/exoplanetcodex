@@ -88,7 +88,51 @@ CRIRES_STELLAR_SETS = {
         'epoch': '2022-04-15',
         'product_dir': _SPECTRA / 'alpha_cen_b' / 'CRIRESPlus_molecfit',
     },
+    # RYA-973 — the METAL-POOR stress on RYA-965's cross-check. tau Ceti is G8V,
+    # [Fe/H] -0.49, so its lines are weaker and a telluric residual is a proportionally
+    # LARGER fraction of the line than on near-solar alpha Cen. Four K2148 frames across
+    # TWO nights whose precipitable water differs by an order of magnitude (header IWV
+    # 1.93 mm on 2022-01-06 against 12.96-23.06 mm on 2022-01-16) — which makes the
+    # fitted PWV an unusually sharp referee, not just a sanity check.
+    #
+    # SINGLETON: no close pair, so the alpha Cen orbit rule does not apply and the gate
+    # is astrometry + the RYA-964 alias lookup. The recipe itself is UNCHANGED from
+    # RYA-963 — RYA-965 is explicit that a star which fails is a finding, not a knob.
+    'tau_ceti_crires': {
+        'holding_id': 'tau_cet_crires_plus',
+        # BOTH directories. `CRIRES/` holds 25 further CRIRES+ frames (all
+        # PRO REC1 ID=cr2res_obs_nodding, so CRIRES+ despite the directory name) that
+        # RYA-952's inventory did not walk — including ONE FRAME EACH of Y1029, J1232,
+        # H1582, H1559 and K2192 from 2021-10-06. That is the full Y/J/H/K sweep on a
+        # metal-poor star, which is what makes the per-band telluric test possible on
+        # tau Ceti itself rather than needing a substitute target.
+        'dirs': [_SPECTRA / 'tau_cet' / 'CRIRES',
+                 _SPECTRA / 'tau_cet' / 'CRIRESPlus'],
+        'claimed_star': 'tau_ceti',
+        'id_gate': 'singleton_astrometry',
+        # No `epochs` filter: every frame in these directories is this target (identity
+        # is still verified per frame by the intake gate, which is what actually
+        # protects us — a date filter never did).
+        'product_dir': _SPECTRA / 'tau_cet' / 'CRIRESPlus_molecfit',
+    },
 }
+
+
+#: Exceptions that mean OUR CODE is wrong, not that this frame is difficult. They must
+#: never be absorbed per-frame — see the handler in run_set.
+_CODE_FAULTS = (ImportError, AttributeError, NameError, TypeError, SyntaxError,
+                IndentationError)
+
+
+def _set_files(rec: dict) -> list:
+    """Every FITS under the set's directory or directories. A set may span more than one
+    directory: tau Ceti's CRIRES+ frames are split across `CRIRES/` and `CRIRESPlus/`,
+    and the split is by how they arrived, not by what they are."""
+    dirs = rec.get('dirs') or [rec['dir']]
+    out = []
+    for d in dirs:
+        out += glob.glob(str(Path(d) / '*.fits'))
+    return sorted(out)
 
 
 def resolve_set(name: str) -> dict:
@@ -819,10 +863,28 @@ def _require_product(proc, out_dir: Path, name: str, tag: str) -> None:
             name = signal.Signals(-proc.returncode).name
         except ValueError:
             name = f'signal {-proc.returncode}'
-        hint = (' — the kernel OOM killer, or the RLIMIT_AS cap this driver sets '
-                f'({_MEM_CAP_GIB:g} GiB). Not a fit failure: the process never got to '
-                f'finish. Narrow the fit windows or raise RYA963_MEM_GIB.'
-                if -proc.returncode == 9 else '')
+        # The two memory deaths look different and mean different things.
+        #   SIGKILL (9)  — the KERNEL chose this process. On a shared box that choice
+        #                  could just as easily have fallen on someone else's job.
+        #   SIGABRT (6)  — the process aborted ITSELF, which under our RLIMIT_AS cap is
+        #                  CPL failing an allocation ("CxLib-ERROR: failed to allocate
+        #                  16 bytes"). Sixteen bytes means address space was exhausted,
+        #                  not that the request was large. This is the cap working: our
+        #                  runaway fails with our name on it instead of the kernel
+        #                  picking a victim.
+        # Neither is a fit failure, and telluriccorr's footprint grows with ITERATION
+        # COUNT — so the fix is usually a smaller problem (fewer/narrower fit windows),
+        # not a bigger ceiling.
+        hint = {9: (' — the kernel OOM killer. On a shared box the victim is the '
+                    "kernel's choice, not ours."),
+                6: (f' — CPL aborted on a failed allocation, i.e. the {_MEM_CAP_GIB:g} '
+                    f'GiB RLIMIT_AS cap this driver sets. Check the esorex stderr for '
+                    f'"CxLib-ERROR ... failed to allocate".'),
+                }.get(-proc.returncode, '')
+        if hint:
+            hint += (' Not a fit failure: the process never finished. telluriccorr grows '
+                     'with iteration count, so prefer FEWER fit windows over a larger '
+                     'RYA963_MEM_GIB.')
         raise RuntimeError(f"{tag}: esorex was KILLED by {name}{hint}")
     if proc.returncode != 0:
         tail = "\n".join(l for l in proc.stdout.splitlines() if 'ERROR' in l)[-2000:]
@@ -1053,6 +1115,8 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
     with `CRIRES` misspelt. It has therefore always matched ZERO files, so the CRIRES
     branch has never executed on a frame at all. The INDETERMINATE rows it would have
     produced were never produced either."""
+    if id_gate == 'singleton_astrometry':
+        return identify_singleton(fc)
     if id_gate != 'acen_ab':
         # RYA-965 will point this same driver at tau Ceti / eps Eri / 55 Cnc, which are
         # singletons: there is no close pair to split, so the id gate there is RYA-964's
@@ -1114,6 +1178,34 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
                                'number.')}
 
 
+def identify_singleton(fc: FrameCorrection) -> dict:
+    """Identity for a SINGLETON target — delegated to the STANDING INTAKE PROCEDURE in
+    `pipeline.intake_identity`, not re-implemented here.
+
+    There is no close pair to split, so the alpha Cen orbit rule does not apply; what
+    applies is the rule that applies to every frame we ever download: astrometry as
+    arbiter, the RYA-964 label lookup as corroboration, both normalised through the one
+    alias resolver, and disagreement treated as the signal. Keeping that in one module
+    is the point — a second copy here is how the two identity routes drifted apart in
+    the first place."""
+    from pipeline.intake_identity import identify_at_intake
+    r = identify_at_intake(fc.frame.path)
+    return {'verdict': r.verdict, 'evidence': r.evidence,
+            'astrometry_star_raw': r.astrometry_star_raw,
+            'astrometry_star': r.astrometry_star,
+            'astrometry_sep_arcsec': r.astrometry_sep_arcsec,
+            'astrometry_status': r.astrometry_status,
+            'label_object': r.label_object,
+            'label_object_resolved': r.label_object_resolved,
+            'label_targ_name': r.label_targ_name,
+            'label_targ_resolved': r.label_targ_resolved,
+            'id_namespace_mismatch': r.id_namespace_mismatch,
+            'secondary_available': True,
+            'rv_bary_kms': float('nan'), 'pred_A_kms': float('nan'),
+            'pred_B_kms': float('nan'), 'branch_contested': None,
+            'verdict_under_visual_convention': None}
+
+
 # ── Corrected-product output ──────────────────────────────────────────────────
 def _num(header, key, value, comment: str, nd: int = 4) -> None:
     """Write a numeric card, or the string UNMEASURED when the value is not finite.
@@ -1132,7 +1224,7 @@ def _num(header, key, value, comment: str, nd: int = 4) -> None:
 
 
 def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: dict,
-                    ticket: str = 'RYA-963') -> Path:
+                    ticket: str = 'RYA-963', set_name: str = 'alpha_cen_a_crires') -> Path:
     """Persist ONE telluric-corrected frame: per-chip wavelength, raw flux, corrected
     flux, error and the molecfit transmission model, plus the provenance that makes the
     correction auditable — which GDAS profile (name + md5), which molecules were fitted
@@ -1223,42 +1315,60 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     # holding corrected no matter what the header claims.
     mt = fits.ImageHDU(data=fc.mtrans.astype(np.float64), name='MTRANS')
     mt.header['COMMENT'] = 'molecfit model transmission, aligned row-for-row with SPECTRUM'
-    out = out_dir / f"alpha_cen_a_crires_{f.wlen_id}_{f.date_obs[:10]}_telluric.fits"
+    # Named for the SET and the BASE FRAME, not just the setting+date. The old name
+    # hardcoded "alpha_cen_a" (wrong for any other target) and, worse, collided whenever
+    # two frames of one setting shared a night — which is exactly tau Ceti's four K2148
+    # frames, two per night. A product that silently overwrites another is the same
+    # defect class as a work dir that does, with the science attached.
+    out = out_dir / (f"{set_name}_{f.wlen_id}_{f.date_obs[:10]}_"
+                     f"{f.path.stem}_telluric.fits")
     fits.HDUList([ph, tab, mt]).writeto(out, overwrite=True)
     return out
 
 
 # ── Orchestrator ──────────────────────────────────────────────────────────────
-def gdas_gate(night: str, site: str = 'paranal', mjds=()) -> dict:
+def gdas_gate(night=None, site: str = 'paranal', mjds=()) -> dict:
     """STEP 0. Resolve the REAL per-night GDAS profile for every exposure, or raise
     GDASUnavailable. Reported before any molecfit runs, because the one external
-    dependency of this whole leg is data availability, not compute."""
+    dependency of this whole leg is data availability, not compute.
+
+    A set may span SEVERAL nights (RYA-973: tau Ceti's four K2148 frames sit on
+    2022-01-06 and 2022-01-16, and those two nights had 1.93 mm and 13-23 mm of
+    precipitable water). Each exposure therefore resolves its OWN 3-hourly slot from its
+    OWN MJD, and the nights are DERIVED from the data rather than declared — a single
+    `night` argument covering frames from two nights would silently correct half of them
+    against the wrong night's atmosphere, which is the RYA-373 failure mode wearing a
+    different hat."""
     from pipeline.telluric.gdas_fetch import fetch_gdas, nearest_3hourly
-    slots, paths = {}, {}
+    slots, paths, nights = {}, {}, set()
     for mjd in (mjds or ()):
         slot = nearest_3hourly(night, float(mjd))
-        slots[float(mjd)] = f"{slot:%Y-%m-%dT%H}"
-        paths[f"{slot:%Y-%m-%dT%H}"] = fetch_gdas(site, night=night, mjd=float(mjd))
+        key = f"{slot:%Y-%m-%dT%H}"
+        slots[float(mjd)] = key
+        nights.add(f"{slot:%Y-%m-%d}")
+        paths[key] = fetch_gdas(site, night=night, mjd=float(mjd))
     if not mjds:
         slot = nearest_3hourly(night)
-        slots['night'] = f"{slot:%Y-%m-%dT%H}"
-        paths[f"{slot:%Y-%m-%dT%H}"] = fetch_gdas(site, night=night)
-    return {'site': site, 'night': night,
+        key = f"{slot:%Y-%m-%dT%H}"
+        slots['night'] = key
+        nights.add(f"{slot:%Y-%m-%d}")
+        paths[key] = fetch_gdas(site, night=night)
+    return {'site': site, 'nights': sorted(nights), 'night': sorted(nights)[0],
             'slots': slots,
             'profiles': {k: str(v) for k, v in paths.items()},
             'md5': {k: _md5(v) for k, v in paths.items()},
-            'n_distinct_profiles': len(paths),
+            'n_distinct_profiles': len(paths), 'n_nights': len(nights),
             'standard_atmosphere_fallback': False}
 
 
 def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
-            n_windows: int = 4, limit=None) -> dict:
+            n_windows: int = 4, limit=None, one_per_setting: bool = False) -> dict:
     """The whole ticket for one declared set: GDAS gate → per-frame telluric correction
     → RV → star ID → residual gate → product. Frames the star-ID gate does not confirm
     are QUARANTINED: their correction is kept (it is real work and star-agnostic) but
     they are not registered under the star's holding."""
     rec = resolve_set(name)
-    files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))
+    files = sorted(set(_set_files(rec)))
     if not files:
         raise FileNotFoundError(f"no CRIRES+ IDP under {rec['dir']}")
     all_frames = [load_crires_idp(f) for f in files]
@@ -1267,16 +1377,31 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
     # night's atmosphere, which is the RYA-373 failure mode wearing a different hat. The
     # α Cen B directory holds two 2025-03-11 'Star S5' frames (RYA-423 quarantine) that
     # this excludes by date rather than by name.
+    # A set may declare SEVERAL epochs (tau Ceti spans two nights); each frame still
+    # gets its own GDAS profile from its own MJD. `epochs` absent means "take whatever
+    # nights the frames are on" — used by sets whose directory holds only that target.
+    epochs = rec.get('epochs') or ([rec['epoch']] if rec.get('epoch') else None)
     frames, other_epoch = [], []
     for fr in all_frames:
-        (frames if str(fr.date_obs)[:10] == rec['epoch'] else other_epoch).append(fr)
+        keep = epochs is None or str(fr.date_obs)[:10] in epochs
+        (frames if keep else other_epoch).append(fr)
     if not frames:
         raise RuntimeError(
             f"{name}: none of {len(all_frames)} frames under {rec['dir']} is from the "
-            f"declared epoch {rec['epoch']} "
+            f"declared epochs {epochs} "
             f"(found {sorted({str(f.date_obs)[:10] for f in all_frames})}).")
+    if one_per_setting:
+        # BAND-COVERAGE mode: the best frame of each WLEN setting. The question "does the
+        # correction work in this band" is answered once per band; running twenty K2148
+        # frames to answer it about K is compute spent on an answer already in hand.
+        best = {}
+        for fr in frames:
+            cur = best.get(fr.wlen_id)
+            if cur is None or (fr.snr or 0) > (cur.snr or 0):
+                best[fr.wlen_id] = fr
+        frames = [best[k] for k in sorted(best)]
     frames = frames[:limit]
-    gate0 = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
+    gate0 = gdas_gate(mjds=[f.mjd for f in frames])
 
     from config.constants import codex_root
     work_root = Path(work_root) if work_root else Path(codex_root('work')) / 'rya963'
@@ -1291,13 +1416,14 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
         from pipeline.acen_orbit import predicted_rv
         berv = barycentric_correction_kms(fr)
         rv_expected_topo = predicted_rv(fr.mjd)['rv_A'] - berv
-        # Keyed by SET as well as setting: alpha Cen A and B were both observed in
-        # K2192 on this night, so a work dir named for the setting alone puts the two
-        # stars' molecfit runs in the same directory. The products are unaffected (they
-        # carry their own provenance) but the diagnostics of whichever ran first are
-        # silently replaced — and the star-ID control is exactly the case where those
-        # diagnostics are the evidence.
-        fc = correct_frame(fr, work_root / name / fr.wlen_id, rv_kms=rv_expected_topo,
+        # Keyed by SET **and by FRAME**, not by setting. Keying by set alone fixed the
+        # cross-set collision (alpha Cen A and B were both observed in K2192 that night)
+        # but not the within-set one: tau Ceti's four frames are ALL K2148, across two
+        # nights, so a setting-named directory puts four molecfit runs — including two
+        # fitted against DIFFERENT nights' atmospheres — in one place, and only the last
+        # survives. alpha Cen never exposed it because it had one frame per setting.
+        fc = correct_frame(fr, work_root / name / f"{fr.wlen_id}_{fr.path.stem}",
+                           rv_kms=rv_expected_topo,
                            n_windows=n_windows,
                            gdas_path=gate0['profiles'][gate0['slots'][fr.mjd]])
         zp = telluric_zero_point(fc)
@@ -1315,7 +1441,7 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                             f"withheld; the telluric correction is unaffected.")
         ident = identify_star(fc, rv, id_gate=rec['id_gate'])
         gate = telluric_residual_gate(fc)
-        product = write_corrected(fc, out_dir, gate, rv, ident)
+        product = write_corrected(fc, out_dir, gate, rv, ident, set_name=name)
         row = {'frame': fr.path.name, 'wlen_id': fr.wlen_id, 'band': fr.band,
                'mjd': fr.mjd, 'date_obs': fr.date_obs, 'snr_hdr': fr.snr,
                'molecules': fc.molecules, 'fitted': fc.moved.get('fitted_columns'),
@@ -1347,15 +1473,26 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'product': str(product), 'product_sha256': _sha256(product)}
         results.append(row)
         (confirmed if ident['verdict'] == rec['claimed_star'] else quarantined).append(row)
+      except _CODE_FAULTS as exc:
+        # 🔴 A CODE FAULT IS NOT A PER-FRAME FINDING. Absorbing one turns a programming
+        # error into N expensive silent failures: RYA-973's band run did the full
+        # molecfit fit on every frame and only then hit a ModuleNotFoundError (a module
+        # refactored into existence locally but never synced), so 80 minutes of compute
+        # produced nothing and the log said "failed 6" as if the DATA were at fault.
+        # These abort on the first frame, where they are cheap and unambiguous.
+        raise RuntimeError(
+            f"{fr.wlen_id}: {type(exc).__name__}: {exc}\nThis is a code fault, not a "
+            f"property of this frame — aborting the set rather than repeating it on "
+            f"every remaining frame.") from exc
       except Exception as exc:
-        # One frame failing must not cost the other five. A failure is a per-frame
-        # FINDING, recorded with its reason and carried through to the report; it is
-        # never a silent skip, and the set's verdict names it.
+        # One frame failing must not cost the other five. A failure HERE is a per-frame
+        # FINDING about the data or the fit, recorded with its reason and carried through
+        # to the report; it is never a silent skip, and the set's verdict names it.
         failed.append({'frame': fr.path.name, 'wlen_id': fr.wlen_id,
                        'error': f"{type(exc).__name__}: {exc}"})
-        print(f"  [FAIL] {fr.wlen_id}: {type(exc).__name__}: {exc}")
+        print(f"  [FAIL] {fr.wlen_id}: {type(exc).__name__}: {exc}", flush=True)
     return {'set': name, 'holding_id': rec['holding_id'], 'gdas_gate': gate0,
-            'epoch': rec['epoch'], 'claimed_star': rec['claimed_star'],
+            'epochs': gate0['nights'], 'claimed_star': rec['claimed_star'],
             'other_epoch_frames': [{'frame': f.path.name, 'date_obs': f.date_obs,
                                     'wlen_id': f.wlen_id} for f in other_epoch],
             'frames': results, 'n_confirmed': len(confirmed),
@@ -1382,6 +1519,8 @@ def main(argv=None):
     ap.add_argument('--plan-only', action='store_true',
                     help='report the derived fit windows + molecule table, no molecfit.')
     ap.add_argument('--limit', type=int, default=None)
+    ap.add_argument('--one-per-setting', action='store_true',
+                    help='band-coverage mode: the highest-SNR frame of each WLEN setting')
     ap.add_argument('--n-windows', type=int, default=4)
     ap.add_argument('--work-root', default=None)
     ap.add_argument('--out-dir', default=None)
@@ -1389,21 +1528,21 @@ def main(argv=None):
     a = ap.parse_args(argv)
 
     rec = resolve_set(a.set_name)
-    files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))[:a.limit]
+    files = _set_files(rec)[:a.limit]
     if not files:
         # A set whose frames are not reachable must SAY so. Returning quietly here would
         # report "nothing wrong" on a machine that simply cannot see the spectra — and
         # the CRIRES+ holdings live on Sirius, so that is the normal case on the Mac.
         raise SystemExit(
-            f"no CRIRES+ IDP FITS under {rec['dir']} — this set's frames are not "
+            f"no CRIRES+ IDP FITS under {rec.get('dirs') or rec['dir']} — not "
             f"reachable from here. The spectra root resolves to "
             f"{codex_path('data.spectra_local')}; on the Mac that is a Sirius path "
             f"(the holdings migrated 2026-08-16), so run this on Sirius or point "
             f"CODEX_SPECTRA_LOCAL at a reachable copy.")
     frames = [load_crires_idp(f) for f in files]
     if a.gdas_only:
-        g = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
-        print(f"STEP 0 GDAS gate: {rec['epoch']} @ {g['site']}")
+        g = gdas_gate(mjds=[f.mjd for f in frames])
+        print(f"STEP 0 GDAS gate: {', '.join(g['nights'])} @ {g['site']}")
         for slot, path in g['profiles'].items():
             print(f"  slot {slot}  {Path(path).name}  md5={g['md5'][slot]}")
         print(f"  {len(frames)} frames -> {g['n_distinct_profiles']} distinct profile(s); "
@@ -1423,7 +1562,8 @@ def main(argv=None):
         return 0
 
     out = run_set(a.set_name, work_root=a.work_root, out_dir=a.out_dir,
-                  n_windows=a.n_windows, limit=a.limit)
+                  n_windows=a.n_windows, limit=a.limit,
+                  one_per_setting=a.one_per_setting)
     for r in out['frames']:
         print(f"{r['wlen_id']:6s} chi2 {r['initial_chi2']:.4g} -> {r['best_chi2']:.4g}  "
               f"PWV {r['h2o_col_mm']:.3f} mm  gate {r['gate_before']:.4f} -> "
