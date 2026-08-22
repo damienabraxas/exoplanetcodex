@@ -307,3 +307,37 @@ def test_relative_window_floor_drops_windows_that_carry_little_information():
     floor = max(cst._MIN_TELLURIC_FRAC, cst._RELATIVE_TELLURIC_FLOOR * best)
     assert 0.062 < floor and 0.128 >= floor, (
         "the floor must drop Y1029's two noise windows and keep its two real ones")
+
+
+# ── measured resolving power (the referee molecfit is never told) ────────────
+def _fc_with_lsf(fwhm_px, lo_A=11065.9, hi_A=11125.9, step_A=0.03434):
+    from pipeline.crires_telluric import CriresFrame
+    n = int((hi_A - lo_A) / step_A) + 200
+    wave = lo_A - 100 * step_A + step_A * np.arange(n)
+    fr = CriresFrame(path=Path('x.fits'), wlen_id='Y1029', band='Y', mjd=0.0,
+                     date_obs='', ra=0.0, dec=0.0, snr=1.0, specsys='TOPOCENT',
+                     fluxcal='UNCALIBRATED', wmin_nm=0.0, wmax_nm=1.0, segments=[])
+    return cst.FrameCorrection(
+        frame=fr, wave_A=wave, flux_raw=np.ones(n), err=np.ones(n),
+        mtrans=np.ones(n), flux_corr=np.ones(n), seg_index=np.zeros(n, int),
+        windows=[{'lo_A': lo_A, 'hi_A': hi_A, 'order': 1, 'detector': 2,
+                  'absorbed_frac': 0.3}],
+        fit={'gaussfwhm': (fwhm_px, 0.026)})
+
+
+def test_resolving_power_recovers_an_instrument_property_it_was_never_given():
+    """molecfit is told nothing about R; it fits a kernel width in pixels. Converting
+    that back must land near CRIRES+'s real resolving power -- nominal 100,000 for the
+    0.2in slit, 86,000 as the project's own working value (RYA-373/952)."""
+    out = cst.measured_resolving_power(_fc_with_lsf(4.037))
+    assert 60_000 < out['R'] < 120_000, out
+    assert abs(out['fwhm_A'] - 4.037 * 0.03434) < 1e-6
+
+
+def test_a_collapsed_lsf_yields_no_resolving_power_rather_than_a_huge_one():
+    """FIT_RES_GAUSS=FALSE does not hold the kernel at a width, it DISABLES convolution
+    (RYA-931). A zero width would divide to an infinite R, which would read as a
+    spectacular instrument rather than as an unfitted kernel."""
+    out = cst.measured_resolving_power(_fc_with_lsf(0.0))
+    assert not np.isfinite(out['R'])
+    assert 'not fitted' in out['reason']
