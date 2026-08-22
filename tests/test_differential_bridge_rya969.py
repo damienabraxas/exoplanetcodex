@@ -190,3 +190,38 @@ def test_both_products_are_reported():
     h = B.bridge_hop(_lines(20, a0=7.60), _lines(20, a0=7.50), th, target="x", reference="solar")
     txt = B.chain_to_sun([h], star="x", solar_absolute_dex=7.50, zero_point_dex=0.059).report()
     assert "differential" in txt and "absolute" in txt and "gf cancelled" in txt
+
+
+# ── RYA-981: the derived threshold, and the third state the fixture exposed ──────────
+def test_the_shared_line_minimum_is_derived_not_typed():
+    """A hop delta is a mean; the sd behind it must be known to a stated precision."""
+    assert B.derive_min_shared_lines(0.25) == 9
+    assert B.derive_min_shared_lines(0.50) == 3
+    assert B.derive_min_shared_lines(0.10) == 51
+    for tol in (0.0, 1.0, -0.1):
+        with pytest.raises(ValueError):
+            B.derive_min_shared_lines(tol)
+
+
+def test_a_missing_saturation_key_is_UNEVALUABLE_not_a_hop_that_is_too_large():
+    """🔴 RYA-981 found this on the real RYA-967 fixture: a synthesis product carries no REW,
+    and the gate reported it as a hop too large — sending a reader after an intermediate
+    benchmark that would not have helped."""
+    th = _th()
+    no_rew = [dict(wavelength_air_A=5000.0 + i, ep_eV=3.0, rew=float("nan"), abundance=7.5)
+              for i in range(40)]
+    s = B.line_sharing_gate(no_rew, no_rew, th)
+    assert not s.ok
+    assert s.unevaluable and "does not carry the key" in s.unevaluable
+    assert s.reason == "", "a missing key must not be reported as too few shared lines"
+    with pytest.raises(B.GateUnevaluable):
+        B.bridge_hop(no_rew, no_rew, th, target="x", reference="y")
+
+
+def test_self_reference_differences_to_exactly_zero():
+    """RYA-981 §1: the Sun against itself. Any systematic here is a subtraction bug."""
+    th = _th()
+    rows = _lines(40, a0=7.4)
+    h = B.bridge_hop(rows, rows, th, target="solar", reference="solar")
+    assert h.delta_dex == 0.0
+    assert all(p["delta_dex"] == 0.0 for p in h.per_line)
