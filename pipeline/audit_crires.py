@@ -56,6 +56,22 @@ PLUS_MIN_YEAR = 2021
 PLUS_PIPE_TOKEN = 'cr2res'
 
 
+#: Solar-system bodies have NO catalogue position, so the astrometric matcher cannot place
+#: them and would report 18 correctly-identified Vesta frames as unidentified. Their identity
+#: is established by a different route entirely -- OBJECT plus the ephemeris provenance
+#: already banked by RYA-794/805 -- and calling that "quarantine" would bury the frames that
+#: really are unidentified under a pile of frames that are not.
+MOVING_TARGETS = {'vesta': 'minor planet 4 Vesta — reflected solar (RYA-372/794/805)'}
+
+#: 🔴 alpha Cen A and B are a VISUAL BINARY currently ~4-8 arcsec apart. No match radius wide
+#: enough to absorb CRIRES nodding is ever narrow enough to separate them, so astrometry
+#: ALONE cannot decide which component a frame points at -- and that is not a limitation to
+#: work around here, it is the entire reason RYA-423 exists (IR-native star ID by
+#: RV-ephemeris with IR-template/CO corroboration). Frames landing on the pair are reported
+#: as ambiguous and routed there, never assigned by picking the nearer of the two.
+BINARY_PAIRS = (frozenset({'alpha_cen_a', 'alpha_cen_b'}),)
+
+
 class TargetUnconfirmed(Exception):
     """A frame whose target could not be established. Quarantine, never guess."""
 
@@ -211,6 +227,14 @@ def _sep_arcsec(ra1, dec1, ra2, dec2) -> np.ndarray:
 
 def identify(fr: Frame, cat: pd.DataFrame, *, radius: float = MATCH_RADIUS_ARCSEC) -> Frame:
     """Establish the target from POSITION. Exactly one match, or quarantine."""
+    obj_norm = fr.object_raw.strip().lower().replace(' ', '')
+    for key, why in MOVING_TARGETS.items():
+        if key in obj_norm:
+            fr.star_id = key
+            fr.id_method = 'solar-system body (no catalogue position by construction)'
+            fr.id_status = 'moving_target'
+            fr.id_evidence = f"OBJECT={fr.object_raw!r}; {why}"
+            return fr
     if not np.isfinite(fr.ra_deg) or not np.isfinite(fr.dec_deg) or not np.isfinite(fr.mjd):
         fr.id_status = 'quarantine'
         fr.id_evidence = 'frame carries no usable RA/DEC/MJD — cannot be placed on the sky'
@@ -224,8 +248,11 @@ def identify(fr: Frame, cat: pd.DataFrame, *, radius: float = MATCH_RADIUS_ARCSE
         fr.id_method = 'astrometry (SIMBAD J2000 + proper motion to epoch)'
         fr.id_sep_arcsec = float(sep[i])
         fr.id_status = 'confirmed'
-        agrees = fr.star_id.replace('_', '').lower() in (
-            fr.object_raw.replace(' ', '').lower() + fr.obs_targ_name.replace(' ', '').lower())
+        # Agreement is judged against SIMBAD's FULL identifier list, so a frame honestly
+        # labelled `HD 22049` counts as naming eps Eri. What survives this test is the real
+        # finding: a ROLE (`STD`) or a run placeholder (`Star S5`) where a name should be.
+        al = {a for a in str(cat.aliases.iloc[i] or '').split('|') if a}
+        agrees = (obj_norm in al) or (fr.obs_targ_name.strip().lower().replace(' ', '') in al)
         fr.id_evidence = (
             f"{sep[i]:.1f}\" from {cat.simbad_main_id.iloc[i]} at epoch "
             f"{fr.date_obs[:10]}; next nearest {np.sort(sep)[1]:.0f}\"; "
@@ -238,8 +265,14 @@ def identify(fr: Frame, cat: pd.DataFrame, *, radius: float = MATCH_RADIUS_ARCSE
                           f"{cat.simbad_main_id.iloc[j]} at {sep[j]:.0f}\"")
     else:
         fr.id_status = 'quarantine'
+        found = {str(cat.star_id.iloc[i]) for i in hit}
+        note = ''
+        if any(found >= pair for pair in BINARY_PAIRS):
+            note = (' — VISUAL BINARY: astrometry alone cannot separate these components at '
+                    'any usable radius; this is RYA-423\'s job (IR-native RV/template ID), '
+                    'not a tolerance to tighten')
         fr.id_evidence = ('ambiguous — ' + ', '.join(
-            f"{cat.simbad_main_id.iloc[i]} {sep[i]:.0f}\"" for i in hit))
+            f"{cat.simbad_main_id.iloc[i]} {sep[i]:.0f}\"" for i in hit) + note)
     return fr
 
 
@@ -284,7 +317,7 @@ def coverage_table(df: pd.DataFrame) -> pd.DataFrame:
             'settings': ' '.join(sorted({s for s in g.setting if s})),
             'date_min': min(g.date_obs)[:10], 'date_max': max(g.date_obs)[:10],
             'snr_median': round(float(np.nanmedian(g.snr)), 1) if g.snr.notna().any() else None,
-            'confirmed': int((g.id_status == 'confirmed').sum()),
+            'confirmed': int(g.id_status.isin(['confirmed', 'moving_target']).sum()),
             'quarantined': int((g.id_status == 'quarantine').sum()),
         })
     return pd.DataFrame(rows).sort_values(['star_id', 'instrument_class'])
@@ -478,7 +511,7 @@ def main(argv=None) -> int:
     if a.coadd:
         print('\n-- CO-ADD (CRIRES+ reduced, confirmed target, per setting) --')
         pool = uniq[(uniq.instrument_class == 'crires_plus')
-                    & (uniq.id_status == 'confirmed')]
+                    & uniq.id_status.isin(['confirmed', 'moving_target'])]
         for (star, setting), g in pool.groupby(['star_id', 'setting']):
             if star in NO_COADD:
                 print(f"  {star:12s} {setting:7s} n={len(g)}  REFUSED: {NO_COADD[star]}")
