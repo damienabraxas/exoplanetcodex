@@ -1,37 +1,44 @@
-# tau Ceti CRIRES+ — staged and audited, deliberately NOT registered
+# tau Ceti CRIRES+ — RESOLVED by RYA-957 (this file records the sequence)
 
-The 4 frames are on Sirius at `/mnt/codex-data/spectra/tau_cet/CRIRESPlus/` and fully
-audited in `tau_cet_crires_plus_manifest.csv` (target confirmed astrometrically, telluric
-state measured three ways). They are **not** in `data/catalog/holdings_manifest_registry.csv`,
-and that is a refusal, not an oversight.
+**STATUS: UNBLOCKED AND REGISTERED.** `tau_cet_crires_plus` is now a row in
+`data/catalog/holdings_manifest_registry.csv` with `system_id = tau_ceti`, and
+`instruments.validate_all()` returns no errors.
 
-## Why
+This file is kept rather than deleted because the sequence is the useful part.
+
+## What was blocked (RYA-952)
 
 `instruments.validate_holdings` resolves a holding's `system_id` against the set of
-**non-blank `star_params_key`** values in `data/catalog/system_catalog.csv`. tau Ceti is in
-that catalogue (row `tau Ceti`, slug `tau-ceti`) as a **`future_target` with a blank
-`star_params_key`**. And `pipeline/system_catalog.py` requires that any non-blank key
-**resolve in `STAR_PARAMS`** — so filling it in means adding real Teff / logg / [Fe/H] /
-vmic for tau Ceti to `config/stars.yaml`.
+**non-blank `star_params_key`** values in `data/catalog/system_catalog.csv`, and
+`pipeline/system_catalog.py` requires any non-blank key to **resolve in `STAR_PARAMS`**.
+tau Ceti sat in the catalogue as a `future_target` with a blank key, so registering the
+holding meant first adopting real stellar parameters — a science decision that RYA-952
+(data prep only) had no business making. **The row was written, the validator refused it,
+and it was backed out rather than satisfied by inventing parameters.**
 
-That is a science decision needing cited sources, and this ticket is data prep only ("no
-abundances"). Inventing parameters to satisfy a foreign key is the shape of defect this
-project exists to avoid.
+## What unblocked it (RYA-957)
 
-## 🔴 The schema gap this exposes
+Ryan ratified applying the project's existing GBS standard rather than inventing anything.
+tau Ceti (HD 10700) and eps Eri (HD 22049) are both Gaia FGK Benchmark Stars, so their
+parameters are **published on the scale `config/stars.yaml` already declares**:
+Heiter+2015 (Teff/log g, Paper I) and Jofré+2014 ([Fe/H], xi, Paper III). Adopting them
+APPLIES the standard; it does not invent a value. Both records were added, both
+`star_params_key` pointers set, and this holding re-registered.
 
-**The holdings registry cannot express "we hold data for a star we have no parameters
-for."** Data acquisition and parameter adoption are independent events, and the registry
-assumes the second precedes the first. Every future target we acquire spectra for hits this,
-not just tau Ceti — `eps Eri` and `tau Boo` have CRIRES+ data on the drive today and blank
-`star_params_key` values too.
+🔴 **One value did NOT come across as a GBS fundamental.** Heiter+2015 Table 10 prints tau
+Ceti's log g in **square brackets**, which that table's own caption defines as "uncertain
+and should not be used as a reference for calibration or validation purposes"; Sect. 5.4.1
+gives the reason — the mass comes from "problematic evolutionary tracks predicting
+unreasonable ages". So tau Ceti carries log g as a starting value and **SOLVES** it, while
+eps Eri (unbracketed) pins it. Pinning a value the source paper tells you not to use as a
+reference would have been the same defect in a new place.
 
-## To register it
+## Still open — the CLASS, not this instance
 
-1. Adopt cited stellar parameters for tau Ceti into `config/stars.yaml`.
-2. Set `star_params_key = tau_cet` on the `tau Ceti` row of `system_catalog.csv` and promote
-   its role from `future_target`.
-3. Append the holding row; its prepared text is in this ticket's Linear comment.
-
-Alternatively, give the registry a way to hold a **parameterless** system, which is the
-change that fixes the class rather than this instance.
+The registry still **cannot express "we hold data for a star we have no parameters for."**
+RYA-957 fixed the two stars that had a published standard to apply; it did not change the
+schema. **tau Boo remains blocked and is NOT a Gaia FGK Benchmark Star** — verified against
+both papers: it appears in Heiter+2015 only in the *candidate* discussion (Sect. 7) and a
+candidate appendix table, never in Table 10, and it is absent from Jofré+2014 entirely. It
+needs either best-literature parameters from a separate cited source, or the FK-relaxation
+path. Both are separate decisions.
