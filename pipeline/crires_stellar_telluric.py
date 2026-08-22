@@ -65,6 +65,21 @@ CRIRES_STELLAR_SETS = {
         'id_gate': 'acen_ab',          # RYA-423 orbit ID
         'epoch': '2022-04-15',
     },
+    # The POSITIVE CONTROL for the α Cen A star-ID (RYA-963). One frame, K2192, the same
+    # setting as A's K2192, from the same night 16 minutes later, through the same
+    # reduction. Any systematic in the RV method — a wavelength zero-point, a BERV sign,
+    # an air/vacuum slip — moves both frames by the same amount, so the pair
+    # DISCRIMINATES where either alone only asserts: if the method is sound the two
+    # frames must land on OPPOSITE branches of the AB orbit, 6.75 km/s apart at this
+    # epoch. Both landing on the same branch means the labels are wrong; both landing
+    # off-orbit means the method is.
+    'alpha_cen_b_crires': {
+        'holding_id': 'alpha_cen_b_crires_plus',
+        'dir': _VET / 'Alpha Cen B' / 'CRIRES',
+        'claimed_star': 'B',
+        'id_gate': 'acen_ab',
+        'epoch': '2022-04-15',
+    },
 }
 
 
@@ -1109,7 +1124,21 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
     files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))
     if not files:
         raise FileNotFoundError(f"no CRIRES+ IDP under {rec['dir']}")
-    frames = [load_crires_idp(f) for f in files][:limit]
+    all_frames = [load_crires_idp(f) for f in files]
+    # A set is ONE EPOCH. The night fixes the GDAS profile, and a frame from a different
+    # night needs its own — quietly folding it in would correct it against the wrong
+    # night's atmosphere, which is the RYA-373 failure mode wearing a different hat. The
+    # α Cen B directory holds two 2025-03-11 'Star S5' frames (RYA-423 quarantine) that
+    # this excludes by date rather than by name.
+    frames, other_epoch = [], []
+    for fr in all_frames:
+        (frames if str(fr.date_obs)[:10] == rec['epoch'] else other_epoch).append(fr)
+    if not frames:
+        raise RuntimeError(
+            f"{name}: none of {len(all_frames)} frames under {rec['dir']} is from the "
+            f"declared epoch {rec['epoch']} "
+            f"(found {sorted({str(f.date_obs)[:10] for f in all_frames})}).")
+    frames = frames[:limit]
     gate0 = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
 
     from config.constants import codex_root
@@ -1164,6 +1193,9 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
         results.append(row)
         (confirmed if ident['verdict'] == rec['claimed_star'] else quarantined).append(row)
     return {'set': name, 'holding_id': rec['holding_id'], 'gdas_gate': gate0,
+            'epoch': rec['epoch'], 'claimed_star': rec['claimed_star'],
+            'other_epoch_frames': [{'frame': f.path.name, 'date_obs': f.date_obs,
+                                    'wlen_id': f.wlen_id} for f in other_epoch],
             'frames': results, 'n_confirmed': len(confirmed),
             'n_quarantined': len(quarantined),
             'quarantined': [r['frame'] for r in quarantined],
