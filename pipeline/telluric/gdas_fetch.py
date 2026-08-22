@@ -64,13 +64,15 @@ class GDASUnavailable(RuntimeError):
     pull into the cache, or treat the dataset as GDAS-blocked."""
 
 
-# ESO telluriccorr GDAS tarballs (per-site, 3-hourly). Version-agnostic glob; override
-# the whole directory with MOLECFIT_GDAS_DIR for non-Homebrew installs.
-_ESO_GDAS_GLOBS = (
-    "/opt/homebrew/Cellar/telluriccorr/*/share/molecfit/data/profiles/gdas",
-    "/usr/local/Cellar/telluriccorr/*/share/molecfit/data/profiles/gdas",
-    "/usr/share/esopipes/datastatic/telluriccorr*/profiles/gdas",
-)
+# ESO telluriccorr GDAS tarballs (per-site, 3-hourly). The candidate directories come
+# from pipeline.telluric.esorex_runtime.gdas_dirs(), which puts the REGISTERED
+# `eso_pipelines` prefix first. RYA-963: this module used to glob only Homebrew and
+# /usr/share/esopipes, so on Sirius — where the ESO source kit lives under
+# /srv/codex/eso/molecfit and ships the same Paranal tarball — the per-night profile was
+# unreachable and GDASUnavailable would have fired on a profile sitting on the disk. That
+# is the worst kind of loud failure: correct behaviour for a wrong reason. Override the
+# whole directory with MOLECFIT_GDAS_DIR.
+from pipeline.telluric.esorex_runtime import gdas_dirs as _gdas_dirs
 
 _GDAS_3H = 3  # GDAS profiles are 3-hourly (00/03/06/…/21 UTC)
 
@@ -151,7 +153,7 @@ def _eso_gdas_dir() -> "Path | None":
     override = os.environ.get('MOLECFIT_GDAS_DIR')
     if override and Path(override).is_dir():
         return Path(override)
-    for pat in _ESO_GDAS_GLOBS:
+    for pat in _gdas_dirs():
         hits = sorted(glob.glob(pat))
         if hits:
             return Path(hits[-1])          # newest install version
@@ -236,3 +238,55 @@ def _gdas_ascii_to_fits(ascii_path, out_fits) -> Path:
         fits.Column(name='relhum', format='1D', array=arr[:, 3])],
     ).writeto(out_fits, overwrite=True)
     return out_fits
+
+
+# ── CLI (RYA-963 STEP 0: the gate is reported before any molecfit runs) ───────
+def main(argv=None) -> int:
+    """Report whether a REAL per-night GDAS profile resolves for a site/date, and for
+    which exposure times. The whole point of running this first is that the one external
+    dependency of a telluric leg is data availability, not compute — findable up front,
+    and a clean STOP if it is absent."""
+    import argparse
+    ap = argparse.ArgumentParser(description=main.__doc__)
+    ap.add_argument('--site', default='paranal')
+    ap.add_argument('--date', required=True, help='observation night, YYYY-MM-DD')
+    ap.add_argument('--times', default=None,
+                    help='comma-separated UTC HH:MM of the exposures')
+    ap.add_argument('--verify', action='store_true',
+                    help='also open the profile and report its physical ranges')
+    a = ap.parse_args(argv)
+
+    times = [t.strip() for t in a.times.split(',')] if a.times else ['00:00']
+    slots = {}
+    for t in times:
+        hh, mm = (int(x) for x in t.split(':'))
+        when = datetime.strptime(a.date, '%Y-%m-%d').replace(hour=hh, minute=mm)
+        slot = nearest_3hourly(when)
+        slots.setdefault(f"{slot:%Y-%m-%dT%H}", []).append(t)
+
+    print(f"GDAS gate: site={a.site} night={a.date} exposures={','.join(times)}")
+    rc = 0
+    for slot_key, ts in sorted(slots.items()):
+        hh, mm = (int(x) for x in ts[0].split(':'))
+        when = datetime.strptime(a.date, '%Y-%m-%d').replace(hour=hh, minute=mm)
+        try:
+            path = fetch_gdas(a.site, night=when)
+        except GDASUnavailable as exc:
+            print(f"  slot {slot_key}  STOP — {exc}")
+            rc = 1
+            continue
+        print(f"  slot {slot_key}  {Path(path).name}   (exposures {', '.join(ts)})")
+        if a.verify:
+            from astropy.io import fits
+            d = fits.getdata(str(path))
+            print(f"      {len(d)} levels  press {d['press'].min():g}-{d['press'].max():g} hPa"
+                  f"  height {d['height'].min():.3f}-{d['height'].max():.3f} km"
+                  f"  temp {d['temp'].min():g}-{d['temp'].max():g} K"
+                  f"  relhum {d['relhum'].min():g}-{d['relhum'].max():g} %")
+    print(f"  {len(times)} exposure(s) -> {len(slots)} distinct 3-hourly profile(s); "
+          f"standard-atmosphere fallback: forbidden (RYA-373)")
+    return rc
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
