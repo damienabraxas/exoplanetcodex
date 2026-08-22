@@ -49,8 +49,8 @@ import numpy as np
 from config.constants import PATHS, codex_path
 from pipeline.crires_telluric import (
     NM_TO_A, CriresFrame, CriresSegment, _C_KMS, _CONTINUUM_N, _CRIRES_R, _MTRANS_FLOOR,
-    _air_to_vac, continuum_normalize, load_crires_idp, molecules_for_band,
-    observatory_position)
+    _TELLURIC_CLOSURE_MAX, _air_to_vac, continuum_normalize, load_crires_idp,
+    molecules_for_band, observatory_position)
 from pipeline.telluric.esorex_runtime import (SUPPRESS_PREFIX, esorex_env,
                                               resolve_esorex)
 
@@ -961,7 +961,21 @@ def telluric_zero_point(fc: FrameCorrection) -> dict:
                 'reason': 'too few deep telluric pixels'}
     v, c = _ccf(fc.wave_A, obs_abs, fc.wave_A[deep], mod_abs[deep], vmax=20.0, dv=0.1)
     pk = _ccf_peak(v, c)
-    return dict(pk, n_lines=int(deep.size))
+    # RYA-373's telluric-anchor CLOSURE, reused rather than re-declared: tellurics sit at
+    # topocentric rest, so the model and the observation must line up at ~0. A large
+    # "zero-point" is not a zero-point — it is a failed anchor, and subtracting it
+    # fabricates a velocity shift. K2148 (the weakest frame, SNR 66) returned -12.78 km/s
+    # at a perfectly ordinary 3.97-sigma contrast while the other five settings closed
+    # within 1.86, so contrast does not catch this and the physical bound does.
+    closes = bool(np.isfinite(pk['rv_kms'])
+                  and abs(pk['rv_kms']) <= _TELLURIC_CLOSURE_MAX and not pk['railed'])
+    out = dict(pk, n_lines=int(deep.size), closes=closes,
+               closure_max_kms=_TELLURIC_CLOSURE_MAX)
+    if not closes and not pk['railed']:
+        out['reason'] = (f"telluric anchor does not close: |{pk['rv_kms']:+.2f}| > "
+                         f"{_TELLURIC_CLOSURE_MAX} km/s. Tellurics are at topocentric "
+                         f"rest, so this is a failed anchor, not a wavelength zero-point.")
+    return out
 
 
 def measure_rv(fc: FrameCorrection, zero_point_kms: float = 0.0) -> dict:
@@ -1283,10 +1297,16 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
         zp = telluric_zero_point(fc)
         # A railed zero-point is not a zero-point; correcting the stellar RV by the edge
         # of a search grid would inject a fabricated tens-of-km/s shift.
-        zp_use = (zp['rv_kms'] if (not zp.get('railed')
-                                   and np.isfinite(zp.get('rv_kms', np.nan)))
-                  else 0.0)
+        zp_use = zp['rv_kms'] if zp.get('closes') else 0.0
         rv = measure_rv(fc, zero_point_kms=zp_use)
+        if not zp.get('closes'):
+            # Without a verified wavelength zero-point this frame's absolute RV is not
+            # trustworthy, so it does not get to vote on the star's identity. The
+            # telluric correction itself is unaffected — the fit is topocentric.
+            rv['railed'] = True
+            rv['reason'] = (f"no verified wavelength zero-point "
+                            f"({zp.get('reason', 'anchor failed')}) — absolute RV "
+                            f"withheld; the telluric correction is unaffected.")
         ident = identify_star(fc, rv, id_gate=rec['id_gate'])
         gate = telluric_residual_gate(fc)
         product = write_corrected(fc, out_dir, gate, rv, ident)
@@ -1303,6 +1323,7 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'gdas': fc.gdas, 'gdas_md5': fc.gdas_md5,
                'berv_kms': fc.berv_kms, 'telluric_zero_point_kms': zp.get('rv_kms'),
                'telluric_zero_point_railed': bool(zp.get('railed')),
+               'telluric_zero_point_closes': bool(zp.get('closes')),
                'telluric_zero_point_applied': zp_use,
                'rv_railed': bool(rv.get('railed')),
                'rv_reason': rv.get('reason'),
