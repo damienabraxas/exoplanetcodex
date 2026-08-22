@@ -20,6 +20,11 @@ code{color:var(--link);font-size:.85em}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .val{font-variant-numeric:tabular-nums;white-space:nowrap}
 .tell{display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
+.tsum{margin:6px 0 14px;line-height:1.5}
+.tsum p{margin:6px 0}
+.tsum ul{margin:4px 0 8px 18px;padding:0}
+.tsum li{margin:3px 0}
+.tag{font-size:.8em;color:var(--muted)}
 .tell5{display:grid;grid-template-columns:150px 210px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
 h3{font-size:1em;margin:18px 0 4px;font-weight:600}
 h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
@@ -72,6 +77,7 @@ absences are the content &mdash; showing only finished work would hide what rema
 <section><h2>Product matrix</h2><div class="grid"><table id="matrix"></table></div>
 <p class="muted note" id="unattributed"></p></section>
 <section><h2>Telluric correction</h2>
+<div id="tellsum"></div>
 <p class="muted note">Three different measurements live here and they are <b>not comparable as numbers</b>, so they are not stacked in one column. The solar legs score the fraction of a registered telluric band driven below half continuum; the stellar legs score the D1 residual at pixels molecfit calls telluric-dominated and the star's own line list calls clean; a STATE row is a determination, not a correction, and carries no before/after because nothing was corrected.</p>
 <h3>Solar bands <span class="m">&mdash; % of band pixels below 0.5 continuum, before &rarr; after</span></h3><div id="tell"></div>
 <h3>Stellar frames <span class="m">&mdash; D1 residual at telluric-dominated, stellar-clean pixels</span></h3><div id="tellstar"></div>
@@ -261,6 +267,43 @@ async function draw(){
  document.querySelector('#unattributed').innerHTML=d.unattributed_products
   ?'<span class="warn">'+d.unattributed_products+'</span> product rows predate RYA-933/934 and carry no holding in their filename. '
    +'They are attributable to an instrument only — an instrument can serve a corrected and an uncorrected holding, and guessing which would be the collapse that change prevents.':'';
+ // The narrative. Every figure is read from telluric_summary, which the collector
+ // DERIVES from the same evidence the tables below render — prose with numbers typed
+ // into it is exactly the drift RYA-935 exists to prevent.
+ const S=d.telluric_summary;
+ if(S){
+   const cs=S.corrected_stellar||[], tot=cs.reduce((a,c)=>a+c.products,0),
+         pas=cs.reduce((a,c)=>a+c.gates_pass,0), fal=cs.reduce((a,c)=>a+c.gates_fail,0);
+   let h='<div class="tsum">';
+   h+='<p><b>Where telluric correction stands.</b> '
+     +'<span class="good">'+S.corrected_solar_bands+'</span> solar band(s) corrected'
+     +(S.solar_bands_not_corrected?' (<span class="warn">'+S.solar_bands_not_corrected+' band had no admissible fit and is NOT corrected</span>)':'')
+     +', and <span class="good">'+tot+'</span> stellar frame(s) across '+cs.length
+     +' holding(s), <span class="'+(fal?'warn':'good')+'">'+pas+'/'+tot+' passing the D1 gate</span>'
+     +(fal?' — a gate FAIL is a finding, not a knob':'')+'.</p>';
+   if(cs.length){ h+='<ul>'; cs.forEach(c=>{
+     h+='<li><code>'+esc(c.instrument)+'</code> &middot; <code>'+esc(c.holding)+'</code> &mdash; '
+       +c.products+' frame(s), bands '+esc(c.bands.join('/'))+', '
+       +'<span class="'+(c.gates_fail?'warn':'good')+'">'+c.gates_pass+'/'+c.products+' PASS</span>'
+       +' <span class="tag">'+esc(c.tickets.join(' '))+'</span></li>';}); h+='</ul>';}
+   (S.determined_not_corrected||[]).forEach(x=>{
+     h+='<p><b>Determined, not corrected.</b> <code>'+esc(x.holding)+'</code> '+esc(x.window)
+       +': the header says <span class="warn">'+esc(x.header_state)+'</span> and the flux says '
+       +'<span class="bad">'+esc(x.flux_state)+'</span> &mdash; &times;'+fx(x.excess_ratio,0)
+       +' the telluric-free control on the same spectrum. Measuring the state is not correcting it. '
+       +'<span class="tag">'+esc(x.ticket||'')+'</span></p>';});
+   if((S.blockers||[]).length){ h+='<p><b>What is blocked, and why.</b></p><ul>';
+     S.blockers.forEach(b=>{h+='<li><span class="warn">'+esc(b.what)+'</span> &mdash; '+esc(b.why)
+       +' <span class="tag">'+esc(b.ticket)+'</span></li>';}); h+='</ul>';}
+   if((S.caveats||[]).length){ h+='<p><b>Caveats a reader must carry.</b></p><ul>';
+     S.caveats.forEach(c=>{h+='<li><span class="warn">'+esc(c.what)+'</span> &mdash; '+esc(c.note)
+       +' <span class="tag">'+esc(c.ticket)+'</span></li>';}); h+='</ul>';}
+   if((S.holdings_still_not_applied||[]).length){
+     h+='<p><b>Still uncorrected holdings:</b> '+S.holdings_still_not_applied.map(x=>'<code>'+esc(x)+'</code>').join(', ')+'</p>';}
+   h+='</div>';
+   document.querySelector('#tellsum').innerHTML=h;
+ }
+
  // Each group reads ONLY its own metric. Sharing one renderer is how the stellar rows
  // came to display "not corrected": the solar template keys on before_pct_below_0.5,
  // which a D1 row does not carry, so frames that ARE corrected — with their gates
@@ -284,7 +327,7 @@ async function draw(){
       const idtxt=c===true?'<span class="warn">'+esc(t.star_id)+' \u2014 CONTESTED</span>'
                  :c==='unrecorded'?'<span class="muted">'+esc(t.star_id)+' (contested-ness unrecorded)</span>'
                  :'<span>'+esc(t.star_id)+'</span>';
-      return '<div class="tell5"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+      return '<div class="tell5"><span>'+esc(t.window)+'</span><code>'+esc(t.holding||t.product)+'</code>'
         +'<span class="val"><span class="bad">'+fx(t.before_d1_residual,4)+'</span> &rarr; <span class="good">'+fx(t.after_d1_residual,4)+'</span>'
         +(imp==null?'':' <span class="muted">('+fx(imp,0)+'%)</span>')+'</span>'
         +'<span class="'+(t.gate_passed?'good':'bad')+'">'+(t.gate_passed?'PASS':'FAIL')+'</span>'
