@@ -358,3 +358,53 @@ def test_a_large_zero_point_is_a_failed_anchor_not_a_zero_point():
     assert abs(-12.782) > _TELLURIC_CLOSURE_MAX      # K2148: refused
     for zp in (-1.857, -0.945, -0.031, -0.013, 0.766):
         assert abs(zp) <= _TELLURIC_CLOSURE_MAX      # the five that closed
+
+
+# ── RYA-973: multi-night sets, and collisions the alpha Cen shape could not expose ──
+def test_tau_ceti_set_is_declared_as_a_multi_night_singleton():
+    rec = cst.resolve_set('tau_ceti_crires')
+    assert rec['claimed_star'] == 'tau_ceti'
+    assert rec['id_gate'] == 'singleton_astrometry', (
+        "a singleton has no close pair to split; the alpha Cen orbit rule must not apply")
+    assert len(rec['epochs']) == 2, "tau Ceti's four K2148 frames span two nights"
+
+
+def test_the_astrometry_and_catalogue_ids_disagree_as_raw_strings():
+    """`audit_crires` identifies this star as `tau_cet` (from the CRIRES astrometry
+    reference) while system_catalog / stars.yaml / the holdings registry call it
+    `tau_ceti`. Compared raw, the two identity routes disagree on EVERY tau Ceti frame,
+    so the check meant to catch a mislabelled star would cry wolf on all of them. Both
+    sides must go through the one alias lookup."""
+    from pipeline.star_id import resolve_star
+    assert 'tau_cet' != 'tau_ceti'                       # the raw-string trap
+    assert resolve_star('tau_cet') == resolve_star('tau_ceti') == 'tau_ceti'
+
+
+def test_every_astrometry_reference_id_resolves_through_the_alias_lookup():
+    """Any id the astrometry reference can emit must be resolvable, or the identity
+    cross-check silently degrades to 'UNRESOLVED vs something' for that star."""
+    import csv
+    from pipeline.star_id import resolve_star
+    from config.constants import codex_root
+    path = Path(codex_root('repo')) / 'data' / 'reference' / 'crires_target_astrometry.csv'
+    unresolved = []
+    for row in csv.DictReader(open(path)):
+        sid = row['star_id']
+        if resolve_star(sid) == 'UNRESOLVED':
+            unresolved.append(sid)
+    # tau_boo is UNRESOLVED on purpose (no star_params_key yet, RYA-957)
+    assert set(unresolved) <= {'tau_boo'}, f"unresolvable astrometry ids: {unresolved}"
+
+
+def test_work_and_product_names_separate_frames_of_the_same_setting():
+    """tau Ceti's four frames are ALL K2148, two per night. A work dir or product named
+    for setting+date alone collides — two of them fitted against DIFFERENT nights'
+    atmospheres, with only the last surviving. alpha Cen could not expose this: it had
+    exactly one frame per setting."""
+    stems = ['ADP.2025-05-10T13:29:03.307', 'ADP.2025-05-10T13:29:03.310',
+             'ADP.2025-05-10T15:25:08.684', 'ADP.2025-05-10T15:25:08.687']
+    dates = ['2022-01-06', '2022-01-06', '2022-01-16', '2022-01-16']
+    setting_only = {f"K2148_{d}" for d in dates}
+    per_frame = {f"tau_ceti_crires_K2148_{d}_{s}" for d, s in zip(dates, stems)}
+    assert len(setting_only) == 2, "setting+date collapses four frames onto two names"
+    assert len(per_frame) == 4, "set+setting+date+frame keeps all four distinct"
