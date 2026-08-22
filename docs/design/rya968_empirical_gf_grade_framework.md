@@ -1,316 +1,255 @@
-# RYA-968 — Empirical gf-grade framework
+# RYA-968 — Empirical gf-grade framework (v2, literature-grounded)
 
 **DESIGN SPEC — for sign-off. No implementation.** Child of RYA-958.
-Firewall: RYA-161. Extends: RYA-855/850 gf rung. Doc sync owed: RYA-179.
+**Scope: the ABSOLUTE layer.** RYA-969 is the differential half.
+Firewall: RYA-161. Extends: RYA-855/850. Renders through: RYA-707/224/851/809. Doc sync: RYA-179.
+
+> **v2 supersedes v1.** v1 proposed measuring each ungraded line's excess scatter over a graded
+> floor and carrying it as an inflated per-line σ. The literature grounding (2026-08-22) replaces
+> that with the field's actual method — **selection**, not inflation. What survives from v1 is the
+> per-line architecture, the firewall structure, and the measurements; what changes is the
+> mechanism. §3 records what v1 got wrong.
 
 ---
 
-## 0. Read this first — the measurement changes the ticket's premise
+## 1. This is published practice, not our invention
 
-The ticket says the blanket 0.17 dex "should not drive our error." Before designing anything
-I measured what an empirical replacement would actually say, on the RYA-959 VIS re-measure
-(HARPS molecfit-corrected, 1D-LTE, in-aggregate, 3780–6910 Å), grouping each line's own
-A(Fe I) by the gf tier RYA-945 assigned it:
+The GBS third version (Soubiran+2024) and OCCASO (Carbajo-Hijarrubia+2024) use the
+laboratory-graded lines as a **reference distribution** and **admit** ungraded lines whose
+abundance falls within tolerance of that anchor. Rejected lines are documented, not carried with
+a large σ. That is the method; we are replicating a benchmark methodology to our provenance
+standard, not inventing one.
 
-| gf tier | n | mean A(Fe I) | **line-to-line sd** | median EW (mÅ) | median EP (eV) |
-|---|---|---|---|---|---|
-| **LAB** (primary laboratory) | **7** | 7.498 | **0.157** | **55.5** | 4.21 |
-| NIST-C+ | 34 | 7.658 | 0.342 | 47.4 | 3.48 |
-| OTHER | 86 | 7.657 | 0.311 | 47.2 | 4.26 |
-| KURUCZ | 90 | 7.744 | **0.511** | **31.2** | 4.47 |
-| VALD3 | 30 | 7.848 | **0.541** | **32.0** | 4.30 |
+Two flag systems to mirror rather than invent:
 
-**Three findings, and each one changes the design.**
+* **Gaia-ESO / Heiter+2021** — two independent axes, `gf_flag` and `synflag`, each `Y/U/N`.
+  Reliability and blending are *separate* questions and a single tier cannot carry both.
+* **Elgueta+2026** (RYA-787; already vendored as `elgueta2026`) — a four-stage physical decision
+  tree, **Depth → Saturation → Purity → goodness-of-fit**, each `Y/N/U`, anchored to laboratory
+  data and *explicitly rejecting APOGEE-style astrophysical fine-tuning*.
 
-### A. The scatter really does order by gf tier — the hypothesis holds
+🔴 **Elgueta is the RYA-161 firewall stated by an external group.** Its stage structure is the
+tier logic; adopting it means our firewall is the field's, not a house rule.
 
-LAB 0.157 → NIST-C+ 0.342 → KURUCZ 0.511 → VALD3 0.541, monotonic. That ordering was not
-imposed; the tiers come from RYA-945's provenance ingest and the abundances from RYA-959's
-re-measure, and nothing connects them but the physics. **This is the evidence that the method
-is worth building.**
+**Why the problem is unavoidable:** roughly half of optical lines lack a reliable laboratory gf
+(Jofré, Heiter & Soubiran 2019, ARA&A 57). There is no version of this project that avoids
+deciding what to do with ungraded lines.
 
-### B. 🔴 The empirical number is ~3× LARGER than 0.17, not smaller
+### Reference check
+Every reference above was verified against arXiv/Crossref before being written down, and **two
+attributions in the discussion were off**:
 
-Quadrature-subtracting the LAB floor:
+| as discussed | actually |
+|---|---|
+| "Heiter 2019, arXiv 1811.08041" | **Jofré**, Heiter & Soubiran 2019, ARA&A 57 — Heiter is second author (`10.1146/annurev-astro-091918-104509`) |
+| "NGC6352, arXiv 0810.4832" | **Feltzing**, Primas & Johnson 2009, A&A 493, 913 (`10.1051/0004-6361:200810137`) |
+| "GBS third version (Jofre, A&A aa55211-25)" | ⚠️ **that manuscript number does not resolve.** The third-version papers that do are **Soubiran+2024** (fundamental Teff/log g, `10.1051/0004-6361/202347136`) and Vitali+2026 (n-capture, `10.1051/0004-6361/202661004`). If a Jofré-led third-version *metallicity* paper is in press, **we need its identifier before citing it.** |
 
-| tier | sd | √(sd² − floor²) = empirical gf σ |
-|---|---|---|
-| NIST-C+ | 0.342 | **0.304** |
-| OTHER | 0.311 | 0.269 |
-| KURUCZ | 0.511 | **0.487** |
-| VALD3 | 0.541 | **0.518** |
-
-**The blanket 0.17 is not conservative — it is optimistic by about a factor of three.**
-Replacing it with a measurement **widens** every ungraded error bar; it does not tighten them.
-
-That is the opposite of the ticket's framing, and it is the single most important thing to
-sign off on. RYA-850 already hit the smaller version of this — the cited lab σ (0.052–0.060)
-came out *above* the 0.041 graded bound, and nothing was clamped. **The same discipline
-applies here and it costs more.** If the framework is built and its answer is rejected because
-the bars grew, we will have built a tuning knob.
-
-### C. 🔴 The confound is present, and it is large
-
-The high-scatter tiers are **systematically weaker lines**: LAB median EW **55.5 mÅ** against
-Kurucz **31.2** and VALD3 **32.0**, with REW tracking it (−5.03 vs −5.27/−5.28). Weak lines
-scatter more for reasons that have nothing to do with gf — continuum placement has less
-leverage, per-line SNR is lower, and the EW→A inversion is steeper.
-
-**So a naive quadrature subtraction attributes to gf a difference that is partly line
-strength.** The ticket predicted exactly this ("done lazily it is the 0.17 with a local
-accent"). It is not hypothetical here — it is measured, and it is in the direction that
-inflates the answer.
-
-### D. 🔴 The anchor is SEVEN LINES
-
-In the flagship VIS cell the LAB pool is **n = 7**. The floor's own uncertainty is
-`sd/√(2(n−1))` ≈ **±0.045 dex** on a 0.157 estimate. Quadrature subtraction is at its most
-unstable when the subtrahend is poorly known, and matching on EW/EP to kill the confound (§C)
-can only shrink 7 further.
-
-**This is where the framework lives or dies, and it is a resourcing question, not a coding
-one.** RYA-824 found the same wall — the lab tables hold 250 VIS Fe I lines and our measured
-pool reached 9. RYA-945 lifted the *line list* to 199 LAB lines in VIS; it did not lift the
-*measured* pool, which is still 7. §7 makes this a hard gate.
+`elgueta2026` was already vendored with the correct DOI. `soubiran2024`,
+`carbajohijarrubia2024`, `jofre2019` and `feltzing2009` added to `data/refs/bibliography.csv`
+(RYA-854).
 
 ---
 
-## 1. What is being replaced
+## 2. Scope — the absolute layer, and only that
 
-`pipeline/error_budget.py` today:
+| layer | ticket | gf | precision |
+|---|---|---|---|
+| **ABSOLUTE** | **RYA-968 (this)** | does **not** cancel; per-line gf error is real and irreducible | this is where the honest ~0.1–0.5 dex lives |
+| DIFFERENTIAL | RYA-969 | **cancels** star-to-star | 0.01–0.02 dex (Meléndez / Bedell / Nissen) |
 
-```python
-UNGRADED_GF_SYSTEMATIC_DEX = 0.17    # Kurucz semi-empirical (RYA-161)
-GRADED_GF_SYSTEMATIC_DEX   = 0.041   # NIST grade B bound
-```
+**The 0.17 dies in both layers, by different mechanisms**: cancelled in the differential,
+measured-and-replaced here. The absolute number being large is not a failure of this framework —
+it is the correct statement of where the Sun's absolute A(X) actually sits.
 
-and `pipeline/gf_rung.py` picks between them **per pool, all-or-nothing**:
-
-| rung | condition | gf term |
-|---|---|---|
-| 1 | anything ungraded in the pool | 0.17 blanket |
-| 2 | every line GF-LAB, <90 % carry a cited σ | 0.041 bound |
-| 3 | every line GF-LAB, ≥90 % carry σ | RMS of the cited σ |
-
-🔴 **The all-or-nothing rule is why RYA-855 moved 0 of 36 bars.** `decide()` returns rung 1 the
-moment one line is ungraded — *"A pool is graded only if every line in it is"* — and every real
-Fe cell is mixed (VIS: 7 LAB among 257). The rule is correct as written: a pool cannot inherit
-a laboratory pedigree from a subset. **The fix is not to relax it. The fix is to stop grading
-pools and start grading lines**, so a mixed pool is a quadrature over per-line σ instead of a
-category that collapses to its worst member.
-
-**That is the architectural core of this proposal.**
+**The astrophysical-gf firewall follows from the split** (Feltzing+2009): solar-fitted gf is
+*legitimate* for differential work, where it cancels, and *forbidden* for absolute work, where it
+is circular. RYA-161 is the house name for a distinction the literature already draws.
 
 ---
 
-## 2. Method
+## 3. 🔴 What v1 got wrong, and the two measurements that show it
 
-### 2.1 Inputs
+v1 proposed: measure ungraded scatter, quadrature-subtract the graded floor, carry the excess
+(~0.49 dex for Kurucz) as a per-line σ. **The field does not do this, and it is the wrong shape.**
+It keeps every line and inflates the error; the field *selects* and keeps the error small on the
+survivors. v1's ~0.49 dex is best understood as **the cost of not selecting** — a property of the
+unselected Kurucz population that nobody carries.
 
-Per-line abundance tables that already exist, one per engine × band × instrument:
-`data/results/band_products/{SPECIES}_{band}_{instrument}_{method}_{ENGINE}_lines.csv`
-— carrying `wavelength_air_A`, `abundance`, `ew_mA`, `rew`, `ep_eV`, `red_chi2`,
-`observed_depth`, `in_aggregate`, `excluded_reason`, plus RYA-959's `implied_width_A`.
+But adopting the published method wholesale has two failure modes, and **both are measured on our
+own data, not hypothesised**:
 
-Joined to `data/linelists/canonical_gf.csv` for `gf_tier`, `gf_sigma_dex`, `lab_source_tag`
-(RYA-945). Join on wavelength **and** EP, never wavelength alone (RYA-780).
+### 3.1 The published REW cut does not bite on our data
 
-### 2.2 The floor — what the pipeline costs when gf is KNOWN
+GBS admits lines in `−6.7 < REW < −4.5`. Our VIS Fe I pool spans **−6.09 to −4.90** — entirely
+inside it. **249 of 249 lines survive the cut (100 %).**
 
-Within a **cell** (species × band × instrument × engine × treatment), take the GF-LAB lines
-and compute the line-to-line dispersion of their per-line abundance. That is everything the
-pipeline contributes when gf is not in question: continuum, blends, model atmosphere, NLTE
-treatment, EW extraction.
+⚠️ **So the published confound control removes nothing here.** And the confound is still present
+*inside* the window: LAB median REW **−5.03** against Kurucz **−5.28**, LAB median EW **55.5 mÅ**
+against Kurucz **31.0**. Importing the GBS window and declaring the confound handled would be
+exactly the lazy move the ticket warns about. **We need a window derived from our own
+distribution, or matched admission, not a borrowed constant.**
 
-Estimator: **MAD×1.4826, not sd** — n is small and one bad line must not set the floor.
-Report both, and the disagreement between them, since a large gap is itself a diagnostic.
+### 3.2 🔴 Admission manufactures precision the anchor cannot support
 
-### 2.3 Per-line empirical σ_gf — three sources, in strict precedence
+Applying reference-matched admission against our 7-line anchor (mean 7.498, sd 0.157):
 
-For each line, the gf uncertainty is the **first** of these that is available:
+| tolerance | admitted | rejected | admitted sd | admitted **sem** |
+|---|---|---|---|---|
+| ±0.05 dex (GBS) | 23 of 249 | 226 | **0.024** | **0.0049** |
+| ±1σ of anchor (0.157) | 77 of 249 | 172 | 0.084 | 0.0096 |
 
-1. **CITED** — a published per-line laboratory σ (`gf_sigma_dex`, RYA-945/850). A measurement
-   by someone with an apparatus beats any inference we draw from scatter. Median 0.030 dex
-   (LAB) / 0.041 (NIST-C+).
-2. **SELF-REPORTED** — the line's own spread across independent measurements
-   (engine × band × instrument, where the same line is measured more than once). This needs
-   **no anchor and no confound model**, because the line is compared only to itself. It is the
-   most defensible number in the scheme and the ticket is right to give it precedence.
-   Requires ≥ 3 independent measurements to be quoted.
-3. **INFERRED** — the confound-controlled excess over the floor (§2.4). Used only where 1 and
-   2 are unavailable.
-4. **FALLBACK** — see §6. Not 0.17, and not Kurucz's.
+The admitted pool's scatter (0.024) is **smaller than the anchor's own** (0.157) — *by
+construction*, because the lines were selected for agreeing with the anchor mean. Quoting
+sem = 0.005 dex as the absolute uncertainty would be nonsense:
 
-### 2.4 The inferred term, with the confound controlled
+> **The absolute zero-point is set entirely by the laboratory lines.** With n = 7 and sd = 0.157,
+> the anchor supports σ_mean ≈ **0.059 dex**, and *no number of admitted ungraded lines can beat
+> that*, because they carry no independent information about the scale.
 
-Do **not** subtract raw tier scatters. The excess must be estimated at matched line strength.
+**This is the central design constraint of v2**, and it is where the method would quietly become
+circular if built naively. Admission buys *statistical* precision around a zero-point it cannot
+improve.
 
-**Primary method — matched comparison.** Bin lines by REW (the strength variable that showed
-the confound) and by EP. Within each bin containing ≥ N_min graded and ≥ N_min ungraded lines,
-compute `σ_gf(bin) = √(max(sd_ungraded² − sd_graded², 0))`. A bin without enough graded lines
-yields **nothing** — it does not borrow a neighbour's floor.
-
-**Secondary method — regression, as a cross-check that must agree.** Model per-line squared
-residual against REW, EP, wavelength and a tier indicator; the tier coefficient is the gf term.
-If the two methods disagree by more than their own uncertainties, **the framework reports that
-disagreement and falls back**; it does not average them.
-
-🔴 **The floor must be estimated from graded lines that look like the ungraded ones.** With the
-LAB pool at median EW 55.5 mÅ and Kurucz at 31.2, there may be **no overlap bin at all** in
-some cells. An empty overlap is a legitimate and reportable outcome: *this cell cannot be
-graded empirically*. It is not licence to use the unmatched number.
+⚠️ Also note **only 1 of the 7 anchor lines survives its own ±0.05 dex test** — six of seven lab
+lines disagree with the lab mean by more than the GBS tolerance. GBS applies that number to a
+far better-behaved pool. **Adopting ±0.05 unexamined would reject our own anchor.**
 
 ---
 
-## 3. Tiers — output is a classification, not a keep/drop
+## 4. Method (v2)
 
-| tier | definition | disposition |
-|---|---|---|
-| **GOLDEN** | primary laboratory gf with a cited per-line σ | showcase; **never moves off lab gf** |
-| **UNGRADED-CONSISTENT** | σ_gf within the cell's consistency bound | supporting product, tight empirical error |
-| **UNGRADED-SCATTERED** | σ_gf measurable but wide | **quarantine** — kept, flagged, error sized to its *own* scatter, excluded from showcase |
-| **INVALID** | artifact, not a line | removed from that spectrum's pool **with a recorded physical reason** |
+### 4.1 Admission, in stages — Elgueta's tree, our data
 
-**INVALID requires a named physical cause**, drawn from checks that already exist: RYA-959's
-`gaussian_sigma_above_physical_ceiling` and `implied_width_exceeds_ceiling`, zero-flux telluric
-cores, ghost/misidentification. **"Scattered" is never a reason for INVALID** — that is the
-firewall boundary, and conflating the two is how a quarantine tier becomes a delete button.
+Per line, in order, each `Y/N/U`, mirroring Elgueta+2026 and carrying Gaia-ESO's two axes:
 
-The consistency bound is **declared before the run**, per §5.
+1. **Depth** — measurable against the noise.
+2. **Saturation** — on the linear curve of growth; a *derived* REW window (§3.1), not a borrowed one.
+3. **Purity** — unblended. This is Gaia-ESO's `synflag` axis.
+4. **Goodness of fit** — the profile actually describes the feature; RYA-959's width ceilings live here.
+5. **gf reliability** — Gaia-ESO's `gf_flag` axis: laboratory / NIST-graded / ungraded.
+6. **Anchor consistency** — does the line behave like the laboratory-anchored distribution?
 
-### Quarantine, never delete (RYA-711)
+Stages 1–4 are **physical and self-contained**: they never look at any abundance. Stage 6 is the
+only one that compares abundances, and §5 constrains exactly what it may compare against.
 
-Failed lines stay on the row. The failure *pattern* is diagnostic — a cluster failing in one
-telluric region or one EP range names the next bug; every line stays accounted for, so a gap
-is never silent; and today's scattered line may tighten under NLTE or after telluric
-correction. RYA-959 already implements exactly this for the width ceiling; this reuses it.
+### 4.2 Per-line σ, precedence unchanged from v1
 
----
+**cited → self-reported (cross-engine/band spread) → inferred → fallback.** Self-reported needs
+no anchor and no confound model, which is why it outranks anything inferred. The fallback is our
+own pooled measurement, not Kurucz's 0.17.
 
-## 4. 🔴 The firewall — how precision-not-accuracy is enforced STRUCTURALLY
+### 4.3 The zero-point cap — new in v2, and non-negotiable
 
-RYA-161 in one line: **grade a line on its own precision, never on whether it agrees with the
-expected answer.** A tightly-measured line that disagrees is a *finding*. A wildly-scattered
-line that happens to sit on the reference is a *quarantine*.
+Any absolute product reports **two** uncertainties:
 
-Good intentions are not a mechanism. Four structural controls:
+* **statistical** — from the admitted pool, shrinks with n;
+* **zero-point** — from the laboratory anchor alone, `σ_anchor/√n_anchor` ⊕ the anchor's own
+  cited σ. **It does not shrink when ungraded lines are admitted.**
 
-**F1 — The reference abundance is not an input.** The grading functions take per-line
-abundances, EW, REW, EP, wavelength and gf provenance. They **do not** receive the reference
-value, the gold value, or any pool aggregate. A function that cannot see the answer cannot
-grade toward it. Enforced by signature, and by a test that greps the grading module for
-imports of the gold/reference tables and fails on any.
-
-**F2 — Grading is invariant under a constant offset.** Add a constant δ to *every* per-line
-abundance in a cell and every tier assignment and every σ_gf must be **bit-identical**. Scatter
-is offset-invariant; agreement is not. This single property is what makes "we graded on
-precision" checkable rather than asserted. A dedicated test sweeps δ over ±0.5 dex.
-
-**F3 — Thresholds are declared before the data is seen.** The consistency bound, N_min and the
-bin edges live in a config block with a ticket reference and a fixed value; the run reads them.
-Changing one is a diff, reviewable as such. A threshold chosen after seeing which lines it
-excludes is the RYA-931 lesson — acceptance declared in advance, only the starting point
-retried.
-
-**F4 — The Cr canary is a blocking regression test.** Cr carries a standing +0.402 dex
-residual (`pipeline/threed_corrections.py`). **If any change to this framework shrinks the Cr
-canary, the framework is tuning and the build stops.** The canary must be *unmoved* by grading,
-because grading is not supposed to be able to see it. This is the integrity check the ticket
-names, wired as a test rather than a habit.
-
-**A fifth, weaker control worth having:** report the mean-offset-by-tier (§0 table: LAB 7.498 →
-VALD3 7.848) as a **finding, never as an input**. It is scientifically interesting — it may be
-the Kurucz zero-point RYA-819/831 chased — and it must never enter a grade.
+A budget that reports only the first has manufactured precision (§3.2). Today that floor is
+**≈0.059 dex** and it is set by seven lines.
 
 ---
 
-## 5. Declared constants (fill in at sign-off, before any run)
+## 5. The firewall — reconciled with admission
 
-| name | proposed | rationale |
-|---|---|---|
-| `EMPIRICAL_FLOOR_MIN_LINES` | **12** | below this the floor's own σ exceeds ~20 % and the subtraction is unstable; VIS today has **7**, so VIS-HARPS **fails this gate as it stands** |
-| `MIN_INDEPENDENT_MEASUREMENTS` | 3 | for a self-reported per-line spread |
-| `CONSISTENCY_BOUND_DEX` | tbd at sign-off | CONSISTENT vs SCATTERED; declared, not fitted |
-| `REW_BIN_EDGES` / `EP_BIN_EDGES` | tbd | must produce ≥ `EMPIRICAL_FLOOR_MIN_LINES` graded lines per used bin |
-| `FALLBACK_GF_SIGMA_DEX` | measured (§6) | replaces 0.17; **expected ≈ 0.5**, not 0.17 |
+Admission-on-agreement looks like the accuracy-grading RYA-161 forbids. It is not, and the
+distinction must be written into the code, not the intent:
 
----
+| | |
+|---|---|
+| **FORBIDDEN** | agreement with an **external expected abundance** — a literature A(X), a solar-fitted astrophysical gf, an APOGEE-style calibration. Circular: you recover what you assumed. |
+| **PERMITTED** | agreement with the **laboratory-anchored distribution measured in our own spectrum**. The lab lines carry an *independent physical calibration* — an apparatus measured their gf. "Does this line behave like lines whose gf we know?" is a **gf-quality test**, not an answer-tuning test. |
 
-## 6. Error-budget wiring
+Elgueta+2026 draws exactly this line by anchoring to laboratory data while rejecting
+astrophysical fine-tuning.
 
-`gf_term(graded: bool)` is a two-branch switch and cannot express a mixed pool. Proposed:
+**Structural controls (v1's, still binding):**
 
-```python
-def empirical_gf_term(sigmas_dex, *, provenance) -> Term   # per-line σ, RMS'd
-```
+* **F1 — no external reference is an input.** Grading functions receive per-line measurements and
+  the *anchor built from our own lab-graded lines*; never a literature value, gold value, or
+  target. Tested by a grep-level import check.
+* **F2 — stages 1–5 are invariant under a constant offset.** Add δ to every abundance and the
+  physical stages and every σ come out bit-identical. ⚠️ **Stage 6 is deliberately not
+  offset-invariant** — that is what it is for — so F2 applies to 1–5 and **stage 6 must be
+  separately auditable**: its admitted/rejected list is a required output, per line, with the
+  distance from the anchor recorded.
+* **F3 — thresholds declared before the data is seen**, in config with a ticket reference.
+  §3.1/§3.2 show why a borrowed threshold is not exempt from this.
+* **F4 — the Cr canary (+0.402) is a blocking test.** If grading shrinks it, the build stops.
 
-combining **per-line** σ in quadrature over the pool, exactly as `cited_gf_term` already does
-for cited σ — RMS, never median, because these enter in quadrature and the median discards the
-tail (RYA-850's stated reason).
-
-Resolution order per line: **CITED → SELF-REPORTED → INFERRED → FALLBACK**, with the chosen
-source recorded per line so a budget can state its own composition.
-
-`UNGRADED_GF_SYSTEMATIC_DEX = 0.17` **is not deleted.** It is renamed to something that says
-what it is (a Kurucz literature bound from RYA-161) and demoted to the last resort, reached
-only when a line has one measurement, one engine, and no graded neighbour in its REW/EP bin.
-🔴 **And even the fallback should be OUR measured value** — the pooled INFERRED σ across all
-cells that passed the gates — with the Kurucz 0.17 kept only as the documented prior it always
-was. On today's evidence that fallback is **≈ 0.5 dex**, and §0B is the argument for accepting
-that rather than flinching from it.
-
-**Every product's budget must state which source each line used.** A budget that cannot say
-where its gf term came from is the RYA-873 defect ("MEASURED" printed beside a zero nobody
-measured).
+**The mean offset by tier** (LAB 7.498 → VALD3 7.848) is reported as a **finding, never an
+input** — it may be the Kurucz zero-point RYA-819/831 chased.
 
 ---
 
-## 7. Gates — what must be true before implementation starts
+## 6. Failed lines are DOCUMENTED, not quarantined — and the renderer already exists
 
-1. **The anchor must reach `EMPIRICAL_FLOOR_MIN_LINES` in at least one cell.** Today VIS-HARPS
-   has **7 GF-LAB lines in-aggregate**. Either the measured pool grows to reach more of
-   RYA-945's 199 VIS LAB lines, or the first pilot runs somewhere the anchor is larger. **This
-   gate is currently RED and it is the reason this is a design ticket and not a build ticket.**
-2. **A matched REW/EP bin must exist** containing enough graded *and* ungraded lines. If LAB
-   lines are all strong and Kurucz lines all weak with no overlap, §2.4 yields nothing.
-3. **F2 (offset invariance) must pass** on synthetic data before any real grading runs.
-4. **The Cr canary must be unmoved.**
+A rejected line is a **first-class deliverable**: retained in the record, **excluded from the
+value**, and given an appendix entry that *shows* why it failed, with a per-line diagnostic plot.
+Same mechanism the graded lines already use, one tier down: measured, documented, plotted, not
+added to the number.
 
----
+🔴 **968 does not build any of that.** It already exists:
 
-## 8. Element-agnostic by construction
+| ticket | provides |
+|---|---|
+| **RYA-707** (done) | SPP Appendix A + the unmeasured-line proof generator |
+| **RYA-224** (standing standard) | per-line diagnostic plots — generation, naming, Linear attachment |
+| **RYA-851** (in progress) | the live Solar page + Fe appendix where this renders |
+| **RYA-809** (done) | the reason-code taxonomy, already applied to a real Fe set |
 
-Fe I is the pilot **only because it has a laboratory anchor**. Nothing in §2–§4 is Fe-specific:
-the floor is "the dispersion of lines whose gf is known", which is defined for any species with
-a graded subset. `gf_rung.LAB_GRADED_SPECIES` is `{("Fe","I")}` today and the framework must
-read it rather than assume Fe.
+**968's output is exactly two fields per line: a TIER and a REASON-CODE**, drawn from the
+existing vocabulary (`BAD_GF`, `ATOMIC_BLEND`, `MOLECULAR_BLEND`, `TELLURIC_ADJACENT`,
+`SATURATION_COG`, `CONTINUUM_LIMITED`, `NON_MINIMUM`, `ABUNDANCE_OUTLIER`, …) — **no parallel
+vocabulary, no appendix schema, no plot generator.**
 
-**The extension to un-anchored elements (Al, and the rest of the backbone) is the real prize
-and it is NOT free.** Without a lab anchor there is no floor to subtract, so those elements can
-use routes 2 (self-reported cross-engine spread) and 4 (fallback) but **not** route 3. Whether
-a floor measured on Fe I transfers to Al is an open question, and the honest default is **it
-does not** — a floor is a property of a pipeline *and a line list*, and Al's differs. Any
-cross-element transfer needs its own evidence, not an assumption. **Recommend: state the
-Fe-only scope in v1 and open transfer as its own ticket.**
+Deletion is reserved for nothing. Even a non-feature — zero-flux telluric core, ghost — is
+documented *as such*.
 
 ---
 
-## 9. Open questions for sign-off
+## 7. Gates
 
-1. **§0B — do you accept a ~3× wider ungraded gf term?** This is the decision. If the answer is
-   "only if it comes out smaller", the framework must not be built.
-2. **§7.1 — how do we grow the 7-line anchor?** Extend the measured pool toward RYA-945's 199
-   VIS LAB lines, or pilot in a different cell? This gates everything.
-3. **§5 — the consistency bound.** Declared where, and by whom, before the first run?
-4. **§8 — Fe-only in v1?** Recommended.
-5. **RYA-179 doc sync** — this changes the published error-budget methodology on the Method
-   page. Owed in the implementation ticket, not this one.
+| status | gate |
+|---|---|
+| 🔴 **RED** | **the anchor is 7 lines.** It no longer gates a floor estimate, but it now caps the absolute zero-point at ≈0.059 dex (§4.3) and it is too thin to define an admission distribution. Growing it toward RYA-945's 199 VIS lab lines is the highest-value unblock in this whole area. |
+| 🔴 **RED** | **the REW window must be derived from our data** (§3.1). The GBS constant admits 100 % of our pool and controls nothing. |
+| open | admission tolerance chosen from our anchor's behaviour, not borrowed — ±0.05 rejects 6 of our own 7 anchor lines (§3.2). |
+| open | F2 passes on synthetic data for stages 1–5; stage 6 emits its per-line audit list. |
+| open | the Cr canary is unmoved. |
+
+---
+
+## 8. Beyond Fe
+
+Fe I is the pilot only because it *has* a laboratory anchor. Stages 1–4 are element-agnostic and
+apply anywhere. Stage 6 needs an anchor and therefore **does not exist for un-anchored elements**
+(Al and the rest of the backbone) — those get the self-reported and fallback routes only.
+
+Whether an anchor-derived criterion transfers between elements is an open question and the honest
+default is **that it does not**: a floor is a property of a pipeline *and* a line list.
+**Recommend Fe-only in v1 of the implementation.**
+
+---
+
+## 9. Open for sign-off
+
+1. **§3.2 — do you accept the zero-point cap?** The absolute A(Fe) cannot be quoted tighter than
+   the lab anchor supports (≈0.059 dex on 7 lines), however many ungraded lines are admitted.
+   This is the v2 equivalent of v1's "~3× wider" question, and it is the one that matters.
+2. **§7 — growing the 7-line anchor.** Now gates two things, not one.
+3. **§3.1 — who derives the REW window**, given the published one does not bite?
+4. **Fe-only in v1?** Recommended.
+5. **The unresolved GBS third-version metallicity reference** (§1) — do you have its identifier?
 
 ---
 
 ## 10. Evidence index
 
-All numbers in §0 are reproducible from committed data:
+All §3 numbers reproduce from committed data:
 `data/results/band_products/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_1D-LTE_lines.csv`
-(RYA-959, 257 in-aggregate lines) joined on wavelength ±0.02 Å to `data/linelists/canonical_gf.csv`
-`gf_tier` (RYA-945). Floor uncertainty from `sd/√(2(n−1))`.
+(RYA-959; 249 in-aggregate lines with abundance + REW) joined ±0.02 Å to
+`data/linelists/canonical_gf.csv` `gf_tier` (RYA-945). Anchor statistics from the 7 `LAB`-tier
+lines in that pool. References verified against arXiv and Crossref, 2026-08-22.
