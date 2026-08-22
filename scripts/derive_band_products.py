@@ -85,7 +85,7 @@ PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHand
 
 
 def engine_a_delta(element: str, ion: str, waves: np.ndarray,
-                   cache: str | None = None) -> dict[float, float]:
+                   cache: str | None = None, star: str = "solar") -> dict[float, float]:
     """Per-line Engine-A departure corrections. Missing = not served.
 
     Fe is served by the live MPIA query.  Every other registered element is served by
@@ -103,10 +103,18 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
         return {float(k): float(v) for k, v in d.items()}
     sys.path.insert(0, str(ROOT))
     from scripts.build_nlte_grids_mpia import _submit_batch
-    from config.constants import STAR_PARAMS
-    p = STAR_PARAMS["solar"]
-    node = [dict(name="sun", teff_K=int(round(float(p["teff"]))),
-                 logg=float(p["logg"]), feh=0.0)]
+    from config.constants import get_star_params
+    p = get_star_params(star)          # RYA-985: loud-fails on an unknown star
+    is_sun = star == "solar"
+    # 🔴 THE GRID NODE MUST BE THIS STAR'S NODE. `feh` was pinned to 0.0 here, so every
+    # request fetched the SOLAR departure coefficients whatever star was being measured.
+    # For tau Ceti at [Fe/H] = -0.49 that is not a rounding difference — it is the NLTE
+    # correction of a different star, arriving as a plausible number. Mirrors the is_sun
+    # pattern already in `pipeline/nlte_cno.py`.
+    feh = 0.0 if is_sun else float(p["feh_ref"])
+    node = [dict(name=("sun" if is_sun else star),
+                 teff_K=int(round(float(p["teff"]))),
+                 logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
         from pipeline.nlte_corrections import _mpia_element_delta
         from pipeline.species import parse_ion
@@ -118,7 +126,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
         out = {}
         for wave in waves:
             delta = _mpia_element_delta(
-                element, float(wave), float(p["teff"]), float(p["logg"]), 0.0,
+                element, float(wave), float(p["teff"]), float(p["logg"]), feh,
                 tol=0.06)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
@@ -131,7 +139,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
     for i in range(0, len(waves), 40):          # MPIA dislikes very long batches
         chunk = [float(w) for w in waves[i:i + 40]]
         try:
-            r = _submit_batch(chunk, code, node).get("sun", {})
+            r = _submit_batch(chunk, code, node).get(node[0]["name"], {})
         except Exception as e:
             print(f"    MPIA batch {i//40} failed: {type(e).__name__}: {str(e)[:80]}")
             continue
@@ -507,7 +515,8 @@ def synthesis_route(a, pol) -> None:
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
     ctx = build_solar_context(a.element, R, linelist_file=str(cfg.linelist),
-                              apply_canonical_gf=prov_gf["apply_canonical_gf"])
+                              apply_canonical_gf=prov_gf["apply_canonical_gf"],
+                              star=a.star)
     segs = _kp_segments()
     hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
 
@@ -1055,6 +1064,10 @@ def asdict_line(l: LineMeasurement) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--star", default="solar",
+                    help="star id from config/stars.yaml (RYA-298 single source). Default "
+                         "'solar' keeps every existing invocation bit-identical; any other "
+                         "value drives BOTH the atmosphere and the NLTE grid node (RYA-985).")
     ap.add_argument("--element", required=True)
     ap.add_argument("--ion", default="I")
     ap.add_argument("--lo", type=float, required=True)
@@ -1204,7 +1217,7 @@ def main() -> None:
     # ── 1D-LTE ────────────────────────────────────────────────────────────────
     print("\n[1] 1D-LTE via the project's Turbospectrum curve-of-growth...")
     from scripts.control_synthesis_handler import build_context
-    ctx = build_context(a.element, a.ion, 500000.0)
+    ctx = build_context(a.element, a.ion, 500000.0, star=a.star)
     from pipeline.abundances_derive import _bisect_synth_abundance
     acc = pd.read_csv(ROOT / "data" / "audit" / "line_accounting" / "per_line.csv")
 
@@ -1261,7 +1274,8 @@ def main() -> None:
     used = [l for l in rows if l.in_aggregate and l.abundance is not None]
     deltas = engine_a_delta(a.element, a.ion,
                             np.array([l.wavelength_air_A for l in used]),
-                            cache=a.mpia_cache)
+                            cache=a.mpia_cache,
+                            star=a.star)
     rows_a: list[LineMeasurement] = []
     for l in used:
         # Tolerance match -- the cache keys are rounded, and two catalogues quoting the
