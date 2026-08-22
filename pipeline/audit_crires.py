@@ -496,11 +496,29 @@ def coadd_group(frames: list[Frame]) -> dict:
         return {'n': len(frames), 'status': 'REFUSED: residual velocity not measurable '
                                             '(no overlapping usable pixels)'}
     if worst > COADD_MAX_RESIDUAL_KMS:
+        # 🔴 WHY THE CROSS-CORRELATION FAILED, DIAGNOSED RATHER THAN NAMED "drift".
+        # If the measured residual cancels the BERV difference, the correlation locked onto
+        # features that are STATIONARY IN THE TOPOCENTRIC FRAME -- i.e. TELLURIC lines. The
+        # BERV shift aligns the stellar lines and by exactly the same amount MIS-aligns the
+        # tellurics; in un-corrected CRIRES+ IR spectra the tellurics are strong enough to
+        # win the correlation. Measured here: residual + dBERV sums to -1.2..+1.3 km/s on
+        # every refused pair (K-band worst at -8.7, where tellurics are deepest).
+        dberv = [v - bervs[0] for v in bervs]
+        cancels = max(abs(r + d) for r, d in zip(resid, dberv))
+        if cancels < 3 * COADD_MAX_RESIDUAL_KMS:
+            why = (f'TELLURIC-LOCKED: residual {worst:.1f} km/s cancels dBERV '
+                   f'{max(abs(d) for d in dberv):.1f} km/s to {cancels:.1f} km/s, so the '
+                   f'cross-correlation is tracking TELLURIC lines, not the star. These IDPs '
+                   f'are telluric_applied=not-applied (RYA-805/806); co-adding across a '
+                   f'large dBERV needs telluric correction first (RYA-947)')
+        else:
+            why = (f'residual {worst:.1f} km/s exceeds one resolution element '
+                   f'({COADD_MAX_RESIDUAL_KMS:.2f} km/s) and does NOT cancel dBERV '
+                   f'({cancels:.1f} km/s) — an unexplained wavelength disagreement')
         return {'n': len(frames), 'span_days': round(span, 3),
                 'residual_kms': [round(v, 3) for v in resid],
-                'status': (f'REFUSED: residual {worst:.2f} km/s exceeds one resolution '
-                           f'element ({COADD_MAX_RESIDUAL_KMS:.2f} km/s) — these spectra '
-                           f'disagree about where the lines are')}
+                'dberv_kms': [round(d, 3) for d in dberv],
+                'status': 'REFUSED: ' + why}
     # Align on the MEASURED residual before adding. Correcting a measured shift is strictly
     # better than refusing on a proxy for it.
     spectra = [(w * (1.0 - v / C_KMS), f, e) for (w, f, e), v in zip(spectra, resid)]
@@ -531,6 +549,13 @@ def coadd_group(frames: list[Frame]) -> dict:
         'residual_kms': [round(v, 3) for v in resid],
         'residual_max_kms': round(worst, 3),
         'resolution_element_kms': round(COADD_MAX_RESIDUAL_KMS, 3),
+        'dberv_max_kms': round(max(abs(v - bervs[0]) for v in bervs), 3),
+        # ⚠️ WHY THIS GROUP WAS SAFE. With dBERV below a resolution element the telluric and
+        # stellar frames coincide, so the ambiguity above never arises -- these frames were
+        # taken at nearly the same barycentric phase. That is a property of the SCHEDULE,
+        # not evidence that the tellurics were handled. They were not.
+        'safe_because': ('dBERV below one resolution element — telluric and stellar rest '
+                         'frames coincide for this group; tellurics remain UNCORRECTED'),
         'n_px': int(good.sum()),
         'wave': grid[good], 'flux': co_f[good], 'err': co_e[good],
     }
