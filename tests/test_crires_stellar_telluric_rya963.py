@@ -341,3 +341,20 @@ def test_a_collapsed_lsf_yields_no_resolving_power_rather_than_a_huge_one():
     out = cst.measured_resolving_power(_fc_with_lsf(0.0))
     assert not np.isfinite(out['R'])
     assert 'not fitted' in out['reason']
+
+
+# ── telluric-anchor closure (RYA-373's rule, reused not re-declared) ─────────
+def test_the_closure_bound_is_rya373s_constant_not_a_new_one():
+    from pipeline.crires_telluric import _TELLURIC_CLOSURE_MAX
+    assert _TELLURIC_CLOSURE_MAX == 3.0
+
+
+def test_a_large_zero_point_is_a_failed_anchor_not_a_zero_point():
+    """K2148 returned a -12.78 km/s 'zero-point' at a perfectly ordinary 3.97-sigma CCF
+    contrast, while the other five settings closed within 1.86. Contrast does not catch
+    it; the physics does -- tellurics are at topocentric rest, so the anchor must close
+    to ~0, and subtracting -12.78 fabricates a velocity shift in the stellar RV."""
+    from pipeline.crires_telluric import _TELLURIC_CLOSURE_MAX
+    assert abs(-12.782) > _TELLURIC_CLOSURE_MAX      # K2148: refused
+    for zp in (-1.857, -0.945, -0.031, -0.013, 0.766):
+        assert abs(zp) <= _TELLURIC_CLOSURE_MAX      # the five that closed
