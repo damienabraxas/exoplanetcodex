@@ -925,7 +925,15 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     h['ORIGIN'] = ('exoplanetcodex', 'derived product; the EXTRACTC IDP is the base')
     h['BASEFILE'] = (f.path.name, 'uncorrected cr2res EXTRACTC IDP')
     h['BASEMD5'] = _md5(f.path)
-    h['OBJECT'] = str(getattr(f, 'object_name', 'alf Cen A'))
+    # The raw header label, read from the base frame — never a constant written in here.
+    # It is recorded as a LABEL, not an identity: `OBJECT` is not an identifier (RYA-952
+    # found tau Ceti hiding under OBJECT='STD'), which is exactly why STARID below
+    # carries the measured verdict instead.
+    try:
+        h['RAWOBJ'] = (str(fits.getheader(str(f.path)).get('OBJECT', '?')).strip(),
+                       'raw header label, NOT an identity')
+    except Exception:
+        h['RAWOBJ'] = ('?', 'raw header label unavailable')
     h['WLEN'] = (f.wlen_id, 'ESO INS WLEN ID')
     h['BAND'] = f.band
     h['MJD-OBS'] = f.mjd
