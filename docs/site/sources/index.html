@@ -66,8 +66,8 @@
 <!-- GENERATED FILE -- DO NOT EDIT BY HAND.
      generator : scripts/generate_sources_page.py (RYA-854)
      source    : data/refs/bibliography.csv
-     sha256    : a8b9ea4350b9ee01959782bae3e1d1ef1d878fb363322ea5398d1c92ee851b5f
-     rows      : 104
+     sha256    : 8920f873ffdf4cd7b59096e8a373e250ff0971964e60a9e17ec7ba1de540f46d
+     rows      : 121
      Any hand edit is reverted by the next build and fails --check. Change the
      CSV, then regenerate. -->
 <canvas id="starfield"></canvas>
@@ -98,28 +98,28 @@
     <p><span class="src-gold">GOLD</span> marks a reference standard: a scale the Codex compares against rather than re-derives.</p>
   </div>
   <div class="src-stats">
-    <div class="src-stat"><b>104</b><span>references</span></div>
-    <div class="src-stat"><b>103</b><span>with verified link</span></div>
-    <div class="src-stat"><b>1</b><span>unconfirmed link</span></div>
-    <div class="src-stat"><b>58</b><span>held locally</span></div>
+    <div class="src-stat"><b>121</b><span>references</span></div>
+    <div class="src-stat"><b>118</b><span>with verified link</span></div>
+    <div class="src-stat"><b>3</b><span>unconfirmed link</span></div>
+    <div class="src-stat"><b>60</b><span>held locally</span></div>
     <div class="src-stat"><b>2</b><span>reference standards</span></div>
   </div>
   <div class="src-toc">
-    <a href="#solar_reference">Solar reference scales &amp; atlases (10)</a>
+    <a href="#solar_reference">Solar reference scales &amp; atlases (12)</a>
     <a href="#atomic_data_gf">Atomic data &mdash; oscillator strengths (48)</a>
     <a href="#atomic_data_broadening">Atomic data &mdash; line broadening (1)</a>
     <a href="#nlte">Non-LTE departures (10)</a>
     <a href="#nlte_synthesis">Non-LTE synthesis codes (1)</a>
     <a href="#model_atmosphere">Model atmospheres (3)</a>
-    <a href="#benchmark_params">Benchmark stellar parameters (4)</a>
-    <a href="#instrument_line_selection">Instruments &amp; line selection (2)</a>
+    <a href="#benchmark_params">Benchmark stellar parameters (15)</a>
+    <a href="#instrument_line_selection">Instruments &amp; line selection (4)</a>
     <a href="#cno">Carbon, nitrogen &amp; oxygen (8)</a>
     <a href="#motivation">Why this project exists (7)</a>
     <a href="#method_tool">Methods, codes &amp; tools (6)</a>
-    <a href="#project_doc">Exoplanet Codex documents (4)</a>
+    <a href="#project_doc">Exoplanet Codex documents (6)</a>
   </div>
   <section class="src-section" id="solar_reference">
-    <h2>Solar reference scales &amp; atlases<span class="src-count">10</span></h2>
+    <h2>Solar reference scales &amp; atlases<span class="src-count">12</span></h2>
     <p class="src-blurb">The abundance scales every Codex measurement is referenced against, and the solar spectra used as the observational anchor.</p>
     <ul class="src-list">
       <li class="src-entry" id="asplund2021">
@@ -151,6 +151,15 @@
         <div class="src-link"><a href="https://doi.org/10.3847/1538-4365/ab6a1c" target="_blank" rel="noopener">10.3847/1538-4365/ab6a1c &#8599;</a></div>
         <p class="src-role">Telluric-corrected IAG solar atlas (0.5-1.0 um); the telluric control for the optical/near-IR solar reference.</p>
         <div class="src-meta"><span class="src-tickets">RYA-459; RYA-805</span> &middot; <span class="src-local">local copy: Reference documents/Baker_2020_ApJS_247_24.pdf</span> &middot; <span class="src-key">baker2020</span></div>
+      </li>
+      <li class="src-entry" id="biemont1975">
+        <div class="src-head">
+          <span class="src-cite">Biemont, E.; Grevesse, N. (1975). <em>The solar photospheric abundance of iron</em>. Sol. Phys. 45, 59.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1007/BF00152216" target="_blank" rel="noopener">10.1007/BF00152216 &#8599;</a></div>
+        <p class="src-role">Historical IR solar Fe determination: A(Fe I)=7.57+/-0.11, 40 weak IR Fe I lines 0.85-2.5um, EW 1D-LTE, Kurucz-1974 theoretical gf. RYA-714 IR litscan point; historical/1D-LTE outlier, plot ABOVE the modern band, not inside it. NOTE: earlier session mis-cited this as &quot;Allen 1978&quot; - corrected here.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">biemont1975</span></div>
       </li>
       <li class="src-entry" id="caffau2011">
         <div class="src-head">
@@ -210,6 +219,15 @@
         <p class="src-role">Iron-group solar abundances and the 3D corrections the Codex uses for Ti and Cr.</p>
         <p class="src-note">Crossref issue date is 2014 (online-first); the volume year is 2015.</p>
         <div class="src-meta"><span class="src-tickets">RYA-399</span> &middot; <span class="src-key">scott2015</span></div>
+      </li>
+      <li class="src-entry" id="senturk2024">
+        <div class="src-head">
+          <span class="src-cite">Senturk, S. A.; Sahin, T.; Guney, F.; Bilir, S.; Marismak, M. (2024). <em>Near-Infrared Spectroscopy of the Sun and Solar Analog Star HD 76151: Compiling an Extensive Line List in Y-, J-, H-, and K-Bands</em>. ApJ 976, 175.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.3847/1538-4357/ad85e4" target="_blank" rel="noopener">10.3847/1538-4357/ad85e4 &#8599;</a></div>
+        <p class="src-role">Recent NIR solar Fe determination. NIR arm: Fe I 7.46+/-0.07 (74 lines), Fe II 7.50+/-0.02 (2 lines). Optical arm: Fe I 7.54, Fe II 7.51. Combined: Fe I 7.48, Fe II 7.47. EW+synth, 1D-LTE (MOOG/ATLAS9). FIREWALL (RYA-161 class): gf partly solar-tuned (selected to reproduce the observed solar abundance) -&gt; NOT independent of the zero point. RYA-714 IR litscan CONFIRMING point (inside modern band), not an independent validation.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">senturk2024</span></div>
       </li>
       <li class="src-entry" id="zhao2023">
         <div class="src-head">
@@ -852,18 +870,66 @@
     </ul>
   </section>
   <section class="src-section" id="benchmark_params">
-    <h2>Benchmark stellar parameters<span class="src-count">4</span></h2>
+    <h2>Benchmark stellar parameters<span class="src-count">15</span></h2>
     <p class="src-blurb">Independently determined temperatures, gravities, metallicities and microturbulences &mdash; parameters the Codex adopts rather than fits.</p>
     <ul class="src-list">
+      <li class="src-entry" id="bedell2014">
+        <div class="src-head">
+          <span class="src-cite">Bedell, M.; Melendez, J.; Bean, J. L.; et al. (2014). <em>Stellar Chemical Abundances: In Pursuit of the Highest Achievable Precision</em>. ApJ 795, 23.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0004-637X/795/1/23" target="_blank" rel="noopener">10.1088/0004-637X/795/1/23 &#8599;</a></div>
+        <p class="src-role">The precision ceiling of line-by-line differential analysis; one of the three anchors for RYA-969 differential layer target precision.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-969</span> &middot; <span class="src-key">bedell2014</span></div>
+      </li>
       <li class="src-entry" id="bruntt2010">
         <div class="src-head">
           <span class="src-cite">Bruntt, H.; Bedding, T. R.; Quirion, P.-O.; Lo Curto, G.; Carrier, F.; Smalley, B. (2010). <em>Accurate fundamental parameters for 23 bright solar-type stars</em>. MNRAS 405, 1907.</span>
           <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
         </div>
         <div class="src-link"><a href="https://doi.org/10.1111/j.1365-2966.2010.16575.x" target="_blank" rel="noopener">10.1111/j.1365-2966.2010.16575.x &#8599;</a></div>
-        <p class="src-role">Microturbulence and fundamental parameters for bright solar-type stars — the Procyon xi anchor.</p>
+        <p class="src-role">Microturbulence and fundamental parameters for bright solar-type stars — the Procyon xi anchor. Table B1 &quot;This study&quot; also supplies the adopted RT vsini/vmac for alpha Cen A/B and (RYA-988) tau Ceti.</p>
         <p class="src-note">On-disk copy is the arXiv v1 preprint (arXiv:1002.4268). &#x27;1002.4268v1.pdf&#x27; in the same folder is a BYTE-IDENTICAL duplicate of it (md5 match), not a second version. Crossref&#x27;s record for this DOI carries no volume/page (early-view); volume 405 p1907 is the printed citation.</p>
-        <div class="src-meta"><span class="src-tickets">RYA-309; RYA-420</span> &middot; <span class="src-local">local copy: Reference documents/BRUNTT2010.pdf</span> &middot; <span class="src-key">bruntt2010</span></div>
+        <div class="src-meta"><span class="src-tickets">RYA-309; RYA-420; RYA-988</span> &middot; <span class="src-local">local copy: Reference documents/BRUNTT2010.pdf</span> &middot; <span class="src-key">bruntt2010</span></div>
+      </li>
+      <li class="src-entry" id="carbajohijarrubia2024">
+        <div class="src-head">
+          <span class="src-cite">Carbajo-Hijarrubia, J.; Casamiquela, L.; Carrera, R.; et al. (2024). <em>OCCASO V. Chemical-abundance trends with Galactocentric distance and age</em>. A&amp;A 687, A239.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202347648" target="_blank" rel="noopener">10.1051/0004-6361/202347648 &#8599;</a></div>
+        <p class="src-role">OCCASO. With the GBS third version, the published precedent for RYA-968: use graded lines as a reference distribution and ADMIT ungraded lines that fall within tolerance of the anchor, rather than inflating a blanket systematic.</p>
+        <p class="src-note">arXiv:2405.00110</p>
+        <div class="src-meta"><span class="src-tickets">RYA-968</span> &middot; <span class="src-key">carbajohijarrubia2024</span></div>
+      </li>
+      <li class="src-entry" id="doyle2014">
+        <div class="src-head">
+          <span class="src-cite">Doyle, Amanda P.; Davies, Guy R.; Smalley, Barry; Chaplin, William J.; Elsworth, Yvonne (2014). <em>Determining stellar macroturbulence using asteroseismic rotational velocities from Kepler</em>. MNRAS 444, 3592.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/stu1692" target="_blank" rel="noopener">10.1093/mnras/stu1692 &#8599;</a></div>
+        <p class="src-role">vmac(Teff, logg) calibration from 26 Kepler stars + the Sun. Evaluated and REJECTED for eps Eri in RYA-988: the paper states validity only over Teff 5200-6400 K and logg 4.0-4.6, and eps Eri (5076 K, logg 4.61) falls outside on BOTH axes, so applying it would extrapolate past the authors&#x27; stated range.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-988</span> &middot; <span class="src-key">doyle2014</span></div>
+      </li>
+      <li class="src-entry" id="feltzing2009">
+        <div class="src-head">
+          <span class="src-cite">Feltzing, S.; Primas, F.; Johnson, R. A. (2009). <em>Stellar abundances and ages for metal-rich Milky Way globular clusters</em>. A&amp;A 493, 913.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361:200810137" target="_blank" rel="noopener">10.1051/0004-6361:200810137 &#8599;</a></div>
+        <p class="src-role">The literature basis for the RYA-161 firewall: astrophysical (solar-fitted) gf is legitimate for DIFFERENTIAL work, where gf cancels, and forbidden for ABSOLUTE work, where it is circular. Cited in RYA-968 as &quot;NGC6352&quot;.</p>
+        <p class="src-note">arXiv:0810.4832</p>
+        <div class="src-meta"><span class="src-tickets">RYA-968; RYA-161</span> &middot; <span class="src-key">feltzing2009</span></div>
+      </li>
+      <li class="src-entry" id="gray1984">
+        <div class="src-head">
+          <span class="src-cite">Gray, D. F. (1984). <em>Measurements of rotation and turbulence in F, G, and K dwarfs</em>. ApJ 281, 719.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/162149" target="_blank" rel="noopener">10.1086/162149 &#8599;</a></div>
+        <p class="src-role">Fourier-domain zeta_RT for F/G/K dwarfs, and the eq. (4) calibration &lt;zeta_RT&gt; = 3.95*Teff(kK) - 19.25. Cited in RYA-988 as the NEGATIVE result for eps Eri: Gray reports it but states the Zeeman-corrected residual broadening was &quot;too small to properly analyze&quot; at his resolution, and warns the relation does not delineate the K dwarfs — which is why the calibration route was rejected there.</p>
+        <p class="src-note">Read from the ADS scan (1984ApJ...281..719G). CAUTION: DOI 10.1086/162150 is NOT this paper — it is Lane &amp; Lester 1984 at ApJ 281, 723, the next article in the same issue. Gray&#x27;s Zeeman companion paper is ApJ 277, 640 (10.1086/161735).</p>
+        <div class="src-meta"><span class="src-tickets">RYA-988</span> &middot; <span class="src-key">gray1984</span></div>
       </li>
       <li class="src-entry" id="heiter2015">
         <div class="src-head">
@@ -875,6 +941,16 @@
         <p class="src-note">On-disk copy is the arXiv v2 preprint (arXiv:1506.06095).</p>
         <div class="src-meta"><span class="src-tickets">RYA-420; RYA-505</span> &middot; <span class="src-local">local copy: Reference documents/1506.06095v2.pdf</span> &middot; <span class="src-key">heiter2015</span></div>
       </li>
+      <li class="src-entry" id="jofre2019">
+        <div class="src-head">
+          <span class="src-cite">Jofre, P.; Heiter, U.; Soubiran, C. (2019). <em>Accuracy and Precision of Industrial Stellar Abundances</em>. ARA&amp;A 57, 571.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1146/annurev-astro-091918-104509" target="_blank" rel="noopener">10.1146/annurev-astro-091918-104509 &#8599;</a></div>
+        <p class="src-role">The review establishing that roughly half of optical lines lack a reliable laboratory gf - why the ungraded problem is unavoidable and why RYA-968 matters. NOTE: cited in the RYA-968 discussion as &quot;Heiter 2019&quot;; the first author is JOFRE (Heiter is second). Corrected here.</p>
+        <p class="src-note">arXiv:1811.08041</p>
+        <div class="src-meta"><span class="src-tickets">RYA-968</span> &middot; <span class="src-key">jofre2019</span></div>
+      </li>
       <li class="src-entry" id="jofre2014">
         <div class="src-head">
           <span class="src-cite">Jofre, P.; Heiter, U.; Soubiran, C.; Blanco-Cuaresma, S.; Worley, C. C.; Pancino, E. (2014). <em>Gaia FGK Benchmark Stars: Metallicity</em>. A&amp;A 564, A133.</span>
@@ -884,6 +960,55 @@
         <p class="src-role">Benchmark [Fe/H] — the adopted alpha Cen A/B metallicity.</p>
         <p class="src-note">On-disk copy is the arXiv v2 preprint (arXiv:1309.1099).</p>
         <div class="src-meta"><span class="src-tickets">RYA-384; RYA-479</span> &middot; <span class="src-local">local copy: Reference documents/1309.1099v2.pdf</span> &middot; <span class="src-key">jofre2014</span></div>
+      </li>
+      <li class="src-entry" id="jofre2015">
+        <div class="src-head">
+          <span class="src-cite">Jofre, P.; Heiter, U.; Soubiran, C.; et al. (2015). <em>Gaia FGK benchmark stars: abundances of alpha and iron-peak elements</em>. A&amp;A 582, A81.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201526604" target="_blank" rel="noopener">10.1051/0004-6361/201526604 &#8599;</a></div>
+        <p class="src-role">THE two-step differential bridge: target -&gt; same-type benchmark -&gt; Sun. The method RYA-969 formalises, and the source of the documented failure limits (Sun -&gt; HD140283 at [Fe/H] -2.5, and Sun -&gt; M giant across ~2000 K).</p>
+        <p class="src-note">arXiv:1507.00027</p>
+        <div class="src-meta"><span class="src-tickets">RYA-969</span> &middot; <span class="src-key">jofre2015</span></div>
+      </li>
+      <li class="src-entry" id="melendez2009twins">
+        <div class="src-head">
+          <span class="src-cite">Melendez, J.; Asplund, M.; Gustafsson, B.; Yong, D. (2009). <em>The peculiar solar composition and its possible relation to planet formation</em>. ApJ 704, L66.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1088/0004-637X/704/1/L66" target="_blank" rel="noopener">10.1088/0004-637X/704/1/L66 &#8599;</a></div>
+        <p class="src-role">Line-by-line DIFFERENTIAL analysis against solar twins reaching ~0.01 dex - the precision RYA-969 exists to reach. KEY IS DELIBERATELY NOT `melendez2009`: that key is taken by Melendez &amp; Barbuy 2009 (A&amp;A 497, 611), the FIREWALLED Fe II gf paper (RYA-161/852) - a different paper by a different author pair. NOTE: RYA-969 cites this as &quot;aa13038-09&quot;, an A&amp;A manuscript number that matches neither; if the A&amp;A companion (Ramirez, Melendez &amp; Asplund 2009, A&amp;A 508, L17) was intended, that needs confirming before it is relied on.</p>
+        <p class="src-note">arXiv:0909.2299</p>
+        <div class="src-meta"><span class="src-tickets">RYA-969</span> &middot; <span class="src-key">melendez2009twins</span></div>
+      </li>
+      <li class="src-entry" id="nissen2015">
+        <div class="src-head">
+          <span class="src-cite">Nissen, P. E. (2015). <em>High-precision abundances of elements in solar twin stars: Trends with stellar age and elemental condensation temperature</em>. A&amp;A 579, A52.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/201526269" target="_blank" rel="noopener">10.1051/0004-6361/201526269 &#8599;</a></div>
+        <p class="src-role">Solar-twin differential abundances at 0.01-0.02 dex; the third precision anchor for RYA-969.</p>
+        <p class="src-note">arXiv:1504.07598</p>
+        <div class="src-meta"><span class="src-tickets">RYA-969</span> &middot; <span class="src-key">nissen2015</span></div>
+      </li>
+      <li class="src-entry" id="saarosten1997">
+        <div class="src-head">
+          <span class="src-cite">Saar, S. H.; Osten, R. A. (1997). <em>Rotation, turbulence and evidence for magnetic fields in southern dwarfs</em>. MNRAS 284, 803.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/284.4.803" target="_blank" rel="noopener">10.1093/mnras/284.4.803 &#8599;</a></div>
+        <p class="src-role">Table 3 supplies the ADOPTED radial-tangential vmac + vsini for eps Eri (HD 22049: vsini 1.7+/-0.3, vmac 1.8+/-0.5) — the only direct per-star macroturbulence published for it. Sect. 3.1 states their RT model is &quot;identical to that of Gray&quot;, which is what puts the value on the same scale as the Bruntt+2010 values used for alpha Cen and tau Cet.</p>
+        <p class="src-note">Read from the ADS scan (1997MNRAS.284..803S). Table 3 column order verified against the Sun and alpha Cen A/B rows. NOTE: Bruntt+2010 Table B1 reprints these values with its &quot;Saar&quot; vsini/vmac columns TRANSPOSED (checked for the Sun, tau Cet, alpha Cen A and alpha Cen B) — cite this paper directly, never Bruntt&#x27;s Saar column.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-988</span> &middot; <span class="src-key">saarosten1997</span></div>
+      </li>
+      <li class="src-entry" id="soubiran2024">
+        <div class="src-head">
+          <span class="src-cite">Soubiran, C.; Creevey, O. L.; Lagarde, N.; et al. (2024). <em>Gaia FGK benchmark stars: Fundamental Teff and log g of the third version</em>. A&amp;A 682, A145.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1051/0004-6361/202347136" target="_blank" rel="noopener">10.1051/0004-6361/202347136 &#8599;</a></div>
+        <p class="src-role">The GBS THIRD version. RYA-968 mirrors the GBS line-admission methodology (graded lines as a reference distribution). Our stars.yaml still carries the Heiter+2015 / Jofre+2014 scale (RYA-957) - migrating to v3 is a separate decision.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-968; RYA-957</span> &middot; <span class="src-key">soubiran2024</span></div>
       </li>
       <li class="src-entry" id="vonbraun2011">
         <div class="src-head">
@@ -897,7 +1022,7 @@
     </ul>
   </section>
   <section class="src-section" id="instrument_line_selection">
-    <h2>Instruments &amp; line selection<span class="src-count">2</span></h2>
+    <h2>Instruments &amp; line selection<span class="src-count">4</span></h2>
     <p class="src-blurb">External line-selection catalogues and instrument-specific abundance work the Codex cross-checks its own pools against.</p>
     <ul class="src-list">
       <li class="src-entry" id="elgueta2026">
@@ -910,6 +1035,15 @@
         <p class="src-note">THIS ROW ACCOUNTS FOR THREE FILES in the reference library, checked by content rather than by name: &#x27;aa59148-26 (1).pdf&#x27; is a BYTE-IDENTICAL duplicate of aa59148-26.pdf (md5 match), while &#x27;2602.14294v1.pdf&#x27; is a genuinely DIFFERENT file (4,385,306 vs 4,848,632 bytes) — the arXiv preprint arXiv:2602.14294 of this same paper. One row, cited to the published A&amp;A version.</p>
         <div class="src-meta"><span class="src-tickets">RYA-381; RYA-789</span> &middot; <span class="src-local">local copy: Reference documents/aa59148-26.pdf</span> &middot; <span class="src-key">elgueta2026</span></div>
       </li>
+      <li class="src-entry" id="grilo2024">
+        <div class="src-head">
+          <span class="src-cite">Grilo, V.; Souto, D.; Cunha, K.; Guerco, R.; Vieira, R.; Smith, V. V. (2024). <em>Chemical abundances for a sample of FGK dwarfs in the Pleiades open cluster from APOGEE</em>. MNRAS 534, 3005.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1093/mnras/stae2209" target="_blank" rel="noopener">10.1093/mnras/stae2209 &#8599;</a></div>
+        <p class="src-role">Fe I line selection (77 lines) for G-type dwarfs. LINE-LIST SOURCE, no abundance value. NOTE: CrossRef confirms author/year/venue/instrument (APOGEE 1.51-1.69um, 1D-LTE, FGK dwarfs, Fe among 12 elements); the 77-line count itself is from RYA-714 and was not re-verified from the abstract.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">grilo2024</span></div>
+      </li>
       <li class="src-entry" id="lim2026">
         <div class="src-head">
           <span class="src-cite">Lim, D.; Yun, S.; Koch-Hansen, A. J.; Chun, S.-H.; Lee, Y. S.; Lee, Y.-W. (2026). <em>Chemical signatures of planetary systems in their host stars: Near-infrared spectroscopy of four planet-hosting wide binaries</em>. A&amp;A (accepted 2026-05-07).</span>
@@ -919,6 +1053,15 @@
         <p class="src-role">NIR abundance work on planet-hosting wide binaries; the closest external comparison for the Codex IR programme.</p>
         <p class="src-note">arXiv DOI — the A&amp;A version had no DOI at the time of writing. arXiv abs page confirmed HTTP 200 on 2026-08-17.</p>
         <div class="src-meta"><span class="src-tickets">RYA-762</span> &middot; <span class="src-local">local copy: Reference documents/2605.11095v1.pdf</span> &middot; <span class="src-key">lim2026</span></div>
+      </li>
+      <li class="src-entry" id="melendez1999">
+        <div class="src-head">
+          <span class="src-cite">Melendez, J.; Barbuy, B. (1999). <em>Oscillator Strengths and Damping Constants for Atomic Lines in the J and H Bands</em>. ApJS 124, 527.</span>
+          <span class="src-verified src-v-crossref" title="DOI record fetched from Crossref; title, authors and venue matched against this row.">DOI</span>
+        </div>
+        <div class="src-link"><a href="https://doi.org/10.1086/313261" target="_blank" rel="noopener">10.1086/313261 &#8599;</a></div>
+        <p class="src-role">NIR Fe I/II astrophysical (solar-calibrated) gf line list. LINE-LIST SOURCE, not an abundance determination. FIREWALL: solar-tuned gf, cannot referee a solar abundance.</p>
+        <div class="src-meta"><span class="src-tickets">RYA-714</span> &middot; <span class="src-key">melendez1999</span></div>
       </li>
     </ul>
   </section>
@@ -1140,7 +1283,7 @@
     </ul>
   </section>
   <section class="src-section" id="project_doc">
-    <h2>Exoplanet Codex documents<span class="src-count">4</span></h2>
+    <h2>Exoplanet Codex documents<span class="src-count">6</span></h2>
     <p class="src-blurb">The project&rsquo;s own methodology, glossary and architecture documents.</p>
     <ul class="src-list">
       <li class="src-entry" id="schmitt2010_thesis">
@@ -1183,10 +1326,30 @@
         <p class="src-note">FOUND, after an earlier pass wrongly recorded it as missing. The RYA-854 inventory named &#x27;Exoplanet_Codex_Science_Architecture.docx&#x27;, which genuinely does not exist under that name — but the document does, published on the site as v3.0 (PDF) with v2.0 (.docx) archived beside it. Title and subtitle read from the PDF&#x27;s own first page; the live URL serves application/pdf. The lesson is that searching for the INVENTORY&#x27;S filename and concluding absence was the error: the absence was scoped to a name, not to the document.</p>
         <div class="src-meta"><span class="src-tickets">RYA-179</span> &middot; <span class="src-local">local copy: exoplanetcodex-site/assets/docs/exoplanet-codex-science-architecture-v3.0.pdf</span> &middot; <span class="src-key">schmitt_science_architecture</span></div>
       </li>
+      <li class="src-entry" id="codex_note_harps_telluric_stop_2026_08_19">
+        <div class="src-head">
+          <span class="src-cite">Schmitt, R. D. (Exoplanet Codex) (2026). <em>STOP - every HARPS product from 2026-08-19 is SUSPECT (telluric)</em>. Exoplanet Codex internal note.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link src-nolink">no verified link &mdash; see note</div>
+        <p class="src-role">Library context, NOT a pipeline input. A working note written when the Linear token expired before it could be posted to RYA-916; the finding it carries lives in the ticket journal, not here. Listed because an unlisted document is an uncited one (RYA-854).</p>
+        <p class="src-note">Own work</p>
+        <div class="src-meta"><span class="src-tickets">RYA-916;RYA-854;RYA-963</span> &middot; <span class="src-local">local copy: HARPS-telluric-STOP-2026-08-19.md</span> &middot; <span class="src-key">codex_note_harps_telluric_stop_2026_08_19</span></div>
+      </li>
+      <li class="src-entry" id="codex_note_kpno_telluric_line_selection_draft">
+        <div class="src-head">
+          <span class="src-cite">Schmitt, R. D. (Exoplanet Codex) (2026). <em>TICKET DRAFT - kpno declares telluric_basis = line_selection and does not execute it</em>. Exoplanet Codex internal note.</span>
+          <span class="src-verified src-v-extracted" title="Metadata read directly off the paper held in the local reference library.">PDF</span>
+        </div>
+        <div class="src-link src-nolink">no verified link &mdash; see note</div>
+        <p class="src-role">Library context, NOT a pipeline input. A ticket draft parked in the library when the Linear token expired. Listed for completeness (RYA-854), not because it is a source.</p>
+        <p class="src-note">Own work</p>
+        <div class="src-meta"><span class="src-tickets">RYA-854;RYA-963</span> &middot; <span class="src-local">local copy: TICKET-DRAFT-kpno-telluric-line-selection.md</span> &middot; <span class="src-key">codex_note_kpno_telluric_line_selection_draft</span></div>
+      </li>
     </ul>
   </section>
   <div class="src-provenance">
-    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 a8b9ea4350b9ee01959782bae3e1d1ef1d878fb363322ea5398d1c92ee851b5f &middot; 104 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
+    <p>GENERATED PAGE &middot; source: data/refs/bibliography.csv &middot; sha256 8920f873ffdf4cd7b59096e8a373e250ff0971964e60a9e17ec7ba1de540f46d &middot; 121 rows &middot; generator: scripts/generate_sources_page.py &middot; RYA-854. Never hand-edited: <code>--check</code> regenerates this file and fails the build on any difference.</p>
   </div>
   <footer class="codex-footer">
     <div class="footer-grid">
