@@ -56,6 +56,10 @@ from pipeline.telluric.esorex_runtime import (SUPPRESS_PREFIX, esorex_env,
 # A set names WHERE the frames are and WHICH star they are claimed to be. The claim is
 # what step 4 tests; it is never assumed.
 _VET = codex_path('data.spectra_local') / 'Alpha Centauri (vetted)'
+# Corrected products are FITS, and *.fits is gitignored repo-wide, so they live on the
+# DATA DRIVE beside the other staged spectra (the RYA-952 pattern for tau Ceti) — not in
+# a per-ticket clone that gets deleted. What the repo carries is the SHA-256 manifest.
+_SPECTRA = codex_path('data.spectra')
 
 CRIRES_STELLAR_SETS = {
     'alpha_cen_a_crires': {
@@ -64,6 +68,7 @@ CRIRES_STELLAR_SETS = {
         'claimed_star': 'A',
         'id_gate': 'acen_ab',          # RYA-423 orbit ID
         'epoch': '2022-04-15',
+        'product_dir': _SPECTRA / 'alpha_cen_a' / 'CRIRESPlus_molecfit',
     },
     # The POSITIVE CONTROL for the α Cen A star-ID (RYA-963). One frame, K2192, the same
     # setting as A's K2192, from the same night 16 minutes later, through the same
@@ -79,6 +84,7 @@ CRIRES_STELLAR_SETS = {
         'claimed_star': 'B',
         'id_gate': 'acen_ab',
         'epoch': '2022-04-15',
+        'product_dir': _SPECTRA / 'alpha_cen_b' / 'CRIRESPlus_molecfit',
     },
 }
 
@@ -1143,8 +1149,7 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
 
     from config.constants import codex_root
     work_root = Path(work_root) if work_root else Path(codex_root('work')) / 'rya963'
-    out_dir = Path(out_dir) if out_dir else (Path(codex_root('repo')) / 'data' / 'audit'
-                                             / 'rya963_crires_telluric')
+    out_dir = Path(out_dir) if out_dir else Path(rec['product_dir'])
     results, confirmed, quarantined = [], [], []
     for fr in frames:
         # Pass 1 places the stellar mask at the EXPECTED velocity; the RV it then
