@@ -424,6 +424,32 @@ def _frame_table(frame: CriresFrame):
     return (np.concatenate(waves), np.concatenate(fluxes),
             np.concatenate(errs), np.concatenate(idx))
 
+def measured_resolving_power(fc: FrameCorrection) -> dict:
+    """R = lambda / FWHM, from molecfit's FITTED Gaussian LSF and the frame's own pixel
+    step at the first fit window.
+
+    This is a REFEREE, not a product: CRIRES+'s nominal R for the 0.2" slit is 100,000
+    and the project's own working value is 86,000 (RYA-373/952), and molecfit is never
+    told either. A fit that comes back near them recovered an instrument property from
+    the data; one that comes back at zero width did not fit the kernel at all
+    (FIT_RES_GAUSS=FALSE disables convolution rather than fixing it — RYA-931)."""
+    g = fc.fit.get('gaussfwhm')
+    if not g or not np.isfinite(g[0]) or g[0] <= 0:
+        return {'R': float('nan'), 'fwhm_px': (g[0] if g else float('nan')),
+                'reason': 'no fitted Gaussian LSF width — the kernel was not fitted'}
+    w = fc.windows[0]
+    seg_rows = (fc.wave_A >= w['lo_A']) & (fc.wave_A <= w['hi_A'])
+    if seg_rows.sum() < 10:
+        return {'R': float('nan'), 'fwhm_px': g[0],
+                'reason': 'fit window has too few rows to measure a pixel step'}
+    step_A = float(np.median(np.diff(fc.wave_A[seg_rows])))
+    centre_A = 0.5 * (w['lo_A'] + w['hi_A'])
+    fwhm_A = g[0] * step_A
+    return {'R': centre_A / fwhm_A, 'fwhm_px': g[0], 'fwhm_A': fwhm_A,
+            'pixel_step_A': step_A, 'centre_A': centre_A,
+            'fwhm_px_err': g[1] if len(g) > 1 else float('nan')}
+
+
 def _md5(path) -> str:
     h = hashlib.md5()
     with open(path, 'rb') as fh:
@@ -1119,6 +1145,8 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
         if k in fc.fit:
             _num(h, f'RCOL{mol}'[:8], fc.fit[k][0],
                  f'{k} +/- {fc.fit[k][1]:.4g}', 6)
+    _num(h, 'RESOLVE', measured_resolving_power(fc).get('R'),
+         'R from the FITTED LSF; CRIRES+ nominal 100000', 0)
     _num(h, 'GATEBEF', gate['residual_before'], 'D1 residual BEFORE correction', 5)
     _num(h, 'GATEAFT', gate['residual_after'], 'D1 residual AFTER correction', 5)
     h['GATENPX'] = gate['n_px']
@@ -1242,6 +1270,7 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'reduced_chi2': fc.fit.get('reduced_chi2', (None,))[0],
                'h2o_col_mm': fc.fit.get('h2o_col_mm', (None,))[0],
                'lsf_gauss_px': fc.fit.get('gaussfwhm', (None,))[0],
+               'resolving_power': measured_resolving_power(fc).get('R'),
                'windows': [(round(w['lo_A'], 1), round(w['hi_A'], 1)) for w in fc.windows],
                'gdas': fc.gdas, 'gdas_md5': fc.gdas_md5,
                'berv_kms': fc.berv_kms, 'telluric_zero_point_kms': zp.get('rv_kms'),
