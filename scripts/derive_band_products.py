@@ -870,9 +870,28 @@ def main() -> None:
     ap.add_argument("--skip-engine-b", action="store_true",
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
+    ap.add_argument("--graded-only", action="store_true",
+                    help="restrict the pool to lines carrying a PRIMARY-LABORATORY gf, "
+                         "i.e. emit the SHOWCASE product of the RYA-946 convention. The "
+                         "ungraded pool is a SEPARATE product (the DOCUMENT tier), never "
+                         "blended into this one -- mixing them to buy statistics is the "
+                         "forbidden move. A mixed pool is ungraded (gf_rung refusal 1), "
+                         "so without this flag a pool containing one ungraded line "
+                         "charges the 0.17 blanket however good the rest is.")
     a = ap.parse_args()
 
     pol_early = resolve_band(0.5 * (a.lo + a.hi))
+    # RYA-951 — `--graded-only` is implemented on the EW route only. Refusing here is the
+    # point: a flag that silently does nothing on one of two routes would emit an UNGRADED
+    # pool under a filename claiming it is the showcase tier.
+    if getattr(a, "graded_only", False) and (
+            a.force_synthesis
+            or "profile-fit" in getattr(pol_early, "forbidden_methods", ())):
+        raise SystemExit(
+            "--graded-only is implemented on the EW/profile-fit route only, and this "
+            f"band ({pol_early.name}) takes the synthesis route. Emitting an ungraded "
+            "pool under a _GRADED stem would publish the DOCUMENT tier as the SHOWCASE "
+            "one (RYA-946).")
     if a.force_synthesis:
         if "synthesis" not in pol_early.permitted_methods:
             raise SystemExit(
@@ -897,6 +916,12 @@ def main() -> None:
     if not src.exists():
         raise SystemExit(f"no measured EWs at {src}. Run measure_band_profilefit.py first.")
     ew = pd.read_csv(src)
+    # RYA-951/946 — the SHOWCASE product is a SEPARATE artifact from the DOCUMENT one.
+    # The stem above names the EW *input*, which both tiers share; the OUTPUT stem must
+    # not be shared, or the graded pool overwrites the ungraded pool at the same path and
+    # the convention's two tiers collapse into whichever ran last.
+    if getattr(a, "graded_only", False):
+        stem += "_GRADED"
     pol = resolve_band(0.5 * (a.lo + a.hi))
     ok = ew[ew.in_aggregate].copy()
     print(f"{a.element} {a.ion}  {a.lo:.0f}-{a.hi:.0f} A  band={pol.name}  "
@@ -970,6 +995,54 @@ def main() -> None:
     from scripts.control_synthesis_handler import build_context
     ctx = build_context(a.element, a.ion, 500000.0)
     from pipeline.abundances_derive import _bisect_synth_abundance
+
+    # ── RYA-951/946 — the SHOWCASE pool ──────────────────────────────────────
+    # `--graded-only` keeps just the primary-laboratory-gf lines. It is done HERE, after
+    # the line list is loaded and before the curve-of-growth inversion, for two reasons:
+    # the gf grade is a property of the LINE LIST row, not of the measurement, so it
+    # cannot be decided earlier; and the COG bisection is the expensive step, so a line
+    # this product will not report should not pay for one.
+    #
+    # 🔴 MEMBERSHIP IS `gf_rung`'s, NOT A SECOND RULE. `resolve_lines` + `grade_line` are
+    # exactly what prices the bar downstream. A private notion of "graded" here would be
+    # the RYA-845 two-homes defect: the pool could be selected on one definition and
+    # charged on another, and the mismatch would be invisible in the artifact.
+    if getattr(a, "graded_only", False):
+        from pipeline import gf_grades, gf_rung
+        _w = [float(r.wavelength_air_A) for _, r in ok.iterrows()]
+        _e = [_intake_ep(r, float(r.wavelength_air_A), a.element, a.ion)
+              for _, r in ok.iterrows()]
+        _res = gf_rung.resolve_lines(a.element, a.ion, _w, ctx["linelist"],
+                                     measured_ep_eV=_e)
+        _keep, _why = set(), {}
+        for _r in _res.itertuples():
+            _k = round(float(_r.wavelength_air_A), 4)
+            if not bool(getattr(_r, "resolved", True)):
+                _why[_k] = "unresolved in the loaded line list"
+                continue
+            _v = gf_grades.grade_line(float(_r.wavelength_air_A), float(_r.ep_eV),
+                                      float(_r.log_gf))
+            if _v.is_graded:
+                _keep.add(_k)
+            else:
+                _why[_k] = str(_v.gf_grade)
+        _before = len(ok)
+        ok = ok[[round(float(x), 4) in _keep
+                 for x in ok.wavelength_air_A]].copy()
+        import collections as _c
+        _tally = _c.Counter(_why.values())
+        print(f"  [graded-only] SHOWCASE pool: {len(ok)} of {_before} measured lines "
+              f"carry a {gf_grades.GRADE_LAB} (primary-laboratory) gf")
+        for _g, _n in sorted(_tally.items(), key=lambda kv: -kv[1]):
+            print(f"      dropped {_n:5d}  {_g}")
+        if not len(ok):
+            raise SystemExit(
+                f"--graded-only left no lines: none of the {_before} measured "
+                f"{a.element} {a.ion} lines in {a.lo:.0f}-{a.hi:.0f} A carry a primary-"
+                f"laboratory gf. That is a real answer about this band -- its showcase "
+                f"slot reads 'not established' (RYA-946) -- not a reason to fall back to "
+                f"the ungraded pool, which would silently publish the DOCUMENT tier as "
+                f"the headline.")
     acc = pd.read_csv(ROOT / "data" / "audit" / "line_accounting" / "per_line.csv")
 
     rows: list[LineMeasurement] = []
