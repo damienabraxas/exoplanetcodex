@@ -109,10 +109,19 @@ def test_the_width_floor_follows_the_star():
 
 def test_a_missing_broadening_term_is_refused_not_dropped():
     """🔴 A ceiling with a missing term is an UNDERESTIMATE, and rejecting lines with it
-    rejects them for a reason that is not real."""
-    assert "vmac" not in get_star_params("tau_ceti"), "premise changed — recheck stars.yaml"
-    with pytest.raises(LW.MissingBroadeningTerm, match="vmac"):
-        LW.max_stellar_sigma_kms("tau_ceti")
+    rejects them for a reason that is not real.
+
+    RYA-988 re-pointed this at the INVARIANT instead of one example star. tau_ceti was
+    the original subject; it now carries a cited vmac (Bruntt+2010 Table B1), which made
+    the old premise assert fire. Ask stars.yaml which stars actually lack the term rather
+    than naming one that the next adoption ticket can quietly fix.
+    """
+    missing = [s for s in STAR_PARAMS if "vmac" not in get_star_params(s)]
+    assert missing, ("no star lacks vmac — build a fixture record rather than deleting "
+                     "the guard; the refusal is the behaviour under test")
+    for star in missing:
+        with pytest.raises(LW.MissingBroadeningTerm, match="vmac"):
+            LW.max_stellar_sigma_kms(star)
     LW.max_stellar_sigma_kms("solar")          # the Sun has one, so it still works
 
 

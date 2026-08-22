@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-22
 
+- **RYA-988** — cited RT **vmac** for tau Ceti (0.9, Bruntt+2010 B1) + eps Eri (1.8, Saar & Osten 1997 T3). 🔴 **eps Eri absent from Bruntt; VF05 publish NO vmac; Doyle+2014 out of range on BOTH axes.** 🔴 **Bruntt B1's 'Saar' columns are TRANSPOSED (4/4).** Adopted as PAIRS — vsini moves too
 - **RYA-963** — α Cen A CRIRES+ telluric: **6/6 gated PASS** (0.21→0.02); new holding. 🔴 **`acen_orbit` A/B CONTESTED: CRIRES pair says inverted, NIRPS anchor disagrees**
 - **RYA-964** — `resolve_star()` at intake: one alias lookup in `system_catalog.csv`. 🔴 **`STD` / `Star S5` return UNRESOLVED, loudly — the refusal IS the feature.** eps Eri's four OBJECT spellings now collapse to one id
 - **RYA-957** — GBS params adopted for **tau Ceti + eps Eri** (Heiter+2015 / Jofré+2014); RYA-952's holdings row now REGISTERS. 🔴 **tau Ceti's log g is BRACKETED by Heiter Table 10 — solved, not pinned.** tau Boo verified NOT GBS
