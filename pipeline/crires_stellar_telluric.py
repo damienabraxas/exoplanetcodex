@@ -418,6 +418,7 @@ class FrameCorrection:
     molecules: tuple = ()
     fit_molec: dict = field(default_factory=dict)
     moved: dict = field(default_factory=dict)
+    well_mixed: dict = field(default_factory=dict)
     err_usable: bool = False
     windows: list = field(default_factory=list)
     fit: dict = field(default_factory=dict)     # BEST_FIT_PARAMETERS, as a dict
@@ -604,6 +605,60 @@ def _best_fit_dict(out_dir: Path) -> dict:
     return out
 
 
+#: The WELL-MIXED gases. Their atmospheric mixing ratios are near-constant, so a fitted
+#: relative column is a measurement of the FIT's health, not of the sky: it must come back
+#: near 1. H2O is deliberately absent — precipitable water genuinely varies by an order of
+#: magnitude night to night (tau Ceti saw 1.93 mm and 13-23 mm ten days apart), which is
+#: exactly why it is the one column worth fitting freely.
+WELL_MIXED = ('CO2', 'CH4', 'CO')
+#: RYA-931 refereed its solar HARPS fit with "|O2 column - 1| <= 0.10, because O2 is well
+#: mixed". This is that rule generalised, with a deliberately generous bound: real
+#: seasonal and altitude variation in CO2/CH4/CO is percent-level, so anything outside
+#: half-to-double is not a column, it is a runaway parameter.
+WELL_MIXED_LO, WELL_MIXED_HI = 0.5, 2.0
+
+
+def check_well_mixed_columns(best: dict, molecules, fit_flags=None) -> dict:
+    """Referee the FITTED columns of the well-mixed gases against physics.
+
+    🔴 THE D1 GATE CANNOT DO THIS, AND THE ASYMMETRY IS THE WHOLE POINT. A column that
+    runs HIGH paints absorption the spectrum does not have; dividing by it pushes flux
+    above the continuum and the residual gate catches it (tau Ceti H1559, CH4 = 22.7,
+    FAILED). A column that runs to ZERO does the opposite: the model simply omits that
+    molecule, its real absorption is left UNCORRECTED, and if H2O dominates the scored
+    pixels the D1 residual still looks fine. Six of seven such frames PASSED — registered
+    `applied` with a molecule silently not corrected at all.
+
+    So this is checked directly rather than inferred from the residual. Only FITTED
+    molecules are judged: one held at REL_COL=1 by design is not a measurement and has
+    nothing to run away with."""
+    flagged = []
+    for mol in molecules:
+        if fit_flags is not None and not fit_flags.get(mol):
+            continue
+        if mol not in WELL_MIXED:
+            continue
+        rec = best.get(f'rel_mol_col_{mol}')
+        if rec is None:
+            continue
+        val, err = float(rec[0]), float(rec[1])
+        if not (WELL_MIXED_LO <= val <= WELL_MIXED_HI):
+            flagged.append({
+                'molecule': mol, 'rel_col': val, 'uncertainty': err,
+                'direction': 'runaway-high' if val > WELL_MIXED_HI else
+                             ('pegged-at-floor' if val <= 1e-4 else 'runaway-low'),
+                'consequence': ('paints absorption the spectrum does not have; the '
+                                'correction pushes those pixels ABOVE continuum'
+                                if val > WELL_MIXED_HI else
+                                'the model omits this molecule, so its real absorption '
+                                'is left UNCORRECTED and the residual gate cannot see it'),
+            })
+    return {'checked': [m for m in molecules if m in WELL_MIXED
+                        and (fit_flags is None or fit_flags.get(m))],
+            'flagged': flagged, 'passed': not flagged,
+            'bounds': [WELL_MIXED_LO, WELL_MIXED_HI]}
+
+
 def assert_fit_moved(best: dict, molecules) -> dict:
     """Refuse a fit that reports success without having moved.
 
@@ -756,6 +811,7 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     _require_product(proc, out_dir, 'BEST_FIT_MODEL.fits', f"{frame.path.name} model")
     best = _best_fit_dict(out_dir)
     moved = assert_fit_moved(best, [m for m in molecules if fit_flags.get(m)])
+    well_mixed = check_well_mixed_columns(best, molecules, fit_flags)
 
     # ---- calctrans: the fitted atmosphere, evaluated over every pixel of the frame ----
     for name in ('ATM_PARAMETERS.fits', 'BEST_FIT_PARAMETERS.fits', 'MODEL_MOLECULES.fits'):
@@ -847,6 +903,7 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
         frame=frame, wave_A=wave_A, flux_raw=flux, err=err, mtrans=mt, flux_corr=corr,
         seg_index=seg_index, molecules=molecules, windows=windows, fit=best,
         fit_molec=dict(fit_flags), err_usable=err_usable, moved=moved,
+        well_mixed=well_mixed,
         gdas=Path(gdas).name, gdas_md5=_md5(gdas), rv_kms=rv_kms,
         berv_kms=barycentric_correction_kms(frame))
 
@@ -941,10 +998,19 @@ def telluric_residual_gate(fc: FrameCorrection, tol: float = _GATE_TOL) -> dict:
                 'reason': 'no telluric-dominated, stellar-clean pixel in this frame'}
     before = float(np.nanmedian(np.abs(1.0 - raw_cont[sel])))
     after = float(np.nanmedian(np.abs(1.0 - cont[sel])))
+    # 🔴 THE RESIDUAL ALONE IS NOT THE VERDICT. A well-mixed column pegged at zero
+    # leaves that molecule's absorption entirely uncorrected while the D1 residual stays
+    # small, because H2O dominates the scored pixels. Six frames passed in exactly that
+    # state. The gate therefore reports BOTH, and `passed` requires both.
+    wm = getattr(fc, 'well_mixed', None) or {}
+    wm_ok = bool(wm.get('passed', True))
     return {'n_px': int(sel.sum()), 'n_chips': len(chips),
             'residual_before': before, 'residual_after': after,
             'improvement': (before - after) / before if before > 0 else float('nan'),
-            'tol': tol, 'passed': bool(after <= tol), 'chips': chips}
+            'tol': tol, 'residual_passed': bool(after <= tol),
+            'well_mixed_passed': wm_ok,
+            'well_mixed_flagged': wm.get('flagged', []),
+            'passed': bool(after <= tol) and wm_ok, 'chips': chips}
 
 
 # ── Radial velocity from the CORRECTED spectrum ───────────────────────────────
@@ -1281,6 +1347,12 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     _num(h, 'GATEAFT', gate['residual_after'], 'D1 residual AFTER correction', 5)
     h['GATENPX'] = gate['n_px']
     h['GATEPASS'] = (gate['passed'], f"tol={gate.get('tol')}")
+    h['GATERES'] = (gate.get('residual_passed', gate['passed']), 'D1 residual within tol')
+    h['GATEWM'] = (gate.get('well_mixed_passed', True),
+                   'well-mixed columns physically plausible')
+    for i, f in enumerate(gate.get('well_mixed_flagged', [])[:4], 1):
+        h[f'WMFLAG{i}'] = (f"{f['molecule']} {f['rel_col']:.3f} {f['direction']}",
+                           'a well-mixed column is not a free parameter')
     _num(h, 'BERV', fc.berv_kms, 'km/s, add to topocentric RV', 5)
     _num(h, 'RVTOPO', rv.get('rv_topo_kms'), 'km/s, measured')
     _num(h, 'RVBARY', rv.get('rv_bary_kms'), 'km/s')
