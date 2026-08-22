@@ -43,6 +43,18 @@ MOVING = {
 }
 
 
+def _aliases(simbad, name: str) -> set[str]:
+    """SIMBAD's identifier list for one star, normalised for comparison."""
+    try:
+        t = simbad.query_objectids(name)
+    except Exception:
+        return set()
+    if t is None:
+        return set()
+    col = t.colnames[0]
+    return {str(v).strip().lower().replace(' ', '') for v in t[col]}
+
+
 def main() -> None:
     import warnings
     warnings.filterwarnings('ignore')
@@ -71,6 +83,11 @@ def main() -> None:
             'ra_deg_j2000': float(r.ra), 'dec_deg_j2000': float(r.dec),
             'pm_ra_cosdec_mas_yr': float(r.pmra), 'pm_dec_mas_yr': float(r.pmdec),
             'v_mag': float(r.V) if pd.notna(r.V) else None,
+            # Every catalogue designation SIMBAD knows for this star. Without it, a frame
+            # honestly labelled `HD 22049` reads as "OBJECT does not name this star", and
+            # the genuinely interesting mislabels -- a ROLE like `STD`, an observing-run
+            # placeholder like `Star S5` -- are buried in a list of false positives.
+            'aliases': '|'.join(sorted(_aliases(s, name))),
         })
     out = pd.DataFrame(rows).sort_values('star_id')
     if out[['ra_deg_j2000', 'dec_deg_j2000']].isna().any().any():
