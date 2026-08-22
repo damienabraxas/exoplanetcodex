@@ -156,8 +156,17 @@ def fetch_gdas(site: str, night=None, *, mjd: "float | None" = None,
         raise ValueError("fetch_gdas needs one of night=/mjd= (the observation night).")
     # Generic path: fully-specified lat/lon/gdas_loc bypass the SITES registry (e.g. an
     # ad-hoc site). Otherwise resolve coordinates + tarball id from constants.SITES.
-    if not (gdas_loc and lat is not None and lon is not None):
+    # Whether this is a REGISTERED observatory or an ad-hoc coordinate decides which
+    # backends may serve it — see _try_noaa_arl_archive.
+    site_registered = False
+    try:
         rec = get_site(site)
+        site_registered = True
+    except Exception:
+        rec = None
+    if not (gdas_loc and lat is not None and lon is not None):
+        if rec is None:
+            rec = get_site(site)                 # re-raise the registry's own error
         gdas_loc = gdas_loc or rec['gdas_loc']
         lat = rec['lat'] if lat is None else lat
         lon = rec['lon'] if lon is None else lon
@@ -172,7 +181,8 @@ def fetch_gdas(site: str, night=None, *, mjd: "float | None" = None,
         return cached
 
     prof = (_try_eso_gdas(gdas_loc, slot, work_dir, cached)
-            or _try_noaa_arl_archive(gdas_loc, lat, lon, slot, cache_dir, cached)
+            or _try_noaa_arl_archive(gdas_loc, lat, lon, slot, cache_dir, cached,
+                                     site_registered=site_registered)
             or _try_noaa_ready(gdas_loc, lat, lon, slot, cache_dir, cached))
     if prof is None:
         raise GDASUnavailable(
@@ -294,9 +304,25 @@ def _arl_fetch_slot(slot: datetime, work_dir: Path, timeout: float = 180.0) -> P
 
 
 def _try_noaa_arl_archive(gdas_loc: str, lat: float, lon: float, slot: datetime,
-                          cache_dir: Path, out_fits: Path) -> "Path | None":
+                          cache_dir: Path, out_fits: Path,
+                          site_registered: bool = False) -> "Path | None":
     """Automated NOAA ARL pull → molecfit FITS. Returns None only when the caller should
-    fall through to the manual-pull branch; a PERMANENT gap raises instead."""
+    fall through to the manual-pull branch; a PERMANENT gap raises instead.
+
+    🔴 REGISTERED SITES ONLY, AND THIS IS A SAFETY PROPERTY, NOT BOOKKEEPING. The ESO
+    tarball backend is keyed by SITE — ask for a site nobody ships and you get nothing,
+    which is what makes RYA-380's "an unknown site must fail loud" guarantee hold. The
+    ARL archive is keyed by COORDINATE and is GLOBAL, so it will cheerfully return a
+    real, correct profile for any lat/lon on Earth — including lat 0 / lon 0 for a site
+    that does not exist, which is the middle of the Atlantic. The number would not be
+    fabricated; it would simply be the atmosphere above the wrong place, which is worse,
+    because nothing about it looks wrong. RYA-380's own test caught this the first time
+    the backend ran. So the ARL branch serves only sites that resolve in
+    `config.constants.SITES`; an ad-hoc lat/lon still reaches the ESO and manual-pull
+    branches and still fails loud when neither has it.
+    """
+    if not site_registered:
+        return None
     if slot.date() < ARL_ARCHIVE_START:
         raise ArlBeforeArchive(
             f"{slot:%Y-%m-%d} predates the NOAA ARL GDAS1 archive "
