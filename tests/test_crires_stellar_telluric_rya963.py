@@ -455,3 +455,47 @@ def test_singleton_gate_delegates_rather_than_reimplementing():
     src = inspect.getsource(cst.identify_singleton)
     assert 'identify_at_intake' in src
     assert 'load_astrometry' not in src, "re-implementing the astrometry route here"
+
+
+# ── RYA-973: the cited radial velocity, and what it may referee ─────────────
+def _target_ref():
+    import csv
+    from config.constants import codex_root
+    path = Path(codex_root('repo')) / 'data' / 'reference' / 'crires_target_astrometry.csv'
+    return {r['star_id']: r for r in csv.DictReader(open(path))}
+
+
+def test_every_reference_rv_carries_its_own_bibcode():
+    """An RV quoted without a source is a number from memory. This file exists to be the
+    cited referee, so a value without a bibcode is not usable as one."""
+    for sid, row in _target_ref().items():
+        if row.get('rv_kms'):
+            assert row.get('rv_bibcode'), f"{sid} has an RV with no source"
+
+
+def test_tau_ceti_rv_reference_is_the_gaia_standard():
+    """tau Ceti is a Gaia RADIAL-VELOCITY STANDARD (Soubiran+2018, A&A 616 A7), quoted to
+    0.0002 km/s. That is what makes it a sharp external check on a K-band mask CCF —
+    and what makes the K2148 anchor failure unmistakable: applying the railed -20 km/s
+    'zero-point' would land ~20 km/s from a value known to four decimals."""
+    row = _target_ref()['tau_ceti']
+    assert row['rv_bibcode'] == '2018A&A...616A...7S'
+    assert abs(float(row['rv_kms']) - (-16.597)) < 1e-3
+    assert float(row['e_rv_kms']) < 0.01
+    assert row['rv_quality'] == 'A'
+
+
+def test_a_catalogue_rv_is_epoch_ambiguous_for_a_binary():
+    """alpha Cen A's catalogued RV lies OUTSIDE the Kervella orbit bounds, which is the
+    clearest possible demonstration that a single catalogue value cannot be compared to
+    an epoch measurement for a binary component without establishing its epoch. tau Ceti,
+    a singleton, has no such problem — which is why it referees cleanly and alpha Cen
+    does not."""
+    from pipeline.acen_orbit import rv_bounds
+    lo, hi = rv_bounds()
+    rv_a = float(_target_ref()['alpha_cen_a']['rv_kms'])
+    assert not (lo <= rv_a <= hi), (
+        f"alpha Cen A catalogue RV {rv_a} now sits inside the orbit bounds "
+        f"[{lo:.2f},{hi:.2f}] — re-examine whether it can referee the branch question")
+    rv_tau = float(_target_ref()['tau_ceti']['rv_kms'])
+    assert -20 < rv_tau < -13, "a singleton's catalogue RV is directly comparable"
