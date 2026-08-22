@@ -39,6 +39,8 @@ from __future__ import annotations
 import glob
 import hashlib
 import json
+import os
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -183,6 +185,15 @@ def barycentric_correction_kms(frame: CriresFrame) -> float:
 # ── Fit-window selection (DERIVED from the frame, not hand-listed) ────────────
 _WINDOW_A = 60.0            # Å per fit window
 _MIN_TELLURIC_FRAC = 0.02   # a window must be at least this absorbed by non-stellar lines
+# …and must also carry at least this fraction of the BEST window's information. An
+# absolute floor alone is not enough: Y1029's four windows scored 0.267, 0.128, 0.062,
+# 0.058, and the bottom two are regions where the "non-stellar absorption" is mostly
+# stellar residual the mask did not catch. Fitting there is fitting noise — and it is not
+# free. LBLRTM's cost is a WAVENUMBER quantity, so a fixed-Å window is 4.4x wider in
+# cm^-1 at 1.05 um (54) than at 2.19 um (12.5); Y1029 was still at chi2 2.4e7 after 193
+# mpfit calls (K2192 converged in 34) when esorex reached 13.7 GB and the kernel killed
+# it. Weak windows cost the most exactly where they help least.
+_RELATIVE_TELLURIC_FLOOR = 0.4
 
 
 _INFORMATIVE_LO, _INFORMATIVE_HI = 0.15, 0.90
@@ -305,9 +316,11 @@ def plan_fit(frame: CriresFrame, rv_kms: float = 0.0, n_windows: int = 4) -> dic
     fixed merely because the top-N ranking missed it."""
     width = _WINDOW_A
     scored = _score_chips(frame, rv_kms, width)
-    picked = [d for d in scored if d['absorbed_frac'] >= _MIN_TELLURIC_FRAC][:n_windows]
+    best = scored[0]['absorbed_frac'] if scored else 0.0
+    floor = max(_MIN_TELLURIC_FRAC, _RELATIVE_TELLURIC_FLOOR * best)
+    picked = [d for d in scored if d['absorbed_frac'] >= floor][:n_windows]
     if not picked:
-        top = f"{scored[0]['absorbed_frac']:.4f}" if scored else "no scorable chip"
+        top = f"{best:.4f}" if scored else "no scorable chip"
         raise RuntimeError(
             f"{frame.path.name} ({frame.wlen_id}): no fit window reaches the "
             f"{_MIN_TELLURIC_FRAC:.0%} informative non-stellar absorbed fraction (best "
@@ -333,6 +346,9 @@ def plan_fit(frame: CriresFrame, rv_kms: float = 0.0, n_windows: int = 4) -> dic
             continue
         bands = MOLECULE_BANDS_UM.get(mol, ())
         for cand in scored:
+            # A coverage window is exempt from the RELATIVE floor: it is added because a
+            # molecule has no other window at all, so "weaker than the best" is beside
+            # the point — the alternative is not fitting that molecule.
             if cand in picked or cand['absorbed_frac'] < _MIN_TELLURIC_FRAC:
                 continue
             if _overlaps(cand['lo_A'] / 1e4, cand['hi_A'] / 1e4, bands):
@@ -547,10 +563,38 @@ def assert_fit_moved(best: dict, molecules) -> dict:
     return {'fitted_columns': moved, 'initial_chi2': init, 'best_chi2': bestc}
 
 
+#: Address-space cap for one esorex process, GiB. Sirius has 15 GB and is SHARED with
+#: other tickets' runs. On 2026-08-22 the Y1029 model grew to 13.7 GB and the kernel's
+#: OOM killer fired — and the kernel chooses the victim, so the process it killed could
+#: just as easily have been the concurrent 2.5-hour synthesis another session was running.
+#: Capping our own address space converts "the machine kills something" into "this run
+#: fails, loudly, with its own name on it". Override with RYA963_MEM_GIB.
+_MEM_CAP_GIB = float(os.environ.get('RYA963_MEM_GIB', 8))
+
+
+def _mem_limiter():
+    """preexec_fn that caps the child's address space. Returns None where RLIMIT_AS is
+    not meaningful (macOS reports it but does not enforce it usefully for this)."""
+    import resource
+    cap = int(_MEM_CAP_GIB * (1 << 30))
+
+    def _apply():
+        try:
+            soft, hard = resource.getrlimit(resource.RLIMIT_AS)
+            new_hard = hard if hard != resource.RLIM_INFINITY else cap
+            resource.setrlimit(resource.RLIMIT_AS, (min(cap, new_hard), new_hard))
+        except (ValueError, OSError):
+            pass          # a cap we cannot set is not a reason to refuse to run
+    return _apply
+
+
 def _run(cmd, cwd, esorex, log_stem: Path):
     import subprocess
+    kw = {}
+    if sys.platform.startswith('linux'):
+        kw['preexec_fn'] = _mem_limiter()
     proc = subprocess.run(cmd, cwd=str(cwd), env=esorex_env(esorex),
-                          capture_output=True, text=True)
+                          capture_output=True, text=True, **kw)
     log_stem.with_suffix('.stdout.txt').write_text(proc.stdout)
     log_stem.with_suffix('.stderr.txt').write_text(proc.stderr)
     return proc
@@ -629,7 +673,10 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
            "--FIT_RES_BOX=FALSE", "--RES_BOX=0.0",
            "--FIT_RES_LORENTZ=FALSE", "--RES_LORENTZ=0.0",
            "--FIT_RES_GAUSS=TRUE", f"--RES_GAUSS={gauss_px:.4f}",
-           "--KERNMODE=FALSE", "--KERNFAC=5.0", "--VARKERN=TRUE",
+           # VARKERN was added here without a reason and is not in RYA-931's proven
+           # configuration; a kernel allowed to vary across a 27-chip range is extra
+           # cost and extra freedom that nothing in this data constrains.
+           "--KERNMODE=FALSE", "--KERNFAC=5.0",
            "--MIRROR_TEMPERATURE_KEYWORD=NONE",
            "--SLIT_WIDTH_KEYWORD=NONE", "--SLIT_WIDTH_VALUE=0.2",
            f"--ELEVATION_VALUE={pos['elevation_m']}",
@@ -737,6 +784,20 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
 def _require_product(proc, out_dir: Path, name: str, tag: str) -> None:
     """A recipe that returned 0 but wrote no product is NOT a failed fit, and reporting
     it as one sent RYA-939 hunting a problem that did not exist. Name what is wrong."""
+    if proc.returncode < 0:
+        # A NEGATIVE return code is a SIGNAL, not a fit failure, and reporting it as
+        # "esorex FAILED" sends the next reader looking for a problem in the fit. -9 on
+        # this box is the OOM killer (confirmed in dmesg for the Y1029 model at 13.7 GB).
+        import signal
+        try:
+            name = signal.Signals(-proc.returncode).name
+        except ValueError:
+            name = f'signal {-proc.returncode}'
+        hint = (' — the kernel OOM killer, or the RLIMIT_AS cap this driver sets '
+                f'({_MEM_CAP_GIB:g} GiB). Not a fit failure: the process never got to '
+                f'finish. Narrow the fit windows or raise RYA963_MEM_GIB.'
+                if -proc.returncode == 9 else '')
+        raise RuntimeError(f"{tag}: esorex was KILLED by {name}{hint}")
     if proc.returncode != 0:
         tail = "\n".join(l for l in proc.stdout.splitlines() if 'ERROR' in l)[-2000:]
         raise RuntimeError(f"{tag}: esorex FAILED (rc={proc.returncode}):\n{tail}")
@@ -1150,8 +1211,9 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
     from config.constants import codex_root
     work_root = Path(work_root) if work_root else Path(codex_root('work')) / 'rya963'
     out_dir = Path(out_dir) if out_dir else Path(rec['product_dir'])
-    results, confirmed, quarantined = [], [], []
+    results, confirmed, quarantined, failed = [], [], [], []
     for fr in frames:
+      try:
         # Pass 1 places the stellar mask at the EXPECTED velocity; the RV it then
         # measures is what pass 2 would use. The mask is 0.6 A wide and the expected and
         # measured velocities differ by far less than that, so one pass suffices — but
@@ -1197,13 +1259,21 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'product': str(product), 'product_sha256': _sha256(product)}
         results.append(row)
         (confirmed if ident['verdict'] == rec['claimed_star'] else quarantined).append(row)
+      except Exception as exc:
+        # One frame failing must not cost the other five. A failure is a per-frame
+        # FINDING, recorded with its reason and carried through to the report; it is
+        # never a silent skip, and the set's verdict names it.
+        failed.append({'frame': fr.path.name, 'wlen_id': fr.wlen_id,
+                       'error': f"{type(exc).__name__}: {exc}"})
+        print(f"  [FAIL] {fr.wlen_id}: {type(exc).__name__}: {exc}")
     return {'set': name, 'holding_id': rec['holding_id'], 'gdas_gate': gate0,
             'epoch': rec['epoch'], 'claimed_star': rec['claimed_star'],
             'other_epoch_frames': [{'frame': f.path.name, 'date_obs': f.date_obs,
                                     'wlen_id': f.wlen_id} for f in other_epoch],
             'frames': results, 'n_confirmed': len(confirmed),
-            'n_quarantined': len(quarantined),
+            'n_quarantined': len(quarantined), 'n_failed': len(failed),
             'quarantined': [r['frame'] for r in quarantined],
+            'failed': failed,
             'out_dir': str(out_dir)}
 
 
@@ -1271,7 +1341,10 @@ def main(argv=None):
               f"PWV {r['h2o_col_mm']:.3f} mm  gate {r['gate_before']:.4f} -> "
               f"{r['gate_after']:.4f} {'PASS' if r['gate_passed'] else 'FAIL'}  "
               f"RV_bary {r['rv_bary_kms']:+.2f}  ID {r['star_id']}")
-    print(f"\nconfirmed {out['n_confirmed']} / quarantined {out['n_quarantined']}")
+    for f in out.get('failed', []):
+        print(f"{f['wlen_id']:6s} FAILED — {f['error']}")
+    print(f"\nconfirmed {out['n_confirmed']} / quarantined {out['n_quarantined']} / "
+          f"failed {out.get('n_failed', 0)}")
     if a.json:
         Path(a.json).write_text(json.dumps(out, indent=2, default=str) + "\n")
         print(f"[record] {a.json}")
