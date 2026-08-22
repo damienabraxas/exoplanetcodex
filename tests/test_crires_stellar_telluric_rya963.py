@@ -242,3 +242,30 @@ def test_ccf_peak_on_a_flat_ccf_has_no_contrast():
     v = np.arange(-10.0, 10.1, 0.25)
     out = cst._ccf_peak(v, np.zeros_like(v))
     assert out['contrast'] == 0.0
+
+
+def test_the_b_control_set_is_declared_and_matches_a_on_epoch_and_gate():
+    """The α Cen B K2192 frame is the POSITIVE CONTROL for the A star-ID: same setting,
+    same night, 16 minutes apart. A control only discriminates if it goes through the
+    identical path, so the two sets must agree on epoch and on the id gate — a control
+    that differs in either proves nothing about the thing it controls."""
+    a = cst.resolve_set('alpha_cen_a_crires')
+    b = cst.resolve_set('alpha_cen_b_crires')
+    assert b['claimed_star'] == 'B' and a['claimed_star'] == 'A'
+    assert b['epoch'] == a['epoch'], "same night, or it is not a matched control"
+    assert b['id_gate'] == a['id_gate'], "same rule, or it is not the same test"
+    assert b['holding_id'] != a['holding_id']
+
+
+def test_the_two_orbit_branches_are_far_enough_apart_to_decide():
+    """The A/B split is only decidable if the branches separate by more than the RV
+    tolerance. At the 2022-04-15 epoch they are 6.75 km/s apart against a 2.5 km/s
+    tolerance — declare that in advance rather than discovering it from the answer."""
+    from astropy.time import Time
+    from pipeline.acen_orbit import predicted_rv
+    mjd = Time('2022-04-15T04:00:00', format='isot', scale='utc').mjd
+    p = predicted_rv(mjd)
+    mod = cst._rya423_verdict()
+    assert abs(p['delta_AB']) > 2 * mod.RV_TOL, (
+        f"A and B are only {p['delta_AB']:.2f} km/s apart at this epoch; the "
+        f"{mod.RV_TOL} km/s match tolerance cannot separate them")
