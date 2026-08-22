@@ -33,8 +33,23 @@ sys.path.insert(0, str(ROOT))
 from pipeline.telluric_intake import from_many                      # noqa: E402
 
 HOLDINGS = ROOT / "data" / "catalog" / "holdings_manifest_registry.csv"
-HOLDING_ID = "alpha_cen_a_crires_plus_molecfit"
-BASE_HOLDING = "alpha_cen_a_crires_plus"
+
+#: One entry per corrected CRIRES+ stellar set. Keyed by the --set the driver used, so
+#: the registration cannot drift from the run that produced the products.
+SETS = {
+    'alpha_cen_a_crires': {
+        'holding_id': 'alpha_cen_a_crires_plus_molecfit',
+        'base_holding': 'alpha_cen_a_crires_plus',
+        'system_id': 'alpha_cen_a', 'ticket': 'RYA-963',
+        'audit_dir': 'rya963_crires_telluric',
+    },
+    'tau_ceti_crires': {
+        'holding_id': 'tau_cet_crires_plus_molecfit',
+        'base_holding': 'tau_cet_crires_plus',
+        'system_id': 'tau_ceti', 'ticket': 'RYA-973',
+        'audit_dir': 'rya973_crires_telluric',
+    },
+}
 
 
 def sha256(path) -> str:
@@ -43,6 +58,40 @@ def sha256(path) -> str:
         for chunk in iter(lambda: fh.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def rows_from_products(products: list) -> list:
+    """Read the manifest rows out of the PRODUCTS THEMSELVES.
+
+    The first cut required the driver's run JSON. That is a side channel, and it went
+    missing the moment a frame was re-run on its own: tau Ceti's Y1029 aborted in the set
+    run, was retried alone with fewer fit windows, and wrote a perfectly good product
+    that the set's JSON knew nothing about. Registering from the run record would have
+    silently dropped it. The product is the artifact of record and carries everything the
+    manifest needs in its own header, so it is the thing that is read."""
+    from astropy.io import fits
+    rows = []
+    for path in products:
+        h = fits.getheader(path)
+        def g(k, d=''):
+            v = h.get(k, d)
+            return '' if v is None else v
+        rows.append({
+            'product': Path(path).name, 'sha256': sha256(path),
+            'base_frame': g('BASEFILE'), 'wlen_id': g('WLEN'), 'band': g('BAND'),
+            'date_obs': str(g('DATE-OBS'))[:10],
+            'gdas_profile': g('GDAS'), 'gdas_md5': g('GDASMD5'),
+            'star_id': g('STARID'),
+            # STARIDQ is written only when the id rule is contested; its ABSENCE means
+            # the product predates the card, not that the id is settled.
+            'star_id_contested': (bool(h['STARIDQ']) if 'STARIDQ' in h else 'unrecorded'),
+            'gate_before': f"{float(g('GATEBEF', float('nan'))):.5f}"
+                           if isinstance(g('GATEBEF'), (int, float)) else '',
+            'gate_after': f"{float(g('GATEAFT', float('nan'))):.5f}"
+                          if isinstance(g('GATEAFT'), (int, float)) else '',
+            'gate_passed': bool(g('GATEPASS', False)),
+        })
+    return rows
 
 
 def build_notes(run: dict, products: list) -> str:
@@ -55,8 +104,8 @@ def build_notes(run: dict, products: list) -> str:
     pwv = [f"{f['wlen_id']} {f['h2o_col_mm']:.3f}" for f in frames
            if f.get("h2o_col_mm") is not None]
     return (
-        f"RYA-963 telluric-corrected sibling of {BASE_HOLDING}; {BASE_HOLDING} itself is "
-        f"UNMODIFIED. {len(frames)} CRIRES+ EXTRACTC IDPs from {g['night']} "
+        f"{cfg['ticket']} telluric-corrected sibling of {cfg['base_holding']}; it is "
+        f"UNMODIFIED. {len(products)} corrected CRIRES+ products. "
         f"(one per setting: {', '.join(f['wlen_id'] for f in frames)}), corrected with "
         f"ESO molecfit (molecfit_model on derived fit windows, then molecfit_calctrans "
         f"over every chip) against the REAL per-night Paranal GDAS profile "
@@ -93,12 +142,18 @@ def build_notes(run: dict, products: list) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--set", dest="set_name", default="alpha_cen_a_crires",
+                    choices=sorted(SETS))
     ap.add_argument("--products", required=True, help="directory of corrected products")
-    ap.add_argument("--run-json", required=True, help="run_set record")
+    ap.add_argument("--run-json", default=None,
+                    help="optional run_set record; the manifest is derived from the "
+                         "PRODUCT HEADERS regardless, so a frame re-run on its own is "
+                         "not lost")
     ap.add_argument("--write", action="store_true")
     a = ap.parse_args()
-
-    run = json.loads(Path(a.run_json).read_text())
+    cfg = SETS[a.set_name]
+    run = json.loads(Path(a.run_json).read_text()) if a.run_json else {
+        'frames': [], 'gdas_gate': {'nights': [], 'slots': {}}}
     products = sorted(glob.glob(str(Path(a.products) / "*_telluric.fits")))
     if not products:
         raise SystemExit(f"no corrected products under {a.products}")
@@ -117,44 +172,33 @@ def main() -> int:
             f"products themselves. A holding is not corrected because this script says "
             f"so — if the transmission is all unity the fit never moved.")
 
-    manifest_dir = ROOT / "data" / "audit" / "rya963_crires_telluric"
+    manifest_dir = ROOT / "data" / "audit" / cfg['audit_dir']
     manifest = manifest_dir / "corrected_manifest.csv"
     manifest_dir.mkdir(parents=True, exist_ok=True)
+    rows = rows_from_products(products)
+    fields = ["product", "sha256", "base_frame", "wlen_id", "band", "date_obs",
+              "gdas_profile", "gdas_md5", "star_id", "star_id_contested",
+              "gate_before", "gate_after", "gate_passed"]
     with open(manifest, "w", newline="") as fh:
-        w = csv.writer(fh)
-        w.writerow(["product", "sha256", "base_frame", "wlen_id", "band", "date_obs",
-                    "gdas_profile", "gdas_md5", "star_id", "star_id_contested",
-                    "gate_before", "gate_after", "gate_passed"])
-        by_name = {Path(f["product"]).name: f for f in run["frames"]}
-        for p in products:
-            f = by_name.get(Path(p).name)
-            if f is None:
-                continue
-            # A star-id whose underlying rule is contested must not be recorded as a
-            # bare letter. The products carry STARIDQ; the manifest -- which is what the
-            # live tracker reads -- carried nothing, so a reader of the dashboard saw a
-            # settled verdict where the header said "disputed".
-            w.writerow([Path(p).name, sha256(p), f["frame"], f["wlen_id"], f["band"],
-                        f["date_obs"], f["gdas"], f["gdas_md5"], f["star_id"],
-                        bool(f.get("star_id_branch_contested")),
-                        f"{f['gate_before']:.5f}", f"{f['gate_after']:.5f}",
-                        f["gate_passed"]])
+        w = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
+        w.writeheader()
+        w.writerows(rows)
     print(f"[manifest] {manifest}")
 
     rows = list(csv.DictReader(open(HOLDINGS, newline="")))
     fields = list(rows[0].keys())
-    row = {"holding_id": HOLDING_ID, "system_id": "alpha_cen_a",
+    row = {"holding_id": cfg['holding_id'], "system_id": cfg['system_id'],
            "instrument_id": "crires_plus",
            "manifest_path": str(manifest.relative_to(ROOT)),
-           "evidence_state": "verified", "source_issue_ids": "RYA-963",
+           "evidence_state": "verified", "source_issue_ids": cfg["ticket"],
            "notes": build_notes(run, products), "telluric_applied": state}
-    existing = [i for i, r in enumerate(rows) if r["holding_id"] == HOLDING_ID]
+    existing = [i for i, r in enumerate(rows) if r["holding_id"] == cfg["holding_id"]]
     if existing:
         rows[existing[0]] = row
-        print(f"UPDATE row {HOLDING_ID}")
+        print(f"UPDATE row {cfg['holding_id']}")
     else:
         rows.append(row)
-        print(f"APPEND row {HOLDING_ID}")
+        print(f"APPEND row {cfg['holding_id']}")
 
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=fields, lineterminator="\n")
