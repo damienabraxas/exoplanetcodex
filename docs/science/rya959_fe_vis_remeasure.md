@@ -1,6 +1,6 @@
 # RYA-959 — Fe I VIS re-measured, and the width ceiling that was never there
 
-**Status:** measurement landed; abundance leg in progress.
+**Status:** measurement + Kitt Peak control landed; HARPS Engine-B re-deriving.
 **Artifacts:** `data/measured/band_ew/FeI_3780_6910_*`.
 **Code:** `pipeline/line_width.py` (the ceiling), `scripts/measure_band_profilefit.py`,
 `pipeline/measure/profile_fit.py`, `pipeline/band_products.py` (two new columns).
@@ -130,6 +130,72 @@ unallowanced rather than tuning it into a filter.
 The ticket's stated expectation was "order 0.1–0.3 Å at HARPS R". That is what the guarded
 pool returns, and it was not aimed at — nothing in the guard knows about it.
 
+## The values — and they are TOO HIGH, which the graded tier explains
+
+Kitt Peak, fresh 304-line guarded pool, aggregated by the median as `build_product` does:
+
+| leg | A(Fe I) | n | stat | syst | vs gold 7.466 |
+|---|---|---|---|---|---|
+| 1D-LTE (profile-fit) | 7.586 | 304 | 0.0214 | 0.1705 | **+0.120** |
+| Engine-A (Bergemann NLTE) | 7.596 | 222 | 0.0235 | 0.1705 | **+0.130** |
+| Engine-B (Turbospectrum flux-fit) | 7.503 | 252 | 0.0236 | 0.1700 | +0.037 |
+
+HARPS `solar_harps_molecfit_corrected`: **7.656** (n=247) and **7.666** (n=181) on the same
+two EW legs — **+0.19 dex against gold, and ~0.07 dex above Kitt Peak**.
+
+**These numbers are high, and the budget already names why**: `gf scale (UNGRADED)` is the
+dominant term on every product, at 0.170 dex, with the verdict *"more lines will NOT help;
+fix the source."* The pool sits on the ungraded Kurucz semi-empirical gf floor, and the
+next section measures that offset at −0.14 dex — which is most of the excess.
+
+## 🔴 KITT PEAK IS NOT A CONTROL FOR THE VALUE, AND CALLING IT ONE WAS WRONG
+
+An earlier draft of this document said the Kitt Peak arm "reproduces the incumbent 7.586
+exactly" and treated that as validation. **It is not, and the reasoning was circular.**
+The incumbent VIS number was itself derived from the Kitt Peak atlas on this same ungraded
+Kurucz gf scale. Reproducing it demonstrates that the harness is deterministic and that the
+width guard did not move the aggregate — worth knowing, and no more than that. A control
+has to be something the measurement can be *wrong against*, and this one cannot be.
+
+The same limit applies to the arm comparison. Kitt Peak versus HARPS is a **cross-check of
+the measurement chain** — two instruments, one Sun, one line list, one gf scale. Both arms
+inherit the identical gf offset, so their agreement can never detect it. What that
+comparison *can* see is instrumental and continuum error, and it currently sees **0.07 dex**
+of it, which is large and unexplained (see Owed).
+
+**The only externally discriminating comparison in this run is the graded subset**, below.
+
+## 🔴 THE TWO TIERS SEPARATE, AND THE GRADED ONE LANDS ON THE LABORATORY ANCHOR
+
+Split by whether the line's gf is primary-laboratory (`gf_tier == LAB` in `canonical_gf`),
+never merged, per RYA-946:
+
+| leg | showcase (GF-LAB) | document (ungraded) | delta |
+|---|---|---|---|
+| 1D-LTE | **7.463** (n=13) | 7.604 (n=291) | **−0.141** |
+| Engine-A | **7.464** (n=12) | 7.608 (n=210) | **−0.145** |
+| Engine-B | **7.448** (n=9) | 7.505 (n=243) | −0.057 |
+
+All three showcase values sit within 0.02 dex of **Den Hartog 2014's 7.45** and of this
+project's own gold **7.466** — reached by three different treatments on pools they do not
+fully share. The document tier sits 0.14 dex above, in incumbent territory.
+
+That is the result: **the pipeline is not producing a wrong answer, the ungraded gf scale
+is.** Restrict the pool to lines with a primary laboratory gf and the VIS band lands on
+the accepted solar iron abundance. Do not read the 7.586 / 7.656 aggregates as this
+band's answer — read them as the ungraded floor, with the offset now measured.
+
+This **independently reproduces RYA-819/831** (a 148-line pool reading 7.586 against a
+9-line lab pool reading 7.445) on a *fresh* pool, with a *different* line count, behind a
+*new* width guard. And it turns the budget's dominant term from a quoted blanket into a
+measurement: `gf scale (UNGRADED)` is carried at 0.170 dex, and the graded-vs-ungraded
+offset actually measured here is **−0.14 dex**.
+
+⚠️ **The showcase tier is n=13, sem 0.062**, so the −0.141 offset is ~2.3σ on its own
+statistics. What makes it convincing is not that sigma — it is that three treatments, two
+arms, and an independent earlier ticket all land in the same place as the laboratory value.
+Quote the corroboration, never the sigma alone.
+
 ## The laboratory backbone still cannot be measured by EW, and now we know why
 
 57 of the 240 lab-graded Fe I VIS lines reach the fitter at all — the rest are cut upstream
@@ -150,6 +216,18 @@ own design decision to route the deep graded lines to synthesis, and it is the r
 RYA-955's "8 → ~200" metric was never reachable by any line-list reroute.
 
 ## Owed
+
+* 🔴 **The 0.07 dex HARPS-minus-Kitt-Peak gap.** Same Sun, same line list, same gf, same
+  fitter, two instruments — they should agree, and 0.07 dex is not scatter (the stat term
+  on each is ~0.02). Because both arms carry the identical gf offset, this gap is
+  attributable to the measurement chain: continuum placement, the telluric correction, or
+  the holdings' differing normalisation contracts. It is the one thing the arm comparison
+  is actually able to detect, and it is currently unexplained.
+* **The ungraded gf floor is the band's dominant error and it is not fixable here.** The
+  aggregates run 0.12-0.19 dex above gold because 290 of 304 lines carry a Kurucz
+  semi-empirical gf. Only 57 of the 240 laboratory-graded VIS lines reach the fitter at
+  all, and 30 of those saturate. Closing this needs the graded pool to grow, which is
+  RYA-958's synthesis leg and RYA-946's sweep, not another EW re-measurement.
 
 * **`sigma_max = 0.40 Å` is still the optimiser's bound on both fitters.** This ticket
   convicts the fits that reach it; it does not tighten it. Tightening would let the
