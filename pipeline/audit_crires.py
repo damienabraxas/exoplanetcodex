@@ -41,6 +41,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from config.constants import codex_path            # RYA-810 path register
+
 #: Match radius. Generous next to the astrometry (SIMBAD positions are mas-accurate and the
 #: propagated epoch positions land within a few arcsec of the pointing) but far tighter than
 #: the spacing between any two candidate targets, which is degrees. Slack is for nodding
@@ -572,8 +574,11 @@ def coadd_group(frames: list[Frame]) -> dict:
 # ── CLI ──────────────────────────────────────────────────────────────────────────────
 #: Where CRIRES data lives. Roots, not per-target folders: the classification is by header,
 #: so the walker only has to be told where to look, never what it will find.
+#: RYA-963: resolved through the path register, not written out. The literal here
+#: tripped scripts/audit_path_literals.py --check on main itself (1 vs baseline 0), so
+#: every branch cut from main inherited a failing hard gate.
 DEFAULT_ROOTS = (
-    '/mnt/codex-data/spectra',
+    str(codex_path('data.spectra')),
 )
 
 
