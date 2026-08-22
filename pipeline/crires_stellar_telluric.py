@@ -863,10 +863,28 @@ def _require_product(proc, out_dir: Path, name: str, tag: str) -> None:
             name = signal.Signals(-proc.returncode).name
         except ValueError:
             name = f'signal {-proc.returncode}'
-        hint = (' — the kernel OOM killer, or the RLIMIT_AS cap this driver sets '
-                f'({_MEM_CAP_GIB:g} GiB). Not a fit failure: the process never got to '
-                f'finish. Narrow the fit windows or raise RYA963_MEM_GIB.'
-                if -proc.returncode == 9 else '')
+        # The two memory deaths look different and mean different things.
+        #   SIGKILL (9)  — the KERNEL chose this process. On a shared box that choice
+        #                  could just as easily have fallen on someone else's job.
+        #   SIGABRT (6)  — the process aborted ITSELF, which under our RLIMIT_AS cap is
+        #                  CPL failing an allocation ("CxLib-ERROR: failed to allocate
+        #                  16 bytes"). Sixteen bytes means address space was exhausted,
+        #                  not that the request was large. This is the cap working: our
+        #                  runaway fails with our name on it instead of the kernel
+        #                  picking a victim.
+        # Neither is a fit failure, and telluriccorr's footprint grows with ITERATION
+        # COUNT — so the fix is usually a smaller problem (fewer/narrower fit windows),
+        # not a bigger ceiling.
+        hint = {9: (' — the kernel OOM killer. On a shared box the victim is the '
+                    "kernel's choice, not ours."),
+                6: (f' — CPL aborted on a failed allocation, i.e. the {_MEM_CAP_GIB:g} '
+                    f'GiB RLIMIT_AS cap this driver sets. Check the esorex stderr for '
+                    f'"CxLib-ERROR ... failed to allocate".'),
+                }.get(-proc.returncode, '')
+        if hint:
+            hint += (' Not a fit failure: the process never finished. telluriccorr grows '
+                     'with iteration count, so prefer FEWER fit windows over a larger '
+                     'RYA963_MEM_GIB.')
         raise RuntimeError(f"{tag}: esorex was KILLED by {name}{hint}")
     if proc.returncode != 0:
         tail = "\n".join(l for l in proc.stdout.splitlines() if 'ERROR' in l)[-2000:]
