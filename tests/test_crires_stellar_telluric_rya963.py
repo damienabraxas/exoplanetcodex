@@ -508,3 +508,16 @@ def test_a_catalogue_rv_is_epoch_ambiguous_for_a_binary():
         f"[{lo:.2f},{hi:.2f}] — re-examine whether it can referee the branch question")
     rv_tau = float(_target_ref()['tau_ceti']['rv_kms'])
     assert -20 < rv_tau < -13, "a singleton's catalogue RV is directly comparable"
+
+
+def test_a_code_fault_aborts_instead_of_becoming_a_per_frame_finding():
+    """RYA-973: a module refactored into existence locally but never synced to the
+    compute host made every frame run its full molecfit fit and THEN fail on the import.
+    80 minutes of compute, and a report reading 'failed 6' as if the DATA were at fault.
+    A code fault must abort on the first frame, where it is cheap and unambiguous."""
+    assert ImportError in cst._CODE_FAULTS
+    assert AttributeError in cst._CODE_FAULTS
+    assert NameError in cst._CODE_FAULTS
+    # and the genuinely per-frame conditions must NOT be in there
+    assert RuntimeError not in cst._CODE_FAULTS
+    assert ValueError not in cst._CODE_FAULTS
