@@ -114,6 +114,24 @@ catches, and both failures are on our own disk:
 position is **42″ stale by 2022** — larger than any usable match radius. Skipping the
 propagation does not blur the answer, it changes it.
 
+### A DIRECTORY NAME is not evidence either
+
+The same rule extends past labels. `/mnt/codex-data/spectra/tau_cet/**CRIRES**/` holds 25
+frames that RYA-952's classifier calls **`crires_plus`**, every one of them — `PRO REC1
+ID=cr2res_obs_nodding`, and `cr2res` IS the CRIRES+ pipeline. The directory records how
+the files ARRIVED, not what they are.
+
+That is the third instance of one shape, and they should be read together:
+
+| the tempting evidence | why it cannot settle it | what settles it |
+|---|---|---|
+| `OBJECT` | carries a ROLE (`STD`) or the wrong star (`HD18884`) | astrometry (RYA-952/964) |
+| `INSTRUME` | reads bare `CRIRES` for **both** instruments | `PRO REC1 ID` recipe (RYA-952) |
+| the directory name | records arrival, not content | the classifier, on the headers |
+
+⚠️ **`PRO REC1 PIPE ID` is a VERSION** (`1.6.9`), not an instrument — testing it for
+`cr2res` is always False and silently classified 64 of 64 reduced IDPs as raw (RYA-952).
+
 ### One namespace, enforced
 
 🔴 **Normalise BOTH ids through `resolve_star` before comparing, and keep the id
