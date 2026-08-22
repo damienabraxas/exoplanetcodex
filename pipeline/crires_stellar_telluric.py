@@ -118,6 +118,12 @@ CRIRES_STELLAR_SETS = {
 }
 
 
+#: Exceptions that mean OUR CODE is wrong, not that this frame is difficult. They must
+#: never be absorbed per-frame — see the handler in run_set.
+_CODE_FAULTS = (ImportError, AttributeError, NameError, TypeError, SyntaxError,
+                IndentationError)
+
+
 def _set_files(rec: dict) -> list:
     """Every FITS under the set's directory or directories. A set may span more than one
     directory: tau Ceti's CRIRES+ frames are split across `CRIRES/` and `CRIRESPlus/`,
@@ -1449,13 +1455,24 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'product': str(product), 'product_sha256': _sha256(product)}
         results.append(row)
         (confirmed if ident['verdict'] == rec['claimed_star'] else quarantined).append(row)
+      except _CODE_FAULTS as exc:
+        # 🔴 A CODE FAULT IS NOT A PER-FRAME FINDING. Absorbing one turns a programming
+        # error into N expensive silent failures: RYA-973's band run did the full
+        # molecfit fit on every frame and only then hit a ModuleNotFoundError (a module
+        # refactored into existence locally but never synced), so 80 minutes of compute
+        # produced nothing and the log said "failed 6" as if the DATA were at fault.
+        # These abort on the first frame, where they are cheap and unambiguous.
+        raise RuntimeError(
+            f"{fr.wlen_id}: {type(exc).__name__}: {exc}\nThis is a code fault, not a "
+            f"property of this frame — aborting the set rather than repeating it on "
+            f"every remaining frame.") from exc
       except Exception as exc:
-        # One frame failing must not cost the other five. A failure is a per-frame
-        # FINDING, recorded with its reason and carried through to the report; it is
-        # never a silent skip, and the set's verdict names it.
+        # One frame failing must not cost the other five. A failure HERE is a per-frame
+        # FINDING about the data or the fit, recorded with its reason and carried through
+        # to the report; it is never a silent skip, and the set's verdict names it.
         failed.append({'frame': fr.path.name, 'wlen_id': fr.wlen_id,
                        'error': f"{type(exc).__name__}: {exc}"})
-        print(f"  [FAIL] {fr.wlen_id}: {type(exc).__name__}: {exc}")
+        print(f"  [FAIL] {fr.wlen_id}: {type(exc).__name__}: {exc}", flush=True)
     return {'set': name, 'holding_id': rec['holding_id'], 'gdas_gate': gate0,
             'epochs': gate0['nights'], 'claimed_star': rec['claimed_star'],
             'other_epoch_frames': [{'frame': f.path.name, 'date_obs': f.date_obs,
