@@ -336,6 +336,7 @@ class FrameCorrection:
     seg_index: np.ndarray              # row -> index into frame.segments
     molecules: tuple = ()
     fit_molec: dict = field(default_factory=dict)
+    moved: dict = field(default_factory=dict)
     err_usable: bool = False
     windows: list = field(default_factory=list)
     fit: dict = field(default_factory=dict)     # BEST_FIT_PARAMETERS, as a dict
@@ -357,15 +358,27 @@ def _frame_table(frame: CriresFrame):
         idx.append(np.full(int(ok.sum()), i))
     w = np.concatenate(waves); f = np.concatenate(fluxes)
     e = np.concatenate(errs); ix = np.concatenate(idx)
+    # Overlap is tested on the chip SPANS, not on the sorted array: two overlapping
+    # chips interleave into a strictly increasing sequence, so a monotonicity check
+    # passes while each chip has stopped being one contiguous row block — which is
+    # exactly what the per-chip FITS extensions and the row slices assume.
+    spans = []
+    for i in range(len(frame.segments)):
+        m = ix == i
+        if m.any():
+            spans.append((float(w[m].min()), float(w[m].max()), i))
+    spans.sort()
+    for (lo_a, hi_a, ia), (lo_b, hi_b, ib) in zip(spans, spans[1:]):
+        if lo_b <= hi_a:
+            sa, sb = frame.segments[ia], frame.segments[ib]
+            raise RuntimeError(
+                f"{frame.path.name}: chip ord{sa.order}/det{sa.detector} "
+                f"[{lo_a:.2f},{hi_a:.2f}] and ord{sb.order}/det{sb.detector} "
+                f"[{lo_b:.2f},{hi_b:.2f}] overlap in wavelength, so the frame is not a "
+                f"set of disjoint chips and the per-chip split back to segments would "
+                f"not be single-valued.")
     o = np.argsort(w)
-    w, f, e, ix = w[o], f[o], e[o], ix[o]
-    dup = int(np.count_nonzero(np.diff(w) <= 0))
-    if dup:
-        raise RuntimeError(
-            f"{frame.path.name}: {dup} non-increasing wavelength steps after sorting the "
-            f"{len(frame.segments)} chips together — the orders overlap, so a single "
-            f"wavelength-sorted spectrum is not a faithful representation of this frame.")
-    return w, f, e, ix
+    return w[o], f[o], e[o], ix[o]
 
 
 def _md5(path) -> str:
@@ -408,7 +421,7 @@ def _write_science(path: Path, frame: CriresFrame, wave_A, flux, err, seg_index)
             except Exception:
                 pass
     err_usable = bool(np.all(np.isfinite(err)) and np.all(err > 0))
-    hdus, slices = [ph], []
+    hdus, slices, chip_of, chip_span = [ph], [], {}, []
     # seg_index is already wavelength-sorted, so each chip is one contiguous row block.
     edges = np.flatnonzero(np.diff(seg_index) != 0) + 1
     for a, b in zip(np.r_[0, edges], np.r_[edges, len(seg_index)]):
@@ -417,10 +430,15 @@ def _write_science(path: Path, frame: CriresFrame, wave_A, flux, err, seg_index)
                 fits.Column(name='flux', format='1D', array=flux[a:b])]
         if err_usable:
             cols.append(fits.Column(name='dflux', format='1D', array=err[a:b]))
-        hdus.append(fits.BinTableHDU.from_columns(cols, name=f'CHIP{len(slices) + 1}'))
+        n = len(slices) + 1
+        hdus.append(fits.BinTableHDU.from_columns(cols, name=f'CHIP{n}'))
         slices.append((int(a), int(b)))
+        seg = frame.segments[int(seg_index[a])]
+        chip_of[(seg.order, seg.detector)] = n
+        chip_span.append((float(wave_A[a]), float(wave_A[b - 1])))
     fits.HDUList(hdus).writeto(path, overwrite=True)
-    return {'err_usable': err_usable, 'n_chips': len(slices), 'chip_rows': slices}
+    return {'err_usable': err_usable, 'n_chips': len(slices), 'chip_rows': slices,
+            'chip_of': chip_of, 'chip_span_A': chip_span}
 
 
 def _write_ranges(path: Path, intervals_um) -> None:
@@ -447,15 +465,59 @@ def _write_molecules(path: Path, molecules, fit_flags=None) -> None:
 
 
 def _best_fit_dict(out_dir: Path) -> dict:
+    """BEST_FIT_PARAMETERS as {name: (value, uncertainty)}. Scans every extension for
+    the parameter table rather than assuming extension 1: with CHIP_EXTENSIONS the file
+    also carries WAVE_INCLUDE/WAVE_EXCLUDE extensions, and a run that fitted nothing
+    leaves the CHIP1 extension empty — which must read as "the fit produced no
+    parameters", not as a subscripting crash."""
     from astropy.io import fits
+    out = {}
     with fits.open(Path(out_dir) / 'BEST_FIT_PARAMETERS.fits') as h:
-        d = h[1].data
-        out = {}
-        for name, val, unc in zip(d['parameter'], d['value'], d['uncertainty']):
-            key = str(name).strip().strip('\x00')
-            if key:
-                out[key] = (float(val), float(unc))
+        for hdu in h[1:]:
+            d = getattr(hdu, 'data', None)
+            if d is None or getattr(d, 'columns', None) is None:
+                continue
+            if 'parameter' not in d.columns.names:
+                continue
+            for name, val, unc in zip(d['parameter'], d['value'], d['uncertainty']):
+                key = str(name).strip().strip('\x00')
+                if key:
+                    out[key] = (float(val), float(unc))
+            break
+    if not out:
+        raise RuntimeError(
+            f"BEST_FIT_PARAMETERS in {out_dir} carries no parameter table — molecfit "
+            f"wrote the product but fitted nothing.")
     return out
+
+
+def assert_fit_moved(best: dict, molecules) -> dict:
+    """Refuse a fit that reports success without having moved.
+
+    `converged is not correct`: molecfit exits 0 and writes every product even when mpfit
+    took the exit at status 4 with a zero Jacobian, leaving each column at its prior with
+    uncertainty exactly 0. That is what a -135 A WLC_CONST produced here, and the
+    resulting transmission is 1.0 everywhere — an uncorrected spectrum wearing a
+    correction's provenance. The invariant declared in advance: at least one FITTED
+    molecular column must carry a non-zero uncertainty, and best_chi2 must be below
+    initial_chi2."""
+    init = best.get('initial_chi2', (float('nan'), -1))[0]
+    bestc = best.get('best_chi2', (float('nan'), -1))[0]
+    moved = [m for m in molecules
+             if best.get(f'rel_mol_col_{m}', (0.0, 0.0))[1] > 0]
+    if not moved:
+        raise RuntimeError(
+            f"molecfit reported success but no molecular column was actually fitted: "
+            f"{ {m: best.get(f'rel_mol_col_{m}') for m in molecules} }. Every "
+            f"uncertainty is 0, so mpfit never varied them (initial_chi2={init:.6g}, "
+            f"best_chi2={bestc:.6g}). Refusing to emit a transmission that is the prior, "
+            f"not a fit.")
+    if np.isfinite(init) and np.isfinite(bestc) and not (bestc < init):
+        raise RuntimeError(
+            f"molecfit reported success but chi2 never improved "
+            f"(initial={init:.6g}, best={bestc:.6g}) — the model did not respond to any "
+            f"parameter. Refusing to emit this as a correction.")
+    return {'fitted_columns': moved, 'initial_chi2': init, 'best_chi2': bestc}
 
 
 def _run(cmd, cwd, esorex, log_stem: Path):
@@ -502,6 +564,8 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
 
     sci = _write_science(in_dir / 'science.fits', frame, wave_A, flux, err, seg_index)
     err_usable = sci['err_usable']
+    region_chips = ",".join(str(sci['chip_of'][(w['order'], w['detector'])])
+                            for w in windows)
     _write_ranges(in_dir / 'wave_include.fits',
                   [(w['lo_A'] / 1.0e4, w['hi_A'] / 1.0e4) for w in windows])
     _write_molecules(in_dir / 'molecules.fits', molecules, fit_flags)
@@ -524,6 +588,11 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
            f"--COLUMN_DFLUX={'dflux' if err_usable else 'NULL'}",
            "--DEFAULT_ERROR=0.01", "--WLG_TO_MICRON=1.0", "--WAVELENGTH_FRAME=VAC",
            "--CHIP_EXTENSIONS=TRUE",     # extensions are chips of ONE observation
+           # Which chip each WAVE_INCLUDE range belongs to. Omitting it does not fail:
+           # molecfit prints "Assuming that all regions are mapped to Chip 1" and puts
+           # every range on the first chip, so three of four ranges then sit outside
+           # their chip's wavelength span and the fit has nothing to work with.
+           f"--MAP_REGIONS_TO_CHIP={region_chips}",
            "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}",
            # WLC_CONST is a fraction of the chip's HALF WAVELENGTH RANGE, so its physical
            # size depends on how much spectrum a chip covers. Start from zero: cr2res
@@ -542,6 +611,7 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     proc = _run(cmd, in_dir, esorex, work_dir / 'molecfit_model')
     _require_product(proc, out_dir, 'BEST_FIT_MODEL.fits', f"{frame.path.name} model")
     best = _best_fit_dict(out_dir)
+    moved = assert_fit_moved(best, [m for m in molecules if fit_flags.get(m)])
 
     # ---- calctrans: the fitted atmosphere, evaluated over every pixel of the frame ----
     for name in ('ATM_PARAMETERS.fits', 'BEST_FIT_PARAMETERS.fits', 'MODEL_MOLECULES.fits'):
@@ -602,7 +672,7 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     return FrameCorrection(
         frame=frame, wave_A=wave_A, flux_raw=flux, err=err, mtrans=mt, flux_corr=corr,
         seg_index=seg_index, molecules=molecules, windows=windows, fit=best,
-        fit_molec=dict(fit_flags), err_usable=err_usable,
+        fit_molec=dict(fit_flags), err_usable=err_usable, moved=moved,
         gdas=Path(gdas).name, gdas_md5=_md5(gdas), rv_kms=rv_kms,
         berv_kms=barycentric_correction_kms(frame))
 
@@ -782,7 +852,7 @@ def _rya423_verdict():
     return mod
 
 
-def identify_star(fc: FrameCorrection, rv: dict) -> dict:
+def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> dict:
     """Which α Cen component is this frame, by RYA-423's rule?
 
     **Why this runs AFTER correction, not before.** RYA-423 is explicit that for CRIRES
@@ -805,6 +875,16 @@ def identify_star(fc: FrameCorrection, rv: dict) -> dict:
     with `CRIRES` misspelt. It has therefore always matched ZERO files, so the CRIRES
     branch has never executed on a frame at all. The INDETERMINATE rows it would have
     produced were never produced either."""
+    if id_gate != 'acen_ab':
+        # RYA-965 will point this same driver at tau Ceti / eps Eri / 55 Cnc, which are
+        # singletons: there is no close pair to split, so the id gate there is RYA-964's
+        # alias lookup at intake, not an orbit. Dispatch on the set's declared gate
+        # rather than growing an alpha-Cen branch inside a generic driver — "ONE recipe;
+        # a star that fails it is a finding, not a knob" (RYA-965).
+        raise NotImplementedError(
+            f"id_gate={id_gate!r} is declared but not implemented here. The alpha Cen AB "
+            f"orbit gate is the only close-pair split this driver carries; singleton "
+            f"targets resolve their identity through RYA-964 at intake.")
     from pipeline.acen_orbit import GAMMA, K_A, K_B, SOURCE, predicted_rv, rv_bounds
     mod = _rya423_verdict()
     p = predicted_rv(fc.frame.mjd)
@@ -897,3 +977,153 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     out = out_dir / f"alpha_cen_a_crires_{f.wlen_id}_{f.date_obs[:10]}_telluric.fits"
     fits.HDUList([ph, tab]).writeto(out, overwrite=True)
     return out
+
+
+# ── Orchestrator ──────────────────────────────────────────────────────────────
+def gdas_gate(night: str, site: str = 'paranal', mjds=()) -> dict:
+    """STEP 0. Resolve the REAL per-night GDAS profile for every exposure, or raise
+    GDASUnavailable. Reported before any molecfit runs, because the one external
+    dependency of this whole leg is data availability, not compute."""
+    from pipeline.telluric.gdas_fetch import fetch_gdas, nearest_3hourly
+    slots, paths = {}, {}
+    for mjd in (mjds or ()):
+        slot = nearest_3hourly(night, float(mjd))
+        slots[float(mjd)] = f"{slot:%Y-%m-%dT%H}"
+        paths[f"{slot:%Y-%m-%dT%H}"] = fetch_gdas(site, night=night, mjd=float(mjd))
+    if not mjds:
+        slot = nearest_3hourly(night)
+        slots['night'] = f"{slot:%Y-%m-%dT%H}"
+        paths[f"{slot:%Y-%m-%dT%H}"] = fetch_gdas(site, night=night)
+    return {'site': site, 'night': night,
+            'slots': slots,
+            'profiles': {k: str(v) for k, v in paths.items()},
+            'md5': {k: _md5(v) for k, v in paths.items()},
+            'n_distinct_profiles': len(paths),
+            'standard_atmosphere_fallback': False}
+
+
+def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
+            n_windows: int = 4, limit=None) -> dict:
+    """The whole ticket for one declared set: GDAS gate → per-frame telluric correction
+    → RV → star ID → residual gate → product. Frames the star-ID gate does not confirm
+    are QUARANTINED: their correction is kept (it is real work and star-agnostic) but
+    they are not registered under the star's holding."""
+    rec = resolve_set(name)
+    files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))
+    if not files:
+        raise FileNotFoundError(f"no CRIRES+ IDP under {rec['dir']}")
+    frames = [load_crires_idp(f) for f in files][:limit]
+    gate0 = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
+
+    from config.constants import codex_root
+    work_root = Path(work_root) if work_root else Path(codex_root('work')) / 'rya963'
+    out_dir = Path(out_dir) if out_dir else (Path(codex_root('repo')) / 'data' / 'audit'
+                                             / 'rya963_crires_telluric')
+    results, confirmed, quarantined = [], [], []
+    for fr in frames:
+        # Pass 1 places the stellar mask at the EXPECTED velocity; the RV it then
+        # measures is what pass 2 would use. The mask is 0.6 A wide and the expected and
+        # measured velocities differ by far less than that, so one pass suffices — but
+        # the measured offset is reported so that assumption stays checkable.
+        from pipeline.acen_orbit import predicted_rv
+        berv = barycentric_correction_kms(fr)
+        rv_expected_topo = predicted_rv(fr.mjd)['rv_A'] - berv
+        fc = correct_frame(fr, work_root / fr.wlen_id, rv_kms=rv_expected_topo,
+                           n_windows=n_windows,
+                           gdas_path=gate0['profiles'][gate0['slots'][fr.mjd]])
+        zp = telluric_zero_point(fc)
+        rv = measure_rv(fc, zero_point_kms=zp.get('rv_kms', 0.0) if
+                        np.isfinite(zp.get('rv_kms', np.nan)) else 0.0)
+        ident = identify_star(fc, rv, id_gate=rec['id_gate'])
+        gate = telluric_residual_gate(fc)
+        product = write_corrected(fc, out_dir, gate, rv, ident)
+        row = {'frame': fr.path.name, 'wlen_id': fr.wlen_id, 'band': fr.band,
+               'mjd': fr.mjd, 'date_obs': fr.date_obs, 'snr_hdr': fr.snr,
+               'molecules': fc.molecules, 'fitted': fc.moved.get('fitted_columns'),
+               'initial_chi2': fc.moved.get('initial_chi2'),
+               'best_chi2': fc.moved.get('best_chi2'),
+               'reduced_chi2': fc.fit.get('reduced_chi2', (None,))[0],
+               'h2o_col_mm': fc.fit.get('h2o_col_mm', (None,))[0],
+               'lsf_gauss_px': fc.fit.get('gaussfwhm', (None,))[0],
+               'windows': [(round(w['lo_A'], 1), round(w['hi_A'], 1)) for w in fc.windows],
+               'gdas': fc.gdas, 'gdas_md5': fc.gdas_md5,
+               'berv_kms': fc.berv_kms, 'telluric_zero_point_kms': zp.get('rv_kms'),
+               'rv_topo_kms': rv.get('rv_topo_kms'), 'rv_bary_kms': rv.get('rv_bary_kms'),
+               'rv_expected_topo_kms': rv_expected_topo,
+               'star_id': ident['verdict'], 'star_id_evidence': ident['evidence'],
+               'pred_A_kms': ident['pred_A_kms'], 'pred_B_kms': ident['pred_B_kms'],
+               'gate_before': gate['residual_before'], 'gate_after': gate['residual_after'],
+               'gate_n_px': gate['n_px'], 'gate_passed': gate['passed'],
+               'product': str(product), 'product_sha256': _sha256(product)}
+        results.append(row)
+        (confirmed if ident['verdict'] == rec['claimed_star'] else quarantined).append(row)
+    return {'set': name, 'holding_id': rec['holding_id'], 'gdas_gate': gate0,
+            'frames': results, 'n_confirmed': len(confirmed),
+            'n_quarantined': len(quarantined),
+            'quarantined': [r['frame'] for r in quarantined],
+            'out_dir': str(out_dir)}
+
+
+def _sha256(path) -> str:
+    h = hashlib.sha256()
+    with open(path, 'rb') as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.split('\n')[2])
+    ap.add_argument('--set', default='alpha_cen_a_crires', dest='set_name')
+    ap.add_argument('--gdas-only', action='store_true',
+                    help='STEP 0 only: report the GDAS verdict and stop.')
+    ap.add_argument('--plan-only', action='store_true',
+                    help='report the derived fit windows + molecule table, no molecfit.')
+    ap.add_argument('--limit', type=int, default=None)
+    ap.add_argument('--n-windows', type=int, default=4)
+    ap.add_argument('--work-root', default=None)
+    ap.add_argument('--out-dir', default=None)
+    ap.add_argument('--json', default=None, help='write the run record here')
+    a = ap.parse_args(argv)
+
+    rec = resolve_set(a.set_name)
+    files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))[:a.limit]
+    frames = [load_crires_idp(f) for f in files]
+    if a.gdas_only:
+        g = gdas_gate(rec['epoch'], mjds=[f.mjd for f in frames])
+        print(f"STEP 0 GDAS gate: {rec['epoch']} @ {g['site']}")
+        for slot, path in g['profiles'].items():
+            print(f"  slot {slot}  {Path(path).name}  md5={g['md5'][slot]}")
+        print(f"  {len(frames)} frames -> {g['n_distinct_profiles']} distinct profile(s); "
+              f"standard-atmosphere fallback: {g['standard_atmosphere_fallback']}")
+        return 0
+    if a.plan_only:
+        from pipeline.acen_orbit import predicted_rv
+        for fr in frames:
+            rv = predicted_rv(fr.mjd)['rv_A'] - barycentric_correction_kms(fr)
+            p = plan_fit(fr, rv_kms=rv, n_windows=a.n_windows)
+            print(f"{fr.wlen_id} {p['frame_range_um'][0]:.3f}-{p['frame_range_um'][1]:.3f} um "
+                  f"molecules={p['molecules']} fit={p['fit_molec']}")
+            for w in p['windows']:
+                print(f"    ord{w['order']}/det{w['detector']} "
+                      f"{w['lo_A']:.1f}-{w['hi_A']:.1f} A  f={w['absorbed_frac']:.3f}"
+                      + (f"  [added for {w['added_for']}]" if 'added_for' in w else ""))
+        return 0
+
+    out = run_set(a.set_name, work_root=a.work_root, out_dir=a.out_dir,
+                  n_windows=a.n_windows, limit=a.limit)
+    for r in out['frames']:
+        print(f"{r['wlen_id']:6s} chi2 {r['initial_chi2']:.4g} -> {r['best_chi2']:.4g}  "
+              f"PWV {r['h2o_col_mm']:.3f} mm  gate {r['gate_before']:.4f} -> "
+              f"{r['gate_after']:.4f} {'PASS' if r['gate_passed'] else 'FAIL'}  "
+              f"RV_bary {r['rv_bary_kms']:+.2f}  ID {r['star_id']}")
+    print(f"\nconfirmed {out['n_confirmed']} / quarantined {out['n_quarantined']}")
+    if a.json:
+        Path(a.json).write_text(json.dumps(out, indent=2, default=str) + "\n")
+        print(f"[record] {a.json}")
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
