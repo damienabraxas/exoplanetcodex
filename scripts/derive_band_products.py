@@ -398,6 +398,21 @@ def _graded_mask(waves: np.ndarray) -> np.ndarray:
     return best <= _EW_MATCH_TOL_A
 
 
+def _selector_tag(a) -> str:
+    """How the lines were chosen, as part of the artifact name — RYA-984.
+
+    A product is identified by what it MEASURED, and the line set is part of that. Two
+    runs differing only in selector are two different products and must not collide.
+    The default selector is unlabelled so every pre-RYA-984 artifact keeps its name.
+    """
+    if getattr(a, "lines_deep_graded", False):
+        return "_DEEPGRADED"
+    if getattr(a, "lines_from_ew", None):
+        tier = getattr(a, "lines_tier", "all")
+        return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
+    return ""
+
+
 def synthesis_route(a, pol) -> None:
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
@@ -805,10 +820,22 @@ def synthesis_route(a, pol) -> None:
     # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
     # differing by whether tellurics were removed would otherwise write the same
     # filename, and the second would silently overwrite the first.
+    # 🔴 RYA-984 — THE SELECTOR BELONGS IN THE STEM, and it did not used to be.
+    #
+    # This route now has three line-selection modes, and two of them produce a DIFFERENT
+    # SCIENTIFIC PRODUCT over the same element, band, instrument and holding: RYA-967's
+    # shallow graded set (55 lines, the EW-comparable ones) and RYA-984's deep graded set
+    # (109 lines, the ones EW can never attempt). Both wrote
+    # `FeI_4200_6910_kpno_solar_atlas_SYNTH_*`, so the second silently overwrote the first
+    # — the RYA-933/934 defect exactly, which that ticket fixed for the HOLDING axis and
+    # left open for the SELECTION axis.
+    #
+    # Caught 30 seconds into the first deep run, before it clobbered a committed product.
     stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
     if a.holding:
         stem += f"_{a.holding}"
     stem += "_SYNTH"
+    stem += _selector_tag(a)
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
 
