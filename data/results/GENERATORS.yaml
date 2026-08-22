@@ -2147,6 +2147,12 @@ artifacts:
       The page renders live_status.json and holds no data of its own. Serve the directory
       over HTTP; it refreshes every 5 s. Registered against the same generator because the
       page is meaningless without the JSON and the pair must not drift apart.
+      RYA-973/935: the telluric section renders THREE metrics under three separate
+      headings -- the solar pct_below_0.5, the stellar D1 residual, and state-only
+      determinations -- because they answer different questions and are not comparable as
+      numbers. They previously shared one renderer keyed on before_pct_below_0.5, so rows
+      carrying a D1 residual displayed "not corrected". tests/test_live_tracker_telluric_rya935.py
+      asserts every metric the collector can emit has a group to land in.
 
 
   # ── RYA-959 — the width ceiling, and the evidence that it is measured not chosen ─────
