@@ -238,6 +238,15 @@ class LineMeasurement:
     frac_rise_weaker: float | None = None
     edge_distance_dex: float | None = None
     red_chi2: float | None = None
+    #: RYA-959 — the OBSERVED core depth and the width the integrated EW implies against
+    #: it, as COLUMNS. Both are computed at measurement time to decide the width verdict,
+    #: and writing them only into `excluded_reason` would repeat exactly the RYA-911
+    #: mistake: RYA-958 had to reconstruct this quantity by hand, from a stale pool, using
+    #: a MODEL depth out of `linelist_solar.csv`, because the measurement never recorded
+    #: the observed one. `observed_depth` is 1 - min(flux) over the core where the fit put
+    #: its centre; `implied_width_A` is `pipeline.line_width.implied_width_A`.
+    observed_depth: float | None = None
+    implied_width_A: float | None = None
 
     def __post_init__(self) -> None:
         if self.rew is None and self.ew_mA and self.wavelength_air_A:
