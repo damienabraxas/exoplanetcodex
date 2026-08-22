@@ -123,31 +123,30 @@ def main():
                              verdict=v, evidence=ev))
     # ---- CRIRES (no pipeline RV; reduced spectra telluric-dominated) ----
     #
-    # 🔴 RYA-972 — THIS GLOB FAILED SILENTLY OFF-SIRIUS, AND THE DIAGNOSIS WAS WRONG.
+    # 🔴 RYA-972 — CRIRES WAS MISSPELT `CHIRES`, IN THE CODE *AND* ON DISK.
     #
-    # RYA-972 was filed as "globs a misspelt CHIRES dir -> never executed, silent empty
-    # glob", and RYA-971 carried that forward as "the CRIRES star-ID branch is dead code".
-    # Measured: `CHIRES` IS the directory's name on disk, the code matches it, and on
-    # Sirius this glob returns 16 FITS files. The branch is not dead and the spelling is
-    # not the fault — renaming it to CRIRES would BREAK the one machine where it works.
+    # The staged data directory carried the same typo, so the glob matched it on Sirius
+    # and the branch did run there — 16 frames. Off Sirius the whole spectra root is
+    # absent, so it matched nothing and said nothing, which is how RYA-972 came to be
+    # filed as "never executed" and RYA-971 repeated it as "the CRIRES branch is dead
+    # code". Both halves were true of a machine, not of the code.
     #
-    # The real fault is environmental and silent: `data.spectra_local` resolves to
-    # /mnt/codex-data/spectra/_mac_import_20260816, which exists on Sirius and NOT on the
-    # Mac. Same code, 16 matches there, 0 here — and nothing said so. A run off-Sirius
-    # simply contributed no CRIRES rows and reported success, which is how "never executed"
-    # became a believed fact about the code rather than about the machine.
+    # ⚠️ I FIRST ARGUED FOR KEEPING THE MISSPELLING because the code agreed with the disk.
+    # That is backwards: it makes the typo permanent and every future reader has to learn
+    # it. The directory is renamed to CRIRES and this reference follows it.
     #
-    # Loud now, on the same principle as the Kitt Peak atlas loader: name the missing
-    # directory rather than let every frame report as absent (RYA-833 — an absence is a
-    # hypothesis, never a conclusion).
-    _crires_dir = os.path.join(DATA, 'Alpha Centauri A/CHIRES')
+    # The guard stays regardless. A missing spectra root must NAME itself rather than let
+    # every frame report as absent — the Kitt Peak atlas loader's principle, and RYA-833's
+    # (an absence is a hypothesis, never a conclusion).
+    _crires_dir = os.path.join(DATA, 'Alpha Centauri A/CRIRES')
     if not os.path.isdir(_crires_dir):
         raise SystemExit(
             f"CRIRES frame directory not found: {_crires_dir}\n"
-            f"`data.spectra_local` resolves to {DATA!r}, which does not exist here — the "
-            f"alpha Cen frames live on Sirius. Run this there, or stage the data. "
-            f"Refusing to emit a star-ID table with the CRIRES branch silently empty: "
-            f"that is what made RYA-972 look like a spelling bug for a release.")
+            f"`data.spectra_local` resolves to {DATA!r}. On Sirius this holds 16 alpha Cen "
+            f"frames; off Sirius the root does not exist. Run this there, or stage the "
+            f"data. Refusing to emit a star-ID table with the CRIRES branch silently "
+            f"empty: that silence is what made RYA-972 look like a spelling bug in the "
+            f"CODE for a release.")
     for f in sorted(glob.glob(os.path.join(_crires_dir, '*.fits'))):
         with pf.open(f) as hd:
             h = hd[0].header
