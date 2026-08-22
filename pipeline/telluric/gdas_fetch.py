@@ -23,14 +23,23 @@ Retrieval order (the standing recipe):
                       we instead extract the NEAREST real 3-hourly profile for the obs
                       MJD and convert the ASCII profile to the FITS molecfit's CFITSIO
                       `GDAS_PROF` loader requires.
-  3. NOAA ARL READY — manual-pull fallback: GDAS1 by site lat-lon + datetime from the
-                      NOAA Air Resources Lab READY archive
-                      (https://www.ready.noaa.gov/READYamet.php ; archive
-                      ftp://arlftp.arlhq.noaa.gov/pub/archives/gdas1/). There is no
-                      clean unauthenticated REST endpoint to call from code, so the
-                      operator stages the extracted ASCII (same 4-column P/HGT/T/RELHUM
-                      format) into the cache and we ingest it. We do NOT fabricate an
-                      HTTP endpoint.
+  3. NOAA ARL archive — AUTOMATED (RYA-983). GDAS1 by site lat-lon + datetime, pulled
+                      straight from the NOAA Air Resources Lab archive at
+                      https://www.ready.noaa.gov/data/archives/gdas1/ .
+                      🔴 THIS DOCSTRING USED TO SAY THERE WAS NO ENDPOINT TO CALL. That
+                      is true of the INTERACTIVE READY form (READYamet.php) and false of
+                      the archive, which is a plain file server: 1286 weekly files over
+                      ordinary HTTPS. Believing the note cost RYA-931 and RYA-973 a
+                      manual pull per night, and left every La Silla instrument — HARPS,
+                      FEROS — telluric-blocked on a wall that was not there.
+                      💡 AND WE DO NOT DOWNLOAD THE WEEKLY FILE. ARL is a fixed-record
+                      format, so one 3-hour slot is a computable byte range: 164 records
+                      x 65210 B = 10.7 MB out of 599 MB, a 56x saving (tau Ceti's 29
+                      nights: ~310 MB instead of ~17 GB). The server sends
+                      `Accept-Ranges: bytes`, and the slice's own ARL header is checked
+                      against the slot we asked for before it is used.
+  4. NOAA ARL manual — the operator-staged ASCII, kept as the last resort for a night
+                      the archive cannot serve (same 4-column P/HGT/T/RELHUM format).
 
 Sources / formats (cited):
   • ESO GDAS tarball: telluriccorr 4.3.3 (`/opt/homebrew/Cellar/telluriccorr/4.3.3_4/
@@ -49,7 +58,7 @@ from __future__ import annotations
 import glob
 import os
 import tarfile
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -75,6 +84,34 @@ class GDASUnavailable(RuntimeError):
 from pipeline.telluric.esorex_runtime import gdas_dirs as _gdas_dirs
 
 _GDAS_3H = 3  # GDAS profiles are 3-hourly (00/03/06/…/21 UTC)
+
+# ── NOAA ARL GDAS1 archive (RYA-983) ──────────────────────────────────────────
+_ARL_BASE = "https://www.ready.noaa.gov/data/archives/gdas1"
+#: 🔴 A HARD FLOOR, NOT A BACKLOG ITEM. The archive begins here; a night before it can
+#: NEVER get a real per-night profile from this source, and under the RYA-380 no-fallback
+#: rule those frames are permanently un-correctable by this route. Three of tau Ceti's 32
+#: HARPS nights (2004-09-19, 2004-10-02, 2004-10-03) sit below it.
+ARL_ARCHIVE_START = date(2004, 12, 1)
+#: ARL is fixed-record: 50-byte header + a 360x181 byte grid, 164 records per 3-hour slot.
+#: Verified against the live archive — 598888640 B / 65210 = 9184 records = exactly 56
+#: slots = 7 days x 8. These mirror pipeline.telluric.arl_gdas and are asserted against it.
+_ARL_RECORD_LEN = 50 + 360 * 181
+_ARL_RECORDS_PER_SLOT = 164
+_ARL_SLOT_BYTES = _ARL_RECORD_LEN * _ARL_RECORDS_PER_SLOT
+
+
+def arl_week_file(when: datetime) -> str:
+    """The weekly archive file holding `when`. ARL weeks are calendar-anchored: w1 =
+    days 1-7, w2 = 8-14, w3 = 15-21, w4 = 22-28, w5 = 29-end (so w5 is short)."""
+    return f"gdas1.{when.strftime('%b').lower()}{when.strftime('%y')}.w{(when.day - 1) // 7 + 1}"
+
+
+def arl_slot_offset(when: datetime) -> int:
+    """Byte offset of `when`'s 3-hour slot inside its weekly file. Slots run sequentially
+    from the first day of the week at 00 UT."""
+    week_start_day = ((when.day - 1) // 7) * 7 + 1
+    slot = (when.day - week_start_day) * 8 + when.hour // _GDAS_3H
+    return slot * _ARL_SLOT_BYTES
 
 
 # ── public API ────────────────────────────────────────────────────────────────
@@ -135,6 +172,7 @@ def fetch_gdas(site: str, night=None, *, mjd: "float | None" = None,
         return cached
 
     prof = (_try_eso_gdas(gdas_loc, slot, work_dir, cached)
+            or _try_noaa_arl_archive(gdas_loc, lat, lon, slot, cache_dir, cached)
             or _try_noaa_ready(gdas_loc, lat, lon, slot, cache_dir, cached))
     if prof is None:
         raise GDASUnavailable(
@@ -186,6 +224,101 @@ def _try_eso_gdas(gdas_loc: str, slot: datetime, work_dir: Path,
     except (OSError, tarfile.TarError):
         return None
     return None
+
+
+# ── NOAA ARL archive backend (RYA-983, automated) ──────────────────────────────
+
+class ArlBeforeArchive(GDASUnavailable):
+    """The night predates the ARL archive (2004-12-01). This is a PERMANENT data gap,
+    not a retryable miss, and it is a distinct exception so a caller can tell "nobody has
+    this and nobody ever will" from "the fetch failed, try again"."""
+
+
+def _arl_fetch_slot(slot: datetime, work_dir: Path, timeout: float = 180.0) -> Path:
+    """Download ONLY the 3-hour slot's byte range from the weekly ARL file, and verify
+    the slice is what we asked for before returning it.
+
+    The verification is the point. The record layout is a property of the ARL era, not a
+    law, so the computed offset is a hypothesis: the first record of the slice carries
+    its own timestamp, and if that disagrees with the slot we wanted we must NOT decode
+    it — a silently-wrong atmosphere is exactly the failure the whole no-fallback rule
+    exists to prevent (RYA-373)."""
+    import urllib.error
+    import urllib.request
+
+    name = arl_week_file(slot)
+    off = arl_slot_offset(slot)
+    url = f"{_ARL_BASE}/{name}"
+    req = urllib.request.Request(
+        url, headers={'Range': f'bytes={off}-{off + _ARL_SLOT_BYTES - 1}',
+                      'User-Agent': 'exoplanetcodex/RYA-983 (telluric GDAS retrieval)'})
+    work_dir.mkdir(parents=True, exist_ok=True)
+    out = work_dir / f"{name}.slot{off}"
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            if r.status not in (200, 206):
+                raise GDASUnavailable(f"ARL {url} returned HTTP {r.status}")
+            if r.status == 200:
+                # No partial content: the server ignored Range and is sending 599 MB.
+                # Refuse rather than quietly pulling the whole file 32 times.
+                raise GDASUnavailable(
+                    f"ARL {url} ignored the Range request (HTTP 200, not 206). Refusing "
+                    f"to pull {_ARL_SLOT_BYTES / 1e6:.0f} MB as {598:.0f} MB.")
+            data = r.read()
+    except urllib.error.HTTPError as exc:
+        raise GDASUnavailable(f"ARL {url}: HTTP {exc.code} {exc.reason}") from exc
+    except urllib.error.URLError as exc:
+        raise GDASUnavailable(f"ARL {url}: {exc.reason}") from exc
+
+    if len(data) != _ARL_SLOT_BYTES:
+        raise GDASUnavailable(
+            f"ARL {name}: asked for {_ARL_SLOT_BYTES} B at {off}, got {len(data)} B")
+    if len(data) % _ARL_RECORD_LEN:
+        raise GDASUnavailable(f"ARL {name}: slice is not record-aligned")
+
+    head = data[:50].decode('ascii', 'replace')
+    try:
+        got = datetime(2000 + int(head[0:2]), int(head[2:4]), int(head[4:6]),
+                       int(head[6:8]))
+    except ValueError as exc:
+        raise GDASUnavailable(f"ARL {name}: slice header is not an ARL header "
+                              f"({head[:14]!r})") from exc
+    if got != slot:
+        raise GDASUnavailable(
+            f"ARL {name}: the slice at offset {off} carries {got:%Y-%m-%dT%H} but "
+            f"{slot:%Y-%m-%dT%H} was requested. The record layout differs from the "
+            f"assumed {_ARL_RECORDS_PER_SLOT} records/slot for this era — refusing to "
+            f"decode an atmosphere from the wrong slot.")
+    out.write_bytes(data)
+    return out
+
+
+def _try_noaa_arl_archive(gdas_loc: str, lat: float, lon: float, slot: datetime,
+                          cache_dir: Path, out_fits: Path) -> "Path | None":
+    """Automated NOAA ARL pull → molecfit FITS. Returns None only when the caller should
+    fall through to the manual-pull branch; a PERMANENT gap raises instead."""
+    if slot.date() < ARL_ARCHIVE_START:
+        raise ArlBeforeArchive(
+            f"{slot:%Y-%m-%d} predates the NOAA ARL GDAS1 archive "
+            f"({ARL_ARCHIVE_START}). No real per-night profile exists for this night "
+            f"from this source and none ever will; under the RYA-380 no-fallback rule "
+            f"these frames are permanently un-correctable by this route.")
+    if os.environ.get('CODEX_NO_NETWORK'):
+        return None
+    from pipeline.telluric.arl_gdas import extract_profile, write_molecfit_ascii
+    try:
+        raw = _arl_fetch_slot(slot, cache_dir / '_arl')
+    except GDASUnavailable:
+        return None                     # let the manual-pull branch try
+    try:
+        profile = extract_profile(raw, slot, lat, lon)
+        ascii_path = write_molecfit_ascii(
+            profile, cache_dir / f"noaa_{gdas_loc}_{slot:%Y-%m-%dT%H}.txt")
+    finally:
+        # The slice is 10.7 MB of a 599 MB file we deliberately did not keep; the
+        # ASCII and the FITS are the artifacts worth caching.
+        raw.unlink(missing_ok=True)
+    return _gdas_ascii_to_fits(ascii_path, out_fits)
 
 
 # ── NOAA ARL READY manual-pull backend ─────────────────────────────────────────
