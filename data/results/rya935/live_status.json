@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21T19:28:09+00:00",
+  "generated": "2026-08-22T16:30:48+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -651,9 +651,101 @@
     {
       "window": "6867-6884 A",
       "product": "solar_harps_molecfit_corrected",
+      "metric": "pct_below_0.5",
       "before_pct_below_0.5": 22.058823529411764,
       "after_pct_below_0.5": 0.0,
       "externally_validated": true
+    },
+    {
+      "window": "H1559 (H band)",
+      "product": "rya963_crires_telluric",
+      "ticket": "RYA-963",
+      "star_id": "B",
+      "date_obs": "2022-04-15T04:02:58.3044",
+      "star_id_contested": "unrecorded",
+      "metric": "d1_residual",
+      "before_d1_residual": 0.22066,
+      "after_d1_residual": 0.01919,
+      "gate_passed": true,
+      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
+    },
+    {
+      "window": "H1582 (H band)",
+      "product": "rya963_crires_telluric",
+      "ticket": "RYA-963",
+      "star_id": "B",
+      "date_obs": "2022-04-15T04:00:50.8963",
+      "star_id_contested": "unrecorded",
+      "metric": "d1_residual",
+      "before_d1_residual": 0.21659,
+      "after_d1_residual": 0.02865,
+      "gate_passed": true,
+      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
+    },
+    {
+      "window": "J1232 (J band)",
+      "product": "rya963_crires_telluric",
+      "ticket": "RYA-963",
+      "star_id": "B",
+      "date_obs": "2022-04-15T03:59:09.3668",
+      "star_id_contested": "unrecorded",
+      "metric": "d1_residual",
+      "before_d1_residual": 0.22385,
+      "after_d1_residual": 0.0389,
+      "gate_passed": true,
+      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
+    },
+    {
+      "window": "K2148 (K band)",
+      "product": "rya963_crires_telluric",
+      "ticket": "RYA-963",
+      "star_id": "INDETERMINATE",
+      "date_obs": "2022-04-15T04:06:54.2583",
+      "star_id_contested": "unrecorded",
+      "metric": "d1_residual",
+      "before_d1_residual": 0.13701,
+      "after_d1_residual": 0.0277,
+      "gate_passed": true,
+      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
+    },
+    {
+      "window": "K2192 (K band)",
+      "product": "rya963_crires_telluric",
+      "ticket": "RYA-963",
+      "star_id": "B",
+      "date_obs": "2022-04-15T04:04:52.8010",
+      "star_id_contested": "unrecorded",
+      "metric": "d1_residual",
+      "before_d1_residual": 0.17915,
+      "after_d1_residual": 0.01715,
+      "gate_passed": true,
+      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
+    },
+    {
+      "window": "Y1029 (Y band)",
+      "product": "rya963_crires_telluric",
+      "ticket": "RYA-963",
+      "star_id": "B",
+      "date_obs": "2022-04-15T03:56:57.9172",
+      "star_id_contested": "unrecorded",
+      "metric": "d1_residual",
+      "before_d1_residual": 0.21434,
+      "after_d1_residual": 0.02978,
+      "gate_passed": true,
+      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
+    },
+    {
+      "window": "6867-6884 A",
+      "product": "tau_ceti_harps",
+      "ticket": "RYA-973",
+      "metric": "state_only__NOT_corrected",
+      "header_state": "unknown",
+      "flux_state": "not-applied",
+      "o2b_median_frac_below": 0.20340975896531452,
+      "control_median_frac_below": 0.000999750062484379,
+      "excess_ratio": 203.46061140505583,
+      "n_products": 60,
+      "note": "DETERMINE-AND-GATE (RYA-460): the optical is telluric-light, so the owed action is a red-edge disposition, NOT a molecfit run. Any line inside 6867-6884 A needs exclusion or correction; lines blueward of it are CLEAN_OUTSIDE_REGISTERED_BANDS."
     }
   ],
   "unattributed_products": 28
