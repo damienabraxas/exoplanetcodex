@@ -48,10 +48,40 @@ _sini = np.sin(np.radians(INC_DEG))
 K_A = (2 * np.pi / P_YR) * (_aA_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 K_B = (2 * np.pi / P_YR) * (_aB_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 
-# A occupies the omega=231.81 branch (pinned by the independent spectral-type-confirmed-A
-# NIRPS frames landing at the more-negative predicted RV ~-26.7); B is the opposite branch.
-_OMEGA_A = np.radians(OMEGA_DEG)
-_OMEGA_B = np.radians(OMEGA_DEG) + np.pi
+# 🔴 RYA-971 — THESE WERE SWAPPED, AND THE MODULE CONTRADICTED ITS OWN LINE 34.
+#
+# `OMEGA_DEG` is documented above as "component B relative to A" — the VISUAL-ORBIT
+# convention, i.e. omega of the RELATIVE orbit. A secondary's barycentric orbit is
+# PARALLEL to the relative orbit, so omega_B = omega_rel; the primary's is ANTI-PARALLEL,
+# so omega_A = omega_rel + 180. The assignment below had it the other way round.
+#
+# It used to read: "A occupies the omega=231.81 branch (pinned by the independent
+# spectral-type-confirmed-A NIRPS frames landing at the more-negative predicted RV
+# ~-26.7)". That pin is model-dependent in exactly the place it mattered — this module
+# already records that the NIRPS absolute RV carries a MASK-DEPENDENT ZERO POINT which
+# cleanly confirms the G-type (A) branch but is OFFSET for the K-type (B). B was inferred,
+# never measured.
+#
+# TWO INDEPENDENT TESTS SETTLED IT (scripts/rya963_acen_branch_check.py, RYA-963/971):
+#
+#   1. PHOTOMETRY, MODEL-FREE. Matched K2192 pair, same night, 16 min apart, same
+#      reduction: count-rate ratio A/B = 2.293 against 2.270 expected if the HOLDINGS are
+#      correctly labelled and 0.441 if swapped. The A directory holds the brighter star.
+#      Conservative, too — the A frame has the most saturated pixels, and saturation
+#      SUPPRESSES its counts, so the true ratio is if anything larger.
+#   2. THE CONVENTION. With the labels thus confirmed, the measured RV of the A frames
+#      (-19.17 km/s) matches A only under the visual convention: residual 0.13 km/s
+#      against 6.32 as written.
+#
+# ⚠️ SO THE HOLDINGS ARE CORRECT AND THE MODULE WAS WRONG — those are different faults,
+# and RYA-971's action list proposed relabelling the holdings A<->B, which the photometry
+# refutes. Only this assignment changes; no holding is renamed.
+#
+# ⚠️ WHAT THIS INVERTS: every A-vs-B call `scripts/ir_star_id_rya423.py` has made.
+# `rv_bounds()` / `consistent_with_orbit()` are SYMMETRIC about gamma and are UNAFFECTED,
+# so RYA-431's off-orbit NOT-ALPHA-CEN finding stands.
+_OMEGA_A = np.radians(OMEGA_DEG) + np.pi
+_OMEGA_B = np.radians(OMEGA_DEG)
 
 
 def _true_anomaly(byear: float) -> float:
