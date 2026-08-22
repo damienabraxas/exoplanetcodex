@@ -48,7 +48,7 @@ _sini = np.sin(np.radians(INC_DEG))
 K_A = (2 * np.pi / P_YR) * (_aA_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 K_B = (2 * np.pi / P_YR) * (_aB_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 
-# 🔴 RYA-971 — CONTESTED. TWO ANCHORS DEMAND OPPOSITE CONVENTIONS. NOT RESOLVED.
+# 🔴 RYA-971 — RESOLVED 2026-08-22 (Ryan's ruling). THESE WERE SWAPPED.
 #
 # `OMEGA_DEG` is documented above as "component B relative to A" — the VISUAL-ORBIT
 # convention, i.e. omega of the RELATIVE orbit. A secondary's barycentric orbit is
@@ -83,12 +83,24 @@ K_B = (2 * np.pi / P_YR) * (_aB_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 # set: the frames labelled `AlphaCenB` measure as spectral-type A (jd 0.131), and those
 # labelled `alf Cen A` measure as B (jd 0.822) AND sit off-orbit at -34.6 (RYA-431's
 # NOT-ALPHA-CEN). An argument that the new convention "agrees with the headers" is an
-# argument from the least reliable evidence in the problem — I made it, and it is withdrawn.
+# argument from the least reliable evidence in the problem — it was made, and withdrawn.
 #
-# WHAT WOULD SETTLE IT: a spectral-type measurement on the CRIRES frames themselves. They
-# carry NO J-depth (all 16 rows NaN — the reduced spectra are telluric-dominated), so the
-# one arm with model-free photometry has no spectral type, and the one arm with a spectral
-# type has no photometry. That gap IS the open question, not a shortage of argument.
+# 🔴 HOW IT WAS SETTLED: the J-depth anchor was MEASURED AND FOUND TO HAVE NO POWER.
+# Across 57 NIRPS frames, 37 read A and 20 read B — and every one of the 20 is the
+# RYA-431 off-orbit contaminant. Every genuine alpha Cen frame lands 0.125-0.333, nowhere
+# near the 0.45/0.55 boundary. J-depth separates "alpha Cen-like" from "hot standard"; it
+# does not resolve a G2V/K1V split of 560 K. RYA-384's counter-anchor rested on it, so it
+# is RETIRED for lack of discriminating power — not contradicted. A J-depth on the
+# RYA-963-corrected CRIRES J1232 frame reads 0.054 (also "A"), which is consistent with
+# these frames being A and, for the same reason, cannot exclude B.
+#
+# THE ACCEPTANCE GATE (Ryan's ruling, step 2) — holdings + photometry + RV + orbit must
+# tell ONE story, and after the flip they do:
+#     2022-04-15, the photometrically BRIGHTER (A-directory) holding measures -19.17 km/s
+#     post-flip  rv_A = -19.300  |resid| 0.130      <- lands here
+#     post-flip  rv_B = -26.053  |resid| 6.883
+# Pinned executable in `tests/test_acen_orbit_rya423.py` so the convention cannot drift
+# back silently.
 #
 # ⚠️ SO THE HOLDINGS ARE CORRECT AND THE MODULE WAS WRONG — those are different faults,
 # and RYA-971's action list proposed relabelling the holdings A<->B, which the photometry
@@ -97,9 +109,9 @@ K_B = (2 * np.pi / P_YR) * (_aB_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 # ⚠️ WHAT THIS INVERTS: every A-vs-B call `scripts/ir_star_id_rya423.py` has made.
 # `rv_bounds()` / `consistent_with_orbit()` are SYMMETRIC about gamma and are UNAFFECTED,
 # so RYA-431's off-orbit NOT-ALPHA-CEN finding stands.
-# NOT CHANGED — see the CONFLICT above. Left as RYA-384 pinned it.
-_OMEGA_A = np.radians(OMEGA_DEG)
-_OMEGA_B = np.radians(OMEGA_DEG) + np.pi
+# RULED 2026-08-22 (Ryan, RYA-971): FLIPPED to the visual-orbit convention.
+_OMEGA_A = np.radians(OMEGA_DEG) + np.pi
+_OMEGA_B = np.radians(OMEGA_DEG)
 
 
 def _true_anomaly(byear: float) -> float:
