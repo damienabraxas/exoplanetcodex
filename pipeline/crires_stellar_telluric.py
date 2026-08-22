@@ -655,36 +655,52 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     # TELLURIC_DATA carries one extension per chip. Concatenate them and interpolate
     # onto the frame grid; chips do not overlap in wavelength (asserted in _frame_table),
     # so the concatenation is single-valued.
-    # Map the transmission back PER CHIP, onto that chip's own row slice. A global
-    # interpolation over the concatenated model would be wrong wherever two echelle
-    # orders overlap: the two chips are independent measurements of the same wavelength,
-    # so 'the model at this wavelength' is ambiguous there and the answer must come from
-    # the chip the pixel actually belongs to.
-    chips = []
-    with fits.open(ct_out / 'TELLURIC_DATA.fits') as h:
+    # MAP BY ROW, and PROVE the mapping against the flux column.
+    #
+    # Under CHIP_EXTENSIONS=TRUE calctrans COMBINES the chips: TELLURIC_CORR comes back
+    # as a single 1D image of exactly as many samples as we handed in, in the order we
+    # handed them in (CALCTRANS_CHIPS_COMBINED is the combined input it corresponds to).
+    # So no interpolation is needed at all — and interpolating anyway is not merely
+    # redundant, it is unsafe wherever two echelle orders overlap, because "the model at
+    # this wavelength" is ambiguous there.
+    #
+    # The row correspondence is then ASSERTED, not assumed, by checking calctrans's own
+    # copy of the flux against the flux we supplied. RYA-931 learned this the hard way in
+    # the other direction: BEST_FIT_MODEL.lambda is VACUUM, so mapping transmission back
+    # BY WAVELENGTH mis-registered by ~1.9 A = 190 pixels. Map by row; check the flux.
+    mt_parts = []
+    with fits.open(ct_out / 'TELLURIC_CORR.fits') as h:
         for hdu in h[1:]:
-            d = hdu.data
-            if d is None or getattr(d, 'columns', None) is None:
-                continue
-            names = d.columns.names
-            if 'mtrans' not in names:
-                continue
-            chips.append((np.asarray(d['mlambda' if 'mlambda' in names else 'lambda'],
-                                     float),
-                          np.asarray(d['mtrans'], float)))
-    if not chips:
-        raise RuntimeError(f"{frame.path.name}: TELLURIC_DATA carries no mtrans column")
-    rows = sci['chip_rows']
-    if len(chips) != len(rows):
+            if getattr(hdu, 'data', None) is not None and hdu.data.size:
+                mt_parts.append(np.asarray(hdu.data, float).ravel())
+    if not mt_parts:
+        raise RuntimeError(f"{frame.path.name}: TELLURIC_CORR carries no transmission")
+    mt = np.concatenate(mt_parts)
+    if mt.size != wave_A.size:
         raise RuntimeError(
-            f"{frame.path.name}: calctrans returned {len(chips)} transmission extensions "
-            f"for {len(rows)} input chips. The per-chip mapping back to the frame is only "
+            f"{frame.path.name}: calctrans returned {mt.size} transmission samples for "
+            f"{wave_A.size} input pixels. The row mapping back to the frame is only "
             f"defined when they correspond one to one.")
-    mt = np.full_like(wave_A, np.nan)
-    for (lam_um, mtrans), (a, b) in zip(chips, rows):
-        o = np.argsort(lam_um)
-        mt[a:b] = np.interp(wave_A[a:b], lam_um[o] * 1.0e4, mtrans[o],
-                            left=np.nan, right=np.nan)
+    with fits.open(ct_out / 'TELLURIC_DATA.fits') as h:
+        col = None
+        for hdu in h[1:]:
+            d = getattr(hdu, 'data', None)
+            if d is not None and getattr(d, 'columns', None) is not None \
+                    and 'flux' in d.columns.names:
+                col = np.asarray(d['flux'], float)
+                break
+    if col is None or col.size != flux.size:
+        raise RuntimeError(
+            f"{frame.path.name}: TELLURIC_DATA carries no flux column of the input "
+            f"length, so the row mapping cannot be verified — refusing to assume it.")
+    scale = np.nanmedian(np.abs(flux)) or 1.0
+    misaligned = int(np.count_nonzero(np.abs(col - flux) > 1e-6 * scale))
+    if misaligned:
+        raise RuntimeError(
+            f"{frame.path.name}: calctrans's flux column differs from the input flux in "
+            f"{misaligned} of {flux.size} rows, so its output is NOT in input row order "
+            f"and the transmission would be applied to the wrong pixels.")
+
     ok = np.isfinite(mt) & (mt > _MTRANS_FLOOR) & np.isfinite(flux)
     corr = np.full_like(flux, np.nan)
     corr[ok] = flux[ok] / mt[ok]
@@ -782,16 +798,31 @@ def _ccf(wave_A, absorption, mask_w, mask_weight, vmax=_RV_VMAX, dv=_RV_DV):
     return v, out
 
 
-def _ccf_peak(v, ccf) -> float:
-    """Parabolic interpolation about the maximum."""
+def _ccf_peak(v, ccf) -> dict:
+    """Parabolic interpolation about the CCF maximum, WITH the two ways it can fail.
+
+    A peak sitting on the first or last velocity sample is not a measurement — the true
+    maximum is outside the search grid and the returned number is just the edge. That is
+    exactly what a frame with mostly-NaN transmission produced here: -80.0 km/s, the
+    grid edge, reported as if it were an RV. `railed` says so instead. `contrast` is the
+    peak's height above the CCF floor in units of its own scatter; a flat CCF has
+    nothing to interpolate and no velocity to report."""
+    if not np.any(np.isfinite(ccf)):
+        return {'rv_kms': float('nan'), 'railed': True, 'contrast': 0.0,
+                'reason': 'CCF is entirely non-finite'}
     i = int(np.nanargmax(ccf))
+    floor = float(np.nanmedian(ccf))
+    scatter = float(np.nanstd(ccf))
+    contrast = (float(ccf[i]) - floor) / scatter if scatter > 0 else 0.0
     if i in (0, len(v) - 1):
-        return float(v[i])
+        return {'rv_kms': float(v[i]), 'railed': True, 'contrast': contrast,
+                'reason': f'CCF peak is at the edge of the +/-{abs(v[0]):.0f} km/s '
+                          f'search grid — the true maximum is outside it'}
     y0, y1, y2 = ccf[i - 1], ccf[i], ccf[i + 1]
     denom = (y0 - 2 * y1 + y2)
-    if denom == 0:
-        return float(v[i])
-    return float(v[i] - 0.5 * (v[i] - v[i - 1]) * (y2 - y0) / denom)
+    peak = (float(v[i]) if denom == 0
+            else float(v[i] - 0.5 * (v[i] - v[i - 1]) * (y2 - y0) / denom))
+    return {'rv_kms': peak, 'railed': False, 'contrast': contrast}
 
 
 def telluric_zero_point(fc: FrameCorrection) -> dict:
@@ -821,7 +852,8 @@ def telluric_zero_point(fc: FrameCorrection) -> dict:
         return {'rv_kms': float('nan'), 'n_lines': int(deep.size),
                 'reason': 'too few deep telluric pixels'}
     v, c = _ccf(fc.wave_A, obs_abs, fc.wave_A[deep], mod_abs[deep], vmax=20.0, dv=0.1)
-    return {'rv_kms': _ccf_peak(v, c), 'n_lines': int(deep.size)}
+    pk = _ccf_peak(v, c)
+    return dict(pk, n_lines=int(deep.size))
 
 
 def measure_rv(fc: FrameCorrection, zero_point_kms: float = 0.0) -> dict:
@@ -849,13 +881,17 @@ def measure_rv(fc: FrameCorrection, zero_point_kms: float = 0.0) -> dict:
     if w_vac.size < 20:
         return {'rv_topo_kms': float('nan'), 'n_mask_lines': int(w_vac.size),
                 'reason': 'too few mask lines in range'}
+    if clean.sum() < 500:
+        return {'rv_topo_kms': float('nan'), 'railed': True, 'n_clean_px': int(clean.sum()),
+                'reason': f'only {int(clean.sum())} telluric-clean pixels — not enough to '
+                          f'cross-correlate; an RV from this would be noise'}
     v, c = _ccf(fc.wave_A, absorption, w_vac, d)
-    peak = _ccf_peak(v, c)
-    contrast = float((np.nanmax(c) - np.nanmedian(c)) / max(np.nanstd(c), 1e-9))
-    rv_topo = peak - zero_point_kms
+    pk = _ccf_peak(v, c)
+    rv_topo = pk['rv_kms'] - zero_point_kms
     return {'rv_topo_kms': rv_topo, 'rv_bary_kms': rv_topo + fc.berv_kms,
             'berv_kms': fc.berv_kms, 'zero_point_kms': zero_point_kms,
-            'n_mask_lines': int(w_vac.size), 'ccf_contrast_sigma': contrast,
+            'n_mask_lines': int(w_vac.size), 'ccf_contrast_sigma': pk['contrast'],
+            'railed': pk['railed'], 'reason': pk.get('reason'),
             'n_clean_px': int(clean.sum())}
 
 
@@ -909,6 +945,11 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
     mod = _rya423_verdict()
     p = predicted_rv(fc.frame.mjd)
     rv_bary = rv.get('rv_bary_kms', float('nan'))
+    if rv.get('railed') or not np.isfinite(rv_bary):
+        # A railed or absent CCF peak is NOT a velocity. Handing the edge of the search
+        # grid to the orbit test would read as "outside the orbit bounds" and return the
+        # confident, wrong verdict NOT-ALPHA-CEN on a frame we simply could not measure.
+        rv_bary = float('nan')
     # jd/contrast are the NIRPS-calibrated SECONDARY. There is no CRIRES equivalent on
     # the same scale — the CCF contrast measured here is in sigma, RYA-423's threshold is
     # a NIRPS percentage — so they are passed as absent rather than as a wrong-unit
@@ -928,6 +969,22 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
 
 
 # ── Corrected-product output ──────────────────────────────────────────────────
+def _num(header, key, value, comment: str, nd: int = 4) -> None:
+    """Write a numeric card, or the string UNMEASURED when the value is not finite.
+
+    FITS headers cannot hold NaN at all (astropy refuses outright), and the tempting
+    workarounds are both wrong: a sentinel like -999 reads as a measurement, and
+    dropping the card makes an unmeasured quantity indistinguishable from one nobody
+    thought to record. UNMEASURED says which it is."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        header[key] = ('UNMEASURED', comment)
+        return
+    header[key] = ((round(v, nd), comment) if np.isfinite(v)
+                   else ('UNMEASURED', comment))
+
+
 def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: dict,
                     ticket: str = 'RYA-963') -> Path:
     """Persist ONE telluric-corrected frame: per-chip wavelength, raw flux, corrected
@@ -974,23 +1031,27 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     for key, card in (('reduced_chi2', 'REDCHI2'), ('rms_rel_to_mean', 'RMSREL'),
                       ('gaussfwhm', 'LSFGAUSS'), ('h2o_col_mm', 'H2OCOLMM')):
         if key in fc.fit:
-            h[card] = (round(fc.fit[key][0], 6), key)
+            _num(h, card, fc.fit[key][0], key, 6)
     for mol in fc.molecules:
         k = f'rel_mol_col_{mol}'
         if k in fc.fit:
-            h[f'RCOL{mol}'[:8]] = (round(fc.fit[k][0], 6), f'{k} +/- {fc.fit[k][1]:.4g}')
-    h['GATEBEF'] = (round(gate['residual_before'], 5), 'D1 residual BEFORE correction')
-    h['GATEAFT'] = (round(gate['residual_after'], 5), 'D1 residual AFTER correction')
+            _num(h, f'RCOL{mol}'[:8], fc.fit[k][0],
+                 f'{k} +/- {fc.fit[k][1]:.4g}', 6)
+    _num(h, 'GATEBEF', gate['residual_before'], 'D1 residual BEFORE correction', 5)
+    _num(h, 'GATEAFT', gate['residual_after'], 'D1 residual AFTER correction', 5)
     h['GATENPX'] = gate['n_px']
     h['GATEPASS'] = (gate['passed'], f"tol={gate.get('tol')}")
-    h['BERV'] = (round(fc.berv_kms, 5), 'km/s, add to topocentric RV')
-    h['RVTOPO'] = (round(rv.get('rv_topo_kms', float('nan')), 4), 'km/s, measured')
-    h['RVBARY'] = (round(rv.get('rv_bary_kms', float('nan')), 4), 'km/s')
-    h['RVZP'] = (round(rv.get('zero_point_kms', float('nan')), 4),
-                 'km/s telluric wavelength zero-point, subtracted')
+    _num(h, 'BERV', fc.berv_kms, 'km/s, add to topocentric RV', 5)
+    _num(h, 'RVTOPO', rv.get('rv_topo_kms'), 'km/s, measured')
+    _num(h, 'RVBARY', rv.get('rv_bary_kms'), 'km/s')
+    _num(h, 'RVZP', rv.get('zero_point_kms'), 'km/s telluric zero-point, subtracted')
+    h['RVRAILED'] = (bool(rv.get('railed')), 'CCF peak hit the search-grid edge')
+    if rv.get('reason'):
+        h['RVWHY'] = (str(rv['reason'])[:68].encode('ascii', 'replace').decode(),
+                      'why the RV is not a measurement')
     h['STARID'] = (ident['verdict'], 'RYA-423 rule on the measured RV')
-    h['IDPRED_A'] = (round(ident['pred_A_kms'], 3), 'km/s predicted alpha Cen A')
-    h['IDPRED_B'] = (round(ident['pred_B_kms'], 3), 'km/s predicted alpha Cen B')
+    _num(h, 'IDPRED_A', ident['pred_A_kms'], 'km/s predicted alpha Cen A', 3)
+    _num(h, 'IDPRED_B', ident['pred_B_kms'], 'km/s predicted alpha Cen B', 3)
 
     order = np.array([fc.frame.segments[i].order for i in fc.seg_index], dtype=np.int32)
     detec = np.array([fc.frame.segments[i].detector for i in fc.seg_index], dtype=np.int32)
@@ -1068,8 +1129,12 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                            n_windows=n_windows,
                            gdas_path=gate0['profiles'][gate0['slots'][fr.mjd]])
         zp = telluric_zero_point(fc)
-        rv = measure_rv(fc, zero_point_kms=zp.get('rv_kms', 0.0) if
-                        np.isfinite(zp.get('rv_kms', np.nan)) else 0.0)
+        # A railed zero-point is not a zero-point; correcting the stellar RV by the edge
+        # of a search grid would inject a fabricated tens-of-km/s shift.
+        zp_use = (zp['rv_kms'] if (not zp.get('railed')
+                                   and np.isfinite(zp.get('rv_kms', np.nan)))
+                  else 0.0)
+        rv = measure_rv(fc, zero_point_kms=zp_use)
         ident = identify_star(fc, rv, id_gate=rec['id_gate'])
         gate = telluric_residual_gate(fc)
         product = write_corrected(fc, out_dir, gate, rv, ident)
@@ -1084,6 +1149,11 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'windows': [(round(w['lo_A'], 1), round(w['hi_A'], 1)) for w in fc.windows],
                'gdas': fc.gdas, 'gdas_md5': fc.gdas_md5,
                'berv_kms': fc.berv_kms, 'telluric_zero_point_kms': zp.get('rv_kms'),
+               'telluric_zero_point_railed': bool(zp.get('railed')),
+               'telluric_zero_point_applied': zp_use,
+               'rv_railed': bool(rv.get('railed')),
+               'rv_reason': rv.get('reason'),
+               'ccf_contrast_sigma': rv.get('ccf_contrast_sigma'),
                'rv_topo_kms': rv.get('rv_topo_kms'), 'rv_bary_kms': rv.get('rv_bary_kms'),
                'rv_expected_topo_kms': rv_expected_topo,
                'star_id': ident['verdict'], 'star_id_evidence': ident['evidence'],
