@@ -52,7 +52,11 @@ MATCH_RADIUS_ARCSEC = 60.0
 CLASSIC_MAX_YEAR = 2014
 PLUS_MIN_YEAR = 2021
 
-#: The CRIRES+ pipeline. `INSTRUME` cannot split the two instruments; this can.
+#: The CRIRES+ pipeline. `INSTRUME` cannot split the two instruments; the RECIPE NAME can.
+#: ⚠️ IT IS `PRO REC1 ID`, NOT `PRO REC1 PIPE ID`. The latter is a VERSION STRING ("1.6.9")
+#: and contains no instrument name at all, so testing it for "cr2res" is always False and
+#: every reduced IDP silently falls through to the raw branch. Caught because the run
+#: reported 64 of 64 frames as raw when 63 of them plainly carry a PRO REC chain.
 PLUS_PIPE_TOKEN = 'cr2res'
 
 
@@ -88,6 +92,7 @@ class Frame:
     ra_deg: float = float('nan')
     dec_deg: float = float('nan')
     pipe_id: str = ''
+    rec_id: str = ''
     pro_catg: str = ''
     setting: str = ''
     snr: float = float('nan')
@@ -129,6 +134,7 @@ def read_frame(path: Path) -> Frame:
         except (KeyError, TypeError, ValueError):
             pass
     fr.pipe_id = str(_f(h, 'HIERARCH ESO PRO REC1 PIPE ID', '') or '').strip()
+    fr.rec_id = str(_f(h, 'HIERARCH ESO PRO REC1 ID', '') or '').strip()
     fr.pro_catg = str(_f(h, 'HIERARCH ESO PRO CATG', '') or '').strip()
     fr.setting = str(_f(h, 'HIERARCH ESO INS WLEN ID', '') or '').strip()
     try:
@@ -159,8 +165,7 @@ def classify_vintage(fr: Frame) -> Frame:
     year = None
     if len(fr.date_obs) >= 4 and fr.date_obs[:4].isdigit():
         year = int(fr.date_obs[:4])
-    by_pipe = PLUS_PIPE_TOKEN in fr.pipe_id.lower() or bool(fr.pipe_id and fr.pro_catg)
-    pipe_says_plus = PLUS_PIPE_TOKEN in fr.pipe_id.lower()
+    pipe_says_plus = PLUS_PIPE_TOKEN in fr.rec_id.lower()
 
     by_date = None
     if year is not None:
@@ -173,7 +178,8 @@ def classify_vintage(fr: Frame) -> Frame:
 
     if pipe_says_plus:
         fr.instrument_class = 'crires_plus'
-        fr.vintage_evidence = f"PRO REC1 PIPE ID={fr.pipe_id} (cr2res); DATE-OBS {fr.date_obs[:10]}"
+        fr.vintage_evidence = (f"PRO REC1 ID={fr.rec_id} (cr2res => CRIRES+), "
+                               f"pipeline v{fr.pipe_id}; DATE-OBS {fr.date_obs[:10]}")
         if by_date == 'classic':
             raise ValueError(
                 f"{fr.path}: cr2res pipeline on a {year} frame — the pipeline says CRIRES+ "
@@ -181,7 +187,7 @@ def classify_vintage(fr: Frame) -> Frame:
     elif by_date == 'classic':
         fr.instrument_class = 'crires_classic'
         fr.vintage_evidence = (f"DATE-OBS {fr.date_obs[:10]} < {CLASSIC_MAX_YEAR}; "
-                               f"no cr2res pipeline id (PIPE ID={fr.pipe_id!r})")
+                               f"no cr2res recipe (PRO REC1 ID={fr.rec_id!r})")
     elif by_date == 'plus':
         # Post-2021 but no cr2res stamp: a RAW frame, which carries no PRO REC keywords.
         fr.instrument_class = 'crires_plus_raw'
@@ -189,7 +195,7 @@ def classify_vintage(fr: Frame) -> Frame:
                                f"chain — raw, not pipeline-reduced")
     else:
         fr.instrument_class = 'unknown'
-        fr.vintage_evidence = f"DATE-OBS {fr.date_obs!r}, PIPE ID {fr.pipe_id!r} — cannot place"
+        fr.vintage_evidence = f"DATE-OBS {fr.date_obs!r}, REC1 ID {fr.rec_id!r} — cannot place"
     return fr
 
 
@@ -225,9 +231,20 @@ def _sep_arcsec(ra1, dec1, ra2, dec2) -> np.ndarray:
     return np.degrees(2 * np.arcsin(np.sqrt(np.clip(a, 0, 1)))) * 3600.0
 
 
+def _norm_name(s: str) -> str:
+    """Normalise a star name for comparison.
+
+    ⚠️ SIMBAD identifiers carry catalogue DECORATION -- `* rho01 Cnc`, `** STT 270A`, `V* ...`
+    -- so stripping whitespace alone leaves a leading `*` that no OBJECT string will ever
+    match. Without this every honestly-labelled frame reads as mislabelled, which buries the
+    two that genuinely are.
+    """
+    return ''.join(ch for ch in str(s).lower() if ch.isalnum())
+
+
 def identify(fr: Frame, cat: pd.DataFrame, *, radius: float = MATCH_RADIUS_ARCSEC) -> Frame:
     """Establish the target from POSITION. Exactly one match, or quarantine."""
-    obj_norm = fr.object_raw.strip().lower().replace(' ', '')
+    obj_norm = _norm_name(fr.object_raw)
     for key, why in MOVING_TARGETS.items():
         if key in obj_norm:
             fr.star_id = key
@@ -251,8 +268,8 @@ def identify(fr: Frame, cat: pd.DataFrame, *, radius: float = MATCH_RADIUS_ARCSE
         # Agreement is judged against SIMBAD's FULL identifier list, so a frame honestly
         # labelled `HD 22049` counts as naming eps Eri. What survives this test is the real
         # finding: a ROLE (`STD`) or a run placeholder (`Star S5`) where a name should be.
-        al = {a for a in str(cat.aliases.iloc[i] or '').split('|') if a}
-        agrees = (obj_norm in al) or (fr.obs_targ_name.strip().lower().replace(' ', '') in al)
+        al = {_norm_name(a) for a in str(cat.aliases.iloc[i] or '').split('|') if a}
+        agrees = (obj_norm in al) or (_norm_name(fr.obs_targ_name) in al)
         fr.id_evidence = (
             f"{sep[i]:.1f}\" from {cat.simbad_main_id.iloc[i]} at epoch "
             f"{fr.date_obs[:10]}; next nearest {np.sort(sep)[1]:.0f}\"; "
