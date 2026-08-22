@@ -223,9 +223,11 @@ def max_stellar_sigma_kms(star: str = "solar") -> float:
     RYA-985: follows the star, same as the floor.
 
     🔴 A CEILING WITH A MISSING TERM IS NOT A CEILING — IT IS AN UNDERESTIMATE, AND USING ONE
-    TO REJECT LINES REJECTS THEM FOR A REASON THAT IS NOT REAL. `tau_ceti`, `eps_eri` and
-    `55cnc_a` carry no `vmac` (RYA-957 adopted only what Heiter+2015 / Jofre+2014 publish, and
-    neither publishes a macroturbulence). Dropping the term silently would shrink the ceiling
+    TO REJECT LINES REJECTS THEM FOR A REASON THAT IS NOT REAL. `55cnc_a` carries no `vmac`
+    (RYA-957 adopted only what Heiter+2015 / Jofre+2014 publish, and neither publishes a
+    macroturbulence; RYA-988 has since given `tau_ceti` and `eps_eri` cited RT values, and
+    left 55 Cnc A to the fuller RYA-974 adoption). Dropping the term silently would shrink
+    the ceiling
     and quarantine good lines as "too wide"; substituting the solar 3.8 would put another
     star's atmosphere in the bound. So this REFUSES, and the caller reports the ceiling check
     as unevaluable rather than running it on a number that does not describe this star.
