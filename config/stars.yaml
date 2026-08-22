@@ -100,6 +100,52 @@ alpha_cen_b:
   solve:
   - feh
   - xi
+tau_ceti:
+  teff: 5414.0
+  e_teff: 21.0
+  logg: 4.49
+  e_logg: 0.02
+  feh_ref: -0.49
+  e_feh: 0.03
+  xi: 1.1
+  vsini: 1.1
+  source: 'GBS: Heiter+2015 (Teff, Table 10), Jofré+2014 ([Fe/H] Table 3, ξ Table 2
+    vmic=1.1±0.28, vsini Table 1 ref Saar). e_feh 0.03 = quadrature of the Table 3
+    error budget (σFeI 0.01, Δ(LTE) 0.01, Δ(ion) 0.01, σFeII 0.02). logg NOT PINNED
+    — Heiter+2015 Table 10 prints it in square brackets, which that table''s caption
+    defines as "uncertain and should not be used as a reference for calibration or
+    validation purposes"; Sect. 5.4.1 gives the reason (the mass comes from
+    "problematic evolutionary tracks predicting unreasonable ages")'
+  logg_basis: 'interferometric radius + model mass, but the mass is from evolutionary
+    tracks Heiter+2015 Sect. 5.4.1 calls problematic (unreasonable ages), so the paper
+    BRACKETS this value as not to be used as a calibration reference — carried as the
+    starting value and SOLVED, not pinned as a GBS fundamental'
+  pin:
+  - teff
+  - xi
+  solve:
+  - feh
+  - logg
+eps_eri:
+  teff: 5076.0
+  e_teff: 30.0
+  logg: 4.61
+  e_logg: 0.03
+  feh_ref: -0.09
+  e_feh: 0.06
+  xi: 1.1
+  vsini: 2.4
+  source: 'GBS: Heiter+2015 (Teff/logg, Table 10), Jofré+2014 ([Fe/H] Table 3, ξ Table 2
+    vmic=1.1±0.05, vsini Table 1 ref VF05). e_feh 0.06 = quadrature of the Table 3
+    error budget (σFeI 0.01, Δ(LTE) 0.01, Δ(ion) 0.05, σFeII 0.02)'
+  logg_basis: interferometric angular diameter + bolometric flux with model mass
+    (Heiter+2015 Table 10, unbracketed — adopted as a GBS fundamental)
+  pin:
+  - teff
+  - logg
+  - xi
+  solve:
+  - feh
 synthetic_no_logg:
   teff: 5800.0
   e_teff: 100.0
