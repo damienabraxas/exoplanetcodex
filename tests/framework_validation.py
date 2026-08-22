@@ -45,6 +45,37 @@ def _rows(d: pd.DataFrame) -> list:
     return d.to_dict("records")
 
 
+def derive_outlier_cut(values) -> tuple[float, str]:
+    """A threshold from the distribution's own STRUCTURE, not from a percentile.
+
+    🔴 A PERCENTILE IS A QUOTA, NOT A DERIVATION. Cutting at the 95th percentile rejects ~5% of
+    the sample whatever its quality, and it lands wherever the data happens to be dense. The
+    first version of this harness did exactly that and quarantined 3 of 55 lines whose chi2 ran
+    115.9 / 118.1 / 135.9 — consecutive values 2% apart, decided by the quota rather than by
+    anything about the lines.
+
+    RYA-959 set the pattern for what a real derivation looks like: its width ceiling "happens
+    to land in the sparsest part of a distribution that separates on its own." So this takes
+    the LARGEST GAP in the sorted upper half and cuts there — a break the data actually has,
+    or none at all.
+    """
+    v = np.sort(np.asarray([x for x in values if x is not None and np.isfinite(x)], float))
+    if v.size < 4:
+        return float("inf"), "too few values to find a break; nothing cut"
+    half = v.size // 2
+    gaps = np.diff(v[half:])
+    i = int(np.argmax(gaps))
+    lo, hi = float(v[half + i]), float(v[half + i + 1])
+    typical = float(np.median(gaps))
+    if typical > 0 and gaps[i] < 3 * typical:
+        return float("inf"), (f"no break: the largest upper-half gap ({gaps[i]:.3g}) is not "
+                              f"distinct from the typical gap ({typical:.3g}); a cut here "
+                              f"would be arbitrary, so nothing is cut")
+    return hi, (f"largest gap in the upper half is {gaps[i]:.3g} between {lo:.3g} and "
+                f"{hi:.3g}, against a typical gap of {typical:.3g} "
+                f"({gaps[i] / typical:.0f}x) — the distribution separates here on its own")
+
+
 # ── section 969 ──────────────────────────────────────────────────────────────────────
 def section_969(d: pd.DataFrame, out: dict) -> None:
     print("\n" + "=" * 78)
@@ -137,18 +168,24 @@ def section_968(d: pd.DataFrame, out: dict) -> None:
     out["968_anchor_n"] = int(a.size)
     out["968_anchor_sd"] = sd
 
-    # thresholds: DERIVED where the data supports it, declared otherwise.
+    # thresholds: DERIVED from the distribution's structure, never a percentile.
+    chi2_cut, chi2_why = derive_outlier_cut(d.red_chi2)
+    pct95 = float(np.nanpercentile(d.red_chi2, 95))
+    print(f"\n    chi2 cut, DERIVED   = {chi2_cut:.4g}")
+    print(f"      derivation        : {chi2_why}")
+    print(f"      a 95th percentile would have cut at {pct95:.4g} — rejecting ~5% BY "
+          f"CONSTRUCTION, in the densest part of the distribution. A quota, not a criterion.")
     th = G.Thresholds(
         rew_min=-6.0, rew_max=-4.5,
         min_depth=0.0,                                    # see finding: no depth column
-        max_red_chi2=float(np.nanpercentile(d.red_chi2, 95)),
+        max_red_chi2=chi2_cut,
         admission_tol_dex=float(2 * sd),
         min_anchor_lines=B.derive_min_shared_lines(),
         consistency_bound_dex=float(2 * sd),
         fallback_sigma_dex=0.50)
-    print(f"\n    thresholds used (validation fixtures, NOT project values):")
-    print(f"      max_red_chi2       = {th.max_red_chi2:.1f}  (95th pct of the fixture's own chi2)")
-    print(f"      min_anchor_lines   = {th.min_anchor_lines}   (derived, same criterion as 969)")
+    print(f"    min_anchor_lines    = {th.min_anchor_lines}   (derived, same criterion as 969)")
+    out["968_chi2_cut"] = chi2_cut
+    out["968_chi2_derivation"] = chi2_why
 
     rows = _rows(d)
     for r in rows:                       # the fixture is all GF-LAB with a published sigma
@@ -182,6 +219,13 @@ def section_968(d: pd.DataFrame, out: dict) -> None:
     print(f"    in value: {pool.n_in_value} of {len(rows)}")
     low = [v for v in pool.verdicts if v.tier not in (G.TIER_GOLDEN, G.TIER_CONSISTENT)]
     print(f"    grading LOW: {len(low)}  <- these are lab lines, so any is a FINDING")
+    # Does the stage-4 statistic actually carry information about abundance reliability?
+    c = d.red_chi2.to_numpy(float)
+    dev = np.abs(a - a.mean())
+    r = float(np.corrcoef(c, dev)[0, 1])
+    print(f"    corr(red_chi2, |A - mean A|) = {r:+.3f}  <- does a poor fit predict a "
+          f"deviant abundance on this route?")
+    out["968_corr_chi2_vs_abundance_deviation"] = r
     for v in low[:8]:
         print(f"       {v.wavelength_air_A:9.3f}  {v.tier:20s} {v.reason_code:18s} "
               f"stages={v.stages}")
