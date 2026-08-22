@@ -33,21 +33,23 @@ A_IDS = ('HD128620', 'ALF_CEN_A', 'ALPHA-CEN-A', 'ALPHACENA')
 B_IDS = ('HD128621', 'ALPHA-CEN-B', 'ALPHACENB', 'ALF_CEN_B')
 
 
+from pipeline.star_id import resolve_star  # noqa: E402
+
+
 def _target(h):
     o = (h.get('OBJECT') or h.get('TARGNAME') or '')
     return str(o)
 
 
 def _classify(name: str) -> str:
-    u = name.upper().replace(' ', '')
-    if any(u.startswith(x) or x in u for x in A_IDS):
-        # HD128620 prefix wins; but guard against HD128621 substring
-        if 'HD128621' in u:
-            return 'B'
-        return 'A'
-    if any(x in u for x in B_IDS):
-        return 'B'
-    return '?'
+    """RYA-964: one alias lookup, from `system_catalog.csv`.
+
+    The substring tests this replaces needed an explicit guard because `HD128621` contains
+    no `HD128620` but the reverse-ordered `x in u` scan made the two orderings matter. An
+    exact match on a normalised label has no such failure mode.
+    """
+    sid = resolve_star(name)
+    return {'alpha_cen_a': 'A', 'alpha_cen_b': 'B'}.get(sid, '?')
 
 
 def _open_header(f):
