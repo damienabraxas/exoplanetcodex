@@ -164,13 +164,22 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
 # defects), and here it would also let the wired value drift from the published 7.487
 # silently. Reusing the functions makes drift impossible by construction.
 
+from config.synth_bands import SynthBand, SYNTH_BANDS  # noqa: E402,F401
+
 #: RYA-759's own defaults, named here so a reader can see they are NOT re-chosen.
 #: Changing any of these would move the product away from the published 7.487 and the
 #: ticket forbids that without a stated cause — so they are imported-in-spirit, and the
 #: functions below are imported literally.
-NEARUV_HALF_WIDTH_A = 0.40      # no EW exists to key the production wing-wide rule
-NEARUV_MIN_SEP_A = 4.0          # keeps the set spread instead of piling into one complex
-NEARUV_N_LINES = 40
+#: 🔴 RYA-967 — DERIVED FROM THE CONFIG, NOT RE-TYPED. These were literals here AND
+#: values in the near-UV `SynthBand`; once the bands moved to `config/synth_bands.yaml`
+#: the literals became a second declaration of the same three numbers, free to drift from
+#: the entry they describe. `test_nearuv_first_class_rya832` still pins them to
+#: 0.40 / 4.0 / 40, so if the YAML is edited that test fails — which is the correct
+#: alarm, and the one a duplicated literal would have silenced.
+_NEARUV = SYNTH_BANDS["near-UV"]
+NEARUV_HALF_WIDTH_A = _NEARUV.half_width_A   # no EW exists to key the wing-wide rule
+NEARUV_MIN_SEP_A = _NEARUV.min_sep_A         # keeps the set spread, not piled in one complex
+NEARUV_N_LINES = _NEARUV.n_lines
 #: 🔴 THE PSEUDO-CONTINUUM SYSTEMATIC IS DELIBERATELY NOT DECLARED HERE (RYA-845).
 #: It lives in exactly one place, `pipeline/error_budget.py`, which adds it for any band
 #: whose policy says "pseudo-continuum". A second declaration next to a route is what let
@@ -178,72 +187,17 @@ NEARUV_N_LINES = 40
 #: the number agreed with itself in both places while the product was wrong.
 
 
-@dataclass(frozen=True)
-class SynthBand:
-    """Everything the synthesis route needs that is a property of the BAND — RYA-837.
-
-    The route itself is band-agnostic: `select_lines`, `fit_one` and
-    `build_solar_context` were already fully parameterised by RYA-759. Only the
-    CONSTANTS were near-UV, sitting as module globals. Adding the IR band by copying
-    the route would have duplicated 100 lines to change four numbers — the RYA-701
-    failure mode (one Ba->Al copy, 13 defects). They are a lookup instead.
-
-    ⚠️ THERE IS DELIBERATELY NO `pseudo_continuum_dex` FIELD (RYA-845, merge of main).
-    An earlier cut of this dataclass carried one and set it to 0.100 for all three
-    bands. Nothing ever read it — the route used the module global directly — so it
-    stated an intent the code did not honour, which is the same second-declaration
-    shape that let the term be added twice. `pipeline/error_budget.build()` owns it and
-    adds it for any band whose policy says "pseudo-continuum".
-
-    That is the near-UV only. red-optical and NIR get NO continuum systematic, and
-    RYA-843 measured the evidence that they should: their fit windows sit at median
-    flux 0.73-0.95 against a synthesis normalised to unity, and the fitter spends
-    A(Fe) closing that gap. Wiring the field would have hidden the gap behind a
-    number nobody derived; it is left OWED and visible instead.
-    """
-    linelist: Path
-    half_width_A: float
-    min_sep_A: float
-    n_lines: int
-    half_width_note: str
-    build_hint: str
-
-
-#: A fixed synthesis half-width has to contain the PROFILE, so it scales with wavelength:
-#: the Doppler width is lambda*v/c, and 0.40 A at 3400 A is ~17 Doppler widths while the
-#: same 0.40 A at 12000 A is only ~5. Holding the ANGSTROM value fixed across a 3.5x
-#: wavelength lever would quietly clip the IR wings and bias A(Fe) low. The IR values
-#: below are 0.40 A scaled by lambda, rounded — and swept at runtime (`--sweep-half-width`)
-#: rather than asserted, exactly as RYA-759 swept 0.25/0.40/0.60 in the near-UV.
+#: RYA-967 — `SynthBand` and `SYNTH_BANDS` MOVED TO `config/synth_bands.py`.
 #:
-#: The band's own line density says the wider window is affordable: median gap 0.146 A in
-#: the near-UV, but 1.872 A (red-optical) and 3.989 A (NIR) per `pipeline.band_policy`.
-SYNTH_BANDS: dict[str, SynthBand] = {
-    "near-UV": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_nearuv_3000_3780" / "atomic_lines.tsv",
-        half_width_A=NEARUV_HALF_WIDTH_A,
-        min_sep_A=NEARUV_MIN_SEP_A,
-        n_lines=NEARUV_N_LINES,
-        half_width_note="RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex)",
-        build_hint="build it with `pipeline.nearuv_linelist.build()`",
-    ),
-    "red-optical": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
-        half_width_A=1.10,          # 0.40 * (9600/3400), rounded
-        min_sep_A=4.0,
-        n_lines=40,
-        half_width_note="0.40 A scaled by lambda from the near-UV anchor (9600/3400)",
-        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
-    ),
-    "NIR": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
-        half_width_A=1.40,          # 0.40 * (12000/3400), rounded
-        min_sep_A=4.0,
-        n_lines=40,
-        half_width_note="0.40 A scaled by lambda from the near-UV anchor (12000/3400)",
-        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
-    ),
-}
+#: They were declared here, in an executable driver, and `scripts/rya855_rung_audit.py`
+#: imported them FROM THIS SCRIPT. That is a config constant whose only home is a program
+#: — it cannot be read without importing this module, and this module's import chain loads
+#: the Kitt Peak atlas. Same second-home shape as RYA-350/353/954.
+#:
+#: The four entries and every word of their reasoning live in `config/synth_bands.yaml`,
+#: which also records the invariant the three original values turned out to share and
+#: which the new VIS entry was derived from: a half-width is 20.51 Doppler sigma at the
+#: band's anchor wavelength, held to +/-0.30 across a 3.5x wavelength lever.
 
 
 def synthesis_route(a, pol) -> None:
