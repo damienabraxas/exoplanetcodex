@@ -160,6 +160,56 @@ def display_name(row) -> str:
         return f"{row.get('treatment')} (unresolved axes)"
 
 
+#: `gf rung: gf rung N (term): reason` -- the reason text states the graded count in one
+#: of two shapes, and both are parsed here rather than recomputed. Recomputing would mean
+#: re-grading every line against the line list inside the tracker, which is a SECOND
+#: implementation of membership (the RYA-845 two-homes shape); the budget file is the
+#: artifact the product was actually CHARGED on, so it is the honest source.
+_RUNG_MIXED = re.compile(r"MIXED POOL:\s*(\d+)\s+of\s+(\d+)\s")
+_RUNG_ALL = re.compile(r"every one of the\s+(\d+)\s")
+_RUNG_HEAD = re.compile(r"gf rung:\s*gf rung\s*(\d+)\s*\(([^)]*)\)")
+
+
+def graded_counts(products_csv: Path) -> dict:
+    """(n_graded, n_pool, rung) per treatment, read from the sibling *_budgets.txt.
+
+    Returns {} when there is no budget file -- an older artifact predates the gf rung and
+    must read as UNKNOWN, never as zero. Zero graded lines is a real, different statement
+    from "this product was written before we recorded the rung".
+    """
+    b = products_csv.with_name(products_csv.name.replace("_products.csv", "_budgets.txt"))
+    if not b.exists():
+        return {}
+    out, treatment = {}, None
+    for line in b.read_text(errors="replace").splitlines():
+        t = line.strip()
+        # Budget blocks open with the cell header, e.g. "Fe . VIS . n=6"; the gf rung line
+        # belongs to the block above it. Track the most recent non-indented header.
+        if t and not line.startswith(" ") and "gf rung" not in t:
+            treatment = t
+        if "gf rung:" not in t:
+            continue
+        head = _RUNG_HEAD.search(t)
+        rung = int(head.group(1)) if head else None
+        m = _RUNG_MIXED.search(t)
+        if m:
+            n_graded, n_pool = int(m.group(1)), int(m.group(2))
+        else:
+            m2 = _RUNG_ALL.search(t)
+            if not m2:
+                continue
+            n_graded = n_pool = int(m2.group(1))
+        # KEYED BY POOL SIZE, not by treatment name. The budget block header is
+        # "Fe · VIS · n=148" -- it carries the cell and the pool size but NOT the
+        # treatment string the products table uses, and the two vocabularies do not
+        # match (RYA-906: `display` is derived, `treatment` is the legacy label). The
+        # header's n IS the pool the budget was charged on, so it joins to the row's
+        # n_lines exactly.
+        out[int(n_pool)] = {"n_graded": n_graded, "n_pool": n_pool, "gf_rung": rung,
+                            "budget_cell": treatment}
+    return out
+
+
 def collect_products(roots: list[Path], instruments: set[str],
                      holdings: set[str]) -> list[dict]:
     rows: list[dict] = []
@@ -175,6 +225,7 @@ def collect_products(roots: list[Path], instruments: set[str],
             except Exception:                                   # noqa: BLE001
                 continue
             ctx = run_context(path)
+            graded = graded_counts(path)
             for _, r in frame.iterrows():
                 rows.append({
                     **meta,
@@ -184,6 +235,11 @@ def collect_products(roots: list[Path], instruments: set[str],
                     "sigma_stat": None if pd.isna(r.get("stat_dex")) else float(r["stat_dex"]),
                     "sigma_syst": None if pd.isna(r.get("syst_dex")) else float(r["syst_dex"]),
                     "n_lines": None if pd.isna(r.get("n_lines")) else int(r["n_lines"]),
+                    # RYA-946 — how many of THIS engine's lines carry a primary-lab gf.
+                    # None means the artifact predates the gf rung, which is not 0.
+                    **((graded.get(int(r["n_lines"]))
+                        if not pd.isna(r.get("n_lines")) else None)
+                       or {"n_graded": None, "n_pool": None, "gf_rung": None}),
                     "source": str(path.relative_to(ROOT)),
                     **ctx,
                 })
