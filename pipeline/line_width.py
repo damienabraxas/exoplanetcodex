@@ -36,16 +36,63 @@ C_KMS = 299792.458
 _K_B, _AMU, _M_FE = 1.380649e-23, 1.66054e-27, 55.845 * 1.66054e-27
 
 
-def irreducible_sigma_kms() -> float:
+class MissingBroadeningTerm(KeyError):
+    """A star lacks a parameter one of these widths needs. Never substitute another star's."""
+
+
+def star_parameter_provenance(star: str) -> dict:
+    """Which of this star's parameters are PINNED fundamentals and which are SOLVED.
+
+    🔴 RYA-985 / RYA-957: a harness that presents a SOLVED parameter as a fundamental is
+    doing what the source paper forbids. Heiter+2015 Table 10 prints tau Ceti's log g in
+    square brackets — "uncertain and should not be used as a reference for calibration or
+    validation purposes" — so `stars.yaml` gives it `pin: [teff, xi]`, `solve: [feh, logg]`.
+    The value 4.49 is a STARTING POINT, not an adopted fundamental, and any product built on
+    it must say so rather than quoting it like alpha Cen A's dynamical log g.
+
+    Returned so a caller can put it in provenance; this module does not decide what to do
+    with it, it only refuses to let the distinction go unrecorded.
+    """
+    from config.constants import get_star_params
+    p = get_star_params(star)
+    pin = [str(x) for x in (p.get("pin") or [])]
+    solve = [str(x) for x in (p.get("solve") or [])]
+    return {
+        "star": star, "pinned": pin, "solved": solve,
+        "logg_is_fundamental": "logg" in pin,
+        "note": (f"{star}: pinned {pin or 'none'}; solved {solve or 'none'}. "
+                 + ("log g is a PINNED fundamental." if "logg" in pin else
+                    "log g is SOLVED — the stars.yaml value is a starting point, NOT an "
+                    "adopted fundamental, and must not be quoted as one.")),
+        "source": str(p.get("source", ""))[:200],
+        "logg_basis": str(p.get("logg_basis", ""))[:200],
+    }
+
+
+def _star(star: str) -> dict:
+    """Resolve through `get_star_params` — the single source (RYA-298/355), and it LOUD-FAILS
+    on an unknown id rather than falling back to solar."""
+    from config.constants import get_star_params
+    return get_star_params(star)
+
+
+def irreducible_sigma_kms(star: str = "solar") -> float:
     """Thermal+microturbulent sigma for Fe, in km/s, from config (never a literal here).
 
-    ⚠️ Reads the SOLAR row because both callers are solar-only today. When either gains a
-    `--star`, this must follow it — a floor derived from the wrong star's temperature is
-    exactly the kind of silent stand-in this codebase keeps finding.
+    RYA-985: this now follows the star, which is the debt the previous docstring recorded —
+    "a floor derived from the wrong star's temperature is exactly the kind of silent stand-in
+    this codebase keeps finding." `star` defaults to solar so every existing caller is
+    bit-identical.
     """
-    sun = STAR_PARAMS["solar"]
-    return math.sqrt(_K_B * float(sun["teff"]) / _M_FE
-                     + (float(sun["xi"]) * 1000.0) ** 2 / 2.0) / 1000.0
+    p = _star(star)
+    if "xi" not in p:
+        raise MissingBroadeningTerm(
+            f"{star!r} has no microturbulence `xi` in config/stars.yaml, so the width FLOOR "
+            f"cannot be computed. 55 Cnc A carries `xi_init`/`xi_xcheck` instead because it "
+            f"SOLVES xi (RYA-957) — a solved parameter is not a config constant, and "
+            f"substituting the solar 1.0 would put a different star's turbulence in the floor.")
+    return math.sqrt(_K_B * float(p["teff"]) / _M_FE
+                     + (float(p["xi"]) * 1000.0) ** 2 / 2.0) / 1000.0
 
 
 def voigt_fwhm(sigma_A: float, gamma_A: float | None) -> float:
@@ -64,7 +111,7 @@ def voigt_fwhm(sigma_A: float, gamma_A: float | None) -> float:
     return 0.5346 * f_L + math.sqrt(0.2166 * f_L * f_L + f_G * f_G)
 
 
-def physical_floor_fwhm(wavelength_A: float, sigma_inst_A: float) -> float:
+def physical_floor_fwhm(wavelength_A: float, sigma_inst_A: float, star: str = "solar") -> float:
     """The narrowest TOTAL width physics allows here: instrumental (+) thermal (+) micro."""
     sig_phys = wavelength_A * irreducible_sigma_kms() / C_KMS
     return voigt_fwhm(math.hypot(sigma_inst_A, sig_phys), None)
@@ -167,24 +214,39 @@ EQUIV_RECT_FACTOR = math.sqrt(2.0 * math.pi) / (2.0 * math.sqrt(2.0 * math.log(2
 #: wider than that window is therefore claiming more absorption than the interval can hold
 #: at the depth the spectrum actually shows -- the model core is deeper than the real one.
 #: That is an arithmetic impossibility, not a judgement call, and it needs no allowance.
-def max_stellar_sigma_kms() -> float:
+def max_stellar_sigma_kms(star: str = "solar") -> float:
     """The widest Gaussian sigma stellar physics permits, in km/s, from config.
 
     Thermal (+) microturbulent (+) macroturbulent (+) rotational, in quadrature. The
     mirror of `irreducible_sigma_kms`, which omits the last two so as to stay a floor.
 
-    ⚠️ Reads the SOLAR row, for the same reason and with the same debt as
-    `irreducible_sigma_kms`: when either caller gains a `--star`, this must follow it.
+    RYA-985: follows the star, same as the floor.
+
+    🔴 A CEILING WITH A MISSING TERM IS NOT A CEILING — IT IS AN UNDERESTIMATE, AND USING ONE
+    TO REJECT LINES REJECTS THEM FOR A REASON THAT IS NOT REAL. `tau_ceti`, `eps_eri` and
+    `55cnc_a` carry no `vmac` (RYA-957 adopted only what Heiter+2015 / Jofre+2014 publish, and
+    neither publishes a macroturbulence). Dropping the term silently would shrink the ceiling
+    and quarantine good lines as "too wide"; substituting the solar 3.8 would put another
+    star's atmosphere in the bound. So this REFUSES, and the caller reports the ceiling check
+    as unevaluable rather than running it on a number that does not describe this star.
     """
-    sun = STAR_PARAMS["solar"]
-    return math.hypot(irreducible_sigma_kms(),
-                      math.hypot(float(sun["vmac"]), float(sun["vsini"])))
+    p = _star(star)
+    missing = [k for k in ("vmac", "vsini") if k not in p]
+    if missing:
+        raise MissingBroadeningTerm(
+            f"{star!r} has no {' or '.join(missing)} in config/stars.yaml, so the physical "
+            f"width CEILING cannot be computed. Omitting a broadening term makes the ceiling "
+            f"too SMALL, which quarantines good lines as over-wide; borrowing the solar value "
+            f"puts a different star's atmosphere in the bound. Adopt a cited value for "
+            f"{star!r}, or run without the ceiling check and say so.")
+    return math.hypot(irreducible_sigma_kms(star),
+                      math.hypot(float(p["vmac"]), float(p["vsini"])))
 
 
-def physical_ceiling_sigma_A(wavelength_A: float, sigma_inst_A: float) -> float:
+def physical_ceiling_sigma_A(wavelength_A: float, sigma_inst_A: float, star: str = "solar") -> float:
     """The widest GAUSSIAN sigma physics allows here: instrumental (+) all Doppler terms."""
     return math.hypot(sigma_inst_A,
-                      wavelength_A * max_stellar_sigma_kms() / C_KMS)
+                      wavelength_A * max_stellar_sigma_kms(star) / C_KMS)
 
 
 def gaussian_sigma_above_physical_ceiling(popt, wavelength_A: float,
