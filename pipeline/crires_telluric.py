@@ -45,6 +45,9 @@ from pathlib import Path
 import numpy as np
 
 from config.constants import PATHS, codex_path   # RYA-373: canonical solar line-list path (RV anchors)
+from pipeline.telluric.esorex_runtime import (      # RYA-963: ONE esorex resolver
+    SUPPRESS_PREFIX, EsorexNotAvailable, esorex_env, esorex_available,
+    resolve_esorex)
 
 # ── Data location (the reflected-solar set lives OUTSIDE the repo, RYA-370) ────
 _DATA_ROOT = (codex_path('data.spectra_local')
@@ -62,6 +65,34 @@ CO_OVERTONE_LO_NM = 2290.0       # the 2.3 µm CO-overtone series fit/analysis w
 CO_OVERTONE_HI_NM = 2490.0
 # molecfit telluric species over the K band (the IR rule: H2O + CH4 + CO2)
 TELLURIC_MOLECULES = ("H2O", "CH4", "CO2")
+
+# Per-band telluric absorbers (RYA-963). RYA-373 fitted the K band only, where
+# H2O+CH4+CO2 are the movers; α Cen A's 2022-04-15 sweep runs Y→K, and fitting a
+# molecule that has no band in the window is not free — it is an extra free column
+# density with nothing to constrain it, the same class of error that drove RYA-931's
+# Lorentzian to its bound. Bands (vacuum µm) from the HITRAN/molecfit standard set:
+#   Y  0.95-1.12  H2O (0.94, 1.13 wings)                        — O2 has no band here
+#   J  1.12-1.33  H2O (1.13), O2 (1.27 a¹Δg)                     — the O2 band is strong
+#   H  1.45-1.80  H2O (1.4), CO2 (1.6), CH4 (1.67 weak)
+#   K  1.95-2.49  H2O, CH4 (2.3), CO2 (2.0), CO (2.3 fundamental overtone)
+TELLURIC_MOLECULES_BY_BAND = {
+    'Y': ("H2O",),
+    'J': ("H2O", "O2"),
+    'H': ("H2O", "CO2", "CH4"),
+    'K': ("H2O", "CH4", "CO2", "CO"),
+}
+
+
+def molecules_for_band(band: str) -> tuple:
+    """The telluric molecules to fit for a CRIRES+ band. Unknown band → loud, never a
+    silent default: fitting the wrong molecule set is a quiet wrong answer."""
+    try:
+        return TELLURIC_MOLECULES_BY_BAND[str(band).upper()[:1]]
+    except KeyError:
+        raise ValueError(
+            f"no telluric molecule set declared for band {band!r} — declare it in "
+            f"TELLURIC_MOLECULES_BY_BAND rather than defaulting; the K-band set is not "
+            f"a safe default for a bluer band (RYA-963).")
 
 SNR_FLOOR = 200.0                # the RYA-370 per-frame SNR floor
 
@@ -234,9 +265,11 @@ def continuum_normalize(wave_A: np.ndarray, flux: np.ndarray,
 
 # ── Telluric (molecfit, TOPOCENTRIC frame) — the mandatory engine ─────────────
 def _esorex_available() -> bool:
-    return (shutil.which("esorex") is not None
-            or Path(_ESOREX).exists()              # RYA-375 Homebrew install (off default PATH)
-            or shutil.which("molecfit_model") is not None)
+    """RYA-963: delegates to the ONE resolver ($ESOREX → PATH → the registered
+    `eso_pipelines` root). The old body probed a hard-coded Homebrew path, which made
+    this leg Mac-only — the same defect RYA-939 had already fixed in the HARPS runner
+    and which therefore had to die here too."""
+    return esorex_available()
 
 
 def run_molecfit_telluric(frame: CriresFrame, work_dir: Path,
@@ -269,9 +302,13 @@ def run_molecfit_telluric(frame: CriresFrame, work_dir: Path,
     return _molecfit_driver(frame, work_dir, molecules)
 
 
-_ESOREX = "/opt/homebrew/bin/esorex"          # RYA-375 install (Homebrew ESO tap)
 _MTRANS_FLOOR = 0.02                            # mask telluric cores below this transmission
 _CONTINUUM_N = 2                                # polynomial continuum order (uncalibrated flux)
+# CRIRES+ nominal resolving power for the 0.2" slit (ESO CRIRES+ manual). Only sets the
+# STARTING FWHM of the fitted Gaussian LSF; the kernel is always fitted, never held —
+# FIT_RES_GAUSS=FALSE does not fix the width, it disables convolution outright
+# (RYA-931: same 6.767 px gives reduced chi2 0.81 fitted vs 894 "fixed").
+_CRIRES_R = 100000.0
 
 # Real per-night GDAS atmospheric profiles (RYA-373 finish-out #2 → RYA-380 standing
 # recipe). molecfit's GDAS_PROFILE=auto requests odd hours (T01/T02) absent from the
@@ -291,18 +328,31 @@ def _resolve_gdas(frame: "CriresFrame", work_dir: Path) -> str:
 
 
 def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
-                           molecules) -> Path:
-    """Write the three molecfit_model inputs for one CO order: SCIENCE (binary table
+                           molecules, exclude_um=()) -> dict:
+    """Write the molecfit_model inputs for one chip segment: SCIENCE (binary table
     lambda[µm]/flux/dflux, primary header carrying the ESO atmospheric keywords),
     WAVE_INCLUDE (µm, edges trimmed), MOLECULES (LIST_MOLEC/FIT_MOLEC=1J/REL_COL=1D —
-    the int32 FIT_MOLEC is mandatory, astropy's default int64 fails CPL). Returns the
-    SOF path."""
+    the int32 FIT_MOLEC is mandatory, astropy's default int64 fails CPL), and optionally
+    WAVE_EXCLUDE (the stellar-line intervals molecfit must not absorb into a telluric
+    column). Returns the built-inputs record; the SOF names frames RELATIVELY because
+    esorex splits SOF lines on whitespace and the repo path contains a space (RYA-931)."""
     from astropy.io import fits
+    from astropy.table import Table
     work_dir.mkdir(parents=True, exist_ok=True)
     m = np.isfinite(seg.wave_A) & np.isfinite(seg.flux) & (seg.flux > 0)
+    if m.sum() < 100:
+        raise RuntimeError(
+            f"{frame.path.name} ord{seg.order}/det{seg.detector}: only {int(m.sum())} "
+            f"finite positive pixels — refusing to write a near-empty SCIENCE table "
+            f"(RYA-931: an empty SCIENCE table is misreported by molecfit as a broken "
+            f"MIPAS reference atmosphere, which sends the next reader hunting a fit "
+            f"problem that does not exist).")
     lam_um = seg.wave_A[m] / 1.0e4              # Å → µm (molecfit internal)
     flux = seg.flux[m].astype(float)
     err = seg.err[m].astype(float)
+    # Same discipline as RYA-931: the error column is USED only if it is usable
+    # everywhere; a partly-NaN ERR silently drops pixels inside molecfit.
+    err_usable = bool(np.all(np.isfinite(err)) and np.all(err > 0))
 
     src = fits.getheader(str(frame.path))
     ph = fits.PrimaryHDU()
@@ -312,9 +362,11 @@ def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Pat
                 ph.header[k] = src[k]
             except Exception:
                 pass
-    from astropy.table import Table
-    sci = fits.BinTableHDU(Table({'lambda': lam_um, 'flux': flux, 'dflux': err}),
-                           name='SCIENCE')
+    cols = [fits.Column(name='lambda', format='1D', unit='um', array=lam_um),
+            fits.Column(name='flux', format='1D', array=flux)]
+    if err_usable:
+        cols.append(fits.Column(name='dflux', format='1D', array=err))
+    sci = fits.BinTableHDU.from_columns(cols, name='SCIENCE')
     fits.HDUList([ph, sci]).writeto(work_dir / 'science.fits', overwrite=True)
 
     lo, hi = float(lam_um.min() + 5e-4), float(lam_um.max() - 5e-4)
@@ -330,49 +382,87 @@ def _write_molecfit_inputs(frame: CriresFrame, seg: CriresSegment, work_dir: Pat
         fits.Column(name='REL_COL', format='1D', array=np.ones(len(molecules)))],
     ).writeto(work_dir / 'molecules.fits', overwrite=True)
 
+    sof_lines = ['science.fits SCIENCE', 'wave_include.fits WAVE_INCLUDE',
+                 'molecules.fits MOLECULES']
+    exclude_um = [(a, b) for a, b in exclude_um if b > lo and a < hi]
+    if exclude_um:
+        fits.BinTableHDU.from_columns([
+            fits.Column(name='LOWER_LIMIT', format='1D',
+                        array=np.array([a for a, _ in exclude_um])),
+            fits.Column(name='UPPER_LIMIT', format='1D',
+                        array=np.array([b for _, b in exclude_um]))],
+        ).writeto(work_dir / 'wave_exclude.fits', overwrite=True)
+        sof_lines.insert(2, 'wave_exclude.fits WAVE_EXCLUDE')
+
     sof = work_dir / 'model.sof'
-    sof.write_text(f"{work_dir/'science.fits'} SCIENCE\n"
-                   f"{work_dir/'wave_include.fits'} WAVE_INCLUDE\n"
-                   f"{work_dir/'molecules.fits'} MOLECULES\n")
-    return sof
+    sof.write_text("\n".join(sof_lines) + "\n")
+    return {'sof': sof, 'n_px': int(m.sum()), 'err_usable': err_usable,
+            'pixel_step_A': float(np.median(np.diff(seg.wave_A[m]))),
+            'lam_lo_um': lo, 'lam_hi_um': hi, 'n_exclude': len(exclude_um)}
 
 
 def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
-                      molecules) -> dict:
-    """Run esorex molecfit_model on ONE arbitrary segment (TOPOCENTRIC) and divide by
-    the fitted convolved transmission (BEST_FIT_MODEL.mtrans, saturated cores masked).
-    Returns {lam_A, corr, mtrans, flux_raw, gdas, resid} — does NOT mutate the frame
-    (reused for both the CO order and the bluer RV-anchor order). Real GDAS profile
-    (RYA-380 mechanic). No silent fallback — raises on a molecfit failure."""
+                      molecules, exclude_um=(), stellar_rv_kms: float = 0.0) -> dict:
+    """Run esorex molecfit_model on ONE chip segment (TOPOCENTRIC) and divide by the
+    fitted convolved transmission (BEST_FIT_MODEL.mtrans, saturated cores masked).
+    Returns {lam_A, corr, mtrans, flux_raw, gdas, resid, chi2, ...} — does NOT mutate the
+    frame (reused for the science order, the RV-anchor order, and every α Cen chip).
+    Real GDAS profile (RYA-380 mechanic). No silent fallback — raises on failure."""
     import os
     from astropy.io import fits
-    esorex = _ESOREX if Path(_ESOREX).exists() else shutil.which("esorex")
-    if esorex is None:
-        raise MolecfitNotAvailableError("esorex not found (RYA-375 install expected at "
-                                        f"{_ESOREX}).")
+    esorex = resolve_esorex()
     in_dir = Path(work_dir) / 'in'
     out_dir = Path(work_dir) / 'out'
     out_dir.mkdir(parents=True, exist_ok=True)
-    sof = _write_molecfit_inputs(frame, seg, in_dir, molecules)
+    built = _write_molecfit_inputs(frame, seg, in_dir, molecules, exclude_um)
     gdas = _resolve_gdas(frame, in_dir)        # REAL per-night GDAS or GDASUnavailable
-    env = dict(os.environ, PATH=f"/opt/homebrew/bin:{os.environ.get('PATH', '')}")
-    cmd = [esorex, f"--output-dir={out_dir}", "molecfit_model",
-           "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux", "--COLUMN_DFLUX=dflux",
+    site = observatory_position(frame)
+    band_centre_A = 0.5e4 * (built['lam_lo_um'] + built['lam_hi_um'])
+    gauss_fwhm_px = (band_centre_A / _CRIRES_R) / built['pixel_step_A']
+    cmd = [esorex, f"--output-dir={out_dir}",
+           SUPPRESS_PREFIX,                     # RYA-939: never inherit it from ~/.esorex
+           "molecfit_model",
+           "--COLUMN_LAMBDA=lambda", "--COLUMN_FLUX=flux",
+           f"--COLUMN_DFLUX={'dflux' if built['err_usable'] else 'NULL'}",
+           "--DEFAULT_ERROR=0.01",
            "--WLG_TO_MICRON=1.0", "--WAVELENGTH_FRAME=VAC",
            "--FIT_CONTINUUM=1", f"--CONTINUUM_N={_CONTINUUM_N}",
+           "--FIT_WLC=1", "--WLC_N=1",
+           # The LSF: fit the Gaussian, pin the two components CRIRES+ does not have a
+           # constraint for. Left free they are parameters with nothing to determine
+           # them and they pay for over-smoothing by collapsing a molecular column
+           # (RYA-931 drove the Lorentzian to its 100-px bound and lost 96% of the O2).
+           "--FIT_RES_BOX=FALSE", "--RES_BOX=0.0",
+           "--FIT_RES_LORENTZ=FALSE", "--RES_LORENTZ=0.0",
+           "--FIT_RES_GAUSS=TRUE", f"--RES_GAUSS={gauss_fwhm_px:.4f}",
+           "--MIRROR_TEMPERATURE_KEYWORD=NONE",
+           "--SLIT_WIDTH_KEYWORD=NONE", f"--SLIT_WIDTH_VALUE={_slit_width(frame):.3f}",
+           f"--ELEVATION_VALUE={site['elevation_m']}",
+           f"--LONGITUDE_VALUE={site['lon']}", f"--LATITUDE_VALUE={site['lat']}",
            f"--GDAS_PROFILE={gdas}",              # always a real profile (no silent fallback)
-           str(sof)]
-    proc = subprocess.run(cmd, cwd=str(in_dir), env=env, capture_output=True, text=True)
+           built['sof'].name]                     # relative — esorex splits SOF on whitespace
+    proc = subprocess.run(cmd, cwd=str(in_dir), env=esorex_env(esorex),
+                          capture_output=True, text=True)
+    (Path(work_dir) / 'esorex.stdout.txt').write_text(proc.stdout)
+    (Path(work_dir) / 'esorex.stderr.txt').write_text(proc.stderr)
     bfm = out_dir / 'BEST_FIT_MODEL.fits'
-    if proc.returncode != 0 or not bfm.exists():
+    tag = f"{frame.path.name} ord{seg.order}/det{seg.detector}"
+    if proc.returncode != 0:
         tail = "\n".join(l for l in proc.stdout.splitlines()
                          if 'ERROR' in l and 'gdas' not in l.lower())[-1500:]
-        raise RuntimeError(f"molecfit_model failed (rc={proc.returncode}) on "
-                           f"{frame.path.name} seg ord{seg.order}/det{seg.detector}:\n{tail}")
-    m = fits.open(bfm)[1].data
-    lam_A = m['lambda'] * 1.0e4
-    mtrans = m['mtrans']
-    fl = m['flux']
+        raise RuntimeError(f"molecfit_model FAILED (rc={proc.returncode}) on {tag}:\n{tail}")
+    if not bfm.exists():
+        produced = sorted(f.name for f in out_dir.glob('*.fits'))
+        raise RuntimeError(
+            f"molecfit_model SUCCEEDED (rc=0) on {tag} but BEST_FIT_MODEL.fits is "
+            f"missing from {out_dir}. Produced: {produced or 'nothing'}. Generic "
+            f"out_NNNN.fits names mean --suppress-prefix did not take effect.")
+    with fits.open(bfm) as hb:
+        m = hb[1].data
+        lam_A = np.asarray(m['lambda'], float) * 1.0e4
+        mtrans = np.asarray(m['mtrans'], float)
+        fl = np.asarray(m['flux'], float)
+    chi2 = _best_fit_chi2(out_dir)
     ok = np.isfinite(fl) & np.isfinite(mtrans) & (mtrans > _MTRANS_FLOOR)
     corr = np.full_like(fl, np.nan)
     corr[ok] = fl[ok] / mtrans[ok]
@@ -380,8 +470,78 @@ def _molecfit_segment(frame: CriresFrame, seg: CriresSegment, work_dir: Path,
     modtell = ok & (mtrans < 0.95) & (mtrans > 0.30)
     resid = float(np.nanstd(cont[modtell])) if modtell.any() else np.nan
     return {'lam_A': lam_A, 'corr': corr, 'mtrans': mtrans, 'flux_raw': fl,
-            'gdas': Path(gdas).name,            # always a real per-night profile (RYA-380)
-            'resid': resid}
+            'cont': cont, 'gdas': Path(gdas).name,   # always a real per-night profile
+            'resid': resid, 'chi2': chi2, 'molecules': tuple(molecules),
+            'n_px': built['n_px'], 'err_usable': built['err_usable'],
+            'lsf_gauss_fwhm_px_init': gauss_fwhm_px, 'n_exclude': built['n_exclude'],
+            'order': seg.order, 'detector': seg.detector}
+
+
+def _best_fit_chi2(out_dir: Path):
+    """Reduced chi2 from molecfit's BEST_FIT_PARAMETERS table, or None. Reported, never
+    used as the verdict — `converged is not correct` (the referee is the D1 residual on
+    telluric-dominated, stellar-clean pixels)."""
+    from astropy.io import fits
+    f = Path(out_dir) / 'BEST_FIT_PARAMETERS.fits'
+    if not f.exists():
+        return None
+    try:
+        with fits.open(f) as h:
+            d = h[1].data
+            names = [str(x).strip() for x in d['parameter']]
+            for want in ('reduced chi2', 'chi2 reduced', 'redchi2'):
+                if want in names:
+                    return float(d['value'][names.index(want)])
+    except Exception:
+        return None
+    return None
+
+
+def observatory_position(frame: CriresFrame) -> dict:
+    """The observatory position molecfit needs, from the FRAME's own header where it
+    carries one (`ESO TEL GEOLAT/GEOLON/GEOELEV`), falling back to the SITES registry.
+
+    Both are Paranal, but they are not the same Paranal: the registry rounds to
+    (-24.6, -70.4, 2635 m) while the CRIRES+ header gives the UT the exposure actually
+    used, (-24.6268, -70.4045, 2648 m). The airmass-scaled column densities molecfit
+    fits are a function of this position — take the per-frame measured value over the
+    per-site nominal one wherever the frame states it (`verify per-frame properties`)."""
+    from astropy.io import fits
+    from config.constants import get_site
+    rec = dict(get_site(_GDAS_SITE))
+    rec['source'] = f'config.constants.SITES[{_GDAS_SITE!r}]'
+    try:
+        h = fits.getheader(str(frame.path))
+        got = {}
+        for k in h.keys():
+            ks = str(k)
+            if 'TEL GEOLAT' in ks:
+                got['lat'] = float(h[k])
+            elif 'TEL GEOLON' in ks:
+                got['lon'] = float(h[k])
+            elif 'TEL GEOELEV' in ks:
+                got['elevation_m'] = float(h[k])
+        if len(got) == 3:
+            rec.update(got)
+            rec['source'] = 'header ESO TEL GEOLAT/GEOLON/GEOELEV'
+    except Exception:
+        pass
+    return rec
+
+
+def _slit_width(frame: CriresFrame) -> float:
+    """The slit width actually used, from the header (ESO INS SLIT1 WID). molecfit uses
+    it for the boxcar LSF component; we pin that component off, but the value still
+    documents the setup, so read it rather than assume it."""
+    from astropy.io import fits
+    try:
+        h = fits.getheader(str(frame.path))
+        for k in h.keys():
+            if 'SLIT1 WID' in str(k):
+                return float(h[k])
+    except Exception:
+        pass
+    return 0.2
 
 
 def _molecfit_driver(frame: CriresFrame, work_dir: Path, molecules) -> CriresFrame:
@@ -961,7 +1121,8 @@ def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="RYA-373 Vesta CRIRES+ K-band telluric/RV")
     ap.add_argument('--set', default='vesta_crires_k',
-                    help="dataset (only vesta_crires_k implemented)")
+                    help="dataset: 'vesta_crires_k' (reflected solar, this module) or a "
+                         "direct-stellar set, which routes to crires_stellar_telluric")
     ap.add_argument('--verify', action='store_true', help="run the verification report")
     ap.add_argument('--telluric', action='store_true',
                     help="also run the real molecfit telluric pass (slow; needs esorex)")
@@ -969,8 +1130,21 @@ def main(argv=None):
                     help="run the full #3-5 finish-out: telluric→gate→continuum→RV→coadd"
                          "→conditioned CO output (slow; needs esorex + RYA-372)")
     args = ap.parse_args(argv)
+    # RYA-963: the direct-stellar sets live in pipeline.crires_stellar_telluric (the
+    # velocity frame, the star-ID gate and the derived fit windows are what differ; the
+    # molecfit engine below is shared, not duplicated). Route rather than reimplement, so
+    # the ticket's own smoke command reaches the driver that serves it.
+    from pipeline.crires_stellar_telluric import CRIRES_STELLAR_SETS
+    from pipeline import crires_stellar_telluric as _stellar
+    if args.set in CRIRES_STELLAR_SETS:
+        rest = ['--set', args.set]
+        if not (args.telluric or args.condition):
+            rest.append('--plan-only')     # --verify alone must not start a molecfit run
+        return _stellar.main(rest)
     if args.set != 'vesta_crires_k':
-        raise SystemExit(f"unknown --set {args.set!r} (only 'vesta_crires_k')")
+        raise SystemExit(
+            f"unknown --set {args.set!r}; reflected-solar: 'vesta_crires_k'; "
+            f"direct-stellar: {sorted(CRIRES_STELLAR_SETS)}")
     if args.condition:
         import json
         res = condition_co_arm()
