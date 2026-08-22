@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-22
+
+- **RYA-952** — CRIRES inventory by header truth: 123 files → **64 distinct**, **all CRIRES+, zero classic on drive**. 🔴 **tau Ceti was hiding under `OBJECT='STD'`**; tau Cet co-add SNR 639→1238. 🔴 **The co-add cross-correlation is TELLURIC-LOCKED across a large dBERV**
+
 ## 2026-08-21
 
 - **RYA-944** — Delbouille/Liège Jungfraujoch **disk-center INTENSITY** atlas acquired (BASS2000 visible arm, 3000–10000 Å, 2,380,014 pts), audited and registered as `solar_delbouille_liege`. 🔴 **The ticket's CRITICAL "VACUUM wavelengths, convert vac→air" is REFUTED — it is AIR as delivered**: 9 line centroids sit +3 to +14 mÅ from AIR rest and 1.1–2.4 Å from vacuum, so the prescribed conversion would have shifted the atlas ~−1.8 Å. **The residual is physics, not error** — mean +371 m/s = gravitational redshift minus convective blueshift, and Hα (chromospheric, no blueshift) returns **+626 m/s vs the textbook +633**. ⚠️ **The spec's own smoke test could not have caught it**: `argmin` returns the nearest GRID POINT, within 0.002 Å of any value in any medium — a grid-spacing test wearing a medium test's label. Tellurics MEASURED not assumed, against KP (retains) and IAG-Baker2020 (corrected) with a clean-continuum control: **present and saturated in O2** (A-band 26.3% below 0.5, reaching 0.000) but **H2O 7–8× cleaner than Kitt Peak** — the 3580 m altitude signature, so `line_selection`, NOT `corrected`. 🔴 **Incidental CRITICAL: `iag_fts_solar_atlas` is catalogued `telluric_basis=corrected` but the manifest routes it to the telluric-RETAINING Reiners+2016 file** (46% of the O2 A-band below 0.5) — so `exclusion()` excludes nothing there; `telluric_policy.py`'s own IAG table quotes Baker+2020's numbers. Logged, not fixed — needs its own ticket
