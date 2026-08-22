@@ -543,3 +543,137 @@ def test_sigabrt_and_sigkill_are_reported_as_different_things():
             cst._require_product(P(rc), Path('/nonexistent'), 'X.fits', 'y')
         except RuntimeError as e:
             assert 'FEWER fit windows' in str(e)
+
+
+# ── RYA-993: a well-mixed column is not a free parameter ────────────────────
+def _best(**cols):
+    b = {'initial_chi2': (1e7, -1.0), 'best_chi2': (1e4, -1.0)}
+    for k, v in cols.items():
+        b[f'rel_mol_col_{k}'] = (v, 0.01)
+    return b
+
+
+def test_a_runaway_high_column_is_flagged():
+    """tau Ceti H1559 fitted CH4 = 22.711 where H1582 on the SAME NIGHT got 0.986. CH4 is
+    well mixed; 22.7x atmospheric is not a column, it is a runaway parameter, and it
+    paints a forest of weak lines the spectrum does not have."""
+    out = cst.check_well_mixed_columns(_best(H2O=0.97, CO2=1.10, CH4=22.711),
+                                       ['H2O', 'CO2', 'CH4'],
+                                       {'H2O': True, 'CO2': True, 'CH4': True})
+    assert not out['passed']
+    f = [x for x in out['flagged'] if x['molecule'] == 'CH4'][0]
+    assert f['direction'] == 'runaway-high'
+    assert 'ABOVE continuum' in f['consequence']
+
+
+def test_a_column_pegged_at_zero_is_flagged_AND_is_the_dangerous_one():
+    """🔴 The asymmetry is the point. A HIGH column over-paints and the D1 residual
+    catches it. A column at ZERO makes the model OMIT that molecule, leaving its real
+    absorption uncorrected — and the residual stays small because H2O dominates the
+    scored pixels. Six frames passed the gate in exactly that state."""
+    out = cst.check_well_mixed_columns(_best(H2O=0.90, CO2=1.18, CH4=0.0),
+                                       ['H2O', 'CO2', 'CH4'],
+                                       {'H2O': True, 'CO2': True, 'CH4': True})
+    assert not out['passed']
+    f = [x for x in out['flagged'] if x['molecule'] == 'CH4'][0]
+    assert f['direction'] == 'pegged-at-floor'
+    assert 'UNCORRECTED' in f['consequence']
+
+
+def test_water_is_deliberately_NOT_well_mixed():
+    """Precipitable water genuinely varies by an order of magnitude — tau Ceti saw
+    1.93 mm and 13-23 mm ten days apart — which is exactly why H2O is the column worth
+    fitting freely. Bounding it would reject real weather."""
+    assert 'H2O' not in cst.WELL_MIXED
+    out = cst.check_well_mixed_columns(_best(H2O=5.0), ['H2O'], {'H2O': True})
+    assert out['passed']
+
+
+def test_a_molecule_held_at_its_prior_is_not_judged():
+    """FIT_MOLEC=0 means the column was never fitted; it is the profile value, not a
+    measurement, and has nothing to run away with."""
+    out = cst.check_well_mixed_columns(_best(CH4=1.0), ['CH4'], {'CH4': False})
+    assert out['passed'] and out['checked'] == []
+
+
+def test_plausible_columns_pass():
+    out = cst.check_well_mixed_columns(_best(CO2=1.10, CH4=0.99, CO=1.13),
+                                       ['CO2', 'CH4', 'CO'],
+                                       {'CO2': True, 'CH4': True, 'CO': True})
+    assert out['passed'] and len(out['checked']) == 3
+
+
+def test_the_bound_is_generous_enough_not_to_reject_real_variation():
+    """Seasonal and altitude variation in CO2/CH4/CO is percent-level. The bound is
+    half-to-double so that only a runaway trips it, never real air."""
+    assert cst.WELL_MIXED_LO <= 0.8 and cst.WELL_MIXED_HI >= 1.3
+
+
+# ── RYA-993 part 2: a runaway column is HELD at its physical prior, not re-thresholded ──
+
+def test_o2_is_refereed_as_well_mixed():
+    """O2 is 20.95% and constant; a fitted O2 column of 8x is an optimiser artefact.
+
+    It is the dominant non-water opacity in the CRIRES+ Y setting, so leaving it out of
+    the referee would let exactly the tau Ceti H1559 failure recur one band over.
+    """
+    assert 'O2' in cst.WELL_MIXED
+    out = cst.check_well_mixed_columns(
+        {'rel_mol_col_O2': (8.0, 0.4)}, ['O2'], {'O2': True})
+    assert not out['passed']
+    assert out['flagged'][0]['molecule'] == 'O2'
+    assert out['flagged'][0]['direction'] == 'runaway-high'
+
+
+def test_the_h1559_window_cleared_every_a_priori_threshold():
+    """🔴 The a-priori window fix CANNOT work, and this is the frame that proves it.
+
+    tau Ceti H1559's CH4 window scored an absorbed fraction of 0.175 against a relative
+    floor of 0.4 x 0.412 = 0.165. It cleared the floor. CH4 still ran to 22.7x. The
+    window score is TOTAL absorption -- at 1.5 um that is nearly all H2O -- so it says
+    nothing about how much of the window belongs to CH4. Raising the threshold is not a
+    fix; catching the runaway after the fit is.
+    """
+    windows = [0.334, 0.412, 0.339, 0.246, 0.149, 0.175]
+    relative_floor = 0.4 * max(windows)
+    assert 0.175 >= relative_floor          # the CH4 window PASSED
+    assert 0.149 < relative_floor           # only CO2's came in by the exemption
+    # ...and CO2, the one the exemption admitted, fitted perfectly well:
+    assert cst.check_well_mixed_columns(
+        {'rel_mol_col_CO2': (1.100, 0.02)}, ['CO2'], {'CO2': True})['passed']
+
+
+def test_hold_clears_the_fit_flag_for_the_runaway_molecule_only():
+    """Holding CH4 must not silently stop fitting H2O, which genuinely does vary."""
+    molecules = ['H2O', 'CO2', 'CH4']
+    fit_flags = {m: True for m in molecules}
+    wm = cst.check_well_mixed_columns(
+        {'rel_mol_col_H2O': (1.4, 0.1), 'rel_mol_col_CO2': (1.1, 0.02),
+         'rel_mol_col_CH4': (22.711, 3.0)}, molecules, fit_flags)
+    held = [f['molecule'] for f in wm['flagged']]
+    assert held == ['CH4']
+    refit = {m: (fit_flags[m] and m not in held) for m in molecules}
+    assert refit == {'H2O': True, 'CO2': True, 'CH4': False}
+
+
+def test_a_held_column_is_declared_modelled_not_measured():
+    """WMHELD exists so nobody reports a prior as a measurement of the night's air."""
+    src = Path(cst.__file__).read_text()
+    assert "h['WMHELD']" in src
+    assert 'MODELLED, not measured' in src
+
+
+def test_only_filter_is_wired_and_a_typo_is_loud():
+    """A --only pattern that matches nothing must ERROR, not run zero frames.
+
+    A silent empty run is the worst outcome: it exits 0 and reads as 'that frame is
+    fine now', which is exactly the false all-clear this ticket exists to prevent.
+    """
+    import inspect
+    assert 'only' in inspect.signature(cst.run_set).parameters
+    src = inspect.getsource(cst.run_set)
+    assert '--only matched nothing' in src
+    # the CLI must actually pass it through -- a flag parsed and dropped is worse
+    # than no flag, because the run looks targeted and is not.
+    cli = Path(cst.__file__).read_text()
+    assert 'only=a.only' in cli
