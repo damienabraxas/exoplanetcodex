@@ -20,6 +20,9 @@ code{color:var(--link);font-size:.85em}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .val{font-variant-numeric:tabular-nums;white-space:nowrap}
 .tell{display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
+.tell5{display:grid;grid-template-columns:150px 210px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
+h3{font-size:1em;margin:18px 0 4px;font-weight:600}
+h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
 .forest{display:grid;grid-template-columns:250px 1fr 150px;gap:8px;align-items:center;padding:3px 0}
 .axis{display:grid;grid-template-columns:250px 1fr 150px;gap:8px;align-items:start}
 .ticks{position:relative;height:26px;border-top:1px solid var(--rule)}
@@ -68,7 +71,12 @@ absences are the content &mdash; showing only finished work would hide what rema
 <section><h2>Error-bar forest</h2><div id="forest"></div></section>
 <section><h2>Product matrix</h2><div class="grid"><table id="matrix"></table></div>
 <p class="muted note" id="unattributed"></p></section>
-<section><h2>Telluric correction, before &rarr; after</h2><div id="tell"></div></section>
+<section><h2>Telluric correction</h2>
+<p class="muted note">Three different measurements live here and they are <b>not comparable as numbers</b>, so they are not stacked in one column. The solar legs score the fraction of a registered telluric band driven below half continuum; the stellar legs score the D1 residual at pixels molecfit calls telluric-dominated and the star's own line list calls clean; a STATE row is a determination, not a correction, and carries no before/after because nothing was corrected.</p>
+<h3>Solar bands <span class="m">&mdash; % of band pixels below 0.5 continuum, before &rarr; after</span></h3><div id="tell"></div>
+<h3>Stellar frames <span class="m">&mdash; D1 residual at telluric-dominated, stellar-clean pixels</span></h3><div id="tellstar"></div>
+<h3>State determinations <span class="m">&mdash; measured, NOT corrected</span></h3><div id="tellstate"></div>
+</section>
 <p class="bad" id="err"></p></main>
 <script>
 let FILTER=null;   // null = every species
@@ -253,11 +261,41 @@ async function draw(){
  document.querySelector('#unattributed').innerHTML=d.unattributed_products
   ?'<span class="warn">'+d.unattributed_products+'</span> product rows predate RYA-933/934 and carry no holding in their filename. '
    +'They are attributable to an instrument only — an instrument can serve a corrected and an uncorrected holding, and guessing which would be the collapse that change prevents.':'';
- document.querySelector('#tell').innerHTML='<div class="tell"><b>Window</b><b>Product</b><b>% below 0.5 before &rarr; after</b><b>External referee</b></div>'
-  +d.telluric.map(t=>'<div class="tell"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
-   +'<span>'+(t['after_pct_below_0.5']==null?'<span class="warn">NOT corrected</span>'
-     :'<span class="bad">'+fx(t['before_pct_below_0.5'],2)+'%</span> &rarr; <span class="good">'+fx(t['after_pct_below_0.5'],2)+'%</span>')+'</span>'
-   +'<span class="'+(t.externally_validated?'good':'warn')+'">'+(t.externally_validated?'yes':'NONE — unvalidated')+'</span></div>').join('');
+ // Each group reads ONLY its own metric. Sharing one renderer is how the stellar rows
+ // came to display "not corrected": the solar template keys on before_pct_below_0.5,
+ // which a D1 row does not carry, so frames that ARE corrected — with their gates
+ // passing — rendered as the exact opposite of the truth.
+ const tel=d.telluric||[], metric=t=>t.metric||'pct_below_0.5';
+ const none='<div class="muted note">none recorded</div>';
+
+ const solar=tel.filter(t=>metric(t)==='pct_below_0.5');
+ document.querySelector('#tell').innerHTML = solar.length ? ('<div class="tell"><b>Window</b><b>Product</b><b>% below 0.5 before &rarr; after</b><b>External referee</b></div>'
+  +solar.map(t=>'<div class="tell"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+    +'<span>'+(t['before_pct_below_0.5']==null?'<span class="warn">no admissible fit &mdash; band NOT corrected</span>':'<span class="bad">'+fx(t['before_pct_below_0.5'],2)+'%</span> &rarr; <span class="good">'+fx(t['after_pct_below_0.5'],2)+'%</span>')+'</span>'
+    +'<span class="'+(t.externally_validated?'good':'warn')+'">'+(t.externally_validated?'yes':'NONE \u2014 unvalidated')+'</span></div>').join('')) : none;
+
+ const star=tel.filter(t=>metric(t)==='d1_residual');
+ document.querySelector('#tellstar').innerHTML = star.length ? ('<div class="tell5"><b>Setting</b><b>Holding</b><b>D1 residual before &rarr; after</b><b>Gate</b><b>Star id</b></div>'
+  +star.map(t=>{
+      const imp=(t.before_d1_residual&&t.after_d1_residual!=null)?(100*(t.before_d1_residual-t.after_d1_residual)/t.before_d1_residual):null;
+      // A contested star id must never render as a settled one. `unrecorded` is its own
+      // state: the manifest predates the column and says nothing either way.
+      const c=t.star_id_contested;
+      const idtxt=c===true?'<span class="warn">'+esc(t.star_id)+' \u2014 CONTESTED</span>'
+                 :c==='unrecorded'?'<span class="muted">'+esc(t.star_id)+' (contested-ness unrecorded)</span>'
+                 :'<span>'+esc(t.star_id)+'</span>';
+      return '<div class="tell5"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+        +'<span class="val"><span class="bad">'+fx(t.before_d1_residual,4)+'</span> &rarr; <span class="good">'+fx(t.after_d1_residual,4)+'</span>'
+        +(imp==null?'':' <span class="muted">('+fx(imp,0)+'%)</span>')+'</span>'
+        +'<span class="'+(t.gate_passed?'good':'bad')+'">'+(t.gate_passed?'PASS':'FAIL')+'</span>'
+        +idtxt+'</div>';}).join('')) : none;
+
+ const st=tel.filter(t=>metric(t).indexOf('state_only')===0);
+ document.querySelector('#tellstate').innerHTML = st.length ? ('<div class="tell5"><b>Window</b><b>Holding</b><b>Header</b><b>Flux</b><b>Excess vs control</b></div>'
+  +st.map(t=>'<div class="tell5"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+    +'<span class="'+(t.header_state==='unknown'?'warn':'')+'">'+esc(t.header_state)+'</span>'
+    +'<span class="'+(t.flux_state==='not-applied'?'bad':t.flux_state==='applied'?'good':'warn')+'">'+esc(t.flux_state)+'</span>'
+    +'<span class="val">&times;'+fx(t.excess_ratio,0)+' <span class="muted">('+fx(100*t.o2b_median_frac_below,2)+'% vs '+fx(100*t.control_median_frac_below,2)+'%)</span></span></div>').join('')) : none;
  document.querySelector('#err').textContent='';
 }
 draw().catch(e=>document.querySelector('#err').textContent='Serve this directory over HTTP: '+e);
