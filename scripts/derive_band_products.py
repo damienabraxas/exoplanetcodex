@@ -206,6 +206,105 @@ NEARUV_N_LINES = _NEARUV.n_lines
 #: band's anchor wavelength, held to +/-0.30 across a 3.5x wavelength lever.
 
 
+#: Wavelength key for matching an EW artifact's lines into the synthesis list. RYA-945
+#: MEASURED the safe window at 5 mA by binning graded NIST matches by residual and asking
+#: how often the sources then disagree; below that the pairing is real, above it chance
+#: pairings pile up. Both files describe the SAME transitions here, so the match should be
+#: exact — the tolerance exists to absorb rounding between two writers, not to search.
+_EW_MATCH_TOL_A = 0.005
+
+
+def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
+                           species: str, tier: str) -> pd.DataFrame:
+    """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
+
+    🔴 WHY THIS EXISTS. `select_lines` returns the strongest N lines the synthesis list
+    holds. Running that against RYA-959's EW pool would compare two different LINE SETS as
+    well as two methods, and RYA-842 measured that line selection dominates gf — so the
+    comparison would answer the wrong question. The controlled experiment needs the same
+    lines, and only the method varying.
+
+    Every row the EW file attempted is a candidate, INCLUDING the ones it quarantined:
+    those are the whole point. "Did synthesis recover the lines EW dropped, and which gate
+    had killed them?" cannot be answered from the survivors.
+    """
+    if not ew_csv.exists():
+        raise SystemExit(f"--lines-from-ew: no EW artifact at {ew_csv}")
+    ew = pd.read_csv(ew_csv)
+    want = ew.wavelength_air_A.astype(float)
+    want = want[(want >= lo_A) & (want <= hi_A)]
+    if want.empty:
+        raise SystemExit(
+            f"--lines-from-ew: {ew_csv.name} has no line in {lo_A}-{hi_A} A. Refusing to "
+            f"synthesise a set selected from somewhere else.")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    m = (el == species)
+    if not m.any():
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    idx_all = np.flatnonzero(m)
+    order = np.argsort(w_A[idx_all])
+    idx_sorted = idx_all[order]
+    w_sorted = w_A[idx_sorted]
+
+    keep, missing = [], []
+    for w in want.values:
+        j = int(np.searchsorted(w_sorted, w))
+        best, bi = np.inf, -1
+        for k in (j - 1, j, j + 1):
+            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
+                best, bi = abs(w_sorted[k] - w), k
+        if bi >= 0 and best <= _EW_MATCH_TOL_A:
+            keep.append(idx_sorted[bi])
+        else:
+            missing.append((float(w), float(best)))
+    # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
+    # does not contain cannot be compared, and the count is itself a result: it is the
+    # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
+    if missing:
+        print(f"  [lines-from-ew] {len(missing)} of {len(want)} EW lines are NOT in the "
+              f"synthesis list (>{_EW_MATCH_TOL_A} A from any row) — they cannot be "
+              f"compared and are reported, not dropped quietly. First few: "
+              f"{[f'{w:.3f}(+{d:.3f})' for w, d in missing[:4]]}")
+    if not keep:
+        raise SystemExit("--lines-from-ew: no EW line matched the synthesis list")
+
+    keep = np.array(sorted(set(keep)))
+    df = pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+    if tier != "all":
+        graded = _graded_mask(df.wave_A.values)
+        df = df[graded if tier == "graded" else ~graded].reset_index(drop=True)
+        print(f"  [tier] {tier}: {len(df)} lines (RYA-946 — graded and ungraded are "
+              f"SEPARATE products, never merged)")
+    return df
+
+
+def _graded_mask(waves: np.ndarray) -> np.ndarray:
+    """True where the line carries a PRIMARY LABORATORY gf in `canonical_gf`.
+
+    Keyed on `gf_tier == LAB`, the column RYA-945 wrote, so "graded" means the same thing
+    here as everywhere else rather than being re-derived from `loggf_reference` prose.
+    """
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[cg.gf_tier.astype(str).str.contains("LAB", na=False)]
+    lw = np.sort(lab.wavelength_air_A.astype(float).values)
+    i = np.searchsorted(lw, waves)
+    best = np.full(waves.shape, np.inf)
+    for off in (-1, 0, 1):
+        j = np.clip(i + off, 0, len(lw) - 1)
+        best = np.minimum(best, np.abs(lw[j] - waves))
+    return best <= _EW_MATCH_TOL_A
+
+
 def synthesis_route(a, pol) -> None:
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
@@ -368,9 +467,15 @@ def synthesis_route(a, pol) -> None:
     # every one was labelled Fe II. `species_token` spells the ion the way the linelist
     # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
     # none of that species — which is the honest answer where it holds none.
-    cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
-                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
-                        species=species_token(a.element, a.ion))
+    if getattr(a, "lines_from_ew", None):
+        cand = _cand_from_ew_artifact(ctx["linelist"], Path(a.lines_from_ew),
+                                      lo_A=a.lo, hi_A=a.hi,
+                                      species=species_token(a.element, a.ion),
+                                      tier=a.lines_tier)
+    else:
+        cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
+                            teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
+                            species=species_token(a.element, a.ion))
     # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
     # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
     # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
@@ -839,6 +944,17 @@ def main() -> None:
                          "whichever is listed first -- which is how two telluric-corrected "
                          "Kitt Peak holdings sat unmeasurable while `--instrument "
                          "kpno_solar_atlas` looked like it covered them.")
+    ap.add_argument("--lines-from-ew", default=None, metavar="EW_CSV",
+                    help="RYA-967: drive the SYNTHESIS route over the lines a named EW "
+                         "artifact attempted, instead of `select_lines`' strongest-N. "
+                         "This is what makes an EW-vs-synth comparison CONTROLLED: the "
+                         "two legs then differ by method and by nothing else. Without it "
+                         "the synth leg picks its own (stronger) lines and any difference "
+                         "in A(X) conflates method with selection — RYA-842, line "
+                         "selection dominates.")
+    ap.add_argument("--lines-tier", choices=["all", "graded", "ungraded"], default="all",
+                    help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
+                         "as their own product, never merged with the ungraded ones.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
