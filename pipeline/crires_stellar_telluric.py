@@ -974,8 +974,16 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
         fits.Column(name='MTRANS', format='1D', array=fc.mtrans),
         fits.Column(name='ORDER', format='1J', array=order),
         fits.Column(name='DETEC', format='1J', array=detec)], name='SPECTRUM')
+    # A separate MTRANS extension, not only the column. pipeline.telluric_intake derives
+    # `telluric_applied` from the product itself rather than taking our word for it, and
+    # its rule 2 checks that a transmission extension is NOT all-unity. That gives the
+    # frozen-fit failure a SECOND, independent detector: a run whose columns never moved
+    # produces transmission 1.0 everywhere, and intake would then refuse to call this
+    # holding corrected no matter what the header claims.
+    mt = fits.ImageHDU(data=fc.mtrans.astype(np.float64), name='MTRANS')
+    mt.header['COMMENT'] = 'molecfit model transmission, aligned row-for-row with SPECTRUM'
     out = out_dir / f"alpha_cen_a_crires_{f.wlen_id}_{f.date_obs[:10]}_telluric.fits"
-    fits.HDUList([ph, tab]).writeto(out, overwrite=True)
+    fits.HDUList([ph, tab, mt]).writeto(out, overwrite=True)
     return out
 
 
