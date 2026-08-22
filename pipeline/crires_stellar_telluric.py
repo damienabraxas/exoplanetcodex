@@ -1291,7 +1291,13 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
         from pipeline.acen_orbit import predicted_rv
         berv = barycentric_correction_kms(fr)
         rv_expected_topo = predicted_rv(fr.mjd)['rv_A'] - berv
-        fc = correct_frame(fr, work_root / fr.wlen_id, rv_kms=rv_expected_topo,
+        # Keyed by SET as well as setting: alpha Cen A and B were both observed in
+        # K2192 on this night, so a work dir named for the setting alone puts the two
+        # stars' molecfit runs in the same directory. The products are unaffected (they
+        # carry their own provenance) but the diagnostics of whichever ran first are
+        # silently replaced — and the star-ID control is exactly the case where those
+        # diagnostics are the evidence.
+        fc = correct_frame(fr, work_root / name / fr.wlen_id, rv_kms=rv_expected_topo,
                            n_windows=n_windows,
                            gdas_path=gate0['profiles'][gate0['slots'][fr.mjd]])
         zp = telluric_zero_point(fc)
@@ -1328,6 +1334,8 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'rv_railed': bool(rv.get('railed')),
                'rv_reason': rv.get('reason'),
                'ccf_contrast_sigma': rv.get('ccf_contrast_sigma'),
+               'n_clean_px': rv.get('n_clean_px'),
+               'n_telluric_lines': zp.get('n_lines'),
                'rv_topo_kms': rv.get('rv_topo_kms'), 'rv_bary_kms': rv.get('rv_bary_kms'),
                'rv_expected_topo_kms': rv_expected_topo,
                'star_id': ident['verdict'], 'star_id_evidence': ident['evidence'],
