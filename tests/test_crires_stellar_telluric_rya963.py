@@ -361,12 +361,21 @@ def test_a_large_zero_point_is_a_failed_anchor_not_a_zero_point():
 
 
 # ── RYA-973: multi-night sets, and collisions the alpha Cen shape could not expose ──
-def test_tau_ceti_set_is_declared_as_a_multi_night_singleton():
+def test_tau_ceti_set_is_a_multi_directory_singleton_with_no_date_filter():
+    """tau Ceti's CRIRES+ frames are split across CRIRES/ and CRIRESPlus/ by how they
+    ARRIVED, not by what they are — 25 in the first (all cr2res_obs_nodding, including
+    the only Y1029/J1232/H1582/H1559/K2192 frames) and 4 in the second. A set keyed to
+    one directory sees a third of the star.
+
+    And no `epochs` filter: identity is verified PER FRAME by the intake gate, which is
+    what actually protects us. A date filter never did — it was only ever a proxy for
+    "is this the right target", and the gate answers that directly."""
     rec = cst.resolve_set('tau_ceti_crires')
     assert rec['claimed_star'] == 'tau_ceti'
     assert rec['id_gate'] == 'singleton_astrometry', (
         "a singleton has no close pair to split; the alpha Cen orbit rule must not apply")
-    assert len(rec['epochs']) == 2, "tau Ceti's four K2148 frames span two nights"
+    assert len(rec['dirs']) == 2
+    assert 'epochs' not in rec, "identity is per-frame, not per-date"
 
 
 def test_the_astrometry_and_catalogue_ids_disagree_as_raw_strings():

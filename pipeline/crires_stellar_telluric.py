@@ -100,13 +100,33 @@ CRIRES_STELLAR_SETS = {
     # RYA-963 — RYA-965 is explicit that a star which fails is a finding, not a knob.
     'tau_ceti_crires': {
         'holding_id': 'tau_cet_crires_plus',
-        'dir': _SPECTRA / 'tau_cet' / 'CRIRESPlus',
+        # BOTH directories. `CRIRES/` holds 25 further CRIRES+ frames (all
+        # PRO REC1 ID=cr2res_obs_nodding, so CRIRES+ despite the directory name) that
+        # RYA-952's inventory did not walk — including ONE FRAME EACH of Y1029, J1232,
+        # H1582, H1559 and K2192 from 2021-10-06. That is the full Y/J/H/K sweep on a
+        # metal-poor star, which is what makes the per-band telluric test possible on
+        # tau Ceti itself rather than needing a substitute target.
+        'dirs': [_SPECTRA / 'tau_cet' / 'CRIRES',
+                 _SPECTRA / 'tau_cet' / 'CRIRESPlus'],
         'claimed_star': 'tau_ceti',
         'id_gate': 'singleton_astrometry',
-        'epochs': ['2022-01-06', '2022-01-16'],
+        # No `epochs` filter: every frame in these directories is this target (identity
+        # is still verified per frame by the intake gate, which is what actually
+        # protects us — a date filter never did).
         'product_dir': _SPECTRA / 'tau_cet' / 'CRIRESPlus_molecfit',
     },
 }
+
+
+def _set_files(rec: dict) -> list:
+    """Every FITS under the set's directory or directories. A set may span more than one
+    directory: tau Ceti's CRIRES+ frames are split across `CRIRES/` and `CRIRESPlus/`,
+    and the split is by how they arrived, not by what they are."""
+    dirs = rec.get('dirs') or [rec['dir']]
+    out = []
+    for d in dirs:
+        out += glob.glob(str(Path(d) / '*.fits'))
+    return sorted(out)
 
 
 def resolve_set(name: str) -> dict:
@@ -1318,13 +1338,13 @@ def gdas_gate(night=None, site: str = 'paranal', mjds=()) -> dict:
 
 
 def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
-            n_windows: int = 4, limit=None) -> dict:
+            n_windows: int = 4, limit=None, one_per_setting: bool = False) -> dict:
     """The whole ticket for one declared set: GDAS gate → per-frame telluric correction
     → RV → star ID → residual gate → product. Frames the star-ID gate does not confirm
     are QUARANTINED: their correction is kept (it is real work and star-agnostic) but
     they are not registered under the star's holding."""
     rec = resolve_set(name)
-    files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))
+    files = sorted(set(_set_files(rec)))
     if not files:
         raise FileNotFoundError(f"no CRIRES+ IDP under {rec['dir']}")
     all_frames = [load_crires_idp(f) for f in files]
@@ -1346,6 +1366,16 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
             f"{name}: none of {len(all_frames)} frames under {rec['dir']} is from the "
             f"declared epochs {epochs} "
             f"(found {sorted({str(f.date_obs)[:10] for f in all_frames})}).")
+    if one_per_setting:
+        # BAND-COVERAGE mode: the best frame of each WLEN setting. The question "does the
+        # correction work in this band" is answered once per band; running twenty K2148
+        # frames to answer it about K is compute spent on an answer already in hand.
+        best = {}
+        for fr in frames:
+            cur = best.get(fr.wlen_id)
+            if cur is None or (fr.snr or 0) > (cur.snr or 0):
+                best[fr.wlen_id] = fr
+        frames = [best[k] for k in sorted(best)]
     frames = frames[:limit]
     gate0 = gdas_gate(mjds=[f.mjd for f in frames])
 
@@ -1454,6 +1484,8 @@ def main(argv=None):
     ap.add_argument('--plan-only', action='store_true',
                     help='report the derived fit windows + molecule table, no molecfit.')
     ap.add_argument('--limit', type=int, default=None)
+    ap.add_argument('--one-per-setting', action='store_true',
+                    help='band-coverage mode: the highest-SNR frame of each WLEN setting')
     ap.add_argument('--n-windows', type=int, default=4)
     ap.add_argument('--work-root', default=None)
     ap.add_argument('--out-dir', default=None)
@@ -1461,13 +1493,13 @@ def main(argv=None):
     a = ap.parse_args(argv)
 
     rec = resolve_set(a.set_name)
-    files = sorted(glob.glob(str(Path(rec['dir']) / '*.fits')))[:a.limit]
+    files = _set_files(rec)[:a.limit]
     if not files:
         # A set whose frames are not reachable must SAY so. Returning quietly here would
         # report "nothing wrong" on a machine that simply cannot see the spectra — and
         # the CRIRES+ holdings live on Sirius, so that is the normal case on the Mac.
         raise SystemExit(
-            f"no CRIRES+ IDP FITS under {rec['dir']} — this set's frames are not "
+            f"no CRIRES+ IDP FITS under {rec.get('dirs') or rec['dir']} — not "
             f"reachable from here. The spectra root resolves to "
             f"{codex_path('data.spectra_local')}; on the Mac that is a Sirius path "
             f"(the holdings migrated 2026-08-16), so run this on Sirius or point "
@@ -1495,7 +1527,8 @@ def main(argv=None):
         return 0
 
     out = run_set(a.set_name, work_root=a.work_root, out_dir=a.out_dir,
-                  n_windows=a.n_windows, limit=a.limit)
+                  n_windows=a.n_windows, limit=a.limit,
+                  one_per_setting=a.one_per_setting)
     for r in out['frames']:
         print(f"{r['wlen_id']:6s} chi2 {r['initial_chi2']:.4g} -> {r['best_chi2']:.4g}  "
               f"PWV {r['h2o_col_mm']:.3f} mm  gate {r['gate_before']:.4f} -> "
