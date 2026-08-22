@@ -48,8 +48,56 @@ _sini = np.sin(np.radians(INC_DEG))
 K_A = (2 * np.pi / P_YR) * (_aA_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 K_B = (2 * np.pi / P_YR) * (_aB_AU * _sini) / np.sqrt(1 - ECC ** 2) * _AUYR_KMS
 
-# A occupies the omega=231.81 branch (pinned by the independent spectral-type-confirmed-A
-# NIRPS frames landing at the more-negative predicted RV ~-26.7); B is the opposite branch.
+# 🔴 RYA-971 — CONTESTED. TWO ANCHORS DEMAND OPPOSITE CONVENTIONS. NOT RESOLVED.
+#
+# `OMEGA_DEG` is documented above as "component B relative to A" — the VISUAL-ORBIT
+# convention, i.e. omega of the RELATIVE orbit. A secondary's barycentric orbit is
+# PARALLEL to the relative orbit, so omega_B = omega_rel; the primary's is ANTI-PARALLEL,
+# so omega_A = omega_rel + 180. The assignment below had it the other way round.
+#
+# It used to read: "A occupies the omega=231.81 branch (pinned by the independent
+# spectral-type-confirmed-A NIRPS frames landing at the more-negative predicted RV
+# ~-26.7)". That pin is model-dependent in exactly the place it mattered — this module
+# already records that the NIRPS absolute RV carries a MASK-DEPENDENT ZERO POINT which
+# cleanly confirms the G-type (A) branch but is OFFSET for the K-type (B). B was inferred,
+# never measured.
+#
+# TWO INDEPENDENT TESTS SETTLED IT (scripts/rya963_acen_branch_check.py, RYA-963/971):
+#
+#   1. PHOTOMETRY, MODEL-FREE. Matched K2192 pair, same night, 16 min apart, same
+#      reduction: count-rate ratio A/B = 2.293 against 2.270 expected if the HOLDINGS are
+#      correctly labelled and 0.441 if swapped. The A directory holds the brighter star.
+#      Conservative, too — the A frame has the most saturated pixels, and saturation
+#      SUPPRESSES its counts, so the true ratio is if anything larger.
+#   2. THE CONVENTION. With the labels thus confirmed, the measured RV of the CRIRES A
+#      frames (-19.17 km/s) matches A only under the visual convention: residual 0.13 km/s
+#      against 6.32 as written.
+#
+# 🔴 AND THE COUNTER-ANCHOR, WHICH STILL STANDS (RYA-384, pinned by
+# `tests/test_acen_orbit_rya423.py::test_A_branch_matches_confirmed_nirps`):
+# the NIRPS frames at -26.7 carry J-depth 0.131, and `ir_star_id_rya423.verdict` reads
+# jd < 0.45 as SPECTRAL TYPE A. So a spectral-type measurement puts A on the -26.7 branch,
+# which is what this module says AS WRITTEN and the opposite of what the CRIRES pair says.
+#
+# ⚠️ DO NOT resolve this with the header labels. They are wrong in BOTH directions in that
+# set: the frames labelled `AlphaCenB` measure as spectral-type A (jd 0.131), and those
+# labelled `alf Cen A` measure as B (jd 0.822) AND sit off-orbit at -34.6 (RYA-431's
+# NOT-ALPHA-CEN). An argument that the new convention "agrees with the headers" is an
+# argument from the least reliable evidence in the problem — I made it, and it is withdrawn.
+#
+# WHAT WOULD SETTLE IT: a spectral-type measurement on the CRIRES frames themselves. They
+# carry NO J-depth (all 16 rows NaN — the reduced spectra are telluric-dominated), so the
+# one arm with model-free photometry has no spectral type, and the one arm with a spectral
+# type has no photometry. That gap IS the open question, not a shortage of argument.
+#
+# ⚠️ SO THE HOLDINGS ARE CORRECT AND THE MODULE WAS WRONG — those are different faults,
+# and RYA-971's action list proposed relabelling the holdings A<->B, which the photometry
+# refutes. Only this assignment changes; no holding is renamed.
+#
+# ⚠️ WHAT THIS INVERTS: every A-vs-B call `scripts/ir_star_id_rya423.py` has made.
+# `rv_bounds()` / `consistent_with_orbit()` are SYMMETRIC about gamma and are UNAFFECTED,
+# so RYA-431's off-orbit NOT-ALPHA-CEN finding stands.
+# NOT CHANGED — see the CONFLICT above. Left as RYA-384 pinned it.
 _OMEGA_A = np.radians(OMEGA_DEG)
 _OMEGA_B = np.radians(OMEGA_DEG) + np.pi
 
