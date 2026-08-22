@@ -25,13 +25,55 @@ def test_systemic_and_bounds():
         assert abs(p['rv_B'] - O.GAMMA) <= O.K_B + 1e-6
 
 
-def test_A_branch_matches_confirmed_nirps():
-    # the omega assignment is pinned so alpha Cen A is the more-negative branch (~-26 in 2024-25),
-    # matching the J-depth+flux-confirmed-A NIRPS frames (obs ~-26.7). This is the data anchor.
+def test_A_branch_matches_the_photometric_A_holding():
+    """🔴 THIS TEST REPLACES `test_A_branch_matches_confirmed_nirps`, WHICH IS RETIRED.
+
+    THE RETIRED ANCHOR, and why it went. That test pinned alpha Cen A to the more-negative
+    branch (~-26.7 in 2024-25) on RYA-384's "J-depth+flux-confirmed-A" NIRPS frames. It was
+    not a stale pin — it correctly FAILED when the omega convention was first flipped, and
+    that failure was the reason the flip was reverted for a day. It went because the
+    DISCRIMINATOR under it was measured and found to have no power:
+
+        NIRPS jdepth, n=57.  Rule: jd < 0.45 => A, jd > 0.55 => B.
+          AlphaCenB  n=28  jd 0.131  rv -26.67   reads A
+          Star S5    n= 9  jd 0.256  rv -20.81   reads A
+          alf Cen A  n=20  jd 0.822  rv -34.55   reads B  <- and OFF-ORBIT (RYA-431)
+
+    37 read A, 20 read B, and every one of the 20 is the off-orbit contaminant. EVERY
+    genuine alpha Cen frame lands 0.125-0.333, nowhere near the 0.45/0.55 boundary. The
+    statistic separates "alpha Cen-like" from "hot standard"; it does not resolve a
+    G2V/K1V split of 560 K. Confirming "A" against a population that contains no B is not
+    a confirmation of branch identity, so the anchor had no discriminating power and is
+    retired rather than contradicted.
+
+    WHAT REPLACES IT — a discriminator that IS measured to work. alpha Cen A is 1.3 mag
+    brighter than B, and the matched CRIRES K2192 pair (same night, 16 min apart, same
+    reduction) gives a count-rate ratio of 2.293 against 2.270 expected for correct labels
+    and 0.441 for swapped. Photometry separates the components; J-depth does not. So the
+    anchor is now: the holding that is PHOTOMETRICALLY A must sit on the orbit's A branch.
+
+    Ruled by Ryan 2026-08-22 (RYA-971). RYA-431's off-orbit NOT-ALPHA-CEN finding is
+    unaffected — `rv_bounds`/`consistent_with_orbit` are symmetric about gamma.
+    """
+    # The CRIRES A-directory frames: 2022-04-15, measured -19.17 km/s (RYA-963), and the
+    # photometrically brighter component. This is the acceptance gate of the RYA-971
+    # ruling, kept executable so the convention cannot drift back silently.
+    p = O.predicted_rv(Time('2022-04-15T04:00:00', format='isot').mjd)
+    measured = -19.17
+    assert abs(p['rv_A'] - measured) < abs(p['rv_B'] - measured), (
+        "the photometrically-brighter alpha Cen A holding must land on the orbit's A "
+        "branch; if it lands on B the omega convention is inverted again")
+    assert abs(p['rv_A'] - measured) < 1.0     # resid 0.13 at the ruling
+    assert p['rv_A'] > p['rv_B']               # under the visual convention A is the LESS negative branch here
+
+
+def test_the_retired_nirps_anchor_is_not_silently_reinstated():
+    """The retired anchor asserted A near -26.7 in 2024.7. Under the ruled convention that
+    is the B branch. Asserting the OPPOSITE keeps the retirement visible: if someone flips
+    omega back, this fails and points at the ruling rather than at a mystery."""
     p = O.predicted_rv(Time(2024.7, format='byear').mjd)
-    assert -27.5 < p['rv_A'] < -25.0          # alpha Cen A near -26.7
-    assert p['rv_A'] < p['rv_B']              # A more negative than B now
-    assert 7.0 < p['sep_kms'] < 9.5           # ~8 km/s split, matching the observed NIRPS groups
+    assert -27.5 < p['rv_B'] < -25.0, "B, not A, occupies the -26.7 branch after RYA-971"
+    assert p['rv_A'] > p['rv_B']
 
 
 def test_separation_grows_2022_to_2025():
