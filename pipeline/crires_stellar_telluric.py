@@ -1064,7 +1064,31 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
     # number that would silently trip the low-contrast INDETERMINATE branch.
     verdict, evidence = mod.verdict(rv_bary, p['rv_A'], p['rv_B'], None, None)
     lo, hi = rv_bounds()
+
+    # 🔴 RYA-963: acen_orbit's A/B branch assignment is CONTESTED, so this verdict is
+    # not reported bare. All five corrected alpha Cen settings measure -19.17 +/- 0.50
+    # km/s, which the module calls B; but the matched-pair photometry says the frames are
+    # the BRIGHTER component (count-rate ratio 2.293 against the catalogue A/B 2.27,
+    # swapped labels predicting 0.441), i.e. alpha Cen A. Under the visual-orbit
+    # convention -- omega_B = omega_rel, omega_A = omega_rel + 180, which is what
+    # acen_orbit's own docstring's "component B relative to A" implies -- rv_A is -19.300
+    # at this epoch, a 0.13 km/s residual against 6.32 as written.
+    #
+    # The fix is one line and is NOT applied here: it inverts the A-vs-B call of every
+    # frame RYA-423 has judged, and the module records the present assignment as pinned
+    # by RYA-384's spectral-type work. Reproduce with
+    # scripts/rya963_acen_branch_check.py. What this driver must not do is quietly emit
+    # 'B' for a frame two independent lines of evidence say is A.
+    contested = None
+    if verdict in ('A', 'B'):
+        flipped = 'B' if verdict == 'A' else 'A'
+        contested = (f"acen_orbit says {verdict}; RYA-963 photometry + the visual-orbit "
+                     f"omega convention say {flipped}. See "
+                     f"scripts/rya963_acen_branch_check.py — NOT adjudicated here.")
     return {'verdict': verdict, 'evidence': evidence, 'rv_bary_kms': rv_bary,
+            'branch_contested': contested,
+            'verdict_under_visual_convention': (None if contested is None else
+                                                ('B' if verdict == 'A' else 'A')),
             'pred_A_kms': p['rv_A'], 'pred_B_kms': p['rv_B'],
             'delta_AB_kms': p['delta_AB'], 'orbit_bounds_kms': (lo, hi),
             'rv_tol_kms': mod.RV_TOL, 'orbit_source': SOURCE,
@@ -1159,7 +1183,11 @@ def write_corrected(fc: FrameCorrection, out_dir, gate: dict, rv: dict, ident: d
     if rv.get('reason'):
         h['RVWHY'] = (str(rv['reason'])[:68].encode('ascii', 'replace').decode(),
                       'why the RV is not a measurement')
-    h['STARID'] = (ident['verdict'], 'RYA-423 rule on the measured RV')
+    h['STARID'] = (ident['verdict'], 'RYA-423 orbit rule on the measured RV')
+    if ident.get('branch_contested'):
+        h['STARIDW'] = (ident['verdict_under_visual_convention'],
+                        'same RV under the visual-orbit omega convention')
+        h['STARIDQ'] = (True, 'acen_orbit A/B branch CONTESTED - see RYA-963')
     _num(h, 'IDPRED_A', ident['pred_A_kms'], 'km/s predicted alpha Cen A', 3)
     _num(h, 'IDPRED_B', ident['pred_B_kms'], 'km/s predicted alpha Cen B', 3)
 
@@ -1282,6 +1310,8 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
                'rv_topo_kms': rv.get('rv_topo_kms'), 'rv_bary_kms': rv.get('rv_bary_kms'),
                'rv_expected_topo_kms': rv_expected_topo,
                'star_id': ident['verdict'], 'star_id_evidence': ident['evidence'],
+               'star_id_branch_contested': ident.get('branch_contested'),
+               'star_id_visual_convention': ident.get('verdict_under_visual_convention'),
                'pred_A_kms': ident['pred_A_kms'], 'pred_B_kms': ident['pred_B_kms'],
                'gate_before': gate['residual_before'], 'gate_after': gate['residual_after'],
                'gate_n_px': gate['n_px'], 'gate_passed': gate['passed'],
