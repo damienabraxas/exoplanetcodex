@@ -1135,70 +1135,27 @@ def identify_star(fc: FrameCorrection, rv: dict, id_gate: str = 'acen_ab') -> di
 
 
 def identify_singleton(fc: FrameCorrection) -> dict:
-    """Identity for a SINGLETON target: RYA-952 astrometry AND the RYA-964 label lookup,
-    run together, with disagreement treated as the signal.
+    """Identity for a SINGLETON target — delegated to the STANDING INTAKE PROCEDURE in
+    `pipeline.intake_identity`, not re-implemented here.
 
-    There is no close pair to split here, so the α Cen orbit rule does not apply. What
-    does apply is RYA-964's own conclusion: **`resolve_star` reads a LABEL; it does not
-    verify IDENTITY.** Two tau Ceti UVES files are labelled `HD18884`, which is the
-    CORRECT name of a DIFFERENT star (α Cet, 20° away) — no alias table can ever catch
-    that, and only astrometry did. So astrometry is the arbiter and the label is the
-    corroboration, never the other way round.
-
-    🔴 Both ids are normalised through `resolve_star` before they are compared, and that
-    is load-bearing rather than tidy. `pipeline/audit_crires` identifies this star as
-    **`tau_cet`** (from `data/reference/crires_target_astrometry.csv`) while
-    `system_catalog.csv`, `stars.yaml` and the holdings registry all call it
-    **`tau_ceti`**. Compared as raw strings the two routes DISAGREE on every single tau
-    Ceti frame — so the one check designed to catch a mislabelled star would cry wolf on
-    all four, which is the fastest way to get a real alarm ignored. `tau_cet` is itself a
-    registered alias, so routing both sides through the single alias lookup is the
-    intended design, not a workaround. (It is still a defect in that reference file;
-    renaming it touches RYA-952's committed inventory and tests, so it is reported, not
-    done here.)"""
-    from astropy.io import fits
-    from pathlib import Path as _P
-    from pipeline.audit_crires import (load_astrometry, identify as _identify,
-                                       read_frame, MATCH_RADIUS_ARCSEC)
-    from pipeline.star_id import resolve_star
-    from config.constants import codex_root
-
-    fr = _identify(read_frame(_P(fc.frame.path)), load_astrometry(_P(codex_root('repo'))))
-    astro_raw = fr.star_id or ''
-    astro = resolve_star(astro_raw) if astro_raw else 'UNRESOLVED'
-
-    hdr = fits.getheader(str(fc.frame.path))
-    obj = str(hdr.get('OBJECT', '') or '').strip()
-    targ = next((str(hdr[k]).strip() for k in hdr.keys() if 'OBS TARG NAME' in str(k)), '')
-    lab_obj, lab_targ = resolve_star(obj), resolve_star(targ)
-    labels = [x for x in (lab_obj, lab_targ) if x != 'UNRESOLVED']
-
-    if astro == 'UNRESOLVED' or fr.id_status != 'confirmed':
-        verdict = 'INDETERMINATE'
-        evidence = (f"astrometry did not confirm a target within "
-                    f"{MATCH_RADIUS_ARCSEC}arcsec (status={fr.id_status!r})")
-    elif labels and any(l != astro for l in labels):
-        # The HD18884 shape: a label that resolves CONFIDENTLY to the wrong star.
-        verdict = 'CONTRADICTION'
-        evidence = (f"astrometry says {astro} at {fr.id_sep_arcsec:.1f}arcsec but a "
-                    f"header label resolves elsewhere (OBJECT={obj!r}->{lab_obj}, "
-                    f"OBS TARG NAME={targ!r}->{lab_targ}). A label can be the correct "
-                    f"name of a DIFFERENT star; astrometry is the arbiter.")
-    else:
-        verdict = astro
-        unres = [n for n, r in (('OBJECT', lab_obj), ('OBS TARG NAME', lab_targ))
-                 if r == 'UNRESOLVED']
-        evidence = (f"astrometry: {fr.id_sep_arcsec:.1f}arcsec from {astro} "
-                    f"(next nearest {getattr(fr, 'id_evidence', '')[:0]}"
-                    f"{'' if not unres else ''}); labels agree or are unresolved"
-                    f"{' (' + ', '.join(unres) + ' carry a role/coordinate name)' if unres else ''}")
-    return {'verdict': verdict, 'evidence': evidence,
-            'astrometry_star_raw': astro_raw, 'astrometry_star': astro,
-            'astrometry_sep_arcsec': float(fr.id_sep_arcsec),
-            'astrometry_status': fr.id_status,
-            'label_object': obj, 'label_object_resolved': lab_obj,
-            'label_targ_name': targ, 'label_targ_resolved': lab_targ,
-            'id_namespace_mismatch': astro_raw != astro,
+    There is no close pair to split, so the alpha Cen orbit rule does not apply; what
+    applies is the rule that applies to every frame we ever download: astrometry as
+    arbiter, the RYA-964 label lookup as corroboration, both normalised through the one
+    alias resolver, and disagreement treated as the signal. Keeping that in one module
+    is the point — a second copy here is how the two identity routes drifted apart in
+    the first place."""
+    from pipeline.intake_identity import identify_at_intake
+    r = identify_at_intake(fc.frame.path)
+    return {'verdict': r.verdict, 'evidence': r.evidence,
+            'astrometry_star_raw': r.astrometry_star_raw,
+            'astrometry_star': r.astrometry_star,
+            'astrometry_sep_arcsec': r.astrometry_sep_arcsec,
+            'astrometry_status': r.astrometry_status,
+            'label_object': r.label_object,
+            'label_object_resolved': r.label_object_resolved,
+            'label_targ_name': r.label_targ_name,
+            'label_targ_resolved': r.label_targ_resolved,
+            'id_namespace_mismatch': r.id_namespace_mismatch,
             'secondary_available': True,
             'rv_bary_kms': float('nan'), 'pred_A_kms': float('nan'),
             'pred_B_kms': float('nan'), 'branch_contested': None,
