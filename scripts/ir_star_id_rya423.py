@@ -122,7 +122,33 @@ def main():
                              jdepth=round(jd, 3) if jd is not None else None,
                              verdict=v, evidence=ev))
     # ---- CRIRES (no pipeline RV; reduced spectra telluric-dominated) ----
-    for f in sorted(glob.glob(os.path.join(DATA, 'Alpha Centauri A/CHIRES', '*.fits'))):
+    #
+    # 🔴 RYA-972 — THIS GLOB FAILED SILENTLY OFF-SIRIUS, AND THE DIAGNOSIS WAS WRONG.
+    #
+    # RYA-972 was filed as "globs a misspelt CHIRES dir -> never executed, silent empty
+    # glob", and RYA-971 carried that forward as "the CRIRES star-ID branch is dead code".
+    # Measured: `CHIRES` IS the directory's name on disk, the code matches it, and on
+    # Sirius this glob returns 16 FITS files. The branch is not dead and the spelling is
+    # not the fault — renaming it to CRIRES would BREAK the one machine where it works.
+    #
+    # The real fault is environmental and silent: `data.spectra_local` resolves to
+    # /mnt/codex-data/spectra/_mac_import_20260816, which exists on Sirius and NOT on the
+    # Mac. Same code, 16 matches there, 0 here — and nothing said so. A run off-Sirius
+    # simply contributed no CRIRES rows and reported success, which is how "never executed"
+    # became a believed fact about the code rather than about the machine.
+    #
+    # Loud now, on the same principle as the Kitt Peak atlas loader: name the missing
+    # directory rather than let every frame report as absent (RYA-833 — an absence is a
+    # hypothesis, never a conclusion).
+    _crires_dir = os.path.join(DATA, 'Alpha Centauri A/CHIRES')
+    if not os.path.isdir(_crires_dir):
+        raise SystemExit(
+            f"CRIRES frame directory not found: {_crires_dir}\n"
+            f"`data.spectra_local` resolves to {DATA!r}, which does not exist here — the "
+            f"alpha Cen frames live on Sirius. Run this there, or stage the data. "
+            f"Refusing to emit a star-ID table with the CRIRES branch silently empty: "
+            f"that is what made RYA-972 look like a spelling bug for a release.")
+    for f in sorted(glob.glob(os.path.join(_crires_dir, '*.fits'))):
         with pf.open(f) as hd:
             h = hd[0].header
             lab = str(hk(h, 'ESO OBS TARG NAME')); dt = str(hk(h, 'DATE-OBS'))[:10]
