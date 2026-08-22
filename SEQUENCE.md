@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-22
 
+- **RYA-963** — α Cen A CRIRES+ telluric: **6/6 gated PASS** (0.21→0.02); new holding. 🔴 **`acen_orbit` A/B CONTESTED: CRIRES pair says inverted, NIRPS anchor disagrees**
 - **RYA-957** — GBS params adopted for **tau Ceti + eps Eri** (Heiter+2015 / Jofré+2014); RYA-952's holdings row now REGISTERS. 🔴 **tau Ceti's log g is BRACKETED by Heiter Table 10 — solved, not pinned.** tau Boo verified NOT GBS
 - **RYA-952** — CRIRES inventory by header truth: 123 files → **64 distinct**, **all CRIRES+, zero classic on drive**. 🔴 **tau Ceti was hiding under `OBJECT='STD'`**; tau Cet co-add SNR 639→1238. 🔴 **The co-add cross-correlation is TELLURIC-LOCKED across a large dBERV**
 
