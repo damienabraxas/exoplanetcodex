@@ -1,0 +1,113 @@
+{
+  "broadening_kms": {
+    "irreducible_sigma_floor": 1.1659,
+    "max_stellar_sigma_ceiling": 4.3634
+  },
+  "arms": {
+    "harps_molecfit_corrected": {
+      "instrument": "harps",
+      "resolving_power": 115000.0,
+      "candidates": 2359,
+      "verdicts": {
+        "OVER-PHYSICAL-WIDTH": 1319,
+        "FEATURE-VERIFICATION": 425,
+        "REW-SATURATED": 303,
+        "IN-AGGREGATE": 257,
+        "CONTINUUM-UNPHYSICAL": 38,
+        "BAND-POLICY": 17
+      },
+      "sigma_histogram": {
+        "0.0-0.02": 512,
+        "0.02-0.03": 320,
+        "0.03-0.04": 71,
+        "0.04-0.05": 52,
+        "0.05-0.06": 22,
+        "0.06-0.07": 17,
+        "0.07-0.08": 12,
+        "0.08-0.09": 9,
+        "0.09-0.1": 12,
+        "0.1-0.15": 48,
+        "0.15-0.2": 50,
+        "0.2-0.3": 127,
+        "0.3-0.39": 110,
+        "0.39-0.3999": 19,
+        "0.3999-0.4001": 961
+      },
+      "sigma_pinned_at_optimiser_bound": 960,
+      "ceiling_sigma_A": {
+        "min": 0.0568,
+        "max": 0.1037
+      },
+      "fraction_between_1x_and_2x_ceiling": 0.032,
+      "in_aggregate": 257,
+      "in_aggregate_implied_width_A": {
+        "median": 0.1748,
+        "p95": 0.4018,
+        "max": 0.5508
+      },
+      "in_aggregate_ew_mA": {
+        "median": 40.94,
+        "max": 84.5
+      },
+      "lab_graded_lines_reaching_the_fitter": 57,
+      "lab_graded_fate": {
+        "REW-SATURATED": 30,
+        "OVER-PHYSICAL-WIDTH": 15,
+        "FEATURE-VERIFICATION": 6,
+        "IN-AGGREGATE": 6
+      }
+    },
+    "kpno_solar_atlas": {
+      "instrument": "kpno_solar_atlas",
+      "resolving_power": 500000.0,
+      "candidates": 2359,
+      "verdicts": {
+        "OVER-PHYSICAL-WIDTH": 1192,
+        "FEATURE-VERIFICATION": 530,
+        "IN-AGGREGATE": 318,
+        "REW-SATURATED": 302,
+        "BAND-POLICY": 17
+      },
+      "sigma_histogram": {
+        "0.0-0.02": 876,
+        "0.02-0.03": 77,
+        "0.03-0.04": 100,
+        "0.04-0.05": 48,
+        "0.05-0.06": 22,
+        "0.06-0.07": 25,
+        "0.07-0.08": 21,
+        "0.08-0.09": 12,
+        "0.09-0.1": 12,
+        "0.1-0.15": 70,
+        "0.15-0.2": 63,
+        "0.2-0.3": 119,
+        "0.3-0.39": 105,
+        "0.39-0.3999": 18,
+        "0.3999-0.4001": 774
+      },
+      "sigma_pinned_at_optimiser_bound": 774,
+      "ceiling_sigma_A": {
+        "min": 0.0552,
+        "max": 0.1007
+      },
+      "fraction_between_1x_and_2x_ceiling": 0.0418,
+      "in_aggregate": 318,
+      "in_aggregate_implied_width_A": {
+        "median": 0.1516,
+        "p95": 0.3414,
+        "max": 0.4257
+      },
+      "in_aggregate_ew_mA": {
+        "median": 36.03,
+        "max": 85.99
+      },
+      "lab_graded_lines_reaching_the_fitter": 57,
+      "lab_graded_fate": {
+        "REW-SATURATED": 24,
+        "IN-AGGREGATE": 13,
+        "OVER-PHYSICAL-WIDTH": 12,
+        "FEATURE-VERIFICATION": 8
+      }
+    }
+  }
+}
