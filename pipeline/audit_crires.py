@@ -269,11 +269,19 @@ def identify(fr: Frame, cat: pd.DataFrame, *, radius: float = MATCH_RADIUS_ARCSE
         # labelled `HD 22049` counts as naming eps Eri. What survives this test is the real
         # finding: a ROLE (`STD`) or a run placeholder (`Star S5`) where a name should be.
         al = {_norm_name(a) for a in str(cat.aliases.iloc[i] or '').split('|') if a}
-        agrees = (obj_norm in al) or (_norm_name(fr.obs_targ_name) in al)
+        # 🔴 JUDGED ON `OBJECT` ALONE, ON PURPOSE. `ESO OBS TARG NAME` also carries a name
+        # and on the tau Ceti frames it carries the RIGHT one -- but `OBJECT` is the field
+        # every downstream tool keys on, so letting OBS TARG NAME vouch for it reports the
+        # mislabel as fine and the finding disappears. The two are recorded separately:
+        # OBJECT decides the verdict, OBS TARG NAME is corroboration for the ID.
+        agrees = obj_norm in al
+        targ_ok = _norm_name(fr.obs_targ_name) in al
         fr.id_evidence = (
             f"{sep[i]:.1f}\" from {cat.simbad_main_id.iloc[i]} at epoch "
             f"{fr.date_obs[:10]}; next nearest {np.sort(sep)[1]:.0f}\"; "
-            f"OBJECT={fr.object_raw!r} {'agrees' if agrees else 'DOES NOT NAME THIS STAR'}")
+            f"OBJECT={fr.object_raw!r} "
+            f"{'agrees' if agrees else 'DOES NOT NAME THIS STAR'}"
+            f"{'; OBS TARG NAME does' if (targ_ok and not agrees) else ''}")
     elif len(hit) == 0:
         fr.id_status = 'quarantine'
         j = int(np.argmin(sep))
