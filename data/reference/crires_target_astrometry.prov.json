@@ -1,0 +1,12 @@
+{
+  "ticket": "RYA-952",
+  "source": "SIMBAD (CDS) via astroquery.simbad",
+  "epoch": "ICRS J2000; proper motions in mas/yr, pm_ra is mu_alpha* (cos-dec applied)",
+  "why_cached": "target identity is what this ticket must not get wrong, so its referee must be independent of the headers being judged AND reproducible offline, including in CI with no network",
+  "moving_targets_excluded": {
+    "vesta": "Vesta (minor planet 4) \u2014 ephemeris target, no catalogue position",
+    "sun": "the Sun \u2014 SIMBAD resolves the name but publishes NO coordinates for it, which is correct and is why it cannot live in a fixed-position catalogue. Solar CRIRES frames are Vesta reflected-solar and identify through Vesta."
+  },
+  "retrieved": "2026-08-21",
+  "regenerate": "python3 scripts/rya952_fetch_target_astrometry.py"
+}
