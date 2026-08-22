@@ -71,9 +71,14 @@ def derive_outlier_cut(values) -> tuple[float, str]:
         return float("inf"), (f"no break: the largest upper-half gap ({gaps[i]:.3g}) is not "
                               f"distinct from the typical gap ({typical:.3g}); a cut here "
                               f"would be arbitrary, so nothing is cut")
-    return hi, (f"largest gap in the upper half is {gaps[i]:.3g} between {lo:.3g} and "
+    # ⚠️ THE CUT IS THE VALUE *BELOW* THE GAP, NOT ABOVE IT. Returning `hi` makes the cap
+    # inclusive of the outlier the break identifies, so the gate passes exactly the line it
+    # was derived to quarantine — an off-by-one-side error that looks like a working
+    # derivation and cuts nothing.
+    return lo, (f"largest gap in the upper half is {gaps[i]:.3g} between {lo:.3g} and "
                 f"{hi:.3g}, against a typical gap of {typical:.3g} "
-                f"({gaps[i] / typical:.0f}x) — the distribution separates here on its own")
+                f"({gaps[i] / typical:.0f}x) — the distribution separates here on its own; "
+                f"the cap is the value BELOW the break ({lo:.3g}), so what sits above it fails")
 
 
 # ── section 969 ──────────────────────────────────────────────────────────────────────
