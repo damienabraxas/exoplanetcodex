@@ -459,3 +459,172 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
                    f"airmass-dependent, so they vary between observations of the SAME "
                    f"star and cannot be calibrated once"))
     return b
+
+
+# ── THE ZERO-POINT CAP, DECOMPOSED — RYA-987 ─────────────────────────────────
+#
+# `zero_point_term` above charges sigma/sqrt(n) over the anchor. That is the STATISTICAL
+# half only, and while the anchor was 7 lines it was also the whole story: 0.157/sqrt(7) =
+# 0.059 dex swamped everything else. RYA-984 grew the anchor to 163, the statistical term
+# fell by ~4x, and a second term that had been hiding under it is now the larger one.
+#
+# 🔴 THE TWO TERMS ANSWER DIFFERENT QUESTIONS AND MUST NOT BE BLENDED INTO ONE NUMBER.
+#
+#   STATISTICAL  scatter/sqrt(n) — how well the anchor's MEAN is determined. Shrinks with
+#                every line added.
+#   SYSTEMATIC   the laboratory gf SCALE's own zero point — a shift shared by lines that
+#                come from the same measurement. Adding lines from that source cannot
+#                reduce it, because they all carry the same shift.
+#
+# WHY THE SYSTEMATIC IS SOURCE-CORRELATED AND NOT PER-LINE RANDOM. A published per-line
+# sigma covers that line's own measurement, but a branching-fraction x lifetime experiment
+# also carries a normalisation common to every line it reports. Treating the cited sigmas
+# as independent would let them average down as 1/sqrt(n) — which is exactly the
+# manufactured precision RYA-968 §3.2 exists to prevent. So they are combined as
+# CORRELATED WITHIN A SOURCE and independent ACROSS sources.
+#
+# ⚠️ THE BLIND SPOT, STATED. An offset COMMON TO ALL THREE LABORATORIES is invisible from
+# inside the anchor: every internal comparison differences it away. Detecting it needs an
+# external absolute reference, and the RYA-161 firewall forbids using the gold value for
+# that — gold carries its own hidden zero point, so "validating" against it would launder
+# one unknown into another. The number below is therefore a floor on the systematic, not a
+# bound on it, and that is a property of the measurement, not a defect in the code.
+
+@dataclass(frozen=True)
+class ZeroPointCap:
+    """The absolute-accuracy floor of an abundance scale, split into its two terms."""
+    n_anchor: int
+    scatter_dex: float
+    statistical_dex: float
+    systematic_dex: float
+    per_source: tuple[tuple[str, int, float], ...]   # (source, n, cited sigma RMS)
+
+    @property
+    def combined_dex(self) -> float:
+        return math.hypot(self.statistical_dex, self.systematic_dex)
+
+    @property
+    def limited_by(self) -> str:
+        return "systematic" if self.systematic_dex > self.statistical_dex else "statistical"
+
+    @property
+    def variance_share_systematic(self) -> float:
+        return self.systematic_dex ** 2 / (self.combined_dex ** 2)
+
+    def lines_to_halve(self) -> float | None:
+        """How many anchor lines would halve the cap — `None` when no n can.
+
+        The honest way to say "more lines will not help". Once the systematic exceeds half
+        the combined cap, no finite anchor reaches half of it, because the systematic is
+        the floor the statistical term is added to in quadrature.
+        """
+        target = self.combined_dex / 2.0
+        if self.systematic_dex >= target:
+            return None
+        need = math.sqrt(target ** 2 - self.systematic_dex ** 2)
+        return self.n_anchor * (self.statistical_dex / need) ** 2
+
+    def describe(self) -> str:
+        src = "; ".join(f"{s} n={n} sigma_RMS={g:.4f}" for s, n, g in self.per_source)
+        cap = self.combined_dex
+        lim = self.limited_by
+        need = self.lines_to_halve()
+        lever = ("no anchor size halves this cap — the laboratory gf scale is the floor, "
+                 "so BETTER gf is the only remaining lever"
+                 if need is None else f"~{need:.0f} anchor lines would halve it")
+        return (f"zero-point cap {cap:.4f} dex on {self.n_anchor} graded anchor lines "
+                f"[{lim.upper()}-LIMITED, systematic carries "
+                f"{self.variance_share_systematic:.0%} of the variance]\n"
+                f"  statistical {self.statistical_dex:.4f} = scatter {self.scatter_dex:.4f}"
+                f" / sqrt({self.n_anchor})\n"
+                f"  systematic  {self.systematic_dex:.4f} = laboratory gf zero point, "
+                f"correlated within a source ({src})\n"
+                f"  {lever}")
+
+
+def zero_point_cap(abundances, sources, cited_sigmas) -> ZeroPointCap:
+    """Decompose an anchor's absolute floor into statistical + laboratory-gf zero point.
+
+    `abundances`, `sources` and `cited_sigmas` are per anchor line and must be parallel.
+
+    🔴 NO REFERENCE VALUE APPEARS HERE, BY CONSTRUCTION. There is no parameter for one.
+    The cap is computed from the anchor's OWN scatter and its OWN cited laboratory sigmas,
+    never from proximity to a published solar abundance (RYA-161). A function that took a
+    reference could be asked "how close are we?", and that question answered against a
+    number carrying its own zero point is how a scale gets talked into a precision it does
+    not have.
+    """
+    import numpy as _np
+    a = _np.asarray(abundances, dtype=float)
+    ok = _np.isfinite(a)
+    a = a[ok]
+    src = _np.asarray(list(sources), dtype=object)[ok]
+    sig = _np.asarray(cited_sigmas, dtype=float)[ok]
+    n = a.size
+    if n < 2:
+        raise ValueError(f"a zero-point cap needs at least two anchor lines, got {n}")
+    if not _np.isfinite(sig).all():
+        raise ValueError("every anchor line must carry a cited laboratory sigma — a "
+                         "missing one is not a zero, and silently treating it as one "
+                         "would shrink the systematic (RYA-873)")
+
+    scatter = float(a.std(ddof=1))
+    statistical = scatter / math.sqrt(n)
+
+    per_source, var = [], 0.0
+    for s in sorted({str(x) for x in src}):
+        m = _np.array([str(x) == s for x in src])
+        rms = float(_np.sqrt((sig[m] ** 2).mean()))
+        frac = float(m.sum()) / n
+        per_source.append((s, int(m.sum()), rms))
+        # Correlated within the source: its sigma enters weighted by its share of the
+        # anchor and does NOT get a 1/sqrt(n_s). Independent across sources: quadrature.
+        var += (frac * rms) ** 2
+    return ZeroPointCap(n_anchor=n, scatter_dex=scatter, statistical_dex=statistical,
+                        systematic_dex=math.sqrt(var), per_source=tuple(per_source))
+
+
+def _main(argv=None) -> int:
+    """`python3 -m pipeline.error_budget --anchor <name> --zero-point-cap --decompose`.
+
+    Re-runnable BY DESIGN: the anchor is still growing (the HARPS deep leg is owed, RYA-977
+    adds ~65 lines, the UV/IR bands are not folded in), so the cap is a snapshot keyed to a
+    named pool rather than a constant anyone can quote out of date.
+    """
+    import argparse
+    ap = argparse.ArgumentParser(description="RYA-987 zero-point cap")
+    ap.add_argument("--anchor", required=True)
+    ap.add_argument("--zero-point-cap", action="store_true")
+    ap.add_argument("--decompose", action="store_true",
+                    help="report the two terms separately. RYA-968 §3.2: a single blended "
+                         "number cannot say whether more lines would help.")
+    a = ap.parse_args(argv)
+    if not a.zero_point_cap:
+        ap.error("nothing to do; pass --zero-point-cap")
+
+    from pipeline.anchor_pools import ANCHORS, load
+    pool = ANCHORS[a.anchor] if a.anchor in ANCHORS else None
+    if pool is None:
+        raise SystemExit(f"unknown anchor {a.anchor!r}; known: {sorted(ANCHORS)}")
+    df = load(a.anchor)
+    cap = zero_point_cap(df.abundance, df.lab_source, df.cited_sigma_dex)
+
+    print(f"\nANCHOR {a.anchor}  ({pool.species}, n={cap.n_anchor})")
+    print(f"  {pool.note}\n")
+    print(cap.describe())
+    if a.decompose:
+        print("\n  per-source (correlated within, independent across):")
+        for s, n, g in cap.per_source:
+            print(f"    {s:8s} n={n:4d}  cited sigma RMS {g:.4f}  "
+                  f"share {n / cap.n_anchor:5.1%}  contributes "
+                  f"{(n / cap.n_anchor) * g:.4f} dex")
+        print(f"\n  statistical {cap.statistical_dex:.4f}   "
+              f"systematic {cap.systematic_dex:.4f}   "
+              f"CAP {cap.combined_dex:.4f} dex")
+    print("\n  🔒 no reference abundance enters this computation (RYA-161): the cap is "
+          "the anchor's own scatter and its own cited laboratory sigmas.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(_main())
