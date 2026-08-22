@@ -35,8 +35,12 @@ def test_gdas_dirs_include_the_registered_eso_prefix():
     """The retriever globbed only Homebrew and /usr/share/esopipes, so on Sirius — where
     the ESO source kit ships the same Paranal tarball — GDASUnavailable would have fired
     on a profile sitting on the disk. Loud-failing for the wrong reason is still wrong."""
+    from pipeline.telluric.esorex_runtime import eso_root
     pats = gdas_dirs()
-    assert any('/srv/codex/eso' in p or 'CODEX_ESO' in p or 'molecfit' in p for p in pats)
+    root = str(eso_root())
+    assert any(p.startswith(root) for p in pats), (
+        f"the registered eso_pipelines root {root} must be searched")
+    assert pats[0].startswith(root), "the registered root must be searched FIRST"
     assert any('homebrew' in p for p in pats), "the Mac install must stay reachable too"
 
 
