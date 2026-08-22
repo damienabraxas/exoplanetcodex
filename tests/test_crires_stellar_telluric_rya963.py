@@ -661,3 +661,19 @@ def test_a_held_column_is_declared_modelled_not_measured():
     src = Path(cst.__file__).read_text()
     assert "h['WMHELD']" in src
     assert 'MODELLED, not measured' in src
+
+
+def test_only_filter_is_wired_and_a_typo_is_loud():
+    """A --only pattern that matches nothing must ERROR, not run zero frames.
+
+    A silent empty run is the worst outcome: it exits 0 and reads as 'that frame is
+    fine now', which is exactly the false all-clear this ticket exists to prevent.
+    """
+    import inspect
+    assert 'only' in inspect.signature(cst.run_set).parameters
+    src = inspect.getsource(cst.run_set)
+    assert '--only matched nothing' in src
+    # the CLI must actually pass it through -- a flag parsed and dropped is worse
+    # than no flag, because the run looks targeted and is not.
+    cli = Path(cst.__file__).read_text()
+    assert 'only=a.only' in cli

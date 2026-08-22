@@ -1483,7 +1483,8 @@ def gdas_gate(night=None, site: str = 'paranal', mjds=()) -> dict:
 
 
 def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
-            n_windows: int = 4, limit=None, one_per_setting: bool = False) -> dict:
+            n_windows: int = 4, limit=None, one_per_setting: bool = False,
+            only=None) -> dict:
     """The whole ticket for one declared set: GDAS gate → per-frame telluric correction
     → RV → star ID → residual gate → product. Frames the star-ID gate does not confirm
     are QUARANTINED: their correction is kept (it is real work and star-agnostic) but
@@ -1521,6 +1522,23 @@ def run_set(name: str = 'alpha_cen_a_crires', work_root=None, out_dir=None,
             if cur is None or (fr.snr or 0) > (cur.snr or 0):
                 best[fr.wlen_id] = fr
         frames = [best[k] for k in sorted(best)]
+    if only:
+        # RE-RUN mode: name the frames to redo, by any unambiguous substring of the IDP
+        # filename. Used after a code change that alters SOME frames -- re-running the
+        # whole set would spend hours re-deriving products that are provably identical.
+        # A pattern matching nothing is an ERROR, never a silent empty run: a typo must
+        # not read as "that frame is fine now".
+        picked, unmatched = [], []
+        for pat in only:
+            hit = [fr for fr in frames if pat in fr.path.name]
+            if not hit:
+                unmatched.append(pat)
+            picked.extend(fr for fr in hit if fr not in picked)
+        if unmatched:
+            raise ValueError(
+                f"{name}: --only matched nothing for {unmatched}. "
+                f"Available: {sorted(fr.path.name for fr in frames)}")
+        frames = picked
     frames = frames[:limit]
     gate0 = gdas_gate(mjds=[f.mjd for f in frames])
 
@@ -1643,6 +1661,9 @@ def main(argv=None):
     ap.add_argument('--one-per-setting', action='store_true',
                     help='band-coverage mode: the highest-SNR frame of each WLEN setting')
     ap.add_argument('--n-windows', type=int, default=4)
+    ap.add_argument('--only', action='append', default=None,
+                    help='re-run ONLY frames whose IDP filename contains this '
+                         '(repeatable); a pattern that matches nothing is an error')
     ap.add_argument('--work-root', default=None)
     ap.add_argument('--out-dir', default=None)
     ap.add_argument('--json', default=None, help='write the run record here')
@@ -1684,7 +1705,7 @@ def main(argv=None):
 
     out = run_set(a.set_name, work_root=a.work_root, out_dir=a.out_dir,
                   n_windows=a.n_windows, limit=a.limit,
-                  one_per_setting=a.one_per_setting)
+                  one_per_setting=a.one_per_setting, only=a.only)
     for r in out['frames']:
         print(f"{r['wlen_id']:6s} chi2 {r['initial_chi2']:.4g} -> {r['best_chi2']:.4g}  "
               f"PWV {r['h2o_col_mm']:.3f} mm  gate {r['gate_before']:.4f} -> "
