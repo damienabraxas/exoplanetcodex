@@ -164,13 +164,28 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
 # defects), and here it would also let the wired value drift from the published 7.487
 # silently. Reusing the functions makes drift impossible by construction.
 
+from config.synth_bands import SynthBand, SYNTH_BANDS  # noqa: E402,F401
+
+#: How far a synthesis list may fall short of the requested window before the run is
+#: refused. NOT a tuned number: a line list's edge is where its last line sits, so the
+#: first/last line of a band can legitimately be an Angstrom inside the nominal boundary.
+#: It is small enough that the 420 A GES-v6 shortfall at the VIS blue edge cannot pass.
+_LIST_COVERAGE_TOL_A = 5.0
+
 #: RYA-759's own defaults, named here so a reader can see they are NOT re-chosen.
 #: Changing any of these would move the product away from the published 7.487 and the
 #: ticket forbids that without a stated cause — so they are imported-in-spirit, and the
 #: functions below are imported literally.
-NEARUV_HALF_WIDTH_A = 0.40      # no EW exists to key the production wing-wide rule
-NEARUV_MIN_SEP_A = 4.0          # keeps the set spread instead of piling into one complex
-NEARUV_N_LINES = 40
+#: 🔴 RYA-967 — DERIVED FROM THE CONFIG, NOT RE-TYPED. These were literals here AND
+#: values in the near-UV `SynthBand`; once the bands moved to `config/synth_bands.yaml`
+#: the literals became a second declaration of the same three numbers, free to drift from
+#: the entry they describe. `test_nearuv_first_class_rya832` still pins them to
+#: 0.40 / 4.0 / 40, so if the YAML is edited that test fails — which is the correct
+#: alarm, and the one a duplicated literal would have silenced.
+_NEARUV = SYNTH_BANDS["near-UV"]
+NEARUV_HALF_WIDTH_A = _NEARUV.half_width_A   # no EW exists to key the wing-wide rule
+NEARUV_MIN_SEP_A = _NEARUV.min_sep_A         # keeps the set spread, not piled in one complex
+NEARUV_N_LINES = _NEARUV.n_lines
 #: 🔴 THE PSEUDO-CONTINUUM SYSTEMATIC IS DELIBERATELY NOT DECLARED HERE (RYA-845).
 #: It lives in exactly one place, `pipeline/error_budget.py`, which adds it for any band
 #: whose policy says "pseudo-continuum". A second declaration next to a route is what let
@@ -178,72 +193,116 @@ NEARUV_N_LINES = 40
 #: the number agreed with itself in both places while the product was wrong.
 
 
-@dataclass(frozen=True)
-class SynthBand:
-    """Everything the synthesis route needs that is a property of the BAND — RYA-837.
-
-    The route itself is band-agnostic: `select_lines`, `fit_one` and
-    `build_solar_context` were already fully parameterised by RYA-759. Only the
-    CONSTANTS were near-UV, sitting as module globals. Adding the IR band by copying
-    the route would have duplicated 100 lines to change four numbers — the RYA-701
-    failure mode (one Ba->Al copy, 13 defects). They are a lookup instead.
-
-    ⚠️ THERE IS DELIBERATELY NO `pseudo_continuum_dex` FIELD (RYA-845, merge of main).
-    An earlier cut of this dataclass carried one and set it to 0.100 for all three
-    bands. Nothing ever read it — the route used the module global directly — so it
-    stated an intent the code did not honour, which is the same second-declaration
-    shape that let the term be added twice. `pipeline/error_budget.build()` owns it and
-    adds it for any band whose policy says "pseudo-continuum".
-
-    That is the near-UV only. red-optical and NIR get NO continuum systematic, and
-    RYA-843 measured the evidence that they should: their fit windows sit at median
-    flux 0.73-0.95 against a synthesis normalised to unity, and the fitter spends
-    A(Fe) closing that gap. Wiring the field would have hidden the gap behind a
-    number nobody derived; it is left OWED and visible instead.
-    """
-    linelist: Path
-    half_width_A: float
-    min_sep_A: float
-    n_lines: int
-    half_width_note: str
-    build_hint: str
-
-
-#: A fixed synthesis half-width has to contain the PROFILE, so it scales with wavelength:
-#: the Doppler width is lambda*v/c, and 0.40 A at 3400 A is ~17 Doppler widths while the
-#: same 0.40 A at 12000 A is only ~5. Holding the ANGSTROM value fixed across a 3.5x
-#: wavelength lever would quietly clip the IR wings and bias A(Fe) low. The IR values
-#: below are 0.40 A scaled by lambda, rounded — and swept at runtime (`--sweep-half-width`)
-#: rather than asserted, exactly as RYA-759 swept 0.25/0.40/0.60 in the near-UV.
+#: RYA-967 — `SynthBand` and `SYNTH_BANDS` MOVED TO `config/synth_bands.py`.
 #:
-#: The band's own line density says the wider window is affordable: median gap 0.146 A in
-#: the near-UV, but 1.872 A (red-optical) and 3.989 A (NIR) per `pipeline.band_policy`.
-SYNTH_BANDS: dict[str, SynthBand] = {
-    "near-UV": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_nearuv_3000_3780" / "atomic_lines.tsv",
-        half_width_A=NEARUV_HALF_WIDTH_A,
-        min_sep_A=NEARUV_MIN_SEP_A,
-        n_lines=NEARUV_N_LINES,
-        half_width_note="RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex)",
-        build_hint="build it with `pipeline.nearuv_linelist.build()`",
-    ),
-    "red-optical": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
-        half_width_A=1.10,          # 0.40 * (9600/3400), rounded
-        min_sep_A=4.0,
-        n_lines=40,
-        half_width_note="0.40 A scaled by lambda from the near-UV anchor (9600/3400)",
-        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
-    ),
-    "NIR": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
-        half_width_A=1.40,          # 0.40 * (12000/3400), rounded
-        min_sep_A=4.0,
-        n_lines=40,
-        half_width_note="0.40 A scaled by lambda from the near-UV anchor (12000/3400)",
-        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
-    ),
-}
+#: They were declared here, in an executable driver, and `scripts/rya855_rung_audit.py`
+#: imported them FROM THIS SCRIPT. That is a config constant whose only home is a program
+#: — it cannot be read without importing this module, and this module's import chain loads
+#: the Kitt Peak atlas. Same second-home shape as RYA-350/353/954.
+#:
+#: The four entries and every word of their reasoning live in `config/synth_bands.yaml`,
+#: which also records the invariant the three original values turned out to share and
+#: which the new VIS entry was derived from: a half-width is 20.51 Doppler sigma at the
+#: band's anchor wavelength, held to +/-0.30 across a 3.5x wavelength lever.
+
+
+#: Wavelength key for matching an EW artifact's lines into the synthesis list. RYA-945
+#: MEASURED the safe window at 5 mA by binning graded NIST matches by residual and asking
+#: how often the sources then disagree; below that the pairing is real, above it chance
+#: pairings pile up. Both files describe the SAME transitions here, so the match should be
+#: exact — the tolerance exists to absorb rounding between two writers, not to search.
+_EW_MATCH_TOL_A = 0.005
+
+
+def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
+                           species: str, tier: str) -> pd.DataFrame:
+    """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
+
+    🔴 WHY THIS EXISTS. `select_lines` returns the strongest N lines the synthesis list
+    holds. Running that against RYA-959's EW pool would compare two different LINE SETS as
+    well as two methods, and RYA-842 measured that line selection dominates gf — so the
+    comparison would answer the wrong question. The controlled experiment needs the same
+    lines, and only the method varying.
+
+    Every row the EW file attempted is a candidate, INCLUDING the ones it quarantined:
+    those are the whole point. "Did synthesis recover the lines EW dropped, and which gate
+    had killed them?" cannot be answered from the survivors.
+    """
+    if not ew_csv.exists():
+        raise SystemExit(f"--lines-from-ew: no EW artifact at {ew_csv}")
+    ew = pd.read_csv(ew_csv)
+    want = ew.wavelength_air_A.astype(float)
+    want = want[(want >= lo_A) & (want <= hi_A)]
+    if want.empty:
+        raise SystemExit(
+            f"--lines-from-ew: {ew_csv.name} has no line in {lo_A}-{hi_A} A. Refusing to "
+            f"synthesise a set selected from somewhere else.")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    m = (el == species)
+    if not m.any():
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    idx_all = np.flatnonzero(m)
+    order = np.argsort(w_A[idx_all])
+    idx_sorted = idx_all[order]
+    w_sorted = w_A[idx_sorted]
+
+    keep, missing = [], []
+    for w in want.values:
+        j = int(np.searchsorted(w_sorted, w))
+        best, bi = np.inf, -1
+        for k in (j - 1, j, j + 1):
+            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
+                best, bi = abs(w_sorted[k] - w), k
+        if bi >= 0 and best <= _EW_MATCH_TOL_A:
+            keep.append(idx_sorted[bi])
+        else:
+            missing.append((float(w), float(best)))
+    # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
+    # does not contain cannot be compared, and the count is itself a result: it is the
+    # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
+    if missing:
+        print(f"  [lines-from-ew] {len(missing)} of {len(want)} EW lines are NOT in the "
+              f"synthesis list (>{_EW_MATCH_TOL_A} A from any row) — they cannot be "
+              f"compared and are reported, not dropped quietly. First few: "
+              f"{[f'{w:.3f}(+{d:.3f})' for w, d in missing[:4]]}")
+    if not keep:
+        raise SystemExit("--lines-from-ew: no EW line matched the synthesis list")
+
+    keep = np.array(sorted(set(keep)))
+    df = pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+    if tier != "all":
+        graded = _graded_mask(df.wave_A.values)
+        df = df[graded if tier == "graded" else ~graded].reset_index(drop=True)
+        print(f"  [tier] {tier}: {len(df)} lines (RYA-946 — graded and ungraded are "
+              f"SEPARATE products, never merged)")
+    return df
+
+
+def _graded_mask(waves: np.ndarray) -> np.ndarray:
+    """True where the line carries a PRIMARY LABORATORY gf in `canonical_gf`.
+
+    Keyed on `gf_tier == LAB`, the column RYA-945 wrote, so "graded" means the same thing
+    here as everywhere else rather than being re-derived from `loggf_reference` prose.
+    """
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[cg.gf_tier.astype(str).str.contains("LAB", na=False)]
+    lw = np.sort(lab.wavelength_air_A.astype(float).values)
+    i = np.searchsorted(lw, waves)
+    best = np.full(waves.shape, np.inf)
+    for off in (-1, 0, 1):
+        j = np.clip(i + off, 0, len(lw) - 1)
+        best = np.minimum(best, np.abs(lw[j] - waves))
+    return best <= _EW_MATCH_TOL_A
 
 
 def synthesis_route(a, pol) -> None:
@@ -312,6 +371,30 @@ def synthesis_route(a, pol) -> None:
         raise SystemExit(
             f"no line in {cfg.linelist.name} lies within {a.lo}-{a.hi} A — refusing to "
             f"state gf provenance for a band this list does not cover.")
+    # 🔴 RYA-967 — PARTIAL COVERAGE IS A MISLABEL, NOT A SMALL PROBLEM.
+    #
+    # The check above refuses only when the list has NO line in the window. That was
+    # sufficient while every synth band shipped a list built for it; the VIS entry does
+    # not. It reads the iSpec-vendored GES v6 list — deliberately, so Part B varies method
+    # alone against the EW route — and that list starts at 4200 A. A VIS run over
+    # 3780-6910 would therefore have synthesised 4200-6910, converged, and emitted a
+    # product labelled 3780-6910: a number naming a range it was not measured over, which
+    # is the RYA-911/913 defect exactly.
+    #
+    # Refused rather than trimmed. Silently narrowing the band would hide the gap in a
+    # product nobody re-reads; the caller is told to ask for the range the list covers.
+    _lo_cov, _hi_cov = float(_ll.wave_A.min()), float(_ll.wave_A.max())
+    _gap_lo = max(0.0, _lo_cov - a.lo)
+    _gap_hi = max(0.0, a.hi - _hi_cov)
+    if _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
+        raise SystemExit(
+            f"{pol.name} synthesis list {cfg.linelist.name} covers "
+            f"{_lo_cov:.1f}-{_hi_cov:.1f} A but the run asks for {a.lo:.1f}-{a.hi:.1f} A "
+            f"— uncovered: {_gap_lo:.1f} A at the blue edge, {_gap_hi:.1f} A at the red. "
+            f"Emitting a product labelled {a.lo:.0f}-{a.hi:.0f} A that was synthesised "
+            f"over a narrower range is a number naming a range it was not measured over "
+            f"(RYA-911/913). Re-run over the covered range, or extend the list. "
+            f"{cfg.build_hint}")
     prov_gf = gf_provenance(float(_w.min()), float(_w.max()))
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
@@ -384,9 +467,15 @@ def synthesis_route(a, pol) -> None:
     # every one was labelled Fe II. `species_token` spells the ion the way the linelist
     # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
     # none of that species — which is the honest answer where it holds none.
-    cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
-                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
-                        species=species_token(a.element, a.ion))
+    if getattr(a, "lines_from_ew", None):
+        cand = _cand_from_ew_artifact(ctx["linelist"], Path(a.lines_from_ew),
+                                      lo_A=a.lo, hi_A=a.hi,
+                                      species=species_token(a.element, a.ion),
+                                      tier=a.lines_tier)
+    else:
+        cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
+                            teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
+                            species=species_token(a.element, a.ion))
     # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
     # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
     # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
@@ -855,6 +944,17 @@ def main() -> None:
                          "whichever is listed first -- which is how two telluric-corrected "
                          "Kitt Peak holdings sat unmeasurable while `--instrument "
                          "kpno_solar_atlas` looked like it covered them.")
+    ap.add_argument("--lines-from-ew", default=None, metavar="EW_CSV",
+                    help="RYA-967: drive the SYNTHESIS route over the lines a named EW "
+                         "artifact attempted, instead of `select_lines`' strongest-N. "
+                         "This is what makes an EW-vs-synth comparison CONTROLLED: the "
+                         "two legs then differ by method and by nothing else. Without it "
+                         "the synth leg picks its own (stronger) lines and any difference "
+                         "in A(X) conflates method with selection — RYA-842, line "
+                         "selection dominates.")
+    ap.add_argument("--lines-tier", choices=["all", "graded", "ungraded"], default="all",
+                    help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
+                         "as their own product, never merged with the ungraded ones.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
