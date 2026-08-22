@@ -192,10 +192,30 @@ def section_968(d: pd.DataFrame, out: dict) -> None:
     out["968_chi2_cut"] = chi2_cut
     out["968_chi2_derivation"] = chi2_why
 
+    # ⚠️ THE FIXTURE DOES NOT CARRY THE CITED SIGMA — it must be joined from canonical_gf
+    # (RYA-945). Without the join every line falls back to the last-resort sigma, and the pool
+    # reports ~0.5 dex for lines whose published RMS RYA-967 measured at 0.0621. A fallback
+    # that fires because a JOIN was skipped is indistinguishable from one that fires because
+    # no sigma exists, which is exactly the silent-wrong shape to avoid.
     rows = _rows(d)
-    for r in rows:                       # the fixture is all GF-LAB with a published sigma
-        r["gf_tier"] = "LAB"
-        r["gf_sigma_dex"] = r.get("gf_sigma_dex")
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    fe = cg[cg.species.astype(str).str.strip() == "Fe I"]
+    cw = fe.wavelength_air_A.to_numpy(float)
+    ct = fe.gf_tier.to_numpy()
+    cs = fe.gf_sigma_dex.to_numpy(float)
+    joined = 0
+    for r in rows:
+        j = int(np.argmin(np.abs(cw - r["wavelength_air_A"])))
+        if abs(cw[j] - r["wavelength_air_A"]) <= 0.02:
+            r["gf_tier"] = str(ct[j])
+            if np.isfinite(cs[j]):
+                r["gf_sigma_dex"] = float(cs[j]); joined += 1
+        else:
+            r["gf_tier"] = "NO-MATCH"
+    print(f"    canonical_gf join   : {joined} of {len(rows)} lines carry a cited sigma")
+    print(f"      tiers in fixture  : "
+          f"{dict(pd.Series([r['gf_tier'] for r in rows]).value_counts())}")
+    out["968_cited_sigma_joined"] = joined
 
     # 5 — F2 OFFSET INVARIANCE on stages 1-5.
     print("\n[5] F2 — OFFSET INVARIANCE of stages 1-5")
@@ -242,6 +262,8 @@ def section_968(d: pd.DataFrame, out: dict) -> None:
         gt = empirical_gf_term(pool.gf_sigma_dex, n_lines=pool.n_in_value,
                                provenance="fixture: all GF-LAB")
         print(f"    budget  : {gt.name} = {gt.dex:.4f} dex")
+        print(f"    cross-check: RYA-967 independently reported gf rung 3 with a cited-sigma "
+              f"RMS of 0.0621 dex on these same 55 lines")
         out["968_gf_sigma_dex"] = pool.gf_sigma_dex
 
     # 7 — PHYSICS, NOT REFERENCE.
