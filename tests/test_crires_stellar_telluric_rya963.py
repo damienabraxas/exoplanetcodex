@@ -214,3 +214,31 @@ def test_frame_table_refuses_a_chip_that_is_not_monotonic():
                                               qual=np.zeros(4, int))])
     with pytest.raises(RuntimeError, match='non-increasing'):
         cst._frame_table(bad)
+
+
+# ── CCF railing ──────────────────────────────────────────────────────────────
+def test_ccf_peak_reports_a_railed_maximum_rather_than_returning_the_edge():
+    """A peak on the first or last velocity sample is not a measurement — the true
+    maximum is outside the grid. A frame whose transmission was mostly NaN produced
+    exactly this: -80.0 km/s, the grid edge, which the orbit test then read as 'outside
+    the alpha Cen bounds' and returned the confident, wrong verdict NOT-ALPHA-CEN."""
+    v = np.arange(-60.0, 60.1, 0.25)
+    rising = np.linspace(0.0, 1.0, v.size)          # maximum at the last sample
+    out = cst._ccf_peak(v, rising)
+    assert out['railed'] is True
+    assert 'edge' in out['reason']
+
+
+def test_ccf_peak_interpolates_a_real_maximum():
+    v = np.arange(-60.0, 60.1, 0.25)
+    ccf = np.exp(-0.5 * ((v + 25.5) / 3.0) ** 2)
+    out = cst._ccf_peak(v, ccf)
+    assert out['railed'] is False
+    assert abs(out['rv_kms'] + 25.5) < 0.2
+    assert out['contrast'] > 1.0
+
+
+def test_ccf_peak_on_a_flat_ccf_has_no_contrast():
+    v = np.arange(-10.0, 10.1, 0.25)
+    out = cst._ccf_peak(v, np.zeros_like(v))
+    assert out['contrast'] == 0.0
