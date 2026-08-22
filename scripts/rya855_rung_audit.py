@@ -307,7 +307,8 @@ def main() -> int:
     # its production default `apply_canonical_gf=True` — so `loggf` is the value the
     # pools actually used (RYA-799/824), not the best value available.
     from pipeline.abundances_derive import _load_synth_resources
-    from derive_band_products import SYNTH_BANDS
+    # RYA-967: from config, not by reaching into the driver that used to hold it.
+    from config.synth_bands import SYNTH_BANDS
     from pipeline.nearuv_synth import gf_provenance
 
     lists = {}
