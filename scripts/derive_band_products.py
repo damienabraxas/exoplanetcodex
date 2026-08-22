@@ -166,6 +166,12 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
 
 from config.synth_bands import SynthBand, SYNTH_BANDS  # noqa: E402,F401
 
+#: How far a synthesis list may fall short of the requested window before the run is
+#: refused. NOT a tuned number: a line list's edge is where its last line sits, so the
+#: first/last line of a band can legitimately be an Angstrom inside the nominal boundary.
+#: It is small enough that the 420 A GES-v6 shortfall at the VIS blue edge cannot pass.
+_LIST_COVERAGE_TOL_A = 5.0
+
 #: RYA-759's own defaults, named here so a reader can see they are NOT re-chosen.
 #: Changing any of these would move the product away from the published 7.487 and the
 #: ticket forbids that without a stated cause — so they are imported-in-spirit, and the
@@ -266,6 +272,30 @@ def synthesis_route(a, pol) -> None:
         raise SystemExit(
             f"no line in {cfg.linelist.name} lies within {a.lo}-{a.hi} A — refusing to "
             f"state gf provenance for a band this list does not cover.")
+    # 🔴 RYA-967 — PARTIAL COVERAGE IS A MISLABEL, NOT A SMALL PROBLEM.
+    #
+    # The check above refuses only when the list has NO line in the window. That was
+    # sufficient while every synth band shipped a list built for it; the VIS entry does
+    # not. It reads the iSpec-vendored GES v6 list — deliberately, so Part B varies method
+    # alone against the EW route — and that list starts at 4200 A. A VIS run over
+    # 3780-6910 would therefore have synthesised 4200-6910, converged, and emitted a
+    # product labelled 3780-6910: a number naming a range it was not measured over, which
+    # is the RYA-911/913 defect exactly.
+    #
+    # Refused rather than trimmed. Silently narrowing the band would hide the gap in a
+    # product nobody re-reads; the caller is told to ask for the range the list covers.
+    _lo_cov, _hi_cov = float(_ll.wave_A.min()), float(_ll.wave_A.max())
+    _gap_lo = max(0.0, _lo_cov - a.lo)
+    _gap_hi = max(0.0, a.hi - _hi_cov)
+    if _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
+        raise SystemExit(
+            f"{pol.name} synthesis list {cfg.linelist.name} covers "
+            f"{_lo_cov:.1f}-{_hi_cov:.1f} A but the run asks for {a.lo:.1f}-{a.hi:.1f} A "
+            f"— uncovered: {_gap_lo:.1f} A at the blue edge, {_gap_hi:.1f} A at the red. "
+            f"Emitting a product labelled {a.lo:.0f}-{a.hi:.0f} A that was synthesised "
+            f"over a narrower range is a number naming a range it was not measured over "
+            f"(RYA-911/913). Re-run over the covered range, or extend the list. "
+            f"{cfg.build_hint}")
     prov_gf = gf_provenance(float(_w.min()), float(_w.max()))
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
