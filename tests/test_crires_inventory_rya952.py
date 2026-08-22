@@ -52,7 +52,7 @@ def test_tau_ceti_is_found_despite_being_labelled_STD(inventory):
     """The headline. A frame's role is not its name."""
     std = [r for r in inventory if r["object_raw"] == "STD"]
     assert std, "no OBJECT='STD' frames — this pin has lost its subject"
-    assert all(r["star_id"] == "tau_cet" for r in std), (
+    assert all(r["star_id"] == "tau_ceti" for r in std), (
         "an OBJECT='STD' frame did not resolve to tau Cet; identification has fallen back "
         "to the label")
     assert all(r["id_status"] == "confirmed" for r in std)
@@ -87,7 +87,7 @@ def test_proper_motion_moves_tau_ceti_further_than_the_match_radius(cat):
     """If this ever stops being true the propagation could be dropped. It will not."""
     mjd_2022 = 59585.0
     ra, dec = _propagate(cat, mjd_2022)
-    i = int(np.where(cat.star_id == "tau_cet")[0][0])
+    i = int(np.where(cat.star_id == "tau_ceti")[0][0])
     moved = _sep_arcsec(cat.ra_deg_j2000.iloc[i], cat.dec_deg_j2000.iloc[i], ra[i], dec[i])
     assert moved > 40.0, (
         f"tau Cet moved only {moved:.1f}\" from J2000 to 2022 — recheck the catalogue; "
@@ -98,12 +98,12 @@ def test_without_proper_motion_tau_ceti_would_be_missed(cat):
     """The counterfactual, asserted: the J2000 position does NOT match the 2022 pointing."""
     fr = Frame(path="x", md5="x", ra_deg=26.004805, dec_deg=-15.93158, mjd=59585.06542,
                object_raw="STD", date_obs="2022-01-06T01:34:12")
-    i = int(np.where(cat.star_id == "tau_cet")[0][0])
+    i = int(np.where(cat.star_id == "tau_ceti")[0][0])
     naive = _sep_arcsec(fr.ra_deg, fr.dec_deg,
                         cat.ra_deg_j2000.iloc[i], cat.dec_deg_j2000.iloc[i])
     assert naive > 40.0, f"J2000 separation is only {naive:.1f}\" — counterfactual is void"
     got = identify(fr, cat)
-    assert got.star_id == "tau_cet" and got.id_sep_arcsec < 30.0
+    assert got.star_id == "tau_ceti" and got.id_sep_arcsec < 30.0
 
 
 # ── judgement 3: the pipeline settles the instrument ─────────────────────────────────

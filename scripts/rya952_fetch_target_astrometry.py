@@ -29,7 +29,7 @@ OUT = ROOT / 'data' / 'reference' / 'crires_target_astrometry.csv'
 #: would plausibly land on. `alf Cen B` and the RYA-423 quarantine cases are here ON PURPOSE:
 #: a catalogue that only contains the answers you expect cannot produce a NEGATIVE result.
 TARGETS = {
-    'tau_cet': 'tau Cet', 'eps_eri': 'eps Eri', 'tau_boo': 'tau Boo',
+    'tau_ceti': 'tau Cet', 'eps_eri': 'eps Eri', 'tau_boo': 'tau Boo',
     '55cnc_a': '55 Cnc', 'alpha_cen_a': 'alf Cen A', 'alpha_cen_b': 'alf Cen B',
     'procyon': 'Procyon',
 }

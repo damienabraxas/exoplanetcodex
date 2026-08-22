@@ -87,6 +87,58 @@ back to solar). All three axes raise a common base, `FrameContractError`.
 * **Authority ranking (RYA-495):** where headers are proven fallible, RV star-ID
   outranks OBJECT outranks folder — register that layer via `register_aliases`.
 
+## Star identity at intake: TWO routes, always both (RYA-973)
+
+**This runs on every frame we download, every time. It is not an audit step to remember;
+it is the definition of "we know what star this is."** One call:
+`pipeline.intake_identity.identify_at_intake(path)`.
+
+* **ASTROMETRY is the ARBITER** — the pointing (`RA`/`DEC`) against SIMBAD positions
+  **propagated by proper motion to the exposure's epoch** (`pipeline.audit_crires`,
+  RYA-952).
+* **The LABEL is CORROBORATION** — `resolve_star` on `OBJECT` and `ESO OBS TARG NAME`
+  (`pipeline.star_id`, RYA-964).
+
+Never one alone, and never the label as arbiter. Each route fails in a way the other
+catches, and both failures are on our own disk:
+
+* 🔴 **A label can be the CORRECT name of the WRONG star.** Two tau Ceti files carry
+  `OBJECT='HD18884'`, and HD 18884 is **α Ceti — 20° away**. No alias table can ever
+  catch that; if α Cet were added as a system the label would resolve *confidently and
+  wrongly*. Only astrometry caught it.
+* 🔴 **A label can name no star at all.** tau Ceti's CRIRES+ frames carry `OBJECT='STD'`
+  — the pipeline wrote the ROLE where the name goes (RYA-952). An `OBJECT`-keyed
+  inventory files them as an anonymous standard and reports the star as ABSENT.
+
+⚠️ **Proper motion is load-bearing, not a nicety.** tau Ceti moves 1.92″/yr, so a J2000
+position is **42″ stale by 2022** — larger than any usable match radius. Skipping the
+propagation does not blur the answer, it changes it.
+
+### One namespace, enforced
+
+🔴 **Normalise BOTH ids through `resolve_star` before comparing, and keep the id
+namespaces identical.** Until RYA-973 the astrometry reference said `tau_cet` while
+`system_catalog.csv`, `stars.yaml` and the holdings registry said `tau_ceti`. Nothing
+caught it because nothing joined the two — right up until the first consumer ran both
+routes and compared, at which point the check **disagreed on every tau Ceti frame ever
+taken**. A check that cries wolf every time is worse than no check: it trains the reader
+to ignore the one real alarm.
+
+`pipeline.intake_identity.assert_star_id_namespace()` is the tripwire — every id any
+intake path can emit must be **identical** to its `resolve_star` form, or be declared in
+`NAMESPACE_EXEMPT` **with a stated reason** (today: `tau_boo`, no `star_params_key` yet;
+`vesta`, a solar-system body). Adding a bare exemption to silence it is the defect, not
+the fix. The guard is proved RED in the tests before it is trusted.
+
+### Verdicts
+
+| verdict | meaning | action |
+|---|---|---|
+| `<system_id>` | both routes agree, or astrometry confirms and the labels name no star | proceed |
+| `CONTRADICTION` | a label resolves to a DIFFERENT star than the pointing | **quarantine, never guess** |
+| `INDETERMINATE` | astrometry confirmed no catalogued target | quarantine |
+
+
 ## Per-star output namespacing + frozen gold solar reference (RYA-469)
 
 Every per-star pipeline product carries the star in its **path**

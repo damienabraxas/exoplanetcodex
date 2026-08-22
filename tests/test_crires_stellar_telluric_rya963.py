@@ -408,3 +408,50 @@ def test_work_and_product_names_separate_frames_of_the_same_setting():
     per_frame = {f"tau_ceti_crires_K2148_{d}_{s}" for d, s in zip(dates, stems)}
     assert len(setting_only) == 2, "setting+date collapses four frames onto two names"
     assert len(per_frame) == 4, "set+setting+date+frame keeps all four distinct"
+
+
+# ── RYA-973: the standing intake identity procedure ─────────────────────────
+def test_star_id_namespace_guard_passes_on_the_committed_tree():
+    from pipeline.intake_identity import assert_star_id_namespace
+    out = assert_star_id_namespace()
+    ids = out['sources']['data/reference/crires_target_astrometry.csv']
+    assert 'tau_ceti' in ids and 'tau_cet' not in ids, (
+        "the astrometry reference must use the canonical star_params_key")
+
+
+def test_star_id_namespace_guard_actually_fails_on_drift(tmp_path):
+    """Prove the tripwire RED before trusting it. A guard that cannot fail is not a
+    guard — and this exact drift sat undetected because nothing joined the two
+    registries until the first consumer compared them."""
+    import csv
+    from pipeline.intake_identity import assert_star_id_namespace
+    from config.constants import codex_root
+    src = Path(codex_root('repo')) / 'data' / 'reference' / 'crires_target_astrometry.csv'
+    dst = tmp_path / 'data' / 'reference'
+    dst.mkdir(parents=True)
+    rows = list(csv.DictReader(open(src, newline='')))
+    for r in rows:
+        if r['star_id'] == 'tau_ceti':
+            r['star_id'] = 'tau_cet'                      # re-introduce the drift
+    with open(dst / 'crires_target_astrometry.csv', 'w', newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), lineterminator='\n')
+        w.writeheader(); w.writerows(rows)
+    with pytest.raises(AssertionError, match='namespace drift'):
+        assert_star_id_namespace(repo_root=tmp_path)
+
+
+def test_exemptions_carry_a_stated_reason():
+    """An exemption list is where a defect hides if entries can be added silently."""
+    from pipeline.intake_identity import NAMESPACE_EXEMPT
+    assert set(NAMESPACE_EXEMPT) == {'tau_boo', 'vesta'}
+    for sid, why in NAMESPACE_EXEMPT.items():
+        assert len(why) > 30, f"{sid} exemption needs a stated reason, not a bare entry"
+
+
+def test_singleton_gate_delegates_rather_than_reimplementing():
+    """A second copy of the identity rule is how the two routes drifted apart. The
+    driver must call the standing procedure."""
+    import inspect
+    src = inspect.getsource(cst.identify_singleton)
+    assert 'identify_at_intake' in src
+    assert 'load_astrometry' not in src, "re-implementing the astrometry route here"
