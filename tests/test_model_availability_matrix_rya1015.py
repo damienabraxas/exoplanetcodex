@@ -125,3 +125,23 @@ def test_tier2_owed_is_not_an_acquisition_task(cells):
     for a grid that nobody publishes."""
     fix = cells[("O", "MEAN3D_NLTE")]["fix"]
     assert "BUILD-OUR-OWN" in fix and "NOT an acquisition" in fix
+
+
+def test_tier2_cells_report_both_routes_separately(cells):
+    """RYA-1013 names two independent routes to the same tier-2 number. Collapsing them
+    to one state hides the case worth having: BOTH available, which is a cross-check
+    because the routes share no machinery."""
+    al = cells[("Al", "MEAN3D_NLTE")]
+    assert al["routes"]["consume"] == "WIRED"
+    assert "OWED" in al["routes"]["build_our_own"]
+    assert "cross_check" in al["routes"], "Al can do both; that must be visible"
+
+    # O: no deck to consume, but the atom is held -> build-our-own only.
+    o = cells[("O", "MEAN3D_NLTE")]
+    assert o["routes"]["consume"] == "no deck"
+    assert "OWED" in o["routes"]["build_our_own"]
+    assert "cross_check" not in o["routes"]
+
+    # Li: neither -> genuinely request-only, and the routes must say so.
+    li = cells[("Li", "MEAN3D_NLTE")]
+    assert "blocked" in li["routes"]["build_our_own"]
