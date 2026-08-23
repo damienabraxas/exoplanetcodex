@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-23
+
+- **RYA-1002** — Al gets a **primary-lab gf table** (Burheim 2023, 12 lines, 2-11 %) and `gf_grades.GF-LAB` is generalised off the Fe-only file — proved inert on Fe (931 verdicts byte-identical). 7/8 in-range Al lines reach GF-LAB on `linelist_solar`; only 1 on `canonical_gf`.
+
 ## 2026-08-22
 
 - **RYA-988** — cited RT **vmac** for tau Ceti (0.9, Bruntt+2010 B1) + eps Eri (1.8, Saar & Osten 1997 T3). 🔴 **eps Eri absent from Bruntt; VF05 publish NO vmac; Doyle+2014 out of range on BOTH axes.** 🔴 **Bruntt B1's 'Saar' columns are TRANSPOSED (4/4).** Adopted as PAIRS — vsini moves too
