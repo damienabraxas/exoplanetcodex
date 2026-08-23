@@ -2373,39 +2373,22 @@ artifacts:
 
   # ── RYA-959 — the width ceiling, and the evidence that it is measured not chosen ─────
   #
+  # RYA-959's two artifacts -- `data/audit/rya959_width_ceiling/{width_ceiling_evidence.json,
+  # verdict_census.csv}` -- are NOT listed here, deliberately (Ryan, 2026-08-23).
+  # They are real and git-tracked, but they live under `data/audit/`, and this manifest
+  # governs `data/results/` + `data/processed/` only (scripts/check_result_generators.py
+  # SCANNED_DIRS). Registering them here made `test_live_repo_is_clean` fail on every PR
+  # for a week: the checker cannot resolve a path outside the trees it scans. Their
+  # generator is `scripts/rya959_width_evidence.py`, recorded in docs/science/, not here.
+
+  #
   # The POOLS are deliberately NOT here: they land in data/measured/band_ew/, which is
   # gitignored (RYA-469), because they are regenerable from the committed line list plus
   # the committed harness. What IS committed is the evidence — the verdict census, the
   # fitted-sigma histogram, and the fate of the laboratory-graded lines — so the claim
   # "the ceiling lands in a valley" can be checked without re-running the measurement.
 
-  - artifact: ../audit/rya959_width_ceiling/width_ceiling_evidence.json
-    status: COMMITTED
-    generator: scripts/rya959_width_evidence.py
-    invocation: python3 scripts/rya959_width_evidence.py
-    ticket: RYA-959
-    note: >-
-      Both VIS arms, 2,359 Fe I candidates each. The fitted sigma is BIMODAL and the
-      physical ceiling (0.055-0.104 A, derived from STAR_PARAMS) lands in the valley:
-      only 3.2% (HARPS) / 4.2% (Kitt Peak) of fits sit within 1-2x it, while 960 / 774
-      sit pinned at the optimiser's 0.40 A bound. After the guard no impossible width
-      survives - in-aggregate implied width median 0.175 A (max 0.551) and 0.152 A
-      (max 0.426), against 0.69 A median and a 31.8 A worst case in the stale
-      sol_ew_results_v1. Of the 57 laboratory-graded Fe I lines that reach the fitter at
-      all, the dominant loss on BOTH arms is REW saturation (30 / 24), not plumbing:
-      the EW route genuinely cannot measure that population, which is why RYA-958 routes
-      the deep graded lines to synthesis.
 
-  - artifact: ../audit/rya959_width_ceiling/verdict_census.csv
-    status: COMMITTED
-    generator: scripts/rya959_width_evidence.py
-    invocation: python3 scripts/rya959_width_evidence.py
-    ticket: RYA-959
-    note: >-
-      One row per (arm, verdict). Registered against the same generator as the JSON
-      because the two are one measurement and must not drift apart. The REW branch spells
-      its own number into the reason string, so the census collapses it to a single coded
-      verdict - counting the raw strings returns ~200 distinct "verdicts" for one cause.
 
   - artifact: rya1001/rya1001_al_line_census.csv
     status: COMMITTED
