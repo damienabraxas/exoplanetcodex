@@ -600,6 +600,25 @@ def telluric_summary(rows: list[dict], instruments: list[dict]) -> dict:
     }
 
 
+
+def _collect_model_matrix() -> dict:
+    """RYA-1015 element x model-type availability + engines + molecules.
+
+    Loud-fails visibly (an `error` key the page renders) rather than dropping the
+    section, so a blind Sirius scan can never look like "no grids".
+    """
+    try:
+        from pipeline.model_availability_matrix import (
+            build_matrix, build_engine_matrix, build_molecule_matrix)
+        m = build_matrix()
+        m["engines"] = build_engine_matrix(m)
+        m["molecules"] = build_molecule_matrix()
+        return m
+    except Exception as exc:                      # noqa: BLE001 - surfaced on the page
+        return {"error": f"{type(exc).__name__}: {exc}", "cells": [],
+                "engines": [], "molecules": [], "problem_count": None}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--products-root", type=Path, action="append", default=None)
@@ -635,6 +654,7 @@ def main() -> None:
         "telluric_summary": None,       # filled below; needs both lists
         "reference": collect_reference(ROOT),
         "graded": collect_graded(ROOT),
+        "model_matrix": _collect_model_matrix(),
         "reporting_contract": {
             "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
             "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
