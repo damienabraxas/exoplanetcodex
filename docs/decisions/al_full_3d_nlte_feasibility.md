@@ -139,17 +139,43 @@ from **`ITA-Solar`**, Carlsson & Leenaarts' own Oslo GitHub org, which actively 
 MULTI3D publishes freely and does not publish this. That is a decision, not an oversight,
 and it is not one to route around.
 
-**What the search did turn up: RH 1.5D is public and is a real NLTE solver.** This is a
-genuine gain and it was missed on the first pass.
+### The general question: is ANY full-3D NLTE code downloadable? No.
+
+Swept 2026-08-23 across GitHub, Bitbucket, the relevant institutional orgs, and every code
+named in the 2025 3D-NLTE review (arXiv 2511.04254). **No full-3D NLTE stellar photosphere
+RT code is publicly downloadable.**
+
+| code | full 3D? | public? |
+|---|---|---|
+| MULTI3D | yes | **no** — 1080-byte stub in DISPATCH; absent from ITA-Solar |
+| Balder | yes | **no** — and downstream of MULTI3D |
+| M3DIS | yes | **no** availability statement (Eitner et al. 2024) |
+| Linfor3D | yes | REQUEST (AIP) |
+| PORTA (Stepan & Trujillo Bueno) | yes | no public repo found |
+| Scate | 3D **LTE** only | REQUEST |
+| **RH 1.5D** (`ITA-Solar/rh`) | **no — 1.5D** (`rh15d`/`rhf1d`/`rhsphere`, no `rh2d`/`rh3d`) | **yes** |
+| **Lightweaver** (`Goobley/Lightweaver`) | **no — 1D / 1.5D / 2D** | **yes, MIT** |
+| **Magritte** (`Magritte-code/Magritte`) | **yes** | **yes, GPL-3** — but built for circumstellar/ISM line transfer: no photospheric background opacity, no MARCS/STAGGER coupling, no abundance fitting. Repurposing it is a research project, not a download. |
+
+Uitenbroek's original RH does ship 2D/3D short-characteristics solvers, but its NSO page
+is dead (HTTP 404) and no mirror carrying `rhsc2d`/`rhsc3d` was found on GitHub; the
+public `ITA-Solar/rh` fork kept only the 1D/1.5D/spherical geometries.
+
+**The structural finding:** the public ecosystem stops at 1.5D/2D. Every code that
+actually performs full 3D NLTE on a stellar photosphere is private to roughly four
+groups. **That is why the field's 3D-NLTE grids come from a handful of groups — the
+bottleneck is code access, not cubes, opacity, or compute**, all three of which we now
+have or can obtain. It also means there is no substitute to find: the ask is the path.
+
+### Secondary note — RH 1.5D is public, but it is NOT an answer to the 3D question
+
+Recorded because it is useful for a *different* rung, not because it closes this gap.
 
 * **It is not full 3D.** The repo's geometry directories are `rh15d`, `rhf1d`, `rhsphere`
   — there is **no `rh2d` / `rh3d`**. 1.5D solves each atmospheric column independently and
   **neglects horizontal radiative transfer**, which is precisely the term that matters for
   Al's strong, scattering-dominated 3961 A resonance line. It **cannot** produce a
   full-3D Al result and must never be labelled as one.
-* Uitenbroek's original RH *does* carry 2D/3D geometry, but its NSO page is dead
-  (`www.nso.edu/staff/uitenbr/rh.html` -> HTTP 404), so that is not a clone-and-go route
-  either.
 * **Licensing caveat:** the repo has **no LICENSE file** despite "open source" in its
   README. The README explicitly invites use subject to citing Pereira & Uitenbroek 2015
   and Uitenbroek 2001, so intent is clear — but under the "was this made available for
