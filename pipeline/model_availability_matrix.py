@@ -71,12 +71,17 @@ _MODEL_ATOMS: frozenset = frozenset({
     "Al", "Ba", "Ca", "Co", "Cr", "Eu", "Fe", "H", "Mg", "Mn", "Na", "Ni", "O",
     "Si", "Sr", "Ti", "Y"})
 
-#: MEAN-3D REACHABILITY STATES -- these say WHAT IT WOULD TAKE, which "REQUEST_ONLY"
-#: did not. It was collapsing three unrelated situations into one word.
-TIER1_VALIDATED = "TIER1_VALIDATED"  # wired AND proven end-to-end
-TIER1_WIRED = "TIER1_WIRED"          # registry wired; end-to-end run still owed
-TIER1_WIREABLE = "TIER1_WIREABLE"    # deck + atom on disk; wiring is mechanical
-TIER2_OWED = "TIER2_OWED"            # atom held, no deck -> needs the tier-2 solver
+#: 🔴 THE WHOLE MEAN3D_NLTE COLUMN *IS* TIER 2. RYA-1013 defines tier-2 as
+#: "<3D>/1.5D NLTE", so every cell here is a tier-2 capability -- the question is never
+#: "which tier", it is WHICH ROUTE delivers it and how far along that route we are.
+#: RYA-1013 names the routes: CONSUME a published deck, BUILD-OUR-OWN, or the full-3D
+#: check. These states track route + readiness, and deliberately do NOT reuse the word
+#: "tier" for anything else.
+T2_CONSUME_VALIDATED = "T2_CONSUME_VALIDATED"  # published deck wired AND proven end-to-end
+T2_CONSUME_WIRED = "T2_CONSUME_WIRED"          # published deck wired; run still owed
+T2_CONSUME_READY = "T2_CONSUME_READY"          # deck + atom on disk, nothing consumes them
+T2_BUILD_OWED = "T2_BUILD_OWED"                # no deck; atom + <3D> atmosphere held ->
+                                               # reachable only by the build-our-own route
 
 #: Cell states.
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
@@ -623,7 +628,7 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
         # deck sitting unwired. A HAVE that masks a NEEDS_WIRING is the worst kind of
         # wrong -- it looks finished.
         if base in _MEAN3D_WIRED:
-            cell.state = TIER1_WIRED
+            cell.state = T2_CONSUME_WIRED
             cell.code_grid = _MEAN3D_WIRED[base]
             cell.facts.append(
                 f"WIRED (RYA-821) via gerber_nlte deck '{_MEAN3D_WIRED[base]}'. Keyed at "
@@ -632,9 +637,9 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                 f"atmosphere is carried per-deck.")
             cell.fix = ("END-TO-END RUN STILL OWED: wiring is verified structurally, not "
                         "executed. The deck is Sirius-only and large. Promote to "
-                        "TIER1_VALIDATED only after an interpolation actually runs.")
+                        "T2_CONSUME_VALIDATED only after an interpolation actually runs.")
         elif base in _MEAN3D_DECKS:
-            cell.state = TIER1_WIREABLE
+            cell.state = T2_CONSUME_READY
             cell.disk_paths = disk_paths or cell.disk_paths
             cell.error = ("A <3D> STAGGERmean3D deck AND its model atom are BOTH on "
                           "Sirius, and nothing consumes them.")
@@ -647,10 +652,11 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                     f"a SCALAR at the solar node, not a parameter-space grid. It must "
                     f"not be reported as though it were this deck.")
         elif base in _MODEL_ATOMS:
-            cell.state = TIER2_OWED
+            cell.state = T2_BUILD_OWED
             cell.error = ("No <3D> deck. We DO hold the model atom and the <3D> STAGGER "
                           "atmosphere -- the missing piece is the departure solve.")
-            cell.fix = ("Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. "
+            cell.fix = ("Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 "
+                        "work, not a different tier. NOT an acquisition. "
                         "Nothing to fetch and nothing to ask for.")
         elif solar in ("FULL_3D_NLTE", "MEAN3D_NLTE") or offsolar == "GRID_MEAN3D":
             cell.state = REQUEST_ONLY
