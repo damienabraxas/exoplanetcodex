@@ -35,11 +35,22 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-#: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>_products.csv`. The holding
-#: is in the stem because RYA-933/934 put it there -- before that, two holdings of
+#: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>[_<SELECTOR>]_products.csv`. The
+#: holding is in the stem because RYA-933/934 put it there -- before that, two holdings of
 #: one instrument wrote the same filename and the second overwrote the first.
+#:
+#: RYA-990: the SELECTOR tag is optional and was previously unmatched, which silently
+#: DROPPED every product carrying one. `derive_band_products._selector_tag` has emitted
+#: `_DEEPGRADED` / `_FROMEW[-GRADED|-UNGRADED]` since RYA-984, so the two deep-graded VIS
+#: Fe legs (RYA-984 Kitt Peak, RYA-991 HARPS) were on disk and merged but invisible here --
+#: the tracker showed the 55-line shallow run as the only VIS synth product. A dashboard
+#: that cannot see a merged product is the same failure mode as one that is hand-typed.
+#: The selector is CARRIED, not discarded: it names which line set was measured, and two
+#: runs differing only in selector are two different products (RYA-984) that must not
+#: collapse into one cell (RYA-946).
 STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<lo>\d+)_(?P<hi>\d+)_"
-                  r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)_products\.csv$")
+                  r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)"
+                  r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)?)_products\.csv$")
 
 
 def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
@@ -67,7 +78,11 @@ def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | N
     return {"element": m.group("el"), "ion": m.group("ion"),
             "lo_A": float(m.group("lo")), "hi_A": float(m.group("hi")),
             "instrument": instrument, "holding": holding,
-            "holding_source": source, "handler": m.group("handler")}
+            "holding_source": source, "handler": m.group("handler"),
+            # Which line set was measured. "" is the default selector, which is what
+            # every pre-RYA-984 artifact carries (RYA-984 kept the default unlabelled
+            # so existing names did not change).
+            "selector": m.group("selector").lstrip("_") or "default"}
 
 
 def collect_products(roots: list[Path], instruments: set[str],
@@ -93,6 +108,26 @@ def collect_products(roots: list[Path], instruments: set[str],
                     "sigma_stat": None if pd.isna(r.get("stat_dex")) else float(r["stat_dex"]),
                     "sigma_syst": None if pd.isna(r.get("syst_dex")) else float(r["syst_dex"]),
                     "n_lines": None if pd.isna(r.get("n_lines")) else int(r["n_lines"]),
+                    # The RYA-906 physics axis: which gf SOURCE the linelist used
+                    # ("kurucz"), not a grading tier.
+                    #
+                    # 🔴 RYA-990: the band-product schema carries NO TIER COLUMN, so the
+                    # graded / consistent / no-bueno tier the cell contract asks for
+                    # CANNOT be derived from a product. The only tier signals on disk are
+                    # indirect -- the `selector` (DEEPGRADED = the lab-graded deep set)
+                    # and `dominant` reading "gf scale (cited lab)". Both are emitted, and
+                    # neither is relabelled as a tier: a dashboard that infers a tier is a
+                    # dashboard that types one. Giving products a real tier field is the
+                    # fix, and it belongs in the product writer, not here.
+                    "gf_source": None if pd.isna(r.get("gf")) else str(r["gf"]),
+                    "dominant_term": (None if pd.isna(r.get("dominant"))
+                                      else str(r["dominant"])),
+                    # Carried because the two deep-graded arms disagree on it (RYA-991
+                    # flagged the gate refusing 1 of 109 on Kitt Peak and 0 of 109 on the
+                    # noisier HARPS arm). A count of what a gate REFUSED is part of the
+                    # result, not bookkeeping.
+                    "n_excluded": (None if pd.isna(r.get("n_excluded"))
+                                   else int(r["n_excluded"])),
                     "source": str(path.relative_to(ROOT)),
                 })
     return rows
@@ -233,7 +268,11 @@ def main() -> None:
         "refresh_seconds": args.refresh_seconds,
         "derivation_note": ("Every value here is read from a product or a registry. "
                             "Nothing is typed. The ticket pipeline is deliberately "
-                            "absent: it is Linear state, and a committed copy drifts."),
+                            "absent: it is Linear state, and a committed copy drifts. "
+                            "RYA-990: no product carries a graded/consistent/no-bueno "
+                            "TIER field, so no tier is shown -- `selector` and "
+                            "`dominant_term` are the only tier signals on disk and are "
+                            "reported as themselves rather than inferred into a tier."),
         "elements": sorted({p["element"] + p["ion"] for p in products}),
         "bands": ["near-UV", "VIS", "red-optical", "NIR"],
         "instruments": collect_instruments(),
