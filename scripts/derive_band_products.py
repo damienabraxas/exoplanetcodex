@@ -974,6 +974,110 @@ def synthesis_route(a, pol) -> None:
     # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
     # nowhere to live is a quantity nobody can check.
     (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
+    # ── ENGINE-A on the SYNTHESIS route ──────────────────────────────────────
+    #
+    # 🔴 RYA-1002 — THIS BLOCK DID NOT EXIST, AND ITS ABSENCE WAS SILENT.
+    #
+    # `[2] ENGINE-A` below is on the EW route only, so a band measured with
+    # `--force-synthesis` emitted 1D-LTE and stopped — no NLTE product, no message, no
+    # disposition. RYA-525's two-engine floor requires the departure product, and a
+    # reader of the matrix could not tell "this element has no registered grid" from
+    # "the route never asked". Found on Al: the Amarsi-2020 grid serves all six Al I
+    # lines AT SOLAR PARAMETERS (RYA-773 landed), and the red-optical run still returned
+    # 1D-LTE alone.
+    #
+    # A departure term added to the SAME inversion. The handler is this route's own
+    # (`SynthesisHandler`) and NOT the EW route's ProfileFitHandler — ENGINE-A rides
+    # whatever measured the line, and charging the profile fitter's residual to a flux
+    # fit would attribute someone else's systematic to it (RYA-869).
+    used_a = [l for l in lines if l.in_aggregate and l.abundance is not None]
+    deltas = engine_a_delta(a.element, a.ion,
+                            np.array([l.wavelength_air_A for l in used_a]),
+                            cache=a.mpia_cache, star=a.star)
+    rows_a: list[LineMeasurement] = []
+    for l in used_a:
+        # Tolerance match — two catalogues quoting one transition differ by up to
+        # ~0.03 A (RYA-704), and the grid keys are rounded.
+        d = None
+        if deltas:
+            k = min(deltas, key=lambda x: abs(x - l.wavelength_air_A))
+            if abs(k - l.wavelength_air_A) < 0.06:
+                d = deltas[k]
+        la = LineMeasurement(
+            element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
+            instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
+            treatment="ENGINE-A", ep_eV=l.ep_eV,
+            nlte_delta_dex=(float(d) if d is not None else None),
+            nlte_source=(engine_a_source(a.element) if d is not None
+                         else "registered per-line delta_nlte (NOT SERVED)"),
+            continuum_level=l.continuum_level, continuum_method=l.continuum_method,
+            continuum_ref=l.continuum_ref,
+            observed_depth=l.observed_depth, implied_width_A=l.implied_width_A,
+            red_chi2=l.red_chi2,
+            abundance=(l.abundance + d) if d is not None else None)
+        if d is None:
+            la.in_aggregate = False
+            la.excluded_reason = (
+                "ENGINE-A-NOT-SERVED: the registered source returns no usable "
+                "delta_nlte for this line (absent, nan, or a placeholder zero). "
+                "Reduced coverage, not a failed correction.")
+        # `_stamp` is a closure over the EW route's `main()` locals and is not reachable
+        # here. Both invariants it enforces are still honoured, explicitly:
+        #   RYA-880 — every row must STATE what departure was applied, because a blank
+        #             cannot be told apart from an unrecorded correction (RYA-833).
+        #             Satisfied by construction above, and asserted rather than assumed.
+        #   RYA-711 — the problem-children registry disposition is carried, not dropped.
+        #             ENGINE-A is the SAME transition as its parent line (RYA-871), so it
+        #             inherits that line's verdict; re-deriving it would be a second
+        #             source for one fact.
+        if not la.nlte_source:
+            raise SystemExit(
+                f"RYA-880: {la.element} {la.ion} {la.wavelength_air_A} (ENGINE-A) has no "
+                f"`nlte_source`. Every row must state what departure was applied.")
+        la.problem_class = l.problem_class
+        la.problem_status = l.problem_status
+        la.problem_tickets = l.problem_tickets
+        la.problem_action = l.problem_action
+        if not l.in_aggregate:
+            la.in_aggregate = False
+            la.excluded_reason = (l.excluded_reason if not la.excluded_reason
+                                  else f"{l.excluded_reason} | {la.excluded_reason}")
+        rows_a.append(la)
+    p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
+                        handler="SynthesisHandler",
+                        provenance=engine_a_source(a.element))
+    if p_a.value is not None:
+        pd.DataFrame([asdict_line(l) for l in rows_a]).to_csv(
+            out / f"{stem}_ENGINE-A_lines.csv", index=False)
+        b_a = build_budget(a.element, 0.5 * (a.lo + a.hi), p_a.n_lines,
+                           scatter_dex=p_a.sigma, **rung.budget_kwargs(),
+                           **harness_residual.for_product(p_a).budget_kwargs())
+        stat_a, syst_a = b_a.total()
+        pd.DataFrame([dict(
+            element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
+            treatment="ENGINE-A", handler=p_a.handler,
+            A=round(p_a.value, 3), n_lines=p_a.n_lines, n_excluded=p_a.n_excluded,
+            stat_dex=round(stat_a, 4), syst_dex=round(syst_a, 4),
+            stat_basis=b_a.stat_basis(),
+            dominant=(b_a.dominant().name if b_a.dominant() else ""),
+            **axes_for("ENGINE-A", handler=p_a.handler or None).as_columns(),
+        )]).to_csv(out / f"{stem}_ENGINE-A_products.csv", index=False)
+        (out / f"{stem}_ENGINE-A_budgets.txt").write_text(
+            b_a.describe() + f"\n  gf rung: {rung.describe()}\n")
+        (out / f"{stem}_ENGINE-A_provenance.txt").write_text(p_a.provenance + "\n")
+        _d = [float(r.nlte_delta_dex) for r in rows_a
+              if r.nlte_delta_dex is not None]
+        print(f"\n  A({a.element} {a.ion}; {pol.name}, ENGINE-A) = {p_a.value:.3f}  "
+              f"(n={p_a.n_lines}, not-served {p_a.n_excluded})")
+        print(f"    delta_nlte applied: mean {np.mean(_d):+.4f} dex over "
+              f"{len(_d)} line(s) — {engine_a_source(a.element)}")
+    else:
+        # An UNSERVED element is a stated disposition, not a missing row. The old
+        # behaviour — printing nothing — is what made this gap invisible.
+        print(f"\n  ENGINE-A: NOT PRODUCED — {engine_a_source(a.element)}; "
+              f"{p_a.n_excluded} of {len(rows_a)} line(s) unserved. The 1D-LTE product "
+              f"above stands alone and is NOT an NLTE value.")
+
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "

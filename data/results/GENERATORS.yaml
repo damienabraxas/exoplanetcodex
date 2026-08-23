@@ -2230,7 +2230,8 @@ artifacts:
     ticket: RYA-1002
     note: >-
       Al I red-optical 1D-LTE on the IAG FTS atlas: A = 6.390, stat 0.033, syst 0.173, n = 4
-      (7835/7836/8772/8773). 🔴 THE FIRST PRODUCT THIS BAND HAS EVER EMITTED: until RYA-1002
+      (7084.643, 7362.296, 7836.134, 8773.896 — `min_sep_A` = 4.0 keeps ONE member of
+      each doublet, so this is NOT the 7835/8772 quartet). 🔴 THE FIRST PRODUCT THIS BAND HAS EVER EMITTED: until RYA-1002
       `config/synth_bands.yaml` gave red-optical a linelist spanning 9203-12976 A with ZERO
       lines in its own 6910-9199 window, so the route refused at its coverage guard every
       time, for every element. UNGRADED and correctly so — Burheim 2023 does not cover this
@@ -2251,10 +2252,14 @@ artifacts:
     ticket: RYA-1002
     note: >-
       Al I red-optical 1D-LTE on the Kitt Peak atlas: A = 6.413, stat 0.015, syst 0.173, n =
-      4. 🔴 THE PRIOR Al VALUE DOES NOT REPRODUCE: RYA-716 published 6.3555 on THIS
-      instrument and THESE lines, so the +0.058 dex move is a pipeline difference and not a
-      data one — the old number came through a path that could not use the red-optical band
-      config, because that band was unrunnable. ⚠️ FIREWALL (RYA-161): 6.413 sits 0.017 from
+      4. ⚠️ CORRECTED: an earlier version of this note claimed the +0.058 dex against
+      RYA-716's 6.3555 was measured on THE SAME LINES and was therefore purely a pipeline
+      difference. It is not. RYA-716's n=3 pool was 6698.673 / 8772.865 / 8773.897; this
+      pool is 7084.643 / 7362.296 / 7836.134 / 8773.896. They share ONE line. Since line
+      selection dominates gf in this budget (RYA-842), the difference is a LINE-SET change
+      at least as much as a route change, and the two numbers are not a controlled
+      comparison. What can be said: the prior value does not reproduce, and WHY is not yet
+      established. ⚠️ FIREWALL (RYA-161): 6.413 sits 0.017 from
       the 6.43 anchor, and that is an OUTCOME, not the justification for the linelist fix —
       the fix was made on provenance (a band pointing at a list with no lines in it) before
       any Al value existed to compare. The 0.17 dex systematic swamps the agreement anyway.
