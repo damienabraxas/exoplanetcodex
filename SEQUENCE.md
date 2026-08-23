@@ -17,6 +17,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-23
 
+- **RYA-1005** — Al's Gerber NLTE deck wired; **its grid has an abundance axis Fe's does not** (31 vs 1 A(X)), so `for_node` now interpolates at the synthesis abundance. Gate PASSES but the deck reports b~1 and a delta indistinguishable from LTE at the 0.01 dex quantiser floor — recorded, not tuned.
+
 - **RYA-1002** — Al gets a **primary-lab gf table** (Burheim 2023, 12 lines, 2-11 %) and `gf_grades.GF-LAB` is generalised off the Fe-only file — proved inert on Fe (931 verdicts byte-identical). 7/8 in-range Al lines reach GF-LAB on `linelist_solar`; only 1 on `canonical_gf`.
 
 ## 2026-08-22
