@@ -837,6 +837,19 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
     # is not evidence of constraining POWER. That argues the score is the wrong quantity
     # to threshold on — NOT that window selection is beyond fixing.
     #
+    # 🔴 AND THE MEASUREMENT SETTLED IT AGAINST THE RETRACTION'S FIRST GUESS. A 2x2 on
+    # H1559 (windows x stellar mask, one molecfit fit per cell) reads:
+    #
+    #                     old mask   new mask
+    #     old windows       21.25       9.85
+    #     new windows        1.14       0.97
+    #
+    # Fixing the WINDOWS moves the column 19x / 10x; fixing the MASK moves it 2.2x /
+    # 1.2x. With good windows BOTH masks give an acceptable column; with bad windows
+    # NEITHER does. RYA-994 was right: the cause is a molecule fitted on a window that
+    # does not constrain it. The mask defect (RYA-998) is real and systematic, but it is
+    # a modifier here, not the mechanism.
+    #
     # Either way this hold is still needed, and for a reason no window plan removes: the
     # same frames refit to materially different columns run to run (CH4 0.108 -> 0.085,
     # CO 2.707 -> 3.649), so no single fit of an unconstrained column can be trusted.
