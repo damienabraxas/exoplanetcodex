@@ -58,6 +58,9 @@ MODEL_TYPES: tuple[str, ...] = ("1D_LTE", "1D_NLTE", "MEAN3D_NLTE", "FULL_3D_NLT
 #: is a different question and therefore reports different values for the same element.
 #: Both are kept; neither is silently resolved into the other.
 
+#: <3D> decks now consumed by an Engine-B route (RYA-821). Keyed element -> deck id.
+_MEAN3D_WIRED: dict[str, str] = {"Al": "Al@mean3D"}
+
 #: Cell states.
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
 CODE_USES = "CODE_USES"        # the pipeline applies it now (code is ground truth)
@@ -606,6 +609,15 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                 cell.facts.append(
                     f"ALSO holds {len(disk_paths)} unwired <3D> STAGGERmean3D deck(s) "
                     f"on Sirius -- a second, richer route nothing consumes yet.")
+        elif disk_paths and base in _MEAN3D_WIRED:
+            cell.state = HAVE
+            cell.code_grid = _MEAN3D_WIRED[base]
+            cell.facts.append(
+                f"WIRED (RYA-821): Engine-B <3D> route via gerber_nlte deck "
+                f"'{_MEAN3D_WIRED[base]}'. The deck is keyed at STAGGER coordinates "
+                f"(Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- measured 0 rows at the "
+                f"MARCS node, 31 at the STAGGER node -- so the atmosphere is carried "
+                f"per-deck and points at the <3D> STAGGER solar model.")
         elif disk_paths:
             cell.state = DISK_ONLY
             cell.error = (
