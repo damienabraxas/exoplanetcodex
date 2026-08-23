@@ -35,7 +35,11 @@ def test_oxygen_row(cells):
     full-3D is HAVE. The other two legs are unchanged and still pinned.
     """
     assert cells[("O", "1D_NLTE")]["state"] == "HAVE"
-    assert cells[("O", "MEAN3D_NLTE")]["state"] == "REQUEST_ONLY"
+    # RYA-821: was REQUEST_ONLY. That word was wrong for O -- we hold atom.o41f AND the
+    # <3D> STAGGER atmosphere, so there is nothing to request. What is missing is the
+    # departure solve, i.e. the tier-2 solver. TIER2_OWED says that; REQUEST_ONLY sent a
+    # reader hunting for a grid nobody publishes.
+    assert cells[("O", "MEAN3D_NLTE")]["state"] == "TIER2_OWED"
     assert cells[("O", "FULL_3D_NLTE")]["state"] == "HAVE"
     assert "amarsi2019_cno" in (cells[("O", "FULL_3D_NLTE")]["code_grid"] or "")
 
@@ -86,3 +90,34 @@ def test_co_molecule_is_not_parsed_as_cobalt(cells):
 def test_matrix_is_a_standing_935_view():
     import scripts.rya935_live_status as live
     assert hasattr(live, "collect_model_matrix")
+
+
+# ── RYA-821: mean-3D reachability states say WHAT IT WOULD TAKE ───────────────
+
+def test_mean3d_states_distinguish_the_three_situations(cells):
+    """"REQUEST_ONLY" was collapsing three unrelated cases into one word:
+    a deck sitting unwired, a solver we have not built, and something we must ask for.
+    """
+    assert cells[("Al", "MEAN3D_NLTE")]["state"] == "TIER1_WIRED"
+    for el in ("Cr", "Y", "Eu"):                      # deck + atom on disk
+        assert cells[(el, "MEAN3D_NLTE")]["state"] == "TIER1_WIREABLE", el
+    for el in ("O", "Fe", "Ba", "Ni"):                # atom held, no deck
+        assert cells[(el, "MEAN3D_NLTE")]["state"] == "TIER2_OWED", el
+    for el in ("Li", "C", "K"):                       # neither
+        assert cells[(el, "MEAN3D_NLTE")]["state"] == "REQUEST_ONLY", el
+
+
+def test_a_solar_increment_never_masks_an_unwired_deck(cells):
+    """Cr was reported HAVE on solar3d_metals -- a SOLAR-ONLY scalar -- while its full
+    parameter-space <3D> deck sat unwired. A HAVE that hides a wireable deck is the
+    worst kind of wrong: it looks finished."""
+    cr = cells[("Cr", "MEAN3D_NLTE")]
+    assert cr["state"] == "TIER1_WIREABLE"
+    assert any("solar-only increment" in f for f in cr["facts"])
+
+
+def test_tier2_owed_is_not_an_acquisition_task(cells):
+    """These need the solver, not a download -- saying otherwise sends someone hunting
+    for a grid that nobody publishes."""
+    fix = cells[("O", "MEAN3D_NLTE")]["fix"]
+    assert "tier-2 solver" in fix and "NOT by acquisition" in fix
