@@ -472,6 +472,22 @@ def synthesis_route(a, pol) -> None:
     if row.empty:
         raise SystemExit(f"{a.instrument!r} absent from data/catalog/instrument_catalog.csv")
     R = float(row.iloc[0]["resolving_power_max"])
+    # 🔴 RYA-995 — THE CONTROLLED RESOLUTION TEST. Degrading means TWO things together,
+    # and doing only one of them would be a different experiment: the observed spectrum is
+    # convolved down (below, in `_observed`) AND the fit is told the new R, so the
+    # synthesis is broadened to match. Overriding R alone would broaden the model against
+    # an un-degraded observation and manufacture a mismatch.
+    _R_native = R
+    _degrade_to = getattr(a, "degrade_to_R", None)
+    if _degrade_to:
+        if _degrade_to >= R:
+            raise SystemExit(
+                f"--degrade-to-R {_degrade_to:.0f} is not below {a.instrument}'s own "
+                f"R={R:.0f}. Degrading is a one-way operation: resolution cannot be added "
+                f"back, and a 'degrade' upward would silently be a no-op.")
+        print(f"  [RYA-995 DEGRADE] observed spectrum convolved {R:.0f} -> "
+              f"{_degrade_to:.0f}; the fit is told the degraded R. DIAGNOSTIC ONLY.")
+        R = float(_degrade_to)
 
     # Ask about the lines that will actually be SYNTHESISED, not about the nominal band
     # bound (RYA-837). `--hi 12935` is a request; this band's reddest real line is
@@ -559,7 +575,21 @@ def synthesis_route(a, pol) -> None:
         _served[h.holding_id] = _served.get(h.holding_id, 0) + 1
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
-        return win.wave, win.flux, win.provenance
+        _w, _f, _prov = win.wave, win.flux, win.provenance
+        if _degrade_to:
+            # Gaussian kernel that takes R_native -> R_target:
+            #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
+            # Convolving by the QUADRATURE DIFFERENCE, not by lam/R_target, is the whole
+            # correctness of this: the spectrum already carries its native instrumental
+            # profile, and convolving by the full target width would over-broaden it.
+            from scipy.ndimage import gaussian_filter1d
+            _lam = float(np.median(_w))
+            _fw = _lam * np.sqrt(1.0 / _degrade_to ** 2 - 1.0 / _R_native ** 2)
+            _px = float(np.median(np.diff(_w)))
+            _sig_px = (_fw / 2.35482) / _px
+            _f = gaussian_filter1d(np.asarray(_f, float), _sig_px, mode="nearest")
+            _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
+        return _w, _f, _prov
 
     _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4,
                             holding=a.holding)
@@ -1088,6 +1118,12 @@ def main() -> None:
                          "the synth leg picks its own (stronger) lines and any difference "
                          "in A(X) conflates method with selection — RYA-842, line "
                          "selection dominates.")
+    ap.add_argument("--degrade-to-R", type=float, default=None, metavar="R",
+                    help="RYA-995: convolve the OBSERVED spectrum down to this resolving "
+                         "power before fitting, and fit at it. The controlled "
+                         "instrument test — same spectrum, same lines, same pipeline, "
+                         "only the resolution changes, so nothing else can explain a "
+                         "difference. NOT for producing science products.")
     ap.add_argument("--lines-deep-graded", action="store_true",
                     help="RYA-984: select the laboratory-graded lines that sit ABOVE the "
                          "EW depth gate — the ones EW can never attempt because the curve "
