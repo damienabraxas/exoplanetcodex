@@ -421,6 +421,94 @@ def _selector_tag(a) -> str:
     return ""
 
 
+def conditioning_tag(a) -> str:
+    """How the OBSERVED spectrum was conditioned before the fit — RYA-1006.
+
+    🔴 THE AXIS THAT WAS MISSING, AND IT DESTROYED AN ANCHOR BEFORE IT WAS ADDED.
+
+    `_selector_tag` closed the SELECTION axis (RYA-984) after RYA-933/934 closed the
+    HOLDING axis. Two axes opened after them and neither reached the stem: `--local-renorm`
+    (RYA-1000) divides every fit window by its own 95th percentile, and `--degrade-to-R`
+    (RYA-995) convolves the observed spectrum down. Both change WHAT WAS MEASURED while
+    leaving element, band, instrument, holding, route and selection identical.
+
+    On 2026-08-23 the consequence landed: two `--local-renorm` runs wrote
+    `FeI_4200_6910_*_SYNTH_DEEPGRADED_*` — the exact filenames
+    `pipeline.anchor_pools.ANCHORS['rya984_graded_163']` names — and Kitt Peak's anchor
+    value moved **7.417 -> 7.337** under the anchor's own name. ⚠️ AND THE PROVENANCE FILE
+    WAS BYTE-IDENTICAL: the renorm left no trace anywhere except the number, so nothing
+    downstream could have detected it. That is why this function exists AND why
+    `_conditioning_note` now writes the treatment into the provenance and
+    `observed_conditioning` into every per-line row.
+
+    The default is the empty string, so every product made without a conditioning flag
+    keeps the name it has always had (RYA-984's rule, and the reason the anchor's own name
+    is still correct once it is regenerated).
+    """
+    bits = []
+    if getattr(a, "local_renorm", False):
+        bits.append("LOCALRENORM")
+    dR = getattr(a, "degrade_to_R", None)
+    if dR:
+        bits.append(f"R{int(round(float(dR)))}")
+    return "".join(f"_{b}" for b in bits)
+
+
+def conditioning_id(a) -> str:
+    """The same fact as a machine-readable value for the per-line rows and the guard.
+
+    `native` is the default, spelled out rather than left blank: a consumer must be able
+    to tell "this spectrum was not conditioned" from "this product predates the column"
+    (RYA-833 — an absence is a hypothesis, never a conclusion). `pipeline.anchor_pools`
+    depends on exactly that distinction.
+    """
+    tag = conditioning_tag(a)
+    return tag.lstrip("_").replace("_", "+").lower() if tag else "native"
+
+
+def _conditioning_note(a) -> str:
+    """The provenance sentence. Empty when nothing was done to the observed spectrum."""
+    if not conditioning_tag(a):
+        return ""
+    bits = []
+    if getattr(a, "local_renorm", False):
+        bits.append("each fit window divided by its OWN 95th-percentile local continuum "
+                    "(RYA-1000 --local-renorm)")
+    dR = getattr(a, "degrade_to_R", None)
+    if dR:
+        bits.append(f"observed spectrum convolved down to R={float(dR):.0f} before "
+                    f"fitting (RYA-995 --degrade-to-R)")
+    return (" ⚠️ OBSERVED SPECTRUM CONDITIONED — DIAGNOSTIC PRODUCT, NOT A SCIENCE "
+            "PRODUCT: " + "; ".join(bits) + ". This is not the same measurement as the "
+            "unconditioned product of the same element, band, instrument and selection, "
+            "and it carries a distinct artifact stem for that reason (RYA-1006).")
+
+
+def synthesis_stem(a) -> str:
+    """The synthesis product's filename stem — EVERY independently-varying axis, in one place.
+
+    Hoisted out of `synthesis_route` by RYA-1006 so the guard test drives THIS expression
+    rather than a copy of it. A reconstructed stem agrees with itself while the route
+    writes something else (RYA-845), which is precisely the class of defect that let two
+    runs share a filename in the first place.
+
+    The axes, and the ticket that had to learn each one the hard way:
+      element / ion / band   — always
+      instrument             — always
+      holding                — RYA-933/934 (telluric-corrected vs raw, same instrument)
+      route (`_SYNTH`)       — always
+      selection              — RYA-984 (shallow-graded vs deep-graded, same everything)
+      observed conditioning  — RYA-1006 (local-renorm / degraded-R, same everything)
+    """
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_SYNTH"
+    stem += _selector_tag(a)
+    stem += conditioning_tag(a)
+    return stem
+
+
 def synthesis_route(a, pol) -> None:
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
@@ -693,6 +781,8 @@ def synthesis_route(a, pol) -> None:
                        f"{res.get('obs_source', 'UNRECORDED')}"),
             abundance=(a_x if np.isfinite(a_x) else None),
             treatment="1D-LTE",
+            # RYA-1006 — the row says what was done to the spectrum it was fitted against.
+            observed_conditioning=conditioning_id(a),
             # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
             # "no departure applied" from "nobody recorded one" (RYA-833).
             nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
@@ -848,7 +938,10 @@ def synthesis_route(a, pol) -> None:
         # RYA-822 grades only 6 of the 4,274 in-band Fe I lines as primary-lab, and its
         # GF-NIST class (604 lines) is a COMPILATION grade 822 deliberately keeps
         # outside `is_graded` because FMW *is* NIST and VALD copies it (RYA-760).
-        "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712).")
+        "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712)."
+        # RYA-1006 — LAST, so it is the final thing a reader sees. Empty on an
+        # unconditioned product, so existing provenance text is byte-unchanged.
+        + _conditioning_note(a))
     # RYA-904 — ONE PRODUCT, ONE HOLDING. Per-line dispatch could legitimately serve
     # two holdings inside one band (a fixed-span product covering part of it, another
     # covering the rest). The aggregate would then average two normalisation and telluric
@@ -891,11 +984,7 @@ def synthesis_route(a, pol) -> None:
     # left open for the SELECTION axis.
     #
     # Caught 30 seconds into the first deep run, before it clobbered a committed product.
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
-    if a.holding:
-        stem += f"_{a.holding}"
-    stem += "_SYNTH"
-    stem += _selector_tag(a)
+    stem = synthesis_stem(a)
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
 
@@ -1190,6 +1279,10 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # projection is the lossy one of the object's two serialisers, and
                 # RYA-847 already lost `red_chi2` to exactly this omission.
                 nlte_delta_dex=l.nlte_delta_dex, nlte_source=l.nlte_source,
+                # RYA-1006 — and it must be added HERE too, for the reason the comment
+                # above already gives: this projection is the lossy serialiser, and it is
+                # the ONE the anchor guard reads.
+                observed_conditioning=l.observed_conditioning,
                 # RYA-911 — the continuum the harness PLACED, carried to the product.
                 # The EW artifact records it; a product built from that EW has to carry
                 # it or the decisive quantity stops at the intermediate file and the next
@@ -1288,6 +1381,20 @@ def main() -> None:
     a = ap.parse_args()
 
     pol_early = resolve_band(0.5 * (a.lo + a.hi))
+    # 🔴 RYA-1006 — the conditioning flags are honoured ONLY by `synthesis_route`. On the
+    # EW route they were parsed and silently ignored, so `--local-renorm` there produced
+    # an UNCONDITIONED product from a command line that says it is conditioned. The stem
+    # would carry no conditioning tag either, which is correct for what ran and wrong for
+    # what was asked — the same silent-wrong class this ticket exists to close. Refuse.
+    if conditioning_tag(a) and not (
+            a.force_synthesis
+            or "profile-fit" in getattr(pol_early, "forbidden_methods", ())):
+        raise SystemExit(
+            f"--local-renorm / --degrade-to-R condition the OBSERVED spectrum before a "
+            f"synthesis fit, and only `synthesis_route` applies them. This invocation "
+            f"takes the EW/profile-fit route, which would ignore them silently and emit "
+            f"an UNCONDITIONED product. Add --force-synthesis, or drop the flag "
+            f"(RYA-1006).")
     if a.force_synthesis:
         if "synthesis" not in pol_early.permitted_methods:
             raise SystemExit(

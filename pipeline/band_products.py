@@ -247,6 +247,18 @@ class LineMeasurement:
     #: its centre; `implied_width_A` is `pipeline.line_width.implied_width_A`.
     observed_depth: float | None = None
     implied_width_A: float | None = None
+    #: 🔴 RYA-1006 — WHAT WAS DONE TO THE OBSERVED SPECTRUM BEFORE THE FIT.
+    #:
+    #: A band-level fact carried on every row, deliberately. `pipeline.anchor_pools` reads
+    #: ONLY the per-line CSV, so a fact that lives only in the provenance text is a fact
+    #: the anchor's guard cannot see — and on 2026-08-23 that gap cost the RYA-984 anchor:
+    #: two `--local-renorm` runs overwrote it under its own filename, moving Kitt Peak
+    #: 7.417 -> 7.337, and the provenance file was BYTE-IDENTICAL either way.
+    #:
+    #: `'native'` means the spectrum reached the fitter as the holding ships it. `None`
+    #: means the row predates this column and its conditioning is UNKNOWN — a consumer
+    #: must not read that as `'native'` (RYA-833).
+    observed_conditioning: str | None = None
 
     def __post_init__(self) -> None:
         if self.rew is None and self.ew_mA and self.wavelength_air_A:
