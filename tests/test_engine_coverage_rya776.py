@@ -281,13 +281,36 @@ def test_provenance_does_not_pin_the_working_tree():
     so the next --check reported DIFFERS on a byte-identical file. The provenance must
     move only when the INPUTS move."""
     gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    root = Path(__file__).resolve().parents[1]
     assert not hasattr(gen, "_git_head")
-    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
-                          cwd=Path(__file__).resolve().parents[1],
-                          capture_output=True, text=True).stdout.strip()
     stamp = gen._inputs_commit()
     assert stamp and stamp not in ("unknown", "none")
-    assert stamp != head, "provenance still tracks the checkout, not the extracts"
+
+    # PIN THE INVARIANT, NOT A COINCIDENCE (RYA-1015).
+    # This used to assert `stamp != HEAD`. That is only a PROXY for "tracks the extracts,
+    # not the checkout", and the proxy is wrong whenever the newest commit LEGITIMATELY
+    # edits an input -- then the two commits coincide and a correct stamp looks broken.
+    # It fired on the RYA-597 Ti drift fix, which edits nlte_grid_availability.csv, an
+    # _INPUT_PATHS member. Assert the actual contract instead: the stamp IS the commit
+    # that last touched the inputs.
+    expected = subprocess.run(
+        ["git", "log", "-1", "--format=%h", "--", *gen._INPUT_PATHS],
+        cwd=root, capture_output=True, text=True).stdout.strip()
+    assert stamp == expected, (
+        "provenance must be the last commit that touched the INPUTS "
+        f"({expected}), not {stamp}")
+
+    # And the thing the old assertion was really guarding: the stamp must NOT be a
+    # function of the working tree. A commit that touches no input must not move it.
+    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
+                          cwd=root, capture_output=True, text=True).stdout.strip()
+    touched_inputs = subprocess.run(
+        ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"],
+        cwd=root, capture_output=True, text=True).stdout.split()
+    head_touches_input = any(
+        f.startswith(tuple(gen._INPUT_PATHS)) for f in touched_inputs)
+    if not head_touches_input:
+        assert stamp != head, "provenance still tracks the checkout, not the extracts"
 
 
 def test_ion_normalisation_joins_the_two_conventions():
