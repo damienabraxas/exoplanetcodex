@@ -613,6 +613,12 @@ def _collect_model_matrix() -> dict:
         m = build_matrix()
         m["engines"] = build_engine_matrix(m)
         m["molecules"] = build_molecule_matrix()
+        from pipeline.model_availability_matrix import write_findings_csv
+        from pathlib import Path as _P
+        write_findings_csv(m, m["engines"], m["molecules"],
+                           _P(__file__).resolve().parents[1] / "data" / "results"
+                           / "rya935" / "model_availability_findings.csv")
+        m["findings_csv"] = "model_availability_findings.csv"
         return m
     except Exception as exc:                      # noqa: BLE001 - surfaced on the page
         return {"error": f"{type(exc).__name__}: {exc}", "cells": [],

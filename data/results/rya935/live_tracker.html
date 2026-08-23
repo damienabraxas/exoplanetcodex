@@ -372,10 +372,20 @@ async function draw(){
      const e=eng[el]||{};
      t+='<td class="gname">A: '+esc(e.engine_a_mode||'?')+'<br>B: '+esc(e.engine_b_mode||'?')+'</td></tr>';
    }
-   t+='</tbody></table><p class="note muted">Engine-A = EW + grid delta (vendored CSV, in repo). '
+   t+='</tbody></table><p class="note muted"><b>State meanings \u2014</b> '
+     +'<b class="good">HAVE</b>: we hold it and can run it today. '
+     +'<b class="warn">REQUEST_ONLY</b>: published in the literature but no public download \u2014 we would have to ask. '
+     +'<b class="bad">DISK_ONLY</b>: <b>the grid IS sitting on Sirius, but no code path consumes it</b> \u2014 '
+     +'we paid to fetch it and cannot use it until it is wired. Not missing: unwired. '
+     +'<b class="bad">PROBLEM</b>: we hold the model but it is BROKEN (see blocker). '
+     +'<b class="muted">NONE</b>: we do not have it at all.</p>'
+     +'<p class="note muted">Engine-A = EW + grid delta (vendored CSV, in repo). '
      +'Engine-B = synthesis (Turbospectrum; TS-native NLTE needs a Gerber deck on Sirius). Neither is primary. '
      +'1D-LTE needs no grid. full-3D-NLTE is NONE everywhere \u2014 no public full-3D NLTE RT code exists (RYA-1008). '
      +'<b class="bad">'+mm.problem_count+'</b> DISK_ONLY cells: on Sirius, nothing consumes them.</p>';
+   if(mm.findings_csv) t+='<p class="note"><a href="'+esc(mm.findings_csv)+'" download '
+     +'style="color:#7fd1ff;font-weight:700">\u2b07 Download full findings CSV</a> '
+     +'<span class="muted">\u2014 every species \u00d7 model type, engines, grid paths, blockers, molecules.</span></p>';
    document.querySelector('#modelmatrix').innerHTML=t;
    let mt2='<table class="mtx"><thead><tr><th>molecule</th><th>LTE linelist</th><th>NLTE deck</th></tr></thead><tbody>';
    for(const m of (mm.molecules||[])){
