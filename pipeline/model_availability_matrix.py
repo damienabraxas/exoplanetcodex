@@ -185,6 +185,124 @@ MOLECULE_TICKETS: dict[str, str] = {
 }
 
 
+
+#: KNOWN ANOMALIES / TRAPS per (element, model_type) -- defects, quirks and gotchas that
+#: are true of the DATA, not of our wiring. Carried on the row so a reader of the CSV
+#: meets the caveat at the same moment they meet the number.
+ANOMALIES: dict[tuple[str, str], str] = {
+    ("Ti", "1D_NLTE"): "RYA-597 DRIFT (FIXED by RYA-1015): the availability CSV cited "
+        "Ti_Bergemann2011_MPIA.csv while the code has run Ti_Mallinson2024_PySME.csv "
+        "since RYA-545. Bergemann-2011 used scaled-Drawin H collisions and was INFLATED "
+        "~2x (+0.108 vs Mallinson's +0.052, RYA-546). The old file is retained as an "
+        "immutable v1 reference, flagged superseded -- not deleted.",
+    ("Ti", "MEAN3D_NLTE"): "Engine-B still runs the SCALED-DRAWIN atom.ti503b; swapping "
+        "it to ab-initio is owed (RYA-548). Largest grid in the Gerber set "
+        "(~26 GB zip / ~55 GB bin, 503 levels); Keeper throttled the fetch heavily.",
+    ("Fe", "1D_NLTE"): "Fe runs through the fe-nlte subsystem, NOT "
+        "NLTE_CORRECTION_ELEMENTS -- a registry-only reading reports it unwired. "
+        "RYA-549: code=register=matrix reconciled; the NLTE delta is TINY "
+        "(+0.010 solar / +0.004 55 Cnc), NOT the inflated Ti/Mn/Cr class.",
+    ("Fe", "FULL_3D_NLTE"): "RYA-924: the committed 3D-NLTE cells were computed ON THE "
+        "MAC from a temp scratchpad -- off-Sirius, inputs now unrecoverable, and "
+        "assert_on_sirius was never wired to that route. RYA-922: the 3D-NLTE route was "
+        "HARDCODED to Kitt Peak (module-level INSTRUMENT, no --instrument flag) so it "
+        "could not produce 3D-NLTE for any other arm.",
+    ("Fe II", "FULL_3D_NLTE"): "Same MLP and the same RYA-923 ceiling failure as Fe I; "
+        "the Fe II leg used only 7 lines (n=7) against Fe I's 114.",
+    ("Li", "1D_NLTE"): "ANOMALY (RYA-540): grid staged, derivation ATTEMPTED, and the "
+        "solar delta came out -0.030 -- the WRONG SIGN against the Lind-2009 "
+        "small-positive anchor, with the grid's J-label resolving oddly. Stopped under "
+        "validate-don't-tune rather than shipped. Li I 6707 is a resonance line with a "
+        "CN molecular blend (RYA-103) and needs the dedicated derivation, not EW.",
+    ("Al", "1D_NLTE"): "ANOMALY (RYA-1005): the Gerber Al deck is FULLY STAGED (74 GB, "
+        "md5-pinned) and Engine-B-NLTE still refuses Al -- `gerber_nlte` registers only "
+        "Fe. The blocker is a REGISTRY LINE, not missing data. Also RYA-773: the "
+        "Amarsi-2020 Al departure grid does NOT cover the clean 7835/36 + 8772/73 "
+        "doublet -- the best lines are uncovered.",
+    ("Al", "MEAN3D_NLTE"): "Nordlander & Lind 2017 is <3D>, NOT full 3D -- and its "
+        "released GRID is <3D>/1D while its SOLAR value (6.43) is full 3D NLTE. "
+        "Conflating the two is the RYA-1008 premise error.",
+    ("Cu", "1D_NLTE"): "PENDING-OK: registered grid with a non-LOCKED verdict. Cu NLTE "
+        "is small (+0.001 solar, reproduces Shi-2014). Cu production stays GET-DATA on "
+        "measured-line QUALITY (RYA-395: 5105/5218/5782 re-measure), NOT on the grid.",
+    ("Mn", "1D_NLTE"): "HFS-split lines: EW cannot measure them: the unlock was "
+        "HFS-resolved SYNTHESIS on the Den Hartog e6S->z6P triplet (RYA-473). "
+        "Registry hygiene open (RYA-566): problem_children says A(Mn) 5.554, the "
+        "committed verdict is 5.466.",
+    ("Ca", "1D_NLTE"): "RYA-413: the MPIA Ca I 6166 NLTE node was a PLACEHOLDER ZERO "
+        "across all 72 nodes -- a registered-grid data defect. Ca NLTE primary "
+        "(Amarsi vs defect-fixed MPIA) is still unadjudicated (RYA-414).",
+    ("Sr", "1D_NLTE"): "RYA-433: the CITED primary (Mashonkina/INASAN) is NOT the "
+        "vendored file -- Bergemann INSPECT was vendored and is demoted to cross-check. "
+        "Sr II 4077/4215 are SATURATED resonance lines (RYA-430).",
+    ("V", "1D_NLTE"): "THE ONLY GENUINE VOID: no Amarsi/GALAH grid AND no usable neutral "
+        "V I model atom (verified absent from Zenodo 3982506). Interim route is the "
+        "V II ionization anchor (RYA-470) -- measure around the unsolved atom.",
+    ("Ni", "1D_NLTE"): "A Gerber Ni MARCS deck IS on Sirius, but Ni's blocker is "
+        "gf-scale (BAD_GF), not NLTE -- wiring the grid does not unblock the element.",
+    ("Zn", "1D_NLTE"): "Zn is the 28th canonical (RYA-757) and is NOT in TARGET_ELEMENTS "
+        "(26) or the RYA-400 regime map -- it is canonical on paper and absent from the "
+        "code's element roster. Sitnova+2022 grid exists and was never acquired.",
+    ("Zr", "1D_NLTE"): "NO NLTE GRID NEEDED -- Zr II is the majority ion and LTE-robust "
+        "(the Sr II / V II logic). Route is synthesis of the strong Zr II lines. "
+        "Recorded so 'no grid' is never read as a gap.",
+    ("Eu", "1D_NLTE"): "BLOCKED (RYA-803): the Gerber Eu model_atom source returns "
+        "0 BYTES -- needs a live mirror before the ~47 GB fetch is worth starting. "
+        "Eu II 6645 is also at the noise floor (6.8 mA, RYA-565/102).",
+    ("Y", "1D_NLTE"): "Corrects NOTHING today: Y II (the dominant ion) is absent from "
+        "the measured pool, so the grid would sit unused (RYA-802 is fetch-and-hold).",
+    ("O", "1D_NLTE"): "O runs via the cno-3dnlte subsystem, not the registry. "
+        "[O I] 6300 is forbidden-LTE by construction (RYA-447) and is blended with "
+        "Ni I 6300.34, whose gf was a stale duplicate until RYA-543/365.",
+    ("C", "1D_NLTE"): "3D leg applies BELOW Teff 6500 K, 1D-NLTE above (RYA-359/237). "
+        "C I 5380 is excluded by Codex charter while Amarsi 2019 includes it (RYA-748).",
+    ("N", "1D_NLTE"): "4 cool-metal-rich weak-line rails are excluded -> out-of-hull "
+        "loud-flag (RYA-526). N I atomic departures are a SEPARATE registry grid from "
+        "the CNO subsystem leg.",
+}
+
+#: Cross-cutting findings that belong to no single element. Emitted as their own rows so
+#: the CSV carries the audit, not just the inventory.
+AUDIT_ANOMALIES: list[tuple[str, str, str]] = [
+    ("scan-method", "find without -L returns NOTHING through the grids symlink",
+     "/srv/codex/grids is a symlink to /mnt/codex-ext/codex-grids (ntfs3). A plain find "
+     "silently reports zero grids. Positive control MANDATORY before trusting any "
+     "absence (RYA-1013 trap). Verified: find -L = 1 hit, plain find = 0 hits."),
+    ("scan-coverage", "all THREE Sirius drives verified, not just the grids subtree",
+     "sdb2 ext4 468G root / sda1 ext4 458G codex-data (291G) / sdc1 ntfs3 932G "
+     "codex-ext (827G, 89% FULL). Full sweep set-diffed against the snapshot: 36 grid "
+     "files both sides, SETS IDENTICAL. The narrow path was complete, now verified."),
+    ("false-duplicate", "the '119.9 GB of duplicate grids' does NOT exist",
+     "The .grd files inside worktrees are SYMLINKS (52-74 bytes) to the canonical "
+     "copies. `find -L -printf %s` follows them and counts the target size repeatedly. "
+     "Real usage of those worktrees is ~2 GB. Corrected in RYA-1015."),
+    ("filename-trap", "NLTEgrid4TS_CO_MARCS is carbon monoxide, NOT cobalt",
+     "The naive element parse maps CO -> Co and INVENTS a cobalt NLTE grid we do not "
+     "have. MN is Mn shouted and must still resolve. Pinned by test."),
+    ("provenance", "the Gerber decks have NO DOI and live on a MUTABLE Seafile share",
+     "MPG Keeper, unversioned -- md5-pinned on our side; a re-fetch verifies against "
+     "those hashes. The Zenodo/Amarsi decks are DOI-backed and versioned. Different "
+     "provenance grades sitting in the same directory."),
+    ("bookkeeping", "the Gerber H deck is staged on Sirius and unrecorded",
+     "NLTEgrid_H_MARCS_May-10-2021.bin is present; RYA-804 is bookkeeping only -- commit "
+     "its prov.json, do NOT re-download. H is the reference element (A(H)=12 by "
+     "definition) so it is not a CANONICAL_28 row."),
+    ("roster", "the canonical 28 is 27 (incl. Fe II counted separately) + Zn",
+     "TARGET_ELEMENTS in the code is 26 and the RYA-400 regime map is 26; both omit "
+     "Fe II as a distinct species and Zn entirely. The record key must be (element, "
+     "ion), not element -- keying by element alone collides Fe I and Fe II."),
+    ("capability", "we cannot COMPUTE full 3D for any element",
+     "RYA-1008: no public full-3D NLTE stellar photosphere RT code exists. MULTI3D, "
+     "Balder, M3DIS, Linfor3D and PORTA are all private; the public codes (RH 1.5D, "
+     "Lightweaver) stop at 1.5D/2D. Every 3D capability we have is a PUBLISHED GRID WE "
+     "APPLY, never a calculation we run."),
+    ("unreconciled", "RYA-776 engine_coverage.csv is a 6th source NOT reconciled here",
+     "data/catalog/engine_coverage.csv (225 rows) carries engine x WAVELENGTH coverage. "
+     "This matrix has no wavelength axis, so band-level contradictions between the two "
+     "are possible and unchecked. Follow-up owed."),
+]
+
+
 @dataclass
 class Cell:
     element: str
@@ -821,13 +939,34 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
     """
     eng = {r["element"]: r for r in engine_rows}
     prov = load_grid_provenance()
+
+    # Carry the NOTE the source CSVs already wrote -- RYA-462 and RYA-817 both hold
+    # per-row prose that never reached the matrix.
+    csv_notes: dict[tuple[str, str], str] = {}
+    curation = ROOT / "data" / "curation"
+    try:
+        for row in csv.DictReader((curation / "nlte_grid_availability.csv").open()):
+            sub = row["subsystem"]
+            mt = ("MEAN3D_NLTE" if sub == "metals-3d"
+                  else "FULL_3D_NLTE" if sub == "cno-3dnlte" else "1D_NLTE")
+            key = (row["element"].strip(), mt)
+            if row.get("note"):
+                csv_notes[key] = (csv_notes.get(key, "") + " " + row["note"]).strip()
+        for row in csv.DictReader((curation / "threednlte_availability.csv").open()):
+            if row.get("note"):
+                k = (row["element"].strip(), "FULL_3D_NLTE")
+                csv_notes[k] = (csv_notes.get(k, "") + " " + row["note"]).strip()
+    except (OSError, csv.Error):
+        pass
+
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["kind", "subject", "model_type", "state", "can_run",
                     "engine", "grid_or_path", "disk_decks",
                     "source_url", "citation", "md5", "provenance_caveat",
-                    "error", "fix", "owned_by_ticket", "notes"])
+                    "error", "fix", "owned_by_ticket", "anomalies",
+                    "source_csv_note", "notes"])
         for c in matrix["cells"]:
             e = eng.get(c["element"], {})
             if c["model_type"] == "1D_LTE":
@@ -872,6 +1011,8 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                 src.get("source_url", ""), src.get("citation", ""),
                 src.get("md5", ""), src.get("caveat", ""),
                 c.get("error", ""), c.get("fix", ""), owner,
+                ANOMALIES.get((c["element"], c["model_type"]), ""),
+                csv_notes.get((c["element"], c["model_type"]), ""),
                 " ".join(f for f in c["facts"] if not f.startswith("OWNED BY:")),
             ])
         for m in molecules:
@@ -882,7 +1023,10 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                         "iSpec input/linelists/turbospectrum/molecules (RYA-360)"
                         if m["lte_linelist"] else "", "", "", "",
                         "", "acquire the linelist" if not m["lte_linelist"] else "",
-                        m.get("ticket", ""), ""])
+                        m.get("ticket", ""),
+                        "" if m["lte_linelist"] else
+                        "NOT CARRIED -- cool-star/M-dwarf molecule. An inventory of only "
+                        "what you have cannot show a gap.", "", ""])
             w.writerow(["molecule", m["molecule"], "NLTE_deck",
                         "HAVE" if m["nlte_deck"] else "NONE",
                         "yes" if m["nlte_deck"] else "no",
@@ -892,5 +1036,13 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                         if m["nlte_deck"] else "", "",
                         "NO DOI, mutable Seafile -> md5-pinned"
                         if m["nlte_deck"] else "",
-                        "", "", m.get("ticket", ""), ""])
+                        "", "", m.get("ticket", ""),
+                        "Only ONE molecular NLTE deck exists in our holdings (CO). "
+                        "Every other molecule is LTE-only." if not m["nlte_deck"] else "",
+                        "", ""])
+        # Cross-cutting audit findings: they belong to no element, so they get their own
+        # rows. Without these the CSV is an inventory; with them it is the audit.
+        for kind, title, detail in AUDIT_ANOMALIES:
+            w.writerow(["anomaly", kind, "", "FINDING", "", "", "", "", "", "", "", "",
+                        "", "", "", title, "", detail])
     return out
