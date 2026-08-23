@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T22:19:33+00:00",
+  "generated": "2026-08-23T19:26:34+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -144,10 +144,10 @@
       "source": "data/results/rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_products.csv",
       "run_context": "rya847/gated",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -172,10 +172,10 @@
       "source": "data/results/rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_products.csv",
       "run_context": "rya847/gated",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -200,10 +200,10 @@
       "source": "data/results/rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya847/gated/gerber-nlte",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -228,10 +228,10 @@
       "source": "data/results/rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya847/gated/gerber-nlte",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -256,10 +256,10 @@
       "source": "data/results/rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya847/gated/gerber-nlte",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -284,10 +284,10 @@
       "source": "data/results/rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya847/gated/ts-lte",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -312,10 +312,10 @@
       "source": "data/results/rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya847/gated/ts-lte",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -340,10 +340,10 @@
       "source": "data/results/rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya847/gated/ts-lte",
       "ticket_dir": "rya847",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -367,10 +367,10 @@
       "source": "data/results/rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya877/control/after",
       "ticket_dir": "rya877",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -394,10 +394,10 @@
       "source": "data/results/rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya877/control/after",
       "ticket_dir": "rya877",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -421,10 +421,10 @@
       "source": "data/results/rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya877/control/after",
       "ticket_dir": "rya877",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -448,10 +448,10 @@
       "source": "data/results/rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya877/control/before",
       "ticket_dir": "rya877",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -475,10 +475,10 @@
       "source": "data/results/rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya877/control/before",
       "ticket_dir": "rya877",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -502,10 +502,10 @@
       "source": "data/results/rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya877/control/before",
       "ticket_dir": "rya877",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": true,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -529,10 +529,10 @@
       "source": "data/results/rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya880",
       "ticket_dir": "rya880",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -556,10 +556,10 @@
       "source": "data/results/rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya880",
       "ticket_dir": "rya880",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -583,10 +583,10 @@
       "source": "data/results/rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya880",
       "ticket_dir": "rya880",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -611,10 +611,10 @@
       "source": "data/results/rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya880",
       "ticket_dir": "rya880",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -639,10 +639,10 @@
       "source": "data/results/rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya880",
       "ticket_dir": "rya880",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -667,10 +667,10 @@
       "source": "data/results/rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya880",
       "ticket_dir": "rya880",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-18; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Fe",
@@ -695,7 +695,7 @@
       "source": "data/results/rya904/FeI_10280_10680_crires_plus_SYNTH_products.csv",
       "run_context": "rya904",
       "ticket_dir": "rya904",
-      "committed": null,
+      "committed": "2026-08-18",
       "is_variant": false,
       "telluric_basis": "unknown",
       "telluric_epoch": null
@@ -722,10 +722,10 @@
       "source": "data/results/rya925/AlI_3000_3800_kpno_solar_atlas_SYNTH_products.csv",
       "run_context": "rya925",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Al",
@@ -749,10 +749,10 @@
       "source": "data/results/rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya925/red_optical",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Al",
@@ -776,10 +776,10 @@
       "source": "data/results/rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya925/red_optical",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Al",
@@ -803,10 +803,10 @@
       "source": "data/results/rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya925/red_optical",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Al",
@@ -830,10 +830,10 @@
       "source": "data/results/rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya925/vis",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Al",
@@ -857,10 +857,10 @@
       "source": "data/results/rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya925/vis",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     },
     {
       "element": "Al",
@@ -884,10 +884,10 @@
       "source": "data/results/rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv",
       "run_context": "rya925/vis",
       "ticket_dir": "rya925",
-      "committed": null,
+      "committed": "2026-08-19",
       "is_variant": false,
-      "telluric_basis": "unknown",
-      "telluric_epoch": null
+      "telluric_basis": "PRE-correction (provenance)",
+      "telluric_epoch": "committed 2026-08-19; kpno_solar_atlas had no corrected holding until 2026-08-21"
     }
   ],
   "telluric": [
@@ -948,259 +948,6 @@
       "externally_validated": true
     },
     {
-      "window": "H1559 (H band)",
-      "instrument": "crires_plus",
-      "holding": "alpha_cen_a_crires_plus_molecfit",
-      "product": "rya963_crires_telluric",
-      "ticket": "RYA-963",
-      "star_id": "B",
-      "date_obs": "2022-04-15T04:02:58.3044",
-      "star_id_contested": "unrecorded",
-      "metric": "d1_residual",
-      "before_d1_residual": 0.22066,
-      "after_d1_residual": 0.01919,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
-    },
-    {
-      "window": "H1582 (H band)",
-      "instrument": "crires_plus",
-      "holding": "alpha_cen_a_crires_plus_molecfit",
-      "product": "rya963_crires_telluric",
-      "ticket": "RYA-963",
-      "star_id": "B",
-      "date_obs": "2022-04-15T04:00:50.8963",
-      "star_id_contested": "unrecorded",
-      "metric": "d1_residual",
-      "before_d1_residual": 0.21659,
-      "after_d1_residual": 0.02865,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
-    },
-    {
-      "window": "J1232 (J band)",
-      "instrument": "crires_plus",
-      "holding": "alpha_cen_a_crires_plus_molecfit",
-      "product": "rya963_crires_telluric",
-      "ticket": "RYA-963",
-      "star_id": "B",
-      "date_obs": "2022-04-15T03:59:09.3668",
-      "star_id_contested": "unrecorded",
-      "metric": "d1_residual",
-      "before_d1_residual": 0.22385,
-      "after_d1_residual": 0.0389,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
-    },
-    {
-      "window": "K2148 (K band)",
-      "instrument": "crires_plus",
-      "holding": "alpha_cen_a_crires_plus_molecfit",
-      "product": "rya963_crires_telluric",
-      "ticket": "RYA-963",
-      "star_id": "INDETERMINATE",
-      "date_obs": "2022-04-15T04:06:54.2583",
-      "star_id_contested": "unrecorded",
-      "metric": "d1_residual",
-      "before_d1_residual": 0.13701,
-      "after_d1_residual": 0.0277,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
-    },
-    {
-      "window": "K2192 (K band)",
-      "instrument": "crires_plus",
-      "holding": "alpha_cen_a_crires_plus_molecfit",
-      "product": "rya963_crires_telluric",
-      "ticket": "RYA-963",
-      "star_id": "B",
-      "date_obs": "2022-04-15T04:04:52.8010",
-      "star_id_contested": "unrecorded",
-      "metric": "d1_residual",
-      "before_d1_residual": 0.17915,
-      "after_d1_residual": 0.01715,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
-    },
-    {
-      "window": "Y1029 (Y band)",
-      "instrument": "crires_plus",
-      "holding": "alpha_cen_a_crires_plus_molecfit",
-      "product": "rya963_crires_telluric",
-      "ticket": "RYA-963",
-      "star_id": "B",
-      "date_obs": "2022-04-15T03:56:57.9172",
-      "star_id_contested": "unrecorded",
-      "metric": "d1_residual",
-      "before_d1_residual": 0.21434,
-      "after_d1_residual": 0.02978,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-04-15T03.gdas.fits"
-    },
-    {
-      "window": "H1559 (H band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2021-10-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.07052,
-      "after_d1_residual": 0.05658,
-      "gate_passed": false,
-      "gdas_profile": "gdas_C-70.4-24.6_2021-10-06T03.gdas.fits"
-    },
-    {
-      "window": "H1582 (H band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2021-10-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.18712,
-      "after_d1_residual": 0.02661,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2021-10-06T03.gdas.fits"
-    },
-    {
-      "window": "J1232 (J band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2021-10-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.1917,
-      "after_d1_residual": 0.01815,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2021-10-06T03.gdas.fits"
-    },
-    {
-      "window": "K2148 (K band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2021-11-25",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.21371,
-      "after_d1_residual": 0.01447,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2021-11-25T00.gdas.fits"
-    },
-    {
-      "window": "K2148 (K band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2022-01-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.20175,
-      "after_d1_residual": 0.03946,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-01-06T03.gdas.fits"
-    },
-    {
-      "window": "K2148 (K band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2022-01-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.18672,
-      "after_d1_residual": 0.016,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-01-06T03.gdas.fits"
-    },
-    {
-      "window": "K2148 (K band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2022-01-16",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.15748,
-      "after_d1_residual": 0.04203,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-01-16T00.gdas.fits"
-    },
-    {
-      "window": "K2148 (K band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2022-01-16",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.14601,
-      "after_d1_residual": 0.01599,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2022-01-16T00.gdas.fits"
-    },
-    {
-      "window": "K2192 (K band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2021-10-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.17612,
-      "after_d1_residual": 0.0418,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2021-10-06T03.gdas.fits"
-    },
-    {
-      "window": "Y1029 (Y band)",
-      "instrument": "crires_plus",
-      "holding": "tau_cet_crires_plus_molecfit",
-      "product": "rya973_crires_telluric",
-      "ticket": "RYA-973",
-      "star_id": "tau_ceti",
-      "date_obs": "2021-10-06",
-      "star_id_contested": false,
-      "metric": "d1_residual",
-      "before_d1_residual": 0.21748,
-      "after_d1_residual": 0.01903,
-      "gate_passed": true,
-      "gdas_profile": "gdas_C-70.4-24.6_2021-10-06T03.gdas.fits"
-    },
-    {
-      "window": "6867-6884 A",
-      "product": "tau_ceti_harps",
-      "ticket": "RYA-973",
-      "metric": "state_only__NOT_corrected",
-      "header_state": "unknown",
-      "flux_state": "not-applied",
-      "o2b_median_frac_below": 0.20340975896531452,
-      "control_median_frac_below": 0.000999750062484379,
-      "excess_ratio": 203.46061140505583,
-      "n_products": 60,
-      "note": "DETERMINE-AND-GATE (RYA-460): the optical is telluric-light, so the owed action is a red-edge disposition, NOT a molecfit run. Any line inside 6867-6884 A needs exclusion or correction; lines blueward of it are CLEAN_OUTSIDE_REGISTERED_BANDS."
-    },
-    {
       "metric": "pct_below_0.5",
       "window": "6867-6884 A",
       "product": "solar_harps_molecfit_corrected",
@@ -1210,68 +957,10 @@
     }
   ],
   "telluric_summary": {
-    "corrected_stellar": [
-      {
-        "instrument": "crires_plus",
-        "holding": "alpha_cen_a_crires_plus_molecfit",
-        "products": 6,
-        "gates_pass": 6,
-        "gates_fail": 0,
-        "bands": [
-          "H",
-          "J",
-          "K",
-          "Y"
-        ],
-        "settings": [
-          "H1559",
-          "H1582",
-          "J1232",
-          "K2148",
-          "K2192",
-          "Y1029"
-        ],
-        "tickets": [
-          "RYA-963"
-        ]
-      },
-      {
-        "instrument": "crires_plus",
-        "holding": "tau_cet_crires_plus_molecfit",
-        "products": 10,
-        "gates_pass": 9,
-        "gates_fail": 1,
-        "bands": [
-          "H",
-          "J",
-          "K",
-          "Y"
-        ],
-        "settings": [
-          "H1559",
-          "H1582",
-          "J1232",
-          "K2148",
-          "K2192",
-          "Y1029"
-        ],
-        "tickets": [
-          "RYA-973"
-        ]
-      }
-    ],
+    "corrected_stellar": [],
     "corrected_solar_bands": 7,
     "solar_bands_not_corrected": 1,
-    "determined_not_corrected": [
-      {
-        "holding": "tau_ceti_harps",
-        "window": "6867-6884 A",
-        "header_state": "unknown",
-        "flux_state": "not-applied",
-        "excess_ratio": 203.46061140505583,
-        "ticket": "RYA-973"
-      }
-    ],
+    "determined_not_corrected": [],
     "holdings_still_not_applied": [
       "solar_harps",
       "solar_kpno",
@@ -1928,6 +1617,2252 @@
       "source": "data/results/rya850/rya850_summary.json"
     }
   ],
+  "model_matrix": {
+    "generated": "2026-08-23",
+    "generator": "pipeline/model_availability_matrix.py (RYA-1015)",
+    "snapshot": "data/audit/rya1015/sirius_scan_raw.txt",
+    "sources": {
+      "csv_claim": "data/curation/nlte_grid_availability.csv (RYA-462)",
+      "threed_claim": "data/curation/threednlte_availability.csv (RYA-817)",
+      "code_truth": "config.constants NLTE/THREED_CORRECTION_ELEMENTS",
+      "disk_truth": "sirius_scan_raw.txt (Sirius find -L, control PASS)"
+    },
+    "elements": [
+      "Li",
+      "C",
+      "N",
+      "O",
+      "Na",
+      "Mg",
+      "Al",
+      "Si",
+      "P",
+      "S",
+      "K",
+      "Ca",
+      "Sc",
+      "Ti",
+      "V",
+      "Cr",
+      "Mn",
+      "Fe",
+      "Fe II",
+      "Co",
+      "Ni",
+      "Cu",
+      "Zn",
+      "Sr",
+      "Y",
+      "Zr",
+      "Ba",
+      "Eu"
+    ],
+    "model_types": [
+      "1D_LTE",
+      "1D_NLTE",
+      "MEAN3D_NLTE",
+      "FULL_3D_NLTE"
+    ],
+    "cells": [
+      {
+        "element": "Li",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Li",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Li_scatt_pysme.grd"
+        ],
+        "facts": [
+          "OWNED BY: RYA-540 (grid STAGED on Sirius; PySME derivation solar delta -0.030 does NOT reproduce the Lind-2009 small-positive anchor -> NOT wired, validate-don't-tune STOP) / RYA-103"
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Li",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Li",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC.",
+          "OWNED BY: RYA-820 (off-solar 3D-NLTE Li, Wang 2021 -- PUBLIC, not fetched)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "C",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "C",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "amarsi2019_cno/",
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_C_scatt_pysme.grd"
+        ],
+        "facts": [
+          "Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "C",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "C",
+        "model_type": "FULL_3D_NLTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": "data/nlte_grids/amarsi2019_cno/",
+        "disk_paths": [],
+        "facts": [
+          "CAN RUN via cno-3dnlte: Amarsi, Nissen & Skuladottir 2019 (A&A 630 A104) line-by-line 3D-NLTE / 1D-NLTE tables; 3D leg below Teff 6500 K (data/nlte_grids/amarsi2019_cno/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "N",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "N",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "N_Amarsi2020_PySME.csv",
+        "code_grid": "N_Amarsi2020_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_N_scatt_pysme.grd"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "N",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "N",
+        "model_type": "FULL_3D_NLTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": "data/nlte_grids/amarsi2019_cno/",
+        "disk_paths": [],
+        "facts": [
+          "CAN RUN via cno-3dnlte: Amarsi 2019 CNO synthesis leg (N atomic departures are the separate 1D registry grid) (data/nlte_grids/amarsi2019_cno/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "O",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "O",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "amarsi2019_cno/",
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_O_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_O_MARCS_May-21-2021.bin"
+        ],
+        "facts": [
+          "Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 2 departure grid(s) on Sirius."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "O",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "O",
+        "model_type": "FULL_3D_NLTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": "data/nlte_grids/amarsi2019_cno/",
+        "disk_paths": [],
+        "facts": [
+          "CAN RUN via cno-3dnlte: Amarsi 2019 3D-NLTE O I 777; [O I] 6300 is forbidden-LTE by construction (RYA-447) (data/nlte_grids/amarsi2019_cno/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Na",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Na",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Na_Amarsi2020_PySME.csv",
+        "code_grid": "Na_Amarsi2020_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Na_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Na",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Na",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC.",
+          "OWNED BY: RYA-820 (Canocchi 2024 Na -- PUBLIC, not fetched)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mg",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mg",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Mg_Amarsi2020_PySME.csv",
+        "code_grid": "Mg_Amarsi2020_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Mg_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mg",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mg",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC.",
+          "OWNED BY: RYA-820 (Matsuno 2024 Mg -- PUBLIC, not fetched)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Al",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Al",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Al_Amarsi2020_PySME.csv",
+        "code_grid": "Al_Amarsi2020_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Al_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_MARCS_Jul-25-2023.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Al",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
+        ],
+        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
+        "problem": true
+      },
+      {
+        "element": "Al",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_MEAN3D."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Si",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Si",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Si_Amarsi2020_PySME.csv",
+        "code_grid": "Si_Amarsi2020_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Si_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Si",
+        "model_type": "MEAN3D_NLTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": "data/threed_grids/solar3d_metals_rya399.csv",
+        "disk_paths": [],
+        "facts": [
+          "CAN RUN via THREED_CORRECTION_ELEMENTS: Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Si",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": "solar3d_metals_rya399.csv",
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "P",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "P",
+        "model_type": "1D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "OWNED BY: RYA-717 (no NLTE grid; DATA_GAP, FUV needs HST/STIS)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "P",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "P",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "S",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "S",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "S_Amarsi2025_PySME.csv",
+        "code_grid": "S_Amarsi2025_PySME.csv",
+        "disk_paths": [],
+        "facts": [
+          "Applied from the vendored CSV in data/nlte_grids/; the departure grid itself lives on Sirius only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "S",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "S",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "K",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "K",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "K_Amarsi2020_PySME.csv",
+        "code_grid": "K_Amarsi2020_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_K_scatt_pysme.grd"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "K",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "K",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ca",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ca",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Ca_Mashonkina2017.csv",
+        "code_grid": "Ca_Mashonkina2017.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Ca_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ca",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ca",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sc",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sc",
+        "model_type": "1D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "OWNED BY: RYA-732 (no NLTE grid; HFS single blue line 4246)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sc",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sc",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ti",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ti",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Ti_Mallinson2024_PySME.csv",
+        "code_grid": "Ti_Mallinson2024_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Ti_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ti",
+        "model_type": "MEAN3D_NLTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": "data/threed_grids/solar3d_metals_rya399.csv",
+        "disk_paths": [],
+        "facts": [
+          "CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Ti (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ti",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": "solar3d_metals_rya399.csv",
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "V",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "V",
+        "model_type": "1D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "OWNED BY: RYA-470 / RYA-363 (NLTE_VOID: no Amarsi/GALAH grid and no usable neutral V I model atom -- the only genuine void, RYA-404)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "V",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "V",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cr",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cr",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Cr_Bergemann2010_MPIA.csv",
+        "code_grid": "Cr_Bergemann2010_MPIA.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cr",
+        "model_type": "MEAN3D_NLTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": "data/threed_grids/solar3d_metals_rya399.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin"
+        ],
+        "facts": [
+          "CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Cr (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv).",
+          "ALSO holds 1 unwired <3D> STAGGERmean3D deck(s) on Sirius -- a second, richer route nothing consumes yet."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cr",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": "solar3d_metals_rya399.csv",
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mn",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mn",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Mn_Bergemann_MPIA.csv",
+        "code_grid": "Mn_Bergemann_MPIA.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Mn_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mn",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Mn",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Fe_Bergemann_MPIA.csv",
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"
+        ],
+        "facts": [
+          "Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe",
+        "model_type": "FULL_3D_NLTE",
+        "state": "BROKEN",
+        "csv_claim": null,
+        "code_grid": "vendor/1L-3NErrors/",
+        "disk_paths": [],
+        "facts": [
+          "BROKEN -- owned by RYA-923.",
+          "Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED.",
+          "OWNED BY: RYA-923 (URGENT/OPEN: MLP returns NaN for every in-domain line) / RYA-817 / RYA-924 (cells were computed on the Mac from a temp scratchpad; inputs unrecoverable)"
+        ],
+        "error": "The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. 114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE legs still PASS to 3 decimals, so the line list, atmosphere, star params and EW inversion are all fine -- only the correction path regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from when it worked, so the products LOOK healthy while the engine is dead.",
+        "fix": "1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- suspects are _apply_aberr_to_line returning NaN, or _in_grid disagreeing with amarsi3d.domains() so a line passes the MLP domain check and is then rejected by the grid check. 2) Make the reactivation control BLOCK: it currently FAILs and lets the run emit n=0 cells that read as 'no lines in domain'. 3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 under the PR #315 width fix). DO NOT relax the domain check to get numbers out (RYA-923).",
+        "problem": true
+      },
+      {
+        "element": "Fe II",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe II",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Fe_Bergemann_MPIA.csv",
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"
+        ],
+        "facts": [
+          "Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe II",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Fe II",
+        "model_type": "FULL_3D_NLTE",
+        "state": "BROKEN",
+        "csv_claim": null,
+        "code_grid": "vendor/1L-3NErrors/",
+        "disk_paths": [],
+        "facts": [
+          "BROKEN -- owned by RYA-923.",
+          "Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED.",
+          "OWNED BY: RYA-923 / RYA-817 / RYA-924"
+        ],
+        "error": "The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. 114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE legs still PASS to 3 decimals, so the line list, atmosphere, star params and EW inversion are all fine -- only the correction path regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from when it worked, so the products LOOK healthy while the engine is dead.",
+        "fix": "1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- suspects are _apply_aberr_to_line returning NaN, or _in_grid disagreeing with amarsi3d.domains() so a line passes the MLP domain check and is then rejected by the grid check. 2) Make the reactivation control BLOCK: it currently FAILs and lets the run emit n=0 cells that read as 'no lines in domain'. 3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 under the PR #315 width fix). DO NOT relax the domain check to get numbers out (RYA-923).",
+        "problem": true
+      },
+      {
+        "element": "Co",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Co",
+        "model_type": "1D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "OWNED BY: RYA-727 (no NLTE grid; continuum-limited blue-edge lines)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Co",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Co",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ni",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ni",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-710 (Gerber Ni MARCS deck on disk, unwired). Note RYA-731: Ni's blocker is gf-scale (BAD_GF), not NLTE."
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Ni",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ni",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cu",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cu",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Cu_Caliskan2024_PySME.csv",
+        "code_grid": "Cu_Caliskan2024_PySME.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Cu_caliskan_Oct2024_pysme.grd"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cu",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Cu",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zn",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zn",
+        "model_type": "1D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "OWNED BY: RYA-757 (Zn intake: 27->28 canonical + Sitnova+2022 NLTE grid -- grid EXISTS in the literature, never acquired)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zn",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zn",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sr",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sr",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Sr_Bergemann2012_INSPECT.csv",
+        "code_grid": "Sr_Bergemann2012_INSPECT.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sr",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Sr",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Y",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Y",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-802 (acquire+hold Y Gerber ~42 GB; corrects nothing today, Y II unmeasured) / RYA-710"
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Y",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-802 / RYA-710"
+        ],
+        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
+        "problem": true
+      },
+      {
+        "element": "Y",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zr",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zr",
+        "model_type": "1D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "OWNED BY: RYA-739 (no NLTE grid NEEDED -- Zr II is the majority ion, LTE-robust; route is synthesis, RYA-560)"
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zr",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Zr",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ba",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ba",
+        "model_type": "1D_NLTE",
+        "state": "HAVE",
+        "csv_claim": "Ba_Korotin2015.csv",
+        "code_grid": "Ba_Korotin2015.csv",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Ba_scatt_pysme.grd",
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Ba_MARCS_Jul-29-2023.bin"
+        ],
+        "facts": [],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ba",
+        "model_type": "MEAN3D_NLTE",
+        "state": "REQUEST_ONLY",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Ba",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Eu",
+        "model_type": "1D_LTE",
+        "state": "HAVE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "1D-LTE synthesis is the universal baseline route (no grid)."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      },
+      {
+        "element": "Eu",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Eu_MARCS_Sep-13-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-803 (Eu Gerber ~47 GB; model_atom source returns 0 bytes -- BLOCKED, needs a live mirror) / RYA-710"
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Eu",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-803 / RYA-710"
+        ],
+        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
+        "problem": true
+      },
+      {
+        "element": "Eu",
+        "model_type": "FULL_3D_NLTE",
+        "state": "NONE",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [],
+        "facts": [
+          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+        ],
+        "error": "",
+        "fix": "",
+        "problem": false
+      }
+    ],
+    "problem_count": 9,
+    "problems": [
+      {
+        "element": "Li",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/amarsi_galah/nlte_Li_scatt_pysme.grd"
+        ],
+        "facts": [
+          "OWNED BY: RYA-540 (grid STAGED on Sirius; PySME derivation solar delta -0.030 does NOT reproduce the Lind-2009 small-positive anchor -> NOT wired, validate-don't-tune STOP) / RYA-103"
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Al",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
+        ],
+        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
+        "problem": true
+      },
+      {
+        "element": "Fe",
+        "model_type": "FULL_3D_NLTE",
+        "state": "BROKEN",
+        "csv_claim": null,
+        "code_grid": "vendor/1L-3NErrors/",
+        "disk_paths": [],
+        "facts": [
+          "BROKEN -- owned by RYA-923.",
+          "Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED.",
+          "OWNED BY: RYA-923 (URGENT/OPEN: MLP returns NaN for every in-domain line) / RYA-817 / RYA-924 (cells were computed on the Mac from a temp scratchpad; inputs unrecoverable)"
+        ],
+        "error": "The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. 114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE legs still PASS to 3 decimals, so the line list, atmosphere, star params and EW inversion are all fine -- only the correction path regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from when it worked, so the products LOOK healthy while the engine is dead.",
+        "fix": "1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- suspects are _apply_aberr_to_line returning NaN, or _in_grid disagreeing with amarsi3d.domains() so a line passes the MLP domain check and is then rejected by the grid check. 2) Make the reactivation control BLOCK: it currently FAILs and lets the run emit n=0 cells that read as 'no lines in domain'. 3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 under the PR #315 width fix). DO NOT relax the domain check to get numbers out (RYA-923).",
+        "problem": true
+      },
+      {
+        "element": "Fe II",
+        "model_type": "FULL_3D_NLTE",
+        "state": "BROKEN",
+        "csv_claim": null,
+        "code_grid": "vendor/1L-3NErrors/",
+        "disk_paths": [],
+        "facts": [
+          "BROKEN -- owned by RYA-923.",
+          "Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/).",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED.",
+          "OWNED BY: RYA-923 / RYA-817 / RYA-924"
+        ],
+        "error": "The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. 114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE legs still PASS to 3 decimals, so the line list, atmosphere, star params and EW inversion are all fine -- only the correction path regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from when it worked, so the products LOOK healthy while the engine is dead.",
+        "fix": "1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- suspects are _apply_aberr_to_line returning NaN, or _in_grid disagreeing with amarsi3d.domains() so a line passes the MLP domain check and is then rejected by the grid check. 2) Make the reactivation control BLOCK: it currently FAILs and lets the run emit n=0 cells that read as 'no lines in domain'. 3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 under the PR #315 width fix). DO NOT relax the domain check to get numbers out (RYA-923).",
+        "problem": true
+      },
+      {
+        "element": "Ni",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-710 (Gerber Ni MARCS deck on disk, unwired). Note RYA-731: Ni's blocker is gf-scale (BAD_GF), not NLTE."
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Y",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-802 (acquire+hold Y Gerber ~42 GB; corrects nothing today, Y II unmeasured) / RYA-710"
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Y",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-802 / RYA-710"
+        ],
+        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
+        "problem": true
+      },
+      {
+        "element": "Eu",
+        "model_type": "1D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Eu_MARCS_Sep-13-2023.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-803 (Eu Gerber ~47 GB; model_atom source returns 0 bytes -- BLOCKED, needs a live mirror) / RYA-710"
+        ],
+        "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
+        "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
+        "problem": true
+      },
+      {
+        "element": "Eu",
+        "model_type": "MEAN3D_NLTE",
+        "state": "NEEDS_WIRING",
+        "csv_claim": null,
+        "code_grid": null,
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
+        ],
+        "facts": [
+          "OWNED BY: RYA-803 / RYA-710"
+        ],
+        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
+        "problem": true
+      }
+    ],
+    "engines": [
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Li",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "3D-NLTE",
+        "engine_c_where": "data/nlte_grids/amarsi2019_cno/",
+        "element": "C",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "wired via subsystem (amarsi2019_cno/)",
+        "engine_a_present": true,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "3D-NLTE",
+        "engine_c_where": "data/nlte_grids/amarsi2019_cno/",
+        "element": "N",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/N_Amarsi2020_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "3D-NLTE",
+        "engine_c_where": "data/nlte_grids/amarsi2019_cno/",
+        "element": "O",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "wired via subsystem (amarsi2019_cno/)",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_O_MARCS_May-21-2021.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Na",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Na_Amarsi2020_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Mg",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Mg_Amarsi2020_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Al",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Al_Amarsi2020_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "<3D>-NLTE deck on disk (UNWIRED)",
+        "engine_b_where": "NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "<3D> increment",
+        "engine_c_where": "data/threed_grids/solar3d_metals_rya399.csv",
+        "element": "Si",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Si_Amarsi2020_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "P",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "S",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/S_Amarsi2025_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "K",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/K_Amarsi2020_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Ca",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Ca_Mashonkina2017.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Sc",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "<3D> increment",
+        "engine_c_where": "data/threed_grids/solar3d_metals_rya399.csv",
+        "element": "Ti",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Ti_Mallinson2024_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "V",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "<3D> increment",
+        "engine_c_where": "data/threed_grids/solar3d_metals_rya399.csv",
+        "element": "Cr",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Cr_Bergemann2010_MPIA.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "<3D>-NLTE deck on disk (UNWIRED)",
+        "engine_b_where": "NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Mn",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Mn_Bergemann_MPIA.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "3D-NLTE BROKEN (RYA-923)",
+        "engine_c_where": "vendor/1L-3NErrors/",
+        "element": "Fe",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "wired via subsystem (Fe_Bergemann_MPIA.csv)",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Fe_MARCS_May-07-2021.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "3D-NLTE BROKEN (RYA-923)",
+        "engine_c_where": "vendor/1L-3NErrors/",
+        "element": "Fe II",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "wired via subsystem (Fe_Bergemann_MPIA.csv)",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Fe_MARCS_May-07-2021.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Co",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Ni",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Cu",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Cu_Caliskan2024_PySME.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Zn",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Sr",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Sr_Bergemann2012_INSPECT.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Y",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "<3D>-NLTE deck on disk (UNWIRED)",
+        "engine_b_where": "NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Zr",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "LTE only",
+        "engine_b_where": "no TS-native deck",
+        "two_engine": false
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Ba",
+        "engine_a_mode": "1D-NLTE",
+        "engine_a_where": "data/nlte_grids/Ba_Korotin2015.csv",
+        "engine_a_present": true,
+        "engine_b_mode": "1D-NLTE (TS-native)",
+        "engine_b_where": "NLTEgrid_Ba_MARCS_Jul-29-2023.bin",
+        "two_engine": true
+      },
+      {
+        "engine_c_mode": "none",
+        "engine_c_where": "no 3D model held",
+        "element": "Eu",
+        "engine_a_mode": "LTE only",
+        "engine_a_where": "no departure grid",
+        "engine_a_present": false,
+        "engine_b_mode": "<3D>-NLTE deck on disk (UNWIRED)",
+        "engine_b_where": "NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
+        "two_engine": false
+      }
+    ],
+    "molecules": [
+      {
+        "molecule": "C2",
+        "lte_linelist": "data/linelists/molecular/turbospectrum/C2",
+        "nlte_deck": null,
+        "state": "HAVE",
+        "ticket": "RYA-742 (C2 Swan solar C indicator)"
+      },
+      {
+        "molecule": "CH",
+        "lte_linelist": "data/linelists/molecular/turbospectrum/CH",
+        "nlte_deck": null,
+        "state": "HAVE",
+        "ticket": "RYA-743 (CH G-band -- 'THE BITCH')"
+      },
+      {
+        "molecule": "CN",
+        "lte_linelist": "data/linelists/molecular/turbospectrum/CN",
+        "nlte_deck": null,
+        "state": "HAVE",
+        "ticket": "RYA-746 (CN solar N indicator, needs C prior)"
+      },
+      {
+        "molecule": "CO",
+        "lte_linelist": "data/linelists/molecular/turbospectrum/CO",
+        "nlte_deck": "NLTEgrid4TS_CO_MARCS_Nov-14-2024.bin",
+        "state": "HAVE",
+        "ticket": "RYA-744 (CO dv=1/dv=2, CRIRES+ target)"
+      },
+      {
+        "molecule": "NH",
+        "lte_linelist": "data/linelists/molecular/turbospectrum/NH",
+        "nlte_deck": null,
+        "state": "HAVE",
+        "ticket": "RYA-745 (NH solar N indicator, IR only)"
+      },
+      {
+        "molecule": "OH",
+        "lte_linelist": "data/linelists/molecular/turbospectrum/OH",
+        "nlte_deck": null,
+        "state": "HAVE",
+        "ticket": "RYA-747 (OH solar O indicator -- NOVELTY CANDIDATE)"
+      },
+      {
+        "molecule": "TiO",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 (COOL-STAR MOLECULES CaH/MgH/TiO/SiO sweep -- deferred to the M-dwarf phase). Blocks the M-dwarf tier."
+      },
+      {
+        "molecule": "VO",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 (cool-star molecule, not carried)"
+      },
+      {
+        "molecule": "ZrO",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 (cool-star molecule, not carried)"
+      },
+      {
+        "molecule": "MgH",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 (COOL-STAR MOLECULES sweep -- deferred)"
+      },
+      {
+        "molecule": "FeH",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 (cool-star molecule, not carried)"
+      },
+      {
+        "molecule": "SiH",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 / RYA-189 (IR molecular line handling)"
+      },
+      {
+        "molecule": "CaH",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 (COOL-STAR MOLECULES sweep -- deferred)"
+      },
+      {
+        "molecule": "H2O",
+        "lte_linelist": null,
+        "nlte_deck": null,
+        "state": "NONE",
+        "ticket": "RYA-751 / RYA-503 (ExoMol/HITRAN->Turbospectrum converter EXISTS, CO-validated)"
+      }
+    ],
+    "findings_csv": "model_availability_findings.csv"
+  },
   "reporting_contract": {
     "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
     "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
@@ -1983,5 +3918,5 @@
     "rya925/red_optical",
     "rya925/vis"
   ],
-  "pre_correction_products": 0
+  "pre_correction_products": 27
 }
