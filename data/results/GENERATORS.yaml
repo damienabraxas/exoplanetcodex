@@ -2448,131 +2448,6 @@ artifacts:
       verdict - counting the raw strings returns ~200 distinct "verdicts" for one cause.
 
   # ── RYA-1002 Al Phase-1: first optical Al products across two atlases ─────────────
-  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_SYNTH_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I VIS 1D-LTE on the IAG FTS atlas: A = 6.289, n = 1. ⚠️ READ THE RUNG BEFORE THE
-      VALUE — the single line comes back `systematic:K07/SCALE-MISMATCH`, because the
-      synthesis path applies `canonical_gf` (RYA-353) and canonical carries KURUCZ-1995 for
-      the Al VIS pair, 0.113 dex from Burheim 2023's experiment (RYA-1001/1002). The number
-      is therefore measured on a gf we have shown to be superseded; it is published as the
-      incumbent-gf baseline, NOT as an Al VIS abundance. The pool rebuild is RYA-839.
-  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_SYNTH_1D-LTE_lines.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Per-line record behind the VIS iag_fts_solar_atlas product: the fitted A(Al) per line,
-      the observed depth and implied width, and the disposition for each of the 1 lines.
-      Registered beside the product because the aggregate alone cannot show which line
-      carries the scatter.
-  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_SYNTH_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I VIS 1D-LTE on the Kitt Peak atlas: A = 6.268, n = 1. Same SCALE-MISMATCH caveat
-      as the IAG VIS row — same gf, same reason. The two atlases agree to 0.021 dex, which
-      is the useful content here: the VIS arm is thin (one selected line) but not
-      instrument-sensitive.
-  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Per-line record behind the VIS kpno_solar_atlas product: the fitted A(Al) per line,
-      the observed depth and implied width, and the disposition for each of the 1 lines.
-      Registered beside the product because the aggregate alone cannot show which line
-      carries the scatter.
-  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_SYNTH_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I red-optical 1D-LTE on the IAG FTS atlas: A = 6.390, stat 0.033, syst 0.173, n = 4
-      (7084.643, 7362.296, 7836.134, 8773.896 — `min_sep_A` = 4.0 keeps ONE member of
-      each doublet, so this is NOT the 7835/8772 quartet). 🔴 THE FIRST PRODUCT THIS BAND HAS EVER EMITTED: until RYA-1002
-      `config/synth_bands.yaml` gave red-optical a linelist spanning 9203-12976 A with ZERO
-      lines in its own 6910-9199 window, so the route refused at its coverage guard every
-      time, for every element. UNGRADED and correctly so — Burheim 2023 does not cover this
-      quartet (RYA-1001 OQ1, confirmed with a positive control), so 0 of 4 lines are GF-LAB
-      and the 0.17 dex semi-empirical systematic stands.
-  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_SYNTH_1D-LTE_lines.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Per-line record behind the red-optical iag_fts_solar_atlas product: the fitted A(Al)
-      per line, the observed depth and implied width, and the disposition for each of the 4
-      lines. Registered beside the product because the aggregate alone cannot show which
-      line carries the scatter.
-  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_SYNTH_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I red-optical 1D-LTE on the Kitt Peak atlas: A = 6.413, stat 0.015, syst 0.173, n =
-      4. ⚠️ CORRECTED: an earlier version of this note claimed the +0.058 dex against
-      RYA-716's 6.3555 was measured on THE SAME LINES and was therefore purely a pipeline
-      difference. It is not. RYA-716's n=3 pool was 6698.673 / 8772.865 / 8773.897; this
-      pool is 7084.643 / 7362.296 / 7836.134 / 8773.896. They share ONE line. Since line
-      selection dominates gf in this budget (RYA-842), the difference is a LINE-SET change
-      at least as much as a route change, and the two numbers are not a controlled
-      comparison. What can be said: the prior value does not reproduce, and WHY is not yet
-      established. ⚠️ FIREWALL (RYA-161): 6.413 sits 0.017 from
-      the 6.43 anchor, and that is an OUTCOME, not the justification for the linelist fix —
-      the fix was made on provenance (a band pointing at a list with no lines in it) before
-      any Al value existed to compare. The 0.17 dex systematic swamps the agreement anyway.
-      Agrees with the IAG arm to 0.023 dex.
-  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Per-line record behind the red-optical kpno_solar_atlas product: the fitted A(Al) per
-      line, the observed depth and implied width, and the disposition for each of the 4
-      lines. Registered beside the product because the aggregate alone cannot show which
-      line carries the scatter.
-
-  - artifact: band_products/AlI_4200_6910_harps_SYNTH_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I VIS 1D-LTE on HARPS: A = 6.267, n = 1. THE THIRD INSTRUMENT on this arm — HARPS
-      6.267, Kitt Peak 6.268, IAG 6.289 agree to 0.022 dex on the same line (6696.023). For
-      an arm the audit called empty-by-firewall, three independent atlases inside 0.02 dex
-      is a result about the ARM. ⚠️ It is NOT yet a result about Al: the line comes back
-      systematic:K07/SCALE-MISMATCH because the synthesis applies canonical_gf, which
-      carries Kurucz-1995 here, 0.113 dex from Burheim's experiment. Three atlases agreeing
-      on the same superseded gf is three consistent numbers, not a correct one. Rebuild =
-      RYA-839.
-  - artifact: band_products/AlI_4200_6910_harps_SYNTH_ENGINE-A_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I VIS ENGINE-A on HARPS: A = 6.239, n = 1 served of 1, delta_nlte -0.0275 dex from
-      the Amarsi-2020 PySME grid (Nordlander & Lind 2017 atom). Emitted by the ENGINE-A
-      block RYA-1002 added to the SYNTHESIS route — before that the route produced 1D-LTE
-      and stopped, with no NLTE product and no disposition, for every element. Separate
-      product, never merged with the 1D-LTE row (RYA-712).
-  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_SYNTH_ENGINE-A_products.csv
-    generator: scripts/derive_band_products.py
-    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
-    ticket: RYA-1002
-    note: >-
-      Al I red-optical ENGINE-A on Kitt Peak: A = 6.378, n = 2 SERVED of 4, mean delta_nlte
-      -0.0349 dex. The two unserved lines (7084.643, 7362.296) have no Amarsi grid node and
-      carry an explicit ENGINE-A-NOT-SERVED disposition per line rather than being averaged
-      over or silently dropped. NLTE moves Al AWAY from the 6.43 anchor (6.413 -> 6.378),
-      which is the documented Al story — Al I is LTE-safe for the Sun (Amarsi 2021) — and
-      not a defect to chase.
-
-  # ── RYA-1009 Al gf pool rebuild onto experimental values ──────────────────────────
-
   - artifact: rya1009/rya1009_al_gf_swap_per_line.csv
     generator: scripts/rya1009_al_gf_pool_rebuild.py
     invocation: python3 scripts/rya1009_al_gf_pool_rebuild.py
@@ -2685,3 +2560,235 @@ artifacts:
     note: >-
       The Phase-0 findings narrative and the OQ1-4 answers. Prose over the CSVs above;
       every number in it is reproducible from them.
+
+  # ── RYA-935 Al products, holding-attributed ───────────────────────────────────────
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS 1D-LTE on kpno_solar_atlas, holding solar_kpno: A = 6.377. RYA-935 — REPLACES
+      the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS ENGINE-A on kpno_solar_atlas, holding solar_kpno: A = 6.349. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS 1D-LTE on iag_fts_solar_atlas, holding solar_iag: A = 6.395. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS ENGINE-A on iag_fts_solar_atlas, holding solar_iag: A = 6.367. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS 1D-LTE on harps, holding solar_harps: A = 6.393. RYA-935 — REPLACES the
+      identically-valued product that carried no holding in its stem. `derive_band_products`
+      RESOLVES a holding either way but only WRITES it when `--holding` is passed, so the
+      earlier artifacts were unattributable and the live tracker reported them as "predates
+      RYA-933/934" — a misdiagnosis, they were hours old. Same measurement, addressable
+      name. VIS rows are on the RYA-1009 Burheim experimental gf (syst 0.0374 dex,
+      measured); red-optical rows remain UNGRADED (syst 0.1726) because Burheim does not
+      cover that quartet.
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS ENGINE-A on harps, holding solar_harps: A = 6.365. RYA-935 — REPLACES the
+      identically-valued product that carried no holding in its stem. `derive_band_products`
+      RESOLVES a holding either way but only WRITES it when `--holding` is passed, so the
+      earlier artifacts were unattributable and the live tracker reported them as "predates
+      RYA-933/934" — a misdiagnosis, they were hours old. Same measurement, addressable
+      name. VIS rows are on the RYA-1009 Burheim experimental gf (syst 0.0374 dex,
+      measured); red-optical rows remain UNGRADED (syst 0.1726) because Burheim does not
+      cover that quartet.
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical 1D-LTE on kpno_solar_atlas, holding solar_kpno: A = 6.413. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical ENGINE-A on kpno_solar_atlas, holding solar_kpno: A = 6.378. RYA-935
+      — REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical 1D-LTE on iag_fts_solar_atlas, holding solar_iag: A = 6.390. RYA-935
+      — REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical ENGINE-A on iag_fts_solar_atlas, holding solar_iag: A = 6.380.
+      RYA-935 — REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS 1D-LTE product on kpno_solar_atlas (solar_kpno):
+      the fitted A(Al) per line, its observed depth and implied width, and the disposition
+      for each. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT
+      serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS ENGINE-A product on kpno_solar_atlas (solar_kpno):
+      the fitted A(Al) per line, its observed depth and implied width, and the disposition
+      for each. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT
+      serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS 1D-LTE product on iag_fts_solar_atlas (solar_iag):
+      the fitted A(Al) per line, its observed depth and implied width, and the disposition
+      for each. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT
+      serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS ENGINE-A product on iag_fts_solar_atlas
+      (solar_iag): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS 1D-LTE product on harps (solar_harps): the fitted
+      A(Al) per line, its observed depth and implied width, and the disposition for each.
+      Registered beside the product because the aggregate alone cannot show which line
+      carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT serve
+      (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS ENGINE-A product on harps (solar_harps): the
+      fitted A(Al) per line, its observed depth and implied width, and the disposition for
+      each. Registered beside the product because the aggregate alone cannot show which line
+      carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT serve
+      (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical 1D-LTE product on kpno_solar_atlas
+      (solar_kpno): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical ENGINE-A product on kpno_solar_atlas
+      (solar_kpno): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical 1D-LTE product on iag_fts_solar_atlas
+      (solar_iag): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical ENGINE-A product on iag_fts_solar_atlas
+      (solar_iag): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
