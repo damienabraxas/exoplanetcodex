@@ -362,9 +362,9 @@ async function draw(){
  // --- RYA-1015 element x model availability -------------------------------
  const mm=d.model_matrix;
  if(mm&&!mm.error&&mm.cells&&mm.cells.length){
-   const cls={HAVE:'good',CODE_USES:'good',TIER1_VALIDATED:'good',TIER1_WIRED:'good',
-              REQUEST_ONLY:'warn',TIER2_OWED:'warn',NONE:'muted',
-              NEEDS_WIRING:'bad',TIER1_WIREABLE:'bad',CSV_ONLY:'bad',BROKEN:'bad'};
+   const cls={HAVE:'good',CODE_USES:'good',T2_CONSUME_VALIDATED:'good',T2_CONSUME_WIRED:'good',
+              REQUEST_ONLY:'warn',T2_BUILD_OWED:'warn',NONE:'muted',
+              NEEDS_WIRING:'bad',T2_CONSUME_READY:'bad',CSV_ONLY:'bad',BROKEN:'bad'};
    const byc={}; mm.cells.forEach(c=>byc[c.element+'|'+c.model_type]=c);
    const eng={}; (mm.engines||[]).forEach(r=>eng[r.element]=r);
    let t='<table class="mtx"><thead><tr><th>species</th>'
@@ -388,18 +388,17 @@ async function draw(){
      const e=eng[el]||{};
      t+='<td class="gname">A: '+esc(e.engine_a_mode||'?')+'<br>B: '+esc(e.engine_b_mode||'?')+'</td></tr>';
    }
-   t+='</tbody></table><p class="note muted"><b>State meanings \u2014</b> '
-     +'<b class="good">HAVE</b>: held and runnable today. '
-     +'<b class="good">TIER1_VALIDATED</b>: wired AND proven end-to-end. '
-     +'<b class="good">TIER1_WIRED</b>: registry wired; end-to-end run still owed. '
-     +'<b class="bad">TIER1_WIREABLE</b>: <b>deck AND model atom are BOTH on Sirius and nothing consumes them</b> '
-     +'\u2014 mechanical to wire (the Al pattern), not research. '
-     +'<b class="warn">TIER2_OWED</b>: we hold the model atom and the &lt;3D&gt; atmosphere but no deck '
-     +'\u2014 <b>unlocked by the tier-2 solver, NOT by acquisition. Nothing to fetch, nothing to ask for.</b> '
-     +'<b class="warn">REQUEST_ONLY</b>: published, but we hold NEITHER deck NOR atom \u2014 genuinely must be asked for. '
-     +'<b class="bad">NEEDS_WIRING</b>: grid on Sirius, no code path consumes it. '
-     +'<b class="bad">BROKEN</b>: held and FAILS \u2014 see the error. '
-     +'<b class="muted">NONE</b>: absent.</p>'
+   t+='</tbody></table><p class="note muted"><b>The whole &lt;3D&gt;-NLTE column IS TIER 2</b> '
+     +'(RYA-1013 defines tier-2 as &lt;3D&gt;/1.5D NLTE). The states name WHICH ROUTE delivers it, '
+     +'never a different tier. <b class="good">T2_CONSUME_VALIDATED</b>: published deck wired AND proven end-to-end. '
+     +'<b class="good">T2_CONSUME_WIRED</b>: published deck wired; run still owed. '
+     +'<b class="bad">T2_CONSUME_READY</b>: <b>deck AND model atom BOTH on Sirius, nothing consumes them</b> '
+     +'\u2014 mechanical to wire. '
+     +'<b class="warn">T2_BUILD_OWED</b>: no deck, but we hold the atom and the &lt;3D&gt; atmosphere '
+     +'\u2014 <b>reachable only by the BUILD-OUR-OWN route. Nothing to fetch, nothing to ask for.</b> '
+     +'<b class="warn">REQUEST_ONLY</b>: neither deck nor atom \u2014 genuinely must be asked for. '
+     +'<b class="bad">NEEDS_WIRING</b>: grid on Sirius, unconsumed. '
+     +'<b class="bad">BROKEN</b>: held and FAILS. <b class="muted">NONE</b>: absent.</p>'
      +'<p class="note muted">Engine-A = EW + grid delta (vendored CSV, in repo). '
      +'Engine-B = synthesis (Turbospectrum; TS-native NLTE needs a Gerber deck on Sirius). Neither is primary. '
      +'1D-LTE needs no grid. full-3D-NLTE is NONE everywhere \u2014 no public full-3D NLTE RT code exists (RYA-1008). '
