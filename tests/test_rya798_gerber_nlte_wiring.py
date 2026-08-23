@@ -32,8 +32,15 @@ def test_lte_path_is_untouched_by_default():
 
 
 def test_unregistered_element_raises_rather_than_running_lte():
+    """⚠️ RYA-1005 re-pointed this AT THE INVARIANT. It used Al as its example of an
+    unregistered deck; Al then got one, and the test failed for the best possible
+    reason. The rule is "a species with no deck RAISES rather than silently running
+    LTE" — so the example is chosen from the registry at run time and asserted absent,
+    which cannot expire the same way."""
+    unregistered = next(e for e in ("Ti", "Cr", "Ba", "Zn")
+                        if e not in gn.DECKS)
     with pytest.raises(gn.GerberDeckError, match="no TS-native Gerber deck registered"):
-        gn.for_node("Al", 5772.0, 4.44, 0.0)
+        gn.for_node(unregistered, 5772.0, 4.44, 0.0)
 
 
 @sirius
