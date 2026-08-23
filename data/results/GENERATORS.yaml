@@ -2371,6 +2371,52 @@ artifacts:
       atmosphere and returns n=0 while still writing a well-formed product.
       The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
 
+
+  # ── RYA-1011 — the ANCHOR's per-line inputs, committed because they are LOAD-BEARING ──
+  #
+  # `pipeline/anchor_pools.py` builds the 163-line graded anchor -- which RYA-987's
+  # zero-point cap rests on -- from the two Kitt Peak files below. They lived ONLY in
+  # `data/results/band_products/`, the one results directory that is gitignored, so they
+  # had no git safety net: a stem-sharing flag wiped them on 2026-08-23 (RYA-1006) and
+  # they were recovered only because Sirius happened to hold pre-overwrite copies.
+  # Every OTHER per-line artifact in the project lives in a tracked ticket subdirectory
+  # (data/results/rya847/, rya880/, rya925/ ...), which is why only these were exposed.
+  # 96 KB for all three -- the gitignore exists to stop BULK accidental tracking, not to
+  # leave the anchor's own inputs recoverable only by luck.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      55 shallow graded lines — the EW-comparable half of the 163-line anchor.
+      Committed with `git add -f` (band_products/ is gitignored) because it is
+      LOAD-BEARING: anchor_pools reads it by name and loud-fails without it.
+      Invocation verified by reproduction on 2026-08-23 (RYA-1011).
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      108 deep graded lines — the half EW can never attempt. Together with the RYA-967 file above these ARE `anchor_pools.ANCHORS['rya984_graded_163']`.
+      Committed with `git add -f` (band_products/ is gitignored) because it is
+      LOAD-BEARING: anchor_pools reads it by name and loud-fails without it.
+      Invocation verified by reproduction on 2026-08-23 (RYA-1011).
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      The HARPS deep arm partner (109 lines) — the other half of the arm-gap comparison.
+      Committed with `git add -f` (band_products/ is gitignored) because it is
+      LOAD-BEARING: anchor_pools reads it by name and loud-fails without it.
+      Invocation verified by reproduction on 2026-08-23 (RYA-1011).
+
   # ── RYA-959 — the width ceiling, and the evidence that it is measured not chosen ─────
   #
   # RYA-959's two artifacts -- `data/audit/rya959_width_ceiling/{width_ceiling_evidence.json,
