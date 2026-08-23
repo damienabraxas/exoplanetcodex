@@ -98,8 +98,24 @@ bands:
   red-optical:
     lo_A: 6910.0
     hi_A: 9199.0
+    # ⚠️ anchor_A sits OUTSIDE this band's own 6910-9199 window. Left at 9600 because
+    # RYA-967 carries existing values rather than recomputing them, and half_width_A is
+    # derived from it. Flagged, not changed: at the 8055 A band centre the invariant
+    # (20.51 sigma_D, 1.7 km/s) gives 0.94 A, so 1.10 A is ~17% wide. That is a
+    # conservative direction for a window, and moving it is a separate, stated decision.
     anchor_A: 9600.0
-    linelist: data/linelists/ispec_ir_9200_13000/atomic_lines.tsv
+    # 🔴 RYA-1002 — WAS `data/linelists/ispec_ir_9200_13000/atomic_lines.tsv`, a list
+    # built for 9200-13000 A. It spans 9203.2-12976.1 and holds ZERO lines inside this
+    # band's 6910-9199 window, so the red-optical synthesis route could not run AT ALL,
+    # for any element: `derive_band_products` refused at the coverage guard every time.
+    # Confirmed never to have produced anything — the only synth band products in the
+    # repo are 4200_6910. Both this and anchor_A=9600 look copied from the NIR entry.
+    #
+    # GES v6 spans 4200-9200 A and holds 53,042 lines in this window, so it is the list
+    # this band should always have named — the SAME one the VIS entry uses, which also
+    # keeps RYA-967's "vary method alone" property across the two optical bands.
+    # Changing it moves no published number, because there is none to move.
+    linelist: ispec_ges_v6
     half_width_A: 1.10
     min_sep_A: 4.0
     n_lines: 40

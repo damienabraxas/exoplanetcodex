@@ -17,6 +17,7 @@ filenames that happened to break it.
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -39,9 +40,28 @@ def _tracker():
 # The real registry keys (scripts/measure_band_ew._INSTRUMENT_HOLDINGS). Held literally
 # rather than imported: importing that module resolves the Kitt Peak atlas and exits when
 # it is absent, and this is a test of the PARSER, which takes these as plain inputs.
-INSTRUMENTS = {"harps", "kpno_solar_atlas", "crires_plus"}
-HOLDINGS = {"solar_harps", "solar_harps_molecfit_corrected",
-            "solar_kpno", "solar_kpno_molecfit_corrected"}
+def _registries() -> tuple[set[str], set[str]]:
+    """The real keys, READ FROM THE SOURCE rather than hand-copied.
+
+    🔴 RYA-1009 — the hand-copied version DRIFTED and hid real products. It listed
+    three instruments and four holdings; `_INSTRUMENT_HOLDINGS` had FOUR and EIGHT,
+    and the missing one was `iag_fts_solar_atlas` / `solar_iag`. Every committed IAG
+    band product was therefore unparseable to this test — i.e. invisible to the page —
+    and the test reported that as the PRODUCT's fault. Same shape as
+    `gf_rung.LAB_GRADED_SPECIES`: a second copy of a registry that silently went stale.
+
+    Still not an import: importing `measure_band_ew` resolves the Kitt Peak atlas and
+    exits when it is absent, and this is a test of the PARSER. Reading the literals out
+    of the source keeps that property while making drift impossible.
+    """
+    src = (ROOT / "scripts" / "measure_band_ew.py").read_text()
+    blk = src[src.index("_INSTRUMENT_HOLDINGS: dict"):]
+    blk = blk[:blk.index("\n}")]
+    return (set(re.findall(r'^    "([a-z_0-9]+)": \(', blk, re.M)),
+            set(re.findall(r'HoldingSpec\("([a-z_0-9]+)"', blk)))
+
+
+INSTRUMENTS, HOLDINGS = _registries()
 
 
 # ── the parser keeps the selector rather than dropping the product ────────────────────
