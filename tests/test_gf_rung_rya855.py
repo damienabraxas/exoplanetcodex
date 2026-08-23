@@ -325,8 +325,12 @@ def test_neither_route_hardcodes_the_rung():
     src = _code(ROOT / "scripts" / "derive_band_products.py")
     assert "gf_graded=False" not in src and "gf_graded=True" not in src, (
         "derive_band_products still states a gf rung of its own")
-    assert src.count("rung.budget_kwargs()") == 2, (
-        "expected exactly two budget call sites to consume the decision")
+    # THREE since RYA-1002: the EW route's 1D-LTE and ENGINE-A, plus the SYNTHESIS
+    # route's own ENGINE-A. The invariant is that EVERY budget call consumes the
+    # decider, which is what the `gf_graded=` assertion above actually pins; the count
+    # guards against a route being ADDED without one.
+    assert src.count("rung.budget_kwargs()") == 3, (
+        "expected exactly three budget call sites to consume the decision")
 
 
 def test_both_routes_call_the_same_decider():

@@ -21,5 +21,41 @@
   },
   "gate": {
     "status": "see data/audit/rya1005_al_gerber/ \u2014 run by scripts/ts_gerber_gate.py"
+  },
+  "files": {
+    "model_atom": {
+      "name": "atom.al_qmh",
+      "url": "https://keeper.mpdl.mpg.de/f/a8d56401e25f4fbcad22/?dl=1",
+      "bytes": 4342011,
+      "md5": "1cd69def2866828566f2cbff4f51a103"
+    },
+    "grid_1d_aux": {
+      "name": "auxData_Al_MARCS_Jul-25-2023.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/bbe071e38df14ef5bfa8/?dl=1",
+      "bytes": 95719899,
+      "md5": "387a384cc8b3788e3ab73bf8b2700715"
+    },
+    "grid_3d_aux": {
+      "name": "auxData_Al_STAGGERmean3D_Aug-05-2023_marcs_names.txt",
+      "url": "https://keeper.mpdl.mpg.de/f/71fc72d0aa384a70949c/?dl=1",
+      "bytes": 1078741,
+      "md5": "53c796bebd809acee515d6d764ee4f82"
+    },
+    "grid_3d_bin": {
+      "name": "NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin",
+      "url": "https://keeper.mpdl.mpg.de/f/5bbc96082f8b4b20b5bc/?dl=1",
+      "bytes": 1823224060,
+      "md5": "bdfd9da6cc8ea87c58a44ae94c5d8bb2"
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid_Al_MARCS_Jul-25-2023.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/0df34c9440024ed18e78/?dl=1",
+      "bytes": 32547975257,
+      "unpacks_to": "NLTEgrid_Al_MARCS_Jul-25-2023.bin",
+      "unpacked_bytes": 72509142368,
+      "md5": "5bf1dd6e657bc70e4c1d2121d6955b41",
+      "unpacked_md5": "b3a07042c5ff8c6d2c95eda4e3b8c0ef",
+      "unpacked_crc32": "c7c0879f"
+    }
   }
 }
