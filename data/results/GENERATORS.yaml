@@ -2308,3 +2308,36 @@ artifacts:
       over or silently dropped. NLTE moves Al AWAY from the 6.43 anchor (6.413 -> 6.378),
       which is the documented Al story — Al I is LTE-safe for the Sun (Amarsi 2021) — and
       not a defect to chase.
+
+  # ── RYA-1009 Al gf pool rebuild onto experimental values ──────────────────────────
+
+  - artifact: rya1009/rya1009_al_gf_swap_per_line.csv
+    generator: scripts/rya1009_al_gf_pool_rebuild.py
+    invocation: python3 scripts/rya1009_al_gf_pool_rebuild.py
+    ticket: RYA-1009
+    note: >-
+      One row per Burheim-2023-covered Al I line with its disposition: SWAP (value
+      changed), RE-SOURCE (value already identical, provenance added), HELD, or
+      NOT-SWAPPED, each with the reason. 2 swapped (6696.023 and 6698.673, both
+      -0.113 dex, Kurucz-1995 -> experiment), 1 re-sourced (11253.189, already on
+      Burheim's number but tagged only "VALD3"), 1 HELD and 4 absent from canonical_gf.
+      ⚠️ THE HOLD IS THE ROW WORTH READING. 11254.924 is NOT swapped because Burheim's
+      +0.327 is the STRONG COMPONENT ALONE — his Table 1 omits the weak 3d 2D5/2 - 4f
+      2F5/2 partner as ">1 order of magnitude weaker" — while canonical carries
+      hfs_n_components=2, the blended feature. Substituting one onto the other would
+      under-count the opacity by 0.027 dex, i.e. introduce a real error while improving
+      provenance.
+  - artifact: rya1009/rya1009_al_gf_swap_summary.json
+    generator: scripts/rya1009_al_gf_pool_rebuild.py
+    invocation: python3 scripts/rya1009_al_gf_pool_rebuild.py
+    ticket: RYA-1009
+    note: >-
+      Counts and the firewall statement. The swap is justified by PROVENANCE — Burheim
+      2023 is experimental (FTS branching fractions x radiative lifetimes, 2-11%
+      per-line) and the incumbent is Kurucz-1995 semi-empirical — and that justification
+      was fixed BEFORE the abundance effect was examined. It moved A(Al) UP, toward the
+      6.43 anchor (KP 6.268 -> 6.377, IAG 6.289 -> 6.395, HARPS 6.267 -> 6.393); that is
+      the OUTCOME and is not the reason. Nothing in the generator references 6.43.
+      The larger result is the error bar: the gf rung goes 1 -> 3 and the systematic
+      falls 0.1726 -> 0.0374 dex, now MEASURED (the papers' own per-line sigma) rather
+      than the 0.20 blanket bound.
