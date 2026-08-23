@@ -2184,3 +2184,87 @@ artifacts:
       because the two are one measurement and must not drift apart. The REW branch spells
       its own number into the reason string, so the census collapses it to a single coded
       verdict - counting the raw strings returns ~200 distinct "verdicts" for one cause.
+
+  # ── RYA-1002 Al Phase-1: first optical Al products across two atlases ─────────────
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Al I VIS 1D-LTE on the IAG FTS atlas: A = 6.289, n = 1. ⚠️ READ THE RUNG BEFORE THE
+      VALUE — the single line comes back `systematic:K07/SCALE-MISMATCH`, because the
+      synthesis path applies `canonical_gf` (RYA-353) and canonical carries KURUCZ-1995 for
+      the Al VIS pair, 0.113 dex from Burheim 2023's experiment (RYA-1001/1002). The number
+      is therefore measured on a gf we have shown to be superseded; it is published as the
+      incumbent-gf baseline, NOT as an Al VIS abundance. The pool rebuild is RYA-839.
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Per-line record behind the VIS iag_fts_solar_atlas product: the fitted A(Al) per line,
+      the observed depth and implied width, and the disposition for each of the 1 lines.
+      Registered beside the product because the aggregate alone cannot show which line
+      carries the scatter.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Al I VIS 1D-LTE on the Kitt Peak atlas: A = 6.268, n = 1. Same SCALE-MISMATCH caveat
+      as the IAG VIS row — same gf, same reason. The two atlases agree to 0.021 dex, which
+      is the useful content here: the VIS arm is thin (one selected line) but not
+      instrument-sensitive.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Per-line record behind the VIS kpno_solar_atlas product: the fitted A(Al) per line,
+      the observed depth and implied width, and the disposition for each of the 1 lines.
+      Registered beside the product because the aggregate alone cannot show which line
+      carries the scatter.
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Al I red-optical 1D-LTE on the IAG FTS atlas: A = 6.390, stat 0.033, syst 0.173, n = 4
+      (7835/7836/8772/8773). 🔴 THE FIRST PRODUCT THIS BAND HAS EVER EMITTED: until RYA-1002
+      `config/synth_bands.yaml` gave red-optical a linelist spanning 9203-12976 A with ZERO
+      lines in its own 6910-9199 window, so the route refused at its coverage guard every
+      time, for every element. UNGRADED and correctly so — Burheim 2023 does not cover this
+      quartet (RYA-1001 OQ1, confirmed with a positive control), so 0 of 4 lines are GF-LAB
+      and the 0.17 dex semi-empirical systematic stands.
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Per-line record behind the red-optical iag_fts_solar_atlas product: the fitted A(Al)
+      per line, the observed depth and implied width, and the disposition for each of the 4
+      lines. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter.
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Al I red-optical 1D-LTE on the Kitt Peak atlas: A = 6.413, stat 0.015, syst 0.173, n =
+      4. 🔴 THE PRIOR Al VALUE DOES NOT REPRODUCE: RYA-716 published 6.3555 on THIS
+      instrument and THESE lines, so the +0.058 dex move is a pipeline difference and not a
+      data one — the old number came through a path that could not use the red-optical band
+      config, because that band was unrunnable. ⚠️ FIREWALL (RYA-161): 6.413 sits 0.017 from
+      the 6.43 anchor, and that is an OUTCOME, not the justification for the linelist fix —
+      the fix was made on provenance (a band pointing at a list with no lines in it) before
+      any Al value existed to compare. The 0.17 dex systematic swamps the agreement anyway.
+      Agrees with the IAG arm to 0.023 dex.
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --skip-engine-b
+    ticket: RYA-1002
+    note: >-
+      Per-line record behind the red-optical kpno_solar_atlas product: the fitted A(Al) per
+      line, the observed depth and implied width, and the disposition for each of the 4
+      lines. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter.
