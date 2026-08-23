@@ -1,0 +1,43 @@
+{
+  "ticket": "RYA-1001",
+  "phase": "0 (census only \u2014 no synthesis, no gf adoption)",
+  "gf_ladder": [
+    "EXP-BURHEIM23",
+    "THEORY-P19",
+    "NIST-<grade>",
+    "THEORY-OP95",
+    "SEMIEMP-K75",
+    "UNGRADED"
+  ],
+  "depth_window": [
+    0.05,
+    0.6
+  ],
+  "group_A": 0.05,
+  "match_tol_A": 0.06,
+  "match_tol_ep_eV": 0.02,
+  "n_linelist_rows": 1117,
+  "n_features": 502,
+  "hfs_collapse_control": {
+    "n_compared": 20,
+    "n_gf_agree": 20,
+    "n_ncomp_agree": 18,
+    "disagreements": [
+      {
+        "wave": 3944.006,
+        "feat_gf": -0.6227,
+        "canonical_gf": -0.6227,
+        "feat_n": 4,
+        "canonical_n": 1
+      },
+      {
+        "wave": 3961.52,
+        "feat_gf": -0.3228,
+        "canonical_gf": -0.3228,
+        "feat_n": 6,
+        "canonical_n": 1
+      }
+    ]
+  },
+  "firewall": "RYA-161 \u2014 nothing here adopts a gf; the ranking is provenance-only."
+}
