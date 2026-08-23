@@ -83,7 +83,22 @@ bands:
     # never close, which is why the criterion is "contain the FWHM", not "contain the EW".
     linelist: ispec_ges_v6
     half_width_A: 0.62
-    min_sep_A: 4.0
+    # 🔴 RYA-1023 — DERIVED FOR THIS BAND, not inherited. Was 4.0, carried over from
+    # near-UV, where it exists to stop a 40-line set piling into one crowded complex
+    # (NEARUV_MIN_SEP_A, "keeps the set spread"). VIS is not that regime, and 4.0 was
+    # silently discarding the band's ONLY other lab-graded line: Al I 6696.023 and
+    # 6698.673 sit 2.650 A apart, so the pool was n=1 by selection rule, not by scarcity.
+    #
+    # DERIVED: the physical requirement is that two selected lines' FIT WINDOWS must not
+    # overlap, i.e. min_sep >= 2 * half_width = 2 * 0.62 = 1.24 A. At 1.24 the Al pair
+    # clears it with a 1.410 A window gap; at 4.0 it was excluded by 1.35 A with no
+    # window conflict at all.
+    #
+    # ⚠️ SEPARATION IS NOT BLEND-CLEANLINESS. This bound only guarantees disjoint
+    # windows. Whether a newly admitted line is CONTAMINATED is a separate question the
+    # theoretical-depth selector and the constraint gate must answer per line — see the
+    # RYA-1023 comparison, where 6698.673's window holds 33 lines against 6696.023's 6.
+    min_sep_A: 1.24
     n_lines: 40
     half_width_note: >-
       20.51 sigma_D at the 5345 A band centre (0.6216 -> 0.62); contains the full fitted
