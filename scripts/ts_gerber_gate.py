@@ -110,6 +110,25 @@ ELEMENTS = {
                    'published value, not MPIA (RYA-785 forbids MPIA as the target; the '
                    'MPIA delta on these lines, median +0.0118, is the RYA-525 cross-engine '
                    'DIAGNOSTIC and is reported separately).'),
+    # RYA-1005 — Al. ⚠️ THIS DECK HAS AN ABUNDANCE AXIS (31 values, 4.43-7.43) where
+    # every other entry here has one value; `gerber_nlte.for_node` interpolates at the
+    # synthesis abundance rather than at a fixed deck value. `a_sun` below is the
+    # abundance the GATE synthesises at (Asplund 2021 solar A(Al)), not a deck property.
+    #
+    # Anchor: our banked Al_Amarsi2020_PySME solar deltas on these two lines are -0.0275
+    # (6696.023) and -0.0171 (6698.673), median -0.022. That is the RIGHT referee because
+    # PySME runs the Nordlander & Lind 2017 Al atom, so a Gerber-vs-PySME disagreement is
+    # a genuine model-atom/engine diagnostic (RYA-525) rather than a tautology. The two
+    # lines are the GES-identified pair the Amarsi grid actually serves.
+    # Tolerance 0.05 — the same bound the other entries carry, NOT widened to obtain a
+    # pass (RYA-161). A deck that misses is a FINDING (the Ti precedent, RYA-535).
+    'Al': dict(Z=13, a_sun=6.43, atom='atom.al_qmh', aux='auxData_Al_MARCS_Jul-25-2023.dat',
+               grid='NLTEgrid_Al_MARCS_Jul-25-2023.bin',
+               waves=[6696.023, 6698.673], anchor=-0.022, tol=0.05,
+               ref='Al I 6696/6698, solar 1D-NLTE small-negative; anchor = our banked '
+                   'Al_Amarsi2020_PySME solar deltas (-0.0275 / -0.0171, median -0.022), '
+                   'which run the Nordlander & Lind 2017 atom. Al I is LTE-safe for the '
+                   'Sun (Amarsi 2021), so a LARGE delta here would itself be the finding.'),
     'Mn': dict(Z=25, a_sun=5.42, atom='atom.mn281kbc', aux='auxData_MN_MARCS_Mar-15-2023.dat',
                grid='NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin',
                waves=[6013.510, 6021.800], anchor=+0.10, tol=0.06,

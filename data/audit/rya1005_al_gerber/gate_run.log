@@ -1,0 +1,13 @@
+=== Al: babsma ===
+=== Al: bsyn NLTE @ A=6.43 ===
+  NLTE departure engaged: True
+=== Al: bsyn LTE COG ===
+
+=== Al RESULT (delta = A_sun - A*) ===
+  Al 6696.023: EW_NLTE=37.51 mA  A*=6.4295  delta=+0.0005
+  Al 6698.673: EW_NLTE=22.09 mA  A*=6.4295  delta=+0.0005
+
+  n=2 used  median +0.0005  mean +0.0005  sd 0.0000  range +0.0005..+0.0005
+  |median - anchor| = 0.0225  vs tol 0.05
+  anchor -0.022 +/- 0.05 (Al I 6696/6698, solar 1D-NLTE small-negative; anchor = our banked Al_Amarsi2020_PySME solar deltas (-0.0275 / -0.0171, median -0.022), which run the Nordlander & Lind 2017 atom. Al I is LTE-safe for the Sun (Amarsi 2021), so a LARGE delta here would itself be the finding.)
+  VERDICT: PASS
