@@ -27,7 +27,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from pipeline.anchor_pools import load                      # noqa: E402
-from pipeline.synth_gof import SYNTH_GOF_MIN_FRAC_RISE      # noqa: E402
+from pipeline.synth_gof import synth_gof_cut                # noqa: E402
 
 CANDIDATES = ("frac_rise_weaker", "red_chi2", "sigma_A", "edge_distance_dex",
               "cited_sigma_dex", "ep_eV")
@@ -36,7 +36,12 @@ CANDIDATES = ("frac_rise_weaker", "red_chi2", "sigma_A", "edge_distance_dex",
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--anchor", default="rya984_graded_163")
+    # The cut is a property of the ARM (RYA-992 follow-up), so the screen has to say which
+    # arm its anchor was measured on rather than quoting one project-wide number.
+    ap.add_argument("--arm", default="kpno_solar_atlas",
+                    help="instrument the anchor's lines were measured through")
     a = ap.parse_args(argv)
+    cut = synth_gof_cut(a.arm)
 
     df = load(a.anchor).copy()
     df["err"] = (df.abundance - df.abundance.median()).abs()
@@ -74,10 +79,10 @@ def main(argv=None) -> int:
             print(f"  frac_rise [{lo:>3},{'inf' if hi == np.inf else hi:>4}): "
                   f"n={int(m.sum()):3d}  median |err| {df.err[m].median():.4f}")
 
-    lo_, hi_ = df.err[f < SYNTH_GOF_MIN_FRAC_RISE], df.err[f >= SYNTH_GOF_MIN_FRAC_RISE]
+    lo_, hi_ = df.err[f < cut], df.err[f >= cut]
     u, p = mannwhitneyu(lo_, hi_, alternative="greater")
-    keep = df[f >= SYNTH_GOF_MIN_FRAC_RISE]
-    print(f"\nAT THE ADOPTED CUT frac_rise >= {SYNTH_GOF_MIN_FRAC_RISE}:")
+    keep = df[f >= cut]
+    print(f"\nAT THE ADOPTED CUT FOR {a.arm} — frac_rise >= {cut:.3f}:")
     print(f"  rejected n={len(lo_)} ({len(lo_)/len(df):.1%})  median |err| {lo_.median():.4f}"
           f"  scatter {lo_.std(ddof=1):.4f}")
     print(f"  kept     n={len(hi_)}          median |err| {hi_.median():.4f}"
