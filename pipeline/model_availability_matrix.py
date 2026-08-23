@@ -468,8 +468,11 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     solar = (row.get("solar_3d_nlte") or "").strip()
     offsolar = (row.get("offsolar_3d_nlte") or "").strip()
     holding = (row.get("our_holding") or "").strip()
+    # NOTE: THREED_CORRECTION_ELEMENTS holds the solar 3D INCREMENT (solar3d_metals),
+    # which is a <3D> product and belongs to the MEAN3D_NLTE column. Populating
+    # code_grid here made the full-3D cell name a grid while reading NONE -- a cell that
+    # contradicted itself. The grid is reported once, in the column that owns it.
     code_entry = threed_code.get(base)
-    cell.code_grid = code_entry.get("grid") if code_entry else None
 
     # What we CAN RUN, from the repo-side holdings -- NOT a blanket NONE. We hold a
     # 3D-NLTE Fe MLP and 3D-NLTE C/N/O tables; a Sirius-only scan could not see them.
@@ -479,14 +482,35 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
         if h.get("blocked_by"):
             cell.state = PROBLEM
             cell.error = (
-                "The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. "
+                "ROOT CAUSE FOUND (RYA-1015, 2026-08-23): NOT a code regression -- a "
+                "BOUNDARY condition on the A(Fe;3N) axis. _apply_aberr_to_line lets the "
+                "axis drift to (line's own 1D-LTE abundance + its own correction). For "
+                "solar Fe that is ~7.45 + ~0.053 = 7.503, which is 0.003 dex ABOVE the "
+                "MLP's published ceiling of A(Fe)=7.5, so amarsi3d.aberr_for_line "
+                "refuses it with stellar_ok=False and returns NaN. Measured cliff: "
+                "a_1dlte 7.447 -> +0.0528 (in domain); 7.450 -> NaN. The solar Fe I pool "
+                "centres at 7.45-7.47, so nearly every line falls just outside. The "
+                "LINE-level checks (feature/delta_E/level) all PASS, which is why 114 "
+                "lines look in-domain and then yield n=0. "
+                "Original symptom: the MLP returns NaN for EVERY in-domain line. "
                 "114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE "
                 "legs still PASS to 3 decimals, so the line list, atmosphere, star "
                 "params and EW inversion are all fine -- only the correction path "
                 "regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from "
                 "when it worked, so the products LOOK healthy while the engine is dead.")
             cell.fix = (
-                "1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- "
+                "PIN THE AXIS, do not widen the domain. Pass afe3n_axis = the star's "
+                "converged A(Fe;3N) (7.46 solar) to _apply_aberr_to_line / "
+                "amarsi3d.aberr_for_line instead of letting each line's own value drift. "
+                "Verified: pin=7.46 -> +0.0513 in-domain; pin=7.51 -> NaN. This is what "
+                "the RYA-817 afe3n_axis parameter exists for, and it matches the vendor "
+                "README (a SINGLE stellar A(Fe;3N) iterated to convergence, not a "
+                "per-line value). It does NOT relax the domain check, which RYA-923 "
+                "forbids. Then: make the reactivation control BLOCK instead of emitting "
+                "n=0 cells, and re-derive both cells (1D-LTE base moved n=152->322 under "
+                "the PR #315 width fix). PHYSICS CHANGE -- needs Ryan's say-so before "
+                "any cell is published (RYA-923). "
+                "Superseded hypothesis: 1) Bisect nlte_corrections.py 5278efb..a7ff4e0 -- "
                 "suspects are _apply_aberr_to_line returning NaN, or _in_grid "
                 "disagreeing with amarsi3d.domains() so a line passes the MLP domain "
                 "check and is then rejected by the grid check. "
