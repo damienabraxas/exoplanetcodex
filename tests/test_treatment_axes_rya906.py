@@ -18,8 +18,9 @@ from pathlib import Path
 
 import pytest
 
-from pipeline.treatment_axes import (
-    Axes, LEGACY, ROUTE_BY_HANDLER, UnknownTreatment, axes_for, display_for, resolve_route)
+from pipeline.treatment_axes import (  # noqa: F401
+    Axes, LEGACY, ROUTE_BY_HANDLER, UnknownTreatment, _ROUTE_BY_LABEL, axes_for,
+    display_for, resolve_route)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -97,10 +98,29 @@ def test_the_engine_labels_really_do_pin_one_route_each():
         if handler and t.startswith("ENGINE-"):
             pairs.setdefault(t, set()).add(ROUTE_BY_HANDLER.get(handler, handler))
     assert pairs, "no ENGINE-* row carried a handler — nothing was actually verified"
+    # 🔴 RYA-1002 — THE ASSERTION NOW MATCHES WHAT ITS OWN MESSAGE ALWAYS SAID.
+    #
+    # It used to demand that every ENGINE-* label map to exactly one route. That was
+    # true when ENGINE-A existed only on the EW route, and it stopped being true when
+    # the synthesis route gained its own ENGINE-A block — ENGINE-A now legitimately
+    # appears with both `ew` and `synth`.
+    #
+    # A label spanning two routes is NOT a defect. Claiming a route for it IS. So the
+    # invariant is the conditional one: `_ROUTE_BY_LABEL` may name a route only for a
+    # label the tree shows on exactly one. Re-measured against the tree every run, so a
+    # label that gains a second route fails here until the map stops asserting the first.
     for label, routes in pairs.items():
-        assert len(routes) == 1, (
-            f"{label} appears with MORE THAN ONE route {sorted(routes)} — it no longer "
-            f"pins a route, so _ROUTE_BY_LABEL must stop claiming it does")
+        claimed = _ROUTE_BY_LABEL.get(label)
+        if len(routes) > 1:
+            assert claimed is None, (
+                f"{label} appears with MORE THAN ONE route {sorted(routes)}, but "
+                f"_ROUTE_BY_LABEL still claims {claimed!r}. A label that no longer pins "
+                f"a route must map to None — the route then comes from the product's "
+                f"HANDLER (RYA-869/906), which is the only witness that still knows.")
+        elif claimed is not None:
+            assert claimed in routes, (
+                f"_ROUTE_BY_LABEL says {label} is {claimed!r} but the tree shows "
+                f"{sorted(routes)} — the map and the products disagree")
 
 
 def test_the_1D_LTE_label_is_genuinely_ambiguous_and_that_is_why_route_is_not_read_from_it():
@@ -156,7 +176,12 @@ def test_CANARY_the_real_near_uv_artifact_on_disk_resolves_to_synth():
 @pytest.mark.parametrize("treatment,handler,expected", [
     ("1D-LTE",          "ProfileFitHandler", "EW · 1D-LTE"),
     ("1D-LTE-LABGF",    "ProfileFitHandler", "EW · 1D-LTE · lab-gf"),
-    ("ENGINE-A",        None,                "EW · 1D-NLTE · Bergemann"),
+    # RYA-1002 - was "EW . 1D-NLTE . Bergemann". ENGINE-A stopped pinning a route when
+    # the synthesis route gained its own ENGINE-A block, so a row carrying ONLY the
+    # label (handler=None) can no longer claim one. Rendering "EW" would assert a
+    # route we do not know - the mislabel this module exists to prevent. A row WITH a
+    # handler still renders its route, which the handler cases below cover.
+    ("ENGINE-A",        None,                "1D-NLTE · Bergemann"),
     ("ENGINE-A-3DNLTE", None,                "EW · 3D-NLTE · Amarsi"),
     ("ENGINE-B",        None,                "Synth · 1D-LTE"),
     ("ENGINE-B-NLTE",   None,                "Synth · 1D-NLTE · Gerber"),
