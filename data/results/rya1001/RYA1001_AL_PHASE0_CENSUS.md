@@ -380,6 +380,22 @@ The census works around it with an explicit `COVERAGE_BLIND_SPOT` table, but the
 belongs in `coverage.py`: those skips should be loud, or the registry should carry the
 loader.
 
+**What it costs Al, measured against the committed accounting.** Ran
+`line_accounting_rya709.py` for Al (it needs `ISPEC_DIR` set, or `species.py` dies on a
+missing element table). It reports **Al: usable 55, reachable 26, no_instrument 29**.
+Over the same depth window the census finds **26 reachable through `pipeline.coverage`
+and 37 once the blind-spot table is added** — and the 11-line difference is *exactly*
+the set only CRIRES+ covers:
+
+> 13123.42, 13150.75 (both Burheim-graded), 15956.68, 15968.29, 16718.96, 16750.56,
+> 16763.36, 17699.09, 17708.07, 21093.03, 21163.76
+
+So the project's committed line accounting under-reports Al's reachable pool by
+**30 %**, and the two lines it is most wrong about are the two best-graded lines the
+element has. (The `usable 55` vs `98` gap is separate — it is the grouping defect above,
+which over-merges across ion and EP in the crowded FUV while splitting real multiplets
+in the IR.)
+
 ### Real-pixel coverage, measured (header endpoints do not prove coverage)
 
 Loaded all 18 CRIRES+ Vesta IDPs and tested actual quality-flagged pixels:
