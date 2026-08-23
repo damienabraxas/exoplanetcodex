@@ -78,6 +78,7 @@ half right — and the half that is wrong is the half that gates the build.**
 | **Turbospectrum_NLTE** (`github.com/bertrandplez/Turbospectrum_NLTE`) | our existing 1D/<3D> synthesis code | public, GPL-3.0 | **PUBLIC (we already run it)** |
 | **Balder** (Amarsi et al. 2018) | Amarsi's 3D NLTE solver | Caliskan et al. 2026 (arXiv 2605.05356) describes it as *"Balder, a custom version of Multi3D"* | **COLLABORATION-ONLY** |
 | **Scate** (Hayek et al. 2011) | 3D **LTE** post-processor | no public repo (RYA-444) | REQUEST — and **LTE only, cannot do the NLTE step** |
+| **RH 1.5D** (Pereira & Uitenbroek 2015, A&A 574 A3; Uitenbroek 2001) | **NLTE** statistical-equilibrium + synthesis, massively parallel, C/MPI/HDF5, ships example model atoms | `github.com/ITA-Solar/rh` — **public**, Zenodo DOI, pushed **2026-08-14** | **PUBLIC** — but **1.5D, NOT full 3D** (see below) |
 
 ### Assessing the "the public path is fully open" claim
 
@@ -123,6 +124,43 @@ download — NL17's own acknowledgements:
 
 ...and Caliskan et al. **2026** still run Balder, "a custom version of Multi3D." Nine
 years apart, same pattern.
+
+### "Can we just find a download of MULTI3D via Balder?" — no, and the direction is backwards
+
+Asked and checked, 2026-08-23. **Balder is *downstream* of MULTI3D, not a container for
+it** — it is Amarsi's privately modified branch. Obtaining Balder would mean obtaining an
+unreleased personal fork: the same access problem, plus the YELLOW line (unreleased code
+is asked for, never dissected). No public Balder release exists; searches return only
+papers that *use* it.
+
+**The absence has a positive control.** MULTI3D is not merely "not found" — it is absent
+from **`ITA-Solar`**, Carlsson & Leenaarts' own Oslo GitHub org, which actively publishes
+`rh`, `helita`, `BifrostTools.jl`, `TraceParticles.jl` and more. The institution that owns
+MULTI3D publishes freely and does not publish this. That is a decision, not an oversight,
+and it is not one to route around.
+
+**What the search did turn up: RH 1.5D is public and is a real NLTE solver.** This is a
+genuine gain and it was missed on the first pass.
+
+* **It is not full 3D.** The repo's geometry directories are `rh15d`, `rhf1d`, `rhsphere`
+  — there is **no `rh2d` / `rh3d`**. 1.5D solves each atmospheric column independently and
+  **neglects horizontal radiative transfer**, which is precisely the term that matters for
+  Al's strong, scattering-dominated 3961 A resonance line. It **cannot** produce a
+  full-3D Al result and must never be labelled as one.
+* Uitenbroek's original RH *does* carry 2D/3D geometry, but its NSO page is dead
+  (`www.nso.edu/staff/uitenbr/rh.html` -> HTTP 404), so that is not a clone-and-go route
+  either.
+* **Licensing caveat:** the repo has **no LICENSE file** despite "open source" in its
+  README. The README explicitly invites use subject to citing Pereira & Uitenbroek 2015
+  and Uitenbroek 2001, so intent is clear — but under the "was this made available for
+  this use" rule, the absence of a formal license is worth noting before we depend on it.
+
+**Why it still matters for the ladder:** RH 1.5D unblocks the **departure solve** on
+public parts. Rung 3 ("3D-NLTE for one atomic line — add the departure solve") can be
+built and validated as **model atom + statistical equilibrium** with RH 1.5D *now*,
+swapping in the full-3D solver when access is granted. The 2025 review names 1.5D as the
+recognised cheaper intermediate, so this is a legitimate rung rather than a fudge — it
+just does not, and cannot, close the full-3D gap.
 
 ## Gate 2 — 3D cubes, including off-solar (NOT a blocker)
 
@@ -272,6 +310,13 @@ That is now executable rather than blocked, because rung 1 needs only the public
    that a peer knocks with work in hand.
 3. **Rung 4 (CO in 3D LTE) is also unblocked** and can be climbed without the answer if
    rung 2 stalls — useful, because it keeps the ladder moving while the ask is pending.
+4. **Build the Al model atom + departure solve on public RH 1.5D** while the ask is
+   pending. This is the most Al-specific work that can be done with no access at all: the
+   42-level atom is assembled from published data (GREEN), and RH 1.5D validates the
+   statistical equilibrium against NL17's 1D/<3D> numbers. When MULTI3D lands, the atom is
+   already built and tested and only the RT geometry changes. **It does not and cannot
+   substitute for full 3D** — 1.5D drops the horizontal RT that Al's 3961 A resonance line
+   depends on.
 
 Al itself (rung 5) stays unscheduled and unresourced, exactly as the ticket requires.
 Nothing here asks to bring it forward; the point of the spike is that when the ladder
@@ -286,7 +331,7 @@ RYA-1008 is **rung 5**. Nothing below is scheduled; this is the map, not a plan.
 |---|---|---|---|
 | 1 | H Balmer, **3D LTE** — toolchain smoke test | 3D LTE only | **UNBLOCKED — fully public.** DISPATCH (BSD-3) + TSO.jl (MIT) + Turbospectrum (ours, GPL-3) + STAGGER 2.0 cubes is a complete public toolchain for 3D LTE. |
 | 2 | reproduce a known Amarsi element on the Sun (O I 777, then Fe) | **3D NLTE** | **BLOCKED on the MULTI3D ask.** O I 777's published result is 3D *NLTE*; reproducing it needs the solver. |
-| 3 | 3D-NLTE for one atomic line — add the departure solve | **3D NLTE** | **BLOCKED on the same ask.** |
+| 3 | 3D-NLTE for one atomic line — add the departure solve | **3D NLTE** | **PARTLY UNBLOCKED** — the *departure solve itself* (model atom + statistical equilibrium) can be built and validated on public **RH 1.5D**; the *full-3D* version still needs the ask. |
 | 4 | CO in 3D (vs Amarsi 2021 solar CO 8.48) | 3D **LTE** molecular (RYA-444) | **UNBLOCKED for the RT** — 444's own scoping notes CO is 3D LTE, not NLTE. Remaining work is molecular EOS in 3D, not code access. |
 | 5 | **Al 3D-NLTE off-solar — this ticket** | **3D NLTE** | **BLOCKED on the same ask**, plus cluster-class compute for the grid. |
 
