@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T22:00:34+00:00",
+  "generated": "2026-08-23T22:25:31+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -1702,7 +1702,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -1762,7 +1762,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -1819,7 +1819,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -1874,15 +1874,13 @@
       {
         "element": "O",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -1932,15 +1930,13 @@
       {
         "element": "Na",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -1991,15 +1987,13 @@
       {
         "element": "Mg",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2050,18 +2044,19 @@
       {
         "element": "Al",
         "model_type": "MEAN3D_NLTE",
-        "state": "NEEDS_WIRING",
+        "state": "TIER1_WIRED",
         "csv_claim": null,
-        "code_grid": null,
+        "code_grid": "Al@mean3D",
         "disk_paths": [
           "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
         ],
         "facts": [
+          "WIRED (RYA-821) via gerber_nlte deck 'Al@mean3D'. Keyed at STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the atmosphere is carried per-deck.",
           "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
         ],
-        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
-        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
-        "problem": true
+        "error": "",
+        "fix": "END-TO-END RUN STILL OWED: wiring is verified structurally, not executed. The deck is Sirius-only and large. Promote to TIER1_VALIDATED only after an interpolation actually runs.",
+        "problem": false
       },
       {
         "element": "Al",
@@ -2110,15 +2105,13 @@
       {
         "element": "Si",
         "model_type": "MEAN3D_NLTE",
-        "state": "HAVE",
+        "state": "TIER2_OWED",
         "csv_claim": null,
-        "code_grid": "data/threed_grids/solar3d_metals_rya399.csv",
+        "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "CAN RUN via THREED_CORRECTION_ELEMENTS: Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2229,7 +2222,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -2286,7 +2279,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -2339,15 +2332,13 @@
       {
         "element": "Ca",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2401,7 +2392,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -2454,15 +2445,13 @@
       {
         "element": "Ti",
         "model_type": "MEAN3D_NLTE",
-        "state": "HAVE",
+        "state": "TIER2_OWED",
         "csv_claim": null,
-        "code_grid": "data/threed_grids/solar3d_metals_rya399.csv",
+        "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Ti (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2568,18 +2557,18 @@
       {
         "element": "Cr",
         "model_type": "MEAN3D_NLTE",
-        "state": "HAVE",
+        "state": "TIER1_WIREABLE",
         "csv_claim": null,
-        "code_grid": "data/threed_grids/solar3d_metals_rya399.csv",
+        "code_grid": null,
         "disk_paths": [
           "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin"
         ],
         "facts": [
-          "CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Cr (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv).",
-          "ALSO holds 1 unwired <3D> STAGGERmean3D deck(s) on Sirius -- a second, richer route nothing consumes yet."
+          "NOTE: a solar-only increment also exists (data/threed_grids/solar3d_metals_rya399.csv) -- that is a SCALAR at the solar node, not a parameter-space grid. It must not be reported as though it were this deck.",
+          "OWNED BY: RYA-800 (fetch+wire Cr Gerber ~25 GB) / RYA-710"
         ],
-        "error": "",
-        "fix": "",
+        "error": "A <3D> STAGGERmean3D deck AND its model atom are BOTH on Sirius, and nothing consumes them.",
+        "fix": "Wire on the Al pattern (RYA-821): add a `<El>@mean3D` entry to gerber_nlte.DECKS carrying its OWN atmosphere. Mechanical, not research.",
         "problem": false
       },
       {
@@ -2629,15 +2618,13 @@
       {
         "element": "Mn",
         "model_type": "MEAN3D_NLTE",
-        "state": "NONE",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2688,15 +2675,13 @@
       {
         "element": "Fe",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2749,15 +2734,13 @@
       {
         "element": "Fe II",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2808,15 +2791,13 @@
       {
         "element": "Co",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2867,15 +2848,13 @@
       {
         "element": "Ni",
         "model_type": "MEAN3D_NLTE",
-        "state": "NONE",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2929,7 +2908,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -2986,7 +2965,7 @@
         "code_grid": null,
         "disk_paths": [],
         "facts": [
-          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but we hold NEITHER a deck NOR a model atom -- this one genuinely has to be asked for."
         ],
         "error": "",
         "fix": "",
@@ -3038,15 +3017,13 @@
       {
         "element": "Sr",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -3097,7 +3074,7 @@
       {
         "element": "Y",
         "model_type": "MEAN3D_NLTE",
-        "state": "NEEDS_WIRING",
+        "state": "TIER1_WIREABLE",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
@@ -3106,9 +3083,9 @@
         "facts": [
           "OWNED BY: RYA-802 / RYA-710"
         ],
-        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
-        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
-        "problem": true
+        "error": "A <3D> STAGGERmean3D deck AND its model atom are BOTH on Sirius, and nothing consumes them.",
+        "fix": "Wire on the Al pattern (RYA-821): add a `<El>@mean3D` entry to gerber_nlte.DECKS carrying its OWN atmosphere. Mechanical, not research.",
+        "problem": false
       },
       {
         "element": "Y",
@@ -3214,15 +3191,13 @@
       {
         "element": "Ba",
         "model_type": "MEAN3D_NLTE",
-        "state": "REQUEST_ONLY",
+        "state": "TIER2_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
-        "facts": [
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
-        ],
-        "error": "",
-        "fix": "",
+        "facts": [],
+        "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
+        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -3273,7 +3248,7 @@
       {
         "element": "Eu",
         "model_type": "MEAN3D_NLTE",
-        "state": "NEEDS_WIRING",
+        "state": "TIER1_WIREABLE",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
@@ -3283,9 +3258,9 @@
         "facts": [
           "OWNED BY: RYA-803 / RYA-710"
         ],
-        "error": "2 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
-        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
-        "problem": true
+        "error": "A <3D> STAGGERmean3D deck AND its model atom are BOTH on Sirius, and nothing consumes them.",
+        "fix": "Wire on the Al pattern (RYA-821): add a `<El>@mean3D` entry to gerber_nlte.DECKS carrying its OWN atmosphere. Mechanical, not research.",
+        "problem": false
       },
       {
         "element": "Eu",
@@ -3303,7 +3278,7 @@
         "problem": false
       }
     ],
-    "problem_count": 9,
+    "problem_count": 6,
     "problems": [
       {
         "element": "Li",
@@ -3319,22 +3294,6 @@
         ],
         "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
         "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
-        "problem": true
-      },
-      {
-        "element": "Al",
-        "model_type": "MEAN3D_NLTE",
-        "state": "NEEDS_WIRING",
-        "csv_claim": null,
-        "code_grid": null,
-        "disk_paths": [
-          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
-        ],
-        "facts": [
-          "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
-        ],
-        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
-        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
         "problem": true
       },
       {
@@ -3404,22 +3363,6 @@
         "problem": true
       },
       {
-        "element": "Y",
-        "model_type": "MEAN3D_NLTE",
-        "state": "NEEDS_WIRING",
-        "csv_claim": null,
-        "code_grid": null,
-        "disk_paths": [
-          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin"
-        ],
-        "facts": [
-          "OWNED BY: RYA-802 / RYA-710"
-        ],
-        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
-        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
-        "problem": true
-      },
-      {
         "element": "Eu",
         "model_type": "1D_NLTE",
         "state": "NEEDS_WIRING",
@@ -3433,23 +3376,6 @@
         ],
         "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
         "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
-        "problem": true
-      },
-      {
-        "element": "Eu",
-        "model_type": "MEAN3D_NLTE",
-        "state": "NEEDS_WIRING",
-        "csv_claim": null,
-        "code_grid": null,
-        "disk_paths": [
-          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
-          "/srv/codex/grids-overflow/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
-        ],
-        "facts": [
-          "OWNED BY: RYA-803 / RYA-710"
-        ],
-        "error": "2 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
-        "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
         "problem": true
       }
     ],
