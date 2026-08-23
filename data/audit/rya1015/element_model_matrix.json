@@ -1,0 +1,1547 @@
+{
+  "generated": "2026-08-23",
+  "generator": "pipeline/model_availability_matrix.py (RYA-1015)",
+  "snapshot": "data/audit/rya1015/sirius_scan_raw.txt",
+  "sources": {
+    "csv_claim": "data/curation/nlte_grid_availability.csv (RYA-462)",
+    "threed_claim": "data/curation/threednlte_availability.csv (RYA-817)",
+    "code_truth": "config.constants NLTE/THREED_CORRECTION_ELEMENTS",
+    "disk_truth": "sirius_scan_raw.txt (Sirius find -L, control PASS)"
+  },
+  "elements": [
+    "Li",
+    "C",
+    "N",
+    "O",
+    "Na",
+    "Mg",
+    "Al",
+    "Si",
+    "P",
+    "S",
+    "K",
+    "Ca",
+    "Sc",
+    "Ti",
+    "V",
+    "Cr",
+    "Mn",
+    "Fe",
+    "Fe II",
+    "Co",
+    "Ni",
+    "Cu",
+    "Zn",
+    "Sr",
+    "Y",
+    "Zr",
+    "Ba",
+    "Eu"
+  ],
+  "model_types": [
+    "1D_LTE",
+    "1D_NLTE",
+    "MEAN3D_NLTE",
+    "FULL_3D_NLTE"
+  ],
+  "cells": [
+    {
+      "element": "Li",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Li",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Li_scatt_pysme.grd"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Li",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Li",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
+      ],
+      "problem": false
+    },
+    {
+      "element": "C",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "C",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "amarsi2019_cno/",
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_C_scatt_pysme.grd"
+      ],
+      "facts": [
+        "Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+      ],
+      "problem": false
+    },
+    {
+      "element": "C",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "C",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/amarsi2019_cno/ -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+      ],
+      "problem": false
+    },
+    {
+      "element": "N",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "N",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "N_Amarsi2020_PySME.csv",
+      "code_grid": "N_Amarsi2020_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_N_scatt_pysme.grd"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "N",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "N",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/N_Amarsi2020_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+      ],
+      "problem": false
+    },
+    {
+      "element": "O",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "O",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "amarsi2019_cno/",
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_O_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_O_MARCS_May-21-2021.bin"
+      ],
+      "facts": [
+        "Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 2 departure grid(s) on Sirius."
+      ],
+      "problem": false
+    },
+    {
+      "element": "O",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "O",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/amarsi2019_cno/ -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Na",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Na",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Na_Amarsi2020_PySME.csv",
+      "code_grid": "Na_Amarsi2020_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Na_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Na",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Na",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Na_Amarsi2020_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Mg",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Mg",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Mg_Amarsi2020_PySME.csv",
+      "code_grid": "Mg_Amarsi2020_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Mg_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Mg",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Mg",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Mg_Amarsi2020_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Al",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Al",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Al_Amarsi2020_PySME.csv",
+      "code_grid": "Al_Amarsi2020_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Al_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_MARCS_Jul-25-2023.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Al",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Al",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Al_Amarsi2020_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_MEAN3D."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Si",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Si",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Si_Amarsi2020_PySME.csv",
+      "code_grid": "Si_Amarsi2020_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Si_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Si",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Si",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": "solar3d_metals_rya399.csv",
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Si_Amarsi2020_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+      ],
+      "problem": false
+    },
+    {
+      "element": "P",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "P",
+      "model_type": "1D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "P",
+      "model_type": "MEAN3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "P",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "S",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "S",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "S_Amarsi2025_PySME.csv",
+      "code_grid": "S_Amarsi2025_PySME.csv",
+      "disk_paths": [],
+      "facts": [
+        "Applied from the vendored CSV in data/nlte_grids/; the departure grid itself lives on Sirius only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "S",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "S",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/S_Amarsi2025_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "K",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "K",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "K_Amarsi2020_PySME.csv",
+      "code_grid": "K_Amarsi2020_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_K_scatt_pysme.grd"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "K",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "K",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/K_Amarsi2020_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ca",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ca",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Ca_Mashonkina2017.csv",
+      "code_grid": "Ca_Mashonkina2017.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Ca_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Ca",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ca",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Ca_Mashonkina2017.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Sc",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Sc",
+      "model_type": "1D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Sc",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Sc",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ti",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ti",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Ti_Mallinson2024_PySME.csv",
+      "code_grid": "Ti_Mallinson2024_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Ti_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Ti",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ti",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": "solar3d_metals_rya399.csv",
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Ti_Bergemann2011_MPIA.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "V",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "V",
+      "model_type": "1D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "V",
+      "model_type": "MEAN3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "V",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Cr",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Cr",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Cr_Bergemann2010_MPIA.csv",
+      "code_grid": "Cr_Bergemann2010_MPIA.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Cr",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Cr",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": "solar3d_metals_rya399.csv",
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Cr_Bergemann2010_MPIA.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Mn",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Mn",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Mn_Bergemann_MPIA.csv",
+      "code_grid": "Mn_Bergemann_MPIA.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Mn_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Mn",
+      "model_type": "MEAN3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Mn",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Mn_Bergemann_MPIA.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Fe_Bergemann_MPIA.csv",
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"
+      ],
+      "facts": [
+        "Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from vendor/1L-3NErrors/ -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe II",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe II",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Fe_Bergemann_MPIA.csv",
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"
+      ],
+      "facts": [
+        "Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe II",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Fe II",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from vendor/1L-3NErrors/ -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Co",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Co",
+      "model_type": "1D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Co",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Co",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ni",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ni",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Ni",
+      "model_type": "MEAN3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ni",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Cu",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Cu",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Cu_Caliskan2024_PySME.csv",
+      "code_grid": "Cu_Caliskan2024_PySME.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Cu_caliskan_Oct2024_pysme.grd"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Cu",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Cu",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Cu_Caliskan2024_PySME.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Zn",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Zn",
+      "model_type": "1D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Zn",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Zn",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Sr",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Sr",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Sr_Bergemann2012_INSPECT.csv",
+      "code_grid": "Sr_Bergemann2012_INSPECT.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Sr",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Sr",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Sr_Bergemann2012_INSPECT.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Y",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Y",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Y",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Y",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Zr",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Zr",
+      "model_type": "1D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Zr",
+      "model_type": "MEAN3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Zr",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ba",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ba",
+      "model_type": "1D_NLTE",
+      "state": "HAVE",
+      "csv_claim": "Ba_Korotin2015.csv",
+      "code_grid": "Ba_Korotin2015.csv",
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Ba_scatt_pysme.grd",
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Ba_MARCS_Jul-29-2023.bin"
+      ],
+      "facts": [],
+      "problem": false
+    },
+    {
+      "element": "Ba",
+      "model_type": "MEAN3D_NLTE",
+      "state": "REQUEST_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Ba",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in production from data/nlte_grids/Ba_Korotin2015.csv -- that applies someone else's 3D result, it is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).",
+        "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Eu",
+      "model_type": "1D_LTE",
+      "state": "HAVE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "1D-LTE synthesis is the universal baseline route (no grid)."
+      ],
+      "problem": false
+    },
+    {
+      "element": "Eu",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Eu_MARCS_Sep-13-2023.bin"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Eu",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Eu",
+      "model_type": "FULL_3D_NLTE",
+      "state": "NONE",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [],
+      "facts": [
+        "RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+      ],
+      "problem": false
+    }
+  ],
+  "problem_count": 8,
+  "problems": [
+    {
+      "element": "Li",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/amarsi_galah/nlte_Li_scatt_pysme.grd"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Al",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Cr",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Ni",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Y",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Y",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Eu",
+      "model_type": "1D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Eu_MARCS_Sep-13-2023.bin"
+      ],
+      "facts": [
+        "1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired."
+      ],
+      "problem": true
+    },
+    {
+      "element": "Eu",
+      "model_type": "MEAN3D_NLTE",
+      "state": "DISK_ONLY",
+      "csv_claim": null,
+      "code_grid": null,
+      "disk_paths": [
+        "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
+      ],
+      "facts": [
+        "<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability."
+      ],
+      "problem": true
+    }
+  ]
+}
