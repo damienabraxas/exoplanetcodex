@@ -706,6 +706,64 @@ def test_only_narrows_plan_only_too_rya997():
     assert i_filter < i_plan, "--only is applied after the plan-only branch returns"
 
 
+def test_the_h1559_runaway_is_caused_by_the_WINDOWS_not_the_mask_rya997():
+    """🔴 MEASURED 2x2. An earlier version of this test said the flip was a misplaced
+    stellar mask. The full factorial says otherwise, and the mask is the SMALLER term.
+
+    Each cell is one molecfit_model fit of H1559, varying only WAVE_INCLUDE (the window
+    plan) and WAVE_EXCLUDE (the stellar mask, set by the planning RV):
+
+                        old mask (rv -27.564)   new mask (rv -21.676)
+        old windows           21.25                    9.85
+        new windows            1.14                    0.97
+
+    Historical value for old+old was 22.711; the reconstruction gives 21.25, and the
+    new+new control reproduces Test A to 1% (0.9733 vs 0.9832), which is the fidelity of
+    rebuilding the mask rather than copying the file.
+
+    Reading the margins: fixing the WINDOWS moves the column by 19x (old mask) and 10x
+    (new mask). Fixing the MASK moves it by 2.2x and 1.2x. With good windows BOTH masks
+    give an acceptable column; with bad windows NEITHER does.
+
+    So RYA-994's diagnosis -- a molecule fitted on a window that does not constrain it --
+    is the cause, and the refutation this file used to carry was wrong. The mask defect
+    (RYA-998) is real and systematic but is a modifier here, not the mechanism.
+    """
+    cells = {('old_win', 'old_mask'): 21.2533, ('old_win', 'new_mask'): 9.8532,
+             ('new_win', 'old_mask'): 1.1358, ('new_win', 'new_mask'): 0.9733}
+    lo, hi = cst.WELL_MIXED_LO, cst.WELL_MIXED_HI
+    inrange = lambda v: lo <= v <= hi
+    # windows are decisive: they flip the verdict under BOTH masks
+    for mask in ('old_mask', 'new_mask'):
+        assert not inrange(cells[('old_win', mask)])
+        assert inrange(cells[('new_win', mask)])
+    # the mask alone never flips the verdict under EITHER window plan
+    for win in ('old_win', 'new_win'):
+        assert inrange(cells[(win, 'old_mask')]) == inrange(cells[(win, 'new_mask')])
+    # and the window effect is the larger term, by about an order of magnitude
+    win_effect = cells[('old_win', 'old_mask')] / cells[('new_win', 'old_mask')]
+    mask_effect = cells[('old_win', 'old_mask')] / cells[('old_win', 'new_mask')]
+    assert win_effect > 5 * mask_effect
+    # the reconstruction must stay anchored to the historical runaway it explains
+    assert abs(cells[('old_win', 'old_mask')] - 22.711) / 22.711 < 0.10
+
+
+def test_only_narrows_plan_only_too_rya997():
+    """--only silently did nothing in --plan-only, which printed the WHOLE set.
+
+    That is how the H1559 window numbers got misattributed in the first place: a
+    plan-only run asked about one frame answered about six, and the wrong block was
+    read off as "the plan for H1559". A flag that is parsed and then ignored is worse
+    than no flag, because the output looks targeted and is not.
+    """
+    src = Path(cst.__file__).read_text()
+    main_src = src[src.index('def main('):]
+    # the filter must appear BEFORE the plan-only branch, not only inside run_set
+    i_filter = main_src.index('--only matched nothing')
+    i_plan = main_src.index('if a.plan_only:')
+    assert i_filter < i_plan, "--only is applied after the plan-only branch returns"
+
+
 def test_the_runaway_and_the_good_fit_used_different_mask_velocities_rya997():
     """🔴 The H1559 flip was a MISPLACED STELLAR MASK, not luck and not molecfit noise.
 
