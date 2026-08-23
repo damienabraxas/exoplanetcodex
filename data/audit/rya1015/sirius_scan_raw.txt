@@ -6,7 +6,47 @@
 # /mnt/codex-ext/codex-grids (ntfs3). A plain find returns NOTHING through it.
 #   find -L ... nlte_O_scatt_pysme.grd  -> 1 hit   (RYA-477 known-present)
 #   find    ... nlte_O_scatt_pysme.grd  -> 0 hits  (the trap, reproduced)
+# ALL-DRIVE VERIFICATION (2026-08-23, after Ryan asked whether every drive was checked):
+#   Sirius has THREE real filesystems --
+#     /dev/sdb2 ext4  468G  (root, 86G used)
+#     /dev/sda1 ext4  458G  /mnt/codex-data  (291G used)
+#     /dev/sdc1 ntfs3 932G  /mnt/codex-ext   (827G used, 89% FULL)
+#   The scan below covers /srv/codex/grids/nlte, which symlinks onto codex-ext.
+#   A full sweep of ALL THREE drives was then run and set-diffed against this file:
+#     36 grid files here, 36 across all drives, SETS IDENTICAL -- nothing missed.
+#   So this narrow path is complete, now verified rather than assumed.
+#
+#   The wider sweep did surface two things this file does NOT list:
+#     - ~119.9 GB of DUPLICATE .grd copies inside stale worktrees under
+#       /mnt/codex-data/codex/ (rya519, rya706, rya545, repo). Not new elements --
+#       redundant copies, a space and provenance risk (RYA-1011 / RYA-793).
+#     - NLTEgrid_H_MARCS_May-10-2021.bin -- the Gerber H deck, staged and unrecorded
+#       (RYA-804: commit its prov.json, do NOT re-download). H is the reference
+#       element (A(H)=12 by definition) so it is not a CANONICAL_28 row.
+#
 # CONTROL=PASS
+#
+#
+# RESCAN 2026-08-23 (RYA-820 fetch): /srv/codex/grids-overflow/ is a SPILL AREA on the
+# ROOT drive (sdb2, 355G free) because codex-ext hit 89%. The Eu <3D> deck was moved
+# there and a SYMLINK left at the canonical path, so `find -L` on the old path still
+# resolves it -- the scan method survives the spill, but the overflow path is now
+# scanned explicitly rather than relied on via the symlink.
+#
+# NEW (RYA-820, verified full 3D-NLTE at the primary source BEFORE download):
+#   Li  grids-overflow/nlte/threed_offsolar/Li_wang2021_breidablik/  227M
+#   Mg  grids-overflow/nlte/threed_offsolar/Mg_matsuno2024/          212K
+#   Na  grids-overflow/nlte/threed_offsolar/Na_canocchi2026/         282M
+# Each carries a prov.json with paper, DOI/catalogue, coverage and per-file md5.
+#
+# ZENODO SWEEP (2026-08-23): searched all 28 elements plus the 3D-NLTE author set.
+# NO further 3D-NLTE grids exist publicly for any canonical element beyond these.
+# Two adjacent finds, neither a canonical-28 row:
+#   - Ag  'Grid/NLTE' 10.5281/zenodo.20037437 (Caliskan+2026) -- outside the 28.
+#   - H   'Grid/Balmer' 10.5281/zenodo.1288078 (Amarsi 2018) -- 3D non-LTE hydrogen
+#         Balmer alpha/beta/gamma profiles for FGK stars. NOT held. H is the reference
+#         element (A(H)=12) so it is not a matrix row, but this is a real Teff-diagnostic
+#         capability we do not have.
 #
 # format: directory|filename|bytes
 /srv/codex/grids/nlte/amarsi_galah|nlte_Al_scatt_pysme.grd|2331451654
@@ -62,3 +102,4 @@
 /srv/codex/grids/nlte/gerber_ts|NLTEgrid_Ba_MARCS_Jul-29-2023.bin|23935722736
 /srv/codex/grids/nlte/gerber_ts|NLTEgrid_Eu_MARCS_Sep-13-2023.bin|141597860056
 /srv/codex/grids/nlte/gerber_ts|NLTEgrid_H_MARCS_May-10-2021.bin|152905720
+/srv/codex/grids-overflow/nlte/gerber_ts|NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin|3424250832

@@ -62,16 +62,262 @@ MODEL_TYPES: tuple[str, ...] = ("1D_LTE", "1D_NLTE", "MEAN3D_NLTE", "FULL_3D_NLT
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
 CODE_USES = "CODE_USES"        # the pipeline applies it now (code is ground truth)
 CSV_ONLY = "CSV_ONLY"          # claimed but not on disk -> PROBLEM
-DISK_ONLY = "DISK_ONLY"        # on disk but unregistered/unwired -> PROBLEM
+DISK_ONLY = "NEEDS_WIRING"     # the grid IS on Sirius; no code path consumes it yet
 REQUEST_ONLY = "REQUEST_ONLY"  # exists in literature, no public download
 NONE = "NONE"                  # genuinely absent -> acquisition task
-PROBLEM = "PROBLEM"            # sources disagree; `facts` carries why
+PROBLEM = "BROKEN"             # we hold it and it FAILS; `error` + `fix` say why/how
 
 #: RYA-1015 disk-parse traps. `CO` in a Gerber filename is the CO MOLECULE, not
 #: cobalt, and `MN` is Mn shouted. Mapping CO -> Co would invent a cobalt NLTE grid
 #: we do not have; this is a real defect the naive parse produces.
 _FILENAME_ELEMENT_FIXUPS = {"MN": "Mn"}
 _NOT_ELEMENTS = {"CO"}  # molecular decks, never an atomic element cell
+
+
+
+#: REPO-SIDE 3D HOLDINGS. The Sirius scan covers the departure decks only; the actual
+#: 3D capability lives IN THE REPO and was invisible to a Sirius-only scan. This is
+#: what we CAN RUN, keyed by the element it can correct.
+#:
+#: A matrix that reported FULL_3D_NLTE = NONE everywhere was WRONG: we hold a 3D-NLTE
+#: Fe engine, 3D-NLTE C/O tables, and a 3D metals increment.
+THREED_HOLDINGS: dict[str, dict] = {
+    "Fe": {
+        "path": "vendor/1L-3NErrors/",
+        "kind": "FULL_3D_NLTE",
+        "engine": "ENGINE-A-3DNLTE",
+        "what": "Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP "
+                "(fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p)",
+        "blocked_by": "RYA-923",
+        "blocker": "URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main "
+                   "(114 in-domain -> n=0). 1D-LTE legs still PASS, so only the "
+                   "correction path regressed. Committed cells carry values from when "
+                   "it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability "
+                   "is REAL but currently UNRUNNABLE.",
+    },
+    "C": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
+          "engine": "cno-3dnlte",
+          "what": "Amarsi, Nissen & Skuladottir 2019 (A&A 630 A104) line-by-line "
+                  "3D-NLTE / 1D-NLTE tables; 3D leg below Teff 6500 K"},
+    "O": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
+          "engine": "cno-3dnlte",
+          "what": "Amarsi 2019 3D-NLTE O I 777; [O I] 6300 is forbidden-LTE by "
+                  "construction (RYA-447)"},
+    "N": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
+          "engine": "cno-3dnlte",
+          "what": "Amarsi 2019 CNO synthesis leg (N atomic departures are the separate "
+                  "1D registry grid)"},
+    # RYA-820, fetched 2026-08-23 into the Sirius grids-overflow spill area on the
+    # root drive (codex-ext is 89% full). All three verified full 3D-NLTE at the
+    # PRIMARY source before download, per RYA-820's do-not-mislabel rule.
+    "Li": {"path": "grids-overflow/nlte/threed_offsolar/Li_wang2021_breidablik/",
+           "kind": "FULL_3D_NLTE", "engine": "ENGINE-A-3DNLTE (Breidablik)",
+           "what": "Wang et al. 2021, MNRAS 500, 2159 -- 3D-NLTE Li over the full "
+                   "STAGGER grid (Teff 4000-7000, logg 1.5-5.0, [Fe/H] -4..0.5, "
+                   "A(Li) -0.5..4.0; 610.4/670.8/812.6 nm). Zenodo 10.5281/zenodo.13829605"},
+    "Mg": {"path": "grids-overflow/nlte/threed_offsolar/Mg_matsuno2024/",
+           "kind": "FULL_3D_NLTE", "engine": "ENGINE-A-3DNLTE",
+           "what": "Matsuno et al. 2024, A&A 688, A72 -- 3D-NLTE Mg corrections, "
+                   "Balder on Stagger, 2646 rows. VizieR J/A+A/688/A72"},
+    "Na": {"path": "grids-overflow/nlte/threed_offsolar/Na_canocchi2026/",
+           "kind": "FULL_3D_NLTE", "engine": "ENGINE-A-3DNLTE",
+           "what": "Canocchi et al. 2026, A&A 709, A90 -- 3D-NLTE Na, nine Na I lines, "
+                   "Teff 4000-6500, logg 1.5-5.0, [Fe/H] -4..+0.5, ships RBF + FFNN "
+                   "interpolators. Zenodo 10.5281/zenodo.19396611"},
+    "Si": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
+           "engine": "THREED_CORRECTION_ELEMENTS",
+           "what": "Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399)"},
+    "Ti": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
+           "engine": "THREED_CORRECTION_ELEMENTS",
+           "what": "Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Ti (RYA-399)"},
+    "Cr": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
+           "engine": "THREED_CORRECTION_ELEMENTS",
+           "what": "Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Cr (RYA-399)"},
+}
+
+#: The <3D> STAGGER solar atmosphere we hold -- the model any <3D> route needs.
+STAGGER_MEAN3D_ATMOSPHERE = "data/atmospheres/stagger_avg3d_rya442/sun_avg3d_stagger.mod"
+
+
+
+#: GAP -> LINEAR TICKET, from the full RYA-1015 ticket sweep (all 1015 issues, 2026-08-23).
+#: Every non-HAVE cell should name the ticket that owns it, so the matrix routes work
+#: instead of only reporting absence.
+GAP_TICKETS: dict[tuple[str, str], str] = {
+    # Gerber TS-native decks: ON SIRIUS, unwired. RYA-710 is the umbrella.
+    ("Al", "1D_NLTE"): "RYA-1005 (deck fully staged 74 GB md5-pinned; `gerber_nlte` "
+                       "registers only Fe -- Engine-B-NLTE refuses on a REGISTRY LINE, "
+                       "not on missing data) / RYA-801 / RYA-710",
+    ("Cr", "MEAN3D_NLTE"): "RYA-800 (fetch+wire Cr Gerber ~25 GB) / RYA-710",
+    ("Y", "1D_NLTE"): "RYA-802 (acquire+hold Y Gerber ~42 GB; corrects nothing today, "
+                      "Y II unmeasured) / RYA-710",
+    ("Y", "MEAN3D_NLTE"): "RYA-802 / RYA-710",
+    ("Eu", "1D_NLTE"): "RYA-803 (Eu Gerber ~47 GB; model_atom source returns 0 bytes -- "
+                       "BLOCKED, needs a live mirror) / RYA-710",
+    ("Eu", "MEAN3D_NLTE"): "RYA-803 / RYA-710",
+    ("Al", "MEAN3D_NLTE"): "RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, "
+                           "wire honestly) / RYA-801",
+    ("Li", "1D_NLTE"): "RYA-540 (grid STAGED on Sirius; PySME derivation solar delta "
+                       "-0.030 does NOT reproduce the Lind-2009 small-positive anchor "
+                       "-> NOT wired, validate-don't-tune STOP) / RYA-103",
+    ("Ni", "1D_NLTE"): "RYA-710 (Gerber Ni MARCS deck on disk, unwired). Note RYA-731: "
+                       "Ni's blocker is gf-scale (BAD_GF), not NLTE.",
+    # Genuinely absent -> acquisition tickets
+    ("Zn", "1D_NLTE"): "RYA-757 (Zn intake: 27->28 canonical + Sitnova+2022 NLTE grid -- "
+                       "grid EXISTS in the literature, never acquired)",
+    ("V", "1D_NLTE"): "RYA-470 / RYA-363 (NLTE_VOID: no Amarsi/GALAH grid and no usable "
+                      "neutral V I model atom -- the only genuine void, RYA-404)",
+    ("P", "1D_NLTE"): "RYA-717 (no NLTE grid; DATA_GAP, FUV needs HST/STIS)",
+    ("Sc", "1D_NLTE"): "RYA-732 (no NLTE grid; HFS single blue line 4246)",
+    ("Co", "1D_NLTE"): "RYA-727 (no NLTE grid; continuum-limited blue-edge lines)",
+    ("Zr", "1D_NLTE"): "RYA-739 (no NLTE grid NEEDED -- Zr II is the majority ion, "
+                       "LTE-robust; route is synthesis, RYA-560)",
+    # 3D
+    ("Fe", "FULL_3D_NLTE"): "RYA-923 (URGENT/OPEN: MLP returns NaN for every in-domain "
+                            "line) / RYA-817 / RYA-924 (cells were computed on the Mac "
+                            "from a temp scratchpad; inputs unrecoverable)",
+    ("Fe II", "FULL_3D_NLTE"): "RYA-923 / RYA-817 / RYA-924",
+    ("Li", "FULL_3D_NLTE"): "RYA-820 (off-solar 3D-NLTE Li, Wang 2021 -- PUBLIC, not fetched)",
+    ("Mg", "FULL_3D_NLTE"): "RYA-820 (Matsuno 2024 Mg -- PUBLIC, not fetched)",
+    ("Na", "FULL_3D_NLTE"): "RYA-820 (Canocchi 2024 Na -- PUBLIC, not fetched)",
+}
+
+#: Molecule gaps -> tickets.
+MOLECULE_TICKETS: dict[str, str] = {
+    "TiO": "RYA-751 (COOL-STAR MOLECULES CaH/MgH/TiO/SiO sweep -- deferred to the "
+           "M-dwarf phase). Blocks the M-dwarf tier.",
+    "VO": "RYA-751 (cool-star molecule, not carried)",
+    "ZrO": "RYA-751 (cool-star molecule, not carried)",
+    "MgH": "RYA-751 (COOL-STAR MOLECULES sweep -- deferred)",
+    "FeH": "RYA-751 (cool-star molecule, not carried)",
+    "SiH": "RYA-751 / RYA-189 (IR molecular line handling)",
+    "CaH": "RYA-751 (COOL-STAR MOLECULES sweep -- deferred)",
+    "H2O": "RYA-751 / RYA-503 (ExoMol/HITRAN->Turbospectrum converter EXISTS, CO-validated)",
+    "C2": "RYA-742 (C2 Swan solar C indicator)",
+    "CH": "RYA-743 (CH G-band -- 'THE BITCH')",
+    "CN": "RYA-746 (CN solar N indicator, needs C prior)",
+    "CO": "RYA-744 (CO dv=1/dv=2, CRIRES+ target)",
+    "NH": "RYA-745 (NH solar N indicator, IR only)",
+    "OH": "RYA-747 (OH solar O indicator -- NOVELTY CANDIDATE)",
+}
+
+
+
+#: KNOWN ANOMALIES / TRAPS per (element, model_type) -- defects, quirks and gotchas that
+#: are true of the DATA, not of our wiring. Carried on the row so a reader of the CSV
+#: meets the caveat at the same moment they meet the number.
+ANOMALIES: dict[tuple[str, str], str] = {
+    ("Ti", "1D_NLTE"): "RYA-597 DRIFT (FIXED by RYA-1015): the availability CSV cited "
+        "Ti_Bergemann2011_MPIA.csv while the code has run Ti_Mallinson2024_PySME.csv "
+        "since RYA-545. Bergemann-2011 used scaled-Drawin H collisions and was INFLATED "
+        "~2x (+0.108 vs Mallinson's +0.052, RYA-546). The old file is retained as an "
+        "immutable v1 reference, flagged superseded -- not deleted.",
+    ("Ti", "MEAN3D_NLTE"): "Engine-B still runs the SCALED-DRAWIN atom.ti503b; swapping "
+        "it to ab-initio is owed (RYA-548). Largest grid in the Gerber set "
+        "(~26 GB zip / ~55 GB bin, 503 levels); Keeper throttled the fetch heavily.",
+    ("Fe", "1D_NLTE"): "Fe runs through the fe-nlte subsystem, NOT "
+        "NLTE_CORRECTION_ELEMENTS -- a registry-only reading reports it unwired. "
+        "RYA-549: code=register=matrix reconciled; the NLTE delta is TINY "
+        "(+0.010 solar / +0.004 55 Cnc), NOT the inflated Ti/Mn/Cr class.",
+    ("Fe", "FULL_3D_NLTE"): "RYA-924: the committed 3D-NLTE cells were computed ON THE "
+        "MAC from a temp scratchpad -- off-Sirius, inputs now unrecoverable, and "
+        "assert_on_sirius was never wired to that route. RYA-922: the 3D-NLTE route was "
+        "HARDCODED to Kitt Peak (module-level INSTRUMENT, no --instrument flag) so it "
+        "could not produce 3D-NLTE for any other arm.",
+    ("Fe II", "FULL_3D_NLTE"): "Same MLP and the same RYA-923 ceiling failure as Fe I; "
+        "the Fe II leg used only 7 lines (n=7) against Fe I's 114.",
+    ("Li", "1D_NLTE"): "ANOMALY (RYA-540): grid staged, derivation ATTEMPTED, and the "
+        "solar delta came out -0.030 -- the WRONG SIGN against the Lind-2009 "
+        "small-positive anchor, with the grid's J-label resolving oddly. Stopped under "
+        "validate-don't-tune rather than shipped. Li I 6707 is a resonance line with a "
+        "CN molecular blend (RYA-103) and needs the dedicated derivation, not EW.",
+    ("Al", "1D_NLTE"): "ANOMALY (RYA-1005): the Gerber Al deck is FULLY STAGED (74 GB, "
+        "md5-pinned) and Engine-B-NLTE still refuses Al -- `gerber_nlte` registers only "
+        "Fe. The blocker is a REGISTRY LINE, not missing data. Also RYA-773: the "
+        "Amarsi-2020 Al departure grid does NOT cover the clean 7835/36 + 8772/73 "
+        "doublet -- the best lines are uncovered.",
+    ("Al", "MEAN3D_NLTE"): "Nordlander & Lind 2017 is <3D>, NOT full 3D -- and its "
+        "released GRID is <3D>/1D while its SOLAR value (6.43) is full 3D NLTE. "
+        "Conflating the two is the RYA-1008 premise error.",
+    ("Cu", "1D_NLTE"): "PENDING-OK: registered grid with a non-LOCKED verdict. Cu NLTE "
+        "is small (+0.001 solar, reproduces Shi-2014). Cu production stays GET-DATA on "
+        "measured-line QUALITY (RYA-395: 5105/5218/5782 re-measure), NOT on the grid.",
+    ("Mn", "1D_NLTE"): "HFS-split lines: EW cannot measure them: the unlock was "
+        "HFS-resolved SYNTHESIS on the Den Hartog e6S->z6P triplet (RYA-473). "
+        "Registry hygiene open (RYA-566): problem_children says A(Mn) 5.554, the "
+        "committed verdict is 5.466.",
+    ("Ca", "1D_NLTE"): "RYA-413: the MPIA Ca I 6166 NLTE node was a PLACEHOLDER ZERO "
+        "across all 72 nodes -- a registered-grid data defect. Ca NLTE primary "
+        "(Amarsi vs defect-fixed MPIA) is still unadjudicated (RYA-414).",
+    ("Sr", "1D_NLTE"): "RYA-433: the CITED primary (Mashonkina/INASAN) is NOT the "
+        "vendored file -- Bergemann INSPECT was vendored and is demoted to cross-check. "
+        "Sr II 4077/4215 are SATURATED resonance lines (RYA-430).",
+    ("V", "1D_NLTE"): "THE ONLY GENUINE VOID: no Amarsi/GALAH grid AND no usable neutral "
+        "V I model atom (verified absent from Zenodo 3982506). Interim route is the "
+        "V II ionization anchor (RYA-470) -- measure around the unsolved atom.",
+    ("Ni", "1D_NLTE"): "A Gerber Ni MARCS deck IS on Sirius, but Ni's blocker is "
+        "gf-scale (BAD_GF), not NLTE -- wiring the grid does not unblock the element.",
+    ("Zn", "1D_NLTE"): "Zn is the 28th canonical (RYA-757) and is NOT in TARGET_ELEMENTS "
+        "(26) or the RYA-400 regime map -- it is canonical on paper and absent from the "
+        "code's element roster. Sitnova+2022 grid exists and was never acquired.",
+    ("Zr", "1D_NLTE"): "NO NLTE GRID NEEDED -- Zr II is the majority ion and LTE-robust "
+        "(the Sr II / V II logic). Route is synthesis of the strong Zr II lines. "
+        "Recorded so 'no grid' is never read as a gap.",
+    ("Eu", "1D_NLTE"): "BLOCKED (RYA-803): the Gerber Eu model_atom source returns "
+        "0 BYTES -- needs a live mirror before the ~47 GB fetch is worth starting. "
+        "Eu II 6645 is also at the noise floor (6.8 mA, RYA-565/102).",
+    ("Y", "1D_NLTE"): "Corrects NOTHING today: Y II (the dominant ion) is absent from "
+        "the measured pool, so the grid would sit unused (RYA-802 is fetch-and-hold).",
+    ("O", "1D_NLTE"): "O runs via the cno-3dnlte subsystem, not the registry. "
+        "[O I] 6300 is forbidden-LTE by construction (RYA-447) and is blended with "
+        "Ni I 6300.34, whose gf was a stale duplicate until RYA-543/365.",
+    ("C", "1D_NLTE"): "3D leg applies BELOW Teff 6500 K, 1D-NLTE above (RYA-359/237). "
+        "C I 5380 is excluded by Codex charter while Amarsi 2019 includes it (RYA-748).",
+    ("N", "1D_NLTE"): "4 cool-metal-rich weak-line rails are excluded -> out-of-hull "
+        "loud-flag (RYA-526). N I atomic departures are a SEPARATE registry grid from "
+        "the CNO subsystem leg.",
+}
+
+#: Cross-cutting findings that belong to no single element. Emitted as their own rows so
+#: the CSV carries the audit, not just the inventory.
+AUDIT_ANOMALIES: list[tuple[str, str, str]] = [
+    ("scan-method", "find without -L returns NOTHING through the grids symlink",
+     "The Sirius grids directory is a SYMLINK onto the ntfs3 external drive. A plain find "
+     "silently reports zero grids. Positive control MANDATORY before trusting any "
+     "absence (RYA-1013 trap). Verified: find -L = 1 hit, plain find = 0 hits."),
+    ("scan-coverage", "all THREE Sirius drives verified, not just the grids subtree",
+     "sdb2 ext4 468G root / sda1 ext4 458G codex-data (291G) / sdc1 ntfs3 932G "
+     "codex-ext (827G, 89% FULL). Full sweep set-diffed against the snapshot: 36 grid "
+     "files both sides, SETS IDENTICAL. The narrow path was complete, now verified."),
+    ("false-duplicate", "the '119.9 GB of duplicate grids' does NOT exist",
+     "The .grd files inside worktrees are SYMLINKS (52-74 bytes) to the canonical "
+     "copies. `find -L -printf %s` follows them and counts the target size repeatedly. "
+     "Real usage of those worktrees is ~2 GB. Corrected in RYA-1015."),
+    ("filename-trap", "NLTEgrid4TS_CO_MARCS is carbon monoxide, NOT cobalt",
+     "The naive element parse maps CO -> Co and INVENTS a cobalt NLTE grid we do not "
+     "have. MN is Mn shouted and must still resolve. Pinned by test."),
+    ("provenance", "the Gerber decks have NO DOI and live on a MUTABLE Seafile share",
+     "MPG Keeper, unversioned -- md5-pinned on our side; a re-fetch verifies against "
+     "those hashes. The Zenodo/Amarsi decks are DOI-backed and versioned. Different "
+     "provenance grades sitting in the same directory."),
+    ("bookkeeping", "the Gerber H deck is staged on Sirius and unrecorded",
+     "NLTEgrid_H_MARCS_May-10-2021.bin is present; RYA-804 is bookkeeping only -- commit "
+     "its prov.json, do NOT re-download. H is the reference element (A(H)=12 by "
+     "definition) so it is not a CANONICAL_28 row."),
+    ("roster", "the canonical 28 is 27 (incl. Fe II counted separately) + Zn",
+     "TARGET_ELEMENTS in the code is 26 and the RYA-400 regime map is 26; both omit "
+     "Fe II as a distinct species and Zn entirely. The record key must be (element, "
+     "ion), not element -- keying by element alone collides Fe I and Fe II."),
+    ("capability", "we cannot COMPUTE full 3D for any element",
+     "RYA-1008: no public full-3D NLTE stellar photosphere RT code exists. MULTI3D, "
+     "Balder, M3DIS, Linfor3D and PORTA are all private; the public codes (RH 1.5D, "
+     "Lightweaver) stop at 1.5D/2D. Every 3D capability we have is a PUBLISHED GRID WE "
+     "APPLY, never a calculation we run."),
+    ("unreconciled", "RYA-776 engine_coverage.csv is a 6th source NOT reconciled here",
+     "data/catalog/engine_coverage.csv (225 rows) carries engine x WAVELENGTH coverage. "
+     "This matrix has no wavelength axis, so band-level contradictions between the two "
+     "are possible and unchecked. Follow-up owed."),
+]
 
 
 @dataclass
@@ -83,6 +329,8 @@ class Cell:
     code_grid: str | None = None
     disk_paths: list[str] = field(default_factory=list)
     facts: list[str] = field(default_factory=list)
+    error: str = ""      # what is actually wrong (BROKEN cells)
+    fix: str = ""        # the concrete next action (BROKEN / NEEDS_WIRING cells)
 
     @property
     def is_problem(self) -> bool:
@@ -97,12 +345,50 @@ class Cell:
             "code_grid": self.code_grid,
             "disk_paths": self.disk_paths,
             "facts": self.facts,
+            "error": self.error,
+            "fix": self.fix,
             "problem": self.is_problem,
         }
 
 
 class DiskSnapshotError(RuntimeError):
     """The Sirius snapshot is missing, or its find -L control did not pass."""
+
+
+#: Sources for the REPO-SIDE holdings (the Sirius prov.json files cover only the
+#: departure decks). Cited so the matrix is usable as a reference, not just a checklist.
+REPO_SOURCES: dict[str, dict] = {
+    "vendor/1L-3NErrors/": {
+        "citation": "Amarsi, Liljegren & Nissen 2022, A&A 668, A68 (3D-NLTE Fe MLP)",
+        "source_url": "https://github.com/AlexanderLiljegren/1L-3NErrors (vendored)",
+        "caveat": "Training domain from Jofre et al. 2014, A&A 564, A133 Tables 4/5 "
+                  "('golden' Fe I/II lines). A(Fe) axis ceiling 7.5 -- see the BROKEN "
+                  "root cause.",
+    },
+    "data/nlte_grids/amarsi2019_cno/": {
+        "citation": "Amarsi, Nissen & Skuladottir 2019, A&A 630, A104",
+        "source_url": "CDS VizieR J/A+A/630/A104",
+        "caveat": "3D leg below Teff 6500 K, 1D-NLTE leg above (RYA-359/237).",
+    },
+    "data/threed_grids/solar3d_metals_rya399.csv": {
+        "citation": "Amarsi & Asplund 2017 (MNRAS 464, 264) for Si; "
+                    "Scott et al. 2015 Paper II (A&A 573, A26) for Ti/Cr",
+        "source_url": "published tables, transcribed (RYA-399)",
+        "caveat": "SOLAR increment only -- no off-solar parameter axis.",
+    },
+}
+
+
+def load_grid_provenance() -> dict:
+    """Where each Sirius deck came from: URL, citation, md5, caveat (RYA-1015 capture)."""
+    import json
+    f = ROOT / "data" / "audit" / "rya1015" / "grid_provenance.json"
+    if not f.exists():
+        return {}
+    try:
+        return json.loads(f.read_text())
+    except (json.JSONDecodeError, OSError):
+        return {}
 
 
 def load_disk_snapshot(path: Path) -> dict[tuple[str, str], list[str]]:
@@ -218,6 +504,11 @@ def build_matrix(snapshot_path: Path | None = None) -> dict:
             cells.append(_reconcile(element, base, mt, disk, csv_claims,
                                     threed, nlte_code, threed_code))
 
+    for c in cells:
+        t = GAP_TICKETS.get((c.element, c.model_type))
+        if t and c.state != HAVE:
+            c.facts.append(f"OWNED BY: {t}")
+
     problems = [c for c in cells if c.is_problem]
     return {
         "generated": date.today().isoformat(),
@@ -287,9 +578,14 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                     "departure grid itself lives on Sirius only.")
         elif disk_paths:
             cell.state = DISK_ONLY
-            cell.facts.append(
-                f"{len(disk_paths)} departure grid(s) on Sirius but NO code entry in "
-                f"NLTE_CORRECTION_ELEMENTS -- unwired.")
+            cell.error = (
+                f"{len(disk_paths)} departure grid(s) are ON SIRIUS but the element has "
+                f"NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data "
+                f"was fetched and cannot be used.")
+            cell.fix = (
+                "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS "
+                "(Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the "
+                "vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.")
         elif claim:
             cell.state = CSV_ONLY
             cell.facts.append(f"CSV claims '{claim}' but neither disk nor code has it.")
@@ -302,11 +598,28 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     if mt == "MEAN3D_NLTE":
         offsolar = (row.get("offsolar_3d_nlte") or "").strip()
         solar = (row.get("solar_3d_nlte") or "").strip()
-        if disk_paths:
+        if (h := THREED_HOLDINGS.get(base)) and h["kind"] == "MEAN3D_NLTE":
+            cell.state = HAVE
+            cell.code_grid = h["path"]
+            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+            if disk_paths:
+                cell.facts.append(
+                    f"ALSO holds {len(disk_paths)} unwired <3D> STAGGERmean3D deck(s) "
+                    f"on Sirius -- a second, richer route nothing consumes yet.")
+        elif disk_paths:
             cell.state = DISK_ONLY
-            cell.facts.append(
-                f"<3D> STAGGERmean3D deck present on Sirius ({len(disk_paths)}) but no "
-                f"code path consumes a <3D> departure deck -- unwired capability.")
+            cell.error = (
+                f"{len(disk_paths)} <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid "
+                f"for, but NO code path consumes a <3D> departure deck at all. This is "
+                f"not missing data -- it is unwired data.")
+            cell.fix = (
+                "Add a <3D> consumer: register the deck in the gerber_nlte registry and "
+                "give Engine-B a <3D> route (today it only reads MARCS 1D decks). "
+                "Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.")
+        elif False:
+            cell.state = HAVE
+            cell.code_grid = h["path"]
+            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
         elif solar in ("FULL_3D_NLTE", "MEAN3D_NLTE") or offsolar == "GRID_MEAN3D":
             # A published solar 3D/<3D> treatment exists for this element, but we hold
             # no <3D> deck -> the corrections are obtainable only by request/from a
@@ -326,18 +639,78 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     solar = (row.get("solar_3d_nlte") or "").strip()
     offsolar = (row.get("offsolar_3d_nlte") or "").strip()
     holding = (row.get("our_holding") or "").strip()
+    # NOTE: THREED_CORRECTION_ELEMENTS holds the solar 3D INCREMENT (solar3d_metals),
+    # which is a <3D> product and belongs to the MEAN3D_NLTE column. Populating
+    # code_grid here made the full-3D cell name a grid while reading NONE -- a cell that
+    # contradicted itself. The grid is reported once, in the column that owns it.
     code_entry = threed_code.get(base)
-    cell.code_grid = code_entry.get("grid") if code_entry else None
 
-    # No full-3D deck exists on disk for any element, and RYA-1008 established that no
-    # public full-3D NLTE stellar RT code exists to produce one. So this is NONE
-    # everywhere -- but never SILENTLY: record what IS applied in production.
-    cell.state = NONE
-    if holding and holding.lower() != "none":
+    # What we CAN RUN, from the repo-side holdings -- NOT a blanket NONE. We hold a
+    # 3D-NLTE Fe MLP and 3D-NLTE C/N/O tables; a Sirius-only scan could not see them.
+    h = THREED_HOLDINGS.get(base)
+    if h and h["kind"] == "FULL_3D_NLTE":
+        cell.code_grid = h["path"]
+        if h.get("blocked_by"):
+            cell.state = PROBLEM
+            cell.error = (
+                "ROOT CAUSE FOUND (RYA-1015, 2026-08-23): NOT a code regression -- a "
+                "BOUNDARY condition on the A(Fe;3N) axis. _apply_aberr_to_line lets the "
+                "axis drift to (line's own 1D-LTE abundance + its own correction). For "
+                "solar Fe that is ~7.45 + ~0.053 = 7.503, which is 0.003 dex ABOVE the "
+                "MLP's published ceiling of A(Fe)=7.5, so amarsi3d.aberr_for_line "
+                "refuses it with stellar_ok=False and returns NaN. Measured cliff: "
+                "a_1dlte 7.447 -> +0.0528 (in domain); 7.450 -> NaN. The solar Fe I pool "
+                "centres at 7.45-7.47, so nearly every line falls just outside. The "
+                "LINE-level checks (feature/delta_E/level) all PASS, which is why 114 "
+                "lines look in-domain and then yield n=0. "
+                "Original symptom: the MLP returns NaN for EVERY in-domain line. "
+                "114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE "
+                "legs still PASS to 3 decimals, so the line list, atmosphere, star "
+                "params and EW inversion are all fine -- only the correction path "
+                "regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from "
+                "when it worked, so the products LOOK healthy while the engine is dead.")
+            cell.fix = (
+                "PIN THE AXIS, do not widen the domain. Pass afe3n_axis = the star's "
+                "converged A(Fe;3N) (7.46 solar) to _apply_aberr_to_line / "
+                "amarsi3d.aberr_for_line instead of letting each line's own value drift. "
+                "Verified: pin=7.46 -> +0.0513 in-domain; pin=7.51 -> NaN. This is what "
+                "the RYA-817 afe3n_axis parameter exists for, and it matches the vendor "
+                "README (a SINGLE stellar A(Fe;3N) iterated to convergence, not a "
+                "per-line value). It does NOT relax the domain check, which RYA-923 "
+                "forbids. Then: make the reactivation control BLOCK instead of emitting "
+                "n=0 cells, and re-derive both cells (1D-LTE base moved n=152->322 under "
+                "the PR #315 width fix). PHYSICS CHANGE -- needs Ryan's say-so before "
+                "any cell is published (RYA-923). "
+                "Superseded hypothesis: 1) Bisect nlte_corrections.py 5278efb..a7ff4e0 -- "
+                "suspects are _apply_aberr_to_line returning NaN, or _in_grid "
+                "disagreeing with amarsi3d.domains() so a line passes the MLP domain "
+                "check and is then rejected by the grid check. "
+                "2) Make the reactivation control BLOCK: it currently FAILs and lets the "
+                "run emit n=0 cells that read as 'no lines in domain'. "
+                "3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 "
+                "under the PR #315 width fix). "
+                "DO NOT relax the domain check to get numbers out (RYA-923).")
+            cell.facts.append(f"BROKEN -- owned by {h['blocked_by']}.")
+            cell.facts.append(f"Engine {h['engine']}: {h['what']} ({h['path']}).")
+        else:
+            cell.state = HAVE
+            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+            if h["path"].startswith("grids-overflow/"):
+                cell.facts.append(
+                    "FETCHED 2026-08-23 (RYA-820) and NOT YET WIRED to a driver -- the "
+                    "grid is on disk and verified; the Engine-A-3DNLTE wiring + domain "
+                    "check (RYA-817 discipline) is still owed.")
+                cell.fix = (
+                    "Wire as an Engine-A-3DNLTE treatment with a transition-energy / "
+                    "parameter domain check; flag out-of-domain lines, never "
+                    "extrapolate. Mind the A(X) ceiling trap that broke Fe (RYA-923).")
+    else:
+        cell.state = NONE
         cell.facts.append(
-            f"NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in "
-            f"production from {holding} -- that applies someone else's 3D result, it "
-            f"is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).")
+            "No 3D-NLTE correction or engine we can run for this element. "
+            "(We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no "
+            "public full-3D NLTE RT code -- so every 3D capability here is a "
+            "published grid/model we apply.)")
     if solar or offsolar:
         cell.facts.append(
             f"RYA-817 literature: solar={solar or '-'}, offsolar={offsolar or '-'}.")
@@ -397,7 +770,20 @@ def build_engine_matrix(matrix: dict) -> list[dict]:
         else:
             b_mode, b_where = "LTE only", "no TS-native deck"
 
+        # Engine-A-3DNLTE / the 3D route: a published 3D model we APPLY.
+        h3 = THREED_HOLDINGS.get(base)
+        if h3 and h3.get("blocked_by"):
+            c_mode = f"3D-NLTE BROKEN ({h3['blocked_by']})"
+            c_where = h3["path"]
+        elif h3:
+            c_mode = ("3D-NLTE" if h3["kind"] == "FULL_3D_NLTE" else "<3D> increment")
+            c_where = h3["path"]
+        else:
+            c_mode, c_where = "none", "no 3D model held"
+
         rows.append({
+            "engine_c_mode": c_mode,
+            "engine_c_where": c_where,
             "element": element,
             "engine_a_mode": a_mode,
             "engine_a_where": a_where,
@@ -474,6 +860,7 @@ def build_molecule_matrix(snapshot_path: Path | None = None) -> list[dict]:
                             if lte else None,
             "nlte_deck": nlte[0] if nlte else None,
             "state": "HAVE" if lte else "NONE",
+            "ticket": MOLECULE_TICKETS.get(mol, ""),
         })
     return rows
 
@@ -567,3 +954,121 @@ the RYA-462 CSV, the RYA-817 3D CSV, the code, and a Sirius <code>find -L</code>
 <b>full-3D-NLTE</b> is NONE everywhere: no public full-3D NLTE stellar RT code exists (RYA-1008).
 </p></body></html>
 """
+
+
+def write_findings_csv(matrix: dict, engine_rows: list[dict],
+                       molecules: list[dict], out: Path) -> Path:
+    """One flat CSV of EVERY finding: species x model type, engines, and molecules.
+
+    Long format, one row per (subject, model_type), so it sorts and filters in a
+    spreadsheet without unpacking anything.
+    """
+    eng = {r["element"]: r for r in engine_rows}
+    prov = load_grid_provenance()
+
+    # Carry the NOTE the source CSVs already wrote -- RYA-462 and RYA-817 both hold
+    # per-row prose that never reached the matrix.
+    csv_notes: dict[tuple[str, str], str] = {}
+    curation = ROOT / "data" / "curation"
+    try:
+        for row in csv.DictReader((curation / "nlte_grid_availability.csv").open()):
+            sub = row["subsystem"]
+            mt = ("MEAN3D_NLTE" if sub == "metals-3d"
+                  else "FULL_3D_NLTE" if sub == "cno-3dnlte" else "1D_NLTE")
+            key = (row["element"].strip(), mt)
+            if row.get("note"):
+                csv_notes[key] = (csv_notes.get(key, "") + " " + row["note"]).strip()
+        for row in csv.DictReader((curation / "threednlte_availability.csv").open()):
+            if row.get("note"):
+                k = (row["element"].strip(), "FULL_3D_NLTE")
+                csv_notes[k] = (csv_notes.get(k, "") + " " + row["note"]).strip()
+    except (OSError, csv.Error):
+        pass
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["kind", "subject", "model_type", "state", "can_run",
+                    "engine", "grid_or_path", "disk_decks",
+                    "source_url", "citation", "md5", "provenance_caveat",
+                    "error", "fix", "owned_by_ticket", "anomalies",
+                    "source_csv_note", "notes"])
+        for c in matrix["cells"]:
+            e = eng.get(c["element"], {})
+            if c["model_type"] == "1D_LTE":
+                engine, can = "Engine-B (synthesis)", "yes"
+            elif c["model_type"] == "1D_NLTE":
+                engine = f'Engine-A: {e.get("engine_a_mode","?")} | ' \
+                         f'Engine-B: {e.get("engine_b_mode","?")}'
+                can = "yes" if c["state"] in ("HAVE", "CODE_USES") else "no"
+            else:
+                engine = e.get("engine_c_mode", "none")
+                can = "yes" if c["state"] in ("HAVE", "CODE_USES") else "no"
+            owner = next((f[10:] for f in c["facts"] if f.startswith("OWNED BY:")), "")
+            gp = (c["code_grid"] or c["csv_claim"] or "")
+            src = REPO_SOURCES.get(gp, {})
+            # Only cite a source when the cell actually HOLDS something. A NONE cell
+            # naming a URL is the same self-contradiction as the solar3d_metals leak.
+            if not src and not c["disk_paths"] and not c["code_grid"]:
+                src = {}
+            elif not src:
+                # An element can hold decks from BOTH families (e.g. Al and O carry an
+                # Amarsi GALAH .grd AND a Gerber TS deck). Cite every source we hold,
+                # not just the first -- the point of the column is reference.
+                base = c["element"].split()[0]
+                fams = sorted({("gerber_ts" if "gerber" in p else "amarsi_galah")
+                               for p in c["disk_paths"]})
+                parts = [prov.get(base, {}).get(f, {}) for f in fams]
+                parts = [x for x in parts if x]
+                src = {
+                    "source_url": " | ".join(f"[{f}] {x.get('source_url','')}"
+                                             for f, x in zip(fams, parts)
+                                             if x.get("source_url")),
+                    "citation": " | ".join(dict.fromkeys(
+                        x.get("citation") or "Amarsi et al. 2020, A&A 642, A62 "
+                        "(GALAH DR3 departure grids)" for x in parts)),
+                    "md5": " | ".join(x.get("md5", "") for x in parts if x.get("md5")),
+                    "caveat": " | ".join(dict.fromkeys(
+                        x.get("caveat", "") for x in parts if x.get("caveat"))),
+                } if parts else {}
+            w.writerow([
+                "element", c["element"], c["model_type"], c["state"], can, engine,
+                gp, "; ".join(Path(p).name for p in c["disk_paths"]),
+                src.get("source_url", ""), src.get("citation", ""),
+                src.get("md5", ""), src.get("caveat", ""),
+                c.get("error", ""), c.get("fix", ""), owner,
+                ANOMALIES.get((c["element"], c["model_type"]), ""),
+                csv_notes.get((c["element"], c["model_type"]), ""),
+                " ".join(f for f in c["facts"] if not f.startswith("OWNED BY:")),
+            ])
+        for m in molecules:
+            w.writerow(["molecule", m["molecule"], "LTE_linelist",
+                        "HAVE" if m["lte_linelist"] else "NONE",
+                        "yes" if m["lte_linelist"] else "no",
+                        "Engine-B (synthesis)", m["lte_linelist"] or "", "",
+                        "iSpec input/linelists/turbospectrum/molecules (RYA-360)"
+                        if m["lte_linelist"] else "", "", "", "",
+                        "", "acquire the linelist" if not m["lte_linelist"] else "",
+                        m.get("ticket", ""),
+                        "" if m["lte_linelist"] else
+                        "NOT CARRIED -- cool-star/M-dwarf molecule. An inventory of only "
+                        "what you have cannot show a gap.", "", ""])
+            w.writerow(["molecule", m["molecule"], "NLTE_deck",
+                        "HAVE" if m["nlte_deck"] else "NONE",
+                        "yes" if m["nlte_deck"] else "no",
+                        "Engine-B (TS-native)", "", m["nlte_deck"] or "",
+                        "MPG Keeper (Seafile)" if m["nlte_deck"] else "",
+                        "Gerber, Bergemann et al. 2023, A&A 669, A43"
+                        if m["nlte_deck"] else "", "",
+                        "NO DOI, mutable Seafile -> md5-pinned"
+                        if m["nlte_deck"] else "",
+                        "", "", m.get("ticket", ""),
+                        "Only ONE molecular NLTE deck exists in our holdings (CO). "
+                        "Every other molecule is LTE-only." if not m["nlte_deck"] else "",
+                        "", ""])
+        # Cross-cutting audit findings: they belong to no element, so they get their own
+        # rows. Without these the CSV is an inventory; with them it is the audit.
+        for kind, title, detail in AUDIT_ANOMALIES:
+            w.writerow(["anomaly", kind, "", "FINDING", "", "", "", "", "", "", "", "",
+                        "", "", "", title, "", detail])
+    return out
