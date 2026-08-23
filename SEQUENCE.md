@@ -18,6 +18,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 ## 2026-08-23
 
 - **RYA-992** (follow-up) — stage-4 synth GoF cut made **PER ARM** via a measured `ARM_SCALE` registry; `instrument` now required. 🔴 **RYA-995's premise is BACKWARDS — the HARPS bar goes UP (1.0 → 1.357), not down.** Unblocks RYA-968 stage 4
+- **RYA-1001** — Al Phase-0 census: Burheim 2023 grades **8** of our Al lines (RYA-835 merged the paper's cm^-1 and A columns); `1995JPhB..` is Opacity-Project **theory**, not lab; 6696.185's NIST C+ is off a 0.88 eV-different transition ⇒ VIS graded pool is **zero**. Unblocks Phase 1 on 13123/13150 via CRIRES+.
 
 ## 2026-08-22
 
