@@ -146,21 +146,25 @@ import numpy as np
 #: It is not a project-wide constant; every other arm derives its own from `ARM_SCALE`.
 SYNTH_GOF_REF_CUT = 1.0
 
-#: The arm the reference cut was measured on. Its scale is 1.0 BY DEFINITION, not by
-#: measurement — everything else is measured against it.
-SYNTH_GOF_REF_ARM = "kpno_solar_atlas"
-
 
 @dataclass(frozen=True)
 class ArmScale:
     """How much fractional chi2 rise one arm hands you per unit of abundance constraint.
 
-    `scale` multiplies `SYNTH_GOF_REF_CUT`. It is k(arm)/k(reference arm) with
+    `scale` multiplies `SYNTH_GOF_REF_CUT`. It is k(arm)/k(`relative_to`) with
     k = frac_rise_weaker * sigma_A**2, measured on lines COMMON to both arms — see the
     module docstring, and `scripts/rya992_arm_scale.py` for the derivation.
+
+    🔴 `relative_to` IS PART OF THE MEASUREMENT, WHICH IS WHY IT LIVES ON THE ROW AND NOT
+    IN A MODULE CONSTANT. A ratio without its denominator is not a number, so every row
+    names the arm it was measured against; the reference arm is then DERIVED from the
+    registry (`reference_arm()`) rather than declared once and inherited. That also keeps
+    RYA-913/922 satisfied — no module-level instrument constant exists here, and
+    `synth_gof_cut` takes its arm from the caller.
     """
     instrument: str
     scale: float
+    relative_to: str
     measured_on: str
     note: str
 
@@ -172,14 +176,16 @@ class ArmScale:
 #: arm to the Kitt Peak scale is exactly the transfer this ticket exists to stop, and it
 #: would do it SILENTLY (RYA-833: an absence is a hypothesis, never a conclusion).
 ARM_SCALE: dict[str, ArmScale] = {
-    SYNTH_GOF_REF_ARM: ArmScale(
-        instrument=SYNTH_GOF_REF_ARM, scale=1.0, measured_on="RYA-992 (reference arm)",
-        note=("The arm the RYA-992 fixture was measured on. Scale 1.0 by definition: it is "
-              "the thing other arms are measured against, so measuring it against itself "
-              "would only report the noise in its own k."),
+    "kpno_solar_atlas": ArmScale(
+        instrument="kpno_solar_atlas", scale=1.0, relative_to="kpno_solar_atlas",
+        measured_on="RYA-992 — the arm the reference fixture was measured on",
+        note=("Scale 1.0 BY DEFINITION, not by measurement: this is the arm the others "
+              "are measured against, so measuring it against itself would report only "
+              "the noise in its own k. `relative_to` naming itself is what marks it as "
+              "the reference — see `reference_arm()`."),
     ),
     "harps": ArmScale(
-        instrument="harps", scale=1.357,
+        instrument="harps", scale=1.357, relative_to="kpno_solar_atlas",
         measured_on=("RYA-986 VIS pools, 1483 Fe I lines common to "
                      "FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_1D-LTE_lines.csv and "
                      "FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW"
@@ -192,6 +198,22 @@ ARM_SCALE: dict[str, ArmScale] = {
               "at a given frac_rise a HARPS line is never better than a Kitt Peak one."),
     ),
 }
+
+
+def reference_arm() -> str:
+    """The arm every scale is quoted against — DERIVED from the registry, never declared.
+
+    The reference is the row that is its own denominator. Deriving it means the registry
+    cannot disagree with a constant about which arm is the reference, and it means adding
+    a second reference is a loud error rather than a silent re-anchoring of every cut.
+    """
+    refs = sorted(k for k, v in ARM_SCALE.items() if v.relative_to == k)
+    if len(refs) != 1:
+        raise ValueError(
+            f"the stage-4 arm registry must have exactly ONE reference arm (a row whose "
+            f"`relative_to` is itself); found {refs}. Every other scale is a ratio "
+            f"against it, so two references — or none — makes every cut ambiguous.")
+    return refs[0]
 
 
 def synth_gof_cut(instrument: str) -> float:
@@ -208,7 +230,7 @@ def synth_gof_cut(instrument: str) -> float:
             f"(k = frac_rise * sigma_A**2 = B**2/dof) that differs between instruments, "
             f"so the Kitt Peak cut of {SYNTH_GOF_REF_CUT} does not transfer. Measure the "
             f"scale with scripts/rya992_arm_scale.py against a pool of lines this arm "
-            f"shares with {SYNTH_GOF_REF_ARM!r}, and add a row to ARM_SCALE.")
+            f"shares with {reference_arm()!r}, and add a row to ARM_SCALE.")
     return SYNTH_GOF_REF_CUT * ARM_SCALE[key].scale
 
 

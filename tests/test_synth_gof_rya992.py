@@ -7,24 +7,25 @@ measurement — and the per-arm scales are asserted as RELATIONSHIPS, never as 1
 """
 from __future__ import annotations
 
+import dataclasses
 import inspect
 import math
 
 import numpy as np
 import pytest
 
-from pipeline.synth_gof import (ARM_SCALE, SYNTH_GOF_REF_ARM, SYNTH_GOF_REF_CUT,
-                                measure_arm_scale, synth_gof_cut, synth_gof_ok,
+from pipeline.synth_gof import (ARM_SCALE, SYNTH_GOF_REF_CUT, measure_arm_scale,
+                                reference_arm, synth_gof_cut, synth_gof_ok,
                                 synth_gof_reason)
 
-KP = SYNTH_GOF_REF_ARM
+KP = reference_arm()
 
 
 def test_the_reference_threshold_is_the_point_where_chi2_doubles():
     """🔴 DERIVED, NOT A QUOTA. `frac_rise_weaker` is a FRACTIONAL rise, so 1.0 is the
     objective merely doubling. A percentile cut would move with the sample; this does not."""
     assert SYNTH_GOF_REF_CUT == 1.0
-    assert synth_gof_cut(SYNTH_GOF_REF_ARM) == SYNTH_GOF_REF_CUT
+    assert synth_gof_cut(reference_arm()) == SYNTH_GOF_REF_CUT
 
 
 def test_a_fit_that_barely_resists_a_change_in_A_is_refused():
@@ -97,7 +98,7 @@ def test_harps_bar_went_UP_not_down():
     lower. The RYA-986 two-arm pool says the opposite: at a given frac_rise a HARPS line
     is never better than a Kitt Peak line, so its bar rises. Pinning the DIRECTION guards
     the finding; the magnitude is free to be re-measured."""
-    assert synth_gof_cut("harps") > synth_gof_cut(SYNTH_GOF_REF_ARM)
+    assert synth_gof_cut("harps") > synth_gof_cut(reference_arm())
 
 
 def test_an_unmeasured_arm_raises_instead_of_defaulting():
@@ -111,7 +112,36 @@ def test_an_unmeasured_arm_raises_instead_of_defaulting():
 
 
 def test_the_reference_arm_is_unity_by_definition():
-    assert ARM_SCALE[SYNTH_GOF_REF_ARM].scale == 1.0
+    assert ARM_SCALE[reference_arm()].scale == 1.0
+
+
+def test_the_reference_arm_is_DERIVED_from_the_registry_not_declared():
+    """🔒 RYA-913/922 — no module-level instrument constant lives here. The reference is
+    the row that is its own denominator, so the registry cannot disagree with a constant
+    about which arm anchors every cut."""
+    import pipeline.synth_gof as m
+    assert not [k for k, v in vars(m).items()
+                if isinstance(v, str) and v in ARM_SCALE], (
+        "an instrument id is pinned as a module-level constant — take it from the caller")
+    assert ARM_SCALE[reference_arm()].relative_to == reference_arm()
+
+
+def test_a_second_reference_arm_is_a_loud_error():
+    """Two rows claiming to be the denominator would silently re-anchor every cut."""
+    import pipeline.synth_gof as m
+    saved = dict(m.ARM_SCALE)
+    try:
+        m.ARM_SCALE["harps"] = dataclasses.replace(saved["harps"], relative_to="harps")
+        with pytest.raises(ValueError, match="exactly ONE reference"):
+            reference_arm()
+    finally:
+        m.ARM_SCALE.clear(); m.ARM_SCALE.update(saved)
+
+
+def test_every_scale_names_the_arm_it_is_a_ratio_AGAINST():
+    """A ratio without its denominator is not a number (RYA-873: prose from provenance)."""
+    for name, row in ARM_SCALE.items():
+        assert row.relative_to in ARM_SCALE, (name, row.relative_to)
 
 
 def test_every_registry_row_says_what_it_was_measured_on():
