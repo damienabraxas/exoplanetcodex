@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-23
+
+- **RYA-1001** — Al Phase-0 census: Burheim 2023 grades **8** of our Al lines (RYA-835 merged the paper's cm^-1 and A columns); `1995JPhB..` is Opacity-Project **theory**, not lab; 6696.185's NIST C+ is off a 0.88 eV-different transition ⇒ VIS graded pool is **zero**. Unblocks Phase 1 on 13123/13150 via CRIRES+.
+
 ## 2026-08-22
 
 - **RYA-988** — cited RT **vmac** for tau Ceti (0.9, Bruntt+2010 B1) + eps Eri (1.8, Saar & Osten 1997 T3). 🔴 **eps Eri absent from Bruntt; VF05 publish NO vmac; Doyle+2014 out of range on BOTH axes.** 🔴 **Bruntt B1's 'Saar' columns are TRANSPOSED (4/4).** Adopted as PAIRS — vsini moves too
