@@ -281,13 +281,32 @@ def test_provenance_does_not_pin_the_working_tree():
     so the next --check reported DIFFERS on a byte-identical file. The provenance must
     move only when the INPUTS move."""
     gen = pytest.importorskip("scripts.generate_engine_coverage_rya776")
+    root = Path(__file__).resolve().parents[1]
     assert not hasattr(gen, "_git_head")
-    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
-                          cwd=Path(__file__).resolve().parents[1],
-                          capture_output=True, text=True).stdout.strip()
     stamp = gen._inputs_commit()
     assert stamp and stamp not in ("unknown", "none")
-    assert stamp != head, "provenance still tracks the checkout, not the extracts"
+
+    # PIN THE INVARIANT, NOT A COINCIDENCE (RYA-1015).
+    # This used to assert `stamp != HEAD`. That is only a PROXY for "tracks the extracts,
+    # not the checkout", and the proxy is wrong whenever the newest commit LEGITIMATELY
+    # edits an input -- then the two commits coincide and a correct stamp looks broken.
+    # It fired on the RYA-597 Ti drift fix, which edits nlte_grid_availability.csv, an
+    # _INPUT_PATHS member. Assert the actual contract instead: the stamp IS the commit
+    # that last touched the inputs.
+    expected = subprocess.run(
+        ["git", "log", "-1", "--format=%h", "--", *gen._INPUT_PATHS],
+        cwd=root, capture_output=True, text=True).stdout.strip()
+    assert stamp == expected, (
+        "provenance must be the last commit that touched the INPUTS "
+        f"({expected}), not {stamp}")
+
+    # The `stamp != HEAD` half is DELETED, not weakened. It was only ever a proxy for
+    # "not derived from the working tree", and it is unsalvageable in CI: GitHub checks
+    # out a PR MERGE REF, so `git diff-tree` on that merge lists no files while
+    # `git log -- <paths>` still resolves to it -- the guard reports "HEAD touches no
+    # input" and then fails on a stamp that is correct. The real invariant is fully
+    # covered above: the stamp EQUALS the inputs' last commit, and `_git_head` does not
+    # exist so it cannot be a function of the checkout.
 
 
 def test_ion_normalisation_joins_the_two_conventions():
