@@ -356,6 +356,7 @@ class Cell:
     facts: list[str] = field(default_factory=list)
     error: str = ""      # what is actually wrong (BROKEN cells)
     fix: str = ""        # the concrete next action (BROKEN / NEEDS_WIRING cells)
+    routes: dict = field(default_factory=dict)   # route -> status (tier-2 cells)
 
     @property
     def is_problem(self) -> bool:
@@ -372,6 +373,7 @@ class Cell:
             "facts": self.facts,
             "error": self.error,
             "fix": self.fix,
+            "routes": self.routes,
             "problem": self.is_problem,
         }
 
@@ -627,6 +629,23 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
         # HAVE on solar3d_metals (a SOLAR-ONLY number) hid its full parameter-space <3D>
         # deck sitting unwired. A HAVE that masks a NEEDS_WIRING is the worst kind of
         # wrong -- it looks finished.
+        # RYA-1013 names TWO independent routes to the same tier-2 number. An element
+        # can sit at different readiness on each, and collapsing them to one state hides
+        # exactly the case worth having: BOTH available => a cross-check, because the
+        # routes share no machinery. Al is the first element in that position.
+        cell.routes = {
+            "consume": ("WIRED" if base in _MEAN3D_WIRED else
+                        "READY" if base in _MEAN3D_DECKS else "no deck"),
+            "build_our_own": ("OWED — atom + <3D> atmosphere held"
+                              if base in _MODEL_ATOMS else "blocked — no model atom"),
+        }
+        if base in _MEAN3D_WIRED and base in _MODEL_ATOMS:
+            cell.routes["cross_check"] = (
+                "BOTH routes available — consume is wired and build-our-own is "
+                "reachable, and they share no machinery. Running both gives an "
+                "independent check of the same number (the RYA-1013 triangle logic, "
+                "applied to this element).")
+
         if base in _MEAN3D_WIRED:
             cell.state = T2_CONSUME_WIRED
             cell.code_grid = _MEAN3D_WIRED[base]
@@ -1027,6 +1046,7 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
         w.writerow(["kind", "subject", "model_type", "state", "can_run",
                     "engine", "grid_or_path", "disk_decks",
                     "source_url", "citation", "md5", "provenance_caveat",
+                    "route_consume", "route_build_our_own", "cross_check",
                     "error", "fix", "owned_by_ticket", "anomalies",
                     "source_csv_note", "notes"])
         for c in matrix["cells"]:
@@ -1072,6 +1092,9 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                 gp, "; ".join(Path(p).name for p in c["disk_paths"]),
                 src.get("source_url", ""), src.get("citation", ""),
                 src.get("md5", ""), src.get("caveat", ""),
+                (c.get("routes") or {}).get("consume", ""),
+                (c.get("routes") or {}).get("build_our_own", ""),
+                (c.get("routes") or {}).get("cross_check", ""),
                 c.get("error", ""), c.get("fix", ""), owner,
                 ANOMALIES.get((c["element"], c["model_type"]), ""),
                 csv_notes.get((c["element"], c["model_type"]), ""),
@@ -1083,7 +1106,7 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                         "yes" if m["lte_linelist"] else "no",
                         "Engine-B (synthesis)", m["lte_linelist"] or "", "",
                         "iSpec input/linelists/turbospectrum/molecules (RYA-360)"
-                        if m["lte_linelist"] else "", "", "", "",
+                        if m["lte_linelist"] else "", "", "", "", "", "",
                         "", "acquire the linelist" if not m["lte_linelist"] else "",
                         m.get("ticket", ""),
                         "" if m["lte_linelist"] else
@@ -1097,7 +1120,7 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                         "Gerber, Bergemann et al. 2023, A&A 669, A43"
                         if m["nlte_deck"] else "", "",
                         "NO DOI, mutable Seafile -> md5-pinned"
-                        if m["nlte_deck"] else "",
+                        if m["nlte_deck"] else "", "", "", "",
                         "", "", m.get("ticket", ""),
                         "Only ONE molecular NLTE deck exists in our holdings (CO). "
                         "Every other molecule is LTE-only." if not m["nlte_deck"] else "",
@@ -1106,5 +1129,5 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
         # rows. Without these the CSV is an inventory; with them it is the audit.
         for kind, title, detail in AUDIT_ANOMALIES:
             w.writerow(["anomaly", kind, "", "FINDING", "", "", "", "", "", "", "", "",
-                        "", "", "", title, "", detail])
+                        "", "", "", "", "", title, "", detail])
     return out

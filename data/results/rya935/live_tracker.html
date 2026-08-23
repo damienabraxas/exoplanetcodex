@@ -72,6 +72,8 @@ h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
 .cerr{color:#ffb3bd;font-size:10.5px;margin-top:.3rem;line-height:1.35}
 .cfix{color:#9fe6b8;font-size:10.5px;margin-top:.25rem;line-height:1.35}
 .ctik{color:#7fd1ff;font-size:10px;margin-top:.25rem;line-height:1.3}
+.rts{font-size:10.5px;color:#a8b6d0;margin-top:.35rem;border-top:1px solid #223;padding-top:.25rem;line-height:1.45}
+.xchk{color:#ffd479;margin-top:.25rem;font-weight:600}
 </style></head><body><main>
 <h1>Codex calibration tracker &mdash; <span id="sys" class="muted"></span></h1>
 <p class="muted">Element &times; holding &times; band &times; engine. Every value is derived by
@@ -379,6 +381,14 @@ async function draw(){
        const det=[claim,names].filter(Boolean).join('<br>');
        const own=(c.facts||[]).find(f=>f.startsWith('OWNED BY:'));
        let extra='';
+       if(c.routes&&Object.keys(c.routes).length){
+         const R=c.routes;
+         extra+='<div class="rts"><b>routes</b>'
+           +'<div>consume: <b class="'+(String(R.consume||'').indexOf('WIRED')>=0?'good':String(R.consume||'').indexOf('READY')>=0?'bad':'muted')+'">'+esc(R.consume||'-')+'</b></div>'
+           +'<div>build-our-own: <b class="'+(String(R.build_our_own||'').indexOf('OWED')>=0?'warn':'muted')+'">'+esc(R.build_our_own||'-')+'</b></div>'
+           +(R.cross_check?'<div class="xchk">\u2691 '+esc(R.cross_check)+'</div>':'')
+           +'</div>';
+       }
        if(c.error) extra+='<div class="cerr"><b>ERROR:</b> '+esc(c.error)+'</div>';
        if(c.fix)   extra+='<div class="cfix"><b>FIX:</b> '+esc(c.fix)+'</div>';
        if(own)     extra+='<div class="ctik">'+esc(own)+'</div>';
