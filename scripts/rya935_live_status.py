@@ -108,12 +108,18 @@ def collect_products(roots: list[Path], instruments: set[str],
                     "sigma_stat": None if pd.isna(r.get("stat_dex")) else float(r["stat_dex"]),
                     "sigma_syst": None if pd.isna(r.get("syst_dex")) else float(r["syst_dex"]),
                     "n_lines": None if pd.isna(r.get("n_lines")) else int(r["n_lines"]),
-                    # RYA-990: the cell contract asks for the TIER, and the product
-                    # already names it -- `gf` carries the rung ("gf scale (cited lab)"
-                    # for a graded pool). It was being read past, so the page had no way
-                    # to show graded from ungraded, which is the RYA-946 firewall the
-                    # tracker is supposed to keep visible.
-                    "gf_rung": None if pd.isna(r.get("gf")) else str(r["gf"]),
+                    # The RYA-906 physics axis: which gf SOURCE the linelist used
+                    # ("kurucz"), not a grading tier.
+                    #
+                    # 🔴 RYA-990: the band-product schema carries NO TIER COLUMN, so the
+                    # graded / consistent / no-bueno tier the cell contract asks for
+                    # CANNOT be derived from a product. The only tier signals on disk are
+                    # indirect -- the `selector` (DEEPGRADED = the lab-graded deep set)
+                    # and `dominant` reading "gf scale (cited lab)". Both are emitted, and
+                    # neither is relabelled as a tier: a dashboard that infers a tier is a
+                    # dashboard that types one. Giving products a real tier field is the
+                    # fix, and it belongs in the product writer, not here.
+                    "gf_source": None if pd.isna(r.get("gf")) else str(r["gf"]),
                     "dominant_term": (None if pd.isna(r.get("dominant"))
                                       else str(r["dominant"])),
                     # Carried because the two deep-graded arms disagree on it (RYA-991
@@ -262,7 +268,11 @@ def main() -> None:
         "refresh_seconds": args.refresh_seconds,
         "derivation_note": ("Every value here is read from a product or a registry. "
                             "Nothing is typed. The ticket pipeline is deliberately "
-                            "absent: it is Linear state, and a committed copy drifts."),
+                            "absent: it is Linear state, and a committed copy drifts. "
+                            "RYA-990: no product carries a graded/consistent/no-bueno "
+                            "TIER field, so no tier is shown -- `selector` and "
+                            "`dominant_term` are the only tier signals on disk and are "
+                            "reported as themselves rather than inferred into a tier."),
         "elements": sorted({p["element"] + p["ion"] for p in products}),
         "bands": ["near-UV", "VIS", "red-optical", "NIR"],
         "instruments": collect_instruments(),

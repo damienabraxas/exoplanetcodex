@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T00:17:36+00:00",
+  "generated": "2026-08-23T00:39:25+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -110,6 +110,9 @@
       "sigma_stat": 0.0463,
       "sigma_syst": 0.041,
       "n_lines": 109,
+      "gf_rung": "kurucz",
+      "dominant_term": "line-to-line scatter",
+      "n_excluded": 0,
       "source": "data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv"
     },
     {
@@ -129,6 +132,9 @@
       "sigma_stat": 0.0199,
       "sigma_syst": 0.0402,
       "n_lines": 108,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (cited lab)",
+      "n_excluded": 1,
       "source": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_products.csv"
     },
     {
@@ -148,6 +154,9 @@
       "sigma_stat": 0.0245,
       "sigma_syst": 0.0621,
       "n_lines": 55,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (cited lab)",
+      "n_excluded": 0,
       "source": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_products.csv"
     },
     {
@@ -167,6 +176,9 @@
       "sigma_stat": 0.1391,
       "sigma_syst": 0.1726,
       "n_lines": 31,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 3,
       "source": "data/results/rya847/gated/FeI_10000_12935_kpno_solar_atlas_SYNTH_products.csv"
     },
     {
@@ -186,6 +198,9 @@
       "sigma_stat": 0.0669,
       "sigma_syst": 0.1972,
       "n_lines": 39,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 1,
       "source": "data/results/rya847/gated/FeI_3000_3780_kpno_solar_atlas_SYNTH_products.csv"
     },
     {
@@ -205,6 +220,9 @@
       "sigma_stat": 0.0261,
       "sigma_syst": 0.1705,
       "n_lines": 148,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 11,
       "source": "data/results/rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -224,6 +242,9 @@
       "sigma_stat": 0.0279,
       "sigma_syst": 0.1705,
       "n_lines": 105,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 43,
       "source": "data/results/rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -243,6 +264,9 @@
       "sigma_stat": 0.0205,
       "sigma_syst": 0.17,
       "n_lines": 131,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 28,
       "source": "data/results/rya847/gated/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -262,6 +286,9 @@
       "sigma_stat": 0.0261,
       "sigma_syst": 0.1705,
       "n_lines": 148,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 11,
       "source": "data/results/rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -281,6 +308,9 @@
       "sigma_stat": 0.0279,
       "sigma_syst": 0.1705,
       "n_lines": 105,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 43,
       "source": "data/results/rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -300,6 +330,9 @@
       "sigma_stat": 0.0193,
       "sigma_syst": 0.17,
       "n_lines": 129,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 30,
       "source": "data/results/rya847/gated/ts-lte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -319,6 +352,9 @@
       "sigma_stat": 0.0624,
       "sigma_syst": 0.1705,
       "n_lines": 10,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 1,
       "source": "data/results/rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -338,6 +374,9 @@
       "sigma_stat": 0.0845,
       "sigma_syst": 0.1705,
       "n_lines": 3,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 7,
       "source": "data/results/rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -357,6 +396,9 @@
       "sigma_stat": 0.0129,
       "sigma_syst": 0.17,
       "n_lines": 9,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 2,
       "source": "data/results/rya877/control/after/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -376,6 +418,9 @@
       "sigma_stat": 0.0564,
       "sigma_syst": 0.1705,
       "n_lines": 11,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 0,
       "source": "data/results/rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -395,6 +440,9 @@
       "sigma_stat": 0.0845,
       "sigma_syst": 0.1705,
       "n_lines": 3,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 8,
       "source": "data/results/rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -414,6 +462,9 @@
       "sigma_stat": 0.0119,
       "sigma_syst": 0.17,
       "n_lines": 10,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 1,
       "source": "data/results/rya877/control/before/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -433,6 +484,9 @@
       "sigma_stat": 0.0624,
       "sigma_syst": 0.1705,
       "n_lines": 10,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 1,
       "source": "data/results/rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -452,6 +506,9 @@
       "sigma_stat": 0.0845,
       "sigma_syst": 0.1705,
       "n_lines": 3,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 7,
       "source": "data/results/rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -471,6 +528,9 @@
       "sigma_stat": 0.0129,
       "sigma_syst": 0.17,
       "n_lines": 9,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 2,
       "source": "data/results/rya880/FeII_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -490,6 +550,9 @@
       "sigma_stat": 0.0261,
       "sigma_syst": 0.1705,
       "n_lines": 148,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 11,
       "source": "data/results/rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -509,6 +572,9 @@
       "sigma_stat": 0.0279,
       "sigma_syst": 0.1705,
       "n_lines": 105,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 43,
       "source": "data/results/rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -528,6 +594,9 @@
       "sigma_stat": 0.0193,
       "sigma_syst": 0.17,
       "n_lines": 129,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 30,
       "source": "data/results/rya880/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -547,6 +616,9 @@
       "sigma_stat": 0.0223,
       "sigma_syst": 0.1726,
       "n_lines": 8,
+      "gf_rung": null,
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 0,
       "source": "data/results/rya904/FeI_10280_10680_crires_plus_SYNTH_products.csv"
     },
     {
@@ -566,6 +638,9 @@
       "sigma_stat": 0.01,
       "sigma_syst": 0.1972,
       "n_lines": 1,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 2,
       "source": "data/results/rya925/AlI_3000_3800_kpno_solar_atlas_SYNTH_products.csv"
     },
     {
@@ -585,6 +660,9 @@
       "sigma_stat": 0.0517,
       "sigma_syst": 0.1731,
       "n_lines": 6,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 0,
       "source": "data/results/rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -604,6 +682,9 @@
       "sigma_stat": 0.0374,
       "sigma_syst": 0.1731,
       "n_lines": 4,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 2,
       "source": "data/results/rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -623,6 +704,9 @@
       "sigma_stat": 0.0285,
       "sigma_syst": 0.1726,
       "n_lines": 6,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 0,
       "source": "data/results/rya925/red_optical/AlI_6910_9199_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -642,6 +726,9 @@
       "sigma_stat": 0.1192,
       "sigma_syst": 0.1705,
       "n_lines": 4,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 0,
       "source": "data/results/rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -661,6 +748,9 @@
       "sigma_stat": 0.0124,
       "sigma_syst": 0.1705,
       "n_lines": 2,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 2,
       "source": "data/results/rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     },
     {
@@ -680,6 +770,9 @@
       "sigma_stat": 0.0202,
       "sigma_syst": 0.17,
       "n_lines": 4,
+      "gf_rung": "kurucz",
+      "dominant_term": "gf scale (UNGRADED)",
+      "n_excluded": 0,
       "source": "data/results/rya925/vis/AlI_3800_6910_kpno_solar_atlas_PROFILEFIT_products.csv"
     }
   ],
