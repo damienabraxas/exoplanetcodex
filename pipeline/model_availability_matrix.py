@@ -220,6 +220,42 @@ class DiskSnapshotError(RuntimeError):
     """The Sirius snapshot is missing, or its find -L control did not pass."""
 
 
+#: Sources for the REPO-SIDE holdings (the Sirius prov.json files cover only the
+#: departure decks). Cited so the matrix is usable as a reference, not just a checklist.
+REPO_SOURCES: dict[str, dict] = {
+    "vendor/1L-3NErrors/": {
+        "citation": "Amarsi, Liljegren & Nissen 2022, A&A 668, A68 (3D-NLTE Fe MLP)",
+        "source_url": "https://github.com/AlexanderLiljegren/1L-3NErrors (vendored)",
+        "caveat": "Training domain from Jofre et al. 2014, A&A 564, A133 Tables 4/5 "
+                  "('golden' Fe I/II lines). A(Fe) axis ceiling 7.5 -- see the BROKEN "
+                  "root cause.",
+    },
+    "data/nlte_grids/amarsi2019_cno/": {
+        "citation": "Amarsi, Nissen & Skuladottir 2019, A&A 630, A104",
+        "source_url": "CDS VizieR J/A+A/630/A104",
+        "caveat": "3D leg below Teff 6500 K, 1D-NLTE leg above (RYA-359/237).",
+    },
+    "data/threed_grids/solar3d_metals_rya399.csv": {
+        "citation": "Amarsi & Asplund 2017 (MNRAS 464, 264) for Si; "
+                    "Scott et al. 2015 Paper II (A&A 573, A26) for Ti/Cr",
+        "source_url": "published tables, transcribed (RYA-399)",
+        "caveat": "SOLAR increment only -- no off-solar parameter axis.",
+    },
+}
+
+
+def load_grid_provenance() -> dict:
+    """Where each Sirius deck came from: URL, citation, md5, caveat (RYA-1015 capture)."""
+    import json
+    f = ROOT / "data" / "audit" / "rya1015" / "grid_provenance.json"
+    if not f.exists():
+        return {}
+    try:
+        return json.loads(f.read_text())
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
 def load_disk_snapshot(path: Path) -> dict[tuple[str, str], list[str]]:
     """Parse the committed Sirius `find -L` snapshot into {(element, model_type): paths}.
 
@@ -784,12 +820,14 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
     spreadsheet without unpacking anything.
     """
     eng = {r["element"]: r for r in engine_rows}
+    prov = load_grid_provenance()
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["kind", "subject", "model_type", "state", "can_run",
-                    "engine", "grid_or_path", "disk_decks", "error", "fix",
-                    "owned_by_ticket", "notes"])
+                    "engine", "grid_or_path", "disk_decks",
+                    "source_url", "citation", "md5", "provenance_caveat",
+                    "error", "fix", "owned_by_ticket", "notes"])
         for c in matrix["cells"]:
             e = eng.get(c["element"], {})
             if c["model_type"] == "1D_LTE":
@@ -802,10 +840,37 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                 engine = e.get("engine_c_mode", "none")
                 can = "yes" if c["state"] in ("HAVE", "CODE_USES") else "no"
             owner = next((f[10:] for f in c["facts"] if f.startswith("OWNED BY:")), "")
+            gp = (c["code_grid"] or c["csv_claim"] or "")
+            src = REPO_SOURCES.get(gp, {})
+            # Only cite a source when the cell actually HOLDS something. A NONE cell
+            # naming a URL is the same self-contradiction as the solar3d_metals leak.
+            if not src and not c["disk_paths"] and not c["code_grid"]:
+                src = {}
+            elif not src:
+                # An element can hold decks from BOTH families (e.g. Al and O carry an
+                # Amarsi GALAH .grd AND a Gerber TS deck). Cite every source we hold,
+                # not just the first -- the point of the column is reference.
+                base = c["element"].split()[0]
+                fams = sorted({("gerber_ts" if "gerber" in p else "amarsi_galah")
+                               for p in c["disk_paths"]})
+                parts = [prov.get(base, {}).get(f, {}) for f in fams]
+                parts = [x for x in parts if x]
+                src = {
+                    "source_url": " | ".join(f"[{f}] {x.get('source_url','')}"
+                                             for f, x in zip(fams, parts)
+                                             if x.get("source_url")),
+                    "citation": " | ".join(dict.fromkeys(
+                        x.get("citation") or "Amarsi et al. 2020, A&A 642, A62 "
+                        "(GALAH DR3 departure grids)" for x in parts)),
+                    "md5": " | ".join(x.get("md5", "") for x in parts if x.get("md5")),
+                    "caveat": " | ".join(dict.fromkeys(
+                        x.get("caveat", "") for x in parts if x.get("caveat"))),
+                } if parts else {}
             w.writerow([
                 "element", c["element"], c["model_type"], c["state"], can, engine,
-                c["code_grid"] or c["csv_claim"] or "",
-                "; ".join(Path(p).name for p in c["disk_paths"]),
+                gp, "; ".join(Path(p).name for p in c["disk_paths"]),
+                src.get("source_url", ""), src.get("citation", ""),
+                src.get("md5", ""), src.get("caveat", ""),
                 c.get("error", ""), c.get("fix", ""), owner,
                 " ".join(f for f in c["facts"] if not f.startswith("OWNED BY:")),
             ])
@@ -813,12 +878,19 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
             w.writerow(["molecule", m["molecule"], "LTE_linelist",
                         "HAVE" if m["lte_linelist"] else "NONE",
                         "yes" if m["lte_linelist"] else "no",
-                        "Engine-B (synthesis)", m["lte_linelist"] or "", "", "",
-                        "acquire the linelist" if not m["lte_linelist"] else "",
-                        m.get("ticket",""), ""])
+                        "Engine-B (synthesis)", m["lte_linelist"] or "", "",
+                        "iSpec input/linelists/turbospectrum/molecules (RYA-360)"
+                        if m["lte_linelist"] else "", "", "", "",
+                        "", "acquire the linelist" if not m["lte_linelist"] else "",
+                        m.get("ticket", ""), ""])
             w.writerow(["molecule", m["molecule"], "NLTE_deck",
                         "HAVE" if m["nlte_deck"] else "NONE",
                         "yes" if m["nlte_deck"] else "no",
-                        "Engine-B (TS-native)", "", m["nlte_deck"] or "", "", "",
-                        m.get("ticket",""), ""])
+                        "Engine-B (TS-native)", "", m["nlte_deck"] or "",
+                        "MPG Keeper (Seafile)" if m["nlte_deck"] else "",
+                        "Gerber, Bergemann et al. 2023, A&A 669, A43"
+                        if m["nlte_deck"] else "", "",
+                        "NO DOI, mutable Seafile -> md5-pinned"
+                        if m["nlte_deck"] else "",
+                        "", "", m.get("ticket", ""), ""])
     return out
