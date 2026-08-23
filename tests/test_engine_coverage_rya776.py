@@ -300,17 +300,13 @@ def test_provenance_does_not_pin_the_working_tree():
         "provenance must be the last commit that touched the INPUTS "
         f"({expected}), not {stamp}")
 
-    # And the thing the old assertion was really guarding: the stamp must NOT be a
-    # function of the working tree. A commit that touches no input must not move it.
-    head = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
-                          cwd=root, capture_output=True, text=True).stdout.strip()
-    touched_inputs = subprocess.run(
-        ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"],
-        cwd=root, capture_output=True, text=True).stdout.split()
-    head_touches_input = any(
-        f.startswith(tuple(gen._INPUT_PATHS)) for f in touched_inputs)
-    if not head_touches_input:
-        assert stamp != head, "provenance still tracks the checkout, not the extracts"
+    # The `stamp != HEAD` half is DELETED, not weakened. It was only ever a proxy for
+    # "not derived from the working tree", and it is unsalvageable in CI: GitHub checks
+    # out a PR MERGE REF, so `git diff-tree` on that merge lists no files while
+    # `git log -- <paths>` still resolves to it -- the guard reports "HEAD touches no
+    # input" and then fails on a stamp that is correct. The real invariant is fully
+    # covered above: the stamp EQUALS the inputs' last commit, and `_git_head` does not
+    # exist so it cannot be a function of the checkout.
 
 
 def test_ion_normalisation_joins_the_two_conventions():
