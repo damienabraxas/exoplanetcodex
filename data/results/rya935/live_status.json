@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T22:25:31+00:00",
+  "generated": "2026-08-23T22:30:43+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -1874,13 +1874,13 @@
       {
         "element": "O",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -1930,13 +1930,13 @@
       {
         "element": "Na",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -1987,13 +1987,13 @@
       {
         "element": "Mg",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2044,7 +2044,7 @@
       {
         "element": "Al",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER1_WIRED",
+        "state": "T2_CONSUME_WIRED",
         "csv_claim": null,
         "code_grid": "Al@mean3D",
         "disk_paths": [
@@ -2055,7 +2055,7 @@
           "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
         ],
         "error": "",
-        "fix": "END-TO-END RUN STILL OWED: wiring is verified structurally, not executed. The deck is Sirius-only and large. Promote to TIER1_VALIDATED only after an interpolation actually runs.",
+        "fix": "END-TO-END RUN STILL OWED: wiring is verified structurally, not executed. The deck is Sirius-only and large. Promote to T2_CONSUME_VALIDATED only after an interpolation actually runs.",
         "problem": false
       },
       {
@@ -2105,13 +2105,13 @@
       {
         "element": "Si",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2332,13 +2332,13 @@
       {
         "element": "Ca",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2445,13 +2445,13 @@
       {
         "element": "Ti",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2557,7 +2557,7 @@
       {
         "element": "Cr",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER1_WIREABLE",
+        "state": "T2_CONSUME_READY",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
@@ -2618,13 +2618,13 @@
       {
         "element": "Mn",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2675,13 +2675,13 @@
       {
         "element": "Fe",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2734,13 +2734,13 @@
       {
         "element": "Fe II",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2791,13 +2791,13 @@
       {
         "element": "Co",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -2848,13 +2848,13 @@
       {
         "element": "Ni",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -3017,13 +3017,13 @@
       {
         "element": "Sr",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -3074,7 +3074,7 @@
       {
         "element": "Y",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER1_WIREABLE",
+        "state": "T2_CONSUME_READY",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
@@ -3191,13 +3191,13 @@
       {
         "element": "Ba",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER2_OWED",
+        "state": "T2_BUILD_OWED",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [],
         "facts": [],
         "error": "No <3D> deck. We DO hold the model atom and the <3D> STAGGER atmosphere -- the missing piece is the departure solve.",
-        "fix": "Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. Nothing to fetch and nothing to ask for.",
+        "fix": "Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 work, not a different tier. NOT an acquisition. Nothing to fetch and nothing to ask for.",
         "problem": false
       },
       {
@@ -3248,7 +3248,7 @@
       {
         "element": "Eu",
         "model_type": "MEAN3D_NLTE",
-        "state": "TIER1_WIREABLE",
+        "state": "T2_CONSUME_READY",
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
