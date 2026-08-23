@@ -1,0 +1,128 @@
+# data/results/rya1001/rya1001_open_questions.yaml — RYA-1001
+#
+# The four Phase-0 open questions as TRACKED ITEMS, not paragraphs in a report
+# (Claude PM standing process, RYA-1001 comment 2026-08-23T04:15Z).
+#
+# `state` vocabulary is the tracker state machine's, restricted to what a CENSUS can
+# legitimately reach. A census answers questions; it does not measure an abundance, so
+# nothing here is an abundance cell and nothing here is PENDING-for-approval as a value.
+#   ANSWERED   — closed on evidence recorded below, reproducible from the artifacts.
+#   REFUTED    — the question's premise was false; the premise is what changed.
+#   OPEN       — carried forward with a named successor.
+# Ryan's approval gesture ("APPROVE RYA-1001 cell") does not apply to these; they are
+# findings, and the thing awaiting a human yes is the Phase-1 scope they imply.
+ticket: RYA-1001
+phase: 0 (census)
+generated_by: scripts/rya1001_al_census.py + the report's literature work
+firewall: >-
+  RYA-161. No gf is adopted anywhere below. Every verdict is provenance; that a
+  correction would move A(Al) toward 6.43 is never the argument.
+
+open_questions:
+
+  - id: OQ1
+    question: Does Burheim 2023 (A&A 672 A197) cover Al I 7835/7836/8772/8773?
+    state: ANSWERED
+    verdict: >-
+      NO for those four — the prior FALSE verdict stands, but its evidence was invalid and
+      the same defect hid six other lines. Burheim covers EIGHT Al I lines inside our
+      reach: 6696.015, 6698.673, 11253.189, 11254.924, 12749.909, 12757.275, 13123.416,
+      13150.753 (air).
+    evidence:
+      - arXiv:2309.06273 source 45394corr.tex, Table 3 (tab:loggf_comp) — exactly 12 rows,
+        lambda_vac 6697.864-41920.7 A, reproducing the paper's stated "12 lines, 670-4200 nm".
+      - Positive control — the same matcher returned 8 hits elsewhere at <=0.005 A, so the
+        absence discriminates instead of being a matcher that finds nothing.
+      - data/results/rya1001/rya1001_al_line_census.csv column burheim_log_gf.
+    defect_found: >-
+      scripts/rya835_al_gf_resolution.py BURHEIM_LINES is the UNION of the sigma[cm-1] and
+      lambda_vac[A] columns. "6697.864, 1.679 A from 6696.185" compares a VACUUM wavelength
+      to an AIR one — in air it IS 6696.02, a direct hit read as a miss.
+    also_retired: >-
+      RYA-835's claim that Burheim covers 10875.953/16723.541/16767.948/21098.84/21169.58.
+      Those are Table 2 (branching fractions, no derived log gf) — he does not grade them.
+    successor: needs a home ticket — ingest Burheim as Al's primary lab-gf table.
+
+  - id: OQ2
+    question: gf provenance of 8772/8773 ("1995 J.Phys.B lab") and 7835/7836 (Kurucz-1975).
+    state: REFUTED
+    verdict: >-
+      7835/7836 = K75, Kurucz 1975 semi-empirical — CONFIRMED. 8772/8773 = `1995JPhB..`
+      is NOT a lab value: Mendoza, Eissner, Le Dourneuf & Zeippen 1995, J.Phys.B 28 3485,
+      the Opacity Project ab initio close-coupling calculation. THEORY.
+    evidence:
+      - GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv reference_code column; Al I carries
+        only K75 (76 lines), 1995JPhB.. (5), WSM (3).
+      - Value-identity against Burheim Table 3's independently transcribed TOPbase/M00
+        column — 6696.023 -> -1.569 and 6698.673 -> -1.870, exact on both.
+      - Crossref DOI 10.1088/0953-4075/28/16/006.
+    consequence: >-
+      Closes RYA-838 spec item 1 and dissolves its premise — the 0.179 dex "6x NIST's B+"
+      gap is a graded compilation against an opacity calculation, not lab-vs-lab. Also
+      retires RYA-716 comment section 4's "the three lines that agree all carry the 1995
+      J.Phys.B EXPERIMENTAL oscillator strengths": there was no experimental leg.
+    successor: RYA-838 (rewrite its premise before working it)
+
+  - id: OQ3
+    question: Does 6696 recover for free when the 825-class cull is re-run vs CURRENT canonical_gf?
+    state: ANSWERED
+    verdict: >-
+      NO — it was never culled (recovery_count = 0, reproducing RYA-835 on current code).
+      And the surviving line's grade belongs to a DIFFERENT transition, so the honest VIS
+      graded pool is ZERO, not one.
+    evidence:
+      - pipeline.curate_nonfe_pools --phase 2 --grade-restrict — 6631.218 culled GRADE
+        (K75->LOW), 6696.185 kept (NIST C+->MED).
+      - data/linelists/primary_gf/nist_asd_AlI_6600_8800.tsv — NIST ASD has NO Al I line at
+        6696.185 anywhere in 6600-8800 A. The C+ and -1.569 come from NIST 6696.015,
+        lower level 3.1427 eV; our row is EP 4.0215 eV. 0.17 A and 0.88 eV apart.
+      - GES's own value for 6696.185 is K75 -1.576 -> LOW tier.
+    also_found: >-
+      The real bottleneck is the EW pool (2 Al lines, neither of them the Burheim-graded
+      VIS pair) and not the cull (7 GRADEABLE VIS features). Separately, _gf_tier culls
+      `K75` as LOW but tiers `VALD3` as MED — and for 6696.023/6698.673 the VALD3 values
+      ARE Kurucz 1995, so the same source passes or fails on the aggregator's label.
+    successor: RYA-840 (independently flagged this line-ID; now corroborated from NIST)
+
+  - id: OQ4
+    question: Is Al's gf-unblock homeless (RYA-161/162 closed, Al absent from RYA-697)?
+    state: REFUTED
+    verdict: >-
+      NO — the premise is stale. RYA-838, RYA-839, RYA-840 and RYA-778 already own Al's gf.
+      What IS homeless is the EXPERIMENTAL rung.
+    evidence:
+      - data/audit/element_status_tracker.csv Al row still names "RYA-161/162 differential-gf"
+        under GENUINELY-OWED (gf) — that cell is the stale surface, not the ticket graph.
+      - Linear: 838/839/840/778 all Backlog, all filed by RYA-835.
+      - No Al lab-gf table exists in the repo, and pipeline/gf_grades.py GF-LAB is
+        hard-wired to data/reference/fe_gf_lab/fe1_lab_loggf.csv.
+    gap: >-
+      All of 838/839/840 are scoped around WHICH THEORY VALUE TO PREFER, because every one
+      of them was written believing no experiment covered these lines. OQ1 changes that.
+    successor: >-
+      NEEDS FILING — "BUILD: ingest Burheim 2023 as Al's primary lab-gf table + generalise
+      gf_grades.GF-LAB off the Fe-only file." Supersedes 838's theory-adjudication scope
+      and unblocks 839.
+
+# Surfaces this census found stale. Flagged, NOT edited — Phase 0 is census-only.
+stale_surfaces:
+  - surface: data/audit/element_status_tracker.csv (Al row)
+    issue: names the closed RYA-161/162 as Al's gf path
+    should: name RYA-838/839/840
+    note: GENERATED from phase_c — fix at the generator, never by hand-edit.
+  - surface: data/reference/litscan/Al.yaml
+    issue: does not exist (RYA-716 reference-completeness item 4, still open)
+  - surface: pipeline/coverage.py load_registry()
+    issue: >-
+      bare `continue` past any holding whose manifest is not a spectrum-location CSV hides
+      6 of 10 solar holdings, incl. all three CRIRES+ ones. Costs Al 11 of its 37 reachable
+      lines, both Burheim best lines among them; line_accounting_rya709 therefore
+      under-reports Al reachable by 30% (26 vs 37).
+  - surface: scripts/line_accounting_rya709.py features()
+    issue: >-
+      reports gf=max over an HFS cluster (-1.886 vs the summed -1.460 on Al 6696.02) and
+      GROUP_A=0.05 A splits the 13123, 13150 and 16750 multiplets.
+  - surface: data/linelists/canonical_gf.csv
+    issue: >-
+      hfs_n_components=1 recorded for 3944.006 and 3961.520 while the linelist splits them
+      into 4 and 6 components summing to canonical's own log_gf exactly.
