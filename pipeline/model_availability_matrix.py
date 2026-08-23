@@ -61,6 +61,23 @@ MODEL_TYPES: tuple[str, ...] = ("1D_LTE", "1D_NLTE", "MEAN3D_NLTE", "FULL_3D_NLT
 #: <3D> decks now consumed by an Engine-B route (RYA-821). Keyed element -> deck id.
 _MEAN3D_WIRED: dict[str, str] = {"Al": "Al@mean3D"}
 
+#: <3D> deck PRESENT on Sirius (element -> deck filename stem). Wiring one is the Al
+#: pattern: a registry entry plus its own atmosphere. Not a research task.
+_MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Y"})
+
+#: Model atoms held on Sirius (gerber_ts/atom.*). Half of a departure solve: with the
+#: <3D> STAGGER atmosphere these become reachable the moment the tier-2 solver works.
+_MODEL_ATOMS: frozenset = frozenset({
+    "Al", "Ba", "Ca", "Co", "Cr", "Eu", "Fe", "H", "Mg", "Mn", "Na", "Ni", "O",
+    "Si", "Sr", "Ti", "Y"})
+
+#: MEAN-3D REACHABILITY STATES -- these say WHAT IT WOULD TAKE, which "REQUEST_ONLY"
+#: did not. It was collapsing three unrelated situations into one word.
+TIER1_VALIDATED = "TIER1_VALIDATED"  # wired AND proven end-to-end
+TIER1_WIRED = "TIER1_WIRED"          # registry wired; end-to-end run still owed
+TIER1_WIREABLE = "TIER1_WIREABLE"    # deck + atom on disk; wiring is mechanical
+TIER2_OWED = "TIER2_OWED"            # atom held, no deck -> needs the tier-2 solver
+
 #: Cell states.
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
 CODE_USES = "CODE_USES"        # the pipeline applies it now (code is ground truth)
@@ -601,45 +618,46 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     if mt == "MEAN3D_NLTE":
         offsolar = (row.get("offsolar_3d_nlte") or "").strip()
         solar = (row.get("solar_3d_nlte") or "").strip()
-        if (h := THREED_HOLDINGS.get(base)) and h["kind"] == "MEAN3D_NLTE":
-            cell.state = HAVE
-            cell.code_grid = h["path"]
-            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
-            if disk_paths:
-                cell.facts.append(
-                    f"ALSO holds {len(disk_paths)} unwired <3D> STAGGERmean3D deck(s) "
-                    f"on Sirius -- a second, richer route nothing consumes yet.")
-        elif disk_paths and base in _MEAN3D_WIRED:
-            cell.state = HAVE
+        # ORDER MATTERS. A held deck outranks a solar-only scalar increment: marking Cr
+        # HAVE on solar3d_metals (a SOLAR-ONLY number) hid its full parameter-space <3D>
+        # deck sitting unwired. A HAVE that masks a NEEDS_WIRING is the worst kind of
+        # wrong -- it looks finished.
+        if base in _MEAN3D_WIRED:
+            cell.state = TIER1_WIRED
             cell.code_grid = _MEAN3D_WIRED[base]
             cell.facts.append(
-                f"WIRED (RYA-821): Engine-B <3D> route via gerber_nlte deck "
-                f"'{_MEAN3D_WIRED[base]}'. The deck is keyed at STAGGER coordinates "
-                f"(Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- measured 0 rows at the "
-                f"MARCS node, 31 at the STAGGER node -- so the atmosphere is carried "
-                f"per-deck and points at the <3D> STAGGER solar model.")
-        elif disk_paths:
-            cell.state = DISK_ONLY
-            cell.error = (
-                f"{len(disk_paths)} <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid "
-                f"for, but NO code path consumes a <3D> departure deck at all. This is "
-                f"not missing data -- it is unwired data.")
-            cell.fix = (
-                "Add a <3D> consumer: register the deck in the gerber_nlte registry and "
-                "give Engine-B a <3D> route (today it only reads MARCS 1D decks). "
-                "Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.")
-        elif False:
-            cell.state = HAVE
-            cell.code_grid = h["path"]
-            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+                f"WIRED (RYA-821) via gerber_nlte deck '{_MEAN3D_WIRED[base]}'. Keyed at "
+                f"STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- "
+                f"measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the "
+                f"atmosphere is carried per-deck.")
+            cell.fix = ("END-TO-END RUN STILL OWED: wiring is verified structurally, not "
+                        "executed. The deck is Sirius-only and large. Promote to "
+                        "TIER1_VALIDATED only after an interpolation actually runs.")
+        elif base in _MEAN3D_DECKS:
+            cell.state = TIER1_WIREABLE
+            cell.disk_paths = disk_paths or cell.disk_paths
+            cell.error = ("A <3D> STAGGERmean3D deck AND its model atom are BOTH on "
+                          "Sirius, and nothing consumes them.")
+            cell.fix = ("Wire on the Al pattern (RYA-821): add a `<El>@mean3D` entry to "
+                        "gerber_nlte.DECKS carrying its OWN atmosphere. Mechanical, not "
+                        "research.")
+            if h := THREED_HOLDINGS.get(base):
+                cell.facts.append(
+                    f"NOTE: a solar-only increment also exists ({h['path']}) -- that is "
+                    f"a SCALAR at the solar node, not a parameter-space grid. It must "
+                    f"not be reported as though it were this deck.")
+        elif base in _MODEL_ATOMS:
+            cell.state = TIER2_OWED
+            cell.error = ("No <3D> deck. We DO hold the model atom and the <3D> STAGGER "
+                          "atmosphere -- the missing piece is the departure solve.")
+            cell.fix = ("Unlocked by the RYA-1013 tier-2 solver, NOT by acquisition. "
+                        "Nothing to fetch and nothing to ask for.")
         elif solar in ("FULL_3D_NLTE", "MEAN3D_NLTE") or offsolar == "GRID_MEAN3D":
-            # A published solar 3D/<3D> treatment exists for this element, but we hold
-            # no <3D> deck -> the corrections are obtainable only by request/from a
-            # paper table (e.g. <3D> O = Amarsi 2016 Table 5, not a public download).
             cell.state = REQUEST_ONLY
             cell.facts.append(
                 f"RYA-817 literature: solar={solar or '-'}, offsolar={offsolar or '-'}. "
-                f"Published, but no <3D> deck on disk -> paper-table / request only.")
+                f"Published, but we hold NEITHER a deck NOR a model atom -- this one "
+                f"genuinely has to be asked for.")
         else:
             cell.state = NONE
             if solar or offsolar:
