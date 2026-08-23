@@ -62,10 +62,10 @@ MODEL_TYPES: tuple[str, ...] = ("1D_LTE", "1D_NLTE", "MEAN3D_NLTE", "FULL_3D_NLT
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
 CODE_USES = "CODE_USES"        # the pipeline applies it now (code is ground truth)
 CSV_ONLY = "CSV_ONLY"          # claimed but not on disk -> PROBLEM
-DISK_ONLY = "DISK_ONLY"        # on disk but unregistered/unwired -> PROBLEM
+DISK_ONLY = "NEEDS_WIRING"     # the grid IS on Sirius; no code path consumes it yet
 REQUEST_ONLY = "REQUEST_ONLY"  # exists in literature, no public download
 NONE = "NONE"                  # genuinely absent -> acquisition task
-PROBLEM = "PROBLEM"            # sources disagree; `facts` carries why
+PROBLEM = "BROKEN"             # we hold it and it FAILS; `error` + `fix` say why/how
 
 #: RYA-1015 disk-parse traps. `CO` in a Gerber filename is the CO MOLECULE, not
 #: cobalt, and `MN` is Mn shouted. Mapping CO -> Co would invent a cobalt NLTE grid
@@ -122,6 +122,69 @@ THREED_HOLDINGS: dict[str, dict] = {
 STAGGER_MEAN3D_ATMOSPHERE = "data/atmospheres/stagger_avg3d_rya442/sun_avg3d_stagger.mod"
 
 
+
+#: GAP -> LINEAR TICKET, from the full RYA-1015 ticket sweep (all 1015 issues, 2026-08-23).
+#: Every non-HAVE cell should name the ticket that owns it, so the matrix routes work
+#: instead of only reporting absence.
+GAP_TICKETS: dict[tuple[str, str], str] = {
+    # Gerber TS-native decks: ON SIRIUS, unwired. RYA-710 is the umbrella.
+    ("Al", "1D_NLTE"): "RYA-1005 (deck fully staged 74 GB md5-pinned; `gerber_nlte` "
+                       "registers only Fe -- Engine-B-NLTE refuses on a REGISTRY LINE, "
+                       "not on missing data) / RYA-801 / RYA-710",
+    ("Cr", "MEAN3D_NLTE"): "RYA-800 (fetch+wire Cr Gerber ~25 GB) / RYA-710",
+    ("Y", "1D_NLTE"): "RYA-802 (acquire+hold Y Gerber ~42 GB; corrects nothing today, "
+                      "Y II unmeasured) / RYA-710",
+    ("Y", "MEAN3D_NLTE"): "RYA-802 / RYA-710",
+    ("Eu", "1D_NLTE"): "RYA-803 (Eu Gerber ~47 GB; model_atom source returns 0 bytes -- "
+                       "BLOCKED, needs a live mirror) / RYA-710",
+    ("Eu", "MEAN3D_NLTE"): "RYA-803 / RYA-710",
+    ("Al", "MEAN3D_NLTE"): "RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, "
+                           "wire honestly) / RYA-801",
+    ("Li", "1D_NLTE"): "RYA-540 (grid STAGED on Sirius; PySME derivation solar delta "
+                       "-0.030 does NOT reproduce the Lind-2009 small-positive anchor "
+                       "-> NOT wired, validate-don't-tune STOP) / RYA-103",
+    ("Ni", "1D_NLTE"): "RYA-710 (Gerber Ni MARCS deck on disk, unwired). Note RYA-731: "
+                       "Ni's blocker is gf-scale (BAD_GF), not NLTE.",
+    # Genuinely absent -> acquisition tickets
+    ("Zn", "1D_NLTE"): "RYA-757 (Zn intake: 27->28 canonical + Sitnova+2022 NLTE grid -- "
+                       "grid EXISTS in the literature, never acquired)",
+    ("V", "1D_NLTE"): "RYA-470 / RYA-363 (NLTE_VOID: no Amarsi/GALAH grid and no usable "
+                      "neutral V I model atom -- the only genuine void, RYA-404)",
+    ("P", "1D_NLTE"): "RYA-717 (no NLTE grid; DATA_GAP, FUV needs HST/STIS)",
+    ("Sc", "1D_NLTE"): "RYA-732 (no NLTE grid; HFS single blue line 4246)",
+    ("Co", "1D_NLTE"): "RYA-727 (no NLTE grid; continuum-limited blue-edge lines)",
+    ("Zr", "1D_NLTE"): "RYA-739 (no NLTE grid NEEDED -- Zr II is the majority ion, "
+                       "LTE-robust; route is synthesis, RYA-560)",
+    # 3D
+    ("Fe", "FULL_3D_NLTE"): "RYA-923 (URGENT/OPEN: MLP returns NaN for every in-domain "
+                            "line) / RYA-817 / RYA-924 (cells were computed on the Mac "
+                            "from a temp scratchpad; inputs unrecoverable)",
+    ("Fe II", "FULL_3D_NLTE"): "RYA-923 / RYA-817 / RYA-924",
+    ("Li", "FULL_3D_NLTE"): "RYA-820 (off-solar 3D-NLTE Li, Wang 2021 -- PUBLIC, not fetched)",
+    ("Mg", "FULL_3D_NLTE"): "RYA-820 (Matsuno 2024 Mg -- PUBLIC, not fetched)",
+    ("Na", "FULL_3D_NLTE"): "RYA-820 (Canocchi 2024 Na -- PUBLIC, not fetched)",
+}
+
+#: Molecule gaps -> tickets.
+MOLECULE_TICKETS: dict[str, str] = {
+    "TiO": "RYA-751 (COOL-STAR MOLECULES CaH/MgH/TiO/SiO sweep -- deferred to the "
+           "M-dwarf phase). Blocks the M-dwarf tier.",
+    "VO": "RYA-751 (cool-star molecule, not carried)",
+    "ZrO": "RYA-751 (cool-star molecule, not carried)",
+    "MgH": "RYA-751 (COOL-STAR MOLECULES sweep -- deferred)",
+    "FeH": "RYA-751 (cool-star molecule, not carried)",
+    "SiH": "RYA-751 / RYA-189 (IR molecular line handling)",
+    "CaH": "RYA-751 (COOL-STAR MOLECULES sweep -- deferred)",
+    "H2O": "RYA-751 / RYA-503 (ExoMol/HITRAN->Turbospectrum converter EXISTS, CO-validated)",
+    "C2": "RYA-742 (C2 Swan solar C indicator)",
+    "CH": "RYA-743 (CH G-band -- 'THE BITCH')",
+    "CN": "RYA-746 (CN solar N indicator, needs C prior)",
+    "CO": "RYA-744 (CO dv=1/dv=2, CRIRES+ target)",
+    "NH": "RYA-745 (NH solar N indicator, IR only)",
+    "OH": "RYA-747 (OH solar O indicator -- NOVELTY CANDIDATE)",
+}
+
+
 @dataclass
 class Cell:
     element: str
@@ -131,6 +194,8 @@ class Cell:
     code_grid: str | None = None
     disk_paths: list[str] = field(default_factory=list)
     facts: list[str] = field(default_factory=list)
+    error: str = ""      # what is actually wrong (BROKEN cells)
+    fix: str = ""        # the concrete next action (BROKEN / NEEDS_WIRING cells)
 
     @property
     def is_problem(self) -> bool:
@@ -145,6 +210,8 @@ class Cell:
             "code_grid": self.code_grid,
             "disk_paths": self.disk_paths,
             "facts": self.facts,
+            "error": self.error,
+            "fix": self.fix,
             "problem": self.is_problem,
         }
 
@@ -266,6 +333,11 @@ def build_matrix(snapshot_path: Path | None = None) -> dict:
             cells.append(_reconcile(element, base, mt, disk, csv_claims,
                                     threed, nlte_code, threed_code))
 
+    for c in cells:
+        t = GAP_TICKETS.get((c.element, c.model_type))
+        if t and c.state != HAVE:
+            c.facts.append(f"OWNED BY: {t}")
+
     problems = [c for c in cells if c.is_problem]
     return {
         "generated": date.today().isoformat(),
@@ -335,9 +407,14 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                     "departure grid itself lives on Sirius only.")
         elif disk_paths:
             cell.state = DISK_ONLY
-            cell.facts.append(
-                f"{len(disk_paths)} departure grid(s) on Sirius but NO code entry in "
-                f"NLTE_CORRECTION_ELEMENTS -- unwired.")
+            cell.error = (
+                f"{len(disk_paths)} departure grid(s) are ON SIRIUS but the element has "
+                f"NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data "
+                f"was fetched and cannot be used.")
+            cell.fix = (
+                "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS "
+                "(Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the "
+                "vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.")
         elif claim:
             cell.state = CSV_ONLY
             cell.facts.append(f"CSV claims '{claim}' but neither disk nor code has it.")
@@ -360,9 +437,14 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                     f"on Sirius -- a second, richer route nothing consumes yet.")
         elif disk_paths:
             cell.state = DISK_ONLY
-            cell.facts.append(
-                f"<3D> STAGGERmean3D deck present on Sirius ({len(disk_paths)}) but no "
-                f"code path consumes a <3D> departure deck -- unwired capability.")
+            cell.error = (
+                f"{len(disk_paths)} <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid "
+                f"for, but NO code path consumes a <3D> departure deck at all. This is "
+                f"not missing data -- it is unwired data.")
+            cell.fix = (
+                "Add a <3D> consumer: register the deck in the gerber_nlte registry and "
+                "give Engine-B a <3D> route (today it only reads MARCS 1D decks). "
+                "Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.")
         elif False:
             cell.state = HAVE
             cell.code_grid = h["path"]
@@ -396,8 +478,24 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
         cell.code_grid = h["path"]
         if h.get("blocked_by"):
             cell.state = PROBLEM
-            cell.facts.append(
-                f"CAPABILITY EXISTS BUT IS BROKEN ({h['blocked_by']}): {h['blocker']}")
+            cell.error = (
+                "The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. "
+                "114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE "
+                "legs still PASS to 3 decimals, so the line list, atmosphere, star "
+                "params and EW inversion are all fine -- only the correction path "
+                "regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from "
+                "when it worked, so the products LOOK healthy while the engine is dead.")
+            cell.fix = (
+                "1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- "
+                "suspects are _apply_aberr_to_line returning NaN, or _in_grid "
+                "disagreeing with amarsi3d.domains() so a line passes the MLP domain "
+                "check and is then rejected by the grid check. "
+                "2) Make the reactivation control BLOCK: it currently FAILs and lets the "
+                "run emit n=0 cells that read as 'no lines in domain'. "
+                "3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 "
+                "under the PR #315 width fix). "
+                "DO NOT relax the domain check to get numbers out (RYA-923).")
+            cell.facts.append(f"BROKEN -- owned by {h['blocked_by']}.")
             cell.facts.append(f"Engine {h['engine']}: {h['what']} ({h['path']}).")
         else:
             cell.state = HAVE
@@ -558,6 +656,7 @@ def build_molecule_matrix(snapshot_path: Path | None = None) -> list[dict]:
                             if lte else None,
             "nlte_deck": nlte[0] if nlte else None,
             "state": "HAVE" if lte else "NONE",
+            "ticket": MOLECULE_TICKETS.get(mol, ""),
         })
     return rows
 
@@ -665,7 +764,8 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
     with out.open("w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["kind", "subject", "model_type", "state", "can_run",
-                    "engine", "grid_or_path", "disk_decks", "blocker", "notes"])
+                    "engine", "grid_or_path", "disk_decks", "error", "fix",
+                    "owned_by_ticket", "notes"])
         for c in matrix["cells"]:
             e = eng.get(c["element"], {})
             if c["model_type"] == "1D_LTE":
@@ -677,20 +777,24 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
             else:
                 engine = e.get("engine_c_mode", "none")
                 can = "yes" if c["state"] in ("HAVE", "CODE_USES") else "no"
-            blocker = next((f for f in c["facts"] if "BROKEN" in f or "RYA-923" in f), "")
+            owner = next((f[10:] for f in c["facts"] if f.startswith("OWNED BY:")), "")
             w.writerow([
                 "element", c["element"], c["model_type"], c["state"], can, engine,
                 c["code_grid"] or c["csv_claim"] or "",
                 "; ".join(Path(p).name for p in c["disk_paths"]),
-                blocker, " ".join(c["facts"]),
+                c.get("error", ""), c.get("fix", ""), owner,
+                " ".join(f for f in c["facts"] if not f.startswith("OWNED BY:")),
             ])
         for m in molecules:
             w.writerow(["molecule", m["molecule"], "LTE_linelist",
                         "HAVE" if m["lte_linelist"] else "NONE",
                         "yes" if m["lte_linelist"] else "no",
-                        "Engine-B (synthesis)", m["lte_linelist"] or "", "", "", ""])
+                        "Engine-B (synthesis)", m["lte_linelist"] or "", "", "",
+                        "acquire the linelist" if not m["lte_linelist"] else "",
+                        m.get("ticket",""), ""])
             w.writerow(["molecule", m["molecule"], "NLTE_deck",
                         "HAVE" if m["nlte_deck"] else "NONE",
                         "yes" if m["nlte_deck"] else "no",
-                        "Engine-B (TS-native)", "", m["nlte_deck"] or "", "", ""])
+                        "Engine-B (TS-native)", "", m["nlte_deck"] or "", "", "",
+                        m.get("ticket",""), ""])
     return out
