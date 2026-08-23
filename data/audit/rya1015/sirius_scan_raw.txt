@@ -1,0 +1,64 @@
+# RYA-1015 Sirius NLTE grid scan -- committed snapshot (CI cannot reach Sirius).
+# host: Sirius (192.168.0.160)   scanned: 2026-08-23T18:51:14Z
+# command: find -L /srv/codex/grids/nlte -maxdepth 2 -type f \( -name '*.grd' -o -name '*.bin' -o -name 'atom.*' \)
+#
+# POSITIVE CONTROL (RYA-1013 symlink trap): /srv/codex/grids is a symlink to
+# /mnt/codex-ext/codex-grids (ntfs3). A plain find returns NOTHING through it.
+#   find -L ... nlte_O_scatt_pysme.grd  -> 1 hit   (RYA-477 known-present)
+#   find    ... nlte_O_scatt_pysme.grd  -> 0 hits  (the trap, reproduced)
+# CONTROL=PASS
+#
+# format: directory|filename|bytes
+/srv/codex/grids/nlte/amarsi_galah|nlte_Al_scatt_pysme.grd|2331451654
+/srv/codex/grids/nlte/amarsi_galah|nlte_Ba_scatt_pysme.grd|3505571379
+/srv/codex/grids/nlte/amarsi_galah|nlte_Ca_scatt_pysme.grd|10295902847
+/srv/codex/grids/nlte/amarsi_galah|nlte_C_scatt_pysme.grd|7908529735
+/srv/codex/grids/nlte/amarsi_galah|nlte_Cu_caliskan_Oct2024_pysme.grd|2495530092
+/srv/codex/grids/nlte/amarsi_galah|nlte_H_scatt_pysme.grd|304374219
+/srv/codex/grids/nlte/amarsi_galah|nlte_K_scatt_pysme.grd|3720826914
+/srv/codex/grids/nlte/amarsi_galah|nlte_Li_scatt_pysme.grd|7583235289
+/srv/codex/grids/nlte/amarsi_galah|nlte_Mg_scatt_pysme.grd|6206048192
+/srv/codex/grids/nlte/amarsi_galah|nlte_Mn_scatt_pysme.grd|9023943115
+/srv/codex/grids/nlte/amarsi_galah|nlte_Na_scatt_pysme.grd|2761962270
+/srv/codex/grids/nlte/amarsi_galah|nlte_N_scatt_pysme.grd|6186483301
+/srv/codex/grids/nlte/amarsi_galah|nlte_O_scatt_pysme.grd|4699262752
+/srv/codex/grids/nlte/amarsi_galah|nlte_Si_scatt_pysme.grd|8906536453
+/srv/codex/grids/nlte/amarsi_galah|nlte_Ti_pysme.grd|11381408872
+/srv/codex/grids/nlte/gerber_ts|atom.al_qmh|4342011
+/srv/codex/grids/nlte/gerber_ts|atom.ba111|473905
+/srv/codex/grids/nlte/gerber_ts|atom.ca105b|952700
+/srv/codex/grids/nlte/gerber_ts|atom.co247qm|3998262
+/srv/codex/grids/nlte/gerber_ts|atom.cr374|7308616
+/srv/codex/grids/nlte/gerber_ts|atom.eu662qmkhfs|1275086
+/srv/codex/grids/nlte/gerber_ts|atom.fe607a|6683950
+/srv/codex/grids/nlte/gerber_ts|atom.h20|54368
+/srv/codex/grids/nlte/gerber_ts|atom.mg86d|452643
+/srv/codex/grids/nlte/gerber_ts|atom.mn281kbc|7007386
+/srv/codex/grids/nlte/gerber_ts|atom.na_qmh|2508749
+/srv/codex/grids/nlte/gerber_ts|atom.ni538qm|19657807
+/srv/codex/grids/nlte/gerber_ts|atom.o41f|187797
+/srv/codex/grids/nlte/gerber_ts|atom.si340|1240821
+/srv/codex/grids/nlte/gerber_ts|atom.sr191|1497668
+/srv/codex/grids/nlte/gerber_ts|atom.ti503b|14011621
+/srv/codex/grids/nlte/gerber_ts|atom.y423qm_pf|13188154
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin|15093879072
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_CO_MARCS_Nov-14-2024.bin|33957505552
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin|54134375556
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin|1312673100
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin|3424250832
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Fe_MARCS_May-07-2021.bin|4155873268
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin|13792709816
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin|36705864032
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin|57095310380
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin|67264875460
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_O_MARCS_May-21-2021.bin|6303045348
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin|36462828640
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin|54202182084
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin|54833169900
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin|90849681856
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin|2196197488
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid_Al_MARCS_Jul-25-2023.bin|72509142368
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin|1823224060
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid_Ba_MARCS_Jul-29-2023.bin|23935722736
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid_Eu_MARCS_Sep-13-2023.bin|141597860056
+/srv/codex/grids/nlte/gerber_ts|NLTEgrid_H_MARCS_May-10-2021.bin|152905720
