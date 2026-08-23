@@ -74,6 +74,54 @@ _FILENAME_ELEMENT_FIXUPS = {"MN": "Mn"}
 _NOT_ELEMENTS = {"CO"}  # molecular decks, never an atomic element cell
 
 
+
+#: REPO-SIDE 3D HOLDINGS. The Sirius scan covers the departure decks only; the actual
+#: 3D capability lives IN THE REPO and was invisible to a Sirius-only scan. This is
+#: what we CAN RUN, keyed by the element it can correct.
+#:
+#: A matrix that reported FULL_3D_NLTE = NONE everywhere was WRONG: we hold a 3D-NLTE
+#: Fe engine, 3D-NLTE C/O tables, and a 3D metals increment.
+THREED_HOLDINGS: dict[str, dict] = {
+    "Fe": {
+        "path": "vendor/1L-3NErrors/",
+        "kind": "FULL_3D_NLTE",
+        "engine": "ENGINE-A-3DNLTE",
+        "what": "Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP "
+                "(fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p)",
+        "blocked_by": "RYA-923",
+        "blocker": "URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main "
+                   "(114 in-domain -> n=0). 1D-LTE legs still PASS, so only the "
+                   "correction path regressed. Committed cells carry values from when "
+                   "it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability "
+                   "is REAL but currently UNRUNNABLE.",
+    },
+    "C": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
+          "engine": "cno-3dnlte",
+          "what": "Amarsi, Nissen & Skuladottir 2019 (A&A 630 A104) line-by-line "
+                  "3D-NLTE / 1D-NLTE tables; 3D leg below Teff 6500 K"},
+    "O": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
+          "engine": "cno-3dnlte",
+          "what": "Amarsi 2019 3D-NLTE O I 777; [O I] 6300 is forbidden-LTE by "
+                  "construction (RYA-447)"},
+    "N": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
+          "engine": "cno-3dnlte",
+          "what": "Amarsi 2019 CNO synthesis leg (N atomic departures are the separate "
+                  "1D registry grid)"},
+    "Si": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
+           "engine": "THREED_CORRECTION_ELEMENTS",
+           "what": "Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399)"},
+    "Ti": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
+           "engine": "THREED_CORRECTION_ELEMENTS",
+           "what": "Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Ti (RYA-399)"},
+    "Cr": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
+           "engine": "THREED_CORRECTION_ELEMENTS",
+           "what": "Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Cr (RYA-399)"},
+}
+
+#: The <3D> STAGGER solar atmosphere we hold -- the model any <3D> route needs.
+STAGGER_MEAN3D_ATMOSPHERE = "data/atmospheres/stagger_avg3d_rya442/sun_avg3d_stagger.mod"
+
+
 @dataclass
 class Cell:
     element: str
@@ -302,11 +350,23 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     if mt == "MEAN3D_NLTE":
         offsolar = (row.get("offsolar_3d_nlte") or "").strip()
         solar = (row.get("solar_3d_nlte") or "").strip()
-        if disk_paths:
+        if (h := THREED_HOLDINGS.get(base)) and h["kind"] == "MEAN3D_NLTE":
+            cell.state = HAVE
+            cell.code_grid = h["path"]
+            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+            if disk_paths:
+                cell.facts.append(
+                    f"ALSO holds {len(disk_paths)} unwired <3D> STAGGERmean3D deck(s) "
+                    f"on Sirius -- a second, richer route nothing consumes yet.")
+        elif disk_paths:
             cell.state = DISK_ONLY
             cell.facts.append(
                 f"<3D> STAGGERmean3D deck present on Sirius ({len(disk_paths)}) but no "
                 f"code path consumes a <3D> departure deck -- unwired capability.")
+        elif False:
+            cell.state = HAVE
+            cell.code_grid = h["path"]
+            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
         elif solar in ("FULL_3D_NLTE", "MEAN3D_NLTE") or offsolar == "GRID_MEAN3D":
             # A published solar 3D/<3D> treatment exists for this element, but we hold
             # no <3D> deck -> the corrections are obtainable only by request/from a
@@ -329,15 +389,26 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     code_entry = threed_code.get(base)
     cell.code_grid = code_entry.get("grid") if code_entry else None
 
-    # No full-3D deck exists on disk for any element, and RYA-1008 established that no
-    # public full-3D NLTE stellar RT code exists to produce one. So this is NONE
-    # everywhere -- but never SILENTLY: record what IS applied in production.
-    cell.state = NONE
-    if holding and holding.lower() != "none":
+    # What we CAN RUN, from the repo-side holdings -- NOT a blanket NONE. We hold a
+    # 3D-NLTE Fe MLP and 3D-NLTE C/N/O tables; a Sirius-only scan could not see them.
+    h = THREED_HOLDINGS.get(base)
+    if h and h["kind"] == "FULL_3D_NLTE":
+        cell.code_grid = h["path"]
+        if h.get("blocked_by"):
+            cell.state = PROBLEM
+            cell.facts.append(
+                f"CAPABILITY EXISTS BUT IS BROKEN ({h['blocked_by']}): {h['blocker']}")
+            cell.facts.append(f"Engine {h['engine']}: {h['what']} ({h['path']}).")
+        else:
+            cell.state = HAVE
+            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+    else:
+        cell.state = NONE
         cell.facts.append(
-            f"NO runnable full-3D deck. A vendored POST-HOC CORRECTION is applied in "
-            f"production from {holding} -- that applies someone else's 3D result, it "
-            f"is not a full-3D capability (RYA-1008: no public full-3D NLTE RT code).")
+            "No 3D-NLTE correction or engine we can run for this element. "
+            "(We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no "
+            "public full-3D NLTE RT code -- so every 3D capability here is a "
+            "published grid/model we apply.)")
     if solar or offsolar:
         cell.facts.append(
             f"RYA-817 literature: solar={solar or '-'}, offsolar={offsolar or '-'}.")
@@ -397,7 +468,20 @@ def build_engine_matrix(matrix: dict) -> list[dict]:
         else:
             b_mode, b_where = "LTE only", "no TS-native deck"
 
+        # Engine-A-3DNLTE / the 3D route: a published 3D model we APPLY.
+        h3 = THREED_HOLDINGS.get(base)
+        if h3 and h3.get("blocked_by"):
+            c_mode = f"3D-NLTE BROKEN ({h3['blocked_by']})"
+            c_where = h3["path"]
+        elif h3:
+            c_mode = ("3D-NLTE" if h3["kind"] == "FULL_3D_NLTE" else "<3D> increment")
+            c_where = h3["path"]
+        else:
+            c_mode, c_where = "none", "no 3D model held"
+
         rows.append({
+            "engine_c_mode": c_mode,
+            "engine_c_where": c_where,
             "element": element,
             "engine_a_mode": a_mode,
             "engine_a_where": a_where,
@@ -567,3 +651,46 @@ the RYA-462 CSV, the RYA-817 3D CSV, the code, and a Sirius <code>find -L</code>
 <b>full-3D-NLTE</b> is NONE everywhere: no public full-3D NLTE stellar RT code exists (RYA-1008).
 </p></body></html>
 """
+
+
+def write_findings_csv(matrix: dict, engine_rows: list[dict],
+                       molecules: list[dict], out: Path) -> Path:
+    """One flat CSV of EVERY finding: species x model type, engines, and molecules.
+
+    Long format, one row per (subject, model_type), so it sorts and filters in a
+    spreadsheet without unpacking anything.
+    """
+    eng = {r["element"]: r for r in engine_rows}
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["kind", "subject", "model_type", "state", "can_run",
+                    "engine", "grid_or_path", "disk_decks", "blocker", "notes"])
+        for c in matrix["cells"]:
+            e = eng.get(c["element"], {})
+            if c["model_type"] == "1D_LTE":
+                engine, can = "Engine-B (synthesis)", "yes"
+            elif c["model_type"] == "1D_NLTE":
+                engine = f'Engine-A: {e.get("engine_a_mode","?")} | ' \
+                         f'Engine-B: {e.get("engine_b_mode","?")}'
+                can = "yes" if c["state"] in ("HAVE", "CODE_USES") else "no"
+            else:
+                engine = e.get("engine_c_mode", "none")
+                can = "yes" if c["state"] in ("HAVE", "CODE_USES") else "no"
+            blocker = next((f for f in c["facts"] if "BROKEN" in f or "RYA-923" in f), "")
+            w.writerow([
+                "element", c["element"], c["model_type"], c["state"], can, engine,
+                c["code_grid"] or c["csv_claim"] or "",
+                "; ".join(Path(p).name for p in c["disk_paths"]),
+                blocker, " ".join(c["facts"]),
+            ])
+        for m in molecules:
+            w.writerow(["molecule", m["molecule"], "LTE_linelist",
+                        "HAVE" if m["lte_linelist"] else "NONE",
+                        "yes" if m["lte_linelist"] else "no",
+                        "Engine-B (synthesis)", m["lte_linelist"] or "", "", "", ""])
+            w.writerow(["molecule", m["molecule"], "NLTE_deck",
+                        "HAVE" if m["nlte_deck"] else "NONE",
+                        "yes" if m["nlte_deck"] else "no",
+                        "Engine-B (TS-native)", "", m["nlte_deck"] or "", "", ""])
+    return out
