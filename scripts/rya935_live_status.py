@@ -108,6 +108,20 @@ def collect_products(roots: list[Path], instruments: set[str],
                     "sigma_stat": None if pd.isna(r.get("stat_dex")) else float(r["stat_dex"]),
                     "sigma_syst": None if pd.isna(r.get("syst_dex")) else float(r["syst_dex"]),
                     "n_lines": None if pd.isna(r.get("n_lines")) else int(r["n_lines"]),
+                    # RYA-990: the cell contract asks for the TIER, and the product
+                    # already names it -- `gf` carries the rung ("gf scale (cited lab)"
+                    # for a graded pool). It was being read past, so the page had no way
+                    # to show graded from ungraded, which is the RYA-946 firewall the
+                    # tracker is supposed to keep visible.
+                    "gf_rung": None if pd.isna(r.get("gf")) else str(r["gf"]),
+                    "dominant_term": (None if pd.isna(r.get("dominant"))
+                                      else str(r["dominant"])),
+                    # Carried because the two deep-graded arms disagree on it (RYA-991
+                    # flagged the gate refusing 1 of 109 on Kitt Peak and 0 of 109 on the
+                    # noisier HARPS arm). A count of what a gate REFUSED is part of the
+                    # result, not bookkeeping.
+                    "n_excluded": (None if pd.isna(r.get("n_excluded"))
+                                   else int(r["n_excluded"])),
                     "source": str(path.relative_to(ROOT)),
                 })
     return rows
