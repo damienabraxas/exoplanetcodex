@@ -499,4 +499,24 @@ Bibliography: the library audit is clean (59/59 documents rowed). Four rows adde
 sources this census cites and the repo did not carry — Burheim 2023, Papoulia 2019,
 Mendoza 1995, Nordlander & Lind 2017 — all DOIs Crossref-verified.
 
+## Tracker state machine (RYA-935/990 standing process)
+
+This ticket is Phase 0 and emits **no abundance cell**, so nothing here enters
+PENDING → APPROVED. Three things are done so Phase 1's cells drop in cleanly rather
+than being invented later:
+
+* Every census row carries **`cell_id`** — `element.ion.band.instrument.engine`, one id
+  per (home × permitted engine), comma-joined when a line has more than one home,
+  because a line measurable on two instruments is two cells. `engine_candidates` records
+  what the **band policy permits**, not what has been run. `cell_state` is the literal
+  string `NOT-A-CELL (Phase 0 census)` so the column cannot be misread as a value.
+* **OQ1–4 are tracked items** in `rya1001_open_questions.yaml`, each with a state
+  (ANSWERED / REFUTED / OPEN), its evidence, the defect it exposed and the successor
+  ticket that owns it — plus the five stale surfaces found and deliberately not edited.
+* This census's starting state is on the board as **register v108** with a `SEQUENCE.md`
+  line, not only as a Linear comment.
+
+The cell-close read-back rule does not apply here: there is no cell to regenerate.
+It binds Phase 1, which must paste the actual regenerated cell values.
+
 **NOT merged.**

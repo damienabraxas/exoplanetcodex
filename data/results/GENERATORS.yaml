@@ -2237,6 +2237,25 @@ artifacts:
       `continue`s past any holding whose manifest is not a spectrum-location CSV, which
       hides 6 of the 10 solar holdings including all three CRIRES+ ones. Coverage is not
       permission: telluric_policy.gate_holding REFUSES this holding.
+  - artifact: rya1001/rya1001_open_questions.yaml
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1001
+    sources:
+      - data/results/rya1001/rya1001_al_line_census.csv
+      - data/linelists/primary_gf/nist_asd_AlI_6600_8800.tsv
+      - data/curation/nonfe_pools/Al_cull_graded_rya398.csv
+      - GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv reference_code column
+      - arXiv:2309.06273 source file 45394corr.tex, Tables 1-3
+      - Crossref DOI 10.1088/0953-4075/28/16/006
+    note: >-
+      OQ1-4 as TRACKED ITEMS with a state (ANSWERED / REFUTED / OPEN), the evidence for
+      each, the defect it exposed and the successor that owns it - per the RYA-935/990
+      tracker state-machine process, which requires the open questions be tracked rather
+      than buried in a report paragraph. Also carries the five stale surfaces this census
+      found and deliberately did NOT edit, Phase 0 being census-only. Nothing here is an
+      abundance cell, so nothing here is PENDING: a census answers questions, it does not
+      measure, and the thing awaiting a human yes is the Phase-1 scope these imply.
   - artifact: rya1001/RYA1001_AL_PHASE0_CENSUS.md
     status: HAND_AUTHORED
     generator: null
