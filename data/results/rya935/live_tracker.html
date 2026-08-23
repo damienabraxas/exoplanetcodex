@@ -69,6 +69,9 @@ h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
 .mtx tbody th{background:#101830;width:4.5rem}
 .gname{color:#8fa0c0;font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin-top:.25rem;word-break:break-all}
 .probcell{background:#2a1420}
+.cerr{color:#ffb3bd;font-size:10.5px;margin-top:.3rem;line-height:1.35}
+.cfix{color:#9fe6b8;font-size:10.5px;margin-top:.25rem;line-height:1.35}
+.ctik{color:#7fd1ff;font-size:10px;margin-top:.25rem;line-height:1.3}
 </style></head><body><main>
 <h1>Codex calibration tracker &mdash; <span id="sys" class="muted"></span></h1>
 <p class="muted">Element &times; holding &times; band &times; engine. Every value is derived by
@@ -366,19 +369,24 @@ async function draw(){
        const names=(c.disk_paths||[]).map(p=>esc(p.split('/').pop())).join('<br>');
        const claim=esc(c.code_grid||c.csv_claim||'');
        const det=[claim,names].filter(Boolean).join('<br>');
+       const own=(c.facts||[]).find(f=>f.startsWith('OWNED BY:'));
+       let extra='';
+       if(c.error) extra+='<div class="cerr"><b>ERROR:</b> '+esc(c.error)+'</div>';
+       if(c.fix)   extra+='<div class="cfix"><b>FIX:</b> '+esc(c.fix)+'</div>';
+       if(own)     extra+='<div class="ctik">'+esc(own)+'</div>';
        t+='<td class="'+(c.problem?'probcell':'')+'"><span class="'+(cls[c.state]||'muted')+'"><b>'
-         +esc(c.state)+'</b></span>'+(det?'<div class="gname">'+det+'</div>':'')+'</td>';
+         +esc(c.state)+'</b></span>'+(det?'<div class="gname">'+det+'</div>':'')+extra+'</td>';
      }
      const e=eng[el]||{};
      t+='<td class="gname">A: '+esc(e.engine_a_mode||'?')+'<br>B: '+esc(e.engine_b_mode||'?')+'</td></tr>';
    }
    t+='</tbody></table><p class="note muted"><b>State meanings \u2014</b> '
      +'<b class="good">HAVE</b>: we hold it and can run it today. '
-     +'<b class="warn">REQUEST_ONLY</b>: published in the literature but no public download \u2014 we would have to ask. '
-     +'<b class="bad">DISK_ONLY</b>: <b>the grid IS sitting on Sirius, but no code path consumes it</b> \u2014 '
-     +'we paid to fetch it and cannot use it until it is wired. Not missing: unwired. '
-     +'<b class="bad">PROBLEM</b>: we hold the model but it is BROKEN (see blocker). '
-     +'<b class="muted">NONE</b>: we do not have it at all.</p>'
+     +'<b class="warn">REQUEST_ONLY</b>: published but no public download \u2014 we would have to ask. '
+     +'<b class="bad">NEEDS_WIRING</b>: <b>the grid IS on Sirius and paid for, but no code path consumes it.</b> '
+     +'Not missing \u2014 unwired. Each such cell states the ERROR and the FIX. '
+     +'<b class="bad">BROKEN</b>: we hold the model and it FAILS \u2014 the cell names the error and the repair. '
+     +'<b class="muted">NONE</b>: we do not have it; the cell names the acquisition ticket.</p>'
      +'<p class="note muted">Engine-A = EW + grid delta (vendored CSV, in repo). '
      +'Engine-B = synthesis (Turbospectrum; TS-native NLTE needs a Gerber deck on Sirius). Neither is primary. '
      +'1D-LTE needs no grid. full-3D-NLTE is NONE everywhere \u2014 no public full-3D NLTE RT code exists (RYA-1008). '
@@ -389,7 +397,7 @@ async function draw(){
    document.querySelector('#modelmatrix').innerHTML=t;
    let mt2='<table class="mtx"><thead><tr><th>molecule</th><th>LTE linelist</th><th>NLTE deck</th></tr></thead><tbody>';
    for(const m of (mm.molecules||[])){
-     mt2+='<tr><th>'+esc(m.molecule)+'</th>'
+     mt2+='<tr><th>'+esc(m.molecule)+(m.ticket?'<div class="ctik">'+esc(m.ticket)+'</div>':'')+'</th>'
         +'<td class="'+(m.lte_linelist?'':'probcell')+'"><span class="'+(m.lte_linelist?'good':'muted')+'"><b>'
         +(m.lte_linelist?'HAVE':'NONE')+'</b></span>'
         +(m.lte_linelist?'<div class="gname">'+esc(m.lte_linelist)+'</div>':'')+'</td>'

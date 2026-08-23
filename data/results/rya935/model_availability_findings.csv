@@ -1,141 +1,141 @@
-kind,subject,model_type,state,can_run,engine,grid_or_path,disk_decks,blocker,notes
-element,Li,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Li,1D_NLTE,DISK_ONLY,no,Engine-A: LTE only | Engine-B: LTE only,,nlte_Li_scatt_pysme.grd,,1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired.
-element,Li,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Li,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
-element,C,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,C,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,amarsi2019_cno/,nlte_C_scatt_pysme.grd,,"Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
-element,C,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-element,C,FULL_3D_NLTE,HAVE,yes,3D-NLTE,data/nlte_grids/amarsi2019_cno/,,,"CAN RUN via cno-3dnlte: Amarsi, Nissen & Skuladottir 2019 (A&A 630 A104) line-by-line 3D-NLTE / 1D-NLTE tables; 3D leg below Teff 6500 K (data/nlte_grids/amarsi2019_cno/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
-element,N,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,N,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,N_Amarsi2020_PySME.csv,nlte_N_scatt_pysme.grd,,
-element,N,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
-element,N,FULL_3D_NLTE,HAVE,yes,3D-NLTE,data/nlte_grids/amarsi2019_cno/,,,"CAN RUN via cno-3dnlte: Amarsi 2019 CNO synthesis leg (N atomic departures are the separate 1D registry grid) (data/nlte_grids/amarsi2019_cno/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
-element,O,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,O,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),amarsi2019_cno/,nlte_O_scatt_pysme.grd; NLTEgrid4TS_O_MARCS_May-21-2021.bin,,"Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 2 departure grid(s) on Sirius."
-element,O,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-element,O,FULL_3D_NLTE,HAVE,yes,3D-NLTE,data/nlte_grids/amarsi2019_cno/,,,"CAN RUN via cno-3dnlte: Amarsi 2019 3D-NLTE O I 777; [O I] 6300 is forbidden-LTE by construction (RYA-447) (data/nlte_grids/amarsi2019_cno/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
-element,Na,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Na,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Na_Amarsi2020_PySME.csv,nlte_Na_scatt_pysme.grd; NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin,,
-element,Na,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Na,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
-element,Mg,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Mg,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Mg_Amarsi2020_PySME.csv,nlte_Mg_scatt_pysme.grd; NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin,,
-element,Mg,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Mg,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
-element,Al,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Al,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: <3D>-NLTE deck on disk (UNWIRED),Al_Amarsi2020_PySME.csv,nlte_Al_scatt_pysme.grd; NLTEgrid_Al_MARCS_Jul-25-2023.bin,,
-element,Al,MEAN3D_NLTE,DISK_ONLY,no,none,,NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin,,<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability.
-element,Al,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_MEAN3D."
-element,Si,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Si,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Si_Amarsi2020_PySME.csv,nlte_Si_scatt_pysme.grd; NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin,,
-element,Si,MEAN3D_NLTE,HAVE,yes,<3D> increment,data/threed_grids/solar3d_metals_rya399.csv,,,"CAN RUN via THREED_CORRECTION_ELEMENTS: Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
-element,Si,FULL_3D_NLTE,NONE,no,<3D> increment,solar3d_metals_rya399.csv,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
-element,P,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,P,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,
-element,P,MEAN3D_NLTE,NONE,no,none,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,P,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,S,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,S,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,S_Amarsi2025_PySME.csv,,,Applied from the vendored CSV in data/nlte_grids/; the departure grid itself lives on Sirius only.
-element,S,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-element,S,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,K,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,K,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,K_Amarsi2020_PySME.csv,nlte_K_scatt_pysme.grd,,
-element,K,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
-element,K,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
-element,Ca,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Ca,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Ca_Mashonkina2017.csv,nlte_Ca_scatt_pysme.grd; NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin,,
-element,Ca,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Ca,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II."
-element,Sc,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Sc,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,
-element,Sc,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Sc,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,Ti,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Ti,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Ti_Mallinson2024_PySME.csv,nlte_Ti_pysme.grd; NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin,,
-element,Ti,MEAN3D_NLTE,HAVE,yes,<3D> increment,data/threed_grids/solar3d_metals_rya399.csv,,,"CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Ti (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
-element,Ti,FULL_3D_NLTE,NONE,no,<3D> increment,solar3d_metals_rya399.csv,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,V,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,V,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,
-element,V,MEAN3D_NLTE,NONE,no,none,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,V,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,Cr,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Cr,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: <3D>-NLTE deck on disk (UNWIRED),Cr_Bergemann2010_MPIA.csv,NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin,,
-element,Cr,MEAN3D_NLTE,HAVE,yes,<3D> increment,data/threed_grids/solar3d_metals_rya399.csv,NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin,,"CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Cr (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv). ALSO holds 1 unwired <3D> STAGGERmean3D deck(s) on Sirius -- a second, richer route nothing consumes yet."
-element,Cr,FULL_3D_NLTE,NONE,no,<3D> increment,solar3d_metals_rya399.csv,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,Mn,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Mn,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Mn_Bergemann_MPIA.csv,nlte_Mn_scatt_pysme.grd; NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin,,
-element,Mn,MEAN3D_NLTE,NONE,no,none,,,,"RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
-element,Mn,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
-element,Fe,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Fe,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Fe_Bergemann_MPIA.csv,NLTEgrid4TS_Fe_MARCS_May-07-2021.bin,,"Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
-element,Fe,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE BROKEN (RYA-923),,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Fe,FULL_3D_NLTE,PROBLEM,no,3D-NLTE BROKEN (RYA-923),vendor/1L-3NErrors/,,"CAPABILITY EXISTS BUT IS BROKEN (RYA-923): URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main (114 in-domain -> n=0). 1D-LTE legs still PASS, so only the correction path regressed. Committed cells carry values from when it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability is REAL but currently UNRUNNABLE.","CAPABILITY EXISTS BUT IS BROKEN (RYA-923): URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main (114 in-domain -> n=0). 1D-LTE legs still PASS, so only the correction path regressed. Committed cells carry values from when it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability is REAL but currently UNRUNNABLE. Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
-element,Fe II,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Fe II,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Fe_Bergemann_MPIA.csv,NLTEgrid4TS_Fe_MARCS_May-07-2021.bin,,"Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
-element,Fe II,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE BROKEN (RYA-923),,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Fe II,FULL_3D_NLTE,PROBLEM,no,3D-NLTE BROKEN (RYA-923),vendor/1L-3NErrors/,,"CAPABILITY EXISTS BUT IS BROKEN (RYA-923): URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main (114 in-domain -> n=0). 1D-LTE legs still PASS, so only the correction path regressed. Committed cells carry values from when it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability is REAL but currently UNRUNNABLE.","CAPABILITY EXISTS BUT IS BROKEN (RYA-923): URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main (114 in-domain -> n=0). 1D-LTE legs still PASS, so only the correction path regressed. Committed cells carry values from when it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability is REAL but currently UNRUNNABLE. Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
-element,Co,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Co,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,
-element,Co,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Co,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,Ni,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Ni,1D_NLTE,DISK_ONLY,no,Engine-A: LTE only | Engine-B: 1D-NLTE (TS-native),,NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin,,1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired.
-element,Ni,MEAN3D_NLTE,NONE,no,none,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,Ni,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,Cu,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Cu,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,Cu_Caliskan2024_PySME.csv,nlte_Cu_caliskan_Oct2024_pysme.grd,,
-element,Cu,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Cu,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,Zn,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Zn,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,
-element,Zn,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Zn,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,Sr,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Sr,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Sr_Bergemann2012_INSPECT.csv,NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin,,
-element,Sr,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Sr,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-element,Y,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Y,1D_NLTE,DISK_ONLY,no,Engine-A: LTE only | Engine-B: <3D>-NLTE deck on disk (UNWIRED),,NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin,,1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired.
-element,Y,MEAN3D_NLTE,DISK_ONLY,no,none,,NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin,,<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability.
-element,Y,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,Zr,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Zr,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,
-element,Zr,MEAN3D_NLTE,NONE,no,none,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,Zr,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
-element,Ba,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Ba,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Ba_Korotin2015.csv,nlte_Ba_scatt_pysme.grd; NLTEgrid_Ba_MARCS_Jul-29-2023.bin,,
-element,Ba,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
-element,Ba,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
-element,Eu,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,1D-LTE synthesis is the universal baseline route (no grid).
-element,Eu,1D_NLTE,DISK_ONLY,no,Engine-A: LTE only | Engine-B: <3D>-NLTE deck on disk (UNWIRED),,NLTEgrid_Eu_MARCS_Sep-13-2023.bin,,1 departure grid(s) on Sirius but NO code entry in NLTE_CORRECTION_ELEMENTS -- unwired.
-element,Eu,MEAN3D_NLTE,DISK_ONLY,no,none,,NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin,,<3D> STAGGERmean3D deck present on Sirius (1) but no code path consumes a <3D> departure deck -- unwired capability.
-element,Eu,FULL_3D_NLTE,NONE,no,none,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
-molecule,C2,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/C2,,,
-molecule,C2,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,CH,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/CH,,,
-molecule,CH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,CN,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/CN,,,
-molecule,CN,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,CO,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/CO,,,
-molecule,CO,NLTE_deck,HAVE,yes,Engine-B (TS-native),,NLTEgrid4TS_CO_MARCS_Nov-14-2024.bin,,
-molecule,NH,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/NH,,,
-molecule,NH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,OH,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/OH,,,
-molecule,OH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,TiO,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,TiO,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,VO,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,VO,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,ZrO,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,ZrO,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,MgH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,MgH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,FeH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,FeH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,SiH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,SiH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,CaH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,CaH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
-molecule,H2O,LTE_linelist,NONE,no,Engine-B (synthesis),,,,
-molecule,H2O,NLTE_deck,NONE,no,Engine-B (TS-native),,,,
+kind,subject,model_type,state,can_run,engine,grid_or_path,disk_decks,error,fix,owned_by_ticket,notes
+element,Li,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Li,1D_NLTE,NEEDS_WIRING,no,Engine-A: LTE only | Engine-B: LTE only,,nlte_Li_scatt_pysme.grd,1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.,"Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.","RYA-540 (grid STAGED on Sirius; PySME derivation solar delta -0.030 does NOT reproduce the Lind-2009 small-positive anchor -> NOT wired, validate-don't-tune STOP) / RYA-103",
+element,Li,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Li,FULL_3D_NLTE,NONE,no,none,,,,,"RYA-820 (off-solar 3D-NLTE Li, Wang 2021 -- PUBLIC, not fetched)","No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
+element,C,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,C,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,amarsi2019_cno/,nlte_C_scatt_pysme.grd,,,,"Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+element,C,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+element,C,FULL_3D_NLTE,HAVE,yes,3D-NLTE,data/nlte_grids/amarsi2019_cno/,,,,,"CAN RUN via cno-3dnlte: Amarsi, Nissen & Skuladottir 2019 (A&A 630 A104) line-by-line 3D-NLTE / 1D-NLTE tables; 3D leg below Teff 6500 K (data/nlte_grids/amarsi2019_cno/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+element,N,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,N,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,N_Amarsi2020_PySME.csv,nlte_N_scatt_pysme.grd,,,,
+element,N,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+element,N,FULL_3D_NLTE,HAVE,yes,3D-NLTE,data/nlte_grids/amarsi2019_cno/,,,,,"CAN RUN via cno-3dnlte: Amarsi 2019 CNO synthesis leg (N atomic departures are the separate 1D registry grid) (data/nlte_grids/amarsi2019_cno/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+element,O,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,O,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),amarsi2019_cno/,nlte_O_scatt_pysme.grd; NLTEgrid4TS_O_MARCS_May-21-2021.bin,,,,"Wired via the cno-3dnlte subsystem (amarsi2019_cno/), not NLTE_CORRECTION_ELEMENTS. 2 departure grid(s) on Sirius."
+element,O,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+element,O,FULL_3D_NLTE,HAVE,yes,3D-NLTE,data/nlte_grids/amarsi2019_cno/,,,,,"CAN RUN via cno-3dnlte: Amarsi 2019 3D-NLTE O I 777; [O I] 6300 is forbidden-LTE by construction (RYA-447) (data/nlte_grids/amarsi2019_cno/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+element,Na,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Na,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Na_Amarsi2020_PySME.csv,nlte_Na_scatt_pysme.grd; NLTEgrid4TS_Na_MARCS_Jul-14-2023.bin,,,,
+element,Na,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Na,FULL_3D_NLTE,NONE,no,none,,,,,"RYA-820 (Canocchi 2024 Na -- PUBLIC, not fetched)","No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
+element,Mg,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Mg,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Mg_Amarsi2020_PySME.csv,nlte_Mg_scatt_pysme.grd; NLTEgrid4TS_Mg_MARCS_Nov-13-2024.bin,,,,
+element,Mg,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Mg,FULL_3D_NLTE,NONE,no,none,,,,,"RYA-820 (Matsuno 2024 Mg -- PUBLIC, not fetched)","No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
+element,Al,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Al,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: <3D>-NLTE deck on disk (UNWIRED),Al_Amarsi2020_PySME.csv,nlte_Al_scatt_pysme.grd; NLTEgrid_Al_MARCS_Jul-25-2023.bin,,,,
+element,Al,MEAN3D_NLTE,NEEDS_WIRING,no,none,,NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin,"1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.","Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.","RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801",
+element,Al,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_MEAN3D."
+element,Si,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Si,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Si_Amarsi2020_PySME.csv,nlte_Si_scatt_pysme.grd; NLTEgrid4TS_Si_MARCS_Feb-13-2022.bin,,,,
+element,Si,MEAN3D_NLTE,HAVE,yes,<3D> increment,data/threed_grids/solar3d_metals_rya399.csv,,,,,"CAN RUN via THREED_CORRECTION_ELEMENTS: Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
+element,Si,FULL_3D_NLTE,NONE,no,<3D> increment,solar3d_metals_rya399.csv,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+element,P,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,P,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,,"RYA-717 (no NLTE grid; DATA_GAP, FUV needs HST/STIS)",
+element,P,MEAN3D_NLTE,NONE,no,none,,,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,P,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,S,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,S,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,S_Amarsi2025_PySME.csv,,,,,Applied from the vendored CSV in data/nlte_grids/; the departure grid itself lives on Sirius only.
+element,S,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+element,S,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,K,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,K,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,K_Amarsi2020_PySME.csv,nlte_K_scatt_pysme.grd,,,,
+element,K,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+element,K,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+element,Ca,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Ca,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Ca_Mashonkina2017.csv,nlte_Ca_scatt_pysme.grd; NLTEgrid4TS_Ca_MARCS_Jun-02-2021.bin,,,,
+element,Ca,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Ca,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC_ION_II."
+element,Sc,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Sc,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,,RYA-732 (no NLTE grid; HFS single blue line 4246),
+element,Sc,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Sc,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,Ti,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Ti,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Ti_Mallinson2024_PySME.csv,nlte_Ti_pysme.grd; NLTEgrid4TS_TI_MARCS_Feb-21-2022.bin,,,,
+element,Ti,MEAN3D_NLTE,HAVE,yes,<3D> increment,data/threed_grids/solar3d_metals_rya399.csv,,,,,"CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Ti (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv)."
+element,Ti,FULL_3D_NLTE,NONE,no,<3D> increment,solar3d_metals_rya399.csv,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,V,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,V,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,,"RYA-470 / RYA-363 (NLTE_VOID: no Amarsi/GALAH grid and no usable neutral V I model atom -- the only genuine void, RYA-404)",
+element,V,MEAN3D_NLTE,NONE,no,none,,,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,V,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,Cr,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Cr,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: <3D>-NLTE deck on disk (UNWIRED),Cr_Bergemann2010_MPIA.csv,NLTEgrid4TS_Cr_MARCS_Dec-16-2024.bin,,,,
+element,Cr,MEAN3D_NLTE,HAVE,yes,<3D> increment,data/threed_grids/solar3d_metals_rya399.csv,NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin,,,,"CAN RUN via THREED_CORRECTION_ELEMENTS: Scott et al. 2015 Paper II (A&A 573, A26) solar 3D Cr (RYA-399) (data/threed_grids/solar3d_metals_rya399.csv). ALSO holds 1 unwired <3D> STAGGERmean3D deck(s) on Sirius -- a second, richer route nothing consumes yet."
+element,Cr,FULL_3D_NLTE,NONE,no,<3D> increment,solar3d_metals_rya399.csv,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,Mn,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Mn,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Mn_Bergemann_MPIA.csv,nlte_Mn_scatt_pysme.grd; NLTEgrid4TS_MN_MARCS_Mar-15-2023.bin,,,,
+element,Mn,MEAN3D_NLTE,NONE,no,none,,,,,,"RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
+element,Mn,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_NLTE_PUBLISHED_NOT_ADOPTED, offsolar=NONE."
+element,Fe,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Fe,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Fe_Bergemann_MPIA.csv,NLTEgrid4TS_Fe_MARCS_May-07-2021.bin,,,,"Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+element,Fe,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE BROKEN (RYA-923),,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Fe,FULL_3D_NLTE,BROKEN,no,3D-NLTE BROKEN (RYA-923),vendor/1L-3NErrors/,,"The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. 114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE legs still PASS to 3 decimals, so the line list, atmosphere, star params and EW inversion are all fine -- only the correction path regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from when it worked, so the products LOOK healthy while the engine is dead.","1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- suspects are _apply_aberr_to_line returning NaN, or _in_grid disagreeing with amarsi3d.domains() so a line passes the MLP domain check and is then rejected by the grid check. 2) Make the reactivation control BLOCK: it currently FAILs and lets the run emit n=0 cells that read as 'no lines in domain'. 3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 under the PR #315 width fix). DO NOT relax the domain check to get numbers out (RYA-923).",RYA-923 (URGENT/OPEN: MLP returns NaN for every in-domain line) / RYA-817 / RYA-924 (cells were computed on the Mac from a temp scratchpad; inputs unrecoverable),"BROKEN -- owned by RYA-923. Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+element,Fe II,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Fe II,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Fe_Bergemann_MPIA.csv,NLTEgrid4TS_Fe_MARCS_May-07-2021.bin,,,,"Wired via the fe-nlte subsystem (Fe_Bergemann_MPIA.csv), not NLTE_CORRECTION_ELEMENTS. 1 departure grid(s) on Sirius."
+element,Fe II,MEAN3D_NLTE,REQUEST_ONLY,no,3D-NLTE BROKEN (RYA-923),,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Fe II,FULL_3D_NLTE,BROKEN,no,3D-NLTE BROKEN (RYA-923),vendor/1L-3NErrors/,,"The Amarsi-2022 MLP returns NaN for EVERY in-domain line on main. 114 Fe I lines PASS the domain check and then produce n=0. The 1D-LTE legs still PASS to 3 decimals, so the line list, atmosphere, star params and EW inversion are all fine -- only the correction path regressed. Committed cells still carry Fe I 7.604 / Fe II 7.642 from when it worked, so the products LOOK healthy while the engine is dead.","1) Bisect pipeline/nlte_corrections.py between 5278efb and a7ff4e0 -- suspects are _apply_aberr_to_line returning NaN, or _in_grid disagreeing with amarsi3d.domains() so a line passes the MLP domain check and is then rejected by the grid check. 2) Make the reactivation control BLOCK: it currently FAILs and lets the run emit n=0 cells that read as 'no lines in domain'. 3) Re-derive the two committed cells (their 1D-LTE base moved n=152->322 under the PR #315 width fix). DO NOT relax the domain check to get numbers out (RYA-923).",RYA-923 / RYA-817 / RYA-924,"BROKEN -- owned by RYA-923. Engine ENGINE-A-3DNLTE: Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p) (vendor/1L-3NErrors/). RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_VENDORED."
+element,Co,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Co,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,,RYA-727 (no NLTE grid; continuum-limited blue-edge lines),
+element,Co,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Co,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,Ni,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Ni,1D_NLTE,NEEDS_WIRING,no,Engine-A: LTE only | Engine-B: 1D-NLTE (TS-native),,NLTEgrid4TS_Ni_MARCS_Jan-31-2022.bin,1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.,"Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.","RYA-710 (Gerber Ni MARCS deck on disk, unwired). Note RYA-731: Ni's blocker is gf-scale (BAD_GF), not NLTE.",
+element,Ni,MEAN3D_NLTE,NONE,no,none,,,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,Ni,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,Cu,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Cu,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: LTE only,Cu_Caliskan2024_PySME.csv,nlte_Cu_caliskan_Oct2024_pysme.grd,,,,
+element,Cu,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Cu,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,Zn,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Zn,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,,"RYA-757 (Zn intake: 27->28 canonical + Sitnova+2022 NLTE grid -- grid EXISTS in the literature, never acquired)",
+element,Zn,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Zn,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,Sr,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Sr,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Sr_Bergemann2012_INSPECT.csv,NLTEgrid4TS_Sr_MARCS_Mar-15-2023.bin,,,,
+element,Sr,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Sr,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+element,Y,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Y,1D_NLTE,NEEDS_WIRING,no,Engine-A: LTE only | Engine-B: <3D>-NLTE deck on disk (UNWIRED),,NLTEgrid4TS_Y_MARCS_Mar-27-2023.bin,1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.,"Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.","RYA-802 (acquire+hold Y Gerber ~42 GB; corrects nothing today, Y II unmeasured) / RYA-710",
+element,Y,MEAN3D_NLTE,NEEDS_WIRING,no,none,,NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin,"1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.","Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",RYA-802 / RYA-710,
+element,Y,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,Zr,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Zr,1D_NLTE,NONE,no,Engine-A: LTE only | Engine-B: LTE only,,,,,"RYA-739 (no NLTE grid NEEDED -- Zr II is the majority ion, LTE-robust; route is synthesis, RYA-560)",
+element,Zr,MEAN3D_NLTE,NONE,no,none,,,,,,"RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,Zr,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=3D_LTE_ONLY, offsolar=NONE."
+element,Ba,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Ba,1D_NLTE,HAVE,yes,Engine-A: 1D-NLTE | Engine-B: 1D-NLTE (TS-native),Ba_Korotin2015.csv,nlte_Ba_scatt_pysme.grd; NLTEgrid_Ba_MARCS_Jul-29-2023.bin,,,,
+element,Ba,MEAN3D_NLTE,REQUEST_ONLY,no,none,,,,,,"RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY. Published, but no <3D> deck on disk -> paper-table / request only."
+element,Ba,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=FULL_3D_NLTE, offsolar=SOLAR_ONLY."
+element,Eu,1D_LTE,HAVE,yes,Engine-B (synthesis),,,,,,1D-LTE synthesis is the universal baseline route (no grid).
+element,Eu,1D_NLTE,NEEDS_WIRING,no,Engine-A: LTE only | Engine-B: <3D>-NLTE deck on disk (UNWIRED),,NLTEgrid_Eu_MARCS_Sep-13-2023.bin,1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.,"Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.","RYA-803 (Eu Gerber ~47 GB; model_atom source returns 0 bytes -- BLOCKED, needs a live mirror) / RYA-710",
+element,Eu,MEAN3D_NLTE,NEEDS_WIRING,no,none,,NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin,"1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.","Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",RYA-803 / RYA-710,
+element,Eu,FULL_3D_NLTE,NONE,no,none,,,,,,"No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.) RYA-817 literature: solar=MEAN3D_NLTE, offsolar=NONE."
+molecule,C2,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/C2,,,,RYA-742 (C2 Swan solar C indicator),
+molecule,C2,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-742 (C2 Swan solar C indicator),
+molecule,CH,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/CH,,,,RYA-743 (CH G-band -- 'THE BITCH'),
+molecule,CH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-743 (CH G-band -- 'THE BITCH'),
+molecule,CN,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/CN,,,,"RYA-746 (CN solar N indicator, needs C prior)",
+molecule,CN,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,"RYA-746 (CN solar N indicator, needs C prior)",
+molecule,CO,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/CO,,,,"RYA-744 (CO dv=1/dv=2, CRIRES+ target)",
+molecule,CO,NLTE_deck,HAVE,yes,Engine-B (TS-native),,NLTEgrid4TS_CO_MARCS_Nov-14-2024.bin,,,"RYA-744 (CO dv=1/dv=2, CRIRES+ target)",
+molecule,NH,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/NH,,,,"RYA-745 (NH solar N indicator, IR only)",
+molecule,NH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,"RYA-745 (NH solar N indicator, IR only)",
+molecule,OH,LTE_linelist,HAVE,yes,Engine-B (synthesis),data/linelists/molecular/turbospectrum/OH,,,,RYA-747 (OH solar O indicator -- NOVELTY CANDIDATE),
+molecule,OH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-747 (OH solar O indicator -- NOVELTY CANDIDATE),
+molecule,TiO,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,RYA-751 (COOL-STAR MOLECULES CaH/MgH/TiO/SiO sweep -- deferred to the M-dwarf phase). Blocks the M-dwarf tier.,
+molecule,TiO,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-751 (COOL-STAR MOLECULES CaH/MgH/TiO/SiO sweep -- deferred to the M-dwarf phase). Blocks the M-dwarf tier.,
+molecule,VO,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,"RYA-751 (cool-star molecule, not carried)",
+molecule,VO,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,"RYA-751 (cool-star molecule, not carried)",
+molecule,ZrO,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,"RYA-751 (cool-star molecule, not carried)",
+molecule,ZrO,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,"RYA-751 (cool-star molecule, not carried)",
+molecule,MgH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,RYA-751 (COOL-STAR MOLECULES sweep -- deferred),
+molecule,MgH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-751 (COOL-STAR MOLECULES sweep -- deferred),
+molecule,FeH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,"RYA-751 (cool-star molecule, not carried)",
+molecule,FeH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,"RYA-751 (cool-star molecule, not carried)",
+molecule,SiH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,RYA-751 / RYA-189 (IR molecular line handling),
+molecule,SiH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-751 / RYA-189 (IR molecular line handling),
+molecule,CaH,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,RYA-751 (COOL-STAR MOLECULES sweep -- deferred),
+molecule,CaH,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,RYA-751 (COOL-STAR MOLECULES sweep -- deferred),
+molecule,H2O,LTE_linelist,NONE,no,Engine-B (synthesis),,,,acquire the linelist,"RYA-751 / RYA-503 (ExoMol/HITRAN->Turbospectrum converter EXISTS, CO-validated)",
+molecule,H2O,NLTE_deck,NONE,no,Engine-B (TS-native),,,,,"RYA-751 / RYA-503 (ExoMol/HITRAN->Turbospectrum converter EXISTS, CO-validated)",
