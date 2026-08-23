@@ -102,7 +102,13 @@ def test_mean3d_states_distinguish_the_three_situations(cells):
     "REQUEST_ONLY" was collapsing three unrelated cases into one word: a deck sitting
     unwired, a solve we have not built, and something we must genuinely ask for.
     """
-    assert cells[("Al", "MEAN3D_NLTE")]["state"] == "T2_CONSUME_WIRED"
+    # Al is wired but the run FAILED (RYA-821, 2026-08-23): interpol_modeles_nlte reads
+    # only native MARCS, which needs tauR and Pg -- columns the public <3D> STAGGER
+    # models do not carry. So the honest state is BROKEN, not "wired pending a run".
+    # The ROUTE still reads WIRED because the registry wiring is correct; what failed is
+    # the binary's input requirement.
+    assert cells[("Al", "MEAN3D_NLTE")]["state"] == "BROKEN"
+    assert cells[("Al", "MEAN3D_NLTE")]["routes"]["consume"] == "WIRED"
     for el in ("Cr", "Y", "Eu"):                      # deck + atom on disk
         assert cells[(el, "MEAN3D_NLTE")]["state"] == "T2_CONSUME_READY", el
     for el in ("O", "Fe", "Ba", "Ni"):                # atom held, no deck

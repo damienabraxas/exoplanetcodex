@@ -654,9 +654,39 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                 f"STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- "
                 f"measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the "
                 f"atmosphere is carried per-deck.")
-            cell.fix = ("END-TO-END RUN STILL OWED: wiring is verified structurally, not "
-                        "executed. The deck is Sirius-only and large. Promote to "
-                        "T2_CONSUME_VALIDATED only after an interpolation actually runs.")
+            cell.state = PROBLEM
+            cell.error = (
+                "RUN ATTEMPTED 2026-08-23 AND IT DOES NOT WORK. The registry wiring is "
+                "correct; interpol_modeles_nlte cannot use this deck. TWO faults, both "
+                "measured, with the MARCS Al deck passing as a control in the same "
+                "harness: (1) fed the <3D> atmosphere it CRASHES -- 'Bad real number in "
+                "item 1 of list input' at interpol_modeles_nlte.f:1284. babsma reads "
+                "TAU5000 SCALE fine, this binary does NOT; validating one says nothing "
+                "about the other. (2) fed a MARCS corner it exits rc=0 and writes NO "
+                "departure file -- 'ERROR: no match found for model 1', because the deck "
+                "is keyed at Teff 5777 / logg 4.44 and MARCS models exist at 5750 / 4.50. "
+                "It also prints 'Min abund is ********', a Fortran field overflow "
+                "consistent with the nan entries in this aux table's mass/Vturb columns.")
+            cell.fix = (
+                "BLOCKED ON AN INPUT THAT IS NOT PUBLICLY DISTRIBUTED. Traced to the "
+                "source: interpol_modeles_nlte.f reads ONLY native MARCS (its two flags "
+                "are `test` and binary-vs-ascii MARCS -- there is no averaged-format "
+                "mode), and native MARCS requires tauR and Pg per depth. The public <3D> "
+                "STAGGER models carry neither: BOTH archives on the MPG Keeper share "
+                "(average_stagger_grid_forTSv20.zip and ..._forMULTI1D.zip) hold the same "
+                "5-column mul23 TAU5000 form -- log tau500, T, n_e, V, v_mic -- and the "
+                "MULTI1D copy is byte-identical in content to the one we already hold. "
+                "So the deck's aux names MARCS files (p5777_g+4.4...) that the "
+                "distribution does not ship; Gerber's group evidently converted <3D> "
+                "models to MARCS internally. "
+                "OPTIONS: (a) ask the Gerber/Bergemann group for the MARCS-format <3D> "
+                "models the aux indexes -- one email, same ask-shape as RYA-1008; "
+                "(b) derive Pg and tauR ourselves (Pg from the EOS tables we hold; tauR "
+                "needs Rosseland opacities, the harder half); (c) reach Al <3D> by the "
+                "BUILD-OUR-OWN route instead, which does not use this binary. "
+                "DO NOT feed a 5750/4.50 MARCS corner to force a run -- it pairs <3D> "
+                "departures with a different atmosphere at a node the deck does not "
+                "contain, and rc=0 makes that look like success.")
         elif base in _MEAN3D_DECKS:
             cell.state = T2_CONSUME_READY
             cell.disk_paths = disk_paths or cell.disk_paths
