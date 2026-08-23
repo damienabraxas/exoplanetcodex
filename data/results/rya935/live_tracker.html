@@ -136,7 +136,14 @@ function forest(d){
     // systematics; a shared axis compresses each of them to make room for the others,
     // and a band-scoped comparator has nowhere honest to live.
     for(const b of d.bands){
-      const rows=all.filter(r=>r.band===b);
+      // Pre-telluric rows are PROVENANCE, not a second measurement, and at 27 of 43
+      // products they dominated both the axis range and the row count. Hide them --
+      // but ONLY where a corrected row exists for this band. Fe II VIS has nothing
+      // else, and a filter that silently empties a whole ion is a worse failure than
+      // a noisy plot. Anything kept here stays labelled 'pre-telluric' below.
+      const inBand=all.filter(r=>r.band===b);
+      const corrected=inBand.filter(r=>!/^PRE/.test(r.telluric_basis||''));
+      const rows=corrected.length?corrected:inBand;
       if(!rows.length) continue;
       const here=cmps.filter(c=>!c.bands||c.bands.includes(b));
       const vals=rows.flatMap(r=>{const m=Math.max(r.sigma_stat||0,r.sigma_syst||0);
