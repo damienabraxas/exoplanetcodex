@@ -64,6 +64,11 @@ h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
 .chip.sel{background:var(--link);color:#06101f;border-color:var(--link);font-weight:600}
 .chip.sel .muted{color:#06101f;opacity:.75}
 .chip:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.mtx{border-collapse:collapse;width:100%;font-size:12px;margin:.5rem 0}
+.mtx th,.mtx td{border:1px solid #223;padding:.35rem .5rem;vertical-align:top;text-align:left}
+.mtx tbody th{background:#101830;width:4.5rem}
+.gname{color:#8fa0c0;font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin-top:.25rem;word-break:break-all}
+.probcell{background:#2a1420}
 </style></head><body><main>
 <h1>Codex calibration tracker &mdash; <span id="sys" class="muted"></span></h1>
 <p class="muted">Element &times; holding &times; band &times; engine. Every value is derived by
@@ -80,6 +85,10 @@ absences are the content &mdash; showing only finished work would hide what rema
 <div id="tellsum"></div>
 <p class="muted note">Three different measurements live here and they are <b>not comparable as numbers</b>, so they are not stacked in one column. The solar legs score the fraction of a registered telluric band driven below half continuum; the stellar legs score the D1 residual at pixels molecfit calls telluric-dominated and the star's own line list calls clean; a STATE row is a determination, not a correction, and carries no before/after because nothing was corrected.</p>
 <h3>Solar bands <span class="m">&mdash; % of band pixels below 0.5 continuum, before &rarr; after</span></h3><div id="tell"></div>
+</section>
+<section><h2>Element &times; model availability <span class="m">&mdash; RYA-1015, reconciled CSV vs Sirius disk vs code</span></h2>
+<div id="modelmatrix"></div>
+<h3>Molecules <span class="m">&mdash; absent ones are listed, not omitted</span></h3><div id="molecules"></div>
 <h3>Stellar frames <span class="m">&mdash; D1 residual at telluric-dominated, stellar-clean pixels</span></h3><div id="tellstar"></div>
 <h3>State determinations <span class="m">&mdash; measured, NOT corrected</span></h3><div id="tellstate"></div>
 </section>
@@ -339,6 +348,48 @@ async function draw(){
     +'<span class="'+(t.header_state==='unknown'?'warn':'')+'">'+esc(t.header_state)+'</span>'
     +'<span class="'+(t.flux_state==='not-applied'?'bad':t.flux_state==='applied'?'good':'warn')+'">'+esc(t.flux_state)+'</span>'
     +'<span class="val">&times;'+fx(t.excess_ratio,0)+' <span class="muted">('+fx(100*t.o2b_median_frac_below,2)+'% vs '+fx(100*t.control_median_frac_below,2)+'%)</span></span></div>').join('')) : none;
+
+ // --- RYA-1015 element x model availability -------------------------------
+ const mm=d.model_matrix;
+ if(mm&&!mm.error&&mm.cells&&mm.cells.length){
+   const cls={HAVE:'good',CODE_USES:'good',REQUEST_ONLY:'warn',NONE:'muted',
+              DISK_ONLY:'bad',CSV_ONLY:'bad',PROBLEM:'bad'};
+   const byc={}; mm.cells.forEach(c=>byc[c.element+'|'+c.model_type]=c);
+   const eng={}; (mm.engines||[]).forEach(r=>eng[r.element]=r);
+   let t='<table class="mtx"><thead><tr><th>species</th>'
+        +mm.model_types.map(x=>'<th>'+esc(x.replace(/_/g,'-'))+'</th>').join('')
+        +'<th>engines</th></tr></thead><tbody>';
+   for(const el of mm.elements){
+     t+='<tr><th>'+esc(el)+'</th>';
+     for(const mt of mm.model_types){
+       const c=byc[el+'|'+mt]||{state:'NONE',disk_paths:[]};
+       const names=(c.disk_paths||[]).map(p=>esc(p.split('/').pop())).join('<br>');
+       const claim=esc(c.code_grid||c.csv_claim||'');
+       const det=[claim,names].filter(Boolean).join('<br>');
+       t+='<td class="'+(c.problem?'probcell':'')+'"><span class="'+(cls[c.state]||'muted')+'"><b>'
+         +esc(c.state)+'</b></span>'+(det?'<div class="gname">'+det+'</div>':'')+'</td>';
+     }
+     const e=eng[el]||{};
+     t+='<td class="gname">A: '+esc(e.engine_a_mode||'?')+'<br>B: '+esc(e.engine_b_mode||'?')+'</td></tr>';
+   }
+   t+='</tbody></table><p class="note muted">Engine-A = EW + grid delta (vendored CSV, in repo). '
+     +'Engine-B = synthesis (Turbospectrum; TS-native NLTE needs a Gerber deck on Sirius). Neither is primary. '
+     +'1D-LTE needs no grid. full-3D-NLTE is NONE everywhere \u2014 no public full-3D NLTE RT code exists (RYA-1008). '
+     +'<b class="bad">'+mm.problem_count+'</b> DISK_ONLY cells: on Sirius, nothing consumes them.</p>';
+   document.querySelector('#modelmatrix').innerHTML=t;
+   let mt2='<table class="mtx"><thead><tr><th>molecule</th><th>LTE linelist</th><th>NLTE deck</th></tr></thead><tbody>';
+   for(const m of (mm.molecules||[])){
+     mt2+='<tr><th>'+esc(m.molecule)+'</th>'
+        +'<td class="'+(m.lte_linelist?'':'probcell')+'"><span class="'+(m.lte_linelist?'good':'muted')+'"><b>'
+        +(m.lte_linelist?'HAVE':'NONE')+'</b></span>'
+        +(m.lte_linelist?'<div class="gname">'+esc(m.lte_linelist)+'</div>':'')+'</td>'
+        +'<td><span class="'+(m.nlte_deck?'good':'muted')+'"><b>'+(m.nlte_deck?'HAVE':'NONE')+'</b></span>'
+        +(m.nlte_deck?'<div class="gname">'+esc(m.nlte_deck)+'</div>':'')+'</td></tr>';
+   }
+   document.querySelector('#molecules').innerHTML=mt2+'</tbody></table>';
+ } else if(mm&&mm.error){
+   document.querySelector('#modelmatrix').innerHTML='<p class="bad">model matrix unavailable: '+esc(mm.error)+'</p>';
+ }
  document.querySelector('#err').textContent='';
 }
 draw().catch(e=>document.querySelector('#err').textContent='Serve this directory over HTTP: '+e);
