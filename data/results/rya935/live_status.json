@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T19:48:38+00:00",
+  "generated": "2026-08-23T22:00:34+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -1711,17 +1711,17 @@
       {
         "element": "Li",
         "model_type": "FULL_3D_NLTE",
-        "state": "NONE",
+        "state": "HAVE",
         "csv_claim": null,
-        "code_grid": null,
+        "code_grid": "grids-overflow/nlte/threed_offsolar/Li_wang2021_breidablik/",
         "disk_paths": [],
         "facts": [
-          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC.",
-          "OWNED BY: RYA-820 (off-solar 3D-NLTE Li, Wang 2021 -- PUBLIC, not fetched)"
+          "CAN RUN via ENGINE-A-3DNLTE (Breidablik): Wang et al. 2021, MNRAS 500, 2159 -- 3D-NLTE Li over the full STAGGER grid (Teff 4000-7000, logg 1.5-5.0, [Fe/H] -4..0.5, A(Li) -0.5..4.0; 610.4/670.8/812.6 nm). Zenodo 10.5281/zenodo.13829605 (grids-overflow/nlte/threed_offsolar/Li_wang2021_breidablik/).",
+          "FETCHED 2026-08-23 (RYA-820) and NOT YET WIRED to a driver -- the grid is on disk and verified; the Engine-A-3DNLTE wiring + domain check (RYA-817 discipline) is still owed.",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
         ],
         "error": "",
-        "fix": "",
+        "fix": "Wire as an Engine-A-3DNLTE treatment with a transition-energy / parameter domain check; flag out-of-domain lines, never extrapolate. Mind the A(X) ceiling trap that broke Fe (RYA-923).",
         "problem": false
       },
       {
@@ -1946,17 +1946,17 @@
       {
         "element": "Na",
         "model_type": "FULL_3D_NLTE",
-        "state": "NONE",
+        "state": "HAVE",
         "csv_claim": null,
-        "code_grid": null,
+        "code_grid": "grids-overflow/nlte/threed_offsolar/Na_canocchi2026/",
         "disk_paths": [],
         "facts": [
-          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC.",
-          "OWNED BY: RYA-820 (Canocchi 2024 Na -- PUBLIC, not fetched)"
+          "CAN RUN via ENGINE-A-3DNLTE: Canocchi et al. 2026, A&A 709, A90 -- 3D-NLTE Na, nine Na I lines, Teff 4000-6500, logg 1.5-5.0, [Fe/H] -4..+0.5, ships RBF + FFNN interpolators. Zenodo 10.5281/zenodo.19396611 (grids-overflow/nlte/threed_offsolar/Na_canocchi2026/).",
+          "FETCHED 2026-08-23 (RYA-820) and NOT YET WIRED to a driver -- the grid is on disk and verified; the Engine-A-3DNLTE wiring + domain check (RYA-817 discipline) is still owed.",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
         ],
         "error": "",
-        "fix": "",
+        "fix": "Wire as an Engine-A-3DNLTE treatment with a transition-energy / parameter domain check; flag out-of-domain lines, never extrapolate. Mind the A(X) ceiling trap that broke Fe (RYA-923).",
         "problem": false
       },
       {
@@ -2005,17 +2005,17 @@
       {
         "element": "Mg",
         "model_type": "FULL_3D_NLTE",
-        "state": "NONE",
+        "state": "HAVE",
         "csv_claim": null,
-        "code_grid": null,
+        "code_grid": "grids-overflow/nlte/threed_offsolar/Mg_matsuno2024/",
         "disk_paths": [],
         "facts": [
-          "No 3D-NLTE correction or engine we can run for this element. (We cannot COMPUTE full 3D from scratch for anything -- RYA-1008: no public full-3D NLTE RT code -- so every 3D capability here is a published grid/model we apply.)",
-          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC.",
-          "OWNED BY: RYA-820 (Matsuno 2024 Mg -- PUBLIC, not fetched)"
+          "CAN RUN via ENGINE-A-3DNLTE: Matsuno et al. 2024, A&A 688, A72 -- 3D-NLTE Mg corrections, Balder on Stagger, 2646 rows. VizieR J/A+A/688/A72 (grids-overflow/nlte/threed_offsolar/Mg_matsuno2024/).",
+          "FETCHED 2026-08-23 (RYA-820) and NOT YET WIRED to a driver -- the grid is on disk and verified; the Engine-A-3DNLTE wiring + domain check (RYA-817 discipline) is still owed.",
+          "RYA-817 literature: solar=FULL_3D_NLTE, offsolar=GRID_PUBLIC."
         ],
         "error": "",
-        "fix": "",
+        "fix": "Wire as an Engine-A-3DNLTE treatment with a transition-energy / parameter domain check; flag out-of-domain lines, never extrapolate. Mind the A(X) ceiling trap that broke Fe (RYA-923).",
         "problem": false
       },
       {
@@ -3277,12 +3277,13 @@
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
-          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
+          "/srv/codex/grids-overflow/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
         ],
         "facts": [
           "OWNED BY: RYA-803 / RYA-710"
         ],
-        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "error": "2 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
         "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
         "problem": true
       },
@@ -3441,20 +3442,21 @@
         "csv_claim": null,
         "code_grid": null,
         "disk_paths": [
-          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
+          "/srv/codex/grids-overflow/nlte/gerber_ts/NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin"
         ],
         "facts": [
           "OWNED BY: RYA-803 / RYA-710"
         ],
-        "error": "1 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
+        "error": "2 <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid for, but NO code path consumes a <3D> departure deck at all. This is not missing data -- it is unwired data.",
         "fix": "Add a <3D> consumer: register the deck in the gerber_nlte registry and give Engine-B a <3D> route (today it only reads MARCS 1D decks). Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.",
         "problem": true
       }
     ],
     "engines": [
       {
-        "engine_c_mode": "none",
-        "engine_c_where": "no 3D model held",
+        "engine_c_mode": "3D-NLTE",
+        "engine_c_where": "grids-overflow/nlte/threed_offsolar/Li_wang2021_breidablik/",
         "element": "Li",
         "engine_a_mode": "LTE only",
         "engine_a_where": "no departure grid",
@@ -3497,8 +3499,8 @@
         "two_engine": true
       },
       {
-        "engine_c_mode": "none",
-        "engine_c_where": "no 3D model held",
+        "engine_c_mode": "3D-NLTE",
+        "engine_c_where": "grids-overflow/nlte/threed_offsolar/Na_canocchi2026/",
         "element": "Na",
         "engine_a_mode": "1D-NLTE",
         "engine_a_where": "data/nlte_grids/Na_Amarsi2020_PySME.csv",
@@ -3508,8 +3510,8 @@
         "two_engine": true
       },
       {
-        "engine_c_mode": "none",
-        "engine_c_where": "no 3D model held",
+        "engine_c_mode": "3D-NLTE",
+        "engine_c_where": "grids-overflow/nlte/threed_offsolar/Mg_matsuno2024/",
         "element": "Mg",
         "engine_a_mode": "1D-NLTE",
         "engine_a_where": "data/nlte_grids/Mg_Amarsi2020_PySME.csv",
@@ -3757,7 +3759,7 @@
         "engine_a_where": "no departure grid",
         "engine_a_present": false,
         "engine_b_mode": "<3D>-NLTE deck on disk (UNWIRED)",
-        "engine_b_where": "NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
+        "engine_b_where": "NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin; NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
         "two_engine": false
       }
     ],

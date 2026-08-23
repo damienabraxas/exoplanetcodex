@@ -107,6 +107,23 @@ THREED_HOLDINGS: dict[str, dict] = {
           "engine": "cno-3dnlte",
           "what": "Amarsi 2019 CNO synthesis leg (N atomic departures are the separate "
                   "1D registry grid)"},
+    # RYA-820, fetched 2026-08-23 into the Sirius grids-overflow spill area on the
+    # root drive (codex-ext is 89% full). All three verified full 3D-NLTE at the
+    # PRIMARY source before download, per RYA-820's do-not-mislabel rule.
+    "Li": {"path": "grids-overflow/nlte/threed_offsolar/Li_wang2021_breidablik/",
+           "kind": "FULL_3D_NLTE", "engine": "ENGINE-A-3DNLTE (Breidablik)",
+           "what": "Wang et al. 2021, MNRAS 500, 2159 -- 3D-NLTE Li over the full "
+                   "STAGGER grid (Teff 4000-7000, logg 1.5-5.0, [Fe/H] -4..0.5, "
+                   "A(Li) -0.5..4.0; 610.4/670.8/812.6 nm). Zenodo 10.5281/zenodo.13829605"},
+    "Mg": {"path": "grids-overflow/nlte/threed_offsolar/Mg_matsuno2024/",
+           "kind": "FULL_3D_NLTE", "engine": "ENGINE-A-3DNLTE",
+           "what": "Matsuno et al. 2024, A&A 688, A72 -- 3D-NLTE Mg corrections, "
+                   "Balder on Stagger, 2646 rows. VizieR J/A+A/688/A72"},
+    "Na": {"path": "grids-overflow/nlte/threed_offsolar/Na_canocchi2026/",
+           "kind": "FULL_3D_NLTE", "engine": "ENGINE-A-3DNLTE",
+           "what": "Canocchi et al. 2026, A&A 709, A90 -- 3D-NLTE Na, nine Na I lines, "
+                   "Teff 4000-6500, logg 1.5-5.0, [Fe/H] -4..+0.5, ships RBF + FFNN "
+                   "interpolators. Zenodo 10.5281/zenodo.19396611"},
     "Si": {"path": "data/threed_grids/solar3d_metals_rya399.csv", "kind": "MEAN3D_NLTE",
            "engine": "THREED_CORRECTION_ELEMENTS",
            "what": "Amarsi & Asplund 2017 (MNRAS 464, 264) solar 3D increment (RYA-399)"},
@@ -265,7 +282,7 @@ ANOMALIES: dict[tuple[str, str], str] = {
 #: the CSV carries the audit, not just the inventory.
 AUDIT_ANOMALIES: list[tuple[str, str, str]] = [
     ("scan-method", "find without -L returns NOTHING through the grids symlink",
-     "/srv/codex/grids is a symlink to /mnt/codex-ext/codex-grids (ntfs3). A plain find "
+     "The Sirius grids directory is a SYMLINK onto the ntfs3 external drive. A plain find "
      "silently reports zero grids. Positive control MANDATORY before trusting any "
      "absence (RYA-1013 trap). Verified: find -L = 1 hit, plain find = 0 hits."),
     ("scan-coverage", "all THREE Sirius drives verified, not just the grids subtree",
@@ -678,6 +695,15 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
         else:
             cell.state = HAVE
             cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+            if h["path"].startswith("grids-overflow/"):
+                cell.facts.append(
+                    "FETCHED 2026-08-23 (RYA-820) and NOT YET WIRED to a driver -- the "
+                    "grid is on disk and verified; the Engine-A-3DNLTE wiring + domain "
+                    "check (RYA-817 discipline) is still owed.")
+                cell.fix = (
+                    "Wire as an Engine-A-3DNLTE treatment with a transition-energy / "
+                    "parameter domain check; flag out-of-domain lines, never "
+                    "extrapolate. Mind the A(X) ceiling trap that broke Fe (RYA-923).")
     else:
         cell.state = NONE
         cell.facts.append(
