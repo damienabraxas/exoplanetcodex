@@ -65,6 +65,21 @@ FROZEN_HAND_AUTHORED = {
     # Their machine sources remain registered separately in GENERATORS.yaml.
     "rya925/REPORT.md",
     "rya925/tracker.html",
+    # RYA-1001: the Al Phase-0 census's two narrative surfaces. Both are prose/records
+    # ABOUT the four machine artifacts beside them, which stay registered to
+    # scripts/rya1001_al_census.py and scripts/rya1001_crires_coverage.py. Neither could
+    # have a generator without inventing one:
+    #   RYA1001_AL_PHASE0_CENSUS.md   the findings narrative and the OQ1-4 answers. Its
+    #                                 numbers are all reproducible from the CSVs, and the
+    #                                 manifest `sources:` list names them.
+    #   rya1001_open_questions.yaml   OQ1-4 as tracked items (state, evidence, the defect
+    #                                 exposed, the successor that owns it), per the
+    #                                 RYA-935/990 tracker state-machine process. Several
+    #                                 verdicts rest on literature read outside this repo
+    #                                 (the arXiv:2309.06273 e-print source, a Crossref DOI
+    #                                 lookup), so no script here can regenerate them.
+    "rya1001/RYA1001_AL_PHASE0_CENSUS.md",
+    "rya1001/rya1001_open_questions.yaml",
 }
 
 
