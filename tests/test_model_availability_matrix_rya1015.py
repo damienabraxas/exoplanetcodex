@@ -24,11 +24,29 @@ def test_matrix_covers_all_28_x_model_types():
     assert len(build_matrix()["cells"]) == 28 * len(MODEL_TYPES)
 
 
-def test_oxygen_row_reproduces_the_ticket_spot_check(cells):
-    """RYA-1015 pre-registers this row; if it fails, the reconciliation is wrong."""
+def test_oxygen_row(cells):
+    """RYA-1015 pre-registered O as 1D-NLTE HAVE / <3D> REQUEST_ONLY / full-3D NONE.
+
+    The full-3D expectation is SUPERSEDED and deliberately not asserted as NONE.
+    That value came from an earlier reading in which a cell meant "can we COMPUTE full
+    3D ourselves" -- under which nothing qualifies. Ryan corrected it: we DO hold
+    3D-NLTE for O (the Amarsi-2019 CNO tables), and a matrix that renders real holdings
+    as NONE is wrong. A cell now means "do we HOLD a runnable/applicable grid", so O
+    full-3D is HAVE. The other two legs are unchanged and still pinned.
+    """
     assert cells[("O", "1D_NLTE")]["state"] == "HAVE"
     assert cells[("O", "MEAN3D_NLTE")]["state"] == "REQUEST_ONLY"
-    assert cells[("O", "FULL_3D_NLTE")]["state"] == "NONE"
+    assert cells[("O", "FULL_3D_NLTE")]["state"] == "HAVE"
+    assert "amarsi2019_cno" in (cells[("O", "FULL_3D_NLTE")]["code_grid"] or "")
+
+
+def test_rya820_grids_are_held_and_flagged_unwired(cells):
+    """Li/Mg/Na off-solar 3D-NLTE: fetched 2026-08-23, verified, NOT yet wired."""
+    for element in ("Li", "Mg", "Na"):
+        cell = cells[(element, "FULL_3D_NLTE")]
+        assert cell["state"] == "HAVE", element
+        assert "threed_offsolar" in (cell["code_grid"] or ""), element
+        assert any("NOT YET WIRED" in f for f in cell["facts"]), element
 
 
 def test_rya597_ti_drift_is_fixed(cells):
