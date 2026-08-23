@@ -81,11 +81,78 @@ DECKS = {
     "Fe": dict(Z=26, atom="atom.fe607a",
                aux="auxData_Fe_MARCS_May-07-2021.dat",
                grid="NLTEgrid4TS_Fe_MARCS_May-07-2021.bin"),
+    # RYA-1005. ⚠️ Al's grid is NOT shaped like Fe's — see `abundance_axis()`. Fe resolves
+    # ONE A(X) at fixed [Fe/H]; Al resolves 31 (4.43-7.43 at the solar node). Adding this
+    # entry alone, without the axis handling below, would have served every trial
+    # abundance the same cached departures and thrown away a real dimension of the grid
+    # while still returning a perfectly good-looking file.
+    "Al": dict(Z=13, atom="atom.al_qmh",
+               aux="auxData_Al_MARCS_Jul-25-2023.dat",
+               grid="NLTEgrid_Al_MARCS_Jul-25-2023.bin"),
 }
 
 
 class GerberDeckError(RuntimeError):
     """Raised loudly. There is no degraded mode: silent LTE is the failure to avoid."""
+
+
+_AXIS_CACHE: dict[str, tuple] = {}
+
+
+def abundance_axis(element: str) -> tuple:
+    """The distinct A(X) values this deck resolves at solar [Fe/H], sorted.
+
+    🔴 RYA-1005 — DECKS ARE NOT ALL SHAPED LIKE Fe's, AND THE DIFFERENCE IS INVISIBLE.
+    This module's original design rests on a property of the Fe grid that it measured and
+    stated: the departures do not depend on A(X), the aux table has ONE abundance at fixed
+    [Fe/H], so one interpolation serves every trial and only the stamp follows the fitted
+    value. That is true for Fe and FALSE for Al:
+
+        Fe   15,229 aux rows,   1 distinct A(X) at [Fe/H]=0
+        Al  454,466 aux rows,  31 distinct A(X) at [Fe/H]=0  (4.43 - 7.43)
+
+    Measured, not inferred: interpolating Al at A = 6.20 / 6.43 / 6.70 returns THREE
+    DIFFERENT departure blocks (sha256 d54fb26c / 58e03eb4 / ef995777), where the same
+    test on Fe returns one. So for Al the grid carries real abundance information, and
+    caching on (element, teff, logg, feh) alone would serve every trial the first
+    interpolation and silently discard a dimension — while still returning a perfectly
+    well-formed file, which is what makes it worth a guard rather than a comment.
+
+    Returns a 1-tuple for a single-abundance deck, so callers need no special case.
+    """
+    if element in _AXIS_CACHE:
+        return _AXIS_CACHE[element]
+    if element not in DECKS:
+        raise GerberDeckError(f"no deck registered for {element!r}")
+    aux = f"{GT}/{DECKS[element]['aux']}"
+    if not os.path.exists(aux):
+        raise GerberDeckError(f"missing Gerber aux table (Sirius-only): {aux}")
+    vals = set()
+    with open(aux) as fh:
+        for ln in fh:
+            if ln.lstrip().startswith("#"):
+                continue
+            f = ln.split()
+            if len(f) < 8:
+                continue
+            try:
+                if abs(float(f[3])) < 1e-9:          # [Fe/H] == 0
+                    vals.add(round(float(f[7]), 4))  # A(X)
+            except ValueError:
+                continue
+    if not vals:
+        raise GerberDeckError(
+            f"{aux}: no rows at [Fe/H]=0 — cannot establish this deck's abundance axis, "
+            f"and guessing it would be the silent-LTE failure one level up")
+    out = tuple(sorted(vals))
+    _AXIS_CACHE[element] = out
+    return out
+
+
+def has_abundance_axis(element: str) -> bool:
+    """True when the deck resolves more than one A(X) — i.e. the abundance must be part
+    of the interpolation and of the cache key."""
+    return len(abundance_axis(element)) > 1
 
 
 def deck_abundance(element: str) -> float:
@@ -180,16 +247,36 @@ _CACHE: dict[tuple, dict] = {}
 
 
 def for_node(element: str, teff: float, logg: float, feh: float,
-             node: str = "solar",
-             workdir: str = "/tmp/rya798_gerber") -> dict:
-    """Interpolated departures for one atmosphere node. Cached — see the module docstring:
-    the departures do not depend on the abundance, so one run serves every trial."""
+             node: str = "solar", workdir: str = "/tmp/rya798_gerber",
+             abundance: float | None = None) -> dict:
+    """Interpolated departures for one atmosphere node.
+
+    Cached. ⚠️ RYA-1005 — the cache key includes the ABUNDANCE for a deck that resolves
+    one (`has_abundance_axis`), and does not for a deck that does not. Fe has a single
+    A(X), so its key and its behaviour are unchanged; Al has 31 and its departures really
+    do differ between them, so keying without the abundance would hand every trial in the
+    chi2 loop the first interpolation.
+    """
     if element not in DECKS:
         raise GerberDeckError(
             f"no TS-native Gerber deck registered for {element!r} in this adapter "
             f"(registered: {sorted(DECKS)}). Staging a deck is RYA-710; validating it is "
             f"the RYA-534/785 gate. Both must happen before it can be used here.")
-    key = (element, round(teff, 1), round(logg, 3), round(feh, 3))
+    axis = abundance_axis(element)
+    if has_abundance_axis(element):
+        if abundance is None:
+            raise GerberDeckError(
+                f"{element}'s deck resolves {len(axis)} abundances "
+                f"({axis[0]:.2f}-{axis[-1]:.2f}) and its departures DIFFER between them "
+                f"(RYA-1005), so an abundance is required. Passing none would silently "
+                f"pin the whole chi2 loop to one arbitrary value.")
+        if not (axis[0] - 1e-9 <= abundance <= axis[-1] + 1e-9):
+            raise GerberDeckError(
+                f"A({element}) = {abundance:.3f} is outside this deck's abundance axis "
+                f"[{axis[0]:.2f}, {axis[-1]:.2f}] — extrapolating departures off the grid "
+                f"is not a correction, it is an invention.")
+    key = (element, round(teff, 1), round(logg, 3), round(feh, 3),
+           round(float(abundance), 3) if has_abundance_axis(element) else None)
     if key in _CACHE:
         return _CACHE[key]
 
@@ -204,7 +291,9 @@ def for_node(element: str, teff: float, logg: float, feh: float,
             f"teff={teff:.0f} logg={logg:.2f} feh={feh:+.2f}. Serving another star needs "
             f"real corner selection — do that rather than accepting solar departures.")
 
-    a_deck = deck_abundance(element)
+    # A single-abundance deck interpolates at ITS OWN value (Fe: 7.46, and bsyn STOPs on
+    # a mismatch). An axis deck interpolates at the value actually being synthesised.
+    a_deck = float(abundance) if has_abundance_axis(element) else deck_abundance(element)
     dep_path = _interpolate(element, node, teff, logg, feh, a_deck, workdir)
     parsed = read_departure_file(dep_path)
 
@@ -243,6 +332,7 @@ def coefficients(element: str, teff: float, logg: float, feh: float,
     The coefficients themselves are node-fixed (module docstring) — this is the stamp
     following the synthesis, not the physics following the abundance.
     """
+    kw.setdefault("abundance", float(abundance) if has_abundance_axis(element) else None)
     return {element: as_ispec_tuple(for_node(element, teff, logg, feh, **kw),
                                     abundance)}
 

@@ -1,0 +1,61 @@
+{
+  "ticket": "RYA-1005",
+  "element": "Al",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
+  "model_atom": "atom.al_qmh (Al I/II, 137 levels, FoRMATo-2.1)",
+  "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
+  "url_source": "TSFitPy utilities/nlte_grids_links.cfg [Al]",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540/801). The payload was ALREADY STAGED before this ticket: RYA-801 pulled all five files on 2026-08-13 and nothing consumed them, because `gerber_nlte.DECKS` named only Fe. `element_status_tracker.csv` consequently still reads AVAILABLE-NEVER-PULLED \u2014 it reads the REGISTRATION, not the disk. This is the SAME defect Fe's own provenance record documents for Fe (RYA-785); Al is it recurring. Nothing was re-downloaded.",
+  "store": "/mnt/codex-ext/codex-grids/nlte/gerber_ts on the EXTERNAL drive; /mnt/codex-data/grids and /srv/codex/grids both symlink there (RYA-800).",
+  "deck_abundance": {
+    "a_sun": null,
+    "why": "NOT APPLICABLE for this deck, and that is the finding. Fe's grid resolves ONE A(X) at fixed [Fe/H] (7.50 in the aux table, 7.46 as the departures were actually computed), so a single scalar is the whole story. Al's resolves THIRTY-ONE (4.43-7.43 at the solar node, 454,466 aux rows against Fe's 15,229), and the departures genuinely DIFFER between them \u2014 interpolating at A = 6.20 / 6.43 / 6.70 returns three different departure blocks (sha256 d54fb26c / 58e03eb4 / ef995777), where the same test on Fe returns one. So Al interpolates at the abundance being synthesised; there is no single deck abundance to record. See `gerber_nlte.abundance_axis`."
+  },
+  "abundance_axis": {
+    "n": 31,
+    "min": 4.43,
+    "max": 7.43,
+    "at": "[Fe/H] = 0",
+    "solar_A_Al_in_range": true
+  },
+  "gate": {
+    "status": "see data/audit/rya1005_al_gerber/ \u2014 run by scripts/ts_gerber_gate.py"
+  },
+  "files": {
+    "model_atom": {
+      "name": "atom.al_qmh",
+      "url": "https://keeper.mpdl.mpg.de/f/a8d56401e25f4fbcad22/?dl=1",
+      "bytes": 4342011,
+      "md5": "1cd69def2866828566f2cbff4f51a103"
+    },
+    "grid_1d_aux": {
+      "name": "auxData_Al_MARCS_Jul-25-2023.dat",
+      "url": "https://keeper.mpdl.mpg.de/f/bbe071e38df14ef5bfa8/?dl=1",
+      "bytes": 95719899,
+      "md5": "387a384cc8b3788e3ab73bf8b2700715"
+    },
+    "grid_3d_aux": {
+      "name": "auxData_Al_STAGGERmean3D_Aug-05-2023_marcs_names.txt",
+      "url": "https://keeper.mpdl.mpg.de/f/71fc72d0aa384a70949c/?dl=1",
+      "bytes": 1078741,
+      "md5": "53c796bebd809acee515d6d764ee4f82"
+    },
+    "grid_3d_bin": {
+      "name": "NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin",
+      "url": "https://keeper.mpdl.mpg.de/f/5bbc96082f8b4b20b5bc/?dl=1",
+      "bytes": 1823224060,
+      "md5": "bdfd9da6cc8ea87c58a44ae94c5d8bb2"
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid_Al_MARCS_Jul-25-2023.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/0df34c9440024ed18e78/?dl=1",
+      "bytes": 32547975257,
+      "unpacks_to": "NLTEgrid_Al_MARCS_Jul-25-2023.bin",
+      "unpacked_bytes": 72509142368,
+      "md5": "5bf1dd6e657bc70e4c1d2121d6955b41",
+      "unpacked_md5": "b3a07042c5ff8c6d2c95eda4e3b8c0ef",
+      "unpacked_crc32": "c7c0879f"
+    }
+  }
+}
