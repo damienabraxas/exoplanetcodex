@@ -576,6 +576,27 @@ def synthesis_route(a, pol) -> None:
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
         _w, _f, _prov = win.wave, win.flux, win.provenance
+        if getattr(a, "local_renorm", False):
+            # 🔴 RYA-1000 — ONE CONVENTION FOR BOTH ARMS, applied IDENTICALLY.
+            #
+            # Kitt Peak ships residual flux where unity IS the continuum by construction;
+            # HARPS ships its own fitted continuum. Measured over the 108 common deep
+            # lines the local flux sits at 0.9281 (KP) against 0.8913 (HARPS) — and the
+            # synthesis route fits observed flux against a synthesis normalised to UNITY,
+            # so a depressed local continuum reads as extra absorption and the fitter
+            # spends A(Fe) closing it (RYA-843's mechanism, RYA-911's -0.34 dex).
+            #
+            # The 95th percentile is `verify_feature`'s own continuum estimator, reused
+            # rather than invented so the two places cannot disagree about what
+            # "continuum" means in a window.
+            #
+            # ⚠️ SYMMETRIC BY DESIGN. Applying this to HARPS alone would be tuning one arm
+            # toward the other. Both arms get the same operation; if the gap is a
+            # convention artifact it collapses, and if it is real it survives.
+            _c95 = float(np.nanpercentile(_f, 95))
+            if np.isfinite(_c95) and _c95 > 0:
+                _f = np.asarray(_f, float) / _c95
+                _prov = f"{_prov} | RYA-1000 LOCAL-RENORM /p95={_c95:.4f}"
         if _degrade_to:
             # Gaussian kernel that takes R_native -> R_target:
             #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
@@ -1124,6 +1145,11 @@ def main() -> None:
                          "instrument test — same spectrum, same lines, same pipeline, "
                          "only the resolution changes, so nothing else can explain a "
                          "difference. NOT for producing science products.")
+    ap.add_argument("--local-renorm", action="store_true",
+                    help="RYA-1000: divide each fit window by its OWN local continuum "
+                         "(95th percentile) before fitting, so both arms share one "
+                         "continuum convention. DIAGNOSTIC ONLY — the controlled test of "
+                         "whether the KP-vs-HARPS arm gap is a normalisation artifact.")
     ap.add_argument("--lines-deep-graded", action="store_true",
                     help="RYA-984: select the laboratory-graded lines that sit ABOVE the "
                          "EW depth gate — the ones EW can never attempt because the curve "
