@@ -477,6 +477,42 @@ def tier_line(row, inst_ids: tuple[str, ...]) -> str:
     return "GRADEABLE"
 
 
+#: Which ENGINE can serve a line, per the declared band method. This is what makes a
+#: census row addressable as a tracker CELL (RYA-935/990 state machine): Phase 1 emits
+#: PENDING against `cell_id`, Ryan approves the cell by comment, and a later fix can
+#: REVOKE it. Phase 0 emits NO cell state itself -- a census inventories, it does not
+#: measure -- but every gradeable line has to carry the address a cell will be filed at,
+#: or Phase 1 has to invent one and the two surfaces drift.
+#:   A = 1D-NLTE delta on an LTE EW/synth value (pipeline.nlte_corrections)
+#:   B = Turbospectrum synthesis
+#: `engine_candidates` is what the BAND permits, not what has been run.
+_ENGINE_BY_METHOD = {"profile-fit": ("A", "B"), "synthesis": ("A", "B"),
+                     "interval-integration": ()}
+
+
+def cell_ids(row) -> tuple[str, str]:
+    """(cell_id, engine_candidates) for one census row.
+
+    cell_id = element.ion.band.instrument.engine, with instrument = the PREFERRED home:
+    a Sirius-resident holding if one covers the line, else the coverage-blind-spot
+    holding, else the mac-only one. Comma-separated when a line has more than one home,
+    because a line measurable on two instruments is two cells, not one -- that is the
+    RYA-525 two-engine floor read across the instrument axis.
+    """
+    homes = [h for h in str(row.get("instruments_on_sirius") or "").split("|") if h]
+    if not homes:
+        homes = [h for h in str(row.get("instruments_coverage_blind_spot") or "").split("|") if h]
+    if not homes:
+        homes = [h for h in str(row.get("instruments_coverage_module") or "").split("|") if h]
+    methods = [m for m in str(row.get("band_methods") or "").split("|") if m]
+    eng = sorted({e for m in methods for e in _ENGINE_BY_METHOD.get(m, ())})
+    if not homes or not eng:
+        return "", "|".join(eng)
+    band = str(row["band"]).split()[0]
+    return (",".join(f"Al.{row['ion']}.{band}.{h}.{e}" for h in homes for e in eng),
+            "|".join(eng))
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="RYA-1001 Al Phase-0 census")
     ap.add_argument("--star", default="solar")
@@ -546,6 +582,10 @@ def main(argv=None) -> int:
             rec["telluric_required_band"] = bool(band_policy.resolve(f.wave_air_A).telluric_required)
         except band_policy.BandPolicyError:
             rec["telluric_required_band"] = None
+        rec["cell_id"], rec["engine_candidates"] = cell_ids(rec)
+        # Phase 0 files no cell state. The column exists so Phase 1 has one place to
+        # write PENDING and the census cannot silently disagree with it.
+        rec["cell_state"] = "NOT-A-CELL (Phase 0 census)"
         rows.append(rec)
 
     df = pd.DataFrame(rows)
@@ -580,8 +620,7 @@ def main(argv=None) -> int:
     grad = df[df.tier.isin(["GRADEABLE", "CANDIDATE-BLENDED"])]
     cols = ["ion", "wave_air_A", "band", "ep_eV", "log_gf_linelist_sum",
             "hfs_n_components", "central_depth", "best_gf_source", "best_log_gf",
-            "best_sigma_dex", "tier", "instruments_coverage_module",
-            "instruments_on_sirius", "instruments_coverage_blind_spot"]
+            "best_sigma_dex", "tier", "cell_id", "engine_candidates"]
     print("=== GRADEABLE + CANDIDATE pool ===")
     print(grad[[c for c in cols if c in grad.columns]].to_string(index=False))
 
