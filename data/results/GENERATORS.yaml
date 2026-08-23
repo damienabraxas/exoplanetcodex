@@ -2149,7 +2149,238 @@ artifacts:
       page is meaningless without the JSON and the pair must not drift apart.
 
 
+
+
+  # ── RYA-967 / RYA-984 / RYA-991 VIS Fe I legs — invocations RECONSTRUCTED (RYA-990) ──
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      RYA-967 shallow VIS Fe I synth leg (the 55-line depth-selected pool).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      RYA-967 shallow VIS Fe I synth leg (the 55-line depth-selected pool).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      RYA-967 shallow VIS Fe I synth leg (the 55-line depth-selected pool).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      RYA-984 deep-graded recovery, Kitt Peak: the lab-graded lines above the EW depth gate (n=108, 1 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      RYA-984 deep-graded recovery, Kitt Peak: the lab-graded lines above the EW depth gate (n=108, 1 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      RYA-984 deep-graded recovery, Kitt Peak: the lab-graded lines above the EW depth gate (n=108, 1 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      RYA-991 HARPS deep-graded leg, the same 109 lines on the corrected HARPS holding (n=109, 0 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      RYA-991 HARPS deep-graded leg, the same 109 lines on the corrected HARPS holding (n=109, 0 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      RYA-991 HARPS deep-graded leg, the same 109 lines on the corrected HARPS holding (n=109, 0 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  # ── RYA-986 Fe I VIS full ungraded run, both arms ─────────────────────────────────
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-from-ew data/measured/band_ew/FeI_3780_6910_kpno_solar_atlas_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, Kitt Peak arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.459 (n=1452).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0131 at n=1452 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-from-ew data/measured/band_ew/FeI_3780_6910_kpno_solar_atlas_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, Kitt Peak arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.459 (n=1452).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0131 at n=1452 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-from-ew data/measured/band_ew/FeI_3780_6910_kpno_solar_atlas_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, Kitt Peak arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.459 (n=1452).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0131 at n=1452 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew data/measured/band_ew/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, HARPS (molecfit-corrected) arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.537 (n=1443).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0151 at n=1443 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew data/measured/band_ew/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, HARPS (molecfit-corrected) arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.537 (n=1443).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0151 at n=1443 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew data/measured/band_ew/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, HARPS (molecfit-corrected) arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.537 (n=1443).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0151 at n=1443 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
   # ── RYA-959 — the width ceiling, and the evidence that it is measured not chosen ─────
+  #
+  # RYA-959's two artifacts -- `data/audit/rya959_width_ceiling/{width_ceiling_evidence.json,
+  # verdict_census.csv}` -- are NOT listed here, deliberately (Ryan, 2026-08-23).
+  # They are real and git-tracked, but they live under `data/audit/`, and this manifest
+  # governs `data/results/` + `data/processed/` only (scripts/check_result_generators.py
+  # SCANNED_DIRS). Registering them here made `test_live_repo_is_clean` fail on every PR
+  # for a week: the checker cannot resolve a path outside the trees it scans. Their
+  # generator is `scripts/rya959_width_evidence.py`, recorded in docs/science/, not here.
+
   #
   # The POOLS are deliberately NOT here: they land in data/measured/band_ew/, which is
   # gitignored (RYA-469), because they are regenerable from the committed line list plus
@@ -2157,33 +2388,7 @@ artifacts:
   # fitted-sigma histogram, and the fate of the laboratory-graded lines — so the claim
   # "the ceiling lands in a valley" can be checked without re-running the measurement.
 
-  - artifact: ../audit/rya959_width_ceiling/width_ceiling_evidence.json
-    status: COMMITTED
-    generator: scripts/rya959_width_evidence.py
-    invocation: python3 scripts/rya959_width_evidence.py
-    ticket: RYA-959
-    note: >-
-      Both VIS arms, 2,359 Fe I candidates each. The fitted sigma is BIMODAL and the
-      physical ceiling (0.055-0.104 A, derived from STAR_PARAMS) lands in the valley:
-      only 3.2% (HARPS) / 4.2% (Kitt Peak) of fits sit within 1-2x it, while 960 / 774
-      sit pinned at the optimiser's 0.40 A bound. After the guard no impossible width
-      survives - in-aggregate implied width median 0.175 A (max 0.551) and 0.152 A
-      (max 0.426), against 0.69 A median and a 31.8 A worst case in the stale
-      sol_ew_results_v1. Of the 57 laboratory-graded Fe I lines that reach the fitter at
-      all, the dominant loss on BOTH arms is REW saturation (30 / 24), not plumbing:
-      the EW route genuinely cannot measure that population, which is why RYA-958 routes
-      the deep graded lines to synthesis.
 
-  - artifact: ../audit/rya959_width_ceiling/verdict_census.csv
-    status: COMMITTED
-    generator: scripts/rya959_width_evidence.py
-    invocation: python3 scripts/rya959_width_evidence.py
-    ticket: RYA-959
-    note: >-
-      One row per (arm, verdict). Registered against the same generator as the JSON
-      because the two are one measurement and must not drift apart. The REW branch spells
-      its own number into the reason string, so the census collapses it to a single coded
-      verdict - counting the raw strings returns ~200 distinct "verdicts" for one cause.
 
   - artifact: rya1001/rya1001_al_line_census.csv
     status: COMMITTED
