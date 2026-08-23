@@ -35,11 +35,22 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-#: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>_products.csv`. The holding
-#: is in the stem because RYA-933/934 put it there -- before that, two holdings of
+#: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>[_<SELECTOR>]_products.csv`. The
+#: holding is in the stem because RYA-933/934 put it there -- before that, two holdings of
 #: one instrument wrote the same filename and the second overwrote the first.
+#:
+#: RYA-990: the SELECTOR tag is optional and was previously unmatched, which silently
+#: DROPPED every product carrying one. `derive_band_products._selector_tag` has emitted
+#: `_DEEPGRADED` / `_FROMEW[-GRADED|-UNGRADED]` since RYA-984, so the two deep-graded VIS
+#: Fe legs (RYA-984 Kitt Peak, RYA-991 HARPS) were on disk and merged but invisible here --
+#: the tracker showed the 55-line shallow run as the only VIS synth product. A dashboard
+#: that cannot see a merged product is the same failure mode as one that is hand-typed.
+#: The selector is CARRIED, not discarded: it names which line set was measured, and two
+#: runs differing only in selector are two different products (RYA-984) that must not
+#: collapse into one cell (RYA-946).
 STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<lo>\d+)_(?P<hi>\d+)_"
-                  r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)_products\.csv$")
+                  r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)"
+                  r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)?)_products\.csv$")
 
 
 def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
@@ -67,7 +78,11 @@ def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | N
     return {"element": m.group("el"), "ion": m.group("ion"),
             "lo_A": float(m.group("lo")), "hi_A": float(m.group("hi")),
             "instrument": instrument, "holding": holding,
-            "holding_source": source, "handler": m.group("handler")}
+            "holding_source": source, "handler": m.group("handler"),
+            # Which line set was measured. "" is the default selector, which is what
+            # every pre-RYA-984 artifact carries (RYA-984 kept the default unlabelled
+            # so existing names did not change).
+            "selector": m.group("selector").lstrip("_") or "default"}
 
 
 def collect_products(roots: list[Path], instruments: set[str],
