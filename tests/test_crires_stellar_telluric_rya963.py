@@ -710,21 +710,32 @@ def test_the_runaway_and_the_good_fit_used_different_mask_velocities_rya997():
     """🔴 The H1559 flip was a MISPLACED STELLAR MASK, not luck and not molecfit noise.
 
     run_set takes the mask velocity from acen_orbit.predicted_rv for EVERY set, so tau
-    Ceti -- a single star -- was masked at alpha Cen A's orbital RV. RYA-971's omega flip
-    moved that value, and the mask with it. Pinned here because the numbers are the whole
-    argument of RYA-998; if the coupling is ever removed this test should be updated
-    alongside it, not deleted.
+    Ceti -- a single star -- is masked at alpha Cen A's orbital RV. RYA-971's omega flip
+    moved that value, and the mask with it.
+
+    🔴 COMPARE IN ONE FRAME. predicted_rv returns a BARYCENTRIC velocity (run_set
+    converts it with `- berv`), so it must be judged against tau Ceti's BARYCENTRIC RV,
+    not against the topocentric value the product reports. An earlier version of this
+    test compared the two across frames and understated the old error by BERV
+    (+2.227 km/s), which also made the improvement look ~5x when it is 3x.
+
+    The corrected numbers say something sharper than "RYA-971 fixed it": the mask is
+    STILL displaced by more than half its own half-width. RYA-971 made tau Ceti's mask
+    LESS WRONG, not right -- which is the whole argument of RYA-998.
     """
-    mask_half_A = 0.30                      # _MASK_HALF_A
-    measured_topo = -18.67                  # tau Ceti, H1559 frame
+    mask_half_A = cst._MASK_HALF_A
+    measured_bary = -16.4822                # this frame; cited -16.597 (Soubiran+2018)
     c, lam = 299792.458, 16000.0
     before, after = -25.3368, -19.4492      # predicted_rv rv_A at MJD 59493.09557
-    disp = lambda rv: abs(rv - measured_topo) / c * lam
-    assert cst._MASK_HALF_A == mask_half_A
-    # BEFORE: the mask sat further from the line than its own half-width -> lines leaked
-    assert disp(before) > mask_half_A, "the pre-971 mask would have covered the lines"
-    # AFTER: inside the mask, and by a wide margin relative to the failing case.
-    # Stated as a RELATIONSHIP, not a hand-picked constant: what matters is that one
-    # velocity puts the line outside its own exclusion window and the other does not.
+    disp = lambda rv: abs(rv - measured_bary) / c * lam
+    assert mask_half_A == 0.30
+    # BEFORE: displaced further than the half-width -> the window sat OFF the lines,
+    # they leaked into the telluric fit, and CH4 absorbed them (22.711).
+    assert disp(before) > mask_half_A
+    # AFTER: inside the mask, hence 0.983 -- but only just, and that is the point.
     assert disp(after) < mask_half_A
-    assert disp(before) > 5 * disp(after)
+    assert disp(after) > 0.5 * mask_half_A, (
+        "if the post-971 mask ever lands properly on the lines, RYA-998's premise "
+        "changed -- re-derive rather than deleting this assertion")
+
+
