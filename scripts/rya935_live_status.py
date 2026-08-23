@@ -247,6 +247,24 @@ def _harps_state(audit_root: Path) -> list[dict]:
     return rows
 
 
+def collect_model_matrix() -> dict:
+    """RYA-1015 element x model-type availability, reconciled CSV vs disk vs code.
+
+    A STANDING view: regenerated with the rest of the tracker, so "what atoms have what
+    models" is read off a generated grid instead of re-derived in conversation.
+
+    The disk half is a committed Sirius `find -L` snapshot whose positive control must
+    have PASSED; if it did not, the matrix loud-fails rather than reporting absences
+    that are symlink artifacts (RYA-1013). We surface that as an explicit error row
+    rather than dropping the section, so a blind scan can never look like "no grids".
+    """
+    from pipeline.model_availability_matrix import build_matrix, DiskSnapshotError
+    try:
+        return build_matrix()
+    except DiskSnapshotError as exc:
+        return {"error": str(exc), "cells": [], "problem_count": None}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--products-root", type=Path, action="append", default=None)
@@ -278,6 +296,7 @@ def main() -> None:
         "instruments": collect_instruments(),
         "products": products,
         "telluric": collect_telluric(args.audit_root),
+        "model_matrix": collect_model_matrix(),
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(status, indent=2) + "\n")
