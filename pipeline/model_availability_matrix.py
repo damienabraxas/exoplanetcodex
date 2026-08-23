@@ -344,6 +344,71 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     return cell
 
 
+#: The two engines (pipeline/engine_selection.py). There is no "primary" — both are
+#: products that get presented, and higher reach is BROADER, not better.
+ENGINE_A = "Engine-A (EW + grid delta)"
+ENGINE_B = "Engine-B (synthesis)"
+
+
+def build_engine_matrix(matrix: dict) -> list[dict]:
+    """Per element: what each ENGINE can actually run, and where its grid lives.
+
+    Engine-A runs 1D-NLTE from a VENDORED departure CSV in data/nlte_grids/ (in-repo).
+    Engine-B runs synthesis, and goes NLTE only when a TS-native Gerber deck is on
+    Sirius. Either engine falls back to LTE, so "no grid" never means "no engine" --
+    it means that engine is LTE-only for that element, which is the distinction that
+    keeps getting lost.
+    """
+    import sys
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from config import constants as C
+    nlte_code = dict(C.NLTE_CORRECTION_ELEMENTS)
+
+    by = {(c["element"], c["model_type"]): c for c in matrix["cells"]}
+    grids_dir = ROOT / "data" / "nlte_grids"
+    rows = []
+    for element in CANONICAL_28:
+        base = element.split()[0] if element.startswith("Fe") else element
+        code_entry = nlte_code.get(base)
+        onedee = by[(element, "1D_NLTE")]
+        mean3d = by[(element, "MEAN3D_NLTE")]
+
+        # --- Engine-A: needs a vendored CSV it can read from the repo ---
+        vendored = code_entry.get("grid") if code_entry else onedee.get("csv_claim")
+        a_present = bool(vendored) and (grids_dir / vendored).exists() \
+            if vendored and vendored.endswith(".csv") else bool(vendored)
+        if code_entry:
+            a_mode, a_where = "1D-NLTE", f"data/nlte_grids/{code_entry['grid']}"
+        elif onedee["state"] == HAVE and vendored:
+            a_mode, a_where = "1D-NLTE", f"wired via subsystem ({vendored})"
+        else:
+            a_mode, a_where = "LTE only", "no departure grid"
+
+        # --- Engine-B: NLTE only with a TS-native deck on Sirius ---
+        ts_1d = [p for p in onedee["disk_paths"] if "gerber_ts" in p]
+        ts_3d = [p for p in mean3d["disk_paths"] if "gerber_ts" in p]
+        if ts_3d:
+            b_mode = "<3D>-NLTE deck on disk (UNWIRED)"
+            b_where = "; ".join(Path(p).name for p in ts_3d)
+        elif ts_1d:
+            b_mode = "1D-NLTE (TS-native)"
+            b_where = "; ".join(Path(p).name for p in ts_1d)
+        else:
+            b_mode, b_where = "LTE only", "no TS-native deck"
+
+        rows.append({
+            "element": element,
+            "engine_a_mode": a_mode,
+            "engine_a_where": a_where,
+            "engine_a_present": a_present,
+            "engine_b_mode": b_mode,
+            "engine_b_where": b_where,
+            "two_engine": a_mode != "LTE only" and not b_mode.startswith("LTE"),
+        })
+    return rows
+
+
 def render_markdown(matrix: dict) -> str:
     """Compact element x model-type grid for humans."""
     by = {(c["element"], c["model_type"]): c for c in matrix["cells"]}
@@ -365,3 +430,140 @@ def render_markdown(matrix: dict) -> str:
         out.append(f"- `{c['element']}` / `{c['model_type']}` -> **{c['state']}**: "
                    + " ".join(c["facts"]))
     return "\n".join(out) + "\n"
+
+
+#: Molecules matter for the M-dwarf tier and for C/N/O, and they live in a DIFFERENT
+#: place from the atomic grids, which is exactly why they get forgotten: the LTE
+#: linelists are vendored in-repo while the only molecular NLTE deck is on Sirius.
+MOLECULES_EXPECTED: tuple[str, ...] = (
+    # carried today (C/N/O coupling, RYA-360)
+    "C2", "CH", "CN", "CO", "NH", "OH",
+    # NOT carried -- the M-dwarf / cool-star gap, listed so the hole is visible
+    "TiO", "VO", "ZrO", "MgH", "FeH", "SiH", "CaH", "H2O",
+)
+
+
+def build_molecule_matrix(snapshot_path: Path | None = None) -> list[dict]:
+    """What we hold per MOLECULE: vendored LTE linelist, and any NLTE deck.
+
+    Absent molecules are listed explicitly rather than omitted -- an inventory that
+    only shows what you have cannot show you a gap.
+    """
+    snapshot_path = snapshot_path or (ROOT / "data" / "audit" / "rya1015"
+                                      / "sirius_scan_raw.txt")
+    lists_dir = ROOT / "data" / "linelists" / "molecular" / "turbospectrum"
+    have_lists = {p.name for p in lists_dir.iterdir() if p.is_dir()} \
+        if lists_dir.exists() else set()
+
+    decks: dict[str, list[str]] = {}
+    for line in snapshot_path.read_text().splitlines():
+        if line.startswith("#") or "|" not in line:
+            continue
+        _, fname = line.split("|")[0], line.split("|")[1]
+        m = re.match(r"NLTEgrid(?:4TS)?_([A-Za-z0-9]{2,4})_MARCS_", fname)
+        if m and m.group(1).upper() in {x.upper() for x in MOLECULES_EXPECTED}:
+            decks.setdefault(m.group(1).upper(), []).append(fname)
+
+    rows = []
+    for mol in MOLECULES_EXPECTED:
+        lte = mol in have_lists
+        nlte = decks.get(mol.upper(), [])
+        rows.append({
+            "molecule": mol,
+            "lte_linelist": ("data/linelists/molecular/turbospectrum/" + mol)
+                            if lte else None,
+            "nlte_deck": nlte[0] if nlte else None,
+            "state": "HAVE" if lte else "NONE",
+        })
+    return rows
+
+
+def _molecule_table(molecules: list[dict] | None) -> str:
+    if not molecules:
+        return ""
+    rows = []
+    for m in molecules:
+        lte = (f'<span class="st" style="color:#5fd38d">HAVE</span>'
+               f'<div class=g>{m["lte_linelist"]}</div>') if m["lte_linelist"] \
+              else '<span class="st" style="color:#6a7690">NONE</span>'
+        nlte = (f'<span class="st" style="color:#5fd38d">HAVE</span>'
+                f'<div class=g>{m["nlte_deck"]}</div>') if m["nlte_deck"] \
+               else '<span class="st" style="color:#6a7690">NONE</span>'
+        cls = "" if m["lte_linelist"] else ' class="prob"'
+        rows.append(f'<tr><th>{m["molecule"]}</th><td{cls}>{lte}</td><td>{nlte}</td></tr>')
+    return ('<h2 style="font-size:1.15rem;margin:2rem 0 .5rem">Molecules</h2>'
+            '<p class="sub">Molecular data lives apart from the atomic grids, which is '
+            'why it goes missing. LTE linelists are vendored in-repo; the only molecular '
+            'NLTE deck is on Sirius. Absent molecules are listed, not omitted &mdash; an '
+            'inventory that shows only what you have cannot show a gap.</p>'
+            '<table><thead><tr><th>molecule</th><th>LTE linelist</th>'
+            '<th>NLTE deck</th></tr></thead><tbody>'
+            + "".join(rows) + '</tbody></table>')
+
+
+def render_html(matrix: dict, engine_rows: list[dict],
+                molecules: list[dict] | None = None) -> str:
+    """Self-contained page: every canonical element x model type, with REAL grid names.
+
+    Static by design -- the live site is GitHub Pages, so a fetch()-driven page would
+    show nothing. What you can see is the point of a tracker.
+    """
+    by = {(c["element"], c["model_type"]): c for c in matrix["cells"]}
+    eng = {r["element"]: r for r in engine_rows}
+
+    def td(el, mt):
+        c = by[(el, mt)]
+        cls = {"HAVE": "have", "REQUEST_ONLY": "req", "NONE": "none",
+               "DISK_ONLY": "prob", "CSV_ONLY": "prob", "PROBLEM": "prob",
+               "CODE_USES": "have"}.get(c["state"], "none")
+        names = "<br>".join(Path(p).name for p in c["disk_paths"]) or ""
+        claim = c["code_grid"] or c["csv_claim"] or ""
+        detail = "<br>".join(x for x in (claim, names) if x)
+        return (f'<td class="{cls}"><span class="st">{c["state"]}</span>'
+                f'{"<div class=g>" + detail + "</div>" if detail else ""}</td>')
+
+    rows = []
+    for el in matrix["elements"]:
+        e = eng[el]
+        rows.append(
+            f'<tr><th>{el}</th>'
+            + "".join(td(el, mt) for mt in matrix["model_types"])
+            + f'<td class="eng">A: {e["engine_a_mode"]}<br>B: {e["engine_b_mode"]}</td></tr>')
+
+    heads = "".join(f"<th>{mt.replace('_', '-')}</th>" for mt in matrix["model_types"])
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Element x model availability - The Exoplanet Codex</title>
+<style>
+:root{{color-scheme:dark}}
+body{{background:#0a0e1a;color:#d8e0f0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;padding:2rem}}
+h1{{font-size:1.5rem;margin:0 0 .25rem}} .sub{{color:#8fa0c0;margin:0 0 1.5rem}}
+table{{border-collapse:collapse;width:100%;font-size:13px}}
+th,td{{border:1px solid #223;padding:.5rem .6rem;vertical-align:top;text-align:left}}
+thead th{{background:#141c30;position:sticky;top:0}}
+tbody th{{background:#101830;font-weight:700;width:4rem}}
+.st{{font-weight:700;font-size:11px;letter-spacing:.04em}}
+.g{{color:#8fa0c0;font-size:11px;font-family:ui-monospace,Menlo,monospace;margin-top:.3rem;word-break:break-all}}
+.have .st{{color:#5fd38d}} .req .st{{color:#e8c060}} .none .st{{color:#6a7690}}
+.prob{{background:#2a1420}} .prob .st{{color:#ff7b8a}}
+.eng{{color:#a8b6d0;font-size:11px}}
+.legend{{margin:1.25rem 0;color:#8fa0c0;font-size:12px}}
+.legend b{{color:#d8e0f0}}
+</style></head><body>
+<h1>Element &times; model availability</h1>
+<p class="sub">All {len(matrix['elements'])} canonical species &times; {len(matrix['model_types'])} model types, with the actual grid on disk.
+Generated {matrix['generated']} by <code>{matrix['generator']}</code> &mdash; reconciled across
+the RYA-462 CSV, the RYA-817 3D CSV, the code, and a Sirius <code>find -L</code> scan (control PASS).</p>
+<table><thead><tr><th>species</th>{heads}<th>engines</th></tr></thead>
+<tbody>{''.join(rows)}</tbody></table>
+{_molecule_table(molecules)}
+<p class="legend">
+<b>HAVE</b> wired and usable &nbsp;|&nbsp; <b>REQUEST_ONLY</b> published, no public deck &nbsp;|&nbsp;
+<b>NONE</b> genuinely absent &nbsp;|&nbsp; <b class="pr" style="color:#ff7b8a">DISK_ONLY</b> on Sirius but nothing consumes it
+({matrix['problem_count']} such cells).<br>
+<b>Engine-A</b> = EW + grid delta (vendored CSV, in repo). <b>Engine-B</b> = synthesis
+(Turbospectrum; TS-native NLTE from a Gerber deck on Sirius). Neither is primary.<br>
+<b>1D-LTE</b> is available for every species by synthesis and needs no grid.
+<b>full-3D-NLTE</b> is NONE everywhere: no public full-3D NLTE stellar RT code exists (RYA-1008).
+</p></body></html>
+"""
