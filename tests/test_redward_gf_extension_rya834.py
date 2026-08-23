@@ -103,7 +103,12 @@ def test_no_band_row_adopts_nist_as_its_gf():
         assert "NIST" not in (r.get("loggf_reference") or ""), (
             f"{r['wavelength_air_A']} adopted a NIST value; in this band NIST agrees "
             f"with the linelist to ~0.0003 dex and cannot referee it")
-        assert r.get("adjudication_status") in ("lab_rya834", "single_source")
+        # `adjudicated_rya1009` added deliberately: RYA-1009 re-sourced 11253.189 onto
+        # Burheim 2023, an EXPERIMENTAL measurement. The rule this test guards is that
+        # nothing in this band adopts a NIST value (asserted above, and still true) —
+        # a primary LAB value is exactly what the band was always allowed to have.
+        assert r.get("adjudication_status") in ("lab_rya834", "single_source",
+                                                "adjudicated_rya1009")
 
 
 def test_the_summary_records_why_nist_was_not_adopted():
