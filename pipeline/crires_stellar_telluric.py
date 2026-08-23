@@ -820,14 +820,26 @@ def correct_frame(frame: CriresFrame, work_dir, rv_kms: float = 0.0,
 
     # ── HOLD a runaway well-mixed column at its physical prior, and re-fit ─────
     #
-    # 🔴 THE OBVIOUS FIX DOES NOT WORK, AND THE NUMBERS SAY SO. It is tempting to stop
-    # this a priori by demanding a stronger fit window for a molecule. But the window
-    # score is the TOTAL non-stellar absorbed fraction, which at 1.5 um is overwhelmingly
-    # H2O: a window can be 17.5% absorbed and contain essentially no CH4. tau Ceti H1559
-    # proves it — its CH4 window scored 0.175 against a relative floor of 0.165, so it
-    # CLEARED every threshold we had and CH4 still ran to 22.7x. Only CO2's window (0.149)
-    # was there by the coverage exemption, and CO2 fitted fine at 1.100. There is no
-    # pre-fit measurement of how much of a window belongs to one molecule.
+    # 🔴 RETRACTION (RYA-997). An earlier version of this comment claimed the a-priori
+    # window fix "does not work", citing an H1559 CH4 window of f=0.175 against a 0.165
+    # relative floor that cleared every threshold and ran away regardless. THAT NUMBER
+    # DESCRIBED NEITHER RUN. The fit that produced CH4=22.711 used a FIVE-window plan
+    # (recorded in rya973_bands.json) whose only non-primary window was 1.5987-1.6047 um,
+    # on the weak edge of the CH4 band — it had NO CH4-dedicated window at all. The
+    # six-window plan carrying f=0.175 came from an intermediate state and produced
+    # neither 22.711 nor 0.983. The refutation was argued against the wrong plan, and it
+    # is withdrawn: strengthening window selection may well be a real fix, and RYA-997 is
+    # measuring whether the flip is window conditioning, basin selection, or stochastic.
+    #
+    # What survives the retraction, on physics rather than on that arithmetic: the window
+    # score is TOTAL non-stellar absorbed fraction, which at 1.5 um is overwhelmingly H2O,
+    # so a window can be strongly absorbed and still contain almost no CH4. Band OVERLAP
+    # is not evidence of constraining POWER. That argues the score is the wrong quantity
+    # to threshold on — NOT that window selection is beyond fixing.
+    #
+    # Either way this hold is still needed, and for a reason no window plan removes: the
+    # same frames refit to materially different columns run to run (CH4 0.108 -> 0.085,
+    # CO 2.707 -> 3.649), so no single fit of an unconstrained column can be trusted.
     #
     # So the runaway is caught AFTER the fit, where it is measurable, and answered with
     # the physically correct prior: a well-mixed gas held at its profile column
@@ -1683,6 +1695,22 @@ def main(argv=None):
             f"(the holdings migrated 2026-08-16), so run this on Sirius or point "
             f"CODEX_SPECTRA_LOCAL at a reachable copy.")
     frames = [load_crires_idp(f) for f in files]
+    # --only must narrow EVERY mode, not just the correction run. It silently did
+    # nothing here, so `--plan-only --only <frame>` printed the plan for the whole set
+    # and the frame you asked about scrolled off the top -- the same defect class as an
+    # engine ignoring --holding. Unmatched patterns raise, exactly as in run_set.
+    if a.only:
+        picked, unmatched = [], []
+        for pat in a.only:
+            hit = [fr for fr in frames if pat in fr.path.name]
+            if not hit:
+                unmatched.append(pat)
+            picked.extend(fr for fr in hit if fr not in picked)
+        if unmatched:
+            raise SystemExit(
+                f"--only matched nothing for {unmatched}. "
+                f"Available: {sorted(fr.path.name for fr in frames)}")
+        frames = picked
     if a.gdas_only:
         g = gdas_gate(mjds=[f.mjd for f in frames])
         print(f"STEP 0 GDAS gate: {', '.join(g['nights'])} @ {g['site']}")
