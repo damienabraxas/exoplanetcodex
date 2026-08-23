@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-23
+
+- **RYA-992** (follow-up) — stage-4 synth GoF cut made **PER ARM** via a measured `ARM_SCALE` registry; `instrument` now required. 🔴 **RYA-995's premise is BACKWARDS — the HARPS bar goes UP (1.0 → 1.357), not down.** Unblocks RYA-968 stage 4
+
 ## 2026-08-22
 
 - **RYA-988** — cited RT **vmac** for tau Ceti (0.9, Bruntt+2010 B1) + eps Eri (1.8, Saar & Osten 1997 T3). 🔴 **eps Eri absent from Bruntt; VF05 publish NO vmac; Doyle+2014 out of range on BOTH axes.** 🔴 **Bruntt B1's 'Saar' columns are TRANSPOSED (4/4).** Adopted as PAIRS — vsini moves too
