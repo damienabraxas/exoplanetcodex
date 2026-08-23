@@ -69,8 +69,8 @@
   ],
   "dispositions": [
     {
-      "atom_citation": "no RYA-534 Engine-B grid provenance on record for Al",
-      "blocker": "gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Al); gate 2: |A - ref| = 0.976 > 0.1; gate 3: UNEVALUABLE \u2014 no two-engine record (the RYA-527 re-run is what produces one)",
+      "atom_citation": "Al_gerber2023.prov.json: no verdict recorded",
+      "blocker": "gate 1: Engine-B atom not RYA-534-validated (Al_gerber2023.prov.json: no verdict recorded); gate 2: |A - ref| = 0.976 > 0.1; gate 3: UNEVALUABLE \u2014 no two-engine record (the RYA-527 re-run is what produces one)",
       "channel": "EW: 1 curated line(s); value HELD at gold tier 'owed' (RYA-522) \u2014 not a graded-cull blank",
       "cross_engine_delta": null,
       "element": "Al",
@@ -81,7 +81,7 @@
       "owed_reason": "owed-HELD",
       "plan": "pool survived and a value exists in gold v1, held unfrozen by the ratified RYA-522 tier. This is a PROMOTION DECISION: run the three gates.",
       "promoted": false,
-      "promotion_reason": "HELD: gate1 NLTE atom not 534-validated (no RYA-534 Engine-B grid provenance on record for Al); gate2 |d_ref|=0.976 > 0.1; gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
+      "promotion_reason": "HELD: gate1 NLTE atom not 534-validated (Al_gerber2023.prov.json: no verdict recorded); gate2 |d_ref|=0.976 > 0.1; gate3 NO cross-engine delta (single-engine record \u2014 zero independent confirmation of the value; atom-delta fallback is REJECTED, RYA-561)",
       "provisional": false,
       "reference": 6.43,
       "remedy": "none",
