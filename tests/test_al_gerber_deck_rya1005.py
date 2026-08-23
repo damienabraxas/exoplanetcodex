@@ -96,3 +96,37 @@ def test_al_departures_actually_differ_between_abundances():
         d = g.for_node("Al", 5750.0, 4.50, 0.0, abundance=A)
         shas.add(hashlib.sha256(d["departures"].tobytes()).hexdigest())
     assert len(shas) == 3, "Al's departures did NOT vary with abundance"
+
+
+# ── RYA-821: the <3D> deck is a SECOND deck for the same element ──────────────
+
+def test_mean3d_deck_is_registered_separately_from_the_marcs_deck():
+    """Al has two decks differing only in the atmosphere their departures were solved
+    on. A registry keyed by element alone cannot hold both -- that is the atmosphere
+    axis (RYA-1019) showing up in production."""
+    assert "Al@mean3D" in g.DECKS
+    marcs, mean3d = g.DECKS["Al"], g.DECKS["Al@mean3D"]
+    assert marcs["Z"] == mean3d["Z"] == 13
+    assert marcs["atom"] == mean3d["atom"]          # same model atom
+    assert marcs["grid"] != mean3d["grid"]          # different departures
+    assert "STAGGERmean3D" in mean3d["grid"]
+
+
+def test_each_deck_carries_its_own_atmosphere():
+    """🔴 The <3D> deck is keyed at STAGGER coordinates (Teff 5777 / logg 4.44), NOT
+    MARCS's 5750 / 4.5. Measured in the aux table: 0 rows at (5750, 4.5, 0.0) and 31 at
+    (5777, 4.44, 0.0). Interpolating it against MARCS_SOLAR asks for a node that does
+    not exist in that deck, and applying <3D> departures on a 1D structure yields a
+    perfectly well-formed file -- which is what makes it worth a guard.
+    """
+    assert g.deck_atmosphere("Fe") == g.MARCS_SOLAR      # unchanged
+    assert g.deck_atmosphere("Al") == g.MARCS_SOLAR      # unchanged
+    m3 = g.deck_atmosphere("Al@mean3D")
+    assert m3 != g.MARCS_SOLAR
+    assert "stagger" in m3.lower()
+
+
+def test_unregistered_deck_fails_loudly():
+    import pytest as _pt
+    with _pt.raises(g.GerberDeckError):
+        g.deck_atmosphere("Nb")

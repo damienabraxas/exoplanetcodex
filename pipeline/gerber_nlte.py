@@ -89,7 +89,39 @@ DECKS = {
     "Al": dict(Z=13, atom="atom.al_qmh",
                aux="auxData_Al_MARCS_Jul-25-2023.dat",
                grid="NLTEgrid_Al_MARCS_Jul-25-2023.bin"),
+    # RYA-821/1019 — Al's <3D> deck. A SECOND deck for the SAME element, differing only
+    # in the ATMOSPHERE its departures were solved on. That is the atmosphere axis, and
+    # it is why a registry keyed by element alone cannot hold both.
+    #
+    # 🔴 THE NODE COORDINATES ARE STAGGER'S, NOT MARCS'S. This deck is keyed at
+    # Teff 5777 / logg 4.44 (the STAGGER solar member). The MARCS decks are keyed at
+    # 5750 / 4.5. Interpolating this deck against MARCS_SOLAR asks for a node that DOES
+    # NOT EXIST in it — measured: 0 rows at (5750, 4.5, 0.0), 31 rows at (5777, 4.44, 0.0).
+    # So the atmosphere is carried per-deck, never assumed.
+    #
+    # The A(Al) axis is the same 31 values (4.43–7.43) as the MARCS deck, so the RYA-1005
+    # abundance-axis handling applies unchanged — do not re-derive it.
+    "Al@mean3D": dict(Z=13, atom="atom.al_qmh",
+                      aux="auxData_Al_STAGGERmean3D_Aug-05-2023_marcs_names.txt",
+                      grid="NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5"),
 }
+
+
+def deck_atmosphere(element: str) -> str:
+    """The atmosphere this deck's departures were solved on.
+
+    Defaults to MARCS_SOLAR so every pre-existing deck behaves byte-identically; a <3D>
+    deck overrides it. Applying <3D> departures on a 1D MARCS structure (or vice versa)
+    is a physics mismatch that produces a perfectly well-formed file, which is exactly
+    the class of error worth a guard rather than a comment.
+    """
+    if element not in DECKS:
+        raise GerberDeckError(f"no deck registered for {element!r}")
+    return DECKS[element].get("atmos", MARCS_SOLAR)
 
 
 class GerberDeckError(RuntimeError):
@@ -228,7 +260,8 @@ def _interpolate(element: str, node: str, teff: float, logg: float, feh: float,
     if os.path.exists(dep):
         os.remove(dep)          # never inherit a previous run's file (RYA-785 stale guard)
 
-    stdin = "\n".join([f"'{MARCS_SOLAR}'"] * 8 + [
+    atmos = deck_atmosphere(element)          # RYA-821: per-deck, not global
+    stdin = "\n".join([f"'{atmos}'"] * 8 + [
         f"'{workdir}/Testout/{node}_{element}.interpol'",
         f"'{workdir}/Testout/{node}_{element}.alt'", f"'{dep}'",
         f"'{binf}'", f"'{aux}'", str(nrows),
@@ -286,7 +319,7 @@ def for_node(element: str, teff: float, logg: float, feh: float,
             and abs(feh - 0.0) <= 0.10):
         raise GerberDeckError(
             f"the Gerber departure path is solar-node-only today: it passes ONE MARCS "
-            f"model ({os.path.basename(MARCS_SOLAR)}) eight times as the eight "
+            f"model ({os.path.basename(deck_atmosphere(element))}) eight times as the eight "
             f"interpolation corners, which is a degenerate box. Asked for "
             f"teff={teff:.0f} logg={logg:.2f} feh={feh:+.2f}. Serving another star needs "
             f"real corner selection — do that rather than accepting solar departures.")
@@ -298,7 +331,7 @@ def for_node(element: str, teff: float, logg: float, feh: float,
     parsed = read_departure_file(dep_path)
 
     # Verify against the file's OWN footer, not against our intent.
-    if parsed["corners"] and not all(os.path.basename(MARCS_SOLAR) in c
+    if parsed["corners"] and not all(os.path.basename(deck_atmosphere(element)) in c
                                      for c in parsed["corners"]):
         raise GerberDeckError(
             f"departure file corners are not the requested solar model: "
