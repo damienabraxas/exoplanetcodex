@@ -625,22 +625,33 @@ def test_o2_is_refereed_as_well_mixed():
     assert out['flagged'][0]['direction'] == 'runaway-high'
 
 
-def test_the_h1559_window_cleared_every_a_priori_threshold():
-    """🔴 The a-priori window fix CANNOT work, and this is the frame that proves it.
+def test_the_h1559_runaway_plan_had_no_ch4_window_at_all():
+    """🔴 RETRACTS the claim this test used to make (RYA-997).
 
-    tau Ceti H1559's CH4 window scored an absorbed fraction of 0.175 against a relative
-    floor of 0.4 x 0.412 = 0.165. It cleared the floor. CH4 still ran to 22.7x. The
-    window score is TOTAL absorption -- at 1.5 um that is nearly all H2O -- so it says
-    nothing about how much of the window belongs to CH4. Raising the threshold is not a
-    fix; catching the runaway after the fit is.
+    It previously asserted that H1559's CH4 window scored f=0.175 against a 0.165
+    relative floor, cleared it, and ran away anyway -- and it existed to stop anyone
+    reintroducing RYA-994's window-selection fix. That was wrong, and it was guarding
+    the wrong answer.
+
+    The run that produced CH4=22.711 used a FIVE-window plan (rya973_bands.json). Its
+    only non-primary window sat at 1.5987-1.6047 um, on the weak edge of the CH4 band.
+    It had NO CH4-dedicated window. The six-window plan carrying f=0.175 produced
+    neither 22.711 nor 0.983.
+
+    So what this pins now is the FACT, not the refuted inference: the runaway plan
+    fitted CH4 with no window placed for CH4. Whether that CAUSED the runaway is
+    RYA-997's experiment to answer, not this test's to presume.
     """
-    windows = [0.334, 0.412, 0.339, 0.246, 0.149, 0.175]
-    relative_floor = 0.4 * max(windows)
-    assert 0.175 >= relative_floor          # the CH4 window PASSED
-    assert 0.149 < relative_floor           # only CO2's came in by the exemption
-    # ...and CO2, the one the exemption admitted, fitted perfectly well:
-    assert cst.check_well_mixed_columns(
-        {'rel_mol_col_CO2': (1.100, 0.02)}, ['CO2'], {'CO2': True})['passed']
+    runaway_plan = [(1.46447, 1.47047), (1.47545, 1.48145),
+                    (1.48291, 1.48891), (1.50099, 1.50699), (1.59866, 1.60466)]
+    assert len(runaway_plan) == 5
+    # The strong CH4 bands in H are the 2nu3 near 1.66 um and nu2+nu3 near 1.73-1.75 um.
+    # The plan's only non-primary window falls short of both.
+    ch4_strong_lo = 1.66
+    assert max(hi for _, hi in runaway_plan) < ch4_strong_lo, (
+        "the runaway plan reached a strong CH4 band after all -- re-open the diagnosis")
+    # ...and the plan that fit CH4 correctly DOES place a window there.
+    assert 1.7353899282813934 > ch4_strong_lo
 
 
 def test_hold_clears_the_fit_flag_for_the_runaway_molecule_only():
@@ -677,3 +688,112 @@ def test_only_filter_is_wired_and_a_typo_is_loud():
     # than no flag, because the run looks targeted and is not.
     cli = Path(cst.__file__).read_text()
     assert 'only=a.only' in cli
+
+
+def test_only_narrows_plan_only_too_rya997():
+    """--only silently did nothing in --plan-only, which printed the WHOLE set.
+
+    That is how the H1559 window numbers got misattributed in the first place: a
+    plan-only run asked about one frame answered about six, and the wrong block was
+    read off as "the plan for H1559". A flag that is parsed and then ignored is worse
+    than no flag, because the output looks targeted and is not.
+    """
+    src = Path(cst.__file__).read_text()
+    main_src = src[src.index('def main('):]
+    # the filter must appear BEFORE the plan-only branch, not only inside run_set
+    i_filter = main_src.index('--only matched nothing')
+    i_plan = main_src.index('if a.plan_only:')
+    assert i_filter < i_plan, "--only is applied after the plan-only branch returns"
+
+
+def test_the_h1559_runaway_is_caused_by_the_WINDOWS_not_the_mask_rya997():
+    """🔴 MEASURED 2x2. An earlier version of this test said the flip was a misplaced
+    stellar mask. The full factorial says otherwise, and the mask is the SMALLER term.
+
+    Each cell is one molecfit_model fit of H1559, varying only WAVE_INCLUDE (the window
+    plan) and WAVE_EXCLUDE (the stellar mask, set by the planning RV):
+
+                        old mask (rv -27.564)   new mask (rv -21.676)
+        old windows           21.25                    9.85
+        new windows            1.14                    0.97
+
+    Historical value for old+old was 22.711; the reconstruction gives 21.25, and the
+    new+new control reproduces Test A to 1% (0.9733 vs 0.9832), which is the fidelity of
+    rebuilding the mask rather than copying the file.
+
+    Reading the margins: fixing the WINDOWS moves the column by 19x (old mask) and 10x
+    (new mask). Fixing the MASK moves it by 2.2x and 1.2x. With good windows BOTH masks
+    give an acceptable column; with bad windows NEITHER does.
+
+    So RYA-994's diagnosis -- a molecule fitted on a window that does not constrain it --
+    is the cause, and the refutation this file used to carry was wrong. The mask defect
+    (RYA-998) is real and systematic but is a modifier here, not the mechanism.
+    """
+    cells = {('old_win', 'old_mask'): 21.2533, ('old_win', 'new_mask'): 9.8532,
+             ('new_win', 'old_mask'): 1.1358, ('new_win', 'new_mask'): 0.9733}
+    lo, hi = cst.WELL_MIXED_LO, cst.WELL_MIXED_HI
+    inrange = lambda v: lo <= v <= hi
+    # windows are decisive: they flip the verdict under BOTH masks
+    for mask in ('old_mask', 'new_mask'):
+        assert not inrange(cells[('old_win', mask)])
+        assert inrange(cells[('new_win', mask)])
+    # the mask alone never flips the verdict under EITHER window plan
+    for win in ('old_win', 'new_win'):
+        assert inrange(cells[(win, 'old_mask')]) == inrange(cells[(win, 'new_mask')])
+    # and the window effect is the larger term, by about an order of magnitude
+    win_effect = cells[('old_win', 'old_mask')] / cells[('new_win', 'old_mask')]
+    mask_effect = cells[('old_win', 'old_mask')] / cells[('old_win', 'new_mask')]
+    assert win_effect > 5 * mask_effect
+    # the reconstruction must stay anchored to the historical runaway it explains
+    assert abs(cells[('old_win', 'old_mask')] - 22.711) / 22.711 < 0.10
+
+
+def test_only_narrows_plan_only_too_rya997():
+    """--only silently did nothing in --plan-only, which printed the WHOLE set.
+
+    That is how the H1559 window numbers got misattributed in the first place: a
+    plan-only run asked about one frame answered about six, and the wrong block was
+    read off as "the plan for H1559". A flag that is parsed and then ignored is worse
+    than no flag, because the output looks targeted and is not.
+    """
+    src = Path(cst.__file__).read_text()
+    main_src = src[src.index('def main('):]
+    # the filter must appear BEFORE the plan-only branch, not only inside run_set
+    i_filter = main_src.index('--only matched nothing')
+    i_plan = main_src.index('if a.plan_only:')
+    assert i_filter < i_plan, "--only is applied after the plan-only branch returns"
+
+
+def test_the_runaway_and_the_good_fit_used_different_mask_velocities_rya997():
+    """🔴 The H1559 flip was a MISPLACED STELLAR MASK, not luck and not molecfit noise.
+
+    run_set takes the mask velocity from acen_orbit.predicted_rv for EVERY set, so tau
+    Ceti -- a single star -- is masked at alpha Cen A's orbital RV. RYA-971's omega flip
+    moved that value, and the mask with it.
+
+    🔴 COMPARE IN ONE FRAME. predicted_rv returns a BARYCENTRIC velocity (run_set
+    converts it with `- berv`), so it must be judged against tau Ceti's BARYCENTRIC RV,
+    not against the topocentric value the product reports. An earlier version of this
+    test compared the two across frames and understated the old error by BERV
+    (+2.227 km/s), which also made the improvement look ~5x when it is 3x.
+
+    The corrected numbers say something sharper than "RYA-971 fixed it": the mask is
+    STILL displaced by more than half its own half-width. RYA-971 made tau Ceti's mask
+    LESS WRONG, not right -- which is the whole argument of RYA-998.
+    """
+    mask_half_A = cst._MASK_HALF_A
+    measured_bary = -16.4822                # this frame; cited -16.597 (Soubiran+2018)
+    c, lam = 299792.458, 16000.0
+    before, after = -25.3368, -19.4492      # predicted_rv rv_A at MJD 59493.09557
+    disp = lambda rv: abs(rv - measured_bary) / c * lam
+    assert mask_half_A == 0.30
+    # BEFORE: displaced further than the half-width -> the window sat OFF the lines,
+    # they leaked into the telluric fit, and CH4 absorbed them (22.711).
+    assert disp(before) > mask_half_A
+    # AFTER: inside the mask, hence 0.983 -- but only just, and that is the point.
+    assert disp(after) < mask_half_A
+    assert disp(after) > 0.5 * mask_half_A, (
+        "if the post-971 mask ever lands properly on the lines, RYA-998's premise "
+        "changed -- re-derive rather than deleting this assertion")
+
+
