@@ -2184,3 +2184,73 @@ artifacts:
       because the two are one measurement and must not drift apart. The REW branch spells
       its own number into the reason string, so the census collapses it to a single coded
       verdict - counting the raw strings returns ~200 distinct "verdicts" for one cause.
+
+  - artifact: rya1001/rya1001_al_line_census.csv
+    status: COMMITTED
+    generator: scripts/rya1001_al_census.py
+    invocation: python3 scripts/rya1001_al_census.py
+    ticket: RYA-1001
+    note: >-
+      Al Phase-0 census: 502 physical transitions collapsed from 1117 linelist_solar rows,
+      per band, with the best gf source on a provenance-only ladder (experiment >
+      independent theory > NIST grade > Opacity Project > Kurucz-1975), HFS component
+      count, per-instrument home and tier. The gf column is the SUM over hyperfine
+      components, not the strongest one: line_accounting_rya709 reports the max, which
+      under-reports Al I 6696.02 by 0.43 dex. Grouping is in WAVENUMBER because hyperfine
+      splitting is bounded in energy - the largest gap inside a known Al multiplet is
+      0.070 cm-1 and the smallest gap between distinct lines is 1.345 cm-1, so the 0.30
+      cm-1 cut sits in measured empty space rather than being chosen.
+  - artifact: rya1001/rya1001_band_summary.csv
+    status: COMMITTED
+    generator: scripts/rya1001_al_census.py
+    invocation: python3 scripts/rya1001_al_census.py
+    ticket: RYA-1001
+    note: >-
+      Per-band roll-up. Gradeable pool = 29 lines (+8 candidate-blended): near-UV 2,
+      VIS 7, red-optical 6, NIR 14. The 324 FUV features - 287 Al I, 35 Al II including
+      the 1670 A resonance line, 2 Al III - have NO home: no solar holding reaches below
+      2960 A and band_policy declares no method there. That is an acquisition question,
+      the Al twin of RYA-909's near-UV Fe II result.
+  - artifact: rya1001/rya1001_census_meta.json
+    status: COMMITTED
+    generator: scripts/rya1001_al_census.py
+    invocation: python3 scripts/rya1001_al_census.py
+    ticket: RYA-1001
+    note: >-
+      Thresholds, the gf ladder, and the POSITIVE CONTROL for the HFS collapse: the
+      summed gf reproduces canonical_gf's independently-recorded log_gf on 20/20
+      overlapping Al lines to 0.005 dex, and its hfs_n_components on 18/20. The two
+      disagreements are a canonical_gf metadata defect, not a collapse error - 3944.006
+      and 3961.520 are recorded as hfs_n_components=1 while the linelist splits them into
+      4 and 6 components summing to canonical's own value exactly.
+  - artifact: rya1001/rya1001_crires_coverage.csv
+    status: COMMITTED
+    generator: scripts/rya1001_crires_coverage.py
+    invocation: python3 scripts/rya1001_crires_coverage.py
+    ticket: RYA-1001
+    note: >-
+      REAL-PIXEL coverage of the 8 Al I NIR target lines in the solar CRIRES+ Vesta IDPs.
+      All 8 land on full unflagged segments, and the recovered vacuum wavelengths agree
+      with Burheim 2023's published lam_vac to <0.005 A, which closes the air-vacuum chain
+      and confirms the identifications independently. Needed as a separate measurement
+      because pipeline.coverage cannot see this holding at all - load_registry() silently
+      `continue`s past any holding whose manifest is not a spectrum-location CSV, which
+      hides 6 of the 10 solar holdings including all three CRIRES+ ones. Coverage is not
+      permission: telluric_policy.gate_holding REFUSES this holding.
+  - artifact: rya1001/RYA1001_AL_PHASE0_CENSUS.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1001
+    sources:
+      - data/results/rya1001/rya1001_al_line_census.csv
+      - data/results/rya1001/rya1001_band_summary.csv
+      - data/results/rya1001/rya1001_census_meta.json
+      - data/results/rya1001/rya1001_crires_coverage.csv
+      - data/curation/nonfe_pools/Al_cull_graded_rya398.csv
+      - data/linelists/canonical_gf.csv
+      - data/linelists/primary_gf/nist_asd_AlI_6600_8800.tsv
+      - arXiv:2309.06273 source file 45394corr.tex, Tables 1-3 (Burheim+2023, A&A 672 A197)
+      - Crossref DOI 10.1088/0953-4075/28/16/006 (Mendoza+1995, the `1995JPhB..` bibcode)
+    note: >-
+      The Phase-0 findings narrative and the OQ1-4 answers. Prose over the CSVs above;
+      every number in it is reproducible from them.
