@@ -39,7 +39,40 @@ sys.path.insert(0, str(ROOT / "scripts"))
 #: is in the stem because RYA-933/934 put it there -- before that, two holdings of
 #: one instrument wrote the same filename and the second overwrote the first.
 STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<lo>\d+)_(?P<hi>\d+)_"
-                  r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)_products\.csv$")
+                  r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)"
+                  # 🔴 RYA-1031: ONE OR MORE selector segments. This line ended at the
+                  # handler, so a stem carrying ANY selector -- _GRADED, _DEEPGRADED,
+                  # _FROMEW, _LOCALRENORM, _ENGINE-A -- did not match, `parse_stem`
+                  # returned None, and the product was silently absent from the page.
+                  # That is why HARPS and IAG have never appeared and why every graded
+                  # arm was invisible: not a missing run, an unparseable filename.
+                  r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)*)_products\.csv$")
+
+
+def species_display(species: str) -> str:
+    """`FeI` -> `Fe`, `ScII` -> `Sc II`. The ion is shown only when there IS one.
+
+    🔴 RYA-1031 (Ryan): a neutral IS the base element and carries no indicator. Writing
+    every neutral as `FeI`/`CI`/`VI` put a roman numeral on 25 of 26 roster entries where
+    it said nothing, and on one it said something WRONG -- `VI` is vanadium-neutral and
+    reads as roman six. Only an actual ion (II and up) earns the suffix.
+
+    Underlying keys are NOT renamed: `reference` and the product rows stay keyed by
+    species, because that is how they join. This is the rendered name only.
+    """
+    m = re.fullmatch(r"([A-Z][a-z]?)(I+|IV|VI*)", species or "")
+    if not m:
+        return species
+    element, ion = m.groups()
+    return element if ion == "I" else f"{element} {ion}"
+
+
+def _source_path(path: Path) -> str:
+    """Repo-relative when the product is inside the repo, absolute when it is not."""
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
 
 
 def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
@@ -67,7 +100,10 @@ def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | N
     return {"element": m.group("el"), "ion": m.group("ion"),
             "lo_A": float(m.group("lo")), "hi_A": float(m.group("hi")),
             "instrument": instrument, "holding": holding,
-            "holding_source": source, "handler": m.group("handler")}
+            "holding_source": source, "handler": m.group("handler"),
+            # Carried, not discarded: two runs differing only in selector are two
+            # different products (RYA-984) and must not collapse into one row.
+            "selector": (m.group("selector") or "").lstrip("_") or "default"}
 
 
 #: Sub-paths that mark a DIAGNOSTIC variant rather than a headline product --
@@ -75,6 +111,10 @@ def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | N
 #: products and must not be deleted from the page; they are also not what the
 #: matrix is asking about, so they are labelled and hidden behind a toggle.
 VARIANT_MARKERS = ("control", "gated")
+
+#: Extra results roots handed in via `--products-root`, so `run_context` can anchor a
+#: product that lives outside this checkout instead of raising on it (RYA-1031).
+_EXTRA_RESULT_ROOTS: list[Path] = []
 
 
 #: The dates the telluric-corrected holdings first existed in the repository.
@@ -104,6 +144,61 @@ def telluric_state_of(row: dict, committed: str | None) -> dict:
     return {"telluric_basis": "unknown", "telluric_epoch": None}
 
 
+#: RYA-1026 telluric display rule: displayed science is telluric-corrected input ONLY.
+#: The KP2005-vs-KP1984 pair is the one whitelisted exception -- it IS the molecfit
+#: validation (telluric-free source against telluric-retaining atlas), so the
+#: uncorrected arm is not science here, it is the control, and it is labelled that way
+#: rather than silently admitted.
+#: EMPTY on purpose. RYA-1026 whitelists the KP2005-vs-KP1984 pair as the telluric
+#: control, but the displayed page is corrected-only (Ryan) and the uncorrected arm
+#: rendered "telluric NOT corrected" beside a science number. The control still EXISTS --
+#: it is in `products_withheld` with its reason, and the 1984-vs-2005 comparison is
+#: recorded on RYA-933. It is simply not science on the page.
+TELLURIC_CONTROL_HOLDINGS: set[str] = set()
+
+
+def display_class(row: dict, applied: dict) -> tuple[str, str]:
+    """(class, why) -- 'science' | 'control' | 'not-displayed'.
+
+    🔴 NOT DELETED, RECLASSIFIED. A product that fails the rule is still a product and
+    still on disk; dropping it would make the page lie by omission and would hide the
+    very rows that need re-running (RYA-429/711: report, never discard). It moves to a
+    separate list carrying the reason, so "we have no corrected product here" and "we
+    have one and it is bad" cannot be confused.
+    """
+    # 🔴 RYA-1026 TIER RULE, applied to the DISPLAY: the reported product is the
+    # gf-graded tier. Everything else on disk is real and kept, but it is not what the
+    # page reports -- an ungraded pool carries the 0.17 dex Kurucz gf placeholder
+    # (RYA-161) and putting it beside a 0.063 dex graded number invites reading them as
+    # comparable measurements of the same thing.
+    #
+    # DEEPGRADED is also rung 3, and it is withheld too, on Ryan's instruction: it is a
+    # DIFFERENT line selection (the 109 saturated lines above the EW depth gate), not a
+    # second opinion on the same 67, and mixing two selections in one view is how a
+    # selection difference gets read as a measurement difference (RYA-842/984).
+    sel = str(row.get("selector") or "")
+    if not sel.startswith("GRADED"):
+        return ("not-displayed",
+                f"selector {sel!r} is not the graded tier. RYA-1026 reports the gf-graded "
+                f"product; this row is kept on disk and listed here, not deleted")
+    holding = row.get("holding")
+    if holding is None:
+        return ("not-displayed",
+                "no holding in the filename (predates RYA-933/934), so it cannot prove "
+                "which spectrum it measured -- and an instrument serves both a corrected "
+                "and an uncorrected holding")
+    state = applied.get(holding)
+    if state == "applied":
+        return "science", ""
+    if holding in TELLURIC_CONTROL_HOLDINGS:
+        return ("control",
+                "RYA-1026 whitelist: the telluric-retaining arm of the KP2005-vs-KP1984 "
+                "control. Shown AS a control, never as science")
+    return ("not-displayed",
+            f"holding {holding} is telluric_applied={state!r}; RYA-1026 displays "
+            f"telluric-corrected input only")
+
+
 def run_context(path: Path) -> dict:
     """WHICH RUN produced this row. Part of a product's identity, not decoration.
 
@@ -115,7 +210,18 @@ def run_context(path: Path) -> dict:
     to be compared.
     """
     import subprocess
-    rel = path.relative_to(ROOT / "data" / "results").parent
+    # RYA-1031: a product from another `--products-root` is not under this repo, so
+    # anchor on whichever results root actually contains it. This said
+    # relative_to(ROOT/"data"/"results") unconditionally and raised, which is the
+    # second reason the multi-root flag could never be used across checkouts.
+    for _base in (ROOT / "data" / "results", *_EXTRA_RESULT_ROOTS):
+        try:
+            rel = path.relative_to(_base).parent
+            break
+        except ValueError:
+            continue
+    else:
+        rel = Path(path.parent.name)
     parts = rel.parts
     try:
         committed = subprocess.run(
@@ -240,7 +346,21 @@ def collect_products(roots: list[Path], instruments: set[str],
                     **((graded.get(int(r["n_lines"]))
                         if not pd.isna(r.get("n_lines")) else None)
                        or {"n_graded": None, "n_pool": None, "gf_rung": None}),
-                    "source": str(path.relative_to(ROOT)),
+                    # RYA-1031: `--products-root` takes MULTIPLE roots, but this said
+                    # relative_to(ROOT) and raised on any product outside the repo --
+                    # so the multi-root flag could never actually be used with one.
+                    # Relative where it can be, absolute where it cannot; a path that
+                    # cannot be expressed is still a path, and dropping the row would
+                    # hide a product rather than locate it.
+                    # 🔴 RYA-1031: WHEN THIS RUN ACTUALLY WROTE. `committed` is the git
+                    # date and is EMPTY for every band product, because band_products/ is
+                    # gitignored (RYA-469) -- so the page could not distinguish a number
+                    # measured an hour ago from one measured two days ago. The file mtime
+                    # is the only honest answer available, and a stale number that LOOKS
+                    # current is the failure this whole page exists to prevent.
+                    "measured_at": datetime.fromtimestamp(
+                        path.stat().st_mtime, timezone.utc).isoformat(timespec="minutes"),
+                    "source": _source_path(path),
                     **ctx,
                 })
     return rows
@@ -638,6 +758,7 @@ def main() -> None:
     instruments = set(M._INSTRUMENT_HOLDINGS)
     holdings = {s.holding_id for specs in M._INSTRUMENT_HOLDINGS.values() for s in specs}
     roots = args.products_root or [ROOT / "data" / "results"]
+    _EXTRA_RESULT_ROOTS.extend(Path(r).resolve() for r in roots)
 
     products = collect_products(roots, instruments, holdings)
     status = {
@@ -659,7 +780,15 @@ def main() -> None:
         "telluric": (_tel := collect_telluric(args.audit_root)),
         "telluric_summary": None,       # filled below; needs both lists
         "reference": collect_reference(ROOT),
-        "graded": collect_graded(ROOT),
+        # 🔴 RYA-1031: SUPERSEDED, and it was rendering as "PRIMARY". This is the older
+        # RYA-850 graded lineage (Fe I VIS n=9, A=7.445) read from rya850_summary.json.
+        # It sat at the TOP of the forest labelled PRIMARY, above the RYA-933 graded
+        # products measured on the same band with 67 lab-gf lines. Two graded lineages on
+        # one plot with the SMALLER one called primary is worse than showing neither --
+        # the reader cannot tell which pool the headline refers to. Kept in the artifact
+        # under `graded_superseded`; off the plot.
+        "graded": [],
+        "graded_superseded": collect_graded(ROOT),
         "model_matrix": _collect_model_matrix(),
         "reporting_contract": {
             "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
@@ -669,7 +798,12 @@ def main() -> None:
                     "error_budget.py deliberately provides no combined()",
         },
     }
+    # 🔴 THE ROSTER STAYS KEYED BY SPECIES. The page joins products to the roster with
+    # `p.element + p.ion === sp`, so rewriting "FeI" to "Fe" here silently broke every
+    # join and the page rendered nothing at all -- a display change is not allowed to
+    # move a join key (RYA-906). The label travels ALONGSIDE the key instead.
     status["elements"] = sorted(status["reference"])
+    status["element_labels"] = {sp: species_display(sp) for sp in status["elements"]}
     status["telluric_summary"] = telluric_summary(_tel, _inst)
     status["system"] = "solar"   # the framework is per-star; this build is the Sun
 
@@ -702,6 +836,31 @@ def main() -> None:
         row.update(telluric_state_of(row, row.get("committed")))
     status["pre_correction_products"] = sum(
         1 for p in products if p["telluric_basis"].startswith("PRE"))
+    # 🔴 RYA-1026 display gate. Applied HERE, after every row is built, so the split is
+    # visible in the artifact rather than done silently in the page's javascript.
+    _applied = {i["holding"]: i.get("telluric_applied")
+                for i in status.get("instruments", [])}
+    _science, _withheld = [], []
+    for row in products:
+        cls, why = display_class(row, _applied)
+        row["display_class"] = cls
+        if cls == "not-displayed":
+            row["not_displayed_because"] = why
+            _withheld.append(row)
+        else:
+            if why:
+                row["control_note"] = why
+            _science.append(row)
+    status["products"] = _science
+    status["products_withheld"] = _withheld
+    status["withheld_summary"] = {
+        "n_withheld": len(_withheld),
+        "rule": "RYA-1026: displayed science is telluric-corrected input only; the "
+                "KP2005-vs-KP1984 control pair is the whitelisted exception",
+        "note": "Withheld rows are NOT deleted -- they are on disk and listed here with "
+                "the reason, so a gap in the page reads as 'owed a corrected re-run' "
+                "rather than as 'nothing measured' (RYA-833).",
+    }
     args.out.write_text(json.dumps(status, indent=2) + "\n")
     for i in status["instruments"]:
         have = {p["band"] for p in products if p["holding"] == i["holding"]}
