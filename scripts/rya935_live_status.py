@@ -268,6 +268,12 @@ def collect_products(roots: list[Path], instruments: set[str],
         if not root.exists():
             continue
         for path in sorted(root.rglob("*_products.csv")):
+            # 🔴 QUARANTINE IS A DIRECTORY, AND rglob RECURSES INTO IT. Moving a
+            # withdrawn product into `_superseded_*/` did NOT take it off the page --
+            # the two 8.529 near-UV single-line products came straight back, from both
+            # roots. A quarantine the reader walks into is not a quarantine.
+            if any(part.startswith("_superseded") for part in path.parts):
+                continue
             meta = parse_stem(path.name, instruments, holdings)
             if meta is None:
                 continue
@@ -305,6 +311,14 @@ def collect_products(roots: list[Path], instruments: set[str],
                     # current is the failure this whole page exists to prevent.
                     "measured_at": datetime.fromtimestamp(
                         path.stat().st_mtime, timezone.utc).isoformat(timespec="minutes"),
+                    # RYA-1031: the product's OWN tier statement. `gf_rung` comes from
+                    # parsing the budgets FILE, and not every product has one -- all 34
+                    # Al products lack it, so their rung read `None` and the display gate
+                    # withheld every one of them although each says
+                    # `dominant = gf scale (cited lab)` in its own row. Two witnesses to
+                    # the same fact; read both, prefer neither blindly.
+                    "dominant_term": (None if pd.isna(r.get("dominant"))
+                                      else str(r.get("dominant"))),
                     "source": _source_path(path),
                     **ctx,
                 })
@@ -690,6 +704,119 @@ def collect_model_matrix() -> dict:
                 "engines": [], "molecules": [], "problem_count": None}
 
 
+#: RYA-1031 — which sections belong to the SHARED index and which to an element page.
+#: The split follows a real seam: index sections are derived from committed REGISTRIES
+#: (holdings, bands, the species roster, the gold/literature table, the model matrix),
+#: element sections are derived from that element's BAND PRODUCTS. Nothing is duplicated,
+#: so nothing can disagree between the two.
+INDEX_SECTIONS = ("generated", "generator", "refresh_seconds", "derivation_note",
+                  "elements", "bands", "instruments", "telluric", "telluric_summary",
+                  "reference", "reporting_contract", "system", "model_matrix")
+
+ELEMENT_SECTIONS = ("products", "graded", "reachability", "run_contexts",
+                    "variant_products", "unattributed_products",
+                    "pre_correction_products")
+
+
+def _element_slug(element: str) -> str:
+    """`Fe` -> `fe`. Refuses anything that is not a bare element symbol.
+
+    🔴 THE PATH IS DERIVED FROM THE ARGUMENT AND NOTHING ELSE. That is what makes an
+    element run unable to touch another element's page: there is no code path from
+    "write Fe" to a filename containing "al". A slug with a separator in it would
+    reopen that, so it is refused rather than sanitised.
+    """
+    if not re.fullmatch(r"[A-Z][a-z]?", element or ""):
+        raise SystemExit(
+            f"--element {element!r} is not an element symbol (e.g. Fe, Al, C). Refusing: "
+            f"the output path is built from this value, so anything else could address "
+            f"a file this run has no business writing.")
+    return element.lower()
+
+
+def write_element_page(status: dict, element: str, out_dir: Path) -> Path:
+    """That element's page, and ONLY that element's page."""
+    slug = _element_slug(element)
+    page = {k: status[k] for k in INDEX_SECTIONS if k in status
+            and k in ("generated", "generator", "refresh_seconds", "system")}
+    page["element"] = element
+    for k in ELEMENT_SECTIONS:
+        if k not in status:
+            continue
+        v = status[k]
+        if k in ("products", "graded"):
+            v = [r for r in v if r.get("element") == element]
+        page[k] = v
+    dest = out_dir / "elements" / f"{slug}.json"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(json.dumps(page, indent=2) + "\n")
+    return dest
+
+
+def write_index(status: dict, out_dir: Path) -> Path:
+    """The shared page: registry sections + a status-only dashboard SCANNED from disk.
+
+    🔴 DERIVED, NEVER AUTHORED. The dashboard is rebuilt by reading `elements/*.json`,
+    so an element run writes its own file and this picks the change up. No run writes
+    the index, so there is nothing for two concurrent sessions to race on -- which is
+    the failure this ticket exists to remove, in structure rather than in discipline.
+
+    ⚠️ NO ABUNDANCE VALUES HERE, deliberately. A headline number on an overview page is
+    how a stale value gets quoted; the numbers live on the element pages.
+    """
+    index = {k: status[k] for k in INDEX_SECTIONS if k in status}
+    applied = {i["holding"]: i.get("telluric_applied")
+               for i in status.get("instruments", [])}
+    dash = []
+    for path in sorted((out_dir / "elements").glob("*.json")):
+        try:
+            page = json.loads(path.read_text())
+        except Exception as exc:                                # noqa: BLE001
+            dash.append({"element": path.stem, "status": "UNREADABLE", "why": str(exc)})
+            continue
+        prods = page.get("products", [])
+        graded = page.get("graded", [])
+        # An element with no file at all is a DECLARED gap, not a blank (RYA-833): the
+        # roster below lists every tracked species, so absence is visible as absence.
+        dash.append({
+            "element": page.get("element", path.stem),
+            "page": f"elements/{path.name}",
+            "n_products": len(prods),
+            "n_graded_cells": len(graded),
+            "instruments": sorted({p.get("instrument") for p in prods if p.get("instrument")}),
+            "bands": sorted({p.get("band") for p in prods if p.get("band")}),
+            # 🔴 Telluric state is a property of the HOLDING, not of the product row --
+            # there is no `telluric_applied` on a product, and reading one returns None
+            # for every row, which renders as "nothing is corrected" rather than as
+            # "this field does not exist". Joined through the registry instead.
+            "n_telluric_corrected": sum(
+                1 for p in prods if applied.get(p.get("holding")) == "applied"),
+        })
+    index["dashboard"] = dash
+    # ⚠️ TWO VOCABULARIES, reconciled here rather than left to the reader. The roster
+    # names SPECIES ("FeI", "CI"); a page is per ELEMENT ("Fe", "C"), because one page
+    # carries both ions. The species suffix is stripped to compare, and the roster's own
+    # spelling is what gets reported -- so the gap list reads in the same vocabulary as
+    # the roster it is a gap in (RYA-906: a derived name must not invent a third spelling).
+    # The roster is already in display form (`Fe`, `Sc II`), so the element part is
+    # simply everything before a space -- no second suffix-stripping rule, which is how
+    # a third spelling gets invented (RYA-906).
+    # ⚠️ TWO VOCABULARIES. The roster names SPECIES ("FeI", "ScII"); a page is per
+    # ELEMENT ("Fe"), because one page carries both ions. Comparing them raw listed all
+    # 26 species as "no page yet" while Fe and Al both had one -- a gap list that counts
+    # the covered elements as gaps is worse than none. Strip the ion to compare; report
+    # the roster's own spelling, so the gap list reads in the same vocabulary as the
+    # roster it is a gap in (RYA-906: a derived name must not invent a third spelling).
+    seen = {d["element"] for d in dash}
+    index["elements_without_a_page"] = [
+        e for e in status.get("elements", [])
+        if re.sub(r"(I+|IV|VI*)$", "", e.split(" ")[0]) not in seen]
+    dest = out_dir / "index.json"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(json.dumps(index, indent=2) + "\n")
+    return dest
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--products-root", type=Path, action="append", default=None)
@@ -697,6 +824,20 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=ROOT / "data" / "results" / "rya935"
                     / "live_status.json")
     ap.add_argument("--refresh-seconds", type=int, default=5)
+    ap.add_argument("--element", default=None, metavar="EL",
+                    help="RYA-1031: write ONLY this element's page, to "
+                         "<out-dir>/elements/<el>.json. The path is built from THIS "
+                         "argument and nothing else, so a run started this way cannot "
+                         "reach another element's file. That is the point: on 2026-08-24 "
+                         "an Al refresh regenerated the combined page with a stale "
+                         "generator and committed 11 sections over 25, taking the roster "
+                         "from 26 elements to 3 and removing the display gate. Per-element "
+                         "files make that unrepresentable rather than merely discouraged.")
+    ap.add_argument("--index", action="store_true",
+                    help="RYA-1031: write the DERIVED index -- registry-backed sections "
+                         "plus a status-only dashboard scanned from elements/*.json. "
+                         "Derived, never authored: it holds no element data of its own, "
+                         "so there is no shared mutable file for two runs to race on.")
     args = ap.parse_args()
 
     import measure_band_ew as M
@@ -769,7 +910,8 @@ def main() -> None:
             reachability[f"{inst['holding']}|{policy.name}"] = reason
     status["reachability"] = reachability
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(status, indent=2) + "\n")
+    if not args.element and not args.index:
+        args.out.write_text(json.dumps(status, indent=2) + "\n")
     have = ", ".join(status["elements_with_products"]) or "(none)"
     print(f"{len(products)} product rows across {have}; "
           f"{len(status['elements'])} species tracked -> {args.out}")
@@ -800,16 +942,45 @@ def main() -> None:
         # CLEAN_WITH_ANOMALY is not CLEAN, and the difference is the anomaly text.
         # Carrying the state without it would render a caveated holding as unqualified.
         row["telluric_anomaly"] = anomaly(holding) if holding else None
-        # The gf-graded tier is what the page reports (RYA-1026). DEEPGRADED is rung 3
-        # too and is still withheld: it is a DIFFERENT line selection (the 109 saturated
-        # lines above the EW depth gate), not a second opinion on the same 67, and
-        # mixing selections in one view reads a selection difference as a measurement
-        # difference (RYA-842/984).
+        # 🔴 THE GATE READS THE gf TIER, NOT THE SELECTOR NAME. It keyed on
+        # `selector.startswith("GRADED")` and withheld ALL 34 Al products -- every one of
+        # which is rung 3 cited-lab -- because Al's runs stem as `default`/`ENGINE-A`
+        # rather than `_GRADED`. Gating on a filename token instead of the measured
+        # property is the RYA-906 error in miniature: the selector names WHICH LINES were
+        # chosen, and `dominant`/`gf_rung` name WHAT THEIR gf IS. Only the second one is
+        # the tier.
+        #
+        # DEEPGRADED is rung 3 too and stays withheld deliberately, but on its own
+        # grounds: it is a DIFFERENT line selection (the saturated set above the EW depth
+        # gate), not a second opinion on the same pool, and mixing selections in one view
+        # reads a selection difference as a measurement difference (RYA-842/984).
+        # `gf_rung` is an INT here (3), not prose -- graded_counts() parses it out of the
+        # budget block. Testing it as a string ("rung 3" in "3") withheld EVERY product
+        # and emptied the page; testing `dominant_term` fails too because this emitter
+        # leaves it None. Read the field, not a rendering of it.
         sel = str(row.get("selector") or "")
-        if not sel.startswith("GRADED"):
+        try:
+            rung = int(row.get("gf_rung"))
+        except (TypeError, ValueError):
+            rung = None
+        # EITHER witness suffices. The budgets file and the product row record the same
+        # tier; requiring the budget-parsed one withheld every Al product for having no
+        # budgets file, which is a missing FILE, not an ungraded pool. An absent witness
+        # is not evidence of absence (RYA-833).
+        graded = (rung == 3) or ("cited lab" in str(row.get("dominant_term") or ""))
+        if not graded:
             row["not_displayed_because"] = (
-                f"selector {sel!r} is not the graded tier; RYA-1026 reports the "
+                f"not the graded tier (gf_rung="
+                f"{rung if rung is not None else 'unrecorded'}, dominant="
+                f"{row.get('dominant_term') or 'unrecorded'!r}); RYA-1026 reports the "
                 f"gf-graded product. Kept on disk and listed here, not deleted")
+            _withheld.append(row)
+        elif sel.startswith("DEEPGRADED"):
+            row["not_displayed_because"] = (
+                f"selector {sel!r} is a DIFFERENT line selection (the saturated set "
+                f"above the EW depth gate), not a second opinion on the graded pool -- "
+                f"shown separately so a selection difference is not read as a "
+                f"measurement difference (RYA-842/984)")
             _withheld.append(row)
         elif state in ("CLEAN", "CLEAN_WITH_ANOMALY"):
             _science.append(row)
@@ -828,7 +999,20 @@ def main() -> None:
                 "the reason, so a gap in the page reads as 'owed a corrected re-run' "
                 "rather than as 'nothing measured' (RYA-833).",
     }
-    args.out.write_text(json.dumps(status, indent=2) + "\n")
+    # RYA-1031 routing. The combined page is still the default so nothing that reads it
+    # breaks; --element and --index are the split.
+    out_dir = args.out.parent
+    if args.element:
+        dest = write_element_page(status, args.element, out_dir)
+        n = len([p for p in products if p.get("element") == args.element])
+        print(f"\n  [RYA-1031] {args.element} -> {dest} ({n} rows). "
+              f"No other element's file was opened.")
+    if args.index:
+        dest = write_index(status, out_dir)
+        n = len(json.loads(dest.read_text()).get("dashboard", []))
+        print(f"  [RYA-1031] index -> {dest} (scanned {n} element pages)")
+    if not args.element and not args.index:
+        args.out.write_text(json.dumps(status, indent=2) + "\n")
     for i in status["instruments"]:
         have = {p["band"] for p in products if p["holding"] == i["holding"]}
         print(f"  {i['holding']:<34} telluric={i['telluric_applied']:<12} "
