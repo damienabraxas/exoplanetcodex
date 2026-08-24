@@ -1,13 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Codex live product tracker</title>
+<title>Codex calibration tracker</title>
 <style>
 :root{--bg:#0b1020;--panel:#151d32;--rule:#2b3856;--head:#18223a;--fg:#edf2ff;--mut:#9daccc;
       --good:#53d899;--warn:#f2cc60;--bad:#ff7b72;--link:#7db8ff}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px system-ui,sans-serif}
 main{max-width:1600px;margin:auto;padding:24px}
-h1{margin:0 0 4px}h2{font-size:1.05rem;margin:0 0 10px}
-.muted{color:var(--mut)}.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+h1{margin:0 0 4px}h2{font-size:1.05rem;margin:0 0 10px}h3{font-size:.95rem;margin:14px 0 6px}
+.muted{color:var(--mut)}.note{font-size:.9em}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
 .pill{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:8px 10px}
 section{margin-top:16px;padding:14px;background:var(--panel);border:1px solid var(--rule);border-radius:10px}
 .grid{overflow:auto;border:1px solid var(--rule);border-radius:10px}
@@ -18,67 +19,476 @@ td:first-child,th:first-child{position:sticky;left:0;background:var(--head);min-
 code{color:var(--link);font-size:.85em}
 .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
 .val{font-variant-numeric:tabular-nums;white-space:nowrap}
-.tell{display:grid;grid-template-columns:190px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
-.note{font-size:.9em}
+.tell{display:grid;grid-template-columns:180px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
+.tsum{margin:6px 0 14px;line-height:1.5}
+.tsum p{margin:6px 0}
+.tsum ul{margin:4px 0 8px 18px;padding:0}
+.tsum li{margin:3px 0}
+.tag{font-size:.8em;color:var(--muted)}
+.tell5{display:grid;grid-template-columns:150px 210px 1fr 1fr 1fr;gap:8px;padding:5px 0;border-bottom:1px solid var(--rule)}
+h3{font-size:1em;margin:18px 0 4px;font-weight:600}
+h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
+.forest{display:grid;grid-template-columns:250px 1fr 150px;gap:8px;align-items:center;padding:3px 0}
+.axis{display:grid;grid-template-columns:250px 1fr 150px;gap:8px;align-items:start}
+.ticks{position:relative;height:26px;border-top:1px solid var(--rule)}
+.tick{position:absolute;top:0;transform:translateX(-50%);font-size:.78em;color:var(--mut);
+      font-variant-numeric:tabular-nums;padding-top:3px;white-space:nowrap}
+.tick::before{content:'';position:absolute;left:50%;top:0;width:1px;height:5px;background:var(--rule)}
+.reflab{position:absolute;top:-2px;transform:translateX(-50%);font-size:.78em;color:var(--good);
+        font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.track{height:18px;position:relative;border-bottom:1px solid var(--rule)}
+.ref{position:absolute;top:0;height:100%;background:rgba(83,216,153,.16);border-left:2px dashed var(--good);border-right:2px dashed var(--good)}
+.refline{position:absolute;top:0;height:100%;width:0;border-left:2px solid var(--good)}
+.cmp{position:absolute;top:0;height:100%;width:0;border-left:2px dotted currentColor}
+.cmpband{position:absolute;top:0;height:100%;opacity:.18}
+.cmplab{position:absolute;top:12px;transform:translateX(-50%);font-size:.74em;
+        font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 12px;font-size:.85em}
+.bandhdr{margin:12px 0 3px;font-size:.82em;letter-spacing:.08em;text-transform:uppercase;
+          color:var(--mut);border-bottom:1px solid var(--rule);padding-bottom:2px}
+.legend i{display:inline-block;width:22px;height:0;border-top:2px solid currentColor;
+          vertical-align:middle;margin-right:5px}
+.bar{position:absolute;top:8px;height:4px;background:var(--link);border-radius:2px}
+.sysbar{position:absolute;top:5px;height:10px;border:1px dashed var(--link);
+        border-radius:2px;background:none;opacity:.75}
+.gradedrow .bar{background:var(--good)}
+.gradedrow .sysbar{border-color:var(--good)}
+.roletag{display:inline-block;font-size:.72em;padding:.05em .4em;border-radius:3px;
+         border:1px solid currentColor;margin-left:5px}
+.dot{position:absolute;top:4px;width:10px;height:10px;border-radius:50%;background:var(--link);transform:translateX(-50%)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--rule);border-radius:6px;padding:3px 7px;font-size:.85em;background:#101830}
+.chip.has{border-color:var(--good);color:var(--good)}
+.chip{cursor:pointer;user-select:none}
+.chip:hover{border-color:var(--link)}
+.chip.sel{background:var(--link);color:#06101f;border-color:var(--link);font-weight:600}
+.chip.sel .muted{color:#06101f;opacity:.75}
+.chip:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.mtx{border-collapse:collapse;width:100%;font-size:12px;margin:.5rem 0}
+.mtx th,.mtx td{border:1px solid #223;padding:.35rem .5rem;vertical-align:top;text-align:left}
+.mtx tbody th{background:#101830;width:4.5rem}
+.gname{color:#8fa0c0;font-size:10.5px;font-family:ui-monospace,Menlo,monospace;margin-top:.25rem;word-break:break-all}
+.probcell{background:#2a1420}
+.cerr{color:#ffb3bd;font-size:10.5px;margin-top:.3rem;line-height:1.35}
+.cfix{color:#9fe6b8;font-size:10.5px;margin-top:.25rem;line-height:1.35}
+.ctik{color:#7fd1ff;font-size:10px;margin-top:.25rem;line-height:1.3}
+.rts{font-size:10.5px;color:#a8b6d0;margin-top:.35rem;border-top:1px solid #223;padding-top:.25rem;line-height:1.45}
+.xchk{color:#ffd479;margin-top:.25rem;font-weight:600}
 </style></head><body><main>
-<h1>Codex live product tracker</h1>
-<p class="muted">Instrument &times; holding &times; band &times; engine. Every cell is derived from a product
-or a registry by <code>scripts/rya935_live_status.py</code> &mdash; nothing on this page is typed by hand.</p>
+<h1>Codex calibration tracker &mdash; <span id="sys" class="muted"></span></h1>
+<p class="muted">Element &times; holding &times; band &times; engine. Every value is derived by
+<code>scripts/rya935_live_status.py</code> from a product or a registry &mdash; nothing here is typed.
+Empty cells state <em>why</em> they are empty.</p>
 <div id="pills" class="pills"></div>
+<section><h2>Species coverage</h2><div id="chips" class="chips"></div>
+<p class="muted note">Every species in the frozen gold reference is tracked. Early in a build the
+absences are the content &mdash; showing only finished work would hide what remains.</p></section>
+<section><h2>Error-bar forest</h2><div id="forest"></div></section>
 <section><h2>Product matrix</h2><div class="grid"><table id="matrix"></table></div>
 <p class="muted note" id="unattributed"></p></section>
-<section><h2>Telluric correction, before &rarr; after</h2><div id="tell"></div></section>
-<p class="muted note">The ticket pipeline is deliberately absent: that is Linear state, and a committed
-copy of it drifts. This page shows only what the repository can prove.</p>
+<section><h2>Telluric correction</h2>
+<div id="tellsum"></div>
+<p class="muted note">Three different measurements live here and they are <b>not comparable as numbers</b>, so they are not stacked in one column. The solar legs score the fraction of a registered telluric band driven below half continuum; the stellar legs score the D1 residual at pixels molecfit calls telluric-dominated and the star's own line list calls clean; a STATE row is a determination, not a correction, and carries no before/after because nothing was corrected.</p>
+<h3>Solar bands <span class="m">&mdash; % of band pixels below 0.5 continuum, before &rarr; after</span></h3><div id="tell"></div>
+</section>
+<section><h2>Element &times; model availability <span class="m">&mdash; RYA-1015, reconciled CSV vs Sirius disk vs code</span></h2>
+<div id="modelmatrix"></div>
+<h3>Molecules <span class="m">&mdash; absent ones are listed, not omitted</span></h3><div id="molecules"></div>
+<h3>Stellar frames <span class="m">&mdash; D1 residual at telluric-dominated, stellar-clean pixels</span></h3><div id="tellstar"></div>
+<h3>State determinations <span class="m">&mdash; measured, NOT corrected</span></h3><div id="tellstate"></div>
+</section>
 <p class="bad" id="err"></p></main>
 <script>
+let FILTER=null;   // null = every species
+try{FILTER=localStorage.getItem('rya935.filter')||null;}catch(e){}
+function setFilter(v){FILTER=v;try{v?localStorage.setItem('rya935.filter',v):localStorage.removeItem('rya935.filter');}catch(e){}draw().catch(()=>{});}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fx=(v,n)=>v==null?'':Number(v).toFixed(n);
-function cell(rows){
-  if(!rows.length) return '<span class="muted">&mdash;</span>';
-  return rows.map(r=>'<div class="val">'+esc(r.display||r.treatment)+' <b>'+fx(r.A,3)+'</b>'
-    +' <span class="muted">&plusmn;'+fx(r.sigma_stat,3)+' stat &plusmn;'+fx(r.sigma_syst,3)+' syst'
-    +(r.n_lines!=null?', n='+r.n_lines:'')+'</span></div>').join('');
+const fx=(v,n)=>v==null||isNaN(v)?'—':Number(v).toFixed(n);
+function cells(rows){return rows.map(r=>'<div class="val">'+esc(r.display||r.treatment)+' <b>'+fx(r.A,3)
+  +'</b> <span class="muted">&plusmn;'+fx(r.sigma_stat,3)+' stat &plusmn;'+fx(r.sigma_syst,3)+' syst'
+  +(r.n_lines!=null?', n='+r.n_lines:'')+'</span></div>').join('');}
+
+// RYA-925/1023 -- bands CLOSED for a given species, with the reason carried.
+// A band that is simply ABSENT from the plot is indistinguishable from one nobody ran
+// (the RYA-833 shape), so the band still gets a line; it just does not get a forest.
+// Al near-UV only. Fe near-UV is a real measured product (RYA-759/836/841/846) and is
+// deliberately NOT closed here.
+const CLOSED_BANDS={
+  'AlI':{'near-UV':'no usable Al line in this band. 3944 A is CH-blended ("do not '
+    +'attempt"), 3961 A needs a blend-aware path and is skipped, and BOTH sit in the '
+    +'3780-4200 A gap that has no synthesis linelist (RYA-977). The three lines below '
+    +'3780 A all returned non-minima -- the one that entered the aggregate passed a '
+    +'sign-only frac_rise test at +1e-06. Disposition RYA-925; consistent with '
+    +'Nordlander & Lind 2017.'}
+};
+
+function forest(d){
+  let h='';
+  // holding -> telluric_applied, straight from the instruments registry.
+  const TELLURIC={};
+  for(const i of (d.instruments||[])) TELLURIC[i.holding]=i.telluric_applied;
+  for(const sp of d.elements){
+    if(FILTER&&sp!==FILTER) continue;
+    const all=d.products.filter(p=>p.element+p.ion===sp&&p.A!=null);
+    const ref=d.reference[sp];
+    if(!all.length) continue;
+    const cmps=(ref&&ref.comparators)||[];
+    h+='<h3>'+esc(LABEL(sp))+(ref
+      ? ' <span class="muted note">'+esc(ref.best_external||'literature')+' <b class="good">'
+        +fx(ref.asplund2021,2)+(ref.sigma_external!=null?' &plusmn; '+fx(ref.sigma_external,2):'')
+        +'</b>'+(ref.scale?' ('+esc(ref.scale)+')':'')+'</span>'
+      : ' <span class="warn note">no literature anchor recorded</span>')+'</h3>';
+    h+='<div class="legend"><span class="muted"><i style="border-top-width:4px;'
+      +'border-top-color:var(--link)"></i>statistical (solid)</span>'
+      +'<span class="muted"><i style="border-top-style:dashed"></i>systematic (wireframe) '
+      +'&mdash; never summed</span>'
+      +'<span class="good"><i style="border-top-width:4px"></i>PRIMARY graded lab-gf</span></div>';
+    if(cmps.length||ref) h+='<div class="legend">'
+      +(ref?'<span class="good"><i></i>'+esc(ref.best_external||'primary')+' '+fx(ref.asplund2021,2)
+        +(ref.sigma_external!=null?' &plusmn;'+fx(ref.sigma_external,2):'')+'</span>':'')
+      +cmps.map(c=>'<span style="color:'+c.colour+'"><i style="border-top-style:dotted"></i>'
+        +esc(c.name)+' '+fx(c.value,2)+(c.sigma?' &plusmn;'+fx(c.sigma,2):'')
+        +(c.bands?' <span class="muted">('+esc(c.bands.join(', '))+' only)</span>':'')+'</span>').join('')
+      +'</div>';
+
+    // ONE PLOT PER BAND. Bands sit at different abundance scales and carry different
+    // systematics; a shared axis compresses each of them to make room for the others,
+    // and a band-scoped comparator has nowhere honest to live.
+    for(const b of d.bands){
+      const closed=(CLOSED_BANDS[sp]||{})[b];
+      if(closed){
+        h+='<div class="legend"><span class="muted note"><b>'+esc(b)+'</b> &mdash; '
+          +'<span class="warn">N/A for '+esc(LABEL(sp))+'</span>: '+esc(closed)+'</span></div>';
+        continue;
+      }
+      // Pre-telluric rows are PROVENANCE, not a second measurement, and at 27 of 43
+      // products they dominated both the axis range and the row count. Hide them --
+      // but ONLY where a corrected row exists for this band. Fe II VIS has nothing
+      // else, and a filter that silently empties a whole ion is a worse failure than
+      // a noisy plot. Anything kept here stays labelled 'pre-telluric' below.
+      const inBand=all.filter(r=>r.band===b);
+      const corrected=inBand.filter(r=>!/^PRE/.test(r.telluric_basis||''));
+      const rows=corrected.length?corrected:inBand;
+      if(!rows.length) continue;
+      const here=cmps.filter(c=>!c.bands||c.bands.includes(b));
+      const vals=rows.flatMap(r=>{const m=Math.max(r.sigma_stat||0,r.sigma_syst||0);
+                                  return [r.A-m, r.A+m];});
+      if(ref) vals.push(ref.asplund2021);
+      for(const c of here) vals.push(c.value-(c.sigma||0),c.value+(c.sigma||0));
+      for(const g of (d.graded||[]).filter(g=>g.element+g.ion===sp&&g.band===b)){
+        const m=Math.max(g.sigma_stat||0,g.sigma_syst||0); vals.push(g.A-m,g.A+m);}
+      const lo=Math.min(...vals)-0.05, hi=Math.max(...vals)+0.05, span=(hi-lo)||1;
+      const x=v=>Math.max(0,Math.min(100,(v-lo)/span*100));
+      const gr=(d.graded||[]).filter(g=>g.element+g.ion===sp&&g.band===b);
+      h+='<div class="bandhdr">'+esc(b)+' <span class="muted">&middot; '+rows.length+' product'
+        +(rows.length>1?'s':'')+(gr.length?' + '+gr.length+' graded':'')+'</span></div>';
+      h+=gr.map(g=>{
+        const st=g.sigma_stat||0, sy=g.sigma_syst||0;
+        const l=x(g.A-st), w=x(g.A+st)-l, sl=x(g.A-sy), sw=x(g.A+sy)-sl;
+        return '<div class="forest gradedrow"><span class="note"><b>'+esc(g.engine||'')+'</b>'
+          +'<span class="roletag good">PRIMARY · graded lab-gf</span>'
+          +'<br><span class="muted">n='+g.n_lines+' · cited pool &sigma;, not the 0.17 placeholder'
+          +' · ungraded total would be '+fx(g.ungraded_total_dex,3)+'</span></span>'
+          +'<span class="track">'
+          +(ref&&ref.band?'<i class="ref" style="left:'+x(ref.band[0])+'%;width:'
+             +Math.max(0.4,x(ref.band[1])-x(ref.band[0]))+'%"></i>':'')
+          +here.map(c=>'<i class="cmp" style="color:'+c.colour+';left:'+x(c.value)+'%"></i>').join('')
+          +(ref?'<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>':'')
+          +'<i class="sysbar" style="left:'+sl+'%;width:'+Math.max(0.4,sw)+'%"></i>'
+          +'<i class="bar" style="left:'+l+'%;width:'+Math.max(0.4,w)+'%"></i>'
+          +'<i class="dot" style="left:'+x(g.A)+'%"></i></span>'
+          +'<span class="val note">'+fx(g.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
+          +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
+      }).join('');
+      h+=rows.map(r=>{
+        // RYA-851: statistical SOLID, systematic WIREFRAME. NEVER summed --
+        // error_budget.py:203 deliberately provides no combined(), because
+        // collapsing the two is how a frontier number gets misread. The previous
+        // version drew a LINEAR sum of both, which inflated every bar past any
+        // defensible combination and is what made the bars look like they had grown.
+        const st=(r.sigma_stat||0), sy=(r.sigma_syst||0);
+        const l=x(r.A-st), w=x(r.A+st)-l;
+        const sl=x(r.A-sy), sw=x(r.A+sy)-sl;
+        const pre=/^PRE/.test(r.telluric_basis||'');
+        // RYA-935 — SAY THE TELLURIC STATE ON THE BAR ITSELF. "holding-attributed" only
+        // meant a holding was NAMED; it said nothing about whether that holding is
+        // CORRECTED, so an uncorrected arm and its corrected sibling sat side by side
+        // looking identical (solar_harps 6.393 vs solar_harps_molecfit_corrected 6.387).
+        // Read from the instruments registry — the per-holding `telluric_applied` that
+        // RYA-806 established — and NEVER inferred from the holding's name: a name
+        // containing "corrected" is not evidence.
+        const tstate=pre?null:(TELLURIC[r.holding]||null);
+        const tbadge=pre
+          ? '<span class="warn">pre-telluric</span>'
+          : (tstate==='applied'
+              ? '<span class="good">telluric CORRECTED</span>'
+              : (tstate==='not-applied'
+                  ? '<span class="warn">telluric NOT corrected</span>'
+                  : '<span class="muted">telluric '+esc(tstate||'unknown')+'</span>'));
+        // RYA-1031: n BELONGS ON THE ROW. The line count is not decoration -- it is
+        // different per arm for real reasons (IAG's file starts at 5001 A so 24 of the
+        // 67 graded lines are out of range; the NLTE grid does not serve every line, so
+        // ENGINE-A rows run lower than their 1D-LTE siblings). A bar with no n invites
+        // reading two different pools as the same measurement.
+        const nlab=(r.n_lines!=null?' · <b>n='+r.n_lines+'</b>':'')
+          +(r.n_excluded?' <span class="muted">('+r.n_excluded+' excl)</span>':'');
+        const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)+nlab
+          +'<br><span class="muted">'+esc(r.run_context)
+          // When the run wrote this number. `committed` is blank for band products
+          // (gitignored), so without this a two-day-old row and an hour-old row look
+          // identical (RYA-1031).
+          +(r.measured_at?' · <b>measured '+esc(r.measured_at.replace('T',' ').replace('+00:00','Z'))+'</b>':'')
+          +(r.committed?' · '+esc(r.committed):'')
+          +(r.is_variant?' · <span class="warn">variant</span>':'')
+          +' · '+tbadge+'</span>';
+        let marks='';
+        if(ref&&ref.band){const b0=x(ref.band[0]),b1=x(ref.band[1]);
+          marks+='<i class="ref" style="left:'+b0+'%;width:'+Math.max(0.4,b1-b0)+'%"></i>';}
+        for(const c of here){
+          if(c.sigma){const c0=x(c.value-c.sigma),c1=x(c.value+c.sigma);
+            marks+='<i class="cmpband" style="color:'+c.colour+';background:'+c.colour
+                 +';left:'+c0+'%;width:'+Math.max(0.4,c1-c0)+'%"></i>';}
+          marks+='<i class="cmp" style="color:'+c.colour+';left:'+x(c.value)+'%"></i>';
+        }
+        if(ref) marks+='<i class="refline" style="left:'+x(ref.asplund2021)+'%"></i>';
+        return '<div class="forest"><span class="note">'+label+'</span>'
+          +'<span class="track">'+marks
+          +'<i class="sysbar" style="left:'+sl+'%;width:'+Math.max(0.4,sw)+'%"></i>'
+          +'<i class="bar" style="left:'+l+'%;width:'+Math.max(0.4,w)+'%"></i>'
+          +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
+          +'<span class="val note">'+fx(r.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
+          +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
+      }).join('');
+      const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
+      let ticks='';
+      for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step)
+        ticks+='<span class="tick" style="left:'+x(v)+'%">'+v.toFixed(2)+'</span>';
+      if(ref) ticks+='<span class="reflab" style="left:'+x(ref.asplund2021)+'%">&#9660; '+fx(ref.asplund2021,2)+'</span>';
+      for(const c of here) ticks+='<span class="cmplab" style="color:'+c.colour+';left:'+x(c.value)+'%">&#9650; '+fx(c.value,2)+'</span>';
+      h+='<div class="axis"><span></span><span class="ticks">'+ticks+'</span><span class="muted note">A(X) dex</span></div>';
+    }
+    const seen=new Set(all.map(r=>r.holding||r.instrument));
+    const missing=d.instruments.filter(i=>!seen.has(i.holding)&&!seen.has(i.instrument));
+    if(missing.length) h+='<div class="warn note" style="margin:6px 0 2px">No '+esc(LABEL(sp))
+      +' product from: '+missing.map(i=>'<b>'+esc(i.holding)+'</b> <span class="muted">('
+      +esc(((d.reachability||{})[i.holding+'|VIS'])||'no run yet')+')</span>').join(', ')+'</div>';
+    if(ref&&ref.band) h+='<div class="muted note" style="margin:2px 0 18px">Green band = '
+      +esc(ref.best_external)+' &plusmn; &sigma;<sub>ext</sub> ('+fx(ref.band[0],2)+'&ndash;'+fx(ref.band[1],2)
+      +'). <b>Agreement with the literature</b>, not a pass/fail gate.</div>';
+  }
+  document.querySelector('#forest').innerHTML=h
+    ||'<span class="muted">'+(FILTER?'No products for '+esc(FILTER)+' yet.':'No products with values yet.')+'</span>';
 }
+
 async function draw(){
  const d=await fetch('live_status.json?t='+Date.now()).then(r=>r.json());
+ // RYA-1031: species is the JOIN KEY ('FeI'); the label is what the reader sees
+ // ('Fe', 'Sc II'). Never swap one for the other -- doing so broke every join
+ // and rendered an empty page.
+ const LABEL=sp=>(d.element_labels&&d.element_labels[sp])||sp;
+ window.LABEL=LABEL;
+ document.querySelector('#sys').textContent=d.system;
  document.querySelector('#pills').innerHTML=
    '<span class="pill">Generated <b>'+esc(d.generated)+'</b></span>'
-  +'<span class="pill">Species <b>'+(d.elements.join(', ')||'none')+'</b></span>'
+  +'<span class="pill">'+d.elements.length+' species tracked</span>'
+  +'<span class="pill good">'+d.elements_with_products.length+' with products</span>'
   +'<span class="pill">'+d.products.length+' product rows</span>'
   +'<span class="pill muted">refresh '+d.refresh_seconds+'s</span>';
+ document.querySelector('#chips').innerHTML=
+   '<button class="chip'+(FILTER?'':' sel')+'" data-sp="">All ('+d.elements.length+')</button>'
+  +d.elements.map(sp=>{
+     const has=d.elements_with_products.includes(sp);
+     return '<button class="chip'+(has?' has':'')+(FILTER===sp?' sel':'')+'" data-sp="'+esc(sp)+'">'
+       +esc(LABEL(sp))+(has?'':' <span class="muted">no run</span>')+'</button>';
+   }).join('');
+ document.querySelectorAll('#chips .chip').forEach(b=>b.onclick=()=>setFilter(b.dataset.sp||null));
+ forest(d);
  const bands=d.bands;
  let h='<thead><tr><th>Holding</th>'+bands.map(b=>'<th>'+esc(b)+'</th>').join('')+'</tr></thead><tbody>';
- for(const el of d.elements){
-   h+='<tr><td colspan="'+(bands.length+1)+'" style="background:#101830"><b>'+esc(el)+'</b></td></tr>';
-   for(const i of d.instruments){
+ const shown=FILTER?d.elements_with_products.filter(e=>e===FILTER):d.elements_with_products;
+ for(const el of shown){
+   h+='<tr><td colspan="'+(bands.length+1)+'" style="background:#101830"><b>'+esc(LABEL(el))+'</b></td></tr>';
+   // RYA-1026 corrected-only display, applied to the MATRIX rows as well as the
+   // forest. An uncorrected holding was rendering a full row of "NO RUN YET" cells,
+   // which reads as work outstanding when the truth is that the holding is not
+   // eligible to carry displayed science at all. The holdings themselves are still
+   // listed, with their state, in the Telluric correction section below.
+   for(const i of d.instruments.filter(i=>i.telluric_applied==='applied')){
      const mine=d.products.filter(p=>p.element+p.ion===el&&p.holding===i.holding);
      const any=d.products.filter(p=>p.element+p.ion===el&&p.instrument===i.instrument&&p.holding==null);
-     if(!mine.length&&!any.length) continue;
-     const cov=i.coverage_A?i.coverage_A[0]+'&ndash;'+i.coverage_A[1]+' &Aring;':'<span class="warn">not declarable</span>';
+     const cov=i.coverage_A?i.coverage_A[0]+'&ndash;'+i.coverage_A[1]+' &Aring;':'<span class="warn">not declarable as one interval</span>';
      const tclass=i.telluric_applied==='applied'?'good':'warn';
+     const tp=(d.telluric||[]).filter(t=>t.product===i.holding);
+     let tnote;
+     if(tp.length){const w=tp.filter(x=>x['after_pct_below_0.5']!=null).length;
+       tnote='<span class="good note">corrected here &mdash; '+w+' band(s), evidence below</span>';}
+     else if(i.telluric_applied==='applied'){tnote='<span class="good note">applied, per the product’s own evidence</span>';}
+     else {tnote='<span class="warn note">NOT corrected — tellurics handled by per-line clean-line selection over the registered bands (RYA-460/786)</span>';}
      h+='<tr><td><b>'+esc(i.holding)+'</b><br><code>'+esc(i.instrument)+'</code>'
-       +'<br><span class="'+tclass+'">telluric: '+esc(i.telluric_applied)+'</span>'
-       +'<br><span class="muted">'+cov+'</span></td>';
+       +'<br><span class="'+tclass+'">telluric: '+esc(i.telluric_applied)+'</span><br>'+tnote
+       +'<br><span class="muted note">'+cov+'</span></td>';
      for(const b of bands){
-       const rows=mine.filter(p=>p.band===b);
-       const orphan=any.filter(p=>p.band===b);
-       h+='<td>'+cell(rows)
-         +(orphan.length?'<div class="warn note">'+orphan.length+' row(s) on this instrument name no holding</div>':'')
-         +'</td>';
+       const rows=mine.filter(p=>p.band===b), orphan=any.filter(p=>p.band===b);
+       let body;
+       if(rows.length){body=cells(rows);}
+       else{
+         const why=(d.reachability||{})[i.holding+'|'+b]||'no reason resolved';
+         const pending=/no run yet/.test(why);
+         body='<span class="'+(pending?'warn':'muted')+' note">'+esc(pending?'NO RUN YET':why)+'</span>';
+       }
+       h+='<td>'+body+(orphan.length?'<div class="warn note">'+orphan.length+' row(s) on this instrument name no holding</div>':'')+'</td>';
      }
      h+='</tr>';
    }
  }
- document.querySelector('#matrix').innerHTML=h+'</tbody>';
- document.querySelector('#unattributed').innerHTML = d.unattributed_products
-   ? '<span class="warn">'+d.unattributed_products+'</span> product rows predate RYA-933/934 and carry no holding in their filename. '
-     +'They are attributable to an instrument only \u2014 an instrument can serve a corrected and an uncorrected holding, and guessing which would be the collapse the stem change prevents.'
-   : '';
- document.querySelector('#tell').innerHTML='<div class="tell"><b>Window</b><b>Product</b><b>% below 0.5 before &rarr; after</b><b>External referee</b></div>'
-  +d.telluric.map(t=>'<div class="tell"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
-    +'<span>'+(t['before_pct_below_0.5']==null?'<span class="warn">not corrected</span>':'<span class="bad">'+fx(t['before_pct_below_0.5'],2)+'%</span> &rarr; <span class="good">'+fx(t['after_pct_below_0.5'],2)+'%</span>')+'</span>'
-    +'<span class="'+(t.externally_validated?'good':'warn')+'">'+(t.externally_validated?'yes':'NONE \u2014 unvalidated')+'</span></div>').join('');
+ document.querySelector('#matrix').innerHTML=(shown.length?h:'<tbody><tr><td class="muted">'
+   +(FILTER?esc(FILTER)+' has no products yet — see the species coverage strip above for why.':'No products yet.')
+   +'</td></tr>')+'</tbody>';
+ document.querySelector('#unattributed').innerHTML=d.unattributed_products
+  ?'<span class="warn">'+d.unattributed_products+'</span> product rows predate RYA-933/934 and carry no holding in their filename. '
+   +'They are attributable to an instrument only — an instrument can serve a corrected and an uncorrected holding, and guessing which would be the collapse that change prevents.':'';
+ // The narrative. Every figure is read from telluric_summary, which the collector
+ // DERIVES from the same evidence the tables below render — prose with numbers typed
+ // into it is exactly the drift RYA-935 exists to prevent.
+ const S=d.telluric_summary;
+ if(S){
+   const cs=S.corrected_stellar||[], tot=cs.reduce((a,c)=>a+c.products,0),
+         pas=cs.reduce((a,c)=>a+c.gates_pass,0), fal=cs.reduce((a,c)=>a+c.gates_fail,0);
+   let h='<div class="tsum">';
+   h+='<p><b>Where telluric correction stands.</b> '
+     +'<span class="good">'+S.corrected_solar_bands+'</span> solar band(s) corrected'
+     +(S.solar_bands_not_corrected?' (<span class="warn">'+S.solar_bands_not_corrected+' band had no admissible fit and is NOT corrected</span>)':'')
+     +', and <span class="good">'+tot+'</span> stellar frame(s) across '+cs.length
+     +' holding(s), <span class="'+(fal?'warn':'good')+'">'+pas+'/'+tot+' passing the D1 gate</span>'
+     +(fal?' — a gate FAIL is a finding, not a knob':'')+'.</p>';
+   if(cs.length){ h+='<ul>'; cs.forEach(c=>{
+     h+='<li><code>'+esc(c.instrument)+'</code> &middot; <code>'+esc(c.holding)+'</code> &mdash; '
+       +c.products+' frame(s), bands '+esc(c.bands.join('/'))+', '
+       +'<span class="'+(c.gates_fail?'warn':'good')+'">'+c.gates_pass+'/'+c.products+' PASS</span>'
+       +' <span class="tag">'+esc(c.tickets.join(' '))+'</span></li>';}); h+='</ul>';}
+   (S.determined_not_corrected||[]).forEach(x=>{
+     h+='<p><b>Determined, not corrected.</b> <code>'+esc(x.holding)+'</code> '+esc(x.window)
+       +': the header says <span class="warn">'+esc(x.header_state)+'</span> and the flux says '
+       +'<span class="bad">'+esc(x.flux_state)+'</span> &mdash; &times;'+fx(x.excess_ratio,0)
+       +' the telluric-free control on the same spectrum. Measuring the state is not correcting it. '
+       +'<span class="tag">'+esc(x.ticket||'')+'</span></p>';});
+   if((S.blockers||[]).length){ h+='<p><b>What is blocked, and why.</b></p><ul>';
+     S.blockers.forEach(b=>{h+='<li><span class="warn">'+esc(b.what)+'</span> &mdash; '+esc(b.why)
+       +' <span class="tag">'+esc(b.ticket)+'</span></li>';}); h+='</ul>';}
+   if((S.caveats||[]).length){ h+='<p><b>Caveats a reader must carry.</b></p><ul>';
+     S.caveats.forEach(c=>{h+='<li><span class="warn">'+esc(c.what)+'</span> &mdash; '+esc(c.note)
+       +' <span class="tag">'+esc(c.ticket)+'</span></li>';}); h+='</ul>';}
+   if((S.holdings_still_not_applied||[]).length){
+     h+='<p><b>Still uncorrected holdings:</b> '+S.holdings_still_not_applied.map(x=>'<code>'+esc(x)+'</code>').join(', ')+'</p>';}
+   h+='</div>';
+   document.querySelector('#tellsum').innerHTML=h;
+ }
+
+ // Each group reads ONLY its own metric. Sharing one renderer is how the stellar rows
+ // came to display "not corrected": the solar template keys on before_pct_below_0.5,
+ // which a D1 row does not carry, so frames that ARE corrected — with their gates
+ // passing — rendered as the exact opposite of the truth.
+ const tel=d.telluric||[], metric=t=>t.metric||'pct_below_0.5';
+ const none='<div class="muted note">none recorded</div>';
+
+ const solar=tel.filter(t=>metric(t)==='pct_below_0.5');
+ document.querySelector('#tell').innerHTML = solar.length ? ('<div class="tell"><b>Window</b><b>Product</b><b>% below 0.5 before &rarr; after</b><b>External referee</b></div>'
+  +solar.map(t=>'<div class="tell"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+    +'<span>'+(t['before_pct_below_0.5']==null?'<span class="warn">no admissible fit &mdash; band NOT corrected</span>':'<span class="bad">'+fx(t['before_pct_below_0.5'],2)+'%</span> &rarr; <span class="good">'+fx(t['after_pct_below_0.5'],2)+'%</span>')+'</span>'
+    +'<span class="'+(t.externally_validated?'good':'warn')+'">'+(t.externally_validated?'yes':'NONE \u2014 unvalidated')+'</span></div>').join('')) : none;
+
+ const star=tel.filter(t=>metric(t)==='d1_residual');
+ document.querySelector('#tellstar').innerHTML = star.length ? ('<div class="tell5"><b>Setting</b><b>Holding</b><b>D1 residual before &rarr; after</b><b>Gate</b><b>Star id</b></div>'
+  +star.map(t=>{
+      const imp=(t.before_d1_residual&&t.after_d1_residual!=null)?(100*(t.before_d1_residual-t.after_d1_residual)/t.before_d1_residual):null;
+      // A contested star id must never render as a settled one. `unrecorded` is its own
+      // state: the manifest predates the column and says nothing either way.
+      const c=t.star_id_contested;
+      const idtxt=c===true?'<span class="warn">'+esc(t.star_id)+' \u2014 CONTESTED</span>'
+                 :c==='unrecorded'?'<span class="muted">'+esc(t.star_id)+' (contested-ness unrecorded)</span>'
+                 :'<span>'+esc(t.star_id)+'</span>';
+      return '<div class="tell5"><span>'+esc(t.window)+'</span><code>'+esc(t.holding||t.product)+'</code>'
+        +'<span class="val"><span class="bad">'+fx(t.before_d1_residual,4)+'</span> &rarr; <span class="good">'+fx(t.after_d1_residual,4)+'</span>'
+        +(imp==null?'':' <span class="muted">('+fx(imp,0)+'%)</span>')+'</span>'
+        +'<span class="'+(t.gate_passed?'good':'bad')+'">'+(t.gate_passed?'PASS':'FAIL')+'</span>'
+        +idtxt+'</div>';}).join('')) : none;
+
+ const st=tel.filter(t=>metric(t).indexOf('state_only')===0);
+ document.querySelector('#tellstate').innerHTML = st.length ? ('<div class="tell5"><b>Window</b><b>Holding</b><b>Header</b><b>Flux</b><b>Excess vs control</b></div>'
+  +st.map(t=>'<div class="tell5"><span>'+esc(t.window)+'</span><code>'+esc(t.product)+'</code>'
+    +'<span class="'+(t.header_state==='unknown'?'warn':'')+'">'+esc(t.header_state)+'</span>'
+    +'<span class="'+(t.flux_state==='not-applied'?'bad':t.flux_state==='applied'?'good':'warn')+'">'+esc(t.flux_state)+'</span>'
+    +'<span class="val">&times;'+fx(t.excess_ratio,0)+' <span class="muted">('+fx(100*t.o2b_median_frac_below,2)+'% vs '+fx(100*t.control_median_frac_below,2)+'%)</span></span></div>').join('')) : none;
+
+ // --- RYA-1015 element x model availability -------------------------------
+ const mm=d.model_matrix;
+ if(mm&&!mm.error&&mm.cells&&mm.cells.length){
+   const cls={HAVE:'good',CODE_USES:'good',T2_CONSUME_VALIDATED:'good',T2_CONSUME_WIRED:'good',
+              REQUEST_ONLY:'warn',T2_BUILD_OWED:'warn',NONE:'muted',
+              NEEDS_WIRING:'bad',T2_CONSUME_READY:'bad',CSV_ONLY:'bad',BROKEN:'bad'};
+   const byc={}; mm.cells.forEach(c=>byc[c.element+'|'+c.model_type]=c);
+   const eng={}; (mm.engines||[]).forEach(r=>eng[r.element]=r);
+   let t='<table class="mtx"><thead><tr><th>species</th>'
+        +mm.model_types.map(x=>'<th>'+esc(x.replace(/_/g,'-'))+'</th>').join('')
+        +'<th>engines</th></tr></thead><tbody>';
+   for(const el of mm.elements){
+     t+='<tr><th>'+esc(LABEL(el))+'</th>';
+     for(const mt of mm.model_types){
+       const c=byc[el+'|'+mt]||{state:'NONE',disk_paths:[]};
+       const names=(c.disk_paths||[]).map(p=>esc(p.split('/').pop())).join('<br>');
+       const claim=esc(c.code_grid||c.csv_claim||'');
+       const det=[claim,names].filter(Boolean).join('<br>');
+       const own=(c.facts||[]).find(f=>f.startsWith('OWNED BY:'));
+       let extra='';
+       if(c.routes&&Object.keys(c.routes).length){
+         const R=c.routes;
+         extra+='<div class="rts"><b>routes</b>'
+           +'<div>consume: <b class="'+(String(R.consume||'').indexOf('WIRED')>=0?'good':String(R.consume||'').indexOf('READY')>=0?'bad':'muted')+'">'+esc(R.consume||'-')+'</b></div>'
+           +'<div>build-our-own: <b class="'+(String(R.build_our_own||'').indexOf('OWED')>=0?'warn':'muted')+'">'+esc(R.build_our_own||'-')+'</b></div>'
+           +(R.cross_check?'<div class="xchk">\u2691 '+esc(R.cross_check)+'</div>':'')
+           +'</div>';
+       }
+       if(c.error) extra+='<div class="cerr"><b>ERROR:</b> '+esc(c.error)+'</div>';
+       if(c.fix)   extra+='<div class="cfix"><b>FIX:</b> '+esc(c.fix)+'</div>';
+       if(own)     extra+='<div class="ctik">'+esc(own)+'</div>';
+       t+='<td class="'+(c.problem?'probcell':'')+'"><span class="'+(cls[c.state]||'muted')+'"><b>'
+         +esc(c.state)+'</b></span>'+(det?'<div class="gname">'+det+'</div>':'')+extra+'</td>';
+     }
+     const e=eng[el]||{};
+     t+='<td class="gname">A: '+esc(e.engine_a_mode||'?')+'<br>B: '+esc(e.engine_b_mode||'?')+'</td></tr>';
+   }
+   t+='</tbody></table><p class="note muted"><b>The whole &lt;3D&gt;-NLTE column IS TIER 2</b> '
+     +'(RYA-1013 defines tier-2 as &lt;3D&gt;/1.5D NLTE). The states name WHICH ROUTE delivers it, '
+     +'never a different tier. <b class="good">T2_CONSUME_VALIDATED</b>: published deck wired AND proven end-to-end. '
+     +'<b class="good">T2_CONSUME_WIRED</b>: published deck wired; run still owed. '
+     +'<b class="bad">T2_CONSUME_READY</b>: <b>deck AND model atom BOTH on Sirius, nothing consumes them</b> '
+     +'\u2014 mechanical to wire. '
+     +'<b class="warn">T2_BUILD_OWED</b>: no deck, but we hold the atom and the &lt;3D&gt; atmosphere '
+     +'\u2014 <b>reachable only by the BUILD-OUR-OWN route. Nothing to fetch, nothing to ask for.</b> '
+     +'<b class="warn">REQUEST_ONLY</b>: neither deck nor atom \u2014 genuinely must be asked for. '
+     +'<b class="bad">NEEDS_WIRING</b>: grid on Sirius, unconsumed. '
+     +'<b class="bad">BROKEN</b>: held and FAILS. <b class="muted">NONE</b>: absent.</p>'
+     +'<p class="note muted">Engine-A = EW + grid delta (vendored CSV, in repo). '
+     +'Engine-B = synthesis (Turbospectrum; TS-native NLTE needs a Gerber deck on Sirius). Neither is primary. '
+     +'1D-LTE needs no grid. full-3D-NLTE is NONE everywhere \u2014 no public full-3D NLTE RT code exists (RYA-1008). '
+     +'<b class="bad">'+mm.problem_count+'</b> DISK_ONLY cells: on Sirius, nothing consumes them.</p>';
+   if(mm.findings_csv) t+='<p class="note"><a href="'+esc(mm.findings_csv)+'" download '
+     +'style="color:#7fd1ff;font-weight:700">\u2b07 Download full findings CSV</a> '
+     +'<span class="muted">\u2014 every species \u00d7 model type, engines, grid paths, blockers, molecules.</span></p>';
+   document.querySelector('#modelmatrix').innerHTML=t;
+   let mt2='<table class="mtx"><thead><tr><th>molecule</th><th>LTE linelist</th><th>NLTE deck</th></tr></thead><tbody>';
+   for(const m of (mm.molecules||[])){
+     mt2+='<tr><th>'+esc(m.molecule)+(m.ticket?'<div class="ctik">'+esc(m.ticket)+'</div>':'')+'</th>'
+        +'<td class="'+(m.lte_linelist?'':'probcell')+'"><span class="'+(m.lte_linelist?'good':'muted')+'"><b>'
+        +(m.lte_linelist?'HAVE':'NONE')+'</b></span>'
+        +(m.lte_linelist?'<div class="gname">'+esc(m.lte_linelist)+'</div>':'')+'</td>'
+        +'<td><span class="'+(m.nlte_deck?'good':'muted')+'"><b>'+(m.nlte_deck?'HAVE':'NONE')+'</b></span>'
+        +(m.nlte_deck?'<div class="gname">'+esc(m.nlte_deck)+'</div>':'')+'</td></tr>';
+   }
+   document.querySelector('#molecules').innerHTML=mt2+'</tbody></table>';
+ } else if(mm&&mm.error){
+   document.querySelector('#modelmatrix').innerHTML='<p class="bad">model matrix unavailable: '+esc(mm.error)+'</p>';
+ }
  document.querySelector('#err').textContent='';
 }
 draw().catch(e=>document.querySelector('#err').textContent='Serve this directory over HTTP: '+e);
