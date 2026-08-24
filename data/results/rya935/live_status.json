@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T22:32:42+00:00",
+  "generated": "2026-08-24T02:14:40+00:00",
   "generator": "scripts/rya935_live_status.py",
   "refresh_seconds": 5,
   "derivation_note": "Every value here is read from a product or a registry. Nothing is typed. The ticket pipeline is deliberately absent: it is Linear state, and a committed copy drifts.",
@@ -2088,7 +2088,7 @@
       {
         "element": "Al",
         "model_type": "MEAN3D_NLTE",
-        "state": "T2_CONSUME_WIRED",
+        "state": "BROKEN",
         "csv_claim": null,
         "code_grid": "Al@mean3D",
         "disk_paths": [
@@ -2098,14 +2098,14 @@
           "WIRED (RYA-821) via gerber_nlte deck 'Al@mean3D'. Keyed at STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the atmosphere is carried per-deck.",
           "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
         ],
-        "error": "",
-        "fix": "END-TO-END RUN STILL OWED: wiring is verified structurally, not executed. The deck is Sirius-only and large. Promote to T2_CONSUME_VALIDATED only after an interpolation actually runs.",
+        "error": "THE DECK IS FINE; THE VENDOR INTERPOLATOR IS NOT (verified 2026-08-23). Reading the deck DIRECTLY in Python at the solar node gives n_dep=101, n_lev=354, log tau -5.000..+5.000 -- EXACTLY our <3D> atmosphere's range -- with physical departures (b~1.0 in deep layers, deviating to 0.41 at the surface), 100% finite, zero all-zero rows. Record layout verified: 500(id) + 4(n_dep) + 4(n_lev) + 101*8(tau) + 101*354*8(bvals) = 287,348 bytes = the observed stride across all 6,345 records. interpol_multi_nlte produced ALL-ZERO b-values and then corrupted the heap (glibc malloc assertion) on the SAME record this reader parses correctly -- so the fault is that binary, not the data. EARLIER ATTEMPT DETAIL: The registry wiring is correct; interpol_modeles_nlte cannot use this deck. TWO faults, both measured, with the MARCS Al deck passing as a control in the same harness: (1) fed the <3D> atmosphere it CRASHES -- 'Bad real number in item 1 of list input' at interpol_modeles_nlte.f:1284. babsma reads TAU5000 SCALE fine, this binary does NOT; validating one says nothing about the other. (2) fed a MARCS corner it exits rc=0 and writes NO departure file -- 'ERROR: no match found for model 1', because the deck is keyed at Teff 5777 / logg 4.44 and MARCS models exist at 5750 / 4.50. It also prints 'Min abund is ********', a Fortran field overflow consistent with the nan entries in this aux table's mass/Vturb columns.",
+        "fix": "BLOCKED ON AN INPUT THAT IS NOT PUBLICLY DISTRIBUTED. Traced to the source: interpol_modeles_nlte.f reads ONLY native MARCS (its two flags are `test` and binary-vs-ascii MARCS -- there is no averaged-format mode), and native MARCS requires tauR and Pg per depth. The public <3D> STAGGER models carry neither: BOTH archives on the MPG Keeper share (average_stagger_grid_forTSv20.zip and ..._forMULTI1D.zip) hold the same 5-column mul23 TAU5000 form -- log tau500, T, n_e, V, v_mic -- and the MULTI1D copy is byte-identical in content to the one we already hold. So the deck's aux names MARCS files (p5777_g+4.4...) that the distribution does not ship; Gerber's group evidently converted <3D> models to MARCS internally. BEST OPTION -- READ THE DECK DIRECTLY. The layout is fully determined and verified, so the vendor binary is not needed at all, and this also dissolves the corner-model problem: a direct reader takes the node from the aux instead of from 8 MARCS files. FALLBACKS: (a) ask the Gerber/Bergemann group for the MARCS-format <3D> models the aux indexes -- one email, same ask-shape as RYA-1008; (b) derive Pg and tauR ourselves (Pg from the EOS tables we hold; tauR needs Rosseland opacities, the harder half); (c) reach Al <3D> by the BUILD-OUR-OWN route instead, which does not use this binary. DO NOT feed a 5750/4.50 MARCS corner to force a run -- it pairs <3D> departures with a different atmosphere at a node the deck does not contain, and rc=0 makes that look like success.",
         "routes": {
           "consume": "WIRED",
           "build_our_own": "OWED \u2014 atom + <3D> atmosphere held",
           "cross_check": "BOTH routes available \u2014 consume is wired and build-our-own is reachable, and they share no machinery. Running both gives an independent check of the same number (the RYA-1013 triangle logic, applied to this element)."
         },
-        "problem": false
+        "problem": true
       },
       {
         "element": "Al",
@@ -3475,7 +3475,7 @@
         "problem": false
       }
     ],
-    "problem_count": 6,
+    "problem_count": 7,
     "problems": [
       {
         "element": "Li",
@@ -3492,6 +3492,28 @@
         "error": "1 departure grid(s) are ON SIRIUS but the element has NO entry in NLTE_CORRECTION_ELEMENTS and no subsystem route. The data was fetched and cannot be used.",
         "fix": "Register the element in config/constants.py NLTE_CORRECTION_ELEMENTS (Engine-A) and/or the gerber_nlte registry (Engine-B), then derive the vendored correction CSV into data/nlte_grids/. See the OWNED BY ticket.",
         "routes": {},
+        "problem": true
+      },
+      {
+        "element": "Al",
+        "model_type": "MEAN3D_NLTE",
+        "state": "BROKEN",
+        "csv_claim": null,
+        "code_grid": "Al@mean3D",
+        "disk_paths": [
+          "/srv/codex/grids/nlte/gerber_ts/NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin"
+        ],
+        "facts": [
+          "WIRED (RYA-821) via gerber_nlte deck 'Al@mean3D'. Keyed at STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the atmosphere is carried per-deck.",
+          "OWNED BY: RYA-821 (Al <3D>-NLTE Nordlander & Lind 2017 -- mean-3D, wire honestly) / RYA-801"
+        ],
+        "error": "THE DECK IS FINE; THE VENDOR INTERPOLATOR IS NOT (verified 2026-08-23). Reading the deck DIRECTLY in Python at the solar node gives n_dep=101, n_lev=354, log tau -5.000..+5.000 -- EXACTLY our <3D> atmosphere's range -- with physical departures (b~1.0 in deep layers, deviating to 0.41 at the surface), 100% finite, zero all-zero rows. Record layout verified: 500(id) + 4(n_dep) + 4(n_lev) + 101*8(tau) + 101*354*8(bvals) = 287,348 bytes = the observed stride across all 6,345 records. interpol_multi_nlte produced ALL-ZERO b-values and then corrupted the heap (glibc malloc assertion) on the SAME record this reader parses correctly -- so the fault is that binary, not the data. EARLIER ATTEMPT DETAIL: The registry wiring is correct; interpol_modeles_nlte cannot use this deck. TWO faults, both measured, with the MARCS Al deck passing as a control in the same harness: (1) fed the <3D> atmosphere it CRASHES -- 'Bad real number in item 1 of list input' at interpol_modeles_nlte.f:1284. babsma reads TAU5000 SCALE fine, this binary does NOT; validating one says nothing about the other. (2) fed a MARCS corner it exits rc=0 and writes NO departure file -- 'ERROR: no match found for model 1', because the deck is keyed at Teff 5777 / logg 4.44 and MARCS models exist at 5750 / 4.50. It also prints 'Min abund is ********', a Fortran field overflow consistent with the nan entries in this aux table's mass/Vturb columns.",
+        "fix": "BLOCKED ON AN INPUT THAT IS NOT PUBLICLY DISTRIBUTED. Traced to the source: interpol_modeles_nlte.f reads ONLY native MARCS (its two flags are `test` and binary-vs-ascii MARCS -- there is no averaged-format mode), and native MARCS requires tauR and Pg per depth. The public <3D> STAGGER models carry neither: BOTH archives on the MPG Keeper share (average_stagger_grid_forTSv20.zip and ..._forMULTI1D.zip) hold the same 5-column mul23 TAU5000 form -- log tau500, T, n_e, V, v_mic -- and the MULTI1D copy is byte-identical in content to the one we already hold. So the deck's aux names MARCS files (p5777_g+4.4...) that the distribution does not ship; Gerber's group evidently converted <3D> models to MARCS internally. BEST OPTION -- READ THE DECK DIRECTLY. The layout is fully determined and verified, so the vendor binary is not needed at all, and this also dissolves the corner-model problem: a direct reader takes the node from the aux instead of from 8 MARCS files. FALLBACKS: (a) ask the Gerber/Bergemann group for the MARCS-format <3D> models the aux indexes -- one email, same ask-shape as RYA-1008; (b) derive Pg and tauR ourselves (Pg from the EOS tables we hold; tauR needs Rosseland opacities, the harder half); (c) reach Al <3D> by the BUILD-OUR-OWN route instead, which does not use this binary. DO NOT feed a 5750/4.50 MARCS corner to force a run -- it pairs <3D> departures with a different atmosphere at a node the deck does not contain, and rc=0 makes that look like success.",
+        "routes": {
+          "consume": "WIRED",
+          "build_our_own": "OWED \u2014 atom + <3D> atmosphere held",
+          "cross_check": "BOTH routes available \u2014 consume is wired and build-our-own is reachable, and they share no machinery. Running both gives an independent check of the same number (the RYA-1013 triangle logic, applied to this element)."
+        },
         "problem": true
       },
       {
