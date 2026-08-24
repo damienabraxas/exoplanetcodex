@@ -1095,3 +1095,138 @@ RYA-961, RYA-908, RYA-953, RYA-1027, RYA-1028, plus the 3D-column umbrella RYA-1
 
 **Flagged for RYA-179** — glossary, method and architecture touches accumulate there for
 the sync pass rather than piecemeal.
+
+---
+
+## Normalisation is DETERMINED from the flux at intake, never asserted from a label — RYA-1030
+
+**Decision date:** 2026-08-24 · **Set by:** Ryan (RYA-1030). The undeclared half of the
+RYA-1026 double-normalise guard. Implementation: `pipeline/normalization_intake.py`.
+
+### The standard
+
+> **NORMALISATION IS A PRODUCT-CONDITIONING AXIS, DETERMINED FROM THE DATA AT INTAKE,
+> NEVER ASSERTED FROM THE FILENAME OR LABEL.** Determine `normalization_state` as
+> `normalised` / `un-normalised` / `unknown` from the FLUX, record it per holding, and
+> cross-check it against the declared `pre_normalised` flag. **Agreement proceeds;
+> disagreement is a LOUD STOP; a product with no declaration is UNDECLARED and MUST be
+> scanned before any continuum stage runs.**
+
+This is the pattern RYA-806 established for `telluric_applied` — determine the
+conditioning axis from the product, at intake, per holding — applied to the third axis.
+**Three now:** `telluric_applied` (RYA-806), `observed_conditioning` (RYA-1006),
+`normalization_state` (this). Three columns, never collapsed.
+
+### 🔴 Why a declaration cannot check itself
+
+**A DECLARED FLAG AND A MIS-ROUTED FILE AGREE WITH EACH OTHER PERFECTLY AND ARE BOTH
+WRONG.** There is no cross-check to be had between them — they are the same claim written
+twice. Two live instances:
+
+| case | the declaration | what the reader actually opened |
+|---|---|---|
+| KP2005 (RYA-929 → RYA-933/1026) | "ships no continuum" | `irradthu.dat` — absolute irradiance, W/m²/nm |
+| `iag_fts_solar_atlas` (RYA-944, **still open**) | `telluric_basis=corrected` | the telluric-**retaining** Reiners+2016 file |
+
+KP2005's cost, measured: the harness fitted its own continuum, tilting the band 4%
+blue-to-red and biasing A(Fe I) low by **0.0218 ± 0.0040 dex** correlated with wavelength
+(r = +0.373). It ran that way for months. **So the data gets a vote.**
+
+### The detector
+
+Rolling 95th percentile over running windows — the upper envelope. **Normalised** pins it
+near 1.0 **and** holds it flat; **un-normalised** sits far from 1.0 and/or carries a
+wavelength trend.
+
+**Both conditions are required and neither is sufficient**, which is the whole reason
+there are two:
+
+* KP2005 `irradthu` sits at 2.14 but its slope over 100 Å is only −0.044, *inside* the
+  flatness bound → the **level** test catches it.
+* A blazed product can sit near unity over a narrow window → the **slope** test catches it.
+
+Both are tested in isolation so neither can quietly stop working while the other covers.
+
+### 🔴 The domain had to be established before the cut could be
+
+The first version of the tolerance was 0.05, derived from clean windows at 5000–5100 Å.
+**It did not survive contact with the range.** Scanned across 3300–9900 Å, the
+*known-normalised* KP1984 residual-flux atlas **failed its own test** at every probe below
+4200 Å and at 9300/9500 Å.
+
+The fix was **not** to widen the cut until the failures stopped. It was to find out *why*
+the reference failed, exclude those regimes for stated reasons, and only then re-derive:
+
+1. **Below the continuum-limited blue edge (4500 Å)** — near-UV line blanketing leaves no
+   true continuum in any window. Not a new concept: this is the existing
+   **`CONTINUUM_LIMITED` / "blue-edge no-true-continuum"** class (RYA-451/460) already
+   carried per line in `problem_children.csv` for NH 3360, CN 3883, Sc II 4246, Co I 3845
+   and Sr II 4077/4215 (*"Blue HARPS edge; crowded — large continuum uncertainty"*). And
+   4500 Å is already `diagnostics_abundance.BLUE_EDGE`, drawn on the A(Fe I)-vs-wavelength
+   plot as *"blue edge — exclude"*. **Two independent derivations, same number.** It sits
+   deliberately above `PIPELINE['blue_edge_warn_A']` (3900 Å), which answers a different
+   question — that flags low SNR, this asks where a continuum can be located at all.
+2. **Inside a registered telluric band** — saturated absorption depresses the envelope for
+   a reason unrelated to normalisation, and on a telluric-retaining product it *fakes* the
+   un-normalised signature. The band list is `telluric_policy.TELLURIC_BANDS`, **called,
+   never re-enumerated** (RYA-786; a second copy is the RYA-845 defect shape).
+3. **Fill values** — non-finite and non-positive pixels are dropped. Found on real data:
+   `solar_harps` returns exactly 0.000 across eight consecutive windows at 5321–5337 Å.
+   Counting those zeros made the envelope ramp 0.00 → 0.97 and the module reported a
+   **blaze** — the right verdict with the **wrong diagnosis**, which is worse than either
+   alone because it sends the reader after a defect that does not exist.
+
+**Then** the cut, from the measured gap inside the surviving domain:
+
+| population | measured | distance from unity |
+|---|---|---|
+| normalised — KP1984 4500–9900 Å (55 windows), KP2005 `irradrelwl`, HARPS, CRIRES+ Y | 0.968 – 1.0063 | worst **0.032** |
+| un-normalised — KP2005 `irradthu`; KP1984 col2 (a **paired** control: same spectrum, same wavelengths, both states) | 1.696 · 2.140 · 2.240 · 213.29 | nearest **0.696** |
+
+Nothing lies between. **`UNITY_TOLERANCE = 0.15`** is the geometric midpoint — 4.7× clear
+of each wall. A cut pressed against the nearest case is one that misclassifies the next
+product; chance cases pile up at the wall (RYA-`measure_the_tolerance`).
+
+**Validation:** 55/55 known-normalised windows classified correctly, all un-normalised
+controls caught, every below-edge and in-band probe returned `unknown` rather than an
+accusation.
+
+### The rule is a STOP, not a fix
+
+Disagreement **raises**. Never an auto-normalise, never an auto-skip: a genuinely raw
+spectrum with a coincidentally flat continuum and a normalised one with a bad blaze both
+need a human. **The detector informs the declared state; it does not override the
+science.** Auto-correcting would replace a loud wrong answer with a quiet one.
+
+**`unknown` is a real answer, not a failure to try** — as in `telluric_intake`. Defaulting
+to `normalised` applies unity as a continuum and inflates every EW silently; defaulting to
+`un-normalised` invites a second continuum onto a product that already has one. So it is
+reported, never resolved by convention (RYA-833).
+
+### The implementation
+
+| piece | where |
+|---|---|
+| detector + cross-check | `pipeline.normalization_intake` — `detect`, `cross_check` |
+| the registry column | `normalization_state` in `holdings_manifest_registry.csv` |
+| the backfill | `scripts/rya1030_backfill_normalisation.py` |
+| readiness check | `scripts/preflight_check.py` **check 7** (advisory WARN, expected-vs-silent split) |
+| mandatory intake step | `skills/codex-data-audit/SKILL.md` |
+| the declared-flag half | `pipeline.prenormalised_guard` (RYA-1026), which re-exports this detector |
+
+**🔴 The backfill probes through the HARNESS'S OWN READER**, not a file glob. This is the
+one design decision worth defending: globbing the staged directory would find a normalised
+file sitting there unused and cheerfully report `normalised`, reproducing the exact
+blindness that let KP2005 run mis-routed for months. **Scan what the reader returns.**
+
+Probes are spread across the holding's span and combined: unanimity is the verdict, a
+`normalised`-vs-`un-normalised` split is `unknown` with the split shown (RYA-806's MIXED
+handling). **`unknown` is silence, not a contradicting vote** — a probe that lands below
+the blue edge or inside a telluric band says something about *where we looked*, not about
+the product, and counting it as disagreement buried a clear `solar_harps` answer under a
+manufactured conflict.
+
+### Propagation
+
+**Flagged for RYA-179** — the intake and conditioning-axes sections. Accumulates there for
+the sync pass rather than piecemeal.

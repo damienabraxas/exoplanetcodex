@@ -15,6 +15,10 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-24
+
+- **RYA-1030** — normalisation is **determined from the FLUX at intake**, never asserted from a label; `normalization_state` joins `telluric_applied` and `observed_conditioning` as the third conditioning axis. 🔴 **A declared flag and a MIS-ROUTED file agree perfectly and are both wrong** — the KP2005 class (0.022 dex, for months) and the still-open IAG one. Detector = upper envelope; **both level and slope tests are load-bearing, neither sufficient**. 🔴 **The first tolerance (0.05) was WRONG** — the known-normalised KP1984 atlas failed its own test below 4200 Å; the fix was to establish the DOMAIN (blue edge 4500 = the existing RYA-451/460 class, telluric bands, fill values) and only then re-derive **0.15** from the measured gap. 55/55 validated. Wired into preflight check 7 + the data-audit skill. LOUD STOP, never an auto-fix
+
 ## 2026-08-23
 
 - **RYA-1026** — the Fe product is ratified as an **(instrument × band) GRID**; **displayed science is telluric-CORRECTED only** (KP2005-vs-KP1984 whitelisted as the molecfit CONTROL, `as_control=True` stated in code) and the **whole Kitt Peak class is PRE-NORMALISED**, reversing RYA-929 for KP2005. 🔴 **DO NOT NORMALISE ANY KP ATLAS** — a second continuum tilts the spectrum and it has bitten TWICE (RYA-940 on 1984; the 2005 double-normalise forced the VIS re-run). Both rules are GUARDS that raise (`prenormalised_guard`, `telluric_display_policy`), not notes — RYA-929's flag said False for months with nothing objecting. 🔴 **The display gate is STRICTER than `telluric_policy.gate_holding`**: passing the MEASUREMENT gate is not permission to SHIP. 🔴 **The clean set is DERIVED from `applied_state`** — a hand-written one got 2 of 5 wrong and invented the id `solar_delbouille`. No value moves. Unblocks RYA-959/961/908/953/1027/1028 and the 3D umbrella RYA-1029
