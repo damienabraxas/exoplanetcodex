@@ -59,7 +59,29 @@ MODEL_TYPES: tuple[str, ...] = ("1D_LTE", "1D_NLTE", "MEAN3D_NLTE", "FULL_3D_NLT
 #: Both are kept; neither is silently resolved into the other.
 
 #: <3D> decks now consumed by an Engine-B route (RYA-821). Keyed element -> deck id.
-_MEAN3D_WIRED: dict[str, str] = {"Al": "Al@mean3D"}
+#: 🔴 DERIVED FROM `gerber_nlte.DECKS`, NEVER ASSERTED. This was a hard-coded
+#: `{"Al": "Al@mean3D"}` and it LIED: it rendered "WIRED (RYA-821) via gerber_nlte deck
+#: 'Al@mean3D'" on main for days while that deck existed only on an unmerged branch, so
+#: the status surface claimed a wiring the code it describes did not have. A matrix whose
+#: job is to say what the pipeline can actually do must READ the pipeline, not a note
+#: about it -- the same lesson as the IAG catalogue row, one layer up.
+def _mean3d_wired() -> dict[str, str]:
+    """element -> deck name, for every registered deck solved on a <3D> atmosphere."""
+    import sys
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    try:
+        from pipeline.gerber_nlte import DECKS
+    except Exception:                                   # noqa: BLE001
+        return {}
+    out = {}
+    for name, cfg in DECKS.items():
+        if "mean3D" in name or "<3D>" in str(cfg.get("atmosphere_family", "")):
+            out[name.split("@", 1)[0]] = name
+    return out
+
+
+_MEAN3D_WIRED: dict[str, str] = _mean3d_wired()
 
 #: <3D> deck PRESENT on Sirius (element -> deck filename stem). Wiring one is the Al
 #: pattern: a registry entry plus its own atmosphere. Not a research task.
@@ -654,53 +676,31 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                 f"STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- "
                 f"measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the "
                 f"atmosphere is carried per-deck.")
-            cell.state = PROBLEM
-            cell.error = (
-                "THE DECK IS FINE; THE VENDOR INTERPOLATOR IS NOT (verified 2026-08-23). "
-                "Reading the deck DIRECTLY in Python at the solar node gives n_dep=101, "
-                "n_lev=354, log tau -5.000..+5.000 -- EXACTLY our <3D> atmosphere's "
-                "range -- with physical departures (b~1.0 in deep layers, deviating to "
-                "0.41 at the surface), 100% finite, zero all-zero rows. Record layout "
-                "verified: 500(id) + 4(n_dep) + 4(n_lev) + 101*8(tau) + 101*354*8(bvals) "
-                "= 287,348 bytes = the observed stride across all 6,345 records. "
-                "interpol_multi_nlte produced ALL-ZERO b-values and then corrupted the "
-                "heap (glibc malloc assertion) on the SAME record this reader parses "
-                "correctly -- so the fault is that binary, not the data. "
-                "EARLIER ATTEMPT DETAIL: The registry wiring is "
-                "correct; interpol_modeles_nlte cannot use this deck. TWO faults, both "
-                "measured, with the MARCS Al deck passing as a control in the same "
-                "harness: (1) fed the <3D> atmosphere it CRASHES -- 'Bad real number in "
-                "item 1 of list input' at interpol_modeles_nlte.f:1284. babsma reads "
-                "TAU5000 SCALE fine, this binary does NOT; validating one says nothing "
-                "about the other. (2) fed a MARCS corner it exits rc=0 and writes NO "
-                "departure file -- 'ERROR: no match found for model 1', because the deck "
-                "is keyed at Teff 5777 / logg 4.44 and MARCS models exist at 5750 / 4.50. "
-                "It also prints 'Min abund is ********', a Fortran field overflow "
-                "consistent with the nan entries in this aux table's mass/Vturb columns.")
+            # RYA-821 RESOLVED 2026-08-24 -- the consume route runs. The vendor
+            # interpolator never could read a <3D> deck and the reason is structural,
+            # not a bug to report upstream: `interpol_modeles_nlte` reads ONLY native
+            # MARCS, which needs tau_Rosseland and P_g per depth, and BOTH public <3D>
+            # STAGGER archives ship the 5-column mul23 TAU5000 form carrying neither.
+            # The sibling `interpol_multi_nlte` returned ALL-ZERO b-values and corrupted
+            # the heap on the very record we now parse correctly.
+            #
+            # So the deck is READ DIRECTLY (`gerber_nlte.read_deck_node`). The layout was
+            # verified twice by independent evidence -- the field sizes give a 287,348-byte
+            # record, and the aux table's own consecutive pointers differ by exactly that.
+            # Measured at the solar node: n_dep=101, n_lev=354, log tau -5.000..+5.000
+            # matching this atmosphere exactly, 100% finite, zero all-zero rows, and
+            # median b -> 1.0 at both tau ends (the LTE limit) departing to 1.07 around
+            # tau~1. Nothing needs to be requested from anyone.
+            cell.state = T2_CONSUME_WIRED
+            cell.facts.append(
+                "CONSUME ROUTE RUNS (RYA-821): the deck is read directly, bypassing the "
+                "vendor interpolator entirely. A grid-node LOOKUP, not an interpolation "
+                "-- exact at a node the deck contains, and it REFUSES off-node rather "
+                "than substituting a neighbour.")
             cell.fix = (
-                "BLOCKED ON AN INPUT THAT IS NOT PUBLICLY DISTRIBUTED. Traced to the "
-                "source: interpol_modeles_nlte.f reads ONLY native MARCS (its two flags "
-                "are `test` and binary-vs-ascii MARCS -- there is no averaged-format "
-                "mode), and native MARCS requires tauR and Pg per depth. The public <3D> "
-                "STAGGER models carry neither: BOTH archives on the MPG Keeper share "
-                "(average_stagger_grid_forTSv20.zip and ..._forMULTI1D.zip) hold the same "
-                "5-column mul23 TAU5000 form -- log tau500, T, n_e, V, v_mic -- and the "
-                "MULTI1D copy is byte-identical in content to the one we already hold. "
-                "So the deck's aux names MARCS files (p5777_g+4.4...) that the "
-                "distribution does not ship; Gerber's group evidently converted <3D> "
-                "models to MARCS internally. "
-                "BEST OPTION -- READ THE DECK DIRECTLY. The layout is fully determined "
-                "and verified, so the vendor binary is not needed at all, and this also "
-                "dissolves the corner-model problem: a direct reader takes the node from "
-                "the aux instead of from 8 MARCS files. "
-                "FALLBACKS: (a) ask the Gerber/Bergemann group for the MARCS-format <3D> "
-                "models the aux indexes -- one email, same ask-shape as RYA-1008; "
-                "(b) derive Pg and tauR ourselves (Pg from the EOS tables we hold; tauR "
-                "needs Rosseland opacities, the harder half); (c) reach Al <3D> by the "
-                "BUILD-OUR-OWN route instead, which does not use this binary. "
-                "DO NOT feed a 5750/4.50 MARCS corner to force a run -- it pairs <3D> "
-                "departures with a different atmosphere at a node the deck does not "
-                "contain, and rc=0 makes that look like success.")
+                "OWED: an end-to-end Al <3D> measurement to move this to "
+                "T2_CONSUME_VALIDATED. The route is wired and the deck reads; what has "
+                "not happened yet is a band product derived through it.")
         elif base in _MEAN3D_DECKS:
             cell.state = T2_CONSUME_READY
             cell.disk_paths = disk_paths or cell.disk_paths
