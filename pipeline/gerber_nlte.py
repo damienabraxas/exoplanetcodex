@@ -308,6 +308,30 @@ def _aux_rows(element: str) -> list[dict]:
     return out
 
 
+def _node_from_model_name(name: str) -> tuple[float, float, float] | None:
+    """(Teff, logg, [Fe/H]) parsed from EITHER naming convention the deck uses.
+
+        't5777g44m00'                        -> (5777, 4.4, 0.0)     STAGGER
+        'p5777_g+4.4_m0.0_t02_st_z+0.00_...' -> (5777, 4.4, 0.0)     MARCS-style
+
+    ⚠️ In the STAGGER form `g44` is logg*10 and `m00` is [Fe/H]*10 SIGNED BY A LETTER
+    ('m' minus / 'p' plus), so `m00` is -0.0 and `m10` is -1.0 -- NOT 0.0 and 1.0. Reading
+    those as unsigned is how a [Fe/H] sign gets lost, which is a defect this project has
+    already met once in the STAGGER GRID_STATUS table.
+    """
+    import re
+    m = re.match(r"^[tp](\d{4})_?g([+-]?\d+(?:\.\d+)?)_?([mp])(\d+(?:\.\d+)?)", name.strip())
+    if m:
+        teff = float(m.group(1))
+        graw = m.group(2)
+        logg = float(graw) if ("." in graw or graw.startswith(("+", "-"))) else float(graw) / 10.0
+        sign = -1.0 if m.group(3) == "m" else 1.0
+        fraw = m.group(4)
+        feh = sign * (float(fraw) if "." in fraw else float(fraw) / 10.0)
+        return teff, logg, feh
+    return None
+
+
 def read_deck_node(element: str, teff: float, logg: float, feh: float,
                    abundance: float, *, tol_teff: float = 1.0,
                    tol_logg: float = 0.01, tol_feh: float = 0.01) -> dict:
@@ -372,15 +396,30 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
         dep = np.frombuffer(fh.read(ndep * nk * 8), dtype="<f8",
                             count=ndep * nk).reshape(ndep, nk)
 
-    # The aux row NAMES the model; the record CARRIES its own name. They must agree, or
-    # the pointer landed on someone else's record -- the failure mode that produced the
-    # spurious "departures are on a different tau scale" error, which was really a bare
-    # ndepth comparison against a mismatched record.
-    if hit["id"] and hit["id"] not in model_id:
+    # The aux row NAMES the model and the record CARRIES its own name -- and they use
+    # DIFFERENT CONVENTIONS, which is the whole reason the vendor binary cannot match them
+    # and the reason this aux file is called `_marcs_names`:
+    #
+    #     record : 't5777g44m00'                       <- STAGGER's own naming
+    #     aux    : 'p5777_g+4.4_m0.0_t02_st_z+0.00...' <- MARCS-style alias
+    #
+    # So they are compared on the PHYSICS they encode, never as strings. A string test
+    # here is wrong in both directions: it rejects the correct record (which is what it
+    # did on the first run of this reader), and it would accept a wrong one that happened
+    # to share a prefix.
+    node = _node_from_model_name(model_id)
+    if node is None:
         raise GerberDeckError(
-            f"{binf}: pointer {hit['pointer']} lands on record {model_id!r} but the aux "
-            f"row names {hit['id']!r}. The pointer is wrong; refusing to return another "
-            f"model's departures.")
+            f"{binf}: record at pointer {hit['pointer']} carries the unparseable name "
+            f"{model_id!r}. Refusing to trust an offset whose record cannot be identified.")
+    r_teff, r_logg, r_feh = node
+    if (abs(r_teff - hit["teff"]) > tol_teff or abs(r_logg - hit["logg"]) > 0.06
+            or abs(r_feh - hit["feh"]) > tol_feh):
+        raise GerberDeckError(
+            f"{binf}: pointer {hit['pointer']} lands on record {model_id!r} "
+            f"(Teff {r_teff} logg {r_logg} [Fe/H] {r_feh}) but the aux row names "
+            f"{hit['id']!r} (Teff {hit['teff']} logg {hit['logg']} [Fe/H] {hit['feh']}). "
+            f"The pointer is wrong; refusing to return another model's departures.")
 
     return dict(abundance=hit["abundance"], ndep=ndep, nk=nk, tau=np.asarray(tau, float),
                 departures=np.asarray(dep, float),
