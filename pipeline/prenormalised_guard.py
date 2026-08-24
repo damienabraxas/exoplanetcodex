@@ -45,6 +45,7 @@ PRE_NORMALISED_HOLDINGS: frozenset[str] = frozenset({
     "solar_harps",                       # ships its own fitted continuum (RYA-911)
     "solar_harps_molecfit_corrected",    # RYA-931 corrected sibling, same normaliser
     "solar_iag",                         # Baker+2020 telluric-free, normalised
+    "solar_iag_reiners2016",             # the blue arm, normalised at source
     "solar_crires_plus_y_rya794",        # RYA-794 science-ready Y arm, normalised
     "solar_delbouille_liege",            # RYA-944 disk-centre intensity, LOCAL normalisation
 })
