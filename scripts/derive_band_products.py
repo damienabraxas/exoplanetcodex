@@ -325,6 +325,65 @@ def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd
     }).sort_values("wave_A").reset_index(drop=True)
 
 
+def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
+                 deep: bool = False) -> pd.DataFrame:
+    """Every LAB-tier line in the band, split on the EW depth gate — RYA-933.
+
+    🔴 WHY THIS EXISTS. `--lines-tier graded` was consulted ONLY inside the
+    `--lines-from-ew` branch. Passing it alone fell through to `select_lines`, which
+    picks the strongest N by theoretical depth and applies NO gf filter — so the run
+    asked for graded, measured an UNGRADED mixed pool, and the stem did not even record
+    that graded had been requested. Measured on Kurucz 2005 VIS: 2 of 37 lines GF-LAB,
+    rung 1, syst 0.170, reported as a graded run. That is the RYA-833 shape (a silent
+    no-op reading as a result) applied to the one axis RYA-161 says dominates.
+
+    `deep=False` returns the graded lines AT OR BELOW the gate — graded without the deep
+    population, which is a separate and much slower product (RYA-984).
+    """
+    from line_accounting_rya709 import DEPTH_HI
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
+             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & cg.wavelength_air_A.between(lo_A, hi_A)]
+    if lab.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"to run a 'graded' product on a pool that is not graded.")
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    sel = lab[depth > DEPTH_HI] if deep else lab[depth <= DEPTH_HI]
+    print(f"  [graded] {len(lab)} LAB-tier {species} lines in band; using the "
+          f"{len(sel)} {'ABOVE' if deep else 'AT OR BELOW'} the {DEPTH_HI} depth gate")
+    if sel.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} line in {lo_A}-{hi_A} A sits "
+            f"{'above' if deep else 'at or below'} the {DEPTH_HI} depth gate — refusing "
+            f"to emit a 'graded' product with no graded line in it.")
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    idx_all = np.flatnonzero(el == species)
+    if not idx_all.size:
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    order = np.argsort(w_A[idx_all])
+    idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+    keep, missing = _match_into_list(
+        np.sort(sel.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+    if missing:
+        print(f"  [graded] {len(missing)} of {len(sel)} are NOT in the synthesis list "
+              f"(>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported rather "
+              f"than counted as failures (RYA-977 territory)")
+    if not keep:
+        raise SystemExit("no graded line matched the synthesis list")
+    keep = np.array(sorted(set(keep)))
+    return pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+
 def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
                            species: str, tier: str) -> pd.DataFrame:
     """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
@@ -418,6 +477,8 @@ def _selector_tag(a) -> str:
     if getattr(a, "lines_from_ew", None):
         tier = getattr(a, "lines_tier", "all")
         return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
+    if getattr(a, "lines_tier", "all") == "graded":
+        return "_GRADED"
     return ""
 
 
@@ -651,19 +712,82 @@ def synthesis_route(a, pol) -> None:
     #: the kind of borrowed claim this ticket exists to stop.
     _window_median: list[float] = []
 
+    #: RYA-933/938 — band-wide continuum for a holding that ships NONE. Built lazily on
+    #: first use and reused for every window, because the continuum is a property of the
+    #: BAND, not of a 1.2 A fit window. Fitting it per window would place the "continuum"
+    #: inside the line being measured.
+    _placed_cont: dict = {}
+
+    def _band_continuum(h):
+        """CONTINUUM_PARAMS['solar'] spline over the whole band, fitted once.
+
+        🔴 THE KNOT SPACING IS THE WHOLE CORRECTNESS. 100 A knots with a 95th-percentile
+        upper envelope and 3-sigma rejection is the project's solar convention; a local
+        estimator (the 95th percentile of a single fit window, as `--local-renorm` uses)
+        is a DIFFERENT operation and is wrong here -- at ~1.2 A it rides down the wings of
+        the line it is about to measure and returns a continuum biased low, which the
+        fitter then closes by lowering A(X).
+        """
+        if "f" in _placed_cont:
+            return _placed_cont["f"]
+        from config.constants import CONTINUUM_PARAMS
+        from scipy.interpolate import CubicSpline
+        cp = CONTINUUM_PARAMS["solar"]
+        bw = load_window_ex(a.instrument, 0.5 * (a.lo + a.hi),
+                            0.5 * (a.hi - a.lo) + 1.0, holding=a.holding)
+        W = np.asarray(bw.wave, float); F = np.asarray(bw.flux, float)
+        keep = np.ones(W.size, bool)
+        knot = float(cp["knot_spacing_A"]); pct = float(cp["upper_percentile"])
+        cont = None
+        for _ in range(int(cp["n_iter"])):
+            edges = np.arange(W[0], W[-1] + knot, knot)
+            kx, ky = [], []
+            for lo_, hi_ in zip(edges[:-1], edges[1:]):
+                m = keep & (W >= lo_) & (W < hi_)
+                if m.sum() < 20:
+                    continue
+                kx.append(0.5 * (lo_ + hi_)); ky.append(float(np.percentile(F[m], pct)))
+            if len(kx) < 4:
+                raise SystemExit(
+                    f"--place-continuum: only {len(kx)} usable {knot:.0f} A knots across "
+                    f"{a.lo:.0f}-{a.hi:.0f} A -- too few to constrain a spline. Refusing "
+                    f"to place a continuum the band cannot support.")
+            cont = CubicSpline(kx, ky)(W)
+            resid = F - cont
+            keep = resid > -float(cp["sigma_clip"]) * float(np.std(resid[keep]))
+        _placed_cont["f"] = (W, cont)
+        print(f"  [continuum] PLACED on {h.holding_id} (ships none): "
+              f"{len(kx)} knots x {knot:.0f} A, {pct:.0f}th pct, "
+              f"{cp['n_iter']} iters, {cp['sigma_clip']:.1f} sigma "
+              f"(CONTINUUM_PARAMS['solar'])")
+        return _placed_cont["f"]
+
     def _observed(centre: float, pad: float):
         win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
         h = win.holding
-        if not h.pre_normalised:
+        if not h.pre_normalised and not getattr(a, "place_continuum", False):
             raise LookupError(
                 f"holding {h.holding_id} is NOT continuum-normalised, and the synthesis "
                 f"route fits observed flux against a synthesis normalised to unity. "
                 f"Fitting it would spend A({a.element}) closing a continuum offset "
-                f"(RYA-713/843). Normalise the product first.")
+                f"(RYA-713/843). Normalise the product first, or pass --place-continuum "
+                f"if this holding genuinely ships no continuum to double (RYA-911).")
         _served[h.holding_id] = _served.get(h.holding_id, 0) + 1
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
         _w, _f, _prov = win.wave, win.flux, win.provenance
+        if not h.pre_normalised and getattr(a, "place_continuum", False):
+            _CW, _CF = _band_continuum(h)
+            _c = np.interp(np.asarray(_w, float), _CW, _CF)
+            _bad = ~np.isfinite(_c) | (_c <= 0)
+            if _bad.any():
+                raise SystemExit(
+                    f"--place-continuum: the band continuum is non-positive at "
+                    f"{int(_bad.sum())} of {_bad.size} pixels near {centre:.3f} A. "
+                    f"Refusing to divide by it.")
+            _f = np.asarray(_f, float) / _c
+            _prov = (f"{_prov} | RYA-933 CONTINUUM PLACED "
+                     f"(CONTINUUM_PARAMS['solar'], band-wide spline)")
         if getattr(a, "local_renorm", False):
             # 🔴 RYA-1000 — ONE CONVENTION FOR BOTH ARMS, applied IDENTICALLY.
             #
@@ -707,7 +831,7 @@ def synthesis_route(a, pol) -> None:
     # different holding line by line -- but a per-line failure there surfaces as
     # `status: no_atlas` on each line, which describes coverage rather than the real
     # fault. The loud version comes first (RYA-832).
-    if not _probe.pre_normalised:
+    if not _probe.pre_normalised and not getattr(a, "place_continuum", False):
         raise SystemExit(
             f"{a.instrument} -> {_probe.holding_id} is NOT continuum-normalised, and "
             f"this route fits observed flux against a synthesis normalised to unity. "
@@ -731,6 +855,13 @@ def synthesis_route(a, pol) -> None:
                                       lo_A=a.lo, hi_A=a.hi,
                                       species=species_token(a.element, a.ion),
                                       tier=a.lines_tier)
+    elif getattr(a, "lines_tier", "all") == "graded":
+        cand = _cand_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                            species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_tier", "all") == "ungraded":
+        raise SystemExit(
+            "--lines-tier ungraded is only meaningful with --lines-from-ew (it splits "
+            "an EW artifact's pool). Standalone, use the default 'all'.")
     else:
         cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
                             teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
@@ -1347,6 +1478,15 @@ def main() -> None:
                          "(95th percentile) before fitting, so both arms share one "
                          "continuum convention. DIAGNOSTIC ONLY — the controlled test of "
                          "whether the KP-vs-HARPS arm gap is a normalisation artifact.")
+    ap.add_argument("--place-continuum", action="store_true",
+                    help="RYA-933/938: place a continuum on a holding that ships NONE "
+                         "(pre_normalised=False), instead of refusing it. Fitted ONCE "
+                         "across the whole band with CONTINUUM_PARAMS['solar'] (100 A "
+                         "knots, 95th pct, 5 iters, 3 sigma) -- never per fit window, "
+                         "which at ~1.2 A would ride down the wings of the very lines "
+                         "being measured and bias A(X) low. Only legitimate where the "
+                         "product genuinely ships no continuum to double (RYA-911): "
+                         "Kurucz 2005 is absolute irradiance in W/m2/nm.")
     ap.add_argument("--lines-deep-graded", action="store_true",
                     help="RYA-984: select the laboratory-graded lines that sit ABOVE the "
                          "EW depth gate — the ones EW can never attempt because the curve "

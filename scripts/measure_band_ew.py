@@ -733,9 +733,16 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     "kpno_solar_atlas": (
         HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
                     note="Kurucz/Brault FTS residual flux -- unity IS the continuum."),
-        HoldingSpec("solar_kpno_molecfit_corrected", reader="kpno_1984_corrected",
+        HoldingSpec("solar_kpno_molecfit_corrected", reader="kpno_1984_composite",
                     pre_normalised=True,
-                    note="RYA-940 telluric-corrected 1984 atlas. Same conventions as "
+                    note="RYA-933: serves the WHOLE band -- corrected flux inside the "
+                         "six RYA-940 bands, the untouched 1984 atlas outside them, and "
+                         "a REFUSAL inside a registered telluric band RYA-940 could not "
+                         "fit (H2O 7160-7340). Until then this reader returned only the "
+                         "six corrected windows and nothing else, so every graded VIS "
+                         "line fell outside it and the band measured zero lines -- the "
+                         "holding had never produced a single product. "
+                         "RYA-940 telluric-corrected 1984 atlas. Same conventions as "
                          "solar_kpno -- air, residual flux, unity IS the continuum -- "
                          "differing only by the six corrected telluric bands. Listed "
                          "AFTER solar_kpno on purpose: reachable by name, selection "
@@ -877,6 +884,8 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
         return load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
     if spec.reader == "kpno_1984_corrected":
         return load_kp1984_corrected_window(centre, pad)
+    if spec.reader == "kpno_1984_composite":
+        return load_kp1984_composite_window(centre, pad, segs)
     if spec.reader == "kurucz2005":
         return load_kurucz2005_window(centre, pad)
     if spec.reader == "iag":
@@ -974,6 +983,65 @@ def load_kp1984_corrected_window(centre: float, pad: float):
             f"no RYA-940 corrected 1984 band covers {centre:.3f} A. Only six telluric "
             f"bands were corrected; this window is not one of them. Use solar_kpno for "
             f"the uncorrected atlas -- do NOT relabel it corrected.")
+    w = np.concatenate(W); f = np.concatenate(F)
+    o = np.argsort(w)
+    return w[o], f[o], ",".join(used)
+
+
+def load_kp1984_composite_window(centre: float, pad: float, segs=None):
+    """RYA-933: the 1984 atlas with RYA-940's corrected bands SUBSTITUTED IN.
+
+    `solar_kpno_molecfit_corrected` holds ONLY the six fitted telluric windows, so every
+    line outside them is unserved and a VIS band measures nothing. This composes the two
+    without relabelling anything:
+
+      * inside a band RYA-940 corrected -> the corrected flux;
+      * outside every REGISTERED telluric band -> the original 1984 atlas, which is
+        telluric-clean there by the project's own enumeration (`TELLURIC_BANDS`);
+      * inside a registered band with NO corrected file -> REFUSE.
+
+    🔴 THE REFUSAL IS THE POINT, and it is why this is not the silent fallback
+    `load_kp1984_corrected_window` rightly forbids. H2O 7160-7340 is registered and
+    RYA-940 got NO ADMISSIBLE FIT for it, so a window there is genuinely uncorrected and
+    must not be served under a corrected name. Falling through everywhere would do
+    exactly that; falling through only where nothing needs correcting does not.
+    """
+    from pipeline.telluric_policy import TELLURIC_BANDS
+    lo, hi = centre - pad, centre + pad
+    corrected = []
+    for path in sorted(KP1984_CORRECTED_DIR.glob("kp1984_corrected_*.txt")):
+        a, b = (float(x) for x in path.stem.split("_")[-2:])
+        corrected.append((a, b, path))
+
+    # a registered band this window touches, for which no corrected file exists -> refuse
+    for blo, bhi, bname in TELLURIC_BANDS:
+        if bhi < lo or blo > hi:
+            continue
+        if not any(a <= bhi and b >= blo for a, b, _ in corrected):
+            raise LookupError(
+                f"window {lo:.2f}-{hi:.2f} A overlaps REGISTERED telluric band "
+                f"{blo:.0f}-{bhi:.0f} A ({bname}), and RYA-940 produced no admissible "
+                f"correction for it. Refusing to serve uncorrected flux under a "
+                f"corrected holding -- measure it on solar_kpno and label it uncorrected.")
+
+    W, F, used = [], [], []
+    for a, b, path in corrected:                       # corrected flux where it exists
+        if b < lo or a > hi:
+            continue
+        arr = np.loadtxt(path)
+        m = (arr[:, 0] >= lo) & (arr[:, 0] <= hi) & np.isfinite(arr[:, 1])
+        if m.any():
+            W.append(arr[m, 0]); F.append(arr[m, 1]); used.append(path.name)
+
+    aw, af, aprov = load_kp_window(segs if segs is not None else kp_segments(), centre, pad)
+    keep = np.ones(np.asarray(aw).size, bool)          # atlas flux everywhere else
+    for a, b, _ in corrected:
+        keep &= ~((aw >= a) & (aw <= b))
+    if keep.any():
+        W.append(np.asarray(aw)[keep]); F.append(np.asarray(af)[keep])
+        used.append(f"{aprov}[uncorrected: no telluric band registered]")
+    if not W:
+        raise LookupError(f"no 1984 atlas or corrected coverage at {centre:.3f} A")
     w = np.concatenate(W); f = np.concatenate(F)
     o = np.argsort(w)
     return w[o], f[o], ",".join(used)
