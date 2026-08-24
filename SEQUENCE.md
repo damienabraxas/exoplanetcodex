@@ -17,6 +17,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-23
 
+- **RYA-1026** — the Fe product is ratified as an **(instrument × band) GRID**; **displayed science is telluric-CORRECTED only** (KP2005-vs-KP1984 whitelisted as the molecfit CONTROL, `as_control=True` stated in code) and the **whole Kitt Peak class is PRE-NORMALISED**, reversing RYA-929 for KP2005. 🔴 **DO NOT NORMALISE ANY KP ATLAS** — a second continuum tilts the spectrum and it has bitten TWICE (RYA-940 on 1984; the 2005 double-normalise forced the VIS re-run). Both rules are GUARDS that raise (`prenormalised_guard`, `telluric_display_policy`), not notes — RYA-929's flag said False for months with nothing objecting. 🔴 **The display gate is STRICTER than `telluric_policy.gate_holding`**: passing the MEASUREMENT gate is not permission to SHIP. 🔴 **The clean set is DERIVED from `applied_state`** — a hand-written one got 2 of 5 wrong and invented the id `solar_delbouille`. No value moves. Unblocks RYA-959/961/908/953/1027/1028 and the 3D umbrella RYA-1029
+
 - **RYA-1005** — Al's Gerber NLTE deck wired; **its grid has an abundance axis Fe's does not** (31 vs 1 A(X)), so `for_node` now interpolates at the synthesis abundance. Gate PASSES but the deck reports b~1 and a delta indistinguishable from LTE at the 0.01 dex quantiser floor — recorded, not tuned.
 
 - **RYA-1002** — Al gets a **primary-lab gf table** (Burheim 2023, 12 lines, 2-11 %) and `gf_grades.GF-LAB` is generalised off the Fe-only file — proved inert on Fe (931 verdicts byte-identical). 7/8 in-range Al lines reach GF-LAB on `linelist_solar`; only 1 on `canonical_gf`.

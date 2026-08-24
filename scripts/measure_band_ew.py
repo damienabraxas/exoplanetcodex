@@ -33,6 +33,8 @@ from pipeline.band_products import (  # noqa: E402
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
 from pipeline import kp_atlas_integrity as kp_integrity  # noqa: E402  RYA-938
+from pipeline.prenormalised_guard import (  # noqa: E402  RYA-1026
+    assert_data_matches_declaration)
 from config.constants import codex_path, codex_root, PATHS  # RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"
@@ -732,7 +734,14 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     ),
     "kpno_solar_atlas": (
         HoldingSpec("solar_kpno", reader="kpno", pre_normalised=True,
-                    note="Kurucz/Brault FTS residual flux -- unity IS the continuum."),
+                    note="Kurucz/Brault FTS residual flux -- unity IS the continuum. "
+                         "🔴 STANDING RULE, RYA-1026: DO NOT NORMALISE ANY KITT PEAK "
+                         "ATLAS. Both KP products ship their own continuum and a second "
+                         "one adds a spurious TILT that follows the saturated bands "
+                         "down. It has bitten twice -- RYA-940 here, RYA-929 on the 2005 "
+                         "sibling. Enforced by pipeline.prenormalised_guard. The ONLY "
+                         "thing done to a KP atlas on the way in is TELLURIC "
+                         "CORRECTION; never a continuum refit."),
         HoldingSpec("solar_kpno_molecfit_corrected", reader="kpno_1984_composite",
                     pre_normalised=True,
                     note="RYA-933: serves the WHOLE band -- corrected flux inside the "
@@ -758,7 +767,13 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "intake never took it; placing our own continuum instead tilted "
                          "the band 4% blue-to-red and cost 0.022 dex. VACUUM grid "
                          "(gravitational redshift included), converted to air on read. "
-                         "Spans 2990-10010 A; nothing telluric-free reaches the IR."),
+                         "Spans 2990-10010 A; nothing telluric-free reaches the IR. "
+                         "🔴 RYA-1026 ratified this for the WHOLE KITT PEAK CLASS and "
+                         "made it ENFORCED, not remembered: pipeline.prenormalised_guard "
+                         "refuses to fit/apply a continuum here, and cross-checks the "
+                         "flag against the FLUX -- a declared flag and a mis-routed file "
+                         "agree with each other perfectly and are both wrong, which is "
+                         "exactly what happened here for months."),
     ),
     "iag_fts_solar_atlas": (
         HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
@@ -1097,6 +1112,9 @@ def load_kurucz2005_window(centre: float, pad: float):
     if w.size < 5:
         raise LookupError(f"Kurucz 2005 does not cover {centre:.3f} A (it spans "
                           f"2990-10010 A); nothing beyond 10010 A is telluric-free here.")
+    assert_data_matches_declaration(
+        "solar_kpno_kurucz2005_corrected", w, f, declared=True,
+        where=f"load_kurucz2005_window({centre:.3f} A) -> {Path(path).name}")
     return w, f, Path(path).name
 
 
