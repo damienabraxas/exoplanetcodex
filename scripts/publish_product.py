@@ -175,8 +175,18 @@ def main() -> int:
                          "two different PRODUCTS, and a name containing 'corrected' is not "
                          "evidence that it is.")
     ap.add_argument("--tier",
-                    choices=["GRADED", "DEEPGRADED", "CONSISTENT", "UNGRADED"],
-                    help="the line-selection tier — Ryan's three sub-products plus ungraded")
+                    choices=["GRADED", "DEEPGRADED", "CONSISTENT", "UNGRADED", "ALL"],
+                    help="the line-selection tier. Ryan's three sub-products are GRADED "
+                         "(lab gf, at/below the depth gate), DEEPGRADED (lab gf, above "
+                         "it) and CONSISTENT (no lab gf, admitted on behaviour). "
+                         "🔴 ALL IS NOT A TIER, IT IS THE ABSENCE OF ONE: a run with no "
+                         "selector measures the WHOLE pool, lab lines included -- the "
+                         "harps EW pool is 247 lines of which 9 ARE lab-graded. Calling "
+                         "that UNGRADED made the tiers overlap, and CONSISTENT (a subset "
+                         "of the 238 non-lab lines) would then have been double-counted "
+                         "against it. UNGRADED means the COMPLEMENT of the lab set and "
+                         "nothing else (RYA-946: graded and ungraded are separate "
+                         "products, never merged).")
     ap.add_argument("--route", default=None, help="PROFILEFIT | SYNTH | EW-3D")
     ap.add_argument("--selector", default=None,
                     help="the line-selection variant as the stem records it (GRADED, "
