@@ -988,6 +988,48 @@ def load_kp1984_corrected_window(centre: float, pad: float):
     return w[o], f[o], ",".join(used)
 
 
+#: RYA-940's corrected windows, READ FROM THE FILES. This is the ONE place that list
+#: is derived; `load_kp1984_composite_window` and `serves_corrected_flux` both consult it,
+#: because a second copy of a band table is how RYA-845's double-count survived.
+def corrected_bands_on_disk() -> list[tuple[float, float, "Path"]]:
+    out = []
+    for path in sorted(KP1984_CORRECTED_DIR.glob("kp1984_corrected_*.txt")):
+        a, b = (float(x) for x in path.stem.split("_")[-2:])
+        out.append((a, b, path))
+    return out
+
+
+def serves_corrected_flux(holding: str | None, wave_A: float) -> str:
+    """Provenance string if `holding` demonstrably serves `wave_A` as telluric-CORRECTED
+    flux; '' otherwise. RYA-1024.
+
+    🔴 THE EVIDENCE DECIDES, NOT THE LABEL. The obvious implementation -- trust
+    `applied_state(holding) == 'applied'` -- is wrong, and measurably so: FIVE holdings
+    declare `applied`, and `solar_iag` is one of them while its reader routes to the RAW
+    Reiners file, so it excludes nothing in O2/H2O. Lifting a telluric quarantine on that
+    label would admit genuinely contaminated lines on the arm we trust most.
+
+    So the question asked here is narrower and answerable from disk: is there a corrected
+    PRODUCT covering this wavelength? Only the RYA-940 Kitt Peak readers can answer yes,
+    and only inside a window RYA-940 actually fitted. H2O 7160-7340 is registered and got
+    NO admissible fit, so it has no file, so the quarantine correctly stands there -- the
+    real gap stays a real gap with no special-casing.
+    """
+    if not holding:
+        return ""
+    for specs in _INSTRUMENT_HOLDINGS.values():
+        for spec in specs:
+            if spec.holding_id != holding:
+                continue
+            if spec.reader not in ("kpno_1984_composite", "kpno_1984_corrected"):
+                return ""
+            for a, b, path in corrected_bands_on_disk():
+                if a <= wave_A <= b:
+                    return f"{path.name} ({a:.0f}-{b:.0f} A, RYA-940 corrected)"
+            return ""
+    return ""
+
+
 def load_kp1984_composite_window(centre: float, pad: float, segs=None):
     """RYA-933: the 1984 atlas with RYA-940's corrected bands SUBSTITUTED IN.
 
@@ -1008,10 +1050,7 @@ def load_kp1984_composite_window(centre: float, pad: float, segs=None):
     """
     from pipeline.telluric_policy import TELLURIC_BANDS
     lo, hi = centre - pad, centre + pad
-    corrected = []
-    for path in sorted(KP1984_CORRECTED_DIR.glob("kp1984_corrected_*.txt")):
-        a, b = (float(x) for x in path.stem.split("_")[-2:])
-        corrected.append((a, b, path))
+    corrected = corrected_bands_on_disk()
 
     # a registered band this window touches, for which no corrected file exists -> refuse
     for blo, bhi, bname in TELLURIC_BANDS:
