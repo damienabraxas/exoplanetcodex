@@ -1601,8 +1601,14 @@ def main() -> None:
     # The tier is part of what was MEASURED, so it belongs in the product name (RYA-984):
     # without it a graded and an ungraded EW product write the SAME filename and the
     # second silently overwrites the first -- the RYA-1006 collision, on this route.
+    # ⚠️ UNDERSCORE, not hyphen. The tracker's stem parser reads the handler and then
+    # ONE OR MORE selector segments each introduced by `_`
+    # (`(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)*`). `PROFILEFIT-GRADED` leaves `-GRADED` with no
+    # leading underscore, so parse_stem returns None and the product is INVISIBLE to the
+    # page -- caught by test_every_committed_band_product_is_visible_to_the_tracker
+    # before merge. The synth route already emits `_SYNTH_GRADED`; this matches it.
     if getattr(a, "lines_tier", "all") != "all":
-        stem += f"-{a.lines_tier.upper()}"
+        stem += f"_{a.lines_tier.upper()}"
     ew = pd.read_csv(src)
     pol = resolve_band(0.5 * (a.lo + a.hi))
     ok = ew[ew.in_aggregate].copy()
