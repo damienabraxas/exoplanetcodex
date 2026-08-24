@@ -57,8 +57,36 @@ import numpy as np
 import pandas as pd
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
-LAB_CSV = _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv"
 CANONICAL_GF = _REPO_ROOT / "data" / "linelists" / "canonical_gf.csv"
+
+#: Per-species primary-laboratory gf tables — RYA-1002.
+#:
+#: This was a single module constant pointing at the Fe file, which meant `GF-LAB` was
+#: STRUCTURALLY UNREACHABLE for every other element: a species with a perfectly good lab
+#: measurement could not be graded, because there was nowhere to put its table. Al is the
+#: case that surfaced it (Burheim 2023 grades 8 of our Al I lines at 1.5-11%), but the
+#: defect was never Al-specific.
+#:
+#: A table joins this registry by matching the Fe schema — `source, wavelength_air_A,
+#: elo_cm1, eup_cm1, elo_eV, eup_eV, loggf, e_loggf_dex`. Extra columns are ignored, so a
+#: table may carry its own provenance beside the shared ones. Every source named in a
+#: table MUST have a CITATIONS entry: `grade_line` cites the paper by name in the verdict,
+#: and an uncited lab value would be an unattributable pedigree.
+LAB_TABLES: dict[str, Path] = {
+    "Fe I": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv",
+    "Al I": _REPO_ROOT / "data" / "reference" / "al_gf_lab" / "al1_lab_loggf.csv",
+}
+#: How to rebuild each, quoted in the not-found error so the message is actionable.
+LAB_REGEN = {
+    "Fe I": "python3 scripts/rya799_fetch_fe_gf_lab.py",
+    "Al I": "python3 scripts/rya1002_fetch_al_gf_lab.py",
+}
+#: The default species. Every pre-RYA-1002 caller passes no species and must keep getting
+#: exactly the Fe I behaviour it got before — the generalisation is additive, never a
+#: silent re-grade of the Fe pool.
+DEFAULT_SPECIES = "Fe I"
+#: Back-compat alias. Several scripts import the Fe path directly.
+LAB_CSV = LAB_TABLES[DEFAULT_SPECIES]
 
 #: RYA-161. The semi-empirical Kurucz gf systematic carried when nothing better ties.
 K07_SYSTEMATIC_DEX = 0.20
@@ -109,6 +137,10 @@ CITATIONS = {
     "Ruffoni2014": ("Ruffoni et al. 2014, MNRAS 441, 3127", "10.1093/mnras/stu780"),
     "DenHartog2014": ("Den Hartog et al. 2014, ApJS 215, 23", "10.1088/0067-0049/215/2/23"),
     "Belmonte2017": ("Belmonte et al. 2017, ApJ 848, 125", "10.3847/1538-4357/aa8cd3"),
+    # RYA-1002. Experimental Al I: FTS branching fractions x radiative lifetimes, 12
+    # lines at 2-11%. The only primary lab source for Al in the repo.
+    "Burheim2023": ("Burheim, Hartman & Nilsson 2023, A&A 672, A197",
+                    "10.1051/0004-6361/202245394"),
 }
 NO_TIE_SOURCE = "no-tie->K07 (RYA-161 semi-empirical Kurucz systematic)"
 
@@ -139,22 +171,47 @@ class GradeVerdict:
 _cache: dict = {}
 
 
-def lab_lines() -> pd.DataFrame:
-    if "lab" not in _cache:
-        if not LAB_CSV.exists():
+def lab_lines(species: str = DEFAULT_SPECIES) -> pd.DataFrame:
+    """The primary-laboratory gf table for `species`.
+
+    A species with NO registered table raises rather than returning empty. An empty
+    frame would send every line of that species to the systematic and look exactly like
+    "no lab measurement exists" — the absence-is-a-hypothesis failure (RYA-833). Not
+    having a table and there being no measurement are different facts.
+    """
+    key = f"lab::{species}"
+    if key not in _cache:
+        path = LAB_TABLES.get(species)
+        if path is None:
+            raise KeyError(
+                f"no primary-lab gf table registered for {species!r}. Registered: "
+                f"{sorted(LAB_TABLES)}. Add one to LAB_TABLES (and a CITATIONS entry for "
+                f"every source it names) rather than letting the species fall silently to "
+                f"the systematic — 'we hold no table' and 'no lab measurement exists' are "
+                f"different claims and must not look alike.")
+        if not path.exists():
             raise FileNotFoundError(
-                f"primary-lab Fe I gf table missing at {LAB_CSV} — regenerate with "
-                f"`python3 scripts/rya799_fetch_fe_gf_lab.py`. Without it every line "
-                f"would fall to the systematic and the run would look like a result.")
-        _cache["lab"] = pd.read_csv(LAB_CSV)
-    return _cache["lab"]
+                f"primary-lab {species} gf table missing at {path} — regenerate with "
+                f"`{LAB_REGEN.get(species, '(no regen command registered)')}`. Without it "
+                f"every line would fall to the systematic and the run would look like a "
+                f"result.")
+        _cache[key] = pd.read_csv(path)
+    return _cache[key]
+
+
+def canonical_species(species: str = DEFAULT_SPECIES) -> pd.DataFrame:
+    """`canonical_gf.csv` filtered to one species."""
+    key = f"cgf::{species}"
+    if key not in _cache:
+        df = pd.read_csv(CANONICAL_GF, comment="#", low_memory=False)
+        _cache[key] = df[df["species"].astype(str) == species].reset_index(drop=True)
+    return _cache[key]
 
 
 def canonical_fe1() -> pd.DataFrame:
-    if "cgf" not in _cache:
-        df = pd.read_csv(CANONICAL_GF, comment="#", low_memory=False)
-        _cache["cgf"] = df[df["species"].astype(str) == "Fe I"].reset_index(drop=True)
-    return _cache["cgf"]
+    """Back-compat alias — the Fe I slice. Pre-RYA-1002 name, kept because callers and
+    docstrings across the repo refer to it."""
+    return canonical_species("Fe I")
 
 
 def _nearest(df: pd.DataFrame, wave: float, ep: float,
@@ -165,10 +222,15 @@ def _nearest(df: pd.DataFrame, wave: float, ep: float,
     return m.iloc[int(np.abs(m[wcol] - wave).values.argmin())]
 
 
-def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float) -> GradeVerdict:
-    """Grade one Fe I line, or bound it. Never returns a blank bar."""
-    lab = _nearest(lab_lines(), wavelength_air_A, ep_eV, "wavelength_air_A", "elo_eV")
-    cgf = _nearest(canonical_fe1(), wavelength_air_A, ep_eV,
+def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
+               species: str = DEFAULT_SPECIES) -> GradeVerdict:
+    """Grade one line of `species`, or bound it. Never returns a blank bar.
+
+    `species` defaults to Fe I so every pre-RYA-1002 caller is unchanged.
+    """
+    lab = _nearest(lab_lines(species), wavelength_air_A, ep_eV,
+                   "wavelength_air_A", "elo_eV")
+    cgf = _nearest(canonical_species(species), wavelength_air_A, ep_eV,
                    "wavelength_air_A", "excitation_potential_eV")
     tag = str(cgf["loggf_reference"]) if cgf is not None else ""
     ref_loggf = float(cgf["log_gf"]) if cgf is not None else np.nan

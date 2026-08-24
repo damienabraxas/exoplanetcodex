@@ -1,0 +1,13 @@
+{
+  "ticket": "RYA-952",
+  "source": "SIMBAD (CDS) via astroquery.simbad",
+  "epoch": "ICRS J2000; proper motions in mas/yr, pm_ra is mu_alpha* (cos-dec applied)",
+  "radial_velocity": "RYA-973: rv_kms is SIMBAD rvz_radvel with its OWN bibcode in rv_bibcode, because an RV quoted without a source is a number from memory. CAVEAT: a catalogue RV is EPOCH-AMBIGUOUS for a binary \u2014 alpha Cen A/B sweep several km/s over the 79.9 yr orbit \u2014 so it referees a SINGLETON cleanly and a binary component only with its epoch established.",
+  "why_cached": "target identity is what this ticket must not get wrong, so its referee must be independent of the headers being judged AND reproducible offline, including in CI with no network",
+  "moving_targets_excluded": {
+    "vesta": "Vesta (minor planet 4) \u2014 ephemeris target, no catalogue position",
+    "sun": "the Sun \u2014 SIMBAD resolves the name but publishes NO coordinates for it, which is correct and is why it cannot live in a fixed-position catalogue. Solar CRIRES frames are Vesta reflected-solar and identify through Vesta."
+  },
+  "retrieved": "2026-08-22",
+  "regenerate": "python3 scripts/rya952_fetch_target_astrometry.py"
+}

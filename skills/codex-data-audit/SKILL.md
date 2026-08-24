@@ -57,6 +57,31 @@ transmission array of ones is not an applied correction; a file may carry correc
 uncorrected columns together. `unknown` is real and never defaulted. Keep instrument
 `telluric_basis` separate from per-holding `telluric_applied`.
 
+### Normalisation state — MANDATORY, from the flux
+
+Determine `normalization_state` as `normalised`, `un-normalised`, or `unknown` from the
+FLUX via `pipeline.normalization_intake`, and record it per holding beside
+`telluric_applied`. This is not optional and it is not satisfied by reading a label: a
+filename, a README, or a `pre_normalised` flag are all the same claim written down, and a
+declared flag plus a mis-routed file agree with each other perfectly while both being
+wrong. **Scan what the READER RETURNS**, not what a directory listing shows — the failure
+this catches is a product declared normalised whose loader opens the raw file.
+
+Cross-check the detected state against the declared flag. **Disagreement is a LOUD STOP,
+never an auto-fix and never an auto-skip**: a genuinely raw spectrum with a coincidentally
+flat continuum and a normalised one with a bad blaze both need a human, and the detector
+informs the declared state rather than overriding the science. A product carrying no
+declaration is UNDECLARED and must be scanned before any continuum stage runs.
+
+`unknown` is real and never defaulted — defaulting to normalised applies unity as a
+continuum and inflates every EW silently. The envelope says nothing below the
+continuum-limited blue edge (near-UV blanketing leaves no true continuum in any window)
+or inside a registered telluric band, and the module reports `unknown` there rather than
+accusing a good product. Fill values are not flux.
+
+Keep this axis separate from `telluric_applied` (RYA-806) and `observed_conditioning`
+(RYA-1006). Three conditioning axes, three columns, never collapsed.
+
 ### Science coverage
 
 Resolve required indicators/regions from the active task, element protocol, line
@@ -66,8 +91,8 @@ without required coverage yield `NOT-APPLICABLE`/`DATA-GAP`, never a fabricated 
 
 ### Quality and contextual metadata
 
-Measure SNR/normalization using current canonical gates and report the resolved
-threshold/source. Verify the selected flux column's normalization state. Airmass,
+Measure SNR using current canonical gates and report the resolved threshold/source.
+Normalisation has its own mandatory axis above — do not re-answer it here from a label. Airmass,
 transparency, and similar metadata are contextual flags unless a current authority
 explicitly makes one a gate.
 
@@ -85,9 +110,12 @@ active issue/current ledger, not a hard-coded historical ticket.
 
 - Verify tests discriminate using positive controls; enumerate filtered false positives.
 - Assert on content, not existence, and preserve source checksums.
-- Never infer provenance, frame, tellurics, or units from memory.
+- Never infer provenance, frame, tellurics, units, or normalisation from memory.
+- Never conclude a product is normalised from a filename, a README, or a flag. Scan it.
 - Never perform abundance science during intake.
 - Stop on unresolved scientifically material ambiguity.
 
 Run applicable instrument/loader tests selected from current docs and code. Confirm an
-IR holding marked `not-applied` or `unknown` is refused by the live telluric gate.
+IR holding marked `not-applied` or `unknown` is refused by the live telluric gate, and
+that the recorded `normalization_state` agrees with the holding's declared
+`pre_normalised` flag — `scripts/preflight_check.py` check 7 reports both.

@@ -81,7 +81,13 @@ LEGACY = {
 #: Route for the labels that name one. `None` means "this label does not say" — which is
 #: the honest answer for the `1D-LTE` family and the whole reason this module exists.
 _ROUTE_BY_LABEL = {
-    "ENGINE-A": "ew", "ENGINE-A-3DNLTE": "ew",
+    # 🔴 RYA-1002 — ENGINE-A NO LONGER PINS A ROUTE. It was EW-only until the synthesis
+    # route gained its own ENGINE-A block, and it now appears on both. `None` is the
+    # honest answer, the same one `1D-LTE` has always carried: the label does not say
+    # which route ran, so the route must come from the product's HANDLER (RYA-869/906).
+    # Leaving "ew" here would have made every synthesis-route NLTE product render as an
+    # EW measurement — the exact mislabel this module exists to prevent.
+    "ENGINE-A": None, "ENGINE-A-3DNLTE": "ew",
     "ENGINE-B": "synth", "ENGINE-B-NLTE": "synth",
     "1D-LTE": None, "1D-LTE-LABGF": None,
 }

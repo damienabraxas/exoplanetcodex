@@ -40,6 +40,8 @@ INSTR = {
 }
 
 
+from pipeline.star_id import resolve_star  # noqa: E402
+
 def instr_label(folder_name: str) -> str:
     return INSTR.get(folder_name.lower(), folder_name)
 
@@ -47,10 +49,15 @@ def instr_label(folder_name: str) -> str:
 def classify(h, folder_star: str, instr: str) -> tuple:
     """(star 'A'|'B'|'REVIEW', reason). Header truth wins; indeterminate -> provenance."""
     tgt = str(h.get('OBJECT') or h.get('TARGNAME') or '').upper().replace(' ', '')
-    if tgt.startswith('HD128620') or 'ALF_CEN_A' in tgt or 'ALPHA-CEN-A' in tgt:
-        return 'A', f'target={tgt}'
-    if tgt.startswith('HD128621') or 'ALPHACENB' in tgt or 'ALPHA-CEN-B' in tgt or 'ALF_CEN_B' in tgt:
-        return 'B', f'target={tgt}'
+    # RYA-964: the alias set lives in system_catalog.csv, not in this function. The inline
+    # tests this replaces had to be kept in sync by hand in two files, and one of them
+    # already needed a guard against `HD128620`'s test swallowing `HD128621`.
+    raw = str(h.get('OBJECT') or h.get('TARGNAME') or '')
+    sid = resolve_star(raw)
+    if sid == 'alpha_cen_a':
+        return 'A', f'target={tgt} (resolve_star -> alpha_cen_a)'
+    if sid == 'alpha_cen_b':
+        return 'B', f'target={tgt} (resolve_star -> alpha_cen_b)'
     if 'DARK' in tgt:
         return 'A', f'raw/dark ({tgt}) -> Phoenix-RAW'
     if 'GL-559' in tgt or 'GL559' in tgt:
