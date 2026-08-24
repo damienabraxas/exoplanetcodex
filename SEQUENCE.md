@@ -17,6 +17,8 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-24
 
+- **RYA-1027** — Fe I **near-UV graded product** on telluric-corrected KP: **A(Fe I) = 7.596 (n=58 deep-graded), ENGINE-A 7.606** vs RYA-759/822's 7.577 ⇒ **+0.019, values HOLD**. 🔴 **The at-gate graded tier is n=1 (3026 Å, continuum-limited, 8.529) — a DECLARED GAP, not a value**; RYA-954 reproduced at band scale, lab Fe I is a deep/saturated population. 🔴 **Wide bar is a RESULT (RYA-777)**: MAD 0.272, and it is FIT-QUALITY limited (red_chi2 47–231 on every line), **not** rail-limited (edge_distance ≥ 1.90). No χ²ᵣ cut — RYA-847 measured that no threshold transfers
+
 - **RYA-1030** — normalisation is **determined from the FLUX at intake**, never asserted from a label; `normalization_state` joins `telluric_applied` and `observed_conditioning` as the third conditioning axis. 🔴 **A declared flag and a MIS-ROUTED file agree perfectly and are both wrong** — the KP2005 class (0.022 dex, for months) and the still-open IAG one. Detector = upper envelope; **both level and slope tests are load-bearing, neither sufficient**. 🔴 **The first tolerance (0.05) was WRONG** — the known-normalised KP1984 atlas failed its own test below 4200 Å; the fix was to establish the DOMAIN (blue edge 4500 = the existing RYA-451/460 class, telluric bands, fill values) and only then re-derive **0.15** from the measured gap. 55/55 validated. Wired into preflight check 7 + the data-audit skill. LOUD STOP, never an auto-fix
 
 ## 2026-08-23
