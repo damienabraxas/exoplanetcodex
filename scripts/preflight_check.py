@@ -143,6 +143,13 @@ WAVE_TOL_A = 0.20
 #: A name no instrument can have. The negative control for the dispatch reader.
 DISPATCH_SENTINEL = "__preflight_no_such_instrument__"
 
+#: The RYA-1030 registry column and its vocabulary. IMPORTED, never re-spelled: a second
+#: copy of a state name drifts silently and this check would then pass on a typo.
+from pipeline.normalization_intake import NORMALISED as NI_NORMALISED  # noqa: E402
+from pipeline.normalization_intake import UNKNOWN as NI_UNKNOWN        # noqa: E402
+
+COLUMN_NORMALISATION = "normalization_state"
+
 OK, INFO, WARN, ERROR = "OK", "INFO", "WARN", "ERROR"
 _RANK = {OK: 0, INFO: 1, WARN: 2, ERROR: 3}
 
@@ -1367,6 +1374,109 @@ def _reaches(st: State, instrument: str, lines) -> bool:
     return any(lo * 10.0 <= w <= hi * 10.0 for w in lines)
 
 
+def check_normalisation_state(st: State) -> CheckResult:
+    """Does the recorded `normalization_state` agree with the DECLARED pre-normalisation?
+
+    The seventh conditioning check, and the newest axis (RYA-1030). It mirrors check 6:
+    read the per-holding state the registry carries, call the module that owns the rule,
+    and never re-derive either here.
+
+    THE DEFECT IT CATCHES. A declared flag and a MIS-ROUTED file agree with each other
+    perfectly and are both wrong, so no amount of cross-reading DECLARATIONS finds it --
+    only the flux can. KP2005 ran that way for months: `pre_normalised=False` (RYA-929)
+    while the reader opened `irradthu.dat`, absolute irradiance, and the harness fitted
+    its own continuum on top, biasing A(Fe I) low by 0.022 dex with a wavelength trend.
+
+    SEVERITIES, on this module's own expected-vs-silent split:
+      INFO  the scan could not speak -- below the blue edge, inside a telluric band, or
+            the product is not reachable from this machine. An expected absence.
+      WARN  the registry records a state that CONTRADICTS the holding's `pre_normalised`
+            flag. That is the silent gap: nothing downstream refuses on it today, and a
+            continuum stage will happily run.
+      WARN  the holding carries NO recorded state at all AND a continuum stage could run
+            on it -- the undeclared case the ticket exists for.
+    """
+    res = CheckResult(7, "normalisation state (per-holding, RYA-1030)")
+    declared = _declared_pre_normalised()
+
+    if COLUMN_NORMALISATION not in st.holdings.columns:
+        res.findings.append(Finding(
+            "7", WARN, HOLDINGS_CSV.name,
+            f"the registry has no `{COLUMN_NORMALISATION}` column, so no product's "
+            f"normalisation state is recorded anywhere",
+            "the column IS this check (RYA-1030); without it every holding is undeclared "
+            "and a continuum stage can run on any of them unchallenged",
+            "BUILD: run scripts/rya1030_backfill_normalisation.py --write"))
+        return res
+
+    for _, h in st.holdings.iterrows():
+        hid = str(h.holding_id)
+        state = str(h.get(COLUMN_NORMALISATION, "") or "").strip()
+        flag = declared.get(hid)
+
+        if flag is None:
+            continue          # not served by the measurement harness; check 1 owns that
+
+        if not state:
+            res.findings.append(Finding(
+                "7", WARN, hid,
+                f"declared pre_normalised={flag} but the registry records NO scanned "
+                f"normalisation state",
+                "we hold this product and the harness has a reader for it, so the flux "
+                "CAN be scanned -- an undeclared state is the case RYA-1030 exists for, "
+                "and it is silent because a continuum stage will simply run",
+                f"BUILD: scan {hid} with pipeline.normalization_intake and record "
+                f"{COLUMN_NORMALISATION}"))
+            continue
+
+        if state == NI_UNKNOWN:
+            res.findings.append(Finding(
+                "7", INFO, hid,
+                f"declared pre_normalised={flag}; the scan returned `unknown` -- the flux "
+                f"could not speak (below the blue edge, inside a telluric band, or the "
+                f"product is not reachable here)",
+                "an expected absence: `unknown` is a real answer, not a failed scan, and "
+                "the module reports it rather than defaulting either way (RYA-833)"))
+            continue
+
+        scanned_normalised = state == NI_NORMALISED
+        if scanned_normalised != flag:
+            res.findings.append(Finding(
+                "7", WARN, hid,
+                f"THE FLUX AND THE FLAG DISAGREE: declared pre_normalised={flag}, but the "
+                f"recorded scan says {state}",
+                "a declared flag and a mis-routed file agree with each other perfectly "
+                "and are both wrong, so only the flux could have caught this -- and "
+                "nothing downstream refuses on it, so a continuum stage runs anyway "
+                "(the KP2005 class, RYA-929 -> RYA-933/1026)",
+                f"FIX: check WHICH FILE {hid}'s reader opens before touching the flag"))
+            continue
+
+        res.findings.append(Finding(
+            "7", OK, hid,
+            f"{COLUMN_NORMALISATION}={state} agrees with pre_normalised={flag}",
+            "the flux and the declaration were checked against each other and match"))
+    return res
+
+
+def _declared_pre_normalised() -> dict[str, bool]:
+    """holding_id -> `pre_normalised`, parsed STATICALLY from the harness source.
+
+    Parsed rather than imported because `measure_band_ew` resolves the Kitt Peak atlas at
+    import time and `SystemExit`s when it is not staged -- importing it would make this
+    check pass or fail on whether a data drive happens to be mounted.
+    """
+    import ast as _ast
+    tree = _ast.parse((ROOT / "scripts" / "measure_band_ew.py").read_text())
+    out: dict[str, bool] = {}
+    for node in _ast.walk(tree):
+        if isinstance(node, _ast.Call) and getattr(node.func, "id", None) == "HoldingSpec":
+            for kw in node.keywords:
+                if kw.arg == "pre_normalised":
+                    out[node.args[0].value] = kw.value.value
+    return out
+
+
 # ── Report ───────────────────────────────────────────────────────────────────
 
 CHECKS = (
@@ -1376,6 +1486,7 @@ CHECKS = (
     check_anchor_consistency,
     check_rendered_output,
     check_telluric_state,
+    check_normalisation_state,
 )
 
 
