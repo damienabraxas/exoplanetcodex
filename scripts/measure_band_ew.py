@@ -149,6 +149,70 @@ def iag_atlas() -> tuple[np.ndarray, np.ndarray]:
     return _iag_cache["wf"]
 
 
+
+#: The OTHER IAG atlas. Two files with DIFFERENT telluric states and DIFFERENT reach have
+#: lived under one instrument_id since RYA-944 flagged it, which is the RYA-904 defect
+#: shape and is why "is IAG corrected?" had no single answer. They are separate holdings
+#: now, each declaring its own span, so selection can never silently pick the wrong one.
+#:
+#: WHY THE RAW ATLAS IS KEPT AND NOT RETIRED: Baker+2020 starts at 5002.5 A and Reiners
+#: reaches 4048.6 A, so ~954 A of the blue is REINERS-ONLY. Baker cannot serve it at all.
+#:
+#: 🔴 AND IN THAT BLUE STRETCH THERE IS NOTHING TO CORRECT. The bluest registered telluric
+#: complex is the O2 B-band at 6867 A, so no band this reader can reach carries one.
+#: MEASURED, not argued -- 4100-5000 A against KP2005's residual atlas, which is
+#: telluric-free AT SOURCE and does reach the blue:
+#:     Reiners        median 0.9256, 10.48% of pixels below 0.5
+#:     KP2005 residual median 0.9049, 10.35% below 0.5
+#: and Reiners is not systematically DEEPER (mean difference +0.109, i.e. shallower).
+#: Telluric contamination shows as one-sided deepening concentrated in bands; this is
+#: symmetric scatter from a resolution difference. So `telluric_applied` for the blue
+#: holding is `applied` in the only sense that matters -- there is no absorption to remove.
+IAG_REINERS = Path(str(codex_path('data.solar_iag_atlas')))
+_iag_reiners_cache: dict = {}
+
+#: Where Baker+2020 takes over. Below this the blue holding is the ONLY IAG option; above
+#: it, the corrected atlas covers the same wavelengths and must be preferred.
+#: 🔴 AIR, not vacuum. Measured 5002.5 A VACUUM on the file and converted -- both atlases
+#: store VACUUM WAVENUMBER, while `covers()` and every line list here are AIR. Declaring a
+#: vacuum number as an air span would misplace the boundary by ~1.4 A and silently hand
+#: ~1.4 A of blue to the atlas that cannot serve it.
+IAG_BAKER_BLUE_EDGE_A = 5001.10
+
+
+def iag_reiners_atlas() -> tuple[np.ndarray, np.ndarray]:
+    """Reiners+2016 IAG as (wave_air_A, flux), ascending. Cached.
+
+    Same vacuum-wavenumber convention as the Baker atlas -- col0 is cm^-1, NOT a
+    wavelength, and reading it as one returns a confident wrong answer.
+    """
+    if "wf" in _iag_reiners_cache:
+        return _iag_reiners_cache["wf"]
+    import gzip
+    from pipeline.uv_conditioning import vac_to_air
+    if not IAG_REINERS.exists():
+        raise LookupError(
+            f"IAG Reiners+2016 atlas not staged at {IAG_REINERS} (Sirius-only). This is "
+            f"the ONLY atlas reaching 4047.5-5001.1 A (air); Baker+2020 starts at "
+            f"{IAG_BAKER_BLUE_EDGE_A} A and cannot substitute for it.")
+    wn, fl = [], []
+    with gzip.open(IAG_REINERS, "rt") as fh:
+        for line in fh:
+            q = line.split()
+            if len(q) < 2:
+                continue
+            try:
+                v, y = float(q[0]), float(q[1])
+            except ValueError:
+                continue                          # header / comment
+            wn.append(v); fl.append(y)
+    w_air = vac_to_air(1.0e8 / np.asarray(wn, float))
+    f = np.asarray(fl, float)
+    o = np.argsort(w_air)
+    _iag_reiners_cache["wf"] = (w_air[o], f[o])
+    return _iag_reiners_cache["wf"]
+
+
 MIN_WINDOW_POINTS = 12
 
 
@@ -170,8 +234,15 @@ def _slice_window(w: np.ndarray, f: np.ndarray, centre: float, pad: float,
 
 def load_iag_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
     w, f = iag_atlas()
-    w, f = _slice_window(w, f, centre, pad, "IAG")
+    w, f = _slice_window(w, f, centre, pad, "IAG (Baker+2020, telluric-corrected)")
     return w, f, IAG_FITS.name
+
+
+def load_iag_reiners_window(centre: float, pad: float):
+    """The blue IAG arm, 4048.6-5002.5 A -- the stretch Baker+2020 cannot reach."""
+    w, f = iag_reiners_atlas()
+    w, f = _slice_window(w, f, centre, pad, "IAG (Reiners+2016, blue arm)")
+    return w, f, IAG_REINERS.name
 
 
 # ── the direct-solar HARPS arm (RYA-897, ported to the RYA-904 holding table) ─
@@ -777,7 +848,29 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
     ),
     "iag_fts_solar_atlas": (
         HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
-                    note="Baker+2020 telluric-free atlas, normalised."),
+                    span_A=(5001.10, 11083.46),   # AIR (vac 5002.5-11086.5)
+                    note="Baker+2020 TELLURIC-CORRECTED atlas, normalised. 🔴 THE SPAN IS "
+                         "DECLARED NOW (RYA-767): it was absent, so covers() answered True "
+                         "for every window ever asked -- including the 954 A of blue this "
+                         "atlas does not reach at all. MEASURED telluric state on the "
+                         "served flux: O2 A-band 0.18% of pixels below 0.5, H2O 9280-9600 "
+                         "0.00% -- against 46.25%/51.63% for the raw Reiners sibling, a "
+                         "250x separation. This holding IS corrected; the long-standing "
+                         "doubt was a stale CATALOGUE ROW pointing at the other file, "
+                         "never the reader."),
+        HoldingSpec("solar_iag_reiners2016", reader="iag_reiners", pre_normalised=True,
+                    span_A=(4047.46, IAG_BAKER_BLUE_EDGE_A),   # AIR (vac 4048.6-)
+                    note="Reiners+2016 IAG, THE BLUE ARM. Listed second and SPAN-CAPPED at "
+                         "5001.1 A on purpose: where Baker+2020 reaches, the corrected "
+                         "atlas wins, so this can never be selected in preference to it. "
+                         "Below that it is the ONLY IAG option -- Baker starts at 5001.1 A "
+                         "and cannot substitute. NOT A COVERAGE GAP: together the two span "
+                         "4047.5-11083.5 A (air). 🔴 AND THERE IS NOTHING TO CORRECT HERE -- the "
+                         "bluest registered telluric complex is O2 B at 6867 A, and "
+                         "measured against KP2005's telluric-free-at-source residual atlas "
+                         "over 4100-5000 A the two agree (10.48% vs 10.35% of pixels below "
+                         "0.5) with Reiners not systematically deeper. 5.6x denser "
+                         "sampling than Baker (4.06M vs 728K points)."),
     ),
     "crires_plus": (
         HoldingSpec("solar_crires_plus_y_rya794", reader="crires_y", pre_normalised=True,
@@ -910,6 +1003,8 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
         return load_kurucz2005_window(centre, pad)
     if spec.reader == "iag":
         return load_iag_window(centre, pad)
+    if spec.reader == "iag_reiners":
+        return load_iag_reiners_window(centre, pad)
     if spec.reader == "harps":
         return load_harps_window(centre, pad)
     if spec.reader == "harps_tellcorr":
