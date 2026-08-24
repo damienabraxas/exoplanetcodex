@@ -107,7 +107,10 @@ DECKS = {
                       atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
                                 / "sun_avg3d_stagger.mod"),
                       atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
-                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5"),
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      # RYA-821: no vendor binary can read a <3D> deck -- see
+                      # `read_deck_node` for the traced reason and the verified layout.
+                      read_via="direct"),
 }
 
 
@@ -332,9 +335,22 @@ def _node_from_model_name(name: str) -> tuple[float, float, float] | None:
     return None
 
 
+#: "Is the requested star AT this grid node?" -- DERIVED from the measured node spacing,
+#: not chosen. The Al <3D> deck's Teff nodes are 4000/4500/5000/5500/**5777**/6000/6500/
+#: 7000: an otherwise 500 K grid with STAGGER's solar member dropped in, so 5777's nearest
+#: neighbour is 223 K away. Our solar star is 5772/4.438 (IAU) against the deck's
+#: 5777/4.44 (STAGGER) -- a 5 K CONVENTION difference for the same physical star, not a
+#: different one. 25 K gives 5x margin on that and ~9x clearance from the next node, so it
+#: cannot reach a neighbour. At Teff 5777 the deck holds exactly ONE logg (4.44).
+_NODE_TOL_TEFF = 25.0
+_NODE_TOL_LOGG = 0.05
+_NODE_TOL_FEH = 0.01
+
+
 def read_deck_node(element: str, teff: float, logg: float, feh: float,
-                   abundance: float, *, tol_teff: float = 1.0,
-                   tol_logg: float = 0.01, tol_feh: float = 0.01) -> dict:
+                   abundance: float, *, tol_teff: float = _NODE_TOL_TEFF,
+                   tol_logg: float = _NODE_TOL_LOGG,
+                   tol_feh: float = _NODE_TOL_FEH) -> dict:
     """Departures at ONE grid node, read straight out of the deck binary.
 
     Returns the same shape as `read_departure_file`, so nothing downstream changes.
@@ -421,7 +437,19 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
             f"{hit['id']!r} (Teff {hit['teff']} logg {hit['logg']} [Fe/H] {hit['feh']}). "
             f"The pointer is wrong; refusing to return another model's departures.")
 
-    return dict(abundance=hit["abundance"], ndep=ndep, nk=nk, tau=np.asarray(tau, float),
+    # 🔴 THE DECK STORES LINEAR TAU; `read_departure_file` RETURNS LOG TAU. Converted here
+    # so both paths honour ONE contract. Measured on the Al <3D> deck: the stored array is
+    # 1e-5 .. 1e5 ascending, i.e. log tau -5.000 .. +5.000 -- exactly this atmosphere's
+    # range. Today nothing downstream reads these values (iSpec overwrites the departure
+    # tau with the atmosphere's own and `assert_depth_match` checks only the COUNT), which
+    # is precisely why the mismatch would have sat here undetected until the first caller
+    # that did read them got a number 5 orders of magnitude off.
+    tau = np.asarray(tau, float)
+    if np.any(tau <= 0):
+        raise GerberDeckError(
+            f"{binf}: record at pointer {hit['pointer']} has non-positive tau values, so "
+            f"it cannot be the linear tau scale this layout expects")
+    return dict(abundance=hit["abundance"], ndep=ndep, nk=nk, tau=np.log10(tau),
                 departures=np.asarray(dep, float),
                 corners=[f"{model_id} (DIRECT deck read, RYA-821 -- node lookup, no "
                          f"interpolation, no vendor binary)"])
@@ -510,6 +538,14 @@ def for_node(element: str, teff: float, logg: float, feh: float,
     # A single-abundance deck interpolates at ITS OWN value (Fe: 7.46, and bsyn STOPs on
     # a mismatch). An axis deck interpolates at the value actually being synthesised.
     a_deck = float(abundance) if has_abundance_axis(element) else deck_abundance(element)
+
+    # RYA-821 -- a <3D> deck is READ DIRECTLY; there is no vendor binary that can consume
+    # one. See `read_deck_node`. The MARCS decks keep the interpolator path byte-for-byte.
+    if DECKS[element].get("read_via") == "direct":
+        parsed = read_deck_node(element, teff, logg, feh, a_deck)
+        _CACHE[key] = parsed
+        return parsed
+
     dep_path = _interpolate(element, node, teff, logg, feh, a_deck, workdir)
     parsed = read_departure_file(dep_path)
 
