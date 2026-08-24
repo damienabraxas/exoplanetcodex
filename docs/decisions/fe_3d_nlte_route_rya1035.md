@@ -164,14 +164,80 @@ correct. Fe ⟨3D⟩ is the *simpler* of the two routes, not the harder one.
    purpose*: the matrix derives "WIRED" from `DECKS` (v117), so registering a deck whose
    bytes are not on Sirius would make the status surface claim a capability we cannot run —
    the exact lie v117 removed. There is a test pinning that it stays unregistered until then.
-3. **Resolve the deck abundance.** `Fe_gerber2023.prov.json` records A(Fe) = 7.46 from
-   bsyn's own STOP message; both aux tables give **7.50** at the solar node, and A(X) =
-   7.50 + [Fe/H] holds exactly across all 15,229 MARCS rows and all 183 clean ⟨3D⟩ rows.
-   Two empirical readings that disagree. bsyn **STOPs** on an abundance mismatch rather than
-   warning, so this must be settled before a synthesis, not after.
+3. ~~**Resolve the deck abundance.**~~ **RESOLVED — A(Fe) = 7.50. See below.**
 4. **The band product.** Same step still owed for Al (`derive_band_products` has no
    `gerber-mean3d` deck choice and loads a MARCS.GES atmosphere). Fe inherits that work; it
    is not Fe-specific and should not be re-derived per element.
+
+## 🔴 The deck abundance, resolved: **A(Fe) = 7.50** — and 7.46 was our own input
+
+The record said 7.46 and the grid said 7.50. Resolved **by provenance**, as the re-scope
+required — not by picking the more convenient number.
+
+### Where 7.46 came from: a closed loop with no external referee
+
+The evidence for 7.46 was one bsyn message, read as the grid speaking:
+
+> `Bsyn: NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here`
+
+Traced through the vendor source, it is **us** speaking:
+
+| step | file | what happens |
+| --- | --- | --- |
+| 1 | `gerber_nlte.for_node` | `a_deck = deck_abundance(element)` → reads **7.46 from our own prov.json** |
+| 2 | `_interpolate` stdin | passed as the interpolator's `abu_ref` |
+| 3 | `interpol_modeles_nlte.f:206` | `read(*,*) abu_ref` — **from stdin** |
+| 4 | `interpol_modeles_nlte.f:761` | `write(27,1971) abu_ref` — **verbatim into the departure file** |
+| 5 | `read_departure.f` | loaded back as `abundance_nlte` |
+| 6 | `bsyn.f:988` | printed at us |
+| 7 | `Fe_gerber2023.prov.json` | the printout recorded as *"a property of the deck, not a fitted value"* |
+
+`abu_ref` is a **label the caller supplies**. The deck never asserts it. And this module's
+own docstring already carried the disproof, measured under an earlier ticket: running the
+interpolator at A = 7.36 / 7.46 / 7.56 gives departure files **byte-identical except for
+the stamp itself** (444836 bytes each, 1 differing line of 132).
+
+> ⚠️ **7.46 is the Asplund solar A(Fe).** It is exactly the number that looks right on
+> arrival, which is why nobody asked where it came from. Ryan flagged this as a
+> reference-proximity smell before the trace confirmed it.
+
+### Where 7.50 comes from: the grid, three independent ways
+
+1. **The model atom declares it.** `atom.fe607a` line 2 is `7.50  55.85` — A(Fe) and the
+   atomic mass. Fetched and read; its md5 `d08dc8232ed68eec65f9bb6631e82ea8` **matches the
+   one already pinned in our own prov.json**, so this is byte-identical to the copy staged
+   on Sirius. This is the abundance the departure solve itself used.
+2. **Both aux tables encode it.** A(X) = 7.50 + [Fe/H] **exactly** — 15,229 MARCS rows and
+   183 clean ⟨3D⟩ rows. (The six exceptions are the zeroed rows above, which are refused.)
+3. **Turbospectrum itself hardcodes it** as solar iron: `metal = abund(15) - 7.50`,
+   `interpol_modeles_nlte.f:1177`.
+
+### Why the two paths disagreed at all
+
+`read_deck_node` (the ⟨3D⟩ direct route) returns the **aux's own** A(X), so it self-declares
+**7.50 whatever abundance it is asked for** — measured across requests at 7.46 / 7.50 / 7.60
+/ 6.90, all returning `p5777g44m00` with identical departures (sha256 `62556a5664d0b8f7`).
+`read_departure_file` (the interpolator route) returns the **stamp**, i.e. the caller's own
+input. One path reports the grid; the other reports us. That difference *was* the ambiguity.
+
+### What changes, and what deliberately does not
+
+**Nothing measured moves.** `deck_abundance()` feeds only (a) the interpolator's `abu_ref`,
+a stamp the departures do not follow, and (b) a printed `A_deck=` provenance string in
+`derive_band_products` and the RYA-798 control. What bsyn finally compares is written by
+`as_ispec_tuple` from the **trial** abundance, so the fit is unaffected. This is a **record
+correction**, which is precisely why it was safe to make without a physics review.
+
+**bsyn's STOP stays exactly as it is.** Refusing an ambiguous abundance is the correct
+failure mode. The ambiguity was resolved; the guard was not downgraded to a warning.
+
+**And the loop is now uncloseable.** `deck_abundance()` cross-examines the provenance record
+against the deck's own aux and **raises** on disagreement. A value that came from us can no
+longer be handed back to the vendor binary as though it had come from the vendor. It falls
+back to the record only when the aux is genuinely unreachable (Sirius-only), where the
+record is all there is.
+
+---
 
 ### Not scoped, deliberately
 

@@ -54,9 +54,13 @@
     }
   },
   "deck_abundance": {
-    "a_sun": 7.46,
-    "why": "NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here' — the departure coefficients were computed at 7.46, so the synthesis must run at 7.46 or they do not apply. A property of the deck, not a fitted value.",
-    "open_question_rya1035": "The <3D> aux gives A(X) = 7.50 at the solar node, and so does the MARCS aux (A(X) = 7.50 + [Fe/H] exactly, in BOTH decks, measured over all 15,229 / 189 rows). That does not match the 7.46 recorded above from bsyn's own STOP message. Both readings are empirical and they disagree; resolve before synthesising through Fe@mean3D, because bsyn STOPs on an abundance mismatch rather than warning."
+    "a_sun": 7.5,
+    "why": "The model atom declares it: atom.fe607a line 2 is `7.50  55.85` (A(Fe) and the atomic mass), on the file whose md5 d08dc8232ed68eec65f9bb6631e82ea8 matches the copy staged on Sirius. Corroborated three ways: BOTH Fe aux tables encode A(X) = 7.50 + [Fe/H] EXACTLY (15,229 MARCS rows; 183 clean <3D> rows -- the six exceptions are the RYA-1035 zeroed rows, which are refused); Turbospectrum's own MARCS reader hardcodes solar iron as 7.50 (`metal = abund(15) - 7.50`, interpol_modeles_nlte.f:1177); and the <3D> direct-read path reports 7.50 out of the aux whatever abundance it is asked for.",
+    "corrected_from": "7.46",
+    "correction_rya1035": "🔴 THE 7.46 WAS OUR OWN INPUT COMING BACK, NOT A PROPERTY OF THE DECK. It was sourced from bsyn's message 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here', read as the grid speaking. Traced through the vendor source it is us speaking: interpol_modeles_nlte.f:206 reads `abu_ref` from STDIN, line 761 writes it VERBATIM into the departure file, read_departure.f loads it as `abundance_nlte`, and bsyn.f:988 prints it back. gerber_nlte fed that field from deck_abundance() itself, so the record was its own echo -- a closed loop with no external referee. The module's own docstring already carried the disproof: running the interpolator at A = 7.36/7.46/7.56 gives departure files BYTE-IDENTICAL except the stamp. ⚠️ 7.46 is also the Asplund solar A(Fe) -- the number that looks right on arrival, which is why the loop was never challenged.",
+    "impact": "LABEL ONLY, no measured value moves. deck_abundance() feeds the interpolator's `abu_ref` (a stamp the departures do not follow) and a printed `A_deck=` provenance string in derive_band_products / rya798 control. What bsyn actually compares is written by as_ispec_tuple from the TRIAL abundance, so the abundance STOP is unaffected.",
+    "bsyn_stop": "KEEP IT. Refusing an ambiguous abundance is the correct failure mode; the ambiguity was resolved, the guard was not downgraded. gerber_nlte.deck_abundance now cross-examines this record against the deck's own aux and RAISES on disagreement, so a value sourced from us can no longer be handed back to the vendor binary as though it came from the vendor.",
+    "open_question_rya1035": "RESOLVED -- see correction_rya1035."
   },
   "gate": {
     "ticket": "RYA-534 element-general gate; adjudicated in the RYA-785 second pass",
