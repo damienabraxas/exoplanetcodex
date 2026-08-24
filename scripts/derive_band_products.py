@@ -354,11 +354,38 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
     sel = lab[depth > DEPTH_HI] if deep else lab[depth <= DEPTH_HI]
     print(f"  [graded] {len(lab)} LAB-tier {species} lines in band; using the "
           f"{len(sel)} {'ABOVE' if deep else 'AT OR BELOW'} the {DEPTH_HI} depth gate")
-    if sel.empty:
+    if len(sel) < 2:
+        # 🔴 RYA-1031 — A ONE-LINE POOL IS NOT A MEASUREMENT, and it reached the tracker.
+        # Near-UV Fe I: 58 of the 59 LAB-tier lines sit ABOVE the 0.6 depth gate, so the
+        # shallow selector returned exactly ONE line (3026.056 A) and the band's "graded"
+        # value was that single fit -- A = 8.529, about 1.08 dex above every VIS arm,
+        # in_aggregate with no exclusion reason and no EW or REW recorded. Nothing caught
+        # it because nothing was wrong per-line; the POOL was the defect.
+        #
+        # The floor is 2 and it is not a threshold anyone chose: line-to-line scatter has
+        # n-1 degrees of freedom, so at n=1 the statistical term cannot be computed from
+        # the data at all. The 0.01 dex it reported was the RYA-771 quantiser floor
+        # standing in for a number that does not exist -- precision manufactured by
+        # arithmetic rather than measured (RYA-968).
+        #
+        # The DEPTH GATE IS THE REAL STORY and the message says so: 0.6 is calibrated on
+        # VIS, where the split is meaningful (55 shallow / 108 deep). In near-UV the
+        # population inverts and almost everything is saturated, so "graded" and
+        # "deep-graded" stop being two views of one band and the deep pool IS the band's
+        # graded pool.
+        n_above = int((depth > DEPTH_HI).sum())
+        n_below = int((depth <= DEPTH_HI).sum())
         raise SystemExit(
-            f"no LAB-tier {species} line in {lo_A}-{hi_A} A sits "
-            f"{'above' if deep else 'at or below'} the {DEPTH_HI} depth gate — refusing "
-            f"to emit a 'graded' product with no graded line in it.")
+            f"--lines-tier graded selected {len(sel)} {species} line(s) in "
+            f"{lo_A:.0f}-{hi_A:.0f} A -- refusing: a pool of fewer than 2 lines cannot "
+            f"carry a line-to-line scatter, so its statistical term would be invented "
+            f"rather than measured.\n"
+            f"  LAB-tier lines in band : {len(lab)}\n"
+            f"  at/below the {DEPTH_HI} gate : {n_below}   (what 'graded' selects)\n"
+            f"  above the {DEPTH_HI} gate    : {n_above}   (what '--lines-deep-graded' selects)\n"
+            f"  The depth gate is calibrated on VIS. Where the population is mostly "
+            f"saturated the deep pool IS this band's graded pool -- use "
+            f"--lines-deep-graded, and say which selection the product used.")
     names = linelist.dtype.names
     w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
                      else linelist["wave_nm"] * 10.0, dtype=float)
