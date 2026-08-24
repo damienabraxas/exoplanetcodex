@@ -1,0 +1,10 @@
+Fe · near-UV · n=1
+  statistical  0.0100 dex   (averages down as 1/sqrt(N))
+    basis: quantiser-floor 0.01 dex (RYA-771) — UNMEASURED: line-to-line scatter at n_lines=1; the floor STANDS IN for a scatter that was never determined, it is not a measurement of one
+  systematic   0.1414 dex   (does NOT average down)
+    0.1000  gf scale (cited lab)     [SYSTEMATIC] RMS of the published per-line laboratory sigma over 1 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3)); measured, so it supersedes the generic graded bound
+    0.1000  pseudo-continuum         [SYSTEMATIC] near-UV: the true continuum is never observed (median flux 0.283-0.805); the envelope stands in for it and the residual does not average down
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    UNMEASURED  line-to-line scatter     [random] NOT MEASURABLE (n_lines=1): the spread of a single accepted line is undefined, not small. `band_products.build_product` returns None here and that None is carried, never spent as a zero (RYA-907)
+  dominant: gf scale (cited lab) -- more lines will NOT help; fix the source
+  gf rung: gf rung 3 (gf scale (cited lab)): every one of the 1 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.1000 dex (2.44x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850)
