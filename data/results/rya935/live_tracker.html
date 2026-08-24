@@ -133,10 +133,10 @@ function forest(d){
     const ref=d.reference[sp];
     if(!all.length) continue;
     const cmps=(ref&&ref.comparators)||[];
-    h+='<h3>'+esc(sp)+(ref
+    h+='<h3>'+esc(LABEL(sp))+(ref
       ? ' <span class="muted note">'+esc(ref.best_external||'literature')+' <b class="good">'
         +fx(ref.asplund2021,2)+(ref.sigma_external!=null?' &plusmn; '+fx(ref.sigma_external,2):'')
-        +'</b>'+(ref.scale?' ('+esc(ref.scale)+')':'')+' &middot; gold verdict '+esc(ref.verdict)+'</span>'
+        +'</b>'+(ref.scale?' ('+esc(ref.scale)+')':'')+'</span>'
       : ' <span class="warn note">no literature anchor recorded</span>')+'</h3>';
     h+='<div class="legend"><span class="muted"><i style="border-top-width:4px;'
       +'border-top-color:var(--link)"></i>statistical (solid)</span>'
@@ -158,7 +158,7 @@ function forest(d){
       const closed=(CLOSED_BANDS[sp]||{})[b];
       if(closed){
         h+='<div class="legend"><span class="muted note"><b>'+esc(b)+'</b> &mdash; '
-          +'<span class="warn">N/A for '+esc(sp)+'</span>: '+esc(closed)+'</span></div>';
+          +'<span class="warn">N/A for '+esc(LABEL(sp))+'</span>: '+esc(closed)+'</span></div>';
         continue;
       }
       // Pre-telluric rows are PROVENANCE, not a second measurement, and at 27 of 43
@@ -225,8 +225,20 @@ function forest(d){
               : (tstate==='not-applied'
                   ? '<span class="warn">telluric NOT corrected</span>'
                   : '<span class="muted">telluric '+esc(tstate||'unknown')+'</span>'));
-        const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)
-          +'<br><span class="muted">'+esc(r.run_context)+(r.committed?' · '+esc(r.committed):'')
+        // RYA-1031: n BELONGS ON THE ROW. The line count is not decoration -- it is
+        // different per arm for real reasons (IAG's file starts at 5001 A so 24 of the
+        // 67 graded lines are out of range; the NLTE grid does not serve every line, so
+        // ENGINE-A rows run lower than their 1D-LTE siblings). A bar with no n invites
+        // reading two different pools as the same measurement.
+        const nlab=(r.n_lines!=null?' · <b>n='+r.n_lines+'</b>':'')
+          +(r.n_excluded?' <span class="muted">('+r.n_excluded+' excl)</span>':'');
+        const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)+nlab
+          +'<br><span class="muted">'+esc(r.run_context)
+          // When the run wrote this number. `committed` is blank for band products
+          // (gitignored), so without this a two-day-old row and an hour-old row look
+          // identical (RYA-1031).
+          +(r.measured_at?' · <b>measured '+esc(r.measured_at.replace('T',' ').replace('+00:00','Z'))+'</b>':'')
+          +(r.committed?' · '+esc(r.committed):'')
           +(r.is_variant?' · <span class="warn">variant</span>':'')
           +' · '+tbadge+'</span>';
         let marks='';
@@ -257,7 +269,7 @@ function forest(d){
     }
     const seen=new Set(all.map(r=>r.holding||r.instrument));
     const missing=d.instruments.filter(i=>!seen.has(i.holding)&&!seen.has(i.instrument));
-    if(missing.length) h+='<div class="warn note" style="margin:6px 0 2px">No '+esc(sp)
+    if(missing.length) h+='<div class="warn note" style="margin:6px 0 2px">No '+esc(LABEL(sp))
       +' product from: '+missing.map(i=>'<b>'+esc(i.holding)+'</b> <span class="muted">('
       +esc(((d.reachability||{})[i.holding+'|VIS'])||'no run yet')+')</span>').join(', ')+'</div>';
     if(ref&&ref.band) h+='<div class="muted note" style="margin:2px 0 18px">Green band = '
@@ -270,6 +282,11 @@ function forest(d){
 
 async function draw(){
  const d=await fetch('live_status.json?t='+Date.now()).then(r=>r.json());
+ // RYA-1031: species is the JOIN KEY ('FeI'); the label is what the reader sees
+ // ('Fe', 'Sc II'). Never swap one for the other -- doing so broke every join
+ // and rendered an empty page.
+ const LABEL=sp=>(d.element_labels&&d.element_labels[sp])||sp;
+ window.LABEL=LABEL;
  document.querySelector('#sys').textContent=d.system;
  document.querySelector('#pills').innerHTML=
    '<span class="pill">Generated <b>'+esc(d.generated)+'</b></span>'
@@ -282,7 +299,7 @@ async function draw(){
   +d.elements.map(sp=>{
      const has=d.elements_with_products.includes(sp);
      return '<button class="chip'+(has?' has':'')+(FILTER===sp?' sel':'')+'" data-sp="'+esc(sp)+'">'
-       +esc(sp)+(has?'':' <span class="muted">no run</span>')+'</button>';
+       +esc(LABEL(sp))+(has?'':' <span class="muted">no run</span>')+'</button>';
    }).join('');
  document.querySelectorAll('#chips .chip').forEach(b=>b.onclick=()=>setFilter(b.dataset.sp||null));
  forest(d);
@@ -290,8 +307,13 @@ async function draw(){
  let h='<thead><tr><th>Holding</th>'+bands.map(b=>'<th>'+esc(b)+'</th>').join('')+'</tr></thead><tbody>';
  const shown=FILTER?d.elements_with_products.filter(e=>e===FILTER):d.elements_with_products;
  for(const el of shown){
-   h+='<tr><td colspan="'+(bands.length+1)+'" style="background:#101830"><b>'+esc(el)+'</b></td></tr>';
-   for(const i of d.instruments){
+   h+='<tr><td colspan="'+(bands.length+1)+'" style="background:#101830"><b>'+esc(LABEL(el))+'</b></td></tr>';
+   // RYA-1026 corrected-only display, applied to the MATRIX rows as well as the
+   // forest. An uncorrected holding was rendering a full row of "NO RUN YET" cells,
+   // which reads as work outstanding when the truth is that the holding is not
+   // eligible to carry displayed science at all. The holdings themselves are still
+   // listed, with their state, in the Telluric correction section below.
+   for(const i of d.instruments.filter(i=>i.telluric_applied==='applied')){
      const mine=d.products.filter(p=>p.element+p.ion===el&&p.holding===i.holding);
      const any=d.products.filter(p=>p.element+p.ion===el&&p.instrument===i.instrument&&p.holding==null);
      const cov=i.coverage_A?i.coverage_A[0]+'&ndash;'+i.coverage_A[1]+' &Aring;':'<span class="warn">not declarable as one interval</span>';
@@ -410,7 +432,7 @@ async function draw(){
         +mm.model_types.map(x=>'<th>'+esc(x.replace(/_/g,'-'))+'</th>').join('')
         +'<th>engines</th></tr></thead><tbody>';
    for(const el of mm.elements){
-     t+='<tr><th>'+esc(el)+'</th>';
+     t+='<tr><th>'+esc(LABEL(el))+'</th>';
      for(const mt of mm.model_types){
        const c=byc[el+'|'+mt]||{state:'NONE',disk_paths:[]};
        const names=(c.disk_paths||[]).map(p=>esc(p.split('/').pop())).join('<br>');
