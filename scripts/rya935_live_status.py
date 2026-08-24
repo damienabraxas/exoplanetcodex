@@ -35,6 +35,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from pipeline.telluric_display_policy import (  # noqa: E402  RYA-1026
+    anomaly, display_state)
+
 #: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>[_<SELECTOR>]_products.csv`. The
 #: holding is in the stem because RYA-933/934 put it there -- before that, two holdings of
 #: one instrument wrote the same filename and the second overwrote the first.
@@ -135,6 +138,23 @@ def collect_products(roots: list[Path], instruments: set[str],
                     # result, not bookkeeping.
                     "n_excluded": (None if pd.isna(r.get("n_excluded"))
                                    else int(r["n_excluded"])),
+                    # RYA-1026's display gate, AT THE RENDER PATH. Until this, the gate
+                    # was called only by its own tests -- a guard nobody invokes is
+                    # decorative, which is exactly what its docstring warns about.
+                    #
+                    # 🔴 CARRIED, NOT RAISED, and the choice is deliberate. Most existing
+                    # Fe products were built on the telluric-UNCORRECTED 1984 atlas --
+                    # RYA-1026 says so plainly -- so `assert_displayable` here would kill
+                    # the whole page over historical products the ticket already knows
+                    # about. Worse, dropping them would make a BLOCKED product look like
+                    # an ABSENT one, which is the absence-as-conclusion error the same
+                    # ticket forbids (RYA-833). So every product renders WITH ITS STATE
+                    # ATTACHED and the page can mark it. The RAISE belongs where a NEW
+                    # product is published, not where a historical one is listed.
+                    "telluric_display": (display_state(meta["holding"])
+                                         if meta["holding"] else "UNREGISTERED"),
+                    "telluric_anomaly": (anomaly(meta["holding"])
+                                         if meta["holding"] else None),
                     "source": str(path.relative_to(ROOT)),
                 })
     return rows
