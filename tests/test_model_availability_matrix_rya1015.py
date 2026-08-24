@@ -35,7 +35,14 @@ def test_oxygen_row(cells):
     full-3D is HAVE. The other two legs are unchanged and still pinned.
     """
     assert cells[("O", "1D_NLTE")]["state"] == "HAVE"
-    assert cells[("O", "MEAN3D_NLTE")]["state"] == "REQUEST_ONLY"
+    # 🔴 VOCABULARY CHANGED, and the new word is the more accurate one. RYA-821/1013
+    # split the old REQUEST_ONLY into two states because they are different problems:
+    # REQUEST_ONLY means neither deck nor atom, so it genuinely must be asked for;
+    # T2_BUILD_OWED means no deck BUT we hold the model atom and the <3D> STAGGER
+    # atmosphere, so it is reachable by the build-our-own route with nothing to fetch
+    # and nobody to email. O is in `_MODEL_ATOMS`, so calling it REQUEST_ONLY told a
+    # reader to go asking for something already on disk.
+    assert cells[("O", "MEAN3D_NLTE")]["state"] == "T2_BUILD_OWED"
     assert cells[("O", "FULL_3D_NLTE")]["state"] == "HAVE"
     assert "amarsi2019_cno" in (cells[("O", "FULL_3D_NLTE")]["code_grid"] or "")
 

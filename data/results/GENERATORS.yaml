@@ -2138,6 +2138,22 @@ artifacts:
       generator. The ticket pipeline is deliberately NOT emitted: that is Linear state,
       and a committed copy of it drifts.
 
+  - artifact: rya935/model_availability_findings.csv
+    status: COMMITTED
+    generator: pipeline/model_availability_matrix.py
+    invocation: python scripts/rya935_live_status.py
+    ticket: RYA-1015
+    note: >-
+      The element x model-type matrix, long form: every species x model type with its
+      engines, grid paths, blockers and molecules -- the download behind the tracker's
+      matrix section. Written by `build_matrix()` as a side effect of generating the
+      page, which is why it had no entry until RYA-1031 merged the two tracker
+      generators and the RYA-686 check finally saw it: the program that writes it was
+      not the program in git. Reconciled three ways on every run -- the curation CSV,
+      what is actually on the Sirius disks, and what the code can route -- so a cell
+      cannot claim a grid the disk does not hold, and a grid on disk that nothing
+      consumes renders as NEEDS_WIRING rather than as coverage.
+
   - artifact: rya935/live_tracker.html
     status: COMMITTED
     generator: scripts/rya935_live_status.py
