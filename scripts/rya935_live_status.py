@@ -50,7 +50,14 @@ sys.path.insert(0, str(ROOT / "scripts"))
 #: collapse into one cell (RYA-946).
 STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<lo>\d+)_(?P<hi>\d+)_"
                   r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)"
-                  r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)?)_products\.csv$")
+                  # ONE OR MORE selector segments, not one. RYA-933 added `_GRADED`, and a
+                  # graded ENGINE-A product stems as `..._SYNTH_GRADED_ENGINE-A_products.csv`
+                  # -- two segments. With `?` here the regex matched neither, parse_stem
+                  # returned None, and five committed products were silently invisible to
+                  # the page (caught by test_every_committed_band_product_is_visible_to_the
+                  # _tracker, which is the whole reason that test pins the invariant rather
+                  # than the example).
+                  r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)*)_products\.csv$")
 
 
 def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
