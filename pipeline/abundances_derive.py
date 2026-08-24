@@ -1271,17 +1271,26 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         n_eval[0] += 1
         try:
             _nd = None
+            # 🔴 RYA-821 regression. This read `_dep` directly and ASSIGNED to it in the
+            # branch below, which makes `_dep` a LOCAL of `chi2` for the whole body --
+            # so on any deck WITHOUT an abundance axis the `is not None` test below read
+            # an unbound local and every fit died with `cannot access local variable
+            # '_dep'`. That is Fe (one A(X) node) and, worse, plain 1D-LTE with no deck
+            # at all: measured, 58/58 near-UV lines excluded with that message and n=0.
+            # Al was the only element that worked, because it is the one that assigns.
+            # Bind the outer value to a DIFFERENT name; nothing else changes.
+            dep = _dep
             if _dep_per_abundance:
                 # Per-trial, because the departures really do depend on A(X) here.
                 # `for_node` caches on (deck, node, abundance), so the 31 axis nodes are
                 # each read at most once across the whole fit.
-                _dep = _gn.for_node(element, teff, logg, feh, abundance=float(a_x))
-            if _dep is not None:
+                dep = _gn.for_node(element, teff, logg, feh, abundance=float(a_x))
+            if dep is not None:
                 # MUST go through as_ispec_tuple: it owns the (ndep,nk) -> (nk,ndep)
                 # transpose iSpec requires. Hand-building this tuple here is what broke
                 # every production NLTE fit while the RYA-798 control — which called
                 # as_ispec_tuple — passed.
-                _nd = {element: _gn.as_ispec_tuple(_dep, float(a_x))}
+                _nd = {element: _gn.as_ispec_tuple(dep, float(a_x))}
             sf = _synth_flux_at_abund(sw, trial_A=float(a_x),
                                       nlte_departures=_nd, **_kw)
         except Exception as exc:
