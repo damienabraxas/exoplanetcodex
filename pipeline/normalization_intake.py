@@ -90,24 +90,46 @@ UN_NORMALISED = "un-normalised"
 UNKNOWN = "unknown"
 VALUES = (NORMALISED, UN_NORMALISED, UNKNOWN)
 
-#: DECLARED, not magic. DERIVED from four measured controls rather than chosen:
+#: 🔴 BELOW THIS THERE IS NO TRUE CONTINUUM TO FIND, so this module does not pretend to.
+#: Near-UV line blanketing depresses the 95th percentile of EVERY window, whatever the
+#: product's normalisation. MEASURED: the KNOWN-NORMALISED KP1984 residual-flux atlas
+#: FAILS ITS OWN TEST at every probe below 4200 A (0.86-0.94) and passes uniformly
+#: (0.985-0.998) from 4500 A up.
 #:
-#:   | product                              | median rolling-P95 | slope across band |
-#:   | KP1984 col1 (residual flux)          |             0.9800 |            +0.023 |
-#:   | KP2005 `irradrelwl.dat` (residual)   |             0.9883 |            +0.017 |
-#:   | KP2005 `irradthu.dat`  (irradiance)  |        1.72 - 2.26 |      strong (SED) |
-#:   | KP1984 col2 (absolute)               |           213.2875 |            +3.422 |
+#: This is NOT a new concept and the number is NOT invented. It is the project's existing
+#: CONTINUUM_LIMITED class -- "blue-edge no-true-continuum", RYA-451/460 -- already carried
+#: per line in `problem_children.csv` for NH 3360, CN 3883, Sc II 4246, Co I 3845 and
+#: Sr II 4077/4215 ("Blue HARPS edge; crowded -- large continuum uncertainty"). And 4500 A
+#: is already `diagnostics_abundance.BLUE_EDGE`, drawn on the A(Fe I)-vs-wavelength plot
+#: as "blue edge -- exclude". Two independent derivations, same number.
 #:
-#: KP1984's two columns are a PAIRED control: the same spectrum at the same wavelengths
-#: in both states, so nothing but the normalisation differs between them.
+#: ⚠️ It is deliberately ABOVE `PIPELINE['blue_edge_warn_A']` (3900 A), which answers a
+#: different question: that flags a line as low-SNR, this asks where a CONTINUUM can be
+#: located at all. Collapsing them would be the RYA-806 mistake of treating two axes as one.
+CONTINUUM_LIMITED_BLUE_EDGE_A = 4500.0
+
+#: DECLARED, not magic -- DERIVED FROM THE MEASURED GAP between the two populations
+#: WITHIN THE VALIDATED DOMAIN (>= the blue edge, telluric bands excluded), not chosen as
+#: a band around unity. Every number was measured through the harness's own reader.
 #:
-#: The nearest NORMALISED case sits 0.020 from unity and the nearest UN-NORMALISED case
-#: 0.72 away, so this carries a ~14x margin on both sides. The margin is the point: a cut
-#: pressed against the nearest case is one that misclassifies the next product, and
-#: chance cases pile up at the wall. KP1984 col1 lands at 0.98 rather than 1.00 because a
-#: narrow window in a line-rich region may contain no true continuum at all -- which is
-#: also why the window is wide and the tolerance is not tighter.
-UNITY_TOLERANCE = 0.05
+#: NORMALISED population -- KP1984 residual flux scanned 4500-9900 A in 200 A steps,
+#: KP2005's shipped residual `irradrelwl.dat`, HARPS 5346/6885 A, RYA-794 CRIRES+ Y:
+#:     0.968 - 1.0063  =>  worst distance from unity 0.032
+#: UN-NORMALISED population -- KP2005 `irradthu.dat` (W/m2/nm) and KP1984's absolute
+#: column, the latter a PAIRED control: the same spectrum at the same wavelengths in both
+#: states, so nothing but the normalisation differs:
+#:     1.6963 · 2.1398 · 2.2398 · 213.2875  =>  nearest distance 0.696
+#:
+#: Nothing lies between 0.032 and 0.696. 0.15 is the geometric midpoint of that gap:
+#: 4.7x clear of the worst normalised case and 4.7x clear of the nearest un-normalised
+#: one. A cut pressed against either wall is one that misclassifies the next product.
+#:
+#: 🔴 THE FIRST VERSION OF THIS CONSTANT WAS 0.05 AND IT WAS WRONG -- derived from clean
+#: windows at 5000-5100 A only, and it did not survive contact with the full range. The
+#: fix was not to widen it until the failures stopped: it was to find out WHY the
+#: reference failed (blanketing, tellurics, fill values), exclude those regimes for stated
+#: reasons, and only then re-derive the cut inside the domain that remained.
+UNITY_TOLERANCE = 0.15
 #: An envelope that RISES OR FALLS across the band carries a blaze or an SED whatever its
 #: level. Measured: +0.010 to +0.023 for the normalised products, +3.42 for absolute flux.
 ENVELOPE_SLOPE_MAX = 0.10
@@ -115,8 +137,27 @@ ENVELOPE_SLOPE_MAX = 0.10
 ENVELOPE_WINDOW_A = 2.0
 #: Below this the statistic describes noise, so the answer is UNKNOWN -- never a default.
 MIN_ENVELOPE_WINDOWS = 5
-#: A window must hold at least this many pixels to contribute a percentile.
+#: 🔴 TELLURIC BANDS ARE EXCLUDED FROM THE ENVELOPE. Saturated atmospheric absorption
+#: pushes the 95th percentile down for a reason that has NOTHING to do with normalisation,
+#: and on a telluric-retaining product it fakes the un-normalised signature: scanned across
+#: its range, KP1984 -- known-normalised -- failed at 9300 and 9500 A, both inside the
+#: registered H2O complex, and nowhere else between 4200 and 9900. The band list is NOT
+#: re-enumerated here; it is `telluric_policy.TELLURIC_BANDS`, the authoritative set
+#: (RYA-786). A second copy would be the RYA-845 defect shape.
+EXCLUDE_TELLURIC_BANDS = True
+
+#: A window must hold at least this many VALID pixels to contribute a percentile.
 MIN_PIXELS_PER_WINDOW = 20
+
+#: 🔴 A FILL VALUE IS NOT FLUX. Non-finite and NON-POSITIVE pixels are dropped before the
+#: envelope is computed. Found on real data, not imagined: `solar_harps` at 5321-5337 A
+#: returns EXACTLY 0.000 across eight consecutive 2 A windows -- a dead region in the
+#: product -- and counting those zeros as flux made the envelope ramp 0.00 -> 0.97 across
+#: the band, which this module then reported as a BLAZE. The verdict "something is wrong
+#: here" was right and the DIAGNOSIS was wrong, which is worse than either being wrong
+#: alone: it sends the reader after a continuum defect that does not exist. Zeros are also
+#: how a saturated core, a masked telluric band, and an unfilled array all present
+#: themselves, so none of them may be averaged in (RYA-844's rule, on pixels).
 
 
 @dataclass
@@ -127,6 +168,9 @@ class NormalisationEvidence:
     median_p95: float | None = None
     slope_across_band: float | None = None
     n_windows: int = 0
+    n_dropped: int = 0
+    n_telluric_windows: int = 0
+    n_blue_windows: int = 0
     max_flux: float | None = None
     span_A: tuple[float, float] | None = None
     reason: str = ""
@@ -157,6 +201,16 @@ class NormalisationEvidence:
         if self.max_flux is not None:
             bits.append(f"max flux={self.max_flux:.4f}")
         bits.append(f"{self.n_windows} x {ENVELOPE_WINDOW_A:.0f} A windows")
+        if self.n_blue_windows:
+            bits.append(f"{self.n_blue_windows} window(s) skipped below the "
+                        f"{CONTINUUM_LIMITED_BLUE_EDGE_A:.0f} A blue edge "
+                        f"(no true continuum there, RYA-451/460)")
+        if self.n_telluric_windows:
+            bits.append(f"{self.n_telluric_windows} window(s) skipped as registered "
+                        f"telluric bands (absorption is not a normalisation signal)")
+        if self.n_dropped:
+            bits.append(f"{self.n_dropped} px dropped (non-finite or non-positive -- "
+                        f"a fill value is not flux)")
         if self.reason:
             bits.append(self.reason)
         return "; ".join(bits)
@@ -166,19 +220,50 @@ class NormalisationStateMismatch(RuntimeError):
     """The flux says one thing and the declared flag says another."""
 
 
+def _telluric_bands() -> tuple[tuple[float, float], ...]:
+    """(lo, hi) of every registered telluric complex. CALLED, never re-enumerated."""
+    from pipeline.telluric_policy import TELLURIC_BANDS
+    return tuple((float(b[0]), float(b[1])) for b in TELLURIC_BANDS)
+
+
 def detect(wave, flux) -> NormalisationEvidence:
     """Classify a spectrum from its UPPER ENVELOPE. See the module docstring."""
     w = np.asarray(wave, float)
     f = np.asarray(flux, float)
-    good = np.isfinite(w) & np.isfinite(f)
+    n_raw = w.size
+    good = np.isfinite(w) & np.isfinite(f) & (f > 0.0)
     w, f = w[good], f[good]
+    dropped = n_raw - w.size
     if w.size < 2:
-        return NormalisationEvidence(UNKNOWN, reason="fewer than 2 finite pixels")
+        return NormalisationEvidence(
+            UNKNOWN, reason=(f"fewer than 2 usable pixels ({dropped} of {n_raw} were "
+                             f"non-finite or non-positive)"))
 
     order = np.argsort(w)
     w, f = w[order], f[order]
-    p95, edges = [], np.arange(w[0], w[-1], ENVELOPE_WINDOW_A)
+    if float(w[-1]) < CONTINUUM_LIMITED_BLUE_EDGE_A:
+        return NormalisationEvidence(
+            UNKNOWN, span_A=(float(w[0]), float(w[-1])), max_flux=float(f.max()),
+            n_dropped=int(dropped),
+            reason=(f"entirely below the CONTINUUM_LIMITED blue edge "
+                    f"({CONTINUUM_LIMITED_BLUE_EDGE_A:.0f} A): near-UV line blanketing "
+                    f"leaves no true continuum in any window, so the envelope says "
+                    f"nothing about normalisation here -- the known-normalised KP1984 "
+                    f"atlas fails this test on itself below 4200 A. This is the existing "
+                    f"blue-edge no-true-continuum class (RYA-451/460), not a new limit. "
+                    f"UNKNOWN is the honest answer; scan a redder window."))
+
+    skip = _telluric_bands() if EXCLUDE_TELLURIC_BANDS else ()
+    p95, n_telluric = [], 0
+    edges = np.arange(w[0], w[-1], ENVELOPE_WINDOW_A)
+    n_blue = 0
     for lo, hi in zip(edges[:-1], edges[1:]):
+        if hi < CONTINUUM_LIMITED_BLUE_EDGE_A:
+            n_blue += 1
+            continue
+        if any(not (hi < blo or lo > bhi) for blo, bhi in skip):
+            n_telluric += 1
+            continue
         m = (w >= lo) & (w < hi)
         if m.sum() > MIN_PIXELS_PER_WINDOW:
             p95.append(float(np.percentile(f[m], 95)))
@@ -187,13 +272,16 @@ def detect(wave, flux) -> NormalisationEvidence:
     if p95.size < MIN_ENVELOPE_WINDOWS:
         return NormalisationEvidence(
             UNKNOWN, n_windows=int(p95.size), span_A=(float(w[0]), float(w[-1])),
-            max_flux=float(f.max()),
+            max_flux=float(f.max()), n_dropped=int(dropped),
+            n_telluric_windows=int(n_telluric),
             reason=(f"only {p95.size} usable {ENVELOPE_WINDOW_A:.0f} A windows "
                     f"(need {MIN_ENVELOPE_WINDOWS}) -- too few to describe an envelope, "
                     f"so the answer is UNKNOWN, never a default"))
 
     ev = NormalisationEvidence(
         UNKNOWN,
+        n_dropped=int(dropped), n_telluric_windows=int(n_telluric),
+        n_blue_windows=int(n_blue),
         median_p95=float(np.median(p95)),
         slope_across_band=float(np.polyfit(np.arange(p95.size), p95, 1)[0] * p95.size),
         n_windows=int(p95.size), max_flux=float(f.max()),

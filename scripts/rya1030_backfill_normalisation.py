@@ -47,7 +47,7 @@ PROBE_PAD_A = 25.0
 #: Fractions across a holding's declared span to probe at. Spread deliberately: a blaze
 #: or SED shows itself BETWEEN windows as much as within one, and three points that agree
 #: on the level while disagreeing on nothing else is a much stronger statement than one.
-PROBE_FRACTIONS = (0.25, 0.50, 0.75)
+PROBE_FRACTIONS = (0.25, 0.50, 0.75, 0.90)
 
 
 def _instrument_span_A(instrument: str) -> tuple[float, float] | None:
@@ -122,18 +122,33 @@ def determine(harness, holding_id: str, instrument: str) -> tuple[str, str]:
             f"holding is gated -- either way `unknown` is the honest record, and a "
             f"consumer refuses it rather than assuming (RYA-833).")
 
-    served = ""
-    distinct = set(verdicts)
-    if len(distinct) > 1:
+    # 🔴 `unknown` IS SILENCE, NOT A CONTRADICTING VOTE, so it does not create a split.
+    # A probe returns `unknown` when it lands below the blue edge or inside a telluric
+    # band -- the window could not speak, which is a fact about WHERE WE LOOKED, not about
+    # the product. Counting it as disagreement made `solar_harps` report SPLIT off one
+    # blanketed blue probe and two clean ones that agreed perfectly, burying a clear
+    # answer under a manufactured conflict. Only NORMALISED-vs-UN_NORMALISED is a real
+    # disagreement, and that one genuinely means the holding cannot be described by one
+    # flag (RYA-806's MIXED handling, same reasoning).
+    spoke = [v for v in verdicts if v != UNKNOWN]
+    if not spoke:
         return UNKNOWN, (
-            f"RYA-1030 INTAKE (through the harness reader{served}): ⚠️ SPLIT across probe "
-            f"windows {dict(Counter(verdicts))} => the holding is `unknown`: one flag "
+            f"RYA-1030 INTAKE (through the harness reader): every probe window was "
+            f"UNREADABLE AS EVIDENCE -- below the {4500:.0f} A blue edge, or inside a "
+            f"registered telluric band. {'; '.join(notes)}. Not a claim about the "
+            f"product: scan a redder, cleaner window (RYA-833).")
+
+    if len(set(spoke)) > 1:
+        return UNKNOWN, (
+            f"RYA-1030 INTAKE (through the harness reader): ⚠️ SPLIT across probe "
+            f"windows {dict(Counter(spoke))} => the holding is `unknown`: one flag "
             f"cannot honestly describe a product that answers two ways. "
             f"{'; '.join(notes)}")
 
-    value = verdicts[0]
-    note = (f"RYA-1030 INTAKE (through the harness reader, {len(verdicts)} probe window"
-            f"{'s' if len(verdicts) != 1 else ''}): {'; '.join(notes)}")
+    value = spoke[0]
+    note = (f"RYA-1030 INTAKE (through the harness reader, {len(spoke)} of "
+            f"{len(verdicts)} probe window{'s' if len(verdicts) != 1 else ''} spoke): "
+            f"{'; '.join(notes)}")
     if failures:
         note += f" | unread: {'; '.join(failures)}"
     return value, note
