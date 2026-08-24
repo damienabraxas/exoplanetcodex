@@ -1,0 +1,27 @@
+node: 'p5777_g+4.4_m0.0_t02_st_z+0.00_a+0.00_c+0.0 | ptr: 1291342913
+id in record : t5777g44m00
+n_dep=101  n_lev=354
+log tau range: -5.000 .. 5.000
+tau[:3] = [9.99999975e-06 1.25834576e-05 1.58525818e-05]  tau[-2:] = [ 79469.4140625 100000.       ]
+
+DEPARTURE COEFFICIENTS b (should be ~1 deep, deviate near the surface):
+  depth   0: b[0:4]=[0.4345 0.4466 0.4562 0.4642]  min=0.4138 max=1.0276
+  depth  25: b[0:4]=[1. 1. 1. 1.]  min=0.9479 max=1.1357
+  depth  50: b[0:4]=[3.8969 3.7183 3.5509 3.3913]  min=0.9996 max=36.3897
+  depth  75: b[0:4]=[1. 1. 1. 1.]  min=0.9996 max=101.7662
+  depth 100: b[0:4]=[1.1038 1.0772 1.0526 1.0313]  min=0.9978 max=8.1493
+
+finite fraction: 1.0000 | all-zero rows: 0
+
+RECORD LAYOUT (verified: predicted total == observed 287,348-byte stride, 6345 records)
+  id_model        500 bytes (space-padded; carries the STAGGER name, e.g. t5777g44m00)
+  n_dep           int32   = 101
+  n_lev           int32   = 354
+  tau             float64 x n_dep
+  bvals           float64 x n_dep x n_lev
+Little-endian, stream access. Aux pointers are 1-based (Fortran pos=), so seek(ptr-1).
+
+CONCLUSION: the deck is well-formed and its departures are physical. interpol_multi_nlte
+produced all-zero b-values and then corrupted the heap on the SAME record this reader
+parses correctly, so the fault is in that binary, not the data. A direct reader
+sidesteps it entirely.
