@@ -1,0 +1,261 @@
+{
+  "ticket": "RYA-1035",
+  "step": "Step 0 -- fetch-check before build",
+  "generated_utc": "2026-08-24T22:45:39Z",
+  "offline": false,
+  "verdict": "HAVE -- the build in RYA-1035's 'only if Step 0 comes back empty' branch is NOT scoped. The Fe <3D> row is a fetch-and-wire job.",
+  "routes": [
+    {
+      "route": "gerber-mean3d-deck",
+      "scale": "<3D>-NLTE",
+      "product": "NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin (+ aux)",
+      "source": "MPG Keeper share 6eaecbf95b88448f98a4, /dep-grids/Fe/",
+      "citation": "Gerber, Bergemann et al. 2023, A&A 669, A43",
+      "access": "PUBLIC_FETCHABLE",
+      "coverage": "Teff 4000-7000, logg 1.5-5.0, [Fe/H] -4..+0.5; 189 nodes; dedicated solar member 5777/4.44; departure deck, so NOT line-list limited",
+      "verdict": "HAVE_NOT_STAGED",
+      "blocker": "72 MB zip not yet on Sirius; vendor aux [Fe/H] defect (see aux_check)",
+      "note": "The Al route transfers UNCHANGED: same layout, same direct reader, same <3D> atmosphere. Simpler than Al -- one A(X) per node, no abundance axis."
+    },
+    {
+      "route": "amarsi2022-mlp",
+      "scale": "3D-NLTE (full)",
+      "product": "1L-3NErrors MLP (fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p)",
+      "source": "https://github.com/sliljegren/1L-3NErrors (MIT)",
+      "citation": "Amarsi, Liljegren & Nissen 2022, A&A 668, A68",
+      "access": "VENDORED",
+      "coverage": "Teff 5000-6500, logg 4.0-4.5, [Fe/H] -3..0; OPTICAL ONLY 4787.83-6810.26 A, Jofre+2014 golden lines; A(Fe) axis ceiling 7.5",
+      "verdict": "HAVE_RUNS",
+      "blocker": "none for the pinned-axis path; the A(Fe)=7.5 ceiling rails our VIS 1D-LTE zero point (7.586) -- recorded, sensitivity 0.0066 dex",
+      "note": "The matrix's BROKEN cell is STALE -- see mlp_check."
+    },
+    {
+      "route": "amarsi2016-corrections",
+      "scale": "1D & <3D>-NLTE",
+      "product": "iron_abundancecorr.tar.gz",
+      "source": "https://www.astro.uu.se/~amarsi/iron_abundancecorr.tar.gz",
+      "citation": "Amarsi et al. 2016 (1D/mean-3D non-LTE Fe I and Fe II corrections)",
+      "access": "PUBLIC_FETCHABLE",
+      "coverage": "not yet characterised -- 182 MB, unfetched",
+      "verdict": "AVAILABLE_UNFETCHED",
+      "blocker": "not fetched; an INDEPENDENT <3D> cross-check on the Gerber deck",
+      "note": "A second <3D> Fe product from a different group. Its value is as a REFEREE for the Gerber route, not as a substitute."
+    },
+    {
+      "route": "amarsi2019-cofe",
+      "scale": "3D-NLTE",
+      "product": "cofe_tools.tar.gz (C1, O1, Fe2)",
+      "source": "https://www.astro.uu.se/~amarsi/cofe_tools.tar.gz",
+      "citation": "Amarsi, Nissen & Skuladottir 2019, A&A 630, A104",
+      "access": "PUBLIC_FETCHABLE",
+      "coverage": "Fe II leg; 3D below Teff 6500 K",
+      "verdict": "PARTIALLY_HELD",
+      "blocker": "we hold data/nlte_grids/amarsi2019_cno/ for C/N/O; the Fe II leg of the SAME release is not registered against Fe",
+      "note": "Fe II only. THREED_HOLDINGS maps this release to C/N/O and not to Fe."
+    },
+    {
+      "route": "mpia-siu-mean3d",
+      "scale": "<3D>-NLTE",
+      "product": "MPIA Spectrum Tools online abundance-correction service",
+      "source": "http://nlte.mpia.de/gui-siuAC_secE.php",
+      "citation": "Bergemann et al. / MPIA SIU",
+      "access": "UNAVAILABLE",
+      "coverage": "n/a",
+      "verdict": "ADVERTISED_DISABLED",
+      "blocker": "the `3dmean` radio is COMMENTED OUT in the live page source; only 1D models are selectable (re-verified live, RYA-1035)",
+      "note": "The page still LISTS 'mean 3D' in its model text, so a reader sees an option that cannot be selected."
+    }
+  ],
+  "aux_check": {
+    "plain": {
+      "file": "auxData_Fe_STAGGERmean3D_May-21-2021.txt",
+      "n_rows": 189,
+      "n_feh_overridden": 6,
+      "overridden_ids": [
+        "p5777g44m05",
+        "p5777g44m10",
+        "p5777g44m20",
+        "p5777g44m30",
+        "p5777g44m40",
+        "p5777g44p05"
+      ],
+      "solar_node_candidates": [
+        "p5777g44m00"
+      ],
+      "solar_node_addressable": true
+    },
+    "marcs_names": {
+      "file": "auxData_Fe_STAGGERmean3D_May-21-2021_marcs_names.txt",
+      "n_rows": 189,
+      "n_feh_overridden": 0,
+      "overridden_ids": [],
+      "solar_node_candidates": [
+        "p5777_g+4.4_m0.0_t02_st_z+0.00_a+0.00_c+0.00_n+0.00_o+0.00_r+0.00_s+0.00"
+      ],
+      "solar_node_addressable": false
+    }
+  },
+  "mlp_check": {
+    "IR Fe I": {
+      "in_domain": 0
+    },
+    "IR Fe II": {
+      "in_domain": 0
+    },
+    "VIS Fe I": {
+      "in_domain": 114,
+      "unpinned_per_line": {
+        "n_finite": 33,
+        "median_aberr": 0.0406
+      },
+      "pinned_7.46": {
+        "n_finite": 114,
+        "median_aberr": 0.0389
+      }
+    },
+    "VIS Fe II": {
+      "in_domain": 7,
+      "unpinned_per_line": {
+        "n_finite": 1,
+        "median_aberr": 0.0539
+      },
+      "pinned_7.46": {
+        "n_finite": 7,
+        "median_aberr": 0.0534
+      }
+    }
+  },
+  "keeper_check": {
+    "Al": {
+      "mean3d_bin": "NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin",
+      "mean3d_bytes": 1823224060,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Ba": {
+      "mean3d_bin": "NLTEgrid4TS_Ba_STAGGERmean3D_Aug-11-2023.bin",
+      "mean3d_bytes": 581061540,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "CH": {
+      "mean3d_bin": null,
+      "mean3d_bytes": null,
+      "has_marcs_names_aux": false,
+      "n_files": 1
+    },
+    "Ca": {
+      "mean3d_bin": "NLTEgrid4TS_Ca_STAGGERmean3D_May-18-2021.bin.zip",
+      "mean3d_bytes": 124295668,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Co": {
+      "mean3d_bin": "NLTEgrid4TS_Co_STAGGERmean3D_Nov-20-2024.bin",
+      "mean3d_bytes": 868457116,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Cr": {
+      "mean3d_bin": "NLTEgrid4TS_Cr_STAGGERmean3D_Dec-12-2024.bin",
+      "mean3d_bytes": 1312673100,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Eu": {
+      "mean3d_bin": "NLTEgrid4TS_Eu_STAGGERmean3D_Nov-20-2024.bin",
+      "mean3d_bytes": 3424250832,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Fe": {
+      "mean3d_bin": "NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin.zip",
+      "mean3d_bytes": 72073326,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "H": {
+      "mean3d_bin": "NLTEgrid4TS_H_STAGGERmean3D_Jun-17-2021.bin.zip",
+      "mean3d_bytes": 837378,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Mg": {
+      "mean3d_bin": "NLTEgrid4TS_Mg_STAGGERmean3D_Nov-20-2024.bin",
+      "mean3d_bytes": 314299956,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Mn": {
+      "mean3d_bin": "NLTEgrid4TS_Mn_STAGGERmean3D_May-17-2021.bin.zip",
+      "mean3d_bytes": 819654277,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Na": {
+      "mean3d_bin": "NLTEgrid4TS_Na_STAGGERmean3D_Aug-04-2023.bin",
+      "mean3d_bytes": 1504772496,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Ni": {
+      "mean3d_bin": "NLTEgrid4TS_NI_STAGGERmean3D_Aug-12-2023.bin",
+      "mean3d_bytes": 2783552680,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "O": {
+      "mean3d_bin": "NLTEgrid4TS_O_STAGGERmean3D_May-18-2021.bin.zip",
+      "mean3d_bytes": 44501137,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Si": {
+      "mean3d_bin": "NLTEgrid4TS_Si_STAGGERmean3D_Aug-05-2023.bin",
+      "mean3d_bytes": 1650696280,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Sr": {
+      "mean3d_bin": "NLTEgrid_Sr_STAGGERmean3D_Jul-17-2023.bin",
+      "mean3d_bytes": 993787940,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    },
+    "Ti": {
+      "mean3d_bin": "NLTEgrid4TS_Ti_STAGGERmean3D_Aug-07-2023.bin",
+      "mean3d_bytes": 2685376640,
+      "has_marcs_names_aux": true,
+      "n_files": 7
+    },
+    "Y": {
+      "mean3d_bin": "NLTEgrid4TS_Y_STAGGERmean3D_May-08-2023.bin",
+      "mean3d_bytes": 2196197488,
+      "has_marcs_names_aux": true,
+      "n_files": 6
+    }
+  },
+  "amarsi_check": {
+    "page": "https://www.astro.uu.se/~amarsi/",
+    "fe_entries": [
+      {
+        "label": "3D non-LTE abundance corrections for Fe1 and Fe2 (Amarsi+ 2022)",
+        "url": "https://github.com/sliljegren/1L-3NErrors",
+        "reachable": true,
+        "bytes": null
+      },
+      {
+        "label": "3D non-LTE abundance corrections for C1, O1, Fe2 (Amarsi+ 2019)",
+        "url": "https://www.astro.uu.se/~amarsi/cofe_tools.tar.gz",
+        "reachable": true,
+        "bytes": 113897044
+      },
+      {
+        "label": "1D/Mean-3D non-LTE abundance corrections for Fe1 and Fe2 (Amarsi+ 2016)",
+        "url": "https://www.astro.uu.se/~amarsi/iron_abundancecorr.tar.gz",
+        "reachable": true,
+        "bytes": 182158708
+      }
+    ]
+  }
+}

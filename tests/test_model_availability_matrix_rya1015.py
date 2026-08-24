@@ -42,7 +42,18 @@ def test_oxygen_row(cells):
     # atmosphere, so it is reachable by the build-our-own route with nothing to fetch
     # and nobody to email. O is in `_MODEL_ATOMS`, so calling it REQUEST_ONLY told a
     # reader to go asking for something already on disk.
-    assert cells[("O", "MEAN3D_NLTE")]["state"] == "T2_BUILD_OWED"
+    #
+    # 🔴 CORRECTED AGAIN, RYA-1035 — AND THE PREVIOUS WORDING HAD THE SAME DEFECT IT WAS
+    # FIXING, ONE STEP FURTHER OUT. "no deck BUT we hold the model atom ... with nothing to
+    # fetch" is a claim about the SOURCE derived from a scan of OUR DISK. Live listing of
+    # the MPG Keeper share on 2026-08-24: 17 of 18 element folders ship a STAGGERmean3D
+    # deck, and O's is one of them (NLTEgrid4TS_O_STAGGERmean3D_May-18-2021.bin.zip,
+    # 44.5 MB) — on the same share Al/Cr/Eu/Y were pulled from.
+    #
+    # So O <3D> is an ACQUISITION, not a build, and the RYA-1013/1014 O tier-2 BUILD may
+    # not be needed at all. That is a live question for those tickets; what is settled here
+    # is only that the matrix must stop telling their reader there is nothing to fetch.
+    assert cells[("O", "MEAN3D_NLTE")]["state"] == "T2_FETCH_OWED"
     assert cells[("O", "FULL_3D_NLTE")]["state"] == "HAVE"
     assert "amarsi2019_cno" in (cells[("O", "FULL_3D_NLTE")]["code_grid"] or "")
 
