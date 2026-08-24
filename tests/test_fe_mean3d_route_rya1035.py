@@ -233,3 +233,89 @@ def test_fe_mean3d_is_NOT_registered_until_the_deck_is_staged():
     `docs/decisions/fe_3d_nlte_route_rya1035.md`."""
     assert "Fe@mean3D" not in G.DECKS
     assert "Al@mean3D" in G.DECKS, "Al's is staged and registered -- the shape to copy"
+
+
+# ── (B) the deck abundance: resolved by provenance, and guarded against re-drift ──
+
+def test_the_model_atom_declares_7_50_and_the_aux_agrees(plain_rows):
+    """🔴 THE GRID'S OWN DECLARATION. `atom.fe607a` line 2 is `7.50  55.85` — A(Fe) and the
+    atomic mass — and both Fe aux tables encode A(X) = 7.50 + [Fe/H] exactly. The atom file
+    is Sirius-only, so what is pinned here is the aux half plus the md5 that ties the atom
+    we read to the one staged (`d08dc8232ed68eec65f9bb6631e82ea8`, in Fe_gerber2023.prov.json).
+    """
+    clean = [r for r in plain_rows if not r["feh_from_name"]]
+    assert {round(r["abundance"] - r["feh"], 4) for r in clean} == {7.5}
+    solar = [r for r in clean if abs(r["feh"]) < 1e-9]
+    assert {r["abundance"] for r in solar} == {7.5}
+
+
+def test_the_provenance_record_says_7_50_not_7_46():
+    """🔴 7.46 WAS OUR OWN INPUT COMING BACK. `abu_ref` is read from stdin
+    (interpol_modeles_nlte.f:206), written verbatim into the departure file (:761), loaded
+    as `abundance_nlte` (read_departure.f) and printed back by bsyn (:988) — and
+    `gerber_nlte` fed that stdin from `deck_abundance()` itself. The record was its own
+    echo. ⚠️ 7.46 is the Asplund solar A(Fe): the number that looks right on arrival."""
+    import json
+    p = Path(__file__).resolve().parents[1] / "data" / "nlte_grids" / "gerber_ts" / \
+        "Fe_gerber2023.prov.json"
+    d = json.loads(p.read_text())
+    assert float(d["deck_abundance"]["a_sun"]) == 7.50
+    assert d["deck_abundance"]["corrected_from"] == "7.46"
+    assert "atom.fe607a" in d["deck_abundance"]["why"]
+
+
+def test_the_abundance_we_pass_does_not_move_the_departures(plain_rows):
+    """The measurement that makes `abu_ref` a LABEL rather than a physical input. Fe's deck
+    has no abundance axis, so every request returns the same node — and the reported A(X)
+    is the AUX's own value, never the caller's. This is why the ⟨3D⟩ direct-read path
+    always said 7.50 while the interpolator path echoed 7.46: one reports the grid, the
+    other reports us."""
+    G.DECKS["FeAbTest@mean3D"] = dict(Z=26, atom="atom.fe607a", aux="x", grid="y",
+                                      read_via="direct")
+    G._AUX_ROW_CACHE["FeAbTest@mean3D"] = plain_rows
+    try:
+        assert not G.has_abundance_axis("FeAbTest@mean3D")
+        assert G.abundance_axis("FeAbTest@mean3D") == (7.5,)
+        # the node lookup is indifferent to the abundance asked for
+        hits = {a: min([r for r in plain_rows if r["teff"] == 5777.0
+                        and abs(r["feh"]) < 1e-9],
+                       key=lambda r: abs(r["abundance"] - a))["id"]
+                for a in (7.46, 7.50, 7.60, 6.90)}
+        assert set(hits.values()) == {"p5777g44m00"}
+    finally:
+        G._AUX_ROW_CACHE.pop("FeAbTest@mean3D", None)
+        G.DECKS.pop("FeAbTest@mean3D", None)
+        G._AXIS_CACHE.pop("FeAbTest@mean3D", None)
+
+
+def test_a_provenance_abundance_that_contradicts_the_deck_is_REFUSED(plain_rows, tmp_path):
+    """🔴 THE GUARD THAT MAKES THE LOOP UNCLOSEABLE. Nothing ever compared the record
+    against the deck, so a number that came from us was handed BACK to the vendor binary as
+    though it had come from the vendor. Now the aux cross-examines the record."""
+    import json
+    G.DECKS["FeProv@mean3D"] = dict(Z=26, atom="atom.fe607a", aux="x", grid="y",
+                                    read_via="direct")
+    G._AUX_ROW_CACHE["FeProv@mean3D"] = plain_rows
+    old_prov = G.PROV_DIR
+    try:
+        G.PROV_DIR = tmp_path
+        (tmp_path / "FeProv_gerber2023.prov.json").write_text(
+            json.dumps({"deck_abundance": {"a_sun": 7.46}}))
+        with pytest.raises(G.GerberDeckError, match="the deck's own aux declares"):
+            G.deck_abundance("FeProv@mean3D")
+        # ...and the corrected value passes
+        (tmp_path / "FeProv_gerber2023.prov.json").write_text(
+            json.dumps({"deck_abundance": {"a_sun": 7.50}}))
+        assert G.deck_abundance("FeProv@mean3D") == 7.50
+    finally:
+        G.PROV_DIR = old_prov
+        G._AUX_ROW_CACHE.pop("FeProv@mean3D", None)
+        G._AXIS_CACHE.pop("FeProv@mean3D", None)
+        G.DECKS.pop("FeProv@mean3D", None)
+
+
+def test_the_provenance_record_is_found_through_an_atmosphere_suffix():
+    """`Fe@mean3D` must resolve to `Fe_gerber2023.prov.json`. Both Fe decks were solved
+    with the same model atom at the same A(Fe), and without the split the deck would look
+    unregistered the moment it is staged."""
+    assert G.deck_abundance("Fe") == 7.50

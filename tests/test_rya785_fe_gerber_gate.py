@@ -80,7 +80,21 @@ def test_prov_records_pass_and_keeps_the_cross_engine_delta_as_a_diagnostic():
     assert "cross_engine_diagnostic" in g
     assert "never folded into the error bar" in g["cross_engine_diagnostic"]
     # and the deck's abundance is the deck's property, not a fitted choice
-    assert d["deck_abundance"]["a_sun"] == pytest.approx(7.46)
+    #
+    # 🔴 CORRECTED RYA-1035 — 7.46 → 7.50. The intent of this assertion was right and its
+    # VALUE was wrong: 7.46 was not the deck's property, it was OUR OWN INPUT coming back.
+    # `abu_ref` is read from stdin (interpol_modeles_nlte.f:206), written verbatim into the
+    # departure file (:761), loaded as `abundance_nlte` (read_departure.f) and printed back
+    # by bsyn (:988) — and `gerber_nlte` fed that stdin from `deck_abundance()` itself, so
+    # the record was its own echo with no external referee in the loop.
+    #
+    # The deck's own declaration is 7.50: `atom.fe607a` line 2 (`7.50  55.85`, on the
+    # md5-matched file), both aux tables' A(X) = 7.50 + [Fe/H], and Turbospectrum's own
+    # `metal = abund(15) - 7.50`. ⚠️ 7.46 is the Asplund solar A(Fe) — the number that looks
+    # right on arrival, which is why the loop was never challenged. `deck_abundance` now
+    # cross-examines this record against the deck's aux and raises on disagreement.
+    assert d["deck_abundance"]["a_sun"] == pytest.approx(7.50)
+    assert d["deck_abundance"]["corrected_from"] == "7.46"
 
 
 def test_gerber_nlte_is_wired_and_cannot_silently_fall_back_to_lte():

@@ -186,19 +186,64 @@ def has_abundance_axis(element: str) -> bool:
 def deck_abundance(element: str) -> float:
     """The abundance the deck's departures were computed at, from its provenance record.
 
-    NEVER a fitted or reference value. Fe's grid was computed at A(Fe) = 7.46, not the 7.50
-    printed in the `atom.fe607a` header, and bsyn STOPs on the mismatch.
+    NEVER a fitted or reference value. Fe's grid was computed at **A(Fe) = 7.50**: that is
+    what `atom.fe607a` declares on its own second line (`7.50  55.85`, md5-matched to our
+    staged copy), what BOTH Fe aux tables encode as A(X) = 7.50 + [Fe/H] exactly (15,229
+    MARCS rows and 183 clean ⟨3D⟩ rows), and what Turbospectrum's own MARCS reader
+    hardcodes as solar iron (`metal = abund(15) - 7.50`, interpol_modeles_nlte.f:1177).
+
+    🔴 RYA-1035 — THIS RECORD SAID 7.46, AND THAT NUMBER WAS OUR OWN INPUT COMING BACK.
+    The evidence for 7.46 was a bsyn message, *"NLTE departure coeff calculated for
+    abundance = 7.46 while it is 7.50 here"*, read as a statement about the grid. Traced
+    through the vendor source, it is a statement about us:
+
+        interpol_modeles_nlte.f:206   read(*,*) abu_ref        <- OUR stdin
+        interpol_modeles_nlte.f:761   write(27,1971) abu_ref   <- verbatim into the file
+        read_departure.f              -> abundance_nlte
+        bsyn.f:988                    -> prints it back at us
+
+    `abu_ref` is a LABEL the caller supplies; the deck never asserts it. This module's own
+    docstring already carried the measurement that proves it — running the interpolator at
+    A = 7.36 / 7.46 / 7.56 gives departure files **byte-identical except the stamp**. So
+    the record was sourced from an echo of `deck_abundance()`'s own previous value: a loop
+    with no external referee in it. ⚠️ 7.46 is also the Asplund solar A(Fe), i.e. exactly
+    the number that looks right on arrival — which is why the loop went unchallenged.
+
+    The ⟨3D⟩ direct-read path never had the problem: `read_deck_node` reports the AUX's own
+    A(X), so it self-declares 7.50 whatever it is asked for. Only the interpolator path
+    echoes the caller, and the disagreement between the two paths *was* the ambiguity.
     """
-    p = PROV_DIR / f"{element}_gerber2023.prov.json"
+    # A deck key may carry an atmosphere suffix (`Fe@mean3D`); the provenance record is per
+    # ELEMENT, and both Fe decks were solved with the same model atom at the same A(Fe).
+    base = element.split("@", 1)[0]
+    p = PROV_DIR / f"{base}_gerber2023.prov.json"
     if not p.exists():
         raise GerberDeckError(
             f"no provenance record at {p} — an unregistered deck has not passed the "
             f"RYA-534/785 gate and must not be used as an Engine-B leg")
     d = json.loads(p.read_text())
     try:
-        return float(d["deck_abundance"]["a_sun"])
+        a_prov = float(d["deck_abundance"]["a_sun"])
     except (KeyError, TypeError, ValueError) as e:
         raise GerberDeckError(f"{p} carries no usable deck_abundance.a_sun: {e}") from e
+
+    # 🔴 THE RECORD IS CROSS-EXAMINED BY THE GRID, whenever the grid is reachable. A
+    # provenance value that contradicts the deck's own aux is how 7.46 survived: nothing
+    # ever compared the two, so a number that came from us was passed BACK to the vendor
+    # binary as though it had come from the vendor. `abundance_axis` raises when the aux is
+    # Sirius-only and absent, and there the record is genuinely all we have.
+    try:
+        axis = abundance_axis(element)
+    except GerberDeckError:
+        return a_prov
+    if len(axis) == 1 and abs(axis[0] - a_prov) > 1e-6:
+        raise GerberDeckError(
+            f"{element}: provenance records A(X) = {a_prov:.2f} but the deck's own aux "
+            f"declares {axis[0]:.2f} at [Fe/H] = 0. The AUX is the deck speaking; the "
+            f"record is us. Do not paper over this by editing whichever is convenient — "
+            f"establish what the model atom header says and fix the record to match "
+            f"(RYA-1035).")
+    return a_prov
 
 
 def read_departure_file(path: str | os.PathLike) -> dict:
@@ -681,8 +726,13 @@ def for_node(element: str, teff: float, logg: float, feh: float,
             f"teff={teff:.0f} logg={logg:.2f} feh={feh:+.2f}. Serving another star needs "
             f"real corner selection — do that rather than accepting solar departures.")
 
-    # A single-abundance deck interpolates at ITS OWN value (Fe: 7.46, and bsyn STOPs on
-    # a mismatch). An axis deck interpolates at the value actually being synthesised.
+    # A single-abundance deck interpolates at ITS OWN value (Fe: 7.50 — RYA-1035 corrected
+    # this from 7.46, which was our own input echoing back through bsyn's message; see
+    # `deck_abundance`). An axis deck interpolates at the value actually being synthesised.
+    # ⚠️ This feeds the interpolator's `abu_ref`, which is a LABEL: the departures do not
+    # move with it (measured), and `as_ispec_tuple` stamps the TRIAL abundance into what
+    # bsyn finally reads — which is why bsyn's abundance STOP does not fire during a fit,
+    # and why it MUST be left alone rather than downgraded to a warning.
     a_deck = float(abundance) if has_abundance_axis(element) else deck_abundance(element)
 
     # RYA-821 -- a <3D> deck is READ DIRECTLY; there is no vendor binary that can consume
