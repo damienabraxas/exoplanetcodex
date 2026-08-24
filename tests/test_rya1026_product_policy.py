@@ -273,3 +273,45 @@ def test_unknown_does_not_raise():
     ev = assert_data_matches_declaration("x", *_spectrum(1.0, n=400, lo=5000.0, hi=5004.0),
                                          declared=True)
     assert ev.value == UNKNOWN
+
+
+# ── the gate must be CALLED, not merely defined ──────────────────────────────
+
+def test_the_display_gate_is_wired_into_the_render_path():
+    """🔴 A GUARD NOBODY INVOKES IS DECORATIVE — this module's own docstring says so, and
+    for a while that was exactly what this was: `assert_displayable` existed and was
+    called only by these tests.
+
+    The tracker generator is where a product becomes visible, so it is where the gate
+    belongs. This pins the wiring rather than the wording, so the tracker cannot quietly
+    go back to rendering products with no telluric state attached.
+    """
+    src = (ROOT / "scripts" / "rya935_live_status.py").read_text()
+    assert "telluric_display_policy" in src, "the render path does not import the gate"
+    assert "display_state(" in src, "the render path never calls display_state"
+    assert "anomaly(" in src, "the render path drops the anomaly text"
+
+
+def test_the_render_path_CARRIES_the_state_rather_than_raising():
+    """Deliberate, and the reasoning must not be lost.
+
+    Most existing Fe products were built on the telluric-UNCORRECTED 1984 atlas -- RYA-1026
+    says so plainly -- so calling `assert_displayable` in the tracker would kill the whole
+    page over historical products the ticket already knows about. Worse, DROPPING them
+    would make a BLOCKED product indistinguishable from an ABSENT one, which is the
+    absence-as-conclusion error the same ticket forbids (RYA-833).
+
+    The raise belongs where a NEW product is published; the tracker labels.
+    """
+    import ast as _ast
+    tree = _ast.parse((ROOT / "scripts" / "rya935_live_status.py").read_text())
+    called = {getattr(n.func, "id", None) for n in _ast.walk(tree)
+              if isinstance(n, _ast.Call)}
+    # Parsed, not grepped: the module explains WHY it does not raise, so the name appears
+    # in prose. A substring check would fire on the explanation and force the reasoning
+    # to be deleted to keep the test green -- which is how a comment that matters gets
+    # removed by a test that does not.
+    assert "assert_displayable" not in called, (
+        "the tracker must LABEL, not raise: one legacy product would take the page down "
+        "and a dropped row reads as 'no data'")
+    assert "display_state" in called
