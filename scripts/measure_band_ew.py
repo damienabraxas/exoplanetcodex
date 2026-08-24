@@ -749,11 +749,16 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "order unchanged, so no existing measurement silently switches "
                          "product. NaN marks a quarantined saturated core."),
         HoldingSpec("solar_kpno_kurucz2005_corrected", reader="kurucz2005",
-                    pre_normalised=False, span_A=(3000.0, 10000.0),
-                    note="Kurucz 2005, telluric-corrected at source. VACUUM grid and "
-                         "ABSOLUTE irradiance -- hence pre_normalised=False, because it "
-                         "ships no continuum for the harness to consume. Spans "
-                         "3000-10000 A only; nothing telluric-free reaches the IR."),
+                    pre_normalised=True, span_A=(2990.0, 10010.0),
+                    note="Kurucz 2005, telluric-corrected at source. Served from "
+                         "irradrelwl.dat, the RESIDUAL atlas Kurucz ships alongside the "
+                         "irradiance file -- so this holding DOES carry its own continuum "
+                         "and pre_normalised is True. It was False until RYA-933 because "
+                         "`0irrad.readme` does not list the residual file and the RYA-929 "
+                         "intake never took it; placing our own continuum instead tilted "
+                         "the band 4% blue-to-red and cost 0.022 dex. VACUUM grid "
+                         "(gravitational redshift included), converted to air on read. "
+                         "Spans 2990-10010 A; nothing telluric-free reaches the IR."),
     ),
     "iag_fts_solar_atlas": (
         HoldingSpec("solar_iag", reader="iag", pre_normalised=True,
@@ -1047,23 +1052,51 @@ def load_kp1984_composite_window(centre: float, pad: float, segs=None):
     return w[o], f[o], ",".join(used)
 
 
-def load_kurucz2005_window(centre: float, pad: float):
-    """Kurucz 2005 irradiance. VACUUM grid (RYA-938) and NO continuum of its own.
+def _read_kurucz2005_residual(path: Path, lo: float, hi: float):
+    """(air_A, residual_flux) from irradrelwl.dat. Vacuum nm in, air Angstrom out."""
+    from pipeline.uv_conditioning import vac_to_air
+    w, f = [], []
+    with Path(path).open(errors="replace") as fh:
+        for line in fh:
+            q = line.split()
+            if len(q) < 2:
+                continue
+            try:
+                x, y = float(q[0]) * 10.0, float(q[1])
+            except ValueError:
+                continue                      # header lines
+            if lo - 5.0 <= x <= hi + 5.0:
+                w.append(x); f.append(y)
+    w, f = np.asarray(w), np.asarray(f)
+    if not w.size:
+        return w, f
+    return np.asarray(vac_to_air(w)), f
 
-    Two things a naive reader gets wrong here, both measured rather than assumed:
-    the grid is VACUUM -- reading it as air displaces every line ~1.7 A at 6600 A,
-    about 200 sampled pixels, which is how RYA-929 produced a clean window verdict
-    beside a nonsense line table -- and the flux is ABSOLUTE irradiance in W/m2/nm,
-    so this holding is `pre_normalised=False` and the harness must place its own
-    continuum. That is not the RYA-911 double-continuum trap: this product ships no
-    continuum to double.
+
+def load_kurucz2005_window(centre: float, pad: float):
+    """Kurucz 2005 RESIDUAL irradiance atlas -- the continuum Kurucz shipped.
+
+    🔴 IT DOES SHIP A CONTINUUM, and reading the wrong file cost 0.022 dex. The
+    distribution carries `irradthu.dat` (absolute irradiance, W/m2/nm) AND
+    `irradrelwl.dat`, the "KURUCZ RESIDUAL IRRADIANCE ATLAS 2005" -- the same spectrum
+    with Kurucz's own continuum divided out. **`0irrad.readme` does not list the residual
+    file**, so the RYA-929 intake took only the flux file and this holding was recorded as
+    shipping no continuum. Placing our own instead put a 4% blue-to-red tilt on the band
+    (1.0238 at 4400 A falling to 0.9848 at 6800 A, measured against the 1984 atlas) and
+    biased A(Fe I) low by 0.0218 +/- 0.0040 dex, correlated with wavelength (r=+0.373).
+    The shipped continuum tilts 12x less: -0.0033 across the same band. This is exactly
+    the RYA-911/938 rule -- do not re-fit a continuum where the product ships one.
+
+    Still VACUUM ("vacuum wavelength including gravitational red shift"), so the same
+    vac->air conversion applies; verified at 0.000 A shift against the air 1984 atlas
+    (r=0.9997). Residual flux, so the holding is `pre_normalised=True` and needs no
+    `--place-continuum`.
     """
-    from scripts.rya938_kp_crosscheck import read_kurucz2005
-    path = codex_path('data.kurucz2005_irradiance')
-    w, f = read_kurucz2005(Path(path), centre - pad, centre + pad, True)
+    path = codex_path('data.kurucz2005_residual')
+    w, f = _read_kurucz2005_residual(Path(path), centre - pad, centre + pad)
     if w.size < 5:
         raise LookupError(f"Kurucz 2005 does not cover {centre:.3f} A (it spans "
-                          f"3000-10000 A); nothing beyond 10000 A is telluric-free here.")
+                          f"2990-10010 A); nothing beyond 10010 A is telluric-free here.")
     return w, f, Path(path).name
 
 
