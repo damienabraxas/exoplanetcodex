@@ -188,9 +188,19 @@ def test_every_warn_carries_a_discriminator_and_a_ticket_stub(element):
 
 
 @pytest.mark.parametrize("element", ["Fe", "Al"])
-def test_all_six_checks_run_and_none_is_silent(element):
+def test_every_registered_check_runs_and_none_is_silent(element):
+    """🔴 PINS THE INVARIANT, NOT THE EXAMPLE (RYA-911).
+
+    This asserted `== [1, 2, 3, 4, 5, 6]` and broke the moment RYA-1030 added check 7 --
+    a passing test turned red for a change that was entirely correct, which trains the
+    next reader to edit the number rather than look. What this check is FOR is that every
+    registered check actually ran, in order, and that none of them returned silently. The
+    COUNT is an implementation detail of `CHECKS`; the numbering-and-non-silence is the
+    contract. Adding check 8 must not require touching this test.
+    """
     _, results = pf.run("sun", element, "I", [pf.ROOT])
-    assert [r.number for r in results] == [1, 2, 3, 4, 5, 6]
+    assert [r.number for r in results] == list(range(1, len(pf.CHECKS) + 1))
+    assert len(results) == len(pf.CHECKS)
     for r in results:
         assert r.findings, f"check {r.number} ({r.name}) emitted nothing at all"
 
@@ -210,7 +220,8 @@ def test_json_output_round_trips(tmp_path):
     payload = json.loads(out.read_text())
     assert payload["ticket"] == "RYA-905"
     assert payload["star"] == "solar"
-    assert {c["number"] for c in payload["checks"]} == {1, 2, 3, 4, 5, 6}
+    assert ({c["number"] for c in payload["checks"]}
+            == set(range(1, len(pf.CHECKS) + 1)))     # the invariant, not the count
 
 
 def test_an_unknown_star_is_refused_rather_than_reported_empty():
