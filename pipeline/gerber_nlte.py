@@ -89,7 +89,39 @@ DECKS = {
     "Al": dict(Z=13, atom="atom.al_qmh",
                aux="auxData_Al_MARCS_Jul-25-2023.dat",
                grid="NLTEgrid_Al_MARCS_Jul-25-2023.bin"),
+    # RYA-821/1019 — Al's <3D> deck. A SECOND deck for the SAME element, differing only
+    # in the ATMOSPHERE its departures were solved on. That is the atmosphere axis, and
+    # it is why a registry keyed by element alone cannot hold both.
+    #
+    # 🔴 THE NODE COORDINATES ARE STAGGER'S, NOT MARCS'S. This deck is keyed at
+    # Teff 5777 / logg 4.44 (the STAGGER solar member). The MARCS decks are keyed at
+    # 5750 / 4.5. Interpolating this deck against MARCS_SOLAR asks for a node that DOES
+    # NOT EXIST in it — measured: 0 rows at (5750, 4.5, 0.0), 31 rows at (5777, 4.44, 0.0).
+    # So the atmosphere is carried per-deck, never assumed.
+    #
+    # The A(Al) axis is the same 31 values (4.43–7.43) as the MARCS deck, so the RYA-1005
+    # abundance-axis handling applies unchanged — do not re-derive it.
+    "Al@mean3D": dict(Z=13, atom="atom.al_qmh",
+                      aux="auxData_Al_STAGGERmean3D_Aug-05-2023_marcs_names.txt",
+                      grid="NLTEgrid_Al_STAGGERmean3D_Aug-05-2023.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5"),
 }
+
+
+def deck_atmosphere(element: str) -> str:
+    """The atmosphere this deck's departures were solved on.
+
+    Defaults to MARCS_SOLAR so every pre-existing deck behaves byte-identically; a <3D>
+    deck overrides it. Applying <3D> departures on a 1D MARCS structure (or vice versa)
+    is a physics mismatch that produces a perfectly well-formed file, which is exactly
+    the class of error worth a guard rather than a comment.
+    """
+    if element not in DECKS:
+        raise GerberDeckError(f"no deck registered for {element!r}")
+    return DECKS[element].get("atmos", MARCS_SOLAR)
 
 
 class GerberDeckError(RuntimeError):
@@ -97,6 +129,7 @@ class GerberDeckError(RuntimeError):
 
 
 _AXIS_CACHE: dict[str, tuple] = {}
+_AUX_ROW_CACHE: dict[str, list] = {}
 
 
 def abundance_axis(element: str) -> tuple:
@@ -212,6 +245,149 @@ def read_departure_file(path: str | os.PathLike) -> dict:
                 departures=dep, corners=corners)
 
 
+# ── reading a deck DIRECTLY, without the vendor interpolator (RYA-821) ───────
+#
+# 🔴 WHY THIS EXISTS. `interpol_modeles_nlte` cannot consume a <3D> deck at all, and the
+# reason is structural rather than a bug to report upstream: it reads ONLY native MARCS,
+# which requires tau_Rosseland and P_g per depth, and BOTH public <3D> STAGGER archives
+# ship the 5-column mul23 TAU5000 form (log tau500, T, n_e, V, v_mic) carrying neither.
+# The deck's aux names MARCS files the distribution does not contain -- Gerber's group
+# evidently converted <3D> models to MARCS internally and shipped the deck, not the
+# models. The sibling `interpol_multi_nlte` returns ALL-ZERO b-values and then corrupts
+# the heap (glibc malloc assertion) on the very record this reader parses correctly.
+#
+# So the vendor binary is not a dependency worth having here. The deck's own layout is
+# fully determined, and reading it directly ALSO dissolves the corner-model problem: the
+# node comes from the aux table, so no eight MARCS corners are needed to name it.
+#
+# ⚠️ THIS IS A LOOKUP, NOT AN INTERPOLATION, AND THE DIFFERENCE IS THE POINT. It returns
+# the departures stored AT a grid node. `interpol_modeles_nlte` interpolates BETWEEN
+# eight corners. For a node the deck actually contains -- which is the solar case, and the
+# only case we consume today -- those agree by construction and the lookup is the exact
+# answer rather than an approximation of it. For an OFF-NODE star they do not, and this
+# function refuses rather than pretending; see `read_deck_node`.
+
+#: Record layout, VERIFIED against the file rather than taken from documentation:
+#:   500 bytes  atmosphere id (space-padded)
+#:     4 bytes  n_dep   int32
+#:     4 bytes  n_lev   int32
+#:  n_dep*8     log tau           float64
+#:  n_dep*nlev*8  departure coefficients, (n_dep, n_lev)  float64
+#: For the Al <3D> deck that is 500 + 4 + 4 + 101*8 + 101*354*8 = 287,348 bytes, and the
+#: aux table's own consecutive pointers differ by exactly that (1001 -> 288349), so the
+#: layout is confirmed twice by independent evidence.
+_DECK_ID_BYTES = 500
+
+
+def _aux_rows(element: str) -> list[dict]:
+    """Every aux row as (id, teff, logg, feh, abundance, pointer). Cached per element."""
+    if element in _AUX_ROW_CACHE:
+        return _AUX_ROW_CACHE[element]
+    if element not in DECKS:
+        raise GerberDeckError(f"no deck registered for {element!r}")
+    aux = f"{GT}/{DECKS[element]['aux']}"
+    if not os.path.exists(aux):
+        raise GerberDeckError(f"missing Gerber aux table (Sirius-only): {aux}")
+    out = []
+    with open(aux) as fh:
+        for ln in fh:
+            if ln.lstrip().startswith("#"):
+                continue
+            f = ln.split()
+            if len(f) < 9:
+                continue
+            try:
+                out.append(dict(id=f[0].strip("'"), teff=float(f[1]), logg=float(f[2]),
+                                feh=float(f[3]), abundance=float(f[7]),
+                                pointer=int(f[8])))
+            except ValueError:
+                continue
+    if not out:
+        raise GerberDeckError(f"{aux}: no parseable rows")
+    _AUX_ROW_CACHE[element] = out
+    return out
+
+
+def read_deck_node(element: str, teff: float, logg: float, feh: float,
+                   abundance: float, *, tol_teff: float = 1.0,
+                   tol_logg: float = 0.01, tol_feh: float = 0.01) -> dict:
+    """Departures at ONE grid node, read straight out of the deck binary.
+
+    Returns the same shape as `read_departure_file`, so nothing downstream changes.
+
+    🔴 IT REFUSES AN OFF-NODE REQUEST rather than silently returning the nearest node.
+    That refusal is the whole safety property: a wrong-node lookup produces a perfectly
+    well-formed departure block for a DIFFERENT star, which is exactly the failure this
+    module was built to make impossible (and is what feeding a 5750/4.50 MARCS corner to
+    the vendor binary would have done -- rc=0 and a plausible file).
+    """
+    rows = _aux_rows(element)
+    node_rows = [r for r in rows
+                 if abs(r["teff"] - teff) <= tol_teff
+                 and abs(r["logg"] - logg) <= tol_logg
+                 and abs(r["feh"] - feh) <= tol_feh]
+    if not node_rows:
+        near = sorted({(r["teff"], r["logg"], r["feh"]) for r in rows},
+                      key=lambda t: (abs(t[0] - teff), abs(t[1] - logg)))[:4]
+        raise GerberDeckError(
+            f"{element}: deck holds NO node at Teff={teff} logg={logg} [Fe/H]={feh}. "
+            f"Nearest nodes: {near}. This deck is keyed at STAGGER coordinates, not "
+            f"MARCS -- the solar member is 5777/4.44, NOT 5750/4.50. Refusing to "
+            f"substitute a neighbouring node: that returns a well-formed departure block "
+            f"for a different star.")
+
+    hit = min(node_rows, key=lambda r: abs(r["abundance"] - abundance))
+    if abs(hit["abundance"] - abundance) > 1e-6 and has_abundance_axis(element):
+        axis = abundance_axis(element)
+        raise GerberDeckError(
+            f"{element}: deck holds no departures at A(X)={abundance:.4f} for this node. "
+            f"This deck RESOLVES ABUNDANCE ({len(axis)} values, {axis[0]}-{axis[-1]}), so "
+            f"serving the nearest one would discard a real dimension of the grid while "
+            f"still returning a well-formed block (RYA-1005). Nearest stored value is "
+            f"{hit['abundance']:.4f}.")
+
+    binf = f"{GT}/{DECKS[element]['grid']}"
+    if not os.path.exists(binf):
+        raise GerberDeckError(f"missing Gerber deck binary (Sirius-only): {binf}")
+
+    # The aux pointer is 1-BASED -- the first record starts at 1001, i.e. after a
+    # 1000-byte file header. Off by one here would shift every float by a byte and
+    # produce numbers that are finite, plausible and wrong.
+    offset = hit["pointer"] - 1
+    with open(binf, "rb") as fh:
+        fh.seek(offset)
+        head = fh.read(_DECK_ID_BYTES + 8)
+        if len(head) < _DECK_ID_BYTES + 8:
+            raise GerberDeckError(
+                f"{binf}: record at pointer {hit['pointer']} is truncated")
+        model_id = head[:_DECK_ID_BYTES].decode("ascii", "replace").strip()
+        ndep, nk = np.frombuffer(head[_DECK_ID_BYTES:], dtype="<i4", count=2)
+        ndep, nk = int(ndep), int(nk)
+        if not (0 < ndep < 10_000 and 0 < nk < 10_000):
+            raise GerberDeckError(
+                f"{binf}: record at pointer {hit['pointer']} reports ndep={ndep} nk={nk}, "
+                f"which is not a plausible model -- the pointer or the layout is wrong, "
+                f"and a plausible-looking block from a wrong offset is the danger here")
+        tau = np.frombuffer(fh.read(ndep * 8), dtype="<f8", count=ndep)
+        dep = np.frombuffer(fh.read(ndep * nk * 8), dtype="<f8",
+                            count=ndep * nk).reshape(ndep, nk)
+
+    # The aux row NAMES the model; the record CARRIES its own name. They must agree, or
+    # the pointer landed on someone else's record -- the failure mode that produced the
+    # spurious "departures are on a different tau scale" error, which was really a bare
+    # ndepth comparison against a mismatched record.
+    if hit["id"] and hit["id"] not in model_id:
+        raise GerberDeckError(
+            f"{binf}: pointer {hit['pointer']} lands on record {model_id!r} but the aux "
+            f"row names {hit['id']!r}. The pointer is wrong; refusing to return another "
+            f"model's departures.")
+
+    return dict(abundance=hit["abundance"], ndep=ndep, nk=nk, tau=np.asarray(tau, float),
+                departures=np.asarray(dep, float),
+                corners=[f"{model_id} (DIRECT deck read, RYA-821 -- node lookup, no "
+                         f"interpolation, no vendor binary)"])
+
+
 def _interpolate(element: str, node: str, teff: float, logg: float, feh: float,
                  abundance: float, workdir: str) -> str:
     cfg = DECKS[element]
@@ -228,7 +404,8 @@ def _interpolate(element: str, node: str, teff: float, logg: float, feh: float,
     if os.path.exists(dep):
         os.remove(dep)          # never inherit a previous run's file (RYA-785 stale guard)
 
-    stdin = "\n".join([f"'{MARCS_SOLAR}'"] * 8 + [
+    atmos = deck_atmosphere(element)          # RYA-821: per-deck, not global
+    stdin = "\n".join([f"'{atmos}'"] * 8 + [
         f"'{workdir}/Testout/{node}_{element}.interpol'",
         f"'{workdir}/Testout/{node}_{element}.alt'", f"'{dep}'",
         f"'{binf}'", f"'{aux}'", str(nrows),
@@ -286,7 +463,7 @@ def for_node(element: str, teff: float, logg: float, feh: float,
             and abs(feh - 0.0) <= 0.10):
         raise GerberDeckError(
             f"the Gerber departure path is solar-node-only today: it passes ONE MARCS "
-            f"model ({os.path.basename(MARCS_SOLAR)}) eight times as the eight "
+            f"model ({os.path.basename(deck_atmosphere(element))}) eight times as the eight "
             f"interpolation corners, which is a degenerate box. Asked for "
             f"teff={teff:.0f} logg={logg:.2f} feh={feh:+.2f}. Serving another star needs "
             f"real corner selection — do that rather than accepting solar departures.")
@@ -298,7 +475,7 @@ def for_node(element: str, teff: float, logg: float, feh: float,
     parsed = read_departure_file(dep_path)
 
     # Verify against the file's OWN footer, not against our intent.
-    if parsed["corners"] and not all(os.path.basename(MARCS_SOLAR) in c
+    if parsed["corners"] and not all(os.path.basename(deck_atmosphere(element)) in c
                                      for c in parsed["corners"]):
         raise GerberDeckError(
             f"departure file corners are not the requested solar model: "
