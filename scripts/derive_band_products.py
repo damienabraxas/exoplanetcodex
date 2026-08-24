@@ -71,6 +71,7 @@ from pipeline import harness_residual  # noqa: E402  RYA-869
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
 from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
 from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
+from pipeline.prenormalised_guard import assert_not_renormalising  # noqa: E402  RYA-1026
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
@@ -728,6 +729,14 @@ def synthesis_route(a, pol) -> None:
         the line it is about to measure and returns a continuum biased low, which the
         fitter then closes by lowering A(X).
         """
+        # RYA-1026: the LAST gate before a continuum of ours touches the product. The
+        # callers already check `h.pre_normalised` -- but that flag is exactly what
+        # RYA-929 got wrong, and a flag nothing cross-checks re-normalised KP2005 for
+        # months in silence. This checks the ratified registry AGAINST the flag, so a
+        # future flip raises DRIFT here rather than quietly re-enabling the placement.
+        assert_not_renormalising(
+            h.holding_id, pre_normalised=h.pre_normalised, fitting_continuum=True,
+            where="derive_band_products._band_continuum (--place-continuum)")
         if "f" in _placed_cont:
             return _placed_cont["f"]
         from config.constants import CONTINUUM_PARAMS
