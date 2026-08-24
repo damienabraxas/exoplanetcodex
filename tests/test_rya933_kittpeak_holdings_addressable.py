@@ -38,8 +38,21 @@ def test_all_three_kitt_peak_holdings_are_addressable(harness):
         assert a.get(holding) == "kpno_solar_atlas", f"{holding} cannot be named"
 
 
-def test_each_holding_declares_its_own_continuum_state(harness):
-    """`pre_normalised` is holding-level, and these three genuinely disagree."""
+def test_the_whole_kitt_peak_class_is_declared_pre_normalised(harness):
+    """RATIFIED RYA-1026, REVERSING RYA-929 for the 2005 product.
+
+    Ryan's ratified rule is about the PRODUCT -- DO NOT NORMALISE ANY KITT PEAK ATLAS,
+    the whole class, because a second continuum tilts the spectrum and it has bitten
+    twice (RYA-940 on 1984, the 2005 double-normalise that forced the VIS re-run).
+
+    RYA-933 fixed the ROUTE at the same time, and that ordering is the lesson: flipping
+    the flag alone would have handed ABSOLUTE IRRADIANCE to a fit against a
+    unity-normalised synthesis. Flag and reader move together. Independently measured on
+    the two files: `irradthu.dat` gives a median rolling-P95 of 2.14 at 5000-5100 A
+    (UN-NORMALISED) where the shipped residual `irradrelwl.dat` gives 0.9883 (NORMALISED).
+
+    Which is why the flag is not the only witness -- see the route cross-check below.
+    """
     pre = harness.PRE_NORMALISED
     assert pre["solar_kpno"] is True                      # residual flux
     assert pre["solar_kpno_molecfit_corrected"] is True    # same conventions
@@ -53,6 +66,17 @@ def test_each_holding_declares_its_own_continuum_state(harness):
     # wavelength at r=+0.373. Reading the shipped residual removes the trend (r=-0.082).
     # The rule this now pins is RYA-911/938's: never re-fit a continuum a product ships.
     assert pre["solar_kpno_kurucz2005_corrected"] is True
+
+
+def test_the_kurucz_route_is_cross_checked_against_the_flag(harness):
+    """The flag alone cannot catch a MIS-ROUTED product: a declared flag and a mis-routed
+    file agree with each other perfectly and are both wrong (the `iag_fts_solar_atlas`
+    shape, RYA-944). The loader must therefore let the DATA vote."""
+    source = (ROOT / "scripts" / "measure_band_ew.py").read_text()
+    block = source[source.index("def load_kurucz2005_window"):]
+    block = block[: block.index("def load_kp_window")]
+    assert "assert_data_matches_declaration" in block
+    assert "declared=True" in block
 
 
 def test_the_corrected_holding_does_not_displace_the_original(harness):
