@@ -1592,14 +1592,50 @@ def main() -> None:
     if a.holding:
         stem += f"_{a.holding}"
     stem += "_PROFILEFIT"
+    # ⚠️ ORDER MATTERS. `src` is derived from the stem, and the EW ARTIFACT carries no
+    # tier -- stage 1 measures every line it can and knows nothing about grading. The
+    # input path resolves FIRST; the tier is appended afterwards, for the OUTPUT only.
     src = EW_DIR / f"{stem}_ew.csv"
     if not src.exists():
         raise SystemExit(f"no measured EWs at {src}. Run measure_band_profilefit.py first.")
+    # The tier is part of what was MEASURED, so it belongs in the product name (RYA-984):
+    # without it a graded and an ungraded EW product write the SAME filename and the
+    # second silently overwrites the first -- the RYA-1006 collision, on this route.
+    # ⚠️ UNDERSCORE, not hyphen. The tracker's stem parser reads the handler and then
+    # ONE OR MORE selector segments each introduced by `_`
+    # (`(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)*`). `PROFILEFIT-GRADED` leaves `-GRADED` with no
+    # leading underscore, so parse_stem returns None and the product is INVISIBLE to the
+    # page -- caught by test_every_committed_band_product_is_visible_to_the_tracker
+    # before merge. The synth route already emits `_SYNTH_GRADED`; this matches it.
+    if getattr(a, "lines_tier", "all") != "all":
+        stem += f"_{a.lines_tier.upper()}"
     ew = pd.read_csv(src)
     pol = resolve_band(0.5 * (a.lo + a.hi))
     ok = ew[ew.in_aggregate].copy()
     print(f"{a.element} {a.ion}  {a.lo:.0f}-{a.hi:.0f} A  band={pol.name}  "
           f"{len(ok)} in-aggregate of {len(ew)} measured")
+
+    # 🔴 RYA-1031: `--lines-tier` WAS A SILENT NO-OP ON THIS ROUTE. It was consulted only
+    # inside `_cand_from_ew_artifact`, which drives the SYNTHESIS route over an EW
+    # artifact's lines -- the EW/profile-fit route never looked at it and took every
+    # in-aggregate line. Measured on HARPS: `--lines-tier graded` produced a 247-line
+    # MIXED pool, 7 of them GF-LAB, rung 1, carrying the 0.17 dex ungraded placeholder --
+    # and reported it as a graded run. Same shape RYA-933 fixed on the synthesis side,
+    # still open here, and the reason the EW arm could not be compared with the graded
+    # synth arms: they were not the same pool.
+    _tier = getattr(a, "lines_tier", "all")
+    if _tier != "all":
+        _g = _graded_mask(ok.wavelength_air_A.astype(float).values)
+        _keep = _g if _tier == "graded" else ~_g
+        if not _keep.any():
+            raise SystemExit(
+                f"--lines-tier {_tier}: none of the {len(ok)} in-aggregate lines in "
+                f"{src.name} carry a primary laboratory gf. Refusing to emit a "
+                f"'{_tier}' product with no {_tier} line in it -- the pool IS the claim, "
+                f"and an empty one is a different measurement, not a smaller one.")
+        ok = ok[_keep].reset_index(drop=True)
+        print(f"    [tier] {_tier}: {len(ok)} lines kept (RYA-946 — graded and ungraded "
+              f"are separate products, never merged)")
 
     # ── RYA-807: consume the curated problem-children registry ───────────────
     # RYA-463 built the registry, RYA-774 landed this harness, and nothing connected
