@@ -83,10 +83,22 @@ OUT_DEFAULT = ROOT / "data" / "results" / "rya817"
 # Amarsi MLP is instrument-specific: it consumes (wavelength, EP, abundance) per line.
 IONS = ("I", "II")
 
-#: `Fe{ion}_{lo}_{hi}_{instrument}_PROFILEFIT_1D-LTE_lines.csv`
+#: `Fe{ion}_{lo}_{hi}_{instrument}[_{holding}]_{ROUTE}[_{SELECTOR}]_1D-LTE_lines.csv`
+#:
+#: 🔴 RYA-1031 — THIS WAS PROFILEFIT-ONLY, AND THAT SILENTLY DECIDED THE SCIENCE. The
+#: 3D-NLTE route corrects an existing 1D-LTE pool, and the only pool it could see was the
+#: EW/profile-fit one: an UNGRADED, telluric-uncorrected 148-line product carrying the
+#: 0.17 dex Kurucz gf placeholder. So the one 3D-NLTE number we have (7.604) rests on a
+#: pool nobody would choose today, not because anyone chose it but because the glob did.
+#: The graded, telluric-corrected pools are SYNTH products and were structurally
+#: unreachable from here.
+#:
+#: Route and selector are CAPTURED, not discarded -- they name which pool was corrected,
+#: and two 3D runs over different pools are two different products (RYA-984/906).
 _SRC_RE = re.compile(
-    r"^Fe(?P<ion>I{1,2})_(?P<lo>\d+)_(?P<hi>\d+)_(?P<instrument>.+)"
-    r"_PROFILEFIT_1D-LTE_lines\.csv$")
+    r"^Fe(?P<ion>I{1,2})_(?P<lo>\d+)_(?P<hi>\d+)_(?P<instrument>.+?)"
+    r"_(?P<route>PROFILEFIT|SYNTH)"
+    r"(?P<selector>(?:[_-][A-Z][A-Z0-9-]*)*?)_1D-LTE_lines\.csv$")
 
 
 def run_environment() -> dict:
@@ -178,9 +190,15 @@ def discover_bands(bp_dir: Path, instrument: str, ion: str):
     product records what was actually measured, not what the band name implies.
     """
     found = []
-    for f in sorted(bp_dir.glob(f"Fe{ion}_*_PROFILEFIT_1D-LTE_lines.csv")):
+    for f in sorted(bp_dir.glob(f"Fe{ion}_*_1D-LTE_lines.csv")):
         m = _SRC_RE.match(f.name)
-        if not m or m.group("instrument") != instrument or m.group("ion") != ion:
+        if not m or m.group("ion") != ion:
+            continue
+        # The instrument group is non-greedy and may absorb a holding suffix, so match on
+        # a PREFIX rather than equality -- `kpno_solar_atlas_solar_kpno_molecfit_corrected`
+        # is the same instrument as `kpno_solar_atlas`, and demanding equality would
+        # silently skip every RYA-933/934 product that names its holding.
+        if not str(m.group("instrument")).startswith(instrument):
             continue
         lo, hi = int(m.group("lo")), int(m.group("hi"))
         band = band_policy.resolve(0.5 * (lo + hi)).name
@@ -432,12 +450,37 @@ def reactivation_control(star: dict) -> dict:
 
 # ── the run ───────────────────────────────────────────────────────────────────
 
+def _resolve_src(bp_dir: Path, ion: str, lo: int, hi: int, instrument: str) -> Path:
+    """The per-line 1D-LTE file discovery actually found, never a rebuilt name.
+
+    Refuses on ambiguity rather than picking: several pools can exist for one band
+    (graded vs ungraded, one holding vs another), and choosing between them silently is
+    how a 3D correction ends up applied to a pool nobody selected.
+    """
+    # ⚠️ ARGUMENT ORDER: discover_bands(bp_dir, INSTRUMENT, ION). Swapping them searches
+    # for ion="kpno_solar_atlas" and finds nothing, which surfaces as "product missing"
+    # -- a coverage-shaped message for a caller mistake (RYA-833 shape).
+    hits = [f for (_b, _lo, _hi, f) in discover_bands(bp_dir, instrument, ion)
+            if _lo == lo and _hi == hi]
+    if not hits:
+        raise SystemExit(
+            f"per-line 1D-LTE product missing for Fe{ion} {lo}-{hi} under {bp_dir}")
+    if len(hits) > 1:
+        names = "\n  ".join(f.name for f in hits)
+        raise SystemExit(
+            f"{len(hits)} candidate 1D-LTE pools for Fe{ion} {lo}-{hi} -- refusing to "
+            f"choose. Point --band-products-dir at one, or narrow it:\n  {names}")
+    return hits[0]
+
+
 def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
              trans: pd.DataFrame, star: dict, instrument: str
              ) -> tuple[pd.DataFrame, object, dict]:
-    src = bp_dir / f"Fe{ion}_{lo}_{hi}_{instrument}_PROFILEFIT_1D-LTE_lines.csv"
-    if not src.exists():
-        raise SystemExit(f"per-line 1D-LTE product missing: {src}")
+    # RYA-1031: the source is DISCOVERED, not reconstructed. Rebuilding the filename
+    # here re-imposed the PROFILEFIT-only assumption even after discovery was widened,
+    # and a reconstructed path agrees with itself while disagreeing with the file that
+    # was actually found (the RYA-990 lesson).
+    src = _resolve_src(bp_dir, ion, lo, hi, instrument)
     lines = pd.read_csv(src)
     lines = lines[lines["ion"].astype(str) == ion].reset_index(drop=True)
     lines = attach_atomic(lines, trans)
