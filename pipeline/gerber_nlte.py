@@ -155,31 +155,23 @@ def abundance_axis(element: str) -> tuple:
     well-formed file, which is what makes it worth a guard rather than a comment.
 
     Returns a 1-tuple for a single-abundance deck, so callers need no special case.
+
+    🔴 RYA-1035 -- IT READS `_aux_rows`, SO THE [Fe/H] COLUMN IS ALREADY REFEREED BY THE
+    MODEL NAME. It selects on "[Fe/H] == 0", which is exactly the column the Fe <3D> aux
+    zeroes on seven rows spanning -4.0 to +0.5. Parsing the file a second time here would
+    have swept all seven metallicities into the solar abundance axis; had their A(X)
+    differed it would have MANUFACTURED an abundance axis for a deck that has none, and
+    `has_abundance_axis` gates whether departures may be hoisted out of the chi2 loop.
     """
     if element in _AXIS_CACHE:
         return _AXIS_CACHE[element]
-    if element not in DECKS:
-        raise GerberDeckError(f"no deck registered for {element!r}")
-    aux = f"{GT}/{DECKS[element]['aux']}"
-    if not os.path.exists(aux):
-        raise GerberDeckError(f"missing Gerber aux table (Sirius-only): {aux}")
-    vals = set()
-    with open(aux) as fh:
-        for ln in fh:
-            if ln.lstrip().startswith("#"):
-                continue
-            f = ln.split()
-            if len(f) < 8:
-                continue
-            try:
-                if abs(float(f[3])) < 1e-9:          # [Fe/H] == 0
-                    vals.add(round(float(f[7]), 4))  # A(X)
-            except ValueError:
-                continue
+    vals = {round(r["abundance"], 4) for r in _aux_rows(element)
+            if abs(r["feh"]) < 1e-9}
     if not vals:
         raise GerberDeckError(
-            f"{aux}: no rows at [Fe/H]=0 — cannot establish this deck's abundance axis, "
-            f"and guessing it would be the silent-LTE failure one level up")
+            f"{GT}/{DECKS[element]['aux']}: no rows at [Fe/H]=0 — cannot establish this "
+            f"deck's abundance axis, and guessing it would be the silent-LTE failure one "
+            f"level up")
     out = tuple(sorted(vals))
     _AXIS_CACHE[element] = out
     return out
@@ -282,6 +274,74 @@ def read_departure_file(path: str | os.PathLike) -> dict:
 _DECK_ID_BYTES = 500
 
 
+def _parse_aux_text(text: str) -> list[dict]:
+    """The aux table's rows, with the [Fe/H] column REFEREED BY THE MODEL NAME.
+
+    🔴 RYA-1035 -- THE VENDOR'S Fe <3D> AUX HAS A ZEROED METALLICITY COLUMN, AND IT IS
+    ZEROED ON EXACTLY THE ROWS A SOLAR RUN SELECTS. Its seven Teff=5777 members are named
+    `p5777g44m00` / `m05` / `m10` / `m20` / `m30` / `m40` / `p05` -- the full metallicity
+    axis at solar Teff -- but the file's [Fe/H] column reads +0.00 for ALL SEVEN. The
+    other 182 rows are correct (measured: name and column agree exactly, 182/182), so the
+    column is wrong and the name is right, not the other way round. The Al <3D> aux is the
+    positive control: 0 disagreements in 6345 rows, so this correction cannot move Al.
+
+    Left alone the consequence is not a crash, it is a WRONG STAR: every one of the seven
+    ties at the solar node, `read_deck_node` breaks the tie on A(X) -- identical at 7.50
+    across all seven -- and takes the first, which is `p5777g44m10`, [Fe/H] = -1.0. The
+    RYA-821 record-vs-aux check then fires and says "the pointer is wrong", which is a
+    correct refusal with a misleading diagnosis: the pointer is right and the aux is
+    wrong, and the true solar record (`p5777g44m00`, 6th of the seven) is unreachable.
+
+    So the name referees the column. The override is recorded per row (`feh_aux`,
+    `feh_from_name`) and surfaced in provenance -- a silently corrected input is the same
+    class of defect as the one being corrected.
+
+    🔴 AND THE OVERRIDE CONDEMNS THE ROW RATHER THAN REPAIRING IT. [Fe/H] is not the only
+    metallicity-dependent field in an aux row: A(X) is one too, and on those same six rows
+    it is wrong the same way. The deck's own relation A(X) = 7.50 + [Fe/H] holds EXACTLY
+    on all 183 other rows and is violated on exactly the six, which shipped A(X) = 7.50 at
+    [Fe/H] = -4.0 .. +0.5. The name can referee [Fe/H] because it encodes it; nothing
+    referees A(X). So an overridden row is marked SUSPECT and `read_deck_node` REFUSES it
+    -- the override exists to get the row OUT of the candidate set, not to repair it.
+    Guessing A(X) from the relation would be inventing vendor data.
+
+    The Sun is unaffected: `p5777g44m00` is the one row of the seven the column happens to
+    get right, so it is never overridden and never suspect.
+    """
+    out = []
+    for ln in text.splitlines():
+        if ln.lstrip().startswith("#"):
+            continue
+        f = ln.split()
+        if len(f) < 9:
+            continue
+        try:
+            row = dict(id=f[0].strip("'"), teff=float(f[1]), logg=float(f[2]),
+                       feh=float(f[3]), abundance=float(f[7]), pointer=int(f[8]),
+                       feh_aux=float(f[3]), feh_from_name=False)
+        except ValueError:
+            continue
+        named = _node_from_model_name(row["id"])
+        # _NODE_TOL_FEH is defined below, next to the node lookup it also governs: ONE
+        # tolerance decides both "is this row the node you asked for" and "does this row
+        # disagree with its own name", because they are the same question.
+        if named is not None and abs(named[2] - row["feh"]) > _NODE_TOL_FEH:
+            row["feh"] = named[2]
+            row["feh_from_name"] = True
+        out.append(row)
+    return out
+
+
+def aux_metallicity_overrides(element: str) -> list[dict]:
+    """Rows whose [Fe/H] column disagreed with their own model name (RYA-1035).
+
+    Empty for a clean deck. Non-empty is a VENDOR defect, not ours -- report it, do not
+    hide it. Exposed so a status surface can read the defect out of the deck rather than
+    carry a hand-written note about it.
+    """
+    return [r for r in _aux_rows(element) if r["feh_from_name"]]
+
+
 def _aux_rows(element: str) -> list[dict]:
     """Every aux row as (id, teff, logg, feh, abundance, pointer). Cached per element."""
     if element in _AUX_ROW_CACHE:
@@ -291,20 +351,8 @@ def _aux_rows(element: str) -> list[dict]:
     aux = f"{GT}/{DECKS[element]['aux']}"
     if not os.path.exists(aux):
         raise GerberDeckError(f"missing Gerber aux table (Sirius-only): {aux}")
-    out = []
     with open(aux) as fh:
-        for ln in fh:
-            if ln.lstrip().startswith("#"):
-                continue
-            f = ln.split()
-            if len(f) < 9:
-                continue
-            try:
-                out.append(dict(id=f[0].strip("'"), teff=float(f[1]), logg=float(f[2]),
-                                feh=float(f[3]), abundance=float(f[7]),
-                                pointer=int(f[8])))
-            except ValueError:
-                continue
+        out = _parse_aux_text(fh.read())
     if not out:
         raise GerberDeckError(f"{aux}: no parseable rows")
     _AUX_ROW_CACHE[element] = out
@@ -312,26 +360,54 @@ def _aux_rows(element: str) -> list[dict]:
 
 
 def _node_from_model_name(name: str) -> tuple[float, float, float] | None:
-    """(Teff, logg, [Fe/H]) parsed from EITHER naming convention the deck uses.
+    """(Teff, logg, [Fe/H]) parsed from ANY of the THREE naming conventions in use.
 
-        't5777g44m00'                        -> (5777, 4.4, 0.0)     STAGGER
-        'p5777_g+4.4_m0.0_t02_st_z+0.00_...' -> (5777, 4.4, 0.0)     MARCS-style
+        't5777g44m00'                             -> (5777, 4.4, 0.0)   STAGGER, long Teff
+        'p50g25m40'                               -> (5000, 2.5, -4.0)  STAGGER, SHORT Teff
+        's5000_g+2.5_m1.0_t02_st_z-4.00_a+0.00_…' -> (5000, 2.5, -4.0)  MARCS-style
 
-    ⚠️ In the STAGGER form `g44` is logg*10 and `m00` is [Fe/H]*10 SIGNED BY A LETTER
+    ⚠️ In the STAGGER forms `g44` is logg*10 and `m00` is [Fe/H]*10 SIGNED BY A LETTER
     ('m' minus / 'p' plus), so `m00` is -0.0 and `m10` is -1.0 -- NOT 0.0 and 1.0. Reading
     those as unsigned is how a [Fe/H] sign gets lost, which is a defect this project has
     already met once in the STAGGER GRID_STATUS table.
+
+    🔴 RYA-1035 -- IN THE MARCS-STYLE FORM THE METALLICITY IS `z`, AND `m` IS THE MASS.
+    The two forms put an `m` field in the same place and mean different things by it:
+    STAGGER's `m00` is [Fe/H], MARCS's `m1.0` is the stellar mass and its [Fe/H] lives in
+    `z-4.00` further along. Reading the MARCS `m` as metallicity returns 0.0 or 1.0 for
+    EVERY MARCS-style name -- correct at the solar node by coincidence (mass 0.0, z+0.00)
+    and wrong everywhere else, which is exactly why the previous version passed its test:
+    that test pinned the solar EXAMPLE, where the two readings agree. The Al <3D> aux is
+    entirely MARCS-style, so this is measured on real data, not hypothesised: 123 of its
+    node rows disagree between the two readings.
+
+    🔴 RYA-1035 -- THE SHORT-Teff FORM IS NOT COSMETIC, IT IS THE MAJORITY OF A DECK.
+    The Fe <3D> deck writes Teff/100 for every model EXCEPT its seven Teff=5777 members:
+    182 of its 189 rows are `p50g25m40`-shaped. A parser that only knew the 4-digit form
+    returned None for all 182, and `read_deck_node` refuses a record it cannot identify --
+    so Fe <3D> would have been unusable at every node except the solar one. Two digits
+    are unambiguous against four because STAGGER Teff is always >= 1000 K.
+
+    `s` is the third model-type letter (MARCS spherical, used for logg < 3), alongside
+    `p` (plane-parallel) and STAGGER's `t`.
     """
     import re
-    m = re.match(r"^[tp](\d{4})_?g([+-]?\d+(?:\.\d+)?)_?([mp])(\d+(?:\.\d+)?)", name.strip())
+    n = name.strip()
+
+    # MARCS-style alias -- checked FIRST, because its `_m1.0_` field would otherwise be
+    # captured by the STAGGER pattern below and read as a metallicity.
+    m = re.match(r"^[tps](\d{4})_g([+-]?\d+(?:\.\d+)?)_.*_z([+-]?\d+(?:\.\d+)?)", n)
     if m:
-        teff = float(m.group(1))
-        graw = m.group(2)
-        logg = float(graw) if ("." in graw or graw.startswith(("+", "-"))) else float(graw) / 10.0
+        return float(m.group(1)), float(m.group(2)), float(m.group(3))
+
+    # STAGGER's own form: Teff as 4 digits or as Teff/100, logg*10, then [Fe/H]*10 signed
+    # by the letter.
+    m = re.match(r"^[tp](\d{4}|\d{2})g(\d{2})([mp])(\d{2})$", n)
+    if m:
+        traw = m.group(1)
+        teff = float(traw) if len(traw) == 4 else float(traw) * 100.0
         sign = -1.0 if m.group(3) == "m" else 1.0
-        fraw = m.group(4)
-        feh = sign * (float(fraw) if "." in fraw else float(fraw) / 10.0)
-        return teff, logg, feh
+        return teff, float(m.group(2)) / 10.0, sign * float(m.group(4)) / 10.0
     return None
 
 
@@ -377,6 +453,19 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
             f"for a different star.")
 
     hit = min(node_rows, key=lambda r: abs(r["abundance"] - abundance))
+    if hit["feh_from_name"]:
+        # RYA-1035. Reached only if a caller asks for one of the rows whose metallicity
+        # column disagreed with its own model name -- which means the row was written
+        # wrong, and A(X) (unrefereeable) is wrong on it the same way.
+        a_sun = hit["abundance"] - hit["feh_aux"]     # A(X) the row implies at [Fe/H]=0
+        raise GerberDeckError(
+            f"{element}: aux row {hit['id']!r} is SUSPECT and will not be served. Its "
+            f"[Fe/H] column read {hit['feh_aux']:+.2f} while its own model name says "
+            f"{hit['feh']:+.2f}. The name referees the metallicity; nothing referees "
+            f"A(X), and it is wrong on this row the same way -- it ships "
+            f"{hit['abundance']:.2f} where the deck's A(X) = A_sun + [Fe/H] relation "
+            f"(exact on every clean row) gives {a_sun + hit['feh']:.2f}. Repairing that "
+            f"would be inventing vendor data. RYA-1035.")
     if abs(hit["abundance"] - abundance) > 1e-6 and has_abundance_axis(element):
         axis = abundance_axis(element)
         raise GerberDeckError(
@@ -434,8 +523,10 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
         raise GerberDeckError(
             f"{binf}: pointer {hit['pointer']} lands on record {model_id!r} "
             f"(Teff {r_teff} logg {r_logg} [Fe/H] {r_feh}) but the aux row names "
-            f"{hit['id']!r} (Teff {hit['teff']} logg {hit['logg']} [Fe/H] {hit['feh']}). "
-            f"The pointer is wrong; refusing to return another model's departures.")
+            f"{hit['id']!r} (Teff {hit['teff']} logg {hit['logg']} [Fe/H] {hit['feh']}"
+            + (f", column said {hit['feh_aux']} — overridden by the name, RYA-1035"
+               if hit["feh_from_name"] else "")
+            + "). The pointer is wrong; refusing to return another model's departures.")
 
     # 🔴 THE DECK STORES LINEAR TAU; `read_departure_file` RETURNS LOG TAU. Converted here
     # so both paths honour ONE contract. Measured on the Al <3D> deck: the stored array is
@@ -452,7 +543,11 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
     return dict(abundance=hit["abundance"], ndep=ndep, nk=nk, tau=np.log10(tau),
                 departures=np.asarray(dep, float),
                 corners=[f"{model_id} (DIRECT deck read, RYA-821 -- node lookup, no "
-                         f"interpolation, no vendor binary)"])
+                         f"interpolation, no vendor binary)"
+                         + (f" [RYA-1035: aux [Fe/H] column read {hit['feh_aux']:+.2f} "
+                            f"for this row and was overridden to {hit['feh']:+.2f} by the "
+                            f"model name -- vendor aux defect, corrected not hidden]"
+                            if hit["feh_from_name"] else "")])
 
 
 def _interpolate(element: str, node: str, teff: float, logg: float, feh: float,
