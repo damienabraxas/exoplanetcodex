@@ -164,15 +164,23 @@ def test_control_status_must_be_stated_not_inferred():
         assert_displayable(KP1984, as_control=False)
 
 
-def test_a_disputed_applied_state_still_renders_but_carries_its_doubt():
-    """RYA-944 found `iag_fts_solar_atlas` catalogued `corrected` while the manifest
-    routes to the telluric-RETAINING Reiners file. No value moves under RYA-1026, so IAG
-    still renders -- but the doubt must travel with it rather than be resolved silently
-    in our favour."""
-    assert display_state("solar_iag") == "CLEAN_WITH_ANOMALY"
-    assert_displayable("solar_iag")
-    assert "Reiners" in (anomaly("solar_iag") or "")
-    assert anomaly(KP2005) is None
+def test_the_anomaly_mechanism_exists_but_carries_no_stale_entry():
+    """🔴 THE IAG ENTRY THAT LIVED HERE WAS WRONG AND IS RETIRED.
+
+    It asserted that `iag_fts_solar_atlas` renders on a telluric-RETAINING file, on the
+    strength of a note rather than a measurement. The note described a stale row in
+    `solar_reference_holdings_rya708.csv`; the READER has always opened Baker+2020.
+    MEASURED on the flux the harness serves: O2 A-band 0.18% of pixels below 0.5, H2O
+    9280-9600 0.00% -- against 46.25%/51.63% for the raw Reiners sibling, a 250x
+    separation. The holding is CLEAN.
+
+    The MECHANISM stays and is still tested, because a registry that records `applied`
+    while the routing disagrees is a real shape -- it just was not this instance.
+    """
+    assert display_state("solar_iag") == "CLEAN"
+    assert anomaly("solar_iag") is None
+    assert REGISTRY_ANOMALIES == {}, (
+        "an anomaly entry must name a MEASURED disagreement, never a remembered one")
 
 
 def test_unregistered_holding_is_distinguished_from_uncorrected():
