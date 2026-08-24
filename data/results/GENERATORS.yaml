@@ -2984,3 +2984,20 @@ artifacts:
     note: >-
       RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
       cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
+  - artifact: rya1035/fe_3d_route_census.csv
+    generator: scripts/rya1035_fe_3d_route_census.py
+    invocation: python3 scripts/rya1035_fe_3d_route_census.py
+    ticket: RYA-1035
+    note: >-
+      RYA-1035 Step 0. The five Fe 3D / <3D>-NLTE routes and what each one IS today.
+      Re-running it re-probes the MPG Keeper share and Amarsi's data index LIVE, so the
+      answer is a fetch and not a memory; --offline runs the in-repo legs only.
+  - artifact: rya1035/fe_3d_route_census.json
+    generator: scripts/rya1035_fe_3d_route_census.py
+    invocation: python3 scripts/rya1035_fe_3d_route_census.py
+    ticket: RYA-1035
+    note: >-
+      RYA-1035 Step 0, long form -- carries the four probe legs behind the CSV verdicts:
+      the live Keeper listing (17 of 18 elements ship a <3D> deck; we hold 4), Amarsi's
+      three Fe products, the Amarsi+2022 MLP re-measured pinned vs unpinned (114/114 vs
+      33/114 finite -- the matrix's BROKEN cell is stale), and the Fe <3D> aux defect.
