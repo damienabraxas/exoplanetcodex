@@ -490,6 +490,57 @@ def _interpolate(element: str, node: str, teff: float, logg: float, feh: float,
 _CACHE: dict[tuple, dict] = {}
 
 
+def departures_at_abundance(element: str, teff: float, logg: float, feh: float,
+                            abundance: float) -> dict:
+    """Departures at an ARBITRARY A(X), interpolated along the deck's abundance axis.
+
+    🔴 WHY THIS IS NEEDED AT ALL. `read_deck_node` deliberately refuses a non-node
+    abundance -- serving the nearest stored value would discard a real dimension of the
+    grid (RYA-1005 measured Al's departures genuinely differing across its 31 values).
+    But the chi2 loop evaluates CONTINUOUS trial abundances, so a deck with an axis needs
+    a defined answer between nodes. Refusing there would make the deck unusable; snapping
+    to the nearest node would quantise the fit and bias it toward whichever node the
+    optimiser happened to sit near.
+
+    So: LINEAR INTERPOLATION IN A(X) between the two bracketing nodes. That is what the
+    vendor `interpol_modeles_nlte` does for the MARCS decks, so the two routes answer the
+    same question the same way rather than diverging on method. The axis is UNIFORM at
+    0.1000 dex (measured, 31 nodes over 4.43-7.43), so no node is ever far away.
+
+    Degenerates to an EXACT node read when `abundance` lands on one, which the tests pin.
+    Extrapolation past either end is refused -- that is `for_node`'s existing rule and it
+    is not relaxed here.
+    """
+    axis = abundance_axis(element)
+    a = float(abundance)
+    if not (axis[0] - 1e-9 <= a <= axis[-1] + 1e-9):
+        raise GerberDeckError(
+            f"A({element}) = {a:.3f} is outside this deck's abundance axis "
+            f"[{axis[0]:.2f}, {axis[-1]:.2f}] -- extrapolating departures off the grid is "
+            f"not a correction, it is an invention.")
+
+    exact = [v for v in axis if abs(v - a) <= 1e-9]
+    if exact:
+        return read_deck_node(element, teff, logg, feh, exact[0])
+
+    lo = max(v for v in axis if v <= a)
+    hi = min(v for v in axis if v >= a)
+    d_lo = read_deck_node(element, teff, logg, feh, lo)
+    d_hi = read_deck_node(element, teff, logg, feh, hi)
+    if d_lo["ndep"] != d_hi["ndep"] or d_lo["nk"] != d_hi["nk"]:
+        raise GerberDeckError(
+            f"{element}: bracketing nodes A={lo} and A={hi} have different shapes "
+            f"({d_lo['ndep']}x{d_lo['nk']} vs {d_hi['ndep']}x{d_hi['nk']}). Interpolating "
+            f"across them would pair unrelated depths and levels.")
+
+    w = (a - lo) / (hi - lo)
+    dep = (1.0 - w) * d_lo["departures"] + w * d_hi["departures"]
+    return dict(abundance=a, ndep=d_lo["ndep"], nk=d_lo["nk"], tau=d_lo["tau"],
+                departures=dep,
+                corners=[f"{d_lo['corners'][0]} | LINEAR in A(X) between {lo:.2f} and "
+                         f"{hi:.2f}, w={w:.4f} (RYA-821)"])
+
+
 def for_node(element: str, teff: float, logg: float, feh: float,
              node: str = "solar", workdir: str = "/tmp/rya798_gerber",
              abundance: float | None = None) -> dict:
@@ -542,7 +593,9 @@ def for_node(element: str, teff: float, logg: float, feh: float,
     # RYA-821 -- a <3D> deck is READ DIRECTLY; there is no vendor binary that can consume
     # one. See `read_deck_node`. The MARCS decks keep the interpolator path byte-for-byte.
     if DECKS[element].get("read_via") == "direct":
-        parsed = read_deck_node(element, teff, logg, feh, a_deck)
+        parsed = (departures_at_abundance(element, teff, logg, feh, a_deck)
+                  if has_abundance_axis(element)
+                  else read_deck_node(element, teff, logg, feh, a_deck))
         _CACHE[key] = parsed
         return parsed
 
