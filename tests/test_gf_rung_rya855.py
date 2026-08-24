@@ -119,7 +119,7 @@ def _no_sigma_rung(pool: pd.DataFrame) -> int:
     """
     real = gf_grades.grade_line
 
-    def blank(w, ep, gf):
+    def blank(w, ep, gf, species=gf_grades.DEFAULT_SPECIES):
         v = real(w, ep, gf)
         return gf_grades.GradeVerdict(v.gf_grade, v.gf_grade_source, float("nan"),
                                       v.gf_reference_tag, v.gf_ref_loggf,
@@ -162,19 +162,41 @@ def test_the_mixed_rule_is_all_and_not_any(lab_pool):
 
 # ── 3. the species gate: a graded pool must never be MANUFACTURED ────────────────
 
-def test_a_non_fe1_species_is_never_refereed_against_the_fe1_lab_table(lab_pool):
-    """`gf_grades` is Fe I — its lab table is Fe I and `canonical_fe1()` filters to
-    'Fe I' — and neither checks the species of the line handed to it. Al lines sitting
-    at Fe I laboratory wavelengths would therefore match on wavelength and EP alone.
+def test_a_species_is_never_refereed_against_another_species_lab_table(lab_pool):
+    """A species must never be graded against a DIFFERENT element's laboratory rows.
+    Nothing downstream checks species, so lines sitting at another element's lab
+    wavelengths would match on wavelength and EP alone — the manufactured-absence rule
+    run the other way, a manufactured PRESENCE.
 
-    This is the manufactured-absence rule run the other way: a manufactured PRESENCE.
-    The pool below is byte-identical to the one that grades GF-LAB above; only the
-    species label differs, so a pass here cannot come from the lines being different.
+    ⚠️ RYA-1002 re-pointed this test AT THE INVARIANT. It used to use Al I as its
+    example of a species with no lab table; Al then got one (Burheim 2023) and the test
+    would have failed for the best possible reason. Pinning the example instead of the
+    rule is what makes a guard expire. The rule has two halves and both are checked:
+
+      (a) a species with NO registered table is refused outright, and
+      (b) a species WITH a table is graded against ITS OWN table only — so this Fe I
+          pool, relabelled Al I, must still not grade, because Al's table does not
+          contain these wavelengths.
+
+    The pool is byte-identical to the one that grades GF-LAB above; only the species
+    label differs, so a pass cannot come from the lines being different.
     """
     assert _rung(lab_pool).rung == 3, "control: as Fe I this same pool IS graded"
+
+    # (a) no table at all -> refused, and the reason names what the ladder does cover
+    unregistered = ("Ti", "I")
+    assert unregistered not in gf_rung.LAB_GRADED_SPECIES, (
+        "Ti I gained a lab table — pick another unregistered species for this half")
+    r = _rung(lab_pool, element="Ti", ion="I", species="Ti 1")
+    assert r.rung == 1 and r.gf_graded is False and r.n_graded == 0
+    assert "no primary-laboratory gf table exists for Ti I" in r.reason
+
+    # (b) HAS a table, but not for these lines -> still not graded, and NOT against Fe's
+    assert ("Al", "I") in gf_rung.LAB_GRADED_SPECIES, "Al I should have a lab table"
     r = _rung(lab_pool, element="Al", ion="I", species="Al 1")
-    assert r.rung == 1 and r.gf_graded is False
-    assert "no primary-laboratory gf table exists for Al I" in r.reason
+    assert r.rung == 1 and r.gf_graded is False, (
+        "Fe I laboratory lines relabelled Al I were graded — the grader is matching on "
+        "wavelength and EP across species")
     assert r.n_graded == 0
 
 
@@ -303,8 +325,12 @@ def test_neither_route_hardcodes_the_rung():
     src = _code(ROOT / "scripts" / "derive_band_products.py")
     assert "gf_graded=False" not in src and "gf_graded=True" not in src, (
         "derive_band_products still states a gf rung of its own")
-    assert src.count("rung.budget_kwargs()") == 2, (
-        "expected exactly two budget call sites to consume the decision")
+    # THREE since RYA-1002: the EW route's 1D-LTE and ENGINE-A, plus the SYNTHESIS
+    # route's own ENGINE-A. The invariant is that EVERY budget call consumes the
+    # decider, which is what the `gf_graded=` assertion above actually pins; the count
+    # guards against a route being ADDED without one.
+    assert src.count("rung.budget_kwargs()") == 3, (
+        "expected exactly three budget call sites to consume the decision")
 
 
 def test_both_routes_call_the_same_decider():

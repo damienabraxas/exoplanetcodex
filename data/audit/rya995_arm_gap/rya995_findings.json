@@ -1,0 +1,40 @@
+{
+  "verdict": "RESOLUTION REFUTED as the mechanism",
+  "medians": {
+    "kp_native": 7.417,
+    "kp_degraded": 7.4195,
+    "harps": 7.535
+  },
+  "scatter": {
+    "kp_native": 0.20703491962450504,
+    "kp_degraded": 0.20824409968508542,
+    "harps": 0.48331467590268284
+  },
+  "paired": {
+    "degraded_minus_native": 0.004999999999999449,
+    "harps_minus_degraded": 0.13949999999999996,
+    "gap_to_explain": 0.141
+  },
+  "diagnostics": {
+    "frac_rise": {
+      "kp_native": 4.8100441167256776,
+      "kp_degraded": 4.955406291988604,
+      "harps": 3.264258499366985
+    },
+    "red_chi2": {
+      "kp_native": 61.403,
+      "kp_degraded": 59.8245,
+      "harps": 78.931
+    }
+  },
+  "asymmetry": {
+    "deep_offset": 0.14099999999999957,
+    "shallow_offset": 0.001000000000000334
+  },
+  "frac_rise_below_1_fraction": {
+    "kp_deep": 0.046296296296296294,
+    "harps_deep": 0.10091743119266056,
+    "kp_shallow": 0.12727272727272726,
+    "harps_shallow": 0.23636363636363636
+  }
+}

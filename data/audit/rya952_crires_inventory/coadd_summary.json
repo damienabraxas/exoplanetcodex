@@ -1,0 +1,240 @@
+{
+  "55cnc_a|H1559": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "55cnc_a|H1567": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "55cnc_a|H1582": {
+    "n": 2,
+    "status": "co-added",
+    "span_days": 729.972,
+    "berv_kms": [
+      -23.722,
+      -23.941
+    ],
+    "berv_spread_kms": 0.219,
+    "snr_per_frame": [
+      139.1,
+      284.9
+    ],
+    "snr_before_median": 212.0,
+    "snr_after": 312.2,
+    "residual_kms": [
+      0.0,
+      0.5
+    ],
+    "residual_max_kms": 0.5,
+    "resolution_element_kms": 3.486,
+    "dberv_max_kms": 0.219,
+    "safe_because": "dBERV below one resolution element \u2014 telluric and stellar rest frames coincide for this group; tellurics remain UNCORRECTED",
+    "n_px": 48740
+  },
+  "55cnc_a|J1232": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "55cnc_a|K2148": {
+    "n": 4,
+    "span_days": 785.906,
+    "residual_kms": [
+      0.0,
+      14.9,
+      23.6,
+      13.4
+    ],
+    "dberv_kms": [
+      0.0,
+      -15.774,
+      -24.544,
+      -14.549
+    ],
+    "status": "REFUSED: TELLURIC-LOCKED: residual 23.6 km/s cancels dBERV 24.5 km/s to 1.1 km/s, so the cross-correlation is tracking TELLURIC lines, not the star. These IDPs are telluric_applied=not-applied (RYA-805/806); co-adding across a large dBERV needs telluric correction first (RYA-947)"
+  },
+  "55cnc_a|K2192": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "55cnc_a|Y1029": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "eps_eri|H1559": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "eps_eri|H1567": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "eps_eri|H1582": {
+    "n": 2,
+    "span_days": 85.957,
+    "residual_kms": [
+      0.0,
+      25.6
+    ],
+    "dberv_kms": [
+      0.0,
+      -24.296
+    ],
+    "status": "REFUSED: TELLURIC-LOCKED: residual 25.6 km/s cancels dBERV 24.3 km/s to 1.3 km/s, so the cross-correlation is tracking TELLURIC lines, not the star. These IDPs are telluric_applied=not-applied (RYA-805/806); co-adding across a large dBERV needs telluric correction first (RYA-947)"
+  },
+  "eps_eri|J1226": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "eps_eri|J1232": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "eps_eri|K2148": {
+    "n": 2,
+    "span_days": 85.941,
+    "residual_kms": [
+      0.0,
+      15.6
+    ],
+    "dberv_kms": [
+      0.0,
+      -24.258
+    ],
+    "status": "REFUSED: TELLURIC-LOCKED: residual 15.6 km/s cancels dBERV 24.3 km/s to 8.7 km/s, so the cross-correlation is tracking TELLURIC lines, not the star. These IDPs are telluric_applied=not-applied (RYA-805/806); co-adding across a large dBERV needs telluric correction first (RYA-947)"
+  },
+  "eps_eri|K2192": {
+    "n": 2,
+    "span_days": 85.947,
+    "residual_kms": [
+      0.0,
+      25.4
+    ],
+    "dberv_kms": [
+      0.0,
+      -24.271
+    ],
+    "status": "REFUSED: TELLURIC-LOCKED: residual 25.4 km/s cancels dBERV 24.3 km/s to 1.1 km/s, so the cross-correlation is tracking TELLURIC lines, not the star. These IDPs are telluric_applied=not-applied (RYA-805/806); co-adding across a large dBERV needs telluric correction first (RYA-947)"
+  },
+  "eps_eri|Y1029": {
+    "n": 2,
+    "span_days": 85.968,
+    "residual_kms": [
+      0.0,
+      21.9
+    ],
+    "dberv_kms": [
+      0.0,
+      -24.32
+    ],
+    "status": "REFUSED: TELLURIC-LOCKED: residual 21.9 km/s cancels dBERV 24.3 km/s to 2.4 km/s, so the cross-correlation is tracking TELLURIC lines, not the star. These IDPs are telluric_applied=not-applied (RYA-805/806); co-adding across a large dBERV needs telluric correction first (RYA-947)"
+  },
+  "tau_boo|H1567": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "tau_boo|H1582": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "tau_boo|K2192": {
+    "n": 1,
+    "status": "single-frame \u2014 nothing to co-add"
+  },
+  "tau_ceti|K2148": {
+    "n": 4,
+    "status": "co-added",
+    "span_days": 9.978,
+    "berv_kms": [
+      -27.699,
+      -27.705,
+      -27.46,
+      -27.466
+    ],
+    "berv_spread_kms": 0.246,
+    "snr_per_frame": [
+      615.2,
+      682.4,
+      555.8,
+      662.6
+    ],
+    "snr_before_median": 638.9,
+    "snr_after": 1238.2,
+    "residual_kms": [
+      0.0,
+      0.1,
+      -0.1,
+      -0.1
+    ],
+    "residual_max_kms": 0.1,
+    "resolution_element_kms": 3.486,
+    "dberv_max_kms": 0.239,
+    "safe_because": "dBERV below one resolution element \u2014 telluric and stellar rest frames coincide for this group; tellurics remain UNCORRECTED",
+    "n_px": 36551
+  },
+  "vesta|H1559": {
+    "n": 2,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|H1567": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|H1575": {
+    "n": 2,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|H1582": {
+    "n": 2,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|J1226": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|J1228": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|J1232": {
+    "n": 2,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|K2148": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|K2166": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|K2192": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|K2217": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|Y1028": {
+    "n": 1,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  },
+  "vesta|Y1029": {
+    "n": 2,
+    "status": "REFUSED",
+    "reason": "moving reflector \u2014 needs the RYA-372 two-leg reflected-solar conditioning and RYA-796's <45 deg sub-observer longitude gate, neither of which is a stellar BERV"
+  }
+}
