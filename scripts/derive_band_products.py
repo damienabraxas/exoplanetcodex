@@ -71,6 +71,7 @@ from pipeline import harness_residual  # noqa: E402  RYA-869
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
 from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
 from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
+from pipeline.prenormalised_guard import assert_not_renormalising  # noqa: E402  RYA-1026
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
@@ -728,6 +729,14 @@ def synthesis_route(a, pol) -> None:
         the line it is about to measure and returns a continuum biased low, which the
         fitter then closes by lowering A(X).
         """
+        # RYA-1026: the LAST gate before a continuum of ours touches the product. The
+        # callers already check `h.pre_normalised` -- but that flag is exactly what
+        # RYA-929 got wrong, and a flag nothing cross-checks re-normalised KP2005 for
+        # months in silence. This checks the ratified registry AGAINST the flag, so a
+        # future flip raises DRIFT here rather than quietly re-enabling the placement.
+        assert_not_renormalising(
+            h.holding_id, pre_normalised=h.pre_normalised, fitting_continuum=True,
+            where="derive_band_products._band_continuum (--place-continuum)")
         if "f" in _placed_cont:
             return _placed_cont["f"]
         from config.constants import CONTINUUM_PARAMS
@@ -1500,7 +1509,14 @@ def main() -> None:
                          "continuum convention. DIAGNOSTIC ONLY — the controlled test of "
                          "whether the KP-vs-HARPS arm gap is a normalisation artifact.")
     ap.add_argument("--place-continuum", action="store_true",
-                    help="RYA-933/938: place a continuum on a holding that ships NONE "
+                    help="⚠️ CHECK FOR A SHIPPED CONTINUUM FIRST. Kurucz 2005 was served "
+                         "through this flag until RYA-933 found the distribution also "
+                         "ships `irradrelwl.dat`, a residual atlas with Kurucz's own "
+                         "continuum divided out -- the readme does not list it, so the "
+                         "intake missed it. The placed spline tilted the band 4% "
+                         "blue-to-red and cost 0.0218 dex. A product that ships a "
+                         "continuum must use it (RYA-911/938). "
+                         "RYA-933/938: place a continuum on a holding that ships NONE "
                          "(pre_normalised=False), instead of refusing it. Fitted ONCE "
                          "across the whole band with CONTINUUM_PARAMS['solar'] (100 A "
                          "knots, 95th pct, 5 iters, 3 sigma) -- never per fit window, "
