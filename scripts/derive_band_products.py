@@ -1479,7 +1479,14 @@ def main() -> None:
                          "continuum convention. DIAGNOSTIC ONLY — the controlled test of "
                          "whether the KP-vs-HARPS arm gap is a normalisation artifact.")
     ap.add_argument("--place-continuum", action="store_true",
-                    help="RYA-933/938: place a continuum on a holding that ships NONE "
+                    help="⚠️ CHECK FOR A SHIPPED CONTINUUM FIRST. Kurucz 2005 was served "
+                         "through this flag until RYA-933 found the distribution also "
+                         "ships `irradrelwl.dat`, a residual atlas with Kurucz's own "
+                         "continuum divided out -- the readme does not list it, so the "
+                         "intake missed it. The placed spline tilted the band 4% "
+                         "blue-to-red and cost 0.0218 dex. A product that ships a "
+                         "continuum must use it (RYA-911/938). "
+                         "RYA-933/938: place a continuum on a holding that ships NONE "
                          "(pre_normalised=False), instead of refusing it. Fitted ONCE "
                          "across the whole band with CONTINUUM_PARAMS['solar'] (100 A "
                          "knots, 95th pct, 5 iters, 3 sigma) -- never per fit window, "
