@@ -33,6 +33,8 @@ from pipeline.band_products import (  # noqa: E402
     LineMeasurement, equivalent_width, assert_single_element)
 from pipeline.band_policy import check_intake, resolve, BandPolicyError  # noqa: E402
 from pipeline import kp_atlas_integrity as kp_integrity  # noqa: E402  RYA-938
+from pipeline.prenormalised_guard import (  # noqa: E402  RYA-1026
+    assert_data_matches_declaration)
 from config.constants import codex_path, codex_root, PATHS  # RYA-810 path register
 
 ACCOUNTING = ROOT / "data" / "audit" / "line_accounting" / "per_line.csv"

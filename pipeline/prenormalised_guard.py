@@ -28,6 +28,10 @@ the product's.
 """
 from __future__ import annotations
 
+from dataclasses import dataclass
+
+import numpy as np
+
 #: Products that arrive with their continuum already established. Keyed by holding_id so
 #: it is per-PRODUCT, never per-instrument: one instrument can serve both a normalised
 #: and an un-normalised holding (RYA-904 -- crires_plus does exactly that), and keying by
@@ -126,3 +130,170 @@ def is_pre_normalised(holding_id: str) -> bool:
     assumed normalised, because assuming it would apply unity as a continuum and inflate
     every EW silently. Absence of a claim is not a claim (RYA-833)."""
     return holding_id in PRE_NORMALISED_HOLDINGS
+
+
+# ── the UNDECLARED half: is this product ACTUALLY normalised? ────────────────
+#
+# The registry above says what a product is DECLARED to be. It cannot catch a product
+# that is mis-ROUTED -- a normalised holding whose reader opens the raw file. That is not
+# hypothetical: `iag_fts_solar_atlas` is catalogued `corrected` while the manifest routes
+# to the telluric-RETAINING Reiners file (RYA-944), and RYA-1026 found the same shape on
+# KP2005 -- `solar_kpno_kurucz2005_corrected` is ratified pre-normalised, and its reader
+# opens `irradthu.dat.txt`, ABSOLUTE IRRADIANCE in W/m**2/nm.
+#
+# A declared flag and a mis-routed file agree with each other perfectly and are both
+# wrong. So the DATA gets a vote. RYA-1030 generalises this into `normalization_intake`
+# (all spectra, at intake, backfilled onto the registry); this is the narrow version
+# wired at the one site RYA-1026 itself re-flagged.
+
+NORMALISED = "normalised"
+UN_NORMALISED = "un-normalised"
+UNKNOWN = "unknown"
+
+#: DECLARED, not magic (RYA-1030). Derived from four measured controls, not chosen:
+#:
+#:   | product                              | median rolling-P95 | slope across band |
+#:   | KP1984 col1 (residual flux)          |             0.9800 |            +0.023 |
+#:   | KP2005 staged normalised TSV         |             0.9997 |            +0.010 |
+#:   | KP2005 `irradthu` as served          |        1.72 - 2.26 |     strong (SED)  |
+#:   | KP1984 col2 (absolute)               |           213.2875 |            +3.422 |
+#:
+#: The nearest NORMALISED case sits 0.020 from unity and the nearest UN-NORMALISED case
+#: 0.72 away, so 0.05 has a ~14x margin on both sides. That margin is the point: a cut
+#: pressed against the nearest case is a cut that will misclassify the next product
+#: (RYA-a-borrowed-threshold-is-not-a-control). KP1984 col1 lands at 0.98 rather than
+#: 1.00 because a narrow window in a line-rich region may hold no true continuum at all
+#: -- which is why the window is wide and the tolerance is not tighter.
+UNITY_TOLERANCE = 0.05
+#: An envelope that RISES OR FALLS across the band carries a blaze or an SED, whatever
+#: its level. Measured: +0.010 / +0.023 for the normalised pair, +3.42 for absolute flux.
+ENVELOPE_SLOPE_MAX = 0.10
+#: Wide enough that most windows contain some true continuum; see the 0.98 note above.
+ENVELOPE_WINDOW_A = 2.0
+#: Fewer than this and the statistic is describing noise, so the answer is UNKNOWN --
+#: never a default (RYA-833, and the same reason `telluric_intake` keeps a third value).
+MIN_ENVELOPE_WINDOWS = 5
+
+
+@dataclass
+class NormalisationEvidence:
+    """What the FLUX actually said. `value` is the verdict; the rest is the citation."""
+
+    value: str
+    median_p95: float | None = None
+    slope_across_band: float | None = None
+    n_windows: int = 0
+    max_flux: float | None = None
+    span_A: tuple[float, float] | None = None
+    reason: str = ""
+
+    def citation(self) -> str:
+        """One line fit to paste into a registry `notes` column."""
+        bits = [f"normalisation_state={self.value}"]
+        if self.span_A:
+            bits.append(f"span {self.span_A[0]:.2f}-{self.span_A[1]:.2f} A")
+        if self.median_p95 is not None:
+            bits.append(f"median rolling-P95={self.median_p95:.4f} "
+                        f"(tol |x-1|<={UNITY_TOLERANCE})")
+        if self.slope_across_band is not None:
+            bits.append(f"envelope slope={self.slope_across_band:+.4f} "
+                        f"(max {ENVELOPE_SLOPE_MAX})")
+        if self.max_flux is not None:
+            bits.append(f"max flux={self.max_flux:.4f}")
+        bits.append(f"{self.n_windows} x {ENVELOPE_WINDOW_A:.0f} A windows")
+        if self.reason:
+            bits.append(self.reason)
+        return "; ".join(bits)
+
+
+class NormalisationStateMismatch(RuntimeError):
+    """The flux says one thing and the declared flag says another."""
+
+
+def detect_normalisation_state(wave, flux) -> NormalisationEvidence:
+    """Classify a spectrum from its UPPER ENVELOPE: rolling P95 over running windows.
+
+    Normalised products pin the envelope at ~1.0 AND hold it flat. Both conditions are
+    required, and the second is what a level test alone would miss: a raw product can
+    sit near unity by coincidence of units over a narrow window, but it carries its
+    blaze or SED as a trend. Conversely a normalised product with a residual tilt is
+    reported UNKNOWN rather than waved through.
+    """
+    w = np.asarray(wave, float)
+    f = np.asarray(flux, float)
+    good = np.isfinite(w) & np.isfinite(f)
+    w, f = w[good], f[good]
+    if w.size < 2:
+        return NormalisationEvidence(UNKNOWN, reason="fewer than 2 finite pixels")
+
+    order = np.argsort(w)
+    w, f = w[order], f[order]
+    p95, edges = [], np.arange(w[0], w[-1], ENVELOPE_WINDOW_A)
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        m = (w >= lo) & (w < hi)
+        if m.sum() > 20:
+            p95.append(float(np.percentile(f[m], 95)))
+    p95 = np.asarray(p95)
+
+    if p95.size < MIN_ENVELOPE_WINDOWS:
+        return NormalisationEvidence(
+            UNKNOWN, n_windows=int(p95.size), span_A=(float(w[0]), float(w[-1])),
+            max_flux=float(f.max()),
+            reason=(f"only {p95.size} usable {ENVELOPE_WINDOW_A:.0f} A windows "
+                    f"(need {MIN_ENVELOPE_WINDOWS}) -- too few to describe an envelope, "
+                    f"so the answer is UNKNOWN, never a default"))
+
+    median_p95 = float(np.median(p95))
+    slope = float(np.polyfit(np.arange(p95.size), p95, 1)[0] * p95.size)
+    ev = NormalisationEvidence(
+        UNKNOWN, median_p95=median_p95, slope_across_band=slope,
+        n_windows=int(p95.size), max_flux=float(f.max()),
+        span_A=(float(w[0]), float(w[-1])))
+
+    at_unity = abs(median_p95 - 1.0) <= UNITY_TOLERANCE
+    flat = abs(slope) <= ENVELOPE_SLOPE_MAX
+
+    if at_unity and flat:
+        ev.value = NORMALISED
+    elif not at_unity:
+        ev.value = UN_NORMALISED
+        ev.reason = (f"envelope sits at {median_p95:.4f}, "
+                     f"{abs(median_p95 - 1.0):.4f} from unity")
+    else:
+        ev.reason = (f"envelope is at unity but TILTED ({slope:+.4f} across the band) -- "
+                     f"a blaze or SED survives, so this is not cleanly normalised and is "
+                     f"not waved through")
+    return ev
+
+
+def assert_data_matches_declaration(holding_id: str, wave, flux, *,
+                                    declared: bool, where: str = "") -> NormalisationEvidence:
+    """Cross-check the DETECTED state against the DECLARED flag. LOUD on disagreement.
+
+    A LOUD STOP, never an auto-fix (RYA-1030): a genuinely raw spectrum with a
+    coincidentally flat continuum and a normalised one with a bad blaze both need a
+    human. The detector INFORMS the declared state; it must not silently override the
+    science, auto-normalise, or auto-skip.
+
+    `unknown` does NOT raise -- it is a real answer meaning the data could not speak, and
+    treating it as a mismatch would turn "too few windows" into a hard failure. It is
+    returned for the caller to record.
+    """
+    ev = detect_normalisation_state(wave, flux)
+    site = f" [{where}]" if where else ""
+    if ev.value == UNKNOWN:
+        return ev
+
+    detected_normalised = ev.value == NORMALISED
+    if detected_normalised == declared:
+        return ev
+
+    raise NormalisationStateMismatch(
+        f"{holding_id}: THE FLUX AND THE FLAG DISAGREE{site}. Declared "
+        f"pre_normalised={declared}, but the data says {ev.value.upper()} -- "
+        f"{ev.citation()}. This is a LOUD STOP, not an auto-fix: the detector informs "
+        f"the declared state, it must not silently override the science. A declared flag "
+        f"and a MIS-ROUTED file agree with each other perfectly and are both wrong, which "
+        f"is how `iag_fts_solar_atlas` came to be catalogued `corrected` while pointing at "
+        f"the raw Reiners file (RYA-944). Check WHICH FILE the reader opens before you "
+        f"touch the flag. Generalised at intake by RYA-1030.")

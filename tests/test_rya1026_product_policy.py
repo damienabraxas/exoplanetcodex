@@ -181,3 +181,95 @@ def test_unregistered_holding_is_distinguished_from_uncorrected():
     with pytest.raises(TelluricDisplayError, match="UNKNOWN"):
         assert_displayable("some_arm_we_never_registered")
     assert display_state("some_arm_we_never_registered") == "UNREGISTERED"
+
+
+# ── the UNDECLARED half: does the FLUX agree with the flag? ──────────────────
+#
+# Synthetic fixtures, deliberately. The real controls that FIXED these thresholds --
+# KP1984's two columns at identical wavelengths, and KP2005's raw-vs-staged pair -- live
+# on data drives that are not mounted everywhere, and a policy test that passes or fails
+# on whether a drive is mounted is an environment check wearing a policy check's label.
+# The measured numbers those controls produced are recorded beside the constants in
+# `prenormalised_guard`; these fixtures reproduce each class's SHAPE.
+
+import numpy as np
+
+from pipeline.prenormalised_guard import (
+    NORMALISED, UN_NORMALISED, UNKNOWN, NormalisationStateMismatch,
+    UNITY_TOLERANCE, assert_data_matches_declaration, detect_normalisation_state)
+
+_RNG = np.random.default_rng(1026)
+
+
+def _spectrum(level, slope=0.0, n=20000, lo=5000.0, hi=5100.0):
+    """An absorption spectrum whose upper envelope sits at `level` and tilts by `slope`."""
+    w = np.linspace(lo, hi, n)
+    # Centred on the band, so a tilt does NOT also move the median level. Otherwise the
+    # two tests could never be exercised independently: a slope big enough to fail the
+    # flatness bound would drag the level out of tolerance too, and the level test would
+    # take the credit.
+    x = (w - lo) / (hi - lo) - 0.5
+    envelope = level * (1.0 + slope * x)
+    depth = np.where(_RNG.random(n) < 0.04, _RNG.uniform(0.1, 0.8, n), 0.0)
+    return w, envelope * (1.0 - depth)
+
+
+def test_detects_a_normalised_product():
+    """KP1984 col1 measured 0.9800 and KP2005's staged TSV 0.9997."""
+    ev = detect_normalisation_state(*_spectrum(1.0))
+    assert ev.value == NORMALISED, ev.citation()
+
+
+def test_detects_absolute_flux():
+    """KP1984 col2 measured a median rolling-P95 of 213.2875."""
+    ev = detect_normalisation_state(*_spectrum(213.0, slope=0.02))
+    assert ev.value == UN_NORMALISED
+
+
+def test_the_LEVEL_test_catches_what_the_slope_test_cannot():
+    """KP2005 `irradthu` as served sits at 2.14 but its slope over 100 A is only -0.044
+    -- INSIDE the flatness bound. The level test is what catches it."""
+    ev = detect_normalisation_state(*_spectrum(2.14, slope=-0.02))
+    assert abs(ev.slope_across_band) <= 0.10          # the slope test would pass it
+    assert ev.value == UN_NORMALISED                  # the level test does not
+
+
+def test_the_SLOPE_test_catches_what_the_level_test_cannot():
+    """A blaze or SED riding on a product that happens to sit near unity. Neither test
+    alone is sufficient, which is why both are required."""
+    ev = detect_normalisation_state(*_spectrum(1.0, slope=0.30))
+    assert abs(ev.median_p95 - 1.0) <= UNITY_TOLERANCE   # the level test would pass it
+    assert ev.value == UNKNOWN                           # not waved through
+    assert "TILTED" in ev.reason
+
+
+def test_too_few_windows_is_UNKNOWN_never_a_default():
+    """`unknown` is a real answer, not a failure to try -- the third value is
+    load-bearing exactly as it is in `telluric_intake` (RYA-833)."""
+    ev = detect_normalisation_state(*_spectrum(1.0, n=400, lo=5000.0, hi=5004.0))
+    assert ev.value == UNKNOWN
+    assert "UNKNOWN" in ev.reason
+
+
+def test_agreement_passes_and_returns_its_evidence():
+    ev = assert_data_matches_declaration("x", *_spectrum(1.0), declared=True)
+    assert ev.value == NORMALISED
+    assert "median rolling-P95" in ev.citation()
+
+
+def test_flux_disagreeing_with_the_flag_is_a_LOUD_STOP():
+    """A declared flag and a MIS-ROUTED file agree with each other perfectly and are both
+    wrong -- the `iag_fts_solar_atlas` shape (RYA-944), and what RYA-1026 found on the
+    KP2005 route. The detector informs the declared state; it must never auto-fix."""
+    with pytest.raises(NormalisationStateMismatch, match="THE FLUX AND THE FLAG DISAGREE"):
+        assert_data_matches_declaration("solar_kpno_kurucz2005_corrected",
+                                        *_spectrum(2.14), declared=True,
+                                        where="test")
+
+
+def test_unknown_does_not_raise():
+    """Turning 'the data could not speak' into a hard failure would make every short
+    window a blocker."""
+    ev = assert_data_matches_declaration("x", *_spectrum(1.0, n=400, lo=5000.0, hi=5004.0),
+                                         declared=True)
+    assert ev.value == UNKNOWN
