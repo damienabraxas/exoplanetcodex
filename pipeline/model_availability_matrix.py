@@ -278,9 +278,15 @@ ANOMALIES: dict[tuple[str, str], str] = {
         "small-positive anchor, with the grid's J-label resolving oddly. Stopped under "
         "validate-don't-tune rather than shipped. Li I 6707 is a resonance line with a "
         "CN molecular blend (RYA-103) and needs the dedicated derivation, not EW.",
-    ("Al", "1D_NLTE"): "ANOMALY (RYA-1005): the Gerber Al deck is FULLY STAGED (74 GB, "
-        "md5-pinned) and Engine-B-NLTE still refuses Al -- `gerber_nlte` registers only "
-        "Fe. The blocker is a REGISTRY LINE, not missing data. Also RYA-773: the "
+    ("Al", "1D_NLTE"): "RYA-1005/821 -- the Gerber Al deck is FULLY STAGED (74 GB, "
+        "md5-pinned) and IS registered (both the MARCS deck and `Al@mean3D`). This note "
+        "previously said the blocker was 'a REGISTRY LINE'; that was wrong on both halves "
+        "once the deck landed -- the registry has Al, and the blocker was the CALL SITE. "
+        "`abundances_derive` hoisted the departures out of the chi2 loop and passed NO "
+        "abundance, which is right for Fe (one A(X)) and refused outright for Al (31 "
+        "values, departures differing by up to 10.3 in b between adjacent 0.1-dex nodes). "
+        "So Engine-B NLTE could not run Al AT ALL until RYA-821 threaded the trial "
+        "abundance through the fit. Also RYA-773: the "
         "Amarsi-2020 Al departure grid does NOT cover the clean 7835/36 + 8772/73 "
         "doublet -- the best lines are uncovered.",
     ("Al", "MEAN3D_NLTE"): "Nordlander & Lind 2017 is <3D>, NOT full 3D -- and its "

@@ -1240,14 +1240,29 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
     #     mismatch, so the STAMP must follow each trial value. That is the stamp following
     #     the synthesis, not the physics following the abundance — the departures are held
     #     fixed across the fit, and the product says so.
+    # 🔴 RYA-1005/821 -- WHETHER THE DEPARTURES MAY BE HOISTED OUT OF THE CHI2 LOOP IS A
+    # PROPERTY OF THE DECK, NOT A CONSTANT. The block above is TRUE OF Fe AND FALSE OF Al:
+    # Fe's deck holds ONE A(X), so its coefficients are a property of the atmosphere node
+    # and are rightly computed once; Al's resolves 31 values (4.43-7.43, uniform 0.1 dex)
+    # and RYA-1005 MEASURED its departures genuinely differing between them.
+    #
+    # Hoisting them for an axis deck would hand every trial in the fit the FIRST
+    # interpolation and silently discard a real dimension of the grid -- while still
+    # producing a perfectly well-formed synthesis. Until now this did not even get that
+    # far: `for_node` refuses an axis deck with no abundance, so Engine-B NLTE could not
+    # run Al AT ALL, on either the MARCS or the <3D> deck.
     _dep = None
+    _gn = None
+    _dep_per_abundance = False
     if nlte_deck is not None:
         from pipeline import gerber_nlte as _gn
         if nlte_deck != 'gerber':
             raise ValueError(f"unknown NLTE deck {nlte_deck!r} (only 'gerber' is wired)")
         _gn.assert_linelist_supports_nlte(linelist, atom_code, element,
                                           wave_base * 10.0, wave_top * 10.0)
-        _dep = _gn.for_node(element, teff, logg, feh)
+        _dep_per_abundance = _gn.has_abundance_axis(element)
+        if not _dep_per_abundance:
+            _dep = _gn.for_node(element, teff, logg, feh)
 
     n_eval = [0]
     fail   = [None]
@@ -1256,6 +1271,11 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         n_eval[0] += 1
         try:
             _nd = None
+            if _dep_per_abundance:
+                # Per-trial, because the departures really do depend on A(X) here.
+                # `for_node` caches on (deck, node, abundance), so the 31 axis nodes are
+                # each read at most once across the whole fit.
+                _dep = _gn.for_node(element, teff, logg, feh, abundance=float(a_x))
             if _dep is not None:
                 # MUST go through as_ispec_tuple: it owns the (ndep,nk) -> (nk,ndep)
                 # transpose iSpec requires. Hand-building this tuple here is what broke
