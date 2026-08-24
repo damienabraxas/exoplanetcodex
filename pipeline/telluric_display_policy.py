@@ -44,14 +44,17 @@ CONTROL_ONLY: dict[str, str] = {
 #: These still render -- no value moves under RYA-1026 -- but the doubt travels with them
 #: instead of being resolved silently in our favour.
 REGISTRY_ANOMALIES: dict[str, str] = {
-    "solar_iag": (
-        "🔴 `iag_fts_solar_atlas` is catalogued telluric_basis=corrected, but the "
-        "manifest routes it to the telluric-RETAINING Reiners+2016 file (46.25% of the "
-        "O2 A-band below 0.5), so `telluric_policy.exclusion()` excludes nothing there. "
-        "Two IAG atlases with opposite telluric states sit under one instrument_id. "
-        "Found incidentally by RYA-944 and logged, not fixed -- it needs its own ticket. "
-        "Until then an IAG product is displayable but its telluric state is UNVERIFIED "
-        "in the O2/H2O bands."),
+    # 🔴 RETIRED 2026-08-24 -- the IAG entry that lived here was WRONG, and how it was
+    # wrong is worth keeping. It asserted that `iag_fts_solar_atlas` renders on a
+    # telluric-RETAINING file, on the strength of a note rather than a measurement. The
+    # note described a stale row in `solar_reference_holdings_rya708.csv`; the READER has
+    # always opened Baker+2020. MEASURED on the flux the harness actually serves:
+    # O2 A-band 0.18% of pixels below 0.5, H2O 9280-9600 0.00% -- against 46.25%/51.63%
+    # for the raw Reiners sibling, a 250x separation. The holding is CLEAN.
+    #
+    # The catalogue row is corrected and the two atlases are now separate holdings, so
+    # the condition this entry described cannot recur silently. Leaving the dict in place,
+    # empty: the mechanism is the point, and the next real anomaly goes here.
 }
 
 
