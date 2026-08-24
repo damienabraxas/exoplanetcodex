@@ -108,8 +108,25 @@ function cells(rows){return rows.map(r=>'<div class="val">'+esc(r.display||r.tre
   +'</b> <span class="muted">&plusmn;'+fx(r.sigma_stat,3)+' stat &plusmn;'+fx(r.sigma_syst,3)+' syst'
   +(r.n_lines!=null?', n='+r.n_lines:'')+'</span></div>').join('');}
 
+// RYA-925/1023 -- bands CLOSED for a given species, with the reason carried.
+// A band that is simply ABSENT from the plot is indistinguishable from one nobody ran
+// (the RYA-833 shape), so the band still gets a line; it just does not get a forest.
+// Al near-UV only. Fe near-UV is a real measured product (RYA-759/836/841/846) and is
+// deliberately NOT closed here.
+const CLOSED_BANDS={
+  'AlI':{'near-UV':'no usable Al line in this band. 3944 A is CH-blended ("do not '
+    +'attempt"), 3961 A needs a blend-aware path and is skipped, and BOTH sit in the '
+    +'3780-4200 A gap that has no synthesis linelist (RYA-977). The three lines below '
+    +'3780 A all returned non-minima -- the one that entered the aggregate passed a '
+    +'sign-only frac_rise test at +1e-06. Disposition RYA-925; consistent with '
+    +'Nordlander & Lind 2017.'}
+};
+
 function forest(d){
   let h='';
+  // holding -> telluric_applied, straight from the instruments registry.
+  const TELLURIC={};
+  for(const i of (d.instruments||[])) TELLURIC[i.holding]=i.telluric_applied;
   for(const sp of d.elements){
     if(FILTER&&sp!==FILTER) continue;
     const all=d.products.filter(p=>p.element+p.ion===sp&&p.A!=null);
@@ -138,6 +155,12 @@ function forest(d){
     // systematics; a shared axis compresses each of them to make room for the others,
     // and a band-scoped comparator has nowhere honest to live.
     for(const b of d.bands){
+      const closed=(CLOSED_BANDS[sp]||{})[b];
+      if(closed){
+        h+='<div class="legend"><span class="muted note"><b>'+esc(b)+'</b> &mdash; '
+          +'<span class="warn">N/A for '+esc(sp)+'</span>: '+esc(closed)+'</span></div>';
+        continue;
+      }
       // Pre-telluric rows are PROVENANCE, not a second measurement, and at 27 of 43
       // products they dominated both the axis range and the row count. Hide them --
       // but ONLY where a corrected row exists for this band. Fe II VIS has nothing
@@ -187,11 +210,25 @@ function forest(d){
         const l=x(r.A-st), w=x(r.A+st)-l;
         const sl=x(r.A-sy), sw=x(r.A+sy)-sl;
         const pre=/^PRE/.test(r.telluric_basis||'');
+        // RYA-935 — SAY THE TELLURIC STATE ON THE BAR ITSELF. "holding-attributed" only
+        // meant a holding was NAMED; it said nothing about whether that holding is
+        // CORRECTED, so an uncorrected arm and its corrected sibling sat side by side
+        // looking identical (solar_harps 6.393 vs solar_harps_molecfit_corrected 6.387).
+        // Read from the instruments registry — the per-holding `telluric_applied` that
+        // RYA-806 established — and NEVER inferred from the holding's name: a name
+        // containing "corrected" is not evidence.
+        const tstate=pre?null:(TELLURIC[r.holding]||null);
+        const tbadge=pre
+          ? '<span class="warn">pre-telluric</span>'
+          : (tstate==='applied'
+              ? '<span class="good">telluric CORRECTED</span>'
+              : (tstate==='not-applied'
+                  ? '<span class="warn">telluric NOT corrected</span>'
+                  : '<span class="muted">telluric '+esc(tstate||'unknown')+'</span>'));
         const label=(r.holding||r.instrument)+' · '+(r.display||r.treatment)
           +'<br><span class="muted">'+esc(r.run_context)+(r.committed?' · '+esc(r.committed):'')
           +(r.is_variant?' · <span class="warn">variant</span>':'')
-          +' · <span class="'+(pre?'warn':'good')+'">'
-          +esc(pre?'pre-telluric':(r.holding?'holding-attributed':'epoch unknown'))+'</span></span>';
+          +' · '+tbadge+'</span>';
         let marks='';
         if(ref&&ref.band){const b0=x(ref.band[0]),b1=x(ref.band[1]);
           marks+='<i class="ref" style="left:'+b0+'%;width:'+Math.max(0.4,b1-b0)+'%"></i>';}
