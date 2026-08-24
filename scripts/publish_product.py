@@ -203,9 +203,15 @@ def main() -> int:
                          "`quarantine` in full — never deleted — so the appendix can still "
                          "defend why they were withdrawn (RYA-711/844).")
     ap.add_argument("--element", default=None, help="element to act on for --quarantine-where")
+    ap.add_argument("--quarantine-older-than", default=None, metavar="ISO8601",
+                    help="withdraw every CURRENT product whose ARTIFACT was produced "
+                         "before this instant. Keyed on `provenance.artifact_mtime` -- "
+                         "when the measurement was made -- NOT on ingested_at, which only "
+                         "says when it was copied into the store and would mark a "
+                         "freshly-backfilled stale result as current.")
     a = ap.parse_args()
 
-    if a.quarantine_where:
+    if a.quarantine_where or a.quarantine_older_than:
         if not a.reason:
             print("REFUSING: --quarantine-where needs --reason. A product withdrawn "
                   "without a stated reason cannot be defended in the appendix, and is "
@@ -214,19 +220,27 @@ def main() -> int:
         if not a.element:
             print("REFUSING: --quarantine-where needs --element.", file=sys.stderr)
             return 5
-        field, _, value = a.quarantine_where.partition("=")
+        field = value = None
+        if a.quarantine_where:
+            field, _, value = a.quarantine_where.partition("=")
         doc = load(a.element, a.star)
         doc.setdefault("archive", []); doc.setdefault("quarantine", [])
         keep, pulled = [], []
         for row in doc["products"]:
-            if str(row.get(field)) == value:
+            hit = (field is not None and str(row.get(field)) == value)
+            if a.quarantine_older_than:
+                mt = (row.get("provenance") or {}).get("artifact_mtime") or ""
+                hit = hit or (mt < a.quarantine_older_than)
+            if hit:
                 r = dict(row)
                 r["quarantined_at"] = _now(); r["quarantine_reason"] = a.reason
                 doc["quarantine"].append(r); pulled.append(key_of(row))
             else:
                 keep.append(row)
         if not pulled:
-            print(f"no current product matches {field}={value}")
+            print("no current product matches "
+                  + (f"{field}={value} " if field else "")
+                  + (f"older-than {a.quarantine_older_than}" if a.quarantine_older_than else ""))
             return 0
         doc["products"] = keep
         doc["version"] = bump(doc["version"]); doc["updated_at"] = _now()

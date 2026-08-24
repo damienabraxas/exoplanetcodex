@@ -2,34 +2,9 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.22",
-  "updated_at": "2026-08-24T23:32:28Z",
+  "version": "1.23",
+  "updated_at": "2026-08-24T23:36:42Z",
   "products": [
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "harps",
-      "holding": "solar_harps_molecfit_corrected",
-      "tier": "DEEPGRADED",
-      "selector": "DEEPGRADED",
-      "treatment": "1D-LTE",
-      "display": "Synth \u00b7 1D-LTE",
-      "A": 7.535,
-      "sigma_stat": 0.0463,
-      "sigma_syst": 0.041,
-      "n_lines": 109,
-      "n_excluded": 0,
-      "dominant_term": "line-to-line scatter",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "mac",
-        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
-        "sha256": "6d04b4014b9534a3def2ee8c028cbbc8868caae42a27a0dd667eca1dab499139",
-        "artifact_mtime": "2026-08-23T18:47:12Z",
-        "ingested_at": "2026-08-24T23:30:19Z"
-      }
-    },
     {
       "element": "Fe",
       "ion": "I",
@@ -253,31 +228,6 @@
         "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_products.csv",
         "sha256": "4129c75109b9706a39dacc284c4fb232d1330e36909ce0794e282f73817d8967",
         "artifact_mtime": "2026-08-24T15:03:10Z",
-        "ingested_at": "2026-08-24T23:30:20Z"
-      }
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "harps",
-      "holding": "solar_harps_molecfit_corrected",
-      "tier": "UNGRADED",
-      "selector": "FROMEW",
-      "treatment": "1D-LTE",
-      "display": "Synth \u00b7 1D-LTE",
-      "A": 7.537,
-      "sigma_stat": 0.0151,
-      "sigma_syst": 0.17,
-      "n_lines": 1443,
-      "n_excluded": 40,
-      "dominant_term": "gf scale (UNGRADED)",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "mac",
-        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
-        "sha256": "453b9e04f9a4df3869f43f267ebb3f43d9a105d2b958a5695846879ec907a655",
-        "artifact_mtime": "2026-08-23T18:47:12Z",
         "ingested_at": "2026-08-24T23:30:20Z"
       }
     },
@@ -922,6 +872,60 @@
       },
       "quarantined_at": "2026-08-24T23:32:14Z",
       "quarantine_reason": "telluric NOT applied \u2014 holdings_manifest_registry says telluric_applied='not-applied' for solar_kpno (read from the registry, never inferred from the name). RYA-1026 displays telluric-corrected products only; the corrected siblings solar_kpno_molecfit_corrected and solar_kpno_kurucz2005_corrected supersede these. Kept in full as the uncorrected CONTROL arm: the pair is what measures what the correction did (RYA-805 \u2014 an absence needs a positive control)."
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.535,
+      "sigma_stat": 0.0463,
+      "sigma_syst": 0.041,
+      "n_lines": 109,
+      "n_excluded": 0,
+      "dominant_term": "line-to-line scatter",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
+        "sha256": "6d04b4014b9534a3def2ee8c028cbbc8868caae42a27a0dd667eca1dab499139",
+        "artifact_mtime": "2026-08-23T18:47:12Z",
+        "ingested_at": "2026-08-24T23:30:19Z"
+      },
+      "quarantined_at": "2026-08-24T23:36:42Z",
+      "quarantine_reason": "PRE-FIX: measured 2026-08-23T18:47Z, before the RYA-933 continuum-placement fix (fafe924, 2026-08-23 18:57 local) that made the corrected Kitt Peak holdings measurable and fixed continuum placement band-wide. Every Fe run in this session postdates that commit; these two do not, so they are not comparable with the rest of the grid. Kept in full \u2014 the pre/post pair is the evidence for what the fix changed."
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "UNGRADED",
+      "selector": "FROMEW",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.537,
+      "sigma_stat": 0.0151,
+      "sigma_syst": 0.17,
+      "n_lines": 1443,
+      "n_excluded": 40,
+      "dominant_term": "gf scale (UNGRADED)",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv",
+        "sha256": "453b9e04f9a4df3869f43f267ebb3f43d9a105d2b958a5695846879ec907a655",
+        "artifact_mtime": "2026-08-23T18:47:12Z",
+        "ingested_at": "2026-08-24T23:30:20Z"
+      },
+      "quarantined_at": "2026-08-24T23:36:42Z",
+      "quarantine_reason": "PRE-FIX: measured 2026-08-23T18:47Z, before the RYA-933 continuum-placement fix (fafe924, 2026-08-23 18:57 local) that made the corrected Kitt Peak holdings measurable and fixed continuum placement band-wide. Every Fe run in this session postdates that commit; these two do not, so they are not comparable with the rest of the grid. Kept in full \u2014 the pre/post pair is the evidence for what the fix changed."
     }
   ]
 }
