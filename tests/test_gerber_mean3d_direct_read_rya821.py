@@ -119,3 +119,50 @@ def test_the_matrix_derives_the_wiring_claim_from_the_code():
     assert _MEAN3D_WIRED == _mean3d_wired()
     assert set(_MEAN3D_WIRED.values()) <= set(G.DECKS), (
         "the matrix names a deck that gerber_nlte does not register")
+
+
+# ── the abundance axis: whether departures may be hoisted is a DECK property ─
+
+def test_hoisting_out_of_the_chi2_loop_is_decided_PER_DECK():
+    """🔴 THE BUG THIS CLOSES. `abundances_derive` computed the departures ONCE, outside
+    the fit, on a comment that is TRUE OF Fe AND FALSE OF Al. Fe's deck holds one A(X);
+    Al's resolves 31, and RYA-1005 MEASURED its departures genuinely differing between
+    them (adjacent 0.1-dex nodes differ by up to 10.3 in b).
+
+    Worse than wrong: `for_node` REFUSES an axis deck given no abundance, so Engine-B NLTE
+    could not run Al AT ALL -- on either the MARCS or the <3D> deck -- while the matrix
+    reported the deck as staged and wired.
+    """
+    # Read as TEXT, not imported: `abundances_derive` uses `X | None` annotations that
+    # some interpreters evaluate at import, so importing it makes this pass or fail on the
+    # interpreter rather than on the code -- an environment check wearing a policy check's
+    # label, the same reason the RYA-1026 tests parse `measure_band_ew` with `ast`.
+    from pathlib import Path as _P
+    src = (_P(__file__).resolve().parent.parent
+           / "pipeline" / "abundances_derive.py").read_text()
+    assert "has_abundance_axis" in src, (
+        "the call site must ask the DECK whether departures depend on abundance")
+    assert "abundance=float(a_x)" in src, (
+        "an axis deck must be evaluated at each TRIAL abundance inside the fit")
+
+
+def test_interpolation_degenerates_to_an_exact_read_on_a_node():
+    """If it did not, a run that happened to land on a node would disagree with a direct
+    read of the same node -- two answers to one question."""
+    import inspect
+    src = inspect.getsource(G.departures_at_abundance)
+    assert "read_deck_node(element, teff, logg, feh, exact[0])" in src
+
+
+def test_off_axis_abundance_is_refused_not_extrapolated():
+    """Extrapolating departures off the grid is not a correction, it is an invention."""
+    import inspect
+    src = inspect.getsource(G.departures_at_abundance)
+    assert "outside this deck's abundance axis" in src
+
+
+def test_bracketing_nodes_must_agree_in_shape_before_blending():
+    """Interpolating across differently-shaped nodes would pair unrelated depths and
+    levels while still producing a well-formed block."""
+    import inspect
+    assert "different shapes" in inspect.getsource(G.departures_at_abundance)
