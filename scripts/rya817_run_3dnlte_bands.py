@@ -457,7 +457,10 @@ def _resolve_src(bp_dir: Path, ion: str, lo: int, hi: int, instrument: str) -> P
     (graded vs ungraded, one holding vs another), and choosing between them silently is
     how a 3D correction ends up applied to a pool nobody selected.
     """
-    hits = [f for (_b, _lo, _hi, f) in discover_bands(bp_dir, ion, instrument)
+    # ⚠️ ARGUMENT ORDER: discover_bands(bp_dir, INSTRUMENT, ION). Swapping them searches
+    # for ion="kpno_solar_atlas" and finds nothing, which surfaces as "product missing"
+    # -- a coverage-shaped message for a caller mistake (RYA-833 shape).
+    hits = [f for (_b, _lo, _hi, f) in discover_bands(bp_dir, instrument, ion)
             if _lo == lo and _hi == hi]
     if not hits:
         raise SystemExit(
