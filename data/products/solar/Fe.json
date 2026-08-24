@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.30",
-  "updated_at": "2026-08-24T23:47:38Z",
+  "version": "1.32",
+  "updated_at": "2026-08-24T23:58:04Z",
   "products": [
     {
       "element": "Fe",
@@ -761,6 +761,58 @@
         "sha256": "0e2348fdfff3fc86e11057bc880d23c8ff6621018d2da210432a857d9cda5e23",
         "artifact_mtime": "2026-08-24T16:50:47Z",
         "ingested_at": "2026-08-24T23:30:22Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.481,
+      "sigma_stat": 0.0782,
+      "sigma_syst": 0.0574,
+      "n_lines": 56,
+      "n_excluded": 1,
+      "dominant_term": "line-to-line scatter",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv",
+        "copied_to": null,
+        "sha256": "87a71ae07a18c61dcc2b1d2cc385cf6ae8bf4e733d53a1656ef76abc750f41e6",
+        "artifact_mtime": "2026-08-24T23:57:17Z",
+        "ingested_at": "2026-08-24T23:58:04Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A",
+      "display": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.492,
+      "sigma_stat": 0.0988,
+      "sigma_syst": 0.0574,
+      "n_lines": 28,
+      "n_excluded": 28,
+      "dominant_term": "line-to-line scatter",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+        "copied_to": null,
+        "sha256": "fd3710ef236d8d3972199a266edc31f90d0eabd2e30701afabf6e21aeb997e25",
+        "artifact_mtime": "2026-08-24T23:57:35Z",
+        "ingested_at": "2026-08-24T23:58:04Z"
       }
     }
   ],
