@@ -35,32 +35,44 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from pipeline.telluric_display_policy import (  # noqa: E402  RYA-1026
-    anomaly, display_state)
-
-#: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>[_<SELECTOR>]_products.csv`. The
-#: holding is in the stem because RYA-933/934 put it there -- before that, two holdings of
+#: `<El><Ion>_<lo>_<hi>_<instrument>_<holding>_<HANDLER>_products.csv`. The holding
+#: is in the stem because RYA-933/934 put it there -- before that, two holdings of
 #: one instrument wrote the same filename and the second overwrote the first.
-#:
-#: RYA-990: the SELECTOR tag is optional and was previously unmatched, which silently
-#: DROPPED every product carrying one. `derive_band_products._selector_tag` has emitted
-#: `_DEEPGRADED` / `_FROMEW[-GRADED|-UNGRADED]` since RYA-984, so the two deep-graded VIS
-#: Fe legs (RYA-984 Kitt Peak, RYA-991 HARPS) were on disk and merged but invisible here --
-#: the tracker showed the 55-line shallow run as the only VIS synth product. A dashboard
-#: that cannot see a merged product is the same failure mode as one that is hand-typed.
-#: The selector is CARRIED, not discarded: it names which line set was measured, and two
-#: runs differing only in selector are two different products (RYA-984) that must not
-#: collapse into one cell (RYA-946).
 STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<lo>\d+)_(?P<hi>\d+)_"
                   r"(?P<rest>.+?)_(?P<handler>PROFILEFIT|SYNTH)"
-                  # ONE OR MORE selector segments, not one. RYA-933 added `_GRADED`, and a
-                  # graded ENGINE-A product stems as `..._SYNTH_GRADED_ENGINE-A_products.csv`
-                  # -- two segments. With `?` here the regex matched neither, parse_stem
-                  # returned None, and five committed products were silently invisible to
-                  # the page (caught by test_every_committed_band_product_is_visible_to_the
-                  # _tracker, which is the whole reason that test pins the invariant rather
-                  # than the example).
+                  # 🔴 RYA-1031: ONE OR MORE selector segments. This line ended at the
+                  # handler, so a stem carrying ANY selector -- _GRADED, _DEEPGRADED,
+                  # _FROMEW, _LOCALRENORM, _ENGINE-A -- did not match, `parse_stem`
+                  # returned None, and the product was silently absent from the page.
+                  # That is why HARPS and IAG have never appeared and why every graded
+                  # arm was invisible: not a missing run, an unparseable filename.
                   r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)*)_products\.csv$")
+
+
+def species_display(species: str) -> str:
+    """`FeI` -> `Fe`, `ScII` -> `Sc II`. The ion is shown only when there IS one.
+
+    🔴 RYA-1031 (Ryan): a neutral IS the base element and carries no indicator. Writing
+    every neutral as `FeI`/`CI`/`VI` put a roman numeral on 25 of 26 roster entries where
+    it said nothing, and on one it said something WRONG -- `VI` is vanadium-neutral and
+    reads as roman six. Only an actual ion (II and up) earns the suffix.
+
+    Underlying keys are NOT renamed: `reference` and the product rows stay keyed by
+    species, because that is how they join. This is the rendered name only.
+    """
+    m = re.fullmatch(r"([A-Z][a-z]?)(I+|IV|VI*)", species or "")
+    if not m:
+        return species
+    element, ion = m.groups()
+    return element if ion == "I" else f"{element} {ion}"
+
+
+def _source_path(path: Path) -> str:
+    """Repo-relative when the product is inside the repo, absolute when it is not."""
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
 
 
 def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | None:
@@ -89,10 +101,164 @@ def parse_stem(name: str, instruments: set[str], holdings: set[str]) -> dict | N
             "lo_A": float(m.group("lo")), "hi_A": float(m.group("hi")),
             "instrument": instrument, "holding": holding,
             "holding_source": source, "handler": m.group("handler"),
-            # Which line set was measured. "" is the default selector, which is what
-            # every pre-RYA-984 artifact carries (RYA-984 kept the default unlabelled
-            # so existing names did not change).
-            "selector": m.group("selector").lstrip("_") or "default"}
+            # Carried, not discarded: two runs differing only in selector are two
+            # different products (RYA-984) and must not collapse into one row.
+            "selector": (m.group("selector") or "").lstrip("_") or "default"}
+
+
+#: Sub-paths that mark a DIAGNOSTIC variant rather than a headline product --
+#: RYA-877's before/after control pair, RYA-847's gated sweep. They are real
+#: products and must not be deleted from the page; they are also not what the
+#: matrix is asking about, so they are labelled and hidden behind a toggle.
+VARIANT_MARKERS = ("control", "gated")
+
+#: Extra results roots handed in via `--products-root`, so `run_context` can anchor a
+#: product that lives outside this checkout instead of raising on it (RYA-1031).
+_EXTRA_RESULT_ROOTS: list[Path] = []
+
+
+#: The dates the telluric-corrected holdings first existed in the repository.
+#: A product committed before its instrument had a corrected holding CANNOT have
+#: used one -- this is provenance, not inference, and it is the first question
+#: anyone asks of a number on this page.
+CORRECTED_HOLDING_BORN = {
+    "harps": "2026-08-20",              # RYA-931, commit 4d8abf8
+    "kpno_solar_atlas": "2026-08-21",   # RYA-940, commit c0465b1
+}
+
+
+def telluric_state_of(row: dict, committed: str | None) -> dict:
+    """Was this product made before or after its instrument had a corrected holding?
+
+    Where the row names a holding, the holding answers it outright. Where it does
+    not -- every product predating RYA-933/934 -- the date still answers it: the
+    corrected holdings did not exist, so nothing could have used them.
+    """
+    if row.get("holding"):
+        return {"telluric_basis": "named holding", "telluric_epoch": None}
+    born = CORRECTED_HOLDING_BORN.get(row["instrument"])
+    if born and committed and committed < born:
+        return {"telluric_basis": "PRE-correction (provenance)",
+                "telluric_epoch": f"committed {committed}; {row['instrument']} had no "
+                                  f"corrected holding until {born}"}
+    return {"telluric_basis": "unknown", "telluric_epoch": None}
+
+
+def run_context(path: Path) -> dict:
+    """WHICH RUN produced this row. Part of a product's identity, not decoration.
+
+    Six identities appear more than once across ticket output directories, and
+    they are NOT duplicates: rya877/control/before gives Fe II 7.568 where
+    rya877/control/after gives 7.542. That pair is the whole point of a control.
+    Deduplicating on (species, holding, band, engine) would silently keep one and
+    discard the other -- picking a winner between two numbers that were produced
+    to be compared.
+    """
+    import subprocess
+    # RYA-1031: a product from another `--products-root` is not under this repo, so
+    # anchor on whichever results root actually contains it. This said
+    # relative_to(ROOT/"data"/"results") unconditionally and raised, which is the
+    # second reason the multi-root flag could never be used across checkouts.
+    for _base in (ROOT / "data" / "results", *_EXTRA_RESULT_ROOTS):
+        try:
+            rel = path.relative_to(_base).parent
+            break
+        except ValueError:
+            continue
+    else:
+        rel = Path(path.parent.name)
+    parts = rel.parts
+    try:
+        committed = subprocess.run(
+            ["git", "log", "--format=%ad", "--date=short", "-1", "--", str(path)],
+            cwd=ROOT, capture_output=True, text=True, timeout=20).stdout.strip() or None
+    except Exception:                                           # noqa: BLE001
+        committed = None
+    return {"run_context": str(rel) if parts else "(root)",
+            "ticket_dir": parts[0] if parts else None,
+            "committed": committed,
+            "is_variant": any(m in parts for m in VARIANT_MARKERS)}
+
+
+def display_name(row) -> str:
+    """The physics-axis name, DERIVED from the stored axes (RYA-906).
+
+    Not `treatment`. "ENGINE-A" / "ENGINE-B" are letters, not physics: they say
+    nothing about route, scale or model, and the same letter means different
+    things on different rows. RYA-906 stored the five axes precisely so the name
+    could be derived, and the tracker was still showing the legacy labels.
+
+    Route comes from the HANDLER where the row carries one -- never from the
+    label. RYA-906 measured this over 2153 committed rows: `1D-LTE` and
+    `1D-LTE-LABGF` each pair with BOTH ProfileFitHandler and SynthesisHandler, so
+    on those labels the legacy string is not merely lossy, it is FALSE.
+    """
+    from pipeline.treatment_axes import Axes
+    stored = {k: row.get(k) for k in ("route", "scale", "model", "atmos", "gf")}
+    if all(v is not None and not pd.isna(v) for v in stored.values()):
+        return Axes(route=str(stored["route"]), scale=str(stored["scale"]),
+                    model=str(stored["model"]), atmos=str(stored["atmos"]),
+                    gf=str(stored["gf"]),
+                    route_basis=str(row.get("route_basis") or "stored")).display
+    # No stored axes = a row that predates RYA-906. Derive from the legacy label
+    # plus whatever route evidence the row carries, and fail loudly on an unknown
+    # label rather than defaulting -- a silent default is how RYA-869 published
+    # four wrong systematics.
+    from pipeline.treatment_axes import display_for, UnknownTreatment
+    try:
+        return display_for(str(row.get("treatment")), handler=row.get("handler"))
+    except (UnknownTreatment, ValueError):
+        return f"{row.get('treatment')} (unresolved axes)"
+
+
+#: `gf rung: gf rung N (term): reason` -- the reason text states the graded count in one
+#: of two shapes, and both are parsed here rather than recomputed. Recomputing would mean
+#: re-grading every line against the line list inside the tracker, which is a SECOND
+#: implementation of membership (the RYA-845 two-homes shape); the budget file is the
+#: artifact the product was actually CHARGED on, so it is the honest source.
+_RUNG_MIXED = re.compile(r"MIXED POOL:\s*(\d+)\s+of\s+(\d+)\s")
+_RUNG_ALL = re.compile(r"every one of the\s+(\d+)\s")
+_RUNG_HEAD = re.compile(r"gf rung:\s*gf rung\s*(\d+)\s*\(([^)]*)\)")
+
+
+def graded_counts(products_csv: Path) -> dict:
+    """(n_graded, n_pool, rung) per treatment, read from the sibling *_budgets.txt.
+
+    Returns {} when there is no budget file -- an older artifact predates the gf rung and
+    must read as UNKNOWN, never as zero. Zero graded lines is a real, different statement
+    from "this product was written before we recorded the rung".
+    """
+    b = products_csv.with_name(products_csv.name.replace("_products.csv", "_budgets.txt"))
+    if not b.exists():
+        return {}
+    out, treatment = {}, None
+    for line in b.read_text(errors="replace").splitlines():
+        t = line.strip()
+        # Budget blocks open with the cell header, e.g. "Fe . VIS . n=6"; the gf rung line
+        # belongs to the block above it. Track the most recent non-indented header.
+        if t and not line.startswith(" ") and "gf rung" not in t:
+            treatment = t
+        if "gf rung:" not in t:
+            continue
+        head = _RUNG_HEAD.search(t)
+        rung = int(head.group(1)) if head else None
+        m = _RUNG_MIXED.search(t)
+        if m:
+            n_graded, n_pool = int(m.group(1)), int(m.group(2))
+        else:
+            m2 = _RUNG_ALL.search(t)
+            if not m2:
+                continue
+            n_graded = n_pool = int(m2.group(1))
+        # KEYED BY POOL SIZE, not by treatment name. The budget block header is
+        # "Fe · VIS · n=148" -- it carries the cell and the pool size but NOT the
+        # treatment string the products table uses, and the two vocabularies do not
+        # match (RYA-906: `display` is derived, `treatment` is the legacy label). The
+        # header's n IS the pool the budget was charged on, so it joins to the row's
+        # n_lines exactly.
+        out[int(n_pool)] = {"n_graded": n_graded, "n_pool": n_pool, "gf_rung": rung,
+                            "budget_cell": treatment}
+    return out
 
 
 def collect_products(roots: list[Path], instruments: set[str],
@@ -109,53 +275,38 @@ def collect_products(roots: list[Path], instruments: set[str],
                 frame = pd.read_csv(path)
             except Exception:                                   # noqa: BLE001
                 continue
+            ctx = run_context(path)
+            graded = graded_counts(path)
             for _, r in frame.iterrows():
                 rows.append({
                     **meta,
                     "band": r.get("band"), "treatment": r.get("treatment"),
-                    "display": f"{r.get('route', '')} · {r.get('scale', '')}".strip(" ·"),
+                    "display": display_name(r),
                     "A": None if pd.isna(r.get("A")) else float(r["A"]),
                     "sigma_stat": None if pd.isna(r.get("stat_dex")) else float(r["stat_dex"]),
                     "sigma_syst": None if pd.isna(r.get("syst_dex")) else float(r["syst_dex"]),
                     "n_lines": None if pd.isna(r.get("n_lines")) else int(r["n_lines"]),
-                    # The RYA-906 physics axis: which gf SOURCE the linelist used
-                    # ("kurucz"), not a grading tier.
-                    #
-                    # 🔴 RYA-990: the band-product schema carries NO TIER COLUMN, so the
-                    # graded / consistent / no-bueno tier the cell contract asks for
-                    # CANNOT be derived from a product. The only tier signals on disk are
-                    # indirect -- the `selector` (DEEPGRADED = the lab-graded deep set)
-                    # and `dominant` reading "gf scale (cited lab)". Both are emitted, and
-                    # neither is relabelled as a tier: a dashboard that infers a tier is a
-                    # dashboard that types one. Giving products a real tier field is the
-                    # fix, and it belongs in the product writer, not here.
-                    "gf_source": None if pd.isna(r.get("gf")) else str(r["gf"]),
-                    "dominant_term": (None if pd.isna(r.get("dominant"))
-                                      else str(r["dominant"])),
-                    # Carried because the two deep-graded arms disagree on it (RYA-991
-                    # flagged the gate refusing 1 of 109 on Kitt Peak and 0 of 109 on the
-                    # noisier HARPS arm). A count of what a gate REFUSED is part of the
-                    # result, not bookkeeping.
-                    "n_excluded": (None if pd.isna(r.get("n_excluded"))
-                                   else int(r["n_excluded"])),
-                    # RYA-1026's display gate, AT THE RENDER PATH. Until this, the gate
-                    # was called only by its own tests -- a guard nobody invokes is
-                    # decorative, which is exactly what its docstring warns about.
-                    #
-                    # 🔴 CARRIED, NOT RAISED, and the choice is deliberate. Most existing
-                    # Fe products were built on the telluric-UNCORRECTED 1984 atlas --
-                    # RYA-1026 says so plainly -- so `assert_displayable` here would kill
-                    # the whole page over historical products the ticket already knows
-                    # about. Worse, dropping them would make a BLOCKED product look like
-                    # an ABSENT one, which is the absence-as-conclusion error the same
-                    # ticket forbids (RYA-833). So every product renders WITH ITS STATE
-                    # ATTACHED and the page can mark it. The RAISE belongs where a NEW
-                    # product is published, not where a historical one is listed.
-                    "telluric_display": (display_state(meta["holding"])
-                                         if meta["holding"] else "UNREGISTERED"),
-                    "telluric_anomaly": (anomaly(meta["holding"])
-                                         if meta["holding"] else None),
-                    "source": str(path.relative_to(ROOT)),
+                    # RYA-946 — how many of THIS engine's lines carry a primary-lab gf.
+                    # None means the artifact predates the gf rung, which is not 0.
+                    **((graded.get(int(r["n_lines"]))
+                        if not pd.isna(r.get("n_lines")) else None)
+                       or {"n_graded": None, "n_pool": None, "gf_rung": None}),
+                    # RYA-1031: `--products-root` takes MULTIPLE roots, but this said
+                    # relative_to(ROOT) and raised on any product outside the repo --
+                    # so the multi-root flag could never actually be used with one.
+                    # Relative where it can be, absolute where it cannot; a path that
+                    # cannot be expressed is still a path, and dropping the row would
+                    # hide a product rather than locate it.
+                    # 🔴 RYA-1031: WHEN THIS RUN ACTUALLY WROTE. `committed` is the git
+                    # date and is EMPTY for every band product, because band_products/ is
+                    # gitignored (RYA-469) -- so the page could not distinguish a number
+                    # measured an hour ago from one measured two days ago. The file mtime
+                    # is the only honest answer available, and a stale number that LOOKS
+                    # current is the failure this whole page exists to prevent.
+                    "measured_at": datetime.fromtimestamp(
+                        path.stat().st_mtime, timezone.utc).isoformat(timespec="minutes"),
+                    "source": _source_path(path),
+                    **ctx,
                 })
     return rows
 
@@ -183,6 +334,146 @@ def collect_instruments() -> list[dict]:
     return out
 
 
+def collect_reference(root: Path) -> dict:
+    """Literature anchor per species, from the FROZEN gold reference.
+
+    Read, not typed. The previous hand-written page carried Al 6.43 as a literal;
+    it is right, but a literal cannot follow the reference when it is re-frozen,
+    and this project's whole discipline is that a value cites its source. The
+    pointer file `data/reference/solar/CURRENT` names the live version.
+    """
+    current = (root / "data" / "reference" / "solar" / "CURRENT")
+    version = current.read_text().strip() if current.exists() else "v5"
+    table = root / "data" / "reference" / "solar" / f"solar_abundances_{version}.csv"
+    if not table.exists():
+        return {}
+    frame = pd.read_csv(table, comment="#")
+    out = {}
+    for _, r in frame.iterrows():
+        if pd.isna(r.get("asplund2021")):
+            continue
+        out[f"{r['element']}{r['ion']}"] = {
+            "asplund2021": float(r["asplund2021"]),
+            "codex_A_X": None if pd.isna(r.get("A_X")) else float(r["A_X"]),
+            "verdict": str(r.get("verdict")),
+            "source": f"data/reference/solar/solar_abundances_{version}.csv",
+            "sigma_external": None, "band": None, "best_external": None,
+            "scale": None, "deviate_beyond": None,
+        }
+
+    # The gold table carries the literature VALUE but no uncertainty. litscan does,
+    # and it is the ratified comparator: best-external +/- sigma_external, with the
+    # source named. Take the band from there wherever an element has a litscan.
+    #
+    # NOTE the band is AGREEMENT WITH THE LITERATURE, not a pass/fail gate. litscan's
+    # own basis text warns against conflating it with the FE_GATE policy window
+    # ([7.41, 7.51], RYA-166) -- they answer different questions.
+    try:
+        from pipeline import litscan
+        for element in litscan.available_elements():
+            rng = litscan.literature_range(element)
+            if rng is None or rng.sigma_external is None:
+                continue
+            for key in [k for k in out if k.startswith(element)
+                        and k[len(element):].strip("IV") == ""]:
+                out[key].update({
+                    "asplund2021": rng.central,
+                    "sigma_external": rng.sigma_external,
+                    "band": [rng.min, rng.max],
+                    "deviate_beyond": rng.deviate_beyond,
+                    "best_external": rng.best_external,
+                    "scale": rng.scale,
+                    "band_meaning": ("agreement with the literature (best external +/- "
+                                     "sigma_ext) -- NOT a pass/fail gate"),
+                    "source": f"pipeline/litscan.py :: {element}.yaml",
+                })
+    except Exception:                                           # noqa: BLE001
+        pass
+
+    # A SECOND comparator, kept separate rather than averaged: Lodders, Bergemann &
+    # Palme 2025 Table 6. Its PRESENT column is the photospheric-era value; the
+    # proto-solar column runs ~0.09 dex higher and quoting it against a photospheric
+    # measurement would manufacture a discrepancy.
+    #
+    # Comparators are a LIST, and each may be scoped to particular bands. A source
+    # whose determination only covers the infrared must not be drawn across the
+    # optical as if it applied there.
+    lodders = root / "data" / "reference" / "solar" / "lodders2025_table6.csv"
+    if lodders.exists():
+        frame = pd.read_csv(lodders, comment="#")
+        by_element = {r["element"]: r for _, r in frame.iterrows()}
+        for key, entry in out.items():
+            element = "".join(c for c in key if not c.isupper() or c == key[0])
+            element = key.rstrip("IV") or key
+            row = by_element.get(element)
+            if row is None:
+                continue
+            entry.setdefault("comparators", []).append({
+                "name": "Lodders+ 2025", "value": float(row["A_present"]),
+                "sigma": float(row["sigma_present"]), "colour": "gold",
+                "bands": None,          # applies everywhere
+                "note": "Table 6, present-day Sun (proto-solar is "
+                        f"{float(row['A_protosolar']):.2f}, ~0.09 dex higher)",
+                "source": "data/reference/solar/lodders2025_table6.csv",
+            })
+    return out
+
+
+def why_no_product(element: str, ion: str, holding: str, instrument: str,
+                   lo: float, hi: float) -> str:
+    """Why this cell is empty -- from the SAME resolver that plans the runs.
+
+    An empty cell with no explanation is the RYA-833 shape: "we do not hold this"
+    becomes indistinguishable from "nobody looked". Every blank on this grid has
+    to say which it is.
+    """
+    from pipeline.run_descriptor import RunDescriptor, resolve
+    d = RunDescriptor(element, ion, instrument, holding, lo, hi)
+    # Interpreter and engine dir are supplied so that only REAL blockers -- coverage,
+    # wiring, the telluric gate -- surface here. Whether a run host happens to have
+    # the right numpy is not a fact about the science and does not belong on the grid.
+    r = resolve(d, interpreter="(host)", ispec_dir="(host)")
+    if r.blocked_reason:
+        return r.blocked_reason
+    return "no run yet"
+
+
+def collect_graded(root: Path) -> list[dict]:
+    """The GRADED lab-gf cells -- RYA-850's primary reported value.
+
+    These were missing from the tracker entirely, which is why the page appeared to
+    show error bars that had grown. They had not: the page was showing only the
+    MIXED pools, which carry the blanket 0.17 dex ungraded-gf placeholder. A fully
+    graded cell carries its own CITED pool sigma instead, and the systematic drops
+    to 0.061-0.113.
+
+    They live in `rya850_summary.json`, not in a `*_products.csv`, so the product
+    glob never saw them.
+
+    RYA-851's reporting contract: GRADED is primary, UNGRADED is secondary, and the
+    ungraded value is never the headline. Both are shown -- more lines buy a wider
+    gf floor, which is a trade, not a defect.
+    """
+    summary = root / "data" / "results" / "rya850" / "rya850_summary.json"
+    if not summary.exists():
+        return []
+    doc = json.loads(summary.read_text())
+    out = []
+    for cell in doc.get("graded_cells", []):
+        out.append({
+            "element": "Fe", "ion": cell.get("ion", "I"), "band": cell["band"],
+            "engine": cell.get("engine"), "A": cell["A"], "n_lines": cell["n_lines"],
+            "sigma_stat": cell["stat_dex"], "sigma_syst": cell["syst_dex"],
+            "total_dex": cell.get("total_dex"),
+            "ungraded_total_dex": cell.get("ungraded_total_dex"),
+            "graded_beats_ungraded": cell.get("graded_beats_ungraded"),
+            "gf_term": doc.get("gf_term_published"),
+            "role": "PRIMARY (graded lab-gf)",
+            "source": "data/results/rya850/rya850_summary.json",
+        })
+    return out
+
+
 def collect_telluric(audit_root: Path) -> list[dict]:
     """Before/after residuals from the correction tickets' own evidence."""
     out = []
@@ -190,30 +481,30 @@ def collect_telluric(audit_root: Path) -> list[dict]:
         d = json.loads(manifest.read_text())
         c = d.get("correction")
         if not c:
-            out.append({"window": f"{int(d['band_A'][0])}-{int(d['band_A'][1])} A",
+            out.append({"metric": "pct_below_0.5", "window": f"{int(d['band_A'][0])}-{int(d['band_A'][1])} A",
                         "product": "solar_kpno_molecfit_corrected",
                         "before_pct_below_0.5": None, "after_pct_below_0.5": None,
                         "note": "no admissible fit; band NOT corrected"})
             continue
         out.append({
+            "metric": "pct_below_0.5",
             "window": f"{int(d['band_A'][0])}-{int(d['band_A'][1])} A",
             "product": "solar_kpno_molecfit_corrected",
             "before_pct_below_0.5": c["before"]["pct_below_0.5"],
             "after_pct_below_0.5": c["after"]["pct_below_0.5"],
             "externally_validated": d.get("externally_validated"),
         })
-    verification = audit_root / "rya931_molecfit_runtime" / "verification.json"
-    if verification.exists():
-        v = json.loads(verification.read_text())["o2b_gate"]
-        out.append({"window": "6867-6884 A", "product": "solar_harps_molecfit_corrected",
-                    "metric": "pct_below_0.5",
-                    "before_pct_below_0.5": v["o2b_before"]["pct_below_0.5"],
-                    "after_pct_below_0.5": v["o2b_after"]["pct_below_0.5"],
-                    "externally_validated": True})
     for row in _stellar_crires(audit_root):
         out.append(row)
     for row in _harps_state(audit_root):
         out.append(row)
+    verification = audit_root / "rya931_molecfit_runtime" / "verification.json"
+    if verification.exists():
+        v = json.loads(verification.read_text())["o2b_gate"]
+        out.append({"metric": "pct_below_0.5", "window": "6867-6884 A", "product": "solar_harps_molecfit_corrected",
+                    "before_pct_below_0.5": v["o2b_before"]["pct_below_0.5"],
+                    "after_pct_below_0.5": v["o2b_after"]["pct_below_0.5"],
+                    "externally_validated": True})
     return out
 
 
@@ -223,6 +514,19 @@ def collect_telluric(audit_root: Path) -> list[dict]:
 #: pixels molecfit calls telluric-DOMINATED and the star's own line list calls CLEAN.
 #: They answer different questions and are not comparable as numbers, so each row names
 #: the metric it carries (RYA-873: report a value under its DERIVED name).
+#: Which corrected holding each ticket's evidence directory belongs to. Keyed here
+#: because the manifest records products, and the HOLDING is what the registry and the
+#: reader think in.
+_AUDIT_DIR_HOLDING = {
+    'rya963_crires_telluric': 'alpha_cen_a_crires_plus_molecfit',
+    'rya973_crires_telluric': 'tau_cet_crires_plus_molecfit',
+}
+
+
+def _holding_for_audit_dir(name: str) -> str:
+    return _AUDIT_DIR_HOLDING.get(name, name)
+
+
 def _stellar_crires(audit_root: Path) -> list[dict]:
     """Per-frame D1 residuals from the CRIRES+ stellar corrections (RYA-963, RYA-973)."""
     import csv
@@ -236,6 +540,11 @@ def _stellar_crires(audit_root: Path) -> list[dict]:
                 continue
             rows.append({
                 "window": f"{r.get('wlen_id', '?')} ({r.get('band', '?')} band)",
+                # Name the INSTRUMENT and the HOLDING. The audit directory is where the
+                # evidence lives, not what was corrected, and a reader scanning for
+                # "CRIRES" found nothing because every row said rya963_crires_telluric.
+                "instrument": "crires_plus",
+                "holding": _holding_for_audit_dir(manifest.parent.name),
                 "product": manifest.parent.name, "ticket": ticket,
                 "star_id": r.get("star_id", ""), "date_obs": r.get("date_obs", ""),
                 # NOT-contested and NOBODY-RECORDED-IT are different states and the
@@ -274,22 +583,111 @@ def _harps_state(audit_root: Path) -> list[dict]:
     return rows
 
 
+def telluric_summary(rows: list[dict], instruments: list[dict]) -> dict:
+    """The narrative state of telluric work, DERIVED from the rows the collectors found.
+
+    The page needs prose, not just a table — a reader should be able to see at a glance
+    what is corrected, what is merely determined, and what is blocked and why. But prose
+    with numbers typed into it is the exact failure RYA-935 exists to prevent, so every
+    figure here is computed from the same evidence the tables render, and the page only
+    formats it."""
+    from collections import defaultdict
+    corrected = defaultdict(lambda: {'products': 0, 'pass': 0, 'fail': 0,
+                                     'bands': set(), 'settings': set(), 'tickets': set()})
+    for r in rows:
+        if r.get('metric') != 'd1_residual':
+            continue
+        k = (r.get('instrument', '?'), r.get('holding', '?'))
+        e = corrected[k]
+        e['products'] += 1
+        e['pass' if r.get('gate_passed') else 'fail'] += 1
+        w = str(r.get('window', ''))
+        if '(' in w:
+            e['bands'].add(w.split('(')[1].split()[0])
+        e['settings'].add(w.split(' (')[0])
+        if r.get('ticket'):
+            e['tickets'].add(r['ticket'])
+
+    solar = [r for r in rows if r.get('metric', 'pct_below_0.5') == 'pct_below_0.5']
+    solar_corrected = [r for r in solar if r.get('after_pct_below_0.5') is not None]
+    determined = [{'holding': r.get('product'), 'window': r.get('window'),
+                   'header_state': r.get('header_state'), 'flux_state': r.get('flux_state'),
+                   'excess_ratio': r.get('excess_ratio'), 'ticket': r.get('ticket')}
+                  for r in rows if str(r.get('metric', '')).startswith('state_only')]
+    uncorrected = [i for i in instruments if i.get('telluric_applied') == 'not-applied']
+
+    return {
+        'corrected_stellar': [
+            {'instrument': k[0], 'holding': k[1], 'products': v['products'],
+             'gates_pass': v['pass'], 'gates_fail': v['fail'],
+             'bands': sorted(v['bands']), 'settings': sorted(v['settings']),
+             'tickets': sorted(v['tickets'])}
+            for k, v in sorted(corrected.items())],
+        'corrected_solar_bands': len(solar_corrected),
+        'solar_bands_not_corrected': len(solar) - len(solar_corrected),
+        'determined_not_corrected': determined,
+        'holdings_still_not_applied': [i.get('holding') for i in uncorrected],
+        # Facts about the world, each carrying the ticket that established it. Declared
+        # rather than derived because no artifact in this repo can measure them.
+        'blockers': [
+            {'what': 'HARPS / any La Silla instrument',
+             'why': ('ESO ships a GDAS tarball for PARANAL ONLY, so a per-night La Silla '
+                     'profile had to be pulled by hand. RYA-983 automated the NOAA ARL '
+                     'archive (byte-range, 10.7 MB per night rather than 599 MB), so this '
+                     'is unblocked but not yet run.'),
+             'ticket': 'RYA-983'},
+            {'what': 'any night before 2004-12-01',
+             'why': ('the NOAA ARL GDAS1 archive begins there. Under the RYA-380 '
+                     'no-standard-atmosphere rule those frames can never be corrected by '
+                     'this route — a PERMANENT gap, not a backlog item. Three of tau '
+                     "Ceti's 32 HARPS nights sit below it."),
+             'ticket': 'RYA-983'},
+            {'what': 'scoring a corrected stellar spectrum',
+             'why': ('measure_band_ew._INSTRUMENT_HOLDINGS still contains no non-solar '
+                     'holding and HoldingSpec carries no star, so there is nothing to '
+                     'point the harness at. RYA-985 made the synthesis star-generic; the '
+                     'holding half is open.'),
+             'ticket': 'RYA-985'},
+        ],
+        'caveats': [
+            {'what': 'the K-band telluric anchor',
+             'note': ('Y/J/H close within 1.93 km/s on every frame; K2148 and K2192 rail '
+                      'on tau Ceti and K2148 failed on alpha Cen. The CORRECTION is '
+                      'unaffected (the fit is topocentric and never uses the zero-point) '
+                      'but an absolute RV from a K frame is not trustworthy.'),
+             'ticket': 'RYA-973'},
+            {'what': "alpha Cen's A/B star id",
+             'note': ('rests on the acen_orbit branch assignment RYA-963 left CONTESTED: '
+                      'the CRIRES pair says it is inverted, RYA-384\'s NIRPS anchor says '
+                      'it is not, and both cannot be right.'),
+             'ticket': 'RYA-963'},
+        ],
+    }
+
+
+
 def collect_model_matrix() -> dict:
-    """RYA-1015 element x model-type availability, reconciled CSV vs disk vs code.
+    """RYA-1015 element x model-type availability + engines + molecules.
 
-    A STANDING view: regenerated with the rest of the tracker, so "what atoms have what
-    models" is read off a generated grid instead of re-derived in conversation.
-
-    The disk half is a committed Sirius `find -L` snapshot whose positive control must
-    have PASSED; if it did not, the matrix loud-fails rather than reporting absences
-    that are symlink artifacts (RYA-1013). We surface that as an explicit error row
-    rather than dropping the section, so a blind scan can never look like "no grids".
+    Loud-fails visibly (an `error` key the page renders) rather than dropping the
+    section, so a blind Sirius scan can never look like "no grids".
     """
-    from pipeline.model_availability_matrix import build_matrix, DiskSnapshotError
     try:
-        return build_matrix()
-    except DiskSnapshotError as exc:
-        return {"error": str(exc), "cells": [], "problem_count": None}
+        from pipeline.model_availability_matrix import (
+            build_matrix, build_engine_matrix, build_molecule_matrix)
+        m = build_matrix()
+        m["engines"] = build_engine_matrix(m)
+        m["molecules"] = build_molecule_matrix()
+        from pipeline.model_availability_matrix import write_findings_csv
+        from pathlib import Path as _P
+        write_findings_csv(m, m["engines"], m["molecules"],
+                           _P(__file__).resolve().parents[1] / "data" / "results"
+                           / "rya935" / "model_availability_findings.csv")
+        m["findings_csv"] = "model_availability_findings.csv"
+        return m
+    except Exception as exc:                      # noqa: BLE001 - surfaced on the page
+        return {"error": f"{type(exc).__name__}: {exc}", "cells": [],
+                "engines": [], "molecules": [], "problem_count": None}
 
 
 def main() -> None:
@@ -305,6 +703,7 @@ def main() -> None:
     instruments = set(M._INSTRUMENT_HOLDINGS)
     holdings = {s.holding_id for specs in M._INSTRUMENT_HOLDINGS.values() for s in specs}
     roots = args.products_root or [ROOT / "data" / "results"]
+    _EXTRA_RESULT_ROOTS.extend(Path(r).resolve() for r in roots)
 
     products = collect_products(roots, instruments, holdings)
     status = {
@@ -313,24 +712,122 @@ def main() -> None:
         "refresh_seconds": args.refresh_seconds,
         "derivation_note": ("Every value here is read from a product or a registry. "
                             "Nothing is typed. The ticket pipeline is deliberately "
-                            "absent: it is Linear state, and a committed copy drifts. "
-                            "RYA-990: no product carries a graded/consistent/no-bueno "
-                            "TIER field, so no tier is shown -- `selector` and "
-                            "`dominant_term` are the only tier signals on disk and are "
-                            "reported as themselves rather than inferred into a tier."),
-        "elements": sorted({p["element"] + p["ion"] for p in products}),
+                            "absent: it is Linear state, and a committed copy drifts."),
+        # EVERY species in the frozen gold reference, not merely those with products.
+        # This page is the progress framework for the whole solar calibration and
+        # then for every star after it, so early on the absences ARE the content --
+        # listing only what is finished would hide the work that remains.
+        "elements": None,   # filled below, once the reference is read
+        "elements_with_products": sorted({p["element"] + p["ion"] for p in products}),
         "bands": ["near-UV", "VIS", "red-optical", "NIR"],
-        "instruments": collect_instruments(),
+        "instruments": (_inst := collect_instruments()),
         "products": products,
-        "telluric": collect_telluric(args.audit_root),
+        "telluric": (_tel := collect_telluric(args.audit_root)),
+        "telluric_summary": None,       # filled below; needs both lists
+        "reference": collect_reference(ROOT),
+        # 🔴 RYA-1031: SUPERSEDED, and it was rendering as "PRIMARY". This is the older
+        # RYA-850 graded lineage (Fe I VIS n=9, A=7.445) read from rya850_summary.json.
+        # It sat at the TOP of the forest labelled PRIMARY, above the RYA-933 graded
+        # products measured on the same band with 67 lab-gf lines. Two graded lineages on
+        # one plot with the SMALLER one called primary is worse than showing neither --
+        # the reader cannot tell which pool the headline refers to. Kept in the artifact
+        # under `graded_superseded`; off the plot.
+        "graded": [],
+        "graded_superseded": collect_graded(ROOT),
         "model_matrix": collect_model_matrix(),
+        "reporting_contract": {
+            "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
+            "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
+            "headline_rule": "the ungraded value is NEVER the headline (RYA-851)",
+            "bars": "statistical SOLID, systematic WIREFRAME -- never summed; "
+                    "error_budget.py deliberately provides no combined()",
+        },
     }
+    # 🔴 THE ROSTER STAYS KEYED BY SPECIES. The page joins products to the roster with
+    # `p.element + p.ion === sp`, so rewriting "FeI" to "Fe" here silently broke every
+    # join and the page rendered nothing at all -- a display change is not allowed to
+    # move a join key (RYA-906). The label travels ALONGSIDE the key instead.
+    status["elements"] = sorted(status["reference"])
+    status["element_labels"] = {sp: species_display(sp) for sp in status["elements"]}
+    status["telluric_summary"] = telluric_summary(_tel, _inst)
+    status["system"] = "solar"   # the framework is per-star; this build is the Sun
+
+    # WHY a cell is empty. Computed once per (holding, band) and NOT per element,
+    # because every blocker the resolver reports -- wiring, coverage, the telluric
+    # gate -- is a property of the holding and the band. Recomputing it per element
+    # would be 26x the work for identical answers, and would invite someone to read
+    # element-specific meaning into a reason that has none.
+    from pipeline import band_policy
+    reachability = {}
+    for inst in status["instruments"]:
+        for policy in band_policy.POLICIES:
+            try:
+                reason = why_no_product("Fe", "I", inst["holding"], inst["instrument"],
+                                        policy.lo_A, policy.hi_A)
+            except Exception as exc:                            # noqa: BLE001
+                reason = f"could not resolve: {exc}"
+            reachability[f"{inst['holding']}|{policy.name}"] = reason
+    status["reachability"] = reachability
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(status, indent=2) + "\n")
-    species = ", ".join(status["elements"]) or "(none)"
-    print(f"{len(products)} product rows across {species} -> {args.out}")
+    have = ", ".join(status["elements_with_products"]) or "(none)"
+    print(f"{len(products)} product rows across {have}; "
+          f"{len(status['elements'])} species tracked -> {args.out}")
     unattributed = sum(1 for p in products if p["holding"] is None)
     status["unattributed_products"] = unattributed
+    status["variant_products"] = sum(1 for p in products if p["is_variant"])
+    status["run_contexts"] = sorted({p["run_context"] for p in products})
+    for row in products:
+        row.update(telluric_state_of(row, row.get("committed")))
+    status["pre_correction_products"] = sum(
+        1 for p in products if p["telluric_basis"].startswith("PRE"))
+    # 🔴 RYA-1026 display gate. Applied HERE, after every row is built, so the split is
+    # visible in the artifact rather than done silently in the page's javascript.
+    # 🔴 RYA-1026's RATIFIED gate, not a second one. This called a display_class()
+    # hand-rolled here, which duplicated `pipeline.telluric_display_policy` and would
+    # have drifted from it the first time the policy changed -- two implementations of
+    # one rule is how a ratified decision quietly stops being enforced.
+    #
+    # `display_state` is used rather than `assert_displayable`: the tracker must SHOW a
+    # blocked product with its reason, and raising would kill the whole page over one
+    # bad row. An omission reads as "no data", which is absence-as-conclusion (RYA-833).
+    from pipeline.telluric_display_policy import display_state, anomaly
+    _science, _withheld = [], []
+    for row in products:
+        holding = row.get("holding")
+        state = display_state(holding) if holding else "UNREGISTERED"
+        row["display_state"] = state
+        # CLEAN_WITH_ANOMALY is not CLEAN, and the difference is the anomaly text.
+        # Carrying the state without it would render a caveated holding as unqualified.
+        row["telluric_anomaly"] = anomaly(holding) if holding else None
+        # The gf-graded tier is what the page reports (RYA-1026). DEEPGRADED is rung 3
+        # too and is still withheld: it is a DIFFERENT line selection (the 109 saturated
+        # lines above the EW depth gate), not a second opinion on the same 67, and
+        # mixing selections in one view reads a selection difference as a measurement
+        # difference (RYA-842/984).
+        sel = str(row.get("selector") or "")
+        if not sel.startswith("GRADED"):
+            row["not_displayed_because"] = (
+                f"selector {sel!r} is not the graded tier; RYA-1026 reports the "
+                f"gf-graded product. Kept on disk and listed here, not deleted")
+            _withheld.append(row)
+        elif state in ("CLEAN", "CLEAN_WITH_ANOMALY"):
+            _science.append(row)
+        else:
+            row["not_displayed_because"] = (
+                f"holding {holding!r} is {state}; RYA-1026 displays telluric-corrected "
+                f"input only")
+            _withheld.append(row)
+    status["products"] = _science
+    status["products_withheld"] = _withheld
+    status["withheld_summary"] = {
+        "n_withheld": len(_withheld),
+        "rule": "RYA-1026: displayed science is telluric-corrected input only; the "
+                "KP2005-vs-KP1984 control pair is the whitelisted exception",
+        "note": "Withheld rows are NOT deleted -- they are on disk and listed here with "
+                "the reason, so a gap in the page reads as 'owed a corrected re-run' "
+                "rather than as 'nothing measured' (RYA-833).",
+    }
     args.out.write_text(json.dumps(status, indent=2) + "\n")
     for i in status["instruments"]:
         have = {p["band"] for p in products if p["holding"] == i["holding"]}

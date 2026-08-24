@@ -58,6 +58,31 @@ MODEL_TYPES: tuple[str, ...] = ("1D_LTE", "1D_NLTE", "MEAN3D_NLTE", "FULL_3D_NLT
 #: is a different question and therefore reports different values for the same element.
 #: Both are kept; neither is silently resolved into the other.
 
+#: <3D> decks now consumed by an Engine-B route (RYA-821). Keyed element -> deck id.
+_MEAN3D_WIRED: dict[str, str] = {"Al": "Al@mean3D"}
+
+#: <3D> deck PRESENT on Sirius (element -> deck filename stem). Wiring one is the Al
+#: pattern: a registry entry plus its own atmosphere. Not a research task.
+_MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Y"})
+
+#: Model atoms held on Sirius (gerber_ts/atom.*). Half of a departure solve: with the
+#: <3D> STAGGER atmosphere these become reachable the moment the tier-2 solver works.
+_MODEL_ATOMS: frozenset = frozenset({
+    "Al", "Ba", "Ca", "Co", "Cr", "Eu", "Fe", "H", "Mg", "Mn", "Na", "Ni", "O",
+    "Si", "Sr", "Ti", "Y"})
+
+#: 🔴 THE WHOLE MEAN3D_NLTE COLUMN *IS* TIER 2. RYA-1013 defines tier-2 as
+#: "<3D>/1.5D NLTE", so every cell here is a tier-2 capability -- the question is never
+#: "which tier", it is WHICH ROUTE delivers it and how far along that route we are.
+#: RYA-1013 names the routes: CONSUME a published deck, BUILD-OUR-OWN, or the full-3D
+#: check. These states track route + readiness, and deliberately do NOT reuse the word
+#: "tier" for anything else.
+T2_CONSUME_VALIDATED = "T2_CONSUME_VALIDATED"  # published deck wired AND proven end-to-end
+T2_CONSUME_WIRED = "T2_CONSUME_WIRED"          # published deck wired; run still owed
+T2_CONSUME_READY = "T2_CONSUME_READY"          # deck + atom on disk, nothing consumes them
+T2_BUILD_OWED = "T2_BUILD_OWED"                # no deck; atom + <3D> atmosphere held ->
+                                               # reachable only by the build-our-own route
+
 #: Cell states.
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
 CODE_USES = "CODE_USES"        # the pipeline applies it now (code is ground truth)
@@ -331,6 +356,7 @@ class Cell:
     facts: list[str] = field(default_factory=list)
     error: str = ""      # what is actually wrong (BROKEN cells)
     fix: str = ""        # the concrete next action (BROKEN / NEEDS_WIRING cells)
+    routes: dict = field(default_factory=dict)   # route -> status (tier-2 cells)
 
     @property
     def is_problem(self) -> bool:
@@ -347,6 +373,7 @@ class Cell:
             "facts": self.facts,
             "error": self.error,
             "fix": self.fix,
+            "routes": self.routes,
             "problem": self.is_problem,
         }
 
@@ -598,36 +625,108 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
     if mt == "MEAN3D_NLTE":
         offsolar = (row.get("offsolar_3d_nlte") or "").strip()
         solar = (row.get("solar_3d_nlte") or "").strip()
-        if (h := THREED_HOLDINGS.get(base)) and h["kind"] == "MEAN3D_NLTE":
-            cell.state = HAVE
-            cell.code_grid = h["path"]
-            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
-            if disk_paths:
-                cell.facts.append(
-                    f"ALSO holds {len(disk_paths)} unwired <3D> STAGGERmean3D deck(s) "
-                    f"on Sirius -- a second, richer route nothing consumes yet.")
-        elif disk_paths:
-            cell.state = DISK_ONLY
+        # ORDER MATTERS. A held deck outranks a solar-only scalar increment: marking Cr
+        # HAVE on solar3d_metals (a SOLAR-ONLY number) hid its full parameter-space <3D>
+        # deck sitting unwired. A HAVE that masks a NEEDS_WIRING is the worst kind of
+        # wrong -- it looks finished.
+        # RYA-1013 names TWO independent routes to the same tier-2 number. An element
+        # can sit at different readiness on each, and collapsing them to one state hides
+        # exactly the case worth having: BOTH available => a cross-check, because the
+        # routes share no machinery. Al is the first element in that position.
+        cell.routes = {
+            "consume": ("WIRED" if base in _MEAN3D_WIRED else
+                        "READY" if base in _MEAN3D_DECKS else "no deck"),
+            "build_our_own": ("OWED — atom + <3D> atmosphere held"
+                              if base in _MODEL_ATOMS else "blocked — no model atom"),
+        }
+        if base in _MEAN3D_WIRED and base in _MODEL_ATOMS:
+            cell.routes["cross_check"] = (
+                "BOTH routes available — consume is wired and build-our-own is "
+                "reachable, and they share no machinery. Running both gives an "
+                "independent check of the same number (the RYA-1013 triangle logic, "
+                "applied to this element).")
+
+        if base in _MEAN3D_WIRED:
+            cell.state = T2_CONSUME_WIRED
+            cell.code_grid = _MEAN3D_WIRED[base]
+            cell.facts.append(
+                f"WIRED (RYA-821) via gerber_nlte deck '{_MEAN3D_WIRED[base]}'. Keyed at "
+                f"STAGGER coordinates (Teff 5777 / logg 4.44), NOT MARCS 5750/4.5 -- "
+                f"measured 0 rows at the MARCS node, 31 at the STAGGER node -- so the "
+                f"atmosphere is carried per-deck.")
+            cell.state = PROBLEM
             cell.error = (
-                f"{len(disk_paths)} <3D> STAGGERmean3D deck(s) are ON SIRIUS and paid "
-                f"for, but NO code path consumes a <3D> departure deck at all. This is "
-                f"not missing data -- it is unwired data.")
+                "THE DECK IS FINE; THE VENDOR INTERPOLATOR IS NOT (verified 2026-08-23). "
+                "Reading the deck DIRECTLY in Python at the solar node gives n_dep=101, "
+                "n_lev=354, log tau -5.000..+5.000 -- EXACTLY our <3D> atmosphere's "
+                "range -- with physical departures (b~1.0 in deep layers, deviating to "
+                "0.41 at the surface), 100% finite, zero all-zero rows. Record layout "
+                "verified: 500(id) + 4(n_dep) + 4(n_lev) + 101*8(tau) + 101*354*8(bvals) "
+                "= 287,348 bytes = the observed stride across all 6,345 records. "
+                "interpol_multi_nlte produced ALL-ZERO b-values and then corrupted the "
+                "heap (glibc malloc assertion) on the SAME record this reader parses "
+                "correctly -- so the fault is that binary, not the data. "
+                "EARLIER ATTEMPT DETAIL: The registry wiring is "
+                "correct; interpol_modeles_nlte cannot use this deck. TWO faults, both "
+                "measured, with the MARCS Al deck passing as a control in the same "
+                "harness: (1) fed the <3D> atmosphere it CRASHES -- 'Bad real number in "
+                "item 1 of list input' at interpol_modeles_nlte.f:1284. babsma reads "
+                "TAU5000 SCALE fine, this binary does NOT; validating one says nothing "
+                "about the other. (2) fed a MARCS corner it exits rc=0 and writes NO "
+                "departure file -- 'ERROR: no match found for model 1', because the deck "
+                "is keyed at Teff 5777 / logg 4.44 and MARCS models exist at 5750 / 4.50. "
+                "It also prints 'Min abund is ********', a Fortran field overflow "
+                "consistent with the nan entries in this aux table's mass/Vturb columns.")
             cell.fix = (
-                "Add a <3D> consumer: register the deck in the gerber_nlte registry and "
-                "give Engine-B a <3D> route (today it only reads MARCS 1D decks). "
-                "Same shape as the Al blocker in RYA-1005 -- a registry line, not a fetch.")
-        elif False:
-            cell.state = HAVE
-            cell.code_grid = h["path"]
-            cell.facts.append(f"CAN RUN via {h['engine']}: {h['what']} ({h['path']}).")
+                "BLOCKED ON AN INPUT THAT IS NOT PUBLICLY DISTRIBUTED. Traced to the "
+                "source: interpol_modeles_nlte.f reads ONLY native MARCS (its two flags "
+                "are `test` and binary-vs-ascii MARCS -- there is no averaged-format "
+                "mode), and native MARCS requires tauR and Pg per depth. The public <3D> "
+                "STAGGER models carry neither: BOTH archives on the MPG Keeper share "
+                "(average_stagger_grid_forTSv20.zip and ..._forMULTI1D.zip) hold the same "
+                "5-column mul23 TAU5000 form -- log tau500, T, n_e, V, v_mic -- and the "
+                "MULTI1D copy is byte-identical in content to the one we already hold. "
+                "So the deck's aux names MARCS files (p5777_g+4.4...) that the "
+                "distribution does not ship; Gerber's group evidently converted <3D> "
+                "models to MARCS internally. "
+                "BEST OPTION -- READ THE DECK DIRECTLY. The layout is fully determined "
+                "and verified, so the vendor binary is not needed at all, and this also "
+                "dissolves the corner-model problem: a direct reader takes the node from "
+                "the aux instead of from 8 MARCS files. "
+                "FALLBACKS: (a) ask the Gerber/Bergemann group for the MARCS-format <3D> "
+                "models the aux indexes -- one email, same ask-shape as RYA-1008; "
+                "(b) derive Pg and tauR ourselves (Pg from the EOS tables we hold; tauR "
+                "needs Rosseland opacities, the harder half); (c) reach Al <3D> by the "
+                "BUILD-OUR-OWN route instead, which does not use this binary. "
+                "DO NOT feed a 5750/4.50 MARCS corner to force a run -- it pairs <3D> "
+                "departures with a different atmosphere at a node the deck does not "
+                "contain, and rc=0 makes that look like success.")
+        elif base in _MEAN3D_DECKS:
+            cell.state = T2_CONSUME_READY
+            cell.disk_paths = disk_paths or cell.disk_paths
+            cell.error = ("A <3D> STAGGERmean3D deck AND its model atom are BOTH on "
+                          "Sirius, and nothing consumes them.")
+            cell.fix = ("Wire on the Al pattern (RYA-821): add a `<El>@mean3D` entry to "
+                        "gerber_nlte.DECKS carrying its OWN atmosphere. Mechanical, not "
+                        "research.")
+            if h := THREED_HOLDINGS.get(base):
+                cell.facts.append(
+                    f"NOTE: a solar-only increment also exists ({h['path']}) -- that is "
+                    f"a SCALAR at the solar node, not a parameter-space grid. It must "
+                    f"not be reported as though it were this deck.")
+        elif base in _MODEL_ATOMS:
+            cell.state = T2_BUILD_OWED
+            cell.error = ("No <3D> deck. We DO hold the model atom and the <3D> STAGGER "
+                          "atmosphere -- the missing piece is the departure solve.")
+            cell.fix = ("Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 "
+                        "work, not a different tier. NOT an acquisition. "
+                        "Nothing to fetch and nothing to ask for.")
         elif solar in ("FULL_3D_NLTE", "MEAN3D_NLTE") or offsolar == "GRID_MEAN3D":
-            # A published solar 3D/<3D> treatment exists for this element, but we hold
-            # no <3D> deck -> the corrections are obtainable only by request/from a
-            # paper table (e.g. <3D> O = Amarsi 2016 Table 5, not a public download).
             cell.state = REQUEST_ONLY
             cell.facts.append(
                 f"RYA-817 literature: solar={solar or '-'}, offsolar={offsolar or '-'}. "
-                f"Published, but no <3D> deck on disk -> paper-table / request only.")
+                f"Published, but we hold NEITHER a deck NOR a model atom -- this one "
+                f"genuinely has to be asked for.")
         else:
             cell.state = NONE
             if solar or offsolar:
@@ -991,6 +1090,7 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
         w.writerow(["kind", "subject", "model_type", "state", "can_run",
                     "engine", "grid_or_path", "disk_decks",
                     "source_url", "citation", "md5", "provenance_caveat",
+                    "route_consume", "route_build_our_own", "cross_check",
                     "error", "fix", "owned_by_ticket", "anomalies",
                     "source_csv_note", "notes"])
         for c in matrix["cells"]:
@@ -1036,6 +1136,9 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                 gp, "; ".join(Path(p).name for p in c["disk_paths"]),
                 src.get("source_url", ""), src.get("citation", ""),
                 src.get("md5", ""), src.get("caveat", ""),
+                (c.get("routes") or {}).get("consume", ""),
+                (c.get("routes") or {}).get("build_our_own", ""),
+                (c.get("routes") or {}).get("cross_check", ""),
                 c.get("error", ""), c.get("fix", ""), owner,
                 ANOMALIES.get((c["element"], c["model_type"]), ""),
                 csv_notes.get((c["element"], c["model_type"]), ""),
@@ -1047,7 +1150,7 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                         "yes" if m["lte_linelist"] else "no",
                         "Engine-B (synthesis)", m["lte_linelist"] or "", "",
                         "iSpec input/linelists/turbospectrum/molecules (RYA-360)"
-                        if m["lte_linelist"] else "", "", "", "",
+                        if m["lte_linelist"] else "", "", "", "", "", "",
                         "", "acquire the linelist" if not m["lte_linelist"] else "",
                         m.get("ticket", ""),
                         "" if m["lte_linelist"] else
@@ -1061,7 +1164,7 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
                         "Gerber, Bergemann et al. 2023, A&A 669, A43"
                         if m["nlte_deck"] else "", "",
                         "NO DOI, mutable Seafile -> md5-pinned"
-                        if m["nlte_deck"] else "",
+                        if m["nlte_deck"] else "", "", "", "",
                         "", "", m.get("ticket", ""),
                         "Only ONE molecular NLTE deck exists in our holdings (CO). "
                         "Every other molecule is LTE-only." if not m["nlte_deck"] else "",
@@ -1070,5 +1173,5 @@ def write_findings_csv(matrix: dict, engine_rows: list[dict],
         # rows. Without these the CSV is an inventory; with them it is the audit.
         for kind, title, detail in AUDIT_ANOMALIES:
             w.writerow(["anomaly", kind, "", "FINDING", "", "", "", "", "", "", "", "",
-                        "", "", "", title, "", detail])
+                        "", "", "", "", "", title, "", detail])
     return out
