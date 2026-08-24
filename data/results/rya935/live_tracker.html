@@ -46,6 +46,13 @@ h3 .m{font-weight:400;color:var(--muted);font-size:.85em}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 12px;font-size:.85em}
 .bandhdr{margin:12px 0 3px;font-size:.82em;letter-spacing:.08em;text-transform:uppercase;
           color:var(--mut);border-bottom:1px solid var(--rule);padding-bottom:2px}
+/* RYA-1031 (Ryan): the forest was one flat list per band, so tracking a single arm
+   meant reading every row's label. Instrument is a SUB-SECTION inside the band, not a
+   new plot -- the arms share the band's axis, and that shared axis is the whole point
+   of comparing them. Indented and lighter than .bandhdr so the hierarchy reads. */
+.insthdr{margin:9px 0 2px 0;font-size:.74em;letter-spacing:.06em;text-transform:uppercase;
+          color:var(--mut);opacity:.85;padding-left:2px;border-left:2px solid var(--rule)}
+.insthdr b{font-weight:600;letter-spacing:.04em}
 .legend i{display:inline-block;width:22px;height:0;border-top:2px solid currentColor;
           vertical-align:middle;margin-right:5px}
 .bar{position:absolute;top:8px;height:4px;background:var(--link);border-radius:2px}
@@ -200,7 +207,7 @@ function forest(d){
           +'<span class="val note">'+fx(g.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
           +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
       }).join('');
-      h+=rows.map(r=>{
+      const renderRow=r=>{
         // RYA-851: statistical SOLID, systematic WIREFRAME. NEVER summed --
         // error_budget.py:203 deliberately provides no combined(), because
         // collapsing the two is how a frontier number gets misread. The previous
@@ -258,7 +265,26 @@ function forest(d){
           +'<i class="dot" style="left:'+x(r.A)+'%"></i></span>'
           +'<span class="val note">'+fx(r.A,3)+' <b>&plusmn;'+fx(st,3)+'</b>'
           +' <span class="muted">&plusmn;'+fx(sy,3)+' sys</span></span></div>';
-      }).join('');
+      };
+      // GROUP BY INSTRUMENT inside the band. Grouped on `instrument`, not `holding`:
+      // the two Kitt Peak holdings (KP2005 and the molecfit-corrected 1984 composite)
+      // are one ARM measured two ways, and that comparison is the reason to look. The
+      // holding still leads every row label, so the distinction never disappears --
+      // and the telluric badge is per-row, so a mixed group cannot hide an
+      // uncorrected sibling.
+      const byInst=new Map();
+      for(const r of rows){const k=r.instrument||'(instrument not recorded)';
+        if(!byInst.has(k)) byInst.set(k,[]); byInst.get(k).push(r);}
+      // One arm needs no sub-heading -- a sub-section of one is noise, which is the
+      // clutter this is meant to remove, not add to.
+      h+=byInst.size<2
+        ? rows.map(renderRow).join('')
+        : [...byInst.keys()].sort().map(k=>{
+            const rs=byInst.get(k);
+            return '<div class="insthdr"><b>'+esc(k)+'</b> <span class="muted">&middot; '
+              +rs.length+' product'+(rs.length>1?'s':'')+'</span></div>'
+              +rs.map(renderRow).join('');
+          }).join('');
       const step=[0.02,0.05,0.1,0.2,0.5,1].find(t=>span/t<=9)||1;
       let ticks='';
       for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step)
