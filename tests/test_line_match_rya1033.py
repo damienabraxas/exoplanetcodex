@@ -210,3 +210,32 @@ def test_no_rounded_wavelength_join_keys_remain():
     assert not hits, (
         "rounded-wavelength key(s) reintroduced — use pipeline.line_match instead:\n  "
         + "\n  ".join(hits))
+
+
+# ── the guard is actually CALLED in the production product path ──────────────────────
+
+def test_perline_product_refuses_to_publish_an_unresolved_line():
+    """🔴 A guard that is never invoked is not a guard.
+
+    `build_perline_product` used to emit `gf_source == "UNRESOLVED"` and merely COUNT it in
+    `accounting`. This pins both halves: the check raises on a row with no provenance, and
+    `build_perline_product` calls it.
+    """
+    import inspect
+
+    from pipeline import perline_product as pp
+
+    good = pd.DataFrame({"element": ["Fe"], "ion": ["I"],
+                         "wavelength_air_A": [5000.0],
+                         "gf_source": ["PRIMARY LAB Ruffoni2014"]})
+    pp.assert_provenance_resolved(good)          # must not raise
+
+    declared = good.assign(gf_source=["linelist (not in canonical_gf)"])
+    pp.assert_provenance_resolved(declared)      # a NAMED source is not the failure
+
+    bad = good.assign(gf_source=["UNRESOLVED"])
+    with pytest.raises(pp.PerLineProductError, match="NO gf provenance"):
+        pp.assert_provenance_resolved(bad)
+
+    assert "assert_provenance_resolved(out)" in inspect.getsource(pp.build_perline_product), \
+        "build_perline_product must CALL the guard, not merely define it"
