@@ -6,7 +6,7 @@
   "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
   "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
   "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540). The payload was ALREADY STAGED on Sirius before this ticket: RYA-785 was filed saying atom.fe607a was 'AVAILABLE-NEVER-PULLED', but all three files were on disk. What was missing was this provenance record — the element status tracker reads the REGISTRATION, not the disk, so an unregistered-but-present deck reads as never fetched. Nothing was re-downloaded; the staged bytes were md5'd in place.",
-  "sirius_only": "Sirius /srv/codex/grids/nlte/gerber_ts/ only (RYA-526/567). The 3.9 GB .bin is symlinked out to /mnt/codex-data/gerber_overflow/ (the RYA-710 spill-over plan).",
+  "sirius_only": "Sirius /srv/codex/grids/nlte/gerber_ts/ only (RYA-526/567). The 3.9 GB .bin is symlinked out to /mnt/codex-data/gerber_overflow/ (the RYA-710 spill-over plan). RYA-1035 added the <3D> pair (NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin + the PLAIN aux) to the same directory; 109 GB free on /mnt/codex-ext after, and the path was resolved with readlink before measuring (RYA-800).",
   "files": {
     "model_atom": {
       "name": "atom.fe607a",
@@ -34,7 +34,7 @@
       "bytes": "72073326",
       "md5_unpacked": "d3fa0517d828a79e4eb21eaf6d4f0ae4",
       "bytes_unpacked": "92945908",
-      "note": "RYA-1035. The Fe <3D> STAGGERmean3D departure deck -- 189 atmosphere nodes, ndep=101, nlev=607, log tau -5.000..+5.000. Verified by direct read at the solar node p5777g44m00: all finite, no all-zero rows, median b -> 1.0000 at the deepest layer (the LTE limit). Layout confirmed twice, as RYA-821 did for Al: 500(id)+4+4+101*8+101*607*8 = 491,772 bytes, and the aux's consecutive pointers differ by exactly that (1001 -> 492773), so the pointer is 1-BASED after a 1000-byte header. NOT YET STAGED ON SIRIUS."
+      "note": "RYA-1035. The Fe <3D> STAGGERmean3D departure deck -- 189 atmosphere nodes, ndep=101, nlev=607, log tau -5.000..+5.000. Verified by direct read at the solar node p5777g44m00: all finite, no all-zero rows, median b -> 1.0000 at the deepest layer (the LTE limit). Layout confirmed twice, as RYA-821 did for Al: 500(id)+4+4+101*8+101*607*8 = 491,772 bytes, and the aux's consecutive pointers differ by exactly that (1001 -> 492773), so the pointer is 1-BASED after a 1000-byte header. STAGED ON SIRIUS 2026-08-24 (RYA-1035): /mnt/codex-ext/codex-grids/nlte/gerber_ts/, unpacked md5 verified in place against the Mac measurement. Route verified END-TO-END on the staged bytes: solar node p5777g44m00, ndep 101, nlev 607, log tau -5..+5, A(X)=7.50, all finite, no all-zero rows, median b 1.0000 at depth, departures sha256 62556a5664d0b8f7 -- IDENTICAL to the Mac read, and the six suspect rows refused."
     },
     "grid_3d_aux": {
       "name": "auxData_Fe_STAGGERmean3D_May-21-2021.txt",
@@ -42,7 +42,8 @@
       "md5": "302769ca102530e9a209e1887df8c3cd",
       "bytes": "19003",
       "committed_copy": "data/nlte_grids/gerber_ts/fe_mean3d_aux/",
-      "note": "🔴 REGISTER Fe@mean3D AGAINST THIS ONE, NOT THE _marcs_names SIBLING -- the opposite of Al. Its [Fe/H] column is ZEROED on the seven Teff=5777 rows (named m00/m05/m10/m20/m30/m40/p05, column +0.00 for all seven); the other 182 rows agree with their names exactly, so the column is wrong and the name is right. gerber_nlte._parse_aux_text referees the column with the name and restores all six."
+      "note": "🔴 REGISTER Fe@mean3D AGAINST THIS ONE, NOT THE _marcs_names SIBLING -- the opposite of Al. Its [Fe/H] column is ZEROED on the seven Teff=5777 rows (named m00/m05/m10/m20/m30/m40/p05, column +0.00 for all seven); the other 182 rows agree with their names exactly, so the column is wrong and the name is right. gerber_nlte._parse_aux_text referees the column with the name and restores all six.",
+      "staged": "/mnt/codex-ext/codex-grids/nlte/gerber_ts/auxData_Fe_STAGGERmean3D_May-21-2021.txt (RYA-1035, 2026-08-24, md5 verified in place)"
     },
     "grid_3d_aux_marcs_names_DO_NOT_USE": {
       "name": "auxData_Fe_STAGGERmean3D_May-21-2021_marcs_names.txt",
