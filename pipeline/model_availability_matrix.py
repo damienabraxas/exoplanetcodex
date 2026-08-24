@@ -85,7 +85,10 @@ _MEAN3D_WIRED: dict[str, str] = _mean3d_wired()
 
 #: <3D> deck PRESENT on Sirius (element -> deck filename stem). Wiring one is the Al
 #: pattern: a registry entry plus its own atmosphere. Not a research task.
-_MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Y"})
+#: Fe added RYA-710: staged 2026-08-24 into /mnt/codex-ext/codex-grids/nlte/gerber_ts/,
+#: md5-verified in place. ⚠️ The PLAIN aux only -- the `_marcs_names` sibling is
+#: deliberately not on Sirius (RYA-1035).
+_MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Fe", "Y"})
 
 #: 🔴 RYA-1035 -- <3D> DECKS THE VENDOR PUBLISHES, WHICH IS NOT THE SAME SET AS THE ONES WE
 #: HOLD, AND THE DIFFERENCE WAS BEING REPORTED AS "nothing to fetch".

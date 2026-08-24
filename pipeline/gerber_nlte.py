@@ -111,6 +111,34 @@ DECKS = {
                       # RYA-821: no vendor binary can read a <3D> deck -- see
                       # `read_deck_node` for the traced reason and the verified layout.
                       read_via="direct"),
+    # RYA-710 (route found + staged under RYA-1035). Fe's <3D> deck -- the second element
+    # to take the RYA-821 direct-read route, and the SIMPLER of the two.
+    #
+    # 🔴 THE PLAIN AUX, NOT THE `_marcs_names` SIBLING -- THE OPPOSITE OF Al ABOVE, AND
+    # DELIBERATELY SO. The vendor's aux zeroes [Fe/H] on the seven Teff=5777 rows, and its
+    # `convert_3d_grid_to_marcs_names.py` builds the MARCS-style name FROM that column --
+    # so the converted file collapses all seven distinct atmospheres to ONE byte-identical
+    # string and the solar node becomes unaddressable. The plain file keeps STAGGER's own
+    # names, which still encode the metallicity, so `_parse_aux_text` can referee the
+    # column and resolve the Sun to `p5777g44m00`. Measured both ways: `_marcs_names`
+    # REFUSES the solar node, plain returns it. ⚠️ Only the plain aux is staged on Sirius,
+    # so the wrong one cannot be picked up by accident. See RYA-1035.
+    #
+    # 🔴 NO ABUNDANCE AXIS, so the v118 machinery Al needed does NOT apply here: A(X) is
+    # exactly 7.50 + [Fe/H] across all 189 nodes, one value per atmosphere. The pre-v118
+    # hoisting of departures out of the chi2 loop was always correct for Fe and stays
+    # correct -- `has_abundance_axis` decides that per deck and answers False for this one.
+    #
+    # Node coords are STAGGER's (5777 / 4.44), like Al's, so the deck carries its own
+    # <3D> atmosphere rather than borrowing MARCS_SOLAR.
+    "Fe@mean3D": dict(Z=26, atom="atom.fe607a",
+                      aux="auxData_Fe_STAGGERmean3D_May-21-2021.txt",
+                      grid="NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin",
+                      atmos=str(ROOT / "data" / "atmospheres" / "stagger_avg3d_rya442"
+                                / "sun_avg3d_stagger.mod"),
+                      atmosphere_family="<3D> STAGGER (Magic et al. 2013)",
+                      node_coords="Teff 5777 / logg 4.44 — STAGGER, NOT MARCS 5750/4.5",
+                      read_via="direct"),
 }
 
 
