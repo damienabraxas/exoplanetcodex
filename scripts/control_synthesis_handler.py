@@ -92,7 +92,8 @@ def _guard_environment() -> None:
         raise SystemExit(f"iSpec not importable even with {ISPEC_SRC} on sys.path: {e}")
 
 
-def build_context(element: str, ion: str, resolving_power: float) -> dict:
+def build_context(element: str, ion: str, resolving_power: float,
+                  star: str = "solar") -> dict:
     """Assemble the synth context from the pipeline's own loaders — never invented."""
     _guard_environment()
     from pipeline.abundances_derive import (
@@ -106,9 +107,9 @@ def build_context(element: str, ion: str, resolving_power: float) -> dict:
         """A(X) on iSpec's internal scale -- independent of our banked reference."""
         return _ispec_solar_A_map([el], chem, sab)[el]
     import ispec
-    from config.constants import STAR_PARAMS
+    from config.constants import get_star_params
 
-    p = STAR_PARAMS["solar"]
+    p = get_star_params(star)          # RYA-985: star-generic, loud-fails on an unknown id
     teff, logg = float(p["teff"]), float(p["logg"])
     # Microturbulence is `xi` in stars.yaml, not `vmic`. My first pass used
     # p.get("vmic", p.get("microturbulence", 1.0)) and fell through to a HARDCODED 1.0.
@@ -118,8 +119,10 @@ def build_context(element: str, ion: str, resolving_power: float) -> dict:
     # changes the curve of growth and therefore biases A(X), not just its error bar.
     if "xi" not in p:
         raise SystemExit(
-            "no microturbulence (`xi`) in STAR_PARAMS for the Sun. Refusing to default "
-            "it -- xi sets the saturation regime and biases the fitted abundance.")
+            f"no microturbulence (`xi`) in STAR_PARAMS for {star!r}. Refusing to default "
+            f"it -- xi sets the saturation regime and biases the fitted abundance. "
+            f"55 Cnc A carries `xi_init`/`xi_xcheck` because it SOLVES xi (RYA-957); a "
+            f"solved parameter is not a config constant.")
     vturb = float(p["xi"])
     feh = float(p.get("feh", p.get("feh_ref", 0.0)))
 
@@ -166,6 +169,9 @@ REFERENCE_SOURCE = {"Fe": "RYA-553 banked A(Fe I) = 7.466 (Asplund 2021 gives 7.
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--star", default="solar",
+                    help="star id from config/stars.yaml. Default 'solar' keeps existing "
+                         "runs bit-identical (RYA-985).")
     ap.add_argument("--element", default="Fe")
     ap.add_argument("--ion", default="I")
     ap.add_argument("--n", type=int, default=20, help="lines to control on")
@@ -335,7 +341,7 @@ def _run(a) -> None:
           f"band={policy.name}, R={R:.0f}")
     print(f"reference: {REFERENCE_SOURCE.get(a.element, '(none)')}\n")
 
-    ctx = build_context(a.element, a.ion, R)
+    ctx = build_context(a.element, a.ion, R, star=a.star)
     handler.prepare(policy, ctx)
 
     if a.instrument == "harps":

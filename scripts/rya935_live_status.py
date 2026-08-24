@@ -144,61 +144,6 @@ def telluric_state_of(row: dict, committed: str | None) -> dict:
     return {"telluric_basis": "unknown", "telluric_epoch": None}
 
 
-#: RYA-1026 telluric display rule: displayed science is telluric-corrected input ONLY.
-#: The KP2005-vs-KP1984 pair is the one whitelisted exception -- it IS the molecfit
-#: validation (telluric-free source against telluric-retaining atlas), so the
-#: uncorrected arm is not science here, it is the control, and it is labelled that way
-#: rather than silently admitted.
-#: EMPTY on purpose. RYA-1026 whitelists the KP2005-vs-KP1984 pair as the telluric
-#: control, but the displayed page is corrected-only (Ryan) and the uncorrected arm
-#: rendered "telluric NOT corrected" beside a science number. The control still EXISTS --
-#: it is in `products_withheld` with its reason, and the 1984-vs-2005 comparison is
-#: recorded on RYA-933. It is simply not science on the page.
-TELLURIC_CONTROL_HOLDINGS: set[str] = set()
-
-
-def display_class(row: dict, applied: dict) -> tuple[str, str]:
-    """(class, why) -- 'science' | 'control' | 'not-displayed'.
-
-    🔴 NOT DELETED, RECLASSIFIED. A product that fails the rule is still a product and
-    still on disk; dropping it would make the page lie by omission and would hide the
-    very rows that need re-running (RYA-429/711: report, never discard). It moves to a
-    separate list carrying the reason, so "we have no corrected product here" and "we
-    have one and it is bad" cannot be confused.
-    """
-    # 🔴 RYA-1026 TIER RULE, applied to the DISPLAY: the reported product is the
-    # gf-graded tier. Everything else on disk is real and kept, but it is not what the
-    # page reports -- an ungraded pool carries the 0.17 dex Kurucz gf placeholder
-    # (RYA-161) and putting it beside a 0.063 dex graded number invites reading them as
-    # comparable measurements of the same thing.
-    #
-    # DEEPGRADED is also rung 3, and it is withheld too, on Ryan's instruction: it is a
-    # DIFFERENT line selection (the 109 saturated lines above the EW depth gate), not a
-    # second opinion on the same 67, and mixing two selections in one view is how a
-    # selection difference gets read as a measurement difference (RYA-842/984).
-    sel = str(row.get("selector") or "")
-    if not sel.startswith("GRADED"):
-        return ("not-displayed",
-                f"selector {sel!r} is not the graded tier. RYA-1026 reports the gf-graded "
-                f"product; this row is kept on disk and listed here, not deleted")
-    holding = row.get("holding")
-    if holding is None:
-        return ("not-displayed",
-                "no holding in the filename (predates RYA-933/934), so it cannot prove "
-                "which spectrum it measured -- and an instrument serves both a corrected "
-                "and an uncorrected holding")
-    state = applied.get(holding)
-    if state == "applied":
-        return "science", ""
-    if holding in TELLURIC_CONTROL_HOLDINGS:
-        return ("control",
-                "RYA-1026 whitelist: the telluric-retaining arm of the KP2005-vs-KP1984 "
-                "control. Shown AS a control, never as science")
-    return ("not-displayed",
-            f"holding {holding} is telluric_applied={state!r}; RYA-1026 displays "
-            f"telluric-corrected input only")
-
-
 def run_context(path: Path) -> dict:
     """WHICH RUN produced this row. Part of a product's identity, not decoration.
 
@@ -721,7 +666,7 @@ def telluric_summary(rows: list[dict], instruments: list[dict]) -> dict:
 
 
 
-def _collect_model_matrix() -> dict:
+def collect_model_matrix() -> dict:
     """RYA-1015 element x model-type availability + engines + molecules.
 
     Loud-fails visibly (an `error` key the page renders) rather than dropping the
@@ -789,7 +734,7 @@ def main() -> None:
         # under `graded_superseded`; off the plot.
         "graded": [],
         "graded_superseded": collect_graded(ROOT),
-        "model_matrix": _collect_model_matrix(),
+        "model_matrix": collect_model_matrix(),
         "reporting_contract": {
             "primary": "graded lab-gf pool, on its own CITED pool sigma (RYA-850)",
             "secondary": "ungraded all-lines pool, on the 0.17 dex gf placeholder",
@@ -838,19 +783,41 @@ def main() -> None:
         1 for p in products if p["telluric_basis"].startswith("PRE"))
     # 🔴 RYA-1026 display gate. Applied HERE, after every row is built, so the split is
     # visible in the artifact rather than done silently in the page's javascript.
-    _applied = {i["holding"]: i.get("telluric_applied")
-                for i in status.get("instruments", [])}
+    # 🔴 RYA-1026's RATIFIED gate, not a second one. This called a display_class()
+    # hand-rolled here, which duplicated `pipeline.telluric_display_policy` and would
+    # have drifted from it the first time the policy changed -- two implementations of
+    # one rule is how a ratified decision quietly stops being enforced.
+    #
+    # `display_state` is used rather than `assert_displayable`: the tracker must SHOW a
+    # blocked product with its reason, and raising would kill the whole page over one
+    # bad row. An omission reads as "no data", which is absence-as-conclusion (RYA-833).
+    from pipeline.telluric_display_policy import display_state, anomaly
     _science, _withheld = [], []
     for row in products:
-        cls, why = display_class(row, _applied)
-        row["display_class"] = cls
-        if cls == "not-displayed":
-            row["not_displayed_because"] = why
+        holding = row.get("holding")
+        state = display_state(holding) if holding else "UNREGISTERED"
+        row["display_state"] = state
+        # CLEAN_WITH_ANOMALY is not CLEAN, and the difference is the anomaly text.
+        # Carrying the state without it would render a caveated holding as unqualified.
+        row["telluric_anomaly"] = anomaly(holding) if holding else None
+        # The gf-graded tier is what the page reports (RYA-1026). DEEPGRADED is rung 3
+        # too and is still withheld: it is a DIFFERENT line selection (the 109 saturated
+        # lines above the EW depth gate), not a second opinion on the same 67, and
+        # mixing selections in one view reads a selection difference as a measurement
+        # difference (RYA-842/984).
+        sel = str(row.get("selector") or "")
+        if not sel.startswith("GRADED"):
+            row["not_displayed_because"] = (
+                f"selector {sel!r} is not the graded tier; RYA-1026 reports the "
+                f"gf-graded product. Kept on disk and listed here, not deleted")
             _withheld.append(row)
-        else:
-            if why:
-                row["control_note"] = why
+        elif state in ("CLEAN", "CLEAN_WITH_ANOMALY"):
             _science.append(row)
+        else:
+            row["not_displayed_because"] = (
+                f"holding {holding!r} is {state}; RYA-1026 displays telluric-corrected "
+                f"input only")
+            _withheld.append(row)
     status["products"] = _science
     status["products_withheld"] = _withheld
     status["withheld_summary"] = {

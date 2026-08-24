@@ -19,7 +19,15 @@ from pipeline.band_policy import BandPolicy
 from pipeline.band_products import LineMeasurement
 from pipeline.lines_fit import _local_renorm, _fit_profile, _integrate_profile, _ew_error
 from pipeline.line_width import (gamma_of, total_width_below_physical_floor,
-                                 under_physical_width_reason)
+                                 under_physical_width_reason,
+                                 # RYA-959 — the ceiling lands on BOTH fitters in the same
+                                 # change. RYA-906/911's floor reached this site a whole
+                                 # release late precisely because the physics lived in a
+                                 # script; the module exists so that cannot recur.
+                                 gaussian_sigma_above_physical_ceiling,
+                                 over_physical_width_reason, implied_width_A,
+                                 implied_width_exceeds_ceiling,
+                                 over_implied_width_reason)
 from pipeline.measure.base import MeasurementHandler, register
 
 FWHM_TO_SIGMA = 1.0 / 2.35482
@@ -108,6 +116,14 @@ class ProfileFitHandler(MeasurementHandler):
         lm.profile_sigma_floor_A = float(s_min)
         lm.red_chi2 = float(chi2)
 
+        # RYA-959 — the observed core, at the centre THIS fit chose (see the band harness
+        # for why the catalogued position is the wrong place to read it).
+        _core = np.abs(wf - float(popt[0])) <= max(3 * s_init, 0.03)
+        obs_depth = float(1.0 - np.min(fn[_core])) if _core.any() else float("nan")
+        lm.observed_depth = obs_depth if np.isfinite(obs_depth) else None
+        lm.implied_width_A = (implied_width_A(float(ew), obs_depth)
+                              if np.isfinite(obs_depth) else None)
+
         # 🔴 RYA-906/911 — THIS TEST WAS `abs(popt[2] - s_min) < 1e-4` AND IT WAS WRONG.
         #
         # PR #315 refuted it on the band harness and did not reach here, because the
@@ -123,6 +139,22 @@ class ProfileFitHandler(MeasurementHandler):
         if total_width_below_physical_floor(popt, ptype, c, s_min):
             lm.in_aggregate = False
             lm.excluded_reason = under_physical_width_reason(popt, ptype, c, s_min)
+        elif gaussian_sigma_above_physical_ceiling(popt, c, s_min):
+            # 🔴 RYA-959 — the mirror of the test above. `widths()` returns sigma_max=0.40,
+            # ~5x the widest Gaussian solar Doppler physics permits, so a fit with nothing
+            # to converge on ran to the bound and integrated a pedestal. Nothing objected,
+            # because a wide fit returns a LARGER EW and a low chi2 — it looks converged.
+            lm.in_aggregate = False
+            lm.excluded_reason = over_physical_width_reason(popt, ptype, c, s_min, s_max)
+        elif implied_width_exceeds_ceiling(float(ew), obs_depth, 2 * FIT_HALF_A):
+            # RYA-959 — the integral bound. A runaway gamma inflates the EW without
+            # deepening the core, so it clears the sigma ceiling and is caught only here.
+            # `predicted_depth` is None on this site: the handler is given a wavelength and
+            # a spectrum, never a line-list row, and inventing a depth to name in the
+            # sentence would be worse than saying nothing.
+            lm.in_aggregate = False
+            lm.excluded_reason = over_implied_width_reason(float(ew), obs_depth, c, s_min,
+                                                           2 * FIT_HALF_A, None)
         return lm
 
 

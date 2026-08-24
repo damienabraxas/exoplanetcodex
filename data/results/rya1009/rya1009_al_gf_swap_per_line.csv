@@ -1,0 +1,9 @@
+burheim_lam_air_A,burheim_lam_vac_A,elo_eV,burheim_log_gf,burheim_sigma_dex,burheim_unc_pct,transition,action,old_log_gf,new_log_gf,delta_log_gf,canonical_lam_A,reason
+6696.0152,6697.864,3.1427,-1.46,0.0374,9.0,4s $^2$S$_{1/2}$ - 5p $^2$P$_{3/2}$,SWAP,-1.347,-1.46,-0.113,6696.023,"experimental gf supersedes the semi-empirical incumbent (provenance, RYA-161)"
+6698.6725,6700.522,3.1427,-1.76,0.0334,8.0,4s $^2$S$_{1/2}$ - 5p $^2$P$_{1/2}$,SWAP,-1.647,-1.76,-0.113,6698.673,"experimental gf supersedes the semi-empirical incumbent (provenance, RYA-161)"
+11253.1884,11256.27,4.0215,0.167,0.0212,5.0,3d $^2$D$_{3/2}$ - 4f $^2$F$_{5/2}$,RE-SOURCE,0.1669999999999999,0.167,0.0,11253.189,"experimental gf supersedes the semi-empirical incumbent (provenance, RYA-161)"
+11254.9259,11258.008,4.0217,0.327,0.0086,2.0,3d $^2$D$_{5/2}$ - 4f $^2$F$_{7/2}$,HELD,0.3537510080742936,,,11254.924,"Burheim's +0.327 is the STRONG COMPONENT ALONE (his Table 1 omits the weak 3d 2D5/2 - 4f 2F5/2 partner as >1 order of magnitude weaker); canonical carries hfs_n_components=2, the BLENDED feature. Swapping a single-component value onto a two-component sum would under-count the opacity by 0.027 dex. Restore the weak partner first."
+12749.909,12753.397,4.0217,-2.29,0.0374,9.0,3d $^2$D$_{5/2}$ - 5p $^2$P$_{3/2}$,NOT-SWAPPED,,,,,absent from canonical_gf (its Al span ends at 11254.9 A)
+12757.275,12760.765,4.0215,-2.62,0.0453,11.0,3d $^2$D$_{3/2}$ - 5p $^2$P$_{1/2}$,NOT-SWAPPED,,,,,absent from canonical_gf (its Al span ends at 11254.9 A)
+13123.4155,13127.005,3.1427,0.232,0.0065,1.5,4s $^2$S$_{1/2}$ - 4p $^2$P$_{3/2}$,NOT-SWAPPED,,,,,absent from canonical_gf (its Al span ends at 11254.9 A)
+13150.7531,13154.35,3.1427,-0.098,0.0133,3.1,4s $^2$S$_{1/2}$ - 4p $^2$P$_{1/2}$,NOT-SWAPPED,,,,,absent from canonical_gf (its Al span ends at 11254.9 A)

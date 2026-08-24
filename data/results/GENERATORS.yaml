@@ -2138,6 +2138,22 @@ artifacts:
       generator. The ticket pipeline is deliberately NOT emitted: that is Linear state,
       and a committed copy of it drifts.
 
+  - artifact: rya935/model_availability_findings.csv
+    status: COMMITTED
+    generator: pipeline/model_availability_matrix.py
+    invocation: python scripts/rya935_live_status.py
+    ticket: RYA-1015
+    note: >-
+      The element x model-type matrix, long form: every species x model type with its
+      engines, grid paths, blockers and molecules -- the download behind the tracker's
+      matrix section. Written by `build_matrix()` as a side effect of generating the
+      page, which is why it had no entry until RYA-1031 merged the two tracker
+      generators and the RYA-686 check finally saw it: the program that writes it was
+      not the program in git. Reconciled three ways on every run -- the curation CSV,
+      what is actually on the Sirius disks, and what the code can route -- so a cell
+      cannot claim a grid the disk does not hold, and a grid on disk that nothing
+      consumes renders as NEEDS_WIRING rather than as coverage.
+
   - artifact: rya935/live_tracker.html
     status: COMMITTED
     generator: scripts/rya935_live_status.py
@@ -2148,3 +2164,823 @@ artifacts:
       over HTTP; it refreshes every 5 s. Registered against the same generator because the
       page is meaningless without the JSON and the pair must not drift apart.
 
+
+
+
+  # ── RYA-967 / RYA-984 / RYA-991 VIS Fe I legs — invocations RECONSTRUCTED (RYA-990) ──
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      RYA-967 shallow VIS Fe I synth leg (the 55-line depth-selected pool).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      RYA-967 shallow VIS Fe I synth leg (the 55-line depth-selected pool).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      RYA-967 shallow VIS Fe I synth leg (the 55-line depth-selected pool).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      RYA-984 deep-graded recovery, Kitt Peak: the lab-graded lines above the EW depth gate (n=108, 1 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      RYA-984 deep-graded recovery, Kitt Peak: the lab-graded lines above the EW depth gate (n=108, 1 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      RYA-984 deep-graded recovery, Kitt Peak: the lab-graded lines above the EW depth gate (n=108, 1 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      RYA-991 HARPS deep-graded leg, the same 109 lines on the corrected HARPS holding (n=109, 0 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      RYA-991 HARPS deep-graded leg, the same 109 lines on the corrected HARPS holding (n=109, 0 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      RYA-991 HARPS deep-graded leg, the same 109 lines on the corrected HARPS holding (n=109, 0 excluded).
+      ⚠️ INVOCATION RECONSTRUCTED, NOT COPIED FROM THE ORIGINAL RUN. RYA-990 found
+      these artifacts landed with no GENERATORS entry and no recorded command
+      (absent from the commit bodies, the Linear comments and the provenance text).
+      The command above was VERIFIED BY REPRODUCTION on 2026-08-23: re-running it
+      reproduces the artifact's own line count and selector. It is evidence, not a
+      transcript -- if it ever fails to reproduce, trust the artifact and fix this.
+
+  # ── RYA-986 Fe I VIS full ungraded run, both arms ─────────────────────────────────
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-from-ew data/measured/band_ew/FeI_3780_6910_kpno_solar_atlas_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, Kitt Peak arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.459 (n=1452).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0131 at n=1452 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-from-ew data/measured/band_ew/FeI_3780_6910_kpno_solar_atlas_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, Kitt Peak arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.459 (n=1452).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0131 at n=1452 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_FROMEW_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-from-ew data/measured/band_ew/FeI_3780_6910_kpno_solar_atlas_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, Kitt Peak arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.459 (n=1452).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0131 at n=1452 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew data/measured/band_ew/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, HARPS (molecfit-corrected) arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.537 (n=1443).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0151 at n=1443 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew data/measured/band_ew/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, HARPS (molecfit-corrected) arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.537 (n=1443).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0151 at n=1443 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_FROMEW_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-from-ew data/measured/band_ew/FeI_3780_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_ew.csv --lines-tier all
+    ticket: RYA-986
+    note: >-
+      RYA-986 full ungraded run, VIS Fe I, HARPS (molecfit-corrected) arm. 1,826 EW lines in, 343 not in the
+      synthesis list (reported, not dropped), 1,483 candidates. A(Fe I) 7.537 (n=1443).
+      Kitt Peak lands -0.007 from gold 7.466; the full-pool arm gap is +0.078, which
+      reproduces the EW gap (+0.070) and makes the deep-graded +0.118 the outlier.
+      stat 0.0151 at n=1443 against syst 0.170 -- the anchor-growth lever is exhausted.
+      `--force-synthesis` is REQUIRED: the EW-inversion route writes a layer-less model
+      atmosphere and returns n=0 while still writing a well-formed product.
+      The `--lines-from-ew` input is a generated artifact (RYA-959 EW run), not tracked.
+
+
+  # ── RYA-1011 — the ANCHOR's per-line inputs, committed because they are LOAD-BEARING ──
+  #
+  # `pipeline/anchor_pools.py` builds the 163-line graded anchor -- which RYA-987's
+  # zero-point cap rests on -- from the two Kitt Peak files below. They lived ONLY in
+  # `data/results/band_products/`, the one results directory that is gitignored, so they
+  # had no git safety net: a stem-sharing flag wiped them on 2026-08-23 (RYA-1006) and
+  # they were recovered only because Sirius happened to hold pre-overwrite copies.
+  # Every OTHER per-line artifact in the project lives in a tracked ticket subdirectory
+  # (data/results/rya847/, rya880/, rya925/ ...), which is why only these were exposed.
+  # 96 KB for all three -- the gitignore exists to stop BULK accidental tracking, not to
+  # leave the anchor's own inputs recoverable only by luck.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas
+    ticket: RYA-967
+    note: >-
+      55 shallow graded lines — the EW-comparable half of the 163-line anchor.
+      Committed with `git add -f` (band_products/ is gitignored) because it is
+      LOAD-BEARING: anchor_pools reads it by name and loud-fails without it.
+      Invocation verified by reproduction on 2026-08-23 (RYA-1011).
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --lines-deep-graded
+    ticket: RYA-984
+    note: >-
+      108 deep graded lines — the half EW can never attempt. Together with the RYA-967 file above these ARE `anchor_pools.ANCHORS['rya984_graded_163']`.
+      Committed with `git add -f` (band_products/ is gitignored) because it is
+      LOAD-BEARING: anchor_pools reads it by name and loud-fails without it.
+      Invocation verified by reproduction on 2026-08-23 (RYA-1011).
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-deep-graded
+    ticket: RYA-991
+    note: >-
+      The HARPS deep arm partner (109 lines) — the other half of the arm-gap comparison.
+      Committed with `git add -f` (band_products/ is gitignored) because it is
+      LOAD-BEARING: anchor_pools reads it by name and loud-fails without it.
+      Invocation verified by reproduction on 2026-08-23 (RYA-1011).
+
+  # ── RYA-959 — the width ceiling, and the evidence that it is measured not chosen ─────
+  #
+  # RYA-959's two artifacts -- `data/audit/rya959_width_ceiling/{width_ceiling_evidence.json,
+  # verdict_census.csv}` -- are NOT listed here, deliberately (Ryan, 2026-08-23).
+  # They are real and git-tracked, but they live under `data/audit/`, and this manifest
+  # governs `data/results/` + `data/processed/` only (scripts/check_result_generators.py
+  # SCANNED_DIRS). Registering them here made `test_live_repo_is_clean` fail on every PR
+  # for a week: the checker cannot resolve a path outside the trees it scans. Their
+  # generator is `scripts/rya959_width_evidence.py`, recorded in docs/science/, not here.
+
+  #
+  # The POOLS are deliberately NOT here: they land in data/measured/band_ew/, which is
+  # gitignored (RYA-469), because they are regenerable from the committed line list plus
+  # the committed harness. What IS committed is the evidence — the verdict census, the
+  # fitted-sigma histogram, and the fate of the laboratory-graded lines — so the claim
+  # "the ceiling lands in a valley" can be checked without re-running the measurement.
+
+
+
+  - artifact: rya1001/rya1001_al_line_census.csv
+    status: COMMITTED
+    generator: scripts/rya1001_al_census.py
+    invocation: python3 scripts/rya1001_al_census.py
+    ticket: RYA-1001
+    note: >-
+      One row per (arm, verdict). Registered against the same generator as the JSON
+      because the two are one measurement and must not drift apart. The REW branch spells
+      its own number into the reason string, so the census collapses it to a single coded
+      verdict - counting the raw strings returns ~200 distinct "verdicts" for one cause.
+
+  # ── RYA-1002 Al Phase-1: first optical Al products across two atlases ─────────────
+  - artifact: rya1009/rya1009_al_gf_swap_per_line.csv
+    generator: scripts/rya1009_al_gf_pool_rebuild.py
+    invocation: python3 scripts/rya1009_al_gf_pool_rebuild.py
+    ticket: RYA-1009
+    note: >-
+      One row per Burheim-2023-covered Al I line with its disposition: SWAP (value
+      changed), RE-SOURCE (value already identical, provenance added), HELD, or
+      NOT-SWAPPED, each with the reason. 2 swapped (6696.023 and 6698.673, both
+      -0.113 dex, Kurucz-1995 -> experiment), 1 re-sourced (11253.189, already on
+      Burheim's number but tagged only "VALD3"), 1 HELD and 4 absent from canonical_gf.
+      ⚠️ THE HOLD IS THE ROW WORTH READING. 11254.924 is NOT swapped because Burheim's
+      +0.327 is the STRONG COMPONENT ALONE — his Table 1 omits the weak 3d 2D5/2 - 4f
+      2F5/2 partner as ">1 order of magnitude weaker" — while canonical carries
+      hfs_n_components=2, the blended feature. Substituting one onto the other would
+      under-count the opacity by 0.027 dex, i.e. introduce a real error while improving
+      provenance.
+  - artifact: rya1009/rya1009_al_gf_swap_summary.json
+    generator: scripts/rya1009_al_gf_pool_rebuild.py
+    invocation: python3 scripts/rya1009_al_gf_pool_rebuild.py
+    ticket: RYA-1009
+    note: >-
+      Counts and the firewall statement. The swap is justified by PROVENANCE — Burheim
+      2023 is experimental (FTS branching fractions x radiative lifetimes, 2-11%
+      per-line) and the incumbent is Kurucz-1995 semi-empirical — and that justification
+      was fixed BEFORE the abundance effect was examined. It moved A(Al) UP, toward the
+      6.43 anchor (KP 6.268 -> 6.377, IAG 6.289 -> 6.395, HARPS 6.267 -> 6.393); that is
+      the OUTCOME and is not the reason. Nothing in the generator references 6.43.
+      The larger result is the error bar: the gf rung goes 1 -> 3 and the systematic
+      falls 0.1726 -> 0.0374 dex, now MEASURED (the papers' own per-line sigma) rather
+      than the 0.20 blanket bound.
+      Al Phase-0 census: 502 physical transitions collapsed from 1117 linelist_solar rows,
+      per band, with the best gf source on a provenance-only ladder (experiment >
+      independent theory > NIST grade > Opacity Project > Kurucz-1975), HFS component
+      count, per-instrument home and tier. The gf column is the SUM over hyperfine
+      components, not the strongest one: line_accounting_rya709 reports the max, which
+      under-reports Al I 6696.02 by 0.43 dex. Grouping is in WAVENUMBER because hyperfine
+      splitting is bounded in energy - the largest gap inside a known Al multiplet is
+      0.070 cm-1 and the smallest gap between distinct lines is 1.345 cm-1, so the 0.30
+      cm-1 cut sits in measured empty space rather than being chosen.
+  - artifact: rya1001/rya1001_band_summary.csv
+    status: COMMITTED
+    generator: scripts/rya1001_al_census.py
+    invocation: python3 scripts/rya1001_al_census.py
+    ticket: RYA-1001
+    note: >-
+      Per-band roll-up. Gradeable pool = 29 lines (+8 candidate-blended): near-UV 2,
+      VIS 7, red-optical 6, NIR 14. The 324 FUV features - 287 Al I, 35 Al II including
+      the 1670 A resonance line, 2 Al III - have NO home: no solar holding reaches below
+      2960 A and band_policy declares no method there. That is an acquisition question,
+      the Al twin of RYA-909's near-UV Fe II result.
+  - artifact: rya1001/rya1001_census_meta.json
+    status: COMMITTED
+    generator: scripts/rya1001_al_census.py
+    invocation: python3 scripts/rya1001_al_census.py
+    ticket: RYA-1001
+    note: >-
+      Thresholds, the gf ladder, and the POSITIVE CONTROL for the HFS collapse: the
+      summed gf reproduces canonical_gf's independently-recorded log_gf on 20/20
+      overlapping Al lines to 0.005 dex, and its hfs_n_components on 18/20. The two
+      disagreements are a canonical_gf metadata defect, not a collapse error - 3944.006
+      and 3961.520 are recorded as hfs_n_components=1 while the linelist splits them into
+      4 and 6 components summing to canonical's own value exactly.
+  - artifact: rya1001/rya1001_crires_coverage.csv
+    status: COMMITTED
+    generator: scripts/rya1001_crires_coverage.py
+    invocation: python3 scripts/rya1001_crires_coverage.py
+    ticket: RYA-1001
+    note: >-
+      REAL-PIXEL coverage of the 8 Al I NIR target lines in the solar CRIRES+ Vesta IDPs.
+      All 8 land on full unflagged segments, and the recovered vacuum wavelengths agree
+      with Burheim 2023's published lam_vac to <0.005 A, which closes the air-vacuum chain
+      and confirms the identifications independently. Needed as a separate measurement
+      because pipeline.coverage cannot see this holding at all - load_registry() silently
+      `continue`s past any holding whose manifest is not a spectrum-location CSV, which
+      hides 6 of the 10 solar holdings including all three CRIRES+ ones. Coverage is not
+      permission: telluric_policy.gate_holding REFUSES this holding.
+  - artifact: rya1001/rya1001_open_questions.yaml
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1001
+    sources:
+      - data/results/rya1001/rya1001_al_line_census.csv
+      - data/linelists/primary_gf/nist_asd_AlI_6600_8800.tsv
+      - data/curation/nonfe_pools/Al_cull_graded_rya398.csv
+      - GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv reference_code column
+      - arXiv:2309.06273 source file 45394corr.tex, Tables 1-3
+      - Crossref DOI 10.1088/0953-4075/28/16/006
+    note: >-
+      OQ1-4 as TRACKED ITEMS with a state (ANSWERED / REFUTED / OPEN), the evidence for
+      each, the defect it exposed and the successor that owns it - per the RYA-935/990
+      tracker state-machine process, which requires the open questions be tracked rather
+      than buried in a report paragraph. Also carries the five stale surfaces this census
+      found and deliberately did NOT edit, Phase 0 being census-only. Nothing here is an
+      abundance cell, so nothing here is PENDING: a census answers questions, it does not
+      measure, and the thing awaiting a human yes is the Phase-1 scope these imply.
+  - artifact: rya1001/RYA1001_AL_PHASE0_CENSUS.md
+    status: HAND_AUTHORED
+    generator: null
+    ticket: RYA-1001
+    sources:
+      - data/results/rya1001/rya1001_al_line_census.csv
+      - data/results/rya1001/rya1001_band_summary.csv
+      - data/results/rya1001/rya1001_census_meta.json
+      - data/results/rya1001/rya1001_crires_coverage.csv
+      - data/curation/nonfe_pools/Al_cull_graded_rya398.csv
+      - data/linelists/canonical_gf.csv
+      - data/linelists/primary_gf/nist_asd_AlI_6600_8800.tsv
+      - arXiv:2309.06273 source file 45394corr.tex, Tables 1-3 (Burheim+2023, A&A 672 A197)
+      - Crossref DOI 10.1088/0953-4075/28/16/006 (Mendoza+1995, the `1995JPhB..` bibcode)
+    note: >-
+      The Phase-0 findings narrative and the OQ1-4 answers. Prose over the CSVs above;
+      every number in it is reproducible from them.
+
+  # ── RYA-935 Al products, holding-attributed ───────────────────────────────────────
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS 1D-LTE on kpno_solar_atlas, holding solar_kpno: A = 6.377. RYA-935 — REPLACES
+      the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS ENGINE-A on kpno_solar_atlas, holding solar_kpno: A = 6.349. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS 1D-LTE on iag_fts_solar_atlas, holding solar_iag: A = 6.395. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS ENGINE-A on iag_fts_solar_atlas, holding solar_iag: A = 6.367. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS 1D-LTE on harps, holding solar_harps: A = 6.393. RYA-935 — REPLACES the
+      identically-valued product that carried no holding in its stem. `derive_band_products`
+      RESOLVES a holding either way but only WRITES it when `--holding` is passed, so the
+      earlier artifacts were unattributable and the live tracker reported them as "predates
+      RYA-933/934" — a misdiagnosis, they were hours old. Same measurement, addressable
+      name. VIS rows are on the RYA-1009 Burheim experimental gf (syst 0.0374 dex,
+      measured); red-optical rows remain UNGRADED (syst 0.1726) because Burheim does not
+      cover that quartet.
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I VIS ENGINE-A on harps, holding solar_harps: A = 6.365. RYA-935 — REPLACES the
+      identically-valued product that carried no holding in its stem. `derive_band_products`
+      RESOLVES a holding either way but only WRITES it when `--holding` is passed, so the
+      earlier artifacts were unattributable and the live tracker reported them as "predates
+      RYA-933/934" — a misdiagnosis, they were hours old. Same measurement, addressable
+      name. VIS rows are on the RYA-1009 Burheim experimental gf (syst 0.0374 dex,
+      measured); red-optical rows remain UNGRADED (syst 0.1726) because Burheim does not
+      cover that quartet.
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical 1D-LTE on kpno_solar_atlas, holding solar_kpno: A = 6.413. RYA-935 —
+      REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical ENGINE-A on kpno_solar_atlas, holding solar_kpno: A = 6.378. RYA-935
+      — REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical 1D-LTE on iag_fts_solar_atlas, holding solar_iag: A = 6.390. RYA-935
+      — REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Al I red-optical ENGINE-A on iag_fts_solar_atlas, holding solar_iag: A = 6.380.
+      RYA-935 — REPLACES the identically-valued product that carried no holding in its stem.
+      `derive_band_products` RESOLVES a holding either way but only WRITES it when
+      `--holding` is passed, so the earlier artifacts were unattributable and the live
+      tracker reported them as "predates RYA-933/934" — a misdiagnosis, they were hours old.
+      Same measurement, addressable name. VIS rows are on the RYA-1009 Burheim experimental
+      gf (syst 0.0374 dex, measured); red-optical rows remain UNGRADED (syst 0.1726) because
+      Burheim does not cover that quartet.
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS 1D-LTE product on kpno_solar_atlas (solar_kpno):
+      the fitted A(Al) per line, its observed depth and implied width, and the disposition
+      for each. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT
+      serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS ENGINE-A product on kpno_solar_atlas (solar_kpno):
+      the fitted A(Al) per line, its observed depth and implied width, and the disposition
+      for each. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT
+      serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS 1D-LTE product on iag_fts_solar_atlas (solar_iag):
+      the fitted A(Al) per line, its observed depth and implied width, and the disposition
+      for each. Registered beside the product because the aggregate alone cannot show which
+      line carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT
+      serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS ENGINE-A product on iag_fts_solar_atlas
+      (solar_iag): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS 1D-LTE product on harps (solar_harps): the fitted
+      A(Al) per line, its observed depth and implied width, and the disposition for each.
+      Registered beside the product because the aggregate alone cannot show which line
+      carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT serve
+      (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_4200_6910_harps_solar_harps_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I VIS ENGINE-A product on harps (solar_harps): the
+      fitted A(Al) per line, its observed depth and implied width, and the disposition for
+      each. Registered beside the product because the aggregate alone cannot show which line
+      carries the scatter — and for ENGINE-A, which lines the Amarsi grid does NOT serve
+      (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical 1D-LTE product on kpno_solar_atlas
+      (solar_kpno): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_kpno_solar_atlas_solar_kpno_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical ENGINE-A product on kpno_solar_atlas
+      (solar_kpno): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical 1D-LTE product on iag_fts_solar_atlas
+      (solar_iag): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/AlI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --element Al --ion I --lo 6910 --hi 9199 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --skip-engine-b
+    ticket: RYA-935
+    note: >-
+      Per-line record behind the Al I red-optical ENGINE-A product on iag_fts_solar_atlas
+      (solar_iag): the fitted A(Al) per line, its observed depth and implied width, and the
+      disposition for each. Registered beside the product because the aggregate alone cannot
+      show which line carries the scatter — and for ENGINE-A, which lines the Amarsi grid
+      does NOT serve (recorded per line as ENGINE-A-NOT-SERVED, never averaged over).
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the Fe I near-UV GRADED product re-run under the RYA-1026 schema on
+      TELLURIC-CORRECTED input (solar_kpno_molecfit_corrected, RYA-940 -- which serves the
+      near-UV as untouched 1984 atlas because no telluric band is registered below 3780 A,
+      and says so in its own provenance). A(Fe I) = 7.596 (median, n=58), ENGINE-A 7.606.
+      VALUES HOLD against RYA-759/822's 7.577 (n=59): +0.019 dex. That null is the point --
+      routing the near-UV through the corrected holding was predicted to change nothing
+      because the band carries no registered telluric complex, and it changed nothing.
+      DEEP-graded (RYA-984): 58 of the 59 lab-tier lines sit ABOVE the 0.6 depth gate, which
+      EW can never attempt but synthesis can. gf rung 3, all 58 GF-LAB with a published
+      per-line sigma, RMS 0.0509 dex.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the Fe I near-UV GRADED product re-run under the RYA-1026 schema on
+      TELLURIC-CORRECTED input (solar_kpno_molecfit_corrected, RYA-940 -- which serves the
+      near-UV as untouched 1984 atlas because no telluric band is registered below 3780 A,
+      and says so in its own provenance). A(Fe I) = 7.596 (median, n=58), ENGINE-A 7.606.
+      VALUES HOLD against RYA-759/822's 7.577 (n=59): +0.019 dex. That null is the point --
+      routing the near-UV through the corrected holding was predicted to change nothing
+      because the band carries no registered telluric complex, and it changed nothing.
+      DEEP-graded (RYA-984): 58 of the 59 lab-tier lines sit ABOVE the 0.6 depth gate, which
+      EW can never attempt but synthesis can. gf rung 3, all 58 GF-LAB with a published
+      per-line sigma, RMS 0.0509 dex.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the Fe I near-UV GRADED product re-run under the RYA-1026 schema on
+      TELLURIC-CORRECTED input (solar_kpno_molecfit_corrected, RYA-940 -- which serves the
+      near-UV as untouched 1984 atlas because no telluric band is registered below 3780 A,
+      and says so in its own provenance). A(Fe I) = 7.596 (median, n=58), ENGINE-A 7.606.
+      VALUES HOLD against RYA-759/822's 7.577 (n=59): +0.019 dex. That null is the point --
+      routing the near-UV through the corrected holding was predicted to change nothing
+      because the band carries no registered telluric complex, and it changed nothing.
+      DEEP-graded (RYA-984): 58 of the 59 lab-tier lines sit ABOVE the 0.6 depth gate, which
+      EW can never attempt but synthesis can. gf rung 3, all 58 GF-LAB with a published
+      per-line sigma, RMS 0.0509 dex.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the Fe I near-UV GRADED product re-run under the RYA-1026 schema on
+      TELLURIC-CORRECTED input (solar_kpno_molecfit_corrected, RYA-940 -- which serves the
+      near-UV as untouched 1984 atlas because no telluric band is registered below 3780 A,
+      and says so in its own provenance). A(Fe I) = 7.596 (median, n=58), ENGINE-A 7.606.
+      VALUES HOLD against RYA-759/822's 7.577 (n=59): +0.019 dex. That null is the point --
+      routing the near-UV through the corrected holding was predicted to change nothing
+      because the band carries no registered telluric complex, and it changed nothing.
+      DEEP-graded (RYA-984): 58 of the 59 lab-tier lines sit ABOVE the 0.6 depth gate, which
+      EW can never attempt but synthesis can. gf rung 3, all 58 GF-LAB with a published
+      per-line sigma, RMS 0.0509 dex.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the AT-OR-BELOW-GATE graded near-UV cell. 🔴 THIS IS A DECLARED GAP, NOT A
+      VALUE -- n=1. Of 59 lab-tier Fe I lines in 3000-3780 A, exactly ONE sits at or below the
+      0.6 central-depth gate, and it is at 3026.056 A, deep inside the CONTINUUM_LIMITED
+      blue-edge regime (RYA-451/460) where no true continuum exists in any window. It returns
+      A(Fe I) = 8.529, about 1.0 dex above solar, which is what an n=1 continuum-limited line
+      produces. Committed as EVIDENCE of the gap, never as a measurement -- suppressing it
+      would make the empty tier look like an absence of data rather than the structural finding
+      it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
+      population, so the EW depth gate empties the graded tier.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the AT-OR-BELOW-GATE graded near-UV cell. 🔴 THIS IS A DECLARED GAP, NOT A
+      VALUE -- n=1. Of 59 lab-tier Fe I lines in 3000-3780 A, exactly ONE sits at or below the
+      0.6 central-depth gate, and it is at 3026.056 A, deep inside the CONTINUUM_LIMITED
+      blue-edge regime (RYA-451/460) where no true continuum exists in any window. It returns
+      A(Fe I) = 8.529, about 1.0 dex above solar, which is what an n=1 continuum-limited line
+      produces. Committed as EVIDENCE of the gap, never as a measurement -- suppressing it
+      would make the empty tier look like an absence of data rather than the structural finding
+      it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
+      population, so the EW depth gate empties the graded tier.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the AT-OR-BELOW-GATE graded near-UV cell. 🔴 THIS IS A DECLARED GAP, NOT A
+      VALUE -- n=1. Of 59 lab-tier Fe I lines in 3000-3780 A, exactly ONE sits at or below the
+      0.6 central-depth gate, and it is at 3026.056 A, deep inside the CONTINUUM_LIMITED
+      blue-edge regime (RYA-451/460) where no true continuum exists in any window. It returns
+      A(Fe I) = 8.529, about 1.0 dex above solar, which is what an n=1 continuum-limited line
+      produces. Committed as EVIDENCE of the gap, never as a measurement -- suppressing it
+      would make the empty tier look like an absence of data rather than the structural finding
+      it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
+      population, so the EW depth gate empties the graded tier.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: the AT-OR-BELOW-GATE graded near-UV cell. 🔴 THIS IS A DECLARED GAP, NOT A
+      VALUE -- n=1. Of 59 lab-tier Fe I lines in 3000-3780 A, exactly ONE sits at or below the
+      0.6 central-depth gate, and it is at 3026.056 A, deep inside the CONTINUUM_LIMITED
+      blue-edge regime (RYA-451/460) where no true continuum exists in any window. It returns
+      A(Fe I) = 8.529, about 1.0 dex above solar, which is what an n=1 continuum-limited line
+      produces. Committed as EVIDENCE of the gap, never as a measurement -- suppressing it
+      would make the empty tier look like an absence of data rather than the structural finding
+      it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
+      population, so the EW depth gate empties the graded tier.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the Fe I near-UV DEEP-graded product
+      (A(Fe I) = 7.596 median, n=58, on telluric-corrected input). Registered with the
+      product because a value without its budget cannot be audited (RYA-873).
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the Fe I near-UV DEEP-graded product
+      (A(Fe I) = 7.596 median, n=58, on telluric-corrected input). Registered with the
+      product because a value without its budget cannot be audited (RYA-873).
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the Fe I near-UV DEEP-graded product
+      (A(Fe I) = 7.596 median, n=58, on telluric-corrected input). Registered with the
+      product because a value without its budget cannot be audited (RYA-873).
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-deep-graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the Fe I near-UV DEEP-graded product
+      (A(Fe I) = 7.596 median, n=58, on telluric-corrected input). Registered with the
+      product because a value without its budget cannot be audited (RYA-873).
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
+      cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
+      cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
+      cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
+    ticket: RYA-1027
+    note: >-
+      RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
+      cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.

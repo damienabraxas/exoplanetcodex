@@ -1,0 +1,21 @@
+{
+  "ticket": "RYA-1002",
+  "source": "Burheim, Hartman & Nilsson 2023, A&A 672, A197",
+  "doi": "10.1051/0004-6361/202245394",
+  "arxiv": "2309.06273",
+  "eprint_url": "https://arxiv.org/e-print/2309.06273",
+  "eprint_md5": "daa6e123f155c4470e84d7a6404a7de2",
+  "table": "Table 3 (tab:loggf_comp)",
+  "uncertainties_from": "Table 1 (tab:BFtable), column Unc_gf [%]",
+  "n_lines": 12,
+  "n_with_nist_levels": 12,
+  "pulled_utc": "2026-08-23",
+  "wavelength_frame": "lambda_vac as published; wavelength_air_A via pipeline.wavelength_util.vac_to_air (Birch & Downs 1994, SSOT)",
+  "levels_source": "NIST ASD via nist_asd_AlI_6600_42000.tsv \u2014 independent of Burheim; Ek-Ei reproduces the paper's sigma to 0.5 cm^-1",
+  "not_included": [
+    "Table 2 (tab:BRtable): branching fractions with NO derived log gf. A line appearing only there is NOT graded by this paper \u2014 which is what makes the RYA-835 claim that Burheim covers 10875.953/16723.541/21098.84 false.",
+    "Nordlander & Lind 2017: uncertainties trace to NIST/Kelleher-Podobedova 2008, so it is not an independent rung."
+  ],
+  "comparison_columns": "loggf_papoulia19 / loggf_kurucz95 / loggf_topbase00 are the paper's own P19 / K95 / M00 comparison columns, carried as evidence. THEORY, never a lab value; not gradeable.",
+  "firewall": "RYA-161 \u2014 this table is a SOURCE. Nothing here adopts a gf into a product; that is a pool rebuild (RYA-839)."
+}

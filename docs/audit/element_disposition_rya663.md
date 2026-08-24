@@ -56,7 +56,7 @@ Invisible to the RYA-632 ledger guard, which compares verdicts and counts but ne
 
 | El | verdict | bucket | A(X) | ref | dCE | g1 | g2 | g3 | remedy | blocker |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Al | CURATION-OWED | owed-HELD | 7.406 | 6.430 | — | ✗ | ✗ | UNEVALUABLE | — | gate 1: Engine-B atom not RYA-534-validated (no RYA-534 Engine-B grid provenance on record for Al); gate 2: |A - ref| = 0.976 > 0.1; gate 3: UNEVALUABLE — no two-engine record (the RYA-527 re-run is what produces one) |
+| Al | CURATION-OWED | owed-HELD | 7.406 | 6.430 | — | ✗ | ✗ | UNEVALUABLE | — | gate 1: Engine-B atom not RYA-534-validated (Al_gerber2023.prov.json: no verdict recorded); gate 2: |A - ref| = 0.976 > 0.1; gate 3: UNEVALUABLE — no two-engine record (the RYA-527 re-run is what produces one) |
 | Ba | PASS | PASS | 2.237 | 2.270 | — | — | — | n/a | — | already PASS — nothing owed |
 | C | PASS | PASS | 8.491 | 8.460 | — | — | — | n/a | — | already PASS — nothing owed |
 | Ca | CURATION-OWED | owed-HELD | 6.324 | 6.300 | 0.016 | ✓ | ✓ | OK | REGENERATE | none — promotes under the ratified three gates |

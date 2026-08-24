@@ -71,6 +71,7 @@ from pipeline import harness_residual  # noqa: E402  RYA-869
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
 from pipeline.constraint_gate import verdict as constraint_verdict  # noqa: E402
 from pipeline.constraint_gate import describe as constraint_describe  # noqa: E402
+from pipeline.prenormalised_guard import assert_not_renormalising  # noqa: E402  RYA-1026
 
 EW_DIR = ROOT / "data" / "measured" / "band_ew"
 OUT = ROOT / "data" / "results" / "band_products"
@@ -85,7 +86,7 @@ PROFILE_FIT_RESIDUAL_DEX = harness_residual.HANDLER_RESIDUAL_DEX["ProfileFitHand
 
 
 def engine_a_delta(element: str, ion: str, waves: np.ndarray,
-                   cache: str | None = None) -> dict[float, float]:
+                   cache: str | None = None, star: str = "solar") -> dict[float, float]:
     """Per-line Engine-A departure corrections. Missing = not served.
 
     Fe is served by the live MPIA query.  Every other registered element is served by
@@ -103,10 +104,18 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
         return {float(k): float(v) for k, v in d.items()}
     sys.path.insert(0, str(ROOT))
     from scripts.build_nlte_grids_mpia import _submit_batch
-    from config.constants import STAR_PARAMS
-    p = STAR_PARAMS["solar"]
-    node = [dict(name="sun", teff_K=int(round(float(p["teff"]))),
-                 logg=float(p["logg"]), feh=0.0)]
+    from config.constants import get_star_params
+    p = get_star_params(star)          # RYA-985: loud-fails on an unknown star
+    is_sun = star == "solar"
+    # 🔴 THE GRID NODE MUST BE THIS STAR'S NODE. `feh` was pinned to 0.0 here, so every
+    # request fetched the SOLAR departure coefficients whatever star was being measured.
+    # For tau Ceti at [Fe/H] = -0.49 that is not a rounding difference — it is the NLTE
+    # correction of a different star, arriving as a plausible number. Mirrors the is_sun
+    # pattern already in `pipeline/nlte_cno.py`.
+    feh = 0.0 if is_sun else float(p["feh_ref"])
+    node = [dict(name=("sun" if is_sun else star),
+                 teff_K=int(round(float(p["teff"]))),
+                 logg=float(p["logg"]), feh=feh)]
     if element != "Fe":
         from pipeline.nlte_corrections import _mpia_element_delta
         from pipeline.species import parse_ion
@@ -118,7 +127,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
         out = {}
         for wave in waves:
             delta = _mpia_element_delta(
-                element, float(wave), float(p["teff"]), float(p["logg"]), 0.0,
+                element, float(wave), float(p["teff"]), float(p["logg"]), feh,
                 tol=0.06)
             if delta is not None and np.isfinite(delta):
                 out[float(wave)] = float(delta)
@@ -131,7 +140,7 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
     for i in range(0, len(waves), 40):          # MPIA dislikes very long batches
         chunk = [float(w) for w in waves[i:i + 40]]
         try:
-            r = _submit_batch(chunk, code, node).get("sun", {})
+            r = _submit_batch(chunk, code, node).get(node[0]["name"], {})
         except Exception as e:
             print(f"    MPIA batch {i//40} failed: {type(e).__name__}: {str(e)[:80]}")
             continue
@@ -164,13 +173,28 @@ def engine_a_delta(element: str, ion: str, waves: np.ndarray,
 # defects), and here it would also let the wired value drift from the published 7.487
 # silently. Reusing the functions makes drift impossible by construction.
 
+from config.synth_bands import SynthBand, SYNTH_BANDS  # noqa: E402,F401
+
+#: How far a synthesis list may fall short of the requested window before the run is
+#: refused. NOT a tuned number: a line list's edge is where its last line sits, so the
+#: first/last line of a band can legitimately be an Angstrom inside the nominal boundary.
+#: It is small enough that the 420 A GES-v6 shortfall at the VIS blue edge cannot pass.
+_LIST_COVERAGE_TOL_A = 5.0
+
 #: RYA-759's own defaults, named here so a reader can see they are NOT re-chosen.
 #: Changing any of these would move the product away from the published 7.487 and the
 #: ticket forbids that without a stated cause — so they are imported-in-spirit, and the
 #: functions below are imported literally.
-NEARUV_HALF_WIDTH_A = 0.40      # no EW exists to key the production wing-wide rule
-NEARUV_MIN_SEP_A = 4.0          # keeps the set spread instead of piling into one complex
-NEARUV_N_LINES = 40
+#: 🔴 RYA-967 — DERIVED FROM THE CONFIG, NOT RE-TYPED. These were literals here AND
+#: values in the near-UV `SynthBand`; once the bands moved to `config/synth_bands.yaml`
+#: the literals became a second declaration of the same three numbers, free to drift from
+#: the entry they describe. `test_nearuv_first_class_rya832` still pins them to
+#: 0.40 / 4.0 / 40, so if the YAML is edited that test fails — which is the correct
+#: alarm, and the one a duplicated literal would have silenced.
+_NEARUV = SYNTH_BANDS["near-UV"]
+NEARUV_HALF_WIDTH_A = _NEARUV.half_width_A   # no EW exists to key the wing-wide rule
+NEARUV_MIN_SEP_A = _NEARUV.min_sep_A         # keeps the set spread, not piled in one complex
+NEARUV_N_LINES = _NEARUV.n_lines
 #: 🔴 THE PSEUDO-CONTINUUM SYSTEMATIC IS DELIBERATELY NOT DECLARED HERE (RYA-845).
 #: It lives in exactly one place, `pipeline/error_budget.py`, which adds it for any band
 #: whose policy says "pseudo-continuum". A second declaration next to a route is what let
@@ -178,72 +202,373 @@ NEARUV_N_LINES = 40
 #: the number agreed with itself in both places while the product was wrong.
 
 
-@dataclass(frozen=True)
-class SynthBand:
-    """Everything the synthesis route needs that is a property of the BAND — RYA-837.
-
-    The route itself is band-agnostic: `select_lines`, `fit_one` and
-    `build_solar_context` were already fully parameterised by RYA-759. Only the
-    CONSTANTS were near-UV, sitting as module globals. Adding the IR band by copying
-    the route would have duplicated 100 lines to change four numbers — the RYA-701
-    failure mode (one Ba->Al copy, 13 defects). They are a lookup instead.
-
-    ⚠️ THERE IS DELIBERATELY NO `pseudo_continuum_dex` FIELD (RYA-845, merge of main).
-    An earlier cut of this dataclass carried one and set it to 0.100 for all three
-    bands. Nothing ever read it — the route used the module global directly — so it
-    stated an intent the code did not honour, which is the same second-declaration
-    shape that let the term be added twice. `pipeline/error_budget.build()` owns it and
-    adds it for any band whose policy says "pseudo-continuum".
-
-    That is the near-UV only. red-optical and NIR get NO continuum systematic, and
-    RYA-843 measured the evidence that they should: their fit windows sit at median
-    flux 0.73-0.95 against a synthesis normalised to unity, and the fitter spends
-    A(Fe) closing that gap. Wiring the field would have hidden the gap behind a
-    number nobody derived; it is left OWED and visible instead.
-    """
-    linelist: Path
-    half_width_A: float
-    min_sep_A: float
-    n_lines: int
-    half_width_note: str
-    build_hint: str
-
-
-#: A fixed synthesis half-width has to contain the PROFILE, so it scales with wavelength:
-#: the Doppler width is lambda*v/c, and 0.40 A at 3400 A is ~17 Doppler widths while the
-#: same 0.40 A at 12000 A is only ~5. Holding the ANGSTROM value fixed across a 3.5x
-#: wavelength lever would quietly clip the IR wings and bias A(Fe) low. The IR values
-#: below are 0.40 A scaled by lambda, rounded — and swept at runtime (`--sweep-half-width`)
-#: rather than asserted, exactly as RYA-759 swept 0.25/0.40/0.60 in the near-UV.
+#: RYA-967 — `SynthBand` and `SYNTH_BANDS` MOVED TO `config/synth_bands.py`.
 #:
-#: The band's own line density says the wider window is affordable: median gap 0.146 A in
-#: the near-UV, but 1.872 A (red-optical) and 3.989 A (NIR) per `pipeline.band_policy`.
-SYNTH_BANDS: dict[str, SynthBand] = {
-    "near-UV": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_nearuv_3000_3780" / "atomic_lines.tsv",
-        half_width_A=NEARUV_HALF_WIDTH_A,
-        min_sep_A=NEARUV_MIN_SEP_A,
-        n_lines=NEARUV_N_LINES,
-        half_width_note="RYA-759's own value; swept 0.25/0.40/0.60 there (spread 0.070 dex)",
-        build_hint="build it with `pipeline.nearuv_linelist.build()`",
-    ),
-    "red-optical": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
-        half_width_A=1.10,          # 0.40 * (9600/3400), rounded
-        min_sep_A=4.0,
-        n_lines=40,
-        half_width_note="0.40 A scaled by lambda from the near-UV anchor (9600/3400)",
-        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
-    ),
-    "NIR": SynthBand(
-        linelist=ROOT / "data" / "linelists" / "ispec_ir_9200_13000" / "atomic_lines.tsv",
-        half_width_A=1.40,          # 0.40 * (12000/3400), rounded
-        min_sep_A=4.0,
-        n_lines=40,
-        half_width_note="0.40 A scaled by lambda from the near-UV anchor (12000/3400)",
-        build_hint="RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/",
-    ),
-}
+#: They were declared here, in an executable driver, and `scripts/rya855_rung_audit.py`
+#: imported them FROM THIS SCRIPT. That is a config constant whose only home is a program
+#: — it cannot be read without importing this module, and this module's import chain loads
+#: the Kitt Peak atlas. Same second-home shape as RYA-350/353/954.
+#:
+#: The four entries and every word of their reasoning live in `config/synth_bands.yaml`,
+#: which also records the invariant the three original values turned out to share and
+#: which the new VIS entry was derived from: a half-width is 20.51 Doppler sigma at the
+#: band's anchor wavelength, held to +/-0.30 across a 3.5x wavelength lever.
+
+
+#: Wavelength key for matching an EW artifact's lines into the synthesis list. RYA-945
+#: MEASURED the safe window at 5 mA by binning graded NIST matches by residual and asking
+#: how often the sources then disagree; below that the pairing is real, above it chance
+#: pairings pile up. Both files describe the SAME transitions here, so the match should be
+#: exact — the tolerance exists to absorb rounding between two writers, not to search.
+_EW_MATCH_TOL_A = 0.005
+
+
+def _match_into_list(want: np.ndarray, w_sorted: np.ndarray,
+                     idx_sorted: np.ndarray) -> tuple[list, list]:
+    """Wavelengths -> row indices in the synthesis list. Shared by every selector.
+
+    Nearest-within-tolerance, never a rounded key (RYA-703/704). Factored out rather than
+    copied into the second selector: RYA-701 measured that one Ba->Al copy produced 13
+    defects, and a matcher that drifts between two selectors would silently change which
+    lines a comparison is run on.
+    """
+    keep, missing = [], []
+    for w in want:
+        j = int(np.searchsorted(w_sorted, w))
+        best, bi = np.inf, -1
+        for k in (j - 1, j, j + 1):
+            if 0 <= k < len(w_sorted) and abs(w_sorted[k] - w) < best:
+                best, bi = abs(w_sorted[k] - w), k
+        if bi >= 0 and best <= _EW_MATCH_TOL_A:
+            keep.append(idx_sorted[bi])
+        else:
+            missing.append((float(w), float(best)))
+    return keep, missing
+
+
+def _feature_depth(waves: np.ndarray) -> np.ndarray:
+    """Each line's FEATURE depth, grouped exactly as `line_accounting_rya709.features()`.
+
+    🔴 THE GROUPING IS THE POINT, NOT AN IMPLEMENTATION DETAIL. That script groups list
+    rows within `GROUP_A` and takes the MAX central_depth over the group, so "this line's
+    depth" is the depth of the blended FEATURE it belongs to. Recomputing it any other way
+    here would select a different population from the one the EW route gated on, and the
+    whole claim of this run — that these are the lines EW could never reach — rests on the
+    two agreeing. Thresholds are imported, never re-typed.
+    """
+    from line_accounting_rya709 import GROUP_A, DEPTH_HI            # noqa: F401
+    ls = pd.read_csv(ROOT / "data" / "linelists" / "linelist_solar.csv", low_memory=False)
+    a = ls[ls.element == "Fe"].sort_values("wavelength_air_A").copy()
+    a["_k"] = (a.wavelength_air_A.diff().fillna(9e9) > GROUP_A).cumsum()
+    f = a.groupby("_k").agg(w=("wavelength_air_A", "mean"),
+                            d=("central_depth", "max")).reset_index(drop=True)
+    fw, fd = f.w.values, f.d.values
+    return np.array([fd[int(np.argmin(np.abs(fw - w)))] for w in waves])
+
+
+def _cand_deep_graded(linelist, *, lo_A: float, hi_A: float, species: str) -> pd.DataFrame:
+    """The graded lines EW can NEVER reach: laboratory gf AND too deep to measure — RYA-984.
+
+    🔴 WHY A THIRD SELECTOR. `--lines-from-ew` reads the EW artifact, which is written
+    AFTER `line_accounting_rya709`'s [0.05, 0.60] depth triage, so the deep population is
+    invisible to it BY CONSTRUCTION (measured on RYA-967: the 55 it returned top out at
+    depth 0.595). `select_lines` would pick its own strongest-N and vary selection as well
+    as method (RYA-842). Neither can express "every graded line above the depth gate".
+
+    These are the anchor-grower. EW dies on them because the curve of growth goes flat;
+    synthesis fits flux-space chi2 and inverts no equivalent width, so the REW saturation
+    ceiling never applies to any of them (`pipeline/measure/synthesis.py:277`).
+    """
+    from line_accounting_rya709 import DEPTH_HI
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
+             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & cg.wavelength_air_A.between(lo_A, hi_A)]
+    if lab.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"to run a 'graded' product on a pool that is not graded.")
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    deep = lab[depth > DEPTH_HI]
+    print(f"  [deep-graded] {len(lab)} LAB-tier {species} lines in band; "
+          f"{len(deep)} above the {DEPTH_HI} depth gate that EW could never attempt "
+          f"({len(lab) - len(deep)} are in or below the EW window and belong to RYA-967)")
+    if deep.empty:
+        raise SystemExit("no graded line in this band sits above the EW depth gate")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    idx_all = np.flatnonzero(el == species)
+    if not idx_all.size:
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    order = np.argsort(w_A[idx_all])
+    idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+
+    keep, missing = _match_into_list(
+        np.sort(deep.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+    if missing:
+        # LOUD (RYA-711/833). A graded line the synthesis list does not carry is not
+        # "not recovered" — it was never a candidate, and the distinction is the whole
+        # reason RYA-977 exists.
+        print(f"  [deep-graded] {len(missing)} of {len(deep)} are NOT in the synthesis "
+              f"list (>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported "
+              f"rather than counted as failures (RYA-977 territory)")
+    if not keep:
+        raise SystemExit("no deep graded line matched the synthesis list")
+    keep = np.array(sorted(set(keep)))
+    return pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+
+def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
+                 deep: bool = False) -> pd.DataFrame:
+    """Every LAB-tier line in the band, split on the EW depth gate — RYA-933.
+
+    🔴 WHY THIS EXISTS. `--lines-tier graded` was consulted ONLY inside the
+    `--lines-from-ew` branch. Passing it alone fell through to `select_lines`, which
+    picks the strongest N by theoretical depth and applies NO gf filter — so the run
+    asked for graded, measured an UNGRADED mixed pool, and the stem did not even record
+    that graded had been requested. Measured on Kurucz 2005 VIS: 2 of 37 lines GF-LAB,
+    rung 1, syst 0.170, reported as a graded run. That is the RYA-833 shape (a silent
+    no-op reading as a result) applied to the one axis RYA-161 says dominates.
+
+    `deep=False` returns the graded lines AT OR BELOW the gate — graded without the deep
+    population, which is a separate and much slower product (RYA-984).
+    """
+    from line_accounting_rya709 import DEPTH_HI
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[(cg.species == species.replace(" 1", " I").replace(" 2", " II"))
+             & cg.gf_tier.astype(str).str.contains("LAB", na=False)
+             & cg.wavelength_air_A.between(lo_A, hi_A)]
+    if lab.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} lines in {lo_A}-{hi_A} A of canonical_gf — refusing "
+            f"to run a 'graded' product on a pool that is not graded.")
+    depth = _feature_depth(lab.wavelength_air_A.values.astype(float))
+    sel = lab[depth > DEPTH_HI] if deep else lab[depth <= DEPTH_HI]
+    print(f"  [graded] {len(lab)} LAB-tier {species} lines in band; using the "
+          f"{len(sel)} {'ABOVE' if deep else 'AT OR BELOW'} the {DEPTH_HI} depth gate")
+    if sel.empty:
+        raise SystemExit(
+            f"no LAB-tier {species} line in {lo_A}-{hi_A} A sits "
+            f"{'above' if deep else 'at or below'} the {DEPTH_HI} depth gate — refusing "
+            f"to emit a 'graded' product with no graded line in it.")
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    idx_all = np.flatnonzero(el == species)
+    if not idx_all.size:
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    order = np.argsort(w_A[idx_all])
+    idx_sorted, w_sorted = idx_all[order], w_A[idx_all][order]
+    keep, missing = _match_into_list(
+        np.sort(sel.wavelength_air_A.values.astype(float)), w_sorted, idx_sorted)
+    if missing:
+        print(f"  [graded] {len(missing)} of {len(sel)} are NOT in the synthesis list "
+              f"(>{_EW_MATCH_TOL_A} A from any row) — never candidates, reported rather "
+              f"than counted as failures (RYA-977 territory)")
+    if not keep:
+        raise SystemExit("no graded line matched the synthesis list")
+    keep = np.array(sorted(set(keep)))
+    return pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+
+def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
+                           species: str, tier: str) -> pd.DataFrame:
+    """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
+
+    🔴 WHY THIS EXISTS. `select_lines` returns the strongest N lines the synthesis list
+    holds. Running that against RYA-959's EW pool would compare two different LINE SETS as
+    well as two methods, and RYA-842 measured that line selection dominates gf — so the
+    comparison would answer the wrong question. The controlled experiment needs the same
+    lines, and only the method varying.
+
+    Every row the EW file attempted is a candidate, INCLUDING the ones it quarantined:
+    those are the whole point. "Did synthesis recover the lines EW dropped, and which gate
+    had killed them?" cannot be answered from the survivors.
+    """
+    if not ew_csv.exists():
+        raise SystemExit(f"--lines-from-ew: no EW artifact at {ew_csv}")
+    ew = pd.read_csv(ew_csv)
+    want = ew.wavelength_air_A.astype(float)
+    want = want[(want >= lo_A) & (want <= hi_A)]
+    if want.empty:
+        raise SystemExit(
+            f"--lines-from-ew: {ew_csv.name} has no line in {lo_A}-{hi_A} A. Refusing to "
+            f"synthesise a set selected from somewhere else.")
+
+    names = linelist.dtype.names
+    w_A = np.asarray(linelist["wave_A"] if "wave_A" in names
+                     else linelist["wave_nm"] * 10.0, dtype=float)
+    el = np.asarray([str(x).strip() for x in linelist["element"]])
+    m = (el == species)
+    if not m.any():
+        raise SystemExit(f"no {species!r} rows in the synthesis list")
+    idx_all = np.flatnonzero(m)
+    order = np.argsort(w_A[idx_all])
+    idx_sorted = idx_all[order]
+    w_sorted = w_A[idx_sorted]
+
+    keep, missing = _match_into_list(want.values, w_sorted, idx_sorted)
+    # LOUD, never silent (RYA-711). A line the EW leg measured that the synthesis list
+    # does not contain cannot be compared, and the count is itself a result: it is the
+    # NOT-IN-SYNTH-LINELIST population RYA-959's Engine-B already reported.
+    if missing:
+        print(f"  [lines-from-ew] {len(missing)} of {len(want)} EW lines are NOT in the "
+              f"synthesis list (>{_EW_MATCH_TOL_A} A from any row) — they cannot be "
+              f"compared and are reported, not dropped quietly. First few: "
+              f"{[f'{w:.3f}(+{d:.3f})' for w, d in missing[:4]]}")
+    if not keep:
+        raise SystemExit("--lines-from-ew: no EW line matched the synthesis list")
+
+    keep = np.array(sorted(set(keep)))
+    df = pd.DataFrame({
+        "wave_A": w_A[keep],
+        "loggf": np.asarray(linelist["loggf"], dtype=float)[keep],
+        "ep_eV": np.asarray(linelist["lower_state_eV"], dtype=float)[keep],
+        "theo_depth": np.asarray(linelist["theoretical_depth"], dtype=float)[keep],
+    }).sort_values("wave_A").reset_index(drop=True)
+
+    if tier != "all":
+        graded = _graded_mask(df.wave_A.values)
+        df = df[graded if tier == "graded" else ~graded].reset_index(drop=True)
+        print(f"  [tier] {tier}: {len(df)} lines (RYA-946 — graded and ungraded are "
+              f"SEPARATE products, never merged)")
+    return df
+
+
+def _graded_mask(waves: np.ndarray) -> np.ndarray:
+    """True where the line carries a PRIMARY LABORATORY gf in `canonical_gf`.
+
+    Keyed on `gf_tier == LAB`, the column RYA-945 wrote, so "graded" means the same thing
+    here as everywhere else rather than being re-derived from `loggf_reference` prose.
+    """
+    cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
+    lab = cg[cg.gf_tier.astype(str).str.contains("LAB", na=False)]
+    lw = np.sort(lab.wavelength_air_A.astype(float).values)
+    i = np.searchsorted(lw, waves)
+    best = np.full(waves.shape, np.inf)
+    for off in (-1, 0, 1):
+        j = np.clip(i + off, 0, len(lw) - 1)
+        best = np.minimum(best, np.abs(lw[j] - waves))
+    return best <= _EW_MATCH_TOL_A
+
+
+def _selector_tag(a) -> str:
+    """How the lines were chosen, as part of the artifact name — RYA-984.
+
+    A product is identified by what it MEASURED, and the line set is part of that. Two
+    runs differing only in selector are two different products and must not collide.
+    The default selector is unlabelled so every pre-RYA-984 artifact keeps its name.
+    """
+    if getattr(a, "lines_deep_graded", False):
+        return "_DEEPGRADED"
+    if getattr(a, "lines_from_ew", None):
+        tier = getattr(a, "lines_tier", "all")
+        return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
+    if getattr(a, "lines_tier", "all") == "graded":
+        return "_GRADED"
+    return ""
+
+
+def conditioning_tag(a) -> str:
+    """How the OBSERVED spectrum was conditioned before the fit — RYA-1006.
+
+    🔴 THE AXIS THAT WAS MISSING, AND IT DESTROYED AN ANCHOR BEFORE IT WAS ADDED.
+
+    `_selector_tag` closed the SELECTION axis (RYA-984) after RYA-933/934 closed the
+    HOLDING axis. Two axes opened after them and neither reached the stem: `--local-renorm`
+    (RYA-1000) divides every fit window by its own 95th percentile, and `--degrade-to-R`
+    (RYA-995) convolves the observed spectrum down. Both change WHAT WAS MEASURED while
+    leaving element, band, instrument, holding, route and selection identical.
+
+    On 2026-08-23 the consequence landed: two `--local-renorm` runs wrote
+    `FeI_4200_6910_*_SYNTH_DEEPGRADED_*` — the exact filenames
+    `pipeline.anchor_pools.ANCHORS['rya984_graded_163']` names — and Kitt Peak's anchor
+    value moved **7.417 -> 7.337** under the anchor's own name. ⚠️ AND THE PROVENANCE FILE
+    WAS BYTE-IDENTICAL: the renorm left no trace anywhere except the number, so nothing
+    downstream could have detected it. That is why this function exists AND why
+    `_conditioning_note` now writes the treatment into the provenance and
+    `observed_conditioning` into every per-line row.
+
+    The default is the empty string, so every product made without a conditioning flag
+    keeps the name it has always had (RYA-984's rule, and the reason the anchor's own name
+    is still correct once it is regenerated).
+    """
+    bits = []
+    if getattr(a, "local_renorm", False):
+        bits.append("LOCALRENORM")
+    dR = getattr(a, "degrade_to_R", None)
+    if dR:
+        bits.append(f"R{int(round(float(dR)))}")
+    return "".join(f"_{b}" for b in bits)
+
+
+def conditioning_id(a) -> str:
+    """The same fact as a machine-readable value for the per-line rows and the guard.
+
+    `native` is the default, spelled out rather than left blank: a consumer must be able
+    to tell "this spectrum was not conditioned" from "this product predates the column"
+    (RYA-833 — an absence is a hypothesis, never a conclusion). `pipeline.anchor_pools`
+    depends on exactly that distinction.
+    """
+    tag = conditioning_tag(a)
+    return tag.lstrip("_").replace("_", "+").lower() if tag else "native"
+
+
+def _conditioning_note(a) -> str:
+    """The provenance sentence. Empty when nothing was done to the observed spectrum."""
+    if not conditioning_tag(a):
+        return ""
+    bits = []
+    if getattr(a, "local_renorm", False):
+        bits.append("each fit window divided by its OWN 95th-percentile local continuum "
+                    "(RYA-1000 --local-renorm)")
+    dR = getattr(a, "degrade_to_R", None)
+    if dR:
+        bits.append(f"observed spectrum convolved down to R={float(dR):.0f} before "
+                    f"fitting (RYA-995 --degrade-to-R)")
+    return (" ⚠️ OBSERVED SPECTRUM CONDITIONED — DIAGNOSTIC PRODUCT, NOT A SCIENCE "
+            "PRODUCT: " + "; ".join(bits) + ". This is not the same measurement as the "
+            "unconditioned product of the same element, band, instrument and selection, "
+            "and it carries a distinct artifact stem for that reason (RYA-1006).")
+
+
+def synthesis_stem(a) -> str:
+    """The synthesis product's filename stem — EVERY independently-varying axis, in one place.
+
+    Hoisted out of `synthesis_route` by RYA-1006 so the guard test drives THIS expression
+    rather than a copy of it. A reconstructed stem agrees with itself while the route
+    writes something else (RYA-845), which is precisely the class of defect that let two
+    runs share a filename in the first place.
+
+    The axes, and the ticket that had to learn each one the hard way:
+      element / ion / band   — always
+      instrument             — always
+      holding                — RYA-933/934 (telluric-corrected vs raw, same instrument)
+      route (`_SYNTH`)       — always
+      selection              — RYA-984 (shallow-graded vs deep-graded, same everything)
+      observed conditioning  — RYA-1006 (local-renorm / degraded-R, same everything)
+    """
+    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
+    if a.holding:
+        stem += f"_{a.holding}"
+    stem += "_SYNTH"
+    stem += _selector_tag(a)
+    stem += conditioning_tag(a)
+    return stem
 
 
 def synthesis_route(a, pol) -> None:
@@ -297,6 +622,22 @@ def synthesis_route(a, pol) -> None:
     if row.empty:
         raise SystemExit(f"{a.instrument!r} absent from data/catalog/instrument_catalog.csv")
     R = float(row.iloc[0]["resolving_power_max"])
+    # 🔴 RYA-995 — THE CONTROLLED RESOLUTION TEST. Degrading means TWO things together,
+    # and doing only one of them would be a different experiment: the observed spectrum is
+    # convolved down (below, in `_observed`) AND the fit is told the new R, so the
+    # synthesis is broadened to match. Overriding R alone would broaden the model against
+    # an un-degraded observation and manufacture a mismatch.
+    _R_native = R
+    _degrade_to = getattr(a, "degrade_to_R", None)
+    if _degrade_to:
+        if _degrade_to >= R:
+            raise SystemExit(
+                f"--degrade-to-R {_degrade_to:.0f} is not below {a.instrument}'s own "
+                f"R={R:.0f}. Degrading is a one-way operation: resolution cannot be added "
+                f"back, and a 'degrade' upward would silently be a no-op.")
+        print(f"  [RYA-995 DEGRADE] observed spectrum convolved {R:.0f} -> "
+              f"{_degrade_to:.0f}; the fit is told the degraded R. DIAGNOSTIC ONLY.")
+        R = float(_degrade_to)
 
     # Ask about the lines that will actually be SYNTHESISED, not about the nominal band
     # bound (RYA-837). `--hi 12935` is a request; this band's reddest real line is
@@ -312,11 +653,36 @@ def synthesis_route(a, pol) -> None:
         raise SystemExit(
             f"no line in {cfg.linelist.name} lies within {a.lo}-{a.hi} A — refusing to "
             f"state gf provenance for a band this list does not cover.")
+    # 🔴 RYA-967 — PARTIAL COVERAGE IS A MISLABEL, NOT A SMALL PROBLEM.
+    #
+    # The check above refuses only when the list has NO line in the window. That was
+    # sufficient while every synth band shipped a list built for it; the VIS entry does
+    # not. It reads the iSpec-vendored GES v6 list — deliberately, so Part B varies method
+    # alone against the EW route — and that list starts at 4200 A. A VIS run over
+    # 3780-6910 would therefore have synthesised 4200-6910, converged, and emitted a
+    # product labelled 3780-6910: a number naming a range it was not measured over, which
+    # is the RYA-911/913 defect exactly.
+    #
+    # Refused rather than trimmed. Silently narrowing the band would hide the gap in a
+    # product nobody re-reads; the caller is told to ask for the range the list covers.
+    _lo_cov, _hi_cov = float(_ll.wave_A.min()), float(_ll.wave_A.max())
+    _gap_lo = max(0.0, _lo_cov - a.lo)
+    _gap_hi = max(0.0, a.hi - _hi_cov)
+    if _gap_lo > _LIST_COVERAGE_TOL_A or _gap_hi > _LIST_COVERAGE_TOL_A:
+        raise SystemExit(
+            f"{pol.name} synthesis list {cfg.linelist.name} covers "
+            f"{_lo_cov:.1f}-{_hi_cov:.1f} A but the run asks for {a.lo:.1f}-{a.hi:.1f} A "
+            f"— uncovered: {_gap_lo:.1f} A at the blue edge, {_gap_hi:.1f} A at the red. "
+            f"Emitting a product labelled {a.lo:.0f}-{a.hi:.0f} A that was synthesised "
+            f"over a narrower range is a number naming a range it was not measured over "
+            f"(RYA-911/913). Re-run over the covered range, or extend the list. "
+            f"{cfg.build_hint}")
     prov_gf = gf_provenance(float(_w.min()), float(_w.max()))
     print(f"\n[synthesis route — {pol.name}]  R={R:.0f}")
     print(f"  [gf] {prov_gf['detail']}")
     ctx = build_solar_context(a.element, R, linelist_file=str(cfg.linelist),
-                              apply_canonical_gf=prov_gf["apply_canonical_gf"])
+                              apply_canonical_gf=prov_gf["apply_canonical_gf"],
+                              star=a.star)
     segs = _kp_segments()
     hw = float(getattr(a, "half_width_A", None) or cfg.half_width_A)
 
@@ -347,19 +713,125 @@ def synthesis_route(a, pol) -> None:
     #: the kind of borrowed claim this ticket exists to stop.
     _window_median: list[float] = []
 
+    #: RYA-933/938 — band-wide continuum for a holding that ships NONE. Built lazily on
+    #: first use and reused for every window, because the continuum is a property of the
+    #: BAND, not of a 1.2 A fit window. Fitting it per window would place the "continuum"
+    #: inside the line being measured.
+    _placed_cont: dict = {}
+
+    def _band_continuum(h):
+        """CONTINUUM_PARAMS['solar'] spline over the whole band, fitted once.
+
+        🔴 THE KNOT SPACING IS THE WHOLE CORRECTNESS. 100 A knots with a 95th-percentile
+        upper envelope and 3-sigma rejection is the project's solar convention; a local
+        estimator (the 95th percentile of a single fit window, as `--local-renorm` uses)
+        is a DIFFERENT operation and is wrong here -- at ~1.2 A it rides down the wings of
+        the line it is about to measure and returns a continuum biased low, which the
+        fitter then closes by lowering A(X).
+        """
+        # RYA-1026: the LAST gate before a continuum of ours touches the product. The
+        # callers already check `h.pre_normalised` -- but that flag is exactly what
+        # RYA-929 got wrong, and a flag nothing cross-checks re-normalised KP2005 for
+        # months in silence. This checks the ratified registry AGAINST the flag, so a
+        # future flip raises DRIFT here rather than quietly re-enabling the placement.
+        assert_not_renormalising(
+            h.holding_id, pre_normalised=h.pre_normalised, fitting_continuum=True,
+            where="derive_band_products._band_continuum (--place-continuum)")
+        if "f" in _placed_cont:
+            return _placed_cont["f"]
+        from config.constants import CONTINUUM_PARAMS
+        from scipy.interpolate import CubicSpline
+        cp = CONTINUUM_PARAMS["solar"]
+        bw = load_window_ex(a.instrument, 0.5 * (a.lo + a.hi),
+                            0.5 * (a.hi - a.lo) + 1.0, holding=a.holding)
+        W = np.asarray(bw.wave, float); F = np.asarray(bw.flux, float)
+        keep = np.ones(W.size, bool)
+        knot = float(cp["knot_spacing_A"]); pct = float(cp["upper_percentile"])
+        cont = None
+        for _ in range(int(cp["n_iter"])):
+            edges = np.arange(W[0], W[-1] + knot, knot)
+            kx, ky = [], []
+            for lo_, hi_ in zip(edges[:-1], edges[1:]):
+                m = keep & (W >= lo_) & (W < hi_)
+                if m.sum() < 20:
+                    continue
+                kx.append(0.5 * (lo_ + hi_)); ky.append(float(np.percentile(F[m], pct)))
+            if len(kx) < 4:
+                raise SystemExit(
+                    f"--place-continuum: only {len(kx)} usable {knot:.0f} A knots across "
+                    f"{a.lo:.0f}-{a.hi:.0f} A -- too few to constrain a spline. Refusing "
+                    f"to place a continuum the band cannot support.")
+            cont = CubicSpline(kx, ky)(W)
+            resid = F - cont
+            keep = resid > -float(cp["sigma_clip"]) * float(np.std(resid[keep]))
+        _placed_cont["f"] = (W, cont)
+        print(f"  [continuum] PLACED on {h.holding_id} (ships none): "
+              f"{len(kx)} knots x {knot:.0f} A, {pct:.0f}th pct, "
+              f"{cp['n_iter']} iters, {cp['sigma_clip']:.1f} sigma "
+              f"(CONTINUUM_PARAMS['solar'])")
+        return _placed_cont["f"]
+
     def _observed(centre: float, pad: float):
         win = load_window_ex(a.instrument, centre, pad, holding=a.holding)
         h = win.holding
-        if not h.pre_normalised:
+        if not h.pre_normalised and not getattr(a, "place_continuum", False):
             raise LookupError(
                 f"holding {h.holding_id} is NOT continuum-normalised, and the synthesis "
                 f"route fits observed flux against a synthesis normalised to unity. "
                 f"Fitting it would spend A({a.element}) closing a continuum offset "
-                f"(RYA-713/843). Normalise the product first.")
+                f"(RYA-713/843). Normalise the product first, or pass --place-continuum "
+                f"if this holding genuinely ships no continuum to double (RYA-911).")
         _served[h.holding_id] = _served.get(h.holding_id, 0) + 1
         _served_specs[h.holding_id] = h
         _window_median.append(float(np.median(win.flux)))
-        return win.wave, win.flux, win.provenance
+        _w, _f, _prov = win.wave, win.flux, win.provenance
+        if not h.pre_normalised and getattr(a, "place_continuum", False):
+            _CW, _CF = _band_continuum(h)
+            _c = np.interp(np.asarray(_w, float), _CW, _CF)
+            _bad = ~np.isfinite(_c) | (_c <= 0)
+            if _bad.any():
+                raise SystemExit(
+                    f"--place-continuum: the band continuum is non-positive at "
+                    f"{int(_bad.sum())} of {_bad.size} pixels near {centre:.3f} A. "
+                    f"Refusing to divide by it.")
+            _f = np.asarray(_f, float) / _c
+            _prov = (f"{_prov} | RYA-933 CONTINUUM PLACED "
+                     f"(CONTINUUM_PARAMS['solar'], band-wide spline)")
+        if getattr(a, "local_renorm", False):
+            # 🔴 RYA-1000 — ONE CONVENTION FOR BOTH ARMS, applied IDENTICALLY.
+            #
+            # Kitt Peak ships residual flux where unity IS the continuum by construction;
+            # HARPS ships its own fitted continuum. Measured over the 108 common deep
+            # lines the local flux sits at 0.9281 (KP) against 0.8913 (HARPS) — and the
+            # synthesis route fits observed flux against a synthesis normalised to UNITY,
+            # so a depressed local continuum reads as extra absorption and the fitter
+            # spends A(Fe) closing it (RYA-843's mechanism, RYA-911's -0.34 dex).
+            #
+            # The 95th percentile is `verify_feature`'s own continuum estimator, reused
+            # rather than invented so the two places cannot disagree about what
+            # "continuum" means in a window.
+            #
+            # ⚠️ SYMMETRIC BY DESIGN. Applying this to HARPS alone would be tuning one arm
+            # toward the other. Both arms get the same operation; if the gap is a
+            # convention artifact it collapses, and if it is real it survives.
+            _c95 = float(np.nanpercentile(_f, 95))
+            if np.isfinite(_c95) and _c95 > 0:
+                _f = np.asarray(_f, float) / _c95
+                _prov = f"{_prov} | RYA-1000 LOCAL-RENORM /p95={_c95:.4f}"
+        if _degrade_to:
+            # Gaussian kernel that takes R_native -> R_target:
+            #   FWHM_deg^2 = (lam/R_target)^2 - (lam/R_native)^2
+            # Convolving by the QUADRATURE DIFFERENCE, not by lam/R_target, is the whole
+            # correctness of this: the spectrum already carries its native instrumental
+            # profile, and convolving by the full target width would over-broaden it.
+            from scipy.ndimage import gaussian_filter1d
+            _lam = float(np.median(_w))
+            _fw = _lam * np.sqrt(1.0 / _degrade_to ** 2 - 1.0 / _R_native ** 2)
+            _px = float(np.median(np.diff(_w)))
+            _sig_px = (_fw / 2.35482) / _px
+            _f = gaussian_filter1d(np.asarray(_f, float), _sig_px, mode="nearest")
+            _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
+        return _w, _f, _prov
 
     _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4,
                             holding=a.holding)
@@ -368,7 +840,7 @@ def synthesis_route(a, pol) -> None:
     # different holding line by line -- but a per-line failure there surfaces as
     # `status: no_atlas` on each line, which describes coverage rather than the real
     # fault. The loud version comes first (RYA-832).
-    if not _probe.pre_normalised:
+    if not _probe.pre_normalised and not getattr(a, "place_continuum", False):
         raise SystemExit(
             f"{a.instrument} -> {_probe.holding_id} is NOT continuum-normalised, and "
             f"this route fits observed flux against a synthesis normalised to unity. "
@@ -384,9 +856,25 @@ def synthesis_route(a, pol) -> None:
     # every one was labelled Fe II. `species_token` spells the ion the way the linelist
     # does ('Fe 2', not 'Fe II') and the selection refuses loudly when the band holds
     # none of that species — which is the honest answer where it holds none.
-    cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
-                        teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
-                        species=species_token(a.element, a.ion))
+    if getattr(a, "lines_deep_graded", False):
+        cand = _cand_deep_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                                 species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_from_ew", None):
+        cand = _cand_from_ew_artifact(ctx["linelist"], Path(a.lines_from_ew),
+                                      lo_A=a.lo, hi_A=a.hi,
+                                      species=species_token(a.element, a.ion),
+                                      tier=a.lines_tier)
+    elif getattr(a, "lines_tier", "all") == "graded":
+        cand = _cand_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                            species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_tier", "all") == "ungraded":
+        raise SystemExit(
+            "--lines-tier ungraded is only meaningful with --lines-from-ew (it splits "
+            "an EW artifact's pool). Standalone, use the default 'all'.")
+    else:
+        cand = select_lines(ctx["linelist"], lo_A=a.lo, hi_A=a.hi, n=cfg.n_lines,
+                            teff=float(ctx["teff"]), min_sep_A=cfg.min_sep_A,
+                            species=species_token(a.element, a.ion))
     # 🔴 THE TELLURIC MASK BELONGS AT SELECTION, AND THIS ROUTE NEVER APPLIED IT
     # (RYA-843). The EW route calls `telluric_reason` and skipped 29 NIR lines; the
     # synthesis route inherited `select_lines`, which knows nothing about tellurics. So
@@ -433,6 +921,8 @@ def synthesis_route(a, pol) -> None:
                        f"{res.get('obs_source', 'UNRECORDED')}"),
             abundance=(a_x if np.isfinite(a_x) else None),
             treatment="1D-LTE",
+            # RYA-1006 — the row says what was done to the spectrum it was fitted against.
+            observed_conditioning=conditioning_id(a),
             # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
             # "no departure applied" from "nobody recorded one" (RYA-833).
             nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
@@ -588,7 +1078,10 @@ def synthesis_route(a, pol) -> None:
         # RYA-822 grades only 6 of the 4,274 in-band Fe I lines as primary-lab, and its
         # GF-NIST class (604 lines) is a COMPILATION grade 822 deliberately keeps
         # outside `is_graded` because FMW *is* NIST and VALD copies it (RYA-760).
-        "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712).")
+        "gf TERM: " + rung.describe() + ". Never coadded with another band (RYA-712)."
+        # RYA-1006 — LAST, so it is the final thing a reader sees. Empty on an
+        # unconditioned product, so existing provenance text is byte-unchanged.
+        + _conditioning_note(a))
     # RYA-904 — ONE PRODUCT, ONE HOLDING. Per-line dispatch could legitimately serve
     # two holdings inside one band (a fixed-span product covering part of it, another
     # covering the rest). The aggregate would then average two normalisation and telluric
@@ -620,10 +1113,18 @@ def synthesis_route(a, pol) -> None:
     # RYA-933/934 -- the HOLDING belongs in the stem. Two holdings of one instrument
     # differing by whether tellurics were removed would otherwise write the same
     # filename, and the second would silently overwrite the first.
-    stem = f"{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}"
-    if a.holding:
-        stem += f"_{a.holding}"
-    stem += "_SYNTH"
+    # 🔴 RYA-984 — THE SELECTOR BELONGS IN THE STEM, and it did not used to be.
+    #
+    # This route now has three line-selection modes, and two of them produce a DIFFERENT
+    # SCIENTIFIC PRODUCT over the same element, band, instrument and holding: RYA-967's
+    # shallow graded set (55 lines, the EW-comparable ones) and RYA-984's deep graded set
+    # (109 lines, the ones EW can never attempt). Both wrote
+    # `FeI_4200_6910_kpno_solar_atlas_SYNTH_*`, so the second silently overwrote the first
+    # — the RYA-933/934 defect exactly, which that ticket fixed for the HOLDING axis and
+    # left open for the SELECTION axis.
+    #
+    # Caught 30 seconds into the first deep run, before it clobbered a committed product.
+    stem = synthesis_stem(a)
     pd.DataFrame([asdict_line(l) for l in lines]).to_csv(
         out / f"{stem}_1D-LTE_lines.csv", index=False)
 
@@ -702,6 +1203,110 @@ def synthesis_route(a, pol) -> None:
     # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
     # nowhere to live is a quantity nobody can check.
     (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
+    # ── ENGINE-A on the SYNTHESIS route ──────────────────────────────────────
+    #
+    # 🔴 RYA-1002 — THIS BLOCK DID NOT EXIST, AND ITS ABSENCE WAS SILENT.
+    #
+    # `[2] ENGINE-A` below is on the EW route only, so a band measured with
+    # `--force-synthesis` emitted 1D-LTE and stopped — no NLTE product, no message, no
+    # disposition. RYA-525's two-engine floor requires the departure product, and a
+    # reader of the matrix could not tell "this element has no registered grid" from
+    # "the route never asked". Found on Al: the Amarsi-2020 grid serves all six Al I
+    # lines AT SOLAR PARAMETERS (RYA-773 landed), and the red-optical run still returned
+    # 1D-LTE alone.
+    #
+    # A departure term added to the SAME inversion. The handler is this route's own
+    # (`SynthesisHandler`) and NOT the EW route's ProfileFitHandler — ENGINE-A rides
+    # whatever measured the line, and charging the profile fitter's residual to a flux
+    # fit would attribute someone else's systematic to it (RYA-869).
+    used_a = [l for l in lines if l.in_aggregate and l.abundance is not None]
+    deltas = engine_a_delta(a.element, a.ion,
+                            np.array([l.wavelength_air_A for l in used_a]),
+                            cache=a.mpia_cache, star=a.star)
+    rows_a: list[LineMeasurement] = []
+    for l in used_a:
+        # Tolerance match — two catalogues quoting one transition differ by up to
+        # ~0.03 A (RYA-704), and the grid keys are rounded.
+        d = None
+        if deltas:
+            k = min(deltas, key=lambda x: abs(x - l.wavelength_air_A))
+            if abs(k - l.wavelength_air_A) < 0.06:
+                d = deltas[k]
+        la = LineMeasurement(
+            element=l.element, ion=l.ion, wavelength_air_A=l.wavelength_air_A,
+            instrument=l.instrument, ew_mA=l.ew_mA, ew_method=l.ew_method,
+            treatment="ENGINE-A", ep_eV=l.ep_eV,
+            nlte_delta_dex=(float(d) if d is not None else None),
+            nlte_source=(engine_a_source(a.element) if d is not None
+                         else "registered per-line delta_nlte (NOT SERVED)"),
+            continuum_level=l.continuum_level, continuum_method=l.continuum_method,
+            continuum_ref=l.continuum_ref,
+            observed_depth=l.observed_depth, implied_width_A=l.implied_width_A,
+            red_chi2=l.red_chi2,
+            abundance=(l.abundance + d) if d is not None else None)
+        if d is None:
+            la.in_aggregate = False
+            la.excluded_reason = (
+                "ENGINE-A-NOT-SERVED: the registered source returns no usable "
+                "delta_nlte for this line (absent, nan, or a placeholder zero). "
+                "Reduced coverage, not a failed correction.")
+        # `_stamp` is a closure over the EW route's `main()` locals and is not reachable
+        # here. Both invariants it enforces are still honoured, explicitly:
+        #   RYA-880 — every row must STATE what departure was applied, because a blank
+        #             cannot be told apart from an unrecorded correction (RYA-833).
+        #             Satisfied by construction above, and asserted rather than assumed.
+        #   RYA-711 — the problem-children registry disposition is carried, not dropped.
+        #             ENGINE-A is the SAME transition as its parent line (RYA-871), so it
+        #             inherits that line's verdict; re-deriving it would be a second
+        #             source for one fact.
+        if not la.nlte_source:
+            raise SystemExit(
+                f"RYA-880: {la.element} {la.ion} {la.wavelength_air_A} (ENGINE-A) has no "
+                f"`nlte_source`. Every row must state what departure was applied.")
+        la.problem_class = l.problem_class
+        la.problem_status = l.problem_status
+        la.problem_tickets = l.problem_tickets
+        la.problem_action = l.problem_action
+        if not l.in_aggregate:
+            la.in_aggregate = False
+            la.excluded_reason = (l.excluded_reason if not la.excluded_reason
+                                  else f"{l.excluded_reason} | {la.excluded_reason}")
+        rows_a.append(la)
+    p_a = build_product(a.element, a.ion, a.instrument, pol.name, "ENGINE-A", rows_a,
+                        handler="SynthesisHandler",
+                        provenance=engine_a_source(a.element))
+    if p_a.value is not None:
+        pd.DataFrame([asdict_line(l) for l in rows_a]).to_csv(
+            out / f"{stem}_ENGINE-A_lines.csv", index=False)
+        b_a = build_budget(a.element, 0.5 * (a.lo + a.hi), p_a.n_lines,
+                           scatter_dex=p_a.sigma, **rung.budget_kwargs(),
+                           **harness_residual.for_product(p_a).budget_kwargs())
+        stat_a, syst_a = b_a.total()
+        pd.DataFrame([dict(
+            element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
+            treatment="ENGINE-A", handler=p_a.handler,
+            A=round(p_a.value, 3), n_lines=p_a.n_lines, n_excluded=p_a.n_excluded,
+            stat_dex=round(stat_a, 4), syst_dex=round(syst_a, 4),
+            stat_basis=b_a.stat_basis(),
+            dominant=(b_a.dominant().name if b_a.dominant() else ""),
+            **axes_for("ENGINE-A", handler=p_a.handler or None).as_columns(),
+        )]).to_csv(out / f"{stem}_ENGINE-A_products.csv", index=False)
+        (out / f"{stem}_ENGINE-A_budgets.txt").write_text(
+            b_a.describe() + f"\n  gf rung: {rung.describe()}\n")
+        (out / f"{stem}_ENGINE-A_provenance.txt").write_text(p_a.provenance + "\n")
+        _d = [float(r.nlte_delta_dex) for r in rows_a
+              if r.nlte_delta_dex is not None]
+        print(f"\n  A({a.element} {a.ion}; {pol.name}, ENGINE-A) = {p_a.value:.3f}  "
+              f"(n={p_a.n_lines}, not-served {p_a.n_excluded})")
+        print(f"    delta_nlte applied: mean {np.mean(_d):+.4f} dex over "
+              f"{len(_d)} line(s) — {engine_a_source(a.element)}")
+    else:
+        # An UNSERVED element is a stated disposition, not a missing row. The old
+        # behaviour — printing nothing — is what made this gap invisible.
+        print(f"\n  ENGINE-A: NOT PRODUCED — {engine_a_source(a.element)}; "
+              f"{p_a.n_excluded} of {len(rows_a)} line(s) unserved. The 1D-LTE product "
+              f"above stands alone and is NOT an NLTE value.")
+
     v = f"{product.value:.3f}" if product.value is not None else "n/a"
     s = f"{product.sigma:.3f}" if product.sigma is not None else "n/a"
     print(f"\n  A({a.element} {a.ion}; {pol.name}, 1D-LTE) = {v} +/- {s}  "
@@ -814,6 +1419,10 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # projection is the lossy one of the object's two serialisers, and
                 # RYA-847 already lost `red_chi2` to exactly this omission.
                 nlte_delta_dex=l.nlte_delta_dex, nlte_source=l.nlte_source,
+                # RYA-1006 — and it must be added HERE too, for the reason the comment
+                # above already gives: this projection is the lossy serialiser, and it is
+                # the ONE the anchor guard reads.
+                observed_conditioning=l.observed_conditioning,
                 # RYA-911 — the continuum the harness PLACED, carried to the product.
                 # The EW artifact records it; a product built from that EW has to carry
                 # it or the decisive quantity stops at the intermediate file and the next
@@ -829,12 +1438,24 @@ def asdict_line(l: LineMeasurement) -> dict:
                 # RYA-906 — emitted BESIDE sigma, never without it. On its own
                 # `profile_sigma_A` cannot be read: the two are degenerate in a Voigt
                 # fit, and judging a line by sigma alone is the defect this replaced.
-                profile_gamma_A=l.profile_gamma_A)
+                profile_gamma_A=l.profile_gamma_A,
+                # RYA-959 — the observed core and the width the integrated EW implies
+                # against it, carried for the same reason as the two fields above and
+                # with a sharper one: RYA-958 diagnosed a contaminated pool by
+                # RECONSTRUCTING this quantity by hand, from a MODEL depth out of
+                # linelist_solar.csv, because no artifact in the chain recorded the
+                # observed one. Stopping it at the EW file would guarantee the next RCA
+                # reconstructs it again — the RYA-843 `red_chi2` omission exactly.
+                observed_depth=l.observed_depth, implied_width_A=l.implied_width_A)
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--star", default="solar",
+                    help="star id from config/stars.yaml (RYA-298 single source). Default "
+                         "'solar' keeps every existing invocation bit-identical; any other "
+                         "value drives BOTH the atmosphere and the NLTE grid node (RYA-985).")
     ap.add_argument("--element", required=True)
     ap.add_argument("--ion", default="I")
     ap.add_argument("--lo", type=float, required=True)
@@ -847,6 +1468,49 @@ def main() -> None:
                          "whichever is listed first -- which is how two telluric-corrected "
                          "Kitt Peak holdings sat unmeasurable while `--instrument "
                          "kpno_solar_atlas` looked like it covered them.")
+    ap.add_argument("--lines-from-ew", default=None, metavar="EW_CSV",
+                    help="RYA-967: drive the SYNTHESIS route over the lines a named EW "
+                         "artifact attempted, instead of `select_lines`' strongest-N. "
+                         "This is what makes an EW-vs-synth comparison CONTROLLED: the "
+                         "two legs then differ by method and by nothing else. Without it "
+                         "the synth leg picks its own (stronger) lines and any difference "
+                         "in A(X) conflates method with selection — RYA-842, line "
+                         "selection dominates.")
+    ap.add_argument("--degrade-to-R", type=float, default=None, metavar="R",
+                    help="RYA-995: convolve the OBSERVED spectrum down to this resolving "
+                         "power before fitting, and fit at it. The controlled "
+                         "instrument test — same spectrum, same lines, same pipeline, "
+                         "only the resolution changes, so nothing else can explain a "
+                         "difference. NOT for producing science products.")
+    ap.add_argument("--local-renorm", action="store_true",
+                    help="RYA-1000: divide each fit window by its OWN local continuum "
+                         "(95th percentile) before fitting, so both arms share one "
+                         "continuum convention. DIAGNOSTIC ONLY — the controlled test of "
+                         "whether the KP-vs-HARPS arm gap is a normalisation artifact.")
+    ap.add_argument("--place-continuum", action="store_true",
+                    help="⚠️ CHECK FOR A SHIPPED CONTINUUM FIRST. Kurucz 2005 was served "
+                         "through this flag until RYA-933 found the distribution also "
+                         "ships `irradrelwl.dat`, a residual atlas with Kurucz's own "
+                         "continuum divided out -- the readme does not list it, so the "
+                         "intake missed it. The placed spline tilted the band 4% "
+                         "blue-to-red and cost 0.0218 dex. A product that ships a "
+                         "continuum must use it (RYA-911/938). "
+                         "RYA-933/938: place a continuum on a holding that ships NONE "
+                         "(pre_normalised=False), instead of refusing it. Fitted ONCE "
+                         "across the whole band with CONTINUUM_PARAMS['solar'] (100 A "
+                         "knots, 95th pct, 5 iters, 3 sigma) -- never per fit window, "
+                         "which at ~1.2 A would ride down the wings of the very lines "
+                         "being measured and bias A(X) low. Only legitimate where the "
+                         "product genuinely ships no continuum to double (RYA-911): "
+                         "Kurucz 2005 is absolute irradiance in W/m2/nm.")
+    ap.add_argument("--lines-deep-graded", action="store_true",
+                    help="RYA-984: select the laboratory-graded lines that sit ABOVE the "
+                         "EW depth gate — the ones EW can never attempt because the curve "
+                         "of growth is flat there. Synthesis inverts no EW, so the "
+                         "saturation ceiling does not apply to them.")
+    ap.add_argument("--lines-tier", choices=["all", "graded", "ungraded"], default="all",
+                    help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
+                         "as their own product, never merged with the ungraded ones.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
@@ -873,6 +1537,20 @@ def main() -> None:
     a = ap.parse_args()
 
     pol_early = resolve_band(0.5 * (a.lo + a.hi))
+    # 🔴 RYA-1006 — the conditioning flags are honoured ONLY by `synthesis_route`. On the
+    # EW route they were parsed and silently ignored, so `--local-renorm` there produced
+    # an UNCONDITIONED product from a command line that says it is conditioned. The stem
+    # would carry no conditioning tag either, which is correct for what ran and wrong for
+    # what was asked — the same silent-wrong class this ticket exists to close. Refuse.
+    if conditioning_tag(a) and not (
+            a.force_synthesis
+            or "profile-fit" in getattr(pol_early, "forbidden_methods", ())):
+        raise SystemExit(
+            f"--local-renorm / --degrade-to-R condition the OBSERVED spectrum before a "
+            f"synthesis fit, and only `synthesis_route` applies them. This invocation "
+            f"takes the EW/profile-fit route, which would ignore them silently and emit "
+            f"an UNCONDITIONED product. Add --force-synthesis, or drop the flag "
+            f"(RYA-1006).")
     if a.force_synthesis:
         if "synthesis" not in pol_early.permitted_methods:
             raise SystemExit(
@@ -968,7 +1646,7 @@ def main() -> None:
     # ── 1D-LTE ────────────────────────────────────────────────────────────────
     print("\n[1] 1D-LTE via the project's Turbospectrum curve-of-growth...")
     from scripts.control_synthesis_handler import build_context
-    ctx = build_context(a.element, a.ion, 500000.0)
+    ctx = build_context(a.element, a.ion, 500000.0, star=a.star)
     from pipeline.abundances_derive import _bisect_synth_abundance
     acc = pd.read_csv(ROOT / "data" / "audit" / "line_accounting" / "per_line.csv")
 
@@ -1025,7 +1703,8 @@ def main() -> None:
     used = [l for l in rows if l.in_aggregate and l.abundance is not None]
     deltas = engine_a_delta(a.element, a.ion,
                             np.array([l.wavelength_air_A for l in used]),
-                            cache=a.mpia_cache)
+                            cache=a.mpia_cache,
+                            star=a.star)
     rows_a: list[LineMeasurement] = []
     for l in used:
         # Tolerance match -- the cache keys are rounded, and two catalogues quoting the
@@ -1197,7 +1876,15 @@ def main() -> None:
         handler.prepare(pol, {**ctx_b, "instrument": a.instrument})
         # Ask once, at band centre, so a refusal costs nothing and arrives before
         # any synthesis runs (the synthesis_route pattern, RYA-904/832).
-        _b_probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4)
+        # 🔴 RYA-959 — `holding=a.holding` WAS MISSING HERE, AND ON THE TWO SITES BELOW.
+        # RYA-933/934 added `--holding` so a caller can name ONE product instead of
+        # taking the instrument's first covering candidate; the synthesis route honours
+        # it (see `synthesis_route`) and this leg did not. Measured: a run launched with
+        # `--holding solar_harps_molecfit_corrected` printed
+        # `[holding] harps -> solar_harps` and derived Engine-B on the UNCORRECTED
+        # sibling — the one pair this repo must never collapse (RYA-911/927).
+        _b_probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4,
+                                  holding=a.holding)
         if not _b_probe.pre_normalised:
             raise SystemExit(
                 f"{a.instrument} -> {_b_probe.holding_id} is NOT "
@@ -1216,7 +1903,8 @@ def main() -> None:
         for _, r in ok.iterrows():
             c = float(r.wavelength_air_A)
             try:
-                _win = load_window_ex(a.instrument, c, pad=1.4, segs=segs)
+                _win = load_window_ex(a.instrument, c, pad=1.4, segs=segs,
+                                      holding=a.holding)
                 w_obs, f_obs = _win.wave, _win.flux
                 # RYA-913: record WHICH holding served each line, so a consumer
                 # can verify the product was measured on what its label claims.
@@ -1270,7 +1958,8 @@ def main() -> None:
         # the tag against the holdings that actually served the lines is the only check
         # that would have failed. It is cheap and it runs on every product.
         _b_expected = {h.holding_id for h in
-                       [select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4)]}
+                       [select_holding(a.instrument, 0.5 * (a.lo + a.hi), 1.4,
+                                       holding=a.holding)]}
         _b_unexpected = _b_holdings - _b_expected
         if _b_unexpected:
             raise SystemExit(
@@ -1279,6 +1968,18 @@ def main() -> None:
                 f"{sorted(_b_unexpected)}, which {a.instrument!r} does not select. "
                 f"A number labelled with an instrument it was not measured on is the "
                 f"RYA-911/913 defect. Refusing to emit it.")
+        # 🔴 RYA-959 — AND THE GUARD COULD NOT HAVE CAUGHT IT. `_b_expected` above is
+        # resolved by the same call the lines were loaded with, so the check proved the
+        # leg was self-consistent, never that it honoured what the CALLER asked for. When
+        # `--holding` is given, the answer is not "whatever the instrument selects" — it
+        # is that holding, and nothing else may serve a single line.
+        if a.holding and _b_holdings and _b_holdings != {a.holding}:
+            raise SystemExit(
+                f"HOLDING IGNORED: --holding {a.holding!r} was requested but Engine-B's "
+                f"lines were measured on {sorted(_b_holdings)}. A run asked for one "
+                f"product and got another; for the HARPS pair that is the difference "
+                f"between the telluric-corrected sibling and the raw one (RYA-931/927). "
+                f"Refusing to emit it.")
         if _b_holdings:
             print(f"  [provenance] {len(_b_holdings)} holding(s) served this product: "
                   f"{sorted(_b_holdings)} — matches --instrument {a.instrument}")

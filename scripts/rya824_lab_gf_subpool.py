@@ -90,11 +90,13 @@ def census(pool_dir: Path) -> pd.DataFrame:
         raise SystemExit(f"{len(bad)} lab rows carry an impossible sigma — refusing to "
                          f"run (RYA-799 positivity guard)")
     acc = _accounting()
-    rows = []
+    rows: list = []
+    missing: list = []
     for band, ion, fname, derivable in POOLS:
         path = pool_dir / fname
         if not path.exists():
             print(f"  [skip] {fname} not present")
+            missing.append(fname)
             continue
         d = pd.read_csv(path)
         d = d[d["ion"].astype(str) == ion]
@@ -118,6 +120,24 @@ def census(pool_dir: Path) -> pd.DataFrame:
                 d_loggf=float(b.loggf) - k14,
                 lab_source=str(b.source), lab_sigma_dex=float(b.e_loggf_dex),
                 derivable=derivable))
+    # 🔴 AN EMPTY CENSUS IS A CONFIGURATION ERROR, NOT A RESULT — RYA-1020.
+    #
+    # `pd.DataFrame([])` has NO COLUMNS, so returning it turns a wrong --pool-dir into an
+    # `AttributeError: 'DataFrame' object has no attribute 'band'` about 100 lines away, in
+    # the census printer. That reads as a schema bug in the pool and sends you looking at
+    # the CSV; the real fault is that this function matched nothing and said so only in
+    # skip lines nobody reads. Fail here, naming the directory and what was sought.
+    if not rows:
+        raise SystemExit(
+            f"rya824: no measured line in {pool_dir} carries a primary laboratory gf — "
+            f"the census is EMPTY, so there is nothing to grade.\n"
+            f"  pools sought : {len(POOLS)}\n"
+            f"  not present  : {len(missing)} ({', '.join(missing) or 'none'})\n"
+            f"  present but 0 matches: {len(POOLS) - len(missing)}\n"
+            f"Point --pool-dir at the RYA-783 per-line pools. NOTE they do not all live in "
+            f"one directory (VIS is under rya880/, red-optical under band_products/), so a "
+            f"single --pool-dir may not reach every pool. Refusing to emit a columnless "
+            f"frame that fails later as a schema error.")
     return pd.DataFrame(rows)
 
 

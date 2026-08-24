@@ -80,9 +80,18 @@ CITED_COVERAGE_MIN = 0.90
 #: `pipeline.gf_grades` is actually about. Everything else is rung 1 by construction and
 #: is never handed to the grader -- see refusal 2 in the module docstring.
 #:
-#: 🔴 THIS IS NOT A TODO LIST. Adding a species here without adding its lab table would
-#: make `grade_line` referee it against Fe I laboratory rows.
-LAB_GRADED_SPECIES: frozenset[tuple[str, str]] = frozenset({("Fe", "I")})
+#: 🔴 THIS IS NOT A TODO LIST. A species here without a lab table would make
+#: `grade_line` referee it against another element's laboratory rows.
+#:
+#: RYA-1002: DERIVED from `gf_grades.LAB_TABLES` rather than written out, so the two can
+#: no longer disagree. Hand-maintained, it did: Al gained a primary-lab table (Burheim
+#: 2023) and this set still said "the graded ladder is Fe I only", so the first Al
+#: red-optical product came out rung 1 / UNGRADED with a table sitting right there. The
+#: hazard the hand-written form guarded against is now structural — a species cannot
+#: appear here without a registered table, because this IS the registry.
+LAB_GRADED_SPECIES: frozenset[tuple[str, str]] = frozenset(
+    tuple(sp.split(None, 1)) for sp in gf_grades.LAB_TABLES  # ("Fe","I"), ("Al","I")
+)
 
 #: Wavelength tolerance when resolving a measured line back to its row in the loaded
 #: line list, and the reason it is TIGHT.
@@ -294,9 +303,10 @@ def decide(element: str, ion: str, lines: pd.DataFrame) -> GfRung:
     if (str(element), str(ion)) not in LAB_GRADED_SPECIES:
         return GfRung(
             1, False, None, "", n, 0, 0, 0.0, {},
-            f"no primary-laboratory gf table exists for {species} — the graded ladder is "
-            f"Fe I only (RYA-799/824/836), and grading {species} through it would referee "
-            f"it against Fe I lab rows on wavelength and EP alone")
+            f"no primary-laboratory gf table exists for {species} — the graded ladder "
+            f"covers {sorted(' '.join(t) for t in LAB_GRADED_SPECIES)}, and grading "
+            f"{species} through it would referee it against another species' lab rows "
+            f"on wavelength and EP alone")
 
     resolved = lines.get("resolved")
     unresolved = int((~resolved.astype(bool)).sum()) if resolved is not None else 0
@@ -307,7 +317,7 @@ def decide(element: str, ion: str, lines: pd.DataFrame) -> GfRung:
             grades.append("UNRESOLVED")
             continue
         v = gf_grades.grade_line(float(r.wavelength_air_A), float(r.ep_eV),
-                                 float(r.log_gf))
+                                 float(r.log_gf), species=species)
         grades.append(v.gf_grade)
         if v.is_graded:
             if np.isfinite(v.gf_sigma_dex):

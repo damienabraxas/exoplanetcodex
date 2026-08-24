@@ -100,6 +100,80 @@ alpha_cen_b:
   solve:
   - feh
   - xi
+tau_ceti:
+  teff: 5414.0
+  e_teff: 21.0
+  logg: 4.49
+  e_logg: 0.02
+  feh_ref: -0.49
+  e_feh: 0.03
+  xi: 1.1
+  vsini: 0.7
+  vmac: 0.9
+  broadening_source: 'Bruntt+2010 (MNRAS 405,1907; DOI 10.1111/j.1365-2966.2010.16575.x)
+    Table B1 "This study" columns: vsini=0.7+/-0.6, vmac=0.9+/-0.6 (RT, Gray scale) —
+    the SAME table and scale already adopted for alpha_cen_a/b, so the benchmark set
+    stays internally consistent. Adopted as a PAIR: vsini and vmac are degenerate in a
+    profile fit, so pairing the previous vsini=1.1 (Jofré+2014 Table 1 ref Saar) with a
+    Bruntt vmac would inflate the quadrature broadening ~25% and bias A(X) itself
+    (RYA-288). DISCREPANCY: Saar & Osten 1997 (MNRAS 284,803) Table 3 give
+    vsini=0.4+/-0.4, vmac=2.1+/-0.4 for HD 10700 — 1.2 km/s higher in vmac (~1.7 sigma);
+    Bruntt preferred as the newer determination and the alpha Cen source. NOTE:
+    Bruntt Table B1 prints its "Saar" columns TRANSPOSED relative to its own header
+    (verified against Saar & Osten Table 3 for the Sun, tau Cet, alpha Cen A and B) —
+    never source vsini from that column.'
+  source: 'GBS: Heiter+2015 (Teff, Table 10), Jofré+2014 ([Fe/H] Table 3, ξ Table 2
+    vmic=1.1±0.28; broadening now from Bruntt+2010, see broadening_source). e_feh 0.03 = quadrature of the Table 3
+    error budget (σFeI 0.01, Δ(LTE) 0.01, Δ(ion) 0.01, σFeII 0.02). logg NOT PINNED
+    — Heiter+2015 Table 10 prints it in square brackets, which that table''s caption
+    defines as "uncertain and should not be used as a reference for calibration or
+    validation purposes"; Sect. 5.4.1 gives the reason (the mass comes from
+    "problematic evolutionary tracks predicting unreasonable ages")'
+  logg_basis: 'interferometric radius + model mass, but the mass is from evolutionary
+    tracks Heiter+2015 Sect. 5.4.1 calls problematic (unreasonable ages), so the paper
+    BRACKETS this value as not to be used as a calibration reference — carried as the
+    starting value and SOLVED, not pinned as a GBS fundamental'
+  pin:
+  - teff
+  - xi
+  solve:
+  - feh
+  - logg
+eps_eri:
+  teff: 5076.0
+  e_teff: 30.0
+  logg: 4.61
+  e_logg: 0.03
+  feh_ref: -0.09
+  e_feh: 0.06
+  xi: 1.1
+  vsini: 1.7
+  vmac: 1.8
+  broadening_source: 'Saar & Osten 1997 (MNRAS 284,803) Table 3, HD 22049:
+    vsini=1.7+/-0.3, vmac=1.8+/-0.5 km/s. Their macroturbulence model is
+    radial-tangential and Sect. 3.1 states it is "identical to that of Gray" — the same
+    RT/Gray scale as alpha_cen and procyon. Adopted as a PAIR (vsini/vmac are degenerate;
+    keeping the previous vsini=2.4 from Jofré+2014 Table 1 ref VF05 would inflate the
+    quadrature broadening ~21% and bias A(X), RYA-288). WHY NOT the usual sources:
+    eps Eri is ABSENT from Bruntt+2010 Table B1 (delta Eri is present and is a DIFFERENT
+    star, HD 23249); Valenti & Fischer 2005 publish NO vmac column (confirmed in VizieR
+    J/ApJS/159/141, and stated by Bruntt+2010 Sect. 5 — they "did not include
+    macroturbulence", and the VF05 vmac quoted elsewhere are UPPER LIMITS assuming
+    vsini=0); Doyle+2014 (MNRAS 444,3592; DOI 10.1093/mnras/stu1692) is valid only for
+    Teff 5200-6400 K and logg 4.0-4.6, and eps Eri (5076 K, logg 4.61) falls outside on
+    BOTH axes; Gray 1984 (ApJ 281,719) reports eps Eri but states the Zeeman-corrected
+    residual broadening was "too small to properly analyze" at his resolution.'
+  source: 'GBS: Heiter+2015 (Teff/logg, Table 10), Jofré+2014 ([Fe/H] Table 3, ξ Table 2
+    vmic=1.1±0.05; broadening now from Saar & Osten 1997, see broadening_source). e_feh 0.06 = quadrature of the Table 3
+    error budget (σFeI 0.01, Δ(LTE) 0.01, Δ(ion) 0.05, σFeII 0.02)'
+  logg_basis: interferometric angular diameter + bolometric flux with model mass
+    (Heiter+2015 Table 10, unbracketed — adopted as a GBS fundamental)
+  pin:
+  - teff
+  - logg
+  - xi
+  solve:
+  - feh
 synthetic_no_logg:
   teff: 5800.0
   e_teff: 100.0

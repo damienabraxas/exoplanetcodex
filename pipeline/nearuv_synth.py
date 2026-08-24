@@ -277,7 +277,8 @@ def gf_provenance(lo_A: float, hi_A: float) -> dict:
 def build_solar_context(element: str, resolving_power: float, *,
                         linelist_file: str = None,
                         apply_canonical_gf: bool = True,
-                        tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
+                        tmp_dir: str = '/tmp/ispec_codex_synth',
+                        star: str = 'solar') -> dict:
     """Assemble the synthesis context from the pipeline's own loaders — never invented.
 
     Every value comes from an existing production source:
@@ -308,10 +309,10 @@ def build_solar_context(element: str, resolving_power: float, *,
     from pipeline.cno_synthesis import _atom_codes, _solar_A as _ispec_solar_A_map
     import ispec
 
-    p = get_star_params('solar')
+    p = get_star_params(star)
     if 'xi' not in p:
         raise NearUVSynthesisError(
-            "no microturbulence ('xi') in STAR_PARAMS for the Sun. Refusing to default "
+            f"no microturbulence ('xi') in STAR_PARAMS for {star!r}. Refusing to default "
             "it — xi sets the saturation regime and biases the fitted abundance.")
     teff, logg = float(p['teff']), float(p['logg'])
     feh = float(p.get('feh', p.get('feh_ref', 0.0)))
@@ -319,10 +320,14 @@ def build_solar_context(element: str, resolving_power: float, *,
 
     # R is DISCARDED from the resolver on purpose: resolving power is an instrument
     # constant and the caller says which instrument this run is against.
-    _r_unused, vmac, vsini, fit_vmac = _resolve_broadening('solar')
+    # 🔴 THE SECOND HARDCODED SOLAR IN THIS FUNCTION. `_resolve_broadening` supplies
+    # vmac and vsini; pinned to 'solar' it put the Sun's macroturbulence into every
+    # star's synthesis. Broadening biases the fitted abundance, not merely its bar
+    # (RYA-288), so this follows the star like everything else.
+    _r_unused, vmac, vsini, fit_vmac = _resolve_broadening(star)
     if fit_vmac:
         raise NearUVSynthesisError(
-            "STAR_PARAMS asks for vmac='fit' on the Sun. Fitting vmac by full-profile "
+            f"STAR_PARAMS asks for vmac='fit' on {star!r}. Fitting vmac by full-profile "
             "chi2 rails to the upper bound at high SNR (RYA-309); this path will not "
             "do it. Set a fixed solar vmac or adopt a literature RT value.")
 
@@ -395,3 +400,8 @@ def synthesize_band(context: dict, lo_A: float, hi_A: float, *, element: str,
 
     return {'wave_A': wave_A, 'flux': flux, 'n_lines_in_band': n_band,
             'sensitivity': sens, 'n_edge_trimmed': n_trim}
+
+
+#: RYA-985 — the honest name. `build_solar_context` is retained because eight modules import
+#: it, but it has not been solar-only since a `star` argument was threaded through it.
+build_star_context = build_solar_context

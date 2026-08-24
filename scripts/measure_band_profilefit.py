@@ -93,6 +93,13 @@ from pipeline.line_width import (  # noqa: E402
     physical_floor_fwhm as _physical_floor_fwhm,
     total_width_below_physical_floor as _total_width_below_physical_floor,
     under_physical_width_reason as _under_physical_width_reason,
+    # RYA-959 — the ceiling. The floor above had no mirror, so a fit that failed escaped
+    # UPWARD into `sigma_max` and returned a 400-1000 mA "Fe I line" that looked converged.
+    gaussian_sigma_above_physical_ceiling as _sigma_above_physical_ceiling,
+    over_physical_width_reason as _over_physical_width_reason,
+    implied_width_A as _implied_width_A,
+    implied_width_exceeds_ceiling as _implied_width_exceeds_ceiling,
+    over_implied_width_reason as _over_implied_width_reason,
 )
 
 
@@ -274,6 +281,13 @@ def main() -> None:
             ew = _integrate_profile(wf[fit_m], popt, ptype)
             err = _ew_error(fn[~fit_m], ew, popt, pcov, ptype)
             ok, vwhy = verify_feature(wf, fn, c, FIT_HALF_A, float(r.predicted_depth))
+            # RYA-959 — THE OBSERVED CORE, taken where THIS fit put its centre.
+            # The implied-width test pairs the integral with the core it came from, so
+            # the depth has to be the one the same fit was describing; reading it at the
+            # catalogued position instead would convict every line the fit legitimately
+            # re-centred within its +/-0.30 A freedom.
+            _core = np.abs(wf - float(popt[0])) <= max(3 * s_init, 0.03)
+            obs_depth = float(1.0 - np.min(fn[_core])) if _core.any() else float("nan")
         except Exception as e:
             skipped.append(dict(wave=c, reason=f"{type(e).__name__}: {e}"))
             continue
@@ -303,7 +317,12 @@ def main() -> None:
             # RYA-906 — the Lorentzian half-width, WITHOUT which `profile_sigma_A` cannot
             # be interpreted: the two are degenerate in a Voigt fit.
             profile_gamma_A=(float(popt[3]) if ptype == "voigt" and len(popt) > 3 else None),
-            red_chi2=float(chi2))
+            red_chi2=float(chi2),
+            # RYA-959 — recorded on EVERY row, not only the rejected ones. The quantity
+            # that convicts a bad EW is the quantity an auditor needs on the good ones too.
+            observed_depth=(obs_depth if np.isfinite(obs_depth) else None),
+            implied_width_A=(_implied_width_A(float(ew), obs_depth)
+                             if np.isfinite(obs_depth) else None))
         if cont_unphysical:
             # Quarantined, never culled (RYA-711): measured, kept, reported with its
             # number. The EW is still written down -- it is the CONTINUUM that is
@@ -336,6 +355,24 @@ def main() -> None:
             # deliberately excluded so it stays a true lower bound.
             lm.in_aggregate = False
             lm.excluded_reason = _under_physical_width_reason(popt, ptype, c, s_min)
+        elif _sigma_above_physical_ceiling(popt, c, s_min):
+            # 🔴 RYA-959 — THE MIRROR THAT WAS MISSING, and the fault that built
+            # RYA-958's contaminated pool. `instrument_sigma` allows sigma out to 0.40 A,
+            # ~5x the widest Gaussian solar Doppler physics permits, so a fit with nothing
+            # good to converge on ran to the bound and integrated a pedestal instead of a
+            # line. Quarantined, never culled (RYA-711): the EW stays on the row so a
+            # reader can see how far off it was, and `attribute_root_cause` below still
+            # records WHY the fit had nothing to hold on to.
+            lm.in_aggregate = False
+            lm.excluded_reason = _over_physical_width_reason(popt, ptype, c, s_min, s_max)
+        elif _implied_width_exceeds_ceiling(float(ew), obs_depth, 2 * FIT_HALF_A):
+            # RYA-959 — the INTEGRAL bound. A runaway Lorentzian gamma inflates the EW
+            # without deepening the core, so it clears the sigma ceiling above and is
+            # caught only here. This is the check RYA-958's 251-of-444 diagnosis ran by
+            # hand, now wired into the measurement that produces the number.
+            lm.in_aggregate = False
+            lm.excluded_reason = _over_implied_width_reason(
+                float(ew), obs_depth, c, s_min, 2 * FIT_HALF_A, float(r.predicted_depth))
         elif not ok:
             lm.in_aggregate = False
             lm.excluded_reason = f"FEATURE-VERIFICATION: {vwhy}"
