@@ -16,6 +16,7 @@ if REPO not in sys.path:
     sys.path.insert(0, REPO)
 import numpy as np
 import pipeline.abundances_derive as ad
+from pipeline import line_match
 import ispec
 
 STAR = dict(teff=5772.0, logg=4.44, feh=0.0, vturb=1.0)
@@ -27,25 +28,30 @@ ELEMS = {'Mn': ('I', 25, 5.42), 'Cr': ('I', 24, 5.62), 'Ni': ('I', 28, 6.20), 'T
 def _nonK10_wls(Z, ion_code):
     """Wavelengths whose canonical gf is NOT the ungraded K10 synth-gf (isolate lab/literature gf,
     so the TS absolute offset isn't confounded by the K10 gf-scale problem — RYA-521/545)."""
-    keep = set()
+    keep = []
     with open(os.path.join(REPO, 'data/linelists/canonical_gf.csv')) as f:
         for r in csv.DictReader(f):
             if r['key_z'] == str(Z) and r['ion'] == str(ion_code) and r['loggf_reference'] != 'K10':
-                keep.add(round(float(r['wavelength_air_A']), 2))
-    return keep
+                keep.append(float(r['wavelength_air_A']))
+    return np.sort(np.asarray(keep, dtype=float))
 
 
 def _pool(el, ion, Z, amax_ew=55):
+    # 🔴 RYA-1033: `wl in lab` used to compare 2-dp ROUNDED wavelengths across two files.
+    # canonical_gf and the EW pool store the same line to different precision, so lines that
+    # ARE lab-gf were read as K10 and silently left out of the offset pool. Tolerance match.
     lab = _nonK10_wls(Z, 1 if ion == 'I' else 2)
-    out = []
+    cand = []
     with open(os.path.join(REPO, 'data/measured/sol_ew_results_v1.csv')) as f:
         for r in csv.DictReader(f):
             if r['element'] == el and r['ion'] == ion and r['blend_flag'] == 'False':
                 e, er = float(r['ew_mA']), float(r['ew_err_mA'])
-                wl = round(float(r['wavelength_air_A']), 2)
-                if 8 <= e <= amax_ew and er / max(e, 1e-6) < 0.4 and wl in lab:
-                    out.append(wl)
-    return sorted(set(out))
+                if 8 <= e <= amax_ew and er / max(e, 1e-6) < 0.4:
+                    cand.append(float(r['wavelength_air_A']))
+    if not cand:
+        return []
+    res = line_match.match(np.asarray(cand, dtype=float), lab)
+    return sorted({cand[i] for i in range(len(cand)) if res.index[i] >= 0})
 
 
 def main():
@@ -58,7 +64,9 @@ def main():
     with open(os.path.join(REPO, 'data/measured/sol_ew_results_v1.csv')) as f:
         for r in csv.DictReader(f):
             if r['blend_flag'] == 'False':
-                ewmap[(r['element'], r['ion'], round(float(r['wavelength_air_A']), 2))] = float(r['ew_mA'])
+                # Raw wavelength: `_pool` returns values read from THIS file, so the key
+                # is exact by construction and needs no rounding (RYA-1033).
+                ewmap[(r['element'], r['ion'], float(r['wavelength_air_A']))] = float(r['ew_mA'])
     for el, (ion, Z, asp) in ELEMS.items():
         pool = _pool(el, ion, Z)[:12]     # a handful of clean weak lab-gf lines (non-K10)
         A = []

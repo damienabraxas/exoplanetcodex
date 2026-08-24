@@ -40,11 +40,13 @@ import argparse
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO))
 import config.constants as const  # noqa: E402
+from pipeline import line_match  # noqa: E402
 
 STAGING = Path(str(const.PATHS['solar_ew']))
 CANONICAL = Path(str(const.PATHS['solar_ew_canonical']))
@@ -53,9 +55,56 @@ _KEYCOLS = ('element', 'ion')
 _PROMOTE_COLS = ('ew_mA', 'ew_err_mA', 'profile_type', 'chi2')
 
 
-def _key(df: pd.DataFrame) -> pd.Series:
-    return (df['element'].astype(str) + '|' + df['ion'].astype(str) + '|' +
-            df['wavelength_air_A'].astype(float).round(2).astype(str))
+def _pair(canon: pd.DataFrame, stage: pd.DataFrame) -> np.ndarray:
+    """Index into `stage` for every row of `canon`; -1 where the line is canonical-only.
+
+    🔴 RYA-1033 — THIS USED TO BE A ROUNDED-WAVELENGTH STRING KEY, and that dropped lines
+    that ARE in both files. `element|ion|round(wavelength, 2)` splits a matched pair as
+    soon as the two files store the same line to different precision: Fe I 4787.49462 here
+    against 4787.495 there is 0.38 mA apart and rounds to 4787.49 vs 4787.50. Seventeen
+    Fe I lines did exactly that, every one within 1.2 mA of its partner.
+
+    Worse, the key was not even a function of the wavelength: this file rounded with pandas
+    (`np.round(6136.615, 2) -> 6136.62`) while `abundances_derive` rounded the same value
+    with Python (`round(6136.615, 2) -> 6136.61`). See `pipeline.line_match`.
+
+    Matching is per (element, ion) so a tolerance can never cross species.
+    """
+    out = np.full(len(canon), -1, dtype=int)
+    s_pos = {k: g.index.to_numpy() for k, g in
+             stage.reset_index(drop=True).groupby(list(_KEYCOLS), sort=False)}
+    for key, grp in canon.reset_index(drop=True).groupby(list(_KEYCOLS), sort=False):
+        pos = s_pos.get(key)
+        if pos is None:
+            continue
+        res = line_match.match(grp['wavelength_air_A'].to_numpy(float),
+                               stage['wavelength_air_A'].to_numpy(float)[pos])
+        if res.ambiguous:
+            raise SystemExit(
+                f"promotion refuses to guess: {len(res.ambiguous)} {key} line(s) match more "
+                f"than one staging row within {line_match.MATCH_TOL_A} A "
+                f"({[f'{w:.4f}' for w, _ in res.ambiguous][:6]}). Two fits for one line is a "
+                f"staging defect — de-duplicate it there rather than promoting a coin flip.")
+        hit = res.index >= 0
+        out[grp.index.to_numpy()[hit]] = pos[res.index[hit]]
+    return out
+
+
+def _dedupe(stage: pd.DataFrame) -> pd.DataFrame:
+    """Keep the first row per physical line, within (element, ion) and a tolerance window.
+
+    RYA-1033: the old `drop_duplicates` ran on the rounded key, so it both MISSED duplicate
+    fits that straddled a rounding boundary and MERGED two lines that happened to round
+    together. Order is the caller's (lowest chi2 first), which this preserves.
+    """
+    keep = []
+    for _, grp in stage.groupby(list(_KEYCOLS), sort=False):
+        chosen: list = []
+        for pos, wl in zip(grp.index, grp['wavelength_air_A'].to_numpy(float)):
+            if all(abs(wl - c) > line_match.MATCH_TOL_A for c in chosen):
+                chosen.append(wl)
+                keep.append(pos)
+    return stage.loc[sorted(keep)]
 
 
 def main() -> int:
@@ -77,26 +126,28 @@ def main() -> int:
     stage = pd.read_csv(STAGING, low_memory=False)
     stage = stage[(stage['ew_mA'] > 0) & stage['ew_mA'].notna()].copy()
 
-    canon['_k'] = _key(canon)
-    stage['_k'] = _key(stage)
-    # collapse staging duplicates (keep the lowest-chi2 fit per line)
+    # Collapse staging duplicates (keep the lowest-chi2 fit per line). RYA-1033: the
+    # duplicate test is a tolerance window, not a rounded key, so two fits of one line
+    # collapse even when they disagree in the 3rd decimal.
     if 'chi2' in stage.columns:
-        stage = stage.sort_values('chi2').drop_duplicates('_k', keep='first')
-    else:
-        stage = stage.drop_duplicates('_k', keep='first')
-    sidx = stage.set_index('_k')
+        stage = stage.sort_values('chi2')
+    stage = _dedupe(stage).reset_index(drop=True)
+    canon = canon.reset_index(drop=True)
 
-    shared = canon[canon['_k'].isin(sidx.index)]
-    only_canon = canon[~canon['_k'].isin(sidx.index)]
-    only_stage = stage[~stage['_k'].isin(set(canon['_k']))]
+    pair = _pair(canon, stage)
+    shared = canon[pair >= 0]
+    only_canon = canon[pair < 0]
+    only_stage = stage[~np.isin(np.arange(len(stage)), pair[pair >= 0])]
 
     # ── blend_flag conflict detection (the STOP gate) ────────────────────────
     conflicts = []
-    for _, r in shared.iterrows():
+    for i in np.flatnonzero(pair >= 0):
+        r = canon.iloc[i]
         c_flag = str(r['blend_flag']).lower() == 'true'
-        s_flag = str(sidx.loc[r['_k'], 'blend_flag']).lower() == 'true'
+        s_flag = str(stage.iloc[pair[i]]['blend_flag']).lower() == 'true'
         if c_flag != s_flag:
-            conflicts.append((r['_k'], c_flag, s_flag))
+            conflicts.append((f"{r['element']} {r['ion']} {float(r['wavelength_air_A']):.4f}",
+                              c_flag, s_flag))
 
     print(f"staging  : {STAGING}  ({len(stage)} positive-EW lines)")
     print(f"canonical: {CANONICAL}  ({len(canon)} lines)")
@@ -117,12 +168,12 @@ def main() -> int:
 
     # ── build the promoted canonical (EW from staging, flags + coverage kept) ─
     promoted = canon.copy()
+    have = pair >= 0
     for col in _PROMOTE_COLS:
         if col in stage.columns and col in promoted.columns:
-            promoted[col] = promoted['_k'].map(
-                lambda k: sidx.loc[k, col] if k in sidx.index else None
-            ).fillna(promoted[col])
-    promoted = promoted.drop(columns=['_k'])
+            vals = promoted[col].to_numpy(dtype=object).copy()
+            vals[have] = stage[col].to_numpy(dtype=object)[pair[have]]
+            promoted[col] = pd.Series(vals, index=promoted.index).fillna(promoted[col])
 
     if not args.apply:
         print("\n(dry-run) re-run with --apply to write the promoted canonical.")
