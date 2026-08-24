@@ -887,17 +887,38 @@ def synthesis_route(a, pol) -> None:
     # dominates). Fixing it here makes the rail-detector tolerance moot for these lines
     # instead of tuning a threshold to hide them. RYA-762's own atlas survey already said
     # the two H2O bands are severe and masked; the mask simply never reached this path.
-    from measure_band_ew import telluric_reason
+    # 🔴 RYA-1024 — THE QUARANTINE NOW ASKS THE HOLDING, NOT JUST THE INSTRUMENT.
+    # `telluric_reason` keys on the INSTRUMENT's telluric_basis, which for
+    # kpno_solar_atlas is `line_selection`. That is right for the raw atlas and WRONG for
+    # a corrected sibling: the corrected bands and the quarantined bands are the SAME
+    # bands, so the only lines telluric correction unlocks were exactly the lines the
+    # selector refused, and `solar_kpno_molecfit_corrected` could never measure anything.
+    #
+    # The lift is granted on EVIDENCE, never on the holding's `applied` label -- five
+    # holdings declare `applied` and solar_iag is one of them while reading the RAW
+    # Reiners file. `serves_corrected_flux` answers the narrow, checkable question:
+    # is there a RYA-940 corrected PRODUCT covering this wavelength? H2O 7160-7340 got no
+    # admissible fit, so it has no file, so the quarantine still stands there.
+    from measure_band_ew import telluric_reason, serves_corrected_flux
     _tell = [(float(r.wave_A), telluric_reason(float(r.wave_A), a.instrument))
              for r in cand.itertuples()]
-    _bad = [(w, why) for w, why in _tell if why]
+    _lifted = [(w, serves_corrected_flux(a.holding, w)) for w, why in _tell if why]
+    _lifted = [(w, prov) for w, prov in _lifted if prov]
+    _lift_at = {w for w, _ in _lifted}
+    if _lifted:
+        print(f"  {len(_lifted)} candidate(s) RESTORED by a corrected holding "
+              f"(RYA-1024 -- the band is corrected, so the flux IS stellar):")
+        for w, prov in _lifted:
+            print(f"      {w:10.3f}  served corrected by {prov}")
+    _bad = [(w, why) for w, why in _tell if why and w not in _lift_at]
     if _bad:
         print(f"  {len(_bad)} candidate(s) QUARANTINED-TELLURIC before fitting "
               f"(flux there is not stellar; excluded, never corrected):")
         for w, why in _bad:
             print(f"      {w:10.3f}  {why.split(' and ')[0]}")
-        keep = {w for w, why in _tell if not why}
-        cand = cand[cand.wave_A.astype(float).isin(keep)].reset_index(drop=True)
+    if _bad:
+        _drop = {w for w, _ in _bad}
+        cand = cand[~cand.wave_A.astype(float).isin(_drop)].reset_index(drop=True)
     print(f"  {len(cand)} {a.element} {a.ion} candidates by theoretical depth "
           f"(half-width +/-{hw} A, min separation {cfg.min_sep_A} A)")
     print(f"  [half-width] {cfg.half_width_note}")
