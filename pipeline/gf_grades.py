@@ -75,19 +75,25 @@ CANONICAL_GF = _REPO_ROOT / "data" / "linelists" / "canonical_gf.csv"
 LAB_TABLES: dict[str, Path] = {
     "Fe I": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv",
     "Al I": _REPO_ROOT / "data" / "reference" / "al_gf_lab" / "al1_lab_loggf.csv",
-    # RYA-953: Fe II. The 22 Den Hartog 2019 rows RYA-945 ingested were LAB-tier in
-    # canonical_gf all along; without an entry HERE the ladder said "no primary-
-    # laboratory gf table exists for Fe II" and every Fe II pool sat at rung 1 / 0.17 dex.
-    # ⚠️ 3002.6-4583.8 A ONLY -- 9 of the 22 reach VIS and all of those are below 4584 A.
-    # There is no Fe II laboratory gf in the red half of VIS, in red-optical, or in the
-    # IR, so a "Fe II VIS graded" product is a BLUE subset wearing a band name.
-    "Fe II": _REPO_ROOT / "data" / "reference" / "fe2_gf_lab" / "fe2_lab_loggf.csv",
+    # RYA-953: Fe II. The table itself has existed since RYA-945 -- full Den Hartog 2019
+    # Table 6, 131 lines, with its own provenance JSON. What was missing was an entry
+    # HERE, so `gf_rung.LAB_GRADED_SPECIES` (derived from this dict) refused Fe II and
+    # every Fe II pool sat at rung 1 carrying the 0.17 dex Kurucz placeholder, while the
+    # measurements sat on disk. Same shape RYA-1002 fixed for Al.
+    #
+    # ⚠️ 2249.2-4583.8 A. VERIFIED as the SOURCE's own limit, not an ingest truncation:
+    # DH19 Table 6 ends there. So Fe II laboratory gf reaches near-UV (12 lines) and the
+    # blue half of VIS (9, none above 4583.8), and there is NONE in red-optical, NIR or
+    # IR -- for those bands the best available is the NIST-C+ compilation (147 lines in
+    # red-optical), which is rung 2, not rung 3. A "Fe II VIS graded" product is a BLUE
+    # subset wearing a band name, and must say so.
+    "Fe II": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe2_lab_loggf_dh19.csv",
 }
 #: How to rebuild each, quoted in the not-found error so the message is actionable.
 LAB_REGEN = {
     "Fe I": "python3 scripts/rya799_fetch_fe_gf_lab.py",
     "Al I": "python3 scripts/rya1002_fetch_al_gf_lab.py",
-    "Fe II": "python3 scripts/rya953_build_fe2_gf_lab.py",
+    "Fe II": "python3 scripts/rya945_fetch_fe2_gf_dh19.py",
 }
 #: The default species. Every pre-RYA-1002 caller passes no species and must keep getting
 #: exactly the Fe I behaviour it got before — the generalisation is additive, never a
