@@ -75,11 +75,19 @@ CANONICAL_GF = _REPO_ROOT / "data" / "linelists" / "canonical_gf.csv"
 LAB_TABLES: dict[str, Path] = {
     "Fe I": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv",
     "Al I": _REPO_ROOT / "data" / "reference" / "al_gf_lab" / "al1_lab_loggf.csv",
+    # RYA-953: Fe II. The 22 Den Hartog 2019 rows RYA-945 ingested were LAB-tier in
+    # canonical_gf all along; without an entry HERE the ladder said "no primary-
+    # laboratory gf table exists for Fe II" and every Fe II pool sat at rung 1 / 0.17 dex.
+    # ⚠️ 3002.6-4583.8 A ONLY -- 9 of the 22 reach VIS and all of those are below 4584 A.
+    # There is no Fe II laboratory gf in the red half of VIS, in red-optical, or in the
+    # IR, so a "Fe II VIS graded" product is a BLUE subset wearing a band name.
+    "Fe II": _REPO_ROOT / "data" / "reference" / "fe2_gf_lab" / "fe2_lab_loggf.csv",
 }
 #: How to rebuild each, quoted in the not-found error so the message is actionable.
 LAB_REGEN = {
     "Fe I": "python3 scripts/rya799_fetch_fe_gf_lab.py",
     "Al I": "python3 scripts/rya1002_fetch_al_gf_lab.py",
+    "Fe II": "python3 scripts/rya953_build_fe2_gf_lab.py",
 }
 #: The default species. Every pre-RYA-1002 caller passes no species and must keep getting
 #: exactly the Fe I behaviour it got before — the generalisation is additive, never a
@@ -141,6 +149,13 @@ CITATIONS = {
     # lines at 2-11%. The only primary lab source for Al in the repo.
     "Burheim2023": ("Burheim, Hartman & Nilsson 2023, A&A 672, A197",
                     "10.1051/0004-6361/202245394"),
+    # RYA-953. Experimental Fe II: the only primary laboratory gf source for Fe II in
+    # the repo. DOI carried on every row RYA-945 ingested, and asserted by the build
+    # script rather than assumed -- `grade_line` looks the source up HERE, so a lab
+    # table whose source is missing from this dict raises KeyError on the first graded
+    # line instead of quietly grading it uncited.
+    "DenHartog2019": ("Den Hartog et al. 2019, ApJS 243, 33",
+                      "10.3847/1538-4365/ab322e"),
 }
 NO_TIE_SOURCE = "no-tie->K07 (RYA-161 semi-empirical Kurucz systematic)"
 
