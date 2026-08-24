@@ -1,0 +1,126 @@
+{
+  "generated": "2026-08-24T00:23:46+00:00",
+  "host": "sirius",
+  "generator": "scripts/sirius_heartbeat.py",
+  "verdict": [
+    {
+      "pid": 593063,
+      "comm": "python3",
+      "elapsed_s": 1029110,
+      "cpu_s": 15,
+      "pcpu": 0.0,
+      "state": "STUCK",
+      "why": "no cpu burned, no bytes moved since last sample \u2014 alive but doing nothing"
+    },
+    {
+      "pid": 2662681,
+      "comm": "python3",
+      "elapsed_s": 286,
+      "cpu_s": 0,
+      "pcpu": 0.0,
+      "state": "PROGRESSING",
+      "why": "+0s cpu, +27B read, +0B written since last sample"
+    },
+    {
+      "pid": 2662682,
+      "comm": "interpol_multi_",
+      "elapsed_s": 286,
+      "cpu_s": 286,
+      "pcpu": 99.9,
+      "state": "PROGRESSING",
+      "why": "+27s cpu, +0B read, +27B written since last sample"
+    }
+  ],
+  "samples": [
+    {
+      "t": "2026-08-24T00:23:19+00:00",
+      "procs": [
+        {
+          "pid": 593063,
+          "comm": "python3",
+          "etimes": 1029083,
+          "cpu_s": 15,
+          "pcpu": 0.0,
+          "rss_kb": 14696,
+          "rchar": 3969476,
+          "wchar": 2116
+        },
+        {
+          "pid": 2662681,
+          "comm": "python3",
+          "etimes": 259,
+          "cpu_s": 0,
+          "pcpu": 0.0,
+          "rss_kb": 12676,
+          "rchar": 1733480,
+          "wchar": 531
+        },
+        {
+          "pid": 2662682,
+          "comm": "interpol_multi_",
+          "etimes": 259,
+          "cpu_s": 259,
+          "pcpu": 99.9,
+          "rss_kb": 7112,
+          "rchar": 1279548,
+          "wchar": 2783
+        }
+      ],
+      "artifacts": {
+        "/tmp/multi_t/Testout": {
+          "bytes": 0,
+          "files": 0
+        },
+        "/tmp/rya821/Testout": {
+          "bytes": 271943,
+          "files": 3
+        }
+      }
+    },
+    {
+      "t": "2026-08-24T00:23:46+00:00",
+      "procs": [
+        {
+          "pid": 593063,
+          "comm": "python3",
+          "etimes": 1029110,
+          "cpu_s": 15,
+          "pcpu": 0.0,
+          "rss_kb": 14696,
+          "rchar": 3969476,
+          "wchar": 2116
+        },
+        {
+          "pid": 2662681,
+          "comm": "python3",
+          "etimes": 286,
+          "cpu_s": 0,
+          "pcpu": 0.0,
+          "rss_kb": 12676,
+          "rchar": 1733507,
+          "wchar": 531
+        },
+        {
+          "pid": 2662682,
+          "comm": "interpol_multi_",
+          "etimes": 286,
+          "cpu_s": 286,
+          "pcpu": 99.9,
+          "rss_kb": 7112,
+          "rchar": 1279548,
+          "wchar": 2810
+        }
+      ],
+      "artifacts": {
+        "/tmp/multi_t/Testout": {
+          "bytes": 0,
+          "files": 0
+        },
+        "/tmp/rya821/Testout": {
+          "bytes": 271943,
+          "files": 3
+        }
+      }
+    }
+  ]
+}
