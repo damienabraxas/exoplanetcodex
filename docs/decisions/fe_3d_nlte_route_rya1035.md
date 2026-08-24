@@ -158,8 +158,16 @@ correct. Fe ⟨3D⟩ is the *simpler* of the two routes, not the harder one.
 
 ### What is still owed
 
-1. **Stage the deck on Sirius** (`/srv/codex/grids/nlte/gerber_ts/`) — 72 MB zipped, the
-   smallest ⟨3D⟩ deck on the share. RYA-710 owns staging.
+1. ~~**Stage the deck on Sirius.**~~ **DONE 2026-08-24.** Both files are in
+   `/mnt/codex-ext/codex-grids/nlte/gerber_ts/` (the real path, resolved with `readlink`
+   before measuring free space — RYA-800), md5-verified in place against the Mac
+   measurement, 109 GB free after. `atom.fe607a` was already there and its md5
+   `d08dc8232ed68eec65f9bb6631e82ea8` matches, with `7.50  55.85` on line 2.
+   **The route was then verified END-TO-END on the staged bytes**: six aux overrides
+   detected, no abundance axis, `deck_abundance` = 7.50 with the record cross-examined by
+   the aux, solar node `p5777g44m00` at ndep 101 / nlev 607 / log τ −5…+5 / A(X) = 7.50,
+   all finite, median *b* → 1.0000, departures sha256 `62556a5664d0b8f7` — **identical to
+   the Mac read** — and the suspect rows refused. ⚠️ Only the **PLAIN** aux was staged.
 2. **Register `Fe@mean3D`** in `gerber_nlte.DECKS`, against the plain aux. *Not done here on
    purpose*: the matrix derives "WIRED" from `DECKS` (v117), so registering a deck whose
    bytes are not on Sirius would make the status surface claim a capability we cannot run —
