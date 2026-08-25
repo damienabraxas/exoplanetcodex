@@ -380,6 +380,14 @@ class SynthesisHandler(MeasurementHandler):
             # iSpec would otherwise drop it into `nlte_ignored` and synthesise LTE without
             # raising (RYA-764).
                 nlte_deck=context.get("nlte_deck"),
+            # RYA-1040 — the <3D> route. `nlte_deck_key` NAMES the deck instead of letting
+            # `_fit_synth_flux` infer it from the element (which resolves to the 1D deck
+            # and can never reach `<El>@mean3D`); `atmosphere_layers_file` hands iSpec the
+            # mul23 <3D> model as a FILE, because a five-column <3D> model cannot be
+            # written in the MARCS form iSpec's writer produces. Both default to None via
+            # `.get`, so every existing caller reaches the fit unchanged.
+                nlte_deck_key=context.get("nlte_deck_key"),
+                atmosphere_layers_file=context.get("atmosphere_layers_file"),
                 tmp_dir=self._tmp_dir)
             # RYA-847 — carry what the fitter measured about whether A(X) was pinned.
             # Placed immediately after the fit and BEFORE any gate, so a rejected line
