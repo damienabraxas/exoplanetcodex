@@ -1377,11 +1377,27 @@ def synthesis_route(a, pol) -> None:
               f"{eb_product.value if eb_product.value is not None else float('nan'):.3f}"
               f"  (n={eb_product.n_lines}, excluded {eb_product.n_excluded})")
         if product.value is not None and eb_product.value is not None:
-            # The differential this pair EXISTS for: both legs on ONE atmosphere, the
-            # same lines, the same fitter -- so the difference is the departures and
-            # nothing else (RYA-542).
-            print(f"    delta vs 1D-LTE on this route = "
-                  f"{eb_product.value - product.value:+.4f} dex")
+            # 🔴 THIS IS NOT THE NLTE EFFECT, AND THE FIRST VERSION OF THIS LINE IMPLIED
+            # IT WAS. The 1D-LTE leg above runs on THIS ROUTE'S OWN (1D) atmosphere; the
+            # <3D> leg runs on the STAGGER averaged one. So their difference contains the
+            # 1D -> mean-3D ATMOSPHERE shift AND the departures, mixed -- which is exactly
+            # the RYA-542 confound the paired comparand exists to remove.
+            #
+            # Measured on the first run of this leg: +0.1870 dex, against an external
+            # Amarsi+2016 <3D>NLTE-<3D>LTE anchor of about -0.03 to -0.04 (RYA-1042).
+            # Wrong sign and ~5x too large -- because it is not the same quantity.
+            #
+            # The NLTE effect is (<3D>-NLTE minus <3D>-LTE), i.e. THIS product differenced
+            # against the `gerber-mean3d-lte` run, both on the <3D> atmosphere. That is a
+            # comparison BETWEEN TWO PRODUCTS and it is not this driver's to compute in
+            # passing -- so this line reports what it actually is and says what it is not.
+            _d = eb_product.value - product.value
+            print(f"    delta vs this route's 1D-LTE = {_d:+.4f} dex  "
+                  f"⚠️ ATMOSPHERE + departures COMBINED, NOT the NLTE effect")
+            if _nlte:
+                print(f"       the NLTE effect is this product minus the "
+                      f"`--engine-b-deck gerber-mean3d-lte` product (same atmosphere, "
+                      f"departures off) -- RYA-1040/1042")
 
     # `describe()` already lists every term the budget holds, pseudo-continuum included.
     # The epilogue that used to be appended here announced the term as "added in
