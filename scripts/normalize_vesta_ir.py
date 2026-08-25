@@ -237,14 +237,15 @@ def main() -> None:
     print(f"\nSTEP 3 — wrote {out.relative_to(ROOT)}  ({len(ws)} rows)")
 
     # ── STEP 4 — Fe I line selection, Elgueta's flags + VALD cross-check ─────
-    allfe = elgueta_y_lines("FeI", tier="all")
-    assessed = elgueta_y_lines("FeI", tier="assessed")
-    rob = elgueta_y_lines("FeI", tier="robust")
-    cand = elgueta_y_lines("FeI", tier="candidate")
+    allfe = elgueta_y_lines("FeI", tier="all", arm=a.arm)
+    assessed = elgueta_y_lines("FeI", tier="assessed", arm=a.arm)
+    rob = elgueta_y_lines("FeI", tier="robust", arm=a.arm)
+    cand = elgueta_y_lines("FeI", tier="candidate", arm=a.arm)
     inwin = [r for r in (rob + cand) if a.lo <= r["wave_A"] <= a.hi]
     inwin.sort(key=lambda r: r["wave_A"])
-    print(f"\nSTEP 4 — Fe I selection from Elgueta atomicy.dat (their own G-dwarf flags)")
-    print(f"    Fe I records in the Y list      : {len(allfe)}")
+    print(f"\nSTEP 4 — Fe I selection from Elgueta atomic{a.arm.lower()}.dat "
+          f"(their own G-dwarf flags)")
+    print(f"    Fe I records in the {a.arm} list      : {len(allfe)}")
     print(f"    assessed for a G dwarf          : {len(assessed)}")
     print(f"    GDRob = Y (Elgueta-certified)   : {len(rob)}"
           f"{'   <-- ZERO. See the docstring; this is measured, not a parse bug.' if not rob else ''}")
@@ -342,7 +343,13 @@ def _qa_plot(wx, fx, cont, norm, order, a) -> None:
           f"{len(fe)} Fe I lines marked)")
 
 
-ATOMICY = Path(str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier' / 'atomicy.dat'))
+#: 🔴 ONE LINE LIST PER ARM — RYA-1048. This was pinned to atomicy.dat, so a J or H run
+#: filtered the Y list against a J or H window and found ZERO lines: "Fe I records in the
+#: Y list 141 ... inside 11796-13195 A: 0". A well-formed empty answer to the wrong
+#: question, which is the RYA-833 shape.
+_ELG_DIR = codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier'
+ATOMIC_BY_ARM = {a: Path(str(_ELG_DIR / f"atomic{a.lower()}.dat")) for a in ("Y", "J", "H")}
+ATOMICY = ATOMIC_BY_ARM["Y"]          # back-compat: pre-RYA-1048 callers mean Y
 
 
 # atomicy.dat is FIXED-WIDTH, Lrecl 805, six per-spectral-type blocks. The ReadMe's byte
@@ -352,7 +359,8 @@ ATOMICY = Path(str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgue
 GD = {"depth": 249, "sat": 251, "pur": 262, "gof": 293, "rob": 295}
 
 
-def elgueta_y_lines(species: str = "FeI", tier: str = "robust") -> "list[dict]":
+def elgueta_y_lines(species: str = "FeI", tier: str = "robust",
+                    arm: str = "Y") -> "list[dict]":
     """Elgueta's Y-band line table, read on its FIXED-WIDTH byte definitions.
 
     ⚠️ Two unit facts that do not agree with each other, both from the same ReadMe:
@@ -393,9 +401,10 @@ def elgueta_y_lines(species: str = "FeI", tier: str = "robust") -> "list[dict]":
           "all"       -> every record for the species
     """
     out = []
-    if not ATOMICY.exists():
+    _lst = ATOMIC_BY_ARM.get(str(arm).upper(), ATOMICY)
+    if not _lst.exists():
         return out
-    for line in ATOMICY.read_text(errors="replace").splitlines():
+    for line in _lst.read_text(errors="replace").splitlines():
         if len(line) < 805 or not line.strip():        # ReadMe: Lrecl 805, blank-padded
             continue
         try:
