@@ -2868,7 +2868,7 @@ artifacts:
       DEEP-graded (RYA-984): 58 of the 59 lab-tier lines sit ABOVE the 0.6 depth gate, which
       EW can never attempt but synthesis can. gf rung 3, all 58 GF-LAB with a published
       per-line sigma, RMS 0.0509 dex.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
@@ -2882,7 +2882,7 @@ artifacts:
       would make the empty tier look like an absence of data rather than the structural finding
       it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
       population, so the EW depth gate empties the graded tier.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
@@ -2896,7 +2896,7 @@ artifacts:
       would make the empty tier look like an absence of data rather than the structural finding
       it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
       population, so the EW depth gate empties the graded tier.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
@@ -2910,7 +2910,7 @@ artifacts:
       would make the empty tier look like an absence of data rather than the structural finding
       it is (RYA-833). This reproduces RYA-954 at band scale: lab Fe I is a DEEP/SATURATED
       population, so the EW depth gate empties the graded tier.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
@@ -2956,28 +2956,28 @@ artifacts:
       RYA-1027: error budget / provenance beside the Fe I near-UV DEEP-graded product
       (A(Fe I) = 7.596 median, n=58, on telluric-corrected input). Registered with the
       product because a value without its budget cannot be audited (RYA-873).
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
     note: >-
       RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
       cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
     note: >-
       RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
       cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
     note: >-
       RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
       cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
-  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+  - artifact: band_products/_superseded_rya1031_single_line/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
     generator: scripts/derive_band_products.py
     invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 3000 --hi 3780 --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded
     ticket: RYA-1027
