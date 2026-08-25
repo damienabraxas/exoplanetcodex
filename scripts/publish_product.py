@@ -43,6 +43,7 @@ import datetime as _dt
 import hashlib
 import json
 import os
+import re
 import socket
 import sys
 from pathlib import Path
@@ -291,6 +292,41 @@ def main() -> int:
                 "artifact_mtime": _dt.datetime.fromtimestamp(
                     src.stat().st_mtime, _dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "ingested_at": _now()}
+        #: 🔴 THE TIER IS A CLAIM ABOUT THE gf, SO CHECK IT AGAINST THE GRADER'S VERDICT.
+        #: The IR band stems a product `SYNTH_GRADED` whose budget reads
+        #: `gf rung 1 (gf scale (UNGRADED))` with syst 0.1726 -- the blanket.
+        #: `canonical_gf` calls all 29 in-band lines gf_tier=LAB, but the grade decider
+        #: re-derives and downgrades 22 to `systematic:K07/SCALE-MISMATCH`, leaving 4 real
+        #: laboratory lines. The SELECTOR and the GRADER disagree and the FILENAME follows
+        #: the selector, so publishing on the stem would have put a 0.17-blanket, 1-dex-bar
+        #: number in the graded tier beside cited-lab cells carrying 0.04. RYA-799/824
+        #: already named this: in the IR, SCALE-MISMATCH is a LABELLING defect.
+        #:
+        #: Read from the BUDGET, which is the decider's own output. NOT from the `gf`
+        #: column -- that names the LINELIST SOURCE and reads 'kurucz' on rung-3 and
+        #: rung-1 products alike, so keying on it refused a legitimately graded
+        #: red-optical cell on my first attempt.
+        if a.tier in ("GRADED", "DEEPGRADED"):
+            bud = Path(str(src)[:-len("_products.csv")] + "_budgets.txt")
+            if not bud.exists():
+                bud = Path(re.sub(r"_ENGINE-[A-Z-]+$", "", str(src)[:-len("_products.csv")])
+                           + "_budgets.txt")
+            m = re.search(r"gf rung (\d) \(gf scale \(([^)]*)\)", bud.read_text()) \
+                if bud.exists() else None
+            if m and int(m.group(1)) != 3:
+                print(f"REFUSING: {src.name}\n"
+                      f"    tier={a.tier} claims laboratory gf, but the budget's own "
+                      f"verdict is gf rung {m.group(1)} ({m.group(2)}).\n"
+                      f"    A tier is a claim about the gf SCALE, and the stem is not "
+                      f"evidence for it. Publish under the tier the grade supports, or "
+                      f"fix the pool.", file=sys.stderr)
+                return 7
+            if not m:
+                print(f"REFUSING: {src.name}\n"
+                      f"    tier={a.tier} claims laboratory gf but no budget was found to "
+                      f"corroborate it ({bud.name}). An unverifiable grade claim is not "
+                      f"published (RYA-833).", file=sys.stderr)
+                return 7
         for r in rows:
             r["provenance"] = prov
         pending.extend(rows)
