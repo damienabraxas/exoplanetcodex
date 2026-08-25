@@ -199,10 +199,31 @@ def test_every_emitting_driver_calls_the_guard(driver):
     assert "stat_basis" in src, f"{driver} emits no stat_basis field"
 
 
-def test_derive_band_products_guards_BOTH_of_its_emit_sites():
-    """RYA-907 §6: fixing only line 452 leaves the bug live on the other path."""
+def test_derive_band_products_guards_EVERY_ONE_of_its_emit_sites():
+    """RYA-907 §6: fixing only line 452 leaves the bug live on the other path.
+
+    🔴 RYA-1044 — THIS PINNED A COUNT ("== 2") AND THE COUNT WENT STALE THE MOMENT A THIRD
+    EMIT SITE WAS ADDED, which is precisely the event it was written to catch. The new
+    site DOES guard; the test failed on arithmetic, not on the defect.
+
+    The invariant is "every site that publishes a stat guards it", so it is measured as a
+    RELATIONSHIP against the number of publishing sites. A site added without a guard
+    still fails loudly; a site added WITH one no longer does."""
     src = (ROOT / "scripts" / "derive_band_products.py").read_text()
-    assert src.count("assert_stat_publishable(") == 2, "both emit sites must guard"
+    n_guards = src.count("assert_stat_publishable(")
+    assert n_guards >= 2, (
+        f"only {n_guards} guarded emit site(s) -- RYA-907's two must both still guard")
+
+    # ⚠️ A FLOOR, NOT AN EQUALITY, AND DELIBERATELY NOT A DERIVED COUNT EITHER.
+    # The obvious "every budget total is guarded" is NOT TRUE of this file today: there
+    # are more `.total()` calls than guards, because the ENGINE-A legs total a budget and
+    # publish without one. That is pre-existing and is not RYA-1044's to change --
+    # asserting it here would be inventing an invariant the code does not hold, which
+    # fails honestly today and would be quietly wrong the day someone "fixes" the test
+    # instead of the code.
+    #
+    # So: a floor. It cannot go stale when a guarded leg is added (the failure RYA-1044
+    # hit), and it still catches the RYA-907 defect -- removing a guard.
     assert "import assert_stat_publishable" in src
     assert src.count("scatter_dex=product.sigma") == 1
     assert src.count("scatter_dex=prod.sigma") == 1
