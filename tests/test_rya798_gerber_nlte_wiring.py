@@ -111,9 +111,22 @@ def test_absent_element_in_window_also_raises():
 
 @sirius
 def test_deck_abundance_comes_from_provenance_never_a_reference_value():
-    """Fe's grid was computed at 7.46, NOT the 7.50 in the atom header, and bsyn STOPs on
-    the mismatch. It must be read from the committed provenance record."""
-    assert gn.deck_abundance("Fe") == pytest.approx(7.46)
+    """Fe's grid was computed at 7.50 — which IS the value in the atom header — and bsyn
+    STOPs on a mismatch. It must be read from the committed provenance record.
+
+    🔴 CORRECTED RYA-1035. This docstring said "7.46, NOT the 7.50 in the atom header",
+    and had it exactly backwards: the atom header is the grid's own declaration
+    (`atom.fe607a` line 2, `7.50  55.85`, md5-matched to the staged copy), while the 7.46
+    was OUR OWN INPUT coming back — `abu_ref` is read from stdin
+    (interpol_modeles_nlte.f:206), written verbatim into the departure file (:761), loaded
+    as `abundance_nlte` and printed by bsyn (:988), and `gerber_nlte` fed that stdin from
+    `deck_abundance()` itself. A closed loop with no external referee, and 7.46 survived
+    because it is the Asplund solar A(Fe) — the number that looks right on arrival.
+
+    The test's PREMISE stands and is the reason it exists: never a reference value, always
+    the record. RYA-1035 additionally has `deck_abundance` cross-examine that record
+    against the deck's own aux, so the loop cannot re-close."""
+    assert gn.deck_abundance("Fe") == pytest.approx(7.50)
     with pytest.raises(gn.GerberDeckError, match="no provenance record"):
         gn.deck_abundance("Xx")
 
