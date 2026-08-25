@@ -55,7 +55,23 @@ Header, verbatim:
 which is a floor value and not a correction. Rows at exactly −4.0 are flagged, never
 averaged in.
 
-    python3 scripts/rya1042_extract_amarsi2016_anchor.py --source <path to nmtd_lmtd.txt>
+🔴 **THE ATMOSPHERE LEG COMES OUT OF THE SAME ARCHIVE, BY SUBTRACTION** (RYA-1042 scope
+add). `nmtd_lmarcs` and `nmtd_lmtd` share the `<3D>`-non-LTE term exactly, so
+
+    nmtd_lmarcs - nmtd_lmtd = (<3D>NLTE - 1D LTE) - (<3D>NLTE - <3D>LTE)
+                            =  <3D>LTE - 1D LTE          <-- the ATMOSPHERE effect
+
+That is Amarsi's own 1D->mean-3D shift for the same lines at the same node, computed by an
+independent group, and it is what gates our `<3D>`-LTE leg. It is a SUBTRACTION of two
+released columns, not a model of ours -- nothing is fitted and nothing is assumed.
+
+⚠️ **THE JOIN MUST BE EXACT, NOT NEAREST.** Both files are the same grid over the same line
+list, so a solar-node slice of each joins 540/540 on wavelength. A nearest-match join would
+paper over a line-list difference if one ever appeared; this refuses instead. And a
+sentinel in EITHER column poisons the difference, so a row is dropped if either end is -4.0.
+
+    python3 scripts/rya1042_extract_amarsi2016_anchor.py \
+        --source <nmtd_lmtd.txt> --source-lmarcs <nmtd_lmarcs.txt>
 """
 from __future__ import annotations
 
@@ -78,24 +94,71 @@ SENTINEL = -4.0
 
 COLUMNS = ("teff_K", "logg", "log_eps_Fe", "vturb_kms", "species", "lambda_air_nm",
            "e_low", "log_gf", "lambda_air_min_nm", "lambda_air_max_nm", "clean",
-           "delta_mean3d_nlte_minus_mean3d_lte")
+           "delta_mean3d_nlte_minus_mean3d_lte",
+           #: <3D>LTE - 1D LTE, by subtraction of the two released grids (see module
+           #: docstring). Empty when the row is absent from `nmtd_lmarcs` or when either
+           #: end is the -4.0 sentinel -- never 0.0, which would read as "no shift".
+           "atmosphere_mean3d_lte_minus_1d_lte")
 
 
-def extract(source: Path) -> list[dict]:
+#: The join key for pairing the two grids. Wavelength alone would be ambiguous if two
+#: transitions ever printed the same rounded lambda, so species and vturb ride along --
+#: the same fields that make a row unique within one node.
+def _key(r: dict) -> tuple:
+    return (r["species"], r["vturb_kms"], r["lambda_air_nm"])
+
+
+def _solar_rows(source: Path, n_fields: int = 12) -> list[list[str]]:
     rows = []
     with source.open() as fh:
         for line in fh:
             if line.startswith("#"):
                 continue
             f = line.split()
-            if len(f) != 12:
+            if len(f) != n_fields:
                 continue
             if f[0] == SOLAR_TEFF and f[1] == SOLAR_LOGG and f[2] == SOLAR_EPS:
-                rows.append(dict(zip(COLUMNS, f)))
-    if not rows:
+                rows.append(f)
+    return rows
+
+
+def extract(source: Path, source_lmarcs: Path | None = None) -> list[dict]:
+    base = _solar_rows(source)
+    if not base:
         raise SystemExit(
             f"no rows at the solar node ({SOLAR_TEFF}, {SOLAR_LOGG}, {SOLAR_EPS}) in "
             f"{source} -- refusing to emit an empty anchor")
+    rows = [dict(zip(COLUMNS, f)) for f in base]
+
+    if source_lmarcs is None:
+        for r in rows:
+            r["atmosphere_mean3d_lte_minus_1d_lte"] = ""
+        return rows
+
+    # 🔴 The atmosphere leg. EXACT join -- see the module docstring.
+    lm = {}
+    for f in _solar_rows(source_lmarcs):
+        d = dict(zip(COLUMNS[:12], f))
+        lm[_key(d)] = float(d["delta_mean3d_nlte_minus_mean3d_lte"])
+    if not lm:
+        raise SystemExit(
+            f"no rows at the solar node in {source_lmarcs} -- refusing to emit an "
+            f"atmosphere column from an empty join")
+
+    matched = 0
+    for r in rows:
+        a = lm.get(_key(r))
+        b = float(r["delta_mean3d_nlte_minus_mean3d_lte"])
+        # A sentinel at EITHER end poisons the difference. Empty, never 0.0 -- a zero
+        # here would read as "the atmosphere does nothing", which is a claim.
+        if a is None or a == SENTINEL or b == SENTINEL:
+            r["atmosphere_mean3d_lte_minus_1d_lte"] = ""
+            continue
+        r["atmosphere_mean3d_lte_minus_1d_lte"] = f"{a - b:.4f}"
+        matched += 1
+
+    print(f"  atmosphere join: {matched} of {len(rows)} rows carry <3D>LTE - 1D LTE "
+          f"({len(lm)} solar-node rows in {source_lmarcs.name})")
     return rows
 
 
@@ -111,11 +174,18 @@ def summarise(rows: list[dict]) -> dict:
             sel = [d for d in sel if d != SENTINEL]
             if not sel:
                 continue
+            atm = [float(r["atmosphere_mean3d_lte_minus_1d_lte"]) for r in rows
+                   if r["species"] == species and r["vturb_kms"] == vturb
+                   and r["clean"] == "yes"
+                   and r.get("atmosphere_mean3d_lte_minus_1d_lte") not in (None, "")]
             out[f"{species}_vturb{vturb}"] = {
                 "n_clean": len(sel), "n_sentinel_excluded": len(sentinels),
                 "median": round(statistics.median(sel), 4),
                 "mean": round(statistics.fmean(sel), 4),
-                "min": round(min(sel), 4), "max": round(max(sel), 4)}
+                "min": round(min(sel), 4), "max": round(max(sel), 4),
+                "atmosphere_n": len(atm),
+                "atmosphere_median": round(statistics.median(atm), 4) if atm else None,
+                "atmosphere_mean": round(statistics.fmean(atm), 4) if atm else None}
     return out
 
 
@@ -124,10 +194,16 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source", required=True,
                     help="path to nmtd_lmtd.txt (Sirius-only; the release is 748 MB)")
+    ap.add_argument("--source-lmarcs", default=None,
+                    help="path to nmtd_lmarcs.txt -- enables the ATMOSPHERE column "
+                         "(<3D>LTE - 1D LTE) by subtraction. Omit and that column is "
+                         "emitted EMPTY rather than absent, so a consumer can tell "
+                         "'not extracted' from 'no shift'.")
     ap.add_argument("--out-dir", default=str(OUT_DIR))
     a = ap.parse_args()
 
-    rows = extract(Path(a.source))
+    rows = extract(Path(a.source),
+                   Path(a.source_lmarcs) if a.source_lmarcs else None)
     out_dir = Path(a.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -153,6 +229,8 @@ def main() -> int:
     for k, v in doc["summary_clean_only"].items():
         print(f"  {k:<16} n={v['n_clean']:>4} median={v['median']:+.4f} "
               f"[{v['min']:+.4f}, {v['max']:+.4f}]"
+              + (f"  atm={v['atmosphere_median']:+.4f} (n={v['atmosphere_n']})"
+                 if v.get("atmosphere_median") is not None else "")
               + (f"  ⚠️ {v['n_sentinel_excluded']} sentinel rows excluded"
                  if v["n_sentinel_excluded"] else ""))
     return 0
