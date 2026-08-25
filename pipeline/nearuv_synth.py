@@ -239,40 +239,28 @@ def assert_sensitive(flux_lo, flux_hi, *, where: str,
 def gf_provenance(lo_A: float, hi_A: float) -> dict:
     """State the gf single-sourcing status for a band instead of inferring it.
 
-    Returns the flag `_load_synth_resources` must be called with, and the reason —
-    so the reason travels into the run's provenance rather than living in a comment.
-    """
-    edge = canonical_gf_blue_edge_A()
-    red = canonical_gf_red_edge_A()
-    # The band bound is NOMINAL (3000.0); the table's coverage is defined by the lines it
-    # actually contains, whose bluest is 3000.003. Comparing the two exactly would report
-    # "no canonical adjudication" for a 0.003 A gap that contains no lines at all. The
-    # tolerance is one hundredth of an Angstrom — far below this band's ~0.18 A Fe I
-    # spacing, so it can never mask a real uncovered region.
-    _NOMINAL_EDGE_TOL_A = 0.01
-    below = lo_A < edge - _NOMINAL_EDGE_TOL_A
-    if below:
-        detail = (f"canonical_gf.csv starts at {edge:.1f} A; this band "
-                  f"starts at {lo_A:.1f} A, so canonical gf single-sourcing (RYA-353) "
-                  f"is NOT available and the list's own VALD log gf is used as "
-                  f"delivered. Per-line VALD gf SOURCES are recorded, but no canonical "
-                  f"adjudication exists below {edge:.1f} A.")
-        trace_fallback('canonical_gf_unavailable', detail, severity='WARN',
-                       lo_A=lo_A, canonical_lo_A=edge)
-    # RYA-837: the RED edge, which this function never tested. Symmetric to `below`, and
-    # it matters now that RYA-834 has opened a 9199.9-12934.67 A synthesis band.
-    above = hi_A > red + _NOMINAL_EDGE_TOL_A
-    if above:
-        detail = (f"canonical_gf.csv ends at {red:.1f} A; this band runs to "
-                  f"{hi_A:.1f} A, so canonical gf single-sourcing (RYA-353) is NOT "
-                  f"available across it and the list's own VALD log gf is used as "
-                  f"delivered above {red:.1f} A.")
-        trace_fallback('canonical_gf_unavailable', detail, severity='WARN',
-                       hi_A=hi_A, canonical_hi_A=red)
-    elif not below:
-        detail = "canonical gf single-sourcing (RYA-353) applied"
-    return {'apply_canonical_gf': not (below or above), 'detail': detail}
+    🔴 NO HARD WAVELENGTH RANGE — RYA-1045. This used to decide whether canonical gf
+    could be applied by comparing the band's bounds against the table's extent, and
+    refuse the WHOLE band if it overshot. That can only produce false negatives, and it
+    produced a bad one: six Mn I hyperfine components 0.09 A past the red edge switched
+    laboratory gf off for 4,364 Fe I lines, so IR Fe I graded rung 1 at n=4 with a 0.17
+    blanket while canonical held LABORATORY values for 29 of its lines.
 
+    A hard range is also the wrong shape going forward. Instruments span different
+    ranges; a bound tuned to one of them is wrong for the next, and every new arm would
+    need the constant revisited.
+
+    COVERAGE IS PER LINE, and `gf_resolver.resolve` is the authoritative test — it
+    already raises "0-match, not defaulting" on a line canonical cannot serve. So the
+    application is always ATTEMPTED and reports, per line, what it could not adjudicate;
+    that report travels into the product's provenance. Measured on the two generated
+    lists at the time of the change: IR 574 physical lines applied / 0 uncovered,
+    near-UV 21,279 / 0. The bound had been rejecting a band it did not need to.
+    """
+    return {'apply_canonical_gf': True,
+            'detail': ("canonical gf single-sourcing (RYA-353) attempted per LINE; "
+                       "coverage is reported by the application itself, not assumed "
+                       "from a wavelength bound (RYA-1045)")}
 
 def build_solar_context(element: str, resolving_power: float, *,
                         linelist_file: str = None,
