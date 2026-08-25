@@ -1,12 +1,12 @@
 {
   "ticket": "RYA-785",
   "element": "Fe",
-  "engine": "Turbospectrum_NLTE (BSYN v20.1) \u2014 Gerber TS-native in-synthesis NLTE (Engine-B)",
+  "engine": "Turbospectrum_NLTE (BSYN v20.1) — Gerber TS-native in-synthesis NLTE (Engine-B)",
   "paper": "Gerber, Bergemann et al. 2023, A&A 669, A43 (arXiv 2206.00967)",
   "data_host": "MPG Keeper (Seafile) https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/",
   "url_source": "TSFitPy utilities/nlte_grids_links.cfg",
-  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540). The payload was ALREADY STAGED on Sirius before this ticket: RYA-785 was filed saying atom.fe607a was 'AVAILABLE-NEVER-PULLED', but all three files were on disk. What was missing was this provenance record \u2014 the element status tracker reads the REGISTRATION, not the disk, so an unregistered-but-present deck reads as never fetched. Nothing was re-downloaded; the staged bytes were md5'd in place.",
-  "sirius_only": "Sirius /srv/codex/grids/nlte/gerber_ts/ only (RYA-526/567). The 3.9 GB .bin is symlinked out to /mnt/codex-data/gerber_overflow/ (the RYA-710 spill-over plan).",
+  "provenance_caveat": "NO DOI, mutable Seafile -> md5-pinned (RYA-540). The payload was ALREADY STAGED on Sirius before this ticket: RYA-785 was filed saying atom.fe607a was 'AVAILABLE-NEVER-PULLED', but all three files were on disk. What was missing was this provenance record — the element status tracker reads the REGISTRATION, not the disk, so an unregistered-but-present deck reads as never fetched. Nothing was re-downloaded; the staged bytes were md5'd in place.",
+  "sirius_only": "Sirius /srv/codex/grids/nlte/gerber_ts/ only (RYA-526/567). The 3.9 GB .bin is symlinked out to /mnt/codex-data/gerber_overflow/ (the RYA-710 spill-over plan). RYA-1035 added the <3D> pair (NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin + the PLAIN aux) to the same directory; 109 GB free on /mnt/codex-ext after, and the path was resolved with readlink before measuring (RYA-800).",
   "files": {
     "model_atom": {
       "name": "atom.fe607a",
@@ -25,12 +25,43 @@
       "url": "https://keeper.mpdl.mpg.de/f/e7c115fa632d4c42a8b3/?dl=1",
       "md5": "0766aac66cce0b7d797232cdfb31daf0",
       "bytes": 1730747069,
-      "note": "unpacked .bin is 3.9 GB. Key name is grid_1d_bin_zip, NOT 1d_bin \u2014 the loader reads this key (RYA-772)."
+      "note": "unpacked .bin is 3.9 GB. Key name is grid_1d_bin_zip, NOT 1d_bin — the loader reads this key (RYA-772)."
+    },
+    "grid_3d_bin_zip": {
+      "name": "NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/0cf0770eaf61440fbfce/?dl=1",
+      "md5": "846408c8d912f131059c4d4fd8af3b16",
+      "bytes": "72073326",
+      "md5_unpacked": "d3fa0517d828a79e4eb21eaf6d4f0ae4",
+      "bytes_unpacked": "92945908",
+      "note": "RYA-1035. The Fe <3D> STAGGERmean3D departure deck -- 189 atmosphere nodes, ndep=101, nlev=607, log tau -5.000..+5.000. Verified by direct read at the solar node p5777g44m00: all finite, no all-zero rows, median b -> 1.0000 at the deepest layer (the LTE limit). Layout confirmed twice, as RYA-821 did for Al: 500(id)+4+4+101*8+101*607*8 = 491,772 bytes, and the aux's consecutive pointers differ by exactly that (1001 -> 492773), so the pointer is 1-BASED after a 1000-byte header. STAGED ON SIRIUS 2026-08-24 (RYA-1035): /mnt/codex-ext/codex-grids/nlte/gerber_ts/, unpacked md5 verified in place against the Mac measurement. Route verified END-TO-END on the staged bytes: solar node p5777g44m00, ndep 101, nlev 607, log tau -5..+5, A(X)=7.50, all finite, no all-zero rows, median b 1.0000 at depth, departures sha256 62556a5664d0b8f7 -- IDENTICAL to the Mac read, and the six suspect rows refused."
+    },
+    "grid_3d_aux": {
+      "name": "auxData_Fe_STAGGERmean3D_May-21-2021.txt",
+      "url": "https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/files/?p=%2Fdep-grids%2FFe%2FauxData_Fe_STAGGERmean3D_May-21-2021.txt&dl=1",
+      "md5": "302769ca102530e9a209e1887df8c3cd",
+      "bytes": "19003",
+      "committed_copy": "data/nlte_grids/gerber_ts/fe_mean3d_aux/",
+      "note": "🔴 REGISTER Fe@mean3D AGAINST THIS ONE, NOT THE _marcs_names SIBLING -- the opposite of Al. Its [Fe/H] column is ZEROED on the seven Teff=5777 rows (named m00/m05/m10/m20/m30/m40/p05, column +0.00 for all seven); the other 182 rows agree with their names exactly, so the column is wrong and the name is right. gerber_nlte._parse_aux_text referees the column with the name and restores all six.",
+      "staged": "/mnt/codex-ext/codex-grids/nlte/gerber_ts/auxData_Fe_STAGGERmean3D_May-21-2021.txt (RYA-1035, 2026-08-24, md5 verified in place)"
+    },
+    "grid_3d_aux_marcs_names_DO_NOT_USE": {
+      "name": "auxData_Fe_STAGGERmean3D_May-21-2021_marcs_names.txt",
+      "url": "https://keeper.mpdl.mpg.de/f/57c84752f46c4326ab24/?dl=1",
+      "md5": "4ceb02f997dff488514f229f6422bbc6",
+      "bytes": "31843",
+      "committed_copy": "data/nlte_grids/gerber_ts/fe_mean3d_aux/",
+      "note": "🔴 UNUSABLE, AND IT IS THE ONE TSFitPy's OWN DOWNLOADER POINTS AT ([Fe] 3d_aux_link in utilities/nlte_grids_links.cfg). The vendor's convert_3d_grid_to_marcs_names.py builds the new name FROM the [Fe/H] column, so it propagated the zeroing into the name: all seven Teff=5777 rows come out as the byte-identical string p5777_g+4.4_m0.0_t02_st_z+0.00_... Name and column now agree and both are wrong for six of them, so nothing can referee it. Measured: reading the solar node through this aux is REFUSED by the RYA-821 record-vs-aux check; through the plain aux it returns p5777g44m00."
     }
   },
   "deck_abundance": {
-    "a_sun": 7.46,
-    "why": "NOT the 7.50 printed in the atom.fe607a header. bsyn STOPs with 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here' \u2014 the departure coefficients were computed at 7.46, so the synthesis must run at 7.46 or they do not apply. A property of the deck, not a fitted value."
+    "a_sun": 7.5,
+    "why": "The model atom declares it: atom.fe607a line 2 is `7.50  55.85` (A(Fe) and the atomic mass), on the file whose md5 d08dc8232ed68eec65f9bb6631e82ea8 matches the copy staged on Sirius. Corroborated three ways: BOTH Fe aux tables encode A(X) = 7.50 + [Fe/H] EXACTLY (15,229 MARCS rows; 183 clean <3D> rows -- the six exceptions are the RYA-1035 zeroed rows, which are refused); Turbospectrum's own MARCS reader hardcodes solar iron as 7.50 (`metal = abund(15) - 7.50`, interpol_modeles_nlte.f:1177); and the <3D> direct-read path reports 7.50 out of the aux whatever abundance it is asked for.",
+    "corrected_from": "7.46",
+    "correction_rya1035": "🔴 THE 7.46 WAS OUR OWN INPUT COMING BACK, NOT A PROPERTY OF THE DECK. It was sourced from bsyn's message 'NLTE departure coeff calculated for abundance = 7.46 while it is 7.50 here', read as the grid speaking. Traced through the vendor source it is us speaking: interpol_modeles_nlte.f:206 reads `abu_ref` from STDIN, line 761 writes it VERBATIM into the departure file, read_departure.f loads it as `abundance_nlte`, and bsyn.f:988 prints it back. gerber_nlte fed that field from deck_abundance() itself, so the record was its own echo -- a closed loop with no external referee. The module's own docstring already carried the disproof: running the interpolator at A = 7.36/7.46/7.56 gives departure files BYTE-IDENTICAL except the stamp. ⚠️ 7.46 is also the Asplund solar A(Fe) -- the number that looks right on arrival, which is why the loop was never challenged.",
+    "impact": "LABEL ONLY, no measured value moves. deck_abundance() feeds the interpolator's `abu_ref` (a stamp the departures do not follow) and a printed `A_deck=` provenance string in derive_band_products / rya798 control. What bsyn actually compares is written by as_ispec_tuple from the TRIAL abundance, so the abundance STOP is unaffected.",
+    "bsyn_stop": "KEEP IT. Refusing an ambiguous abundance is the correct failure mode; the ambiguity was resolved, the guard was not downgraded. gerber_nlte.deck_abundance now cross-examines this record against the deck's own aux and RAISES on disagreement, so a value sourced from us can no longer be handed back to the vendor binary as though it came from the vendor.",
+    "open_question_rya1035": "RESOLVED -- see correction_rya1035."
   },
   "gate": {
     "ticket": "RYA-534 element-general gate; adjudicated in the RYA-785 second pass",
@@ -47,9 +78,10 @@
       "Second pass: the Ti 'weak lines' rule was being enforced on the MEASURED EW, but the COG inversion consumes the SYNTHETIC EW, and the two can disagree by 21x (Fe I 5607.664: measured 20.1 mA, synthesised 0.95 mA). Added SYN_EW_MIN = 5 mA, applied to the quantity that actually matters. 5607.664 is registered in problem_children.csv as the RYA-713 ATOMIC-DATA pattern.",
       "Second pass: line selection had no ISOLATION requirement, so it could pick a blended pair and report it as one line. Now requirement (5)."
     ],
-    "wiring_status": "VALIDATED BUT NOT WIRED. derive_band_products.py --engine-b-deck gerber-nlte still refuses, and the refusal message was corrected: the old text said 'not provisioned', which is now false. The real blocker is plumbing -- iSpec's TS wrapper does accept `nlte_departure_coefficients`, but `_fit_synth_flux` has no NLTE parameter and iSpec's own dep-grid store (input/dep-grid/) is EMPTY, while our deck is TS-native (atom.* + auxData + .bin), consumed today only by this gate's direct interpol_modeles_nlte + bsyn calls. \u26a0\ufe0f iSpec also fails SOFT: an element whose linelist rows carry no NLTE label lands in `nlte_ignored` and synthesis proceeds in LTE without raising (the RYA-764 trap), so the wiring owes a hard check on `nlte_available`.",
+    "wiring_status": "VALIDATED BUT NOT WIRED. derive_band_products.py --engine-b-deck gerber-nlte still refuses, and the refusal message was corrected: the old text said 'not provisioned', which is now false. The real blocker is plumbing -- iSpec's TS wrapper does accept `nlte_departure_coefficients`, but `_fit_synth_flux` has no NLTE parameter and iSpec's own dep-grid store (input/dep-grid/) is EMPTY, while our deck is TS-native (atom.* + auxData + .bin), consumed today only by this gate's direct interpol_modeles_nlte + bsyn calls. ⚠️ iSpec also fails SOFT: an element whose linelist rows carry no NLTE label lands in `nlte_ignored` and synthesis proceeds in LTE without raising (the RYA-764 trap), so the wiring owes a hard check on `nlte_available`.",
     "provisioned": "2026-08-11",
     "validated": "2026-08-12"
   },
-  "provisioned": "2026-08-11"
+  "provisioned": "2026-08-11",
+  "note_3d_route_rya1035": "RYA-1035 Step 0 returned HAVE: the Fe <3D> deck was on the same Keeper share we already fetch from, and had been since 2021. The register's claim that 'Fe has NO deck (T2_BUILD_OWED, build-our-own only)' was read off OUR DISK and never checked against the SOURCE."
 }
