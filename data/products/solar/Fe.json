@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.35",
-  "updated_at": "2026-08-25T00:08:58Z",
+  "version": "1.37",
+  "updated_at": "2026-08-25T00:55:28Z",
   "products": [
     {
       "element": "Fe",
@@ -813,6 +813,58 @@
         "sha256": "0e2348fdfff3fc86e11057bc880d23c8ff6621018d2da210432a857d9cda5e23",
         "artifact_mtime": "2026-08-24T16:50:47Z",
         "ingested_at": "2026-08-24T23:30:22Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.462,
+      "sigma_stat": 0.0416,
+      "sigma_syst": 0.0584,
+      "n_lines": 45,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv",
+        "copied_to": null,
+        "sha256": "9e699831196fda76ead9630ccaf129740fe32717b2773323c9a88f709df336ad",
+        "artifact_mtime": "2026-08-25T00:54:49Z",
+        "ingested_at": "2026-08-25T00:55:28Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A",
+      "display": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.456,
+      "sigma_stat": 0.0176,
+      "sigma_syst": 0.0584,
+      "n_lines": 26,
+      "n_excluded": 19,
+      "dominant_term": "gf scale (cited lab)",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv",
+        "copied_to": null,
+        "sha256": "01cc4f9de9413e105d046bae5cbc98a92a1921f6b93ce189a23ec7b993f2128c",
+        "artifact_mtime": "2026-08-25T00:55:05Z",
+        "ingested_at": "2026-08-25T00:55:28Z"
       }
     },
     {
