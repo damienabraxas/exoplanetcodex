@@ -3020,3 +3020,13 @@ artifacts:
       parser -- overridden rows, where they sit, how many names survive at Teff=5777, and
       whether the solar node is addressable. Al is the positive control (conversion keeps
       all 7 names); Fe and Mn collapse to 1.
+  - artifact: rya1042/mean3d_gate_verdict.json
+    generator: scripts/rya1042_mean3d_gate.py
+    ticket: RYA-1042
+    invocation: python3 scripts/rya1042_mean3d_gate.py --nlte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_synth-mean3D-NLTE-gerber-stagger_lines.csv --lte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_synth-mean3D-LTE-gerber-stagger_lines.csv --out data/results/rya1042/mean3d_gate_verdict.json
+    note: >-
+      The RYA-534 anchor gate re-expressed for a <3D> deck. Verdict NOT_VALIDATED on the
+      first full-band run -- not because leg 1 disagreed (it agreed to 0.0007 dex) but
+      because the 5 of 40 lines it could compare have the OPPOSITE SIGN to the full
+      product, so they cannot certify it. The per-line inputs are band products; the
+      anchor is Amarsi+2016 nmtd_lmtd, external.

@@ -157,3 +157,41 @@ def test_leg2_declares_its_envelope_as_declared():
     between a sanity check and a fabricated threshold."""
     assert "DECLARED, not derived" in SRC
     assert "bounds the absurd" in SRC
+
+
+def test_an_unrepresentative_matched_subset_cannot_certify_the_product(tmp_path, anchor_waves):
+    """🔴 THE FAILURE THE FIRST FULL-BAND RUN ACTUALLY PRODUCED.
+
+    Leg 1 can only compare the lines the anchor also carries — a SUBSET. On the real run
+    that subset was 5 of 40 lines, it agreed with the anchor to **0.0007 dex**, and the
+    gate said VALIDATED. But the matched median was −0.0160 while the full 40-line product
+    was **+0.0340**: opposite signs. The 5 lines were not behaving like the product they
+    would have certified, so their excellent agreement said nothing about the other 35.
+
+    The check is DERIVED, not a chosen cut: sign disagreement between the subset and the
+    whole is proof of unrepresentativeness, with no threshold to pick."""
+    # 3 matched lines that agree with the anchor, plus 12 unmatched ones pulling the
+    # full-product median the other way
+    matched = [(w, 7.50 - 0.02, 3.0) for w in anchor_waves[:3]]
+    unmatched_n = [(9000.0 + i, 7.50 + 0.20, 3.0) for i in range(12)]
+    matched_l = [(w, 7.50, 3.0) for w in anchor_waves[:3]]
+    unmatched_l = [(9000.0 + i, 7.50, 3.0) for i in range(12)]
+    doc, out = _run(tmp_path, matched + unmatched_n, matched_l + unmatched_l)
+
+    assert doc["verdict"] == "NOT_VALIDATED"
+    assert doc.get("blocked_by") == "matched subset unrepresentative of the full product"
+    assert "NOT REPRESENTATIVE" in out
+    for v in doc["leg1_anchor_agreement"].values():
+        if v.get("n"):
+            assert v["subset_representative"] is False
+            assert v["verdict"] == "UNREPRESENTATIVE"
+
+
+def test_a_representative_subset_still_passes(tmp_path, anchor_waves):
+    """The check must not block a genuine agreement — same sign, subset carries the whole."""
+    rows_n = [(w, 7.50 - 0.02, 3.0) for w in anchor_waves[:6]]
+    rows_l = [(w, 7.50, 3.0) for w in anchor_waves[:6]]
+    doc, _ = _run(tmp_path, rows_n, rows_l)
+    for v in doc["leg1_anchor_agreement"].values():
+        if v.get("n"):
+            assert v["subset_representative"] is True
