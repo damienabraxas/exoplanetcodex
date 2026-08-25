@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-25
 
+- **RYA-1040** — ⟨3D⟩ treatment pair as AXES + route wired; the run found the deck was read **TRANSPOSED** and no ⟨3D⟩ deck could synthesise at all
 - **RYA-1013** — staged + verified the **O ⟨3D⟩ deck**: its CONSUME leg works (via Gerber, not the SIU route it names); build becomes a referee, not the path
 - **RYA-1035** (follow-up) — swept the ⟨3D⟩ aux defect across all 17 published decks: **Mn has Fe's identical defect**; the other 15 are clean
 - **RYA-1029** — the ⟨3D⟩ atmosphere loader; the "still owed PHYSICS step" is an interface contract, and iSpec's τ overwrite is an identity here (5e-5)
