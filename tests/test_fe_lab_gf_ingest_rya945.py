@@ -148,9 +148,14 @@ def test_a_sigma_is_only_attached_where_the_source_agrees_with_the_value(fe):
 # ── judgement 3: this is an update, not an extension ─────────────────────────────────
 def test_the_row_population_and_keys_are_untouched(canon):
     """`apply_to_synth_array` resolves EVERY line the synthesis loads (RYA-822)."""
-    assert len(canon) == 167739, (
+    # This literal is a TRIPWIRE on RYA-945's ingest, not a fact about canonical_gf's
+    # size. It moves only when an APPENDING ticket extends the table, and the move is
+    # recorded here so an accidental change still trips it:
+    #   167739  RYA-834  extension to 12935 A
+    #   170539  RYA-1047 H-band extension to 21390 A (+2800 Fe lines, 12976-21400 A)
+    assert len(canon) == 170539, (
         f"{len(canon)} rows — RYA-945 rewrites rows in place and must not change the "
-        f"population; RYA-834 is the ticket that appends")
+        f"population; RYA-834 and RYA-1047 are the tickets that append")
     keys = {(r["species"], r["wavelength_air_A"], r["excitation_potential_eV"])
             for r in canon}
     assert len(keys) == len(canon), "duplicate (species, wavelength, EP) keys"
