@@ -599,6 +599,17 @@ def synthesis_stem(a) -> str:
     return stem
 
 
+def _holdings_for(instrument: str):
+    """The declared HoldingSpecs for an instrument, or () — RYA-1046.
+
+    Reads the registry the measurement path already uses, so the extent a run narrows to
+    is the SAME one `select_holding` enforces per window. A second source here would be
+    the RYA-353 drift this repo keeps paying for.
+    """
+    from measure_band_ew import _INSTRUMENT_HOLDINGS
+    return _INSTRUMENT_HOLDINGS.get(instrument, ())
+
+
 def synthesis_route(a, pol) -> None:
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
@@ -899,9 +910,44 @@ def synthesis_route(a, pol) -> None:
             _prov = f"{_prov} | RYA-995 DEGRADED to R={_degrade_to:.0f} (sigma {_sig_px:.2f} px)"
         return _w, _f, _prov
 
+    # 🔴 THE INSTRUMENT'S COVERAGE DRIVES THE RANGE — RYA-1046 (Ryan's call).
+    #
+    # This probed at the NOMINAL BAND CENTRE, a point that may hold no line and may lie
+    # outside the arm entirely. IAG reaches 33 of 34 Fe I lab lines in the IR but not
+    # 11087.5 A, the midpoint of 9199-12976, so the whole arm was refused wholesale;
+    # CRIRES likewise. The per-window check it calls is CORRECT -- a window half outside
+    # the data is a truncated window, not a measurement -- but that is a PER-LINE fact
+    # being used as a PER-BAND gate at an arbitrary coordinate.
+    #
+    # A band is a nominal LABEL; an arm has a real EXTENT. So intersect them and work over
+    # the overlap. An arm covering part of a band measures that part, with n and the stem
+    # saying so -- exactly as IAG already does in VIS (41 of 109 lines, the rest excluded
+    # with a stated reason). Only a genuinely EMPTY intersection is a refusal.
+    _span = None
+    for _h in _holdings_for(a.instrument):
+        if a.holding and _h.holding_id != a.holding:
+            continue
+        _span = getattr(_h, "span_A", None)
+        break
+    if _span is not None:
+        _lo_new, _hi_new = max(a.lo, _span[0] + hw + 0.4), min(a.hi, _span[1] - hw - 0.4)
+        if _lo_new >= _hi_new:
+            raise SystemExit(
+                f"{a.instrument}/{a.holding or 'default'} spans {_span[0]:.1f}-"
+                f"{_span[1]:.1f} A and the request is {a.lo:.1f}-{a.hi:.1f} A — they do "
+                f"not overlap by even one fittable window (half-width {hw:.2f} A). This "
+                f"arm cannot serve this band at all (RYA-832).")
+        if (_lo_new, _hi_new) != (a.lo, a.hi):
+            print(f"  [coverage] {a.instrument} covers {_span[0]:.1f}-{_span[1]:.1f} A; "
+                  f"narrowing {a.lo:.1f}-{a.hi:.1f} -> {_lo_new:.1f}-{_hi_new:.1f} A so "
+                  f"every fitted window lies wholly inside the data (RYA-1046). The "
+                  f"product covers what THIS ARM covers; n and the stem record it.")
+            a.lo, a.hi = float(_lo_new), float(_hi_new)
     _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4,
                             holding=a.holding)
-    # Asked at band centre so the refusal costs nothing and arrives BEFORE any synthesis.
+    # Probed at the centre of the ARM-INTERSECTED range, inside the data by construction,
+    # so this refusal now means "this arm truly cannot serve" rather than "the nominal
+    # midpoint happened to fall outside it".
     # `_observed` checks it too, per line, because a band can in principle select a
     # different holding line by line -- but a per-line failure there surfaces as
     # `status: no_atlas` on each line, which describes coverage rather than the real
