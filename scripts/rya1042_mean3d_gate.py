@@ -63,6 +63,13 @@ VTURB_BRACKET = ("0.75", "1.50")
 
 SENTINEL = -4.0
 
+#: Leg 3 reads ONE bracket end rather than both. The atmosphere effect is a property of the
+#: model atmosphere, and its vturb dependence across the bracket (+0.0912 at 0.75, +0.0828
+#: at 1.50) is far smaller than the tolerance -- so carrying both ends would double the
+#: output without changing any verdict. 1.50 is named because it is the end our own runs
+#: sit nearer; the other end is in the committed anchor for anyone who wants it.
+ATMOSPHERE_VTURB = "1.50"
+
 
 def _read_lines(path: Path) -> dict[float, dict]:
     out = {}
@@ -95,6 +102,7 @@ def load_anchor(vturb: str) -> list[dict]:
             if d == SENTINEL:          # a floor value in the release, not a correction
                 continue
             rows.append(dict(wave_A=float(r["lambda_air_nm"]) * 10.0, delta=d,
+                             atmosphere=_f(r.get("atmosphere_mean3d_lte_minus_1d_lte")),
                              e_low=_f(r.get("e_low"))))
     return rows
 
@@ -112,6 +120,7 @@ def match(ours: dict[float, dict], anchor: list[dict]) -> tuple[list[dict], list
                          f"{MATCH_TOL_A} A; refused rather than resolved by proximity")
             continue
         paired.append(dict(wave_A=w, ours=rec["delta"], anchor=near[0]["delta"],
+                           anchor_atmosphere=near[0].get("atmosphere"),
                            ep_eV=rec["ep_eV"]))
     return paired, notes
 
@@ -121,6 +130,11 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--nlte", required=True, help="⟨3D⟩-NLTE per-line CSV")
     ap.add_argument("--lte", required=True, help="⟨3D⟩-LTE per-line CSV (the comparand)")
+    ap.add_argument("--lte-1d", default=None,
+                    help="1D-LTE per-line CSV from the SAME run. Enables LEG 3, the "
+                         "ATMOSPHERE leg (RYA-1042 scope add): our <3D>-LTE minus 1D-LTE "
+                         "against Amarsi's own <3D>-minus-1D effect on the matched lines. "
+                         "Omitted, leg 3 is reported NOT_RUN and cannot contribute a PASS.")
     ap.add_argument("--out", default=None, help="write the verdict JSON here")
     a = ap.parse_args()
 
@@ -274,17 +288,87 @@ def main() -> int:
                   f"they are not behaving like the product they would certify, so that "
                   f"agreement cannot carry it.")
 
+    # ── LEG 3 — THE ATMOSPHERE LEG ──────────────────────────────────────────────────
+    #
+    # 🔴 WHY THIS LEG EXISTS, AND WHY IT WAS ADDED LATE (Ryan, RYA-1042 scope add).
+    # Legs 1 and 2 both interrogate the NLTE differential. But the ladder has TWO rungs:
+    #
+    #     1D-LTE   ->  <3D>-LTE   ->  <3D>-NLTE
+    #                  ^^^^^^^^       ^^^^^^^^^
+    #                  ATMOSPHERE     NLTE
+    #
+    # and on the first solar Fe run the ATMOSPHERE rung was the big one: +0.105, against
+    # an NLTE rung of +0.032. So the entire offset from consensus lived in the leg NOTHING
+    # WAS GATING, while both existing legs argued about the small one. A deck that lands
+    # ~+0.09 off consensus for undecomposed reasons is not validated, however well its
+    # NLTE differential behaves.
+    #
+    # The referee costs no new physics: `nmtd_lmarcs` and `nmtd_lmtd` share the <3D>-NLTE
+    # term exactly, so their difference IS Amarsi's own <3D>LTE - 1D LTE for the same
+    # lines. See the extractor's docstring; the column is committed with the anchor.
+    #
+    # ⚠️ THIS LEG NEEDS A THIRD PRODUCT and cannot invent it. Without `--lte-1d` it reports
+    # NOT_RUN and CANNOT contribute a PASS -- an ungated rung must never read as a passed
+    # one, which is the whole lesson of its own existence.
+    leg3 = {"status": "NOT_RUN",
+            "why": "no --lte-1d product given; the atmosphere rung was not gated"}
+    if a.lte_1d:
+        lte1d = _read_lines(Path(a.lte_1d))
+        shared = sorted(set(lte) & set(lte1d))
+        if not shared:
+            leg3 = {"status": "NO_OVERLAP",
+                    "why": "no line is in-aggregate in both the <3D>-LTE and 1D-LTE legs"}
+        else:
+            ours_atm = {w: dict(delta=lte[w]["abundance"] - lte1d[w]["abundance"],
+                                ep_eV=lte[w]["ep_eV"]) for w in shared}
+            # Reuse leg 1's matcher and its refusal-on-ambiguity, then keep only the rows
+            # whose anchor row actually carries an atmosphere value.
+            paired3, notes3 = match(ours_atm, load_anchor(ATMOSPHERE_VTURB))
+            paired3 = [q for q in paired3 if q.get("anchor_atmosphere") is not None]
+            if not paired3:
+                leg3 = {"status": "NO_OVERLAP",
+                        "why": "no matched anchor line carries an atmosphere value"}
+            else:
+                o3 = [q["ours"] for q in paired3]
+                a3 = [q["anchor_atmosphere"] for q in paired3]
+                om, am = statistics.median(o3), statistics.median(a3)
+                d3 = om - am
+                leg3 = {"status": "RUN", "vturb": ATMOSPHERE_VTURB,
+                        "n": len(paired3), "n_ours": len(ours_atm),
+                        "match_rate": round(len(paired3) / len(ours_atm), 3),
+                        "ours_median": round(om, 4), "anchor_median": round(am, 4),
+                        "median_difference": round(d3, 4),
+                        "verdict": "PASS" if abs(d3) <= TOL_DEX else "FAIL"}
+                print(f"\nLEG 3 — ATMOSPHERE (<3D>-LTE minus 1D-LTE) vs Amarsi's own "
+                      f"<3D>-minus-1D, vturb {ATMOSPHERE_VTURB}")
+                print(f"  matched {len(paired3)}/{len(ours_atm)} of our lines "
+                      f"({100 * len(paired3) / len(ours_atm):.0f}%)")
+                print(f"      ours {om:+.4f}  anchor {am:+.4f}  |diff| {abs(d3):.4f} "
+                      f"vs tol {TOL_DEX}  -> {leg3['verdict']}")
+                if (om > 0) != (am > 0):
+                    leg3["sign_disagreement"] = True
+                    print(f"      🔴 SIGN DISAGREEMENT on the ATMOSPHERE rung")
+    doc["leg3_atmosphere"] = leg3
+
     compared = [v for v in leg1.values() if v.get("n")]
     if not compared:
         print(f"\n  🔴 NO BRACKET SHARED A SINGLE LINE WITH THE ANCHOR. That is not "
               f"agreement -- it is the absence of a comparison, and it cannot pass.")
         doc["no_overlap_with_anchor"] = True
-    both = bool(compared) and all(v["verdict"] == "PASS" for v in compared) and within
+    # 🔴 LEG 3 IS A REQUIREMENT, NOT A BONUS. NOT_RUN cannot pass -- see the leg's note.
+    leg3_ok = leg3.get("status") == "RUN" and leg3.get("verdict") == "PASS"
+    both = (bool(compared) and all(v["verdict"] == "PASS" for v in compared)
+            and within and leg3_ok)
+    if not leg3_ok:
+        doc.setdefault("blocked_by_legs", []).append(
+            f"leg3 atmosphere: {leg3.get('status')}"
+            + (f"/{leg3.get('verdict')}" if leg3.get("verdict") else ""))
     if compared and not all(v.get("subset_representative", True) for v in compared):
         doc["blocked_by"] = "matched subset unrepresentative of the full product"
     doc["verdict"] = "VALIDATED" if both else "NOT_VALIDATED"
     print(f"\nVERDICT: {doc['verdict']}  "
-          f"(a deck must pass BOTH legs; either alone is weaker)")
+          f"(a deck must pass ALL THREE legs -- atmosphere AND NLTE AND structure; "
+          f"any one alone is weaker, and an UNGATED rung is not a passed one)")
 
     if a.out:
         Path(a.out).write_text(json.dumps(doc, indent=2) + "\n")

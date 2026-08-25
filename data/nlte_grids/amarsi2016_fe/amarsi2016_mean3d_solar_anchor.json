@@ -1,6 +1,6 @@
 {
   "ticket": "RYA-1042",
-  "extracted_utc": "2026-08-25T10:42:40Z",
+  "extracted_utc": "2026-08-25T21:25:41Z",
   "quantity": "<3D> non-LTE minus <3D> LTE abundance correction, on averaged-3D STAGGER model atmospheres (the file's own readme)",
   "node": {
     "teff_K": "5750",
@@ -15,7 +15,10 @@
       "median": -0.0299,
       "mean": -0.0328,
       "min": -0.4367,
-      "max": 0.1834
+      "max": 0.1834,
+      "atmosphere_n": 540,
+      "atmosphere_median": 0.0912,
+      "atmosphere_mean": 0.1055
     },
     "Fe1_vturb1.50": {
       "n_clean": 540,
@@ -23,7 +26,10 @@
       "median": -0.0411,
       "mean": -0.0438,
       "min": -0.3488,
-      "max": 0.2598
+      "max": 0.2598,
+      "atmosphere_n": 540,
+      "atmosphere_median": 0.0828,
+      "atmosphere_mean": 0.0977
     },
     "Fe1_vturb3.00": {
       "n_clean": 539,
@@ -31,7 +37,10 @@
       "median": -0.0597,
       "mean": -0.0638,
       "min": -0.3025,
-      "max": 0.2822
+      "max": 0.2822,
+      "atmosphere_n": 539,
+      "atmosphere_median": 0.0702,
+      "atmosphere_mean": 0.084
     },
     "Fe2_vturb0.75": {
       "n_clean": 75,
@@ -39,7 +48,10 @@
       "median": -0.001,
       "mean": -0.003,
       "min": -0.0176,
-      "max": 0.0014
+      "max": 0.0014,
+      "atmosphere_n": 75,
+      "atmosphere_median": 0.0152,
+      "atmosphere_mean": 0.0283
     },
     "Fe2_vturb1.50": {
       "n_clean": 75,
@@ -47,7 +59,10 @@
       "median": -0.0008,
       "mean": -0.0029,
       "min": -0.0245,
-      "max": 0.0026
+      "max": 0.0026,
+      "atmosphere_n": 75,
+      "atmosphere_median": 0.012,
+      "atmosphere_mean": 0.0249
     },
     "Fe2_vturb3.00": {
       "n_clean": 75,
@@ -55,7 +70,10 @@
       "median": 0.0007,
       "mean": -0.0026,
       "min": -0.0427,
-      "max": 0.0042
+      "max": 0.0042,
+      "atmosphere_n": 75,
+      "atmosphere_median": 0.0078,
+      "atmosphere_mean": 0.0201
     }
   }
 }

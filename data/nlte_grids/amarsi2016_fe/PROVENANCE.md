@@ -89,6 +89,47 @@ ionisation stage and close to LTE, which is what the literature expects.
 Over our VIS band specifically (420–691 nm, Clean = yes, vturb 1.50): **n = 258,
 median −0.0376**, range −0.0928 … +0.0024.
 
+## 🔴 The ATMOSPHERE leg — `nmtd_lmarcs` earns its keep after all (RYA-1042 scope add)
+
+The audit above calls `nmtd_lmarcs` **the trap**, and for the NLTE differential it is: its
+comparand is 1D LTE, so using it *there* folds the atmosphere shift into an NLTE test.
+
+But the two files together give something neither gives alone. They share the ⟨3D⟩-non-LTE
+term **exactly**, so it cancels:
+
+```
+nmtd_lmarcs  =  <3D>NLTE  -  1D LTE
+nmtd_lmtd    =  <3D>NLTE  -  <3D>LTE
+------------------------------------------------
+difference   =  <3D>LTE   -  1D LTE     <- the ATMOSPHERE effect
+```
+
+That is **Amarsi's own 1D→mean-3D shift for the same lines at the same node**, and it is
+the referee for our ⟨3D⟩-LTE leg. It is a subtraction of two released columns — nothing
+fitted, nothing assumed. The solar-node slices join **540/540 on wavelength** (6602 of 6603
+rows overall; the one drop is the sentinel), so the join is exact rather than nearest.
+
+**The result, and it was a surprise:**
+
+| species · vturb | ⟨3D⟩LTE − 1D LTE |
+| --- | --- |
+| Fe I · 0.75 | **+0.0912** |
+| Fe I · 1.50 | **+0.0828** |
+| Fe I · 3.00 | +0.0702 |
+| Fe II · 1.50 | +0.0120 |
+
+**Solar Fe I's mean-3D atmosphere effect is large and POSITIVE**, including at low
+excitation (+0.075 on the matched lines) — the sub-population a cooler-upper-photosphere
+argument predicts should go *negative*. Our own ⟨3D⟩-LTE leg gives **+0.086** on the 43
+matched lines against the anchor's **+0.073**: agreement to **0.0133 dex**.
+
+⇒ **The ~+0.09 that put our ⟨3D⟩ value above the 7.46 expectation is PHYSICAL**, confirmed
+by an independent group. And it kills the atmosphere-ingestion-bias hypothesis: a ~+0.08
+additive bias in our ⟨3D⟩-LTE leg would have shown here as a ~+0.08 disagreement.
+
+💡 **Fe II at +0.012 while Fe I is at +0.083 is a second free sanity check** — Fe II is the
+majority stage and forms deeper, so it should be far less sensitive to the atmosphere. It is.
+
 ## Firewall (RYA-161 / RYA-1035)
 
 This anchor is **external** and was computed by another group with a different code, a
