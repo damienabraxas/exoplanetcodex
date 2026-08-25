@@ -86,7 +86,14 @@ def main() -> int:
     ap.add_argument("--lo", type=float, default=4200)
     ap.add_argument("--hi", type=float, default=6910)
     ap.add_argument("--delta", type=float, default=0.10,
-                    help="abundance step in dex for the two-sided derivative")
+                    help="abundance step in dex for the two-sided derivative. 🔴 DECLARED, "
+                         "NOT BORROWED (RYA-161/1043): measured on 10 lines across a 20x "
+                         "range, the derivative is stable to 0.4% -- 0.02 -> +0.4224, "
+                         "0.05 -> +0.4224, 0.10 -> +0.4225, 0.20 -> +0.4228, "
+                         "0.40 -> +0.4241. 0.10 sits mid-plateau; drift begins only at "
+                         "0.40, the expected onset of leaving the local linear regime. "
+                         "The bracket is wide enough to resolve the slope and narrow "
+                         "enough not to traverse the knee.")
     ap.add_argument("--half-width-A", type=float, default=0.62,
                     help="⚠️ the window integrates ALL absorption in it, so a blended "
                          "neighbour inflates EW. The DERIVATIVE is robust to that (only "
@@ -217,7 +224,7 @@ def main() -> int:
             print(f"  {i}/{len(pool)}  {el/i:.1f}s/line  eta {(len(pool)-i)*el/i/60:.0f} min",
                   flush=True)
 
-    out = Path(a.out) if a.out else OUT / f"rya1041_perline_cog_{int(a.lo)}_{int(a.hi)}.csv"
+    out = Path(a.out) if a.out else OUT / f"rya1043_perline_cog_{int(a.lo)}_{int(a.hi)}.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
     df = pd.DataFrame(rows)
     df.to_csv(out, index=False)

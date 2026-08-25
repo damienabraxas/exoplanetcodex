@@ -30,7 +30,9 @@ from pipeline.error_budget import empirical_gf_term, zero_point_term  # noqa: E4
 
 def _th(**over):
     """Fully-declared thresholds for tests. Values are TEST fixtures, not project defaults."""
-    t = G.Thresholds(rew_min=-6.0, rew_max=-4.8, min_depth=0.03, max_red_chi2=5.0,
+    # RYA-1043: rew_max is RETIRED. Saturation is per-line, so stage 2 gates on the
+    # line's own measured dREW/dA against `min_d_rew_dA` instead of a shared ceiling.
+    t = G.Thresholds(rew_min=-6.0, min_d_rew_dA=0.5, min_depth=0.03, max_red_chi2=5.0,
                      admission_tol_dex=0.20, min_anchor_lines=5,
                      consistency_bound_dex=0.30, fallback_sigma_dex=0.50)
     for k, v in over.items():
@@ -47,7 +49,10 @@ def _row(**over):
              ew_mA=45.0, problem_class="", excluded_reason="", gf_tier="KURUCZ",
              abundance=7.50, gf_sigma_dex=None, cross_measurements=None,
              inferred_sigma_dex=None, route="ew", instrument=None,
-             frac_rise_weaker=None)
+             frac_rise_weaker=None,
+             # RYA-1043: stage 2 reads the line's OWN COG slope. 0.9 = comfortably linear;
+             # a fixture without it would be UNKNOWN at stage 2, never a pass.
+             d_rew_dA=0.9)
     r.update(over)
     return r
 
@@ -59,7 +64,7 @@ def _row(**over):
 #: a measurement behind it, which `test_a_set_threshold_carries_its_measurement` enforces
 #: for anything that leaves this list.
 @pytest.mark.parametrize("name", [
-    "rew_min", "rew_max", "min_depth", "max_red_chi2",
+    "rew_min", "min_d_rew_dA", "min_depth", "max_red_chi2",
     "min_anchor_lines", "consistency_bound_dex", "fallback_sigma_dex"])
 def test_every_undelivered_threshold_refuses_until_declared(name):
     with pytest.raises(G.ThresholdNotDeclared, match="has not been declared"):
@@ -80,7 +85,7 @@ def test_a_set_threshold_carries_its_measurement():
     import inspect
     src = inspect.getsource(G.Thresholds)
     t = G.Thresholds()
-    for name in ("rew_min", "rew_max", "min_depth", "max_red_chi2", "admission_tol_dex",
+    for name in ("rew_min", "min_d_rew_dA", "min_depth", "max_red_chi2", "admission_tol_dex",
                  "min_anchor_lines", "consistency_bound_dex", "fallback_sigma_dex"):
         if getattr(t, name) is None:
             continue                                    # still undelivered, covered above
