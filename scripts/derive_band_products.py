@@ -64,6 +64,7 @@ sys.path.insert(0, str(ROOT))
 
 from pipeline.band_policy import resolve as resolve_band  # noqa: E402
 from pipeline.treatment_axes import axes_for  # RYA-906
+from pipeline import treatment_axes as taxes  # RYA-1040: <3D> tokens, never typed
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline.error_budget import assert_stat_publishable  # noqa: E402  RYA-907
@@ -1460,6 +1461,16 @@ LTE_NLTE_SOURCE = "none — LTE, no departure applied"
 #: correction applied to Engine-B-LTE. Reporting a number here would require differencing
 #: the two products, which is precisely what RYA-880 forbids and what RYA-712 forbids
 #: conceptually. So the delta is None and the source says why.
+#: RYA-1040 — the <3D> pair's provenance string. It names the ATMOSPHERE as well as the
+#: atom, because that is the axis distinguishing this product from its 1D sibling, and it
+#: states in words whether the departures were applied: the LTE member runs the SAME deck
+#: setup with them withheld, and a reader must not have to infer that from the label.
+MEAN3D_SOURCE_FMT = (
+    "gerber:{atom} on <3D> {model} (STAGGERmean3D deck read directly, RYA-821/1035; "
+    "no vendor interpolator); {mode}. The NLTE effect is (<3D>-NLTE minus <3D>-LTE) on "
+    "this one atmosphere -- never against a 1D-LTE product, which would report the "
+    "1D->mean-3D atmosphere shift as non-LTE physics (RYA-542).")
+
 GERBER_NLTE_SOURCE_FMT = ("gerber:{atom} (TS-native departure deck, RYA-798); departures "
                           "applied INSIDE the synthesis — no additive per-line delta "
                           "exists, this is a separate product, not a corrected LTE value")
@@ -1616,12 +1627,21 @@ def main() -> None:
                          "as RYA-759 swept 0.25/0.40/0.60 in the near-UV.")
     ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--mpia-cache", help="pre-computed per-line delta_nlte JSON")
-    ap.add_argument("--engine-b-deck", choices=["ts-lte", "gerber-nlte"], default="ts-lte",
+    ap.add_argument("--engine-b-deck",
+                    choices=["ts-lte", "gerber-nlte", "gerber-mean3d", "gerber-mean3d-lte"],
+                    default="ts-lte",
                     help="which synthesis is Engine B. 'ts-lte' is the production "
                          "Turbospectrum LTE flux-fit; 'gerber-nlte' is the TS-native "
                          "Gerber departure deck (validated RYA-785, wired RYA-798). "
                          "It runs on MARCS.GES to match the deck and emits a SEPARATE "
-                         "ENGINE-B-NLTE product -- never a correction to Engine-B-LTE.")
+                         "ENGINE-B-NLTE product -- never a correction to Engine-B-LTE. "
+                         "RYA-1040: 'gerber-mean3d' runs the <3D> STAGGERmean3D deck on "
+                         "the <3D> STAGGER atmosphere those departures were solved on, "
+                         "and 'gerber-mean3d-lte' runs THE SAME deck's setup with the "
+                         "departures OFF. Those two are a MANDATORY PAIR: the NLTE effect "
+                         "is (<3D>-NLTE minus <3D>-LTE) on ONE atmosphere, because "
+                         "differencing against 1D-LTE would report the 1D->mean-3D "
+                         "ATMOSPHERE shift as non-LTE physics (RYA-542).")
     ap.add_argument("--skip-engine-b", action="store_true",
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
@@ -1934,8 +1954,18 @@ def main() -> None:
         # (RYA-712). The Gerber-vs-MPIA spread stays an RYA-525 diagnostic.
         pass    # RYA-798 wired it; the run is below, sharing the LTE block.
     if not a.skip_engine_b:
-        nlte = a.engine_b_deck == "gerber-nlte"
-        treatment = "ENGINE-B-NLTE" if nlte else "ENGINE-B"
+        # RYA-1040 — the <3D> route is a THIRD shape here, not a variant of the other two.
+        # `mean3d` says which ATMOSPHERE and which DECK; `nlte` says whether the departures
+        # are applied. The LTE member of the pair is mean3d=True, nlte=False -- the same
+        # deck's setup with the departures off -- which is the whole reason it is a valid
+        # comparand.
+        mean3d = a.engine_b_deck in ("gerber-mean3d", "gerber-mean3d-lte")
+        nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")
+        if mean3d:
+            treatment = (taxes.MEAN3D_NLTE_STAGGER if nlte
+                         else taxes.MEAN3D_LTE_STAGGER).token
+        else:
+            treatment = "ENGINE-B-NLTE" if nlte else "ENGINE-B"
         # RYA-880. ⚠️ The NLTE deck has NO additive per-line delta: the departures enter
         # the radiative transfer and RYA-712 makes this a separate product, not a
         # corrected LTE value. None means "no additive correction exists on this route",
@@ -1968,14 +1998,72 @@ def main() -> None:
         # swapped for the whole Engine-B leg whenever the NLTE deck is selected, and the
         # product records which atmosphere it ran on.
         ctx_b = dict(ctx)
-        if nlte:
+        # ── RYA-1040: the <3D> leg runs on the <3D> atmosphere, not on MARCS ─────────
+        # 🔴 AND THE DECK KEY IS SELECTED, NOT GUESSED FROM THE ELEMENT. The line below
+        # used to read `gnlte.for_node("Fe" if a.element == "Fe" else a.element, ...)` --
+        # an identity expression that resolves the deck from the ELEMENT alone, so it
+        # picks `Fe` and can never reach `Fe@mean3D` no matter what deck was asked for.
+        # The deck-provenance axis Ryan ratified is what fixes it: the CLI names a deck,
+        # the key is built from it, and nothing infers a deck from an element again.
+        #
+        # ⚠️ The LTE MEMBER TAKES THIS BRANCH TOO (mean3d and not nlte). It must run on
+        # the SAME atmosphere as its NLTE partner or the pair stops being a comparand --
+        # which is the entire reason the pair exists (RYA-542).
+        if mean3d:
+            from pipeline import gerber_nlte as gnlte
+            from pipeline import mean3d_atmosphere as m3d
+            deck_key = f"{a.element}@mean3D"
+            if deck_key not in gnlte.DECKS:
+                raise SystemExit(
+                    f"no <3D> deck registered for {a.element} (looked for {deck_key!r}). "
+                    f"Registered: {sorted(gnlte.DECKS)}. Staging is RYA-710; the aux file "
+                    f"to register against is in data/results/rya1035/"
+                    f"mean3d_aux_defect_sweep.csv -- Fe and Mn REQUIRE the plain aux.")
+            layers, model3d = m3d.load(gnlte.deck_atmosphere(deck_key))
+            ctx_b["atmosphere"] = layers
+            # iSpec must READ the real structure from the mul23 file: the array above
+            # carries only the three fields iSpec reads off it (see mean3d_atmosphere).
+            ctx_b["atmosphere_layers_file"] = model3d["path"]
+            ctx_b["nlte_deck"] = "gerber" if nlte else None
+            ctx_b["nlte_deck_key"] = deck_key if nlte else None
+            dep = gnlte.for_node(deck_key, float(ctx["teff"]), float(ctx["logg"]),
+                                 float(ctx["feh"]))
+            # BOTH gates: the depths must pair index-for-index, and the two tau scales
+            # must actually be the same scale -- iSpec overwrites the departure tau with
+            # the atmosphere's, so a disagreement would be applied silently.
+            gnlte.assert_depth_match(dep, layers)
+            dtau = m3d.assert_tau_consistent(dep, model3d)
+            print(f"    <3D> deck {deck_key} on {Path(model3d['path']).name} "
+                  f"(ndep={dep['ndep']}, nlev={dep['nk']}, "
+                  f"max|dlogtau|={dtau:.2e}, departures={'ON' if nlte else 'OFF'})")
+            _b_source = MEAN3D_SOURCE_FMT.format(
+                atom=dep['atom_path'].split('/')[-1],
+                model=Path(model3d['path']).name,
+                mode=("NLTE, departures applied" if nlte
+                      else "LTE, departures WITHHELD -- the paired comparand"))
+            if nlte:
+                # ⚠️ iSpec fails SOFT: an element whose linelist rows carry no NLTE label
+                # lands in `nlte_ignored` and the synthesis proceeds in LTE WITHOUT
+                # raising (RYA-764). That check belongs ONLY to the NLTE member -- running
+                # it on the LTE member would demand NLTE labels of a run that deliberately
+                # applies none, and would refuse the comparand for lacking what it does
+                # not use.
+                n_lab = gnlte.assert_linelist_supports_nlte(
+                    ctx["linelist"], int(ctx["atom_code"]), a.element)
+                print(f"    {n_lab} NLTE-labelled {a.element} lines in the list")
+            else:
+                # The comparand: same deck, same atmosphere, departures withheld. Passing
+                # no departures is what makes it the LTE limit OF THIS SETUP rather than
+                # an unrelated LTE run on a different atmosphere.
+                dep = None
+        elif nlte:
             from pipeline.abundances_derive import _load_atmosphere
             from pipeline import gerber_nlte as gnlte
             ctx_b["atmosphere"] = _load_atmosphere(
                 float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
                 float(ctx["vturb"]), model_grid="MARCS.GES")
             ctx_b["nlte_deck"] = "gerber"
-            dep = gnlte.for_node("Fe" if a.element == "Fe" else a.element,
+            dep = gnlte.for_node(a.element,
                                  float(ctx["teff"]), float(ctx["logg"]),
                                  float(ctx["feh"]))
             gnlte.assert_depth_match(dep, ctx_b["atmosphere"])
