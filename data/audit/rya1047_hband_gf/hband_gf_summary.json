@@ -1,0 +1,31 @@
+{
+  "ticket": "RYA-1047",
+  "window_A": [
+    12976.0,
+    21400.0
+  ],
+  "source": "vald_55cnc_nir_5k30k_hfsoff_quarantine.txt",
+  "provenance_check": {
+    "matches": 638,
+    "ep_exact": 637,
+    "loggf_exact": 566,
+    "discordant": 72,
+    "discordant_species": {
+      "K": 34,
+      "Na": 21,
+      "Al": 12,
+      "Co": 3,
+      "Mn": 2
+    },
+    "fe_compared": 236,
+    "fe_discordant": 0
+  },
+  "fe_lines": 2800,
+  "fe1_lines": 2798,
+  "lab_lines_in_window": 28,
+  "adjudicated": 27,
+  "ambiguous_left_unadjudicated": 0,
+  "match_rate": 0.9643,
+  "randomised_null_rate": 0.0,
+  "null_trials": 20
+}
