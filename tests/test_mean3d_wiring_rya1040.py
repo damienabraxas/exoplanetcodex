@@ -188,3 +188,75 @@ def test_the_3D_layer_array_survives_the_three_reads_iSpec_makes():
     # everything else is NaN, so a fourth read fails loudly instead of using a plausible 0
     assert np.isnan(layers[:, [0, 1, 2, 3, 4, 5, 6, 8]]).all()
     assert len(layers) == model["ndep"] == 101
+
+
+# ── the departure block's ORIENTATION ───────────────────────────────────────
+
+def test_the_departure_block_is_read_as_nlev_by_ndep(tmp_path):
+    """🔴 THE ORIENTATION EVERY EARLIER CHECK WAS BLIND TO.
+
+    `read_deck_node` reshaped the block `(ndep, nk)`. It is stored `(nk, ndep)`. RYA-821
+    verified the layout twice and both checks passed anyway, because every check that had
+    been applied is orientation-blind: the record SIZE and the aux pointer stride are the
+    same either way (it is the same ndep*nk doubles), "100% finite" is true either way,
+    "zero all-zero ROWS" is true either way, and even "median b -> 1.0 at the deepest
+    layer" comes out 1.0000 under BOTH on the real Fe deck.
+
+    So this test builds a record whose two readings are DIFFERENT NUMBERS, which is the
+    only kind of test that can catch it. Measured consequences on the real deck are in
+    `read_deck_node`'s comment; the headline is 86 pixels above the continuum in a solar
+    Fe I window, because a zero departure divides into the source function.
+    """
+    import struct
+
+    from pipeline import gerber_nlte as G
+
+    ndep, nk = 4, 3
+    tau = [10.0 ** x for x in (-2.0, -1.0, 0.0, 1.0)]
+    # b[level][depth] -- stored level-major, and deliberately NOT symmetric
+    by_level = [[1.0, 2.0, 3.0, 4.0],
+                [10.0, 20.0, 30.0, 40.0],
+                [100.0, 200.0, 300.0, 400.0]]
+    flat = [v for level in by_level for v in level]
+
+    # the record must carry a parseable STAGGER name -- `read_deck_node` refuses an
+    # offset whose record it cannot identify, which is a guard doing its job here.
+    rec = (b"t5777g44m00".ljust(G._DECK_ID_BYTES, b" ")
+           + struct.pack("<ii", ndep, nk)
+           + b"".join(struct.pack("<d", x) for x in tau)
+           + b"".join(struct.pack("<d", x) for x in flat))
+    binf = tmp_path / "deck.bin"
+    binf.write_bytes(b"\x00" * 1000 + rec)          # 1000-byte header, pointer is 1-based
+
+    aux_rows = [dict(id="t5777g44m00", teff=5777.0, logg=4.4, feh=-0.0,
+                     abundance=7.5, pointer=1001, feh_aux=-0.0, feh_from_name=False)]
+    G.DECKS["FakeOrient@mean3D"] = dict(Z=26, atom="atom.x", aux="x",
+                                        grid=binf.name, read_via="direct")
+    G._AUX_ROW_CACHE["FakeOrient@mean3D"] = aux_rows
+    old_gt = G.GT
+    try:
+        G.GT = str(tmp_path)
+        d = G.read_deck_node("FakeOrient@mean3D", teff=5777.0, logg=4.4, feh=0.0,
+                             abundance=7.5)
+        b = np.asarray(d["departures"], float)
+        assert b.shape == (ndep, nk), "the RETURNED shape is (ndep, nk) either way"
+        # ...but the VALUES say which way it was read. Depth 0 must be the first value of
+        # each level: [1, 10, 100]. The wrong orientation gives level-major [1, 2, 3].
+        assert list(b[0]) == [1.0, 10.0, 100.0], \
+            f"depth 0 reads {list(b[0])} -- the block was reshaped the wrong way round"
+        assert list(b[:, 0]) == [1.0, 2.0, 3.0, 4.0], "level 0 across depths"
+    finally:
+        G.GT = old_gt
+        G._AUX_ROW_CACHE.pop("FakeOrient@mean3D", None)
+        G.DECKS.pop("FakeOrient@mean3D", None)
+
+
+def test_the_direct_read_carries_the_fields_as_ispec_tuple_needs():
+    """🔴 THE DIRECT BRANCH RETURNED WITHOUT THEM, so no <3D> deck could reach a synthesis
+    at all -- `as_ispec_tuple` died with `KeyError: 'Z'`. Al@mean3D has been
+    `T2_CONSUME_WIRED` since v117 and could not have synthesised either; nothing caught it
+    because no band product had ever been derived through the route."""
+    src = (ROOT / "pipeline/gerber_nlte.py").read_text()
+    direct = src.split('if DECKS[element].get("read_via") == "direct":')[1].split("return parsed")[0]
+    for field in ('parsed["atom_path"]', 'parsed["Z"]', 'parsed["deck_abundance"]'):
+        assert field in direct, f"the direct branch never sets {field}"
