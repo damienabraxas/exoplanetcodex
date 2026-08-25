@@ -88,6 +88,9 @@ def main() -> int:
                     help="abundance step in dex for the two-sided derivative")
     ap.add_argument("--half-width-A", type=float, default=0.62)
     ap.add_argument("--limit", type=int, default=None, help="first N lines (smoke test)")
+    ap.add_argument("--a0", type=float, default=None,
+                    help="the A(Fe) to evaluate dREW/dA AT. Default: the median fitted "
+                         "abundance of the pool's own measurable lines.")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
 
@@ -118,12 +121,31 @@ def main() -> int:
     print(f"[rya1041] band {pol.name}  linelist {cfg.linelist.name}")
     ctx = build_solar_context("Fe", 500000.0, linelist_file=str(cfg.linelist),
                               star="solar")
+
+    # 🔴 ONE A0 FOR EVERY LINE, and it must not be the line's OWN fitted abundance.
+    # Two reasons, the first fatal:
+    #   * the lines this test is ABOUT have no fitted abundance. They are the
+    #     ceiling-excluded ones, and they were excluded precisely because "the
+    #     EW->abundance inversion is ill-conditioned here" -- so A is NaN for exactly
+    #     the saturated lines. My first draft read `r.abundance` and returned
+    #     `no_abundance` for 3 of 3 in the smoke test.
+    #   * it is also the wrong question. A curve of growth is a statement at FIXED
+    #     composition: "has THIS line saturated at the Sun's iron abundance". Taking the
+    #     derivative at each line's own fitted A would evaluate every line at a different
+    #     composition and confound saturation with the fit's own error.
+    _fit = pd.to_numeric(pool.get("abundance"), errors="coerce").dropna()
+    if a.a0 is not None:
+        A0 = float(a.a0)
+        _a0_src = "--a0 (caller-supplied)"
+    elif len(_fit):
+        A0 = float(_fit.median())
+        _a0_src = f"median of {len(_fit)} measurable lines in this pool"
+    else:
+        raise SystemExit("no abundance available to evaluate the derivative at; pass --a0")
+    print(f"[rya1041] evaluating dREW/dA at A(Fe) = {A0:.4f}  [{_a0_src}]")
     rows, t0 = [], time.time()
     for i, r in enumerate(pool.itertuples(), 1):
         lam = float(r.w)
-        A0 = float(getattr(r, "abundance", np.nan))
-        if not np.isfinite(A0):
-            rows.append(dict(wavelength_air_A=lam, status="no_abundance")); continue
         w_nm = np.arange(lam - a.half_width_A, lam + a.half_width_A, 0.001) / 10.0
         ews = {}
         try:
