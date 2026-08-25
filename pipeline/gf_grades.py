@@ -140,6 +140,11 @@ def nist_sigma_dex(grade: str) -> float:
 #: measured AT the line list's own wavelength. The EP window is the second key: RYA-780
 #: ratified matching on wavelength AND excitation potential, because a same-species
 #: neighbour does not cancel (RYA-785).
+class AmbiguousLineMatch(RuntimeError):
+    """More than one candidate inside the match tolerance — RYA-1034. Raised loudly:
+    picking the nearest is how an unearned laboratory tier gets assigned."""
+
+
 WAVE_TOL_A = 0.02
 EP_TOL_EV = 0.02
 #: How close the reference's log gf must be to the value the pool used for the reference's
@@ -235,12 +240,58 @@ def canonical_fe1() -> pd.DataFrame:
     return canonical_species("Fe I")
 
 
+def transition_matches(row, lower_level, upper_level) -> bool | None:
+    """Does a candidate row name the SAME transition as the laboratory entry? — RYA-1034.
+
+    Returns True/False when both sides name their levels, and **None when either side is
+    silent** -- which is not a pass. A tier is earned by provenance: a verified transition
+    to a laboratory measurement, never by wavelength proximity (RYA-161). `None` means the
+    question could not be asked, and the caller must treat that as "not confirmed", not as
+    "confirmed".
+
+    Level strings arrive in several dialects (LaTeX from Burheim's tables, plain from
+    NIST/VALD), so compare on a normalised form rather than raw equality: strip TeX markup,
+    braces, dollars and whitespace, and casefold. Term symbols that survive that are the
+    same term.
+    """
+    import re as _re
+
+    def _norm(x):
+        if x is None:
+            return None
+        t = str(x).strip()
+        if not t or t.lower() in ("nan", "none", "-", ""):
+            return None
+        t = _re.sub(r"\$|\\mathrm|\{|\}|\^|_|\s+", "", t)
+        return t.casefold() or None
+
+    want_lo, want_up = _norm(lower_level), _norm(upper_level)
+    if want_lo is None or want_up is None:
+        return None
+    got_lo = _norm(row.get("lower_level") if hasattr(row, "get") else None)
+    got_up = _norm(row.get("upper_level") if hasattr(row, "get") else None)
+    if got_lo is None or got_up is None:
+        return None
+    return (got_lo == want_lo) and (got_up == want_up)
+
+
 def _nearest(df: pd.DataFrame, wave: float, ep: float,
              wcol: str, ecol: str) -> pd.Series | None:
     m = df[(np.abs(df[wcol] - wave) <= WAVE_TOL_A) & (np.abs(df[ecol] - ep) <= EP_TOL_EV)]
     if m.empty:
         return None
-    return m.iloc[int(np.abs(m[wcol] - wave).values.argmin())]
+    # 🔴 RYA-1034: an AMBIGUOUS match is not a match. Returning the nearest silently
+    # picks one of several candidates and hands it the tier, which is how a blend
+    # acquires a laboratory sigma it never earned. Two candidates inside the tolerance
+    # means the tolerance cannot separate them, and that is a fact about the pool, not a
+    # tie to be broken by rounding.
+    if len(m) > 1:
+        raise AmbiguousLineMatch(
+            f"{len(m)} candidates within {WAVE_TOL_A} A / {EP_TOL_EV} eV of "
+            f"{wave:.4f} A, ep {ep:.4f} eV: "
+            + ", ".join(f"{r[wcol]:.4f}" for _, r in m.iterrows())
+            + ". Refusing to pick one by proximity (RYA-1034/161).")
+    return m.iloc[0]
 
 
 def grade_line(wavelength_air_A: float, ep_eV: float, log_gf_used: float,
