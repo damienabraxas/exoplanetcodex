@@ -954,85 +954,169 @@ def synthesis_route(a, pol) -> None:
 
     tmp = f"/tmp/ispec_synth_{pol.name.replace(chr(47), chr(45))}"
     Path(tmp).mkdir(parents=True, exist_ok=True)
-    lines: list[LineMeasurement] = []
-    for r in cand.itertuples():
-        w = float(r.wave_A)
-        res = fit_one(ctx, segs, w, hw, tmp, load=_observed)
-        a_x = float(res.get("a_synth", float("nan")))
-        lm = LineMeasurement(
-            element=a.element, ion=a.ion, wavelength_air_A=w,
-            instrument=a.instrument, ew_mA=float("nan"),
-            ew_method=(f"synthesis flux-fit, FIXED half-width +/-{hw} A "
-                       f"(RYA-759 route; no EW exists in this band to key the "
-                       f"production wing-wide rule); observed from "
-                       # RYA-904 — the per-line record names the HOLDING it was fitted
-                       # against, not just the instrument. `crires_plus` alone does not
-                       # distinguish the corrected Y arm from the raw Vesta IDPs.
-                       f"{res.get('obs_source', 'UNRECORDED')}"),
-            abundance=(a_x if np.isfinite(a_x) else None),
-            treatment="1D-LTE",
-            # RYA-1006 — the row says what was done to the spectrum it was fitted against.
-            observed_conditioning=conditioning_id(a),
-            # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
-            # "no departure applied" from "nobody recorded one" (RYA-833).
-            nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
-            # RYA-871 — `select_lines` already returns the EP of the row it picked, and
-            # this route picks AT the list's own wavelength, so the identity is exact
-            # rather than recovered. Carried anyway, for two reasons: the near-UV pool
-            # still had 2 lines with two same-species rows inside 0.005 A, which only an
-            # EP key separates; and a per-line artifact whose identity column is
-            # populated on one route and blank on another is a schema a consumer has to
-            # special-case.
-            ep_eV=float(r.ep_eV),
-            # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
-            # here at all. Inheriting it would quarantine lines on a quantity that does
-            # not exist (RYA-770/342).
-            ew_inversion=False,
-            # RYA-847 — carried on every line, and now GATED on one of them. The sweep
-            # across nine cells found no transferable threshold for any of these four
-            # (per-band cuts span x24-x489), so no metric carries a cut; what does gate
-            # is the sign of `frac_rise_weaker` (see below). They stay on the line
-            # because the sweep is only reproducible from per-line metrics.
-            sigma_A=_f(res.get("sigma_A")),
-            frac_rise_weaker=_f(res.get("frac_rise_weaker")),
-            edge_distance_dex=_f(res.get("edge_distance_dex")),
-            red_chi2=_f(res.get("red_chi2")))
-        # 🔴 A NON-'ok' FIT IS NOT A MEASUREMENT — RYA-837.
-        # RYA-759's own harness aggregates `status == 'ok'` only, and this route dropped
-        # that filter when it lifted the functions. The near-UV happened not to notice;
-        # the IR did, loudly. `_fit_synth_flux` bounds the search at a_hi = A_solar + 5
-        # and returns THE EDGE VALUE for a line that runs to it, flagged `edge_pinned`
-        # — "carry the edge value and are marked, never substituted", per its docstring.
-        # Aggregated anyway, those pile up at ~12.49 and wreck the dispersion: the first
-        # NIR run reported 7.588 +/- 1.977 dex, where the 1.977 was SEVEN railed lines
-        # and the honest MAD over the real ones was 0.416.
-        #
-        # A railed fit means the window could not constrain the abundance from BELOW —
-        # it is an absence of information, and averaging it in states the opposite.
-        status = str(res.get("status", "failed"))
-        if lm.abundance is None or status != "ok":
-            lm.in_aggregate = False
-            lm.excluded_reason = (f"SYNTHESIS: {status} "
-                                  f"{str(res.get('reason', ''))[:60]}").strip()
-        else:
-            # RYA-847 — THE BYPASS, CLOSED. This route's entire accept/reject was the
-            # `status != "ok"` above: it never consulted `red_chi2` and never asked
-            # whether the fit constrained anything, which is how two lines whose chi2
-            # moves 2.2% and 1.4% across EIGHT DEX of iron entered the published
-            # aggregate at 7.833 and 7.979 (RYA-843).
+    # 🔴 RYA-1044 — ONE FIT LOOP, CALLED TWICE. The Engine-B leg below re-fits THESE SAME
+    # lines with the departures applied, and it must do so through THIS code rather than a
+    # copy of it. RYA-701 is the standing reason (one Ba->Al copy produced thirteen
+    # defects); here there is a sharper one -- the two legs are DIFFERENCED against each
+    # other, so any drift between them lands directly in the reported NLTE effect rather
+    # than in one product's value. A copy could not be wrong in a way that cancels.
+    def _fit_lines(treatment: str, **fit_kw) -> list[LineMeasurement]:
+        lines: list[LineMeasurement] = []
+        for r in cand.itertuples():
+            w = float(r.wave_A)
+            res = fit_one(ctx, segs, w, hw, tmp, load=_observed, **fit_kw)
+            a_x = float(res.get("a_synth", float("nan")))
+            lm = LineMeasurement(
+                element=a.element, ion=a.ion, wavelength_air_A=w,
+                instrument=a.instrument, ew_mA=float("nan"),
+                ew_method=(f"synthesis flux-fit, FIXED half-width +/-{hw} A "
+                           f"(RYA-759 route; no EW exists in this band to key the "
+                           f"production wing-wide rule); observed from "
+                           # RYA-904 — the per-line record names the HOLDING it was fitted
+                           # against, not just the instrument. `crires_plus` alone does not
+                           # distinguish the corrected Y arm from the raw Vesta IDPs.
+                           f"{res.get('obs_source', 'UNRECORDED')}"),
+                abundance=(a_x if np.isfinite(a_x) else None),
+                treatment=treatment,   # RYA-1044: the leg decides, not the loop
+                # RYA-1006 — the row says what was done to the spectrum it was fitted against.
+                observed_conditioning=conditioning_id(a),
+                # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
+                # "no departure applied" from "nobody recorded one" (RYA-833).
+                nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
+                # RYA-871 — `select_lines` already returns the EP of the row it picked, and
+                # this route picks AT the list's own wavelength, so the identity is exact
+                # rather than recovered. Carried anyway, for two reasons: the near-UV pool
+                # still had 2 lines with two same-species rows inside 0.005 A, which only an
+                # EP key separates; and a per-line artifact whose identity column is
+                # populated on one route and blank on another is a schema a consumer has to
+                # special-case.
+                ep_eV=float(r.ep_eV),
+                # The REW saturation ceiling is an EW-INVERSION concept and there is no EW
+                # here at all. Inheriting it would quarantine lines on a quantity that does
+                # not exist (RYA-770/342).
+                ew_inversion=False,
+                # RYA-847 — carried on every line, and now GATED on one of them. The sweep
+                # across nine cells found no transferable threshold for any of these four
+                # (per-band cuts span x24-x489), so no metric carries a cut; what does gate
+                # is the sign of `frac_rise_weaker` (see below). They stay on the line
+                # because the sweep is only reproducible from per-line metrics.
+                sigma_A=_f(res.get("sigma_A")),
+                frac_rise_weaker=_f(res.get("frac_rise_weaker")),
+                edge_distance_dex=_f(res.get("edge_distance_dex")),
+                red_chi2=_f(res.get("red_chi2")))
+            # 🔴 A NON-'ok' FIT IS NOT A MEASUREMENT — RYA-837.
+            # RYA-759's own harness aggregates `status == 'ok'` only, and this route dropped
+            # that filter when it lifted the functions. The near-UV happened not to notice;
+            # the IR did, loudly. `_fit_synth_flux` bounds the search at a_hi = A_solar + 5
+            # and returns THE EDGE VALUE for a line that runs to it, flagged `edge_pinned`
+            # — "carry the edge value and are marked, never substituted", per its docstring.
+            # Aggregated anyway, those pile up at ~12.49 and wreck the dispersion: the first
+            # NIR run reported 7.588 +/- 1.977 dex, where the 1.977 was SEVEN railed lines
+            # and the honest MAD over the real ones was 0.416.
             #
-            # It now calls the SAME decider the Engine-B handler calls. ⚠️ THIS IS NO
-            # LONGER NUMERICALLY INERT and the comment here used to say it was: with the
-            # non-minimum check adopted, this route drops 3617.318 and the near-UV
-            # product moves 7.488 -> 7.498 (n 40 -> 39). `SYNTH_CONSTRAINT` is still None
-            # and always will be — no threshold survived the sweep — but `frac_rise <= 0`
-            # is a correctness test, not a threshold, and it fires here.
-            _cv = constraint_verdict(res)
-            if not _cv.ok:
+            # A railed fit means the window could not constrain the abundance from BELOW —
+            # it is an absence of information, and averaging it in states the opposite.
+            status = str(res.get("status", "failed"))
+            if lm.abundance is None or status != "ok":
                 lm.in_aggregate = False
-                lm.excluded_reason = _cv.reason
-        lines.append(lm)
-    lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+                lm.excluded_reason = (f"SYNTHESIS: {status} "
+                                      f"{str(res.get('reason', ''))[:60]}").strip()
+            else:
+                # RYA-847 — THE BYPASS, CLOSED. This route's entire accept/reject was the
+                # `status != "ok"` above: it never consulted `red_chi2` and never asked
+                # whether the fit constrained anything, which is how two lines whose chi2
+                # moves 2.2% and 1.4% across EIGHT DEX of iron entered the published
+                # aggregate at 7.833 and 7.979 (RYA-843).
+                #
+                # It now calls the SAME decider the Engine-B handler calls. ⚠️ THIS IS NO
+                # LONGER NUMERICALLY INERT and the comment here used to say it was: with the
+                # non-minimum check adopted, this route drops 3617.318 and the near-UV
+                # product moves 7.488 -> 7.498 (n 40 -> 39). `SYNTH_CONSTRAINT` is still None
+                # and always will be — no threshold survived the sweep — but `frac_rise <= 0`
+                # is a correctness test, not a threshold, and it fires here.
+                _cv = constraint_verdict(res)
+                if not _cv.ok:
+                    lm.in_aggregate = False
+                    lm.excluded_reason = _cv.reason
+            lines.append(lm)
+        lines.sort(key=lambda l: (l.wavelength_air_A, l.element, l.ion))
+        return lines
+
+    # The 1D-LTE leg -- unchanged. This is the call RYA-759 published against, and the
+    # only difference from before RYA-1044 is that its body now lives in a function the
+    # Engine-B leg can also call.
+    lines = _fit_lines("1D-LTE")
+
+    # ── RYA-1044: the Engine-B leg's INPUTS ─────────────────────────────────────────
+    # ⚠️ OPT-IN, AND THE DEFAULT-OFF IS THE BLAST-RADIUS GUARD, NOT TIMIDITY. Every
+    # `--force-synthesis` band in the repo reaches this function, and making the leg
+    # automatic would (a) add a product row to bands whose GENERATORS entries do not
+    # declare one -- which is a HARD CI failure, `check_result_generators` fails in both
+    # directions -- and (b) roughly double every such run. So the leg is REACHABLE (the
+    # ticket's word) rather than unconditional, and turning it on by default is a
+    # follow-up that has to land its GENERATORS entries in the same change.
+    eb_lines = eb_treatment = eb_prov = None
+    if getattr(a, "synth_engine_b", False) and not a.skip_engine_b:
+        _mean3d = a.engine_b_deck in ("gerber-mean3d", "gerber-mean3d-lte")
+        _nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")
+        _fit_kw: dict = {}
+        if _mean3d:
+            from pipeline import gerber_nlte as gnlte
+            from pipeline import mean3d_atmosphere as m3d
+            _deck_key = f"{a.element}@mean3D"
+            if _deck_key not in gnlte.DECKS:
+                raise SystemExit(
+                    f"no <3D> deck registered for {a.element} (looked for "
+                    f"{_deck_key!r}). Registered: {sorted(gnlte.DECKS)}. Staging is "
+                    f"RYA-710; which aux file to register against is a committed row in "
+                    f"data/results/rya1035/mean3d_aux_defect_sweep.csv -- Fe and Mn "
+                    f"REQUIRE the plain aux.")
+            _layers, _model3d = m3d.load(gnlte.deck_atmosphere(_deck_key))
+            _dep = gnlte.for_node(_deck_key, float(ctx["teff"]), float(ctx["logg"]),
+                                  float(ctx["feh"]))
+            gnlte.assert_depth_match(_dep, _layers)
+            _dtau = m3d.assert_tau_consistent(_dep, _model3d)
+            # The <3D> atmosphere REPLACES ctx's for this leg, and the model goes in as a
+            # FILE: a five-column mul23 model cannot be written in the MARCS form iSpec's
+            # writer produces (see pipeline.mean3d_atmosphere).
+            _fit_kw = dict(atmosphere=_layers,
+                           atmosphere_layers_file=_model3d["path"])
+            if _nlte:
+                _fit_kw.update(nlte_deck="gerber", nlte_deck_key=_deck_key)
+            eb_treatment = (taxes.MEAN3D_NLTE_STAGGER if _nlte
+                            else taxes.MEAN3D_LTE_STAGGER).token
+            eb_prov = MEAN3D_SOURCE_FMT.format(
+                atom=_dep["atom_path"].split("/")[-1],
+                model=Path(_model3d["path"]).name,
+                mode=("NLTE, departures applied" if _nlte
+                      else "LTE, departures WITHHELD -- the paired comparand"))
+            print(f"\n[Engine-B] <3D> deck {_deck_key} on "
+                  f"{Path(_model3d['path']).name} (ndep={_dep['ndep']}, "
+                  f"nlev={_dep['nk']}, max|dlogtau|={_dtau:.2e}, "
+                  f"departures={'ON' if _nlte else 'OFF'})")
+        elif _nlte:
+            from pipeline import gerber_nlte as gnlte
+            _dep = gnlte.for_node(a.element, float(ctx["teff"]), float(ctx["logg"]),
+                                  float(ctx["feh"]))
+            gnlte.assert_depth_match(_dep, ctx["atmosphere"])
+            _fit_kw = dict(nlte_deck="gerber", nlte_deck_key=a.element)
+            eb_treatment = "ENGINE-B-NLTE"
+            eb_prov = GERBER_NLTE_SOURCE_FMT.format(
+                atom=_dep["atom_path"].split("/")[-1])
+        else:
+            eb_treatment = "ENGINE-B"
+            eb_prov = ("Turbospectrum LTE flux fit on this route's own atmosphere "
+                       "(RYA-1044): the same lines, fitter and window as the 1D-LTE leg "
+                       "above, emitted as a SEPARATE product rather than a correction "
+                       "to it (RYA-712).")
+        if _nlte:
+            # iSpec fails SOFT -- an unlabelled element lands in `nlte_ignored` and
+            # synthesises in LTE WITHOUT raising (RYA-764). Checked before the fit.
+            from pipeline import gerber_nlte as _gn
+            _gn.assert_linelist_supports_nlte(
+                ctx["linelist"], int(ctx["atom_code"]), a.element)
+        print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
+        eb_lines = _fit_lines(eb_treatment, **_fit_kw)
 
     # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
     # This route passed `gf_graded=False` to `build_budget` unconditionally, so the
@@ -1235,6 +1319,70 @@ def synthesis_route(a, pol) -> None:
         # migration is wrong.
         **axes_for("1D-LTE", handler=product.handler or None).as_columns(),
     )]).to_csv(out / f"{stem}_products.csv", index=False)
+
+    # ── RYA-1044: the Engine-B leg, REACHABLE at last ────────────────────────────────
+    # 🔴 THE DEFECT THIS CLOSES. `--force-synthesis` returns from this function, and this
+    # function had NO Engine-B code -- so the leg RYA-784 ("wire Engine-B into
+    # derive_band_products") and RYA-798 ("wire the Gerber decks into the production
+    # flux-fit path") both closed as Done was unreachable from any synthesis-only band.
+    # Measured across every committed *_products.csv before this change: 1D-LTE x12,
+    # ENGINE-A x7, and NOT ONE Engine-B product, for any element, band or deck. Two
+    # tickets, both Done, zero products -- the wiring landed in the MAIN route while the
+    # bands that can only synthesise take this one.
+    #
+    # 🔴 AND THERE IS NO MEASURED-EW PRECONDITION HERE, DELIBERATELY. The main route
+    # refuses without a profile-fit EW file; a flux fit does not consume an EW, so that
+    # is a precondition of the EW ROUTE and requiring it to emit a synthesis product was
+    # false coupling. Removing it is the point of this ticket, not a side effect.
+    if eb_lines is not None:
+        eb_product = build_product(a.element, a.ion, a.instrument, pol.name,
+                                   eb_treatment, eb_lines,
+                                   handler="SynthesisHandler", provenance=eb_prov)
+        eb_rung = gf_rung.for_lines(a.element, a.ion, eb_lines, linelist=ctx["linelist"])
+        eb_b = build_budget(a.element, 0.5 * (a.lo + a.hi), eb_product.n_lines,
+                            scatter_dex=eb_product.sigma,
+                            **eb_rung.budget_kwargs(),
+                            **harness_residual.for_product(eb_product).budget_kwargs())
+        eb_stat, eb_syst = eb_b.total()
+        assert_stat_publishable(
+            eb_stat, cell=f"{a.element} {a.ion} {pol.name} {eb_treatment} "
+                          f"({a.instrument}, n={eb_product.n_lines})")
+        # 🔴 ITS OWN FILES, exactly as the ENGINE-A leg above does. Appending a row to
+        # `{stem}_products.csv` would change the ROW COUNT of a file every existing band
+        # writes with one row -- which is a shift in an existing output, and the ticket's
+        # blast-radius guard forbids exactly that. A separate file is purely additive:
+        # a band that does not opt in is byte-identical, and one that does gains files
+        # rather than altering them.
+        pd.DataFrame([asdict_line(l) for l in eb_lines]).to_csv(
+            out / f"{stem}_{eb_treatment}_lines.csv", index=False)
+        (out / f"{stem}_{eb_treatment}_budgets.txt").write_text(
+            eb_b.describe() + f"\n  gf rung: {eb_rung.describe()}\n")
+        (out / f"{stem}_{eb_treatment}_provenance.txt").write_text(
+            eb_product.provenance + "\n")
+        pd.DataFrame([dict(
+            element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
+            treatment=eb_treatment, handler=eb_product.handler,
+            A=round(eb_product.value, 3) if eb_product.value is not None else None,
+            n_lines=eb_product.n_lines, n_excluded=eb_product.n_excluded,
+            stat_dex=round(eb_stat, 4), syst_dex=round(eb_syst, 4),
+            stat_basis=eb_b.stat_basis(),
+            dominant=(eb_b.dominant().name if eb_b.dominant() else ""),
+            # The axes come from the SAME registry the token does, so a product cannot
+            # carry a label the vocabulary has never heard of (the RYA-798 failure, where
+            # a treatment was emitted that `TREATMENTS` did not contain and the product
+            # died at `build_product` after the synthesis had already run).
+            **axes_for(eb_treatment, handler=eb_product.handler or None).as_columns(),
+        )]).to_csv(out / f"{stem}_{eb_treatment}_products.csv", index=False)
+        print(f"\n  A({a.element} {a.ion}; {pol.name}, {eb_treatment}) = "
+              f"{eb_product.value if eb_product.value is not None else float('nan'):.3f}"
+              f"  (n={eb_product.n_lines}, excluded {eb_product.n_excluded})")
+        if product.value is not None and eb_product.value is not None:
+            # The differential this pair EXISTS for: both legs on ONE atmosphere, the
+            # same lines, the same fitter -- so the difference is the departures and
+            # nothing else (RYA-542).
+            print(f"    delta vs 1D-LTE on this route = "
+                  f"{eb_product.value - product.value:+.4f} dex")
+
     # `describe()` already lists every term the budget holds, pseudo-continuum included.
     # The epilogue that used to be appended here announced the term as "added in
     # quadrature above" — which is exactly the double-add RYA-845 removed, and it made
@@ -1642,6 +1790,17 @@ def main() -> None:
                          "is (<3D>-NLTE minus <3D>-LTE) on ONE atmosphere, because "
                          "differencing against 1D-LTE would report the 1D->mean-3D "
                          "ATMOSPHERE shift as non-LTE physics (RYA-542).")
+    ap.add_argument("--synth-engine-b", action="store_true",
+                    help="RYA-1044: run the Engine-B leg on the SYNTHESIS route too "
+                         "(--force-synthesis bands). That leg was unreachable -- "
+                         "`synthesis_route` had no Engine-B code, so RYA-784 and RYA-798 "
+                         "both closed Done while the leg had never emitted a product for "
+                         "any element, band or deck. Unlike the EW route it needs NO "
+                         "measured-EW file: a flux fit does not consume an EW. ⚠️ OFF by "
+                         "default so the blast radius on existing --force-synthesis "
+                         "bands is exactly zero -- switching it on adds a product row, "
+                         "and a row with no GENERATORS entry is a hard CI failure. "
+                         "Which product it emits is chosen by --engine-b-deck.")
     ap.add_argument("--skip-engine-b", action="store_true",
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
