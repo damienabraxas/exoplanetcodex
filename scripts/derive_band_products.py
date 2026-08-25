@@ -56,7 +56,6 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
-from dataclasses import replace
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1422,47 +1421,33 @@ def synthesis_route(a, pol) -> None:
     # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
     # nowhere to live is a quantity nobody can check.
     (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
-    # ── ENGINE-B-NLTE on the SYNTHESIS route ─────────────────────────────────
+    # ── RYA-1044: the second Engine-B leg that stood here has been FOLDED IN ABOVE ───
     #
-    # 🔴 RYA-1040/1043 — `--engine-b-deck` WAS SILENTLY INERT ON THIS ROUTE.
-    # `main()` returns into `synthesis_route` before the EW route's Engine-B block, and
-    # `fit_one` never forwarded `nlte_deck` to `_fit_synth_flux` (which has accepted it
-    # all along). So the flag parsed, was accepted, and did nothing. That is why the
-    # Gerber column is empty on EVERY graded and deep-graded product we hold: every one
-    # of them is a synthesis-route product.
+    # PR #393 added an ENGINE-B-NLTE leg to this function in parallel with this branch,
+    # for the same reason and to the same file. Keeping both would have re-fitted every
+    # line twice. The block above supersedes it and carries its reasoning forward -- the
+    # separate-product framing (RYA-712), and that `nlte_delta_dex` is None because the
+    # departures enter the FIT rather than being an additive delta on the LTE value.
     #
-    # This is a SEPARATE PRODUCT, never a correction applied to the LTE value (RYA-712) —
-    # the departures enter the fit itself, so the number is a different measurement of the
-    # same line rather than a delta on top of one.
-    rows_bn: list[LineMeasurement] = []
-    if getattr(a, "engine_b_deck", "ts-lte") != "ts-lte":
-        deck = a.engine_b_deck
-        print(f"\n[3] ENGINE-B-NLTE — re-fitting in-synthesis with deck={deck}")
-        for l in [x for x in lines if x.in_aggregate and x.abundance is not None]:
-            try:
-                rb = fit_one(ctx, segs, l.wavelength_air_A, hw, tmp,
-                             load=_observed, nlte_deck=deck)
-            except Exception as exc:
-                # LOUD per line. A deck that cannot serve a line is a stated absence,
-                # never a silent fallback to the LTE number (RYA-833).
-                rows_bn.append(replace(l, treatment="ENGINE-B-NLTE", abundance=None,
-                                       in_aggregate=False,
-                                       excluded_reason=f"ENGINE-B-NLTE: {str(exc)[:160]}",
-                                       nlte_source=f"{deck} (deck error)"))
-                continue
-            ab = float(rb.get("a_synth", float("nan")))
-            rows_bn.append(replace(
-                l, treatment="ENGINE-B-NLTE",
-                abundance=(ab if np.isfinite(ab) else None),
-                in_aggregate=bool(np.isfinite(ab)),
-                # ⚠️ NOT a delta. RYA-798: the departures are applied INSIDE the fit, so
-                # there is no additive per-line correction to record, and writing one
-                # would invite reading it as an Engine-B-LTE offset.
-                nlte_delta_dex=None,
-                nlte_source=f"in-synthesis departures, deck={deck} (RYA-798)"))
-        n_ok = sum(1 for x in rows_bn if x.in_aggregate)
-        print(f"    ENGINE-B-NLTE: {n_ok} fitted, {len(rows_bn) - n_ok} refused")
-        lines = lines + rows_bn
+    # 🔴 TWO THINGS FROM IT WERE NOT KEPT, AND THE SECOND IS THE INTERESTING ONE.
+    #
+    # 1. It passed the CLI STRING as the deck: `fit_one(..., nlte_deck=a.engine_b_deck)`,
+    #    i.e. "gerber-nlte". `_fit_synth_flux` accepts only 'gerber' and raises on
+    #    anything else, so the leg raised on EVERY line. Measured on main at 3eea639,
+    #    solar Fe I 5240-5260: "ENGINE-B-NLTE: 0 fitted, 4 refused". The deck NAME and the
+    #    deck KEY are different things; the block above passes `nlte_deck="gerber"` and
+    #    the key separately.
+    #
+    # 2. 🔴 ITS PER-LINE try/except TURNED THAT CONFIGURATION ERROR INTO FOUR QUIET
+    #    REFUSALS. The catch exists for RYA-833 -- a deck that cannot serve a LINE is a
+    #    stated absence, not a silent LTE fallback -- and that intent is right. But it
+    #    also swallowed a WIRING fault, which is not a per-line fact at all, and filed it
+    #    as a per-line `excluded_reason` nobody reads. A guard written against silence
+    #    produced a well-formed EMPTY product instead of an error.
+    #
+    #    So the deck is validated ONCE, before the loop (`for_node` plus the depth and
+    #    tau gates), where a wrong deck fails loudly and immediately. Per-line refusals
+    #    stay per-line refusals.
 
     # ── ENGINE-A on the SYNTHESIS route ──────────────────────────────────────
     #
