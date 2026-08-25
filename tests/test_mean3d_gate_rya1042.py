@@ -11,6 +11,7 @@ accidentally sourced from the machinery under test.
 """
 import csv
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -21,6 +22,10 @@ ROOT = Path(__file__).resolve().parents[1]
 GATE = ROOT / "scripts" / "rya1042_mean3d_gate.py"
 ANCHOR = ROOT / "data" / "nlte_grids" / "amarsi2016_fe" / "amarsi2016_mean3d_solar_anchor.csv"
 SRC = GATE.read_text()
+
+#: Read from the gate rather than re-typed, so the test cannot drift from the constant it
+#: is asserting about (RYA-1042 imports thresholds, never re-declares them).
+TOL = float(re.search(r"^TOL_DEX = ([\d.]+)", SRC, re.M).group(1))
 
 
 def _lines_csv(path: Path, rows):
@@ -34,14 +39,39 @@ def _lines_csv(path: Path, rows):
                             abundance=ab, in_aggregate=True, ep_eV=ep))
 
 
-def _run(tmp, nlte_rows, lte_rows):
+def _run(tmp, nlte_rows, lte_rows, lte1d_rows=None):
     n, l = tmp / "n.csv", tmp / "l.csv"
     _lines_csv(n, nlte_rows); _lines_csv(l, lte_rows)
     out = tmp / "v.json"
-    r = subprocess.run([sys.executable, str(GATE), "--nlte", str(n), "--lte", str(l),
-                        "--out", str(out)], capture_output=True, text=True, cwd=ROOT)
+    cmd = [sys.executable, str(GATE), "--nlte", str(n), "--lte", str(l), "--out", str(out)]
+    if lte1d_rows is not None:
+        one = tmp / "l1d.csv"
+        _lines_csv(one, lte1d_rows)
+        cmd += ["--lte-1d", str(one)]
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
     assert r.returncode == 0, r.stderr
     return json.loads(out.read_text()), r.stdout
+
+
+def _atmosphere_by_wave():
+    """The anchor's own <3D>LTE - 1D LTE column, keyed by air wavelength in A."""
+    with ANCHOR.open() as fh:
+        return {round(float(r["lambda_air_nm"]) * 10.0, 3):
+                float(r["atmosphere_mean3d_lte_minus_1d_lte"])
+                for r in csv.DictReader(fh)
+                if r["species"] == "Fe1" and r["vturb_kms"] == "1.50"
+                and r["clean"] == "yes" and r["atmosphere_mean3d_lte_minus_1d_lte"]}
+
+
+def _matching_1d_lte(lte_rows):
+    """A 1D-LTE leg whose atmosphere effect EXACTLY equals the anchor's, per line.
+
+    Leg 3 compares (our <3D>-LTE minus our 1D-LTE) against the anchor's own column, so
+    subtracting that column from the <3D>-LTE abundance manufactures perfect agreement.
+    Used to prove the leg can PASS -- the failing direction is tested separately.
+    """
+    atm = _atmosphere_by_wave()
+    return [(w, ab - atm[round(w, 3)], ep) for w, ab, ep in lte_rows]
 
 
 @pytest.fixture(scope="module")
@@ -145,11 +175,14 @@ def test_the_tolerance_is_declared_as_inherited():
     assert "tolerance_basis" in SRC
 
 
-def test_both_legs_are_required():
+def test_all_three_legs_are_required():
     """Leg 1 can be satisfied by two codes sharing an error; leg 2 by a deck that is
-    self-consistently wrong. Only both together is a validation."""
+    self-consistently wrong; leg 3 gates the rung the other two never touch. Only all
+    three together is a validation."""
     assert "leg1_anchor_agreement" in SRC and "leg2_structure" in SRC
+    assert "leg3_atmosphere" in SRC
     assert 'doc["verdict"] = "VALIDATED" if both else "NOT_VALIDATED"' in SRC
+    assert "leg3_ok" in SRC, "leg 3 must enter the verdict, not merely be reported"
 
 
 def test_leg2_declares_its_envelope_as_declared():
@@ -195,3 +228,79 @@ def test_a_representative_subset_still_passes(tmp_path, anchor_waves):
     for v in doc["leg1_anchor_agreement"].values():
         if v.get("n"):
             assert v["subset_representative"] is True
+
+
+# ── LEG 3, the atmosphere rung (RYA-1042 scope add) ─────────────────────────
+
+def test_leg3_not_run_cannot_produce_a_validated_verdict(tmp_path, anchor_waves):
+    """🔴 THE LESSON THAT CREATED THIS LEG. The atmosphere rung carried +0.105 while both
+    existing legs argued about a +0.032 NLTE differential -- the big shift sat in the leg
+    nothing gated. So an ABSENT leg 3 must never read as a passed one."""
+    rows_n = [(w, 7.50 - 0.02, 3.0) for w in anchor_waves[:6]]
+    rows_l = [(w, 7.50, 3.0) for w in anchor_waves[:6]]
+    doc, out = _run(tmp_path, rows_n, rows_l)           # no --lte-1d
+    assert doc["leg3_atmosphere"]["status"] == "NOT_RUN"
+    assert doc["verdict"] == "NOT_VALIDATED"
+    assert any("leg3" in b for b in doc.get("blocked_by_legs", []))
+
+
+def test_leg3_passes_when_our_atmosphere_matches_the_anchor(tmp_path, anchor_waves):
+    """The leg must be able to PASS, or it is a rejection stamp rather than a gate."""
+    rows_l = [(w, 7.50, 3.0) for w in anchor_waves[:6]]
+    rows_n = [(w, 7.50 - 0.02, 3.0) for w in anchor_waves[:6]]
+    doc, out = _run(tmp_path, rows_n, rows_l, _matching_1d_lte(rows_l))
+    leg3 = doc["leg3_atmosphere"]
+    assert leg3["status"] == "RUN"
+    assert leg3["verdict"] == "PASS"
+    assert abs(leg3["median_difference"]) < 1e-6
+    assert "LEG 3" in out
+
+
+def test_leg3_fails_a_deck_whose_atmosphere_leg_is_biased(tmp_path, anchor_waves):
+    """🔴 THE DEFECT THIS LEG EXISTS TO CATCH: an atmosphere-ingestion bias. Push our
+    1D-LTE leg so the atmosphere effect is a tenth of a dex off the anchor's and the gate
+    must say so -- this is exactly the branch that a passing NLTE differential would
+    otherwise have carried straight through."""
+    rows_l = [(w, 7.50, 3.0) for w in anchor_waves[:6]]
+    rows_n = [(w, 7.50 - 0.02, 3.0) for w in anchor_waves[:6]]
+    biased = [(w, ab - 0.10, ep) for w, ab, ep in _matching_1d_lte(rows_l)]
+    doc, _ = _run(tmp_path, rows_n, rows_l, biased)
+    leg3 = doc["leg3_atmosphere"]
+    assert leg3["verdict"] == "FAIL"
+    assert abs(leg3["median_difference"]) > TOL
+
+
+def test_leg3_reports_a_sign_disagreement_separately(tmp_path, anchor_waves):
+    """A tolerance test on |difference| cannot see a sign flip -- same reasoning as leg 1."""
+    rows_l = [(w, 7.50, 3.0) for w in anchor_waves[:6]]
+    rows_n = [(w, 7.50 - 0.02, 3.0) for w in anchor_waves[:6]]
+    atm = _atmosphere_by_wave()
+    # our atmosphere effect = -(anchor's): same magnitude, opposite sign
+    flipped = [(w, 7.50 + atm[round(w, 3)], 3.0) for w, _, _ in rows_l]
+    doc, out = _run(tmp_path, rows_n, rows_l, flipped)
+    assert doc["leg3_atmosphere"].get("sign_disagreement") is True
+
+
+def test_the_anchor_carries_an_atmosphere_column_derived_by_subtraction():
+    """🔴 The atmosphere referee is NOT a new model -- it is nmtd_lmarcs minus nmtd_lmtd,
+    which cancels the <3D>-NLTE term exactly. If that column ever went missing the leg
+    would silently stop gating the rung it exists for."""
+    with ANCHOR.open() as fh:
+        rows = [r for r in csv.DictReader(fh)
+                if r["species"] == "Fe1" and r["vturb_kms"] == "1.50"
+                and r["clean"] == "yes"]
+    assert rows, "no solar Fe I anchor rows"
+    have = [r for r in rows if r["atmosphere_mean3d_lte_minus_1d_lte"]]
+    assert len(have) > 0.9 * len(rows), "atmosphere column is mostly empty"
+    vals = [float(r["atmosphere_mean3d_lte_minus_1d_lte"]) for r in have]
+    med = sorted(vals)[len(vals) // 2]
+    # Amarsi's own solar mean-3D atmosphere effect is LARGE and POSITIVE -- the finding
+    # that killed the ingestion-bias hypothesis. Pin the sign, not a fitted value.
+    assert med > 0.0, f"anchor atmosphere median should be positive, got {med}"
+
+
+def test_a_sentinel_at_either_end_empties_the_atmosphere_never_zeroes_it():
+    """0.0 would read as 'the atmosphere does nothing', which is a claim. Empty is not."""
+    src = (ROOT / "scripts" / "rya1042_extract_amarsi2016_anchor.py").read_text()
+    assert 'r["atmosphere_mean3d_lte_minus_1d_lte"] = ""' in src
+    assert "a == SENTINEL or b == SENTINEL" in src
