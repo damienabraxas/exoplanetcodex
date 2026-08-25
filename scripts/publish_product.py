@@ -300,6 +300,38 @@ def main() -> int:
     doc.setdefault("archive", []); doc.setdefault("quarantine", [])
 
     by_key = {key_of(r): i for i, r in enumerate(doc["products"])}
+    #: 🔴 REPUBLISHING A QUARANTINED KEY. A fresh run of a product that was withdrawn is
+    #: legitimate -- that is how a superseded cell gets replaced -- but leaving the old
+    #: entry in `quarantine` while the new one is current makes the key BOTH withdrawn
+    #: and published. That is the exact shape of the near-UV 8.529 that "came back": a
+    #: quarantine that does not actually withdraw. The withdrawal is now HISTORY, so the
+    #: record moves to `archive` where superseded values live, and it still names why it
+    #: was withdrawn in the first place.
+    q_by_key = {key_of(r): i for i, r in enumerate(doc["quarantine"])}
+    revived = []
+    for row in pending:
+        k = key_of(row)
+        if k in q_by_key:
+            revived.append(k)
+    if revived and not a.reason:
+        print("REFUSING: these keys are QUARANTINED and would be republished as current:\n"
+              + "\n".join(f"    {k}" for k in revived)
+              + "\nPass --reason saying why the withdrawal no longer applies (a fresh "
+                "run, a fixed input). Silently un-quarantining is how a withdrawn "
+                "product comes back.", file=sys.stderr)
+        return 6
+    for k in revived:
+        rec = doc["quarantine"][q_by_key[k]]
+        rec = dict(rec)
+        rec["superseded_at"] = _now()
+        rec["superseded_reason"] = (
+            f"republished as current: {a.reason} "
+            f"(was withdrawn: {rec.get('quarantine_reason','—')})")
+        doc["archive"].append(rec)
+    if revived:
+        keep_q = {k for k in revived}
+        doc["quarantine"] = [r for r in doc["quarantine"] if key_of(r) not in keep_q]
+
     added, updated, unchanged = [], [], []
     for row in pending:
         k = key_of(row)

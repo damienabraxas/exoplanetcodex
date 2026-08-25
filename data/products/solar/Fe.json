@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.34",
-  "updated_at": "2026-08-25T00:08:01Z",
+  "version": "1.35",
+  "updated_at": "2026-08-25T00:08:58Z",
   "products": [
     {
       "element": "Fe",
@@ -28,7 +28,7 @@
         "copied_to": null,
         "sha256": "a65aabe142e1a8838dea5fde5dff989c90f3a2ef26a60869867a6c2a23e10dc2",
         "artifact_mtime": "2026-08-25T00:06:48Z",
-        "ingested_at": "2026-08-25T00:07:40Z"
+        "ingested_at": "2026-08-25T00:08:58Z"
       }
     },
     {
@@ -869,7 +869,37 @@
     }
   ],
   "superseded": [],
-  "archive": [],
+  "archive": [
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.535,
+      "sigma_stat": 0.0463,
+      "sigma_syst": 0.041,
+      "n_lines": 109,
+      "n_excluded": 0,
+      "dominant_term": "line-to-line scatter",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
+        "sha256": "6d04b4014b9534a3def2ee8c028cbbc8868caae42a27a0dd667eca1dab499139",
+        "artifact_mtime": "2026-08-23T18:47:12Z",
+        "ingested_at": "2026-08-24T23:30:19Z"
+      },
+      "quarantined_at": "2026-08-24T23:36:42Z",
+      "quarantine_reason": "PRE-FIX: measured 2026-08-23T18:47Z, before the RYA-933 continuum-placement fix (fafe924, 2026-08-23 18:57 local) that made the corrected Kitt Peak holdings measurable and fixed continuum placement band-wide. Every Fe run in this session postdates that commit; these two do not, so they are not comparable with the rest of the grid. Kept in full \u2014 the pre/post pair is the evidence for what the fix changed.",
+      "superseded_at": "2026-08-25T00:08:58Z",
+      "superseded_reason": "republished as current: FRESH POST-FIX RE-RUN, 2026-08-24T18:06Z. The withdrawal was 'measured before the RYA-933 continuum-placement fix'; this run is after it, so that reason no longer applies. It reproduces the withdrawn value exactly (7.535, n=109) on different bytes \u2014 the fix is a NULL for this cell, which is itself the result. (was withdrawn: PRE-FIX: measured 2026-08-23T18:47Z, before the RYA-933 continuum-placement fix (fafe924, 2026-08-23 18:57 local) that made the corrected Kitt Peak holdings measurable and fixed continuum placement band-wide. Every Fe run in this session postdates that commit; these two do not, so they are not comparable with the rest of the grid. Kept in full \u2014 the pre/post pair is the evidence for what the fix changed.)"
+    }
+  ],
   "quarantine": [
     {
       "element": "Fe",
@@ -1005,33 +1035,6 @@
       },
       "quarantined_at": "2026-08-24T23:32:14Z",
       "quarantine_reason": "telluric NOT applied \u2014 holdings_manifest_registry says telluric_applied='not-applied' for solar_kpno (read from the registry, never inferred from the name). RYA-1026 displays telluric-corrected products only; the corrected siblings solar_kpno_molecfit_corrected and solar_kpno_kurucz2005_corrected supersede these. Kept in full as the uncorrected CONTROL arm: the pair is what measures what the correction did (RYA-805 \u2014 an absence needs a positive control)."
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "harps",
-      "holding": "solar_harps_molecfit_corrected",
-      "tier": "DEEPGRADED",
-      "selector": "DEEPGRADED",
-      "treatment": "1D-LTE",
-      "display": "Synth \u00b7 1D-LTE",
-      "A": 7.535,
-      "sigma_stat": 0.0463,
-      "sigma_syst": 0.041,
-      "n_lines": 109,
-      "n_excluded": 0,
-      "dominant_term": "line-to-line scatter",
-      "route": "SYNTH",
-      "provenance": {
-        "host": "mac",
-        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
-        "sha256": "6d04b4014b9534a3def2ee8c028cbbc8868caae42a27a0dd667eca1dab499139",
-        "artifact_mtime": "2026-08-23T18:47:12Z",
-        "ingested_at": "2026-08-24T23:30:19Z"
-      },
-      "quarantined_at": "2026-08-24T23:36:42Z",
-      "quarantine_reason": "PRE-FIX: measured 2026-08-23T18:47Z, before the RYA-933 continuum-placement fix (fafe924, 2026-08-23 18:57 local) that made the corrected Kitt Peak holdings measurable and fixed continuum placement band-wide. Every Fe run in this session postdates that commit; these two do not, so they are not comparable with the rest of the grid. Kept in full \u2014 the pre/post pair is the evidence for what the fix changed."
     },
     {
       "element": "Fe",
