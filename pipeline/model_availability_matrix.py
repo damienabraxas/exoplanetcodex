@@ -88,7 +88,10 @@ _MEAN3D_WIRED: dict[str, str] = _mean3d_wired()
 #: Fe added RYA-710: staged 2026-08-24 into /mnt/codex-ext/codex-grids/nlte/gerber_ts/,
 #: md5-verified in place. ⚠️ The PLAIN aux only -- the `_marcs_names` sibling is
 #: deliberately not on Sirius (RYA-1035).
-_MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Fe", "Y"})
+#: O added 2026-08-25: staged and verified by direct read at the solar node (ndep 101,
+#: nlev 41, median b -> 1.0000 at depth). Its `_marcs_names` aux is fine -- RYA-1035's
+#: sweep scored O CLEAN, and Fe/Mn are the only decks where the plain aux is REQUIRED.
+_MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Fe", "O", "Y"})
 
 #: 🔴 RYA-1035 -- <3D> DECKS THE VENDOR PUBLISHES, WHICH IS NOT THE SAME SET AS THE ONES WE
 #: HOLD, AND THE DIFFERENCE WAS BEING REPORTED AS "nothing to fetch".
