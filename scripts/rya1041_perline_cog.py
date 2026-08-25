@@ -198,13 +198,18 @@ def main() -> int:
         drew_dA = (np.log10(line["hi"] / lam)
                    - np.log10(line["lo"] / lam)) / (2 * a.delta)   # units cancel here
         rows.append(dict(wavelength_air_A=lam, status="ok", A0=A0,
-                         ew_lo=ews["lo"], ew_mid=ews["mid"], ew_hi=ews["hi"],
-                         # EW is in mA, lambda in A: REW = log10(EW_A / lambda_A), so the
-                         # 1000 is NOT optional. Without it the smoke test reported REW
-                         # -1.07 for a line the pool measures near -4.9.
-                         # (dREW/dA is unaffected — the factor cancels in log10(hi/lo) —
-                         # so the derivative values were right while this column was not.)
-                         rew=float(np.log10((ews["mid"] / 1000.0) / lam)),
+                         ew_window_mid=ews["mid"], ew_blend=blend,
+                         ew_line_mid=line["mid"],
+                         blend_fraction=float(blend / ews["mid"]) if ews["mid"] else np.nan,
+                         # 🔴 REW OF THE LINE, NOT OF THE WINDOW. `rew_max` is expressed
+                         # in REW, so it must be the line's own reduced EW -- the window
+                         # value includes the blend and reads systematically too strong,
+                         # exactly the contamination the blend baseline exists to remove.
+                         # EW is in mA and lambda in A, so the 1000 is not optional:
+                         # without it the smoke test reported -1.07 for a line the pool
+                         # measures near -4.9.
+                         rew=float(np.log10((line["mid"] / 1000.0) / lam)),
+                         rew_window=float(np.log10((ews["mid"] / 1000.0) / lam)),
                          d_rew_dA=float(drew_dA),
                          recovered_from_ceiling=bool(r.sat_only)))
         if i % 25 == 0:
