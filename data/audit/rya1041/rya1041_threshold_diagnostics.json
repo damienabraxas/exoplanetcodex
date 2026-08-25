@@ -1,0 +1,207 @@
+{
+  "ticket": "RYA-1041",
+  "sets_nothing": true,
+  "d1": {
+    "near-UV|SYNTH": {
+      "n": 116,
+      "arms": [
+        "solar_kpno_kurucz2005_corrected",
+        "solar_kpno_molecfit_corrected"
+      ],
+      "red_chi2": {
+        "quantiles": {
+          "0": 23.79,
+          "5": 33.537499999999994,
+          "50": 85.0945,
+          "95": 283.04224999999997,
+          "100": 494.141
+        },
+        "break_test": {
+          "n": 104,
+          "largest_gap": 0.0475088096025591,
+          "gap_at": 1.5289937871308412,
+          "median_step": 0.0056418574771797125,
+          "gap_over_median_step": 8.420774504624335,
+          "range_p5_p95": [
+            1.5289937871308412,
+            2.4518278680037313
+          ],
+          "tested_in": "log10"
+        }
+      }
+    },
+    "VIS|SYNTH": {
+      "n": 877,
+      "arms": [
+        "solar_harps_molecfit_corrected",
+        "solar_iag",
+        "solar_kpno_kurucz2005_corrected",
+        "solar_kpno_molecfit_corrected",
+        "unknown"
+      ],
+      "red_chi2": {
+        "quantiles": {
+          "0": 2.538,
+          "5": 8.908199999999999,
+          "50": 67.13,
+          "95": 145.8071999999999,
+          "100": 3403.824
+        },
+        "break_test": {
+          "n": 789,
+          "largest_gap": 0.03451743693260734,
+          "gap_at": 1.1922886125681202,
+          "median_step": 0.0004685063911895604,
+          "gap_over_median_step": 73.6754878518645,
+          "range_p5_p95": [
+            0.9501213475113733,
+            2.16291373266843
+          ],
+          "tested_in": "log10"
+        }
+      }
+    },
+    "VIS|PROFILEFIT": {
+      "n": 284,
+      "arms": [
+        "solar_harps_molecfit_corrected",
+        "solar_iag",
+        "solar_kpno_kurucz2005_corrected",
+        "solar_kpno_molecfit_corrected"
+      ],
+      "rew": {
+        "quantiles": {
+          "0": -6.085672020887371,
+          "5": -5.628427487549589,
+          "50": -5.128799067382426,
+          "95": -4.913989364624256,
+          "100": -4.900428488956905
+        },
+        "break_test": {
+          "n": 254,
+          "largest_gap": 0.03871191332341173,
+          "gap_at": -5.612267053452831,
+          "median_step": 0.0019313922894816926,
+          "gap_over_median_step": 20.04352690762809,
+          "range_p5_p95": [
+            -5.626436938377845,
+            -4.914010774930098
+          ],
+          "tested_in": "linear"
+        }
+      },
+      "red_chi2": {
+        "quantiles": {
+          "0": 9.89809224690833e-06,
+          "5": 2.0077127233577635e-05,
+          "50": 0.000222363695258,
+          "95": 0.0035421792256643,
+          "100": 0.0061748396625382
+        },
+        "break_test": {
+          "n": 255,
+          "largest_gap": 0.14615792354215706,
+          "gap_at": -2.626153148527376,
+          "median_step": 0.005004576803918637,
+          "gap_over_median_step": 29.20485173246095,
+          "range_p5_p95": [
+            -4.6958116180777925,
+            -2.45072946834419
+          ],
+          "tested_in": "log10"
+        }
+      }
+    },
+    "red-optical|SYNTH": {
+      "n": 170,
+      "arms": [
+        "solar_iag",
+        "solar_kpno_kurucz2005_corrected",
+        "solar_kpno_molecfit_corrected"
+      ],
+      "red_chi2": {
+        "quantiles": {
+          "0": 0.703,
+          "5": 11.999600000000001,
+          "50": 47.8485,
+          "95": 94.11979999999997,
+          "100": 530.012
+        },
+        "break_test": {
+          "n": 152,
+          "largest_gap": 0.07629539447764455,
+          "gap_at": 1.169439298978941,
+          "median_step": 0.0014641078780277539,
+          "gap_over_median_step": 52.11050061448975,
+          "range_p5_p95": [
+            1.0864310206563688,
+            1.9683802000713573
+          ],
+          "tested_in": "log10"
+        }
+      }
+    },
+    "IR|SYNTH": {
+      "n": 26,
+      "arms": [
+        "solar_kpno_molecfit_corrected"
+      ],
+      "red_chi2": {
+        "quantiles": {
+          "0": 1.131,
+          "5": 9.757,
+          "50": 79.191,
+          "95": 237.91825,
+          "100": 245.083
+        },
+        "break_test": {
+          "n": 22,
+          "largest_gap": 0.26510930958225853,
+          "gap_at": 1.3956233943558363,
+          "median_step": 0.030938100871034102,
+          "gap_over_median_step": 8.56902337630129,
+          "range_p5_p95": [
+            1.2457100295452916,
+            2.3619354924211464
+          ],
+          "tested_in": "log10"
+        }
+      }
+    }
+  },
+  "d2": {
+    "solar_kpno_molecfit_corrected - solar_kpno_kurucz2005_corrected": {
+      "kind": "SAME-INSTRUMENT",
+      "n_lines_paired": 67,
+      "median_offset_dex": 0.008000000000000007,
+      "std_dex": 0.027861646943794057,
+      "MAD_dex": 0.008000000000000007,
+      "robust_sigma_dex": 0.01186080000000001
+    },
+    "solar_harps_molecfit_corrected - solar_kpno_molecfit_corrected": {
+      "kind": "CROSS-INSTRUMENT",
+      "n_lines_paired": 67,
+      "median_offset_dex": 0.01499999999999968,
+      "std_dex": 0.10552845843884677,
+      "MAD_dex": 0.04499999999999993,
+      "robust_sigma_dex": 0.06671699999999989
+    },
+    "solar_iag - solar_kpno_molecfit_corrected": {
+      "kind": "CROSS-INSTRUMENT",
+      "n_lines_paired": 43,
+      "median_offset_dex": 0.02400000000000002,
+      "std_dex": 0.02286018459827288,
+      "MAD_dex": 0.01100000000000012,
+      "robust_sigma_dex": 0.01630860000000018
+    },
+    "solar_harps_molecfit_corrected - solar_iag": {
+      "kind": "CROSS-INSTRUMENT",
+      "n_lines_paired": 43,
+      "median_offset_dex": -0.020000000000000462,
+      "std_dex": 0.07224230177751084,
+      "MAD_dex": 0.0389999999999997,
+      "robust_sigma_dex": 0.05782139999999955
+    },
+    "_solo_scatter_dex_WRONG_INPUT": 0.1289861999999996
+  }
+}
