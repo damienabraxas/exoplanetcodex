@@ -61,6 +61,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from pipeline import treatment_axes  # RYA-1040: the ⟨3D⟩ pair is keyed off the
+                                     # axis registry, never retyped here
+
 #: How a charged harness residual came to be the number it is. The budget PRINTS this,
 #: because the alternative was printing a claim: `harness_term` asserted "MEASURED
 #: against the known optical answer, not assumed zero" beside whatever value it was
@@ -209,8 +212,11 @@ def uncharged_note(handler: str) -> str:
 # THE ROUTE AND NOT FROM THE ENGINE, AND IT IS FOR BANKED FILES ONLY. Nothing on a live
 # path may call it: the producing route knows its handler and says so at `build_product`.
 # `tests/test_harness_residual_rya869.py` holds it to that — it checks the table is
-# EXHAUSTIVE over `band_products.TREATMENTS`, so a seventh treatment cannot be added
-# without deciding which handler produces it, and it checks the table agrees with the
+# EXHAUSTIVE over `band_products.TREATMENTS`, so a NEW treatment cannot be added
+# without deciding which handler produces it,
+# (RYA-1040: this said "a seventh" while there were six. A comment that names a
+# count goes stale the moment the tuple grows -- the same defect shape as the
+# spelling list it exists to replace, so it now states the invariant instead.) and it checks the table agrees with the
 # handler the live deriver declares for every cell where both answers exist.
 #
 # The two keys are needed because neither alone decides it:
@@ -239,6 +245,12 @@ _BANKED_PROFILEFIT_HANDLER: dict[str, str] = {
     # never written under this route — the lab-gf pool is the near-UV synthesis route —
     # but stated rather than omitted, so the table is total and the test can say so.
     "1D-LTE-LABGF": "SynthesisHandler",
+    # RYA-1040 — the ⟨3D⟩ pair. Both re-fit the FLUX on the ⟨3D⟩ STAGGER atmosphere, so
+    # both are SynthesisHandler; the LTE member differs only in having the departures off,
+    # which changes the physics and not the route. Keyed off the axis registry rather than
+    # retyped, so this table cannot name a treatment the vocabulary does not have.
+    treatment_axes.MEAN3D_NLTE_STAGGER.token: "SynthesisHandler",
+    treatment_axes.MEAN3D_LTE_STAGGER.token: "SynthesisHandler",
 }
 
 
