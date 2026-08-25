@@ -1,0 +1,29 @@
+{
+  "ticket": "RYA-1041",
+  "quantity": "COG saturation knee (rew_max input)",
+  "teff": 5772.0,
+  "theta": 0.8731808731808732,
+  "sets_nothing": true,
+  "bands": {
+    "VIS": {
+      "n_used": 253,
+      "n_gf_unmatched": 2,
+      "n_gf_AMBIGUOUS_refused": 29,
+      "knee": {
+        "rss": 9.548225585899269,
+        "x_break": -2.3501174592815093,
+        "intercept": -5.389434694493669,
+        "slope_below": 0.07240893860260032,
+        "slope_above": 0.34106425682660646,
+        "n_below": 31,
+        "n_above": 222,
+        "rew_at_break": -5.389434694493669,
+        "slope_ratio": 4.71025074263909
+      },
+      "rew_span": [
+        -6.085672020887371,
+        -4.900428488956905
+      ]
+    }
+  }
+}
