@@ -8,9 +8,39 @@
   "provenance_caveat": "NO DOI, mutable/unversioned Seafile share -> md5-pinned; re-fetch verifies against these hashes.",
   "sirius_only": "downloaded + stored ONLY on Sirius /mnt/codex-data/grids/nlte/gerber_ts/ (RYA-526). Never the Mac.",
   "files": {
-    "model_atom": {"name": "atom.o41f", "url": "https://keeper.mpdl.mpg.de/f/71b6565adcc2498181ac/?dl=1", "md5": "9e378e792103919079903c313db52167"},
-    "grid_1d_aux": {"name": "auxData_O_MARCS_May-21-2021.txt", "url": "https://keeper.mpdl.mpg.de/f/e85d1a6e4d7945ff9f52/?dl=1", "md5": "99f952d4f4716450d98ead79b721aa68"},
-    "grid_1d_bin_zip": {"name": "NLTEgrid4TS_O_MARCS_May-21-2021.bin.zip", "url": "https://keeper.mpdl.mpg.de/f/d3a239e5f5d848089dfd/?dl=1", "md5": "504f3e2a3339a153ffe0493c7c7ed00f", "bytes": 2687989330, "unzipped_bin_bytes": 6303045348}
+    "model_atom": {
+      "name": "atom.o41f",
+      "url": "https://keeper.mpdl.mpg.de/f/71b6565adcc2498181ac/?dl=1",
+      "md5": "9e378e792103919079903c313db52167"
+    },
+    "grid_1d_aux": {
+      "name": "auxData_O_MARCS_May-21-2021.txt",
+      "url": "https://keeper.mpdl.mpg.de/f/e85d1a6e4d7945ff9f52/?dl=1",
+      "md5": "99f952d4f4716450d98ead79b721aa68"
+    },
+    "grid_1d_bin_zip": {
+      "name": "NLTEgrid4TS_O_MARCS_May-21-2021.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/f/d3a239e5f5d848089dfd/?dl=1",
+      "md5": "504f3e2a3339a153ffe0493c7c7ed00f",
+      "bytes": 2687989330,
+      "unzipped_bin_bytes": 6303045348
+    },
+    "grid_3d_bin_zip": {
+      "name": "NLTEgrid4TS_O_STAGGERmean3D_May-18-2021.bin.zip",
+      "url": "https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/files/?p=%2Fdep-grids%2FO%2FNLTEgrid4TS_O_STAGGERmean3D_May-18-2021.bin.zip&dl=1",
+      "md5": "e1270164febf42bf3415db6ecaf75c61",
+      "bytes": "44501137",
+      "md5_unpacked": "426e7c7c8234b7634ab4cc9b2a383dd4",
+      "bytes_unpacked": "149005744",
+      "note": "STAGED 2026-08-25 (RYA-1013/1014 follow-up from RYA-1035). The O <3D> STAGGERmean3D departure deck: 4326 aux rows, 21-value A(O) axis (7.6-9.6), ndep=101, nlev=41 -- matching atom.o41f's 41 levels. VERIFIED by direct read at the solar node t5777g44m00: all finite, no all-zero rows, median b -> 1.0000 at depth (the LTE limit) and 0.9950 at tau~1. tau agreement with the <3D> atmosphere is 2.45e-08 -- effectively exact. Registered here so the deck does NOT read as 'never fetched': the element status tracker reads the REGISTRATION, not the disk (the RYA-785 lesson)."
+    },
+    "grid_3d_aux": {
+      "name": "auxData_O_STAGGER_May-18-2021_marcs_names.txt",
+      "url": "https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/files/?p=%2Fdep-grids%2FO%2FauxData_O_STAGGER_May-18-2021_marcs_names.txt&dl=1",
+      "md5": "651bed6636dd957062f4232a5c2ce538",
+      "bytes": "730710",
+      "note": "⚠️ The plain sibling is named auxData_O_STAGGER_... (no 'mean3D') -- a vendor naming irregularity, not a different object. The _marcs_names form is used here because RYA-1035's sweep scored O CLEAN (0 [Fe/H] overrides in 4326 rows), so either file is faithful; Fe and Mn are the only two decks where the plain aux is REQUIRED. See data/results/rya1035/mean3d_aux_defect_sweep.csv."
+    }
   },
   "gate": {
     "lines": "O I 7771.940 / 7774.170 / 7775.390 (777 triplet), GES NLTE level-IDs verbatim",
@@ -18,5 +48,6 @@
     "anchor": "-0.134 (our banked Amarsi-2019 nlte_cno 1D-NLTE leg, table6, solar; the 3D leg is -0.169)",
     "verdict": "PASS (|median - anchor| = 0.030 <= 0.05). RYA-362 cross-check: Amarsi-2019 post-hoc -0.134 vs Gerber in-synthesis -0.105 agree to 0.03 dex.",
     "departures_engaged": true
-  }
+  },
+  "note_3d_route": "🔴 RYA-1013 Leg 1 (CONSUME) IS UNBLOCKED, BY A DIFFERENT ROUTE THAN THE ONE IT NAMES. That leg was blocked on nlte.mpia.de, which returns EXACTLY 0.000 for O I 7771.9 while its Mg controls work, and whose '3dmean' radio is COMMENTED OUT in the live page. This Gerber <3D> deck is a second consume route and it WORKS -- read directly, no vendor binary, on the same RYA-821 path Al and Fe use. It does NOT retire the build-our-own leg: RYA-1013 is a three-way VALIDATION TRIANGLE, and an independent referee is the point. What changes is that the build is no longer the ONLY route to a <3D> O number."
 }
