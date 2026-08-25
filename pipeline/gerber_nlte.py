@@ -571,8 +571,37 @@ def read_deck_node(element: str, teff: float, logg: float, feh: float,
                 f"which is not a plausible model -- the pointer or the layout is wrong, "
                 f"and a plausible-looking block from a wrong offset is the danger here")
         tau = np.frombuffer(fh.read(ndep * 8), dtype="<f8", count=ndep)
+        # 🔴 RYA-1040 — THE BLOCK IS STORED (nlev, ndep), NOT (ndep, nlev).
+        # This read `.reshape(ndep, nk)` and every check RYA-821 applied passed anyway,
+        # because all of them are orientation-blind: the record SIZE and the aux pointer
+        # stride are identical either way (it is the same 101x607 doubles), "100% finite"
+        # is true either way, "zero all-zero ROWS" is true either way, and even "median
+        # b -> 1.0 at the deepest layer" comes out 1.0000 under BOTH. The layout really
+        # was verified twice; the ORIENTATION was never tested, because nothing that had
+        # been tested could tell the two apart.
+        #
+        # What tells them apart is PHYSICS, and three independent lines agree:
+        #
+        #   1. THE LTE LIMIT. Deep layers must thermalise, so nearly every level should
+        #      sit at b~1 there. As-read: 50% of levels within 5% of LTE at depth.
+        #      Transposed: 100% -- exactly like the validated 1D deck. And at the SURFACE,
+        #      where NLTE bites, as-read gives median b = 0.9905 (i.e. almost no NLTE at
+        #      all) against the 1D deck's 0.2026; transposed gives 0.2764.
+        #   2. THE ZEROS BECOME AN OBJECT. The record's last 101 doubles are zero, and
+        #      101 == ndep. As-read they scatter across one depth over levels 506-606 --
+        #      not a thing. Transposed they are LEVEL 606 at every depth: the top level,
+        #      unpopulated, which is a thing.
+        #   3. THE SYNTHESIS BECOMES PHYSICAL. As-read, the solar Fe I 5240-5260 A window
+        #      comes back with 86 pixels ABOVE the continuum and max flux 1.1213 -- a zero
+        #      b divides into the source function. Transposed: max 0.9998, zero pixels
+        #      above continuum, and an NLTE effect small enough to be Fe I's.
+        #
+        # ⚠️ THIS AFFECTS `Al@mean3D` TOO, merged since v117. Nothing published moves:
+        # no band product has ever been derived through EITHER <3D> deck, which is exactly
+        # what v117 and v120 recorded as still owed -- and is why a reader this wrong could
+        # sit in main for days looking healthy.
         dep = np.frombuffer(fh.read(ndep * nk * 8), dtype="<f8",
-                            count=ndep * nk).reshape(ndep, nk)
+                            count=ndep * nk).reshape(nk, ndep).T
 
     # The aux row NAMES the model and the record CARRIES its own name -- and they use
     # DIFFERENT CONVENTIONS, which is the whole reason the vendor binary cannot match them
@@ -769,6 +798,21 @@ def for_node(element: str, teff: float, logg: float, feh: float,
         parsed = (departures_at_abundance(element, teff, logg, feh, a_deck)
                   if has_abundance_axis(element)
                   else read_deck_node(element, teff, logg, feh, a_deck))
+        # 🔴 RYA-1040 — THIS BRANCH RETURNED WITHOUT THE THREE FIELDS `as_ispec_tuple`
+        # READS, SO NO <3D> DECK COULD EVER REACH A SYNTHESIS. The interpolator branch
+        # below sets `atom_path`, `Z` and `deck_abundance` after parsing; the direct
+        # reader returned early and set none of them, so the very next call in the chain
+        # died with `KeyError: 'Z'`.
+        #
+        # ⚠️ THAT MEANS Al@mean3D HAS BEEN `T2_CONSUME_WIRED` SINCE v117 AND COULD NOT
+        # HAVE SYNTHESISED EITHER. The deck read is genuinely fine -- which is what was
+        # tested, and it passed -- but reading a deck is not using one. Nothing caught it
+        # because no band product had ever been derived through the route, which is
+        # precisely the step v117 and v120 both recorded as STILL OWED. The gap between
+        # "the route runs" and "a measurement came out of it" was exactly this wide.
+        parsed["atom_path"] = f"{GT}/{DECKS[element]['atom']}"
+        parsed["Z"] = DECKS[element]["Z"]
+        parsed["deck_abundance"] = a_deck
         _CACHE[key] = parsed
         return parsed
 
