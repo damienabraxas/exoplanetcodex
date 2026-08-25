@@ -43,6 +43,28 @@ to referee with, so the name check finds nothing to correct and the reader falls
 
 **⇒ `Fe@mean3D` must be registered against the PLAIN aux — the opposite of `Al@mean3D`.**
 
+## 🔴 Fe is not alone — Mn has the identical defect (swept 2026-08-25)
+
+`scripts/rya1035_mean3d_aux_defect_sweep.py` scored all **17** published ⟨3D⟩ aux tables
+with `gerber_nlte`'s own parser. **Two are defective, and both are May-2021 vintage:**
+
+| deck | rows | `[Fe/H]` overridden | where | `_marcs_names` |
+| --- | --- | --- | --- | --- |
+| **Fe** (May-21-2021) | 189 | **6** | (5777, 4.44) | **collapsed** 7 rows → 1 name |
+| **Mn** (May-17-2021) | 4769 | **150** | (5777, 4.44) | **collapsed** 175 rows → 1 name |
+| the other 15 | — | 0 | — | faithful |
+
+**The same defect, differently sized.** Six metallicities are wrong on each; Fe resolves
+ONE abundance per node so that is 6 rows, Mn resolves 25 so it is 150. Counting rows rather
+than nodes would make Mn look like a worse problem and Fe like a rounding error.
+
+**Al is the positive control**: its conversion keeps all 7 names at Teff=5777, so the
+collapse belongs to the defective input rather than to the converter in general.
+
+⇒ **Fe and Mn must be registered against the PLAIN aux. The other 15 may use either**, and
+`Al@mean3D` correctly uses `_marcs_names`. The per-element verdict is a committed row in
+`data/results/rya1035/mean3d_aux_defect_sweep.csv` — read it before writing a registry line.
+
 ## Provenance
 
 - Source: MPG Keeper (Seafile) share `https://keeper.mpdl.mpg.de/d/6eaecbf95b88448f98a4/`,
