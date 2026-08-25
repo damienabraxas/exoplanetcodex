@@ -695,6 +695,20 @@ def synthesis_route(a, pol) -> None:
     # Canonical adjudicates the gf of the lines a product REPORTS. A blend line's gf
     # comes from the list either way and canonical never adjudicated it, so letting six
     # of them switch off single-sourcing for the species is the tail wagging the dog.
+    #
+    # 🔴 AND THE BOUND CHECK WAS A PURE FALSE NEGATIVE, measured after the fact. The six
+    # lines past the edge are ALL Mn I -- 12975.929 to 12976.143, one hyperfine multiplet
+    # -- and `apply_to_synth_array` resolves the WHOLE IR list without raising, Mn I
+    # included: canonical covers every physical line it clusters. So nothing was actually
+    # uncovered. `gf_provenance` refused on a NOMINAL wavelength comparison while the
+    # table it guards could handle the list fine.
+    #
+    # Which means the strict application is already the real guard -- it raises loudly on
+    # genuine non-coverage (`resolve` -> GfResolutionError, "0-match, not defaulting") --
+    # and the bound test is defensive logic in front of it that can only produce false
+    # negatives. Narrowing it to the measured species removes this instance; the broader
+    # question of whether the bound check should exist at all is left for RYA-1045, since
+    # relaxing it is a behavioural change to every band, not just this one.
     _species_tok = species_token(a.element, a.ion)
     _el = _ll.element.astype(str).str.strip()
     _sp = _ll[(_el == _species_tok)]
