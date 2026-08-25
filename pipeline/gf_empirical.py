@@ -88,11 +88,33 @@ class Thresholds:
     rew_max: float | None = None
     #: minimum core depth for stage 1
     min_depth: float | None = None
-    #: reduced chi2 above which stage 4 fails
+    #: reduced chi2 above which stage 4 fails — 🔴 EW ROUTE ONLY (RYA-1041). The synth
+    #: route gates on RYA-992's per-arm `frac_rise_weaker` instead, because the graded
+    #: anchor's own synth red_chi2 runs to 3404 and any cap here would delete it.
     max_red_chi2: float | None = None
-    #: |A - anchor_mean| tolerance for stage 6 admission. GBS uses 0.05; on our anchor that
-    #: rejects 6 of 7 laboratory lines, so it must be set from OUR anchor's behaviour.
-    admission_tol_dex: float | None = None
+    #: |A - anchor_mean| tolerance for stage 6 admission.
+    #:
+    #: 🔴 SET AT 0.0119 dex — the Fe anchor's own DIFFERENTIAL line-to-line scatter,
+    #: measured 2026-08-25 (RYA-1041 D2, artifact
+    #: `data/audit/rya1041/rya1041_threshold_diagnostics.json`): same-instrument pair
+    #: KP1984-molecfit vs KP2005, 67 lines paired per line, robust sigma 1.4826*MAD =
+    #: 0.0119, median offset +0.0080.
+    #:
+    #: DIFFERENTIAL, not solo, and the distinction is an order of magnitude: solo A(Fe)
+    #: scatter on the same pool is 0.1290 dex. Every published value is
+    #: [X/H] = A(X)star - A(X)sun and works because the systematics CANCEL on a shared
+    #: chain (RYA-898); sizing this from solo scatter would admit lines on a spread the
+    #: differential never pays. GBS's 0.05 admits only 28.3% of our own laboratory anchor.
+    #:
+    #: SAME-INSTRUMENT is the right comparison because the product is per
+    #: (instrument x band) (RYA-1026), so a line is graded against its OWN cell's anchor
+    #: and no cross-instrument ambiguity arises. Cross-instrument pairs run 0.0163
+    #: (IAG-KP) to 0.0667 (HARPS-KP) — the HARPS figure being the arm that does not
+    #: cancel, which is a finding about HARPS, not a tolerance.
+    #:
+    #: SET AT IT, NEVER TIGHTER (RYA-1041/161): tighter selects for agreement with our own
+    #: median, which manufactures precision the anchor cannot support.
+    admission_tol_dex: float | None = 0.0119
     #: below this the anchor cannot define a distribution and stage 6 must not run at all.
     min_anchor_lines: int | None = None
     #: |sigma| above which an admitted line is SCATTERED rather than CONSISTENT.
@@ -168,16 +190,44 @@ def stage3_purity(problem_class, excluded_reason="") -> tuple[str, str]:
     return (YES, RC_OK) if pc == "" else (UNKNOWN, RC_OK)
 
 
+class RouteNotDeclared(RuntimeError):
+    """Stage 4 was handed a line that does not say which route measured it — RYA-1041.
+
+    Refused rather than defaulted. The two routes disagree about `red_chi2` by five and a
+    half orders of magnitude (RYA-981; measured again at band scale in RYA-1041: EW median
+    2.2e-4 against synth 67), so a line that falls into the wrong branch is not slightly
+    mis-graded -- a synth line entering the EW branch is deleted by a cap it was never
+    meant to face.
+    """
+
+
 def stage4_fit(red_chi2, ew_mA, observed_depth, wavelength_A, th: Thresholds,
-               fit_window_A: float | None = None) -> tuple[str, str]:
-    """Does the profile actually describe the feature?
+               fit_window_A: float | None = None, *,
+               route: str | None = None, instrument: str | None = None,
+               frac_rise_weaker: float | None = None) -> tuple[str, str]:
+    """Does the profile actually describe the feature? ROUTE-AWARE — RYA-1041.
 
     ⚠️ DELEGATES to `pipeline.line_width` rather than re-deriving the ceilings. RYA-959 built
     those checks in one module precisely so both fitters -- and now this -- resolve to the same
     functions; a second copy here is how RYA-906/911's floor reached only one of two sites.
+
+    🔴 `red_chi2` IS DISQUALIFIED AS A SYNTH GATE, and this is measured rather than argued.
+    The GRADED laboratory anchor -- lines whose gf is KNOWN-good -- has synth `red_chi2`
+    median 67 and max 3404 (RYA-1041 D1). Any conventional cap deletes the reference
+    itself. RYA-981 measured why: corr(red_chi2, |A - meanA|) = 0.025, i.e. it does not
+    predict abundance error on this route at all. So the synth branch gates on RYA-992's
+    `frac_rise_weaker` at its PER-ARM cut instead -- a statement about the objective (chi2
+    doubling as A is driven weaker), not a quota -- and never touches the cap.
+
+    `max_red_chi2` is therefore an EW-ROUTE-ONLY threshold. It is not consulted on synth.
     """
     from pipeline import line_width
-    cap = th.require("max_red_chi2")
+    rt = str(route or "").strip().upper()
+    if not rt:
+        raise RouteNotDeclared(
+            "stage4_fit needs the line's route ('ew' or 'synth'). It is not defaulted: "
+            "a synth line falling into the EW branch meets a red_chi2 cap that would "
+            "delete the laboratory anchor itself (RYA-1041/981).")
     if ew_mA is not None and observed_depth is not None \
             and np.isfinite(ew_mA) and np.isfinite(observed_depth) and observed_depth > 0:
         try:
@@ -189,6 +239,22 @@ def stage4_fit(red_chi2, ew_mA, observed_depth, wavelength_A, th: Thresholds,
             if line_width.implied_width_exceeds_ceiling(
                     float(ew_mA), float(observed_depth), float(wavelength_A)):
                 return NO, RC_BAD_FIT
+    if rt.startswith("SYNTH") or rt == "EW-3D":
+        # RYA-992's statistic, at the cut derived for THIS arm. `synth_gof_cut` takes the
+        # instrument from the caller by design (RYA-913/922: no module-level instrument
+        # constant), so a missing arm is a refusal, not a fallback to Kitt Peak's 1.0.
+        from pipeline.synth_gof import synth_gof_ok, synth_gof_reason
+        if not instrument:
+            raise RouteNotDeclared(
+                "the synth branch needs the instrument: the frac_rise cut is PER-ARM "
+                "(RYA-992), and defaulting it would silently apply Kitt Peak's cut to "
+                "another arm.")
+        if frac_rise_weaker is None or not np.isfinite(frac_rise_weaker):
+            return UNKNOWN, RC_OK
+        return ((YES, RC_OK) if synth_gof_ok(float(frac_rise_weaker), instrument)
+                else (NO, RC_BAD_FIT))
+    # EW route — unchanged. This is the only surviving use of max_red_chi2.
+    cap = th.require("max_red_chi2")
     if red_chi2 is None or not np.isfinite(red_chi2):
         return UNKNOWN, RC_OK
     return (YES, RC_OK) if red_chi2 <= cap else (NO, RC_BAD_FIT)
@@ -308,7 +374,9 @@ def grade_line(row, th: Thresholds, anchor: Anchor | None = None) -> LineVerdict
     s2, r2 = stage2_saturation(g("rew"), th)
     s3, r3 = stage3_purity(g("problem_class"), g("excluded_reason", ""))
     s4, r4 = stage4_fit(g("red_chi2"), g("ew_mA"), g("observed_depth"),
-                        g("wavelength_air_A"), th)
+                        g("wavelength_air_A"), th,
+                        route=g("route"), instrument=g("instrument"),
+                        frac_rise_weaker=g("frac_rise_weaker"))
     s5, r5 = stage5_gf(g("gf_tier"))
     v.stages = {"depth": s1, "saturation": s2, "purity": s3, "fit": s4, "gf": s5}
 

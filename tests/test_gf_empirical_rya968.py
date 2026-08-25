@@ -39,21 +39,77 @@ def _th(**over):
 
 
 def _row(**over):
+    # RYA-1041 step zero: the per-line record now carries its ROUTE. These fixtures were
+    # written against the EW semantics (stage 4's red_chi2 cap), so `ew` is what they have
+    # always meant -- the field makes that explicit rather than changing it. A synth line
+    # is graded on RYA-992's per-arm frac_rise instead and never meets the cap.
     r = dict(wavelength_air_A=5500.0, observed_depth=0.30, rew=-5.1, red_chi2=1.0,
              ew_mA=45.0, problem_class="", excluded_reason="", gf_tier="KURUCZ",
              abundance=7.50, gf_sigma_dex=None, cross_measurements=None,
-             inferred_sigma_dex=None)
+             inferred_sigma_dex=None, route="ew", instrument=None,
+             frac_rise_weaker=None)
     r.update(over)
     return r
 
 
 # ── F3: declared, or nothing ─────────────────────────────────────────────────────────
+#: Thresholds still awaiting a DERIVATION. `admission_tol_dex` has left this list: RYA-1041
+#: D2 measured the setting input (the anchor's own differential scatter) and it is now set
+#: WITH its citation. The rule has not been relaxed -- a value still may not appear without
+#: a measurement behind it, which `test_a_set_threshold_carries_its_measurement` enforces
+#: for anything that leaves this list.
 @pytest.mark.parametrize("name", [
-    "rew_min", "rew_max", "min_depth", "max_red_chi2", "admission_tol_dex",
+    "rew_min", "rew_max", "min_depth", "max_red_chi2",
     "min_anchor_lines", "consistency_bound_dex", "fallback_sigma_dex"])
-def test_every_threshold_refuses_until_declared(name):
+def test_every_undelivered_threshold_refuses_until_declared(name):
     with pytest.raises(G.ThresholdNotDeclared, match="has not been declared"):
         G.Thresholds().require(name)
+
+
+def test_a_set_threshold_carries_its_measurement():
+    """🔴 THE RULE THAT REPLACES raise-until-set FOR A DELIVERED THRESHOLD.
+
+    Removing a field from the refusing list is only safe if something else stops an
+    unsourced constant appearing. A number with no provenance is exactly the blanket 0.17
+    this framework exists to retire, wearing a smaller value.
+
+    Every threshold that is SET must name, in the source beside it, the ticket and the
+    measurement it came from -- so `git blame` is not the only record of why it is that
+    number.
+    """
+    import inspect
+    src = inspect.getsource(G.Thresholds)
+    t = G.Thresholds()
+    for name in ("rew_min", "rew_max", "min_depth", "max_red_chi2", "admission_tol_dex",
+                 "min_anchor_lines", "consistency_bound_dex", "fallback_sigma_dex"):
+        if getattr(t, name) is None:
+            continue                                    # still undelivered, covered above
+        # walk BACK from the field's own line, collecting the `#:` block above it
+        lines = src.split("\n")
+        i = next(k for k, l in enumerate(lines) if l.strip().startswith(f"{name}:"))
+        block = []
+        for l in reversed(lines[:i]):
+            st = l.strip()
+            if st.startswith("#:") or st.startswith("#"):
+                block.append(st)
+            elif not st:
+                continue
+            else:
+                break
+        text = " ".join(block)
+        assert "RYA-" in text, f"{name} is set but names no ticket"
+        assert any(w in text.lower() for w in ("measured", "diagnostic", "derived")), (
+            f"{name} is set but does not say it came from a measurement")
+
+
+def test_admission_tol_is_the_differential_not_the_solo_scatter():
+    """RYA-898's distinction, pinned as a number. Solo scatter on the same pool is
+    0.1290 dex -- an order of magnitude wider -- and sizing admission from it would admit
+    lines on a spread the differential never pays."""
+    t = G.Thresholds()
+    assert t.admission_tol_dex == 0.0119, "the RYA-1041 D2 same-instrument differential"
+    assert t.admission_tol_dex < 0.05, (
+        "0.05 is GBS's borrowed tolerance, which admits only 28.3% of our own anchor")
 
 
 def test_the_refusal_explains_why_a_borrowed_constant_is_not_a_default():
