@@ -71,7 +71,8 @@ def build_pool(lo: float, hi: float) -> pd.DataFrame:
     er = d.excluded_reason.astype(str)
     sat_only = er.str.startswith("REW ") & er.str.contains("saturation ceiling")
     d = d[(d["in_aggregate"] == True) | sat_only].copy()
-    d["_sat_only"] = sat_only.reindex(d.index, fill_value=False)
+    # NB: no leading underscore — itertuples() renames such columns positionally
+    d["sat_only"] = sat_only.reindex(d.index, fill_value=False)
     # one row per line: the arms measure the same lines, and the derivative is a property
     # of the LINE and the model, not of which spectrum we happened to look at
     d["w"] = pd.to_numeric(d.wavelength_air_A, errors="coerce")
@@ -111,7 +112,7 @@ def main() -> int:
     if a.limit:
         pool = pool.head(a.limit)
     print(f"[rya1041] {len(pool)} distinct lines in {a.lo:.0f}-{a.hi:.0f} A "
-          f"({int(pool._sat_only.sum())} recovered from the -4.9 ceiling)")
+          f"({int(pool.sat_only.sum())} recovered from the -4.9 ceiling)")
 
     pol = band_policy.resolve(0.5 * (a.lo + a.hi))
     cfg = SYNTH_BANDS.get(pol.name)
@@ -175,7 +176,7 @@ def main() -> int:
                          ew_lo=ews["lo"], ew_mid=ews["mid"], ew_hi=ews["hi"],
                          rew=float(np.log10(ews["mid"] / lam)),
                          d_rew_dA=float(drew_dA),
-                         recovered_from_ceiling=bool(r._sat_only)))
+                         recovered_from_ceiling=bool(r.sat_only)))
         if i % 25 == 0:
             el = time.time() - t0
             print(f"  {i}/{len(pool)}  {el/i:.1f}s/line  eta {(len(pool)-i)*el/i/60:.0f} min",
