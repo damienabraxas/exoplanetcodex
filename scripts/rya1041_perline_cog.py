@@ -154,9 +154,17 @@ def main() -> int:
                                          ctx["feh"], ctx["vturb"], ctx["linelist"],
                                          ctx["isotopes"], ctx["solar_abund"],
                                          "Fe", ctx["atom_code"], trial_A=float(A))
-                ew, *_ = equivalent_width(w_nm * 10.0, f, lam, a.half_width_A,
-                                          pre_normalised=True)
-                ews[tag] = float(ew)
+                # 🔴 INTEGRATE DIRECTLY; do NOT route a SYNTHETIC through
+                # `band_products.equivalent_width`. That function exists for OBSERVED
+                # spectra: it places (or verifies) a local continuum from side-bands, and
+                # on a 1.24 A synthetic window there are none -- it refused all three
+                # smoke-test lines with "too few side-band points (0)". A normalised
+                # synthesis HAS no continuum problem: the continuum is unity BY
+                # CONSTRUCTION, so EW = integral of (1 - f) dlambda and nothing is
+                # estimated. Using the observed-spectrum machinery here would introduce a
+                # continuum uncertainty that does not exist in the model.
+                _wA = w_nm * 10.0
+                ews[tag] = float(np.trapz(1.0 - np.asarray(f, float), _wA) * 1000.0)
         except Exception as e:                      # loud per line, never a silent drop
             rows.append(dict(wavelength_air_A=lam, status=f"synth_failed: {str(e)[:80]}"))
             continue
