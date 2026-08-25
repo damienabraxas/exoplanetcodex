@@ -73,7 +73,10 @@ CANONICAL_GF = _REPO_ROOT / "data" / "linelists" / "canonical_gf.csv"
 #: table MUST have a CITATIONS entry: `grade_line` cites the paper by name in the verdict,
 #: and an uncited lab value would be an unattributable pedigree.
 LAB_TABLES: dict[str, Path] = {
-    "Fe I": _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv",
+    # RYA-1046: two tables, two generators, two source papers. The first stops at
+    # 11316.1 A; the second is the only laboratory Fe I gf we hold above it.
+    "Fe I": [_REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv",
+             _REPO_ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf_ruffoni2013.csv"],
     "Al I": _REPO_ROOT / "data" / "reference" / "al_gf_lab" / "al1_lab_loggf.csv",
     # RYA-953: Fe II. The table itself has existed since RYA-945 -- full Den Hartog 2019
     # Table 6, 131 lines, with its own provenance JSON. What was missing was an entry
@@ -167,6 +170,18 @@ CITATIONS = {
     # line instead of quietly grading it uncited.
     "DenHartog2019": ("Den Hartog et al. 2019, ApJS 243, 33",
                       "10.3847/1538-4365/ab322e"),
+    # RYA-1046. H-band Fe I -- the ONLY laboratory Fe I gf we hold above 11316.1 A, and
+    # so the only thing that can put a CRIRES+ J/H line on rung 3.
+    # 🔴 LADENBURG COLUMN ONLY. Table 6 offers three log gf columns; the "BF & Effective
+    # tau" and "Recommended" columns refine the radiative lifetimes by FITTING THE SOLAR
+    # SPECTRUM, and their quoted uncertainty folds in 12% from Asplund's solar Fe
+    # abundance. A gf tuned on the Sun cannot referee a solar abundance (RYA-161) -- the
+    # same test that keeps `melendez1999` out of the graded pool. Ladenburg is the lab
+    # emission/absorption network, and the ingest asserts the split rather than trusting
+    # it: see scripts/rya1046_ingest_ruffoni2013.py.
+    "Ruffoni2013": ("Ruffoni, Pickering, Allende Prieto & Nave 2013, ApJ 779, 17 "
+                    "(Ladenburg log gf only -- the solar-refined columns are excluded "
+                    "under RYA-161)", "10.1088/0004-637X/779/1/17"),
 }
 NO_TIE_SOURCE = "no-tie->K07 (RYA-161 semi-empirical Kurucz systematic)"
 
@@ -215,13 +230,36 @@ def lab_lines(species: str = DEFAULT_SPECIES) -> pd.DataFrame:
                 f"every source it names) rather than letting the species fall silently to "
                 f"the systematic — 'we hold no table' and 'no lab measurement exists' are "
                 f"different claims and must not look alike.")
-        if not path.exists():
-            raise FileNotFoundError(
-                f"primary-lab {species} gf table missing at {path} — regenerate with "
-                f"`{LAB_REGEN.get(species, '(no regen command registered)')}`. Without it "
-                f"every line would fall to the systematic and the run would look like a "
-                f"result.")
-        _cache[key] = pd.read_csv(path)
+        # 🔴 A SPECIES MAY HAVE SEVERAL LAB TABLES — RYA-1046. One paper does not cover
+        # one species: Fe I's optical pool (Belmonte/DenHartog/Ruffoni-2014, regenerated
+        # by rya799) stops at 11316.1 A, and Ruffoni 2013's H-band measurements live in
+        # their own file because they have their own generator and their own source
+        # tables. Keeping them separate is single-sourcing (RYA-353): appending them into
+        # the rya799 output would be silently erased by the next regeneration of it.
+        paths = path if isinstance(path, (list, tuple)) else [path]
+        frames = []
+        for pth in paths:
+            if not pth.exists():
+                raise FileNotFoundError(
+                    f"primary-lab {species} gf table missing at {pth} — regenerate with "
+                    f"`{LAB_REGEN.get(species, '(no regen command registered)')}`. Without "
+                    f"it every line would fall to the systematic and the run would look "
+                    f"like a result.")
+            frames.append(pd.read_csv(pth))
+        df = pd.concat(frames, ignore_index=True) if len(frames) > 1 else frames[0]
+        # A wavelength served by two papers would be graded twice and could carry two
+        # different sigmas. Refuse rather than pick: which measurement supersedes which is
+        # an adjudication, not a tie-break (RYA-780).
+        if len(frames) > 1 and "wavelength_air_A" in df.columns:
+            dup = df[df.duplicated("wavelength_air_A", keep=False)]
+            if len(dup):
+                raise ValueError(
+                    f"{species}: {len(dup)} wavelength(s) appear in more than one lab "
+                    f"table ({sorted(set(dup.get('source', [])))}) — e.g. "
+                    f"{sorted(dup.wavelength_air_A.unique())[:3]}. Two laboratory values "
+                    f"for one line is an adjudication (RYA-780), not something this "
+                    f"loader may resolve by ordering.")
+        _cache[key] = df
     return _cache[key]
 
 
