@@ -1,0 +1,52 @@
+{
+  "ticket": "RYA-1042",
+  "generated_utc": "2026-08-25T17:17:35Z",
+  "n_lines_nlte": 40,
+  "n_lines_lte": 40,
+  "n_paired_internally": 40,
+  "our_differential": {
+    "median": 0.034,
+    "mean": 0.0377,
+    "min": -0.061,
+    "max": 0.414
+  },
+  "tolerance_dex": 0.05,
+  "tolerance_basis": "inherited from RYA-534, not re-derived on this data",
+  "leg1_anchor_agreement": {
+    "0.75": {
+      "n": 5,
+      "ours_median": -0.016,
+      "anchor_median": -0.0153,
+      "median_difference": -0.0007,
+      "per_line_median_difference": 0.0306,
+      "verdict": "UNREPRESENTATIVE",
+      "unmatched_or_ambiguous": 35,
+      "match_rate": 0.125,
+      "n_ours": 40,
+      "full_product_median": 0.034,
+      "subset_representative": false
+    },
+    "1.50": {
+      "n": 5,
+      "ours_median": -0.016,
+      "anchor_median": -0.0227,
+      "median_difference": 0.0067,
+      "per_line_median_difference": 0.0476,
+      "verdict": "UNREPRESENTATIVE",
+      "unmatched_or_ambiguous": 35,
+      "match_rate": 0.125,
+      "n_ours": 40,
+      "full_product_median": 0.034,
+      "subset_representative": false
+    }
+  },
+  "leg2_structure": {
+    "median": 0.034,
+    "magnitude_envelope_dex": 0.15,
+    "within_envelope": true,
+    "low_minus_high_EP": 0.006,
+    "n_with_ep": 40
+  },
+  "blocked_by": "matched subset unrepresentative of the full product",
+  "verdict": "NOT_VALIDATED"
+}
