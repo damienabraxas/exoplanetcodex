@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.41",
-  "updated_at": "2026-08-25T01:02:00Z",
+  "version": "1.42",
+  "updated_at": "2026-08-25T01:43:01Z",
   "products": [
     {
       "element": "Fe",
@@ -1383,6 +1383,14 @@
       },
       "quarantined_at": "2026-08-24T23:47:38Z",
       "quarantine_reason": "APPENDIX BY POLICY, not by defect. Ryan 2026-08-24: the product grid is GRADED / DEEPGRADED / CONSISTENT and nothing else; whole-pool and leftover-ungraded runs get mentioned, plotted where it helps, and live in the appendix. These three ARE a recent run of mine (harps EW, 2026-08-24T15:03Z, post-fix) and the numbers are sound \u2014 7.656 / 7.666 / 7.462 on the full 247-line pool. They are withdrawn as PRODUCTS because tier=ALL measures the whole pool, lab lines included, so it is not one of the three sub-products and overlaps all of them. Kept in full: the appendix still has to show what the ungraded scale does, and that 0.2 dex gap against the graded tier is the entire argument for the gf work (RYA-819/831)."
+    }
+  ],
+  "gaps": [
+    {
+      "band": "red-optical",
+      "tier": "DEEPGRADED",
+      "reason": "EMPTY BY CONSTRUCTION, measured on all three arms 2026-08-24. Of the 70 Fe I lab lines in 6910-9199 A, ZERO sit above the 0.60 central-depth gate \u2014 the harness refuses with 'no graded line in this band sits above the EW depth gate' before any spectrum is read, identically for KP1984-molecfit, KP2005 and IAG. The depth split is a strong function of wavelength: near-UV 58 of 59 deep, VIS 109 of 176, red-optical 0 of 70. Red-optical's GRADED tier therefore IS the whole lab pool. Do not relaunch this as a missing run.",
+      "declared_at": "2026-08-25T01:43:01Z"
     }
   ]
 }

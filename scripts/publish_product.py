@@ -152,6 +152,13 @@ def load(element: str, star: str) -> dict:
             #: ARCHIVE — prior values of a key that later changed. Answers "what did this
             #: say yesterday, and why did it move".
             "archive": [],
+            #: GAPS — cells that CANNOT exist, with the measurement that says so. A gap
+            #: is not a missing run and must not be retried as one: red-optical has zero
+            #: Fe I lab lines above the depth gate, so its DEEPGRADED tier is empty BY
+            #: CONSTRUCTION. Recording it is what stops three jobs being relaunched every
+            #: week to rediscover the same emptiness (RYA-833: an absence is a hypothesis
+            #: until measured -- these are measured, so they are conclusions).
+            "gaps": [],
             #: QUARANTINE — products WITHDRAWN from display but kept in full (RYA-711:
             #: quarantined, never culled). A withdrawn product still has to be defensible
             #: in the appendix, so deleting it destroys the evidence for its own rejection.
@@ -214,6 +221,9 @@ def main() -> int:
                          "`quarantine` in full — never deleted — so the appendix can still "
                          "defend why they were withdrawn (RYA-711/844).")
     ap.add_argument("--element", default=None, help="element to act on for --quarantine-where")
+    ap.add_argument("--declare-gap", default=None, metavar="BAND:TIER",
+                    help="record a cell that CANNOT exist, with --reason carrying the "
+                         "measurement that establishes it. Needs --element.")
     ap.add_argument("--quarantine-older-than", default=None, metavar="ISO8601",
                     help="withdraw every CURRENT product whose ARTIFACT was produced "
                          "before this instant. Keyed on `provenance.artifact_mtime` -- "
@@ -221,6 +231,23 @@ def main() -> int:
                          "says when it was copied into the store and would mark a "
                          "freshly-backfilled stale result as current.")
     a = ap.parse_args()
+
+    if a.declare_gap:
+        if not (a.reason and a.element):
+            print("REFUSING: --declare-gap needs --element and --reason. A gap with no "
+                  "measurement behind it is just a missing run.", file=sys.stderr)
+            return 8
+        band, _, tier = a.declare_gap.partition(":")
+        doc = load(a.element, a.star)
+        doc.setdefault("gaps", [])
+        rec = {"band": band, "tier": tier, "reason": a.reason, "declared_at": _now()}
+        doc["gaps"] = [g for g in doc["gaps"]
+                       if not (g["band"] == band and g["tier"] == tier)] + [rec]
+        doc["version"] = bump(doc["version"]); doc["updated_at"] = _now()
+        out = STORE / a.star / f"{a.element}.json"
+        out.write_text(json.dumps(doc, indent=2) + "\n")
+        print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   GAP DECLARED {band}:{tier}")
+        return 0
 
     if a.quarantine_where or a.quarantine_older_than:
         if not a.reason:
