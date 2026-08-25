@@ -62,31 +62,26 @@ def test_the_synthesis_leg_has_NO_measured_EW_precondition():
 
 # ── the blast-radius guard: the mandatory half ──────────────────────────────
 
-def test_the_leg_is_OFF_by_default():
-    """⚠️ DEFAULT-OFF IS THE GUARD, NOT TIMIDITY. Every `--force-synthesis` band in the
-    repo reaches this function. An automatic leg would add a product row to bands whose
-    GENERATORS entries do not declare one — and `check_result_generators` fails in BOTH
-    directions, so that is a hard CI failure, not a cosmetic one. It would also roughly
-    double every such run.
+def test_the_leg_runs_by_default_and_only_skip_engine_b_stops_it():
+    """A leg that produces a product should produce it (Ryan, 2026-08-25). An opt-in flag
+    would leave RYA-784/798 half-closed in a NEW way — reachable but never reached — which
+    is the same paper-done shape this ticket exists to end.
 
-    The ticket asked for the leg to be REACHABLE. It is; it is not unconditional."""
-    tree = ast.parse(DRIVER)
-    flags = [n for n in ast.walk(tree)
-             if isinstance(n, ast.Call)
-             and getattr(n.func, "attr", "") == "add_argument"
-             and n.args and getattr(n.args[0], "value", "") == "--synth-engine-b"]
-    assert flags, "--synth-engine-b must exist"
-    kw = {k.arg: k.value for k in flags[0].keywords}
-    assert getattr(kw["action"], "value", None) == "store_true", \
-        "store_true means the default is False -- an explicit default=True would be the " \
-        "blast radius this guard exists to prevent"
-
-
-def test_nothing_runs_unless_BOTH_the_optin_and_skip_agree():
-    """`--skip-engine-b` must still win. A band that has always run without Engine-B and
-    is invoked with `--skip-engine-b` must not acquire a leg because a new flag exists."""
+    ⚠️ It shipped opt-in first, justified as a CI guard, and THAT JUSTIFICATION WAS WRONG:
+    `check_result_generators` scores TRACKED artifacts only, so a new output file breaks
+    nothing until it is committed. The real cost is RUNTIME — every `--force-synthesis`
+    band now fits its lines twice — and `--skip-engine-b` is what that is for."""
     s = _src(DRIVER, "synthesis_route")
-    assert 'getattr(a, "synth_engine_b", False) and not a.skip_engine_b' in s
+    assert "if not a.skip_engine_b:" in s
+    assert "synth_engine_b" not in DRIVER, \
+        "the opt-in flag is gone -- a vestigial no-op flag is worse than none"
+
+
+def test_skip_engine_b_still_wins():
+    """The one escape hatch. A band that must not pay the second fit still has one, and it
+    is the SAME flag the EW route honours — one spelling, both routes."""
+    s = _src(DRIVER, "synthesis_route")
+    assert "a.skip_engine_b" in s
 
 
 def test_the_1D_LTE_leg_is_the_same_call_it_always_was():

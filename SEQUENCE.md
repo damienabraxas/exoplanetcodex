@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-25
 
+- **RYA-1044** — the Engine-B band-product leg was UNREACHABLE since it was "wired" (2 tickets Done, 0 products); now runs, and its first product shows +0.141 of the +0.187 was ATMOSPHERE
 - **RYA-1040** — ⟨3D⟩ treatment pair as AXES + route wired; the run found the deck was read **TRANSPOSED** and no ⟨3D⟩ deck could synthesise at all
 - **RYA-1013** — staged + verified the **O ⟨3D⟩ deck**: its CONSUME leg works (via Gerber, not the SIU route it names); build becomes a referee, not the path
 - **RYA-1035** (follow-up) — swept the ⟨3D⟩ aux defect across all 17 published decks: **Mn has Fe's identical defect**; the other 15 are clean
