@@ -36,6 +36,11 @@ import numpy as np
 import pandas as pd
 
 from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.trapz
+# RYA-1040: needed at MODULE level (TREATMENTS below derives two members from the
+# axis registry). The `axes_for` import at the foot of this file stays where it is --
+# it is used inside a function and moving it is not this ticket's change. There is no
+# circularity: treatment_axes imports nothing from here.
+from pipeline import treatment_axes
 
 # Treatments are separate products. This is the whole vocabulary; there is deliberately
 # no 'combined' member, because a combined value is not a product (RYA-712).
@@ -59,8 +64,22 @@ from pipeline._numcompat import trapezoid as _trapezoid  # numpy>=2 removed np.t
 # must be reportable side by side — the Kurucz pool is the BROAD number over every
 # measurable line, the lab-gf pool is the TIGHT number over the few with an
 # independent gf. Averaging them would destroy exactly the comparison they exist for.
+# 🔴 RYA-1040 — THE TWO ⟨3D⟩ MEMBERS ARE NOT COINED HERE, THEY ARE IMPORTED.
+# Every name above was typed into this tuple by hand. These two are DERIVED from their
+# axes in `pipeline.treatment_axes.AXIS_NATIVE` (Ryan ratified dropping the ENGINE-B-MEAN3D
+# spelling: it revives the vocabulary RYA-906 retired). Importing the tokens rather than
+# retyping them is what makes it impossible for this tuple and the axis registry to
+# disagree — which is the RYA-798 failure, where a treatment was emitted that this tuple
+# had never heard of and the product died AFTER the synthesis had run.
+#
+# ⚠️ They are a MANDATORY PAIR. The NLTE effect is (⟨3D⟩-NLTE − ⟨3D⟩-LTE) on ONE
+# atmosphere; differencing against 1D-LTE would report the 1D→mean-3D ATMOSPHERE shift as
+# non-LTE physics (RYA-542). Two separate products, never a correction (RYA-712).
+_MEAN3D_TREATMENTS = (treatment_axes.MEAN3D_NLTE_STAGGER.token,
+                      treatment_axes.MEAN3D_LTE_STAGGER.token)
+
 TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE", "ENGINE-A-3DNLTE",
-              "1D-LTE-LABGF")
+              "1D-LTE-LABGF") + _MEAN3D_TREATMENTS
 
 # Saturation: above this REW the EW->abundance inversion runs along the flat part of the
 # curve of growth and is ill-conditioned in BOTH directions. Lines past it are measured
