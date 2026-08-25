@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.39",
-  "updated_at": "2026-08-25T00:55:59Z",
+  "version": "1.41",
+  "updated_at": "2026-08-25T01:02:00Z",
   "products": [
     {
       "element": "Fe",
@@ -865,6 +865,58 @@
         "sha256": "0e2348fdfff3fc86e11057bc880d23c8ff6621018d2da210432a857d9cda5e23",
         "artifact_mtime": "2026-08-24T16:50:47Z",
         "ingested_at": "2026-08-24T23:30:22Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.448,
+      "sigma_stat": 0.0353,
+      "sigma_syst": 0.0556,
+      "n_lines": 69,
+      "n_excluded": 1,
+      "dominant_term": "gf scale (cited lab)",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv",
+        "copied_to": null,
+        "sha256": "86f2a85d4f1dd305b4268d41c2670bf937d1b1fba07d09d94ea06e8ab9fd63a8",
+        "artifact_mtime": "2026-08-25T01:01:13Z",
+        "ingested_at": "2026-08-25T01:02:00Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "red-optical",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A",
+      "display": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.461,
+      "sigma_stat": 0.0407,
+      "sigma_syst": 0.0556,
+      "n_lines": 35,
+      "n_excluded": 34,
+      "dominant_term": "gf scale (cited lab)",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv",
+        "copied_to": null,
+        "sha256": "9bda201e9eb75e06514715f3ef5da7315c97b284d948931b8311d8902141c157",
+        "artifact_mtime": "2026-08-25T01:01:34Z",
+        "ingested_at": "2026-08-25T01:02:00Z"
       }
     },
     {
