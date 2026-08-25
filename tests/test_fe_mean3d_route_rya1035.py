@@ -226,13 +226,49 @@ def test_the_deck_covers_the_sun_and_a_wide_box(plain_rows):
     assert sorted({r["feh"] for r in plain_rows}) == [-4.0, -3.0, -2.0, -1.0, -0.5, 0.0, 0.5]
 
 
-def test_fe_mean3d_is_NOT_registered_until_the_deck_is_staged():
-    """🔴 THE MATRIX DERIVES 'WIRED' FROM `DECKS` (RYA-821/v117). Registering a deck whose
-    bytes are not on Sirius would make the status surface claim a capability we cannot run
-    — which is the exact lie v117 removed. Staging is the follow-up; the route spec is in
-    `docs/decisions/fe_3d_nlte_route_rya1035.md`."""
-    assert "Fe@mean3D" not in G.DECKS
-    assert "Al@mean3D" in G.DECKS, "Al's is staged and registered -- the shape to copy"
+def test_fe_mean3d_is_registered_against_the_PLAIN_aux():
+    """🔴 THE MATRIX DERIVES 'WIRED' FROM `DECKS` (RYA-821/v117), so this entry may only
+    exist while the bytes really are on Sirius — otherwise the status surface claims a
+    capability we cannot run, which is the exact lie v117 removed. RYA-1035 staged and
+    md5-verified the deck; RYA-710 added the registry line, which is its charter.
+
+    🔴 AND IT MUST BE THE PLAIN AUX, THE OPPOSITE OF Al. The vendor's converter builds the
+    MARCS-style name FROM the [Fe/H] column it zeroed, collapsing seven distinct
+    atmospheres to one string and making the solar node unaddressable. Measured both ways:
+    `_marcs_names` refuses the solar node, plain returns `p5777g44m00`. Pinning the FILE
+    here is the point — this is not a stylistic choice between two equivalent inputs."""
+    assert "Fe@mean3D" in G.DECKS
+    cfg = G.DECKS["Fe@mean3D"]
+    assert cfg["aux"] == "auxData_Fe_STAGGERmean3D_May-21-2021.txt"
+    assert "_marcs_names" not in cfg["aux"], "the converted aux is unrecoverable for Fe"
+    assert cfg["read_via"] == "direct"
+    assert cfg["atom"] == "atom.fe607a"
+    # Al's, by contrast, IS the _marcs_names one -- and correctly so (0/6345 defects)
+    assert "_marcs_names" in G.DECKS["Al@mean3D"]["aux"]
+
+
+def test_fe_mean3d_carries_its_own_3D_atmosphere():
+    """⟨3D⟩ departures on a 1D MARCS structure produce a perfectly well-formed file, which
+    is why this is a guard and not a comment. The deck is keyed at STAGGER's 5777/4.44, a
+    node MARCS_SOLAR (5750/4.5) does not contain."""
+    assert G.deck_atmosphere("Fe@mean3D") != G.MARCS_SOLAR
+    assert "stagger" in G.deck_atmosphere("Fe@mean3D").lower()
+    assert G.deck_atmosphere("Fe") == G.MARCS_SOLAR, "the 1D deck is untouched"
+
+
+def test_registering_fe_mean3d_did_not_give_it_an_abundance_axis(plain_rows):
+    """🔴 THE DIFFERENCE THAT IS INVISIBLE FROM THE REGISTRY LINE. Al's ⟨3D⟩ deck resolves
+    31 abundances and needs the v118 per-trial interpolation; Fe's resolves ONE, so its
+    departures are a property of the atmosphere node and may be hoisted out of the χ² loop
+    — which is what the pre-v118 code always did, correctly, for Fe."""
+    G._AUX_ROW_CACHE["Fe@mean3D"] = plain_rows
+    G._AXIS_CACHE.pop("Fe@mean3D", None)
+    try:
+        assert G.abundance_axis("Fe@mean3D") == (7.5,)
+        assert not G.has_abundance_axis("Fe@mean3D")
+    finally:
+        G._AUX_ROW_CACHE.pop("Fe@mean3D", None)
+        G._AXIS_CACHE.pop("Fe@mean3D", None)
 
 
 # ── (B) the deck abundance: resolved by provenance, and guarded against re-drift ──

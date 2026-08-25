@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-24
 
+- **RYA-710** — Fe ⟨3D⟩ **WIRED**: `Fe@mean3D` registered against the PLAIN aux (opposite of Al); cell `T2_FETCH_OWED` → `T2_CONSUME_WIRED`
 - **RYA-1035** — Step 0 came back **HAVE**: the Fe ⟨3D⟩ deck was on our own Keeper share all along; 13 matrix cells were mis-stated as builds ⇒ new `T2_FETCH_OWED`
 - **RYA-821** (follow-up) — 🔴 **Engine-B NLTE could not run Al AT ALL, on either deck**: the call site hoisted departures out of the χ² loop with no abundance, which is right for Fe (1 value) and REFUSED for Al (31 values, b differing by up to **10.28** between adjacent 0.1-dex nodes). The matrix blamed 'a registry line' — wrong; it was the call site. Now decided **per deck**, evaluated per trial, with `departures_at_abundance` interpolating linearly between brackets (exact at a node, verified byte-identical). **Unblocks Al 1D-NLTE as well as ⟨3D⟩.** Still owed: the ⟨3D⟩ band product needs a `gerber-mean3d` deck choice AND the ⟨3D⟩ atmosphere, not MARCS.GES
 
