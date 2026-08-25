@@ -75,10 +75,34 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 # Sirius-only authoritative copy; sp/ is gitignored and md5-pinned (RYA-789).
-SP_Y = Path(str(codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier' / 'sp' / 'Sun_Y_rv.dat'))
-MD5_Y = "8428f7009e59c6073ba11242b83d48ff"
+#: 🔴 THE THREE ARMS — RYA-1048. Elgueta ships Y, J and H; only Y was ever wired, and
+#: RYA-794 recorded that Fe I is NOT where Y is strong: the arms carry 141 / 104 / 677
+#: Fe I lines respectively, so H alone holds twenty-six times the pool our current IR
+#: products rest on. All three are md5-pinned in the RYA-789 manifest and all three sit
+#: in the same sp/ directory; nothing but four hardcoded constants kept J and H out.
+#:
+#: The WINDOW per arm is Elgueta's own near-telluric-free selection where they state one.
+#: ⚠️ H is their most telluric-contaminated band and they SKIP regions inside it, so its
+#: window is the arm's full extent and the per-region judgement belongs downstream, not
+#: in a single pair of numbers here (RYA-787).
+_SP_DIR = codex_root('work') / 'rya789' / 'data' / 'reference' / 'elgueta2026_vizier' / 'sp'
+ARMS: dict[str, dict] = {
+    "Y": dict(file="Sun_Y_rv.dat", md5="8428f7009e59c6073ba11242b83d48ff",
+              window=(10280.0, 10680.0), out="rya794",
+              note="Elgueta's near-telluric-free Y window (RYA-794)"),
+    "J": dict(file="Sun_J_rv.dat", md5="2540592e285d4307ff3c97bb18ab4c25",
+              window=None, out="rya1048",
+              note="J: 104 Fe I lines; window = the arm's measured extent"),
+    "H": dict(file="Sun_H_rv.dat", md5="d7de44a993d1776a880e8206a8e9a68e",
+              window=None, out="rya1048",
+              note="H: 677 Fe I lines, Elgueta's MOST telluric-contaminated arm — they "
+                   "skip regions inside it, so treat per region downstream (RYA-787)"),
+}
+#: Back-compat: the Y names this script was written around. Same values, one source.
+SP_Y = Path(str(_SP_DIR / ARMS["Y"]["file"]))
+MD5_Y = ARMS["Y"]["md5"]
 NM_TO_A = 10.0                      # the ReadMe says 0.1nm; the data says nm. See above.
-WINDOW = (10280.0, 10680.0)         # Elgueta's near-telluric-free Y window
+WINDOW = ARMS["Y"]["window"]        # Elgueta's near-telluric-free Y window
 OUT_DIR = ROOT / "data" / "results" / "rya794"
 
 
@@ -120,26 +144,61 @@ def normalize_reflectance(wave, flux, niter=8, lo=2.0, hi=4.0, s=None):
     return norm, cont, o
 
 
-def load_y_band() -> tuple[np.ndarray, np.ndarray]:
+def load_arm(arm: str = "Y") -> tuple[np.ndarray, np.ndarray]:
+    """One Elgueta arm as (wave_A, flux), md5-verified against the RYA-789 pin.
+
+    The md5 check is not ceremony: sp/ is gitignored, so the ONLY thing tying a local
+    copy to the published data is the pin. A silently different file would still load,
+    still fit, and still produce a plausible abundance.
+    """
     import hashlib
-    if not SP_Y.exists():
-        raise SystemExit(f"Y-band spectrum not staged at {SP_Y} (RYA-789, Sirius-only)")
-    got = hashlib.md5(SP_Y.read_bytes()).hexdigest()
-    if got != MD5_Y:
-        raise SystemExit(f"md5 mismatch on {SP_Y.name}: {got} != pinned {MD5_Y}")
-    d = np.loadtxt(SP_Y)
+    if arm not in ARMS:
+        raise SystemExit(f"unknown arm {arm!r}; Elgueta ships {sorted(ARMS)}")
+    spec = ARMS[arm]
+    path = Path(str(_SP_DIR / spec["file"]))
+    if not path.exists():
+        raise SystemExit(f"{arm}-band spectrum not staged at {path} "
+                         f"(RYA-789, Sirius-only — sp/ is gitignored and md5-pinned)")
+    got = hashlib.md5(path.read_bytes()).hexdigest()
+    if got != spec["md5"]:
+        raise SystemExit(f"md5 mismatch on {path.name}: {got} != pinned {spec['md5']}")
+    d = np.loadtxt(path)
     return d[:, 0] * NM_TO_A, d[:, 1]
+
+
+def load_y_band() -> tuple[np.ndarray, np.ndarray]:
+    """Back-compat alias — every pre-RYA-1048 caller means the Y arm."""
+    return load_arm("Y")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--lo", type=float, default=WINDOW[0])
-    ap.add_argument("--hi", type=float, default=WINDOW[1])
+    ap.add_argument("--arm", choices=sorted(ARMS), default="Y",
+                    help="which Elgueta arm to normalise. Y is the RYA-794 default so "
+                         "existing invocations are unchanged; J and H carry 104 and 677 "
+                         "Fe I lines respectively (RYA-1048).")
+    ap.add_argument("--lo", type=float, default=None)
+    ap.add_argument("--hi", type=float, default=None)
     ap.add_argument("--no-plot", action="store_true")
     a = ap.parse_args()
+    _spec = ARMS[a.arm]
+    # 🔴 THE WINDOW IS THE ARM'S OWN, and where Elgueta declares none it is the arm's
+    # MEASURED extent rather than a guessed pair of numbers. Y keeps its published
+    # near-telluric-free 10280-10680 so that product is byte-reproducible.
+    if a.lo is None or a.hi is None:
+        if _spec["window"] is not None:
+            _w = _spec["window"]
+            a.lo = _w[0] if a.lo is None else a.lo
+            a.hi = _w[1] if a.hi is None else a.hi
+        else:
+            _wv, _ = load_arm(a.arm)
+            a.lo = float(np.nanmin(_wv)) if a.lo is None else a.lo
+            a.hi = float(np.nanmax(_wv)) if a.hi is None else a.hi
+            print(f"  [{a.arm}] no published window; using the arm's measured extent "
+                  f"{a.lo:.1f}-{a.hi:.1f} A. {_spec['note']}")
 
-    w, f = load_y_band()
+    w, f = load_arm(a.arm)
     print(f"STEP 0 — source A: {SP_Y.name}, md5 verified")
     print(f"  CRIRES+ (ReadMe: 'CRIRES+ ... ~100000'), solar spectrum from Vesta")
     print(f"  {len(w)} pts, {w.min():.2f}-{w.max():.2f} A  "
@@ -166,8 +225,13 @@ def main() -> None:
           f"{deep_after} after"
           f"  {'OK' if deep_after >= 0.9 * deep_before else 'WARNING — cores eaten'}")
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    out = OUT_DIR / "vesta_crires_plus_Y_10280_10680_normalized.csv"
+    # 🔴 THE STEM NAMES THE ARM AND ITS WINDOW. Y keeps its exact RYA-794 filename so
+    # the registered path key `repo.crires_plus_solar_y_rya794` still resolves and the
+    # existing product is not orphaned; J and H land beside it under their own ticket.
+    _out_dir = ROOT / "data" / "results" / _spec["out"]
+    _out_dir.mkdir(parents=True, exist_ok=True)
+    _stem = (f"vesta_crires_plus_{a.arm}_{int(round(a.lo))}_{int(round(a.hi))}")
+    out = _out_dir / f"{_stem}_normalized.csv"
     np.savetxt(out, np.column_stack([ws, norm]), delimiter=",",
                header="wavelength_air_A,flux_normalized", comments="")
     print(f"\nSTEP 3 — wrote {out.relative_to(ROOT)}  ({len(ws)} rows)")
@@ -211,7 +275,7 @@ def main() -> None:
         print(f"         wavelength solution and the continuum, against numbers we did "
               f"not produce.")
         import csv as _csv
-        sel = OUT_DIR / "vesta_crires_plus_Y_FeI_lines.csv"
+        sel = _out_dir / f"vesta_crires_plus_{a.arm}_FeI_lines.csv"
         with open(sel, "w", newline="") as fh:
             wcsv = _csv.DictWriter(fh, fieldnames=list(inwin[0].keys()))
             wcsv.writeheader(); wcsv.writerows(inwin)
@@ -268,7 +332,11 @@ def _qa_plot(wx, fx, cont, norm, order, a) -> None:
     axes[1].set_xlabel("air wavelength (A)"); axes[1].set_ylabel("normalised flux")
     axes[1].legend(fontsize=8)
     fig.tight_layout()
-    p = OUT_DIR / "vesta_crires_plus_Y_qa.png"
+    # `_out_dir` is main()'s local; derive the same path from the arm rather than
+    # threading another argument through — one source for where an arm's output lives.
+    _dir = ROOT / "data" / "results" / ARMS[getattr(a, "arm", "Y")]["out"]
+    _dir.mkdir(parents=True, exist_ok=True)
+    p = _dir / f"vesta_crires_plus_{getattr(a, 'arm', 'Y')}_qa.png"
     fig.savefig(p, dpi=140); plt.close(fig)
     print(f"  wrote {p.relative_to(ROOT)}  (zoom {lo2:.0f}-{hi2:.0f} A, "
           f"{len(fe)} Fe I lines marked)")
