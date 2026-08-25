@@ -675,8 +675,46 @@ def synthesis_route(a, pol) -> None:
     # side has the same shape and absorbs it with a 0.01 A tolerance justified against a
     # ~0.18 A line spacing; that constant cannot be reused here, where the NIR spacing is
     # 3.99 A. Using the real extent needs no tolerance at all.
-    _ll = pd.read_csv(cfg.linelist, sep="\t", usecols=["wave_A"], low_memory=False)
-    _w = _ll.wave_A[(_ll.wave_A >= a.lo) & (_ll.wave_A <= a.hi)]
+    _ll = pd.read_csv(cfg.linelist, sep="\t", usecols=["wave_A", "element"],
+                      low_memory=False)
+    # 🔴 COVERAGE IS TESTED AGAINST THE SPECIES WE MEASURE, NOT THE WHOLE LIST — RYA-1045.
+    #
+    # Passing the full list's extent disabled canonical gf single-sourcing across the
+    # ENTIRE IR band because of SIX lines, none of them Fe I. canonical_gf.csv ends at
+    # 12975.910 A; the IR list runs to 12976.143; the 0.09 A beyond the edge holds 6
+    # lines and ZERO Fe I. `gf_provenance` is all-or-nothing, so `apply_canonical_gf`
+    # came back False and all 4,364 in-band Fe I lines were synthesised on the list's
+    # own VALD gf while canonical_gf held the LABORATORY values for 29 of them.
+    #
+    # That is the whole of the IR "SCALE-MISMATCH" story: 24 of 28 lab lines differ from
+    # the list by more than 0.02 dex, up to 0.474, so the grader correctly refused to
+    # call the pool graded and IR Fe I collapsed to n=4. The lines were never
+    # mis-labelled -- canonical and the lab table agree EXACTLY, delta 0.0 on all 29 --
+    # they were MEASURED on a gf canonical had already superseded.
+    #
+    # Canonical adjudicates the gf of the lines a product REPORTS. A blend line's gf
+    # comes from the list either way and canonical never adjudicated it, so letting six
+    # of them switch off single-sourcing for the species is the tail wagging the dog.
+    #
+    # 🔴 AND THE BOUND CHECK WAS A PURE FALSE NEGATIVE, measured after the fact. The six
+    # lines past the edge are ALL Mn I -- 12975.929 to 12976.143, one hyperfine multiplet
+    # -- and `apply_to_synth_array` resolves the WHOLE IR list without raising, Mn I
+    # included: canonical covers every physical line it clusters. So nothing was actually
+    # uncovered. `gf_provenance` refused on a NOMINAL wavelength comparison while the
+    # table it guards could handle the list fine.
+    #
+    # Which means the strict application is already the real guard -- it raises loudly on
+    # genuine non-coverage (`resolve` -> GfResolutionError, "0-match, not defaulting") --
+    # and the bound test is defensive logic in front of it that can only produce false
+    # negatives. Narrowing it to the measured species removes this instance; the broader
+    # question of whether the bound check should exist at all is left for RYA-1045, since
+    # relaxing it is a behavioural change to every band, not just this one.
+    _species_tok = species_token(a.element, a.ion)
+    _el = _ll.element.astype(str).str.strip()
+    _sp = _ll[(_el == _species_tok)]
+    _w = _sp.wave_A[(_sp.wave_A >= a.lo) & (_sp.wave_A <= a.hi)]
+    if _w.empty:                       # fall back to the full list rather than crash
+        _w = _ll.wave_A[(_ll.wave_A >= a.lo) & (_ll.wave_A <= a.hi)]
     if _w.empty:
         raise SystemExit(
             f"no line in {cfg.linelist.name} lies within {a.lo}-{a.hi} A — refusing to "

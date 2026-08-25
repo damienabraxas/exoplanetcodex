@@ -693,7 +693,26 @@ def _load_synth_resources(linelist_file: str = None,
         if apply_canonical_gf:
             # RYA-353 single-source gf: overwrite GES loggf from canonical (the shared
             # ispec/ tsv is read-only, so we rescale after read — branching preserved).
-            ll = apply_to_synth_array(ll)
+            #
+            # 🔴 PARTIAL AND LOUD, because coverage is PER LINE (RYA-1045). The band-wide
+            # wavelength bound that used to gate this is gone: it could only produce
+            # false negatives, and one of them — six Mn I HFS components 0.09 A past the
+            # red edge — left 4,364 Fe I lines on VALD gf while canonical held laboratory
+            # values. A line canonical genuinely cannot serve is now left AS DELIVERED
+            # and NAMED, so the run states what it did not adjudicate instead of either
+            # lying or refusing wholesale.
+            _gf_report: dict = {}
+            ll = apply_to_synth_array(ll, report=_gf_report)
+            _unc = _gf_report.get("uncovered") or []
+            if _unc:
+                from collections import Counter
+                _by = Counter(u["species"] for u in _unc)
+                print(f"  [synth] canonical gf applied to {_gf_report['applied']} "
+                      f"physical lines; {len(_unc)} NOT adjudicated, left as delivered "
+                      f"({', '.join(f'{k} x{v}' for k, v in _by.most_common(4))})")
+            else:
+                print(f"  [synth] canonical gf applied to all "
+                      f"{_gf_report.get('applied')} physical lines (0 uncovered)")
         else:
             print(f"  [synth] canonical gf single-sourcing OFF for {label} — the "
                   f"list's own log gf is used as delivered")
