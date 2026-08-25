@@ -200,14 +200,26 @@ def main(argv=None) -> int:
     gen = iu.module_from_spec(sp); sp.loader.exec_module(gen)
     synth = gen.synthesis_required()
 
-    key = lambda d: set(zip(d.element.astype(str), d.ion.astype(str),
-                            d.wavelength_air_A.astype(float).round(2)))
-    in_pool = key(pool)
+    # 🔴 RYA-1033 — membership was tested on `round(wavelength_air_A, 2)`. A fitted line
+    # whose wavelength straddles a rounding boundary then reads as ABSENT from the pool and
+    # gets a drop_reason invented for it, when it is in the pool and was never dropped. The
+    # ledger's whole claim is "every drop is accounted for", so a spurious drop is worse
+    # here than anywhere else. Tolerance match, per (element, ion).
+    from pipeline import line_match
+
+    fit = fit.reset_index(drop=True)
+    in_pool_mask = np.zeros(len(fit), dtype=bool)
+    for k, grp in fit.groupby([fit.element.astype(str), fit.ion.astype(str)], sort=False):
+        sub = pool[(pool.element.astype(str) == k[0]) & (pool.ion.astype(str) == k[1])]
+        if sub.empty:
+            continue
+        res = line_match.match(grp.wavelength_air_A.to_numpy(float),
+                               sub.wavelength_air_A.to_numpy(float))
+        in_pool_mask[grp.index.to_numpy()] = res.index >= 0
 
     rows = []
-    for _, r in fit.iterrows():
-        k = (str(r.element), str(r.ion), round(float(r.wavelength_air_A), 2))
-        if k in in_pool:
+    for pos, r in fit.iterrows():
+        if in_pool_mask[pos]:
             continue
         code, detail = classify(r, W, F, ll, synth)
         d = _depth(W, F, float(r.wavelength_air_A))

@@ -2536,18 +2536,38 @@ def _emit_ew_integrity(out_dir, star_id, scored_df, curated_pool):
     measured = pd.read_csv(str(ew_src), comment='#')
     measured = measured[(measured['ew_mA'] > 0) & measured['ew_mA'].notna()].reset_index(drop=True)
 
-    # implied A(X) per line, keyed (element, ion, wave@2dp): Fe from scoring, else curated.
-    a_map: dict = {}
+    # implied A(X) per line: Fe from scoring, else the curated pool.
+    #
+    # 🔴 RYA-1033 — THIS WAS KEYED ON `round(wavelength_air_A, 2)` AND THAT IS NOT A LINE
+    # IDENTITY. Two tables holding the same line to different precision land on different
+    # keys (Fe I 4787.49462 vs 4787.495 -> 4787.49 vs 4787.50), so the lookup returned NaN
+    # for a line whose abundance was sitting right there. NaN `a_lte` silently disables the
+    # ABUND_OUTLIER check for that line — the check reports nothing and looks like a pass.
+    #
+    # It was also inconsistent with the other half of the same join: this module rounds with
+    # Python (`round(6136.615, 2) -> 6136.61`) while `promote_solar_ew` rounded with pandas
+    # (`-> 6136.62`). One wavelength, two keys. See `pipeline.line_match`.
+    from pipeline import line_match
+
+    sources = []
     if scored_df is not None and not scored_df.empty and 'a_1dlte' in scored_df.columns:
-        for _, r in scored_df.iterrows():
-            a_map[(r['element'], r['ion'], round(float(r['wavelength_air_A']), 2))] = float(r['a_1dlte'])
+        sources.append((scored_df, 'a_1dlte'))
     if curated_pool is not None and 'A_lte' in getattr(curated_pool, 'columns', []):
-        for _, r in curated_pool[curated_pool['A_lte'].notna()].iterrows():
-            a_map.setdefault((r['element'], r['ion'], round(float(r['wavelength_air_A']), 2)),
-                             float(r['A_lte']))
-    measured['a_lte'] = [a_map.get((e, i, round(float(w), 2)), np.nan)
-                         for e, i, w in zip(measured['element'], measured['ion'],
-                                            measured['wavelength_air_A'])]
+        sources.append((curated_pool[curated_pool['A_lte'].notna()], 'A_lte'))
+
+    a_lte = np.full(len(measured), np.nan)
+    for src, col in sources:
+        src = src.reset_index(drop=True)
+        for key, grp in measured.groupby(['element', 'ion'], sort=False):
+            sub = src[(src['element'] == key[0]) & (src['ion'] == key[1])]
+            if sub.empty:
+                continue
+            res = line_match.match(grp['wavelength_air_A'].to_numpy(float),
+                                   sub['wavelength_air_A'].to_numpy(float))
+            rows = grp.index.to_numpy()
+            hit = (res.index >= 0) & np.isnan(a_lte[rows])   # first source wins, as before
+            a_lte[rows[hit]] = sub[col].to_numpy(float)[res.index[hit]]
+    measured['a_lte'] = a_lte
 
     flagged = ei.flag_ew_integrity(measured)
     ei.assert_no_ew_mutation(measured, flagged)          # cardinal guard (also asserted inside)

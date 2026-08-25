@@ -173,6 +173,35 @@ def _build_header(star: str, element: str, sources: dict, input_commit: str) -> 
     }
 
 
+def assert_provenance_resolved(out: pd.DataFrame) -> None:
+    """RYA-1033 — a measured line with NO atomic-data row anywhere must not be published.
+
+    🔴 THE GUARD THE TICKET ASKED FOR, AND THE REASON IT IS NEEDED. `gf_source` used to be
+    allowed to say "UNRESOLVED", which was then merely COUNTED in `accounting` and shipped.
+    A row with no gf provenance is indistinguishable downstream from an ordinary ungraded
+    line, so it silently joins the ungraded pool and moves its value (RYA-833).
+
+    "linelist (not in canonical_gf)" is NOT this failure: it is a DECLARED source, named in
+    the row, and stands. Only UNRESOLVED — in neither canonical_gf nor the linelist — raises.
+    """
+    if "gf_source" not in out.columns:
+        return
+    bad = out[out["gf_source"].astype(str) == "UNRESOLVED"]
+    if bad.empty:
+        return
+    shown = "\n".join(
+        f"    {r.element} {r.ion} {float(r.wavelength_air_A):.4f}"
+        for r in bad.head(12).itertuples())
+    more = f"\n    ... and {len(bad) - 12} more" if len(bad) > 12 else ""
+    raise PerLineProductError(
+        f"{len(bad)} measured line(s) resolve to NO gf provenance — not in canonical_gf and "
+        f"not in the linelist. Publishing them would put lines with no atomic data into the "
+        f"ungraded pool, where nothing downstream can tell them from a real Kurucz-tier "
+        f"line. Add them to canonical_gf or exclude them explicitly (RYA-1033/RYA-833). "
+        f"If a line is genuinely absent, that absence is the finding and belongs in the "
+        f"ticket, not in the product:\n{shown}{more}")
+
+
 def _load_linelist(star: str) -> pd.DataFrame:
     f = LINELIST_DIR / f"linelist_{star}.csv"
     if not f.exists():
@@ -524,6 +553,8 @@ def build_perline_product(star: str, element: str, band_products,
                             "canonical_gf": CANONICAL_GF.name,
                             "problem_children": REGISTRY_CSV.name},
                            input_commit)
+    assert_provenance_resolved(out)
+
     accounting = {
         "n_measured_rows_read": n_measured,
         "n_emitted_rows": len(out),
