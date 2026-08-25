@@ -248,11 +248,52 @@ def test_near_uv_now_HAS_canonical_gf_because_rya822_extended_the_table():
     assert "RYA-353" in p["detail"]
 
 
-def test_a_band_bluer_than_the_table_still_turns_canonical_gf_off_and_says_why():
-    """The refusal must still work where the table genuinely does not reach."""
+def test_a_band_outside_the_table_is_answered_PER_LINE_not_by_a_wavelength_bound():
+    """🔴 RETARGETED, RYA-1045. This asserted that a band outside the table's extent
+    turned canonical gf OFF wholesale. That behaviour is GONE, deliberately: a per-band
+    wavelength bound can only produce false negatives, and it produced a bad one — six
+    Mn I hyperfine components 0.09 A past the red edge left 4,364 Fe I lines on VALD gf
+    while canonical held LABORATORY values for 29, so IR Fe I graded rung 1 at n=4. Hard
+    ranges are also the wrong shape when instruments span different ranges.
+
+    THE INTENT SURVIVES AND IS WHAT IS TESTED NOW: a line canonical cannot serve must
+    still be declared, never silently left on the list's own gf. The declaration simply
+    moved from a band-wide refusal to a per-line report, which is where the truth lives.
+    """
     p = ns.gf_provenance(1200.0, 2000.0)
-    assert p["apply_canonical_gf"] is False
-    assert "canonical_gf.csv starts at" in p["detail"]
+    assert p["apply_canonical_gf"] is True, (
+        "the bound-based refusal is retired; coverage is decided per line by the "
+        "application, whose `resolve` already raises on a line it cannot serve")
+    assert "per LINE" in p["detail"] and "RYA-1045" in p["detail"]
+
+
+def test_an_unservable_line_is_NAMED_not_silently_left_as_delivered():
+    """The honesty guarantee the retired bound was protecting, pinned where it now lives.
+
+    Without a `report` the application still RAISES — a line quietly carrying the list's
+    own gf inside a product claiming canonical single-sourcing is a lie (RYA-833). With
+    one, it is left as delivered AND recorded, so the caller can state it.
+    """
+    import numpy as np
+    import pytest as _pytest
+    from pipeline.gf_resolver import GfResolutionError, apply_to_synth_array
+
+    arr = np.zeros(1, dtype=[("element", "U8"), ("ion", "i4"), ("molecule", "U8"),
+                             ("wave_A", "f8"), ("lower_state_eV", "f8"), ("loggf", "f8")])
+    arr["element"][0] = "Zz"          # a species canonical cannot possibly carry
+    arr["ion"][0] = 1
+    arr["wave_A"][0] = 5000.0
+    arr["lower_state_eV"][0] = 3.0
+    arr["loggf"][0] = -1.0
+
+    with _pytest.raises(GfResolutionError):
+        apply_to_synth_array(arr.copy())            # strict: no silent fallback
+
+    rep: dict = {}
+    apply_to_synth_array(arr.copy(), report=rep)    # partial: left as delivered, NAMED
+    assert rep["n_uncovered"] == 1
+    assert rep["uncovered"][0]["wave_A"] == 5000.0
+    assert rep["uncovered"][0]["reason"], "an uncovered line must carry its reason"
 
 
 def test_the_canonical_blue_edge_is_read_from_the_table_not_hardcoded():

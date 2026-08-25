@@ -324,10 +324,32 @@ def cluster_physical_lines(keys, wls, eps):
     return clusters
 
 
-def apply_to_synth_array(arr: np.ndarray) -> np.ndarray:
+def apply_to_synth_array(arr: np.ndarray, *, report: dict | None = None) -> np.ndarray:
     """Overwrite the GES synth linelist's `loggf` (in place) so each physical line's
     TOTAL matches canonical, preserving HFS branching via a single additive shift.
-    Raises on any line absent from canonical (no silent fallback)."""
+
+    Raises on any line absent from canonical — no SILENT fallback.
+
+    🔴 PASS `report` TO MAKE IT PARTIAL AND LOUD — RYA-1045. COVERAGE IS PER LINE, NOT
+    PER BAND. The caller used to decide whether canonical applied by comparing the band's
+    wavelength bound against the table's extent, which can only produce FALSE NEGATIVES:
+    six Mn I hyperfine components 0.09 A past the red edge switched laboratory gf off for
+    4,364 Fe I lines and collapsed IR Fe I to n=4 at rung 1. A hard range is also the
+    wrong shape going forward — instruments span different ranges, and a bound tuned to
+    one of them is wrong for the next.
+
+    `resolve` is the authoritative test and it is already loud ("0-match, not
+    defaulting"). So: attempt every line, and when one genuinely has no canonical entry,
+    leave it AS DELIVERED and record it in `report` for the caller's provenance. Without
+    `report` the strict raise stands, because a line quietly left on the list's own gf
+    inside a product claiming canonical single-sourcing is a lie (RYA-833) — the caller
+    must ASK for partial coverage and is then obliged to state it.
+
+    `report` is filled with `applied`, `uncovered` (species/wavelength/reason) and
+    `n_uncovered`. It is a caller-supplied dict rather than an attribute on `arr`: numpy
+    structured arrays reject attribute assignment, and my first attempt at this lost the
+    accounting silently through an `except AttributeError`.
+    """
     n = len(arr)
     keys = [species_key(arr['element'][i], arr['ion'][i], arr['molecule'][i])
             for i in range(n)]
@@ -335,14 +357,28 @@ def apply_to_synth_array(arr: np.ndarray) -> np.ndarray:
     eps = arr['lower_state_eV'].astype(float)
     gf = arr['loggf'].astype(float)
 
+    uncovered: list[dict] = []
+    n_applied = 0
     for cl in cluster_physical_lines(keys, wls, eps):
         comp_gf = gf[cl]
         cur_total = float(np.log10(np.sum(10.0 ** comp_gf)))
         w = 10.0 ** comp_gf
         centroid = float(np.sum(wls[cl] * w) / w.sum())
         ep_mean = float(np.mean(eps[cl]))
-        canon_total = resolve(keys[cl[0]], centroid, ep_mean)
+        try:
+            canon_total = resolve(keys[cl[0]], centroid, ep_mean)
+        except GfResolutionError as exc:
+            if report is None:
+                raise                       # strict: the caller did not ask for partial
+            uncovered.append({"species": str(keys[cl[0]]), "wave_A": centroid,
+                              "n_components": len(cl), "reason": str(exc)[:160]})
+            continue                        # LEFT AS DELIVERED, and named
         shift = canon_total - cur_total
         for i in cl:
             arr['loggf'][i] = gf[i] + shift
+        n_applied += 1
+    if report is not None:
+        report["applied"] = n_applied
+        report["uncovered"] = uncovered
+        report["n_uncovered"] = len(uncovered)
     return arr
