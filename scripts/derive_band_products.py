@@ -1048,15 +1048,20 @@ def synthesis_route(a, pol) -> None:
     lines = _fit_lines("1D-LTE")
 
     # ── RYA-1044: the Engine-B leg's INPUTS ─────────────────────────────────────────
-    # ⚠️ OPT-IN, AND THE DEFAULT-OFF IS THE BLAST-RADIUS GUARD, NOT TIMIDITY. Every
-    # `--force-synthesis` band in the repo reaches this function, and making the leg
-    # automatic would (a) add a product row to bands whose GENERATORS entries do not
-    # declare one -- which is a HARD CI failure, `check_result_generators` fails in both
-    # directions -- and (b) roughly double every such run. So the leg is REACHABLE (the
-    # ticket's word) rather than unconditional, and turning it on by default is a
-    # follow-up that has to land its GENERATORS entries in the same change.
+    # RYA-1044 — RUNS BY DEFAULT, gated only by `--skip-engine-b`, exactly as the EW
+    # route's Engine-B leg is. Ryan, 2026-08-25: *"this will be a product eventually so
+    # not sure why that is off"* -- and that is the right test. A leg that produces a
+    # product should produce it; an opt-in flag would leave RYA-784/798 half-closed in a
+    # new way, reachable-but-never-reached.
+    #
+    # ⚠️ I first shipped this opt-in and justified it as a CI guard. THAT JUSTIFICATION
+    # WAS WRONG: `check_result_generators` scores TRACKED artifacts only -- its own words,
+    # "sitting untracked in a working tree is not a violation of anything" -- so a new
+    # output file breaks nothing until somebody commits it. The real cost is RUNTIME:
+    # every `--force-synthesis` band now fits its lines twice. That is a genuine cost and
+    # it is what `--skip-engine-b` is for; it is not a correctness argument.
     eb_lines = eb_treatment = eb_prov = None
-    if getattr(a, "synth_engine_b", False) and not a.skip_engine_b:
+    if not a.skip_engine_b:
         _mean3d = a.engine_b_deck in ("gerber-mean3d", "gerber-mean3d-lte")
         _nlte = a.engine_b_deck in ("gerber-nlte", "gerber-mean3d")
         _fit_kw: dict = {}
@@ -1806,17 +1811,6 @@ def main() -> None:
                          "is (<3D>-NLTE minus <3D>-LTE) on ONE atmosphere, because "
                          "differencing against 1D-LTE would report the 1D->mean-3D "
                          "ATMOSPHERE shift as non-LTE physics (RYA-542).")
-    ap.add_argument("--synth-engine-b", action="store_true",
-                    help="RYA-1044: run the Engine-B leg on the SYNTHESIS route too "
-                         "(--force-synthesis bands). That leg was unreachable -- "
-                         "`synthesis_route` had no Engine-B code, so RYA-784 and RYA-798 "
-                         "both closed Done while the leg had never emitted a product for "
-                         "any element, band or deck. Unlike the EW route it needs NO "
-                         "measured-EW file: a flux fit does not consume an EW. ⚠️ OFF by "
-                         "default so the blast radius on existing --force-synthesis "
-                         "bands is exactly zero -- switching it on adds a product row, "
-                         "and a row with no GENERATORS entry is a hard CI failure. "
-                         "Which product it emits is chosen by --engine-b-deck.")
     ap.add_argument("--skip-engine-b", action="store_true",
                     help="derive 1D-LTE and ENGINE-A only. Engine B refits the spectrum "
                          "per line and is much slower than the EW inversion.")
