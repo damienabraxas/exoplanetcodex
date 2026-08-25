@@ -248,12 +248,40 @@ def main() -> int:
     # So overlap is now a PRECONDITION, stated separately from agreement: there must be at
     # least one bracket that actually compared lines, AND every bracket that compared any
     # must pass.
+    # 🔴 IS THE MATCHED SUBSET REPRESENTATIVE OF THE PRODUCT IT IS CERTIFYING?
+    # Leg 1 can only compare the lines the anchor also carries. That is a SUBSET, and a
+    # gate over a subset certifies the product only if the subset behaves like it.
+    #
+    # This is DERIVED, not a chosen cut: if the matched median and the full-product median
+    # do not even agree in SIGN, the matched lines are demonstrably not representative, and
+    # an excellent agreement over them says nothing about the 88% they exclude. Measured on
+    # the first full-band run: matched median -0.0160 against a full-product median of
+    # +0.0340 -- opposite signs, and leg 1 nonetheless "passed" to 0.0007 dex.
+    #
+    # A gate that certifies a product from an unrepresentative slice of it is the same
+    # gate-shaped absence as passing on zero overlap, one step less obvious.
+    for vt, v in leg1.items():
+        if not v.get("n"):
+            continue
+        v["full_product_median"] = round(med, 4)
+        v["subset_representative"] = (v["ours_median"] > 0) == (med > 0)
+        if not v["subset_representative"]:
+            v["verdict"] = "UNREPRESENTATIVE"
+            print(f"\n  🔴 vturb {vt}: THE MATCHED SUBSET IS NOT REPRESENTATIVE. Its "
+                  f"median is {v['ours_median']:+.4f} while the full {len(common)}-line "
+                  f"product is {med:+.4f} -- OPPOSITE SIGNS. The {v['n']} matched lines "
+                  f"agree with the anchor to {abs(v['median_difference']):.4f} dex, but "
+                  f"they are not behaving like the product they would certify, so that "
+                  f"agreement cannot carry it.")
+
     compared = [v for v in leg1.values() if v.get("n")]
     if not compared:
         print(f"\n  🔴 NO BRACKET SHARED A SINGLE LINE WITH THE ANCHOR. That is not "
               f"agreement -- it is the absence of a comparison, and it cannot pass.")
         doc["no_overlap_with_anchor"] = True
     both = bool(compared) and all(v["verdict"] == "PASS" for v in compared) and within
+    if compared and not all(v.get("subset_representative", True) for v in compared):
+        doc["blocked_by"] = "matched subset unrepresentative of the full product"
     doc["verdict"] = "VALIDATED" if both else "NOT_VALIDATED"
     print(f"\nVERDICT: {doc['verdict']}  "
           f"(a deck must pass BOTH legs; either alone is weaker)")
