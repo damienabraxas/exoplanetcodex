@@ -94,6 +94,10 @@ def main() -> int:
                          "blend DILUTES the response, so a blended line reads as more "
                          "saturated than it is. Reported, not corrected.")
     ap.add_argument("--limit", type=int, default=None, help="first N lines (smoke test)")
+    ap.add_argument("--blend-offset", type=float, default=3.0,
+                    help="dex to drive Fe DOWN by for the blend-only baseline. Large "
+                         "enough that the Fe line is negligible, so what remains in the "
+                         "window is everything that is not this line.")
     ap.add_argument("--a0", type=float, default=None,
                     help="the A(Fe) to evaluate dREW/dA AT. Default: the median fitted "
                          "abundance of the pool's own measurable lines.")
@@ -155,7 +159,19 @@ def main() -> int:
         w_nm = np.arange(lam - a.half_width_A, lam + a.half_width_A, 0.001) / 10.0
         ews = {}
         try:
-            for tag, A in (("lo", A0 - a.delta), ("mid", A0), ("hi", A0 + a.delta)):
+            # 🔴 FOURTH SYNTHESIS: THE BLEND-ONLY BASELINE. Integrating (1-f) over the
+            # window captures EVERY absorber in it, and a blend contributes a roughly
+            # CONSTANT EW that does not move with Fe:
+            #     dREW/dA = (1/ln10) * (dEW_line/dA) / (EW_line + EW_blend)
+            # so the blend inflates the denominator and DEPRESSES the derivative, worst
+            # exactly where EW_line is smallest. MEASURED in the first full run: the six
+            # weakest lines returned dREW/dA of 0.014 / 0.017 / 0.079 / 0.112 / -0.024 /
+            # 0.040 when weak lines should be the MOST linear, with ew_mid piled at
+            # 13.3-14.1 mA — the blend floor, not the line.
+            # Synthesising with Fe driven far down leaves the blend alone, so subtracting
+            # it recovers the LINE's own EW. One extra synthesis per line (+33%).
+            for tag, A in (("blend", A0 - a.blend_offset),
+                           ("lo", A0 - a.delta), ("mid", A0), ("hi", A0 + a.delta)):
                 f = _synth_flux_at_abund(w_nm, ctx["atmosphere"], ctx["teff"], ctx["logg"],
                                          ctx["feh"], ctx["vturb"], ctx["linelist"],
                                          ctx["isotopes"], ctx["solar_abund"],
@@ -174,10 +190,13 @@ def main() -> int:
         except Exception as e:                      # loud per line, never a silent drop
             rows.append(dict(wavelength_air_A=lam, status=f"synth_failed: {str(e)[:80]}"))
             continue
-        if min(ews.values()) <= 0:
-            rows.append(dict(wavelength_air_A=lam, status="non_positive_EW", **ews)); continue
-        drew_dA = (np.log10(ews["hi"] / lam)
-                   - np.log10(ews["lo"] / lam)) / (2 * a.delta)   # units cancel here
+        blend = ews.pop("blend")
+        line = {k: v - blend for k, v in ews.items()}       # the LINE's own EW
+        if min(line.values()) <= 0:
+            rows.append(dict(wavelength_air_A=lam, status="non_positive_line_EW",
+                             ew_blend=blend, **ews)); continue
+        drew_dA = (np.log10(line["hi"] / lam)
+                   - np.log10(line["lo"] / lam)) / (2 * a.delta)   # units cancel here
         rows.append(dict(wavelength_air_A=lam, status="ok", A0=A0,
                          ew_lo=ews["lo"], ew_mid=ews["mid"], ew_hi=ews["hi"],
                          # EW is in mA, lambda in A: REW = log10(EW_A / lambda_A), so the
