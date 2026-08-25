@@ -3020,3 +3020,33 @@ artifacts:
       parser -- overridden rows, where they sit, how many names survive at Teff=5777, and
       whether the solar node is addressable. Al is the positive control (conversion keeps
       all 7 names); Fe and Mn collapse to 1.
+  - artifact: rya1042/mean3d_gate_verdict_graded.json
+    generator: scripts/rya1042_mean3d_gate.py
+    ticket: RYA-1042
+    invocation: python3 scripts/rya1042_mean3d_gate.py --nlte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv --lte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv --lte-1d data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv --out data/results/rya1042/mean3d_gate_verdict_graded.json
+    note: >-
+      The same gate on the GRADED pool (`--lines-tier graded`, 67 lab-gf lines) and with
+      LEG 3, the atmosphere rung, added. Grading was not cosmetic: the anchor match rate
+      goes 12% -> 64% because lab-graded lines and Amarsi's `Clean` lines are largely the
+      same population, and the matched subset stops being unrepresentative (its anchor
+      median -0.0387 against the full band's -0.0374). The verdict is still NOT_VALIDATED,
+      but now for one isolated reason instead of an ambiguous slice.
+      LEG 3 PASSES: our <3D>-LTE minus 1D-LTE is +0.0860 against Amarsi's own
+      <3D>-minus-1D +0.0727, difference +0.0133 inside the inherited 0.05. That referee is
+      nmtd_lmarcs minus nmtd_lmtd, which cancels the <3D>-NLTE term exactly -- a
+      subtraction of two released columns, not a model of ours. It settles the atmosphere
+      rung as PHYSICAL and kills the ingestion-bias hypothesis: a ~+0.08 additive bias in
+      our <3D>-LTE leg would have shown up here as a ~+0.08 disagreement.
+      What remains is the NLTE rung alone: ours +0.033, Bergemann MPIA +0.010, Amarsi
+      -0.039, with ours ~ +0.050 + 0.44 x anchor per line -- correctly signed, ~44%
+      amplitude. Chased on RYA-1045.
+  - artifact: rya1042/mean3d_gate_verdict.json
+    generator: scripts/rya1042_mean3d_gate.py
+    ticket: RYA-1042
+    invocation: python3 scripts/rya1042_mean3d_gate.py --nlte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_synth-mean3D-NLTE-gerber-stagger_lines.csv --lte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_synth-mean3D-LTE-gerber-stagger_lines.csv --out data/results/rya1042/mean3d_gate_verdict.json
+    note: >-
+      The RYA-534 anchor gate re-expressed for a <3D> deck. Verdict NOT_VALIDATED on the
+      first full-band run -- not because leg 1 disagreed (it agreed to 0.0007 dex) but
+      because the 5 of 40 lines it could compare have the OPPOSITE SIGN to the full
+      product, so they cannot certify it. The per-line inputs are band products; the
+      anchor is Amarsi+2016 nmtd_lmtd, external.
