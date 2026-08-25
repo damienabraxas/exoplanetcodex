@@ -82,10 +82,15 @@ class Thresholds:
     `require()` raises with the ticket reference rather than substituting a published value that
     was tuned on somebody else's distribution.
     """
-    #: linear curve-of-growth window, DERIVED from our own REW distribution -- not GBS's
-    #: -6.7/-4.5, which admits 100% of our pool and therefore controls nothing.
+    #: weak-end noise floor: below this a line is not measurable, which is a different
+    #: question from saturation. DERIVED from our own EW distribution -- not GBS's -6.7,
+    #: which admits 100% of our pool and therefore controls nothing.
     rew_min: float | None = None
-    rew_max: float | None = None
+    #: 🔴 `rew_max` IS RETIRED (RYA-1043). Saturation is a PER-LINE property: the ensemble
+    #: COG for solar Fe I has no resolvable knee, so no scalar can express it. Stage 2 now
+    #: gates on the line's OWN measured dREW/dA against the flattening threshold below.
+    #: Keeping a scalar here would invite someone to set it to Gray's -4.9 again.
+    min_d_rew_dA: float | None = None
     #: minimum core depth for stage 1
     min_depth: float | None = None
     #: reduced chi2 above which stage 4 fails — 🔴 EW ROUTE ONLY (RYA-1041). The synth
@@ -165,12 +170,39 @@ def stage1_depth(observed_depth, th: Thresholds) -> tuple[str, str]:
     return (YES, RC_OK) if observed_depth >= lo else (NO, RC_CONTINUUM)
 
 
-def stage2_saturation(rew, th: Thresholds) -> tuple[str, str]:
-    """On the linear part of the curve of growth, in OUR OWN derived window."""
-    lo, hi = th.require("rew_min"), th.require("rew_max")
-    if rew is None or not np.isfinite(rew):
+def stage2_saturation(rew, th: Thresholds, *,
+                      d_rew_dA: float | None = None) -> tuple[str, str]:
+    """Is THIS line still on the linear part of its own curve of growth? — RYA-1043.
+
+    🔴 THE SATURATION CEILING IS NOT A SCALAR, and that is measured rather than argued.
+    An ensemble COG for solar Fe I has no resolvable knee: the clean-and-untruncated
+    1805-line intersection IS a curve of growth (corr +0.362, medians monotone) and its
+    local dREW/dX still carries three sign changes, because damping, blending and core
+    depth vary line to line and smear the transition. A single-line COG is sharp; an
+    ensemble COG is broad BY CONSTRUCTION (RYA-1041/1043).
+
+    So every line saturates at its OWN reduced EW, and the gate is not "is REW below the
+    one knee" but "has THIS line's own response flattened". `d_rew_dA` is that response,
+    measured per line by `scripts/rya1041_perline_cog.py`: 1 on the linear part where EW
+    is proportional to the number of absorbers, collapsing toward 0 as the core saturates.
+    Measured over 617 VIS lines it runs 1.044 down to -0.129 and falls monotonically with
+    line strength (corr -0.807).
+
+    The scalar `rew_max` is therefore GONE. `rew_min` survives as the weak-end noise floor,
+    which is a different question -- can we measure this line at all -- and is not what a
+    curve of growth answers.
+
+    A line with no measured derivative is UNKNOWN, never a pass: the per-line COG is
+    expensive and incomplete, and treating "not yet computed" as "linear" would admit
+    exactly the saturated lines this stage exists to catch (RYA-833).
+    """
+    lo = th.require("rew_min")
+    if rew is not None and np.isfinite(rew) and rew <= lo:
+        return NO, RC_SATURATION            # too weak to measure — the noise floor
+    if d_rew_dA is None or not np.isfinite(d_rew_dA):
         return UNKNOWN, RC_OK
-    return (YES, RC_OK) if lo < rew < hi else (NO, RC_SATURATION)
+    return ((YES, RC_OK) if float(d_rew_dA) >= th.require("min_d_rew_dA")
+            else (NO, RC_SATURATION))
 
 
 def stage3_purity(problem_class, excluded_reason="") -> tuple[str, str]:
@@ -371,7 +403,7 @@ def grade_line(row, th: Thresholds, anchor: Anchor | None = None) -> LineVerdict
     v = LineVerdict(wavelength_air_A=float(g("wavelength_air_A", float("nan"))))
 
     s1, r1 = stage1_depth(g("observed_depth"), th)
-    s2, r2 = stage2_saturation(g("rew"), th)
+    s2, r2 = stage2_saturation(g("rew"), th, d_rew_dA=g("d_rew_dA"))
     s3, r3 = stage3_purity(g("problem_class"), g("excluded_reason", ""))
     s4, r4 = stage4_fit(g("red_chi2"), g("ew_mA"), g("observed_depth"),
                         g("wavelength_air_A"), th,
