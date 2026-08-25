@@ -3001,3 +3001,22 @@ artifacts:
       the live Keeper listing (17 of 18 elements ship a <3D> deck; we hold 4), Amarsi's
       three Fe products, the Amarsi+2022 MLP re-measured pinned vs unpinned (114/114 vs
       33/114 finite -- the matrix's BROKEN cell is stale), and the Fe <3D> aux defect.
+  - artifact: rya1035/mean3d_aux_defect_sweep.csv
+    generator: scripts/rya1035_mean3d_aux_defect_sweep.py
+    invocation: python3 scripts/rya1035_mean3d_aux_defect_sweep.py
+    ticket: RYA-1035
+    note: >-
+      Which of the 17 published <3D> aux tables carry the metallicity-zeroing defect, and
+      therefore which of the two shipped files each element must be REGISTERED AGAINST.
+      Two are defective (Fe, Mn) and for both the `_marcs_names` conversion is
+      unrecoverable. Re-running re-probes the Keeper share LIVE; --offline re-renders the
+      CSV from the committed JSON.
+  - artifact: rya1035/mean3d_aux_defect_sweep.json
+    generator: scripts/rya1035_mean3d_aux_defect_sweep.py
+    invocation: python3 scripts/rya1035_mean3d_aux_defect_sweep.py
+    ticket: RYA-1035
+    note: >-
+      Long form of the aux sweep: per element, both aux files scored by gerber_nlte's own
+      parser -- overridden rows, where they sit, how many names survive at Teff=5777, and
+      whether the solar node is addressable. Al is the positive control (conversion keeps
+      all 7 names); Fe and Mn collapse to 1.

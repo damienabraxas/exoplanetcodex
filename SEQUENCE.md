@@ -15,6 +15,11 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ---
 
+## 2026-08-25
+
+- **RYA-1035** (follow-up) — swept the ⟨3D⟩ aux defect across all 17 published decks: **Mn has Fe's identical defect**; the other 15 are clean
+- **RYA-1029** — the ⟨3D⟩ atmosphere loader; the "still owed PHYSICS step" is an interface contract, and iSpec's τ overwrite is an identity here (5e-5)
+
 ## 2026-08-24
 
 - **RYA-710** — Fe ⟨3D⟩ **WIRED**: `Fe@mean3D` registered against the PLAIN aux (opposite of Al); cell `T2_FETCH_OWED` → `T2_CONSUME_WIRED`
