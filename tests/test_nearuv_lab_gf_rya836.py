@@ -67,7 +67,23 @@ def test_only_primary_laboratory_sources_are_admitted():
     """A compilation cannot referee a sub-pool whose entire claim is independence.
     RYA-760: FMW *is* NIST and VALD copies it, so GF-NIST is out by construction — the
     table this pool draws from contains only the three primary papers."""
-    assert set(lab_lines().source.unique()) == {
+    # RYA-1046: assert the INVARIANT (every admitted source is a primary lab paper with
+    # a citation), not a frozen literal list. The list froze the example: Ruffoni 2013's
+    # H-band table is a primary lab source and joining the Fe I pool broke this test
+    # without breaking anything it was written to protect -- its lines are 14680-21386 A
+    # and this pool is 3000-3780 A, so they cannot touch it. What must stay true is that
+    # no COMPILATION gets in.
+    from pipeline.gf_grades import CITATIONS
+    sources = set(lab_lines().source.unique())
+    assert sources >= {"Ruffoni2014", "DenHartog2014", "Belmonte2017"}
+    assert not (sources & {"GF-NIST", "NIST", "VALD", "K07", "Kurucz", "FMW"})
+    for src in sources:
+        assert src in CITATIONS, f"{src} admitted to the lab pool with no citation"
+
+    # The near-UV sub-pool itself is unchanged by anything added redward.
+    nearuv = lab_lines()
+    nearuv = nearuv[nearuv.wavelength_air_A < 3780.0]
+    assert set(nearuv.source.unique()) == {
         "Ruffoni2014", "DenHartog2014", "Belmonte2017"}
 
 
