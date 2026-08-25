@@ -161,7 +161,8 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
 
 
 def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
-            load=None, nlte_deck: str | None = None) -> dict:
+            load=None, *, nlte_deck=None, nlte_deck_key=None,
+            atmosphere_layers_file=None, atmosphere=None) -> dict:
     """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
 
     🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
@@ -175,7 +176,19 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
     `load(centre, pad) -> (wave_A, flux, provenance)` supplies the observed window
     instead. The DEFAULT IS UNCHANGED: `None` reads Kitt Peak through this module's own
     reader exactly as before, so RYA-759's published near-UV values cannot move by way
-    of this argument. (Measured, not assumed: over 30 probes spanning the near-UV,
+    of this argument.
+
+    🔴 RYA-1044 — `nlte_deck` / `nlte_deck_key` / `atmosphere_layers_file` / `atmosphere`
+    exist so the SYNTHESIS route can run an Engine-B leg over these same lines, WITHOUT a
+    second copy of this function. RYA-701 is the reason: one Ba->Al copy of a fitting
+    routine produced thirteen defects, and a copy here would additionally let the
+    Engine-B leg drift from the 1D-LTE leg it is supposed to be differenced against --
+    which would silently corrupt the very quantity the pair exists to measure.
+
+    ALL FOUR DEFAULT TO None AND CHANGE NOTHING WHEN UNSET. With them unset this is
+    character-for-character the call RYA-759 published against, and `atmosphere` falls
+    back to `ctx['atmosphere']` exactly as before. They are keyword-only so no positional
+    caller can acquire one by accident. (Measured, not assumed: over 30 probes spanning the near-UV,
     red-optical and NIR, including six segment seams, this reader and
     `measure_band_ew.load_kp_window` return bit-identical arrays — so the holding
     dispatch that now supplies `load` is the same data by a different door.)
@@ -194,8 +207,14 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
                 'red_chi2': np.nan, 'cont_ratio': np.nan, 'obs_source': obs_source}
 
     a_solar = float(ctx['solar_A'])
+    # RYA-1044: only present when the caller supplied them, so an unset call reaches
+    # `_fit_synth_flux` with exactly the arguments it reached before they existed.
+    _extra = {k: v for k, v in (
+        ("nlte_deck", nlte_deck), ("nlte_deck_key", nlte_deck_key),
+        ("atmosphere_layers_file", atmosphere_layers_file)) if v is not None}
     r = _fit_synth_flux(
-        ow_A / 10.0, np.asarray(of, dtype=float), ctx['atmosphere'],
+        ow_A / 10.0, np.asarray(of, dtype=float),
+        ctx['atmosphere'] if atmosphere is None else atmosphere,
         ctx['teff'], ctx['logg'], ctx['feh'], ctx['vturb'],
         ctx['linelist'], ctx['isotopes'], ctx['solar_abund'], ctx.get('element', 'Fe'),
         int(ctx['atom_code']), lo_A / 10.0, hi_A / 10.0,
@@ -207,7 +226,7 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
         # `synthesis_route` BEFORE the EW route's Engine-B block, the flag parsed, was
         # accepted, and did nothing — which is why the Gerber column is empty on every
         # graded and deep-graded product we hold.
-        float(ctx['vsini']), nlte_deck=nlte_deck, tmp_dir=tmp_dir)
+        float(ctx['vsini']), tmp_dir=tmp_dir, **_extra)
 
     # How well is this window's blanketing reproduced at all? A window the model cannot
     # reproduce is not a window to take an abundance from, and the ratio says which.
