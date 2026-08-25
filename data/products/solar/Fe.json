@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.37",
-  "updated_at": "2026-08-25T00:55:28Z",
+  "version": "1.39",
+  "updated_at": "2026-08-25T00:55:59Z",
   "products": [
     {
       "element": "Fe",
@@ -206,6 +206,58 @@
         "sha256": "aa700b7a8355e1f7b0f9cb4f2ebb97e2a6fedb65407704b5e8316312fa647979",
         "artifact_mtime": "2026-08-24T01:29:13Z",
         "ingested_at": "2026-08-24T23:30:20Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.416,
+      "sigma_stat": 0.0256,
+      "sigma_syst": 0.0261,
+      "n_lines": 41,
+      "n_excluded": 68,
+      "dominant_term": "gf scale (cited lab)",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_DEEPGRADED_products.csv",
+        "copied_to": null,
+        "sha256": "8d9af0cecb4439fdbe0f3463d5f54b0fa0854cd6226b54098bcd8d619914879e",
+        "artifact_mtime": "2026-08-25T00:55:19Z",
+        "ingested_at": "2026-08-25T00:55:59Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.422,
+      "sigma_stat": 0.0281,
+      "sigma_syst": 0.0261,
+      "n_lines": 37,
+      "n_excluded": 4,
+      "dominant_term": "line-to-line scatter",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_DEEPGRADED_ENGINE-A_products.csv",
+        "copied_to": null,
+        "sha256": "2ddeca631c292dc8e9c95e641f940fa0e0c0b6e9c40d6e34c43dca6b0492a621",
+        "artifact_mtime": "2026-08-25T00:55:37Z",
+        "ingested_at": "2026-08-25T00:55:59Z"
       }
     },
     {
