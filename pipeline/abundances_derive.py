@@ -776,6 +776,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
                          R: float = 500000, macroturbulence: float = 0.0,
                          vsini: float = 0.0,
                          nlte_departures=None,
+                         atmosphere_layers_file: str | None = None,
                          tmp_dir: str = '/tmp/ispec_codex_synth') -> np.ndarray:
     """
     Normalized Turbospectrum synthetic flux over `waveobs_nm` with ONLY the target
@@ -789,6 +790,20 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
     v1 behaviour is byte-for-byte unchanged; v2 passes the observed broadening.
     """
     fixed_ab = _build_fixed_ab(element, atom_code, trial_A)
+    # RYA-1040. `atmosphere_layers_file` hands iSpec a model atmosphere as a FILE instead
+    # of letting it write one from `atmosphere`. That is not a convenience: a mul23 <3D>
+    # model has five columns (log tau500, T, ne, V, vmic) and iSpec's MARCS writer needs
+    # Depth, Pe, Pg and Prad, none of which it carries -- so for a <3D> atmosphere there
+    # is nothing for `write_atmosphere` to write, and inventing Pg would fabricate the
+    # structure being measured. See `pipeline.mean3d_atmosphere` for the full contract.
+    #
+    # ⚠️ IT IS SPLATTED FROM AN EMPTY DICT WHEN UNUSED so that both calls below are, when
+    # it is None, exactly the calls they were before this parameter existed. RYA-770
+    # stabilised the LTE path at -0.026 dex against the banked optical answer and it must
+    # not move; a default-valued keyword appearing in the call would be a change to a call
+    # this file's own docstring promises is character-for-character unchanged.
+    _atm_file = ({} if atmosphere_layers_file is None
+                 else {"atmosphere_layers_file": atmosphere_layers_file})
     # RYA-798. `nlte_departures` is the dict iSpec's Turbospectrum wrapper expects,
     # {element: (departures, tau, ndep, nk, Z, abundance, atom_path)}, built by
     # pipeline.gerber_nlte from the TS-native Gerber deck. It defaults to None and the
@@ -806,7 +821,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
             macroturbulence=macroturbulence, vsini=vsini, R=R,
             verbose=0, code='turbospectrum',
             nlte_departure_coefficients=nlte_departures,
-            tmp_dir=tmp_dir,
+            tmp_dir=tmp_dir, **_atm_file,
         )
     return ispec.generate_spectrum(
         waveobs_nm, atmosphere,
@@ -815,7 +830,7 @@ def _synth_flux_at_abund(waveobs_nm: np.ndarray,
         microturbulence_vel=vturb,
         macroturbulence=macroturbulence, vsini=vsini, R=R,
         verbose=0, code='turbospectrum',
-        tmp_dir=tmp_dir,
+        tmp_dir=tmp_dir, **_atm_file,
     )
 
 
@@ -1192,6 +1207,8 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                     a_lo: float, a_hi: float,
                     R: float, vmac: float, vsini: float,
                     nlte_deck: str | None = None,
+                    nlte_deck_key: str | None = None,
+                    atmosphere_layers_file: str | None = None,
                     tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
     """
     v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
@@ -1229,6 +1246,19 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                linelist=linelist, isotopes=isotopes, solar_abund=solar_abund,
                element=element, atom_code=atom_code, R=R, macroturbulence=vmac,
                vsini=vsini, tmp_dir=tmp_dir)
+    # RYA-1040: only present when the caller supplied one, so every existing call reaches
+    # `_synth_flux_at_abund` with exactly the arguments it reached before.
+    if atmosphere_layers_file is not None:
+        _kw["atmosphere_layers_file"] = atmosphere_layers_file
+
+    # 🔴 RYA-1040 — THE DECK IS NAMED BY THE CALLER, NOT INFERRED FROM THE ELEMENT.
+    # Every `for_node` call below used `element`, which resolves to the 1D deck (`Fe`) and
+    # can NEVER reach a <3D> one (`Fe@mean3D`) however the run was configured. That is the
+    # same defect the driver had one layer up, and fixing it there alone would have left
+    # the fit quietly running 1D departures under a <3D> label -- a well-formed product
+    # that is wrong in exactly the axis it claims to be about. `nlte_deck_key` defaults to
+    # the element, so every existing caller is unchanged.
+    _deck_key = nlte_deck_key or element
 
     # RYA-798. NLTE departures, when a deck is named. Two facts decide the shape of this,
     # both MEASURED (see pipeline/gerber_nlte):
@@ -1260,9 +1290,9 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
             raise ValueError(f"unknown NLTE deck {nlte_deck!r} (only 'gerber' is wired)")
         _gn.assert_linelist_supports_nlte(linelist, atom_code, element,
                                           wave_base * 10.0, wave_top * 10.0)
-        _dep_per_abundance = _gn.has_abundance_axis(element)
+        _dep_per_abundance = _gn.has_abundance_axis(_deck_key)
         if not _dep_per_abundance:
-            _dep = _gn.for_node(element, teff, logg, feh)
+            _dep = _gn.for_node(_deck_key, teff, logg, feh)
 
     n_eval = [0]
     fail   = [None]
@@ -1284,7 +1314,7 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                 # Per-trial, because the departures really do depend on A(X) here.
                 # `for_node` caches on (deck, node, abundance), so the 31 axis nodes are
                 # each read at most once across the whole fit.
-                dep = _gn.for_node(element, teff, logg, feh, abundance=float(a_x))
+                dep = _gn.for_node(_deck_key, teff, logg, feh, abundance=float(a_x))
             if dep is not None:
                 # MUST go through as_ispec_tuple: it owns the (ndep,nk) -> (nk,ndep)
                 # transpose iSpec requires. Hand-building this tuple here is what broke

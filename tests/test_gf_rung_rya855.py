@@ -325,12 +325,21 @@ def test_neither_route_hardcodes_the_rung():
     src = _code(ROOT / "scripts" / "derive_band_products.py")
     assert "gf_graded=False" not in src and "gf_graded=True" not in src, (
         "derive_band_products still states a gf rung of its own")
-    # THREE since RYA-1002: the EW route's 1D-LTE and ENGINE-A, plus the SYNTHESIS
-    # route's own ENGINE-A. The invariant is that EVERY budget call consumes the
-    # decider, which is what the `gf_graded=` assertion above actually pins; the count
-    # guards against a route being ADDED without one.
-    assert src.count("rung.budget_kwargs()") == 3, (
-        "expected exactly three budget call sites to consume the decision")
+    # 🔴 RYA-1044 — THIS PINNED A COUNT AND THE COUNT WENT STALE THE MOMENT A LEG WAS
+    # ADDED, which is the very event the count was supposed to catch. It read "== 3"
+    # (the EW route's 1D-LTE and ENGINE-A, plus the synthesis route's ENGINE-A); RYA-1044
+    # gave the synthesis route an Engine-B leg, which consumes the decider correctly and
+    # made the assertion fail anyway.
+    #
+    # The INVARIANT is "every budget call consumes a rung decision", so it is now measured
+    # as a RELATIONSHIP: as many rung-consuming call sites as there are budget calls.
+    # That cannot go stale when a leg is added, and it still fails loudly if one is added
+    # WITHOUT a rung -- which is the thing worth protecting (RYA-845).
+    n_budgets = src.count("build_budget(")
+    n_rungs = src.count("rung.budget_kwargs()")
+    assert n_rungs == n_budgets, (
+        f"{n_budgets} build_budget call(s) but {n_rungs} consume a gf rung -- every "
+        f"budget must take its rung from the decider, never state one of its own")
 
 
 def test_both_routes_call_the_same_decider():
