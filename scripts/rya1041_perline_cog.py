@@ -87,7 +87,12 @@ def main() -> int:
     ap.add_argument("--hi", type=float, default=6910)
     ap.add_argument("--delta", type=float, default=0.10,
                     help="abundance step in dex for the two-sided derivative")
-    ap.add_argument("--half-width-A", type=float, default=0.62)
+    ap.add_argument("--half-width-A", type=float, default=0.62,
+                    help="⚠️ the window integrates ALL absorption in it, so a blended "
+                         "neighbour inflates EW. The DERIVATIVE is robust to that (only "
+                         "Fe's abundance varies between the three syntheses) but a "
+                         "blend DILUTES the response, so a blended line reads as more "
+                         "saturated than it is. Reported, not corrected.")
     ap.add_argument("--limit", type=int, default=None, help="first N lines (smoke test)")
     ap.add_argument("--a0", type=float, default=None,
                     help="the A(Fe) to evaluate dREW/dA AT. Default: the median fitted "
@@ -171,10 +176,16 @@ def main() -> int:
             continue
         if min(ews.values()) <= 0:
             rows.append(dict(wavelength_air_A=lam, status="non_positive_EW", **ews)); continue
-        drew_dA = (np.log10(ews["hi"] / lam) - np.log10(ews["lo"] / lam)) / (2 * a.delta)
+        drew_dA = (np.log10(ews["hi"] / lam)
+                   - np.log10(ews["lo"] / lam)) / (2 * a.delta)   # units cancel here
         rows.append(dict(wavelength_air_A=lam, status="ok", A0=A0,
                          ew_lo=ews["lo"], ew_mid=ews["mid"], ew_hi=ews["hi"],
-                         rew=float(np.log10(ews["mid"] / lam)),
+                         # EW is in mA, lambda in A: REW = log10(EW_A / lambda_A), so the
+                         # 1000 is NOT optional. Without it the smoke test reported REW
+                         # -1.07 for a line the pool measures near -4.9.
+                         # (dREW/dA is unaffected — the factor cancels in log10(hi/lo) —
+                         # so the derivative values were right while this column was not.)
+                         rew=float(np.log10((ews["mid"] / 1000.0) / lam)),
                          d_rew_dA=float(drew_dA),
                          recovered_from_ceiling=bool(r.sat_only)))
         if i % 25 == 0:
