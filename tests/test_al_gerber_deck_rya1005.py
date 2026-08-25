@@ -76,9 +76,20 @@ def test_al_refuses_off_the_axis():
 @needs_grids
 def test_fe_still_works_with_no_abundance_passed():
     """INERTNESS. Every pre-RYA-1005 caller passes no abundance; Fe must be unchanged —
-    same deck abundance (7.46, NOT the 7.50 in its aux table) and same shape."""
+    same deck abundance and same shape.
+
+    🔴 CORRECTED RYA-1035 — 7.46 → 7.50, and the parenthetical was backwards. It read
+    "7.46, NOT the 7.50 in its aux table"; the aux table was right and the record was
+    wrong. `abu_ref` is read from stdin (interpol_modeles_nlte.f:206), written verbatim
+    into the departure file (:761) and printed back by bsyn (:988), and `gerber_nlte` fed
+    that stdin from `deck_abundance()` itself — so the 7.46 was our own input echoing
+    round a closed loop. The grid says 7.50: `atom.fe607a` line 2 (`7.50  55.85`), both
+    aux tables' A(X) = 7.50 + [Fe/H], and Turbospectrum's own `metal = abund(15) - 7.50`.
+
+    The INERTNESS this test is really about is unaffected: what changed is a label, not a
+    departure. `deck_abundance` now raises if the record and the aux ever disagree again."""
     d = g.for_node("Fe", 5750.0, 4.50, 0.0)
-    assert d["deck_abundance"] == pytest.approx(7.46)
+    assert d["deck_abundance"] == pytest.approx(7.50)
     assert d["ndep"] == 56 and d["nk"] == 607
 
 

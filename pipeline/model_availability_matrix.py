@@ -87,6 +87,27 @@ _MEAN3D_WIRED: dict[str, str] = _mean3d_wired()
 #: pattern: a registry entry plus its own atmosphere. Not a research task.
 _MEAN3D_DECKS: frozenset = frozenset({"Al", "Cr", "Eu", "Y"})
 
+#: 🔴 RYA-1035 -- <3D> DECKS THE VENDOR PUBLISHES, WHICH IS NOT THE SAME SET AS THE ONES WE
+#: HOLD, AND THE DIFFERENCE WAS BEING REPORTED AS "nothing to fetch".
+#:
+#: `_MEAN3D_DECKS` above is derived from the SIRIUS DISK SCAN, so "no deck" meant "not on
+#: our disk". `T2_BUILD_OWED` then told the reader "NOT an acquisition. Nothing to fetch and
+#: nothing to ask for" -- a claim about the SOURCE, made from a measurement of OUR DISK. For
+#: Fe that was flatly wrong: NLTEgrid4TS_Fe_STAGGERmean3D_May-21-2021.bin has been on the
+#: same MPG Keeper share we already fetch every Gerber deck from since 2021, listed in
+#: TSFitPy's own downloader as `[Fe] 3d_bin_link`. We pulled Al/Cr/Eu/Y from that share and
+#: never opened the Fe folder. An absence measured on the wrong side of the fetch boundary.
+#:
+#: Live listing of /dep-grids/ on share 6eaecbf95b88448f98a4, 2026-08-24: 17 of the 18
+#: element folders ship a STAGGERmean3D deck (CH is the exception). REFRESH IT BY RE-RUNNING
+#: THE PROBE, never by editing this line:
+#:     python3 scripts/rya1035_fe_3d_route_census.py   -> keeper_check in
+#:     data/results/rya1035/fe_3d_route_census.json
+_MEAN3D_DECKS_PUBLISHED: frozenset = frozenset({
+    "Al", "Ba", "Ca", "Co", "Cr", "Eu", "Fe", "H", "Mg", "Mn", "Na", "Ni", "O",
+    "Si", "Sr", "Ti", "Y"})
+_MEAN3D_PUBLISHED_AS_OF = "2026-08-24 (RYA-1035 live probe)"
+
 #: Model atoms held on Sirius (gerber_ts/atom.*). Half of a departure solve: with the
 #: <3D> STAGGER atmosphere these become reachable the moment the tier-2 solver works.
 _MODEL_ATOMS: frozenset = frozenset({
@@ -102,8 +123,10 @@ _MODEL_ATOMS: frozenset = frozenset({
 T2_CONSUME_VALIDATED = "T2_CONSUME_VALIDATED"  # published deck wired AND proven end-to-end
 T2_CONSUME_WIRED = "T2_CONSUME_WIRED"          # published deck wired; run still owed
 T2_CONSUME_READY = "T2_CONSUME_READY"          # deck + atom on disk, nothing consumes them
-T2_BUILD_OWED = "T2_BUILD_OWED"                # no deck; atom + <3D> atmosphere held ->
-                                               # reachable only by the build-our-own route
+T2_FETCH_OWED = "T2_FETCH_OWED"                # deck PUBLISHED but not on our disk ->
+                                               # an ACQUISITION, never a build (RYA-1035)
+T2_BUILD_OWED = "T2_BUILD_OWED"                # no deck ANYWHERE; atom + <3D> atmosphere
+                                               # held -> the build-our-own route
 
 #: Cell states.
 HAVE = "HAVE"                  # CSV says + disk confirms + code uses
@@ -135,12 +158,20 @@ THREED_HOLDINGS: dict[str, dict] = {
         "engine": "ENGINE-A-3DNLTE",
         "what": "Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) 3D-NLTE Fe MLP "
                 "(fe1_model_gt02.p / fe1_model_lt02.p / fe2_model.p)",
-        "blocked_by": "RYA-923",
-        "blocker": "URGENT/OPEN: the MLP returns NaN for EVERY in-domain line on main "
-                   "(114 in-domain -> n=0). 1D-LTE legs still PASS, so only the "
-                   "correction path regressed. Committed cells carry values from when "
-                   "it worked (Fe I 7.604 n=114, Fe II 7.642 n=7) -- so the capability "
-                   "is REAL but currently UNRUNNABLE.",
+        # 🔴 RYA-1035 -- `blocked_by` CLEARED. The BROKEN diagnosis was re-measured on main
+        # and does not hold: it described the ARCHIVED per-line axis path, which the
+        # production script does not take.
+        "note": "RYA-1035 re-measured this on main over the committed RYA-817 in-domain "
+                "pool. PINNED axis (what scripts/rya817_run_3dnlte_bands.py actually "
+                "passes, afe3n_axis=afe_star): Fe I 114/114 finite, Fe II 7/7, median "
+                "+0.0389 / +0.0534. UNPINNED per-line axis (the archived RYA-207 reading): "
+                "33/114 and 1/7. So the previous cell -- 'the MLP returns NaN for EVERY "
+                "in-domain line, 114 in-domain -> n=0' -- was overstated in both halves: "
+                "the loss is 71% on Fe I rather than 100%, and it belongs to a path the "
+                "product does not use. The RYA-817 reactivation control passes 4/4 against "
+                "Amarsi+2022 Table 6. Live state: RUNS, optical only, axis railed at the "
+                "grid's A(Fe)=7.5 ceiling with the rail recorded and sensitivity measured "
+                "at 0.0066 dex.",
     },
     "C": {"path": "data/nlte_grids/amarsi2019_cno/", "kind": "FULL_3D_NLTE",
           "engine": "cno-3dnlte",
@@ -415,10 +446,15 @@ class DiskSnapshotError(RuntimeError):
 REPO_SOURCES: dict[str, dict] = {
     "vendor/1L-3NErrors/": {
         "citation": "Amarsi, Liljegren & Nissen 2022, A&A 668, A68 (3D-NLTE Fe MLP)",
-        "source_url": "https://github.com/AlexanderLiljegren/1L-3NErrors (vendored)",
+        # RYA-1035: the URL that stood here, github.com/AlexanderLiljegren/1L-3NErrors,
+        # 404s. Amarsi's own data index points at sliljegren/1L-3NErrors (MIT, last pushed
+        # 2022-09-28), which resolves. A citation field that 404s is a dead end wearing a
+        # source's clothes.
+        "source_url": "https://github.com/sliljegren/1L-3NErrors (MIT, vendored)",
         "caveat": "Training domain from Jofre et al. 2014, A&A 564, A133 Tables 4/5 "
-                  "('golden' Fe I/II lines). A(Fe) axis ceiling 7.5 -- see the BROKEN "
-                  "root cause.",
+                  "('golden' Fe I/II lines), i.e. OPTICAL ONLY 4787.83-6810.26 A. A(Fe) "
+                  "axis ceiling 7.5, which our VIS 1D-LTE zero point (7.586) rails "
+                  "against -- recorded, sensitivity 0.0066 dex (RYA-1035).",
     },
     "data/nlte_grids/amarsi2019_cno/": {
         "citation": "Amarsi, Nissen & Skuladottir 2019, A&A 630, A104",
@@ -663,7 +699,9 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
         # routes share no machinery. Al is the first element in that position.
         cell.routes = {
             "consume": ("WIRED" if base in _MEAN3D_WIRED else
-                        "READY" if base in _MEAN3D_DECKS else "no deck"),
+                        "READY" if base in _MEAN3D_DECKS else
+                        "PUBLISHED (unfetched)" if base in _MEAN3D_DECKS_PUBLISHED else
+                        "no deck"),
             "build_our_own": ("OWED — atom + <3D> atmosphere held"
                               if base in _MODEL_ATOMS else "blocked — no model atom"),
         }
@@ -720,10 +758,34 @@ def _reconcile(element: str, base: str, mt: str, disk, csv_claims, threed,
                     f"NOTE: a solar-only increment also exists ({h['path']}) -- that is "
                     f"a SCALAR at the solar node, not a parameter-space grid. It must "
                     f"not be reported as though it were this deck.")
+        elif base in _MEAN3D_DECKS_PUBLISHED:
+            # 🔴 RYA-1035. This branch used to fall through to T2_BUILD_OWED, which told
+            # the reader "nothing to fetch" on the strength of a DISK scan. The deck is
+            # published; the only thing missing is the download.
+            cell.state = T2_FETCH_OWED
+            cell.error = (
+                f"No <3D> deck ON OUR DISK -- but the vendor PUBLISHES one. This is an "
+                f"acquisition, not a build. (Share listing {_MEAN3D_PUBLISHED_AS_OF}.)")
+            cell.fix = (
+                "FETCH IT, then wire on the Al pattern (RYA-821). MPG Keeper share "
+                "6eaecbf95b88448f98a4, /dep-grids/<El>/ -- the same share Al/Cr/Eu/Y came "
+                "from. ⚠️ Take the PLAIN auxData_*.txt, not the `_marcs_names` sibling, "
+                "until it has been checked: for Fe the vendor's converter propagated a "
+                "zeroed [Fe/H] column into the model NAME, collapsing seven distinct "
+                "atmospheres to one string and making the solar node unaddressable "
+                "(RYA-1035). Re-probe with scripts/rya1035_fe_3d_route_census.py.")
+            if base == "Fe":
+                cell.facts.append(
+                    "Fe: route specified and verified end-to-end against the real deck "
+                    "(ndep 101, nlev 607, log tau -5..+5, median b -> 1.0000 at depth) -- "
+                    "docs/decisions/fe_3d_nlte_route_rya1035.md. 72 MB zipped, the "
+                    "smallest <3D> deck on the share. NOT a build: RYA-1035 Step 0 "
+                    "returned HAVE.")
         elif base in _MODEL_ATOMS:
             cell.state = T2_BUILD_OWED
-            cell.error = ("No <3D> deck. We DO hold the model atom and the <3D> STAGGER "
-                          "atmosphere -- the missing piece is the departure solve.")
+            cell.error = ("No <3D> deck, on our disk OR published. We DO hold the model "
+                          "atom and the <3D> STAGGER atmosphere -- the missing piece is "
+                          "the departure solve.")
             cell.fix = ("Reachable only by the RYA-1013 BUILD-OUR-OWN route -- this IS tier-2 "
                         "work, not a different tier. NOT an acquisition. "
                         "Nothing to fetch and nothing to ask for.")
