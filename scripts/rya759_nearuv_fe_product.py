@@ -161,7 +161,7 @@ def select_lines(linelist: np.ndarray, *, lo_A: float, hi_A: float, n: int,
 
 
 def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
-            load=None) -> dict:
+            load=None, nlte_deck: str | None = None) -> dict:
     """Flux-fit A(Fe) in one window, plus the continuum diagnostic for that window.
 
     🔴 `load` — RYA-904. THE OBSERVED SPECTRUM WAS HARD-PINNED TO KITT PEAK HERE.
@@ -201,7 +201,13 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
         int(ctx['atom_code']), lo_A / 10.0, hi_A / 10.0,
         max(a_solar - 3.0, 1.0), a_solar + 5.0,
         float(ctx['resolving_power']), float(ctx['macroturbulence']),
-        float(ctx['vsini']), tmp_dir=tmp_dir)
+        # 🔴 RYA-1043/1040: THE DECK WAS NEVER FORWARDED. `_fit_synth_flux` has taken
+        # `nlte_deck` all along, but this call omitted it, so every synthesis-route fit
+        # was LTE whatever `--engine-b-deck` said. Combined with `main()` returning into
+        # `synthesis_route` BEFORE the EW route's Engine-B block, the flag parsed, was
+        # accepted, and did nothing — which is why the Gerber column is empty on every
+        # graded and deep-graded product we hold.
+        float(ctx['vsini']), nlte_deck=nlte_deck, tmp_dir=tmp_dir)
 
     # How well is this window's blanketing reproduced at all? A window the model cannot
     # reproduce is not a window to take an abundance from, and the ratio says which.
