@@ -47,6 +47,12 @@ PRE_NORMALISED_HOLDINGS: frozenset[str] = frozenset({
     "solar_iag",                         # Baker+2020 telluric-free, normalised
     "solar_iag_reiners2016",             # the blue arm, normalised at source
     "solar_crires_plus_y_rya794",        # RYA-794 science-ready Y arm, normalised
+    # RYA-1054: the SAME source and normaliser as the row above, conditioned over the
+    # arm's full measured extent (9800-10796 A) instead of Elgueta's adopted window. It
+    # is a SIBLING product, so it inherits the normalisation verdict rather than being
+    # re-judged -- but it is listed EXPLICITLY, because this set is keyed per PRODUCT and
+    # inheriting by instrument is the exact collapse RYA-904 was about.
+    "solar_crires_plus_y_wide_rya1054",
     "solar_delbouille_liege",            # RYA-944 disk-centre intensity, LOCAL normalisation
 })
 

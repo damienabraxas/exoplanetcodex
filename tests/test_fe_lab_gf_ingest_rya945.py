@@ -169,9 +169,11 @@ def test_the_row_population_and_keys_are_untouched(canon):
     # recorded here so an accidental change still trips it:
     #   167739  RYA-834  extension to 12935 A
     #   170539  RYA-1047 H-band extension to 21390 A (+2800 Fe lines, 12976-21400 A)
-    assert len(canon) == 170539, (
+    #   178680  RYA-1053 solar hfs-ON IR re-extension to 24986 A (+8141 physical lines,
+    #           ALL species — the hfs-off source could only ever supply Fe)
+    assert len(canon) == 178680, (
         f"{len(canon)} rows — RYA-945 rewrites rows in place and must not change the "
-        f"population; RYA-834 and RYA-1047 are the tickets that append")
+        f"population; RYA-834, RYA-1047 and RYA-1053 are the tickets that append")
     keys = {(r["species"], r["wavelength_air_A"], r["excitation_potential_eV"])
             for r in canon}
     assert len(keys) == len(canon), "duplicate (species, wavelength, EP) keys"
