@@ -1,0 +1,155 @@
+{
+  "ticket": "RYA-1043",
+  "sets_no_threshold": true,
+  "source": "rya1041_perline_cog_4200_6910.csv",
+  "source_provenance": null,
+  "n": 617,
+  "quantiles": {
+    "p0": -0.1293,
+    "p5": 0.2993,
+    "p25": 0.447,
+    "p50": 0.6434,
+    "p75": 0.8191,
+    "p95": 0.9428,
+    "p100": 1.0442
+  },
+  "n_negative_derivative": 1,
+  "coupling": {
+    "corr_d_rew_dA_blend_fraction": 0.6177674565909566,
+    "corr_d_rew_dA_rew": -0.8069026560015299,
+    "corr_blend_fraction_rew": -0.6945414635297624,
+    "note": "a stricter saturation gate yields a MORE blend-dominated pool; blend_fraction is measured but consumed by no stage"
+  },
+  "purity_cost": [
+    {
+      "threshold": 0.3,
+      "kept": 583,
+      "kept_blend_gt_0.5": 238,
+      "kept_blend_gt_0.8": 53
+    },
+    {
+      "threshold": 0.4,
+      "kept": 502,
+      "kept_blend_gt_0.5": 231,
+      "kept_blend_gt_0.8": 53
+    },
+    {
+      "threshold": 0.5,
+      "kept": 415,
+      "kept_blend_gt_0.5": 218,
+      "kept_blend_gt_0.8": 53
+    },
+    {
+      "threshold": 0.6,
+      "kept": 338,
+      "kept_blend_gt_0.5": 199,
+      "kept_blend_gt_0.8": 53
+    }
+  ],
+  "surface": [
+    {
+      "threshold": 0.0,
+      "kept": 616,
+      "dropped": 1,
+      "kept_pct": 99.8,
+      "median_blend_frac_kept": 0.423,
+      "median_rew_kept": -5.108
+    },
+    {
+      "threshold": 0.05,
+      "kept": 616,
+      "dropped": 1,
+      "kept_pct": 99.8,
+      "median_blend_frac_kept": 0.423,
+      "median_rew_kept": -5.108
+    },
+    {
+      "threshold": 0.1,
+      "kept": 615,
+      "dropped": 2,
+      "kept_pct": 99.7,
+      "median_blend_frac_kept": 0.423,
+      "median_rew_kept": -5.108
+    },
+    {
+      "threshold": 0.15,
+      "kept": 614,
+      "dropped": 3,
+      "kept_pct": 99.5,
+      "median_blend_frac_kept": 0.423,
+      "median_rew_kept": -5.108
+    },
+    {
+      "threshold": 0.2,
+      "kept": 614,
+      "dropped": 3,
+      "kept_pct": 99.5,
+      "median_blend_frac_kept": 0.423,
+      "median_rew_kept": -5.108
+    },
+    {
+      "threshold": 0.25,
+      "kept": 609,
+      "dropped": 8,
+      "kept_pct": 98.7,
+      "median_blend_frac_kept": 0.424,
+      "median_rew_kept": -5.113
+    },
+    {
+      "threshold": 0.3,
+      "kept": 583,
+      "dropped": 34,
+      "kept_pct": 94.5,
+      "median_blend_frac_kept": 0.432,
+      "median_rew_kept": -5.136
+    },
+    {
+      "threshold": 0.35,
+      "kept": 545,
+      "dropped": 72,
+      "kept_pct": 88.3,
+      "median_blend_frac_kept": 0.447,
+      "median_rew_kept": -5.175
+    },
+    {
+      "threshold": 0.4,
+      "kept": 502,
+      "dropped": 115,
+      "kept_pct": 81.4,
+      "median_blend_frac_kept": 0.471,
+      "median_rew_kept": -5.23
+    },
+    {
+      "threshold": 0.45,
+      "kept": 459,
+      "dropped": 158,
+      "kept_pct": 74.4,
+      "median_blend_frac_kept": 0.49,
+      "median_rew_kept": -5.268
+    },
+    {
+      "threshold": 0.5,
+      "kept": 415,
+      "dropped": 202,
+      "kept_pct": 67.3,
+      "median_blend_frac_kept": 0.515,
+      "median_rew_kept": -5.327
+    },
+    {
+      "threshold": 0.6,
+      "kept": 338,
+      "dropped": 279,
+      "kept_pct": 54.8,
+      "median_blend_frac_kept": 0.547,
+      "median_rew_kept": -5.421
+    },
+    {
+      "threshold": 0.7,
+      "kept": 264,
+      "dropped": 353,
+      "kept_pct": 42.8,
+      "median_blend_frac_kept": 0.579,
+      "median_rew_kept": -5.534
+    }
+  ]
+}
