@@ -1313,16 +1313,16 @@ def synthesis_route(a, pol) -> None:
             # that matters.
             _n_lab = _gn.assert_linelist_supports_nlte(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi), ion=a.ion)
             # STATED, not merely asserted. Partial coverage does not raise -- it DILUTES,
             # because the per-line fallback is departure = 1, so a half-labelled band
             # reports a real NLTE product at roughly half the effect with nothing saying
             # so. The count travels with the product instead of living in an assert.
             _cov_lab, _cov_tot = _gn.label_coverage(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                float(a.lo), float(a.hi))
+                float(a.lo), float(a.hi), ion=a.ion)
             _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
-                        f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                        f"{_cov_lab} of {_cov_tot} {a.element} {a.ion} lines"
                         + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
                            if _cov_tot else " (total not measurable)."))
             eb_prov += _cov_txt
@@ -2427,16 +2427,16 @@ def main() -> None:
                 # that matters.
                 n_lab = gnlte.assert_linelist_supports_nlte(
                     ctx["linelist"], int(ctx["atom_code"]), a.element,
-                    wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                    wave_lo_A=float(a.lo), wave_hi_A=float(a.hi), ion=a.ion)
                 # STATED, not merely asserted. Partial coverage does not raise -- it
                 # DILUTES, because the per-line fallback is departure = 1, so a
                 # half-labelled band reports a real NLTE product at roughly half the
                 # effect with nothing saying so. The count travels with the product.
                 _cov_lab, _cov_tot = gnlte.label_coverage(
                     ctx["linelist"], int(ctx["atom_code"]), a.element,
-                    float(a.lo), float(a.hi))
+                    float(a.lo), float(a.hi), ion=a.ion)
                 _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
-                            f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                            f"{_cov_lab} of {_cov_tot} {a.element} {a.ion} lines"
                             + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
                                if _cov_tot else " (total not measurable)."))
                 _b_source += _cov_txt
@@ -2468,12 +2468,12 @@ def main() -> None:
             # that matters.
             n_lab = gnlte.assert_linelist_supports_nlte(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi), ion=a.ion)
             _cov_lab, _cov_tot = gnlte.label_coverage(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                float(a.lo), float(a.hi))
+                float(a.lo), float(a.hi), ion=a.ion)
             _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
-                        f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                        f"{_cov_lab} of {_cov_tot} {a.element} {a.ion} lines"
                         + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
                            if _cov_tot else " (total not measurable)."))
             _b_source = (GERBER_NLTE_SOURCE_FMT.format(

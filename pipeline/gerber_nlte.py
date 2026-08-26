@@ -902,8 +902,55 @@ def assert_depth_match(parsed: dict, atmosphere) -> None:
             f"wrong depths.")
 
 
+def _select_species_rows(linelist, Z: int, ion=None,
+                         wave_lo_A: float | None = None,
+                         wave_hi_A: float | None = None):
+    """Rows for ONE species in ONE window — ionisation stage included when it is known.
+
+    🔴 RYA-1050. `turbospectrum_species` is the ONE field in this list that COLLAPSES the
+    ionisation stages: every Fe row carries 26.0, so a filter built on it cannot tell Fe I
+    from Fe II. Both callers here used exactly that field, and the consequence is not
+    cosmetic. Measured on GESv6 420-920 nm:
+
+        4200-6910 A   Fe 1   8194 of 8243 labelled   99.4%
+        4200-6910 A   Fe 2    854 of 8870 labelled    9.6%
+                      ALL Fe 9048 of 18366           49.3%   <- what a Z-only filter sees
+
+    Fe I is essentially COMPLETE and Fe II is essentially ABSENT, and the "49%" is an
+    average of two populations that have nothing to do with each other. Worse, an Fe II
+    NLTE product would pass a Z-only check ON Fe I's LABELS and then synthesise ~90% of its
+    own lines in LTE under an NLTE label. That is the case this guard's docstring already
+    recorded ("every line in the Fe II 6910-9199 window is unlabelled" -- measured here at
+    12.0%, so the substance holds).
+
+    The stage IS available: `element` carries 'Fe 1'/'Fe 2', and so do `ion`,
+    `spectrum_moog_species` and `width_species`. Only the field in use lost it.
+
+    ⚠️ `ion=None` keeps the old element-global behaviour deliberately, for callers that
+    genuinely mean "this element, any stage".
+    """
+    species = np.floor(np.asarray(linelist["turbospectrum_species"], dtype=float))
+    sel = species == Z
+    names = linelist.dtype.names or ()
+    if ion is not None and "element" in names:
+        from pipeline.species import parse_ion, z_symbol
+        want = f"{z_symbol(Z)} {parse_ion(ion)}"
+        el = np.asarray([str(x).strip() for x in linelist["element"]])
+        sel = sel & (el == want)
+    if wave_lo_A is not None and wave_hi_A is not None:
+        if "wave_A" in names:
+            w = np.asarray(linelist["wave_A"], dtype=float)
+        elif "wave_nm" in names:
+            w = np.asarray(linelist["wave_nm"], dtype=float) * 10.0
+        else:
+            w = None
+        if w is not None:
+            sel = sel & (w >= wave_lo_A) & (w <= wave_hi_A)
+    return linelist[sel]
+
+
 def label_coverage(linelist, Z: int, element: str,
-                   wave_lo_A: float, wave_hi_A: float) -> tuple[int, int]:
+                   wave_lo_A: float, wave_hi_A: float, ion=None) -> tuple[int, int]:
     """(labelled, total) {element} lines in the window — coverage as a FRACTION.
 
     🔴 RYA-1050. `assert_linelist_supports_nlte` answers "is there at least one", which is
@@ -923,15 +970,7 @@ def label_coverage(linelist, Z: int, element: str,
     """
     n_lab = 0
     try:
-        species = np.floor(np.asarray(linelist["turbospectrum_species"], dtype=float))
-        names = linelist.dtype.names or ()
-        if "wave_A" in names:
-            w = np.asarray(linelist["wave_A"], dtype=float)
-        elif "wave_nm" in names:
-            w = np.asarray(linelist["wave_nm"], dtype=float) * 10.0
-        else:
-            return (0, 0)
-        rows = linelist[(species == Z) & (w >= wave_lo_A) & (w <= wave_hi_A)]
+        rows = _select_species_rows(linelist, Z, ion, wave_lo_A, wave_hi_A)
         if not len(rows):
             return (0, 0)
         flagged = rows[rows["nlte"] == "T"]
@@ -947,7 +986,8 @@ def label_coverage(linelist, Z: int, element: str,
 
 def assert_linelist_supports_nlte(linelist, Z: int, element: str,
                                   wave_lo_A: float | None = None,
-                                  wave_hi_A: float | None = None) -> int:
+                                  wave_hi_A: float | None = None,
+                                  ion=None) -> int:
     """iSpec fails SOFT — replicate its skip test and RAISE instead.
 
     `generate_spectrum` appends an element to `nlte_ignored` and continues **in LTE without
@@ -958,24 +998,17 @@ def assert_linelist_supports_nlte(linelist, Z: int, element: str,
     on this side of the call.
     """
     try:
-        species = np.floor(np.asarray(linelist["turbospectrum_species"], dtype=float))
-        sel = species == Z
-        # ⚠️ WINDOW-LOCAL, NOT ELEMENT-GLOBAL. bsyn applies departures per LINE and falls
-        # back to departure = 1 for any line whose levels are unidentified, so "Fe is
-        # labelled somewhere in the list" says nothing about the lines actually being
-        # synthesised here. Fe answers the global question yes 15706 times while every
-        # line in the Fe II 6910-9199 window is unlabelled.
-        if wave_lo_A is not None and wave_hi_A is not None:
-            names = linelist.dtype.names or ()
-            if "wave_A" in names:
-                w = np.asarray(linelist["wave_A"], dtype=float)
-            elif "wave_nm" in names:
-                w = np.asarray(linelist["wave_nm"], dtype=float) * 10.0
-            else:
-                w = None
-            if w is not None:
-                sel = sel & (w >= wave_lo_A) & (w <= wave_hi_A)
-        rows = linelist[sel]
+        # RYA-1050: one selection, shared with `label_coverage`, so the number the guard
+        # asserts on and the number the provenance reports cannot disagree.
+        # ⚠️ WINDOW-LOCAL AND STAGE-LOCAL, NOT ELEMENT-GLOBAL. bsyn applies departures
+        # per LINE and falls back to departure = 1 for any line whose levels are
+        # unidentified, so "Fe is labelled somewhere in the list" says nothing about the
+        # lines actually being synthesised here. Fe answers the global question yes 15706
+        # times while every line in the Fe II 6910-9199 window is unlabelled -- measured
+        # at 12.0% there, so the substance of that recorded case holds.
+        # `_select_species_rows` applies BOTH narrowings, and is shared with
+        # `label_coverage` so the asserted number and the reported number cannot disagree.
+        rows = _select_species_rows(linelist, Z, ion, wave_lo_A, wave_hi_A)
         if len(rows) == 0:
             raise GerberDeckError(
                 f"no {element} lines in this window's linelist — NLTE cannot engage")
