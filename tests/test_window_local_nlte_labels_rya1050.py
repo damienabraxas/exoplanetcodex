@@ -42,16 +42,26 @@ def test_every_call_site_passes_the_band_bounds():
 def test_the_guard_actually_supports_a_window():
     """Pinning the parameter, because the fix is worthless if the signature drops it."""
     assert "wave_lo_A" in GUARD and "wave_hi_A" in GUARD
-    assert "WINDOW-LOCAL, NOT ELEMENT-GLOBAL" in GUARD
+    # the banner now names BOTH narrowings, since the stage turned out to matter more
+    assert "NOT ELEMENT-GLOBAL" in GUARD
+    assert "WINDOW-LOCAL AND STAGE-LOCAL" in GUARD
 
 
 def test_the_guard_narrows_to_the_window_before_counting():
-    """It must filter to the band and THEN look for labels, not the reverse."""
+    """It must filter to the band and THEN look for labels, not the reverse.
+
+    The narrowing now lives in `_select_species_rows`, which the assert calls before it
+    counts anything -- so the ordering is checked across the two, not inside one body.
+    """
     seg = GUARD[GUARD.index("def assert_linelist_supports_nlte"):]
-    seg = seg[:seg.index("\ndef ", 10)] if "\ndef " in seg[10:] else seg
-    i_filter = seg.index("wave_lo_A is not None")
+    i_select = seg.index("_select_species_rows(linelist, Z, ion")
     i_count = seg.index('flagged["nlte_label_low"]')
-    assert i_filter < i_count, "the window filter must precede the label count"
+    assert i_select < i_count, "rows must be narrowed before labels are counted"
+    # and the selector itself narrows on BOTH axes before returning
+    sel = GUARD[GUARD.index("def _select_species_rows("):]
+    sel = sel[:sel.index("\n\ndef ")]
+    assert sel.index("species == Z") < sel.index("return linelist[sel]")
+    assert sel.index("wave_lo_A is not None") < sel.index("return linelist[sel]")
 
 
 def test_coverage_is_STATED_in_provenance_not_just_asserted():
@@ -90,3 +100,43 @@ def test_the_LTE_comparand_is_never_asked_for_NLTE_labels():
     assert "if _nlte:" in before, "the synthesis_route call must sit under `if _nlte:`"
     # and nothing re-opens the branch between the guard and the call
     assert "else:" not in before[before.rindex("if _nlte:"):]
+
+
+# ── the ionisation stage, which is where the real damage was ────────────────
+
+def test_the_selection_is_ION_AWARE_not_just_element_aware():
+    """🔴 THE BIGGER HALF OF THIS DEFECT. `turbospectrum_species` is the ONE field in the
+    list that collapses the stages -- every Fe row carries 26.0 -- and both callers were
+    built on exactly that field. Measured on GESv6 420-920 nm:
+
+        4200-6910 A   Fe 1   8194 of 8243   99.4%
+        4200-6910 A   Fe 2    854 of 8870    9.6%
+                      ALL Fe 9048 of 18366  49.3%   <- what a Z-only filter sees
+
+    Fe I is essentially COMPLETE, Fe II essentially ABSENT, and the 49% is an average of
+    two populations with nothing to do with each other. An Fe II NLTE product would pass a
+    Z-only check ON Fe I's LABELS and synthesise ~90% of its own lines in LTE under an
+    NLTE label.
+    """
+    assert "def _select_species_rows(" in GUARD
+    assert 'if ion is not None and "element" in names:' in GUARD, (
+        "the stage must come from a field that CARRIES it -- `element` is 'Fe 1'/'Fe 2'")
+    assert "parse_ion" in GUARD, "use the existing helper, do not add a sixth roman map"
+
+
+def test_both_the_assert_and_the_coverage_report_share_one_selection():
+    """If they filtered separately they could disagree, and the number asserted on would
+    not be the number reported."""
+    assert GUARD.count("_select_species_rows(linelist, Z, ion") == 2
+
+
+def test_every_call_site_passes_the_ion():
+    n_calls = DRIVER.count("assert_linelist_supports_nlte(") + DRIVER.count("label_coverage(")
+    assert DRIVER.count("ion=a.ion)") >= n_calls, (
+        "every guard and coverage call must name the ionisation stage it means")
+
+
+def test_ion_None_still_means_element_global_on_purpose():
+    """Not every caller wants a stage. The old behaviour must remain REACHABLE, just not
+    the default thing a band run silently gets."""
+    assert "`ion=None` keeps the old element-global behaviour deliberately" in GUARD
