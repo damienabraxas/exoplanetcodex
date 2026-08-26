@@ -77,9 +77,25 @@ from pipeline import treatment_axes
 # non-LTE physics (RYA-542). Two separate products, never a correction (RYA-712).
 _MEAN3D_TREATMENTS = (treatment_axes.MEAN3D_NLTE_STAGGER.token,
                       treatment_axes.MEAN3D_LTE_STAGGER.token)
+#: ⚠️ `_MEAN3D_TREATMENTS` is the ⟨3D⟩ PAIR specifically, and is no longer the whole
+#: axis-native vocabulary -- see `_AXIS_NATIVE_TREATMENTS` below.
+
+#: 🔴 THE PAIRED COMPARAND FOR `ENGINE-B-NLTE`, AND IT WAS MISSING (RYA-1045).
+#: `ENGINE-B-NLTE` runs on MARCS.GES because the Gerber 1D deck is computed there
+#: (RYA-798). The synthesis route's own `1D-LTE` leg runs on ATLAS9.Castelli. So there was
+#: no way to difference the 1D deck against its OWN atmosphere -- every available
+#: comparand changed the atmosphere at the same time, which reports the ATLAS9->MARCS.GES
+#: shift as non-LTE physics (RYA-542). That is the confound the <3D> pair was built to
+#: avoid, and the 1D rung simply never got the same treatment.
+#: 🔴 DERIVED FROM THE REGISTRY, NOT LISTED. `_MEAN3D_TREATMENTS` named its two members
+#: explicitly, so the third axis-native product (RYA-1045's 1D comparand) was registered
+#: in `treatment_axes` and still unknown here -- and `build_product` raised AFTER 67 lines
+#: had been fitted, which is precisely the RYA-798 failure this tuple exists to prevent,
+#: recurring one level up. Enumerating the registry makes the two impossible to disagree.
+_AXIS_NATIVE_TREATMENTS = tuple(treatment_axes.AXIS_NATIVE)
 
 TREATMENTS = ("1D-LTE", "ENGINE-A", "ENGINE-B", "ENGINE-B-NLTE", "ENGINE-A-3DNLTE",
-              "1D-LTE-LABGF") + _MEAN3D_TREATMENTS
+              "1D-LTE-LABGF") + _AXIS_NATIVE_TREATMENTS
 
 # Saturation: above this REW the EW->abundance inversion runs along the flat part of the
 # curve of growth and is ill-conditioned in BOTH directions. Lines past it are measured

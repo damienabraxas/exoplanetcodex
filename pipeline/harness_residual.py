@@ -251,6 +251,10 @@ _BANKED_PROFILEFIT_HANDLER: dict[str, str] = {
     # retyped, so this table cannot name a treatment the vocabulary does not have.
     treatment_axes.MEAN3D_NLTE_STAGGER.token: "SynthesisHandler",
     treatment_axes.MEAN3D_LTE_STAGGER.token: "SynthesisHandler",
+    # RYA-1045 — the 1D rung's paired comparand. Same flux re-fit as `ENGINE-B-NLTE`
+    # above and on the same MARCS.GES atmosphere; departures withheld is a physics
+    # difference, not a route one, so it shares that handler.
+    treatment_axes.GERBER1D_LTE_MARCS.token: "SynthesisHandler",
 }
 
 
