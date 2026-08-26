@@ -1,0 +1,435 @@
+{
+  "ticket": "RYA-1051",
+  "generated_utc": "2026-08-26T14:41:15Z",
+  "teff": 5750.0,
+  "logg": 4.5,
+  "vturb": 1.5,
+  "definition": "Delta = A(NLTE matching the LTE equivalent width) - A(LTE)",
+  "vturb_note": "1.50 to match the Amarsi grid node used for comparison; the grid has no vturb=1.0 node and the Sun is 1.0.",
+  "nodes": {
+    "+0.00": {
+      "A0": 7.5,
+      "n": 12,
+      "median": 0.0473,
+      "mean": 0.0492,
+      "min": 0.0266,
+      "max": 0.0758,
+      "lines": [
+        {
+          "wave_A": 4611.184,
+          "ep_eV": 2.851,
+          "ew_lte_mA": 232.653,
+          "ew_nlte_mA": 223.52,
+          "dEW_dA": 120.459,
+          "delta_nlte": 0.0758
+        },
+        {
+          "wave_A": 4574.216,
+          "ep_eV": 3.211,
+          "ew_lte_mA": 133.493,
+          "ew_nlte_mA": 127.86,
+          "dEW_dA": 105.76,
+          "delta_nlte": 0.0533
+        },
+        {
+          "wave_A": 4289.08,
+          "ep_eV": 3.368,
+          "ew_lte_mA": 489.751,
+          "ew_nlte_mA": 485.532,
+          "dEW_dA": 60.865,
+          "delta_nlte": 0.0693
+        },
+        {
+          "wave_A": 5532.747,
+          "ep_eV": 3.573,
+          "ew_lte_mA": 113.241,
+          "ew_nlte_mA": 107.22,
+          "dEW_dA": 108.193,
+          "delta_nlte": 0.0557
+        },
+        {
+          "wave_A": 6408.017,
+          "ep_eV": 3.686,
+          "ew_lte_mA": 145.305,
+          "ew_nlte_mA": 139.528,
+          "dEW_dA": 78.074,
+          "delta_nlte": 0.074
+        },
+        {
+          "wave_A": 6008.556,
+          "ep_eV": 3.884,
+          "ew_lte_mA": 173.39,
+          "ew_nlte_mA": 169.067,
+          "dEW_dA": 107.265,
+          "delta_nlte": 0.0403
+        },
+        {
+          "wave_A": 6315.811,
+          "ep_eV": 4.076,
+          "ew_lte_mA": 161.132,
+          "ew_nlte_mA": 153.176,
+          "dEW_dA": 146.552,
+          "delta_nlte": 0.0543
+        },
+        {
+          "wave_A": 5473.9,
+          "ep_eV": 4.154,
+          "ew_lte_mA": 146.811,
+          "ew_nlte_mA": 144.515,
+          "dEW_dA": 68.159,
+          "delta_nlte": 0.0337
+        },
+        {
+          "wave_A": 5538.516,
+          "ep_eV": 4.218,
+          "ew_lte_mA": 60.75,
+          "ew_nlte_mA": 58.13,
+          "dEW_dA": 63.376,
+          "delta_nlte": 0.0413
+        },
+        {
+          "wave_A": 5023.498,
+          "ep_eV": 4.313,
+          "ew_lte_mA": 122.573,
+          "ew_nlte_mA": 118.415,
+          "dEW_dA": 107.904,
+          "delta_nlte": 0.0385
+        },
+        {
+          "wave_A": 6855.161,
+          "ep_eV": 4.559,
+          "ew_lte_mA": 134.215,
+          "ew_nlte_mA": 130.995,
+          "dEW_dA": 121.264,
+          "delta_nlte": 0.0266
+        },
+        {
+          "wave_A": 6056.005,
+          "ep_eV": 4.733,
+          "ew_lte_mA": 120.552,
+          "ew_nlte_mA": 117.922,
+          "dEW_dA": 96.138,
+          "delta_nlte": 0.0274
+        }
+      ]
+    },
+    "-1.00": {
+      "A0": 6.5,
+      "n": 12,
+      "median": 0.0513,
+      "mean": 0.0627,
+      "min": 0.0396,
+      "max": 0.1187,
+      "lines": [
+        {
+          "wave_A": 4611.184,
+          "ep_eV": 2.851,
+          "ew_lte_mA": 121.342,
+          "ew_nlte_mA": 114.385,
+          "dEW_dA": 103.261,
+          "delta_nlte": 0.0674
+        },
+        {
+          "wave_A": 4574.216,
+          "ep_eV": 3.211,
+          "ew_lte_mA": 40.425,
+          "ew_nlte_mA": 37.515,
+          "dEW_dA": 56.714,
+          "delta_nlte": 0.0513
+        },
+        {
+          "wave_A": 4289.08,
+          "ep_eV": 3.368,
+          "ew_lte_mA": 269.633,
+          "ew_nlte_mA": 263.661,
+          "dEW_dA": 72.604,
+          "delta_nlte": 0.0823
+        },
+        {
+          "wave_A": 5532.747,
+          "ep_eV": 3.573,
+          "ew_lte_mA": 32.209,
+          "ew_nlte_mA": 27.92,
+          "dEW_dA": 36.129,
+          "delta_nlte": 0.1187
+        },
+        {
+          "wave_A": 6408.017,
+          "ep_eV": 3.686,
+          "ew_lte_mA": 70.962,
+          "ew_nlte_mA": 66.792,
+          "dEW_dA": 71.912,
+          "delta_nlte": 0.058
+        },
+        {
+          "wave_A": 6008.556,
+          "ep_eV": 3.884,
+          "ew_lte_mA": 73.651,
+          "ew_nlte_mA": 69.392,
+          "dEW_dA": 97.532,
+          "delta_nlte": 0.0437
+        },
+        {
+          "wave_A": 6315.811,
+          "ep_eV": 4.076,
+          "ew_lte_mA": 45.436,
+          "ew_nlte_mA": 39.26,
+          "dEW_dA": 60.726,
+          "delta_nlte": 0.1017
+        },
+        {
+          "wave_A": 5473.9,
+          "ep_eV": 4.154,
+          "ew_lte_mA": 57.462,
+          "ew_nlte_mA": 54.426,
+          "dEW_dA": 60.246,
+          "delta_nlte": 0.0504
+        },
+        {
+          "wave_A": 5538.516,
+          "ep_eV": 4.218,
+          "ew_lte_mA": 20.399,
+          "ew_nlte_mA": 19.452,
+          "dEW_dA": 18.416,
+          "delta_nlte": 0.0514
+        },
+        {
+          "wave_A": 5023.498,
+          "ep_eV": 4.313,
+          "ew_lte_mA": 27.546,
+          "ew_nlte_mA": 26.174,
+          "dEW_dA": 28.698,
+          "delta_nlte": 0.0478
+        },
+        {
+          "wave_A": 6855.161,
+          "ep_eV": 4.559,
+          "ew_lte_mA": 49.749,
+          "ew_nlte_mA": 47.298,
+          "dEW_dA": 61.933,
+          "delta_nlte": 0.0396
+        },
+        {
+          "wave_A": 6056.005,
+          "ep_eV": 4.733,
+          "ew_lte_mA": 47.616,
+          "ew_nlte_mA": 45.139,
+          "dEW_dA": 61.454,
+          "delta_nlte": 0.0403
+        }
+      ]
+    },
+    "-2.00": {
+      "A0": 5.5,
+      "n": 12,
+      "median": 0.0762,
+      "mean": 0.1033,
+      "min": 0.0539,
+      "max": 0.2604,
+      "lines": [
+        {
+          "wave_A": 4611.184,
+          "ep_eV": 2.851,
+          "ew_lte_mA": 41.502,
+          "ew_nlte_mA": 37.541,
+          "dEW_dA": 52.653,
+          "delta_nlte": 0.0752
+        },
+        {
+          "wave_A": 4574.216,
+          "ep_eV": 3.211,
+          "ew_lte_mA": 15.035,
+          "ew_nlte_mA": 14.552,
+          "dEW_dA": 8.009,
+          "delta_nlte": 0.0604
+        },
+        {
+          "wave_A": 4289.08,
+          "ep_eV": 3.368,
+          "ew_lte_mA": 94.913,
+          "ew_nlte_mA": 92.147,
+          "dEW_dA": 27.129,
+          "delta_nlte": 0.102
+        },
+        {
+          "wave_A": 5532.747,
+          "ep_eV": 3.573,
+          "ew_lte_mA": 14.348,
+          "ew_nlte_mA": 13.4,
+          "dEW_dA": 3.64,
+          "delta_nlte": 0.2604
+        },
+        {
+          "wave_A": 6408.017,
+          "ep_eV": 3.686,
+          "ew_lte_mA": 23.012,
+          "ew_nlte_mA": 21.521,
+          "dEW_dA": 22.129,
+          "delta_nlte": 0.0674
+        },
+        {
+          "wave_A": 6008.556,
+          "ep_eV": 3.884,
+          "ew_lte_mA": 21.23,
+          "ew_nlte_mA": 20.091,
+          "dEW_dA": 20.586,
+          "delta_nlte": 0.0553
+        },
+        {
+          "wave_A": 6315.811,
+          "ep_eV": 4.076,
+          "ew_lte_mA": 16.182,
+          "ew_nlte_mA": 14.627,
+          "dEW_dA": 6.143,
+          "delta_nlte": 0.2532
+        },
+        {
+          "wave_A": 5473.9,
+          "ep_eV": 4.154,
+          "ew_lte_mA": 18.883,
+          "ew_nlte_mA": 17.812,
+          "dEW_dA": 13.617,
+          "delta_nlte": 0.0786
+        },
+        {
+          "wave_A": 5538.516,
+          "ep_eV": 4.218,
+          "ew_lte_mA": 12.912,
+          "ew_nlte_mA": 12.735,
+          "dEW_dA": 1.994,
+          "delta_nlte": 0.0892
+        },
+        {
+          "wave_A": 5023.498,
+          "ep_eV": 4.313,
+          "ew_lte_mA": 3.871,
+          "ew_nlte_mA": 3.655,
+          "dEW_dA": 3.245,
+          "delta_nlte": 0.0664
+        },
+        {
+          "wave_A": 6855.161,
+          "ep_eV": 4.559,
+          "ew_lte_mA": 17.641,
+          "ew_nlte_mA": 16.746,
+          "dEW_dA": 11.575,
+          "delta_nlte": 0.0773
+        },
+        {
+          "wave_A": 6056.005,
+          "ep_eV": 4.733,
+          "ew_lte_mA": 17.001,
+          "ew_nlte_mA": 16.401,
+          "dEW_dA": 11.14,
+          "delta_nlte": 0.0539
+        }
+      ]
+    },
+    "-3.00": {
+      "A0": 4.5,
+      "n": 12,
+      "median": 0.1253,
+      "mean": 0.2277,
+      "min": 0.0742,
+      "max": 0.8275,
+      "lines": [
+        {
+          "wave_A": 4611.184,
+          "ep_eV": 2.851,
+          "ew_lte_mA": 15.593,
+          "ew_nlte_mA": 14.68,
+          "dEW_dA": 7.874,
+          "delta_nlte": 0.116
+        },
+        {
+          "wave_A": 4574.216,
+          "ep_eV": 3.211,
+          "ew_lte_mA": 11.855,
+          "ew_nlte_mA": 11.786,
+          "dEW_dA": 0.812,
+          "delta_nlte": 0.0856
+        },
+        {
+          "wave_A": 4289.08,
+          "ep_eV": 3.368,
+          "ew_lte_mA": 25.451,
+          "ew_nlte_mA": 24.854,
+          "dEW_dA": 2.956,
+          "delta_nlte": 0.2018
+        },
+        {
+          "wave_A": 5532.747,
+          "ep_eV": 3.573,
+          "ew_lte_mA": 12.242,
+          "ew_nlte_mA": 12.077,
+          "dEW_dA": 0.199,
+          "delta_nlte": 0.8275
+        },
+        {
+          "wave_A": 6408.017,
+          "ep_eV": 3.686,
+          "ew_lte_mA": 13.644,
+          "ew_nlte_mA": 13.34,
+          "dEW_dA": 2.385,
+          "delta_nlte": 0.1277
+        },
+        {
+          "wave_A": 6008.556,
+          "ep_eV": 3.884,
+          "ew_lte_mA": 13.124,
+          "ew_nlte_mA": 12.958,
+          "dEW_dA": 2.243,
+          "delta_nlte": 0.0742
+        },
+        {
+          "wave_A": 6315.811,
+          "ep_eV": 4.076,
+          "ew_lte_mA": 12.71,
+          "ew_nlte_mA": 12.449,
+          "dEW_dA": 0.369,
+          "delta_nlte": 0.7061
+        },
+        {
+          "wave_A": 5473.9,
+          "ep_eV": 4.154,
+          "ew_lte_mA": 12.72,
+          "ew_nlte_mA": 12.546,
+          "dEW_dA": 1.414,
+          "delta_nlte": 0.1229
+        },
+        {
+          "wave_A": 5538.516,
+          "ep_eV": 4.218,
+          "ew_lte_mA": 12.091,
+          "ew_nlte_mA": 12.066,
+          "dEW_dA": 0.18,
+          "delta_nlte": 0.1375
+        },
+        {
+          "wave_A": 5023.498,
+          "ep_eV": 4.313,
+          "ew_lte_mA": 0.755,
+          "ew_nlte_mA": 0.727,
+          "dEW_dA": 0.29,
+          "delta_nlte": 0.0984
+        },
+        {
+          "wave_A": 6855.161,
+          "ep_eV": 4.559,
+          "ew_lte_mA": 12.811,
+          "ew_nlte_mA": 12.647,
+          "dEW_dA": 1.122,
+          "delta_nlte": 0.1463
+        },
+        {
+          "wave_A": 6056.005,
+          "ep_eV": 4.733,
+          "ew_lte_mA": 12.675,
+          "ew_nlte_mA": 12.576,
+          "dEW_dA": 1.124,
+          "delta_nlte": 0.0879
+        }
+      ]
+    }
+  }
+}

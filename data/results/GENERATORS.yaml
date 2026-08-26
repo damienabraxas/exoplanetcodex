@@ -3188,6 +3188,27 @@ artifacts:
     ticket: RYA-1051
     note: >-
       RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: rya1051/nlte_correction_grid.json
+    generator: scripts/rya1051_nlte_correction_grid.py
+    ticket: RYA-1051
+    invocation: python3 scripts/rya1051_nlte_correction_grid.py --lines data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv --n-lines 12 --feh 0.0 -1.0 -2.0 -3.0 --out data/results/rya1051/nlte_correction_grid.json
+    note: >-
+      OUR Fe I NLTE abundance corrections computed the way Amarsi's grid DEFINES them --
+      synthesise in LTE at A0, find the abundance at which the NLTE synthesis has the same
+      equivalent width, Delta = A - A0 -- so the two are the same quantity and can be
+      differenced. Replaces the earlier `-log10(b_lower)` proxy, which was strictly
+      positive (so structurally incapable of reproducing Amarsi's NEGATIVE solar value)
+      and whose answer moved with the optical depth sampled (gradient ratio 1.96x-7.73x
+      over log tau -0.5..-2.0). Nothing is interpolated: the Gerber grid carries an EXACT
+      node at each of [Fe/H] = 0, -1, -2, -3 with A(Fe) = 7.50 + [Fe/H], read via
+      read_deck_node. `for_node` CANNOT serve this -- its vendor-interpolator path is
+      solar-node-only and refuses by design.
+      RESULT: ours -0.0259 per dex vs Amarsi -0.0564, so Amarsi's gradient is 2.18x
+      steeper; the curves cross between [Fe/H] -1 and -2; and the two AGREE to 0.007-0.015
+      dex at [Fe/H] -2 and -3 while disagreeing by +0.077 at solar.
+      VALIDATION: this theoretical route gives +0.0473 at solar against the +0.0480
+      measured by fitting the observed Kitt Peak atlas -- two independent paths agreeing to
+      0.0007 dex.
   - artifact: rya1051/fe_nlte_ladder.json
     generator: scripts/rya1051_fe_nlte_ladder.py
     ticket: RYA-1051
