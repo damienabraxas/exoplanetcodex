@@ -23,7 +23,15 @@ sys.path.insert(0, str(ROOT))
 from pipeline.gf_grades import canonical_species, grade_line, lab_lines  # noqa: E402
 
 AUDIT = ROOT / "data" / "audit" / "rya1047_hband_gf"
-H_ARM = (15007.0, 17494.0)          # Elgueta's CRIRES+ H arm
+# 🔴 THE H ARM'S EXTENT IS MEASURED, NOT DECREED. An earlier version of this file used
+# (15007.0, 17494.0) — a bound I carried in from nowhere. `normalize_vesta_ir.ARMS` sets
+# H's window to None on purpose: H is Elgueta's most telluric-contaminated arm and they
+# skip regions INSIDE it, so the arm's extent is its measured extent and the per-region
+# judgement belongs downstream (RYA-787), not in a pair of constants here. The invented
+# bound silently excluded 2 Ruffoni lines (14679.844, 14826.412 A) — both at sigma 0.05,
+# the TIGHTEST in the set. Inventing a wavelength bound is the exact failure this whole
+# ticket exists to undo.
+H_ARM = (14557.3, 17500.0)          # atomich.dat's measured span
 
 
 @pytest.fixture(scope="module")
