@@ -984,6 +984,51 @@ def label_coverage(linelist, Z: int, element: str,
         return (n_lab, 0)
 
 
+def pool_label_coverage(linelist, Z: int, waves_A, ion=None,
+                        tol_A: float = 0.05) -> tuple[int, int]:
+    """(labelled, total) over THE LINES ABOUT TO BE FITTED — the only question that decides
+    whether a fit is actually NLTE.
+
+    🔴 RYA-1050, THE THIRD AND SHARPEST NARROWING. Element-global asks the wrong question;
+    window-local asks a better one; but a run does not synthesise "the window", it
+    synthesises a POOL. Measured, and this is why the distinction is not academic:
+
+        Fe II 4200-6910 A window : 854 of 8870 lines labelled  (9.6%)  -> a window check PASSES
+        RYA-877's measured Fe II pool :   0 of 11 lines labelled       -> every line is LTE
+
+    So an Fe II NLTE run on that pool passes a window check on 854 lines it will never
+    touch, and then synthesises ALL ELEVEN of the lines it does touch in LTE, under an
+    NLTE label. Nothing raises, nothing looks wrong, and the product is a lie.
+
+    ⚠️ This does NOT replace the window check. The window number is what tells you about
+    BLENDS -- unlabelled neighbours inside the fitting window contribute to the profile in
+    LTE whether or not they are targets. Both numbers are real and they answer different
+    questions, so both are reported.
+    """
+    try:
+        rows = _select_species_rows(linelist, Z, ion)
+        if not len(rows):
+            return (0, 0)
+        names = rows.dtype.names or ()
+        w = (np.asarray(rows["wave_A"], dtype=float) if "wave_A" in names
+             else np.asarray(rows["wave_nm"], dtype=float) * 10.0)
+        flag = np.asarray([str(x).strip() for x in rows["nlte"]]) == "T"
+        lo = np.asarray([str(x).strip() for x in rows["nlte_label_low"]])
+        up = np.asarray([str(x).strip() for x in rows["nlte_label_up"]])
+        labelled = flag & ((lo != "none") | (up != "none"))
+        n_lab = 0
+        n_tot = 0
+        for x in np.asarray(waves_A, dtype=float):
+            m = np.abs(w - x) <= tol_A
+            if not m.any():
+                continue
+            n_tot += 1
+            n_lab += bool(labelled[m].any())
+        return (n_lab, n_tot)
+    except Exception:
+        return (0, 0)
+
+
 def assert_linelist_supports_nlte(linelist, Z: int, element: str,
                                   wave_lo_A: float | None = None,
                                   wave_hi_A: float | None = None,

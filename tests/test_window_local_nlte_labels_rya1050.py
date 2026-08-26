@@ -67,8 +67,12 @@ def test_the_guard_narrows_to_the_window_before_counting():
 def test_coverage_is_STATED_in_provenance_not_just_asserted():
     """🔴 Partial coverage dilutes silently and no assert can catch it. The count has to
     reach the product, or a half-labelled band looks exactly like a fully labelled one."""
-    assert DRIVER.count("label_coverage(") == 3, (
-        "every NLTE leg must measure its own window coverage")
+    # `pool_label_coverage(` contains `label_coverage(`, so count the window calls by
+    # their distinguishing prefix rather than by the shared substring.
+    n_window = (DRIVER.count("_gn.label_coverage(")
+                + DRIVER.count("gnlte.label_coverage("))
+    assert n_window == 3, (
+        f"every NLTE leg must measure its own window coverage (found {n_window})")
     assert DRIVER.count("_b_source += _cov_txt") + DRIVER.count("eb_prov += _cov_txt") \
         + DRIVER.count("+ _cov_txt)") == 3, (
         "and every one must put it in the PRODUCT's provenance, not just print it")
@@ -127,7 +131,9 @@ def test_the_selection_is_ION_AWARE_not_just_element_aware():
 def test_both_the_assert_and_the_coverage_report_share_one_selection():
     """If they filtered separately they could disagree, and the number asserted on would
     not be the number reported."""
-    assert GUARD.count("_select_species_rows(linelist, Z, ion") == 2
+    # three consumers now: the assert, the window report, and the pool report -- all
+    # narrowing through the same function so their numbers cannot disagree.
+    assert GUARD.count("_select_species_rows(linelist, Z, ion") == 3
 
 
 def test_every_call_site_passes_the_ion():
@@ -140,3 +146,45 @@ def test_ion_None_still_means_element_global_on_purpose():
     """Not every caller wants a stage. The old behaviour must remain REACHABLE, just not
     the default thing a band run silently gets."""
     assert "`ion=None` keeps the old element-global behaviour deliberately" in GUARD
+
+
+# ── the POOL, which is what actually gets synthesised ───────────────────────
+
+def test_the_POOL_is_checked_not_only_the_window():
+    """🔴 THE THIRD AND SHARPEST NARROWING. A run does not synthesise "the window", it
+    synthesises a POOL, and the two can disagree completely. Measured:
+
+        Fe II 4200-6910 window        : 854 of 8870 labelled (9.6%)  -> window check PASSES
+        RYA-877's measured Fe II pool :   0 of   11 labelled (0.0%)  -> every line is LTE
+
+    So an Fe II NLTE run passes a window check on 854 lines it will never touch, then
+    synthesises all eleven it does touch in LTE under an NLTE label.
+    """
+    assert "def pool_label_coverage(" in GUARD
+    n_pool = (DRIVER.count("_gn.pool_label_coverage(")
+              + DRIVER.count("gnlte.pool_label_coverage("))
+    assert n_pool == 3, f"every NLTE leg must check its pool (found {n_pool})"
+
+
+def test_a_pool_with_ZERO_labelled_lines_REFUSES():
+    """Dilution is reported; total absence is refused. A product where NOT ONE fitted line
+    carries a label is not a weakened NLTE result, it is an LTE result wearing an NLTE
+    name."""
+    assert "_pool_tot and _pool_lab == 0" in DRIVER
+    assert DRIVER.count("_pool_tot and _pool_lab == 0") == 3
+    assert "LTE under" in DRIVER and "an NLTE label" in DRIVER
+
+
+def test_the_refusal_explains_why_the_window_check_passed():
+    """Otherwise the next reader sees a window count of 854 and a refusal and concludes
+    the guard is broken."""
+    i = DRIVER.index("_pool_tot and _pool_lab == 0")
+    seg = DRIVER[i:i + 1400]
+    assert "they are not the lines being fitted" in seg
+
+
+def test_the_window_number_is_still_reported_because_it_answers_BLENDS():
+    """The pool check does not replace the window check -- unlabelled neighbours inside
+    the fitting window contribute to the profile in LTE whether or not they are targets."""
+    assert "label_coverage(" in DRIVER and "pool_label_coverage(" in DRIVER
+    assert "Both numbers are real and they answer different" in GUARD
