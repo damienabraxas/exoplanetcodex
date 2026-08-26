@@ -3188,6 +3188,31 @@ artifacts:
     ticket: RYA-1051
     note: >-
       RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: rya1051/amarsi_perline_nodes.csv
+    generator: scripts/rya1051_gradient_mechanism.py
+    ticket: RYA-1051
+    invocation: extracted from /srv/codex/grids-overflow/nlte/amarsi2016_fe/iron_abundancecorr/nmarcs_lmarcs.txt (Sirius-only, 2.36 GB) at Teff 5750 / logg 4.50 / vturb 1.50, Fe1 clean, for the 12 lines of nlte_correction_grid.json at log_eps 7.50/6.50/5.50/4.50
+    note: >-
+      Amarsi's PER-LINE 1D NLTE corrections at the four metallicity nodes, for the same
+      lines we synthesised. Committed because the 2.36 GB source is Sirius-only, so
+      without it the mechanism test cites a file nobody else can open.
+  - artifact: rya1051/gradient_mechanism.json
+    generator: scripts/rya1051_gradient_mechanism.py
+    ticket: RYA-1051
+    invocation: python3 scripts/rya1051_gradient_mechanism.py --anchor-per-line data/results/rya1051/amarsi_perline_nodes.csv --out data/results/rya1051/gradient_mechanism.json
+    note: >-
+      PHOTOIONISATION or COLLISIONS? The two make opposite predictions about the PER-LINE
+      structure of the gradient difference: a bound-free origin must depend on where each
+      level's ionisation edge sits (2455-3912 A across this pool), a collisional one must
+      not. MEASURED: r = +0.005 vs excitation potential, r = +0.024 vs edge wavelength,
+      median -0.0372 with a 16-84 spread of only -0.0416..-0.0314, and 8 of 8 lines
+      carrying the same sign. UNIFORM -> the collisional signature.
+      ⚠️ The solar GAP does show structure (r = -0.41 vs EP, -0.46 vs edge), so a
+      level-dependent term exists at solar on top of the uniform gradient term.
+      ⚠️ Conditioning cut is DERIVED: |Delta| <= the trial step DA the slope was measured
+      over, since anything larger extrapolates past where the slope was sampled. It
+      rejects 5 of 48 line-nodes, all weak lines at low metallicity -- Fe I 6315.811 at
+      [Fe/H] -3 had dEW/dA = 0.37 mA/dex on a 12.7 mA line and returned Delta = +0.706.
   - artifact: rya1051/nlte_correction_grid.json
     generator: scripts/rya1051_nlte_correction_grid.py
     ticket: RYA-1051
