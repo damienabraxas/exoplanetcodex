@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.60",
-  "updated_at": "2026-08-25T18:40:37Z",
+  "version": "1.61",
+  "updated_at": "2026-08-26T14:52:20Z",
   "products": [
     {
       "element": "Fe",
@@ -237,6 +237,84 @@
         "sha256": "5763c667146c96011ddee5cd69002783eb9d97f4a198f4cd78a8a5a8e272319b",
         "artifact_mtime": "2026-08-25T17:17:10Z",
         "ingested_at": "2026-08-25T17:17:31Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "II",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.697,
+      "sigma_stat": 0.0986,
+      "sigma_syst": 0.1095,
+      "n_lines": 12,
+      "n_excluded": 0,
+      "dominant_term": "pseudo-continuum",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_products.csv",
+        "copied_to": null,
+        "sha256": "192e58ffe091dda861e14b25157f5a33b9f744f69e9551301baa968c4148f03c",
+        "artifact_mtime": "2026-08-26T14:50:34Z",
+        "ingested_at": "2026-08-26T14:52:20Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "II",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "display": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+      "A": 7.738,
+      "sigma_stat": 0.121,
+      "sigma_syst": 0.1095,
+      "n_lines": 7,
+      "n_excluded": 5,
+      "dominant_term": "line-to-line scatter",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv",
+        "copied_to": null,
+        "sha256": "4af51ecafd1e4df25f19b33a3c70085586c9d2fdd4f705c53360a756059e2a81",
+        "artifact_mtime": "2026-08-26T14:50:47Z",
+        "ingested_at": "2026-08-26T14:52:20Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "II",
+      "band": "near-UV",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "DEEPGRADED",
+      "selector": "DEEPGRADED",
+      "treatment": "ENGINE-B",
+      "display": "Synth \u00b7 1D-LTE",
+      "A": 7.697,
+      "sigma_stat": 0.0986,
+      "sigma_syst": 0.1095,
+      "n_lines": 12,
+      "n_excluded": 0,
+      "dominant_term": "pseudo-continuum",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1015/data/results/band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv",
+        "copied_to": null,
+        "sha256": "46494ad7d6894ea3000f538a77f7726bd3c5e094f4a092382d6c37d8562bc2f2",
+        "artifact_mtime": "2026-08-26T14:50:34Z",
+        "ingested_at": "2026-08-26T14:52:20Z"
       }
     },
     {
