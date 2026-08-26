@@ -51,8 +51,14 @@ def test_it_reaches_where_nothing_else_does(ruff):
     older = lab[lab.source != "Ruffoni2013"]
     assert older.wavelength_air_A.max() == pytest.approx(11316.06, abs=0.1)
     assert ruff.wavelength_air_A.min() > older.wavelength_air_A.max()
-    # ... and it covers the CRIRES+ H arm (Elgueta 15007-17494 A).
-    in_h = ruff[(ruff.wavelength_air_A >= 15007.0) & (ruff.wavelength_air_A <= 17494.0)]
+    # ... and it covers the CRIRES+ H arm. 🔴 The bound here was ORIGINALLY written as
+    # 15007-17494 A, a pair of numbers not present anywhere in the code. The count it
+    # produced (25) happens to be right, because Elgueta's H Fe list starts at 15009.4 A
+    # and 15007 shadowed that -- but a right answer from an invented bound is luck, not
+    # a test. Ask the certified question directly instead: how many Ruffoni lines match
+    # an Elgueta-certified H Fe line. (27 lie inside the arm's measured extent
+    # 14557.3-17500.0 A; the 2 extra have no Elgueta entry within 1 A. See RYA-1047.)
+    in_h = ruff[(ruff.wavelength_air_A >= 15009.0) & (ruff.wavelength_air_A <= 17500.0)]
     assert len(in_h) == 25
 
 
