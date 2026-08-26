@@ -74,12 +74,17 @@ LAB_TAG = {
     'Ruffoni2014': 'RU14',
     'Belmonte2017': 'BEL17',
     'DenHartog2019': 'DH19',
+    # RYA-1052: Ruffoni's H-band paper. RU14 is their 2014 optical set, so RU13 by the
+    # same rule. 🔴 It was missing here, and RYA-1047 consequently wrote the LONG name
+    # 'Ruffoni2013' into `lab_source_tag` — a vocabulary this column does not use.
+    'Ruffoni2013': 'RU13',
 }
 LAB_DOI = {
     'DenHartog2014': '10.1088/0067-0049/215/2/23',
     'Ruffoni2014': '10.1093/mnras/stu780',
     'Belmonte2017': '10.3847/1538-4357/aa8cd3',
     'DenHartog2019': '10.3847/1538-4365/ab322e',
+    'Ruffoni2013': '10.1088/0004-637X/779/1/17',
 }
 LAB_VIZIER = {
     'DenHartog2014': 'VizieR J/ApJS/215/23',

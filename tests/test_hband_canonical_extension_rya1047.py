@@ -128,4 +128,16 @@ def test_adjudicated_rows_carry_their_citation(fe1):
     assert len(new) == 27
     assert new.gf_sigma_dex.notna().all()
     assert (new.gf_source_doi.astype(str) == "10.1088/0004-637X/779/1/17").all()
-    assert new.lab_source_tag.astype(str).eq("Ruffoni2013").all()
+    # 🔴 `lab_source_tag` is MACHINE-SHORT (DH14/RU14/BEL17/DH19/RU13), not the long
+    # source name the lab CSVs carry. RYA-1047 originally wrote "Ruffoni2013" here and
+    # nothing caught it until RYA-945's citation test — because the rows were also
+    # missing `gf_tier`, so no LAB-tier check ever looked at them. Fixed in RYA-1052.
+    import sys as _s
+    _s.path.insert(0, str(ROOT / "scripts"))
+    from rya945_ingest_fe_lab_gf import LAB_TAG
+    assert new.lab_source_tag.astype(str).eq(LAB_TAG["Ruffoni2013"]).all()
+    # And the rows must be SELECTABLE: the product path filters on gf_tier, not on the
+    # tag or the DOI. A laboratory value the selector cannot see is not on rung 3.
+    assert new.gf_tier.astype(str).eq("LAB").all(), (
+        "adjudicated rows are not tagged gf_tier=LAB — _cand_graded and "
+        "_cand_deep_graded select on that column and would skip them entirely")
