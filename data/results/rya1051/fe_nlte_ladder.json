@@ -1,0 +1,92 @@
+{
+  "ticket": "RYA-1051",
+  "generated_utc": "2026-08-26T12:53:33Z",
+  "star": "solar",
+  "species": "Fe I",
+  "band_A": [
+    4200,
+    6910
+  ],
+  "pool": "--lines-tier graded: the 67 LAB-tier Fe I lines AT OR BELOW the 0.6 depth gate, of 176 in band. NOT --lines-deep-graded, which is the saturated population above the gate (RYA-984/RYA-954).",
+  "holding": "kpno_solar_atlas / solar_kpno_molecfit_corrected",
+  "invocations": {
+    "<3D> pair": "scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d   (and --engine-b-deck gerber-mean3d-lte)",
+    "1D pair": "scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-nlte     (and --engine-b-deck gerber-1d-lte)"
+  },
+  "differencing_rule": "PER-LINE PAIRED, then aggregate. Never the difference of the published product values (RYA-1040 median collision), and never across two atmospheres (RYA-542).",
+  "products": {
+    "lte_1d_atlas9": {
+      "n": 67,
+      "median": 7.447,
+      "mean": 7.4496,
+      "std": 0.178
+    },
+    "lte_1d_marcs": {
+      "n": 67,
+      "median": 7.451,
+      "mean": 7.457,
+      "std": 0.1758
+    },
+    "nlte_1d": {
+      "n": 67,
+      "median": 7.497,
+      "mean": 7.4993,
+      "std": 0.1769
+    },
+    "mean3d_lte": {
+      "n": 67,
+      "median": 7.552,
+      "mean": 7.5403,
+      "std": 0.1791
+    },
+    "mean3d_nlte": {
+      "n": 67,
+      "median": 7.552,
+      "mean": 7.5669,
+      "std": 0.1781
+    }
+  },
+  "differences": {
+    "atmosphere_1D_to_mean3D": {
+      "minuend": "mean3d_lte",
+      "subtrahend": "lte_1d_atlas9",
+      "meaning": "<3D>-LTE minus 1D-LTE: the 1D->mean-3D ATMOSPHERE shift",
+      "n_paired": 67,
+      "median": 0.092,
+      "mean": 0.0907,
+      "min": 0.023,
+      "max": 0.175,
+      "n_nonzero": 67,
+      "difference_of_published_medians": 0.105
+    },
+    "nlte_on_mean3D": {
+      "minuend": "mean3d_nlte",
+      "subtrahend": "mean3d_lte",
+      "meaning": "<3D>-NLTE minus <3D>-LTE on ONE atmosphere: the NLTE effect",
+      "n_paired": 67,
+      "median": 0.032,
+      "mean": 0.0267,
+      "min": -0.14,
+      "max": 0.092,
+      "n_nonzero": 66,
+      "difference_of_published_medians": 0.0
+    },
+    "nlte_on_1D": {
+      "minuend": "nlte_1d",
+      "subtrahend": "lte_1d_marcs",
+      "meaning": "ENGINE-B-NLTE minus synth-1D-LTE-gerber on ONE atmosphere (MARCS.GES)",
+      "n_paired": 67,
+      "median": 0.048,
+      "mean": 0.0423,
+      "min": -0.086,
+      "max": 0.082,
+      "n_nonzero": 67,
+      "difference_of_published_medians": 0.046
+    },
+    "increment_mean3D_minus_1D": {
+      "meaning": "how much the <3D> deck ADDS over the 1D deck, per line. RYA-1045: this is the quantity that agrees with Amarsi and exonerates the <3D> deck.",
+      "n_paired": 67,
+      "median": -0.014
+    }
+  }
+}
