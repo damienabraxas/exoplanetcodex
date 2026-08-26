@@ -34,7 +34,15 @@ AUDIT = ROOT / "data" / "audit" / "rya945_fe_lab_gf"
 LAB_FE1 = ROOT / "data" / "reference" / "fe_gf_lab" / "fe1_lab_loggf.csv"
 LAB_FE2 = ROOT / "data" / "reference" / "fe_gf_lab" / "fe2_lab_loggf_dh19.csv"
 
-LAB_TAGS = {"DH14", "RU14", "BEL17", "DH19"}
+# 🔴 DERIVED, NOT FROZEN — RYA-1052. This was a literal set, and it went red the moment
+# RYA-1047 added a fifth laboratory source (Ruffoni 2013). The invariant this test protects
+# is "every LAB-tier row cites a primary lab paper", not "there are exactly four of them";
+# a frozen list turns every legitimate new source into a failure and invites someone to
+# widen the literal without checking the citation actually exists.
+import sys as _sys
+_sys.path.insert(0, str(ROOT / "scripts"))
+from rya945_ingest_fe_lab_gf import LAB_TAG as _LAB_TAG  # the single source (RYA-353)
+LAB_TAGS = set(_LAB_TAG.values())
 NIST_C_OR_BETTER = {"AAA", "AA", "A+", "A", "B+", "B", "C+", "C"}
 #: Same bound `pipeline.gf_grades` uses: below the 2-decimal quantisation of the VALD
 #: delivery, so it admits "same number, different rounding" and nothing else.
@@ -112,14 +120,22 @@ def test_the_update_plan_refused_every_downgrade():
 # ── judgement 2: the sigma describes the number actually used ────────────────────────
 def test_lab_tagged_rows_carry_the_lab_papers_own_value(fe):
     """RYA-799's SCALE-MISMATCH is a reference that does not describe its value."""
+    # RYA-1052: read EVERY registered Fe lab table, not a hand-listed two. `LAB_TABLES`
+    # is the single source and it now holds two files for Fe I (the rya799 pull and
+    # Ruffoni 2013's H-band set) — a hardcoded pair silently omits the newest paper and
+    # then fails on its own omission.
+    from pipeline.gf_grades import LAB_TABLES
+    _srcs = []
+    for _v in LAB_TABLES.values():
+        _srcs.extend(_v if isinstance(_v, (list, tuple)) else [_v])
     lab = {}
-    for src in (LAB_FE1, LAB_FE2):
+    for src in _srcs:
         for r in _rows(src):
             lab.setdefault(r["source"], []).append(
                 (float(r["wavelength_air_A"]), float(r["loggf"])))
 
-    tag_to_source = {"DH14": "DenHartog2014", "RU14": "Ruffoni2014",
-                     "BEL17": "Belmonte2017", "DH19": "DenHartog2019"}
+    # Inverted from the single source rather than restated (RYA-353).
+    tag_to_source = {v: k for k, v in _LAB_TAG.items()}
     checked = 0
     for r in fe:
         tag = r["lab_source_tag"]
