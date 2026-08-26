@@ -227,7 +227,37 @@ def main() -> int:
     out = Path(a.out) if a.out else OUT / f"rya1043_perline_cog_{int(a.lo)}_{int(a.hi)}.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
     df = pd.DataFrame(rows)
+
+    # 🔴 THE DERIVATIVE IS MEANINGLESS WITHOUT ITS STEP, AND THIS FILE USED TO OMIT IT.
+    # `d_rew_dA` is a two-sided derivative over `delta`; a run at delta=0.40 and a run at
+    # delta=0.10 write the SAME COLUMNS and different numbers, and nothing on disk could
+    # tell them apart. That is precisely the RYA-1006 failure -- a conditioning axis that
+    # changes the value while leaving the artifact indistinguishable -- and here it would
+    # be worse than a mislabelled product: `min_d_rew_dA` is set FROM this distribution,
+    # so an unrecorded delta silently ties an entire grid column's admission gate to a
+    # parameter nobody can recover. Every run now writes its own provenance.
+    prov = {
+        "ticket": "RYA-1043",
+        "product": out.name,
+        "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "band_A": [float(a.lo), float(a.hi)],
+        "delta_dex": float(a.delta),
+        "half_width_A": float(a.half_width_A),
+        "blend_offset_dex": float(a.blend_offset),
+        "a0_override": (None if a.a0 is None else float(a.a0)),
+        "limit": a.limit,
+        "n_pool": int(len(pool)),
+        "n_ok": int((df.status == "ok").sum()) if "status" in df.columns else int(len(df)),
+        "derivative": "d_rew_dA = [log10(EW(A+d)/lam) - log10(EW(A-d)/lam)] / (2d)",
+        # The threshold is NOT set here and never has been. RYA-1041 Step 2 is Ryan's;
+        # this file is the measurement he sets it from.
+        "sets_no_threshold": True,
+    }
+    prov_path = out.with_suffix(".provenance.json")
+    prov_path.write_text(json.dumps(prov, indent=2) + "\n", encoding="utf-8")
+
     df.to_csv(out, index=False)
+    print(f"wrote {prov_path.name}  (delta={a.delta} dex — RECORDED, see RYA-1006)")
     ok = df[df.status == "ok"] if "status" in df.columns else df
     print(f"\nwrote {out}   ok={len(ok)}  failed={len(df)-len(ok)}")
     if len(ok):
