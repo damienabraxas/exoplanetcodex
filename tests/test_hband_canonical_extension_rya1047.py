@@ -23,14 +23,17 @@ sys.path.insert(0, str(ROOT))
 from pipeline.gf_grades import canonical_species, grade_line, lab_lines  # noqa: E402
 
 AUDIT = ROOT / "data" / "audit" / "rya1047_hband_gf"
-# 🔴 THE H ARM'S EXTENT IS MEASURED, NOT DECREED. An earlier version of this file used
-# (15007.0, 17494.0) — a bound I carried in from nowhere. `normalize_vesta_ir.ARMS` sets
-# H's window to None on purpose: H is Elgueta's most telluric-contaminated arm and they
-# skip regions INSIDE it, so the arm's extent is its measured extent and the per-region
-# judgement belongs downstream (RYA-787), not in a pair of constants here. The invented
-# bound silently excluded 2 Ruffoni lines (14679.844, 14826.412 A) — both at sigma 0.05,
-# the TIGHTEST in the set. Inventing a wavelength bound is the exact failure this whole
-# ticket exists to undo.
+# 🔴 TWO DIFFERENT QUESTIONS, TWO DIFFERENT NUMBERS — AND I CONFLATED THEM.
+#   (a) "inside the H arm's measured extent"     -> 14557.3-17500.0 A, 27 of 28
+#   (b) "in Elgueta's CERTIFIED H Fe line list"  -> Fe starts 15009.4 A, 25 of 28
+# The 2 lines that separate them (14679.844, 14826.412 A) are graded via canonical +
+# Ruffoni but have NO Elgueta entry within 1 A, so they are not certified lines.
+#
+# I first wrote (b)'s count against a bound of my own, 15007-17494 A, which is not in
+# the code -- `normalize_vesta_ir.ARMS` sets H's window to None deliberately, because H
+# is Elgueta's most telluric-contaminated arm and they skip regions INSIDE it (RYA-787).
+# Then I "corrected" it to (a) and silently changed which question the test asked. Both
+# tests below now say which one they mean.
 H_ARM = (14557.3, 17500.0)          # atomich.dat's measured span
 
 
