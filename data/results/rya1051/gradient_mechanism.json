@@ -1,0 +1,103 @@
+{
+  "ticket": "RYA-1051",
+  "conditioning_cut": "|Delta| <= DA = 0.15; DERIVED, not chosen -- a larger value extrapolates past the step the slope was measured over. Rejected 5 of 48 line-nodes.",
+  "n_lines": 8,
+  "lines": [
+    {
+      "wave_A": 4574.216,
+      "ep_eV": 3.211,
+      "edge_A": 2643.018546152206,
+      "grad_ours": -0.0106,
+      "grad_amarsi": -0.049,
+      "grad_diff": -0.0384,
+      "solar_gap": 0.0713,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 4611.184,
+      "ep_eV": 2.851,
+      "edge_A": 2454.6426450207878,
+      "grad_ours": -0.0128,
+      "grad_amarsi": -0.0474,
+      "grad_diff": -0.0345,
+      "solar_gap": 0.0899,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 5023.498,
+      "ep_eV": 4.313,
+      "edge_A": 3454.5555865143488,
+      "grad_ours": -0.0198,
+      "grad_amarsi": -0.0508,
+      "grad_diff": -0.031,
+      "solar_gap": 0.0566,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 5473.9,
+      "ep_eV": 4.154,
+      "edge_A": 3308.0042689434363,
+      "grad_ours": -0.0296,
+      "grad_amarsi": -0.0657,
+      "grad_diff": -0.0361,
+      "solar_gap": 0.0871,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 5538.516,
+      "ep_eV": 4.218,
+      "edge_A": 3365.4723127035827,
+      "grad_ours": -0.0326,
+      "grad_amarsi": -0.0608,
+      "grad_diff": -0.0282,
+      "solar_gap": 0.0681,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 6008.556,
+      "ep_eV": 3.884,
+      "edge_A": 3085.7142857142853,
+      "grad_ours": -0.0113,
+      "grad_amarsi": -0.0699,
+      "grad_diff": -0.0586,
+      "solar_gap": 0.0989,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 6056.005,
+      "ep_eV": 4.733,
+      "edge_A": 3912.401388450615,
+      "grad_ours": -0.0195,
+      "grad_amarsi": -0.0615,
+      "grad_diff": -0.042,
+      "solar_gap": 0.069,
+      "n_nodes": 4
+    },
+    {
+      "wave_A": 6408.017,
+      "ep_eV": 3.686,
+      "edge_A": 2940.796963946869,
+      "grad_ours": -0.0171,
+      "grad_amarsi": -0.0558,
+      "grad_diff": -0.0388,
+      "solar_gap": 0.1091,
+      "n_nodes": 4
+    }
+  ],
+  "grad_diff": {
+    "median": -0.0372,
+    "p16": -0.0416,
+    "p84": -0.0314,
+    "r_vs_ep": 0.005,
+    "r_vs_edge_A": 0.024
+  },
+  "solar_gap": {
+    "median": 0.0792,
+    "p16": 0.0682,
+    "p84": 0.0978,
+    "r_vs_ep": -0.411,
+    "r_vs_edge_A": -0.457
+  },
+  "all_lines_same_sign": true,
+  "verdict": "UNIFORM: the gradient difference tracks NEITHER excitation potential NOR the photoionisation edge wavelength, and every line carries it with the same sign and nearly the same size. That is the COLLISIONAL signature, not the bound-free one -- a cross-section difference would have to depend on where each level's edge sits."
+}
