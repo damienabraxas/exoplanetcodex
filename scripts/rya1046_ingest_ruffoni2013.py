@@ -2,7 +2,8 @@
 """Ingest Ruffoni et al. 2013 H-band Fe I laboratory log gf — RYA-1046.
 
 WHY THIS TABLE. `canonical_gf`'s laboratory pool stops at 11316.1 A (Belmonte 2017
-reaches 1033 nm), so Elgueta's CRIRES+ J (11796-13195 A) and H (15007-17494 A) arms hold
+reaches 1033 nm), so Elgueta's CRIRES+ J and H arms (measured extents 11800.7-13198.5
+and 14557.3-17500.0 A; H's certified Fe starts at 15009.4 A) hold
 ZERO cited-lab Fe I lines between them and would grade rung 1 — the ungraded 0.17 blanket
 — no matter how well measured. Ruffoni, Pickering, Allende Prieto & Nave 2013 (ApJ 779,
 17) measured 28 Fe I transitions across 1.4-1.7 um precisely because no experimental
@@ -161,8 +162,11 @@ def main() -> int:
     print(f"\n  ingestible Ladenburg lines: {len(df)}")
     if len(df):
         print(f"  span {df.wavelength_air_A.min():.1f}-{df.wavelength_air_A.max():.1f} A")
-        print(f"  in Elgueta H (15007-17494): "
-              f"{int(df.wavelength_air_A.between(15007,17494).sum())}")
+        # 15009.4 A is where Elgueta's CERTIFIED H Fe list starts -- read off the
+        # line list, not a bound of our own. 27 lie inside the arm's wider measured
+        # extent (14557.3-17500.0); those 2 are graded but NOT Elgueta-certified.
+        print(f"  in Elgueta H certified Fe (>=15009.4 A): "
+              f"{int(df.wavelength_air_A.between(15009.0, 17500.0).sum())}")
         print(f"  per-line sigma: median {df.e_loggf_dex.median():.3f} dex "
               f"(min {df.e_loggf_dex.min():.3f} max {df.e_loggf_dex.max():.3f})")
     if a.dry_run:
