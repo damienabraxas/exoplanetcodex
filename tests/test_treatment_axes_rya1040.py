@@ -93,7 +93,11 @@ def test_the_token_and_the_label_cannot_drift_apart():
     for ax in T.AXIS_NATIVE.values():
         assert ax.scale.replace("<3D>", "mean3D") in ax.token
         assert ax.scale in ax.display
-        assert ax.deck in ax.token and ax.deck in ax.display
+        # `token` deliberately omits a "none" deck (there is no provenance to record),
+        # so the relationship is conditional -- RYA-1045's 1D comparand is the first
+        # axis-native product with no ⟨3D⟩ deck behind it.
+        if ax.deck != "none":
+            assert ax.deck in ax.token and ax.deck in ax.display
         assert (ax.model in ax.token) and (T.DISPLAY_MODEL[ax.model] in ax.display)
 
 
@@ -150,7 +154,11 @@ def test_band_products_imports_the_tokens_rather_than_retyping_them():
     impossible rather than merely tested-for."""
     for ax in T.AXIS_NATIVE.values():
         assert ax.token in BP.TREATMENTS
-    assert set(BP._MEAN3D_TREATMENTS) == set(T.AXIS_NATIVE)
+    assert set(BP._AXIS_NATIVE_TREATMENTS) == set(T.AXIS_NATIVE), (
+        "TREATMENTS must ENUMERATE the axis-native registry, not name its members: "
+        "naming them is how RYA-1045's comparand was registered in one place and "
+        "unknown in the other, and build_product raised after the synthesis had run")
+    assert set(BP._MEAN3D_TREATMENTS) <= set(T.AXIS_NATIVE)
 
 
 def test_the_handler_table_stays_exhaustive_over_the_grown_vocabulary():
