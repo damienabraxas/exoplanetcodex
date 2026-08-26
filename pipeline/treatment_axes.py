@@ -320,9 +320,30 @@ MEAN3D_LTE_STAGGER = _register_axis_native(
     route="synth", scale="<3D>-LTE", model="gerber", atmos="stagger-mean3d",
     gf="kurucz", route_basis="axis-native", deck="stagger")
 
-#: The pairing itself, as data. A caller asking for one should be able to find the other
-#: without re-deriving which axis differs.
-NLTE_LTE_PAIRS = {MEAN3D_NLTE_STAGGER.token: MEAN3D_LTE_STAGGER.token}
+#: 🔴 THE 1D RUNG'S MISSING COMPARAND — RYA-1045.
+#: The ⟨3D⟩ pair above exists so the NLTE effect is measured on ONE atmosphere. The 1D
+#: rung never got the same treatment. `ENGINE-B-NLTE` runs the Gerber 1D deck on MARCS.GES
+#: (the deck is computed there, RYA-798); the only LTE product on that route runs on
+#: ATLAS9.Castelli. Differencing them reports the ATLAS9→MARCS.GES ATMOSPHERE change as
+#: non-LTE physics — the RYA-542 confound, on the rung nobody checked. Measured on solar
+#: Fe I: that mixed delta is +0.050, and it is NOT the 1D NLTE effect.
+#:
+#: ⚠️ ONLY THE COMPARAND IS NEW. The NLTE member already exists as the legacy label
+#: `ENGINE-B-NLTE`, whose axes are exactly (synth, 1D-NLTE, gerber, marcs-ges, deck=none).
+#: Registering a second axis-native token for the same axes would give one product two
+#: names, so this pairs against the legacy token instead.
+#:
+#: `deck="none"` because the deck axis records ⟨3D⟩ SOLVE PROVENANCE (stagger vs codex);
+#: the 1D MARCS deck is not a ⟨3D⟩ deck, and calling it `stagger` would claim it came from
+#: the STAGGERmean3D solve. `model` stays `gerber` for the same reason the ⟨3D⟩ comparand
+#: does: its identity is "the LTE limit OF THAT DECK'S SETUP".
+GERBER1D_LTE_MARCS = _register_axis_native(
+    route="synth", scale="1D-LTE", model="gerber", atmos="marcs-ges",
+    gf="kurucz", route_basis="axis-native", deck="none")
+
+NLTE_LTE_PAIRS = {MEAN3D_NLTE_STAGGER.token: MEAN3D_LTE_STAGGER.token,
+                  # the legacy NLTE label, paired to its new axis-native comparand
+                  "ENGINE-B-NLTE": GERBER1D_LTE_MARCS.token}
 
 
 def comparand_for(token: str) -> str | None:
