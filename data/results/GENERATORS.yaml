@@ -3196,10 +3196,18 @@ artifacts:
       Amarsi's PER-LINE 1D NLTE corrections at the four metallicity nodes, for the same
       lines we synthesised. Committed because the 2.36 GB source is Sirius-only, so
       without it the mechanism test cites a file nobody else can open.
+  - artifact: rya1051/amarsi_solar_node_perline.csv
+    generator: scripts/rya1051_gradient_mechanism.py
+    ticket: RYA-1051
+    invocation: extracted from /srv/codex/grids-overflow/nlte/amarsi2016_fe/iron_abundancecorr/nmarcs_lmarcs.txt (Sirius-only, 2.36 GB) at Teff 5750 / logg 4.50 / log_eps 7.50, all Fe1 rows
+    note: >-
+      Amarsi's FULL solar-node 1D per-line slice. Committed because it is what raises the
+      solar EP test from 8 lines to 43 -- and 8 was not enough: it produced r = -0.41 and
+      a level-dependent term that does not exist.
   - artifact: rya1051/gradient_mechanism.json
     generator: scripts/rya1051_gradient_mechanism.py
     ticket: RYA-1051
-    invocation: python3 scripts/rya1051_gradient_mechanism.py --anchor-per-line data/results/rya1051/amarsi_perline_nodes.csv --out data/results/rya1051/gradient_mechanism.json
+    invocation: python3 scripts/rya1051_gradient_mechanism.py --anchor-per-line data/results/rya1051/amarsi_perline_nodes.csv --solar-pair data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv --solar-anchor data/results/rya1051/amarsi_solar_node_perline.csv --out data/results/rya1051/gradient_mechanism.json
     note: >-
       PHOTOIONISATION or COLLISIONS? The two make opposite predictions about the PER-LINE
       structure of the gradient difference: a bound-free origin must depend on where each
@@ -3207,8 +3215,19 @@ artifacts:
       not. MEASURED: r = +0.005 vs excitation potential, r = +0.024 vs edge wavelength,
       median -0.0372 with a 16-84 spread of only -0.0416..-0.0314, and 8 of 8 lines
       carrying the same sign. UNIFORM -> the collisional signature.
-      ⚠️ The solar GAP does show structure (r = -0.41 vs EP, -0.46 vs edge), so a
-      level-dependent term exists at solar on top of the uniform gradient term.
+      Also carries `solar_ep_test`: the LARGE-SAMPLE version of the solar question,
+      on the 43 lines the measured pair shares with the anchor.
+      ⚠️ CORRECTED: an earlier reading of this artifact claimed the solar GAP carries a
+      level-dependent term on top of the uniform gradient term, from r = -0.41 vs EP on
+      these 8 lines. IT DOES NOT. Re-tested on the 43 solar lines the measured pair and
+      the anchor share, r = -0.083 (t = -0.54) vs EP and -0.086 vs edge wavelength, and
+      the EP terciles are flat (+0.0789 / +0.0729 / +0.0779). The same 8 lines evaluated
+      through the measured route give r = -0.273, so the earlier number was SAMPLE SIZE,
+      not method -- at n = 8 the 95% interval on r = -0.41 spans roughly -0.85 to +0.40.
+      The disagreement is a UNIFORM offset in BOTH metallicity and excitation potential:
+      one effect, not two. Both codes individually DO trend with EP (ours +0.055 -> +0.042
+      across the range, Amarsi -0.020 -> -0.043) -- they simply trend TOGETHER, which is
+      why the gap between them stays flat.
       ⚠️ Conditioning cut is DERIVED: |Delta| <= the trial step DA the slope was measured
       over, since anything larger extrapolates past where the slope was sampled. It
       rejects 5 of 48 line-nodes, all weak lines at low metallicity -- Fe I 6315.811 at

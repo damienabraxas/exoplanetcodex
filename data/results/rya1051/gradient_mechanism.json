@@ -99,5 +99,19 @@
     "r_vs_edge_A": -0.457
   },
   "all_lines_same_sign": true,
+  "solar_ep_test": {
+    "status": "RUN",
+    "n": 43,
+    "median_gap": 0.0746,
+    "r_vs_ep": -0.083,
+    "t_vs_ep": -0.54,
+    "r_vs_edge_A": -0.086,
+    "ep_terciles": [
+      0.0809,
+      0.0729,
+      0.0812
+    ],
+    "verdict": "FLAT -- no level-dependent term at solar; the disagreement is a uniform offset in EP as well as in metallicity"
+  },
   "verdict": "UNIFORM: the gradient difference tracks NEITHER excitation potential NOR the photoionisation edge wavelength, and every line carries it with the same sign and nearly the same size. That is the COLLISIONAL signature, not the bound-free one -- a cross-section difference would have to depend on where each level's edge sits."
 }
