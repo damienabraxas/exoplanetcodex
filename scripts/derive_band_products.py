@@ -413,6 +413,62 @@ def _cand_graded(linelist, *, lo_A: float, hi_A: float, species: str,
     }).sort_values("wave_A").reset_index(drop=True)
 
 
+def _cand_consistent(linelist, *, lo_A: float, hi_A: float, species: str,
+                     ew_artifact=None) -> pd.DataFrame:
+    """The CONSISTENT tier — RYA-1048. WIRED, AND DELIBERATELY CLOSED.
+
+    The third sub-product: lines with NO laboratory gf that nonetheless BEHAVE like the
+    laboratory-anchored distribution. An entire column of the product grid — CONSISTENT,
+    every band — had no product path at all: `gf_empirical` classified lines into
+    `TIER_CONSISTENT` perfectly well, and nothing downstream could ever ask for them.
+
+    🔴 CONSISTENT IS A VERDICT, NOT A COLUMN. `_cand_graded` can filter `canonical_gf` on
+    `gf_tier` because a laboratory pedigree is a static property of the line. Consistency
+    is not: it is the OUTPUT of the RYA-968 grading tree run against MEASURED per-line
+    quantities (observed depth, REW, dREW/dA, red_chi2) and scored against an anchor. So
+    this selector cannot filter a table — it must GRADE one, and grading needs thresholds.
+
+    🔴 AND THE THRESHOLDS ARE UNDECLARED, SO THIS RAISES. That is the correct behaviour,
+    not a gap to route around. `Thresholds` has NO DEFAULTS by construction, and the
+    saturation gate is the one that matters here: RYA-1041 measured that the ensemble
+    curve of growth for solar Fe I has NO RESOLVABLE KNEE (profile non-monotonic, 3 sign
+    changes), so no scalar `rew_max` can express saturation — the field is RETIRED, and
+    stage 2 now gates each line on its OWN measured dREW/dA. That per-line threshold,
+    `min_d_rew_dA`, comes from RYA-1043's per-line synthetic COG.
+
+    ⚠️ DO NOT GIVE ANY OF THESE A DEFAULT TO "MAKE THE RUN WORK", and above all never
+    reinstate Gray's -4.9 (RYA-1041 refused it explicitly, and RYA-161 is why: a borrowed
+    constant is not a control). A default here would not fail loudly on one line — it would
+    silently admit or reject an ENTIRE GRID COLUMN across every band, wearing the authority
+    of a measurement nobody made. Wired-but-closed is the honest state until RYA-1043 lands.
+    """
+    from pipeline.gf_empirical import Thresholds, TIER_CONSISTENT, grade_line
+
+    th = Thresholds()
+    # Ask for every gate the tree consults BEFORE any I/O, so the refusal names the
+    # missing measurement rather than dying later on a NoneType comparison.
+    for name in ("min_depth", "min_d_rew_dA", "max_red_chi2", "rew_min",
+                 "consistency_bound_dex", "min_anchor_lines"):
+        th.require(name)          # raises ThresholdNotDeclared — RYA-968 F3
+
+    # ── beyond this point the tier is OPEN. Unreached until the thresholds are declared.
+    if ew_artifact is None:
+        raise SystemExit(
+            "--lines-tier consistent needs --lines-from-ew: consistency is graded from "
+            "MEASURED per-line quantities (depth, REW, dREW/dA, red_chi2), and no "
+            "unmeasured line can be shown to behave like the anchored distribution.")
+    rows = pd.read_csv(Path(ew_artifact))
+    rows = rows[rows.wavelength_air_A.astype(float).between(lo_A, hi_A)]
+    keep = [r["wavelength_air_A"] for _, r in rows.iterrows()
+            if grade_line(r, th).tier == TIER_CONSISTENT]
+    if not keep:
+        raise SystemExit(
+            f"no {species} line in {lo_A}-{hi_A} A graded CONSISTENT — refusing to emit an "
+            f"empty product. An empty tier is a RESULT and belongs in the store's `gaps` "
+            f"with its reason, not on disk as a product (RYA-833).")
+    return linelist[linelist.wavelength_air_A.isin(keep)].copy()
+
+
 def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
                            species: str, tier: str) -> pd.DataFrame:
     """The lines an EW artifact ATTEMPTED, as synthesis candidates — RYA-967.
@@ -508,6 +564,8 @@ def _selector_tag(a) -> str:
         return "_FROMEW" + ("" if tier == "all" else f"-{tier.upper()}")
     if getattr(a, "lines_tier", "all") == "graded":
         return "_GRADED"
+    if getattr(a, "lines_tier", "all") == "consistent":
+        return "_CONSISTENT"
     return ""
 
 
@@ -979,6 +1037,10 @@ def synthesis_route(a, pol) -> None:
     elif getattr(a, "lines_tier", "all") == "graded":
         cand = _cand_graded(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
                             species=species_token(a.element, a.ion))
+    elif getattr(a, "lines_tier", "all") == "consistent":
+        cand = _cand_consistent(ctx["linelist"], lo_A=a.lo, hi_A=a.hi,
+                                species=species_token(a.element, a.ion),
+                                ew_artifact=getattr(a, "lines_from_ew", None))
     elif getattr(a, "lines_tier", "all") == "ungraded":
         raise SystemExit(
             "--lines-tier ungraded is only meaningful with --lines-from-ew (it splits "
@@ -1848,9 +1910,14 @@ def main() -> None:
                          "EW depth gate — the ones EW can never attempt because the curve "
                          "of growth is flat there. Synthesis inverts no EW, so the "
                          "saturation ceiling does not apply to them.")
-    ap.add_argument("--lines-tier", choices=["all", "graded", "ungraded"], default="all",
+    ap.add_argument("--lines-tier",
+                    choices=["all", "graded", "ungraded", "consistent"], default="all",
                     help="RYA-946 two-tier: emit the graded (primary-laboratory gf) lines "
-                         "as their own product, never merged with the ungraded ones.")
+                         "as their own product, never merged with the ungraded ones. "
+                         "RYA-1048: 'consistent' is the third sub-product — lines with NO "
+                         "laboratory gf that BEHAVE like the lab-anchored distribution. It "
+                         "is WIRED BUT CLOSED: the saturation gate it needs is undeclared, "
+                         "so it raises rather than running. See _cand_consistent.")
     ap.add_argument("--force-synthesis", action="store_true",
                     help="drive a band through the SYNTHESIS route even where its policy "
                          "also permits profile-fit (RYA-837). Needed for red-optical "
