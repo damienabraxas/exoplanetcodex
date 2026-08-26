@@ -1182,15 +1182,54 @@ def synthesis_route(a, pol) -> None:
                   f"{Path(_model3d['path']).name} (ndep={_dep['ndep']}, "
                   f"nlev={_dep['nk']}, max|dlogtau|={_dtau:.2e}, "
                   f"departures={'ON' if _nlte else 'OFF'})")
-        elif _nlte:
+        elif _nlte or a.engine_b_deck == "gerber-1d-lte":
             from pipeline import gerber_nlte as gnlte
+            # 🔴 THE 1D DECK BRINGS ITS OWN ATMOSPHERE, AND THIS LEG WAS NOT LOADING IT.
+            # The Gerber 1D departures are computed on MARCS.GES (RYA-798), so they pair
+            # index-for-index with a MARCS.GES model and NOTHING ELSE. This branch used
+            # `ctx["atmosphere"]` -- whatever the synthesis route had already built, 72
+            # layers against the deck's 56 -- and `assert_depth_match` refused the run:
+            #
+            #   GerberDeckError: depth mismatch: the departure grid has 56 layers, the
+            #   model atmosphere has 72.
+            #
+            # Caught rather than applied, which is the guard doing exactly its job: iSpec
+            # overwrites the departure tau with the atmosphere's, so a mismatch would have
+            # applied every departure at the wrong depth SILENTLY. The <3D> branch above
+            # already replaces the atmosphere for the same reason; the 1D branch simply
+            # never did, so `--engine-b-deck gerber-nlte` had never been reachable on this
+            # route. The main route has carried this load for both.
+            from pipeline.abundances_derive import _load_atmosphere
+            _layers1d = _load_atmosphere(
+                float(ctx["teff"]), float(ctx["logg"]), float(ctx["feh"]),
+                float(ctx["vturb"]), model_grid="MARCS.GES")
             _dep = gnlte.for_node(a.element, float(ctx["teff"]), float(ctx["logg"]),
                                   float(ctx["feh"]))
-            gnlte.assert_depth_match(_dep, ctx["atmosphere"])
-            _fit_kw = dict(nlte_deck="gerber", nlte_deck_key=a.element)
-            eb_treatment = "ENGINE-B-NLTE"
-            eb_prov = GERBER_NLTE_SOURCE_FMT.format(
-                atom=_dep["atom_path"].split("/")[-1])
+            gnlte.assert_depth_match(_dep, _layers1d)
+            # 🔴 THE 1D PAIR, AND WHY IT HAS TO EXIST (RYA-1045).
+            # `ENGINE-B-NLTE` runs on MARCS.GES because the deck demands it. The route's
+            # own 1D-LTE leg runs on ATLAS9.Castelli (`_load_atmosphere`'s default, 72
+            # layers). So differencing them measures ATLAS9 -> MARCS.GES **plus** the
+            # departures -- the RYA-542 confound, and precisely what the <3D> pair was
+            # built to avoid. Measured: that mixed delta is +0.050, and it is NOT the 1D
+            # NLTE effect.
+            #
+            # `gerber-1d-lte` is the missing comparand: SAME deck's atmosphere, SAME
+            # lines, SAME fitter, departures WITHHELD. The 1D NLTE effect is
+            # (ENGINE-B-NLTE minus its `comparand_for` partner), never against the
+            # route's 1D-LTE leg. The token is DERIVED from axes, not typed here.
+            _fit_kw = dict(atmosphere=_layers1d)
+            if _nlte:
+                _fit_kw.update(nlte_deck="gerber", nlte_deck_key=a.element)
+            eb_treatment = ("ENGINE-B-NLTE" if _nlte
+                            else taxes.GERBER1D_LTE_MARCS.token)
+            eb_prov = (GERBER_NLTE_SOURCE_FMT.format(
+                atom=_dep["atom_path"].split("/")[-1]) if _nlte else
+                "Turbospectrum LTE flux fit on the Gerber 1D deck's OWN atmosphere "
+                "(MARCS.GES, RYA-798) with departures WITHHELD -- the paired comparand "
+                "for ENGINE-B-NLTE (RYA-1045). Differencing ENGINE-B-NLTE against this "
+                "route's 1D-LTE leg instead would report the ATLAS9->MARCS.GES atmosphere "
+                "change as non-LTE physics (RYA-542).")
         else:
             eb_treatment = "ENGINE-B"
             eb_prov = ("Turbospectrum LTE flux fit on this route's own atmosphere "
@@ -1866,7 +1905,8 @@ def main() -> None:
     ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--mpia-cache", help="pre-computed per-line delta_nlte JSON")
     ap.add_argument("--engine-b-deck",
-                    choices=["ts-lte", "gerber-nlte", "gerber-mean3d", "gerber-mean3d-lte"],
+                    choices=["ts-lte", "gerber-nlte", "gerber-1d-lte", "gerber-mean3d",
+                             "gerber-mean3d-lte"],
                     default="ts-lte",
                     help="which synthesis is Engine B. 'ts-lte' is the production "
                          "Turbospectrum LTE flux-fit; 'gerber-nlte' is the TS-native "
