@@ -902,6 +902,49 @@ def assert_depth_match(parsed: dict, atmosphere) -> None:
             f"wrong depths.")
 
 
+def label_coverage(linelist, Z: int, element: str,
+                   wave_lo_A: float, wave_hi_A: float) -> tuple[int, int]:
+    """(labelled, total) {element} lines in the window — coverage as a FRACTION.
+
+    🔴 RYA-1050. `assert_linelist_supports_nlte` answers "is there at least one", which is
+    the only question an assert can usefully ask: bsyn's fallback is departure = 1 PER
+    LINE, so partial coverage never raises — it DILUTES. A band at half coverage emits a
+    well-formed NLTE product carrying roughly half the effect, and nothing records it.
+
+    Measured on GESv6 420–920 nm, which is our own production list: **9,048 of 18,366 Fe
+    lines are labelled in 4200–6910 Å — 49%**. The 67 lines of the graded pool are
+    themselves 67/67 labelled, so the TARGETS are fine; it is the surrounding BLEND lines
+    that are half in LTE.
+
+    A bare count cannot show that. 9,048 looks reassuring until it is set beside 18,366.
+
+    ⚠️ NO FLOOR IS IMPOSED HERE and none should be without deriving one (RYA-161). This
+    reports; the reader judges.
+    """
+    n_lab = 0
+    try:
+        species = np.floor(np.asarray(linelist["turbospectrum_species"], dtype=float))
+        names = linelist.dtype.names or ()
+        if "wave_A" in names:
+            w = np.asarray(linelist["wave_A"], dtype=float)
+        elif "wave_nm" in names:
+            w = np.asarray(linelist["wave_nm"], dtype=float) * 10.0
+        else:
+            return (0, 0)
+        rows = linelist[(species == Z) & (w >= wave_lo_A) & (w <= wave_hi_A)]
+        if not len(rows):
+            return (0, 0)
+        flagged = rows[rows["nlte"] == "T"]
+        n_lab = int(np.sum((flagged["nlte_label_low"] != "none")
+                           | (flagged["nlte_label_up"] != "none")))
+        return (n_lab, int(len(rows)))
+    except Exception:
+        # A coverage REPORT must never be the thing that breaks a run; the assert above is
+        # what refuses. Returning (n_lab, 0) makes "not measurable" distinguishable from
+        # "zero coverage", which 0/0 would not be.
+        return (n_lab, 0)
+
+
 def assert_linelist_supports_nlte(linelist, Z: int, element: str,
                                   wave_lo_A: float | None = None,
                                   wave_hi_A: float | None = None) -> int:
