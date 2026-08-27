@@ -111,10 +111,20 @@ def test_form_A_spread_threshold_separates_the_real_populations():
 
 
 # ── B. the correction stays applied ──────────────────────────────────────────
+def test_sidecar_is_keyed_on_the_stable_id_not_the_row_index():
+    """RYA-1077: `line_id` is a ROW INDEX and rots when a block of rows is replaced -- it
+    moved 1,739 committed references, 25% of them, some to a different SPECIES. The
+    sidecar is exactly such a reference, so it must key on `physical_id`."""
+    side = pd.read_csv(SIDECAR)
+    assert "physical_id" in side.columns, "the sidecar must carry the RYA-1077 stable id"
+    assert side.physical_id.astype(str).str.startswith("pk_").all()
+    assert side.physical_id.is_unique
+
+
 def test_sidecar_and_table_agree_and_the_arithmetic_holds():
     assert SIDECAR.exists(), "the RYA-1075 provenance sidecar must ship with the correction"
     side = pd.read_csv(SIDECAR)
-    canon = pd.read_csv(CANONICAL, low_memory=False).set_index("line_id")
+    canon = pd.read_csv(CANONICAL, low_memory=False).set_index("physical_id")
     assert len(side) == 54, f"expected 54 corrected rows, sidecar carries {len(side)}"
     for r in side.itertuples():
         # the correction term IS -log10(n), derived, not transcribed
@@ -123,9 +133,9 @@ def test_sidecar_and_table_agree_and_the_arithmetic_holds():
         assert r.corrected_log_gf == pytest.approx(
             r.published_log_gf + r.correction_term, abs=6e-4), \
             f"{r.line_id}: corrected != published - log10(n)"
-        assert float(canon.at[r.line_id, "log_gf"]) == pytest.approx(
-            r.corrected_log_gf, abs=1e-9), f"{r.line_id}: table no longer carries it"
-        assert canon.at[r.line_id, "adjudication_status"] == "isotope_rya1075"
+        assert float(canon.at[r.physical_id, "log_gf"]) == pytest.approx(
+            r.corrected_log_gf, abs=1e-9), f"{r.physical_id}: table no longer carries it"
+        assert canon.at[r.physical_id, "adjudication_status"] == "isotope_rya1075"
 
 
 def test_every_corrected_row_matches_its_vald_sibling_where_one_exists():
@@ -138,7 +148,8 @@ def test_every_corrected_row_matches_its_vald_sibling_where_one_exists():
     # RYA-684 already established Cu I's VALD surface is folded and so is not a
     # trustworthy referee for this species.
     assert (off > 0.01).sum() == 1, "the set of sibling disagreements changed"
-    assert have.loc[off.idxmax(), "line_id"] == "gf_048042"
+    assert have.loc[off.idxmax(), "species"] == "Cu I"
+    assert abs(float(have.loc[off.idxmax(), "wavelength_air_A"]) - 5782.122) < 0.01
     # Everything else agrees to better than 0.01 dex; the largest of those is Ba II
     # 4934 at 0.0072, a plain GES-vs-VALD catalogue difference.
     assert off.drop(off.idxmax()).max() < 0.01
@@ -155,20 +166,22 @@ def test_corrected_table_is_clean():
 def test_reintroducing_one_row_fails_loud():
     """The guard RYA-684 lacked. A single re-inflated row must be named."""
     canon = pd.read_csv(CANONICAL, low_memory=False)
-    i = canon.index[canon.line_id == "gf_051798"][0]      # Eu II 6645.09
+    i = canon.index[(canon.species == "Eu II")
+                    & ((canon.wavelength_air_A - 6645.0905).abs() < 0.01)][0]
     canon.at[i, "log_gf"] = 0.4208                        # the isotope-blind sum
     hits = isotope_inflated_rows(canon, _ges_path())
     assert len(hits) == 1
-    assert hits[0]["line_id"] == "gf_051798"
+    assert hits[0]["species"] == "Eu II"
+    assert abs(hits[0]["wavelength_air_A"] - 6645.0905) < 0.01
     assert hits[0]["n_isotopes"] == 2
     assert hits[0]["inflation_dex"] == pytest.approx(math.log10(2), abs=1e-3)
 
 
 @needs_ges
 def test_reintroducing_all_54_fails_loud():
-    canon = pd.read_csv(CANONICAL, low_memory=False).set_index("line_id")
+    canon = pd.read_csv(CANONICAL, low_memory=False).set_index("physical_id")
     for r in pd.read_csv(SIDECAR).itertuples():
-        canon.at[r.line_id, "log_gf"] = r.published_log_gf
+        canon.at[r.physical_id, "log_gf"] = r.published_log_gf
     hits = isotope_inflated_rows(canon.reset_index(), _ges_path())
     assert len(hits) == 54
 
@@ -180,11 +193,11 @@ def test_li_6707_is_never_corrected():
     (spread 0.301), so it is a genuine multi-isotope cluster that this rule must
     leave alone. If the selector ever widens enough to swallow it, that is a blanket
     correction and the whole fix is unsafe."""
-    canon = pd.read_csv(CANONICAL, low_memory=False).set_index("line_id")
+    canon = pd.read_csv(CANONICAL, low_memory=False).set_index("physical_id")
     for r in pd.read_csv(SIDECAR).itertuples():
-        canon.at[r.line_id, "log_gf"] = r.published_log_gf
+        canon.at[r.physical_id, "log_gf"] = r.published_log_gf
     hits = isotope_inflated_rows(canon.reset_index(), _ges_path())
-    assert "gf_087098" not in {h["line_id"] for h in hits}
+    assert "Li I" not in {h["species"] for h in hits}
     assert "Li I" not in set(pd.read_csv(SIDECAR).species)
 
 
