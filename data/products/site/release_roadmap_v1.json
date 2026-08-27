@@ -1,0 +1,69 @@
+{
+  "schema": "codex.release_roadmap/1",
+  "product_id": "codex-public-release-roadmap-v1",
+  "sources": {
+    "canonical_products": "data/config/elements_master.json",
+    "abundance_product_store": "data/products/<target>/<element>.json",
+    "publication_gate": "Only rows in a document's current `products` array count; archive, quarantine, gaps, missing files, and superseded products do not."
+  },
+  "canonical_product_count": 27,
+  "releases": [
+    {
+      "id": "foundation",
+      "name": "Foundation",
+      "status": "complete",
+      "summary": "Core spectroscopy pipeline, abundance engines, provenance framework, data architecture, validation tooling, and open-science infrastructure established. Ongoing R&D continues as normal scientific development.",
+      "progress_fraction": 1.0
+    },
+    {
+      "id": "alpha",
+      "name": "Alpha Release \u2014 Full Solar Calibration",
+      "status": "in_progress",
+      "summary": "Reviewed elemental products for the Sun across the strongest valid wavelength regions and available engines.",
+      "notes": [
+        "Fe is nearing full intended band and engine coverage, with remaining infrared due diligence.",
+        "Al is in active completion and audit."
+      ],
+      "targets": [
+        {
+          "target_id": "solar",
+          "target_name": "Sun",
+          "complete_products": 2,
+          "total_products": 27,
+          "progress_fraction": 0.074074,
+          "complete_product_ids": [
+            "Fe",
+            "Fe-II"
+          ],
+          "gate": "current_publishable_product"
+        }
+      ]
+    },
+    {
+      "id": "beta",
+      "name": "Beta Release \u2014 Alpha Centauri A & B",
+      "status": "planned",
+      "summary": "The solar multi-band, multi-engine method extended independently to both Alpha Centauri components, including Codex-generated 3D model tests where scientifically justified and computationally ready.",
+      "targets": [
+        {
+          "target_id": "alpha_cen_a",
+          "target_name": "Alpha Centauri A",
+          "complete_products": 0,
+          "total_products": 27,
+          "progress_fraction": 0.0,
+          "complete_product_ids": [],
+          "gate": "current_publishable_product"
+        },
+        {
+          "target_id": "alpha_cen_b",
+          "target_name": "Alpha Centauri B",
+          "complete_products": 0,
+          "total_products": 27,
+          "progress_fraction": 0.0,
+          "complete_product_ids": [],
+          "gate": "current_publishable_product"
+        }
+      ]
+    }
+  ]
+}
