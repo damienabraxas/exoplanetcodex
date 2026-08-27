@@ -20,7 +20,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from pipeline.gf_grades import canonical_species, grade_line, lab_lines  # noqa: E402
+from pipeline.gf_grades import (  # noqa: E402
+    AmbiguousLineMatch, canonical_species, grade_line, lab_lines,
+)
 
 AUDIT = ROOT / "data" / "audit" / "rya1047_hband_gf"
 # 🔴 TWO DIFFERENT QUESTIONS, TWO DIFFERENT NUMBERS — AND I CONFLATED THEM.
@@ -60,18 +62,24 @@ def test_the_lab_lines_actually_grade_now(fe1):
     rather than the 0.17 dex Kurucz blanket (RYA-850)."""
     ruff = lab_lines("Fe I")
     ruff = ruff[ruff.source == "Ruffoni2013"]
-    graded = 0
+    graded = ambiguous = 0
     for _, row in ruff.iterrows():
         m = fe1[(fe1.wavelength_air_A - row.wavelength_air_A).abs() < 0.05]
         if not len(m):
             continue
-        v = grade_line(float(m.wavelength_air_A.iloc[0]),
-                       float(m.excitation_potential_eV.iloc[0]),
-                       float(m.log_gf.iloc[0]), species="Fe I")
+        try:
+            v = grade_line(float(m.wavelength_air_A.iloc[0]),
+                           float(m.excitation_potential_eV.iloc[0]),
+                           float(m.log_gf.iloc[0]), species="Fe I")
+        except AmbiguousLineMatch:
+            ambiguous += 1
+            continue
         if v.is_graded:
             graded += 1
             assert v.gf_sigma_dex <= 0.13, "a lab line must carry its own measured sigma"
-    assert graded == 27
+    # RYA-1053 added a physical neighbour at 15631.948 A. RYA-1034 correctly refuses
+    # to choose between it and 15631.947 A, leaving 26 graded plus one explicit ambiguity.
+    assert (graded, ambiguous) == (26, 1)
 
 
 def test_the_ep_check_refused_the_one_line_wavelength_alone_would_have_taken(fe1):
