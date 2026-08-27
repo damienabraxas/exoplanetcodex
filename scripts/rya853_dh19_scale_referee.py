@@ -109,13 +109,17 @@ INDEPENDENCE_CAVEAT = (
 )
 
 BALANCE_CAVEAT = (
-    "The ionization balance this verdict speaks to (Fe I 7.586 / Fe II 7.568, RYA-783) was "
-    "measured on kpno_solar_atlas PROFILEFIT products dated 2026-08-16..18. EVERY continuum "
-    "fix postdates them: RYA-911 and RYA-913 (2026-08-19), RYA-1000/1006 --local-renorm "
-    "(2026-08-23), RYA-1026 pre-normalised KP ratification + prenormalised_guard and "
-    "RYA-1030 normalisation intake (2026-08-24). The Fe II VIS cell has NOT been re-run "
-    "since — there is no Fe II product in data/results/band_products at all. So a gf scale "
-    "cleared here does not clear the balance: the measurement leg is still pre-fix."
+    "The balance figures this verdict is usually quoted beside — Fe I 7.586 / Fe II 7.568 "
+    "(RYA-783, kpno_solar_atlas PROFILEFIT) — are dated 2026-08-16..18 and PREDATE every "
+    "continuum fix: RYA-911/913 (08-19), RYA-1000/1006 --local-renorm (08-23), RYA-1026 "
+    "prenormalised_guard and RYA-1030 (08-24). RYA-852's test still hardcodes 7.568. "
+    "CORRECTED 2026-08-27: post-fix products DO exist — RYA-1045 (Fe II VIS, 08-25) and "
+    "RYA-1052 (Fe II near-UV, 08-26) re-ran Fe II on the corrected holdings, and 15 Fe II "
+    "products sit in data/products/solar/Fe.json with artifact_mtime 08-25/26. They are "
+    "invisible in data/results/band_products because 67 of the 75 feed products carry "
+    "provenance.copied_to=None and were never committed (RYA-1080). So the balance needs "
+    "RE-DERIVING from the feed, not re-measuring — and the pairing must match tier and "
+    "selector, which the old ungraded pair does not share with the current graded ones."
 )
 
 

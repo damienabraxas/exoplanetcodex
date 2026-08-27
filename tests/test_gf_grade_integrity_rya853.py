@@ -273,13 +273,23 @@ def test_the_independence_caveat_travels_with_the_verdict(referee):
     assert "vald3" in c and "aggregator" in c
 
 
-def test_the_balance_caveat_records_that_the_measurement_leg_is_pre_continuum_fix(referee):
-    """🔴 A CLEARED gf SCALE DOES NOT CLEAR THE BALANCE. Fe I 7.586 / Fe II 7.568 were
-    measured 2026-08-16..18; every continuum fix (RYA-911/913, 1000/1006, 1026, 1030)
-    landed 2026-08-19 or later, and the Fe II VIS cell has never been re-run."""
+def test_the_balance_caveat_is_accurate_about_what_exists(referee):
+    """🔴 A CLEARED gf SCALE DOES NOT CLEAR THE BALANCE — but for the right reason.
+
+    The first version of this caveat said Fe II "has never been re-run", read off the
+    committed data/results/band_products/ tree. That was wrong: RYA-1045 and RYA-1052 re-ran
+    Fe II on 2026-08-25/26 and the products are in the FEED, invisible from the committed
+    tree only because 67 of 75 feed rows have copied_to=None (RYA-1080). What is true is
+    that the quoted 7.586/7.568 pair predates the fixes and the balance must be re-derived
+    from the feed."""
     c = referee["caveat_balance_is_pre_continuum_fix"]
-    for t in ("1026", "1030", "911", "re-run"):
+    for t in ("1026", "1030", "911", "7.568"):
         assert t in c, f"the balance caveat lost {t!r}"
+    assert "RYA-1045" in c and "RYA-1052" in c, (
+        "the caveat must name the runs that DO postdate the fixes — omitting them is what "
+        "turned a stale directory listing into 'never re-run'")
+    assert "re-deriv" in c.lower()
+    assert "never been re-run" not in c.lower()
 
 
 def test_the_frozen_snapshot_does_not_contain_the_referee():
