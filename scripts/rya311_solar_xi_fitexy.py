@@ -84,9 +84,9 @@ from pipeline.line_match import match                         # noqa: E402
 #: Mucciarelli 2011: lines whose EW is uncertain by more than this fraction bias the solve.
 EW_ERR_FRACTION_MAX = 0.10
 
-#: The xi grid, km/s. Wide enough to bracket any plausible solar value and to measure
+#: Default xi grid, km/s. Wide enough to bracket any plausible solar value and to measure
 #: d slope / d xi far from the root, which is what the error propagation needs.
-XI_GRID = np.round(np.arange(0.60, 1.81, 0.10), 2)
+XI_MIN, XI_MAX, XI_STEP = 0.60, 1.80, 0.10
 
 OUT_DIR = ROOT / "data" / "results" / "rya311"
 
@@ -122,7 +122,8 @@ def _lab_graded_mask(rows: pd.DataFrame, species: str) -> np.ndarray:
 
 
 def solve(star: str, element: str, ion: str, pool: str,
-          ew_ceiling_mA: float | None) -> dict:
+          ew_ceiling_mA: float | None,
+          xi_grid: np.ndarray) -> tuple[dict, pd.DataFrame]:
     import pipeline.abundances_derive as ad
 
     species = f"{element} {ion}"
@@ -197,7 +198,7 @@ def solve(star: str, element: str, ion: str, pool: str,
 
     # ── Sweep ────────────────────────────────────────────────────────────────────
     sweep = []
-    for xi in XI_GRID:
+    for xi in xi_grid:
         a0 = _abund(xi, ew0)
         ap = _abund(xi, ew0 + err0)
         am = _abund(xi, ew0 - err0)
@@ -224,11 +225,31 @@ def solve(star: str, element: str, ion: str, pool: str,
     coef = np.polyfit(s.xi, s.slope, 2)
     roots = np.roots(coef)
     real = [float(r.real) for r in roots if abs(r.imag) < 1e-9
-            and XI_GRID.min() <= r.real <= XI_GRID.max()]
+            and xi_grid.min() <= r.real <= xi_grid.max()]
     if len(real) != 1:
-        raise SystemExit(f"slope(xi) has {len(real)} root(s) inside the swept range "
-                         f"{XI_GRID.min()}-{XI_GRID.max()} km/s: {real}. A unique zero is "
-                         f"what makes this a solve; refusing to pick one.")
+        # 🔴 NOT AN ERROR -- A RESULT. A pool whose reduced-EW slope never reaches zero
+        # inside a physically sane xi range has told us something: microturbulence alone
+        # cannot flatten it. Refusing to publish a xi is right; refusing to publish the
+        # measurement that shows why would be RYA-833 (an absence recorded as nothing).
+        outside = [float(r.real) for r in roots if abs(r.imag) < 1e-9]
+        print(f"\n  NO SOLVE: slope(xi) has {len(real)} root(s) inside "
+              f"{xi_grid.min()}-{xi_grid.max()} km/s "
+              f"(quadratic roots anywhere: {[round(r, 3) for r in outside]}).")
+        print(f"  The slope runs {s.slope.iloc[0]:+.4f} -> {s.slope.iloc[-1]:+.4f} across "
+              f"the grid without crossing zero. This pool does not determine xi.")
+        return {"ticket": "RYA-311", "star": star, "species": species, "pool": pool,
+                "ew_ceiling_mA": ew_ceiling_mA,
+                "ew_err_fraction_max": EW_ERR_FRACTION_MAX,
+                "n_measured": int(n_start), "n_after_cuts": int(len(rows)),
+                "n_fitted": int(sweep[0]["n"]),
+                "xi_grid": [float(x) for x in xi_grid],
+                "root_found": False,
+                "roots_anywhere": outside,
+                "slope_first": float(s.slope.iloc[0]),
+                "slope_last": float(s.slope.iloc[-1]),
+                "verdict": "NO_SOLVE -- the reduced-EW slope never reaches zero in the "
+                           "swept xi range; this pool does not constrain microturbulence",
+                "sweep": sweep, "cuts": cuts}, pd.DataFrame()
     xi_hat = real[0]
     dslope_dxi = float(np.polyval(np.polyder(coef), xi_hat))
 
@@ -258,6 +279,8 @@ def solve(star: str, element: str, ion: str, pool: str,
         "n_fitted": int(ok.sum()),
         "rew_min": float(rew[ok].min()), "rew_max": float(rew[ok].max()),
         "ew_min_mA": float(ew0[ok].min()), "ew_max_mA": float(ew0[ok].max()),
+        "root_found": True,
+        "xi_grid": [float(x) for x in xi_grid],
         "xi_measured": float(xi_hat),
         "delta_xi_formal": float(sigma_xi),
         "delta_xi_chi2_scaled": float(sigma_xi_scaled),
@@ -302,19 +325,27 @@ def main() -> None:
                     help="optional saturation ceiling; the production vmic bisection uses "
                          "100 mA (RYA-330), which Mucciarelli's 'sample the strong end' "
                          "argues against. Declared sensitivity, not the default.")
+    ap.add_argument("--xi-min", type=float, default=XI_MIN)
+    ap.add_argument("--xi-max", type=float, default=XI_MAX)
+    ap.add_argument("--xi-step", type=float, default=XI_STEP)
     ap.add_argument("--out", default=None, help="JSON path (default data/results/rya311/)")
     a = ap.parse_args()
 
-    res, per_line = solve(a.star, a.element, a.ion, a.pool, a.ew_ceiling_mA)
+    grid = np.round(np.arange(a.xi_min, a.xi_max + 0.5 * a.xi_step, a.xi_step), 3)
+    res, per_line = solve(a.star, a.element, a.ion, a.pool, a.ew_ceiling_mA, grid)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     tag = f"{a.star}_{a.element}{a.ion}_{a.pool}"
     if a.ew_ceiling_mA is not None:
         tag += f"_ceil{int(a.ew_ceiling_mA)}"
+    if (a.xi_min, a.xi_max, a.xi_step) != (XI_MIN, XI_MAX, XI_STEP):
+        tag += f"_xi{a.xi_min:g}-{a.xi_max:g}"
     out = Path(a.out) if a.out else OUT_DIR / f"rya311_xi_{tag}.json"
     out.write_text(json.dumps(res, indent=2))
-    csv = out.with_name(out.stem + "_per_line.csv")
-    per_line.to_csv(csv, index=False)
-    print(f"\n  -> {out.relative_to(ROOT)}\n  -> {csv.relative_to(ROOT)}")
+    print(f"\n  -> {out.relative_to(ROOT)}")
+    if not per_line.empty:
+        csv = out.with_name(out.stem + "_per_line.csv")
+        per_line.to_csv(csv, index=False)
+        print(f"  -> {csv.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
