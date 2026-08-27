@@ -3391,3 +3391,558 @@ artifacts:
       because the 5 of 40 lines it could compare have the OPPOSITE SIGN to the full
       product, so they cannot certify it. The per-line inputs are band products; the
       anchor is Amarsi+2016 nmtd_lmtd, external.
+
+  # ── RYA-1080: artifacts the FEED already published but the repo never held ──
+  # Produced on the Mac (RYA-1015/1045/1052), ingested into data/products/solar/Fe.json,
+  # and left with provenance.copied_to = None. data/results/band_products/ is gitignored
+  # (.gitignore:87), so nothing swept them in by accident and nothing brought them in on
+  # purpose either. Each was verified against the sha256 the feed recorded BEFORE being
+  # committed; ten that no longer match are deliberately NOT here (rya1080_blocked.csv).
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_PROFILEFIT_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_LOCALRENORM_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_LOCALRENORM_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_LOCALRENORM_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-24) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_6910_9199_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11083_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11083_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_11083_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9199_12976_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-25) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_ENGINE-B_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/FeI_9801_10794_crires_plus_solar_crires_plus_y_wide_rya1054_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1080
+    note: >-
+      Produced on the Mac (2026-08-26) and published in Fe.json; committed
+      here so a data/results/band_products/ check and the feed cannot disagree. The
+      generator is on main, but the holding it reads is Mac-local, so this is committed
+      but NOT regenerable on Sirius — a recorded regenerability gap (RYA-1011), not a
+      silent one.
+
+  - artifact: band_products/out_g3d_08d20b.csv
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-1080
+    note: >-
+      RYA-817 3D-NLTE output recovered from /private/tmp/g3d/. The feed row carried a
+      copied_to pointing there — outside the repo, untracked, gone at the next reboot —
+      which READ as reconciled and was not. Marked UNREPRODUCIBLE rather than pointed at
+      rya817_run_3dnlte_bands.py because RYA-924 established these cells were computed on
+      the Mac from a temp scratchpad whose inputs are no longer recoverable: committing the
+      artifact is the floor, regenerability is the net (RYA-1011), and this one has no net.
+
+  - artifact: band_products/out_g3d_7215bb.csv
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-1080
+    note: >-
+      RYA-817 3D-NLTE output recovered from /private/tmp/g3d/. The feed row carried a
+      copied_to pointing there — outside the repo, untracked, gone at the next reboot —
+      which READ as reconciled and was not. Marked UNREPRODUCIBLE rather than pointed at
+      rya817_run_3dnlte_bands.py because RYA-924 established these cells were computed on
+      the Mac from a temp scratchpad whose inputs are no longer recoverable: committing the
+      artifact is the floor, regenerability is the net (RYA-1011), and this one has no net.
+
+  - artifact: band_products/out_g3d_9e651a.csv
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-1080
+    note: >-
+      RYA-817 3D-NLTE output recovered from /private/tmp/g3d/. The feed row carried a
+      copied_to pointing there — outside the repo, untracked, gone at the next reboot —
+      which READ as reconciled and was not. Marked UNREPRODUCIBLE rather than pointed at
+      rya817_run_3dnlte_bands.py because RYA-924 established these cells were computed on
+      the Mac from a temp scratchpad whose inputs are no longer recoverable: committing the
+      artifact is the floor, regenerability is the net (RYA-1011), and this one has no net.
+
+  - artifact: band_products/rya817.csv
+    status: UNREPRODUCIBLE
+    generator: null
+    ticket: RYA-1080
+    note: >-
+      RYA-817 3D-NLTE output recovered from /private/tmp/g3d/. The feed row carried a
+      copied_to pointing there — outside the repo, untracked, gone at the next reboot —
+      which READ as reconciled and was not. Marked UNREPRODUCIBLE rather than pointed at
+      rya817_run_3dnlte_bands.py because RYA-924 established these cells were computed on
+      the Mac from a temp scratchpad whose inputs are no longer recoverable: committing the
+      artifact is the floor, regenerability is the net (RYA-1011), and this one has no net.

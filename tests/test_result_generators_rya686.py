@@ -38,7 +38,22 @@ ROOT = repo_root()
 # The COMPLETE set of landed artifacts that have no committed generator, frozen as of
 # RYA-686. Every entry is a defect or a deliberate hand-authored record, never a
 # convenience. To add one you must edit this test AND say why in the manifest note.
-FROZEN_UNREPRODUCIBLE = {"solar_ba_synthesis_rya559.json"}
+FROZEN_UNREPRODUCIBLE = {
+    "solar_ba_synthesis_rya559.json",
+    # RYA-1080, added deliberately. The four RYA-817 3D-NLTE outputs the Fe.json feed
+    # published with a `copied_to` pointing into /private/tmp/g3d/ -- outside the repo,
+    # untracked, gone at the next reboot -- so a non-null field READ as reconciled while
+    # nothing was committed. RYA-1080 recovered and committed the files; they are marked
+    # UNREPRODUCIBLE rather than pointed at scripts/rya817_run_3dnlte_bands.py because
+    # RYA-924 established these cells were computed on the Mac from a temp scratchpad
+    # whose inputs no longer exist. Naming a generator that cannot in fact regenerate
+    # them would be exactly the fabrication this manifest exists to prevent, and would
+    # hide the gap RYA-1011 asks to be visible.
+    "band_products/out_g3d_08d20b.csv",
+    "band_products/out_g3d_7215bb.csv",
+    "band_products/out_g3d_9e651a.csv",
+    "band_products/rya817.csv",
+}
 FROZEN_HAND_AUTHORED = {
     "sr2_line_selection_rya430.json",
     "rya342_corrected_solar_fe.txt",
