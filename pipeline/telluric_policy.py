@@ -265,6 +265,23 @@ def basis(instrument: str) -> str:
 def exclusion(wave_A: float, instrument: str | None = None) -> str:
     """Reason string if this line must be excluded for tellurics, else ''.
 
+    ⚠️ SUPERSEDED AS A DECISION INPUT (RYA-1079), and kept as the enumeration it always
+    was. The band-membership rule below answers "is this line inside a registered telluric
+    complex", which was the right question while correction was expensive and rare. It is
+    not the right question now: it excludes a 0.03-deep line and a saturated core alike,
+    and on our own Kitt Peak red-optical pool that throws away 12 of 32 in-band graded
+    Fe I lines that measure out RECOVERABLE.
+
+    The successor is `pipeline.telluric_observability`, which decides per line from the
+    MEASURED transmission depth over that line's own window -- CLEAN / RECOVERABLE /
+    SATURATED -- and routes the recoverable class to correction instead of to the bin.
+    `telluric_basis = line_selection` is descriptive from here on; it does not decide.
+
+    This function is NOT removed and its callers are NOT rewired here: the two remaining
+    consumers sit inside the measurement path, and moving them is a measurement change,
+    not a policy change. What RYA-1079 settles is which of the two answers is
+    authoritative when they disagree -- the measured one.
+
     ⚠️ THE BASIS DECIDES, NOT THE WAVELENGTH. `telluric_required = no` was carrying two
     states that behave OPPOSITELY at the line level, and treating them alike threw away
     real data:
