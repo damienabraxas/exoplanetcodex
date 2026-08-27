@@ -116,8 +116,10 @@ BALANCE_CAVEAT = (
     "CORRECTED 2026-08-27: post-fix products DO exist — RYA-1045 (Fe II VIS, 08-25) and "
     "RYA-1052 (Fe II near-UV, 08-26) re-ran Fe II on the corrected holdings, and 15 Fe II "
     "products sit in data/products/solar/Fe.json with artifact_mtime 08-25/26. They are "
-    "invisible in data/results/band_products because 67 of the 75 feed products carry "
-    "provenance.copied_to=None and were never committed (RYA-1080). So the balance needs "
+    "invisible in data/results/band_products at the time this was written because 67 of the "
+    "75 feed products carried provenance.copied_to=None and had never been committed; RYA-1080 "
+    "and RYA-1084 have since reconciled all 75, so the per-arm Fe II products ARE now in "
+    "the repo. So the balance needs "
     "RE-DERIVING from the feed, not re-measuring — and the pairing must match tier and "
     "selector, which the old ungraded pair does not share with the current graded ones."
 )
