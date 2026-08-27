@@ -73,6 +73,53 @@ SOLAR_DELTA_P = {'teff_K': None,   # filled from get_star_params('solar')['e_tef
 
 _PARAM_LABEL = {'teff_K': 'Teff', 'logg': 'logg', 'vturb_kms': 'vmic', 'feh': 'FeH'}
 
+#: Which `stars.yaml` field carries each parameter's uncertainty. RYA-1088 declared
+#: `e_xi` from Jofré+2014 Table 2 for the run-order targets; `e_teff` / `e_logg` /
+#: `e_feh` were already present on the GBS scale (Heiter+2015, Jofré+2014).
+_DELTA_FIELD = {'teff_K': 'e_teff', 'logg': 'e_logg',
+                'vturb_kms': 'e_xi', 'feh': 'e_feh'}
+
+
+def params_and_deltas(star_id: str = "solar"):
+    """Nominal params + delta_p for ANY star whose uncertainties are declared.
+
+    🔴 RYA-1088 — WHY THE SUN IS NOT JUST "A STAR WITH SMALL delta_p".
+    Solar logg and [Fe/H] are EXACT BY DEFINITION: the Sun *is* the [Fe/H] zero point, and
+    its logg is fixed by the IAU nominal mass and radius. So their delta_p are 0 by
+    construction and `_type_b` skips the derivative runs entirely -- sigma_B = 0, a
+    MEASURED zero rather than an unmeasured blank.
+
+    ⚠️ AND `stars.yaml` CARRIES `e_feh: 0.03` FOR THE SUN, WHICH MUST NOT BE USED HERE.
+    That value is the uncertainty on the solar iron ABUNDANCE SCALE, not on the Sun's
+    [Fe/H] relative to itself -- which is 0 with no error, definitionally. Reading it
+    would compute a non-zero solar sigma_B([Fe/H]) and violate the ticket's own critical
+    condition. The Sun keeps its explicit zeros; other stars read theirs from the record.
+    """
+    sp = get_star_params(star_id)
+    params0 = {'teff_K': float(sp['teff']), 'logg': float(sp['logg']),
+               'feh': float(sp.get('feh_ref', 0.0)),
+               'vturb_kms': float(sp.get('xi', 1.0))}
+    if 'solar' in star_id.lower():
+        deltas = dict(SOLAR_DELTA_P)
+        deltas['teff_K'] = float(sp.get('e_teff', 1.0))   # solar Teff known to ~1 K
+        deltas['logg'] = float(sp.get('e_logg', 0.0))     # exact by definition
+        # deltas['feh'] stays 0.0 and deltas['vturb_kms'] stays the RYA-158 0.05 --
+        # see the docstring; neither is read from the record.
+        return params0, deltas
+
+    # Non-solar: every delta_p comes from the record, and a MISSING one is a refusal
+    # rather than a zero. An undeclared uncertainty silently treated as 0 would publish
+    # "measured and negligible" for a term nobody determined (RYA-907).
+    missing = [k for k, f in _DELTA_FIELD.items() if sp.get(f) is None]
+    if missing:
+        raise NotImplementedError(
+            f"'{star_id}' has no declared uncertainty for "
+            f"{', '.join(_DELTA_FIELD[k] for k in missing)} in config/stars.yaml. "
+            f"Declare it from a CITED source (Heiter+2015 for Teff/logg, Jofré+2014 for "
+            f"[Fe/H] and xi) before running Type B -- an undeclared delta_p must not "
+            f"become a silent zero (RYA-1088).")
+    return params0, {k: float(sp[f]) for k, f in _DELTA_FIELD.items()}
+
 
 def _solar_params_and_deltas():
     """Nominal solar params (teff_K/logg/feh/vturb_kms) + the per-param delta_p."""
@@ -153,15 +200,13 @@ def run(star_id: str = 'solar', write: bool = True, verbose: bool = True) -> pd.
     """Assemble the reported-uncertainty budget. Solar-only today (the Type B
     override + solar delta_p are solar-pinned); raises for other stars until their
     delta_p are declared."""
-    if 'solar' not in star_id.lower():
-        raise NotImplementedError(
-            f"uncertainty_stack currently declares delta_p only for the Sun; "
-            f"add per-star parameter uncertainties before running '{star_id}'.")
-
-    params0, deltas = _solar_params_and_deltas()
+    # RYA-1088: no longer solar-only. `params_and_deltas` serves any star whose delta_p
+    # are declared and REFUSES any star whose are not -- so the fence moved from "is this
+    # the Sun" to "is this sourced", which is the question that actually matters.
+    params0, deltas = params_and_deltas(star_id)
     if verbose:
-        print(f"[uncertainty_stack] solar params {params0}")
-        print(f"[uncertainty_stack] solar delta_p {deltas}")
+        print(f"[uncertainty_stack] {star_id} params {params0}")
+        print(f"[uncertainty_stack] {star_id} delta_p {deltas}")
 
     raw = _raw_sigma_and_N(star_id)
     if verbose:
