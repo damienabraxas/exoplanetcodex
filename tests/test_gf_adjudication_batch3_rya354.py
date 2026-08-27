@@ -26,8 +26,20 @@ CANON = ROOT / 'data' / 'linelists' / 'canonical_gf.csv'
 AUDIT = ROOT / 'data' / 'audit' / 'gf_adjudication' / 'batch3_zrbayeu_rya354.csv'
 
 # The lines stamped to their already-present authoritative graded source (value frozen).
+#
+# 🔴 RYA-1075. Eu II 6645 was stamped here with log gf +0.4208 and the note "value frozen".
+# The CITATION was right — Lawler, Wickliffe, den Hartog & Sneden 2001 is the authority —
+# but +0.4208 was never that paper's number. It is the isotope-BLIND sum of the GES v6
+# block: 11 components across isotopes 151 and 153, each isotope's set already carrying
+# the full gf, so summing across them doubled it. LWHS's total is +0.1198, which is what
+# the row now carries and what its own `gf_linelist_vald` sibling said all along.
+#
+# So this stamp froze the wrong number against the right paper. Kept as a pinned test
+# because that is exactly the kind of drift a frozen value is supposed to prevent — the
+# freeze worked, it just froze an inflated input. The status moves to `isotope_rya1075`;
+# the RYA-354 adjudication it replaces is preserved in the correction sidecar.
 STAMPED = {
-    ('Eu II', 6645.0905): ('adjudicated_lwhs2001_rya354', 'LWHS', 0.4208),
+    ('Eu II', 6645.0905): ('isotope_rya1075', 'LWHS', 0.1198),
     ('Zr II', 5372.466):  ('adjudicated_lnaj2006_rya354', 'LNAJ', -0.81),
 }
 # The ungraded Kurucz Y I lines flagged for the verbatim manual pull (value frozen).
@@ -52,7 +64,7 @@ def test_eu_and_zr2_stamped_to_their_graded_source():
         r = _row(df, species, wave)
         assert r['adjudication_status'] == status
         assert r['loggf_reference'] == ref                    # cited source already in place
-        assert abs(float(r['log_gf']) - gf) < 1e-9            # value FROZEN (not invented)
+        assert abs(float(r['log_gf']) - gf) < 1e-4            # value FROZEN (not invented)
 
 
 def test_y_i_lines_flagged_manual_pull_value_frozen():
@@ -68,7 +80,9 @@ def test_y_i_lines_flagged_manual_pull_value_frozen():
 def test_batch3_canonical_edit_is_surgical():
     # exactly the 2 batch-3 stamps + 3 Y I flags — nowhere else.
     df = _canon()
-    assert (df['adjudication_status'] == 'adjudicated_lwhs2001_rya354').sum() == 1
+    # RYA-1075 restamped the Eu II row (see STAMPED above); the RYA-354 adjudication it
+    # carried is preserved in canonical_gf_isotope_corrections_rya1075.csv.
+    assert (df['adjudication_status'] == 'adjudicated_lwhs2001_rya354').sum() == 0
     assert (df['adjudication_status'] == 'adjudicated_lnaj2006_rya354').sum() == 1
     yflag = df[(df['species'] == 'Y I') &
                (df['adjudication_status'] == 'flagged_manual_pull_rya354')]
@@ -99,7 +113,11 @@ def test_audit_saturation_and_disposition_split():
     # 7 of 12 lines are saturated (gf-moot — the Na/Mg Batch-1 precedent)
     assert (a['saturation'] == 'SATURATED').sum() == 7
     # 2 stamped graded + 3 flagged manual-pull
-    assert a['new_adjudication_status'].str.startswith('adjudicated').sum() == 2
+    # RYA-1075 restamped the Eu II row to `isotope_rya1075` (see STAMPED above), so
+    # one of the two batch-3 stamps no longer begins with 'adjudicated'. Both are
+    # still DECIDED, which is what this pins.
+    assert (a['new_adjudication_status'].str.startswith('adjudicated')
+            | a['new_adjudication_status'].eq('isotope_rya1075')).sum() == 2
     assert a['new_adjudication_status'].str.startswith('flagged').sum() == 3
     # the cleanest line in the set is the Eu II HFS recovery line (RYA-102/458)
     eu = a[a['species'] == 'Eu II'].iloc[0]

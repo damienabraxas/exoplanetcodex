@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-1075",
+  "synth_source": "/Users/ryanschmitt/codex/ispec/input/linelists/transitions/GESv6_atom_hfs_iso.420_920nm/atomic_lines.tsv",
+  "isotopfrac_source": "/Users/ryanschmitt/codex/engines/Turbospectrum_NLTE/source/makeabund.f",
+  "multi_isotope_clusters": 67,
+  "verdicts": {
+    "CORRECT": 54,
+    "NOT_BUILT_BY_NAIVE_SUM": 12,
+    "NOT_FORM_A": 1
+  },
+  "thresholds": {
+    "match_wl_A": 0.02,
+    "match_ep_eV": 0.02,
+    "published_eq_naive_dex": 0.001,
+    "offset_tol_dex": 0.002,
+    "form_a_spread_dex": 0.02
+  },
+  "correction": "log_gf := per-isotope total (== naive - log10(n_isotopes_in_cluster))",
+  "n_isotopes_source": "counted from the isotopes present in the GES component set, NOT from the element's catalogued isotope count",
+  "not_rya684": "RYA-684's offset is -log10(sum f_i^2) on an ENGINE-side double application; this is log10(n) on a CONSUMER-side aggregation. La II separates them: +0.0008 vs +0.3010",
+  "paired_change": "pipeline/gf_resolver.physical_total \u2014 correcting the stored value without it would turn a cancelling error into a live one"
+}

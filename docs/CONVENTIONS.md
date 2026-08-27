@@ -374,6 +374,30 @@ Two things follow, and both are guarded:
    re-running `scripts/rya684_isotope_gf_audit.py` keeps the guard honest. Exposed blocks
    in the BLEND model are recorded, not fatal — RYA-684 measured those at <0.01 % of window
    absorption in every window feeding a live value.
+3. **Never aggregate an isotope-coded block ACROSS isotopes (RYA-1075).** A form-(A)
+   source is correct as delivered, but each isotope's component set already carries the
+   FULL gf — so `log10(Σ 10^gf)` over a cluster that spans isotopes returns
+   `n_isotopes ×` the physical gf. `gf_resolver.cluster_physical_lines` is isotope-blind
+   by construction (species + EP + wavelength gap, and two isotopes of one transition
+   share the lower level and sit milli-Ångströms apart), so **any** consumer that sums
+   its clusters must call `gf_resolver.physical_total(gf, isotopes)` instead. That is how
+   54 `canonical_gf` rows came to be published log10(7) and log10(2) too high.
+
+   ⚠️ **This is not the RYA-684 offset and must not be corrected with it.** RYA-684 is
+   engine-side, offset `−log10(Σ f_i²)`, abundance-dependent. This is consumer-side,
+   offset `log10(n)`, a pure count. **La II settles which is which:** La is 99.911 %
+   La-139, so RYA-684's term is +0.0008 while a count gives +0.3010 — and +0.3010 is what
+   was measured. Applying RYA-684's term here would have left the defect in place.
+
+   ⚠️ **n is the number of isotopes in the COMPONENT SET, not the element's catalogued
+   isotope count.** Ba II 4934 codes 5 isotopes in the GES v6 delivery while
+   `makeabund.f` lists 7, and the measured offset is log10(5).
+
+   Guarded by `check_stewardship.check_isotope_inflation`, which re-detects from the
+   source rather than pinning line ids — a pinned list passes forever while a new ingest
+   reintroduces the defect on different lines, which is exactly how RYA-684 came to be
+   closed with 54 live instances still in the table.
+
 ## A result artifact must not land without its generating harness (RYA-686)
 
 **Every file committed under `data/results/` must be accompanied by the committed code
