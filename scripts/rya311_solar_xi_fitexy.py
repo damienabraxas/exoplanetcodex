@@ -209,15 +209,21 @@ def solve(star: str, element: str, ion: str, pool: str,
         if ok.sum() < 5:
             raise SystemExit(f"xi={xi}: only {int(ok.sum())} lines inverted -- refusing")
         fit = fitexy(rew[ok], a0[ok], sigma_rew[ok], sig_a[ok])
+        # The unweighted OLS slope on the SAME points, at every grid node. This is what
+        # the production vmic bisection fits (`abundances_derive._compute_rew_slope` is a
+        # bare `np.polyfit`), so the two roots below are a like-for-like statement of what
+        # the both-axis fit changes -- not an argument that it should.
+        ols = float(np.polyfit(rew[ok], a0[ok], 1)[0])
         sweep.append({"xi": float(xi), "n": int(ok.sum()),
                       "slope": fit.slope, "sigma_slope": fit.sigma_slope,
                       "sigma_slope_scaled": fit.sigma_slope_scaled,
+                      "ols_slope": ols,
                       "chi2_red": fit.chi2_red,
                       "A_mean": float(np.mean(a0[ok])),
                       "A_std": float(np.std(a0[ok], ddof=1))})
         print(f"  xi={xi:.2f}  n={ok.sum():3d}  slope={fit.slope:+.4f} "
-              f"+/- {fit.sigma_slope:.4f} (formal)  chi2_red={fit.chi2_red:8.2f}  "
-              f"A={np.mean(a0[ok]):.4f}")
+              f"+/- {fit.sigma_slope:.4f} (formal)  OLS={ols:+.4f}  "
+              f"chi2_red={fit.chi2_red:8.2f}  A={np.mean(a0[ok]):.4f}")
 
     s = pd.DataFrame(sweep)
     # slope(xi) is smooth and near-linear over this range; a quadratic through the grid
@@ -252,6 +258,13 @@ def solve(star: str, element: str, ion: str, pool: str,
                 "sweep": sweep, "cuts": cuts}, pd.DataFrame()
     xi_hat = real[0]
     dslope_dxi = float(np.polyval(np.polyder(coef), xi_hat))
+
+    # Where the SAME sweep would have landed on an unweighted OLS slope -- the production
+    # bisection's criterion. Reported as the comparison, never substituted for the answer.
+    ols_coef = np.polyfit(s.xi, s.ols_slope, 2)
+    ols_real = [float(r.real) for r in np.roots(ols_coef) if abs(r.imag) < 1e-9
+                and xi_grid.min() <= r.real <= xi_grid.max()]
+    xi_ols = ols_real[0] if len(ols_real) == 1 else None
 
     # ── Verify at the solution rather than trusting the interpolation ────────────
     a_hat = _abund(xi_hat, ew0)
@@ -297,6 +310,7 @@ def solve(star: str, element: str, ion: str, pool: str,
         "chi2_red_at_solution": float(fit_hat.chi2_red),
         "dslope_dxi": dslope_dxi,
         "ols_slope_at_solution": float(ols_slope),
+        "xi_ols_root": (float(xi_ols) if xi_ols is not None else None),
         "xi_pinned": float(params0["vturb_kms"]),
         "A_at_measured_xi": float(np.mean(a_hat[ok])),
         "A_at_pinned_xi": float(np.mean(a_pin[ok_pin])),
@@ -308,6 +322,9 @@ def solve(star: str, element: str, ion: str, pool: str,
           f"chi2-scaled alternative {sigma_xi_scaled:.4f})")
     print(f"  residual slope at the solution: {fit_hat.slope:+.5f} "
           f"(OLS on the same points: {ols_slope:+.5f})")
+    print(f"  the SAME sweep solved on an unweighted OLS slope instead: xi_OLS = "
+          f"{xi_ols if xi_ols is None else round(xi_ols, 4)}  "
+          f"(what the production bisection's criterion would give)")
     print(f"  A({species}) {np.mean(a_pin[ok_pin]):.4f} at the pinned xi -> "
           f"{np.mean(a_hat[ok]):.4f} at the measured xi  "
           f"({np.mean(a_hat[ok]) - np.mean(a_pin[ok_pin]):+.4f} dex)")
