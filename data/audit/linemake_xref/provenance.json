@@ -4,8 +4,8 @@
   "linemake": {
     "url": "https://github.com/vmplacco/linemake",
     "commit": "61af45bd8293c91059360cbb0cfa2d16d34fc21e",
-    "clone_path": "/var/folders/nh/qxn_fd3s3v37dqvd7wv_7swm0000gn/T/rya1070_linemake",
     "curated_manifest_source": "mooglists/mergenohfs + mooglists/mergehfs",
+    "clone_path_note": "deliberately not recorded -- it is a scratch temp directory that differs per machine and would make this artifact machine-specific for no information",
     "goodgf_files": [
       "oI.moog",
       "mgI.moog",
@@ -192,7 +192,7 @@
     "layout": "fixed-width 4 x F10 (wavelength A, species code, EP eV, log gf), then a free-text source tag from column 41",
     "confirmation": "every record decoded BOTH fixed-width and by whitespace-splitting columns 1-40; any disagreement raises ParseError",
     "species_code": "integer part = Z; first decimal digit = ionisation stage (0 = neutral = I, 1 = singly ionised = II); further decimal digits = isotope mass number, marking an HFS/isotopic COMPONENT row",
-    "example": "/var/folders/nh/qxn_fd3s3v37dqvd7wv_7swm0000gn/T/rya1070_linemake/mooglists/feI.moog:1 -> {'source_file': 'feI.moog', 'lineno': 1, 'wavelength_raw_A': 2132.017, 'species_code': '26.0', 'excitation_potential_eV': 0.0, 'log_gf': -1.67, 'log_gf_text': '-1.67', 'source_tag': 'BEL17'}",
+    "example": "mooglists/feI.moog:1 -> {'source_file': 'feI.moog', 'lineno': 1, 'wavelength_raw_A': 2132.017, 'species_code': '26.0', 'excitation_potential_eV': 0.0, 'log_gf': -1.67, 'log_gf_text': '-1.67', 'source_tag': 'BEL17'}",
     "symbol_cross_check": "Z -> symbol taken from canonical_gf (key_z, species) and verified against the species stem of every linemake filename",
     "symbol_notes": []
   },
@@ -571,6 +571,12 @@
       "CO": "non-primary: deliberate pragmatic gf offset"
     },
     "note": "the three known non-primary entries (Cu I, Nd II 4314.5, CO dv=2) are DETECTED by these patterns; the parse raises if any is missing"
+  },
+  "reproducibility": {
+    "deterministic_ordering": "every count- or magnitude-ordered table breaks ties on a stable key (species or line_id), so row order does not depend on the pandas version",
+    "byte_identical_across_machines": false,
+    "measured": "regenerated on Sirius (CI venv, py3.12) against the Mac run: every verdict count and every reported number is identical, but pandas' CSV float parser differs by up to 1 ULP between versions, so pass-through columns can print differently (e.g. our_EP 4.8271999999999995 vs 4.8272; our_wavelength 19280.14200091231 vs 19280.142000912318)",
+    "consequence": "one informational count moved by 1 -- bulk_moogatom.beyond_curated was 57,163 on one machine and 57,164 on the other, a single line sitting exactly on the bulk-coverage tolerance boundary. No verdict, no match, and no scientific number is affected. Deliberately NOT 'fixed' by rounding the comparison inputs: a rounded number is not an identity, and manufacturing agreement at a boundary is worse than recording that the boundary exists"
   },
   "verdict_counts": {
     "NO_MATCH": 126563,
