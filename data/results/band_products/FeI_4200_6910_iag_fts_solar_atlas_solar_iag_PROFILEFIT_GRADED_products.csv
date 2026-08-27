@@ -1,0 +1,3 @@
+element,ion,band,instrument,treatment,handler,A,n_lines,n_excluded,stat_dex,syst_dex,stat_basis,dominant,route,scale,model,atmos,gf,route_basis
+Fe,I,VIS,iag_fts_solar_atlas,1D-LTE,ProfileFitHandler,7.498,5,0,0.0436,0.0889,"measured — RMS of the random terms, 0.04363 dex at n_lines=5",gf scale (cited lab),ew,1D-LTE,none,atlas9,kurucz,handler
+Fe,I,VIS,iag_fts_solar_atlas,ENGINE-A,ProfileFitHandler,7.481,4,1,0.019,0.0857,"measured — RMS of the random terms, 0.01901 dex at n_lines=4",gf scale (cited lab),ew,1D-NLTE,bergemann,atlas9,kurucz,handler
