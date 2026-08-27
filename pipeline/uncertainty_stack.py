@@ -142,14 +142,18 @@ def params_and_deltas(star_id: str = "solar"):
 
 
 def _solar_params_and_deltas():
-    """Nominal solar params (teff_K/logg/feh/vturb_kms) + the per-param delta_p."""
-    sp = get_star_params('solar')
-    params0 = {'teff_K': float(sp['teff']), 'logg': float(sp['logg']),
-               'feh': 0.0, 'vturb_kms': float(sp.get('xi', 1.0))}
-    deltas = dict(SOLAR_DELTA_P)
-    deltas['teff_K'] = float(sp.get('e_teff', 1.0))       # solar Teff known to ~1 K
-    deltas['logg'] = float(sp.get('e_logg', 0.0))         # solar logg effectively exact
-    return params0, deltas
+    """Nominal solar params + delta_p. Kept as the solar-only name; DELEGATES.
+
+    🔴 IT WAS A SECOND, SILENTLY WRONG COPY. RYA-1088 generalised the budget into
+    `params_and_deltas` and RYA-1089 moved delta_xi out of the module literal and into
+    `stars.yaml`, but this older function kept building its dict from `SOLAR_DELTA_P`
+    directly -- whose `vturb_kms` is now deliberately `None`, the sentinel meaning "read
+    it from the record". So it returned a delta_p of None for the one parameter that
+    dominates the solar Type B term, and anything multiplying by it would have raised or,
+    worse, treated the missing term as absent. Nothing in the pipeline called it any more;
+    only a test did, which is exactly how a dead second copy survives (RYA-845).
+    """
+    return params_and_deltas('solar')
 
 
 def _derive_A(params: dict) -> dict:
