@@ -47,6 +47,7 @@ from pipeline.telluric_policy import gate_holding  # noqa: E402
 
 Y_HOLDING = "solar_crires_plus_y_rya794"
 IDP_HOLDING = "solar_vesta_crires_plus_idp"
+Y_WIDE_HOLDING = "solar_crires_plus_y_wide_rya1054"   # RYA-1054, the arm's full extent
 #: fully inside the RYA-794 product's 10280-10680 A span
 IN_Y = 10400.0
 
@@ -103,10 +104,16 @@ def test_select_prefers_the_corrected_holding_inside_its_span():
 def test_outside_the_corrected_span_it_refuses_rather_than_serving_a_truncated_window():
     """Coverage must be TOTAL. A window half inside a fixed-span product is a truncated
     window, and serving it quietly would be worse than the refusal it replaces."""
+    # 🔴 THE EDGES MOVED, THE RULE DID NOT — RYA-1054. These probed 10679.5 and 10050,
+    # which straddled / sat blueward of the RYA-794 product's 10280-10680 span. A second
+    # conditioned Y holding now covers 9800-10796, so BOTH of those windows are now fully
+    # served by a telluric-corrected product and the refusal correctly stops firing. That
+    # is coverage arriving, not the guard weakening. The probes move to the WIDE holding's
+    # own edges, where a window is still truncated and must still be refused.
     with pytest.raises(M.TelluricNotCorrected):
-        M.select_holding("crires_plus", 10679.5, 1.2)     # straddles the red edge
+        M.select_holding("crires_plus", 10795.5, 1.2)     # straddles the red edge
     with pytest.raises(M.TelluricNotCorrected):
-        M.select_holding("crires_plus", 10050.0, 1.0)     # blueward of the product
+        M.select_holding("crires_plus", 9799.0, 1.0)      # blueward of both products
 
 
 def test_a_refused_holding_is_never_silently_fallen_back_to():
@@ -334,7 +341,12 @@ def test_preflight_dispatch_reader_reads_the_holding_table():
     assert d.controls_ok, d.control_note
     assert "crires_plus" in d.instruments
     # the point of the ticket: ONE instrument, SEVERAL holdings, in preference order
-    assert d.served_holdings["crires_plus"] == (Y_HOLDING, IDP_HOLDING)
+    # RYA-1054 added a SECOND conditioned Y holding (the arm's full extent, 9800-10796 A)
+    # between the RYA-794 product and the raw IDP. The ORDER is what this pins: both
+    # corrected products come before the uncorrected IDP, so nothing silently switches to
+    # the refused one -- and the RYA-794 product stays FIRST, so no existing measurement
+    # changes product underneath itself.
+    assert d.served_holdings["crires_plus"] == (Y_HOLDING, Y_WIDE_HOLDING, IDP_HOLDING)
     # and the reader agrees with the harness rather than restating it
     assert {i: tuple(h.holding_id for h in M.holdings_for(i))
             for i in d.instruments} == d.served_holdings

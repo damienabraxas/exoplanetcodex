@@ -169,10 +169,16 @@ def test_the_row_population_and_keys_are_untouched(canon):
     # recorded here so an accidental change still trips it:
     #   167739  RYA-834  extension to 12935 A
     #   170539  RYA-1047 H-band extension to 21390 A (+2800 Fe lines, 12976-21400 A)
-    #   178819  RYA-1053 solar IR extension to 25000 A (+8280 rows)
-    assert len(canon) == 178819, (
+    #   178819  RYA-1053 first apply — SUPERSEDED, do not restore. Its dedupe compared
+    #           wavelengths ROUNDED to 3 decimals, so 15631.947 (Ruffoni LAB) and
+    #           15631.948 (Kurucz) read as two lines and BOTH survived: 220 collisions,
+    #           each of which makes grade_line refuse the pair as AmbiguousLineMatch and
+    #           silently UN-GRADES a laboratory line.
+    #   178680  RYA-1053 rebuilt on the wavelength+EP tolerance the matcher uses
+    #           everywhere (RYA-1054). 8280 -> 8141 physical lines, ZERO true duplicates.
+    assert len(canon) == 178680, (
         f"{len(canon)} rows — RYA-945 rewrites rows in place and must not change the "
-        f"population; RYA-834 and RYA-1047 are the tickets that append")
+        f"population; RYA-834, RYA-1047 and RYA-1053 are the tickets that append")
     keys = {(r["species"], r["wavelength_air_A"], r["excitation_potential_eV"])
             for r in canon}
     assert len(keys) == len(canon), "duplicate (species, wavelength, EP) keys"

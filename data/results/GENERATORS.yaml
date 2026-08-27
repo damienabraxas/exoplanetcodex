@@ -648,6 +648,24 @@ artifacts:
       locality), and the stated error-budget term with its 95% upper bound on a hidden
       slope. Kept beside the CSV so the headline numbers are not re-derived by hand.
 
+  - artifact: rya794/vesta_crires_plus_Y_9800_10796_normalized.csv
+    generator: scripts/normalize_vesta_ir.py
+    invocation: python scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796 --no-plot
+    ticket: RYA-1054
+    note: >-
+      The SAME source (sp/Sun_Y_rv.dat, md5 8428f7009e59c6073ba11242b83d48ff) and the SAME
+      normaliser as the RYA-794 product above; only the WINDOW differs, so it inherits that
+      product's telluric and rest-frame verdicts rather than being re-judged. Conditioned
+      over the Y arm's full MEASURED extent, 9796.5-10796.1 A, instead of Elgueta's adopted
+      10280-10680 window. Elgueta's floor is not a telluric limit -- measured per 100 A,
+      points below 0.5 continuum run 0.26/0.00/0.00/0.00/0.00 % across 9800-10300 against
+      0.06/0.00/0.15/0.21 % INSIDE the adopted window, i.e. the excluded stretch is as clean
+      or cleaner. It carries 5 primary-lab Fe I lines where the narrow product carries 1,
+      and the harness REFUSES n=1 ("a pool of fewer than 2 lines cannot carry a
+      line-to-line scatter"), so this window is the difference between a refused pool and
+      CRIRES+'s first Fe abundance: A(Fe I; NIR) = 7.551 +/- 0.138, n=5, rung 3. Registered
+      as a SIBLING holding, never a replacement -- solar_crires_plus_y_rya794 keeps its
+      identity and its products (RYA-1006).
   - artifact: rya794/vesta_crires_plus_Y_10280_10680_normalized.csv
     generator: scripts/normalize_vesta_ir.py
     invocation: python scripts/normalize_vesta_ir.py --lo 10280 --hi 10680

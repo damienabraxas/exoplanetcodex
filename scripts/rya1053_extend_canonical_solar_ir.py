@@ -179,16 +179,28 @@ def main() -> None:
     print(f"  gf_tier from precedent: {phys.gf_tier.value_counts().to_dict()}")
 
     # ── dedupe against everything canonical already holds ───────────────────────
-    key = ["species", "wavelength_air_A", "excitation_potential_eV"]
-    ck = canon[key].copy()
-    ck["wavelength_air_A"] = ck.wavelength_air_A.round(3)
-    ck["excitation_potential_eV"] = ck.excitation_potential_eV.round(4)
-    new = phys.copy()
-    new["wavelength_air_A"] = new.wavelength_air_A.round(3)
-    new["excitation_potential_eV"] = new.excitation_potential_eV.round(4)
-    merged = new.merge(ck.drop_duplicates(), on=key, how="left", indicator=True)
-    fresh = new[merged["_merge"].to_numpy() == "left_only"].reset_index(drop=True)
-    print(f"  already in canonical (kept as-is): {len(new) - len(fresh)}")
+    # 🔴 ON A TOLERANCE, NOT ROUNDED EQUALITY. The first version rounded to 3 decimals and
+    # compared exactly, so 15631.947 (RYA-1047, Ruffoni LAB) and 15631.948 (this pull,
+    # Kurucz) read as two different lines and BOTH were kept. 220 of 8280 rows collided
+    # that way -- and the damage is not cosmetic: a Kurucz twin sitting 0.001 A from a
+    # LABORATORY line makes `grade_line` refuse the pair as AmbiguousLineMatch, which
+    # silently un-grades the very H-band lab lines RYA-1052 had just made selectable.
+    # Use the SAME tolerance the wavelength+EP matcher uses everywhere else, and keep the
+    # EXISTING row on a collision -- it may carry adjudication history this pull cannot.
+    from math import isclose  # noqa: F401
+    cw = canon.wavelength_air_A.to_numpy(float)
+    ce = canon.excitation_potential_eV.to_numpy(float)
+    csp = canon.species.astype(str).to_numpy()
+    keep_mask, collided = [], 0
+    for r in phys.itertuples():
+        hit = np.flatnonzero((csp == r.species)
+                             & (np.abs(cw - r.wavelength_air_A) <= WTOL_A)
+                             & (np.abs(ce - r.excitation_potential_eV) <= EPTOL_EV))
+        keep_mask.append(hit.size == 0)
+        collided += int(hit.size > 0)
+    fresh = phys[np.array(keep_mask)].reset_index(drop=True)
+    new = phys
+    print(f"  already in canonical within {WTOL_A} A / {EPTOL_EV} eV (kept as-is): {collided}")
     print(f"  NEW physical lines to add        : {len(fresh)}")
     print(f"    species: {dict(fresh.species.value_counts().head(8))}")
 
