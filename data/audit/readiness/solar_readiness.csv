@@ -3,7 +3,7 @@ solar,solar_harps,harps,VIS,3780.0-6910.0,verified,True,normalised,line_selectio
 solar,solar_kpno,kpno_solar_atlas,near-UV,3000.0-3780.0,verified,True,normalised,line_selection,not-applied,True,True,True,GO,,RYA-708;RYA-806
 solar,solar_kpno,kpno_solar_atlas,VIS,3780.0-6910.0,verified,True,normalised,line_selection,not-applied,True,True,True,GO,,RYA-708;RYA-806
 solar,solar_kpno,kpno_solar_atlas,red-optical,6910.0-9199.0,verified,True,normalised,line_selection,not-applied,True,True,True,GO,,RYA-708;RYA-806
-solar,solar_kpno,kpno_solar_atlas,NIR,9199.0-13000.0,verified,True,normalised,line_selection,not-applied,False,True,True,NO-GO,telluric:ir-band-uncorrected,RYA-708;RYA-806
+solar,solar_kpno,kpno_solar_atlas,NIR,9199.0-13000.0,verified,True,normalised,line_selection,not-applied,False,True,True,NEEDS-CORRECTION,telluric:ir-band-uncorrected,RYA-708;RYA-806
 solar,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,near-UV,3000.0-3780.0,audited,True,unknown,line_selection,applied,False,True,True,NO-GO,evidence:audited;normalization:unknown;telluric:applied-unverified,RYA-929
 solar,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,VIS,3780.0-6910.0,audited,True,unknown,line_selection,applied,False,True,True,NO-GO,evidence:audited;normalization:unknown;telluric:applied-unverified,RYA-929
 solar,solar_kpno_kurucz2005_corrected,kpno_solar_atlas,red-optical,6910.0-9199.0,audited,True,unknown,line_selection,applied,False,True,True,NO-GO,evidence:audited;normalization:unknown;telluric:applied-unverified,RYA-929
