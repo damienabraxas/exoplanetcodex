@@ -19,7 +19,7 @@ from pathlib import Path
 import pytest
 
 from pipeline.treatment_axes import (  # noqa: F401
-    Axes, LEGACY, ROUTE_BY_HANDLER, UnknownTreatment, _ROUTE_BY_LABEL, axes_for,
+    AXIS_NATIVE, Axes, LEGACY, ROUTE_BY_HANDLER, UnknownTreatment, _ROUTE_BY_LABEL, axes_for,
     display_for, resolve_route)
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,7 +60,9 @@ def test_every_committed_treatment_label_is_known_to_the_module():
     """
     seen = {t for _, t, _, _ in _treatment_rows()}
     assert seen, "no committed treatment rows found — this guard would pass vacuously"
-    unknown = seen - set(LEGACY)
+    # Axis-native tokens are the preferred vocabulary for new products; only labels in
+    # neither registry are unknown.
+    unknown = seen - set(LEGACY) - set(AXIS_NATIVE)
     assert not unknown, (
         f"treatment labels on disk that pipeline.treatment_axes has never heard of: "
         f"{sorted(unknown)}. Add them to LEGACY and _ROUTE_BY_LABEL.")

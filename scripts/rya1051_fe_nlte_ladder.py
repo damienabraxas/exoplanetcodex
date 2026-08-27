@@ -98,8 +98,12 @@ def paired(a: pd.DataFrame, b: pd.DataFrame) -> pd.DataFrame:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    for k in ("lte-1d-atlas9", "lte-1d-marcs", "nlte-1d", "mean3d-lte", "mean3d-nlte"):
-        ap.add_argument(f"--{k}", required=True, help=f"per-line CSV for {k}")
+    # Literal declarations let the result-provenance checker prove the recorded flags.
+    ap.add_argument("--lte-1d-atlas9", required=True, help="per-line CSV for lte-1d-atlas9")
+    ap.add_argument("--lte-1d-marcs", required=True, help="per-line CSV for lte-1d-marcs")
+    ap.add_argument("--nlte-1d", required=True, help="per-line CSV for nlte-1d")
+    ap.add_argument("--mean3d-lte", required=True, help="per-line CSV for mean3d-lte")
+    ap.add_argument("--mean3d-nlte", required=True, help="per-line CSV for mean3d-nlte")
     ap.add_argument("--anchor", default=str(
         ROOT / "data" / "nlte_grids" / "amarsi2016_fe" / "amarsi2016_mean3d_solar_anchor.csv"))
     ap.add_argument("--anchor-1d", default=None,
