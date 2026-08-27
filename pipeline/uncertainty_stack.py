@@ -66,10 +66,15 @@ TYPE_B_STEPS = {'teff_K': 100.0, 'logg': 0.10, 'vturb_kms': 0.10, 'feh': 0.05}
 # Per-star parameter uncertainties delta_p. For the Sun: Teff/logg from the pinned
 # reference (get_star_params e_teff/e_logg), vmic from RYA-158 (0.9 +/- 0.05 km/s),
 # [Fe/H] = 0 BY DEFINITION (the Sun is the zero-point) -> delta=0.
-SOLAR_DELTA_P = {'teff_K': None,   # filled from get_star_params('solar')['e_teff']
-                 'logg':   None,   # from e_logg
-                 'vturb_kms': 0.05,  # RYA-158 (solar microturbulence uncertainty)
-                 'feh':    0.0}    # Sun defines [Fe/H]=0
+# 🔴 RYA-1089 — THE BARE 0.05 IS RETIRED. Every solar delta_p that is not zero BY
+# DEFINITION now comes from `stars.yaml` beside its citation, exactly like the per-star
+# ones. The old literal traced to the RYA-158 spec line "vturb = 0.9 +/- 0.05" with no
+# citation at all, and it was doubly stale: that line's central value is 0.9 while the
+# adopted solar xi is 1.0 (RYA-196). It drove the ENTIRE solar sigma_params.
+SOLAR_DELTA_P = {'teff_K': None,   # from stars.yaml e_teff (solar Teff known to ~1 K)
+                 'logg':   None,   # from e_logg -- 0.0, exact by definition
+                 'vturb_kms': None,  # from e_xi -- Jofré+2014 Table 2 sigma_vmic
+                 'feh':    0.0}    # Sun DEFINES [Fe/H]=0 -> exactly 0, never read
 
 _PARAM_LABEL = {'teff_K': 'Teff', 'logg': 'logg', 'vturb_kms': 'vmic', 'feh': 'FeH'}
 
@@ -103,6 +108,14 @@ def params_and_deltas(star_id: str = "solar"):
         deltas = dict(SOLAR_DELTA_P)
         deltas['teff_K'] = float(sp.get('e_teff', 1.0))   # solar Teff known to ~1 K
         deltas['logg'] = float(sp.get('e_logg', 0.0))     # exact by definition
+        # RYA-1089: sourced, not a literal. Absent is a REFUSAL -- an undeclared delta_p
+        # must never silently become a number, which is how the 0.05 survived unexamined.
+        if sp.get('e_xi') is None:
+            raise NotImplementedError(
+                "solar e_xi is not declared in config/stars.yaml. RYA-1089 retired the "
+                "uncited 0.05 from the RYA-158 spec; declare the uncertainty from a cited "
+                "source (Jofré+2014 Table 2 sigma_vmic) rather than restoring a literal.")
+        deltas['vturb_kms'] = float(sp['e_xi'])
         # deltas['feh'] stays 0.0 and deltas['vturb_kms'] stays the RYA-158 0.05 --
         # see the docstring; neither is read from the record.
         return params0, deltas
