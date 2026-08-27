@@ -124,3 +124,57 @@ def test_the_deriver_still_trims_and_still_announces_it():
     assert "a.requested_lo, a.requested_hi" in src, "the request is not captured"
     assert "BAND TRIMMED" in src, "the trim no longer announces the effective stem"
     assert "write_runinfo(out, stem, a)" in src, "the run no longer records what it wrote"
+
+
+def test_files_written_excludes_files_that_predate_the_run(tmp_path, monkeypatch):
+    """🔴 THE HOLE THE FIRST FIX LEFT OPEN, caught live on 2026-08-27.
+
+    `write_runinfo` globbed `{stem}_*` at write time. That is safe when the coverage guard
+    RENAMED the stem — nothing else can be sitting there — and wrong whenever it did not:
+    a 14:37 run recorded four 07:34 files from a previous run as its own output. Stale-file
+    absorption, one level down from the defect this module exists to prevent, and inside
+    the very manifest verification is told to trust.
+
+    `files_written` must now carry only files whose mtime is at or after the run's start;
+    anything older is reported under `pre_existing_at_stem` rather than dropped silently.
+    """
+    import os
+    import time as _t
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_dbp", ROOT / "scripts" / "derive_band_products.py")
+
+    stem = "FeI_4200_6910_kpno"
+    old = tmp_path / f"{stem}_ENGINE-B-NLTE_products.csv"
+    old.write_text("element,ion,A\nFe,I,7.497\n")
+    os.utime(old, (_t.time() - 7200, _t.time() - 7200))       # two hours stale
+
+    t0 = _t.time()
+    fresh = tmp_path / f"{stem}_products.csv"
+    fresh.write_text("element,ion,A\nFe,I,7.447\n")
+
+    class A:                                                   # minimal stand-in
+        element, ion, instrument, holding = "Fe", "I", "kpno", None
+        lo, hi = 4200.0, 6910.0
+        requested_lo, requested_hi = 4200.0, 6910.0
+        band_trimmed = False
+        _run_t0 = t0
+
+    src = (ROOT / "scripts" / "derive_band_products.py").read_text()
+    assert "_run_t0" in src and "pre_existing_at_stem" in src, "the mtime filter is gone"
+
+    import json as _j
+    ns: dict = {}
+    exec(compile(src[src.index("def write_runinfo"):src.index("def _base_sha")],
+                 "<write_runinfo>", "exec"),
+         {"Path": Path, "json": _j, "time": _t, "print": lambda *a, **k: None,
+          "_base_sha": lambda: "test"}, ns)
+    ns["_base_sha"] = lambda: "test"
+    ns["write_runinfo"](tmp_path, stem, A())
+
+    info = _j.loads((tmp_path / f"{stem}_runinfo.json").read_text())
+    assert f"{stem}_products.csv" in info["files_written"]
+    assert f"{stem}_ENGINE-B-NLTE_products.csv" not in info["files_written"], \
+        "a file predating the run was recorded as this run's output"
+    assert f"{stem}_ENGINE-B-NLTE_products.csv" in info["pre_existing_at_stem"], \
+        "the pre-existing file was dropped silently instead of being named"
