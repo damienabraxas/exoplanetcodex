@@ -1,0 +1,33 @@
+{
+  "ticket": "RYA-1044",
+  "generated_utc": "2026-08-27T14:28:06Z",
+  "verdict": "NOT_COMPARABLE",
+  "why": "the two pools share 2 candidate lines out of 159 and 67; the headline difference is a POOL difference, not a route or physics one",
+  "matrix": {
+    "candidates": 159,
+    "in_aggregate": 136,
+    "in_our_band_4200_6910": 136,
+    "band_label": "3800-6910",
+    "note": "the label is wider than the data -- every aggregate line falls inside 4200-6910, so the band is NOT the explanation"
+  },
+  "ours": {
+    "in_aggregate": 67
+  },
+  "overlap": {
+    "shared_candidates": 2,
+    "shared_wavelengths_A": [
+      5618.632,
+      6843.655
+    ],
+    "ours_not_considered_by_matrix": 65,
+    "matrix_not_considered_by_us": 157,
+    "basis": "SELECTION, not exclusion -- the matrix's exclusion list contains none of our lines"
+  },
+  "axes_that_differ": [
+    "pool (graded LAB-tier vs depth-selected ungraded)",
+    "route (SYNTH flux fit vs PROFILEFIT EW/profile fit)",
+    "gf rung (3, measured RMS 0.0634 vs UNGRADED, syst 0.1705)",
+    "chi2 gate (matrix excludes red_chi2 >= 10; we apply none, RYA-847)"
+  ],
+  "no_claim_from_shared": "n=2 cannot carry a value comparison. RYA-1051 retracted a claim built on n=8 in this same session."
+}

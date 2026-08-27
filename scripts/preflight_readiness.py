@@ -439,8 +439,11 @@ def telluric_satisfied(instrument_id: str, band: str, lo: float, hi: float,
     absence of listed bands is an absence of LOOKING, not evidence of a clean band, and
     treating it as satisfied would measure terrestrial absorption as stellar flux.
 
-    `unknown` never reaches a True by any route. Neither does `mode_dependent`, which
-    `telluric_policy.requires_correction` currently reads as "no" -- see the ledger note.
+    `unknown` never reaches a True by any route. Neither does `mode_dependent`: this
+    conductor refused it from the start, and RYA-1072 made `telluric_policy` refuse it
+    too -- `requires_correction` now RAISES `TelluricStateUnknown` on an unresolved
+    requirement rather than reading it as "no", so the two now agree at the source
+    instead of only here.
     """
     if basis == "not_applicable":
         return True, "", (f"{instrument_id} is telluric_basis=not_applicable -- no "
@@ -459,7 +462,14 @@ def telluric_satisfied(instrument_id: str, band: str, lo: float, hi: float,
         return False, "applied-unverified", (
             f"telluric_applied=applied but evidence_state={evidence_state!r}, not "
             f"{EVIDENCE_VERIFIED!r} -- an unverified correction is not a correction")
-    if telluric_policy.requires_correction(instrument_id):
+    requirement = telluric_policy.correction_requirement(instrument_id)
+    if requirement == telluric_policy.AMBIGUOUS:
+        return False, f"basis-{basis}", (
+            f"{instrument_id} is telluric_required=mode_dependent/unresolved: the "
+            f"catalog does not say whether a correction stage is owed, and RYA-1072 "
+            f"makes telluric_policy refuse rather than read that as 'no'. Resolve the "
+            f"mode (instrument_modes.csv) and record the value.")
+    if requirement == telluric_policy.REQUIRED:
         return False, f"needs-correction({applied})", (
             f"{instrument_id} is registered telluric_required=yes and telluric_applied="
             f"{applied}; route it through the RYA-424 telluric stage first")
