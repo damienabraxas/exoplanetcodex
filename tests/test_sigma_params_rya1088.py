@@ -99,9 +99,31 @@ def test_the_solar_e_feh_in_stars_yaml_is_NOT_used_as_a_delta():
     assert d["feh"] == 0.0                                   # and it is NOT used
 
 
+def test_the_solar_delta_xi_is_SOURCED_not_a_literal():
+    """🔴 RYA-1089. The solar delta_xi was 0.05 from the RYA-158 spec line
+    "vturb = 0.9 +/- 0.05" -- no citation, and doubly stale, since that line's central
+    value is 0.9 against the adopted 1.0 (RYA-196). It drove the ENTIRE solar sigma_params.
+    It is now Jofré+2014 Table 2 sigma_vmic = 0.18, read from the record beside its
+    citation, and an ABSENT value refuses rather than becoming a number again."""
+    assert float(STAR_PARAMS["solar"]["e_xi"]) == pytest.approx(0.18)
+    _, d = params_and_deltas("solar")
+    assert d["vturb_kms"] == pytest.approx(0.18)
+    src = (ROOT / "pipeline" / "uncertainty_stack.py").read_text()
+    assert "'vturb_kms': 0.05" not in src, "the bare literal must not come back"
+
+
+def test_the_sourced_delta_xi_made_the_bar_WORSE_not_better():
+    """⚠️ RYA-161 evidence, as a test. The sourced value is 3.6x the literal it replaced
+    and moves sigma_reported TOWARDS the 0.05 gate (0.0214 -> 0.0467). A delta_p chosen to
+    keep a bar inside a gate would have moved it the other way."""
+    _, d = params_and_deltas("solar")
+    assert d["vturb_kms"] > 0.05, "the sourced value is larger than the literal it retired"
+
+
 @pytest.mark.parametrize("star,e_xi", [("procyon", 0.11),
                                        ("alpha_cen_a", 0.07),
-                                       ("alpha_cen_b", 0.31)])
+                                       ("alpha_cen_b", 0.31),
+                                       ("solar", 0.18)])
 def test_per_star_delta_p_are_declared_and_sourced(star, e_xi):
     """Every delta_p from a cited source, never typed from memory (the ticket's firewall).
     The xi uncertainties are Jofré+2014 Table 2 σvmic, verified by extracting the paper's
