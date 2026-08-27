@@ -198,6 +198,23 @@ def solve(star: str, element: str, ion: str, pool: str,
         raise SystemExit("a line reached the fit with a zero EW error -- FITEXY would give "
                          "it infinite weight. Fix the EW pool, do not floor it here.")
     print(f"  production admission filters kept {len(linemasks)} of {len(rows)}")
+    # 🔴 RECORD WHAT THE PRODUCTION FILTERS TOOK, TOO. The ticket asks what was cut and
+    # why, and the two cuts THIS script applies are only half of it: `_ew_to_abundance`
+    # then drops lines with no iSpec GES region within 0.15 A, blend-flagged lines, lines
+    # outside the [5, 300] mA window, and lines failing the theoretical-EW sanity test.
+    # It reports those as counts on stdout and a log line is not an artifact. The
+    # wavelengths are recoverable by difference even though the per-line REASON is not, so
+    # the reason field says the SET of possible causes rather than guessing one -- naming
+    # a specific cause we did not observe would be worse than naming none.
+    _kept = np.asarray(linemasks["wave_A"], dtype=float)
+    for _, r in rows.iterrows():
+        if np.min(np.abs(_kept - float(r.wavelength_air_A))) > 0.15:
+            cuts.append({"wavelength_air_A": float(r.wavelength_air_A),
+                         "ew_mA": float(r.ew_mA), "ew_err_mA": float(r.ew_err_mA),
+                         "reason": "dropped by the production EW admission filters in "
+                                   "abundances_derive._ew_to_abundance (one of: no iSpec "
+                                   "GES line region within 0.15 A; blend_flag; outside "
+                                   "the [5,300] mA window; theoretical-EW sanity)"})
 
     rew = np.log10(ew0 / 1000.0 / wl)
     sigma_rew = err0 / (ew0 * np.log(10.0))
