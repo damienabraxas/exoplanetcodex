@@ -43,7 +43,7 @@ except Exception as exc:  # loud fail -- no silent fallback
 CATALOG_PATH = Path(__file__).resolve().parents[1] / "data" / "catalog" / "system_catalog.csv"
 
 REQUIRED_COLUMNS = [
-    "system_name", "star_params_key", "hd_id", "hip_id", "simbad_id",
+    "system_name", "star_params_key", "hd_id", "hip_id", "simbad_id", "aliases",
     "spectral_type", "role", "is_gbs", "run_order", "n_known_planets",
     "pipeline_status", "linear_parent", "website_slug", "data_archives",
     "source_refs", "notes",
