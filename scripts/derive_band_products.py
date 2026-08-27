@@ -1313,18 +1313,37 @@ def synthesis_route(a, pol) -> None:
             # that matters.
             _n_lab = _gn.assert_linelist_supports_nlte(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi), ion=a.ion)
             # STATED, not merely asserted. Partial coverage does not raise -- it DILUTES,
             # because the per-line fallback is departure = 1, so a half-labelled band
             # reports a real NLTE product at roughly half the effect with nothing saying
             # so. The count travels with the product instead of living in an assert.
             _cov_lab, _cov_tot = _gn.label_coverage(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                float(a.lo), float(a.hi))
+                float(a.lo), float(a.hi), ion=a.ion)
             _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
-                        f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                        f"{_cov_lab} of {_cov_tot} {a.element} {a.ion} lines"
                         + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
                            if _cov_tot else " (total not measurable)."))
+            # 🔴 AND THE POOL, WHICH IS THE QUESTION THAT DECIDES THE PRODUCT.
+            # A run does not synthesise "the window", it synthesises these lines. Measured:
+            # the Fe II 4200-6910 window is 854/8870 labelled so a window check PASSES, while
+            # RYA-877's measured Fe II pool is 0 of 11 -- every line it touches would run in
+            # LTE under an NLTE label. If NOT ONE pooled line is labelled, that is not a
+            # dilution, it is an LTE product wearing an NLTE name, and it REFUSES.
+            _pool_lab, _pool_tot = _gn.pool_label_coverage(
+                ctx["linelist"], int(ctx["atom_code"]),
+                cand["wave_A"].astype(float).values, ion=a.ion)
+            if _pool_tot and _pool_lab == 0:
+                raise SystemExit(
+                    f"NLTE was requested for {a.element} {a.ion} but NOT ONE of the "
+                    f"{_pool_tot} pooled lines carries an NLTE label, so bsyn would apply "
+                    f"departure = 1 to every one of them and the product would be LTE under "
+                    f"an NLTE label (RYA-764/RYA-1050). The window holds {_cov_lab} labelled "
+                    f"{a.element} {a.ion} lines, which is why a window-level check passes "
+                    f"here -- they are not the lines being fitted.")
+            _cov_txt += (f" Pooled lines labelled: {_pool_lab} of {_pool_tot}"
+                         + (f" ({100.0*_pool_lab/_pool_tot:.0f}%)." if _pool_tot else "."))
             eb_prov += _cov_txt
             print(f"[Engine-B]{_cov_txt}")
         print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
@@ -2427,18 +2446,37 @@ def main() -> None:
                 # that matters.
                 n_lab = gnlte.assert_linelist_supports_nlte(
                     ctx["linelist"], int(ctx["atom_code"]), a.element,
-                    wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                    wave_lo_A=float(a.lo), wave_hi_A=float(a.hi), ion=a.ion)
                 # STATED, not merely asserted. Partial coverage does not raise -- it
                 # DILUTES, because the per-line fallback is departure = 1, so a
                 # half-labelled band reports a real NLTE product at roughly half the
                 # effect with nothing saying so. The count travels with the product.
                 _cov_lab, _cov_tot = gnlte.label_coverage(
                     ctx["linelist"], int(ctx["atom_code"]), a.element,
-                    float(a.lo), float(a.hi))
+                    float(a.lo), float(a.hi), ion=a.ion)
                 _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
-                            f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                            f"{_cov_lab} of {_cov_tot} {a.element} {a.ion} lines"
                             + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
                                if _cov_tot else " (total not measurable)."))
+                # 🔴 AND THE POOL, WHICH IS THE QUESTION THAT DECIDES THE PRODUCT.
+                # A run does not synthesise "the window", it synthesises these lines. Measured:
+                # the Fe II 4200-6910 window is 854/8870 labelled so a window check PASSES, while
+                # RYA-877's measured Fe II pool is 0 of 11 -- every line it touches would run in
+                # LTE under an NLTE label. If NOT ONE pooled line is labelled, that is not a
+                # dilution, it is an LTE product wearing an NLTE name, and it REFUSES.
+                _pool_lab, _pool_tot = gnlte.pool_label_coverage(
+                    ctx["linelist"], int(ctx["atom_code"]),
+                    ok["wavelength_air_A"].astype(float).values, ion=a.ion)
+                if _pool_tot and _pool_lab == 0:
+                    raise SystemExit(
+                        f"NLTE was requested for {a.element} {a.ion} but NOT ONE of the "
+                        f"{_pool_tot} pooled lines carries an NLTE label, so bsyn would apply "
+                        f"departure = 1 to every one of them and the product would be LTE under "
+                        f"an NLTE label (RYA-764/RYA-1050). The window holds {_cov_lab} labelled "
+                        f"{a.element} {a.ion} lines, which is why a window-level check passes "
+                        f"here -- they are not the lines being fitted.")
+                _cov_txt += (f" Pooled lines labelled: {_pool_lab} of {_pool_tot}"
+                             + (f" ({100.0*_pool_lab/_pool_tot:.0f}%)." if _pool_tot else "."))
                 _b_source += _cov_txt
                 print(f"   {_cov_txt}")
             else:
@@ -2468,14 +2506,33 @@ def main() -> None:
             # that matters.
             n_lab = gnlte.assert_linelist_supports_nlte(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi), ion=a.ion)
             _cov_lab, _cov_tot = gnlte.label_coverage(
                 ctx["linelist"], int(ctx["atom_code"]), a.element,
-                float(a.lo), float(a.hi))
+                float(a.lo), float(a.hi), ion=a.ion)
             _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
-                        f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                        f"{_cov_lab} of {_cov_tot} {a.element} {a.ion} lines"
                         + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
                            if _cov_tot else " (total not measurable)."))
+            # 🔴 AND THE POOL, WHICH IS THE QUESTION THAT DECIDES THE PRODUCT.
+            # A run does not synthesise "the window", it synthesises these lines. Measured:
+            # the Fe II 4200-6910 window is 854/8870 labelled so a window check PASSES, while
+            # RYA-877's measured Fe II pool is 0 of 11 -- every line it touches would run in
+            # LTE under an NLTE label. If NOT ONE pooled line is labelled, that is not a
+            # dilution, it is an LTE product wearing an NLTE name, and it REFUSES.
+            _pool_lab, _pool_tot = gnlte.pool_label_coverage(
+                ctx["linelist"], int(ctx["atom_code"]),
+                ok["wavelength_air_A"].astype(float).values, ion=a.ion)
+            if _pool_tot and _pool_lab == 0:
+                raise SystemExit(
+                    f"NLTE was requested for {a.element} {a.ion} but NOT ONE of the "
+                    f"{_pool_tot} pooled lines carries an NLTE label, so bsyn would apply "
+                    f"departure = 1 to every one of them and the product would be LTE under "
+                    f"an NLTE label (RYA-764/RYA-1050). The window holds {_cov_lab} labelled "
+                    f"{a.element} {a.ion} lines, which is why a window-level check passes "
+                    f"here -- they are not the lines being fitted.")
+            _cov_txt += (f" Pooled lines labelled: {_pool_lab} of {_pool_tot}"
+                         + (f" ({100.0*_pool_lab/_pool_tot:.0f}%)." if _pool_tot else "."))
             _b_source = (GERBER_NLTE_SOURCE_FMT.format(
                 atom=dep['atom_path'].split('/')[-1]) + _cov_txt)
             print(f"    deck atom={dep['atom_path'].split('/')[-1]} "
