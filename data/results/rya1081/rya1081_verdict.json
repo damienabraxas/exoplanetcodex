@@ -1,0 +1,84 @@
+{
+  "ticket": "RYA-1081",
+  "published": {
+    "value": 7.966,
+    "n_lines": 9,
+    "tier": "DEEPGRADED"
+  },
+  "gf": {
+    "all_primary_lab": true,
+    "reference": [
+      "PRIMARY LAB DenHartog2019"
+    ],
+    "cited_sigma_range": [
+      0.05,
+      0.1
+    ],
+    "so_gf_cannot_explain_the_arm_gap": true
+  },
+  "kp_crosscheck": {
+    "kp_molecfit": {
+      "n": 9,
+      "median_harps": 7.966,
+      "median_kp": 7.569,
+      "median_delta": 0.24900000000000055,
+      "n_harps_above_kp": 8,
+      "exceptions": [
+        4303.17
+      ],
+      "median_delta_excluding_outlier": 0.28800000000000026,
+      "corr_A_vs_red_chi2_harps": 0.8641680599086574,
+      "corr_A_vs_red_chi2_harps_excluding_outlier": 0.3106821460809901
+    },
+    "kp_kurucz2005": {
+      "n": 9,
+      "median_harps": 7.966,
+      "median_kp": 7.592,
+      "median_delta": 0.2629999999999999,
+      "n_harps_above_kp": 8,
+      "exceptions": [
+        4303.17
+      ],
+      "median_delta_excluding_outlier": 0.2835000000000001,
+      "corr_A_vs_red_chi2_harps": 0.8641680599086574,
+      "corr_A_vs_red_chi2_harps_excluding_outlier": 0.3106821460809901
+    }
+  },
+  "robustness": {
+    "published_median": 7.966,
+    "median_without_the_outlier": 7.931,
+    "shift": -0.03500000000000014,
+    "pool_min": 7.185,
+    "pool_max": 10.011,
+    "spread_dex": 2.8259999999999996,
+    "spread_excluding_outlier_dex": 1.3750000000000009
+  },
+  "graded_reference_gap": {
+    "requested": "the GRADED (non-deep) subset value, as the cleaner reference",
+    "runnable": false,
+    "fe2_tiers_present_in_feed": [
+      "DEEPGRADED"
+    ],
+    "reason": "EVERY Fe II product in the feed is tier=DEEPGRADED \u2014 there is no GRADED Fe II product on any instrument or band. The DEEPGRADED-minus-GRADED deep contribution therefore has no comparand, and manufacturing one by splitting this pool on a depth proxy would be the conflation the ticket names as CRITICAL. What is needed is a GRADED-tier Fe II run."
+  },
+  "saturation_cog": {
+    "runnable": false,
+    "n_covered": 0,
+    "n_pool": 9,
+    "covered": [],
+    "cog_span_A": [
+      4204.0374,
+      6902.8601
+    ],
+    "cog_n_lines": 626,
+    "reason": "the ratified per-line COG covers Fe I only \u2014 0 of the pool's lines appear in it, so the saturation question is UNANSWERED, not answered negatively (RYA-833). Asserting saturation from EW magnitude instead would be a CRITICAL substitution \u2014 and is moot here anyway, since this route measures no EW at all."
+  },
+  "rya911": {
+    "is_the_rya911_residual": false,
+    "route": "SYNTH (synthesis flux-fit)",
+    "any_measured_ew_in_this_product": false,
+    "rya911_was": "the EW leg, running 0.34 dex LOW",
+    "this_is": "the synthesis leg, running +0.249 dex HIGH",
+    "reason": "RYA-911's pathology is in the EW step. This product has no EW leg at all \u2014 ew_mA is NaN on every row and ew_method records a synthesis flux-fit \u2014 and the sign is opposite. So the offset here is not RYA-911 residual; it is a separate synthesis-route HARPS-specific offset."
+  }
+}

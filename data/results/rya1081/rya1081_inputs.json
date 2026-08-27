@@ -1,0 +1,17 @@
+{
+  "ticket": "RYA-1081",
+  "what": "per-line artifacts for the HARPS/KP Fe II VIS DEEPGRADED audit",
+  "why_committed": "RYA-1080 reconciled what the FEED references, and the feed carries only *_products.csv. The sibling *_lines.csv were left uncommitted, so the per-line audit this ticket asks for could not run on committed data \u2014 the same class RYA-1080 closed, one level down.",
+  "source_dir": "/Users/ryanschmitt/codex/rya1015/data/results/band_products",
+  "sha256": {
+    "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv": "0a56440e814a98cef2864d5a5d0e4c975f7eb53b0cfdf2c2e4a62ad29edb6c10",
+    "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv": "267db81dde1ffb394f1a891a54f5ba8a789a3c0ee0fb140c1a72ab95b073c982",
+    "FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv": "662d77a9533e85969ae8621b74f365ba2bac14aedd1de4faf5da008a42652bc3",
+    "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv": "257083573a943ac0c06749278fe2dbedcf4362a8c22f64c05e2a0ad8bd0d623e",
+    "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv": "929532d5a8d0dcc6131afe284deb2282f8547871c9c0755b32eac848223973b7",
+    "FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv": "cbfc32756eb1353c905ec73bc298a66956dfb90a83bd7aadf41f52ef753ea235",
+    "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv": "3b74c4063942e8d2f4dd5fd4fc0096831322639bd147e186fb3267263f1038e0",
+    "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv": "8c7fef2ca69ef7de0bdbce5aa8e0204272edec269c56879477838319de1bd0ca",
+    "FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv": "e79dce1c25cbffb2d3335301dbb5b3b500be063051ded146880cd985c4a3f97c"
+  }
+}
