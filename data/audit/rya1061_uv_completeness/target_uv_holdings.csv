@@ -1,0 +1,5 @@
+holding_id,system_id,instrument_id,manifest_path,evidence_state,source_issue_ids
+alpha_cen_a_stis,alpha_cen_a,hst_stis,data/audit/alpha_cen_stis_uv/stis_uv_unique_inventory.csv,verified,RYA-303;RYA-806
+alpha_cen_b_stis,alpha_cen_b,hst_stis,data/audit/alpha_cen_stis_uv/stis_uv_unique_inventory.csv,verified,RYA-303;RYA-806
+procyon_stis,procyon,hst_stis,data/audit/procyon_hst/procyon_hst_full_inventory.csv,verified,RYA-222;RYA-806
+procyon_cos,procyon,hst_cos,data/audit/procyon_hst/procyon_hst_full_inventory.csv,audited,RYA-222;RYA-806
