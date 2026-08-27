@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "ticket": "RYA-1065",
+  "source": "SIMBAD (CDS) preferred ICRS J2000 positions and parallaxes",
+  "retrieved": "2026-08-26",
+  "position_unit": "degree",
+  "parallax_unit": "milliarcsecond",
+  "distance_derivation": "distance_pc = 1000 / parallax_mas; valid because every committed parallax is positive",
+  "membership_join": "target_id is star_params_key when present, otherwise website_slug, from data/catalog/system_catalog.csv",
+  "source_url_template": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident={system_name}",
+  "notes": [
+    "Alpha Centauri A and B share the system parallax selected by SIMBAD; their distinct component positions remain truthful and nearly coincident at neighborhood scale.",
+    "The first six fixed-star positions reuse the already committed RYA-952 SIMBAD astrometry values; RYA-1065 extends the same source convention to every registered system.",
+    "Gliese 581 uses Gaia DR3 parallax 158.7183 +/- 0.0300 mas, bibliography 2020yCat.1350....0G."
+  ]
+}
