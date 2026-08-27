@@ -16,6 +16,23 @@
   },
   "per_element": [
     {
+      "element": "Ba",
+      "ion": "I",
+      "n_lines": 1,
+      "A_X_mean": 2.237,
+      "raw_sigma": 0.016,
+      "sigma_SE": 0.016,
+      "sigma_B_Teff": 0.0,
+      "sigma_B_logg": 0.0,
+      "sigma_B_vmic": 0.0,
+      "sigma_B_FeH": 0.0,
+      "dA_dTeff_per100K": NaN,
+      "dA_dvmic_per_kms": NaN,
+      "sigma_solar": 0.016,
+      "sigma_reported": 0.016,
+      "flags": "n_lines_low"
+    },
+    {
       "element": "C",
       "ion": "I",
       "n_lines": 5,
@@ -30,6 +47,23 @@
       "dA_dvmic_per_kms": NaN,
       "sigma_solar": 0.0241,
       "sigma_reported": 0.0241,
+      "flags": ""
+    },
+    {
+      "element": "Co",
+      "ion": "I",
+      "n_lines": 5,
+      "A_X_mean": 4.96,
+      "raw_sigma": 0.063,
+      "sigma_SE": 0.0282,
+      "sigma_B_Teff": 0.0,
+      "sigma_B_logg": 0.0,
+      "sigma_B_vmic": 0.0,
+      "sigma_B_FeH": 0.0,
+      "dA_dTeff_per100K": NaN,
+      "dA_dvmic_per_kms": NaN,
+      "sigma_solar": 0.0282,
+      "sigma_reported": 0.0282,
       "flags": ""
     },
     {
@@ -58,12 +92,12 @@
       "sigma_SE": 0.0178,
       "sigma_B_Teff": 0.0007,
       "sigma_B_logg": 0.0,
-      "sigma_B_vmic": 0.0102,
+      "sigma_B_vmic": 0.012,
       "sigma_B_FeH": 0.0,
       "dA_dTeff_per100K": 0.0665,
-      "dA_dvmic_per_kms": -0.205,
-      "sigma_solar": 0.0205,
-      "sigma_reported": 0.0205,
+      "dA_dvmic_per_kms": -0.24,
+      "sigma_solar": 0.0214,
+      "sigma_reported": 0.0214,
       "flags": ""
     },
     {
