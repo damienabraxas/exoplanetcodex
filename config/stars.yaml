@@ -12,16 +12,42 @@ solar:
   e_logg: 0.0
   feh_ref: 0.0
   e_feh: 0.03
+  # PINNED at 1.0 (RYA-196). 🔴 RYA-311 MEASURED it and did NOT get 1.0: the Fe I
+  #    reduced-EW FITEXY solve on our own production pool returns xi = 0.7088 km/s
+  #    (n=58, residual slope -0.0058, production 100 mA saturation ceiling). Moving to
+  #    the measured value raises solar A(Fe I) by +0.0595 dex on that route, so the pin
+  #    is NOT changed here -- that is a reconciliation for RYA-196 and the register, not
+  #    a silent central-value edit. What RYA-311 does change is e_xi below.
+  # ⚠️ The pin survives on the production criterion, not on agreement: solving the SAME
+  #    sweep with the unweighted OLS slope the vmic bisection actually fits gives
+  #    xi_OLS = 0.9088. The 0.20 km/s gap between the two is the both-axis fit, which
+  #    down-weights the strong lines OLS treats as equal (Mucciarelli 2011).
   xi: 1.0
-  # Jofré+2014 (A&A 564, A133) Table 2 σvmic — "the mean vmic value obtained by the different nodes, with σvmic representing the standard deviation of this mean"
-  # 🔴 RYA-1089 — this RETIRES an uncited 0.05 that came from the RYA-158 spec
-  #    line "vturb = 0.9 +/- 0.05", which was doubly stale: no citation, and a
-  #    central value of 0.9 against the adopted 1.0 (RYA-196).
-  # ⚠️ Jofré's Table 2 MEAN vmic for the Sun is 1.2, not the 1.0 adopted above.
-  #    Only the DISPERSION is taken; changing the central value is RYA-311's job.
-  # ⚠️ This value is 3.6x the literal it replaces and pushes sigma_reported TOWARDS
-  #    the 0.05 gate, not away from it (RYA-161: sourced on physics, not on margin).
-  e_xi: 0.18
+  # MEASURED, RYA-311: the formal Delta-chi2 = 1 error on the Fe I reduced-EW slope
+  # (Press+1992 FITEXY, both-axis, per Mucciarelli 2011 A&A 528 A44), propagated through
+  # the solve as sigma_slope / |d slope / d xi| at the root. Our data, our fit.
+  # 🔴 THIS RETIRES BOTH BORROWED NUMBERS FOR THE SUN — the uncited 0.05 from the RYA-158
+  #    spec and Jofré+2014's 0.18, which is an INTER-NODE dispersion across seven GBS
+  #    pipelines and not the formal error of a single-pipeline analysis. (Jofré's per-star
+  #    sigma_vmic stays a defensible INTERIM delta_p for stars we have not yet solved --
+  #    procyon and the alpha Cen pair below — until this same solve is run on each.)
+  # ⚠️ IT IS NOT THE WHOLE UNCERTAINTY, AND THE GAP IS MEASURED, NOT SUSPECTED. The formal
+  #    error answers only "how well is the slope pinned given the EW errors". Moving the
+  #    saturation ceiling across 80/100/120 mA — all defensible, 100 is the RYA-330
+  #    production constant — moves xi by 0.2695 km/s, 4.6x this number
+  #    (data/results/rya311/rya311_xi_ceiling_sensitivity_all.json). And chi2_red at the
+  #    solution is 27, so the point errors explain a small part of the scatter; scaling
+  #    by sqrt(chi2_red) would give 0.3107 instead. Which of the three belongs in the
+  #    Type B budget decides whether the solar bar sits inside or outside its 0.05 gate,
+  #    and that is Ryan's call — the ticket's spec is the formal error, so the formal
+  #    error is what is recorded.
+  e_xi: 0.0588
+  e_xi_selection: 0.2695   # measured ceiling sensitivity, NOT summed into e_xi (see above)
+  e_xi_chi2_scaled: 0.3107 # the sqrt(chi2_red)-inflated alternative, recorded not used
+  xi_measured_rya311: 0.7088
+  xi_provenance: 'measured, RYA-311, Fe I reduced-EW FITEXY solve on the production solar
+    EW pool (data/processed/solar_ew_ges_reference.csv), n=58 after the >10% EW-error cut
+    (Mucciarelli 2011) and the 100 mA saturation ceiling (RYA-330)'
   vmac: 3.8
   vsini: 1.8
   source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
