@@ -4155,3 +4155,45 @@ artifacts:
     ticket: RYA-1081
     note: >-
       sha256 of every per-line artifact the audit reads, and why they had to be committed.
+
+  # ── RYA-853 scope 3: the repaired DH19 referee ──
+  # "ours" is the frozen pre-RYA-945 Fe II scale, because RYA-945 ingested the referee INTO
+  # canonical_gf and the comparison became a self-match. The *_live artifacts are the
+  # degenerate run kept ON PURPOSE, as the control that shows the guards firing.
+  - artifact: rya853/rya853_dh19_referee_overlap.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      Every EP-matched overlap line, including the self_referential flag GUARD 1 scores on.
+
+  - artifact: rya853/rya853_red_arm_vs_nist.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py
+    ticket: RYA-853
+    note: >-
+      The RYA-852 red pool measured against live NIST on this run, replacing the hardcoded
+      +0.106 literal the previous revision carried from a pool 852/877/945 have since moved.
+
+  - artifact: rya853/rya853_dh19_referee_live.json
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py --source live
+    ticket: RYA-853
+    note: >-
+      THE CONTROL, kept deliberately. Run against live canonical_gf the referee sits on both
+      sides of its own comparison (22 of 22 lines self-referential) and the verdict is
+      UNUSABLE. A guard that has never been seen to fire is not evidence of anything.
+
+  - artifact: rya853/rya853_dh19_referee_overlap_live.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py --source live
+    ticket: RYA-853
+    note: >-
+      The overlap rows of that control run, every one flagged self_referential.
+
+  - artifact: rya853/rya853_red_arm_vs_nist_live.csv
+    generator: scripts/rya853_dh19_scale_referee.py
+    invocation: python3 scripts/rya853_dh19_scale_referee.py --source live
+    ticket: RYA-853
+    note: >-
+      The red arm as measured during the control run.
