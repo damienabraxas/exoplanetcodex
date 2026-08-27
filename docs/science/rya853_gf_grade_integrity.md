@@ -278,8 +278,9 @@ holdings, and **15 Fe II products sit in `data/products/solar/Fe.json` with `art
 
 They are invisible from the committed tree because **67 of the feed's 75 products carry
 `provenance.host = mac` and `copied_to: None`** and were never copied into the repo; only the
-8 `sirius` rows are committed. That drift is [RYA-1080], and this diagnosis is one of the two
-wrong calls it was filed for. The transferable rule: **a directory listing is not a census of
+8 `sirius` rows are committed. That drift is [RYA-1080] — since closed, together with [RYA-1084], so all 75 are now
+committed and a `band_products` check and the feed finally agree. This diagnosis is one of
+the two wrong calls RYA-1080 was filed for. The transferable rule: **a directory listing is not a census of
 what has been measured** — read the feed, which is the surface that publishes.
 
 So the balance needs **re-deriving from the feed, not re-measuring**. One caution for whoever
