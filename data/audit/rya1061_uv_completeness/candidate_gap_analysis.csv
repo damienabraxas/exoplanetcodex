@@ -1,0 +1,8 @@
+priority,gap_class,species,coverage_A,evidence,next_action
+1,FUV canonical vacuum,all,1150-2000,0 canonical rows,"Acquire primary/evaluated transition tables, then overlap with STIS/COS wavelength support."
+2,NUV canonical vacuum,all,2000-3000,0 canonical rows,"Start with Cr II, Mn II, Co II, Sc II, V II and target-held intervals."
+3,Fe II primary-lab deficit,Fe II,3000-3780,canonical population exists but primary-lab tier is absent,Source census and transition-level reconciliation; do not infer Fe I authority transfers to Fe II.
+4,Cr II high-volume replacement,Cr II,2080-3780,large VALD-only near-UV population,"Ingest Ward table to quarantine, normalize air/vacuum wavelengths, match with ambiguity reporting."
+5,HFS-sensitive odd-Z ions,Mn II; Co II; Sc II; V II; Cu I/II,1150-3780,HFS metadata incomplete or unverified,Require component/constant provenance; never substitute unsplit gf silently.
+6,non-Fe near-UV VALD dependence,Cr I/II; Co I; Ti I/II; Mn I/II; Ni I; V I/II,3000-3780,dominant tier VALD3,Rank laboratory searches by canonical count and actual target coverage.
+7,photospheric-abundance literature gap,all,1150-3780,spectra exist without a verified abundance-paper census,Bibliographic follow-up per target; keep chromospheric and planetary/ISM lanes out of abundance authority.
