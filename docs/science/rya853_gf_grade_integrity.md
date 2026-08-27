@@ -256,10 +256,9 @@ directly. The values differ by up to 0.250 dex so this is not a laundered copy, 
 upstream ancestor cannot be excluded from what we record. Closing it needs VALD3's per-line
 source for those twelve.
 
-🔴 **It does not clear the ionization balance, because the measurement leg is pre-continuum-fix.**
-The balance the verdict speaks to is Fe I 7.586 / Fe II 7.568 (RYA-783), measured on
-`kpno_solar_atlas` PROFILEFIT products dated **2026-08-16…18**. Every continuum fix postdates
-them:
+🔴 **It does not clear the ionization balance — but the reason is not what this document
+first said.** The figures the verdict is quoted beside, Fe I 7.586 / Fe II 7.568 (RYA-783,
+`kpno_solar_atlas` PROFILEFIT), are dated **2026-08-16…18** and predate every continuum fix:
 
 | fix | landed |
 |---|---|
@@ -269,12 +268,24 @@ them:
 | RYA-1026 — KP class ratified `pre_normalised`, `prenormalised_guard` wired | 2026-08-24 |
 | RYA-1030 — normalisation detected off the flux, not the flag | 2026-08-24 |
 
-**The Fe II VIS cell has never been re-run.** There is no Fe II product in
-`data/results/band_products` at all — every current Fe product is Fe I. The most recent Fe II
-numbers are the 2026-08-18 RYA-877/880 artifacts, which already moved the 1D-LTE cell
-7.568 → **7.542** when the circular MB09-S line 5991.371 was dispositioned; the RYA-852 test
-still hardcodes 7.568. A gf scale cleared here is one leg of the balance, and the other leg
-is stale.
+⚠️ **CORRECTION, 2026-08-27.** An earlier revision of this section said the Fe II cell "has
+never been re-run" and that "there is no Fe II product at all". **Both were wrong**, and the
+error is instructive: they were read off `data/results/band_products/`, which is committed
+and stale, rather than off the published feed. **RYA-1045** (Fe II VIS, 2026-08-25) and
+**RYA-1052** (Fe II near-UV, 2026-08-26) *did* re-run Fe II on the molecfit/kurucz2005
+holdings, and **15 Fe II products sit in `data/products/solar/Fe.json` with `artifact_mtime`
+08-25/26** — all postdating RYA-1026/1030.
+
+They are invisible from the committed tree because **67 of the feed's 75 products carry
+`provenance.host = mac` and `copied_to: None`** and were never copied into the repo; only the
+8 `sirius` rows are committed. That drift is [RYA-1080], and this diagnosis is one of the two
+wrong calls it was filed for. The transferable rule: **a directory listing is not a census of
+what has been measured** — read the feed, which is the surface that publishes.
+
+So the balance needs **re-deriving from the feed, not re-measuring**. One caution for whoever
+does it: the old pair is *ungraded* PROFILEFIT, while the current Fe I VIS products are
+`GRADED`/`DEEPGRADED` at n=13/67/108. Pairing across tiers would repeat RYA-1033's
+two-different-pools error — match tier and selector before subtracting.
 
 ## Recommended order
 
