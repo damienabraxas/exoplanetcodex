@@ -77,9 +77,24 @@ def test_the_lab_lines_actually_grade_now(fe1):
         if v.is_graded:
             graded += 1
             assert v.gf_sigma_dex <= 0.13, "a lab line must carry its own measured sigma"
-    # RYA-1053 added a physical neighbour at 15631.948 A. RYA-1034 correctly refuses
-    # to choose between it and 15631.947 A, leaving 26 graded plus one explicit ambiguity.
-    assert (graded, ambiguous) == (26, 1)
+    # 🔴 27 GRADED, ZERO AMBIGUOUS — and the history here matters.
+    #
+    # This briefly asserted (26, 1), on the reasoning that "RYA-1053 added a physical
+    # neighbour at 15631.948 A and the matcher correctly refuses to choose between it and
+    # 15631.947 A". The refusal WAS correct; the neighbour was not. 15631.948 is not a
+    # second transition -- it is the SAME line, admitted twice because RYA-1053's first
+    # dedupe compared wavelengths ROUNDED to 3 decimals, so 0.001 A of rounding read as
+    # two lines. 220 such collisions were created, and each one takes a LABORATORY value
+    # (here Ruffoni's 15631.947) and un-grades it by pairing it with a Kurucz twin.
+    #
+    # Accepting (26, 1) encoded the defect as the expected result: a lab line silently
+    # demoted, and a test agreeing that it should be. RYA-1054 rebuilt the dedupe on the
+    # wavelength+EP tolerance the matcher uses everywhere, so the twin is gone and all 27
+    # adjudicated lines grade. An ambiguity that a bug manufactured is not a finding.
+    assert (graded, ambiguous) == (27, 0), (
+        "expected all 27 adjudicated Ruffoni lines to grade with no ambiguity. A nonzero "
+        "`ambiguous` here means near-duplicate rows have returned to canonical_gf and are "
+        "shadowing laboratory values -- check the dedupe tolerance, not the matcher.")
 
 
 def test_the_ep_check_refused_the_one_line_wavelength_alone_would_have_taken(fe1):

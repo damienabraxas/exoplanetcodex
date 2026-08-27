@@ -323,6 +323,17 @@ entries:
     rel: spectra/vesta/CRIRESPlus
     kind: dir
     desc: Vesta CRIRES+ reflected-solar frames (Sirius-side).
+  repo.crires_plus_solar_y_wide_rya1054:
+    root: repo
+    rel: data/results/rya794/vesta_crires_plus_Y_9800_10796_normalized.csv
+    kind: file
+    desc: >-
+      CRIRES+ Vesta solar Y arm conditioned over its FULL measured extent,
+      9800-10796 A (RYA-1054). Same source (sp/Sun_Y_rv.dat) and same normaliser as
+      the RYA-794 product; only the window differs. Elgueta's 10280-10680 window is
+      not a telluric limit -- below 10280 the arm runs 0.00-0.26% of points under 0.5
+      against 0.06-0.21% inside it -- and the wider product carries 5 primary-lab
+      Fe I lines where the narrow one carries 1.
   repo.crires_plus_solar_y_rya794:
     root: repo
     rel: data/results/rya794/vesta_crires_plus_Y_10280_10680_normalized.csv
