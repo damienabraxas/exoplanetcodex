@@ -116,11 +116,24 @@ def divergent_stores() -> list[tuple[Path, int]]:
     the only state in which artifact preservation actually means anything.
     """
     active, seen, out = store_root(), set(), []
+    try:
+        active_mf = (active / _MANIFEST_NAME).resolve()
+    except OSError:
+        active_mf = active / _MANIFEST_NAME
     for cand in (_legacy_derived_root(), *LEGACY_STORE_ROOTS):
         cand = cand.expanduser()
         if cand == active or cand in seen:
             continue
         seen.add(cand)
+        # A legacy root BRIDGED to the canonical store (its manifest and kind dirs
+        # symlinked across) is not a fork -- it is the same store reached by another
+        # path. Compare the resolved manifest, not the directory: that is what makes
+        # the bridge a safe stopgap for worktrees still running the old derivation.
+        try:
+            if (cand / _MANIFEST_NAME).resolve() == active_mf:
+                continue
+        except OSError:
+            pass
         n = _manifest_row_count(cand)
         if n:
             out.append((cand, n))

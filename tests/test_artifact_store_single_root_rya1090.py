@@ -168,3 +168,32 @@ def test_save_artifact_refuses_while_forked(tmp_path, monkeypatch):
     src.write_text('X')
     with pytest.raises(A.StoreDivergenceError):
         A.save_artifact(src, 'plots')
+
+
+def test_bridged_legacy_root_is_not_divergence(tmp_path, monkeypatch):
+    """A legacy root SYMLINKED to the canonical store is the same store, not a fork.
+
+    Worktrees that predate this fix still resolve store_root() to the old parent. The
+    stopgap is to bridge that parent into the canonical store with symlinks; the guard
+    must not then report the bridge as a fork, or it fires on the very mitigation.
+    """
+    monkeypatch.delenv('CODEX_ARTIFACT_STORE', raising=False)
+    canon, legacy = tmp_path / 'canon', tmp_path / 'legacy'
+    _stage_store(canon, 4)
+    legacy.mkdir(parents=True)
+    (legacy / A._MANIFEST_NAME).symlink_to(canon / A._MANIFEST_NAME)
+    for k in A.KINDS:
+        (legacy / k).symlink_to(canon / k, target_is_directory=True)
+    monkeypatch.setattr(A, 'CANONICAL_STORE_ROOT', canon)
+    monkeypatch.setattr(A, 'LEGACY_STORE_ROOTS', (legacy,))
+    monkeypatch.setattr(A, '_legacy_derived_root', lambda: canon)
+
+    assert A.divergent_stores() == []
+    A.assert_single_store()
+    # and a save through the BRIDGE lands in the canonical store, deduped against it
+    src = tmp_path / 'x.png'
+    src.write_text('DATA0')                       # same content as a staged row
+    monkeypatch.setattr(A, 'CANONICAL_STORE_ROOT', legacy)   # old code's view
+    dest = A.save_artifact(src, 'plots')
+    assert dest.resolve().parent == (canon / 'plots').resolve()
+    assert len(list(csv.DictReader(open(canon / A._MANIFEST_NAME)))) == 4   # deduped
