@@ -12,8 +12,25 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from pipeline.telluric_policy import (
-    TelluricStateUnknown, applied_state, basis, gate_holding, requires_correction,
+    AMBIGUOUS, REQUIRED, TelluricCatalogContradiction, TelluricStateUnknown,
+    applied_state, basis, classify, correction_requirement, gate_holding, reconcile_axes,
 )
+
+
+def classify_via_policy(value) -> str:
+    """REQUIRED / NOT_REQUIRED / AMBIGUOUS -- DELEGATED, never re-derived (RYA-1078).
+
+    🔴 THIS MODULE MUST NOT OWN A SECOND READING. It used to answer "how do I read an
+    ambiguous telluric value" with its own chain of `b == "..."` comparisons, and that
+    chain disagreed with `telluric_policy` in two places: `unspecified` stopped for audit
+    here and ran on clean-line selection there, and `route_for` settled the delbouille
+    contradiction by preferring the requirement column while `reconcile_axes` refused it.
+
+    A thin delegation is the point, not an accident of style: the two modules now agree by
+    CONSTRUCTION rather than by two lists happening to match, so the split cannot come
+    back the next time someone adds a catalog value.
+    """
+    return classify(value)
 
 
 @dataclass(frozen=True)
@@ -33,14 +50,34 @@ def route_for(instrument: str) -> TelluricRoute:
     ``mode_dependent`` entries.  It is not a correction result and cannot be used to
     make data science-ready.
     """
+    # ── RECONCILE FIRST, before any branch consults an individual column (RYA-1078).
+    # 🔴 ORDERING IS THE FIX. Every branch below reads ONE of the two telluric columns, so
+    # on a row where they disagree the contradiction is settled by whichever branch runs
+    # first -- which is exactly how `delbouille_liege_intensity` (required=yes,
+    # basis=line_selection) was silently routed to molecfit_gdas on the requirement column
+    # while `telluric_policy.reconcile_axes` refused the same row. Refusing here costs a
+    # route nobody consumes; settling it silently costs the ability to notice.
+    reconcile_axes(instrument)
+
     b = basis(instrument)
-    required = requires_correction(instrument)
+    # RYA-1072/1078: the THREE-outcome reading, DELEGATED to telluric_policy. This module
+    # must keep going and route an ambiguity to `audit_required` at the bottom -- the stop
+    # its own docstring already promises, and where UVES (mode_dependent) belongs.
+    required = correction_requirement(instrument) == REQUIRED
+    ambiguous = AMBIGUOUS in (correction_requirement(instrument), classify_via_policy(b))
     if instrument == "harps":
         return TelluricRoute(
             instrument, b, "molecfit_gdas+clean_line_selection", True, False,
             "Hybrid optical route: clean visible lines remain eligible by line selection; "
             "windows intersecting a registered telluric band are conditioned with "
             "observation-night molecfit/GDAS.",
+        )
+    if ambiguous:
+        return TelluricRoute(
+            instrument, b, "audit_required", False, True,
+            "Telluric basis or requirement is unresolved for this instrument/mode "
+            "(RYA-1072/1078); determine it from the product and recipe before "
+            "measurement. It is NOT read as 'no correction needed'.",
         )
     if b == "correction_required" or required:
         return TelluricRoute(
@@ -107,6 +144,10 @@ def route_for_holding(holding_id: str, instrument: str | None = None) -> Telluri
     except TelluricStateUnknown:
         return TelluricRoute(inst, basis(inst), "audit_required", False, True,
                              f"{holding_id}: holding gate refuses unresolved telluric state.")
+    # NOTE `TelluricCatalogContradiction` is deliberately NOT caught. An unresolved STATE
+    # is a routable outcome (stop and audit); a catalog that states two opposite rules is
+    # not a state at all, and turning it into a route would be the silent settle again in
+    # a third place (RYA-1078).
     return route_for(inst)
 
 
