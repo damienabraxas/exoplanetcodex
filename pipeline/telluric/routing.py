@@ -12,7 +12,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from pipeline.telluric_policy import (
-    TelluricStateUnknown, applied_state, basis, gate_holding, requires_correction,
+    REQUIRED, TelluricStateUnknown, applied_state, basis, correction_requirement,
+    gate_holding,
 )
 
 
@@ -34,7 +35,11 @@ def route_for(instrument: str) -> TelluricRoute:
     make data science-ready.
     """
     b = basis(instrument)
-    required = requires_correction(instrument)
+    # RYA-1072: the THREE-outcome accessor, not `requires_correction`, which now refuses
+    # an unresolved requirement. This module must keep going and route the ambiguity to
+    # `audit_required` at the bottom -- that is the stop its docstring already promises,
+    # and it is where UVES (telluric_required=mode_dependent) belongs.
+    required = correction_requirement(instrument) == REQUIRED
     if instrument == "harps":
         return TelluricRoute(
             instrument, b, "molecfit_gdas+clean_line_selection", True, False,
