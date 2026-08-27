@@ -166,23 +166,52 @@ REQUIRED = "required"
 NOT_REQUIRED = "not-required"
 AMBIGUOUS = "ambiguous"
 
-_REQUIRED_VALUES = frozenset({"yes", "true", "1", "required"})
-_NOT_REQUIRED_VALUES = frozenset({"no", "false", "0", "not-required", "not_required"})
+# ── ONE VOCABULARY FOR BOTH TELLURIC COLUMNS (RYA-1078) ─────────────────────
+#
+# 🔴 RYA-1072 fixed how THIS module reads an ambiguous value and left
+# `pipeline/telluric/routing.py` reading it separately. Two modules implementing "how to
+# read an ambiguous telluric value" is the defect one level up from the defect 1072 fixed:
+# `unspecified` resolved to audit-required in routing and to run-on-clean-line-selection
+# here, and `route_for` settled the delbouille contradiction by preferring the requirement
+# column while `reconcile_axes` refused it. The reading now lives HERE, once, and routing
+# CALLS it -- so a third caller cannot reintroduce the split by writing a fourth `in`-test.
+#
+# The two columns share one vocabulary because they answer the SAME question in different
+# words -- is a correction STAGE owed:
+#
+#     telluric_required   yes | no                     | mode_dependent
+#     telluric_basis      correction_required          | line_selection | corrected
+#                                                      | not_applicable | unspecified
+#
+# so `correction_required` classifies REQUIRED exactly as `yes` does, and `line_selection`
+# / `corrected` / `not_applicable` classify NOT_REQUIRED exactly as `no` does. That shared
+# reading is what makes `reconcile_axes` expressible as "the two columns must not classify
+# differently", and it is why `unspecified` and `mode_dependent` cannot diverge again: they
+# are in neither set, in one place, for both columns.
+#
+# ⚠️ BOTH SETS STAY CLOSED. Anything outside them is AMBIGUOUS. Do NOT add
+# `unspecified` or `mode_dependent` to either set to quiet a refusal -- that is the
+# RYA-1072 bug wearing a patch, and now it would be the bug in two modules at once.
+_REQUIRED_VALUES = frozenset({
+    "yes", "true", "1", "required",     # telluric_required
+    "correction_required",              # telluric_basis
+})
+_NOT_REQUIRED_VALUES = frozenset({
+    "no", "false", "0", "not-required", "not_required",   # telluric_required
+    "line_selection", "corrected", "not_applicable",      # telluric_basis
+})
 
-#: Telluric bases that assert NO correction stage is owed, and those that assert one is.
-#: Used ONLY to reconcile the two axes against each other; the basis vocabulary itself is
-#: the catalog's, and a basis outside both sets (`unspecified`, `mode_dependent`) makes no
-#: assertion to contradict.
-_BASIS_NO_STAGE = frozenset({"line_selection", "corrected", "not_applicable"})
-_BASIS_STAGE = frozenset({"correction_required"})
 
+def classify(value) -> str:
+    """THE reading of a telluric catalog value -- either column. RYA-1078.
 
-def correction_requirement_from_value(value) -> str:
-    """REQUIRED / NOT_REQUIRED / AMBIGUOUS for one `telluric_required` cell.
+    REQUIRED / NOT_REQUIRED / AMBIGUOUS. Pure, so the three-way logic is testable without
+    a catalog and so a caller that must BRANCH on ambiguity (rather than stop on it) can
+    do so without catching an exception.
 
-    The pure reading, so the three-way logic is testable without a catalog and so a
-    caller that must BRANCH on ambiguity (rather than stop on it) can do so without
-    catching an exception. `requires_correction` is this function plus a refusal.
+    This is the single entry point the spec requires: `pipeline/telluric/routing.py`
+    calls it rather than re-deriving the reading, so `mode_dependent` and `unspecified`
+    resolve identically in both modules BY CONSTRUCTION rather than by two lists agreeing.
     """
     v = str(value if value is not None else "").strip().lower()
     if v in _REQUIRED_VALUES:
@@ -190,6 +219,16 @@ def correction_requirement_from_value(value) -> str:
     if v in _NOT_REQUIRED_VALUES:
         return NOT_REQUIRED
     return AMBIGUOUS
+
+
+def correction_requirement_from_value(value) -> str:
+    """RYA-1072's name for `classify`, kept so its call sites and tests still read.
+
+    One implementation, two names: the 1072 name says WHICH COLUMN it was written for,
+    the 1078 name says it reads either. Aliased rather than duplicated -- a second body
+    here would be the exact split this ticket closed.
+    """
+    return classify(value)
 
 
 def requires_correction_from_value(value) -> bool:
@@ -334,21 +373,24 @@ def reconcile_axes(instrument: str) -> None:
     cannot contradict anything and is left to the requirement axis to refuse or permit.
     """
     row = _catalog_row(instrument)
-    req = correction_requirement_from_value(row.get("telluric_required", ""))
-    b = str(row.get("telluric_basis", "")).strip().lower()
-    if req == REQUIRED and b in _BASIS_NO_STAGE:
-        raise TelluricCatalogContradiction(
-            f"{instrument}: telluric_required=yes says a correction STAGE is owed, and "
-            f"telluric_basis={b!r} says its tellurics are handled WITHOUT one. Those are "
-            f"opposite operative rules and this row states both, so serving it would "
-            f"settle the question by whichever column the consumer read first. Decide "
-            f"which value is stale and record it in {CATALOG.name} — it is not derivable "
-            f"from either column (RYA-1069/RYA-1072).")
-    if req == NOT_REQUIRED and b in _BASIS_STAGE:
-        raise TelluricCatalogContradiction(
-            f"{instrument}: telluric_required=no says no correction stage is owed, and "
-            f"telluric_basis={b!r} says one is required. Same contradiction, opposite "
-            f"way round. Decide which value is stale and record it in {CATALOG.name}.")
+    raw_req = str(row.get("telluric_required", "")).strip()
+    raw_basis = str(row.get("telluric_basis", "")).strip()
+    req, b = classify(raw_req), classify(raw_basis)
+
+    # RYA-1078: expressed as ONE comparison over the shared reading, rather than two
+    # hand-written membership tests per direction. A column that classifies AMBIGUOUS
+    # asserts nothing, so it cannot contradict anything -- that is what keeps UVES
+    # (mode_dependent on BOTH columns) a consistent ambiguity rather than a contradiction.
+    if AMBIGUOUS in (req, b) or req == b:
+        return
+    raise TelluricCatalogContradiction(
+        f"{instrument}: telluric_required={raw_req!r} reads {req} and "
+        f"telluric_basis={raw_basis!r} reads {b}. The two columns state OPPOSITE "
+        f"operative rules about whether a correction stage is owed, and this row states "
+        f"both — so serving it would settle the question by whichever column the consumer "
+        f"read first, which is precisely what `route_for` used to do (RYA-1078). Decide "
+        f"which value is stale and record it in {CATALOG.name}; it is not derivable from "
+        f"either column (RYA-1069/RYA-1072).")
 
 
 def gate(instrument: str, analysis_ready: bool = False) -> tuple[bool, str]:
@@ -461,10 +503,15 @@ def gate_holding(holding_id: str, instrument: str | None = None) -> tuple[bool, 
     # instrument whose requirement nobody had determined — a fabricated permission
     # quoting a value the catalog does not contain. It is named, not merely denied, so
     # the fix is unambiguous: RESOLVE THE MODE.
-    if correction_requirement(inst) == AMBIGUOUS:
+    # RYA-1078: EITHER column being unresolved is an unresolved instrument. Before this,
+    # `unspecified` basis fell straight through to the clean-line branch here while
+    # `routing.route_for` sent it to `audit_required` -- the same value, two answers, in
+    # the two modules that both claim to own this decision.
+    if AMBIGUOUS in (correction_requirement(inst), classify(b)):
         raise TelluricStateUnknown(
-            f"{holding_id}: {inst} is telluric_basis-{b} with telluric_required="
-            f"{str(_catalog_row(inst).get('telluric_required', '')).strip()!r}, which "
+            f"{holding_id}: {inst} is telluric_basis={b!r} with telluric_required="
+            f"{str(_catalog_row(inst).get('telluric_required', '')).strip()!r} — reading "
+            f"{classify(b)} and {correction_requirement(inst)}. At least one column "
             f"resolves to neither required nor not-required. This is NOT 'we hold it "
             f"uncorrected' (route it through RYA-424) and NOT 'this band needs no "
             f"correction' (run it on clean-line selection) — it is that nobody has "
