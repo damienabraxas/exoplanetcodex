@@ -48,12 +48,25 @@ PRODUCT = ROOT / "data" / "products" / "solar" / "Fe.json"
 TYPE_B = ROOT / "data" / "audit" / "uncertainty" / "solar_uncertainty_rya158.json"
 TREATMENTS = ("synth-mean3D-NLTE-gerber-stagger", "synth-mean3D-LTE-gerber-stagger")
 
-REASON = ("MEASURED ~0, not omitted: solar logg and [Fe/H] are exact by definition so "
-          "their delta_p = 0 and no derivative was run; Teff is +/-1 K (sigma_B 0.0007); "
-          "the term is vmic-dominated (sigma_B 0.0120 at delta_p 0.05 km/s, Jofre+2014 "
-          "scale). dA/dp measured on the EW route (uncertainty_stack), transferred to this "
-          "synthesis product -- an approximation that is small here because sigma_params "
-          "is half sigma_stat, and that does NOT transfer to a real star (RYA-1071).")
+def _reason(sig_b: dict, delta_xi: float) -> str:
+    """The provenance sentence, DERIVED from the numbers it describes.
+
+    🔴 IT WAS A FROZEN STRING AND IT WENT STALE TWICE IN THREE TICKETS. Written at
+    RYA-1088 it read "sigma_B 0.0120 at delta_p 0.05 km/s"; RYA-1089 moved delta_p to
+    Jofre's 0.18 and RYA-311 to our own measured 0.0588, and the sentence would have gone
+    on reciting the original literal beside numbers that had moved twice. A claim about a
+    value must be computed from that value, or it is a claim about the past
+    (feedback: status surfaces must READ the code).
+    """
+    return ("MEASURED ~0, not omitted: solar logg and [Fe/H] are exact by definition so "
+            f"their delta_p = 0 and no derivative was run; Teff is +/-1 K (sigma_B "
+            f"{sig_b['Teff']:.4f}); the term is vmic-dominated (sigma_B {sig_b['vmic']:.4f} "
+            f"at delta_p {delta_xi:g} km/s -- RYA-311's measured FITEXY error on our own "
+            "Fe I reduced-EW slope, which retired both the uncited 0.05 and Jofre+2014's "
+            "inter-node 0.18). dA/dp measured on the EW route (uncertainty_stack), "
+            "transferred to this synthesis product -- an approximation that is small here "
+            "because sigma_params is below sigma_stat, and that does NOT transfer to a "
+            "real star (RYA-1071).")
 
 
 def main() -> int:
@@ -83,7 +96,7 @@ def main() -> int:
         before_A, before_syst = p.get("A"), p.get("sigma_syst")
         p["sigma_params"] = sigma_params
         p["sigma_params_terms"] = {k: round(v, 4) for k, v in sig_b.items()}
-        p["sigma_params_reason"] = REASON
+        p["sigma_params_reason"] = _reason(sig_b, float(tb["delta_p_solar"]["vmic"]))
         # sigma_reported = sqrt(sigma_stat^2 + sigma_params^2) -- the RYA-282 field
         # convention. sigma_syst is the SEPARATE per-band budget and is NOT folded in here.
         st = float(p.get("sigma_stat") or 0.0)
