@@ -1,0 +1,111 @@
+{
+  "ticket": "RYA-1071",
+  "generated_utc": "2026-08-27T17:00:02Z",
+  "quantity": "Delta_route = A(PROFILEFIT/EW) - A(SYNTH/flux fit), same lines",
+  "pool": "the graded 67 (--lines-tier graded, 4200-6910 A, corrected KPNO)",
+  "n_pool": 67,
+  "n_both_routes": 13,
+  "delta_route": {
+    "per_line_paired_median": 0.054,
+    "mean": 0.1051,
+    "sd": 0.1755,
+    "min": -0.246,
+    "max": 0.4197
+  },
+  "other_ways_of_asking": {
+    "difference_of_medians_on_shared_lines": 0.0679,
+    "note": "a difference of PUBLISHED product medians is NOT a route difference here -- the two products aggregate different pools (13 vs 67). RYA-1040."
+  },
+  "lines": [
+    {
+      "wave_A": 4726.1367,
+      "A_ew": 7.5859375,
+      "A_synth": 7.285,
+      "delta": 0.30093749999999986
+    },
+    {
+      "wave_A": 4787.8264,
+      "A_ew": 7.568359375,
+      "A_synth": 7.549,
+      "delta": 0.019359374999999623
+    },
+    {
+      "wave_A": 4896.4382,
+      "A_ew": 7.97265625,
+      "A_synth": 7.553,
+      "delta": 0.41965625000000006
+    },
+    {
+      "wave_A": 4905.1325,
+      "A_ew": 7.462890625,
+      "A_synth": 7.287,
+      "delta": 0.17589062500000008
+    },
+    {
+      "wave_A": 5285.1268,
+      "A_ew": 7.375,
+      "A_synth": 7.621,
+      "delta": -0.24600000000000044
+    },
+    {
+      "wave_A": 5379.5734,
+      "A_ew": 7.498046875,
+      "A_synth": 7.444,
+      "delta": 0.05404687500000005
+    },
+    {
+      "wave_A": 5493.4987,
+      "A_ew": 6.98828125,
+      "A_synth": 6.837,
+      "delta": 0.15128125000000026
+    },
+    {
+      "wave_A": 5532.7462,
+      "A_ew": 7.287109375,
+      "A_synth": 7.232,
+      "delta": 0.055109374999999794
+    },
+    {
+      "wave_A": 5618.632,
+      "A_ew": 7.392578125,
+      "A_synth": 7.395,
+      "delta": -0.0024218749999995737
+    },
+    {
+      "wave_A": 6627.5434,
+      "A_ew": 7.62109375,
+      "A_synth": 7.591,
+      "delta": 0.030093749999999808
+    },
+    {
+      "wave_A": 6725.3553,
+      "A_ew": 7.4013671875,
+      "A_synth": 7.376,
+      "delta": 0.025367187499999666
+    },
+    {
+      "wave_A": 6841.3381,
+      "A_ew": 7.5859375,
+      "A_synth": 7.235,
+      "delta": 0.3509374999999997
+    },
+    {
+      "wave_A": 6843.6549,
+      "A_ew": 7.4453125,
+      "A_synth": 7.413,
+      "delta": 0.032312499999999744
+    }
+  ],
+  "attrition": {
+    "requested": 67,
+    "measurable_by_ew": 55,
+    "ew_aggregate": 13,
+    "synth_aggregate": 67,
+    "quarantine_reasons": {
+      "REW N above the N saturation ceiling \u2014 the EWN": 24,
+      "OVERNPHYSICALNWIDTH: the fitted voigt profile ": 10,
+      "FEATURENVERIFICATION: BLENDNDOMINATED: deepest": 8
+    },
+    "note": "asymmetric on purpose -- these are the EW route's own physics constraints, and they are why the 13 survivors are that route's EASIEST lines. A selection effect inside the comparison."
+  }
+}
