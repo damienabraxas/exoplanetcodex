@@ -251,6 +251,402 @@
       "ew_mA": 14.6,
       "ew_err_mA": 1.5,
       "reason": "EW error > 10% (Mucciarelli 2011)"
+    },
+    {
+      "wavelength_air_A": 4896.439,
+      "ew_mA": 39.5,
+      "ew_err_mA": 1.6,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4910.017,
+      "ew_mA": 89.7,
+      "ew_err_mA": 1.4,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4918.012,
+      "ew_mA": 58.2,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4938.814,
+      "ew_mA": 130.7,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4945.636,
+      "ew_mA": 54.5,
+      "ew_err_mA": 1.6,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4957.596,
+      "ew_mA": 393.0,
+      "ew_err_mA": 3.6,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4966.088,
+      "ew_mA": 128.3,
+      "ew_err_mA": 1.8,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4967.897,
+      "ew_mA": 83.0,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 4982.499,
+      "ew_mA": 128.4,
+      "ew_err_mA": 2.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5002.792,
+      "ew_mA": 86.4,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5004.044,
+      "ew_mA": 53.5,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5023.186,
+      "ew_mA": 39.0,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5029.618,
+      "ew_mA": 53.8,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5030.778,
+      "ew_mA": 27.9,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5036.922,
+      "ew_mA": 26.4,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5044.211,
+      "ew_mA": 76.3,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5054.642,
+      "ew_mA": 42.3,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5079.74,
+      "ew_mA": 108.0,
+      "ew_err_mA": 1.7,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5083.338,
+      "ew_mA": 111.5,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5090.773,
+      "ew_mA": 94.8,
+      "ew_err_mA": 1.8,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5099.077,
+      "ew_mA": 75.4,
+      "ew_err_mA": 2.4,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5124.619,
+      "ew_mA": 28.1,
+      "ew_err_mA": 1.8,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5127.359,
+      "ew_mA": 99.8,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5243.776,
+      "ew_mA": 63.7,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5253.021,
+      "ew_mA": 19.7,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5253.462,
+      "ew_mA": 79.5,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5320.036,
+      "ew_mA": 22.2,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5386.333,
+      "ew_mA": 33.7,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5389.479,
+      "ew_mA": 85.1,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5466.987,
+      "ew_mA": 37.3,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5473.163,
+      "ew_mA": 22.0,
+      "ew_err_mA": 1.6,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5487.145,
+      "ew_mA": 38.5,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5538.516,
+      "ew_mA": 39.1,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5539.28,
+      "ew_mA": 20.5,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5546.99,
+      "ew_mA": 29.7,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5569.618,
+      "ew_mA": 152.1,
+      "ew_err_mA": 1.6,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5572.842,
+      "ew_mA": 193.0,
+      "ew_err_mA": 1.9,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5573.102,
+      "ew_mA": 84.0,
+      "ew_err_mA": 2.0,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5576.089,
+      "ew_mA": 118.2,
+      "ew_err_mA": 4.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5636.696,
+      "ew_mA": 21.2,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5638.262,
+      "ew_mA": 80.5,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5655.493,
+      "ew_mA": 73.5,
+      "ew_err_mA": 3.4,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5661.345,
+      "ew_mA": 24.4,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5662.516,
+      "ew_mA": 94.9,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5707.049,
+      "ew_mA": 47.9,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5775.081,
+      "ew_mA": 60.9,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5793.915,
+      "ew_mA": 35.8,
+      "ew_err_mA": 1.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5798.171,
+      "ew_mA": 46.9,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5804.034,
+      "ew_mA": 27.9,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5838.372,
+      "ew_mA": 20.9,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5877.788,
+      "ew_mA": 17.6,
+      "ew_err_mA": 1.7,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5881.28,
+      "ew_mA": 21.2,
+      "ew_err_mA": 2.1,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5883.816,
+      "ew_mA": 70.4,
+      "ew_err_mA": 1.7,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5934.654,
+      "ew_mA": 78.8,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 5952.718,
+      "ew_mA": 62.8,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6027.051,
+      "ew_mA": 66.4,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6096.664,
+      "ew_mA": 40.0,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6157.728,
+      "ew_mA": 64.0,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6187.989,
+      "ew_mA": 49.4,
+      "ew_err_mA": 1.5,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6226.734,
+      "ew_mA": 30.0,
+      "ew_err_mA": 1.4,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6246.318,
+      "ew_mA": 119.5,
+      "ew_err_mA": 1.4,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6315.811,
+      "ew_mA": 42.9,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6469.192,
+      "ew_mA": 58.6,
+      "ew_err_mA": 1.2,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6496.466,
+      "ew_mA": 67.5,
+      "ew_err_mA": 1.4,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6663.441,
+      "ew_mA": 119.6,
+      "ew_err_mA": 1.7,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
+    },
+    {
+      "wavelength_air_A": 6677.985,
+      "ew_mA": 128.5,
+      "ew_err_mA": 1.3,
+      "reason": "dropped by the production EW admission filters in abundances_derive._ew_to_abundance (one of: no iSpec GES line region within 0.15 A; blend_flag; outside the [5,300] mA window; theoretical-EW sanity)"
     }
   ]
 }
