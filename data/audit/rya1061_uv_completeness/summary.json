@@ -1,0 +1,32 @@
+{
+  "ticket": "RYA-1061",
+  "window_A": {
+    "lower_inclusive": 1150.0,
+    "upper_exclusive": 3780.0
+  },
+  "canonical_rows": 21279,
+  "canonical_by_regime": {
+    "FUV": 0,
+    "NUV": 0,
+    "NEAR_UV": 21279
+  },
+  "canonical_by_tier": {
+    "VALD3": 20568,
+    "NIST-C+": 536,
+    "OTHER": 104,
+    "LAB": 71
+  },
+  "uv_holdings": 4,
+  "targets_with_uv_holdings": [
+    "alpha_cen_a",
+    "alpha_cen_b",
+    "procyon"
+  ],
+  "mutation_policy": "READ_ONLY_AUDIT_NO_CANONICAL_OR_HOLDING_MUTATIONS",
+  "important_limits": [
+    "Published source counts are paper-wide unless explicitly described as in-window.",
+    "No transition is recommended for canonical adoption until the source table is acquired and reconciled line by line.",
+    "Air/vacuum wavelength normalization is required below any match or overlap claim.",
+    "Chromosphere/TR/corona and planetary/ISM/CSM studies cannot serve as photospheric abundance authority."
+  ]
+}

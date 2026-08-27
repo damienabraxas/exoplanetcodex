@@ -1,0 +1,374 @@
+J/A+A/684/A15       IGRINS III. Abundances of 50 M giants    (Nandakumar+, 2024)
+================================================================================
+M giants with IGRINS. III. Abundance trends for 21 elements in the solar
+neighborhood from high-resolution, near-infrared spectra.
+    Nandakumar G., Ryde N., Forsberg R., Montelius M., Mace G., Joensson H.,
+    Thorsbro B.
+    <Astron. Astrophys. 684, A15 (2024)>
+    =2024A&A...684A..15N        (SIMBAD/NED BibCode)
+================================================================================
+ADC_Keywords: Stars, M-type ; Stars, giant ; Abundances ; Spectra, infrared ;
+              Milky Way
+Keywords: techniques: spectroscopic - stars: abundances - stars: late-type -
+          Galaxy: abundance - solar neighborhood
+
+Abstract:
+    In order to be able to investigate the chemical history of the entire
+    MilkyWay, it is imperative to also study the dust-obscured
+    regions, where most of the mass lies, in detail. The Galactic Center
+    is an example of such a region of interest to study. Due to the
+    intervening dust along the line-of-sight, near-infrared spectroscopic
+    investigations are necessary.
+
+    The aim is to demonstrate that M giants observed at high spectral
+    resolution in the H and K bands (1.5-2.4um) can yield useful
+    abundance-ratio trends versus metallicity for 21 elements. These
+    elements can therefore be studied also for heavily dust-obscured
+    regions of the Galaxy, such as the Galactic Center. The
+    abundance-ratio trends will be important for the further investigation
+    of the Galactic chemical evolution in these regions.
+
+    We have observed near-infrared spectra of 50 M giants in the solar
+    neighbourhood at high signal-to-noise and at a high spectral
+    resolution with the IGRINS spectrometer on the GEMINI South telescope.
+    The full H and K bands are recorded simultaneously at R=45000. We
+    adopted the fundamental stellar parameters for these stars from
+    Nandakumar et al. (2023A&A...675A..23N, Cat. J/A+A/675/A23), with Teff
+    ranging from 3400 to 3800K. With a manual spectral synthesis method,
+    we have derived stellar abundances for 21 atomic elements, namely F,
+    Mg, Si, S, Ca, Na, Al, K, Sc, Ti, V, Cr, Mn, Co, Ni, Cu, Zn, Y, Ce,
+    Nd, and Yb.We have systematically studied useful spectral lines of all
+    these elements in the H and K bands.
+
+    We demonstrate what elements can be analysed from H- and K-band
+    high-resolution spectra, and we show which spectral lines can be used
+    for an abundance analysis, showing them line by line.We discuss the 21
+    abundance-ratio trends and compared them with those determined from
+    APOGEE and from the optical GILD sample. Especially, the trends of the
+    heavy elements Cu, Zn, Y, Ce, Nd, and Yb are possible to retrieve from
+    high-resolution H- and K-band spectra. This opens up these
+    nucleosynthetic channels, including both the s- and the r-process, in
+    dust-obscured populations. The [Mn/Fe] versus [Fe/H] trend is shown to
+    be more or less flat at low metallicities, implying that existing NLTE
+    correction are relevant.
+
+    With high-resolution, near-infrared spectra it is possible to
+    determine reliable abundance-ratio trends versus metallicity for 21
+    elements, including elements formed in several different
+    nucleosynthetic channels. The important neutron-capture elements, both
+    s- and r-dominated elements, are doable. This opens up the possibility
+    to study the chemical evolution in detail also in dustobscured region
+    of the Milky Way, such as the Galactic Center. M giants are useful
+    bright probes for these regions and for future studies of
+    extra-galactic stellar populations. A careful analysis of high quality
+    spectra is needed to retrieve all these elements, often from weak and
+    blended lines. A spectral resolution of R~40000 is a further quality
+    which helps in deriving precise abundances for this range of elements.
+    In comparison to APOGEE, we can readily obtain the abundances for Cu,
+    Ce, Nd and Yb from the H-band, which demonstrates an advantage of
+    analysing high-resolution spectra
+
+Description:
+    We present the line-by-line and mean abundances of 21 elements
+    measured from the infrared H- and K- bands for 50 M giants in the
+    solar neighbourhood. The spectra were obtained with the spectrograph
+    IGRINS at GEMINI South telescope. The spectra have R=45000. The S/N of
+    the spectra is generally high, with the majority of them having values
+    above 100.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName     Lrecl  Records  Explanations
+--------------------------------------------------------------------------------
+ReadMe           80        .  This file
+stars.dat        66       50   List of studied stars
+table_f.dat      67       50  Line-by-line Fluorine abundances and mean [F/Fe]
+table_na.dat     57       50  Line-by-line Sodium abundances and mean [Na/Fe]
+table_mg.dat     46       50  Line-by-line Magnesium abundances and mean [Mg/Fe]
+table_al.dat     72       50  Line-by-line Aluminium abundances and mean [Al/Fe]
+table_si.dat     48       50  Line-by-line Silicon abundances and mean [Si/Fe]
+table_s.dat      36       50  Line-by-line Sulfur abundances and mean [S/Fe]
+table_k.dat      39       50  Line-by-line Potassium abundances and mean [K/Fe]
+table_ca.dat     91       50  Line-by-line Calcium abundances and mean [Ca/Fe]
+table_sc.dat     45       50  Line-by-line Scandium abundances and mean [Sc/Fe]
+table_ti.dat     36       50  Line-by-line Titanium abundances and mean [Ti/Fe]
+table_v.dat      25       50  Vanadium abundances
+table_cr.dat     46       50  Line-by-line Chromium abundances and mean [Cr/Fe]
+table_mn.dat     39       50  Line-by-line Manganese abundances and mean [Mn/Fe]
+table_co.dat     25       50  Cobalt abundances
+table_ni.dat    100       50  Line-by-line Nickel abundances and mean [Ni/Fe]
+table_cu.dat     39       50  Line-by-line Copper abundances and mean [Cu/Fe]
+table_zn.dat     24       50  Zinc abundances
+table_y.dat      38       50  Line-by-line Yttrium abundances and mean [Y/Fe]
+table_ce.dat     53       50  Line-by-line Cerium abundances and mean [Ce/Fe]
+table_nd.dat     45       50  Line-by-line Neodymium abundances and mean [Nd/Fe]
+table_yb.dat     24       50  Ytterbium abundances
+--------------------------------------------------------------------------------
+
+See also:
+    J/A+A/675/A23 : IGRINS. M giant abundances (Nandakumar+, 2023)
+
+Byte-by-byte Description of file: stars.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1- 18  A18   ---     Star      Name (HD, HIP, 2M)
+  20- 21  I2    h       RAh       Right ascension (J2000)
+  23- 24  I2    min     RAm       Right ascension (J2000)
+  26- 30  F5.2  s       RAs       Right ascension (J2000)
+      32  A1    ---     DE-       Declination sign (J2000)
+  33- 34  I2    deg     DEd       Declination (J2000)
+  36- 37  I2    arcmin  DEm       Declination (J2000)
+  39- 42  F4.1  arcsec  DEs       Declination (J2000)
+  44- 66  A23   ---     SName     Simbad name
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_f.dat
+--------------------------------------------------------------------------------
+   Bytes Format   Units Label       Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18    ---   Star        Name (HD, HIP, 2M)
+   21- 25  F5.2   [-]   AF22699.49  ?=-9.99 F abundance from 22699.49{AA} line
+   28- 32  F5.2   [-]   AF22714.59  ?=-9.99 F abundance from 22714.59{AA} line
+   35- 39  F5.2   [-]   AF22778.25  ?=-9.99 F abundance from 22778.25{AA} line
+   42- 46  F5.2   [-]   AF22826.86  ?=-9.99 F abundance from 22826.86{AA} line
+   49- 53  F5.2   [-]   AF22886.73  F abundance from 22886.73{AA} line
+   56- 60  F5.2   [-]   AF22957.94  F abundance from 22957.94{AA} line
+   63- 67  F5.2   [-]   [F/Fe]      Mean F abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_na.dat
+--------------------------------------------------------------------------------
+   Bytes Format   Units Label       Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18    ---   Star        Name (HD, HIP, 2M)
+   20- 24  F5.2   [-]   ANa16373.87 ?=-9.99 Na abundance from 16373.87{AA} line
+   26- 30  F5.2   [-]   ANa16388.85 ?=-9.99 Na abundance from 16388.85{AA} line
+   33- 37  F5.2   [-]   ANa22056.43 ?=-9.99 Na abundance from 22056.43{AA} line
+   40- 44  F5.2   [-]   ANa22083.66 ?=-9.99 Na abundance from 22083.66{AA} line
+   47- 51  F5.2   [-]   ANa23379.14 ?=-9.99 Na abundance from 23379.14{AA} line
+   53- 57  F5.2   [-]   [Na/Fe]      ?=-9.99 Mean Na abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_mg.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label         Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star          Name (HD, HIP, 2M)
+   21- 25  F5.2   [-]   AMg21059.76   Mg abundance from 21059.76{AA} line
+   28- 32  F5.2   [-]   AMg21060.89   Mg abundance from 21060.89{AA} line
+   35- 39  F5.2   [-]   AMg21458.87   Mg abundance from 21458.87{AA} line
+   42- 46  F5.2   [-]   [Mg/Fe]       Mean Mg abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_al.dat
+--------------------------------------------------------------------------------
+   Bytes Format   Units Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18    ---   Star        Name (HD, HIP, 2M)
+   20- 24  F5.2   [-]   AAl16718.97 Al abundance from 16718.97{AA} line
+   26- 30  F5.2   [-]   AAl16750.60 Al abundance from 16750.60{AA} line
+   33- 37  F5.2   [-]   AAl16763.37 Al abundance from 16763.37{AA} line
+   40- 44  F5.2   [-]   AAl17699.05 ?=-9.99 Al abundance from 17699.05{AA} line
+   47- 51  F5.2   [-]   AAl21093.08 Al abundance from 21093.08{AA} line
+   54- 58  F5.2   [-]   AAl21163.80 Al abundance from 21163.80{AA} line
+   61- 65  F5.2   [-]   AAl21208.18 Al abundance from 21208.18{AA} line
+   68- 72  F5.2   [-]   [Al/Fe]     Mean Al abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_si.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   20- 24  F5.2  [-]    ASi16434.93  Si abundance from 16434.93{AA} line
+   26- 30  F5.2  [-]    ASi20804.20  ?=-9.99 Si abundance from 20804.20{AA} line
+   32- 36  F5.2  [-]    ASi20890.37  ?=-9.99 Si abundance from 20890.37{AA} line
+   38- 42  F5.2  [-]    ASi20926.14  ?=-9.99 Si abundance from 20926.14{AA} line
+   44- 48  F5.2  [-]    [Si/Fe]      Mean Si abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_s.dat
+--------------------------------------------------------------------------------
+   Bytes Format   Units Label       Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18    ---   Star        Name (HD, HIP, 2M)
+   20- 24  F5.2   [-]   AS15478.48  ?=-9.99 S abundance from 15478.48{AA} line
+   26- 30  F5.2   [-]   AS22507.60  ?=-9.99 S abundance from 22507.60{AA} line
+   32- 36  F5.2   [-]   [S/Fe]      ?=-9.99 Mean S abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_k.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label       Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star        Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    AK15163.09  ?=-9.99 K abundance from 15163.09{AA} line
+   28- 32  F5.2  [-]    AK15168.40  ?=-9.99 K abundance from 15168.40{AA} line
+   35- 39  F5.2  [-]    [K/Fe]      ?=-9.99 Mean K abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_ca.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   20- 24  F5.2  [-]    ACa16150.76  Ca abundance from 16150.76{AA} line
+   26- 30  F5.2  [-]    ACa16155.24  Ca abundance from 16155.24{AA} line
+   32- 36  F5.2  [-]    ACa16157.36  Ca abundance from 16157.36{AA} line
+   38- 42  F5.2  [-]    ACa20962.57  ?=-9.99 Ca abundance from 20962.57{AA} line
+   44- 48  F5.2  [-]    ACa20972.53  Ca abundance from 20972.53{AA} line
+   50- 54  F5.2  [-]    ACa21113.90  ?=-9.99 Ca abundance from 21113.90{AA} line
+   56- 60  F5.2  [-]    ACa22607.94  ?=-9.99 Ca abundance from 22607.94{AA} line
+   62- 66  F5.2  [-]    ACa22624.96  ?=-9.99 Ca abundance from 22624.96{AA} line
+   68- 72  F5.2  [-]    ACa22626.72  ?=-9.99 Ca abundance from 22626.72{AA} line
+   75- 79  F5.2  [-]    ACa22651.18  ?=-9.99 Ca abundance from 22651.18{AA} line
+   81- 85  F5.2  [-]    ACa22653.58  ?=-9.99 Ca abundance from 22653.58{AA} line
+   87- 91  F5.2  [-]    [Ca/Fe]      Mean Ca abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_sc.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   20- 24  F5.2  [-]    ASc21730.36  ?=-9.99 Sc abundance from 21730.36{AA} line
+   27- 31  F5.2  [-]    ASc21812.24  ?=-9.99 Sc abundance from 21812.24{AA} line
+   34- 38  F5.2  [-]    ASc21842.70  ?=-9.99 Sc abundance from 21842.70{AA} line
+   41- 45  F5.2  [-]    [Sc/Fe]      Mean Sc abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_ti.dat
+--------------------------------------------------------------------------------
+   Bytes Format   Units Label         Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18    ---   Star          Name (HD, HIP, 2M)
+   20- 24  F5.2   [-]   ATi16330.54   Ti abundance from 16330.54{AA} line
+   26- 30  F5.2   [-]   ATi21149.62   Ti abundance from 21149.62{AA} line
+   32- 36  F5.2   [-]   [Ti/Fe]       Mean Ti abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_v.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label       Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star        Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    AV15924.81  V abundance from 15924.81{AA} line
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_cr.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    ACr15680.06  Cr abundance from 15680.06{AA} line
+   28- 32  F5.2  [-]    ACr15860.21  ?=-9.99 Cr abundance from 15860.21{AA} line
+   35- 39  F5.2  [-]    ACr17708.73  ?=-9.99 Cr abundance from 17708.73{AA} line
+   42- 46  F5.2  [-]    [Cr/Fe]      Mean Cr abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_mn.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    AMn15217.74  Mn abundance from 15217.74{AA} line
+   28- 32  F5.2  [-]    AMn15262.49  ?=-9.99 Mn abundance from 15262.49{AA} line
+   35- 39  F5.2  [-]    [Mn/Fe]      Mean Mn abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_co.dat
+--------------------------------------------------------------------------------
+   Bytes Format   Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18    ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2   [-]    ACo16757.64  Co abundance from 16757.64{AA} line
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_ni.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    ANi16310.50  Ni abundance from 16310.50{AA} line
+   28- 32  F5.2  [-]    ANi16363.09  Ni abundance from 16363.09{AA} line
+   35- 39  F5.2  [-]    ANi16815.46  Ni abundance from 16815.46{AA} line
+   42- 46  F5.2  [-]    ANi16818.74  ?=-9.99 Ni abundance from 16818.74{AA} line
+   49- 53  F5.2  [-]    ANi16867.28  Ni abundance from 16867.28{AA} line
+   55- 59  F5.2  [-]    ANi17306.52  ?=-9.99 Ni abundance from 17306.52{AA} line
+   61- 65  F5.2  [-]    ANi20957.14  ?=-9.99 Ni abundance from 20957.14{AA} line
+   68- 72  F5.2  [-]    ANi21167.93  ?=-9.99 Ni abundance from 21167.93{AA} line
+   75- 79  F5.2  [-]    ANi21570.06  ?=-9.99 Ni abundance from 21570.06{AA} line
+   82- 86  F5.2  [-]    ANi21945.50  ?=-9.99 Ni abundance from 21945.50{AA} line
+   89- 93  F5.2  [-]    ANi22596.93  ?=-9.99 Ni abundance from 22596.93{AA} line
+   96-100  F5.2  [-]    [Ni/Fe]      Mean Ni abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_cu.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    ACu16005.64  ?=-9.99 Cu abundance from 16005.64{AA} line
+   28- 32  F5.2  [-]    ACu16638.98  ?=-9.99 Cu abundance from 16638.98{AA} line
+   35- 39  F5.2  [-]    [Cu/Fe]      ?=-9.99 Mean Cu abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_zn.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   20- 24  F5.2  [-]    AZn16505.18  ?=-9.99 Zn abundance from 16505.18{AA} line
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_y.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label       Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star        Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    AY21260.45  Y abundance from 21260.45{AA} line
+   27- 31  F5.2  [-]    AY22543.84  Y abundance from 22543.84{AA} line
+   34- 38  F5.2  [-]    [Y/Fe]      Mean Y abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_ce.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    ACe15277.65  ?=-9.99 Ce abundance from 15277.65{AA} line
+   28- 32  F5.2  [-]    ACe15829.83  ?=-9.99 Ce abundance from 15829.83{AA} line
+   35- 39  F5.2  [-]    ACe15977.12  Ce abundance from 15977.12{AA} line
+   42- 46  F5.2  [-]    ACe16595.18  Ce abundance from 16595.18{AA} line
+   49- 53  F5.2  [-]    [Ce/Fe]      Mean Ce abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_nd.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   21- 25  F5.2  [-]    ANd15368.14  Nd abundance from 15368.14{AA} line
+   28- 32  F5.2  [-]    ANd16053.63  ?=-9.99 Nd abundance from 16053.63{AA} line
+   34- 38  F5.2  [-]    ANd16262.04  Nd abundance from 16262.04{AA} line
+   41- 45  F5.2  [-]    [Nd/Fe]      Mean Nd abundance
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table_yb.dat
+--------------------------------------------------------------------------------
+   Bytes Format  Units  Label        Explanations
+--------------------------------------------------------------------------------
+    1- 18  A18   ---    Star         Name (HD, HIP, 2M)
+   20- 24  F5.2  [-]    AYb16498.40  ?=-9.99 Yb abundance from 16498.40{AA} line
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+    Govind Nandakumar, govind.iist(at)gmail.com
+
+References:
+    Nandakumar et al., Paper I    2023A&A...675A..23N, Cat. J/A+A/675/A23
+    Nandakumar et al., Paper II   2023A&A...676A..79N
+
+================================================================================
+(End)                                        Patricia Vannier [CDS]  09-Jan-2024

@@ -1302,8 +1302,31 @@ def synthesis_route(a, pol) -> None:
             # iSpec fails SOFT -- an unlabelled element lands in `nlte_ignored` and
             # synthesises in LTE WITHOUT raising (RYA-764). Checked before the fit.
             from pipeline import gerber_nlte as _gn
-            _gn.assert_linelist_supports_nlte(
-                ctx["linelist"], int(ctx["atom_code"]), a.element)
+            # 🔴 RYA-1050 — WINDOW-LOCAL, NOT ELEMENT-GLOBAL.
+            # Called without wavelength bounds this asks "is {element} labelled ANYWHERE in
+            # the list", and the guard's own docstring says that is the form that misses:
+            # bsyn applies departures PER LINE and falls back to departure = 1 for any line
+            # whose levels are unidentified, so a band can be entirely unlabelled while the
+            # element answers yes elsewhere. Measured and recorded in that docstring: Fe
+            # answers the global question yes 15706 times while EVERY line in the Fe II
+            # 6910-9199 window is unlabelled. Passing the band makes the question the one
+            # that matters.
+            _n_lab = _gn.assert_linelist_supports_nlte(
+                ctx["linelist"], int(ctx["atom_code"]), a.element,
+                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+            # STATED, not merely asserted. Partial coverage does not raise -- it DILUTES,
+            # because the per-line fallback is departure = 1, so a half-labelled band
+            # reports a real NLTE product at roughly half the effect with nothing saying
+            # so. The count travels with the product instead of living in an assert.
+            _cov_lab, _cov_tot = _gn.label_coverage(
+                ctx["linelist"], int(ctx["atom_code"]), a.element,
+                float(a.lo), float(a.hi))
+            _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
+                        f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                        + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
+                           if _cov_tot else " (total not measurable)."))
+            eb_prov += _cov_txt
+            print(f"[Engine-B]{_cov_txt}")
         print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
         eb_lines = _fit_lines(eb_treatment, **_fit_kw)
 
@@ -2393,9 +2416,31 @@ def main() -> None:
                 # it on the LTE member would demand NLTE labels of a run that deliberately
                 # applies none, and would refuse the comparand for lacking what it does
                 # not use.
+                # 🔴 RYA-1050 — WINDOW-LOCAL, NOT ELEMENT-GLOBAL.
+                # Called without wavelength bounds this asks "is {element} labelled ANYWHERE in
+                # the list", and the guard's own docstring says that is the form that misses:
+                # bsyn applies departures PER LINE and falls back to departure = 1 for any line
+                # whose levels are unidentified, so a band can be entirely unlabelled while the
+                # element answers yes elsewhere. Measured and recorded in that docstring: Fe
+                # answers the global question yes 15706 times while EVERY line in the Fe II
+                # 6910-9199 window is unlabelled. Passing the band makes the question the one
+                # that matters.
                 n_lab = gnlte.assert_linelist_supports_nlte(
-                    ctx["linelist"], int(ctx["atom_code"]), a.element)
-                print(f"    {n_lab} NLTE-labelled {a.element} lines in the list")
+                    ctx["linelist"], int(ctx["atom_code"]), a.element,
+                    wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+                # STATED, not merely asserted. Partial coverage does not raise -- it
+                # DILUTES, because the per-line fallback is departure = 1, so a
+                # half-labelled band reports a real NLTE product at roughly half the
+                # effect with nothing saying so. The count travels with the product.
+                _cov_lab, _cov_tot = gnlte.label_coverage(
+                    ctx["linelist"], int(ctx["atom_code"]), a.element,
+                    float(a.lo), float(a.hi))
+                _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
+                            f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                            + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
+                               if _cov_tot else " (total not measurable)."))
+                _b_source += _cov_txt
+                print(f"   {_cov_txt}")
             else:
                 # The comparand: same deck, same atmosphere, departures withheld. Passing
                 # no departures is what makes it the LTE limit OF THIS SETUP rather than
@@ -2412,10 +2457,27 @@ def main() -> None:
                                  float(ctx["teff"]), float(ctx["logg"]),
                                  float(ctx["feh"]))
             gnlte.assert_depth_match(dep, ctx_b["atmosphere"])
+            # 🔴 RYA-1050 — WINDOW-LOCAL, NOT ELEMENT-GLOBAL.
+            # Called without wavelength bounds this asks "is {element} labelled ANYWHERE in
+            # the list", and the guard's own docstring says that is the form that misses:
+            # bsyn applies departures PER LINE and falls back to departure = 1 for any line
+            # whose levels are unidentified, so a band can be entirely unlabelled while the
+            # element answers yes elsewhere. Measured and recorded in that docstring: Fe
+            # answers the global question yes 15706 times while EVERY line in the Fe II
+            # 6910-9199 window is unlabelled. Passing the band makes the question the one
+            # that matters.
             n_lab = gnlte.assert_linelist_supports_nlte(
-                ctx["linelist"], int(ctx["atom_code"]), a.element)
-            _b_source = GERBER_NLTE_SOURCE_FMT.format(
-                atom=dep['atom_path'].split('/')[-1])
+                ctx["linelist"], int(ctx["atom_code"]), a.element,
+                wave_lo_A=float(a.lo), wave_hi_A=float(a.hi))
+            _cov_lab, _cov_tot = gnlte.label_coverage(
+                ctx["linelist"], int(ctx["atom_code"]), a.element,
+                float(a.lo), float(a.hi))
+            _cov_txt = (f" NLTE label coverage in {a.lo:.0f}-{a.hi:.0f} A: "
+                        f"{_cov_lab} of {_cov_tot} {a.element} lines"
+                        + (f" ({100.0*_cov_lab/_cov_tot:.0f}%)."
+                           if _cov_tot else " (total not measurable)."))
+            _b_source = (GERBER_NLTE_SOURCE_FMT.format(
+                atom=dep['atom_path'].split('/')[-1]) + _cov_txt)
             print(f"    deck atom={dep['atom_path'].split('/')[-1]} "
                   f"ndep={dep['ndep']} nk={dep['nk']} A_deck={dep['deck_abundance']}")
             print(f"    atmosphere MARCS.GES ({len(ctx_b['atmosphere'])} layers), "
