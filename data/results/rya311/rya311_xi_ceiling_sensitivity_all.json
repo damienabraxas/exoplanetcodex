@@ -1,0 +1,57 @@
+{
+  "ticket": "RYA-311",
+  "what": "xi vs the EW saturation ceiling -- selection sensitivity beside the formal FITEXY error",
+  "star": "solar",
+  "species": "Fe I",
+  "pool": "all",
+  "production_ceiling_mA": 100.0,
+  "legs": [
+    {
+      "ew_ceiling_mA": 80.0,
+      "root_found": true,
+      "n_fitted": 45,
+      "xi_measured": 0.9782804050404987,
+      "delta_xi_formal": 0.055954382390928696,
+      "delta_xi_chi2_scaled": 0.22224099225105992,
+      "xi_ols_root": 1.022480072349076,
+      "A_at_measured_xi": 7.562022222222221,
+      "verdict": "solved"
+    },
+    {
+      "ew_ceiling_mA": 100.0,
+      "root_found": true,
+      "n_fitted": 58,
+      "xi_measured": 0.7087580840419994,
+      "delta_xi_formal": 0.05878197823076898,
+      "delta_xi_chi2_scaled": 0.3106685179156551,
+      "xi_ols_root": 0.908802399485391,
+      "A_at_measured_xi": 7.605362068965517,
+      "verdict": "solved"
+    },
+    {
+      "ew_ceiling_mA": 120.0,
+      "root_found": true,
+      "n_fitted": 63,
+      "xi_measured": 0.814068499059645,
+      "delta_xi_formal": 0.051656579851002804,
+      "delta_xi_chi2_scaled": 0.31476722279749497,
+      "xi_ols_root": 1.069510148427277,
+      "A_at_measured_xi": 7.593349206349205,
+      "verdict": "solved"
+    },
+    {
+      "ew_ceiling_mA": 150.0,
+      "root_found": false,
+      "n_fitted": 71,
+      "xi_measured": null,
+      "delta_xi_formal": null,
+      "delta_xi_chi2_scaled": null,
+      "xi_ols_root": null,
+      "A_at_measured_xi": null,
+      "verdict": "NO_SOLVE -- the reduced-EW slope never reaches zero in the swept xi range; this pool does not constrain microturbulence"
+    }
+  ],
+  "xi_spread_across_ceilings": 0.2695223209984994,
+  "delta_xi_formal_at_production_ceiling": 0.05878197823076898,
+  "selection_over_formal": 4.5851182473035585
+}

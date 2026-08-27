@@ -4155,3 +4155,58 @@ artifacts:
     ticket: RYA-1081
     note: >-
       sha256 of every per-line artifact the audit reads, and why they had to be committed.
+
+  # ── RYA-311: the solar microturbulence solve, measured rather than borrowed ──────
+  # Four legs, all pre-registered. The first is THE measurement; the other three are
+  # what makes it interpretable. Every one of them is a real run whose numbers appear
+  # in the ticket, including the two that refuse to produce a xi -- an absence that is
+  # measured is a result, and it needs a generator like any other (RYA-833/686).
+
+  - artifact: rya311/rya311_xi_solar_FeI_all_ceil100.json
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool all
+    ticket: RYA-311
+    note: >-
+      THE MEASUREMENT. xi = 0.7088 +/- 0.0588 km/s from the Fe I reduced-EW slope, fitted
+      with errors in both coordinates (Press 1992 FITEXY, per Mucciarelli 2011); n=58 after
+      the >10% EW-error cut and the RYA-330 production 100 mA saturation ceiling; residual
+      slope -0.0058. Carries the full xi sweep, the OLS slope at every node, and every line
+      cut with its reason.
+
+  - artifact: rya311/rya311_xi_solar_FeI_all_ceil100_per_line.csv
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool all
+    ticket: RYA-311
+    note: >-
+      The 58 fitted lines at the solution: EW, its error, reduced EW, sigma_REW, A(Fe I),
+      and the sigma_A obtained by re-inverting at EW +/- 1 sigma_EW.
+
+  - artifact: rya311/rya311_xi_solar_FeI_all_noceil.json
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool all --no-ew-ceiling
+    ticket: RYA-311
+    note: >-
+      NO_SOLVE, and the reason the ceiling is not optional. Mucciarelli's "sample the full
+      EW range" taken literally: with no ceiling the slope never reaches zero anywhere in
+      0.6-1.8 km/s, because above ~100 mA solar Fe I is damping-dominated and its EW stops
+      responding to microturbulence.
+
+  - artifact: rya311/rya311_xi_solar_FeI_graded_ceil100_xi0.2-3.json
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool graded --xi-min 0.2 --xi-max 3.0
+    ticket: RYA-311
+    note: >-
+      NO_SOLVE on the GRADED pool, which is the standing default for model work and is
+      reported here because it failed, not despite it. Only 9 of the 157 measured Fe I
+      lines are LAB-tier AND survive the error cut and the ceiling; their slope crosses
+      zero nowhere in 0.2-3.0 km/s. The graded pool does not constrain solar xi.
+
+  - artifact: rya311/rya311_xi_ceiling_sensitivity_all.json
+    generator: scripts/rya311_xi_ceiling_sensitivity.py
+    invocation: python3 scripts/rya311_xi_ceiling_sensitivity.py --pool all
+    ticket: RYA-311
+    note: >-
+      The number that qualifies the headline error. xi across the 80/100/120/150 mA
+      ceilings spans 0.2695 km/s -- 4.6x the formal Delta-chi2 = 1 error of 0.0588 -- so
+      the formal error alone understates delta_xi. Recorded, not folded in; whether a
+      selection systematic belongs in Type B is a budget decision.
