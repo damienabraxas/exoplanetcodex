@@ -46,7 +46,7 @@ STEM = re.compile(r"^(?P<el>[A-Z][a-z]?)(?P<ion>I+|IV|VI*)_(?P<lo>\d+)_(?P<hi>\d
                   # returned None, and the product was silently absent from the page.
                   # That is why HARPS and IAG have never appeared and why every graded
                   # arm was invisible: not a missing run, an unparseable filename.
-                  r"(?P<selector>(?:_[A-Z][A-Z0-9]*(?:-[A-Z]+)?)*)_products\.csv$")
+                  r"(?P<selector>(?:_[A-Za-z0-9<>-]+)*)_products\.csv$")
 
 
 def species_display(species: str) -> str:
