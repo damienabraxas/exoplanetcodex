@@ -163,6 +163,20 @@ stages stop loudly when a target/path is unsupported.
 Do not use `python run_pipeline.py --star 55cancri` as a quick start; its
 normalization route is not implemented.
 
+## Public release roadmap
+
+Release progress is generated from the canonical 27-product element registry
+and the current publishable channel in the abundance-product store:
+
+```bash
+python3 scripts/generate_release_roadmap.py \
+  --site-root /path/to/exoplanetcodex-site
+```
+
+Archive, quarantine, gap, missing, and superseded records never advance release
+progress. The generated site artifact is
+`assets/data/release-roadmap.v1.json`.
+
 ## Documentation
 
 - [Environment and prerequisites](docs/setup/environment.md)
