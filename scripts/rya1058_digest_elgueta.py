@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Digest the pinned Elgueta+2026 Y/J/H fixed-width tables."""
-import csv, hashlib, json
+import csv, hashlib, json, sys
 from collections import defaultdict,Counter
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/'data/reference/elgueta2026_vizier'; OUT=ROOT/'data/audit/rya1058_elgueta'
+sys.path.insert(0,str(ROOT))
+from pipeline.line_match import match
 BANDS={'Y':'atomicy.dat','J':'atomicj.dat','H':'atomich.dat'}
 TYPES={'procyon_Fd':{'depth':125,'sat':127,'pur':138,'gof':169,'rob':171},'sun_Gd':{'depth':249,'sat':251,'pur':262,'gof':293,'rob':295},'eps_eri_Kd':{'depth':375,'sat':377,'pur':388,'gof':420,'rob':422},'beta_hyi_FGKsg':{'depth':499,'sat':501,'pur':512,'gof':543,'rob':545},'arcturus_FGKg':{'depth':628,'sat':630,'pur':642,'gof':675,'rob':677},'gamma_sge_Mg':{'depth':757,'sat':759,'pur':770,'gof':802,'rob':804}}
 def md5(p): return hashlib.md5(p.read_bytes()).hexdigest()
@@ -22,8 +24,8 @@ def main():
   if expected.get(name)!=md5(SRC/name):raise SystemExit(f'MD5 verification failed: {name}')
  index=defaultdict(list)
  for c in can:
-  try:index[(c.get('species','').replace(' ',''),round(float(c['wavelength_air_A']),1))].append(c)
-  except:pass
+  if c.get('wavelength_air_A') and c.get('excitation_potential_eV'):
+   index[c.get('species','').replace(' ','')].append(c)
  for band,name in BANDS.items():
   p=SRC/name; digest=md5(p)
   for raw in p.read_text(errors='replace').splitlines():
@@ -32,16 +34,15 @@ def main():
    flags={}
    for star,pos in TYPES.items():
     for key,idx in pos.items():flags[f'{star}_{key}']=raw[idx]
-   hits=[]
-   candidates=[]
-   center=round(wave,1)
-   for key in (round(center-0.1,1),center,round(center+0.1,1)):candidates.extend(index[(species,key)])
-   for c in candidates:
-    try:
-     if abs(float(c['wavelength_air_A'])-wave)<=0.05 and abs(float(c['excitation_potential_eV'])-ep)<=0.01:hits.append(c)
-    except:pass
-   hit=hits[0] if len(hits)==1 else {}
-   rows.append({'band':band,'species':species,'element':''.join(x for x in species if x.isalpha()).replace('I',''),'wavelength_A':wave,'lower_ep_eV':ep,'elgueta_loggf':loggf,'c6':f(raw,38,47),**flags,'robust_any':any(raw[p['rob']]=='Y' for p in TYPES.values()),'source_file':name,'source_md5':digest,'doi':'10.1051/0004-6361/202659148','canonical_line_id':hit.get('line_id',''),'canonical_loggf':hit.get('log_gf',''),'canonical_source':hit.get('loggf_reference',''),'canonical_grade':hit.get('gf_tier',''),'delta_loggf':(loggf-float(hit['log_gf'])) if hit and loggf!='' else '','match_status':'PHYSICAL_KEY_UNIQUE' if hit else ('AMBIGUOUS_PHYSICAL_KEY' if hits else 'NO_PHYSICAL_KEY_MATCH'),'primary_source_trace':'UNTRACED_ELGUETA_TABLE_HAS_NO_GF_REFERENCE','action':'TRACE_PRIMARY_GF_BEFORE_PROMOTION'})
+   candidates=index[species]
+   if wave != '' and ep != '' and candidates:
+    result=match([wave],[float(c['wavelength_air_A']) for c in candidates],want_ep=[ep],src_ep=[float(c['excitation_potential_eV']) for c in candidates],tol_A=0.05,ep_tol_eV=0.01)
+    unique=result.n_resolved==1 and not result.ambiguous
+    ambiguous=result.ambiguous
+    hit=candidates[int(result.index[0])] if unique else {}
+   else:
+    unique=False; ambiguous=False; hit={}
+   rows.append({'band':band,'species':species,'element':''.join(x for x in species if x.isalpha()).replace('I',''),'wavelength_A':wave,'lower_ep_eV':ep,'elgueta_loggf':loggf,'c6':f(raw,38,47),**flags,'robust_any':any(raw[p['rob']]=='Y' for p in TYPES.values()),'source_file':name,'source_md5':digest,'doi':'10.1051/0004-6361/202659148','canonical_line_id':hit.get('line_id',''),'canonical_loggf':hit.get('log_gf',''),'canonical_source':hit.get('loggf_reference',''),'canonical_grade':hit.get('gf_tier',''),'delta_loggf':(loggf-float(hit['log_gf'])) if hit and loggf!='' else '','match_status':'PHYSICAL_KEY_UNIQUE' if unique else ('AMBIGUOUS_PHYSICAL_KEY' if ambiguous else 'NO_PHYSICAL_KEY_MATCH'),'primary_source_trace':'UNTRACED_ELGUETA_TABLE_HAS_NO_GF_REFERENCE','action':'TRACE_PRIMARY_GF_BEFORE_PROMOTION'})
  write('normalized_lines.csv',rows)
  inv=[]
  for (band,sp),grp in sorted(defaultdict(list, {k:[r for r in rows if (r['band'],r['species'])==k] for k in {(r['band'],r['species']) for r in rows}}).items()):
