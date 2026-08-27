@@ -642,29 +642,38 @@ _CRIRES_Y_FRAME_CONTROL = (10535.709, 10577.139, 10611.686, 10616.721, 10674.070
 _CRIRES_Y_FRAME_TOL_A = 0.10        # RYA-794 measured max |offset| 0.039 A
 
 
-def crires_y_spectrum() -> tuple[np.ndarray, np.ndarray]:
-    """The RYA-794 corrected Y product as (wave_air_A, flux_normalised), ascending."""
-    if "y" in _crires_cache:
-        return _crires_cache["y"]
-    if not CRIRES_Y_CSV.exists():
+def crires_y_spectrum(csv: Path | None = None) -> tuple[np.ndarray, np.ndarray]:
+    """A conditioned CRIRES+ Y product as (wave_air_A, flux_normalised), ascending.
+
+    🔴 THE FILE IS A PARAMETER — RYA-1054. It used to be the module constant, so a second
+    conditioned Y derivative could not be served at all: any HoldingSpec naming
+    reader="crires_y" read the 10280-10680 A product no matter which holding asked. That
+    made the WINDOW indistinguishable from the ARM, and the arm is wider (9796.5-10796.1).
+    Defaults to the RYA-794 product so every existing caller is unchanged.""" 
+    path = Path(csv) if csv is not None else CRIRES_Y_CSV
+    key = str(path)                      # cache PER FILE, not one slot called "y"
+    if key in _crires_cache:
+        return _crires_cache[key]
+    if not path.exists():
         raise LookupError(
-            f"the RYA-794 corrected CRIRES+ Y product is not at {CRIRES_Y_CSV}. It is "
-            f"git-tracked under data/results/rya794/ and registered as path key "
-            f"'repo.crires_plus_solar_y_rya794'; rebuild it with "
+            f"the conditioned CRIRES+ Y product is not at {path}. These are git-tracked "
+            f"under data/results/rya794/ and registered as path keys "
+            f"'repo.crires_plus_solar_y_rya794' (10280-10680 A) and "
+            f"'repo.crires_plus_solar_y_wide_rya1054' (9800-10796 A); rebuild with "
             f"scripts/normalize_vesta_ir.py rather than falling back to the raw IDPs, "
             f"which are telluric-uncorrected and refused by the gate.")
-    d = pd.read_csv(CRIRES_Y_CSV)
+    d = pd.read_csv(path)
     missing = {"wavelength_air_A", "flux_normalized"} - set(d.columns)
     if missing:
-        raise LookupError(f"{CRIRES_Y_CSV.name} is missing column(s) {sorted(missing)}; "
+        raise LookupError(f"{path.name} is missing column(s) {sorted(missing)}; "
                           f"refusing to guess which column is the wavelength.")
     w = np.asarray(d["wavelength_air_A"], dtype=float)
     f = np.asarray(d["flux_normalized"], dtype=float)
     o = np.argsort(w)
     w, f = w[o], f[o]
     _assert_air_rest_frame(w, f)
-    _crires_cache["y"] = (w, f)
-    return _crires_cache["y"]
+    _crires_cache[key] = (w, f)
+    return _crires_cache[key]
 
 
 def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray) -> None:
@@ -697,10 +706,12 @@ def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray) -> None:
             f"still fit lines, at the wrong abundance. Refusing.")
 
 
-def load_crires_y_window(centre: float, pad: float) -> tuple[np.ndarray, np.ndarray, str]:
-    w, f = crires_y_spectrum()
-    w, f = _slice_window(w, f, centre, pad, "CRIRES+ Y (RYA-794 telluric-corrected)")
-    return w, f, CRIRES_Y_CSV.name
+def load_crires_y_window(centre: float, pad: float,
+                         csv: Path | None = None) -> tuple[np.ndarray, np.ndarray, str]:
+    path = Path(csv) if csv is not None else CRIRES_Y_CSV
+    w, f = crires_y_spectrum(path)
+    w, f = _slice_window(w, f, centre, pad, "CRIRES+ Y (telluric-corrected)")
+    return w, f, path.name
 
 
 # ── HOLDINGS, not instruments — RYA-904 ──────────────────────────────────────
@@ -738,6 +749,11 @@ class HoldingSpec:
     holding_id: str
     reader: str
     pre_normalised: bool
+    #: RYA-1054 — WHICH FILE this holding serves, where one reader serves several. The
+    #: crires_y reader used a module constant, so two Y holdings would silently read the
+    #: same product and the wider ARM could never be distinguished from the adopted
+    #: WINDOW. None keeps the reader's own default.
+    path_key: str | None = None
     span_A: tuple[float, float] | None = None
     caveat: str = ""
     note: str = ""
@@ -878,6 +894,18 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                     note="RYA-794 science-ready Y arm: telluric-corrected (measured), "
                          "continuum-normalised, air, solar rest frame. PREFERRED over "
                          "the raw IDPs wherever it covers the window."),
+        HoldingSpec("solar_crires_plus_y_wide_rya1054", reader="crires_y",
+                    pre_normalised=True, path_key="repo.crires_plus_solar_y_wide_rya1054",
+                    span_A=(9800.0, 10796.0), caveat=GDSAT_CAVEAT,
+                    note="RYA-1054: the SAME source and normaliser as the RYA-794 product "
+                         "(sp/Sun_Y_rv.dat), conditioned over the arm's full measured "
+                         "extent instead of Elgueta's adopted 10280-10680 window. The "
+                         "floor is not a telluric limit -- below 10280 the arm runs "
+                         "0.00-0.26% of points under 0.5, against 0.06-0.21% INSIDE the "
+                         "adopted window. It carries 5 primary-lab Fe I lines where the "
+                         "narrow product carries 1, which is the difference between a "
+                         "refused pool and a measurable one. Listed AFTER the RYA-794 "
+                         "holding so no existing measurement silently switches product."),
         HoldingSpec("solar_vesta_crires_plus_idp", reader="crires_idp",
                     pre_normalised=False,
                     note="Raw Vesta IDPs: adu, un-normalised, TOPOCENT, telluric "
@@ -1010,7 +1038,8 @@ def _reader(spec: HoldingSpec, centre: float, pad: float, segs):
     if spec.reader == "harps_tellcorr":
         return load_harps_window(centre, pad, HARPS_TELLCORR_CSV)
     if spec.reader == "crires_y":
-        return load_crires_y_window(centre, pad)
+        _csv = Path(str(codex_path(spec.path_key))) if spec.path_key else None
+        return load_crires_y_window(centre, pad, _csv)
     if spec.reader == "crires_idp":
         return load_crires_window(centre, pad)
     raise LookupError(f"holding {spec.holding_id} names reader {spec.reader!r}, which "
