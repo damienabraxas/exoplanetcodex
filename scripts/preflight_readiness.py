@@ -619,6 +619,40 @@ def assess(h: dict, element: str | None, ion: str | None,
         }
         ready = all(ok for ok, _t, _w in gates.values())
         blocking = ";".join(f"{k}:{t}" for k, (ok, t, _w) in gates.items() if not ok)
+
+        # ── RYA-1079 §5: an uncorrected but CORRECTABLE band is WORK, not a wall ──
+        # The three-state per-line policy (pipeline.telluric_observability) says a
+        # RECOVERABLE telluric is corrected and then measured; only a SATURATED core is
+        # genuinely lost. The conductor has to carry that distinction or an operator
+        # reads "NO-GO" and abandons a band that needs one conditioning run. The gate
+        # tag is what separates them: `needs-correction(...)` names an available stage,
+        # while `ir-band-uncorrected`, `basis-*` and `applied-unverified` do not.
+        # ACTIONABLE means a correction stage can be NAMED for this cell. That is true
+        # whenever the requirement is RESOLVED and the correction simply has not been run
+        # -- `needs-correction(...)` (the instrument is registered telluric_required=yes)
+        # and `ir-band-uncorrected` (the band reaches past the enumerated complexes and
+        # carries no applied correction) are both that case. Neither is terminal: RYA-963
+        # molecfit-corrected exactly the first, RYA-940 exactly the second.
+        #
+        # It is NOT actionable when the requirement or basis is UNRESOLVED (`basis-*`),
+        # because you cannot route what you cannot classify -- resolve the mode first
+        # (RYA-1072/1078).
+        #
+        # ⚠️ SATURATION IS NOT DECIDABLE AT BAND LEVEL. Whether a given line is genuinely
+        # lost is a PER-LINE measurement (pipeline.telluric_observability), and a band
+        # holds clean, recoverable and saturated lines at once. So the band verdict here
+        # is NEEDS-CORRECTION and the per-line census decides what survives it; calling a
+        # whole band terminal on a telluric ground would exclude the recoverable majority
+        # to spare the saturated few, which is the data loss RYA-1079 exists to stop.
+        _ACTIONABLE_TELLURIC = ("needs-correction", "ir-band-uncorrected")
+        only_telluric = {k for k, (ok, _t, _w) in gates.items() if not ok} == {"telluric"}
+        actionable = gates["telluric"][1].startswith(_ACTIONABLE_TELLURIC)
+        if only_telluric and actionable:
+            verdict = "NEEDS-CORRECTION"
+        elif ready:
+            verdict = "GO"
+        else:
+            verdict = "NO-GO"
         evidence[(h["holding_id"], band)] = [
             f"{k}:{t} -- {w}" for k, (ok, t, w) in gates.items() if not ok]
         if ready and (audit.normalization_state == UNKNOWN
@@ -639,7 +673,7 @@ def assess(h: dict, element: str | None, ion: str | None,
             telluric_basis=basis, telluric_applied=applied,
             telluric_satisfied=tsat, reader_wired=reader_wired,
             line_pool_reachable=reachable,
-            measurement_ready="GO" if ready else "NO-GO",
+            measurement_ready=verdict,
             blocking_gate=blocking,
             source_issue_ids=h.get("source_issue_ids", "")))
 
@@ -670,10 +704,14 @@ def main(argv=None) -> int:
             w.writerow(asdict(r))
 
     ready = sum(r.measurement_ready == "GO" for r in rows)
-    print(f"{a.system}: {ready}/{len(rows)} holding x band cells READY -> "
+    owed = sum(r.measurement_ready == "NEEDS-CORRECTION" for r in rows)
+    print(f"{a.system}: {ready}/{len(rows)} holding x band cells READY"
+          + (f", {owed} NEEDS-CORRECTION (actionable, not terminal)" if owed else "")
+          + f" -> "
           f"{dest.relative_to(REPO)}")
     for r in rows:
-        mark = "READY" if r.measurement_ready == "GO" else f"NO-GO [{r.blocking_gate}]"
+        mark = ("READY" if r.measurement_ready == "GO"
+                else f"{r.measurement_ready} [{r.blocking_gate}]")
         print(f"  {r.holding_id:<34} {r.band:<12} {r.coverage_A:<16} {mark}")
 
     if evidence:
