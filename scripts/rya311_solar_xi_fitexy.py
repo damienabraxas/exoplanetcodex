@@ -77,12 +77,25 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from config.constants import PATHS, get_star_params           # noqa: E402
+from config.constants import PIPELINE, get_star_params        # noqa: E402
 from pipeline.fitexy import fitexy                            # noqa: E402
 from pipeline.line_match import match                         # noqa: E402
 
 #: Mucciarelli 2011: lines whose EW is uncertain by more than this fraction bias the solve.
 EW_ERR_FRACTION_MAX = 0.10
+
+#: 🔴 THE SATURATION CEILING IS PRE-REGISTERED, NOT CHOSEN HERE. It is the production
+#: constant the vmic bisection has used since RYA-330, imported rather than retyped, and
+#: it is the DEFAULT so that no run can arrive at it after seeing what an unceilinged pool
+#: does (RYA-161). Mucciarelli's "sample the full EW range" and this cut pull in opposite
+#: directions and both are honoured: the ceiling admits the strongest lines the curve of
+#: growth still responds to, and `--no-ew-ceiling` runs the unceilinged pool as a declared
+#: sensitivity. Above ~100 mA solar Fe I is damping-dominated -- its EW stops responding to
+#: microturbulence and starts responding to van der Waals broadening, which is why the
+#: unceilinged slope moves the WRONG WAY with xi (measured: -0.87 at 0.2 km/s to -0.72 at
+#: 3.0, never crossing zero). Those lines do not merely add noise to the solve; they invert
+#: its sensitivity.
+EW_CEILING_MA = float(PIPELINE["vmic_ew_ceiling_mA"])
 
 #: Default xi grid, km/s. Wide enough to bracket any plausible solar value and to measure
 #: d slope / d xi far from the root, which is what the error propagation needs.
@@ -345,10 +358,12 @@ def main() -> None:
     ap.add_argument("--ion", default="I")
     ap.add_argument("--pool", default="graded", choices=("graded", "all"),
                     help="graded = LAB-tier gf only (headline); all = every measured line")
-    ap.add_argument("--ew-ceiling-mA", type=float, default=None,
-                    help="optional saturation ceiling; the production vmic bisection uses "
-                         "100 mA (RYA-330), which Mucciarelli's 'sample the strong end' "
-                         "argues against. Declared sensitivity, not the default.")
+    ap.add_argument("--ew-ceiling-mA", type=float, default=EW_CEILING_MA,
+                    help=f"saturation ceiling in mA (default {EW_CEILING_MA:g}, the "
+                         f"production PIPELINE['vmic_ew_ceiling_mA'] since RYA-330)")
+    ap.add_argument("--no-ew-ceiling", action="store_true",
+                    help="run the unceilinged pool -- the declared sensitivity, not the "
+                         "measurement")
     ap.add_argument("--xi-min", type=float, default=XI_MIN)
     ap.add_argument("--xi-max", type=float, default=XI_MAX)
     ap.add_argument("--xi-step", type=float, default=XI_STEP)
@@ -356,11 +371,11 @@ def main() -> None:
     a = ap.parse_args()
 
     grid = np.round(np.arange(a.xi_min, a.xi_max + 0.5 * a.xi_step, a.xi_step), 3)
-    res, per_line = solve(a.star, a.element, a.ion, a.pool, a.ew_ceiling_mA, grid)
+    ceiling = None if a.no_ew_ceiling else a.ew_ceiling_mA
+    res, per_line = solve(a.star, a.element, a.ion, a.pool, ceiling, grid)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     tag = f"{a.star}_{a.element}{a.ion}_{a.pool}"
-    if a.ew_ceiling_mA is not None:
-        tag += f"_ceil{int(a.ew_ceiling_mA)}"
+    tag += "_noceil" if ceiling is None else f"_ceil{int(ceiling)}"
     if (a.xi_min, a.xi_max, a.xi_step) != (XI_MIN, XI_MAX, XI_STEP):
         tag += f"_xi{a.xi_min:g}-{a.xi_max:g}"
     out = Path(a.out) if a.out else OUT_DIR / f"rya311_xi_{tag}.json"
