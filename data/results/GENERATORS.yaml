@@ -648,6 +648,24 @@ artifacts:
       locality), and the stated error-budget term with its 95% upper bound on a hidden
       slope. Kept beside the CSV so the headline numbers are not re-derived by hand.
 
+  - artifact: rya794/vesta_crires_plus_Y_9800_10796_normalized.csv
+    generator: scripts/normalize_vesta_ir.py
+    invocation: python scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796 --no-plot
+    ticket: RYA-1054
+    note: >-
+      The SAME source (sp/Sun_Y_rv.dat, md5 8428f7009e59c6073ba11242b83d48ff) and the SAME
+      normaliser as the RYA-794 product above; only the WINDOW differs, so it inherits that
+      product's telluric and rest-frame verdicts rather than being re-judged. Conditioned
+      over the Y arm's full MEASURED extent, 9796.5-10796.1 A, instead of Elgueta's adopted
+      10280-10680 window. Elgueta's floor is not a telluric limit -- measured per 100 A,
+      points below 0.5 continuum run 0.26/0.00/0.00/0.00/0.00 % across 9800-10300 against
+      0.06/0.00/0.15/0.21 % INSIDE the adopted window, i.e. the excluded stretch is as clean
+      or cleaner. It carries 5 primary-lab Fe I lines where the narrow product carries 1,
+      and the harness REFUSES n=1 ("a pool of fewer than 2 lines cannot carry a
+      line-to-line scatter"), so this window is the difference between a refused pool and
+      CRIRES+'s first Fe abundance: A(Fe I; NIR) = 7.551 +/- 0.138, n=5, rung 3. Registered
+      as a SIBLING holding, never a replacement -- solar_crires_plus_y_rya794 keeps its
+      identity and its products (RYA-1006).
   - artifact: rya794/vesta_crires_plus_Y_10280_10680_normalized.csv
     generator: scripts/normalize_vesta_ir.py
     invocation: python scripts/normalize_vesta_ir.py --lo 10280 --hi 10680
@@ -3020,6 +3038,232 @@ artifacts:
       parser -- overridden rows, where they sit, how many names survive at Teff=5777, and
       whether the solar node is addressable. Al is the positive control (conversion keeps
       all 7 names); Fe and Mn collapse to 1.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Gerber 1D deck on MARCS.GES. A = 7.497. Unreachable on this route until RYA-1045 loaded the deck's own atmosphere -- it had been handed ATLAS9 (72 layers vs the deck's 56) and assert_depth_match refused the run.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Gerber 1D deck on MARCS.GES. A = 7.497. Unreachable on this route until RYA-1045 loaded the deck's own atmosphere -- it had been handed ATLAS9 (72 layers vs the deck's 56) and assert_depth_match refused the run.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Gerber 1D deck on MARCS.GES. A = 7.497. Unreachable on this route until RYA-1045 loaded the deck's own atmosphere -- it had been handed ATLAS9 (72 layers vs the deck's 56) and assert_depth_match refused the run.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Gerber 1D deck on MARCS.GES. A = 7.497. Unreachable on this route until RYA-1045 loaded the deck's own atmosphere -- it had been handed ATLAS9 (72 layers vs the deck's 56) and assert_depth_match refused the run.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). Emitted by every leg of the graded solar Fe I run; attributed to the <3D>-NLTE invocation. 1D-LTE A = 7.447 (ATLAS9, this route's own atmosphere); ENGINE-A A = 7.454 with Bergemann MPIA per-line delta_nlte mean +0.0101.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The 1D rung's paired comparand, added by RYA-1045 -- MARCS.GES, departures WITHHELD. A = 7.451 against the route's ATLAS9 1D-LTE 7.447, so the atmosphere change this removes is +0.004: small, and previously unmeasured.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The 1D rung's paired comparand, added by RYA-1045 -- MARCS.GES, departures WITHHELD. A = 7.451 against the route's ATLAS9 1D-LTE 7.447, so the atmosphere change this removes is +0.004: small, and previously unmeasured.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The 1D rung's paired comparand, added by RYA-1045 -- MARCS.GES, departures WITHHELD. A = 7.451 against the route's ATLAS9 1D-LTE 7.447, so the atmosphere change this removes is +0.004: small, and previously unmeasured.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The 1D rung's paired comparand, added by RYA-1045 -- MARCS.GES, departures WITHHELD. A = 7.451 against the route's ATLAS9 1D-LTE 7.447, so the atmosphere change this removes is +0.004: small, and previously unmeasured.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The <3D>-LTE COMPARAND. A = 7.552 -- the SAME published value as its NLTE partner, by coincidence of where the 34th of 67 per-line values landed (62 unique values, min gap 0.001; NOT the RYA-771 quantiser). Differencing the two PUBLISHED numbers gives 0.000; the per-line paired differential is +0.032 on 66 of 67 lines. This pair IS the RYA-1040 median-collision case.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The <3D>-LTE COMPARAND. A = 7.552 -- the SAME published value as its NLTE partner, by coincidence of where the 34th of 67 per-line values landed (62 unique values, min gap 0.001; NOT the RYA-771 quantiser). Differencing the two PUBLISHED numbers gives 0.000; the per-line paired differential is +0.032 on 66 of 67 lines. This pair IS the RYA-1040 median-collision case.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The <3D>-LTE COMPARAND. A = 7.552 -- the SAME published value as its NLTE partner, by coincidence of where the 34th of 67 per-line values landed (62 unique values, min gap 0.001; NOT the RYA-771 quantiser). Differencing the two PUBLISHED numbers gives 0.000; the per-line paired differential is +0.032 on 66 of 67 lines. This pair IS the RYA-1040 median-collision case.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). The <3D>-LTE COMPARAND. A = 7.552 -- the SAME published value as its NLTE partner, by coincidence of where the 34th of 67 per-line values landed (62 unique values, min gap 0.001; NOT the RYA-771 quantiser). Differencing the two PUBLISHED numbers gives 0.000; the per-line paired differential is +0.032 on 66 of 67 lines. This pair IS the RYA-1040 median-collision case.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_budgets.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_provenance.txt
+    status: COMMITTED
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1051
+    note: >-
+      RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: rya1051/amarsi_perline_nodes.csv
+    generator: scripts/rya1051_gradient_mechanism.py
+    ticket: RYA-1051
+    invocation: extracted from /srv/codex/grids-overflow/nlte/amarsi2016_fe/iron_abundancecorr/nmarcs_lmarcs.txt (Sirius-only, 2.36 GB) at Teff 5750 / logg 4.50 / vturb 1.50, Fe1 clean, for the 12 lines of nlte_correction_grid.json at log_eps 7.50/6.50/5.50/4.50
+    note: >-
+      Amarsi's PER-LINE 1D NLTE corrections at the four metallicity nodes, for the same
+      lines we synthesised. Committed because the 2.36 GB source is Sirius-only, so
+      without it the mechanism test cites a file nobody else can open.
+  - artifact: rya1051/gradient_mechanism.json
+    generator: scripts/rya1051_gradient_mechanism.py
+    ticket: RYA-1051
+    invocation: python3 scripts/rya1051_gradient_mechanism.py --anchor-per-line data/results/rya1051/amarsi_perline_nodes.csv --out data/results/rya1051/gradient_mechanism.json
+    note: >-
+      PHOTOIONISATION or COLLISIONS? The two make opposite predictions about the PER-LINE
+      structure of the gradient difference: a bound-free origin must depend on where each
+      level's ionisation edge sits (2455-3912 A across this pool), a collisional one must
+      not. MEASURED: r = +0.005 vs excitation potential, r = +0.024 vs edge wavelength,
+      median -0.0372 with a 16-84 spread of only -0.0416..-0.0314, and 8 of 8 lines
+      carrying the same sign. UNIFORM -> the collisional signature.
+      ⚠️ The solar GAP does show structure (r = -0.41 vs EP, -0.46 vs edge), so a
+      level-dependent term exists at solar on top of the uniform gradient term.
+      ⚠️ Conditioning cut is DERIVED: |Delta| <= the trial step DA the slope was measured
+      over, since anything larger extrapolates past where the slope was sampled. It
+      rejects 5 of 48 line-nodes, all weak lines at low metallicity -- Fe I 6315.811 at
+      [Fe/H] -3 had dEW/dA = 0.37 mA/dex on a 12.7 mA line and returned Delta = +0.706.
+  - artifact: rya1051/nlte_correction_grid.json
+    generator: scripts/rya1051_nlte_correction_grid.py
+    ticket: RYA-1051
+    invocation: python3 scripts/rya1051_nlte_correction_grid.py --lines data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv --n-lines 12 --feh 0.0 -1.0 -2.0 -3.0 --out data/results/rya1051/nlte_correction_grid.json
+    note: >-
+      OUR Fe I NLTE abundance corrections computed the way Amarsi's grid DEFINES them --
+      synthesise in LTE at A0, find the abundance at which the NLTE synthesis has the same
+      equivalent width, Delta = A - A0 -- so the two are the same quantity and can be
+      differenced. Replaces the earlier `-log10(b_lower)` proxy, which was strictly
+      positive (so structurally incapable of reproducing Amarsi's NEGATIVE solar value)
+      and whose answer moved with the optical depth sampled (gradient ratio 1.96x-7.73x
+      over log tau -0.5..-2.0). Nothing is interpolated: the Gerber grid carries an EXACT
+      node at each of [Fe/H] = 0, -1, -2, -3 with A(Fe) = 7.50 + [Fe/H], read via
+      read_deck_node. `for_node` CANNOT serve this -- its vendor-interpolator path is
+      solar-node-only and refuses by design.
+      RESULT: ours -0.0259 per dex vs Amarsi -0.0564, so Amarsi's gradient is 2.18x
+      steeper; the curves cross between [Fe/H] -1 and -2; and the two AGREE to 0.007-0.015
+      dex at [Fe/H] -2 and -3 while disagreeing by +0.077 at solar.
+      VALIDATION: this theoretical route gives +0.0473 at solar against the +0.0480
+      measured by fitting the observed Kitt Peak atlas -- two independent paths agreeing to
+      0.0007 dex.
+  - artifact: rya1051/fe_nlte_ladder.json
+    generator: scripts/rya1051_fe_nlte_ladder.py
+    ticket: RYA-1051
+    invocation: python3 scripts/rya1051_fe_nlte_ladder.py --lte-1d-atlas9 data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv --lte-1d-marcs data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv --nlte-1d data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv --mean3d-lte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv --mean3d-nlte data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv --out data/results/rya1051/fe_nlte_ladder.json
+    note: >-
+      THE CURRENT SOLAR Fe I VALUES AND THE PROCESS THAT PRODUCED THEM, derived from
+      the five per-line products above so the numbers cannot drift from the files.
+      Every difference is a PER-LINE PAIRED differential on ONE atmosphere -- never a
+      difference of published product values (RYA-1040), never across two atmospheres
+      (RYA-542). It reports both for every pair, and the collision fires on TWO of
+      them: the atmosphere leg (+0.0920 paired vs +0.1050 published) and the <3D> NLTE
+      leg (+0.0320 vs +0.0000).
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042
