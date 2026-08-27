@@ -3188,6 +3188,31 @@ artifacts:
     ticket: RYA-1051
     note: >-
       RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: rya1044/rya783_FeI_VIS_ENGINE-B-NLTE_lines.csv
+    generator: scripts/rya1044_rya783_reconciliation.py
+    ticket: RYA-1044
+    invocation: copied from /mnt/codex-data/codex/rya845/data/results/band_products/gerber-nlte/FeI_3800_6910_kpno_solar_atlas_PROFILEFIT_ENGINE-B-NLTE_lines.csv (another worktree, not in this repo)
+    note: >-
+      The RYA-783 matrix's Fe I VIS ENGINE-B-NLTE per-line rows. Committed because the
+      source lives in a DIFFERENT WORKTREE on Sirius and nothing in this repo carried it --
+      so the reconciliation would otherwise cite a file no reader can open, which is the
+      same failure the reconciliation itself is about.
+  - artifact: rya1044/rya783_reconciliation.json
+    generator: scripts/rya1044_rya783_reconciliation.py
+    ticket: RYA-1044
+    invocation: python3 scripts/rya1044_rya783_reconciliation.py --matrix-lines data/results/rya1044/rya783_FeI_VIS_ENGINE-B-NLTE_lines.csv --ours-lines data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv --out data/results/rya1044/rya783_reconciliation.json
+    note: >-
+      RYA-1044's owed reconciliation against RYA-783's Fe I Engine-B cells. VERDICT
+      NOT_COMPARABLE, and that is a measurement rather than a dodge: the two pools share
+      TWO candidate lines out of 159 and 67, before either route excludes anything. 65 of
+      our 67 the matrix never considered; 157 of its 159 we never did. So the 7.572 vs
+      7.497 gap is a POOL difference (RYA-842: line selection is first-order on the value),
+      not route-vs-route or old-vs-new.
+      ⚠️ The band is NOT the explanation, which is the first thing anyone will guess: the
+      matrix cell is labelled 3800-6910 A but ALL 136 of its aggregate lines fall inside
+      4200-6910. The label is wider than the data.
+      ⚠️ No value claim is made from the 2 shared lines. RYA-1051 retracted a claim built
+      on n=8 in this same session; two points deserve less credit, not more.
   - artifact: rya1051/amarsi_perline_nodes.csv
     generator: scripts/rya1051_gradient_mechanism.py
     ticket: RYA-1051
