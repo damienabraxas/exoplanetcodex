@@ -99,35 +99,77 @@ def test_the_solar_e_feh_in_stars_yaml_is_NOT_used_as_a_delta():
     assert d["feh"] == 0.0                                   # and it is NOT used
 
 
-def test_the_solar_delta_xi_is_SOURCED_not_a_literal():
-    """🔴 RYA-1089. The solar delta_xi was 0.05 from the RYA-158 spec line
-    "vturb = 0.9 +/- 0.05" -- no citation, and doubly stale, since that line's central
-    value is 0.9 against the adopted 1.0 (RYA-196). It drove the ENTIRE solar sigma_params.
-    It is now Jofré+2014 Table 2 sigma_vmic = 0.18, read from the record beside its
-    citation, and an ABSENT value refuses rather than becoming a number again."""
-    assert float(STAR_PARAMS["solar"]["e_xi"]) == pytest.approx(0.18)
+def test_the_solar_delta_xi_is_MEASURED_not_a_literal_and_not_borrowed():
+    """🔴 RYA-1089 THEN RYA-311. Two retirements, and the second went further than the first.
+
+    The original 0.05 came from the RYA-158 spec line "vturb = 0.9 +/- 0.05" -- no citation,
+    and doubly stale, since that line's central value is 0.9 against the adopted 1.0
+    (RYA-196). RYA-1089 replaced it with Jofré+2014 Table 2 sigma_vmic = 0.18: honest
+    provenance, but the wrong QUANTITY -- an inter-node dispersion across seven GBS
+    pipelines, not the formal error of ours.
+
+    RYA-311 measured it: the Delta-chi2 = 1 error on our own Fe I reduced-EW FITEXY slope,
+    propagated through the solve. Neither borrowed number survives for the Sun; Jofré's
+    per-star sigma_vmic stays the interim delta_p for stars this solve has not been run on.
+    """
+    assert float(STAR_PARAMS["solar"]["e_xi"]) == pytest.approx(0.0588)
     _, d = params_and_deltas("solar")
-    assert d["vturb_kms"] == pytest.approx(0.18)
+    assert d["vturb_kms"] == pytest.approx(0.0588)
     src = (ROOT / "pipeline" / "uncertainty_stack.py").read_text()
     assert "'vturb_kms': 0.05" not in src, "the bare literal must not come back"
+    y = (ROOT / "config" / "stars.yaml").read_text()
+    assert "RYA-311" in y and "FITEXY" in y, "the measured value must say where it came from"
 
 
-def test_the_sourced_delta_xi_made_the_bar_WORSE_not_better():
-    """⚠️ RYA-161 evidence, as a test. The sourced value is 3.6x the literal it replaced
-    and moves sigma_reported TOWARDS the 0.05 gate (0.0214 -> 0.0467). A delta_p chosen to
-    keep a bar inside a gate would have moved it the other way."""
+def test_the_measured_delta_xi_RELAXES_the_bar_and_the_larger_candidates_are_ON_THE_RECORD():
+    """⚠️ RYA-161 evidence, and this one cuts the uncomfortable way -- which is why it is
+    a test and not a paragraph.
+
+    RYA-1089's sourced 0.18 moved sigma_reported TOWARDS the 0.05 gate (0.0214 -> 0.0467),
+    and that was easy to defend: nobody picks a delta_p that makes their own bar worse.
+    RYA-311's measured 0.0588 moves it back AWAY (0.0467 -> 0.0227), which is exactly the
+    direction a tuned number would move. Two things make it not that, and both are checked
+    here rather than asserted in a comment:
+
+      1. The METHOD was fixed by the ticket before the number existed -- the formal FITEXY
+         fit error, no alternative offered.
+      2. The SAME measurement produced two LARGER candidates -- the 0.2695 km/s ceiling
+         sensitivity and the 0.3107 chi2-scaled error, either of which puts the solar bar
+         OUTSIDE its gate. They are recorded beside e_xi instead of being discarded, so the
+         smaller number is not the only one on the record and the choice between them stays
+         visible and reversible.
+    """
     _, d = params_and_deltas("solar")
-    assert d["vturb_kms"] > 0.05, "the sourced value is larger than the literal it retired"
+    assert d["vturb_kms"] < 0.18, "RYA-311's measured error is smaller than Jofré's"
+    rec = STAR_PARAMS["solar"]
+    assert float(rec["e_xi_selection"]) > float(rec["e_xi"]), \
+        "the ceiling sensitivity must be on the record beside the formal error"
+    assert float(rec["e_xi_chi2_scaled"]) > float(rec["e_xi"]), \
+        "the chi2-scaled alternative must be on the record beside the formal error"
+
+
+def test_the_measured_solar_xi_is_recorded_even_though_the_pin_stands():
+    """RYA-311 solved xi = 0.7088 and did NOT adopt it -- moving to it raises solar
+    A(Fe I) by +0.0595 dex, which is a RYA-196/register reconciliation, not a silent edit.
+    A measured value that disagrees with the pin must still be WRITTEN DOWN; dropping it
+    because it was not adopted would leave the pin looking unchallenged."""
+    rec = STAR_PARAMS["solar"]
+    assert float(rec["xi"]) == pytest.approx(1.0), "the pin is unchanged"
+    assert float(rec["xi_measured_rya311"]) == pytest.approx(0.7088)
+    assert "measured, RYA-311" in str(rec["xi_provenance"])
 
 
 @pytest.mark.parametrize("star,e_xi", [("procyon", 0.11),
                                        ("alpha_cen_a", 0.07),
                                        ("alpha_cen_b", 0.31),
-                                       ("solar", 0.18)])
+                                       ("solar", 0.0588)])
 def test_per_star_delta_p_are_declared_and_sourced(star, e_xi):
     """Every delta_p from a cited source, never typed from memory (the ticket's firewall).
-    The xi uncertainties are Jofré+2014 Table 2 σvmic, verified by extracting the paper's
-    own text rather than a search summary."""
+    The three off-solar xi uncertainties are Jofré+2014 Table 2 σvmic, verified by
+    extracting the paper's own text rather than a search summary. The SOLAR one is no
+    longer Jofré's: RYA-311 measured it on our own data, and the two provenances are
+    deliberately different -- Jofré's stays the interim value for stars the solve has not
+    yet been run on."""
     rec = STAR_PARAMS[star]
     for f in ("e_teff", "e_logg", "e_feh", "e_xi"):
         assert rec.get(f) is not None, f"{star} is missing {f}"
