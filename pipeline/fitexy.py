@@ -63,7 +63,11 @@ class FitExyResult:
     """One both-axis straight-line fit."""
     slope: float
     intercept: float
-    sigma_slope: float          #: formal Delta-chi2 = 1 error on the slope
+    sigma_slope: float          #: formal Delta-chi2 = 1 error, the MEAN of the two sides
+    sigma_slope_lo: float       #: distance to the Delta-chi2 = 1 contour BELOW the slope
+    sigma_slope_hi: float       #: ... and above it. The interval is not symmetric in
+                                #: general: chi2(b) is not a parabola once b^2 sigma_x^2
+                                #: is in the denominator, and quoting one number hides it.
     sigma_slope_scaled: float   #: sigma_slope * sqrt(chi2_red) -- the inflated alternative
     chi2: float
     dof: int
@@ -173,6 +177,7 @@ def fitexy(x, y, sigma_x, sigma_y, *,
     return FitExyResult(slope=float(b_hat),
                         intercept=_intercept(b_hat, x, y, sx, sy),
                         sigma_slope=sigma_b,
+                        sigma_slope_lo=float(dn), sigma_slope_hi=float(up),
                         sigma_slope_scaled=float(scaled),
                         chi2=float(c2_min),
                         dof=int(dof))

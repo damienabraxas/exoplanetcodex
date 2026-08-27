@@ -262,6 +262,11 @@ def solve(star: str, element: str, ion: str, pool: str,
     fit_hat = fitexy(rew[ok], a_hat[ok], sigma_rew[ok], sig_a[ok])
     sigma_xi = abs(fit_hat.sigma_slope / dslope_dxi)
     sigma_xi_scaled = abs(fit_hat.sigma_slope_scaled / dslope_dxi)
+    # The Delta-chi2 = 1 interval is not symmetric (chi2(b) is not a parabola once
+    # b^2 sigma_x^2 is in the denominator). Both sides are recorded; the headline
+    # delta_xi is their mean, and the record says how far apart they were.
+    sigma_xi_lo = abs(fit_hat.sigma_slope_lo / dslope_dxi)
+    sigma_xi_hi = abs(fit_hat.sigma_slope_hi / dslope_dxi)
 
     # OLS on the same points, reported ONLY to show what the naive fit would have said.
     ols_slope, _ = np.polyfit(rew[ok], a_hat[ok], 1)
@@ -283,6 +288,8 @@ def solve(star: str, element: str, ion: str, pool: str,
         "xi_grid": [float(x) for x in xi_grid],
         "xi_measured": float(xi_hat),
         "delta_xi_formal": float(sigma_xi),
+        "delta_xi_lo": float(sigma_xi_lo),
+        "delta_xi_hi": float(sigma_xi_hi),
         "delta_xi_chi2_scaled": float(sigma_xi_scaled),
         "slope_at_solution": float(fit_hat.slope),
         "sigma_slope_formal": float(fit_hat.sigma_slope),
