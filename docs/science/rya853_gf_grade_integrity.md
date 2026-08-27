@@ -164,67 +164,155 @@ finding. Three of these four would have condemned a clean pool.
 
 ⚠️ Belmonte's wavelengths are in **nanometres**; the Wisconsin tables are in air Ångströms.
 
-## Scope 3 — the DH19 referee: INCONCLUSIVE, and the question was malformed
+## Scope 3 — the DH19 referee: **LEGITIMATE**, at n=22, after the test was repaired
 
-Ryan supplied Den Hartog 2019's ten optical Fe II lines (BF × LIF lifetimes, pure lab, no
-solar normalisation) — the referee RYA-852 needed.
+> **Re-run 2026-08-27.** The August run of this scope reported INCONCLUSIVE on ten lines
+> transcribed from the DH19 PDF. Both the input and the verdict have changed, and the reason
+> the verdict changed is not that the evidence moved — it is that the test had broken and had
+> to be fixed first. That story is the important part of this section.
+
+### 🔴 The referee had come to sit on both sides of its own comparison
+
+[RYA-945] (`b545dc6`, 2026-08-21) ingested Den Hartog 2019 Table 6 into `canonical_gf`.
+Correct for the line list. Fatal for this experiment: the referee read *ours* from
+`canonical_gf`, so by 2026-08-27 all ten overlap lines cited `PRIMARY LAB DenHartog2019` and
+the script was comparing DH19 against DH19.
+
+| | Aug 17 (committed) | Aug 27 (re-run, unrepaired) |
+|---|---|---|
+| ours − DH, median | +0.020 | **+0.000** |
+| 95% CI | [−0.070, +0.160] | **[+0.000, +0.000]** |
+| sd | 0.179 | **0.000** |
+| our source, all 10 lines | VALD3 / T83av / PGHcor / BSScor / KK | **`PRIMARY LAB DenHartog2019`** |
+| verdict | INCONCLUSIVE | **LEGITIMATE … REFUTED** |
+
+The verdict flipped from INCONCLUSIVE to REFUTED with nobody touching RYA-853. **The
+bootstrap CI added in August specifically to stop the median being overread did not catch
+it** — a zero-width CI passes every "is this well determined?" test there is. A guard against
+overreading a *noisy* statistic is silent about a *collapsed* one.
+
+### The repair: freeze the scale being refereed, and refuse a comparison that is not a test
+
+1. **`ours` is now a frozen artifact**, `data/reference/fe_gf_lab/fe2_pre945_scale_snapshot.csv`
+   — Fe II as it stood at `b545dc6^`, before the ingest. That is the scale that underwrote
+   the ionization balance, and the only one the referee can test. Post-945 the overlap lines
+   *are* Den Hartog's by adoption, and asking whether they agree with Den Hartog is not a
+   question.
+2. **Guard 1 — self-reference.** Any line whose stored reference cites the referee is excluded
+   and counted. On the frozen snapshot: 0 excluded. On live `canonical_gf`: **22 of 22**.
+3. **Guard 2 — degenerate estimator.** A verdict is refused when the CI width or the sd
+   collapses, or fewer than 5 lines survive. `--source live` reproduces the broken run on
+   purpose and now returns **`UNUSABLE — the comparison is not a test`**.
+4. **The referee is read from the repo, not transcribed.** RYA-945 vendored the
+   machine-readable Table 6 with a recorded PDF sha256, so this is **131 lines, reproducible
+   offline** — the limitation the August run declared is closed.
+
+### The result, on 22 EP-matched lines
 
 | comparison | median | 95% CI | sd | n |
 |---|---|---|---|---|
-| **ours − DH** | **+0.020** | **[−0.070, +0.160]** | 0.179 | 10 |
-| NIST − DH | +0.124 | [−0.019, +0.213] | 0.145 | 10 |
-| ours − NIST *(same 10 lines)* | **−0.066** | [−0.190, +0.080] | 0.220 | 10 |
-| ours − NIST *(RYA-852, red pool)* | +0.106 | — | — | 9 |
+| **ours − DH** | **−0.035** | **[−0.050, +0.030]** | 0.135 | 22 |
+| NIST − DH | +0.021 | [−0.038, +0.060] | 0.136 | 22 |
+| ours − NIST *(same lines)* | −0.036 | [−0.092, +0.054] | 0.166 | 22 |
+| ours − DH, **near-UV** 3003–3277 Å | −0.035 | [−0.055, −0.003] | 0.085 | 12 |
+| ours − DH, **blue** 4173–4584 Å | +0.020 | [−0.070, +0.160] | 0.179 | 10 |
 
-**The counter-evidence is confirmed in direction.** NIST − DH = **+0.124**: NIST's Fe II gf
-sit *above* pure lab, which gives the *lower* abundance Ryan quoted (NIST 7.31 vs DH 7.46).
-Higher gf → lower abundance, so the signs are consistent.
+**VERDICT: LEGITIMATE — our scale IS the pure-lab scale.** The CI **excludes the
+solar-fitted prediction (~+0.13)**, which is what a verdict requires; a median inside a
+threshold is not enough, and that was the August mistake.
 
-### But the test cannot choose, and saying so is the result
+⚠️ **The blue arm did not change its mind — it is still INCONCLUSIVE on its own** (CI covers
+both readings, exactly as in August). The twelve near-UV lines that RYA-945's full table
+added are what carry the verdict. Pinned in the tests so this cannot be misread later.
 
-`ours − DH = +0.020` looks like a clean "our scale is the lab scale". It is not: the 95% CI
-**[−0.070, +0.160] covers both the pure-lab prediction (~0) and the solar-fitted one
-(~+0.13)**. Ten lines spanning −0.360…+0.260 dex cannot separate them.
+### 🔴 The premise still does not hold: the offset is band-dependent
 
-⚠️ My first pass thresholded on `|median| ≤ 0.05` and returned **"LEGITIMATE — hypothesis
-REFUTED"**. That was overreading a median with an uncertainty three times its size. The CI
-is what caught it, and it is now the verdict rule.
+| band | ours − NIST | n |
+|---|---|---|
+| blue overlap 4173–4584 Å | **−0.066** | 10 |
+| red pool 5257–6456 Å | **+0.107** | 8 |
 
-### 🔴 And the premise itself does not hold: the offset is band-dependent
+**Swing +0.173 dex, sign flips.** Both arms are now *measured on this run against live NIST
+from the same source* — the previous revision carried RYA-852's `+0.106` as a hardcoded
+literal, and quoting a number taken before 852/877/945 touched the pool beside a freshly
+measured one compares two pools on two dates and calls the difference a finding. (The
+re-measured red arm, +0.107, happens to land on RYA-852's +0.106 — but it is now a
+measurement, and three lines are dropped as ambiguous rather than argmin-matched.)
 
-| band | ours − NIST |
+### What this does and does not clear
+
+✅ The Fe II **gf scale** is on the laboratory scale, so *sitting above NIST is NIST being
+low*, as Den Hartog 2019 reports, and RYA-852's solar-fitting hypothesis is **refuted for the
+scale**.
+
+⚠️ **It does not clear the arbiter lines.** DH19 stops at 4584 Å; 6147.734 / 6238.386 /
+6247.557 are redward of it. And `canonical_gf` still carries the fabricated `NIST ASD v5.11
+grade B` on **6149.246** and **6247.557** — the defect that opened this ticket is unfixed.
+
+⚠️ **Independence is established only as deep as the reference string.** The twelve near-UV
+lines carrying the verdict are plain `VALD3`, `single_source`. VALD3 is an aggregator, so
+that label does not prove independence from Den Hartog — only that we did not adopt him
+directly. The values differ by up to 0.250 dex so this is not a laundered copy, but a shared
+upstream ancestor cannot be excluded from what we record. Closing it needs VALD3's per-line
+source for those twelve.
+
+🔴 **It does not clear the ionization balance — but the reason is not what this document
+first said.** The figures the verdict is quoted beside, Fe I 7.586 / Fe II 7.568 (RYA-783,
+`kpno_solar_atlas` PROFILEFIT), are dated **2026-08-16…18** and predate every continuum fix:
+
+| fix | landed |
 |---|---|
-| blue overlap 4173–4584 Å | **−0.066** |
-| red pool 5256–6456 Å (RYA-852) | **+0.106** |
+| RYA-911 — HARPS Fe II EW legs 0.34 dex low, continuum placement a partial cause | 2026-08-19 |
+| RYA-913 — ENGINE-B hardcoded `load_kp_window`, produced the retracted 7.486 | 2026-08-19 |
+| RYA-1000 / RYA-1006 — `--local-renorm` and the conditioning axis in the artifact stem | 2026-08-23 |
+| RYA-1026 — KP class ratified `pre_normalised`, `prenormalised_guard` wired | 2026-08-24 |
+| RYA-1030 — normalisation detected off the flux, not the flag | 2026-08-24 |
 
-**Swing +0.172 dex, and the sign flips.** So *"the Fe II pool sits +0.106 above NIST"* is
-not a scale property — RYA-852 measured it on the **red pool alone**, and the blue lines
-carry different provenance (`T83av`/`PGHcor`/`BSScor`/`KK` against `VALD3`/`RU`/MB09).
-There is no single "our Fe II scale" to referee, which is why a ten-line overlap in one band
-was never going to settle a claim made in another.
+⚠️ **CORRECTION, 2026-08-27.** An earlier revision of this section said the Fe II cell "has
+never been re-run" and that "there is no Fe II product at all". **Both were wrong**, and the
+error is instructive: they were read off `data/results/band_products/`, which is committed
+and stale, rather than off the published feed. **RYA-1045** (Fe II VIS, 2026-08-25) and
+**RYA-1052** (Fe II near-UV, 2026-08-26) *did* re-run Fe II on the molecfit/kurucz2005
+holdings, and **15 Fe II products sit in `data/products/solar/Fe.json` with `artifact_mtime`
+08-25/26** — all postdating RYA-1026/1030.
 
-### What would settle it
+They are invisible from the committed tree because **67 of the feed's 75 products carry
+`provenance.host = mac` and `copied_to: None`** and were never copied into the repo; only the
+8 `sirius` rows are committed. That drift is [RYA-1080] — since closed, together with [RYA-1084], so all 75 are now
+committed and a `band_products` check and the feed finally agree. This diagnosis is one of
+the two wrong calls RYA-1080 was filed for. The transferable rule: **a directory listing is not a census of
+what has been measured** — read the feed, which is the surface that publishes.
 
-The **full DH19 Table 6 — 131 lines**, VizieR `J/ApJS/243/33`. ⚠️ That ID returns **0 tables**
-from Sirius via astroquery (tried both `find_catalogs` and `Vizier(catalog=…).get_catalogs`),
-so the ten values here are **transcribed from the PDF** and this run is not network-
-reproducible. A direct CDS fetch would give 131 lines and a per-band offset with real
-statistics.
-
-⚠️ **The arbiter lines are not refereed by this.** DH19's optical set stops at 4584 Å; the
-three Fe II arbiter lines (6147.734 / 6238.386 / 6247.557) are redward of it. This tests the
-*scale* on the blue overlap, not those lines.
-
-**Status of the two hypotheses: both still open.** RYA-852's solar-fitting reading is neither
-supported nor refuted, and the NIST-is-the-outlier reading is confirmed in *direction*
-(NIST − DH > 0) but not in magnitude against our own pool.
+So the balance needs **re-deriving from the feed, not re-measuring**. One caution for whoever
+does it: the old pair is *ungraded* PROFILEFIT, while the current Fe I VIS products are
+`GRADED`/`DEEPGRADED` at n=13/67/108. Pairing across tiers would repeat RYA-1033's
+two-different-pools error — match tier and selector before subtracting.
 
 ## Recommended order
 
-1. **Correct the 31 grade mismatches and 14 value mismatches**, and reconcile the two files
-   against each other. Regenerate anything keyed on them.
-2. **Add the offline extract-vs-extract check to CI** — it caught RYA-592's half-applied fix
-   with no network and would have caught it a month ago.
-3. **Fetch DH19 directly** and run the referee test; until then RYA-850's graded bars stay
-   provisional, and the RYA-852 scale hypothesis stays open.
-4. Close the `rya347` ±0.1 Å wavelength-only match on general principle.
+1. ~~Fetch DH19 directly and run the referee test~~ — **done 2026-08-27**, and the test had
+   to be repaired before it could be run at all. See scope 3.
+2. **Re-run the Fe II VIS cell.** The gf scale is cleared; the measurement leg is not. Nothing
+   downstream of the ionization balance should be treated as settled until an Fe II product
+   exists that postdates RYA-1026/1030, and none does.
+3. **Correct the 31 grade mismatches and 14 value mismatches**, and reconcile the two extract
+   files against each other. Regenerate anything keyed on them. These rows feed published
+   anchors (O I 6300, Li I 6707, Ba II 5853, Ni I 6300.336), so this is a reviewable change
+   with a real blast radius — hence tabulated in `rya853_corrections.csv` and not applied.
+4. **Fix `canonical_gf` Fe II 6149.246 and 6247.557**, which still read `NIST ASD v5.11
+   grade B` where NIST grades them **E** and **D** — the defect that opened this ticket.
+5. **Add the offline extract-vs-extract check to CI** — it caught RYA-592's half-applied fix
+   with no network and would have caught it a month earlier.
+6. Close the `rya347` ±0.1 Å wavelength-only match on general principle.
+7. Fix the Belmonte Fe I **3935.307** row (stored −2.199 / σ 0.070; paper −1.820 / 0.180).
+
+## Provenance of this document
+
+| artifact | what |
+|---|---|
+| `scripts/rya853_freeze_pre945_fe2_scale.py` | freezes the pre-RYA-945 Fe II scale from `b545dc6^` |
+| `data/reference/fe_gf_lab/fe2_pre945_scale_snapshot.csv` | that snapshot, 15,280 rows, 0 citing the referee |
+| `scripts/rya853_dh19_scale_referee.py` | scope 3, with both guards; `--source live` shows them fire |
+| `data/results/rya853/rya853_dh19_referee.json` | the repaired run (verdict LEGITIMATE, n=22) |
+| `data/results/rya853/rya853_dh19_referee_live.json` | the degenerate control (verdict UNUSABLE) |
+| `data/results/rya853/rya853_red_arm_vs_nist.csv` | the red arm, measured rather than quoted |

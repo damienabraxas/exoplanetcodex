@@ -1,0 +1,22 @@
+{
+  "ticket": "RYA-853 scope 3",
+  "artifact": "fe2_pre945_scale_snapshot.csv",
+  "what": "the Fe II log gf scale as it stood BEFORE [RYA-945] ingested Den Hartog 2019 into canonical_gf \u2014 the scale that underwrote the solar Fe I - Fe II ionization balance, and the only one the DH19 referee can test",
+  "source_file": "data/linelists/canonical_gf.csv",
+  "source_sha": "a18b9faf44c074ace8cb1ee5c2765adfe251b764",
+  "source_sha_is": "b545dc6^ \u2014 the commit immediately before the RYA-945 ingest",
+  "superseded_by_sha": "b545dc6c98f3bb21a86095cae73575a3cfbcb97b",
+  "why_frozen": "after RYA-945 the overlap lines in canonical_gf ARE Den Hartog's, so ours-minus-DH is 0.000 by construction and the referee scores its own values. Re-running scope 3 against live canonical_gf on 2026-08-27 printed 'LEGITIMATE ... solar-fitting REFUTED' off a zero-width comparison",
+  "n_rows": 15280,
+  "wavelength_span_A": [
+    3000.062,
+    10501.503
+  ],
+  "controls": [
+    "REFEREE-ABSENT: 0 of 15280 snapshot rows cite Den Hartog 2019 PASS",
+    "REFEREE-PRESENT-TODAY: 22 Fe II rows in live canonical_gf DO cite it \u2014 which is exactly why the snapshot is needed",
+    "UNIQUE: 44 duplicate wavelengths"
+  ],
+  "sha256": "30c63e9d26fe5fe98463b3df40cc7b6199e0a5630d851a9f26898043e821d9c6",
+  "regenerate": "python3 scripts/rya853_freeze_pre945_fe2_scale.py"
+}
