@@ -3946,3 +3946,44 @@ artifacts:
       rya817_run_3dnlte_bands.py because RYA-924 established these cells were computed on
       the Mac from a temp scratchpad whose inputs are no longer recoverable: committing the
       artifact is the floor, regenerability is the net (RYA-1011), and this one has no net.
+
+  # ── RYA-1080 — the feed/repo reconciliation (added by RYA-1079's CI unblock) ──────
+  #
+  # These three landed in #433 with NO entries, which turned the RYA-686 gate red on main
+  # and on every branch under it. The generators were committed alongside them, so this is
+  # a missing LINK, not a missing harness -- exactly the case the manifest exists to make
+  # impossible to forget. Both entry points were run and verified to write these files
+  # before being named here; nothing was written after the fact to fit.
+
+  - artifact: rya1080/rya1080_reconciliation.csv
+    generator: scripts/rya1080_reconcile_feed_products.py
+    ticket: RYA-1080
+    invocation: python3 scripts/rya1080_reconcile_feed_products.py
+    note: >-
+      Every feed-declared band product, and whether the repo holds it. ⚠️ NOT BYTE-
+      REPRODUCIBLE, and that is a property of the artifact rather than a defect: the
+      `source` column records the ABSOLUTE PATH each file was found at when the
+      reconciliation ran, so it differs per machine and per worktree (the committed copy
+      carries /Users/.../codex/rya1015/...). Re-running reproduces the STATUS column, not
+      the paths. Verified: re-run from this entry writes the file and the status
+      distribution is unchanged.
+
+  - artifact: rya1080/rya1080_blocked.csv
+    generator: scripts/rya1080_reconcile_feed_products.py
+    ticket: RYA-1080
+    invocation: python3 scripts/rya1080_reconcile_feed_products.py
+    note: >-
+      The BLOCKED_SHA_MISMATCH subset of the reconciliation -- files that changed AFTER the
+      feed ingested them, deliberately not committed, because committing one under the
+      feed's recorded sha256 would record a file the feed never measured. Written by the
+      same run as the reconciliation above and carrying the same path caveat.
+
+  - artifact: rya1080/rya1080_guard.json
+    generator: pipeline/feed_repo_reconciliation.py
+    ticket: RYA-1080
+    invocation: python3 -m pipeline.feed_repo_reconciliation
+    note: >-
+      The standing guard's findings. Unlike its two siblings this one IS byte-reproducible
+      -- verified md5-identical on re-run -- because it records KINDS and reasons rather
+      than the paths the files were found at. Exits 1 when a blocking finding is present,
+      which is the guard working, not the generator failing.
