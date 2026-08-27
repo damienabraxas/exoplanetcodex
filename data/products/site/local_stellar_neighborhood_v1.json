@@ -1,0 +1,382 @@
+{
+  "schema_version": "1.0.0",
+  "product_id": "codex-local-stellar-neighborhood-v1",
+  "coordinate_system": {
+    "input_frame": "ICRS",
+    "input_epoch": "J2000",
+    "output_frame": "heliocentric Galactic Cartesian",
+    "axes": {
+      "x_gc": "toward Galactic center (l=0\u00b0, b=0\u00b0)",
+      "y_rotation": "direction of Galactic rotation (l=90\u00b0, b=0\u00b0)",
+      "z_ngp": "toward north Galactic pole (b=+90\u00b0)"
+    },
+    "projection": "orthographic x_gc-y_rotation; no visual coordinate nudging",
+    "extent_pc": 65
+  },
+  "provenance": {
+    "membership": "all rows in data/catalog/system_catalog.csv; target ID is star_params_key when present, otherwise website_slug",
+    "stellar_parameters": "optional join through config/stars.yaml / STAR_PARAMS; never a membership filter",
+    "astrometry": {
+      "schema_version": "1.0.0",
+      "ticket": "RYA-1065",
+      "source": "SIMBAD (CDS) preferred ICRS J2000 positions and parallaxes",
+      "retrieved": "2026-08-26",
+      "position_unit": "degree",
+      "parallax_unit": "milliarcsecond",
+      "distance_derivation": "distance_pc = 1000 / parallax_mas; valid because every committed parallax is positive",
+      "membership_join": "target_id is star_params_key when present, otherwise website_slug, from data/catalog/system_catalog.csv",
+      "source_url_template": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident={system_name}",
+      "notes": [
+        "Alpha Centauri A and B share the system parallax selected by SIMBAD; their distinct component positions remain truthful and nearly coincident at neighborhood scale.",
+        "The first six fixed-star positions reuse the already committed RYA-952 SIMBAD astrometry values; RYA-1065 extends the same source convention to every registered system.",
+        "Gliese 581 uses Gaia DR3 parallax 158.7183 +/- 0.0300 mas, bibliography 2020yCat.1350....0G."
+      ]
+    },
+    "transformation": "Astropy SkyCoord ICRS to Galactic Cartesian",
+    "generator": "python3 scripts/generate_local_stellar_neighborhood.py --site-root /path/to/exoplanetcodex-site"
+  },
+  "targets": [
+    {
+      "id": "solar",
+      "name": "Sun",
+      "slug": "sol",
+      "role": "calibration_anchor",
+      "spectral_type": "G2V",
+      "publication_status": "published",
+      "url": "/systems/sol/",
+      "distance_pc": 0.0,
+      "astrometric_source": "IAU heliocentric origin",
+      "galactic_l_deg": null,
+      "galactic_b_deg": null,
+      "cartesian_pc": {
+        "x_gc": 0.0,
+        "y_rotation": 0.0,
+        "z_ngp": 0.0
+      }
+    },
+    {
+      "id": "procyon",
+      "name": "Procyon",
+      "slug": "procyon",
+      "role": "benchmark",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/procyon/",
+      "distance_pc": 3.514197,
+      "astrometric_source": "SIMBAD/CDS (2007A&A...474..653V)",
+      "galactic_l_deg": 213.702241,
+      "galactic_b_deg": 13.019397,
+      "cartesian_pc": {
+        "x_gc": -2.848421,
+        "y_rotation": -1.899822,
+        "z_ngp": 0.791682
+      }
+    },
+    {
+      "id": "alpha_cen_a",
+      "name": "Alpha Cen A",
+      "slug": "alpha-centauri-a",
+      "role": "science_target",
+      "spectral_type": "G2V",
+      "publication_status": "published",
+      "url": "/systems/alpha-centauri-a/",
+      "distance_pc": 1.347491,
+      "astrometric_source": "SIMBAD/CDS (1997A&A...323L..49P)",
+      "galactic_l_deg": 315.734171,
+      "galactic_b_deg": -0.679656,
+      "cartesian_pc": {
+        "x_gc": 0.964883,
+        "y_rotation": -0.940467,
+        "z_ngp": -0.015984
+      }
+    },
+    {
+      "id": "alpha_cen_b",
+      "name": "Alpha Cen B",
+      "slug": "alpha-cen-b",
+      "role": "science_target",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/alpha-cen-b/",
+      "distance_pc": 1.347491,
+      "astrometric_source": "SIMBAD/CDS (1997A&A...323L..49P)",
+      "galactic_l_deg": 315.730084,
+      "galactic_b_deg": -0.681713,
+      "cartesian_pc": {
+        "x_gc": 0.964815,
+        "y_rotation": -0.940535,
+        "z_ngp": -0.016032
+      }
+    },
+    {
+      "id": "55cnc_a",
+      "name": "55 Cnc A",
+      "slug": "55-cancri",
+      "role": "science_target",
+      "spectral_type": "K0IV-V",
+      "publication_status": "published",
+      "url": "/systems/55-cancri/",
+      "distance_pc": 12.586818,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 196.794653,
+      "galactic_b_deg": 37.698897,
+      "cartesian_pc": {
+        "x_gc": -9.534342,
+        "y_rotation": -2.877617,
+        "z_ngp": 7.696988
+      }
+    },
+    {
+      "id": "tau-boo",
+      "name": "tau Boo",
+      "slug": "tau-boo",
+      "role": "benchmark_candidate",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/tau-boo/",
+      "distance_pc": 15.613534,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 358.936736,
+      "galactic_b_deg": 73.888988,
+      "cartesian_pc": {
+        "x_gc": 4.331999,
+        "y_rotation": -0.0804,
+        "z_ngp": 15.000325
+      }
+    },
+    {
+      "id": "hd-77338",
+      "name": "HD 77338",
+      "slug": "hd-77338",
+      "role": "benchmark_candidate",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/hd-77338/",
+      "distance_pc": 45.716585,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 251.362885,
+      "galactic_b_deg": 13.552171,
+      "cartesian_pc": {
+        "x_gc": -14.203014,
+        "y_rotation": -42.113139,
+        "z_ngp": 10.712798
+      }
+    },
+    {
+      "id": "hd209458",
+      "name": "HD 209458",
+      "slug": "hd209458",
+      "role": "future_target",
+      "spectral_type": "G0V",
+      "publication_status": "published",
+      "url": "/systems/hd209458/",
+      "distance_pc": 48.147756,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 76.753328,
+      "galactic_b_deg": -28.526906,
+      "cartesian_pc": {
+        "x_gc": 9.693307,
+        "y_rotation": 41.176724,
+        "z_ngp": -22.993991
+      }
+    },
+    {
+      "id": "hd189733",
+      "name": "HD 189733",
+      "slug": "hd189733",
+      "role": "future_target",
+      "spectral_type": "K2V",
+      "publication_status": "published",
+      "url": "/systems/hd189733/",
+      "distance_pc": 19.775821,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 60.963065,
+      "galactic_b_deg": -3.922269,
+      "cartesian_pc": {
+        "x_gc": 9.576174,
+        "y_rotation": 17.249642,
+        "z_ngp": -1.352726
+      }
+    },
+    {
+      "id": "tau_ceti",
+      "name": "tau Ceti",
+      "slug": "tau-ceti",
+      "role": "future_target",
+      "spectral_type": "G8V",
+      "publication_status": "published",
+      "url": "/systems/tau-ceti/",
+      "distance_pc": 3.652172,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 173.100676,
+      "galactic_b_deg": -73.439725,
+      "cartesian_pc": {
+        "x_gc": -1.033418,
+        "y_rotation": 0.125045,
+        "z_ngp": -3.500681
+      }
+    },
+    {
+      "id": "eps_eri",
+      "name": "eps Eri",
+      "slug": "eps-eri",
+      "role": "benchmark_candidate",
+      "spectral_type": "K2V",
+      "publication_status": "published",
+      "url": "/systems/eps-eri/",
+      "distance_pc": 3.21981,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 195.844641,
+      "galactic_b_deg": -48.0513,
+      "cartesian_pc": {
+        "x_gc": -2.070554,
+        "y_rotation": -0.58765,
+        "z_ngp": -2.394713
+      }
+    },
+    {
+      "id": "wasp-107",
+      "name": "WASP-107",
+      "slug": "wasp-107",
+      "role": "future_target",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/wasp-107/",
+      "distance_pc": 64.401038,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 295.692106,
+      "galactic_b_deg": 52.473904,
+      "cartesian_pc": {
+        "x_gc": 17.006767,
+        "y_rotation": -35.349914,
+        "z_ngp": 51.074917
+      }
+    },
+    {
+      "id": "lhs-3844",
+      "name": "LHS 3844",
+      "slug": "lhs-3844",
+      "role": "future_target",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/lhs-3844/",
+      "distance_pc": 14.878229,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 318.253845,
+      "galactic_b_deg": -43.907555,
+      "cartesian_pc": {
+        "x_gc": 7.99759,
+        "y_rotation": -7.137158,
+        "z_ngp": -10.318005
+      }
+    },
+    {
+      "id": "barnards-star",
+      "name": "Barnards Star",
+      "slug": "barnards-star",
+      "role": "future_target",
+      "spectral_type": null,
+      "publication_status": "published",
+      "url": "/systems/barnards-star/",
+      "distance_pc": 1.828234,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 31.008703,
+      "galactic_b_deg": 14.062651,
+      "cartesian_pc": {
+        "x_gc": 1.519999,
+        "y_rotation": 0.913622,
+        "z_ngp": 0.444229
+      }
+    },
+    {
+      "id": "gliese581",
+      "name": "Gliese 581",
+      "slug": "gliese581",
+      "role": "future_target",
+      "spectral_type": "M3V",
+      "publication_status": "published",
+      "url": "/systems/gliese581/",
+      "distance_pc": 6.300471,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 354.077626,
+      "galactic_b_deg": 40.018697,
+      "cartesian_pc": {
+        "x_gc": 4.799365,
+        "y_rotation": -0.49786,
+        "z_ngp": 4.051439
+      }
+    },
+    {
+      "id": "hd89307",
+      "name": "HD 89307",
+      "slug": "hd89307",
+      "role": "future_target",
+      "spectral_type": "G0V",
+      "publication_status": "published",
+      "url": "/systems/hd89307/",
+      "distance_pc": 31.833549,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 227.304132,
+      "galactic_b_deg": 51.395626,
+      "cartesian_pc": {
+        "x_gc": -13.468691,
+        "y_rotation": -14.597993,
+        "z_ngp": 24.877054
+      }
+    },
+    {
+      "id": "proxima",
+      "name": "Proxima Centauri",
+      "slug": "proxima",
+      "role": "future_target",
+      "spectral_type": "M5.5Ve",
+      "publication_status": "published",
+      "url": "/systems/proxima/",
+      "distance_pc": 1.301971,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 313.939862,
+      "galactic_b_deg": -1.927149,
+      "cartesian_pc": {
+        "x_gc": 0.90293,
+        "y_rotation": -0.936978,
+        "z_ngp": -0.043784
+      }
+    },
+    {
+      "id": "61-vir",
+      "name": "61 Virginis",
+      "slug": "61-vir",
+      "role": "future_target",
+      "spectral_type": "G5V",
+      "publication_status": "published",
+      "url": "/systems/61-vir/",
+      "distance_pc": 8.534418,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 311.859048,
+      "galactic_b_deg": 44.092614,
+      "cartesian_pc": {
+        "x_gc": 4.090255,
+        "y_rotation": -4.565224,
+        "z_ngp": 5.938421
+      }
+    },
+    {
+      "id": "51-peg",
+      "name": "51 Pegasi",
+      "slug": "51-peg",
+      "role": "future_target",
+      "spectral_type": "G2IV",
+      "publication_status": "published",
+      "url": "/systems/51-peg/",
+      "distance_pc": 15.526793,
+      "astrometric_source": "SIMBAD/CDS (2020yCat.1350....0G)",
+      "galactic_l_deg": 90.062644,
+      "galactic_b_deg": -34.72726,
+      "cartesian_pc": {
+        "x_gc": -0.013952,
+        "y_rotation": 12.761046,
+        "z_ngp": -8.845158
+      }
+    }
+  ]
+}
