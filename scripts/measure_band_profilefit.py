@@ -148,6 +148,12 @@ def main() -> None:
     ap.add_argument("--max-lines", type=int, default=None)
     ap.add_argument("--depth-min", type=float, default=0.05)
     ap.add_argument("--depth-max", type=float, default=0.60)
+    ap.add_argument("--lines-from", default=None,
+                    help="CSV with a `wavelength_air_A` column naming EXACTLY the lines to "
+                         "measure. Overrides the depth window, because the point of it is "
+                         "to measure a pool somebody else chose (RYA-1071). A requested "
+                         "line absent from the accounting table is REPORTED, never "
+                         "silently dropped -- see the selection block.")
     ap.add_argument("--out", default=str(OUT))
     a = ap.parse_args()
 
@@ -168,14 +174,49 @@ def main() -> None:
               "not corrected — lines outside them are unaffected.")
 
     acc = pd.read_csv(ACCOUNTING)
-    sel = acc[(acc.element == a.element) & (acc.ion == a.ion) &
-              (acc.wave_air_A >= a.lo) & (acc.wave_air_A <= a.hi) &
-              acc.predicted_depth.between(a.depth_min, a.depth_max) &
-              acc.instruments.notna()].sort_values("wave_air_A").reset_index(drop=True)
-    if a.max_lines:
-        idx = np.unique(np.linspace(0, len(sel) - 1, a.max_lines).astype(int))
-        sel = sel.iloc[idx].reset_index(drop=True)
-    print(f"  candidates {len(sel)}")
+    base = acc[(acc.element == a.element) & (acc.ion == a.ion) &
+               (acc.wave_air_A >= a.lo) & (acc.wave_air_A <= a.hi) &
+               acc.instruments.notna()]
+    if a.lines_from:
+        # 🔴 RYA-1071 — MEASURE THE POOL SOMEBODY ELSE CHOSE.
+        # This script selects by DEPTH WINDOW; `derive_band_products` can select by graded
+        # TIER. Two routes selecting differently cannot be differenced: RYA-1044's RYA-783
+        # reconciliation found the EW-route and synthesis-route Fe I pools shared TWO
+        # candidate lines out of 159 and 67, which is why that comparison returned
+        # NOT_COMPARABLE. Isolating the ROUTE systematic requires both routes on ONE pool,
+        # so the pool has to be nameable rather than re-derived here.
+        #
+        # ⚠️ The depth window is DELIBERATELY BYPASSED, not intersected with. Intersecting
+        # would silently return a third pool that is neither route's, which is the failure
+        # this option exists to prevent.
+        want = pd.read_csv(a.lines_from)
+        col = ("wavelength_air_A" if "wavelength_air_A" in want.columns else "wave_air_A")
+        req = np.asarray(want[col], dtype=float)
+        keep, missing = [], []
+        for w in req:
+            d = np.abs(base.wave_air_A.values - w)
+            if len(d) and d.min() <= 0.005:
+                keep.append(base.index[int(np.argmin(d))])
+            else:
+                missing.append(w)
+        sel = acc.loc[keep].sort_values("wave_air_A").reset_index(drop=True)
+        print(f"  pool from {Path(a.lines_from).name}: {len(req)} requested, "
+              f"{len(sel)} found in the accounting table")
+        if missing:
+            # An absence is information: a line the EW route cannot even consider is a
+            # DIFFERENT fact from one it measures and rejects, and collapsing the two is
+            # how a route comparison quietly becomes a pool comparison again.
+            print(f"  ⚠️ {len(missing)} requested line(s) NOT in the accounting table and "
+                  f"therefore unmeasurable by this route: "
+                  f"{', '.join(f'{w:.3f}' for w in missing[:8])}"
+                  + (" ..." if len(missing) > 8 else ""))
+    else:
+        sel = base[base.predicted_depth.between(a.depth_min, a.depth_max)] \
+            .sort_values("wave_air_A").reset_index(drop=True)
+        if a.max_lines:
+            idx = np.unique(np.linspace(0, len(sel) - 1, a.max_lines).astype(int))
+            sel = sel.iloc[idx].reset_index(drop=True)
+        print(f"  candidates {len(sel)}")
 
     segs = kp_segments() if a.instrument == "kpno_solar_atlas" else None
     allw = acc.wave_air_A.values
