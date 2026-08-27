@@ -1,6 +1,6 @@
 # RYA-1075 — the HFS-per-isotope inflation in `canonical_gf`, corrected
 
-**54 rows corrected. No published value moves. The guard RYA-684 lacked is installed.**
+**54 rows corrected — and the correction could not ship alone.** The 54 rows move no published value: for them the stored total and the resolver moved together, and the gf reaching the engine is unchanged to ≤ 7 × 10⁻⁵ dex. But the paired resolver fix **does** change the synthesis input for 12 *other* clusters, and **one committed value is exposed — RYA-466's A(Cu), by about 0.30 dex.** That is reported, not re-derived. The guard RYA-684 lacked is installed.
 
 ## What the defect actually is
 
