@@ -1,0 +1,752 @@
+{
+  "ticket": "RYA-1070",
+  "read_only": true,
+  "linemake": {
+    "url": "https://github.com/vmplacco/linemake",
+    "commit": "61af45bd8293c91059360cbb0cfa2d16d34fc21e",
+    "clone_path": "/var/folders/nh/qxn_fd3s3v37dqvd7wv_7swm0000gn/T/rya1070_linemake",
+    "curated_manifest_source": "mooglists/mergenohfs + mooglists/mergehfs",
+    "goodgf_files": [
+      "oI.moog",
+      "mgI.moog",
+      "mgII.moog",
+      "alI.moog",
+      "siI.moog",
+      "siII.moog",
+      "caI.moog",
+      "caII.moog",
+      "scII.moog",
+      "tiI.moog",
+      "tiII.moog",
+      "vI.moog",
+      "vII.moog",
+      "crI.moog",
+      "crII.moog",
+      "feI.moog",
+      "feII.moog",
+      "coI.moog",
+      "coII.moog",
+      "niI.moog",
+      "cuII.moog",
+      "znI.moog",
+      "znII.moog",
+      "geI.moog",
+      "seI.moog",
+      "rbI.moog",
+      "srI.moog",
+      "srII.moog",
+      "yII.moog",
+      "zrII.moog",
+      "nbII.moog",
+      "ruII.moog",
+      "cdI.moog",
+      "cdII.moog",
+      "teI.moog",
+      "laII.moog",
+      "ceII.moog",
+      "ceII.cullbie",
+      "prII.moog",
+      "ndII.moog",
+      "smII.moog",
+      "euII.moog",
+      "gdII.moog",
+      "tbII.moog",
+      "dyII.moog",
+      "erII.moog",
+      "tmII.moog",
+      "luII.moog",
+      "hfII.moog",
+      "taII.moog",
+      "osI.moog",
+      "osII.moog",
+      "irII.moog",
+      "ptI.moog",
+      "ptII.moog",
+      "auI.moog",
+      "thII.moog",
+      "uII.moog",
+      "snII.moog"
+    ],
+    "goodgfhfs_files": [
+      "alII.mooghfs",
+      "scI.mooghfs",
+      "scII.mooghfs",
+      "vI.mooghfs",
+      "vII.mooghfs",
+      "mnI.mooghfs",
+      "mnII.mooghfs",
+      "coI.mooghfs",
+      "coII.mooghfs",
+      "cuI.kurhfs",
+      "asI.mooghfs",
+      "nbII.mooghfs",
+      "agI.mooghfs",
+      "inII.mooghfs",
+      "sbI.mooghfs",
+      "baII.mooghfs",
+      "laII.mooghfs",
+      "prII.mooghfs",
+      "ndII.mooghfs",
+      "smII.mooghfs",
+      "euII.mooghfs",
+      "tbII.mooghfs",
+      "hoII.mooghfs",
+      "ybII.mooghfs",
+      "luII.mooghfs",
+      "wII.mooghfs",
+      "reII.mooghfs",
+      "irI.mooghfs",
+      "ptI.mooghfs",
+      "hgII.mooghfs",
+      "pbI.mooghfs",
+      "pbII.mooghfs",
+      "gaII.mooghfs",
+      "auI.mooghfs"
+    ],
+    "comparable_totals": 13902,
+    "species": 77
+  },
+  "canonical_gf": {
+    "path": "data/linelists/canonical_gf.csv",
+    "sha256": "3f87cfe8c64fa489771e8a5be52c046e414b847dd9eec559faf71cee3d66e8a4",
+    "rows": 178680,
+    "audited_rows": 137130,
+    "shared_species": [
+      "Ag I",
+      "Al I",
+      "Al II",
+      "As I",
+      "Au I",
+      "Ba II",
+      "Ca I",
+      "Ca II",
+      "Cd I",
+      "Ce II",
+      "Co I",
+      "Co II",
+      "Cr I",
+      "Cr II",
+      "Cu I",
+      "Cu II",
+      "Dy II",
+      "Er II",
+      "Eu II",
+      "Fe I",
+      "Fe II",
+      "Gd II",
+      "Ge I",
+      "Hf II",
+      "Hg II",
+      "Ho II",
+      "In II",
+      "Ir I",
+      "Ir II",
+      "La II",
+      "Lu II",
+      "Mg I",
+      "Mg II",
+      "Mn I",
+      "Mn II",
+      "Nb II",
+      "Nd II",
+      "Ni I",
+      "O I",
+      "Os I",
+      "Os II",
+      "Pb I",
+      "Pb II",
+      "Pr II",
+      "Pt I",
+      "Pt II",
+      "Rb I",
+      "Re II",
+      "Ru II",
+      "Sb I",
+      "Sc I",
+      "Sc II",
+      "Se I",
+      "Si I",
+      "Si II",
+      "Sm II",
+      "Sn II",
+      "Sr I",
+      "Sr II",
+      "Ta II",
+      "Tb II",
+      "Te I",
+      "Th II",
+      "Ti I",
+      "Ti II",
+      "Tm II",
+      "U II",
+      "V I",
+      "V II",
+      "W II",
+      "Y II",
+      "Yb II",
+      "Zn I",
+      "Zr II"
+    ]
+  },
+  "moog_decoding": {
+    "layout": "fixed-width 4 x F10 (wavelength A, species code, EP eV, log gf), then a free-text source tag from column 41",
+    "confirmation": "every record decoded BOTH fixed-width and by whitespace-splitting columns 1-40; any disagreement raises ParseError",
+    "species_code": "integer part = Z; first decimal digit = ionisation stage (0 = neutral = I, 1 = singly ionised = II); further decimal digits = isotope mass number, marking an HFS/isotopic COMPONENT row",
+    "example": "/var/folders/nh/qxn_fd3s3v37dqvd7wv_7swm0000gn/T/rya1070_linemake/mooglists/feI.moog:1 -> {'source_file': 'feI.moog', 'lineno': 1, 'wavelength_raw_A': 2132.017, 'species_code': '26.0', 'excitation_potential_eV': 0.0, 'log_gf': -1.67, 'log_gf_text': '-1.67', 'source_tag': 'BEL17'}",
+    "symbol_cross_check": "Z -> symbol taken from canonical_gf (key_z, species) and verified against the species stem of every linemake filename",
+    "symbol_notes": []
+  },
+  "hfs": {
+    "rule": "a negative wavelength opens a block: that row carries linemake's declared total, the rows after it are its components",
+    "trap": "components are listed PER ISOTOPE and each isotope's set sums to the FULL gf, so summing all components inflates by log10(n_isotopes) -- +0.301 dex for Eu II (2), +0.699 for Ba II (5), +0.845 for Nd II (7)",
+    "method": "compare against the declared total; VERIFY it by summing each isotope separately; a block deviating by more than 0.01 dex is HFS_AMBIGUOUS",
+    "blocks": 1078,
+    "unreconciled": 7,
+    "max_dev_dex": 0.4781212547196626
+  },
+  "air_vac": {
+    "boundary_A": 2000.0,
+    "boundary_source": "pipeline.wavelength_util (IAU 1991 / Morton 2000 / VALD convention, repo SSOT)",
+    "coincidences_within_5mA": {
+      "air": 10031,
+      "vacuum": 3
+    },
+    "measured_scale": "air",
+    "lines_below_boundary": 214
+  },
+  "tolerances": {
+    "derivation": "the |residual| histogram is a narrow true-match core on the flat background of coincidental neighbours; that background is MEASURED by re-running the same scan with our wavelengths displaced by each of NULL_SHIFTS_A, which destroys every true pair and leaves the coincidence rate intact; the tolerance is the outer edge of the last bin whose real count still exceeds the null by NULL_RATIO_CRITERION",
+    "null_shifts_A": [
+      1.0,
+      1.7,
+      2.3,
+      3.1,
+      4.2,
+      5.0,
+      6.3,
+      7.1,
+      8.6,
+      9.4,
+      11.3,
+      13.7,
+      -1.3,
+      -2.9,
+      -4.7,
+      -6.1,
+      -8.3,
+      -9.9,
+      -12.1,
+      -15.4
+    ],
+    "null_ratio_criterion": 5.0,
+    "wavelength_A": 0.02,
+    "wavelength_profile": [
+      {
+        "lo": 0,
+        "hi": 0.0005,
+        "count": 7927,
+        "null_count": 1.85,
+        "real_density": 15854000.0,
+        "null_density": 3700.0,
+        "ratio": 4284.864864864865
+      },
+      {
+        "lo": 0.0005,
+        "hi": 0.001,
+        "count": 425,
+        "null_count": 0.8,
+        "real_density": 850000.0,
+        "null_density": 1600.0,
+        "ratio": 531.25
+      },
+      {
+        "lo": 0.001,
+        "hi": 0.002,
+        "count": 807,
+        "null_count": 2.25,
+        "real_density": 807000.0,
+        "null_density": 2250.0,
+        "ratio": 358.6666666666667
+      },
+      {
+        "lo": 0.002,
+        "hi": 0.005,
+        "count": 874,
+        "null_count": 5.4,
+        "real_density": 291333.3333333333,
+        "null_density": 1800.0,
+        "ratio": 161.85185185185185
+      },
+      {
+        "lo": 0.005,
+        "hi": 0.01,
+        "count": 444,
+        "null_count": 10.6,
+        "real_density": 88800.0,
+        "null_density": 2120.0,
+        "ratio": 41.88679245283019
+      },
+      {
+        "lo": 0.01,
+        "hi": 0.02,
+        "count": 178,
+        "null_count": 20.45,
+        "real_density": 17800.0,
+        "null_density": 2045.0,
+        "ratio": 8.704156479217604
+      },
+      {
+        "lo": 0.02,
+        "hi": 0.03,
+        "count": 47,
+        "null_count": 20.35,
+        "real_density": 4700.000000000001,
+        "null_density": 2035.0000000000005,
+        "ratio": 2.3095823095823094
+      },
+      {
+        "lo": 0.03,
+        "hi": 0.05,
+        "count": 79,
+        "null_count": 38.15,
+        "real_density": 3949.999999999999,
+        "null_density": 1907.4999999999995,
+        "ratio": 2.070773263433814
+      },
+      {
+        "lo": 0.05,
+        "hi": 0.08,
+        "count": 46,
+        "null_count": 63.0,
+        "real_density": 1533.3333333333335,
+        "null_density": 2100.0,
+        "ratio": 0.7301587301587301
+      },
+      {
+        "lo": 0.08,
+        "hi": 0.1,
+        "count": 28,
+        "null_count": 39.55,
+        "real_density": 1399.9999999999998,
+        "null_density": 1977.4999999999995,
+        "ratio": 0.7079646017699116
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.15,
+        "count": 92,
+        "null_count": 99.3,
+        "real_density": 1840.0000000000005,
+        "null_density": 1986.0000000000005,
+        "ratio": 0.9264853977844915
+      },
+      {
+        "lo": 0.15,
+        "hi": 0.2,
+        "count": 101,
+        "null_count": 101.05,
+        "real_density": 2019.9999999999993,
+        "null_density": 2020.9999999999993,
+        "ratio": 0.9995051954477981
+      },
+      {
+        "lo": 0.2,
+        "hi": 0.3,
+        "count": 182,
+        "null_count": 198.7,
+        "real_density": 1820.0000000000005,
+        "null_density": 1987.0000000000002,
+        "ratio": 0.9159536990437847
+      },
+      {
+        "lo": 0.3,
+        "hi": 0.5,
+        "count": 323,
+        "null_count": 379.3,
+        "real_density": 1615.0,
+        "null_density": 1896.5,
+        "ratio": 0.8515686791457948
+      },
+      {
+        "lo": 0.5,
+        "hi": 1.0,
+        "count": 825,
+        "null_count": 1241.0,
+        "real_density": 1650.0,
+        "null_density": 2482.0,
+        "ratio": 0.6647864625302176
+      }
+    ],
+    "wavelength_stability": {
+      "3x": 0.02,
+      "5x": 0.02,
+      "10x": 0.01
+    },
+    "excitation_potential_eV": 0.01,
+    "ep_profile": [
+      {
+        "lo": 0,
+        "hi": 0.0005,
+        "count": 4637,
+        "null_count": 4.65,
+        "real_density": 9274000.0,
+        "null_density": 9300.0,
+        "ratio": 997.2043010752687
+      },
+      {
+        "lo": 0.0005,
+        "hi": 0.001,
+        "count": 2065,
+        "null_count": 2.35,
+        "real_density": 4130000.0,
+        "null_density": 4700.0,
+        "ratio": 878.7234042553191
+      },
+      {
+        "lo": 0.001,
+        "hi": 0.002,
+        "count": 2645,
+        "null_count": 3.6,
+        "real_density": 2645000.0,
+        "null_density": 3600.0,
+        "ratio": 734.7222222222222
+      },
+      {
+        "lo": 0.002,
+        "hi": 0.005,
+        "count": 1243,
+        "null_count": 3.95,
+        "real_density": 414333.3333333333,
+        "null_density": 1316.6666666666667,
+        "ratio": 314.6835443037975
+      },
+      {
+        "lo": 0.005,
+        "hi": 0.01,
+        "count": 49,
+        "null_count": 5.0,
+        "real_density": 9800.0,
+        "null_density": 1000.0,
+        "ratio": 9.8
+      },
+      {
+        "lo": 0.01,
+        "hi": 0.02,
+        "count": 14,
+        "null_count": 5.8,
+        "real_density": 1400.0,
+        "null_density": 580.0,
+        "ratio": 2.413793103448276
+      },
+      {
+        "lo": 0.02,
+        "hi": 0.05,
+        "count": 2,
+        "null_count": 16.0,
+        "real_density": 66.66666666666666,
+        "null_density": 533.3333333333333,
+        "ratio": 0.125
+      },
+      {
+        "lo": 0.05,
+        "hi": 0.1,
+        "count": 20,
+        "null_count": 22.0,
+        "real_density": 400.0,
+        "null_density": 440.0,
+        "ratio": 0.9090909090909091
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.2,
+        "count": 20,
+        "null_count": 42.6,
+        "real_density": 200.0,
+        "null_density": 426.0,
+        "ratio": 0.4694835680751174
+      },
+      {
+        "lo": 0.2,
+        "hi": 0.5,
+        "count": 63,
+        "null_count": 97.95,
+        "real_density": 210.0,
+        "null_density": 326.5,
+        "ratio": 0.6431852986217458
+      },
+      {
+        "lo": 0.5,
+        "hi": 1.0,
+        "count": 78,
+        "null_count": 97.4,
+        "real_density": 156.0,
+        "null_density": 194.8,
+        "ratio": 0.8008213552361396
+      },
+      {
+        "lo": 1.0,
+        "hi": 2.0,
+        "count": 87,
+        "null_count": 109.8,
+        "real_density": 87.0,
+        "null_density": 109.8,
+        "ratio": 0.7923497267759563
+      },
+      {
+        "lo": 2.0,
+        "hi": 5.0,
+        "count": 78,
+        "null_count": 96.3,
+        "real_density": 26.0,
+        "null_density": 32.1,
+        "ratio": 0.8099688473520249
+      },
+      {
+        "lo": 5.0,
+        "hi": 20.0,
+        "count": 15,
+        "null_count": 15.15,
+        "real_density": 1.0,
+        "null_density": 1.01,
+        "ratio": 0.9900990099009901
+      }
+    ],
+    "ep_stability": {
+      "3x": 0.01,
+      "5x": 0.01,
+      "10x": 0.005
+    },
+    "ssot_cross_check": {
+      "source": "pipeline.gf_grades (the project's ratified per-line match window)",
+      "wave_tol_A": 0.02,
+      "ep_tol_eV": 0.02,
+      "loggf_match_tol": 0.02,
+      "note": "derived independently here and NOT taken from these; wavelength lands on the same window, EP lands stricter"
+    },
+    "loggf_agreement_median_dex": 0.01,
+    "loggf_stats": {
+      "n": 10555,
+      "median_threshold_dex": 0.01,
+      "min_threshold_dex": 0.000500000000000005,
+      "max_threshold_dex": 0.055,
+      "exact_zero_deltas": 6716,
+      "matched": 10555
+    },
+    "loggf_derivation": "PER LINE: half the printed quantum of each side summed -- the widest gap two lists can show while carrying the same underlying number at the precision each committed to. No free parameter. Corroborated by the matched-delta histogram, whose decaying shoulder ends at ~0.005 dex before a flat continuum"
+  },
+  "matching": {
+    "key": "species AND wavelength AND excitation potential (RYA-1034: never wavelength alone)",
+    "ambiguity": "two linemake candidates inside tolerance, OR one linemake line that is the only candidate for two distinct canonical_gf lines, is refused as AMBIGUOUS_MATCH -- never broken by proximity",
+    "verdict_precedence": [
+      "AMBIGUOUS_MATCH",
+      "HFS_AMBIGUOUS",
+      "LINEMAKE_NONPRIMARY",
+      "LINEMAKE_STRONGER_SOURCE",
+      "AGREES/DISAGREES_GF",
+      "NO_MATCH"
+    ],
+    "fallback_tiers": [
+      "KURUCZ",
+      "OTHER",
+      "VALD3"
+    ]
+  },
+  "readme_parse": {
+    "species_rows": 90,
+    "sections": [
+      "Atomic Species: Fe-group Elements",
+      "Atomic Species: Neutron-Capture Elements",
+      "Atomic Species: Other Elements",
+      "Molecular (mostly diatomic) Species"
+    ],
+    "classification": "PRIMARY_LAB = only paper citations; CATALOG = only NIST/Kurucz/VALD/DREAM/HITRAN/ExoMol; MIXED = both",
+    "caveat_patterns": [
+      "treated with caution",
+      "solar-derived",
+      "raise the .{0,12}gf.{0,12}-?values"
+    ],
+    "caveated": {
+      "Cu I": "non-primary: README flags the source as to-be-treated-with-caution",
+      "Nd II": "non-primary: solar-derived (astrophysical) log gf; scoped to 4314.50 A only",
+      "CO": "non-primary: deliberate pragmatic gf offset"
+    },
+    "note": "the three known non-primary entries (Cu I, Nd II 4314.5, CO dv=2) are DETECTED by these patterns; the parse raises if any is missing"
+  },
+  "verdict_counts": {
+    "NO_MATCH": 126563,
+    "LINEMAKE_STRONGER_SOURCE": 9539,
+    "AGREES": 719,
+    "DISAGREES_GF": 233,
+    "LINEMAKE_NONPRIMARY": 51,
+    "AMBIGUOUS_MATCH": 18,
+    "HFS_AMBIGUOUS": 6,
+    "EP_COLLISION": 1
+  },
+  "hfs_collapse_control": [
+    {
+      "hfs_collapse": "both",
+      "n": 348,
+      "frac_within": 0.3793103448275862,
+      "median_abs_delta": 0.018972116040462228
+    },
+    {
+      "hfs_collapse": "linemake_only",
+      "n": 540,
+      "frac_within": 0.40555555555555556,
+      "median_abs_delta": 0.010000000000000009
+    },
+    {
+      "hfs_collapse": "neither",
+      "n": 8845,
+      "frac_within": 0.7928773318258904,
+      "median_abs_delta": 0.0
+    },
+    {
+      "hfs_collapse": "ours_only",
+      "n": 816,
+      "frac_within": 0.5,
+      "median_abs_delta": 0.006038306615490541
+    }
+  ],
+  "isotope_multiplier_scan": {
+    "found": 34,
+    "by_species": {
+      "Eu II": {
+        "lines": 4,
+        "multiplier": 2,
+        "offset_dex": 0.30050000000000004
+      },
+      "Nd II": {
+        "lines": 26,
+        "multiplier": 7,
+        "offset_dex": 0.8451
+      },
+      "Sm II": {
+        "lines": 4,
+        "multiplier": 7,
+        "offset_dex": 0.8451
+      }
+    },
+    "method": "published log_gf minus its own gf_linelist_vald sibling is a CONSTANT offset across the species, that constant is log10 of a small integer, and the sibling (not the published value) is what agrees with linemake's primary-lab total -- so linemake adjudicates the direction",
+    "exposure": [
+      {
+        "species": "Eu II",
+        "adjudicated": 4,
+        "same_signature_total": 5,
+        "no_referee": 1
+      },
+      {
+        "species": "Nd II",
+        "adjudicated": 26,
+        "same_signature_total": 38,
+        "no_referee": 12
+      },
+      {
+        "species": "Sm II",
+        "adjudicated": 4,
+        "same_signature_total": 4,
+        "no_referee": 0
+      }
+    ],
+    "action": "REPORTED ONLY (RYA-161 validate-don't-tune); no value changed"
+  },
+  "bulk_moogatom": {
+    "lines": 215514,
+    "species": 132,
+    "our_lines_with_bulk_counterpart": 66008,
+    "beyond_curated": 57163,
+    "note": "parsed as the ticket asks, and deliberately excluded from every verdict: no source tag, no README attribution, so agreement corroborates nothing"
+  },
+  "ep_collision_scan": {
+    "found": 1,
+    "rows": [
+      {
+        "line_id": "gf_058963",
+        "species": "Fe I",
+        "our_wavelength": 5538.515,
+        "our_EP": 3.634,
+        "our_loggf": -5.097,
+        "linemake_wavelength": 5538.516,
+        "linemake_EP": 3.634,
+        "linemake_loggf": -1.54,
+        "delta_loggf": -3.5570000000000004,
+        "matched_verdict": "LINEMAKE_STRONGER_SOURCE",
+        "rival_line_id": "gf_058964",
+        "rival_EP": 4.218,
+        "rival_loggf": -1.54,
+        "rival_source": "PRIMARY LAB Ruffoni2014",
+        "ep_gap_eV": 0.5840000000000001
+      }
+    ],
+    "method": "linemake's line matched our row A by EP, while a different row B within the wavelength tolerance carries linemake's log gf exactly -- so the two lists disagree about the EP of the transition and the match landed on the wrong row. Verdict overridden to EP_COLLISION rather than published as a promotion candidate (RYA-1034: a match we cannot stand behind is refused)"
+  },
+  "orphan_scan": {
+    "found": 4,
+    "rows": [
+      {
+        "line_id": "gf_087247",
+        "species": "Mg I",
+        "our_wavelength": 5183.604,
+        "our_loggf": 0.18,
+        "gf_synth_ges": -0.239,
+        "gf_regions_vald": -0.239,
+        "gf_linelist_vald": -0.239,
+        "linemake_loggf": -0.168,
+        "delta_loggf": 0.348,
+        "our_source": "NIST ASD v5.11 grade A",
+        "our_gf_tier": "NIST-C+",
+        "linemake_source_tag": "Pehlivan17"
+      },
+      {
+        "line_id": "gf_069752",
+        "species": "Fe II",
+        "our_wavelength": 5169.028,
+        "our_loggf": -0.8601,
+        "gf_synth_ges": -1.0,
+        "gf_regions_vald": NaN,
+        "gf_linelist_vald": -1.25,
+        "linemake_loggf": -1.0,
+        "delta_loggf": 0.13990000000000002,
+        "our_source": "NIST-C+ T7589",
+        "our_gf_tier": "NIST-C+",
+        "linemake_source_tag": "MELBAR"
+      },
+      {
+        "line_id": "gf_055336",
+        "species": "Fe I",
+        "our_wavelength": 4427.31,
+        "our_loggf": -3.0443,
+        "gf_synth_ges": -2.924,
+        "gf_regions_vald": NaN,
+        "gf_linelist_vald": -2.924,
+        "linemake_loggf": -2.92,
+        "delta_loggf": -0.12429999999999986,
+        "our_source": "NIST-C+ T3547",
+        "our_gf_tier": "NIST-C+",
+        "linemake_source_tag": "OBR91"
+      },
+      {
+        "line_id": "gf_070275",
+        "species": "Fe II",
+        "our_wavelength": 5264.802,
+        "our_loggf": -3.2306,
+        "gf_synth_ges": -3.13,
+        "gf_regions_vald": -3.12,
+        "gf_linelist_vald": -3.12,
+        "linemake_loggf": -3.13,
+        "delta_loggf": -0.10060000000000002,
+        "our_source": "NIST-C+ T7589",
+        "our_gf_tier": "NIST-C+",
+        "linemake_source_tag": "MELBAR"
+      }
+    ],
+    "method": "published log_gf agrees with none of its own provenance columns by more than 0.10 dex, excluding LAB-tier rows (where the divergence is the RYA-945 upgrade and linemake reproduces it to 0.000 dex)"
+  },
+  "fe1_lab_control": {
+    "matched": 396,
+    "median_abs_delta_dex": 0.0,
+    "threshold_dex": 0.01,
+    "passed": true
+  },
+  "critical": []
+}
