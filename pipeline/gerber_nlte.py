@@ -754,6 +754,29 @@ def for_node(element: str, teff: float, logg: float, feh: float,
             f"no TS-native Gerber deck registered for {element!r} in this adapter "
             f"(registered: {sorted(DECKS)}). Staging a deck is RYA-710; validating it is "
             f"the RYA-534/785 gate. Both must happen before it can be used here.")
+    # 🔴 RYA-1049 — `node` IS NOT A DECK SELECTOR AND NEVER WAS.
+    # It is a scratch-FILENAME tag: `_interpolate` spends it on
+    # `{workdir}/Testout/{node}_{element}_coef.dat` and nothing else. The physics is
+    # identical whatever is passed, and on a direct-read deck it is not referenced at all.
+    #
+    # But the NAME reads like "which node of the grid", so the natural way to reach for a
+    # ⟨3D⟩ deck is `for_node("Fe", ..., node="Fe@mean3D")` — which is ACCEPTED, runs
+    # clean, and returns the 1D MARCS deck, byte-identical to plain `for_node("Fe", ...)`.
+    # The deck key belongs in the FIRST positional argument.
+    #
+    # That silently served the wrong deck to a ⟨3D⟩ diagnostic, whose numbers were then
+    # published as having cleared the ⟨3D⟩ deck. The conclusion happened to survive
+    # re-measurement, but the evidence was from a different object and nothing said so.
+    # ⚠️ The two decks agree in every orientation-blind respect — both (ndep, 607), both
+    # A(X) 7.50, both atom.fe607a, both b→1 at depth, both b<1 at the surface. Only ndep
+    # (56 vs 101) and the tau range discriminate. A check that passes on both candidates
+    # cannot tell them apart, which is exactly how RYA-821's "verified twice" missed the
+    # transpose.
+    if node in DECKS:
+        raise GerberDeckError(
+            f"`node={node!r}` names a registered DECK, but `node` is a scratch-filename "
+            f"tag and selects nothing — you would silently get {element!r}'s deck. Pass "
+            f"the deck as the FIRST argument instead: for_node({node!r}, teff, logg, feh).")
     axis = abundance_axis(element)
     if has_abundance_axis(element):
         if abundance is None:
@@ -813,6 +836,10 @@ def for_node(element: str, teff: float, logg: float, feh: float,
         parsed["atom_path"] = f"{GT}/{DECKS[element]['atom']}"
         parsed["Z"] = DECKS[element]["Z"]
         parsed["deck_abundance"] = a_deck
+        # RYA-1049: say WHICH deck this is. The discriminating fields (ndep, tau range)
+        # differ between a 1D and a ⟨3D⟩ deck while everything else matches, so a caller
+        # that wants to be sure should be able to ask rather than infer.
+        parsed["deck_key"] = element
         _CACHE[key] = parsed
         return parsed
 
@@ -828,6 +855,7 @@ def for_node(element: str, teff: float, logg: float, feh: float,
     parsed["atom_path"] = f"{GT}/{DECKS[element]['atom']}"
     parsed["Z"] = DECKS[element]["Z"]
     parsed["deck_abundance"] = a_deck
+    parsed["deck_key"] = element          # RYA-1049 — see the direct-read branch above
     _CACHE[key] = parsed
     return parsed
 
@@ -872,6 +900,49 @@ def assert_depth_match(parsed: dict, atmosphere) -> None:
             f"atmosphere has {n}. iSpec overwrites the departure tau with the "
             f"atmosphere's, so these MUST match or the departures are applied at the "
             f"wrong depths.")
+
+
+def label_coverage(linelist, Z: int, element: str,
+                   wave_lo_A: float, wave_hi_A: float) -> tuple[int, int]:
+    """(labelled, total) {element} lines in the window — coverage as a FRACTION.
+
+    🔴 RYA-1050. `assert_linelist_supports_nlte` answers "is there at least one", which is
+    the only question an assert can usefully ask: bsyn's fallback is departure = 1 PER
+    LINE, so partial coverage never raises — it DILUTES. A band at half coverage emits a
+    well-formed NLTE product carrying roughly half the effect, and nothing records it.
+
+    Measured on GESv6 420–920 nm, which is our own production list: **9,048 of 18,366 Fe
+    lines are labelled in 4200–6910 Å — 49%**. The 67 lines of the graded pool are
+    themselves 67/67 labelled, so the TARGETS are fine; it is the surrounding BLEND lines
+    that are half in LTE.
+
+    A bare count cannot show that. 9,048 looks reassuring until it is set beside 18,366.
+
+    ⚠️ NO FLOOR IS IMPOSED HERE and none should be without deriving one (RYA-161). This
+    reports; the reader judges.
+    """
+    n_lab = 0
+    try:
+        species = np.floor(np.asarray(linelist["turbospectrum_species"], dtype=float))
+        names = linelist.dtype.names or ()
+        if "wave_A" in names:
+            w = np.asarray(linelist["wave_A"], dtype=float)
+        elif "wave_nm" in names:
+            w = np.asarray(linelist["wave_nm"], dtype=float) * 10.0
+        else:
+            return (0, 0)
+        rows = linelist[(species == Z) & (w >= wave_lo_A) & (w <= wave_hi_A)]
+        if not len(rows):
+            return (0, 0)
+        flagged = rows[rows["nlte"] == "T"]
+        n_lab = int(np.sum((flagged["nlte_label_low"] != "none")
+                           | (flagged["nlte_label_up"] != "none")))
+        return (n_lab, int(len(rows)))
+    except Exception:
+        # A coverage REPORT must never be the thing that breaks a run; the assert above is
+        # what refuses. Returning (n_lab, 0) makes "not measurable" distinguishable from
+        # "zero coverage", which 0/0 would not be.
+        return (n_lab, 0)
 
 
 def assert_linelist_supports_nlte(linelist, Z: int, element: str,

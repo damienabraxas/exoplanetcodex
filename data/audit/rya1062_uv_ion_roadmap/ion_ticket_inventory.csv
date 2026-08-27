@@ -1,0 +1,28 @@
+element,ion,existing_tickets,current_role,wavelength_regions_considered,canonical_uv_rows,canonical_primary_lab_rows,uv_source_considered,status,current_action
+O,I,"RYA-237,RYA-491,RYA-365,RYA-450",headline,"B:VIS,red-optical",1,0,no,WIRED-OK,none
+C,I,"RYA-237,RYA-520,RYA-493",headline,(no grid for either engine),0,0,no,WIRED-OK,none (minor: reconcile 8.491 vs RYA-491's 8.449)
+N,I,"RYA-369,RYA-460,RYA-491,RYA-526",headline,"A:red-optical,VIS?",1,0,no,DONE-BUT-STALE,"Batch D: apply the wired NLTE delta (audit expected approx -0.37) OR formally ratify N as data-channel-owed per the RYA-519 addendum - a decision, not a silent carry"
+Mg,I,"RYA-410,RYA-235,RYA-396,RYA-465,RYA-561,RYA-592,RYA-596",headline,"A:VIS,red-optical? · B:VIS,red-optical",11,0,no,GENUINELY-OWED,Resolve the 5528-vs-5711 0.21 dex line-to-line discordance BEFORE any Mg promotion; then RYA-161/162 differential-gf
+Si,I,"RYA-410,RYA-399,RYA-395,RYA-398",headline,"A:VIS,red-optical? · B:VIS,red-optical",21,0,no,GENUINELY-OWED (gf),Batch E: RYA-161/162 differential-gf
+Fe,I+II,"RYA-247,RYA-336,RYA-406,RYA-407,RYA-446,RYA-517",headline,"A:near-UV,VIS · B:VIS,red-optical",4274,59,no,WIRED-OK + VINTAGE-FLAG,"Batch A RE-DERIVE (HIGHEST): confirm the MPIA inelastic-H recipe and reconcile code-vs-register (register claims Amarsi-2022-NN), gated on Fe I/II balance"
+S,I,"RYA-492,RYA-491,RYA-402",headline,A:VIS,23,0,no,DONE-BUT-STALE,Batch D: re-emit with the RYA-492 Costa-Silva gf (audit expected approx 7.486); residual escalates to RYA-161
+Al,I,"RYA-402,RYA-410,RYA-596",headline,"A:VIS,red-optical · B:VIS?,red-optical?",10,0,no,GENUINELY-OWED (gf),RYA-161/162 differential-gf
+Ca,I,"RYA-235,RYA-411,RYA-413,RYA-596",headline,"A:VIS,red-optical? · B:VIS,red-optical",184,0,no,GENUINELY-OWED + EngA-SD,Batch A RE-DERIVE (LOW): migrate Engine-A to Amarsi Ca; Batch E: broaden the thin 2-line pool via RYA-161/162
+Na,I,"RYA-410,RYA-165,RYA-199,RYA-465,RYA-596",headline,"A:VIS,red-optical? · B:VIS,red-optical",2,0,no,GENUINELY-OWED,Broaden the thin low-confidence pool; RYA-161/162
+Ni,I,"RYA-395,RYA-398,RYA-596",headline,"B:VIS,red-optical",680,0,no,GENUINELY-OWED (gf),RYA-161/162 differential-gf
+Cr,I,"RYA-235,RYA-399,RYA-395,RYA-398,RYA-546",headline,A:VIS · B:not-established,1629,0,no,VINTAGE-INFLATED,"Batch C DROP-TO-LTE = STOP-PRECISION-LIMITED: hold + flag, retire is NOT certifiable; needs clean weak Cr II lines. gf floor -> RYA-161/162"
+Mn,I,"RYA-411,RYA-468,RYA-473,RYA-476,RYA-546",headline,"A:VIS,red-optical? · B:VIS,red-optical",913,0,no,WIRED-OK + FRAGILITY,Batch D doc-sync: the EW-path pointer is still scaled-Drawin -> RYA-527; pin/guard the gitignored NLTE .grd artifact
+P,I,RYA-460,headline,(no grid for either engine),0,0,no,GENUINELY-OWED,RYA-161/162 (P I near-IR gf)
+K,I,"RYA-462,RYA-460",headline,"A:red-optical,VIS?",7,0,no,WIRED-OK,none
+Ti,I,"RYA-235,RYA-399,RYA-395,RYA-398,RYA-544,RYA-545,RYA-596",headline,"A:VIS,red-optical? · B:VIS,red-optical",972,0,no,GENUINELY-OWED (gf) + EngB-SD,Batch B ATOM-SWAP Engine-B old->ab-initio = RYA-548 (already open); gf floor -> RYA-161/162
+Co,I,"RYA-460,RYA-564,RYA-643",headline,"B:VIS,red-optical",1042,0,no,GENUINELY-OWED (blue-edge),Extract clean red Co I lines + HFS; do not force the blue value; gf floor -> RYA-161/162
+Cu,I,"RYA-466,RYA-402",headline,A:VIS,188,0,no,WIRED-OK (fragile .grd),gf zero-point residual -> RYA-161; acquire a fuller NLTE .grd
+V,I,"RYA-466,RYA-470",headline,(no grid for either engine),661,0,no,NLTE-VOID,Batch E: V II majority-ion anchor = RYA-470 (the only NLTE lever)
+Sc,II,RYA-460;RYA-683,headline,(no grid for either engine),96,0,yes,GENUINELY-OWED (blue-edge HFS),HFS-resolved synthesis + a cleaner Sc II line before any PASS
+Sr,II,RYA-421;RYA-551;RYA-683,headline,A:VIS · B:VIS,3,0,yes,WRONG-SPECIES -> reclassified WIRED-OK 2026-07-15,Batch D REROUTE: the verdict reads the Sr I EW leg while the wired species is Sr II. RYA-551 delivered the Sr II synthesis; reclassification is pending merge of RYA-429 + RYA-551
+Zr,II,RYA-279;RYA-560;RYA-683,headline,(no grid for either engine),247,0,yes,GENUINELY-OWED (synth),Zr II synthesis (RYA-162)
+Ba,II,RYA-559;RYA-581;RYA-683,headline,"A:VIS,red-optical? · B:VIS?",0,0,yes,GENUINELY-OWED,Ba II 5853 synthesis (RYA-162)
+Y,II,RYA-458;RYA-475;RYA-683,headline,"B:VIS,red-optical",115,0,yes,GENUINELY-OWED (data gap),Acquire Y II lines
+Li,I,"RYA-103,RYA-199",headline,(no grid for either engine),0,0,no,WIRED-OK (terminal upper limit),none
+Eu,II,RYA-565;RYA-683,headline,"B:VIS,red-optical",52,0,yes,GENUINELY-OWED (noise-floor),Acquire a cleaner line / higher-SNR blue arm (Eu II 4129/4205). The red HFS line set is exhausted — re-running 6645 buys nothing.
+Fe,II,RYA-715;RYA-909,arbiter,A:VIS · B:not-established,665,12,yes,WIRED-OK,"none (per-line provenance RYA-515, minor)"
