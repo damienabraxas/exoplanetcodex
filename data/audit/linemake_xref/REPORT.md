@@ -57,15 +57,15 @@ These are lines where our `gf_tier` is a compilation fallback (KURUCZ / VALD3 / 
 | Mg I | 14 | Pehlivan Rhodin et al. (2017, A&A, 598, A102) |
 | Zn I | 10 | Roederer & Lawler (2012, ApJ, 750, 76) |
 | Mn II | 9 | Den Hartog et al. (2011, ApJS, 194, 35) |
-| Ge I | 6 | Li et al. (1999, PRA, 60, 198); Biémont et al (1999, MNRAS, 303, 721) |
 | Co II | 6 | Lawler et al. (2018, ApJS, 238, 7); Ding & Pickering (2020, ApJS, 251, 24); Roederer et al. 2022, ApJS, 260, 27 |
-| Si II | 3 | Den Hartog et al. (2023, ApJS, 265, 42); Pehlivan Rhodin et al. (2024, A&A, 682, A184) |
-| Pb I | 3 | Roederer & Lawler (2012, ApJ, 750, 76) |
+| Ge I | 6 | Li et al. (1999, PRA, 60, 198); Biémont et al (1999, MNRAS, 303, 721) |
 | Ir I | 3 | Xu et al. (2007, JQSRT, 104, 52); Roederer et al. 2022, ApJS, 260, 27; Cowan et al. (2005, ApJ, 627, 238) |
 | Os II | 3 | Quinet et al. (2006, A&A, 448, 1207) |
+| Pb I | 3 | Roederer & Lawler (2012, ApJ, 750, 76) |
+| Si II | 3 | Den Hartog et al. (2023, ApJS, 265, 42); Pehlivan Rhodin et al. (2024, A&A, 682, A184) |
 | Ag I | 2 | Hansen et al. (2012, A&A, 545, 31) |
-| Yb II | 1 | Sneden et al. (2009, ApJS, 182, 80); Kedzierski et al. (2010, Spectrochimica Acta B, 65, 248) |
 | Ta II | 1 | Quinet et al. (2009, A&A, 493, 711); Morton (2000, ApJS, 130, 403) |
+| Yb II | 1 | Sneden et al. (2009, ApJS, 182, 80); Kedzierski et al. (2010, Spectrochimica Acta B, 65, 248) |
 
 Twelve examples, largest |Δ| first — the size of Δ is how much a promotion would actually move the line:
 
@@ -180,6 +180,14 @@ The three Fe rows are 0.10–0.14 dex and are ordinary NIST-C+ versus compilatio
 * **MOOG decoding** — fixed-width 4 × F10 (λ Å, species code, EP eV, log gf) then a free-text source tag from column 41. Every record is decoded twice, fixed-width and free-form, and a disagreement raises. Species code: integer part Z, first decimal digit the ionisation stage, further digits the isotope mass number.
 * **Curated manifest** — the 59 + 34 file list is parsed out of linemake's own `mergenohfs` / `mergehfs` scripts, so it cannot drift from the repo it describes. The uncurated `moogatom*` bulk files are deliberately NOT used as corroboration: they carry no README source attribution, and an unsourced Kurucz value agreeing with ours is not evidence of anything.
 * **Element symbols** — from `canonical_gf` (`key_z` + `ion`), cross-checked against the species stem of every linemake filename. A disagreement is fatal.
+
+## Reproducibility of this artifact
+
+Regenerated on Sirius (CI venv, py3.12) and compared against the Mac run: **every verdict count and every reported number is identical**. The files are nonetheless not byte-identical, and it is worth saying why rather than claiming they are. pandas' CSV float parser differs by up to one ULP between versions, so pass-through columns can print differently — `our_EP` as `4.8271999999999995` on one machine and `4.8272` on the other, `our_wavelength` as `19280.14200091231` against `19280.142000912318`.
+
+One informational count moves with it: `bulk_moogatom.beyond_curated` is 57,163 on one machine and 57,164 on the other — a single line of 66,008 sitting exactly on the bulk-coverage tolerance boundary. No verdict, no match, and no scientific number is affected. That boundary case is deliberately **not** papered over by rounding the comparison inputs: a rounded number is not an identity, and manufacturing agreement at a boundary would be worse than recording that the boundary is there.
+
+Row ordering *is* pinned. Every count- or magnitude-ordered table breaks ties on a stable key, because the first cross-machine comparison found the species tied at 3 and 6 matches emitted in a different order — same numbers, different rows. The clone path is deliberately not recorded in `provenance.json` for the same reason: it is a scratch temp directory that differs per machine and carries no information.
 
 ## Scope
 

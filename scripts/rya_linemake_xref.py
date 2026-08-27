@@ -789,7 +789,8 @@ def isotope_multiplier_scan(xref: pd.DataFrame, ours: pd.DataFrame) -> pd.DataFr
         out.append(o)
     if not out:
         return pd.DataFrame(columns=list(m.columns) + ["multiplier", "offset_dex"])
-    return pd.concat(out, ignore_index=True).sort_values(["species", "our_wavelength"])
+    return pd.concat(out, ignore_index=True).sort_values(["species", "our_wavelength",
+                                                          "line_id"])
 
 
 def ep_collision_scan(xref: pd.DataFrame, ours: pd.DataFrame, wtol: float, etol: float,
@@ -854,7 +855,8 @@ def orphan_scan(xref: pd.DataFrame, ours: pd.DataFrame) -> pd.DataFrame:
     orphan = m[(m.n_siblings > 0)
                & (m.min_abs_delta_vs_sibling > 0.10)
                & ~m.our_gf_tier.astype(str).str.contains("LAB", na=False)]
-    return orphan.sort_values("min_abs_delta_vs_sibling", ascending=False)
+    return orphan.sort_values(["min_abs_delta_vs_sibling", "line_id"],
+                              ascending=[False, True])
 
 
 # --------------------------------------------------------------------------------------
@@ -1121,7 +1123,11 @@ def main() -> int:
             linemake_primary_source=readme.set_index("species").primary_source.get(sp_name, ""),
             linemake_reference_class=readme.set_index("species").reference_class.get(sp_name, ""),
         ))
-    summary = pd.DataFrame(rows).sort_values("matched", ascending=False)
+    #  Ties on `matched` must break on something stable, or the artifact's row order
+    #  depends on the pandas version. Measured, not hypothetical: Sirius and the Mac
+    #  emitted the same numbers in a different order for the species tied at 3 and 6.
+    summary = pd.DataFrame(rows).sort_values(["matched", "species"],
+                                             ascending=[False, True])
 
     # -- smoke-test controls the ticket names
     print(f"\nOVERLAP CONTROLS (must be non-zero)\n{'-' * 78}")
@@ -1155,13 +1161,17 @@ def main() -> int:
     readme.to_csv(OUT / "linemake_readme_sources.csv", index=False)
 
     big = xref[(xref.verdict == "DISAGREES_GF") & (np.abs(xref.delta_loggf) > 0.10)]
-    big = big.reindex(np.abs(big.delta_loggf).sort_values(ascending=False).index)
+    big = big.assign(_abs=np.abs(big.delta_loggf)).sort_values(
+        ["_abs", "line_id"], ascending=[False, True]).drop(columns="_abs")
     big[cols].to_csv(OUT / "disagreements_over_0p10dex.csv", index=False)
 
     prov = dict(
         ticket="RYA-1070", read_only=True,
-        linemake=dict(url=LINEMAKE_URL, commit=lmsha, clone_path=str(lmdir),
+        linemake=dict(url=LINEMAKE_URL, commit=lmsha,
                       curated_manifest_source="mooglists/mergenohfs + mooglists/mergehfs",
+                      clone_path_note="deliberately not recorded -- it is a scratch temp "
+                                      "directory that differs per machine and would make "
+                                      "this artifact machine-specific for no information",
                       goodgf_files=nohfs, goodgfhfs_files=hfs,
                       comparable_totals=int(len(lm)), species=int(lm.species.nunique())),
         canonical_gf=dict(path=str(CANONICAL.relative_to(ROOT)), sha256=cg_sha,
@@ -1175,7 +1185,7 @@ def main() -> int:
             species_code="integer part = Z; first decimal digit = ionisation stage "
                          "(0 = neutral = I, 1 = singly ionised = II); further decimal digits "
                          "= isotope mass number, marking an HFS/isotopic COMPONENT row",
-            example=f"{mooglists / 'feI.moog'}:1 -> "
+            example=f"mooglists/feI.moog:1 -> "
                     f"{parse_moog_file(mooglists / 'feI.moog').iloc[0].to_dict()}",
             symbol_cross_check="Z -> symbol taken from canonical_gf (key_z, species) and "
                                "verified against the species stem of every linemake filename",
@@ -1231,6 +1241,23 @@ def main() -> int:
             caveated={r.species: r.caveats for _, r in readme[readme.caveats != ""].iterrows()},
             note="the three known non-primary entries (Cu I, Nd II 4314.5, CO dv=2) are "
                  "DETECTED by these patterns; the parse raises if any is missing"),
+        reproducibility=dict(
+            deterministic_ordering="every count- or magnitude-ordered table breaks ties on a "
+                                   "stable key (species or line_id), so row order does not "
+                                   "depend on the pandas version",
+            byte_identical_across_machines=False,
+            measured="regenerated on Sirius (CI venv, py3.12) against the Mac run: every "
+                     "verdict count and every reported number is identical, but pandas' CSV "
+                     "float parser differs by up to 1 ULP between versions, so pass-through "
+                     "columns can print differently (e.g. our_EP 4.8271999999999995 vs "
+                     "4.8272; our_wavelength 19280.14200091231 vs 19280.142000912318)",
+            consequence="one informational count moved by 1 -- bulk_moogatom.beyond_curated "
+                        "was 57,163 on one machine and 57,164 on the other, a single line "
+                        "sitting exactly on the bulk-coverage tolerance boundary. No verdict, "
+                        "no match, and no scientific number is affected. Deliberately NOT "
+                        "'fixed' by rounding the comparison inputs: a rounded number is not "
+                        "an identity, and manufacturing agreement at a boundary is worse than "
+                        "recording that the boundary exists"),
         verdict_counts={k: int(v) for k, v in vc.items()},
         hfs_collapse_control=hfs_ctrl.to_dict("records"),
         isotope_multiplier_scan=dict(
@@ -1305,7 +1332,9 @@ def write_report(path: Path, xref: pd.DataFrame, summary: pd.DataFrame, readme: 
     comp = xref[xref.verdict.isin({"AGREES", "DISAGREES_GF", "LINEMAKE_STRONGER_SOURCE"})]
     comparable = len(comp)
     within = int(comp.delta_within_threshold.fillna(False).sum())
-    strong_sp = strong.groupby("species").size().sort_values(ascending=False)
+    strong_sp = (strong.groupby("species").size().rename("n").reset_index()
+                 .sort_values(["n", "species"], ascending=[False, True])
+                 .set_index("species").n)
     L = []
     A = L.append
     A("# RYA-1070 — is `linemake` a good gf cross-reference for the lines we already hold?\n")
@@ -1370,7 +1399,8 @@ def write_report(path: Path, xref: pd.DataFrame, summary: pd.DataFrame, readme: 
         A(f"| {spn} | {cnt} | {src} |")
     A("")
     if len(strong):
-        ex = strong.reindex(np.abs(strong.delta_loggf).sort_values(ascending=False).index).head(12)
+        ex = strong.assign(_a=np.abs(strong.delta_loggf)).sort_values(
+            ["_a", "line_id"], ascending=[False, True]).head(12)
         A("Twelve examples, largest |Δ| first — the size of Δ is how much a promotion would "
           "actually move the line:\n")
         A("| line_id | species | λ_air (Å) | EP (eV) | our log gf | our source | linemake log gf | Δ | linemake tag |")
@@ -1385,7 +1415,9 @@ def write_report(path: Path, xref: pd.DataFrame, summary: pd.DataFrame, readme: 
     if big.empty:
         A("None: every `DISAGREES_GF` line sits within 0.10 dex.\n")
     else:
-        bysp = big.groupby("species").size().sort_values(ascending=False)
+        bysp = (big.groupby("species").size().rename("n").reset_index()
+                .sort_values(["n", "species"], ascending=[False, True])
+                .set_index("species").n)
         A("By species: " + ", ".join(f"{s} ({c})" for s, c in bysp.items()) + ".\n")
         A(f"Full list in `disagreements_over_0p10dex.csv`. The {min(30, len(big))} largest:\n")
         A("| line_id | species | λ_air (Å) | EP (eV) | our log gf | our source | our tier | linemake log gf | Δ | linemake tag |")
@@ -1571,6 +1603,26 @@ def write_report(path: Path, xref: pd.DataFrame, summary: pd.DataFrame, readme: 
     A(f"* **Element symbols** — from `canonical_gf` (`key_z` + `ion`), cross-checked against "
       f"the species stem of every linemake filename. A disagreement is fatal.\n")
 
+    rp = prov["reproducibility"]
+    A("## Reproducibility of this artifact\n")
+    A(f"Regenerated on Sirius (CI venv, py3.12) and compared against the Mac run: **every "
+      f"verdict count and every reported number is identical**. The files are nonetheless "
+      f"not byte-identical, and it is worth saying why rather than claiming they are. "
+      f"pandas' CSV float parser differs by up to one ULP between versions, so pass-through "
+      f"columns can print differently — `our_EP` as `4.8271999999999995` on one machine and "
+      f"`4.8272` on the other, `our_wavelength` as `19280.14200091231` against "
+      f"`19280.142000912318`.\n")
+    A("One informational count moves with it: `bulk_moogatom.beyond_curated` is 57,163 on one "
+      "machine and 57,164 on the other — a single line of 66,008 sitting exactly on the "
+      "bulk-coverage tolerance boundary. No verdict, no match, and no scientific number is "
+      "affected. That boundary case is deliberately **not** papered over by rounding the "
+      "comparison inputs: a rounded number is not an identity, and manufacturing agreement at "
+      "a boundary would be worse than recording that the boundary is there.\n")
+    A("Row ordering *is* pinned. Every count- or magnitude-ordered table breaks ties on a "
+      "stable key, because the first cross-machine comparison found the species tied at 3 and "
+      "6 matches emitted in a different order — same numbers, different rows. The clone path "
+      "is deliberately not recorded in `provenance.json` for the same reason: it is a scratch "
+      "temp directory that differs per machine and carries no information.\n")
     A("## Scope\n")
     bm = prov["bulk_moogatom"]
     A(f"The uncurated `moogatom*` bulk lists **are** parsed — {bm['lines']:,} atomic lines "
