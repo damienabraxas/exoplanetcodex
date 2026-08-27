@@ -1319,7 +1319,12 @@ def check_telluric_state(st: State) -> CheckResult:
         # correction stage (IAG, basis 'corrected') can also be missing from a product,
         # but that is an ACCOUNTING absence and check 5 owns it — reporting it here as
         # well would double-count one gap as two.
-        if (state == "applied" and telluric_policy.requires_correction(inst)
+        # RYA-1072: `correction_requirement`, not `requires_correction`, which now
+        # refuses an unresolved instrument. Scoping stays byte-identical for every
+        # RESOLVED instrument; an AMBIGUOUS one is simply not the CRIRES+ class this
+        # branch is about, and check 6's gate_holding call above already WARNs on it.
+        if (state == "applied"
+                and telluric_policy.correction_requirement(inst) == telluric_policy.REQUIRED
                 and inst not in product_instruments and len(st.products)):
             in_reach = _reaches(st, inst, lines)
             # ONE GAP, ONE WARN. If check 1 already found that no harness path reaches
