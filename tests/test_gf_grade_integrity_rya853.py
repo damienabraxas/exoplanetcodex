@@ -156,8 +156,21 @@ def test_the_dh19_referee_is_marked_owed_not_answered(summary):
 
 
 # ── scope 3: the DH19 referee ─────────────────────────────────────────────────
+#
+# 🔴 WHAT WENT WRONG HERE, AND WHAT THESE TESTS NOW PIN
+# [RYA-945] ingested Den Hartog 2019 into canonical_gf. The referee read "ours" from
+# canonical_gf, so by 2026-08-27 it was comparing DH19 against DH19: ours - DH = +0.000,
+# CI [+0.000, +0.000], sd 0.000 — and printed "LEGITIMATE ... solar-fitting REFUTED".
+# The verdict flipped from INCONCLUSIVE without anyone touching RYA-853.
+#
+# The bootstrap CI was added to stop the median being overread, and it did not catch this:
+# a zero-width CI passes every "is it well determined?" test there is. So the tests below
+# check the two properties a self-match cannot have — an independent source, and a spread.
 
 REFEREE = ROOT / "data" / "results" / "rya853" / "rya853_dh19_referee.json"
+REFEREE_LIVE = ROOT / "data" / "results" / "rya853" / "rya853_dh19_referee_live.json"
+FROZEN_SNAPSHOT = (ROOT / "data" / "reference" / "fe_gf_lab"
+                   / "fe2_pre945_scale_snapshot.csv")
 
 
 @pytest.fixture(scope="module")
@@ -174,48 +187,135 @@ def test_the_referee_is_pure_lab(referee):
     assert "BF" in referee["referee"] or "LIF" in referee["referee"]
 
 
-def test_the_referee_does_not_claim_to_have_settled_it(referee):
-    """THE POINT. ours - DH is +0.020 with a CI of [-0.070, +0.160], which covers BOTH the
-    pure-lab prediction (~0) and the solar-fitted one (~+0.13). My first pass thresholded
-    on |median| <= 0.05 and returned 'LEGITIMATE — hypothesis REFUTED', which was
-    overreading a median whose uncertainty is three times its size."""
+def test_the_referee_is_not_on_both_sides_of_its_own_comparison(referee):
+    """🔴 THE REGRESSION TEST. 'ours' must be the pre-945 snapshot, and no scored line may
+    cite the referee. Reading canonical_gf here is what produced the false REFUTED."""
+    assert referee["ours_source"] == "frozen", (
+        "the referee is reading live canonical_gf again — post-RYA-945 that file CONTAINS "
+        "Den Hartog 2019, so the comparison scores the referee against itself")
+    assert "pre945" in referee["ours_source_file"]
+    assert referee["n_excluded_self_referential"] == 0, (
+        "a scored line cites the referee — the frozen snapshot has been contaminated")
+
+
+def test_the_estimator_did_not_collapse(referee):
+    """A spread of exactly zero is not agreement, it is the same number on both sides. This
+    is the numeric signature the false verdict had: sd 0.000, CI width 0.000."""
+    st = referee["ours_minus_dh"]
+    assert st["std"] > 0.0, "zero spread across the pool — this is a self-match, not a test"
+    assert st["ci_width"] > 1e-6
+    assert st["n"] >= 5, "too few lines to carry a verdict"
+
+
+def test_a_verdict_is_only_claimed_when_the_ci_separates_the_readings(referee):
+    """The two readings predict ~0.0 (pure lab) and ~+0.13 (solar-fitted). Claiming either
+    requires a CI that EXCLUDES the other — the original bug was thresholding |median| on
+    its own, which a CI covering both still passes."""
     lo, hi = referee["ours_minus_dh"]["ci95"]
-    assert lo <= 0.0 <= hi, "the CI no longer covers the pure-lab prediction"
-    assert lo <= 0.13 <= hi, "the CI no longer covers the solar-fitted prediction"
-    assert "INCONCLUSIVE" in referee["verdict"], (
-        "the referee now claims a verdict — check that the CI actually separates the two "
-        "readings before believing it")
+    v = referee["verdict"]
+    if v.startswith("LEGITIMATE"):
+        assert not (lo <= 0.13 <= hi), (
+            "LEGITIMATE claimed while the CI still covers the solar-fitted prediction")
+    elif v.startswith("HYPOTHESIS LIVES"):
+        assert not (lo <= 0.0 <= hi), (
+            "HYPOTHESIS LIVES claimed while the CI still covers the pure-lab prediction")
+    elif v.startswith("INCONCLUSIVE"):
+        assert lo <= 0.0 <= hi and lo <= 0.13 <= hi
+    else:
+        assert v.startswith("UNUSABLE")
 
 
-def test_the_counter_evidence_is_confirmed_in_direction(referee):
-    """NIST - DH > 0: NIST's Fe II gf sit ABOVE pure lab, which yields the LOWER abundance
-    Den Hartog 2019 reports (NIST 7.31 vs DH 7.46). Higher gf, lower abundance."""
-    assert referee["nist_minus_dh"]["median"] > 0.05
+def test_the_verdict_rests_on_the_near_uv_lines_not_the_blue_overlap(referee):
+    """WHERE THE ANSWER COMES FROM. The blue overlap alone is the same ten lines that were
+    INCONCLUSIVE in August and still are; the twelve near-UV lines RYA-945's full table
+    added are what tighten it. Stated so nobody reads this as the blue arm having changed
+    its mind."""
+    per_band = referee["ours_minus_dh_per_band"]
+    blue = per_band["blue"]
+    lo, hi = blue["ci95"]
+    assert lo <= 0.0 <= hi and lo <= 0.13 <= hi, (
+        "the blue arm now separates the readings on its own — re-read the verdict, it is "
+        "no longer carried by the near-UV lines")
+    assert per_band["near-UV"]["n"] >= 10
 
 
-def test_the_offset_against_nist_is_band_dependent(referee):
-    """🔴 The premise of the question does not hold. RYA-852's '+0.106 pool-wide' was
-    measured on the RED pool alone; on the blue overlap the offset is negative. There is no
-    single 'our Fe II scale' to referee."""
+def test_the_referee_is_reproducible_from_the_repo(referee):
+    """The previous run transcribed ten values out of the DH19 PDF and said so as a real
+    limitation. RYA-945 vendored the machine-readable Table 6, so the referee is now read
+    from a committed file — 131 lines, not 10."""
+    assert referee["referee_source"].endswith("fe2_lab_loggf_dh19.csv")
+    assert referee["referee_n_lines"] == 131
+    assert (ROOT / referee["referee_source"]).exists()
+
+
+def test_both_band_arms_are_measured_not_carried_as_a_literal(referee):
+    """RYA-852's +0.106 was taken before 852/877/945 touched the pool. Quoting it beside a
+    freshly measured blue arm compares two pools on two dates and calls the difference
+    band-dependence. Both arms must carry their own n."""
     b = referee["band_dependence"]
     assert b is not None
-    assert b["sign_flips"] is True, (
-        "the offset no longer flips sign between bands — RYA-852's pool-wide framing may "
-        "be recoverable, so re-derive")
+    assert b["blue_n"] >= 5 and b["red_n"] >= 5
+    assert b["sign_flips"] is True
     assert abs(b["swing_dex"]) > 0.1
 
 
 def test_the_arbiter_lines_are_not_claimed_to_be_refereed(referee):
-    """DH19's optical set stops at 4584 A; the three arbiter lines are redward of it."""
-    assert "arbiter" in referee["caveat"].lower()
-    assert referee["overlap_A"][1] < 6000.0
+    """DH19 stops at 4584 A; the three arbiter lines are redward of it."""
+    assert "arbiter" in referee["caveat_arbiter_lines"].lower()
+    assert referee["scored_span_A"][1] < 6000.0
 
 
-def test_the_transcription_limitation_travels_with_the_numbers(referee):
-    """The values came from a PDF because VizieR returns 0 tables for the catalog ID from
-    this machine. That is a limitation of this run and must not be forgotten."""
-    assert referee["vizier_reachable_from_this_machine"] is False
-    assert "transcribed" in referee["data_provenance"].lower()
+def test_the_independence_caveat_travels_with_the_verdict(referee):
+    """GUARD 1 checks the reference STRING. The near-UV lines carrying the verdict are
+    plain 'VALD3', and VALD3 is an aggregator — that label does not prove independence
+    from Den Hartog, it only proves we did not adopt him directly."""
+    c = referee["caveat_independence_is_string_deep_only"].lower()
+    assert "vald3" in c and "aggregator" in c
+
+
+def test_the_balance_caveat_records_that_the_measurement_leg_is_pre_continuum_fix(referee):
+    """🔴 A CLEARED gf SCALE DOES NOT CLEAR THE BALANCE. Fe I 7.586 / Fe II 7.568 were
+    measured 2026-08-16..18; every continuum fix (RYA-911/913, 1000/1006, 1026, 1030)
+    landed 2026-08-19 or later, and the Fe II VIS cell has never been re-run."""
+    c = referee["caveat_balance_is_pre_continuum_fix"]
+    for t in ("1026", "1030", "911", "re-run"):
+        assert t in c, f"the balance caveat lost {t!r}"
+
+
+def test_the_frozen_snapshot_does_not_contain_the_referee():
+    """The snapshot is the whole defence. If a future ingest is ever frozen into it, the
+    referee silently grades its own homework again."""
+    if not FROZEN_SNAPSHOT.exists():
+        pytest.skip("frozen pre-945 snapshot absent")
+    d = pd.read_csv(FROZEN_SNAPSHOT, low_memory=False)
+    ref = d.loggf_reference.astype(str).str.lower()
+    hits = ref.str.contains("denhartog2019|den hartog 2019|dh19|2019apjs..243", regex=True,
+                            na=False)
+    assert int(hits.sum()) == 0, (
+        f"{int(hits.sum())} snapshot rows cite the referee — this is no longer a "
+        f"pre-adoption scale")
+
+
+def test_the_guard_refuses_the_degenerate_run_if_it_was_recorded():
+    """`--source live` reproduces the broken comparison on purpose. When that artifact is
+    present it must carry a refusal, never a verdict."""
+    if not REFEREE_LIVE.exists():
+        pytest.skip("live-source control run not recorded")
+    live = json.loads(REFEREE_LIVE.read_text())
+    assert live["verdict"].startswith("UNUSABLE")
+    assert live["guard_refusal"]
+    assert live["n_excluded_self_referential"] > 0
+    assert live["n_scored"] == 0
+
+
+def test_the_degeneracy_threshold_actually_catches_a_constant_series():
+    """Unit-level, no network: the exact input that fooled the old code. stat() on a
+    constant series must report zero spread, so the guard has something to fire on."""
+    import importlib
+    m = importlib.import_module("rya853_dh19_scale_referee")
+    st = m.stat(pd.Series([0.0] * 10))
+    assert st["std"] == 0.0
+    assert st["ci_width"] < m.DEGENERATE_CI_WIDTH
 
 
 # ── scope 2: the Fe I lab pool (the pool RYA-850 promotes) ────────────────────
