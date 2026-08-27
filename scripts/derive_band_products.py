@@ -687,8 +687,24 @@ def write_runinfo(out: Path, stem: str, a) -> Path:
     so 6908.98 appears as "6909.0" in one place and "6908" in the other; neither is the
     number, and a consumer that reconstructs from either gets a path that does not exist.
     """
-    files = sorted(f.name for f in out.glob(f"{stem}_*") if f.is_file()
-                   and not f.name.endswith("_runinfo.json"))
+    # 🔴 ONLY FILES THIS RUN WROTE — and the first version of this got it wrong.
+    # It globbed `{stem}_*` at write time, which is fine when the coverage guard RENAMED
+    # the stem (nothing else could be sitting there) and WRONG whenever it did not: a
+    # previous run's files with the SAME stem were absorbed and recorded as this run's
+    # output. Caught live — a 14:37 run listed four 07:34 ENGINE-B-NLTE files as its own,
+    # which is precisely the stale-file absorption RYA-1074 exists to prevent, reappearing
+    # one level down. Filter on mtime against the run's own start.
+    t0 = float(getattr(a, "_run_t0", 0.0))
+    files, absorbed = [], []
+    for f in sorted(out.glob(f"{stem}_*")):
+        if not f.is_file() or f.name.endswith("_runinfo.json"):
+            continue
+        (files if f.stat().st_mtime >= t0 else absorbed).append(f.name)
+    if absorbed:
+        # NAMED, not dropped (RYA-1069): a pre-existing file at this stem is a real fact
+        # about the directory, and silently omitting it hides that the stem is shared.
+        print(f"  [runinfo] {len(absorbed)} pre-existing file(s) at this stem are NOT "
+              f"recorded as this run's output: {absorbed[:3]}{'...' if len(absorbed) > 3 else ''}")
     req = (getattr(a, "requested_lo", a.lo), getattr(a, "requested_hi", a.hi))
     info = {
         "ticket": "RYA-1074",
@@ -701,6 +717,7 @@ def write_runinfo(out: Path, stem: str, a) -> Path:
         "stem": stem,
         "requested_stem": f"{a.element}{a.ion}_{int(req[0])}_{int(req[1])}_{a.instrument}",
         "files_written": files,
+        "pre_existing_at_stem": absorbed,
         "base_sha": _base_sha(),
     }
     path = out / f"{stem}_runinfo.json"
@@ -725,6 +742,10 @@ def _base_sha() -> str:
 
 
 def synthesis_route(a, pol) -> None:
+    # RYA-1074: stamp the start so `write_runinfo` can tell THIS run's output from files
+    # already sitting at the same stem. Without it a re-run inherits its predecessor's
+    # files and the manifest — the thing verification trusts — becomes a lie.
+    a._run_t0 = time.time()
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
     This is a THIN WRAPPER over RYA-759's harness, not a reimplementation of it. Every
