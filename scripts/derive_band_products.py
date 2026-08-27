@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -668,6 +669,61 @@ def _holdings_for(instrument: str):
     return _INSTRUMENT_HOLDINGS.get(instrument, ())
 
 
+def write_runinfo(out: Path, stem: str, a) -> Path:
+    """Record what this run ACTUALLY wrote — RYA-1074. The single source of truth.
+
+    🔴 WHY THIS FILE EXISTS. The coverage guard (RYA-1046) narrows the band to lie inside
+    the arm and every stem is then built from the NARROWED values, so a run asked for
+    4200-6910 writes `..._4200_6908_...`. Verifying such a run by rebuilding the stem from
+    the REQUESTED band globs a path this run never wrote — and if a previous run left a
+    file there, the comparison MATCHES IT AND PASSES. That happened on 2026-08-27: a
+    HARPS check reported "EXACT reproduction" against stale prior-run files and could not
+    have failed. A self-confirming check reported as verification.
+
+    The fix is not more careful globbing. It is that the run says, in writing, which paths
+    it produced, and verification reads THAT rather than deriving a path from intent.
+
+    ⚠️ `effective_band` is written UNROUNDED. The log prints %.1f and the stem uses int(),
+    so 6908.98 appears as "6909.0" in one place and "6908" in the other; neither is the
+    number, and a consumer that reconstructs from either gets a path that does not exist.
+    """
+    files = sorted(f.name for f in out.glob(f"{stem}_*") if f.is_file()
+                   and not f.name.endswith("_runinfo.json"))
+    req = (getattr(a, "requested_lo", a.lo), getattr(a, "requested_hi", a.hi))
+    info = {
+        "ticket": "RYA-1074",
+        "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "element": a.element, "ion": a.ion, "instrument": a.instrument,
+        "holding": getattr(a, "holding", None),
+        "requested_band_A": [float(req[0]), float(req[1])],
+        "effective_band_A": [float(a.lo), float(a.hi)],
+        "band_trimmed": bool(getattr(a, "band_trimmed", False)),
+        "stem": stem,
+        "requested_stem": f"{a.element}{a.ion}_{int(req[0])}_{int(req[1])}_{a.instrument}",
+        "files_written": files,
+        "base_sha": _base_sha(),
+    }
+    path = out / f"{stem}_runinfo.json"
+    path.write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
+    if info["band_trimmed"]:
+        print(f"  [runinfo] {path.name} — requested stem "
+              f"{info['requested_stem']!r} was NOT written; effective stem is "
+              f"{stem!r}. Verify through this file.")
+    return path
+
+
+def _base_sha() -> str:
+    """The commit the run was produced from, or a marker — never a silent blank."""
+    import subprocess
+    try:
+        r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=str(ROOT),
+                           capture_output=True, text=True, timeout=10)
+        sha = r.stdout.strip()
+        return sha if r.returncode == 0 and sha else "UNKNOWN-not-a-git-checkout"
+    except Exception as exc:                      # loud, not blank
+        return f"UNKNOWN-{type(exc).__name__}"
+
+
 def synthesis_route(a, pol) -> None:
     """Derive a band product by SYNTHESIS, for a band where EW measurement is undefined.
 
@@ -981,6 +1037,13 @@ def synthesis_route(a, pol) -> None:
     # the overlap. An arm covering part of a band measures that part, with n and the stem
     # saying so -- exactly as IAG already does in VIS (41 of 109 lines, the rest excluded
     # with a stated reason). Only a genuinely EMPTY intersection is a refusal.
+    # 🔴 THE REQUESTED BAND IS CAPTURED BEFORE THE TRIM CAN DESTROY IT — RYA-1074.
+    # The narrowing below MUTATES a.lo/a.hi in place, and every downstream stem is built
+    # from those. So after this block the request is gone, and anything that wants to say
+    # "the run I asked for" has to reconstruct it -- which is precisely the vacuous check
+    # this ticket exists to kill.
+    a.requested_lo, a.requested_hi = float(a.lo), float(a.hi)
+    a.band_trimmed = False
     _span = None
     for _h in _holdings_for(a.instrument):
         if a.holding and _h.holding_id != a.holding:
@@ -996,11 +1059,23 @@ def synthesis_route(a, pol) -> None:
                 f"not overlap by even one fittable window (half-width {hw:.2f} A). This "
                 f"arm cannot serve this band at all (RYA-832).")
         if (_lo_new, _hi_new) != (a.lo, a.hi):
+            a.band_trimmed = True
+            # ⚠️ THE LOG AND THE STEM DISAGREE BY ROUNDING, AND THAT MATTERS. The stem
+            # uses int(), so an effective hi of 6908.98 prints as "6909.0" here and lands
+            # in the filename as "6908". Anyone reading the log and reconstructing a stem
+            # from it gets a path that was never written. The stem is printed EXPLICITLY
+            # below for that reason, and the exact floats go to the runinfo unrounded.
             print(f"  [coverage] {a.instrument} covers {_span[0]:.1f}-{_span[1]:.1f} A; "
                   f"narrowing {a.lo:.1f}-{a.hi:.1f} -> {_lo_new:.1f}-{_hi_new:.1f} A so "
                   f"every fitted window lies wholly inside the data (RYA-1046). The "
                   f"product covers what THIS ARM covers; n and the stem record it.")
             a.lo, a.hi = float(_lo_new), float(_hi_new)
+            print(f"  🔴 [stem] BAND TRIMMED — requested {a.requested_lo:.1f}-"
+                  f"{a.requested_hi:.1f}, effective {a.lo:.4f}-{a.hi:.4f}. Output stem is "
+                  f"'{a.element}{a.ion}_{int(a.lo)}_{int(a.hi)}_{a.instrument}', NOT the "
+                  f"requested band. Verify against the run's own `_runinfo.json`; a check "
+                  f"that rebuilds the stem from the request will match STALE files and "
+                  f"pass vacuously (RYA-1074).")
     _probe = select_holding(a.instrument, 0.5 * (a.lo + a.hi), hw + 0.4,
                             holding=a.holding)
     # Probed at the centre of the ARM-INTERSECTED range, inside the data by construction,
@@ -1647,7 +1722,19 @@ def synthesis_route(a, pol) -> None:
     # "CONSTRAINT GATE" and getting nothing, after a commit message had already claimed
     # otherwise. Same shape as the defect this ticket exists to fix: a quantity with
     # nowhere to live is a quantity nobody can check.
-    (out / f"{stem}_provenance.txt").write_text(product.provenance + "\n")
+    # RYA-1074: a NARROWED band is part of what this product IS, so it travels with the
+    # product rather than living only in a log line the reader may never see. "Named, not
+    # dropped" (RYA-1069) — a consumer comparing this against a nominal-band product needs
+    # to know the extents differ, and by how much.
+    _prov_txt = product.provenance
+    if getattr(a, "band_trimmed", False):
+        _prov_txt += (
+            f"\nBAND TRIMMED (RYA-1046/1074): requested {a.requested_lo:.1f}-"
+            f"{a.requested_hi:.1f} A, effective {a.lo:.4f}-{a.hi:.4f} A; output stem "
+            f"'{stem}'. The arm does not cover the full nominal band, so the product "
+            f"covers what THIS ARM covers. Verify via {stem}_runinfo.json — a check "
+            f"keyed on the requested band resolves to a stem this run never wrote.")
+    (out / f"{stem}_provenance.txt").write_text(_prov_txt + "\n")
     # ── RYA-1044: the second Engine-B leg that stood here has been FOLDED IN ABOVE ───
     #
     # PR #393 added an ENGINE-B-NLTE leg to this function in parallel with this branch,
@@ -1788,6 +1875,7 @@ def synthesis_route(a, pol) -> None:
           f"reports for\n  every band; RYA-759 published a MAD. Same lines, different "
           f"dispersion statistic —\n  the VALUE is the number to compare.")
     print(f"  wrote {out}/{stem}_products.csv")
+    write_runinfo(out, stem, a)
 
 
 #: Fields of `LineMeasurement` that `asdict_line` deliberately does NOT write, with the
