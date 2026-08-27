@@ -621,6 +621,38 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
           f"({n_before - n_after} rejected as blends/misidentifications; "
           f"Fe II via RYA-305 triage)")
 
+    _, normal_abund, x_over_h, x_over_fe = invert_linemasks(
+        linemasks, stellar_params, atmosphere, code=code,
+        solar_abund=solar_abund, quiet=False)
+    return linemasks, normal_abund, x_over_h, x_over_fe
+
+
+def invert_linemasks(linemasks: np.ndarray,
+                     stellar_params: dict,
+                     atmosphere: np.ndarray,
+                     code: str = RADIATIVE_TRANSFER_CODE,
+                     solar_abund=None,
+                     quiet: bool = True) -> tuple:
+    """EW -> A(X) for an ALREADY-SELECTED linemask array. The one inversion call site.
+
+    🔴 RYA-311 SPLIT THIS OUT, AND THE SPLIT IS THE POINT. `_ew_to_abundance` does two
+    separable jobs: it decides WHICH lines are admissible (blends, EW window, the
+    theoretical-EW sanity test) and then inverts them. The microturbulence solve needs the
+    second job on a pool the first job has ALREADY fixed -- the same lines at every trial
+    xi and at every EW perturbation, or the sweep would measure a changing line set as if
+    it were a changing xi (the RYA-875 shape: a comparison is only a comparison if both
+    sides hold everything else still).
+
+    Writing a second `ispec.determine_abundances` call in the sweep script would have let
+    the two disagree about what "our EW inversion" means -- the RYA-845 double-definition
+    defect. There is one call, here, and `_ew_to_abundance` now routes through it.
+
+    `stellar_params['vturb_kms']` is read on EVERY call: the atmosphere does NOT carry
+    microturbulence (ATLAS9 interpolation keys on Teff/logg/[M/H]/alpha only), so a xi
+    sweep re-uses one interpolated atmosphere and varies this argument alone.
+    """
+    if solar_abund is None:
+        solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
     teff  = float(stellar_params['teff_K'])
     logg  = float(stellar_params['logg'])
     feh   = float(stellar_params['feh'])
@@ -643,8 +675,9 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
             f"$ISPEC_DIR/synthesizer/moog/ or set EW_BASELINE_CODE explicitly in "
             f"config/constants.py."
         )
-    print(f"  EW baseline engine: {ew_code}  (RYA-289 — decoupled from "
-          f"RADIATIVE_TRANSFER_CODE='{code}')")
+    if not quiet:
+        print(f"  EW baseline engine: {ew_code}  (RYA-289 — decoupled from "
+              f"RADIATIVE_TRANSFER_CODE='{code}')")
     spec_abund, normal_abund, x_over_h, x_over_fe = ispec.determine_abundances(
         atmosphere, teff, logg, feh, 0.0,
         linemasks, solar_abund,
@@ -656,7 +689,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
     # normal_abund = A(X) in the standard log(N/N_H)+12 scale (hydrogen=12).
     # spec_abund   = SPECTRUM's internal log(N/N_H) scale (hydrogen≈0).
     # All downstream A(X) / [X/H] / [X/Fe] use normal_abund, not spec_abund.
-    return linemasks, normal_abund, x_over_h, x_over_fe
+    return spec_abund, normal_abund, x_over_h, x_over_fe
 
 
 # ── Synthesis-EW bisection (RYA-285) ─────────────────────────────────────────
