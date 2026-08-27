@@ -1,0 +1,82 @@
+{
+  "ticket": "RYA-1077",
+  "generated_utc": "2026-08-27T17:42:50Z",
+  "tolerance_A": 0.05,
+  "totals": {
+    "rows_checked": 7129,
+    "id_moved": 0,
+    "id_absent": 0
+  },
+  "per_file": {
+    "data/audit/rya1058_elgueta/eps_eri_line_behavior.csv": {
+      "rows": 1362,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1058_elgueta/normalized_lines.csv": {
+      "rows": 1362,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1058_elgueta/procyon_line_behavior.csv": {
+      "rows": 1362,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1058_elgueta/sun_line_behavior.csv": {
+      "rows": 1362,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1058_elgueta/weak_gf_provenance.csv": {
+      "rows": 396,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1059_chiappino/al_completeness_delta.csv": {
+      "rows": 5,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1059_chiappino/cno_diagnostic_source_map.csv": {
+      "rows": 3,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1059_chiappino/empirical_lines_failing_provenance.csv": {
+      "rows": 131,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1059_chiappino/normalized_lines.csv": {
+      "rows": 131,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1060_elgueta_fe_gap/attractive_weak_gf.csv": {
+      "rows": 63,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1060_elgueta_fe_gap/elgueta_fe_transition_audit.csv": {
+      "rows": 794,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1060_elgueta_fe_gap/gradeable_not_implemented.csv": {
+      "rows": 34,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1060_elgueta_fe_gap/robust_blocked_by_conditioning.csv": {
+      "rows": 72,
+      "moved": 0,
+      "id_absent": 0
+    },
+    "data/audit/rya1060_elgueta_fe_gap/y_unassessed.csv": {
+      "rows": 52,
+      "moved": 0,
+      "id_absent": 0
+    }
+  }
+}

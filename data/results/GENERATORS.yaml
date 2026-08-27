@@ -3206,6 +3206,21 @@ artifacts:
     ticket: RYA-1051
     note: >-
       RYA-1051 -- the solar Fe I NLTE ladder, on the GRADED pool (67 LAB-tier lines at or below the 0.6 depth gate, of 176 in band; gf rung 3, RMS 0.0634). <3D>-NLTE member of the RYA-1040 mandatory pair. A = 7.552.
+  - artifact: rya1077/line_id_rot_audit.json
+    generator: scripts/rya1077_audit_line_id_rot.py
+    ticket: RYA-1077
+    invocation: python3 scripts/rya1077_audit_line_id_rot.py --out data/results/rya1077/line_id_rot_audit.json
+    note: >-
+      WHICH COMMITTED ARTIFACTS CITE A canonical_gf ID THAT HAS SINCE MOVED. Resolves every
+      row carrying BOTH a `gf_` id AND a wavelength, and asks whether the id still points
+      where the row says. 1,739 of 6,979 rows (25%) do not: gf_177842 was recorded against
+      21553.299 A and now resolves to 21816.566 A; gf_177933 was Fe I and is now Ni I.
+      The damage is exactly where a block replacement predicts -- rya1058 28%, rya1059 66%,
+      rya1060 0.1% because it was generated afterwards. Appending is NOT the culprit; the
+      extenders append a sorted block and leave earlier ids alone.
+      ⚠️ Decidable because the artifact carries its own witness: the comparison is against
+      the wavelength recorded BESIDE the id, not against a guess.
+      `--fail-on-rot` makes it a CI gate.
   - artifact: rya1044/rya783_FeI_VIS_ENGINE-B-NLTE_lines.csv
     generator: scripts/rya1044_rya783_reconciliation.py
     ticket: RYA-1044
