@@ -1629,6 +1629,38 @@ def synthesis_route(a, pol) -> None:
                 print(f"       the NLTE effect is this product minus the "
                       f"`--engine-b-deck gerber-mean3d-lte` product (same atmosphere, "
                       f"departures off) -- RYA-1040/1042")
+                # 🔴 RYA-1083 — AND IT IS COMPUTED, NOT LEFT TO THE READER.
+                # Saying "difference this against the comparand" is what produced the
+                # false zero: both members of the graded <3D> pair publish A = 7.552, so
+                # the subtraction a reader is being invited to do returns EXACTLY 0.000
+                # while the per-line differential is +0.032 on 66 of 67 lines. The medians
+                # collided by coincidence -- 62 unique values, minimum gap 0.001, the 34th
+                # of 67 landing on the same number -- which means a rerun will not
+                # reproduce it and no amount of care by the reader would have caught it.
+                #
+                # So when the comparand's per-line file is already on disk, the effect is
+                # WRITTEN OUT. When it is not, the driver says the number does not exist
+                # yet rather than implying the subtraction would give it.
+                _cmp_tok = taxes.comparand_for(eb_treatment)
+                _cmp_path = (out / f"{stem}_{_cmp_tok}_lines.csv") if _cmp_tok else None
+                if _cmp_path is not None and _cmp_path.exists():
+                    from pipeline.paired_differential import paired_differential
+                    # `Product.to_frame()` already owns this conversion -- rebuilding it
+                    # here with asdict would be a second implementation of one thing.
+                    _pd = paired_differential(eb_product.to_frame(),
+                                              pd.read_csv(_cmp_path))
+                    (out / f"{stem}_{eb_treatment}_nlte_effect.json").write_text(
+                        json.dumps({"minuend": eb_treatment, "subtrahend": _cmp_tok,
+                                    **_pd.as_dict()}, indent=2) + "\n")
+                    print(f"       NLTE effect (PER-LINE PAIRED, n={_pd.n_paired}): "
+                          f"{_pd.median:+.4f}   "
+                          f"[differencing the published values would give "
+                          f"{_pd.difference_of_aggregates:+.4f}"
+                          + ("  🔴 THEY DISAGREE" if _pd.collision else "") + "]")
+                elif _cmp_tok:
+                    print(f"       the effect is NOT computed here: run "
+                          f"`--engine-b-deck gerber-mean3d-lte` so {_cmp_tok} exists. "
+                          f"Do NOT subtract the two published values -- RYA-1083.")
 
     # `describe()` already lists every term the budget holds, pseudo-continuum included.
     # The epilogue that used to be appended here announced the term as "added in
