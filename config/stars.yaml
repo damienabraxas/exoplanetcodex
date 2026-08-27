@@ -13,6 +13,15 @@ solar:
   feh_ref: 0.0
   e_feh: 0.03
   xi: 1.0
+  # Jofré+2014 (A&A 564, A133) Table 2 σvmic — "the mean vmic value obtained by the different nodes, with σvmic representing the standard deviation of this mean"
+  # 🔴 RYA-1089 — this RETIRES an uncited 0.05 that came from the RYA-158 spec
+  #    line "vturb = 0.9 +/- 0.05", which was doubly stale: no citation, and a
+  #    central value of 0.9 against the adopted 1.0 (RYA-196).
+  # ⚠️ Jofré's Table 2 MEAN vmic for the Sun is 1.2, not the 1.0 adopted above.
+  #    Only the DISPERSION is taken; changing the central value is RYA-311's job.
+  # ⚠️ This value is 3.6x the literal it replaces and pushes sigma_reported TOWARDS
+  #    the 0.05 gate, not away from it (RYA-161: sourced on physics, not on margin).
+  e_xi: 0.18
   vmac: 3.8
   vsini: 1.8
   source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ)'
