@@ -38,6 +38,9 @@ WHAT THIS MODULE DECIDES
   3. `gate(instrument, analysis_ready)` — what a handler should ask instead of carrying
      its own band flag.
   4. `applied_state(holding)` / `gate_holding(holding)` — the SECOND axis (RYA-806).
+  5. `correction_requirement(instrument)` / `reconcile_axes(instrument)` — the THREE-way
+     read of the requirement, and the check that the catalog's two telluric columns do
+     not state opposite rules (RYA-1072).
 
 THE TWO AXES (RYA-806) — ORTHOGONAL, NEVER COLLAPSED
 -----------------------------------------------------
@@ -55,7 +58,27 @@ places is how the RYA-786 defect happened in the first place.
     applied       either                  serve as-is, SKIP the RYA-424 stage
     not-applied   yes                     REFUSE -> route through RYA-424
     not-applied   no  (line_selection)    run, on the per-line selection basis
+    not-applied   UNRESOLVED              REFUSE, always (`TelluricStateUnknown`)
     unknown       either                  REFUSE, always (`TelluricStateUnknown`)
+
+⚠️ THE INSTRUMENT COLUMN ABOVE HAS THREE VALUES, NOT TWO (RYA-1072)
+-------------------------------------------------------------------
+"does this band need correction?" answers REQUIRED, NOT_REQUIRED **or AMBIGUOUS**, and
+that third row is not decoration — `instrument_catalog.csv` carries
+`telluric_required=mode_dependent` for UVES today. `requires_correction` used to test
+`v in ('yes','true','1','required')` and return False for everything else, so the
+ambiguous case took the identical branch to a declared `no` and `gate_holding` served
+the holding on the clean-line basis with no mode ever consulted. Reading a three-valued
+fact through a two-valued test, with the unresolved case landing on the permissive side,
+is the same shape as the RYA-786 defect this module was written to end.
+
+    requires_correction(instrument)     -> bool, RAISES on AMBIGUOUS
+    correction_requirement(instrument)  -> REQUIRED | NOT_REQUIRED | AMBIGUOUS
+    reconcile_axes(instrument)          -> raises if the two columns contradict
+
+Use the three-outcome accessor where a caller must survive an unresolved instrument (a
+sweep over every registered holding, a status surface); use the boolean where the answer
+is about to decide whether data may be measured, because there it must refuse.
 """
 from __future__ import annotations
 
@@ -90,6 +113,140 @@ TELLURIC_BANDS: tuple[tuple[float, float, str], ...] = (
 )
 
 QUARANTINE_TAG = "QUARANTINED-TELLURIC"
+
+
+class TelluricStateUnknown(RuntimeError):
+    """We hold this product in an UNVERIFIED telluric state, OR the catalog does not
+    resolve whether this instrument needs a correction stage at all.
+
+    Deliberately distinct from "this band needs correction" and from "we lack this
+    band" — the RYA-796 `RestFrameNotConditioned` discipline: a refusal names the state
+    it is refusing, so the fix is unambiguous. `unknown` is never defaulted either way:
+    defaulting to `applied` fabricates a correction (forbidden, RYA-786) and defaulting
+    to `not-applied` sends a corrected product through a second correction.
+
+    RYA-1072 widened it to the INSTRUMENT axis. It was already the right refusal for an
+    undetermined per-holding state; an undetermined per-instrument REQUIREMENT is the
+    same kind of not-knowing and earns the same loud stop.
+    """
+
+
+class TelluricCatalogContradiction(RuntimeError):
+    """`telluric_required` and `telluric_basis` name OPPOSITE operative rules.
+
+    A separate type from `TelluricStateUnknown` on purpose: not-knowing is fixed by
+    DETERMINING a value, and this is fixed by deciding WHICH OF TWO RECORDED VALUES is
+    stale. Serving the holding on either reading would settle that question silently
+    (RYA-1069 ledger warning 2 — `delbouille_liege_intensity`).
+    """
+
+
+# ── THE INSTRUMENT AXIS HAS THREE OUTCOMES, NOT TWO (RYA-1072) ───────────────
+#
+# 🔴 THE DEFECT THIS ENDS. `requires_correction` was `return v in ('yes','true','1',
+# 'required')`. That is an allow-list for the TRUE case with EVERYTHING ELSE falling into
+# FALSE — so `mode_dependent`, a value the catalog actually uses and which means "the
+# answer depends on a mode nobody has resolved", took the identical branch to a declared
+# `no`. `gate_holding` then served UVES on the clean-line-selection basis without any
+# mode ever being consulted. UVES RED860 reaches 10427 A, well inside the registered H2O
+# complexes, so the first UVES product would have been measured under-corrected with no
+# refusal anywhere in the chain.
+#
+# The failure shape is the recurring one: a two-valued reading imposed on a three-valued
+# fact, with the ambiguous case laundered into the permissive answer. `pipeline/telluric/
+# routing.py` (RYA-927) already got this right on the BASIS axis — `mode_dependent` and
+# `unspecified` fall through to `audit_required` there — so the repo held the correct
+# reading in one module and the collapsed one in this module's own gate.
+#
+# BOTH SETS ARE CLOSED AND EXPLICIT, and anything outside them is AMBIGUOUS — that is
+# what stops a NEW catalog value from silently joining the permissive side.
+# ⚠️ DO NOT "fix" a future refusal by adding its value to `_NOT_REQUIRED_VALUES`.
+# Widening the recognised set to swallow an ambiguity is the original bug wearing a patch.
+REQUIRED = "required"
+NOT_REQUIRED = "not-required"
+AMBIGUOUS = "ambiguous"
+
+# ── ONE VOCABULARY FOR BOTH TELLURIC COLUMNS (RYA-1078) ─────────────────────
+#
+# 🔴 RYA-1072 fixed how THIS module reads an ambiguous value and left
+# `pipeline/telluric/routing.py` reading it separately. Two modules implementing "how to
+# read an ambiguous telluric value" is the defect one level up from the defect 1072 fixed:
+# `unspecified` resolved to audit-required in routing and to run-on-clean-line-selection
+# here, and `route_for` settled the delbouille contradiction by preferring the requirement
+# column while `reconcile_axes` refused it. The reading now lives HERE, once, and routing
+# CALLS it -- so a third caller cannot reintroduce the split by writing a fourth `in`-test.
+#
+# The two columns share one vocabulary because they answer the SAME question in different
+# words -- is a correction STAGE owed:
+#
+#     telluric_required   yes | no                     | mode_dependent
+#     telluric_basis      correction_required          | line_selection | corrected
+#                                                      | not_applicable | unspecified
+#
+# so `correction_required` classifies REQUIRED exactly as `yes` does, and `line_selection`
+# / `corrected` / `not_applicable` classify NOT_REQUIRED exactly as `no` does. That shared
+# reading is what makes `reconcile_axes` expressible as "the two columns must not classify
+# differently", and it is why `unspecified` and `mode_dependent` cannot diverge again: they
+# are in neither set, in one place, for both columns.
+#
+# ⚠️ BOTH SETS STAY CLOSED. Anything outside them is AMBIGUOUS. Do NOT add
+# `unspecified` or `mode_dependent` to either set to quiet a refusal -- that is the
+# RYA-1072 bug wearing a patch, and now it would be the bug in two modules at once.
+_REQUIRED_VALUES = frozenset({
+    "yes", "true", "1", "required",     # telluric_required
+    "correction_required",              # telluric_basis
+})
+_NOT_REQUIRED_VALUES = frozenset({
+    "no", "false", "0", "not-required", "not_required",   # telluric_required
+    "line_selection", "corrected", "not_applicable",      # telluric_basis
+})
+
+
+def classify(value) -> str:
+    """THE reading of a telluric catalog value -- either column. RYA-1078.
+
+    REQUIRED / NOT_REQUIRED / AMBIGUOUS. Pure, so the three-way logic is testable without
+    a catalog and so a caller that must BRANCH on ambiguity (rather than stop on it) can
+    do so without catching an exception.
+
+    This is the single entry point the spec requires: `pipeline/telluric/routing.py`
+    calls it rather than re-deriving the reading, so `mode_dependent` and `unspecified`
+    resolve identically in both modules BY CONSTRUCTION rather than by two lists agreeing.
+    """
+    v = str(value if value is not None else "").strip().lower()
+    if v in _REQUIRED_VALUES:
+        return REQUIRED
+    if v in _NOT_REQUIRED_VALUES:
+        return NOT_REQUIRED
+    return AMBIGUOUS
+
+
+def correction_requirement_from_value(value) -> str:
+    """RYA-1072's name for `classify`, kept so its call sites and tests still read.
+
+    One implementation, two names: the 1072 name says WHICH COLUMN it was written for,
+    the 1078 name says it reads either. Aliased rather than duplicated -- a second body
+    here would be the exact split this ticket closed.
+    """
+    return classify(value)
+
+
+def requires_correction_from_value(value) -> bool:
+    """True / False for a RESOLVED value; LOUD on an ambiguous one.
+
+    `mode_dependent`, `unspecified`, a blank cell and any unrecognised string all raise.
+    There is no third boolean, and manufacturing one by returning False is the defect.
+    """
+    if correction_requirement_from_value(value) == AMBIGUOUS:
+        raise TelluricStateUnknown(
+            f"telluric_required={str(value)!r} is a DECLARED AMBIGUITY, not a declared "
+            f"answer: it resolves to neither {sorted(_REQUIRED_VALUES)} nor "
+            f"{sorted(_NOT_REQUIRED_VALUES)}. It must NOT be read as 'no correction "
+            f"needed' — reading it that way is what served UVES (telluric_required="
+            f"mode_dependent, RED860 reaching 10427 A) on the clean-line basis with no "
+            f"mode ever consulted (RYA-1072). Resolve it on the instrument/mode axis and "
+            f"record the resolved value; do not widen the recognised sets to absorb it.")
+    return correction_requirement_from_value(value) == REQUIRED
 
 
 def basis(instrument: str) -> str:
@@ -150,11 +307,11 @@ def in_telluric_band(wave_A: float, instrument: str | None = None) -> bool:
 _catalog_cache: dict = {}
 
 
-def requires_correction(instrument: str) -> bool:
-    """Does this instrument need a telluric CORRECTION STAGE? From the catalog only.
+def _catalog_row(instrument: str):
+    """This instrument's catalog row. Loud on an unknown id.
 
-    Loud on an unknown instrument: the telluric state of an instrument the registry does
-    not know cannot be asserted, and guessing it is how the fabricated declaration got in.
+    The telluric state of an instrument the registry does not know cannot be asserted,
+    and guessing it is how the fabricated declaration got in.
     """
     if "df" not in _catalog_cache:
         _catalog_cache["df"] = pd.read_csv(CATALOG)
@@ -164,8 +321,76 @@ def requires_correction(instrument: str) -> bool:
         raise KeyError(
             f"instrument {instrument!r} is not in {CATALOG.name}; its telluric requirement "
             f"is unknown and must not be assumed. Register it first (RYA-786).")
-    v = str(hit.iloc[0].get("telluric_required", "")).strip().lower()
-    return v in ("yes", "true", "1", "required")
+    return hit.iloc[0]
+
+
+def correction_requirement(instrument: str) -> str:
+    """REQUIRED / NOT_REQUIRED / AMBIGUOUS for this instrument, from the catalog.
+
+    The three-outcome accessor. Use it wherever a caller must KEEP GOING past an
+    unresolved instrument — a sweep over every registered holding, a status surface —
+    and report the ambiguity rather than stop on it. Where the answer is about to decide
+    whether data may be measured, use `requires_correction`, which refuses.
+    """
+    return correction_requirement_from_value(
+        _catalog_row(instrument).get("telluric_required", ""))
+
+
+def requires_correction(instrument: str) -> bool:
+    """Does this instrument need a telluric CORRECTION STAGE? From the catalog only.
+
+    🔴 RAISES `TelluricStateUnknown` on an AMBIGUOUS requirement (RYA-1072). It used to
+    return False there, which is the CRITICAL defect this signature now makes impossible:
+    a caller can no longer receive "no correction needed" for an instrument whose
+    requirement nobody has determined. A caller that must survive an unresolved
+    instrument asks `correction_requirement()` for the three-way answer instead.
+
+    Loud on an unknown instrument id, as before.
+    """
+    return requires_correction_from_value(
+        _catalog_row(instrument).get("telluric_required", ""))
+
+
+def reconcile_axes(instrument: str) -> None:
+    """Raise if `telluric_required` and `telluric_basis` contradict each other.
+
+    The two columns answer different questions — DOES this band need a correction stage,
+    and BY WHAT METHOD are its tellurics handled — but they are not independent: a basis
+    of `line_selection`, `corrected` or `not_applicable` asserts no correction stage is
+    owed, and `correction_required` asserts one is. When that assertion disagrees with
+    `telluric_required`, the row states two opposite operative rules and a consumer
+    silently picks one by reading whichever column it happens to consult first.
+
+    Measured, not supposed: across `instrument_catalog.csv` exactly one row disagrees —
+    `delbouille_liege_intensity` is `telluric_required=yes` with
+    `telluric_basis=line_selection`, while every other `yes` row is
+    `correction_required` and every other `line_selection` row is `no`. This function
+    does NOT decide which of its two values is stale. That is a data decision, and
+    guessing it here would be the RYA-786 fabrication in a new place (RYA-1069 ledger
+    warning 2). It refuses, names both values, and hands the choice to a human.
+
+    A basis outside both sets (`unspecified`, `mode_dependent`) asserts nothing, so it
+    cannot contradict anything and is left to the requirement axis to refuse or permit.
+    """
+    row = _catalog_row(instrument)
+    raw_req = str(row.get("telluric_required", "")).strip()
+    raw_basis = str(row.get("telluric_basis", "")).strip()
+    req, b = classify(raw_req), classify(raw_basis)
+
+    # RYA-1078: expressed as ONE comparison over the shared reading, rather than two
+    # hand-written membership tests per direction. A column that classifies AMBIGUOUS
+    # asserts nothing, so it cannot contradict anything -- that is what keeps UVES
+    # (mode_dependent on BOTH columns) a consistent ambiguity rather than a contradiction.
+    if AMBIGUOUS in (req, b) or req == b:
+        return
+    raise TelluricCatalogContradiction(
+        f"{instrument}: telluric_required={raw_req!r} reads {req} and "
+        f"telluric_basis={raw_basis!r} reads {b}. The two columns state OPPOSITE "
+        f"operative rules about whether a correction stage is owed, and this row states "
+        f"both — so serving it would settle the question by whichever column the consumer "
+        f"read first, which is precisely what `route_for` used to do (RYA-1078). Decide "
+        f"which value is stale and record it in {CATALOG.name}; it is not derivable from "
+        f"either column (RYA-1069/RYA-1072).")
 
 
 def gate(instrument: str, analysis_ready: bool = False) -> tuple[bool, str]:
@@ -174,7 +399,12 @@ def gate(instrument: str, analysis_ready: bool = False) -> tuple[bool, str]:
     A reference atlas registered `telluric_required=no` runs on the per-line selection
     basis. An instrument that DOES require correction runs only once the RYA-424
     analysis-ready flag says the correction was applied and verified.
+
+    🔴 REFUSES (RYA-1072) rather than returning a verdict when the catalog does not
+    resolve the requirement, or when its two telluric columns contradict each other.
+    Both were previously served as "no correction needed".
     """
+    reconcile_axes(instrument)
     if not requires_correction(instrument):
         return True, (f"{instrument} is registered telluric_required=no; tellurics are "
                       f"handled by per-line clean-line selection over "
@@ -204,17 +434,6 @@ def gate(instrument: str, analysis_ready: bool = False) -> tuple[bool, str]:
 # is not corrected, NIRPS `S1D_FINAL_A` is (its `FLUX_TELL_*` / `FLUX_EL` ratio tracks
 # `1/ATM_TRANSM` at r=1.0000). Collapsing the axes would either refuse good NIRPS data or
 # run a second correction over it.
-
-class TelluricStateUnknown(RuntimeError):
-    """We hold this product in an UNVERIFIED telluric state.
-
-    Deliberately distinct from "this band needs correction" and from "we lack this
-    band" — the RYA-796 `RestFrameNotConditioned` discipline: a refusal names the state
-    it is refusing, so the fix is unambiguous. `unknown` is never defaulted either way:
-    defaulting to `applied` fabricates a correction (forbidden, RYA-786) and defaulting
-    to `not-applied` sends a corrected product through a second correction.
-    """
-
 
 def applied_state(holding_id: str) -> str:
     """`telluric_applied` for this holding, from the registry only. Loud on unknown id.
@@ -266,10 +485,40 @@ def gate_holding(holding_id: str, instrument: str | None = None) -> tuple[bool, 
     # there would ground HARPS/ESPRESSO — instruments with no telluric question — on a
     # switch built for the IR. The ticket's own smoke test scopes the raise to "an IR
     # dataset", which is exactly what `requires_correction` names.
+    # ── the CATALOG must agree with itself before it can gate anything (RYA-1072) ──
+    # Ordered first deliberately: a contradictory row would otherwise be resolved by
+    # whichever of its two columns the branches below happen to consult, which is
+    # exactly the silent settling this refusal exists to prevent.
+    reconcile_axes(inst)
+
     if b == "not_applicable":
         return True, (f"{holding_id}: {inst} is telluric_basis=not_applicable (no "
                       f"terrestrial atmosphere in this data), so telluric_applied="
                       f"{state} does not gate it.")
+
+    # ── an UNRESOLVED requirement is a refusal, never a pass (RYA-1072) ──────
+    # 🔴 THE CRITICAL FIX. `requires_correction` used to return False here for
+    # `mode_dependent`, so control fell into the clean-line-selection branch below and
+    # this function returned (True, "registered telluric_required=no ...") for an
+    # instrument whose requirement nobody had determined — a fabricated permission
+    # quoting a value the catalog does not contain. It is named, not merely denied, so
+    # the fix is unambiguous: RESOLVE THE MODE.
+    # RYA-1078: EITHER column being unresolved is an unresolved instrument. Before this,
+    # `unspecified` basis fell straight through to the clean-line branch here while
+    # `routing.route_for` sent it to `audit_required` -- the same value, two answers, in
+    # the two modules that both claim to own this decision.
+    if AMBIGUOUS in (correction_requirement(inst), classify(b)):
+        raise TelluricStateUnknown(
+            f"{holding_id}: {inst} is telluric_basis={b!r} with telluric_required="
+            f"{str(_catalog_row(inst).get('telluric_required', '')).strip()!r} — reading "
+            f"{classify(b)} and {correction_requirement(inst)}. At least one column "
+            f"resolves to neither required nor not-required. This is NOT 'we hold it "
+            f"uncorrected' (route it through RYA-424) and NOT 'this band needs no "
+            f"correction' (run it on clean-line selection) — it is that nobody has "
+            f"determined which of those two this instrument/mode is. Serving it on the "
+            f"clean-line basis is what RYA-1072 fixed: UVES RED860 reaches 10427 A, "
+            f"inside the registered H2O complexes. Resolve the mode "
+            f"(instrument_modes.csv) and record the value.")
 
     if not requires_correction(inst):
         extra = ("" if state != "unknown" else

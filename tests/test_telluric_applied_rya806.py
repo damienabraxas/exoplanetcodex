@@ -44,12 +44,25 @@ def test_every_holding_carries_a_legal_telluric_applied_value():
             f"get into the registry in the first place.")
 
 
+def _gated(instrument: str) -> bool:
+    """Does this instrument's holdings' telluric_applied actually gate anything?
+
+    RYA-1072: `requires_correction` now REFUSES an unresolved requirement instead of
+    reading it as `no`, so a sweep over every registered instrument must use the
+    three-outcome accessor. AMBIGUOUS counts as gated — an instrument whose requirement
+    nobody has determined needs its per-product state determined at least as much as one
+    that certainly requires correction, and letting it fall out of this sweep would
+    recreate the exemption the fix removed.
+    """
+    return TP.correction_requirement(instrument) in (TP.REQUIRED, TP.AMBIGUOUS)
+
+
 def test_no_IR_holding_is_blank_or_unknown():
     """The ticket's smoke test: an instrument that NEEDS correction must have a
     determined per-product state, or the switch it gates is meaningless."""
     unresolved = []
     for r in _rows():
-        if TP.requires_correction(r["instrument_id"]):
+        if _gated(r["instrument_id"]):
             v = (r.get("telluric_applied") or "").strip()
             if v in ("", UNKNOWN):
                 unresolved.append((r["holding_id"], v or "<blank>"))
@@ -62,7 +75,7 @@ def test_the_ir_holdings_are_actually_covered():
     """Guards the guard: if `requires_correction` ever returned False for everything,
     the test above would pass vacuously."""
     ir = [r["holding_id"] for r in _rows()
-          if TP.requires_correction(r["instrument_id"])]
+          if _gated(r["instrument_id"])]
     assert len(ir) >= 5, f"expected the IR holdings to be found, got {ir}"
 
 
