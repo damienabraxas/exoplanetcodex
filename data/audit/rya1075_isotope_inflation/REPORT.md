@@ -131,6 +131,20 @@ Measured separation: `|offset − log10(n)|` is at most **1.8 × 10⁻⁵** amon
 
 **Effect on RYA-102: none, and RYA-102 is already closed.** It was resolved on 2026-06-29 by a fit-**window** change (`LINE_WINDOWS` 0.30 → 0.15 Å, EW 5.51 → 3.33 mÅ), and its 6–10 mÅ acceptance criterion was found to be 55-Cnc-calibrated rather than solar (Lawler+2001 solar is ~1.6–3 mÅ). A gf error cannot produce that symptom in any case: gf does not enter an EW **measurement**, only the abundance inversion afterwards — and there the correct value was already in use. The RYA-1075 ticket describes RYA-102 as open; it is not.
 
+## Keyed on the stable id, not the row index
+
+RYA-1077 landed on `main` mid-ticket and it applies directly here: `canonical_gf.line_id`
+is `gf_NNNNNN`, assigned by **row position**, and it rots whenever a block of rows is
+replaced — 1,739 committed references (25%) had already moved, some to a different
+*species*.
+
+The correction sidecar is exactly such a reference, so it is keyed on RYA-1077's
+`physical_id` and carries `line_id` only as a human convenience. The apply, the verify and
+the regression tests all resolve rows by `physical_id`; the guard itself never needed an id
+at all, because it re-derives from the source. `--verify` checks the **table against the
+committed sidecar**, not against a fresh classification — after a successful apply the
+classifier correctly finds nothing, and "0/0 verified" would be a vacuous pass.
+
 ## The guard
 
 `scripts/check_stewardship.py::check_isotope_inflation` (invariant 10), backed by `pipeline.isotope_gf_convention.isotope_inflated_rows`. It **re-detects from the source** rather than pinning the 54 corrected line ids — a pinned list passes forever while a new ingest reintroduces the defect on different lines, which is precisely how RYA-684 came to be closed with 54 live instances still in the table. It is registered **untracked**: there is no remediation ticket because the correct state is zero, so a hit is a real break.

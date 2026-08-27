@@ -206,7 +206,13 @@ def classify(clusters: pd.DataFrame, canon: pd.DataFrame,
         built_by_naive = abs(published - c.naive_total) <= PUBLISHED_EQ_NAIVE_DEX
         offset_ok = abs(offset - log10n) <= OFFSET_TOL_DEX
 
-        rec = dict(base, line_id=r.line_id, species=r.species,
+        rec = dict(base, line_id=r.line_id,
+                   #  RYA-1077: `line_id` is a ROW INDEX and rots when a block of rows is
+                   #  replaced -- it moved 1,739 committed references, 25% of them. The
+                   #  sidecar is exactly such a reference, so it is keyed on the STABLE
+                   #  `physical_id` and carries line_id only as a human convenience.
+                   physical_id=(r.physical_id if "physical_id" in canon.columns else ""),
+                   species=r.species,
                    wavelength_air_A=float(r.wavelength_air_A),
                    excitation_potential_eV=float(r.excitation_potential_eV),
                    published_log_gf=published,
@@ -316,6 +322,16 @@ def main() -> int:
         print(f"  {v:26s} {n:4d}")
 
     ok = rep[rep.verdict == "CORRECT"]
+    #  Re-running after a successful apply is the NORMAL case, not an error: every row
+    #  now fails `published == naive` because it carries the corrected value. Say so and
+    #  stop, rather than crashing on an empty frame and looking like a real failure.
+    if ok.empty:
+        already = int((rep.verdict == "NOT_BUILT_BY_NAIVE_SUM").sum())
+        print(f"\nNOTHING TO CORRECT — {already} clusters no longer match the naive sum, "
+              f"which is what an APPLIED correction looks like. Re-run with --verify to "
+              f"check the table against the committed sidecar.")
+        if args.apply:
+            raise FixError("--apply with nothing to correct; the table is already fixed")
     print(f"\nSELECTOR SEPARATION (this is what makes it specific, not a blanket rule)")
     print(f"  |offset - log10(n)| among CORRECT rows : max {rep.loc[rep.verdict == 'CORRECT', 'offset_minus_log10n'].abs().max():.2e}")
     others = rep[rep.verdict.isin({"NOT_FORM_A", "OFFSET_NOT_LOG10N"})]
@@ -332,7 +348,8 @@ def main() -> int:
         print(f"  {sp:7s} {len(g):3d} rows   n_isotopes={n_iso}  "
               f"correction {-math.log10(n_iso):+.4f} dex{note}")
 
-    sib = ok.dropna(subset=["sibling_residual"])
+    sib = (ok.dropna(subset=["sibling_residual"]) if "sibling_residual" in ok
+           else ok.iloc[:0])
     print(f"\nCORROBORATION vs the gf_linelist_vald sibling ({len(sib)} of {len(ok)} have one)")
     if len(sib):
         print(f"  |corrected - sibling|  median {sib.sibling_residual.abs().median():.2e}  "
@@ -356,17 +373,26 @@ def main() -> int:
               f"{r.centroid_A:10.4f}\n      {r.reason}")
 
     OUT.mkdir(parents=True, exist_ok=True)
-    rep.to_csv(OUT / "classification.csv", index=False)
+    #  Never overwrite the record with a post-apply re-run: once corrected, every row
+    #  classifies as NOT_BUILT_BY_NAIVE_SUM and writing that would ERASE the evidence of
+    #  what was changed and why.
+    if not ok.empty:
+        rep.to_csv(OUT / "classification.csv", index=False)
+    else:
+        print("  (classification.csv left as committed — a post-apply re-run must not "
+              "overwrite the record of what was corrected)")
 
     if args.apply:
         n, sha, prior = apply_corrections(rep, CANONICAL)
-        cols = ["line_id", "species", "wavelength_air_A", "excitation_potential_eV",
+        cols = ["physical_id", "line_id", "species", "wavelength_air_A",
+                "excitation_potential_eV",
                 "n_components", "n_isotopes", "isotopes", "published_log_gf",
                 "correction_term", "corrected_log_gf", "sibling_gf_linelist_vald",
                 "sibling_residual", "naive_total", "per_isotope_total",
                 "per_isotope_spread", "loggf_reference", "gf_tier"]
         side = ok[cols].copy()
-        side["prior_adjudication_status"] = side.line_id.map(prior)
+        side["prior_adjudication_status"] = (
+            side.physical_id.map(prior) if "physical_id" in side else side.line_id.map(prior))
         side["correction_note"] = CORRECTION_NOTE
         side["source"] = synth_path
         side.to_csv(SIDECAR, index=False)
@@ -375,13 +401,27 @@ def main() -> int:
         print(f"  provenance sidecar {SIDECAR.relative_to(ROOT)}")
 
     if args.verify:
-        cur = pd.read_csv(CANONICAL, low_memory=False).set_index("line_id")
+        #  Verify the TABLE against the committed SIDECAR, not against a fresh
+        #  classification — after a successful apply the classifier finds nothing, and
+        #  "0/0 verified" is not a check, it is a vacuous pass.
+        if not SIDECAR.exists():
+            raise FixError(f"{SIDECAR} missing — nothing to verify against")
+        side = pd.read_csv(SIDECAR)
+        cur = pd.read_csv(CANONICAL, low_memory=False)
+        kc = "physical_id" if ("physical_id" in cur.columns
+                               and "physical_id" in side.columns) else "line_id"
+        cur = cur.set_index(kc)
         bad = []
-        for r in ok.itertuples():
-            got = float(cur.at[r.line_id, "log_gf"])
+        for r in side.itertuples():
+            key = getattr(r, kc)
+            if key not in cur.index:
+                bad.append((key, "ABSENT", r.corrected_log_gf))
+                continue
+            got = float(cur.at[key, "log_gf"])
             if abs(got - r.corrected_log_gf) > 1e-9:
-                bad.append((r.line_id, got, r.corrected_log_gf))
-        print(f"\nVERIFY  {len(ok) - len(bad)}/{len(ok)} rows carry the corrected value")
+                bad.append((key, got, r.corrected_log_gf))
+        print(f"\nVERIFY  {len(side) - len(bad)}/{len(side)} sidecar rows carry the "
+              f"corrected value in canonical_gf (keyed on {kc})")
         for b in bad:
             print(f"  MISMATCH {b}")
         if bad:
