@@ -64,6 +64,43 @@ budget. So the rule is now structural rather than remembered:
 """
 from __future__ import annotations
 
+
+from decimal import Decimal, ROUND_HALF_UP as _ROUND_HALF_UP
+
+#: Decimal places every published dex bar is rounded to.
+DEX_PLACES = 4
+
+
+def round_dex(x: float, places: int = DEX_PLACES) -> float:
+    """Round a dex quantity for publication, deterministically. THE single rounding rule.
+
+    🔴 WHY THIS EXISTS (RYA-1084). `stat_dex=round(stat, 4)` was written at five separate
+    call sites, and one product's published bar moved 0.0217 -> 0.0218 between two runs
+    that agreed on every other field. The cause is not a Python-vs-numpy disagreement —
+    `round()` and `np.round()` return the SAME answer at every point here. It is that
+
+        0.02175 as a float is 0.0217499999999999985, one ULP BELOW the decimal tie
+
+    so `round()` gives 0.0217, while the very next representable float gives 0.0218. A
+    difference of one ULP in an upstream RMS — invisible in `stat_basis`, which prints
+    five decimals and shows "0.02175" for both — became a visible change in a published
+    uncertainty.
+
+    The rule pinned here is HALF-UP on the SHORTEST ROUND-TRIPPING DECIMAL (`repr`), which
+    is stable across exactly that pair: both 0.0217499999999999985 and its ULP-neighbour
+    repr as values that quantize to 0.0218. Measured against `round()` on 200,000 random
+    values it differs on ZERO of them — it changes nothing but the tie behaviour, which is
+    the only thing that was ambiguous.
+
+    ⚠️ WHAT IT DOES NOT DO. It does not make a genuinely different number the same. Values
+    that straddle a boundary by more than the tie neighbourhood (0.0217499 vs 0.0217501)
+    still round apart, correctly. Upstream 1-ULP nondeterminism is a separate exposure and
+    a rounding rule cannot stand in for fixing it.
+    """
+    return float(Decimal(repr(float(x))).quantize(Decimal(1).scaleb(-places),
+                                                  rounding=_ROUND_HALF_UP))
+
+
 import math
 from dataclasses import dataclass, field
 

@@ -67,6 +67,7 @@ from pipeline import treatment_axes as taxes  # RYA-1040: <3D> tokens, never typ
 from pipeline.band_products import build_product, LineMeasurement, products_frame  # noqa: E402
 from pipeline.error_budget import build as build_budget  # noqa: E402
 from pipeline.error_budget import assert_stat_publishable  # noqa: E402  RYA-907
+from pipeline.error_budget import round_dex  # noqa: E402  RYA-1084
 from pipeline import gf_rung  # noqa: E402  RYA-855
 from pipeline import harness_residual  # noqa: E402  RYA-869
 from pipeline.fit_constraint import as_float_or_none as _f  # noqa: E402  RYA-847
@@ -1537,7 +1538,7 @@ def synthesis_route(a, pol) -> None:
         treatment="1D-LTE", handler=product.handler,
         A=round(product.value, 3) if product.value is not None else None,
         n_lines=product.n_lines, n_excluded=product.n_excluded,
-        stat_dex=round(stat, 4), syst_dex=round(syst, 4),
+        stat_dex=round_dex(stat), syst_dex=round_dex(syst),
         # RYA-907 — the bar NAMES ITS OWN ORIGIN. A reader of the matrix could not
         # previously tell a measured scatter from the quantiser floor from a stand-in
         # for a scatter nobody measured, and those three are different claims.
@@ -1595,7 +1596,7 @@ def synthesis_route(a, pol) -> None:
             treatment=eb_treatment, handler=eb_product.handler,
             A=round(eb_product.value, 3) if eb_product.value is not None else None,
             n_lines=eb_product.n_lines, n_excluded=eb_product.n_excluded,
-            stat_dex=round(eb_stat, 4), syst_dex=round(eb_syst, 4),
+            stat_dex=round_dex(eb_stat), syst_dex=round_dex(eb_syst),
             stat_basis=eb_b.stat_basis(),
             dominant=(eb_b.dominant().name if eb_b.dominant() else ""),
             # The axes come from the SAME registry the token does, so a product cannot
@@ -1759,7 +1760,7 @@ def synthesis_route(a, pol) -> None:
             element=a.element, ion=a.ion, band=pol.name, instrument=a.instrument,
             treatment="ENGINE-A", handler=p_a.handler,
             A=round(p_a.value, 3), n_lines=p_a.n_lines, n_excluded=p_a.n_excluded,
-            stat_dex=round(stat_a, 4), syst_dex=round(syst_a, 4),
+            stat_dex=round_dex(stat_a), syst_dex=round_dex(syst_a),
             stat_basis=b_a.stat_basis(),
             dominant=(b_a.dominant().name if b_a.dominant() else ""),
             **axes_for("ENGINE-A", handler=p_a.handler or None).as_columns(),
@@ -2729,7 +2730,7 @@ def main() -> None:
                             handler=prod.handler,
                             A=round(prod.value, 3), n_lines=prod.n_lines,
                             n_excluded=prod.n_excluded,
-                            stat_dex=round(stat, 4), syst_dex=round(syst, 4),
+                            stat_dex=round_dex(stat), syst_dex=round_dex(syst),
                             stat_basis=b.stat_basis(),   # RYA-907
                             dominant=b.dominant().name if b.dominant() else "",
                             # RYA-906 — the axes, ADDED ALONGSIDE `treatment`, which is never
