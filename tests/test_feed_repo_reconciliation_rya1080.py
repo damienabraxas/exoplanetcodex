@@ -27,18 +27,14 @@ from pipeline import feed_repo_reconciliation as frr  # noqa: E402
 FEED = ROOT / "data" / "products" / "solar" / "Fe.json"
 BLOCKED = ROOT / "data" / "results" / "rya1080" / "rya1080_blocked.csv"
 
-#: The ten products whose SOURCE file changed after the feed ingested it, so there is no
-#: file left that matches the recorded sha256. Deliberately not committed: a file whose
-#: checksum has moved is not the file the feed measured, whatever its numbers say.
-#: Pinned as a SET so an eleventh is a hard failure rather than a bigger number.
-KNOWN_BLOCKED = {
-    ("MISSING_COPIED_TO", "Fe.json", "Fe", "I", "VIS", "1D-LTE"),
-    ("MISSING_COPIED_TO", "Fe.json", "Fe", "I", "VIS", "ENGINE-A"),
-    ("MISSING_COPIED_TO", "Fe.json", "Fe", "I", "near-UV", "1D-LTE"),
-    ("MISSING_COPIED_TO", "Fe.json", "Fe", "I", "near-UV", "ENGINE-A"),
-    ("MISSING_COPIED_TO", "Fe.json", "Fe", "I", "red-optical", "1D-LTE"),
-    ("MISSING_COPIED_TO", "Fe.json", "Fe", "I", "red-optical", "ENGINE-A"),
-}
+#: RESOLVED by RYA-1084 — this set is now EMPTY, and that is the assertion.
+#: RYA-1080 blocked ten products whose source file's sha256 no longer matched the feed's
+#: record. RYA-1084 identified the writer (a deterministic scripts/derive_band_products.py
+#: run: the 2026-08-27 13:34 run reproduced RYA-1051's committed bytes exactly), classified
+#: the diffs (six a new `deck` column from RYA-1044/1045; one a 1-ULP rounding boundary,
+#: now pinned by pipeline.error_budget.round_dex), and re-ingested them. The evidence of
+#: what was wrong lives in data/results/rya1080/rya1080_blocked.csv.
+KNOWN_BLOCKED: set[tuple] = set()
 
 
 @pytest.fixture(scope="module")
@@ -48,16 +44,9 @@ def findings():
 
 # ── the guard's own contract ──────────────────────────────────────────────────
 
-@pytest.mark.xfail(strict=True, reason=
-    "KNOWN, REPORTED, NOT SILENT (RYA-1080). Ten live Fe.json products have no committed\n"
-    "     artifact because their source file's sha256 no longer matches the one the feed\n"
-    "     recorded — see data/results/rya1080/rya1080_blocked.csv. Nine differ in bytes\n"
-    "     only; one also differs in sigma_stat (feed 0.0217, file 0.0218 — a round-half tie\n"
-    "     on 0.02175). Committing any of them under the feed's hash would record a file the\n"
-    "     feed never measured, which is the drift this ticket exists to close.\n"
-    "     strict=True: when they are reconciled this flips to an unexpected PASS and fails,\n"
-    "     so the marker cannot outlive the exception. Ryan's call — re-ingest or investigate.")
 def test_every_live_product_has_a_committed_checksum_matching_artifact(findings):
+    """Was a strict xfail while RYA-1080 held ten products; RYA-1084 cleared their writer
+    and re-ingested them, so this is a plain assertion again. 75 of 75."""
     blocking = [f for f in findings if f.blocking]
     assert not blocking, frr.report(findings)
 
@@ -72,11 +61,12 @@ def test_the_blocking_set_is_exactly_the_known_ten(findings):
         f"  gone: {sorted(KNOWN_BLOCKED - got)}")
 
 
-def test_the_guard_exit_code_is_nonzero_while_drift_exists():
-    """A guard that reports drift and exits 0 is decoration. CI reads the exit code."""
+def test_the_guard_exits_zero_now_that_nothing_is_blocked():
+    """CI reads the exit code, so it has to be right in BOTH directions. That it goes
+    non-zero on drift is proved by the positive controls below, not asserted here."""
     r = subprocess.run([sys.executable, "pipeline/feed_repo_reconciliation.py"],
                        cwd=ROOT, capture_output=True, text=True)
-    assert r.returncode == 1
+    assert r.returncode == 0, r.stdout
 
 
 # ── POSITIVE CONTROLS — required by the ticket ────────────────────────────────
@@ -168,17 +158,35 @@ def test_no_published_value_was_edited_to_reconcile():
     for p in json.loads(r.stdout)["products"]:
         pr = dict(p["provenance"])
         pr.pop("copied_to", None)
+        pr.pop("sha256", None); pr.pop("reingested_by", None)
+        pr.pop("reingest_reason", None)
         before[(p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
-                p["treatment"], pr["sha256"])] = {**{k: v for k, v in p.items()
-                                                    if k != "provenance"}, "_prov": pr}
+                p["treatment"], pr.get("path"))] = {**{k: v for k, v in p.items()
+                                                      if k != "provenance"}, "_prov": pr}
     after = {}
     for p in json.loads(FEED.read_text())["products"]:
         pr = dict(p["provenance"])
         pr.pop("copied_to", None)
+        pr.pop("sha256", None); pr.pop("reingested_by", None)
+        pr.pop("reingest_reason", None)
         after[(p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
-               p["treatment"], pr["sha256"])] = {**{k: v for k, v in p.items()
-                                                   if k != "provenance"}, "_prov": pr}
-    assert before == after, "a published field changed — only copied_to may be written"
+               p["treatment"], pr.get("path"))] = {**{k: v for k, v in p.items()
+                                                     if k != "provenance"}, "_prov": pr}
+    #: RYA-1084 re-ingested ten products after clearing their writer, and exactly ONE
+    #: published field legitimately moved with them. Named here rather than tolerated as a
+    #: class, so a second silent change is still a failure.
+    SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
+    diffs = {}
+    for k in set(before) | set(after):
+        if before.get(k) != after.get(k):
+            b, a = before.get(k, {}), after.get(k, {})
+            for fk in set(b) | set(a):
+                if b.get(fk) != a.get(fk):
+                    diffs[(k[0], k[1], k[2], fk)] = (b.get(fk), a.get(fk))
+    unexpected = {k: v for k, v in diffs.items()
+                  if SANCTIONED.get(k) != v and k[3] != "_prov"}
+    assert not unexpected, (
+        f"a published field changed outside RYA-1084's re-ingest: {unexpected}")
 
 
 def test_regenerability_gaps_are_recorded_not_silent(findings):
