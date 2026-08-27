@@ -71,9 +71,16 @@ TYPE_B_STEPS = {'teff_K': 100.0, 'logg': 0.10, 'vturb_kms': 0.10, 'feh': 0.05}
 # ones. The old literal traced to the RYA-158 spec line "vturb = 0.9 +/- 0.05" with no
 # citation at all, and it was doubly stale: that line's central value is 0.9 while the
 # adopted solar xi is 1.0 (RYA-196). It drove the ENTIRE solar sigma_params.
+# 🔴 RYA-311 — AND THE BORROWED REPLACEMENT IS RETIRED TOO. RYA-1089 swapped the literal
+# for Jofré+2014's sigma_vmic, which is honest provenance but the wrong QUANTITY: it is
+# the dispersion across seven GBS pipelines, not the formal error of ours. `solar.e_xi`
+# is now the Delta-chi2 = 1 error on our own Fe I reduced-EW FITEXY slope. It is the
+# smallest of the three numbers RYA-311 measured and `stars.yaml` says so beside it --
+# the ceiling sensitivity is 4.6x larger and is NOT summed in here, because whether a
+# selection systematic belongs in delta_p is a budget decision, not a data one.
 SOLAR_DELTA_P = {'teff_K': None,   # from stars.yaml e_teff (solar Teff known to ~1 K)
                  'logg':   None,   # from e_logg -- 0.0, exact by definition
-                 'vturb_kms': None,  # from e_xi -- Jofré+2014 Table 2 sigma_vmic
+                 'vturb_kms': None,  # from e_xi -- RYA-311's MEASURED FITEXY error
                  'feh':    0.0}    # Sun DEFINES [Fe/H]=0 -> exactly 0, never read
 
 _PARAM_LABEL = {'teff_K': 'Teff', 'logg': 'logg', 'vturb_kms': 'vmic', 'feh': 'FeH'}
