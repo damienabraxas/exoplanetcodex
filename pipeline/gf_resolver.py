@@ -295,6 +295,15 @@ def assert_gf_column_is_honest(df: pd.DataFrame, *, element_col: str = 'element'
 EP_CLUSTER_TOL = 0.005  # eV — HFS components share a lower level (identical EP)
 
 
+#: Per-isotope totals of one physical line must agree within this for the source to be
+#: RYA-684 form (A) — isotope-coded with the full gf on each isotope. Components print
+#: 3-4 decimals and a cluster carries up to ~25 of them, so summation rounding alone
+#: reaches ~0.01 dex; this is that, doubled. Measured maximum among the real form-(A)
+#: clusters in the GES v6 delivery: 0.0097 dex. The one cluster that fails it (Li I 6707)
+#: fails by 0.301.
+ISOTOPE_FORM_A_SPREAD_DEX = 0.02
+
+
 def cluster_physical_lines(keys, wls, eps):
     """Group row indices into physical lines — the ONE canonical clustering, used by
     both the build (audit_gf_duplication._aggregate) and the synth reroute so their
@@ -322,6 +331,43 @@ def cluster_physical_lines(keys, wls, eps):
                         wstart = q
                 gstart = p
     return clusters
+
+
+def physical_total(loggf, isotopes=None) -> float:
+    """The TOTAL log gf of one physical line, from its components. Isotope-aware.
+
+    🔴 RYA-1075. ``cluster_physical_lines`` is isotope-blind by construction — it groups
+    on species + EP + wavelength gap, and two isotopes of the same transition share the
+    lower level and sit milli-Angstroms apart, so they land in ONE cluster. The GES v6
+    HFS/ISO list is RYA-684 *form (A)*: isotope-coded, and every isotope's component set
+    carries the FULL oscillator strength, because the engine applies ``isotopfrac``
+    afterwards and Sum(f_i) = 1. So ``log10(sum 10**gf)`` over such a cluster is
+    ``n_isotopes x`` the physical gf — a count, with no dependence on the abundances.
+
+    That is how 54 ``canonical_gf`` rows came to be published log10(7) and log10(2) too
+    high (Nd II, Sm II, Eu II, Ba II, Cu I). Demonstrated on Eu II 6645: 11 components,
+    isotope 151 summing to +0.1199 and isotope 153 to +0.1198 — each the whole
+    transition — against a naive all-component sum of +0.4208.
+
+    ⚠️ NOT RYA-684's defect and NOT its correction term. RYA-684 is an ENGINE-side double
+    application of ``isotopfrac`` on already-folded gf, offset ``-log10(sum f_i^2)``.
+    This is a CONSUMER-side aggregation over a correctly-formed source, offset
+    ``log10(n)``. La II separates them: +0.0008 against +0.3010.
+
+    Where the per-isotope sums do NOT agree, the source is not form (A) and the count
+    rule is undefined — the naive sum is returned unchanged. Li I 6707 is that case.
+    """
+    g = np.asarray(loggf, float)
+    if isotopes is None:
+        return float(np.log10(np.sum(10.0 ** g)))
+    a = np.asarray(isotopes)
+    present = sorted({int(x) for x in a if int(x) != 0})
+    if len(present) < 2:
+        return float(np.log10(np.sum(10.0 ** g)))
+    per = [float(np.log10(np.sum(10.0 ** g[a.astype(int) == i]))) for i in present]
+    if max(per) - min(per) > ISOTOPE_FORM_A_SPREAD_DEX:
+        return float(np.log10(np.sum(10.0 ** g)))     # not form (A); nothing to divide out
+    return float(np.mean(per))
 
 
 def apply_to_synth_array(arr: np.ndarray, *, report: dict | None = None) -> np.ndarray:
@@ -359,9 +405,14 @@ def apply_to_synth_array(arr: np.ndarray, *, report: dict | None = None) -> np.n
 
     uncovered: list[dict] = []
     n_applied = 0
+    #  RYA-1075: isotope column when the delivery carries one. Without it `cur_total`
+    #  is the isotope-inflated sum, and against a de-inflated canonical total the shift
+    #  would scale every component down by n. See `physical_total`.
+    isos = (arr['spectrum_synthe_isotope']
+            if 'spectrum_synthe_isotope' in (arr.dtype.names or ()) else None)
     for cl in cluster_physical_lines(keys, wls, eps):
         comp_gf = gf[cl]
-        cur_total = float(np.log10(np.sum(10.0 ** comp_gf)))
+        cur_total = physical_total(comp_gf, None if isos is None else isos[cl])
         w = 10.0 ** comp_gf
         centroid = float(np.sum(wls[cl] * w) / w.sum())
         ep_mean = float(np.mean(eps[cl]))
