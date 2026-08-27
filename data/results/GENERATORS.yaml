@@ -3946,3 +3946,212 @@ artifacts:
       rya817_run_3dnlte_bands.py because RYA-924 established these cells were computed on
       the Mac from a temp scratchpad whose inputs are no longer recoverable: committing the
       artifact is the floor, regenerability is the net (RYA-1011), and this one has no net.
+
+  # ── RYA-1084: the ten RYA-1080 blocked products, re-ingested once their writer
+  # was cleared (deterministic derive_band_products run; the diffs were the
+  # RYA-1044/1045 `deck` column plus one 1-ULP rounding boundary, now pinned by
+  # pipeline.error_budget.round_dex). See docs/science/rya1084_blocked_writer.md.
+
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1084
+    note: >-
+      Held by RYA-1080 because its sha256 no longer matched the feed's record;
+      re-ingested by RYA-1084 after the writer was identified and shown
+      deterministic. Committed but not regenerable on Sirius — the holding is
+      Mac-local, a recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeI_3000_3780_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1084
+    note: >-
+      Held by RYA-1080 because its sha256 no longer matched the feed's record;
+      re-ingested by RYA-1084 after the writer was identified and shown
+      deterministic. Committed but not regenerable on Sirius — the holding is
+      Mac-local, a recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1084
+    note: >-
+      Held by RYA-1080 because its sha256 no longer matched the feed's record;
+      re-ingested by RYA-1084 after the writer was identified and shown
+      deterministic. Committed but not regenerable on Sirius — the holding is
+      Mac-local, a recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1084
+    note: >-
+      Held by RYA-1080 because its sha256 no longer matched the feed's record;
+      re-ingested by RYA-1084 after the writer was identified and shown
+      deterministic. Committed but not regenerable on Sirius — the holding is
+      Mac-local, a recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1084
+    note: >-
+      Held by RYA-1080 because its sha256 no longer matched the feed's record;
+      re-ingested by RYA-1084 after the writer was identified and shown
+      deterministic. Committed but not regenerable on Sirius — the holding is
+      Mac-local, a recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeI_6910_9199_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1084
+    note: >-
+      Held by RYA-1080 because its sha256 no longer matched the feed's record;
+      re-ingested by RYA-1084 after the writer was identified and shown
+      deterministic. Committed but not regenerable on Sirius — the holding is
+      Mac-local, a recorded regenerability gap (RYA-1011).
+
+  # ── RYA-1080 / RYA-1084: the reconciliation's own artifacts ──
+  - artifact: rya1080/rya1080_reconciliation.csv
+    generator: scripts/rya1080_reconcile_feed_products.py
+    invocation: python3 scripts/rya1080_reconcile_feed_products.py --apply
+    ticket: RYA-1080
+    note: >-
+      Per-product record of which live feed products were copied into the repo and which
+      were refused. Regenerating it re-verifies every sha256 against the feed.
+
+  - artifact: rya1080/rya1080_blocked.csv
+    generator: scripts/rya1080_reconcile_feed_products.py
+    invocation: python3 scripts/rya1080_reconcile_feed_products.py
+    ticket: RYA-1080
+    note: >-
+      The ten products RYA-1080 refused to commit because their source file's sha256 no
+      longer matched the feed's record. KEPT after RYA-1084 resolved them: it is the
+      evidence that says WHAT was wrong and by how much (nine bytes-only, one a 1-ULP
+      rounding boundary), which a now-empty guard output no longer shows. A current run
+      writes no blocked rows, so this file is a historical record and is not regenerated.
+      status stays COMMITTED because the generator that produced it is committed.
+
+  - artifact: rya1080/rya1080_guard.json
+    generator: pipeline/feed_repo_reconciliation.py
+    invocation: python3 pipeline/feed_repo_reconciliation.py
+    ticket: RYA-1080
+    note: >-
+      The guard's own findings, written on every run. Currently zero blocking findings and
+      67 recorded regenerability gaps.
+
+  - artifact: rya1084/rya1084_reingest.csv
+    generator: scripts/rya1084_reingest_blocked.py
+    invocation: python3 scripts/rya1084_reingest_blocked.py --apply
+    ticket: RYA-1084
+    note: >-
+      What the re-ingest changed, per product: the sha256 the feed now records, and the one
+      published field that genuinely moved (sigma_stat 0.0217 -> 0.0218 on Fe I VIS 1D-LTE).
+
+  # ── RYA-1081: per-line artifacts for the HARPS Fe II VIS audit ──
+  # RYA-1080 reconciled what the FEED references, and the feed carries only
+  # *_products.csv. Their sibling *_lines.csv were never committed, so the per-line
+  # audit could not run on committed data — the same class RYA-1080 closed, one
+  # level down. Checksums recorded in rya1081/rya1081_inputs.json.
+
+  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: band_products/FeII_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_ENGINE-B_lines.csv
+    generator: scripts/derive_band_products.py
+    ticket: RYA-1081
+    note: >-
+      Per-line record behind an Fe II VIS DEEPGRADED product already in the feed.
+      Committed but not regenerable on Sirius — the holding is Mac-local, a
+      recorded regenerability gap (RYA-1011).
+
+  - artifact: rya1081/rya1081_perline_audit.csv
+    generator: scripts/rya1081_harps_fe2_audit.py
+    invocation: python3 scripts/rya1081_harps_fe2_audit.py --instrument harps --ion II --band VIS --tier deepgraded
+    ticket: RYA-1081
+    note: >-
+      The per-line contribution table: gf + grade + cited sigma, per-line A, deviation from the pool median, red_chi2.
+
+  - artifact: rya1081/rya1081_verdict.json
+    generator: scripts/rya1081_harps_fe2_audit.py
+    invocation: python3 scripts/rya1081_harps_fe2_audit.py --instrument harps --ion II --band VIS --tier deepgraded
+    ticket: RYA-1081
+    note: >-
+      The audit's findings, including the two DECLARED GAPS (no GRADED Fe II tier exists; the per-line COG covers Fe I only).
+
+  - artifact: rya1081/rya1081_crosscheck_kp_molecfit.csv
+    generator: scripts/rya1081_harps_fe2_audit.py
+    invocation: python3 scripts/rya1081_harps_fe2_audit.py --instrument harps --ion II --band VIS --tier deepgraded
+    ticket: RYA-1081
+    note: >-
+      HARPS vs KP(molecfit) on the same nine lines and the same pure-lab gf.
+
+  - artifact: rya1081/rya1081_crosscheck_kp_kurucz2005.csv
+    generator: scripts/rya1081_harps_fe2_audit.py
+    invocation: python3 scripts/rya1081_harps_fe2_audit.py --instrument harps --ion II --band VIS --tier deepgraded
+    ticket: RYA-1081
+    note: >-
+      HARPS vs KP(kurucz2005), the second conditioning as a control.
+
+  - artifact: rya1081/rya1081_inputs.json
+    generator: scripts/rya1081_harps_fe2_audit.py
+    invocation: python3 scripts/rya1081_harps_fe2_audit.py --instrument harps --ion II --band VIS --tier deepgraded
+    ticket: RYA-1081
+    note: >-
+      sha256 of every per-line artifact the audit reads, and why they had to be committed.
