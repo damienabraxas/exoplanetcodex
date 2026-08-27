@@ -1,0 +1,13 @@
+species,source,published_coverage_A,published_transition_count,published_uncertainty,doi,evidence_tier,codex_status,audit_note
+Cr II,Ward et al. 2023,2080-3780,268.0,10-26%,10.3847/1538-4357/acfafe,PRIMARY_LAB,ACQUIRE_TABLE,"Highest-volume non-Fe candidate; published table extends to 4140 A, audit window clips at 3780 A."
+Mn II,Kling & Griesmann 2000,UV,,paper-reported,,PRIMARY_LAB,VERIFY_AND_ACQUIRE,Seed named by ticket; transition-level table must be acquired and wavelength-frame checked.
+Co II,Lawler et al. 2018,UV/visible,84.0,paper-reported,10.3847/1538-4365/aac773,PRIMARY_LAB,ACQUIRE_TABLE,82 absolute transition probabilities from branching fractions plus lifetimes; HFS constants for 28 levels.
+Sc I; Sc II,Lawler et al. 2019,UV/visible,,paper-reported,,PRIMARY_LAB,VERIFY_AND_ACQUIRE,Retain ion and HFS metadata; do not collapse Sc I and Sc II.
+V II,Kramida & Saloman 2017,UV/visible,,evaluated,,EVALUATED,VERIFY_AND_ACQUIRE,"Evaluated compilation is a separate evidence tier, not primary laboratory gf."
+Fe I,Belmonte et al. 2017,<3780,70.0,0.02-0.10 dex in Codex table,,PRIMARY_LAB,ALREADY_PARTIAL,Known RYA-836 source; 26 lines lie in 3000-3780 in the source census.
+Fe I,Den Hartog et al. 2014,<3780,31.0,0.02-0.12 dex in Codex table,,PRIMARY_LAB,ALREADY_PRESENT,Known RYA-836 source; all 31 lines lie in 3000-3780.
+Fe I,Ruffoni et al. 2014,<3780,4.0,0.02-0.08 dex in Codex table,,PRIMARY_LAB,ALREADY_PRESENT,Known RYA-836 source; all four lines lie in 3000-3780.
+Ti I; Ti II,laboratory/evaluated source family,1150-3780,,unknown,,UNVERIFIED_SEED,LITERATURE_SEARCH,Large canonical VALD-only population makes this a high-priority source search.
+Ni I; Ni II,laboratory/evaluated source family,1150-3780,,unknown,,UNVERIFIED_SEED,LITERATURE_SEARCH,Prioritize transitions overlapping actual HST holdings.
+Cu I; Cu II; Zn I; Zn II,laboratory/evaluated source family,1150-3780,,unknown,,UNVERIFIED_SEED,LITERATURE_SEARCH,Preserve HFS/isotope structure where available.
+P I; P II; S I; S II,laboratory/evaluated source family,1150-3000,,unknown,,UNVERIFIED_SEED,LITERATURE_SEARCH,FUV/NUV species cannot overlap the current canonical list because it has no rows below 3000 A.
