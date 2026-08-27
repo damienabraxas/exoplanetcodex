@@ -31,6 +31,10 @@ procyon:
   feh_ref: 0.03
   e_feh: 0.04
   xi: 1.8
+  # Jofré+2014 (A&A 564, A133) Table 2 σvmic — "the mean vmic value obtained by the different nodes, with σvmic representing the standard deviation of this mean"
+  # ⚠️ Table 2's vmic is a MEAN ACROSS NODES and does not always equal the
+  #    xi adopted above; only the DISPERSION is taken as the uncertainty.
+  e_xi: 0.11
   vsini: 2.8
   vmac: 6.0
   source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ=1.8); broadening: Bruntt+2010
@@ -50,6 +54,10 @@ alpha_cen_a:
   feh_ref: 0.2
   e_feh: 0.04
   xi: 1.1
+  # Jofré+2014 (A&A 564, A133) Table 2 σvmic — "the mean vmic value obtained by the different nodes, with σvmic representing the standard deviation of this mean"
+  # ⚠️ Table 2's vmic is a MEAN ACROSS NODES and does not always equal the
+  #    xi adopted above; only the DISPERSION is taken as the uncertainty.
+  e_xi: 0.07
   vsini: 1.9
   vmac: 2.3
   source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ); broadening: Bruntt+2010
@@ -69,6 +77,10 @@ alpha_cen_b:
   feh_ref: 0.2
   e_feh: 0.04
   xi: 1.0
+  # Jofré+2014 (A&A 564, A133) Table 2 σvmic — "the mean vmic value obtained by the different nodes, with σvmic representing the standard deviation of this mean"
+  # ⚠️ Table 2's vmic is a MEAN ACROSS NODES and does not always equal the
+  #    xi adopted above; only the DISPERSION is taken as the uncertainty.
+  e_xi: 0.31
   vsini: 1.0
   vmac: 0.8
   source: 'GBS: Heiter+2015 (Teff/logg), Jofré+2014 ([Fe/H], ξ); broadening: Bruntt+2010
