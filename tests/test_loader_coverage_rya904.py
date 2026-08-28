@@ -48,6 +48,7 @@ from pipeline.telluric_policy import gate_holding  # noqa: E402
 Y_HOLDING = "solar_crires_plus_y_rya794"
 IDP_HOLDING = "solar_vesta_crires_plus_idp"
 Y_WIDE_HOLDING = "solar_crires_plus_y_wide_rya1054"   # RYA-1054, the arm's full extent
+H_HOLDING = "solar_crires_plus_h_rya1094"        # RYA-1094, the H arm (15007-17494 A)
 #: fully inside the RYA-794 product's 10280-10680 A span
 IN_Y = 10400.0
 
@@ -342,11 +343,13 @@ def test_preflight_dispatch_reader_reads_the_holding_table():
     assert "crires_plus" in d.instruments
     # the point of the ticket: ONE instrument, SEVERAL holdings, in preference order
     # RYA-1054 added a SECOND conditioned Y holding (the arm's full extent, 9800-10796 A)
-    # between the RYA-794 product and the raw IDP. The ORDER is what this pins: both
-    # corrected products come before the uncorrected IDP, so nothing silently switches to
-    # the refused one -- and the RYA-794 product stays FIRST, so no existing measurement
-    # changes product underneath itself.
-    assert d.served_holdings["crires_plus"] == (Y_HOLDING, Y_WIDE_HOLDING, IDP_HOLDING)
+    # between the RYA-794 product and the raw IDP; RYA-1094 added the H arm after it. The
+    # ORDER is what this pins: every conditioned product comes before the uncorrected IDP,
+    # so nothing silently switches to the refused one -- and the RYA-794 product stays
+    # FIRST, so no existing measurement changes product underneath itself. A new arm
+    # APPENDS to the conditioned run; it never displaces an existing holding.
+    assert d.served_holdings["crires_plus"] == (
+        Y_HOLDING, Y_WIDE_HOLDING, H_HOLDING, IDP_HOLDING)
     # and the reader agrees with the harness rather than restating it
     assert {i: tuple(h.holding_id for h in M.holdings_for(i))
             for i in d.instruments} == d.served_holdings

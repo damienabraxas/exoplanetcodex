@@ -53,6 +53,13 @@ PRE_NORMALISED_HOLDINGS: frozenset[str] = frozenset({
     # re-judged -- but it is listed EXPLICITLY, because this set is keyed per PRODUCT and
     # inheriting by instrument is the exact collapse RYA-904 was about.
     "solar_crires_plus_y_wide_rya1054",
+    # RYA-1094: the H arm (15007-17494 A), built from sp/Sun_H_rv.dat by the SAME
+    # normaliser as the two Y products above (`normalize_vesta_ir.py --arm H`). Only the
+    # arm differs. Listed EXPLICITLY for the same reason RYA-1054 is: this set is keyed
+    # per PRODUCT, and letting a new arm inherit its sibling's verdict by instrument is
+    # the RYA-904 collapse. Continuum after the residual-slope helper: median 0.996,
+    # p95 1.013.
+    "solar_crires_plus_h_rya1094",
     "solar_delbouille_liege",            # RYA-944 disk-centre intensity, LOCAL normalisation
 })
 
