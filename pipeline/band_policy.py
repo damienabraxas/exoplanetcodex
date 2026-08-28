@@ -152,6 +152,43 @@ POLICIES: tuple[BandPolicy, ...] = (
             "of 174 Fe I failures here were windows dominated by a real solar line missing "
             "from our list. Line-list completeness is the dominant systematic, not blending."),
     ),
+    # 🔴 H PRECEDES NIR DELIBERATELY — RYA-1094. `resolve()` is first-match over this
+    # ordered tuple, so this entry claims 15007.11-17493.69 and NIR keeps the rest of
+    # 10000-24000 as the fallback. Splitting NIR instead would have orphaned
+    # 17493.69-24000, where canonical_gf still holds Fe rows out to 24985 A, and an
+    # orphaned regime RAISES at intake rather than degrading quietly.
+    #
+    # WHY A SEPARATE REGIME AT ALL: the product path takes the band NAME from here and the
+    # band CONFIG from config/synth_bands.yaml. While 15007 A resolved to "NIR" it drew
+    # NIR's linelist (9203-12976 A), which covers none of this band -- an H run could not
+    # be expressed at all, whatever synth_bands.yaml said.
+    BandPolicy(
+        name="H", lo_A=15007.11, hi_A=17493.69,
+        # MEASURED on this band's own material, 2026-08-28: the RYA-1094 linelist
+        # (5,244 lines / 2486.6 A) and the Elgueta+2026 solar H spectrum (40,559 pts).
+        # ⚠️ NOT comparable to the NIR row below: that one's continuum figures were taken
+        # on an UNCORRECTED spectrum (median 0.862 IS the telluric absorption), whereas
+        # this arm arrives already normalised, so 0.996 describes a different quantity.
+        # Likewise these line counts come from the raw VALD pull, NIR's from a curated
+        # 757-line set. Recorded as measured rather than made to look consistent.
+        lines_per_A=2.109, median_gap_A=0.164,
+        continuum_p95=1.013, continuum_median=0.996,
+        permitted_methods=("synthesis",),
+        forbidden_methods=("interval-integration", "profile-fit"),
+        continuum_treatment="telluric-corrected; continuum only meaningful after correction",
+        telluric_required=True,
+        justification=(
+            "Same route as NIR and for the same reason: telluric. The cleaner continuum "
+            "here is a property of the PRODUCT, not the sky -- Elgueta+2026 deliver this "
+            "arm already normalised, and 0.45% of points fall below 0.5 against 51.3% for "
+            "Kitt Peak's O2 A-band. That is not licence to relax the rule: H is Elgueta's "
+            "MOST telluric-contaminated band and they skip regions inside it, so the "
+            "per-region judgement belongs downstream and telluric_required stays True "
+            "(RYA-787)."),
+        systematic_floor_note=(
+            "Telluric residuals are epoch- and airmass-dependent, so this systematic varies "
+            "between observations of the SAME star and cannot be calibrated once."),
+    ),
     BandPolicy(
         name="NIR", lo_A=10000.0, hi_A=24000.0,
         lines_per_A=0.14, median_gap_A=3.989,
