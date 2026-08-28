@@ -119,6 +119,39 @@ def network_term() -> Term:
     return Term("3D-NLTE network accuracy", None, False, _VENDOR_NO_ERRORS)
 
 
+def budget_from_pool(pool: pd.DataFrame, *, element: str, ion: str, instrument: str,
+                     handler: str, scatter_dex: float):
+    """The budget for an Amarsi pool held IN MEMORY. The one assembly, two callers.
+
+    `scripts/rya817_run_3dnlte_bands.py` calls this while the run still has the pool, so
+    the product it writes carries `stat_dex`/`syst_dex` like every band product; the audit
+    entry point below calls it from files. Two copies of "what the Amarsi budget is" would
+    be free to drift, which is the RYA-845 shape.
+    """
+    n = len(pool)
+    measurements = [
+        LineMeasurement(element=element, ion=ion,
+                        wavelength_air_A=float(r.wavelength_air_A),
+                        instrument=str(instrument), ew_mA=float(r.ew_mA),
+                        ew_method="amarsi 3D-NLTE on the 1D-LTE base",
+                        abundance=float(r.a_3dnlte), treatment="ENGINE-A-3DNLTE",
+                        in_aggregate=True, ep_eV=float(r.elo_eV))
+        for r in pool.itertuples()]
+    linelist = pd.DataFrame({
+        "element": [f"{element} {1 if ion == 'I' else 2}"] * n,
+        "wave_A": pool.wavelength_air_A.to_numpy(float),
+        "lower_state_eV": pool.elo_eV.to_numpy(float),
+        "loggf": pool.loggf.to_numpy(float)})
+    rung = gf_rung.for_lines(element, ion, measurements, linelist=linelist)
+    hres = harness_residual.for_handler(str(handler))
+    lo, hi = float(pool.wavelength_air_A.min()), float(pool.wavelength_air_A.max())
+    b = build_budget(element, 0.5 * (lo + hi), n, scatter_dex=scatter_dex,
+                     **rung.budget_kwargs(), **hres.budget_kwargs())
+    b.add(axis_term(pool))
+    b.add(network_term())
+    return b, rung
+
+
 def budget_for(run_dir: Path, *, element="Fe", ion="I", band="VIS") -> dict:
     per_line, products, summary = load_run(run_dir)
     row = products[(products.element == element) & (products.ion == ion)
@@ -136,36 +169,10 @@ def budget_for(run_dir: Path, *, element="Fe", ion="I", band="VIS") -> dict:
 
     a3 = pool.a_3dnlte.to_numpy(float)
     scatter = float(np.std(a3, ddof=1))
-    if not math.isclose(scatter, float(row.sigma), rel_tol=1e-6):
-        raise SystemExit(
-            f"published sigma {row.sigma} is not this pool's std {scatter} -- the "
-            f"assumption that the EW-3D route publishes a raw scatter does not hold for "
-            f"this artifact, and everything below depends on it.")
-
-    #: The lines, in the shape `gf_rung` prices. The log gf is the one the RUN used, read
-    #: from the run's own per-line file rather than re-resolved (RYA-799).
-    measurements = [
-        LineMeasurement(element=element, ion=ion,
-                        wavelength_air_A=float(r.wavelength_air_A),
-                        instrument=str(row.instrument), ew_mA=float(r.ew_mA),
-                        ew_method="amarsi 3D-NLTE on the 1D-LTE base",
-                        abundance=float(r.a_3dnlte), treatment=str(row.treatment),
-                        in_aggregate=True, ep_eV=float(r.elo_eV))
-        for r in pool.itertuples()]
-    linelist = pd.DataFrame({
-        "element": [f"{element} {1 if ion == 'I' else 2}"] * n,
-        "wave_A": pool.wavelength_air_A.to_numpy(float),
-        "lower_state_eV": pool.elo_eV.to_numpy(float),
-        "loggf": pool.loggf.to_numpy(float)})
-    rung = gf_rung.for_lines(element, ion, measurements, linelist=linelist)
-    hres = harness_residual.for_handler(str(row.handler))
-
-    lo, hi = float(pool.wavelength_air_A.min()), float(pool.wavelength_air_A.max())
-    b = build_budget(element, 0.5 * (lo + hi), n,
-                     scatter_dex=scatter, **rung.budget_kwargs(),
-                     **hres.budget_kwargs())
-    b.add(axis_term(pool))
-    b.add(network_term())
+    published = float(row.stat_dex) if "stat_dex" in products.columns else float(row.sigma)
+    b, rung = budget_from_pool(pool, element=element, ion=ion,
+                               instrument=str(row.instrument),
+                               handler=str(row.handler), scatter_dex=scatter)
     stat, syst = b.total()
     assert_stat_publishable(stat, cell=f"{element} {ion} {band} {row.treatment} "
                                        f"({row.instrument}, n={n})")
@@ -174,8 +181,8 @@ def budget_for(run_dir: Path, *, element="Fe", ion="I", band="VIS") -> dict:
         "holding_hint": summary.get("band_products_dir"),
         "element": element, "ion": ion, "band": band,
         "treatment": str(row.treatment), "handler": str(row.handler),
-        "A": float(row.value), "n_lines": n,
-        "published_sigma_stat_RAW_SCATTER": float(row.sigma),
+        "A": float(row.A if "A" in products.columns else row.value), "n_lines": n,
+        "published_statistical_field": published,
         "line_scatter_dex": round_dex(scatter),
         "sigma_stat_STANDARD_ERROR": round_dex(stat),
         "sigma_syst_FLOOR": round_dex(syst),
@@ -212,17 +219,20 @@ def main() -> int:
     a.out.write_text(json.dumps({"ticket": "RYA-1095", "budgets": out}, indent=2) + "\n")
 
     print(f"\n{'instrument':22s} {'n':>3s} {'A':>8s} {'scatter':>8s} "
-          f"{'stat(SE)':>9s} {'syst':>8s}  published_stat")
+          f"{'stat(SE)':>9s} {'syst':>8s}  published")
     for r in out:
         print(f"{r['instrument']:22s} {r['n_lines']:3d} {r['A']:8.4f} "
               f"{r['line_scatter_dex']:8.4f} {r['sigma_stat_STANDARD_ERROR']:9.4f} "
-              f"{r['sigma_syst_FLOOR']:8.4f}  {r['published_sigma_stat_RAW_SCATTER']:.4f}"
-              f"  <- a raw scatter in a standard-error field")
+              f"{r['sigma_syst_FLOOR']:8.4f}  {r['published_statistical_field']:.4f}")
     print(f"\n  gf rung        : {out[0]['gf_rung']}")
     print(f"  dominant term  : {out[0]['dominant_term']}")
     print(f"  UNMEASURED     : {[t['name'] for t in out[0]['unmeasured_terms']]}")
     print(f"  -> sigma_syst is a FLOOR, not a total.")
-    print(f"\n  -> {a.out.relative_to(ROOT)}")
+    try:
+        shown = a.out.relative_to(ROOT)
+    except ValueError:
+        shown = a.out          # an out-of-repo scratch path is legitimate for a dry look
+    print(f"\n  -> {shown}")
     return 0
 
 
