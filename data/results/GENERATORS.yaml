@@ -3379,6 +3379,56 @@ artifacts:
       (RYA-542). It reports both for every pair, and the collision fires on TWO of
       them: the atmosphere leg (+0.0920 paired vs +0.1050 published) and the <3D> NLTE
       leg (+0.0320 vs +0.0000).
+  - artifact: rya1104/amarsi_base_diagnostic.json
+    generator: scripts/rya1104_amarsi_base_diagnostic.py
+    ticket: RYA-1104
+    invocation: python3 scripts/rya1104_amarsi_base_diagnostic.py --pool amarsi_feI_vis --holding kpno_molecfit
+    note: >-
+      READ-ONLY diagnostic. It opens committed artifacts only -- it re-runs no synthesis,
+      no EW inversion and not the Amarsi MLP -- so it changes no line list, no
+      canonical_gf, no STAR_PARAMS and no product (RYA-161).
+      TEST 1 REFUTES THE TICKET'S PREMISE. There is no EW-route base under
+      `EW . 3D-NLTE . Amarsi`: every RYA-1095 leg names its own 1D-LTE base in
+      `provenance`, and on kpno_molecfit it is the SYNTH_GRADED pool, verified value for
+      value on 50 of 50 lines at 0.0 dex. The counterfactual Test 1 asks for is the
+      shipped configuration. The +0.065 against `Synth . 1D-LTE` 7.447 is +0.028 of
+      line-subset (67 -> the 50 the MLP's training domain admits) and +0.037 of
+      correction -- two aggregates over different populations, the RYA-1083 class.
+      WHERE THE OFFSET IS INSTEAD: the same network returns -0.0024 dex on Amarsi's own
+      solar line set, where the RYA-817 reactivation control PASSES against the published
+      7.46, and +0.043 on ours -- a +0.045 swing from the LINE POPULATION. Our lab-gf
+      tier floors at 2.85 eV (Ruffoni 2014 / Den Hartog 2014 measured high-excitation
+      Fe I) where Amarsi's set reaches 0.09 eV, and the correction tracks Elo at the
+      paper's own published -0.09 dex over 0-5 eV. Elo transport explains 29% of the
+      swing, so the remainder is left UNATTRIBUTED rather than guessed. The A(Fe;3N)
+      axis rail is closed as a confound: 0.002 dex across the whole axis.
+      TEST 2 CANNOT BE RUN, AND THAT IS THE ANSWER: all 50 lines are gf_tier=LAB on the
+      lambda+EP dual key (gf_resolver's own WTOL/EPTOL, 50 unique matches, 0 unmatched,
+      0 ambiguous), so the Kurucz-floored subset is EMPTY. RYA-822's "heavily
+      Kurucz-floored" is true of the BAND, not of this GRADED pool.
+      TEST 3: departures ARE engaged. The feed's 0.000 is not a wiring bug and not a
+      value -- it is difference-of-medians where the statistic is a per-line PAIRED
+      differential (RYA-1083). Paired: +0.0320 median, +0.0267 mean, nonzero on 66 of 67
+      lines, corroborating RYA-1051. Four independent witnesses (distinct bytes, the
+      code path passing `nlte_deck` only on the NLTE branch, the deck key first-
+      positional so RYA-1049 does not apply, and the two provenance strings) and a
+      vacuity control that asserts the two sides are different objects before their
+      difference is believed. The RYA-1099 Gerber note is SAFE on this point.
+      TWO LABEL DEFECTS FOUND AND NOT FIXED HERE (this ticket ships nothing): the
+      product's `route` reads `ew` from a hardcoded `handler="ProfileFitHandler"` in
+      scripts/rya817_run_3dnlte_bands.py plus a pinned `_ROUTE_BY_LABEL` entry, and its
+      `gf` reads `kurucz` from the LEGACY table while its own budget measures rung 3 on
+      the same 50 lines. The handler is not cosmetic -- the error budget spends it on
+      `harness_residual.for_handler`, charging 0.0129 dex the synthesis base does not
+      earn. Those labels are what the ticket's premise was read off.
+  - artifact: rya1104/amarsi_base_diagnostic.txt
+    generator: scripts/rya1104_amarsi_base_diagnostic.py
+    ticket: RYA-1104
+    invocation: python3 scripts/rya1104_amarsi_base_diagnostic.py --pool amarsi_feI_vis --holding kpno_molecfit
+    note: >-
+      The rendered report for the JSON above, same run, same invocation. Carried as text
+      so the three verdicts and the cross-check over the other three holdings are
+      readable without a JSON reader.
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042
