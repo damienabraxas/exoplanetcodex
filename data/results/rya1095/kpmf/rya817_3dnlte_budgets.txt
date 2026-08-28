@@ -1,0 +1,10 @@
+Fe · VIS · n=50
+  statistical  0.0222 dex   (averages down as 1/sqrt(N))
+    basis: measured — RMS of the random terms, 0.02215 dex at n_lines=50
+  systematic   0.0591 dex   (does NOT average down)
+    0.0577  gf scale (cited lab)     [SYSTEMATIC] RMS of the published per-line laboratory sigma over 50 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound
+    0.0222  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0129  harness residual         [SYSTEMATIC] ProfileFitHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+    0.0027  3D-NLTE abundance axis   [SYSTEMATIC] paired |aberr(pinned axis) - aberr(per-line axis)| over the 22 lines that carry both; RMS 0.00271 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away.
+    UNMEASURED  3D-NLTE network accuracy [SYSTEMATIC] vendor/1L-3NErrors/README.md: the authors state they "cannot supply errors as such" for the network's own abundance corrections. Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) publish no per-line accuracy we can read off, and nothing we hold measures the MLP against the 3D non-LTE calculations it was trained on -- so this term is UNMEASURED, not zero (RYA-907).
+  dominant: gf scale (cited lab) -- more lines will NOT help; fix the source
