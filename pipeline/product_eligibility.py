@@ -212,7 +212,28 @@ STAT_BASIS_BY_ROUTE: dict[str, str] = {
 
 
 def stat_basis_of(product: dict) -> str | None:
-    """`standard_error` / `line_scatter` / None if the route is unrecognised."""
+    """`standard_error` / `line_scatter` / None if it cannot be established.
+
+    🔴 THE RECORD'S OWN `stat_basis` WINS, AND THE ROUTE MAP IS THE LEGACY FALLBACK.
+    `publish_product` now carries the producing budget's `stat_basis` onto every product
+    (RYA-1095), so what `sigma_stat` means is a property of the RECORD. Inferring it from
+    the route was always a lookup that goes stale the moment a route changes what it
+    writes -- and that happened: the EW-3D route now emits `stat_dex` (a standard error)
+    where it used to emit a raw `sigma`. Keying on the route would have kept calling the
+    corrected products mismatched.
+
+    The map stays for records published BEFORE the field existed. Those are historical and
+    their basis really is a property of the route that wrote them.
+    """
+    declared = str(product.get("stat_basis") or "")
+    if declared:
+        # `error_budget.stat_basis()` is prose, not a token -- it says "measured — RMS of
+        # the random terms, ... dex at n_lines=N" or names the quantiser floor. Both are
+        # STANDARD-ERROR constructions: every random term in that RMS has already been
+        # divided by sqrt(n) (`error_budget.py:609`).
+        if "RMS of the random terms" in declared or "quantiser-floor" in declared:
+            return "standard_error"
+        return None            # an unrecognised declaration is not silently classified
     return STAT_BASIS_BY_ROUTE.get(str(product.get("route") or ""))
 
 
