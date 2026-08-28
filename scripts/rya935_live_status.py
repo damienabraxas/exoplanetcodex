@@ -23,6 +23,7 @@ can prove.
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import re
 import sys
@@ -423,18 +424,25 @@ def _label_for(row: dict, group: list, candidates: list) -> str:
     treatment=...` -- five clauses, most of which distinguish some OTHER pair. A label a
     reader will not read is not a disambiguation.
 
-    Greedy in `_DISAMBIGUATION_ORDER`, stopping the moment the row is unique, so a
-    collision that only differs by holding says only the holding.
+    🔴 AND NOT A GREEDY WALK DOWN A FIXED ORDER EITHER, which was the second version. With
+    `treatment` last (deliberately -- see `_DISAMBIGUATION_ORDER`) the walk added four
+    useless fields before reaching the only one that mattered: `1D-LTE` and `ENGINE-B`
+    render the SAME string and differ in nothing else, so they need `treatment` and nothing
+    before it. A priority order says which field to PREFER, not how many to take.
+
+    So: smallest subset that is unique, searched by size, ties broken by the priority
+    order. Seven candidates makes this trivial to compute and it says exactly what differs.
     """
-    used: list = []
-    for f in candidates:
-        used.append(f)
-        key = tuple(str(row.get(x)) for x in used)
-        if sum(1 for o in group
-               if tuple(str(o.get(x)) for x in used) == key) == 1:
-            break
-    return " · ".join([str(row.get("display"))]
-                      + [f"{f}={row.get(f)}" for f in used])
+    for size in range(1, len(candidates) + 1):
+        for combo in itertools.combinations(candidates, size):
+            key = tuple(str(row.get(x)) for x in combo)
+            if sum(1 for o in group
+                   if tuple(str(o.get(x)) for x in combo) == key) == 1:
+                return " · ".join([str(row.get("display"))]
+                                  + [f"{f}={row.get(f)}" for f in combo])
+    # Nothing separates it -- that is a TRUE DUPLICATE and `true_duplicates` reports it.
+    # Saying so beats inventing a suffix that does not distinguish anything.
+    return f"{row.get('display')} · ⚠️ NOT DISTINGUISHABLE from another live row"
 
 
 def identity_report(rows: list[dict]) -> dict:
