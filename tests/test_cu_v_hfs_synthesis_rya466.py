@@ -80,7 +80,14 @@ def test_canonical_gf_adjudication_status_written_value_frozen():
         if any(abs(float(r[col['wavelength_air_A']]) - wl) < 0.02 for wl, _ in CU_LINES):
             seen += 1
             # the decision is recorded …
-            assert r[col['adjudication_status']] == 'adjudicated_kr1968_rya466'
+            # 🔴 RYA-1075: Cu I 5782.122 was one of 54 rows carrying the
+            # HFS-per-isotope inflation (its GES cluster spans isotopes 63 and 65,
+            # each already at full gf), so its log_gf was de-inflated by log10(2) and
+            # its status restamped. The RYA-466 adjudication it replaces -- GES=KR
+            # supersedes VALD3 -- still stands, and is preserved in
+            # data/linelists/canonical_gf_isotope_corrections_rya1075.csv.
+            assert r[col['adjudication_status']] in (
+                'adjudicated_kr1968_rya466', 'isotope_rya1075')
             # … but the value/grade/reference fields are FROZEN (batch-2 discipline:
             # the synthesis already uses GES=KR; we never invent/transcribe a gf).
             assert r[col['log_gf']] not in ('', None)

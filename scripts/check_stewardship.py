@@ -1043,10 +1043,53 @@ def check_constants_gf_duplicates() -> list[Violation]:
     return out
 
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Invariant 10 — HFS-per-isotope inflation (RYA-1075; the half RYA-684 left open)
+# ══════════════════════════════════════════════════════════════════════════════
+def check_isotope_inflation() -> list[Violation]:
+    """Fail if any canonical_gf row carries ``n_isotopes x`` the physical gf.
+
+    RYA-684 closed the ENGINE side of the isotope class and was scoped to "sweep every
+    HFS/isotope species". It was closed with 54 live instances of the CONSUMER side still
+    in the table, and left no guard — so the defect was invisible until RYA-1070's
+    linemake cross-reference stumbled on it two months later. This is that guard.
+
+    It re-detects from the SOURCE rather than pinning the 54 corrected line_ids. A pinned
+    list passes forever while a new ingest reintroduces the defect on different lines,
+    which is precisely the failure mode being closed here.
+
+    UNTRACKED by design: there is no remediation ticket, because the correct state is
+    zero. A hit is a real, new break.
+    """
+    from pipeline.isotope_gf_convention import isotope_inflated_rows
+
+    from pipeline.gf_resolver import _CANON as canon_path      # the resolver's own table
+    if not canon_path.exists():
+        raise StewardshipParseError(f"canonical_gf not readable at {canon_path}")
+    if not _SYNTH_PATH.exists():
+        raise StewardshipParseError(
+            f"GES synth line list not readable at {_SYNTH_PATH} — the isotope-inflation "
+            f"invariant cannot run, and a guard that cannot run must not report OK")
+
+    canon = pd.read_csv(canon_path, low_memory=False)
+    hits = isotope_inflated_rows(canon, _SYNTH_PATH)
+    return [Violation(
+        invariant='isotope_inflation', quantity='log gf',
+        locus=f"canonical_gf.csv:{h['line_id']} ({h['species']} {h['wavelength_air_A']:.4f} Å)",
+        value=f"stored {h['stored_log_gf']:+.4f}, physical {h['physical_log_gf']:+.4f}",
+        source=f"GES v6 form (A), {h['n_isotopes']} isotopes {h['isotopes']}",
+        detail=(f"stored total is the isotope-BLIND cluster sum: {h['inflation_dex']:+.4f} dex "
+                f"= log10({h['n_isotopes']}) too high. Each isotope's component set already "
+                f"carries the full gf (RYA-684 form A); aggregate per isotope "
+                f"(gf_resolver.physical_total), never across them. See RYA-1075."),
+        ticket=None) for h in hits]
+
+
 INVARIANTS: list[Callable[..., list[Violation]]] = [
     check_gf_pairs, check_star_params, check_provenance, check_blend_flag,
     check_all_stores_resolve, check_vald_threshold, check_solar_ew_canonical,
-    check_molecular_lists, check_constants_gf_duplicates,
+    check_molecular_lists, check_constants_gf_duplicates, check_isotope_inflation,
 ]
 
 
@@ -1065,6 +1108,7 @@ def run_all(out_dir: Optional[Path] = None) -> list[Violation]:
     violations += check_solar_ew_canonical()
     violations += check_molecular_lists()
     violations += check_constants_gf_duplicates()
+    violations += check_isotope_inflation()
     return violations
 
 
@@ -1110,7 +1154,8 @@ def _report(violations: list[Violation]) -> None:
 
     # per-invariant violation tables
     for inv in ('gf', 'star_params', 'provenance', 'blend_flag', 'gf_stores',
-                'vald_threshold', 'solar_ew_canonical', 'molecular', 'const_gf'):
+                'vald_threshold', 'solar_ew_canonical', 'molecular', 'const_gf',
+                'isotope_inflation'):
         vs = [v for v in violations if v.invariant == inv]
         if not vs:
             print(f"\n[{inv}] OK — no violations.")
