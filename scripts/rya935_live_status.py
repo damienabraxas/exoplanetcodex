@@ -23,6 +23,7 @@ can prove.
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import re
 import sys
@@ -32,6 +33,9 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from pipeline import product_eligibility as pe  # noqa: E402  RYA-1097
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -309,6 +313,188 @@ def collect_products(roots: list[Path], instruments: set[str],
                     **ctx,
                 })
     return rows
+
+
+def collect_feed_products(store: Path, instruments: set[str],
+                         holdings: set[str]) -> tuple[list[dict], list[dict]]:
+    """The LIVE products, read from the element feed -- the same source the public site reads.
+
+    🔴 THE TRACKER USED TO CLIMB IN THE WINDOW. RYA-1092 gates `products[]` in
+    `data/products/<star>/<El>.json`, and RYA-1091's website reads that feed -- but this
+    page globbed `data/results/` for `*_products.csv` and built its own list. So a product
+    the gate had just quarantined (syst-incomplete, pre-continuum-fix, an uninterpretable
+    error bar) still rendered here as live. The gate protected the public front door while
+    the internal page came in another way, and an INTERNAL page that disagrees with the
+    public one is worse than either being wrong alone: it is the surface we check the
+    public one against.
+
+    Reading the feed also makes the two move together. A product is live here the moment it
+    is published and gated, and gone the moment it is withdrawn -- no second scan to fall
+    out of step, and no path where a file on disk is enough to appear.
+
+    ⚠️ THE RUN CONTEXT IS ENRICHED FROM THE COMMITTED ARTIFACT, NOT RE-DERIVED. The feed
+    carries the published value and its provenance; the per-run detail this page shows
+    (band edges, handler, gf rung, when it was measured) lives in the artifact. It is read
+    through `provenance.copied_to`, which RYA-1096 made repo-relative for exactly this kind
+    of cross-machine read. A product whose artifact is absent still appears -- with the
+    enrichment fields None and `enrichment` saying why -- because dropping it would hide a
+    live product behind a missing sidecar (RYA-833).
+
+    Returns (live, withheld). `withheld` carries the feed's own quarantine/archive records
+    so a diagnostics view can show them EXPLICITLY, labelled, never mixed into the live set.
+    """
+    live: list[dict] = []
+    withheld: list[dict] = []
+    for feed in sorted(Path(store).glob("*/[A-Z]*.json")):
+        doc = json.loads(feed.read_text())
+        star = str(doc.get("star") or feed.parent.name)
+        for pool in ("products", "quarantine", "superseded", "archive"):
+            for rec in doc.get(pool) or []:
+                row = _feed_row(rec, star=star, feed=feed, pool=pool,
+                                instruments=instruments, holdings=holdings)
+                (live if pool == "products" else withheld).append(row)
+    return live, withheld
+
+
+def _feed_row(rec: dict, *, star: str, feed: Path, pool: str,
+              instruments: set[str], holdings: set[str]) -> dict:
+    prov = rec.get("provenance") or {}
+    copied = prov.get("copied_to")
+    artifact = (ROOT / copied) if copied and not Path(copied).is_absolute() else None
+    row = {
+        "star": star, "feed": str(feed.relative_to(ROOT)), "pool": pool,
+        "element": rec.get("element"), "ion": rec.get("ion"),
+        "band": rec.get("band"), "instrument": rec.get("instrument"),
+        "holding": rec.get("holding"),
+        # 🔴 `holding_source` is 'feed', not 'filename'. The old scanner PARSED the
+        # holding out of the stem and had to say so, because a stem from before
+        # RYA-933/934 carries none. A published record states it as a field, so the
+        # provenance of the provenance changes and the page must not claim otherwise.
+        "holding_source": "feed record",
+        "tier": rec.get("tier"), "selector": rec.get("selector"),
+        "route": rec.get("route"), "treatment": rec.get("treatment"),
+        "display": rec.get("display"),
+        "A": rec.get("A"), "sigma_stat": rec.get("sigma_stat"),
+        "sigma_syst": rec.get("sigma_syst"),
+        # RYA-1095: what `sigma_stat` MEANS, carried per product. A bar whose
+        # construction is unstated is not comparable with the one beside it.
+        "stat_basis": rec.get("stat_basis"),
+        "n_lines": rec.get("n_lines"), "n_excluded": rec.get("n_excluded"),
+        "dominant_term": rec.get("dominant_term"),
+        "identity": pe.key_of(rec),
+        "measured_at": prov.get("artifact_mtime"),
+        "ingested_at": prov.get("ingested_at"),
+        "source": copied or prov.get("path"),
+    }
+    if pool != "products":
+        row["withdrawn_reason"] = (rec.get("quarantine_reason")
+                                   or rec.get("superseded_reason"))
+        row["withdrawn_codes"] = rec.get("quarantine_codes")
+        row["withdrawn_at"] = rec.get("quarantined_at") or rec.get("superseded_at")
+    if artifact is not None and artifact.exists():
+        g = graded_counts(artifact)
+        n = rec.get("n_lines")
+        row.update((g.get(int(n)) if n is not None else None)
+                   or {"n_graded": None, "n_pool": None, "gf_rung": None})
+        row.update(run_context(artifact))
+        row["enrichment"] = "from the committed artifact"
+    else:
+        row.update({"n_graded": None, "n_pool": None, "gf_rung": None})
+        row["enrichment"] = (
+            f"artifact not readable from this checkout ({copied!r}); the published value "
+            f"stands, the per-run detail is unavailable here" if copied else
+            "the record carries no copied_to, so no committed artifact to enrich from")
+    return row
+
+
+#: The order fields are tried when disambiguating a shared display label. Holding first
+#: because it is what actually differs between most collisions and what a reader needs;
+#: `treatment` last because a treatment that renders the same string as another is a
+#: LABELLING defect one level up (`publish_product._DISPLAY` maps both `1D-LTE` and
+#: `ENGINE-B` to "Synth · 1D-LTE"), and naming it here is a workaround, not the fix.
+_DISAMBIGUATION_ORDER = ("holding", "band", "tier", "selector", "route", "instrument",
+                         "treatment")
+
+
+def _label_for(row: dict, group: list, candidates: list) -> str:
+    """The display label plus the FEWEST fields that make this row unique in its group.
+
+    🔴 NOT "every field that differs somewhere in the group". That was the first version
+    and it produced `Synth · 1D-LTE · holding=... · instrument=... · band=... · route=... ·
+    treatment=...` -- five clauses, most of which distinguish some OTHER pair. A label a
+    reader will not read is not a disambiguation.
+
+    🔴 AND NOT A GREEDY WALK DOWN A FIXED ORDER EITHER, which was the second version. With
+    `treatment` last (deliberately -- see `_DISAMBIGUATION_ORDER`) the walk added four
+    useless fields before reaching the only one that mattered: `1D-LTE` and `ENGINE-B`
+    render the SAME string and differ in nothing else, so they need `treatment` and nothing
+    before it. A priority order says which field to PREFER, not how many to take.
+
+    So: smallest subset that is unique, searched by size, ties broken by the priority
+    order. Seven candidates makes this trivial to compute and it says exactly what differs.
+    """
+    for size in range(1, len(candidates) + 1):
+        for combo in itertools.combinations(candidates, size):
+            key = tuple(str(row.get(x)) for x in combo)
+            if sum(1 for o in group
+                   if tuple(str(o.get(x)) for x in combo) == key) == 1:
+                return " · ".join([str(row.get("display"))]
+                                  + [f"{f}={row.get(f)}" for f in combo])
+    # Nothing separates it -- that is a TRUE DUPLICATE and `true_duplicates` reports it.
+    # Saying so beats inventing a suffix that does not distinguish anything.
+    return f"{row.get('display')} · ⚠️ NOT DISTINGUISHABLE from another live row"
+
+
+def identity_report(rows: list[dict]) -> dict:
+    """True duplicates (a bug) vs distinct products that share a display label (a labelling
+    problem). The two are not the same finding and must not be reported as one.
+
+    A TRUE DUPLICATE is two live records with the same identity key -- the nine fields
+    `publish_product.KEY_FIELDS` names, `route` and `selector` included. Those two are NOT
+    decoration: IAG VIS GRADED ENGINE-A is 7.481 on n=4 by profile fit and 7.484 on n=37 by
+    synthesis, so a key without `route` collides two different measurements of two
+    different pools. RYA-1097's spec lists the key without `route`; it is kept here because
+    the store's own guard caught that collision on its first backfill.
+
+    A SHARED LABEL is several distinct products rendering the same string. The remedy is to
+    surface the field that distinguishes them, which `disambiguated` gives per row, so a
+    reader never sees two identical-looking lines that are different measurements.
+    """
+    by_identity: dict = {}
+    by_label: dict = {}
+    for r in rows:
+        by_identity.setdefault(r["identity"], []).append(r)
+        by_label.setdefault(str(r.get("display")), []).append(r)
+
+    true_dups = {k: [_brief(x) for x in v] for k, v in by_identity.items() if len(v) > 1}
+    shared: dict = {}
+    for label, group in by_label.items():
+        if len(group) < 2:
+            continue
+        # What actually differs across the group -- reported, not guessed at.
+        fields = [f for f in _DISAMBIGUATION_ORDER
+                  if len({str(r.get(f)) for r in group}) > 1]
+        shared[label] = {"n": len(group), "distinguished_by": fields,
+                         "rows": [_brief(x) for x in group]}
+        for r in group:
+            r["disambiguated"] = _label_for(r, group, fields)
+    for r in rows:
+        r.setdefault("disambiguated", r.get("display"))
+    return {
+        "key_fields": list(pe.KEY_FIELDS),
+        "n_live": len(rows),
+        "n_unique_identities": len(by_identity),
+        "true_duplicates": true_dups,
+        "shared_display_labels": shared,
+        "note": ("A true duplicate is a BUG -- one identity, one live record. A shared "
+                 "label is a LABELLING problem and is resolved by `disambiguated`, which "
+                 "appends the fields that actually differ."),
+    }
+
+
+def _brief(r: dict) -> dict:
+    return {k: r.get(k) for k in ("holding", "instrument", "band", "tier", "selector",
+                                  "route", "treatment", "A", "n_lines", "source")}
 
 
 def collect_instruments() -> list[dict]:
@@ -697,6 +883,15 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=ROOT / "data" / "results" / "rya935"
                     / "live_status.json")
     ap.add_argument("--refresh-seconds", type=int, default=5)
+    ap.add_argument("--products-store", type=Path,
+                    default=ROOT / "data" / "products",
+                    help="the element feed the PUBLIC site reads. Its gated products[] is "
+                         "this page's source (RYA-1097).")
+    ap.add_argument("--from-results", action="store_true",
+                    help="⚠️ fall back to scanning data/results/ for *_products.csv -- the "
+                         "PRE-RYA-1097 behaviour, which shows band products that were "
+                         "never published and so were never gated. For inspecting an "
+                         "unpublished run, never for the live page.")
     args = ap.parse_args()
 
     import measure_band_ew as M
@@ -705,7 +900,15 @@ def main() -> None:
     roots = args.products_root or [ROOT / "data" / "results"]
     _EXTRA_RESULT_ROOTS.extend(Path(r).resolve() for r in roots)
 
-    products = collect_products(roots, instruments, holdings)
+    # 🔴 RYA-1097 — THE FEED IS THE SOURCE. `--from-results` keeps the old directory scan
+    # for a run that has not been published yet, and it is NOT the default: the whole
+    # defect was that this page could show what the gate had just withdrawn.
+    if args.from_results:
+        products = collect_products(roots, instruments, holdings)
+        feed_withheld: list[dict] = []
+    else:
+        products, feed_withheld = collect_feed_products(
+            args.products_store, instruments, holdings)
     status = {
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "generator": "scripts/rya935_live_status.py",
@@ -818,16 +1021,31 @@ def main() -> None:
                 f"holding {holding!r} is {state}; RYA-1026 displays telluric-corrected "
                 f"input only")
             _withheld.append(row)
+    # 🔴 RYA-1097 — THE FEED'S OWN WITHDRAWALS ARE LISTED, EXPLICITLY LABELLED, AND NEVER
+    # MIXED INTO THE LIVE VIEW. `_withheld` above is this page's DISPLAY policy (RYA-1026
+    # selector/telluric); `feed_withheld` is the eligibility gate's verdict, carried with
+    # the code and reason it recorded. Two different questions, kept apart: "we chose not
+    # to show this" and "this is not publishable".
     status["products"] = _science
-    status["products_withheld"] = _withheld
+    status["products_withheld"] = _withheld + feed_withheld
     status["withheld_summary"] = {
-        "n_withheld": len(_withheld),
+        "n_withheld_by_display_policy": len(_withheld),
+        "n_withdrawn_in_the_feed": len(feed_withheld),
+        "source": ("the gated products[] of data/products/<star>/<El>.json -- the same "
+                   "feed the public site reads (RYA-1097)" if not args.from_results else
+                   "⚠️ data/results/ scan (--from-results): these were never gated"),
         "rule": "RYA-1026: displayed science is telluric-corrected input only; the "
                 "KP2005-vs-KP1984 control pair is the whitelisted exception",
         "note": "Withheld rows are NOT deleted -- they are on disk and listed here with "
                 "the reason, so a gap in the page reads as 'owed a corrected re-run' "
                 "rather than as 'nothing measured' (RYA-833).",
     }
+    # 🔴 A TRUE DUPLICATE IS A BUG; A SHARED LABEL IS NOT. Two live records with the SAME
+    # identity mean the page cannot say which one IS the product for that cell. Two records
+    # that merely render the same string are DISTINCT products the display collapses --
+    # e.g. "Synth · 1D-LTE" on molecfit and on kurucz2005 -- and the fix there is to say
+    # what differs, not to hide one.
+    status["identity"] = identity_report(_science)
     args.out.write_text(json.dumps(status, indent=2) + "\n")
     for i in status["instruments"]:
         have = {p["band"] for p in products if p["holding"] == i["holding"]}

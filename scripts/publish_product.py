@@ -51,6 +51,9 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from pipeline import product_eligibility as pe  # noqa: E402  RYA-1097
 STORE = ROOT / "data" / "products"
 SCHEMA = "codex.element_product/1"
 
@@ -432,7 +435,30 @@ def main() -> int:
         keep_q = {k for k in revived}
         doc["quarantine"] = [r for r in doc["quarantine"] if key_of(r) not in keep_q]
 
-    added, updated, unchanged = [], [], []
+    # 🔴 RYA-1097 — PRECEDENCE IS GATED, NOT RECENCY-ONLY. "New takes precedent unless it
+    # is bad." A re-run that FAILS the RYA-1092 eligibility gate must NOT supersede a good
+    # live product: it goes to quarantine with its reasons and the existing record stays
+    # live. Without this, publishing is the last word regardless of quality, and a bad
+    # re-run silently replaces a good measurement -- the failure being newer is precisely
+    # what makes it look authoritative.
+    added, updated, unchanged, refused = [], [], [], []
+    for row in list(pending):
+        reasons = pe.evaluate(row)
+        if not reasons:
+            continue
+        k = key_of(row)
+        stamped = dict(row)
+        stamped["quarantined_at"] = _now()
+        stamped["quarantine_codes"] = [r.code for r in reasons]
+        stamped["quarantine_reason"] = (
+            "RYA-1097 gated re-run precedence: this product does NOT pass the RYA-1092 "
+            "eligibility gate, so it was published into quarantine and did not supersede "
+            + ("the existing live record. " if k in by_key else "anything. ")
+            + " ".join(f"[{r.code}] {r.detail}" for r in reasons))
+        doc.setdefault("quarantine", []).append(stamped)
+        pending.remove(row)
+        refused.append((k, [r.code for r in reasons]))
+
     for row in pending:
         k = key_of(row)
         if k not in by_key:
@@ -455,7 +481,11 @@ def main() -> int:
         doc["products"][by_key[k]] = row
         updated.append(k)
 
-    if not added and not updated:
+    for k, codes in refused:
+        print(f"    ! QUARANTINED not published: {k}\n"
+              f"        {', '.join(codes)} -- the existing live record (if any) STANDS",
+              file=sys.stderr)
+    if not added and not updated and not refused:
         print(f"no change — {len(unchanged)} row(s) already current at v{doc['version']}")
         return 0
 
