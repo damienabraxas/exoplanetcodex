@@ -104,7 +104,8 @@ def match(want_wl,
           want_ep=None,
           src_ep=None,
           tol_A: float = MATCH_TOL_A,
-          ep_tol_eV: float = EP_TOL_EV) -> MatchResult:
+          ep_tol_eV: float = EP_TOL_EV,
+          require_ep: bool = False) -> MatchResult:
     """Nearest atomic-data row within `tol_A`, disambiguated by EP where EP is available.
 
     `src_wl` need not be sorted. When both `want_ep` and `src_ep` are given, candidates
@@ -114,7 +115,19 @@ def match(want_wl,
 
     Without EP, a wavelength that has more than one candidate is recorded as AMBIGUOUS
     rather than silently resolved to the closest one.
+
+    `require_ep=True` (RYA-1037) additionally refuses to resolve a SINGLE candidate without
+    EP. The default stays False so existing callers are unchanged, but the strict mode is
+    what new code should ask for, because "only one candidate in the window" is not the same
+    as "the right transition": RYA-853 found `crosscheck_nist()` stamping a NIST grade on
+    Fe I 6065.490 from a lone in-window row whose EP was 2.608 eV against our line's 4.956.
+    One candidate, wrong level, no ambiguity flag to warn anyone.
     """
+    if require_ep and (want_ep is None or src_ep is None):
+        raise LineMatchError(
+            "match(require_ep=True) called without excitation potentials. A wavelength "
+            "alone does not identify a transition; emit EP upstream (RYA-871/1036) rather "
+            "than relaxing the key (RYA-1037).")
     want_wl = np.asarray(want_wl, dtype=float)
     src_wl = np.asarray(src_wl, dtype=float)
     if src_wl.size == 0:
