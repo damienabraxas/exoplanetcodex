@@ -1,0 +1,28 @@
+{
+  "ticket": "RYA-853",
+  "gap": "no primary laboratory gf covers Fe II 6149.246 or 6247.557",
+  "checked_not_assumed": {
+    "DenHartog2019": "pure lab, but its table stops at 4584 A \u2014 these are redward",
+    "MelendezBarbuy2009": "covers both, flagged S (solar-fitted) \u2014 FIREWALLED (RYA-161)",
+    "NIST_ASD": "covers both at acc E / D; values -2.854 / -2.444, 0.130 / 0.115 dex below ours"
+  },
+  "value_disposition": "HELD \u2014 no adjudicable source; the claim was removed, not the number",
+  "so_the_sigma_is": "uncited: gf_sigma_dex stays NaN and the band budget charges the ungraded blanket, which is the honest state for a line with no graded source",
+  "owner": "RYA-953 (Fe II has no primary-lab gf table)",
+  "targets": [
+    {
+      "wl": 6149.246,
+      "ep": 3.8892,
+      "ours": -2.724,
+      "nist_loggf": -2.853872,
+      "nist_acc": "E"
+    },
+    {
+      "wl": 6247.557,
+      "ep": 3.8916,
+      "ours": -2.329,
+      "nist_loggf": -2.443697,
+      "nist_acc": "D"
+    }
+  ]
+}
