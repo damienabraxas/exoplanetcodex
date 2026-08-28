@@ -3429,6 +3429,91 @@ artifacts:
       The rendered report for the JSON above, same run, same invocation. Carried as text
       so the three verdicts and the cross-check over the other three holdings are
       readable without a JSON reader.
+  # ⚠️ RYA-1093 CARRIES RYA-311's ARTIFACTS AND ITS `fitexy` MODULE AS INPUTS.
+  # RYA-1093 is RYA-311's child: it audits that solve and cannot run without the per-line
+  # pool and the three committed solves below. RYA-311's branch is pushed
+  # (683514d) but UNMERGED and is 62 commits behind main, so stacking on it would put this
+  # ticket on a stale base. The artifacts and `pipeline/fitexy.py` are therefore carried
+  # here UNMODIFIED, with RYA-311's own generator entries, and they merge identically if
+  # that branch lands first.
+  - artifact: rya311/rya311_xi_solar_FeI_all_ceil100.json
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool all
+    ticket: RYA-311
+    note: >-
+      THE MEASUREMENT. xi = 0.7088 +/- 0.0588 km/s from the Fe I reduced-EW slope, fitted
+      with errors in both coordinates (Press 1992 FITEXY, per Mucciarelli 2011); n=58 after
+      the >10% EW-error cut and the RYA-330 production 100 mA saturation ceiling; residual
+      slope -0.0058. Carries the full xi sweep, the OLS slope at every node, and every line
+      cut with its reason.
+
+  - artifact: rya311/rya311_xi_solar_FeI_all_ceil100_per_line.csv
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool all
+    ticket: RYA-311
+    note: >-
+      The 58 fitted lines at the solution: EW, its error, reduced EW, sigma_REW, A(Fe I),
+      and the sigma_A obtained by re-inverting at EW +/- 1 sigma_EW.
+
+  - artifact: rya311/rya311_xi_solar_FeI_all_noceil.json
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool all --no-ew-ceiling
+    ticket: RYA-311
+    note: >-
+      NO_SOLVE, and the reason the ceiling is not optional. Mucciarelli's "sample the full
+      EW range" taken literally: with no ceiling the slope never reaches zero anywhere in
+      0.6-1.8 km/s, because above ~100 mA solar Fe I is damping-dominated and its EW stops
+      responding to microturbulence.
+
+  - artifact: rya311/rya311_xi_solar_FeI_graded_ceil100_xi0.2-3.json
+    generator: scripts/rya311_solar_xi_fitexy.py
+    invocation: python3 scripts/rya311_solar_xi_fitexy.py --pool graded --xi-min 0.2 --xi-max 3.0
+    ticket: RYA-311
+    note: >-
+      NO_SOLVE on the GRADED pool, which is the standing default for model work and is
+      reported here because it failed, not despite it. Only 9 of the 157 measured Fe I
+      lines are LAB-tier AND survive the error cut and the ceiling; their slope crosses
+      zero nowhere in 0.2-3.0 km/s. The graded pool does not constrain solar xi.
+
+  - artifact: rya311/rya311_xi_ceiling_sensitivity_all.json
+    generator: scripts/rya311_xi_ceiling_sensitivity.py
+    invocation: python3 scripts/rya311_xi_ceiling_sensitivity.py --pool all
+    ticket: RYA-311
+    note: >-
+      The number that qualifies the headline error. xi across the 80/100/120/150 mA
+      ceilings spans 0.2695 km/s -- 4.6x the formal Delta-chi2 = 1 error of 0.0588 -- so
+      the formal error alone understates delta_xi. Recorded, not folded in; whether a
+      selection systematic belongs in Type B is a budget decision.
+  - artifact: rya1093/xi_robustness_audit.json
+    generator: scripts/rya1093_xi_robustness_audit.py
+    ticket: RYA-1093
+    invocation: python3 scripts/rya1093_xi_robustness_audit.py --star solar --element Fe --ion I
+    note: >-
+      READ-ONLY. Re-derives from RYA-311's committed per-line pool and its committed
+      solves; it does not re-measure them (the EW route needs MOOGSILENT, a Linux binary).
+      VERDICT: KEEP-PIN-1.0. The 58-line Fe I pool does NOT constrain solar xi, on four
+      independent grounds. (1) It is TRUNCATED at exactly the saturated lines that pin xi:
+      its maximum EW is 100.0 mA against its own 100 mA ceiling, 18 of 58 sit in the
+      topmost REW bin and only 4 reach REW >= -4.8. (2) The FITEXY slope moves 0.210
+      dex/dex -- and changes SIGN -- as that strong end is stripped, so the solve is a
+      property of a handful of near-ceiling points. (3) chi2_red = 27.9, so the point
+      errors explain about a fifth of the scatter and the Delta-chi2 = 1 error understates
+      by ~5.3x. (4) BOTH independent checks have no root at all: ceiling removed (n=78)
+      and graded-only lab-gf (n=9). So 0.709 is a fit artifact of the truncation, not a
+      measurement, and the graded-only gf-slope test Ryan's 2026-08-28 amendment asked for
+      is reported as a GAP rather than a pass.
+      🔴 AND THE TICKET'S PREMISE IS CORRECTED. The "FITEXY vs OLS" gap is WEIGHTING, not
+      Mucciarelli's both-axis term: at the solution median b^2 sigma_x^2 is 4.4e-09 against
+      median sigma_y^2 8.7e-04 (ratio 5e-06), so driving sigma_x to zero moves the slope by
+      5.7e-04 dex/dex while the missing weights move it 0.0887 -- 157x more. sigma_A spans
+      a factor 4.4 across the pool. That is why RYA-1093 2C fixes production by WEIGHTING
+      (`abundances_derive._compute_rew_slope`, FITEXY as the correct weighted estimator).
+      HONEST delta_xi = 0.2912 km/s (the unresolved method+selection spread), explicitly
+      NOT the 0.0588 formal error -- and not chosen by the gate: `honest_delta_xi` is
+      AST-guarded against referencing the gate constant at all (RYA-161). The xi term alone
+      then contributes 0.0699 dex against a 0.05 dex solar gate, so the gate FAILS on xi
+      before any other systematic. That is reported as a finding about the gate; the
+      adopt-or-relax call is Ryan's.
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042
