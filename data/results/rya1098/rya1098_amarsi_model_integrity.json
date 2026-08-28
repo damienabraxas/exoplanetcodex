@@ -1,0 +1,38 @@
+{
+  "ticket": "RYA-1098",
+  "written_sklearn": "1.0.2",
+  "runtime_sklearn": "1.9.0",
+  "skewed": true,
+  "runtime_in_validated_set": true,
+  "model_files": [
+    "fe1_model_lt02.p",
+    "fe1_model_gt02.p",
+    "fe2_model.p"
+  ],
+  "written_version_per_file": {
+    "fe1_model_lt02.p": "1.0.2",
+    "fe1_model_gt02.p": "1.0.2",
+    "fe2_model.p": "1.0.2"
+  },
+  "check1_authors_published_pair": {
+    "predicted": -0.13595500008975797,
+    "published": -0.136,
+    "pass": true
+  },
+  "check2_independent_forward_pass": {
+    "max_abs_diff": 0.0,
+    "pass": true
+  },
+  "check3_feed_inputs": {
+    "n_lines": 121,
+    "n_axis_values": 61,
+    "n_feature_vectors": 7381,
+    "per_network_max_abs_diff": {
+      "lt02": 0.0,
+      "gt02": 0.0
+    },
+    "max_abs_diff": 0.0,
+    "contaminated": false
+  },
+  "verdict": "the 1.0.2 -> 1.9.0 skew is BENIGN for these estimators; the corrections already in the feed are NOT contaminated"
+}
