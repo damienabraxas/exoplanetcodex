@@ -120,11 +120,15 @@ def params_and_deltas(star_id: str = "solar"):
         if sp.get('e_xi') is None:
             raise NotImplementedError(
                 "solar e_xi is not declared in config/stars.yaml. RYA-1089 retired the "
-                "uncited 0.05 from the RYA-158 spec; declare the uncertainty from a cited "
-                "source (Jofré+2014 Table 2 sigma_vmic) rather than restoring a literal.")
+                "uncited 0.05 from the RYA-158 spec, and Ryan's 2026-08-27 ruling on "
+                "RYA-311 retired Jofré+2014's 0.18 for the Sun as well -- it is an "
+                "inter-node dispersion across seven GBS pipelines, not the error of our "
+                "own solve. Re-declare it from the RYA-311 Fe I reduced-EW FITEXY "
+                "measurement on our own data; do NOT restore either borrowed number.")
         deltas['vturb_kms'] = float(sp['e_xi'])
-        # deltas['feh'] stays 0.0 and deltas['vturb_kms'] stays the RYA-158 0.05 --
-        # see the docstring; neither is read from the record.
+        # ONLY deltas['feh'] stays an explicit 0.0 -- the Sun DEFINES [Fe/H]=0, so its
+        # record value (e_feh 0.03, the abundance-SCALE error) must never be read here;
+        # see the docstring. vturb_kms IS read from the record, immediately above.
         return params0, deltas
 
     # Non-solar: every delta_p comes from the record, and a MISSING one is a refusal

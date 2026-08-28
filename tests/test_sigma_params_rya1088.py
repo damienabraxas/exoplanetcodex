@@ -200,3 +200,31 @@ def test_declared_stars_no_longer_raise():
         p, d = params_and_deltas(star)
         assert all(v is not None for v in d.values())
         assert d["teff_K"] > 0, f"{star} Teff delta should be a real uncertainty"
+
+
+# ── RYA-1089: the gate-margin artifact must not drift away from the record ──────────
+def test_the_gate_margin_artifact_tracks_the_RECORDED_delta_xi():
+    """A table of consequences is only useful while it describes the value actually carried.
+
+    🔴 The artifact names a `recorded_e_xi` and marks that row. If someone changes
+    `solar.e_xi` in stars.yaml and does not re-run the generator, the artifact keeps
+    asserting a gate verdict for a delta_xi the budget no longer uses -- a status surface
+    that stopped reading the thing it reports on (RYA-1064). This fails loudly instead.
+    """
+    import json
+    from pathlib import Path
+    p = Path(__file__).resolve().parent.parent / "data/results/rya1089/rya1089_delta_xi_gate_margin.json"
+    if not p.exists():
+        pytest.skip("gate-margin artifact not generated in this tree")
+    art = json.loads(p.read_text())
+    assert float(art["recorded_e_xi"]) == pytest.approx(float(STAR_PARAMS["solar"]["e_xi"])), (
+        "rya1089_delta_xi_gate_margin.json was generated against a different solar e_xi "
+        "than stars.yaml now carries -- re-run scripts/rya1089_delta_xi_gate_margin.py")
+    assert art["adopted_xi_kms"] == pytest.approx(float(STAR_PARAMS["solar"]["xi"])), (
+        "the artifact's adopted xi no longer matches the pin it was computed against")
+    # the honest finding itself: the candidates must still straddle the gate, or the
+    # conclusion reported to Ryan has silently changed.
+    verdicts = {m["verdict"] for c in art["candidates"] for m in c["members"].values()}
+    assert verdicts == {"INSIDE", "OVER"}, (
+        f"the gate verdict is no longer straddled ({verdicts}) -- the RYA-1089 finding "
+        f"has changed and the ticket's conclusion needs restating")

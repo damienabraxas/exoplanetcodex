@@ -4767,3 +4767,17 @@ artifacts:
       ceilings spans 0.2695 km/s -- 4.6x the formal Delta-chi2 = 1 error of 0.0588 -- so
       the formal error alone understates delta_xi. Recorded, not folded in; whether a
       selection systematic belongs in Type B is a budget decision.
+
+  # ── RYA-1089: the consequence of the delta_xi choice, computed for every candidate ──
+  - artifact: rya1089/rya1089_delta_xi_gate_margin.json
+    generator: scripts/rya1089_delta_xi_gate_margin.py
+    invocation: python3 scripts/rya1089_delta_xi_gate_margin.py
+    ticket: RYA-1089
+    note: >-
+      solar sigma_reported vs the 0.05 gate for EVERY defensible delta_xi, on both <3D>
+      members. Reads |dA/dxi| from the RYA-158 budget, sigma_stat from the product, and the
+      xi determinations from RYA-311's ceiling sweep -- nothing is retyped. Records the
+      finding that the candidates span 0.05-0.36 km/s and STRADDLE the gate, so the solar
+      margin is not settled by the data, and that the currently recorded e_xi (0.0588, the
+      FITEXY formal error) is the smallest candidate on the table. Selects none: which
+      delta_xi enters Type B is Ryan's call.
