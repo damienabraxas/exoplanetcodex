@@ -137,6 +137,32 @@ KEY_FIELDS = ("element", "ion", "band", "instrument", "holding",
               "tier", "selector", "route", "treatment")
 
 
+def _repo_relative(src: Path) -> str:
+    """`copied_to` as a REPO-RELATIVE path, and a refusal if the file is outside the repo.
+
+    🔴 IT WAS STORING AN ABSOLUTE ONE, AND AN ABSOLUTE PATH IS A MACHINE FACT. `srcs` is
+    built with `Path(x).resolve()`, so publishing from inside the repo recorded e.g.
+    `/Users/<me>/codex/rya1089/data/results/...`. That is inside the repository on the
+    machine that published and nowhere else: `feed_repo_reconciliation` reads `copied_to`
+    to check the artifact is COMMITTED, and on any other checkout the path is not under
+    the repo root, so it reports COPIED_TO_OUTSIDE_REPO. Measured on RYA-1096: eight
+    freshly published products passed every check on the Mac and turned that guard red on
+    Sirius -- a machine-local pass, which is the shape a skipped test has.
+
+    Every record written before this stored a relative path (the caller happened to pass a
+    relative one and an earlier version did not resolve), so this restores the convention
+    the feed already follows rather than inventing one.
+    """
+    try:
+        return str(Path(src).resolve().relative_to(ROOT))
+    except ValueError:
+        raise SystemExit(
+            f"--from {src} is outside the repository ({ROOT}). `copied_to` records that "
+            f"the artifact is COMMITTED HERE, so publishing from a scratch directory "
+            f"would write a path no other checkout can resolve. Copy the artifact into "
+            f"data/results/ and publish from there.")
+
+
 def key_of(row: dict) -> str:
     return "|".join(str(row.get(k) or "") for k in KEY_FIELDS)
 
@@ -314,7 +340,7 @@ def main() -> int:
             return 3
         prov = {"host": a.host or socket.gethostname().split(".")[0],
                 "path": a.origin_path or str(src),
-                "copied_to": str(src) if a.origin_path else None,
+                "copied_to": _repo_relative(src) if a.origin_path else None,
                 "sha256": _sha256(src),
                 "artifact_mtime": _dt.datetime.fromtimestamp(
                     src.stat().st_mtime, _dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
