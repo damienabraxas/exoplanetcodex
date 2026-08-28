@@ -103,6 +103,37 @@ ROUTE_BY_HANDLER = {
     "SynthesisHandler": "synth",
 }
 
+#: 🔴 RYA-1100 — THE ROUTE TOKEN A PUBLISHED PRODUCT RECORD CARRIES.
+#: `scripts/publish_product.py` reads a products CSV, not a Product object, so it has the
+#: stored `route` field and no `handler`. Without a witness it could resolve route ONLY
+#: from the label -- and that is how 22 live ENGINE-A products, every one of them on
+#: route=SYNTH, were published displaying "EW · 1D-NLTE · Bergemann". RYA-1002 removed the
+#: route from `_ROUTE_BY_LABEL["ENGINE-A"]` for exactly this reason and the publisher's
+#: own hand-typed map kept asserting it anyway.
+#:
+#: Stated as DATA, and unknown tokens are NOT defaulted: an unrecognised route token means
+#: the route is unknown, which `resolve_route` already knows how to say.
+ROUTE_BY_PRODUCT_TOKEN = {
+    "PROFILEFIT": "ew",
+    "SYNTH":      "synth",
+    "EW-3D":      "ew",
+}
+
+#: 🔴 RYA-1100 — LABELS THAT NAME NOTHING NEW. A deprecated alias is a legacy spelling
+#: whose axes are IDENTICAL to another label's; it survives only so historical products
+#: stay readable (Ryan: dual-label forever -- rewriting the stored `treatment` column
+#: would make every past product incomparable to its own past, the RYA-874 lesson).
+#:
+#: `ENGINE-B` is `1D-LTE` measured by the synthesis handler. Compare LEGACY: both declare
+#: scale=1D-LTE, model=none, gf=kurucz. The ONLY thing the token added was a pinned route,
+#: and RYA-906 moved route onto the handler -- which left the label naming nothing at all.
+#: Measured on the live feed: 13 of 15 ENGINE-B products were byte-identical to a 1D-LTE
+#: product in the same cell. One measurement, published twice under two names.
+#:
+#: The alias is NOT given a distinct display string. There is nothing to distinguish, and
+#: inventing a name for it would re-create the collision one level down.
+DEPRECATED_ALIASES = {"ENGINE-B": ("1D-LTE", "synth")}
+
 #: What each legacy label pins DOWN — scale, model and gf pool only. Route is deliberately
 #: ABSENT from this table for the `1D-LTE` family: see the module docstring. For the
 #: ENGINE-* family the route IS determined by the label, because those labels were coined
@@ -360,23 +391,32 @@ def _route_from_label(treatment: str) -> str | None:
     return _ROUTE_BY_LABEL.get(treatment)
 
 
-def resolve_route(treatment: str, *, handler=None, ew_inversion=None) -> tuple[str | None, str]:
+def resolve_route(treatment: str, *, handler=None, ew_inversion=None,
+                  route_token=None) -> tuple[str | None, str]:
     """(route, basis) from the strongest witness available. Never from the label alone
     where the label is known to lie.
 
     Precedence, strongest first:
       1. `handler`       — RYA-869 put it on the product to answer exactly this.
-      2. `ew_inversion`  — a per-line bool: False means the abundance came from a flux
+      2. `route_token`   — the stored `route` field of a published product record
+                           (RYA-1100). Same provenance class as `handler`: written by the
+                           route that actually ran. Ranked below it only because `handler`
+                           names the class that did the work while this names its output.
+      3. `ew_inversion`  — a per-line bool: False means the abundance came from a flux
                            fit, not an EW inversion. It is what proves the near-UV Fe I
                            cell is synthesis, on rows written before `handler` existed.
-      3. the label       — ONLY for the ENGINE-* family, which was coined to name a route.
+      4. the label       — ONLY for the ENGINE-* family, which was coined to name a route.
                            Never for the `1D-LTE` family.
-      4. unknown         — stated, not guessed.
+      5. unknown         — stated, not guessed.
     """
     if handler:
         route = ROUTE_BY_HANDLER.get(str(handler).strip())
         if route:
             return route, "handler"
+    if route_token:
+        route = ROUTE_BY_PRODUCT_TOKEN.get(str(route_token).strip().upper())
+        if route:
+            return route, "route_token"
     if ew_inversion is not None and str(ew_inversion).strip() != "":
         s = str(ew_inversion).strip().lower()
         if s in ("true", "1"):
@@ -390,7 +430,7 @@ def resolve_route(treatment: str, *, handler=None, ew_inversion=None) -> tuple[s
 
 
 def axes_for(treatment: str, *, handler=None, ew_inversion=None,
-             model=None, atmos=None, gf=None) -> Axes:
+             model=None, atmos=None, gf=None, route_token=None) -> Axes:
     """Legacy label (+ whatever route evidence the product carries) -> stored axes.
 
     `atmos` should be PASSED by any live emitter that knows it. It is only inferred for
@@ -410,7 +450,8 @@ def axes_for(treatment: str, *, handler=None, ew_inversion=None,
             f"hard failure, because a silent default is how RYA-869 published four wrong "
             f"systematics.")
     spec = LEGACY[key]
-    route, basis = resolve_route(key, handler=handler, ew_inversion=ew_inversion)
+    route, basis = resolve_route(key, handler=handler, ew_inversion=ew_inversion,
+                                 route_token=route_token)
     model = model or spec["model"]
     if model not in MODELS:
         raise ValueError(f"unknown model axis {model!r}; expected one of {MODELS}")
