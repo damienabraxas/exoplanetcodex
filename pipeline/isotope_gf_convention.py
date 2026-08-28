@@ -166,3 +166,104 @@ def colocated_offset(fractions) -> float:
     if not fs:
         raise ValueError("no isotope fractions given")
     return -math.log10(sum(f * f for f in fs))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# RYA-1075 — the OTHER half of the class: consumer-side aggregation
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# RYA-684 (above) closed the ENGINE side: a folded gf handed to Turbospectrum on an
+# isotope-coded header, so ``isotopfrac`` lands twice.  Offset ``-log10(sum f_i^2)``.
+#
+# It did NOT close the consumer side, and that is how 54 ``canonical_gf`` rows came to be
+# published too high.  A form-(A) source is correct as delivered — isotope-coded, every
+# isotope carrying the FULL gf — but anything that aggregates it to "one physical line"
+# with ``log10(sum 10**gf)`` over an isotope-BLIND cluster gets ``n_isotopes x`` the gf.
+# ``gf_resolver.cluster_physical_lines`` is isotope-blind by construction: it groups on
+# species + EP + wavelength gap, and two isotopes of one transition share the lower level
+# and sit milli-Angstroms apart.
+#
+# The offset here is ``log10(n)`` — a COUNT.  It does not depend on the abundances, and it
+# is NOT RYA-684's term.  La II settles it: La is 99.911% La-139, so RYA-684's term is
+# +0.0008 while a count gives +0.3010.  Nd separates them too (+0.7258 vs +0.8451).  The
+# measured offsets were +0.3010 and +0.8451.  Reusing RYA-684's term here would have left
+# the defect essentially untouched — which is why this needs its own detector rather than
+# an extension of ``double_application_offset``.
+#
+# ⚠️ n is the number of isotopes IN THE COMPONENT SET, not the element's catalogued
+# isotope count.  Ba II 4934 codes 5 isotopes in the GES v6 delivery while ``makeabund.f``
+# lists 7, and the measured offset is log10(5).
+
+#: Per-isotope totals must agree within this for the source to be form (A). See
+#: ``gf_resolver.ISOTOPE_FORM_A_SPREAD_DEX`` — the same threshold, same rationale.
+FORM_A_SPREAD_DEX = 0.02
+
+#: A stored total counts as "built by the naive sum" within this. canonical_gf stores 4
+#: decimals; this is that quantum with room.
+NAIVE_MATCH_DEX = 0.001
+
+
+def isotope_inflated_rows(canonical, ges_tsv_path) -> list[dict]:
+    """Rows of a canonical gf table that carry ``n_isotopes x`` the physical gf.
+
+    Re-detects the RYA-1075 defect from the SOURCE every time, rather than pinning the 54
+    line_ids that were corrected — a pinned list would pass forever while a new ingest
+    reintroduced the defect on different lines, which is exactly how RYA-684 came to be
+    "Done" with 54 live instances still in the table.
+
+    Returns one dict per offending row. Empty list == clean.
+    """
+    import numpy as np                                             # noqa: PLC0415
+    import pandas as pd                                            # noqa: PLC0415
+    from pipeline.gf_resolver import (cluster_physical_lines,      # noqa: PLC0415
+                                      species_key)
+
+    src = pd.read_csv(ges_tsv_path, sep='\t', low_memory=False)
+    need = {'element', 'ion', 'molecule', 'wave_A', 'lower_state_eV', 'loggf',
+            'spectrum_synthe_isotope'}
+    missing = need - set(src.columns)
+    if missing:
+        raise ValueError(f"{ges_tsv_path}: missing columns {sorted(missing)} — the isotope "
+                         f"inflation guard cannot run and must not silently pass")
+
+    keys = [species_key(src.element.values[i], src.ion.values[i], src.molecule.values[i])
+            for i in range(len(src))]
+    wls = src.wave_A.to_numpy(float)
+    eps = src.lower_state_eV.to_numpy(float)
+    gf = src.loggf.to_numpy(float)
+    iso = src.spectrum_synthe_isotope.to_numpy(int)
+
+    canon = canonical[canonical.key_z.astype(str).str.isdigit()].copy()
+    canon['_Z'] = canon.key_z.astype(int)
+
+    out: list[dict] = []
+    for cl in cluster_physical_lines(keys, wls, eps):
+        present = sorted({int(iso[i]) for i in cl if int(iso[i]) != 0})
+        if len(present) < 2:
+            continue
+        per = [float(np.log10(np.sum(10.0 ** gf[[i for i in cl if int(iso[i]) == a]])))
+               for a in present]
+        if max(per) - min(per) > FORM_A_SPREAD_DEX:
+            continue                       # not form (A) — the count rule is undefined
+        w = 10.0 ** gf[cl]
+        naive = float(np.log10(w.sum()))
+        physical = float(np.mean(per))
+        centroid = float((wls[cl] * w).sum() / w.sum())
+        ep_mean = float(np.mean(eps[cl]))
+        z, ion = keys[cl[0]]
+        m = canon[(canon._Z == z) & (canon.ion == ion)
+                  & ((canon.wavelength_air_A - centroid).abs() <= 0.02)
+                  & ((canon.excitation_potential_eV - ep_mean).abs() <= 0.02)]
+        if len(m) != 1:
+            continue                       # no unique counterpart; nothing to assert about
+        r = m.iloc[0]
+        if abs(float(r.log_gf) - naive) <= NAIVE_MATCH_DEX and \
+                abs(naive - physical) > NAIVE_MATCH_DEX:
+            out.append(dict(
+                line_id=str(r.line_id), species=str(r.species),
+                wavelength_air_A=float(r.wavelength_air_A),
+                stored_log_gf=float(r.log_gf), physical_log_gf=round(physical, 4),
+                n_isotopes=len(present), isotopes=present,
+                inflation_dex=round(naive - physical, 4),
+                expected_log10_n=round(math.log10(len(present)), 4)))
+    return out

@@ -49,12 +49,19 @@ applied BY THE ENGINE.
 This harness synthesises on the GES LWHS HFS pattern and ALSO runs the as-shipped VALD
 block as a labelled sensitivity leg, so the convention error is MEASURED, not asserted.
 
-SSOT NOTE ON canonical_gf.csv: every committed Eu II HFS row (loggf_reference LWHS)
-stores the NAIVE sum of the GES components across BOTH isotopes. That is a correct
-checksum of the block Turbospectrum consumes, but it is NOT a physical total gf — the
-physical total is that value minus log10(2). The harness ASSERTS the checksum identity
-against the live GES list per line (loud-fail on drift) and records the distinction; it
-does NOT rewrite the single source.
+SSOT NOTE ON canonical_gf.csv — REWRITTEN BY RYA-1075.
+This harness used to record that every committed Eu II HFS row stored the NAIVE sum of
+the GES components across BOTH isotopes, call that "a correct checksum", and assert it.
+It was not a checksum; it was a defect, and asserting it kept it alive. RYA-1070 found
+the same signature on 54 rows across Nd II / Sm II / Eu II / Ba II / Cu I, and RYA-1075
+corrected them: canonical_gf now stores the PHYSICAL total (the per-isotope sum), which
+is what this harness always synthesised with and what the sibling gf_linelist_vald
+column carried all along.
+
+So the identity this asserts is now `canonical == physical`, and the log10(2) relation
+survives as a property of the SOURCE (naive-minus-physical), which is still exactly what
+the GES block does. The measured A(Eu) is unaffected: `physical` was already the number
+that reached the synthesis.
 
 LINES: 6645.0905 is THE ticket line (primary). The other four HFS-resolved LWHS Eu II
 rows in canonical_gf (6437.6315, 6173.0215, 6049.5033, 5818.7392) are fitted as
@@ -104,23 +111,24 @@ LOG2 = float(np.log10(2.0))
 GF_TOL = 0.005
 
 # The HFS-resolved LWHS Eu II rows in data/linelists/canonical_gf.csv. `canon_loggf`
-# is the COMMITTED value (the naive cross-isotope GES sum); verify_gf_provenance()
-# asserts it against the file AND against the live GES component block — nothing here
-# is a substitute for the single source, it is the loud-fail cross-check.
+# is the COMMITTED value — since RYA-1075 that is the PHYSICAL total (the per-isotope
+# sum), not the naive cross-isotope sum it used to be. verify_gf_provenance() asserts it
+# against the file AND against the live GES component block — nothing here is a
+# substitute for the single source, it is the loud-fail cross-check.
 PRIMARY = 6645.0905
 LINES = {
-    6645.0905: dict(ep=1.380, canon_loggf=0.4208, hfs_n=11, gf_id='gf_051798',
+    6645.0905: dict(ep=1.380, canon_loggf=0.1198, hfs_n=11, gf_id='gf_051798',
                     vald='vald-6300-6800-for-grid.list', role='primary', fit_hw=0.45,
                     # Kurucz-2010 (ungraded) Cr I sits essentially ON the Eu core — the
                     # dominant blend systematic for this feature.
                     blend_probe=(24, 1, 6645.087, 'Cr I 6645.087 (K10, ungraded)')),
-    6437.6315: dict(ep=1.320, canon_loggf=-0.0186, hfs_n=9, gf_id='gf_051797',
+    6437.6315: dict(ep=1.320, canon_loggf=-0.3197, hfs_n=9, gf_id='gf_051797',
                     vald='vald-6300-6800-for-grid.list', role='crosscheck', fit_hw=0.45),
-    6173.0215: dict(ep=1.320, canon_loggf=-0.5590, hfs_n=6, gf_id='gf_051795',
+    6173.0215: dict(ep=1.320, canon_loggf=-0.8600, hfs_n=6, gf_id='gf_051795',
                     vald='vald-5800-6300-for-grid.list', role='crosscheck', fit_hw=0.45),
-    6049.5033: dict(ep=1.279, canon_loggf=-0.4991, hfs_n=7, gf_id='gf_051794',
+    6049.5033: dict(ep=1.279, canon_loggf=-0.8002, hfs_n=7, gf_id='gf_051794',
                     vald='vald-5800-6300-for-grid.list', role='crosscheck', fit_hw=0.45),
-    5818.7392: dict(ep=1.230, canon_loggf=-0.9489, hfs_n=8, gf_id='gf_051789',
+    5818.7392: dict(ep=1.230, canon_loggf=-1.2500, hfs_n=8, gf_id='gf_051789',
                     vald='vald-5800-6300-for-grid.list', role='crosscheck', fit_hw=0.45),
 }
 
@@ -229,14 +237,20 @@ def verify_gf_provenance(root, hfs_by_line):
         if len(allc) != canon_n or canon_n != cfg['hfs_n']:
             raise SystemExit(f"RYA-565 SSOT DRIFT: Eu II {wave}: GES {len(allc)} components, "
                              f"canonical hfs_n_components={canon_n}, script {cfg['hfs_n']}.")
-        if abs(naive - canon_loggf) > GF_TOL:
-            raise SystemExit(f"RYA-565 SSOT DRIFT: Eu II {wave}: naive GES HFS sum {naive:.4f} "
-                             f"!= canonical log_gf {canon_loggf:.4f}. Checksum identity broken.")
         vals = list(per_iso.values())
         if max(vals) - min(vals) > GF_TOL:
             raise SystemExit(f"RYA-565 gf: Eu II {wave}: the two isotopes' HFS sums disagree "
                              f"({per_iso}) — they must carry the same physical gf. STOP.")
         physical = float(np.mean(vals))
+        #  RYA-1075: canonical now carries the PHYSICAL total. This used to assert
+        #  `naive == canonical`, which asserted the isotope inflation was present and
+        #  would have loud-failed the moment it was fixed.
+        if abs(physical - canon_loggf) > GF_TOL:
+            raise SystemExit(f"RYA-565 SSOT DRIFT: Eu II {wave}: per-isotope physical total "
+                             f"{physical:.4f} != canonical log_gf {canon_loggf:.4f}. Since "
+                             f"RYA-1075 these must agree; if canonical has gone back to the "
+                             f"naive cross-isotope sum ({naive:.4f}) the inflation has been "
+                             f"reintroduced. STOP.")
         if abs((naive - physical) - LOG2) > 0.01:
             raise SystemExit(f"RYA-565 gf: Eu II {wave}: naive-minus-physical = "
                              f"{naive - physical:.4f}, expected log10(2)={LOG2:.4f}. STOP.")
