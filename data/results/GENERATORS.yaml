@@ -4247,3 +4247,241 @@ artifacts:
       the forward pass against predict(), and the same comparison over the feature vectors
       the published runs actually spanned. Verdict: the skew is BENIGN for these estimators
       and the corrections in the feed are NOT contaminated -- proven, not assumed.
+
+  # ── RYA-1096: the FRESH post-fix re-runs of the eight withdrawn cells ────────────
+  # Every one of these is a re-measurement on current main of a cell RYA-1092 withdrew
+  # as PRE_CONTINUUM_FIX. Six reproduced their withdrawn value EXACTLY; two moved
+  # (harps ENGINE-A +0.0100, iag 1D-LTE +0.0020). The pre-fix artifacts are kept
+  # beside these -- the pair is the evidence for what the fixes were worth.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument harps --holding solar_harps_molecfit_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_1D-LTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument iag_fts_solar_atlas --holding solar_iag --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1096
+    note: >-
+      FRESH POST-FIX RE-RUN, Sirius, 2026-08-28. ⚠️ The band bounds in the stem are the
+      COVERED range after the coverage guard trims the request (RYA-1074), not the
+      requested 4200-6910 -- which is why this filename differs from the pre-fix one it
+      replaces.
+
+  - artifact: rya1096/rya1096_prefix_reconciliation.json
+    generator: scripts/rya1096_prefix_reconciliation.py
+    invocation: python3 scripts/rya1096_prefix_reconciliation.py --products data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv data/results/band_products/FeI_4200_6908_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv data/results/band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv data/results/band_products/FeI_5002_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv
+    ticket: RYA-1096
+    note: >-
+      What the RYA-933/1030 continuum fixes were actually worth, per cell, measured by
+      re-running all eight rather than inferred from the commits. SIX reproduced their
+      withdrawn value EXACTLY; two moved (harps ENGINE-A +0.0100, iag 1D-LTE +0.0020).
+      ⚠️ The artifacts are NAMED, not globbed: a directory glob matches the pre-fix file
+      beside its own replacement (the coverage guard renames the stem when it trims the
+      band, RYA-1074) and the same holding's other bands.
