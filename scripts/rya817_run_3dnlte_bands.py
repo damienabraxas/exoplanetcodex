@@ -725,6 +725,61 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
     return per_line, product, stats
 
 
+def _attach_budget(prod_df: pd.DataFrame, all_lines: list) -> tuple:
+    """Give each product a `stat_dex` / `syst_dex` -- the band route's own schema.
+
+    🔴 THIS ROUTE PUBLISHED A RAW SCATTER IN A STANDARD-ERROR FIELD, AND NO SYSTEMATIC AT
+    ALL. `band_products.build_product` computes `np.std(vals, ddof=1)` and stops, so
+    `publish_product.normalise` fell through to `sigma` and the feed stored a per-line
+    STANDARD DEVIATION in `sigma_stat` -- where every band-route product stores a STANDARD
+    ERROR (`error_budget.py:609`). The Amarsi bar therefore rendered beside the others
+    reading about sqrt(n) times worse than it is, and RYA-1092's first gate mistook that
+    for anomalous scatter. There was also no `sigma_syst` at all, so the product had no
+    error bar to publish (RYA-968).
+
+    Writing `stat_dex`/`syst_dex` fixes both at once: `normalise` prefers those columns, so
+    the feed gets a standard error and a real systematic with no special case for this
+    route.
+
+    ⚠️ `syst_dex` IS A FLOOR. The budget carries the network's own accuracy as an
+    UNMEASURED term -- the vendored README says the authors "cannot supply errors as such"
+    -- and `ErrorBudget.systematic()` excludes unmeasured terms by construction. The
+    `stat_basis` column beside it names what stands behind the number.
+    """
+    if prod_df.empty:
+        return prod_df, ""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from rya1095_amarsi_error_budget import budget_from_pool, pool_of
+
+    lines = pd.concat(all_lines, ignore_index=True) if all_lines else pd.DataFrame()
+    stat_col, syst_col, basis_col, described = [], [], [], []
+    for r in prod_df.itertuples():
+        sigma = getattr(r, "sigma", None)
+        pool = (pool_of(lines, str(r.element), str(r.ion), str(r.band))
+                if len(lines) else pd.DataFrame())
+        if len(pool) < 2 or sigma is None or not np.isfinite(sigma):
+            stat_col.append(np.nan); syst_col.append(np.nan); basis_col.append("")
+            described.append(f"{r.element} {r.ion} {r.band}: no budget -- "
+                             f"{len(pool)} usable line(s)")
+            continue
+        b, rung = budget_from_pool(pool, element=str(r.element), ion=str(r.ion),
+                                   instrument=str(r.instrument), handler=str(r.handler),
+                                   scatter_dex=float(sigma))
+        stat, syst = b.total()
+        stat_col.append(round(stat, 4)); syst_col.append(round(syst, 4))
+        basis_col.append(b.stat_basis())
+        # ⚠️ THE `gf rung:` LINE IS NOT DECORATION -- `publish_product` PARSES IT.
+        # A GRADED tier is a claim about the gf scale, and the publisher corroborates it by
+        # regexing `gf rung (\d) \(gf scale \(...` out of this file, refusing when the
+        # budget's own verdict is not rung 3. `describe()` does not emit it; the band route
+        # appends it at three call sites and so must this one, or a legitimately graded
+        # product is refused for want of a line.
+        described.append(b.describe() + f"\n  gf rung: {rung.describe()}\n")
+    out = prod_df.copy()
+    out["stat_dex"], out["syst_dex"], out["stat_basis"] = stat_col, syst_col, basis_col
+    return out, "\n\n".join(described) + "\n"
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--band-products-dir", type=Path, required=True,
@@ -865,8 +920,14 @@ def main(argv=None) -> int:
 
     lines_df = pd.concat(all_lines, ignore_index=True)
     lines_df.to_csv(args.out / "rya817_3dnlte_per_line.csv", index=False)
-    prod_df = products_frame(products)
+    prod_df, budget_text = _attach_budget(products_frame(products), all_lines)
     prod_df.to_csv(args.out / "rya817_3dnlte_products.csv", index=False)
+    # 🔴 THE BUDGET IS WRITTEN BESIDE THE PRODUCT, AND `publish_product` REQUIRES IT.
+    # A GRADED tier is a claim about the gf, so the publisher refuses one it cannot
+    # corroborate from the decider's own output (RYA-833): "tier=GRADED claims laboratory
+    # gf but no budget was found". This route had no budget at all, so its products were
+    # unpublishable as graded even once they carried a real systematic.
+    (args.out / "rya817_3dnlte_budgets.txt").write_text(budget_text)
     domain_figure(lines_df, args.out / "rya817_domain_map.png")
 
     # the comparison the ticket asks for, as a DIAGNOSTIC table

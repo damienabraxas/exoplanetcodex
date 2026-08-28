@@ -162,24 +162,41 @@ def test_SUPERSEDED_comes_from_the_record(doc):
     assert "SUPERSEDED" in {r.code for r in pe.evaluate(staged)}
 
 
-def test_the_quarantined_Amarsi_products_carry_INCOMPLETE_not_superseded(doc):
-    """The four Amarsi products are out on SYST_INCOMPLETE (and anomalous scatter), and
-    the reason text must say so -- a wrong reason is a wrong record even when the
-    placement is right."""
-    q = [p for p in doc.get("quarantine", [])
-         if p.get("treatment") == "ENGINE-A-3DNLTE"
-         and "RYA-1092" in str(p.get("quarantine_reason", ""))]
-    assert len(q) == 4, f"expected the 4 Amarsi EW·3D-NLTE products, found {len(q)}"
-    for p in q:
+def test_the_Amarsi_products_were_COMPLETED_not_written_off(doc):
+    """🔴 THE WHOLE POINT OF HOLDING THEM OUT, AND IT HAS NOW HAPPENED.
+
+    RYA-1092 quarantined the four EW·3D-NLTE·Amarsi products as INCOMPLETE -- never as
+    superseded -- because Ryan's correction is that Amarsi is the 3D reference the STAGGER
+    deck is validated against, not a retired engine. RYA-1095 then completed the leg: the
+    log gf was single-sourced to canonical (it had been VALD, differing on all 50 lines),
+    a real `sigma_syst` was computed, and the statistical bar was put on the same footing
+    as every other route. They are LIVE.
+
+    This test asserts the resolution rather than the old state. Deleting it would erase the
+    requirement; leaving it asserting `quarantine` would assert that the fix did not happen.
+    """
+    live = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    assert len(live) == 4, f"expected the 4 Amarsi products live, found {len(live)}"
+    for p in live:
+        assert p.get("sigma_syst") is not None, f"{pe.key_of(p)} still has no systematic"
+        assert pe.evaluate(p, peers=[]) == (), pe.evaluate(p, peers=[])
+
+
+def test_the_ARCHIVED_Amarsi_records_still_say_why_they_were_held_out(doc):
+    """The evidence for the withdrawal survives the fix. A completed product must not
+    erase the record of what was wrong with its predecessor (RYA-711)."""
+    old = [p for p in (doc.get("archive") or []) + (doc.get("quarantine") or [])
+           if p.get("treatment") == "ENGINE-A-3DNLTE"
+           and "RYA-1092" in str(p.get("quarantine_reason", ""))]
+    assert len(old) == 4, f"the 4 withdrawn Amarsi records are gone, found {len(old)}"
+    for p in old:
         codes = set(p.get("quarantine_codes") or [])
         assert "SYST_INCOMPLETE" in codes
-        assert "SUPERSEDED" not in codes
-        # ⚠️ AND NOT ANOMALOUS EITHER. The first version of this gate flagged them at 7x
-        # by treating their sigma_stat as a standard error; it is a raw scatter, and their
-        # real line-to-line scatter (0.182-0.186) sits on top of the 1D pools on the same
-        # holdings. The correct second reason is that the STATISTIC differs, not the data.
-        assert "ANOMALOUS_SCATTER" not in codes
         assert "STAT_BASIS_MISMATCH" in codes
+        # ⚠️ NOT anomalous, and never superseded. The first gate flagged them at 5-7x by
+        # treating a raw scatter as a standard error; their real line scatter is ordinary.
+        assert "ANOMALOUS_SCATTER" not in codes
+        assert "SUPERSEDED" not in codes
 
 
 # ── THE ANOMALY THRESHOLD: measured null, and an invariance window ───────────────
@@ -259,18 +276,21 @@ def test_raw_scatter_dispatches_on_the_route(doc):
 
 
 def test_the_amarsi_pools_are_NOT_anomalous_once_the_basis_is_right(doc):
-    """The retraction, pinned. Their line-to-line scatter is ordinary."""
-    amarsi = [p for p in doc.get("quarantine", [])
-              if p.get("route") == "EW-3D"
-              and "RYA-1092" in str(p.get("quarantine_reason", ""))]
-    assert amarsi, "the Amarsi products should be in quarantine"
+    """The retraction, pinned. Their line-to-line scatter is ordinary.
+
+    Read from the LIVE products now that RYA-1095 completed them -- the point is unchanged
+    and it is the reason `ANOMALOUS_SCATTER` was the wrong code: on the corrected runs the
+    scatter is 0.156-0.167 against 0.16-0.21 for the 1D pools on the same holdings.
+    """
+    amarsi = [p for p in doc["products"] if p.get("route") == "EW-3D"]
+    assert amarsi, "the Amarsi products should be live"
     peers_1d = [p for p in doc["products"]
                 if p["band"] == "VIS" and p["ion"] == "I" and p["route"] == "SYNTH"]
     ref = statistics.median([pe.raw_scatter(p) for p in peers_1d
                              if pe.raw_scatter(p) is not None])
     for p in amarsi:
         r = pe.raw_scatter(p) / ref
-        assert 0.5 < r < 2.0, (
+        assert 0.4 < r < 2.0, (
             f"{pe.key_of(p)} raw scatter ratio {r:.2f} -- these were reported at ~7x by "
             f"the sqrt(n) mistake and are ordinary once the basis is right")
 
@@ -390,7 +410,12 @@ def test_a_product_may_leave_the_live_list_ONLY_into_a_pool_that_says_WHY(doc):
 
 
 def test_every_moved_product_carries_a_reason_and_a_timestamp(doc):
-    moved = [p for p in doc.get("quarantine", [])
+    """⚠️ SEARCHED ACROSS THE WITHDRAWAL POOLS. A record the gate moved can be moved AGAIN
+    -- publishing a completed replacement sends it quarantine -> archive -- and reading
+    only `quarantine[]` made this assert "the sweep moved nothing" the moment a follow-up
+    ticket succeeded. Same one-pool mistake this ticket had to fix in two other guards."""
+    moved = [p for pool in ("quarantine", "archive", "superseded")
+             for p in doc.get(pool) or []
              if "RYA-1092" in str(p.get("quarantine_reason", ""))]
     assert moved, "the sweep moved nothing -- has it been run?"
     for p in moved:

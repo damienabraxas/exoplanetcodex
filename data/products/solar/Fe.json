@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.74",
-  "updated_at": "2026-08-28T10:48:45Z",
+  "version": "1.78",
+  "updated_at": "2026-08-28T11:23:55Z",
   "products": [
     {
       "element": "Fe",
@@ -767,6 +767,33 @@
       "holding": "solar_harps_molecfit_corrected",
       "tier": "GRADED",
       "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5124,
+      "sigma_stat": 0.0236,
+      "sigma_syst": 0.0592,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02359 dex at n_lines=50",
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_harps/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/harps/rya817_3dnlte_products.csv",
+        "sha256": "a5d96c94e32c345d8d5ba58eb336b53263e2dd79db9b11c10d540c971c98826c",
+        "artifact_mtime": "2026-08-28T11:23:05Z",
+        "ingested_at": "2026-08-28T11:23:54Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
       "treatment": "1D-LTE",
       "display": "EW \u00b7 1D-LTE",
       "A": 7.498,
@@ -949,6 +976,33 @@
       "holding": "solar_iag",
       "tier": "GRADED",
       "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5429,
+      "sigma_stat": 0.025,
+      "sigma_syst": 0.057,
+      "n_lines": 39,
+      "n_excluded": 4,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02501 dex at n_lines=39",
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_iag/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/iag/rya817_3dnlte_products.csv",
+        "sha256": "414d71cf56a1574624a62d1e7feb943cd974fb8c2c8fcf8d0f6b4997d9c5bb32",
+        "artifact_mtime": "2026-08-28T11:23:06Z",
+        "ingested_at": "2026-08-28T11:23:54Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "GRADED",
+      "selector": "GRADED",
       "treatment": "1D-LTE",
       "display": "EW \u00b7 1D-LTE",
       "A": 7.498,
@@ -1095,6 +1149,33 @@
         "sha256": "46768ce0821f5dde6711d256fce9860a1d71253d1920b10655f52d24cf8ea3df",
         "artifact_mtime": "2026-08-24T23:39:58Z",
         "ingested_at": "2026-08-24T23:41:24Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5046,
+      "sigma_stat": 0.0225,
+      "sigma_syst": 0.0591,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02253 dex at n_lines=50",
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_kurucz2005/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/kurucz2005/rya817_3dnlte_products.csv",
+        "sha256": "c1c356994eeebf2e87e7a82cf846271f86305d58d371f11c1cafacb3e1e7c3ce",
+        "artifact_mtime": "2026-08-28T11:23:07Z",
+        "ingested_at": "2026-08-28T11:23:55Z"
       }
     },
     {
@@ -1277,6 +1358,33 @@
         "sha256": "e017b232f4a1dbbf2d0d58c9f77f29be0c806bf4de350230bca2c6a9b9c71c9b",
         "artifact_mtime": "2026-08-24T23:39:57Z",
         "ingested_at": "2026-08-24T23:41:25Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5116,
+      "sigma_stat": 0.0222,
+      "sigma_syst": 0.0591,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02215 dex at n_lines=50",
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3dv2_kpmf/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/rya1095/kpmf/rya817_3dnlte_products.csv",
+        "sha256": "7092cd717715e8605b1a51b714b2353bbd273552e636d02d5818b81f9b0fae9b",
+        "artifact_mtime": "2026-08-28T11:23:04Z",
+        "ingested_at": "2026-08-28T11:23:54Z"
       }
     },
     {
@@ -2166,6 +2274,142 @@
       "quarantine_reason": "RYA-1092 live-eligibility gate: [PRE_CONTINUUM_FIX] artifact produced 2026-08-24T02:29:40Z, before the last of the RYA-933/1030 continuum fixes landed (2026-08-24T03:51:12Z). Not comparable with the grid measured after them. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.",
       "superseded_at": "2026-08-28T10:48:45Z",
       "superseded_reason": "republished as current: RYA-1096: FRESH POST-FIX RE-RUN on current main. (was withdrawn: RYA-1092 live-eligibility gate: [PRE_CONTINUUM_FIX] artifact produced 2026-08-24T02:29:40Z, before the last of the RYA-933/1030 continuum fixes landed (2026-08-24T03:51:12Z). Not comparable with the grid measured after them. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.)"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5108,
+      "sigma_stat": 0.1818,
+      "sigma_syst": null,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/rya1031_ebn/data/results/rya817/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/band_products/rya817.csv",
+        "sha256": "3b78bec6be59fe45b30309e6fc8ae70113ff630143d263a74bb9b7a09d46b448",
+        "artifact_mtime": "2026-08-24T23:30:40Z",
+        "ingested_at": "2026-08-24T23:32:27Z"
+      },
+      "quarantined_at": "2026-08-28T04:22:41Z",
+      "quarantine_codes": [
+        "SYST_INCOMPLETE",
+        "STAT_BASIS_MISMATCH"
+      ],
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.",
+      "superseded_at": "2026-08-28T11:23:54Z",
+      "superseded_reason": "republished as current: RYA-1095: Amarsi 3D-NLTE re-run on the CANONICAL lab gf (was VALD) and RYA-1096's post-fix 1D base, with a computed budget. (was withdrawn: RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.)"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5071,
+      "sigma_stat": 0.1861,
+      "sigma_syst": null,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3d_08d20b/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/band_products/out_g3d_08d20b.csv",
+        "sha256": "99db4e75d93a9bc9e88d1be2c40fa291cd945f1e80313d822134d5840931a7b1",
+        "artifact_mtime": "2026-08-24T23:30:41Z",
+        "ingested_at": "2026-08-24T23:32:27Z"
+      },
+      "quarantined_at": "2026-08-28T04:22:41Z",
+      "quarantine_codes": [
+        "SYST_INCOMPLETE",
+        "STAT_BASIS_MISMATCH"
+      ],
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.",
+      "superseded_at": "2026-08-28T11:23:54Z",
+      "superseded_reason": "republished as current: RYA-1095: Amarsi 3D-NLTE re-run on the CANONICAL lab gf (was VALD) and RYA-1096's post-fix 1D base, with a computed budget. (was withdrawn: RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.)"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.526,
+      "sigma_stat": 0.1851,
+      "sigma_syst": null,
+      "n_lines": 39,
+      "n_excluded": 28,
+      "dominant_term": null,
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3d_7215bb/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/band_products/out_g3d_7215bb.csv",
+        "sha256": "282d478a592c77c66b31c9034f56633f26b0f361c80fafc989167220bd5c89c8",
+        "artifact_mtime": "2026-08-24T23:30:41Z",
+        "ingested_at": "2026-08-24T23:32:28Z"
+      },
+      "quarantined_at": "2026-08-28T04:22:41Z",
+      "quarantine_codes": [
+        "SYST_INCOMPLETE",
+        "STAT_BASIS_MISMATCH"
+      ],
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.",
+      "superseded_at": "2026-08-28T11:23:54Z",
+      "superseded_reason": "republished as current: RYA-1095: Amarsi 3D-NLTE re-run on the CANONICAL lab gf (was VALD) and RYA-1096's post-fix 1D base, with a computed budget. (was withdrawn: RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.)"
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-A-3DNLTE",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "A": 7.5001,
+      "sigma_stat": 0.1833,
+      "sigma_syst": null,
+      "n_lines": 50,
+      "n_excluded": 17,
+      "dominant_term": null,
+      "route": "EW-3D",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/out_g3d_9e651a/rya817_3dnlte_products.csv",
+        "copied_to": "data/results/band_products/out_g3d_9e651a.csv",
+        "sha256": "c8eaa92b679512cc88c1e08ac4e2972d6e51b09c7721e71cb10599ad1d24d6c8",
+        "artifact_mtime": "2026-08-24T23:30:41Z",
+        "ingested_at": "2026-08-24T23:32:28Z"
+      },
+      "quarantined_at": "2026-08-28T04:22:41Z",
+      "quarantine_codes": [
+        "SYST_INCOMPLETE",
+        "STAT_BASIS_MISMATCH"
+      ],
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.",
+      "superseded_at": "2026-08-28T11:23:55Z",
+      "superseded_reason": "republished as current: RYA-1095: Amarsi 3D-NLTE re-run on the CANONICAL lab gf (was VALD) and RYA-1096's post-fix 1D base, with a computed budget. (was withdrawn: RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate.)"
     }
   ],
   "quarantine": [
@@ -2495,134 +2739,6 @@
       },
       "quarantined_at": "2026-08-24T23:47:38Z",
       "quarantine_reason": "APPENDIX BY POLICY, not by defect. Ryan 2026-08-24: the product grid is GRADED / DEEPGRADED / CONSISTENT and nothing else; whole-pool and leftover-ungraded runs get mentioned, plotted where it helps, and live in the appendix. These three ARE a recent run of mine (harps EW, 2026-08-24T15:03Z, post-fix) and the numbers are sound \u2014 7.656 / 7.666 / 7.462 on the full 247-line pool. They are withdrawn as PRODUCTS because tier=ALL measures the whole pool, lab lines included, so it is not one of the three sub-products and overlaps all of them. Kept in full: the appendix still has to show what the ungraded scale does, and that 0.2 dex gap against the graded tier is the entire argument for the gf work (RYA-819/831)."
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "harps",
-      "holding": "solar_harps_molecfit_corrected",
-      "tier": "GRADED",
-      "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
-      "A": 7.5071,
-      "sigma_stat": 0.1861,
-      "sigma_syst": null,
-      "n_lines": 50,
-      "n_excluded": 17,
-      "dominant_term": null,
-      "route": "EW-3D",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3d_08d20b/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/band_products/out_g3d_08d20b.csv",
-        "sha256": "99db4e75d93a9bc9e88d1be2c40fa291cd945f1e80313d822134d5840931a7b1",
-        "artifact_mtime": "2026-08-24T23:30:41Z",
-        "ingested_at": "2026-08-24T23:32:27Z"
-      },
-      "quarantined_at": "2026-08-28T04:22:41Z",
-      "quarantine_codes": [
-        "SYST_INCOMPLETE",
-        "STAT_BASIS_MISMATCH"
-      ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "iag_fts_solar_atlas",
-      "holding": "solar_iag",
-      "tier": "GRADED",
-      "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
-      "A": 7.526,
-      "sigma_stat": 0.1851,
-      "sigma_syst": null,
-      "n_lines": 39,
-      "n_excluded": 28,
-      "dominant_term": null,
-      "route": "EW-3D",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3d_7215bb/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/band_products/out_g3d_7215bb.csv",
-        "sha256": "282d478a592c77c66b31c9034f56633f26b0f361c80fafc989167220bd5c89c8",
-        "artifact_mtime": "2026-08-24T23:30:41Z",
-        "ingested_at": "2026-08-24T23:32:28Z"
-      },
-      "quarantined_at": "2026-08-28T04:22:41Z",
-      "quarantine_codes": [
-        "SYST_INCOMPLETE",
-        "STAT_BASIS_MISMATCH"
-      ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_kurucz2005_corrected",
-      "tier": "GRADED",
-      "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
-      "A": 7.5001,
-      "sigma_stat": 0.1833,
-      "sigma_syst": null,
-      "n_lines": 50,
-      "n_excluded": 17,
-      "dominant_term": null,
-      "route": "EW-3D",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/out_g3d_9e651a/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/band_products/out_g3d_9e651a.csv",
-        "sha256": "c8eaa92b679512cc88c1e08ac4e2972d6e51b09c7721e71cb10599ad1d24d6c8",
-        "artifact_mtime": "2026-08-24T23:30:41Z",
-        "ingested_at": "2026-08-24T23:32:28Z"
-      },
-      "quarantined_at": "2026-08-28T04:22:41Z",
-      "quarantine_codes": [
-        "SYST_INCOMPLETE",
-        "STAT_BASIS_MISMATCH"
-      ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
-    },
-    {
-      "element": "Fe",
-      "ion": "I",
-      "band": "VIS",
-      "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_molecfit_corrected",
-      "tier": "GRADED",
-      "selector": "GRADED",
-      "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
-      "A": 7.5108,
-      "sigma_stat": 0.1818,
-      "sigma_syst": null,
-      "n_lines": 50,
-      "n_excluded": 17,
-      "dominant_term": null,
-      "route": "EW-3D",
-      "provenance": {
-        "host": "sirius",
-        "path": "/home/damienabraxas/rya1031_ebn/data/results/rya817/rya817_3dnlte_products.csv",
-        "copied_to": "data/results/band_products/rya817.csv",
-        "sha256": "3b78bec6be59fe45b30309e6fc8ae70113ff630143d263a74bb9b7a09d46b448",
-        "artifact_mtime": "2026-08-24T23:30:40Z",
-        "ingested_at": "2026-08-24T23:32:27Z"
-      },
-      "quarantined_at": "2026-08-28T04:22:41Z",
-      "quarantine_codes": [
-        "SYST_INCOMPLETE",
-        "STAT_BASIS_MISMATCH"
-      ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
     }
   ],
   "gaps": [

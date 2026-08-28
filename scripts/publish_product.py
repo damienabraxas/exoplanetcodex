@@ -121,6 +121,17 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
             "n_excluded": None if pd.isna(r.get("n_excluded")) else int(r.get("n_excluded")),
             "dominant_term": (None if pd.isna(r.get("dominant")) else str(r.get("dominant")))
                              if "dominant" in df.columns else None,
+            # 🔴 CARRY WHAT `sigma_stat` MEANS, DO NOT MAKE THE READER GUESS (RYA-1095).
+            # The band artifacts have always had a `stat_basis` column (`error_budget
+            # .stat_basis`) and this function dropped it, so the feed published a number
+            # whose construction was unstated -- and the two routes do not agree on it:
+            # the band route's `stat_dex` is a standard error, the EW-3D route's `sigma`
+            # was a raw per-line standard deviation. RYA-1092's gate had to infer the
+            # basis from the ROUTE, which is a lookup that goes stale the moment a route
+            # changes what it writes (it did, here). Recorded per product instead.
+            "stat_basis": (None if pd.isna(r.get("stat_basis"))
+                           else str(r.get("stat_basis")))
+                          if "stat_basis" in df.columns else None,
             "route": route,
         })
     return out

@@ -78,9 +78,18 @@ MODEL_FILES = ("fe1_model_lt02.p", "fe1_model_gt02.p", "fe2_model.p")
 WRITTEN_SKLEARN = "1.0.2"
 
 #: Runtime versions whose load has been VALIDATED by `validate()` and recorded here.
-#: 🔴 A version is added ONLY after the two checks below pass on it. This list is the
-#: difference between "we checked" and "it did not crash".
-VALIDATED_RUNTIMES: frozenset = frozenset({"1.0.2", "1.9.0"})
+#: 🔴 A version is added ONLY after the checks below pass ON IT, with the numbers written
+#: down. This list is the difference between "we checked" and "it did not crash".
+#:
+#:   1.0.2  the write version -- no skew by construction.
+#:   1.9.0  Mac venv and Sirius venv312/venv_ci. reference -0.135955 vs published -0.136;
+#:          numpy-vs-predict max|diff| 0.0 over 8,479 of the feed's own feature vectors.
+#:   1.6.1  the Mac SYSTEM python. Added by running the validator under it rather than by
+#:          assuming a version between two good ones is good: reference -0.135955,
+#:          numpy-vs-predict max|diff| 0.0, contamination check 0.0. The guard found it --
+#:          `test_the_current_runtime_IS_in_the_validated_set` went red on the system
+#:          interpreter, which is exactly the refusal it exists to produce.
+VALIDATED_RUNTIMES: frozenset = frozenset({"1.0.2", "1.6.1", "1.9.0"})
 
 #: The authors' worked example, README.md §2.4, produced under sklearn 1.0.2.
 #: (teff, logg, A(Fe;3N), vmic, Elo, Eup, loggf) -> aberr, on the Fe I Elo>2 network.
