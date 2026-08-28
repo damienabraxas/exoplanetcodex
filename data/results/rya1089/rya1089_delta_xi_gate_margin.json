@@ -1,0 +1,195 @@
+{
+  "ticket": "RYA-1089",
+  "what": "solar sigma_reported vs the 0.05 gate for every candidate delta_xi -- the decision's consequence, computed rather than asserted",
+  "solar_gate_dex": 0.05,
+  "adopted_xi_kms": 1.0,
+  "adopted_xi_note": "PINNED (RYA-196); NOT changed by this ticket",
+  "dA_dxi_per_kms": 0.24,
+  "dA_dxi_source": "data/audit/uncertainty/solar_uncertainty_rya158.json (Fe I dA_dvmic_per_kms)",
+  "recorded_e_xi": 0.0588,
+  "candidates": [
+    {
+      "delta_xi": 0.05,
+      "source": "RETIRED: uncited RYA-158 spec line 'vturb = 0.9 +/- 0.05'",
+      "what_it_measures": "nothing -- no citation, and its central value (0.9) is not the adopted xi (1.0)",
+      "sigma_params": 0.012,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.025,
+          "gate_ratio": 0.499,
+          "verdict": "INSIDE"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0249,
+          "gate_ratio": 0.498,
+          "verdict": "INSIDE"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.0588,
+      "source": "RECORDED NOW: RYA-311 FITEXY formal, Delta-chi2 = 1",
+      "what_it_measures": "how tightly the both-axis fit pins ITS OWN root (0.7088) given the EW errors",
+      "sigma_params": 0.0141,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0261,
+          "gate_ratio": 0.521,
+          "verdict": "INSIDE"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.026,
+          "gate_ratio": 0.519,
+          "verdict": "INSIDE"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.0675,
+      "source": "our OLS roots vs adopted 1.0 (n=3 ceilings)",
+      "what_it_measures": "spread of the estimator the production bisection actually fits, about the pin",
+      "sigma_params": 0.0162,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0272,
+          "gate_ratio": 0.545,
+          "verdict": "INSIDE"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0272,
+          "gate_ratio": 0.543,
+          "verdict": "INSIDE"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.1492,
+      "source": "our 6 determinations vs adopted 1.0 (3 ceilings x 2 estimators)",
+      "what_it_measures": "spread of every defensible analysis of OUR data, about the pin",
+      "sigma_params": 0.0358,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.042,
+          "gate_ratio": 0.839,
+          "verdict": "INSIDE"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0419,
+          "gate_ratio": 0.838,
+          "verdict": "INSIDE"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.18,
+      "source": "RETIRED for the Sun (Ryan, 2026-08-27): Jofre+2014 sigma_vmic",
+      "what_it_measures": "dispersion of vmic across seven independent GBS pipelines -- not our solve",
+      "sigma_params": 0.0432,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0484,
+          "gate_ratio": 0.969,
+          "verdict": "INSIDE"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0484,
+          "gate_ratio": 0.968,
+          "verdict": "INSIDE"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.2695,
+      "source": "RYA-311 ceiling-selection spread (recorded, unused)",
+      "what_it_measures": "how far xi moves across equally defensible 80/100/120 mA saturation cuts",
+      "sigma_params": 0.0647,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0683,
+          "gate_ratio": 1.366,
+          "verdict": "OVER"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0683,
+          "gate_ratio": 1.365,
+          "verdict": "OVER"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.2912,
+      "source": "|production-leg xi - adopted xi| = |0.7088 - 1.0|",
+      "what_it_measures": "the distance the budget must cover for the PIN to be defensible at all",
+      "sigma_params": 0.0699,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0732,
+          "gate_ratio": 1.465,
+          "verdict": "OVER"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0732,
+          "gate_ratio": 1.464,
+          "verdict": "OVER"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.3107,
+      "source": "RYA-311 sqrt(chi2_red)-scaled (recorded, unused)",
+      "what_it_measures": "the formal error inflated for a fit whose chi2_red is 27.9, i.e. a poor fit",
+      "sigma_params": 0.0746,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0777,
+          "gate_ratio": 1.554,
+          "verdict": "OVER"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0777,
+          "gate_ratio": 1.554,
+          "verdict": "OVER"
+        }
+      }
+    },
+    {
+      "delta_xi": 0.3608,
+      "source": "full range of our 6 determinations",
+      "what_it_measures": "the outer bound: best-to-worst across our own analysis choices",
+      "sigma_params": 0.0866,
+      "members": {
+        "synth-mean3D-LTE-gerber-stagger": {
+          "sigma_stat": 0.0219,
+          "sigma_reported": 0.0893,
+          "gate_ratio": 1.786,
+          "verdict": "OVER"
+        },
+        "synth-mean3D-NLTE-gerber-stagger": {
+          "sigma_stat": 0.0218,
+          "sigma_reported": 0.0893,
+          "gate_ratio": 1.786,
+          "verdict": "OVER"
+        }
+      }
+    }
+  ],
+  "finding": "The gate verdict is NOT settled by the data: candidates span 0.0500-0.3608 km/s and the resulting sigma_reported straddles the 0.05 gate (['INSIDE', 'OVER']). The currently recorded e_xi is the SMALLEST candidate on the table and the only class that ignores where the adopted value sits relative to our own solve.",
+  "rya1104_dependency": "\u26a0\ufe0f Ryan's RYA-311 sequencing caveat (2026-08-28): a reduced-EW/FITEXY solve is TILTED by gf systematics -- if gf quality correlates with line strength, the slope that determines xi is biased, so 0.7088 may carry the gf zero-point RYA-1104 is investigating. That gates the PIN-MOVE decision, and it qualifies the |0.7088 - 1.0| row here: the gap is real, but its CAUSE is unsettled. It does NOT rescue the formal error -- 0.0588 propagates EW errors only and knows nothing about gf, so a gf-contaminated solve makes it a WORSE underestimate of delta_p, not a better one. Either xi is genuinely ~0.71 (the pin is wrong) or our ability to determine xi is gf-limited (the uncertainty is larger than the fit reports). Neither reading supports 0.0588.",
+  "open_decision": "Which delta_xi enters Type B is Ryan's call (RYA-311 spec 6 / RYA-1089 spec 4). This artifact states the consequence of each; it selects none."
+}
