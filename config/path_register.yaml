@@ -323,6 +323,18 @@ entries:
     rel: spectra/vesta/CRIRESPlus
     kind: dir
     desc: Vesta CRIRES+ reflected-solar frames (Sirius-side).
+  repo.crires_plus_solar_h_rya1094:
+    root: repo
+    rel: data/results/rya1048/vesta_crires_plus_H_15007_17494_normalized.csv
+    kind: file
+    desc: >-
+      CRIRES+ Elgueta+2026 SOLAR H arm, 15007.11-17493.69 A, conditioned by the SAME
+      normaliser as the RYA-794/1054 Y products (scripts/normalize_vesta_ir.py --arm H).
+      Two columns, wavelength_air_A and flux_normalized, 40559 rows. Source
+      sp/Sun_H_rv.dat (nm -> x10 A, air; the ReadMe's 0.1nm label is wrong -- verified
+      against the committed Y product, wavelengths agree to 1.8e-12 A). Telluric
+      MEASURED not assumed: 0.48% of points below 0.5, against 51.3% for Kitt Peak's
+      O2 A-band. RYA-1094.
   repo.crires_plus_solar_y_wide_rya1054:
     root: repo
     rel: data/results/rya794/vesta_crires_plus_Y_9800_10796_normalized.csv
