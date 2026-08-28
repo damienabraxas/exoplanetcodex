@@ -406,6 +406,37 @@ def _feed_row(rec: dict, *, star: str, feed: Path, pool: str,
     return row
 
 
+#: The order fields are tried when disambiguating a shared display label. Holding first
+#: because it is what actually differs between most collisions and what a reader needs;
+#: `treatment` last because a treatment that renders the same string as another is a
+#: LABELLING defect one level up (`publish_product._DISPLAY` maps both `1D-LTE` and
+#: `ENGINE-B` to "Synth · 1D-LTE"), and naming it here is a workaround, not the fix.
+_DISAMBIGUATION_ORDER = ("holding", "band", "tier", "selector", "route", "instrument",
+                         "treatment")
+
+
+def _label_for(row: dict, group: list, candidates: list) -> str:
+    """The display label plus the FEWEST fields that make this row unique in its group.
+
+    🔴 NOT "every field that differs somewhere in the group". That was the first version
+    and it produced `Synth · 1D-LTE · holding=... · instrument=... · band=... · route=... ·
+    treatment=...` -- five clauses, most of which distinguish some OTHER pair. A label a
+    reader will not read is not a disambiguation.
+
+    Greedy in `_DISAMBIGUATION_ORDER`, stopping the moment the row is unique, so a
+    collision that only differs by holding says only the holding.
+    """
+    used: list = []
+    for f in candidates:
+        used.append(f)
+        key = tuple(str(row.get(x)) for x in used)
+        if sum(1 for o in group
+               if tuple(str(o.get(x)) for x in used) == key) == 1:
+            break
+    return " · ".join([str(row.get("display"))]
+                      + [f"{f}={row.get(f)}" for f in used])
+
+
 def identity_report(rows: list[dict]) -> dict:
     """True duplicates (a bug) vs distinct products that share a display label (a labelling
     problem). The two are not the same finding and must not be reported as one.
@@ -433,14 +464,12 @@ def identity_report(rows: list[dict]) -> dict:
         if len(group) < 2:
             continue
         # What actually differs across the group -- reported, not guessed at.
-        fields = [f for f in ("holding", "instrument", "band", "tier", "selector",
-                              "route", "treatment")
+        fields = [f for f in _DISAMBIGUATION_ORDER
                   if len({str(r.get(f)) for r in group}) > 1]
         shared[label] = {"n": len(group), "distinguished_by": fields,
                          "rows": [_brief(x) for x in group]}
         for r in group:
-            r["disambiguated"] = " · ".join(
-                [str(r.get("display"))] + [f"{f}={r.get(f)}" for f in fields])
+            r["disambiguated"] = _label_for(r, group, fields)
     for r in rows:
         r.setdefault("disambiguated", r.get("display"))
     return {
