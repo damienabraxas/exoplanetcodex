@@ -362,18 +362,31 @@ def test_the_telluric_fact_is_read_through_the_one_source():
 
 # ── QUARANTINE IS A MOVE, NOT A DELETE ───────────────────────────────────────────
 
-def test_nothing_was_deleted_by_the_sweep(doc):
-    """🔴 CRITICAL: quarantine must be loud and reversible. Every product origin/main had
-    live is still SOMEWHERE in this feed."""
+def test_a_product_may_leave_the_live_list_ONLY_into_a_pool_that_says_WHY(doc):
+    """🔴 CRITICAL: quarantine must be loud and reversible.
+
+    RYA-1080's value guard deliberately does not police pool membership -- "a product
+    removed later is a different question", and this is that question. A product may leave
+    `products[]` (that is what withdrawal IS) but only into a pool that records the reason.
+    Vanishing, or landing somewhere with no reason attached, is a silent removal, and a
+    removed product that cannot say why it was removed is exactly the evidence RYA-711
+    refuses to destroy.
+    """
     r = subprocess.run(["git", "show", "origin/main:data/products/solar/Fe.json"],
                        cwd=ROOT, capture_output=True, text=True)
     if r.returncode != 0:
         pytest.skip("origin/main not available")
     before = {pe.key_of(p) for p in json.loads(r.stdout)["products"]}
-    after = set()
-    for pool in ("products", "quarantine", "superseded", "archive"):
-        after |= {pe.key_of(p) for p in doc.get(pool) or []}
-    assert not (before - after), f"products vanished entirely: {sorted(before - after)}"
+    live_now = {pe.key_of(p) for p in doc["products"]}
+    withdrawn = {}
+    for pool in ("quarantine", "superseded", "archive"):
+        for p in doc.get(pool) or []:
+            withdrawn[pe.key_of(p)] = p
+    for k in before - live_now:
+        rec = withdrawn.get(k)
+        assert rec is not None, f"product left the live list and is in NO pool: {k}"
+        assert rec.get("quarantine_reason") or rec.get("superseded_reason"), (
+            f"product was withdrawn with no reason recorded: {k}")
 
 
 def test_every_moved_product_carries_a_reason_and_a_timestamp(doc):
