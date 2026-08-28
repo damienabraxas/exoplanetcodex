@@ -60,6 +60,25 @@ SCHEMA = "codex.element_product/1"
 
 
 
+def write_feed(out: Path, doc: dict) -> None:
+    """Write the feed, REBUILDING the plot grid first (RYA-1102).
+
+    🔴 THE GRID MUST NEVER BE LEFT BEHIND. The defect RYA-1102 fixes was a plot fed by a
+    build-time artifact nobody regenerated: its Kitt Peak rows were pre-continuum-fix
+    values, repeated three times each, long after the products had moved. Deriving the
+    grid on every write is what makes "re-run a product and the site updates" true rather
+    than aspirational -- and it is why this is a helper instead of a step someone has to
+    remember at three separate call sites.
+
+    ⚠️ `ensure_ascii` stays at its DEFAULT. Every display name contains "·", and writing
+    it literally reformats every line carrying one -- a whole-file diff that hides the
+    real change and that the next publish immediately reverts.
+    """
+    from pipeline import plot_grid
+    doc["plot_grid"] = plot_grid.build(doc.get("products") or [])
+    out.write_text(json.dumps(doc, indent=2) + '\n')
+
+
 def _sha256(p: Path) -> str:
     h = hashlib.sha256()
     with p.open("rb") as fh:
@@ -343,7 +362,7 @@ def main() -> int:
                        if not (g["band"] == band and g["tier"] == tier)] + [rec]
         doc["version"] = bump(doc["version"]); doc["updated_at"] = _now()
         out = STORE / a.star / f"{a.element}.json"
-        out.write_text(json.dumps(doc, indent=2) + "\n")
+        write_feed(out, doc)
         print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   GAP DECLARED {band}:{tier}")
         return 0
 
@@ -384,7 +403,7 @@ def main() -> int:
         if a.dry_run:
             print(f"[dry-run] would quarantine {len(pulled)} row(s)")
             return 0
-        out.write_text(json.dumps(doc, indent=2) + "\n")
+        write_feed(out, doc)
         print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   "
               f"QUARANTINED {len(pulled)}, {len(doc['products'])} remain current")
         for k in pulled: print(f"    ! {k}")
@@ -556,7 +575,7 @@ def main() -> int:
               f"+{len(added)} ~{len(updated)} ={len(unchanged)}")
         return 0
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(doc, indent=2) + "\n")
+    write_feed(out, doc)
     print(f"{out.relative_to(ROOT)}  ->  v{doc['version']}   "
           f"added {len(added)}, updated {len(updated)}, unchanged {len(unchanged)}, "
           f"total {len(doc['products'])}")
