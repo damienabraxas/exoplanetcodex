@@ -1,0 +1,387 @@
+{
+  "n_findings": 0,
+  "grep_count": 79,
+  "by_kind": {},
+  "n_waived": 54,
+  "waived": [
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "pipeline/abundances_derive.py",
+      "line": 395,
+      "snippet": "key = (tuple(np.round(np.asarray(fe2_linemasks['wave_A'], dtype=float), 3)),",
+      "ticket": "RYA-1036"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "pipeline/curate_nonfe_pools.py",
+      "line": 383,
+      "snippet": "j = (cc['wavelength_air_A'] - w).abs().to_numpy().argmin()",
+      "ticket": "RYA-1036"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "pipeline/curate_nonfe_pools.py",
+      "line": 383,
+      "snippet": "j = (cc['wavelength_air_A'] - w).abs().to_numpy().argmin()",
+      "ticket": "RYA-1036"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "pipeline/lines_fit.py",
+      "line": 519,
+      "snippet": "merged = ni_ews.merge(",
+      "ticket": "RYA-1036"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/nlte_cno.py",
+      "line": 312,
+      "snippet": "return best if abs(cand[best] - wave_A) <= tol_A else None",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 338,
+      "snippet": "interp[(ion_i, round(float(wave), 3))] = f",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 367,
+      "snippet": "j = int(np.abs(w - wave_A).argmin())",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 367,
+      "snippet": "j = int(np.abs(w - wave_A).argmin())",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 368,
+      "snippet": "if abs(float(w[j]) - wave_A) > tol:",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 641,
+      "snippet": "interp[round(float(wave), 3)] = LinearNDInterpolator(pts, g['delta_nlte'].values)",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 681,
+      "snippet": "j = int(np.abs(w - wave_A).argmin())",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 681,
+      "snippet": "j = int(np.abs(w - wave_A).argmin())",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/nlte_corrections.py",
+      "line": 682,
+      "snippet": "if abs(float(w[j]) - wave_A) > tol:",
+      "ticket": "RYA-317"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "pipeline/uv_line_selection.py",
+      "line": 163,
+      "snippet": "if d['species'] == species and abs(d['wavelength_A'] - wavelength_A) <= tol_A:",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/add_namg_recovery_to_pool_rya465.py",
+      "line": 40,
+      "snippet": "key = (r['element'], r['ion'], round(float(r['wavelength_air_A']), 3))",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/adjudicate_gf_batch3_zrbayeu_rya354.py",
+      "line": 117,
+      "snippet": "if abs(float(r[c['wavelength_air_A']]) - wl) < tol:",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/fe2_ew_quality_cull.py",
+      "line": 49,
+      "snippet": "return m.iloc[m['wavelength_air_A'].sub(wl).abs().to_numpy().argmin()][col] if len(m) else np.nan",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/fe2_ew_quality_cull.py",
+      "line": 49,
+      "snippet": "return m.iloc[m['wavelength_air_A'].sub(wl).abs().to_numpy().argmin()][col] if len(m) else np.nan",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/flag_procyon_fe2_blends_rya268.py",
+      "line": 25,
+      "snippet": "(abs(df['wavelength_air_A'] - target_wave) < MATCH_TOL)",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/intake_check_55cnc.py",
+      "line": 147,
+      "snippet": "and abs(r['wavelength'] - center) <= window]",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya1051_fe_nlte_ladder.py",
+      "line": 93,
+      "snippet": "m = a.merge(b, on=\"wavelength_air_A\", suffixes=(\"_a\", \"_b\"))",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya1051_fe_nlte_ladder.py",
+      "line": 164,
+      "snippet": "inc = m3.merge(m1, on=\"wavelength_air_A\", suffixes=(\"_3\", \"_1\"))",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya1051_gradient_mechanism.py",
+      "line": 64,
+      "snippet": "m = n.merge(l, on=\"wavelength_air_A\", suffixes=(\"_n\", \"_l\"))",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya1051_gradient_mechanism.py",
+      "line": 124,
+      "snippet": "m = O.merge(A[[\"feh\", \"wave_A\", \"am\"]], on=[\"feh\", \"wave_A\"], how=\"inner\")",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya1081_harps_fe2_audit.py",
+      "line": 152,
+      "snippet": "m = t[[\"wavelength_air_A\", \"abundance\", \"red_chi2\"]].merge(",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/rya305_fe2_triage.py",
+      "line": 64,
+      "snippet": "i = (df['wavelength_air_A'] - w).abs().idxmin()",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/rya305_fe2_triage.py",
+      "line": 64,
+      "snippet": "i = (df['wavelength_air_A'] - w).abs().idxmin()",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/rya347_fe2_atomic_data_audit.py",
+      "line": 77,
+      "snippet": "m = sol.iloc[(sol.wavelength_air_A - wave_A).abs().argmin()]",
+      "ticket": "RYA-853"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/rya347_fe2_atomic_data_audit.py",
+      "line": 77,
+      "snippet": "m = sol.iloc[(sol.wavelength_air_A - wave_A).abs().argmin()]",
+      "ticket": "RYA-853"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya527_two_engine_run.py",
+      "line": 202,
+      "snippet": "out.setdefault((el, ion), {})[round(wave, 1)] = dict(",
+      "ticket": "RYA-704"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya527_two_engine_run.py",
+      "line": 228,
+      "snippet": "out.setdefault((el, ion), {})[round(float(r['wavelength_air_A']), 1)] = dict(",
+      "ticket": "RYA-704"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya551_sr2_synth_sirius.py",
+      "line": 79,
+      "snippet": "if (abs(float(row['wave_A']) - float(tag)) < 0.01 and",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya560_zr2_synth_sirius.py",
+      "line": 103,
+      "snippet": "have[round(float(row[\"wavelength_air_A\"]), 3)] = row",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya564_co1_synth_sirius.py",
+      "line": 170,
+      "snippet": "have[round(float(row[\"wavelength_air_A\"]), 3)] = row",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya565_eu2_synth_sirius.py",
+      "line": 202,
+      "snippet": "rows[round(float(r['wavelength_air_A']), 4)] = r",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya581_ba2_deblend_sirius.py",
+      "line": 152,
+      "snippet": "if row[\"species\"] == \"Ba II\" and abs(float(row[\"wavelength_air_A\"]) - LINE) < 0.02:",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya592_mg_5528_synth_sirius.py",
+      "line": 127,
+      "snippet": "have[round(float(row[\"wavelength_air_A\"]), 3)] = row",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya684_isotope_gf_audit.py",
+      "line": 329,
+      "snippet": "out[key + (round(cluster[0][\"wave\"], 3),)] = cluster",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ROUNDED_WAVE_KEY",
+      "file": "scripts/rya684_isotope_gf_audit.py",
+      "line": 334,
+      "snippet": "out[key + (round(cluster[0][\"wave\"], 3),)] = cluster",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/rya762_band_engines.py",
+      "line": 117,
+      "snippet": "v = near.iloc[(near.wavelength - w).abs().argmin()]",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/rya762_band_engines.py",
+      "line": 117,
+      "snippet": "v = near.iloc[(near.wavelength - w).abs().argmin()]",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya762_band_engines.py",
+      "line": 125,
+      "snippet": "return df.merge(cands[[\"wave_air_A\", \"log_gf\", \"ep_eV\", \"predicted_depth\",",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya817_recover_amarsi_training_set.py",
+      "line": 234,
+      "snippet": "ok = abs(lo - EXPECT_LAMBDA[0]) < 0.005 and abs(hi - EXPECT_LAMBDA[1]) < 0.005",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_TOL",
+      "file": "scripts/rya817_recover_amarsi_training_set.py",
+      "line": 234,
+      "snippet": "ok = abs(lo - EXPECT_LAMBDA[0]) < 0.005 and abs(hi - EXPECT_LAMBDA[1]) < 0.005",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya841_nearuv_continuum_methods.py",
+      "line": 177,
+      "snippet": "d = d.merge(ref, on='wave_A', how='left')",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya841_nearuv_continuum_sensitivity.py",
+      "line": 178,
+      "snippet": "m = ref.merge(mine, on='wave_A', how='inner')",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya841_nearuv_scatter_driver.py",
+      "line": 174,
+      "snippet": "d = df.merge(blend, on='wave_A', how='left')",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya846_nonlinear_responders.py",
+      "line": 131,
+      "snippet": "t = t.merge(b, on=\"wave_A\", how=\"left\")",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya853_dh19_scale_referee.py",
+      "line": 227,
+      "snippet": "return o.merge(pd.DataFrame(out), on=\"wavelength_air_A\", how=\"left\")",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya871_ep_resolution_probe.py",
+      "line": 142,
+      "snippet": "merged = used.merge(a[[\"wave_air_A\", \"ep_eV\"]], how=\"left\",",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya878_angle1_like_for_like.py",
+      "line": 102,
+      "snippet": "m = ok.merge(bank[[\"wavelength_air_A\", \"ew_mA\", \"a_synth\"]].rename(",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "WAVE_ONLY_MERGE",
+      "file": "scripts/rya878_angle1_like_for_like.py",
+      "line": 111,
+      "snippet": "m = m.merge(bank[[\"wavelength_air_A\", \"ew_synth_mA\"]].rename(",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/stage2_pool_ledger_rya706.py",
+      "line": 160,
+      "snippet": "best = r.loc[(r.wavelength_air_A - lam).abs().idxmin()]",
+      "ticket": "RYA-1037"
+    },
+    {
+      "kind": "ARGMIN_ON_WAVE",
+      "file": "scripts/stage2_pool_ledger_rya706.py",
+      "line": 160,
+      "snippet": "best = r.loc[(r.wavelength_air_A - lam).abs().idxmin()]",
+      "ticket": "RYA-1037"
+    }
+  ],
+  "findings": []
+}
