@@ -101,6 +101,52 @@ _SRC_RE = re.compile(
     r"(?P<selector>(?:[_-][A-Z][A-Z0-9-]*)*?)_1D-LTE_lines\.csv$")
 
 
+#: RYA-1106 — `_SRC_RE` strips this suffix to reach the base pool's SIBLING product file,
+#: which is where the base states its own handler. Kept beside the regex it inverts.
+_LINES_SUFFIX = "_1D-LTE_lines.csv"
+
+
+def base_declares(src: Path) -> dict:
+    """What the 1D-LTE pool this leg is correcting SAYS ABOUT ITSELF.
+
+    🔴 THIS LEG HARDCODED `handler="ProfileFitHandler"`, AND RYA-1031 STRANDED IT.
+    When this route could only discover `*_PROFILEFIT_*` pools the constant was true. That
+    ticket widened discovery to SYNTH pools and the constant did not move with it, so every
+    Amarsi product since has declared a profile fit while correcting a Turbospectrum
+    synthesis. `handler` is `resolve_route`'s STRONGEST witness, so the false constant
+    outranked everything and published `EW . 3D-NLTE . Amarsi`; and because
+    `harness_residual.for_handler` spends the same string, the budget also charged the
+    profile fitter's 0.0129 dex to a pool that earns 0.0 (RYA-869/RYA-1104).
+
+    A correction inherits its base's harness systematic because it IS that measurement plus
+    a per-line departure — so the handler must be READ FROM THE BASE, not asserted here.
+    Refuses rather than defaulting: a base that cannot state its handler is a base whose
+    systematic we cannot assemble, and guessing is the defect this closes.
+    """
+    if not src.name.endswith(_LINES_SUFFIX):
+        raise SystemExit(f"unexpected 1D-LTE base filename shape: {src.name}")
+    prod = src.parent / (src.name[: -len(_LINES_SUFFIX)] + "products.csv")
+    if not prod.exists():
+        raise SystemExit(
+            f"the 1D-LTE base {src.name} has no sibling product file at {prod.name}, so "
+            f"it cannot state the handler that measured it. RYA-869 forbids inferring one "
+            f"from the treatment name, and RYA-1106 exists because this leg used to "
+            f"hardcode it. Point --band-products-dir at a directory holding both.")
+    d = pd.read_csv(prod)
+    hit = d[d["treatment"].astype(str) == "1D-LTE"]
+    if len(hit) != 1:
+        raise SystemExit(
+            f"{len(hit)} rows named `1D-LTE` in {prod.name}; refusing to choose which "
+            f"one measured the base this leg is correcting.")
+    row = hit.iloc[0]
+    handler = str(row["handler"]).strip()
+    if not handler:
+        raise SystemExit(f"{prod.name}: the 1D-LTE row declares no handler.")
+    return {"handler": handler, "base_product": prod.name,
+            "base_route": str(row.get("route", "")).strip()}
+
+
+
 def run_environment() -> dict:
     """WHERE this ran and WHAT it ran against — recorded in the artifact (RYA-924).
 
@@ -645,6 +691,11 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
             ends.append(float(np.nanmedian(v)))
         axis_sensitivity = round(abs(ends[1] - ends[0]), 5)
 
+    # Read BEFORE the loop: every measurement row names the base that produced it, and a
+    # base that cannot state its handler must stop the run before any row is built
+    # (RYA-833 — validate the config once, not inside the per-item try).
+    declared = base_declares(src)
+
     measurements = []
     for _, r in per_line.iterrows():
         usable = bool(r["in_domain"]) and np.isfinite(r["a_3dnlte"]) \
@@ -661,7 +712,12 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
             element="Fe", ion=ion, wavelength_air_A=float(r["wavelength_air_A"]),
             instrument=instrument,
             ew_mA=float(r["ew_mA"]) if np.isfinite(r["ew_mA"]) else 0.0,
-            ew_method="RYA-783 PROFILE-FIT (inherited)",
+            # RYA-1106 — INHERITED FROM THE BASE, AND IT SAYS WHICH. This read
+            # "RYA-783 PROFILE-FIT (inherited)" on every row, including the rows whose
+            # base was a Turbospectrum synthesis — the same stranded assumption as the
+            # hardcoded handler, in the column a reader consults to ask how the number
+            # was measured.
+            ew_method=f"inherited from {src.name} (measured by {declared['handler']})",
             # RYA-871 — `elo_eV` here is the VALD lower-level energy this leg matched the
             # line to, i.e. the same quantity `ep_eV` names elsewhere. Carried under the
             # shared name so one consumer reads one column; NaN stays None rather than
@@ -675,16 +731,49 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
             ew_inversion=False,   # the REW ceiling was already applied by the 1D-LTE leg
         ))
 
-    # RYA-869 — the abundances are RYA-783's profile-fit EW inversions with a 3D-NLTE
-    # departure added per line (`ew_method` says so on every measurement), so the harness
-    # systematic this product carries is the profile fitter's. `ENGINE-A-3DNLTE` is the
-    # other `X-VARIANT` treatment name the ticket named: it must follow `ENGINE-A`, and
-    # it does so here by declaring the handler instead of by matching a prefix.
+    # 🔴 RYA-1106 — THE gf AXIS, MEASURED ON THESE LINES RATHER THAN PINNED.
+    # `treatment_axes.LEGACY` pins `gf="kurucz"` for this treatment, and on every product
+    # we hold that is false: the budget written a few lines below reaches "gf rung 3 (cited
+    # lab): every one of the 50 Fe I lines is GF-LAB" on the SAME pool. One product was
+    # publishing two contradictory claims about its own oscillator strengths, and the label
+    # was the one the display read (RYA-1104).
+    #
+    # Derived through `gf_rung.for_lines` — the same function the budget uses, on the same
+    # measurements — so the axis and the error bar cannot disagree about the gf scale. It
+    # is called twice rather than threaded through, which costs a lookup and guarantees
+    # both answers come from one implementation instead of two.
+    from pipeline import gf_rung as _gf_rung
+    _used = [m for m in measurements if m.in_aggregate and m.abundance is not None]
+    gf_pool = ""
+    if _used:
+        _ll = pd.DataFrame({
+            "element": [f"Fe {1 if ion == 'I' else 2}"] * len(_used),
+            "wave_A": [m.wavelength_air_A for m in _used],
+            "lower_state_eV": [m.ep_eV if m.ep_eV is not None else np.nan
+                               for m in _used],
+            "loggf": [float(per_line.loc[
+                per_line.wavelength_air_A == m.wavelength_air_A, "loggf"].iloc[0])
+                for m in _used]})
+        _rung = _gf_rung.for_lines("Fe", ion, _used, linelist=_ll)
+        # `gf_graded` is the rung's own verdict that the pool stands on cited laboratory
+        # oscillator strengths. Mapped rather than thresholded on the rung integer, so a
+        # future rung does not silently fall into the wrong bucket.
+        gf_pool = "lab" if _rung.gf_graded else "kurucz"
+
+    # RYA-869/RYA-1106 — the abundances are the BASE POOL's measurement with a 3D-NLTE
+    # departure added per line, so the harness systematic this product carries is the
+    # base's. Both the handler and the gf scale are READ FROM THE BASE rather than
+    # asserted: see `base_declares` for what the hardcoded constant here cost.
     product = build_product(
         "Fe", ion, instrument, band, amarsi3d.TREATMENT, measurements,
-        handler="ProfileFitHandler",
+        handler=declared["handler"],
+        # RYA-1106 — the gf axis this pool EARNS, from the rung its own budget measures
+        # on these very lines, not from the `kurucz` constant pinned in LEGACY.
+        gf_pool=gf_pool,
         provenance=(f"{amarsi3d.CITATION}; training domain from "
-                    f"{amarsi3d.TRAINING_CITATION}; 1D-LTE base from {src.name}"))
+                    f"{amarsi3d.TRAINING_CITATION}; 1D-LTE base from {src.name} "
+                    f"(measured by {declared['handler']}, route "
+                    f"{declared['base_route'] or 'unrecorded'})"))
 
     def _n_failing(axis: str) -> int:
         """Lines the domain check rejected on `axis`. A line with no atomic data has no
