@@ -146,47 +146,98 @@ def test_control_an_untracked_artifact_makes_the_guard_fail(tmp_path):
 
 # ── the ticket's CRITICAL conditions ──────────────────────────────────────────
 
-def test_no_published_value_was_edited_to_reconcile():
-    """🔴 CRITICAL: reconcile the artifacts, not the numbers. Every published field of every
-    product must be byte-for-byte what origin/main published; `copied_to` is the only key
-    this ticket may write."""
-    r = subprocess.run(["git", "show", "origin/main:data/products/solar/Fe.json"],
+#: The state of the feed immediately BEFORE RYA-1080's reconciliation — the last commit
+#: on main that the reconcile branch was cut from. PINNED, not `origin/main`.
+#:
+#: 🔴 It was `origin/main` and that made this test VACUOUS the moment RYA-1080 merged: it
+#: compared `git show origin/main:Fe.json` against the working file, which are the same
+#: file once the branch is in. A guard whose two sides converge cannot fail — the same
+#: shape as the RYA-853 referee that ended up scoring its own values.
+BASELINE_SHA = "6c1529fa7561f347b62eefcc01ec017ee78fd5c4"
+
+#: Keys RYA-1080 and RYA-1084 are ALLOWED to write. Everything else must match baseline.
+_RECONCILE_KEYS = {"copied_to", "sha256", "reingested_by", "reingest_reason"}
+
+#: RYA-1084 re-ingested ten products after clearing their writer, and exactly ONE published
+#: field legitimately moved with them. Named, not tolerated as a class.
+SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
+
+
+def _index(doc: dict) -> dict:
+    out = {}
+    for p in doc["products"]:
+        prov = {k: v for k, v in p["provenance"].items() if k not in _RECONCILE_KEYS}
+        key = (p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
+               p["treatment"], prov.get("path"))
+        out[key] = {**{k: v for k, v in p.items() if k != "provenance"}, "_prov": prov}
+    return out
+
+
+def published_value_edits(baseline: dict, current: dict) -> dict:
+    """Fields that EXISTED at baseline and have since changed value.
+
+    ⚠️ Scoped deliberately. This asks "was a published number edited?", NOT "has the
+    product schema grown?". A key ADDED later is another ticket's business — RYA-1088's
+    `sigma_params` is the case in point, and the unscoped version of this check failed on
+    it and forced that ticket to revert its own deliverable. Absent-at-baseline is
+    therefore skipped; present-and-changed is the defect.
+    """
+    before, after = _index(baseline), _index(current)
+    edits = {}
+    for key, b in before.items():
+        a = after.get(key)
+        if a is None:          # a product removed later is a different question
+            continue
+        for fk, bv in b.items():
+            if fk == "_prov" or fk not in a:
+                continue
+            if a[fk] != bv:
+                edits[(key[0], key[1], key[2], fk)] = (bv, a[fk])
+    return edits
+
+
+def _baseline_doc():
+    r = subprocess.run(["git", "show", f"{BASELINE_SHA}:data/products/solar/Fe.json"],
                        cwd=ROOT, capture_output=True, text=True)
     if r.returncode != 0:
-        pytest.skip("origin/main not available")
-    before = {}
-    for p in json.loads(r.stdout)["products"]:
-        pr = dict(p["provenance"])
-        pr.pop("copied_to", None)
-        pr.pop("sha256", None); pr.pop("reingested_by", None)
-        pr.pop("reingest_reason", None)
-        before[(p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
-                p["treatment"], pr.get("path"))] = {**{k: v for k, v in p.items()
-                                                      if k != "provenance"}, "_prov": pr}
-    after = {}
-    for p in json.loads(FEED.read_text())["products"]:
-        pr = dict(p["provenance"])
-        pr.pop("copied_to", None)
-        pr.pop("sha256", None); pr.pop("reingested_by", None)
-        pr.pop("reingest_reason", None)
-        after[(p["element"], p["ion"], p["band"], p["instrument"], p.get("tier"),
-               p["treatment"], pr.get("path"))] = {**{k: v for k, v in p.items()
-                                                     if k != "provenance"}, "_prov": pr}
-    #: RYA-1084 re-ingested ten products after clearing their writer, and exactly ONE
-    #: published field legitimately moved with them. Named here rather than tolerated as a
-    #: class, so a second silent change is still a failure.
-    SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
-    diffs = {}
-    for k in set(before) | set(after):
-        if before.get(k) != after.get(k):
-            b, a = before.get(k, {}), after.get(k, {})
-            for fk in set(b) | set(a):
-                if b.get(fk) != a.get(fk):
-                    diffs[(k[0], k[1], k[2], fk)] = (b.get(fk), a.get(fk))
-    unexpected = {k: v for k, v in diffs.items()
-                  if SANCTIONED.get(k) != v and k[3] != "_prov"}
+        pytest.skip(f"baseline {BASELINE_SHA[:9]} not available (shallow clone?)")
+    return json.loads(r.stdout)
+
+
+def test_no_published_value_was_edited_to_reconcile():
+    """🔴 CRITICAL: reconcile the artifacts, not the numbers."""
+    edits = published_value_edits(_baseline_doc(), json.loads(FEED.read_text()))
+    unexpected = {k: v for k, v in edits.items() if SANCTIONED.get(k) != v}
     assert not unexpected, (
-        f"a published field changed outside RYA-1084's re-ingest: {unexpected}")
+        f"a published value changed outside RYA-1084's re-ingest: {unexpected}")
+
+
+def test_control_the_baseline_actually_differs_from_today():
+    """The control that stops this going vacuous again. If the pinned baseline and the
+    live feed were identical the comparison would pass by construction and prove nothing —
+    so assert the two differ SOMEWHERE (they must: RYA-1080 wrote copied_to on 75 rows)."""
+    assert _baseline_doc() != json.loads(FEED.read_text()), (
+        "baseline and live feed are identical — this guard has gone vacuous")
+
+
+def test_control_an_edited_published_value_is_caught():
+    """POSITIVE CONTROL. Move an abundance and the check must see it."""
+    live = json.loads(FEED.read_text())
+    live["products"][0]["A"] = float(live["products"][0]["A"]) + 0.1
+    edits = published_value_edits(_baseline_doc(), live)
+    assert any(fk == "A" for (*_, fk) in edits), edits
+
+
+def test_control_a_newly_added_field_is_NOT_caught():
+    """POSITIVE CONTROL for the scoping itself — RYA-1088's exact case. Adding a field to
+    a product is a schema addition, not an edited value, and must not fail this guard."""
+    live = json.loads(FEED.read_text())
+    live["products"][0]["sigma_params"] = 0.001
+    live["products"][0]["sigma_params_reason"] = "solar logg & [Fe/H] fixed by definition"
+    edits = published_value_edits(_baseline_doc(), live)
+    unexpected = {k: v for k, v in edits.items() if SANCTIONED.get(k) != v}
+    assert not unexpected, (
+        f"adding a field tripped the value guard — it is still over-scoped: {unexpected}")
 
 
 def test_regenerability_gaps_are_recorded_not_silent(findings):
