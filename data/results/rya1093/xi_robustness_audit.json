@@ -1,0 +1,167 @@
+{
+  "ticket": "RYA-1093",
+  "generated_utc": "2026-08-28T19:17:48Z",
+  "read_only": true,
+  "star": "solar",
+  "species": "Fe I",
+  "inputs": {
+    "solve": "data/results/rya311/rya311_xi_solar_FeI_all_ceil100.json",
+    "per_line": "data/results/rya311/rya311_xi_solar_FeI_all_ceil100_per_line.csv"
+  },
+  "xi_candidates": {
+    "fitexy": 0.7087580840419994,
+    "ols": 0.908802399485391,
+    "pinned": 1.0
+  },
+  "A_shift_if_adopted_dex": 0.05946551724137894,
+  "constraint_census": {
+    "n_lines": 58,
+    "rew_min": -5.7036,
+    "rew_max": -4.7658,
+    "rew_median": -5.0292,
+    "ew_max_mA": 100.0,
+    "ew_ceiling_mA": 100.0,
+    "n_at_the_ceiling": 1,
+    "n_saturated_rew_ge_-4.8": 4,
+    "fraction_saturated": 0.069,
+    "n_in_top_rew_bin": 18,
+    "histogram": [
+      {
+        "rew_lo": -5.704,
+        "rew_hi": -5.586,
+        "n": 1
+      },
+      {
+        "rew_lo": -5.586,
+        "rew_hi": -5.469,
+        "n": 1
+      },
+      {
+        "rew_lo": -5.469,
+        "rew_hi": -5.352,
+        "n": 5
+      },
+      {
+        "rew_lo": -5.352,
+        "rew_hi": -5.235,
+        "n": 6
+      },
+      {
+        "rew_lo": -5.235,
+        "rew_hi": -5.117,
+        "n": 8
+      },
+      {
+        "rew_lo": -5.117,
+        "rew_hi": -5.0,
+        "n": 10
+      },
+      {
+        "rew_lo": -5.0,
+        "rew_hi": -4.883,
+        "n": 9
+      },
+      {
+        "rew_lo": -4.883,
+        "rew_hi": -4.766,
+        "n": 18
+      }
+    ],
+    "verdict": "strong-line-POOR and TRUNCATED: only 4 of 58 lines reach REW >= -4.8, and the pool's maximum EW is 100.0 mA against a 100.0 mA ceiling \u2014 the lines that pin xi were CUT, not absent"
+  },
+  "method_decomposition": {
+    "slope_fitexy": -0.005831,
+    "slope_weighted_ols": -0.005265,
+    "slope_unweighted_ols_PRODUCTION": 0.083417,
+    "sigma_slope_formal": 0.020432,
+    "sigma_slope_chi2_scaled": 0.107987,
+    "chi2_red": 27.932,
+    "both_axis_term_dex_per_dex": 0.00056569,
+    "weighting_term_dex_per_dex": 0.08868233,
+    "weighting_over_both_axis": 156.8,
+    "median_sigma_y_squared": 0.0008702499999999999,
+    "median_b2_sigma_x_squared": 4.417579404464116e-09,
+    "x_over_y_denominator_ratio": 5.076218792834377e-06,
+    "sigma_A_min": 0.015,
+    "sigma_A_max": 0.0665,
+    "sigma_A_dynamic_range": 4.43,
+    "verdict": "the gap is WEIGHTING, not both-axis errors: driving sigma_x to zero (a weighted OLS) reproduces FITEXY to within the both-axis term, which is 5.7e-04 dex/dex, while the unweighted production fit sits 0.0887 away \u2014 157x larger. sigma_A spans a factor 4.4 across the pool, so ignoring it is not a small approximation."
+  },
+  "leverage": {
+    "trials": [
+      {
+        "cut": null,
+        "n": 58,
+        "slope_fitexy": -0.00583,
+        "slope_unweighted_ols": 0.08342
+      },
+      {
+        "cut": -4.8,
+        "n": 54,
+        "slope_fitexy": -0.04781,
+        "slope_unweighted_ols": 0.05036
+      },
+      {
+        "cut": -4.85,
+        "n": 45,
+        "slope_fitexy": 0.08013,
+        "slope_unweighted_ols": 0.11512
+      },
+      {
+        "cut": -4.9,
+        "n": 38,
+        "slope_fitexy": 0.14966,
+        "slope_unweighted_ols": 0.13766
+      },
+      {
+        "cut": -5.0,
+        "n": 31,
+        "slope_fitexy": 0.16266,
+        "slope_unweighted_ols": 0.2101
+      }
+    ],
+    "fitexy_slope_span": 0.21047,
+    "verdict": "the FITEXY slope moves 0.210 dex/dex as the strong end is stripped \u2014 the slope is a property of a handful of near-ceiling lines, not of the pool. A solve this sensitive to its own truncation does not constrain xi."
+  },
+  "unavailable_solves": {
+    "deep_lines_ceiling_removed": {
+      "artifact": "rya311_xi_solar_FeI_all_noceil.json",
+      "n_fitted": 78,
+      "root_found": false,
+      "xi_measured": null,
+      "verdict": "adding the saturated lines does NOT reconcile FITEXY with OLS \u2014 it removes the root altogether. Spec 2B's ADOPT branch requires a reconciliation that does not exist."
+    },
+    "graded_only_lab_gf": {
+      "artifact": "rya311_xi_solar_FeI_graded_ceil100_xi0.2-3.json",
+      "n_fitted": 9,
+      "root_found": false,
+      "xi_measured": null,
+      "verdict": "the gf-slope hypothesis CANNOT BE TESTED on this pool: 9 lab-gf lines give no root over xi 0.2-3.0. Reported as a GAP, not as a clean bill of health (RYA-805). Ryan's 2026-08-28 amendment asked for graded-only vs full \u2014 this is the graded-only answer."
+    }
+  },
+  "honest_delta_xi": {
+    "candidates": {
+      "formal_delta_chi2_1": 0.0588,
+      "chi2_scaled": 0.3107,
+      "method_spread_fitexy_vs_ols": 0.2,
+      "pin_spread_fitexy_vs_1.0": 0.2912
+    },
+    "chosen": 0.2912,
+    "chosen_name": "method+selection spread",
+    "why": "the formal error would be honest only if the solve were well constrained. It is not: chi2_red = 27.932 (the point errors explain ~1/5 of the scatter), the slope moves 0.210 dex/dex when the strong end is stripped, the ceiling-free and graded-only solves have no root at all, and the pool's maximum EW sits exactly on its own cut. The formal 0.0588 is 5.0x smaller than the spread the method and selection actually produce.",
+    "explicitly_not_chosen": "0.0588 (the formal error) is NOT chosen, and specifically not because it would clear the solar gate. Choosing an error bar because it passes is the RYA-161 failure this ticket names as CRITICAL; the gate is applied in `gate_report`, which cannot influence this choice."
+  },
+  "gate": {
+    "dA_dxi_dex_per_kms": 0.2042,
+    "delta_xi_used": 0.2912,
+    "xi_contribution_to_sigma_params_dex": 0.0595,
+    "solar_gate_dex": 0.05,
+    "xi_term_alone_exceeds_the_gate": true,
+    "reduces_to_the_A_shift_between_candidates": true,
+    "how_it_is_built": "delta_xi is the FITEXY-to-pin spread and dA/dxi is measured over that same interval, so this term is identically |A(FITEXY) - A(pin)| = 0.0595 dex. It is the abundance cost of not knowing which of the two candidates is right \u2014 which is exactly what an honest xi allowance means when the pool cannot choose between them.",
+    "verdict": "the xi term ALONE contributes 0.0595 dex, against a 0.05 dex gate \u2014 so with an honestly budgeted xi the solar gate cannot be met by this pool, before any other systematic is added. Reported as a finding about the GATE (RYA-161); the adopt-or-relax call is Ryan's."
+  },
+  "verdict": "KEEP-PIN-1.0",
+  "verdict_reason": "the 58-line pool does NOT constrain solar xi. It is truncated at exactly the saturated lines that pin it (max EW = its own 100 mA ceiling); the slope swings 0.210 dex/dex when the strong end is stripped; chi2_red = 27.932; and BOTH independent checks \u2014 ceiling removed and graded-only \u2014 have no root at all. 0.709 is a fit artifact of the truncation, not a measurement. The pin is KEPT at 1.0 by RYA-1093 spec 2B, which Ryan's 2026-08-28 amendment makes the branch needing no ratification.",
+  "firewall": "RYA-161: no xi candidate and no delta_xi was selected by whether it clears the 0.05 gate. The honest bar is the larger number and it FAILS the gate; that is reported, not resolved."
+}
