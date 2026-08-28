@@ -1,0 +1,177 @@
+{
+  "ticket": "RYA-817",
+  "run_environment": {
+    "host": "Sirius",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
+    "python": "3.12.13",
+    "on_sirius_data_root": "/mnt/codex-data",
+    "sklearn_loaded": "1.9.0",
+    "sklearn_saved": "1.0.2",
+    "sklearn_version_skew": "models written with 1.0.2, loaded with 1.9.0 \u2014 cross-version unpickling. The library warns results may be invalid; the reactivation control is what says whether it is safe."
+  },
+  "instrument": "kpno_solar_atlas",
+  "band_products_dir": "/home/damienabraxas/g3dv2_kpmf",
+  "star": "solar",
+  "engine": "Amarsi, Liljegren & Nissen 2022, A&A 668, A68 (3D-NLTE Fe MLP)",
+  "training_set": "Jofre et al. 2014, A&A 564, A133, Tables 4/5 ('golden' Fe I/II line list)",
+  "treatment": "ENGINE-A-3DNLTE",
+  "reactivation_control": {
+    "axis_A_Fe_3N": 7.46,
+    "teff": 5772.0,
+    "logg": 4.438,
+    "vmic": 1.0,
+    "line_list": "Allende Prieto et al. 2002, ApJ 567, 544, Table 2 (the solar Fe line list Amarsi+2022 Table 6 was built on)",
+    "cut": "weak lines only, REW < -4.9 (Amarsi+2022 Sect. 6.1)",
+    "checks": [
+      {
+        "check": "solar A(Fe I) 1D LTE over 41 weak lines",
+        "computed": 7.4671,
+        "published": 7.47,
+        "tolerance": 0.01,
+        "pass": true,
+        "source": "Amarsi+2022 Table 6"
+      },
+      {
+        "check": "solar A(Fe I) 3D non-LTE over 41 weak lines",
+        "computed": 7.4646,
+        "published": 7.46,
+        "tolerance": 0.01,
+        "pass": true,
+        "source": "Amarsi+2022 Table 6"
+      },
+      {
+        "check": "solar A(Fe II) 1D LTE over 13 weak lines",
+        "computed": 7.4054,
+        "published": 7.41,
+        "tolerance": 0.01,
+        "pass": true,
+        "source": "Amarsi+2022 Table 6"
+      },
+      {
+        "check": "solar A(Fe II) 3D non-LTE over 13 weak lines",
+        "computed": 7.471,
+        "published": 7.47,
+        "tolerance": 0.01,
+        "pass": true,
+        "source": "Amarsi+2022 Table 6"
+      },
+      {
+        "check": "Fe I d(Delta_1L3N) over Elo 0->5 eV at [M/H]=0 (training lines)",
+        "computed": -0.0905,
+        "published": [
+          -0.1,
+          -0.05
+        ],
+        "pass": true,
+        "source": "Amarsi+2022 Sect. 5.1"
+      }
+    ],
+    "passed": true,
+    "feI_mean_correction": -0.0024,
+    "feII_mean_correction": 0.0656,
+    "fe1_delta_range": [
+      -0.0881,
+      0.0589
+    ]
+  },
+  "training_domain": {
+    "fe2": {
+      "n_lines": 12,
+      "lambda_air": [
+        4923.93,
+        6456.38
+      ],
+      "elo": [
+        2.807,
+        3.903
+      ],
+      "eup": [
+        4.817879,
+        5.875973
+      ],
+      "loggf": [
+        -3.881,
+        -1.26
+      ],
+      "delta_E": [
+        1.919806,
+        2.51729
+      ]
+    },
+    "gt02": {
+      "n_lines": 154,
+      "lambda_air": [
+        4787.83,
+        6810.26
+      ],
+      "elo": [
+        2.176,
+        5.099
+      ],
+      "eup": [
+        4.103427,
+        7.292806
+      ],
+      "loggf": [
+        -4.038,
+        0.643
+      ],
+      "delta_E": [
+        1.820048,
+        2.588846
+      ]
+    },
+    "lt02": {
+      "n_lines": 17,
+      "lambda_air": [
+        4994.13,
+        6739.52
+      ],
+      "elo": [
+        0.0,
+        1.557
+      ],
+      "eup": [
+        2.449274,
+        3.98375
+      ],
+      "loggf": [
+        -5.918,
+        -1.988
+      ],
+      "delta_E": [
+        1.839151,
+        2.481906
+      ]
+    }
+  },
+  "per_band": {
+    "Fe I VIS": {
+      "n_measured_lines": 67,
+      "n_with_atomic_data": 67,
+      "n_in_domain": 50,
+      "n_out_of_domain": 17,
+      "fail_feature": 0,
+      "fail_delta_E": 17,
+      "fail_level": 2,
+      "fail_stellar": 0,
+      "afe_axis_star": 7.5,
+      "afe_axis_selfconsistent": 7.5116,
+      "afe_axis_railed_at_grid_ceiling": true,
+      "afe_axis_sensitivity_dex": 0.00224,
+      "afe_axis_iterations": 2,
+      "afe_axis_converged": true,
+      "median_aberr": 0.043,
+      "A_3dnlte_axis_line_diag": 7.4195,
+      "A_3dnlte": 7.511563393150336,
+      "sigma": 0.1566246464611698,
+      "n_lines": 50,
+      "n_excluded": 17
+    }
+  },
+  "context_values": {
+    "gold_v4_fe_i_3dnlte_vis": 7.466,
+    "asplund2021_fe": 7.46
+  },
+  "run_date": "2026-08-28"
+}
