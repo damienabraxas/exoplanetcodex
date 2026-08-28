@@ -22,9 +22,11 @@ worktree. Call `save_artifact(path, kind)` right after you write the file.
 
 STORE LAYOUT
 ------------
-The store lives OUTSIDE any worktree, in the directory that CONTAINS the worktrees
-(default: the parent of the repo root, i.e. ~/Documents/Exoplanet Codex/), or at
-$CODEX_ARTIFACT_STORE if set. Subfolders, one per `kind`:
+The store lives OUTSIDE any worktree at ONE NAMED PATH -- ~/Documents/Exoplanet
+Codex/ (`CANONICAL_STORE_ROOT`), or $CODEX_ARTIFACT_STORE if set. RYA-1090: this is
+deliberately a constant and NOT derived from the worktree's parent; a derived root
+forks the store into one-per-worktree-parent the moment worktrees are relocated,
+with no error at all. Subfolders, one per `kind`:
     plots/        diagnostic plots (png/pdf/svg)
     data/         normalized-spectrum + other reusable data intermediates
     diagnostics/  diagnostic CSV/JSON outputs (audit/proof/verdict tables)
@@ -51,18 +53,124 @@ _MANIFEST_HEADER = ['date', 'kind', 'stored_name', 'md5', 'bytes',
                     'source_worktree', 'source_branch', 'source_relpath']
 
 
+#: RYA-1090 — the canonical store root, NAMED rather than derived.
+#:
+#: This was `Path(__file__).resolve().parents[2]`: the parent of whatever worktree
+#: the module happened to be imported from. That is not a canonical location. It is
+#: canonical only while every worktree shares one parent, and the moment they do not
+#: the store FORKS — silently, with no error, into one store per worktree parent.
+#: That is exactly what happened: worktrees moved from ~/Documents/Exoplanet Codex
+#: to ~/codex, and 85 preserved artifacts became unreachable from every current
+#: worktree while 27 more were stored twice. A location a durable store depends on
+#: must be stated, not inferred from ambient context.
+CANONICAL_STORE_ROOT = Path.home() / 'Documents' / 'Exoplanet Codex'
+
+#: Roots that HELD a store before RYA-1090 pinned one. Kept so the divergence guard
+#: can still see a store left behind by the old derivation.
+LEGACY_STORE_ROOTS: tuple[Path, ...] = (Path.home() / 'codex',)
+
+
+class StoreDivergenceError(RuntimeError):
+    """A second populated artifact store exists — the store has forked (RYA-1090)."""
+
+
 def store_root() -> Path:
-    """The canonical store root: $CODEX_ARTIFACT_STORE, else the directory that
-    contains this repo's worktree (the worktrees' shared parent)."""
+    """The canonical store root: `$CODEX_ARTIFACT_STORE` if set, else
+    `CANONICAL_STORE_ROOT`.
+
+    Invariant (RYA-1090): the return value does NOT depend on the caller's worktree,
+    working directory, or this file's location on disk.
+    """
     env = os.environ.get('CODEX_ARTIFACT_STORE')
     if env:
         return Path(env).expanduser()
-    # this file is <store_root>/<worktree>/pipeline/artifact_store.py
+    return CANONICAL_STORE_ROOT
+
+
+def _legacy_derived_root() -> Path:
+    """The root the PRE-RYA-1090 code would have derived from this file's location.
+
+    Kept live, and re-derived on every check rather than hard-coded, so that if
+    worktrees are ever relocated again the guard notices the new parent by itself
+    instead of going quiet on a stale constant.
+    """
     return Path(__file__).resolve().parents[2]
 
 
-def ensure_store() -> Path:
-    """Create the store root + all `KINDS` subfolders. Returns the root."""
+def _manifest_row_count(root: Path) -> int:
+    """Number of data rows in `root`'s manifest; 0 if absent/empty/unreadable."""
+    mp = root / _MANIFEST_NAME
+    try:
+        if not mp.is_file():
+            return 0
+        with open(mp, newline='') as fh:
+            return sum(1 for _ in csv.DictReader(fh))
+    except OSError:
+        return 0
+
+
+def divergent_stores() -> list[tuple[Path, int]]:
+    """Roots OTHER than the active store that still hold a POPULATED manifest.
+
+    Returns [(root, n_rows), ...] — empty when there is exactly one store, which is
+    the only state in which artifact preservation actually means anything.
+    """
+    active, seen, out = store_root(), set(), []
+    try:
+        active_mf = (active / _MANIFEST_NAME).resolve()
+    except OSError:
+        active_mf = active / _MANIFEST_NAME
+    for cand in (_legacy_derived_root(), *LEGACY_STORE_ROOTS):
+        cand = cand.expanduser()
+        if cand == active or cand in seen:
+            continue
+        seen.add(cand)
+        # A legacy root BRIDGED to the canonical store (its manifest and kind dirs
+        # symlinked across) is not a fork -- it is the same store reached by another
+        # path. Compare the resolved manifest, not the directory: that is what makes
+        # the bridge a safe stopgap for worktrees still running the old derivation.
+        try:
+            if (cand / _MANIFEST_NAME).resolve() == active_mf:
+                continue
+        except OSError:
+            pass
+        n = _manifest_row_count(cand)
+        if n:
+            out.append((cand, n))
+    return out
+
+
+def assert_single_store() -> None:
+    """Raise `StoreDivergenceError` if a second populated store exists.
+
+    Skipped when `$CODEX_ARTIFACT_STORE` is set: an explicit override is a
+    deliberate act (tests, one-off relocations). This guard exists to catch the
+    ACCIDENTAL fork, which is the one that stays invisible.
+    """
+    if os.environ.get('CODEX_ARTIFACT_STORE'):
+        return
+    div = divergent_stores()
+    if not div:
+        return
+    where = '\n'.join(f"    {r}  ({n} manifest rows)" for r, n in div)
+    raise StoreDivergenceError(
+        f"artifact store has FORKED (RYA-1090). Active store:\n"
+        f"    {store_root()}\n"
+        f"but these roots also hold a populated manifest:\n{where}\n"
+        f"Artifacts saved to one are invisible to the other. Reconcile with\n"
+        f"    scripts/rya1090_migrate_artifact_store.py --apply\n"
+        f"or set $CODEX_ARTIFACT_STORE to name the store you intend."
+    )
+
+
+def ensure_store(check_divergence: bool = True) -> Path:
+    """Create the store root + all `KINDS` subfolders. Returns the root.
+
+    Also asserts there is only ONE store, unless `check_divergence=False` (used by
+    the RYA-1090 migration, which is the one caller that must run WHILE forked).
+    """
+    if check_divergence:
+        assert_single_store()
     root = store_root()
     for k in KINDS:
         (root / k).mkdir(parents=True, exist_ok=True)

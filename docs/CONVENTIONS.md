@@ -196,8 +196,8 @@ never deletes or mutates the source.
 
 ### The canonical store
 
-Lives **outside** any worktree, in the directory that contains the worktrees
-(default `~/Documents/Exoplanet Codex/`, override with `$CODEX_ARTIFACT_STORE`):
+Lives **outside** any worktree at **one named path** — `~/Documents/Exoplanet Codex/`
+(`artifact_store.CANONICAL_STORE_ROOT`), override with `$CODEX_ARTIFACT_STORE`:
 
 | subfolder      | holds                                                              |
 |----------------|--------------------------------------------------------------------|
@@ -209,6 +209,15 @@ Lives **outside** any worktree, in the directory that contains the worktrees
 
 `ARTIFACT_MANIFEST.csv` at the store root records every preserved file with its md5 and
 provenance.
+
+> **The root is a constant, not a derivation (RYA-1090).** It used to be computed as
+> "the parent of this worktree." That is canonical only while every worktree shares one
+> parent — and when worktrees moved to `~/codex/`, the store forked in two with no error:
+> 85 artifacts became unreachable from every live worktree and 27 were stored twice, while
+> a save-before-clean rescue reported success against a manifest the verifier never read.
+> `ensure_store()` now refuses to run if a second populated store appears. If you see
+> `StoreDivergenceError`, reconcile with `scripts/rya1090_migrate_artifact_store.py`;
+> do not "fix" it by pointing `$CODEX_ARTIFACT_STORE` at whichever root is nearest.
 
 ### Cleaning worktrees (the destructive half)
 
