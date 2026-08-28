@@ -4216,3 +4216,16 @@ artifacts:
       4584 A, Melendez & Barbuy 2009 is solar-fitted and firewalled, NIST covers them at
       grade E/D and is the scale scope 3 measured as low. Recorded as a checked absence
       (RYA-833), owned by RYA-953.
+  # ── RYA-1098: is the cross-version sklearn load producing correct corrections? ────
+
+  - artifact: rya1098/rya1098_amarsi_model_integrity.json
+    generator: scripts/rya1098_validate_amarsi_models.py
+    invocation: python3 scripts/rya1098_validate_amarsi_models.py
+    ticket: RYA-1098
+    note: >-
+      The Amarsi MLP pickles were written by scikit-learn 1.0.2 and are loaded under 1.9.0.
+      Three checks, none of which asks the loaded object to vouch for itself: the authors'
+      own published worked example (README 2.4), an independent numpy reimplementation of
+      the forward pass against predict(), and the same comparison over the feature vectors
+      the published runs actually spanned. Verdict: the skew is BENIGN for these estimators
+      and the corrections in the feed are NOT contaminated -- proven, not assumed.

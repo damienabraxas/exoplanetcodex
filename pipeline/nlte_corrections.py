@@ -96,22 +96,31 @@ _ENVIRONMENT_FAULTS = (ModuleNotFoundError, ImportError, FileNotFoundError,
 
 
 def _load_models():
-    """Load sklearn MLP regressors from vendor pickle files."""
-    if not _MODEL_LT02.exists():
-        raise FileNotFoundError(
-            f"Amarsi 2022 NLTE models not found at {_VENDOR_DIR}. "
-            "Run: git clone https://github.com/sliljegren/1L-3NErrors vendor/1L-3NErrors"
-        )
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        (s_lt02, m_lt02) = pickle.load(open(str(_MODEL_LT02), 'rb'))
-        (s_gt02, m_gt02) = pickle.load(open(str(_MODEL_GT02), 'rb'))
-        (s_fe2,  m_fe2)  = pickle.load(open(str(_MODEL_FE2),  'rb'))
-    return {
-        'lt02': (s_lt02, m_lt02),
-        'gt02': (s_gt02, m_gt02),
-        'fe2':  (s_fe2,  m_fe2),
-    }
+    """Load the Amarsi MLP regressors THROUGH THE VERSION CHECK (RYA-1098).
+
+    🔴 THIS FUNCTION USED TO SUPPRESS THE ONLY EVIDENCE IT HAD. The pickles were written
+    by scikit-learn 1.0.2 and are loaded under 1.9.0; sklearn says so, loudly, with an
+    `InconsistentVersionWarning` per estimator -- and the body here was
+    `warnings.simplefilter('ignore')` wrapped around three `pickle.load` calls. Cross-
+    version unpickling of sklearn estimators is unsupported and does NOT reliably raise:
+    it can deserialize cleanly and then predict WRONG. The output of these models is a
+    PHYSICS CORRECTION applied to Fe abundances, so a silent mis-load corrupts an
+    abundance with no loud failure. "It loaded without erroring" was standing in for "it
+    loaded correctly", which is the RYA-167 silent-fallback shape.
+
+    The load now goes through `pipeline.amarsi_model_integrity`, which reads the written
+    version from the PICKLE BYTES (the loaded object reports the RUNTIME version -- it is
+    rewritten on unpickle, so asking the object is a confidently wrong answer) and refuses
+    any runtime whose predictions have not been validated against external ground truth.
+
+    ⚠️ FOR THE RECORD, THE 1.0.2 -> 1.9.0 SKEW IS BENIGN, AND THAT IS MEASURED RATHER THAN
+    ASSUMED: the authors' own published worked example reproduces (-0.135955 vs -0.136),
+    and an independent numpy reimplementation of the forward pass matches `predict()`
+    EXACTLY over 8,479 feature vectors spanning the feed's own lines. The corrections
+    already published were not affected. See that module and RYA-1098.
+    """
+    from pipeline.amarsi_model_integrity import load_models as _checked_load
+    return _checked_load(_VENDOR_DIR)
 
 
 def _get_models() -> dict:
