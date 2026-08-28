@@ -159,10 +159,27 @@ def match(want_wl,
             unresolved.append((float(w), float(abs(s_wl[near] - w))))
             continue
 
-        if cand.size > 1 and s_ep is not None and w_ep is not None and np.isfinite(w_ep[n]):
+        if cand.size and s_ep is not None and w_ep is not None and np.isfinite(w_ep[n]):
             keep = cand[np.abs(s_ep[cand] - w_ep[n]) <= ep_tol_eV]
-            if keep.size:
+            if require_ep:
+                # 🔴 RYA-1036. The EP test used to run ONLY when there was more than one
+                # candidate, so a LONE row in the wavelength window was accepted with no EP
+                # check at all — necessary-but-not-sufficient, and exactly the Fe I 6065.490
+                # shape (one candidate, wrong level, nothing to warn anyone). Measured when
+                # this was found: widening the graded mask to 30 mA "recovered" Fe I
+                # 6858.1396 against a row 1.006 eV away and 8713.1976 against one 2.039 eV
+                # away. Under require_ep a lone candidate whose EP disagrees is NOT a match.
                 cand = keep
+            elif keep.size:
+                cand = keep
+
+        if cand.size == 0:
+            # Every in-window row disagreed on EP. That is a real, reportable absence — the
+            # wavelength has a neighbour but not this TRANSITION — and it must be recorded
+            # rather than crashing or falling back to the nearest wavelength.
+            near = int(np.clip(np.searchsorted(s_wl, w), 0, len(s_wl) - 1))
+            unresolved.append((float(w), float(abs(s_wl[near] - w))))
+            continue
 
         if cand.size > 1:
             # Same line listed twice (HFS components, duplicate ingests) is NOT ambiguity —
