@@ -194,11 +194,24 @@ def flag_blends(lines: list, tol_A: float = 0.10) -> list:
     return sorted_lines
 
 
-def crosscheck_nist(lines: list, nist_path: Path) -> list:
+def crosscheck_nist(lines: list, nist_path: Path,
+                    wave_tol_A: float = 0.010, ep_tol_eV: float = 0.05) -> list:
     """
     Apply NIST grades from nist_crosscheck.csv to matching lines.
-    Matches on element, ion, and wavelength within 0.010 Å.
-    Skips lines beginning with '#' (comment lines in the CSV header).
+
+    Matches on element, ion, wavelength within `wave_tol_A` AND excitation potential
+    within `ep_tol_eV`.
+
+    🔴 RYA-853 scope 4. This used to match on element + ion + wavelength ALONE and take
+    the FIRST hit (`break`). A wavelength window is not a line identifier: two levels of
+    the same species can sit inside 0.010 A, and the first row in file order won. That is
+    how a NIST grade lands on a line NIST never graded — the same defect class as
+    rya347's +/-0.1 A matcher, and the path by which the fabricated `B` on Fe II
+    6149.246 / 6247.557 reached linelist_solar.csv.
+
+    Ambiguity is now REFUSED rather than resolved: if more than one NIST row matches on
+    both axes, no grade is stamped. Picking the nearest would be an argmin over rows that
+    the data says are indistinguishable.
     """
     import io
     nist_rows = []
@@ -211,18 +224,24 @@ def crosscheck_nist(lines: list, nist_path: Path) -> list:
                 'element': row['element'].strip(),
                 'ion': row['ion'].strip(),
                 'wl': float(row['wavelength_air_A']),
+                'ep': float(row['excitation_potential_eV']),
                 'grade': row['nist_grade'].strip(),
             })
         except (KeyError, ValueError):
             continue
 
     for row in lines:
-        for nr in nist_rows:
-            if (row['element'] == nr['element']
-                    and row['ion'] == nr['ion']
-                    and abs(row['wavelength_air_A'] - nr['wl']) < 0.010):
-                row['nist_grade'] = nr['grade']
-                break
+        try:
+            ep = float(row['excitation_potential_eV'])
+        except (KeyError, TypeError, ValueError):
+            continue          # no EP on our side -> cannot verify the level, do not stamp
+        hits = [nr for nr in nist_rows
+                if row['element'] == nr['element']
+                and row['ion'] == nr['ion']
+                and abs(row['wavelength_air_A'] - nr['wl']) < wave_tol_A
+                and abs(ep - nr['ep']) <= ep_tol_eV]
+        if len(hits) == 1 and hits[0]['grade']:
+            row['nist_grade'] = hits[0]['grade']
     return lines
 
 
