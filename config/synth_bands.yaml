@@ -134,3 +134,32 @@ bands:
     half_width_note: >-
       0.40 A scaled by lambda from the near-UV anchor (12000/3400). Anchor 12000 A.
     build_hint: RYA-762's VALD extract; see data/linelists/ispec_ir_9200_13000/
+
+  H:
+    lo_A: 15007.11
+    hi_A: 17493.69
+    anchor_A: 16250.4
+    linelist: data/linelists/ispec_h_15007_17494/atomic_lines.tsv
+    half_width_A: 1.89
+    min_sep_A: 4.0
+    n_lines: 40
+    half_width_note: >-
+      DERIVED, not carried: 20.51 Doppler sigma (the `invariant` above) at the band
+      midpoint 16250.4 A. sigma_D = 16250.4 * 1.7 km/s / c = 0.092149 A; 20.51 *
+      0.092149 = 1.8900 -> 1.89. The anchor is the midpoint because this band has no
+      prior published anchor to carry (RYA-870: pin the invariant, not the example).
+    bounds_note: >-
+      Bounds are the Elgueta+2026 SOLAR H spectrum's own measured extent, NOT the lab
+      pool's. The two graded lab lines at 14679.831 / 14826.408 fall in the instrumental
+      gap between the J and H arms (13195.23-15007.11) and are observed by nothing we
+      hold, so widening the band blueward would buy no line and would misdescribe the
+      product's coverage (RYA-1094, RYA-1046).
+    build_hint: >-
+      RYA-1094. Linelist built by pipeline.nearuv_linelist.build() from the two hfs-ON
+      SOLAR VALD extracts RYA-1053 acquired: vald_solar_ir_9500_17000_hfson_raw.txt
+      (segment 15007.11-17000) + vald_solar_ir_17000_25000_hfson_raw.txt (17000-17493.69).
+      5,244 lines / 33 species. hfs-ON VERIFIED on the RYA-919 test, not assumed --
+      Na I 20/30 rows share a wavelength (the hfs-ON reference value exactly), Cu I
+      76/104, V I 25/547, Mn I 19/214, Co I 2/734, and Fe I 2/1523 ~ 0 as I=0 requires.
+      🔴 Do NOT substitute Elgueta's atomich.dat: it is hfs-OFF (Co I 0/17, K I 0/2,
+      Na I 0/4) and is a line-SELECTION table, not a blend inventory over 2500 A.

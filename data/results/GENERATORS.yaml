@@ -648,6 +648,24 @@ artifacts:
       locality), and the stated error-budget term with its 95% upper bound on a hidden
       slope. Kept beside the CSV so the headline numbers are not re-derived by hand.
 
+  - artifact: rya1048/vesta_crires_plus_H_15007_17494_normalized.csv
+    generator: scripts/normalize_vesta_ir.py
+    invocation: python scripts/normalize_vesta_ir.py --arm H --no-plot
+    ticket: RYA-1094
+    note: >-
+      The H arm, 15007.11-17493.69 A, 40559 rows. SAME source family (sp/Sun_H_rv.dat,
+      md5 d7de44a993d1776a880e8206a8e9a68e) and the SAME normaliser as the two Y products
+      above; only the ARM differs, so it inherits RYA-794's telluric verdict for the
+      Elgueta reduced spectra rather than being re-judged. No --lo/--hi: the H arm carries
+      window=None in ARMS, so it conditions over the arm's own measured extent, which is
+      what the filename records. UNIT+MEDIUM VERIFIED AGAINST A CONTROL, not assumed --
+      sp/ wavelength is labelled 0.1nm in the ReadMe but is NANOMETRES; converting x10 and
+      comparing against the COMMITTED Y product reproduces its wavelength_air_A to
+      1.8e-12 A, which fixes both the factor and the AIR medium. WHY IT EXISTS: 25
+      primary-lab Fe I lines (Ruffoni2013, 15051.7-17277.5 A) against the Y arm's 5 -- the
+      largest graded Fe I pool of any CRIRES arm we hold. CAVEAT CARRIED FORWARD
+      (RYA-787): H is Elgueta's MOST telluric-contaminated band and they SKIP regions
+      inside it, so the per-region judgement belongs downstream, not in the span.
   - artifact: rya794/vesta_crires_plus_Y_9800_10796_normalized.csv
     generator: scripts/normalize_vesta_ir.py
     invocation: python scripts/normalize_vesta_ir.py --arm Y --lo 9800 --hi 10796 --no-plot
