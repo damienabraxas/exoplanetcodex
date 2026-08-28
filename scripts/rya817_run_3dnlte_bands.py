@@ -762,13 +762,19 @@ def _attach_budget(prod_df: pd.DataFrame, all_lines: list) -> tuple:
             described.append(f"{r.element} {r.ion} {r.band}: no budget -- "
                              f"{len(pool)} usable line(s)")
             continue
-        b, _ = budget_from_pool(pool, element=str(r.element), ion=str(r.ion),
-                                instrument=str(r.instrument), handler=str(r.handler),
-                                scatter_dex=float(sigma))
+        b, rung = budget_from_pool(pool, element=str(r.element), ion=str(r.ion),
+                                   instrument=str(r.instrument), handler=str(r.handler),
+                                   scatter_dex=float(sigma))
         stat, syst = b.total()
         stat_col.append(round(stat, 4)); syst_col.append(round(syst, 4))
         basis_col.append(b.stat_basis())
-        described.append(b.describe())
+        # ⚠️ THE `gf rung:` LINE IS NOT DECORATION -- `publish_product` PARSES IT.
+        # A GRADED tier is a claim about the gf scale, and the publisher corroborates it by
+        # regexing `gf rung (\d) \(gf scale \(...` out of this file, refusing when the
+        # budget's own verdict is not rung 3. `describe()` does not emit it; the band route
+        # appends it at three call sites and so must this one, or a legitimately graded
+        # product is refused for want of a line.
+        described.append(b.describe() + f"\n  gf rung: {rung.describe()}\n")
     out = prod_df.copy()
     out["stat_dex"], out["syst_dex"], out["stat_basis"] = stat_col, syst_col, basis_col
     return out, "\n\n".join(described) + "\n"
