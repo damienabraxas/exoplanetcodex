@@ -92,10 +92,19 @@ def test_the_rule_is_single_sourced_at_the_write_sites():
 
 
 def test_the_ten_blocked_products_were_re_ingested_not_papered_over():
-    """The resolution must be visible in the feed, with a reason attached to each row."""
+    """The resolution must be visible in the feed, with a reason attached to each row.
+
+    ⚠️ COUNTED ACROSS ALL FOUR POOLS, NOT JUST `products[]` (RYA-1092). Two of the ten
+    were later withdrawn from the live list by the eligibility gate (PRE_CONTINUUM_FIX),
+    and a withdrawal does not un-re-ingest a record: it is still in the feed, still
+    carrying `reingested_by` and its reason. Counting the live list only would have made
+    this assertion a statement about ELIGIBILITY rather than about the re-ingest, and it
+    would go red every time an unrelated ticket withdrew one of the ten.
+    """
     import json
     doc = json.loads((ROOT / "data/products/solar/Fe.json").read_text())
-    re_ing = [p for p in doc["products"]
+    re_ing = [p for pool in ("products", "quarantine", "superseded", "archive")
+              for p in (doc.get(pool) or [])
               if p["provenance"].get("reingested_by") == "RYA-1084"]
     assert len(re_ing) == 10
     assert all("deterministic" in p["provenance"]["reingest_reason"] for p in re_ing)
