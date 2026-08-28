@@ -286,6 +286,60 @@ def attach_atomic(lines: pd.DataFrame, trans: pd.DataFrame) -> pd.DataFrame:
         out.at[i, "eup_eV"] = float(best["eup_eV"])
         out.at[i, "loggf_vald"] = float(best["loggf"])
         out.at[i, "vald_source"] = str(best["source"])
+    return _canonicalise_gf(out)
+
+
+def _canonicalise_gf(out: pd.DataFrame) -> pd.DataFrame:
+    """Replace the VALD log gf with the CANONICAL one — the value the 1D base actually ran on.
+
+    🔴 THIS ROUTE WAS SINGLE-SOURCING EVERYTHING EXCEPT THE ONE NUMBER THAT FEEDS THE
+    NETWORK. `a_1dlte` is read straight out of the band product, which
+    `_load_synth_resources` built with `gf_resolver` substitutions applied (RYA-353). The
+    Elo/Eup/log gf beside it were resolved here from VALD instead, so the product paired a
+    LABORATORY-gf abundance with a VALD-gf correction — and `log gf` is an INPUT FEATURE of
+    the Amarsi MLP, not a label, so the mismatch propagated into `aberr` itself.
+
+    MEASURED on the 2026-08-24 redo (RYA-1095), Fe I VIS, 50 lines, every one of them
+    `gf_tier=LAB` in canonical_gf:
+
+        log gf(used) - log gf(canonical):  mean -0.166 dex, max |.| 2.199, ZERO exact
+        16 of 50 agree within 0.05 · 31 differ by 0.05-0.5 · 3 by more than 0.5
+        worst: Fe I 4933.873 (-2.199), 5538.516 (-1.496), 6705.101 (-0.512)
+
+    ⚠️ AND IT IS NOT A MISIDENTIFIED LINE, which was the first thing to rule out. 49 of the
+    50 had exactly ONE VALD candidate in the window, and the excitation potential agrees
+    with canonical to better than 0.001 eV on every line INCLUDING the three outliers. The
+    transitions are right; the oscillator strengths came from the wrong table. (Nor is it
+    canonical_gf moving under an old run: the table as of the run date, b04cec6, gives the
+    identical mean and max.)
+
+    Elo and Eup stay with VALD because canonical_gf carries no upper level, and the network
+    needs the transition energy. Only the gf moves — to the single source RYA-353 defines.
+
+    `keep_unresolved=False`: an authoritative use gets no silent fallback. A line the
+    canonical table does not carry must stop the run, not quietly keep a VALD value while
+    its neighbours are canonical — a half-canonical pool is harder to reason about than
+    either honest alternative.
+    """
+    from pipeline.gf_resolver import resolve_df_gf
+
+    have = out["loggf_vald"].notna()
+    if not have.any():
+        return out
+    sub = out.loc[have, ["ion", "wavelength_air_A", "elo_eV", "loggf_vald"]].copy()
+    sub["element"] = "Fe"
+    res, stats = resolve_df_gf(sub, element_col="element", ion_col="ion",
+                               wl_col="wavelength_air_A", ep_col="elo_eV",
+                               gf_col="loggf_vald", keep_unresolved=False)
+    delta = res["loggf_vald"].to_numpy(float) - sub["loggf_vald"].to_numpy(float)
+    out.loc[have, "loggf_vald"] = res["loggf_vald"].to_numpy(float)
+    out.loc[have, "loggf_source"] = "canonical_gf (RYA-353 single source; RYA-1095)"
+    out.attrs["gf_canonicalisation"] = {
+        "n": int(stats["n"]), "n_resolved": int(stats["n_resolved"]),
+        "n_changed": int(stats["n_changed"]),
+        "mean_delta_dex": float(np.nanmean(delta)) if len(delta) else None,
+        "max_abs_delta_dex": float(np.nanmax(np.abs(delta))) if len(delta) else None,
+    }
     return out
 
 
