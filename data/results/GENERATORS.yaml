@@ -4485,3 +4485,213 @@ artifacts:
       ⚠️ The artifacts are NAMED, not globbed: a directory glob matches the pre-fix file
       beside its own replacement (the coverage guard renames the stem when it trims the
       band, RYA-1074) and the same holding's other bands.
+
+  # ── RYA-1095: the COMPLETED Amarsi 3D-NLTE leg (canonical gf + a real budget) ─────
+
+  - artifact: rya1095/kpmf/rya817_3dnlte_products.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kpmf/rya817_3dnlte_per_line.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kpmf/rya817_3dnlte_budgets.txt
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kpmf/rya817_run_summary.json
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/harps/rya817_3dnlte_products.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument harps --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/harps/rya817_3dnlte_per_line.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument harps --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/harps/rya817_3dnlte_budgets.txt
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument harps --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/harps/rya817_run_summary.json
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument harps --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/iag/rya817_3dnlte_products.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument iag_fts_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/iag/rya817_3dnlte_per_line.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument iag_fts_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/iag/rya817_3dnlte_budgets.txt
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument iag_fts_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/iag/rya817_run_summary.json
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument iag_fts_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kurucz2005/rya817_3dnlte_products.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kurucz2005/rya817_3dnlte_per_line.csv
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kurucz2005/rya817_3dnlte_budgets.txt
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).
+
+  - artifact: rya1095/kurucz2005/rya817_run_summary.json
+    generator: scripts/rya817_run_3dnlte_bands.py
+    invocation: python3 scripts/rya817_run_3dnlte_bands.py --band-products-dir <dir with the post-fix 1D-LTE base lines.csv> --instrument kpno_solar_atlas --out <out dir>
+    ticket: RYA-1095
+    note: >-
+      Amarsi 3D-NLTE re-run, Sirius 2026-08-28, on the CANONICAL laboratory log gf (it had
+      been VALD, differing from canonical on all 50 lines, mean -0.166 dex) and on
+      RYA-1096's post-fix 1D-LTE base. Carries stat_dex / syst_dex / stat_basis for the
+      first time -- the route previously published a raw per-line scatter in a
+      standard-error field and no systematic at all.
+      ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
+      on the committed runner (RYA-1011).

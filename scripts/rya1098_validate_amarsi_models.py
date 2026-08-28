@@ -153,7 +153,11 @@ def main() -> int:
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(out, indent=2) + "\n")
     print(f"\n  VERDICT: {out['verdict']}")
-    print(f"  -> {a.out.relative_to(ROOT)}")
+    try:
+        shown = a.out.relative_to(ROOT)
+    except ValueError:
+        shown = a.out          # an out-of-repo scratch path is legitimate for a dry look
+    print(f"  -> {shown}")
     return 0 if rep.ok else 1
 
 

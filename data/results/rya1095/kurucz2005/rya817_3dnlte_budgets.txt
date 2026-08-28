@@ -8,3 +8,5 @@ Fe · VIS · n=50
     0.0028  3D-NLTE abundance axis   [SYSTEMATIC] paired |aberr(pinned axis) - aberr(per-line axis)| over the 24 lines that carry both; RMS 0.00276 dex. A systematic: every line in the product is evaluated at the SAME pinned axis, so the choice shifts them together and adding lines cannot average it away.
     UNMEASURED  3D-NLTE network accuracy [SYSTEMATIC] vendor/1L-3NErrors/README.md: the authors state they "cannot supply errors as such" for the network's own abundance corrections. Amarsi, Liljegren & Nissen 2022 (A&A 668 A68) publish no per-line accuracy we can read off, and nothing we hold measures the MLP against the 3D non-LTE calculations it was trained on -- so this term is UNMEASURED, not zero (RYA-907).
   dominant: gf scale (cited lab) -- more lines will NOT help; fix the source
+  gf rung: gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0577 dex (1.41x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850)
+
