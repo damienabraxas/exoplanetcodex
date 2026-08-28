@@ -527,28 +527,64 @@ def _cand_from_ew_artifact(linelist, ew_csv: Path, *, lo_A: float, hi_A: float,
     }).sort_values("wave_A").reset_index(drop=True)
 
     if tier != "all":
-        graded = _graded_mask(df.wave_A.values)
+        graded = _graded_mask(df.wave_A.values, df.ep_eV.values)
         df = df[graded if tier == "graded" else ~graded].reset_index(drop=True)
         print(f"  [tier] {tier}: {len(df)} lines (RYA-946 — graded and ungraded are "
               f"SEPARATE products, never merged)")
     return df
 
 
-def _graded_mask(waves: np.ndarray) -> np.ndarray:
+#: RYA-1036. The graded mask matches a MEASURED line to canonical_gf, and the two files
+#: write the same transition to different precision — Fe I 6705.1169 sits 15.9 mA from
+#: canonical's 6705.1010 while its EP agrees to 0.0000 eV. 5 mA (`_EW_MATCH_TOL_A`, which
+#: pairs two writers of the SAME list) is too tight for that job and silently published a
+#: Ruffoni-2014 LAB line as UNGRADED.
+#:
+#: Widening is only safe BECAUSE the EP is required with it. Measured on this repo's
+#: canonical_gf: 378 Fe I clusters sit within 5 mA of each other and 340 of them disagree on
+#: gf while being separable by EP — e.g. 6065.4820 (EP 2.609, NIST grade A, -1.530) against
+#: 6065.4850 (EP 4.956, K07, -3.471), 1.94 dex apart. Widening on wavelength ALONE would
+#: swallow those; that is the coin flip RYA-1033 killed and it must not come back.
+_GRADED_MASK_TOL_A = 0.030
+_GRADED_MASK_EP_TOL_EV = 0.05
+
+
+def _graded_mask(waves: np.ndarray, eps: np.ndarray) -> np.ndarray:
     """True where the line carries a PRIMARY LABORATORY gf in `canonical_gf`.
 
     Keyed on `gf_tier == LAB`, the column RYA-945 wrote, so "graded" means the same thing
     here as everywhere else rather than being re-derived from `loggf_reference` prose.
+
+    🔴 RYA-1036: matched on lambda AND EP, through `pipeline.line_match` — the one canonical
+    matcher (RYA-1033/1037). It used to take wavelengths only and nearest-neighbour them
+    within 5 mA, which is the product-path twin of the defect RYA-871 fixed on the EW route
+    and the mirror of RYA-1034: there an ungraded line wore a GRADED tier by wavelength
+    coincidence, here a LAB line wore an UNGRADED one.
+
+    `eps` is REQUIRED, not optional. A caller without EP must thread it through rather than
+    ask for a looser key: `require_ep=True` makes the matcher refuse instead of resolving a
+    lone in-window candidate on wavelength alone, and an ambiguous line is reported by the
+    matcher and left UNGRADED rather than guessed.
     """
+    from pipeline import line_match
+
     cg = pd.read_csv(ROOT / "data" / "linelists" / "canonical_gf.csv", low_memory=False)
     lab = cg[cg.gf_tier.astype(str).str.contains("LAB", na=False)]
-    lw = np.sort(lab.wavelength_air_A.astype(float).values)
-    i = np.searchsorted(lw, waves)
-    best = np.full(waves.shape, np.inf)
-    for off in (-1, 0, 1):
-        j = np.clip(i + off, 0, len(lw) - 1)
-        best = np.minimum(best, np.abs(lw[j] - waves))
-    return best <= _EW_MATCH_TOL_A
+    res = line_match.match(
+        np.asarray(waves, dtype=float),
+        lab.wavelength_air_A.astype(float).values,
+        want_ep=np.asarray(eps, dtype=float),
+        src_ep=lab.excitation_potential_eV.astype(float).values,
+        tol_A=_GRADED_MASK_TOL_A,
+        ep_tol_eV=_GRADED_MASK_EP_TOL_EV,
+        require_ep=True,
+    )
+    if res.ambiguous:
+        print(f"  [graded-mask] {len(res.ambiguous)} line(s) had candidates the EP could "
+              f"not separate — left UNGRADED, never guessed:")
+        for wl, cands in res.ambiguous[:5]:
+            print(f"      {wl:.4f} -> {len(cands)} candidates")
+    return res.resolved
 
 
 def _selector_tag(a) -> str:
@@ -2135,7 +2171,13 @@ def main() -> None:
     # synth arms: they were not the same pool.
     _tier = getattr(a, "lines_tier", "all")
     if _tier != "all":
-        _g = _graded_mask(ok.wavelength_air_A.astype(float).values)
+        if "ep_eV" not in ok.columns or not ok.ep_eV.notna().all():
+            raise SystemExit(
+                f"--lines-tier {_tier}: {src.name} carries no usable ep_eV. The graded "
+                f"mask needs lambda AND EP (RYA-1036); re-measure so the artifact carries "
+                f"it rather than falling back to a wavelength-only key.")
+        _g = _graded_mask(ok.wavelength_air_A.astype(float).values,
+                          ok.ep_eV.astype(float).values)
         _keep = _g if _tier == "graded" else ~_g
         if not _keep.any():
             raise SystemExit(
