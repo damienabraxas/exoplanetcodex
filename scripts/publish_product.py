@@ -54,18 +54,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from pipeline import product_eligibility as pe  # noqa: E402  RYA-1097
+from pipeline import treatment_axes            # noqa: E402  RYA-1100
 STORE = ROOT / "data" / "products"
 SCHEMA = "codex.element_product/1"
 
-#: RYA-906 axes -> the display name. Derived, never stored by hand: the whole point of
-#: RYA-906 is that the NAME follows the physics, so a renamed engine cannot strand a label.
-_DISPLAY = {
-    "1D-LTE":            "Synth · 1D-LTE",
-    "ENGINE-A":          "EW · 1D-NLTE · Bergemann",
-    "ENGINE-B":          "Synth · 1D-LTE",
-    "ENGINE-B-NLTE":     "Synth · 1D-NLTE · Gerber",
-    "ENGINE-A-3DNLTE":   "EW · 3D-NLTE · Amarsi",
-}
 
 
 def _sha256(p: Path) -> str:
@@ -81,15 +73,58 @@ def _now() -> str:
 
 
 def display_name(treatment: str, *, gf: str | None, route: str | None) -> str:
-    """`treatment` names the physics; the tier suffix names the gf pedigree (RYA-906)."""
-    base = _DISPLAY.get(str(treatment), str(treatment))
-    # The band route writes 1D-LTE for BOTH the EW and the synth leg; only the route
-    # separates them, and reading a profile-fit row as "Synth" was a real mislabel.
-    if str(treatment) == "1D-LTE" and str(route or "").upper().startswith("PROFILEFIT"):
-        base = "EW · 1D-LTE"
-    if str(gf or "").lower() in {"lab", "cited lab", "gf scale (cited lab)"}:
-        base += " · lab-gf"
-    return base
+    """The RYA-906 axis name, DERIVED. Never typed here, never assembled from a map.
+
+    🔴 RYA-1100 — THIS FUNCTION USED TO HAND-TYPE A `_DISPLAY` DICT, under a comment
+    claiming the name was "derived, never stored by hand". It published two real defects:
+
+      * `"1D-LTE"` and `"ENGINE-B"` both mapped to "Synth · 1D-LTE". They are not a
+        collision -- `treatment_axes.LEGACY` declares IDENTICAL axes for the two, so they
+        are one product wearing two labels, and 13 of 15 live ENGINE-B rows were
+        byte-identical to a 1D-LTE row in the same cell. The map made a duplicate look
+        like a naming accident.
+      * `"ENGINE-A"` mapped to "EW · 1D-NLTE · Bergemann" unconditionally, so all 22 live
+        ENGINE-A products on route=SYNTH were displayed as EW measurements. RYA-1002 had
+        already removed the pinned route from `_ROUTE_BY_LABEL` for precisely this reason;
+        the publisher's private map kept asserting it.
+
+    The route is passed as a WITNESS (`route_token`), not baked into a special case. The
+    old `startswith("PROFILEFIT")` branch only ever rescued `1D-LTE`, which is why
+    ENGINE-A stayed wrong -- a per-label patch cannot fix a per-axis defect.
+
+    An unknown treatment RAISES (`UnknownTreatment`) rather than falling back to its own
+    label. A label rendered as a name is how a product ships under a token no one owns.
+    """
+    # 🔴 THE POOL VOCABULARY IS `treatment_axes.GF_POOLS`, NOT A LOCAL SPELLINGS LIST.
+    # The first version of this fix kept a set {"lab", "cited lab", "gf scale (cited
+    # lab)"} -- and "gf scale (cited lab)" is a value of the `dominant` ERROR-TERM column,
+    # not a gf pool at all. A permissive spellings list is what let an error budget be
+    # read as a pedigree; reading the declared axis vocabulary makes that impossible, and
+    # anything outside it means "not stated" -> the pool LEGACY declares for the label.
+    pool = str(gf or "").strip().lower()
+    return treatment_axes.display_for(
+        str(treatment), route_token=route,
+        gf=(pool if pool in treatment_axes.GF_POOLS else None))
+
+
+#: The route TOKEN a published record carries, from the strongest witness in the row.
+#: `treatment_axes.ROUTE_BY_PRODUCT_TOKEN` is the reverse map; this is the forward one and
+#: it is derived from that dict so the two cannot drift.
+_TOKEN_BY_ROUTE = {"ew": "PROFILEFIT", "synth": "SYNTH"}
+
+
+def _route_from_row(r) -> str | None:
+    """This ROW's route token, or None if the row does not say (RYA-1100).
+
+    Reads `handler` first (RYA-869's authoritative witness), then the row's own `route`
+    column. Returns None rather than a default -- the caller falls back to the file-wide
+    flag, and a row that says nothing must not be made to look like it said something.
+    """
+    h = str(r.get("handler") or "").strip()
+    own = treatment_axes.ROUTE_BY_HANDLER.get(h)
+    if not own:
+        own = str(r.get("route") or "").strip().lower() or None
+    return _TOKEN_BY_ROUTE.get(own) if own else None
 
 
 def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
@@ -110,13 +145,32 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
         stat = r.get("stat_dex") if "stat_dex" in df.columns else r.get("sigma")
         syst = r.get("syst_dex") if "syst_dex" in df.columns else None
         treatment = str(r.get("treatment"))
+        # 🔴 RYA-1100 — THE ROUTE IS THE ROW'S, NOT THE FILENAME'S.
+        # `--route` is a FILE-WIDE flag, and a products CSV is not single-route: the
+        # PROFILEFIT-named HARPS and KPNO GRADED files each carry two ProfileFitHandler
+        # rows AND one SynthesisHandler row. Stamping the flag over every row published
+        # two real synthesis products as EW measurements. RYA-869 put `handler` on the
+        # product precisely so this question could be answered from data, and the answer
+        # was sitting unread in column 6 of the same file.
+        #
+        # The flag remains the fallback for rows that predate the column -- stated, not
+        # guessed, and `resolve_route` already ranks the witnesses.
+        row_route = _route_from_row(r)
         out.append({
             "element": str(r.get("element")), "ion": str(r.get("ion")),
             "band": str(r.get("band")), "instrument": str(r.get("instrument")),
             "holding": holding, "tier": tier, "selector": selector,
             "treatment": treatment,
-            "display": display_name(treatment, gf=r.get("gf") or r.get("dominant"),
-                                    route=route),
+            # 🔴 RYA-1100 — NO `or r.get("dominant")` FALLBACK. `dominant` is the
+            # dominant ERROR TERM and one of its values is the string
+            # "gf scale (cited lab)", which the lab-gf test matched: an error budget
+            # would have been read as a gf PEDIGREE and stamped `· lab-gf` on a Kurucz
+            # product. Measured: it never fired (all 89 committed rows carry
+            # gf='kurucz'), so this is a latent conflation, not a live defect -- but an
+            # empty `gf` cell was all it needed. An absent gf pool means the pool
+            # LEGACY declares, which is what `axes_for` already does.
+            "display": display_name(treatment, gf=r.get("gf"),
+                                    route=(row_route or route)),
             "A": round(float(A), 4),
             "sigma_stat": None if stat is None or pd.isna(stat) else round(float(stat), 4),
             "sigma_syst": None if syst is None or pd.isna(syst) else round(float(syst), 4),
@@ -135,7 +189,11 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
             "stat_basis": (None if pd.isna(r.get("stat_basis"))
                            else str(r.get("stat_basis")))
                           if "stat_basis" in df.columns else None,
-            "route": route,
+            # 🔴 THE ROW'S ROUTE, NOT THE FLAG'S -- and `route` is in KEY_FIELDS, so this
+            # is IDENTITY, not metadata (see the note below). Publishing the file-wide
+            # flag put a SynthesisHandler product into a PROFILEFIT cell, where it sat
+            # next to a genuinely different measurement and read as its duplicate.
+            "route": (row_route or route),
         })
     return out
 

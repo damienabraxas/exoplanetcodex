@@ -162,6 +162,23 @@ _RECONCILE_KEYS = {"copied_to", "sha256", "reingested_by", "reingest_reason"}
 #: field legitimately moved with them. Named, not tolerated as a class.
 SANCTIONED = {("Fe", "I", "VIS", "sigma_stat"): (0.0217, 0.0218)}
 
+#: 🔴 RYA-1100 — `display` IS NOT A PUBLISHED VALUE, AND THIS GUARD NO LONGER PINS IT.
+#: This check's own docstring scopes it to "was a published NUMBER edited?" -- reconcile
+#: the artifacts, not the numbers. `display` is neither: it is a LABEL COMPUTED from
+#: `treatment`, `route` and `gf` by `publish_product.display_name`, all of which remain
+#: fully guarded here. Pinning a derived field to a baseline makes it impossible to fix
+#: the CODE THAT DERIVES IT, and that is not hypothetical -- it blocked the correction of
+#: 22 live ENGINE-A products that were published as "EW" measurements while running on
+#: route=SYNTH, plus three ⟨3D⟩ products rendering as raw tokens.
+#:
+#: This is NOT the guard being widened to let a change through, which is the antipattern
+#: RYA-1088 refused to commit. Ownership MOVES, and to a stricter test: RYA-1100's
+#: `test_every_published_display_is_DERIVABLE_from_its_own_axes` asserts every live
+#: `display` EQUALS what the axis registry derives for that row. A pin is satisfied by
+#: never touching the field; a derivability assertion cannot be satisfied by a hand edit
+#: at all, so the field is more constrained after this change than before it.
+DERIVED_FIELDS = {"display"}
+
 
 def _index(doc: dict) -> dict:
     out = {}
@@ -189,7 +206,7 @@ def published_value_edits(baseline: dict, current: dict) -> dict:
         if a is None:          # a product removed later is a different question
             continue
         for fk, bv in b.items():
-            if fk == "_prov" or fk not in a:
+            if fk == "_prov" or fk in DERIVED_FIELDS or fk not in a:
                 continue
             if a[fk] != bv:
                 edits[(key[0], key[1], key[2], fk)] = (bv, a[fk])
@@ -240,13 +257,45 @@ def test_control_a_newly_added_field_is_NOT_caught():
         f"adding a field tripped the value guard — it is still over-scoped: {unexpected}")
 
 
+def test_control_the_DERIVED_field_exemption_is_NARROW():
+    """RYA-1100. The exemption must cover the derived label and nothing else -- above all
+    not a measurement. A guard that skips a field must prove what it still catches."""
+    assert DERIVED_FIELDS == {"display"}
+    live = json.loads(FEED.read_text())
+    for fk in ("A", "sigma_stat", "sigma_syst", "n_lines", "treatment", "route"):
+        assert fk not in DERIVED_FIELDS, f"{fk} is a published value, not a derived label"
+    # and the exempted field is not simply unguarded: RYA-1100 asserts it is DERIVABLE.
+    from scripts.publish_product import display_name
+    for p in live["products"]:
+        assert p["display"] == display_name(p["treatment"], gf="kurucz", route=p["route"])
+
+
 def test_regenerability_gaps_are_recorded_not_silent(findings):
     """Committing the artifact is the floor; regenerability is the net (RYA-1011). Where
     the holding is Mac-local the product cannot be rebuilt on the committed runner, and
     that must appear in the guard's own output rather than being discovered later."""
     gaps = [f for f in findings if f.kind == "REGENERABILITY_GAP"]
-    assert len(gaps) >= 50
     assert all("RYA-1011" in f.detail for f in gaps)
+
+    # 🔴 RYA-1100 — WAS `assert len(gaps) >= 50`, A CONSTANT PINNED TO THE LIVE
+    # POPULATION. RYA-1100 withdrew 13 duplicate products to `superseded[]` and the count
+    # fell to 46, failing a check that nothing had actually broken: the threshold was
+    # measuring how many products exist, not whether gaps are recorded.
+    #
+    # Replaced with the invariant the generator actually implements -- ONE gap per live
+    # product produced on the Mac (`pipeline/feed_repo_reconciliation.py`, the
+    # `host == "mac"` branch). This is EXACT rather than a floor, so it is strictly
+    # stronger than the constant: it now catches a gap going missing for a single
+    # product, which `>= 50` could never see, and it cannot be satisfied by the
+    # population merely being large. NOT a lowered tolerance (RYA-161) -- a different and
+    # tighter assertion, and it would fail if RYA-1100 had dropped a gap rather than a
+    # duplicate.
+    live = json.loads(FEED.read_text())["products"]
+    on_mac = [p for p in live if str(p["provenance"].get("host", "")).lower() == "mac"]
+    assert len(gaps) == len(on_mac), (
+        f"{len(on_mac)} live products were produced on the Mac but {len(gaps)} "
+        f"regenerability gaps were recorded — a gap went silent (RYA-1011)")
+    assert gaps, "no regenerability gaps at all — the check has gone vacuous"
 
 
 def test_the_blocked_ledger_records_both_checksums():
