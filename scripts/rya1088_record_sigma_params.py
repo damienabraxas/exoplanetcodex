@@ -48,12 +48,42 @@ PRODUCT = ROOT / "data" / "products" / "solar" / "Fe.json"
 TYPE_B = ROOT / "data" / "audit" / "uncertainty" / "solar_uncertainty_rya158.json"
 TREATMENTS = ("synth-mean3D-NLTE-gerber-stagger", "synth-mean3D-LTE-gerber-stagger")
 
-REASON = ("MEASURED ~0, not omitted: solar logg and [Fe/H] are exact by definition so "
+REASON = ("MEASURED, not omitted: solar logg and [Fe/H] are exact by definition so "
           "their delta_p = 0 and no derivative was run; Teff is +/-1 K (sigma_B 0.0007); "
-          "the term is vmic-dominated (sigma_B 0.0120 at delta_p 0.05 km/s, Jofre+2014 "
-          "scale). dA/dp measured on the EW route (uncertainty_stack), transferred to this "
-          "synthesis product -- an approximation that is small here because sigma_params "
-          "is half sigma_stat, and that does NOT transfer to a real star (RYA-1071).")
+          "the term is vmic-DOMINATED. RYA-1093 re-stamps delta_xi from RYA-158's "
+          "inherited 0.05 km/s to the 0.2912 km/s our own pool actually leaves "
+          "unresolved, so sigma_B_vmic goes 0.0120 -> ~0.0699 and sigma_params is no "
+          "longer small against sigma_stat. dA/dp measured on the EW route "
+          "(uncertainty_stack), transferred to this synthesis product -- an approximation "
+          "that does NOT transfer to a real star (RYA-1071).")
+
+#: 🔴 RYA-1093 2D — THE PROVENANCE-TAGGED RE-STAMP ALLOWANCE.
+#: RYA-1080's guard exists to stop a published number DRIFTING silently while artifacts are
+#: reconciled. A recompute that carries an explicit reason and a source ticket is not drift,
+#: and the distinction has to be recorded IN THE PRODUCT or the next reader cannot tell the
+#: two apart from the file alone.
+#:
+#: ⚠️ AND THE GUARD DID NOT NEED WIDENING. RYA-1088's note proposed either (a) make the
+#: guard precise -- refuse CHANGED values, allow ADDED keys -- or (b) record sigma_params
+#: elsewhere. Measured on this branch: `published_value_edits` ALREADY iterates the BASELINE
+#: fields and skips anything absent there ("a key ADDED later is another ticket's
+#: business"), so option (a) has already happened and the stamp is unblocked. Nothing in
+#: RYA-1093 relaxes a guard -- the tests that were xfailed simply pass now, and widening the
+#: guard to make my own change fit would have been the antipattern RYA-1088 refused.
+RESTAMP_PROVENANCE = {
+    "source_ticket": "RYA-1093",
+    "reason": ("delta_xi re-derived from RYA-158's inherited 0.05 km/s to 0.2912 km/s, the "
+               "method+selection spread the 58-line Fe I pool cannot resolve. This is a "
+               "RECOMPUTE WITH A STATED REASON, not drift: the audit that produced it is "
+               "data/results/rya1093/xi_robustness_audit.json and the value is reproducible "
+               "from it."),
+    "audit_artifact": "data/results/rya1093/xi_robustness_audit.json",
+    "supersedes": {"delta_xi_kms": 0.05, "source_ticket": "RYA-158"},
+    "not_drift_because": ("a silent overwrite carries no reason and no ticket. This one "
+                          "carries both, and the previous value is recorded in "
+                          "`supersedes` so the change is legible from the product alone "
+                          "(RYA-1080's intent: reconcile the artifacts, not the numbers)."),
+}
 
 
 def main() -> int:
@@ -84,6 +114,8 @@ def main() -> int:
         p["sigma_params"] = sigma_params
         p["sigma_params_terms"] = {k: round(v, 4) for k, v in sig_b.items()}
         p["sigma_params_reason"] = REASON
+        # RYA-1093 2D — the allowance travels WITH the value it permits.
+        p["sigma_params_restamp"] = RESTAMP_PROVENANCE
         # sigma_reported = sqrt(sigma_stat^2 + sigma_params^2) -- the RYA-282 field
         # convention. sigma_syst is the SEPARATE per-band budget and is NOT folded in here.
         st = float(p.get("sigma_stat") or 0.0)
@@ -95,6 +127,16 @@ def main() -> int:
     if not touched:
         raise SystemExit(f"no ⟨3D⟩ product found in {a.product} -- nothing stamped")
     print(f"sigma_params = {sigma_params}  terms {sig_b}")
+    # ⚠️ RYA-1093 2E — THE GATE IS REPORTED, NEVER MET BY CHOOSING A SMALLER BAR.
+    _GATE = 0.05
+    print(f"  vmic term alone: {sig_b['vmic']:.4f} dex  vs the {_GATE} dex solar gate "
+          f"-> {'FAILS' if sig_b['vmic'] > _GATE else 'inside'}")
+    if sig_b["vmic"] > _GATE:
+        print(f"  ⚠️ the xi term ALONE exceeds the solar gate, before any other "
+              f"systematic. That is a finding about the GATE (the field's own solar Fe "
+              f"floor is 0.04-0.06 dex), not a number to tune: RYA-1093 forbids picking "
+              f"the 0.0588 formal error because it would pass (RYA-161). The "
+              f"adopt-or-relax call is Ryan's.")
     for t, st, rep in touched:
         print(f"  {t}: sigma_stat {st} -> sigma_reported {rep}")
     if a.dry_run:

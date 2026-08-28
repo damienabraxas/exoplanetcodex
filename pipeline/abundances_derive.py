@@ -621,6 +621,45 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
           f"({n_before - n_after} rejected as blends/misidentifications; "
           f"Fe II via RYA-305 triage)")
 
+    spec_abund, normal_abund, x_over_h, x_over_fe = invert_linemasks(
+        linemasks, stellar_params, atmosphere, code=code, quiet=False)
+    # normal_abund = A(X) in the standard log(N/N_H)+12 scale (hydrogen=12).
+    # spec_abund   = SPECTRUM's internal log(N/N_H) scale (hydrogen≈0).
+    # All downstream A(X) / [X/H] / [X/Fe] use normal_abund, not spec_abund.
+    return linemasks, normal_abund, x_over_h, x_over_fe
+
+
+def invert_linemasks(linemasks: np.ndarray,
+                     stellar_params: dict,
+                     atmosphere: np.ndarray,
+                     code: str = RADIATIVE_TRANSFER_CODE,
+                     solar_abund=None,
+                     quiet: bool = True) -> tuple:
+    """EW -> A(X) for an ALREADY-SELECTED linemask array. The one inversion call site.
+
+    🔴 RYA-311 SPLIT THIS OUT, AND THE SPLIT IS THE POINT. `_ew_to_abundance` does two
+    separable jobs: it decides WHICH lines are admissible (blends, EW window, the
+    theoretical-EW sanity test) and then inverts them. The microturbulence solve needs the
+    second job on a pool the first job has ALREADY fixed -- the same lines at every trial
+    xi and at every EW perturbation, or the sweep would measure a changing line set as if
+    it were a changing xi (the RYA-875 shape: a comparison is only a comparison if both
+    sides hold everything else still).
+
+    Writing a second `ispec.determine_abundances` call in the sweep script would have let
+    the two disagree about what "our EW inversion" means -- the RYA-845 double-definition
+    defect. There is one call, here, and `_ew_to_abundance` now routes through it.
+
+    ⚠️ RYA-1093 CARRIES THIS SPLIT ONTO main AHEAD OF RYA-311. RYA-1093 is RYA-311's child
+    and needs the same primitive: the weighted vmic slope re-inverts the SAME lines at
+    EW +/- 1 sigma_EW to get a per-line sigma_A. The function is byte-compatible with
+    RYA-311's so the two agree when that branch lands.
+
+    `stellar_params['vturb_kms']` is read on EVERY call: the atmosphere does NOT carry
+    microturbulence (ATLAS9 interpolation keys on Teff/logg/[M/H]/alpha only), so a xi
+    sweep re-uses one interpolated atmosphere and varies this argument alone.
+    """
+    if solar_abund is None:
+        solar_abund = ispec.read_solar_abundances(_ISPEC_SOLAR_ABUND_FILE)
     teff  = float(stellar_params['teff_K'])
     logg  = float(stellar_params['logg'])
     feh   = float(stellar_params['feh'])
@@ -643,8 +682,9 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
             f"$ISPEC_DIR/synthesizer/moog/ or set EW_BASELINE_CODE explicitly in "
             f"config/constants.py."
         )
-    print(f"  EW baseline engine: {ew_code}  (RYA-289 — decoupled from "
-          f"RADIATIVE_TRANSFER_CODE='{code}')")
+    if not quiet:
+        print(f"  EW baseline engine: {ew_code}  (RYA-289 — decoupled from "
+              f"RADIATIVE_TRANSFER_CODE='{code}')")
     spec_abund, normal_abund, x_over_h, x_over_fe = ispec.determine_abundances(
         atmosphere, teff, logg, feh, 0.0,
         linemasks, solar_abund,
@@ -653,10 +693,7 @@ def _ew_to_abundance(ew_df: pd.DataFrame,
         code=ew_code,
         tmp_dir=ensure_ispec_tmp_dir(),
     )
-    # normal_abund = A(X) in the standard log(N/N_H)+12 scale (hydrogen=12).
-    # spec_abund   = SPECTRUM's internal log(N/N_H) scale (hydrogen≈0).
-    # All downstream A(X) / [X/H] / [X/Fe] use normal_abund, not spec_abund.
-    return linemasks, normal_abund, x_over_h, x_over_fe
+    return spec_abund, normal_abund, x_over_h, x_over_fe
 
 
 # ── Synthesis-EW bisection (RYA-285) ─────────────────────────────────────────
@@ -1683,8 +1720,40 @@ def _compute_ep_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
 
 
 def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
-                       x_over_h: np.ndarray) -> float:
-    """Fe I abundance vs reduced EW slope → vturb diagnostic."""
+                       x_over_h: np.ndarray, sigma_A: np.ndarray | None = None) -> float:
+    """Fe I abundance vs reduced EW slope → vturb diagnostic.
+
+    🔴 RYA-1093 — THIS FIT WAS UNWEIGHTED, AND THAT IS THE PIPELINE-WIDE DEFECT.
+    `np.polyfit` with no weights gives every line the same say in the slope the vmic
+    bisection drives to zero. Per-line abundance errors are not uniform: measured on the
+    RYA-311 solar Fe I pool, `sigma_A` spans 0.0150–0.0665 dex, a factor of **4.4**. So the
+    unweighted fit lets the least-known lines set microturbulence.
+
+    MEASURED, on the same 58 lines, at the same xi:
+
+        unweighted OLS (what this was)   +0.0834      -> xi root 0.909
+        weighted OLS (1/sigma_A^2)       -0.0053
+        FITEXY (weighted + both-axis)    -0.0058      -> xi root 0.709
+
+    ⚠️ AND THE USUAL EXPLANATION IS WRONG. RYA-1093 framed this as OLS-vs-FITEXY, i.e.
+    Mucciarelli 2011's both-axis argument. Decompose it and the abscissa errors turn out to
+    be irrelevant here: at the solution the median `b^2 sigma_x^2` is 4.4e-09 against a
+    median `sigma_y^2` of 8.7e-04, a ratio of 5e-06. Driving sigma_x to zero moves the slope
+    by 5.7e-04 dex/dex; the missing WEIGHTS move it by 0.0887 — **157x more**. The fix that
+    matters is weighting; FITEXY is adopted because it is the correct weighted estimator and
+    the both-axis term costs nothing, not because that term was what was missing.
+
+    ⚠️ THIS CHANGES EVERY STAR WHOSE xi IS SOLVED, and it is meant to. The Sun is PINNED
+    (config/stars.yaml, RYA-196) so its published value does not move here. Procyon and
+    Alpha Cen are solved, and RYA-1093 requires the constraint audit
+    (`scripts/rya1093_xi_robustness_audit.py`) to be run per star before its new xi is
+    adopted — a pool that does not constrain xi produces a different artifact under a better
+    fit, not a better answer.
+
+    `sigma_A=None` falls back to the unweighted fit and SAYS SO to the caller, because a
+    silent fallback to the defective method is how this survived: the bisection must pass
+    the per-line errors or know that it did not.
+    """
     ew_mA = linemasks['ew'][fe1_mask]   # mÅ
     wav   = linemasks['wave_A'][fe1_mask]
     abund = x_over_h[fe1_mask]
@@ -1694,7 +1763,25 @@ def _compute_rew_slope(fe1_mask: np.ndarray, linemasks: np.ndarray,
     # Reduced EW = log10(EW_Å / λ_Å) = log10(EW_mÅ / λ_Å) - 3
     # The -3 offset cancels in the slope, so we use log10(EW_mÅ / λ_Å) directly.
     rew = np.log10(ew_mA[valid] / wav[valid])
-    return float(np.polyfit(rew, abund[valid], 1)[0])
+
+    if sigma_A is None:
+        return float(np.polyfit(rew, abund[valid], 1)[0])
+
+    from pipeline.fitexy import fitexy
+    sy = np.asarray(sigma_A, dtype=float)[fe1_mask][valid]
+    err_mA = np.asarray(linemasks['ew_err'], dtype=float)[fe1_mask][valid]
+    # sigma_REW = sigma_EW / (EW ln10) — the abscissa error the same measurement carries.
+    # Contributes ~nothing here (see above) and is included because it is CORRECT, not
+    # because it is decisive.
+    sx = err_mA / (ew_mA[valid] * np.log(10.0))
+    good = np.isfinite(sy) & (sy > 0) & np.isfinite(sx) & (sx > 0)
+    if good.sum() < 5:
+        # Not a silent degrade: too few lines carry a usable error to weight by, and a
+        # weighted fit over 4 points is not better than an unweighted one over 58.
+        print(f"  WARNING vmic slope: only {int(good.sum())} line(s) carry a usable "
+              f"per-line sigma_A — falling back to the UNWEIGHTED fit (RYA-1093)")
+        return float(np.polyfit(rew, abund[valid], 1)[0])
+    return float(fitexy(rew[good], abund[valid][good], sx[good], sy[good]).slope)
 
 
 def _fe1_ceiling_pool_mask(notes, ew_mA, ceiling_mA: float) -> np.ndarray:
@@ -1758,6 +1845,36 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
         linemasks, spec_abund, x_over_h, x_over_fe = _ew_to_abundance(
             ew_df, params, atm, model_grid, star_id=star_id
         )
+        # 🔴 RYA-1093 — THE PER-LINE ABUNDANCE ERROR THE WEIGHTED SLOPE NEEDS.
+        # Mucciarelli 2011's prescription and RYA-311's implementation: re-invert the SAME
+        # lines at EW +/- 1 sigma_EW and take the half-range. It costs two extra inversions
+        # per iteration, which is the honest price of a weighted fit — the alternative is
+        # the unweighted slope that let 0.0665-dex lines and 0.0150-dex lines vote equally.
+        #
+        # ⚠️ Wrapped, because a failure here must degrade to the OLD behaviour LOUDLY rather
+        # than take the whole convergence down: the slope is a diagnostic the bisection
+        # drives, and a star that cannot produce per-line errors should still solve, on the
+        # method it used before, with that fact printed (RYA-833 — an empty result must not
+        # look like a clean one).
+        _sigma_A = None
+        try:
+            _ew0 = np.asarray(linemasks['ew'], dtype=float)
+            _err = np.asarray(linemasks['ew_err'], dtype=float)
+            _lm_p, _lm_m = linemasks.copy(), linemasks.copy()
+            _lm_p['ew'], _lm_m['ew'] = _ew0 + _err, np.maximum(_ew0 - _err, 1e-6)
+            # ⚠️ `invert_linemasks`, NOT `_ew_to_abundance`: the admission filters must run
+            # ONCE and the perturbation must re-invert the SAME lines. Re-running selection
+            # on a perturbed EW would let the line SET move with the perturbation, and the
+            # half-range would then measure a changing pool as if it were a measurement
+            # error (RYA-311's reason for the split, RYA-875's shape).
+            _, _a_p, _, _ = invert_linemasks(_lm_p, params, atm, code=RADIATIVE_TRANSFER_CODE)
+            _, _a_m, _, _ = invert_linemasks(_lm_m, params, atm, code=RADIATIVE_TRANSFER_CODE)
+            _sigma_A = np.abs(np.asarray(_a_p, float) - np.asarray(_a_m, float)) / 2.0
+        except Exception as _exc:
+            print(f"  WARNING Iter {iteration:02d}: per-line sigma_A unavailable "
+                  f"({type(_exc).__name__}: {_exc}) — the vmic slope falls back to the "
+                  f"UNWEIGHTED fit this iteration (RYA-1093)")
+            _sigma_A = None
         last_linemasks, last_spec_abund, last_xh, last_xfe = (
             linemasks, spec_abund, x_over_h, x_over_fe
         )
@@ -1811,7 +1928,8 @@ def _iterative_parameter_convergence(ew_df: pd.DataFrame,
               f"Fe I lines (COG cut ≤150 mÅ → abundance clip 2σ)")
 
         ep_sl  = _compute_ep_slope(fe1_mask, linemasks, x_over_h)
-        rew_sl = _compute_rew_slope(fe1_slope_mask, linemasks, x_over_h)
+        rew_sl = _compute_rew_slope(fe1_slope_mask, linemasks, x_over_h,
+                                    sigma_A=_sigma_A)
 
         fe1_xh = float(np.nanmedian(x_over_h[fe1_mask & np.isfinite(x_over_h)]))
         fe2_xh = (float(np.nanmedian(x_over_h[fe2_mask & np.isfinite(x_over_h)]))
