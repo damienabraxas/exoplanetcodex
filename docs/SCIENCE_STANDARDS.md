@@ -1230,3 +1230,54 @@ manufactured conflict.
 
 **Flagged for RYA-179** — the intake and conditioning-axes sections. Accumulates there for
 the sync pass rather than piecemeal.
+
+## A wavelength is not a transition — λ + EP is the mandatory dual key — RYA-1037
+
+**A line match keyed on wavelength alone is wrong, everywhere, always.** Two levels of one
+species sit inside any realistic tolerance window routinely, so λ alone selects a line by
+luck and by row order.
+
+This is not a hypothetical. It is the **most-repeated defect in this pipeline**, fixed one
+call site at a time and returning every time: RYA-871 (EW artifact carried no EP), RYA-1033
+(join on a rounded wavelength — the 63-vs-67 graded-pool delta), RYA-1034 (grader promoted
+to lab tier on λ alone), RYA-818 (Cr NLTE), RYA-317 (Fe NLTE grid), RYA-703, RYA-704. Most
+recently it was **live in production**: `crosscheck_nist()` matched element + ion + λ within
+0.010 Å, first hit in file order, and stamped a NIST grade onto **Fe I 6065.490** from a row
+whose EP is 2.608 eV against our line's 4.956 (RYA-853).
+
+### The rule
+
+1. **Both axes, always.** λ **and** excitation potential, each compared by tolerance.
+2. **Never key on a rounded float.** `round()` and `np.round()` disagree on `…x5` — Python
+   gives `round(6136.615, 2) = 6136.61`, numpy gives `6136.62` — so a rounded wavelength is
+   not a stable key even against itself (RYA-1033).
+3. **Never argmin.** "Nearest wins" is first-hit-in-file-order wearing another hat. Two rows
+   the data cannot separate must not be separated by proximity.
+4. **A missing EP refuses, loudly.** It never falls back to λ-only. 🔴 A matcher fed NaN that
+   quietly returns "no match" reads downstream as *"no graded source"* — a **silent false
+   absence**, which is worse than a crash because it looks like a finding. When EP is not
+   available upstream, the fix is to **emit it** (RYA-871), never to relax the key.
+
+### The single enforced path
+
+`pipeline/line_match.py` — **built by RYA-1033**, not by this ticket. `match()`,
+`require_resolved()`, `match_frames()`. It is the only place these comparisons may be
+written. RYA-1037 adds one thing to it: `match(..., require_ep=True)`, which refuses a
+**lone** candidate carrying no EP. `match()` already recorded >1 candidate as AMBIGUOUS, but
+a single in-window row resolved on λ alone — and one candidate is not the same as the right
+transition, which is precisely how Fe I 6065.490 was mis-graded. The strict mode is opt-in so
+no existing caller's match set moves. `scripts/audit_line_keys_rya1037.py --check` runs in CI and
+fails the build on a λ-only merge, a rounded-λ key, an argmin over a wavelength distance, or
+a λ-only tolerance compare.
+
+Known sites that cannot be rerouted yet are listed in `config/line_key_waivers.yaml`, each
+with **a ticket, a reason and a count** — a waiver without an owner is a suppression, and
+suppression is how this defect survived seven tickets. The count means a waived file cannot
+absorb new defects.
+
+⚠️ **Rerouting is sequenced behind the EP plumbing, and that is a measured constraint, not a
+preference.** Every one of the 14 production-path sites fails for the same reason: the left
+side has no EP. `data/measured/sol_ew_results_v1.csv` has no EP column at all, and
+`nlte_correction()` is called with `(ion, wave_A)` only against a grid keyed on
+`(ion, round(λ, 3))`. Until RYA-1036 threads EP through the product path and the NLTE grid
+gains a level key, the guard is what holds the line.
