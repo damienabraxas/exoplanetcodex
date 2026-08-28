@@ -639,6 +639,16 @@ CRIRES_Y_CSV = Path(str(codex_path('repo.crires_plus_solar_y_rya794')))
 #: offset it found. Used as the load-time frame control (property 3). These are the
 #: ticket's own published numbers, not new ones.
 _CRIRES_Y_FRAME_CONTROL = (10535.709, 10577.139, 10611.686, 10616.721, 10674.070)
+
+#: RYA-1094 — the H arm's frame controls. The Y set above cannot serve here: its lines
+#: do not exist in 15007-17494 A, so the guard fired an ABSENCE ("only 0 points near it")
+#: on a perfectly good product. Six Ruffoni2013 primary-lab Fe I lines, MEASURED against
+#: this product at |offset| <= 0.040 A (15051.749 +0.021, 15207.526 -0.006, 15294.560
+#: +0.040, 15591.490 +0.002, 15631.947 +0.009, 16165.029 -0.009). Air-vacuum separation at
+#: 16250 A is 4.44 A against the same 0.10 A tolerance, so the test still discriminates by
+#: ~44x — a stronger margin than the Y arm's ~29x, not a weaker one.
+_CRIRES_H_FRAME_CONTROL = (15051.749, 15207.526, 15294.560,
+                           15591.490, 15631.947, 16165.029)
 _CRIRES_Y_FRAME_TOL_A = 0.10        # RYA-794 measured max |offset| 0.039 A
 
 
@@ -671,12 +681,12 @@ def crires_y_spectrum(csv: Path | None = None) -> tuple[np.ndarray, np.ndarray]:
     f = np.asarray(d["flux_normalized"], dtype=float)
     o = np.argsort(w)
     w, f = w[o], f[o]
-    _assert_air_rest_frame(w, f)
+    _assert_air_rest_frame(w, f, path.name)
     _crires_cache[key] = (w, f)
     return _crires_cache[key]
 
 
-def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray) -> None:
+def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray, name: str | None = None) -> None:
     """Refuse the product if its wavelength solution is not the AIR, rest-frame one.
 
     An ABSENCE-SHAPED failure otherwise (RYA-833): a vacuum or topocentric version of
@@ -686,19 +696,32 @@ def _assert_air_rest_frame(w: np.ndarray, f: np.ndarray) -> None:
     ~2.9 A separates air from vacuum at 10500 A, and the tolerance here is 0.10 A, so the
     test discriminates by a factor of ~29.
     """
+    # RYA-1094: choose the control set that this product actually spans. Picking by span
+    # rather than by holding id keeps the guard working for any future arm, and a product
+    # matching NO set is refused below rather than passing unchecked.
+    _name = name or CRIRES_Y_CSV.name
+    _sets = {"Y": _CRIRES_Y_FRAME_CONTROL, "H": _CRIRES_H_FRAME_CONTROL}
+    _ctl = next((v for v in _sets.values()
+                 if float(w.min()) <= min(v) and max(v) <= float(w.max())), None)
+    if _ctl is None:
+        raise LookupError(
+            f"{_name}: spans {w.min():.1f}-{w.max():.1f} A, which contains no declared "
+            f"CRIRES frame-control set (Y or H). A product whose wavelength solution "
+            f"cannot be CHECKED must not be measured — declare a control set for this "
+            f"arm first (RYA-1094).")
     off = []
-    for c in _CRIRES_Y_FRAME_CONTROL:
+    for c in _ctl:
         m = np.abs(w - c) <= 0.25
         if m.sum() < 5:
             raise LookupError(
-                f"{CRIRES_Y_CSV.name}: the frame control line {c:.3f} A has only "
+                f"{_name}: the frame control line {c:.3f} A has only "
                 f"{int(m.sum())} points near it. The product does not span what RYA-794 "
-                f"says it spans ({w.min():.1f}-{w.max():.1f} A) -- refusing to measure.")
+                f"span ({w.min():.1f}-{w.max():.1f} A) -- refusing to measure.")
         off.append(float(w[m][int(np.argmin(f[m]))] - c))
     worst = max(abs(o) for o in off)
     if worst > _CRIRES_Y_FRAME_TOL_A:
         raise LookupError(
-            f"{CRIRES_Y_CSV.name}: RYA-794's Fe I features sit {worst:.3f} A from their "
+            f"{_name}: the frame-control features sit {worst:.3f} A from their "
             f"AIR wavelengths (offsets {['%+.3f' % o for o in off]}), against a "
             f"{_CRIRES_Y_FRAME_TOL_A:.2f} A tolerance. RYA-794 measured at most 0.039 A. "
             f"CRIRES+ delivers VACUUM/TOPOCENT natively, so this is what a product that "
@@ -906,6 +929,16 @@ _INSTRUMENT_HOLDINGS: dict[str, tuple[HoldingSpec, ...]] = {
                          "narrow product carries 1, which is the difference between a "
                          "refused pool and a measurable one. Listed AFTER the RYA-794 "
                          "holding so no existing measurement silently switches product."),
+        HoldingSpec("solar_crires_plus_h_rya1094", reader="crires_y",
+                    pre_normalised=True, path_key="repo.crires_plus_solar_h_rya1094",
+                    span_A=(15007.11, 17493.69), caveat=GDSAT_CAVEAT,
+                    note="RYA-1094: the Elgueta H arm, same source directory and same "
+                         "normaliser as the Y products. Carries 25 primary-lab Fe I "
+                         "lines against Y's 5. Telluric MEASURED at 0.48% of points "
+                         "below 0.5 (Kitt Peak's O2 A-band is 51.3%), but this is "
+                         "Elgueta's most contaminated arm and they SKIP regions inside "
+                         "it, so per-region judgement belongs downstream, not in this "
+                         "span (RYA-787)."),
         HoldingSpec("solar_vesta_crires_plus_idp", reader="crires_idp",
                     pre_normalised=False,
                     note="Raw Vesta IDPs: adu, un-normalised, TOPOCENT, telluric "
