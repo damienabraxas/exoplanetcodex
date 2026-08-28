@@ -4216,6 +4216,24 @@ artifacts:
       4584 A, Melendez & Barbuy 2009 is solar-fitted and firewalled, NIST covers them at
       grade E/D and is the scale scope 3 measured as low. Recorded as a checked absence
       (RYA-833), owned by RYA-953.
+  # ── RYA-1095: the Amarsi leg's missing systematic budget ─────────────────────────
+
+  - artifact: rya1095/rya1095_amarsi_error_budget.json
+    generator: scripts/rya1095_amarsi_error_budget.py
+    invocation: python3 scripts/rya1095_amarsi_error_budget.py --run-dir <dir with rya817_3dnlte_*>
+    ticket: RYA-1095
+    note: >-
+      The systematic budget the EW-3D route never assembled, built through the SAME
+      machinery the band route uses (gf_rung on the lines the product actually used,
+      harness_residual for its handler, error_budget.build) plus a MEASURED 3D-NLTE
+      abundance-axis term. The network's own accuracy is an UNMEASURED term -- the vendored
+      README says the authors "cannot supply errors as such" -- so sigma_syst is a
+      documented FLOOR, not a total. It also records the finding that surfaced here: the
+      pool prices at gf rung 1 because the log gf the run USED differs from canonical on
+      all 50 lines.
+      ⚠️ Run directories are Sirius-local (~/out_g3d_*), so the artifact is committed and
+      the inputs are named rather than reproducible on the committed runner (RYA-1011).
+
   # ── RYA-1098: is the cross-version sklearn load producing correct corrections? ────
 
   - artifact: rya1098/rya1098_amarsi_model_integrity.json
