@@ -1142,7 +1142,8 @@ def synthesis_route(a, pol) -> None:
     # defects); here there is a sharper one -- the two legs are DIFFERENCED against each
     # other, so any drift between them lands directly in the reported NLTE effect rather
     # than in one product's value. A copy could not be wrong in a way that cancels.
-    def _fit_lines(treatment: str, **fit_kw) -> list[LineMeasurement]:
+    def _fit_lines(treatment: str, *, nlte_source: str | None = None,
+                   **fit_kw) -> list[LineMeasurement]:
         lines: list[LineMeasurement] = []
         for r in cand.itertuples():
             w = float(r.wave_A)
@@ -1164,7 +1165,28 @@ def synthesis_route(a, pol) -> None:
                 observed_conditioning=conditioning_id(a),
                 # RYA-880 — an LTE row states that it is LTE. A blank cannot distinguish
                 # "no departure applied" from "nobody recorded one" (RYA-833).
-                nlte_delta_dex=0.0, nlte_source=LTE_NLTE_SOURCE,
+                # 🔴 RYA-1106 — THE NLTE MEMBER'S OWN DEPARTURE COLUMNS SAID IT WAS LTE.
+                # This pair was hardcoded, so the ⟨3D⟩-NLTE product — whose departures
+                # ARE applied, inside the radiative transfer, and whose abundances differ
+                # from its LTE comparand on 66 of 67 lines — shipped every row reading
+                # `nlte_delta_dex = 0.0` and "none — LTE, no departure applied". No value
+                # was wrong; the column a later reader consults to ask "were departures
+                # applied?" answered no on the product that applied them (RYA-1104).
+                #
+                # ⚠️ AND THE FIX IS **NOT** TO PUT THE EFFECT IN THE NUMBER. `nlte_delta_dex`
+                # means an ADDITIVE PER-LINE CORRECTION (RYA-880). Departures that enter
+                # the radiative transfer produce no such quantity: recovering one would
+                # mean differencing this product against its comparand, which RYA-712
+                # forbids conceptually (they are separate products) and RYA-880 forbids in
+                # this column. `ENGINE-B-NLTE` already states exactly that in words, and
+                # this is the same statement reaching the ⟨3D⟩ pair, which had been
+                # bypassing it by going through the shared synthesis loop.
+                #
+                # So: None — "no additive delta EXISTS here" — with the source saying why
+                # and naming the deck. An LTE leg keeps 0.0 and the LTE string, which for
+                # the ⟨3D⟩-LTE comparand is simply true.
+                nlte_delta_dex=(0.0 if nlte_source is None else None),
+                nlte_source=(LTE_NLTE_SOURCE if nlte_source is None else nlte_source),
                 # RYA-871 — `select_lines` already returns the EP of the row it picked, and
                 # this route picks AT the list's own wavelength, so the identity is exact
                 # rather than recovered. Carried anyway, for two reasons: the near-UV pool
@@ -1384,7 +1406,12 @@ def synthesis_route(a, pol) -> None:
             eb_prov += _cov_txt
             print(f"[Engine-B]{_cov_txt}")
         print(f"[Engine-B] fitting {len(cand)} lines as {eb_treatment} ...")
-        eb_lines = _fit_lines(eb_treatment, **_fit_kw)
+        # RYA-1106 — an NLTE leg hands its provenance DOWN to the per-line rows, so the
+        # row states the departure it carries. `_nlte` is the same flag that decides
+        # whether `nlte_deck` reaches the fitter, so the column and the physics are driven
+        # by ONE condition and cannot disagree.
+        eb_lines = _fit_lines(eb_treatment,
+                              nlte_source=(eb_prov if _nlte else None), **_fit_kw)
 
     # 🔴 THE gf RUNG IS DECIDED FROM THE LINES, NOT HARDCODED — RYA-855.
     # This route passed `gf_graded=False` to `build_budget` unconditionally, so the

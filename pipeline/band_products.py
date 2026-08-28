@@ -338,6 +338,23 @@ class Product:
     #: for_product` refuses an empty one rather than choosing a default.
     handler: str = ""
 
+    #: RYA-1106 — WHICH gf SCALE THIS PRODUCT ACTUALLY RAN ON ("kurucz" | "lab"), declared
+    #: by the producing route for exactly the reason `handler` is.
+    #:
+    #: 🔴 IT WAS A CONSTANT IN A LABEL TABLE, AND IT WAS WRONG. `treatment_axes.LEGACY`
+    #: pins `gf="kurucz"` for `ENGINE-A-3DNLTE`, so the shipped Amarsi leg published
+    #: `gf=kurucz` while its OWN error budget measured "gf rung 3 (cited lab): every one
+    #: of the 50 Fe I lines is GF-LAB" — one product, two contradictory claims about its
+    #: own oscillator strengths, and the label is the one the display reads (RYA-1104).
+    #:
+    #: The gf pool is a property of the POOL, not of the treatment name: the same
+    #: treatment runs on a graded lab-gf pool and on an ungraded Kurucz-floored one, so no
+    #: function from the label exists — the same argument RYA-906 made for `route` and
+    #: RYA-1002 made for `ENGINE-A`. Empty means "this route did not say", and `axes_for`
+    #: then falls back to the legacy constant exactly as before, so no existing product
+    #: moves.
+    gf_pool: str = ""
+
     def to_frame(self) -> pd.DataFrame:
         return pd.DataFrame([asdict(l) for l in self.lines])
 
@@ -472,7 +489,7 @@ def pct_label(kw) -> str:
 
 def build_product(element: str, ion: str, instrument: str, band: str, treatment: str,
                   lines: list[LineMeasurement], *, handler: str,
-                  provenance: str = "") -> Product:
+                  provenance: str = "", gf_pool: str = "") -> Product:
     """Aggregate ONE treatment into ONE product. Never touches another treatment.
 
     `handler` names the measurement handler that produced these lines and is REQUIRED
@@ -504,13 +521,19 @@ def build_product(element: str, ion: str, instrument: str, band: str, treatment:
     value = float(np.median(vals)) if len(vals) else None
     # Sigma is the scatter of the lines that actually entered, not a fitted error bar.
     sigma = float(np.std(vals, ddof=1)) if len(vals) > 1 else None
+    if gf_pool and gf_pool not in GF_POOLS:
+        raise ValueError(
+            f"unknown gf_pool {gf_pool!r}; expected one of {GF_POOLS} or '' for "
+            f"'this route did not say' (RYA-1106). A gf scale that is neither declared "
+            f"nor recognised must not be published as either one.")
     return Product(element=element, ion=ion, instrument=instrument, band=band,
                    treatment=treatment, value=value, sigma=sigma,
                    n_lines=len(used), n_excluded=len(excluded),
-                   lines=lines, provenance=provenance, handler=handler)
+                   lines=lines, provenance=provenance, handler=handler,
+                   gf_pool=gf_pool)
 
 
-from pipeline.treatment_axes import axes_for  # noqa: E402  (RYA-906)
+from pipeline.treatment_axes import axes_for, GF_POOLS  # noqa: E402  (RYA-906/RYA-1106)
 
 
 def products_frame(products: list[Product]) -> pd.DataFrame:
@@ -529,5 +552,9 @@ def products_frame(products: list[Product]) -> pd.DataFrame:
              # both an EW inversion and a synthesis flux fit, so on that label the legacy
              # string is not merely lossy, it is false. `route_basis` records which
              # witness settled it, so an inference and a reading never look alike.
-             **axes_for(p.treatment, handler=p.handler or None).as_columns())
+             # RYA-1106 — `gf` travels the same way `route` does: from what the producing
+             # route DECLARED, never from the label. A route that did not declare one
+             # passes None and the legacy constant still answers, so this is additive.
+             **axes_for(p.treatment, handler=p.handler or None,
+                        gf=(p.gf_pool or None)).as_columns())
         for p in products])

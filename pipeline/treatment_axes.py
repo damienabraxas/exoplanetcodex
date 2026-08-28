@@ -144,6 +144,11 @@ LEGACY = {
     "1D-LTE":          dict(scale="1D-LTE",  model="none",      gf="kurucz"),
     "1D-LTE-LABGF":    dict(scale="1D-LTE",  model="none",      gf="lab"),
     "ENGINE-A":        dict(scale="1D-NLTE", model="bergemann", gf="kurucz"),
+    # ⚠️ RYA-1106 — the `gf` here is a FALLBACK for rows that do not declare one, not a
+    # claim about the leg. Every Amarsi product we hold runs on a laboratory-gf pool and
+    # its own budget says so (rung 3, "every one of the 50 Fe I lines is GF-LAB"); the
+    # live emitters now pass `gf_pool` explicitly (`Product.gf_pool`, RYA-1106) and that
+    # is what publishes. The constant stays only so a pre-RYA-1106 row still resolves.
     "ENGINE-A-3DNLTE": dict(scale="3D-NLTE", model="amarsi",    gf="kurucz"),
     "ENGINE-B":        dict(scale="1D-LTE",  model="none",      gf="kurucz"),
     "ENGINE-B-NLTE":   dict(scale="1D-NLTE", model="gerber",    gf="kurucz"),
@@ -158,7 +163,21 @@ _ROUTE_BY_LABEL = {
     # which route ran, so the route must come from the product's HANDLER (RYA-869/906).
     # Leaving "ew" here would have made every synthesis-route NLTE product render as an
     # EW measurement — the exact mislabel this module exists to prevent.
-    "ENGINE-A": None, "ENGINE-A-3DNLTE": "ew",
+    # 🔴 RYA-1106 — `ENGINE-A-3DNLTE` NO LONGER PINS A ROUTE EITHER, for the reason
+    # RYA-1002 gave two lines above and one label later. It pinned "ew", and it was
+    # wrong on every product we hold: RYA-1104 verified, value for value on 50 of 50
+    # lines and on all four holdings, that the shipped Amarsi leg's 1D-LTE base IS the
+    # SYNTH_GRADED pool. There has never been an EW-route Amarsi product.
+    #
+    # The pin was not even the strongest witness — `scripts/rya817_run_3dnlte_bands.py`
+    # hardcoded `handler="ProfileFitHandler"`, which outranks it — but it was the second
+    # of two independent assertions of the same falsehood, and a reader who fixed only
+    # the hardcode would have found the display unchanged.
+    #
+    # Like `ENGINE-A`, this label appears on both routes in principle: the leg CORRECTS
+    # whatever 1D-LTE pool it is pointed at, and RYA-1031 widened that to PROFILEFIT or
+    # SYNTH. So the label cannot name a route, and `None` is the honest answer.
+    "ENGINE-A": None, "ENGINE-A-3DNLTE": None,
     "ENGINE-B": "synth", "ENGINE-B-NLTE": "synth",
     "1D-LTE": None, "1D-LTE-LABGF": None,
 }
