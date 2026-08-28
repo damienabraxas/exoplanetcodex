@@ -45,7 +45,10 @@ THE CRITERIA
 5. `ANOMALOUS_SCATTER` — the line-to-line scatter is grossly inconsistent with the other
    pools measuring the SAME species, band and holding. See the section below; the
    statistic is chosen so that it is not merely "this product has few lines".
-6. `SUPERSEDED` — the record itself declares a replacement. Derived from the record, never
+6. `STAT_BASIS_MISMATCH` — `sigma_stat` is a different STATISTIC from the one its peers
+   publish, and the feed carries no field saying so. The bar renders beside theirs and is
+   read as comparable when it is not.
+7. `SUPERSEDED` — the record itself declares a replacement. Derived from the record, never
    inferred from an engine's name (see the Amarsi note).
 
 🔴 THE AMARSI CORRECTION (Ryan, 2026-08-28) — AND WHY IT IS A DESIGN CONSTRAINT.
@@ -66,34 +69,55 @@ Had the gate been allowed to encode "Amarsi is superseded", the correction above
 have required editing the gate rather than editing a record — and the wrong verdict would
 have been baked into the enforcement mechanism, which is the worst place for it.
 
-WHY `ANOMALOUS_SCATTER` IS MEASURED ON RAW SCATTER, NOT ON `sigma_stat`
-----------------------------------------------------------------------
-`sigma_stat` is a STANDARD ERROR, so it carries a 1/sqrt(n) that has nothing to do with
-data quality: a clean 3-line pool has a large `sigma_stat` for a reason that is not a
-defect. Multiplying it back gives the line-to-line scatter, `sigma_stat * sqrt(n)`, which
-is the quantity the ticket actually describes and the one that is comparable across pools
-of different size.
+🔴 `sigma_stat` DOES NOT MEAN THE SAME THING IN EVERY PRODUCT, AND THAT IS ITS OWN DEFECT
+------------------------------------------------------------------------------------------
+The feed's `sigma_stat` is written by two different routes that compute two different
+statistics, and nothing in the record says which:
 
-MEASURED on the committed feed, under this module's own rule (leave-one-out median,
->= 3 peers, 37 comparable products, 4 of them the incomplete Amarsi pools):
+    route              what `sigma_stat` IS                       written at
+    SYNTH, PROFILEFIT  a STANDARD ERROR (scatter / sqrt(n), then  error_budget.py:609
+                       RMS'd with the other averaging-down terms)
+    EW-3D              the RAW per-line STANDARD DEVIATION        band_products.py:506
+                                                                  (np.std(vals, ddof=1))
 
-    statistic      null max     flagged min     separation
-    sigma_stat       3.137          4.641          1.48x
-    raw scatter      1.889          5.085          2.69x
+MEASURED, not inferred. Ten band products reproduce their published `sigma_stat` exactly
+as `std/sqrt(n)` from their own per-line CSVs (e.g. Fe I VIS GRADED molecfit: std 0.1780,
+se 0.0218, published 0.0218). The committed RYA-817 EW-3D artifact publishes sigma 0.3418,
+which is exactly the per-line std of its 114 lines -- its standard error is 0.0320.
 
-⚠️ SO THE HONEST STATEMENT IS NOT "sigma_stat CANNOT SEPARATE THEM" -- it can, on this
-feed. It is that its window is 1.8x narrower, and that `ANOMALY_RATIO = 3.0` sits INSIDE
-the raw-scatter window while falling BELOW the sigma_stat null maximum of 3.137 -- i.e.
-the very same constant would have flagged a legitimate product had the statistic been the
-standard error. (An earlier draft of this docstring claimed the two populations overlap on
-`sigma_stat`. They do not, and the test that says so is what caught it.)
+⚠️ THIS IS WHY THE 4 AMARSI PRODUCTS *LOOKED* LIKE 7x OUTLIERS AND ARE NOT. Treating their
+`sigma_stat` as a standard error and multiplying by sqrt(n) inflated a raw scatter of 0.18
+into a fictitious 1.3 dex. Their real line-to-line scatter is 0.1818-0.1861, which sits
+right on top of the 1D pools on the same holdings (0.16-0.21). The ticket's framing, and
+this module's first draft, both made that inference; the data does not support it.
 
-The threshold is not fitted to the gap. `test_product_eligibility_rya1092` asserts the
-measured null, asserts that null and flagged do not overlap, asserts `ANOMALY_RATIO` lies
-strictly between them, and asserts the window stays wider than 2x -- so no value in the
-admissible range changes the verdict, and if new data narrows the window the test fails
-and forces a re-derivation instead of letting a stale constant decide (RYA-161, and
-[[a tolerance needs a measured null]]).
+The consequence for eligibility is not that they become fine. It is a DIFFERENT and better
+reason: the feed renders `A +/- sigma_stat` uniformly, so a product whose `sigma_stat` is a
+raw scatter sits beside products whose `sigma_stat` is a standard error and is read as
+having an eight-times-worse bar when it does not. That is `STAT_BASIS_MISMATCH` -- an
+uninterpretable published uncertainty, and exactly the RYA-1026 shape of wrong information
+that does not announce itself. The band artifacts already carry a `stat_basis` column
+(`error_budget.stat_basis`) saying where the number came from; the feed drops it. Carrying
+it is the real fix and it is not this ticket's.
+
+WHY `ANOMALOUS_SCATTER` IS STILL MEASURED ON RAW SCATTER
+-------------------------------------------------------
+`sigma_stat` carries a 1/sqrt(n) that has nothing to do with data quality: a clean 3-line
+pool has a large standard error for a reason that is not a defect. `raw_scatter` recovers
+the line-to-line scatter -- the quantity the ticket describes and the only one comparable
+across pools of different size -- by dispatching on the route's declared basis rather than
+assuming one. An UNKNOWN route abstains: a product whose statistic cannot be identified is
+reported, never compared (RYA-907).
+
+⚠️ AFTER THE BASIS CORRECTION, NO LIVE PRODUCT IS ANOMALOUS. The criterion is implemented
+because the ticket specifies it and because it will bite the next time a genuinely broken
+pool appears -- but it currently has NO measured instance, and saying so is the honest
+report. `ANOMALY_RATIO = 3.0` is therefore justified against a null ALONE (the measured
+maximum ratio across the 27 comparable products is 1.84, so the constant sits 1.6x above
+the worst observed good pool) and NOT against a separation from bad ones, because there are no
+bad ones to separate from. `test_product_eligibility_rya1092` asserts that null and fails
+if any product ever approaches the threshold, which forces a re-derivation rather than
+letting a stale constant decide (RYA-161, [[a tolerance needs a measured null]]).
 """
 from __future__ import annotations
 
@@ -145,6 +169,10 @@ ANOMALY_RATIO = 3.0
 #: abstains rather than letting one product declare the other anomalous.
 ANOMALY_MIN_PEERS = 3
 
+#: The basis the feed as a whole publishes, and therefore the one a product must share to
+#: be readable beside the others. 59 of 63 live products are on the band route.
+_MAJORITY_STAT_BASIS = "standard_error"
+
 
 class EligibilityError(RuntimeError):
     """A product could not be evaluated -- refuse, never pass by default."""
@@ -173,24 +201,58 @@ def is_real_species(product: dict) -> bool:
     return (el, ion) in REAL_SPECIES or (el, None) in REAL_SPECIES
 
 
-def raw_scatter(product: dict) -> float | None:
-    """Line-to-line scatter, recovered from the standard error: sigma_stat * sqrt(n).
+#: What `sigma_stat` IS, per route. 🔴 NOT A CONVENTION -- A MEASURED FACT about two code
+#: paths that disagree, each cited to the line that writes it. Anything not listed here
+#: ABSTAINS rather than being assumed into one basis or the other.
+STAT_BASIS_BY_ROUTE: dict[str, str] = {
+    "SYNTH":      "standard_error",   # error_budget.py:609, scatter / sqrt(n)
+    "PROFILEFIT": "standard_error",   # same budget assembly
+    "EW-3D":      "line_scatter",     # band_products.py:506, np.std(vals, ddof=1)
+}
 
-    This is the quantity that is comparable across pools of different size. `sigma_stat`
-    is not -- see the module docstring.
+
+def stat_basis_of(product: dict) -> str | None:
+    """`standard_error` / `line_scatter` / None if the route is unrecognised."""
+    return STAT_BASIS_BY_ROUTE.get(str(product.get("route") or ""))
+
+
+def raw_scatter(product: dict) -> float | None:
+    """Line-to-line scatter, in dex -- the size-independent quantity.
+
+    🔴 THE CONVERSION DEPENDS ON THE ROUTE AND ASSUMING OTHERWISE IS THE BUG THIS FUNCTION
+    WAS BORN WITH. A first version multiplied every product's `sigma_stat` by sqrt(n),
+    which is right for the band route and wrong for EW-3D, where `sigma_stat` is already
+    the scatter -- inflating 0.18 into a fictitious 1.3 dex and making four sound pools
+    look like 7x outliers. Returns None when the basis is unknown: a statistic that cannot
+    be identified must not be compared (RYA-907).
     """
     s, n = product.get("sigma_stat"), product.get("n_lines")
     if s is None or not n or float(n) <= 0:
         return None
-    return float(s) * math.sqrt(float(n))
+    basis = stat_basis_of(product)
+    if basis == "line_scatter":
+        return float(s)
+    if basis == "standard_error":
+        return float(s) * math.sqrt(float(n))
+    return None
 
 
 def peer_group_of(product: dict) -> tuple:
-    """Products that measure the SAME thing by different methods: same species, same band,
-    same holding. Treatment and tier deliberately vary -- comparing a pool only against
-    itself would make the check vacuous."""
+    """Products that measure the SAME lines by different methods: same species, band,
+    holding and TIER. Treatment and route deliberately vary -- comparing a pool only
+    against itself would make the check vacuous.
+
+    🔴 TIER IS IN THE KEY BECAUSE TIERS ARE DIFFERENT LINE POPULATIONS, NOT DIFFERENT
+    QUALITIES. `GRADED` is the lab-gf lines at or below the depth gate; `DEEPGRADED` is
+    the saturated ones above it (RYA-984). Their line-to-line scatters differ for reasons
+    of physics, so comparing across them measures the tier split rather than a defect.
+    Measured on the committed feed: leaving tier OUT put a perfectly sound HARPS
+    DEEPGRADED pool at 2.79x its group median -- within touching distance of
+    ANOMALY_RATIO -- purely because the surviving GRADED pools in that band are small and
+    unsaturated. With tier in, the whole null tops out at 1.84x on 27 comparable products.
+    """
     return (product.get("element"), product.get("ion"),
-            product.get("band"), product.get("holding"))
+            product.get("band"), product.get("holding"), product.get("tier"))
 
 
 def _artifact_mtime(product: dict) -> str | None:
@@ -244,6 +306,22 @@ def evaluate(product: dict, *, peers: list | None = None) -> tuple:
             "sigma_syst is null -- the product has no systematic budget, so it has no "
             "error bar to publish."))
 
+    basis = stat_basis_of(product)
+    if basis is None:
+        out.append(Ineligible(
+            "STAT_BASIS_MISMATCH",
+            f"route {product.get('route')!r} is not in STAT_BASIS_BY_ROUTE, so what its "
+            f"sigma_stat MEANS is unrecorded. An uncertainty whose definition is unknown "
+            f"must not render beside ones whose is."))
+    elif basis != _MAJORITY_STAT_BASIS:
+        out.append(Ineligible(
+            "STAT_BASIS_MISMATCH",
+            f"sigma_stat here is a {basis!r} ({product.get('route')} route, "
+            f"band_products.py:506) while the rest of the feed publishes a "
+            f"{_MAJORITY_STAT_BASIS!r} (error_budget.py:609). The feed carries no "
+            f"stat_basis field, so `A +/- sigma_stat` renders as comparable when it is "
+            f"not -- this product's bar reads ~sqrt(n) times worse than it is."))
+
     if not is_real_species(product):
         el, ion = species_of(product)
         out.append(Ineligible(
@@ -278,7 +356,10 @@ def scatter_ratio(product: dict, peers: list) -> float | None:
     mine = raw_scatter(product)
     if mine is None:
         return None
-    others = [raw_scatter(p) for p in peers]
+    # Only peers whose statistic means the same thing. Mixing bases here would compare a
+    # scatter with a standard error and call the difference an anomaly.
+    mine_basis = stat_basis_of(product)
+    others = [raw_scatter(p) for p in peers if stat_basis_of(p) == mine_basis]
     others = [x for x in others if x is not None and x > 0]
     if len(others) < ANOMALY_MIN_PEERS:
         return None

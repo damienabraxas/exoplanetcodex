@@ -147,7 +147,13 @@ def test_SUPERSEDED_is_never_reachable_from_an_engine_name(doc):
                            treatment="ENGINE-A-3DNLTE",
                            route="EW-3D",
                            display="EW · 3D-NLTE · Amarsi")
-    assert pe.evaluate(complete_amarsi, peers=[]) == ()
+    codes = {r.code for r in pe.evaluate(complete_amarsi, peers=[])}
+    assert "SUPERSEDED" not in codes
+    assert "ANOMALOUS_SCATTER" not in codes
+    # The one thing left is a SCHEMA defect the whole EW-3D route shares -- its sigma_stat
+    # is a raw scatter where the rest of the feed publishes a standard error -- and it is
+    # fixed by carrying `stat_basis` into the feed, not by re-measuring Amarsi.
+    assert codes == {"STAT_BASIS_MISMATCH"}, codes
 
 
 def test_SUPERSEDED_comes_from_the_record(doc):
@@ -168,6 +174,12 @@ def test_the_quarantined_Amarsi_products_carry_INCOMPLETE_not_superseded(doc):
         codes = set(p.get("quarantine_codes") or [])
         assert "SYST_INCOMPLETE" in codes
         assert "SUPERSEDED" not in codes
+        # ⚠️ AND NOT ANOMALOUS EITHER. The first version of this gate flagged them at 7x
+        # by treating their sigma_stat as a standard error; it is a raw scatter, and their
+        # real line-to-line scatter (0.182-0.186) sits on top of the 1D pools on the same
+        # holdings. The correct second reason is that the STATISTIC differs, not the data.
+        assert "ANOMALOUS_SCATTER" not in codes
+        assert "STAT_BASIS_MISMATCH" in codes
 
 
 # ── THE ANOMALY THRESHOLD: measured null, and an invariance window ───────────────
@@ -178,32 +190,6 @@ def _pre_sweep_population(doc):
     flagged products would already be gone."""
     return list(doc["products"]) + [p for p in doc.get("quarantine", [])
                                     if "RYA-1092" in str(p.get("quarantine_reason", ""))]
-
-
-def _ratio_populations(doc, statistic):
-    """(null, flagged) leave-one-out ratios under an arbitrary per-product statistic.
-
-    "Flagged" is defined by the INDEPENDENT criterion -- sigma_syst is null -- not by the
-    scatter rule itself, so this cannot become a test of the threshold against its own
-    output.
-    """
-    pop = _pre_sweep_population(doc)
-    groups: dict = {}
-    for p in pop:
-        groups.setdefault(pe.peer_group_of(p), []).append(p)
-    null, flagged = [], []
-    for p in pop:
-        mine = statistic(p)
-        if not mine:
-            continue
-        peers = [q for q in groups[pe.peer_group_of(p)] if q is not p]
-        others = [statistic(q) for q in peers]
-        others = [x for x in others if x]
-        if len(others) < pe.ANOMALY_MIN_PEERS:
-            continue
-        r = mine / statistics.median(others)
-        (flagged if p.get("sigma_syst") is None else null).append(r)
-    return null, flagged
 
 
 def _ratios(doc):
@@ -221,57 +207,103 @@ def _ratios(doc):
     return out
 
 
-def test_the_chosen_constant_would_have_MISFIRED_on_sigma_stat(doc):
-    """Why the statistic is raw scatter and not the standard error, measured.
+def test_the_two_routes_publish_DIFFERENT_statistics(doc):
+    """🔴 THE DEFECT THAT MADE FOUR SOUND POOLS LOOK LIKE 7x OUTLIERS.
 
-    ⚠️ NOT "they overlap on sigma_stat" -- an earlier draft asserted that and it is FALSE
-    on this feed. What is true, and what is asserted here, is sharper: the separation on
-    `sigma_stat` is 1.8x narrower, and `ANOMALY_RATIO` falls BELOW the sigma_stat null's
-    maximum. The same constant on the standard error would have flagged a legitimate
-    product -- which is the concrete cost of using a statistic that carries 1/sqrt(n).
+    `sigma_stat` is a standard error on the band route (`error_budget.py:609`,
+    scatter/sqrt(n)) and a raw standard deviation on the EW-3D route
+    (`band_products.py:506`, `np.std(vals, ddof=1)`). Nothing in the feed records which.
+    Multiplying every product's `sigma_stat` by sqrt(n) is therefore right for 59 products
+    and wrong for 4, and the wrong 4 are exactly the ones the first version of this gate
+    called anomalous.
+
+    Verified against the artifacts, not asserted: a band product's published `sigma_stat`
+    equals std/sqrt(n) of its own per-line file, and the committed RYA-817 EW-3D artifact's
+    published sigma equals the plain std of its 114 lines.
     """
-    null_se, flag_se = _ratio_populations(doc, lambda p: p.get("sigma_stat"))
-    null_raw, flag_raw = _ratio_populations(doc, pe.raw_scatter)
-    assert null_se and flag_se and null_raw and flag_raw
-    sep_se = min(flag_se) / max(null_se)
-    sep_raw = min(flag_raw) / max(null_raw)
-    assert sep_raw > sep_se, (
-        f"raw scatter must separate the populations more cleanly than the standard "
-        f"error (raw {sep_raw:.2f}x vs SE {sep_se:.2f}x)")
-    assert max(null_se) > pe.ANOMALY_RATIO, (
-        f"the sigma_stat null tops out at {max(null_se):.3f}, which must exceed "
-        f"ANOMALY_RATIO={pe.ANOMALY_RATIO} -- that is the measured cost of the wrong "
-        f"statistic, and if it stops being true the docstring's argument has changed")
-    assert max(null_raw) < pe.ANOMALY_RATIO
+    band = ROOT / ("data/results/band_products/FeI_4200_6910_kpno_solar_atlas_"
+                   "solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv")
+    ew3d = ROOT / "data/results/rya817/rya817_3dnlte_per_line.csv"
+    if not (band.exists() and ew3d.exists()):
+        pytest.skip("per-line artifacts not present")
+    import pandas as pd
+    a = pd.read_csv(band)
+    a = a[a.in_aggregate == True]["abundance"].dropna()          # noqa: E712
+    se = float(a.std(ddof=1)) / math.sqrt(len(a))
+    # Across pools: this record was withdrawn as PRE_CONTINUUM_FIX, and what sigma_stat
+    # MEANS is a property of the record, not of which pool it currently sits in.
+    rec = [p for p in _pre_sweep_population(doc)
+           if p["route"] == "SYNTH" and p["treatment"] == "1D-LTE" and p["band"] == "VIS"
+           and p["holding"] == "solar_kpno_molecfit_corrected" and p["tier"] == "GRADED"]
+    assert rec and rec[0]["sigma_stat"] == pytest.approx(se, abs=5e-4), (
+        "the band route's sigma_stat must be a STANDARD ERROR")
+
+    b = pd.read_csv(ew3d)
+    b = b[(b.element == "Fe") & (b.ion == "I") & (b.band == "VIS")
+          & (b.in_domain == True)]["a_3dnlte"].dropna()          # noqa: E712
+    assert float(b.std(ddof=1)) == pytest.approx(0.3418, abs=1e-3), (
+        "the EW-3D route's published sigma must be the raw per-line STD")
+
+    assert pe.STAT_BASIS_BY_ROUTE["SYNTH"] == "standard_error"
+    assert pe.STAT_BASIS_BY_ROUTE["EW-3D"] == "line_scatter"
 
 
-def test_the_null_and_the_invariance_window(doc):
-    """🔴 A TOLERANCE NEEDS A MEASURED NULL.
+def test_raw_scatter_dispatches_on_the_route(doc):
+    """The conversion is route-dependent; assuming one basis is the bug this fixes."""
+    band = dict(_solid(doc), route="SYNTH", sigma_stat=0.02, n_lines=100)
+    ew3d = dict(_solid(doc), route="EW-3D", sigma_stat=0.20, n_lines=100)
+    assert pe.raw_scatter(band) == pytest.approx(0.20)   # 0.02 * sqrt(100)
+    assert pe.raw_scatter(ew3d) == pytest.approx(0.20)   # already the scatter
+    # An unrecognised route ABSTAINS rather than being assumed into a basis (RYA-907).
+    assert pe.raw_scatter(dict(band, route="SOMETHING-NEW")) is None
 
-    The null is every comparable product that nobody has challenged; the flagged set is
-    the products the gate calls anomalous. What is asserted is not the threshold but the
-    GAP: any value strictly between the null's maximum and the flagged set's minimum gives
-    the identical verdict, so no number in that range can be tuned. `ANOMALY_RATIO` must
-    sit inside it. If the window ever closes, this test fails.
+
+def test_the_amarsi_pools_are_NOT_anomalous_once_the_basis_is_right(doc):
+    """The retraction, pinned. Their line-to-line scatter is ordinary."""
+    amarsi = [p for p in doc.get("quarantine", [])
+              if p.get("route") == "EW-3D"
+              and "RYA-1092" in str(p.get("quarantine_reason", ""))]
+    assert amarsi, "the Amarsi products should be in quarantine"
+    peers_1d = [p for p in doc["products"]
+                if p["band"] == "VIS" and p["ion"] == "I" and p["route"] == "SYNTH"]
+    ref = statistics.median([pe.raw_scatter(p) for p in peers_1d
+                             if pe.raw_scatter(p) is not None])
+    for p in amarsi:
+        r = pe.raw_scatter(p) / ref
+        assert 0.5 < r < 2.0, (
+            f"{pe.key_of(p)} raw scatter ratio {r:.2f} -- these were reported at ~7x by "
+            f"the sqrt(n) mistake and are ordinary once the basis is right")
+
+
+def test_the_null_alone_justifies_the_threshold(doc):
+    """🔴 A TOLERANCE NEEDS A MEASURED NULL — and here the null is ALL there is.
+
+    After the basis correction NO live or withdrawn product is anomalous, so there is no
+    flagged population to separate from and the constant cannot be justified by a gap.
+    What CAN be asserted is the null: the largest scatter ratio anywhere in the feed, and
+    that `ANOMALY_RATIO` sits comfortably above it. If any product ever approaches the
+    threshold this fails, which forces a re-derivation instead of letting a stale constant
+    decide (RYA-161).
+
+    Saying "the criterion currently has no instance" is the honest report. A criterion
+    that has never fired on real data is not evidence that it works.
     """
     rs = _ratios(doc)
-    # 37 measured: only the four peer groups with >= 3 OTHER pools take part. The
-    # thirteen 3-product groups abstain by design -- two peers is not a population.
-    assert len(rs) >= 30, f"only {len(rs)} comparable products -- the null is too thin"
-    flagged = [r for r, p in rs if r > pe.ANOMALY_RATIO]
-    null = [r for r, p in rs if r <= pe.ANOMALY_RATIO]
-    assert len(flagged) == 4, f"expected the 4 Amarsi pools, got {len(flagged)}"
-    assert max(null) < min(flagged), "null and flagged populations must not overlap"
-    assert max(null) < pe.ANOMALY_RATIO < min(flagged)
-    # The window is wide, not marginal: a factor of two with nothing inside it.
-    assert min(flagged) / max(null) > 2.0, (   # measured 2.69x
-        f"the separation has narrowed to {min(flagged) / max(null):.2f}x "
-        f"(null max {max(null):.2f}, flagged min {min(flagged):.2f}) -- re-derive the "
-        f"threshold rather than keeping this constant")
+    assert len(rs) >= 25, f"only {len(rs)} comparable products -- the null is too thin"
+    worst = max(r for r, _ in rs)
+    assert worst < pe.ANOMALY_RATIO, (
+        f"a product now sits at {worst:.2f}x, at or past ANOMALY_RATIO="
+        f"{pe.ANOMALY_RATIO} -- re-derive the threshold against the new population")
+    assert pe.ANOMALY_RATIO / worst > 1.5, (
+        f"the margin over the measured null has narrowed to "
+        f"{pe.ANOMALY_RATIO / worst:.2f}x -- re-derive")
+    assert not [k for k, v in pe.evaluate_feed(doc).items()
+                if any(r.code == "ANOMALOUS_SCATTER" for r in v)]
 
 
-def test_raw_scatter_is_sigma_stat_times_sqrt_n(doc):
+def test_raw_scatter_is_sigma_stat_times_sqrt_n_on_the_BAND_route(doc):
     p = _solid(doc)
+    assert pe.stat_basis_of(p) == "standard_error"
     assert pe.raw_scatter(p) == pytest.approx(p["sigma_stat"] * math.sqrt(p["n_lines"]))
 
 
@@ -353,4 +385,5 @@ def test_every_moved_product_carries_a_reason_and_a_timestamp(doc):
         assert p.get("quarantine_codes")
         assert set(p["quarantine_codes"]) <= {
             "UNCORRECTED_HOLDING", "PRE_CONTINUUM_FIX", "SYST_INCOMPLETE",
-            "NOT_YET_DEFENSIBLE", "ANOMALOUS_SCATTER", "SUPERSEDED"}
+            "NOT_YET_DEFENSIBLE", "ANOMALOUS_SCATTER", "STAT_BASIS_MISMATCH",
+            "SUPERSEDED"}
