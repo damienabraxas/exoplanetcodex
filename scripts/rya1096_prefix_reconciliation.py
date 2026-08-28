@@ -74,21 +74,50 @@ NULL_DEX = 5e-5
 
 
 def withdrawn_prefix(doc: dict) -> list:
-    return [p for p in doc.get("quarantine", [])
-            if "PRE_CONTINUUM_FIX" in (p.get("quarantine_codes") or [])]
+    """The pre-fix records, wherever they now sit.
+
+    ⚠️ SEARCHED ACROSS THE WITHDRAWAL POOLS, NOT JUST `quarantine[]`. Publishing the fresh
+    re-run moves the prior record for that identity from `quarantine[]` to `archive[]` --
+    `publish_product`'s own supersession, working as intended. Reading only `quarantine[]`
+    made this report say "0 withdrawn cells" the moment it succeeded, which is the same
+    one-pool mistake RYA-1092 had to fix in two other tickets' guards.
+    """
+    out = []
+    for pool in ("quarantine", "archive", "superseded"):
+        out += [p for p in doc.get(pool) or []
+                if "PRE_CONTINUUM_FIX" in (p.get("quarantine_codes") or [])]
+    return out
 
 
-def rerun_products(band_dir: Path) -> dict:
-    """{(holding, treatment): row} from the fresh `*_products.csv` in `band_dir`."""
+def rerun_products(paths: list) -> dict:
+    """{(holding, band, treatment): row} from the NAMED fresh `*_products.csv`.
+
+    🔴 NAMED FILES, NOT A DIRECTORY GLOB, AND IT TOOK TWO WRONG ANSWERS TO GET HERE.
+    Globbing a band-products directory matched (a) the same holding's NIR / red-optical /
+    near-UV products and (b) the PRE-FIX file sitting beside its own replacement -- the
+    coverage guard renames the stem when it trims the band (RYA-1074), so the old and new
+    artifacts for one cell have different names and both match. Each time, the last file
+    won silently and the report showed deltas up to +0.174 dex on pools 54 lines smaller
+    than the cell being compared: a wrong answer that reads as a finding.
+
+    So the caller names the artifacts, every one of them committed, and a key that appears
+    twice is a REFUSAL rather than a coin flip.
+    """
     out = {}
-    for f in sorted(Path(band_dir).glob("FeI_4200_6910_*_SYNTH_GRADED*_products.csv")):
+    for f in [Path(x) for x in paths]:
         d = pd.read_csv(f)
+        holding = _holding_from_stem(f.name)
+        if not holding:
+            raise SystemExit(f"cannot identify the holding in {f.name!r}")
         for r in d.itertuples():
-            holding = _holding_from_stem(f.name)
-            out[(holding, str(r.treatment))] = {
-                "A": float(r.A), "stat_dex": float(r.stat_dex),
-                "syst_dex": float(r.syst_dex), "n_lines": int(r.n_lines),
-                "file": f.name}
+            key = (holding, str(r.band), str(r.treatment))
+            if key in out:
+                raise SystemExit(
+                    f"two files claim {key}: {out[key]['file']} and {f.name}. One cell has "
+                    f"one re-run; picking either would be a guess (RYA-1033).")
+            out[key] = {"A": float(r.A), "stat_dex": float(r.stat_dex),
+                        "syst_dex": float(r.syst_dex), "n_lines": int(r.n_lines),
+                        "file": f.name}
     return out
 
 
@@ -99,13 +128,13 @@ def _holding_from_stem(name: str) -> str:
               "solar_harps_molecfit_corrected", "solar_iag"):
         if h in name:
             return h
-    raise SystemExit(f"cannot identify the holding in {name!r}")
+    return ""       # a band product for some other holding; the caller skips it
 
 
 def reconcile(doc: dict, fresh: dict) -> list:
     rows = []
     for p in withdrawn_prefix(doc):
-        key = (p["holding"], p["treatment"])
+        key = (p["holding"], p["band"], p["treatment"])
         f = fresh.get(key)
         if f is None:
             rows.append({"holding": p["holding"], "treatment": p["treatment"],
@@ -120,6 +149,8 @@ def reconcile(doc: dict, fresh: dict) -> list:
             "rerun_A": f["A"], "rerun_n": f["n_lines"],
             "rerun_stat": f["stat_dex"], "rerun_syst": f["syst_dex"],
             "delta_A_dex": dA, "delta_n": f["n_lines"] - int(p["n_lines"]),
+            "delta_stat_dex": (None if p.get("sigma_stat") is None
+                               else f["stat_dex"] - float(p["sigma_stat"])),
             "verdict": ("NULL — the fixes changed nothing for this cell"
                         if abs(dA) <= NULL_DEX and f["n_lines"] == int(p["n_lines"])
                         else "MOVED — the fixes are worth this much here"),
@@ -130,15 +161,17 @@ def reconcile(doc: dict, fresh: dict) -> list:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--band-products", type=Path, required=True,
-                    help="directory holding the FRESH post-fix *_products.csv")
+    ap.add_argument("--products", nargs="+", required=True, type=Path,
+                    help="the FRESH post-fix *_products.csv, named explicitly. A directory "
+                         "glob picks up the pre-fix file beside its own replacement and "
+                         "the same holding's other bands -- see rerun_products().")
     ap.add_argument("--out", type=Path,
                     default=ROOT / "data" / "results" / "rya1096"
                     / "rya1096_prefix_reconciliation.json")
     a = ap.parse_args()
 
     doc = json.loads(FEED.read_text())
-    rows = reconcile(doc, rerun_products(a.band_products))
+    rows = reconcile(doc, rerun_products(a.products))
     n_null = sum(1 for r in rows if r["verdict"].startswith("NULL"))
     n_moved = sum(1 for r in rows if r["verdict"].startswith("MOVED"))
 
