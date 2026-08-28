@@ -1333,7 +1333,16 @@
         "sha256": "5ee9c77e5c57020a7e4ddbb2c26bf0b37608b70027232b68dc206159f53da558",
         "artifact_mtime": "2026-08-26T16:07:26Z",
         "ingested_at": "2026-08-26T16:08:05Z"
-      }
+      },
+      "sigma_params": 0.0141,
+      "sigma_params_terms": {
+        "Teff": 0.0007,
+        "logg": 0.0,
+        "vmic": 0.0141,
+        "FeH": 0.0
+      },
+      "sigma_params_reason": "MEASURED ~0, not omitted: solar logg and [Fe/H] are exact by definition so their delta_p = 0 and no derivative was run; Teff is +/-1 K (sigma_B 0.0007); the term is vmic-dominated (sigma_B 0.0141 at delta_p 0.0588 km/s -- RYA-311's measured FITEXY error on our own Fe I reduced-EW slope, which retired both the uncited 0.05 and Jofre+2014's inter-node 0.18). dA/dp measured on the EW route (uncertainty_stack), transferred to this synthesis product -- an approximation that is small here because sigma_params is below sigma_stat, and that does NOT transfer to a real star (RYA-1071).",
+      "sigma_reported": 0.026
     },
     {
       "element": "Fe",
@@ -1359,7 +1368,16 @@
         "sha256": "c0d659c177b5b49380366561e8c1e3dad1a9a8afd7ba7a84de824936e3f7c3b6",
         "artifact_mtime": "2026-08-26T16:07:27Z",
         "ingested_at": "2026-08-26T16:08:05Z"
-      }
+      },
+      "sigma_params": 0.0141,
+      "sigma_params_terms": {
+        "Teff": 0.0007,
+        "logg": 0.0,
+        "vmic": 0.0141,
+        "FeH": 0.0
+      },
+      "sigma_params_reason": "MEASURED ~0, not omitted: solar logg and [Fe/H] are exact by definition so their delta_p = 0 and no derivative was run; Teff is +/-1 K (sigma_B 0.0007); the term is vmic-dominated (sigma_B 0.0141 at delta_p 0.0588 km/s -- RYA-311's measured FITEXY error on our own Fe I reduced-EW slope, which retired both the uncited 0.05 and Jofre+2014's inter-node 0.18). dA/dp measured on the EW route (uncertainty_stack), transferred to this synthesis product -- an approximation that is small here because sigma_params is below sigma_stat, and that does NOT transfer to a real star (RYA-1071).",
+      "sigma_reported": 0.026
     },
     {
       "element": "Fe",
