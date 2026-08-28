@@ -134,6 +134,63 @@ ROUTE_BY_PRODUCT_TOKEN = {
 #: inventing a name for it would re-create the collision one level down.
 DEPRECATED_ALIASES = {"ENGINE-B": ("1D-LTE", "synth")}
 
+#: 🔴 RYA-1102 — THE ERROR-PLOT ROW AXIS. Ordered, fixed, and DERIVED, never typed in JS.
+#:
+#: The plot used to emit ONE ROW PER PRODUCT, so a section's row count was whatever the
+#: data happened to contain (Kitt Peak rendered 19). Ryan's rule is the opposite: every
+#: section shows the SAME rows in the SAME order, and a model with no product for that
+#: instrument/band says N/A. A missing measurement is information; a missing ROW is not.
+#:
+#: Ordered as a physics ladder -- 1D-LTE, then 1D-NLTE, then <3D>, then full 3D -- with
+#: each scale's EW leg before its synthesis leg. EW and synthesis are SEPARATE PRODUCTS
+#: (a profile fit and a flux fit are different measurements of different line pools), so
+#: they are two rows, never one row to collapse.
+#:
+#: Each entry is (treatment, route_token, pending). The NAME is not stored: it is derived
+#: through `display_for`, so this axis cannot drift from the labels the products carry.
+#: Publishing it into the feed is what makes a NEW MODEL appear on the site with no site
+#: change -- the "products should update live" requirement.
+#:
+#: ⚠️ `pending` rows are DECLARED BUT NOT RENDERED. The codex <3D>-NLTE deck is the model
+#: we solve ourselves (`DECKS`); it is on the axis so the ladder is complete and so
+#: turning it on is one flag, not a schema change. A rendered row for a model that does
+#: not exist yet would read as a measurement we failed to make.
+PLOT_ROW_AXIS = (
+    ("1D-LTE",                           "PROFILEFIT", False),
+    ("1D-LTE",                           "SYNTH",      False),
+    ("synth-1D-LTE-gerber",              "SYNTH",      False),
+    ("ENGINE-A",                         "PROFILEFIT", False),
+    ("ENGINE-A",                         "SYNTH",      False),
+    ("ENGINE-B-NLTE",                    "SYNTH",      False),
+    ("synth-mean3D-LTE-gerber-stagger",  "SYNTH",      False),
+    ("synth-mean3D-NLTE-gerber-stagger", "SYNTH",      False),
+    ("ENGINE-A-3DNLTE",                  "EW-3D",      False),
+    ("synth-mean3D-NLTE-gerber-codex",   "SYNTH",      True),
+)
+
+
+def plot_row_axis(*, include_pending: bool = False) -> list[dict]:
+    """The ordered row axis as {name, treatment, route, pending} -- names DERIVED.
+
+    A row whose treatment is registered but unnameable RAISES rather than being skipped:
+    an axis that silently drops a row is how a section stops showing a model without
+    anyone noticing, which is the failure this axis exists to prevent.
+    """
+    out = []
+    for treatment, route, pending in PLOT_ROW_AXIS:
+        if pending and not include_pending:
+            continue
+        if pending and treatment not in AXIS_NATIVE and treatment not in LEGACY:
+            # A declared-but-unbuilt model has no axes yet, so it carries its intent
+            # rather than a derived name, and never renders.
+            out.append({"name": None, "treatment": treatment, "route": route,
+                        "pending": True})
+            continue
+        out.append({"name": display_for(treatment, route_token=route),
+                    "treatment": treatment, "route": route, "pending": pending})
+    return out
+
+
 #: What each legacy label pins DOWN — scale, model and gf pool only. Route is deliberately
 #: ABSENT from this table for the `1D-LTE` family: see the module docstring. For the
 #: ENGINE-* family the route IS determined by the label, because those labels were coined
