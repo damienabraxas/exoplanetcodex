@@ -22,30 +22,26 @@ from config.constants import STAR_PARAMS                      # noqa: E402
 from pipeline.uncertainty_stack import params_and_deltas       # noqa: E402
 
 
-#: 🔴 BLOCKED BY RYA-1080's GUARD, AND NOT WORKED AROUND.
-#: RYA-1088 requires sigma_params to be recorded IN data/products/solar/Fe.json.
-#: RYA-1080's `test_no_published_value_was_edited_to_reconcile` asserts every published
-#: field of every product is byte-for-byte what origin/main published -- "copied_to is the
-#: only key this ticket may write". Its DOCSTRING scopes that to RYA-1080; its
-#: IMPLEMENTATION is global, so no ticket can ever add a field to a product.
+#: 🔴 UNBLOCKED 2026-08-28 (RYA-1089) -- AND THE BLOCK WAS REAL WHILE IT LASTED.
+#: RYA-1088 requires sigma_params to be recorded IN data/products/solar/Fe.json. RYA-1080's
+#: `test_no_published_value_was_edited_to_reconcile` USED TO assert that every published
+#: field of every product was byte-for-byte what `origin/main` published. Its DOCSTRING
+#: scoped that to RYA-1080; its IMPLEMENTATION was global, so no ticket could add a field
+#: to a product at all. RYA-1088 refused to widen another ticket's CRITICAL guard to pass
+#: its own change, reverted the stamp, and left these three tests as STRICT xfail -- the
+#: requirement kept on the record rather than deleted, ready to flip.
 #:
-#: Stamping the fields makes RYA-1080's guard fail. Measured: clean origin/main fails 1
-#: test (the pre-existing rya1080 generator gate); with the stamp applied the branch fails
-#: 2. That is a regression I introduced.
+#: They flipped. RYA-1100 rewrote that guard along exactly the line RYA-1088 asked for --
+#: its option (a), refuse CHANGED values but allow ADDED keys -- and its
+#: `published_value_edits` now says so in its own docstring, naming RYA-1088's
+#: `sigma_params` as the case that forced the fix. VERIFIED, not assumed: with the stamp
+#: applied, `tests/test_feed_repo_reconciliation_rya1080.py` is 15/15 green and these three
+#: XPASS(strict). The xfail markers are therefore RETIRED, not the tests.
 #:
-#: Widening another ticket's CRITICAL guard to make my own change pass is the exact
-#: antipattern this project ratifies against, so the stamp is REVERTED and these tests are
-#: xfail rather than deleted -- they flip to passing the moment the conflict is resolved,
-#: and deleting them would erase the requirement.
-#:
-#: Resolution is Ryan's: either (a) make RYA-1080's guard precise -- refuse CHANGED values,
-#: allow ADDED keys, which preserves its stated intent ("reconcile the artifacts, not the
-#: numbers") -- or (b) record sigma_params somewhere other than the product JSON, which
-#: contradicts RYA-1088's own critical condition.
-_BLOCKED = ("RYA-1080's published-field guard forbids adding any key to "
-            "data/products/solar/Fe.json; see the note above -- Ryan's call")
-
-
+#: ⚠️ The lesson worth keeping: the xfail REASON went stale on `main` for several merges.
+#: RYA-1100 removed the blocker; nobody flipped the tests that named it, so the repo kept
+#: asserting "blocked, Ryan's call" about a conflict that no longer existed. A test parked
+#: against another ticket's guard has to be re-checked when that guard moves.
 @pytest.fixture(scope="module")
 def mean3d_products():
     d = json.loads(PRODUCT.read_text())
@@ -54,7 +50,6 @@ def mean3d_products():
     return ps
 
 
-@pytest.mark.xfail(reason=_BLOCKED, strict=True)
 def test_sigma_params_is_PRESENT_not_absent(mean3d_products):
     """The whole point. `None` and `missing` are different from a measured value."""
     for p in mean3d_products:
@@ -63,7 +58,6 @@ def test_sigma_params_is_PRESENT_not_absent(mean3d_products):
         assert p.get("sigma_params_reason"), "a zero without a reason is still an absence"
 
 
-@pytest.mark.xfail(reason=_BLOCKED, strict=True)
 def test_sigma_reported_is_attached_and_correctly_combined(mean3d_products):
     """sigma_reported = sqrt(sigma_stat^2 + sigma_params^2) — the RYA-282 convention."""
     import math
@@ -72,7 +66,6 @@ def test_sigma_reported_is_attached_and_correctly_combined(mean3d_products):
         assert p["sigma_reported"] == pytest.approx(exp, abs=5e-4)
 
 
-@pytest.mark.xfail(reason=_BLOCKED, strict=True)
 def test_the_per_parameter_terms_are_recorded_so_the_zero_is_LEGIBLE(mean3d_products):
     """0.012 alone does not tell a reader that logg and [Fe/H] contributed exactly nothing
     BY DEFINITION rather than by accident."""
