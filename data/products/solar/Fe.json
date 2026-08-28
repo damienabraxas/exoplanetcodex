@@ -3,7 +3,7 @@
   "element": "Fe",
   "star": "solar",
   "version": "1.70",
-  "updated_at": "2026-08-28T02:43:37Z",
+  "updated_at": "2026-08-28T04:22:41Z",
   "products": [
     {
       "element": "Fe",
@@ -2045,12 +2045,12 @@
         "artifact_mtime": "2026-08-24T23:30:41Z",
         "ingested_at": "2026-08-24T23:32:27Z"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "SYST_INCOMPLETE",
-        "ANOMALOUS_SCATTER"
+        "STAT_BASIS_MISMATCH"
       ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [ANOMALOUS_SCATTER] line-to-line scatter 1.3159 dex is 5.08x the median of the 10 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0). Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
     },
     {
       "element": "Fe",
@@ -2077,7 +2077,7 @@
         "ingested_at": "2026-08-24T23:30:20Z",
         "copied_to": "data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2108,7 +2108,7 @@
         "ingested_at": "2026-08-24T23:30:20Z",
         "copied_to": "data/results/band_products/FeI_4200_6910_harps_solar_harps_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2139,12 +2139,12 @@
         "artifact_mtime": "2026-08-24T23:30:41Z",
         "ingested_at": "2026-08-24T23:32:28Z"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "SYST_INCOMPLETE",
-        "ANOMALOUS_SCATTER"
+        "STAT_BASIS_MISMATCH"
       ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [ANOMALOUS_SCATTER] line-to-line scatter 1.1559 dex is 7.55x the median of the 6 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0). Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
     },
     {
       "element": "Fe",
@@ -2171,7 +2171,7 @@
         "ingested_at": "2026-08-24T23:30:21Z",
         "copied_to": "data/results/band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2202,7 +2202,7 @@
         "ingested_at": "2026-08-24T23:30:21Z",
         "copied_to": "data/results/band_products/FeI_4200_6910_iag_fts_solar_atlas_solar_iag_SYNTH_GRADED_ENGINE-A_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2233,12 +2233,12 @@
         "artifact_mtime": "2026-08-24T23:30:41Z",
         "ingested_at": "2026-08-24T23:32:28Z"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "SYST_INCOMPLETE",
-        "ANOMALOUS_SCATTER"
+        "STAT_BASIS_MISMATCH"
       ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [ANOMALOUS_SCATTER] line-to-line scatter 1.2961 dex is 6.24x the median of the 7 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0). Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
     },
     {
       "element": "Fe",
@@ -2265,7 +2265,7 @@
         "ingested_at": "2026-08-24T23:30:22Z",
         "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2296,7 +2296,7 @@
         "ingested_at": "2026-08-24T23:30:22Z",
         "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-A_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2327,12 +2327,12 @@
         "artifact_mtime": "2026-08-24T23:30:40Z",
         "ingested_at": "2026-08-24T23:32:27Z"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "SYST_INCOMPLETE",
-        "ANOMALOUS_SCATTER"
+        "STAT_BASIS_MISMATCH"
       ],
-      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [ANOMALOUS_SCATTER] line-to-line scatter 1.2855 dex is 7.19x the median of the 10 other pools on the same species/band/holding -- grossly inconsistent with them (threshold 3.0). Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
+      "quarantine_reason": "RYA-1092 live-eligibility gate: [SYST_INCOMPLETE] sigma_syst is null -- the product has no systematic budget, so it has no error bar to publish. [STAT_BASIS_MISMATCH] sigma_stat here is a 'line_scatter' (EW-3D route, band_products.py:506) while the rest of the feed publishes a 'standard_error' (error_budget.py:609). The feed carries no stat_basis field, so `A +/- sigma_stat` renders as comparable when it is not -- this product's bar reads ~sqrt(n) times worse than it is. Moved, not deleted -- every published field is carried across unchanged and this product returns to products[] the moment it passes the gate."
     },
     {
       "element": "Fe",
@@ -2361,7 +2361,7 @@
         "reingest_reason": "RYA-1084: writer identified as scripts/derive_band_products.py, shown deterministic (the 2026-08-27 13:34 run reproduced RYA-1051's committed bytes exactly); diffs are the RYA-1044/1045 `deck` column plus one 1-ULP rounding boundary now pinned by pipeline.error_budget.round_dex",
         "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
@@ -2394,7 +2394,7 @@
         "reingest_reason": "RYA-1084: writer identified as scripts/derive_band_products.py, shown deterministic (the 2026-08-27 13:34 run reproduced RYA-1051's committed bytes exactly); diffs are the RYA-1044/1045 `deck` column plus one 1-ULP rounding boundary now pinned by pipeline.error_budget.round_dex",
         "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_ENGINE-A_products.csv"
       },
-      "quarantined_at": "2026-08-28T02:43:37Z",
+      "quarantined_at": "2026-08-28T04:22:41Z",
       "quarantine_codes": [
         "PRE_CONTINUUM_FIX"
       ],
