@@ -1,0 +1,69 @@
+========================================================================================
+RYA-1104 — Amarsi 3D-NLTE base diagnostic   pool=amarsi_feI_vis  holding=kpno_molecfit
+========================================================================================
+
+TEST 1 — is the offset the EW-route base?
+  the Amarsi leg names its 1D-LTE base as
+      data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv
+  route=synth  handler=SynthesisHandler  -> SYNTHESIS: True
+  verified line by line: 50/50 matched, max |residual| = 0.0e+00 dex
+      the Amarsi leg's 1D-LTE column IS the synthesis base, exactly
+
+  SYNTH base (full pool)      7.447  n=67
+  SYNTH base (Amarsi subset)  7.475  n=50   [line-subset step +0.028]
+  + Amarsi (SHIPPED)          7.512  n=50   [correction step +0.037]
+  EW-route 1D-LTE product     7.463  n=13   (ProfileFitHandler) — a DIFFERENT pool, never under the Amarsi leg
+  Asplund 2021                7.46
+
+  MLP inputs: ion, elo, eup, loggf, teff, logg, afe3n, vmic
+      takes EW / reduced-EW: False
+
+  THE SAME NETWORK ON TWO LINE POOLS — where the offset actually lives:
+    Amarsi's own solar set   n=41  Elo 0.09-4.61 (median 2.59)   correction -0.0024   control PASSES: True
+    our graded pool          n=50  Elo 3.00-4.73 (median 4.08)   correction +0.0430
+    swing +0.0454 dex from the line population alone
+    network Elo trend over 0-5 eV: -0.0905 dex (published [-0.1, -0.05]); our pool's own slope +0.0098 dex/eV, r=+0.40
+    transported to the control pool's mean Elo: +0.0300 — Elo explains 29% of the swing, NOT all of it
+    the floor is a property of the GRADED pool itself, before the MLP domain cut — Ruffoni 2014 / Den Hartog 2014 measured high-excitation Fe I, so lab-grading and low-Elo coverage pull against each other.
+    A(Fe;3N) axis confound: run at 7.5 (railed=True) vs control at 7.46; whole-axis sensitivity 0.00224 dex — immaterial — two orders below the swing
+
+  VERDICT: REFUTED — there is no EW-route base under this product. Its 1D-LTE column is the SYNTHESIS pool it names, verified to 0e+00 dex on 50/50 lines. Test 1's counterfactual IS the shipped configuration, and it reads 7.512, not ~7.47. The +0.065 against the full synth pool splits +0.028 line-subset (67 -> 50 lines, the MLP's training domain) and +0.037 Amarsi correction. The route was never a term in it. WHERE IT IS INSTEAD: the same network returns -0.0024 dex on Amarsi's own solar line set (where the reactivation control PASSES against the published 7.46) and +0.0430 on our graded pool — a +0.0454 dex swing from the LINE POPULATION. Our lab-gf tier floors at 2.85 eV where Amarsi's set reaches 0.09 eV, and the network's correction tracks Elo (-0.090 dex over 0-5 eV, the paper's own published trend). ⚠️ Elo transport explains only 29% of the swing, so the population difference is MEASURED but not fully mechanised — the remainder is left unattributed rather than guessed.
+
+TEST 2 — graded-vs-Kurucz gf split (no line list touched)
+  lambda + EP dual key, +/-0.02 A / +/-0.02 eV (pipeline.gf_resolver (WTOL/EPTOL, not re-derived here))
+  50/50 unique matches, 0 unmatched, 0 ambiguous
+  LAB        n=50   base 7.475  post-Amarsi 7.512   PRIMARY LAB Belmonte2017; PRIMARY LAB DenHartog2014
+  lab-tier n=50   Kurucz-floored n=0   splittable: False
+  product `gf` axis says: kurucz
+  the same product's budget says: gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is GF-LAB and 100% carry a publ
+  VERDICT: CANNOT BE RUN, AND THAT IS THE ANSWER — all 50 lines are lab-tier gf (LAB), so the Kurucz-floored subset is EMPTY and the gf zero-point cannot carry the offset. RYA-822's 'heavily Kurucz-floored' is true of the BAND, not of this GRADED pool. The product's `gf` axis nevertheless publishes 'kurucz' while its own budget reaches rung 3 on the same 50 lines — a label contradicting a measurement inside one product.
+
+TEST 3 — <3D>-NLTE vs <3D>-LTE wiring
+  published    <3D>-LTE 7.552   <3D>-NLTE 7.552   difference-of-published +0.0000
+  PER-LINE PAIRED (the real statistic, RYA-1083):
+      median +0.0320  mean +0.0267  sd 0.0383  range -0.140..+0.092
+      nonzero on 66/67 lines   collision: True
+  departures engaged: True
+      per-line files distinct: True  (66/67 lines differ)
+      code passes nlte_deck only when NLTE: True   deck key first-positional (RYA-1049 safe): True
+      RYA-915 one-path overwrite: not present
+      117 unique abundances, min gap 0.001 dex — not a quantiser floor
+  ⚠️  data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv: nlte_delta_dex=[np.float64(0.0)] and nlte_source=['none — LTE, no departure applied']
+      — the NLTE product's own departure columns read as LTE. cosmetic in the aggregate (the abundances do carry the departures) and misleading to any
+  VERDICT: DEPARTURES ARE ENGAGED (True) and the feed's 0.000 is NOT a wiring bug — it is the wrong statistic. Differencing two published medians gives +0.0000; the per-line paired differential is +0.0320 (mean +0.0267), nonzero on 66/67 lines. RYA-1051's +0.033 is corroborated; the feed's 0.000 is not a competing value. The RYA-1099 Gerber systematics note is therefore SAFE on this point — the ⟨3D⟩ NLTE effect it rests on is real and measured. ⚠️ separately, the NLTE product's own `nlte_delta_dex`/`nlte_source` columns read as LTE.
+
+LABEL AUDIT — where the ticket's premise came from
+  displayed route `ew` (basis=handler) vs actual base route `synth` / SynthesisHandler
+    scripts/rya817_run_3dnlte_bands.py — build_product(handler=...)  ->  'ProfileFitHandler'
+    pipeline/treatment_axes.py — _ROUTE_BY_LABEL['ENGINE-A-3DNLTE']  ->  'ew'
+    pipeline/treatment_axes.py — LEGACY['ENGINE-A-3DNLTE']['gf']  ->  'kurucz'
+  shipped syst_dex charges 0.0129 dex (ProfileFit) where the base earns 0.0 dex
+
+SMOKE-TEST SHAPE
+TEST 1  EW base 7.463 (n=13, different pool) | SYNTH base 7.447 | SYNTH base on Amarsi lines 7.475 | +Amarsi 7.512
+        the correction itself: -0.0024 on Amarsi's own solar lines vs +0.0430 on ours -> swing +0.0454 from the line population
+TEST 2  lab-gf n=50 median 7.475 | kurucz-floored n=0 — the split does not exist
+TEST 3  <3D>-NLTE departures engaged: True | LTE 7.552 NLTE 7.552 effect +0.0320 (paired, not differenced)
+
+NOTHING WAS MODIFIED: no line list, no canonical_gf, no STAR_PARAMS, no product.
+========================================================================================

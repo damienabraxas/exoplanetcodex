@@ -1,0 +1,373 @@
+{
+  "ticket": "RYA-1104",
+  "generated_utc": "2026-08-28T17:56:56Z",
+  "read_only": true,
+  "pool": "amarsi_feI_vis",
+  "holding": "kpno_molecfit",
+  "species": "Fe I VIS",
+  "test1": {
+    "holding": "kpno_molecfit",
+    "amarsi_product": {
+      "value": 7.5116,
+      "n": 50,
+      "treatment": "ENGINE-A-3DNLTE",
+      "handler": "ProfileFitHandler",
+      "route_axis": "ew",
+      "route_basis": "handler",
+      "gf_axis": "kurucz",
+      "instrument": "kpno_solar_atlas",
+      "artifact": "data/results/rya1095/kpmf/rya817_3dnlte_products.csv"
+    },
+    "declared_base": {
+      "artifact": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+      "route_axis": "synth",
+      "handler": "SynthesisHandler",
+      "is_synthesis": true
+    },
+    "base_verified_line_by_line": {
+      "n_pool": 50,
+      "n_matched_in_base": 50,
+      "max_abs_residual_dex": 0.0,
+      "verdict": "the Amarsi leg's 1D-LTE column IS the synthesis base, exactly"
+    },
+    "ew_route_product": {
+      "exists": true,
+      "artifact": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_PROFILEFIT_GRADED_products.csv",
+      "A": 7.463,
+      "n": 13,
+      "handler": "ProfileFitHandler",
+      "route_axis": "ew",
+      "per_line_file_committed": false,
+      "note": "PRODUCT level only \u2014 no per-line file is committed for the PROFILEFIT pool, so this cannot be restricted to the Amarsi subset. It is a DIFFERENT population, not a comparand."
+    },
+    "decomposition": {
+      "synth_base_full_pool": {
+        "A": 7.447,
+        "n": 67
+      },
+      "synth_base_amarsi_subset": {
+        "A": 7.475,
+        "n": 50
+      },
+      "post_amarsi": {
+        "A": 7.5116,
+        "n": 50
+      },
+      "line_subset_step_dex": 0.028,
+      "amarsi_correction_step_dex": 0.0366,
+      "total_vs_full_synth_base_dex": 0.0646,
+      "median_per_line_aberr_dex": 0.043,
+      "mean_per_line_aberr_dex": 0.0409
+    },
+    "mlp_input_features": {
+      "signature": [
+        "ion",
+        "elo",
+        "eup",
+        "loggf",
+        "teff",
+        "logg",
+        "afe3n",
+        "vmic"
+      ],
+      "takes_ew_or_reduced_ew": false,
+      "verdict": "the MLP consumes only the transition (Elo, Eup, log gf) and the stellar box (Teff, log g, vmic, A(Fe;3N)) \u2014 no line-strength input, so it is route-agnostic and needs no retraining to sit on a synthesis base"
+    },
+    "network_on_two_pools": {
+      "control_pool": {
+        "line_list": "Allende Prieto et al. 2002, ApJ 567, 544, Table 2 (the solar Fe line list Amarsi+2022 Table 6 was built on)",
+        "cut": "weak lines only, REW < -4.9 (Amarsi+2022 Sect. 6.1)",
+        "n": 41,
+        "elo_eV": {
+          "min": 0.087,
+          "median": 2.588,
+          "mean": 2.865,
+          "max": 4.607
+        },
+        "mean_correction_dex": -0.0024,
+        "control_passed": true,
+        "reproduces_published": [
+          {
+            "check": "solar A(Fe I) 1D LTE over 41 weak lines",
+            "computed": 7.4671,
+            "published": 7.47,
+            "pass": true
+          },
+          {
+            "check": "solar A(Fe I) 3D non-LTE over 41 weak lines",
+            "computed": 7.4646,
+            "published": 7.46,
+            "pass": true
+          }
+        ]
+      },
+      "our_pool": {
+        "n": 50,
+        "elo_eV": {
+          "min": 2.998,
+          "median": 4.076,
+          "mean": 3.978,
+          "max": 4.733
+        },
+        "median_correction_dex": 0.043,
+        "mean_correction_dex": 0.0409,
+        "selection": "the GRADED (laboratory-gf) tier, then the MLP training domain"
+      },
+      "graded_pool_elo_floor_is_the_gf_tier": {
+        "artifact": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_1D-LTE_lines.csv",
+        "n": 67,
+        "elo_min_eV": 2.851,
+        "elo_median_eV": 3.943,
+        "verdict": "the floor is a property of the GRADED pool itself, before the MLP domain cut \u2014 Ruffoni 2014 / Den Hartog 2014 measured high-excitation Fe I, so lab-grading and low-Elo coverage pull against each other."
+      },
+      "swing_dex": 0.0454,
+      "elo_trend": {
+        "network_trend_over_0_to_5_eV_dex": -0.0905,
+        "published_range": [
+          -0.1,
+          -0.05
+        ],
+        "our_pool_slope_dex_per_eV": 0.0098,
+        "our_pool_corr_elo_vs_aberr": 0.395,
+        "our_correction_transported_to_control_mean_elo_dex": 0.03,
+        "fraction_of_swing_explained": 0.287
+      },
+      "axis_confound_closed": {
+        "band_run_axis": 7.5,
+        "railed_at_ceiling": true,
+        "control_axis": 7.46,
+        "sensitivity_across_whole_axis_dex": 0.00224,
+        "verdict": "immaterial \u2014 two orders below the swing"
+      }
+    },
+    "asplund21": 7.46
+  },
+  "test2": {
+    "holding": "kpno_molecfit",
+    "n_pool": 50,
+    "match": {
+      "key": "lambda + EP dual key",
+      "tolerances": {
+        "wavelength_A": 0.02,
+        "excitation_potential_eV": 0.02
+      },
+      "source": "pipeline.gf_resolver (WTOL/EPTOL, not re-derived here)",
+      "n_unmatched": 0,
+      "n_ambiguous": 0,
+      "n_unique_match": 50
+    },
+    "by_tier": {
+      "LAB": {
+        "n": 50,
+        "base_median_dex": 7.475,
+        "post_amarsi_median_dex": 7.5116,
+        "median_aberr_dex": 0.043,
+        "references": [
+          "PRIMARY LAB Belmonte2017",
+          "PRIMARY LAB DenHartog2014",
+          "PRIMARY LAB Ruffoni2014"
+        ]
+      }
+    },
+    "n_lab_tier": 50,
+    "n_kurucz_floored": 0,
+    "splittable": false,
+    "product_gf_axis": "kurucz",
+    "budget_gf_rung": "gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0577 dex (1.41x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it \u2014 larger or smaller (RYA-850)",
+    "canonical_gf_artifact": "data/linelists/canonical_gf.csv"
+  },
+  "test3": {
+    "holding": "kpno_molecfit",
+    "ran": true,
+    "artifacts": {
+      "nlte_lines": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv",
+      "lte_lines": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv",
+      "nlte_products": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+      "lte_products": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+      "nlte_prov": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_provenance.txt",
+      "lte_prov": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt"
+    },
+    "published": {
+      "mean3d_lte_A": 7.552,
+      "mean3d_nlte_A": 7.552,
+      "difference_of_published_values": 0.0,
+      "n_lines": 67
+    },
+    "paired_differential": {
+      "n_paired": 67,
+      "median": 0.032,
+      "mean": 0.0267,
+      "sd": 0.0383,
+      "min": -0.14,
+      "max": 0.092,
+      "n_nonzero": 66,
+      "difference_of_aggregates": 0.0,
+      "aggregator": "median",
+      "collision": true
+    },
+    "departures_engaged": true,
+    "witnesses": {
+      "provenance_strings_differ": {
+        "nlte": "gerber:atom.fe607a on <3D> sun_avg3d_stagger.mod (STAGGERmean3D deck read directly, RYA-821/1035; no vendor interpolator); NLTE, departures applied. The NLTE ef",
+        "lte": "gerber:atom.fe607a on <3D> sun_avg3d_stagger.mod (STAGGERmean3D deck read directly, RYA-821/1035; no vendor interpolator); LTE, departures WITHHELD -- the paire"
+      },
+      "per_line_values_differ": {
+        "md5": {
+          "nlte_lines": "9ef56e2bcc981d25e11b844a746e6ccb",
+          "lte_lines": "018d733687fd47d73dd6ab416c0ff96d"
+        },
+        "distinct": true,
+        "n_nonzero_of_n": "66/67"
+      },
+      "code_path": {
+        "passes_nlte_deck_only_when_nlte": true,
+        "deck_key_is_first_positional": true,
+        "note": "RYA-1049: `for_node(element, ..., node=...)` silently ignores `node` and returns the 1D deck. This call site passes the \u27e83D\u27e9 deck key as the FIRST POSITIONAL argument, which is the reachable way, so that defect does not apply to the shipped pair."
+      },
+      "rya915_one_path_overwrite": {
+        "distinct_paths": true,
+        "both_present": true,
+        "distinct_bytes": true
+      }
+    },
+    "not_a_quantiser": {
+      "n_unique_abundance_values": 117,
+      "min_gap_dex": 0.001,
+      "note": "the medians collided because the 34th of 67 sorted values landed on the same number in both pools \u2014 a coincidence, not a rounding floor (RYA-1083)."
+    },
+    "bookkeeping_defect": {
+      "present": true,
+      "artifact": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv",
+      "nlte_delta_dex_values": [
+        0.0
+      ],
+      "nlte_source_values": [
+        "none \u2014 LTE, no departure applied"
+      ],
+      "contradicts_the_products_own_provenance": true,
+      "note": "cosmetic in the aggregate (the abundances do carry the departures) and misleading to any reader who trusts the column \u2014 the departures are applied inside the fit, so the bookkeeping columns the EW-route correction path writes were never filled by the synthesis path."
+    }
+  },
+  "label_audit": {
+    "displayed_route": "ew",
+    "displayed_route_basis": "handler",
+    "actual_base_route": "synth",
+    "actual_base_handler": "SynthesisHandler",
+    "assertion_1": {
+      "site": "scripts/rya817_run_3dnlte_bands.py \u2014 build_product(handler=...)",
+      "value": "ProfileFitHandler",
+      "why_it_wins": "handler is `resolve_route`'s STRONGEST witness (RYA-869), so it sets route_basis='handler' and outranks everything else.",
+      "why_it_is_wrong": "it is a constant, written when this route could only read PROFILEFIT pools. RYA-1031 widened discovery to SYNTH and the constant did not move with it."
+    },
+    "assertion_2": {
+      "site": "pipeline/treatment_axes.py \u2014 _ROUTE_BY_LABEL['ENGINE-A-3DNLTE']",
+      "value": "ew",
+      "why_it_is_wrong": "RYA-1002 removed the pinned route from `ENGINE-A` for exactly this reason \u2014 the label appears on both routes, so it cannot name one. `ENGINE-A-3DNLTE` inherits the same problem and kept the pin."
+    },
+    "gf_axis_assertion": {
+      "site": "pipeline/treatment_axes.py \u2014 LEGACY['ENGINE-A-3DNLTE']['gf']",
+      "value": "kurucz",
+      "why_it_is_wrong": "a constant in a label table. The pool's own budget measures the gf and reaches the opposite verdict."
+    },
+    "shipping_consequence": {
+      "charged_harness_residual_dex": 0.0129,
+      "earned_harness_residual_dex": 0.0,
+      "note": "the handler is not only a display string \u2014 `rya1095_amarsi_error_budget` spends it on `harness_residual.for_handler`, so the shipped `syst_dex` carries the profile fitter's control residual on a product measured by the synthesiser."
+    },
+    "verdict": "the `EW` and `kurucz` segments of this product's display name are LABELS, contradicted by the product's own base file and its own error budget. Nothing about the VALUE changes; what changes is what the name licenses a reader to conclude \u2014 and this ticket is that reader."
+  },
+  "verdicts": {
+    "test1": "REFUTED \u2014 there is no EW-route base under this product. Its 1D-LTE column is the SYNTHESIS pool it names, verified to 0e+00 dex on 50/50 lines. Test 1's counterfactual IS the shipped configuration, and it reads 7.512, not ~7.47. The +0.065 against the full synth pool splits +0.028 line-subset (67 -> 50 lines, the MLP's training domain) and +0.037 Amarsi correction. The route was never a term in it. WHERE IT IS INSTEAD: the same network returns -0.0024 dex on Amarsi's own solar line set (where the reactivation control PASSES against the published 7.46) and +0.0430 on our graded pool \u2014 a +0.0454 dex swing from the LINE POPULATION. Our lab-gf tier floors at 2.85 eV where Amarsi's set reaches 0.09 eV, and the network's correction tracks Elo (-0.090 dex over 0-5 eV, the paper's own published trend). \u26a0\ufe0f Elo transport explains only 29% of the swing, so the population difference is MEASURED but not fully mechanised \u2014 the remainder is left unattributed rather than guessed.",
+    "test2": "CANNOT BE RUN, AND THAT IS THE ANSWER \u2014 all 50 lines are lab-tier gf (LAB), so the Kurucz-floored subset is EMPTY and the gf zero-point cannot carry the offset. RYA-822's 'heavily Kurucz-floored' is true of the BAND, not of this GRADED pool. The product's `gf` axis nevertheless publishes 'kurucz' while its own budget reaches rung 3 on the same 50 lines \u2014 a label contradicting a measurement inside one product.",
+    "test3": "DEPARTURES ARE ENGAGED (True) and the feed's 0.000 is NOT a wiring bug \u2014 it is the wrong statistic. Differencing two published medians gives +0.0000; the per-line paired differential is +0.0320 (mean +0.0267), nonzero on 66/67 lines. RYA-1051's +0.033 is corroborated; the feed's 0.000 is not a competing value. The RYA-1099 Gerber systematics note is therefore SAFE on this point \u2014 the \u27e83D\u27e9 NLTE effect it rests on is real and measured. \u26a0\ufe0f separately, the NLTE product's own `nlte_delta_dex`/`nlte_source` columns read as LTE."
+  },
+  "cross_check": {
+    "harps": {
+      "base_is_synthesis": true,
+      "base_verified_max_residual_dex": 0.0,
+      "synth_base_full_pool": {
+        "A": 7.512,
+        "n": 67
+      },
+      "synth_base_amarsi_subset": {
+        "A": 7.467,
+        "n": 50
+      },
+      "post_amarsi": {
+        "A": 7.5124,
+        "n": 50
+      },
+      "line_subset_step_dex": -0.045,
+      "amarsi_correction_step_dex": 0.0454,
+      "ew_route_product": {
+        "exists": false,
+        "note": "no EW-route (PROFILEFIT) product committed for this holding (looked for FeI_4200_6908_harps_solar_harps_molecfit_corrected_PROFILEFIT_GRADED_products.csv)"
+      },
+      "n_lab_tier": 50,
+      "n_kurucz_floored": 0,
+      "gf_tiers": [
+        "LAB"
+      ]
+    },
+    "iag": {
+      "base_is_synthesis": true,
+      "base_verified_max_residual_dex": 0.0,
+      "synth_base_full_pool": {
+        "A": 7.495,
+        "n": 43
+      },
+      "synth_base_amarsi_subset": {
+        "A": 7.511,
+        "n": 39
+      },
+      "post_amarsi": {
+        "A": 7.5429,
+        "n": 39
+      },
+      "line_subset_step_dex": 0.016,
+      "amarsi_correction_step_dex": 0.0319,
+      "ew_route_product": {
+        "exists": false,
+        "note": "no EW-route (PROFILEFIT) product committed for this holding (looked for FeI_5002_6910_iag_fts_solar_atlas_solar_iag_PROFILEFIT_GRADED_products.csv)"
+      },
+      "n_lab_tier": 39,
+      "n_kurucz_floored": 0,
+      "gf_tiers": [
+        "LAB"
+      ]
+    },
+    "kpno_kurucz2005": {
+      "base_is_synthesis": true,
+      "base_verified_max_residual_dex": 0.0,
+      "synth_base_full_pool": {
+        "A": 7.442,
+        "n": 67
+      },
+      "synth_base_amarsi_subset": {
+        "A": 7.466,
+        "n": 50
+      },
+      "post_amarsi": {
+        "A": 7.5046,
+        "n": 50
+      },
+      "line_subset_step_dex": 0.024,
+      "amarsi_correction_step_dex": 0.0386,
+      "ew_route_product": {
+        "exists": true,
+        "artifact": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_PROFILEFIT_GRADED_products.csv",
+        "A": 7.445,
+        "n": 13,
+        "handler": "ProfileFitHandler",
+        "route_axis": "ew",
+        "per_line_file_committed": false,
+        "note": "PRODUCT level only \u2014 no per-line file is committed for the PROFILEFIT pool, so this cannot be restricted to the Amarsi subset. It is a DIFFERENT population, not a comparand."
+      },
+      "n_lab_tier": 50,
+      "n_kurucz_floored": 0,
+      "gf_tiers": [
+        "LAB"
+      ]
+    }
+  }
+}
