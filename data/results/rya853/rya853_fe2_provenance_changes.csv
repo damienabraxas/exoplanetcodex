@@ -1,0 +1,17 @@
+file,wavelength_air_A,field,before,after
+canonical_gf.csv,6149.246,loggf_reference,NIST ASD v5.11 grade B,VALD3-scale value via nist_reference.csv; NOT NIST (ASD gives -2.854 acc E) -- RYA-853
+canonical_gf.csv,6149.246,nist_grade,B,
+canonical_gf.csv,6149.246,adjudication_status,nist,held_rya853
+linelist_solar.csv,6149.24592,nist_grade,B,
+nist_reference.csv,6149.258,nist_grade,B,
+nist_reference.csv,6149.258,notes,Tier 1; ionization equilibrium anchor,"RYA-853: grade REMOVED — ASD gives -2.854 acc E, not the B stored here; log_gf is VALD3-scale and HELD (docs/science/rya853_fe2_provenance.md)"
+nist_crosscheck.csv,6149.250,nist_grade,B,
+nist_crosscheck.csv,6149.250,notes,Ionization balance check,"RYA-853: grade REMOVED — ASD gives -2.854 acc E, not the B stored here; log_gf is VALD3-scale and HELD (docs/science/rya853_fe2_provenance.md)"
+canonical_gf.csv,6247.557,loggf_reference,NIST ASD v5.11 grade B,VALD3-scale value via nist_reference.csv; NOT NIST (ASD gives -2.444 acc D) -- RYA-853
+canonical_gf.csv,6247.557,nist_grade,B,
+canonical_gf.csv,6247.557,adjudication_status,nist,held_rya853
+linelist_solar.csv,6247.55695,nist_grade,B,
+nist_reference.csv,6247.557,nist_grade,B,
+nist_reference.csv,6247.557,notes,Tier 1; ionization equilibrium anchor,"RYA-853: grade REMOVED — ASD gives -2.444 acc D, not the B stored here; log_gf is VALD3-scale and HELD (docs/science/rya853_fe2_provenance.md)"
+nist_crosscheck.csv,6247.560,nist_grade,B,
+nist_crosscheck.csv,6247.560,notes,Ionization balance check,"RYA-853: grade REMOVED — ASD gives -2.444 acc D, not the B stored here; log_gf is VALD3-scale and HELD (docs/science/rya853_fe2_provenance.md)"

@@ -77,6 +77,10 @@ def step0(ctx):
         m = sol.iloc[(sol.wavelength_air_A - wave_A).abs().argmin()]
         dgf = float(s['loggf']) - float(m.log_gf)
         rows.append(dict(line=wave_A, synth_gf=float(s['loggf']), llsolar_gf=float(m.log_gf),
+                         # RYA-853 scope 4: step1's NIST match needs the EP, on BOTH sides.
+                         # Without it the guard added there degenerates to "never match",
+                         # which reads as "no graded source" and is a silent false absence.
+                         ep_eV=float(m.excitation_potential_eV),
                          dgf=round(dgf, 3), synth_stark=float(s['stark']),
                          synth_waals=float(s['waals']), transition_type=str(s['spectrum_transition_type']),
                          waals_single_gamma=float(s['waals_single_gamma_format']),
@@ -102,14 +106,32 @@ def step1(ctx, s0):
     print("\n=== STEP 1 — gf cross-check (synth=GES v6 vs sourced refs) ===")
     print(f"{'line':>9} {'synth(GESv6)':>12} {'LLsolar(VALD3)':>15} {'NIST ASD':>10} {'grade':>6}  source/flag")
     out = []
+    # 🔴 RYA-853 scope 4: EP guard on BOTH sides, and ambiguity refused.
+    # This matched on wavelength alone within +/-0.1 A and took .iloc[0] -- a 0.1 A window
+    # at 6150 A spans several levels, and file order decided the winner. RYA-853 measured
+    # the consequence directly: matched on wavelength alone, 6149.246 picks up an EP of
+    # 13.436 eV instead of 3.889. The window is now +/-0.05 A AND the EP must agree.
+    WAVE_TOL_A, EP_TOL_EV = 0.05, 0.05
+
+    def _pick(tbl, w, ep):
+        """The unique row matching on BOTH axes, or None. Never argmin: two rows the
+        data cannot separate must not be separated by proximity."""
+        if not np.isfinite(ep):
+            return None
+        m = tbl[((tbl.wavelength_air_A - w).abs() <= WAVE_TOL_A)
+                & ((tbl.excitation_potential_eV - ep).abs() <= EP_TOL_EV)]
+        return m.iloc[0] if len(m) == 1 else None
+
     for _, r in s0.iterrows():
         w = r.line
-        nm = nist[(nist.wavelength_air_A - w).abs() < 0.1]
-        nm2 = nxc[(nxc.wavelength_air_A - w).abs() < 0.1]
-        nist_gf = float(nm.iloc[0].log_gf) if len(nm) else (float(nm2.iloc[0].log_gf) if len(nm2) else np.nan)
-        grade = (nm.iloc[0].nist_grade if len(nm) else (nm2.iloc[0].nist_grade if len(nm2) else '—'))
+        ep = float(getattr(r, 'ep_eV', np.nan))
+        hit = _pick(nist, w, ep)
+        if hit is None:
+            hit = _pick(nxc, w, ep)
+        nist_gf = float(hit.log_gf) if hit is not None else np.nan
+        grade = hit.nist_grade if hit is not None else '—'
         flag = ('NIST ASD v5.11' if np.isfinite(nist_gf)
-                else 'NO local graded source → flag for manual NIST/M&B 2009 pull')
+                else 'NO EP-matched graded source → flag for manual NIST/M&B 2009 pull')
         print(f"{w:9.3f} {r.synth_gf:12.3f} {r.llsolar_gf:15.3f} "
               f"{(f'{nist_gf:.3f}' if np.isfinite(nist_gf) else '—'):>10} {str(grade):>6}  {flag}")
         out.append(dict(line=w, synth_gf=r.synth_gf, llsolar_gf=r.llsolar_gf,

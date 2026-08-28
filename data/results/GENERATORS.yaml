@@ -4197,3 +4197,22 @@ artifacts:
     ticket: RYA-853
     note: >-
       The red arm as measured during the control run.
+
+  # ── RYA-853: the Fe II provenance fix (scopes 1 + 4, Fe II half) ──
+  - artifact: rya853/rya853_fe2_provenance_changes.csv
+    generator: scripts/rya853_fe2_provenance_fix.py
+    invocation: python3 scripts/rya853_fe2_provenance_fix.py --apply
+    ticket: RYA-853
+    note: >-
+      Every field changed across the four files, with before/after. Eight lines total, and
+      log_gf appears in none of them: the fabricated NIST grade was removed, the value HELD.
+
+  - artifact: rya853/rya853_fe2_declared_gap.json
+    generator: scripts/rya853_fe2_provenance_fix.py
+    invocation: python3 scripts/rya853_fe2_provenance_fix.py --apply
+    ticket: RYA-853
+    note: >-
+      Why no source can adjudicate Fe II 6149.246 / 6247.557 — Den Hartog 2019 stops at
+      4584 A, Melendez & Barbuy 2009 is solar-fitted and firewalled, NIST covers them at
+      grade E/D and is the scale scope 3 measured as low. Recorded as a checked absence
+      (RYA-833), owned by RYA-953.
