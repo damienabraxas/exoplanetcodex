@@ -1,0 +1,261 @@
+# RYA-1037 — line-key findings that are KNOWN and OWNED, not fixed in this pass.
+#
+# A waiver is not a suppression: every entry names the ticket that will fix it and
+# why it is safe to defer. The guard still FAILS on any finding not listed here, and
+# on a NEW finding in a file that is listed — the waiver names the site, not the
+# file's future.
+#
+# These are one-off analysis scripts, not the production measurement path. The
+# pipeline/ sites are fixed or rerouted under RYA-1037 itself.
+waivers:
+  # ── pipeline/ — the production measurement path ──
+  # 🔴 NONE of these can be rerouted through pipeline/line_match.py TODAY, and the reason is
+  # the same one every time: THE LEFT SIDE HAS NO EXCITATION POTENTIAL. The matcher refuses
+  # rather than falling back to lambda-only, which is the correct behaviour and is exactly
+  # why it cannot be dropped in yet. Measured, not assumed:
+  #   * data/measured/sol_ew_results_v1.csv has NO ep column at all -> every EW-side match
+  #     is blocked on RYA-1036 (thread EP through the product path).
+  #   * nlte_correction() is called with (ion, wave_A) only; the MPIA grid is keyed on
+  #     (ion, round(lambda, 3)) with no level information -> blocked on threading EP into
+  #     the NLTE call signature and grid key (RYA-317's territory).
+  # So item C of RYA-1037 is SEQUENCED, not skipped: the guard holds the line while the EP
+  # plumbing lands, and each site flips from waived to rerouted as its input gains an EP.
+
+  - kind: ROUNDED_WAVE_KEY
+    file: pipeline/abundances_derive.py
+    count: 1
+    ticket: RYA-1036
+    reason: >-
+      Fe II linemask cache key built from np.round(wave, 3); the linemask carries no EP.
+      Blocked on EP reaching the product path.
+
+  - kind: ARGMIN_ON_WAVE
+    file: pipeline/curate_nonfe_pools.py
+    count: 2
+    ticket: RYA-1036
+    reason: >-
+      Nearest-wavelength pick against canonical_gf, then the EP is READ FROM the matched
+      row — there is no EP on the measured side to check against. sol_ew_results_v1.csv has
+      no ep column; verified, not assumed. Blocked on RYA-1036.
+
+  - kind: WAVE_ONLY_MERGE
+    file: pipeline/lines_fit.py
+    count: 1
+    ticket: RYA-1036
+    reason: >-
+      Ni EW merge on wavelength; the EW frame carries no EP. Blocked on RYA-1036.
+
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/nlte_cno.py
+    count: 1
+    ticket: RYA-317
+    reason: >-
+      CNO NLTE grid lookup by wavelength tolerance; the grid node carries no level
+      identification. Blocked on EP in the NLTE grid key.
+
+  - kind: ROUNDED_WAVE_KEY
+    file: pipeline/nlte_corrections.py
+    count: 2
+    ticket: RYA-317
+    reason: >-
+      The MPIA grid interpolator is keyed on (ion, round(lambda, 3)) — a rounded float as a
+      dict key, the RYA-1033 class. Fixing it means re-keying the grid on the transition,
+      which changes the NLTE call signature; value-visible, so it is its own change.
+
+  - kind: ARGMIN_ON_WAVE
+    file: pipeline/nlte_corrections.py
+    count: 4
+    ticket: RYA-317
+    reason: >-
+      Nearest-grid-node pick on wavelength alone. Same blocker as above.
+
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/nlte_corrections.py
+    count: 2
+    ticket: RYA-317
+    reason: >-
+      The tolerance check that follows the argmin. Same blocker.
+
+  - kind: WAVE_ONLY_TOL
+    file: pipeline/uv_line_selection.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      UV line selection matches a species+wavelength against a curated dict with no EP
+      field. Reroutable once the UV line table carries EP; smallest of the six and the
+      natural first one to convert.
+
+  - kind: ARGMIN_ON_WAVE
+    file: scripts/fe2_ew_quality_cull.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ARGMIN_ON_WAVE
+    file: scripts/rya305_fe2_triage.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ARGMIN_ON_WAVE
+    file: scripts/rya347_fe2_atomic_data_audit.py
+    count: 2
+    ticket: RYA-853
+    reason: >-
+      guarded in RYA-853; the remaining hits are band-edge checks, re-verify when rerouted
+  - kind: ARGMIN_ON_WAVE
+    file: scripts/rya762_band_engines.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ARGMIN_ON_WAVE
+    file: scripts/stage2_pool_ledger_rya706.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/add_namg_recovery_to_pool_rya465.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/rya527_two_engine_run.py
+    count: 2
+    ticket: RYA-704
+    reason: >-
+      the two-engine per-line map keyed on round(lambda, 0.1) — this IS RYA-704
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/rya560_zr2_synth_sirius.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/rya564_co1_synth_sirius.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/rya565_eu2_synth_sirius.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/rya592_mg_5528_synth_sirius.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: ROUNDED_WAVE_KEY
+    file: scripts/rya684_isotope_gf_audit.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya1051_fe_nlte_ladder.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya1051_gradient_mechanism.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya1081_harps_fe2_audit.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya762_band_engines.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya841_nearuv_continuum_methods.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya841_nearuv_continuum_sensitivity.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya841_nearuv_scatter_driver.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya846_nonlinear_responders.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya853_dh19_scale_referee.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya871_ep_resolution_probe.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_MERGE
+    file: scripts/rya878_angle1_like_for_like.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_TOL
+    file: scripts/adjudicate_gf_batch3_zrbayeu_rya354.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_TOL
+    file: scripts/flag_procyon_fe2_blends_rya268.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_TOL
+    file: scripts/intake_check_55cnc.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya551_sr2_synth_sirius.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya581_ba2_deblend_sirius.py
+    count: 1
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched
+  - kind: WAVE_ONLY_TOL
+    file: scripts/rya817_recover_amarsi_training_set.py
+    count: 2
+    ticket: RYA-1037
+    reason: >-
+      one-off analysis script, not on the production measurement path; reroute when next touched

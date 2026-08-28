@@ -114,6 +114,14 @@ jobs:
         run: |
           "$PYTHON" scripts/check_register_freshness.py
 
+      - name: Line-key guard (RYA-1037) - lambda alone is never a line key
+        # The most-repeated defect in this pipeline, fixed one call site at a time across
+        # seven tickets. This is the enforcement: a wavelength-only merge, a rounded-lambda
+        # key, or an argmin over a wavelength distance breaks the build. Known sites are
+        # waived in config/line_key_waivers.yaml WITH a ticket, a reason and a count.
+        run: |
+          "$PYTHON" scripts/audit_line_keys_rya1037.py --check
+
       - name: Result-generator guard (RYA-686) - no result lands without its harness
         # A result JSON that arrives from Sirius without the harness that produced it is
         # an unreproducible measurement (RYA-559 shipped Ba 2.410 that way; the harness has
