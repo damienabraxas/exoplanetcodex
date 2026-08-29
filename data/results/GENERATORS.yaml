@@ -4848,3 +4848,165 @@ artifacts:
       standard-error field and no systematic at all.
       ⚠️ The base pool is Sirius-local, so the input dir is named rather than reproducible
       on the committed runner (RYA-1011).
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      TS-native Gerber departures on MARCS.GES (RYA-798). A = 7.488; paired per-line effect vs synth-1D-LTE-gerber median +0.049 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      TS-native Gerber departures on MARCS.GES (RYA-798). A = 7.488; paired per-line effect vs synth-1D-LTE-gerber median +0.049 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      TS-native Gerber departures on MARCS.GES (RYA-798). A = 7.488; paired per-line effect vs synth-1D-LTE-gerber median +0.049 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      TS-native Gerber departures on MARCS.GES (RYA-798). A = 7.488; paired per-line effect vs synth-1D-LTE-gerber median +0.049 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-nlte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      TS-native Gerber departures on MARCS.GES (RYA-798). A = 7.488; paired per-line effect vs synth-1D-LTE-gerber median +0.049 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The 1D comparand on MARCS.GES with departures WITHHELD (RYA-1045), so ENGINE-B-NLTE can be differenced against its OWN atmosphere rather than the route's ATLAS9. A = 7.439.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The 1D comparand on MARCS.GES with departures WITHHELD (RYA-1045), so ENGINE-B-NLTE can be differenced against its OWN atmosphere rather than the route's ATLAS9. A = 7.439.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The 1D comparand on MARCS.GES with departures WITHHELD (RYA-1045), so ENGINE-B-NLTE can be differenced against its OWN atmosphere rather than the route's ATLAS9. A = 7.439.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-1d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The 1D comparand on MARCS.GES with departures WITHHELD (RYA-1045), so ENGINE-B-NLTE can be differenced against its OWN atmosphere rather than the route's ATLAS9. A = 7.439.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> LTE comparand: STAGGER mean-3D deck read directly (RYA-821/1035), departures OFF. A = 7.541. Mandatory pair with the NLTE member -- the effect is (NLTE - LTE) on ONE atmosphere; differencing against a 1D-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542).
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> LTE comparand: STAGGER mean-3D deck read directly (RYA-821/1035), departures OFF. A = 7.541. Mandatory pair with the NLTE member -- the effect is (NLTE - LTE) on ONE atmosphere; differencing against a 1D-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542).
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> LTE comparand: STAGGER mean-3D deck read directly (RYA-821/1035), departures OFF. A = 7.541. Mandatory pair with the NLTE member -- the effect is (NLTE - LTE) on ONE atmosphere; differencing against a 1D-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542).
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d-lte
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> LTE comparand: STAGGER mean-3D deck read directly (RYA-821/1035), departures OFF. A = 7.541. Mandatory pair with the NLTE member -- the effect is (NLTE - LTE) on ONE atmosphere; differencing against a 1D-LTE product would report the 1D->mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542).
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_budgets.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> NLTE member. A = 7.562; paired per-line effect vs its LTE comparand median +0.037 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_lines.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> NLTE member. A = 7.562; paired per-line effect vs its LTE comparand median +0.037 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_nlte_effect.json
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> NLTE member. A = 7.562; paired per-line effect vs its LTE comparand median +0.037 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> NLTE member. A = 7.562; paired per-line effect vs its LTE comparand median +0.037 dex over 67 lines.
+  - artifact: band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_provenance.txt
+    generator: scripts/derive_band_products.py
+    invocation: python3 scripts/derive_band_products.py --star solar --element Fe --ion I --lo 4200 --hi 6910 --force-synthesis --instrument kpno_solar_atlas --holding solar_kpno_kurucz2005_corrected --lines-tier graded --engine-b-deck gerber-mean3d
+    ticket: RYA-1108
+    note: >-
+      RYA-1108 -- the second Kitt Peak telluric holding. These four legs had NEVER been run
+      for solar_kpno_kurucz2005_corrected; only molecfit had them. Same GRADED pool (67
+      LAB-tier Fe I lines at or below the 0.6 depth gate, of 176 in band; gf rung 3).
+      The <3D> NLTE member. A = 7.562; paired per-line effect vs its LTE comparand median +0.037 dex over 67 lines.

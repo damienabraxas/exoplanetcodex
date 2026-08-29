@@ -977,8 +977,21 @@ it ratifies structure, display and guards. Full record: `docs/decisions/fe_produ
 
 The reported product is `Fe · HARPS · VIS`, `Fe · Kitt Peak · red-optical` — **never**
 `Fe · VIS`. Inside each sits a grid: rows are line tiers (**gf-graded** / **consistent** /
-**bad → appendix only**), columns are treatments (1D-LTE, 1D-LTE synth, 1D-NLTE, 3D-LTE,
-⟨3D⟩-NLTE, 3D-NLTE).
+**bad → appendix only**), columns are treatments. The column list is DERIVED — `pipeline.treatment_axes.
+plot_row_axis()` — and enumerated in `docs/decisions/fe_product_grid_and_display.md`;
+it is deliberately not restated here, because it was restated here and went stale.
+
+Nine columns over **seven models**: `1D-LTE` and `1D-NLTE · Bergemann` each appear
+twice, once per route, because a profile fit and a flux fit measure different line
+pools and are separate products (RYA-712).
+
+🔴 **`3D-LTE` IS NOT A COLUMN WE HAVE.** This list previously named one. Our LTE
+comparand is `<3D>-LTE` — the STAGGER cube averaged on constant-τ500 surfaces — and
+writing it as plain `3D-LTE` claims a 3D-RT solve we have never run (RYA-1102). The
+distinction is load-bearing in BOTH directions: Scott et al. 2015a in
+`data/reference/litscan/Fe.yaml` really is `3D-LTE + 1D-NLTE delta`, full 3D line
+formation through the cube, and renaming THAT to ⟨3D⟩ would under-claim someone
+else's result.
 
 **The instrument is part of the identity, not metadata.** Two instruments reaching the
 same band have different normalisation histories, different telluric states and different
