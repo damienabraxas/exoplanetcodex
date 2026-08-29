@@ -44,9 +44,55 @@ AMBIGUOUS_TOKENS = {
     ),
 }
 
+#: The roster's status vocabulary. `not-emitted` is deliberately NOT folded into `in-dev`:
+#: the Bride is being BUILT, while Frankenstein's Dog is a leg the science requires that
+#: nothing currently emits. Collapsing them would hide which of the two is waiting on a
+#: solver and which is waiting on a wiring decision — the same one-token-two-meanings
+#: defect the bare `ENGINE-B` alias below exists to flag.
+STATUSES = ("live", "in-dev", "not-emitted")
+
+#: 🔴 THE `line_set` HOOK — RYA-1111 WIRES THE VALUES, RYA-1101 ONLY OPENS THE COLUMN.
+#: Which pool of lines a measurement was made on is a PROVENANCE AXIS, not a property of
+#: the model: any model here can in principle be measured on any of these sets, so every
+#: roster row carries `-` ("not model-scoped") until RYA-1111 has products to key.
+#:
+#: The vocabulary is declared here so the column cannot accept a value typed from memory
+#: the day it is first populated — `check_line_sets` refuses anything outside it. That is
+#: the whole point of opening the column early rather than letting 1111 invent one.
+#:
+#: ⚠️ `consistent` IS ABSENT ON PURPOSE. RYA-1105 removes the Consistent tier from the
+#: active pipeline and the website; the going-forward set is Asplund Grade / Our Grade /
+#: Deep Grade. `--lines-tier consistent` is STILL LIVE in `derive_band_products.py` — that
+#: is RYA-1105's to retire, not this ticket's (RYA-1101 forbids touching model code), so
+#: the code and this vocabulary genuinely disagree today and the mismatch is recorded
+#: rather than papered over.
+LINE_SETS = (
+    "-",                 # not model-scoped; the value every roster row carries today
+    "asplund-graded",    # the imported AGSS21 reference set (RYA-1109)
+    "gbs",               # the Gaia FGK Benchmark Stars reference set
+    "our-graded",        # our lab-gf graded pool, at or below the depth gate
+    "our-deep-graded",   # the saturated population above the gate (RYA-984/954)
+)
+
 
 class ModelRegistryError(LookupError):
     """A token could not be bound to exactly one model, SAFELY."""
+
+
+def check_line_sets(rows: list[dict]) -> list[str]:
+    """Every `line_set` value is in `LINE_SETS`, or say which are not.
+
+    Returns the complaints rather than raising, so the verifier can report every bad row
+    in one pass instead of stopping at the first.
+    """
+    bad = []
+    for r in rows:
+        v = (r.get("line_set") or "").strip()
+        if v not in LINE_SETS:
+            bad.append(f"model {r['model_id']} line_set {v!r} is not in LINE_SETS "
+                       f"{LINE_SETS} — RYA-1111 must add the value to the vocabulary "
+                       f"before writing it to the roster")
+    return bad
 
 
 def load(path: Path | None = None) -> list[dict]:
