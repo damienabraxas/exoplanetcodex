@@ -11,13 +11,45 @@ Kitt Peak class by Ryan's 2026-08-24 standing-rule comment.**
 The reported Fe product is a **per-(instrument × band)** object: `Fe · HARPS · VIS`,
 `Fe · Kitt Peak · red-optical` — never `Fe · VIS`. Inside each sits a grid:
 
-| | 1D-LTE | 1D-LTE Synth | 1D-NLTE | 3D-LTE | ⟨3D⟩-NLTE | 3D-NLTE |
-|---|---|---|---|---|---|---|
-| **gf-graded** | | | | | | |
-| **consistent** | | | | | | |
-| **bad → appendix only** | | | | | | |
+Rows are line tiers; columns are treatments. The column list is **not written here** —
+it is `pipeline.treatment_axes.plot_row_axis()`, derived from the axis registry, and
+`tests/test_plot_grid_rya1102.py` asserts this document agrees with it. A hand-typed
+column list is how this table lost two real models for weeks (below).
 
-Rows are line tiers, columns are treatments.
+| # | column | token | notes |
+|---|---|---|---|
+| 1 | EW · 1D-LTE | `1D-LTE` (ProfileFitHandler) | |
+| 2 | Synth · 1D-LTE | `1D-LTE` (SynthesisHandler) | ATLAS9.Castelli |
+| 3 | **Synth · 1D-LTE · Gerber** | `synth-1D-LTE-gerber` | **MARCS.GES.** RYA-1045's paired comparand for column 6 |
+| 4 | EW · 1D-NLTE · Bergemann | `ENGINE-A` (ProfileFitHandler) | |
+| 5 | Synth · 1D-NLTE · Bergemann | `ENGINE-A` (SynthesisHandler) | |
+| 6 | **Synth · 1D-NLTE · Gerber** | `ENGINE-B-NLTE` | TS-native Gerber departures on MARCS.GES (RYA-798) |
+| 7 | Synth · <3D>-LTE · Gerber · stagger | `synth-mean3D-LTE-gerber-stagger` | mandatory comparand for column 8 |
+| 8 | Synth · <3D>-NLTE · Gerber · stagger | `synth-mean3D-NLTE-gerber-stagger` | |
+| 9 | EW · 3D-NLTE · Amarsi | `ENGINE-A-3DNLTE` | Amarsi+2022 MLP |
+| 10 | *Synth · <3D>-NLTE · Gerber · codex* | *pending* | the deck we solve ourselves; declared, **not rendered** |
+
+Names in the table are the **exact strings `display_for` derives** — ASCII `<3D>`, not the
+typographic ⟨3D⟩ used in prose — so the guard below is an equality, not a resemblance.
+
+Seven MODELS across nine columns: `1D-LTE` and `1D-NLTE · Bergemann` each appear twice
+because **EW and synthesis are separate products** — a profile fit and a flux fit measure
+different line pools, so they are two columns, never one to collapse (RYA-712).
+
+🔴 **THREE CORRECTIONS TO THE ORIGINAL SIX-COLUMN TABLE** (RYA-1102, 2026-08-28):
+
+* **Columns 3 and 6 were missing entirely.** Both Gerber models — the 1D-LTE comparand on
+  MARCS.GES and `ENGINE-B-NLTE` — have been produced and published since RYA-798/1045 and
+  never appeared here. A model absent from the registry is a model no reader can ask for.
+* **Column 7 carried a plain-3D name.** It is ⟨3D⟩ — the STAGGER cube averaged on
+  constant-τ500 surfaces, not a 3D-RT solve. §"⟨3D⟩ and 3D are kept apart" already says a
+  mean-3D number under a `3D` label claims the expensive result while having run the cheap
+  one; the table itself was doing exactly that.
+* **Columns 3 and 7 are COMPARANDS, and that is why they are shown.** Each exists so its
+  NLTE partner can be differenced on the SAME atmosphere — differencing column 8 against
+  column 2 would report the 1D→mean-3D ATMOSPHERE shift as non-LTE physics (RYA-542).
+  Ryan ratified rendering them rather than hiding them: *"let's include it as it is used
+  and should be referenced."*
 
 **Why the instrument is part of the identity, not metadata.** Two instruments reaching
 the same band have different normalisation histories, different telluric states and
