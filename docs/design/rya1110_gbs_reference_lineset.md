@@ -315,6 +315,25 @@ stays clean; only the GBS-replication Fe II carries the circularity.**
 This **sharpens** the standing do-both gf decision flag — it does not resolve it. No gf
 value and no line selection changed: the disposition is a label.
 
+### ✅ Tolerance re-validated — RYA-1117
+
+Raised after RYA-1109 found `line_match`'s 0.005 Å default 20× too tight for AGSS21's
+**nanometre** table, on the assumption these counts shared the trap. **They did not** —
+Jofré prints **Ångströms** to 2 dp, and this ticket derived 0.015 Å from that. RYA-1117
+swept it anyway, because "I derived it" is a claim and a plateau is a measurement:
+
+| count | at the 0.005 Å default | published (0.015 Å) | clean-region plateau |
+|---|---|---|---|
+| `canonical_gf` resolved | 154 | **159** | 159 over 0.015–0.020 Å |
+| graded (LAB) overlap Fe I | 16 | **16** | 16 at **every** clean window |
+| graded (LAB) overlap Fe II | 0 | **0** | 0 at every window to 0.25 Å |
+| gf comparable | 117 | **121** | 121 over 0.015–0.020 Å |
+| gf identical | 65 | **67** | 67 over 0.015–0.020 Å |
+| Heiter+2021 resolved | 152 | **159** | 159 over 0.015–0.020 Å |
+
+**Nothing moved.** The BEFORE column is a counterfactual showing what the bare default
+would have cost. Artifact: `data/results/rya1117/gbs_tolerance_recheck.json`.
+
 ### Method, and two by-products
 
 λ+EP dual key (RYA-1037, `require_ep=True`), the same 0.015 Å tolerance, independently

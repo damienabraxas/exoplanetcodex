@@ -1,0 +1,397 @@
+{
+  "ticket": "RYA-1117",
+  "rechecks": "RYA-1110",
+  "premise": {
+    "as_raised": "RYA-1110's counts were computed with the fixed 0.005 A default",
+    "verdict": "REFUTED",
+    "detail": "rya1110_build_gbs_fe_lineset._MATCH_TOL_A is 0.015 A, 3x line_match.MATCH_TOL_A (0.005 A), derived in RYA-1110 from Jofr\u00e9's 2-dp print precision. The BEFORE column here is a COUNTERFACTUAL."
+  },
+  "measured_precision": {
+    "jofre_table4_fe1": {
+      "n": 171,
+      "decimals": {
+        "2": 171
+      },
+      "min_observed_step_A": 0.19,
+      "print_step_A": 0.01,
+      "print_half_width_A": 0.005
+    },
+    "jofre_table5_fe2": {
+      "n": 12,
+      "decimals": {
+        "2": 12
+      },
+      "min_observed_step_A": 11.19,
+      "print_step_A": 0.01,
+      "print_half_width_A": 0.005
+    },
+    "vizier_ew_dat": {
+      "n": 4252,
+      "decimals": {
+        "2": 4252
+      },
+      "min_observed_step_A": 0.16,
+      "print_step_A": 0.01,
+      "print_half_width_A": 0.005
+    },
+    "vizier_table6_dat": {
+      "n": 242,
+      "decimals": {
+        "1": 242
+      },
+      "min_observed_step_A": 0.1,
+      "print_step_A": 0.1,
+      "print_half_width_A": 0.05
+    },
+    "heiter2021_geslines": {
+      "n": 15265,
+      "decimals": {
+        "4": 15265
+      },
+      "min_observed_step_A": 0.0002,
+      "print_step_A": 0.0001,
+      "print_half_width_A": 5e-05
+    },
+    "canonical_gf": {
+      "n": 41040,
+      "decimals": {
+        "0": 24,
+        "1": 335,
+        "2": 3188,
+        "3": 31392,
+        "4": 6100,
+        "5": 1
+      },
+      "min_observed_step_A": 0.0001,
+      "print_step_A": 1e-05,
+      "print_half_width_A": 5e-06
+    }
+  },
+  "before_tol_A": 0.005,
+  "derived_tol_A": 0.015,
+  "sweep": [
+    {
+      "tol_A": 0.005,
+      "canonical_gf_resolved": 154,
+      "canonical_gf_ambiguous": 0,
+      "displaced_null": [
+        0,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 117,
+      "gf_identical": 65,
+      "heiter2021_resolved": 152,
+      "heiter2021_ambiguous": 0
+    },
+    {
+      "tol_A": 0.0075,
+      "canonical_gf_resolved": 154,
+      "canonical_gf_ambiguous": 0,
+      "displaced_null": [
+        0,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 117,
+      "gf_identical": 65,
+      "heiter2021_resolved": 154,
+      "heiter2021_ambiguous": 0
+    },
+    {
+      "tol_A": 0.01,
+      "canonical_gf_resolved": 157,
+      "canonical_gf_ambiguous": 0,
+      "displaced_null": [
+        0,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 120,
+      "gf_identical": 66,
+      "heiter2021_resolved": 157,
+      "heiter2021_ambiguous": 0
+    },
+    {
+      "tol_A": 0.015,
+      "canonical_gf_resolved": 159,
+      "canonical_gf_ambiguous": 0,
+      "displaced_null": [
+        0,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 121,
+      "gf_identical": 67,
+      "heiter2021_resolved": 159,
+      "heiter2021_ambiguous": 0
+    },
+    {
+      "tol_A": 0.02,
+      "canonical_gf_resolved": 159,
+      "canonical_gf_ambiguous": 0,
+      "displaced_null": [
+        0,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 121,
+      "gf_identical": 67,
+      "heiter2021_resolved": 159,
+      "heiter2021_ambiguous": 0
+    },
+    {
+      "tol_A": 0.03,
+      "canonical_gf_resolved": 158,
+      "canonical_gf_ambiguous": 1,
+      "displaced_null": [
+        0,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 120,
+      "gf_identical": 67,
+      "heiter2021_resolved": 158,
+      "heiter2021_ambiguous": 1
+    },
+    {
+      "tol_A": 0.05,
+      "canonical_gf_resolved": 157,
+      "canonical_gf_ambiguous": 2,
+      "displaced_null": [
+        1,
+        0
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 119,
+      "gf_identical": 67,
+      "heiter2021_resolved": 158,
+      "heiter2021_ambiguous": 1
+    },
+    {
+      "tol_A": 0.08,
+      "canonical_gf_resolved": 157,
+      "canonical_gf_ambiguous": 2,
+      "displaced_null": [
+        1,
+        1
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 119,
+      "gf_identical": 67,
+      "heiter2021_resolved": 157,
+      "heiter2021_ambiguous": 2
+    },
+    {
+      "tol_A": 0.1,
+      "canonical_gf_resolved": 157,
+      "canonical_gf_ambiguous": 2,
+      "displaced_null": [
+        1,
+        1
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 119,
+      "gf_identical": 67,
+      "heiter2021_resolved": 156,
+      "heiter2021_ambiguous": 3
+    },
+    {
+      "tol_A": 0.25,
+      "canonical_gf_resolved": 157,
+      "canonical_gf_ambiguous": 2,
+      "displaced_null": [
+        3,
+        2
+      ],
+      "graded_LAB_overlap_FeI": 16,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 119,
+      "gf_identical": 67,
+      "heiter2021_resolved": 156,
+      "heiter2021_ambiguous": 3
+    },
+    {
+      "tol_A": 0.5,
+      "canonical_gf_resolved": 153,
+      "canonical_gf_ambiguous": 6,
+      "displaced_null": [
+        152,
+        151
+      ],
+      "graded_LAB_overlap_FeI": 15,
+      "graded_LAB_overlap_FeII": 0,
+      "gf_comparable": 116,
+      "gf_identical": 66,
+      "heiter2021_resolved": 152,
+      "heiter2021_ambiguous": 7
+    }
+  ],
+  "before": {
+    "tol_A": 0.005,
+    "canonical_gf_resolved": 154,
+    "canonical_gf_ambiguous": 0,
+    "displaced_null": [
+      0,
+      0
+    ],
+    "graded_LAB_overlap_FeI": 16,
+    "graded_LAB_overlap_FeII": 0,
+    "gf_comparable": 117,
+    "gf_identical": 65,
+    "heiter2021_resolved": 152,
+    "heiter2021_ambiguous": 0
+  },
+  "after": {
+    "tol_A": 0.015,
+    "canonical_gf_resolved": 159,
+    "canonical_gf_ambiguous": 0,
+    "displaced_null": [
+      0,
+      0
+    ],
+    "graded_LAB_overlap_FeI": 16,
+    "graded_LAB_overlap_FeII": 0,
+    "gf_comparable": 121,
+    "gf_identical": 67,
+    "heiter2021_resolved": 159,
+    "heiter2021_ambiguous": 0
+  },
+  "plateaus": {
+    "canonical_gf_resolved": {
+      "value": 159,
+      "clean_lo_A": 0.005,
+      "clean_hi_A": 0.02,
+      "flat_lo_A": 0.015,
+      "flat_hi_A": 0.02,
+      "flat_width": 2,
+      "still_climbing_at_clean_edge": false,
+      "derived_tol_inside": true,
+      "naive_longest_run": {
+        "value": 157,
+        "width": 4,
+        "tol_lo_A": 0.05,
+        "tol_hi_A": 0.25,
+        "region_is_clean": false
+      }
+    },
+    "graded_LAB_overlap_FeI": {
+      "value": 16,
+      "clean_lo_A": 0.005,
+      "clean_hi_A": 0.02,
+      "flat_lo_A": 0.005,
+      "flat_hi_A": 0.02,
+      "flat_width": 5,
+      "still_climbing_at_clean_edge": false,
+      "derived_tol_inside": true,
+      "naive_longest_run": {
+        "value": 16,
+        "width": 10,
+        "tol_lo_A": 0.005,
+        "tol_hi_A": 0.25,
+        "region_is_clean": false
+      }
+    },
+    "graded_LAB_overlap_FeII": {
+      "value": 0,
+      "clean_lo_A": 0.005,
+      "clean_hi_A": 0.02,
+      "flat_lo_A": 0.005,
+      "flat_hi_A": 0.02,
+      "flat_width": 5,
+      "still_climbing_at_clean_edge": false,
+      "derived_tol_inside": true,
+      "naive_longest_run": {
+        "value": 0,
+        "width": 11,
+        "tol_lo_A": 0.005,
+        "tol_hi_A": 0.5,
+        "region_is_clean": false
+      }
+    },
+    "gf_comparable": {
+      "value": 121,
+      "clean_lo_A": 0.005,
+      "clean_hi_A": 0.02,
+      "flat_lo_A": 0.015,
+      "flat_hi_A": 0.02,
+      "flat_width": 2,
+      "still_climbing_at_clean_edge": false,
+      "derived_tol_inside": true,
+      "naive_longest_run": {
+        "value": 119,
+        "width": 4,
+        "tol_lo_A": 0.05,
+        "tol_hi_A": 0.25,
+        "region_is_clean": false
+      }
+    },
+    "gf_identical": {
+      "value": 67,
+      "clean_lo_A": 0.005,
+      "clean_hi_A": 0.02,
+      "flat_lo_A": 0.015,
+      "flat_hi_A": 0.02,
+      "flat_width": 2,
+      "still_climbing_at_clean_edge": false,
+      "derived_tol_inside": true,
+      "naive_longest_run": {
+        "value": 67,
+        "width": 7,
+        "tol_lo_A": 0.015,
+        "tol_hi_A": 0.25,
+        "region_is_clean": false
+      }
+    },
+    "heiter2021_resolved": {
+      "value": 159,
+      "clean_lo_A": 0.005,
+      "clean_hi_A": 0.02,
+      "flat_lo_A": 0.015,
+      "flat_hi_A": 0.02,
+      "flat_width": 2,
+      "still_climbing_at_clean_edge": false,
+      "derived_tol_inside": true,
+      "naive_longest_run": {
+        "value": 159,
+        "width": 2,
+        "tol_lo_A": 0.015,
+        "tol_hi_A": 0.02,
+        "region_is_clean": true
+      }
+    }
+  },
+  "published": {
+    "canonical_gf_resolved": 159,
+    "graded_LAB_overlap_FeI": 16,
+    "graded_LAB_overlap_FeII": 0,
+    "gf_comparable": 121,
+    "gf_identical": 67,
+    "heiter2021_resolved": 159
+  },
+  "structural_zero_FeII": {
+    "our_graded_FeII_VIS": {
+      "n": 10,
+      "lo_A": 4173.4511,
+      "hi_A": 4583.829
+    },
+    "gbs_FeII_selected": {
+      "n": 9,
+      "lo_A": 4993.36,
+      "hi_A": 6456.38
+    },
+    "closest_cross_pair_A": 409.53099999999995,
+    "derived_tol_A": 0.015,
+    "window_multiple_needed": 27302.066666666666,
+    "verdict": "WAVELENGTH-DISJOINT \u2014 the two sets do not overlap in wavelength at all, so the zero is a property of the data and no tolerance short of 409.5 \u00c5 could create a match"
+  }
+}
