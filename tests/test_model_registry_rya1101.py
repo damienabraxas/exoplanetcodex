@@ -85,8 +85,13 @@ def test_the_line_set_hook_is_open_with_a_closed_vocabulary(rows):
     assert "line_set" in rows[0]
     assert {r["line_set"] for r in rows} == {"-"}
     assert model_registry.check_line_sets(rows) == []
-    for pool in ("asplund-graded", "gbs", "our-graded", "our-deep-graded"):
+    # ⚠️ `asplund`, NOT `asplund-graded`. RYA-1101 opened this column before the axis had
+    # an owner and I guessed the spelling; RYA-1111 owns the axis and names the values
+    # {asplund, gbs, our-graded, our-deep-graded}. Corrected there, asserted here so the
+    # old guess cannot come back.
+    for pool in ("asplund", "gbs", "our-graded", "our-deep-graded"):
         assert pool in model_registry.LINE_SETS
+    assert "asplund-graded" not in model_registry.LINE_SETS
 
 
 def test_the_line_set_guard_refuses_a_value_outside_the_vocabulary():
