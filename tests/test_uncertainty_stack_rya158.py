@@ -13,6 +13,7 @@ line-to-line scatter (RYA-407 floor). Conflating them was the month-long bug the
 RYA-166 rewrite exists to prevent.
 """
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -98,5 +99,23 @@ def test_fe_solar_terms_with_zero_delta_are_zero():
 def test_fe_sigma_reported_in_expected_ballpark():
     # RYA-166 rewrite predicted ~0.02-0.03 once genuinely computed; landing far off
     # is the STOP-and-report condition (not a reason to move the 0.05 target).
-    sr = float(_fe()['sigma_reported'])
-    assert 0.01 <= sr <= 0.05, f"Fe I sigma_reported {sr} outside the predicted ballpark"
+    #
+    # 🔴 RYA-1089 — THE BALLPARK IS NOW DERIVED, NOT A LITERAL. The old band (0.01-0.05)
+    # was predicted while delta_xi was RYA-158's 0.05 km/s. RYA-1093 re-derived it to
+    # 0.2912, so sigma_B_vmic went 0.0120 -> 0.0699 and sigma_reported 0.0214 -> 0.0721.
+    # Hardcoding a wider band would just re-stale on the next re-derivation, so the
+    # expectation is computed from the SAME inputs the artifact records. This still
+    # catches the failure the band existed for -- a stub, a conflation, an order-of-
+    # magnitude slip -- because those do not track dA/dp x delta_p.
+    #
+    # ⚠️ It deliberately does NOT assert sr <= 0.05. The honest bar exceeds the target and
+    # that is a FLAG, not a failure (RYA-1115); moving the target to fit, or the number to
+    # fit the target, are both RYA-161.
+    fe = _fe()
+    sr = float(fe['sigma_reported'])
+    se = float(fe['raw_sigma']) / math.sqrt(int(fe['n_lines']))
+    sp = math.hypot(float(fe['sigma_B_Teff']), float(fe['sigma_B_vmic']))
+    expected = math.hypot(se, sp)
+    assert sr == pytest.approx(expected, abs=1e-3), (
+        f"Fe I sigma_reported {sr} does not reproduce from its own recorded terms "
+        f"(SE {se:.4f}, sigma_params {sp:.4f} -> {expected:.4f}) — stub or conflation")
