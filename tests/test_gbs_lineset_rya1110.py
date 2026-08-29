@@ -16,6 +16,7 @@ import os
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -95,9 +96,20 @@ def test_both_gf_columns_ship_and_neither_is_filled_in_for_the_other(lineset):
     assert len(g) == 1 and float(g.iloc[0].wavelength_air_A) == 6149.26
 
 
-def test_no_gf_reference_code_is_claimed_to_be_resolved(lineset):
-    """The decoder footnote did not typeset in the copy we hold. A code is not a source."""
-    assert set(lineset.loggf_ref_gbs_resolved) == {False}
+def test_the_gf_reference_codes_are_now_decoded(lineset):
+    """SUPERSEDED PREMISE, kept as the record of what changed.
+
+    The first RYA-1110 pass asserted `set(loggf_ref_gbs_resolved) == {False}` — true then,
+    because the arXiv copy we held (1309.1099v2) printed the footnote as
+    `References: 102: ????????.` The PUBLISHED A&A PDF typesets it, so the codes decode and
+    the flag varies. The test is inverted rather than deleted: a guard that recorded a real
+    limitation should show when the limitation lifted.
+    """
+    assert set(lineset.loggf_ref_gbs_resolved) == {True, False}
+    assert int(lineset.loggf_ref_gbs_resolved.sum()) == 137
+    # every row that carries a code decodes, except the one the paper never defined
+    coded = lineset[lineset.loggf_ref_code_gbs.notna()]
+    assert int((~coded.loggf_ref_gbs_resolved).sum()) == 1
 
 
 # ── the joins, and the controls on them ──────────────────────────────────────
@@ -236,6 +248,137 @@ def test_an_undeclared_span_is_reported_as_undeclared_never_as_covered(cov):
     u = cov[cov.span_source.str.startswith("UNDECLARED")]
     assert len(u) == 1 and u.iloc[0].holding_id == "solar_vesta_crires_plus_idp"
     assert int(u.iloc[0].n_in_span) == 0
+
+
+# ── gf PROVENANCE DECODE (RYA-1110 second pass) ──────────────────────────────
+def test_every_line_carries_a_decoded_gf_provenance(lineset):
+    """The column is never empty and never says something the basis does not support."""
+    assert lineset.gf_source_per_line.notna().all()
+    assert (lineset.gf_source_per_line.str.len() > 0).all()
+    assert set(lineset.gf_source_basis) == {
+        "heiter2021-exact", "jofre2014-footnote", "no-gbs-value", "unresolved"}
+    counts = lineset.gf_source_basis.value_counts().to_dict()
+    assert counts == {"heiter2021-exact": 93, "jofre2014-footnote": 44,
+                      "no-gbs-value": 21, "unresolved": 1}
+
+
+def test_the_heiter_route_is_used_ONLY_where_the_values_agree(lineset):
+    """🔴 THE RULE THAT KEEPS THIS FROM FABRICATING A PEDIGREE.
+
+    Heiter+2021 is GES v6; Jofré used v3. Where the versions carry different log gf,
+    Heiter's per-line `r_loggf` is the source of a DIFFERENT NUMBER, and citing it for the
+    GBS value would make the line look sourced to a paper whose value it does not carry —
+    the `gf_grades` SCALE-MISMATCH defect. So the basis must track the value agreement
+    exactly, in both directions.
+    """
+    d = (lineset.log_gf_gbs - lineset.heiter2021_log_gf).abs()
+    exact = lineset.gf_source_basis == "heiter2021-exact"
+    assert (d[exact] <= B._GF_SAME_DEX).all(), "a heiter2021-exact row has a different value"
+    foot = lineset.gf_source_basis == "jofre2014-footnote"
+    assert (d[foot] > B._GF_SAME_DEX).all(), "a footnote row could have used the finer route"
+    # and the split is real, not one class swallowing everything
+    assert int(exact.sum()) > 0 and int(foot.sum()) > 0
+
+
+def test_no_gbs_value_rows_claim_no_attribution(lineset):
+    n = lineset[lineset.gf_source_basis == "no-gbs-value"]
+    assert n.log_gf_gbs.isna().all()
+    assert n.gf_source_per_line.str.startswith("NO GBS gf PUBLISHED").all()
+    # Heiter still answers for these — the v6 value and its source are recorded.
+    assert n.heiter2021_log_gf.notna().all() and n.heiter2021_r_loggf.notna().all()
+
+
+def test_the_one_undecodable_code_is_named_and_not_guessed(lineset):
+    """Jofré's Table 4 body uses code 190; the published footnote never defines it."""
+    u = lineset[lineset.gf_source_basis == "unresolved"]
+    assert len(u) == 1
+    r = u.iloc[0]
+    assert (r.species, float(r.wavelength_air_A), int(r.loggf_ref_code_gbs)) == (
+        "Fe I", 4985.55, 190)
+    assert r.rew_class == "excluded"          # so it is NOT in the 142-line set
+    assert "UNRESOLVED" in r.gf_source_per_line
+    assert 190 not in B._read_jofre_codes()
+
+
+def test_the_two_decoders_are_cross_checked_not_merely_stacked(lineset):
+    """Where BOTH decoders answer, do they name the same people?
+
+    This is the control on the whole decode. If the λ+EP join to Heiter were wrong, or the
+    footnote transcription were wrong, the author sets would disagree at random. They do
+    not: on every row where Heiter's value equals the GBS value, the two independently
+    sourced author sets overlap.
+    """
+    codes = B._read_jofre_codes()
+    refs = B._read_ges_refs()
+    agree = disagree = 0
+    for _, r in lineset.iterrows():
+        if r.gf_source_basis != "heiter2021-exact" or pd.isna(r.loggf_ref_code_gbs):
+            continue
+        j = codes.get(int(r.loggf_ref_code_gbs))
+        if j is None:
+            continue
+        _, names = B._decode_ges_code(r.heiter2021_r_loggf, refs)
+        if set(names) & set(j[2]):
+            agree += 1
+        else:
+            disagree += 1
+    assert agree >= 88, f"only {agree} rows cross-check"
+    assert disagree == 0, f"{disagree} rows where the value agrees but the sources do not"
+
+
+def test_the_firewall_check_fires_on_the_lines_it_should(lineset):
+    """🔴 Decoding the provenance is what makes RYA-161 checkable, so the check ships here.
+
+    Jofré code 158 is Meléndez & Barbuy (2009) — `melendez2009` in the bibliography,
+    *"partly solar-fitted, so it must never referee a solar abundance"*. Three GBS Fe II
+    lines carry it, and all three are in the 142-line replication set.
+    """
+    f = lineset[lineset.gf_source_firewalled.notna()]
+    assert set(f.species) == {"Fe II"}
+    assert sorted(f.wavelength_air_A.astype(float)) == [5414.07, 5425.26, 6432.68]
+    assert (f.rew_class == "pass").all()
+    assert (f.loggf_ref_code_gbs == 158).all()
+    assert f.gf_source_firewalled.str.contains("RYA-161").all()
+    # non-vacuous: an unfirewalled line must come back clean
+    assert lineset[lineset.gf_source_basis == "heiter2021-exact"].gf_source_firewalled.isna().any()
+
+
+def test_the_resolved_flag_is_derived_not_asserted(lineset):
+    """It was hardcoded False before the published footnote was in hand. It must now say
+    whether THIS row's code actually decodes — a status column that cannot change is the
+    defect it was recording."""
+    codes = set(B._read_jofre_codes())
+    for _, r in lineset.iterrows():
+        want = (not pd.isna(r.loggf_ref_code_gbs)) and int(r.loggf_ref_code_gbs) in codes
+        assert bool(r.loggf_ref_gbs_resolved) == want, r.wavelength_air_A
+    assert lineset.loggf_ref_gbs_resolved.nunique() == 2, "the flag never varies — vacuous"
+
+
+def test_the_provenance_join_is_a_dual_key_with_a_measured_null():
+    """Same discipline as the canonical_gf join: λ+EP, and the null is asserted, not hoped."""
+    ges = B._read_ges_lines()
+    ew = B._read_measurement_table(B.VIZIER / "ew.dat")
+    sun = [r for r in ew if r["star"] == B.STAR]
+    src = ges.rename(columns={"lambda": "wavelength_air_A", "Elow": "excitation_potential_eV"})
+    src = src.assign(species=np.where(ges["Ion"] == 1, "Fe I", "Fe II"))
+    assert B._null_control(sun, src) == [0] * len(B._NULL_SHIFTS_A)
+    assert _resolve_at(sun, src, 0.0) == 159
+
+
+def test_no_gf_VALUE_was_changed_by_the_provenance_pass(lineset):
+    """The brief's hard constraint. The decode adds columns; it must move no number."""
+    for col in ("log_gf_gbs", "log_gf_ours", "gf_synth_ges", "delta_gbs_minus_ours",
+                "delta_gbs_minus_ges", "rew_class", "gbs_selected_sun"):
+        assert col in lineset.columns
+    # Heiter's value is recorded in its OWN column and never substituted into the GBS one.
+    assert "heiter2021_log_gf" in lineset.columns
+    d = lineset.gf_source_basis == "jofre2014-footnote"
+    assert (lineset.log_gf_gbs[d] != lineset.heiter2021_log_gf[d]).all()
+
+
+def test_the_decoder_holdings_are_intact():
+    import rya1110_stage_heiter2021 as S
+    assert S.verify() == 0
 
 
 # ── the artifact must match the code that defines it ─────────────────────────

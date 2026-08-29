@@ -83,8 +83,10 @@ from __future__ import annotations
 
 import csv
 import math
+import re
 import statistics
 import sys
+import unicodedata
 from pathlib import Path
 
 import numpy as np
@@ -100,6 +102,7 @@ from pipeline.telluric_policy import exclusion as telluric_exclusion  # noqa: E4
 
 HOLDING = ROOT / "data" / "reference" / "jofre2014_gbs"
 VIZIER = HOLDING / "vizier"
+GES = ROOT / "data" / "reference" / "heiter2021_ges"
 OUT = ROOT / "data" / "linelists" / "reference_sets"
 LINESET = OUT / "gbs_solar_fe_rya1110.csv"
 COVERAGE = OUT / "gbs_solar_fe_coverage_rya1110.csv"
@@ -131,6 +134,14 @@ _FP_SLACK_A = 1.0e-9
 
 #: Jofré Table 3's own solar counts — the published number this build must reproduce.
 PUBLISHED_SUN_COUNTS = {"Fe I": 150, "Fe II": 9}
+
+#: Heiter+2021 keys species as (Element, Ion); we key it as a name. One mapping, here.
+_GES_ION = {"Fe I": 1, "Fe II": 2}
+
+#: A gf value and a gf SOURCE agree only if the values match to the precision the source
+#: table prints (3 dp on both sides). Anything looser would let a revised value keep the
+#: old value's pedigree, which is the `gf_grades` SCALE-MISMATCH defect.
+_GF_SAME_DEX = 0.0005
 
 _SPECIES = {"FeI": "Fe I", "FeII": "Fe II"}
 _METHODS = ("EPINARBO", "UCM", "Porto", "Bologna", "ULB", "LUMBA")
@@ -249,6 +260,76 @@ def _read_paper_tables() -> dict:
     return out
 
 
+def _read_tsv(path: Path) -> list[dict]:
+    """A staged decoder TSV, comment lines dropped."""
+    with path.open() as fh:
+        return list(csv.DictReader((l for l in fh if not l.startswith("#")),
+                                   delimiter="\t"))
+
+
+def _read_ges_lines() -> pd.DataFrame:
+    df = pd.DataFrame(_read_tsv(GES / "geslines_Fe_4700_6900.tsv"))
+    if df.empty:
+        raise BuildError(f"{GES / 'geslines_Fe_4700_6900.tsv'} is empty — run "
+                         f"scripts/rya1110_stage_heiter2021.py")
+    for c in ("lambda", "loggf", "e_loggf", "Elow"):
+        df[c] = df[c].astype(float)
+    df["Ion"] = df["Ion"].astype(int)
+    return df
+
+
+def _read_ges_refs() -> dict:
+    """GES reference code -> (author, bibcode). The decoder proper."""
+    return {r["Ref"]: (r["Aut"], r["BibCode"], r["Com"])
+            for r in _read_tsv(GES / "refs.tsv")}
+
+
+def _read_jofre_codes() -> dict:
+    """Jofré integer code -> (table, sources as published, first-author surnames)."""
+    return {int(r["code"]): (r["table"], r["sources_as_published"],
+                             tuple(r["first_author_surnames"].split(",")))
+            for r in _read_tsv(HOLDING / "paper_table45_refcodes.tsv")}
+
+
+def _fold(text: str) -> str:
+    """ASCII-fold, for surname comparison ONLY — never for anything that gets written."""
+    return "".join(c for c in unicodedata.normalize("NFD", text)
+                   if unicodedata.category(c) != "Mn").lower().replace("'", "")
+
+
+def _decode_ges_code(code: str, refs: dict) -> tuple[str, tuple]:
+    """A GES `r_loggf` -> a human string and the first-author surnames it names.
+
+    Heiter+2021 Note (3): a code may combine labels with `+` (the adopted value is an
+    AVERAGE over those sources) or `|` (relative values from the first source put on an
+    absolute scale using lifetimes from the second). Both are preserved in the rendered
+    string — collapsing a composite to its first label would silently drop a source that
+    contributed to the number, which is the opposite of provenance.
+    """
+    parts, names = [], []
+    joiner = "+" if "+" in code else ("|" if "|" in code else "")
+    for tok in re.split(r"[+|]", code):
+        tok = tok.strip()
+        if tok in refs:
+            aut, bib, com = refs[tok]
+            # Not every refs.dat row has a BibCode — BWL, K07 and K13 carry the citation in
+            # the free-text Com field instead. Fall through to it rather than emitting a
+            # bare year, which would look like a citation and identify nothing.
+            cite = bib or com or tok
+            parts.append(f"{aut} [{cite}]")
+            names.append(_fold(re.split(r"\s+(?:and|et)\b|,", aut)[0].strip()))
+        else:
+            parts.append(f"{tok} (NOT IN refs.dat)")
+            names.append(f"?{tok}")
+    sep = {"+": " + ", "|": " | ", "": ""}[joiner]
+    text = sep.join(parts) if len(parts) > 1 else parts[0]
+    if joiner == "+":
+        text += "  (adopted value is the AVERAGE of these sources)"
+    elif joiner == "|":
+        text += "  (relative gf from the first, absolute scale from the second)"
+    return text, tuple(names)
+
+
 # ── controls on the published record ─────────────────────────────────────────
 def _check_published_counts(ew_rows: list[dict]) -> None:
     """Every star's ew.dat block must equal Table 3's N(Fe I)+N(Fe II) for that star.
@@ -306,6 +387,77 @@ def _rew(ew_mA: float, lam_A: float) -> float:
     return math.log10(ew_mA * 1.0e-3 / lam_A)
 
 
+#: 🔴 Sources this repo REFUSES to let referee a solar abundance (RYA-161). Keyed by the
+#: first-author surname the decoders print. Meléndez & Barbuy 2009 (A&A 497, 611) is
+#: `melendez2009` in data/refs/bibliography.csv: *"multiplets are globally normalised on
+#: laboratory data but individual values are partly solar-fitted, so it must never referee
+#: a solar abundance"*. Decoding the provenance is exactly what makes this checkable, so
+#: the check ships with the decode rather than being left for a reader to notice.
+FIREWALLED_SOURCES = {
+    "melendez": "Meléndez & Barbuy 2009 (A&A 497, 611) — partly solar-fitted Fe II gf, "
+                "FIREWALLED by RYA-161/852 (bibliography key `melendez2009`)",
+}
+
+
+def _provenance(gbs_gf, paper_row, h, refs: dict, jofre_codes: dict) -> dict:
+    """Decode WHERE THE GBS gf VALUE CAME FROM, and say which decoder answered.
+
+    🔴 THE ORDERING IS THE WHOLE POINT. Heiter+2021 gives a per-line source and is the
+    finer instrument — but it describes GES **v6**, and Jofré used **v3**. Where the two
+    versions carry different log gf, Heiter's `r_loggf` is the provenance of a DIFFERENT
+    NUMBER. Attaching it to Jofré's value would manufacture a pedigree: the line would
+    look sourced to a 2014 laboratory paper whose value it does not carry. So:
+
+      heiter2021-exact    Heiter's log gf EQUALS the published GBS value -> Heiter's
+                          per-line code, decoded through refs.dat. The strong case.
+      jofre2014-footnote  the values differ (GES revised it after v3), so the only
+                          provenance valid for the GBS value is the paper's own footnote —
+                          a source LIST, coarser, but attached to the right number.
+      no-gbs-value        Jofré published no gf for this line (Tables 4/5 carry golden
+                          lines only). There is nothing to attribute; Heiter's v6 value and
+                          source are still recorded, in their own columns.
+      unresolved          neither route answers. NEVER guessed.
+    """
+    h_text, h_names = _decode_ges_code(h["r_loggf"], refs)
+    code = None if paper_row is None else paper_row["ref_code"]
+    j = jofre_codes.get(code) if code is not None else None
+    j_text = "" if j is None else j[1]
+    same = gbs_gf is not None and abs(gbs_gf - h["loggf"]) <= _GF_SAME_DEX
+
+    if gbs_gf is None:
+        basis = "no-gbs-value"
+        text = ("NO GBS gf PUBLISHED (line is not in Jofré Tables 4/5). GES v6 value "
+                f"{h['loggf']:+.3f} is from: {h_text}")
+        names = ()
+    elif same:
+        basis = "heiter2021-exact"
+        text = (f"{h_text}  [Heiter et al. 2021, A&A 645 A106, geslines.dat r_loggf="
+                f"{h['r_loggf']}; GES v6 log gf equals the published GBS value]")
+        names = h_names
+    elif j is not None:
+        basis = "jofre2014-footnote"
+        text = (f"{j_text}  [Jofré et al. 2014, A&A 564 A133, {j[0]} footnote, code "
+                f"{code}. Heiter+2021 carries {h['loggf']:+.3f} for this line against the "
+                f"GBS {gbs_gf:+.3f}, so the GES v6 per-line source describes a different "
+                f"number and is recorded separately]")
+        names = j[2]
+    else:
+        basis = "unresolved"
+        text = (f"UNRESOLVED — Jofré code {code} is not defined in the published Table 4/5 "
+                f"footnote, and Heiter+2021's {h['loggf']:+.3f} differs from the GBS "
+                f"{gbs_gf:+.3f} so its per-line source is not this value's source")
+        names = ()
+
+    fired = sorted({FIREWALLED_SOURCES[n] for n in names if n in FIREWALLED_SOURCES})
+    return {
+        "gf_source_per_line": text,
+        "gf_source_basis": basis,
+        "gf_source_firewalled": "; ".join(fired),
+        "jofre_refcode_sources": j_text,
+        "heiter2021_source": h_text,
+    }
+
+
 def build() -> pd.DataFrame:
     ew_rows = _read_measurement_table(VIZIER / "ew.dat")
     ab_rows = _read_measurement_table(VIZIER / "abund.dat")
@@ -352,6 +504,31 @@ def build() -> pd.DataFrame:
             ours[(r["species"], r["wavelength_air_A"])] = (src.iloc[int(idx[k])],
                                                            float(res.distance_A[k]))
 
+    # ── the gf-PROVENANCE decode (RYA-1110 second pass) ──────────────────────
+    ges = _read_ges_lines()
+    refs = _read_ges_refs()
+    jofre_codes = _read_jofre_codes()
+    heiter: dict = {}
+    for species, ion in _GES_ION.items():
+        want = [r for r in sun if r["species"] == species]
+        src = ges[ges["Ion"] == ion].reset_index(drop=True)
+        res = line_match.match([r["wavelength_air_A"] for r in want],
+                               src["lambda"].values,
+                               want_ep=[r["excitation_potential_eV"] for r in want],
+                               src_ep=src["Elow"].values,
+                               tol_A=_MATCH_TOL_A, require_ep=True)
+        idx = line_match.require_resolved(
+            res, what="the GBS solar set vs Heiter+2021 geslines (RYA-1110)",
+            species=species, source="Heiter+2021 geslines")
+        for k, r in enumerate(want):
+            heiter[(r["species"], r["wavelength_air_A"])] = (src.iloc[int(idx[k])],
+                                                            float(res.distance_A[k]))
+    if _null_control(sun, ges.rename(columns={"lambda": "wavelength_air_A",
+                                              "Elow": "excitation_potential_eV"})
+                     .assign(species=np.where(ges["Ion"] == 1, "Fe I", "Fe II"))) != [0] * len(_NULL_SHIFTS_A):
+        raise BuildError("the displaced-null control against Heiter+2021 resolved lines — "
+                         "the provenance join has a non-zero chance rate and is not evidence")
+
     out = []
     for r in sun:
         key = (r["species"], r["wavelength_air_A"])
@@ -365,6 +542,8 @@ def build() -> pd.DataFrame:
         gbs_gf = None if p is None else p["log_gf"]
         our_gf = row["log_gf"]
         ges_gf = None if pd.isna(row["gf_synth_ges"]) else float(row["gf_synth_ges"])
+        h, hd = heiter[key]
+        prov = _provenance(gbs_gf, p, h, refs, jofre_codes)
         band = band_policy.resolve(lam).name
         if band != BAND:
             raise BuildError(
@@ -384,7 +563,12 @@ def build() -> pd.DataFrame:
             "log_gf_gbs": "" if gbs_gf is None else f"{gbs_gf:.3f}",
             "vdw_abo_gbs": "" if p is None else f"{p['vdw_abo']:.3f}",
             "loggf_ref_code_gbs": "" if p is None else p["ref_code"],
-            "loggf_ref_gbs_resolved": "False",
+            # DERIVED, not asserted. It was hardcoded False in the first pass because the
+            # arXiv copy did not typeset the footnote; the PUBLISHED PDF does, so this now
+            # says whether THIS row's code actually decodes. A status column that keeps
+            # saying "unresolved" after the decode lands is the RYA-1110-shaped lie.
+            "loggf_ref_gbs_resolved": str(p is not None
+                                          and p["ref_code"] in jofre_codes),
             "gf_provenance_gbs": (
                 "NOT PUBLISHED IN TABLES 4/5" if p is None else
                 f"Jofre+2014 ({'Table 4' if r['species'] == 'Fe I' else 'Table 5'}) "
@@ -413,6 +597,19 @@ def build() -> pd.DataFrame:
                                      else f"{gbs_gf - our_gf:+.4f}"),
             "delta_gbs_minus_ges": ("" if gbs_gf is None or ges_gf is None
                                     else f"{gbs_gf - ges_gf:+.4f}"),
+            # ---- gf PROVENANCE, decoded (RYA-1110 second pass) ----
+            "gf_source_per_line": prov["gf_source_per_line"],
+            "gf_source_basis": prov["gf_source_basis"],
+            "gf_source_firewalled": prov["gf_source_firewalled"],
+            "jofre_refcode_sources": prov["jofre_refcode_sources"],
+            "heiter2021_r_loggf": h["r_loggf"],
+            "heiter2021_source": prov["heiter2021_source"],
+            "heiter2021_log_gf": f"{h['loggf']:.3f}",
+            "heiter2021_gfflag": h["gfflag"],
+            "heiter2021_synflag": h["synflag"],
+            "heiter2021_match_distance_mA": f"{hd * 1000:.2f}",
+            "delta_gbs_minus_heiter2021": ("" if gbs_gf is None
+                                           else f"{gbs_gf - h['loggf']:+.4f}"),
             # ---- reachability ----
             "telluric_exclusion": telluric_exclusion(lam) or "",
         })

@@ -203,28 +203,127 @@ Jofré's GES-v3 value disagrees most: mean −0.031, s.d. 0.098, and **5 of the 
 lines differ by more than 0.1 dex** (max 0.217 at Fe I 5775.08). Fe I 6232.64 is in our
 graded pool and has no published GBS gf at all.
 
+## The gf provenance decode (second pass, 2026-08-29)
+
+`gf_source_per_line` is populated on **all 159 rows**. Two decoders, and the ordering
+between them is the substance of this pass.
+
+| decoder | what it gives | what it does not |
+|---|---|---|
+| **Heiter et al. 2021**, A&A 645 A106 (VizieR `J/A+A/645/A106`) | a **per-line** `r_loggf` in `geslines.dat`, and `refs.dat` mapping all 327 codes to author + bibcode | it describes **GES v6**; Jofré used **v3** |
+| **Jofré et al. 2014** Tables 4/5 footnote, from the **published** `aa22440-13.pdf` | the integer codes, attached to the value Jofré actually printed | each code names a **list** of sources, not one per line |
+
+🔴 **Heiter's per-line source is valid only where Heiter's value IS the GBS value.** Where
+GES revised the log gf after v3, `r_loggf` is the provenance of a different number, and
+citing it would make the line look sourced to a paper whose value it does not carry — the
+`gf_grades` SCALE-MISMATCH defect. So `gf_source_basis` records which route answered:
+
+| basis | rule | all 159 | the 142 |
+|---|---|---|---|
+| `heiter2021-exact` | Heiter's log gf **equals** the published GBS value ⇒ per-line source from `refs.dat` | 93 | **88** |
+| `jofre2014-footnote` | values differ ⇒ the paper's own composite source list, attached to the right number | 44 | **33** |
+| `no-gbs-value` | Jofré published no gf (Tables 4/5 are golden-only); Heiter's v6 value + source recorded | 21 | **21** |
+| `unresolved` | neither route answers — **never guessed** | 1 | **0** |
+
+### The decoders cross-check, they are not merely stacked
+
+On **every one of the 88** rows where Heiter's value equals the GBS value and a Jofré code
+exists, the two independently sourced author sets **overlap — 88 agree, 0 disagree.** If
+the λ+EP join to Heiter were wrong, or the footnote transcription were wrong, they would
+disagree at random. Asserted in CI, and the guard was mutation-tested by corrupting a
+footnote surname.
+
+The footnote's composite codes map cleanly onto Heiter's finer per-line labels:
+
+| Jofré code | published footnote | Heiter labels on those lines |
+|---|---|---|
+| 102 | Bard et al. (1991); Bard & Kock (1994); Blackwell et al. (1979a,b, 1982a,b, 1995); O'Brian et al. (1991) | `BKK`, `BK`, `BIPS`, `GESB82c`, `GESB82d`, `GESB86`, `BWL` and their `+` combinations |
+| 129 | Garz & Kock (1969); Fuhr et al. (1988) | `FMW` |
+| 156 | May et al. (1974) | `MRW` |
+| 158 | Meléndez & Barbuy (2009) | `2009A&A...497..611M` |
+| 166 | Raassen & Uylings (1998) | `RU` |
+| 167 | Richter & Wulff (1970); Fuhr et al. (1988) | `1970A&A.....9...37R` \| `FMW` |
+
+Composite `r_loggf` strings are preserved whole, with the meaning Heiter's Note (3) gives
+them: `+` means the adopted value is the **average** of those sources, `|` means relative
+gf from the first put on an absolute scale using lifetimes from the second. Collapsing a
+composite to its first label would drop a source that contributed to the number.
+
+### 🔴 Where the two decoders name disjoint sources, the reason is the v3 → v6 upgrade
+
+Ten of the 33 `jofre2014-footnote` lines carry Heiter labels with **no author in common**
+with their Jofré code — and every one of them is `2014MNRAS.441.3127R` (**Ruffoni et al.
+2014**) or `GESHRL14` (**Den Hartog et al. 2014**). Both postdate GES v3. This is the same
+finding the first pass reached from the *value* side (the largest GBS − ours gaps are all
+DenHartog2014 / Ruffoni2014 lines), now confirmed from GES's own reference table: the
+divergence is **GES adopting post-2014 laboratory measurements**, not a disagreement
+between us and Jofré.
+
+### 🔴 Three of the nine GBS Fe II lines are RYA-161 FIREWALLED
+
+Jofré code **158 = Meléndez & Barbuy (2009)**, confirmed independently by Heiter's own
+`r_loggf = 2009A&A...497..611M` on the same three lines. That paper is `melendez2009` in
+`data/refs/bibliography.csv`: *"multiplets are globally normalised on laboratory data but
+individual values are partly solar-fitted, so it must never referee a solar abundance
+(RYA-161 class)."*
+
+| line | GBS gf | our adopted gf | our `loggf_reference` |
+|---|---|---|---|
+| Fe II 5414.07 | −3.580 | **−3.5800** | `2009A&A...` — the same firewalled value |
+| Fe II 5425.26 | −3.220 | **−3.2200** | `2009A&A...` — the same firewalled value |
+| Fe II 6432.68 | −3.570 | −3.4976 | `NIST-C+ T7589` |
+
+All three are in the 142-line replication set. Two consequences, and the second is the
+uncomfortable one:
+
+* **Taking "their gf" imports partly solar-fitted Fe II oscillator strengths into a solar
+  abundance determination** — the circularity RYA-161 exists to prevent, on a third of the
+  Fe II set.
+* **On 5414.07 and 5425.26 our own adopted value is the identical MB09 number**, so "use
+  our gf" does not escape the firewall there either. Only 6432.68 differs.
+
+`gf_source_firewalled` carries this per line, and the CI guard asserts it fires on exactly
+these three and stays clear elsewhere.
+
+### Method, and two by-products
+
+λ+EP dual key (RYA-1037, `require_ep=True`), the same 0.015 Å tolerance, independently
+justified against this table: 159/159 resolve, 0 ambiguous, and a genuine fork appears at
+0.030 Å. Displaced-null asserted at build time and in CI — ±0.2/0.3/0.5 Å resolves **zero**.
+
+* 🔴 **Our `gf_synth_ges` column IS Heiter 2021**, measured rather than inferred: 140 of the
+  141 values agree exactly, max |Δ| 0.0009. The bibliography said our GES seed was
+  Heiter+2021; this is the first time it has been checked line by line.
+* `loggf_ref_gbs_resolved` is now **derived** from whether the row's code decodes, not
+  hardcoded `False`. It reads `True` on 137 of 159, and it is the only pre-existing column
+  whose values this pass changed — a status field, not a measurement.
+
+**No gf value changed and no line was added or dropped.** Checked column-by-column against
+the previous commit: all 33 original columns identical except that derived status flag,
+11 columns added; asserted in CI.
+
 ## 🔴 What the published record does not contain
 
 Recorded so nobody re-runs these searches.
 
-1. **The gf reference codes cannot be decoded from the copy we hold.** Tables 4/5 cite gf
-   sources by integer code (102, 114, 129, 156, 158, 166, 167, 186, 187, 190). The decoder
-   is those tables' own "References:" footnote, and in `1309.1099v2.pdf` it failed to
-   typeset — it reads literally `References: 102: ????????. 114: ??. 129: ??. …`. The codes
-   are transcribed anyway (they are real published values and group the lines correctly) but
-   `loggf_ref_gbs_resolved` is `False` on every row. arXiv has only v1 and v2 (checked);
-   `www.aanda.org` returns HTTP 403 to a scripted GET. Resolving them needs the publisher
-   PDF, fetched by a human.
+1. ~~**The gf reference codes cannot be decoded from the copy we hold.**~~ **CLOSED
+   2026-08-29** — see *The gf provenance decode* above. Ryan fetched the published A&A PDF
+   (`aa22440-13.pdf`), which typesets the footnote the arXiv copy mangled into
+   `References: 102: ????????.`, plus the Heiter+2021 VizieR tables. 137 of 159 rows now
+   carry a decoded code; the one that stays undecodable is **190** (Fe I 4985.55), which
+   the published footnote never defines although Table 4's body uses it.
 2. **Tables 4/5 do not cover every golden line.** `table6.dat` flags 193 lines golden; the
    paper tables list 183. The 10 with no row — Fe I 4939.7, 5083.3, 5166.3, 5506.8;
    Fe II 5256.9, 5316.6, 5316.8, 6113.3, 6149.3, 6369.5 — have no published gf here.
    Verified absent by searching the whole extracted PDF text for each wavelength, not by
    the table parse merely failing to find them.
 3. **One of those 10 is in the solar selected set: Fe II 6149.26** (golden, `rew_class=pass`,
-   EP 3.89). It is golden, it is used for the Sun, and the paper publishes no gf for it.
-   Our own row for it is not strong either — `canonical_gf` carries `-2.724` under
-   *"VALD3-scale value via nist_reference.csv; NOT NIST (ASD gives -2.854 acc E) — RYA-853"*.
-   Both sides are weak on this line, and the file says so on both.
+   EP 3.89) — Jofré publishes no gf for it. **Heiter+2021 does**: log gf **−2.841**, source
+   **Raassen & Uylings (1998)** (`1998A&A...340..300R`), `gfflag=U`, `synflag=Y`, matched
+   14.1 mÅ away on the λ+EP key. Our own `gf_synth_ges` already carries −2.841 — the same
+   number — while our *adopted* `log_gf_ours` is `-2.724` under *"VALD3-scale value via
+   nist_reference.csv; NOT NIST (ASD gives -2.854 acc E) — RYA-853"*. So the line is
+   decodable after all; what it is not is **published by Jofré**.
 4. **Their line list is GES-v3** (Heiter et al. 2014, in prep., §3), where our
    `canonical_gf` GES seed is v5 (Heiter et al. 2021). The two are not the same
    compilation; the GBS − GES column above measures the difference rather than assuming it
