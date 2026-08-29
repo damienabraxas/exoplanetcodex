@@ -1,0 +1,466 @@
+{
+  "ticket": "RYA-1111",
+  "line_set": "asplund",
+  "source": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2",
+  "source_ticket": "RYA-1109",
+  "native_line_set": "asplund_agss21",
+  "match_tol_A": 0.05,
+  "tol_basis": "half AGSS21 Table A.2's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so half-width 0.05 A (RYA-1109)",
+  "n_reference_lines": 53,
+  "gf_gap": {
+    "line_set": "asplund",
+    "n_ref": 53,
+    "n_without_published_gf": 0,
+    "n_measurable": 53,
+    "by_species": {},
+    "lines": [],
+    "disposition": "REFUSED at measurement, not dropped and not substituted. Adopting another table's gf for these is an OPEN DECISION (RYA-1110) and is Ryan's, not this module's."
+  },
+  "coverage_vs_our_linelist": {
+    "Fe I": {
+      "line_set": "asplund",
+      "source": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2",
+      "pool": "canonical_gf Fe I",
+      "match_tol_A": 0.05,
+      "tol_basis": "half AGSS21 Table A.2's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so half-width 0.05 A (RYA-1109)",
+      "ep_tol_eV": 0.02,
+      "n_ref": 53,
+      "matched": 40,
+      "unmatched": 13,
+      "per_species": {
+        "Fe I": {
+          "n_ref": 40,
+          "matched": 40,
+          "unmatched": 0
+        }
+      },
+      "unmatched_lines": [
+        {
+          "wavelength_air_A": 4416.8,
+          "elo_eV": 2.7785,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 4508.3,
+          "elo_eV": 2.8555,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 4620.5,
+          "elo_eV": 2.8281,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 4657.0,
+          "elo_eV": 2.891,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 5234.6,
+          "elo_eV": 3.2213,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 5264.8,
+          "elo_eV": 3.2305,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 5414.1,
+          "elo_eV": 3.2213,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 6432.7,
+          "elo_eV": 2.891,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 6516.1,
+          "elo_eV": 2.891,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7222.4,
+          "elo_eV": 3.8887,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7224.5,
+          "elo_eV": 3.8892,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7515.8,
+          "elo_eV": 3.9034,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7711.7,
+          "elo_eV": 3.9034,
+          "species": "Fe II"
+        }
+      ],
+      "plateau": {
+        "0.005": 3,
+        "0.01": 6,
+        "0.015": 7,
+        "0.02": 14,
+        "0.05": 40,
+        "0.1": 40,
+        "0.25": 40,
+        "0.5": 39
+      }
+    },
+    "Fe II": {
+      "line_set": "asplund",
+      "source": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2",
+      "pool": "canonical_gf Fe II",
+      "match_tol_A": 0.05,
+      "tol_basis": "half AGSS21 Table A.2's printed resolution: lambda is printed in NANOMETRES to 2 dp = 0.1 A, so half-width 0.05 A (RYA-1109)",
+      "ep_tol_eV": 0.02,
+      "n_ref": 53,
+      "matched": 13,
+      "unmatched": 40,
+      "per_species": {
+        "Fe II": {
+          "n_ref": 13,
+          "matched": 13,
+          "unmatched": 0
+        }
+      },
+      "unmatched_lines": [
+        {
+          "wavelength_air_A": 4445.5,
+          "elo_eV": 0.0873,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 4574.2,
+          "elo_eV": 3.2112,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5247.0,
+          "elo_eV": 0.0873,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5379.6,
+          "elo_eV": 3.6946,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5483.1,
+          "elo_eV": 4.1543,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5538.5,
+          "elo_eV": 4.2176,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5600.2,
+          "elo_eV": 4.2604,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5618.6,
+          "elo_eV": 4.2089,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5661.3,
+          "elo_eV": 4.2843,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5705.5,
+          "elo_eV": 4.3013,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5775.1,
+          "elo_eV": 4.2204,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5778.5,
+          "elo_eV": 2.5881,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5784.7,
+          "elo_eV": 3.3965,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5855.1,
+          "elo_eV": 4.6076,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 5956.7,
+          "elo_eV": 0.859,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6151.6,
+          "elo_eV": 2.1759,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6240.6,
+          "elo_eV": 2.2227,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6311.5,
+          "elo_eV": 2.8316,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6498.9,
+          "elo_eV": 0.9582,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6518.4,
+          "elo_eV": 2.8316,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6574.2,
+          "elo_eV": 0.9901,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6699.1,
+          "elo_eV": 4.5931,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6793.3,
+          "elo_eV": 4.0758,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6837.0,
+          "elo_eV": 4.5931,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6843.7,
+          "elo_eV": 4.5485,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6854.8,
+          "elo_eV": 4.5931,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6858.1,
+          "elo_eV": 4.6076,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 6999.9,
+          "elo_eV": 4.1034,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7008.0,
+          "elo_eV": 4.1777,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7219.7,
+          "elo_eV": 4.0758,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7401.7,
+          "elo_eV": 4.1864,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7443.0,
+          "elo_eV": 4.1864,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7912.9,
+          "elo_eV": 0.859,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8293.5,
+          "elo_eV": 3.3009,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8571.8,
+          "elo_eV": 5.0095,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8598.8,
+          "elo_eV": 4.3865,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8876.0,
+          "elo_eV": 5.0203,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8906.0,
+          "elo_eV": 5.0638,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 9103.6,
+          "elo_eV": 4.1777,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 9786.6,
+          "elo_eV": 4.6076,
+          "species": "Fe I"
+        }
+      ],
+      "plateau": {
+        "0.005": 1,
+        "0.01": 2,
+        "0.015": 3,
+        "0.02": 6,
+        "0.05": 13,
+        "0.1": 13,
+        "0.25": 13,
+        "0.5": 13
+      }
+    }
+  },
+  "holdings": {
+    "kpno_kurucz2005": {
+      "holding_id": "solar_kpno_kurucz2005_corrected",
+      "instrument_id": "kpno_solar_atlas",
+      "span_A": [
+        2960.0,
+        13000.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "measurable_in_span": 53,
+      "measurable_total": 53,
+      "out_of_span": []
+    },
+    "kpno_molecfit": {
+      "holding_id": "solar_kpno_molecfit_corrected",
+      "instrument_id": "kpno_solar_atlas",
+      "span_A": [
+        2960.0,
+        13000.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "measurable_in_span": 53,
+      "measurable_total": 53,
+      "out_of_span": []
+    },
+    "harps_molecfit": {
+      "holding_id": "solar_harps_molecfit_corrected",
+      "instrument_id": "harps",
+      "span_A": [
+        3780.0,
+        6910.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "measurable_in_span": 36,
+      "measurable_total": 53,
+      "out_of_span": [
+        {
+          "wavelength_air_A": 6999.9,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7008.0,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7219.7,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7401.7,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7443.0,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7912.9,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8293.5,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8571.8,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8598.8,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8876.0,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 8906.0,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 9103.6,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 9786.6,
+          "species": "Fe I"
+        },
+        {
+          "wavelength_air_A": 7222.4,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7224.5,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7515.8,
+          "species": "Fe II"
+        },
+        {
+          "wavelength_air_A": 7711.7,
+          "species": "Fe II"
+        }
+      ]
+    },
+    "iag": {
+      "holding_id": "solar_iag",
+      "instrument_id": "iag_fts_solar_atlas",
+      "span_A": [
+        4047.0,
+        10650.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "measurable_in_span": 53,
+      "measurable_total": 53,
+      "out_of_span": []
+    }
+  },
+  "dry_run": true
+}
