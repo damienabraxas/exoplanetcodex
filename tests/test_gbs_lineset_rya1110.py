@@ -343,6 +343,61 @@ def test_the_firewall_check_fires_on_the_lines_it_should(lineset):
     assert lineset[lineset.gf_source_basis == "heiter2021-exact"].gf_source_firewalled.isna().any()
 
 
+def test_the_ratified_disposition_is_flag_and_keep(lineset):
+    """🔴 Ryan, RYA-1110, 2026-08-29. The three solar-fitted Fe II lines STAY.
+
+    Replication fidelity: we replicate Jofré's PUBLISHED set and flag its properties — the
+    same principle already applied to the −4.8 quirk. A later pass that "cleans" them out
+    would be undoing a decision, so the count is pinned here.
+    """
+    circ = B.solar_circular_lines(lineset)
+    assert len(circ) == 3
+    assert (circ.rew_class == "pass").all(), "a flagged line was dropped from the 142"
+    assert int((lineset.rew_class == "pass").sum()) == 142, "the set must not shrink"
+    assert set(lineset.gbs_solar_validity) <= set(B.SOLAR_VALIDITY)
+    assert lineset.gbs_solar_validity.value_counts().to_dict() == {
+        "not-flagged": 156, "method-reproduction-only": 3}
+
+
+def test_the_flag_carries_the_MEANING_not_just_the_paper_name(lineset):
+    """The point of Ryan's decision: a flag that only names Meléndez & Barbuy leaves the
+    reader to rediscover the consequence. It must say what it means for a solar number."""
+    circ = B.solar_circular_lines(lineset)
+    for _, r in circ.iterrows():
+        t = r.gf_source_firewalled
+        assert "METHOD-REPRODUCTION CHECK, NOT AN INDEPENDENT VALIDATION" in t
+        assert "FLAG-AND-KEEP" in t and "RYA-1110" in t
+        assert "STAYS in the replication set" in t
+
+
+def test_whether_our_gf_escapes_the_circularity_is_stated_PER_LINE(lineset):
+    """Ryan: the circularity does not escape via "use our gf" either — on two of the three
+    our adopted value is the same MB09 number. That is a per-line fact, so it is derived
+    per line rather than asserted once in prose no filter can see."""
+    circ = B.solar_circular_lines(lineset)
+    circ = circ.set_index(circ.wavelength_air_A.astype(float))
+    same = circ.loc[[5414.07, 5425.26]]
+    assert (same.log_gf_gbs == same.log_gf_ours).all()
+    assert same.gf_source_firewalled.str.contains("does NOT escape").all()
+    diff = circ.loc[[6432.68]]
+    assert (diff.log_gf_gbs != diff.log_gf_ours).all()
+    assert diff.gf_source_firewalled.str.contains("not circular here").all()
+    assert not diff.gf_source_firewalled.str.contains("does NOT escape").any()
+
+
+def test_the_coverage_report_carries_the_flag_to_every_holding(cov):
+    """"Wherever these lines feed a solar number" — the coverage report is the only such
+    surface that exists today (RYA-1111 is the measurement path and is not built)."""
+    assert "n_reachable_solar_circular" in cov.columns
+    assert (cov.n_reachable_solar_circular <= cov.n_reachable).all()
+    reach = cov[cov.n_reachable > 0]
+    # every holding that reaches the red-optical end of the set reaches all three
+    assert set(reach.n_reachable_solar_circular) == {0, 3}
+    # and the one that reaches none is the blue-capped IAG arm, not an accident
+    zero = reach[reach.n_reachable_solar_circular == 0]
+    assert list(zero.holding_id) == ["solar_iag_reiners2016"]
+
+
 def test_the_resolved_flag_is_derived_not_asserted(lineset):
     """It was hardcoded False before the published footnote was in hand. It must now say
     whether THIS row's code actually decodes — a status column that cannot change is the

@@ -204,9 +204,14 @@ the Sun's full published selected set, reproducing Table 3's N(Fe I)=150 / N(Fe 
   the published GBS value, and Jofré's own Table 4/5 footnote where it does not — because
   Heiter is GES **v6** and Jofré used **v3**, so a revised value's source is not the GBS
   value's source. `gf_source_basis` says which route answered.
-* 🔴 **`gf_source_firewalled` flags three Fe II lines** (5414.07, 5425.26, 6432.68) whose
-  GBS gf is Meléndez & Barbuy 2009 — RYA-161-firewalled, partly solar-fitted. On two of
-  them our own adopted value is the identical number.
+* 🔴 **Three Fe II lines** (5414.07, 5425.26, 6432.68) have a GBS gf from Meléndez &
+  Barbuy 2009 — RYA-161-firewalled, partly solar-fitted; on two of them our own adopted
+  value is the identical number. **Ratified disposition (Ryan, 2026-08-29): FLAG AND
+  KEEP.** They stay in the 142 — replication fidelity — and `gbs_solar_validity =
+  method-reproduction-only` carries what that means: a solar Fe II value from these
+  reproduces the method rather than testing it. `gf_source_firewalled` has the per-line
+  sentence; the coverage report counts them per holding; bind to
+  `rya1110_build_gbs_fe_lineset.solar_circular_lines()`, never to a typed wavelength list.
 * 🔴 **The paper's stated log(EW/λ) ≤ −4.8 cut does not select the set it publishes** —
   14 of the Sun's 159 published lines violate it on every method (713 of 4252 across all
   34 benchmark stars). Both facts are carried; neither is overridden.

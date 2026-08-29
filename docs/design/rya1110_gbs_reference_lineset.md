@@ -282,8 +282,38 @@ uncomfortable one:
 * **On 5414.07 and 5425.26 our own adopted value is the identical MB09 number**, so "use
   our gf" does not escape the firewall there either. Only 6432.68 differs.
 
-`gf_source_firewalled` carries this per line, and the CI guard asserts it fires on exactly
-these three and stays clear elsewhere.
+### ✅ RATIFIED DISPOSITION — Ryan, 2026-08-29: **FLAG AND KEEP**
+
+> *"KEEP them in the 142-line GBS replication set. Dropping them would break replication
+> fidelity; we replicate Jofré's PUBLISHED set (same principle as the −4.8 quirk: replicate
+> what they published, flag its properties)."*
+
+**The flag carries a meaning, not just a citation.** On these lines the gf was itself
+calibrated on the Sun, so a GBS solar Fe II value derived from them is a
+**METHOD-REPRODUCTION CHECK, NOT AN INDEPENDENT VALIDATION** — and that sentence must
+travel with the line wherever it feeds a solar number. A flag that only names Meléndez &
+Barbuy leaves the reader to rediscover the consequence.
+
+Implemented as:
+
+| | |
+|---|---|
+| `gbs_solar_validity` | controlled vocabulary — `method-reproduction-only` (3) / `not-flagged` (156). **`not-flagged` is deliberately not called "independent"**: this check tests one thing, and passing it certifies nothing else. |
+| `gf_source_firewalled` | the sentence, per line — source, firewall, disposition, and **whether "use our gf" escapes on THAT line** (it does only on 6432.68). |
+| `n_reachable_solar_circular` | in the coverage report, so a holding that reaches these lines says so on its own row rather than two files away. |
+| `solar_circular_lines(df)` | the importable form, **derived from the built set, never a typed list of wavelengths** — so RYA-1111 binds to it instead of retyping three λ (the RYA-845 two-declarations shape is how a flag like this goes missing). |
+
+⚠️ **Nothing consumes it yet.** RYA-1111 is the measurement path that wires `line_set` to
+products and it does not exist; the coverage report is the only surface today that could
+carry the flag toward a solar number, and it does.
+
+**Blast radius is contained, and that is a property of the data, not a hope:** our own
+graded Fe II pool is Den Hartog 2019 laboratory gf over 4173.45–4583.83 Å and the GBS list
+begins at 4787.83 Å — wavelength-disjoint (see *Overlap with our pool*). **Our solar Fe II
+stays clean; only the GBS-replication Fe II carries the circularity.**
+
+This **sharpens** the standing do-both gf decision flag — it does not resolve it. No gf
+value and no line selection changed: the disposition is a label.
 
 ### Method, and two by-products
 
