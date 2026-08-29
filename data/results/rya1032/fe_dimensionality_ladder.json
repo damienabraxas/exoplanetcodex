@@ -1,0 +1,189 @@
+{
+  "ticket": "RYA-1032",
+  "feed_version": "1.86",
+  "feed_updated_at": "2026-08-29T02:55:23Z",
+  "holding": "solar_kpno_molecfit_corrected",
+  "ladder": [
+    {
+      "token": "1D-LTE",
+      "route": "SYNTH",
+      "A": 7.447,
+      "n_lines": 67,
+      "display": "Synth \u00b7 1D-LTE"
+    },
+    {
+      "token": "synth-1D-LTE-gerber",
+      "route": "SYNTH",
+      "A": 7.451,
+      "n_lines": 67,
+      "display": "Synth \u00b7 1D-LTE \u00b7 Gerber"
+    },
+    {
+      "token": "ENGINE-A",
+      "route": "SYNTH",
+      "A": 7.454,
+      "n_lines": 61,
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Bergemann"
+    },
+    {
+      "token": "ENGINE-B-NLTE",
+      "route": "SYNTH",
+      "A": 7.497,
+      "n_lines": 67,
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber"
+    },
+    {
+      "token": "synth-mean3D-LTE-gerber-stagger",
+      "route": "SYNTH",
+      "A": 7.552,
+      "n_lines": 67,
+      "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger"
+    },
+    {
+      "token": "synth-mean3D-NLTE-gerber-stagger",
+      "route": "SYNTH",
+      "A": 7.552,
+      "n_lines": 67,
+      "display": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger"
+    },
+    {
+      "token": "ENGINE-A-3DNLTE",
+      "route": "EW-3D",
+      "A": 7.5116,
+      "n_lines": 50,
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi"
+    }
+  ],
+  "dimensionality_step": {
+    "label": "atmosphere step (1D-LTE -> <3D>-LTE, family fixed)",
+    "minuend": "synth-mean3D-LTE-gerber-stagger",
+    "subtrahend": "synth-1D-LTE-gerber",
+    "A_hi": 7.552,
+    "A_lo": 7.451,
+    "delta": 0.101,
+    "n_hi": 67,
+    "n_lo": 67,
+    "same_pool": true,
+    "held_fixed": [
+      "family",
+      "nlte"
+    ],
+    "varied": "dim",
+    "axes_hi": {
+      "scale": "<3D>-LTE",
+      "dim": "<3D>",
+      "nlte": "LTE",
+      "family": "gerber",
+      "atmosphere": "stagger-mean3d"
+    },
+    "axes_lo": {
+      "scale": "1D-LTE",
+      "dim": "1D",
+      "nlte": "LTE",
+      "family": "gerber",
+      "atmosphere": "marcs-ges"
+    }
+  },
+  "nlte_1d_step": {
+    "label": "1D NLTE step (Gerber, marcs-ges)",
+    "minuend": "ENGINE-B-NLTE",
+    "subtrahend": "synth-1D-LTE-gerber",
+    "A_hi": 7.497,
+    "A_lo": 7.451,
+    "delta": 0.046,
+    "n_hi": 67,
+    "n_lo": 67,
+    "same_pool": true,
+    "held_fixed": [
+      "family",
+      "atmosphere",
+      "dim"
+    ],
+    "varied": "nlte",
+    "axes_hi": {
+      "scale": "1D-NLTE",
+      "dim": "1D",
+      "nlte": "NLTE",
+      "family": "gerber",
+      "atmosphere": "marcs-ges"
+    },
+    "axes_lo": {
+      "scale": "1D-LTE",
+      "dim": "1D",
+      "nlte": "LTE",
+      "family": "gerber",
+      "atmosphere": "marcs-ges"
+    }
+  },
+  "model_family_spread": {
+    "label": "model-family spread (Gerber - Bergemann, 1D-NLTE)",
+    "minuend": "ENGINE-B-NLTE",
+    "subtrahend": "ENGINE-A",
+    "A_hi": 7.497,
+    "A_lo": 7.454,
+    "delta": 0.043,
+    "n_hi": 67,
+    "n_lo": 61,
+    "same_pool": false,
+    "held_fixed": [
+      "dim",
+      "nlte"
+    ],
+    "varied": "family",
+    "axes_hi": {
+      "scale": "1D-NLTE",
+      "dim": "1D",
+      "nlte": "NLTE",
+      "family": "gerber",
+      "atmosphere": "marcs-ges"
+    },
+    "axes_lo": {
+      "scale": "1D-NLTE",
+      "dim": "1D",
+      "nlte": "NLTE",
+      "family": "bergemann",
+      "atmosphere": "atlas9"
+    }
+  },
+  "atmosphere_nuisance": {
+    "label": "atlas9 -> marcs-ges nuisance (LTE, no NLTE physics)",
+    "minuend": "synth-1D-LTE-gerber",
+    "subtrahend": "1D-LTE",
+    "A_hi": 7.451,
+    "A_lo": 7.447,
+    "delta": 0.004,
+    "n_hi": 67,
+    "n_lo": 67,
+    "same_pool": true,
+    "held_fixed": [
+      "dim",
+      "nlte"
+    ],
+    "varied": "atmosphere",
+    "axes_hi": {
+      "scale": "1D-LTE",
+      "dim": "1D",
+      "nlte": "LTE",
+      "family": "gerber",
+      "atmosphere": "marcs-ges"
+    },
+    "axes_lo": {
+      "scale": "1D-LTE",
+      "dim": "1D",
+      "nlte": "LTE",
+      "family": "none",
+      "atmosphere": "atlas9"
+    }
+  },
+  "model_family_spread_deconfounded": 0.039,
+  "ratio_dimensionality_over_family": 2.35,
+  "ratio_dimensionality_over_family_deconfounded": 2.59,
+  "overshoot_vs_amarsi_full3d": 0.0404,
+  "ladder_monotonic_toward_amarsi": false,
+  "mean3d_nlte_effect": {
+    "published_difference_of_medians": 0.0,
+    "median_collision": true,
+    "computed_here": false,
+    "why": "the published cells are MEDIANS; differencing them returns 0.000 for a real per-line shift (RYA-1099 Finding 3). The correct statistic is the per-line paired differential in pipeline.paired_differential (RYA-1083), emitted as {stem}_{treatment}_nlte_effect.json on a re-derive."
+  }
+}
