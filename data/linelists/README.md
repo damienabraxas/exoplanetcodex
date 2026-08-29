@@ -198,6 +198,15 @@ the Sun's full published selected set, reproducing Table 3's N(Fe I)=150 / N(Fe 
   121 of the 142) and `log_gf_ours` (`canonical_gf`, on all 142), plus `gf_synth_ges`.
   Choosing between them is an **open decision for Ryan** — see
   `docs/design/rya1110_gbs_reference_lineset.md`.
+* **Per-line gf provenance is decoded** (`gf_source_per_line`, populated on all 159 rows)
+  from two sources whose ordering matters: Heiter+2021's per-line `r_loggf`
+  (`data/reference/heiter2021_ges/`, VizieR `J/A+A/645/A106`) where its log gf **equals**
+  the published GBS value, and Jofré's own Table 4/5 footnote where it does not — because
+  Heiter is GES **v6** and Jofré used **v3**, so a revised value's source is not the GBS
+  value's source. `gf_source_basis` says which route answered.
+* 🔴 **`gf_source_firewalled` flags three Fe II lines** (5414.07, 5425.26, 6432.68) whose
+  GBS gf is Meléndez & Barbuy 2009 — RYA-161-firewalled, partly solar-fitted. On two of
+  them our own adopted value is the identical number.
 * 🔴 **The paper's stated log(EW/λ) ≤ −4.8 cut does not select the set it publishes** —
   14 of the Sun's 159 published lines violate it on every method (713 of 4252 across all
   34 benchmark stars). Both facts are carried; neither is overridden.
