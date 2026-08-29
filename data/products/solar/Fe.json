@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.80",
-  "updated_at": "2026-08-28T14:31:13Z",
+  "version": "1.86",
+  "updated_at": "2026-08-29T02:55:23Z",
   "products": [
     {
       "element": "Fe",
@@ -1072,6 +1072,114 @@
         "sha256": "43ebb69be061bb558cf5adab1e29b463cd5d4c973ea19108d325c19a89c2b723",
         "artifact_mtime": "2026-08-28T10:29:13Z",
         "ingested_at": "2026-08-28T10:48:45Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-B-NLTE",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+      "A": 7.488,
+      "sigma_stat": 0.0196,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01957 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/rya1103_repo/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "sha256": "f31341a6eb90024244ec4ab4a69e18d1be2d86b0c6aabbd3393031ade4134f2c",
+        "artifact_mtime": "2026-08-28T19:42:25Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "synth-1D-LTE-gerber",
+      "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+      "A": 7.439,
+      "sigma_stat": 0.0206,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02060 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/rya1103_repo/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "sha256": "6fcf9a68dc398f5412c1a6de9c92e6e7d09562f2803d4d02834662cda553ad87",
+        "artifact_mtime": "2026-08-28T18:48:50Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "synth-mean3D-LTE-gerber-stagger",
+      "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+      "A": 7.541,
+      "sigma_stat": 0.0203,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02026 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1089/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "sha256": "ddabf35173d28626fac07d21d0663659cb5359fa3bd9f4d3ae3f844ed3c952ad",
+        "artifact_mtime": "2026-08-28T16:03:49Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "synth-mean3D-NLTE-gerber-stagger",
+      "display": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+      "A": 7.562,
+      "sigma_stat": 0.02,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01998 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1089/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "sha256": "35189b55ba6077da3750d1c69afdcdd7ad17be9a71c5d7aa3509fe6b4be384a7",
+        "artifact_mtime": "2026-08-28T16:32:29Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
       }
     },
     {
@@ -2937,5 +3045,1119 @@
       "reason": "CRIRES+ Y GRADED is n=1 and the harness REFUSES it \u2014 measured 2026-08-26, not inferred. Of the 5 primary-lab Fe I lines in the Y arm (9913.180 DH14, 9944.207 DH14, 10142.844 DH14, 10216.313 RU14, 10435.355 DH14) only 10435.355 falls inside the conditioned 10280-10680 A window; the other four sit BELOW 10280, in the stretch Elgueta's window excludes. The harness refusal is correct and quotable: 'a pool of fewer than 2 lines cannot carry a line-to-line scatter, so its statistical term would be invented rather than measured'. Deep-graded is 0 in the same window. \u26a0\ufe0f This is a WINDOW limit, not an arm limit: the Y arm spans 9796.5-10796.1 A and is telluric-clean below 10280 (0.00-0.26% of points below 0.5, vs 0.06-0.21% INSIDE the adopted window), so a widened conditioned derivative reaches n=5. That derivative exists (vesta_crires_plus_Y_9800_10796_normalized.csv) but is not yet a registered holding.",
       "declared_at": "2026-08-26T17:00:35Z"
     }
-  ]
+  ],
+  "plot_grid": {
+    "axis": [
+      "EW \u00b7 1D-LTE",
+      "Synth \u00b7 1D-LTE",
+      "Synth \u00b7 1D-LTE \u00b7 Gerber",
+      "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+      "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+      "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+      "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+      "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+      "EW \u00b7 3D-NLTE \u00b7 Amarsi"
+    ],
+    "key_fields": [
+      "element",
+      "ion",
+      "band",
+      "instrument",
+      "holding",
+      "tier",
+      "selector",
+      "route",
+      "treatment"
+    ],
+    "sections": [
+      {
+        "ion": "I",
+        "instrument": "crires_plus",
+        "holding": "solar_crires_plus_y_wide_rya1054",
+        "band": "NIR",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "harps",
+        "holding": "solar_harps_molecfit_corrected",
+        "band": "VIS",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "alternates": 1
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "band": "NIR",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "band": "VIS",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "iag_fts_solar_atlas",
+        "holding": "solar_iag",
+        "band": "red-optical",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "band": "VIS",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "alternates": 1
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber",
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger",
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "band": "near-UV",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "band": "red-optical",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "NIR",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "VIS",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber",
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger",
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "near-UV",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "I",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "red-optical",
+        "only_deepgraded": false,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "II",
+        "instrument": "harps",
+        "holding": "solar_harps_molecfit_corrected",
+        "band": "VIS",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "II",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "band": "VIS",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "II",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "band": "near-UV",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "II",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "VIS",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      },
+      {
+        "ion": "II",
+        "instrument": "kpno_solar_atlas",
+        "holding": "solar_kpno_molecfit_corrected",
+        "band": "near-UV",
+        "only_deepgraded": true,
+        "cells": [
+          {
+            "row": "EW \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE",
+            "pending": false,
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
+            "pending": false,
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          },
+          {
+            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "pending": false,
+            "product_key": null,
+            "alternates": 0
+          }
+        ],
+        "off_axis": []
+      }
+    ]
+  }
 }
