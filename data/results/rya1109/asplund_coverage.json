@@ -1,0 +1,88 @@
+{
+  "ticket": "RYA-1109",
+  "source": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2",
+  "holdings": {
+    "solar_kpno_kurucz2005_corrected": {
+      "instrument_id": "kpno_solar_atlas",
+      "span_A": [
+        2960.0,
+        13000.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "Fe I": 40,
+      "Fe II": 13,
+      "total": 53
+    },
+    "solar_kpno_molecfit_corrected": {
+      "instrument_id": "kpno_solar_atlas",
+      "span_A": [
+        2960.0,
+        13000.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "Fe I": 40,
+      "Fe II": 13,
+      "total": 53
+    },
+    "solar_harps_molecfit_corrected": {
+      "instrument_id": "harps",
+      "span_A": [
+        3780.0,
+        6910.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "Fe I": 27,
+      "Fe II": 9,
+      "total": 36
+    },
+    "solar_iag": {
+      "instrument_id": "iag_fts_solar_atlas",
+      "span_A": [
+        4047.0,
+        10650.0
+      ],
+      "span_basis": "instrument_catalog (upper bound)",
+      "Fe I": 40,
+      "Fe II": 13,
+      "total": 53
+    }
+  },
+  "graded_overlap": {
+    "Fe I": {
+      "n_ref": 40,
+      "n_pool": 428,
+      "matched": 2,
+      "matched_lambda": [
+        5483.1,
+        8571.8
+      ],
+      "unresolved": 38
+    },
+    "Fe II": {
+      "n_ref": 13,
+      "n_pool": 22,
+      "matched": 0,
+      "matched_lambda": [],
+      "unresolved": 13
+    }
+  },
+  "ap2002_comparison": {
+    "Fe I": {
+      "n_ref": 50,
+      "n_pool": 428,
+      "matched": 2,
+      "matched_lambda": [
+        5253.46,
+        5784.66
+      ],
+      "unresolved": 48
+    },
+    "Fe II": {
+      "n_ref": 15,
+      "n_pool": 22,
+      "matched": 0,
+      "matched_lambda": [],
+      "unresolved": 15
+    }
+  }
+}
