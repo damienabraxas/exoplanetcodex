@@ -2,6 +2,8 @@
 
 **The mutable current-truth ledger. Read this FIRST.**
 
+> **Models:** the canonical 8-model roster is [`data/catalog/model_registry.csv`](data/catalog/model_registry.csv) (RYA-1101) — token, physics axes, nicknames, and the mandatory Frankenstein pair. It is a POINTER, not a copy: do not restate the roster here, and note that bare `ENGINE-B` is ambiguous (see the collision note beside it).
+
 The Linear tickets are an *immutable journal* — every step, dead end, and reversal, recorded and never rewritten. This register is the *mutable ledger* — the single authoritative statement of **what is true right now**, rewritten as things settle, regress, or supersede. When "current state of X" and "what the journal says happened to X" diverge, **this file wins for state**; the journal wins for history.
 
 Built to be read fast by both Ryan/Claude.ai **and** local models on Sirius (Qwen etc.) — keep it clean-table, one fact per row, machine-parseable.
