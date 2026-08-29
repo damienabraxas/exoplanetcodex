@@ -146,9 +146,34 @@ def test_the_xi_applicability_follows_the_line_set_not_the_element(doc):
 
 
 def test_the_audit_changed_nothing():
-    """RYA-161: an audit reports. It must not touch a value, a product or a line."""
-    r = subprocess.run(["git", "status", "--porcelain", "--",
-                        "data/products", "data/linelists", "data/audit",
-                        "data/results/band_products"],
-                       cwd=ROOT, capture_output=True, text=True)
-    assert r.stdout.strip() == "", f"the audit modified data it may only read:\n{r.stdout}"
+    """RYA-161: an audit reports. It must not touch a value, a product or a line.
+
+    🔴 THIS MEASURES `audit()`, NOT THE WORKING TREE, AND THE DIFFERENCE IS THE WHOLE TEST.
+    The first version ran `git status --porcelain` over data/products, data/linelists,
+    data/audit and data/results/band_products. That passed on the Mac and went RED on
+    Sirius — where the grids are mounted, a grid-guarded test that SKIPS locally actually
+    RUNS and regenerates `data/audit/crires_co_conditioned/rya390_co_validation.json`. My
+    test then read another test's side effect and reported it as "the audit modified data".
+
+    A claim about what THIS function does has to be measured around THIS function. Hashing
+    the inputs across the call does that, and is independent of whatever else the suite is
+    doing to the tree.
+    """
+    import hashlib
+
+    watched = sorted(
+        p for d in ("data/products/solar", "data/linelists", "data/audit/uncertainty")
+        for p in (ROOT / d).rglob("*") if p.is_file())
+    watched += sorted((ROOT / "data" / "results" / "band_products").glob("Fe*"))
+    assert len(watched) > 50, f"only {len(watched)} input files watched — too few to mean much"
+
+    def digest():
+        h = hashlib.sha256()
+        for f in watched:
+            h.update(f.name.encode())
+            h.update(f.read_bytes())
+        return h.hexdigest()
+
+    before = digest()
+    A.audit()
+    assert digest() == before, "audit() wrote to one of the inputs it may only read"
