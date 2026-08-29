@@ -3596,6 +3596,33 @@ artifacts:
       for all 21; adopting it would turn "GBS's own scale" into "GBS where published, GES
       elsewhere" and report one number for the mixture, so it is left as RYA-1110's OPEN
       decision for Ryan. 138 of 159 are measurable.
+  - artifact: rya1112/vis_fe_uncertainty_audit.json
+    generator: scripts/rya1112_vis_fe_uncertainty_audit.py
+    ticket: RYA-1112
+    invocation: python3 scripts/rya1112_vis_fe_uncertainty_audit.py --check
+    note: >-
+      xi-aware uncertainty audit of the 46 live VIS Fe products, per the codex-product-audit
+      skill (RYA-1107). READ-ONLY: no value, product or line changed (RYA-161).
+      🔴 F1 THE PUBLISHED sigma_syst OMITS THE STELLAR-PARAMETER SYSTEMATICS ENTIRELY.
+      Two budgets that never meet: uncertainty_stack -> solar_uncertainty_rya158.json holds
+      RYA-1089's sourced delta_xi 0.2912 km/s and Fe I sigma_B_vmic 0.0699, and is read only
+      by tests and its own two stamping scripts; error_budget.build() -> band artifacts ->
+      the feed adds scatter + gf + harness (+band-conditional continuum/telluric) and
+      contains NO vmic/microturbulence/xi token at all. Every live VIS Fe bar is a FLOOR
+      quoted as a total. Folding in the Fe I reference magnitude would move 7 more products
+      over the 0.1 dig-in threshold (9 -> 16 of 46).
+      ⚠️ It must NOT be fixed by bolting 0.0699 onto everything: dA/dvmic is a property of
+      the LINE SET (GRADED = depth <= 0.60, weaker; DEEPGRADED = saturated), and the 8 3D
+      products have no microturbulence parameter at all.
+      🔴 F2 gf=kurucz on every GRADED/DEEPGRADED row — treatment_axes.LEGACY pins the gf
+      axis from the TREATMENT TOKEN while the selector picks on gf_tier == LAB. Measured:
+      67/67 lines primary-laboratory on a product labelled kurucz, whose own committed
+      budget says "every one of the 67 Fe I lines is GF-LAB". RYA-1104's defect, still live.
+      🔴 F3 Fe II has NO row in the stellar-parameter budget (1 of 10 rows has a non-zero
+      vmic term, and it is Fe I).
+      🔴 F4 the gate is not rendered at all: SOLAR_GATE_DEX lives only in two audit scripts,
+      and no product record carries a gate/target/flag field. 40 of 46 products are already
+      over the 0.05 solar gate before the omitted term is added.
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042
