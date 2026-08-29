@@ -73,6 +73,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))          # so `pipeline.line_match` imports when run directly
 
 PDF_DEFAULT = Path("/Users/ryanschmitt/Documents/Exoplanet Codex/Reference documents/"
                    "Apslund 2021.pdf")
@@ -279,15 +280,32 @@ def ap2002_overlap(rows: list[dict]) -> dict:
     """How much of AGSS21 Table A.2 is the AP2002 list we already hold? Not the same set."""
     if not AP2002_CSV.exists():
         return {"available": False}
+    # ⚠️ NOT A ROUNDED-BIN JOIN. An earlier version of this function bucketed both sides to
+    # 0.1 A with round() and intersected the buckets, which is the RYA-1033 antipattern: a
+    # rounded wavelength is not a line identity, and two lines 0.06 A apart can land in
+    # different buckets while two 0.09 A apart land in the same one. It uses the canonical
+    # matcher, at a tolerance derived from the COARSER of the two sources (AGSS21 prints nm
+    # to 2 dp = 0.1 A resolution, so half-width 0.05 A).
+    import numpy as np
+    from pipeline import line_match
+
     ap = list(csv.DictReader(AP2002_CSV.open()))
-    out = {"available": True, "ap2002_rows": len(ap)}
+    out = {"available": True, "ap2002_rows": len(ap),
+           "tol_A": 0.05, "tol_basis": "half AGSS21's printed 0.1 A resolution"}
     for ion in ("I", "II"):
-        a = {(round(float(r["wavelength_air_A"]), 1), round(float(r["elo_eV"]), 2))
-             for r in ap if r["ion"] == ion}
-        b = {(round(r["wavelength_air_A"], 1), round(r["elo_eV"], 2))
-             for r in rows if r["ion"] == ion}
+        a = [r for r in ap if r["ion"] == ion]
+        b = [r for r in rows if r["ion"] == ion]
+        if not a or not b:
+            out[f"Fe {ion}"] = {"agss21": len(b), "ap2002": len(a), "shared_lambda_ep": 0}
+            continue
+        res = line_match.match(
+            np.array([r["wavelength_air_A"] for r in b], float),
+            np.array([float(r["wavelength_air_A"]) for r in a], float),
+            want_ep=np.array([r["elo_eV"] for r in b], float),
+            src_ep=np.array([float(r["elo_eV"]) for r in a], float),
+            require_ep=True, tol_A=0.05)
         out[f"Fe {ion}"] = {"agss21": len(b), "ap2002": len(a),
-                            "shared_lambda_ep": len(a & b)}
+                            "shared_lambda_ep": int((np.asarray(res.index) >= 0).sum())}
     return out
 
 
