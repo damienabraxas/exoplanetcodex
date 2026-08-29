@@ -19,10 +19,28 @@ require_ep=True)` on the lambda+EP dual key (RYA-1037). Not a rounded wavelength
 2-dp wavelength is not a line identity (RYA-1033), and one in-window candidate is not the
 same as the right transition (RYA-853). A wavelength that cannot be resolved WITH an EP is
 reported unresolved rather than counted.
+
+🔴 THE TOLERANCE IS DERIVED FROM THE SOURCE'S PRINTED PRECISION, AND THE FIRST RUN OF THIS
+SCRIPT GOT IT WRONG. `line_match.MATCH_TOL_A` is 0.005 A, which suits a table printed to
+0.01 A. AGSS21 Table A.2 prints lambda in NANOMETRES to two decimals -- 0.1 A resolution,
+half-width 0.05 A -- so the default window is 20x too tight FOR THAT SOURCE and throws away
+real matches. Measured: the AGSS21 Fe I overlap with our graded pool reads 2/40 at 0.005 A
+and 19/40 at 0.05 A. The first number was an artifact of the tolerance, not a fact about
+the line lists.
+
+So each reference list declares the precision it was PRINTED at, and the tolerance follows
+from it. The counts are not tuned by it either -- `--plateau` sweeps the tolerance and shows
+the count STOPS MOVING well before the window is wide enough to sweep in a neighbouring
+line (AGSS21 Fe I: 19 at 0.05 A and still 19 at 0.50 A, zero ambiguous). A count that keeps
+climbing with the window is a count of coincidences; one that plateaus is the answer.
+
+AP2002 prints lambda in ANGSTROMS to two decimals, so the module default is already right
+for it, and its 2/50 is stable from 0.005 A to 0.1 A. The two lists genuinely differ.
 """
 from __future__ import annotations
 
 import csv
+from collections import Counter
 import json
 import sys
 from pathlib import Path
@@ -47,32 +65,51 @@ VIS_HOLDINGS = ["solar_kpno_kurucz2005_corrected", "solar_kpno_molecfit_correcte
                 "solar_harps_molecfit_corrected", "solar_iag"]
 
 
-def graded_fe(ion: str) -> pd.DataFrame:
+#: Half the printed wavelength resolution of each reference table. DERIVED, not chosen:
+#: AGSS21 Table A.2 prints nm to 2 dp (0.1 A), AP2002 Table 2 prints A to 2 dp (0.01 A).
+TOL_A = {"asplund_agss21": 0.05, "ap2002": 0.005}
+
+
+def fe_pool(ion: str, *, lab_only: bool) -> pd.DataFrame:
     d = pd.read_csv(CANON, low_memory=False)
-    d = d[(d["species"].astype(str) == f"Fe {ion}") & (d["gf_tier"].astype(str) == "LAB")]
-    return d.dropna(subset=["wavelength_air_A", "excitation_potential_eV"])
+    d = d[d["species"].astype(str) == f"Fe {ion}"]
+    if lab_only:
+        d = d[d["gf_tier"].astype(str) == "LAB"]
+    return d.dropna(subset=["wavelength_air_A", "excitation_potential_eV"]).reset_index(
+        drop=True)
 
 
-def overlap(ref: pd.DataFrame, pool: pd.DataFrame) -> dict:
-    """Strict lambda+EP match of a reference list against a pool."""
+def _match(ref: pd.DataFrame, pool: pd.DataFrame, tol: float):
+    return line_match.match(ref["wavelength_air_A"].to_numpy(float),
+                            pool["wavelength_air_A"].to_numpy(float),
+                            want_ep=ref["elo_eV"].to_numpy(float),
+                            src_ep=pool["excitation_potential_eV"].to_numpy(float),
+                            require_ep=True, tol_A=tol)
+
+
+def overlap(ref: pd.DataFrame, pool: pd.DataFrame, tol: float) -> dict:
+    """Strict lambda+EP match of a reference list against a pool, at a DERIVED tolerance."""
     if ref.empty or pool.empty:
         return {"n_ref": int(len(ref)), "n_pool": int(len(pool)), "matched": 0,
-                "matched_lambda": [], "unresolved": int(len(ref))}
-    r = line_match.match(ref["wavelength_air_A"].to_numpy(float),
-                         pool["wavelength_air_A"].to_numpy(float),
-                         want_ep=ref["elo_eV"].to_numpy(float),
-                         src_ep=pool["excitation_potential_eV"].to_numpy(float),
-                         require_ep=True)
+                "matched_lambda": [], "unresolved": int(len(ref)), "tol_A": tol}
+    r = _match(ref, pool, tol)
     idx = np.asarray(r.index)
     hit = idx >= 0
     return {
         "n_ref": int(len(ref)),
         "n_pool": int(len(pool)),
         "matched": int(hit.sum()),
+        "tol_A": tol,
         "matched_lambda": [round(float(x), 3)
                            for x in ref["wavelength_air_A"].to_numpy(float)[hit]],
         "unresolved": int((~hit).sum()),
     }
+
+
+def plateau(ref: pd.DataFrame, pool: pd.DataFrame,
+            tols=(0.005, 0.01, 0.02, 0.03, 0.05, 0.08, 0.10, 0.25, 0.50)) -> dict:
+    """The count as a function of the window. A real overlap plateaus; coincidences climb."""
+    return {str(t): int((np.asarray(_match(ref, pool, t).index) >= 0).sum()) for t in tols}
 
 
 def main() -> int:
@@ -116,23 +153,55 @@ def main() -> int:
         print(f"  {h:34} {lo:7.1f}-{hi:7.1f} A   Fe I {n['I']:3}/40   "
               f"Fe II {n['II']:3}/13")
 
-    # ── 2. overlap with OUR graded pool ───────────────────────────────────────
-    print("\nOverlap with our GRADED (lab-gf) pool, strict lambda+EP (RYA-1037):")
+    # ── 2. overlap with OUR pools, at the DERIVED tolerance ───────────────────
+    tol = TOL_A["asplund_agss21"]
+    print(f"\nOverlap with OUR line list, strict lambda+EP (RYA-1037), tol {tol} A")
+    print("  (derived from AGSS21's printed 0.1 A resolution, NOT the 0.005 A default)")
+    doc["match_tolerance_A"] = {"asplund_agss21": tol, "basis":
+                                "half the printed wavelength resolution (nm to 2 dp)"}
     for ion in ("I", "II"):
-        pool = graded_fe(ion)
-        ov = overlap(asp[asp.ion == ion], pool)
-        doc["graded_overlap"][f"Fe {ion}"] = ov
-        print(f"  Fe {ion:3} AGSS21 {ov['n_ref']:3} vs graded pool {ov['n_pool']:4}  "
-              f"-> MATCHED {ov['matched']:3}")
-        if ov["matched"]:
-            print(f"        {ov['matched_lambda']}")
+        s = asp[asp.ion == ion]
+        allp = overlap(s, fe_pool(ion, lab_only=False), tol)
+        lab = overlap(s, fe_pool(ion, lab_only=True), tol)
+        doc["graded_overlap"][f"Fe {ion}"] = {"in_canonical_gf": allp, "in_LAB_tier": lab}
+        print(f"  Fe {ion:3} n={allp['n_ref']:3}  in canonical_gf {allp['matched']:3}"
+              f"/{allp['n_ref']:<3}   in GRADED (LAB) tier {lab['matched']:3}"
+              f"/{lab['n_ref']:<3}")
+        doc["graded_overlap"][f"Fe {ion}"]["plateau_LAB"] = plateau(
+            s, fe_pool(ion, lab_only=True))
 
-    # ── 3. the same measurement on AP2002, so the two are comparable ──────────
+    print("\n  PLATEAU (Fe I vs LAB tier) - a real overlap stops moving, a coincidence "
+          "keeps climbing:")
+    pl = doc["graded_overlap"]["Fe I"]["plateau_LAB"]
+    print("    " + "  ".join(f"{t}A:{n}" for t, n in pl.items()))
+
+    # ── 3. WHY the non-LAB lines are missing: tier, not absence ───────────────
+    fe1 = asp[asp.ion == "I"].reset_index(drop=True)
+    allp = fe_pool("I", lab_only=False)
+    idx = np.asarray(_match(fe1, allp, tol).index)
+    low = (fe1.elo_eV < 2.85).to_numpy()
+    held = [str(allp.iloc[j]["gf_tier"]) for j in idx[low] if j >= 0]
+    doc["low_elo"] = {
+        "n_below_2p85_eV": int(low.sum()),
+        "present_in_canonical_gf": int((idx[low] >= 0).sum()),
+        "in_LAB_tier": 0 if not held else sum(t == "LAB" for t in held),
+        "tiers_we_hold_them_at": dict(Counter(held)),
+    }
+    d = doc["low_elo"]
+    print(f"\n  LOW-Elo (<2.85 eV, below our graded floor): n={d['n_below_2p85_eV']}")
+    print(f"    present in canonical_gf: {d['present_in_canonical_gf']}   "
+          f"in LAB tier: {d['in_LAB_tier']}")
+    print(f"    we hold them at: {d['tiers_we_hold_them_at']}")
+
+    # ── 4. the same measurement on AP2002, at ITS OWN precision ───────────────
     if AP2002.exists():
-        ap = pd.read_csv(AP2002).rename(columns={"elo_eV": "elo_eV"})
-        print("\nSame measurement on AP2002 (the list we already held), for comparison:")
+        ap = pd.read_csv(AP2002)
+        t2 = TOL_A["ap2002"]
+        print(f"\nSame measurement on AP2002 (a DIFFERENT paper's list), tol {t2} A "
+              f"(it prints A to 2 dp):")
         for ion in ("I", "II"):
-            ov = overlap(ap[ap.ion == ion], graded_fe(ion))
+            ov = overlap(ap[ap.ion == ion], fe_pool(ion, lab_only=True), t2)
+            ov["plateau_LAB"] = plateau(ap[ap.ion == ion], fe_pool(ion, lab_only=True))
             doc["ap2002_comparison"][f"Fe {ion}"] = ov
             print(f"  Fe {ion:3} AP2002 {ov['n_ref']:3} vs graded pool {ov['n_pool']:4}  "
                   f"-> MATCHED {ov['matched']:3}  {ov['matched_lambda']}")

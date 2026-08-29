@@ -153,3 +153,57 @@ def test_the_extractor_reproduces_the_committed_artifact():
     assert w.returncode == 0, w.stdout + w.stderr
     assert CSV_PATH.read_text() == before, (
         "re-extracting the PDF does not reproduce the committed CSV byte-for-byte")
+
+
+# ── the coverage measurement, and the tolerance bug it was built on ───────────
+
+COVERAGE = ROOT / "data" / "results" / "rya1109" / "asplund_coverage.json"
+
+
+@pytest.fixture(scope="module")
+def cov():
+    return json.loads(COVERAGE.read_text())
+
+
+def test_the_match_tolerance_is_derived_from_the_printed_precision(cov):
+    """🔴 THE BUG THIS PINS. line_match's 0.005 A default suits a table printed to 0.01 A.
+    AGSS21 prints lambda in NANOMETRES to 2 dp - 0.1 A resolution - so the default is 20x
+    too tight for it and silently discards real matches. The first run of this report read
+    2/40 on that default; the derived 0.05 A reads 19/40."""
+    assert cov["match_tolerance_A"]["asplund_agss21"] == 0.05
+    assert cov["graded_overlap"]["Fe I"]["in_LAB_tier"]["tol_A"] == 0.05
+
+
+def test_the_overlap_plateaus_so_it_is_not_a_tolerance_artifact(cov):
+    """A real overlap stops moving as the window widens; a count of coincidences keeps
+    climbing. Asserted so a future widening cannot inflate the number unnoticed."""
+    pl = cov["graded_overlap"]["Fe I"]["plateau_LAB"]
+    assert pl["0.05"] == pl["0.08"] == pl["0.1"] == pl["0.25"] == pl["0.5"] == 19
+    assert pl["0.005"] == 2, "the old default's answer, kept as the contrast"
+
+
+def test_every_agss21_line_is_already_in_our_line_list(cov):
+    """We did NOT miss these lines. All 40 Fe I and 13 Fe II resolve into canonical_gf."""
+    assert cov["graded_overlap"]["Fe I"]["in_canonical_gf"]["matched"] == 40
+    assert cov["graded_overlap"]["Fe II"]["in_canonical_gf"]["matched"] == 13
+
+
+def test_the_low_elo_lines_are_held_but_not_at_LAB_tier(cov):
+    """🔴 THE ACTUAL GAP IS TIER, NOT ABSENCE. All 11 AGSS21 Fe I lines below our graded
+    pool's 2.85 eV floor ARE in canonical_gf - at NIST-C+/VALD3/OTHER, none at LAB. So the
+    replication needs AGSS21's gf VALUES on lines we already hold, not an ingest of lines
+    we never had."""
+    lo = cov["low_elo"]
+    assert lo["n_below_2p85_eV"] == 11
+    assert lo["present_in_canonical_gf"] == 11
+    assert lo["in_LAB_tier"] == 0
+    assert "LAB" not in lo["tiers_we_hold_them_at"]
+
+
+def test_ap2002_overlap_is_genuinely_tiny_and_not_a_tolerance_effect(cov):
+    """The contrast that makes the AGSS21 number meaningful: AP2002's own overlap is 2/50
+    and stays 2/50 at every window, so the two lists really do differ in how much of our
+    graded pool they touch."""
+    ap = cov["ap2002_comparison"]["Fe I"]
+    assert ap["matched"] == 2
+    assert set(ap["plateau_LAB"].values()) == {2}
