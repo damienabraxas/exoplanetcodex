@@ -28,12 +28,37 @@ def main() -> int:
     rows = model_registry.load()
     fails: list[str] = []
 
-    # (e) row count
+    # (e) row count. 9 since RYA-1115 added Frankenstein's Dog: 7 live + the Bride
+    # (in-dev) + the Dog (not-emitted). The Dog is NOT live — nothing emits it — so it is
+    # deliberately outside the (a) token check below rather than exempted from it.
     live = [r for r in rows if r["status"] == "live"]
     indev = [r for r in rows if r["status"] == "in-dev"]
-    if len(rows) != 8 or len(live) != 7 or len(indev) != 1:
-        fails.append(f"(e) expected 8 rows (7 live + 1 in-dev), got {len(rows)} "
-                     f"({len(live)} live, {len(indev)} in-dev)")
+    notemit = [r for r in rows if r["status"] == "not-emitted"]
+    if len(rows) != 9 or len(live) != 7 or len(indev) != 1 or len(notemit) != 1:
+        fails.append(f"(e) expected 9 rows (7 live + 1 in-dev + 1 not-emitted), got "
+                     f"{len(rows)} ({len(live)} live, {len(indev)} in-dev, "
+                     f"{len(notemit)} not-emitted)")
+    for r in rows:
+        if r["status"] not in model_registry.STATUSES:
+            fails.append(f"(e) model {r['model_id']} status {r['status']!r} is not in "
+                         f"{model_registry.STATUSES}")
+
+    # (f) RYA-1115 — the line_set hook exists and holds only vocabulary values. Opening
+    # the column with a guard already on it is what stops RYA-1111 typing a pool name
+    # from memory on the day it first populates this.
+    if "line_set" not in (rows[0].keys() if rows else ()):
+        fails.append("(f) no line_set column — RYA-1111 has no hook to wire into")
+    else:
+        fails.extend(f"(f) {m}" for m in model_registry.check_line_sets(rows))
+
+    # (g) a non-live row must NOT carry a stored_token. The Bride and the Dog are both in
+    # the roster precisely because they do not exist in code yet; a token on either would
+    # be an invented one, which is the exact failure (a) guards against on the live side.
+    for r in indev + notemit:
+        if r["stored_token"].strip():
+            fails.append(f"(g) model {r['model_id']} is {r['status']} but carries "
+                         f"stored_token {r['stored_token']!r} — a non-live row with a "
+                         f"token means it was invented, not read from code")
 
     # (a) every live token exists verbatim in the code
     code_tokens = set(band_products.TREATMENTS)
@@ -79,11 +104,14 @@ def main() -> int:
             print(f"  🔴 {f}")
         return 1
 
-    print(f"MODEL_REGISTRY OK: {len(rows)} models ({len(live)} live, {len(indev)} in-dev)")
+    print(f"MODEL_REGISTRY OK: {len(rows)} models ({len(live)} live, {len(indev)} in-dev, "
+          f"{len(notemit)} not-emitted)")
     print("  all live tokens resolved in code")
     print("  no undocumented token collisions (bare ENGINE-B documented + guarded)")
     print("  frankenstein pair intact (rows 5,6)")
     print("  no live-count columns present")
+    print("  line_set hook present, all values in vocabulary (RYA-1111 wires them)")
+    print("  no non-live row carries an invented token (models 8, 9 blank)")
 
     extra = sorted(code_tokens - {r["stored_token"].strip() for r in rows})
     if extra:
