@@ -3514,6 +3514,24 @@ artifacts:
       then contributes 0.0699 dex against a 0.05 dex solar gate, so the gate FAILS on xi
       before any other systematic. That is reported as a finding about the gate; the
       adopt-or-relax call is Ryan's.
+  - artifact: rya1109/asplund_coverage.json
+    generator: scripts/rya1109_asplund_coverage.py
+    ticket: RYA-1109
+    invocation: python3 scripts/rya1109_asplund_coverage.py
+    note: >-
+      Coverage of AGSS21's OWN Fe line set (Asplund, Amarsi & Grevesse 2021, A&A 653 A141,
+      Table A.2 -- extracted to data/reference/asplund2021_fe/) against our four VIS solar
+      holdings and against our graded lab-gf pool. Matching is the canonical lambda+EP
+      matcher in STRICT mode (line_match.match(require_ep=True), RYA-1037): a rounded
+      wavelength is not a line identity (RYA-1033) and one in-window candidate is not the
+      right transition (RYA-853). MEASURED: only 2 of AGSS21's 40 Fe I lines and 0 of its
+      13 Fe II lines resolve into our graded pool, so the Asplund replication cannot be a
+      re-slice of what we already measure -- the lines have to be measured (RYA-1106).
+      ⚠️ The per-holding spans are the INSTRUMENT's declared range from
+      instrument_catalog.csv, because holdings_manifest_registry carries no wavelength
+      range; they are an UPPER BOUND on what a holding can serve, not a measured coverage.
+      ⚠️ Ryan's remembered "~1" overlap is AP2002's list, not this one; the same
+      measurement on AP2002 is carried in the artifact for comparison.
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042
