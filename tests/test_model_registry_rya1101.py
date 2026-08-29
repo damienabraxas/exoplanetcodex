@@ -50,6 +50,52 @@ def test_the_in_dev_model_has_no_invented_token(rows):
     assert bride["nickname"] == "The Bride"
 
 
+def test_frankensteins_dog_is_a_row_with_no_invented_token(rows):
+    """RYA-1115: Ryan ratified the Dog as a DISTINCT model, so it is in the roster. But
+    `treatment_axes.AXIS_NATIVE` registers no 1D-LTE leg on a mean-3D reference and
+    `ATMOSPHERES` is a closed set with no such atmosphere, so every code-sourced field is
+    left BLANK — the model 8 rule applied to model 9."""
+    dog = next(r for r in rows if r["model_id"] == "9")
+    assert dog["nickname"] == "Frankenstein's Dog"
+    assert dog["stored_token"] == ""
+    assert dog["atmosphere"] == ""
+    assert dog["status"] == "not-emitted"
+
+
+def test_the_dog_is_not_in_the_frankenstein_pair(rows):
+    """It would be the ATMOSPHERE-rung comparand, not a member of the mandatory 5/6 NLTE
+    pair. Putting it in the pair group would let a consumer difference it as if it were."""
+    dog = next(r for r in rows if r["model_id"] == "9")
+    assert dog["pair_group"] != "frankenstein"
+
+
+def test_not_emitted_is_a_distinct_status_from_in_dev(rows):
+    """The Bride is being BUILT; the Dog is a leg nothing emits. One token for two
+    situations is the defect this whole registry exists to end."""
+    assert "not-emitted" in model_registry.STATUSES
+    assert {r["status"] for r in rows} <= set(model_registry.STATUSES)
+    assert next(r for r in rows if r["model_id"] == "8")["status"] == "in-dev"
+    assert next(r for r in rows if r["model_id"] == "9")["status"] == "not-emitted"
+
+
+def test_the_line_set_hook_is_open_with_a_closed_vocabulary(rows):
+    """RYA-1115 opens the column for RYA-1111. It is model-scoped nowhere yet, so every row
+    reads '-', but the vocabulary exists NOW so the first real value cannot be typed from
+    memory."""
+    assert "line_set" in rows[0]
+    assert {r["line_set"] for r in rows} == {"-"}
+    assert model_registry.check_line_sets(rows) == []
+    for pool in ("asplund-graded", "gbs", "our-graded", "our-deep-graded"):
+        assert pool in model_registry.LINE_SETS
+
+
+def test_the_line_set_guard_refuses_a_value_outside_the_vocabulary():
+    """The control: the guard must actually FIRE. `consistent` is the realistic mistake —
+    RYA-1105 retired the tier but `--lines-tier consistent` is still live in the code."""
+    bad = model_registry.check_line_sets([{"model_id": "1", "line_set": "consistent"}])
+    assert len(bad) == 1 and "consistent" in bad[0]
+
+
 def test_bare_ENGINE_B_refuses_to_bind(rows):
     """🔴 THE COLLISION. `ENGINE-B` resolves to model 1 today but historically meant model 4
     (now ENGINE-B-NLTE) — same string, two physics, and a pre-RYA-906 artifact does not say
@@ -123,7 +169,8 @@ def test_the_verifier_passes_and_reports_the_out_of_roster_tokens():
     r = subprocess.run([sys.executable, "scripts/verify_model_registry.py"],
                        cwd=ROOT, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
-    assert "MODEL_REGISTRY OK: 8 models (7 live, 1 in-dev)" in r.stdout
+    assert ("MODEL_REGISTRY OK: 9 models (7 live, 1 in-dev, 1 not-emitted)"
+            in r.stdout)
     assert "1D-LTE-LABGF" in r.stdout and "ENGINE-B" in r.stdout
 
 
