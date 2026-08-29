@@ -1,0 +1,79 @@
+{
+  "ticket": "RYA-1109",
+  "artifact": "asplund2021_fe_lines.csv",
+  "what": "AGSS21's OWN solar Fe line list - Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2. The lines the recommended log eps(Fe) = 7.46 is derived from.",
+  "generator": "scripts/rya1109_extract_asplund_fe_lines.py",
+  "source_pdf": "/Users/ryanschmitt/Documents/Exoplanet Codex/Reference documents/Apslund 2021.pdf",
+  "source_citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141 (Table A.2)",
+  "doi": "10.1051/0004-6361/202140445",
+  "bibliography_key": "asplund2021",
+  "gf_provenance": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with transition probabilities recommended by the Oxford (Blackwell et al. 1995), Hannover (Holweger et al. 1991) and Wisconsin (O'Brian et al. 1991) groups. AGSS21 Table A.2 publishes NO per-line gf source column; this attribution is COLLECTIVE and gf_source_per_line is empty by design (RYA-161: flag, do not guess).",
+  "selection_note": "AGSS21 footnote 9: 'We did not utilise any of the IR Fe i lines for which new experimental data are now available (Ruffoni et al. 2013) since these particular lines are typically too strong and/or blended in the Sun for a high-precision analysis.' So the absence of the Ruffoni IR lines is a DELIBERATE selection by AGSS21, not a coverage gap.",
+  "not_the_same_as": "data/reference/amarsi2022_training/amarsi2022_solar_control_lines.csv is AP2002 Table 2 (50 Fe I + 15 Fe II), the list AMARSI+2022 used for its own solar row (RYA-817). Different paper, different selection. Replicating AGSS21 on AP2002's lines reproduces Amarsi's solar row, not Asplund's.",
+  "band_scope": "VIS. AGSS21's Fe list spans the visual; it does NOT cover the near-UV, and its IR omission is deliberate (see selection_note).",
+  "controls": {
+    "Fe I": {
+      "n_lines": 40,
+      "mean_3D_nonLTE": 7.4549,
+      "published_mean": 7.46,
+      "mean_reproduces_published": false,
+      "lambda_air_A": [
+        4445.5,
+        9786.6
+      ],
+      "elo_eV": [
+        0.08729,
+        5.06378
+      ],
+      "rew": [
+        -5.9339,
+        -4.9137
+      ],
+      "max_energy_residual_eV": 2.648e-05
+    },
+    "Fe II": {
+      "n_lines": 13,
+      "mean_3D_nonLTE": 7.4682,
+      "published_mean": 7.47,
+      "mean_reproduces_published": true,
+      "lambda_air_A": [
+        4416.8,
+        7711.7
+      ],
+      "elo_eV": [
+        2.77846,
+        3.90342
+      ],
+      "rew": [
+        -5.7087,
+        -4.7071
+      ],
+      "max_energy_residual_eV": 1.611e-05
+    },
+    "recommended": {
+      "computed": 7.4616,
+      "published": 7.46,
+      "reproduces": true
+    },
+    "column_mapping_control": {
+      "ionisation_gap_3D": 0.0133,
+      "ionisation_gap_mean3D": 0.0454,
+      "mean3D_gap_is_larger_as_published": true,
+      "MARCS_is_lowest_as_published": true
+    }
+  },
+  "ap2002_overlap": {
+    "available": true,
+    "ap2002_rows": 65,
+    "Fe I": {
+      "agss21": 40,
+      "ap2002": 50,
+      "shared_lambda_ep": 14
+    },
+    "Fe II": {
+      "agss21": 13,
+      "ap2002": 15,
+      "shared_lambda_ep": 11
+    }
+  }
+}
