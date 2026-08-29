@@ -3555,6 +3555,33 @@ artifacts:
       Fe II structural zero confirmed as a wavelength fact: our graded Fe II is
       4173.45-4583.83 A, the GBS Fe II set 4993.36-6456.38 A, closest cross-pair 409.53 A
       = 27302x the derived window. No tolerance could create that overlap.
+  - artifact: rya1111/asplund_ingest_coverage.json
+    generator: scripts/measure_reference_lineset.py
+    ticket: RYA-1111
+    invocation: python3 scripts/measure_reference_lineset.py --line-set asplund --dry-run
+    note: >-
+      RYA-1111 reference line-set INGEST + coverage for the Asplund (AGSS21) set. DRY RUN:
+      the ingest, the lambda+EP join against canonical_gf at the set's SOURCE-DERIVED
+      tolerance (0.05 A -- AGSS21 prints nm to 2 dp, so the 0.005 A module default is 20x
+      too tight and undercounts, RYA-1109), the per-holding span accounting and the
+      loud-fail lists. NO FIT IS RUN: the measuring pass needs the atlases and a working
+      synthesiser, i.e. Sirius (RYA-567; MOOGSILENT is a Linux ELF). All 40 Fe I and 13
+      Fe II AGSS21 lines are present in our line list; 17 of 53 fall outside the HARPS
+      span. Emits nothing into data/products or band_products -- existing products are
+      unchanged (RYA-161).
+  - artifact: rya1111/gbs_ingest_coverage.json
+    generator: scripts/measure_reference_lineset.py
+    ticket: RYA-1111
+    invocation: python3 scripts/measure_reference_lineset.py --line-set gbs --dry-run
+    note: >-
+      The same ingest for the GBS (Jofre+ 2014 Tables 4/5) set, at its own derived
+      tolerance (0.015 A, RYA-1110/RYA-1117). 150/150 Fe I and 9/9 Fe II are present in
+      our line list. 🔴 21 lines (20 Fe I, 1 Fe II) publish NO gf -- their
+      gf_provenance_gbs reads "NOT PUBLISHED IN TABLES 4/5" -- and are REFUSED at
+      measurement by name, not dropped and not substituted. A heiter2021_log_gf is staged
+      for all 21; adopting it would turn "GBS's own scale" into "GBS where published, GES
+      elsewhere" and report one number for the mixture, so it is left as RYA-1110's OPEN
+      decision for Ryan. 138 of 159 are measurable.
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042

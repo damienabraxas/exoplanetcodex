@@ -66,10 +66,20 @@ STATUSES = ("live", "in-dev", "not-emitted")
 #: is RYA-1105's to retire, not this ticket's (RYA-1101 forbids touching model code), so
 #: the code and this vocabulary genuinely disagree today and the mismatch is recorded
 #: rather than papered over.
+#: ⚠️ `asplund-graded` WAS WRONG AND IS CORRECTED TO `asplund` (RYA-1111). RYA-1101 opened
+#: this column before the axis had an owner, and guessed the spelling. RYA-1111 owns the
+#: axis and names the values {asplund, gbs, our-graded, our-deep-graded}; that wins. This
+#: tuple is now THE ONE DEFINITION -- `pipeline.reference_lineset` imports it rather than
+#: restating it, so the registry's guard and the ingest loader cannot drift into
+#: disagreeing about what a valid value is.
+#:
+#: ⚠️ A reference FILE may carry its own native spelling (the RYA-1109 artifact's column
+#: says `asplund_agss21`). That is recorded by the adapter as `native_line_set` and mapped
+#: to the canonical name -- never silently rewritten in the file.
 LINE_SETS = (
     "-",                 # not model-scoped; the value every roster row carries today
-    "asplund-graded",    # the imported AGSS21 reference set (RYA-1109)
-    "gbs",               # the Gaia FGK Benchmark Stars reference set
+    "asplund",           # the imported AGSS21 reference set (RYA-1109)
+    "gbs",               # the Gaia FGK Benchmark Stars reference set (RYA-1110)
     "our-graded",        # our lab-gf graded pool, at or below the depth gate
     "our-deep-graded",   # the saturated population above the gate (RYA-984/954)
 )
