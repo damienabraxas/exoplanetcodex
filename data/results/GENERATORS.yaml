@@ -3623,6 +3623,22 @@ artifacts:
       🔴 F4 the gate is not rendered at all: SOLAR_GATE_DEX lives only in two audit scripts,
       and no product record carries a gate/target/flag field. 40 of 46 products are already
       over the 0.05 solar gate before the omitted term is added.
+  - artifact: rya1111/gbs_missing_gf_options.json
+    generator: scripts/rya1111_gbs_missing_gf_options.py
+    ticket: RYA-1111
+    invocation: python3 scripts/rya1111_gbs_missing_gf_options.py
+    note: >-
+      OPTIONS REPORT, adopts nothing. Where the gf could come from for the 21 GBS lines
+      Jofre+2014 Tables 4/5 do not publish. The candidate is Heiter et al. 2021 (A&A 645,
+      A106) -- NOT a substitute table but the PUBLISHED version of the GES list Jofre used
+      as GES-v3 ("Heiter et al., in prep"). Validated HELD-OUT: GBS publishes a gf for the
+      other 138 lines, so Heiter can be scored per reference code against what Jofre
+      actually printed. 🔴 The result inverts the intuition -- GES's own `U` (undecided)
+      lines reproduce EXACTLY 57/57 while its `Y` (good) lines manage only 36/81 to 0.180
+      dex, because a `U` line is one nobody revisited and a `Y` line got updated AFTER
+      GES-v3. Verdicts by the line's own reference code: 12 ADOPTABLE (code exact on >= 5
+      held-out lines), 1 THIN (exact but n=2), 8 RISKY. The adoption decision is
+      RYA-1110's and Ryan's (RYA-161).
   - artifact: rya1042/mean3d_gate_verdict_graded.json
     generator: scripts/rya1042_mean3d_gate.py
     ticket: RYA-1042

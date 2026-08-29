@@ -206,3 +206,63 @@ def test_nothing_here_writes_canonical_gf():
     for text in (src, entry):
         assert "to_csv" not in text or "canonical_gf" not in text.split("to_csv")[0][-200:]
     assert "canonical_gf.csv is NEVER written" in src or "never written" in src.lower()
+
+
+# ── where the 21 missing GBS gf could come from ───────────────────────────────
+
+OPTIONS = ROOT / "data" / "results" / "rya1111" / "gbs_missing_gf_options.json"
+
+
+@pytest.fixture(scope="module")
+def opts():
+    return json.loads(OPTIONS.read_text())
+
+
+def test_heiter_is_validated_held_out_not_asserted(opts):
+    """The claim "Heiter+2021 is the right source" is scored against what Jofre actually
+    PRINTED on the 138 lines where he printed one. That is a held-out test on the same
+    table and the same version boundary, not an argument from plausibility."""
+    f = opts["held_out_by_ges_flag"]
+    assert f["U"]["n"] + f["Y"]["n"] == 138
+    assert opts["validation_method"].startswith("held-out")
+
+
+def test_the_ges_flag_inverts_and_that_is_recorded(opts):
+    """🔴 COUNTERINTUITIVE AND LOAD-BEARING. GES's own `U` (undecided) lines reproduce
+    Jofre EXACTLY 57/57; its `Y` (good) lines only 36/81, to 0.180 dex. A `U` line is one
+    nobody revisited, so its old reference carried across versions unchanged; a `Y` line
+    got updated with newer lab data AFTER GES-v3, which is what makes it disagree with
+    2014. So the flag is NOT the quality signal for this question - the reference code is.
+    Asserted so nobody later "fixes" the report by trusting the flag."""
+    f = opts["held_out_by_ges_flag"]
+    assert f["U"]["exact"] == f["U"]["n"] == 57
+    assert f["U"]["max_dev_dex"] == 0.0
+    assert f["Y"]["exact"] < f["Y"]["n"]
+    assert f["Y"]["max_dev_dex"] >= 0.15
+
+
+def test_small_n_agreement_is_graded_THIN_not_adoptable(opts):
+    """"2 of 2 exact" is not validation. A code seen on fewer than MIN_N held-out lines is
+    reported THIN, the same refusal to read a small-n agreement as a result that RYA-282
+    applies to abundances."""
+    assert opts["min_n_for_adoptable"] == 5
+    thin = [r for r in opts["per_line"] if r["verdict"] == "THIN"]
+    for r in thin:
+        assert r["code_stats"]["exact"] == r["code_stats"]["n"] < 5
+    adoptable = [r for r in opts["per_line"] if r["verdict"] == "ADOPTABLE"]
+    for r in adoptable:
+        assert r["code_stats"]["n"] >= 5 and r["code_stats"]["exact"] == r["code_stats"]["n"]
+
+
+def test_the_per_line_verdicts_cover_all_21(opts):
+    assert len(opts["per_line"]) == 21
+    assert sum(opts["tally"].values()) == 21
+    assert opts["tally"]["ADOPTABLE"] == 12
+    assert opts["tally"]["RISKY"] == 8
+
+
+def test_the_report_adopts_nothing(opts):
+    """RYA-1110's open decision stays Ryan's. This is an options report (RYA-161)."""
+    assert "NOT TAKEN HERE" in opts["decision"]
+    d = rls.load("gbs")
+    assert int(d.gf_missing.sum()) == 21, "still refused, nothing quietly filled in"

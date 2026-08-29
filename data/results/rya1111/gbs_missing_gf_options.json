@@ -1,0 +1,555 @@
+{
+  "ticket": "RYA-1111",
+  "question": "where could the gf come from for the 21 GBS lines Jofre+2014 Tables 4/5 do not publish?",
+  "candidate_source": "Heiter et al. 2021, A&A 645, A106 -- the PUBLISHED version of the GES line list that Jofre+2014 used as GES-v3 ('Heiter et al., in prep'). Not a substitute table: the same list, later version.",
+  "validation_method": "held-out: GBS publishes a gf for the other 138 lines, so Heiter+2021 can be scored against what Jofre actually printed, per reference code, on the same table and the same version boundary.",
+  "min_n_for_adoptable": 5,
+  "held_out_by_ges_flag": {
+    "U": {
+      "n": 57,
+      "exact": 57,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "Y": {
+      "n": 81,
+      "exact": 36,
+      "median_dev_dex": 0.004,
+      "max_dev_dex": 0.18
+    }
+  },
+  "held_out_by_reference_code": {
+    "1970A&A.....9...37R|FMW": {
+      "n": 1,
+      "exact": 1,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "2009A&A...497..611M": {
+      "n": 3,
+      "exact": 3,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "2014MNRAS.441.3127R": {
+      "n": 7,
+      "exact": 0,
+      "median_dev_dex": 0.02,
+      "max_dev_dex": 0.12
+    },
+    "BIPS+BWL": {
+      "n": 1,
+      "exact": 0,
+      "median_dev_dex": 0.034,
+      "max_dev_dex": 0.034
+    },
+    "BK": {
+      "n": 8,
+      "exact": 8,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "BK+BWL": {
+      "n": 1,
+      "exact": 0,
+      "median_dev_dex": 0.038,
+      "max_dev_dex": 0.038
+    },
+    "BK+GESB82d+BWL": {
+      "n": 1,
+      "exact": 0,
+      "median_dev_dex": 0.033,
+      "max_dev_dex": 0.033
+    },
+    "BK+GESHRL14": {
+      "n": 1,
+      "exact": 0,
+      "median_dev_dex": 0.004,
+      "max_dev_dex": 0.004
+    },
+    "BKK": {
+      "n": 2,
+      "exact": 2,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "BKK+2014MNRAS.441.3127R": {
+      "n": 1,
+      "exact": 0,
+      "median_dev_dex": 0.015,
+      "max_dev_dex": 0.015
+    },
+    "BKK+BWL": {
+      "n": 4,
+      "exact": 0,
+      "median_dev_dex": 0.059,
+      "max_dev_dex": 0.123
+    },
+    "BKK+BWL+GESHRL14": {
+      "n": 3,
+      "exact": 0,
+      "median_dev_dex": 0.041,
+      "max_dev_dex": 0.06
+    },
+    "BKK+GESB82c+BWL": {
+      "n": 5,
+      "exact": 0,
+      "median_dev_dex": 0.014,
+      "max_dev_dex": 0.035
+    },
+    "BKK+GESHRL14": {
+      "n": 1,
+      "exact": 0,
+      "median_dev_dex": 0.002,
+      "max_dev_dex": 0.002
+    },
+    "BWL": {
+      "n": 15,
+      "exact": 14,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.009
+    },
+    "BWL+GESHRL14": {
+      "n": 4,
+      "exact": 0,
+      "median_dev_dex": 0.073,
+      "max_dev_dex": 0.171
+    },
+    "GESB82c": {
+      "n": 1,
+      "exact": 1,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "GESB82c+BWL": {
+      "n": 5,
+      "exact": 0,
+      "median_dev_dex": 0.026,
+      "max_dev_dex": 0.029
+    },
+    "GESB82d+BWL": {
+      "n": 4,
+      "exact": 0,
+      "median_dev_dex": 0.023,
+      "max_dev_dex": 0.059
+    },
+    "GESB86+BWL": {
+      "n": 3,
+      "exact": 0,
+      "median_dev_dex": 0.009,
+      "max_dev_dex": 0.046
+    },
+    "GESHRL14": {
+      "n": 3,
+      "exact": 0,
+      "median_dev_dex": 0.14,
+      "max_dev_dex": 0.18
+    },
+    "MRW": {
+      "n": 57,
+      "exact": 57,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "RU": {
+      "n": 5,
+      "exact": 5,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    },
+    "WBW|FMW": {
+      "n": 2,
+      "exact": 2,
+      "median_dev_dex": 0.0,
+      "max_dev_dex": 0.0
+    }
+  },
+  "per_line": [
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 5461.55,
+      "elo_eV": 4.45,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.8,
+      "our_held_log_gf": -1.8,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 5587.57,
+      "elo_eV": 4.14,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.75,
+      "our_held_log_gf": -1.75,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 5624.02,
+      "elo_eV": 4.39,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.38,
+      "our_held_log_gf": -1.38,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 5635.82,
+      "elo_eV": 4.26,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.79,
+      "our_held_log_gf": -1.79,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 5916.25,
+      "elo_eV": 2.45,
+      "ges_flag": "Y",
+      "reference_code": "GESB82c+BWL",
+      "heiter2021_log_gf": -2.994,
+      "our_held_log_gf": -2.9927,
+      "code_stats": {
+        "n": 5,
+        "exact": 0,
+        "median_dev_dex": 0.026,
+        "max_dev_dex": 0.029
+      },
+      "verdict": "RISKY",
+      "why": "0/5 exact, deviations to 0.029 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6082.71,
+      "elo_eV": 2.22,
+      "ges_flag": "Y",
+      "reference_code": "BKK+GESB82c+BWL",
+      "heiter2021_log_gf": -3.576,
+      "our_held_log_gf": -3.573,
+      "code_stats": {
+        "n": 5,
+        "exact": 0,
+        "median_dev_dex": 0.014,
+        "max_dev_dex": 0.035
+      },
+      "verdict": "RISKY",
+      "why": "0/5 exact, deviations to 0.035 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6213.43,
+      "elo_eV": 2.22,
+      "ges_flag": "Y",
+      "reference_code": "BWL",
+      "heiter2021_log_gf": -2.481,
+      "our_held_log_gf": -2.481,
+      "code_stats": {
+        "n": 15,
+        "exact": 14,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.009
+      },
+      "verdict": "RISKY",
+      "why": "14/15 exact, deviations to 0.009 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6229.23,
+      "elo_eV": 2.85,
+      "ges_flag": "Y",
+      "reference_code": "BKK",
+      "heiter2021_log_gf": -2.805,
+      "our_held_log_gf": -2.805,
+      "code_stats": {
+        "n": 2,
+        "exact": 2,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "THIN",
+      "why": "exact but only n=2 held-out lines (< 5)"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6232.64,
+      "elo_eV": 3.65,
+      "ges_flag": "Y",
+      "reference_code": "BK+GESHRL14",
+      "heiter2021_log_gf": -1.235,
+      "our_held_log_gf": -1.24,
+      "code_stats": {
+        "n": 1,
+        "exact": 0,
+        "median_dev_dex": 0.004,
+        "max_dev_dex": 0.004
+      },
+      "verdict": "RISKY",
+      "why": "0/1 exact, deviations to 0.004 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6330.85,
+      "elo_eV": 4.73,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.64,
+      "our_held_log_gf": -1.64,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6338.88,
+      "elo_eV": 4.8,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -0.96,
+      "our_held_log_gf": -0.96,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6364.36,
+      "elo_eV": 4.8,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.33,
+      "our_held_log_gf": -1.33,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6380.74,
+      "elo_eV": 4.19,
+      "ges_flag": "Y",
+      "reference_code": "BWL",
+      "heiter2021_log_gf": -1.375,
+      "our_held_log_gf": -1.3762,
+      "code_stats": {
+        "n": 15,
+        "exact": 14,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.009
+      },
+      "verdict": "RISKY",
+      "why": "14/15 exact, deviations to 0.009 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6475.62,
+      "elo_eV": 2.56,
+      "ges_flag": "Y",
+      "reference_code": "BWL",
+      "heiter2021_log_gf": -2.941,
+      "our_held_log_gf": -2.942,
+      "code_stats": {
+        "n": 15,
+        "exact": 14,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.009
+      },
+      "verdict": "RISKY",
+      "why": "14/15 exact, deviations to 0.009 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6518.37,
+      "elo_eV": 2.83,
+      "ges_flag": "Y",
+      "reference_code": "BK+BWL",
+      "heiter2021_log_gf": -2.438,
+      "our_held_log_gf": -2.438,
+      "code_stats": {
+        "n": 1,
+        "exact": 0,
+        "median_dev_dex": 0.038,
+        "max_dev_dex": 0.038
+      },
+      "verdict": "RISKY",
+      "why": "0/1 exact, deviations to 0.038 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6569.21,
+      "elo_eV": 4.73,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -0.38,
+      "our_held_log_gf": -0.38,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6733.15,
+      "elo_eV": 4.64,
+      "ges_flag": "Y",
+      "reference_code": "GESHRL14",
+      "heiter2021_log_gf": -1.15,
+      "our_held_log_gf": -1.15,
+      "code_stats": {
+        "n": 3,
+        "exact": 0,
+        "median_dev_dex": 0.14,
+        "max_dev_dex": 0.18
+      },
+      "verdict": "RISKY",
+      "why": "0/3 exact, deviations to 0.18 dex"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6786.86,
+      "elo_eV": 4.19,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.97,
+      "our_held_log_gf": -1.97,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6806.84,
+      "elo_eV": 2.73,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -2.13,
+      "our_held_log_gf": -2.13,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe I",
+      "wavelength_air_A": 6820.37,
+      "elo_eV": 4.64,
+      "ges_flag": "U",
+      "reference_code": "MRW",
+      "heiter2021_log_gf": -1.22,
+      "our_held_log_gf": -1.22,
+      "code_stats": {
+        "n": 57,
+        "exact": 57,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 57/57"
+    },
+    {
+      "species": "Fe II",
+      "wavelength_air_A": 6149.26,
+      "elo_eV": 3.89,
+      "ges_flag": "U",
+      "reference_code": "RU",
+      "heiter2021_log_gf": -2.841,
+      "our_held_log_gf": -2.724,
+      "code_stats": {
+        "n": 5,
+        "exact": 5,
+        "median_dev_dex": 0.0,
+        "max_dev_dex": 0.0
+      },
+      "verdict": "ADOPTABLE",
+      "why": "reproduces Jofre exactly on 5/5"
+    }
+  ],
+  "tally": {
+    "ADOPTABLE": 12,
+    "THIN": 1,
+    "RISKY": 8,
+    "UNVALIDATABLE": 0
+  },
+  "other_sources_reachable": {
+    "Fe I": {
+      "matched_into_canonical_gf": 20,
+      "n": 20,
+      "gf_tier": {
+        "OTHER": 15,
+        "NIST-C+": 4,
+        "LAB": 1
+      },
+      "with_a_nist_grade": 4,
+      "with_a_vald_value": 20
+    },
+    "Fe II": {
+      "matched_into_canonical_gf": 1,
+      "n": 1,
+      "gf_tier": {
+        "OTHER": 1
+      },
+      "with_a_nist_grade": 0,
+      "with_a_vald_value": 1
+    }
+  },
+  "decision": "NOT TAKEN HERE. Which gf the GBS replication runs on is RYA-1110's open decision and Ryan's (RYA-161). This is an options report."
+}
