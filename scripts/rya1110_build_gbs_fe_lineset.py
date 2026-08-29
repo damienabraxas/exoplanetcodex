@@ -387,19 +387,58 @@ def _rew(ew_mA: float, lam_A: float) -> float:
     return math.log10(ew_mA * 1.0e-3 / lam_A)
 
 
-#: 🔴 Sources this repo REFUSES to let referee a solar abundance (RYA-161). Keyed by the
-#: first-author surname the decoders print. Meléndez & Barbuy 2009 (A&A 497, 611) is
-#: `melendez2009` in data/refs/bibliography.csv: *"multiplets are globally normalised on
-#: laboratory data but individual values are partly solar-fitted, so it must never referee
-#: a solar abundance"*. Decoding the provenance is exactly what makes this checkable, so
-#: the check ships with the decode rather than being left for a reader to notice.
+#: 🔴 SOLAR-FITTED gf SOURCES — a gf calibrated ON the Sun cannot referee a solar
+#: abundance (RYA-161). Keyed by the first-author surname the decoders print. Meléndez &
+#: Barbuy 2009 (A&A 497, 611) is `melendez2009` in data/refs/bibliography.csv: *"multiplets
+#: are globally normalised on laboratory data but individual values are partly solar-fitted,
+#: so it must never referee a solar abundance"*. Decoding the provenance is what made this
+#: checkable, so the check ships with the decode rather than waiting for a reader to notice.
 FIREWALLED_SOURCES = {
     "melendez": "Meléndez & Barbuy 2009 (A&A 497, 611) — partly solar-fitted Fe II gf, "
                 "FIREWALLED by RYA-161/852 (bibliography key `melendez2009`)",
 }
 
+#: 🔴 RATIFIED DISPOSITION — Ryan, RYA-1110, 2026-08-29. FLAG AND KEEP.
+#:
+#: The three GBS Fe II lines whose gf decodes to Meléndez & Barbuy 2009 stay in the
+#: 142-line replication set. Dropping them would break replication fidelity: we replicate
+#: Jofré's PUBLISHED set and flag its properties — the same principle already applied to
+#: the −4.8 quirk, where their stated rule and their published selection disagree and BOTH
+#: are carried.
+#:
+#: WHAT THE FLAG MEANS, and it must travel with the line: on these lines the gf was itself
+#: calibrated on the Sun, so a GBS solar Fe II value derived from them is a
+#: **METHOD-REPRODUCTION CHECK, NOT AN INDEPENDENT VALIDATION**. That sentence is the
+#: point of the flag; a flag that only names the paper leaves the reader to rediscover the
+#: consequence.
+#:
+#: ⚠️ NOTHING CONSUMES THIS YET. RYA-1111 is the measurement path that wires `line_set` to
+#: products, and it does not exist. `SOLAR_CIRCULAR` below is the importable form so 1111
+#: binds to it rather than retyping three wavelengths — the RYA-845 shape (two declarations
+#: of one fact) is how a flag like this goes missing.
+DISPOSITION = "FLAG-AND-KEEP (Ryan, RYA-1110, 2026-08-29)"
 
-def _provenance(gbs_gf, paper_row, h, refs: dict, jofre_codes: dict) -> dict:
+#: The controlled vocabulary for `gbs_solar_validity`. `not-flagged` is deliberately NOT
+#: called "independent": this check tests one thing — whether the GBS gf decodes to a
+#: solar-fitted source — and passing it is not a certificate of anything else.
+SOLAR_VALIDITY = ("not-flagged", "method-reproduction-only")
+
+_CIRCULAR_MEANING = (
+    "METHOD-REPRODUCTION CHECK, NOT AN INDEPENDENT VALIDATION: this line's gf was itself "
+    "calibrated on the Sun, so a solar Fe II value derived from it reproduces the method "
+    "rather than testing it")
+
+
+def solar_circular_lines(df: pd.DataFrame) -> pd.DataFrame:
+    """The rows RYA-1110 flags circular for a SOLAR number, for RYA-1111 to bind to.
+
+    DERIVED from the built line set, never a typed list of wavelengths — the flag and the
+    lines it names cannot drift apart if there is only one of them.
+    """
+    return df[df["gbs_solar_validity"] == "method-reproduction-only"]
+
+
+def _provenance(gbs_gf, our_gf, paper_row, h, refs: dict, jofre_codes: dict) -> dict:
     """Decode WHERE THE GBS gf VALUE CAME FROM, and say which decoder answered.
 
     🔴 THE ORDERING IS THE WHOLE POINT. Heiter+2021 gives a per-line source and is the
@@ -449,10 +488,25 @@ def _provenance(gbs_gf, paper_row, h, refs: dict, jofre_codes: dict) -> dict:
         names = ()
 
     fired = sorted({FIREWALLED_SOURCES[n] for n in names if n in FIREWALLED_SOURCES})
+    if fired:
+        # Does "use our gf instead" actually escape the circularity on THIS line? Ryan's
+        # decision notes it does not on two of the three, and that is a per-line fact, so
+        # it is derived per line rather than stated once in prose that a filter cannot see.
+        escapes = our_gf is not None and abs(our_gf - gbs_gf) > _GF_SAME_DEX
+        fired.append(
+            _CIRCULAR_MEANING + ". DISPOSITION " + DISPOSITION + ": the line STAYS in the "
+            "replication set — dropping it would break replication fidelity — and carries "
+            "this flag wherever it feeds a solar number. " +
+            ("Our adopted gf differs, so the our-gf arm of the do-both comparison is not "
+             "circular here." if escapes else
+             "🔴 OUR ADOPTED gf IS THE SAME NUMBER, so 'use our gf' does NOT escape the "
+             "circularity on this line — neither arm of the do-both comparison is "
+             "independent here."))
     return {
         "gf_source_per_line": text,
         "gf_source_basis": basis,
         "gf_source_firewalled": "; ".join(fired),
+        "gbs_solar_validity": "method-reproduction-only" if fired else "not-flagged",
         "jofre_refcode_sources": j_text,
         "heiter2021_source": h_text,
     }
@@ -543,7 +597,7 @@ def build() -> pd.DataFrame:
         our_gf = row["log_gf"]
         ges_gf = None if pd.isna(row["gf_synth_ges"]) else float(row["gf_synth_ges"])
         h, hd = heiter[key]
-        prov = _provenance(gbs_gf, p, h, refs, jofre_codes)
+        prov = _provenance(gbs_gf, our_gf, p, h, refs, jofre_codes)
         band = band_policy.resolve(lam).name
         if band != BAND:
             raise BuildError(
@@ -601,6 +655,7 @@ def build() -> pd.DataFrame:
             "gf_source_per_line": prov["gf_source_per_line"],
             "gf_source_basis": prov["gf_source_basis"],
             "gf_source_firewalled": prov["gf_source_firewalled"],
+            "gbs_solar_validity": prov["gbs_solar_validity"],
             "jofre_refcode_sources": prov["jofre_refcode_sources"],
             "heiter2021_r_loggf": h["r_loggf"],
             "heiter2021_source": prov["heiter2021_source"],
@@ -631,6 +686,11 @@ def coverage(df: pd.DataFrame) -> pd.DataFrame:
     vis = next(b for b in band_policy.POLICIES if b.name == BAND)
     sel = df[df["rew_class"] == "pass"]
     lam = sel["wavelength_air_A"].astype(float).to_numpy()
+    # RYA-1110 disposition: the flag has to travel to anything that could feed a solar
+    # number, and the coverage report is the only such surface that exists today. A
+    # holding that reaches these lines reaches a method-reproduction check, not an
+    # independent one, and the row says so rather than leaving it two files away.
+    circ = (sel["gbs_solar_validity"] == "method-reproduction-only").to_numpy()
 
     rows = []
     for instrument, specs in _INSTRUMENT_HOLDINGS.items():
@@ -664,6 +724,7 @@ def coverage(df: pd.DataFrame) -> pd.DataFrame:
                 "n_in_span": int(inside.sum()),
                 "n_telluric_excluded": int((inside & tell).sum()),
                 "n_reachable": int((inside & ~tell).sum()),
+                "n_reachable_solar_circular": int((inside & ~tell & circ).sum()),
                 "pre_normalised": str(h.pre_normalised),
             })
     return pd.DataFrame(rows)
