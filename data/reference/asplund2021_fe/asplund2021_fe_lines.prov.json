@@ -65,10 +65,12 @@
   "ap2002_overlap": {
     "available": true,
     "ap2002_rows": 65,
+    "tol_A": 0.05,
+    "tol_basis": "half AGSS21's printed 0.1 A resolution",
     "Fe I": {
       "agss21": 40,
       "ap2002": 50,
-      "shared_lambda_ep": 14
+      "shared_lambda_ep": 17
     },
     "Fe II": {
       "agss21": 13,
