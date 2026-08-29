@@ -5,7 +5,7 @@
   "delta_p_solar": {
     "Teff": 1.0,
     "logg": 0.0,
-    "vmic": 0.05,
+    "vmic": 0.2912,
     "FeH": 0.0
   },
   "type_b_derivative_steps": {
@@ -92,12 +92,12 @@
       "sigma_SE": 0.0178,
       "sigma_B_Teff": 0.0007,
       "sigma_B_logg": 0.0,
-      "sigma_B_vmic": 0.012,
+      "sigma_B_vmic": 0.0699,
       "sigma_B_FeH": 0.0,
       "dA_dTeff_per100K": 0.0665,
       "dA_dvmic_per_kms": -0.24,
-      "sigma_solar": 0.0214,
-      "sigma_reported": 0.0214,
+      "sigma_solar": 0.0721,
+      "sigma_reported": 0.0721,
       "flags": ""
     },
     {
@@ -185,5 +185,10 @@
       "sigma_reported": 0.0118,
       "flags": ""
     }
+  ],
+  "caveats": [
+    "delta_p_solar is READ FROM pipeline/uncertainty_stack.py at generation time, never typed here. RYA-1093 set the solar vmic allowance to 0.2912 km/s -- the method+selection spread |1.0 - 0.709| the 58-line Fe I pool cannot resolve -- superseding RYA-158's uncited 0.05.",
+    "THE xi TERM ALONE EXCEEDS THE 0.05 dex SOLAR GATE (0.0699 dex) and is reported anyway. RYA-1093 2E forbids adopting the 0.0588 formal error because it would pass (RYA-161). The gate is a FLAG here, not a blocker; the adopt-or-relax call is Ryan's.",
+    "THE DERIVATIVES ARE IN THREE STATES, AND ONLY ONE OF THEM IS A RESULT. Fe I is MEASURED (dA_dTeff 0.0665, dA_dvmic -0.24). Eight elements (Ba, C, Co, Cu, Mn, N, O, V) carry NaN -- UNMEASURED -- and their sigma_B = 0.0 means 'not measured', not 'measured as zero' (RYA-907). S I is a THIRD state: it carries an EXACT 0.0 for BOTH derivatives on n=2 lines (flags n_lines_low). A zero Teff sensitivity is physically implausible for a real line set, so that 0.0 is more likely a solve that failed into a default than a measurement. All three states predate RYA-1089 and NONE is fixed here -- they are stated so no zero in this file is read as a result. The S I case is worth its own ticket."
   ]
 }
