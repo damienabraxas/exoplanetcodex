@@ -66,9 +66,40 @@ TYPE_B_STEPS = {'teff_K': 100.0, 'logg': 0.10, 'vturb_kms': 0.10, 'feh': 0.05}
 # Per-star parameter uncertainties delta_p. For the Sun: Teff/logg from the pinned
 # reference (get_star_params e_teff/e_logg), vmic from RYA-158 (0.9 +/- 0.05 km/s),
 # [Fe/H] = 0 BY DEFINITION (the Sun is the zero-point) -> delta=0.
+#: 🔴 RYA-1093 — THE SOLAR vmic ALLOWANCE IS 0.2912 km/s, NOT 0.05.
+#: The 0.05 was RYA-158's inherited figure and it describes a microturbulence that is
+#: KNOWN to 0.05 km/s. Ours is not. RYA-1093's constraint audit measured what our own pool
+#: actually pins:
+#:
+#:   * the same 58 Fe I lines give xi = 0.709 (FITEXY), 0.909 (unweighted OLS), 1.0 (pin);
+#:   * the pool is TRUNCATED at exactly the saturated lines that constrain xi -- its
+#:     maximum EW is 100.0 mA against its own 100 mA ceiling, and only 4 of 58 lines reach
+#:     REW >= -4.8;
+#:   * the FITEXY slope moves 0.210 dex/dex as that strong end is stripped;
+#:   * chi2_red = 27.9, so the formal Delta-chi2 = 1 error understates by ~5.3x;
+#:   * removing the ceiling (n=78) and restricting to lab-gf (n=9) BOTH give no root at all.
+#:
+#: So xi stays PINNED at 1.0 (RYA-1093 spec 2B, the branch Ryan's 2026-08-28 amendment
+#: says needs no ratification) -- and the honest uncertainty ON that pin is the spread the
+#: pool cannot resolve, |1.0 - 0.709| = 0.2912 km/s.
+#:
+#: ⚠️ THIS FAILS THE 0.05 dex SOLAR GATE AND IS ADOPTED ANYWAY. |dA/dvmic| = 0.24 dex per
+#: km/s, so the xi term alone contributes 0.0699 dex. RYA-1093 spec 2E requires the gate to
+#: be reported honestly rather than met: choosing the 0.0588 formal error BECAUSE it clears
+#: 0.05 is the RYA-161 failure the ticket names as CRITICAL. The adopt-or-relax call on the
+#: gate is Ryan's.
+SOLAR_DELTA_XI_KMS = 0.2912
+SOLAR_DELTA_XI_PROVENANCE = (
+    "RYA-1093 constraint audit (data/results/rya1093/xi_robustness_audit.json): the "
+    "58-line Fe I pool does not constrain solar xi -- it is truncated at its own 100 mA "
+    "ceiling, the slope swings 0.210 dex/dex when the strong end is stripped, chi2_red = "
+    "27.9, and both the ceiling-free and graded-only solves have no root. xi is KEPT "
+    "pinned at 1.0 and the allowance is the unresolved method+selection spread "
+    "|1.0 - 0.709| = 0.2912 km/s, NOT the 0.0588 formal error (RYA-161).")
+
 SOLAR_DELTA_P = {'teff_K': None,   # filled from get_star_params('solar')['e_teff']
                  'logg':   None,   # from e_logg
-                 'vturb_kms': 0.05,  # RYA-158 (solar microturbulence uncertainty)
+                 'vturb_kms': SOLAR_DELTA_XI_KMS,   # RYA-1093 (was RYA-158's 0.05)
                  'feh':    0.0}    # Sun defines [Fe/H]=0
 
 _PARAM_LABEL = {'teff_K': 'Teff', 'logg': 'logg', 'vturb_kms': 'vmic', 'feh': 'FeH'}
