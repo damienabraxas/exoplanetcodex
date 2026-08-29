@@ -1,0 +1,9 @@
+Fe · VIS · n=67
+  statistical  0.0203 dex   (averages down as 1/sqrt(N))
+    basis: measured — RMS of the random terms, 0.02026 dex at n_lines=67
+  systematic   0.0634 dex   (does NOT average down)
+    0.0634  gf scale (cited lab)     [SYSTEMATIC] RMS of the published per-line laboratory sigma over 67 lines (Belmonte et al. 2017, ApJ 848, 125 (DOI 10.3847/1538-4357/aa8cd3); Den Hartog et al. 2014, ApJS 215, 23 (DOI 10.1088/0067-0049/215/2/23); Ruffoni et al. 2014, MNRAS 441, 3127 (DOI 10.1093/mnras/stu780)); measured, so it supersedes the generic graded bound
+    0.0203  line-to-line scatter     [random] observed spread of the accepted lines
+    0.0000  harness residual         [SYSTEMATIC] SynthesisHandler MEASURED against the known optical answer, not assumed zero (control/frontier rule)
+  dominant: gf scale (cited lab) -- more lines will NOT help; fix the source
+  gf rung: gf rung 3 (gf scale (cited lab)): every one of the 67 Fe I lines is GF-LAB and 100% carry a published per-line sigma; RMS 0.0634 dex (1.55x the generic bound 0.041) MEASURES the same quantity the bound only estimates, so it supersedes it — larger or smaller (RYA-850)

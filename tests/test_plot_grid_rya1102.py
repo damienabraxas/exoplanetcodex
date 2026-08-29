@@ -243,3 +243,77 @@ def test_the_feed_is_written_ASCII_ESCAPED_like_the_rest_of_the_repo():
     raw = FEED.read_bytes()
     assert b"\\u00b7" in raw, "the feed was written with ensure_ascii=False"
     assert "·".encode() not in raw, "a literal '·' reached the committed feed"
+
+
+# ── the DECISION RECORD is a status surface, so it must READ the code ───────
+
+DECISION = ROOT / "docs" / "decisions" / "fe_product_grid_and_display.md"
+STANDARDS = ROOT / "docs" / "SCIENCE_STANDARDS.md"
+
+
+def test_the_ratified_model_registry_matches_the_derived_axis():
+    """🔴 THE REGISTRY LOST TWO REAL MODELS. `docs/decisions/fe_product_grid_and_display.md`
+    hand-typed six columns -- `1D-LTE | 1D-LTE Synth | 1D-NLTE | 3D-LTE | <3D>-NLTE |
+    3D-NLTE` -- and both Gerber models were absent: the 1D-LTE comparand on MARCS.GES
+    (RYA-1045) and `ENGINE-B-NLTE` (RYA-798). Both had been produced and published for
+    weeks. A model missing from the registry is a model no reader can ask for.
+
+    A doc cannot import anything, so the direction of the check matters: the DOC is
+    asserted against the CODE, never the reverse.
+    """
+    text = DECISION.read_text()
+    for row in tx.plot_row_axis():
+        assert row["name"] in text, (
+            f"{row['name']!r} is on the derived axis but missing from the ratified "
+            f"registry in {DECISION.name}")
+        assert row["treatment"] in text, (
+            f"token {row['treatment']!r} is missing from the registry table")
+
+
+def test_the_registry_does_not_advertise_a_column_that_does_not_exist():
+    """The other direction: a token in the table that the registry has never heard of
+    would be a promised model nobody can produce."""
+    import re
+    known = set(tx.LEGACY) | set(tx.AXIS_NATIVE) | {"synth-mean3D-NLTE-gerber-codex"}
+    for tok in re.findall(r"`([A-Za-z0-9@.\-]+)`", DECISION.read_text()):
+        if tok.startswith(("synth-", "ENGINE-")) or tok in ("1D-LTE", "1D-LTE-LABGF"):
+            assert tok in known, f"{tok!r} is advertised in the registry but not registered"
+
+
+def test_the_registry_uses_the_DERIVED_name_for_the_mean3D_columns():
+    """⚠️ NOT a substring scan for "3D-LTE". The first version of this test was one, and
+    it went red on the TOKEN `synth-mean3D-LTE-gerber-stagger` and on the prose quoting
+    the defect it describes -- the same trap as RYA-1100's AST rewrite.
+
+    The real invariant is already an equality: the registry must contain the exact string
+    `display_for` derives, which is `<3D>`-scaled. A plain `3D-LTE` column name cannot
+    satisfy that, so it is caught by construction rather than by pattern."""
+    text = DECISION.read_text()
+    for row in tx.plot_row_axis():
+        if "<3D>" in row["name"]:
+            assert row["name"] in text
+            assert row["name"].replace("<3D>", "3D") not in text, (
+                "a mean-3D column is also written in the plain-3D form, which claims the "
+                "expensive result while having run the cheap one")
+
+
+def test_no_status_surface_restates_the_column_list_by_hand():
+    """🔴 THE REGISTRY EXISTED IN TWO HAND-TYPED PLACES and both went stale identically —
+    `SCIENCE_STANDARDS.md` carried its own copy of the six-column list, missing the same
+    two Gerber models and naming the mean-3D comparand `3D-LTE`. A second copy of a
+    registry is a second thing to forget."""
+    text = STANDARDS.read_text()
+    assert "3D-LTE, " not in text and "1D-LTE synth" not in text, (
+        "SCIENCE_STANDARDS restates the treatment columns by hand; point it at the "
+        "derived axis instead")
+    assert "plot_row_axis" in text, "the standards must name the derived source"
+
+
+def test_a_REAL_3D_LTE_literature_result_is_not_renamed():
+    """⚠️ THE OTHER DIRECTION, AND IT IS NOT SYMMETRIC. Scott et al. 2015a really did do
+    full 3D LTE line formation through the cube; calling their result ⟨3D⟩ would
+    UNDER-claim it, exactly as calling ours 3D over-claims. The sweep that fixed our
+    labels must not touch theirs."""
+    fe = (ROOT / "data" / "reference" / "litscan" / "Fe.yaml").read_text()
+    assert "3D-LTE + 1D-NLTE delta" in fe, (
+        "the Scott+2015a scale was rewritten; that is an external result, not our label")
