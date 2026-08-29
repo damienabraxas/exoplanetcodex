@@ -3020,6 +3020,20 @@ artifacts:
     note: >-
       RYA-1027: error budget / provenance beside the AT-OR-BELOW-GATE graded near-UV
       cell, which is n=1 and a DECLARED GAP rather than a value -- see the products entry.
+  - artifact: rya1032/fe_dimensionality_ladder.json
+    generator: scripts/rya1032_fe_dimensionality_ladder.py
+    invocation: python3 scripts/rya1032_fe_dimensionality_ladder.py --json data/results/rya1032/fe_dimensionality_ladder.json
+    ticket: RYA-1032
+    note: >-
+      RYA-1032: is the solar Fe I 1D->3D climb dimensionality or model family? Derived
+      live from data/products/solar/Fe.json joined to data/catalog/model_registry.csv --
+      nothing is hardcoded but the token names. Each difference ASSERTS the axis it holds
+      fixed and the one it varies, and raises rather than reporting a mislabelled
+      quantity. Carries the atlas9->marcs-ges LTE nuisance (+0.004) that de-confounds the
+      model-family spread, without which the headline ratio is not defensible. It
+      deliberately does NOT compute the <3D> NLTE effect: the published cells are medians
+      that collided at 7.552, so differencing them returns 0.000 for a real +0.032 (see
+      RYA-1099 / RYA-1083's paired differential).
   - artifact: rya1035/fe_3d_route_census.csv
     generator: scripts/rya1035_fe_3d_route_census.py
     invocation: python3 scripts/rya1035_fe_3d_route_census.py
