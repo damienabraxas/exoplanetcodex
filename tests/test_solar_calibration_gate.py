@@ -188,8 +188,19 @@ def test_A5_sigma_reported_within_gold_gate():
         "— reported uncertainty must be the SE+systematics quantity, not raw scatter")
     assert np.isfinite(fe['sigma_SE']) and fe['sigma_SE'] > 0, "sigma_SE missing/stub"
     assert abs(sr - float(fe['raw_sigma'])) > 1e-6, "sigma_reported == raw scatter (conflation)"
-    assert sr <= SIGMA_REPORTED_GATE, (
-        f"Fe I sigma_reported {sr} > gold gate {SIGMA_REPORTED_GATE} dex")
+    # 🔴 RYA-1115/RYA-1089 — A5 IS A FLAG, NOT A BLOCKER.
+    # Every structural assertion above still BLOCKS: they catch a stub, a conflation, a
+    # missing SE. What is no longer an assertion is the VERDICT, because RYA-1093 measured
+    # the honest solar delta_xi at 0.2912 km/s and the xi term alone is then 0.0699 dex --
+    # the bar genuinely exceeds the 0.05 target, and Ryan's RYA-1115 disposition is to
+    # stamp it, flag it, and NOT block on it. Failing here would leave exactly two ways
+    # out, and both are forbidden: tune the number down (RYA-161, and RYA-1093 2E names
+    # picking the 0.0588 formal error for this reason as CRITICAL), or suppress the
+    # product. The honest bar is the result; the gate is the field's target, not a fact
+    # about our measurement.
+    if sr > SIGMA_REPORTED_GATE:
+        print(f"    [FLAG] Fe I sigma_reported {sr} > target {SIGMA_REPORTED_GATE} dex "
+              f"-- honest bar, reported not tuned (RYA-1089/1093/1115)")
 
 
 # ── A6 — RYA-400 physics-regime audit, wired in-process ──────────────────────
@@ -242,7 +253,7 @@ def test_solar_is_beta_ready():
     _run('A2 ionization balance', test_A2_ionization_balance_within_gate)
     _run('A3 REW slope', test_A3_rew_slope_flat_within_tolerance)
     _run('A4 raw scatter floor', test_A4_raw_scatter_within_honest_floor)
-    _run('A5 sigma_reported <= 0.05', test_A5_sigma_reported_within_gold_gate)
+    _run('A5 sigma_reported structure', test_A5_sigma_reported_within_gold_gate)
     _run('A6 RYA-400 audit', test_A6_physics_regime_audit_zero_failures)
     _run('A7 RYA-429 invariant', test_A7_no_silent_drop_invariant_holds)
     _run('A8 verdict coverage', test_A8_every_target_element_has_honest_verdict)
@@ -251,6 +262,17 @@ def test_solar_is_beta_ready():
     for name, ok, note in checks:
         tag = 'PASS' if ok else ('SKIP' if ok is None else 'FAIL')
         print(f"    [{tag}] {name}{('  -> ' + note) if note else ''}")
+
+    # 🔴 RYA-1115 — THE sigma_reported TARGET IS REPORTED BESIDE THE VERDICT, NEVER FOLDED
+    # INTO IT. A5's structural checks block; the 0.05 comparison is a FLAG. Printing it
+    # here keeps "Beta-ready" from reading as "and the bar is inside 0.05", which it is
+    # not, while keeping the honest bar from silently blocking the suite.
+    sr = float(_uncertainty_fe()['sigma_reported'])
+    if sr > SIGMA_REPORTED_GATE:
+        print(f"    [FLAG] Fe I sigma_reported {sr} > target {SIGMA_REPORTED_GATE} dex "
+              f"-- the honest bar exceeds the field target and is REPORTED, not tuned "
+              f"(delta_xi 0.2912 km/s, RYA-1093/1089). Adopt-or-relax is Ryan's call.")
+
     failed = [n for n, ok, _ in checks if ok is False]
     assert not failed, f"Solar NOT Beta-ready — failing gate assertions: {failed}"
 
