@@ -179,3 +179,49 @@ Inputs consumed:
 | D  | < 25%  | Excluded |
 
 Default minimum grade: `B` (set in `config/constants.py` → `PIPELINE['min_nist_grade']`)
+
+## `reference_sets/` — imported reference line sets (the `line_set` provenance axis)
+
+Line sets **published by someone else** and transcribed here so a replication can be run on
+*their* selection rather than ours. The `line_set` vocabulary is closed and declared in
+`pipeline.model_registry.LINE_SETS`; RYA-1111 wires these to measurements.
+
+### `gbs_solar_fe_rya1110.csv` — Gaia FGK Benchmark Stars, solar Fe (RYA-1110)
+
+Jofré et al. 2014, A&A **564**, A133 (`jofre2014`). `line_set=gbs`, band VIS, 159 rows —
+the Sun's full published selected set, reproducing Table 3's N(Fe I)=150 / N(Fe II)=9.
+
+* **The replication set is `rew_class == "pass"`: 142 lines** (133 Fe I + 9 Fe II),
+  λ 4787.83–6820.37 Å, E<sub>low</sub> 0.11–5.10 eV, log(EW/λ) −5.934 … −4.820.
+  `excluded` (14) and `ambiguous` (3) are kept in the file so the cut can be audited.
+* **Two gf columns, both shipped, neither preferred:** `log_gf_gbs` (Jofré Tables 4/5, on
+  121 of the 142) and `log_gf_ours` (`canonical_gf`, on all 142), plus `gf_synth_ges`.
+  Choosing between them is an **open decision for Ryan** — see
+  `docs/design/rya1110_gbs_reference_lineset.md`.
+* **Per-line gf provenance is decoded** (`gf_source_per_line`, populated on all 159 rows)
+  from two sources whose ordering matters: Heiter+2021's per-line `r_loggf`
+  (`data/reference/heiter2021_ges/`, VizieR `J/A+A/645/A106`) where its log gf **equals**
+  the published GBS value, and Jofré's own Table 4/5 footnote where it does not — because
+  Heiter is GES **v6** and Jofré used **v3**, so a revised value's source is not the GBS
+  value's source. `gf_source_basis` says which route answered.
+* 🔴 **Three Fe II lines** (5414.07, 5425.26, 6432.68) have a GBS gf from Meléndez &
+  Barbuy 2009 — RYA-161-firewalled, partly solar-fitted; on two of them our own adopted
+  value is the identical number. **Ratified disposition (Ryan, 2026-08-29): FLAG AND
+  KEEP.** They stay in the 142 — replication fidelity — and `gbs_solar_validity =
+  method-reproduction-only` carries what that means: a solar Fe II value from these
+  reproduces the method rather than testing it. `gf_source_firewalled` has the per-line
+  sentence; the coverage report counts them per holding; bind to
+  `rya1110_build_gbs_fe_lineset.solar_circular_lines()`, never to a typed wavelength list.
+* 🔴 **The paper's stated log(EW/λ) ≤ −4.8 cut does not select the set it publishes** —
+  14 of the Sun's 159 published lines violate it on every method (713 of 4252 across all
+  34 benchmark stars). Both facts are carried; neither is overridden.
+* Built by `scripts/rya1110_build_gbs_fe_lineset.py` from the pinned holding
+  `data/reference/jofre2014_gbs/`; guarded by `tests/test_gbs_lineset_rya1110.py`, which
+  rebuilds and compares byte-for-byte.
+
+### `gbs_solar_fe_coverage_rya1110.csv`
+
+The 142 selected lines against every holding in `measure_band_ew._INSTRUMENT_HOLDINGS`.
+All five HARPS/Kitt Peak holdings reach all 142; the two IAG holdings split them 132 + 10;
+no line falls in a registered telluric band (the bluest is O₂ B at 6867 Å, the reddest GBS
+line is 6820.37 Å).
