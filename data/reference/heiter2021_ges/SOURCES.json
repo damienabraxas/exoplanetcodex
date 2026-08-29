@@ -1,0 +1,29 @@
+{
+  "ticket": "RYA-1110",
+  "heiter2021": {
+    "bibcode": "2021A&A...645A.106H",
+    "bibliography_key": "heiter2021",
+    "vizier_catalog": "J/A+A/645/A106",
+    "doi": "10.1051/0004-6361/201936291",
+    "source_files": {
+      "J_A+A_645_A106_geslines.dat.gz.fits.gz": {
+        "path": "/Users/ryanschmitt/Downloads/J_A+A_645_A106_geslines.dat.gz.fits.gz",
+        "md5": "7dd3239948c2a71716d3158ae847bec3"
+      },
+      "J_A+A_645_A106_refs.dat.fits.gz": {
+        "path": "/Users/ryanschmitt/Downloads/J_A+A_645_A106_refs.dat.fits.gz",
+        "md5": "a13d2b2da911f2983eb86e7eb2d8e14b"
+      }
+    },
+    "note": "VizieR FITS renderings, downloaded by Ryan 2026-08-29. Held outside the repo; the staged TSVs are the committed derivative."
+  },
+  "jofre2014_published_pdf": {
+    "path": "/Users/ryanschmitt/Documents/Exoplanet Codex/Reference documents/aa22440-13.pdf",
+    "md5": "ec13b21d3b395de7e8a9d0b4f13d0538",
+    "note": "The PUBLISHED A&A PDF. Carries the Table 4/5 reference footnote that arXiv:1309.1099v2 fails to typeset."
+  },
+  "ges_refs_bib": {
+    "path": "/Users/ryanschmitt/Documents/Exoplanet Codex/Reference documents/ges_refs.bib",
+    "note": "Heiter+2021's BibTeX companion. NOT staged: refs.tsv already carries the code -> author + bibcode mapping this ticket needs, and the .bib would be a second declaration of the same fact."
+  }
+}

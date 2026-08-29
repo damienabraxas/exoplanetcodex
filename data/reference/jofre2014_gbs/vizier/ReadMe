@@ -1,0 +1,186 @@
+J/A+A/564/A133      Gaia FGK benchmark stars: metallicity         (Jofre+, 2014)
+================================================================================
+Gaia FGK benchmark stars: Metallicity.
+    Jofre P., Heiter U., Soubiran C., Blanco-Cuaresma S., Pancino E.,
+    Bergemann M., Cantat-Gaudin T., Gonzalez Hernandez J.I., Hill V.,
+    Lardo C., de Laverny P., Lind K., Magrini L., Masseron T., Montes D.,
+    Mucciarelli A., Nordlander T., Recio Blanco A., Sobeck J., Sordo R.,
+    Sousa S.G., Tabernero H., Vallenari A., Van Eck S.
+   <Astron. Astrophys. 564, A133 (2014)>
+   =2014A&A...564A.133J
+================================================================================
+ADC_Keywords: Stars, standard ; Spectroscopy ; Abundances, [Fe/H] ;
+              Equivalent widths
+Keywords: standards - techniques: spectroscopic - surveys -
+          stars: fundamental parameters
+
+Abstract:
+    To calibrate automatic pipelines that determine atmospheric parameters
+    of stars, one needs a sample of stars, or "benchmark stars", with
+    well-defined parameters to be used as a reference.
+
+    We provide detailed documentation of the iron abundance determination
+    of the 34 FGK-type benchmark stars that are selected to be the pillars
+    for calibration of the one billion Gaia stars. They cover a wide range
+    of temperatures, surface gravities, and metallicities.
+
+Description:
+    The metallicity of the Gaia FGK benchmark stars is determined by
+    combining 6 methods. The Tables indicate the iron abundance and
+    equivalent width determined for each star, iron line and method.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName   Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe         80        .   This file
+stars.dat      86       34   List of studied stars
+table6.dat     81      242   Overview table of lines that were included for
+                             each star
+ew.dat         94     4252   Equivalent width measurements for different
+                             methods for each iron line for each star
+abund.dat      94     4252   Iron abundance measurements for different
+                             methods for each iron line for each star
+files/*         .       68  *Tables with EW and A(Fe) by stars
+--------------------------------------------------------------------------------
+Note on files/* : headers indicate the name of the star.
+--------------------------------------------------------------------------------
+
+See also:
+             III/281 : Gaia FGK benchmark stars v2.1 (Jofre+, 2018)
+    J/MNRAS/426/1767 : Gaia Preliminary results (Pancino+, 2012)
+    J/A+A/552/A64    : Gaia-RVS standards (Soubiran+, 2013)
+
+Byte-by-byte Description of file: stars.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1-  9  A9    ---     Name      Star name
+  11- 12  I2    h       RAh       ? Simbad Hour of Right Ascension (J2000.0)
+  14- 15  I2    min     RAm       ? Simbad Minute of Right Ascension (J2000.0)
+  17- 21  F5.2  s       RAs       ? Simbad Second of Right Ascension (J2000.0)
+      23  A1    ---     DE-       Simbad Sign of the Declination (J2000.0)
+  24- 25  I2    deg     DEd       ? Simbad Degree of Declination (J2000.0)
+  27- 28  I2    arcmin  DEm       ? Simbad Arcminute of Declination (J2000.0)
+  30- 33  F4.1  arcsec  DEs       ? Simbad Arcsecond of Declination (J2000.0)
+  35- 39  F5.3  mag     Bmag      ? Simbad B band magnitude
+  41- 46  F6.3  mag     Vmag      ? Simbad V band magnitude
+  48- 62  A15   ---     SpType    Simbad MK spectral type
+  64- 74  A11   ---     EW        Name of the file with equivalent widths data
+                                   in subdirectory files (1)
+  76- 86  A11   ---     Abund     Name of the file with abundances data in
+                                   subdirectory files (2)
+--------------------------------------------------------------------------------
+Note (1): All files are compiled in ew.dat file.
+Note (2): All files are compiled in abunddat file.
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: table6.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label        Explanations
+--------------------------------------------------------------------------------
+   1-  4  A4    ---     Line         Line (FeI or FeII)
+   6- 11  F6.1  0.1nm   lambda       [4787/6821] Wavelength
+      13  A1    ---     golden-flag  [Y,N] Golden line flag (Y: yes, N: no) (1)
+      15  I1    ---     18Sco        [0/1] Usage flag (1=used) for 18 Sco
+      17  I1    ---     61CygA       [0/1] Usage flag (1=used) for 61 CygA
+      19  I1    ---     61CygB       [0/1] Usage flag (1=used) for 61 CygB
+      21  I1    ---     alfCenA      [0/1] Usage flag (1=used) for {alpha} CenA
+      23  I1    ---     alfCenB      [0/1] Usage flag (1=used) for {alpha} CenB
+      25  I1    ---     alfCet       [0/1] Usage flag (1=used) for {alpha} Cet
+      27  I1    ---     alfTau       [0/1] Usage flag (1=used) for {alpha} Tau
+      29  I1    ---     Arcturus     [0/1] Usage flag (1=used) for Arcturus
+      31  I1    ---     betAra       [0/1] Usage flag (1=used) for {beta} Ara
+      33  I1    ---     betGem       [0/1] Usage flag (1=used) for {beta} Gem
+      35  I1    ---     betHyi       [0/1] Usage flag (1=used) for {beta} Hyi
+      37  I1    ---     betVir       [0/1] Usage flag (1=used) for {beta} Vir
+      39  I1    ---     delEri       [0/1] Usage flag (1=used) for {delta} Eri
+      41  I1    ---     epsEri       [0/1] Usage flag (1=used) for {epsilon} Eri
+      43  I1    ---     epsFor       [0/1] Usage flag (1=used) for {epsilon} For
+      45  I1    ---     epsVir       [0/1] Usage flag (1=used) for {epsilon} Vir
+      47  I1    ---     etaBoo       [0/1] Usage flag (1=used) for {eta} Boo
+      49  I1    ---     gamSge       [0/1] Usage flag (1=used) for {gamma} Sge
+      51  I1    ---     Gmb1830      [0/1] Usage flag (1=used) for Gmb 1830
+      53  I1    ---     HD107328     [0/1] Usage flag (1=used) for HD 107328
+      55  I1    ---     HD122563     [0/1] Usage flag (1=used) for HD 122563
+      57  I1    ---     HD140283     [0/1] Usage flag (1=used) for HD 140283
+      59  I1    ---     HD220009     [0/1] Usage flag (1=used) for HD 220009
+      61  I1    ---     HD22879      [0/1] Usage flag (1=used) for HD 22879
+      63  I1    ---     HD49933      [0/1] Usage flag (1=used) for HD 49933
+      65  I1    ---     HD84937      [0/1] Usage flag (1=used) for HD 84937
+      67  I1    ---     ksiHya       [0/1] Usage flag (1=used) for {xi} Hya
+      69  I1    ---     muAra        [0/1] Usage flag (1=used) for {mu} Ara
+      71  I1    ---     muCasA       [0/1] Usage flag (1=used) for {mu} CasA
+      73  I1    ---     muLeo        [0/1] Usage flag (1=used) for {mu} Leo
+      75  I1    ---     Procyon      [0/1] Usage flag (1=used) for Procyon
+      77  I1    ---     psiPhe       [0/1] Usage flag (1=used) for {psi} Phe
+      79  I1    ---     Sun          [0/1] Usage flag (1=used) for Sun
+      81  I1    ---     tauCet       [0/1] Usage flag (1=used) for {tau} Cet
+--------------------------------------------------------------------------------
+Note (1): Lines commonly used in many stars were selected as golden lines
+     (see Sect.6.3 of the paper).
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: ew.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label   Explanations
+--------------------------------------------------------------------------------
+   1-  9  A9    ---     Name    Star name
+  11- 14  A4    ---     Line    Line (FeI or FeII)
+  18- 24  F7.2  0.1nm   lambda  [4787/6821] Wavelength of iron line used
+  30- 34  F5.2  eV      Ex.P    Excitation potential
+  38- 44  F7.2  0.1pm   EW1     ?=-999.00 Equivalent width obtained by
+                                          the EPINARBO method (G1)
+  48- 54  F7.2  0.1pm   EW2     ?=-999.00 Equivalent width obtained by
+                                          the UCM method (G1)
+  58- 64  F7.2  0.1pm   EW3     ?=-999.00 Equivalent width obtained by
+                                          the Porto method (G1)
+  68- 74  F7.2  0.1pm   EW4     ?=-999.00 Equivalent width obtained by
+                                          the Bologna method (G1)
+  78- 84  F7.2  0.1pm   EW5     ?=-999.00 Equivalent width obtained by
+                                          the ULB method (G1)
+  88- 94  F7.2  0.1pm   EW6     ?=-999.00 Equivalent width obtained by
+                                          the LUMBA method (G1)
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: abund.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label   Explanations
+--------------------------------------------------------------------------------
+   1-  9  A9    ---     Name    Star name
+  11- 14  A4    ---     Line    Line (FeI or FeII)
+  18- 24  F7.2  0.1nm   lambda  [4787/6821] Wavelength of iron line used
+  30- 34  F5.2  eV      Ex.P    Excitation potential
+  38- 44  F7.2  [-]     Ab1     [4/9.9]?=-999.00 Iron abundances (A(Fe))
+                                          obtained by the EPINARBO method (G1)
+  48- 54  F7.2  [-]     Ab2     [4/9.9]?=-999.00 Iron abundances (A(Fe))
+                                          obtained by the UCM method (G1)
+  58- 64  F7.2  [-]     Ab3     [4/9.9]?=-999.00 Iron abundances (A(Fe))
+                                          obtained by the Porto method (G1)
+  68- 74  F7.2  [-]     Ab4     [4/9.9]?=-999.00 Iron abundances (A(Fe))
+                                          obtained by the Bologna method (G1)
+  78- 84  F7.2  [-]     Ab5     [4/9.9]?=-999.00 Iron abundances (A(Fe))
+                                          obtained by the ULB method (G1)
+  88- 94  F7.2  [-]     Ab6     [4/9.9]?=-999.00 Iron abundances (A(Fe))
+                                          obtained by the LUMBA method (G1)
+--------------------------------------------------------------------------------
+
+Global notes:
+Note (G1): if a method had no measurement available for a given line,
+     the value was set to -999.00.
+--------------------------------------------------------------------------------
+
+Acknowledgements:
+     Paula Jofre, pjofre(at)ast.cam.ac.uk
+       Institute of Astronomy, University of Cambridge
+
+References:
+   Heiter et al.,          Paper I      2015A&A...582A..49H
+   Blanco-Cuaresma et al., Paper II     2014A&A...566A..98B, Cat. J/A+A/566/A98
+   Jofre et al.,           Paper III    2014A&A...564A.133J, Cat. J/A+A/564/A133
+   Jofre et al.,           Paper IV     2015A&A...582A..81J, Cat. J/A+A/582/A81
+   Hawkins et al.,         Paper V      2016A&A...592A..70H, Cat. J/A+A/592/A70
+   Jofre et al.,                        2017A&A...601A..38J
+
+================================================================================
+(End)  Paula Jofre [Cambridge Univ. ], Patricia Vannier [CDS]        25-Feb-2014
