@@ -2,8 +2,8 @@
   "schema": "codex.element_product/1",
   "element": "Fe",
   "star": "solar",
-  "version": "1.82",
-  "updated_at": "2026-08-28T14:35:17Z",
+  "version": "1.86",
+  "updated_at": "2026-08-29T02:55:23Z",
   "products": [
     {
       "element": "Fe",
@@ -1072,6 +1072,114 @@
         "sha256": "43ebb69be061bb558cf5adab1e29b463cd5d4c973ea19108d325c19a89c2b723",
         "artifact_mtime": "2026-08-28T10:29:13Z",
         "ingested_at": "2026-08-28T10:48:45Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "ENGINE-B-NLTE",
+      "display": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
+      "A": 7.488,
+      "sigma_stat": 0.0196,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01957 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/rya1103_repo/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_ENGINE-B-NLTE_products.csv",
+        "sha256": "f31341a6eb90024244ec4ab4a69e18d1be2d86b0c6aabbd3393031ade4134f2c",
+        "artifact_mtime": "2026-08-28T19:42:25Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "synth-1D-LTE-gerber",
+      "display": "Synth \u00b7 1D-LTE \u00b7 Gerber",
+      "A": 7.439,
+      "sigma_stat": 0.0206,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02060 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "sirius",
+        "path": "/home/damienabraxas/rya1103_repo/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-1D-LTE-gerber_products.csv",
+        "sha256": "6fcf9a68dc398f5412c1a6de9c92e6e7d09562f2803d4d02834662cda553ad87",
+        "artifact_mtime": "2026-08-28T18:48:50Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "synth-mean3D-LTE-gerber-stagger",
+      "display": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
+      "A": 7.541,
+      "sigma_stat": 0.0203,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.02026 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1089/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-LTE-gerber-stagger_products.csv",
+        "sha256": "ddabf35173d28626fac07d21d0663659cb5359fa3bd9f4d3ae3f844ed3c952ad",
+        "artifact_mtime": "2026-08-28T16:03:49Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
+      }
+    },
+    {
+      "element": "Fe",
+      "ion": "I",
+      "band": "VIS",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "tier": "GRADED",
+      "selector": "GRADED",
+      "treatment": "synth-mean3D-NLTE-gerber-stagger",
+      "display": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
+      "A": 7.562,
+      "sigma_stat": 0.02,
+      "sigma_syst": 0.0634,
+      "n_lines": 67,
+      "n_excluded": 0,
+      "dominant_term": "gf scale (cited lab)",
+      "stat_basis": "measured \u2014 RMS of the random terms, 0.01998 dex at n_lines=67",
+      "route": "SYNTH",
+      "provenance": {
+        "host": "Mac",
+        "path": "/Users/ryanschmitt/codex/rya1089/data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "copied_to": "data/results/band_products/FeI_4200_6910_kpno_solar_atlas_solar_kpno_kurucz2005_corrected_SYNTH_GRADED_synth-mean3D-NLTE-gerber-stagger_products.csv",
+        "sha256": "35189b55ba6077da3750d1c69afdcdd7ad17be9a71c5d7aa3509fe6b4be384a7",
+        "artifact_mtime": "2026-08-28T16:32:29Z",
+        "ingested_at": "2026-08-29T02:55:23Z"
       }
     },
     {
@@ -3304,7 +3412,7 @@
           {
             "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
             "pending": false,
-            "product_key": null,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber",
             "alternates": 0
           },
           {
@@ -3322,19 +3430,19 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
-            "product_key": null,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
             "pending": false,
-            "product_key": null,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
             "pending": false,
-            "product_key": null,
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger",
             "alternates": 0
           },
           {
