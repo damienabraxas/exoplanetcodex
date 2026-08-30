@@ -1,6 +1,6 @@
 {
   "ticket": "RYA-1106",
-  "generated_utc": "2026-08-30T03:19:45Z",
+  "generated_utc": "2026-08-30T05:13:28Z",
   "pool": {
     "citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (AGSS21) -- ingested by RYA-1109, loaded through the RYA-1111 reference_lineset path",
     "cut": "NONE -- AGSS21 Table A.2 IS Asplund's own published selection, so cutting it further would measure a subset nobody published",
@@ -32,7 +32,7 @@
       "syst_dex": 0.17,
       "route_axis": "synth",
       "route_basis": "handler",
-      "gf_axis": "kurucz",
+      "gf_axis": "lab",
       "handler": "SynthesisHandler",
       "vs_asplund_dex": 0.0439,
       "base_1dlte_median": 7.4995,
@@ -487,8 +487,10 @@
         "converged": true
       },
       "artifacts": {
-        "per_line": "data/results/rya1106_iag/iag/asplund_lines_per_line.csv",
-        "products": "data/results/rya1106_iag/iag/asplund_lines_products.csv"
+        "per_line": "asplund_lines_per_line.csv",
+        "products": "asplund_lines_products.csv",
+        "budget": "asplund_lines_budgets.txt",
+        "_note": "beside this report, in this directory"
       }
     }
   ]

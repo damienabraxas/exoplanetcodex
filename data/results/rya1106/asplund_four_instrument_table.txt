@@ -6,12 +6,16 @@ RYA-1106 D1 — Amarsi 3D-NLTE on ASPLUND'S OWN Fe I line set, all four VIS inst
   log gf   : AGSS21's own published log gf on the target lines; canonical gf (RYA-353) on the blend context
   Elo span : 0.087-5.064 eV (our graded pool floors at 2.85 — that gap IS the RYA-1104 finding)
 
-  holding              A(Fe)  vs 7.46   n      cov         REW span  1D base    corr   route   gf      basis    
+  REW below is AGSS21's PUBLISHED log(W/lambda) over the lines each holding priced,
+  not a width measured here — so it is identical across holdings by construction,
+  and it is in the table because Amarsi's own weak-line cut is stated in REW.
+
+  holding              A(Fe)  vs 7.46   n      cov       AGSS21 REW  1D base    corr   route   gf      basis    
   ----------------------------------------------------------------------------------------------------
-  kpno_kurucz2005      7.471   +0.011  21   40/40      -5.93..-4.91    7.463  +0.034   synth   kurucz  handler  
-  kpno_molecfit        7.504   +0.044  21   39/40      -5.93..-4.91    7.483  +0.035   synth   kurucz  handler  
-  harps_molecfit       7.477   +0.017  21   27/40      -5.93..-4.91    7.495  +0.034   synth   kurucz  handler  
-  iag                  7.504   +0.044  21   38/40      -5.93..-4.91    7.500  +0.035   synth   kurucz  handler  
+  kpno_kurucz2005      7.471   +0.011  21   40/40      -5.93..-4.91    7.463  +0.034   synth   lab     handler  
+  kpno_molecfit        7.504   +0.044  21   39/40      -5.93..-4.91    7.483  +0.035   synth   lab     handler  
+  harps_molecfit       7.477   +0.017  21   27/40      -5.93..-4.91    7.495  +0.034   synth   lab     handler  
+  iag                  7.504   +0.044  21   38/40      -5.93..-4.91    7.500  +0.035   synth   lab     handler  
 
   Asplund, Amarsi & Grevesse 2021        : 7.46
   AGSS21's own published 3D-NLTE (median): 7.453
