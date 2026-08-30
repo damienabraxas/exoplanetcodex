@@ -59,7 +59,13 @@ LADDER = [
     ("ENGINE-B-NLTE", "SYNTH"),
     ("synth-mean3D-LTE-gerber-stagger", "SYNTH"),
     ("synth-mean3D-NLTE-gerber-stagger", "SYNTH"),
-    ("ENGINE-A-3DNLTE", "EW-3D"),
+    # RYA-1106: was ("ENGINE-A-3DNLTE", "EW-3D"). The EW-3D token was the stranded
+    # ProfileFitHandler's, refuted line by line by RYA-1104; the four Amarsi VIS
+    # products now publish route=SYNTH. This rung is the full-3D reference the ladder
+    # measures the ⟨3D⟩ overshoot against, so a stale token here does not degrade the
+    # report -- `analyse` refuses a partial ladder outright, which is how this was
+    # caught rather than silently dropping the top rung.
+    ("ENGINE-A-3DNLTE", "SYNTH"),
 ]
 
 
@@ -192,7 +198,7 @@ def analyse(holding=DEFAULT_HOLDING):
 
     # (5) The overshoot past the full-3D reference.
     m3 = rungs[("synth-mean3D-NLTE-gerber-stagger", "SYNTH")]
-    am = rungs[("ENGINE-A-3DNLTE", "EW-3D")]
+    am = rungs[("ENGINE-A-3DNLTE", "SYNTH")]
     overshoot = round(m3["A"] - am["A"], 4)
 
     # (6) The published <3D> NLTE effect -- reported, deliberately NOT computed.

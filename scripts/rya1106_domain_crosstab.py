@@ -127,8 +127,17 @@ def main() -> int:
             agree[h] = "artifact absent"
             continue
         o = pd.read_csv(p)
-        m = o.merge(ref[["wavelength_air_A", "in_domain"]], on="wavelength_air_A",
-                    suffixes=("", "_ref"))
+        # 🔴 lambda+EP DUAL KEY (RYA-1037), not lambda alone. These frames are the same 40
+        # published lines so a wavelength join happens to be unique here -- which is
+        # exactly the reasoning that makes a lambda-only key survive review and then break
+        # on the first blend. The row count is asserted so a key that fails to match is
+        # LOUD rather than quietly shrinking the comparison to the rows that did.
+        m = o.merge(ref[["wavelength_air_A", "elo_eV", "in_domain"]],
+                    on=["wavelength_air_A", "elo_eV"], suffixes=("", "_ref"))
+        if len(m) != len(o):
+            raise SystemExit(
+                f"{h}: lambda+EP join matched {len(m)} of {len(o)} lines against "
+                f"{REFERENCE_HOLDING} -- the two runs do not describe the same line set")
         same = bool((m["in_domain"].astype(bool) == m["in_domain_ref"].astype(bool)).all())
         agree[h] = "agrees" if same else "DISAGREES"
     disagreeing = [h for h, v in agree.items() if v == "DISAGREES"]
