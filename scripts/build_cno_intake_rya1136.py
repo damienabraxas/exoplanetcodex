@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import csv
+import bisect
 import hashlib
 import json
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,9 +43,9 @@ ACCEPTED_MOLECULAR_JOINS = {
 }
 
 
-def molecular_inventory() -> dict[str, dict[int, list[tuple]]]:
+def molecular_inventory() -> dict[str, list[tuple]]:
     dirs = {"C2": "C2", "CH": "CH", "CN": "CN", "NH": "NH", "OH": "OH", "12C16O": "CO"}
-    index = {species: defaultdict(list) for species in dirs}
+    index = {species: [] for species in dirs}
     for species, dirname in dirs.items():
         for path in sorted((TS / dirname).glob("*")):
             if path.suffix not in {".bsyn", ".dat"}: continue
@@ -58,9 +59,11 @@ def molecular_inventory() -> dict[str, dict[int, list[tuple]]]:
                     except (ValueError, IndexError):
                         continue
                     label = parts[3].strip() if len(parts) > 3 else ""
-                    index[species][round(wavelength)].append(
+                    index[species].append(
                         (wavelength, energy, loggf, path.relative_to(ROOT), line_no, label)
                     )
+    for species in index:
+        index[species].sort(key=lambda item: item[0])
     return index
 
 
@@ -73,13 +76,14 @@ def molecular_crossmatch() -> list[dict]:
         wavelength = float(row["wavelength_vac_nm"]) * 10
         energy = float(row["lower_energy_eV"])
         loggf = float(row["published_loggf"])
-        candidates = []
-        for key in range(round(wavelength) - 1, round(wavelength) + 2):
-            candidates.extend(index[species].get(key, ()))
+        source = index[species]
+        source_wavelengths = [item[0] for item in source]
+        lo = bisect.bisect_left(source_wavelengths, wavelength - 0.02)
+        hi = bisect.bisect_right(source_wavelengths, wavelength + 0.02)
+        candidates = source[lo:hi]
         # Three independent source fields are required. Wavelength alone is never enough.
         matches = [item for item in candidates
-                   if abs(item[0] - wavelength) <= 0.02
-                   and abs(item[1] - energy) <= 0.002
+                   if abs(item[1] - energy) <= 0.002
                    and abs(item[2] - loggf) <= 0.002]
         status = "PHYSICAL_TUPLE_MATCH" if len(matches) == 1 else ("AMBIGUOUS" if matches else "UNMATCHED")
         match = matches[0] if len(matches) == 1 else None
