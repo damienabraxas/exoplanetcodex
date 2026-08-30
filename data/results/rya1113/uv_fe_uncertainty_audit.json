@@ -1,0 +1,367 @@
+{
+  "ticket": "RYA-1113",
+  "skill": "codex-product-audit",
+  "band": "near-UV",
+  "scope": "live near-UV Fe products in data/products/solar/Fe.json",
+  "standard": "REPORT-AND-NOTE. RYA-777: VIS baseline, do not chase the dragon in IR/UV. RYA-813: near-UV is reported, not validated to target.",
+  "n_products": 8,
+  "thresholds": {
+    "solar_gate_dex": 0.05,
+    "dig_in_dex": 0.1,
+    "pseudo_continuum_dex": 0.1
+  },
+  "gf_tier_composition": {
+    "band_window_A": [
+      3000.0,
+      3780.0
+    ],
+    "per_ion": {
+      "Fe I": {
+        "linelist_n": 4274,
+        "linelist_tiers": {
+          "VALD3": 3610,
+          "NIST-C+": 501,
+          "OTHER": 104,
+          "LAB": 59
+        },
+        "linelist_LAB_frac": 0.0138,
+        "product_pool_n": 58,
+        "product_pool_matched": 58,
+        "product_pool_tiers": {
+          "LAB": 58
+        },
+        "pool_is_all_LAB": true,
+        "pool_exhausts_LAB_resource": "58 of the 59 LAB Fe I lines that exist in band"
+      },
+      "Fe II": {
+        "linelist_n": 665,
+        "linelist_tiers": {
+          "VALD3": 618,
+          "NIST-C+": 35,
+          "LAB": 12
+        },
+        "linelist_LAB_frac": 0.018,
+        "product_pool_n": null,
+        "per_line_artifact": "ABSENT \u2014 no *_lines.csv committed for this ion/band; tier composition unmeasurable",
+        "expected_path": "data/results/band_products/FeII_3000_3780_kpno_solar_atlas_solar_kpno_molecfit_corrected_SYNTH_DEEPGRADED_1D-LTE_lines.csv"
+      }
+    }
+  },
+  "continuum_probe": {
+    "_telluric_no_op_in_band": {
+      "bluest_registered_telluric_band_A": 6867.0,
+      "band_window_A": [
+        3000.0,
+        3780.0
+      ],
+      "gap_A": 3087.0,
+      "verdict": "no registered telluric band reaches this window, so the two holdings cannot differ here by telluric treatment"
+    },
+    "Fe I 1D-LTE": {
+      "A_kurucz2005": 7.642,
+      "A_molecfit": 7.596,
+      "spread_dex": 0.046,
+      "half_spread_dex": 0.023,
+      "exceeds_pseudo_continuum_bound": false
+    },
+    "Fe I ENGINE-A": {
+      "A_kurucz2005": 7.651,
+      "A_molecfit": 7.606,
+      "spread_dex": 0.045,
+      "half_spread_dex": 0.0225,
+      "exceeds_pseudo_continuum_bound": false
+    },
+    "Fe II 1D-LTE": {
+      "A_kurucz2005": 7.957,
+      "A_molecfit": 7.697,
+      "spread_dex": 0.26,
+      "half_spread_dex": 0.13,
+      "exceeds_pseudo_continuum_bound": true
+    },
+    "Fe II ENGINE-A": {
+      "A_kurucz2005": 7.975,
+      "A_molecfit": 7.738,
+      "spread_dex": 0.237,
+      "half_spread_dex": 0.1185,
+      "exceeds_pseudo_continuum_bound": true
+    }
+  },
+  "findings": {
+    "F1_the_gf_floor_premise_does_not_apply_to_these_products": {
+      "severity": "corrects the ticket's own framing",
+      "detail": "RYA-1113 expects a ~84% Kurucz-floored gf to dominate. The near-UV LINE LIST is indeed overwhelmingly non-LAB (Fe I 59/4274 = 1% LAB; Fe II 12/665 = 2%), but the DEEPGRADED products use only the LAB subset: Fe I 58/58 LAB, measured on the lambda+EP key. The floor is a fact about the band, not about these products.",
+      "consequence": "the gf term here is a MEASURED RMS of published per-line laboratory sigma (0.0509 dex, Fe I), not a floor bound"
+    },
+    "F2_the_dominant_term_is_a_band_flat_declared_bound": {
+      "severity": "the bar's largest component is not measured per product",
+      "detail": "`pseudo-continuum` = 0.1 dex flat, charged wherever BandPolicy.continuum_treatment is pseudo. Identical for both ions, both holdings, every window. It dominates all eight products, so sigma_syst is effectively a band constant: 0.1122 on every Fe I product and 0.1095 on every Fe II.",
+      "why_it_matters": "a band-flat term cannot distinguish a well-normalised window from a badly-normalised one, and cannot move when the evidence says it should \u2014 see F3"
+    },
+    "F3_the_holdings_disagree_by_more_than_the_bound_that_covers_them": {
+      "severity": "\ud83d\udd34 the measured continuum disagreement exceeds its own budget",
+      "detail": "Fe II: the two holdings return 7.957 vs 7.697 on the SAME 12 lines \u2014 0.260 dex apart, half-spread 0.130 > the 0.10 bound. Fe I is consistent (0.046 apart, half-spread 0.023). The two holdings are DIFFERENT SOURCE SPECTRA (Kurucz 2005 irradiance vs the 1984 atlas + molecfit), and molecfit corrects no telluric band inside 3000-3780 A, so in this band the difference is continuum realisation and spectrum, not telluric.",
+      "measured": {
+        "_telluric_no_op_in_band": {
+          "bluest_registered_telluric_band_A": 6867.0,
+          "band_window_A": [
+            3000.0,
+            3780.0
+          ],
+          "gap_A": 3087.0,
+          "verdict": "no registered telluric band reaches this window, so the two holdings cannot differ here by telluric treatment"
+        },
+        "Fe I 1D-LTE": {
+          "A_kurucz2005": 7.642,
+          "A_molecfit": 7.596,
+          "spread_dex": 0.046,
+          "half_spread_dex": 0.023,
+          "exceeds_pseudo_continuum_bound": false
+        },
+        "Fe I ENGINE-A": {
+          "A_kurucz2005": 7.651,
+          "A_molecfit": 7.606,
+          "spread_dex": 0.045,
+          "half_spread_dex": 0.0225,
+          "exceeds_pseudo_continuum_bound": false
+        },
+        "Fe II 1D-LTE": {
+          "A_kurucz2005": 7.957,
+          "A_molecfit": 7.697,
+          "spread_dex": 0.26,
+          "half_spread_dex": 0.13,
+          "exceeds_pseudo_continuum_bound": true
+        },
+        "Fe II ENGINE-A": {
+          "A_kurucz2005": 7.975,
+          "A_molecfit": 7.738,
+          "spread_dex": 0.237,
+          "half_spread_dex": 0.1185,
+          "exceeds_pseudo_continuum_bound": true
+        }
+      }
+    },
+    "F4_neither_holding_was_normalisation_probed_in_this_band": {
+      "detail": "RYA-1030's intake probes report 'normalised' for both holdings \u2014 but at 4758/6500/8242/9288 A (kurucz2005) and 5482/7980/10478/11976 A (molecfit). Not one probe window lies in 3000-3780 A. The normalisation status of the band these products are measured in is UNPROBED on both holdings.",
+      "note": "read from data/catalog/holdings_manifest_registry.csv; RYA-929 is not re-run here, per the ticket"
+    },
+    "F5_the_NLTE_leg_changes_the_POOL_not_just_the_physics": {
+      "severity": "\ud83d\udd34 the published NLTE effect is confounded with a pool change",
+      "detail": "Fe II ENGINE-A reports n=7 where its 1D-LTE sibling reports n=12 \u2014 5 of 12 lines dropped, on BOTH holdings. The published difference (+0.018 kurucz2005, +0.041 molecfit) is therefore not a paired NLTE differential: it is 7 lines compared against 12. sigma_stat rises accordingly (0.096->0.1329, 0.0986->0.121), which is the pool shrinking, not the measurement worsening.",
+      "products_with_a_pool_change": [
+        {
+          "ion": "II",
+          "holding": "solar_kpno_kurucz2005_corrected",
+          "treatment": "ENGINE-A",
+          "dn": -5
+        },
+        {
+          "ion": "II",
+          "holding": "solar_kpno_molecfit_corrected",
+          "treatment": "ENGINE-A",
+          "dn": -5
+        }
+      ]
+    },
+    "F6_no_per_line_artifact_for_Fe_II_in_band": {
+      "detail": "data/results/band_products/ ships *_lines.csv for Fe I near-UV (molecfit) only. Fe II near-UV has *_products.csv alone, so its tier composition, its rejections and the identity of the 5 lines the NLTE leg drops cannot be interrogated from the committed tree."
+    },
+    "F7_no_stellar_parameter_term_reaches_the_published_bar": {
+      "detail": "same omission RYA-1112 recorded for VIS. sigma_syst here carries pseudo-continuum, gf scale, scatter and harness residual \u2014 no Teff/logg/xi term. RYA-1120 built the join; these products predate its application.",
+      "sourced_delta_xi_kms": 0.2912,
+      "reference_magnitude_FeI_sigma_B_vmic": 0.0699,
+      "Fe_II_has_a_stellar_row": false
+    }
+  },
+  "part_A_type_A": {
+    "all_sigma_stat_are_standard_error": true,
+    "products_over_solar_gate": 8,
+    "products_over_dig_in": 8
+  },
+  "no_values_changed": "READ-ONLY. This script reads the feed, the band artifacts, canonical_gf and the stellar budget. It writes one audit artifact and changes no value, line, gf or threshold (RYA-161).",
+  "products": [
+    {
+      "ion": "II",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "A": 7.975,
+      "vs_asplund21_dex": 0.515,
+      "sigma_stat": 0.1329,
+      "sigma_syst": 0.1095,
+      "n_lines": 7,
+      "honest_total_dex": 0.1722,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "OPEN (continuum realisation exceeds its own bound)",
+      "rca_note": "the two holdings disagree by +0.237 dex on the SAME 7 lines, so half-spread 0.118 > the 0.1 pseudo-continuum bound charged here. They are different source spectra (Kurucz 2005 irradiance vs the 1984 atlas) and molecfit corrects no telluric band in 3000-3780 A, so this is continuum + spectrum, not telluric. The bound is band-flat and cannot express it. NOT tuned: the published bars stand; the term needs re-deriving on this evidence.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": -5
+    },
+    {
+      "ion": "II",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "A": 7.738,
+      "vs_asplund21_dex": 0.278,
+      "sigma_stat": 0.121,
+      "sigma_syst": 0.1095,
+      "n_lines": 7,
+      "honest_total_dex": 0.1632,
+      "dominant_term": "line-to-line scatter",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "OPEN (continuum realisation exceeds its own bound)",
+      "rca_note": "the two holdings disagree by +0.237 dex on the SAME 7 lines, so half-spread 0.118 > the 0.1 pseudo-continuum bound charged here. They are different source spectra (Kurucz 2005 irradiance vs the 1984 atlas) and molecfit corrects no telluric band in 3000-3780 A, so this is continuum + spectrum, not telluric. The bound is band-flat and cannot express it. NOT tuned: the published bars stand; the term needs re-deriving on this evidence.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": -5
+    },
+    {
+      "ion": "II",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "A": 7.697,
+      "vs_asplund21_dex": 0.237,
+      "sigma_stat": 0.0986,
+      "sigma_syst": 0.1095,
+      "n_lines": 12,
+      "honest_total_dex": 0.1474,
+      "dominant_term": "pseudo-continuum",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "OPEN (continuum realisation exceeds its own bound)",
+      "rca_note": "the two holdings disagree by +0.260 dex on the SAME 12 lines, so half-spread 0.130 > the 0.1 pseudo-continuum bound charged here. They are different source spectra (Kurucz 2005 irradiance vs the 1984 atlas) and molecfit corrects no telluric band in 3000-3780 A, so this is continuum + spectrum, not telluric. The bound is band-flat and cannot express it. NOT tuned: the published bars stand; the term needs re-deriving on this evidence.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": null
+    },
+    {
+      "ion": "II",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "A": 7.957,
+      "vs_asplund21_dex": 0.497,
+      "sigma_stat": 0.096,
+      "sigma_syst": 0.1095,
+      "n_lines": 12,
+      "honest_total_dex": 0.1456,
+      "dominant_term": "pseudo-continuum",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "OPEN (continuum realisation exceeds its own bound)",
+      "rca_note": "the two holdings disagree by +0.260 dex on the SAME 12 lines, so half-spread 0.130 > the 0.1 pseudo-continuum bound charged here. They are different source spectra (Kurucz 2005 irradiance vs the 1984 atlas) and molecfit corrects no telluric band in 3000-3780 A, so this is continuum + spectrum, not telluric. The bound is band-flat and cannot express it. NOT tuned: the published bars stand; the term needs re-deriving on this evidence.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": null
+    },
+    {
+      "ion": "I",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "A": 7.596,
+      "vs_asplund21_dex": 0.136,
+      "sigma_stat": 0.0898,
+      "sigma_syst": 0.1122,
+      "n_lines": 58,
+      "honest_total_dex": 0.1437,
+      "dominant_term": "pseudo-continuum",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "IRREDUCIBLE (pseudo-continuum floor on an exhausted lab-gf pool)",
+      "rca_note": "dominated by the 0.1 dex pseudo-continuum systematic, which does not average down: the near-UV true continuum is never observed. The line lever is already spent -- 58 of the 59 LAB Fe I lines that exist in band -- so more/better lines cannot reduce this. Reducing it needs a real continuum determination in band, which is RYA-929/1027 territory, not a tuning knob.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": null
+    },
+    {
+      "ion": "I",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "holding": "solar_kpno_molecfit_corrected",
+      "route": "SYNTH",
+      "A": 7.606,
+      "vs_asplund21_dex": 0.146,
+      "sigma_stat": 0.0898,
+      "sigma_syst": 0.1122,
+      "n_lines": 58,
+      "honest_total_dex": 0.1437,
+      "dominant_term": "pseudo-continuum",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "IRREDUCIBLE (pseudo-continuum floor on an exhausted lab-gf pool)",
+      "rca_note": "dominated by the 0.1 dex pseudo-continuum systematic, which does not average down: the near-UV true continuum is never observed. The line lever is already spent -- 58 of the 59 LAB Fe I lines that exist in band -- so more/better lines cannot reduce this. Reducing it needs a real continuum determination in band, which is RYA-929/1027 territory, not a tuning knob.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": 0
+    },
+    {
+      "ion": "I",
+      "tier": "DEEPGRADED",
+      "treatment": "1D-LTE",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "A": 7.642,
+      "vs_asplund21_dex": 0.182,
+      "sigma_stat": 0.0857,
+      "sigma_syst": 0.1122,
+      "n_lines": 58,
+      "honest_total_dex": 0.1412,
+      "dominant_term": "pseudo-continuum",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "IRREDUCIBLE (pseudo-continuum floor on an exhausted lab-gf pool)",
+      "rca_note": "dominated by the 0.1 dex pseudo-continuum systematic, which does not average down: the near-UV true continuum is never observed. The line lever is already spent -- 58 of the 59 LAB Fe I lines that exist in band -- so more/better lines cannot reduce this. Reducing it needs a real continuum determination in band, which is RYA-929/1027 territory, not a tuning knob.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": null
+    },
+    {
+      "ion": "I",
+      "tier": "DEEPGRADED",
+      "treatment": "ENGINE-A",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "route": "SYNTH",
+      "A": 7.651,
+      "vs_asplund21_dex": 0.191,
+      "sigma_stat": 0.0857,
+      "sigma_syst": 0.1122,
+      "n_lines": 58,
+      "honest_total_dex": 0.1412,
+      "dominant_term": "pseudo-continuum",
+      "stat_basis": "standard_error",
+      "over_dig_in": true,
+      "over_solar_gate": true,
+      "gate_disposition": "REPORT-AND-NOTE (frontier band, RYA-777/813)",
+      "rca_verdict": "IRREDUCIBLE (pseudo-continuum floor on an exhausted lab-gf pool)",
+      "rca_note": "dominated by the 0.1 dex pseudo-continuum systematic, which does not average down: the near-UV true continuum is never observed. The line lever is already spent -- 58 of the 59 LAB Fe I lines that exist in band -- so more/better lines cannot reduce this. Reducing it needs a real continuum determination in band, which is RYA-929/1027 territory, not a tuning knob.",
+      "xi_term_present": false,
+      "xi_applicability": "APPLIES \u2014 and is ABSENT. No stellar-parameter term reaches sigma_syst here (same omission RYA-1112 found in VIS, F1). Fe II has no row in the stellar budget at all, so it has no sourced delta_xi to fold even in principle.",
+      "nlte_pool_delta_vs_1D_LTE": 0
+    }
+  ]
+}

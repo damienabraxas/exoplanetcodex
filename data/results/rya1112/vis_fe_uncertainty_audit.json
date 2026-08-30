@@ -44,7 +44,7 @@
     "stat_basis_field_present_on": 8,
     "note": "the rest resolve through product_eligibility.STAT_BASIS_BY_ROUTE, the legacy route map \u2014 correct today, but the basis is not a property of those records"
   },
-  "n_3d_products_where_xi_is_not_applicable": 8,
+  "n_products_where_xi_is_not_applicable_full_3d_only": 4,
   "products": [
     {
       "ion": "II",
@@ -64,7 +64,8 @@
       "over_solar_gate": true,
       "rca_verdict": "IRREDUCIBLE (small-N)",
       "rca_note": "3 lines. sigma/sqrt(n) on a 3-line pool cannot be argued down; the bar is honest and the pool is the limit. RYA-1031's shape \u2014 report, do not publish a precision nobody has. More Fe II lab-gf lines is the only fix.",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "II",
@@ -84,7 +85,8 @@
       "over_solar_gate": true,
       "rca_verdict": "IRREDUCIBLE (small-N)",
       "rca_note": "3 lines. sigma/sqrt(n) on a 3-line pool cannot be argued down; the bar is honest and the pool is the limit. RYA-1031's shape \u2014 report, do not publish a precision nobody has. More Fe II lab-gf lines is the only fix.",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "II",
@@ -104,7 +106,8 @@
       "over_solar_gate": true,
       "rca_verdict": "IRREDUCIBLE (small-N)",
       "rca_note": "3 lines. sigma/sqrt(n) on a 3-line pool cannot be argued down; the bar is honest and the pool is the limit. RYA-1031's shape \u2014 report, do not publish a precision nobody has. More Fe II lab-gf lines is the only fix.",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "II",
@@ -124,7 +127,8 @@
       "over_solar_gate": true,
       "rca_verdict": "OPEN (arm-correlated, RYA-1081)",
       "rca_note": "9 lines, scatter-dominated (95% of the variance). RYA-1081 measured this pool as a POOL-WIDE arm-specific offset, not a few bad lines \u2014 dropping the worst line moved the median 0.035. Saturation is UNANSWERED there (the per-line COG is Fe I only). Not closed by this audit.",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "II",
@@ -144,7 +148,8 @@
       "over_solar_gate": true,
       "rca_verdict": "OPEN (arm-correlated, RYA-1081)",
       "rca_note": "9 lines, scatter-dominated (95% of the variance). RYA-1081 measured this pool as a POOL-WIDE arm-specific offset, not a few bad lines \u2014 dropping the worst line moved the median 0.035. Saturation is UNANSWERED there (the per-line COG is Fe I only). Not closed by this audit.",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "II",
@@ -164,7 +169,8 @@
       "over_solar_gate": true,
       "rca_verdict": "OPEN (arm-correlated, RYA-1081)",
       "rca_note": "9 lines, scatter-dominated (94% of the variance). RYA-1081 measured this pool as a POOL-WIDE arm-specific offset, not a few bad lines \u2014 dropping the worst line moved the median 0.035. Saturation is UNANSWERED there (the per-line COG is Fe I only). Not closed by this audit.",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -184,7 +190,8 @@
       "over_solar_gate": true,
       "rca_verdict": "IRREDUCIBLE (small-N on a depth-gated pool)",
       "rca_note": "5 lines. GRADED selects LAB-gf lines at or below the 0.6 depth gate, and on the profile-fit route that pool is small by construction. The bar is honest; widening it needs more lab-gf lines, not a code fix.",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -204,7 +211,8 @@
       "over_solar_gate": true,
       "rca_verdict": "IRREDUCIBLE (small-N on a depth-gated pool)",
       "rca_note": "5 lines. GRADED selects LAB-gf lines at or below the 0.6 depth gate, and on the profile-fit route that pool is small by construction. The bar is honest; widening it needs more lab-gf lines, not a code fix.",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -224,7 +232,8 @@
       "over_solar_gate": true,
       "rca_verdict": "IRREDUCIBLE (small-N on a depth-gated pool)",
       "rca_note": "6 lines. GRADED selects LAB-gf lines at or below the 0.6 depth gate, and on the profile-fit route that pool is small by construction. The bar is honest; widening it needs more lab-gf lines, not a code fix.",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -244,7 +253,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -264,7 +274,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -284,7 +295,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -304,7 +316,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -324,7 +337,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -344,7 +358,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -364,7 +379,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -384,7 +400,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -404,7 +421,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -424,7 +442,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -444,7 +463,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -464,7 +484,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -484,7 +505,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -504,7 +526,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -524,7 +547,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -544,7 +568,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -564,7 +589,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -584,7 +610,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -604,7 +631,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -624,7 +652,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -644,7 +673,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -664,7 +694,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -684,7 +715,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
     },
     {
       "ion": "I",
@@ -704,7 +736,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
     },
     {
       "ion": "I",
@@ -724,7 +757,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -744,7 +778,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
     },
     {
       "ion": "I",
@@ -764,7 +799,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "NOT APPLICABLE \u2014 3D has no microturbulence"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "NOT APPLICABLE \u2014 full 3D resolves the velocity field xi stands in for. Recorded, not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely."
     },
     {
       "ion": "I",
@@ -784,7 +820,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -804,7 +841,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive"
+      "xi_expectation": "weaker pool (depth <= 0.60) \u2014 least xi-sensitive",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -824,7 +862,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -844,7 +883,8 @@
       "over_solar_gate": true,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -864,7 +904,8 @@
       "over_solar_gate": false,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -884,7 +925,8 @@
       "over_solar_gate": false,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -904,7 +946,8 @@
       "over_solar_gate": false,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -924,7 +967,8 @@
       "over_solar_gate": false,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -944,7 +988,8 @@
       "over_solar_gate": false,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     },
     {
       "ion": "I",
@@ -964,7 +1009,8 @@
       "over_solar_gate": false,
       "rca_verdict": "",
       "rca_note": "",
-      "xi_applicability": "strong/saturated pool \u2014 xi bites hardest here"
+      "xi_expectation": "strong/saturated pool \u2014 xi bites hardest here",
+      "xi_applicability": "APPLIES \u2014 xi response not yet measured on this product's own pool (RYA-282 \u00a72 perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool and is a reference magnitude for the size of the hole, not a per-product value (RYA-1093: xi-sensitivity is a property of the LINE SET)."
     }
   ]
 }
