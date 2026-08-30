@@ -114,20 +114,35 @@ def main() -> int:
     # 🔴 THE VALUES MUST BE THE SOURCE'S, NOT A ROUNDED ECHO OF THEM. Re-read Heiter's own
     # column from the GBS artifact and require an exact match, so a formatting slip in this
     # script cannot quietly change an adopted gf.
-    held = {}
-    for r in csv.DictReader(GBS.open()):
-        held[(r["species"], round(float(r["wavelength_air_A"]), 2))] = r
+    #
+    # ⚠️ MATCHED ON THE CANONICAL lambda+EP KEY, NOT A ROUNDED WAVELENGTH. An earlier draft
+    # keyed this dict on `round(wavelength, 2)` and CI's RYA-1037 AST guard caught it --
+    # rightly, in a script whose whole subject is which gf belongs to which line. A rounded
+    # wavelength is not an identity (RYA-1033).
+    import numpy as np
+    from pipeline import line_match
+    from pipeline import reference_lineset as rls
+
+    src_rows = list(csv.DictReader(GBS.open()))
+    tol = rls.SETS["gbs"].match_tol_A
+    idx = line_match.match(
+        np.array([float(r["wavelength_air_A"]) for r in rows]),
+        np.array([float(r["wavelength_air_A"]) for r in src_rows]),
+        want_ep=np.array([float(r["elo_eV"]) for r in rows]),
+        src_ep=np.array([float(r["excitation_potential_eV"]) for r in src_rows]),
+        require_ep=True, tol_A=tol).index
     bad = []
-    for r in rows:
-        k = (r["species"], round(float(r["wavelength_air_A"]), 2))
-        src = held.get(k)
-        if src is None:
-            bad.append(f'{k} is not in the GBS set at all')
+    for i, r in enumerate(rows):
+        j = int(np.asarray(idx)[i])
+        lam = r["wavelength_air_A"]
+        if j < 0:
+            bad.append(f'{lam} A does not resolve into the GBS set on the lambda+EP key')
             continue
+        src = src_rows[j]
         if src["log_gf_gbs"].strip():
-            bad.append(f'{k} HAS a published Jofre gf -- it must not be adopted over')
+            bad.append(f'{lam} A HAS a published Jofre gf -- it must not be adopted over')
         if abs(float(src["heiter2021_log_gf"]) - float(r["log_gf_adopted"])) > 5e-4:
-            bad.append(f'{k} adopted {r["log_gf_adopted"]} != Heiter '
+            bad.append(f'{lam} A adopted {r["log_gf_adopted"]} != Heiter '
                        f'{src["heiter2021_log_gf"]}')
     if bad:
         print("\nREFUSING -- the adoption does not match its source:")
