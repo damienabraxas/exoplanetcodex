@@ -1,6 +1,16 @@
-source_id,citation,doi,ads_bibcode,table_catalog,role
-Burheim2023,"Burheim, Hartman & Nilsson 2023, A&A 672 A197",10.1051/0004-6361/202245394,2023A&A...672A.197B,Table 3,PRIMARY_LAB_GF
-NIST_ASD,"Kramida et al., NIST Atomic Spectra Database",,NIST_ASD,Al transition export,CRITICALLY_EVALUATED
-Nandakumar2024,Nandakumar et al. 2024 IGRINS abundance lines,10.3847/1538-4357/ad4451,2024ApJ...964...96N,CDS A15,EMPIRICAL_MEMBERSHIP_ONLY
-Chiappino2026,Chiappino et al. 2026 CRIRES+ J/H/K line set,10.3847/1538-4357/ae7de8,2026ApJ...,publisher tables,EMPIRICAL_MEMBERSHIP_ONLY
-RYA1001,Codex Al Phase-0 VALD/manual physical-feature census,,,rya1001_al_line_census.csv,CANDIDATE_DENOMINATOR
+source_id,citation,doi,ads_bibcode,table_catalog,role,article_url,download_url
+Burheim2023,"Burheim, Hartman & Nilsson 2023, A&A 672 A197",10.1051/0004-6361/202245394,2023A&A...672A.197B,Table 3,PRIMARY_LAB_GF,https://www.aanda.org/articles/aa/full_html/2023/04/aa45394-22/aa45394-22.html,https://www.aanda.org/articles/aa/pdf/2023/04/aa45394-22.pdf
+Vujnovic2002,"Vujnovic et al. 2002, A&A 388, 704-711",10.1051/0004-6361:20020554,2002A&A...388..704V,CDS J/A+A/388/704 tables 2-5,PRIMARY_LAB_COMPOSITE,https://www.aanda.org/articles/aa/abs/2002/23/aa7151/aa7151.html,https://www.aanda.org/articles/aa/pdf/2002/23/aa7151.pdf
+Trabert1999,"Trabert et al. 1999, J. Phys. B 32, 537-552",10.1088/0953-4075/32/2/031,1999JPhB...32..537T,Al II 2669 intercombination lifetime,PRIMARY_LAB_GF,https://doi.org/10.1088/0953-4075/32/2/031,
+Johnson1986,"Johnson, Smith & Parkinson 1986, ApJ 308, 1013",10.1086/164569,1986ApJ...308.1013J,Al II 2669 direct measurement,PRIMARY_LAB_GF,https://ntrs.nasa.gov/citations/19870032227,https://adsabs.harvard.edu/pdf/1986ApJ...308.1013J
+KelleherPodobedova2008,"Kelleher & Podobedova 2008, J. Phys. Chem. Ref. Data 37, 709",10.1063/1.2734564,2008JPCRD..37..709K,Al I-Al XII compilation,CRITICALLY_EVALUATED,https://www.nist.gov/publications/atomic-transition-probabilities-aluminuma-critical-compilation,https://www.nist.gov/system/files/documents/srd/jpcrd372008911p.pdf
+Papoulia2019,"Papoulia, Ekman & Jonsson 2019, A&A 621, A16",10.1051/0004-6361/201833764,2019A&A...621A..16P,CDS calculated transition tables,THEORETICAL_COMPARATOR,https://www.aanda.org/articles/aa/full_html/2019/01/aa33764-18/aa33764-18.html,https://arxiv.org/pdf/1808.09478
+GriesmannKling2000,"Griesmann & Kling 2000, ApJ 536, L113-L115",10.1086/312738,2000ApJ...536L.113G,Al II 1670 laboratory wavelength,WAVELENGTH_ONLY_NOT_GF_LAB,https://www.nist.gov/publications/interferometric-measurement-resonance-transition-wavelengths-civ-siiv-aliii-al-ii-and,https://arxiv.org/pdf/astro-ph/0004190
+RoedererLawler2021,"Roederer & Lawler 2021, ApJ 912, 119",10.3847/1538-4357/abf142,2021ApJ...912..119R,Al II 2669 stellar use and source chain,EMPIRICAL_AND_PROVENANCE_GUIDE,https://iopscience.iop.org/article/10.3847/1538-4357/abf142,https://arxiv.org/pdf/2103.12764
+Lind2022,"Lind et al. 2022, A&A 665, A33",10.1051/0004-6361/202142195,2022A&A...665A..33L,Al line list and non-LTE context,MODELING_CONTEXT,https://www.aanda.org/articles/aa/full_html/2022/09/aa42195-21/aa42195-21.html,https://openresearch-repository.anu.edu.au/bitstreams/f1d056b4-19fb-466d-9ae7-b800f7b408fd/download
+JonssonLundberg1983,"Jonsson & Lundberg 1983, Z. Phys. A 313, 151-154",10.1007/BF01417221,,Al I 2S and 2D lifetime sequences,PRIMARY_LAB_LIFETIME_PROVENANCE,https://portal.research.lu.se/en/publications/natural-radiative-lifetimes-in-the-2s12-and-2d5232-sequences-of-a/,
+Davidson1990,"Davidson, Volten & Donszelmann 1990, A&A 238, 452-454",,1990A&A...238..452D,Al I nd 2D lifetimes and oscillator strengths,PRIMARY_LAB_PROVENANCE_ALREADY_PROPAGATED,https://www.researchgate.net/publication/234442756_Lifetimes_and_oscillator_strengths_of_the_3s2nd_2D_series_in_neutral_aluminum,
+NIST_ASD,"Kramida et al., NIST Atomic Spectra Database",,NIST_ASD,Al transition export,CRITICALLY_EVALUATED,https://physics.nist.gov/asd,
+Nandakumar2024,Nandakumar et al. 2024 IGRINS abundance lines,10.3847/1538-4357/ad4451,2024ApJ...964...96N,CDS A15,EMPIRICAL_MEMBERSHIP_ONLY,https://doi.org/10.3847/1538-4357/ad4451,
+Chiappino2026,Chiappino et al. 2026 CRIRES+ J/H/K line set,10.3847/1538-4357/ae7de8,2026ApJ...,publisher tables,EMPIRICAL_MEMBERSHIP_ONLY,https://doi.org/10.3847/1538-4357/ae7de8,
+RYA1001,Codex Al Phase-0 VALD/manual physical-feature census,,,rya1001_al_line_census.csv,CANDIDATE_DENOMINATOR,,

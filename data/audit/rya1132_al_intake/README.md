@@ -7,8 +7,10 @@ or Solar abundance was changed.
 
 ## Verdict
 
-- UV: `BLOCKED_ATOMIC_DATA` - the canonical UV Al inventory has no primary-lab
-  gf, and FUV/NUV have no declared measurement policy.
+- UV: `CROSSMATCH_REVIEW` - Vujnovic et al. 2002 and Johnson et al. 1986 provide
+  missed laboratory evidence for several manifest lines. Their tables still need
+  level-resolved crossmatching and uncertainty normalization; FUV/NUV also lack
+  a declared measurement policy.
 - VIS: `FROZEN_WITH_DOCUMENTED_FALLBACKS` - physical identities and evidence
   ceilings are explicit; Burheim laboratory lines are not blurred with fallback gf.
 - IR: `BLOCKED_PIPELINE_COVERAGE` - RYA-1003 telluric verification and RYA-1004
@@ -20,6 +22,11 @@ The 6696.015 Burheim transition remains physically distinct from 6696.185. The
 `log gf=+0.327` from the observed blended-feature total near `+0.354`. IGRINS and
 CRIRES+ wavelength-only evidence remains HOLD unless wavelength plus EP/levels
 establish a unique physical transition.
+
+The web follow-up found no new independent IR source beyond the older Buurman,
+Davidson, and Buurman-Donszelmann measurements already propagated through
+Burheim/NIST. In particular it did not resolve 11254.9, 7835/7836, 8772/8773,
+or the 21208 A IGRINS candidate. See `web_source_followup.csv`.
 
 ## Reproduce
 

@@ -1,0 +1,11 @@
+species,wavelength_A,source,doi,evidence_class,published_uncertainty,disposition,note
+Al I,2652.484,Vujnovic et al. 2002,10.1051/0004-6361:20020554,PRIMARY_LAB_COMPOSITE,Aki 12%,PHYSICAL_CROSSMATCH_REQUIRED,Measured intensity ratio; absolute Aki from selected published lifetime.
+Al I,2660.393,Vujnovic et al. 2002,10.1051/0004-6361:20020554,PRIMARY_LAB_COMPOSITE,Aki 11%,PHYSICAL_CROSSMATCH_REQUIRED,Measured intensity ratio; absolute Aki from selected published lifetime.
+Al I,3082.153,Vujnovic et al. 2002,10.1051/0004-6361:20020554,PRIMARY_LAB_COMPOSITE,Aki 12%,PHYSICAL_CROSSMATCH_REQUIRED,Measured branching/intensity ratio; absolute Aki from lifetime.
+Al I,3092.71,Vujnovic et al. 2002,10.1051/0004-6361:20020554,PRIMARY_LAB_COMPOSITE,Aki 2%,PHYSICAL_CROSSMATCH_REQUIRED,"The 3092.710/3092.839 pair must be level-resolved, never proximity-selected."
+Al I,3092.839,Vujnovic et al. 2002,10.1051/0004-6361:20020554,PRIMARY_LAB_COMPOSITE,Aki not independently stated,PHYSICAL_CROSSMATCH_REQUIRED,Intensity-ratio component; do not inherit the 3092.710 uncertainty.
+Al II,2669.157,"Johnson, Smith & Parkinson 1986",10.1086/164569,PRIMARY_LAB,Aki=(3.33+/-0.23)e3 s-1 at 90% confidence,PHYSICAL_CROSSMATCH_REQUIRED,Direct time-resolved ion-storage lifetime measurement; one decay channel.
+Al II,1670.78861,Murphy & Berengut 2014 / Griesmann & Kling 2000,10.1093/mnras/stt2120,MIXED,wavelength 20 m/s; f=theory,WAVELENGTH_ONLY_NOT_GF_LAB,"Excellent laboratory wavelength, but quoted oscillator strength is theoretical."
+Al I;Al II,,Kelleher & Podobedova 2008 NIST critical compilation,10.1063/1.2734564,CRITICALLY_EVALUATED,per-line accuracy grade,INGEST_EVALUATED_TIER_SEPARATELY,Reference values only; evaluated is not Codex/Deep primary-lab grade under RYA-946.
+Al I;Al II,,Vujnovic et al. 2002 CDS J/A+A/388/704,10.1051/0004-6361:20020554,SOURCE_TABLE,29 Al I + 31 Al II absolute-probability rows,ACQUIRE_AND_NORMALIZE,Machine-readable tables 2-5; preserve limits and lifetime provenance.
+Al I,,IR literature follow-up,,NEGATIVE_RESULT,,NO_NEW_GRADING_SOURCE,"Buurman 1986, Davidson 1990, and Buurman & Donszelmann 1990 are already represented through Burheim/NIST; no new source found for held 11254.9, 7835/7836, 8772/8773, or 21208 A."
