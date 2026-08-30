@@ -3067,7 +3067,8 @@
       "tier",
       "selector",
       "route",
-      "treatment"
+      "treatment",
+      "line_set"
     ],
     "sections": [
       {
@@ -3086,7 +3087,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3104,7 +3105,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|NIR|crires_plus|solar_crires_plus_y_wide_rya1054|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3144,13 +3145,13 @@
           {
             "row": "EW \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE|our-graded",
             "alternates": 1
           },
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3162,13 +3163,13 @@
           {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3192,7 +3193,7 @@
           {
             "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
             "alternates": 0
           }
         ],
@@ -3214,7 +3215,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3232,7 +3233,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|NIR|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3272,13 +3273,13 @@
           {
             "row": "EW \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|PROFILEFIT|1D-LTE|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3290,13 +3291,13 @@
           {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3320,7 +3321,7 @@
           {
             "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
             "alternates": 0
           }
         ],
@@ -3342,7 +3343,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3360,7 +3361,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|red-optical|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3400,55 +3401,55 @@
           {
             "row": "EW \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE|our-graded",
             "alternates": 1
           },
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber|our-graded",
             "alternates": 0
           },
           {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
             "alternates": 0
           }
         ],
@@ -3470,7 +3471,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3488,7 +3489,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3534,7 +3535,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3552,7 +3553,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3598,7 +3599,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3616,7 +3617,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|NIR|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3656,55 +3657,55 @@
           {
             "row": "EW \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|1D-LTE|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-LTE \u00b7 Gerber",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-1D-LTE-gerber|our-graded",
             "alternates": 0
           },
           {
             "row": "EW \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|PROFILEFIT|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Gerber",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-B-NLTE|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-mean3D-LTE-gerber-stagger|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|synth-mean3D-NLTE-gerber-stagger|our-graded",
             "alternates": 0
           },
           {
             "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
             "alternates": 0
           }
         ],
@@ -3726,7 +3727,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3744,7 +3745,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3790,7 +3791,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|1D-LTE|our-graded",
             "alternates": 0
           },
           {
@@ -3808,7 +3809,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|I|red-optical|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A|our-graded",
             "alternates": 0
           },
           {
@@ -3854,7 +3855,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3872,7 +3873,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|II|VIS|harps|solar_harps_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3918,7 +3919,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3936,7 +3937,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
@@ -3982,7 +3983,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -4000,7 +4001,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
@@ -4046,7 +4047,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -4064,7 +4065,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|II|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
@@ -4110,7 +4111,7 @@
           {
             "row": "Synth \u00b7 1D-LTE",
             "pending": false,
-            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE",
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|1D-LTE|our-deep-graded",
             "alternates": 0
           },
           {
@@ -4128,7 +4129,7 @@
           {
             "row": "Synth \u00b7 1D-NLTE \u00b7 Bergemann",
             "pending": false,
-            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A",
+            "product_key": "Fe|II|near-UV|kpno_solar_atlas|solar_kpno_molecfit_corrected|DEEPGRADED|DEEPGRADED|SYNTH|ENGINE-A|our-deep-graded",
             "alternates": 0
           },
           {
