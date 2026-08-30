@@ -73,7 +73,11 @@ def main() -> int:
     A(f"  Elo span : {pool['elo_min']:.3f}-{pool['elo_max']:.3f} eV "
       f"(our graded pool floors at 2.85 — that gap IS the RYA-1104 finding)")
     A("")
-    A(f"  {'holding':<18}{'A(Fe)':>8}{'vs 7.46':>9}{'n':>4}{'cov':>9}{'REW span':>17}"
+    A("  REW below is AGSS21's PUBLISHED log(W/lambda) over the lines each holding priced,")
+    A("  not a width measured here — so it is identical across holdings by construction,")
+    A("  and it is in the table because Amarsi's own weak-line cut is stated in REW.")
+    A("")
+    A(f"  {'holding':<18}{'A(Fe)':>8}{'vs 7.46':>9}{'n':>4}{'cov':>9}{'AGSS21 REW':>17}"
       f"{'1D base':>9}{'corr':>8}   {'route':<7} {'gf':<7} {'basis':<9}")
     A("  " + "-" * 100)
     for h in HOLDINGS:
