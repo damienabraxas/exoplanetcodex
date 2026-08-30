@@ -18,10 +18,27 @@ structurally:
   * a MERGE   — several old keys now map to one new key
   * unchanged — the partition is identical
 
-🔴 THE ONLY INTENDED CHANGE IS A SPLIT ON `line_set`, AND EVEN THAT MUST BE EARNED. A split
-is accepted only where the records involved genuinely differ in their resolved line_set;
-anything else -- a merge of any kind, or a split whose members share a line_set -- is
-reported as UNINTENDED and makes this exit non-zero.
+🔴 BE HONEST ABOUT WHICH OF THOSE CHECKS CAN ACTUALLY FIRE TODAY. `line_set` was APPENDED
+to `KEY_FIELDS`, so the new key is the old key plus a suffix. While that is true:
+
+  * a MERGE cannot happen -- distinct old keys keep distinct prefixes; and
+  * every SPLIT is trivially "explained by line_set", because it is the only field that
+    can differ between two records sharing an old key.
+
+Reporting those two as passing checks would be a guard whose two sides converge: they
+would read as evidence and be arithmetic. What this audit therefore ASSERTS is the
+refinement invariant itself -- `new == old + "|" + line_set` for every record. That is the
+condition under which the two structural facts hold, and it is exactly what a later edit
+would break by inserting `line_set` mid-tuple or reordering `KEY_FIELDS`. Break it and old
+identities really can merge and split arbitrarily, and the merge check stops being
+decorative.
+
+The checks that carry weight on today's data are therefore:
+
+  * every record RESOLVES a line_set (nine did not when this ticket began);
+  * the refinement invariant holds;
+  * no live identity splits -- because a split means one published identity now covers
+    two products, which changes what the feed publishes.
 
 ⚠️ THE INTERESTING RESULT IS THAT TODAY THERE ARE NO SPLITS. The RYA-1106 Asplund products
 are not in the feed yet -- they cannot be, which is the whole reason this ticket exists --
@@ -80,6 +97,17 @@ def audit_feed(path: Path) -> dict:
     for r in rows:
         by_new[r["new"]].append(r)
 
+    # 🔴 THE REFINEMENT INVARIANT IS THE CHECK WITH TEETH, AND THE OTHER TWO DEPEND ON IT.
+    # `line_set` was APPENDED to KEY_FIELDS, so today new_key == old_key + "|" + line_set.
+    # While that holds, two facts follow for free and are NOT evidence of anything:
+    #   * a MERGE is impossible -- distinct old keys keep distinct prefixes;
+    #   * every SPLIT is "explained by line_set" -- it is the only field that can differ.
+    # Reporting those as if they were passing checks would be a guard whose two sides
+    # converge. So the invariant itself is asserted instead: if someone later INSERTS
+    # line_set mid-tuple, or reorders KEY_FIELDS, the prefix property breaks and old keys
+    # really can merge and split arbitrarily -- and this is what notices.
+    refinement_broken = [r for r in rows if not r["new"].startswith(r["old"] + "|")]
+
     splits, merges = [], []
     for old, group in by_old.items():
         news = {r["new"] for r in group}
@@ -87,17 +115,28 @@ def audit_feed(path: Path) -> dict:
             sets = {r["line_set"] for r in group}
             splits.append({"old": old, "new": sorted(news),
                            "line_sets": sorted(sets),
-                           # a split is INTENDED only if line_set is what separates them
-                           "intended": len(sets) == len(news)})
+                           # Meaningful ONLY where refinement is broken; while it holds
+                           # this is true by construction and is recorded, not trusted.
+                           "explained_by_line_set": len(sets) == len(news)})
     for new, group in by_new.items():
         olds = {r["old"] for r in group}
         if len(olds) > 1:
             merges.append({"new": new, "old": sorted(olds)})
 
-    return {"feed": str(path.relative_to(ROOT)), "n_records": len(rows),
+    # ⚠️ `relative_to(ROOT)` RAISES on a path outside the repo, which would make this
+    # function impossible to point at a staged fixture -- and a migration audit nobody can
+    # run against a synthetic split is one whose split-detection has never fired.
+    try:
+        label = str(path.relative_to(ROOT))
+    except ValueError:
+        label = str(path)
+    return {"feed": label, "n_records": len(rows),
             "n_old_keys": len(by_old), "n_new_keys": len(by_new),
             "line_set_census": dict(collections.Counter(r["line_set"] for r in rows)),
-            "splits": splits, "merges": merges, "unresolved": unresolved}
+            "splits": splits, "merges": merges, "unresolved": unresolved,
+            "refinement_holds": not refinement_broken,
+            "refinement_broken": [{"old": r["old"], "new": r["new"]}
+                                  for r in refinement_broken]}
 
 
 def demo_the_rya1106_split() -> dict:
@@ -158,7 +197,18 @@ def main() -> int:
             for u in d["unresolved"]:
                 A(f"        {u['pool']:11s} {u['key']}")
                 A(f"          {u['error'][:110]}")
-        unintended = [s for s in d["splits"] if not s["intended"]]
+        if not d["refinement_holds"]:
+            A(f"    🔴 THE REFINEMENT INVARIANT IS BROKEN on "
+              f"{len(d['refinement_broken'])} record(s): the new key is not the old key "
+              f"plus a suffix, so old identities can merge as well as split and the two "
+              f"checks below stop being structural facts.")
+            for r in d["refinement_broken"][:5]:
+                A(f"        old {r['old']}")
+                A(f"        new {r['new']}")
+        else:
+            A("    refinement invariant: new key == old key + '|' + line_set (so a MERGE "
+              "is structurally impossible here, and is asserted rather than claimed)")
+        unintended = [s for s in d["splits"] if not s["explained_by_line_set"]]
         for s in d["splits"]:
             tag = "INTENDED (line_set)" if s["intended"] else "🔴 UNINTENDED"
             A(f"    SPLIT {tag}: {s['old']}")
@@ -168,7 +218,7 @@ def main() -> int:
             A(f"    🔴 MERGE (never intended): {m['new']}")
             for o in m["old"]:
                 A(f"        <- {o}")
-        bad += len(unintended) + len(d["merges"])
+        bad += len(unintended) + len(d["merges"]) + len(d["refinement_broken"])
         if not d["splits"] and not d["merges"] and not d["unresolved"]:
             A("    ✅ partition UNCHANGED — no product was re-identified")
         A("")
