@@ -26,7 +26,7 @@ column list is how this table lost two real models for weeks (below).
 | 6 | **Synth · 1D-NLTE · Gerber** | `ENGINE-B-NLTE` | TS-native Gerber departures on MARCS.GES (RYA-798) |
 | 7 | Synth · <3D>-LTE · Gerber · stagger | `synth-mean3D-LTE-gerber-stagger` | mandatory comparand for column 8 |
 | 8 | Synth · <3D>-NLTE · Gerber · stagger | `synth-mean3D-NLTE-gerber-stagger` | |
-| 9 | EW · 3D-NLTE · Amarsi | `ENGINE-A-3DNLTE` | Amarsi+2022 MLP |
+| 9 | Synth · 3D-NLTE · Amarsi · lab-gf | `ENGINE-A-3DNLTE` (SynthesisHandler) | Amarsi+2022 MLP. RYA-1106: was `EW · 3D-NLTE · Amarsi`. RYA-1104 verified line by line that the 1D-LTE column under this treatment IS the synthesis pool (0e+00 dex on 50/50 lines, all four holdings) and traced `route=EW-3D` to a stranded `ProfileFitHandler`; there is no EW Amarsi leg. `· lab-gf` is derived from the corrected gf axis — the pool is 67/67 primary-laboratory and the product's own budget prices it at gf rung 3. |
 | 10 | *Synth · <3D>-NLTE · Gerber · codex* | *pending* | the deck we solve ourselves; declared, **not rendered** |
 
 Names in the table are the **exact strings `display_for` derives** — ASCII `<3D>`, not the
