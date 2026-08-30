@@ -1,0 +1,41 @@
+wavelength_air_A,elo_eV,eup_eV,loggf_asplund,rew_agss21,in_graded,graded_gf,in_domain,axis,domain_reason
+4445.5,0.08729,2.8755,-5.412,-5.068137,False,,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 2.7882 eV outside training [1.8382, 2.4829] (lt02, n=17);   -> that is a WAVELENGTH statement: the network saw 4994.1-6739.5 A only, and Eup-Elo is hc/lambda_vac by construction"
+4574.2,3.21119,5.92093,-2.35,-5.072604,True,-2.35,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 2.7097 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+5247.0,0.08729,2.44956,-4.961,-4.913731,False,,True,in domain,
+5379.6,3.6946,5.99868,-1.42,-4.940465,True,-1.42,True,in domain,
+5483.1,4.15435,6.41493,-1.39,-5.098545,True,-1.39,True,in domain,
+5538.5,4.21758,6.45554,-1.54,-5.171683,True,-1.54,True,in domain,
+5600.2,4.26045,6.47375,-1.42,-5.185911,False,,True,in domain,
+5618.6,4.20888,6.41493,-1.25,-5.050658,True,-1.25,True,in domain,
+5661.3,4.28435,6.47375,-1.756,-5.406563,False,,True,in domain,
+5705.5,4.30128,6.47375,-1.355,-5.158599,False,,True,in domain,
+5775.1,4.22036,6.36665,-1.08,-4.969869,True,-1.08,True,in domain,
+5778.5,2.58811,4.73314,-3.44,-5.452185,False,,True,in domain,
+5784.7,3.39651,5.53924,-2.532,-5.350661,True,-2.67,True,in domain,
+5855.1,4.60759,6.72456,-1.478,-5.425112,False,,True,in domain,
+5956.7,0.859,2.93985,-4.552,-5.074302,False,,True,in domain,
+6151.6,2.17595,4.19086,-3.282,-5.100568,False,,True,in domain,
+6240.6,2.22271,4.20888,-3.287,-5.117619,False,,True,in domain,
+6311.5,2.83159,4.79547,-3.141,-5.375251,False,,True,in domain,
+6498.9,0.95816,2.86539,-4.695,-5.193747,False,,True,in domain,
+6518.4,2.83159,4.73314,-2.448,-5.056745,False,,True,in domain,
+6574.2,0.99011,2.8755,-5.01,-5.413009,False,,True,in domain,
+6699.1,4.59311,6.44335,-2.101,-5.933922,False,,True,in domain,
+6793.3,4.07581,5.90041,-2.326,-5.735171,False,,True,in domain,
+6837.0,4.59311,6.40604,-1.687,-5.586892,False,,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.8129 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6843.7,4.54851,6.35967,-0.73,-5.022378,True,-0.73,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.8112 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6854.8,4.59311,6.40133,-1.926,-5.725405,False,,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.8082 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6858.1,4.60759,6.41493,-0.9,-5.095841,True,-0.9,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.8073 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+6999.9,4.10337,5.87412,-1.38,-5.082413,True,-1.38,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.7707 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7008.0,4.1777,5.9464,-1.77,-5.375772,True,-1.77,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.7687 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7219.7,4.07581,5.79265,-1.43,-5.168323,True,-1.43,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.7168 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7401.7,4.18636,5.86098,-1.5,-5.250238,False,,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.6746 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7443.0,4.18636,5.85168,-1.64,-5.316654,True,-1.64,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.6653 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+7912.9,0.859,2.42543,-4.848,-5.238419,False,,False,Eup-Elo (= hc/lambda: WAVELENGTH); Eup,"Eup 2.4254 eV outside training [2.4483, 3.9848] (lt02, n=17); transition energy Eup-Elo 1.5664 eV outside training [1.8382, 2.4829] (lt02, n=17);   -> that is a WAVELENGTH statement: the network saw 4994.1-6739.5 A only, and Eup-Elo is hc/lambda_vac by construction"
+8293.5,3.30092,4.79547,-2.203,-5.151582,False,,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.4945 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+8571.8,5.00952,6.45554,-1.11,-5.432013,True,-1.11,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.4460 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+8598.8,4.38646,5.82794,-1.2,-5.180855,True,-1.2,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.4415 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+8876.0,5.02028,6.41674,-1.05,-5.397989,True,-1.05,False,Eup-Elo (= hc/lambda: WAVELENGTH); Elo level match,"transition energy Eup-Elo 1.3965 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction; lower level 5.0203 eV is not within 0.02 eV of any level in the training set"
+8906.0,5.06378,6.45554,-1.22,-5.556986,True,-1.22,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.3918 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+9103.6,4.1777,5.53924,-2.19,-5.675912,True,-2.19,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.3615 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
+9786.6,4.60759,5.87412,-1.84,-5.73056,True,-1.84,False,Eup-Elo (= hc/lambda: WAVELENGTH),"transition energy Eup-Elo 1.2665 eV outside training [1.8190, 2.5898] (gt02, n=154);   -> that is a WAVELENGTH statement: the network saw 4787.8-6810.3 A only, and Eup-Elo is hc/lambda_vac by construction"
