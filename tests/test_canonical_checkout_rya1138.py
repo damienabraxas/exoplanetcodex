@@ -214,6 +214,52 @@ def test_the_resolver_audit_excludes_itself_BY_NAME():
                 if f["file"] == "scripts/rya1138_worktree_resolver_audit.py"]
 
 
+# ── the harness must not measure NOTHING and call it agreement ────────────────
+
+def test_POSITIVE_CONTROL_a_vacuous_failure_set_is_REFUSED():
+    """🔴 THE BUG THIS HARNESS SHIPPED WITH, AND THE ONE IT EXISTS TO PREVENT.
+
+    `-r` REPLACES pytest's default report characters rather than adding to them. The
+    first version passed `-rs` to collect skips and thereby switched OFF the default
+    `fE`, so pytest printed no FAILED lines, the regex matched nothing, and BOTH sides
+    returned an empty failure set. The harness reported "failure set IDENTICAL --
+    nothing moved" while the two runs were 10 failed and 8 failed.
+
+    A guard whose two sides converge, inside the tool built to stop exactly that. The
+    cross-check below is the structural fix: pytest's own summary count must agree
+    with what was parsed out of its output, or the run is refused.
+    """
+    from scripts.suite_set_diff import run_suite, VacuousMeasurementError
+    import scripts.suite_set_diff as ssd
+
+    real = ssd.subprocess.run
+
+    class _Fake:
+        returncode = 1
+        # A summary claiming failures, with the FAILED lines suppressed -- exactly
+        # what `-rs` produced.
+        stdout = "........F...\n\n10 failed, 3484 passed, 51 skipped in 369.62s\n"
+        stderr = ""
+
+    ssd.subprocess.run = lambda *a, **k: _Fake()
+    try:
+        with pytest.raises(VacuousMeasurementError) as e:
+            run_suite(Path("/tmp"), "tests/", sys.executable)
+        assert "10 failed" in str(e.value)
+        assert "0 were parsed" in str(e.value)
+    finally:
+        ssd.subprocess.run = real
+
+
+def test_the_suite_runner_asks_pytest_for_failures_AND_skips():
+    """The one-character root cause, pinned. `-rs` alone silences FAILED lines."""
+    src = (ROOT / "scripts" / "suite_set_diff.py").read_text()
+    assert '"-rfEs"' in src, "the report flags must request f, E and s together"
+    assert '"-rs"' not in src, (
+        "`-rs` REPLACES the default `fE` — it silences the FAILED lines the set-diff "
+        "is built from")
+
+
 # ── the harness refuses end-to-end, not just in unit form ─────────────────────
 
 def test_the_set_diff_harness_REFUSES_a_non_comparable_baseline_end_to_end():
