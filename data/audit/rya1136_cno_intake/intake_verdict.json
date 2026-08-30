@@ -1,0 +1,29 @@
+{
+  "schema": "codex.cno_intake_verdict/1",
+  "ticket": "RYA-1136",
+  "intake_census_complete": true,
+  "frozen_ready_for_measurement": false,
+  "verdict": "BLOCKED_MOLECULAR_DATA",
+  "molecular": {
+    "published_used": 408,
+    "join_status": {
+      "UNMATCHED": 328,
+      "PHYSICAL_TUPLE_MATCH": 80
+    }
+  },
+  "atomic": {
+    "source_rows": 46,
+    "join_status": {
+      "AMBIGUOUS": 1,
+      "PHYSICAL_TUPLE_MATCH": 25,
+      "ABSENT": 20
+    }
+  },
+  "blocking_findings": [
+    "Amarsi 2021 Table 2 omits rotational quantum identities for unmatched molecular rows",
+    "Exact transition-level joins remain unresolved for non-CO molecular rows",
+    "The complete five-line AGSS21 N I primary-paper selection is not yet transcribed",
+    "Rejected CN count is published (463), but rejected UV transition identities are not published"
+  ],
+  "safety": "No abundance derived; no gf tuned; no wavelength-only join admitted"
+}
