@@ -48,20 +48,53 @@ from pipeline import canonical_checkout as cc                        # noqa: E40
 OUT = ROOT / "data" / "results" / "rya1138" / "suite_set_diff.json"
 
 
+class VacuousMeasurementError(RuntimeError):
+    """The parsed failure set contradicts pytest's own count (RYA-1138)."""
+
+
 def run_suite(root: Path, target: str, python: str) -> dict:
-    """Run the suite and return its failure set, skip set and counts."""
+    """Run the suite and return its failure set, skip set and counts.
+
+    🔴 `-r` REPLACES pytest's default report characters, it does not add to them. The
+    first version of this passed `-rs` to get skips and thereby switched OFF the
+    default `fE` -- so pytest printed no FAILED lines at all, the regex matched
+    nothing, and BOTH sides came back with an empty failure set. The harness then
+    reported "failure set IDENTICAL" while comparing [] to [], across a real 10-vs-8
+    difference. A guard whose two sides converge, in the tool built to stop exactly
+    that (RYA-853's referee, RYA-1080's value guard, now this).
+
+    So `-rfEs`, and -- because the next parsing drift will be just as invisible -- the
+    parsed set is CROSS-CHECKED against the count in pytest's own summary line. If
+    they disagree the run is refused rather than reported.
+    """
     r = subprocess.run([python, "-m", "pytest", target, "-q", "-p", "no:randomly",
-                        "-rs"],
+                        "-rfEs"],
                        cwd=root, capture_output=True, text=True)
     out = (r.stdout or "") + (r.stderr or "")
     failed = sorted({m.group(1) for m in
                      re.finditer(r"^(?:FAILED|ERROR)\s+(\S+)", out, re.M)})
     skipped = sorted({m.group(1) for m in
                       re.finditer(r"^SKIPPED\s+\[\d+\]\s+(\S+?):", out, re.M)})
-    tail = re.search(r"^(\d+ failed.*|\d+ passed.*)$", out, re.M)
+    tail = re.search(r"^(\d+ failed.*|\d+ passed.*|no tests ran.*)$", out, re.M)
+    summary = tail.group(1) if tail else "(no pytest summary line)"
+
+    m_f = re.search(r"(\d+)\s+failed", summary)
+    m_e = re.search(r"(\d+)\s+error", summary)
+    claimed = (int(m_f.group(1)) if m_f else 0) + (int(m_e.group(1)) if m_e else 0)
+    if claimed != len(failed):
+        raise VacuousMeasurementError(
+            f"REFUSING this run — pytest's summary says {claimed} failed/errored but "
+            f"{len(failed)} were parsed from its output.\n"
+            f"  root    : {root}\n"
+            f"  summary : {summary}\n"
+            f"  parsed  : {failed or '[]'}\n"
+            f"  A set-diff computed from a failure set that does not match the run's "
+            f"own count is worthless, and an EMPTY parsed set on both sides reads as "
+            f"'nothing moved' no matter what actually happened.")
+
     return {"root": str(root), "failed": failed, "skipped": skipped,
             "n_failed": len(failed), "n_skipped_sites": len(skipped),
-            "summary": tail.group(1) if tail else "(no pytest summary line)",
+            "summary": summary,
             "returncode": r.returncode, "raw_tail": out[-4000:]}
 
 
