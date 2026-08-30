@@ -1,0 +1,480 @@
+{
+  "ticket": "RYA-1106",
+  "generated_utc": "2026-08-30T01:55:51Z",
+  "pool": {
+    "citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (AGSS21) -- ingested by RYA-1109, loaded through the RYA-1111 reference_lineset path",
+    "cut": "NONE -- AGSS21 Table A.2 IS Asplund's own published selection, so cutting it further would measure a subset nobody published",
+    "n_used": 40,
+    "n_published": 40,
+    "gf": "AGSS21's own published log gf on the target lines; canonical gf (RYA-353) on the blend context",
+    "elo_min": 0.08729,
+    "elo_max": 5.06378
+  },
+  "asplund21": 7.46,
+  "firewall": "RYA-161: this product is emitted because it uses Asplund's ACTUAL INPUTS, not because of what it returns. No line list, gf, atmosphere or stellar parameter was adjusted, and nothing in this script branches on the distance to 7.46.",
+  "residual_caveat": {
+    "swing_dex": 0.045,
+    "explained_by_elo": 0.29,
+    "unattributed": 0.71,
+    "source": "RYA-1104",
+    "note": "carried as a documented caveat (RYA-282), never a tuning target. The unattributed 71% is stated because it is unattributed."
+  },
+  "holdings": [
+    {
+      "holding_key": "kpno_kurucz2005",
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "A_3dnlte": 7.471284281349637,
+      "sigma": 0.0565245490315604,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "stat_dex": 0.0123,
+      "syst_dex": 0.17,
+      "route_axis": "synth",
+      "route_basis": "handler",
+      "gf_axis": "kurucz",
+      "handler": "SynthesisHandler",
+      "vs_asplund_dex": 0.0113,
+      "base_1dlte_median": 7.4625,
+      "median_aberr": 0.0337,
+      "agss21_published_3dnlte_median": 7.453,
+      "coverage": {
+        "n_asplund_lines": 40,
+        "n_served": 40,
+        "n_unserved": 0,
+        "fraction_served": 1.0,
+        "unserved_by_status": {},
+        "unserved_lines": [],
+        "elo_eV_served": {
+          "min": 0.087,
+          "median": 4.178,
+          "max": 5.064
+        },
+        "note": "an Asplund line this holding cannot serve is EXCLUDED and NAMED, never replaced by a neighbour and never dropped quietly (RYA-429/RYA-711)"
+      },
+      "gf_override": {
+        "line_set": "asplund",
+        "n_targets": 40,
+        "n_applied": 39,
+        "not_in_synthesis_list": [
+          {
+            "wavelength_air_A": 9786.6,
+            "elo_eV": 4.6076,
+            "species": "Fe I"
+          }
+        ],
+        "per_line": [
+          {
+            "wavelength_air_A": 4445.5,
+            "elo_eV": 0.0873,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -5.4413,
+            "loggf_reference": -5.412,
+            "delta_dex": 0.0293,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 4574.2,
+            "elo_eV": 3.2112,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.35,
+            "loggf_reference": -2.35,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5247.0,
+            "elo_eV": 0.0873,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -4.9469,
+            "loggf_reference": -4.961,
+            "delta_dex": -0.0141,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5379.6,
+            "elo_eV": 3.6946,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.42,
+            "loggf_reference": -1.42,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5483.1,
+            "elo_eV": 4.1543,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.39,
+            "loggf_reference": -1.39,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5538.5,
+            "elo_eV": 4.2176,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.54,
+            "loggf_reference": -1.54,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5600.2,
+            "elo_eV": 4.2604,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.4191,
+            "loggf_reference": -1.42,
+            "delta_dex": -0.0009,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5618.6,
+            "elo_eV": 4.2089,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.25,
+            "loggf_reference": -1.25,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5661.3,
+            "elo_eV": 4.2843,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.757,
+            "loggf_reference": -1.756,
+            "delta_dex": 0.001,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5705.5,
+            "elo_eV": 4.3013,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.3556,
+            "loggf_reference": -1.355,
+            "delta_dex": 0.0006,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5775.1,
+            "elo_eV": 4.2204,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.08,
+            "loggf_reference": -1.08,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5778.5,
+            "elo_eV": 2.5881,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -3.4298,
+            "loggf_reference": -3.44,
+            "delta_dex": -0.0102,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5784.7,
+            "elo_eV": 3.3965,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.67,
+            "loggf_reference": -2.532,
+            "delta_dex": 0.138,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5855.1,
+            "elo_eV": 4.6076,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.4782,
+            "loggf_reference": -1.478,
+            "delta_dex": 0.0002,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 5956.7,
+            "elo_eV": 0.859,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -4.605,
+            "loggf_reference": -4.552,
+            "delta_dex": 0.053,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6151.6,
+            "elo_eV": 2.1759,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -3.2988,
+            "loggf_reference": -3.282,
+            "delta_dex": 0.0168,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6240.6,
+            "elo_eV": 2.2227,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -3.233,
+            "loggf_reference": -3.287,
+            "delta_dex": -0.054,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6311.5,
+            "elo_eV": 2.8316,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -3.1397,
+            "loggf_reference": -3.141,
+            "delta_dex": -0.0013,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6498.9,
+            "elo_eV": 0.9582,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -4.6866,
+            "loggf_reference": -4.695,
+            "delta_dex": -0.0084,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6518.4,
+            "elo_eV": 2.8316,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.438,
+            "loggf_reference": -2.448,
+            "delta_dex": -0.01,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6574.2,
+            "elo_eV": 0.9901,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -5.023,
+            "loggf_reference": -5.01,
+            "delta_dex": 0.013,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6699.1,
+            "elo_eV": 4.5931,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.1008,
+            "loggf_reference": -2.101,
+            "delta_dex": -0.0002,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6793.3,
+            "elo_eV": 4.0758,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.3256,
+            "loggf_reference": -2.326,
+            "delta_dex": -0.0004,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6837.0,
+            "elo_eV": 4.5931,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.6878,
+            "loggf_reference": -1.687,
+            "delta_dex": 0.0008,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6843.7,
+            "elo_eV": 4.5485,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -0.73,
+            "loggf_reference": -0.73,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6854.8,
+            "elo_eV": 4.5931,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.9252,
+            "loggf_reference": -1.926,
+            "delta_dex": -0.0008,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6858.1,
+            "elo_eV": 4.6076,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -0.9,
+            "loggf_reference": -0.9,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 6999.9,
+            "elo_eV": 4.1034,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.38,
+            "loggf_reference": -1.38,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 7008.0,
+            "elo_eV": 4.1777,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.77,
+            "loggf_reference": -1.77,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 7219.7,
+            "elo_eV": 4.0758,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.43,
+            "loggf_reference": -1.43,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 7401.7,
+            "elo_eV": 4.1864,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.3531,
+            "loggf_reference": -1.5,
+            "delta_dex": -0.1469,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 7443.0,
+            "elo_eV": 4.1864,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.64,
+            "loggf_reference": -1.64,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 7912.9,
+            "elo_eV": 0.859,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -4.848,
+            "loggf_reference": -4.848,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 8293.5,
+            "elo_eV": 3.3009,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.164,
+            "loggf_reference": -2.203,
+            "delta_dex": -0.039,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 8571.8,
+            "elo_eV": 5.0095,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.11,
+            "loggf_reference": -1.11,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 8598.8,
+            "elo_eV": 4.3865,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.2,
+            "loggf_reference": -1.2,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 8876.0,
+            "elo_eV": 5.0203,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.05,
+            "loggf_reference": -1.05,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 8906.0,
+            "elo_eV": 5.0638,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -1.22,
+            "loggf_reference": -1.22,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          },
+          {
+            "wavelength_air_A": 9103.6,
+            "elo_eV": 4.1777,
+            "species": "Fe I",
+            "n_rows": 1,
+            "loggf_canonical": -2.19,
+            "loggf_reference": -2.19,
+            "delta_dex": 0.0,
+            "gf_source": "AGSS21 Sect. 4 (Iron): new experimental transition probabilities from Den Hartog et al. (2014) and Belmonte et al. (2017), employed together with the lines previously used by Scott et al. (2015a) with"
+          }
+        ],
+        "delta_vs_canonical_dex": {
+          "mean": -0.0009,
+          "median": 0.0,
+          "min": -0.1469,
+          "max": 0.138,
+          "n_exact": 18
+        },
+        "note": "asplund's published log gf on the target lines; canonical gf everywhere else in the window. RYA-353 single-sourcing is DECLARED OFF for the targets and canonical_gf.csv is not written."
+      },
+      "axis": {
+        "afe_axis_star": 7.4713,
+        "afe_axis_selfconsistent": 7.4713,
+        "railed_at_grid_ceiling": false,
+        "iterations": 2,
+        "converged": true
+      },
+      "artifacts": {
+        "per_line": "data/results/rya1106/kpno_kurucz2005/asplund_lines_per_line.csv",
+        "products": "data/results/rya1106/kpno_kurucz2005/asplund_lines_products.csv"
+      }
+    }
+  ]
+}
