@@ -226,7 +226,14 @@ def fit_one(ctx: dict, segs, wave_A: float, hw_A: float, tmp_dir: str,
         # `synthesis_route` BEFORE the EW route's Engine-B block, the flag parsed, was
         # accepted, and did nothing — which is why the Gerber column is empty on every
         # graded and deep-graded product we hold.
-        float(ctx['vsini']), tmp_dir=tmp_dir, **_extra)
+        # RYA-1050 residual: forward the stage when the context knows one. Today this
+        # script has no ion axis at all -- it is the near-UV Fe I product and `ctx` is
+        # built by `build_solar_context('Fe', ...)`, which sets no 'ion' -- so this is
+        # None and the call is unchanged. It is wired anyway because this script calls
+        # `_fit_synth_flux` DIRECTLY and runs no NLTE guard of its own: if an ion axis is
+        # ever added here, the stage must reach the guard or an Fe II leg would clear on
+        # Fe I's labels.
+        float(ctx['vsini']), tmp_dir=tmp_dir, ion=ctx.get('ion'), **_extra)
 
     # How well is this window's blanketing reproduced at all? A window the model cannot
     # reproduce is not a window to take an abundance from, and the ratio says which.
