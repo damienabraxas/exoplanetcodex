@@ -591,6 +591,23 @@ def main(argv=None) -> int:
     }
     text = render(rep)
     print("\n" + text)
+
+    # 🔴 EACH HOLDING ALSO GETS ITS OWN REPORT, BESIDE ITS OWN ARTIFACTS. The four
+    # holdings are run as four PROCESSES -- one flux fit per line per holding is ~25
+    # minutes, and the first attempt put them in series where a single crash at the
+    # artifact step discarded three completed holdings. Four processes sharing one `--out`
+    # would then race on the combined file below and the last writer would win, leaving a
+    # "four-instrument" report describing one instrument. Writing the holding-scoped
+    # report INTO the holding's own directory makes each run's output a function of that
+    # run alone, which is also what lets `rya1106_asplund_table.py` merge them and what
+    # makes each artifact reproducible by a single named invocation (RYA-686).
+    for row in rows:
+        if row.get("error"):
+            continue
+        one = dict(rep, holdings=[row])
+        (args.out / row["holding_key"] / "holding_report.json").write_text(
+            json.dumps(one, indent=2, default=str) + "\n")
+
     (args.out / "asplund_replication.json").write_text(json.dumps(rep, indent=2,
                                                                  default=str) + "\n")
     (args.out / "asplund_replication.txt").write_text(text + "\n")

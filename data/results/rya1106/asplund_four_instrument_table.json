@@ -1,0 +1,241 @@
+{
+  "ticket": "RYA-1106 D1",
+  "line_set": {
+    "citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (AGSS21) -- ingested by RYA-1109, loaded through the RYA-1111 reference_lineset path",
+    "cut": "NONE -- AGSS21 Table A.2 IS Asplund's own published selection, so cutting it further would measure a subset nobody published",
+    "n_used": 40,
+    "n_published": 40,
+    "gf": "AGSS21's own published log gf on the target lines; canonical gf (RYA-353) on the blend context",
+    "elo_min": 0.08729,
+    "elo_max": 5.06378
+  },
+  "asplund21_reference": 7.46,
+  "firewall": "RYA-161: this product is emitted because it uses Asplund's ACTUAL inputs, not because of what it returns; nothing branches on 7.46",
+  "holdings": {
+    "kpno_kurucz2005": {
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "A_3dnlte": 7.471284281349637,
+      "vs_asplund_dex": 0.0113,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "stat_dex": 0.0123,
+      "syst_dex": 0.17,
+      "base_1dlte_median": 7.4625,
+      "median_aberr": 0.0337,
+      "route_axis": "synth",
+      "gf_axis": "kurucz",
+      "route_basis": "handler",
+      "handler": "SynthesisHandler",
+      "coverage": {
+        "n_asplund_lines": 40,
+        "n_served": 40,
+        "n_unserved": 0,
+        "fraction_served": 1.0,
+        "unserved_by_status": {},
+        "unserved_lines": [],
+        "elo_eV_served": {
+          "min": 0.087,
+          "median": 4.178,
+          "max": 5.064
+        },
+        "note": "an Asplund line this holding cannot serve is EXCLUDED and NAMED, never replaced by a neighbour and never dropped quietly (RYA-429/RYA-711)"
+      }
+    },
+    "kpno_molecfit": {
+      "instrument": "kpno_solar_atlas",
+      "holding": "solar_kpno_molecfit_corrected",
+      "A_3dnlte": 7.5036697090080375,
+      "vs_asplund_dex": 0.0437,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "stat_dex": 0.0135,
+      "syst_dex": 0.17,
+      "base_1dlte_median": 7.483,
+      "median_aberr": 0.0346,
+      "route_axis": "synth",
+      "gf_axis": "kurucz",
+      "route_basis": "handler",
+      "handler": "SynthesisHandler",
+      "coverage": {
+        "n_asplund_lines": 40,
+        "n_served": 39,
+        "n_unserved": 1,
+        "fraction_served": 0.975,
+        "unserved_by_status": {
+          "no_atlas": 1
+        },
+        "unserved_lines": [
+          {
+            "wavelength_air_A": 7219.7,
+            "elo_eV": 4.076,
+            "status": "no_atlas",
+            "reason": "window 7218.68-7220.72 A overlaps REGISTERED telluric band 7160-7340 A (H2O), and RYA-940 produced no admissible correct"
+          }
+        ],
+        "elo_eV_served": {
+          "min": 0.087,
+          "median": 4.178,
+          "max": 5.064
+        },
+        "note": "an Asplund line this holding cannot serve is EXCLUDED and NAMED, never replaced by a neighbour and never dropped quietly (RYA-429/RYA-711)"
+      }
+    },
+    "harps_molecfit": {
+      "instrument": "harps",
+      "holding": "solar_harps_molecfit_corrected",
+      "A_3dnlte": 7.477053154424114,
+      "vs_asplund_dex": 0.0171,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "stat_dex": 0.0202,
+      "syst_dex": 0.17,
+      "base_1dlte_median": 7.495,
+      "median_aberr": 0.0338,
+      "route_axis": "synth",
+      "gf_axis": "kurucz",
+      "route_basis": "handler",
+      "handler": "SynthesisHandler",
+      "coverage": {
+        "n_asplund_lines": 40,
+        "n_served": 27,
+        "n_unserved": 13,
+        "fraction_served": 0.675,
+        "unserved_by_status": {
+          "no_atlas": 13
+        },
+        "unserved_lines": [
+          {
+            "wavelength_air_A": 6999.9,
+            "elo_eV": 4.103,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 6999.900 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 7008.0,
+            "elo_eV": 4.178,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 7008.000 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 7219.7,
+            "elo_eV": 4.076,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 7219.700 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 7401.7,
+            "elo_eV": 4.186,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 7401.700 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 7443.0,
+            "elo_eV": 4.186,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 7443.000 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 7912.9,
+            "elo_eV": 0.859,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 7912.900 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 8293.5,
+            "elo_eV": 3.301,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 8293.500 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 8571.8,
+            "elo_eV": 5.01,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 8571.800 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 8598.8,
+            "elo_eV": 4.386,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 8598.800 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 8876.0,
+            "elo_eV": 5.02,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 8876.000 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 8906.0,
+            "elo_eV": 5.064,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 8906.000 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 9103.6,
+            "elo_eV": 4.178,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 9103.600 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          },
+          {
+            "wavelength_air_A": 9786.6,
+            "elo_eV": 4.608,
+            "status": "no_atlas",
+            "reason": "no harps holding covers 9786.600 +/- 1.020 A (solar_harps_molecfit_corrected 3782.6-6910.0 A). Coverage must be TOTAL --"
+          }
+        ],
+        "elo_eV_served": {
+          "min": 0.087,
+          "median": 4.076,
+          "max": 4.608
+        },
+        "note": "an Asplund line this holding cannot serve is EXCLUDED and NAMED, never replaced by a neighbour and never dropped quietly (RYA-429/RYA-711)"
+      }
+    },
+    "iag": {
+      "instrument": "iag_fts_solar_atlas",
+      "holding": "solar_iag",
+      "A_3dnlte": 7.503905336549685,
+      "vs_asplund_dex": 0.0439,
+      "n_lines": 21,
+      "n_excluded": 19,
+      "stat_dex": 0.0147,
+      "syst_dex": 0.17,
+      "base_1dlte_median": 7.4995,
+      "median_aberr": 0.0346,
+      "route_axis": "synth",
+      "gf_axis": "kurucz",
+      "route_basis": "handler",
+      "handler": "SynthesisHandler",
+      "coverage": {
+        "n_asplund_lines": 40,
+        "n_served": 38,
+        "n_unserved": 2,
+        "fraction_served": 0.95,
+        "unserved_by_status": {
+          "no_atlas": 2
+        },
+        "unserved_lines": [
+          {
+            "wavelength_air_A": 4445.5,
+            "elo_eV": 0.087,
+            "status": "no_atlas",
+            "reason": "no iag_fts_solar_atlas holding covers 4445.500 +/- 1.020 A (solar_iag 5001.1-11083.5 A). Coverage must be TOTAL -- a win"
+          },
+          {
+            "wavelength_air_A": 4574.2,
+            "elo_eV": 3.211,
+            "status": "no_atlas",
+            "reason": "no iag_fts_solar_atlas holding covers 4574.200 +/- 1.020 A (solar_iag 5001.1-11083.5 A). Coverage must be TOTAL -- a win"
+          }
+        ],
+        "elo_eV_served": {
+          "min": 0.087,
+          "median": 4.182,
+          "max": 5.064
+        },
+        "note": "an Asplund line this holding cannot serve is EXCLUDED and NAMED, never replaced by a neighbour and never dropped quietly (RYA-429/RYA-711)"
+      }
+    }
+  }
+}
