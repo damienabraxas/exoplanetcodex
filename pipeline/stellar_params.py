@@ -33,9 +33,11 @@ THE ARITHMETIC (RYA-282 §3)
 with `delta_p` the STAR's own parameter uncertainty, read from `uncertainty_stack` rather
 than re-typed. For the Sun three of the four are ~0 by construction (Teff known to ~1 K,
 log g fixed by the IAU nominal mass and radius, [Fe/H] = 0 by definition), so the solar
-budget is xi-dominated — and RYA-1093 set that allowance to the unresolved method spread
-|1.0 - 0.709| = 0.2912 km/s rather than the 0.0588 formal error, deliberately, because the
-smaller one would have passed the gate (RYA-161).
+budget is xi-dominated — and RYA-1093 set that allowance to the unresolved method+selection
+spread |1.0 - 0.709| rather than the (much smaller) formal error, deliberately, because
+the formal one would have passed the gate (RYA-161). The value itself is deliberately not
+spelled anywhere in this file: it has exactly one home, in `uncertainty_stack`, and a
+number written down twice drifts (RYA-845).
 
 It does NOT average down: perturbing Teff moves every line the same way, so more lines
 cannot shrink it. That is the whole reason it must be published beside sigma/sqrt(N).
