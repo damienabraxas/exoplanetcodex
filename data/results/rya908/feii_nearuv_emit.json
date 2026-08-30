@@ -1,0 +1,95 @@
+{
+  "ticket": "RYA-908",
+  "what": "emit of the retained per-line/budget/provenance layer for the near-UV Fe II Deep Graded synthesis cell; no re-run, no abundance move",
+  "gate1_aggregate_identity": {
+    "solar_kpno_kurucz2005_corrected": {
+      "artifact_sha256": "6fed66c0f904ce3343e525731600cb32930f701c1f7acda28156a15a8241615b",
+      "feed_recorded_sha256": "6fed66c0f904ce3343e525731600cb32930f701c1f7acda28156a15a8241615b",
+      "identical": true,
+      "published_A": 7.957
+    },
+    "solar_kpno_molecfit_corrected": {
+      "artifact_sha256": "192e58ffe091dda861e14b25157f5a33b9f744f69e9551301baa968c4148f03c",
+      "feed_recorded_sha256": "192e58ffe091dda861e14b25157f5a33b9f744f69e9551301baa968c4148f03c",
+      "identical": true,
+      "published_A": 7.697
+    }
+  },
+  "gate2_lte_equivalence": {
+    "criterion": "|nlte_delta_dex| <= sourced tolerance AND unstructured shape (RYA-908 corrected criterion, 2026-08-30)",
+    "tolerance_dex": 0.001,
+    "tolerance_source": "Amarsi's published solar Fe II corrections (-0.0010 / -0.0008 dex) and Lind et al. 2017 ('insignificant' for solar Fe II)",
+    "shape_max_spread_dex": 0.0005,
+    "per_holding": {
+      "solar_kpno_kurucz2005_corrected": {
+        "n_rows": 12,
+        "n_served": 7,
+        "departures": [
+          -0.001
+        ],
+        "max_abs_departure_dex": 0.001,
+        "spread_dex": 0.0,
+        "magnitude_within_sourced_tolerance": true,
+        "shape_unstructured": true,
+        "not_served_wavelengths": [
+          3002.644,
+          3192.909,
+          3193.799,
+          3210.444,
+          3255.887
+        ],
+        "verdict": "LTE-EQUIVALENT"
+      },
+      "solar_kpno_molecfit_corrected": {
+        "n_rows": 12,
+        "n_served": 7,
+        "departures": [
+          -0.001
+        ],
+        "max_abs_departure_dex": 0.001,
+        "spread_dex": 0.0,
+        "magnitude_within_sourced_tolerance": true,
+        "shape_unstructured": true,
+        "not_served_wavelengths": [
+          3002.644,
+          3192.909,
+          3193.799,
+          3210.444,
+          3255.887
+        ],
+        "verdict": "LTE-EQUIVALENT"
+      },
+      "_same_lines_unserved_on_both_holdings": true
+    }
+  },
+  "pool_vs_nlte_decomposition": {
+    "solar_kpno_kurucz2005_corrected": {
+      "median_1D_LTE_all12": 7.9575,
+      "published_1D_LTE": 7.957,
+      "median_ENGINE_A_on7": 7.975,
+      "published_ENGINE_A": 7.975,
+      "median_1D_LTE_on_the_same_7": 7.976,
+      "pool_effect_dex": 0.0185,
+      "nlte_effect_paired_dex": -0.001,
+      "published_delta_dex": 0.018,
+      "estimator_reproduces_published": true
+    },
+    "solar_kpno_molecfit_corrected": {
+      "median_1D_LTE_all12": 7.6965,
+      "published_1D_LTE": 7.697,
+      "median_ENGINE_A_on7": 7.738,
+      "published_ENGINE_A": 7.738,
+      "median_1D_LTE_on_the_same_7": 7.739,
+      "pool_effect_dex": 0.0425,
+      "nlte_effect_paired_dex": -0.001,
+      "published_delta_dex": 0.041,
+      "estimator_reproduces_published": true
+    }
+  },
+  "bar": {
+    "run_budget_syst_dex": 0.1095,
+    "published_floor_syst_dex": 0.13,
+    "basis": "RYA-1133: the two holdings disagree by 0.260 dex on the SAME 12 lines, so half-spread 0.130 EXCEEDS the 0.10 band-flat pseudo-continuum term the run charged",
+    "status": "INTERIM LOWER BOUND \u2014 two realisations are not the space of them, and all three near-UV atlases are Kitt Peak, so the disagreement can be measured but never adjudicated. Pending RYA-1133's per-ion term."
+  }
+}
