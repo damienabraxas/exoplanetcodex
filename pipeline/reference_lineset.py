@@ -167,6 +167,35 @@ def load(name: str) -> pd.DataFrame:
     # DECISION RYA-1110 flagged for Ryan. Taking it here would silently turn "GBS's own
     # scale" into "GBS where published, GES elsewhere" and report one number for the
     # mixture -- the confound a replication exists to remove (RYA-161/429).
+    # 🔴 ADOPTED gf ARE JOINED HERE, FROM A SIDECAR, AND NEVER FROM `log_gf_gbs`.
+    # Ryan ratified adopting 12 of GBS's 21 unpublished lines (RYA-1110, 2026-08-30) --
+    # the ones whose reference code reproduces Jofre's PUBLISHED gf exactly on >= 5
+    # held-out lines. The value is Heiter+2021's, so it lives in its own file with its own
+    # provenance columns: writing it into `log_gf_gbs` would make that column assert
+    # something false about a publication and make the 12 indistinguishable from the 138.
+    #
+    # ⚠️ The remaining 9 (1 THIN + 8 RISKY) stay REFUSED. `gf_adopted` records which side
+    # of that line each row is on, so a product can never quietly include one.
+    out["gf_adopted"] = False
+    out["gf_adopted_source"] = ""
+    adopt_path = spec.path.parent / "gbs_gf_adoption_rya1110.csv"
+    if spec.name == "gbs" and adopt_path.exists():
+        ad = pd.read_csv(adopt_path)
+        key = {(r.species, round(float(r.wavelength_air_A), 2)): r
+               for r in ad.itertuples()}
+        for i, r in out.iterrows():
+            if not pd.isna(r["loggf"]):
+                continue
+            hit = key.get((r["species"], round(float(r["wavelength_air_A"]), 2)))
+            if hit is None:
+                continue
+            out.at[i, "loggf"] = float(hit.log_gf_adopted)
+            out.at[i, "gf_adopted"] = True
+            out.at[i, "gf_adopted_source"] = str(hit.gf_adopted_source)
+            out.at[i, "gf_source"] = (
+                f"ADOPTED (not published by this set): {hit.gf_adopted_source} | "
+                f"{hit.gf_adopted_basis} | {hit.gf_adopted_ticket}")
+
     out["gf_missing"] = out["loggf"].isna()
     if out["gf_missing"].any():
         out.loc[out["gf_missing"], "gf_source"] = (
