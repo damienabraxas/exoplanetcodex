@@ -154,3 +154,60 @@ def test_the_published_plot_grid_keys_carry_the_new_axis(doc):
         for cell in section["cells"]:
             if cell.get("product_key"):
                 assert cell["product_key"] in live, cell["product_key"]
+
+
+def test_the_four_RYA1106_products_PUBLISH_without_colliding(doc):
+    """🔴 SPEC ITEM 5, demonstrated end to end on a COPY of the feed.
+
+    Showing the keys differ is necessary but not sufficient: publishing also has to clear
+    the duplicate-cell check and the eligibility gate, and the rendered grid has to keep
+    resolving. This stages the four replication products beside the live ones IN MEMORY --
+    nothing is written -- and asserts the feed is still well-formed.
+
+    ⚠️ The staged records borrow the live records' shape and carry the RYA-1106 measured
+    values, because a demo built from a hand-typed record would prove the schema works on
+    a record that does not exist.
+    """
+    import pandas as pd
+    from pipeline import plot_grid
+
+    res = ROOT / "data" / "results" / "rya1106"
+    hold_by_dir = {"kpno_kurucz2005": "solar_kpno_kurucz2005_corrected",
+                   "kpno_molecfit": "solar_kpno_molecfit_corrected",
+                   "harps_molecfit": "solar_harps_molecfit_corrected",
+                   "iag": "solar_iag"}
+    live = {p["holding"]: p for p in doc["products"]
+            if p.get("treatment") == "ENGINE-A-3DNLTE"}
+
+    staged = []
+    for d, holding in hold_by_dir.items():
+        csv = res / d / "asplund_lines_products.csv"
+        if not csv.exists():
+            pytest.skip(f"RYA-1106 artifact not present: {csv.relative_to(ROOT)}")
+        r = pd.read_csv(csv).iloc[0]
+        staged.append(dict(live[holding],
+                           line_set="asplund",
+                           A=round(float(r["value"]), 4),
+                           sigma_stat=float(r["stat_dex"]),
+                           sigma_syst=float(r["syst_dex"]),
+                           n_lines=int(r["n_lines"]),
+                           stat_basis=str(r["stat_basis"])))
+
+    merged = dict(doc, products=list(doc["products"]) + staged)
+
+    # 1. no identity is duplicated once line_set separates them
+    assert pe.duplicate_live_cells(merged) == {}
+    # 2. and the count of identities grew by exactly the four we added
+    assert len({pe.key_of(p) for p in merged["products"]}) == \
+           len({pe.key_of(p) for p in doc["products"]}) + 4
+    # 3. every staged product clears the eligibility gate
+    bad = {k: [f"{r.code}: {r.detail}" for r in v]
+           for k, v in pe.evaluate_feed(merged).items() if v}
+    assert not bad, bad
+    # 4. and the grid still builds, with the our-graded cells still resolving
+    grid = plot_grid.build(merged["products"])
+    keys = {pe.key_of(p) for p in merged["products"]}
+    for section in grid["sections"]:
+        for cell in section["cells"]:
+            if cell.get("product_key"):
+                assert cell["product_key"] in keys
