@@ -224,8 +224,13 @@ def normalise(df: pd.DataFrame, *, holding: str, tier: str, route: str | None,
 #: RYA-1026 lists `1D-LTE` and `1D-LTE Synth` as SEPARATE rows for exactly this reason,
 #: and RYA-984 says two runs differing only in selector are two products. Caught by the
 #: overwrite guard on the very first backfill, which is what the guard is for.
+#: 🔴 RYA-1127 ADDS `line_set` -- see `pipeline.product_eligibility.KEY_FIELDS` for the
+#: full account. In short: RYA-1106's Asplund replication and the our-graded Amarsi
+#: leg differ ONLY in the pool of lines they were measured on, and the key did not
+#: carry it. The mislabelled `route=EW-3D` was accidentally telling them apart, so
+#: correcting the label exposed the latent collision.
 KEY_FIELDS = ("element", "ion", "band", "instrument", "holding",
-              "tier", "selector", "route", "treatment")
+              "tier", "selector", "route", "treatment", "line_set")
 
 
 def _repo_relative(src: Path) -> str:
@@ -255,7 +260,13 @@ def _repo_relative(src: Path) -> str:
 
 
 def key_of(row: dict) -> str:
-    return "|".join(str(row.get(k) or "") for k in KEY_FIELDS)
+    # `line_set` is RESOLVED, not read: our own rows carry it in `tier` and never as
+    # a field, so a plain `.get` would put a blank column in every key. The single
+    # resolver lives in `product_eligibility` so the publisher and the gate cannot
+    # drift apart about what a product's identity IS.
+    from pipeline.product_eligibility import line_set_of
+    return "|".join(line_set_of(row) if k == "line_set"
+                    else str(row.get(k) or "") for k in KEY_FIELDS)
 
 
 def load(element: str, star: str) -> dict:

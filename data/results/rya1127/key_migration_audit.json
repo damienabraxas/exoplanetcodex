@@ -1,0 +1,85 @@
+{
+  "old_key_fields": [
+    "element",
+    "ion",
+    "band",
+    "instrument",
+    "holding",
+    "tier",
+    "selector",
+    "route",
+    "treatment"
+  ],
+  "new_key_fields": [
+    "element",
+    "ion",
+    "band",
+    "instrument",
+    "holding",
+    "tier",
+    "selector",
+    "route",
+    "treatment",
+    "line_set"
+  ],
+  "feeds": [
+    {
+      "feed": "data/products/solar/Fe.json",
+      "n_records": 104,
+      "n_old_keys": 95,
+      "n_new_keys": 95,
+      "line_set_census": {
+        "our-deep-graded": 34,
+        "our-graded": 61,
+        "our-ungraded": 6,
+        "our-all": 3
+      },
+      "splits": [],
+      "merges": [],
+      "unresolved": []
+    }
+  ],
+  "rya1106_case": {
+    "n": 4,
+    "rows": [
+      {
+        "holding": "solar_harps_molecfit_corrected",
+        "our_graded_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
+        "asplund_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund",
+        "distinct": true,
+        "old_key_our_graded": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "old_key_asplund": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "collided_before": true
+      },
+      {
+        "holding": "solar_iag",
+        "our_graded_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
+        "asplund_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund",
+        "distinct": true,
+        "old_key_our_graded": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "old_key_asplund": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "collided_before": true
+      },
+      {
+        "holding": "solar_kpno_kurucz2005_corrected",
+        "our_graded_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
+        "asplund_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund",
+        "distinct": true,
+        "old_key_our_graded": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "old_key_asplund": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "collided_before": true
+      },
+      {
+        "holding": "solar_kpno_molecfit_corrected",
+        "our_graded_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded",
+        "asplund_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund",
+        "distinct": true,
+        "old_key_our_graded": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "old_key_asplund": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
+        "collided_before": true
+      }
+    ],
+    "all_distinct_now": true,
+    "all_collided_before": true
+  }
+}

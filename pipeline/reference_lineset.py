@@ -424,7 +424,13 @@ def apply_gf_override(linelist, targets: pd.DataFrame, spec: ReferenceSet, *,
 
 #: Our own products already say which pool they were measured on, in `tier`. The axis is
 #: therefore DERIVED for them rather than stored twice.
-_TIER_TO_LINE_SET = {"GRADED": "our-graded", "DEEPGRADED": "our-deep-graded"}
+#: RYA-1127 adds UNGRADED and ALL. They are not new pools -- they are `--lines-tier`
+#: values that nine quarantined products already carried, and which had no name here
+#: because nothing yet asked this function about them. Putting `line_set` in the identity
+#: key does ask, of every product in every pool, so they are named rather than defaulted.
+#: `CONSISTENT` is still absent and still raises (RYA-1105 retires that tier).
+_TIER_TO_LINE_SET = {"GRADED": "our-graded", "DEEPGRADED": "our-deep-graded",
+                     "UNGRADED": "our-ungraded", "ALL": "our-all"}
 
 
 def line_set_for_product(product: dict) -> str:

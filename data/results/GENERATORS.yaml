@@ -5277,3 +5277,15 @@ artifacts:
     invocation: python3 scripts/rya1106_domain_crosstab.py
     note: >-
       RYA-1106 sub-items -- WHICH axis puts 19 of AGSS21's 40 Fe I lines outside the Amarsi MLP, crossed with our Codex Graded (lab-gf) pool. TWO PREDICTIONS REFUTED. (a) The weak-line hypothesis (Amarsi's own REW < -4.9) cannot be the wall: all 40 lines already satisfy it, spanning -5.934..-4.914, because Table A.2 IS Asplund's weak-line selection. The refusing axis is Eup-Elo, which is hc/lambda_vac by construction -- a WAVELENGTH statement: the 21 accepted lines lie inside the network's 4787.8-6810.3 A training span and all 19 refused lie outside it, 2 too blue and 17 too red, with no exception. (b) The 19 were predicted DISJOINT from Codex Graded; 13 of them ARE graded, and only 6 of the 21 in-domain lines are. Graded and MLP-in-domain are close to ANTI-correlated, because our lab-gf tier is Ruffoni/Den-Hartog high-excitation RED lines and that is exactly where the network's optical span runs out. The set covered by NEITHER product is 6 lines, not 19. Joins are lambda+EP dual key (RYA-1037) at the source-derived 0.05 A, shipped with a plateau sweep.
+  - artifact: rya1127/key_migration_audit.json
+    generator: scripts/rya1127_key_migration_audit.py
+    ticket: RYA-1127
+    invocation: python3 scripts/rya1127_key_migration_audit.py --check
+    note: >-
+      RYA-1127 migration audit for adding `line_set` to the product identity key. Computes every product's key BOTH ways over all four pools and compares the PARTITIONS, because the failure mode of a key change is a wrong SPLIT or MERGE, not a wrong number -- no abundance moves in that ticket. Result on the committed feed: 104 records, 95 old keys -> 95 new keys, partition UNCHANGED, so nothing already published was re-identified. Also stages the RYA-1106 case (not a publish): the four Asplund-replication products collided with the our-graded Amarsi products under the old key and are distinct under the new one. --check exits non-zero on any merge, any split whose members share a line_set, or any record whose line_set cannot be resolved.
+  - artifact: rya1127/key_migration_audit.txt
+    generator: scripts/rya1127_key_migration_audit.py
+    ticket: RYA-1127
+    invocation: python3 scripts/rya1127_key_migration_audit.py --check
+    note: >-
+      RYA-1127 migration audit for adding `line_set` to the product identity key. Computes every product's key BOTH ways over all four pools and compares the PARTITIONS, because the failure mode of a key change is a wrong SPLIT or MERGE, not a wrong number -- no abundance moves in that ticket. Result on the committed feed: 104 records, 95 old keys -> 95 new keys, partition UNCHANGED, so nothing already published was re-identified. Also stages the RYA-1106 case (not a publish): the four Asplund-replication products collided with the our-graded Amarsi products under the old key and are distinct under the new one. --check exits non-zero on any merge, any split whose members share a line_set, or any record whose line_set cannot be resolved.
