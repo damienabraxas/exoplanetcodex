@@ -121,7 +121,11 @@ def test_F1_the_stellar_parameter_budget_is_read_by_nothing_in_the_product_path(
     # it was tracked it showed up as a third "reader" and turned this test red. An AUDIT
     # reading a budget is not the budget reaching a product, so the auditor excludes
     # itself — explicitly and by name, never by a pattern that could hide a real reader.
-    readers -= {"scripts/rya1112_vis_fe_uncertainty_audit.py"}
+    # RYA-1113 adds the near-UV sister auditor, which reads the budget for the same
+    # reason and is excluded on the same grounds — an auditor is an instrument, not a
+    # product path. Listed individually so a NEW reader still fails this test.
+    readers -= {"scripts/rya1112_vis_fe_uncertainty_audit.py",
+                "scripts/rya1113_uv_fe_uncertainty_audit.py"}
     # what is left is only its own two stamping scripts; nothing builds or publishes
     assert readers == {"scripts/rya1088_record_sigma_params.py",
                        "scripts/rya1089_stamp_honest_delta_xi.py"}, readers
@@ -185,7 +189,8 @@ def test_F4_no_product_record_carries_a_gate_or_flag_field(doc):
     # the gate constant exists only inside AUDIT scripts — never in the product path
     r = subprocess.run(["git", "grep", "-l", "SOLAR_GATE_DEX", "--", "pipeline", "scripts"],
                        cwd=ROOT, capture_output=True, text=True)
-    holders = set(r.stdout.split()) - {"scripts/rya1112_vis_fe_uncertainty_audit.py"}
+    holders = set(r.stdout.split()) - {"scripts/rya1112_vis_fe_uncertainty_audit.py",
+                                       "scripts/rya1113_uv_fe_uncertainty_audit.py"}
     # only AUDIT scripts hold the constant — never the product path
     assert sorted(holders) == ["scripts/rya1089_stamp_honest_delta_xi.py",
                                "scripts/rya1093_xi_robustness_audit.py"], holders
