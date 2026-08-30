@@ -96,6 +96,25 @@ def _upper_j(level: str) -> float:
     return float(n) / float(d or 1)
 
 
+#: 🔴 ARTIFACTS MUST NOT CARRY RAW FLOAT REPR — RYA-1084's lesson, applied at the write.
+#: `loggf_adopted` and the Vujnovic derived columns come out of `math.log10`, and a
+#: transcendental differs by ONE ULP between numpy builds. Written unrounded at full
+#: 17-digit repr, that ULP becomes a visible byte change, so the reproducibility test
+#: compared bit-exact floats across environments and failed on CI (numpy 2.5.1) against
+#: artifacts committed from the Mac (numpy 2.2.6) -- 14 lines of 506, max drift 8.9e-16,
+#: no value, row, column or ordering actually different.
+#:
+#: 10 decimals is five orders of magnitude coarser than the drift and far finer than
+#: anything physical here (gf uncertainties run 0.01-0.1 dex), so it removes the noise
+#: without touching a single meaningful digit.
+FLOAT_DECIMALS = 10
+
+
+def _stable(df: "pd.DataFrame") -> "pd.DataFrame":
+    """The frame as written: float columns rounded so the bytes are portable."""
+    return df.round(FLOAT_DECIMALS)
+
+
 def load_vujnovic() -> pd.DataFrame:
     """Parse all four CDS J/A+A/388/704 fixed-width source tables."""
     rows: list[dict] = []
@@ -188,8 +207,8 @@ def ingest_new_lab_sources(m: pd.DataFrame, out: Path) -> pd.DataFrame:
         "stored conservatively as the published 90%-confidence logarithmic bound. "
         "Träbert 1999/NIST remains the higher-precision comparison.")
 
-    vuj.to_csv(out / "vujnovic2002_normalized.csv", index=False)
-    pd.DataFrame(cross_rows).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
+    _stable(vuj).to_csv(out / "vujnovic2002_normalized.csv", index=False)
+    _stable(pd.DataFrame(cross_rows)).to_csv(out / "vujnovic2002_crossmatch.csv", index=False)
     return m
 
 
@@ -305,7 +324,7 @@ def build(out: Path = OUT) -> dict:
     if m.canonical_line_id.duplicated().any():
         raise AssertionError("manifest IDs must be unique")
     m = ingest_new_lab_sources(m, out)
-    m.to_csv(out / "al_line_manifest.csv", index=False)
+    _stable(m).to_csv(out / "al_line_manifest.csv", index=False)
 
     grade = m.groupby(["band","gf_source_type"]).size().unstack(fill_value=0).reset_index()
     grade.to_csv(out / "gf_grade_matrix.csv", index=False)
@@ -317,8 +336,8 @@ def build(out: Path = OUT) -> dict:
     special["rejection_problem_code"] = "BURHEIM_STRONG_COMPONENT_VS_CANONICAL_BLEND_TOTAL"
     special["notes"] = "Burheim +0.327 is the strong component; observed feature total is +0.354. Never substitute one for the other."
     conflicts = pd.concat([conflicts, special]).drop_duplicates("canonical_line_id", keep="last")
-    conflicts.to_csv(out / "conflict_ledger.csv", index=False)
-    m[m.rejection_problem_code.ne("")].to_csv(out / "problem_child_ledger.csv", index=False)
+    _stable(conflicts).to_csv(out / "conflict_ledger.csv", index=False)
+    _stable(m[m.rejection_problem_code.ne("")]).to_csv(out / "problem_child_ledger.csv", index=False)
 
     bib = pd.DataFrame([
         ["Burheim2023","Burheim, Hartman & Nilsson 2023, A&A 672 A197","10.1051/0004-6361/202245394","2023A&A...672A.197B","Table 3","PRIMARY_LAB_GF","https://www.aanda.org/articles/aa/full_html/2023/04/aa45394-22/aa45394-22.html","https://www.aanda.org/articles/aa/pdf/2023/04/aa45394-22.pdf"],
