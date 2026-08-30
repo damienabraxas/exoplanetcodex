@@ -1,0 +1,189 @@
+{
+  "ticket": "RYA-1133",
+  "read_only": "no value, line, gf or threshold changed (RYA-161); this reads the feed, canonical_gf, RYA-846's artifact and pipeline constants",
+  "breach": {
+    "Fe I 1D-LTE": {
+      "A_kurucz2005": 7.642,
+      "A_molecfit": 7.596,
+      "n_lines": 58,
+      "spread_dex": 0.046,
+      "half_spread_dex": 0.023,
+      "breaches_bound": false
+    },
+    "Fe I ENGINE-A": {
+      "A_kurucz2005": 7.651,
+      "A_molecfit": 7.606,
+      "n_lines": 58,
+      "spread_dex": 0.045,
+      "half_spread_dex": 0.0225,
+      "breaches_bound": false
+    },
+    "Fe II 1D-LTE": {
+      "A_kurucz2005": 7.957,
+      "A_molecfit": 7.697,
+      "n_lines": 12,
+      "spread_dex": 0.26,
+      "half_spread_dex": 0.13,
+      "breaches_bound": true
+    },
+    "Fe II ENGINE-A": {
+      "A_kurucz2005": 7.975,
+      "A_molecfit": 7.738,
+      "n_lines": 7,
+      "spread_dex": 0.237,
+      "half_spread_dex": 0.1185,
+      "breaches_bound": true
+    }
+  },
+  "Q1_is_846s_term_applied": {
+    "files_referencing_rya846": [
+      "scripts/rya846_nearuv_sigma_delta.py",
+      "scripts/rya846_nonlinear_responders.py"
+    ],
+    "its_own_audit_scripts": [
+      "scripts/rya846_nearuv_sigma_delta.py",
+      "scripts/rya846_nonlinear_responders.py"
+    ],
+    "product_path_consumers": [],
+    "verdict": "NOT APPLIED \u2014 RYA-846's measured term is read by nothing outside its own audit scripts",
+    "what_is_actually_charged": {
+      "site": [
+        "pipeline/error_budget.py",
+        "scripts/rya841_nearuv_continuum_sensitivity.py"
+      ],
+      "value_dex": 0.1,
+      "shape": "band-flat, unconditional wherever BandPolicy.continuum_treatment is pseudo \u2014 identical for both ions, both holdings, every window"
+    }
+  },
+  "Q2_does_846_cover_this_pair": {
+    "method": "difference between two INDEPENDENT reductions of the same band \u2014 Kitt Peak (Kurucz/Brault) vs Wallace+2011 (NSO). This is an empirical LOWER BOUND on sigma_delta: it measures reduction-to-reduction disagreement, not distance from an unobservable true continuum.",
+    "compared_pair": [
+      "1984 Kitt Peak atlas (Kurucz/Brault lm files)",
+      "Wallace+2011 (NSO)"
+    ],
+    "breach_pair": [
+      "Kurucz 2005 irradiance distribution",
+      "1984 Kitt Peak atlas (molecfit-corrected)"
+    ],
+    "kurucz2005_in_846s_comparison": false,
+    "assumed_term_dex": 0.1,
+    "cells_846_revised": [
+      "Fe I 1D-LTE",
+      "Fe I 1D-LTE-LABGF"
+    ],
+    "revised_any_Fe_II": false,
+    "candidate_terms_dex": {
+      "offset": 0.0582,
+      "MAD": 0.0526,
+      "std": 0.1192,
+      "net_at_product_lines": 0.071,
+      "raw_at_product_lines": 0.1254
+    },
+    "lever_dex_per_unit_delta": 2.54
+  },
+  "source_census": {
+    "near_UV_instruments": [
+      "kpno_solar_atlas"
+    ],
+    "near_UV_holdings": [
+      "solar_kpno_kurucz2005_corrected",
+      "solar_kpno_molecfit_corrected"
+    ],
+    "is_single_instrument": true,
+    "bands_per_instrument": {
+      "crires_plus": [
+        "NIR"
+      ],
+      "harps": [
+        "VIS"
+      ],
+      "iag_fts_solar_atlas": [
+        "NIR",
+        "VIS",
+        "red-optical"
+      ],
+      "kpno_solar_atlas": [
+        "NIR",
+        "VIS",
+        "near-UV",
+        "red-optical"
+      ]
+    },
+    "harps_reaches_near_UV": false,
+    "harps_blue_limit_A": 3780.0,
+    "why_harps_cannot_help": "HARPS is VIS-only BY DESIGN, not by omission: config/constants.py PIPELINE['wav_min_A'] = 3780.0, described there as the 'full HARPS optical range' \u2014 which is EXACTLY the near-UV/VIS boundary. The band is defined where HARPS stops, so no HARPS cross-check of this band can ever exist.",
+    "the_two_KP_sources": {
+      "solar_kpno_molecfit_corrected": "the 1984 KP atlas, ESO molecfit-corrected",
+      "solar_kpno_kurucz2005_corrected": "the Kurucz 2005 irradiance distribution"
+    },
+    "note": "all three spectra ever compared in this band \u2014 the 1984 KP atlas, the Kurucz 2005 irradiance product and RYA-846's Wallace+2011 NSO atlas \u2014 are Kitt Peak. KP is the ONLY instrument that reaches the band at all. So there is no independent observatory in band and the disagreement can be measured but never adjudicated: neither source can be shown to be the right one, which is what makes the observed spread a floor rather than an error estimate."
+  },
+  "pool_geometry": {
+    "Fe I": {
+      "n_LAB": 59,
+      "span_A": [
+        3026.06,
+        3779.42
+      ],
+      "median_A": 3506.6,
+      "p25_A": 3243.4,
+      "p75_A": 3621.0,
+      "frac_below_3300A": 0.373
+    },
+    "Fe II": {
+      "n_LAB": 12,
+      "span_A": [
+        3002.64,
+        3277.35
+      ],
+      "median_A": 3194.9,
+      "p25_A": 3185.8,
+      "p75_A": 3216.9,
+      "frac_below_3300A": 1.0
+    },
+    "contrast": "Fe II is a narrow clump ~300 A bluer than Fe I and lies ENTIRELY below 3300 A, where the flux is lowest and the blanketing heaviest. Fe I averages across the band. That is why the same two holdings disagree by 0.260 dex on Fe II and 0.046 on Fe I."
+  },
+  "continuum_locatability": {
+    "blue_edge_A": 4500.0,
+    "band_entirely_below_edge": true,
+    "probe_FeII_pool_window": {
+      "window_A": [
+        3000.0,
+        3280.0
+      ],
+      "value": "unknown",
+      "reason": "entirely below the CONTINUUM_LIMITED blue edge (4500 A): near-UV line blanketing leaves no true continuum in any window, so the envelope says nothing about normalisation here -- the known-normalised KP1984 atlas fails th"
+    },
+    "probe_FeI_span": {
+      "window_A": [
+        3026.0,
+        3780.0
+      ],
+      "value": "unknown",
+      "reason": "entirely below the CONTINUUM_LIMITED blue edge (4500 A): near-UV line blanketing leaves no true continuum in any window, so the envelope says nothing about normalisation here -- the known-normalised KP1984 atlas fails th"
+    },
+    "control_VIS_window": {
+      "window_A": [
+        5000.0,
+        5300.0
+      ],
+      "value": "normalised",
+      "reason": ""
+    },
+    "control_is_valid": true,
+    "refines_RYA1113_F4": "F4 read 'never probed in 3000-3780 A' as an oversight. It is not: the probe REFUSES there by construction. In this band 'is it normalised?' is unanswerable by the standard instrument \u2014 which is the vacuum the band-flat placeholder filled."
+  },
+  "verdict": {
+    "answer": "(b) \u2014 a distinct term is owed, with a (c) floor",
+    "why_not_a": "846's term is applied to NOTHING, so 'apply it' is available \u2014 but it would not fix this: it measures 1984KP-vs-Wallace, a different pair, and most of its variants are SMALLER than the 0.10 already charged, so applying it shrinks the bar.",
+    "why_b": "the Kurucz2005-vs-1984KP source-spectrum disagreement has never been measured by anyone. It is the direct analogue of what 846 did, for the pair that actually underlies these two holdings.",
+    "why_c_floor": "until that term exists, the honest floor is the OBSERVED holding spread \u2014 half-spread 0.13 dex on Fe II \u2014 and that is itself a LOWER bound: it is two realisations, not the space of them. Reporting it is report-and-note (RYA-777), not chasing the holdings together.",
+    "846_terms_at_or_above_the_observed_breach": "NONE \u2014 every RYA-846 candidate term is below the observed half-spread"
+  },
+  "owed_measurement": {
+    "what": "sigma_delta between the Kurucz 2005 irradiance distribution and the 1984 Kitt Peak atlas across 3000-3780 A, evaluated AT THE PRODUCT LINES, per ion \u2014 mirroring RYA-846's method for the correct pair",
+    "why_per_ion": "the two lab-gf pools sample different sub-bands (Fe II 100% below 3300 A, Fe I median 3506.6 A), so a band-flat number cannot serve both \u2014 which is the defect that produced this breach in the first place",
+    "caveat": "both spectra sit entirely below the CONTINUUM_LIMITED blue edge, so the result is a REDUCTION-DISAGREEMENT lower bound, never a distance from a true continuum \u2014 the same honesty RYA-846 attached to its own number",
+    "blocked_on": "Fe II near-UV ships no *_lines.csv (RYA-1113 F6), so the at-product-lines evaluation cannot be done for Fe II from the committed tree"
+  }
+}

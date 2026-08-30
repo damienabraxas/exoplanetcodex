@@ -125,6 +125,15 @@ class UnmeasuredTerm(ValueError):
     """
 
 
+class InapplicableTerm(ValueError):
+    """Asked for the numeric contribution of a term this product never had.
+
+    Distinct from `UnmeasuredTerm` on purpose. Unmeasured says "we owe you this number";
+    inapplicable says "there is no such number here". Collapsing them would either mark a
+    complete budget as a floor, or quietly promise a measurement nobody can ever make.
+    """
+
+
 class UnpublishableStat(ValueError):
     """A statistical uncertainty that must not reach an artifact."""
 
@@ -133,20 +142,46 @@ class UnpublishableStat(ValueError):
 class Term:
     """One contribution to the budget, and how it behaves under more lines.
 
-    `dex is None` means NOT MEASURABLE FROM THIS PRODUCT. It is a third state, distinct
-    from both a measured value and a measured zero, and `contribution()` refuses to
-    collapse it into either.
+    FOUR STATES, and the whole point of this class is that they never collapse:
+
+      MEASURED         dex is a number -- including a measured 0.0, which ASSERTS the
+                       quantity was determined and found negligible.
+      UNMEASURED       dex is None, applicable is True. The budget HAS this term and
+                       could not determine it, so `sigma_syst` is a FLOOR, not a total.
+      NOT APPLICABLE   dex is None, applicable is False. The quantity does not exist
+                       for this product, so the budget is COMPLETE without it.
+      (and a measured zero is none of the above three -- see MEASURED.)
+
+    🔴 UNMEASURED AND NOT APPLICABLE MUST NOT LOOK ALIKE (RYA-1120). One is a hole that
+    makes the published bar a floor; the other is a term the product never had to earn.
+    Reporting an inapplicable term as unmeasured would mark every full-3D product's
+    budget as incomplete forever; reporting it as a measured 0.0 would claim somebody
+    determined it. `applicable=False` requires `dex is None` and a `source` that says
+    WHY it does not apply -- never a bare token or an engine name.
     """
     name: str
     dex: float | None
     averages_down: bool     # True => random, scales as 1/sqrt(N); False => systematic floor
     source: str             # where the number comes from -- never "assumed"
+    applicable: bool = True
+
+    def __post_init__(self):
+        if not self.applicable and self.dex is not None:
+            raise ValueError(
+                f"{self.name}: a NOT APPLICABLE term cannot also carry a value "
+                f"({self.dex!r}). If the quantity exists for this product it is "
+                f"applicable; if it does not, it has no size.")
 
     @property
     def measured(self) -> bool:
         return self.dex is not None
 
     def contribution(self, n_lines: int) -> float:
+        if not self.applicable:
+            raise InapplicableTerm(
+                f"{self.name}: this term is NOT APPLICABLE to this product "
+                f"({self.source}). It has no numeric contribution and is not a gap -- "
+                f"the budget is complete without it.")
         if self.dex is None:
             raise UnmeasuredTerm(
                 f"{self.name}: this term was NOT MEASURED for this product ({self.source}). "
@@ -178,8 +213,21 @@ class ErrorBudget:
 
     # ── the two halves, kept apart on purpose ────────────────────────────────
     def unmeasured_terms(self) -> list[Term]:
-        """Terms this product could not determine. Never silently worth zero."""
-        return [t for t in self.terms if not t.measured]
+        """Terms this product HAS and could not determine. Never silently worth zero.
+
+        Inapplicable terms are deliberately NOT here: a term the product never had is
+        not a gap in its budget, and counting it as one would make every full-3D
+        product's `sigma_syst` read as a floor forever (RYA-1120).
+        """
+        return [t for t in self.terms if not t.measured and t.applicable]
+
+    def inapplicable_terms(self) -> list[Term]:
+        """Terms that do not exist for this product, recorded rather than omitted.
+
+        Omitting them would be indistinguishable from never having considered them,
+        which is how `is_3d(treatment)` came to stand in for a physics question.
+        """
+        return [t for t in self.terms if not t.applicable]
 
     def measured_statistical(self) -> float | None:
         """The RMS of the random terms that WERE measured — None if none were.
@@ -272,6 +320,11 @@ class ErrorBudget:
         for t in self.unmeasured_terms():
             kind = "random" if t.averages_down else "SYSTEMATIC"
             lines.append(f"    UNMEASURED  {t.name:<24s} [{kind}] {t.source}")
+        # NOT APPLICABLE is printed too, and printed DIFFERENTLY. A reader must be able
+        # to tell "this bar is a floor" from "this bar is complete" at a glance.
+        for t in self.inapplicable_terms():
+            kind = "random" if t.averages_down else "SYSTEMATIC"
+            lines.append(f"    n/a         {t.name:<24s} [{kind}] {t.source}")
         d = self.dominant()
         if d is not None:
             lines.append(f"  dominant: {d.name} -- "
@@ -362,6 +415,52 @@ def zero_point_term(zero_point_dex: float, *, n_anchor: int) -> Term:
                 f"sigma/sqrt(n) over {n_anchor} laboratory-graded anchor lines; the absolute "
                 f"scale rests on these alone and admitting ungraded lines cannot improve it "
                 f"(RYA-968)")
+
+
+# ── THE STELLAR-PARAMETER TERM — RYA-1120 / RYA-282 §2 ───────────────────────
+#
+# 🔴 THE DEFECT THIS CLOSES. Until now this module named line scatter, gf scale, harness
+# residual, pseudo-continuum and telluric residual — and NOTHING about the star. Every
+# published `sigma_syst` therefore carried no Teff, no log g and no microturbulence term,
+# while `pipeline/uncertainty_stack.py` derived exactly those and wrote them to
+# the RYA-158 solar stellar-parameter artifact under `data/audit/uncertainty/`.
+# Two budgets, no join: a `git grep` for that artifact returned only its own two
+# stamping scripts. (Deliberately not spelling its filename here: the RYA-1112 test that
+# detects the join is a git grep for that token, and a mention is not a read.) RYA-282 §2
+# made the term MANDATORY in 2026-06; it never travelled to a product.
+#
+# 🔴 AND IT IS NOT ONE NUMBER FOR THE ELEMENT. RYA-1093 measured xi-sensitivity as a
+# STRONG-LINE phenomenon, so dA/dxi is a property of the LINE SET, not of Fe: a
+# DEEPGRADED pool (depth > 0.60, saturated by construction) and a GRADED pool
+# (depth <= 0.60) do not share one. RYA-1089's -0.24 dex/(km/s) was measured on ONE
+# 62-line pool and is a reference MAGNITUDE for the size of the hole, never a per-product
+# value. So this takes a response measured on THE PRODUCT'S OWN LINES (RYA-282 §2:
+# "perturb ... individually by the uncertainties" and RE-DERIVE), or nothing.
+#
+# 🔴 APPLICABILITY IS A MEASUREMENT, NOT A NAME. The first cut of the audit decided this
+# with `is_3d(treatment) = "3D" in treatment`, which swept the <3D> MEAN products in with
+# full 3D. RYA-1099 had already refuted that for the mean route by measurement (xi=0 made
+# it 0.137 dex WORSE), and the Amarsi full-3D correction turns out to take `vmic` as an
+# explicit MLP input axis. A physics property must never be reachable from an engine
+# string (RYA-1092), so `applicable` is passed in by the caller that measured it.
+
+def stellar_param_term(sigma_dex: float | None, *, source: str,
+                       applicable: bool = True) -> Term:
+    """The star's parameter systematics, as one already-combined systematic term.
+
+    `sigma_dex` is sqrt(sum_p (|dA/dp| * delta_p)^2) over p in {Teff, logg, vmic, [Fe/H]}
+    — RYA-282 §3's sigma_params — measured on this product's own pool. Pass None to
+    declare it UNMEASURED (the bar is then honestly a floor); pass `applicable=False`
+    with None to declare it NOT APPLICABLE.
+
+    It does not average down: perturbing Teff moves every line the same way, so more
+    lines cannot reduce it. That is the whole reason it must be published — a
+    sigma/sqrt(N) that shrinks forever while this sits underneath it is the misleading
+    number RYA-282 was written to retire.
+    """
+    if sigma_dex is not None and sigma_dex < 0:
+        raise ValueError(f"stellar-parameter sigma must be >= 0, got {sigma_dex!r}")
+    return Term("stellar parameters", sigma_dex, False, source, applicable)
 
 
 def gf_term(*, graded: bool) -> Term:
@@ -457,7 +556,10 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
           scatter_dex: float | None, gf_graded: bool, harness_residual_dex: float,
           handler: str, harness_provenance: str = "",
           cited_gf_sigma_dex: float | None = None,
-          cited_gf_source: str = "") -> ErrorBudget:
+          cited_gf_source: str = "",
+          stellar_param_sigma_dex: float | None = None,
+          stellar_param_source: str = "",
+          stellar_param_applicable: bool = True) -> ErrorBudget:
     """Assemble the budget for a band, adding the terms that band actually has.
 
     `cited_gf_sigma_dex` supplies the pool's own published per-line gf uncertainty and
@@ -481,6 +583,18 @@ def build(element: str, wavelength_A: float, n_lines: int, *,
     else:
         b.add(gf_term(graded=gf_graded))
     b.add(harness_term(harness_residual_dex, handler, harness_provenance))
+
+    # RYA-1120 / RYA-282 §2 — ALWAYS ADDED, in one of its three declared states. A
+    # caller that measured nothing gets an UNMEASURED term rather than a silent absence,
+    # because "the budget does not have this term" and "the budget could not measure it"
+    # are different claims and only the second one is true here.
+    b.add(stellar_param_term(
+        stellar_param_sigma_dex,
+        source=(stellar_param_source or
+                "NOT MEASURED for this product: no perturb-and-re-derive has been run "
+                "on this pool (RYA-282 §2). dA/dp is a property of the LINE SET "
+                "(RYA-1093), so no element-level number may stand in for it."),
+        applicable=stellar_param_applicable))
 
     if "pseudo" in pol.continuum_treatment.lower():
         # The size is set by how far the reachable envelope sits below unity: near-UV

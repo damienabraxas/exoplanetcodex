@@ -74,9 +74,18 @@ def test_the_budget_converts_percent_flux_into_dex_one_to_one():
     in the same commit as the number."""
     src = (ROOT / "pipeline" / "error_budget.py").read_text()
     assert "uncertain at the" in src and "10% level" in src
-    assert "dA/" not in src, (
-        "error_budget.py now mentions a derivative — if the conversion was made explicit, "
-        "update this test and the 0.10 together")
+
+    # ⚠️ SCOPED TO THE PSEUDO-CONTINUUM TERM (RYA-1120). This used to grep the WHOLE
+    # module for "dA/", which was fine while nothing else in it was a derivative. The
+    # stellar-parameter term added by RYA-1120 genuinely IS one (dA/dTeff, dA/dxi) and
+    # says so, so the file-wide grep started reporting an unrelated term as if the
+    # pseudo-continuum conversion had been made explicit. The claim being pinned is
+    # about THIS term's justification, so the check now reads THIS term's source string.
+    pseudo = src[src.index('Term("pseudo-continuum"'):]
+    pseudo = pseudo[:pseudo.index('))')]
+    assert "dA/" not in pseudo, (
+        "the pseudo-continuum term now cites a derivative — if the percent-flux -> dex "
+        "conversion was made explicit, update this test and the 0.10 together")
 
 
 # ── the selector does not do what its name suggests ───────────────────────────

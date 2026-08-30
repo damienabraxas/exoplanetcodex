@@ -92,6 +92,36 @@ def _guard_environment() -> None:
         raise SystemExit(f"iSpec not importable even with {ISPEC_SRC} on sys.path: {e}")
 
 
+#: RYA-1120 — the xi PERTURBATION HOOK for the RYA-282 §2 campaign.
+#:
+#: sigma_params needs dA/dxi measured on EACH PRODUCT'S OWN POOL, which means running the
+#: same pool at xi +/- a step and differencing. There was no way to do that: `xi` comes
+#: from stars.yaml via `get_star_params`, and the ATMOSPHERE is loaded with it, so an
+#: override applied after the context is built would be inert — the number would move
+#: nothing and the campaign would silently measure dA/dxi = 0 for every product.
+#:
+#: So the override is honoured HERE, before the atmosphere load, and it is LOUD. It
+#: mirrors `abundances_derive.run(xi_override=...)`, the ratified RYA-322 pattern, rather
+#: than inventing a second convention.
+#:
+#: ⚠️ RYA-1099 lost a product to exactly this kind of run: xi is NOT in the artifact stem,
+#: so two perturbed runs write the same filename and the second silently overwrites the
+#: first. Anything driving this must give each xi its own output directory.
+def _xi_override():
+    """The campaign's xi, or None. Env-scoped so no production call site changes."""
+    import os
+    raw = os.environ.get("CODEX_XI_OVERRIDE")
+    if raw is None or str(raw).strip() == "":
+        return None
+    try:
+        return float(raw)
+    except ValueError:
+        raise SystemExit(
+            f"CODEX_XI_OVERRIDE={raw!r} is not a number. A perturbation that cannot be "
+            "parsed must stop the run, not fall back to the nominal xi — that would "
+            "produce a product labelled as perturbed and measured at the default.")
+
+
 def build_context(element: str, ion: str, resolving_power: float,
                   star: str = "solar") -> dict:
     """Assemble the synth context from the pipeline's own loaders — never invented."""
@@ -124,6 +154,11 @@ def build_context(element: str, ion: str, resolving_power: float,
             f"55 Cnc A carries `xi_init`/`xi_xcheck` because it SOLVES xi (RYA-957); a "
             f"solved parameter is not a config constant.")
     vturb = float(p["xi"])
+    _xi = _xi_override()
+    if _xi is not None:
+        print(f"  \u26a0\ufe0f  xi OVERRIDE (RYA-1120 campaign): {vturb:.4f} -> {_xi:.4f} km/s"
+              f"  \u2014 the atmosphere below is loaded with the OVERRIDE")
+        vturb = _xi
     feh = float(p.get("feh", p.get("feh_ref", 0.0)))
 
     # Broadening from the project's own resolver -- never invented, never fitted here.
