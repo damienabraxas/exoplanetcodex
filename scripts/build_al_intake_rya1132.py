@@ -22,6 +22,20 @@ BURHEIM = ROOT / "data/reference/al_gf_lab/al1_lab_loggf.csv"
 IGRINS = ROOT / "data/literature/igrins_nandakumar_2024/igrins_al_completeness_audit.csv"
 CHIAPPINO = ROOT / "data/audit/rya1059_chiappino/al_completeness_delta.csv"
 
+WEB_FOLLOWUP = [
+    # species, wavelength, source, DOI, evidence, uncertainty, disposition, note
+    ("Al I", 2652.484, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
+    ("Al I", 2660.393, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 11%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
+    ("Al I", 3082.153, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured branching/intensity ratio; absolute Aki from lifetime."),
+    ("Al I", 3092.710, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 2%", "PHYSICAL_CROSSMATCH_REQUIRED", "The 3092.710/3092.839 pair must be level-resolved, never proximity-selected."),
+    ("Al I", 3092.839, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki not independently stated", "PHYSICAL_CROSSMATCH_REQUIRED", "Intensity-ratio component; do not inherit the 3092.710 uncertainty."),
+    ("Al II", 2669.157, "Johnson, Smith & Parkinson 1986", "10.1086/164569", "PRIMARY_LAB", "Aki=(3.33+/-0.23)e3 s-1 at 90% confidence", "PHYSICAL_CROSSMATCH_REQUIRED", "Direct time-resolved ion-storage lifetime measurement; one decay channel."),
+    ("Al II", 1670.78861, "Murphy & Berengut 2014 / Griesmann & Kling 2000", "10.1093/mnras/stt2120", "MIXED", "wavelength 20 m/s; f=theory", "WAVELENGTH_ONLY_NOT_GF_LAB", "Excellent laboratory wavelength, but quoted oscillator strength is theoretical."),
+    ("Al I;Al II", np.nan, "Kelleher & Podobedova 2008 NIST critical compilation", "10.1063/1.2734564", "CRITICALLY_EVALUATED", "per-line accuracy grade", "INGEST_EVALUATED_TIER_SEPARATELY", "Reference values only; evaluated is not Codex/Deep primary-lab grade under RYA-946."),
+    ("Al I;Al II", np.nan, "Vujnovic et al. 2002 CDS J/A+A/388/704", "10.1051/0004-6361:20020554", "SOURCE_TABLE", "29 Al I + 31 Al II absolute-probability rows", "ACQUIRE_AND_NORMALIZE", "Machine-readable tables 2-5; preserve limits and lifetime provenance."),
+    ("Al I", np.nan, "IR literature follow-up", "", "NEGATIVE_RESULT", "", "NO_NEW_GRADING_SOURCE", "Buurman 1986, Davidson 1990, and Buurman & Donszelmann 1990 are already represented through Burheim/NIST; no new source found for held 11254.9, 7835/7836, 8772/8773, or 21208 A."),
+]
+
 
 def text(v: object) -> str:
     return "" if pd.isna(v) else str(v).strip()
@@ -186,20 +200,33 @@ def build(out: Path = OUT) -> dict:
     m[m.rejection_problem_code.ne("")].to_csv(out / "problem_child_ledger.csv", index=False)
 
     bib = pd.DataFrame([
-        ["Burheim2023","Burheim, Hartman & Nilsson 2023, A&A 672 A197","10.1051/0004-6361/202245394","2023A&A...672A.197B","Table 3","PRIMARY_LAB_GF"],
-        ["NIST_ASD","Kramida et al., NIST Atomic Spectra Database","","NIST_ASD","Al transition export","CRITICALLY_EVALUATED"],
-        ["Nandakumar2024","Nandakumar et al. 2024 IGRINS abundance lines","10.3847/1538-4357/ad4451","2024ApJ...964...96N","CDS A15","EMPIRICAL_MEMBERSHIP_ONLY"],
-        ["Chiappino2026","Chiappino et al. 2026 CRIRES+ J/H/K line set","10.3847/1538-4357/ae7de8","2026ApJ...","publisher tables","EMPIRICAL_MEMBERSHIP_ONLY"],
-        ["RYA1001","Codex Al Phase-0 VALD/manual physical-feature census","","","rya1001_al_line_census.csv","CANDIDATE_DENOMINATOR"],
-    ], columns=["source_id","citation","doi","ads_bibcode","table_catalog","role"])
+        ["Burheim2023","Burheim, Hartman & Nilsson 2023, A&A 672 A197","10.1051/0004-6361/202245394","2023A&A...672A.197B","Table 3","PRIMARY_LAB_GF","https://www.aanda.org/articles/aa/full_html/2023/04/aa45394-22/aa45394-22.html","https://www.aanda.org/articles/aa/pdf/2023/04/aa45394-22.pdf"],
+        ["Vujnovic2002","Vujnovic et al. 2002, A&A 388, 704-711","10.1051/0004-6361:20020554","2002A&A...388..704V","CDS J/A+A/388/704 tables 2-5","PRIMARY_LAB_COMPOSITE","https://www.aanda.org/articles/aa/abs/2002/23/aa7151/aa7151.html","https://www.aanda.org/articles/aa/pdf/2002/23/aa7151.pdf"],
+        ["Trabert1999","Trabert et al. 1999, J. Phys. B 32, 537-552","10.1088/0953-4075/32/2/031","1999JPhB...32..537T","Al II 2669 intercombination lifetime","PRIMARY_LAB_GF","https://doi.org/10.1088/0953-4075/32/2/031",""],
+        ["Johnson1986","Johnson, Smith & Parkinson 1986, ApJ 308, 1013","10.1086/164569","1986ApJ...308.1013J","Al II 2669 direct measurement","PRIMARY_LAB_GF","https://ntrs.nasa.gov/citations/19870032227","https://adsabs.harvard.edu/pdf/1986ApJ...308.1013J"],
+        ["KelleherPodobedova2008","Kelleher & Podobedova 2008, J. Phys. Chem. Ref. Data 37, 709","10.1063/1.2734564","2008JPCRD..37..709K","Al I-Al XII compilation","CRITICALLY_EVALUATED","https://www.nist.gov/publications/atomic-transition-probabilities-aluminuma-critical-compilation","https://www.nist.gov/system/files/documents/srd/jpcrd372008911p.pdf"],
+        ["Papoulia2019","Papoulia, Ekman & Jonsson 2019, A&A 621, A16","10.1051/0004-6361/201833764","2019A&A...621A..16P","CDS calculated transition tables","THEORETICAL_COMPARATOR","https://www.aanda.org/articles/aa/full_html/2019/01/aa33764-18/aa33764-18.html","https://arxiv.org/pdf/1808.09478"],
+        ["GriesmannKling2000","Griesmann & Kling 2000, ApJ 536, L113-L115","10.1086/312738","2000ApJ...536L.113G","Al II 1670 laboratory wavelength","WAVELENGTH_ONLY_NOT_GF_LAB","https://www.nist.gov/publications/interferometric-measurement-resonance-transition-wavelengths-civ-siiv-aliii-al-ii-and","https://arxiv.org/pdf/astro-ph/0004190"],
+        ["RoedererLawler2021","Roederer & Lawler 2021, ApJ 912, 119","10.3847/1538-4357/abf142","2021ApJ...912..119R","Al II 2669 stellar use and source chain","EMPIRICAL_AND_PROVENANCE_GUIDE","https://iopscience.iop.org/article/10.3847/1538-4357/abf142","https://arxiv.org/pdf/2103.12764"],
+        ["Lind2022","Lind et al. 2022, A&A 665, A33","10.1051/0004-6361/202142195","2022A&A...665A..33L","Al line list and non-LTE context","MODELING_CONTEXT","https://www.aanda.org/articles/aa/full_html/2022/09/aa42195-21/aa42195-21.html","https://openresearch-repository.anu.edu.au/bitstreams/f1d056b4-19fb-466d-9ae7-b800f7b408fd/download"],
+        ["JonssonLundberg1983","Jonsson & Lundberg 1983, Z. Phys. A 313, 151-154","10.1007/BF01417221","","Al I 2S and 2D lifetime sequences","PRIMARY_LAB_LIFETIME_PROVENANCE","https://portal.research.lu.se/en/publications/natural-radiative-lifetimes-in-the-2s12-and-2d5232-sequences-of-a/",""],
+        ["Davidson1990","Davidson, Volten & Donszelmann 1990, A&A 238, 452-454","","1990A&A...238..452D","Al I nd 2D lifetimes and oscillator strengths","PRIMARY_LAB_PROVENANCE_ALREADY_PROPAGATED","https://www.researchgate.net/publication/234442756_Lifetimes_and_oscillator_strengths_of_the_3s2nd_2D_series_in_neutral_aluminum",""],
+        ["NIST_ASD","Kramida et al., NIST Atomic Spectra Database","","NIST_ASD","Al transition export","CRITICALLY_EVALUATED","https://physics.nist.gov/asd",""],
+        ["Nandakumar2024","Nandakumar et al. 2024 IGRINS abundance lines","10.3847/1538-4357/ad4451","2024ApJ...964...96N","CDS A15","EMPIRICAL_MEMBERSHIP_ONLY","https://doi.org/10.3847/1538-4357/ad4451",""],
+        ["Chiappino2026","Chiappino et al. 2026 CRIRES+ J/H/K line set","10.3847/1538-4357/ae7de8","2026ApJ...","publisher tables","EMPIRICAL_MEMBERSHIP_ONLY","https://doi.org/10.3847/1538-4357/ae7de8",""],
+        ["RYA1001","Codex Al Phase-0 VALD/manual physical-feature census","","","rya1001_al_line_census.csv","CANDIDATE_DENOMINATOR","",""] ,
+    ], columns=["source_id","citation","doi","ads_bibcode","table_catalog","role","article_url","download_url"])
     bib.to_csv(out / "source_bibliography.csv", index=False)
 
+    follow = pd.DataFrame(WEB_FOLLOWUP, columns=["species","wavelength_A","source","doi","evidence_class","published_uncertainty","disposition","note"])
+    follow.to_csv(out / "web_source_followup.csv", index=False)
+
     verdicts = {
-        "UV":"BLOCKED_ATOMIC_DATA", "VIS":"FROZEN_WITH_DOCUMENTED_FALLBACKS",
+        "UV":"CROSSMATCH_REVIEW", "VIS":"FROZEN_WITH_DOCUMENTED_FALLBACKS",
         "IR":"BLOCKED_PIPELINE_COVERAGE", "overall":"BLOCKED_PIPELINE_COVERAGE",
         "measurement_unblocked":False,
         "reasons":{
-            "UV":"No primary-lab Al I/II gf in the canonical UV inventory; FUV/NUV also lack a declared band policy.",
+            "UV":"Web follow-up found Vujnovic 2002 laboratory transition probabilities and the direct Johnson 1986 Al II 2669 measurement; tables require physical crossmatch, uncertainty normalization, and ingestion. FUV/NUV still lack a declared band policy.",
             "VIS":"Physical identities and adopted sources are explicit; primary-lab Burheim lines remain distinct from fallbacks.",
             "IR":"RYA-1003 telluric verification and RYA-1004 red-edge/context coverage remain open; wavelength-only empirical candidates stay HOLD.",
         }}
@@ -220,8 +247,10 @@ or Solar abundance was changed.
 
 ## Verdict
 
-- UV: `BLOCKED_ATOMIC_DATA` - the canonical UV Al inventory has no primary-lab
-  gf, and FUV/NUV have no declared measurement policy.
+- UV: `CROSSMATCH_REVIEW` - Vujnovic et al. 2002 and Johnson et al. 1986 provide
+  missed laboratory evidence for several manifest lines. Their tables still need
+  level-resolved crossmatching and uncertainty normalization; FUV/NUV also lack
+  a declared measurement policy.
 - VIS: `FROZEN_WITH_DOCUMENTED_FALLBACKS` - physical identities and evidence
   ceilings are explicit; Burheim laboratory lines are not blurred with fallback gf.
 - IR: `BLOCKED_PIPELINE_COVERAGE` - RYA-1003 telluric verification and RYA-1004
@@ -233,6 +262,11 @@ The 6696.015 Burheim transition remains physically distinct from 6696.185. The
 `log gf=+0.327` from the observed blended-feature total near `+0.354`. IGRINS and
 CRIRES+ wavelength-only evidence remains HOLD unless wavelength plus EP/levels
 establish a unique physical transition.
+
+The web follow-up found no new independent IR source beyond the older Buurman,
+Davidson, and Buurman-Donszelmann measurements already propagated through
+Burheim/NIST. In particular it did not resolve 11254.9, 7835/7836, 8772/8773,
+or the 21208 A IGRINS candidate. See `web_source_followup.csv`.
 
 ## Reproduce
 
@@ -252,10 +286,10 @@ establish a unique physical transition.
             f"FALLBACK={int((m.gf_source_type=='FALLBACK').sum())}")
         ledger.loc[mask, "canonical_gf_status"] = f"{len(m)} Al I/II physical candidates frozen in RYA-1132 manifest"
         ledger.loc[mask, "HFS_status"] = "COMPONENT SUMS PRESERVED; 11254.9 COMPONENT/BLEND CONFLICT EXPLICIT"
-        ledger.loc[mask, "band_coverage_status"] = "UV BLOCKED_ATOMIC_DATA; VIS FROZEN_WITH_DOCUMENTED_FALLBACKS; IR BLOCKED_PIPELINE_COVERAGE"
+        ledger.loc[mask, "band_coverage_status"] = "UV CROSSMATCH_REVIEW; VIS FROZEN_WITH_DOCUMENTED_FALLBACKS; IR BLOCKED_PIPELINE_COVERAGE"
         ledger.loc[mask, "source_ticket"] = "RYA-1132"
         ledger.loc[mask, "last_verified"] = "2026-08-30"
-        ledger.loc[mask, "notes"] = "No abundance generated; measurement gate remains closed on UV atomic data and IR pipeline coverage."
+        ledger.loc[mask, "notes"] = "Web follow-up found UV laboratory candidates (Vujnovic 2002; Johnson 1986); physical crossmatch/ingest owed. No new IR source found. No abundance generated."
         ledger.to_csv(ledger_path, index=False)
     return summary
 
