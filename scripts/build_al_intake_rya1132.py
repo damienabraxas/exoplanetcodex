@@ -24,15 +24,15 @@ CHIAPPINO = ROOT / "data/audit/rya1059_chiappino/al_completeness_delta.csv"
 
 WEB_FOLLOWUP = [
     # species, wavelength, source, DOI, evidence, uncertainty, disposition, note
-    ("Al I", 2652.484, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
-    ("Al I", 2660.393, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 11%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
-    ("Al I", 3082.153, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured branching/intensity ratio; absolute Aki from lifetime."),
-    ("Al I", 3092.710, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki 2%", "PHYSICAL_CROSSMATCH_REQUIRED", "The 3092.710/3092.839 pair must be level-resolved, never proximity-selected."),
-    ("Al I", 3092.839, "Vujnovic et al. 2002", "10.1051/0004-6361:20020554", "PRIMARY_LAB_COMPOSITE", "Aki not independently stated", "PHYSICAL_CROSSMATCH_REQUIRED", "Intensity-ratio component; do not inherit the 3092.710 uncertainty."),
+    ("Al I", 2652.484, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
+    ("Al I", 2660.393, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 11%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured intensity ratio; absolute Aki from selected published lifetime."),
+    ("Al I", 3082.153, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 12%", "PHYSICAL_CROSSMATCH_REQUIRED", "Measured branching/intensity ratio; absolute Aki from lifetime."),
+    ("Al I", 3092.710, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki 2%", "PHYSICAL_CROSSMATCH_REQUIRED", "The 3092.710/3092.839 pair must be level-resolved, never proximity-selected."),
+    ("Al I", 3092.839, "Vujnovic et al. 2002", "10.1051/0004-6361:20020560", "PRIMARY_LAB_COMPOSITE", "Aki not independently stated", "PHYSICAL_CROSSMATCH_REQUIRED", "Intensity-ratio component; do not inherit the 3092.710 uncertainty."),
     ("Al II", 2669.157, "Johnson, Smith & Parkinson 1986", "10.1086/164569", "PRIMARY_LAB", "Aki=(3.33+/-0.23)e3 s-1 at 90% confidence", "PHYSICAL_CROSSMATCH_REQUIRED", "Direct time-resolved ion-storage lifetime measurement; one decay channel."),
     ("Al II", 1670.78861, "Murphy & Berengut 2014 / Griesmann & Kling 2000", "10.1093/mnras/stt2120", "MIXED", "wavelength 20 m/s; f=theory", "WAVELENGTH_ONLY_NOT_GF_LAB", "Excellent laboratory wavelength, but quoted oscillator strength is theoretical."),
     ("Al I;Al II", np.nan, "Kelleher & Podobedova 2008 NIST critical compilation", "10.1063/1.2734564", "CRITICALLY_EVALUATED", "per-line accuracy grade", "INGEST_EVALUATED_TIER_SEPARATELY", "Reference values only; evaluated is not Codex/Deep primary-lab grade under RYA-946."),
-    ("Al I;Al II", np.nan, "Vujnovic et al. 2002 CDS J/A+A/388/704", "10.1051/0004-6361:20020554", "SOURCE_TABLE", "29 Al I + 31 Al II absolute-probability rows", "ACQUIRE_AND_NORMALIZE", "Machine-readable tables 2-5; preserve limits and lifetime provenance."),
+    ("Al I;Al II", np.nan, "Vujnovic et al. 2002 CDS J/A+A/388/704", "10.1051/0004-6361:20020560", "SOURCE_TABLE", "29 Al I + 31 Al II absolute-probability rows", "ACQUIRE_AND_NORMALIZE", "Machine-readable tables 2-5; preserve limits and lifetime provenance."),
     ("Al I", np.nan, "IR literature follow-up", "", "NEGATIVE_RESULT", "", "NO_NEW_GRADING_SOURCE", "Buurman 1986, Davidson 1990, and Buurman & Donszelmann 1990 are already represented through Burheim/NIST; no new source found for held 11254.9, 7835/7836, 8772/8773, or 21208 A."),
 ]
 
@@ -201,7 +201,7 @@ def build(out: Path = OUT) -> dict:
 
     bib = pd.DataFrame([
         ["Burheim2023","Burheim, Hartman & Nilsson 2023, A&A 672 A197","10.1051/0004-6361/202245394","2023A&A...672A.197B","Table 3","PRIMARY_LAB_GF","https://www.aanda.org/articles/aa/full_html/2023/04/aa45394-22/aa45394-22.html","https://www.aanda.org/articles/aa/pdf/2023/04/aa45394-22.pdf"],
-        ["Vujnovic2002","Vujnovic et al. 2002, A&A 388, 704-711","10.1051/0004-6361:20020554","2002A&A...388..704V","CDS J/A+A/388/704 tables 2-5","PRIMARY_LAB_COMPOSITE","https://www.aanda.org/articles/aa/abs/2002/23/aa7151/aa7151.html","https://www.aanda.org/articles/aa/pdf/2002/23/aa7151.pdf"],
+        ["Vujnovic2002","Vujnovic et al. 2002, A&A 388, 704-711","10.1051/0004-6361:20020560","2002A&A...388..704V","CDS J/A+A/388/704 tables 2-5","PRIMARY_LAB_COMPOSITE","https://www.aanda.org/articles/aa/abs/2002/23/aa7151/aa7151.html","https://www.aanda.org/articles/aa/pdf/2002/23/aa7151.pdf"],
         ["Trabert1999","Trabert et al. 1999, J. Phys. B 32, 537-552","10.1088/0953-4075/32/2/031","1999JPhB...32..537T","Al II 2669 intercombination lifetime","PRIMARY_LAB_GF","https://doi.org/10.1088/0953-4075/32/2/031",""],
         ["Johnson1986","Johnson, Smith & Parkinson 1986, ApJ 308, 1013","10.1086/164569","1986ApJ...308.1013J","Al II 2669 direct measurement","PRIMARY_LAB_GF","https://ntrs.nasa.gov/citations/19870032227","https://adsabs.harvard.edu/pdf/1986ApJ...308.1013J"],
         ["KelleherPodobedova2008","Kelleher & Podobedova 2008, J. Phys. Chem. Ref. Data 37, 709","10.1063/1.2734564","2008JPCRD..37..709K","Al I-Al XII compilation","CRITICALLY_EVALUATED","https://www.nist.gov/publications/atomic-transition-probabilities-aluminuma-critical-compilation","https://www.nist.gov/system/files/documents/srd/jpcrd372008911p.pdf"],
