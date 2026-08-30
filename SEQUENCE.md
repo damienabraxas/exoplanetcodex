@@ -17,6 +17,7 @@ under ~140 chars per line. If you need more, it belongs in the register, not her
 
 ## 2026-08-30
 
+- **RYA-1132** (source ingest) — normalized 106 Vujnovic rows; promoted six Al I plus Johnson Al II 2669 to GF-LAB; UV policy still blocked
 - **RYA-1132** (web follow-up) — found UV lab sources; UV moves to crossmatch review, IR has no new source and remains pipeline-blocked
 - **RYA-1132** — froze 505 Al I/II candidates/controls; VIS documented, UV atomic-data-blocked, IR pipeline-blocked; gate stays closed
 
