@@ -616,11 +616,28 @@ def main(argv=None) -> int:
         (args.out / row["holding_key"] / "holding_report.json").write_text(
             json.dumps(one, indent=2, default=str) + "\n")
 
-    (args.out / "asplund_replication.json").write_text(json.dumps(rep, indent=2,
-                                                                 default=str) + "\n")
-    (args.out / "asplund_replication.txt").write_text(text + "\n")
-    print(f"\nwrote {args.out / 'asplund_replication.json'}")
-    print(f"wrote {args.out / 'asplund_replication.txt'}")
+    # ⚠️ THE COMBINED REPORT IS ONLY WRITTEN BY A RUN THAT ACTUALLY COVERS THE SET.
+    # `asplund_replication.json` is named for all four VIS holdings, and the four are
+    # normally run as four processes sharing one `--out`. Writing it from a single-holding
+    # run means four racing writers and a last-one-wins file that carries the name of the
+    # set while describing ONE instrument -- a file whose name is a claim its contents do
+    # not support, which is the defect class this ticket spent its day removing. A partial
+    # run therefore writes only its own per-holding report, and
+    # `rya1106_asplund_table.py` is the thing that merges them into the four-instrument
+    # view.
+    covered = {r["holding_key"] for r in rows if not r.get("error")}
+    if covered >= set(HOLDINGS):
+        (args.out / "asplund_replication.json").write_text(
+            json.dumps(rep, indent=2, default=str) + "\n")
+        (args.out / "asplund_replication.txt").write_text(text + "\n")
+        print(f"\nwrote {args.out / 'asplund_replication.json'}")
+        print(f"wrote {args.out / 'asplund_replication.txt'}")
+    else:
+        missing = sorted(set(HOLDINGS) - covered)
+        print(f"\npartial run ({', '.join(sorted(covered))}) — the combined "
+              f"asplund_replication report is NOT written; it would claim the whole set "
+              f"while missing {', '.join(missing)}. Per-holding reports written; run "
+              f"`scripts/rya1106_asplund_table.py` to merge.")
     return 0
 
 
