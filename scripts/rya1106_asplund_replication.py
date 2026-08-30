@@ -360,7 +360,13 @@ def build(holding_key: str, per_line: pd.DataFrame, run: dict) -> tuple:
     budget_text = ""
     stat = syst = basis = None
     if len(pool) >= 2 and product.sigma is not None and np.isfinite(product.sigma):
-        pool = pool.assign(loggf=pool["loggf_asplund"], aberr_axis_line=np.nan)
+        # ⚠️ `budget_from_pool` reads the production column NAMES. The AGSS21 columns
+        # carry a suffix so a reader cannot mistake Asplund's published width for one we
+        # measured, so they are ALIASED here rather than renamed at the source.
+        pool = pool.assign(loggf=pool["loggf_asplund"],
+                           ew_mA=pool["ew_mA_agss21"],
+                           rew=pool["rew_agss21"],
+                           aberr_axis_line=np.nan)
         b, rung = budget_from_pool(pool, element="Fe", ion="I",
                                    instrument=run["instrument"], handler=HANDLER,
                                    scatter_dex=float(product.sigma))
