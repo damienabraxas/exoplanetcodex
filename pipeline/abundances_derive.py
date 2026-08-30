@@ -1265,6 +1265,7 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
                     nlte_deck: str | None = None,
                     nlte_deck_key: str | None = None,
                     atmosphere_layers_file: str | None = None,
+                    ion=None,
                     tmp_dir: str = '/tmp/ispec_codex_synth') -> dict:
     """
     v2 blend-aware abundance: fit the broadened synthetic spectrum directly to
@@ -1344,8 +1345,17 @@ def _fit_synth_flux(obs_wave_nm: np.ndarray, obs_flux: np.ndarray,
         from pipeline import gerber_nlte as _gn
         if nlte_deck != 'gerber':
             raise ValueError(f"unknown NLTE deck {nlte_deck!r} (only 'gerber' is wired)")
+        # 🔴 RYA-1050 RESIDUAL. This was the FOURTH call site and the only one that
+        # could not ask the stage question -- not because it forgot, but because this
+        # function had no `ion` to pass. The three driver sites were fixed to pass
+        # `ion=a.ion`; here the caller's stage died at this signature. That matters
+        # because `turbospectrum_species` collapses the stages (every Fe row is 26.0),
+        # so a Z-only check measures Fe I's 99% labelling and clears an Fe II synthesis
+        # that is ~90% unlabelled -- an LTE spectrum under an NLTE label, which is the
+        # exact outcome this guard exists to refuse. `ion=None` still means "any stage",
+        # so every caller that genuinely does not know is unchanged.
         _gn.assert_linelist_supports_nlte(linelist, atom_code, element,
-                                          wave_base * 10.0, wave_top * 10.0)
+                                          wave_base * 10.0, wave_top * 10.0, ion=ion)
         _dep_per_abundance = _gn.has_abundance_axis(_deck_key)
         if not _dep_per_abundance:
             _dep = _gn.for_node(_deck_key, teff, logg, feh)
