@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://exoplanetcodex.org/schemas/canonical_molecular_transition.schema.json",
+  "title": "Codex canonical molecular transition",
+  "description": "Transition-level molecular data. This product is deliberately separate from atomic canonical_gf and carries no Codex/Deep atomic gf grade.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "transition_id", "molecule", "isotopologue",
+    "wavelength", "transition_probability", "transition_identity",
+    "source", "thermochemistry", "normalization", "precedence", "band_reach",
+    "intake_status"
+  ],
+  "properties": {
+    "schema": {"const": "codex.molecular_transition/1"},
+    "transition_id": {"type": "string", "pattern": "^mt_[0-9a-f]{16}$"},
+    "molecule": {"type": "string", "minLength": 1},
+    "isotopologue": {"type": "string", "minLength": 1},
+    "wavelength": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value_A", "medium", "frame", "conversion_provenance"],
+      "properties": {
+        "value_A": {"type": "number", "exclusiveMinimum": 0},
+        "medium": {"enum": ["air", "vacuum", "wavenumber-derived", "unknown"]},
+        "frame": {"enum": ["laboratory", "rest", "unknown"]},
+        "conversion_provenance": {"type": ["string", "null"]}
+      }
+    },
+    "lower_energy_eV": {"type": ["number", "null"]},
+    "transition_probability": {
+      "type": "object", "additionalProperties": false,
+      "required": ["log_gf", "kind", "source_id"],
+      "properties": {
+        "log_gf": {"type": "number"},
+        "kind": {"enum": ["laboratory", "ab_initio", "semi_empirical", "compiled", "unknown"]},
+        "source_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "transition_identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["electronic_system", "v_upper", "v_lower", "j_upper", "j_lower", "raw_label"],
+      "properties": {
+        "electronic_system": {"type": ["string", "null"]},
+        "v_upper": {"type": ["string", "null"]},
+        "v_lower": {"type": ["string", "null"]},
+        "j_upper": {"type": ["string", "null"]},
+        "j_lower": {"type": ["string", "null"]},
+        "raw_label": {"type": "string", "minLength": 1}
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["database", "release", "table", "doi", "ads_bibcode", "catalog_id", "source_file", "source_sha256", "retrieved_at", "license"],
+      "properties": {
+        "database": {"type": ["string", "null"]},
+        "release": {"type": ["string", "null"]},
+        "table": {"type": ["string", "null"]},
+        "doi": {"type": ["string", "null"]},
+        "ads_bibcode": {"type": ["string", "null"]},
+        "catalog_id": {"type": ["string", "null"]},
+        "source_file": {"type": "string", "minLength": 1},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "retrieved_at": {"type": ["string", "null"]},
+        "license": {"type": ["string", "null"]}
+      }
+    },
+    "thermochemistry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["partition_function_source", "dissociation_energy_source"],
+      "properties": {
+        "partition_function_source": {"type": ["string", "null"]},
+        "dissociation_energy_source": {"type": ["string", "null"]}
+      }
+    },
+    "normalization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["component_convention", "isotopologue_convention"],
+      "properties": {
+        "component_convention": {"type": ["string", "null"]},
+        "isotopologue_convention": {"type": ["string", "null"]}
+      }
+    },
+    "precedence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decision", "conflict_note"],
+      "properties": {
+        "decision": {"type": ["string", "null"]},
+        "conflict_note": {"type": ["string", "null"]}
+      }
+    },
+    "band_reach": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "intake_status": {"enum": ["SOURCE_VERIFIED", "CROSSMATCH_REVIEW", "FROZEN_READY_FOR_MEASUREMENT", "BLOCKED_PROVENANCE", "BLOCKED_SOURCE_LICENSING"]}
+  }
+}
