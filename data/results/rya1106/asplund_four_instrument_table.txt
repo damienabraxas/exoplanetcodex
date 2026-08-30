@@ -1,0 +1,61 @@
+========================================================================================================
+RYA-1106 D1 — Amarsi 3D-NLTE on ASPLUND'S OWN Fe I line set, all four VIS instruments
+========================================================================================================
+  line set : Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (AGSS21) -- ingested by RYA-1109, loaded through the RYA-1111 reference_lineset path
+  cut      : NONE -- AGSS21 Table A.2 IS Asplund's own published selection, so cutting it further would measure a subset nobody published
+  log gf   : AGSS21's own published log gf on the target lines; canonical gf (RYA-353) on the blend context
+  Elo span : 0.087-5.064 eV (our graded pool floors at 2.85 — that gap IS the RYA-1104 finding)
+
+  REW below is AGSS21's PUBLISHED log(W/lambda) over the lines each holding priced,
+  not a width measured here — so it is identical across holdings by construction,
+  and it is in the table because Amarsi's own weak-line cut is stated in REW.
+
+  holding              A(Fe)  vs 7.46   n      cov       AGSS21 REW  1D base    corr   route   gf      basis    
+  ----------------------------------------------------------------------------------------------------
+  kpno_kurucz2005      7.471   +0.011  21   40/40      -5.93..-4.91    7.463  +0.034   synth   lab     handler  
+  kpno_molecfit        7.504   +0.044  21   39/40      -5.93..-4.91    7.483  +0.035   synth   lab     handler  
+  harps_molecfit       7.477   +0.017  21   27/40      -5.93..-4.91    7.495  +0.034   synth   lab     handler  
+  iag                  7.504   +0.044  21   38/40      -5.93..-4.91    7.500  +0.035   synth   lab     handler  
+
+  Asplund, Amarsi & Grevesse 2021        : 7.46
+  AGSS21's own published 3D-NLTE (median): 7.453
+
+  COVERAGE — every Asplund line a holding could not serve, named (RYA-429/711):
+    kpno_kurucz2005    all 40 served
+    kpno_molecfit      1 unserved of 40  (no_atlas=1)
+        7219.7  no_atlas
+    harps_molecfit     13 unserved of 40  (no_atlas=13)
+        6999.9  no_atlas
+        7008.0  no_atlas
+        7219.7  no_atlas
+        7401.7  no_atlas
+        7443.0  no_atlas
+        7912.9  no_atlas
+        8293.5  no_atlas
+        8571.8  no_atlas
+        8598.8  no_atlas
+        8876.0  no_atlas
+        8906.0  no_atlas
+        9103.6  no_atlas
+        9786.6  no_atlas
+    iag                2 unserved of 40  (no_atlas=2)
+        4445.5  no_atlas
+        4574.2  no_atlas
+
+  ⚠️ THE COVERAGE LOSS AND THE DOMAIN WALL DO NOT COMPOUND. Every line no
+     holding could serve is one the MLP already refuses, so n is 21 on all
+     four despite coverage running 27/40 to 40/40 — MEASURED here, not assumed.
+     Read the two columns separately: `cov` is what the spectrum reaches and
+     `n` is what the network will price. HARPS answering on 27 of 40 lines is
+     still a real limit on the product; it just is not a limit on n.
+
+  ⚠️ n=21 ON EVERY HOLDING IS THE NETWORK'S DOMAIN, NOT THE DATA. 19 of the 40
+     AGSS21 lines fall outside the Amarsi MLP's training envelope, identically on
+     all four holdings because the test is on atomic data, not on the spectrum.
+     `rya1106_domain_crosstab.py` shows the axis is WAVELENGTH, not line strength.
+
+  ⚠️ CAVEAT CARRIED, NOT CHASED (RYA-1104/RYA-282): the line-population swing
+     between this pool and our graded pool is 29% accounted for by the network's
+     Elo trend and 71% UNATTRIBUTED. Documented, not a tuning target: no line list,
+     gf or parameter was adjusted to move any number toward 7.46 (RYA-161).
+========================================================================================================

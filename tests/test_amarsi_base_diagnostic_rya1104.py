@@ -149,9 +149,18 @@ def test_the_kurucz_floored_subset_is_empty(t2):
     assert sorted(t2["by_tier"]) == ["LAB"]
 
 
-def test_the_gf_axis_contradicts_the_products_own_budget(t2):
-    """One product, two claims about its oscillator strengths. The label loses."""
-    assert t2["product_gf_axis"] == "kurucz"
+def test_the_gf_axis_now_AGREES_with_the_products_own_budget(t2):
+    """RYA-1104 found one product making two claims about its oscillator strengths;
+    RYA-1106 resolved it in favour of the one that was measured.
+
+    🔴 THIS ASSERTION IS INVERTED ON PURPOSE. It read `product_gf_axis == "kurucz"` while
+    the contradiction stood, which is what a diagnostic ticket's test should say: it pinned
+    the defect so it could not be lost. The defect is now fixed at its source
+    (`treatment_axes.LEGACY["ENGINE-A-3DNLTE"]["gf"]`), so the same test becomes the
+    regression guard for the fix -- the budget still measures a lab-gf pool, and the axis
+    now says so too. Leaving it asserting "kurucz" would have pinned the bug in place.
+    """
+    assert t2["product_gf_axis"] == "lab"
     assert "rung 3" in t2["budget_gf_rung"]
     assert "GF-LAB" in t2["budget_gf_rung"]
 
