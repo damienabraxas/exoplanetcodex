@@ -3,26 +3,31 @@
   "ticket": "RYA-1136",
   "intake_census_complete": true,
   "frozen_ready_for_measurement": false,
-  "verdict": "BLOCKED_MOLECULAR_DATA",
+  "verdict": "INTAKE_COMPLETE_REVIEW_REQUIRED",
   "molecular": {
     "published_used": 408,
     "join_status": {
-      "UNMATCHED": 328,
-      "PHYSICAL_TUPLE_MATCH": 80
+      "PRIMARY_UNRESOLVED_SUM_MATCH": 32,
+      "PRIMARY_TUPLE_MATCH": 278,
+      "STRENGTH_MISMATCH": 5,
+      "AMBIGUOUS_COMPONENT_MATCH": 9,
+      "PHYSICAL_TUPLE_MATCH": 80,
+      "UNMATCHED": 3,
+      "ENERGY_MISMATCH": 1
     }
   },
   "atomic": {
-    "source_rows": 46,
+    "source_rows": 48,
     "join_status": {
       "AMBIGUOUS": 1,
-      "PHYSICAL_TUPLE_MATCH": 25,
-      "ABSENT": 20
+      "PHYSICAL_TUPLE_MATCH": 26,
+      "ABSENT": 21
     }
   },
   "blocking_findings": [
-    "Amarsi 2021 Table 2 omits rotational quantum identities for unmatched molecular rows",
-    "Exact transition-level joins remain unresolved for non-CO molecular rows",
-    "The complete five-line AGSS21 N I primary-paper selection is not yet transcribed",
+    "Nine Amarsi features map to indistinguishable rounded primary components because Table 2 omits rotational labels",
+    "Five source-identity matches retain published-strength revision differences",
+    "Four OH rows are absent or physically inconsistent in the acquired Brooke release",
     "Rejected CN count is published (463), but rejected UV transition identities are not published"
   ],
   "safety": "No abundance derived; no gf tuned; no wavelength-only join admitted"
