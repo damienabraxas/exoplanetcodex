@@ -185,7 +185,17 @@ def main() -> int:
         for t in items:
             print(f"  {mark} {label}: {t}")
     if not new_fail and not new_skip:
-        print("  ✅ failure set IDENTICAL and nothing newly skipped — nothing moved.")
+        # ⚠️ SAY ONLY WHAT WAS MEASURED. This printed "failure set IDENTICAL" even when
+        # `newly passing` entries were listed directly above it, which is false and is
+        # the same species of overclaim the whole ticket is about -- a verdict that
+        # sounds stronger than its evidence. The merge question is "did this branch
+        # BREAK anything", and that is what the pass condition actually establishes.
+        if fixed:
+            print(f"  ✅ no NEW failures and nothing newly skipped ({len(fixed)} "
+                  f"test(s) fail on the baseline but not here — listed above).")
+        else:
+            print("  ✅ failure set IDENTICAL and nothing newly skipped — "
+                  "nothing moved.")
 
     doc = {"ticket": "RYA-1138", "branch": cc.as_dict(b_caps),
            "baseline": cc.as_dict(l_caps), "baseline_ref": a.baseline_ref,
