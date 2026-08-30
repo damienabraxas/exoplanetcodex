@@ -3612,8 +3612,15 @@ artifacts:
       quoted as a total. Folding in the Fe I reference magnitude would move 7 more products
       over the 0.1 dig-in threshold (9 -> 16 of 46).
       ⚠️ It must NOT be fixed by bolting 0.0699 onto everything: dA/dvmic is a property of
-      the LINE SET (GRADED = depth <= 0.60, weaker; DEEPGRADED = saturated), and the 8 3D
-      products have no microturbulence parameter at all.
+      the LINE SET (GRADED = depth <= 0.60, weaker; DEEPGRADED = saturated).
+      🔴 RYA-1120 CORRECTED THIS NOTE'S OWN CLAIM: it said "the 8 3D products have no
+      microturbulence parameter at all", which decided a physical property from
+      `"3D" in treatment` and swept the <3D> MEAN in with FULL 3D. RYA-1099 refuted that
+      for the mean route BY MEASUREMENT (xi=0 came out +0.137 dex WORSE, because a mean
+      atmosphere averages the velocity structure OUT and the route still runs on an
+      inherited xi). Only the 4 FULL-3D rows (ENGINE-A-3DNLTE) are exempt, and that
+      exemption is recorded WITH its contrary measurement: vmic IS an input axis of the
+      Amarsi MLP and its correction responds at d(aberr)/dxi = +0.0985 dex/(km/s).
       🔴 F2 gf=kurucz on every GRADED/DEEPGRADED row — treatment_axes.LEGACY pins the gf
       axis from the TREATMENT TOKEN while the selector picks on gf_tier == LAB. Measured:
       67/67 lines primary-laboratory on a product labelled kurucz, whose own committed
