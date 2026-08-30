@@ -48,6 +48,9 @@ def test_web_followup_is_conservative(tmp_path):
     assert not d.disposition.str.contains("PROMOTE_NOW").any()
     assert d[(d.wavelength_A - 1670.78861).abs() < .001].iloc[0].disposition == "WAVELENGTH_ONLY_NOT_GF_LAB"
     assert d.evidence_class.eq("NEGATIVE_RESULT").any()
+    assert set(d.loc[d.source.str.startswith("Vujnovic"), "doi"]) == {
+        "10.1051/0004-6361:20020560"
+    }
     bib = pd.read_csv(tmp_path / "source_bibliography.csv")
     actionable = bib[bib.source_id.isin(["Vujnovic2002", "Trabert1999", "Johnson1986"])]
     assert len(actionable) == 3
