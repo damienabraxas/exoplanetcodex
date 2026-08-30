@@ -675,14 +675,20 @@ def run_band(ion: str, band: str, lo: int, hi: int, bp_dir: Path,
             ew_inversion=False,   # the REW ceiling was already applied by the 1D-LTE leg
         ))
 
-    # RYA-869 — the abundances are RYA-783's profile-fit EW inversions with a 3D-NLTE
-    # departure added per line (`ew_method` says so on every measurement), so the harness
-    # systematic this product carries is the profile fitter's. `ENGINE-A-3DNLTE` is the
-    # other `X-VARIANT` treatment name the ticket named: it must follow `ENGINE-A`, and
-    # it does so here by declaring the handler instead of by matching a prefix.
+    # 🔴 RYA-1104/RYA-1106 — THIS WAS `ProfileFitHandler`, AND THE PREMISE ABOVE IT WAS
+    # FALSE. The comment used to say the abundances are RYA-783's profile-fit EW
+    # inversions. RYA-1104 tested that line by line and REFUTED it: "there is no EW-route
+    # base under this product. Its 1D-LTE column is the SYNTHESIS pool it names, verified
+    # to 0e+00 dex on 50/50 lines."
+    #
+    # The wrong handler was not cosmetic. `handler` is what `route` derives from
+    # (ROUTE_BY_HANDLER) and what the error budget charges its harness systematic from, so
+    # one stranded string made the product render as EW *and* billed it the profile
+    # fitter's +0.0129 dex residual it never incurred. Declaring the handler that actually
+    # ran fixes both, and fixes them in one place rather than patching the two symptoms.
     product = build_product(
         "Fe", ion, instrument, band, amarsi3d.TREATMENT, measurements,
-        handler="ProfileFitHandler",
+        handler="SynthesisHandler",
         provenance=(f"{amarsi3d.CITATION}; training domain from "
                     f"{amarsi3d.TRAINING_CITATION}; 1D-LTE base from {src.name}"))
 
