@@ -1,14 +1,14 @@
 {
   "ticket": "RYA-1138",
   "branch": {
-    "root": "/Users/ryanschmitt/codex/rya1138",
+    "root": "/Users/ryanschmitt/codex/rya1140",
     "is_canonical_location": true,
     "ispec_importable": true,
     "ispec_dir": "/Users/ryanschmitt/codex/ispec",
     "kp_atlas_present": true,
     "kp_atlas_dir": "/Users/ryanschmitt/codex/spectra/Kitt Peak Flux Atlas",
     "python_version": "3.12.13",
-    "collected_tests": 3567,
+    "collected_tests": 3570,
     "collection_errors": 0,
     "notes": []
   },
@@ -31,6 +31,6 @@
     "tests/test_line_match_rya1033.py::test_no_rounded_wavelength_join_keys_remain"
   ],
   "newly_skipped": [],
-  "branch_summary": "8 failed, 3501 passed, 51 skipped, 7 xfailed, 128 warnings in 378.98s (0:06:18)",
-  "baseline_summary": "10 failed, 3490 passed, 56 skipped, 7 xfailed, 128 warnings in 352.24s (0:05:52)"
+  "branch_summary": "8 failed, 3504 passed, 51 skipped, 7 xfailed, 128 warnings in 366.09s (0:06:06)",
+  "baseline_summary": "10 failed, 3490 passed, 56 skipped, 7 xfailed, 128 warnings in 305.13s (0:05:05)"
 }
