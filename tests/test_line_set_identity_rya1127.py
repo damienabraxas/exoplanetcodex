@@ -211,3 +211,44 @@ def test_the_four_RYA1106_products_PUBLISH_without_colliding(doc):
         for cell in section["cells"]:
             if cell.get("product_key"):
                 assert cell["product_key"] in keys
+
+
+def test_the_audits_split_detection_is_NOT_vacuous():
+    """⚠️ CONTROL — the audit reports zero splits on the real feed, so nothing has ever
+    exercised the code that finds one. A detector that has never fired is not evidence.
+
+    Staged: the four Asplund products beside the live ones, which is the RYA-1106 case.
+    The audit must find exactly four splits and attribute each to line_set.
+    """
+    import importlib.util, json as _json, tempfile
+    spec = importlib.util.spec_from_file_location("aud", AUDIT)
+    aud = importlib.util.module_from_spec(spec); spec.loader.exec_module(aud)
+
+    feed = _json.loads(FEED.read_text())
+    amarsi = [p for p in feed["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    staged = dict(feed, products=list(feed["products"])
+                  + [dict(p, line_set="asplund") for p in amarsi])
+    d = Path(tempfile.mkdtemp()) / "solar"; d.mkdir(parents=True)
+    (d / "Fe.json").write_text(_json.dumps(staged, indent=2))
+
+    r = aud.audit_feed(d / "Fe.json")
+    assert len(r["splits"]) == len(amarsi) == 4, r["splits"]
+    for s in r["splits"]:
+        assert s["line_sets"] == ["asplund", "our-graded"]
+    assert r["merges"] == []
+    assert r["unresolved"] == []
+
+
+def test_the_refinement_invariant_is_what_the_audit_actually_asserts():
+    """🔴 The check with teeth. While `line_set` is APPENDED, a merge is structurally
+    impossible and every split is explained by line_set for free -- so those two are not
+    evidence. The invariant that makes them true is asserted instead.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("aud", AUDIT)
+    aud = importlib.util.module_from_spec(spec); spec.loader.exec_module(aud)
+    r = aud.audit_feed(FEED)
+    assert r["refinement_holds"], r["refinement_broken"]
+    assert tuple(pe.KEY_FIELDS[:len(aud.OLD_KEY_FIELDS)]) == tuple(aud.OLD_KEY_FIELDS), (
+        "line_set is no longer a pure suffix on KEY_FIELDS -- the audit's merge and "
+        "split reasoning no longer follows, and both need to become real checks")
