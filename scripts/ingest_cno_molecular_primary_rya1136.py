@@ -8,6 +8,7 @@ lossy copy of several hundred thousand molecular transitions.
 from __future__ import annotations
 
 import csv
+import bisect
 import gzip
 import io
 import itertools
@@ -147,7 +148,9 @@ def main() -> None:
     transitions = list(inventory())
     index = defaultdict(list)
     for tr in transitions:
-        index[(tr.species, tr.system, round((1e8 / tr.wavelength_vac_A) * 10))].append(tr)
+        index[(tr.species, tr.system)].append(tr)
+    for key in index:
+        index[key].sort(key=lambda tr: 1e8 / tr.wavelength_vac_A)
 
     rows = []
     for target in csv.DictReader(AMARSI.open()):
@@ -158,17 +161,18 @@ def main() -> None:
         key0 = (target["species"], target["system"])
         target_wn = 1e8 / wave
         vp, vl = (int(x) for x in target["band"].strip("()").split("-"))
-        candidates = []
         wn_tolerance = 2.0 if target["species"] == "C2" else 0.30
-        key_radius = math.ceil(wn_tolerance * 10) + 1
-        for key in range(round(target_wn * 10) - key_radius,
-                         round(target_wn * 10) + key_radius + 1):
-            candidates.extend(index.get((*key0, key), ()))
+        source = index.get(key0, ())
+        source_wn = [1e8 / tr.wavelength_vac_A for tr in source]
+        # Same sorted tolerance-range mechanism as pipeline.line_match: wavelength
+        # supplies candidates but can never decide identity.
+        lo = bisect.bisect_left(source_wn, target_wn - wn_tolerance)
+        hi = bisect.bisect_right(source_wn, target_wn + wn_tolerance)
+        candidates = source[lo:hi]
         # Molecular papers commonly publish observed/calculated positions in cm-1.
         # Match in that native coordinate: a fixed Angstrom tolerance becomes
         # physically nonsensical over Amarsi's 0.4--15 micron span.
-        nearby = [x for x in candidates if x.vp == vp and x.vl == vl
-                  and abs((1e8 / x.wavelength_vac_A) - target_wn) <= wn_tolerance]
+        nearby = [x for x in candidates if x.vp == vp and x.vl == vl]
         # Published excitation energies are rounded to 0.001 eV and can use
         # slightly different molecular term origins between source releases.
         physical = [x for x in nearby if abs(x.lower_energy_eV - energy) <= 0.005]
