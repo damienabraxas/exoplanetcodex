@@ -1,0 +1,156 @@
+"""
+RYA-1127 — `line_set` is part of the product identity, and the migration did not
+re-identify anything.
+
+🔴 THE FAILURE MODE HERE IS NOT A WRONG NUMBER. No abundance moves in this ticket. Adding a
+field to `KEY_FIELDS` re-identifies every product at once, and the way that goes wrong is a
+wrong SPLIT or a wrong MERGE -- records that were one identity becoming two, or two
+collapsing into one, with nobody deciding. So the tests below are about the PARTITION of
+the feed, not about values.
+
+The motivating case is RYA-1106: the Amarsi 3D-NLTE method measured on Asplund's own AGSS21
+line set produced four products whose key was identical to the our-graded Amarsi products'
+-- same everything except the pool of lines, which the key did not carry. Worse, the two
+had been kept apart only by a MISLABEL (`route=EW-3D`, the stranded ProfileFitHandler's
+route that RYA-1104 refuted), so correcting the label is what exposed the latent defect.
+"""
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from pipeline import product_eligibility as pe        # noqa: E402
+from pipeline import reference_lineset as rls         # noqa: E402
+from pipeline import model_registry as mr             # noqa: E402
+
+FEED = ROOT / "data" / "products" / "solar" / "Fe.json"
+AUDIT = ROOT / "scripts" / "rya1127_key_migration_audit.py"
+
+
+@pytest.fixture(scope="module")
+def doc():
+    return json.loads(FEED.read_text())
+
+
+# ── the key itself ────────────────────────────────────────────────────────────────
+
+def test_line_set_is_in_the_identity_key():
+    assert "line_set" in pe.KEY_FIELDS
+
+
+def test_the_two_KEY_FIELDS_definitions_still_agree():
+    """`publish_product` keeps its own literal copy; they must not drift."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import publish_product as pp
+    assert tuple(pp.KEY_FIELDS) == tuple(pe.KEY_FIELDS)
+
+
+def test_two_products_differing_ONLY_in_line_set_get_distinct_keys(doc):
+    """🔴 THE RYA-1106 CASE, as a test. This is the whole ticket in four lines."""
+    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    assert amarsi, "the our-graded Amarsi products should be live"
+    for ours in amarsi:
+        replication = dict(ours, line_set="asplund")
+        assert pe.key_of(ours) != pe.key_of(replication), (
+            f"{ours['holding']}: the Asplund replication still collides with the "
+            f"our-graded leg")
+        assert pe.key_of(ours).endswith("|our-graded")
+        assert pe.key_of(replication).endswith("|asplund")
+
+
+def test_the_collision_was_REAL_under_the_old_key(doc):
+    """⚠️ CONTROL — the test above is only meaningful if the pair genuinely collided.
+
+    A test that two keys differ proves nothing if they differed before as well. This
+    recomputes the PREVIOUS key and asserts it was the same string for both, so the fix is
+    shown to have fixed something.
+    """
+    old_fields = tuple(f for f in pe.KEY_FIELDS if f != "line_set")
+    def old_key(p):
+        return "|".join(str(p.get(k) or "") for k in old_fields)
+    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
+    for ours in amarsi:
+        assert old_key(ours) == old_key(dict(ours, line_set="asplund"))
+
+
+# ── resolution is loud, never defaulted (RYA-869) ─────────────────────────────────
+
+def test_line_set_resolves_for_EVERY_record_in_EVERY_pool(doc):
+    """Putting the field in the key means every pool must answer, not just `products[]`.
+
+    Nine quarantined records could not answer when this ticket started -- six tier
+    UNGRADED and three tier ALL -- which is why the vocabulary gained `our-ungraded` and
+    `our-all` rather than `key_of` gaining a default.
+    """
+    for pool in ("products", "superseded", "archive", "quarantine"):
+        for p in doc.get(pool) or []:
+            assert rls.line_set_for_product(p) in mr.LINE_SETS, (pool, p.get("treatment"))
+
+
+def test_an_unresolvable_tier_RAISES_rather_than_defaulting():
+    """POSITIVE CONTROL. A resolver that never refuses is a default wearing a disguise."""
+    with pytest.raises(rls.ReferenceLineSetError):
+        rls.line_set_for_product({"tier": "NOT-A-TIER"})
+    with pytest.raises(rls.ReferenceLineSetError):
+        rls.line_set_for_product({})
+
+
+def test_CONSISTENT_still_refuses_after_the_vocabulary_widened():
+    """⚠️ The widening must be narrow. RYA-1105 retires the Consistent tier, so it must
+    NOT have acquired a name when UNGRADED and ALL did."""
+    assert "consistent" not in mr.LINE_SETS
+    with pytest.raises(rls.ReferenceLineSetError):
+        rls.line_set_for_product({"tier": "CONSISTENT"})
+
+
+def test_key_of_RESOLVES_line_set_rather_than_reading_the_field(doc):
+    """🔴 The bug this avoids: our own products do not STORE `line_set`.
+
+    A `.get("line_set")` would have returned "" for all of them -- a key column that is
+    blank everywhere, which looks like it works and still lets the RYA-1106 pair collide.
+    """
+    ours = next(p for p in doc["products"] if p.get("tier") == "GRADED")
+    assert "line_set" not in ours, "this test is stale: the field is now stored"
+    assert pe.key_of(ours).endswith("|our-graded")
+
+
+# ── the migration ─────────────────────────────────────────────────────────────────
+
+def test_the_migration_audit_reports_no_unintended_identity_change():
+    """🔴 THE GATE. Runs the audit in --check mode over every committed feed."""
+    r = subprocess.run([sys.executable, str(AUDIT), "--check"],
+                       cwd=ROOT, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout[-4000:] + r.stderr[-2000:]
+
+
+def test_the_migration_split_nothing_that_is_already_published(doc):
+    """The partition of the LIVE feed is unchanged: same number of distinct identities.
+
+    The RYA-1106 products are not in the feed yet -- they are what this unblocks -- so
+    today the schema widens and nothing already published is re-identified. If a future
+    edit makes a live product split, that is a decision and this test makes it visible.
+    """
+    old_fields = tuple(f for f in pe.KEY_FIELDS if f != "line_set")
+    old = {"|".join(str(p.get(k) or "") for k in old_fields) for p in doc["products"]}
+    new = {pe.key_of(p) for p in doc["products"]}
+    assert len(old) == len(new), (
+        f"{len(old)} identities became {len(new)} -- a live product was re-identified")
+
+
+def test_the_published_plot_grid_keys_carry_the_new_axis(doc):
+    """The feed publishes `key_fields` and every cell's `product_key`; both must have
+    migrated, or the site joins cells to products on a key the products no longer have."""
+    grid = doc["plot_grid"]
+    assert list(grid["key_fields"]) == list(pe.KEY_FIELDS)
+    live = {pe.key_of(p) for p in doc["products"]}
+    for section in grid["sections"]:
+        for cell in section["cells"]:
+            if cell.get("product_key"):
+                assert cell["product_key"] in live, cell["product_key"]
