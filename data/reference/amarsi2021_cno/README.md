@@ -14,3 +14,9 @@ the exact upstream molecular releases on physical identity.
 The 408 used rows comprise 80 `12C16O`, 39 `C2`, 54 `CH`, 59 `CN`, 31 `NH`,
 and 145 `OH` transitions. Whole synthesis distributions must not be described
 as “AGSS21-used” merely because they contain nearby wavelengths.
+
+The generated audit products in `data/audit/rya1136_cno_intake/` explicitly
+report all six UV-to-IR bins. Table 2 has used lines in VIS, NIR, and IR, but
+none in FUV, NUV, or the 700–1000 nm red-optical reporting bin; that is a
+negative selection for this published used-line table, not evidence that the
+broader CNO literature has no lines in those bands.
