@@ -36,9 +36,11 @@ SET, not of the element:
   * `GRADED`     = LAB lines with feature depth <= 0.60 — the WEAKER population.
   * `DEEPGRADED` = LAB lines with feature depth  > 0.60 — SATURATED BY CONSTRUCTION, where
                    xi bites hardest.
-  * 3D products have NO MICROTURBULENCE AT ALL. xi is a 1D fudge for the velocity field 3D
-    resolves; charging a xi term to a 3D product would be charging a term it did not earn
-    (Part B). Eight VIS Fe products are 3D.
+  * FULL-3D products (ENGINE-A-3DNLTE, 4 of the 46) have no microturbulence: the cube
+    resolves the velocity field xi stands in for. The <3D> MEAN (synth-mean3D-*, the other
+    4) is NOT exempt -- RYA-1099 measured it at xi=0 as +0.137 dex WORSE, because a mean
+    atmosphere averages the velocity structure OUT and still runs on an inherited xi.
+    Deciding this from `"3D" in treatment` was the RYA-1092 name-vs-physics defect.
 RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line pool. It is quoted here as a
 REFERENCE MAGNITUDE for the size of the omission, never as a per-product value.
 
@@ -91,11 +93,45 @@ DIG_IN_DEX = 0.1
 #: `line_accounting_rya709.DEPTH_HI` — the gate that splits GRADED from DEEPGRADED.
 DEPTH_HI = 0.60
 
-#: Treatments whose model has NO microturbulence parameter. A xi term is not merely
-#: uncomputed for these, it is NOT APPLICABLE, and charging one would be a term the
-#: product did not earn.
-def is_3d(treatment: str) -> bool:
-    return "3D" in str(treatment)
+#: 🔴 RYA-1120 — APPLICABILITY IS A DECLARED PHYSICAL CALL, NOT AN ENGINE NAME.
+#: This was `"3D" in treatment`, which swept the <3D> MEAN in with FULL 3D and exempted
+#: all eight. Ryan's ruling (2026-08-29) splits them, and the split is by ROUTE+ATMOSPHERE,
+#: never by substring:
+#:
+#:   FULL 3D (Amarsi, ENGINE-A-3DNLTE)  -> xi NOT APPLICABLE. The 3D cube resolves the
+#:       velocity field that xi is the 1D fudge for, so the product never earned the term.
+#:       ⚠️ RECORDED WITH ITS CONTRARY MEASUREMENT, not silently: `vmic` IS an explicit
+#:       input axis of the Amarsi MLP (training box 0-3 km/s; pipeline/amarsi3d.py hands it
+#:       to `classify_line` and `_apply_aberr_to_line`), and measured on its own optical
+#:       Fe I set at xi = 1.0 +/- 0.2912 the CORRECTION moves by d(aberr)/dxi = +0.0985
+#:       dex/(km/s) (112 of 117 lines, none exactly zero, in-domain count identical at all
+#:       three xi so it is not a selection effect). The exemption rests on the published
+#:       quantity being a SUM, A(3D-NLTE) = A(1D-LTE)(xi) + aberr(xi), whose halves move
+#:       oppositely -- so the correction tracking xi is the baseline's xi-dependence being
+#:       undone, not a second one being added.
+#:
+#:   <3D> MEAN (synth-mean3D-*)  -> xi APPLIES and is MEASURED per product. REFUTED as an
+#:       exemption by RYA-1099: running the mean route at xi=0 made it +0.137 dex WORSE.
+#:       The mean atmosphere averages the velocity structure OUT, so the route still runs
+#:       on an inherited xi. That ticket forbids this exemption in writing.
+FULL_3D_TREATMENTS = {"ENGINE-A-3DNLTE"}
+
+XI_NOT_APPLICABLE = (
+    "NOT APPLICABLE — full 3D resolves the velocity field xi stands in for. Recorded, "
+    "not silent: the Amarsi MLP does take vmic as an input axis and its CORRECTION "
+    "measures d(aberr)/dxi = +0.0985 dex/(km/s); the exemption rests on the published "
+    "value being A(1D-LTE)(xi) + aberr(xi), whose two halves move oppositely.")
+
+XI_APPLICABILITY_UNRESOLVED = (
+    "APPLIES — xi response not yet measured on this product's own pool (RYA-282 §2 "
+    "perturb-and-re-derive). RYA-1089's -0.24 dex/(km/s) was measured on ONE 62-line "
+    "pool and is a reference magnitude for the size of the hole, not a per-product "
+    "value (RYA-1093: xi-sensitivity is a property of the LINE SET).")
+
+
+def is_full_3d(treatment: str) -> bool:
+    """FULL 3D only. The <3D> mean is NOT full 3D and is NOT exempt (RYA-1099)."""
+    return str(treatment) in FULL_3D_TREATMENTS
 
 
 def honest_total(p: dict) -> float:
@@ -152,15 +188,20 @@ def audit() -> dict:
             "over_dig_in": tot > DIG_IN_DEX,
             "over_solar_gate": tot > SOLAR_GATE_DEX,
             "rca_verdict": verdict, "rca_note": why,
-            "xi_applicability": ("NOT APPLICABLE — 3D has no microturbulence"
-                                 if is_3d(p["treatment"]) else
-                                 "strong/saturated pool — xi bites hardest here"
-                                 if p["tier"] == "DEEPGRADED" else
-                                 "weaker pool (depth <= %.2f) — least xi-sensitive" % DEPTH_HI),
+            # RYA-1120: a PRIOR EXPECTATION from the line set, never a verdict. The
+            # tier split is a real property (feature depth), so it says where xi is
+            # LIKELY to bite -- it does not say whether the term applies, because that
+            # is a measurement nobody has made on this pool yet.
+            "xi_expectation": ("strong/saturated pool — xi bites hardest here"
+                               if p["tier"] == "DEEPGRADED" else
+                               "weaker pool (depth <= %.2f) — least xi-sensitive" % DEPTH_HI),
+            "xi_applicability": (XI_NOT_APPLICABLE if is_full_3d(p["treatment"])
+                                 else XI_APPLICABILITY_UNRESOLVED),
         })
     products.sort(key=lambda r: -r["honest_total_dex"])
 
-    n3d = sum(1 for r in products if is_3d(r["treatment"]))
+    # RYA-1120: FULL 3D only -- the <3D> mean is counted as APPLYING (RYA-1099).
+    n_na = sum(1 for r in products if is_full_3d(r["treatment"]))
     return {
         "ticket": "RYA-1112",
         "skill": "codex-product-audit",
@@ -184,11 +225,12 @@ def audit() -> dict:
                 "products_over_dig_in_now": sum(1 for r in products if r["over_dig_in"]),
                 "products_over_dig_in_if_FeI_vmic_folded_in": sum(
                     1 for r in products
-                    if r["ion"] == "I" and not is_3d(r["treatment"])
+                    if r["ion"] == "I" and not is_full_3d(r["treatment"])
                     and math.hypot(r["honest_total_dex"],
                                    fe_rows["I"]["sigma_B_vmic"]) > DIG_IN_DEX)
                     + sum(1 for r in products
-                          if (r["ion"] != "I" or is_3d(r["treatment"])) and r["over_dig_in"]),
+                          if (r["ion"] != "I" or is_full_3d(r["treatment"]))
+                          and r["over_dig_in"]),
             },
             "F2_gf_label_says_kurucz_on_lab_gf_pools": {
                 "detail": ("treatment_axes.LEGACY pins gf from the TREATMENT TOKEN, but "
@@ -223,7 +265,13 @@ def audit() -> dict:
                      "legacy route map — correct today, but the basis is not a property of "
                      "those records"),
         },
-        "n_3d_products_where_xi_is_not_applicable": n3d,
+        "n_products_where_xi_is_not_applicable_full_3d_only": n_na,
+        "xi_applicability_basis": (
+            "RYA-1120: applicability is a MEASUREMENT, never an engine name. The prior "
+            "`\"3D\" in treatment` rule was refuted on BOTH halves -- RYA-1099 measured "
+            "the <3D> mean at xi=0 as +0.137 dex WORSE, and vmic is an explicit input "
+            "axis of the Amarsi full-3D MLP (measured d(aberr)/dxi = +0.0985 dex/(km/s) "
+            "on its own line set, 112 of 117 lines, none zero)."),
         "products": products,
     }
 
@@ -267,7 +315,7 @@ def main() -> int:
           f" of {doc['n_products']}   |   over the {SOLAR_GATE_DEX} solar gate: "
           f"{f['F4_gate_is_not_rendered']['products_over_the_solar_gate']} of {doc['n_products']}")
     print(f"3D products where a xi term is NOT APPLICABLE: "
-          f"{doc['n_3d_products_where_xi_is_not_applicable']}")
+          f"{doc['n_products_where_xi_is_not_applicable_full_3d_only']}")
     print("\nFINDINGS")
     for k, v in f.items():
         print(f"  {k}")
