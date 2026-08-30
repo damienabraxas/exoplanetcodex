@@ -81,7 +81,11 @@ def test_display_name_delegates_to_the_axis_registry():
     ("1D-LTE",                           "SYNTH",      "Synth · 1D-LTE"),
     ("1D-LTE",                           "PROFILEFIT", "EW · 1D-LTE"),
     ("ENGINE-B",                         "SYNTH",      "Synth · 1D-LTE"),
-    ("ENGINE-A-3DNLTE",                  "EW-3D",      "EW · 3D-NLTE · Amarsi"),
+    # RYA-1106: EW-3D is retained here as an INPUT because archived records still carry
+    # that stored token, and the derivation must stay correct for them; the live
+    # products now carry SYNTH, asserted on the row below.
+    ("ENGINE-A-3DNLTE",                  "EW-3D",      "EW · 3D-NLTE · Amarsi · lab-gf"),
+    ("ENGINE-A-3DNLTE",                  "SYNTH",      "Synth · 3D-NLTE · Amarsi · lab-gf"),
     ("ENGINE-B-NLTE",                    "SYNTH",      "Synth · 1D-NLTE · Gerber"),
     # the axis-native trio had NO map entry and rendered as bare tokens on the page.
     ("synth-1D-LTE-gerber",              "SYNTH",      "Synth · 1D-LTE · Gerber"),
@@ -89,7 +93,10 @@ def test_display_name_delegates_to_the_axis_registry():
     ("synth-mean3D-NLTE-gerber-stagger", "SYNTH",      "Synth · <3D>-NLTE · Gerber · stagger"),
 ])
 def test_the_published_display_name_matches_the_derived_axes(treatment, route, expected):
-    assert display_name(treatment, gf="kurucz", route=route) == expected
+    # RYA-1106: gf=None asks for the pool the LABEL declares, which is what the
+    # publisher does for a record that stores no gf. Forcing "kurucz" here overrode
+    # that and made the table assert a name for a pool the product does not have.
+    assert display_name(treatment, gf=None, route=route) == expected
 
 
 def test_no_published_product_renders_as_a_bare_treatment_token(live):
