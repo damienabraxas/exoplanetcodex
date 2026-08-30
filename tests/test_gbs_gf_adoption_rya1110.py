@@ -18,7 +18,29 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from pipeline import reference_lineset as rls  # noqa: E402
+import numpy as np  # noqa: E402
+from pipeline import line_match, reference_lineset as rls  # noqa: E402
+
+
+def _src_rows():
+    return list(csv.DictReader(GBS.open()))
+
+
+def _match_into_source(lams, eps):
+    """Resolve reference wavelengths into the GBS artifact on the canonical lambda+EP key.
+
+    ⚠️ NOT a rounded-wavelength dict. CI's RYA-1037 guard caught exactly that in the first
+    draft of this work, and it was right to: a rounded wavelength is not an identity
+    (RYA-1033), so a test built on one can pass while joining the wrong rows.
+    """
+    src = _src_rows()
+    idx = line_match.match(
+        np.asarray(lams, float),
+        np.array([float(r["wavelength_air_A"]) for r in src]),
+        want_ep=np.asarray(eps, float),
+        src_ep=np.array([float(r["excitation_potential_eV"]) for r in src]),
+        require_ep=True, tol_A=rls.SETS["gbs"].match_tol_A).index
+    return src, np.asarray(idx)
 
 GBS = ROOT / "data" / "linelists" / "reference_sets" / "gbs_solar_fe_rya1110.csv"
 SIDECAR = ROOT / "data" / "linelists" / "reference_sets" / "gbs_gf_adoption_rya1110.csv"
@@ -46,24 +68,33 @@ def test_exactly_the_twelve_are_adopted(gbs, report):
 def test_the_adopted_set_is_the_report_s_ADOPTABLE_set_exactly(gbs, report):
     """🔴 The selection is the audited one. Not a re-derivation, not a superset: the THIN
     case (BKK, exact but n=2) and all 8 RISKY must stay out."""
-    want = {(r["species"], round(r["wavelength_air_A"], 2))
-            for r in report["per_line"] if r["verdict"] == "ADOPTABLE"}
-    got = {(r.species, round(float(r.wavelength_air_A), 2))
-           for r in gbs[gbs.gf_adopted].itertuples()}
+    adopted = gbs[gbs.gf_adopted]
+    _, idx = _match_into_source(adopted.wavelength_air_A, adopted.elo_eV)
+    assert (idx >= 0).all(), "an adopted line does not resolve into the source set"
+    want = sorted(round(r["wavelength_air_A"], 2)
+                  for r in report["per_line"] if r["verdict"] == "ADOPTABLE")
+    got = sorted(round(float(x), 2) for x in adopted.wavelength_air_A)
     assert got == want
-    refused = {(r["species"], round(r["wavelength_air_A"], 2))
+    refused = {round(r["wavelength_air_A"], 2)
                for r in report["per_line"] if r["verdict"] in ("THIN", "RISKY")}
-    assert got & refused == set(), "a THIN or RISKY line was adopted"
+    assert set(got) & refused == set(), "a THIN or RISKY line was adopted"
 
 
 def test_the_thin_case_is_not_adopted(gbs, report):
     """"2 of 2 exact" is not validation (RYA-282's small-n refusal). BKK stays out."""
     thin = [r for r in report["per_line"] if r["verdict"] == "THIN"]
     assert len(thin) == 1
-    lam = round(thin[0]["wavelength_air_A"], 2)
-    row = gbs[gbs.wavelength_air_A.round(2) == lam]
-    assert not bool(row.gf_adopted.iloc[0])
-    assert bool(row.gf_missing.iloc[0])
+    _, idx = _match_into_source([thin[0]["wavelength_air_A"]], [thin[0]["elo_eV"]])
+    assert idx[0] >= 0
+    m = line_match.match(
+        np.array([thin[0]["wavelength_air_A"]]),
+        gbs.wavelength_air_A.to_numpy(float),
+        want_ep=np.array([thin[0]["elo_eV"]]),
+        src_ep=gbs.elo_eV.to_numpy(float),
+        require_ep=True, tol_A=rls.SETS["gbs"].match_tol_A).index
+    row = gbs.iloc[int(np.asarray(m)[0])]
+    assert not bool(row.gf_adopted)
+    assert bool(row.gf_missing)
 
 
 def test_log_gf_gbs_is_still_empty_for_all_21(gbs):
@@ -87,11 +118,12 @@ def test_the_rya1110_artifact_was_not_rewritten():
 
 def test_every_adopted_value_is_heiters_own(gbs):
     """Not a rounded echo: re-read Heiter's column from the source and require a match."""
-    raw = {(r["species"], round(float(r["wavelength_air_A"]), 2)): r
-           for r in csv.DictReader(GBS.open())}
-    for r in gbs[gbs.gf_adopted].itertuples():
-        src = raw[(r.species, round(float(r.wavelength_air_A), 2))]
-        assert abs(float(src["heiter2021_log_gf"]) - float(r.loggf)) < 5e-4
+    adopted = gbs[gbs.gf_adopted]
+    src, idx = _match_into_source(adopted.wavelength_air_A, adopted.elo_eV)
+    for k, j in enumerate(idx):
+        assert j >= 0
+        assert abs(float(src[j]["heiter2021_log_gf"])
+                   - float(adopted.iloc[k].loggf)) < 5e-4
 
 
 def test_each_adopted_line_carries_its_provenance_and_says_it_is_adopted(gbs):
@@ -108,13 +140,13 @@ def test_each_adopted_line_carries_its_provenance_and_says_it_is_adopted(gbs):
 def test_the_138_published_lines_are_untouched(gbs):
     """RYA-161: the adoption adds values where there were none. It changes nothing Jofre
     published."""
-    raw = {(r["species"], round(float(r["wavelength_air_A"]), 2)): r
-           for r in csv.DictReader(GBS.open())}
+    pub = gbs[~gbs.gf_adopted & ~gbs.gf_missing]
+    src, idx = _match_into_source(pub.wavelength_air_A, pub.elo_eV)
     n = 0
-    for r in gbs[~gbs.gf_adopted & ~gbs.gf_missing].itertuples():
-        src = raw[(r.species, round(float(r.wavelength_air_A), 2))]
-        assert src["log_gf_gbs"].strip(), "a line with no published gf is being measured"
-        assert abs(float(src["log_gf_gbs"]) - float(r.loggf)) < 1e-9
+    for k, j in enumerate(idx):
+        assert j >= 0
+        assert src[j]["log_gf_gbs"].strip(), "a line with no published gf is being measured"
+        assert abs(float(src[j]["log_gf_gbs"]) - float(pub.iloc[k].loggf)) < 1e-9
         n += 1
     assert n == 138
 
@@ -129,8 +161,9 @@ def test_the_sidecar_matches_the_report():
 
 def test_the_sidecar_never_overrides_a_published_gf():
     """Structural: every row in the sidecar names a line whose `log_gf_gbs` is empty."""
-    raw = {(r["species"], round(float(r["wavelength_air_A"]), 2)): r
-           for r in csv.DictReader(GBS.open())}
-    for r in csv.DictReader(SIDECAR.open()):
-        src = raw[(r["species"], round(float(r["wavelength_air_A"]), 2))]
-        assert not src["log_gf_gbs"].strip()
+    side = list(csv.DictReader(SIDECAR.open()))
+    src, idx = _match_into_source([r["wavelength_air_A"] for r in side],
+                                  [r["elo_eV"] for r in side])
+    for j in idx:
+        assert j >= 0
+        assert not src[j]["log_gf_gbs"].strip()

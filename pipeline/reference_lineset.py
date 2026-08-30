@@ -181,20 +181,35 @@ def load(name: str) -> pd.DataFrame:
     adopt_path = spec.path.parent / "gbs_gf_adoption_rya1110.csv"
     if spec.name == "gbs" and adopt_path.exists():
         ad = pd.read_csv(adopt_path)
-        key = {(r.species, round(float(r.wavelength_air_A), 2)): r
-               for r in ad.itertuples()}
-        for i, r in out.iterrows():
-            if not pd.isna(r["loggf"]):
-                continue
-            hit = key.get((r["species"], round(float(r["wavelength_air_A"]), 2)))
-            if hit is None:
-                continue
-            out.at[i, "loggf"] = float(hit.log_gf_adopted)
-            out.at[i, "gf_adopted"] = True
-            out.at[i, "gf_adopted_source"] = str(hit.gf_adopted_source)
-            out.at[i, "gf_source"] = (
-                f"ADOPTED (not published by this set): {hit.gf_adopted_source} | "
-                f"{hit.gf_adopted_basis} | {hit.gf_adopted_ticket}")
+        # 🔴 THE CANONICAL MATCHER, NOT A ROUNDED KEY. An earlier draft of this join keyed
+        # on `round(wavelength, 2)` -- and CI's RYA-1037 AST guard caught it, in a module
+        # whose entire subject is careful line identity. A rounded wavelength is not an
+        # identity (RYA-1033): it splits a matched pair, and Python and numpy round the
+        # same tie differently. Matched here on the lambda+EP dual key at THIS set's
+        # derived tolerance, exactly as every other join in this module.
+        idx = line_match.match(
+            ad["wavelength_air_A"].to_numpy(float),
+            out["wavelength_air_A"].to_numpy(float),
+            want_ep=ad["elo_eV"].to_numpy(float),
+            src_ep=out["elo_eV"].to_numpy(float),
+            require_ep=True, tol_A=spec.match_tol_A).index
+        for k, j in enumerate(np.asarray(idx)):
+            if j < 0:
+                raise ReferenceLineSetError(
+                    f"adopted gf row {k} ({ad.iloc[k]['species']} "
+                    f"{ad.iloc[k]['wavelength_air_A']} A) does not resolve into the {name} "
+                    f"set on the lambda+EP key -- refusing to place a gf by position")
+            if not pd.isna(out.at[j, "loggf"]):
+                raise ReferenceLineSetError(
+                    f"adopted gf would OVERRIDE a published value at "
+                    f"{out.at[j, 'wavelength_air_A']} A -- refusing (RYA-161)")
+            hit = ad.iloc[k]
+            out.at[j, "loggf"] = float(hit["log_gf_adopted"])
+            out.at[j, "gf_adopted"] = True
+            out.at[j, "gf_adopted_source"] = str(hit["gf_adopted_source"])
+            out.at[j, "gf_source"] = (
+                f"ADOPTED (not published by this set): {hit['gf_adopted_source']} | "
+                f"{hit['gf_adopted_basis']} | {hit['gf_adopted_ticket']}")
 
     out["gf_missing"] = out["loggf"].isna()
     if out["gf_missing"].any():
