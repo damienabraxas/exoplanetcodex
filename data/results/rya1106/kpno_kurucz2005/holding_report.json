@@ -1,6 +1,6 @@
 {
   "ticket": "RYA-1106",
-  "generated_utc": "2026-08-30T05:14:16Z",
+  "generated_utc": "2026-08-30T05:14:56Z",
   "pool": {
     "citation": "Asplund, Amarsi & Grevesse 2021, A&A 653, A141, Table A.2 (AGSS21) -- ingested by RYA-1109, loaded through the RYA-1111 reference_lineset path",
     "cut": "NONE -- AGSS21 Table A.2 IS Asplund's own published selection, so cutting it further would measure a subset nobody published",
@@ -21,39 +21,30 @@
   },
   "holdings": [
     {
-      "holding_key": "kpno_molecfit",
+      "holding_key": "kpno_kurucz2005",
       "instrument": "kpno_solar_atlas",
-      "holding": "solar_kpno_molecfit_corrected",
-      "A_3dnlte": 7.5036697090080375,
-      "sigma": 0.06190011093249607,
+      "holding": "solar_kpno_kurucz2005_corrected",
+      "A_3dnlte": 7.471284281349637,
+      "sigma": 0.0565245490315604,
       "n_lines": 21,
       "n_excluded": 19,
-      "stat_dex": 0.0135,
+      "stat_dex": 0.0123,
       "syst_dex": 0.17,
       "route_axis": "synth",
       "route_basis": "handler",
       "gf_axis": "lab",
       "handler": "SynthesisHandler",
-      "vs_asplund_dex": 0.0437,
-      "base_1dlte_median": 7.483,
-      "median_aberr": 0.0346,
+      "vs_asplund_dex": 0.0113,
+      "base_1dlte_median": 7.4625,
+      "median_aberr": 0.0337,
       "agss21_published_3dnlte_median": 7.453,
       "coverage": {
         "n_asplund_lines": 40,
-        "n_served": 39,
-        "n_unserved": 1,
-        "fraction_served": 0.975,
-        "unserved_by_status": {
-          "no_atlas": 1
-        },
-        "unserved_lines": [
-          {
-            "wavelength_air_A": 7219.7,
-            "elo_eV": 4.076,
-            "status": "no_atlas",
-            "reason": "window 7218.68-7220.72 A overlaps REGISTERED telluric band 7160-7340 A (H2O), and RYA-940 produced no admissible correct"
-          }
-        ],
+        "n_served": 40,
+        "n_unserved": 0,
+        "fraction_served": 1.0,
+        "unserved_by_status": {},
+        "unserved_lines": [],
         "elo_eV_served": {
           "min": 0.087,
           "median": 4.178,
@@ -474,10 +465,10 @@
         "note": "asplund's published log gf on the target lines; canonical gf everywhere else in the window. RYA-353 single-sourcing is DECLARED OFF for the targets and canonical_gf.csv is not written."
       },
       "axis": {
-        "afe_axis_star": 7.5,
-        "afe_axis_selfconsistent": 7.5037,
-        "railed_at_grid_ceiling": true,
-        "iterations": 3,
+        "afe_axis_star": 7.4713,
+        "afe_axis_selfconsistent": 7.4713,
+        "railed_at_grid_ceiling": false,
+        "iterations": 2,
         "converged": true
       },
       "artifacts": {
