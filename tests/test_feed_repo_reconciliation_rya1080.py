@@ -267,7 +267,13 @@ def test_control_the_DERIVED_field_exemption_is_NARROW():
     # and the exempted field is not simply unguarded: RYA-1100 asserts it is DERIVABLE.
     from scripts.publish_product import display_name
     for p in live["products"]:
-        assert p["display"] == display_name(p["treatment"], gf="kurucz", route=p["route"])
+        # RYA-1106: ask for the product's OWN pool, not a hardcoded "kurucz". Forcing
+        # kurucz here overrode the pool LEGACY declares for the label, so a product
+        # whose axis is gf="lab" (the Amarsi leg, after RYA-1104 measured 67/67 lines
+        # primary-laboratory) derived a name without its `· lab-gf` suffix and this
+        # assertion compared the feed against a name nothing publishes.
+        assert p["display"] == display_name(
+            p["treatment"], gf=p.get("gf"), route=p["route"])
 
 
 def test_regenerability_gaps_are_recorded_not_silent(findings):

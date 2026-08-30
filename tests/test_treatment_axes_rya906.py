@@ -184,7 +184,15 @@ def test_CANARY_the_real_near_uv_artifact_on_disk_resolves_to_synth():
     # route we do not know - the mislabel this module exists to prevent. A row WITH a
     # handler still renders its route, which the handler cases below cover.
     ("ENGINE-A",        None,                "1D-NLTE · Bergemann"),
-    ("ENGINE-A-3DNLTE", None,                "EW · 3D-NLTE · Amarsi"),
+    # RYA-1106 - was "EW · 3D-NLTE · Amarsi". Two corrections land in this one name.
+    # (a) The route is gone from the label-only case for the same reason ENGINE-A's is:
+    # ENGINE-A-3DNLTE stopped pinning "ew" once RYA-1104 showed the products under it are
+    # a flux fit, so a row carrying ONLY the label can no longer claim a route.
+    # (b) "· lab-gf" is now DERIVED, because the gf axis was corrected kurucz -> lab on
+    # the measurement RYA-1104 made: 67/67 lines primary-laboratory, and the product's own
+    # budget prices it at "gf rung 3 (gf scale (cited lab))". The suffix is not typed here
+    # and must not be - it appears because `Axes.display` appends it whenever gf == "lab".
+    ("ENGINE-A-3DNLTE", None,                "3D-NLTE · Amarsi · lab-gf"),
     ("ENGINE-B",        None,                "Synth · 1D-LTE"),
     ("ENGINE-B-NLTE",   None,                "Synth · 1D-NLTE · Gerber"),
     ("1D-LTE",          "SynthesisHandler",  "Synth · 1D-LTE"),
@@ -242,14 +250,53 @@ def test_handler_outranks_ew_inversion_when_both_are_present():
 
 # ── RYA-850 reconciliation: graded-ness becomes an AXIS, not a suffix ────────
 
-def test_the_gf_axis_and_the_LABGF_suffix_agree_on_every_legacy_label():
+#: 🔴 RYA-1106 — THE LABELS WHOSE POOL IS LAB-GF BUT WHOSE NAME DOES NOT SAY SO.
+#: The RYA-906 §6 equivalence below held while `1D-LTE-LABGF` was the only lab-gf label:
+#: the suffix and the axis were two spellings of one fact. RYA-1104 measured the Amarsi
+#: leg's pool at 67/67 primary-laboratory lines and RYA-1106 corrected its axis to
+#: gf="lab", and that label carries no suffix -- so for it the two tests now DISAGREE, and
+#: the axis is the one that measured something.
+#:
+#: This set is deliberately EXPLICIT and deliberately SMALL. It is not a way to excuse
+#: divergence; it is the list a reader must be shown before believing any `is_graded`
+#: answer that came from a string. Anything appearing here that is not named here is a
+#: NEW divergence and fails the test below.
+AXIS_LAB_WITHOUT_SUFFIX = {"ENGINE-A-3DNLTE"}
+
+
+def test_the_gf_axis_and_the_LABGF_suffix_agree_except_where_they_are_KNOWN_to_differ():
     """RYA-906 §6 requires `1D-LTE-LABGF` to become `gf:lab` (an axis value) WITHOUT
-    breaking RYA-850's graded-primary reporting. This is the equivalence proof: over the
-    whole legacy vocabulary, the axis test and the string test give the same answer, so
-    migrating the call site cannot move a value."""
+    breaking RYA-850's graded-primary reporting. The equivalence proof still holds over
+    the vocabulary EXCEPT for the labels named in `AXIS_LAB_WITHOUT_SUFFIX`, where a
+    lab-gf pool is carried by a label that was never spelled with the suffix.
+
+    The test is written so BOTH halves are load-bearing: every other label must still
+    agree (so a silent drift is caught), and every exception must ACTUALLY diverge (so a
+    stale entry cannot sit here pretending to excuse something that has since been fixed).
+    """
     from pipeline.graded_reporting import is_graded
     for t in LEGACY:
-        assert is_graded(t) == is_graded(t, gf=axes_for(t).gf), t
+        by_string, by_axis = is_graded(t), is_graded(t, gf=axes_for(t).gf)
+        if t in AXIS_LAB_WITHOUT_SUFFIX:
+            assert by_axis and not by_string, (
+                f"{t} is listed as a known axis/suffix divergence but does not diverge; "
+                f"remove it from AXIS_LAB_WITHOUT_SUFFIX rather than leaving a dead waiver")
+        else:
+            assert by_string == by_axis, t
+
+
+def test_the_known_divergence_does_not_corrupt_base_treatment():
+    """The pairing key must survive a label whose axis says lab and whose name does not.
+
+    `base_treatment` used to strip `-LABGF` whenever `is_graded` was true. Once a caller
+    passes the AXIS for `ENGINE-A-3DNLTE` that test is true and the name has no suffix, so
+    the old form returned `ENGINE-A-3DN` -- a pairing key for an engine that does not
+    exist. The strip is now keyed on the suffix, and this pins it.
+    """
+    from pipeline.graded_reporting import base_treatment
+    for t in AXIS_LAB_WITHOUT_SUFFIX:
+        assert base_treatment(t) == t, t
+    assert base_treatment("1D-LTE-LABGF") == "1D-LTE"
 
 
 def test_the_gf_axis_OUTRANKS_the_suffix_when_both_are_present():

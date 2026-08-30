@@ -1,0 +1,60 @@
+{
+  "generated_by": "scripts/rya1106_domain_crosstab.py",
+  "line_set": "asplund_agss21 Fe I (AGSS21 Table A.2)",
+  "n_lines": 40,
+  "graded_pool": {
+    "source": "data/linelists/canonical_gf.csv",
+    "filter": "species == 'Fe I' and gf_tier == 'LAB'",
+    "n": 428
+  },
+  "join": {
+    "key": "lambda+EP dual (RYA-1037)",
+    "tol_A": 0.05,
+    "plateau": {
+      "0.005": 2,
+      "0.01": 3,
+      "0.02": 8,
+      "0.03": 12,
+      "0.05": 19,
+      "0.08": 19,
+      "0.1": 19,
+      "0.25": 19,
+      "0.5": 19
+    }
+  },
+  "domain_agreement_across_holdings": {
+    "kpno_kurucz2005": "agrees",
+    "kpno_molecfit": "agrees",
+    "harps_molecfit": "agrees",
+    "iag": "agrees"
+  },
+  "rew_test": {
+    "amarsi_cut": -4.9,
+    "n_violating_cut": 0,
+    "verdict": "REFUTED -- every line already satisfies the cut",
+    "all": [
+      -5.9339,
+      -4.9137
+    ],
+    "out_of_domain": [
+      -5.7306,
+      -5.0224
+    ],
+    "in_domain": [
+      -5.9339,
+      -4.9137
+    ]
+  },
+  "axis_counts": {
+    "Eup-Elo (= hc/lambda: WAVELENGTH)": 17,
+    "Eup-Elo (= hc/lambda: WAVELENGTH); Eup": 1,
+    "Eup-Elo (= hc/lambda: WAVELENGTH); Elo level match": 1
+  },
+  "crosstab": {
+    "graded_and_in_domain": 6,
+    "graded_and_out_of_domain": 13,
+    "not_graded_and_in_domain": 15,
+    "not_graded_and_out_of_domain": 6
+  },
+  "prediction_holds": false
+}

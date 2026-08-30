@@ -1,0 +1,47 @@
+================================================================================================
+RYA-1127 — adding `line_set` to the product identity key: migration audit
+================================================================================================
+  OLD key: element x ion x band x instrument x holding x tier x selector x route x treatment
+  NEW key: element x ion x band x instrument x holding x tier x selector x route x treatment x line_set
+
+  data/products/solar/Fe.json
+    records 104   old keys 95 -> new keys 95
+    line_set census: {'our-deep-graded': 34, 'our-graded': 61, 'our-ungraded': 6, 'our-all': 3}
+    refinement invariant: new key == old key + '|' + line_set (so a MERGE is structurally impossible here, and is asserted rather than claimed)
+    ✅ partition UNCHANGED — no product was re-identified
+
+------------------------------------------------------------------------------------------------
+  THE RYA-1106 CASE — the split this ticket enables, staged (not published)
+------------------------------------------------------------------------------------------------
+    solar_harps_molecfit_corrected
+      before  our-graded : Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+      before  asplund    : Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+        -> collided: True
+      after   our-graded : Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded
+      after   asplund    : Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund
+        -> distinct: True
+    solar_iag
+      before  our-graded : Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+      before  asplund    : Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+        -> collided: True
+      after   our-graded : Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded
+      after   asplund    : Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund
+        -> distinct: True
+    solar_kpno_kurucz2005_corrected
+      before  our-graded : Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+      before  asplund    : Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+        -> collided: True
+      after   our-graded : Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded
+      after   asplund    : Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund
+        -> distinct: True
+    solar_kpno_molecfit_corrected
+      before  our-graded : Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+      before  asplund    : Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE
+        -> collided: True
+      after   our-graded : Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|our-graded
+      after   asplund    : Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE|asplund
+        -> distinct: True
+
+  all four collided before : True
+  all four distinct now    : True
+================================================================================================

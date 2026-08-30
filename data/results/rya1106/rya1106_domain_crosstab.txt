@@ -1,0 +1,117 @@
+====================================================================================================
+RYA-1106 sub-items — the MLP domain wall, and its crossover with Codex Graded
+====================================================================================================
+  line set   : AGSS21 Table A.2 Fe I, n=40
+  graded pool: canonical_gf Fe I at gf_tier=LAB, n=428
+  join       : lambda+EP dual key (RYA-1037), tol +/-0.05 A (AGSS21 prints nm to 2 dp)
+  plateau    : {'0.005': 2, '0.01': 3, '0.02': 8, '0.03': 12, '0.05': 19, '0.08': 19, '0.1': 19, '0.25': 19, '0.5': 19}
+  domain     : identical across all four holdings -> {'kpno_kurucz2005': 'agrees', 'kpno_molecfit': 'agrees', 'harps_molecfit': 'agrees', 'iag': 'agrees'}
+
+----------------------------------------------------------------------------------------------------
+(a) THE 19 OUT-OF-DOMAIN LINES — which axis refuses them
+----------------------------------------------------------------------------------------------------
+   lambda_air    Elo    Eup  Eup-Elo  log gf     REW  graded   axis
+     4445.500  0.087  2.876   2.7882  -5.412  -5.068      no   Eup-Elo (= hc/lambda: WAVELENGTH)
+     4574.200  3.211  5.921   2.7097  -2.350  -5.073     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     6837.000  4.593  6.406   1.8129  -1.687  -5.587      no   Eup-Elo (= hc/lambda: WAVELENGTH)
+     6843.700  4.549  6.360   1.8112  -0.730  -5.022     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     6854.800  4.593  6.401   1.8082  -1.926  -5.725      no   Eup-Elo (= hc/lambda: WAVELENGTH)
+     6858.100  4.608  6.415   1.8073  -0.900  -5.096     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     6999.900  4.103  5.874   1.7707  -1.380  -5.082     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     7008.000  4.178  5.946   1.7687  -1.770  -5.376     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     7219.700  4.076  5.793   1.7168  -1.430  -5.168     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     7401.700  4.186  5.861   1.6746  -1.500  -5.250      no   Eup-Elo (= hc/lambda: WAVELENGTH)
+     7443.000  4.186  5.852   1.6653  -1.640  -5.317     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     7912.900  0.859  2.425   1.5664  -4.848  -5.238      no   Eup-Elo (= hc/lambda: WAVELENGTH); Eup
+     8293.500  3.301  4.795   1.4945  -2.203  -5.152      no   Eup-Elo (= hc/lambda: WAVELENGTH)
+     8571.800  5.010  6.456   1.4460  -1.110  -5.432     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     8598.800  4.386  5.828   1.4415  -1.200  -5.181     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     8876.000  5.020  6.417   1.3965  -1.050  -5.398     YES   Eup-Elo (= hc/lambda: WAVELENGTH); Elo level match
+     8906.000  5.064  6.456   1.3918  -1.220  -5.557     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     9103.600  4.178  5.539   1.3615  -2.190  -5.676     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+     9786.600  4.608  5.874   1.2665  -1.840  -5.731     YES   Eup-Elo (= hc/lambda: WAVELENGTH)
+
+  REW TEST vs Amarsi's own REW < -4.9 restriction:
+    all 40 AGSS21 lines span REW -5.934 .. -4.914   -> 0 of 40 violate REW < -4.9
+    out-of-domain (19): REW -5.731 .. -5.022   median -5.250
+    in-domain     (21): REW -5.934 .. -4.914   median -5.172
+    out-of-domain Elo 0.087..5.064 (median 4.186);  in-domain Elo 0.087..4.608 (median 3.695)
+
+  🔴 VERDICT: the weak-line hypothesis is REFUTED. Every one of the 40 lines
+     ALREADY satisfies REW < -4.9 -- Table A.2 IS Asplund's weak-line
+     selection -- so that cut cannot be what separates the 19 from the 21.
+     The axis that DOES refuse them:
+        17 x  Eup-Elo (= hc/lambda: WAVELENGTH)
+         1 x  Eup-Elo (= hc/lambda: WAVELENGTH); Eup
+         1 x  Eup-Elo (= hc/lambda: WAVELENGTH); Elo level match
+     Eup-Elo is hc/lambda_vac by construction, so this is a WAVELENGTH statement:
+     the network saw a restricted optical span and these lines fall outside it.
+     out-of-domain lambda span 4445.5..9786.6 A;  in-domain 5247.0..6793.3 A
+
+----------------------------------------------------------------------------------------------------
+(b) 2x2 CROSS-TAB over all 40 AGSS21 Fe I lines — {in Codex Graded} x {MLP in-domain}
+----------------------------------------------------------------------------------------------------
+                           MLP in-domain   MLP out-of-domain   total
+  in Codex Graded                      6                  13      19
+  NOT in Graded                       15                   6      21
+  total                               21                  19      40
+
+  🔴 FINDING — 13 line(s) are out-of-domain AND graded, which the
+     prediction said should be empty. Named in full:
+       4574.200  Elo 3.211  REW -5.073  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       6843.700  Elo 4.549  REW -5.022  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       6858.100  Elo 4.608  REW -5.096  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       6999.900  Elo 4.103  REW -5.082  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       7008.000  Elo 4.178  REW -5.376  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       7219.700  Elo 4.076  REW -5.168  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       7443.000  Elo 4.186  REW -5.317  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       8571.800  Elo 5.010  REW -5.432  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       8598.800  Elo 4.386  REW -5.181  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       8876.000  Elo 5.020  REW -5.398  axis: Eup-Elo (= hc/lambda: WAVELENGTH); Elo level match
+       8906.000  Elo 5.064  REW -5.557  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       9103.600  Elo 4.178  REW -5.676  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+       9786.600  Elo 4.608  REW -5.731  axis: Eup-Elo (= hc/lambda: WAVELENGTH)
+
+  per-line detail, all 40:
+   lambda_air    Elo  log gf     REW  graded   domain
+     4445.500  0.087  -5.412  -5.068      no      OUT
+     4574.200  3.211  -2.350  -5.073     YES      OUT
+     5247.000  0.087  -4.961  -4.914      no       in
+     5379.600  3.695  -1.420  -4.940     YES       in
+     5483.100  4.154  -1.390  -5.099     YES       in
+     5538.500  4.218  -1.540  -5.172     YES       in
+     5600.200  4.260  -1.420  -5.186      no       in
+     5618.600  4.209  -1.250  -5.051     YES       in
+     5661.300  4.284  -1.756  -5.407      no       in
+     5705.500  4.301  -1.355  -5.159      no       in
+     5775.100  4.220  -1.080  -4.970     YES       in
+     5778.500  2.588  -3.440  -5.452      no       in
+     5784.700  3.397  -2.532  -5.351     YES       in
+     5855.100  4.608  -1.478  -5.425      no       in
+     5956.700  0.859  -4.552  -5.074      no       in
+     6151.600  2.176  -3.282  -5.101      no       in
+     6240.600  2.223  -3.287  -5.118      no       in
+     6311.500  2.832  -3.141  -5.375      no       in
+     6498.900  0.958  -4.695  -5.194      no       in
+     6518.400  2.832  -2.448  -5.057      no       in
+     6574.200  0.990  -5.010  -5.413      no       in
+     6699.100  4.593  -2.101  -5.934      no       in
+     6793.300  4.076  -2.326  -5.735      no       in
+     6837.000  4.593  -1.687  -5.587      no      OUT
+     6843.700  4.549  -0.730  -5.022     YES      OUT
+     6854.800  4.593  -1.926  -5.725      no      OUT
+     6858.100  4.608  -0.900  -5.096     YES      OUT
+     6999.900  4.103  -1.380  -5.082     YES      OUT
+     7008.000  4.178  -1.770  -5.376     YES      OUT
+     7219.700  4.076  -1.430  -5.168     YES      OUT
+     7401.700  4.186  -1.500  -5.250      no      OUT
+     7443.000  4.186  -1.640  -5.317     YES      OUT
+     7912.900  0.859  -4.848  -5.238      no      OUT
+     8293.500  3.301  -2.203  -5.152      no      OUT
+     8571.800  5.010  -1.110  -5.432     YES      OUT
+     8598.800  4.386  -1.200  -5.181     YES      OUT
+     8876.000  5.020  -1.050  -5.398     YES      OUT
+     8906.000  5.064  -1.220  -5.557     YES      OUT
+     9103.600  4.178  -2.190  -5.676     YES      OUT
+     9786.600  4.608  -1.840  -5.731     YES      OUT
+====================================================================================================
