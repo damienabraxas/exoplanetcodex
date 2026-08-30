@@ -441,20 +441,24 @@ def line_set_for_product(product: dict) -> str:
     A replication product is measured on someone else's list, so nothing already in the
     record implies which; it carries an explicit `line_set` and this returns it.
 
-    Our own products already state their pool in `tier` (GRADED / DEEPGRADED), and those
-    map one-to-one onto `our-graded` / `our-deep-graded`. Storing it again would create a
+    Our own products already state their pool in `tier`, and those tiers map one-to-one
+    onto the `our-*` names (see `_TIER_TO_LINE_SET`). Storing it again would create a
     second source of truth for a value the record already carries -- and the two would be
     free to disagree, which is the defect the model registry exists to end.
 
     ⚠️ IT REFUSES AN UNKNOWN TIER RATHER THAN DEFAULTING. `treatment_axes` warns that a
     derivation which is correct today goes silently wrong the first day the correlation
-    breaks; the guard against that is to fail loudly the day a third tier appears, not to
-    pick the nearest value. A caller that needs a new tier supported must SAY so here.
+    breaks; the guard against that is to fail loudly the day a new tier appears, not to
+    pick the nearest value. A caller that needs a new tier supported must SAY so here --
+    which is exactly what RYA-1127 did when the key started asking about every pool and
+    nine quarantined records answered with tiers this map did not have.
 
-    ⚠️ It does NOT write anything. Back-stamping an explicit `line_set` onto the 66 live
-    products is a feed edit governed by RYA-1080's published-value guard and is a separate
-    ticket; RYA-1111 adds the axis and the replication products, and changes no existing
-    product value (RYA-161).
+    ⚠️ It does NOT write anything, and after RYA-1127 nothing needs it to. Putting
+    `line_set` in the identity key (`product_eligibility.KEY_FIELDS`) raised the obvious
+    question of whether the 66 live products must be back-stamped with an explicit field
+    under RYA-1080's published-value guard. They must not: the key RESOLVES the axis
+    through this function at key-computation time, so the value is derived on demand and
+    no product record was edited (RYA-161).
     """
     stored = str(product.get("line_set") or "").strip()
     if stored:
