@@ -1,0 +1,67 @@
+============================================================================================
+RYA-1138 item 5 — path resolution that reads ABOVE its own repo root
+============================================================================================
+  A resolver that climbs past the repo root reads through the WORKTREE'S
+  PARENT. That is canonical only while every worktree shares one parent, and
+  it forks silently the moment they do not (RYA-1090: 85 artifacts lost;
+  RYA-1138: a baseline that could not import ispec and inverted a merge).
+
+  scanned: every *.py under rya1138/   escapes found: 22
+
+  ── ispec engine install  (7 site(s), 7 undocumented)
+     🔴 ONE dependency resolved the same wrong way 7 times.
+     Fixing it is ONE named constant with an env override, not 7 local edits.
+     🔴 config/constants.py:1119  (1 above root)
+         str(ROOT.parent / 'ispec')
+     🔴 pipeline/nlte_corrections.py:148  (1 above root)
+         sys.path.insert(0, str(_REPO_ROOT.parent / 'ispec'))
+     🔴 scratch/rya506_theoew_repro.py:31  (1 above root)
+         sys.path.insert(0, str(_REPO.parent / 'ispec'))
+     🔴 scripts/procyon_fe_2x2.py:59  (1 above root)
+         _ISPEC = _REPO.parent / 'ispec'
+     🔴 scripts/rya305_fe2_triage.py:18  (1 above root)
+         sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / 'ispec'))
+     🔴 tests/test_grade_weighted_aggregation_rya329.py:18  (1 above root)
+         sys.path.insert(0, str(ROOT.parent / 'ispec'))
+     🔴 tests/test_runtime_fork_blas_rya514.py:39  (1 above root)
+         f"sys.path.insert(0, {str(ROOT.parent / 'ispec')!r}); "
+
+  ── spectra data volume  (11 site(s), 11 undocumented)
+     🔴 ONE dependency resolved the same wrong way 11 times.
+     Fixing it is ONE named constant with an env override, not 11 local edits.
+     🔴 config/constants.py:622  (1 above root)
+         'solar_spectra'     : ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Solar Calibration' / 'archiv
+     🔴 config/constants.py:625  (1 above root)
+         'procyon_spectra'   : ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon Harps',
+     🔴 pipeline/cno_synthesis.py:185  (1 above root)
+         uves_dir = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+     🔴 pipeline/loaders/uves_smoke.py:26  (1 above root)
+         PROC = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon'
+     🔴 scripts/build_uves_registry_rya272.py:27  (1 above root)
+         UVES_DIR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+     🔴 scripts/intake_ir_atlases_rya390.py:45  (1 above root)
+         RAW = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' /
+     🔴 scripts/intake_solar_atlases_rya459.py:52  (1 above root)
+         STORE = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Solar Calibration')
+     🔴 tests/test_oi777_continuum_localize_rya478.py:14  (1 above root)
+         _UVES_ANCHOR = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' /
+     🔴 tests/test_procyon_uves_arm_rya348.py:15  (1 above root)
+         _UVES_ANCHOR = (ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' /
+     🔴 tests/test_uves_loader_rya272.py:22  (1 above root)
+         UVES_DIR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'Procyon UVES'
+     🔴 tests/test_uves_loader_rya272.py:23  (1 above root)
+         QUAR = ROOT.parent / 'data' / 'spectra' / 'exoplanetcodex-data' / 'Procyon' / 'quarantine'
+
+  ── other  (4 site(s), 2 undocumented)
+     🔴 config/constants.py:1236  (1 above root)
+         raw = str(raw).replace('{repo_parent}', str(repo.parent)).replace('{repo}', str(repo))
+     documented pipeline/artifact_store.py:97  (1 above root)
+         return Path(__file__).resolve().parents[2]
+         -> RYA-1090's `_legacy_derived_root()` — DELIBERATELY still derives the old pre-1090 root so the divergence guard can see a store left behind by the old derivation. It is never used AS the store root; `store_root()` is named.
+     documented pipeline/canonical_checkout.py:119  (1 above root)
+         return root.resolve().parent == CANONICAL_WORKTREE_PARENT.resolve()
+         -> RYA-1138's own `_canonical_location()` — compares a checkout's parent against the NAMED `CANONICAL_WORKTREE_PARENT`. It reads the parent in order to REPORT on it, and resolves nothing through it.
+     🔴 scripts/generate_sources_page.py:52  (1 above root)
+         SITE_ROOT_DEFAULT = ROOT.parent / "exoplanetcodex-site"
+
+============================================================================================
