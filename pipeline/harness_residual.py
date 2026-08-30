@@ -236,12 +236,18 @@ _BANKED_FLUX_FIT_ROUTES = frozenset({"SYNTH", "LABGF"})
 _BANKED_PROFILEFIT_HANDLER: dict[str, str] = {
     # inverted from a profile-fit EW ...
     "1D-LTE": "ProfileFitHandler",
-    # ... and these two add a departure term to that same inversion (RYA-798/817)
+    # ... and this one adds a departure term to that same inversion (RYA-798)
     "ENGINE-A": "ProfileFitHandler",
-    "ENGINE-A-3DNLTE": "ProfileFitHandler",
     # ... while these re-fit the FLUX and share only the line set (RYA-712/784/798)
     "ENGINE-B": "SynthesisHandler",
     "ENGINE-B-NLTE": "SynthesisHandler",
+    # 🔴 RYA-1106 — ENGINE-A-3DNLTE MOVED HERE FROM THE PROFILE-FIT BLOCK ABOVE. It was
+    # listed as a profile-fit inversion on the strength of RYA-817's comment; RYA-1104
+    # tested that against the data and refuted it -- the 1D-LTE base under this treatment
+    # is the SYNTHESIS pool, 0e+00 dex on 50/50 lines, all four holdings. It re-fits the
+    # flux like the ENGINE-B pair, so it takes their handler and their 0.0 residual. This
+    # is what stops the un-earned +0.0129 dex being charged to the four Amarsi VIS cells.
+    "ENGINE-A-3DNLTE": "SynthesisHandler",
     # never written under this route — the lab-gf pool is the near-UV synthesis route —
     # but stated rather than omitted, so the table is total and the test can say so.
     "1D-LTE-LABGF": "SynthesisHandler",

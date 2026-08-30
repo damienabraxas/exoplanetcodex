@@ -282,7 +282,13 @@ def test_the_amarsi_pools_are_NOT_anomalous_once_the_basis_is_right(doc):
     and it is the reason `ANOMALOUS_SCATTER` was the wrong code: on the corrected runs the
     scatter is 0.156-0.167 against 0.16-0.21 for the 1D pools on the same holdings.
     """
-    amarsi = [p for p in doc["products"] if p.get("route") == "EW-3D"]
+    # ⚠️ RYA-1106 — SELECT ON THE TREATMENT, NOT THE ROUTE. This read `route == "EW-3D"`,
+    # which selected these products by the one field about them that was WRONG: RYA-1104
+    # traced that token to a stranded ProfileFitHandler and RYA-1106 corrected it to
+    # SYNTH. Keying a test on the mislabel means the test passes only while the bug
+    # survives, and goes silent -- `assert amarsi` on an empty list -- the moment it is
+    # fixed. The treatment is the stable identity (RYA-874: never rewritten).
+    amarsi = [p for p in doc["products"] if p.get("treatment") == "ENGINE-A-3DNLTE"]
     assert amarsi, "the Amarsi products should be live"
     peers_1d = [p for p in doc["products"]
                 if p["band"] == "VIS" and p["ion"] == "I" and p["route"] == "SYNTH"]

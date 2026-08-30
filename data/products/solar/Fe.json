@@ -534,20 +534,20 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5124,
       "sigma_stat": 0.0236,
-      "sigma_syst": 0.0592,
+      "sigma_syst": 0.0577,
       "n_lines": 50,
       "n_excluded": 17,
       "dominant_term": null,
       "stat_basis": "measured \u2014 RMS of the random terms, 0.02359 dex at n_lines=50",
-      "route": "EW-3D",
+      "route": "SYNTH",
       "provenance": {
         "host": "sirius",
         "path": "/home/damienabraxas/out_g3dv2_harps/rya817_3dnlte_products.csv",
         "copied_to": "data/results/rya1095/harps/rya817_3dnlte_products.csv",
-        "sha256": "a5d96c94e32c345d8d5ba58eb336b53263e2dd79db9b11c10d540c971c98826c",
+        "sha256": "fd64fae0bde126e1ee5029f37253d483931e029725dfe032900ca37b8c4cac9d",
         "artifact_mtime": "2026-08-28T11:23:05Z",
         "ingested_at": "2026-08-28T11:23:54Z"
       }
@@ -743,20 +743,20 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5429,
       "sigma_stat": 0.025,
-      "sigma_syst": 0.057,
+      "sigma_syst": 0.0555,
       "n_lines": 39,
       "n_excluded": 4,
       "dominant_term": null,
       "stat_basis": "measured \u2014 RMS of the random terms, 0.02501 dex at n_lines=39",
-      "route": "EW-3D",
+      "route": "SYNTH",
       "provenance": {
         "host": "sirius",
         "path": "/home/damienabraxas/out_g3dv2_iag/rya817_3dnlte_products.csv",
         "copied_to": "data/results/rya1095/iag/rya817_3dnlte_products.csv",
-        "sha256": "414d71cf56a1574624a62d1e7feb943cd974fb8c2c8fcf8d0f6b4997d9c5bb32",
+        "sha256": "8f5563f1cdf660c90abcf906e573144a4e7a1a9ad5de47d3c24f47b32bff4d3a",
         "artifact_mtime": "2026-08-28T11:23:06Z",
         "ingested_at": "2026-08-28T11:23:54Z"
       }
@@ -926,20 +926,20 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5046,
       "sigma_stat": 0.0225,
-      "sigma_syst": 0.0591,
+      "sigma_syst": 0.0577,
       "n_lines": 50,
       "n_excluded": 17,
       "dominant_term": null,
       "stat_basis": "measured \u2014 RMS of the random terms, 0.02253 dex at n_lines=50",
-      "route": "EW-3D",
+      "route": "SYNTH",
       "provenance": {
         "host": "sirius",
         "path": "/home/damienabraxas/out_g3dv2_kurucz2005/rya817_3dnlte_products.csv",
         "copied_to": "data/results/rya1095/kurucz2005/rya817_3dnlte_products.csv",
-        "sha256": "c1c356994eeebf2e87e7a82cf846271f86305d58d371f11c1cafacb3e1e7c3ce",
+        "sha256": "5a7d01b18fe4b695a6ebc2e16b45051135a5bac5c5587bbb758efa466614cb62",
         "artifact_mtime": "2026-08-28T11:23:07Z",
         "ingested_at": "2026-08-28T11:23:55Z"
       }
@@ -1243,20 +1243,20 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5116,
       "sigma_stat": 0.0222,
-      "sigma_syst": 0.0591,
+      "sigma_syst": 0.0577,
       "n_lines": 50,
       "n_excluded": 17,
       "dominant_term": null,
       "stat_basis": "measured \u2014 RMS of the random terms, 0.02215 dex at n_lines=50",
-      "route": "EW-3D",
+      "route": "SYNTH",
       "provenance": {
         "host": "sirius",
         "path": "/home/damienabraxas/out_g3dv2_kpmf/rya817_3dnlte_products.csv",
         "copied_to": "data/results/rya1095/kpmf/rya817_3dnlte_products.csv",
-        "sha256": "7092cd717715e8605b1a51b714b2353bbd273552e636d02d5818b81f9b0fae9b",
+        "sha256": "18892e60fec32c90359fd908d351628c4e380b8d5e843481f9141824ff73f4fa",
         "artifact_mtime": "2026-08-28T11:23:04Z",
         "ingested_at": "2026-08-28T11:23:54Z"
       }
@@ -2575,7 +2575,7 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5108,
       "sigma_stat": 0.1818,
       "sigma_syst": null,
@@ -2609,7 +2609,7 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5071,
       "sigma_stat": 0.1861,
       "sigma_syst": null,
@@ -2643,7 +2643,7 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.526,
       "sigma_stat": 0.1851,
       "sigma_syst": null,
@@ -2677,7 +2677,7 @@
       "tier": "GRADED",
       "selector": "GRADED",
       "treatment": "ENGINE-A-3DNLTE",
-      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+      "display": "EW \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
       "A": 7.5001,
       "sigma_stat": 0.1833,
       "sigma_syst": null,
@@ -3056,7 +3056,7 @@
       "Synth \u00b7 1D-NLTE \u00b7 Gerber",
       "Synth \u00b7 <3D>-LTE \u00b7 Gerber \u00b7 stagger",
       "Synth \u00b7 <3D>-NLTE \u00b7 Gerber \u00b7 stagger",
-      "EW \u00b7 3D-NLTE \u00b7 Amarsi"
+      "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf"
     ],
     "key_fields": [
       "element",
@@ -3126,7 +3126,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3190,9 +3190,9 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|harps|solar_harps_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
             "alternates": 0
           }
         ],
@@ -3254,7 +3254,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3318,9 +3318,9 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|iag_fts_solar_atlas|solar_iag|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
             "alternates": 0
           }
         ],
@@ -3382,7 +3382,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3446,9 +3446,9 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_kurucz2005_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
             "alternates": 0
           }
         ],
@@ -3510,7 +3510,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3574,7 +3574,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3638,7 +3638,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3702,9 +3702,9 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
-            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|EW-3D|ENGINE-A-3DNLTE",
+            "product_key": "Fe|I|VIS|kpno_solar_atlas|solar_kpno_molecfit_corrected|GRADED|GRADED|SYNTH|ENGINE-A-3DNLTE",
             "alternates": 0
           }
         ],
@@ -3766,7 +3766,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3830,7 +3830,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3894,7 +3894,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -3958,7 +3958,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -4022,7 +4022,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -4086,7 +4086,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0
@@ -4150,7 +4150,7 @@
             "alternates": 0
           },
           {
-            "row": "EW \u00b7 3D-NLTE \u00b7 Amarsi",
+            "row": "Synth \u00b7 3D-NLTE \u00b7 Amarsi \u00b7 lab-gf",
             "pending": false,
             "product_key": null,
             "alternates": 0

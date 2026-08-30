@@ -164,7 +164,12 @@ PLOT_ROW_AXIS = (
     ("ENGINE-B-NLTE",                    "SYNTH",      False),
     ("synth-mean3D-LTE-gerber-stagger",  "SYNTH",      False),
     ("synth-mean3D-NLTE-gerber-stagger", "SYNTH",      False),
-    ("ENGINE-A-3DNLTE",                  "EW-3D",      False),
+    # RYA-1106: this row carried "EW-3D" to match the stranded handler's route. The
+    # products it renders are a flux fit (RYA-1104, 0e+00 dex against the synthesis pool
+    # on 50/50 lines), so the row and the products now agree on SYNTH. The row NAME is
+    # still derived, so it picks up the `· lab-gf` suffix from the corrected gf axis
+    # rather than being retyped here.
+    ("ENGINE-A-3DNLTE",                  "SYNTH",      False),
     ("synth-mean3D-NLTE-gerber-codex",   "SYNTH",      True),
 )
 
@@ -201,7 +206,11 @@ LEGACY = {
     "1D-LTE":          dict(scale="1D-LTE",  model="none",      gf="kurucz"),
     "1D-LTE-LABGF":    dict(scale="1D-LTE",  model="none",      gf="lab"),
     "ENGINE-A":        dict(scale="1D-NLTE", model="bergemann", gf="kurucz"),
-    "ENGINE-A-3DNLTE": dict(scale="3D-NLTE", model="amarsi",    gf="kurucz"),
+    # RYA-1106: gf="lab", not "kurucz". RYA-1104 measured the pool this leg runs on and
+    # found 67/67 lines carry a primary-laboratory gf, and the product's own budget prices
+    # it that way -- "gf rung 3 (gf scale (cited lab)): every one of the 50 Fe I lines is
+    # GF-LAB". `kurucz` was never measured; it was inherited from the ENGINE-A row above.
+    "ENGINE-A-3DNLTE": dict(scale="3D-NLTE", model="amarsi",    gf="lab"),
     "ENGINE-B":        dict(scale="1D-LTE",  model="none",      gf="kurucz"),
     "ENGINE-B-NLTE":   dict(scale="1D-NLTE", model="gerber",    gf="kurucz"),
 }
@@ -215,7 +224,16 @@ _ROUTE_BY_LABEL = {
     # which route ran, so the route must come from the product's HANDLER (RYA-869/906).
     # Leaving "ew" here would have made every synthesis-route NLTE product render as an
     # EW measurement — the exact mislabel this module exists to prevent.
-    "ENGINE-A": None, "ENGINE-A-3DNLTE": "ew",
+    # 🔴 RYA-1106 — ENGINE-A-3DNLTE NO LONGER PINS A ROUTE EITHER, for the same reason
+    # and on the same evidence. RYA-1104 tested the claim line by line and refuted it:
+    # the 1D-LTE column under this treatment IS the synthesis pool it names, agreeing to
+    # 0e+00 dex on 50/50 lines across all four holdings. The `"ew"` pinned here was the
+    # second half of a stranded pair -- `scripts/rya817_run_3dnlte_bands.py` declared
+    # `handler="ProfileFitHandler"` and this line agreed with it -- so the product
+    # rendered as an EW measurement AND was billed the profile fitter's +0.0129 dex
+    # harness residual it never incurred. The handler is fixed at its emitter; unpinning
+    # here removes the fallback that would keep asserting `ew` after the handler stopped.
+    "ENGINE-A": None, "ENGINE-A-3DNLTE": None,
     "ENGINE-B": "synth", "ENGINE-B-NLTE": "synth",
     "1D-LTE": None, "1D-LTE-LABGF": None,
 }

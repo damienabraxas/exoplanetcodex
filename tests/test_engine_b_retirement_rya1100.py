@@ -96,7 +96,7 @@ def test_no_published_product_renders_as_a_bare_treatment_token(live):
     """A label is not a name. If the derived name equals the raw token, the axes did not
     produce a name and the product is shipping under a string nobody owns."""
     for p in live["products"]:
-        got = display_name(p["treatment"], gf="kurucz", route=p["route"])
+        got = display_name(p["treatment"], gf=p.get("gf"), route=p["route"])
         assert got != p["treatment"], f"{p['treatment']} still renders as its own token"
 
 
@@ -181,7 +181,9 @@ def test_every_published_display_is_DERIVABLE_from_its_own_axes(live):
     from scripts.publish_product import display_name
     for pool in ("products", "superseded", "quarantine", "archive"):
         for p in live.get(pool) or []:
-            want = display_name(p["treatment"], gf="kurucz", route=p.get("route"))
+            # RYA-1106: the product's own pool, not a hardcoded one -- see the note in
+            # test_feed_repo_reconciliation_rya1080.
+            want = display_name(p["treatment"], gf=p.get("gf"), route=p.get("route"))
             assert p["display"] == want, (
                 f"{pool}: {p['treatment']} on route={p.get('route')} publishes "
                 f"{p['display']!r} but its axes derive {want!r}")
